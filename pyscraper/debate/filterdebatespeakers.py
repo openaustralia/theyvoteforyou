@@ -17,6 +17,7 @@ from contextexception import ContextException
 fixsubs = [
         ('(Gareth Thomas  \(Clwyd, West\)) \(Lab\)', '\\1', 1, '2004-03-17'),
         ('23. (Mr. David Rendel)', '\\1', 1, '2003-06-30'),
+
         ('<B> Caroline Flint\): </B>', '<B> Caroline Flint: </B>', 1, '2003-07-14'),
         ('<B> Ms King </B>', '<B> Oona King </B>', 1, '2003-09-11'),
 
@@ -32,7 +33,6 @@ fixsubs = [
         ( '(<B> Mr. Prisk)( rose&#151; )(</B>)', '\\1\\3\n<I>\\2</I>', 1, '2004-01-06'),
 
         ( '(<B> Mr. Blunkett:)( I )(</B>)', '\\1\\3\\2', 1, '2003-12-17'),
-        ( '(<B> )(25. )(Mr. Gordon Prentice  \(Pendle\):</B>)', '\\2\\1\\3', 1, '2003-11-10'),
         ( '(<B> Several hon. Members)( rose&#151; )(</B>)', '\\1\\3\n<I>\\2</I>', 1, '2003-11-10'),
         ( '(<B> Mr. Adrian Bailey  \()Blaby(\):</B> )', '\\1West Bromwich West\\2', 1, '2003-10-30'),
         ( '(\(Dr. Stephen Ladyman)( </B>)', '\\1)\\2', 1, '2004-02-11'),
@@ -71,7 +71,7 @@ fixsubs = [
 
 parties = "|".join(map(string.lower, memberList.partylist())) + "|uup|ld"
 regspeaker = '(?:\d+\. )?(?:<stamp aname=".*?"/>)?<b>[^<]*</b>(?:\s*\((?:' + parties + ')\))?\s*:?(?i)'
-respeakervals = re.compile('(?:(\d+)\. )?(<stamp aname=".*?"/>)?<b>\s*(?:Q?\d+\.)?([^:<(]*?):?\s*(?:\((.*?)\))?\s*:?\s*</b>(?:\s*\((' + parties + ')\))?(?i)')
+respeakervals = re.compile('(?:(\d+)\. )?(<stamp aname=".*?"/>)?<b>\s*(?:Q?(\d+)\.)?([^:<(]*?):?\s*(?:\((.*?)\))?\s*:?\s*</b>(?:\s*\((' + parties + ')\))?(?i)')
 
 # <B>Division No. 322</B>
 redivno = re.compile('<b>division no\. \d+</b>$(?i)')
@@ -102,11 +102,18 @@ def FilterDebateSpeakers(fout, text, sdate):
 			# optional parts of the group
 			# we can use oqnum to detect oral questions
 			oqnum = speakerg.group(1)
-			anamestamp = speakerg.group(2)
-			party = speakerg.group(5)
+			anamestamp = speakerg.group(2) or ""
+			if speakerg.group(3):
+				assert not oqnum
+				oqnum = speakerg.group(3)
+			if oqnum:
+				oqnum = "(%s) " % oqnum
+			else:
+				oqnum = ""
+			party = speakerg.group(6)
 
-			spstr = string.strip(speakerg.group(3))
-			spstrbrack = speakerg.group(4) # the bracketted phrase
+			spstr = string.strip(speakerg.group(4))
+			spstrbrack = speakerg.group(5) # the bracketted phrase
 
 			# match the member to a unique identifier and displayname
 			try:
@@ -116,12 +123,9 @@ def FilterDebateSpeakers(fout, text, sdate):
 				raise ContextException(str(e), stamp=stampurl, fragment=fss)
 
 			# put record in this place
-			spxm = '<speaker %s>%s</speaker>\n' % (result.encode("latin-1"), spstr)
-			if anamestamp:
-				spxm = anamestamp + spxm
+			spxm = '%s<speaker %s>%s</speaker>\n%s' % (anamestamp, result.encode("latin-1"), spstr, oqnum)
 			fout.write(spxm)
 			continue
-
 
 
 		# nothing detected
@@ -133,3 +137,4 @@ def FilterDebateSpeakers(fout, text, sdate):
 
 		# this is where we phase in the ascii encoding
 		fout.write(fss)
+

@@ -14,7 +14,7 @@ from filterwransreplytable import ParseTable
 
 from miscfuncs import FixHTMLEntities
 
-from filtersentence import FilterSentence
+#from filtersentence import FilterSentence
 from filtersentence import PhraseTokenize
 
 # lots of work to do here on the internal structure of each speech

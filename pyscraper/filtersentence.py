@@ -21,6 +21,9 @@ from filterwransemblinks import ConstructHTTPlink
 
 redatephraseval = re.compile('(?:(?:%s) )?(\d+ (?:%s)( \d+)?)' % (parlPhrases.daysofweek, parlPhrases.monthsofyear))
 reoffrepw = re.compile('<i>official(?:</i> <i>| )report,?</i>,? c(?:olumns?)?\.? (\d+(?:&#150;\d+)?[WS]*)(?i)')
+restandingo = re.compile("Standing Order No.\s*(\d+(?:\s*\(\d+\))?(?:\s*\([a-z]\))?)\s*\(([^\(\)]*(?:\([^\(\)]*\))?)\)")
+restandingomarg = re.compile("Standing Order No")
+reqnum = re.compile("\s*\[(\d+)\]\s*$")
 
 class PhraseTokenize:
 
@@ -89,29 +92,67 @@ class PhraseTokenize:
 
 		# output the three pieces
 		nextfunc(qs, stex[:qdateph.span(0)[0]])
-		self.toklist.append( ('phrase', ' class="date" id="%s"' % ldate, qdateph.group(0)) )
+
+		# don't tokenize dates, but record them for the offrep tokens
+		#self.toklist.append( ('phrase', ' class="date" id="%s"' % ldate, qdateph.group(0)) )
+		self.toklist.append( ('', '', qdateph.group(0)) )
+
 		self.lastdate = ldate
 		self.DateTokens1(qs, stex[qdateph.span(0)[1]:])
+
+
+	def StandingOrder1(self, qs, stex):
+		nextfunc = self.DateTokens1
+		qstandingoph = restandingo.search(stex)
+		if not qstandingoph:
+			if restandingomarg.search(stex):
+				print "Marginal standing order "
+				print stex
+			return nextfunc(qs, stex)
+
+		# this works well, except when two standing orders are quoted (number x and y)
+		# should work out a standard hyperlink for them.
+		#qstandingoph
+		stando = qstandingoph.group(1)
+		print "standing order: %s : %s " % (qstandingoph.group(1), qstandingoph.group(2))
+
+		if restandingomarg.search(stex[:qstandingoph.span(0)[0]]):
+			print "Marginal standing order "
+			print stex
+
+		# output the three pieces
+		nextfunc(qs, stex[:qstandingoph.span(0)[0]])
+		self.toklist.append( ('phrase', ' class="standing-order" code="%s"' % stando, qstandingoph.group(0)) )
+		self.StandingOrder1(qs, stex[qstandingoph.span(0)[1]:])
 
 
 	def __init__(self, qs, stex):
 		self.lastdate = ''
 		self.toklist = [ ]
 
-		#Standing Order No.
-		if re.search("Standing Order No.", stex):
-			print "StandingOrder phrase "
-			print stex
-		self.DateTokens1(qs, stex)
+ 		self.rmqnum = reqnum.search(stex)
+		if self.rmqnum:
+			stex = stex[:self.rmqnum.span(0)[0]]
+
+		# separate out any qnums at end of paragraph
+		self.StandingOrder1(qs, stex)
 
 
-	def GetPara(self, ptype, bBegToMove=False):
+	def GetPara(self, ptype, bBegToMove=False, bKillqnum=False):
+
+		if (not bKillqnum) and self.rmqnum:
+			self.rqnum = ' qnum="%s"' % self.rmqnum.group(1)
+			print self.rqnum
+		else:
+			self.rqnum = ""
+
+
 		if bBegToMove:
 			res = [ '<p class="%s" pwmotiontext="yes">' % ptype ]
 		elif ptype:
 			res = [ '<p class="%s">' % ptype ]
 		else:
-			res = [ '<p>' ]
+			res = [ '<p%s>' % self.rqnum ]
 
 		for tok in self.toklist:
 			if tok[0]:
@@ -126,7 +167,7 @@ class PhraseTokenize:
 
 
 
-rewdsl =  [ rreglink, rregemail,
+rewdslDUFF =  [ rreglink, rregemail,
 		'\$?\d+(?:,\d+)*\.?\d*',
 		'(?:[\w\'\-/%%]|&#\d+;)+',
 		'\$\d+\.?\d*',
@@ -140,12 +181,12 @@ rewdsl =  [ rreglink, rregemail,
 		'='
 	  ]
 
-rewds = re.compile('(%s)' % string.join(rewdsl, '|'))
+#rewdsDUFF = re.compile('(%s)' % string.join(rewdsl, '|'))
 #print rewds.findall('amounted to $2.479 billion.')
 #sys.exit()
 
 # this is highly experimental methods here, of tokenizing the words
-def FilterSentence(text):
+def DUFFFFilterSentence(text):
 	return
 	swords = rewds.split(text)
 	for sw in swords:

@@ -72,7 +72,7 @@ def ConstructHTTPlink(qstrdom, qstrmid, qstrtail):
 		if re.search('&#\d+;', qstrtail):
 			print ' undemangled href symbol ' + qstrtail
 		qstrtail = re.sub('&', '&amp;', qstrtail)
-	if not re.match('[\w\-./\?&=%;]*$', qstrtail):
+	if not re.match('[\w\-./\?&=%;~]*$', qstrtail):
 		print ' bad tail -- ' + qstrtail
 
 

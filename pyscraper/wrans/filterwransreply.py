@@ -14,7 +14,7 @@ from miscfuncs import SplitParaIndents
 
 from filterwransreplytable import ParseTable
 
-from filtersentence import FilterSentence
+#from filtersentence import FilterSentence
 from filtersentence import PhraseTokenize
 
 
@@ -144,10 +144,9 @@ def FilterReply(text, stampurl):
 			i += 1
 			continue
 
-
 		# nothing special about this paragraph (except it may be indented)
 		pht = PhraseTokenize(qs, textp[i])
-		stext.append(pht.GetPara(pcode[textpindent[i]]))
+		stext.append(pht.GetPara(pcode[textpindent[i]], bKillqnum=True))
 		i += 1
 
 	return stext

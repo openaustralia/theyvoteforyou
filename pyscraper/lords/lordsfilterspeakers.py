@@ -31,6 +31,11 @@ titleconv = {  'L.':'Lord',
 			   'Ly.':'Lady',
 			}
 
+hontitles = [ 'Lord Bishop', 'Lord', 'Baroness', 'Viscount', 'Earl', 'Countess', 'Archbishop', 'Duke', 'Lady' ]
+hontitleso = string.join(hontitles, '|')
+
+honcompl = re.compile('(?:The (%s)|(%s) (.*?)\s*)(?: of (.*))?$' % (hontitleso, hontitleso))
+
 class LordsList(xml.sax.handler.ContentHandler):
 	def __init__(self):
 		self.lords={} # ID --> MPs
@@ -63,7 +68,7 @@ class LordsList(xml.sax.handler.ContentHandler):
 
 
 	# main matchinf function
-	def GetLordID(self, ltitle, llordname, llordofname, loffice, stampurl):
+	def GetLordID(self, ltitle, llordname, llordofname, loffice, stampurl, sdate):
 		if ltitle == "Lord Bishop":
 			ltitle = "Bishop"
 		llordofname = string.replace(llordofname, ".", "")
@@ -78,7 +83,7 @@ class LordsList(xml.sax.handler.ContentHandler):
 		dres = [ ]
 		for lm in lmatches:
 			if (lm["title"] == ltitle) and (lm["lordname"] == llordname) and (lm["lordofname"] == llordofname):
-				if (lm["fromdate"] <= stampurl.sdate):
+				if (lm["fromdate"] <= sdate):
 					res.append(lm)
 				else:
 					dres.append(lm)
@@ -87,7 +92,8 @@ class LordsList(xml.sax.handler.ContentHandler):
 		# (possibly a bishop changes, and keeps same location)
 		# need to include date ranges
 		if (len(res) == 0) and (len(dres) == 1):
-			print "removing date matching"
+			print "removing date matching  %s" % sdate
+			lm = dres[0]
 			print "%s [%s] [of %s] [from %s]" % (lm["title"], lm["lordname"], lm["lordofname"], lm["fromdate"])
 			res = dres
 
@@ -99,6 +105,25 @@ class LordsList(xml.sax.handler.ContentHandler):
 			raise ContextException("no match of name", stamp=stampurl, fragment=(llordname or llordofname))
 
 		return res[0]["id"]
+
+	def GetLordIDfname(self, name, loffice, sdate, stampurl=None):
+		hom = honcompl.match(name)
+		if not hom:
+			print "format failure on " + name
+			raise ContextException("lord name format failure", stamp=stampurl, fragment=name)
+
+		# now we have a speaker, try and break it up
+		ltit = hom.group(1)
+		if not ltit:
+			ltit = hom.group(2)
+			lname = hom.group(3)
+		else:
+			lname = ""
+		lplace = ""
+		if hom.group(4):
+			lplace = hom.group(4)
+
+		return lordlist.GetLordID(ltit, lname, lplace, loffice, stampurl, sdate)
 
 
 	def MatchRevName(self, fss, stampurl):
@@ -170,10 +195,6 @@ reboldempty = re.compile('<b>\s*</b>(?i)')
 regenericspeak = re.compile('the (?:deputy )?chairman of committees|the deputy speaker|the clerk of the parliaments|the lord chancellor|the noble lord said(?i)')
 #retitlesep = re.compile('(Lord|Baroness|Viscount|Earl|The Earl of|The Lord Bishop of|The Duke of|The Countess of|Lady)\s*(.*)$')
 
-hontitles = [ 'Lord Bishop', 'Lord', 'Baroness', 'Viscount', 'Earl', 'Countess', 'Archbishop', 'Duke', 'Lady' ]
-hontitleso = string.join(hontitles, '|')
-
-honcompl = re.compile('(?:The (%s)|(%s) (.*?)\s*)(?: of (.*))?$' % (hontitleso, hontitleso))
 
 
 def LordsFilterSpeakers(fout, text, sdate):
@@ -241,24 +262,7 @@ def LordsFilterSpeakers(fout, text, sdate):
 		# sort out any lords aliases
 		name = lordlist.aliasfulllordname.get(name, name)
 
-		hom = honcompl.match(name)
-		if not hom:
-			fout.write('<speaker speakerid="%s">%s</speaker>' % ('no-match', name))
-			print "format failure on " + name
-			raise ContextException("lord name format failure", stamp=stampurl, fragment=name)
-
-		# now we have a speaker, try and break it up
-		ltit = hom.group(1)
-		if not ltit:
-			ltit = hom.group(2)
-			lname = hom.group(3)
-		else:
-			lname = ""
-		lplace = ""
-		if hom.group(4):
-			lplace = hom.group(4)
-
-		lsid = lordlist.GetLordID(ltit, lname, lplace, loffice, stampurl)
+		lsid = lordlist.GetLordIDfname(name, loffice=loffice, sdate=sdate, stampurl=stampurl)
 
 		fout.write('<speaker speakerid="%s" speakername="%s" colon="%s">%s</speaker>' % (lsid, name, colon, name))
 
