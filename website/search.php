@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.30 2004/08/15 10:33:43 frabcus Exp $
+# $Id: search.php,v 1.31 2004/11/30 10:59:12 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -136,7 +136,7 @@
 ?>
 <p>Nothing found matching <? if ($postcode) print "postcode "; ?> '<?=$prettyquery?>'.
 <p>Try browsing the list of <a href="mps.php">all MPs</a>
-or <a href="divisions.hphp">all divisions</a>.
+or <a href="divisions.php">all divisions</a>.
 <?php
         }
 
