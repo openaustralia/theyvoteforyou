@@ -7,6 +7,8 @@ from optparse import OptionParser
 from createhansardindex import UpdateHansardIndex
 from pullgluepages import PullGluePages
 from runfilters import RunFiltersDir, RunDebateFilters, RunWransFilters
+from regmemfilter import RunRegmemFilters
+from regmempullgluepages import RegmemPullGluePages
 
 # Parse the command line parameters
 
@@ -21,6 +23,10 @@ parser.add_option("--wrans",
 parser.add_option("--debates",
                   action="store_true", dest="debates", default=False,
                   help="process Debates into XML files")
+parser.add_option("--regmem",
+                  action="store_true", dest="regmem", default=False,
+                  help="process Register of Members Interests into XML files")
+
 
 parser.add_option("--force",
                   action="store_true", dest="force", default=False,
@@ -46,8 +52,10 @@ if (options.date):
 if options.network:
         UpdateHansardIndex()
         if options.rescrape:
-            PullGluePages(options.datefrom, options.dateto, True)
+                PullGluePages(options.datefrom, options.dateto, True)
+                RegmemPullGluePages(True)
         PullGluePages(options.datefrom, options.dateto, False)
+        RegmemPullGluePages(False)
 
 if options.wrans:
         if options.force:
@@ -57,5 +65,10 @@ if options.debates:
         if options.force:
                 RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, True)
         RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, False)
-
+if options.regmem:
+        # Maybe could obey date range here - but no point for now.
+        # When we get index page properly for regmem, we can do
+        if options.force:
+                RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', True)
+        RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', False)
 

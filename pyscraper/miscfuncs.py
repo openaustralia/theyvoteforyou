@@ -44,6 +44,7 @@ entitymap = {
         '&#244;':'&ocirc;',   # this is o-hat
         '&#246;':'&ouml;',   # this is o-double-dot
         '&#214;':'&Ouml;',   # this is capital o-double-dot
+        '&#243;':'&oacute;',   # this is o-acute
 
         '&#237;':'&iacute;', # this is i-acute
 
@@ -378,6 +379,7 @@ def WriteXMLHeader(fout):
 <!ENTITY ocirc  "&#244;" >
 <!ENTITY ouml   "&#246;" >
 <!ENTITY Ouml   "&#214;" >
+<!ENTITY oacute "&#243;" >
 <!ENTITY iacute "&#237;" >
 <!ENTITY ccedil "&#231;" >
 <!ENTITY uuml   "&#252;" >

@@ -7,6 +7,7 @@ import urlparse
 import re
 import os.path
 import time
+import mx.DateTime
 
 import miscfuncs
 toppath = miscfuncs.toppath
@@ -20,14 +21,27 @@ pwcmregmem = os.path.join(pwcmdirs, "regmem")
 
 tempfile = os.path.join(toppath, "gluetemp")
 
-def GlueByNext(fout, url):
+def GlueByNext(fout, url, regmemdate):
 	# loop which scrapes through all the pages following the nextlinks
         starttablewritten = False
+        matcheddate = False
 	while 1:
 		print " reading " + url
 		ur = urllib.urlopen(url)
 		sr = ur.read()
 		ur.close();
+
+                # check date
+                if not matcheddate:
+                        # THE JANUARY 2004 EDITION)
+                        dateinpage = re.search("current as at\s*<b>(.*)</b>", sr)
+                        if not dateinpage:
+                                raise Exception, 'Not found date marker'
+                        dateinpage = dateinpage.group(1).replace("&nbsp;", " ")
+                        dateinpage = mx.DateTime.DateTimeFrom(dateinpage).date
+                        if dateinpage != regmemdate:
+                                raise Exception, 'Date in page is %s, expected %s - update the URL list in regmempullgluepages.py' % (dateinpage, regmemdate)
+                        matcheddate = True
 
 		# write the marker telling us which page this comes from
                 lt = time.gmtime()
@@ -86,9 +100,25 @@ def GlueAllType(pcmdir, cmindex, fproto, deleteoutput):
                     # hansard index page
                     url = dnu[1]
 
+                    # if we already have got the file, check the pagex link agrees in the first line
+                    # no need to scrape it in again
+                    if os.path.exists(dgf):
+                            fpgx = open(dgf, "r")
+                            pgx = fpgx.readline()
+                            fpgx.close()
+                            if pgx:
+                                    pgx = re.findall('<page url="([^"]*)"[^/]*/>', pgx)
+                                    if pgx:
+                                            if pgx[0] == url:
+                                                    #print 'skipping ' + url
+                                                    continue
+                            print 'RE-scraping ' + url
+                    else:
+                            print 'scraping ' + url
+
                     # now we take out the local pointer and start the gluing
                     dtemp = open(tempfile, "w")
-                    GlueByNext(dtemp, url)
+                    GlueByNext(dtemp, url, dnu[0])
 
                     # close and move
                     dtemp.close()
@@ -99,19 +129,22 @@ def GlueAllType(pcmdir, cmindex, fproto, deleteoutput):
 ###############
 # main function
 ###############
-def PullGluePages(deleteoutput):
+def RegmemPullGluePages(deleteoutput):
 	# make the output firectory
 	if not os.path.isdir(pwcmdirs):
 		os.mkdir(pwcmdirs)
                 
         # Current data
         # http://www.publications.parliament.uk/pa/cm/cmhocpap.htm#register
-        urls = [ ('2003-12-04', 'http://www.publications.parliament.uk/pa/cm/cmregmem/memi01.htm') ]
+        urls = [ 
+                ('2004-01-31', 'http://www.publications.parliament.uk/pa/cm/cmregmem/memi02.htm'),
+                ('2003-12-04', 'http://www.publications.parliament.uk/pa/cm200203/cmregmem/memi02.htm')
+                ]
 
 	# bring in and glue together parliamentary register of members interests and put into their own directories.
 	# third parameter is a regexp, fourth is the filename (%s becomes the date).
 	GlueAllType(pwcmregmem, urls, 'regmem%s.html', deleteoutput)
 
 if __name__ == '__main__':
-        PullGluePages(False)
+        RegmemPullGluePages(False)
 
