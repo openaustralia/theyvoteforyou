@@ -1,5 +1,5 @@
 <?php $title = "Ministerial whirl"; include "header.inc" 
-# $Id: minwhirl.php,v 1.3 2004/11/30 11:19:41 frabcus Exp $
+# $Id: minwhirl.php,v 1.4 2004/12/01 17:09:54 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -15,9 +15,9 @@ of the Java applet.
 the centre signifies seniority, with the cabinet occupying the inner
 layer.  
 
-Click on a name once to find the department that person is in.  
+<b>Click on a name</b> once to find the department that person is in.  
 
-Click in the same name a second time to review that person's career in
+<b>Click in the same name a second time</b> to review that person's career in
 government.  
 
 <p><span class="ptitle">Not working?</span>  Wait for the applet below

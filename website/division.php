@@ -1,5 +1,5 @@
 <?php
-# $Id: division.php,v 1.38 2004/07/22 10:34:53 frabcus Exp $
+# $Id: division.php,v 1.39 2004/12/01 17:09:54 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -27,6 +27,7 @@
     include "account/database.inc";
     include_once "cache-tools.inc";
     $db = new DB(); 
+    $db2 = new DB(); 
 
     $db->query("select pw_division.division_id, division_name,
             source_url, rebellions, turnout, notes, motion, debate_url,
@@ -425,12 +426,28 @@
         $db->query($query);
 #        print " ROWS " . $db->rows() . " \n";
 
-        global $mps;
+        global $mps, $db2;
 
         print "<table class=\"votes\"><tr class=\"headings\"><td>MP</td><td>Constituency</td><td>Party</td><td>Vote</td></tr>";
         $prettyrow = 0;
         while ($row = $db->fetch_row())
         {
+            // Find out if minister
+            $query2 = "select dept, position, from_date, to_date
+                from pw_moffice where pw_moffice.person = '" . $row[8] . "'
+                and from_date <= '$date' and '$date' < to_date";
+            // (<= from day as they're being appointed, < for to date
+            // as they may have resigned to vote the other way, give
+            // benefit of doubt)
+            $result = $db2->query($query2);
+            $is_minister = false;
+            while ($minrow = $db2->fetch_row_assoc()) {
+                $is_minister = true;
+                // can look at post titles etc. here
+            }
+            $minpost = $is_minister ? "(Minister)" : "";
+
+            // Print stuff
             array_push($mps, $row[5]);
             $class = "";
             if ($row[4] == "")
@@ -445,7 +462,7 @@
             print "<td><a href=\"mp.php?firstname=" . urlencode($row[0]) .
                 "&lastname=" . urlencode($row[1]) . "&constituency=" .
                 urlencode($row[7]) . "\">$row[2] $row[0] $row[1]</a></td>
-                <td>$row[7]</td><td>" . pretty_party($row[3]) . "</td><td>$row[4]</td>";
+                <td>$row[7]</td><td>" . pretty_party($row[3]) . " " .  $minpost . " </td><td>$row[4]</td>";
             print "</tr>";
         }
         if ($db->rows() == 0)
@@ -457,7 +474,7 @@
     }
     
     $query = "select first_name, last_name, title, pw_mp.party,
-        vote, pw_mp.mp_id, whip_guess, constituency from pw_mp, pw_vote, pw_cache_whip 
+        vote, pw_mp.mp_id, whip_guess, constituency, person from pw_mp, pw_vote, pw_cache_whip 
         where pw_vote.mp_id = pw_mp.mp_id
             and pw_cache_whip.party = pw_mp.party
             and pw_vote.division_id = $div_id
@@ -493,7 +510,7 @@
     {
         $mp_not_already = "mp_id<>" . join(" and mp_id<>", $mps);
         $query = "select first_name, last_name, title, pw_mp.party,
-            \"\", pw_mp.mp_id, \"\", constituency from pw_mp where
+            \"\", pw_mp.mp_id, \"\", constituency, person from pw_mp where
                 entered_house <= '$date' and left_house >= '$date' and 
                 ($mp_not_already)";
         $query .= "order by party, last_name, first_name desc";
