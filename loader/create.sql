@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.14 2005/03/28 10:06:20 frabcus Exp $
+-- $Id: create.sql,v 1.15 2005/03/28 10:53:41 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -135,7 +135,7 @@ create table pw_dyn_rolliemp (
     name varchar(100) not null,
     user_id int not null,
     description blob not null,
-    cache_uptodate bool NOT NULL default 0,
+    cache_uptodate bool NOT NULL default 0, -- TODO remove, moved into cache table below
 
     index(user_id),
     unique(rollie_id, name, user_id)
@@ -196,14 +196,17 @@ create table pw_dyn_newsletters_sent (
 -- information about one Dream MP
 create table pw_cache_dreaminfo (
     rollie_id int not null primary key,
+    cache_uptodate bool NOT NULL default 0,
 
     votes_count int not null,
-    edited_motions_count int not null
+    edited_motions_count int not null,
+    consistency_with_mps float,
 );
 
 -- information about a real MP for a particular Dream MP
 -- e.g. Scores for how well they follow the Dream MP's whip.
 -- done per parliament, as there are rankings
+-- TODO remove this
 create table pw_cache_dreamreal_score (
     rollie_id int not null,
     person int not null,

@@ -1,49 +1,15 @@
-Sort out this todo list
-Put up a project help page for motion/dream mp editors.
-Sort out java applets, how to link to them. 
-Rewrite description of formula.
-Easier email signup
-Wiki the title
-
-Wiki
-----
-
-Deemphasise that it is for a particular Dream MP?
-Selection mechanism of sets of votes
-"Record of MP according to Dream MP's whip"
-
-Show recent changes to Wiki pages
-in league table log
-
-Mark on division listing which ones have / haven't been edited
-Work out good ways to link to the dream MP report pages.
-History of wiki
-Printable jmp page
-
-Link to Hansard should be to TWFY on Interesting Divisions table
-
-User names need to link to profile page about that user
-
-Forward/back division - show nearby divisions names
-
 General
 -------
 
-Plot graph of number of MPs with < x of score
+Wiki the title
+
+Rewrite description of formula.
+
+Show recent changes to Wiki pages
 
 Search broken completely for titles of things
 
 Search needs to search wiki text and Dream MP text
-
-Show which pages are looked at a lot, and encourage poeple to look at least popular.
-
-Make links underlined, the ones in the middle of the text anyway (rather than navigation)
-
-Make it clearer before you sign up that your email domain is public when
-you make a Dream MP.
-
-Interesting Divisions link doesn't go to interesting divisions - and people would like to
-http://www.publicwhip.org.uk/mp.php?id=uk.org.publicwhip/member/779&showall=yes#divisions
 
 Do a big usability thing - get Tom L to help with his ideas
 Make log file stats daily to see what happens as you subtly change links
@@ -55,6 +21,12 @@ Put up raw data for ranking scores for rebel/attend that are only in fawkes
 General Election
     Write letter to new MPs to tell them about the Public Whip
 
+Put up a project help page for motion/dream mp editors.
+
+FAQ needs to give more of an impression that we would like help
+
+Backup dynamic database on cron job (newsletter does this OK for now)
+
 Dream MP
 --------
 
@@ -64,51 +36,12 @@ Javascript, make .js file with just a "document.write"
 Inline frames, just inline to HTML file
 CGI script / serverside include
 
-Change frontpage newsletter advert depending on whether you are logged in
-
-Web page URL of you
-
 Comments (PHP/MySQL website style) on 
     - individual votes
     - dream MP page
 
-"If the MPs rarely decisively vote on anything meaningful, we should not
-apologize for it.  The deam MP exercise gets your optimistic
-participation, and then you uncover the full horror that out of all this
-apparent activity, there's fu*ck all happening.  It's only for show.
-It's a disgrace."
-- we need a discussion page for this, so people can work it out
-
-"We can rate MPs on the basis of what they successfully get out through
-written questions, because this is like science.  You don't become a respected
-scientist or journalist by passing exams or getting the right jobs.  You do it
-by advancing human knowledge, finding key facts out that are real interesting.
-Then you get taken seriously.  Before then you're just a student."
-
-Make authority clearer - link to email domain web page?
-
 Party comparison
-Put dream MP ranking on MP page
-
-Check what Julian thinks of score sorting etc.
-
-Web site
---------
-
-Make newsletter signing more streamlined?
-
-On konqueror on division page the "What is Tell?" etc. bar overlaps the Rebel
-voters table in some cases. (On divisions with few voters / parties)
-
-Popular pages today are...  Grep the logs somehow clever.
-
-Tour somehow for first time users
-
-FAQ needs to give more of an impression that we would like help
-
-Link to ideas.txt file
-
-Backup dynamic database on cron job (newsletter does this OK for now)
+Put dream MP ratings on MP page
 
 Voting accuracy
 ---------------
@@ -140,12 +73,25 @@ Tally vote numbers in text and check they fit with our counting
 Search for divisions on days MP joined/left, as these could have
 off-by-one errors for their changed party
 
-Improve motion text / title extraction
-    division.php?date=2002-02-06&number=158 - incomplete
-    division.php?date=1997-07-07&number=42 - nothing of any use!
-    division.php?date=2000-02-28&number=88 - too much text!
-    division.php?date=2003-09-17&number=321 - not deferred division!
-    division.php?date=2003-09-17&number=320 - not deferred division!
+Future
+------
 
+Make newsletter signing more streamlined
 
+Sort out java applets, how to link to them. 
+
+People add their web page URL to their profile and/or their Dream MP
+(perhaps let HTML in Dream MP description)
+
+User names need to link to profile page about that user
+
+Forward/back division - show nearby divisions names
+
+Tour somehow for first time users
+
+Link to ideas.txt file
+
+Change frontpage newsletter advert depending on whether you are logged in
+(i.e. if you are already logged in and subscribed, we should advertise Dream MP
+or something instead of the newsletter)
 

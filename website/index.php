@@ -2,14 +2,14 @@
 
 $cache_params = rand(0, 10); include "cache-begin.inc";
 
-# $Id: index.php,v 1.42 2005/03/18 15:36:28 frabcus Exp $
+# $Id: index.php,v 1.43 2005/03/28 10:53:41 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-$title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
+$title = "Counting votes on your behalf"; $onload = "givefocus('query')"; include "header.inc";
 ?>
 
 <p>Every week, a dozen or so times, your MP votes in the UK parliament.  This
@@ -41,7 +41,7 @@ For more information about the project, <a href="faq.php">read the FAQ</a>.
 
 <td width="20%" class="layout" bgcolor="#dddddd">
 <h2>Forum</h2>
-<p>Chat to other users <a href="/forum">in our new forum</a>.
+<p><a href="/forum">Chat in our forum</a> to other users.
 <h2>Newsletter</h2>
 <p>Keep up with the Public Whip project.
 An at most monthly briefing.
@@ -62,7 +62,7 @@ An at most monthly briefing.
 </p>
 
 <li>
-<form class="search" action="search.php" name=pw>
+<form class="search" action="search.php" name=second>
 <p><span class="actionsheading">Search for votes in parliament on your subject</span>
 <br>Enter the topic to search for:
 <input maxLength=256 size=10 name=query value=""> <input type=submit value="Search" name=button>
@@ -102,7 +102,7 @@ href="account/adddream.php">create</a> an MP who votes how you want</span>
 
 <td colspan=2>
 
-<h2>Recent Divisions <a href="divisions.php"
+<h2>Recent Controversial Divisions <a href="divisions.php"
 title="Show all divisions ordered by most recent">(more...)</a></h2>
 
 <?php

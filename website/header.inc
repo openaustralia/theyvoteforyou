@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.47 2005/02/24 20:08:29 frabcus Exp $
+# $Id: header.inc,v 1.48 2005/03/28 10:53:41 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -42,16 +42,6 @@ function givefocus(field) { if (document.pw) eval("document.pw." + field + ".foc
 <!-- the site logo -->
 <tr><td class="identity" colspan="2">
 <a href="<?=$toppath?>index.php"><img src="<?=$toppath?>thepublicwhip.gif" alt="The Public Whip"></a>
-<!--
-</td>
-<td class="minifeedbackcell">
-Confused?  Tell us so we can improve!
-    <form method="post" action="index.php" style="margin-top: 0; margin-bottom: 0;">
-    <form class="minifeedback" action="search.php" name="feedback">
-    <input class="minifeedback" maxLength=256 size=25 name=query value=""> 
-    <input class="minifeedback" type=submit value="Feedback" name="button">
-    </form></p>
--->
 
 </td></tr>
 

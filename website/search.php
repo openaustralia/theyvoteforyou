@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: search.php,v 1.34 2005/03/04 02:14:15 frabcus Exp $
+# $Id: search.php,v 1.35 2005/03/28 10:53:41 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -10,8 +10,7 @@
     $prettyquery = html_scrub(trim($_GET["query"]));
     $query = strtolower(db_scrub(trim($_GET["query"])));
     $title = "Search for '$prettyquery'"; 
-    if ($prettyquery == "")
-    {
+    if ($prettyquery == "") {
         $onload = "givefocus('query')";
         $title = "Search";
     }
