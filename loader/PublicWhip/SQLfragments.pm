@@ -1,4 +1,4 @@
-# $Id: SQLfragments.pm,v 1.3 2005/01/28 18:29:50 sams Exp $
+# $Id: SQLfragments.pm,v 1.4 2005/02/01 12:09:45 sams Exp $
 # Set of reusable standard SQL statements.
 
 # This is free software, and you are welcome to redistribute it under
@@ -20,6 +20,14 @@ sub divisions_query_start {
 sub divisions_controversial {
 	return "
 		 and rebellions > 10
+		 and pw_division.division_id = pw_cache_divinfo.division_id 
+            order by division_date desc
+	";
+}
+
+
+sub divisions_all {
+	return "
 		 and pw_division.division_id = pw_cache_divinfo.division_id 
             order by division_date desc
 	";
