@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.11 2003/10/14 22:39:06 frabcus Exp $
+    # $Id: mp.php,v 1.12 2003/10/15 06:59:00 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -154,13 +154,10 @@
             pw_cache_mpinfo, pw_cache_mpdist where
             pw_mp.mp_id = pw_cache_mpinfo.mp_id and 
 
-            ((pw_mp.mp_id = pw_cache_mpdist.mp_id_1
+            (pw_mp.mp_id = pw_cache_mpdist.mp_id_1
             and pw_cache_mpdist.mp_id_2 = $mp_ids[$i]
-            and pw_cache_mpdist.mp_id_1 <> $mp_ids[$i]) or
-
-            (pw_mp.mp_id = pw_cache_mpdist.mp_id_2 and
-            pw_cache_mpdist.mp_id_1 = $mp_ids[$i]
-            and pw_cache_mpdist.mp_id_2 <> $mp_ids[$i]))";
+            and pw_cache_mpdist.mp_id_1 <> $mp_ids[$i])
+            ";
 
         print "<tr class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Distance</td><td>Rebellions</td><td>Attendance</td></tr>";
         $prettyrow = 0;

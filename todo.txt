@@ -7,6 +7,12 @@ Look for EDMs on parliament.uk (in daily papers)
 Web site
 --------
 
+Speed things up
+    - reduce queries on MP page, more indices?
+    - use cache for front page and division lists
+
+<h2> spacing on IE
+
 Put divisions on same day as easy links from division page
 Put similar divisions on links
 

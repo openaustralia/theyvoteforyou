@@ -1,4 +1,4 @@
-# $Id: calc.pm,v 1.3 2003/10/03 21:46:10 frabcus Exp $
+# $Id: calc.pm,v 1.4 2003/10/15 06:59:00 frabcus Exp $
 # Calculates various data and caches it in the database.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -86,6 +86,7 @@ sub count_mp_info
         rebellions int not null,
         votes_attended int not null,
         votes_possible int not null,
+        index(mp_id)
     );");
 
     my $sth = db::query($dbh, "select mp_id, party, entered_house, left_house from pw_mp");
@@ -128,6 +129,7 @@ sub count_division_info
         division_id int not null,
         rebellions int not null,
         turnout int not null,
+        index(division_id)
     );");
 
     my $sth = db::query($dbh, "select division_id from pw_division");

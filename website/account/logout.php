@@ -1,6 +1,6 @@
 <?  
 
-# $Id: logout.php,v 1.2 2003/10/11 10:49:38 frabcus Exp $
+# $Id: logout.php,v 1.3 2003/10/15 06:59:00 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -18,7 +18,7 @@ if (user_isloggedin()) {
 $title = "Logout"; 
 include "../header.inc";
 
-echo 'You are now logged out';
+echo 'You are now logged out.';
 
 ?>
 

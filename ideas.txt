@@ -220,6 +220,9 @@ Committees, and voting in committee
 Usability
 ---------
 
+Show ... for cut down text, but you can click the dots to open it out
+again.
+
 Java cluster applet change to Flash
 
 Email reports to people when search queries change

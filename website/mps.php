@@ -1,12 +1,12 @@
+<?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mps.php,v 1.5 2003/10/13 17:45:59 frabcus Exp $
+    # $Id: mps.php,v 1.6 2003/10/15 06:59:00 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
     # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
     # For details see the file LICENSE.html in the top level of the source.
 
-    include "header.inc";
     include "db.inc";
     include "render.inc";
     $db = new DB(); 
@@ -19,6 +19,7 @@
     
     include "parliaments.inc";
     $title .= " - " . parliament_name($parliament) . " Parliament";
+    include "header.inc";
 
     if ($sort == "")
     {
@@ -96,3 +97,4 @@ headings.
 ?>
 
 <?php include "footer.inc" ?>
+<?php include "cache-end.inc"; ?>

@@ -2,7 +2,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.20 2003/10/14 22:39:06 frabcus Exp $
+# $Id: header.inc,v 1.21 2003/10/15 06:59:00 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -15,7 +15,6 @@ else
     $toppath = "";
 
 include $toppath . "pretty.inc";
-include $toppath . "account/quick.inc";
 
 ?>
 
@@ -49,11 +48,7 @@ function givefocus() { if (document.pw) document.pw.query.focus(); }
 <a href="<?=$toppath?>mps.php">MPs</a>
 <a href="<?=$toppath?>mpsee.php">Vote Map</a>
 <a href="<?=$toppath?>code.php">Code</a>
-<?  if (user_isloggedin()) {?>
 <a href="<?=$toppath?>account/settings.php">Account</a>
-<? } else {?>
-<a href="<?=$toppath?>account/login.php">Login</a>
-<? } ?>
 <a href="<?=$toppath?>search.php">Search</a>
 </td>
 </tr>

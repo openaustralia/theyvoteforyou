@@ -2,7 +2,7 @@
 use strict;
 use lib "../scraper/";
 
-# $Id: cluster-parliament-static.pl,v 1.3 2003/10/04 13:46:22 frabcus Exp $
+# $Id: cluster-parliament-static.pl,v 1.4 2003/10/15 06:59:00 frabcus Exp $
 # Outputs a matrix of distances between pairs of MPs for
 # use by the GNU Octave script mds.m to do clustering.
 
@@ -51,6 +51,13 @@ foreach my $parliament (@parliaments::list)
             my $distance = $$metricD[$mp_1][$mp_2];
             db::query($dbh, "insert into pw_cache_mpdist (mp_id_1, mp_id_2, distance) values (?, ?, ?)",
                 $mp_1, $mp_2, $distance);
+
+            # Add both halves of triangle to database, as then a lot quicker to do queries
+            if ($mp_1 != $mp_2)
+            {
+                db::query($dbh, "insert into pw_cache_mpdist (mp_id_1, mp_id_2, distance) values (?, ?, ?)",
+                    $mp_2, $mp_1, $distance);
+            }
         }
     }
 

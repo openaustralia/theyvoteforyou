@@ -1,5 +1,5 @@
 <?  
-# $Id: settings.php,v 1.2 2003/10/13 15:14:34 frabcus Exp $
+# $Id: settings.php,v 1.3 2003/10/15 06:59:00 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -9,25 +9,38 @@
 include('database.inc');
 include('user.inc');
 
-if ($_POST["newsletter"])
-    $newsletter = true;
-else
-    $newsletter = false;
-$submit=mysql_escape_string($_POST["submit"]);
-
-if (user_isloggedin())
+$just_logged_in = false;
+if (!user_isloggedin())
 {
-    $ok = false;
+    $user_name=mysql_escape_string($_POST["user_name"]);
+    $password=mysql_escape_string($_POST["password"]);
+    $submit=mysql_escape_string($_POST["submit"]);
+
     if ($submit) {
-    	$ok = user_changenewsletter($newsletter);
+        if (user_login($user_name,$password))
+        {
+            $just_logged_in = true;
+            $feedback = "";
+        }
     }
 }
 
-$title = "Account Settings"; 
-include "../header.inc";
-
-if (user_isloggedin())
+if (user_isloggedin()) # User logged in, show settings screen
 {
+    if ($_POST["newsletter"])
+        $newsletter = true;
+    else
+        $newsletter = false;
+    $submit=mysql_escape_string($_POST["submit"]);
+
+    $ok = false;
+    if ($submit && (!$just_logged_in)) {
+    	$ok = user_changenewsletter($newsletter);
+    }
+
+    $title = "Account Settings"; 
+    include "../header.inc";
+
     if ($feedback) {
         if ($ok)
         {
@@ -62,9 +75,32 @@ if (user_isloggedin())
 	</FORM>
 	<P>';
 }
-else
+else # User not logged in, show login screen
 {
-    print '<p>Please <a href="login.php">login</a> or <a href="register.php">register</a>.';
+    $title = "Login to The Public Whip"; 
+    include "../header.inc";
+
+    if ($feedback) {
+        print "<div class=\"error\"><h2>Login not correct,
+        please try again</h2><p>$feedback</div>";
+    }
+
+    print '
+        <P>
+        Enter your user name and password and we\'ll set a cookie so we know you\'re logged in.
+        <p>Not got a login?  <A HREF="register.php">Register a new
+        account</A>.  You will receive a free email newsletter.
+        <P>
+        <FORM ACTION="'. $PHP_SELF .'" METHOD="POST">
+        <B>User Name:</B><BR>
+        <INPUT TYPE="TEXT" NAME="user_name" VALUE="" SIZE="15" MAXLENGTH="15">
+        <P>
+        <B>Password:</B><BR>
+        <INPUT TYPE="password" NAME="password" VALUE="" SIZE="15" MAXLENGTH="15">
+        <P>
+        <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Login To Public Whip">
+        </FORM>
+        <P>';
 }
 ?>
 <?php include "../footer.inc" ?>
