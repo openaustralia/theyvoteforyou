@@ -251,19 +251,19 @@ def FilterDebateSections(fout, text, sdate):
 
 			# detect if this is a major heading and record it in the correct variable
 
-                        bmajorheading = None
+                        bmajorheading = False
 
                         # All upper case headings - these tend to be uniform, so we can check their names
                         if not re.search('[a-z]', sht[0]):
-                                bmajorheading = sht[0]
+                                bmajorheading = True
                                 stampurl.majorheading = stampurl.title
 				stampurl.title = ''
 
                         # Other major headings, marked by _head in their anchor tag - doesn't seem
                         # worth checking their names.
                         if re.search('_head', stampurl.aname):
-                                bmajorheading = sht[0]
-				stampurl.majorheading = sht[0]
+                                bmajorheading = True
+				stampurl.majorheading = stampurl.title
 				stampurl.title = ''
                                 
                         # write out block for headings

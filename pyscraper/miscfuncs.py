@@ -126,7 +126,7 @@ def StraightenHTMLrecurse(stex):
 		sres.extend(StraightenHTMLrecurse(stex[qisup.span(1)[1]:]))
 		return sres
 
-	sres = re.split('(&[a-z]*?;|&#\d+;|"|&|<[^>]*>|<|>)', stex)
+	sres = re.split('(&[a-z]*?;|&#\d+;|"|&|\x01|<[^>]*>|<|>)', stex)
 	for i in range(len(sres)):
 		if not sres[i]:
 			pass
@@ -155,6 +155,9 @@ def StraightenHTMLrecurse(stex):
 
 		elif sres[i] == '"':
 			sres[i] = '&quot;'
+
+		elif sres[i] == '\x01':
+                        sres[i] = ''
 
 		elif sres[i] == '<i>':
 			sres[i] = '' # 'OPEN-i-TAG-OUT-OF-PLACE'

@@ -7,6 +7,9 @@ import os
 import string
 import cStringIO
 
+import xml.sax
+xmlvalidate = xml.sax.make_parser()
+
 from filterwranscolnum import FilterWransColnum
 from filterwransspeakers import FilterWransSpeakers
 from filterwranssections import FilterWransSections
@@ -88,6 +91,7 @@ def RunFiltersDir(filterfunction, dname, datefrom, dateto, deleteoutput):
                         fout = open(tempfile, "w")
                         filterfunction(fout, text, sdate)
                         fout.close()
+                        xmlvalidate.parse(tempfile) # validate XML before renaming
                         os.rename(tempfile, jfout)
 
 # These text filtering functions filter twice through stringfiles,
