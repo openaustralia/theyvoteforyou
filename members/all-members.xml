@@ -9467,7 +9467,7 @@ http://www.election.demon.co.uk/strengths.html
     house="commons"
     title="" firstname="Andrew" lastname="Hunter"
     constituency="Basingstoke" party="Ind Con"
-    fromdate="2002-10-02" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
+    fromdate="2002-10-02" todate="2004-12-09" fromwhy="changed_party" towhy="changed_party"
 />
 <member
     id="uk.org.publicwhip/member/1351"
@@ -9565,6 +9565,13 @@ http://www.election.demon.co.uk/strengths.html
     title="" firstname="Iain" lastname="Wright"
     constituency="Hartlepool" party="Lab"
     fromdate="2004-09-30" todate="9999-12-31" fromwhy="by_election" towhy="still_in_office"
+/>
+<member
+    id="uk.org.publicwhip/member/1363"
+    house="commons"
+    title="" firstname="Andrew" lastname="Hunter"
+    constituency="Basingstoke" party="DU"
+    fromdate="2004-12-10" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
 />
 
 
