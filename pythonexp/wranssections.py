@@ -13,9 +13,6 @@ import mx.DateTime
 
 # we do the work in several passes in several classes to keep it separate
 class SepHeadText:
-	def DetectNoText(self, text):
-		fltext = re.sub('<[^>]*?>|\s', '', text)
-		return len(fltext) == 0
 
 	def EndSpeech(self):
 		# check for no text
@@ -30,7 +27,7 @@ class SepHeadText:
 				self.unspoketext = self.text
 		else:
 			if self.speaker == 'No one':
-				pass # print 'Text with no speaker\n' + self.text
+				print 'Text with no speaker\n' + self.text
 			self.shspeak.append((self.speaker, self.text))
 		self.speaker = 'No one'
 		self.text = ''
@@ -49,7 +46,7 @@ class SepHeadText:
 
 
 	def __init__(self, finr):
-		lsectionregexp = '<center>.*?</center>|<h\d align=center>.*?</h\d>'
+		lsectionregexp = '<h\d><center>.*?</center></h\d>|<h\d align=center>.*?</h\d>'
 		lspeakerregexp = '<speaker .*?>.*?</speaker>'
 		ltableregexp = '<table.*?>[\s\S]*?</table>'	# these have centres, so must be separated out
 
@@ -88,6 +85,10 @@ class SepHeadText:
 			if len(headinggroup) == 0:
 				headinggroup = re.findall(sectionregexp2, fss)
 			if len(headinggroup) != 0:
+				if headinggroup[0] == '':
+					print 'missing heading'
+					print self.heading
+
 				self.EndHeading()
 				self.heading = headinggroup[0]
 				continue
@@ -148,14 +149,11 @@ class qspeech:
 
 	# function to shuffle column stamps out of the way to the front, so we can glue paragraphs together
 	def StampToFront(self):
-		# move all stamp columns to the front
+		# we make a batch of stamps, leaving the last stamp in if none are being included
 		ts = re.findall('(<stamp[^>]*?/>)', self.text)
 		if len(ts) == 0:
-			return
-
-		# we make a batch of stamps, leaving the last stamp in if none are being included
-		if len(ts) == 0:
 			self.stamp = self.laststamp
+			return
 		for self.laststamp in ts:
 			self.stamp = self.stamp + self.laststamp
 
@@ -173,10 +171,11 @@ class qspeech:
 						sp[i + 1] = bsp[0]
 			self.text = self.text + sp[i]
 
-	def __init__(self, lspeaker, ltext, llaststamp):
+	def __init__(self, lspeaker, ltext, llaststamp, llastpageurl):
 		self.speaker = lspeaker
 		self.stamp = ''
 		self.laststamp = llaststamp
+		self.pageurl = llastpageurl
 		self.text = ltext
 
 		# set the type and clear up qnums
@@ -185,7 +184,7 @@ class qspeech:
 			# sort out qnums
 			bqnum = re.subn('\[(\d+?)\]', '<qcode qnum="\\1"/>', self.text)
 			if bqnum[1] == 0:
-				print "qnum missing"
+				print "qnum missing " + self.laststamp
 			self.text = bqnum[0]
 
 		else:
@@ -195,6 +194,12 @@ class qspeech:
 
 		self.StampToFront()
 
+		# find any pageurls which will actually go into the text for next bit
+		self.lastpageurl = self.pageurl
+		ps = re.findall('<(<page url[^>]*?)>', self.text)
+		if len(ps) != 0:
+			self.lastpageurl = '<%s/>' % ps[len(ps) - 1] # put the / in where it should be
+
 	def writexml(self, fout):
 		fout.write('\t<speech speaker="%s" type="%s">\n' % (self.speaker, self.typ))
 		fout.write('\t\t%s\n' % self.stamp)
@@ -202,9 +207,12 @@ class qspeech:
 		fout.write('\t</speech>\n\n')
 
 class qbatch:
-	def __init__(self, ltitle, shspeak, llaststamp):
+	def __init__(self, lmajorheading, ltitle, shspeak, llaststamp, llastpageurl):
+		self.majorheading = lmajorheading
 		self.title = ltitle
 		self.laststamp = llaststamp
+		self.pageurl = llastpageurl
+		self.lastpageurl = llastpageurl
 
 		self.shansblock = [ ]
 		qblock = [ ]
@@ -214,24 +222,32 @@ class qbatch:
 
 		# throw in a batch of speakers
 		for shs in shspeak:
-			qb = qspeech(shs[0], shs[1], self.laststamp)
+			qb = qspeech(shs[0], shs[1], self.laststamp, self.lastpageurl)
 			qblock.append(qb)
 			self.laststamp = qb.laststamp
+			self.lastpageurl = qb.lastpageurl
 
 			if qb.typ == 'reply':
 				self.shansblock.append(qblock)
 				qblock = []
 
 		if len(qblock) != 0:
-			print "block without answer"
+			print "block without answer " + self.title
 			self.shansblock.append(qblock)
 
+	# this obviously can be changed to suit
 	def writexml(self, fout):
+		fout.write('\n<wransblock title="%s" majorheading="%s">\n' % (self.title, self.majorheading))
 		for sha in self.shansblock:
 			fout.write('<wrans title="%s">\n' % (self.title,))
+			fout.write(self.pageurl)
+			fout.write('\n')
+			fout.write(self.laststamp)
+			fout.write('\n')
 			for i in range(len(sha)):
 				sha[i].writexml(fout)
 			fout.write('</wrans>\n\n')
+		fout.write('</wransblock>\n')
 
 
 majorheadings = {
@@ -294,10 +310,27 @@ majorheadings = {
 		}
 
 fixsubs = 	[
-	( '<H1 align=center>Written Answers[\s\S]{10,99}?\[Continued from column \d+?W\]', '', -1, 'all'),
+	( '<H\d align=center>Written Answers[\s\S]{10,99}?\[Continued from column \d+?W\]', '', -1, 'all'),
+	( '<H\d><center>Written Answers[\s\S]{10,99}?\[Continued from column \d+?W\]', '', -1, 'all'),
 	( '<h2><center>written answers to</center></h2>\s*questions(?i)', \
 	  	'<h2><center>Written Answers to Questions</center></h2>', -1, 'all'),
+	( '<H2 align=center> </H2>', '', 1, '2003-09-15'),
+	( '<H1 align=center></H1>\s*<H2 align=center>Monday 15 September 2003</H2>', '', 1, '2003-09-15'),
+	( '<H1 align=center></H1>', '', 1, '2003-10-06'),
+
+	( '</H3>\s*Trading Arrangements', ' Trading Arrangements</H3>', 1, '2003-09-01'),
+	( '</H3>\s*Support Services', ' Support Services</H3>', 1, '2003-09-01'),
+	( '</H3>\s*Support Service', ' Support Service</H3>', 1, '2003-09-01'),
+	( '</H3>\s*\(Clinical Trials\) Regulations', ' (Clinical Trials) Regulations</H3>', 1, '2003-09-01'),
+
+	( '</H3>\s*Control Programme', ' Control Programme</H3>', 1, '2003-07-17'),
+	( '</H3>\s*\(Regulatory Impact Assessments\)', ' (Regulatory Impact Assessments)</H3>', 1, '2003-07-17'),
+	( '</H3>\s*Involvement in Health', ' Involvement in Health</H3>', 1, '2003-07-17'),
+
+
+
 		]
+
 def ApplyFixSubs(finr, sdate):
 	for sub in fixsubs:
 		if sub[3] == 'all' or sub[3] == sdate:
@@ -308,19 +341,20 @@ def ApplyFixSubs(finr, sdate):
 	return finr
 
 def StripHeadings(shtext, sdate):
-	# check and strip the first two headings
+	# check and strip the first two headings in as much as they are there
 	i = 0
 	if (not re.match('written answers to questions(?i)', shtext[i][0])) or (len(shtext[i][2]) != 0):
-		print 'non-conforming first heading '
-		print shtext[0]
+		if not re.match('The following answers were received.*', shtext[i][0]):
+			print 'non-conforming first heading '
+			print shtext[0]
 	else:
 		i = i + 1
 
-	if (not re.match('The following answers were received', shtext[1][0]) and \
-			(sdate != mx.DateTime.DateTimeFrom(shtext[1][0]).date)) or (len(shtext[1][2]) != 0):
+	if (not re.match('The following answers were received.*', shtext[i][0]) and \
+			(sdate != mx.DateTime.DateTimeFrom(shtext[i][0]).date)) or (len(shtext[i][2]) != 0):
 		if (not majorheadings.has_key(shtext[i][0])) or (len(shtext[i][2]) != 0):
 			print 'non-conforming second heading '
-			print shtext[1]
+			print shtext[i]
 	else:
 		i = i + 1
 	return i
@@ -355,15 +389,18 @@ def WransSections(fout, finr, sdate):
 			if not majorheadings.has_key(sht[0]):
 				print "unknown major heading: " + sht[0]
 				print '"%s":"%s",' % (sht[0], sht[0])
+				print lastmajorheading
 			else:
 				lastmajorheading = majorheadings[sht[0]]	# correct spellings
 
+		# non-major heading; to a question batch
 		else:
 			if majorheadings.has_key(sht[0]):
 				print 'speeches found in major heading ' + sht[0]
-			pass
-			#qb = qbatch(sht[0], sht[2], laststamp)
-			#qb.writexml(fout)
-			#laststamp = qb.laststamp
+			qb = qbatch(lastmajorheading, sht[0], sht[2], laststamp, lastpageurl)
+			qb.writexml(fout)
+			laststamp = qb.laststamp
+			lastpageurl = qb.lastpageurl
 
+			#print lastpageurl
 	#sys.exit()

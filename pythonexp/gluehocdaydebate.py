@@ -56,7 +56,7 @@ def GlueHocDayDebate(dglueddaydebates, hocdaydebatelist, nametype, fileprefix):
 
 		# if we already have got the file, no need to scrape it in again
 		if os.path.exists(dgf):
-			print "skipping " + dgf
+			# print "skipping " + dgf
 			continue
 
 		# now we have the difficulty of pulling in the first link out of this silly index page

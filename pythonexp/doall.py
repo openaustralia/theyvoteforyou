@@ -69,9 +69,9 @@ if not os.path.isfile(hocdaydebatelist):
 
 # grab all the days we can
 # (comment the function call out line out if you want it to run past)
-#GlueHocDayDebate(dirgluedwranswers, hocdaydebatelist, 'answers', 'answers')
+GlueHocDayDebate(dirgluedwranswers, hocdaydebatelist, 'answers', 'answers')
 
-#ScanDirectories(RemoveLineChars, dirwaremovechars, dirgluedwranswers)
+ScanDirectories(RemoveLineChars, dirwaremovechars, dirgluedwranswers)
 ScanDirectories(FixWransColumnNumbers, dirwacolumnnumbers, dirwaremovechars)
 ScanDirectories(WransSpeakerNames, dirwaspeakers, dirwacolumnnumbers)
 ScanDirectories(WransSections, dirwrans, dirwaspeakers)
