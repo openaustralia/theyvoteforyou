@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mps-xml.php,v 1.2 2004/03/04 10:35:53 frabcus Exp $
+    # $Id: mp-info.xml,v 1.1 2004/03/04 10:35:53 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -12,7 +12,6 @@
     $db = new DB(); 
 
     header("Content-type: text/xml");
-    header("Content-Disposition: attachment; filename=\"mpinfo.xml\"");
 
     include "parliaments.inc";
 
@@ -42,7 +41,7 @@
         $reb = $row['rebellions'];
         if ($reb == "") $reb="n/a";
         print " division_attendance=\"$att%\"\n";
-        print " rebellions_estimate=\"$reb%\"\n";
+        print " rebellions=\"$reb%\"\n";
 
         print "/>\n";
     }

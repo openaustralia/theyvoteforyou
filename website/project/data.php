@@ -1,5 +1,5 @@
 <?php 
-# $Id: data.php,v 1.3 2004/02/23 00:29:24 frabcus Exp $
+# $Id: data.php,v 1.4 2004/03/04 10:35:55 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -7,7 +7,7 @@
 # For details see the file LICENSE.html in the top level of the source.
 
     include "../config.inc";
-    $wransdir = $toppath . "/scrapedxml/wrans";
+    $wransdir = $xmltoppath . "/scrapedxml/wrans";
 
     if ($_GET["wrans"])
     {
@@ -49,8 +49,8 @@ number/date pair
 <h2>MP and constituency names, dates and aliases</h2>
 
 <p>Structured data about Members of Parliament.  These are all XML files, open
-them in any text editor or XML viewer.  In the files there are comments with
-more information.  Data is for the 1997 and 2001 parliaments.
+them in any text editor, XML viewer or some spreadsheets.  In the files there
+are comments with more information.  Data is for the 1997 and 2001 parliaments.
 
 <p><a href="../data/all-members.xml">all-members.xml</a> - list of all MPs.
 Includes their name, party and constituency.  There is a unique identifier for
@@ -59,6 +59,12 @@ holding office, loyal to the same party.  An MP who was in both parliaments
 will appear twice.  An MP who also changed party will appear three times.
 Dates of deaths, byelections and party changes or whip revocations are
 recorded.
+
+<p><a href="../mp-info.xml">mp-info.xml</a> - list of division attendance rate
+and rebelliousness for MPs in the all-members.xml file.  This is a live file,
+correct to the latest division in the Public Whip database.  The field data_date
+shows the date it applies up to.  For members who have left the house it says
+"complete".
 
 <p><a href="../data/member-aliases.xml">member-aliases.xml</a> - list of
 alternative names for MPs.  Includes abbreviations, misspellings and name

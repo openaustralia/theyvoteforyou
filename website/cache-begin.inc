@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-begin.inc,v 1.6 2004/01/17 18:50:04 frabcus Exp $
+# $Id: cache-begin.inc,v 1.7 2004/03/04 10:35:45 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -16,4 +16,3 @@ if (file_exists($cache_file) && ($_SERVER["SERVER_NAME"] != "francis") && ($_SER
 ob_start();    
 
 ?>
-

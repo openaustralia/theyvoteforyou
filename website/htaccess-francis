@@ -1,13 +1,17 @@
 # htaccess file for local testing on my machine
 AddType application/x-httpd-php .php
+AddType application/x-httpd-php .xml
 DirectoryIndex index.php
 
 # make things safe
 php_flag register_globals off
 php_flag magic_quotes on
+
 <Files ~ "\.inc$">
     Order allow,deny
     Deny from all
 </Files>
 
+RedirectPermanent /rebels.php http://www.publicwhip.org.uk/mps.php?sort=rebellions
+RedirectPermanent /news.php http://www.publicwhip.org.uk/newsletters/archive.php
 
