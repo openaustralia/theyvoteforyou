@@ -1,5 +1,13 @@
-                                        #! /usr/bin/env python2.3
+#! /usr/bin/env python2.3
 # vim:sw=8:ts=8:et:nowrap
+
+# to do:
+# start making unique IDs on the records
+# match the names to IDs from the MPnames
+# Lowercase the positions for departments and ensure that the names are all known
+# Sort the records to keep names in the same place
+# merge into the peoplexml thing so we can put together the dates of position
+
 
 import os
 import datetime
@@ -11,18 +19,14 @@ import string
 import miscfuncs
 import difflib
 import mx.DateTime
+from resolvemembernames import memberList
 
 from xmlfilewrite import WriteXMLHeader
-import newlabministers2003_10_15
 
 toppath = miscfuncs.toppath
 chggdir = os.path.join(toppath, "chggpages")
-sxml = os.path.join(toppath, "scrapedxml")
-chggxml = os.path.join(sxml, "chggxml")
 chgtmp = os.path.join(toppath, "tempchgg.xml")
 
-if not os.path.isdir(chggxml):
-	os.mkdir(chggxml)
 
 uniqgovposns = ["Prime Minister",
 				"Chancellor of the Exchequer",
@@ -83,6 +87,8 @@ govdepts = ["Department of Health",
 			"No Department",
 			]
 
+import newlabministers2003_10_15
+
 renampos = re.compile("<td><b>([^,]*),\s*([^<]*)</b></td><td>([^,<]*)(?:,\s*([^<]*))?(?:</td>)?\s*$(?i)")
 
 class protooffice:
@@ -92,6 +98,8 @@ class protooffice:
 		nampos = renampos.match(e)
 		self.lasname = nampos.group(1)
 		self.froname = nampos.group(2)
+		self.froname = re.sub(" (?:QC|MBE)$", "", self.froname)
+		self.fullname = "%s %s" % (self.froname, self.lasname)
 		pos = nampos.group(3)
 		dept = nampos.group(4) or "No Department"
 
@@ -128,31 +136,37 @@ class protooffice:
 
 	# do the xml thing
 	def WriteXML(self, fout):
-		fout.write('<minister-post name="%s %s"\n' % (self.froname, self.lasname))
-		fout.write('\tdept="%s" position="%s"\n' % (self.dept, self.pos))
-		fout.write('\tfromdate="%s" fromtime="%s"\n' % self.sdatetstart)
-		fout.write('\ttodate="%s" totime="%s"\n' % (self.bopen and ("9999-99-99", "99:99") or self.sdatetend))
+		fout.write('<moffice id="%s" name="%s"' % (self.moffid, self.fullname))
+		if self.matchid:
+			fout.write(' matchid="%s"' % self.matchid)
+		fout.write("\n")
+		fout.write('\tdept="%s" position="%s"\n' % (re.sub("&", "&amp;", self.dept), self.pos))
+		fout.write('\tfromdate="%s" fromtime="%s"%s\n' % (self.sdatestart, self.stimestart, self.sxfromincomplete))
+		if self.bopen:
+			fout.write('\ttodate="%s" totime="%s"\n' % ("9999-99-99", "99:99"))
+		else:
+			fout.write('\ttodate="%s" totime="%s"\n' % (self.sdateend, self.stimeend))
 		fout.write('\tsource="chgpages"/>\n')
 		fout.write('/>\n')
 
 	# turns the protooffice into a part of a chain
 	def SetChainFront(self, fn):
-		self.sdatetstart = self.sdatet
-		self.sdatetend = self.sdatet
+		(self.sdatestart, self.stimestart) = self.sdatet
+		(self.sdateend, self.stimeend) = self.sdatet
 		self.fn = fn
 		self.bopen = True
 
 	def SetChainBack(self, sdatet):
-		self.sdatetend = sdatet  # when we close it, it brings it up to the day the file changed
+		(self.sdateend, self.stimeend) = self.sdatet  # when we close it, it brings it up to the day the file changed
 		self.bopen = False
 
 	# this helps us chain the offices
 	def StickChain(self, nextrec, fn):
-		assert self.sdatetend < nextrec.sdatet
+		assert (self.sdateend, self.stimeend) < nextrec.sdatet
 		assert self.bopen
 
 		if (self.lasname == nextrec.lasname) and (self.froname == nextrec.froname) and (self.dept == nextrec.dept):
-			self.sdatetend = nextrec.sdatet
+			(self.sdateend, self.stimeend) = nextrec.sdatet
 			self.fn = fn
 			return True
 		return False
@@ -226,8 +240,10 @@ def ParseGovPostsChggdir():
 		# get the protooffices from this file
 		sdatet, proff = ParsePage(fr)
 
+
 		# stick any chains we can
 		proffnew = [ ]
+		lsxfromincomplete = ((not chainprotos) and ' fromdateincomplete="yes"') or ''
 		for prof in proff:
 			bstuck = False
 			for chainproto in chainprotos:
@@ -235,6 +251,7 @@ def ParseGovPostsChggdir():
 					assert not bstuck
 					bstuck = True
 			if not bstuck:
+				prof.sxfromincomplete = lsxfromincomplete;
 				proffnew.append(prof)
 
 		# close the chains that have not been stuck
@@ -248,20 +265,31 @@ def ParseGovPostsChggdir():
 			prof.SetChainFront(gp)
 			chainprotos.append(prof)
 
-	#
-	# everything is up to date now.
-	# Close off the file
-	#
-
-	# set the present dates on those not closed
-	for chainproto in chainprotos:
-		if chainproto.bopen:
-			chainproto.sdatetend = ("9999-99-99", "")
-
+	# no need to close off the running cases with year 9999, because it's done in the writexml
 	return chainprotos
 
+# endeavour to get an id into all the names
+def SetNameMatch(cp):
+	cp.matchid = ""
 
+	# don't match names that are in the lords
+	if not re.search("Duke |Lord |Baroness ", cp.fullname):
+		fullname = cp.fullname
+		cons = ""
+		fnm = re.match("(.*?)\s+\[(.*?)\]", fullname)
+		if fnm:
+			fullname = fnm.group(1)
+			cons = fnm.group(2)
+		elif fullname == "Mr Gareth Thomas" and cp.dept == "Department for International Development" and cp.sdatestart == "2004-04-16":
+			cons = "Harrow West"
+		cp.matchid, cp.remadename, cp.remadecons = memberList.matchfullnamecons(fullname, cons, cp.sdatestart)
 
+	else:
+		cp.remadename = cp.fullname
+		cp.remadecons = ""
+
+	# make the structure we will sort by.  Note the ((,),) structure
+	cp.sortobj = ((re.sub("(.*) (\S+)$", "\\2 \\1", cp.remadename), cp.remadecons), cp.sdatestart)
 
 # main function that sticks it together
 def ParseGovPosts():
@@ -271,37 +299,57 @@ def ParseGovPosts():
 	porres = newlabministers2003_10_15.ParseOldRecords()
 	cpres = ParseGovPostsChggdir()
 
+	# allocate ids and merge lists
+	rpcp = []
+
+	moffidn = 1;
+	for po in porres:
+		SetNameMatch(po)
+		po.moffid = "uk.org.publicwhip/moffice/%d" % moffidn
+		rpcp.append((po.sortobj, po))
+		moffidn += 1
+	for cp in cpres:
+		SetNameMatch(cp)
+		cp.moffid = "uk.org.publicwhip/moffice/%d" % moffidn
+		rpcp.append((cp.sortobj, cp))
+		moffidn += 1
+
+
+	# (this would be a good place for matching and gluing overlapping duplicates together)
+	rpcp.sort()
+
+
+
 	fout = open(chgtmp, "w")
 	WriteXMLHeader(fout)
 	fout.write("<publicwhip>\n")
 
-	for po in porres:
-		po.WriteXML(fout)
+	# output the file, a tag round the groups of offices which form a single person
+	prevrpm = None
+	for rp in rpcp:
+		if prevrpm != rp[0][0]:
+			if prevrpm:
+				fout.write("</ministerofficegroup>\n")
+			fout.write("\n<ministerofficegroup>\n")
+		rp[1].WriteXML(fout)
+		prevrpm = rp[0][0]
 
-	for cp in cpres:
-		cp.WriteXML(fout)
-
+	if prevrpm:
+		fout.write("</ministerofficegroup>\n")
 	fout.write("</publicwhip>\n\n")
 	fout.close();
 
 	# copy file over to its place
 	# ...
 
-	return
+	# we get the members directory and overwrite the file that's there
+	# (in future we'll have to load and check match it)
+	membersdir = os.path.normpath(os.path.abspath(os.path.join("..", "members")))
+	ministersxml = os.path.join(membersdir, "ministers.xml")
 
-	# output the result
-	cblist = {}
-	for chainproto in chainprotos:
-		#print chainproto.sdatetstart, chainproto.sdatetend, chainproto.lasname
-		if chainproto.dept not in cblist:
-			cblist[chainproto.dept] = []
-		if chainproto.pos not in cblist[chainproto.dept]:
-			cblist[chainproto.dept].append(chainproto.pos)
-
-	for c in cblist:
-		print
-		print c
-		for d in cblist[c]:
-			print "   ", d
+	print "Over-writing %s;\nDon't forget to check it in" % ministersxml
+	if os.path.isfile(ministersxml):
+		os.remove(ministersxml)
+	os.rename(chgtmp, ministersxml)
 
 

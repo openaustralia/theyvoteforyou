@@ -177,10 +177,9 @@ class MemberList(xml.sax.handler.ContentHandler):
                 ids.append(attr["id"])
         return ids
 
-    # date can be none, will give more matches
-    def fullnametoids(self, input, date):
-        text = input
 
+	# useful to have this function out there
+	def striptitles(self, text):
         # Remove dots, but leave a space between them
         text = text.replace(".", " ")
         text = text.replace("  ", " ")
@@ -200,13 +199,20 @@ class MemberList(xml.sax.handler.ContentHandler):
             (text, honourgot) = self.rehonourifics.subn("", text)
             honourtotal = honourtotal + honourgot
 
+		return text, titletotal
+
+    # date can be none, will give more matches
+    def fullnametoids(self, tinput, date):
+        text, titletotal = self.striptitles(tinput)
+
+
         # Find unique identifier for member
         ids = sets.Set()
         matches = self.fullnames.get(text, None)
         if not matches and titletotal > 0:
             matches = self.lastnames.get(text, None)
 
-        # If a speaker, then match agains the secial speaker parties
+        # If a speaker, then match against the secial speaker parties
         if not matches and (text == "Speaker" or text == "The Speaker"):
             matches = self.parties.get("SPK", None)
         if not matches and text == "Deputy Speaker":
@@ -217,7 +223,6 @@ class MemberList(xml.sax.handler.ContentHandler):
             for attr in matches:
                 if (date == None) or (date >= attr["fromdate"] and date <= attr["todate"]):
                     ids.add(attr["id"])
-
         return ids
 
     # Returns id, corrected name, corrected constituency

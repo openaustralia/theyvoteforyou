@@ -1,7 +1,7 @@
 import re
 import mx.DateTime
 
-
+from minpostparse import govdepts
 
 
 # derived from
@@ -18,13 +18,13 @@ import mx.DateTime
 
 data = """
 
-CABINET OFFICE
++Cabinet Office
 
 Chancellor to the Duchy of Lancaster
 
 Dr David Clark							03 May 1997 - 27 July 98
 Jack Cunningham                 27 July 1998 - 11 Oct 99
-Dr Marjorie Mowlam						11 Oct 1999 - 11 June 01
+Dr Mo Mowlam						11 Oct 1999 - 11 June 01
 Lord Macdonald of Tradeston             11 June 2001 -13 June 03
 Douglas Alexander						13 June 2003 -
 
@@ -46,7 +46,7 @@ Christopher Leslie                      11 June 2001 -13 June 03
 
 
 
-DEPARTMENT FOR CONSTITUTIONAL AFFAIRS
++Department for Constitutional Affairs
 
 Secretary of State
 
@@ -62,7 +62,7 @@ Mr Don Touhig							13 June 2003-
 
 
 
-DEPARTMENT FOR CULTURE, MEDIA AND SPORT
++Department for Culture, Media & Sport
 #(from 14 July 1997 - formerly the Department of National Heritage)
 
 Secretary of State
@@ -87,7 +87,7 @@ Alan Howarth								28 July 1998 -  11 June 01
 Dr Kim Howells                               11 June 2001 - 13 June 03
 Lord McIntosh of Haringey						13 June 2003-
 
-MINISTRY OF DEFENCE
++Ministry of Defence
 
 Secretary of State
 
@@ -112,7 +112,7 @@ Lord Bach                                 11 June 2001 -
 Ivor Caplin								13 June 2003-
 
 
-OFFICE OF THE DEPUTY PRIME MINISTER
++Office of the Deputy Prime Minister
 
 Deputy Prime Minister
 
@@ -137,7 +137,7 @@ Yvette Cooper								13 June 2003-
 
 
 
-DEPARTMENT FOR EDUCATION AND EMPLOYMENT
++Department for Education and Employment
 
 Secretary of State
 
@@ -164,7 +164,7 @@ Jacqui Smith								28 July 1999 - 11 Jun 01
 Michael Wills								28 July 1999 - 11 Jun 01
 
 
-DEPARTMENT FOR EDUCATION AND SKILLS
++Department for Education and Skills
 
 Secretary of State
 
@@ -187,7 +187,7 @@ Stephen Twigg							29 May 2002-
 
 
 
-DEPARTMENT OF THE ENVIRONMENT, TRANSPORT AND THE REGIONS
++Department of the Environment, Transport and the Regions
 
 Secretary of State
 
@@ -219,7 +219,7 @@ Robert Ainsworth							26 Jan 2001 -  11 June 01
 
 
 
-DEPARTMENT OF THE ENVIRONMENT, FOOD AND RURAL AFFAIRS
++Department for Environment, Food and Rural Affairs
 
 Secretary of State
 
@@ -238,7 +238,7 @@ Elliot Morley                   11 June 2001 - 13 June 03
 Ben Bradshaw								13 June 2003-
 
 
-FOREIGN AND COMMONWEALTH OFFICE
++Foreign & Commonwealth Office
 
 Secretary of State
 
@@ -273,7 +273,7 @@ Bill Rammell								28 Oct 2002-
 Chris Mullin								13 June 2003-
 
 
-DEPARTMENT OF HEALTH
++Department of Health
 
 Secretary of State
 
@@ -310,7 +310,7 @@ Dr Stephen Ladyman							13 June 2003-
 Lord Warner								13 June 2003-
 
 
-HOME OFFICE
++Home Office
 
 Secretary of State
 
@@ -352,7 +352,7 @@ Caroline Flint								13 June 2003-
 Fiona MacTaggart							13 June 2003-
 
 
-LEADER OF THE HOUSE OF COMMONS
++House of Commons
 
 Lord Privy Seal
 
@@ -368,7 +368,7 @@ Ben Bradshaw								29 May 2002- 13 June 03
 Phil Woolas								13 June 2003-
 
 
-DEPARTMENT FOR INTERNATIONAL DEVELOPMENT
++Department for International Development
 
 Secretary of State
 
@@ -388,7 +388,7 @@ Hilary Benn                                11 June 2001 -29 May 02
 Sally Keeble								29 May 2002- 13 June 03
 Gareth Thomas [Harrow West]					13 June 2003-
 
-LAW OFFICERS
++Law Officers' Department
 
 Attorney General
 
@@ -406,19 +406,19 @@ Lord Advocate
 
 Lord Hardie								06 May 1997 -
 
-Solicitor-General for Scotland
-
-Colin Boyd								06 May 1997 -
+#Solicitor-General for Scotland
+#
+#Colin Boyd								06 May 1997 -
 
 Advocate General for Scotland
 
 Dr Lynda Clark							20 May 1999 -
 
-NORTHERN IRELAND OFFICE
++Northern Ireland Office
 
 Secretary of State
 
-Dr Marjorie Mowlam							03 May 1997 - 11 Oct 99
+Dr Mo Mowlam							03 May 1997 - 11 Oct 99
 Peter Mandelson							11 Oct 1999 - 24 Jan 01
 Dr John Reid								24 Jan 2001-24 Oct 02
 Paul Murphy								24 October 2002-
@@ -443,7 +443,7 @@ Ian Pearson								14 October 2002-
 
 
 
-PRIVY COUNCIL OFFICE
++Privy Council Office
 
 Lord President of the council
 
@@ -459,7 +459,7 @@ Stephen Twigg                                11 June 2001 - 29 May 02
 Ben Bradshaw								29 May 2002-13 June 03
 
 
-DEPARTMENT OF TRADE AND INDUSTRY
++Department of Trade and Industry
 
 Secretary of State
 
@@ -501,7 +501,7 @@ Gerry Sutcliffe							13 June 2003-
 
 
 
-DEPARTMENT FOR TRANSPORT
++Department for Transport
 
 Secretary of State
 
@@ -511,7 +511,7 @@ Minister of State
 
 Gavin Strang								03 May 1997 - 27 July 98
 Dr John Reid								27 July 1998 - 17 May 99
-Helen Liddle								17 May 1999 - 28 July 99
+Helen Liddell								17 May 1999 - 28 July 99
 Lord MacDonald of Tradeston					28 July 1999 -  08 Jun 01
 John Spellar (Minister for Transport)					08 June 2001-13 June 03
 Dr Kim Howells (Minister for Transport)				13 June 03-
@@ -522,7 +522,7 @@ David Jamieson							11 June 2002-
 Tony McNulty								13 June 2003-
 
 
-TREASURY
++HM Treasury
 
 Chancellor of the Exchequer
 
@@ -558,7 +558,7 @@ Geoffrey Robinson							05 May 1997 - 23 Dec 98
 Dawn Primarolo							04 Jan 1999 -
 
 
-WHIPS (HOUSE OF COMMONS)
++WHIPS (HOUSE OF COMMONS)
 
 Parliamentary Secretary to the Treasury (Chief Whip)
 
@@ -639,7 +639,7 @@ Margaret Moran							13 June 2003-
 Bridget Prentice							13 June 2003-
 
 
-WHIPS (HOUSE OF LORDS)
++WHIPS (HOUSE OF LORDS)
 
 Captain of the Honourable Corps of Gentlemen at Arms (Chief Whip)
 
@@ -674,7 +674,7 @@ Baroness Farrington of Ribbleton					07 May 1997 -
 Baroness Crawley							29 May 2002-
 Baroness Andrews OBE						29 May 2002-
 
-DEPARTMENT FOR WORK AND PENSIONS
++Department for Work and Pensions
 
 Secretary of State
 
@@ -697,7 +697,7 @@ Chris Pond								13 June 2003-
 
 
 
-MINISTRY OF AGRICULTURE, FISHERIES AND FOOD
++Ministry of Agriculture, Fisheries and Food
 
 Secretary of State
 
@@ -716,7 +716,7 @@ Elliot Morley (Minister for Fisheries and the Countryside)		05 May 1997 -  8 Jun
 Lord Donoughue (Minister for Farming and Food Industry)		05 May 1997 - 28 July 99
 
 
-LORD CHANCELLOR'S DEPARTMENT
++Lord Chancellor's Department
 
 Lord Chancellor
 
@@ -741,7 +741,7 @@ Rosie Winterton                             11 June 2001 - 13 June 03
 Yvette Cooper								29 May 2002- 13 June 03
 
 
-SCOTTISH OFFICE
++Scottish Office
 
 Secretary of State
 
@@ -782,7 +782,7 @@ Malcolm Chisholm (Minister for Local Government and Transport) 05 May 1997 - 10 
 Calum MacDonald (Minister for Local Government and Transport)11 November 1997 - 28 July 99
 
 
-DEPARTMENT OF SOCIAL SECURITY
++Department of Social Security
 
 Secretary of State
 
@@ -807,7 +807,7 @@ Stephen Timms							28 July 1998 -04 Jan 99
 Hugh Bayley								04 Jan 1999 - 8 June 01
 
 
-TRANSPORT, LOCAL GOVERNMENT AND THE REGIONS
++Department for Transport, Local Government and the Regions
 
 Secretary of State
 
@@ -826,7 +826,7 @@ Sally Keeble                                 11 June 2001- 29 May 02
 Dr Alan Whitehead                            11 June 2001- 29 May 02
 
 
-WELSH OFFICE
++Welsh Office
 
 Secretary of State
 
@@ -850,17 +850,32 @@ dateofinfo = "2003-10-15"
 
 # this code is just to decode the hand-edited file above
 
+deadgovdepts = [
+		"Department for Education and Employment",
+		"Department of the Environment, Transport and the Regions",
+		"Ministry of Agriculture, Fisheries and Food",
+		"WHIPS (HOUSE OF COMMONS)", # these have to be fixed
+		"WHIPS (HOUSE OF LORDS)",
+		"Lord Chancellor's Department",
+		"Scottish Office",
+		"Welsh Office",
+		"Department of Social Security",
+		"Department for Transport, Local Government and the Regions",
+		]
 
 class Minlabmin:
 	def __init__(self):
 		pass
 
 	def WriteXML(self, fout):
-		fout.write('<minister-post name="%s"\n' % (self.name, ))
-		fout.write('\tdept="%s" position="%s"\n' % (self.dept, self.pos))
-		fout.write('\tfromdate="%s"\n' % self.sdatetstart)
-		if self.sdatetend:
-			fout.write('\ttodate="%s"\n' % self.sdatetend)
+		fout.write('<moffice id="%s" name="%s"' % (self.moffid, self.fullname))
+		if self.matchid:
+			fout.write(' matchid="%s"' % self.matchid)
+		fout.write("\n")
+		fout.write('\tdept="%s" position="%s"\n' % (re.sub("&", "&amp;", self.dept), self.pos))
+		fout.write('\tfromdate="%s"\n' % self.sdatestart)
+		if self.sdateend:
+			fout.write('\ttodate="%s"\n' % self.sdateend)
 		else:
 			fout.write('\ttodate="%s" todateincomplete="yes"\n' % dateofinfo)
 		fout.write('\tsource="newlabministers2003-10-15"/>\n')
@@ -874,8 +889,9 @@ def ParseOldRecords():
 	for d in re.split("\s*\n\s*", data):
 		if not d or d[0] == '#':
 			continue
-		if re.match("[A-Z\(\)',\s]*$", d):
-			dept = d
+		if d[0] == "+":
+			dept = d[1:]
+			assert (dept in govdepts) or (dept in deadgovdepts)
 			continue
 		if not re.search("\d", d):
 			position = d
@@ -887,12 +903,12 @@ def ParseOldRecords():
 
 		minlabmin = Minlabmin()
 
-		minlabmin.name = decode.group(1)
+		minlabmin.fullname = decode.group(1)
 		minlabmin.dept = dept
 		minlabmin.pos = position
 		minlabmin.responsibility = decode.group(2)
-		minlabmin.sdatetstart = mx.DateTime.DateTimeFrom(decode.group(3)).date
-		minlabmin.sdatetend = decode.group(4) and mx.DateTime.DateTimeFrom(decode.group(4)).date
+		minlabmin.sdatestart = mx.DateTime.DateTimeFrom(decode.group(3)).date
+		minlabmin.sdateend = decode.group(4) and mx.DateTime.DateTimeFrom(decode.group(4)).date
 
 		res.append(minlabmin)
 
