@@ -1,6 +1,6 @@
-<?  $title = "Change Email Address"; include "../header.inc";
+<?  
 
-# $Id: changeemail.php,v 1.3 2003/10/11 10:49:38 frabcus Exp $
+# $Id: changeemail.php,v 1.4 2003/10/11 21:18:31 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -18,6 +18,9 @@ $ok = false;
 if ($submit) {
 	$ok = user_change_email ($password1,$new_email,$change_user_name);
 }
+
+$title = "Change Email Address"; 
+include "../header.inc";
 
 if ($feedback) {
     if ($ok)

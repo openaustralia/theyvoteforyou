@@ -1,6 +1,6 @@
-<?  $title = "Sign up for Newsletter"; include "../header.inc";
+<?  
 
-# $Id: register.php,v 1.3 2003/10/11 10:49:38 frabcus Exp $
+# $Id: register.php,v 1.4 2003/10/11 21:18:32 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -26,6 +26,9 @@ $ok = false;
 if ($submit) {
 	$ok = user_register($user_name,$password1,$password2,$email,$real_name);
 }
+
+$title = "Sign up for Newsletter"; 
+include "../header.inc";
 
 if ($feedback) {
     if ($ok)
