@@ -234,7 +234,8 @@ class MemberList(xml.sax.handler.ContentHandler):
 
         # Return errors
         if len(ids) == 0:
-            print "No matches ",input 
+            if not re.search("Hon. Members(?i)"):
+                print "No matches ",input 
             return 'speakerid="unknown" error="No match" speakername="%s (%s)"' % (input, bracket)
         if len(ids) > 1:
             print "Multiple matches " + input

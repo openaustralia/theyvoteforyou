@@ -11,7 +11,7 @@ if os.name == 'nt':  # the case of julian developing on a university machine.
     if re.search('\.\.', toppath):
         toppath = 'C:\\pwdata'
         
-print "Data directory (set in miscfuncs.py): %s" % toppath
+# print "Data directory (set in miscfuncs.py): %s" % toppath
 if (not os.path.isdir(toppath)):
     raise Exception, 'Directory does not exist, please create'
 

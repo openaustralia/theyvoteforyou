@@ -64,8 +64,8 @@ def CmIndexFromPage(urllinkpage):
 		elif re.search('debate|westminster|written(?i)', link[2]):
 			if not sdate:
 				raise Exception, 'No date for link in: ' + urllinkpage
-			if re.search('debate(?i)', link[2]):
-				print sdate
+			#if re.search('debate(?i)', link[2]):
+                        #        print sdate
 
 			# take out spaces and linefeeds we don't want
 			uind = urlparse.urljoin(urllinkpage, re.sub('\s', '', link[1]))
@@ -82,7 +82,7 @@ def CmAllIndexPages(urlindex):
 	# except the first one, which will have been looked at
 	res = [ ]
 
-	print urlindex
+	#print urlindex
 	urindex = urllib.urlopen(urlindex)
 	srindex = urindex.read()
 	urindex.close()
@@ -102,7 +102,7 @@ def CmAllIndexPages(urlindex):
 
 	# extract the volume links
 	for yearvol in yearvollinks:
-		print yearvol
+		#print yearvol
 		urlyearvol = urlparse.urljoin(urlindex, re.sub('\s', '', yearvol))
 		uryearvol = urllib.urlopen(urlyearvol)
 		sryearvol = uryearvol.read()
@@ -111,7 +111,7 @@ def CmAllIndexPages(urlindex):
 		# <a href="cmvol352.htm"><b>Volume 352</b>
 		vollinks = re.findall('<a href="([^"]*)"><b>volume[^<]*</b>(?i)', sryearvol)
 		for vol in vollinks:
-			print vol
+			#print vol
 			res.append(urlparse.urljoin(urlyearvol, re.sub('\s', '', vol)))
 
 	return res
@@ -152,7 +152,7 @@ class LoadOldIndex(xml.sax.handler.ContentHandler):
 
 		for i in range(len(urllisthead)):
 			if (i >= len(self.res)) or (self.res[i] != urllisthead[i]):
-				print i
+				#print i
 				return 0
 		return 1
 
@@ -170,11 +170,11 @@ def UpdateHansardIndex():
 	# compare this leading term against the old index
 	oldindex = LoadOldIndex(pwcmindex)
 	if oldindex.CompareHeading(urllisth):
-		print ' Head appears the same, no new list '
+		#print ' Head appears the same, no new list '
 		return
-	print 'compare heading now doesnt work because Im sorting the data'
-	print 'and there are discrepancies between the front page and those'
-	print 'listed in the November page!!!'
+	#print 'compare heading now doesnt work because Im sorting the data'
+	#print 'and there are discrepancies between the front page and those'
+	#print 'listed in the November page!!!'
 
 
 	# extend our list to all the pages
@@ -187,6 +187,4 @@ def UpdateHansardIndex():
 	fpwcmindex = open(pwcmindex, "w");
 	WriteXML(fpwcmindex, urllisth)
 	fpwcmindex.close()
-
-UpdateHansardIndex()
 

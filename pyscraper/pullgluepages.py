@@ -78,7 +78,7 @@ def GlueByNext(fout, url, urlx):
 
 	# loop which scrapes through all the pages following the nextlinks
 	while 1:
-		print " reading " + url
+		# print " reading " + url
 		ur = urllib.urlopen(url)
 		sr = ur.read()
 		ur.close();
@@ -166,11 +166,11 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto):
 				pgx = re.findall('<pagex url="([^"]*)"[^/]*/>', pgx)
 				if pgx:
 					if pgx[0] == urlx:
-						print 'skipping ' + urlx
+						# print 'skipping ' + urlx
 						continue
-			print '\nRE-scraping ' + urlx
+			print 'RE-scraping ' + urlx
 		else:
-			print '\nscraping ' + urlx
+			print 'scraping ' + urlx
 
 		url0 = ExtractFirstLink(urlx)
 
@@ -187,7 +187,7 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto):
 ###############
 # main function
 ###############
-def PullGluePages():
+def PullGluePages(datefrom, dateto):
 	# make the output firectory
 	if not os.path.isdir(pwcmdirs):
 		os.mkdir(pwcmdirs)
@@ -195,12 +195,15 @@ def PullGluePages():
 	# load the index file previously made by createhansardindex
 	ccmindex = LoadCmIndex(pwcmindex)
 
+        # extract date range we want
+        def indaterange(x): 
+                return x[0] >= datefrom and x[0] <= dateto
+        ccmindex.res = filter(indaterange,ccmindex.res)
+
 	# bring in and glue together parliamentary debates, and answers and put into their own directories.
 	# third parameter is a regexp, fourth is the filename (%s becomes the date).
 	GlueAllType(pwcmdebates, ccmindex.res, 'debates(?i)', 'debates%s.html')
 	GlueAllType(pwcmwrans, ccmindex.res, 'answers(?i)', 'answers%s.html')
 
 
-# run main function
-PullGluePages()
 

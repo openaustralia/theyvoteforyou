@@ -215,12 +215,12 @@ def FilterDebateSections(fout, text, sdate):
 
 		else:
 
-		# This is an attempt at major heading detection.
-		# This theory is utterly flawed since you can only tell the major headings
-		# by context, for example, the title of the adjournment debate, which is a
-		# separate entity from whatever came before, and so should not be within that
-		# prior major heading.  Also, Oral questions heading is a super-major heading,
-		# so doesn't fit into the scheme.
+                        # This is an attempt at major heading detection.
+                        # This theory is utterly flawed since you can only tell the major headings
+                        # by context, for example, the title of the adjournment debate, which is a
+                        # separate entity from whatever came before, and so should not be within that
+                        # prior major heading.  Also, Oral questions heading is a super-major heading,
+                        # so doesn't fit into the scheme.
 
 			# detect if this is a major heading and record it in the correct variable
 			bmajorheading = sht[0] and (not re.search('[a-z]', sht[0])) and not sht[2]
@@ -235,6 +235,7 @@ def FilterDebateSections(fout, text, sdate):
 					raise Exception, "unrecognized major heading: "
 				stampurl.title = ''
                                 
+                        # write out block for headings
                         if bmajorheading:
                                 qb = qspeech('', stampurl.majorheading, stampurl, sdate)
                                 qb.typ = 'debmajor'
@@ -246,7 +247,6 @@ def FilterDebateSections(fout, text, sdate):
 
 			# case of unspoken text (between heading and first speaker)
 			# which we will frig for now.
-			# force major headings to have at least one thing here.
 			if (not re.match('(?:<[^>]*>|\s)*$', sht[1])):
 				qb = qspeech('nospeaker="true"', sht[1], stampurl, sdate)
 				qb.typ = 'debspeech'

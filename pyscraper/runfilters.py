@@ -27,9 +27,12 @@ pwxmldirs = os.path.join(toppath, "pwscrapedxml")
 
 tempfile = os.path.join(toppath, "filtertemp")
 
+# create the output directory
+if not os.path.isdir(pwxmldirs):
+	os.mkdir(pwxmldirs)
 
 # this
-def RunFiltersDir(filterfunction, dname):
+def RunFiltersDir(filterfunction, dname, datefrom, dateto):
 	# the in and out directories for the type
 	pwcmdirin = os.path.join(pwcmdirs, dname)
 	pwxmldirout = os.path.join(pwxmldirs, dname)
@@ -47,6 +50,10 @@ def RunFiltersDir(filterfunction, dname):
 
 		# extract the date from the file name
 		sdate = re.search('\d{4}-\d{2}-\d{2}', fin).group(0)
+
+                # skip dates outside the range specified on the command line
+                if sdate < datefrom or sdate > dateto:
+                        continue
 
 		# create the output file name
 		jfout = os.path.join(pwxmldirout, re.sub('\.html$', '.xml', fin))
@@ -97,19 +104,5 @@ def RunDebateFilters(fout, text, sdate):
 
 	FilterDebateSections(fout, text, sdate)
 
-
-###############
-# Main Function
-###############
-
-# create the output directory
-if not os.path.isdir(pwxmldirs):
-	os.mkdir(pwxmldirs)
-
-# operate the filters on written answers
-# RunFiltersDir(RunWransFilters, 'wrans')
-
-# operate the filters on debates
-RunFiltersDir(RunDebateFilters, 'debates')
 
 
