@@ -20,7 +20,7 @@ data = """
 
 +Cabinet Office
 
-Chancellor to the Duchy of Lancaster
+Chancellor of the Duchy of Lancaster
 
 Dr David Clark							03 May 1997 - 27 July 98
 Jack Cunningham                 27 July 1998 - 11 Oct 99
@@ -60,6 +60,9 @@ Lord Filkin CBE							13 June 2003-
 Mrs Anne McGuire							13 June 2003-
 Mr Don Touhig							13 June 2003-
 
+Advocate General for Scotland
+
+Dr Lynda Clark							20 May 1999 -
 
 
 +Department for Culture, Media & Sport
@@ -108,7 +111,7 @@ Parliamentary Under-Secretary
 John Spellar								05 May 1997 - 28 July 99
 Peter Kilfoyle								28 July 1999 - 30 Jan 00
 Dr Lewis Moonie							31 Jan 2000  - 13 June 03
-Lord Bach                                 11 June 2001 -
+Lord Bach of Lutterworth                11 June 2001 -
 Ivor Caplin								13 June 2003-
 
 
@@ -184,6 +187,7 @@ Baroness Ashton of Upholland       11 June 2001 -
 Ivan Lewis                         11 June 2001 -
 John Healey                        11 June 2001 -29 May 02
 Stephen Twigg							29 May 2002-
+
 
 
 
@@ -295,7 +299,6 @@ Parliamentary Secretary
 
 Yvette Cooper (Minister for Public Health)				11 Oct 1999 - 29 May 02
 David Lammy								29 May 2002- 13 June 03
-Melanie Johnson (Minister for Public Health)			13 June 2003-
 
 Parliamentary Under-Secretary
 
@@ -304,10 +307,11 @@ John Hutton								27 Oct 1998 - 11 Oct 99
 Baroness Hayman							28 July 1998 - 28 July 99
 Lord Hunt of Kings Heath						28 July 1999 - 18 Mar 03
 Gisela Stuart								28 July 1999 - 11 June 01
-Hazel Blears (minister for public health)     	11 June 2001 -13 June 03
+Hazel Blears (Minister for public health)     	11 June 2001 -13 June 03
 Yvette Cooper                                    11 June 2001 -29 May 02
 Dr Stephen Ladyman							13 June 2003-
 Lord Warner								13 June 2003-
+Melanie Johnson (Minister for Public Health)			13 June 2003-
 
 
 +Home Office
@@ -329,9 +333,10 @@ John Denham (Minister for Police, Courts and Drugs)                      11 June
 Keith Bradley (Minister for Prisons)                   11 June 2001- 29 May 02
 Lord Rooker (Minister for Asylum and Immigration)                       11 June 2001 -29 May 02
 Lord Falconer (Minister for Criminal Policy)			29 May 2002- 13 June 03
-Beverley Hughes (Minister for Citizenship and Immigration)	29 May 2002-
+Beverley Hughes (Minister for Citizenship and Immigration)	29 May 2002- 1 April 2004
 Hazel Blears								13 June 2003-
 Baroness Scotland of Asthal						13 June 2003-
+Desmond Browne (Minister for Citizenship and Immigration)  1 Apr 2004-
 
 
 Parliamentary Under-Secretary
@@ -404,15 +409,13 @@ Harriet Harman                              11 June 2001 -
 
 Lord Advocate
 
-Lord Hardie								06 May 1997 -
+# this one ceased, but we don't know when; contact law officer's dept
+Lord Hardie								06 May 1997 - 1 Jan 2000
 
 #Solicitor-General for Scotland
 #
 #Colin Boyd								06 May 1997 -
 
-Advocate General for Scotland
-
-Dr Lynda Clark							20 May 1999 -
 
 +Northern Ireland Office
 
@@ -428,7 +431,7 @@ Minister of State
 
 Paul Murphy								05 May 1997 - 28 July 99
 Adam Ingram								05 May 1997 - 11 Jun 01
-Jane Kennedy                        11 June 2001 -
+Jane Kennedy                        11 June 2001 -1 Apr 2004
 John Spellar								13 June 2003-
 
 Parliamentary Under-Secretary
@@ -440,17 +443,18 @@ George Howarth							28 July 1999 - 11 June 01
 Desmond Browne                              11 June 2001 - 13 June 03
 Angela Smith								14 October 2002-
 Ian Pearson								14 October 2002-
+Barry Gardiner							1 Apr 2004-
 
 
 
 +Privy Council Office
 
-Lord President of the council
+President of the Council
 
 Lord Richard								03 May 1997 - 27 July 98
 Baroness Jay of Paddington						27 July 1998 -  08 Jun 01
 Lord Williams of Mostyn                         08 June 2001 - 20 Sep 03
-Baroness Amos of Brondesbury					06 Oct 2003 -
+Baroness Amos					06 Oct 2003 -
 
 Parliamentary Secretary
 
@@ -468,7 +472,7 @@ Peter Mandelson							27 July 1998 - 23 Dec 98
 Stephen Byers								24 Dec 1998 - 08 Jun 01
 Patricia Hewitt                               08 June 2001 -
 
-Minister of  State
+Minister of State
 
 Lord Clinton-Davis (Minister for Trade)				05 May 1997 - 28 July 98
 Brian Wilson								28 July 1998 - 28 July 99
@@ -485,6 +489,7 @@ Brian Wilson (Minister for Industry and Energy)                             	11 
 Alan Johnson (Minister for Employment and the Regions)           	11 June 2001 -13 June 03
 Stephen Timms (Minister for e-commerce and competitiveness)	29 May 2002-
 Jacqui Smith (Deputy minister for women)				13 June 2003-
+Mike O'Brien (Minister for Trade and Investment)							13 June 2003-
 
 
 Parliamentary Under-Secretary
@@ -532,7 +537,7 @@ Chancellor of the Exchequer
 
 Gordon Brown							02 May 1997 -
 
-Chief Secretary to the Treasury
+Chief Secretary
 
 Alistair Darling							03 May 1997 - 27 July 98
 Stephen Byers								27 July 1998 - 23 Dec 98
@@ -562,33 +567,16 @@ Geoffrey Robinson							05 May 1997 - 23 Dec 98
 Dawn Primarolo							04 Jan 1999 -
 
 
-+WHIPS (HOUSE OF COMMONS)
+# WHIPS (HOUSE OF COMMONS) -- drop up into HM Treasury
 
-Parliamentary Secretary to the Treasury (Chief Whip)
+Parliamentary Secretary to the Treasury
 
 Nicholas Brown							03 May 1997 - 27 July 98
 Ann Taylor								27 July 1998 -  11 Jun 01
 Hilary Armstrong							11 June 2001 -
 
-Treasurer of HM Household (Deputy Chief Whip)
 
-George Mudie								06 May 1997 - 28 July 98
-Keith Bradley								28 July 1998 -  11 Jun 01
-Keith Hill                                  11 June 2001 -13 June 03
-Robert Ainsworth							13 June 2003-
-
-Comptroller of HM Household
-
-Thomas McAvoy							06 May 1997 -
-
-Vice Chamberlain of HM Household
-
-Janet Anderson							06 May 1997 - 28 July 98
-Graham Allen								28 July 1998 -  12 Jun 01
-Gerry Sutcliffe                         12 Jun 2001 -13 June 03
-Jim Fitzpatrick							13 June 2003-
-
-Lords Commissioners of the Treasury
+Lords Commissioner
 
 Robert Ainsworth							06 May 1997 - 26 Jan 01
 Graham Allen								06 May 1997 - 28 July 98
@@ -611,6 +599,7 @@ Bill Rammell								14 Oct 2002-28 Oct 02
 Jim Murphy								29 May 2002-
 Joan Ryan								29 May 2002-
 Derek Twigg								29 May 2002-
+
 
 Assistant Whip
 
@@ -643,19 +632,43 @@ Margaret Moran							13 June 2003-
 Bridget Prentice							13 June 2003-
 
 
-+WHIPS (HOUSE OF LORDS)
+# these are also whips
++HM Household
 
-Captain of the Honourable Corps of Gentlemen at Arms (Chief Whip)
+Treasurer of Her Majesty's Household
+
+George Mudie								06 May 1997 - 28 July 98
+Keith Bradley								28 July 1998 -  11 Jun 01
+Keith Hill                                  11 June 2001 -13 June 03
+Robert Ainsworth							13 June 2003-
+
+Comptroller
+
+Thomas McAvoy							06 May 1997 -
+
+Vice Chamberlain
+
+Janet Anderson							06 May 1997 - 28 July 98
+Graham Allen								28 July 1998 -  12 Jun 01
+Gerry Sutcliffe                         12 Jun 2001 -13 June 03
+Jim Fitzpatrick							13 June 2003-
+
+
+
+# drop into household
+#+WHIPS (HOUSE OF LORDS)
+
+Chief Whip (House of Lords)
 
 Lord Carter								06 May 1997 -29 May 02
 Lord Grocott								29 May 2002-
 
-Captain of the Queen's Bodyguard of the Yeoman of the Guard (Deputy Chief Whip)
+Deputy Chief Whip (House of Lords)
 
 Lord McIntosh of Haringey						07 May 1997 -13 June 03
 Lord Davies of Oldham						13 June 2003-
 
-Lord in Waiting
+Lords in Waiting
 
 Lord Haskel								07 May 1997 - 28 July 98
 Lord Whitty								07 May 1997 - 28 July 98
@@ -669,7 +682,7 @@ Lord Filkin                                  12 June 2001 -29 May 02
 Lord Bassam of Brighton                  12 June 2001 -
 Lord Evans of Temple Guiting CBE					13 June 2003-
 
-Baroness in Waiting
+Baronesses in Waiting
 
 Baroness Gould of Potternewton					07 May 1997 - 28 July 98
 Baroness Ramsay of Cartvale						28 July 1998 - 11 June 01
@@ -677,6 +690,21 @@ Baroness Amos							28 July 1998 - 11 June 01
 Baroness Farrington of Ribbleton					07 May 1997 -
 Baroness Crawley							29 May 2002-
 Baroness Andrews OBE						29 May 2002-
+
+# the info on these need finding out from hlinfo@parliament.uk
+Lord Steward
+
+Duke of Abercorn	            1 Jan 2000-
+
+Lord Chamberlain
+
+Lord Luce						1 Jan 2000-
+
+Master of the Horse
+
+Lord Vestey	    				1 Jan 2000-
+
+
 
 +Department for Work and Pensions
 
@@ -689,8 +717,9 @@ Minister of State
 
 Nicholas Brown (Minister for Work)               11 June 2001 -13 June 03
 Ian McCartney (Minister for Pensions)            11 June 2001- 04 Apr 03
-Desmond Browne							13 June 2003-
+Desmond Browne							13 June 2003-1 Apr 2004
 Malcolm Wicks							13 June 2003-
+Jane Kennedy							1 Apr 2004-
 
 Parliamentary Under-Secretary
 
@@ -698,6 +727,8 @@ Baroness Hollis of Heigham                    		11 June 2001 -
 Malcolm Wicks                                     	11 June 2001 -13 June 03
 Maria Eagle                                     	11 June 2001 -
 Chris Pond								13 June 2003-
+# day of month is not known
+Baroness Ashton of Upholland       1 July 2002-
 
 
 
@@ -725,7 +756,9 @@ Lord Donoughue (Minister for Farming and Food Industry)		05 May 1997 - 28 July 9
 Lord Chancellor
 
 Lord Irvine of Lairg							02 May 1997-12 June 03
-Lord Falconer of Thoroton						12 June 2003-
+
+# this is part of the job of S of S for Constitutional Affairs
+#Lord Falconer of Thoroton						12 June 2003-
 
 Minister of State
 
@@ -752,7 +785,9 @@ Secretary of State
 Donald Dewar								03 May 1997 -17 May 99
 Dr John Reid								17 May 1999 - 24 Jan 01
 Helen Liddell								24 Jan 2001 -13 June 03
-Alistair Darling 		13 June 2003-
+
+# this is true, but his title now is S of State for Transport and Scotland
+#Alistair Darling 		13 June 2003-
 
 Minister of State
 
@@ -837,7 +872,9 @@ Secretary of State
 Ron Davies								03 May 1997 - 27 Oct  98
 Alun Michael								27 Oct 1998 - 28 July 99
 Paul Murphy								28 July 1999 -24 Oct 02
-Peter Hain 	24 Oct 2002-
+
+# this is combined with his other job and not listed in the index
+#Peter Hain 	24 Oct 2002-
 
 Parliamentary Under-Secretary
 
@@ -849,16 +886,21 @@ Don Touhig                                11 June 2001 - 13 June 2003
 
 +No Department
 
-Minister Without Portfolio
+Minister without Portfolio
 
 Peter Mandelson							05 May 1997 - 27 July 98
 Charles Clarke                         08 June 2001 - 24 Oct 02
 John Reid								24 Oct 2002 - 04 Apr 03
 Ian McCartney							04 Apr 2003 -
 
+Second Church Estates Commissioner  	
+
+Stuart Bell							5 May 1997-
+
 """
 
 dateofinfo = "2003-10-15"
+opendate = dateofinfo + "--OPEN"
 
 # split the lines and allocate the information.
 
@@ -868,8 +910,8 @@ deadgovdepts = [
 		"Department for Education and Employment",
 		"Department of the Environment, Transport and the Regions",
 		"Ministry of Agriculture, Fisheries and Food",
-		"WHIPS (HOUSE OF COMMONS)", # these have to be fixed
-		"WHIPS (HOUSE OF LORDS)",
+		#"WHIPS (HOUSE OF COMMONS)", # these are HM Treasury
+		#"WHIPS (HOUSE OF LORDS)",
 		"Lord Chancellor's Department",
 		"Scottish Office",
 		"Welsh Office",
@@ -879,20 +921,14 @@ deadgovdepts = [
 
 class Minlabmin:
 	def __init__(self):
+		self.sourcedoc = "newlabministers2003-10-15"
+		self.stimeend = None
+		self.stimestart = None
+		self.bopen = False
 		pass
 
-	def WriteXML(self, fout):
-		fout.write('<moffice id="%s" name="%s"' % (self.moffid, self.fullname))
-		if self.matchid:
-			fout.write(' matchid="%s"' % self.matchid)
-		fout.write("\n")
-		fout.write('\tdept="%s" position="%s"\n' % (re.sub("&", "&amp;", self.dept), self.pos))
-		fout.write('\tfromdate="%s"\n' % self.sdatestart)
-		if self.sdateend:
-			fout.write('\ttodate="%s"\n' % self.sdateend)
-		else:
-			fout.write('\ttodate="%s" todateincomplete="yes"\n' % dateofinfo)
-		fout.write('\tsource="newlabministers2003-10-15"/>\n')
+
+
 
 def ParseOldRecords():
 	dept = None
@@ -921,7 +957,11 @@ def ParseOldRecords():
 		minlabmin.pos = position
 		minlabmin.responsibility = decode.group(2)
 		minlabmin.sdatestart = mx.DateTime.DateTimeFrom(decode.group(3)).date
-		minlabmin.sdateend = decode.group(4) and mx.DateTime.DateTimeFrom(decode.group(4)).date
+
+		if decode.group(4):
+			minlabmin.sdateend = mx.DateTime.DateTimeFrom(decode.group(4)).date
+		else:
+			minlabmin.sdateend = opendate
 
 		res.append(minlabmin)
 

@@ -86,12 +86,41 @@ govdepts = ["Department of Health",
 			]
 
 import newlabministers2003_10_15
+from newlabministers2003_10_15 import opendate
+
 
 renampos = re.compile("<td><b>([^,]*),\s*([^<]*)</b></td><td>([^,<]*)(?:,\s*([^<]*))?(?:</td>)?\s*$(?i)")
+
+
+# do the xml thing
+def WriteXML(moffice, fout):
+	fout.write('<moffice id="%s" name="%s"' % (moffice.moffid, moffice.fullname))
+	if moffice.matchid:
+		fout.write(' matchid="%s"' % moffice.matchid)
+	fout.write("\n")
+
+	fout.write('\tdept="%s" position="%s"\n' % (re.sub("&", "&amp;", moffice.dept), moffice.pos))
+
+	fout.write('\tfromdate="%s"' % moffice.sdatestart)
+	if moffice.stimestart:
+		fout.write(' fromtime="%s"' % moffice.stimestart)
+	fout.write("\n")
+
+	if moffice.bopen:
+		fout.write('\ttodate="%s"' % "9999-12-31")
+	else:
+		fout.write('\ttodate="%s"' % moffice.sdateend)
+		if moffice.stimeend:
+			fout.write(' totime="%s"' % moffice.stimeend)
+	fout.write("\n")
+
+	fout.write('\tsource="%s"/>\n' % moffice.sourcedoc)
+
 
 class protooffice:
 	def __init__(self, lsdatet, e, deptno):  # department number to extract multiple departments
 		self.sdatet = lsdatet
+		self.sourcedoc = "chgpages"
 
 		nampos = renampos.match(e)
 		self.lasname = nampos.group(1)
@@ -132,23 +161,14 @@ class protooffice:
 		self.pos = self.depts[deptno][0]
 		self.dept = self.depts[deptno][1]
 
-	# do the xml thing
-	def WriteXML(self, fout):
-		fout.write('<moffice id="%s" name="%s"' % (self.moffid, self.fullname))
-		if self.matchid:
-			fout.write(' matchid="%s"' % self.matchid)
-		fout.write("\n")
-		fout.write('\tdept="%s" position="%s"\n' % (re.sub("&", "&amp;", self.dept), self.pos))
-		fout.write('\tfromdate="%s" fromtime="%s"%s\n' % (self.sdatestart, self.stimestart, self.sxfromincomplete))
-		if self.bopen:
-			fout.write('\ttodate="%s" totime="%s"\n' % ("9999-99-99", "99:99"))
-		else:
-			fout.write('\ttodate="%s" totime="%s"\n' % (self.sdateend, self.stimeend))
-		fout.write('\tsource="chgpages"/>\n')
 
 	# turns the protooffice into a part of a chain
-	def SetChainFront(self, fn):
-		(self.sdatestart, self.stimestart) = self.sdatet
+	def SetChainFront(self, fn, bfrontopen):
+		if bfrontopen:
+			(self.sdatestart, self.stimestart) = (opendate, None)
+		else:
+			(self.sdatestart, self.stimestart) = self.sdatet
+
 		(self.sdateend, self.stimeend) = self.sdatet
 		self.fn = fn
 		self.bopen = True
@@ -182,8 +202,8 @@ def ParsePage(fr):
 	frdate = re.search(">Her Majesty's Government at\s+(.*?)\s*<", fr)
 	msdate = mx.DateTime.DateTimeFrom(frdate.group(1)).date
 
-	if  msdate != sudate:   # is it always posted up on the day it is announced?
-                print "Updated date is %s, but date of change %s" % (sudate, msdate)
+	if msdate != sudate and sudate != "2004-09-20":   # is it always posted up on the day it is announced?
+		print "Updated date is %s, but date of change %s" % (sudate, msdate)
 
 	sdate = msdate
 	stime = sutime	# or midnight if not posted properly to match the msdate
@@ -226,159 +246,219 @@ def ParseGovPostsChggdir():
 	govpostdir = os.path.join(chggdir, "govposts")
 
 	gps = os.listdir(govpostdir)
-        gps = [ x for x in gps if re.match(".*\.html$", x) ]
-        gps.sort() # important to do in order of date
+	gps = [ x for x in gps if re.match(".*\.html$", x) ]
+	gps.sort() # important to do in order of date
 
-        chainprotos = [ ]
-        sdatetlist = [ ]
-        for gp in gps:
-                print os.path.join(govpostdir, gp)
-                f = open(os.path.join(govpostdir, gp))
-                fr = f.read()
-                f.close()
+	chainprotos = [ ]
+	sdatetlist = [ ]
+	for gp in gps:
+		#print os.path.join(govpostdir, gp)
+		f = open(os.path.join(govpostdir, gp))
+		fr = f.read()
+		f.close()
 
-                # get the protooffices from this file
-                sdatet, proff = ParsePage(fr)
+		# get the protooffices from this file
+		sdatet, proff = ParsePage(fr)
 
 
-                # stick any chains we can
-                proffnew = [ ]
-                lsxfromincomplete = ((not chainprotos) and ' fromdateincomplete="yes"') or ''
-                for prof in proff:
-                        bstuck = False
-                        for chainproto in chainprotos:
-                                if chainproto.bopen and (chainproto.fn != gp) and chainproto.StickChain(prof, gp):
-                                        assert not bstuck
-                                        bstuck = True
-                        if not bstuck:
-                                prof.sxfromincomplete = lsxfromincomplete;
-                                proffnew.append(prof)
+		# stick any chains we can
+		proffnew = [ ]
+		lsxfromincomplete = ((not chainprotos) and ' fromdateincomplete="yes"') or ''
+		for prof in proff:
+			bstuck = False
+			for chainproto in chainprotos:
+				if chainproto.bopen and (chainproto.fn != gp) and chainproto.StickChain(prof, gp):
+					assert not bstuck
+					bstuck = True
+			if not bstuck:
+				proffnew.append(prof)
 
-                # close the chains that have not been stuck
-                for chainproto in chainprotos:
-                        if chainproto.bopen and (chainproto.fn != gp):
-                                chainproto.SetChainBack(sdatet)
-                                #print "closing", chainproto.lasname
+		# close the chains that have not been stuck
+		for chainproto in chainprotos:
+			if chainproto.bopen and (chainproto.fn != gp):
+				chainproto.SetChainBack(sdatet)
+				#print "closing", chainproto.lasname
 
-                # append on the new chains
-                for prof in proffnew:
-                        prof.SetChainFront(gp)
-                        chainprotos.append(prof)
+		# append on the new chains
+		bfrontopen = not chainprotos
+		for prof in proffnew:
+			prof.SetChainFront(gp, bfrontopen)
+			chainprotos.append(prof)
 
-                sdatetlist.append(sdatet)
+		sdatetlist.append(sdatet)
 
-        # no need to close off the running cases with year 9999, because it's done in the writexml
-        return chainprotos, sdatetlist
+	# no need to close off the running cases with year 9999, because it's done in the writexml
+	return chainprotos, sdatetlist
 
 # endeavour to get an id into all the names
-def SetNameMatch(cp, busedateend):
-        cp.matchid = ""
+def SetNameMatch(cp, cpsdates):
+	cp.matchid = ""
 
-        # don't match names that are in the lords
-        if not re.search("Duke |Lord |Baroness ", cp.fullname):
-                fullname = cp.fullname
-                cons = ""
-                fnm = re.match("(.*?)\s+\[(.*?)\]", fullname)
-                if fnm:
-                        fullname = fnm.group(1)
-                        cons = fnm.group(2)
-                elif fullname == "Mr Gareth Thomas" and cp.dept == "Department for International Development" and cp.sdatestart == "2004-04-16":
-                        cons = "Harrow West"
+	# don't match names that are in the lords
+	if not re.search("Duke |Lord |Baroness ", cp.fullname):
+		fullname = cp.fullname
+		cons = ""
+		fnm = re.match("(.*?)\s+\[(.*?)\]", fullname)
+		if fnm:
+			fullname = fnm.group(1)
+			cons = fnm.group(2)
 
-                # helps to glue end to end
-                # but try other date end if first doesn't work
-                cpsdates = [cp.sdatestart, cp.sdateend]
-                if busedateend:
-                        cpsdates = [cp.sdateend, cp.sdatestart]
+		# special Gareth Thomas match
+		elif fullname == "Mr Gareth Thomas" and cp.dept == "Department for International Development" and cpsdates[0] == "2004-04-16":
+			cons = "Harrow West"
+		elif fullname == "Mr Gareth Thomas":
+			print "Warning, unreconized Gareth Thomas at", cp.dept, cpsdates[0]
 
-                res0 = cpsdates[0] and memberList.matchfullnamecons(fullname, cons, cpsdates[0])
-                res1 = cpsdates[1] and memberList.matchfullnamecons(fullname, cons, cpsdates[1])
-                if not (res0 or res1):
-                        raise Exception, 'No match: ' + fullname + " : " + (cons or "[nocons]")
-                cp.matchid, cp.remadename, cp.remadecons = (res0 or res1)
 
-        else:
-                cp.remadename = cp.fullname
-                cp.remadecons = ""
+		res0 = memberList.matchfullnamecons(fullname, cons, cpsdates[0])
+		if not res0:
+			res1 = memberList.matchfullnamecons(fullname, cons, cpsdates[1])
+			res0 = res1
+		if not res0:
+			raise Exception, 'No match: ' + fullname + " : " + (cons or "[nocons]")
+		cp.matchid, cp.remadename, cp.remadecons = res0
 
-        # make the structure we will sort by.  Note the ((,),) structure
-        cp.sortobj = ((re.sub("(.*) (\S+)$", "\\2 \\1", cp.remadename), cp.remadecons), cp.sdatestart)
+	else:
+		cp.remadename = cp.fullname
+		cp.remadename = re.sub("^Rt Hon ", "", cp.remadename)
+		cp.remadename = re.sub(" [CO]BE$", "", cp.remadename)
+		cp.remadecons = ""
+
+	# make the structure we will sort by.  Note the ((,),) structure
+	cp.sortobj = ((re.sub("(.*) (\S+)$", "\\2 \\1", cp.remadename), cp.remadecons), cp.sdatestart)
+
+
+# indentify open for gluing
+def GlueGapBetweenDataSets(mofficegroup):
+	# find the open dates at the two ends
+	opendatefront = [ ]
+	opendateback = [ ]
+
+	for i in range(len(mofficegroup)):
+		if mofficegroup[i][1].sdateend == opendate:
+			opendateback.append(i)
+		if mofficegroup[i][1].sdatestart == opendate:
+			opendatefront.append(i)
+
+	# nothing there
+	if not opendateback and not opendatefront:
+		return
+
+	# glue the facets together
+	for iopendateback in range(len(mofficegroup) - 1, -1, -1):
+		if mofficegroup[iopendateback][1].sdateend == opendate:
+			iopendatefrontm = None
+			for iopendatefront in range(len(mofficegroup)):
+				if (mofficegroup[iopendatefront][1].sdatestart == opendate and
+					mofficegroup[iopendateback][1].pos == mofficegroup[iopendatefront][1].pos and
+					mofficegroup[iopendateback][1].dept == mofficegroup[iopendatefront][1].dept):
+					iopendatefrontm = iopendatefront
+
+			#if iopendatefrontm == None:
+			#	rp = mofficegroup[iopendateback]
+			#	print "%s\tpos='%s'\tdept='%s'" % (rp[1].remadename, rp[1].pos, rp[1].dept)
+			assert iopendatefrontm != None
+
+			# glue the two things together
+			mofficegroup[iopendatefrontm][1].sdatestart = mofficegroup[iopendateback][1].sdatestart
+			mofficegroup[iopendatefrontm][1].stimestart = None
+			mofficegroup[iopendatefrontm][1].sourcedoc = mofficegroup[iopendateback][1].sourcedoc + " " + mofficegroup[iopendatefrontm][1].sourcedoc
+			del mofficegroup[iopendateback]
+
+	for iopendatefront in range(len(mofficegroup)):
+		assert not (mofficegroup[iopendatefront][1].sdatestart == opendate)
+	#	rp = mofficegroup[iopendatefront]
+	#	print "\t%s\tpos='%s'\tdept='%s'" % (rp[1].remadename, rp[1].pos, rp[1].dept)
+
+
 
 # main function that sticks it together
 def ParseGovPosts():
 
-        # get from our two sources (which unfortunately don't overlap, so they can't be merged)
-        # We have a gap from 2003-10-15 to 2004-06-06 which needs filling !!!
-        porres = newlabministers2003_10_15.ParseOldRecords()
-        cpres, sdatetlist = ParseGovPostsChggdir()
+	# get from our two sources (which unfortunately don't overlap, so they can't be merged)
+	# We have a gap from 2003-10-15 to 2004-06-06 which needs filling !!!
+	porres = newlabministers2003_10_15.ParseOldRecords()
+	cpres, sdatetlist = ParseGovPostsChggdir()
 
-        # allocate ids and merge lists
-        rpcp = []
+	# allocate ids and merge lists
+	rpcp = []
 
-        moffidn = 1;
-        for po in porres:
-                po.sxfromincomplete = None
-                SetNameMatch(po, True)
-                po.moffid = "uk.org.publicwhip/moffice/%d" % moffidn
-                rpcp.append((po.sortobj, po))
-                moffidn += 1
-        for cp in cpres:
-                SetNameMatch(cp, False)
-                cp.moffid = "uk.org.publicwhip/moffice/%d" % moffidn
-                rpcp.append((cp.sortobj, cp))
-                moffidn += 1
+	# run through the office in the documented file
+	moffidn = 1;
+	for po in porres:
+
+		cpsdates = [po.sdatestart, po.sdateend]
+		if cpsdates[1] == opendate:
+			cpsdates[1] = newlabministers2003_10_15.dateofinfo
+
+		SetNameMatch(po, cpsdates)
+		po.moffid = "uk.org.publicwhip/moffice/%d" % moffidn
+		rpcp.append((po.sortobj, po))
+		moffidn += 1
+
+	# run through the offices in the new code
+	assert moffidn < 1000
+	moffidn = 1000
+	for cp in cpres:
+
+		cpsdates = [cp.sdatestart, cp.sdateend]
+		if cpsdates[0] == opendate:
+			cpsdates[0] = sdatetlist[0][0]
+
+		SetNameMatch(cp, cpsdates)
+		cp.moffid = "uk.org.publicwhip/moffice/%d" % moffidn
+		rpcp.append((cp.sortobj, cp))
+		moffidn += 1
 
 
-        # (this would be a good place for matching and gluing overlapping duplicates together)
-        rpcp.sort()
+	# (this would be a good place for matching and gluing overlapping duplicates together)
+	rpcp.sort()
+
+	# now we batch them up into the person groups
+	mofficegroups = [ ]
+	prevrpm = None
+	for rp in rpcp:
+		if not prevrpm or prevrpm[0][0] != rp[0][0]:
+			mofficegroups.append([ ])
+		mofficegroups[-1].append(rp)
+		prevrpm = rp
 
 
+	# now look for open ends
+	for mofficegroup in mofficegroups:
+		GlueGapBetweenDataSets(mofficegroup)
 
-        fout = open(chgtmp, "w")
-        WriteXMLHeader(fout)
-        fout.write("<publicwhip>\n")
 
-        fout.write("\n")
-        for lsdatet in sdatetlist:
-                fout.write('<chgpageupdates date="%s" time="%s"/>\n' % lsdatet)
+	fout = open(chgtmp, "w")
+	WriteXMLHeader(fout)
+	fout.write("<publicwhip>\n")
 
-        # output the file, a tag round the groups of offices which form a single person
-        prevrpm = None
-        for rp in rpcp:
+	fout.write("\n")
+	for lsdatet in sdatetlist:
+		fout.write('<chgpageupdates date="%s" time="%s"/>\n' % lsdatet)
 
-                if not prevrpm:
-                        fout.write("\n<ministerofficegroup>\n")
 
-                elif prevrpm[0][0] != rp[0][0]:
-                        fout.write("</ministerofficegroup>\n")
-                        fout.write("\n<ministerofficegroup>\n")
+	# output the file, a tag round the groups of offices which form a single person
+	for mofficegroup in mofficegroups:
+		fout.write("\n<ministerofficegroup>\n")
+		for rp in mofficegroup:
+			WriteXML(rp[1], fout)
+		fout.write("</ministerofficegroup>\n")
 
-                # output un-glued ends
-                if not rp[1].sdateend:
-                        print "\n"
-                        print rp[1].remadename, rp[1].pos, rp[1].dept
-                if rp[1].sxfromincomplete:
-                        print "  ", rp[1].remadename, rp[1].pos, rp[1].dept
+	fout.write("</publicwhip>\n\n")
+	fout.close();
 
-                rp[1].WriteXML(fout)
-                prevrpm = rp
+	# copy file over to its place
+	# ...
 
-        if prevrpm:
-                fout.write("</ministerofficegroup>\n")
-        fout.write("</publicwhip>\n\n")
-        fout.close();
+	# we get the members directory and overwrite the file that's there
+	# (in future we'll have to load and check match it)
+	membersdir = os.path.normpath(os.path.abspath(os.path.join("..", "members")))
+	ministersxml = os.path.join(membersdir, "ministers.xml")
 
-        # copy file over to its place
-        # ...
-
-        # we get the members directory and overwrite the file that's there
-        # (in future we'll have to load and check match it)
-        membersdir = os.path.normpath(os.path.abspath(os.path.join("..", "members")))
-        ministersxml = os.path.join(membersdir, "ministers.xml")
-
-        print "Over-writing %s;\nDon't forget to check it in" % ministersxml
-        if os.path.isfile(ministersxml):
-                os.remove(ministersxml)
-        os.rename(chgtmp, ministersxml)
+	#print "Over-writing %s;\nDon't forget to check it in" % ministersxml
+	if os.path.isfile(ministersxml):
+		os.remove(ministersxml)
+	os.rename(chgtmp, ministersxml)
 
 
