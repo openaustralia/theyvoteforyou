@@ -58,6 +58,9 @@ different spellings of the offices -->
 <alias fullname="Advocate General for Scotland" alternate="Advocate-General" />
 <alias fullname="Advocate General for Scotland" alternate="Advocate General" />
 
+<!-- Added for other purposes (e.g. external importing) -->
+<alias fullname="Martin McGuinness" alternate="Martin Mcguinness" />
+
 <!-- First added for 2001 parliament -->
 <alias fullname="Parmjit Gill" alternate="Parmjit Singh Gill" />
 <alias fullname="Richard Younger-Ross" alternate="R Younger-Ross" />
