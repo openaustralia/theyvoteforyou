@@ -48,6 +48,9 @@ fixsubs = 	[
 	( '<UL><UL>Adjourned', '</UL><UL><UL><UL>Adjourned', 1, '2003-05-22'), # putting a consistent error back in
 	( '<UL><UL>End', '</UL><UL><UL><UL>End', 1, '2002-11-07'), # as above
 
+	( '<UL><UL><UL>Adjourned', '<UL>Adjourned', 1, '2004-03-05'),
+	( 'o\'clock\.\s*</UL></UL></UL>', 'o\'clock.</UL>', 1, '2004-03-05'),
+        
 	( '<UL><UL><UL>', '<UL>', 1, 'all'),
 	( '</UL></UL></UL>', '</UL>', 1, 'all'),
 		]
