@@ -9,23 +9,23 @@ function is_postcode($postcode)
 
 function startElement($parser, $name, $attrs) 
 {
-    global $tags, $constituency;
-    array_push($tags, $name);
-    if ($tags[count($tags) - 1] == "CONSTITUENCY_NAME" && $tags[count($tags) - 2] == "FAXYOURMP")
-        $constituency = "";
+    global $postcode_tags, $postcode_constituency;
+    array_push($postcode_tags, $name);
+    if ($postcode_tags[count($postcode_tags) - 1] == "CONSTITUENCY_NAME" && $postcode_tags[count($postcode_tags) - 2] == "FAXYOURMP")
+        $postcode_constituency = "";
 }
  
 function endElement($parser, $name) 
 {
-    global $tags;
-    array_pop($tags);
+    global $postcode_tags;
+    array_pop($postcode_tags);
 }
 
 function characterData($parser, $content) 
 {
-    global $tags, $constituency;
-    if ($tags[count($tags) - 1] == "CONSTITUENCY_NAME" && $tags[count($tags) - 2] == "FAXYOURMP")
-        $constituency .= $content;
+    global $postcode_tags, $postcode_constituency;
+    if ($postcode_tags[count($postcode_tags) - 1] == "CONSTITUENCY_NAME" && $postcode_tags[count($postcode_tags) - 2] == "FAXYOURMP")
+        $postcode_constituency .= $content;
 }
 
 function postcode_to_constituency($postcode)
@@ -41,9 +41,9 @@ function postcode_to_constituency($postcode)
     $file = str_replace("&", "&amp;", $file);
     $file = str_replace("&amp;amp;", "&amp;", $file);
 
-    global $tags, $constituency;
-    $tags = array();
-    $constituency = null;
+    global $postcode_tags, $postcode_constituency;
+    $postcode_tags = array();
+    $postcode_constituency = null;
 
     $xml_parser = xml_parser_create();
     xml_set_element_handler($xml_parser, "startElement", "endElement");
@@ -57,12 +57,12 @@ function postcode_to_constituency($postcode)
 #            xml_get_current_line_number($xml_parser)));
     }
     xml_parser_free($xml_parser);
-    $constituency = str_replace("  ", " ", $constituency);
+    $postcode_constituency = str_replace("  ", " ", $postcode_constituency);
 
     # Convert to canonical name
     global $consmatch, $consnames;
-#    print "<pre>$file</pre><br>$constituency<br>";
-    return $consnames[$consmatch[strtolower($constituency)]];
+#    print "<pre>$file</pre><br>$postcode_constituency<br>";
+    return $consnames[$consmatch[strtolower($postcode_constituency)]];
 }
 
 ?>

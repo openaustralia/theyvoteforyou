@@ -18,6 +18,8 @@ Pick divisions with extreme "Extra Turnouts" (for the main parties) -
 these will be interesting
 Plot "Extra Turnout" over time - so can see how abstention rates change.
 
+Show the majority for each vote (how much it was won by)
+
 Additional numeric data
 -----------------------
 
@@ -137,6 +139,10 @@ Give help on how to request answers from hcinfo
 
 Usability
 ---------
+
+List of all divisions and how an MP voted in them, including ones he
+wasn't present at.  So you could see which ones they weren't at easily.
+Kind of makes sense.
 
 Abstain -> difference from expected
 Expected -> average no. of attendees

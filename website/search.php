@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.28 2004/07/13 08:37:24 frabcus Exp $
+# $Id: search.php,v 1.29 2004/08/14 08:57:51 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -93,7 +93,7 @@
         # Even with postcode, we check the query first, as the search page gives better error message
         if ($postcode and $db->rows() > 0)
         {
-            header("Location: mp.php?constituency=" . urlencode($constituency));
+            header("Location: mp.php?constituency=" . urlencode($pccons));
             exit;
         }
 
