@@ -6,23 +6,24 @@ import urlparse
 import re
 import os.path
 import xml.sax
+import time
 
-toppath = os.path.expanduser('~/pwdata/')
+toppath = os.path.expanduser('~/pwdata')
 
 # Pulls in all the debates, written answers, etc, glues them together, removes comments,
 # and stores them on the disk
 
 # index file which is created
-pwcmindex = toppath + "pwcmindex.xml"
+pwcmindex = os.path.join(toppath, "pwcmindex.xml")
 
 # output directories
-pwcmdirs = toppath + "pwcmpages/"
+pwcmdirs = os.path.join(toppath, "pwcmpages")
 
-pwcmwrans = pwcmdirs + "wrans/"
-pwcmdebates = pwcmdirs + "debates/"
+pwcmwrans = os.path.join(pwcmdirs, "wrans")
+pwcmdebates = os.path.join(pwcmdirs, "debates")
 # statements and westminster hall
 
-tempfile = toppath + "gluetemp"
+tempfile = os.path.join(toppath, "gluetemp")
 
 # this does the main loading and gluing of the initial day debate files from which everything else feeds forward
 
@@ -68,7 +69,13 @@ def WriteCleanText(fout, text):
 			fout.write(re.sub('>|\r', '', ab))
 
 
-def GlueByNext(fout, url):
+def GlueByNext(fout, url, urlx):
+	# put out the indexlink for comparison with the hansardindex file
+	lt = time.gmtime()
+	fout.write('<pagex url="%s" scrapedate="%s" scrapetime="%s"/>\n' % \
+			(urlx, time.strftime('%Y-%m-%d', lt), time.strftime('%X', lt)))
+
+	# loop which scrapes through all the pages following the nextlinks
 	while 1:
 		print "reading " + url
 		ur = urllib.urlopen(url)
@@ -132,19 +139,32 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto):
 			continue
 
 		# make the filename
-		dgf = pcmdir + (fproto % dnu[0])
-		print dgf
+		dgf = os.path.join(pcmdir, (fproto % dnu[0]))
 
-		# if we already have got the file, no need to scrape it in again
+		# hansard index page
+		urlx = dnu[2]
+
+		# if we already have got the file, check the pagex link agrees in the first line
+		# no need to scrape it in again
 		if os.path.exists(dgf):
-			continue
+			fpgx = open(dgf, "r")
+			pgx = fpgx.readline()
+			fpgx.close()
+			if pgx:
+				pgx = re.findall('<pagex url="([^"]*)"[^/]*/>', pgx)
+				if pgx:
+					if pgx[0] == urlx:
+						print ' skipping ' + urlx
+						continue
+			print ' RE-scraping ' + urlx
+		else:
+			print 'scraping ' + urlx
 
-		print dnu[2]
-		url0 = ExtractFirstLink(dnu[2])
+		url0 = ExtractFirstLink(urlx)
 
 		# now we take out the local pointer and start the gluing
 		dtemp = open(tempfile, "w")
-		GlueByNext(dtemp, url0)
+		GlueByNext(dtemp, url0, urlx)
 
 		# close and move
 		dtemp.close()

@@ -9,7 +9,7 @@ import types
 
 # In Debian package python2.3-egenix-mxdatetime
 import mx.DateTime
-#from findofficialreport import FindOfficialReport
+from extractofficialreportlinks import ExtractOfficialReportLinks
 
 toaskregexp = '^\s*' +\
 		'to ask the (secretary of state for (?:' +\
@@ -359,8 +359,8 @@ def FixReply(text, questionqnums):
 			res.write('</p>\n')
 
 			# write links
-			#for foff in FindOfficialReport(nt):
-			#	res.write('<offreplink coldate="%s" colnum="%s" givenby="%s" givento="%s"/>\n' % foff)
+			for foff in ExtractOfficialReportLinks(nt):
+				res.write('<offreplink coldate="%s" colnum="%s" givenby="%s" givento="%s"/>\n' % foff)
 
 	sres = res.getvalue()
 	res.close()

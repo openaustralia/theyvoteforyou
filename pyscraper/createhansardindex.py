@@ -84,7 +84,7 @@ def CmAllIndexPages(urlindex):
 
 	# extract the per month volumes
 	# <a href="cmhn0310.htm"><b>October</b></a>
-	monthindexp = '<a href="[^"]*"><b>(?:%s)</b>(?i)' %  monthnames
+	monthindexp = '<a href="([^"]*)"><b>(?:%s)</b>(?i)' %  monthnames
 	monthlinks = re.findall(monthindexp, srindex)
 	for monthl in monthlinks:
 		res.append(urlparse.urljoin(urlindex, re.sub('\s', '', monthl)))
@@ -114,9 +114,14 @@ def CmAllIndexPages(urlindex):
 def WriteXML(fout, urllist):
 	fout.write('<?xml version="1.0" encoding="ISO-8859-1"?>\n')
 	fout.write("<publicwhip>\n\n")
-	for r in urllist:
-		if r[0] >= earliestdate:
-			fout.write('<cmdaydeb date="%s" type="%s" url="%s"/>\n' % r)
+
+	# avoid printing duplicates
+	for i in range(len(urllist)):
+		r = urllist[i]
+		if (i > 0) and (r != urllist[i-1]):
+			if r[0] >= earliestdate:
+				fout.write('<cmdaydeb date="%s" type="%s" url="%s"/>\n' % r)
+
 	fout.write("\n</publicwhip>\n")
 
 
@@ -138,10 +143,13 @@ class LoadOldIndex(xml.sax.handler.ContentHandler):
 	def CompareHeading(self, urllisthead):
 		if not self.res:
 			return 0
+
 		for i in range(len(urllisthead)):
 			if (i >= len(self.res)) or (self.res[i] != urllisthead[i]):
+				print i
 				return 0
 		return 1
+
 
 
 ###############
@@ -150,17 +158,25 @@ class LoadOldIndex(xml.sax.handler.ContentHandler):
 def UpdateHansardIndex():
 	# get front page (which we will compare against)
 	urllisth = CmIndexFromPage(urlcmindex)
+	urllisth.sort()
+	urllisth.reverse()
 
 	# compare this leading term against the old index
 	oldindex = LoadOldIndex(pwcmindex)
 	if oldindex.CompareHeading(urllisth):
 		print ' Head appears the same, no new list '
 		return
+	print 'compare heading now doesnt work because Im sorting the data'
+	print 'and there are discrepancies between the front page and those'
+	print 'listed in the November page!!!'
+
 
 	# extend our list to all the pages
 	cres = CmAllIndexPages(urlcmindex)
 	for cr in cres:
 		urllisth.extend(CmIndexFromPage(cr))
+	urllisth.sort()
+	urllisth.reverse()
 
 	fpwcmindex = open(pwcmindex, "w");
 	WriteXML(fpwcmindex, urllisth)
