@@ -34,17 +34,20 @@ class wransxmlscan(xml.sax.handler.ContentHandler):
 				lww = string.lower(ww)
 				if (lww == 'the') or (lww == 'and'):
 					continue
-				fout = unsortindfile.get(lww[0:2], None)
-				if not fout:
-					fname = os.path.join(pwprotoindexdir, lww[0:2] + '.txt')
-					print fname
-					fout = open(fname, "w")
-					unsortindfile[lww[0:2]] = fout
-				fout.write(lww)
-				fout.write('\t')
-				fout.write(typ)
-				fout.write(self.wrid)
-				fout.write('\n')
+				self.IndexWord(lww, typ)
+	
+	def IndexWord(self, lww, typ):
+		fout = unsortindfile.get(lww[0:2], None)
+		if not fout:
+			fname = os.path.join(pwprotoindexdir, lww[0:2] + '.txt')
+			print fname
+			fout = open(fname, "w")
+			unsortindfile[lww[0:2]] = fout
+		fout.write(lww)
+		fout.write('\t')
+		fout.write(typ)
+		fout.write(self.wrid)
+		fout.write('\n')
 
 
 	def __init__(self, fname):
@@ -72,6 +75,9 @@ class wransxmlscan(xml.sax.handler.ContentHandler):
 			self.binspeech = 'q:'
 			if attr['type'] == 'reply':
 				self.binspeech = 'r:'
+			mpnum = re.sub('^uk.org.publicwhip/member/', '', attr['id'])
+			self.IndexWord(mpnum + 'member', self.binspeech)
+				
 		elif name == 'p':
 			self.binpara = 1
 			self.tagdepighigher = self.tagdepth + 1
@@ -107,8 +113,8 @@ fwransxmlall = os.listdir(pwxmwrans)
 fwransxmlall.sort()
 fwransxmlall.reverse()
 for fwrans in fwransxmlall:
-	if fwrans < 'answers2003-08':
-		break
+#	if fwrans < 'answers2003-08':
+#		break
 	print ' -- ' + fwrans
 	wr = wransxmlscan(os.path.join(pwxmwrans, fwrans))
 

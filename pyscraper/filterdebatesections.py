@@ -105,8 +105,21 @@ def StripDebateHeadings(headspeak, sdate):
 	stampurl = StampUrl()
 
 	# set the time from the wording 'house met at' thing.
-	# this should be encoded into a proper time code.
-	stampurl.timestamp = '<stamp time="%s"/>' % gstarttime.group(1)
+	time = gstarttime.group(1)
+	if re.match("^half-past Nine(?i)", time):
+		newtime = '09:30:00'
+	elif re.match("^half-past Ten(?i)", time):
+		newtime = '10:30:00'
+	elif re.match("^twenty-five minutes pastEleven(?i)", time):
+		newtime = '11:25:00' 
+	elif re.match("^half-past Eleven(?i)", time):
+		newtime = '11:30:00'
+	elif re.match("^half-past Two(?i)", time):
+		newtime = '14:30:00'
+	else:
+		newtime = "unknown " + time
+		raise Exception, "Start time not known: " + time
+	stampurl.timestamp = '<stamp time="%s"/>' % newtime
 
 	for j in range(0, ih):
 		stampurl.UpdateStampUrl(headspeak[j][1])

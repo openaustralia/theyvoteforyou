@@ -1,5 +1,5 @@
 <?php 
-    # $Id: wrans.php,v 1.8 2003/12/12 20:49:25 frabcus Exp $
+    # $Id: wrans.php,v 1.9 2003/12/19 16:27:33 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -14,6 +14,9 @@
 
     $prettysearch = html_scrub(trim($_GET["search"]));
     $shellid = html_scrub(trim($_GET["id"]));
+    $expand = false;
+    if ($_GET["expand"] == "yes")
+        $expand = true;
 
 	if ($prettysearch != "")
 	{
@@ -24,12 +27,23 @@
 		$ids = DecodeWord($prettysearch);
 		if (count($ids) > 0)
 		{
+
 			$result = "";
 			foreach ($ids as $id)
 				$result .= FetchWrans($id);
 			$result = WrapResult($result);
 			print "<p>Found these Written Answers matching '$prettysearch':";
-			print ApplyXSLT($result, "wrans-table.xslt");
+
+			$url = "wrans.php?search=" . urlencode($_GET["search"]);
+			if (!$expand)
+				print "<p><a href=\"$url&expand=yes\">Show contents of all these Written Answers on one large page</a></p>";
+			else
+				print "<p><a href=\"$url&expand=no\">Collapse all these answers into a summary table</a></p>";
+
+			if ($expand)
+				print ApplyXSLT($result, "wrans-full.xslt");
+			else
+				print ApplyXSLT($result, "wrans-table.xslt");
 		}
 		else
 		{
@@ -58,8 +72,6 @@
 
 ?>
 
-<p><b>You've stumbled upon... Some new stuff.  It isn't ready yet.</b>
-	
 <p class="search">Search in Written Answers:</p>
 <form class="search" action="wrans.php" name=pw>
 <input maxLength=256 size=25 name=search value=""> <input type="submit" value="Search" name="button">

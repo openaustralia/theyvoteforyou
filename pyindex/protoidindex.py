@@ -36,8 +36,8 @@ fwransxmlall = os.listdir(pwxmwrans)
 fwransxmlall.sort()
 fwransxmlall.reverse()
 for fwrans in fwransxmlall:
-	if fwrans < 'answers2003-08':
-		break
+#	if fwrans < 'answers2003-08':
+#		break
 	print ' -- ' + fwrans
 
 

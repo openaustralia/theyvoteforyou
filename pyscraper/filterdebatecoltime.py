@@ -54,7 +54,10 @@ retimevals = re.compile('(?:</?p>\s*|<h\d>|\[|\n)\s*(\d+(?:[:\.]\d+)?\s*[apmnon]
 recomb = re.compile('(%s|%s|%s|%s|%s|%s)' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4, regcolnumcont, regtime))
 remarginal = re.compile(':\s*column\s*(\d+)|\n(?:\d+[.:])?\d+\s*[ap]m[^,\w](?i)')
 
-
+# This one used to break times into component parts: 7.10 pm
+regparsetime = re.compile("^(\d+)[\.:](\d+)\s?([\w\.]+)$")
+# 7 pm
+regparsetimeonhour = re.compile("^(\d+)()\s?([\w\.]+)$")
 
 def FilterDebateColTime(fout, text, sdate):
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
@@ -102,6 +105,28 @@ def FilterDebateColTime(fout, text, sdate):
 		timeg = retimevals.match(fss)
 		if timeg:
 			time = timeg.group(1)
+
+			# This code lifted from fix_time PHP code from easyParliament
+			# (thanks Phil!)
+			timeparts = regparsetime.match(time)
+			if not timeparts:
+			    timeparts = regparsetimeonhour.match(time)
+			if timeparts:
+			    hour = int(timeparts.group(1))
+			    if (timeparts.group(2) <> ""):
+				mins = int(timeparts.group(2))
+			    else:
+				mins = 0
+			    meridien = timeparts.group(3)
+
+			    if (meridien == 'pm' or meridien == 'p.m.') and hour <> 12:
+				hour += 12
+
+			    time = "%02d:%02d:00" % (hour, mins)
+			else:
+			    time = "unknown " + time
+			    raise Exception, "Time not matched: " + time
+			    
 			fout.write('<stamp time="%s"/>' % time)
 			continue
 

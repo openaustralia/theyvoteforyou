@@ -17,7 +17,8 @@ Scratchpad of maybe useful stuff:
 </xsl:template>
  
 <xsl:template match="wrans"> 
-	<xsl:if test="count(wrans) > 1">
+	<xsl:if test="count(//publicwhip/wrans) > 1">
+		<hr/>
 		<h2>
 			<xsl:value-of select="@title"/>
 		</h2>
@@ -26,11 +27,20 @@ Scratchpad of maybe useful stuff:
 	<p>
 		<a>
 			<xsl:attribute name="href">
+				wrans.php?id=<xsl:value-of select="@id"/>
+			</xsl:attribute>
+			[ Permanent link to just this item ]
+		</a>
+		<a>
+			<xsl:attribute name="href">
 				<xsl:value-of select="page/@url"/>
 			</xsl:attribute>
-			Read the original source of this answer in Hansard
+			[ Original source of this answer in Hansard ]
 		</a>
 	</p>
+	<xsl:if test="count(//publicwhip/wrans) > 1">
+		<xsl:if test="position()=last()"><hr/> </xsl:if>
+	</xsl:if>
 </xsl:template>
   
 
