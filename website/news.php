@@ -1,5 +1,5 @@
 <? $title = "Site News"; include "header.inc";
-# $Id: news.php,v 1.14 2003/10/11 10:29:12 frabcus Exp $
+# $Id: news.php,v 1.15 2003/10/27 09:36:41 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -47,7 +47,7 @@ if you find anything interesting.
 <p>Amongst this new data is a first case of mass abstention.
 In a <a href="division.php?date=2000-12-13&number=2">curious vote about EC fishing
 regulations</a>, 77 members from the Conservative party voted both aye
-and noe.  Does anyone know the story of what they were trying to signal?  Why
+and no.  Does anyone know the story of what they were trying to signal?  Why
 is this the only occasion in 6 years when so many have used double
 voting to mean something?</p>
 
@@ -60,7 +60,7 @@ something.  If anything doesn't work, then send us an email.</p>
 
 <p>When I first analysed the database of votes which the Public Whip
 software generated, I was a bit shocked.  There are dozens of occasions
-when an MP voted both aye and noe in the same division. How could
+when an MP voted both aye and no in the same division. How could
 this be?  Fortunately, it is perfectly allowed.  Have a look at the new
 page about <a href="boths.php">double voting</a> for a list of occasions
 when it has happened.  And for an explanation.</p>

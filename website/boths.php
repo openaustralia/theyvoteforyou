@@ -1,13 +1,13 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: boths.php,v 1.5 2003/10/15 06:59:00 frabcus Exp $
+    # $Id: boths.php,v 1.6 2003/10/27 09:36:41 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
     # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
     # For details see the file LICENSE.html in the top level of the source.
 
-    $title = "Voted both aye and noe"; 
+    $title = "Voted both aye and no"; 
     include "header.inc";
     include "db.inc";
     include "render.inc";
@@ -39,7 +39,7 @@
 ?>
 <p>Amazingly, on <? print $count; ?> occasions in these parliaments,
 an MP has voted twice in the same division.  It's a little known fact that this is perfectly
-allowable, provided one vote is aye and the other is noe.  For details see under the
+allowable, provided one vote is aye and the other is no.  For details see under the
 heading "abstention" in the <a href="http://www.parliament.uk/documents/upload/p09.pdf">division factsheet</a> from the House of Commons Information Office.  
 
 <p>An MP may have done this to cancel the effect of a mistaken vote in

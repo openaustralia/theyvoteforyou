@@ -135,11 +135,11 @@ Similarly, get data on gender etc. and analyse against that
 
 Count who tellers are - does this mean anything?
 Note they are often not listed in Hansard, so this might be a fools errand
-Telling is another vote type - aye/noe/both/tell
+Telling is another vote type - aye/no/both/tell
 
-What can we learn from the information that aye/noe comes first, and
+What can we learn from the information that aye/no comes first, and
     from the information as to whether government or not government is
-    aye or noe?
+    aye or no?
 
 How many articles do Labour MPs supply to the Times, for example?
 Collate all MPs articles in newspapers

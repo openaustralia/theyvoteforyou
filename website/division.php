@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php
-# $Id: division.php,v 1.10 2003/10/15 06:59:00 frabcus Exp $
+# $Id: division.php,v 1.11 2003/10/27 09:36:41 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -40,10 +40,10 @@
     $ayes = $db->query_one_value("select count(*) from pw_vote
         where division_id = $div_id and vote = 'aye'");
     $noes = $db->query_one_value("select count(*) from pw_vote
-        where division_id = $div_id and vote = 'noe'");
+        where division_id = $div_id and vote = 'no'");
     $boths = $db->query_one_value("select count(*) from pw_vote
         where division_id = $div_id and vote = 'both'");
-    print "<br>Turnout of $turnout. Votes were $ayes aye, $noes noe, $boths both.  Guess $rebellions rebellions.";
+    print "<br>Turnout of $turnout. Votes were $ayes aye, $noes no, $boths both.  Guess $rebellions rebellions.";
     print "<br><a href=\"$source\">Read the full debate leading up to this division (on Hansard website)</a>";
     print "$notes";
     
@@ -97,7 +97,7 @@
         {
             $ayes[$party] += $count;
         }
-        else if ($vote == "noe")
+        else if ($vote == "no")
         {
             $noes[$party] += $count;
         }
@@ -115,7 +115,7 @@
 
     # Make table
     print "<table><tr class=\"headings\"><td>Party</td><td>Ayes</td><td>Noes</td>";
-    print "<td><a href=\"boths.php\" title=\"More info about MPs who vote aye and noe in the same division\">Both</a></td>";
+    print "<td><a href=\"boths.php\" title=\"More info about MPs who vote aye and no in the same division\">Both</a></td>";
     print "<td>Turnout</td>";
     print "<td>Expected</td><td>Abstain</td></tr>";
     $allparties = array_keys($alldivs);
@@ -128,17 +128,17 @@
     foreach ($allparties as $party)
     {
         $aye = $ayes[$party];
-        $noe = $noes[$party];
+        $no = $noes[$party];
         $both = $boths[$party];
         if ($aye == "") { $aye = 0; }
-        if ($noe == "") { $noe = 0; }
+        if ($no == "") { $no = 0; }
         if ($both == "") { $both = 0; }
         $whip = $whips[$party];
-        $total = $aye + $noe + $both;
+        $total = $aye + $no + $both;
         $classaye = "normal";
-        $classnoe = "normal";
-        if ($whip == "aye") { if ($noe > 0) { $classnoe = "rebel";} ;} else { $classnoe = "whip"; }
-        if ($whip == "noe") { if ($aye > 0) { $classaye = "rebel";} ;} else { $classaye = "whip"; }
+        $classno = "normal";
+        if ($whip == "aye") { if ($no > 0) { $classno = "rebel";} ;} else { $classno = "whip"; }
+        if ($whip == "no") { if ($aye > 0) { $classaye = "rebel";} ;} else { $classaye = "whip"; }
 
         $classboth = "normal";
         if ($both > 0) { $classboth = "important"; }
@@ -149,12 +149,12 @@
         $classabs = "normal";
         if (abs($abstentions) >= 2) { $classabs = "important"; }
         
-        if ($aye > 0 or $noe > 0 or $both > 0 or $abstentions >= 2)
+        if ($aye > 0 or $no > 0 or $both > 0 or $abstentions >= 2)
         {
             $prettyrow = pretty_row_start($prettyrow);        
             print "<td>" . pretty_party($party) . "</td>";
             print "<td class=\"$classaye\">$aye</td>";
-            print "<td class=\"$classnoe\">$noe</td>";
+            print "<td class=\"$classno\">$no</td>";
             print "<td class=\"$classboth\">$both</td>";
             print "<td>$total</td>";
             print "<td>$expected</td>";

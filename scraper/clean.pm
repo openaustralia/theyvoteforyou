@@ -1,4 +1,4 @@
-# $Id: clean.pm,v 1.3 2003/09/25 20:29:17 uid37249 Exp $
+# $Id: clean.pm,v 1.4 2003/10/27 09:36:41 frabcus Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -22,7 +22,7 @@ sub erase_duff_divisions
     db::query($dbh, "delete from pw_division where pw_division.valid = 0");
 }
 
-# An MP can vote both aye and noe in the same division
+# An MP can vote both aye and no in the same division
 # See under "Abstention" here: http://www.parliament.uk/documents/upload/p09.pdf
 sub fix_bothway_voters
 {
@@ -37,8 +37,8 @@ sub fix_bothway_voters
             $mp_id, $division_id, "aye");
         error::die("Unexpectedly altered " . $sth2->rows . " fixing bothway votes aye", "$division_id $mp_id") if ($sth2->rows != 1);
         $sth2 = db::query($dbh, "delete from pw_vote where mp_id = ? and division_id = ? and vote = ?",
-            $mp_id, $division_id, "noe");
-        error::die("Unexpectedly altered " . $sth2->rows . " fixing bothway votes noe", "$division_id $mp_id") if ($sth2->rows != 1);
+            $mp_id, $division_id, "no");
+        error::die("Unexpectedly altered " . $sth2->rows . " fixing bothway votes no", "$division_id $mp_id") if ($sth2->rows != 1);
     }
     error::log("Fixed up " . $sth->rows . " bothway votes", "", error::IMPORTANT) if ($sth->rows > 0);
 }

@@ -1,4 +1,4 @@
-# $Id: mpquery.pm,v 1.8 2003/10/04 13:46:22 frabcus Exp $
+# $Id: mpquery.pm,v 1.9 2003/10/27 09:36:41 frabcus Exp $
 # This extracts a vote distance metric for a set of MPs, and is able to
 # write it out in a format for loading into GNU Ooctave (or MatLab)
 
@@ -53,7 +53,7 @@ sub vote_distance_metric
         my ($div_dat, $mp_dat, $vote) = @data;
         my $votescore = undef;
         $votescore = 1 if ($vote eq "aye");
-        $votescore = -1 if ($vote eq "noe");
+        $votescore = -1 if ($vote eq "no");
         $votescore = 0 if ($vote eq "both");
         die "Unexpected $vote voted" if (!defined $votescore);
         

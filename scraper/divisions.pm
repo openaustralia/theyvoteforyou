@@ -1,4 +1,4 @@
-# $Id: divisions.pm,v 1.7 2003/10/16 09:50:33 frabcus Exp $
+# $Id: divisions.pm,v 1.8 2003/10/27 09:36:41 frabcus Exp $
 # Parses the body text of a page of Hansard containing a division.
 # Records the division and votes in a database, matching MP names
 # to an MP already in the database.
@@ -387,7 +387,7 @@ sub parse_one_division
     my @data = $sth->fetchrow_array();
     my $division_id = $data[0];
 
-    # Can add an AYE or a NOE
+    # Can add an AYE or a NO
     local *add_name = sub
     {
         my $name = shift;
@@ -401,16 +401,16 @@ sub parse_one_division
         error::log("MP parse found: $mp_id $firstname $lastname", $day_date, error::CHITTER);
         db::query($dbh, "insert into pw_vote (division_id, mp_id, vote) 
             values (?,?,?)", 
-            $division_id, $mp_id, $isaye ? "aye" : "noe");
+            $division_id, $mp_id, $isaye ? "aye" : "no");
     };
 
     my $reuselast = undef;
-    local *aye_or_noe_scan = sub
+    local *aye_or_no_scan = sub
     {
         my $teller_tag;
         my $isaye;
 
-        # Find start of aye/noe
+        # Find start of aye/no
         while (1)
         {
             if (defined $reuselast)
@@ -420,7 +420,7 @@ sub parse_one_division
             }
             else
             {
-                my $token = $p->get_tag("br") or die "Couldn't find AYE/NOE";
+                my $token = $p->get_tag("br") or die "Couldn't find AYES/NOES";
                 $_ = $p->get_trimmed_text("p");
             }
 
@@ -476,9 +476,9 @@ sub parse_one_division
         return $isaye;
     };
 
-    my $aye_first = aye_or_noe_scan();
-    my $aye_second = aye_or_noe_scan();
-    die "Double AYE or double NOE" if ($aye_first == $aye_second);
+    my $aye_first = aye_or_no_scan();
+    my $aye_second = aye_or_no_scan();
+    die "Double AYES or double NOES" if ($aye_first == $aye_second);
 
     # Confirm change (this should be done with transactions, but I don't
     # want to get into them as web providers I want to use may not offer

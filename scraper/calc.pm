@@ -1,4 +1,4 @@
-# $Id: calc.pm,v 1.4 2003/10/15 06:59:00 frabcus Exp $
+# $Id: calc.pm,v 1.5 2003/10/27 09:36:41 frabcus Exp $
 # Calculates various data and caches it in the database.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -20,7 +20,7 @@ sub guess_whip_for_all
     "create table pw_cache_whip (
         division_id int not null,
         party varchar(200) not null,
-        whip_guess enum(\"aye\", \"noe\", \"unknown\") not null,
+        whip_guess enum(\"aye\", \"no\", \"unknown\") not null,
         unique(division_id, party)
     );");
 
@@ -50,7 +50,7 @@ sub guess_whip_for_division
         {
             $partycount{$party} += $count;
         }
-        elsif ($vote eq "noe")
+        elsif ($vote eq "no")
         {
             $partycount{$party} -= $count;
         }
@@ -61,7 +61,7 @@ sub guess_whip_for_division
         }
         else
         {
-            die "Vote neither aye, noe nor both - party $party division $divid";
+            die "Vote neither aye, no nor both - party $party division $divid";
         }
     }
     foreach (keys %partycount)
@@ -70,7 +70,7 @@ sub guess_whip_for_division
         my $c = $partycount{$_};
         my $vote = "unknown";
         $vote = "aye" if ($c > 0);
-        $vote = "noe" if ($c < 0);
+        $vote = "no" if ($c < 0);
         my $sth = db::query($dbh, "insert into pw_cache_whip (division_id, party, whip_guess) values (?, ?, ?)", $divid, $_, $vote);
     }
 }
