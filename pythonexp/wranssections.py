@@ -4,10 +4,13 @@ import sys
 import re
 import os
 import string
+import StringIO
 
 # In Debian package python2.3-egenix-mxdatetime
 import mx.DateTime
 
+from fixspeech import FixReply
+from fixspeech import FixQuestion
 
 
 
@@ -32,15 +35,13 @@ class SepHeadText:
 		self.speaker = 'No one'
 		self.text = ''
 
-	def EndHeading(self):
+	def EndHeading(self, nextheading):
 		self.EndSpeech()
-		if self.heading == 'Initial':
-			if len(self.shspeak) == 0:
-				return
+		if (self.heading == 'Initial') and (len(self.shspeak) != 0):
 			print 'Speeches without heading'
 		self.shtext.append((self.heading, self.unspoketext, self.shspeak))
 
-		self.heading = 'Initial'
+		self.heading = nextheading
 		self.unspoketext = ''	# for holding colstamps
 		self.shspeak = []
 
@@ -89,8 +90,7 @@ class SepHeadText:
 					print 'missing heading'
 					print self.heading
 
-				self.EndHeading()
-				self.heading = headinggroup[0]
+				self.EndHeading(headinggroup[0])
 				continue
 
 
@@ -99,51 +99,49 @@ class SepHeadText:
 			else:
 				self.text = fss
 
-		self.EndHeading()
+		self.EndHeading('No more')
 
 
-class qbatch_toask:
-	toask = [
-		"To ask the Secretary of State for Defence",
-		"To ask the Secretary of State for Northern Ireland",
-		"To ask the Secretary of State for Education and Employment",
-		"To ask the Secretary of State for Education and Skills",
-		"To ask the Secretary of State for Health",
-		"To ask the Secretary of State for Trade and Industry",
-		"To ask the Secretary of State for Social Security",
-		"To ask the Secretary of State for the Home Department",
-		"To ask the Secretary of State for Scotland",
-		"To ask the Secretary of State for Wales",
-		"To ask the Secretary of State for Culture, Media and Sport",
-		"To ask the Secretary of State for the Environment, Transport and the Regions",
-		"To ask the Secretary of State for Transport, Local Government and the Regions",
-		"To ask the Secretary of State for Transport, Local government and the Regions",
-		"To ask the Secretary of State for International Development",
-		"To ask the Secretary of State for Foreign and Commonwealth Affairs",
-		"To ask the Secretary of State for Environment, Food and Rural Affairs",
-		"To ask the Secretary of State for Work and Pensions",
+	# functions here are a second pass, batching the stamps and pageurls
+	# this could be in a different class
+	def StampPageUrl(self, text):
+		for st in re.findall('(<stamp [^>]*?/>)', text):
+			self.laststamp = st
+		for stp in re.findall('<(page url[^>]*?)/?>', text):
+			self.lastpageurl = '<%s/>' % stp
 
-		"To ask the Secretary of Wales",
 
-		"To ask the Chairman of the Accommodation and Works Committee",
-		"To ask the Chairman of the Catering Committee",
-		"To ask the Chairman of the Public Accounts Commission",
-		"To ask the Chairman of the Administration Committee",
+	def StripHeadings(self, sdate):
+		self.lastpageurl = ''
+		self.laststamp = ''
 
-		"To ask the Minister of Agriculture, Fisheries and Food",
-		"To ask the Minister for the Cabinet Office",
+		# check and strip the first two headings in as much as they are there
+		i = 0
+		if (self.shtext[i][0] != 'Initial') or (len(self.shtext[i][2]) != 0):
+			print 'non-conforming Initial heading '
+		else:
+			self.StampPageUrl(self.shtext[i][1])
+			i = i + 1
 
-		"To ask the Prime Minister",
-		"To ask the Deputy Prime Minister",
-		"To ask the Parliamentary Secretary",
-		"To ask the Chancellor of the Exchequer",
-		"To ask the President of the Council",
-		"To ask the Solicitor-General",
-		"To ask the Advocate-General",
+		if (not re.match('written answers to questions(?i)', self.shtext[i][0])) or (len(self.shtext[i][2]) != 0):
+			if not re.match('The following answers were received.*', self.shtext[i][0]):
+				print 'non-conforming first heading '
+				print self.shtext[0]
+		else:
+			self.StampPageUrl(self.shtext[i][1])
+			i = i + 1
 
-		"To ask the hon. Member for",
-		"To ask the right hon. Member for",
-		]
+		if (not re.match('The following answers were received.*', self.shtext[i][0]) and \
+				(sdate != mx.DateTime.DateTimeFrom(self.shtext[i][0]).date)) or (len(self.shtext[i][2]) != 0):
+			if (not majorheadings.has_key(self.shtext[i][0])) or (len(self.shtext[i][2]) != 0):
+				print 'non-conforming second heading '
+				print self.shtext[i]
+		else:
+			self.StampPageUrl(self.shtext[i][1])
+			i = i + 1
+		self.ifh = i
+
+
 
 class qspeech:
 
@@ -178,38 +176,45 @@ class qspeech:
 		self.pageurl = llastpageurl
 		self.text = ltext
 
-		# set the type and clear up qnums
-		if re.match('(?:<[^>]*?>|\s)*?To ask(?i)', self.text):
-			self.typ = 'ques'
-			# sort out qnums
-			bqnum = re.subn('\[(\d+?)\]', '<qcode qnum="\\1"/>', self.text)
-			if bqnum[1] == 0:
-				print "qnum missing " + self.laststamp
-			self.text = bqnum[0]
-
-		else:
-			self.typ = 'reply'
-			if re.search('\[\d+?\]', self.text):
-				print 'qnum present in answer'
-
+		# this is a bit shambolic as it's done in the other class as well.
 		self.StampToFront()
 
 		# find any pageurls which will actually go into the text for next bit
+		# this is a bit shambolic as it's done in the other class as well.
 		self.lastpageurl = self.pageurl
-		ps = re.findall('<(<page url[^>]*?)>', self.text)
+		ps = re.findall('<(page url[^>]*?)/?>', self.text)
 		if len(ps) != 0:
 			self.lastpageurl = '<%s/>' % ps[len(ps) - 1] # put the / in where it should be
+
+		# set the type and clear up qnums
+		if re.match('(?:<[^>]*?>|\s)*?To ask(?i)', self.text):
+			self.typ = 'ques'
+			self.text = FixQuestion(self.text)
+
+		else:
+			self.typ = 'reply'
+			self.text = FixReply(self.text)
 
 	def writexml(self, fout):
 		fout.write('\t<speech speaker="%s" type="%s">\n' % (self.speaker, self.typ))
 		fout.write('\t\t%s\n' % self.stamp)
-		fout.write('\t\t%d\n' % len(self.text))
+
+		# add in some tabbing
+		sio = StringIO.StringIO(self.text)
+		while 1:
+			rl = sio.readline()
+			if not rl:
+				break
+			fout.write('\t\t')
+			fout.write(rl)
+
 		fout.write('\t</speech>\n\n')
 
 class qbatch:
 	def __init__(self, lmajorheading, ltitle, shspeak, llaststamp, llastpageurl):
 		self.majorheading = lmajorheading
 		self.title = ltitle
+		self.stamp = llaststamp
 		self.laststamp = llaststamp
 		self.pageurl = llastpageurl
 		self.lastpageurl = llastpageurl
@@ -237,16 +242,16 @@ class qbatch:
 
 	# this obviously can be changed to suit
 	def writexml(self, fout):
-		fout.write('\n<wransblock title="%s" majorheading="%s">\n' % (self.title, self.majorheading))
+		fout.write('\n<wransblock title="%s" majorheading="%s">' % (self.title, self.majorheading))
 		for sha in self.shansblock:
-			fout.write('<wrans title="%s">\n' % (self.title,))
+			fout.write('\n<wrans title="%s">\n' % (self.title,))
 			fout.write(self.pageurl)
 			fout.write('\n')
-			fout.write(self.laststamp)
+			fout.write(self.stamp)
 			fout.write('\n')
 			for i in range(len(sha)):
 				sha[i].writexml(fout)
-			fout.write('</wrans>\n\n')
+			fout.write('</wrans>\n')
 		fout.write('</wransblock>\n')
 
 
@@ -340,24 +345,7 @@ def ApplyFixSubs(finr, sdate):
 			finr = res[0]
 	return finr
 
-def StripHeadings(shtext, sdate):
-	# check and strip the first two headings in as much as they are there
-	i = 0
-	if (not re.match('written answers to questions(?i)', shtext[i][0])) or (len(shtext[i][2]) != 0):
-		if not re.match('The following answers were received.*', shtext[i][0]):
-			print 'non-conforming first heading '
-			print shtext[0]
-	else:
-		i = i + 1
 
-	if (not re.match('The following answers were received.*', shtext[i][0]) and \
-			(sdate != mx.DateTime.DateTimeFrom(shtext[i][0]).date)) or (len(shtext[i][2]) != 0):
-		if (not majorheadings.has_key(shtext[i][0])) or (len(shtext[i][2]) != 0):
-			print 'non-conforming second heading '
-			print shtext[i]
-	else:
-		i = i + 1
-	return i
 
 # these types of stamps must be available in every question and batch.
 # <stamp coldate="2003-11-17" colnum="518" type="W"/>
@@ -369,20 +357,17 @@ def WransSections(fout, finr, sdate):
 	finr = ApplyFixSubs(finr, sdate)
 
 	# break down into lists of headings and lists of speeches
-	shtext = SepHeadText(finr).shtext
+	shta = SepHeadText(finr)
 
-	shtext = shtext[StripHeadings(shtext, sdate):]
+	shta.StripHeadings(sdate)
 
-	# go through and build up the question batches associated to each heading
-	laststamp = ''
-	lastpageurl = ''
 	lastmajorheading = ''
-	for sht in shtext:
+
+	for i in range(shta.ifh, len(shta.shtext)):
+		sht = shta.shtext[i]
+
 		# update the stamps (keeping only the last ones)
-		for st in re.findall('(<stamp [^>]*?/>)', sht[1]):
-			laststamp = st
-		for stp in re.findall('(<page [^>]*?/>)', sht[1]):
-			lastpageurl = stp
+		shta.StampPageUrl(sht[1])
 
 		# detect if this is a major heading
 		if not re.search('[a-z]', sht[0]) and len(sht[2]) == 0:
@@ -397,10 +382,7 @@ def WransSections(fout, finr, sdate):
 		else:
 			if majorheadings.has_key(sht[0]):
 				print 'speeches found in major heading ' + sht[0]
-			qb = qbatch(lastmajorheading, sht[0], sht[2], laststamp, lastpageurl)
+			qb = qbatch(lastmajorheading, sht[0], sht[2], shta.laststamp, shta.lastpageurl)
 			qb.writexml(fout)
-			laststamp = qb.laststamp
-			lastpageurl = qb.lastpageurl
-
-			#print lastpageurl
-	#sys.exit()
+			shta.laststamp = qb.laststamp
+			shta.lastpageurl = qb.lastpageurl

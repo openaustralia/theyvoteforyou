@@ -71,9 +71,13 @@ if not os.path.isfile(hocdaydebatelist):
 # (comment the function call out line out if you want it to run past)
 GlueHocDayDebate(dirgluedwranswers, hocdaydebatelist, 'answers', 'answers')
 
+print dirwaremovechars
 ScanDirectories(RemoveLineChars, dirwaremovechars, dirgluedwranswers)
-ScanDirectories(FixWransColumnNumbers, dirwacolumnnumbers, dirwaremovechars)
-ScanDirectories(WransSpeakerNames, dirwaspeakers, dirwacolumnnumbers)
+print dirwacolumnnumbers
+#ScanDirectories(FixWransColumnNumbers, dirwacolumnnumbers, dirwaremovechars)
+print dirwaspeakers
+#ScanDirectories(WransSpeakerNames, dirwaspeakers, dirwacolumnnumbers)
+print dirwrans
 ScanDirectories(WransSections, dirwrans, dirwaspeakers)
 sys.exit()
 

@@ -19,7 +19,8 @@ fixsubs = 	[
 
 	# this really belongs in the fix names part
 	( '<B> Alun Michael: For </B>', '<B> Alun Michael: </B> For', 1, '2003-11-17'), 
-		]
+	( '<B> Mr. </B>\s* Shepherd:', '<B> Mr. Shepherd:</B>', 1, '2003-10-23'),
+ 		]
 def ApplyFixSubs(finr, sdate):
 	for sub in fixsubs:
 		if sub[3] == 'all' or sub[3] == sdate:
