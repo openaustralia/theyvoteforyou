@@ -7,6 +7,8 @@ Look for EDMs on parliament.uk (in daily papers)
 Web site
 --------
 
+Share DB connection with registration
+
 Mailing list for newsletter
 
 Make site give user something to do
@@ -25,6 +27,8 @@ Facility to register and define voting subset for a particular issue
 Do Iraq subselection ourselves
 Do climate change subselection
 
+META keywords
+
 Cluster diagram of each _session_
 
 Java in Opera Win32
@@ -36,6 +40,9 @@ MP page - print parliament in vote lists
 More... for friends
 
 favicon.ico
+
+Do something to show that friends are not interesting when all zero
+distance
 
 Scraper
 -------

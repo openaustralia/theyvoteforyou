@@ -36,6 +36,9 @@ ministry posts, speaker, ill, SF...)
 testing back onto them.
 corruptometer, loyaltometer, evilness, sleepometer, waffle-meter
 
+Top day of week for voting.  Distribution for individual MPs.
+- this person is never there on Thursdays!
+
 Data anlaysis (using existing data)
 -------------
 
@@ -262,8 +265,14 @@ Usability (some sort of done - this is just some notes)
 Political toolbar - easy searches.  Popup links automatically on MP's
 names in Internet Explorer.
 
-Physical gimmicks
------------------
+Gimmicks
+--------
+
+Fantasy party/cabinet, based on voting.
+Virtual top trumps - choose your favourites, play them, lose them, try
+to get ones whose careers are on the up.
+
+Real top-trump cards (rebelliousness, attendance, term of office, majority, age...)
 
 Actually post a whipping sheet to MPs.  This would arrive every week at
 the same time as their party whipping sheet.  It would tell them how
