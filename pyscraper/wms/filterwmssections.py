@@ -33,19 +33,19 @@ def StripWMSHeadings(headspeak, sdate):
 	i = 0
 	if (headspeak[i][0] != 'Initial') or headspeak[i][2]:
 		print headspeak[i]
-		raise Exception, 'non-conforming Initial heading '
+		raise ContextException, 'non-conforming Initial heading '
 	i += 1
 
 	if (not re.match('written ministerial ?statements?(?i)', headspeak[i][0])) or headspeak[i][2]:
 		print headspeak[i]
-		raise Exception, 'non-conforming Initial heading '
+		raise ContextException, 'non-conforming Initial heading '
 	elif (not re.search('<date>', headspeak[i][0])):
 		i += 1
 
 	if (sdate != mx.DateTime.DateTimeFrom(string.replace(headspeak[i][0], "&nbsp;", " ")).date) or headspeak[i][2]:
 #		if (not parlPhrases.wransmajorheadings.has_key(headspeak[i][0])) or headspeak[i][2]:
 		print headspeak[i]
-		raise Exception, 'non-conforming second heading '
+		raise ContextException, 'non-conforming second heading '
 	else:
 		i += 1
 

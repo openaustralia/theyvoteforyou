@@ -180,7 +180,6 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto, deleteoutput):
 		# hansard index page
 		urlx = dnu[2]
 
-                print 'scraping %s %s' % (dnu[0], dnu[1])
 
 		url0 = ExtractFirstLink(urlx)
 
@@ -198,10 +197,11 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto, deleteoutput):
                         if not os.path.getsize(outpatch):
                                 os.remove(outpatch)
                         else:
-                                print "Writing difffile %s of over-written HTML output" % outpatch
+                                print "Hansard has changed, writing difffile %s" % outpatch
                                 os.remove(dgf)
 	        	        os.rename(tempfilename, dgf)
                 else:
+                        print 'scraping %s %s' % (dnu[0], dnu[1])
         		os.rename(tempfilename, dgf)
 
 ###############
