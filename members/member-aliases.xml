@@ -54,9 +54,14 @@ Harriet Harman started in 2001: http://politics.guardian.co.uk/person/parliament
 We should find the exact date she started, and move her finish date over time.
 -->
 <alias fullname="Harriet Harman" alternate="The Solicitor General"
-        from="2001-12-31" to="2004-04-01"/>
+        from="2001-12-31" to="2004-05-01"/>
 <alias fullname="Harriet Harman" alternate="The Solicitor-General"
-        from="2001-12-31" to="2004-04-01"/>
+        from="2001-12-31" to="2004-05-01"/>
+
+<alias fullname="Lynda Clark" alternate="The Advocate-General for Scotland"
+        from="1999-05-20" to="2004-05-01"/>
+<alias fullname="Lynda Clark" alternate="The Advocate-General"
+        from="1999-05-20" to="2004-05-01"/>
 
 <!-- First added for 2001 parliament -->
 <alias fullname="Charles Hendry" alternate="Charles Hedry" />

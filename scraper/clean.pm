@@ -1,4 +1,4 @@
-# $Id: clean.pm,v 1.8 2003/12/20 23:52:43 frabcus Exp $
+# $Id: clean.pm,v 1.9 2004/04/02 20:57:59 frabcus Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -84,7 +84,8 @@ sub fix_division_correction
     my $corrected_text = "<p>Note:  This division was
         corrected on $date_correction, <a href=\"$source_url\">see the
         correction in Hansard</a>.";
-    db::query($dbh, "update pw_division set notes = concat(notes, ?) where division_number = ?
+    # notes = concat(notes, ?) # for now this is only use, so we wipe over
+    db::query($dbh, "update pw_division set notes = ? where division_number = ?
         and division_date = ?", $corrected_text, $num, $date_orig);
     error::die("Wrong number of rows applying division correction " . $sth->rows, $date_orig) if $sth->rows != 1;
 

@@ -1,5 +1,5 @@
 <?php 
-    # $Id: dreammp.php,v 1.2 2004/02/11 00:07:47 frabcus Exp $
+    # $Id: dreammp.php,v 1.3 2004/04/02 20:57:59 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -26,7 +26,7 @@
     $user_id = $row[2];
     $user_name = $row[3];
     $real_name = $row[4];
-    $email = preg_replace("/(.+)@(.+)/", "email: $2", $row[5]);
+    $email = preg_replace("/(.+)@(.+)/", "email domain: $2", $row[5]);
 
     $title = "'" . html_scrub($name) . "' - Dream MP";
     include "header.inc";
