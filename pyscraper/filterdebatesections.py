@@ -129,35 +129,47 @@ def StripDebateHeadings(headspeak, sdate):
 		raise Exception, ' missing stamp url at beginning of file '
 	return (ih, stampurl)
 
-
 # A series of speeches blocked up into question and answer.
 def WritexmlSpeech(fout, qb, sdate):
+       	# add in some tabbing
+        body = ''
+	for st in qb.stext:
+		body += '\t'
+		body += st
+		body += '\n'
+
+        WritexmlChunk(fout, qb, sdate, 'speech', body, '')
+
+# A series of speeches blocked up into question and answer.
+def WritexmlChunk(fout, qb, sdate, tagname, body, idextra):
 	gcolnum = re.search('colnum="([^"]*)"', qb.sstampurl.stamp)
 	if not gcolnum:
 		raise Exception, 'missing column number'
 	colnum = gcolnum.group(1)
 
 	# (we could choose answers to be the id code??)
-	sid = 'uk.org.publicwhip/debate/%s.%s.%d' % (sdate, colnum, qb.sstampurl.ncid)
+	sid = 'uk.org.publicwhip/debate/%s.%s.%d%s' % (sdate, colnum, qb.sstampurl.ncid, idextra)
 
 	# title headings
-	stithead = 'title="%s" majorheading="%s"' % (qb.sstampurl.title, qb.sstampurl.majorheading)
+        stithead = 'majorheading="%s"' % (qb.sstampurl.majorheading)
+        if qb.sstampurl.title <> "":
+                stithead += ' title="%s"' % (qb.sstampurl.title)
 
 	stime = re.match('<stamp( time=".*?")/>', qb.sstampurl.timestamp).group(1)
 	sstamp = 'colnum="%s"%s' % (colnum, stime)
 
 	spurl = re.match('<page (url=".*?")/>', qb.sstampurl.pageurl).group(1)
 
-	# get the stamps from the stamp on first speaker in block
-	fout.write('\n<speech id="%s" %s %s %s %s>\n' % \
-				(sid, qb.speaker, stithead, sstamp, spurl))
-	# add in some tabbing
-	for st in qb.stext:
-		fout.write('\t')
-		fout.write(st)
-		fout.write('\n')
-	fout.write('</speech>\n')
+        speaker = ''
+        if tagname == 'speech':
+                speaker = qb.speaker
 
+	# get the stamps from the stamp on first speaker in block
+	fout.write('\n<%s id="%s" %s %s %s %s>\n' % \
+				(tagname, sid, speaker, stithead, sstamp, spurl))
+        fout.write(body)
+
+	fout.write('</%s>\n' % (tagname))
 
 ################
 # main function
@@ -266,13 +278,18 @@ def FilterDebateSections(fout, text, sdate):
 
 		# major heading signal
 		if not qblock[0].sstampurl.title:
-			fout.write('\n\n<MAJOR-HEADING>%s</MAJOR-HEADING>\n\n' % qblock[0].sstampurl.majorheading)
+                        fout.write('\n')
+                        WritexmlChunk(fout, qblock[0], sdate, 'MAJOR-HEADING', qblock[0].sstampurl.majorheading, 'h1')
+                        fout.write('\n')
 			if not qblock[0].stext:
 				continue
 
 		# go through the components of this block
 		if qblock[0].sstampurl.title:
-			fout.write('\n\n<MINOR-HEADING>%s</MINOR-HEADING>\n\n' % qblock[0].sstampurl.title)
+                        fout.write('\n')
+                        WritexmlChunk(fout, qblock[0], sdate, 'MINOR-HEADING', qblock[0].sstampurl.title, 'h2')
+                        fout.write('\n')
+
 		for qb in qblock:
 			WritexmlSpeech(fout, qb, sdate)
 
