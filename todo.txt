@@ -1,3 +1,7 @@
+Migrate from the cache up to date boolean
+Migrate away from the old dream distance table to new one
+Migrate away from mpdist
+
 General
 -------
 
