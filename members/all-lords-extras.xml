@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <publicwhip>
 
+<!-- These are spurious - not real data.  Made up just to get the parser to
+work. -->
+
 <lord
 	id="uk.org.publicwhip/lord/10000"
 	house="lords"
