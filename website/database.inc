@@ -6,11 +6,11 @@
 // Copyright 1999-2000 (c) The SourceForge Crew
 // http://sourceforge.net
 //
-// $Id: database.inc,v 1.1 2005/01/14 16:07:26 frabcus Exp $
+// $Id: database.inc,v 1.2 2005/01/15 14:54:01 frabcus Exp $
 //
 // /etc/local.inc includes the machine specific database connect info
 
-include_once "config.inc";
+include_once "config.php";
 $sys_dbhost=$host;
 $sys_dbuser=$user;
 $sys_dbpasswd=$password;

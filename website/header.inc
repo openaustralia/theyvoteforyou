@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.40 2005/01/14 16:07:26 frabcus Exp $
+# $Id: header.inc,v 1.41 2005/01/15 14:54:01 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -17,7 +17,7 @@ else
     $toppath = "";
 
 include $toppath . "pretty.inc";
-include_once $toppath . "config.inc";
+include_once $toppath . "config.php";
 include_once $toppath . "account/user.inc";
 include_once $toppath . "cache-tools.inc";
 

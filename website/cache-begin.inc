@@ -1,12 +1,12 @@
 <?php
-# $Id: cache-begin.inc,v 1.16 2005/01/14 20:36:08 frabcus Exp $
+# $Id: cache-begin.inc,v 1.17 2005/01/15 14:54:01 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-include_once "config.inc";
+include_once "config.php";
 
 $cache_dir = $cache_top . "/" . substr(str_replace("/", "-", $_SERVER["SCRIPT_NAME"]),1) . "/";
 if (!isset($cache_params))

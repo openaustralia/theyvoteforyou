@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.8 2005/01/14 19:58:23 goatchurch Exp $
+# $Id: db.inc,v 1.9 2005/01/15 14:54:01 frabcus Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -8,7 +8,7 @@
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-include_once "config.inc";
+include_once "config.php";
 
 function db_scrub($text)
 {

@@ -3,7 +3,7 @@
 $feedback = '';
 
 if (!$hidden_hash_var) {
-    print "ERROR: include config.inc first";
+    print "ERROR: include config.php first";
 }
 
 if (!function_exists("user_isloggedin"))

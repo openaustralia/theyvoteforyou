@@ -1,5 +1,7 @@
 <?php
 
+# This file is called .php, so you can't display its contents by browsing to it.
+
 # Public Whip database params, change these
 $host = "localhost";
 $user = "";

@@ -1,5 +1,5 @@
 <?php $title = "Source Code"; include "../header.inc" 
-# $Id: code.php,v 1.14 2005/01/14 16:07:28 frabcus Exp $
+# $Id: code.php,v 1.15 2005/01/15 14:54:02 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -195,7 +195,7 @@ When you're done make sure you restart the webserver so it reloads its
 config files. 
 
 <p>Finally you need to tell the PHP scripts about the database.  Copy
-the file config.inc.incvs to config.inc and edit it with your MySQL 
+the file config.php.incvs to config.php and edit it with your MySQL 
 settings.  
 
 <p>Now browse to <a href="http://localhost/">http://localhost/</a>.
