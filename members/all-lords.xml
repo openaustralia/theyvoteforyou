@@ -1,0 +1,6107 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<publicwhip>
+
+<lord
+	id="uk.org.publicwhip/lord/1"
+	house="lords"
+	title="Lord" lordname="Aberdare" lordofname=""
+	frontnames="MORYS GEORGE LYNDHURST"
+	peeragetype="Deputy Hereditary" affiliation="Other"
+	fromdate="4/10/1957"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/2"
+	house="lords"
+	title="Lord" lordname="Ackner" lordofname=""
+	frontnames="DESMOND JAMES CONRAD"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="30/1/1986"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/3"
+	house="lords"
+	title="Lord" lordname="Acton" lordofname=""
+	frontnames=""
+	peeragetype="Hereds given LPs" affiliation="Labour"
+	fromdate="17/4/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/4"
+	house="lords"
+	title="Lord" lordname="Addington" lordofname=""
+	frontnames="DOMINIC BRYCE"
+	peeragetype="Elected Hereditary" affiliation="Liberal Democrat"
+	fromdate="26/6/1982"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/5"
+	house="lords"
+	title="Lord" lordname="Adebowale" lordofname=""
+	frontnames="VICTOR OLUFEMI"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="30/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/6"
+	house="lords"
+	title="Lord" lordname="Ahmed" lordofname=""
+	frontnames="NAZIR"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="3/8/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/7"
+	house="lords"
+	title="Lord" lordname="Alderdice" lordofname=""
+	frontnames="JOHN THOMAS"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="8/10/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/8"
+	house="lords"
+	title="Lord" lordname="Alexander" lordofname="Weedon"
+	frontnames="ROBERT SCOTT"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="11/7/1988"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/9"
+	house="lords"
+	title="Viscount" lordname="Allenby" lordofname="Megiddo"
+	frontnames="MICHAEL JAFFRAY HYNMAN"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="17/7/1984"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/10"
+	house="lords"
+	title="Lord" lordname="Allen" lordofname="Abbeydale"
+	frontnames="PHILIP"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="12/7/1976"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/11"
+	house="lords"
+	title="Lord" lordname="Alli" lordofname=""
+	frontnames="WAHEED"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="18/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/12"
+	house="lords"
+	title="Lord" lordname="Alton" lordofname="Liverpool"
+	frontnames="DAVID PATRICK PAUL"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="12/6/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/13"
+	house="lords"
+	title="Baroness" lordname="Amos" lordofname=""
+	frontnames="VALERIE ANN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="24/9/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/14"
+	house="lords"
+	title="Lord" lordname="Ampthill" lordofname=""
+	frontnames="GEOFFREY DENIS ERSKINE"
+	peeragetype="Deputy Hereditary" affiliation="Cross bench"
+	fromdate="3/6/1973"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/15"
+	house="lords"
+	title="Baroness" lordname="Andrews" lordofname=""
+	frontnames="ELIZABETH KAY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="9/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/16"
+	house="lords"
+	title="Baroness" lordname="Anelay" lordofname="St Johns"
+	frontnames="JOYCE ANNE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="14/10/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/17"
+	house="lords"
+	title="Lord" lordname="Archer" lordofname="Sandwell"
+	frontnames="JEFFREY HOWARD"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="9/7/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/18"
+	house="lords"
+	title="Lord" lordname="Archer" lordofname="Weston-Super-Mare"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Other"
+	fromdate="27/7/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/19"
+	house="lords"
+	title="Lord" lordname="Armstrong" lordofname="Ilminster"
+	frontnames="ROBERT TEMPLE"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="26/2/1988"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/20"
+	house="lords"
+	title="Earl" lordname="Arran" lordofname=""
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="23/2/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/21"
+	house="lords"
+	title="Lord" lordname="Ashcroft" lordofname=""
+	frontnames="MICHAEL ANTHONY"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="20/10/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/22"
+	house="lords"
+	title="Lord" lordname="Ashdown" lordofname="Norton-sub-Hamdon"
+	frontnames="JEREMY JOHN DURHAM"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="10/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/23"
+	house="lords"
+	title="Lord" lordname="Ashley" lordofname="Stoke"
+	frontnames="JACK"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="10/7/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/24"
+	house="lords"
+	title="Baroness" lordname="Ashton" lordofname="Upholland"
+	frontnames="CATHERINE MARGARET"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="2/8/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/25"
+	house="lords"
+	title="Lord" lordname="Astor" lordofname="Hever"
+	frontnames="JOHN JACOB"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="28/6/1984"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/26"
+	house="lords"
+	title="Viscount" lordname="Astor" lordofname=""
+	frontnames="WILLIAM WALDORF"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="7/3/1966"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/27"
+	house="lords"
+	title="Lord" lordname="Attenborough" lordofname=""
+	frontnames="RICHARD SAMUEL"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="30/7/1993"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/28"
+	house="lords"
+	title="Earl" lordname="Attlee" lordofname=""
+	frontnames="JOHN RICHARD"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="27/7/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/29"
+	house="lords"
+	title="Lord" lordname="Avebury" lordofname=""
+	frontnames="ERIC REGINALD"
+	peeragetype="Elected Hereditary" affiliation="Liberal Democrat"
+	fromdate="21/6/1971"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/30"
+	house="lords"
+	title="Lord" lordname="Bach" lordofname=""
+	frontnames="WILLIAM STEPHEN GOULDEN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="27/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/31"
+	house="lords"
+	title="Lord" lordname="Bagri" lordofname=""
+	frontnames="RAJ KUMAR"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="14/2/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/32"
+	house="lords"
+	title="Lord" lordname="Baker" lordofname="Dorking"
+	frontnames="KENNETH WILFRED"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="16/6/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/33"
+	house="lords"
+	title="Earl" lordname="Baldwin" lordofname="Bewdley"
+	frontnames="EDWARD ALFRED ALEXANDER"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="5/7/1976"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/34"
+	house="lords"
+	title="Lord" lordname="Barber" lordofname=""
+	frontnames="DEREK COATES"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="6/1/1975"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/35"
+	house="lords"
+	title="Lord" lordname="Barber" lordofname="Tewkesbury"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="12/8/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/36"
+	house="lords"
+	title="Baroness" lordname="Barker" lordofname=""
+	frontnames="ELIZABETH JEAN"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="31/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/37"
+	house="lords"
+	title="Lord" lordname="Barnett" lordofname=""
+	frontnames="JOEL"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="30/9/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/38"
+	house="lords"
+	title="Lord" lordname="Bassam" lordofname="Brighton"
+	frontnames="JOHN STEVEN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="3/11/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/39"
+	house="lords"
+	title="Lord" lordname="Beaumont" lordofname="Whitley"
+	frontnames="TIMOTHY WENTWORTH"
+	peeragetype="Life peer" affiliation="Other"
+	fromdate="6/12/1967"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/40"
+	house="lords"
+	title="Lord" lordname="Bell" lordofname=""
+	frontnames="TIMOTHY JOHN LEIGH"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="31/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/41"
+	house="lords"
+	title="Lord" lordname="Belstead" lordofname=""
+	frontnames=""
+	peeragetype="Hereds given LPs" affiliation="Conservative"
+	fromdate="17/11/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/42"
+	house="lords"
+	title="Lord" lordname="Berkeley" lordofname=""
+	frontnames=""
+	peeragetype="Hereds given LPs" affiliation="Labour"
+	fromdate="18/4/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/43"
+	house="lords"
+	title="Lord" lordname="Bernstein" lordofname="Craigweil"
+	frontnames="ALEXANDER"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="15/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/44"
+	house="lords"
+	title="Lord" lordname="Best" lordofname=""
+	frontnames="RICHARD STUART"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="4/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/45"
+	house="lords"
+	title="Lord" lordname="Bhatia" lordofname=""
+	frontnames="AMIRALI ALIBHAI"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="5/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/46"
+	house="lords"
+	title="Lord" lordname="Biffen" lordofname=""
+	frontnames="WILLIAM JOHN"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="3/6/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/47"
+	house="lords"
+	title="Baroness" lordname="Billingham" lordofname=""
+	frontnames="ANGELA THEODORA"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="5/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/48"
+	house="lords"
+	title="Lord" lordname="Bingham" lordofname="Cornhill"
+	frontnames="THOMAS HENRY"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="4/6/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/49"
+	house="lords"
+	title="Lord" lordname="Birt" lordofname=""
+	frontnames="JOHN"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="11/2/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/50"
+	house="lords"
+	title="Lord" lordname="Black" lordofname="Crossharbour"
+	frontnames="CONRAD MOFFAT"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="30/10/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/51"
+	house="lords"
+	title="Baroness" lordname="Blackstone" lordofname=""
+	frontnames="TESSA ANN VOSPER"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="18/3/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/52"
+	house="lords"
+	title="Lord" lordname="Blackwell" lordofname=""
+	frontnames="NORMAN ROY"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="2/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/53"
+	house="lords"
+	title="Lord" lordname="Blaker" lordofname=""
+	frontnames="PETER ALLAN RENSHAW"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="10/10/1994"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/54"
+	house="lords"
+	title="Baroness" lordname="Blatch" lordofname=""
+	frontnames="EMILY MAY"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="7/4/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/55"
+	house="lords"
+	title="Lord" lordname="Blease" lordofname=""
+	frontnames="WILLIAM JOHN"
+	peeragetype="Life peer" affiliation="Other"
+	fromdate="21/7/1978"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/56"
+	house="lords"
+	title="Viscount" lordname="Bledisloe" lordofname=""
+	frontnames="CHRISTOPHER HILEY LUDLOW"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="17/9/1979"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/57"
+	house="lords"
+	title="Baroness" lordname="Blood" lordofname=""
+	frontnames="MAY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="31/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/58"
+	house="lords"
+	title="Lord" lordname="Blyth" lordofname="Rowington"
+	frontnames="JAMES"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="24/7/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/59"
+	house="lords"
+	title="Baroness" lordname="Boothroyd" lordofname=""
+	frontnames="BETTY"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="15/1/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/60"
+	house="lords"
+	title="Lord" lordname="Borrie" lordofname=""
+	frontnames="GORDON JOHNSON"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="21/12/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/61"
+	house="lords"
+	title="Lord" lordname="Boston" lordofname="Faversham"
+	frontnames="TERENCE GEORGE"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="1/7/1976"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/62"
+	house="lords"
+	title="Lord" lordname="Bowness" lordofname=""
+	frontnames="PETER SPENCER"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="17/1/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/63"
+	house="lords"
+	title="Lord" lordname="Boyce" lordofname=""
+	frontnames="MICHAEL CECIL"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="16/6/2003"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/64"
+	house="lords"
+	title="Lord" lordname="Brabazon" lordofname="Tara"
+	frontnames="IVON ANTHONY"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="11/12/1974"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/65"
+	house="lords"
+	title="Lord" lordname="Bradshaw" lordofname=""
+	frontnames="WILLIAM PETER"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="22/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/66"
+	house="lords"
+	title="Lord" lordname="Bragg" lordofname=""
+	frontnames="MELVYN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="4/8/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/67"
+	house="lords"
+	title="Lord" lordname="Bramall" lordofname=""
+	frontnames="EDWIN NOEL WESTBY"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="9/2/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/68"
+	house="lords"
+	title="Lord" lordname="Brennan" lordofname=""
+	frontnames="DANIEL JOSEPH"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="2/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/69"
+	house="lords"
+	title="Lord" lordname="Brett" lordofname=""
+	frontnames="WILLIAM HENRY"
+	peeragetype="Life peer" affiliation="Other"
+	fromdate="20/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/70"
+	house="lords"
+	title="Viscount" lordname="Bridgeman" lordofname=""
+	frontnames="ROBIN JOHN ORLANDO"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="17/11/1982"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/71"
+	house="lords"
+	title="Lord" lordname="Bridge" lordofname="Harwich"
+	frontnames="NIGEL CYPRIAN"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="29/9/1980"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/72"
+	house="lords"
+	title="Lord" lordname="Bridges" lordofname=""
+	frontnames="THOMAS EDWARD"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="27/8/1969"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/73"
+	house="lords"
+	title="Lord" lordname="Briggs" lordofname=""
+	frontnames="ASA"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="19/7/1976"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/74"
+	house="lords"
+	title="Lord" lordname="Brightman" lordofname=""
+	frontnames="JOHN ANSON"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="12/3/1982"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/75"
+	house="lords"
+	title="Baroness" lordname="Brigstocke" lordofname=""
+	frontnames="HEATHER RENWICK"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="21/5/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/76"
+	house="lords"
+	title="Lord" lordname="Brittan" lordofname="Spennithorne"
+	frontnames="LEON"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="9/2/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/77"
+	house="lords"
+	title="Viscount" lordname="Brookeborough" lordofname=""
+	frontnames="ALAN HENRY"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="5/3/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/78"
+	house="lords"
+	title="Lord" lordname="Brooke" lordofname="Alverthorpe"
+	frontnames="PETER LEONARD"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="23/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/79"
+	house="lords"
+	title="Lord" lordname="Brooke" lordofname="Sutton Mandeville"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="30/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/80"
+	house="lords"
+	title="Lord" lordname="Brookman" lordofname=""
+	frontnames="DAVID KEITH"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="30/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/81"
+	house="lords"
+	title="Lord" lordname="Brooks" lordofname="Tremorfa"
+	frontnames="JOHN EDWARD"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="17/7/1979"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/82"
+	house="lords"
+	title="Lord" lordname="Brougham and Vaux" lordofname=""
+	frontnames="MICHAEL JOHN"
+	peeragetype="Deputy Hereditary" affiliation="Conservative"
+	fromdate="20/6/1967"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/83"
+	house="lords"
+	title="Lord" lordname="Browne" lordofname="Madingley"
+	frontnames="EDMUND JOHN PHILLIP"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="28/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/84"
+	house="lords"
+	title="Lord" lordname="Browne-Wilkinson" lordofname=""
+	frontnames="NICOLAS CHRISTOPHER HENRY"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="1/10/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/85"
+	house="lords"
+	title="Lord" lordname="Brown" lordofname="Eaton-under-Heywood"
+	frontnames=""
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="13/1/2004"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/86"
+	house="lords"
+	title="Lord" lordname="Bruce" lordofname="Donington"
+	frontnames="DONALD WILLIAM TREVOR"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="20/1/1975"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/87"
+	house="lords"
+	title="Lord" lordname="Burlison" lordofname=""
+	frontnames="THOMAS HENRY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="21/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/88"
+	house="lords"
+	title="Lord" lordname="Burnham" lordofname=""
+	frontnames="HUGH JOHN FREDERICK"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="18/6/1993"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/89"
+	house="lords"
+	title="Lord" lordname="Burns" lordofname=""
+	frontnames="TERENCE"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="20/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/90"
+	house="lords"
+	title="Baroness" lordname="Buscombe" lordofname=""
+	frontnames="PETA JANE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="23/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/91"
+	house="lords"
+	title="Lord" lordname="Butler" lordofname="Brockwell"
+	frontnames="FREDERICK EDWARD ROBIN"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="12/2/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/92"
+	house="lords"
+	title="Lord" lordname="Buxton" lordofname="Alsa"
+	frontnames="AUBREY LELAND OAKES"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="11/5/1978"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/93"
+	house="lords"
+	title="Baroness" lordname="Byford" lordofname=""
+	frontnames="HAZEL"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="15/10/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/94"
+	house="lords"
+	title="Earl" lordname="Caithness" lordofname=""
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="8/5/1965"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/95"
+	house="lords"
+	title="Lord" lordname="Callaghan" lordofname="Cardiff"
+	frontnames="LEONARD JAMES"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="5/11/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/96"
+	house="lords"
+	title="Lord" lordname="Cameron" lordofname="Lochbroom"
+	frontnames="KENNETH JOHN"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="8/6/1984"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/97"
+	house="lords"
+	title="Lord" lordname="Campbell" lordofname="Alloway"
+	frontnames="GORDON THOMAS CALTHROP"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="2/6/1981"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/98"
+	house="lords"
+	title="Lord" lordname="Campbell" lordofname="Croy"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="9/1/1975"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/99"
+	house="lords"
+	title="Lord" lordname="Campbell-Savours" lordofname=""
+	frontnames="DALE NORMAN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="4/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/100"
+	house="lords"
+	title="Arch-bishop" lordname="Canterbury" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="3/2/2003"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/101"
+	house="lords"
+	title="Lord" lordname="Carey" lordofname="Clifton"
+	frontnames="GEORGE LEONARD"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="1/11/2002"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/102"
+	house="lords"
+	title="Lord" lordname="Carlile" lordofname="Berriew"
+	frontnames="ALEXANDER CHARLES"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="27/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/103"
+	house="lords"
+	title="Lord" lordname="Carlisle" lordofname="Bucklow"
+	frontnames="MARK"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="2/11/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/104"
+	house="lords"
+	title="Baroness" lordname="Carnegy" lordofname="Lour"
+	frontnames="ELIZABETH PATRICIA"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="14/7/1982"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/105"
+	house="lords"
+	title="Lord" lordname="Carrington" lordofname=""
+	frontnames="LEONARD ROBERT"
+	peeragetype="Hereds given LPs" affiliation="Conservative"
+	fromdate="17/11/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/106"
+	house="lords"
+	title="Lord" lordname="Carr" lordofname="Hadley"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="15/1/1976"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/107"
+	house="lords"
+	title="Lord" lordname="Carswell" lordofname=""
+	frontnames=""
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="12/1/2004"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/108"
+	house="lords"
+	title="Lord" lordname="Carter" lordofname=""
+	frontnames="DENIS VICTOR"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="23/3/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/109"
+	house="lords"
+	title="Lord" lordname="Cavendish" lordofname="Furness"
+	frontnames="RICHARD HUGH"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="17/5/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/110"
+	house="lords"
+	title="Lord" lordname="Chadlington" lordofname=""
+	frontnames="PETER SELWYN"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="16/10/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/111"
+	house="lords"
+	title="Lord" lordname="Chalfont" lordofname=""
+	frontnames="ARTHUR"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="11/11/1964"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/112"
+	house="lords"
+	title="Baroness" lordname="Chalker" lordofname="Wallasey"
+	frontnames="LYNDA"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="24/4/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/113"
+	house="lords"
+	title="Viscount" lordname="Chandos" lordofname=""
+	frontnames=""
+	peeragetype="Hereds given LPs" affiliation="Labour"
+	fromdate="19/4/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/114"
+	house="lords"
+	title="Lord" lordname="Chan" lordofname=""
+	frontnames="MICHAEL CHEW KOON"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="2/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/115"
+	house="lords"
+	title="Lord" lordname="Chapple" lordofname=""
+	frontnames="FRANCIS JOSEPH"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="4/2/1985"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/116"
+	house="lords"
+	title="Bishop" lordname="Chelmsford" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="24/11/2003"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/117"
+	house="lords"
+	title="Bishop" lordname="Chester" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="8/11/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/118"
+	house="lords"
+	title="Lord" lordname="Chilver" lordofname=""
+	frontnames="AMOS HENRY"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="14/7/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/119"
+	house="lords"
+	title="Lord" lordname="Chitnis" lordofname=""
+	frontnames="PRATAP CHIDAMBER"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="18/7/1977"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/120"
+	house="lords"
+	title="Marquess" lordname="Cholmondeley" lordofname=""
+	frontnames=""
+	peeragetype="2 Hered Office Holders" affiliation="Cross bench"
+	fromdate="13/3/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/121"
+	house="lords"
+	title="Lord" lordname="Chorley" lordofname=""
+	frontnames="ROGER RICHARD EDWARD"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="27/1/1978"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/122"
+	house="lords"
+	title="Lord" lordname="Christopher" lordofname=""
+	frontnames="ANTHONY MARTIN GROSVENOR"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="30/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/123"
+	house="lords"
+	title="Lord" lordname="Clarke" lordofname="Hampstead"
+	frontnames="ANTHONY JAMES"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="29/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/124"
+	house="lords"
+	title="Lord" lordname="Clark" lordofname="Kempston"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="21/7/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/125"
+	house="lords"
+	title="Lord" lordname="Clark" lordofname="Windermere"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="2/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/126"
+	house="lords"
+	title="Lord" lordname="Clement-Jones" lordofname=""
+	frontnames="TIMOTHY FRANCIS"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="17/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/127"
+	house="lords"
+	title="Lord" lordname="Clinton-Davis" lordofname=""
+	frontnames="STANLEY CLINTON"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="8/5/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/128"
+	house="lords"
+	title="Lord" lordname="Clyde" lordofname=""
+	frontnames="JAMES JOHN"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="1/10/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/129"
+	house="lords"
+	title="Lord" lordname="Cobbold" lordofname=""
+	frontnames="DAVID ANTONY FROMANTEEL"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="1/11/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/130"
+	house="lords"
+	title="Lord" lordname="Cockfield" lordofname=""
+	frontnames="FRANCIS ARTHUR"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="14/4/1978"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/131"
+	house="lords"
+	title="Lord" lordname="Coe" lordofname=""
+	frontnames="SEBASTIAN NEWBOLD"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="16/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/132"
+	house="lords"
+	title="Baroness" lordname="Cohen" lordofname="Pimlico"
+	frontnames="JANET"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="3/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/133"
+	house="lords"
+	title="Viscount" lordname="Colville" lordofname="Culross"
+	frontnames="JOHN MARK ALEXANDER"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="1/3/1945"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/134"
+	house="lords"
+	title="Lord" lordname="Colwyn" lordofname=""
+	frontnames="IAN ANTHONY"
+	peeragetype="Deputy Hereditary" affiliation="Conservative"
+	fromdate="1/6/1966"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/135"
+	house="lords"
+	title="Lord" lordname="Condon" lordofname=""
+	frontnames="PAUL LESLIE"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="27/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/136"
+	house="lords"
+	title="Lord" lordname="Constantine" lordofname="Stanmore"
+	frontnames="THEODORE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="21/7/1981"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/137"
+	house="lords"
+	title="Lord" lordname="Cooke" lordofname="Islandreagh"
+	frontnames="ROBIN BRUNSKILL"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="11/8/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/138"
+	house="lords"
+	title="Lord" lordname="Cooke" lordofname="Thorndon"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="3/4/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/139"
+	house="lords"
+	title="Lord" lordname="Cope" lordofname="Berkeley"
+	frontnames="JOHN AMBROSE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="4/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/140"
+	house="lords"
+	title="Lord" lordname="Corbett" lordofname="Castle Vale"
+	frontnames="ROBIN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="5/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/141"
+	house="lords"
+	title="Earl" lordname="Courtown" lordofname=""
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="23/7/1975"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/142"
+	house="lords"
+	title="Bishop" lordname="Coventry" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="4/6/2003"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/143"
+	house="lords"
+	title="Baroness" lordname="Cox" lordofname=""
+	frontnames="CAROLINE ANNE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="24/1/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/144"
+	house="lords"
+	title="Viscount" lordname="Craigavon" lordofname=""
+	frontnames="JANRIC FRASER"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="18/5/1974"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/145"
+	house="lords"
+	title="Lord" lordname="Craig" lordofname="Radley"
+	frontnames="DAVID BROWNRIGG"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="30/7/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/146"
+	house="lords"
+	title="Lord" lordname="Crathorne" lordofname=""
+	frontnames="CHARLES JAMES"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="26/3/1977"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/147"
+	house="lords"
+	title="Earl" lordname="Crawford and Balcarres" lordofname=""
+	frontnames=""
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="24/1/1975"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/148"
+	house="lords"
+	title="Baroness" lordname="Crawley" lordofname=""
+	frontnames="CHRISTINE MARY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="24/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/149"
+	house="lords"
+	title="Lord" lordname="Crickhowell" lordofname=""
+	frontnames="ROGER NICHOLAS"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="15/10/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/150"
+	house="lords"
+	title="Lord" lordname="Croham" lordofname=""
+	frontnames="DOUGLAS ALBERT VIVIAN"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="8/2/1978"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/151"
+	house="lords"
+	title="Lord" lordname="Cuckney" lordofname=""
+	frontnames="JOHN GRAHAM"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="25/7/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/152"
+	house="lords"
+	title="Lord" lordname="Cullen" lordofname="Whitekirk"
+	frontnames="WILLIAM DOUGLAS"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="17/6/2003"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/153"
+	house="lords"
+	title="Baroness" lordname="Cumberlege" lordofname=""
+	frontnames="JULIA FRANCES"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="18/5/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/154"
+	house="lords"
+	title="Lord" lordname="Currie" lordofname="Marylebone"
+	frontnames="DAVID ANTHONY"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="1/10/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/155"
+	house="lords"
+	title="Lord" lordname="Dahrendorf" lordofname=""
+	frontnames="RALF"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="15/7/1993"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/156"
+	house="lords"
+	title="Baroness" lordname="Darcy de Knayth" lordofname=""
+	frontnames="DAVINA MARCIA"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="23/3/1943"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/157"
+	house="lords"
+	title="Baroness" lordname="David" lordofname=""
+	frontnames="NORA RATCLIFF"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="28/4/1978"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/158"
+	house="lords"
+	title="Lord" lordname="Davies" lordofname="Coity"
+	frontnames="BRYAN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="1/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/159"
+	house="lords"
+	title="Lord" lordname="Davies" lordofname="Oldham"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="3/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/160"
+	house="lords"
+	title="Lord" lordname="Dean" lordofname="Harptree"
+	frontnames="ARTHUR PAUL"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="5/10/1993"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/161"
+	house="lords"
+	title="Baroness" lordname="Dean" lordofname="Thornton-le-Fylde"
+	frontnames="BRENDA"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="12/10/1993"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/162"
+	house="lords"
+	title="Lord" lordname="Dearing" lordofname=""
+	frontnames="RONALD ERNEST"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="13/2/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/163"
+	house="lords"
+	title="Lord" lordname="Deedes" lordofname=""
+	frontnames="WILLIAM FRANCIS"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="23/9/1986"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/164"
+	house="lords"
+	title="Baroness" lordname="Delacourt-Smith" lordofname="Alteryn"
+	frontnames="MARGARET ROSALIND"
+	peeragetype="Life peer" affiliation="Other"
+	fromdate="5/7/1974"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/165"
+	house="lords"
+	title="Lord" lordname="Denham" lordofname=""
+	frontnames="BERTRAM STANLEY MITFORD"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="30/11/1948"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/166"
+	house="lords"
+	title="Bishop" lordname="Derby" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="17/9/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/167"
+	house="lords"
+	title="Lord" lordname="Desai" lordofname=""
+	frontnames="MEGHNAD JAGDISHCHANDRA"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="5/6/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/168"
+	house="lords"
+	title="Lord" lordname="Dholakia" lordofname=""
+	frontnames="NAVNIT"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="24/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/169"
+	house="lords"
+	title="Lord" lordname="Diamond" lordofname=""
+	frontnames="JOHN"
+	peeragetype="Life peer" affiliation="Other"
+	fromdate="25/9/1970"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/170"
+	house="lords"
+	title="Lord" lordname="Dixon" lordofname=""
+	frontnames="DONALD"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="9/6/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/171"
+	house="lords"
+	title="Lord" lordname="Dixon-Smith" lordofname=""
+	frontnames="ROBERT WILLIAM"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="11/10/1993"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/172"
+	house="lords"
+	title="Lord" lordname="Donaldson" lordofname="Lymington"
+	frontnames="JOHN FRANCIS"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="15/2/1988"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/173"
+	house="lords"
+	title="Lord" lordname="Donoughue" lordofname=""
+	frontnames="BERNARD"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="21/5/1985"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/174"
+	house="lords"
+	title="Lord" lordname="Dubs" lordofname=""
+	frontnames="ALFRED"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="27/9/1994"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/175"
+	house="lords"
+	title="Earl" lordname="Dundee" lordofname=""
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="29/6/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/176"
+	house="lords"
+	title="Baroness" lordname="Dunn" lordofname=""
+	frontnames="LYDIA SELINA"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="24/8/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/177"
+	house="lords"
+	title="Bishop" lordname="Durham" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="2/9/2003"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/178"
+	house="lords"
+	title="Lord" lordname="Eames" lordofname=""
+	frontnames="ROBERT HENRY ALEXANDER"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="25/8/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/179"
+	house="lords"
+	title="Lord" lordname="Eatwell" lordofname=""
+	frontnames="JOHN LEONARD"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="14/7/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/180"
+	house="lords"
+	title="Baroness" lordname="Eccles" lordofname="Moulton"
+	frontnames="DIANA CATHERINE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="10/5/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/181"
+	house="lords"
+	title="Lord" lordname="Eden" lordofname="Winton"
+	frontnames="JOHN BENEDICT"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="3/10/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/182"
+	house="lords"
+	title="Lord" lordname="Elder" lordofname=""
+	frontnames="THOMAS MURRAY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="19/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/183"
+	house="lords"
+	title="Lord" lordname="Elis-Thomas" lordofname=""
+	frontnames="DAFYDD ELIS"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="18/9/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/184"
+	house="lords"
+	title="Baroness" lordname="Elles" lordofname=""
+	frontnames="DIANA LOUIE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="2/5/1972"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/185"
+	house="lords"
+	title="Lord" lordname="Elliott" lordofname="Morpeth"
+	frontnames="ROBERT WILLIAM"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="16/5/1985"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/186"
+	house="lords"
+	title="Lord" lordname="Elton" lordofname=""
+	frontnames="RODNEY"
+	peeragetype="Deputy Hereditary" affiliation="Conservative"
+	fromdate="18/4/1973"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/187"
+	house="lords"
+	title="Lord" lordname="Elystan-Morgan" lordofname=""
+	frontnames="DAFYDD ELYSTAN"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="27/5/1981"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/188"
+	house="lords"
+	title="Baroness" lordname="Emerton" lordofname=""
+	frontnames="AUDREY CAROLINE"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="17/2/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/189"
+	house="lords"
+	title="Earl" lordname="Erroll" lordofname=""
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="16/5/1978"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/190"
+	house="lords"
+	title="Lord" lordname="Evans" lordofname="Parkside"
+	frontnames="DAVID CHARLES"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="10/6/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/191"
+	house="lords"
+	title="Lord" lordname="Evans" lordofname="Temple Guiting"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="11/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/192"
+	house="lords"
+	title="Lord" lordname="Evans" lordofname="Watford"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="28/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/193"
+	house="lords"
+	title="Lord" lordname="Ewing" lordofname="Kirkford"
+	frontnames="HARRY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="17/7/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/194"
+	house="lords"
+	title="Lord" lordname="Ezra" lordofname=""
+	frontnames="DEREK"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="2/2/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/195"
+	house="lords"
+	title="Lord" lordname="Falconer" lordofname="Thoroton"
+	frontnames="CHARLES LESLIE"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="14/5/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/196"
+	house="lords"
+	title="Baroness" lordname="Falkender" lordofname=""
+	frontnames="MARCIA MATILDA"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="11/7/1974"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/197"
+	house="lords"
+	title="Viscount" lordname="Falkland" lordofname=""
+	frontnames="LUCIUS EDWARD WILLIAM PLANTAGENET"
+	peeragetype="Deputy Hereditary" affiliation="Liberal Democrat"
+	fromdate="16/3/1984"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/198"
+	house="lords"
+	title="Baroness" lordname="Farrington" lordofname="Ribbleton"
+	frontnames="JOSEPHINE"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="29/9/1994"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/199"
+	house="lords"
+	title="Lord" lordname="Faulkner" lordofname="Worcester"
+	frontnames="RICHARD OLIVER"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="14/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/200"
+	house="lords"
+	title="Lord" lordname="Fearn" lordofname=""
+	frontnames="RONALD CYRIL"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="11/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/201"
+	house="lords"
+	title="Lord" lordname="Feldman" lordofname=""
+	frontnames="BASIL"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="15/1/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/202"
+	house="lords"
+	title="Lord" lordname="Fellowes" lordofname=""
+	frontnames="ROBERT"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="12/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/203"
+	house="lords"
+	title="Earl" lordname="Ferrers" lordofname=""
+	frontnames="ROBERT WASHINGTON"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="11/10/1954"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/204"
+	house="lords"
+	title="Lord" lordname="Filkin" lordofname=""
+	frontnames="DAVID GEOFFREY NIGEL"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="29/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/205"
+	house="lords"
+	title="Baroness" lordname="Finlay" lordofname="Llandaff"
+	frontnames="ILORA GILLIAN"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="28/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/206"
+	house="lords"
+	title="Baroness" lordname="Fisher" lordofname="Rednal"
+	frontnames="DORIS MARY GERTRUDE"
+	peeragetype="Life peer" affiliation="Other"
+	fromdate="2/7/1974"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/207"
+	house="lords"
+	title="Lord" lordname="Fitt" lordofname=""
+	frontnames="GERARD"
+	peeragetype="Life peer" affiliation="Other"
+	fromdate="14/10/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/208"
+	house="lords"
+	title="Baroness" lordname="Flather" lordofname=""
+	frontnames="SHREELA"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="11/6/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/209"
+	house="lords"
+	title="Lord" lordname="Flowers" lordofname=""
+	frontnames="BRIAN HILTON"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="20/2/1979"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/210"
+	house="lords"
+	title="Baroness" lordname="Fookes" lordofname=""
+	frontnames="JANET EVELYN"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="30/9/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/211"
+	house="lords"
+	title="Lord" lordname="Forsyth" lordofname="Drumlean"
+	frontnames="MICHAEL BRUCE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="14/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/212"
+	house="lords"
+	title="Lord" lordname="Forte" lordofname=""
+	frontnames="CHARLES"
+	peeragetype="Life peer" affiliation="Other"
+	fromdate="2/2/1982"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/213"
+	house="lords"
+	title="Lord" lordname="Foster" lordofname="Thames Bank"
+	frontnames="NORMAN ROBERT"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="19/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/214"
+	house="lords"
+	title="Lord" lordname="Fowler" lordofname=""
+	frontnames="PETER NORMAN"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="3/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/215"
+	house="lords"
+	title="Lord" lordname="Fraser" lordofname="Carmyllie"
+	frontnames="PETER LOVAT"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="10/2/1989"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/216"
+	house="lords"
+	title="Lord" lordname="Freeman" lordofname=""
+	frontnames="ROGER NORMAN"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="29/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/217"
+	house="lords"
+	title="Lord" lordname="Freyberg" lordofname=""
+	frontnames="VALERIAN BERNARD"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="26/5/1993"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/218"
+	house="lords"
+	title="Lord" lordname="Fyfe" lordofname="Fairfield"
+	frontnames="GEORGE LENNOX"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="16/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/219"
+	house="lords"
+	title="Baroness" lordname="Gale" lordofname=""
+	frontnames="ANITA"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="4/8/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/220"
+	house="lords"
+	title="Baroness" lordname="Gardner" lordofname="Parkes"
+	frontnames="RACHEL TRIXIE ANNE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="19/6/1981"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/221"
+	house="lords"
+	title="Lord" lordname="Garel-Jones" lordofname=""
+	frontnames="WILLIAM ARMAND THOMAS TRISTAN"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="22/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/222"
+	house="lords"
+	title="Lord" lordname="Gavron" lordofname=""
+	frontnames="ROBERT"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="6/8/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/223"
+	house="lords"
+	title="Lord" lordname="Geddes" lordofname=""
+	frontnames="EUAN MICHAEL ROSS"
+	peeragetype="Deputy Hereditary" affiliation="Conservative"
+	fromdate="2/2/1975"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/224"
+	house="lords"
+	title="Lord" lordname="Geraint" lordofname=""
+	frontnames="GERAINT WYN"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="18/7/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/225"
+	house="lords"
+	title="Lord" lordname="Gibson" lordofname=""
+	frontnames="RICHARD PATRICK TALLENTYRE"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="31/1/1975"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/226"
+	house="lords"
+	title="Baroness" lordname="Gibson" lordofname="Market Rasen"
+	frontnames="ANNE"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="9/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/227"
+	house="lords"
+	title="Lord" lordname="Gilbert" lordofname=""
+	frontnames="JOHN WILLIAM"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="16/5/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/228"
+	house="lords"
+	title="Lord" lordname="Gilmour" lordofname="Craigmillar"
+	frontnames="IAN HEDWORTH JOHN LITTLE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="25/8/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/229"
+	house="lords"
+	title="Lord" lordname="Glenamara" lordofname=""
+	frontnames="EDWARD WATSON"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="28/1/1977"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/230"
+	house="lords"
+	title="Lord" lordname="Glenarthur" lordofname=""
+	frontnames="SIMON MARK"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="19/5/1976"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/231"
+	house="lords"
+	title="Lord" lordname="Glentoran" lordofname=""
+	frontnames="THOMAS ROBIN VALERIAN"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="22/7/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/232"
+	house="lords"
+	title="Lord" lordname="Goff" lordofname="Chieveley"
+	frontnames="ROBERT LIONEL ARCHIBALD"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="6/2/1986"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/233"
+	house="lords"
+	title="Baroness" lordname="Golding" lordofname=""
+	frontnames="LLINOS"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="13/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/234"
+	house="lords"
+	title="Lord" lordname="Goldsmith" lordofname=""
+	frontnames="PETER HENRY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="29/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/235"
+	house="lords"
+	title="Lord" lordname="Goodhart" lordofname=""
+	frontnames="WILLIAM HOWARD"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="23/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/236"
+	house="lords"
+	title="Lord" lordname="Gordon" lordofname="Strathblane"
+	frontnames="JAMES STUART"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="4/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/237"
+	house="lords"
+	title="Viscount" lordname="Goschen" lordofname=""
+	frontnames="GILES JOHN HARRY"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="22/3/1977"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/238"
+	house="lords"
+	title="Baroness" lordname="Goudie" lordofname=""
+	frontnames="MARY TERESA"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="21/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/239"
+	house="lords"
+	title="Baroness" lordname="Gould" lordofname="Potternewton"
+	frontnames="JOYCE BRENDA"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="6/10/1993"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/240"
+	house="lords"
+	title="Lord" lordname="Grabiner" lordofname=""
+	frontnames="ANTHONY STEPHEN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="26/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/241"
+	house="lords"
+	title="Lord" lordname="Graham" lordofname="Edmonton"
+	frontnames="THOMAS EDWARD"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="12/9/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/242"
+	house="lords"
+	title="Lord" lordname="Grantchester" lordofname=""
+	frontnames="CHRISTOPHER JOHN"
+	peeragetype="Elected Hereditary" affiliation="Labour"
+	fromdate="12/8/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/243"
+	house="lords"
+	title="Lord" lordname="Gray" lordofname="Contin"
+	frontnames="JAMES HECTOR NORTHEY"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="4/7/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/244"
+	house="lords"
+	title="Lord" lordname="Greaves" lordofname=""
+	frontnames="ANTHONY ROBERT"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="4/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/245"
+	house="lords"
+	title="Lord" lordname="Greene" lordofname="Harrow Weald"
+	frontnames="SIDNEY FRANCIS"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="21/1/1975"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/246"
+	house="lords"
+	title="Baroness" lordname="Greenfield" lordofname=""
+	frontnames="SUSAN ADELE"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="18/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/247"
+	house="lords"
+	title="Baroness" lordname="Greengross" lordofname=""
+	frontnames="SALLY RALEA"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="10/2/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/248"
+	house="lords"
+	title="Lord" lordname="Greenway" lordofname=""
+	frontnames="AMBROSE CHARLES DREXEL"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="14/9/1975"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/249"
+	house="lords"
+	title="Lord" lordname="Gregson" lordofname=""
+	frontnames="JOHN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="11/7/1975"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/250"
+	house="lords"
+	title="Lord" lordname="Grenfell" lordofname=""
+	frontnames=""
+	peeragetype="Hereds given LPs" affiliation="Other"
+	fromdate="17/4/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/251"
+	house="lords"
+	title="Lord" lordname="Griffiths" lordofname=""
+	frontnames="BRIAN"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="23/5/1985"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/252"
+	house="lords"
+	title="Lord" lordname="Griffiths" lordofname="Fforestfach"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="5/2/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/253"
+	house="lords"
+	title="Lord" lordname="Grocott" lordofname=""
+	frontnames="BRUCE JOSEPH"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="2/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/254"
+	house="lords"
+	title="Lord" lordname="Guthrie" lordofname="Craigiebank"
+	frontnames="CHARLES RONALD LLEWELYN"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="27/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/255"
+	house="lords"
+	title="Lord" lordname="Habgood" lordofname=""
+	frontnames="JOHN STAPYLTON"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="8/9/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/256"
+	house="lords"
+	title="Baroness" lordname="Hale" lordofname="Richmond"
+	frontnames=""
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="12/1/2004"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/257"
+	house="lords"
+	title="Baroness" lordname="Hamwee" lordofname=""
+	frontnames="SALLY RACHEL"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="6/6/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/258"
+	house="lords"
+	title="Baroness" lordname="Hanham" lordofname=""
+	frontnames="JOAN BROWNLOW"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="15/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/259"
+	house="lords"
+	title="Lord" lordname="Hannay" lordofname="Chiswick"
+	frontnames="DAVID HUGH ALEXANDER"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="19/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/260"
+	house="lords"
+	title="Lord" lordname="Hanningfield" lordofname=""
+	frontnames="PAUL EDWARD WINSTON"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="31/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/261"
+	house="lords"
+	title="Lord" lordname="Hanson" lordofname=""
+	frontnames="JAMES EDWARD"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="30/6/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/262"
+	house="lords"
+	title="Lord" lordname="Hardie" lordofname=""
+	frontnames="ANDREW RUTHERFORD"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="21/5/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/263"
+	house="lords"
+	title="Lord" lordname="Harris" lordofname="Haringey"
+	frontnames="PHILIP CHARLES"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="5/8/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/264"
+	house="lords"
+	title="Lord" lordname="Harris" lordofname="High Cross"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="19/7/1979"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/265"
+	house="lords"
+	title="Lord" lordname="Harris" lordofname="Peckham"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="11/1/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/266"
+	house="lords"
+	title="Baroness" lordname="Harris" lordofname="Richmond"
+	frontnames="ANGELA FELICITY"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="6/8/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/267"
+	house="lords"
+	title="Lord" lordname="Harrison" lordofname=""
+	frontnames="LYNDON HENRY ARTHUR"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="28/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/268"
+	house="lords"
+	title="Lord" lordname="Haskel" lordofname=""
+	frontnames="SIMON"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="4/10/1993"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/269"
+	house="lords"
+	title="Lord" lordname="Haskins" lordofname=""
+	frontnames="CHRISTOPHER ROBIN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="25/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/270"
+	house="lords"
+	title="Lord" lordname="Hattersley" lordofname=""
+	frontnames="ROY SYDNEY GEORGE"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="24/11/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/271"
+	house="lords"
+	title="Lord" lordname="Hayhoe" lordofname=""
+	frontnames="BERNARD JOHN"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="21/8/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/272"
+	house="lords"
+	title="Baroness" lordname="Hayman" lordofname=""
+	frontnames="HELENE VALERIE"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="2/1/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/273"
+	house="lords"
+	title="Lord" lordname="Healey" lordofname=""
+	frontnames="DENIS WINSTON"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="29/6/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/274"
+	house="lords"
+	title="Lord" lordname="Henley" lordofname=""
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="20/12/1977"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/275"
+	house="lords"
+	title="Lord" lordname="Heseltine" lordofname=""
+	frontnames="MICHAEL RAY DIBDIN"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="12/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/276"
+	house="lords"
+	title="Lord" lordname="Higgins" lordofname=""
+	frontnames="TERENCE LANGLEY"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="28/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/277"
+	house="lords"
+	title="Lord" lordname="Hill-Norton" lordofname=""
+	frontnames="PETER JOHN"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="5/2/1979"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/278"
+	house="lords"
+	title="Baroness" lordname="Hilton" lordofname="Eggardon"
+	frontnames="JENNIFER"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="14/6/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/279"
+	house="lords"
+	title="Lord" lordname="Hobhouse" lordofname="Woodborough"
+	frontnames="JOHN STEWART"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="1/10/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/280"
+	house="lords"
+	title="Lord" lordname="Hodgson" lordofname="Astley Abbotts"
+	frontnames="ROBIN GRANVILLE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="7/6/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/281"
+	house="lords"
+	title="Lord" lordname="Hoffmann" lordofname=""
+	frontnames="LEONARD HUBERT"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="21/2/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/282"
+	house="lords"
+	title="Baroness" lordname="Hogg" lordofname=""
+	frontnames="SARAH ELIZABETH MARY"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="3/2/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/283"
+	house="lords"
+	title="Lord" lordname="Hogg" lordofname="Cumbernauld"
+	frontnames="NORMAN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="24/9/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/284"
+	house="lords"
+	title="Lord" lordname="Hollick" lordofname=""
+	frontnames="CLIVE RICHARD"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="20/6/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/285"
+	house="lords"
+	title="Baroness" lordname="Hollis" lordofname="Heigham"
+	frontnames="PATRICIA LESLEY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="1/6/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/286"
+	house="lords"
+	title="Lord" lordname="Holme" lordofname="Cheltenham"
+	frontnames="RICHARD GORDON"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="29/5/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/287"
+	house="lords"
+	title="Earl" lordname="Home" lordofname=""
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="9/10/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/288"
+	house="lords"
+	title="Baroness" lordname="Hooper" lordofname=""
+	frontnames="GLORIA DOROTHY"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="10/6/1985"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/289"
+	house="lords"
+	title="Lord" lordname="Hooson" lordofname=""
+	frontnames="HUGH EMLYN"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="26/7/1979"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/290"
+	house="lords"
+	title="Lord" lordname="Hope" lordofname="Craighead"
+	frontnames="JAMES ARTHUR DAVID"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="28/2/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/291"
+	house="lords"
+	title="Baroness" lordname="Howarth" lordofname="Breckland"
+	frontnames="VALERIE GEORGINA"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="25/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/292"
+	house="lords"
+	title="Earl" lordname="Howe" lordofname=""
+	frontnames="FREDERICK RICHARD PENN"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="29/5/1984"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/293"
+	house="lords"
+	title="Lord" lordname="Howell" lordofname="Guildford"
+	frontnames="DAVID ARTHUR RUSSELL"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="6/6/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/294"
+	house="lords"
+	title="Baroness" lordname="Howells" lordofname="St. Davids"
+	frontnames="ROSALIND PATRICIA-ANNE"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="21/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/295"
+	house="lords"
+	title="Lord" lordname="Howe" lordofname="Aberavon"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="30/6/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/296"
+	house="lords"
+	title="Baroness" lordname="Howe" lordofname="Idlicote"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="29/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/297"
+	house="lords"
+	title="Lord" lordname="Howie" lordofname="Troon"
+	frontnames="WILLIAM"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="21/4/1978"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/298"
+	house="lords"
+	title="Lord" lordname="Hoyle" lordofname=""
+	frontnames="ERIC DOUGLAS HARVEY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="14/5/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/299"
+	house="lords"
+	title="Lord" lordname="Hughes" lordofname="Woodside"
+	frontnames="ROBERT"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="27/9/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/300"
+	house="lords"
+	title="Lord" lordname="Hunt" lordofname="Chesterton"
+	frontnames="DAVID JAMES FLETCHER"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="5/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/301"
+	house="lords"
+	title="Lord" lordname="Hunt" lordofname="Kings Heath"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="20/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/302"
+	house="lords"
+	title="Lord" lordname="Hunt" lordofname="Tanworth"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="8/2/1980"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/303"
+	house="lords"
+	title="Lord" lordname="Hunt" lordofname="Wirral"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="20/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/304"
+	house="lords"
+	title="Lord" lordname="Hurd" lordofname="Westwell"
+	frontnames="DOUGLAS RICHARD"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="13/6/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/305"
+	house="lords"
+	title="Lord" lordname="Hussey" lordofname="North Bradley"
+	frontnames="MARMADUKE JAMES"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="11/9/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/306"
+	house="lords"
+	title="Lord" lordname="Hutchinson" lordofname="Lullington"
+	frontnames="JEREMY NICOLAS"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="16/5/1978"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/307"
+	house="lords"
+	title="Lord" lordname="Hutton" lordofname=""
+	frontnames="JAMES BRIAN EDWARD"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="6/1/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/308"
+	house="lords"
+	title="Lord" lordname="Hylton" lordofname=""
+	frontnames="RAYMOND HERVEY"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="14/11/1967"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/309"
+	house="lords"
+	title="Lord" lordname="Imbert" lordofname=""
+	frontnames="PETER MICHAEL"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="10/2/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/310"
+	house="lords"
+	title="Lord" lordname="Inge" lordofname=""
+	frontnames="PETER ANTHONY"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="21/7/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/311"
+	house="lords"
+	title="Lord" lordname="Inglewood" lordofname=""
+	frontnames="WILLIAM RICHARD"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="22/6/1989"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/312"
+	house="lords"
+	title="Lord" lordname="Irvine" lordofname="Lairg"
+	frontnames="ALEXANDER ANDREW MACKAY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="25/3/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/313"
+	house="lords"
+	title="Lord" lordname="Jacobs" lordofname=""
+	frontnames="DAVID ANTHONY"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="18/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/314"
+	house="lords"
+	title="Baroness" lordname="James" lordofname="Holland Park"
+	frontnames="PHYLLIS DOROTHY"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="7/2/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/315"
+	house="lords"
+	title="Lord" lordname="Janner" lordofname="Braunstone"
+	frontnames="GREVILLE EWAN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="25/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/316"
+	house="lords"
+	title="Lord" lordname="Jauncey" lordofname="Tullichettle"
+	frontnames="CHARLES ELIOT"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="9/2/1988"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/317"
+	house="lords"
+	title="Baroness" lordname="Jay" lordofname="Paddington"
+	frontnames="MARGARET ANN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="29/7/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/318"
+	house="lords"
+	title="Baroness" lordname="Jeger" lordofname=""
+	frontnames="LENA MAY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="11/7/1979"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/319"
+	house="lords"
+	title="Earl" lordname="Jellicoe" lordofname=""
+	frontnames=""
+	peeragetype="Hereds given LPs" affiliation="Conservative"
+	fromdate="17/11/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/320"
+	house="lords"
+	title="Lord" lordname="Jenkin" lordofname="Roding"
+	frontnames="CHARLES PATRICK FLEEMING"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="3/11/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/321"
+	house="lords"
+	title="Lord" lordname="Joffe" lordofname=""
+	frontnames="JOEL GOODMAN"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="6/2/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/322"
+	house="lords"
+	title="Lord" lordname="Jones" lordofname=""
+	frontnames="STEPHEN BARRY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="6/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/323"
+	house="lords"
+	title="Lord" lordname="Jopling" lordofname=""
+	frontnames="THOMAS MICHAEL"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="5/6/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/324"
+	house="lords"
+	title="Lord" lordname="Jordan" lordofname=""
+	frontnames="WILLIAM BRIAN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="5/6/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/325"
+	house="lords"
+	title="Lord" lordname="Judd" lordofname=""
+	frontnames="FRANK ASHCROFT"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="10/6/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/326"
+	house="lords"
+	title="Lord" lordname="Keith" lordofname="Castleacre"
+	frontnames="KENNETH ALEXANDER"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="6/2/1980"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/327"
+	house="lords"
+	title="Lord" lordname="Kelvedon" lordofname=""
+	frontnames="HENRY PAUL GUINNESS"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="11/6/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/328"
+	house="lords"
+	title="Baroness" lordname="Kennedy" lordofname="The Shaws"
+	frontnames="HELENA ANN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="27/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/329"
+	house="lords"
+	title="Lord" lordname="Kilclooney" lordofname=""
+	frontnames="JOHN DAVID"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="17/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/330"
+	house="lords"
+	title="Lord" lordname="Kilpatrick" lordofname="Kincraig"
+	frontnames="ROBERT"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="16/2/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/331"
+	house="lords"
+	title="Lord" lordname="Kimball" lordofname=""
+	frontnames="MARCUS RICHARD"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="9/5/1985"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/332"
+	house="lords"
+	title="Lord" lordname="King" lordofname="Bridgwater"
+	frontnames="TARSEM"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="9/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/333"
+	house="lords"
+	title="Lord" lordname="King" lordofname="Wartnaby"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Other"
+	fromdate="15/7/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/334"
+	house="lords"
+	title="Lord" lordname="King" lordofname="West Bromwich"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="22/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/335"
+	house="lords"
+	title="Lord" lordname="Kingsdown" lordofname=""
+	frontnames="ROBERT"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="14/7/1993"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/336"
+	house="lords"
+	title="Lord" lordname="Kingsland" lordofname=""
+	frontnames="CHRISTOPHER JAMES"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="7/10/1994"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/337"
+	house="lords"
+	title="Lord" lordname="Kirkham" lordofname=""
+	frontnames="GRAHAM"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="23/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/338"
+	house="lords"
+	title="Lord" lordname="Kirkhill" lordofname=""
+	frontnames="JOHN FARQUHARSON"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="17/7/1975"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/339"
+	house="lords"
+	title="Baroness" lordname="Knight" lordofname="Collingtree"
+	frontnames="JOAN CHRISTABEL JILL"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="23/9/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/340"
+	house="lords"
+	title="Lord" lordname="Knights" lordofname=""
+	frontnames="PHILIP DOUGLAS"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="22/7/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/341"
+	house="lords"
+	title="Lord" lordname="Laing" lordofname="Dunphail"
+	frontnames="HECTOR"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="8/2/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/342"
+	house="lords"
+	title="Lord" lordname="Laird" lordofname=""
+	frontnames="JOHN DUNN"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="16/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/343"
+	house="lords"
+	title="Lord" lordname="Laming" lordofname=""
+	frontnames="WILLIAM HERBERT"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="27/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/344"
+	house="lords"
+	title="Lord" lordname="Lamont" lordofname="Lerwick"
+	frontnames="NORMAN STEWART HUGHSON"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="24/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/345"
+	house="lords"
+	title="Lord" lordname="Lane" lordofname=""
+	frontnames="PETER STEWART"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="28/9/1979"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/346"
+	house="lords"
+	title="Lord" lordname="Lane" lordofname="Horsell"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="17/7/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/347"
+	house="lords"
+	title="Lord" lordname="Lang" lordofname="Monkton"
+	frontnames="IAN BRUCE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="29/9/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/348"
+	house="lords"
+	title="Lord" lordname="Lawson" lordofname="Blaby"
+	frontnames="NIGEL"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="1/7/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/349"
+	house="lords"
+	title="Lord" lordname="Layard" lordofname=""
+	frontnames="PETER RICHARD GRENVILLE"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="3/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/350"
+	house="lords"
+	title="Lord" lordname="Lea" lordofname="Crondall"
+	frontnames="DAVID EDWARD"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="20/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/351"
+	house="lords"
+	title="Bishop" lordname="Leicester" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="10/9/2003"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/352"
+	house="lords"
+	title="Lord" lordname="Lester" lordofname="Herne Hill"
+	frontnames="ANTHONY PAUL"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="13/10/1993"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/353"
+	house="lords"
+	title="Lord" lordname="Levene" lordofname="Portsoken"
+	frontnames="PETER KEITH"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="22/7/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/354"
+	house="lords"
+	title="Lord" lordname="Levy" lordofname=""
+	frontnames="MICHAEL ABRAHAM"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="23/9/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/355"
+	house="lords"
+	title="Lord" lordname="Lewis" lordofname="Newnham"
+	frontnames="JACK"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="8/2/1989"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/356"
+	house="lords"
+	title="Earl" lordname="Lindsay" lordofname=""
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="1/8/1989"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/357"
+	house="lords"
+	title="Baroness" lordname="Linklater" lordofname="Butterstone"
+	frontnames="VERONICA"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="1/11/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/358"
+	house="lords"
+	title="Lord" lordname="Lipsey" lordofname=""
+	frontnames="DAVID LAWRENCE"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="30/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/359"
+	house="lords"
+	title="Earl" lordname="Listowel" lordofname=""
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="12/3/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/360"
+	house="lords"
+	title="Bishop" lordname="Liverpool" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="16/7/2003"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/361"
+	house="lords"
+	title="Earl" lordname="Liverpool" lordofname=""
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="13/3/1969"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/362"
+	house="lords"
+	title="Lord" lordname="Livsey" lordofname="Talgarth"
+	frontnames="RICHARD ARTHUR LLOYD"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="28/8/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/363"
+	house="lords"
+	title="Lord" lordname="Lloyd" lordofname="Berwick"
+	frontnames="ANTHONY JOHN LESLIE"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="1/10/1993"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/364"
+	house="lords"
+	title="Baroness" lordname="Lloyd" lordofname="Highbury"
+	frontnames="JUNE KATHLEEN"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="19/8/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/365"
+	house="lords"
+	title="Lord" lordname="Lloyd-Webber" lordofname=""
+	frontnames="ANDREW"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="18/2/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/366"
+	house="lords"
+	title="Baroness" lordname="Lockwood" lordofname=""
+	frontnames="BETTY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="27/2/1978"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/367"
+	house="lords"
+	title="Lord" lordname="Lofthouse" lordofname="Pontefract"
+	frontnames="GEOFFREY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="11/6/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/368"
+	house="lords"
+	title="Bishop" lordname="London" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="16/10/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/369"
+	house="lords"
+	title="Lord" lordname="Lucas" lordofname=""
+	frontnames="RALPH MATTHEW"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="31/12/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/370"
+	house="lords"
+	title="Lord" lordname="Luce" lordofname=""
+	frontnames="RICHARD NAPIER"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="2/10/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/371"
+	house="lords"
+	title="Baroness" lordname="Ludford" lordofname=""
+	frontnames="SARAH ANN"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="30/9/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/372"
+	house="lords"
+	title="Lord" lordname="Luke" lordofname=""
+	frontnames="ARTHUR CHARLES ST JOHN"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="25/5/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/373"
+	house="lords"
+	title="Lord" lordname="Lyell" lordofname=""
+	frontnames="CHARLES"
+	peeragetype="Deputy Hereditary" affiliation="Conservative"
+	fromdate="27/4/1943"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/374"
+	house="lords"
+	title="Lord" lordname="Macaulay" lordofname="Bragar"
+	frontnames="DONALD"
+	peeragetype="Life peer" affiliation="Other"
+	fromdate="9/1/1989"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/375"
+	house="lords"
+	title="Lord" lordname="Macdonald" lordofname="Tradeston"
+	frontnames="ANGUS JOHN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="2/10/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/376"
+	house="lords"
+	title="Lord" lordname="Macfarlane" lordofname="Bearsden"
+	frontnames="NORMAN SOMERVILLE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="29/7/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/377"
+	house="lords"
+	title="Lord" lordname="MacGregor" lordofname="Pulham Market"
+	frontnames="JOHN RODDICK RUSSELL"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="5/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/378"
+	house="lords"
+	title="Lord" lordname="Mackay" lordofname="Clashfern"
+	frontnames="DONALD SAGE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="6/7/1979"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/379"
+	house="lords"
+	title="Lord" lordname="Mackay" lordofname="Drumadoon"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="13/12/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/380"
+	house="lords"
+	title="Lord" lordname="MacKenzie" lordofname="Culkein"
+	frontnames="BRIAN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="4/8/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/381"
+	house="lords"
+	title="Lord" lordname="Mackenzie" lordofname="Framwellgate"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="17/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/382"
+	house="lords"
+	title="Lord" lordname="Mackie" lordofname="Benshie"
+	frontnames="GEORGE YULL"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="10/5/1974"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/383"
+	house="lords"
+	title="Lord" lordname="MacLaurin" lordofname="Knebworth"
+	frontnames="IAN CHARTER"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="18/10/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/384"
+	house="lords"
+	title="Lord" lordname="Maclennan" lordofname="Rogart"
+	frontnames="ROBERT ADAM ROSS"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="19/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/385"
+	house="lords"
+	title="Baroness" lordname="Maddock" lordofname=""
+	frontnames="DIANA MARGARET"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="30/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/386"
+	house="lords"
+	title="Lord" lordname="Maginnis" lordofname="Drumglass"
+	frontnames="KENNETH WIGGINS"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="20/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/387"
+	house="lords"
+	title="Baroness" lordname="Mallalieu" lordofname=""
+	frontnames="ANN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="19/6/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/388"
+	house="lords"
+	title="Bishop" lordname="Manchester" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="17/12/2002"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/389"
+	house="lords"
+	title="Lord" lordname="Mancroft" lordofname=""
+	frontnames="BENJAMIN LLOYD STORMONT"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="14/9/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/390"
+	house="lords"
+	title="Earl" lordname="Mar and Kellie" lordofname=""
+	frontnames=""
+	peeragetype="Hereds given LPs" affiliation="Liberal Democrat"
+	fromdate="19/4/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/391"
+	house="lords"
+	title="Countess" lordname="Mar" lordofname=""
+	frontnames=""
+	peeragetype="Deputy Hereditary" affiliation="Cross bench"
+	fromdate="21/4/1975"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/392"
+	house="lords"
+	title="Lord" lordname="Marlesford" lordofname=""
+	frontnames="MARK SHULDHAM"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="7/6/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/393"
+	house="lords"
+	title="Lord" lordname="Marshall" lordofname="Knightsbridge"
+	frontnames="COLIN MARSH"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="20/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/394"
+	house="lords"
+	title="Lord" lordname="Marsh" lordofname=""
+	frontnames=""
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="15/7/1981"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/395"
+	house="lords"
+	title="Baroness" lordname="Masham" lordofname="Ilton"
+	frontnames="SUSAN LILIAN PRIMROSE"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="12/2/1970"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/396"
+	house="lords"
+	title="Lord" lordname="Mason" lordofname="Barnsley"
+	frontnames="ROY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="20/10/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/397"
+	house="lords"
+	title="Baroness" lordname="Massey" lordofname="Darwen"
+	frontnames="DOREEN ELIZABETH"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="26/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/398"
+	house="lords"
+	title="Lord" lordname="Mayhew" lordofname="Twysden"
+	frontnames="PATRICK BARNABAS BURKE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="12/6/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/399"
+	house="lords"
+	title="Lord" lordname="May" lordofname="Oxford"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="18/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/400"
+	house="lords"
+	title="Lord" lordname="McAlpine" lordofname="West Green"
+	frontnames="ROBERT ALISTAIR"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="2/2/1984"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/401"
+	house="lords"
+	title="Lord" lordname="McCarthy" lordofname=""
+	frontnames="WILLIAM EDWARD JOHN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="19/1/1976"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/402"
+	house="lords"
+	title="Lord" lordname="McCluskey" lordofname=""
+	frontnames="JOHN HERBERT"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="29/9/1976"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/403"
+	house="lords"
+	title="Lord" lordname="McColl" lordofname="Dulwich"
+	frontnames="IAN"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="25/7/1989"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/404"
+	house="lords"
+	title="Baroness" lordname="McFarlane" lordofname="Llandaff"
+	frontnames="JEAN KENNEDY"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="30/7/1979"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/405"
+	house="lords"
+	title="Lord" lordname="McIntosh" lordofname="Haringey"
+	frontnames="ANDREW ROBERT"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="17/1/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/406"
+	house="lords"
+	title="Baroness" lordname="McIntosh" lordofname="Hudnall"
+	frontnames="GENISTA MARY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="3/8/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/407"
+	house="lords"
+	title="Lord" lordname="McNally" lordofname=""
+	frontnames="TOM"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="20/12/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/408"
+	house="lords"
+	title="Lord" lordname="Merlyn-Rees" lordofname=""
+	frontnames="MERLYN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="1/7/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/409"
+	house="lords"
+	title="Lord" lordname="Methuen" lordofname=""
+	frontnames="ROBERT ALEXANDER HOLT"
+	peeragetype="Deputy Hereditary" affiliation="Liberal Democrat"
+	fromdate="24/8/1994"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/410"
+	house="lords"
+	title="Baroness" lordname="Michie" lordofname="Gallanach"
+	frontnames="JANET RAY"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="14/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/411"
+	house="lords"
+	title="Baroness" lordname="Miller" lordofname="Chilthorne Domer"
+	frontnames="DOREEN"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="28/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/412"
+	house="lords"
+	title="Baroness" lordname="Miller" lordofname="Hendon"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="14/10/1993"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/413"
+	house="lords"
+	title="Lord" lordname="Millett" lordofname=""
+	frontnames="PETER JULIAN"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="1/10/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/414"
+	house="lords"
+	title="Lord" lordname="Mishcon" lordofname=""
+	frontnames="VICTOR"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="10/5/1978"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/415"
+	house="lords"
+	title="Lord" lordname="Mitchell" lordofname=""
+	frontnames="PARRY ANDREW"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="10/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/416"
+	house="lords"
+	title="Lord" lordname="Molyneaux" lordofname="Killead"
+	frontnames="JAMES HENRY"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="10/6/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/417"
+	house="lords"
+	title="Lord" lordname="Monro" lordofname="Langholm"
+	frontnames="HECTOR SEYMOUR PETER"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="6/11/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/418"
+	house="lords"
+	title="Lord" lordname="Monson" lordofname=""
+	frontnames="JOHN"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="7/4/1958"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/419"
+	house="lords"
+	title="Lord" lordname="Montagu" lordofname="Beaulieu"
+	frontnames="EDWARD JOHN BARRINGTON"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="30/3/1929"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/420"
+	house="lords"
+	title="Duke" lordname="Montrose" lordofname=""
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="10/2/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/421"
+	house="lords"
+	title="Lord" lordname="Moore" lordofname="Lower Marsh"
+	frontnames="PHILIP BRIAN CECIL"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="3/7/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/422"
+	house="lords"
+	title="Lord" lordname="Moore" lordofname="Wolvercote"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="22/7/1986"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/423"
+	house="lords"
+	title="Lord" lordname="Moran" lordofname=""
+	frontnames="RICHARD JOHN MCMORAN"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="12/4/1977"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/424"
+	house="lords"
+	title="Lord" lordname="Morgan" lordofname=""
+	frontnames="KENNETH OWEN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="12/6/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/425"
+	house="lords"
+	title="Baroness" lordname="Morgan" lordofname="Huyton"
+	frontnames="SALLY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="20/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/426"
+	house="lords"
+	title="Lord" lordname="Morris" lordofname="Aberavon"
+	frontnames="ALFRED"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="3/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/427"
+	house="lords"
+	title="Lord" lordname="Morris" lordofname="Manchester"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="6/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/428"
+	house="lords"
+	title="Lord" lordname="Moser" lordofname=""
+	frontnames="CLAUS ADOLF"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="23/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/429"
+	house="lords"
+	title="Lord" lordname="Mowbray and Stourton" lordofname=""
+	frontnames="CHARLES EDWARD"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="7/5/1965"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/430"
+	house="lords"
+	title="Lord" lordname="Moynihan" lordofname=""
+	frontnames="COLIN BERKELEY"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="25/11/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/431"
+	house="lords"
+	title="Lord" lordname="Murray" lordofname="Epping Forest"
+	frontnames="LIONEL"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="14/2/1985"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/432"
+	house="lords"
+	title="Lord" lordname="Murton" lordofname="Lindisfarne"
+	frontnames="HENRY OSCAR"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="25/7/1979"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/433"
+	house="lords"
+	title="Lord" lordname="Mustill" lordofname=""
+	frontnames="MICHAEL JOHN"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="10/1/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/434"
+	house="lords"
+	title="Lord" lordname="Naseby" lordofname=""
+	frontnames="MICHAEL WOLFGANG LAURENCE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="28/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/435"
+	house="lords"
+	title="Lord" lordname="Neill" lordofname="Bladen"
+	frontnames="FRANCIS PATRICK"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="28/11/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/436"
+	house="lords"
+	title="Lord" lordname="Newby" lordofname=""
+	frontnames="RICHARD MARK"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="25/9/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/437"
+	house="lords"
+	title="Bishop" lordname="Newcastle" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="24/10/2002"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/438"
+	house="lords"
+	title="Lord" lordname="Newton" lordofname="Braintree"
+	frontnames="ANTONY HAROLD"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="31/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/439"
+	house="lords"
+	title="Lord" lordname="Nicholls" lordofname="Birkenhead"
+	frontnames="DONALD JAMES"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="3/10/1994"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/440"
+	house="lords"
+	title="Baroness" lordname="Nicholson" lordofname="Winterbourne"
+	frontnames="EMMA HARRIET"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="3/11/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/441"
+	house="lords"
+	title="Lord" lordname="Nickson" lordofname=""
+	frontnames="DAVID WIGLEY"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="22/3/1994"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/442"
+	house="lords"
+	title="Baroness" lordname="Nicol" lordofname=""
+	frontnames="OLIVE MARY WENDY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="20/1/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/443"
+	house="lords"
+	title="Baroness" lordname="Noakes" lordofname=""
+	frontnames="SHELIA VALERIE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="7/6/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/444"
+	house="lords"
+	title="Lord" lordname="Nolan" lordofname=""
+	frontnames="MICHAEL PATRICK"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="11/1/1994"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/445"
+	house="lords"
+	title="Duke" lordname="Norfolk" lordofname=""
+	frontnames=""
+	peeragetype="2 Hered Office Holders" affiliation="Cross bench"
+	fromdate="24/6/2002"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/446"
+	house="lords"
+	title="Lord" lordname="Northbourne" lordofname=""
+	frontnames="CHRISTOPHER GEORGE WALTER"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="17/6/1982"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/447"
+	house="lords"
+	title="Lord" lordname="Northbrook" lordofname=""
+	frontnames="FRANCIS THOMAS"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="4/12/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/448"
+	house="lords"
+	title="Earl" lordname="Northesk" lordofname=""
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="26/1/1994"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/449"
+	house="lords"
+	title="Lord" lordname="Northfield" lordofname=""
+	frontnames="WILLIAM DONALD"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="20/1/1976"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/450"
+	house="lords"
+	title="Baroness" lordname="Northover" lordofname=""
+	frontnames="LINDSAY PATRICIA"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="1/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/451"
+	house="lords"
+	title="Lord" lordname="Norton" lordofname="Louth"
+	frontnames="PHILIP"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="1/8/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/452"
+	house="lords"
+	title="Bishop" lordname="Norwich" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="20/1/2004"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/453"
+	house="lords"
+	title="Lord" lordname="Oakeshott" lordofname="Seagrove Bay"
+	frontnames="MATTHEW ALAN"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="1/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/454"
+	house="lords"
+	title="Baroness" lordname="O'Cathain" lordofname=""
+	frontnames="DETTA"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="21/6/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/455"
+	house="lords"
+	title="Lord" lordname="Oliver" lordofname="Aylmerton"
+	frontnames="PETER RAYMOND"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="31/1/1986"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/456"
+	house="lords"
+	title="Baroness" lordname="O'Neill" lordofname="Bengarve"
+	frontnames="ONORA SYLVIA"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="25/2/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/457"
+	house="lords"
+	title="Earl" lordname="Onslow" lordofname=""
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="3/6/1971"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/458"
+	house="lords"
+	title="Baroness" lordname="Oppenheim-Barnes" lordofname=""
+	frontnames="SALLY"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="9/2/1989"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/459"
+	house="lords"
+	title="Lord" lordname="Orme" lordofname=""
+	frontnames="STANLEY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="21/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/460"
+	house="lords"
+	title="Lord" lordname="Ouseley" lordofname=""
+	frontnames="HERMAN GEORGE"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="26/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/461"
+	house="lords"
+	title="Lord" lordname="Owen" lordofname=""
+	frontnames="DAVID ANTHONY LLEWELLYN"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="30/6/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/462"
+	house="lords"
+	title="Lord" lordname="Oxburgh" lordofname=""
+	frontnames="ERNEST RONALD"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="27/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/463"
+	house="lords"
+	title="Bishop" lordname="Oxford" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="31/10/1993"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/464"
+	house="lords"
+	title="Lord" lordname="Palmer" lordofname=""
+	frontnames="ADRIAN BAILIE NOTTAGE"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="26/6/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/465"
+	house="lords"
+	title="Lord" lordname="Palumbo" lordofname=""
+	frontnames="PETER GARTH"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="4/2/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/466"
+	house="lords"
+	title="Lord" lordname="Parekh" lordofname=""
+	frontnames="BHIKHU CHHOTALAL"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="10/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/467"
+	house="lords"
+	title="Lord" lordname="Parkinson" lordofname=""
+	frontnames="CECIL EDWARD"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="29/6/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/468"
+	house="lords"
+	title="Baroness" lordname="Park" lordofname="Monmouth"
+	frontnames="DAPHNE MARGARET SYBIL DESIREE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="27/2/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/469"
+	house="lords"
+	title="Lord" lordname="Parry" lordofname=""
+	frontnames="GORDON SAMUEL DAVID"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="21/1/1976"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/470"
+	house="lords"
+	title="Lord" lordname="Patel" lordofname=""
+	frontnames="ADAM HAFEJEE"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="1/3/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/471"
+	house="lords"
+	title="Lord" lordname="Patel" lordofname="Blackburn"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="14/2/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/472"
+	house="lords"
+	title="Lord" lordname="Patten" lordofname=""
+	frontnames="JOHN HAGGIT CHARLES"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="17/6/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/473"
+	house="lords"
+	title="Lord" lordname="Paul" lordofname=""
+	frontnames="SWRAJ"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="9/10/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/474"
+	house="lords"
+	title="Lord" lordname="Pearson" lordofname="Rannoch"
+	frontnames="MALCOLM EVERARD MACLAREN"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="18/6/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/475"
+	house="lords"
+	title="Earl" lordname="Peel" lordofname=""
+	frontnames="WILLIAM JAMES ROBERT"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="22/9/1969"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/476"
+	house="lords"
+	title="Lord" lordname="Pendry" lordofname=""
+	frontnames="THOMAS"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="4/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/477"
+	house="lords"
+	title="Baroness" lordname="Perry" lordofname="Southwark"
+	frontnames="PAULINE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="16/7/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/478"
+	house="lords"
+	title="Lord" lordname="Peston" lordofname=""
+	frontnames="MAURICE HARRY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="24/3/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/479"
+	house="lords"
+	title="Bishop" lordname="Peterborough" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="13/2/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/480"
+	house="lords"
+	title="Lord" lordname="Peyton" lordofname="Yeovil"
+	frontnames="JOHN WYNNE WILLIAM"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="5/10/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/481"
+	house="lords"
+	title="Lord" lordname="Phillips" lordofname="Sudbury"
+	frontnames="NICHOLAS ADDISON"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="25/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/482"
+	house="lords"
+	title="Lord" lordname="Phillips" lordofname="Worth Matravers"
+	frontnames=""
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="12/1/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/483"
+	house="lords"
+	title="Lord" lordname="Pilkington" lordofname="Oxenford"
+	frontnames="PETER"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="12/1/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/484"
+	house="lords"
+	title="Baroness" lordname="Pitkeathley" lordofname=""
+	frontnames="JILL ELIZABETH"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="6/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/485"
+	house="lords"
+	title="Lord" lordname="Plant" lordofname="Highfield"
+	frontnames="RAYMOND"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="24/7/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/486"
+	house="lords"
+	title="Baroness" lordname="Platt" lordofname="Writtle"
+	frontnames="BERYL CATHERINE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="28/5/1981"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/487"
+	house="lords"
+	title="Lord" lordname="Plumb" lordofname=""
+	frontnames="CHARLES HENRY"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="6/4/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/488"
+	house="lords"
+	title="Lord" lordname="Plummer" lordofname="St. Marylebone"
+	frontnames="ARTHUR DESMOND HERNE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="29/5/1981"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/489"
+	house="lords"
+	title="Lord" lordname="Ponsonby" lordofname="Shulbrede"
+	frontnames=""
+	peeragetype="Hereds given LPs" affiliation="Labour"
+	fromdate="19/4/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/490"
+	house="lords"
+	title="Bishop" lordname="Portsmouth" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="10/9/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/491"
+	house="lords"
+	title="Lord" lordname="Powell" lordofname="Bayswater"
+	frontnames="CHARLES DAVID"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="15/2/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/492"
+	house="lords"
+	title="Baroness" lordname="Prashar" lordofname=""
+	frontnames="USHA KUMARI"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="15/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/493"
+	house="lords"
+	title="Lord" lordname="Prior" lordofname=""
+	frontnames="JAMES MICHAEL LEATHES"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="14/10/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/494"
+	house="lords"
+	title="Lord" lordname="Prys-Davies" lordofname=""
+	frontnames="GWILYM PRYS"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="9/2/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/495"
+	house="lords"
+	title="Lord" lordname="Puttnam" lordofname=""
+	frontnames="DAVID TERENCE"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="27/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/496"
+	house="lords"
+	title="Lord" lordname="Pym" lordofname=""
+	frontnames="FRANCIS LESLIE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="9/10/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/497"
+	house="lords"
+	title="Lord" lordname="Quinton" lordofname=""
+	frontnames="ANTHONY MEREDITH"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="7/2/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/498"
+	house="lords"
+	title="Lord" lordname="Quirk" lordofname=""
+	frontnames="CHARLES RANDOLPH"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="12/7/1994"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/499"
+	house="lords"
+	title="Lord" lordname="Radice" lordofname=""
+	frontnames="GILES HENEAGE"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="16/7/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/500"
+	house="lords"
+	title="Baroness" lordname="Ramsay" lordofname="Cartvale"
+	frontnames="META"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="11/10/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/501"
+	house="lords"
+	title="Lord" lordname="Randall" lordofname="St. Budeaux"
+	frontnames="STUART JEFFREY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="25/9/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/502"
+	house="lords"
+	title="Baroness" lordname="Rawlings" lordofname=""
+	frontnames="PATRICIA ELIZABETH"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="5/10/1994"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/503"
+	house="lords"
+	title="Lord" lordname="Rawlinson" lordofname="Ewell"
+	frontnames="PETER ANTHONY GRAYSON"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="17/4/1978"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/504"
+	house="lords"
+	title="Lord" lordname="Razzall" lordofname=""
+	frontnames="EDWARD TIMOTHY"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="22/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/505"
+	house="lords"
+	title="Lord" lordname="Rea" lordofname=""
+	frontnames="JOHN NICOLAS"
+	peeragetype="Elected Hereditary" affiliation="Labour"
+	fromdate="22/4/1981"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/506"
+	house="lords"
+	title="Lord" lordname="Reay" lordofname=""
+	frontnames="HUGH WILLIAM"
+	peeragetype="Deputy Hereditary" affiliation="Conservative"
+	fromdate="10/3/1963"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/507"
+	house="lords"
+	title="Lord" lordname="Redesdale" lordofname=""
+	frontnames=""
+	peeragetype="Hereds given LPs" affiliation="Liberal Democrat"
+	fromdate="18/4/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/508"
+	house="lords"
+	title="Lord" lordname="Rees" lordofname=""
+	frontnames="PETER WYNFORD INNES"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="16/11/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/509"
+	house="lords"
+	title="Lord" lordname="Rees-Mogg" lordofname=""
+	frontnames="WILLIAM"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="8/8/1988"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/510"
+	house="lords"
+	title="Baroness" lordname="Rendell" lordofname="Babergh"
+	frontnames="RUTH BARBARA"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="24/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/511"
+	house="lords"
+	title="Lord" lordname="Renfrew" lordofname="Kaimsthorn"
+	frontnames="ANDREW COLIN"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="24/6/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/512"
+	house="lords"
+	title="Lord" lordname="Rennard" lordofname=""
+	frontnames="CHRISTOPHER JOHN"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="21/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/513"
+	house="lords"
+	title="Lord" lordname="Renton" lordofname=""
+	frontnames="RONALD TIMOTHY"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="11/7/1979"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/514"
+	house="lords"
+	title="Lord" lordname="Renton" lordofname="Mount Harry"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="9/6/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/515"
+	house="lords"
+	title="Lord" lordname="Renwick" lordofname="Clifton"
+	frontnames="ROBIN WILLIAM"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="26/9/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/516"
+	house="lords"
+	title="Lord" lordname="Richard" lordofname=""
+	frontnames="IVOR SEWARD"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="14/5/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/517"
+	house="lords"
+	title="Lord" lordname="Richardson" lordofname=""
+	frontnames="GORDON WILLIAM HUMPHREYS"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="2/2/1979"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/518"
+	house="lords"
+	title="Baroness" lordname="Richardson" lordofname="Calow"
+	frontnames="KATHLEEN MARGARET"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="3/8/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/519"
+	house="lords"
+	title="Lord" lordname="Richardson" lordofname="Duntisbourne"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="11/2/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/520"
+	house="lords"
+	title="Lord" lordname="Rix" lordofname=""
+	frontnames="BRIAN NORMAN ROGER"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="27/1/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/521"
+	house="lords"
+	title="Lord" lordname="Roberts" lordofname="Conwy"
+	frontnames="IEUAN WYN PRITCHARD"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="1/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/522"
+	house="lords"
+	title="Lord" lordname="Robertson" lordofname="Port Ellen"
+	frontnames="GEORGE ISLAY MACNEILL"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="24/8/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/523"
+	house="lords"
+	title="Bishop" lordname="Rochester" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="30/4/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/524"
+	house="lords"
+	title="Lord" lordname="Rodger" lordofname="Earlsferry"
+	frontnames="ALAN FERGUSON"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="29/4/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/525"
+	house="lords"
+	title="Lord" lordname="Rodgers" lordofname="Quarry Bank"
+	frontnames="WILLIAM THOMAS"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="12/2/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/526"
+	house="lords"
+	title="Lord" lordname="Rogan" lordofname=""
+	frontnames="DENNIS ROBERT DAVID"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="16/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/527"
+	house="lords"
+	title="Lord" lordname="Rogers" lordofname="Riverside"
+	frontnames="RICHARD GEORGE"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="17/10/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/528"
+	house="lords"
+	title="Lord" lordname="Roll" lordofname="Ipsden"
+	frontnames="ERIC"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="19/7/1977"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/529"
+	house="lords"
+	title="Lord" lordname="Rooker" lordofname=""
+	frontnames="JEFFREY WILLIAM"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="16/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/530"
+	house="lords"
+	title="Lord" lordname="Roper" lordofname=""
+	frontnames="JOHN FRANCIS HODGESS"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="12/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/531"
+	house="lords"
+	title="Earl" lordname="Rosslyn" lordofname=""
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="22/11/1977"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/532"
+	house="lords"
+	title="Lord" lordname="Rotherwick" lordofname=""
+	frontnames="HERBERT ROBIN"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="11/6/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/533"
+	house="lords"
+	title="Earl" lordname="Russell" lordofname=""
+	frontnames="CONRAD SEBASTIAN ROBERT"
+	peeragetype="Elected Hereditary" affiliation="Liberal Democrat"
+	fromdate="16/12/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/534"
+	house="lords"
+	title="Lord" lordname="Russell-Johnston" lordofname=""
+	frontnames="DAVID RUSSELL"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="21/7/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/535"
+	house="lords"
+	title="Lord" lordname="Ryder" lordofname="Wensum"
+	frontnames="RICHARD ANDREW"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="22/11/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/536"
+	house="lords"
+	title="Lord" lordname="Saatchi" lordofname=""
+	frontnames="MAURICE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="4/10/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/537"
+	house="lords"
+	title="Lord" lordname="Sainsbury" lordofname="Preston Candover"
+	frontnames="DAVID JOHN"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="31/1/1989"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/538"
+	house="lords"
+	title="Lord" lordname="Sainsbury" lordofname="Turville"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="3/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/539"
+	house="lords"
+	title="Bishop" lordname="Salisbury" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="7/11/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/540"
+	house="lords"
+	title="Marquess" lordname="Salisbury" lordofname=""
+	frontnames=""
+	peeragetype="Hereds given LPs" affiliation="Other"
+	fromdate="11/7/2003"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/541"
+	house="lords"
+	title="Lady" lordname="Saltoun" lordofname="Abernethy"
+	frontnames="FLORA MARJORY"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="31/8/1979"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/542"
+	house="lords"
+	title="Lord" lordname="Sandberg" lordofname=""
+	frontnames="MICHAEL GRAHAM RUDDOCK"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="2/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/543"
+	house="lords"
+	title="Lord" lordname="Sanderson" lordofname="Bowden"
+	frontnames="CHARLES RUSSELL"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="5/6/1985"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/544"
+	house="lords"
+	title="Earl" lordname="Sandwich" lordofname=""
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="25/2/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/545"
+	house="lords"
+	title="Lord" lordname="Saville" lordofname="Newdigate"
+	frontnames="MARK OLIVER"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="28/7/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/546"
+	house="lords"
+	title="Lord" lordname="Sawyer" lordofname=""
+	frontnames="LAWRENCE"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="4/8/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/547"
+	house="lords"
+	title="Lord" lordname="Scarman" lordofname=""
+	frontnames="LESLIE GEORGE"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="30/9/1977"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/548"
+	house="lords"
+	title="Baroness" lordname="Scotland" lordofname="Asthal"
+	frontnames="PATRICIA JANET"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="30/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/549"
+	house="lords"
+	title="Lord" lordname="Scott" lordofname="Foscote"
+	frontnames="RICHARD RASHLEIGH FOLLIOTT"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="17/7/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/550"
+	house="lords"
+	title="Baroness" lordname="Scott" lordofname="Needham Market"
+	frontnames="ROSALIND CAROL"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="11/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/551"
+	house="lords"
+	title="Baroness" lordname="Seccombe" lordofname=""
+	frontnames="JOAN ANNA DALZIEL"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="14/2/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/552"
+	house="lords"
+	title="Earl" lordname="Selborne" lordofname=""
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="3/9/1971"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/553"
+	house="lords"
+	title="Lord" lordname="Selkirk" lordofname="Douglas"
+	frontnames="JAMES ALEXANDER"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="29/9/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/554"
+	house="lords"
+	title="Lord" lordname="Selsdon" lordofname=""
+	frontnames="MALCOLM MCEACHARN"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="7/2/1963"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/555"
+	house="lords"
+	title="Lord" lordname="Sewel" lordofname=""
+	frontnames="JOHN BUTTIFANT"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="10/1/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/556"
+	house="lords"
+	title="Lord" lordname="Sharman" lordofname=""
+	frontnames="COLIN MORVEN"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="2/8/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/557"
+	house="lords"
+	title="Baroness" lordname="Sharples" lordofname=""
+	frontnames="PAMELA"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="18/6/1973"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/558"
+	house="lords"
+	title="Baroness" lordname="Sharp" lordofname="Guildford"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="1/8/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/559"
+	house="lords"
+	title="Lord" lordname="Shaw" lordofname="Northstead"
+	frontnames="MICHAEL NORMAN"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="30/9/1994"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/560"
+	house="lords"
+	title="Bishop" lordname="Sheffield" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="11/12/2002"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/561"
+	house="lords"
+	title="Lord" lordname="Sheldon" lordofname=""
+	frontnames="ROBERT EDWARD"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="22/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/562"
+	house="lords"
+	title="Lord" lordname="Sheppard" lordofname="Didgemere"
+	frontnames="DAVID STUART"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="6/9/1994"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/563"
+	house="lords"
+	title="Lord" lordname="Sheppard" lordofname="Liverpool"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="14/2/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/564"
+	house="lords"
+	title="Earl" lordname="Shrewsbury" lordofname=""
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="12/11/1980"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/565"
+	house="lords"
+	title="Lord" lordname="Shutt" lordofname="Greetland"
+	frontnames="DAVID TREVOR"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="12/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/566"
+	house="lords"
+	title="Lord" lordname="Simon" lordofname="Glaisdale"
+	frontnames="DAVID ALEC GWYN"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="5/2/1971"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/567"
+	house="lords"
+	title="Lord" lordname="Simon" lordofname="Highbury"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="16/5/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/568"
+	house="lords"
+	title="Viscount" lordname="Simon" lordofname=""
+	frontnames="JAN DAVID"
+	peeragetype="Deputy Hereditary" affiliation="Labour"
+	fromdate="5/12/1993"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/569"
+	house="lords"
+	title="Lord" lordname="Simpson" lordofname="Dunkeld"
+	frontnames="GEORGE"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="5/11/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/570"
+	house="lords"
+	title="Lord" lordname="Skelmersdale" lordofname=""
+	frontnames="ROGER"
+	peeragetype="Deputy Hereditary" affiliation="Conservative"
+	fromdate="21/7/1973"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/571"
+	house="lords"
+	title="Lord" lordname="Skidelsky" lordofname=""
+	frontnames="ROBERT JACOB ALEXANDER"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="15/7/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/572"
+	house="lords"
+	title="Viscount" lordname="Slim" lordofname=""
+	frontnames="JOHN DOUGLAS"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="14/12/1970"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/573"
+	house="lords"
+	title="Lord" lordname="Slynn" lordofname="Hadley"
+	frontnames="GORDON"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="11/3/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/574"
+	house="lords"
+	title="Lord" lordname="Smith" lordofname="Clifton"
+	frontnames="PETER RICHARD CHARLES"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="4/11/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/575"
+	house="lords"
+	title="Baroness" lordname="Smith" lordofname="Gilmorehill"
+	frontnames="ELIZABETH MARGARET"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="17/2/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/576"
+	house="lords"
+	title="Lord" lordname="Smith" lordofname="Leigh"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="5/8/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/577"
+	house="lords"
+	title="Earl" lordname="Snowdon" lordofname=""
+	frontnames=""
+	peeragetype="Hereds given LPs" affiliation="Cross bench"
+	fromdate="16/11/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/578"
+	house="lords"
+	title="Lord" lordname="Soulsby" lordofname="Swaffham Prior"
+	frontnames="ERNEST JACKSON LAWSON"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="22/5/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/579"
+	house="lords"
+	title="Bishop" lordname="Southwark" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="9/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/580"
+	house="lords"
+	title="Bishop" lordname="Southwell" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="12/12/2003"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/581"
+	house="lords"
+	title="Bishop" lordname="St. Albans" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="27/10/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/582"
+	house="lords"
+	title="Lord" lordname="Stallard" lordofname=""
+	frontnames="ALBERT WILLIAM"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="7/9/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/583"
+	house="lords"
+	title="Bishop" lordname="St. Edmundsbury and Ipswich" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="14/1/2002"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/584"
+	house="lords"
+	title="Lord" lordname="Steel" lordofname="Aikwood"
+	frontnames="DAVID MARTIN SCOTT"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="6/6/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/585"
+	house="lords"
+	title="Lord" lordname="Sterling" lordofname="Plaistow"
+	frontnames="JEFFREY MAURICE"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="17/1/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/586"
+	house="lords"
+	title="Baroness" lordname="Stern" lordofname=""
+	frontnames="VIVIEN HELEN"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="13/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/587"
+	house="lords"
+	title="Lord" lordname="Stevens" lordofname="Ludgate"
+	frontnames="DAVID ROBERT"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="27/3/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/588"
+	house="lords"
+	title="Lord" lordname="Stevenson" lordofname="Coddenham"
+	frontnames="HENRY DENNISTOUN"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="13/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/589"
+	house="lords"
+	title="Lord" lordname="Stewartby" lordofname=""
+	frontnames="BERNARD HAROLD IAN HALLEY"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="20/7/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/590"
+	house="lords"
+	title="Lord" lordname="Steyn" lordofname=""
+	frontnames="JOHAN VAN ZYL"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="11/1/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/591"
+	house="lords"
+	title="Lord" lordname="St. John" lordofname="Bletso"
+	frontnames=""
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="11/2/1978"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/592"
+	house="lords"
+	title="Lord" lordname="St John" lordofname="Fawsley"
+	frontnames="ANTHONY TUDOR"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="19/10/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/593"
+	house="lords"
+	title="Lord" lordname="Stoddart" lordofname="Swindon"
+	frontnames="DAVID LEONARD"
+	peeragetype="Life peer" affiliation="Other"
+	fromdate="14/9/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/594"
+	house="lords"
+	title="Lord" lordname="Stokes" lordofname=""
+	frontnames="DONALD GRESHAM"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="9/1/1969"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/595"
+	house="lords"
+	title="Lord" lordname="Stone" lordofname="Blackheath"
+	frontnames="ANDREW ZELIG"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="29/10/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/596"
+	house="lords"
+	title="Lord" lordname="Strabolgi" lordofname=""
+	frontnames="DAVID MONTAGUE DE BURGH"
+	peeragetype="Deputy Hereditary" affiliation="Labour"
+	fromdate="8/10/1953"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/597"
+	house="lords"
+	title="Baroness" lordname="Strange" lordofname=""
+	frontnames="JEAN CHERRY"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="10/12/1986"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/598"
+	house="lords"
+	title="Lord" lordname="Strathclyde" lordofname=""
+	frontnames="THOMAS GALLOWAY DUNLOP DU ROY DE BLICQUY"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="12/7/1985"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/599"
+	house="lords"
+	title="Lord" lordname="Sutherland" lordofname="Houndwood"
+	frontnames="STEWART ROSS"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="29/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/600"
+	house="lords"
+	title="Lord" lordname="Swinfen" lordofname=""
+	frontnames="ROGER MYNORS SWINFEN"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="19/3/1977"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/601"
+	house="lords"
+	title="Baroness" lordname="Symons" lordofname="Vernham Dean"
+	frontnames="ELIZABETH CONWAY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="7/10/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/602"
+	house="lords"
+	title="Lord" lordname="Tanlaw" lordofname=""
+	frontnames="SIMON BROOKE"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="21/5/1971"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/603"
+	house="lords"
+	title="Lord" lordname="Taverne" lordofname=""
+	frontnames="DICK"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="5/2/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/604"
+	house="lords"
+	title="Lord" lordname="Taylor" lordofname="Blackburn"
+	frontnames="JOHN DAVID BECKETT"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="4/5/1978"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/605"
+	house="lords"
+	title="Lord" lordname="Taylor" lordofname="Warwick"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="2/10/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/606"
+	house="lords"
+	title="Lord" lordname="Tebbit" lordofname=""
+	frontnames="NORMAN BERESFORD"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="6/7/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/607"
+	house="lords"
+	title="Lord" lordname="Templeman" lordofname=""
+	frontnames="SYDNEY WILLIAM"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="30/9/1982"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/608"
+	house="lords"
+	title="Lord" lordname="Temple-Morris" lordofname=""
+	frontnames="PETER"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="22/6/2001"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/609"
+	house="lords"
+	title="Viscount" lordname="Tenby" lordofname=""
+	frontnames="WILLIAM"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="14/7/1983"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/610"
+	house="lords"
+	title="Baroness" lordname="Thatcher" lordofname=""
+	frontnames="MARGARET HILDA"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="26/6/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/611"
+	house="lords"
+	title="Lord" lordname="Thomas" lordofname="Gresford"
+	frontnames="HUGH SWYNNERTON"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="30/9/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/612"
+	house="lords"
+	title="Lord" lordname="Thomas" lordofname="Gwydir"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="7/10/1987"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/613"
+	house="lords"
+	title="Lord" lordname="Thomas" lordofname="Macclesfield"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="5/11/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/614"
+	house="lords"
+	title="Lord" lordname="Thomas" lordofname="Swynnerton"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="16/6/1981"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/615"
+	house="lords"
+	title="Baroness" lordname="Thomas" lordofname="Walliswood"
+	frontnames="SUSAN PETRONELLA"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="6/10/1994"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/616"
+	house="lords"
+	title="Lord" lordname="Thomson" lordofname="Monifieth"
+	frontnames="GEORGE MORGAN"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="23/3/1977"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/617"
+	house="lords"
+	title="Baroness" lordname="Thornton" lordofname=""
+	frontnames="DOROTHEA GLENYS"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="23/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/618"
+	house="lords"
+	title="Lord" lordname="Tombs" lordofname=""
+	frontnames="FRANCIS LEONARD"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="28/2/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/619"
+	house="lords"
+	title="Lord" lordname="Tomlinson" lordofname=""
+	frontnames="JOHN EDWARD"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="21/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/620"
+	house="lords"
+	title="Lord" lordname="Tope" lordofname=""
+	frontnames="GRAHAM NORMAN"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="4/10/1994"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/621"
+	house="lords"
+	title="Lord" lordname="Tordoff" lordofname=""
+	frontnames="GEOFFREY JOHNSON"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="11/5/1981"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/622"
+	house="lords"
+	title="Lord" lordname="Trefgarne" lordofname=""
+	frontnames="DAVID"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="27/9/1960"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/623"
+	house="lords"
+	title="Lord" lordname="Triesman" lordofname=""
+	frontnames=""
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="9/1/2004"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/624"
+	house="lords"
+	title="Lord" lordname="Trotman" lordofname=""
+	frontnames="ALEXANDER JAMES"
+	peeragetype="Life peer" affiliation="Other"
+	fromdate="2/3/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/625"
+	house="lords"
+	title="Baroness" lordname="Trumpington" lordofname=""
+	frontnames="JEAN ALYS"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="4/2/1980"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/626"
+	house="lords"
+	title="Bishop" lordname="Truro" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="17/6/2002"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/627"
+	house="lords"
+	title="Lord" lordname="Tugendhat" lordofname=""
+	frontnames="CHRISTOPHER SAMUEL"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="15/10/1993"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/628"
+	house="lords"
+	title="Lord" lordname="Turnberg" lordofname=""
+	frontnames="LESLIE ARNOLD"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="4/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/629"
+	house="lords"
+	title="Baroness" lordname="Turner" lordofname="Camden"
+	frontnames="MURIEL WINIFRED"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="29/5/1985"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/630"
+	house="lords"
+	title="Baroness" lordname="Uddin" lordofname=""
+	frontnames="MANZILA POLA"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="18/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/631"
+	house="lords"
+	title="Viscount" lordname="Ullswater" lordofname=""
+	frontnames="NICHOLAS JAMES CHRISTOPHER"
+	peeragetype="Deputy Hereditary" affiliation="Conservative"
+	fromdate="27/3/1949"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/632"
+	house="lords"
+	title="Lord" lordname="Varley" lordofname=""
+	frontnames="ERIC GRAHAM"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="30/5/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/633"
+	house="lords"
+	title="Lord" lordname="Vincent" lordofname="Coleshill"
+	frontnames="RICHARD FREDERICK"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="3/9/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/634"
+	house="lords"
+	title="Lord" lordname="Vinson" lordofname=""
+	frontnames="NIGEL"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="7/2/1985"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/635"
+	house="lords"
+	title="Lord" lordname="Vivian" lordofname=""
+	frontnames="NICHOLAS CRESPIGNY LAURENCE"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="24/6/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/636"
+	house="lords"
+	title="Lord" lordname="Waddington" lordofname=""
+	frontnames="DAVID CHARLES"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="4/12/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/637"
+	house="lords"
+	title="Lord" lordname="Wade" lordofname="Chorlton"
+	frontnames="WILLIAM OULTON"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="16/5/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/638"
+	house="lords"
+	title="Lord" lordname="Wakeham" lordofname=""
+	frontnames="JOHN"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="24/4/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/639"
+	house="lords"
+	title="Lord" lordname="Waldegrave" lordofname="North Hill"
+	frontnames="WILLIAM ARTHUR"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="28/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/640"
+	house="lords"
+	title="Lord" lordname="Walker" lordofname="Gestingthorpe"
+	frontnames="PETER EDWARD"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="1/10/2002"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/641"
+	house="lords"
+	title="Lord" lordname="Walker" lordofname="Worcester"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="8/7/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/642"
+	house="lords"
+	title="Lord" lordname="Wallace" lordofname="Saltaire"
+	frontnames="WILLIAM JOHN LAWRENCE"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="19/12/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/643"
+	house="lords"
+	title="Baroness" lordname="Walmsley" lordofname=""
+	frontnames="JOAN MARGARET"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="15/5/2000"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/644"
+	house="lords"
+	title="Lord" lordname="Walpole" lordofname=""
+	frontnames="ROBERT HORATIO"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="25/2/1989"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/645"
+	house="lords"
+	title="Lord" lordname="Walton" lordofname="Detchant"
+	frontnames="JOHN NICHOLAS"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="24/7/1989"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/646"
+	house="lords"
+	title="Lord" lordname="Warner" lordofname=""
+	frontnames="NORMAN REGINALD"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="29/7/1998"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/647"
+	house="lords"
+	title="Baroness" lordname="Warnock" lordofname=""
+	frontnames="HELEN MARY"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="6/2/1985"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/648"
+	house="lords"
+	title="Baroness" lordname="Warwick" lordofname="Undercliffe"
+	frontnames="DIANA MARY"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="10/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/649"
+	house="lords"
+	title="Lord" lordname="Watson" lordofname="Invergowrie"
+	frontnames="ALAN JOHN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="6/11/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/650"
+	house="lords"
+	title="Lord" lordname="Watson" lordofname="Richmond"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="23/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/651"
+	house="lords"
+	title="Viscount" lordname="Waverley" lordofname=""
+	frontnames="JOHN DESMOND FORBES"
+	peeragetype="Elected Hereditary" affiliation="Cross bench"
+	fromdate="21/2/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/652"
+	house="lords"
+	title="Lord" lordname="Weatherill" lordofname=""
+	frontnames="BRUCE BERNARD"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="15/7/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/653"
+	house="lords"
+	title="Lord" lordname="Wedderburn" lordofname="Charlton"
+	frontnames="KENNETH WILLIAM"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="20/7/1977"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/654"
+	house="lords"
+	title="Lord" lordname="Weidenfeld" lordofname=""
+	frontnames="ARTHUR GEORGE"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="25/6/1976"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/655"
+	house="lords"
+	title="Lord" lordname="Whaddon" lordofname=""
+	frontnames="JOHN DEREK"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="26/4/1978"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/656"
+	house="lords"
+	title="Baroness" lordname="Whitaker" lordofname=""
+	frontnames="JANET ALISON"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="5/8/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/657"
+	house="lords"
+	title="Lord" lordname="Whitty" lordofname=""
+	frontnames="JOHN LAWRENCE"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="21/10/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/658"
+	house="lords"
+	title="Lord" lordname="Wigoder" lordofname=""
+	frontnames="BASIL THOMAS"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="16/5/1974"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/659"
+	house="lords"
+	title="Baroness" lordname="Wilcox" lordofname=""
+	frontnames="JUDITH ANN"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="16/1/1996"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/660"
+	house="lords"
+	title="Baroness" lordname="Wilkins" lordofname=""
+	frontnames="ROSALIE CATHERINE"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="30/7/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/661"
+	house="lords"
+	title="Baroness" lordname="Williams" lordofname="Crosby"
+	frontnames="SHIRLEY VIVIEN TERESA BRITTAIN"
+	peeragetype="Life peer" affiliation="Liberal Democrat"
+	fromdate="1/2/1993"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/662"
+	house="lords"
+	title="Lord" lordname="Williams" lordofname="Elvel"
+	frontnames="CHARLES CUTHBERT POWELL"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="22/5/1985"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/663"
+	house="lords"
+	title="Lord" lordname="Williamson" lordofname="Horton"
+	frontnames="DAVID FRANCIS"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="5/2/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/664"
+	house="lords"
+	title="Lord" lordname="Willoughby de Broke" lordofname=""
+	frontnames="LEOPOLD DAVID"
+	peeragetype="Elected Hereditary" affiliation="Conservative"
+	fromdate="25/5/1986"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/665"
+	house="lords"
+	title="Lord" lordname="Wilson" lordofname="Dinton"
+	frontnames="DAVID CLIVE"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="18/11/2002"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/666"
+	house="lords"
+	title="Lord" lordname="Wilson" lordofname="Tillyorn"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="14/2/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/667"
+	house="lords"
+	title="Bishop" lordname="Winchester" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="14/11/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/668"
+	house="lords"
+	title="Lord" lordname="Windlesham" lordofname=""
+	frontnames=""
+	peeragetype="Hereds given LPs" affiliation="Conservative"
+	fromdate="16/11/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/669"
+	house="lords"
+	title="Lord" lordname="Winston" lordofname=""
+	frontnames="ROBERT MAURICE LIPSON"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="18/12/1995"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/670"
+	house="lords"
+	title="Lord" lordname="Wolfson" lordofname=""
+	frontnames="DAVID"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="13/6/1985"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/671"
+	house="lords"
+	title="Lord" lordname="Wolfson" lordofname="Sunningdale"
+	frontnames=""
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="26/3/1991"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/672"
+	house="lords"
+	title="Lord" lordname="Woolf" lordofname=""
+	frontnames="HARRY KENNETH"
+	peeragetype="Law Lord" affiliation="Cross bench"
+	fromdate="1/10/1992"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/673"
+	house="lords"
+	title="Lord" lordname="Woolmer" lordofname="Leeds"
+	frontnames="KENNETH JOHN"
+	peeragetype="Life peer" affiliation="Labour"
+	fromdate="3/8/1999"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/674"
+	house="lords"
+	title="Bishop" lordname="Worcester" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="20/9/2002"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/675"
+	house="lords"
+	title="Lord" lordname="Wright" lordofname="Richmond"
+	frontnames="PATRICK RICHARD HENRY"
+	peeragetype="Life peer" affiliation="Cross bench"
+	fromdate="10/2/1994"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/676"
+	house="lords"
+	title="Arch-bishop" lordname="York" lordofname=""
+	frontnames=""
+	peeragetype="Bishops and Archbishops" affiliation="Bishops"
+	fromdate="1/10/1990"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/677"
+	house="lords"
+	title="Lord" lordname="Young" lordofname="Graffham"
+	frontnames="DAVID IVOR"
+	peeragetype="Life peer" affiliation="Conservative"
+	fromdate="10/10/1984"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+<lord
+	id="uk.org.publicwhip/lord/678"
+	house="lords"
+	title="Baroness" lordname="Young" lordofname="Old Scone"
+	frontnames="BARBARA SCOTT"
+	peeragetype="Life peer" affiliation="Other"
+	fromdate="4/11/1997"
+	source="Lords2004-02-09WithFromDate.html"
+/>
+
+</publicwhip>
