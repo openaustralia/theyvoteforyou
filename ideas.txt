@@ -89,6 +89,12 @@ Infer no Whip if 10% +- from base?  Or at least +-1
 Additional numeric data
 -----------------------
 
+Find "Motion made, and Question proposed," and "Question put and agreed
+to." when there was no division.  Record these as divisions, as they are
+really, just they were totally uncontested for whatever reason.  Count
+them up and see where and how many there are, whether there are more
+near bedtime etc.
+
 Put time of division, so can work out importance (late at night less
 governmental)
 Also length of debate leading up to division

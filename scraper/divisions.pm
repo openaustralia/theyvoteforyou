@@ -1,4 +1,4 @@
-# $Id: divisions.pm,v 1.2 2003/09/09 14:26:07 frabcus Exp $
+# $Id: divisions.pm,v 1.3 2003/09/12 09:41:43 frabcus Exp $
 # Parses the body text of a page of Hansard containing a division.
 # Records the division and votes in a database, matching MP names
 # to an MP already in the database.
@@ -34,12 +34,24 @@ sub parse_all_divisions_on_page
 
     # Special case for division 114, 14 March 2003 where the names are
     # bunched together on one line.  Yeuch.  The regexps fix this in a
-    # fairly nasty way.
+    # fairly nasty way.  
     if ($day_date eq "2003-03-14")
     {
         $content =~ s/([a-z])([A-Z])/$1<br>\n$2/g;
         $content =~ s/(\)\<\/i\>)([A-Z])/$1<br>\n$2/g;
-        error::log("Patched a bad Friday afternoon, 14 March 2003", $day_date, error::IMPORTANT);
+        error::log("Patched a bad case of line bunching", $day_date, error::IMPORTANT);
+    }
+    # Another nasty nasty day.
+    if ($day_date eq "2003-09-10")
+    {
+        $content =~ s/([a-bd-z])([A-Z])/$1<br>\n$2/g; # no c for "Mc" names
+        $content =~ s/(\)\<\/i\>)([A-Z])/$1<br>\n$2/g;
+        $content =~ s/Brook, Mrs Annette L\.Bruce, Malcolm/Brooke, Mrs Annette<br>Bruce, Malcolm/;
+        $content =~ s/Donaldson, Jeffrey M.Doughty, Sue/Donaldson, Jeffrey M.<br>Doughty, Sue/;
+        $content =~ s/Baird Vera/Baird, Vera/;
+        $content =~ s/Brown, Russell,/Brown, Russell/;
+        $content =~ s/EricMeale/Eric<br>Meale/;
+        error::log("Patched a dot terminated bunch", $day_date, error::IMPORTANT);
     }
     # Similar but less severe one for division 60, 23 January 2003
     if ($day_date eq "2003-01-23")
@@ -61,6 +73,13 @@ sub parse_all_divisions_on_page
         # constituencies, as both voted and they voted the same!
         $content =~ s/Thomas, Gareth\n<br>Thomas, Gareth/Thomas, Gareth (Clwyd West)<br>Thomas, Gareth (Harrow West)/;
         error::log("Patched a bad day 27 November 2002", $day_date, error::IMPORTANT);
+    }
+    # Fix ambiguous Gareth Thomas, info as to which provided by email
+    # via House of Commons Information Office.
+    if ($day_date eq "2003-01-20")
+    {
+        $content =~ s/Thomas, Gareth\n/Thomas, Gareth (Harrow West)/;
+        error::log("Disambiguated a Gareth Thomas", $day_date, error::IMPORTANT);
     }
     # Comma missing and "Barron" misspelling typo 5 December 2001
     if ($day_date eq "2001-12-05")
@@ -121,11 +140,22 @@ sub parse_one_division
     while(1)
     {   
         my $token = $p->get_token() or return 0;
-        my $amendment_move = ($token->[0] eq "T" and $token->[1] =~ m/I beg to move/);
-        if ($token->[0] eq "S" and 
+        my $amendment_move = ($token->[0] eq "T" and $token->[1] =~ m/I beg to move/) ? 1 : 0;
+
+        if ($token->[0] eq "C")
+        {
+            $_ = $token->[1];
+            # We find comments with the original source pages in
+            # our amalgamated entire-day content pages.
+            if (m/Public Whip source (.*) /)
+            {
+                $source_url = $1;
+            }
+        }
+        elsif ($token->[0] eq "S" and 
             ($token->[1] eq "center"
-            || (($token->[1] eq "h3") && ($token->[2]{align} eq "center"))
-            ))
+            or ($token->[1] eq "h3" and $token->[2]{align} and $token->[2]{align} eq "center"))
+            )
         {
             my $startwas = $token->[1];
 
@@ -183,16 +213,6 @@ sub parse_one_division
                 $last_anchor = "";
             }
         }
-        elsif ($token->[0] eq "C")
-        {
-            $_ = $token->[1];
-            # We leave comments with the original source pages within
-            # our amalgamated entire-day content pages.
-            if (m/Public Whip source (.*) /)
-            {
-                $source_url = $1;
-            }
-        }
         elsif ($token->[0] eq "S" and $token->[1] eq "a")
         {
             $last_anchor = $token->[2]{name} if $token->[2]{name};
@@ -204,7 +224,6 @@ sub parse_one_division
             or ($token->[0] eq "S" and $token->[1] eq "font" and $token->[2]{size} eq "-1")
             or $amendment_move)
         {
-#'        print "token " . $token->[0] . " 1 " . $token->[1] . " amendment move $amendment_move\n";
             my $text = "";
             my $allow_quote = 0;
             if ($amendment_move)
@@ -224,6 +243,8 @@ sub parse_one_division
                     if ($_ ne "")
                     {
                         $text .= $_;
+                        print "Has no content\n" if $_ eq "";
+
                     }
                 }
                 elsif ($local_token->[0] eq "S" and $met_end)

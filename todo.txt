@@ -70,7 +70,6 @@ Scraper
 -------
 
 Finish last few divisions that you don't have right
-    Gareth Thomas ambiguity
     Missing division 74
 
 Check nobody existing voted when they were dead!
