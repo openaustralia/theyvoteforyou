@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.37 2005/03/28 11:49:10 frabcus Exp $
+# $Id: faq.php,v 1.38 2005/03/28 12:07:18 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -243,10 +243,11 @@ on our forum.
 
 <h2><a name="help">Can I help with the project?</a></h2>
 <p>Sure!  Email <a href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a> to say 
-you would like to help.  
-We always need help writing newsletters, improving site usability, and with
-publicity and media.  As well as programmers, of course!
-See the Public Whip section of <a href="http://www.mysociety.org/cgi-bin/moin.cgi/VolunteerTasks">VolunteerTasks</a> on the mySociety wiki for some specific things we need doing.  
+you would like to help.  We always need help writing newsletters, improving
+site usability, and with publicity and media.  As well as programmers, of
+course!  Read our <a href="project/">project page</a> and see the Public Whip section of <a
+href="http://www.mysociety.org/cgi-bin/moin.cgi/VolunteerTasks">VolunteerTasks</a>
+on the mySociety wiki for some specific things we need doing.  
 </p>
 
 <h2><a name="email">Where can I email?</a></h2>
