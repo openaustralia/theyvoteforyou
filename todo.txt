@@ -2,6 +2,7 @@ New stuff
 ---------
 
 Multi-parliament:
+    Attendance is fucked (see Paddy Ashdown)
     Vote map
     Michael Heseltine attendance rate
     Measure abstentions by parliament rather than global proportions?
@@ -39,6 +40,11 @@ favicon.ico
 Scraper
 -------
 
+Check for repeate typo'ed constituencies
+ - in "check" do a search for solitary ones
+
+Garbage collection!
+
 remake pw_mp to have left_reason entered_reason - make it error if you
 don't make an entry using the reasons
 
@@ -64,4 +70,6 @@ Improve motion text / title extraction
     division.php?date=2002-02-06&number=158 - incomplete
     division.php?date=2003-09-10&number=307 - motion missed completely
     division.php?date=2001-01-22&number=71 - title is wrong!
+    division.php?date=1997-07-07&number=42 - nothing of any use!
+
 

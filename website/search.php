@@ -1,5 +1,5 @@
-<?php $title = "Search"; include "header.inc" 
-# $Id: search.php,v 1.4 2003/10/03 10:56:20 frabcus Exp $
+<?php 
+# $Id: search.php,v 1.5 2003/10/03 17:56:36 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,12 +8,17 @@
 ?>
 
 <?php
+    $origquery = mysql_escape_string($_GET["query"]);
+    $query = strtoupper($query);
+    $title = "Search for '$origquery'"; 
+    if ($origquery == "")
+        $title = "Search";
+    include "header.inc";
+
     include "db.inc";
     include "render.inc";
     include "parliaments.inc";
     $db = new DB(); 
-    $origquery = mysql_escape_string($_GET["query"]);
-    $query = strtoupper($query);
 
     if ($query <> "")
     {

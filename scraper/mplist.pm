@@ -1,4 +1,4 @@
-# $Id: mplist.pm,v 1.4 2003/10/02 09:42:03 frabcus Exp $
+# $Id: mplist.pm,v 1.5 2003/10/03 17:56:36 frabcus Exp $
 # Parses lists of MPs, adds them to database.  Also has
 # special code to add in midterm changes such as byelections, 
 # party loyalty switching etc.
@@ -26,6 +26,10 @@ sub insert_mps
     insert_2001_parliament($dbh);
 }
 
+# Byelections and loyalty changes. Data from here:
+# http://www.parliament.uk/directories/hcio/by_elections.cfm
+# http://www.election.demon.co.uk/strengths.html
+
 sub insert_1997_parliament()
 {
     my $dbh = shift;
@@ -39,13 +43,13 @@ sub insert_1997_parliament()
     insert_mid_depart($dbh, "Piers", "Merchant", "Beckenham", "Con", "1997-10-27", "resigned");
     insert_mid_arrive($dbh, "Douglas", "Alexander", "", "Paisley South", "Lab", "1997-11-06", "by_election");
     insert_mid_arrive($dbh, "Jacqui", "Lait", "", "Beckenham", "Con", "1997-11-20", "by_election");
-    insert_mid_arrive($dbh, "Mark", "Oaten", "", "Winchester", "Lab", "1997-11-20", "by_election");
+    insert_mid_arrive($dbh, "Mark", "Oaten", "", "Winchester", "LDem", "1997-11-20", "by_election");
     insert_mid_depart($dbh, "Peter", "Temple-Morris", "Leominster", "Con", "1997-11-21", "changed_party");
     insert_mid_arrive($dbh, "Peter", "Temple-Morris", "", "Leominster", "Ind Con", "1997-11-22", "changed_party");
     insert_mid_depart($dbh, "Peter", "Temple-Morris", "Leominster", "Ind Con", "1998-06-20", "changed_party");
     insert_mid_arrive($dbh, "Peter", "Temple-Morris", "", "Leominster", "Lab", "1998-06-21", "changed_party");
     insert_mid_depart($dbh, "Tommy", "Graham", "West Renfrewshire", "Lab", "1998-09-09", "changed_party");
-    insert_mid_arrive($dbh, "Tommy", "Graham", "West Renfrewshire", "", "Ind Lab", "1998-09-10", "changed_party");
+    insert_mid_arrive($dbh, "Tommy", "Graham", "", "West Renfrewshire", "Ind Lab", "1998-09-10", "changed_party");
     insert_mid_depart($dbh, "Fiona", "Jones", "Newark", "Lab", "1999-03-19", "disqualified");
     insert_mid_depart($dbh, "Dennis", "Canavan", "Falkirk West", "Lab", "1999-03-26", "changed_party");
     insert_mid_arrive($dbh, "Dennis", "Canavan", "", "Falkirk West", "Ind", "1999-03-27", "changed_party");
@@ -82,7 +86,7 @@ sub insert_1997_parliament()
     insert_mid_depart($dbh, "Dennis", "Canavan", "Falkirk West", "Ind", "2000-11-21", "resigned");
     insert_mid_arrive($dbh, "Mark", "Hendrick", "", "Preston", "Lab", "2000-11-23", "by_election");
     insert_mid_arrive($dbh, "Adrian", "Bailey", "", "West Bromwich West", "Lab/Co-op", "2000-11-23", "by_election");
-    insert_mid_arrive($dbh, "John", "Robertson", "", "Anniesland", "Lab", "2000-11-23", "by_election");
+    insert_mid_arrive($dbh, "John", "Robertson", "", "Glasgow, Anniesland", "Lab", "2000-11-23", "by_election");
     insert_mid_arrive($dbh, "Eric", "Joyce", "", "Falkirk West", "Lab", "2000-12-21", "by_election");
     insert_mid_depart($dbh, "Charles", "Wardle", "Bexhill & Battle", "Con", "2001-04-11", "changed_party");
     insert_mid_arrive($dbh, "Charles", "Wardle", "", "Bexhill & Battle", "Ind", "2001-04-12", "changed_party");
@@ -93,9 +97,6 @@ sub insert_2001_parliament()
     my $dbh = shift;
 
     insert_mps_general_election($dbh, "../rawdata/Members2001.htm", "2001-06-07", "9999-12-31", "still_in_office");
-
-    # Byelections and loyalty changes. Data from here:
-    # http://www.parliament.uk/directories/hcio/by_elections.cfm
 
     insert_mid_depart($dbh, "Jamie", "Cann", "Ipswich", "Lab", "2001-10-15", "died");
     insert_mid_arrive($dbh, "Chris", "Mole", "", "Ipswich", "Lab", "2001-11-22", "by_election");
@@ -119,9 +120,6 @@ sub insert_2001_parliament()
     insert_mid_arrive($dbh, "David", "Burnside", "", "South Antrim", "Ind UU", "2003-06-23", "changed_party");
     insert_mid_arrive($dbh, "Jeffrey M", "Donaldson", "", "Lagan Valley", "Ind UU", "2003-06-23", "changed_party");
     insert_mid_arrive($dbh, "Martin", "Smyth", "", "Belfast South", "Ind UU", "2003-06-23", "changed_party");
-
-    # You can get full list for earlier parliaments here:
-    # http://www.election.demon.co.uk/strengths.html
 }
 
 sub insert_mps_general_election

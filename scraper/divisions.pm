@@ -1,4 +1,4 @@
-# $Id: divisions.pm,v 1.4 2003/10/02 09:42:03 frabcus Exp $
+# $Id: divisions.pm,v 1.5 2003/10/03 17:56:36 frabcus Exp $
 # Parses the body text of a page of Hansard containing a division.
 # Records the division and votes in a database, matching MP names
 # to an MP already in the database.
@@ -32,16 +32,24 @@ sub parse_all_divisions_on_page
     my $content = shift;
     my $day_date = shift;
 
-    # Special case for division 114, 14 March 2003 where the names are
-    # bunched together on one line.  Yeuch.  The regexps fix this in a
-    # fairly nasty way.  
+    #######################################################################
+    # General stuff (done before special case)
+
+    if ($content =~ s/\r//g)
+    {
+        error::log("Converted from Windows to Unix line feeds", $day_date, error::USEFUL);
+    }
+    
+    #######################################################################
+    # Special case fixes
+
     if ($day_date eq "2003-03-14")
     {
+        # Names bunched together on one line, fix it in a fairly crude manner
         $content =~ s/([a-z])([A-Z])/$1<br>\n$2/g;
         $content =~ s/(\)\<\/i\>)([A-Z])/$1<br>\n$2/g;
-        error::log("Patched a bad case of line bunching", $day_date, error::IMPORTANT);
+        error::log("Patched a bad case of line bunching", $day_date, error::USEFUL);
     }
-    # Another nasty nasty day.
     if ($day_date eq "2003-09-10")
     {
         $content =~ s/([a-bd-z])([A-Z])/$1<br>\n$2/g; # no c for "Mc" names
@@ -51,56 +59,95 @@ sub parse_all_divisions_on_page
         $content =~ s/Baird Vera/Baird, Vera/;
         $content =~ s/Brown, Russell,/Brown, Russell/;
         $content =~ s/EricMeale/Eric<br>Meale/;
-        error::log("Patched a dot terminated bunch", $day_date, error::IMPORTANT);
+        error::log("Patched a non terminated bunch", $day_date, error::USEFUL);
     }
-    # Similar but less severe one for division 60, 23 January 2003
     if ($day_date eq "2003-01-23")
     {
         $content =~ s/Cameron, DavidCash, William/Cameron, David<br>Cash, William/;
-        error::log("Patched a bad day 23 January 2003", $day_date, error::IMPORTANT);
+        error::log("Patched missing line break", $day_date, error::USEFUL);
     }
-    # And again for division 4, 20 November 2002
     if ($day_date eq "2002-11-20")
     {
         $content =~ s/Sheridan, JimSimon,/Sheridan, Jim<br>Simon,/;
-        error::log("Patched a bad day 20 November 2002", $day_date, error::IMPORTANT);
+        error::log("Patched missing line break", $day_date, error::USEFUL);
     }
-    # Yeuch, even more evil! 27 November 2002
     if ($day_date eq "2002-11-27")
     {
         $content =~ s/(.*,.*)/<br>$1/g;
         # The Gareth Thomas's here aren't ambiguous despite missing
         # constituencies, as both voted and they voted the same!
         $content =~ s/Thomas, Gareth\n<br>Thomas, Gareth/Thomas, Gareth (Clwyd West)<br>Thomas, Gareth (Harrow West)/;
-        error::log("Patched a bad day 27 November 2002", $day_date, error::IMPORTANT);
+        error::log("Patched a bad day 27 November 2002", $day_date, error::USEFUL);
     }
+    if ($day_date eq "2001-12-05")
+    {
+        $content =~ s/Baron Kevin/Barron, Kevin/;
+        error::log("Patched a bad day 5 December 2001", $day_date, error::USEFUL);
+    }
+    if ($content =~ s/Johnson Smith, ?\n<[Bb][Rr]>\n? Rt Hon Sir Geoffrey/Johnson Smith, Rt Hon Sir Geoffrey/g)
+    {
+        error::log("Patched at least one misformatted Geoffrey Johnson Smith", $day_date, error::USEFUL);
+    }
+    if ($day_date eq "1997-06-18")
+    {
+        $content =~ s/Norris Dan/Norris, Dan/g;
+        error::log("Patched missing comma", $day_date, error::USEFUL);
+    }
+    if ($day_date eq "1998-10-21")
+    {
+        $content =~ s/Paige, Richard/Page, Richard/;
+        error::log("Patched mispelt name", $day_date, error::USEFUL);
+    }
+    if ($day_date eq "2000-11-13")
+    {
+        $content =~ s/Field, Rt Hon Frank Fisher, Mark/Field, Rt Hon Frank\n<br>\nFisher, Mark/;
+        error::log("Patched missing line break", $day_date, error::USEFUL);
+    }
+    if ($day_date eq "1997-07-08")
+    {
+        $content =~ s/Temple-Morris,Peter/Temple-Morris, Peter/;
+        error::log("Patched missing space", $day_date, error::USEFUL);
+    }
+    if ($day_date eq "2000-03-15")
+    {
+        $content =~ s/Winterton, Ms Rosie <i>\n Doncaster C\)<\/i>/Winterton, Ms Rosie <i>(Doncaster C)<\/i>/;
+        error::log("Patched missing open bracket", $day_date, error::USEFUL);
+    }
+    if ($day_date eq "1998-03-10")
+    {
+        $content =~ s/\(<i>Aldershot<\/i>\)/<i>(Aldershot)<\/i>/;
+        error::log("Italics replaced round brackets", $day_date, error::USEFUL);
+    }
+
+    #######################################################################
+    # Errata
+    
     # Fix ambiguous Gareth Thomas, info as to which provided by email
     # via House of Commons Information Office.
     if ($day_date eq "2003-01-20")
     {
         $content =~ s/Thomas, Gareth\n/Thomas, Gareth (Harrow West)/;
-        error::log("Disambiguated a Gareth Thomas", $day_date, error::IMPORTANT);
+        error::log("Disambiguated a Gareth Thomas", $day_date, error::USEFUL);
     }
-    # Comma missing and "Barron" misspelling typo 5 December 2001
-    if ($day_date eq "2001-12-05")
+
+    #######################################################################
+    # General purpose fixes (done after special case)
+    
+    # Another for various times, when the <br> tags are missing
+    # Name on two lines (split just before constituency) when should be on one
+    if ($content =~ s:\n<[Bb][Rr]>\n ?<i>(\([\w ]+?\))</i>: <i>$1</i>:g)
     {
-        $content =~ s/Baron Kevin/Barron, Kevin/;
-        error::log("Patched a bad day 5 December 2001", $day_date, error::IMPORTANT);
+        error::log("Patched at least one constituency on wrong line (italic)", $day_date, error::USEFUL);
     }
-    # Another for 16 July 2001
-    if ($day_date eq "2001-07-16")
+    if ($content =~ s:\n<[Bb][Rr]>\n (\([\w ]+?\)): $1:g)
     {
-        $content =~ s/\n/\n<br>/g;
-        error::log("Patched a bad day 16 July 2001", $day_date, error::IMPORTANT);
+        error::log("Patched at least one constituency on wrong line (no italic)", $day_date, error::USEFUL);
     }
-    # Name on two lines when should be on one
-    if ($content =~ s/Johnson Smith, ?\n<[Bb][Rr]>\n Rt Hon Sir Geoffrey/Johnson Smith, Rt Hon Sir Geoffrey/g)
+    # This is perhaps too sweeping a regexp, but it does the job -
+    # replace any newlines which aren't preceeded or followed by <br> with a <br>
+    if ($content =~ s/([^>])\n([^<])/$1\n<br>\n$2/g)
     {
-        error::log("Patched at least one misformatted Geoffrey Johnson Smith", $day_date, error::IMPORTANT);
-    }
-    if ($content =~ s:Williams, Rt Hon Alan\n<BR>\n <i>\(Swansea W\)<\/i>:Williams, Rt Hon Alan <i>(Swansea W)</i>:g)
-    {
-        error::log("Patched at least one misformatted Alan Williams", $day_date, error::IMPORTANT);
+        error::log("Patched missing <br> tags", $day_date, error::USEFUL);
     }
 
     my $p = HTML::TokeParser->new(\$content);
@@ -347,10 +394,10 @@ sub parse_one_division
 
         my $mp_id = mputils::find_mp($dbh, $firstname, $lastname, $title, $constituency, $day_date);
 
+        error::log("MP parse found: $mp_id $firstname $lastname", $day_date, error::CHITTER);
         db::query($dbh, "insert into pw_vote (division_id, mp_id, vote) 
             values (?,?,?)", 
             $division_id, $mp_id, $isaye ? "aye" : "noe");
-        error::log("MP parse found: $mp_id $firstname $lastname", $day_date, error::CHITTER);
     };
 
     my $reuselast = undef;

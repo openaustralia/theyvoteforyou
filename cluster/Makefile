@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.3 2003/09/19 16:06:36 frabcus Exp $
+# $Id: Makefile,v 1.4 2003/10/03 17:56:36 frabcus Exp $
 # Used to run the clustering calculation, build the Java applet etc.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -33,5 +33,5 @@ test: mpcoords.txt mpscatt.jar
 mpsee.png: mpcoords.txt mpscatt.jar
 	java -classpath mpscatt.jar mpframe mpcoords.txt mpsee.png 533 400
 mpseethumb.png: mpcoords.txt mpscatt.jar
-	java -classpath mpscatt.jar mpframe mpcoords.txt mpseethumb.png 150 150
+	java -classpath mpscatt.jar mpframe mpcoords.txt mpseethumb.png 150 100
 

@@ -13,3 +13,7 @@ http://www.publications.parliament.uk/pa/cm200001/cmhansrd/vo001214/debindx/0121
 But it displays Westminster Hall text!  Indeed, the same text as:
 http://www.publications.parliament.uk/pa/cm200001/cmhansrd/vo001214/hallindx/01214-x.htm
 
+20 Jul 1999 Division listing incomplete
+http://www.publications.parliament.uk/pa/cm199899/cmhansrd/vo990720/debtext/90720-22.htm
+Next page -23.htm doesn't contain rest of division.
+

@@ -1,4 +1,4 @@
-# $Id: mputils.pm,v 1.3 2003/10/02 09:42:03 frabcus Exp $
+# $Id: mputils.pm,v 1.4 2003/10/03 17:56:36 frabcus Exp $
 # Parse names of MPs, search for an MP in the database.  Copes with the
 # various textual varieties you get, such as initials absent or present,
 # name abbreviations, titles/honours present or absent.  Uses a mixture
@@ -79,6 +79,9 @@ sub find_mp
     $constituency = "" if (! defined $constituency);
     $constituency =~ s/ W$/ West/;
     $constituency = "Carmarthen East & Dinefwr" if ($constituency eq "E Carmarthen");
+    $constituency = "Great Yarmouth" if ($constituency eq "Gt Yarmouth");
+    $constituency = "West Aberdeenshire & Kincardine" if ($constituency eq "Aberdeenshire and Kincardine");
+    $constituency = "Carmarthen East & Dinefwr" if ($constituency eq "E Carmarthen and Dinefwr");
 
     # Special cases for MP name variants
     # 2001- parliament...
@@ -113,6 +116,37 @@ sub find_mp
     $firstname = "Andy" if ($firstname eq "Andrew" && $lastname eq "Reed");
     $firstname = "Mo" if ($firstname eq "Marjorie" && $lastname eq "Mowlam");
     $firstname = "Alan" if ($firstname eq "Alan W" && $lastname eq "Williams");
+    $firstname = "Bob" if ($firstname eq "Robert" && $lastname eq "Blizzard");
+    $firstname = "Archie" if ($firstname eq "Archibald" && $lastname eq "Hamilton");
+    $firstname = "Tom" if ($firstname eq "Thomas" && $lastname eq "Brake");
+    $firstname = "Liz" if ($firstname eq "Elizabeth" && $lastname eq "Blackman");
+    $firstname = "Tony" if ($firstname eq "Anthony" && $lastname eq "Colman");
+    $firstname = "Jack" if ($firstname eq "John" && $lastname eq "Cunningham" && $constituency eq "Copeland");
+    $firstname = "Michael" if ($firstname eq "Michael John" && $lastname eq "Foster" && $constituency eq "Worcester");
+    $firstname = "Anthony D" if ($firstname eq "Tony D" && $lastname eq "Wright" && $constituency eq "Great Yarmouth");
+    $firstname = "Anthony D" if ($firstname eq "Tony" && $lastname eq "Wright" && $constituency eq "Great Yarmouth");
+    $firstname = "Steve" if ($firstname eq "Professor Steve" && $lastname eq "Webb");
+    $lastname = "Plaskitt" if ($firstname eq "James" && $lastname eq "Plaskit");
+    $firstname = "Claire" if ($firstname eq "Clare" && $lastname eq "Curtis-Thomas");
+    $firstname = "Phil" if ($firstname eq "Philip" && $lastname eq "Hope");
+    $firstname = "Steve" if ($firstname eq "Steven" && $lastname eq "Webb");
+    $firstname = "Dale" if ($firstname eq "D N" && $lastname eq "Campbell-Savours");
+    $firstname = "Jenny" if ($firstname eq "Jennifer" && $lastname eq "Jones");
+    $firstname = "Joe" if ($firstname eq "Joseph" && $lastname eq "Ashton");
+    $firstname = "Tommy" if ($firstname eq "Thomas" && $lastname eq "Graham");
+    $firstname = "David" if ($firstname eq "D avid" && $lastname eq "Amess");
+    $firstname = "Christopher" if ($firstname eq "Christoper" && $lastname eq "Gill");
+    $firstname = "Tess" if ($firstname eq "Tessa" && $lastname eq "Kingham");
+    $firstname = "Andrew" if ($firstname eq "Andy" && $lastname eq "Love");
+    $firstname = "Denis" if ($firstname eq "Dennis" && $lastname eq "Murphy");
+    $firstname = "Bill" if ($firstname eq "William" && $lastname eq "O'Brien");
+    $firstname = "Chris" if ($firstname eq "Christine" && $lastname eq "McCafferty");
+    $firstname = "Phil" if ($firstname eq "Philip" && $lastname eq "Sawford");
+    $firstname = "Rudi" if ($firstname eq "Rudolf" && $lastname eq "Vis");
+    $firstname = "Thomas" if ($firstname eq "Th omas" && $lastname eq "McAvoy");
+    $firstname = "Michael" if ($firstname eq "Mich ael" && $lastname eq "Ancram");
+    $firstname = "Michael" if ($firstname eq "Michael J" && $lastname eq "Martin");
+    $firstname = "Robert" if ($firstname eq "Robert W" && $lastname eq "Smith" && $constituency eq "West Aberdeenshire & Kincardine");
 
     # Our clerks make their first genuine spelling mistakes as far as I can tell...
     # http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030226/debtext/30226-35.htm

@@ -1,4 +1,4 @@
-# $Id: db.pm,v 1.3 2003/09/25 20:29:17 uid37249 Exp $
+# $Id: db.pm,v 1.4 2003/10/03 17:56:36 frabcus Exp $
 # Bumf for accessing the MySQL database
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -22,7 +22,7 @@ sub query
 {
     my $dbh = shift;
     my $query = shift;
-    error::log("Query: $query", "", error::CHITTER);
+    error::log("Query: $query Params: @_", "", error::CHITTER);
     my $sth = $dbh->prepare($query)
                 or die "Couldn't prepare statement: " . $dbh->errstr . "\n$query";
     $sth->execute(@_) 
