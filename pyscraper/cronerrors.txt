@@ -8,7 +8,9 @@ Dates are quite rough as sometimes I put todays date rather than the error date
 CRON = cron job on baked
 PWIP = weekly Public Whip update
 
-CRON 2004-07-20 Missing column/date at start of days debates
+CRON 2004-07-21 Alias for new MP (Parmjit Gill often includes middle name)
+CRON 2004-07-21 Missing "." in time.
+CRON 2004-07-20 Missing column/date at start of days debate
 CRON 2004-07-20 "Ivor Caplin)" extra close bracket in name
 CRON 2004-07-16 Beginning headers, missing center tag
 CRON 2004-07-15 FONT tag in middle of paragraph

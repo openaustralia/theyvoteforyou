@@ -108,7 +108,7 @@ def RunFiltersDir(filterfunction, dname, options, forcereparse):
 				kfin = patchtempfile
 
 			# read the text of the file
-			print "runfilters " + fin
+			print "parsing " + fin
 			ofin = open(kfin)
 			text = ofin.read()
 			ofin.close()
