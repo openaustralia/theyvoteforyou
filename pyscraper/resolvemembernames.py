@@ -398,14 +398,14 @@ class MemberList(xml.sax.handler.ContentHandler):
         # Extract one id left
         for id in ids:
             pass
-        
+
         # In theory this would be a useful check - in practice it is no good, as in motion
         # text and the like it breaks.  It finds a few errors though.
         # (note that we even store failed matches as None above, so they count
         # as a speaker for the purposes of this check working)
         #if len(self.debatenamehistory) > 0 and self.debatenamehistory[-1] == id and not self.isspeaker(id):
         #    raise Exception, "Same person speaks twice in a row %s" % rebracket
-        
+
         # Store id in history for this day
         self.debatenamehistory.append(id)
 

@@ -1,5 +1,5 @@
---- /home/fawkes/pwdata/cmpages/debates/debates2004-07-06.html	Thu Jul  8 14:46:52 2004
-+++ /home/fawkes/pwdata/cmpages/debates/debates2004-07-06-patchtmp.html	Thu Jul  8 14:51:21 2004
+--- C:\publicwhip\pwdata\cmpages\debates\debates2004-07-06.html	Mon Jul 12 11:43:42 2004
++++ C:\publicwhip\pwdata\cmpages\debates\debates2004-07-06-patchtmp.html	Mon Jul 12 16:37:32 2004
 @@ -133,7 +133,9 @@
  <P>
  <P>
@@ -11,3 +11,41 @@
  <P>
  <P>
  <a name="40706-01_spnew10"><B> Ms Winterton: </B> 
+@@ -624,18 +626,19 @@
+ 
+ 
+ <P>
+-13. <a name="40706-05_wqn0"><B> Mr. Andrew Dismore  (Hendon)</B> 
++13. <a name="40706-05_wqn0"><B> Mr. Andrew Dismore  (Hendon)</B>
+  (Lab): What steps he plans to take to reduce hospital waiting times for residents in Hendon.  [182194]
+ <P>
+ <P>
+ <P>
+-<a name="40706-05_spmin0"><B>The Minister of State, Department of Health   (Mr. John Hutton): </B> 
++<a name="40706-05_spmin0"><B>The Minister of State, Department of Health   (Mr. John Hutton): </B>
+  Maximum waiting times for hospital treatment in my hon. Friend's constituency have halved since 1997. On 24 June, the Government set out our plans to reduce further waiting times for treatment, which will bring further benefits to my hon. Friend's constituents.
+ <P>
+ <P>
+-<a name="40706-05_spnew0"><B> Mr. Dismore: </B> 
++<a name="40706-05_spnew0"><B> Mr. Dismore: </B>
+  May I celebrate my right hon. Friend's answer and the fact that he, rather than the Conservative party, is running the health service in London? There is still some spare capacity at Edgware hospital. Will he work with Barnet and Chase Farm trust and others to find out whether that extra capacity can be brought into use by some of the consultants there, who seem a little reluctant to travel the short distance involved?
+ <P>
++<stamp parsemess-missgid="4"/>
+ <P>
+ <B>Mr. Hutton</B>: I will certainly look into the matter that my hon. Friend has raised.
+ 
+@@ -643,12 +646,12 @@
+ 
+ 
+ <P>
+-14. <a name="40706-05_wqn1"><B> Andrew George  (St. Ives)</B> 
++14. <a name="40706-05_wqn1"><B> Andrew George  (St. Ives)</B>
+  (LD): What assessment he has made of the potential for patient choice in remote rural areas.  [182195]
+ <P>
+ <P>
+ <P>
+-<a name="40706-05_spmin1"><B>The Parliamentary Under-Secretary of State for Health   (Dr. Stephen Ladyman): </B> 
++<a name="40706-05_spmin1"><B>The Parliamentary Under-Secretary of State for Health   (Dr. Stephen Ladyman): </B>
+  Increasing patient choice offers all patients, including those in rural areas, the opportunity to have more control over their health care. Choice should also lead to better quality services as health care providers respond to the choices that patients make.
+ <P>
+ <P>

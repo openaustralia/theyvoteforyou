@@ -19,15 +19,14 @@ from contextexception import ContextException
 
 # Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
-        ( '<B> Ordered, </B>', 'Ordered, ', 2, '2004-03-23'),
-        ( '\(Sylvia Heal </B>\s*\)\:', '(Sylvia Heal):</B>', 1, '2003-06-20'),
 
+        ( '\(Sylvia Heal </B>\s*\)\:', '(Sylvia Heal):</B>', 1, '2003-06-20'),
 	( '(<H4><center>THE PARLIAMENTARY DEBATES</center></H4>)', '<P>\n\n<B>14 Jul 2003 : Column 1</B></P>\n\\1', 1, '2003-07-14'),
 
 	( '<B>27 Mar 2003 : Column 563</B></P>\s*<UL><UL><UL>\s*</UL></UL></UL>', '', 1, '2003-03-27'),
 	( '<B>10 Mar 2003 : Column 141</B></P>\s*<UL><UL><UL>\s*</UL></UL></UL>', '', 1, '2003-03-10'),
 	( '<B>4 Feb 2003 : Column 251</B></P>\s*<UL><UL><UL>\s*</UL></UL></UL>', '', 1, '2003-02-04'),
-	( '<H4>2.20</H4>', '<H4>2.20 pm</H4>', 1, '2003-02-28'), 
+	( '<H4>2.20</H4>', '<H4>2.20 pm</H4>', 1, '2003-02-28'),
         ( '(<H5>2.58)(</H5>)', '\\1 pm\\2', 1, '2004-01-13'),
 
         ( '<B>30 Apr 2003 : Column 401</B></P>\s*<UL><UL><UL>\s*</UL></UL></UL>', '', 1, '2003-04-30'),
@@ -38,10 +37,6 @@ fixsubs = 	[
 
         ( '(<B>)( 8. )(Mr. Alistair Carmichael)', '\\2\\1\\3', 1, '2003-01-07'),
 
-        ( '(Mr. Chaytor:)', '\n<P>\n<B>\\1</B>', 1, '2004-02-24'),
-        ( '(Mr. Hall:)', '\n<P>\n<B>\\1</B>', 1, '2004-01-19'),
-        ( '(Tony Cunningham:)', '\n<P>\n<B>\\1</B>', 1, '2004-01-15'),
-        ( '(Mr. Dalyell:)', '\n<P>\n<B>\\1</B>', 1, '2004-02-10'),
 
         # Column numbers are totally knackered here
         ( '<B>16 Jun 2003 : Column 184</B></P>', '', 1, '2003-06-16'),

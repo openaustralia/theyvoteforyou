@@ -15,7 +15,7 @@ from contextexception import ContextException
 
 # Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = [
-        ('(Gareth Thomas  \(Clwyd, West\)) \(Lab\)', '\\1', 1, '2004-03-17'),
+
         ('23. (Mr. David Rendel)', '\\1', 1, '2003-06-30'),
 
         ('<B> Caroline Flint\): </B>', '<B> Caroline Flint: </B>', 1, '2003-07-14'),
@@ -28,10 +28,8 @@ fixsubs = [
 	( '\(Sir Alan Haselhurst </B>', '(Sir Alan Haselhurst) </B>', 1, '2003-03-25'),
 	( '<B> Yvette Cooper: I </B>', '<B> Yvette Cooper: </B> I ', 1, '2003-02-03'),
 	( '\(Mr. Nick Raynsford </B>\s*\)', '(Mr. Nick Raynsford) </B>', 1, '2003-01-23'),
-        ( '(<B> Mr. Prisk)( rose&#151; )(</B>)', '\\1\\3\n<I>\\2</I>', 1, '2004-01-06'),
 
         ( '(<B> Mr. Adrian Bailey  \()Blaby(\):</B> )', '\\1West Bromwich West\\2', 1, '2003-10-30'),
-        ( '(\(Dr. Stephen Ladyman)( </B>)', '\\1)\\2', 1, '2004-02-11'),
 
         ( '(<B> Ms Hazel Blears)\)', '\\1', 1, '2003-06-16'),
         ( 'Mr. Melanie Leigh', 'Mr. Leigh', 1, '2003-06-13'),
@@ -50,15 +48,12 @@ fixsubs = [
                 '\\2\\1\\3', 1, '2003-03-24'),
         ( '(The Minister for Policing, Crime Reduction and Community Safety \()<P>\s*?<P>\s*?<P>(\s*?<stamp aname="30224-04_spnew4"/><B> )(Mr\. John Denham\)\: </B>)', \
                 '\\2\\1\\3', 1, '2003-02-24'),
-        # Trying to generalise those...
-        #( '\(<P>\s*?<P>\s*?<P>\s*?<stamp aname=".*?"/><B>', '<B>\\1', 1, '2003-03-24'),
 
         ( '(<B> Mr\. Spellar)\)', '\\1', 1, '2003-03-31'),
 
         # wrong constituency in debates
         ( 'Sir Archy Kirkwood  \(Brecon and Radnorshire\)', 'Sir Archy Kirkwood (Roxburgh and Berwickshire)', 1, '2003-06-26'),
 
-        ( '(<B> Ms Hazel Blears)\)', '\\1', 1, '2004-02-23'), # cron
 ]
 
 # 2. <B> Mr. Colin Breed  (South-East Cornwall)</B> (LD):

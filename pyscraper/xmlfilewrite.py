@@ -90,10 +90,16 @@ class lqspeech:
 
 		# need to unpack speakerid
 		respid = re.search('speakerid="(.*?)"', qb.speaker)
-		if respid and self.speakerid != "unknown":
+		if respid and self.speakerid and (self.speakerid != "unknown"):
 			if respid.group(1) != self.speakerid:
-				print "Speakerid mismatch", qb.speaker, self.speakerid
-				return False
+				# speakerids mismatch, but maybe we've improved things better, so check the speaker names are different
+				print "Speakerid mismatch", qb.speaker
+
+				respname = re.search('speakername="(.*?)"', qb.speaker)
+				if respname and (respname.group(1) == self.speakername):
+					print "but speaker names remain the same"
+				else:
+					return False
 
 		# we're going to accept this, but we're going to make a diff file for inspection
 		# rather than compare across the <p> lines

@@ -32,14 +32,12 @@ from debdivisionsections import GrabDivisionProced
 
 # Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
+
         ( 'Taylor, Andrew', 'Turner, Andrew', 1, '2003-02-26'),
         ( '(Brown, Russell),', '\\1', 1, '2003-09-10'),
         ( 'Baird Vera', 'Baird, Vera', 1, '2003-09-10'),
         ( 'Livingston\)', '(Livingston)', 1, '2003-10-27'),
         ( '<BR>\n, David', '<BR>\nBorrow, David', 1, '2003-11-18'),
-        ( '(Charlotte Atkins an)<BR>\s*d', '\\1d<BR>', 1, '2004-03-15'),
-        ( '(<H4><center>THIRD VOLUME OF SESSION 2003&#150;2004)(House of Commons</center></H4>)', \
-                '\\1</center></H4>\n<H4><center>\\2', 1, '2004-01-26'),
 	( "(<H3 align=center>TENTH VOLUME OF SESSION 2002&#150;2003)(House of Commons</H3>)", \
 		'\\1</H3>\n<H3 align=center>\\2', 1, '2003-04-07'),
 	( "(<H3 align=center>NINTH VOLUME OF SESSION 2002&#150;2003)ana(House of Commons</H3>)", \
@@ -48,16 +46,12 @@ fixsubs = 	[
         ( '(2003)(House of Commons)', '\\1</center></H4>\n<H4><center>\\2', 1, '2003-05-12'),
         ( '(2003)(House of Commons)', '\\1</center></H4>\n<H4><center>\\2', 1, '2003-04-28'),
 
-        ( '(<FONT SIZE=-1>2 Dec. 2003)', '\\1\n</FONT></TD></TR>\n</TABLE>', 1, '2004-02-05'),
 
 	( '<i> </i>', '', 1, '2003-01-27'),
 
 	( '<UL><UL>Adjourned', '</UL><UL><UL><UL>Adjourned', 1, '2003-05-22'), # putting a consistent error back in
 	( '<UL><UL>End', '</UL><UL><UL><UL>End', 1, '2002-11-07'), # as above
         ( '<UL><UL>', '<UL><UL><UL>', 1, '2003-06-25'),
-
-	( '<UL><UL><UL>Adjourned', '<UL>Adjourned', 1, '2004-03-05'),
-	( 'o\'clock\.\s*</UL></UL></UL>', 'o\'clock.</UL>', 1, '2004-03-05'),
 
 	( '<UL><UL><UL>', '<UL>', 1, 'all'),
 	( '</UL></UL></UL>', '</UL>', 1, 'all'),
