@@ -1,5 +1,5 @@
 #!/usr/bin/python2.3
-# $Id: guardianconv.py,v 1.4 2004/05/13 13:14:01 frabcus Exp $
+# $Id: guardianconv.py,v 1.5 2004/05/13 15:54:03 frabcus Exp $
 
 # Converts tab file of Guardian URLs into XML.  Also extracts swing/majority
 # from the constituency page on the Guardian.
@@ -45,6 +45,13 @@ for l in ih:
         print '<personinfo id="%s" today_swing_to_lose_mp_seat="%s" date="%s"/>' % (personid, m.group(1), date)
     else:
         print >>sys.stderr, "no match for swing at url %s" % consurl
+
+    m = re.search("majority: (\d+\,\d+)", content)
+    if m:
+        print '<personinfo id="%s" today_majority_mp_seat="%s" date="%s"/>' % (personid, m.group(1).replace(",", ""), date)
+    else:
+        print >>sys.stderr, "no match for majority at url %s" % consurl
+
 
 assert c == 659, "Expected %d MPs" % c
 
