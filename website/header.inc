@@ -2,17 +2,21 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.19 2003/10/13 19:08:50 frabcus Exp $
+# $Id: header.inc,v 1.20 2003/10/14 22:39:06 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-if (!is_bool(strpos(dirname($_SERVER{'REQUEST_URI'}), "/account"))) $toppath = "../"; else $toppath = "";
+if (!is_bool(strpos(dirname($_SERVER['REQUEST_URI']), "/account"))) 
+    $toppath = "../"; 
+else 
+    $toppath = "";
 
 include $toppath . "pretty.inc";
 include $toppath . "account/quick.inc";
+
 ?>
 
 <head>

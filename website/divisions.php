@@ -1,5 +1,6 @@
+<?php include "cache-begin.inc"; ?>
 <?php 
-# $Id: divisions.php,v 1.5 2003/10/13 17:45:59 frabcus Exp $
+# $Id: divisions.php,v 1.6 2003/10/14 22:39:06 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -71,3 +72,4 @@ the order of the table by selecting the headings.
 ?>
 
 <?php include "footer.inc" ?>
+<?php include "cache-end.inc" ?>
