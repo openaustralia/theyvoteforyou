@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp-info.xml,v 1.2 2004/03/18 13:43:38 frabcus Exp $
+    # $Id: mp-info.xml,v 1.3 2004/03/18 14:44:22 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -40,8 +40,8 @@
         if ($att == "") { $att="n/a"; } else { $att.="%"; }
         $reb = $row['rebellions'];
         if ($reb == "") { $reb="n/a"; } else { $reb.="%"; }
-        print " division_attendance=\"$att\"\n";
-        print " rebellions=\"$reb\"\n";
+        print " public_whip_division_attendance=\"$att\"\n";
+        print " public_whip_rebellions=\"$reb\"\n";
 
         print "/>\n";
     }

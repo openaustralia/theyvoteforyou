@@ -34,7 +34,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         self.retitles = re.compile('^(?:%s)' % self.titles)
         self.rejobs = re.compile('^%s$' % parlPhrases.regexpjobs)
 
-        self.honourifics = " CBE| OBE| MBE| QC| BEM| rh| RH| Esq| QPM";
+        self.honourifics = " CBE| OBE| MBE| QC| BEM| rh| RH| Esq| QPM| JP| FSA| Bt| B.Ed \(Hons\)";
         self.rehonourifics = re.compile('(?:%s)$' % self.honourifics)
 
         parser = xml.sax.make_parser()
@@ -149,10 +149,13 @@ class MemberList(xml.sax.handler.ContentHandler):
             (text, titlegot) = self.retitles.subn("", text)
             titletotal = titletotal + titlegot
 
-        # Remove final honourifics
-        (text, honourc) = self.rehonourifics.subn("", text)
-        if honourc > 1:
-            raise Exception, 'Multiple honourifics: ' + input
+        # Remove final honourifics (may be several)
+        # e.g. for "Mr Menzies Campbell QC CBE" this removes " QC CBE" from the end
+        honourtotal = 0
+        honourgot = 1
+        while honourgot > 0:
+            (text, honourgot) = self.rehonourifics.subn("", text)
+            honourtotal = honourtotal + honourgot
 
         # Find unique identifier for member
         ids = sets.Set()
