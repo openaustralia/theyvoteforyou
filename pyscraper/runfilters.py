@@ -134,7 +134,8 @@ def RunFiltersDir(filterfunction, dname, options, forcereparse):
 					xmlvalidate.parse(tempfilename) # validate XML before renaming
 
 				# we will signal that it's safe by doing this in write function
-				if os.path.isfile(jfout):
+                                # file override can happen for regmem
+				if os.path.isfile(jfout) and dname != 'regmem':
 					assert False # shouldn't happen (we leave by an exception)
 					print "Leave for XML match testing: No over-write of file"
 				else:
