@@ -158,10 +158,10 @@ def StraightenHTMLrecurse(stex, stampurl):
                         # Put new entities in entitymap if you can, or special cases
                         # in this if statement.
 
-                        if sres[i] in entitymap:
-                                sres[i] = entitymap[sres[i]]
-                        elif sres[i] in entitymaprev:
-                                pass
+			if sres[i] in entitymap:
+				sres[i] = entitymap[sres[i]]
+			elif sres[i] in entitymaprev:
+				pass
 			elif sres[i] == '&mdash;': # special case as entitymap maps it with spaces
 				pass
 			elif sres[i] == '&quot;':
@@ -173,9 +173,9 @@ def StraightenHTMLrecurse(stex, stampurl):
 			elif sres[i] == '&gt;':
 				pass
 			elif sres[i] == '&ldquo;':
-				sres[i] = '&quot'
+				sres[i] = '&quot;'
 			elif sres[i] == '&rdquo;':
-				sres[i] = '&quot'
+				sres[i] = '&quot;'
 			else:
 				raise Exception, sres[i] + ' unknown ent'
 				sres[i] = 'UNKNOWN-ENTITY'
