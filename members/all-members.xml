@@ -7584,7 +7584,7 @@ http://www.election.demon.co.uk/strengths.html
     house="commons"
     title="" firstname="Jim" lastname="Marshall"
     constituency="Leicester South" party="Lab"
-    fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    fromdate="2001-06-07" todate="2004-05-27" fromwhy="general_election" towhy="died"
 />
 <member
     id="uk.org.publicwhip/member/1100"
