@@ -55,8 +55,6 @@ fixsubs = 	[
 	( '</UL></UL></UL>', '</UL>', 1, 'all'),
 		]
 
-
-
 # parse through the usual intro headings at the beginning of the file.
 #[Mr. Speaker in the Chair] 0
 def StripDebateHeading(hmatch, ih, headspeak, bopt=False):

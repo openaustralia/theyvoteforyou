@@ -73,19 +73,25 @@ redivno = re.compile('<b>division no\. \d+</b>$(?i)')
 recomb = re.compile('(%s)' % (regspeaker, ))
 remarginal = re.compile('<b>[^<]*</b>(?i)')
 
+# used to work out when to reset debate speaker name history
+reheading = re.compile('((<center>)|(<h\d align=center>)|(<h\d>))(?i)')
+
 def FilterDebateSpeakers(fout, text, sdate):
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
 
 	# setup for scanning through the file.
 	for fss in recomb.split(text):
+                #print fss
+                #print "--------------------"
+
+                # reset debate history after titles
+                if reheading.search(fss):
+                        memberList.cleardebatehistory()
 
 		# division number detection (these get through the speaker detection regexp)
 		if redivno.match(fss):
 			fout.write(fss.encode("latin-1"))
 			continue
-
-#                print "fss=",fss
-#                print "######################"
 
 		# speaker detection
 		speakerg = respeakervals.match(fss)

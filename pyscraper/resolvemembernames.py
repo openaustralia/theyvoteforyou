@@ -211,23 +211,29 @@ class MemberList(xml.sax.handler.ContentHandler):
         remadecons = self.members[id]["constituency"]
         return id, remadename, remadecons
 
+    # Resets history - exclusively for debates pages
+    # The name history stores all recent names:
+    #   Mr. Stephen O'Brien (Eddisbury) 
+    # So it can match them when listed in shortened form:
+    #   Mr. O'Brien
+    def cleardebatehistory(self):
+        # TODO: Perhaps this is a bit loose - how far back in the history should
+        # we look?  Perhaps clear history every heading?  Currently it uses the
+        # entire day.  Check to find the maximum distance back Hansard needs
+        # to rely on.
+        self.debatenamehistory = []
+        self.debateofficehistory = {}
+
     # Matches names - exclusively for debates pages
     def matchdebatename(self, input, bracket, date):
         speakeroffice = ""
 
+        #print input, bracket
+
         # Clear name history if date change
-        # The name history stores all recent names:
-        #   Mr. Stephen O'Brien (Eddisbury) 
-        # So it can match them when listed in shortened form:
-        #   Mr. O'Brien
         if self.debatedate != date:
-            # TODO: Perhaps this is a bit loose - how far back in the history should
-            # we look?  Perhaps clear history every heading?  Currently it uses the
-            # entire day.  Check to find the maximum distance back Hansard needs
-            # to rely on.
             self.debatedate = date
-            self.debatenamehistory = []
-            self.debateofficehistory = {}
+            self.cleardebatehistory()
         
         # Sometimes no bracketed component: Mr. Prisk
         ids = self.fullnametoids(input, date)
@@ -265,7 +271,15 @@ class MemberList(xml.sax.handler.ContentHandler):
             # search through history, starting at the end
             history = copy.copy(self.debatenamehistory)
             history.reverse()
-            for x in history:
+            # [1:] here we misses the first entry, i.e. it misses the previous
+            # speaker.  This is necessary for example here:
+            #     http://www.publications.parliament.uk/pa/cm200304/cmhansrd/cm040127/debtext/40127-08.htm#40127-08_spnew13
+            # Mr. Clarke refers to Charles Clarke, even though it immediately
+            # follows a Mr. Clarke in the form of Kenneth Clarke.  By ignoring
+            # the previous speaker, we correctly match the one before.  As the
+            # same person never speaks twice in a row, this shouldn't cause
+            # trouble.
+            for x in history[1:]:
                 if x in ids:
                     # first match, use it and exit
                     ids = sets.Set([x,])
@@ -295,6 +309,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         if len(ids) == 0:
             if not re.search(regnospeakers, input):
                 raise Exception, "No matches %s" % (rebracket)
+            self.debatenamehistory.append(None) # see below
             return 'speakerid="unknown" error="No match" speakername="%s"' % (rebracket)
         if len(ids) > 1:
             names = ""
@@ -302,12 +317,17 @@ class MemberList(xml.sax.handler.ContentHandler):
                 names += self.members[id]["firstname"] + " " + self.members[id]["lastname"] + " (" + self.members[id]["constituency"] + ") "
             if not re.search(regnospeakers, input):
                 raise Exception, "Multiple matches %s, possibles are %s" % (rebracket, names)
+            self.debatenamehistory.append(None) # see below
             return 'speakerid="unknown" error="Matched multiple times" speakername="%s"' % (rebracket)
         # Extract one id left
         for id in ids:
             pass
         
         # Store id in history for this day
+        # (note that we even store failed matches as None above, so they count
+        # as a speaker for the purposes of this check working)
+        if len(self.debatenamehistory) > 0 and self.debatenamehistory[-1] == id and not self.isspeaker(id):
+            raise Exception, "Same person speaks twice in a row %s" % rebracket
         self.debatenamehistory.append(id)
 
         # Return id and name as XML attributes
@@ -345,6 +365,14 @@ class MemberList(xml.sax.handler.ContentHandler):
         if not cancons:
             raise Exception, "Unknown constituency %s" % cons
         return cancons
+
+    def isspeaker(self, id):
+        if self.members[id]["party"] == "SPK":
+            return True
+        if self.members[id]["party"] == "CWM" or self.members[id]["party"] == "DCWM":
+            return True
+        return False
+
 
 # Construct the global singleton of class which people will actually use
 memberList = MemberList()
