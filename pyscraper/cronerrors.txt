@@ -1,0 +1,13 @@
+Being errors found each day running the scraping cron job
+
+2004-03-10 Slightly misspelt wrans major heading INTERNATIONAL DEVEOPMENT
+2004-03-08 Missing "To ask the secretary of...." on wrans
+2004-03-05 <UL><UL><UL> 'all' rule broke, because there is one extra case (also /UL)
+2004-03-05 Missing chunk in middle of wrans, detected because numeral (2) missing
+2004-03-04 In the morning, 5 pages were repeated, fixed by afternoon
+2004-03-03 Gareth Thomas disambiguation of office, date moved forward
+2004-02-26 Mangled column number text: Missing formatting
+2004-02-25 Mangled multi-part question: Missing (1) marker
+2004-02-25 Mangled "to ask": To the Secretary of State for Environment
+2004-02-23 Mangled name: Ms Hazel Blears)
+
