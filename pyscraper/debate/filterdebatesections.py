@@ -211,23 +211,19 @@ def NormalHeadingPart(headingtxt, stampurl):
                         stampurl.sdate != "2002-06-11": # has a genuine title with Oral in it
 		raise Exception, 'Oral question match not precise enough: %s' % headingtxt
 
-	# reuse of oral-heading flag for something else
-	elif re.match("\[.*? in the Chair\]$", headingtxt):
-		headingtxt = re.sub("\[|\]", "", headingtxt)
-		boralheading = True
-
-	elif re.search("in\s+the\s+chair(?i)", headingtxt):
-		raise Exception, 'in the chair match not precise enough: %s' % headingtxt
-
 	# All upper case headings
 	elif not re.search('[a-z]', headingtxt):
 		bmajorheading = True
 
-	# [Mr. Edward O'Hara in the Chair]
-	# But if this is labeled major, then it gets concatenated with the subsequent major heading.
-	# It's kind of a procedural info about the running of things, so fair to have it as a heading alone.
-	#elif re.match('\[.*? in the chair\](?i)', headingtxt):
-	#	bmajorheading = True
+        # If this is labeled major, then it gets concatenated with the
+        # subsequent major heading.  It's kind of a procedural info about the
+        # running of things, so fair to have it as a minor heading alone.
+	elif re.match("\[.*? in the Chair\]$", headingtxt):
+		bmajorheading = False
+
+	elif re.search("in\s+the\s+chair(?i)", headingtxt):
+		raise Exception, 'in the chair match not precise enough: %s' % headingtxt
+
 
 	# Other major headings, marked by _head in their anchor tag
 	elif re.search('_head', stampurl.aname):
