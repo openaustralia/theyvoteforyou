@@ -1,4 +1,4 @@
-// $Id: plotpanel.java,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+// $Id: plotpanel.java,v 1.2 2003/09/17 14:27:42 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -132,10 +132,10 @@ class plotpanel extends JPanel implements MouseListener, MouseMotionListener { I
 	    }
 	}
 
-        public void SavePNG(String filename)
+        public void SavePNG(String filename, int w, int h)
         {
             // Draw image
-            csize = new Dimension(533,400);
+            csize = new Dimension(w, h);
             BufferedImage img = new BufferedImage(csize.width, csize.height, BufferedImage.TYPE_INT_RGB);
             Graphics gfx = img.getGraphics();
             InitScale(); 

@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: Makefile,v 1.2 2003/09/17 14:27:42 frabcus Exp $
 # Used to run the clustering calculation, build the Java applet etc.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -6,8 +6,9 @@
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-all: mpscatt.jar mpcoords.txt mpsee.png db
+all: mpscatt.jar mpcoords.txt mpsee.png mpseethumb.png db
 	cp mpsee.png ../website
+	cp mpseethumb.png ../website
 	cp mpscatt.jar ../website
 .PHONY: all
 
@@ -37,6 +38,7 @@ test: mpcoords.txt mpscatt.jar
 
 # Static graphic of cluster
 mpsee.png: mpcoords.txt mpscatt.jar
-	java -classpath mpscatt.jar mpframe mpcoords.txt mpsee.png
-
+	java -classpath mpscatt.jar mpframe mpcoords.txt mpsee.png 533 400
+mpseethumb.png: mpcoords.txt mpscatt.jar
+	java -classpath mpscatt.jar mpframe mpcoords.txt mpseethumb.png 150 150
 
