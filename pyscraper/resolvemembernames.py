@@ -52,12 +52,16 @@ class MemberList(xml.sax.handler.ContentHandler):
         parser = xml.sax.make_parser()
         parser.setContentHandler(self)
         parser.parse("../members/all-members.xml")
-        parser.parse("../members/member-aliases.xml")
         self.loadconsid = None
         self.loadconscanon = None
         parser.parse("../members/constituencies.xml")
         self.loadperson = None
         parser.parse("../members/people.xml")
+        parser.parse("../members/ministers.xml")
+        # member-aliases has to be loaded after ministers, as we alias
+        # to ministerial positions sometimes (e.g. Solicitor-General) in
+        # member-aliases.xml
+        parser.parse("../members/member-aliases.xml")
 
     def startElement(self, name, attr):
         # all-members.xml loading
@@ -158,6 +162,32 @@ class MemberList(xml.sax.handler.ContentHandler):
             self.officetopersonmap[attr["id"]] = self.loadperson
             self.persontoofficemap.setdefault(self.loadperson, []).append(attr["id"])
 
+        # ministers.xml loading
+        elif name == "moffice":
+            # we load these two positions and alias them into fullnames,
+            # as they are often used in wrans instead of fullnames, with
+            # no way of telling.
+            if attr["position"] == "Solicitor General" or attr["position"] == "Advocate General for Scotland":
+                if self.officetopersonmap.has_key(attr["id"]):
+                    # find all the office ids for this person
+                    person = self.officetopersonmap[attr["id"]]
+                    ids = self.persontoofficemap[person]
+                    for id in ids:
+                        # we only want MP ids
+                        if id.find("/member/") == -1:
+                            continue
+                        m = self.members[id]
+                        # add ones which overlap the moffice dates to the alias
+                        newattr = {}
+                        newattr['id'] = m['id']
+                        early = max(m['fromdate'], attr.get('fromdate', '1000-01-01'))
+                        late = min(m['todate'], attr.get('todate', '9999-12-31'))
+                        # sometimes the ranges don't overlap
+                        if early <= late:
+                            newattr['fromdate'] = early
+                            newattr['todate'] = late
+                            self.fullnames.setdefault(attr["position"], []).append(newattr)
+                            # print attr["position"], early, late, attr['name']
 
     def endElement(self, name):
         if name == "constituency":

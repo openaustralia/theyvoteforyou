@@ -47,25 +47,16 @@ http://www.dfid.gov.uk/News/PressReleases/files/pr_gareththomas_13june03.html
         alternate="The Parliamentary Under-Secretary of State for International Development" 
         from="2003-06-13" to="2004-11-01" />
 
-<!-- 
-The Solicitor-General
-Says current one here: http://www.parliament.uk/directories/hciolists/hmg.cfm
-We have them all in Public Whip CVS under rawdata/ministers
-Harriet Harman started on 11th June 2001
--->
-<alias fullname="Harriet Harman" alternate="The Solicitor General" from="2001-06-11" to="2004-12-01"/>
-<alias fullname="Harriet Harman" alternate="The Solicitor-General" from="2001-06-11" to="2004-12-01"/>
-<alias fullname="Harriet Harman" alternate="Solicitor-General" from="2001-06-11" to="2004-12-01"/>
-<alias fullname="Harriet Harman" alternate="Solicitor General" from="2001-06-11" to="2004-12-01"/>
-
-<alias fullname="Lynda Clark" alternate="The Advocate-General for Scotland"
-        from="1999-05-20" to="2004-08-01"/>
-<alias fullname="Lynda Clark" alternate="The Advocate-General"
-        from="1999-05-20" to="2004-08-01"/>
-<alias fullname="Lynda Clark" alternate="Advocate-General"
-        from="1999-05-20" to="2004-08-01"/>
-<alias fullname="Lynda Clark" alternate="Advocate General"
-        from="1999-05-20" to="2004-08-01"/>
+<!-- Sometimes these appear instead of fullnames.  resolvemembernames.py
+also loads in ministers.xml to match these to people.  Here we just have
+different spellings of the offices -->
+<alias fullname="Solicitor General" alternate="Solicitor-General" />
+<alias fullname="Solicitor General" alternate="The Solicitor-General" />
+<alias fullname="Solicitor General" alternate="The Solicitor General" />
+<alias fullname="Advocate General for Scotland" alternate="The Advocate-General for Scotland" />
+<alias fullname="Advocate General for Scotland" alternate="The Advocate-General" />
+<alias fullname="Advocate General for Scotland" alternate="Advocate-General" />
+<alias fullname="Advocate General for Scotland" alternate="Advocate General" />
 
 <!-- First added for 2001 parliament -->
 <alias fullname="Parmjit Gill" alternate="Parmjit Singh Gill" />

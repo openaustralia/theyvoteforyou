@@ -3,10 +3,13 @@
 import sys
 from resolvemembernames import memberList
 
+print memberList.matchdebatename("Solicitor-General", None, "2003-11-21")
+print memberList.matchdebatename("The Advocate-General for Scotland", None, "2004-07-30")
+sys.exit()
+
 print memberList.getmembersoneelection("uk.org.publicwhip/member/1238")
 print memberList.getmembersoneelection("uk.org.publicwhip/member/1353")
 print memberList.getmembersoneelection("uk.org.publicwhip/member/1357")
-sys.exit()
 
 print memberList.matchdebatename("Mr. Mackay", None, "2003-11-21")
 print memberList.matchdebatename("James Marshall", None, "2003-11-21")
