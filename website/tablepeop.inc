@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablepeop.inc,v 1.5 2005/03/21 19:23:31 goatchurch Exp $
+    # $Id: tablepeop.inc,v 1.6 2005/03/22 00:44:41 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -18,6 +18,19 @@
 					and str_replace("tell", "", $row["vote"]) != $row["whip_guess"])
         		$sclass = "rebel";
 		}
+		elseif ($colstyle == "division2" or $colstyle == "division2invert")
+		{
+			$dtvote_a = str_replace("tell", "", $row["vote_a"]);
+			if ($dtvote_a != "aye" and $dtvote_a != "no")
+				$dtvote_a = "neither";
+			$dtvote_b = str_replace("tell", "", $row["vote_b"]);
+			$sclassd = "rebelteller";
+			if ($dtvote_b != "aye" and $dtvote_b != "no")
+				$dtvote_b = "neither";
+			elseif ($dtvote_a != "neither")
+				$sclassd = ((($colstyle == "division2invert") == ($dtvote_a == $dtvote_b)) ? "rebel" : "teller");
+		}
+
     	print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even").$sclass."\">";
 
 		# row numbering
@@ -73,7 +86,12 @@
 		# division vote
 		elseif ($colstyle == "division")
 			print "<td>".($row["vote"] ? $row["vote"] : "absent")."</td>";
-
+		# double division list
+		elseif ($colstyle == "division2" or $colstyle == "division2invert")
+		{
+			print "<td>".($row["vote_a"] ? $row["vote_a"] : "absent")."</td>\n";
+			print "<td class=\"$sclassd\">".($row["vote_b"] ? $row["vote_b"] : "absent")."</td>\n";
+		}
 
 		# the remaining columns
 		elseif ($colstyle == "list")
@@ -155,7 +173,16 @@
 
 		elseif ($mptabattr["listtype"] == 'division2')
 		{
-	        $aquery["qorder"] .= " last_name, first_name, constituency, party";
+			if ($mptabattr["sortby"] == "party")
+		        $aquery["qorder"] .= " party, pw_vote_sortorder_a.position DESC, pw_vote_sortorder_b.position DESC, last_name, first_name, constituency";
+			elseif ($mptabattr["sortby"] == "vote")
+		        $aquery["qorder"] .= " pw_vote_sortorder_a.position DESC, pw_vote_sortorder_b.position DESC, last_name, first_name, constituency";
+			elseif ($mptabattr["sortby"] == "vote2")
+		        $aquery["qorder"] .= " pw_vote_sortorder_b.position DESC, pw_vote_sortorder_a.position DESC, last_name, first_name, constituency";
+			elseif ($mptabattr["sortby"] == "constituency")
+		        $aquery["qorder"] .= " constituency, last_name, first_name";
+			else  # by name
+		        $aquery["qorder"] .= " last_name, first_name, constituency, party";
 		}
 
 		# without a vote column
@@ -262,18 +289,37 @@
 		# double division case
 		elseif ($mptabattr["listtype"] == 'division2')
 		{
-			$aquery["qselect"] 	.= ", pw_vote_a.vote AS vote_a, pw_vote_b.vote AS pw_vote_b";
+			$aquery["qselect"] 	.= ", pw_vote_a.vote AS vote_a, pw_vote_b.vote AS vote_b";
 			$aquery["qjoin"] 	.= " LEFT JOIN pw_vote AS pw_vote_a ON pw_vote_a.mp_id = pw_mp.mp_id
 										AND pw_vote_a.division_id = ".$mptabattr["divid"];
 			$aquery["qjoin"] 	.= " LEFT JOIN pw_vote AS pw_vote_b ON pw_vote_b.mp_id = pw_mp.mp_id
-										AND pw_vote_b.division_id = ".$mptabattr["divid"];
+										AND pw_vote_b.division_id = ".$mptabattr["divid2"];
 
-#			if ($showwhich == 'allpossible')
-#	        	$aquery["qwhere"] 	.= " AND entered_house <= '".$mptabattr["divdate"]."'
-#	        							 AND left_house > '".$mptabattr["divdate"]."'";
-#			else
-				$aquery["qwhere"] 	.= " AND pw_vote_a.vote IS NOT null
-										 AND pw_vote_b.vote IS NOT null";
+			if ($showwhich == "rebels")
+			{
+				$aquery["qwhere"] 	.= " AND pw_vote_a.vote IS NOT null AND pw_vote_b.vote IS NOT null
+										 AND pw_vote_a.vote <> 'both' AND pw_vote_b.vote <> 'both'";
+				$aquery["qwhere"] 	.= " AND ((pw_vote_a.vote = 'tellaye' OR pw_vote_a.vote = 'aye')";
+				$aquery["qwhere"] 	.= ($mptabattr["div2invert"] ? " = " : " <> ");
+				$aquery["qwhere"] 	.= "(pw_vote_b.vote = 'tellaye' OR pw_vote_b.vote = 'aye'))";
+			}
+			if ($showwhich == 'allpossible')
+	        {
+	        	$aquery["qwhere"] 	.= " AND entered_house <= '".$mptabattr["divdate"]."'
+	        							 AND left_house > '".$mptabattr["divdate"]."'";
+	        	$aquery["qwhere"] 	.= " AND entered_house <= '".$mptabattr["divdate2"]."'
+	        							 AND left_house > '".$mptabattr["divdate2"]."'";
+	        }
+			else
+				$aquery["qwhere"] 	.= " AND (pw_vote_a.vote IS NOT null OR pw_vote_b.vote IS NOT null)";
+
+
+			# vote table sorting (on both)
+			$aquery["qselect"] 	.= ", pw_vote_sortorder_a.position AS votesort_a, pw_vote_sortorder_b.position AS votesort_b";
+			$aquery["qjoin"] 	.= " LEFT JOIN pw_vote_sortorder AS pw_vote_sortorder_a
+										ON pw_vote_sortorder_a.vote = pw_vote_a.vote
+									 LEFT JOIN pw_vote_sortorder AS pw_vote_sortorder_b
+										ON pw_vote_sortorder_b.vote = pw_vote_b.vote";
 		}
 
 
@@ -294,11 +340,14 @@
 			$colstyle = "short".$mptabattr["sortby"]; # a short table on the index page
 		elseif ($mptabattr["listtype"] == "division")
 			$colstyle = "division";
+		elseif ($mptabattr["listtype"] == "division2")
+			$colstyle = "division2".($mptabattr["div2invert"] ? "invert" : "");
 		else
 			$colstyle = "list";
 
+
 		# now output all the parts of the table
-		if ($showwhich == 'rebels' and $colstyle = "division" and $db->rows() == 0)
+		if ($showwhich == 'rebels' and $colstyle == "division" and $db->rows() == 0)
 			print "<tr class=\"even\"><td colspan=4>no rebellions</td></tr>\n";
 
 		$nrows = 0;

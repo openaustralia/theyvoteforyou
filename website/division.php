@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.58 2005/03/21 19:23:28 goatchurch Exp $
+# $Id: division.php,v 1.59 2005/03/22 00:44:40 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -141,6 +141,12 @@
 
 	# make list of links to other display modes
 	$thispage = $divattr["divhref"];
+	if (!$singlemotionpage)
+	{
+		$thispage .= "&date2=".$divattr2["division_date"]."&number2=".$divattr2["division_number"];
+		if ($div2invert)
+            $thispage .= "&div2invert=yes";
+	}
 	$tpdisplay = ($display == "summary" ? "" : "&display=$display");
 	$tpsort = ($sort == "party" ? "" : "&sort=$sort");
 	$leadch = "<p>"; # get those bars between the links working
@@ -230,11 +236,13 @@
 		else
 		{
 			$motion_data_a = get_wiki_current_value($divattr["motion_key"]);
-	        print "<h2><a name=\"motion\">Motion (a) ".($motion_data_a['user_id'] == 0 ? " (unedited)" : "")."</a></h2>";
+			$titlea = "<a href=\"".$divattr["divhref"]."\">".$divattr["name"]." - ".$divattr["prettydate"]." - Division No. ".$divattr["division_number"]."</a>";
+	        print "<h2><a name=\"motion\">Motion (a) ".($motion_data_a['user_id'] == 0 ? " (unedited)" : "")."</a>: $titlea</h2>";
 	        print "<div class=\"motion\">".sanitise_wiki_text_for_display($motion_data_a['text_body'])."</div>\n";
 
 			$motion_data_b = get_wiki_current_value($divattr2["motion_key"]);
-	        print "<h2>Motion (b) ".($motion_data_b['user_id'] == 0 ? " (unedited)" : "")."</h2>";
+			$titleb = "<a href=\"".$divattr2["divhref"]."\">".$divattr2["name"]." - ".$divattr2["prettydate"]." - Division No. ".$divattr2["division_number"]."</a>";
+	        print "<h2>Motion (b) ".($motion_data_b['user_id'] == 0 ? " (unedited)" : "").": $titleb</h2>";
 	        print "<div class=\"motion\">".sanitise_wiki_text_for_display($motion_data_b['text_body'])."</div>\n";
 		}
 	}
@@ -369,10 +377,10 @@
 			if ($display == "differences")
 			{
 				print "<h2><a name=\"votes\">Difference in Voter - sorted by $sort</a></h2>\n";
-				print "<p>MPs for which their vote in Division (a) differed from their";
+				print "<p>MPs for which their vote on Motion (a) differed from their";
 				if ($div2invert)
 					print " <b>inverted</b>";
-				print "vote in Division (b)</p>\n";
+				print " vote on Motion (b)</p>\n";
 			}
 			elseif ($display == "allvotes")
 			{
@@ -416,7 +424,10 @@
 				print "<td>Vote (a)</td>";
 			else
 				print "<td><a href=\"$thispage$tpdisplay&sort=vote\">Vote (a)</a></td>";
-			print "<td>Vote (b)</td>";
+			if ($sort == "vote2")
+				print "<td>Vote (b)</td>";
+			else
+				print "<td><a href=\"$thispage$tpdisplay&sort=vote2\">Vote (b)</a></td>";
 		}
 		print "</tr>\n";
 
@@ -434,6 +445,7 @@
 			$mptabattr["divdate2"] = $divattr2["division_date"];
 			$mptabattr["divno2"] = $divattr2["division_number"];
 			$mptabattr["divid2"] = $divattr2["division_id"];
+			$mptabattr["div2invert"] = $div2invert;
 		}
 
 		mp_table($db, $mptabattr);

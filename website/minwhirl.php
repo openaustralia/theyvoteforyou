@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: minwhirl.php,v 1.6 2005/01/15 20:38:11 frabcus Exp $
+# $Id: minwhirl.php,v 1.7 2005/03/22 00:44:41 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2004 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -27,7 +27,7 @@ button on the right hand side marked "Today".
 to see which department they belong to.  Click on the same name a second time 
 to see that person's ministerial career.
 
-<p><span class="ptitle">Not working?</span>  You may need to wait 
+<p><span class="ptitle">Not working?</span>  You may need to wait
 a minute for it to load.  If you are able, download <a href="http://www.java.com">Sun's
 Java software</a>.  On Windows, the old unsupported Microsoft versions
 of Java will not do.</p>
@@ -40,8 +40,8 @@ of Java will not do.</p>
 <!--"CONVERTED_APPLET"-->
 <!-- HTML CONVERTER -->
 <SCRIPT LANGUAGE="JavaScript"><!--
-    var _info = navigator.userAgent; 
-    var _ns = false; 
+    var _info = navigator.userAgent;
+    var _ns = false;
     var _ns6 = false;
     var _ie = (_info.indexOf("MSIE") > 0 && _info.indexOf("Win") > 0 && _info.indexOf("Windows 3.1") < 0);
 //--></SCRIPT>
@@ -53,7 +53,7 @@ of Java will not do.</p>
     </COMMENT>
 
 <SCRIPT LANGUAGE="JavaScript"><!--
-    if (_ie == true) document.writeln('<OBJECT
+    if (_ie == true) document.writeln('<OBJECT \
     classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" WIDTH = "750" HEIGHT = "550"  codebase="http://java.sun.com/products/plugin/autodl/jinstall-1_4-windows-i586.cab#Version=1,4,0,0"><NOEMBED><XMP>');
     else if (_ns == true && _ns6 == false) document.writeln('<EMBED \
 	    type="application/x-java-applet;version=1.4" \
