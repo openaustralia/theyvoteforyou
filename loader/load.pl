@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: load.pl,v 1.5 2004/10/17 01:08:16 frabcus Exp $
+# $Id: load.pl,v 1.6 2004/11/20 18:23:10 theyworkforyou Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -122,12 +122,12 @@ sub update_calc {
 }
 
 sub check {
-    PublicWhip::Error::log("Checking integrity...", "", ERR_USEFUL);
-    PublicWhip::Clean::check_integrity($dbh);
     PublicWhip::Error::log("Fixing up corrections we know about...", "", ERR_USEFUL);
     PublicWhip::Clean::fix_division_corrections($dbh);
     PublicWhip::Error::log("Fixing bothway votes...", "", ERR_USEFUL);
     PublicWhip::Clean::fix_bothway_voters($dbh);
+    PublicWhip::Error::log("Checking integrity...", "", ERR_USEFUL);
+    PublicWhip::Clean::check_integrity($dbh);
 }
 
 sub all_divsxml {

@@ -1,4 +1,4 @@
-# $Id: Clean.pm,v 1.4 2004/07/05 16:47:53 frabcus Exp $
+# $Id: Clean.pm,v 1.5 2004/11/20 18:23:10 theyworkforyou Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -75,7 +75,7 @@ sub fix_bothway_voters {
         }
     }
     PublicWhip::Error::log( "Fixed up " . $sth->rows . " bothway votes",
-        "", ERR_IMPORTANT )
+        "", ERR_USEFUL )
       if ( $sth->rows > 0 );
 }
 
@@ -85,6 +85,17 @@ sub fix_division_corrections {
     fix_division_correction( $dbh, 309, "2003-09-15", "2003-09-16" );
     fix_division_correction( $dbh, 99,  "2003-03-04", "2003-03-06" );
     fix_division_correction( $dbh, 329, "2002-10-23", "2002-10-28" );
+
+    # Check for other divisions called correction
+    my $sth = PublicWhip::DB::query(
+        $dbh,
+"select division_date, division_number from pw_division where lower(division_name)
+like '\%correction\%'"
+    );
+    if ($sth->rows != 0) {
+        print "Suspect need to add correction to fix_division_corrections";
+    }
+ 
 }
 
 sub fix_division_correction {
@@ -131,7 +142,7 @@ sub fix_division_correction {
 
     # Rename voting record
     PublicWhip::DB::query( $dbh,
-        "delete pw_vote from pw_vote where division_id = ?", $id_orig );
+        "delete from pw_vote where division_id = ?", $id_orig );
     PublicWhip::DB::query( $dbh,
         "update pw_vote set division_id = ? where division_id = ?",
         $id_orig, $id_correction );
@@ -143,7 +154,7 @@ sub fix_division_correction {
 
     PublicWhip::Error::log(
         "Corrected division $num $date_orig with data from
-    $date_correction", "", ERR_IMPORTANT
+    $date_correction", "", ERR_USEFUL
     );
 }
 
