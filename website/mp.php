@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.13 2003/10/21 18:16:18 frabcus Exp $
+    # $Id: mp.php,v 1.14 2003/10/27 09:48:00 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -48,7 +48,7 @@
     print "<table><tr class=\"headings\">
             <td>Party</td>
             <td>From</td><td>To</td>
-            <td>Rebellions</td><td>Attendance</td>
+            <td>Rebellions (estimate)</td><td>Attendance (divisions)</td>
             </tr>";
     while ($row = $db->fetch_row())
     {

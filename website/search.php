@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.11 2003/10/13 17:45:59 frabcus Exp $
+# $Id: search.php,v 1.12 2003/10/27 09:48:00 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -73,7 +73,7 @@
             $found = true;
             print "<p>Found these MPs matching '$prettyquery':";
             print "<table class=\"mps\"><tr
-                class=\"headings\"><td>Date</td><td>Name</td><td>Constituency</td><td>Party</td><td>Rebellions</td><td>Attendance</td></tr>\n";
+                class=\"headings\"><td>Date</td><td>Name</td><td>Constituency</td><td>Party</td></tr>\n";
             $prettyrow = 0;
             while ($row = $db->fetch_row())
             {
@@ -88,9 +88,9 @@
                 print "<td>" . year_range($row[10], $row[11]) . "</td>";
                 print "<td><a href=$anchor>$row[2] $row[0] $row[1]</a></td></td>
                     <td>$row[3]</td>
-                    <td>" . pretty_party($row[4], $row[8], $row[9]) . "</td>
-                    <td class=\"percent\">$row[6]</td>
-                    <td class=\"percent\">$row[7]</td>";
+                    <td>" . pretty_party($row[4], $row[8], $row[9]) .  "</td>";
+#                    <td class=\"percent\">$row[6]</td>
+#                   <td class=\"percent\">$row[7]</td>
                 print "</tr>\n";
             }
             print "</table>\n";

@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mps.php,v 1.7 2003/10/21 18:16:18 frabcus Exp $
+    # $Id: mps.php,v 1.8 2003/10/27 09:48:00 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -58,9 +58,9 @@
         parliament_date_from($parliament) . "' order by $order");
 
 ?>
-<p>The Members of Parliament are listed with how often they turn up to
-vote, and the number of times they voted against the majority vote
-for their party.  Read a <a href="faq.php#clarify">clear
+<p>The Members of Parliament are listed with the number of times they
+voted against the majority vote for their party and how often they turn up
+to vote.  Read a <a href="faq.php#clarify">clear
 explanation</a> of these terms, as they may not have the meanings
 you expect. You can change the order of the table by selecting the headings.
 <?php
@@ -76,8 +76,8 @@ you expect. You can change the order of the table by selecting the headings.
     head_cell($url, $sort, "Name", "lastname", "Sort by surname");
     head_cell($url, $sort, "Constituency", "constituency", "Sort by constituency");
     head_cell($url, $sort, "Party", "party", "Sort by party");
-    head_cell($url, $sort, "Rebellions", "rebellions", "Sort by rebels");
-    head_cell($url, $sort, "Attendance", "attendance", "Sort by attendance");
+    head_cell($url, $sort, "Rebellions<br>(estimate)", "rebellions", "Sort by rebels");
+    head_cell($url, $sort, "Attendance<br>(divisions)", "attendance", "Sort by attendance");
     print "</tr>";
 
     render_mps_table($db);
