@@ -62,7 +62,8 @@ def ConstructHTTPlink(qstrdom, qstrmid, qstrtail):
 			print ' undemangled href symbol ' + qstrmid
 		qstrmid = re.sub('&', '&amp;', qstrmid)
 	if not re.match('[\w\-/.+;&%]*$', qstrmid):
-		print ' bad midd -- ' + qstrmid
+		#print ' bad midd -- ' + qstrmid
+                pass
 
 	if qstrtail:
 		qstrtail = re.sub(' ', '', qstrtail)

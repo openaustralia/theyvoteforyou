@@ -18,7 +18,7 @@ def ApplyPatches(filein, fileout):
         
         # Apply the patch
         shutil.copyfile(filein, fileout)
-        status = os.system("patch %s <%s" % (fileout, patchfile))
+        status = os.system("patch --quiet %s <%s" % (fileout, patchfile))
         if status != 0:
                 raise Exception, "Error running 'patch'"
 
