@@ -1,8 +1,8 @@
 <?php require_once "common.inc";
-# $Id: dreamplot.php,v 1.2 2005/03/31 23:14:32 frabcus Exp $
+# $Id: dreamplot.php,v 1.3 2005/03/31 23:15:05 frabcus Exp $
 
-# Print information about all MPs and how they compare to the given
-# Dream MP.
+# Draw thumbsketch histogram of how many MPs are each distance away
+# from the Dream MP.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
