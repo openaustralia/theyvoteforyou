@@ -1,21 +1,26 @@
 2003-06-13 - check tables
 2003-06-12 - check euro
 
+Dream MP
+--------
+
+Comments
+Edit MP page
+Web page URL of you
+
+Party comparison
+Add rank number on left column
+
+Change "Account" button when logged in
+Cache dream MP page - delete cache file when it changes
+
+db-get get new tables
+test auditing (esp. ip)
+
 Wrans
 -----
 
 League table of how many didn't questions 
-
-Index text in titles
-Check stemming
-
-Entities - sort out set_entity_encoding on sphinx, and which encoding web pages are in
-	(make sure simon and lembit have accents ok)
-Decide whether you should just use numbers for entities
-
-Some kind of "most inquisitive" on front page
-
-Be consistent about where "show all contents" link is - above or below table.
 
 Print department
 Match office (secretary of state...) to department?  Julian does this already
@@ -35,22 +40,17 @@ Check all found URL links
 
 Improve all MP name matching so no unknown ids
 Make "unknown" name link a better page (rather than a meaningless error)
+    Fix broken links to mp.php?id=unknown
 
 Stats - count up how many questions/answers each person has done
+Some kind of "most inquisitive" on front page
 
-Simple comments / vote system?
-
-Search for all questions that are about Hansard that you can now answer,
-and send off the answers.
-Put party/constuency in speakername?
-Separate out date of asking and date of answering
+Search for all questions that are about Hansard that you can now answer, and send off the answers.
 
 Give help on how to request answers from hcinfo
 
 Web site
 --------
-
-Google search on division name
 
 Popular pages today are...  Grep the logs somehow clever.
 

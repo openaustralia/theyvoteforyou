@@ -1,7 +1,5 @@
 <?php
 
-$xmldatapath = "/home/francis/pwdata/pwscrapedxml/";
-
 function ApplyXSLT($xmldata, $xsltfile)
 {
     $xsltproc = xslt_create();

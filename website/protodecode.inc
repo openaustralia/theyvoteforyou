@@ -4,12 +4,12 @@
 # Doing our own indexing using partly the filesystem,
 # and partly byte offsets listed in text files.
 
-$toppath = '/home/francis/pwdata';
+include "config.inc";
 
 # in/output directories
-$pwprotoidxdir = $toppath . '/pwprotoidx';
-$pwprotoindexdir = $toppath . '/pwprotoindex';
-$pwxmldirs = $toppath . '/pwscrapedxml';
+$pwprotoidxdir = $toppath . '/protoidx';
+$pwprotoindexdir = $toppath . '/protoindex';
+$pwxmldirs = $toppath . '/scrapedxml';
 $pwxmwrans = $pwxmldirs . '/wrans';
 
 function ReadNumberPair($fin)
@@ -20,6 +20,24 @@ function ReadNumberPair($fin)
 		print 'Error in protodecode: ' . $ln . ' does not match pair of numbers ';
 	return array(intval($lng[1]), intval($lng[2]));
 }
+
+function FetchRandomWrans()
+{
+    global $pwxmwrans;
+
+    $dh = opendir($pwxmwrans);
+    $dates = array();
+    while (false !== ($filename = readdir($dh)))
+    {
+        if (preg_match("/^answers(.*)\.xml$/", $filename, $matches))
+        {
+            array_push($dates, $matches[1]);
+        }
+    }
+    rsort($dates);
+    print $dates[0];
+}
+
 
 function FetchWrans($wrid)
 {
@@ -71,7 +89,7 @@ function FetchWrans($wrid)
 	$regsq = sprintf('|<wrans id="%s"[\s\S]*?</wrans>|', $wrid);
 	$matches = preg_match($regsq, $wranscol, $wrg);
 	if ($matches != 1)
-		print 'Error in protodecode: not exactly one matching question! ';
+		print 'Error in protodecode: not exactly one matching question! Instead, ' . $matches . ' matches.';
 	return $wrg[0];
 }
 

@@ -1,0 +1,4 @@
+# m h dom mon dow command
+
+27 1 * * *       /home/francis/bin/recent-check
+

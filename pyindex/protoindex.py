@@ -15,9 +15,9 @@ toppath = os.path.expanduser('~/pwdata')
 # master function which carries the glued pages into the xml filtered pages
 
 # in/output directories
-pwprotoindexdir = os.path.join(toppath, "pwprotoindex")
+pwprotoindexdir = os.path.join(toppath, "protoindex")
 
-pwxmldirs = os.path.join(toppath, "pwscrapedxml")
+pwxmldirs = os.path.join(toppath, "scrapedxml")
 pwxmwrans = os.path.join(pwxmldirs, "wrans")
 
 

@@ -1,7 +1,7 @@
 <?php $cache_postfix = rand(0, 10); include "cache-begin.inc"; ?>
 
 <?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
-# $Id: index.php,v 1.24 2004/02/11 00:07:47 frabcus Exp $
+# $Id: index.php,v 1.25 2004/02/20 11:33:23 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -18,6 +18,7 @@ For more information about the project, <a href="faq.php">read the FAQ</a>.
     include "db.inc";
     include "render.inc";
     include "parliaments.inc";
+    include "wrans.inc";
     $db = new DB(); 
 ?>
 
@@ -112,7 +113,7 @@ title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
     $db->query("$divisions_query_start and " . parliament_query_range_div($parliament) . "
         and rebellions > 10 and
         pw_division.division_id = pw_cache_divinfo.division_id order by
-        rand() limit 5"); 
+        rand() limit 3"); 
 
     print "<table class=\"votes\">\n";
     print "<tr class=\"headings\">\n";
@@ -127,6 +128,19 @@ title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
     }
     print "</table>\n";
 
+?>
+
+</td></tr><tr><td colspan=2>
+
+<h2>Written Answers <a href="wrans.php" title="Show more popular Written Answers">(more...)</a></h2>
+<p>Selected from recent popular pages viewed on this website.</p>
+<?php
+    $ids = wrans_recent_popular(3);
+    $result = "";
+    foreach ($ids as $id)
+        $result .= FetchWrans($id);
+    $result = WrapResult($result);
+    print ApplyXSLT($result, "wrans-frontpage.xslt");
 ?>
 
 </td></tr></table>

@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.29 2004/02/08 04:01:43 frabcus Exp $
+# $Id: header.inc,v 1.30 2004/02/20 11:33:23 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -52,6 +52,7 @@ function givefocus(field) { if (document.pw) eval("document.pw." + field + ".foc
 <a title="Frequently Asked Questions" href="<?=$toppath?>faq.php">FAQ</a>
 <a title="List of all votes in Parliament" href="<?=$toppath?>divisions.php">Divisions</a>
 <a title="List of all Members of Parliament" href="<?=$toppath?>mps.php">MPs</a>
+<a title="Parliamentary Questions for Written Answer" href="<?=$toppath?>wrans.php">Wrans</a>
 <a title="Cluster diagram of voting record" href="<?=$toppath?>mpsee.php">Vote Map</a>
 <a title="Help run the project" href="<?=$toppath?>project/index.php">Project</a>
 <a title="Login or change settings" href="<?=$toppath?>account/settings.php">Account</a>

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.12 2004/02/10 00:18:32 frabcus Exp $
+# $Id: pretty.inc,v 1.13 2004/02/20 11:33:23 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -130,6 +130,16 @@ function search_example($db, $long)
 <p class="search"><i>Example: "OX1 3DR", "<?=$random_mp?>"<?=$random_constituency?> or "<?=$random_topic?>"</i>
 
 <?php
+}
+
+function search_wrans_tip()
+{
+?>
+To find Written Answers, enter the name of a subject, such as "China" or "Fair
+Trade".  You can enter multiple words separated by a space, and the Public Whip
+will match answers which contains all the words.  Enter exact whole words, so
+try "weapons" as well as "weapon".
+<?
 }
 
 function percentise($num)

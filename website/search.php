@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.24 2004/02/08 04:01:43 frabcus Exp $
+# $Id: search.php,v 1.25 2004/02/20 11:33:23 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -18,6 +18,7 @@
     include "render.inc";
     include "parliaments.inc";
     include "postcode.inc";
+    include "wrans.inc";
 
     $db = new DB(); 
 
@@ -50,9 +51,6 @@
             }
 
             # Perform query on wrans
-            include "wrans.inc";
-            include "xquery.inc";
-            include "protodecode.inc";
 
             $ids = wrans_search($prettyquery);	
             if (count($ids) > 1000)
@@ -193,10 +191,7 @@ debated.  If you enter multiple words, it will only find entries where they
 appear next to each other as you enter them.  You can enter part of a word.
 
 <p class="search"><span class="ptitle">Written Answers:</span> 
-To find Written Answers, enter the name of a subject, such as "China" or "Fair
-Trade".  You can enter multiple words separated by a space, and the Public Whip
-will match answers which contains all the words.  Enter exact whole words, so
-try "weapons" as well as "weapon".
+<?php search_wrans_tip() ?>
 
 <?php include "footer.inc" ?>
 
