@@ -32,7 +32,7 @@ if not os.path.isdir(pwxmldirs):
 	os.mkdir(pwxmldirs)
 
 # this
-def RunFiltersDir(filterfunction, dname, datefrom, dateto):
+def RunFiltersDir(filterfunction, dname, datefrom, dateto, deleteoutput):
 	# the in and out directories for the type
 	pwcmdirin = os.path.join(pwcmdirs, dname)
 	pwxmldirout = os.path.join(pwxmldirs, dname)
@@ -58,22 +58,26 @@ def RunFiltersDir(filterfunction, dname, datefrom, dateto):
 		# create the output file name
 		jfout = os.path.join(pwxmldirout, re.sub('\.html$', '.xml', fin))
 
-		# skip already processed files
-		if os.path.isfile(jfout):
-			continue
+                if deleteoutput:
+                        if os.path.isfile(jfout):
+                                os.remove(jfout)
+                else:
+                        # skip already processed files
+                        if os.path.isfile(jfout):
+                                continue
 
-		# read the text of the file
-		print fin
-		ofin = open(jfin)
-		text = ofin.read()
-		ofin.close()
+                        # read the text of the file
+                        print fin
+                        ofin = open(jfin)
+                        text = ofin.read()
+                        ofin.close()
 
-		# call the filter function and copy the temp file into the correct place.
-		# this avoids partially processed files getting into the output when you hit escape.
-		fout = open(tempfile, "w")
-		filterfunction(fout, text, sdate)
-		fout.close()
-		os.rename(tempfile, jfout)
+                        # call the filter function and copy the temp file into the correct place.
+                        # this avoids partially processed files getting into the output when you hit escape.
+                        fout = open(tempfile, "w")
+                        filterfunction(fout, text, sdate)
+                        fout.close()
+                        os.rename(tempfile, jfout)
 
 # These text filtering functions filter twice through stringfiles,
 # before directly filtering to the real file.

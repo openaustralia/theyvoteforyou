@@ -21,6 +21,10 @@ parser.add_option("--debates",
                   action="store_true", dest="debates", default=False,
                   help="process Debates into XML files")
 
+parser.add_option("--force",
+                  action="store_true", dest="force", default=False,
+                  help="forces reprocessing of wrans/debates by first deleting output files")
+
 parser.add_option("-f", "--from", dest="datefrom", metavar="date", default="1000-01-01",
                   help="date to process back to, default is start of time")
 parser.add_option("-t", "--to", dest="dateto", metavar="date", default="9999-12-31",
@@ -38,9 +42,14 @@ if (options.date):
 if options.network:
         UpdateHansardIndex()
         PullGluePages(options.datefrom, options.dateto)
+
 if options.wrans:
-        RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto)
+        if options.force:
+                RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto, True)
+        RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto, False)
 if options.debates:
-        RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto)
+        if options.force:
+                RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, True)
+        RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, False)
 
 
