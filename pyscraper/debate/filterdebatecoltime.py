@@ -70,8 +70,8 @@ recolnumcontvals = re.compile('<i>([^:<]*):\s*column\s*(\d+)(WH)?&#151;continued
 # <H5>12.31 pm</H5>
 # <p>\n12.31 pm\n<p>
 # [3:31 pm<P>    -- at the beginning of divisions
-regtime = '(?:</?p>\s*|<h[45]>|\[|\n)(?:\d+(?:[:\.]\d+)?\s*[ap]\.?m\.?(?:</st>)?|12 noon)(?:\s*</?p>|\s*</h[45]>|\n)'
-retimevals = re.compile('(?:</?p>\s*|<h\d>|\[|\n)\s*(\d+(?:[:\.]\d+)?\s*[apmnon.]+)(?i)')
+regtime = '(?:</?p>\s*|<h[45]>|\[|\n)(?:\d+(?:[:\.]\d+)?(?:\s*|&nbsp;)[ap]\.?m\.?(?:</st>)?|12 noon)(?:\s*</?p>|\s*</h[45]>|\n)'
+retimevals = re.compile('(?:</?p>\s*|<h\d>|\[|\n)\s*(\d+(?:[:\.]\d+)?(?:\s*|&nbsp;)[apmnon.]+)(?i)')
 
 # <a name="column_1099">
 reaname = '<a name="\S*?">'
@@ -82,9 +82,9 @@ recomb = re.compile('(%s|%s|%s|%s|%s|%s|%s|%s|%s)(?i)' % (regcolumnum1, regcolum
 remarginal = re.compile(':\s*column\s*(\d+)|\n(?:\d+[.:])?\d+\s*[ap]\.?m\.?[^,\w](?i)|</?a[\s>]')
 
 # This one used to break times into component parts: 7.10 pm
-regparsetime = re.compile("^(\d+)[\.:](\d+)\s?([\w\.]+)$")
+regparsetime = re.compile("^(\d+)[\.:](\d+)(?:\s?|&nbsp;)([\w\.]+)$")
 # 7 pm
-regparsetimeonhour = re.compile("^(\d+)()\s?([\w\.]+)$")
+regparsetimeonhour = re.compile("^(\d+)()(?:\s?|&nbsp;)([\w\.]+)$")
 
 def FilterDebateColTime(fout, text, sdate, typ):
 	# old style fixing (before patches existed)
