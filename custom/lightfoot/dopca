@@ -1,0 +1,118 @@
+#!/usr/bin/perl -w
+#
+# dopca:
+#
+# Copyright (c) 2004 Chris Lightfoot. All rights reserved.
+# Email: chris@ex-parrot.com; WWW: http://www.ex-parrot.com/~chris/
+#
+
+my $rcsid = ''; $rcsid .= '$Id: dopca,v 1.1 2004/01/29 19:22:33 frabcus Exp $';
+
+use strict;
+
+#use Math::MatrixReal;
+
+use Eigs;
+
+my $threshold = 500;
+
+# Four lines of noise.
+<STDIN>;
+<STDIN>;
+<STDIN>;
+<STDIN>;
+
+# One line of MP names.
+my $mps = <STDIN>;
+chomp($mps);
+my @mpnames = split(/,\s*/, $mps); # these names have ID numbers in front of them
+shift(@mpnames);
+
+my @divisions = ( );    # names of divisions
+my @votes = ( );        # values of votes
+my @sx = ( );
+
+# first `division' is number of divisions in which MP votes.
+for (my $i = 0; $i < @mpnames; ++$i) {
+    $votes[0]->[$i] = 0;
+}
+
+my $n = 0;
+while (defined(my $line = <STDIN>)) {
+    chomp($line);
+    my @vv = split(/,\s*/, $line);
+
+    last if (@vv < @mpnames);
+    
+    my $d = shift(@vv);
+
+    # count the number of votes in the division.
+    my $voters = 0;
+    my $s = 0;
+    foreach my $r (@vv) {
+        $s += $r;
+        ++$voters if ($r != 0);
+    }
+#    print "$voters\n";
+
+    next if ($voters < $threshold);
+
+    for (my $i = 0; $i < @mpnames; ++$i) {
+        ++$votes[0]->[$i] if ($vv[$i]);
+    }
+
+    push(@divisions, $d);
+    push(@votes, [(@vv)]);
+    push(@sx, $s);
+    printf STDERR "%d   \r", ++$n;
+}
+print STDERR "\n";
+
+printf STDERR "%d divisions with >= %d voters\n", scalar(@divisions), $threshold;
+
+# normalise voting record.
+for (my $i = 0; $i < @mpnames; ++$i) {
+    $votes[0]->[$i] /= @divisions;
+}
+
+
+my $cov = []; #new Math::MatrixReal(scalar(@divisions), scalar(@divisions));
+
+# Now need to compute variance-covariance matrix for these divisions.
+for (my $d1 = @divisions - 1; $d1 >= 0; --$d1) {
+    printf STDERR "%d\r", $d1;
+    for (my $d2 = 0; $d2 <= $d1; ++$d2) {
+        my ($sx, $sy, $sxx, $syy, $sxy) = (0, 0, 0, 0, 0);
+        for (my $i = 0; $i < @mpnames; ++$i) {
+#            $sxx += $votes[$d1]->[$i] ** 2;
+#            $syy += $votes[$d2]->[$i] ** 2;
+            $sxy +=  $votes[$d1]->[$i] * $votes[$d2]->[$i];
+        }
+
+        my $c = ($sxy - $sx[$d1] * $sx[$d2] / @mpnames) / @mpnames;
+
+        $cov->[$d1]->[$d2] = $cov->[$d2]->[$d1] = $c;
+        
+#        $cov->assign($d1 + 1, $d2 + 1, $c);
+#        $cov->assign($d2 + 1, $d1 + 1, $c);
+    }
+}
+
+print STDERR "\n";
+
+if ($ARGV[0]) {
+    my $vals = Eigs::compute_eigs(0, $cov);
+    print join("\n", map { abs($_) } sort { abs($b) <=> abs($a) } @{$vals}), "\n";
+} else {
+    my $E = Eigs::compute_eigs(1, $cov);
+
+    # compute x, y coordinates for the various MPs.
+    for (my $i = 0; $i < @mpnames; ++$i) {
+        my ($x, $y) = (0, 0);
+        for (my $j = 0; $j < @divisions; ++$j) {
+            $x += $E->[0]->[1]->[$j] * $votes[$j]->[$i];
+            $y += $E->[1]->[1]->[$j] * $votes[$j]->[$i];
+        }
+        printf "%f %f # %s\n", $x, $y, $mpnames[$i];
+    }
+}
