@@ -9,13 +9,18 @@ import os
 # make the top path data directory value
 toppath = os.path.abspath(os.path.expanduser('~/pwdata/'))
 if os.name == 'nt':  # the case of julian developing on a university machine.  
-    toppath = os.path.abspath('../../pwdata')
-    if re.search('\.\.', toppath):
-        toppath = 'C:\\pwdata'
+        toppath = os.path.abspath('../../pwdata')
+        if re.search('\.\.', toppath):
+                toppath = 'C:\\pwdata'
         
 if (not os.path.isdir(toppath)):
-    raise Exception, 'Data directory %s does not exist, please create' % (toppath)
+        raise Exception, 'Data directory %s does not exist, please create' % (toppath)
 # print "Data directory (set in miscfuncs.py): %s" % toppath
+
+# Migrate names to forms without pw 
+if os.path.exists(toppath + "/pwcmpages"):
+        raise Exception, 'Folders have changed name, and you need to rescrape everything anyway.  Clear out %s and start again.' % (toppath)
+
 
 entitymap = {
         '&nbsp;':' ',

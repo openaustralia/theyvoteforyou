@@ -125,7 +125,7 @@ def ExtractHTTPlink(stex, qs):
 # main type call which generates a file of all the links in the file on disk
 if __name__ == '__main__':
 	toppath = os.path.expanduser('~/pwdata')
-	pwcmdirs = os.path.join(toppath, "pwcmpages")
+	pwcmdirs = os.path.join(toppath, "cmpages")
 	pwcmdirin = os.path.join(pwcmdirs, 'wrans')
 
 	lkpages = os.path.join(toppath, "anslinks.html")

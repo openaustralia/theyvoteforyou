@@ -22,6 +22,7 @@ qnummisserrors = {
 class qspeech:
 	# function to shuffle column stamps out of the way to the front, so we can glue paragraphs together
 	def StampToFront(self, stampurl):
+                # print "StampToFront in clsinglespeech.py", self.text
 		# remove the stamps from the text, checking for cases where we can glue back together.
 		sp = re.split('(<stamp [^>]*>|<page url[^>]*>)', self.text)
 		for i in range(len(sp)):
@@ -48,7 +49,7 @@ class qspeech:
 		self.sstampurl = copy.copy(stampurl)
 
 		# this is a bit shambolic as it's done in the other class as well.
-                # yes, it's atrocious!
+                # yes, it's atrocious! - other class is in splitheadingsspeakers.py
 		self.StampToFront(stampurl)
 
 		# we also fix the question text as we know what type it is by the 'to ask' prefix.

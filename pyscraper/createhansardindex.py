@@ -27,7 +27,7 @@ toppath = miscfuncs.toppath
 # url for commons index
 urlcmindex = "http://www.publications.parliament.uk/pa/cm/cmhansrd.htm"
 # index file which is created
-pwcmindex = os.path.join(toppath, "pwcmindex.xml")
+pwcmindex = os.path.join(toppath, "cmindex.xml")
 
 # scrape limit date
 earliestdate = '2001-11-25'

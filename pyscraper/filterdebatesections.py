@@ -39,6 +39,8 @@ fixsubs = 	[
 		'\\1</H3>\n<H3 align=center>\\2', 1, '2003-03-24'),
 	( '\{\*\*pq num="76041"\*\*\}', '', 1, '2002-10-30'),
 
+        ( '(<FONT SIZE=-1>2 Dec. 2003)', '\\1\n</FONT></TD></TR>\n</TABLE>', 1, '2004-02-05'),
+
 	( '<i> </i>', '', 1, '2003-01-27'),
 
 	( '<UL><UL>Adjourned', '</UL><UL><UL><UL>Adjourned', 1, '2003-05-22'), # putting a consistent error back in
@@ -199,7 +201,8 @@ def FilterDebateSections(fout, text, sdate):
 	for i in range(ih, len(headspeak)):
 		sht = headspeak[i]
 
-                # print "sht: siz ", len(sht), ": 0 ", sht[0], " 1 ", sht[1], " 2 ", sht[2]
+#                print "sht: siz ", len(sht), ": 0 ", sht[0], " 1 ", sht[1], " 2 ", sht[2]
+#               print "###############"
 
 		# set the title for this batch
 		stampurl.title = FixHTMLEntities(sht[0])

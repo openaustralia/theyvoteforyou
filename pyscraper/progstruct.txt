@@ -19,7 +19,7 @@ goes to
 
 and makes the index file in 
 
-	pwlordindex.xml
+	lordindex.xml
 
 Where each line is of the form: 
 
@@ -34,11 +34,11 @@ Where each line is of the form:
 
 loops through all the lines in 
 
-	pwlordindex.xml
+	lordindex.xml
 
 and iterates through the "Next Page" links from the first page of the day, and glues them together, removing header and footer, into single files of the form: 
 
-	pwlordspages/daylord2004-01-28.html
+	lordspages/daylord2004-01-28.html
 
 
 --------------------------------------
@@ -47,11 +47,11 @@ and iterates through the "Next Page" links from the first page of the day, and g
 
 loops through all the files 
 
-	pwlordspages/*.html
+	lordspages/*.html
 
 and writes them into files of the form 
 
-	pwscrapedxml/lords/daylord2004-01-28.xml
+	scrapedxml/lords/daylord2004-01-28.xml
 
 
 It does this by passing the text through a series of filters, each of which takes a text string of the whole file, and creates output into an output-stream.  The intermediate filters write to a stringstream, and the final filter writes to a filestream.  

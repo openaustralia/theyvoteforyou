@@ -16,10 +16,10 @@ toppath = miscfuncs.toppath
 # and stores them on the disk
 
 # index file which is created
-pwlordsindex = os.path.join(toppath, "pwlordindex.xml")
+pwlordsindex = os.path.join(toppath, "lordindex.xml")
 
 # output directories (everything of one day in one file).  
-pwlordspages = os.path.join(toppath, "pwlordspages")
+pwlordspages = os.path.join(toppath, "lordspages")
 
 tempfile = os.path.join(toppath, "gluetemp")
 

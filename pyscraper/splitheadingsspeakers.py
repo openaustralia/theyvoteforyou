@@ -10,6 +10,7 @@ import StringIO
 # these types of stamps must be available in every question and batch.
 # <stamp coldate="2003-11-17" colnum="518W"/>
 # <page url="http://www.publications.parliament.uk/pa/cm200102/cmhansrd/vo020522/text/20522w01.htm">
+# <stamp aname="40205-01_sbhd0"/>
 
 # this class contains the running values for place identification as we scan through the file.
 class StampUrl:
@@ -21,7 +22,9 @@ class StampUrl:
 		self.timestamp = ''
                 self.aname = ''
 
+        # this is shambolically also done in clsinglespeech.py
 	def UpdateStampUrl(self, text):
+                # print "UpdateStampURL in splitheadingsspeakers.py", text
 		for st in re.findall('(<stamp coldate[^>]*?/>)', text):
 			self.stamp = st
 		for st in re.findall('(<stamp aname[^>]*?/>)', text):
@@ -114,7 +117,6 @@ class SepHeadText:
 		self.textl = [ ]
 
 		for fss in recomb.split(text):
-
 			# stick tables back into the text
 			if retableval.match(fss):
 				self.textl.append(fss)

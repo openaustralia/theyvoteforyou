@@ -27,15 +27,16 @@ fixsubs = 	[
 	( '<B>24 Sept 2002 : Column 155</B></P>\s*<UL><UL><UL><FONT SIZE=-1>\s*</UL></UL></UL>', '', 1, '2002-09-24'),
 	( '<H4>2.20</H4>', '<H4>2.20 pm</H4>', 1, '2003-02-28'), 
         ( '(<H5>2.58)(</H5>)', '\\1 pm\\2', 1, '2004-01-13'),
+#        ( '(<B>5 Feb 2004 : Column 955</B></P>)', '<p>\\1', 1, '2004-02-05'),
 ]
 
 
 # <B>9 Dec 2003 : Column 893</B>
-regcolumnum1 = '\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n(?i)' # was also <p> at start before aname stuff
+regcolumnum1 = '<p>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n(?i)'
 regcolumnum2 = '<p>\s*</ul>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n<ul>(?i)'
 regcolumnum3 = '<p>\s*</ul></font>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n<ul><font[^>]*>(?i)'
 regcolumnum4 = '<p>\s*</font>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n<font[^>]*>(?i)'
-recolumnumvals = re.compile('(?:<p>|</ul>|</font>|\s)*<b>([^:<]*):\s*column\s*(\d+)\s*</b>(?:</p>|<ul>|<font[^>]*>|\s)*$(?i)')
+recolumnumvals = re.compile('(?:<p>|<a name=".*?">|</ul>|</font>|\s)*<b>([^:<]*):\s*column\s*(\d+)\s*</b>(?:</p>|<ul>|<font[^>]*>|\s)*$(?i)')
 
 
 #<i>13 Nov 2003 : Column 431&#151;continued</i>

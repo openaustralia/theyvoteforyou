@@ -16,10 +16,10 @@ toppath = miscfuncs.toppath
 # and stores them on the disk
 
 # index file which is created
-pwcmindex = os.path.join(toppath, "pwcmindex.xml")
+pwcmindex = os.path.join(toppath, "cmindex.xml")
 
 # output directories
-pwcmdirs = os.path.join(toppath, "pwcmpages")
+pwcmdirs = os.path.join(toppath, "cmpages")
 
 pwcmwrans = os.path.join(pwcmdirs, "wrans")
 pwcmdebates = os.path.join(pwcmdirs, "debates")
@@ -57,7 +57,9 @@ def WriteCleanText(fout, text):
 		elif re.match('<a[^>]*>(?i)', ab):
 			anamem = re.match('<a name\s*?=\s*?"?(\S*?)"?\s*?>(?i)', ab)
                         if anamem:
-                                fout.write('<a name="%s">' % anamem.group(1))
+                                aname = anamem.group(1)
+                                if not re.search('column', aname): # these get in the way
+                                        fout.write('<a name="%s">' % aname)
                         else:
                                 # We should never find any other sort of <a> tag - such
                                 # as a link (as there aren't any on parliament.uk)

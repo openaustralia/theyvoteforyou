@@ -1,2 +1,2 @@
 
-del/q ..\..\pwdata\pwscrapedxml\lords\*
+del/q ..\..\pwdata\scrapedxml\lords\*

@@ -109,6 +109,9 @@ class MemberList(xml.sax.handler.ContentHandler):
             self.loadconsid = None
             self.loadconscanon = None
 
+    def partylist(self):
+        return self.parties.keys()
+
     def fullnametoids(self, input, date):
         text = input
 

@@ -23,10 +23,10 @@ toppath = miscfuncs.toppath
 
 # incoming directory of glued pages directories
 
-pwlordspages = os.path.join(toppath, "pwlordspages")
+pwlordspages = os.path.join(toppath, "lordspages")
 
 # outgoing directory of scaped pages directories
-pwxmldirs = os.path.join(toppath, "pwscrapedxml")
+pwxmldirs = os.path.join(toppath, "scrapedxml")
 
 tempfile = os.path.join(toppath, "filtertemp")
 

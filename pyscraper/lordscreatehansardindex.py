@@ -27,7 +27,7 @@ urlbndvols = 'http://www.publications.parliament.uk/pa/ld199900/ldhansrd/pdvn/ho
 # url with the alldays thing on it.  
 urlalldays = 'http://www.publications.parliament.uk/pa/ld199900/ldhansrd/pdvn/allddays.htm'
 
-pwlordindex = os.path.join(toppath, "pwlordindex.xml")
+pwlordindex = os.path.join(toppath, "lordindex.xml")
 
 # scrape limit date
 earliestdate = '2001-11-25'

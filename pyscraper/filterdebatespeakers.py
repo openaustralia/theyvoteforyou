@@ -38,10 +38,11 @@ fixsubs = 	[
 
 # 2. <B> Mr. Colin Breed  (South-East Cornwall)</B> (LD):
 # <B> Mr. Hutton: </B>
+# 2. <stamp aname="40205-06_para4"/><B> Mr. Colin Breed</B>:
 
-
-regspeaker = '(?:\d+\. )?(?:<stamp aname=".*?"/>)?<b>[^<]*</b>(?:\s*\((?:con|lab|ld|snp)\))?\s*:?(?i)'
-respeakervals = re.compile('(?:(\d+)\. )?(?:<stamp aname=".*?"/>)?<b>([^:<(]*?):?\s*(?:\((.*?)\))?\s*:?\s*</b>(?:\s*\((con|lab|ld|snp)\))?(?i)')
+parties = "|".join(map(string.lower, memberList.partylist())) + "|uup"
+regspeaker = '(?:\d+\. )?(?:<stamp aname=".*?"/>)?<b>[^<]*</b>(?:\s*\((?:' + parties + ')\))?\s*:?(?i)'
+respeakervals = re.compile('(?:(\d+)\. )?(<stamp aname=".*?"/>)?<b>([^:<(]*?):?\s*(?:\((.*?)\))?\s*:?\s*</b>(?:\s*\((' + parties + ')\))?(?i)')
 
 # <B>Division No. 322</B>
 redivno = re.compile('<b>division no\. \d+</b>$(?i)')
@@ -69,16 +70,19 @@ def FilterDebateSpeakers(fout, text, sdate):
 			# optional parts of the group
 			# we can use oqnum to detect oral questions
 			oqnum = speakerg.group(1)
-			party = speakerg.group(4)
+			anamestamp = speakerg.group(2)
+			party = speakerg.group(5)
 
-			spstr = string.strip(speakerg.group(2))
-			spstrbrack = speakerg.group(3) # the bracketted phrase
+			spstr = string.strip(speakerg.group(3))
+			spstrbrack = speakerg.group(4) # the bracketted phrase
 
 			# match the member to a unique identifier and displayname
 			result = memberList.matchdebatename(spstr, spstrbrack, sdate)
 
 			# put record in this place
 			spxm = '<speaker %s>%s</speaker>\n' % (result, spstr)
+                        if anamestamp:
+                            spxm = anamestamp + spxm
 			fout.write(spxm.encode("latin-1")) # For accents in names
 			continue
 

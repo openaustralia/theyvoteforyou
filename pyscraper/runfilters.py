@@ -21,9 +21,9 @@ toppath = os.path.expanduser('~/pwdata')
 # master function which carries the glued pages into the xml filtered pages
 
 # incoming directory of glued pages directories
-pwcmdirs = os.path.join(toppath, "pwcmpages")
+pwcmdirs = os.path.join(toppath, "cmpages")
 # outgoing directory of scaped pages directories
-pwxmldirs = os.path.join(toppath, "pwscrapedxml")
+pwxmldirs = os.path.join(toppath, "scrapedxml")
 
 tempfile = os.path.join(toppath, "filtertemp")
 
