@@ -21,6 +21,9 @@ Back links to wrans that have referred to this one
 Check all found URL links
 
 Improve all MP name matching so no unknown ids
+Make "unknown" name link a better page (rather than a meaningless error)
+
+Make tables have alternating rows
 
 Stats - count up how many questions/answers each person has done
 

@@ -1,5 +1,5 @@
 <?php 
-    # $Id: wrans.php,v 1.12 2003/12/21 03:19:17 frabcus Exp $
+    # $Id: wrans.php,v 1.13 2003/12/21 03:32:52 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -29,7 +29,6 @@
 		foreach ($words as $word)
 		{
 			$wordids = array_unique(DecodeWord($word));
-			print_r($wordids);
 			if ($ids != null)
 				$ids = array_intersect($wordids, $ids);
 			else
