@@ -6,33 +6,22 @@ set -e
 # TODO: Add cluster diagram generation
 # TODO: Add raw data CSV exporting
 
+#FROMDATE=2001-06-01
+FROMDATE=2004-01-01 # until Julian sorts out gid replacing
+
 echo "Updating from CVS"
 cvs -Q update -dP
 
 echo "Scraping new divisions"
 cd pyscraper
-./lazyrunall.py --from 2001-06-01 scrape parse debates
+./lazyrunall.py --from $DATE scrape parse debates
 cd ..
 cd loader
-./load.pl divsxml check calc
+./load.pl --from=$FROMDATE divsxml check calc
 cd ..
-
-#echo "Scraping new written answers"
-#cd pyscraper
-#./lazyrunall.py --from 2001-06-01 scrape parse wrans 
-#cd ..
 
 echo "Getting dynamic tables for backup"
 build/getdb
-
-#echo "Making wrans indices"
-#cd pyindex
-#./protoidindex.py
-#./protoindex.py
-#cd ..
-
-#echo "Upload XML files"
-#build/upload-xml
 
 echo "Uploading new division database"
 build/upload-db
