@@ -1,7 +1,7 @@
 <?php $cache_params = rand(0, 10); include "cache-begin.inc"; ?>
 
 <?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
-# $Id: index.php,v 1.32 2004/07/20 10:29:19 frabcus Exp $
+# $Id: index.php,v 1.33 2004/11/19 23:45:13 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -82,10 +82,11 @@ href="account/adddream.php">create</a> an MP who votes how you want</span>
 </ol>
 
 <td width="20%" class="layout" bgcolor="#dddddd">
-<h2>Vote Map <a href="mpsee.php">
-<br>(find Blair...)</a></h2>
-<p><a href="mpsee.php">
-<img src="votemap/mpseethumb.png"></a>
+<h2>Ministerial Whirl </h2>
+<p><a href="minwhirl.php">
+<img src="minwhirl/minwhirl.png"></a>
+<p><a href="minwhirl.php">Reshuffle diagram of government posts</p>
+</a>
 </td>
 
 </td></tr></table>
