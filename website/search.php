@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.20 2004/01/28 13:57:53 frabcus Exp $
+# $Id: search.php,v 1.21 2004/01/28 19:31:19 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -15,12 +15,11 @@
         $onload = "givefocus()";
         $title = "Search";
     }
-    include "header.inc";
     include "render.inc";
     include "parliaments.inc";
     include "postcode.inc";
 
-;    $db = new DB(); 
+    $db = new DB(); 
 
     $postcode = is_postcode($query);
 
@@ -101,19 +100,26 @@
 
         if ($postcode)
         {
-            print "Postcode searching is not available.  Please search for your MP name. If you don't know their name, you can try searching for your town or district name, or use <a href=\"http://www.faxyourmp.com\">FaxYourMP</a> to find your MP name from postcode.";
+#            print "Postcode searching is not available.  Please search for your MP name. If you don't know their name, you can try searching for your town or district name, or use <a href=\"http://www.faxyourmp.com\">FaxYourMP</a> to find your MP name from postcode.";
             $score_clause = "(1=0)";
-        # disabled
-/*            $pccons = postcode_to_constituency($query);
+            $pccons = postcode_to_constituency($query);
             if (isset($pccons))
             {
                 # Overwrite over matches if we have postcode
                 $score_clause = "(constituency = '" . db_scrub($pccons) . "')";
-            } */ 
+            }
+        }
+
+        if ($postcode)
+        {
+            header("Location: mp.php?constituency=" . urlencode($constituency));
+            exit;
         }
 
         $db->query("$mps_query_start and ($score_clause > 0) 
                     order by $score_clause desc, constituency, entered_house desc, last_name, first_name");
+
+        include "header.inc";
 
         if ($db->rows() > 0)
         {
@@ -139,8 +145,6 @@
                 print "<td><a href=$anchor>$row[2] $row[0] $row[1]</a></td></td>
                     <td>$row[3]</td>
                     <td>" . pretty_party($row[4], $row[8], $row[9]) .  "</td>";
-#                    <td class=\"percent\">$row[6]</td>
-#                   <td class=\"percent\">$row[7]</td>
                 print "</tr>\n";
             }
             print "</table>\n";
@@ -156,6 +160,10 @@ or <a href="divisions.hphp">all divisions</a>.
 <?php
         }
 
+    }
+    else
+    {
+        include "header.inc";
     }
 
 ?>

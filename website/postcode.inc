@@ -12,7 +12,7 @@ function startElement($parser, $name, $attrs)
 {
     global $tags, $constituency;
     array_push($tags, $name);
-    if ($tags[count($tags) - 1] == "NAME" && $tags[count($tags) - 2] == "CONSTITUENCY")
+    if ($tags[count($tags) - 1] == "CONSTITUENCY_NAME" && $tags[count($tags) - 2] == "BODY")
         $constituency = "";
 }
  
@@ -25,7 +25,7 @@ function endElement($parser, $name)
 function characterData($parser, $content) 
 {
     global $tags, $constituency;
-    if ($tags[count($tags) - 1] == "NAME" && $tags[count($tags) - 2] == "CONSTITUENCY")
+    if ($tags[count($tags) - 1] == "CONSTITUENCY_NAME" && $tags[count($tags) - 2] == "BODY")
         $constituency .= $content;
 }
 
@@ -37,8 +37,10 @@ function postcode_to_constituency($postcode)
 
     # Otherwise hit the server (URL is private)
     global $postcode_search_url;
-    $filename = $postcode_search_url .  urlencode($postcode) . "&customer=news_constituency";
+    $filename = $postcode_search_url .  urlencode($postcode);
     $file = file_get_contents($filename);
+    $file = "<HTML> " . $file;
+    $file = str_replace("<BR>", "<BR/>", $file);
 
     global $tags, $constituency;
     $tags = array();

@@ -51,16 +51,6 @@ Web site
 
 Popular pages today are...  Grep the logs somehow clever.
 
-Postcode search redirect automatically to MP page
-
-Letter index on MP list
-
-Pass W3C validator
-http://validator.w3.org/
-And bobby
-
-Find max teller people
-
 Abstain -> difference from expected
 Expected -> average no. of attendees
 visually draw guesses further right

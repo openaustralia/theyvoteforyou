@@ -1,7 +1,7 @@
 <?php $cache_postfix = rand(0, 10); include "cache-begin.inc"; ?>
 
 <?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
-# $Id: index.php,v 1.22 2004/01/28 13:57:53 frabcus Exp $
+# $Id: index.php,v 1.23 2004/01/28 19:31:19 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -33,7 +33,7 @@ An at most monthly briefing.
 <td class="layout" bgcolor="#dddddd">
 <h2>Search <a href="search.php">(help...)</a></h2>
 <p class="search">
-Enter your <!-- postcode, --> MP name, constituency or a topic:
+Enter your postcode, MP name or a topic:
 </p>
 <form class="search" action="search.php" name=pw>
 <input maxLength=256 size=25 name=query value=""> <input type=submit value="Search" name=button>

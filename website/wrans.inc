@@ -16,4 +16,3 @@ function wrans_search($prettysearch)
 }
 
 ?>
-

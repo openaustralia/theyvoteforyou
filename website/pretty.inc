@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.10 2004/01/28 14:04:41 frabcus Exp $
+# $Id: pretty.inc,v 1.11 2004/01/28 19:31:19 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -127,7 +127,7 @@ function search_example($db, $long)
     if ($random_topic == "")
         $random_topic = "Trade";
 ?>
-<p class="search"><i>Example: <!--"OX1 3DR", -->"<?=$random_mp?>"<?=$random_constituency?> or "<?=$random_topic?>"</i>
+<p class="search"><i>Example: "OX1 3DR", "<?=$random_mp?>"<?=$random_constituency?> or "<?=$random_topic?>"</i>
 
 <?php
 }

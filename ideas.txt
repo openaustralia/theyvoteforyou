@@ -106,6 +106,12 @@ Committees, and voting in committee
 Usability
 ---------
 
+Pass W3C validator
+http://validator.w3.org/
+And bobby
+
+Letter index on MP list
+
 Pie chart, rectangle graph by area for voting table
 
 Email reports to people when search queries change
