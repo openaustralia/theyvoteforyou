@@ -1,5 +1,5 @@
 <?php
-# $Id: gather.inc,v 1.4 2005/01/15 14:40:34 frabcus Exp $
+# $Id: gather.inc,v 1.5 2005/01/15 21:37:38 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Gather information from the database
@@ -30,14 +30,26 @@ function get_wiki_current_value($key)
         if (!$result) {
             $result = get_motion_default_text($matches[1], $matches[2]);
         }
-        if (preg_match("/--- MOTION EFFECT ---(.*)--- COMMENT/s", $result['text_body'], $matches)) {
-            $result['text_body'] = $matches[1];
+        # Put wrapper on if not there
+        if (!preg_match("/--- MOTION EFFECT ---/s", $result['text_body'])) {
+            $result['text_body'] = "--- MOTION EFFECT ---\n\n" . $result['text_body'] .
+                "\n--- COMMENTS AND NOTES ---\n\n(put thoughts and notes for other researchers here)\n";
         }
-        $result['text_body'] = guy2html(guy_strip_bad($result['text_body']));
     } else {
         die("Unknown wiki key type '" . html_scrub($key). "'");
     }
     return $result;
+}
+
+# Call this if display the wiki text, as opposed to letting somebody edit it
+function sanitise_wiki_text_for_display($text)
+{
+    if (preg_match("/--- MOTION EFFECT ---(.*)--- COMMENT/s", $text, $matches)) {
+        $text = $matches[1];
+    }
+    $text = guy2html(guy_strip_bad($text));
+
+    return $text;
 }
 
 # Returns the default text for a motion, that is what was screen scraped
@@ -57,8 +69,6 @@ function get_motion_default_text($date, $div_no)
         );
         $result['text_body'] = str_replace(' class=""', '', $result['text_body']);
         $result['text_body'] = str_replace(' pwmotiontext="yes"', '', $result['text_body']);
-        $result['text_body'] = "--- MOTION EFFECT ---\n\n" . $result['text_body'] .
-            "\n--- COMMENTS AND NOTES ---\n\n(put thoughts and notes for other researchers here)\n";
         return $result;
     }
 

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.44 2005/01/15 20:38:10 frabcus Exp $
+# $Id: division.php,v 1.45 2005/01/15 21:37:38 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -246,14 +246,14 @@
     so you can try to work out what 'aye' (for the motion) and 'no' (against the motion) meant.
     This is for guidance only, irrelevant text may be shown, crucial text may be missing.
     </p>";
-    print "<div class=\"motion\">" . $motion_data['text_body']; # TODO: validate this text_body
+    print "<div class=\"motion\">" . sanitise_wiki_text_for_display($motion_data['text_body']); # TODO: validate this text_body
     print "</div>\n";
     print "<p><a href=\"account/wiki.php?key=$motion_key&r=" .
      urlencode($_SERVER["REQUEST_URI"]) . "\">Edit motion text</a>";
     if ($motion_data['user_id'] != 0) {
         $db->query("select * from pw_dyn_user where user_id = " . $motion_data['user_id']);
         $row = $db->fetch_row_assoc();
-        $last_editor = $row['real_name'];
+        $last_editor = html_scrub($row['real_name']);
         print " (last edited by $last_editor on " .
             $motion_data['edit_date'] . ")";
     } else {

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: jmp.php,v 1.3 2005/01/15 20:38:11 frabcus Exp $
+    # $Id: jmp.php,v 1.4 2005/01/15 21:37:38 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -253,7 +253,7 @@
 			$row4 = $row['source_url'];
             $motion_key = get_motion_wiki_key($division_date, $division_number);
             $motion_data = get_wiki_current_value($motion_key);
-			$motion = $motion_data['text_body'];
+			$motion = sanitise_wiki_text_for_display($motion_data['text_body']);
 
             while ($events_ix < count($events) && $division_date >= $events[$events_ix][0])
 			{

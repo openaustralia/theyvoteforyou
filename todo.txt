@@ -1,11 +1,12 @@
 Wiki
 ----
 
-Clear cache after editing
 Improve help text describing what to write
 
 General
 -------
+
+Make links underlined, the ones in the middle of the text anyway (rather than navigation)
 
 Make it clearer before you sign up that your email domain is public when
 you make a Dream MP.
