@@ -6,6 +6,7 @@ use vars qw($user $pass $pwdata);
 
 $user="";
 $pass="";
+$dbspec="DBI:mysql:tpw";
 
 # this is where the XML files come from:
 $pwdata = "/home/francis/pwdata/";

@@ -1,4 +1,4 @@
-# $Id: db.pm,v 1.5 2004/03/23 14:57:49 frabcus Exp $
+# $Id: db.pm,v 1.6 2004/05/23 18:11:43 frabcus Exp $
 # Bumf for accessing the MySQL database
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -8,13 +8,15 @@
 
 package db;
 use strict;
+
+# Copy config.pm.incvs to config.pm and edit it
 use config;
 
 use DBI;
 
 sub connect
 {
-    my $dbh = DBI->connect("DBI:mysql:tpw", $config::user, $config::pass, { RaiseError => 1, PrintError => 0 })
+    my $dbh = DBI->connect($config::dbspec, $config::user, $config::pass, { RaiseError => 1, PrintError => 0 })
                 or die "Couldn't connect to database: " . DBI->errstr;
     return $dbh;
 }
