@@ -1,0 +1,32 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-12-02.html	Sun Jan 23 05:22:49 2005
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-12-02-patchtmp.html	Sun Jan 23 14:16:45 2005
+@@ -1004,7 +1004,8 @@
+ </p>
+ 
+ 
+-
++<stamp parsemess-missgid="8"/>
++<stamp parsemess-missgid="9"/>
+ 
+ 
+ <p><a name="41202-05_spnew2"><b> Mr. Kidney: </b> 
+@@ -1022,9 +1023,6 @@
+ 
+ 
+ 
+-<a name="41202-05_sbhd2"><h4 align=center>Serious Organised Crime Agency</h4>
+-
+-
+ <P>
+ 
+ <B>Mr. Graham Allen (Nottingham, North) (Lab):</B>
+@@ -1033,6 +1031,9 @@
+ 
+ <B>The Solicitor-General:</B>
+ My hon. Friend is right and I thank him for his comments on the workings of the CPS. Of course it is important that people communicate not only through IT but in person and that the CPS work closely not only with the police and the courts but with the local community and MP. I welcome the involvement that he seeks with the CPS, which is after all an accountable service, although it works independently. </P>
++
++<a name="41202-05_sbhd2"><h4 align=center>Serious Organised Crime Agency</h4>
++
+ 
+ 
+ <p>

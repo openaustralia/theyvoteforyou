@@ -84,6 +84,8 @@ entitymap = {
 
 		'&#039;':"'",   # posession apostrophe
         "&#8364;":'&euro;', # this is euro currency
+        '&lquo;':"'",
+        '&rquo;':"'",
 }
 entitymaprev = entitymap.values()
 

@@ -89,6 +89,12 @@ def RunRegmemFilters(fout, text, sdate):
                                 fout.write('\t\t<item subcategory="%s">%s</item>\n' % (subcategory, FixHTMLEntities(row[2])))
                         else:
                                 fout.write('\t\t<item>%s</item>\n' % FixHTMLEntities(row[2]))
+                elif len(row) == 3 and row[0] == '':
+                        # <TR><TD></TD><TD><B>(a)</B></TD><TD COLSPAN=2>Smithville Associates; training consultancy.</TD></TR>
+                        if subcategory:
+                                fout.write('\t\t<item subcategory="%s">%s</item>\n' % (subcategory, FixHTMLEntities(row[1] + ' ' + row[2])))
+                        else:
+                                fout.write('\t\t<item>%s</item>\n' % FixHTMLEntities(row[1] + ' ' + row[2]))
                 elif len(row) == 4 and row[0] == '' and (row[1] == '' or row[1] == '<IMG SRC="3lev.gif">'):
                         # <TR><TD></TD><TD></TD><TD>(b)</TD><TD>Great Portland Estates PLC</TD></TR>
                         subcategorymatch = re.match("\(([ab])\)$", row[2])

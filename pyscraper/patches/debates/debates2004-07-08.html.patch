@@ -1,0 +1,10 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-07-08.html	Sun Feb  6 05:18:21 2005
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-07-08-patchtmp.html	Mon Feb  7 18:53:21 2005
+@@ -3755,6 +3755,7 @@
+ 
+ 
+ 
++<stamp parsemess-missgid="0"/>
+ <h4 align=center>ROYAL ASSENT</h4>
+ 
+ 

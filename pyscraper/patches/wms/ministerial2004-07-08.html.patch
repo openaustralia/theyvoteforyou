@@ -1,17 +1,22 @@
---- /home/fawkes/pwdata/cmpages/wms/ministerial2004-07-08.html	Fri Jan  7 00:42:53 2005
-+++ /home/fawkes/pwdata/cmpages/wms/ministerial2004-07-08-patchtmp.html	Sun Jan  9 15:52:05 2005
-@@ -164,9 +164,11 @@
+--- /home/fawkes/pwdata/cmpages/wms/ministerial2004-07-08.html	Sun Feb  6 05:44:16 2005
++++ /home/fawkes/pwdata/cmpages/wms/ministerial2004-07-08-patchtmp.html	Mon Feb  7 18:44:18 2005
+@@ -140,7 +140,8 @@
  
- 
- 
--<a name="40708m01.html_sbhd2"><H4><center>Police Ombudsman (Annual Report)<qn><sp><nm></nm></sp><qnpa></qn><st><sp><pt>The Secretary of State for Northern Ireland </pt> <nm>(Mr. Paul Murphy):</nm></sp><stpa> The police ombudsman for Northern Ireland's annual report for 2003&#150;04 is published today. Copies of the report have been laid in the House.</st></center></H4>
+ </td></tr>
+ <tr valign=top><td class="tabletext">Hereford and Worcester Fire</td><td class="tabletext">&#163;25,798,000
 -
++</td></tr>
++</table>
+ </p>
+ 
+ <p>
+@@ -192,7 +193,8 @@
+ 
+ </td></tr>
+ <tr valign=top><td class="tabletext">West Mercia Police</td><td class="tabletext">&#163;165,321,000
 -
-+<a name="40708m01.html_sbhd2"><H4><center>Police Ombudsman (Annual Report)</center></H4>
-+	
-+<b>The Secretary of State for Northern Ireland (Mr. Paul Murphy):</b>
-+The police ombudsman for Northern Ireland's annual report for 2003&#150;04 is published today. Copies of the report have been laid in the House.
-+<p>
++</td></tr>
++</table>
+ </p>
  
- <a name="40708m01.html_sbhd3"><H4><center>Justice Oversight Commissioner (Second Report)</center></H4>
- 
+ <p>

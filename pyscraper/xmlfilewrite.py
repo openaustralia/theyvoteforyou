@@ -84,6 +84,8 @@ class lqspeech:
 			# forgive heading mixups if it's a lost heading
 			if re.search("heading", self.nametype) and re.search("heading", qb.typ) and re.search("-- Lost Heading --", qb.stext[0]):
 				pass
+			elif self.nametype == 'minor-heading' and qb.typ == 'speech' and re.search("Sitting suspended", qb.stext[0]):
+				pass
 			else:
 				return False
 

@@ -1,0 +1,36 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-06-30.html	Sun Feb  6 05:18:39 2005
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-06-30-patchtmp.html	Mon Feb  7 19:13:19 2005
+@@ -955,6 +955,8 @@
+ 
+ 
+ 
++<parsemess-misspeech type="speech" redirect="nowhere"/>
++<parsemess-misspeech type="speech" redirect="nowhere"/>
+ <p><a name="40630-03_spnew16"><b> Mr. Howard: </b> 
+  No, we are not taking money out of the system. We are putting an extra &#163;15 billion into the system, and if the Prime Minister thinks that that is a cut, he should start attending his own numeracy classes.
+ 
+@@ -3808,10 +3810,12 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="313"/>
++<parsemess-misspeech type="speech" redirect="nowhere"/>
++<parsemess-misspeech type="speech" redirect="nowhere"/>
+ 
+ 
+-
+-
++<stamp parsemess-colnum="314"/>
+ <p><a name="40630-13_spnew8"><b> Mr. Raynsford </b> 
+  <i> rose&#151;</i>
+ </p>
+@@ -4612,8 +4616,7 @@
+ 
+ 
+ 
+-<p><a name="40630-17_spnew5"><b>  </b> 
+- It is our responsibility to extend democracy so that decisions that ultimately affect the English regions are taken in the English regions by people elected by each of the English regions, and to create jobs, growth and a better quality of life for all our people.
++<p>It is our responsibility to extend democracy so that decisions that ultimately affect the English regions are taken in the English regions by people elected by each of the English regions, and to create jobs, growth and a better quality of life for all our people.
+ </p>
+ 
+ <p>

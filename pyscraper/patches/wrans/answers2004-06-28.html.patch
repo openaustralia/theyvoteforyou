@@ -1,31 +1,30 @@
---- /home/fawkes/pwdata/cmpages/wrans/answers2004-06-28.html	Tue Jun 29 08:06:38 2004
-+++ /home/fawkes/pwdata/cmpages/wrans/answers2004-06-28-patchtmp.html	Tue Jun 29 09:57:23 2004
-@@ -1216,8 +1216,8 @@
- To ask the Secretary of State for the Home Department how many people have been removed from the UK as a result of enforcement action in each year since 1979, broken down by nationality.  [177094]<P>
- <P>
- <P>
--<a name="40628w06.html_spnew2"><B> Mr. Browne  </B> 
--<i>[holding answer 8&nbsp;June 2004]:</i> Information on the number of people removed from the UK as a result of enforcement action in each year from 1979 to 2002 (the latest year for which figures are available) is shown in the table. Information on the nationalities of those removed is not available.
-+<a name="40628w06.html_spnew2"><B> Mr. Browne:  </B> 
-+<i>[holding answer 8&nbsp;June 2004]</i> Information on the number of people removed from the UK as a result of enforcement action in each year from 1979 to 2002 (the latest year for which figures are available) is shown in the table. Information on the nationalities of those removed is not available.
- <P>
+--- /home/fawkes/pwdata/cmpages/wrans/answers2004-06-28.html	Sun Feb  6 04:30:59 2005
++++ /home/fawkes/pwdata/cmpages/wrans/answers2004-06-28-patchtmp.html	Mon Feb  7 18:05:57 2005
+@@ -3694,7 +3694,7 @@
  
- <a name="40628w06.html_para2">
-@@ -1225,7 +1225,7 @@
  
- <P>
- <FONT SIZE=-1><center><B>Persons removed from the United Kingdom as a result of enforcement action <sup>1</sup> <sup>,</sup> <sup>2</sup> <sup>,</sup> <sup>3</sup> Number</center></B>
--</FONT></FONT></TD></TR>
-+</FONT></FONT>
+ <p><a name="40628w10.html_wqn1"><b> Mr. Letwin: </b> 
+- To ask the Chancellor of the Exchequer if he will implement the findings of the Gershon Review in full;  [180534]
++ To ask the Chancellor of the Exchequer (1) if he will implement the findings of the Gershon Review in full;  [180534]
+ 
+ </p>
+ 
+@@ -18661,7 +18661,7 @@
  
  
  
-@@ -2111,7 +2111,7 @@
- <P>
- <P>
- <a name="40628w09.html_wqn3"><B> Mr. Letwin: </B> 
--To ask the Chancellor of the Exchequer if he will implement the findings of the Gershon Review in full;  [180534]
-+To ask the Chancellor of the Exchequer (1) if he will implement the findings of the Gershon Review in full;  [180534]
- <P>
- <UL>(2) when the Gershon Review will be published in full.  [180538]<P></UL>
- <P>
+-<p>Mr. Hancock: To ask the Secretary of State for Defence (1) what the minimum requirements demanded by his Department are of the individual contractors employed to be involved in the detention of the prisoners of UK forces in Iraq; and at what level in his Department the decision was taken to employ each in these roles;  [172325]
++<p><b>Mr. Hancock:</b> To ask the Secretary of State for Defence (1) what the minimum requirements demanded by his Department are of the individual contractors employed to be involved in the detention of the prisoners of UK forces in Iraq; and at what level in his Department the decision was taken to employ each in these roles;  [172325]
+ </p>
+ 
+ 
+@@ -19571,6 +19571,9 @@
+ 
+ </td></tr>
+ <tr valign=top><td class="tabletext">Worcester: RN and Army CIO</td><td class="tabletext">Worcester</td><td class="tabletext">Worcestershire
++</td></tr>
++</table>
++
+ <br>&nbsp;<br><i>28 Jun 2004 : Column 153W</i><br>&nbsp;<br>
+ 
+ 

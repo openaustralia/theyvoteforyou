@@ -1,5 +1,14 @@
---- /home/fawkes/pwdata/cmpages/debates/debates2004-09-16.html	Fri Sep 17 08:06:48 2004
-+++ /home/fawkes/pwdata/cmpages/debates/debates2004-09-16-patchtmp.html	Sat Sep 18 00:02:40 2004
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-09-16.html	Sun Jan 23 05:25:10 2005
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-09-16-patchtmp.html	Sun Jan 23 15:15:43 2005
+@@ -2517,7 +2517,7 @@
+ 
+ 
+ <B>16 Sept 2004 : Column 1509</B></P>
+-3.58 pm<P>
++<h5>3.58 pm</h5>
+ <page url="http://www.publications.parliament.uk/pa/cm200304/cmhansrd/cm040916/debtext/40916-20.htm"/>
+ 
+ 
 @@ -2979,7 +2979,7 @@
  </P>
  <P>

@@ -5,7 +5,7 @@ import sys
 import re
 import os
 import string
-
+import copy
 
 # In Debian package python2.3-egenix-mxdatetime
 import mx.DateTime
@@ -116,6 +116,7 @@ def StripDebateHeadings(headspeak, sdate):
                 #PRAYERS
                 ih = StripDebateHeading('prayers(?i)', ih, headspeak)
 
+                ih = StripDebateHeading('pursuant to the Standing Order\.', ih, headspeak, True)
 
                 # in the chair
                 ih = StripDebateHeading('\[.*? in the chair\](?i)', ih, headspeak, True)
@@ -251,7 +252,7 @@ def NormalHeadingPart(headingtxt, stampurl):
 # designed to capture the section
 #Sitting suspended for a Division in the House.
 #On resuming-
-def GrabWestminDivisionInterruptProced(qbp):
+def GrabWestminDivisionInterruptProced(qbp, rawtext):
 	if len(qbp.stext) < 3:
 		return None
 	iskip = 0
@@ -267,7 +268,10 @@ def GrabWestminDivisionInterruptProced(qbp):
 
 	# copy the lines into a non-speaking paragraph.
 	if iskip:
-		qbdp = qspeech('nospeaker="true"', "", qbp.sstampurl)
+                dumtext = re.sub('<p><i>sitting suspended.*(?si)','',rawtext)
+                s = copy.copy(qbp.sstampurl)
+		qbdp = qspeech('nospeaker="true"', dumtext, s)
+                qbdp = qspeech('nospeaker="true"', "", s)
 		qbdp.typ = 'speech'
 		qbdp.stext = qbp.stext[iskip:]
 		# trim back the given one by two lines
@@ -331,7 +335,15 @@ def FilterDebateSections(text, sdate, typ):
 					flatb[-1].stext.append(" &mdash; ")
 					flatb[-1].stext.extend(qbh.stext)
 
-				# otherwise put out this heading
+                                elif (qbh.typ == 'minor-heading' or qbh.typ == 'major-heading') and len(flatb) > 0 and flatb[-1].typ == 'speech':
+                                        mmm = re.search('<p>((?:New )?Clause \d+)</p>', flatb[-1].stext[-1])
+                                        if mmm:
+                                                qbh.stext.insert(0, " &mdash; ")
+                                                qbh.stext.insert(0, mmm.group(1))
+                                                flatb[-1].stext = flatb[-1].stext[:-1]
+                                        flatb.append(qbh)
+
+                                # otherwise put out this heading
 				else:
 					flatb.append(qbh)
 
@@ -367,7 +379,7 @@ def FilterDebateSections(text, sdate, typ):
 				qb.typ = 'speech'
 				FilterDebateSpeech(qb)
 
-				qbdp = GrabWestminDivisionInterruptProced(qb) # captures tail off westminster hall speeches
+				qbdp = GrabWestminDivisionInterruptProced(qb,ss[1]) # captures tail off westminster hall speeches
 				flatb.append(qb)
 				if qbdp:
 					flatb.append(qbdp)

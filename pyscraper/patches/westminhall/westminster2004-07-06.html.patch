@@ -1,0 +1,19 @@
+--- /home/fawkes/pwdata/cmpages/westminhall/westminster2004-07-06.html	Sun Feb  6 07:07:11 2005
++++ /home/fawkes/pwdata/cmpages/westminhall/westminster2004-07-06-patchtmp.html	Mon Feb  7 00:09:52 2005
+@@ -1024,6 +1024,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="198"/>
+ <p><a name="40706h01_spnew8"><b> Sir Sydney Chapman </b> : In fairness, the Minister makes an extremely good point about the brigade strength that will eventually be left. However, what concerns many people is the time span for reducing the 40,000 or so Turkish soldiers now present to&#151;at a rather distant date&#151;the brigade that he has mentioned.
+ </p>
+ 
+@@ -1032,7 +1033,7 @@
+ 
+ 
+ 
+-<p><a name="40706h01_spnew9"><b> Mr. MacShane </b> : I have to deal with European Union politics in which five years is a nanosecond and 10 years merely a slip of the tongue. The idea that the island should have just the 650 troops at the point at which Turkey would join the European Union&#151;in some 10, 15 or more years&#151;should not be a breaking point. I accept that Turkey could have offered to have fewer troops on the island as part of the negotiations, but I am not convinced that change on that single issue would have moved the Greek Cypriot leadership to offer to their people a decisive and clear lead in urging a yes vote.
++<stamp parsemess-colnum="199"/><p><a name="40706h01_spnew9"><b> Mr. MacShane </b> : I have to deal with European Union politics in which five years is a nanosecond and 10 years merely a slip of the tongue. The idea that the island should have just the 650 troops at the point at which Turkey would join the European Union&#151;in some 10, 15 or more years&#151;should not be a breaking point. I accept that Turkey could have offered to have fewer troops on the island as part of the negotiations, but I am not convinced that change on that single issue would have moved the Greek Cypriot leadership to offer to their people a decisive and clear lead in urging a yes vote.
+ 
+ </p>
+ 

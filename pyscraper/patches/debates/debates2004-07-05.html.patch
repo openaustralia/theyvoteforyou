@@ -1,0 +1,26 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-07-05.html	Sun Feb  6 05:18:32 2005
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-07-05-patchtmp.html	Mon Feb  7 19:05:24 2005
+@@ -7371,8 +7371,12 @@
+ </p>
+ <ul>
+ 
+-<p class="tabletext">&quot;Ah, er, erm, it&#039;s a good question.&quot;&#151;[Hon. Members] What is the answer? My hon. Friends may laugh, but we have made some progress: we have gone from &quot;I can&#039;t promise it&quot; to &quot;Ah, erm, it&#039;s a good question&quot; to absolute silence. The right hon. Member for West Dorset is completely stumm&#151;not a word, not a sound emanates from his lips.</p>
++<p class="tabletext">&quot;Ah, er, erm, it&#039;s a good question.&quot;&#151;
+ </ul>
++
++<p><b>[Hon. Members]</b> What is the answer?
++
++<p><b>Mr. Boateng:</b> My hon. Friends may laugh, but we have made some progress: we have gone from &quot;I can&#039;t promise it&quot; to &quot;Ah, erm, it&#039;s a good question&quot; to absolute silence. The right hon. Member for West Dorset is completely stumm&#151;not a word, not a sound emanates from his lips.</p>
+ <p>
+ 
+ 
+@@ -11569,6 +11573,9 @@
+ 
+ 
+ 
++
++<stamp parsemess-missgid="0"/>
++<stamp parsemess-missgid="1"/>
+ 
+ <h4 align=center>DELEGATED LEGISLATION</h4>
+ 

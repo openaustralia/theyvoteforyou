@@ -1,5 +1,5 @@
---- /home/fawkes/pwdata/cmpages/debates/debates2004-11-18.html	Tue Nov 23 19:28:13 2004
-+++ /home/fawkes/pwdata/cmpages/debates/debates2004-11-18-patchtmp.html	Fri Dec 24 15:44:32 2004
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-11-18.html	Sun Jan 23 05:23:24 2005
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-11-18-patchtmp.html	Sun Jan 23 15:20:03 2005
 @@ -8869,7 +8869,11 @@
  <br>
  
@@ -52,3 +52,22 @@
  
  <p><a name="41118-20_spnew8"><b> My Lords and Members of the House of Commons </b> 
   
+@@ -10774,7 +10775,7 @@
+ 
+ <p>
+ <a name="41118-21_para0">
+-A Commission was also read for proroguing this present Parliament, and the Lord Chancellor said:
++<i>A Commission was also read for proroguing this present Parliament, and the Lord Chancellor said:</i>
+ 
+ 
+ </p>
+@@ -10794,8 +10795,7 @@
+ 
+ 
+ <br>
+-<ul><ul><ul>End of the Third Session (opened on 26 November 2003) of the Fifty-Third Parliament of the United Kingdom of Great Britain and Northern Ireland, in the Fifty-Third Year of the Reign of Her Majesty Queen Elizabeth the Second.
+-</ul></ul></ul>
++<p><i>End of the Third Session (opened on 26 November 2003) of the Fifty-Third Parliament of the United Kingdom of Great Britain and Northern Ireland, in the Fifty-Third Year of the Reign of Her Majesty Queen Elizabeth the Second.</i></p>
+ 
+ 
+ 

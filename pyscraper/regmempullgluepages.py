@@ -133,8 +133,14 @@ def GlueAllType(pcmdir, cmindex, fproto, deleteoutput):
 # Get index of all regmem pages from the index
 def FindRegmemPages():
         urls = []
-        for ixurl in ('http://www.publications.parliament.uk/pa/cm/cmhocpap.htm', 
-                      'http://www.publications.parliament.uk/pa/cm/cmregmem/memi02.htm'):
+        # Meta index is here: 'http://www.publications.parliament.uk/pa/cm/cmhocpap.htm'
+        # We just grab some specific session index pages as it is too hard otherwise.
+        # The first URL /pa/cm/cmregmem/memi02.htm should get all new regmems as they
+        # arrive anyway.
+        for ixurl in (
+                      'http://www.publications.parliament.uk/pa/cm/cmregmem/memi02.htm',
+                      'http://www.publications.parliament.uk/pa/cm200304/cmregmem/memi02.htm'
+                      ):
                 # print "IXURL", ixurl
                 ur = urllib.urlopen(ixurl)
                 content = ur.read()
@@ -145,7 +151,7 @@ def FindRegmemPages():
                 allurls = re.findall('<a href="([^>]*)">(?i)', content)
                 for url in allurls:
                         #print url
-                        if url.find("memi02") >= 0 and url != "/pa/cm/cmregmem/memi02.htm":
+                        if url.find("memi02") >= 0:
                                 url = urlparse.urljoin(ixurl, url)
                                 
                                 # find date
