@@ -77,19 +77,11 @@ def QuestionBreakIntoParagraphs(text):
 	spc = ''
 	for nf in nfj:
 		if re.match('(</?p>|</?ul>)(?i)', nf):
-			if not spc:
-				spc = ''
 			spc = spc + nf
 		elif re.search('\S', nf):
-			if not spc:
-				print 'error space'
-				print nfj
-				sys.exit()
 			dell.append(spc)
-			spc = None
+			spc = ''
 			dell.append(nf)
-	if not spc:
-		spc = ''
 	dell.append(spc)
 
 	# the result strong
@@ -122,17 +114,29 @@ def QuestionBreakIntoParagraphs(text):
 		pres.append(dell[1])
 		return pres
 
+	# look for numbering in the first section
 	if not re.search('\(2\)', dell[3]):
 		print 'no find'
 		#print dell
 		#sys.exit()
 
 	# the text is broken into questions (1), (2) etc, with a <ul> surrounding the secondary parts
-	if (not re.search('<ul>(?i)', dell[2])) or (not re.search('</ul>(?i)', dell[len(dell)-1])):
+	# or sometimes it's not there at all.
+	if (not re.search('<ul>(?i)', dell[2])) != (not re.search('</ul>(?i)', dell[len(dell)-1])):
 		print '<ul> things not conforming to pattern in part-question'
-		#print dell
+		print dell
 		#sys.exit()
 
+	# sometimes the last part is broken off with </ul><ul> as it goes into subsubsections
+	# glue it back together
+	for i in range(len(dell)-3, 1, -2):
+		if re.search('</ul>.*?<ul>(?i)', dell[i]):
+			if not re.search('^\(\d+?\)', dell[i+1]):
+				dell[i-1] = dell[i-1] + ' ' + dell[i+1]
+				delltail = dell[i+2:]
+				dell = dell[:i]
+				dell.extend(delltail)
+				print 'shortening dangling bit'
 
 	# break out the numbers
 	p1 = re.findall('^([\s\S]*?\S)\s*?\(1\)\s*?(\S[\s\S]*?)$', dell[1])
@@ -154,6 +158,7 @@ def QuestionBreakIntoParagraphs(text):
 					p1 = None
 			else:
 				print 'no number match'
+				print dell
 				print dell[i]
 				p1 = None
 		if p1:
@@ -184,12 +189,19 @@ def FixQuestion(text):
 
 	sres = res.getvalue()
 	res.close()
+
+	if re.search('<font|<br(?i)', sres):
+		print 'unwanted value in question'
+
 	return sres
 
 
 
 
 # replies can have tables
+def CleanupTable(stable):
+	return '<table>Stuff</table>'
+
 
 def ReplyBreakIntoParagraphs(text):
 	nfj = re.split('(<table [\s\S]*?</table>|</?p>|</?ul>|<br>|</?font[^>]*>)(?i)', text)
@@ -215,16 +227,29 @@ def ReplyBreakIntoParagraphs(text):
 	pres = []
 	for i in range(1, len(dell)-1, 2):
 		if re.search('<table (?i)', dell[i]):
-			pres.append('<table>Stuff</table>')
+			pres.append(CleanupTable(dell[i]))
 		else:
 			pres.append(dell[i])
-	return pres
 
+	if not pres:
+		print 'empty answer'
+		return pres
+
+	# take out holding answer string [<i>holding answer 8 April 2003</i>]:
+	# this information is not interesting and can be recreated from cross-reference with the question book.
+	qha = re.findall('^\s*(\[.*?holding answer.*?\]:?\s*)(.*?)$(?i)', pres[0])
+	if not qha:
+		qha = re.findall('^\s*(<i>.*?holding answer.*?</i>:?\s*)(.*?)$(?i)', pres[0])
+	if qha:
+		pres[0] = qha[0][1]
+
+	return pres
 
 def FixReply(text):
 	res = StringIO.StringIO()
 
-	if not re.search('\[\d+?\]', text):
+	qnums = re.findall('\[\d+?\]', text)
+	if not qnums:
 		ntext = ReplyBreakIntoParagraphs(text)
 		for nt in ntext:
 			res.write('<p>')
@@ -232,9 +257,13 @@ def FixReply(text):
 			res.write('</p>\n')
 	else:
 		res.write("<error>qnum present in answer</error>\n")
-		print 'qnum present in answer'
+		print 'qnum present in answer ' + qnums[0]
 
 
 	sres = res.getvalue()
 	res.close()
+
+	if re.search('<font|<br|<ul(?i)', sres):
+		print 'unwanted value in reply'
+
 	return sres

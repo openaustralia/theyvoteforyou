@@ -28,7 +28,16 @@ class MemberList(xml.sax.handler.ContentHandler):
                 self.fullnames[compoundname].append(attr)
             else:
                 self.fullnames[compoundname] = [attr,]
-            # and also by "Lastname"
+
+            # add in names without the middle initial -- should be made in a second
+            # pass to make sure we're not adding in matches that shouldn't be there.
+            fnnomidinitial = re.findall('^(\S*)\s\S$', attr["firstname"])
+            if fnnomidinitial:
+                compoundname = fnnomidinitial[0] + " " + attr["lastname"]
+                if not self.fullnames.has_key(compoundname):
+                    self.fullnames[compoundname] = [attr,]
+
+	    # and also by "Lastname"
             lastname = attr["lastname"]
             if self.lastnames.has_key(lastname):
                 self.lastnames[lastname].append(attr)
@@ -42,14 +51,18 @@ class MemberList(xml.sax.handler.ContentHandler):
         text = text.replace(".", " ")
         text = text.replace("  ", " ")
 
+	# doesn't seem to improve matching, and anyway python doesn't like it, even in a comment
+	#text = text.replace('&#214;', 'Oe')
+
         # Remove initial titles
         (text, titlec) = re.subn("^(" + self.titles + ")", "", text)
         if titlec > 1:
             raise Exception, 'Multiple titles: ' + input
 
+
+
         # Find unique identifier for member
         id = ""
-#        print "matching " + text
         matches = self.fullnames.get(text, None)
         if not matches and titlec == 1:
             matches = self.lastnames.get(text, None)

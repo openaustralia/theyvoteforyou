@@ -22,6 +22,8 @@ def ScanDirectories(func, dirout, dirin):
 	if not os.path.isdir(dirout):
 		os.mkdir(dirout)
 	fdirin = os.listdir(dirin)
+	fdirin.sort()
+	fdirin.reverse()
 	for fin in fdirin:
 		sdate = re.findall('\d{4}-\d{2}-\d{2}', fin)[0]
 		jfin = os.path.join(dirin, fin)
@@ -69,12 +71,12 @@ if not os.path.isfile(hocdaydebatelist):
 
 # grab all the days we can
 # (comment the function call out line out if you want it to run past)
-#GlueHocDayDebate(dirgluedwranswers, hocdaydebatelist, 'answers', 'answers')
+GlueHocDayDebate(dirgluedwranswers, hocdaydebatelist, 'answers', 'answers')
 
 print dirwaremovechars
 ScanDirectories(RemoveLineChars, dirwaremovechars, dirgluedwranswers)
 print dirwacolumnnumbers
-ScanDirectories(FixWransColumnNumbers, dirwacolumnnumbers, dirwaremovechars)
+#ScanDirectories(FixWransColumnNumbers, dirwacolumnnumbers, dirwaremovechars)
 print dirwaspeakers
 ScanDirectories(WransSpeakerNames, dirwaspeakers, dirwacolumnnumbers)
 print dirwrans
@@ -84,7 +86,7 @@ sys.exit()
 
 # grab all the days we can
 # (comment the function call out line out if you want it to run past)
-#GlueHocDayDebate(dirglueddaydebates, hocdaydebatelist, 'debate', 'daydeb')
+GlueHocDayDebate(dirglueddaydebates, hocdaydebatelist, 'debate', 'daydeb')
 
 
 # remove chars and comments

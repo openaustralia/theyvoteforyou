@@ -16,10 +16,6 @@ fixsubs = 	[
 	( 'Continued in col 47W', '', 1, '2003-10-27' ),
 	( '<H1 align=center></H1>[\s\S]{10,99}?\[Continued from column \d+?W\]', '', 1, '2003-11-17' ),
 	( '<H2 align=center> </H2>[\s\S]{10,99}?Monday 13 October 2003', '', 1, '2003-10-14' ),
-
-	# this really belongs in the fix names part
-	( '<B> Alun Michael: For </B>', '<B> Alun Michael: </B> For', 1, '2003-11-17'), 
-	( '<B> Mr. </B>\s* Shepherd:', '<B> Mr. Shepherd:</B>', 1, '2003-10-23'),
  		]
 def ApplyFixSubs(finr, sdate):
 	for sub in fixsubs:

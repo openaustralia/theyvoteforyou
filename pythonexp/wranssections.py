@@ -148,16 +148,13 @@ class qspeech:
 	# function to shuffle column stamps out of the way to the front, so we can glue paragraphs together
 	def StampToFront(self):
 		# remove the stamps from the text, checking for cases where we can glue back together.
-		sp = re.split('(<stamp[^>]*?/>)', self.text)
+		sp = re.split('(<stamp [^>]*>|<page url[^>]*>)', self.text)
 		self.text = ''
 		for i in range(len(sp)):
-			if re.match('<stamp[^>]*?/>', sp[i]):
-				if not re.sub('<[^>]*>|\s', '', self.text):
-					self.stamp = sp[i]
-					self.ncid = 0
-					print 'firststamp ' + sp[i]
-
+			if re.match('<stamp [^>]*>', sp[i]):
 				self.laststamp = sp[i]
+			elif re.match('<page url[^>]*>', sp[i]):
+				self.lastpageurl = sp[i]
 
 			# append the pieces back together
 			else:
@@ -176,21 +173,16 @@ class qspeech:
 		self.stamp = llaststamp
 		self.laststamp = llaststamp
 		self.pageurl = llastpageurl
+		self.lastpageurl = self.pageurl
 		self.text = ltext
 		self.ncid = lncid
 
 		# this is a bit shambolic as it's done in the other class as well.
 		self.StampToFront()
 
-		# find any pageurls which will actually go into the text for next bit
-		# this is a bit shambolic as it's done in the other class as well.
-		self.lastpageurl = self.pageurl
-		ps = re.findall('<(page url[^>]*?)/?>', self.text)
-		if len(ps) != 0:
-			self.lastpageurl = '<%s/>' % ps[len(ps) - 1] # put the / in where it should be
 
 		# set the type and clear up qnums
-		if re.match('(?:<[^>]*?>|\s)*?To ask(?i)', self.text):
+		if re.match('(?:<[^>]*?>|\s)*?to ask(?i)', self.text):
 			self.typ = 'ques'
 			self.text = FixQuestion(self.text)
 
@@ -245,14 +237,19 @@ class qbatch:
 			else:
 				self.ncid = self.ncid + 1
 
-		if len(qblock) != 0:
+		if qblock:
 			print "block without answer " + self.title
 			self.shansblock.append(qblock)
 
 	# this obviously can be changed to suit
 	def writexml(self, fout, sdate):
 		for sha in self.shansblock:
-			colnum = re.findall('colnum="([^"]*)"', sha[0].stamp)[0]
+			colnumg = re.findall('colnum="([^"]*)"', sha[0].stamp)
+			if colnumg:
+				colnum = colnumg[0]
+			else:
+				colnum = 'BADCOL'
+				print 'missing column number'
 			sid = 'uk.org.publicwhip/wrans/%s.%s.%d' % (sdate, colnum, sha[0].ncid)
 			fout.write('\n<wrans id="%s" title="%s" majorheading="%s">\n' % \
 						(sid, self.title, self.majorheading))
@@ -324,8 +321,8 @@ majorheadings = {
 		}
 
 fixsubs = 	[
-	( '<H\d align=center>Written Answers[\s\S]{10,99}?\[Continued from column \d+?W\]', '', -1, 'all'),
-	( '<H\d><center>Written Answers[\s\S]{10,99}?\[Continued from column \d+?W\]', '', -1, 'all'),
+	( '<H\d align=center>Written Answers[\s\S]{10,99}?\[Continued from column \d+?W\](?i)', '', -1, 'all'),
+	( '<H\d><center>Written Answers[\s\S]{10,99}?\[Continued from column \d+?W\](?i)', '', -1, 'all'),
 	( '<h2><center>written answers to</center></h2>\s*questions(?i)', \
 	  	'<h2><center>Written Answers to Questions</center></h2>', -1, 'all'),
 	( '<H2 align=center> </H2>', '', 1, '2003-09-15'),
@@ -341,8 +338,7 @@ fixsubs = 	[
 	( '</H3>\s*\(Regulatory Impact Assessments\)', ' (Regulatory Impact Assessments)</H3>', 1, '2003-07-17'),
 	( '</H3>\s*Involvement in Health', ' Involvement in Health</H3>', 1, '2003-07-17'),
 
-
-
+	( '<i>The following questions were answered on 10 June</i>', '', 1, '2003-06-10'),
 		]
 
 def ApplyFixSubs(finr, sdate):
