@@ -8,8 +8,8 @@ Currently as they are in 2003 - will need to update when boundary changes come
 in.
 
 Currently has the name forms used for the list of MPs on the Parliament website,
-by the ONS (Office of National Statistics), by FaxYourMP.com, and by the BBC
-website.  Also some used in Hansard debates and the Guardian.
+by the ONS (Office of National Statistics), by FaxYourMP.com, and several variants
+of BBC name.  Also some used in Hansard debates and the Guardian.
 
 The Parliament versions are more accurate, so considered canonical.
 
@@ -36,6 +36,7 @@ The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/7">
     <name text="Aldridge-Brownhills"/>
+    <name text="Aldridge - Brownhills"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/8">
     <name text="Altrincham &amp; Sale West"/>
@@ -200,6 +201,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/54">
     <name text="Birmingham, Sparkbrook &amp; Small Heath"/>
     <name text="Birmingham, Sparkbrook and Small Heath"/> <!-- ONS -->
+    <name text="Birmingham Sparkbrook &amp; Small Heath"/> <!-- BBC politics db -->
     <name text="Birmingham Sparkbrook and Small Heath"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/55">
@@ -413,6 +415,7 @@ The Parliament versions are more accurate, so considered canonical.
     <name text="Carmarthen West &amp; South Pembrokeshire"/>
     <name text="Carmarthen West and South Pembrokeshire"/> <!-- ONS -->
     <name text="Carmarthen West and Pembrokeshire South"/> <!-- FaxYourMP index -->
+    <name text="Carmarthen West &amp; Pembrokeshire South"/> <!-- BBC politics db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/119">
     <name text="Carrick, Cumnock &amp; Doon Valley"/>
@@ -434,6 +437,7 @@ The Parliament versions are more accurate, so considered canonical.
     <name text="Central Suffolk &amp; North Ipswich"/>
     <name text="Central Suffolk and North Ipswich"/> <!-- ONS -->
     <name text="Suffolk Central and North Ipswich"/> <!-- FaxYourMP index -->
+    <name text="Suffolk Central &amp; Ipswich North"/> <!-- BBC politics db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/124">
     <name text="Ceredigion"/>
@@ -649,6 +653,7 @@ The Parliament versions are more accurate, so considered canonical.
     <name text="Ealing, Acton &amp; Shepherd's Bush"/>
     <name text="Ealing, Acton and Shepherd's Bush"/> <!-- ONS -->
     <name text="Ealing Acton and Shepherd's Bush"/> <!-- edm.ais.co.uk -->
+    <name text="Ealing Acton &amp; Shepherd's Bush"/> <!-- BBC politics db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/190">
     <name text="Ealing, Southall"/>
@@ -690,6 +695,7 @@ The Parliament versions are more accurate, so considered canonical.
     <name text="East Worthing &amp; Shoreham"/>
     <name text="East Worthing and Shoreham"/> <!-- ONS -->
     <name text="Worthing East and Shoreham"/> <!-- FaxYourMP index -->
+    <name text="Worthing East &amp; Shoreham"/> <!-- BBC politics db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/201">
     <name text="East Yorkshire"/>
@@ -789,6 +795,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/229">
     <name text="Faversham &amp; Mid Kent"/>
     <name text="Faversham and Mid Kent"/> <!-- ONS -->
+    <name text="Faversham &amp; Kent Mid"/> <!-- BBC politics db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/230">
     <name text="Feltham &amp; Heston"/>
@@ -1110,6 +1117,7 @@ The Parliament versions are more accurate, so considered canonical.
     <name text="Kingston upon Hull West &amp; Hessle"/>
     <name text="Kingston upon Hull West and Hessle"/> <!-- ONS -->
     <name text="Hull West and Hessle"/> <!-- FaxYourMP index -->
+    <name text="Hull West &amp; Hessle"/> <!-- BBC politics db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/321">
     <name text="Kingswood"/>
@@ -1248,6 +1256,7 @@ The Parliament versions are more accurate, so considered canonical.
     <name text="Maldon &amp; East Chelmsford"/>
     <name text="Maldon and East Chelmsford"/> <!-- ONS -->
     <name text="Maldon and Chelmsford East"/> <!-- FaxYourMP index -->
+    <name text="Maldon &amp; Chelmsford East"/> <!-- BBC politics db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/362">
     <name text="Manchester Central"/>
@@ -1291,6 +1300,7 @@ The Parliament versions are more accurate, so considered canonical.
     <name text="Mid Dorset and North Poole"/> <!-- ONS -->
     <name text="Dorset Mid and Poole North"/> <!-- FaxYourMP index -->
     <name text="Mid Dorset and Poole North"/> <!-- Guardian -->
+    <name text="Dorset Mid &amp; Poole North"/> <!-- BBC politics db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/373">
     <name text="Mid Norfolk"/>
@@ -1316,6 +1326,7 @@ The Parliament versions are more accurate, so considered canonical.
     <name text="Middlesbrough South &amp; East Cleveland"/>
     <name text="Middlesborough South and East Cleveland"/> <!-- ONS -->
     <name text="Middlesbrough South and East Cleveland"/> <!-- FaxYourMP index -->
+    <name text="Middlesbrough South &amp; Cleveland East"/> <!-- BBC politics db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/379">
     <name text="Midlothian"/>
@@ -1411,6 +1422,7 @@ The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/406">
     <name text="North Down"/>
+    <name text="Down North"/> <!-- BBC politics db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/407">
     <name text="North Durham"/>
@@ -1460,6 +1472,7 @@ The Parliament versions are more accurate, so considered canonical.
     <name text="North Southwark &amp; Bermondsey"/>
     <name text="North Southwark and Bermondsey"/> <!-- ONS -->
     <name text="Southwark North and Bermondsey"/> <!-- FaxYourMP index -->
+    <name text="Southwark North &amp; Bermondsey"/> <!-- BBC politics db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/419">
     <name text="North Swindon"/>
@@ -1471,6 +1484,7 @@ The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/421">
     <name text="North Thanet"/>
+    <name text="Thanet North"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/422">
     <name text="North Tyneside"/>
@@ -1814,6 +1828,7 @@ The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/519">
     <name text="South Down"/>
+    <name text="Down South"/> <!-- BBC politics db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/520">
     <name text="South East Cambridgeshire"/>
@@ -1853,6 +1868,7 @@ The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/529">
     <name text="South Thanet"/>
+    <name text="Thanet South"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/530">
     <name text="South West Bedfordshire"/>
@@ -2039,6 +2055,7 @@ The Parliament versions are more accurate, so considered canonical.
     <name text="Torridge &amp; West Devon"/>
     <name text="Torridge and West Devon"/> <!-- ONS -->
     <name text="Devon West and Torridge"/> <!-- FaxYourMP index -->
+    <name text="Devon West &amp; Torridge"/> <!-- BBC politics db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/584">
     <name text="Totnes"/>
@@ -2154,6 +2171,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/619">
     <name text="West Aberdeenshire &amp; Kincardine"/>
     <name text="West Aberdeenshire and Kincardine"/> <!-- ONS -->
+    <name text="Aberdeenshire W &amp; Kincardine"/> <!-- BBC politics db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/620">
     <name text="West Bromwich East"/>
@@ -2289,6 +2307,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/659">
     <name text="York, City of"/>
     <name text="City of York"/> <!-- ONS -->
+    <name text="York"/> <!-- BBC politics db -->
 </constituency>
 
 </publicwhip>

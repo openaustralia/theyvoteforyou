@@ -2645,14 +2645,14 @@ general election, or a change of party, then the MP has a new entry.
 <member
     id="uk.org.publicwhip/member/391"
     house="commons"
-    title="Rt Hon" firstname="Andrew" lastname="Mackay"
+    title="Rt Hon" firstname="Andrew" lastname="MacKay"
     constituency="Bracknell" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/393"
     house="commons"
-    title="" firstname="Andrew" lastname="Mackinlay"
+    title="" firstname="Andrew" lastname="MacKinlay"
     constituency="Thurrock" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
@@ -7454,7 +7454,7 @@ general election, or a change of party, then the MP has a new entry.
 <member
     id="uk.org.publicwhip/member/1078"
     house="commons"
-    title="" firstname="Andrew" lastname="Mackinlay"
+    title="" firstname="Andrew" lastname="MacKinlay"
     constituency="Thurrock" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />

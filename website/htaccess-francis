@@ -1,6 +1,8 @@
 # htaccess file for local testing on my machine
 AddType application/x-httpd-php .php
-AddType application/x-httpd-php .xml
+<Files "mp-info.xml">
+    AddType application/x-httpd-php .xml
+</Files>
 DirectoryIndex index.php
 
 # make things safe

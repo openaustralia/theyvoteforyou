@@ -1,5 +1,5 @@
 <?php 
-# $Id: data.php,v 1.5 2004/03/10 16:58:18 frabcus Exp $
+# $Id: data.php,v 1.6 2004/03/11 11:18:48 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -74,9 +74,12 @@ are given.
 <p><a href="../data/constituencies.xml">constituencies.xml</a> - list of Parliamentary 
 constituencies.  Includes alternative spellings of each constituency.
 
-<p><a href="../data/edm-links.xml">edm-links.xml</a>, <a
-href="../data/guardian-links.xml">guardian-links.xml</a> - various links to external
-websites which have information about MPs.
+<p>
+<a href="../data/edm-links.xml">edm-links.xml</a>, 
+<a href="../data/guardian-links.xml">guardian-links.xml</a>,
+<a href="../data/bbc-links.xml">bbc-links.xml</a>
+- various links to external websites which have information about MPs.  Indexed
+by MP identifier.
 
 <h2>Hansard tidied up, in XML</h2>
 

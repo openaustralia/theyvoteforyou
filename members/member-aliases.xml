@@ -60,6 +60,28 @@ We should find the exact date she started, and move her finish date.
         from="2001-12-31" to="2004-03-01"/>
 
 <!-- First added for 2001 parliament -->
+<alias fullname="Laurence Robertson" alternate="Laurance Robertson" />
+<alias fullname="Robert Marshall-Andrews" alternate="Bob Marshall-Andrews" />
+<alias fullname="Geoffrey Clifton-Brown" alternate="Geoffrey Clifton Brown" />
+<alias fullname="Mohammad Sarwar" alternate="Mohammed Sarwar" />
+<alias fullname="Anne Picking" alternate="Ann Picking" />
+<alias fullname="Ann McKechin" alternate="Anne McKechin" />
+<alias fullname="Thomas McAvoy" alternate="Tommy McAvoy" />
+<alias fullname="Fiona Mactaggart" alternate="Fiona MacTaggart" />
+<alias fullname="Andrew MacKinlay" alternate="Andrew Mackinlay" />
+<alias fullname="David Maclean" alternate="David MacLean" />
+<alias fullname="Eleanor Laing" alternate="Eleanor Lang" /> <!-- BBC politics db -->
+<!-- "Michael/Mike Foster" could be either "Michael Jabez Foster" or
+    "Michael John Foster".  So we match all possibilities to both constituencies,
+    forcing the need for a constituency to disambiguate. -->
+<alias constituency="Worcester" alternate="Mike Foster" /> 
+<alias constituency="Hastings &amp; Rye" alternate="Mike Foster" /> 
+<alias constituency="Worcester" alternate="Michael Foster" /> 
+<alias constituency="Hastings &amp; Rye" alternate="Michael Foster" /> 
+<alias fullname="Valerie Davey" alternate="Valery Davey" />
+<alias fullname="Edward Davey" alternate="Ed Davey" />
+<alias fullname="Ann Clwyd" alternate="Ann Clywd" /> <!-- BBC politics db -->
+<alias fullname="William Cash" alternate="Bill Cash" />
 <alias fullname="Peter Pike" alternate="Peter L Pike" />
 <alias fullname="Michael Martin" alternate="Michael J Martin" />
 <alias fullname="Calum MacDonald" alternate="Calum Macdonald" />

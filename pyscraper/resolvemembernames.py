@@ -78,13 +78,17 @@ class MemberList(xml.sax.handler.ContentHandler):
             alternateisfullname = True
             if attr.has_key("fullname"):
                 matches = self.fullnames.get(attr["fullname"], None)
+                if not matches:
+                    raise Exception, 'Canonical fullname not found ' + attr["fullname"]
             elif attr.has_key("lastname"):
                 matches = self.lastnames.get(attr["lastname"], None)
                 alternateisfullname = False
+                if not matches:
+                    raise Exception, 'Canonical lastname not found ' + attr["lastname"]
             elif attr.has_key("constituency"):
                 matches = self.constituencies.get(attr["constituency"], None)
-            if not matches:
-                raise Exception, 'Canonical name not found ' + attr["canonical"]
+                if not matches:
+                    raise Exception, 'Canonical constituency not found ' + attr["constituency"]
             # append every canonical match to the alternates
             for m in matches:
                 newattr = {}
