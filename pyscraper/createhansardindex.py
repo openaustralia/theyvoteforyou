@@ -86,7 +86,7 @@ def CmIndexFromPage(urllinkpage):
 			if link1[1][0:22] == "<b>Friday 23 July 2004":
 				odate = "1 Sept 2004" # the date quoted on the wrans page
 			elif link1[1][0:27] == "<b>Friday 17 September 2004":
-				odate = "30 September 2004" # the date quoted on the wrans page
+				odate = "4 October 2004" # the date quoted on the wrans page
 			else:
 				assert False
 			sdate = mx.DateTime.DateTimeFrom(odate).date

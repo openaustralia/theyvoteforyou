@@ -147,6 +147,7 @@ def ExtractFirstLink(url):
 	urx.close()
 
 	if not lk:
+		print urx
 		raise Exception, "No link found!!!"
 	return urlparse.urljoin(url, re.sub('#.*$' , '', lk[0]))
 

@@ -71,6 +71,7 @@ class lqspeech:
 		self.speakername = attr.get("speakername", "") # good for names which match no member
 		self.redirect = attr.get("redirect", None) # good for names which match no member
 		self.paras = [ ]
+		self.qnums = [ ]
 		self.binheading = re.search("-heading", name)
 
 	# used to compare two speeches
@@ -115,6 +116,10 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 		self.binp = False
 		self.lqb = None
 
+		# used to flag the special wrans matching structure that will feed in a
+		# set of recommended cross-referencing commands into the diff file
+		self.bIsWrans = False
+
 		parser = xml.sax.make_parser()
 		parser.setContentHandler(self)
 		parser.parse(xfil)
@@ -124,14 +129,21 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 	def startElement(self, name, attr):
 		# a division will get nothing since there are no paras
 		# however we might want to put in some code anyway just to compare if any names change.
-		if re.search("division$|-heading|speech|ques|reply|motion", name):
+		if re.search("division$|-heading|speech|motion", name):
 			self.lqb = lqspeech(name, attr)
+		elif re.search("ques|reply", name):
+			self.lqb = lqspeech(name, attr)
+			self.bIsWrans = True
 
 		elif name == "p":
 			assert self.lqb and not self.lqb.binheading
 			self.paracont = [ ]
+			qnum = attr.get("qnum", "").strip("R")	# sometimes an R appears at the end of the qnum
+			if qnum:
+				self.lqb.qnums.append(qnum)
 			self.binp = True
 
+	# (I don't understand why the handling of heading text is different from paragraph text)
 	def characters(self, content):
 		if self.binp:
 			self.paracont.append(content.encode("latin-1", "ignore"))
@@ -156,6 +168,9 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 			res = optxt[:70]
 			print "Knacked on latin"
 		return res
+
+
+
 
 
 	# the exception throwing function which should give good hits as to
@@ -224,7 +239,7 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 			prevstampurl = flatb[ifgb].sstampurl
 		elif flatb:
 			prevstampurl = flatb[-1].sstampurl
-		raise ContextException(exdesc, stamp=prevstampurl)
+		return ContextException(exdesc, stamp=prevstampurl)
 
 
 	# the verification that the files have the same GIDs
@@ -252,7 +267,7 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 					ifgb = nifgb
 				# otherwise this is the first failed match
 				else:
-					self.MessageForCompareGIDError(ilf, flatb, ifgb, bquietc)
+					return self.MessageForCompareGIDError(ilf, flatb, ifgb, bquietc)
 
 			# move on to the next pair
 			ifgb += 1
@@ -261,8 +276,131 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 		# fires if there are more entries left in the old xml file unaccounted for
 		if ilf < len(self.prevflatb):
 			# throws an exception
-			self.MessageForCompareGIDError(ilf, flatb, ifgb, bquietc)
+			return self.MessageForCompareGIDError(ilf, flatb, ifgb, bquietc)
+		return None
 
+
+
+	# the big qnum matching system
+	def CrossReferenceByQnums(self, flatb):
+
+		# we don't rearrange the new layout, we just make sure that the
+		# old gids will match to them, if poss.
+
+		# extract the major headings and match them separately to the minor headings
+		# triplets that do the questions
+
+		# build up a structure that makes it possible for the old stuff to map to
+		majorheadings = { }
+		questiongroups = [ ]
+		questiongroup = None
+		for qb in flatb:
+			qb.oldfoundgid = None  # this is used for the cross-referencing
+			if qb.typ == "major-heading":
+				if questiongroup:
+					questiongroups.append(questiongroup)
+					questiongroup = None
+				majorheading = string.join(qb.stext, "").strip()
+				assert majorheading not in majorheadings
+				majorheadings[majorheading] = qb
+			elif qb.typ == "minor-heading":
+				if questiongroup:
+					questiongroups.append(questiongroup)
+				questiongroup = [ qb ]
+			else:
+				assert qb.typ == "ques" or qb.typ == "reply"
+				questiongroup.append(qb)
+		if questiongroup:
+			questiongroups.append(questiongroup)
+
+
+		# now generate the qnums cross-referencing to these question groups
+		# (there must always be some question numbers)
+		qnums = { }
+		for questiongroup in questiongroups:
+			lqnum = None
+			for qb in questiongroup:
+				for lb in qb.stext:
+					for qn in re.findall('qnum="([^"]*)"', lb):
+						assert qn not in qnums
+						qnums[qn] = questiongroup
+						lqnum = qn
+			if not lqnum:
+				print "will be difficult to match to without qnum in group",
+				print "minor heading", string.join(questiongroup[0].stext, "")
+				print "first paragraph", questiongroup[1].stext[0]
+				return ""
+
+
+		# now we go through all the old entries and form question groups,
+		# as well as matching up the major headings where possible
+		oldquestiongroups = [ ]
+		oldquestiongroup = None
+		for pqb in self.prevflatb:
+			if pqb.nametype == "major-heading":
+				if oldquestiongroup:
+					oldquestiongroups.append(oldquestiongroup)
+					oldquestiongroup = None
+				omajorheading = string.join(pqb.paras, "").strip()
+				if majorheadings.has_key(omajorheading):
+					qb = majorheadings[omajorheading]
+					assert not qb.oldfoundgid # multiple headings of the same name
+					qb.oldfoundgid = pqb.gid
+				else:
+					# not important since these are not linked to
+					print "can't find old major heading '%s' in wrans" % omajorheading
+
+			elif pqb.nametype == "minor-heading":
+				if oldquestiongroup:
+					oldquestiongroups.append(oldquestiongroup)
+				oldquestiongroup = [ pqb ]
+			else:
+				assert pqb.nametype == "ques" or pqb.nametype == "reply"
+				oldquestiongroup.append(pqb)
+		if oldquestiongroup:
+			oldquestiongroups.append(oldquestiongroup)
+
+		# now go through the old question groups and find matches by examining the qnums
+		for oldquestiongroup in oldquestiongroups:
+			matchquestiongroups = [ ]
+			for pqb in oldquestiongroup:
+				for qnum in pqb.qnums:
+					if qnums.has_key(qnum):
+						matchquestiongroup = qnums[qnum]
+						if matchquestiongroup not in matchquestiongroups:
+							matchquestiongroups.append(matchquestiongroup)
+
+			# we now have a group we wish to match to; we can allocate the entries
+			# in parallel?
+			if not len(matchquestiongroups) == 1:
+				print "we match not to one question group"
+				print len(matchquestiongroups)
+				print "oldgid", oldquestiongroup[0].gid
+				return ""
+			matchquestiongroup = matchquestiongroups[0]
+
+			# this is where we lie them side by side
+			if len(matchquestiongroup) != len(oldquestiongroup):
+				print "we can't match differing question group sizes"
+				print "newgid", matchquestiongroup[0].GID, "oldgid", matchquestiongroup[0].oldfoundgid
+				return ""
+
+			for i in range(len(oldquestiongroup)):
+				if matchquestiongroup[i].oldfoundgid:
+					print "matching a second old gid into same place"
+					print "newgid", matchquestiongroup[i].GID, "oldgid", matchquestiongroup[i].oldfoundgid
+					print "newoldgid", oldquestiongroup[i].gid
+					return ""
+
+				matchquestiongroup[i].oldfoundgid = oldquestiongroup[i].gid
+
+		# we've now successfully matched everything, make the mappings as a list
+		res = [ ]
+		for qb in flatb:
+			if qb.oldfoundgid and qb.oldfoundgid != qb.GID:
+				res.append('<parsemess-mapgid newgid="%s" oldgid="%s"/>' % (qb.GID, qb.oldfoundgid))
+
+		return string.join(res, "\n")
 
 # write out a whole file which is a list of qspeeches, and construct the ids.
 def CreateGIDs(gidpart, flatb, sdate):
@@ -350,8 +488,8 @@ def WriteXMLFile(gidpart, tempname, jfout, flatb, sdate, bquietc):
 	picolnum = -1
 	ncid = -1
 
+	# go through and output all the records into the file
 	for qb in flatb:
-
 		# Is this value needed?
 		colnum = re.search('colnum="([^"]*)"', qb.sstampurl.stamp).group(1)
 
@@ -388,8 +526,12 @@ def WriteXMLFile(gidpart, tempname, jfout, flatb, sdate, bquietc):
 		ppf = PrevParsedFile(jfout)
 		ppf.lfilenames = (jfout, tempname)  # used in the message in case of error
 
-		# compare (throws exception if failure)
-		ppf.CompareGIDS(flatb, bquietc)
+		# compare values, returns an exception which can be thrown if failure
+		coxexception = ppf.CompareGIDS(flatb, bquietc)
+		if coxexception:
+			if ppf.bIsWrans:
+				coxexception.insertstring = ppf.CrossReferenceByQnums(flatb)
+			raise coxexception
 
 		# make a file to record the differences (for keeping track of later)
 		jfoutpatch = getXMLdiffname(jfout)

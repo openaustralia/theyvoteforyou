@@ -37,7 +37,10 @@ def GenPatchFileNames(typ, sdate):
 
 # windows version of the patchtool shell script
 # this calls the contTEXT editor.
-def RunPatchToolW(typ, sdate, stamp, frag):
+def RunPatchToolW(typ, sdate, stamp, frag, insertstring):
+	print "insert-string"
+	print insertstring
+
 	(patchfile, orgfile, tmpfile, tmppatchfile) = GenPatchFileNames(typ, sdate)
 
 	shutil.copyfile(orgfile, tmpfile)
@@ -103,13 +106,7 @@ def RunPatchTool(type, sdate, ce):
 
         print "\nHit RETURN to launch your editor to make patches "
         sys.stdin.readline()
-        if False: #sys.platform != "win32":
-            if not ce.stamp:
-                    status = os.system("./patchtool %s %s" % (type, sdate))
-            else:
-                    status = os.system("./patchtool %s %s -c /%s" % (type, sdate, ce.stamp.GetAName()))
-        else:
-			RunPatchToolW(type, sdate, ce.stamp, ce.fragment)
+        RunPatchToolW(type, sdate, ce.stamp, ce.fragment, ce.insertstring)
         memberList.reloadXML()
 
 
@@ -121,7 +118,7 @@ This generates files for the patchfilter.py filter.
 
 They are standard patch files which apply to the glued HTML files which we
 download from Hansard.  Any special errors in Hansard are fixed by
-these patches.  
+these patches.
 
 Run this tool like this:
   ./patchtool.py wrans 2004-03-25
@@ -131,5 +128,5 @@ in the patches folder underneath this folder.  The original file is
 untouched.  We consider the patches permanent data, so add them to CVS.
 """
  		sys.exit(1)
-	RunPatchToolW(sys.argv[1], sys.argv[2], None, "")
+	RunPatchToolW(sys.argv[1], sys.argv[2], None, "", "")
 

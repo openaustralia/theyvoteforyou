@@ -13,6 +13,8 @@ import datetime
 
 from parlphrases import parlPhrases
 
+
+
 # These we don't necessarily match to a speaker id, deliberately
 regnospeakers = "Hon\.? Members|Members of the House of Commons|" + \
         "Deputy Speaker|Second Deputy Chairman(?i)|Speaker-Elect|" + \
@@ -319,6 +321,7 @@ class MemberList(xml.sax.handler.ContentHandler):
             self.debatedate = date
             self.cleardebatehistory()
 
+
         # Sometimes no bracketed component: Mr. Prisk
         ids = self.fullnametoids(input, date)
         # Different types of brackets...
@@ -328,6 +331,7 @@ class MemberList(xml.sax.handler.ContentHandler):
             brackids = self.fullnametoids(bracket, date)
             if brackids:
                 speakeroffice = ' speakeroffice="%s" ' % input
+
                 # If so, intersect those matches with ones from the first part
                 # (some offices get matched in first part - like Mr. Speaker)
                 if len(ids) > 0:

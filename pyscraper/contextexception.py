@@ -1,4 +1,4 @@
-#! $Id: contextexception.py,v 1.10 2004/06/05 16:25:53 frabcus Exp $
+#! $Id: contextexception.py,v 1.11 2004/10/14 17:04:00 goatchurch Exp $
 # vim:sw=8:ts=8:et:nowrap
 
 import os
@@ -21,6 +21,7 @@ class ContextException(Exception):
         self.description = description
         self.stamp = stamp
         self.fragment = fragment
+        self.insertstring = ""  # this is what gets shoved at the front of the patched file in the editor
 
     def __str__(self):
         ret = ""

@@ -1,13 +1,22 @@
---- wrans/answers2004-04-01.html	Thu Apr 15 18:49:39 2004
-+++ wrans/answers2004-04-01-patchtmp.html	Fri Apr 16 15:03:19 2004
-@@ -9279,8 +9279,8 @@
+--- C:\publicwhip\pwdata\cmpages\wrans\answers2004-04-01.html	Thu Oct 14 15:39:21 2004
++++ C:\publicwhip\pwdata\cmpages\wrans\answers2004-04-01-patchtmp.html	Thu Oct 14 16:13:33 2004
+@@ -9385,8 +9385,8 @@
  
  <P>
  <P>
--<a name="40401w34.html_wqn2"><B> Mr. Donaldson </B> 
+-<a name="40401w33.html_wqn2"><B> Mr. Donaldson </B> 
 -. To ask the Secretary of State for Health (1) what plans he has to provide funding for research on the treatment of Duchenne muscular dystrophy;  [164345]
-+<a name="40401w34.html_wqn2"><B> Mr. Donaldson: </B> 
-+To ask the Secretary of State for Health (1) what plans he has to provide funding for research on the treatment of Duchenne muscular dystrophy;  [164345]
++<a name="40401w33.html_wqn2"><B> Mr. Donaldson </B>
++ To ask the Secretary of State for Health (1) what plans he has to provide funding for research on the treatment of Duchenne muscular dystrophy;  [164345]
  <P>
  <UL>(2) what plans he has to ring-fence funding for Duchenne muscular dystrophy research;  [164931]
  <P>
+@@ -9400,7 +9400,7 @@
+ <UL><P></UL>
+ <P>
+ <P>
+-<a name="40401w33.html_spnew2"><B> Dr. Ladyman  </B> 
++<a name="40401w33.html_spnew2"><B> Dr. Ladyman  </B>
+ <i>[holding answer 29&nbsp;March 2004]:</i> On 29&nbsp;March 2004, my right hon. Friend the Secretary of State announced that the researchers supported by the Muscular Dystrophy Campaign were successful in their bid for research funding. They have been awarded &#163;1.6&nbsp;million to fund research to underpin the development of a novel gene therapy treatment for Duchenne muscular dystrophy.
+ 
+ <a name="40401w33.html_sbhd2"><H3 align=center>Ethical and Environmental Investment Policies</H3>
