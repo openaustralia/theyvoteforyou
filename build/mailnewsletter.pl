@@ -2,15 +2,15 @@
 use strict;
 use lib "loader/";
 
-my $text = "website/newsletters/extra3.txt";
+my $text = "website/newsletters/dream1.txt";
 my $test_name = "";
-my $test_name = "Francis Irving";
+#my $test_name = "Francis Irving";
 #my $test_name = "Julian Todd";
 
 #my $type = "all";
 my $type = "dream"; 
 
-my $amount = 10;
+my $amount = 20;
 
 use PublicWhip::Error;
 use PublicWhip::DB;
