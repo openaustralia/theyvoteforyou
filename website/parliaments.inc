@@ -1,6 +1,6 @@
 <?php
 
-# $Id: parliaments.inc,v 1.7 2003/12/11 00:16:48 frabcus Exp $
+# $Id: parliaments.inc,v 1.8 2003/12/22 01:54:21 frabcus Exp $
 # This data is duplicated in scraper/parliaments.pm
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -99,5 +99,3 @@ function parlsession_date_to($id)
 }
 
 ?>
-
-

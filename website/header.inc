@@ -1,8 +1,9 @@
+<?php header("Content-Type: text/html; charset=utf-8");?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 
 <?php
-# $Id: header.inc,v 1.26 2003/11/26 17:22:46 frabcus Exp $
+# $Id: header.inc,v 1.27 2003/12/22 01:54:21 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -28,7 +29,6 @@ if ($title == "Counting votes on your behalf")
 <link rel="icon" href="<?=$toppath?>favicon.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="<?=$toppath?>favicon.ico" type="image/x-icon" />
 <title><? print $pagetitle ?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script>
 <!--
 function givefocus() { if (document.pw) document.pw.query.focus(); }

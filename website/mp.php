@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.23 2003/12/21 02:59:30 frabcus Exp $
+    # $Id: mp.php,v 1.24 2003/12/22 01:54:21 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -328,9 +328,9 @@
 	else
 	{
 		if (!$expand)
-			print "<p><a href=\"$this_anchor&expand=yes\">Show contents of all these Written Answers on one large page</a></p>";
+			print "<p><a href=\"$this_anchor&expand=yes#wrans\">Show contents of all these Written Answers on one large page</a></p>";
 		else
-			print "<p><a href=\"$this_anchor&expand=no\">Collapse all these answers into a summary table</a></p>";
+			print "<p><a href=\"$this_anchor&expand=no#wrans\">Collapse all these answers into a summary table</a></p>";
 	}
 ?>
 	

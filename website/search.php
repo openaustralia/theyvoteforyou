@@ -1,13 +1,11 @@
 <?php 
-# $Id: search.php,v 1.13 2003/12/05 20:23:28 frabcus Exp $
+# $Id: search.php,v 1.14 2003/12/22 01:54:21 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
-?>
 
-<?php
     include "db.inc";
     $prettyquery = html_scrub(trim($_GET["query"]));
     $query = strtoupper(db_scrub(trim($_GET["query"])));
