@@ -108,8 +108,9 @@ if not os.path.isdir(pwprotoindexdir):
 for fn in os.listdir(pwprotoindexdir):
 	os.remove(os.path.join(pwprotoindexdir, fn))
 
-# loop through the files and append them in
+# loop through the XML files and append them in
 fwransxmlall = os.listdir(pwxmwrans)
+fwransxmlall = filter(lambda f: re.search("\.xml$", f) , fwransxmlall)
 fwransxmlall.sort()
 fwransxmlall.reverse()
 for fwrans in fwransxmlall:
