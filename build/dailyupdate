@@ -49,6 +49,7 @@ fi
 RSSDEST=~/www.publicwhip.org.uk_html/feeds
 cd ~/publicwhip/loader
 ./interestingdivisions2rss.pl > $RSSDEST/interestingdivisions.xml
+./alldivisions2rss.pl > $RSSDEST/alldivisions.xml
 
 
 

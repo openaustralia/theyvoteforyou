@@ -4,13 +4,14 @@ use lib "loader/";
 
 my $text = "website/newsletters/dream1.txt";
 my $test_name = "";
+#my $test_name = "Jo Kibble";
 #my $test_name = "Francis Irving";
 #my $test_name = "Julian Todd";
 
 #my $type = "all";
 my $type = "dream"; 
 
-my $amount = 20;
+my $amount = 200;
 
 use PublicWhip::Error;
 use PublicWhip::DB;
@@ -78,7 +79,7 @@ EOF
 
     print SENDMAIL "\nYou are subscribed as user $username with email $email\n";
 
-    close(SENDMAIL) or warn "sendmail didn't close nicely";
+    close(SENDMAIL) or die "sendmail didn't close nicely";
 
     PublicWhip::DB::query($dbh, "insert into pw_dyn_newsletters_sent (user_id, newsletter_name)
             values (?, ?)", $userid, $text);
