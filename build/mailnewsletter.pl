@@ -2,7 +2,7 @@
 use strict;
 use lib "loader/";
 
-my $text = "website/newsletters/extra2.txt";
+my $text = "website/newsletters/issue5.txt";
 #my $test_name = "";
 my $test_name = "Francis Irving";
 #my $test_name = "Julian Todd";
@@ -17,6 +17,7 @@ if ($test_name ne "")
     $query .= "and real_name = '$test_name'";
 }
 my $sth = PublicWhip::DB::query($dbh, $query);
+print "Sending to " . $sth->rows . " people\n";
 while (my @data = $sth->fetchrow_array())
 {
     my $email = $data[1];
