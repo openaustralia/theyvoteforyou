@@ -1,11 +1,13 @@
 <?php
-# $Id: wiki.inc,v 1.2 2005/03/28 19:59:24 frabcus Exp $
+# $Id: wiki.inc,v 1.3 2005/03/31 09:20:01 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Gather information from the database
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
+# certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
+# For details see the file LICENSE.html in the top level of the source.
 
 # Returns label wiki code uses for motion text of particular division
 function get_motion_wiki_key($date, $div_no)
