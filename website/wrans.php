@@ -1,6 +1,5 @@
-<?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: wrans.php,v 1.5 2003/12/08 19:00:49 frabcus Exp $
+    # $Id: wrans.php,v 1.6 2003/12/11 00:16:48 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -49,4 +48,3 @@
 ?>
 
 <?php include "footer.inc" ?>
-<?php include "cache-end.inc"; ?>

@@ -1,4 +1,4 @@
-# $Id: clean.pm,v 1.6 2003/11/05 14:34:43 frabcus Exp $
+# $Id: clean.pm,v 1.7 2003/12/11 00:16:48 frabcus Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -14,11 +14,12 @@ use error;
 sub erase_duff_divisions
 {
     my $dbh = shift;
-    db::query($dbh, "update pw_debate_content, pw_division set divisions_extracted = 0 
-        where pw_division.valid = 0 and pw_division.division_date = pw_debate_content.day_date");
-    db::query($dbh, "delete pw_vote from pw_division, pw_vote where
-        pw_division.division_id = pw_vote.division_id and pw_division.valid
-        = 0");
+	db::query($dbh, "update pw_debate_content, pw_division set
+		divisions_extracted = 0 where pw_division.valid = 0 and
+		pw_division.division_date = pw_debate_content.day_date");
+    db::query($dbh, "delete pw_vote from pw_vote left join pw_division on
+		pw_division.division_id = pw_vote.division_id 
+		where (pw_division.valid = 0 or pw_division.valid is null)");
     db::query($dbh, "delete from pw_division where pw_division.valid = 0");
 }
 

@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mps.php,v 1.9 2003/12/08 18:36:02 frabcus Exp $
+    # $Id: mps.php,v 1.10 2003/12/11 00:16:48 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -18,7 +18,10 @@
         $title = "Rebels";
     
     include "parliaments.inc";
-    $title .= " - " . parliament_name($parliament) . " Parliament";
+	if ($parlsession != "")
+		$title .= " - " . parlsession_name($parlsession) . " Session";
+	else
+		$title .= " - " . parliament_name($parliament) . " Parliament";
     include "header.inc";
 
     if ($sort == "")
@@ -53,10 +56,29 @@
     {
         $order = "round(votes_attended/votes_possible,10) desc, last_name, first_name";
     }
-    $db->query("$mps_query_start and entered_house <= '" .
-        parliament_date_to($parliament) . "' and entered_house >= '".
-        parliament_date_from($parliament) . "' order by $order");
 
+	if ($parlsession == "")
+	{
+		$query = "$mps_query_start and entered_house <= '" .
+			parliament_date_to($parliament) . "' and entered_house >= '".
+			parliament_date_from($parliament) . "' order by $order";
+	}
+	else
+	{
+		$query = "$mps_query_start and (" .
+		"(entered_house >= '" .  parlsession_date_from($parlsession) . "' and " .
+		"entered_house <= '".  parlsession_date_to($parlsession) . "') " .
+		" or " .
+		"(left_house >= '" .  parlsession_date_from($parlsession) . "' and " .
+		"left_house <= '".  parlsession_date_to($parlsession) . "') " .
+		" or " .
+		"(entered_house < '" .  parlsession_date_from($parlsession) . "' and " .
+		"left_house > '".  parlsession_date_to($parlsession) . "') " .
+		") order by $order";
+		$query = str_replace('pw_cache_mpinfo', 'pw_cache_mpinfo_session'.$parlsession, $query);
+	}
+
+	$db->query($query);
 ?>
 <p>The Members of Parliament are listed with the number of times they
 voted against the majority vote for their party and how often they turn up
@@ -64,9 +86,9 @@ to vote.  Read a <a href="faq.php#clarify">clear
 explanation</a> of these terms, as they may not have the meanings
 you expect. You can change the order of the table by selecting the headings.
 <?php
-    if ($parliament == "2001")
+    if ($parliament != "1997" or $parlsession != "")
         print "<p><a href=\"mps.php?parliament=1997&sort=" . html_scrub($sort) . "\">View MPs for 1997 parliament</a>";
-    if ($parliament == "1997")
+    if ($parliament != "2001" or $parlsession != "")
         print "<p><a href=\"mps.php?parliament=2001&sort=" .  html_scrub($sort) . "\">View MPs for 2001 parliament</a>";
     
     print "<table class=\"mps\">\n";

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: parliaments.inc,v 1.6 2003/10/13 17:45:59 frabcus Exp $
+# $Id: parliaments.inc,v 1.7 2003/12/11 00:16:48 frabcus Exp $
 # This data is duplicated in scraper/parliaments.pm
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -19,6 +19,13 @@ $parliaments = array(
 $parliament = db_scrub($_GET["parliament"]);
 if ($parliament == "")
     $parliament = 2001;
+
+# These are parliamentary sessions (i.e. years) - nothing to do with
+# PHP or web sessions or anything like that.
+$parlsessions = array(
+	'2002' => array(from => '2002-11-13', to => '2003-11-20', name => '2002/2003'),
+);
+$parlsession = db_scrub($_GET["session"]);
 
 function parliament_count()
 {
@@ -71,6 +78,24 @@ function year_range($from, $to)
             $ret .= date("Y");
     }
     return $ret;
+}
+
+function parlsession_name($id)
+{
+    global $parlsessions;
+    return $parlsessions[$id]['name'];
+}
+
+function parlsession_date_from($id)
+{
+    global $parlsessions;
+    return $parlsessions[$id]['from'];
+}
+
+function parlsession_date_to($id)
+{
+    global $parlsessions;
+    return $parlsessions[$id]['to'];
 }
 
 ?>

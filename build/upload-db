@@ -9,7 +9,7 @@ USER=francis@sphinx.mythic-beasts.com
 
 echo "Uploading new db..."
 echo "drop table if exists pw_cache_rebels;" >pw_db.sql
-mysqldump --add-drop-table tpw pw_cache_divinfo pw_cache_mpinfo pw_cache_whip pw_division pw_mp pw_vote pw_cache_partyinfo pw_cache_mpdist >>pw_db.sql
+mysqldump --add-drop-table tpw pw_cache_divinfo pw_cache_mpinfo pw_cache_whip pw_division pw_mp pw_vote pw_cache_partyinfo pw_cache_mpdist pw_cache_mpinfo_session2002 >>pw_db.sql
 gzip --rsyncable pw_db.sql
 rsync -v --progress -az -e "ssh" -T /tmp pw_db.sql.gz $USER:./pw_db.sql.gz
 rm pw_db.sql.gz
