@@ -16,16 +16,22 @@ def ApplyPatches(filein, fileout):
         if not os.path.isfile(patchfile):
                 return False
 
-        # Apply the patch
-        shutil.copyfile(filein, fileout)
+        while True:
+                # Apply the patch
+                shutil.copyfile(filein, fileout)
 
-		# delete temporary file that might have been created by a previous patch failure 
-        filoutorg = fileout + ".orig"
-        if os.path.isfile(filoutorg):
-            os.remove(filoutorg)
-        status = os.system("patch --quiet %s <%s" % (fileout, patchfile))
-        if status != 0:
-                raise Exception, "Error running 'patch' file %s" % fileshort
+                # delete temporary file that might have been created by a previous patch failure 
+                filoutorg = fileout + ".orig"
+                if os.path.isfile(filoutorg):
+                    os.remove(filoutorg)
+                status = os.system("patch --quiet %s <%s" % (fileout, patchfile))
 
-        return True
+                if status == 0:
+                        return True
+
+                print "Error running 'patch' on file %s, blanking it out" % fileshort
+                os.rename(patchfile, patchfile + ".old~")
+                blankfile = open(patchfile, "w")
+                blankfile.close()
+                
 

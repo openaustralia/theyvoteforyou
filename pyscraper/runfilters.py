@@ -27,7 +27,7 @@ from lordsfilterspeakers import LordsFilterSpeakers
 from lordsfiltersections import LordsFilterSections
 
 from contextexception import ContextException
-from contextexception import RunPatchTool
+from patchtool import RunPatchTool
 
 from xmlfilewrite import WriteXMLFile
 

@@ -174,11 +174,9 @@ def CreateGIDs(gidpart, flatb, sdate):
 # write out a whole file which is a list of qspeeches, and construct the ids.
 def WriteXMLFile(gidpart, fout, jfout, flatb, sdate):
 
+        print "jfout is ", jfout
 	# make the GIDS and compare the files
-	ppf = os.path.isfile(jfout) and PrevParsedFile(jfout)
 	CreateGIDs(gidpart, flatb, sdate)
-	if ppf:
-		ppf.CompareGIDS(flatb)
 
 	WriteXMLHeader(fout);
 	fout.write("<publicwhip>\n")
@@ -212,6 +210,10 @@ def WriteXMLFile(gidpart, fout, jfout, flatb, sdate):
 		fout.write('</%s>\n' % qb.typ)
 
 	fout.write("</publicwhip>\n\n")
+
+	ppf = os.path.isfile(jfout) and PrevParsedFile(jfout)
+	if ppf:
+		ppf.CompareGIDS(flatb)
 
 	# don't over-write parsed files
 	#if os.path.isfile(jfout):
