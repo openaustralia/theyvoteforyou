@@ -1,0 +1,64 @@
+--- /home/fawkes/pwdata/cmpages/wms/ministerial2004-07-15.html	Fri Jan  7 00:42:50 2005
++++ /home/fawkes/pwdata/cmpages/wms/ministerial2004-07-15-patchtmp.html	Sun Jan  9 15:57:14 2005
+@@ -109,7 +109,7 @@
+ <P>
+ <TABLE BORDER=1>
+   <P> <FONT SIZE=-1> 
+-    <center><B>
++    <center>
+       Performance by public and contracted prisons in England and Wales in 2003&#150;04 
+     </center>
+     
+@@ -146,19 +146,17 @@
+     <TD><FONT SIZE=-1>13,500</FONT></TD>
+   </TR>
+   <TR valign=top> 
+-    <TD><div align="center"><FONT SIZE=-1>Level 1</FONT></div></TD>
++    <TD align=center><FONT SIZE=-1>Level 1</FONT></TD>
+     <TD><FONT SIZE=-1>14,462</FONT></TD>
+     <TD><FONT SIZE=-1>18,911</FONT></TD>
+   </TR>
+   <TR valign=top> 
+-    <TD><FONT SIZE=-1> 
+-      <div align="center">Level 2</div>
+-      </FONT></TD>
++    <TD align=center><FONT SIZE=-1>Level 2</FONT></TD>
+     <TD><FONT SIZE=-1>14,420</FONT></TD>
+     <TD><FONT SIZE=-1>14,233</FONT></TD>
+   </TR>
+   <TR valign=top> 
+-    <TD><div align="center"><FONT SIZE=-1>Key Work Skills</FONT></div></TD>
++    <TD align=center><FONT SIZE=-1>Key Work Skills</FONT></TD>
+     <TD><FONT SIZE=-1>&nbsp;54,880</FONT></TD>
+     <TD><FONT SIZE=-1>109,237</FONT></TD>
+   </TR>
+@@ -218,17 +216,17 @@
+     <TD><FONT SIZE=-1>971</FONT></TD>
+   </TR>
+   <TR valign=top> 
+-    <TD><div align="center"><FONT SIZE=-1>Level 1</FONT></div></TD>
++    <TD align=center><FONT SIZE=-1>Level 1</FONT></TD>
+     <TD><FONT SIZE=-1>802</FONT></TD>
+     <TD><FONT SIZE=-1>1,047</FONT></TD>
+   </TR>
+   <TR valign=top> 
+-    <TD><div align="center"><FONT SIZE=-1>Level 2</FONT></div></TD>
++    <TD align=center><FONT SIZE=-1>Level 2</FONT></TD>
+     <TD><FONT SIZE=-1>772</FONT></TD>
+     <TD><FONT SIZE=-1>895</FONT></TD>
+   </TR>
+   <TR valign=top> 
+-    <TD><div align="center"><FONT SIZE=-1>Key Work Skills</FONT></div></TD>
++    <TD align=center><FONT SIZE=-1>Key Work Skills</FONT></TD>
+     <TD><FONT SIZE=-1>2,208</FONT></TD>
+     <TD><FONT SIZE=-1>5,654</FONT></TD>
+   </TR>
+@@ -266,7 +264,7 @@
+ 
+ 
+ <p><a name="40715m01.html_sbhd4"></p>
+-<p></b>The contracted sector does not manage contracted escorts and so the Prison 
++<p>The contracted sector does not manage contracted escorts and so the Prison 
+   Service targets on escapes from contracted escorts and timely arrival at court 
+   do not apply to it. The Prison Service targets on staff sickness and ethnic 
+   minority staffing are not applicable to the contracted estate. A target was 

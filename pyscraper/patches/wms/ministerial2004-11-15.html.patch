@@ -1,0 +1,20 @@
+--- /home/fawkes/pwdata/cmpages/wms/ministerial2004-11-15.html	Fri Jan  7 00:42:23 2005
++++ /home/fawkes/pwdata/cmpages/wms/ministerial2004-11-15-patchtmp.html	Sun Jan  9 15:46:49 2005
+@@ -1653,7 +1653,7 @@
+ </th></tr>
+ 
+ 
+-<tr><td class "tabletext" colspan3>Department of Health
++<tr><td class="tabletext" colspan=3>Department of Health
+ 
+ <tr valign=top><td class "tabletext">Resource DEL</td><td class "tabletext">651.950</td><td class "tabletext">69,411.276</td><td class "tabletext"> -242.715</td><td class "tabletext"> 69,168.561
+ </td></tr>
+@@ -1668,7 +1668,7 @@
+ 
+ 
+ 
+-<tr><td class "tabletext" colspan3>Food Standards Agency
++<tr><td class="tabletext" colspan=3>Food Standards Agency
+ </td></tr>
+ <tr valign=top><td class "tabletext">Resources</td><td class "tabletext">12.803</td><td class "tabletext">151.831</td><td class "tabletext"> 0</td><td class "tabletext">151.831
+ </td></tr>

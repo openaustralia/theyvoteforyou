@@ -1,0 +1,42 @@
+--- /home/fawkes/pwdata/cmpages/wms/ministerial2002-12-19.html	Sun Jan  9 18:41:25 2005
++++ /home/fawkes/pwdata/cmpages/wms/ministerial2002-12-19-patchtmp.html	Sun Jan  9 18:45:06 2005
+@@ -403,14 +403,6 @@
+ <i>Of which</i>
+ 
+ 
+-<TABLE BORDER=1>
+-
+-<P>
+-
+-<TR valign=top><TH><FONT SIZE=-1>
+-</FONT></TH></TR>
+-
+-
+ <TR valign=top><TD><FONT SIZE=-1>Resource <sup>2</sup> </FONT></TD><TD><FONT SIZE=-1>21,143</FONT></TD><TD><FONT SIZE=-1>22,286</FONT></TD><TD><FONT SIZE=-1>24,143
+ </FONT></TD></TR>
+ <TR valign=top><TD><FONT SIZE=-1>Capital</FONT></TD><TD><FONT SIZE=-1>4,061</FONT></TD><TD><FONT SIZE=-1>5,023</FONT></TD><TD><FONT SIZE=-1>5,753
+@@ -438,15 +430,6 @@
+ <i>Of which</i>
+ 
+ 
+-<TABLE BORDER=1>
+-
+-<P>
+-
+-<TR valign=top><TH><FONT SIZE=-1>
+-</FONT></TH></TR>
+-
+-
+-
+ <TR valign=top><TD><FONT SIZE=-1>Sure Start spending</FONT></TD><TD><FONT SIZE=-1>734</FONT></TD><TD><FONT SIZE=-1>1,005</FONT></TD><TD><FONT SIZE=-1>1,299
+ </FONT></TD></TR>
+ <TR valign=top><TD><FONT SIZE=-1>Planned use of Sure Start EYF <sup>3</sup> </FONT></TD><TD><FONT SIZE=-1>-203</FONT></TD><TD><FONT SIZE=-1>-103</FONT></TD><TD><FONT SIZE=-1>-129
+@@ -664,8 +647,6 @@
+ <TR valign=top><TD><FONT SIZE=-1>Transfers to EFS for teacher pensions</FONT></TD><TD><FONT SIZE=-1>590</FONT></TD><TD><FONT SIZE=-1>610</FONT></TD><TD><FONT SIZE=-1>640
+ </FONT></TD></TR>
+ </TABLE>
+-
+-
+ 
+ <P>
+ 

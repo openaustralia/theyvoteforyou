@@ -1,0 +1,11 @@
+--- /home/fawkes/pwdata/cmpages/wms/ministerial2002-12-04.html	Sun Jan  9 04:27:03 2005
++++ /home/fawkes/pwdata/cmpages/wms/ministerial2002-12-04-patchtmp.html	Sun Jan  9 16:29:04 2005
+@@ -233,6 +233,8 @@
+ <TR valign=top><TD><FONT SIZE=-1>Chief Minister</FONT></TD><TD><FONT SIZE=-1>Hon Richard Corkill MHK
+ </FONT></TD></TR>
+ <TR valign=top><TD><FONT SIZE=-1>Minister for Health and Social Security</FONT></TD><TD><FONT SIZE=-1>Hon Clare Christian MLC
++</FONT></TD></TR>
++</TABLE>
+ <P>
+ <P>4 Dec 2002 : Column 78WS<P>
+ 
