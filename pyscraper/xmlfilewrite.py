@@ -160,7 +160,10 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 		print "missing speeches can be fixed by inserting a placeholder:"
 		print '    <parsemess-misspeech type="speech|heading" redirect="up|down|nowhere"/>'
 		print "changes in column number can be reset by inserting a command:"
-		print '    <parsemess-miscolnum set="888W"/>'
+		print '    <stamp parsemess-colnum="888|888W"/>'
+		print "additional speeches can be fixed by inserting a numbering skip command:"
+		print '    <stamp parsemess-missgid="4"/>'
+		print '    where the missing number is of the paragraph as it would have been without it knocked out'
 		print ""
 
 
@@ -194,18 +197,18 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 			if not ((ifgb < len(flatbgidbatch)) and self.prevflatb[ilf].Compareqbs(flatbgidbatch[ifgb], False)):
 				# attempt to find a match so we can give a better hint
 				nifgb = ifgb + 1
-				while ((nifgb < len(flatbgidbatch)) and not self.prevflatb[ilf].Compareqbs(flatbgidbatch[nifgb], True)):
+				while ((nifgb < len(flatbgidbatch)) and not self.prevflatb[ilf].Compareqbs(flatbgidbatch[nifgb], False)):
 					nifgb += 1
 				if nifgb < len(flatbgidbatch):
 					print "There is a possible match further down"
-					print "This will be fixable with a <parsemess-skipnextgidincrement/>"
-
-				self.MessageForCompareGIDError(self.prevflatb[ilf], flatbgidbatch, ifgb)
+					ifgb = nifgb
+				else:
+					self.MessageForCompareGIDError(self.prevflatb[ilf], flatbgidbatch, ifgb)
 
 			# move on to the next pair
 			ifgb += 1
 			ilf += 1
-			self.slippedgidbatch = [ ]	# one match means that we're not slipping
+			self.slippedgidbatch = [ ]	# reset.  this works if it detects us slipping to the end
 
 		# we're allowed to have extra things in the new one that the old stuff doesn't know about,
 		# but when the slippage starts to happen, this is the likely place it's gone wrong.
@@ -253,27 +256,55 @@ def CreateGIDs(gidpart, flatb, sdate):
 	pcolnum = "####"
 	picolnum = -1
 	ncid = -1
+
+	# the missing gid numbers come previous to the gid they would have gone, to handle missing ones before the 0
+	# 0-1, 0-2, 0, 1, 2, 3-0, 3-1, 3, ...
+	ncmissedgidrun = 0
+	ncmissedgid = 0
+
 	for qb in flatb:
 
 		# construct the gid
 		colnum = re.search('colnum="([^"]*)"', qb.sstampurl.stamp).group(1)
+
+		# this updates any column number corrections that were appended on the end of the stamp
+		for colnum in re.findall('parsemess-colnum="([^"]*)"', qb.sstampurl.stamp):
+			pass
+
+		# this numbers the speech numbers in the column numbers
 		if colnum != pcolnum:
 			# check that the column numbers are increasing
 			# this is essential if the gids are to be unique.
 			icolnum = string.atoi(re.match('(\d+)[W]*$', colnum).group(1))
 			if icolnum <= picolnum:
 				print qb.sstampurl.stamp
-				raise Exception, "non-increasing column numbers %s %d" % (colnum, picolnum)
+				raise ContextException("non-increasing column numbers %s %d" % (colnum, picolnum), stamp=qb.sstampurl, fragment=colnum)
 			picolnum = icolnum
 
 			pcolnum = colnum
 			ncid = 0
+			ncmissedgidrun = 0
+			ncmissedgid = 0
 		else:
 			ncid += 1
 
-		# this is our GID !!!!
-		qb.GID = 'uk.org.publicwhip/%s/%s.%s.%d' % (gidpart, sdate, colnum, ncid)
+		# this executes the missing ncid numbering command
+		bmissgid = False
+		for missgid in re.findall('parsemess-missgid="([^"]*)"', qb.sstampurl.stamp):
+			if ncid == string.atoi(missgid):
+				bmissgid = True
 
+		if bmissgid:
+			ncmissedgidrun += 1
+			missedgidext = "-%d" % ncmissedgidrun
+		else:
+			ncmissedgidrun = 0
+			missedgidext = ""
+
+		# this is our GID !!!!
+		qb.GID = 'uk.org.publicwhip/%s/%s.%s.%d%s' % (gidpart, sdate, colnum, ncid - ncmissedgid, missedgidext)
+		if bmissgid:
+			ncmissedgid += 1
 
 # quite involved to make this
 def getXMLpatchname(jfout):

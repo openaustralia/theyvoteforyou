@@ -53,22 +53,16 @@ class StampUrl:
 					self.aname = sp[i]
 
 				# this looks like the standard stamp
+				elif re.match("<stamp parsemess[^>]*>", sp[i]):
+					self.stamp += sp[i] # appends it on
 				else:
-					self.stamp = sp[i]
+					self.stamp = sp[i] # then over-rides any parsemesses
 
 				sp[i] = ''
 
 			elif re.match('<page url[^>]*>', sp[i]):
 				self.pageurl = sp[i]
 				sp[i] = ''
-
-#			else:
-#				gmiscol = re.match('<parsemess-miscolnum set="([^"]*)"/>')
-#				if gmiscol:
-#					regmiscolnumval = gmiscol.group(1)
-#					print regmiscolnumval
-#
-#				sp[i] = ''
 
 		# stick everything back together
 		return string.join(sp, '')
@@ -206,7 +200,7 @@ class SepHeadText:
 
 				# this is complex due to the heading speech structure we maintain at this point
 				if re.search('heading', gparmess.group(1)):
-					self.EndHeading("LOST HEADING")
+					self.EndHeading("-- Lost Heading --")
 
 				# missing a speech
 				else:
@@ -215,7 +209,10 @@ class SepHeadText:
 
 					# this fills in a new speech that will be a placeholder
 					self.speaker = 'nospeaker="True" redirect="%s"' % gparmess.group(2)
-					self.textl = [ "NOTHING" ]
+					if re.match('ques', gparmess.group(1)):
+						self.textl = [ "<wrans-question>NOTHING" ]
+					else:
+						self.textl = [ "NOTHING" ]
 				continue
 
 			# recognize a heading instance from the four kinds
@@ -252,7 +249,7 @@ class SepHeadText:
 			# more plain text; throw back into the pot.
 			if recomb.match(fss):
 				print fss
-				raise Exception, ' vals matches not general enough '
+				raise ContextException("vals matches not general enough (may be a programming error) %s" % fss, stamp=None, fragment=fss)
 			self.textl.append(fss)
 
 		self.EndHeading('No more')

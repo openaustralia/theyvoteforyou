@@ -78,7 +78,7 @@ def GrabWatchCopies(sdate):
 			wout.close()
 
 			# make a report of the diffs (can't find a way to use charjunk to get rid of \r's)
-			diffs = list(difflib.Differ().compare(lastval.splitlines(1), currval.splitlines(1)))
-			sys.stdout.writelines(diffs[:50])
+			#diffs = list(difflib.Differ().compare(lastval.splitlines(1), currval.splitlines(1)))
+			#sys.stdout.writelines(diffs[:50])
 
 
