@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.48 2005/02/18 16:41:20 goatchurch Exp $
+    # $Id: mp.php,v 1.49 2005/02/18 19:19:39 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -14,20 +14,14 @@
 	# standard decoding functions for the url attributes
 	include "decodeids.inc";
 
-    $show_all = false;
-    if ($_GET["showall"] == "yes")
-        $show_all = true;
-    $all_friends = false;
-    if ($_GET["allfriends"] == "yes")
-        $all_friends = true;
-    $expand = false;
-    if ($_GET["expand"] == "yes")
-        $expand = true;
-
+	# [showall=yes]  [allfriends=yes]  [expand=yes]  [mpgen=byconstituency]
+    $show_all = ($_GET["showall"] == "yes");
+    $all_friends = ($_GET["allfriends"] == "yes");
+    $expand = ($_GET["expand"] == "yes");
+	$byconstituency = ($_GET["mpgen"] == "byconstituency");
 
 	$mpid = decode_mpid($db, 0);
-	$mpattr = get_mpid_attr($db, $mpid);
-	$id = $mpid;
+	$mpattr = get_mpid_attr($db, $mpid, $byconstituency);
     $this_anchor = "mp.php?".$mpattr["mpanchor"];
 
 
@@ -66,83 +60,56 @@
             array_push($events, array($row["to_date"],   "Stopped being " .  $row["position"].  ", " . $row["dept"]));
         array_push($events, 	array($row["from_date"], "Became " .  $row["position"]. ", 		   " . $row["dept"]));
     }
-?>
-
-<?
-	$query = "select first_name, last_name, title, constituency,
-        party, pw_mp.mp_id, round(100*rebellions/votes_attended,1),
-        round(100*votes_attended/votes_possible,1),
-        rebellions, votes_attended, votes_possible,
-        entered_house, left_house,
-        entered_reason, left_reason,
-        tells, person from pw_mp,
-        pw_cache_mpinfo where
-        pw_mp.mp_id = pw_cache_mpinfo.mp_id and pw_mp.mp_id = $id
-		order by entered_house desc";
-    $db->query($query);
+	if ($byconstituency)  # clear if not going to be the same guy all the way through
+		$events = array();
 
     print "<h2><a name=\"general\">General Information</a></h2>";
 
     if ($currently_minister)
-    {
         print "<p><b>".$mpattr['mpname']."</b> is currently <b>$currently_minister</b>.<br>
-            MP for <b>".$mpattr['constituency']."</b> during the following periods of time during the last two
-            parliaments:<br>
-            Read a <a href=\"faq.php#clarify\">clear explanation</a> of attendance
-            and rebellions, as they may not have the meanings you expect.";
-    }
+               MP for <b>".$mpattr['constituency']."</b>";
     else
-    {
-        print "<p><b>".$mpattr['mpname']."</b> has been MP for <b>".$mpattr['constituency']."</b> during
-            the following periods of time during the last two
-            parliaments:<br>
-            Read a <a href=\"faq.php#clarify\">clear explanation</a> of attendance
-            and rebellions, as they may not have the meanings you expect.";
-    }
+        print "<p><b>".$mpattr['mpname']."</b> has been MP for <b>".$mpattr['constituency']."</b>";
+	print " during the following periods of time during the last two parliaments:<br>";
+	print "(Check out <a href=\"faq.php#clarify\">our explanation</a> of 'attendance'
+            and 'rebellions', as they may not have the meanings you expect.)</p>";
+?>
 
+<?
     $prettyrow = 0;
-    $mp_ids = array();
-    $parties = array();
-    $from_dates = array();
-    $to_dates = array();
-    $enter_reason = array();
-    $left_reason = array();
-    $person = 0;
     print "<table><tr class=\"headings\">";
     print "<td>Party</td>
             <td>From</td><td>To</td>
             <td>Rebellions (estimate)</td><td>Attendance (divisions)</td>
             <td>Teller</td></tr>";
-    while ($row = $db->fetch_row())
+    foreach ($mpattr['mpids'] as $mpid)
     {
+		$query = "SELECT party, pw_mp.mp_id as mpid,
+	        			rebellions, votes_attended, votes_possible,
+	        			entered_house, left_house,
+	        			entered_reason, left_reason,
+	        			tells, person
+				  FROM pw_mp, pw_cache_mpinfo
+				  WHERE pw_mp.mp_id = pw_cache_mpinfo.mp_id and pw_mp.mp_id = $mpid";
+	    $row = $db->query_one_row_assoc($query);
+
         $prettyrow = pretty_row_start($prettyrow);
-        $row[6] = percentise($row[6]);
-        $row[7] = percentise($row[7]);
-        if ($row[12] == "9999-12-31") { $row[12] = "still in office"; }
-        print "
-            <td>" . pretty_party($row[4]) . "</td>
-            <td>$row[11]</td>
-            <td>$row[12]</td>
-            <td class=\"percent\">$row[8] votes out of $row[9], $row[6]</td>
-            <td class=\"percent\">$row[9] votes out of $row[10], $row[7]</td>
-            <td>$row[15] times</td>
-            ";
+        print "<td>".pretty_party($row['party'])."</td>\n";
+		print "<td>".$row['entered_house']."</td>\n";
+        #if ($row['left_house'] == "9999-12-31") { $row[12] = "still in office"; }
+		print "<td>".$row['left_house']."</td>\n";
+        print "<td class=\"percent\">".percentiserat($row['rebellions'], ' votes out of ', $row['votes_attended'])."</td>\n";
+		print "<td class=\"percent\">".percentiserat($row['votes_attended'], ' votes out of ', $row['votes_possible'])."</td>\n";
+        print "<td>".$row['tells']." times</td>\n";
         print "</tr>\n";
-        array_push($mp_ids, $row[5]);
-        array_push($parties, $row[4]);
-        array_push($from_dates, $row[11]);
-        array_push($to_dates, $row[12]);
-        array_push($enter_reason, $row[13]);
-        array_push($left_reason, $row[14]);
-        $person = $row[16];
     }
     print "</table>";
 
     print "<p>";
-    print "<a href=\"http://www.theyworkforyou.com/mp/?m=" .  $mp_ids[0]. "\">";
+    print "<a href=\"http://www.theyworkforyou.com/mp/?m=" .  $mpid. "\">";
     print "Performance data, recent speeches, and biographical links</a> ";
     print "at TheyWorkForYou.com.";
-    print "<br>Contact your MP with 
+    print "<br>Contact your MP with
     <a href=\"http://www.writetothem.com\">WriteToThem</a> for free.  Find
     the <a
     href=\"http://www.parliament.uk/directories/hciolists/alms.cfm\">email
@@ -164,12 +131,11 @@
     {
         print "<h2><a name=\"divisions\">Divisions Attended</a></h2>
         <p>Divisions in which this MP voted.  The first column
-        indicates if they voted against the majority vote of 
+        indicates if they voted against the majority vote of
         their party (Rebel), were a teller for that side (Teller)
-        or both (Rebel Teller). "; 
+        or both (Rebel Teller). ";
     }
-    print " Also shows when the MP became or stopped
-        being a paid minister. ";
+    print " Also shows when the MP became or stopped being a paid minister. ";
 
     function print_event($event)
     {
@@ -180,36 +146,42 @@
         print "<td colspan=7>" . $event[1] .  "</td></tr>\n";
     }
 
-    print "<table class=\"votes\">\n";
-    $events_ix = 0;
-    for ($i = 0; $i < count($mp_ids); ++$i)
-    {
-        # Table of votes in each division
-        $query = "select pw_division.division_id, division_number, division_date,
-            division_name, source_url, vote, whip_guess, rebellions from pw_division,
-            pw_vote, pw_cache_whip, pw_cache_divinfo where pw_vote.mp_id = $mp_ids[$i] and
-            pw_division.division_id = pw_vote.division_id and
-            pw_cache_whip.division_id = pw_division.division_id and
-            pw_cache_divinfo.division_id = pw_division.division_id and
-            pw_cache_whip.party = \"$parties[$i]\" ";
 
-        if (!$show_all)
-        {
-            $query .= "and ((vote <> whip_guess and whip_guess <>
-            'unknown' and vote <> 'both') or vote = 'tellaye' or vote = 'tellno' )";
-        }
-        $query .= "order by division_date desc, division_number desc";
+    $events_ix = 0;
+	$qwrestrictions = "";
+	if (!$showall)
+		$qwrestrictions = "AND ((vote <> whip_guess and whip_guess <> 'unknown' and vote <> 'both')
+							OR vote = 'tellaye' OR vote = 'tellno')";
+    print "<table class=\"votes\">\n";
+    foreach ($mpattr['mpids'] as $mpid)
+    {
+		$party = $mpattr['party'];   # this should change with the mpid
+
+
+        # main set that grabs all the divisions and makes a coarse subsampling
+        $query = "SELECT pw_division.division_id, division_number, division_date,
+            			 division_name, source_url, vote, whip_guess,
+						 rebellions
+				  FROM pw_division, pw_vote, pw_cache_whip, pw_cache_divinfo
+				  WHERE pw_vote.mp_id = $mpid
+				  	AND pw_division.division_id = pw_vote.division_id and
+            			pw_cache_whip.division_id = pw_division.division_id and
+            			pw_cache_divinfo.division_id = pw_division.division_id and
+            			pw_cache_whip.party = \"".$party."\"
+						$qwrestrictions
+					ORDER BY division_date DESC, division_number DESC";
         $db->query($query);
 
-        print "<tr class=\"headings\">
-        <td>Role</td>
-        <td>No.</td><td>Date</td><td>Subject</td>
-        <td>Vote</td><td>$parties[$i] Vote</td>
-        <td>Debate</td></tr>";
+        print "<tr class=\"headings\">";
+		print "<td>Role</td>";
+        print "<td>No.</td><td>Date</td><td>Subject</td>";
+        print "<td>Vote</td><td>$party Vote</td>";
+        print "<td>Debate</td></tr>\n";
         $prettyrow = 0;
         while ($row = $db->fetch_row())
         {
-            while ($events_ix < count($events) && $row[2] <= $events[$events_ix][0]) {
+            while ($events_ix < count($events) && $row[2] <= $events[$events_ix][0])
+			{
                 print_event($events[$events_ix]);
                 $events_ix ++;
             }
@@ -276,9 +248,10 @@
     counted.  This may reveal relationships between MPs that were
     previously unsuspected.  Or it may be nonsense.";
 
-    for ($i = 0; $i < count($mp_ids); ++$i)
+    foreach ($mpattr['mpids'] as $mpid)
     {
-        print "<h3>" . pretty_parliament_and_party($from_dates[$i], $parties[$i], $enter_reason[$i], $left_reason[$i]). "</h3>";
+        #print "<h3>" . pretty_parliament_and_party($from_dates[$i], $parties[$i], $enter_reason[$i], $left_reason[$i]). "</h3>";
+        print "<h3>" . "pretty_parliament_and_party". "</h3>";
         print "<table class=\"mps\">\n";
         $query = "select first_name, last_name, title, constituency,
             party, pw_mp.mp_id,
@@ -287,10 +260,9 @@
             distance, entered_reason, left_reason from pw_mp,
             pw_cache_mpinfo, pw_cache_mpdist where
             pw_mp.mp_id = pw_cache_mpinfo.mp_id and
-
             (pw_mp.mp_id = pw_cache_mpdist.mp_id_1
-            and pw_cache_mpdist.mp_id_2 = $mp_ids[$i]
-            and pw_cache_mpdist.mp_id_1 <> $mp_ids[$i])
+            and pw_cache_mpdist.mp_id_2 = $mpid
+            and pw_cache_mpdist.mp_id_1 <> $mpid)
             ";
 
         print "<tr class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Distance</td><td>Rebellions</td><td>Attendance</td></tr>";
@@ -378,8 +350,8 @@
 
     $prettyrow = 0;
 	$prettyrow = pretty_row_start($prettyrow);
-    print_selected_dream($db, $id, 219);
-    print_selected_dream($db, $id, 223);
+    print_selected_dream($db, $mpid, 219);
+    print_selected_dream($db, $mpid, 223);
     print "</table>\n";
 ?>
 

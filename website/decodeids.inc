@@ -1,5 +1,5 @@
 <?php
-    # $Id: decodeids.inc,v 1.1 2005/02/18 16:41:20 goatchurch Exp $
+    # $Id: decodeids.inc,v 1.2 2005/02/18 19:19:39 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -109,24 +109,45 @@
 	}
 
 	# get the constituency and names to use from an mpid
-	function get_mpid_attr($db, $mpid, $i="")
+	# mpgen says the equivalence class is by constituency or by person
+	function get_mpid_attr($db, $mpid, $byconstituency, $i="")
 	{
 		$query = "SELECT first_name, last_name, constituency, person, party, mp_id
 				  FROM   pw_mp
 				  WHERE mp_id = $mpid";
 		$row = $db->query_one_row($query);
 
+		# build the anchor tag
 		$mpname = $row[0].' '.$row[1];
 		if ($i == 0)
 			$i = "";
 		$mpanchor = "mpn$i=".urlencode(str_replace(" ", "_", $mpname))."&"."mpc$i=".urlencode($row[2]);
-		return array("mpname" 		=> $mpname,
-					 "constituency" => $row[2],
-					 "personid"		=> $row[3],
-					 "party"		=> $row[4],
-					 "mpanchor"		=> $mpanchor);
-	}
 
+		$constituency = $row[2];
+		$person = $row[3];
+		$party = $row[4];
+
+		# get the mpids in this class (usually for the person)
+		if ($byconstituency)
+			$qwhere = "constituency = ".$constituency;
+		else
+			$qwhere = "person = ".$person;
+		$query = "SELECT mp_id, constituency, person, entered_house
+				  FROM   pw_mp
+				  WHERE $qwhere
+				  ORDER BY entered_house DESC";
+		$row = $db->query($query);
+		$mpids = array();
+	    while ($row = $db->fetch_row())
+	        array_push($mpids, $row[0]);
+
+		return array("mpname" 		=> $mpname,
+					 "constituency" => $constituency,
+					 "personid"		=> $person,
+					 "party"		=> $party,
+					 "mpanchor"		=> $mpanchor,
+					 "mpids"		=> $mpids);
+	}
 
 ?>
 
