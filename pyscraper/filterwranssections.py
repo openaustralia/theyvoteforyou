@@ -177,7 +177,7 @@ def StripWransHeadings(headspeak, sdate):
 
 	if (not re.match('The following answers were received.*', headspeak[i][0]) and 
             not re.match('The following question was answered on.*', headspeak[i][0]) and \
-			(sdate != mx.DateTime.DateTimeFrom(headspeak[i][0]).date)) or headspeak[i][2]:
+			(sdate != mx.DateTime.DateTimeFrom(string.replace(headspeak[i][0], "&nbsp;", " ")).date)) or headspeak[i][2]:
 		if (not parlPhrases.majorheadings.has_key(headspeak[i][0])) or headspeak[i][2]:
 			print headspeak[i]
 			raise Exception, 'non-conforming second heading '

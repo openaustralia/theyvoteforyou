@@ -35,6 +35,8 @@ fixsubs = 	[
         ( '(<B> )(25. )(Mr. Gordon Prentice  \(Pendle\):</B>)', '\\2\\1\\3', 1, '2003-11-10'),
         ( '(<B> Several hon. Members)( rose&#151; )(</B>)', '\\1\\3\n<I>\\2</I>', 1, '2003-11-10'),
         ( '(<B> Mr. Adrian Bailey  \()Blaby(\):</B> )', '\\1West Bromwich West\\2', 1, '2003-10-30'),
+
+		( '(\(Dr. Stephen Ladyman)( </B>)', '\\1)\\2', 1, '2004-02-11'),
 ]
 
 # 2. <B> Mr. Colin Breed  (South-East Cornwall)</B> (LD):
