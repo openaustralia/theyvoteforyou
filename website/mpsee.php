@@ -1,5 +1,5 @@
 <?php $title = "Vote map"; include "header.inc" 
-# $Id: mpsee.php,v 1.6 2003/10/13 15:01:37 frabcus Exp $
+# $Id: mpsee.php,v 1.7 2003/10/15 16:43:33 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -108,7 +108,7 @@ that skull, according to our measure.
 
 <p>We can use computational techniques to simulate a spring network between 
 all the different skulls in the  collection.  If the two skulls are 
-placed too close together, according to the dissimilatity measure, they 
+placed too close together, according to the dissimilarity measure, they 
 are pushed apart; if they start are too far apart, a force pulls them 
 together.  The computer calculates the positions of the skulls in space 
 to minimize the strain in the spring network.
@@ -142,7 +142,7 @@ what you want, is reasonably simple to describe.  Although most people
 won't understand it, it's important to mention it openly in case they do.
 
 <p>It ought to be a rule that the public does not accept any computational 
-result unless the computation is itself publically available.  The 
+result unless the computation is itself publically  available.  The 
 analogy between computer algorithms whose output has a bearing on, say, 
 government policy, and the law, is close.  We do not tolerate being 
 subject to laws that are secret and unpublished, regardless of whether 
@@ -205,13 +205,13 @@ they would fit into a philosophically pre-determined spectrum.
 <p>Perhaps some sort of survey and cluster analysis will suggest a 
 different, realistic pattern.  But the measurements will be too 
 confounded by the persuasive nature of policy tables having done their 
-work already.  Such a survey would have to work from behavoiral data, 
+work already.  Such a survey would have to work from behavioural data, 
 rather than stated opinion polls.
 
-<p>One very good critique of our current electorial system is that it 
+<p>One very good critique of our current electoral system is that it 
 depends entirely on the self-measurement of human opinion.  Human beings 
 are notorious for holding opinions that are systematically at odds with 
-even their own reality (eg to ask: "How many units of alchohol do you 
+even their own reality (eg to ask: "How many units of alcohol do you 
 think you drink a week?").  Policy spectrums, which this cluster diagram 
 is emphatically not, are an easy way to influence political opinions by 
 bundling policies up -- ones which you do like, together with ones you 
@@ -245,7 +245,7 @@ probably correct.
 These parties don't have enough MPs to form colourful clusters; it's for 
 aesthetic reasons, rather than anything we have against these smaller 
 parties, that they are all lumped together.  You can, however, click on 
-the indivual members to find out pretty quickly that the Welsh and 
+the individual members to find out pretty quickly that the Welsh and 
 Scottish national party members tend to associate with the LibDems, 
 while the Ulster parties tend to align with the Tories.
 
