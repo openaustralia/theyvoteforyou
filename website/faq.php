@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.31 2005/01/22 14:46:40 frabcus Exp $
+# $Id: faq.php,v 1.32 2005/01/28 18:55:08 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -142,8 +142,9 @@ of different sources.  You need a special program called a newsreader to do
 this.  On the BBC website, there's a <a href="http://news.bbc.co.uk/2/hi/help/3223484.stm">full
 desription</a> of how to do it.  We provide the following RSS feeds:
 
-<p> <a href="/feeds/interestingdivisions.xml">interestingdivisions.xml</a> &mdash; 
-Find out every time there are more than 10 "rebellions" in a division.
+<p> 
+<a href="/feeds/interestingdivisions.xml">interestingdivisions.xml</a> &mdash; Find out every time there are more than 10 "rebellions" in a division.
+<br><a href="/feeds/alldivisions.xml">alldivisions.xml</a> &mdash; Keep on top of every division in Parliament, after it happens.
 
 <h2><a name="spreadsheet">Where is the data in spreadsheet file format or in XML?</a></h2>
 
