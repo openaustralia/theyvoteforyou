@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.50 2005/02/18 19:43:41 frabcus Exp $
+    # $Id: mp.php,v 1.51 2005/02/19 10:27:26 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -13,20 +13,26 @@
 
 	# standard decoding functions for the url attributes
 	include "decodeids.inc";
+	include "tablemake.inc";
 
-	# [showall=yes]  [allfriends=yes]  [expand=yes]  [mpgen=byconstituency]
+	# [showall=yes]  [allfriends=yes]  [expand=yes]
     $show_all = ($_GET["showall"] == "yes");
     $all_friends = ($_GET["allfriends"] == "yes");
     $expand = ($_GET["expand"] == "yes");
-	$byconstituency = ($_GET["mpgen"] == "byconstituency");
 
-	$mpid = decode_mpid($db, 0);
-	$mpattr = get_mpid_attr($db, $mpid, $byconstituency);
+	# code for the 0th mp def, if it is there.
+	$mpattr = get_mpid_attr_decode($db, "");
+	$mpid = $mpattr["mpid"];
     $this_anchor = "mp.php?".$mpattr["mpanchor"];
 
+	# code for dreammp, if it is there.
+	$dreammpattr = get_dreammpid_attr_decode($db, "");
 
 	# generate the header of this webpage
-    $title = html_scrub("Voting Record - ".$mpattr['mpname']." MP, ".$mpattr['constituency']);
+    if ($dreammpattr)
+		$title = html_scrub($mpattr['mpname']." MP, ".$mpattr['constituency']." - Whipped by '".$dreammpattr['name']."'");
+	else
+		$title = html_scrub("Voting Record - ".$mpattr['mpname']." MP, ".$mpattr['constituency']);
     include "header.inc";
 
 
@@ -60,7 +66,7 @@
             array_push($events, array($row["to_date"],   "Stopped being " .  $row["position"].  ", " . $row["dept"]));
         array_push($events, 	array($row["from_date"], "Became " .  $row["position"]. ", 		   " . $row["dept"]));
     }
-	if ($byconstituency)  # clear if not going to be the same guy all the way through
+	if ($mpattr['bmultiperson'])  # remove problem if not going to be the same guy all the way through
 		$events = array();
 
     print "<h2><a name=\"general\">General Information</a></h2>";
@@ -73,37 +79,8 @@
 	print " during the following periods of time during the last two parliaments:<br>";
 	print "(Check out <a href=\"faq.php#clarify\">our explanation</a> of 'attendance'
             and 'rebellions', as they may not have the meanings you expect.)</p>";
-?>
 
-<?
-    $prettyrow = 0;
-    print "<table><tr class=\"headings\">";
-    print "<td>Party</td>
-            <td>From</td><td>To</td>
-            <td>Rebellions (estimate)</td><td>Attendance (divisions)</td>
-            <td>Teller</td></tr>";
-    foreach ($mpattr['mpids'] as $mpid)
-    {
-		$query = "SELECT party, pw_mp.mp_id as mpid,
-	        			rebellions, votes_attended, votes_possible,
-	        			entered_house, left_house,
-	        			entered_reason, left_reason,
-	        			tells, person
-				  FROM pw_mp, pw_cache_mpinfo
-				  WHERE pw_mp.mp_id = pw_cache_mpinfo.mp_id and pw_mp.mp_id = $mpid";
-	    $row = $db->query_one_row_assoc($query);
-
-        $prettyrow = pretty_row_start($prettyrow);
-        print "<td>".pretty_party($row['party'])."</td>\n";
-		print "<td>".$row['entered_house']."</td>\n";
-        #if ($row['left_house'] == "9999-12-31") { $row[12] = "still in office"; }
-		print "<td>".$row['left_house']."</td>\n";
-        print "<td class=\"percent\">".percentiserat($row['rebellions'], ' votes out of ', $row['votes_attended'])."</td>\n";
-		print "<td class=\"percent\">".percentiserat($row['votes_attended'], ' votes out of ', $row['votes_possible'])."</td>\n";
-        print "<td>".$row['tells']." times</td>\n";
-        print "</tr>\n";
-    }
-    print "</table>";
+	seat_summary_table($db, $mpattr['mpids'], $mpattr['bmultiperson']);
 
     print "<p>";
     print "<a href=\"http://www.theyworkforyou.com/mp/?m=" .  $mpid. "\">";
@@ -152,86 +129,28 @@
 		$qwrestrictions = "AND ((vote <> whip_guess and whip_guess <> 'unknown' and vote <> 'both')
 							OR vote = 'tellaye' OR vote = 'tellno')";
     print "<table class=\"votes\">\n";
-    foreach ($mpattr['mpids'] as $mpid)
+	$mpids = $mpattr['mpids'];
+	if ($dreammpattr)
+	{
+		division_table($db, "dreammp", $dreammpattr['dreammpid'], "none", "", "whipped");
+		$mpids = array(); 
+	}
+    foreach ($mpids as $mpid)
     {
-		$party = $mpattr['party'];   # this should change with the mpid
-
-
-        # main set that grabs all the divisions and makes a coarse subsampling
-        $query = "SELECT pw_division.division_id, division_number, division_date,
-            			 division_name, source_url, vote, whip_guess,
-						 rebellions
-				  FROM pw_division, pw_vote, pw_cache_whip, pw_cache_divinfo
-				  WHERE pw_vote.mp_id = $mpid
-				  	AND pw_division.division_id = pw_vote.division_id and
-            			pw_cache_whip.division_id = pw_division.division_id and
-            			pw_cache_divinfo.division_id = pw_division.division_id and
-            			pw_cache_whip.party = \"".$party."\"
-						$qwrestrictions
-					ORDER BY division_date DESC, division_number DESC";
-        $db->query($query);
-
         print "<tr class=\"headings\">";
 		print "<td>Role</td>";
         print "<td>No.</td><td>Date</td><td>Subject</td>";
         print "<td>Vote</td><td>$party Vote</td>";
         print "<td>Debate</td></tr>\n";
-        $prettyrow = 0;
-        while ($row = $db->fetch_row())
-        {
-            while ($events_ix < count($events) && $row[2] <= $events[$events_ix][0])
-			{
-                print_event($events[$events_ix]);
-                $events_ix ++;
-            }
 
-            $class = "";
-            $votedesc = "";
-            if ($row[6] != "unknown")
-            {
-                $detelled = $row[5];
-                if ($detelled == "tellaye") $detelled = "aye";
-                if ($detelled == "tellno") $detelled = "no";
+		# the table which summarises a set of mps, the same one or different ones in the same constituency
+		# idtype is 'mp', 'dreammp'
+		# whip is 'dreammp', 'mp', 'party', 'none'
+		# show is 'rebeltell', 'whippedandvoted', 'whipped', 'whippedorvoted', 'all'
 
-                if ($detelled != $row[6])
-                {
-                    $class .= "rebel";
-                    $votedesc = "Rebel";
-                }
-                if ($row[5] == "tellaye" || $row[5] == "tellno")
-                {
-                    $class .= "teller";
-                    if ($votedesc == "Rebel")
-                        $votedesc = "Rebel Teller";
-                    else
-                        $votedesc = "Teller";
-                }
-            }
-            if ($votedesc == "")
-                $votedesc = "Loyal";
 
-            $prettyrow = pretty_row_start($prettyrow);
-            print "<td class=\"$class\">$votedesc</td>";
-            print "<td>$row[1]</td> <td>$row[2]</td> <td><a
-                href=\"division.php?date=" . urlencode($row[2]) . "&number="
-                . urlencode($row[1]) . "\">$row[3]</a></td>
-                <td>$row[5]</td><td>$row[6]</td>
-                <td><a href=\"$row[4]\">Hansard</a></td>";
-            print "</tr>\n";
-        }
-        if ($db->rows() == 0)
-        {
-            $prettyrow = pretty_row_start($prettyrow, "");
-            if ($show_all)
-                print "<td colspan=7>no votes</td></tr>\n";
-            else
-                print "<td colspan=7>no rebellions, never teller</td></tr>\n";
-        }
-    }
-    while ($events_ix < count($events))
-    {
-        print_event($events[$events_ix]);
-        $events_ix ++;
+		division_table($db, "mp", $mpid, "party", "", ($show_all ? "whippedandvoted" : "rebeltell"));
+#		division_table($db, "mp", $mpid, "dreammp", $dreammpattr['dreammpid'], "whipped");
     }
     print "</table>\n";
 

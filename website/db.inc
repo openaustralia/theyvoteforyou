@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.11 2005/01/18 02:05:59 frabcus Exp $
+# $Id: db.inc,v 1.12 2005/02/19 10:27:26 goatchurch Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -90,7 +90,8 @@ class DB
     function query_one_row($query)
     {
         $this->query($query);
-        if ($this->rows() != 1) die("Single row query didn't get one row, got " . $this->rows());
+        if ($this->rows() != 1)
+			die("Single row query didn't get one row, got " . $this->rows() . " on query: ".$query);
         $row = $this->fetch_row();
         return $row;
     }
@@ -98,7 +99,8 @@ class DB
     function query_one_row_assoc($query)
     {
         $this->query($query);
-        if ($this->rows() != 1) die("Single row query didn't get one row, got " . $this->rows());
+        if ($this->rows() != 1)
+			die("Single row query didn't get one row, got " . $this->rows() . " on query: ".$query);
         $row = $this->fetch_row_assoc();
         return $row;
     }
@@ -107,13 +109,13 @@ class DB
     function query_one_value($query)
     {
         $row = $this->query_one_row($query);
-        if (count(row) != 1) die("Single value query didn't get one value, got " . count(row));
+        if (count(row) != 1)
+			die("Single value query didn't get one value, got " . count(row) . " on query: ".$query);
         return $row[0];
     }
 
     function disconnect()
     {
-    #    mysql_free_result($result);
         mysql_close($this->link);
     }
 
