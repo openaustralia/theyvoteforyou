@@ -1,0 +1,11 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-02-02.html	Sun Aug 22 04:31:08 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-02-02-patchtmp.html	Mon Sep  6 19:24:27 2004
+@@ -743,7 +743,7 @@
+ <P>
+ <page url="http://www.publications.parliament.uk/pa/cm200304/cmhansrd/vo040202/debtext/40202-06.htm"/>
+ 
+-
++<stamp parsemess-colnum="530"/>
+ <a name="40202-06_head0"><H3><center>Chairmanship of the BBC</center></H3>
+ 
+ 

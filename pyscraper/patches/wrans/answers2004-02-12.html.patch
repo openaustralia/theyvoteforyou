@@ -1,0 +1,18 @@
+--- /home/fawkes/pwdata/cmpages/wrans/answers2004-02-12.html	Sun Aug 22 04:27:33 2004
++++ /home/fawkes/pwdata/cmpages/wrans/answers2004-02-12-patchtmp.html	Wed Sep 15 09:31:17 2004
+@@ -650,6 +650,7 @@
+ <a name="40212w03.html_wqn11"><B> Mr. Paterson: </B> 
+ To ask the Secretary of State for Environment, Food and Rural Affairs what measures are taken by her Department to ensure that guidelines on testing badgers for <i>M. bovis</i> infection before release by animal hospitals are properly observed.  [153923]<P>
+ <P>
++<stamp parsemess-colnum="1560W"/>
+ <P>
+ <a name="40212w03.html_spnew11"><B> Mr. Bradshaw: </B> 
+  Animal hospitals treating sick or injured badgers are not legally required to test animals for bovine tuberculosis before they are released from captivity.
+@@ -1426,6 +1427,7 @@
+ 
+ <a name="40212w05.html_para7">Future funding for the scheme is dependent on the outcome of the 2004 Spending Review.
+ <P>
++<stamp parsemess-ignorenamemismatch="yes"/>
+ <P>
+ <a name="40212w05.html_wqn9"><B> Mr. Don Foster: </B> 
+ To ask the Secretary of State for Culture, Media and Sport (1) which National Governing Body coaching awards for sport qualify for Learning and Skills Council funding;  [154059]

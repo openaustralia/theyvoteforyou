@@ -1,0 +1,15 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-02-09.html	Sun Aug 22 04:30:38 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-02-09-patchtmp.html	Mon Sep  6 19:21:55 2004
+@@ -3532,10 +3532,12 @@
+ <B>9 Feb 2004 : Column 1202</B></P>
+ 
+ <P>
++<stamp parsemess-colnum="1201"/>
+ <P>
+ <a name="40209-29_spnew4"><B> Mr. Hood: </B> 
+  Not only do I agree with my hon. Friend, but I want to help to get more women into the Scottish Parliament. Perhaps she will consider supporting an amendment in Committee to have two Members for each constituency. We could have one woman and one man and that would improve the gender balance throughout Scotland. As she says, the other political parties have not responded, but the Labour party has. Such an amendment would be an excellent idea in achieving a better gender balance.
+ <P>
++<stamp parsemess-colnum="1202"/>
+ <P>
+ <a name="40209-29_spnew5"><B> Rosemary McKenna: </B> 
+  I cannot support two Members for each constituency simply because that removes any element of proportionality. There is not a Parliament or a legislature in the world that would be created today in which one would have a first-past-the-post system. We live in a democracy, and we understand that democracy is not delivered by a first-past-the-post system. I am not talking about changing existing systems; I am talking about the system that we created for the Parliament in Scotland.
