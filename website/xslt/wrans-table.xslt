@@ -45,9 +45,9 @@
 <xsl:template match="speech">
 	<a>
 		<xsl:attribute name="href">
-			mp.php?id=<xsl:value-of select="@id"/>
+			mp.php?id=<xsl:value-of select="@speakerid"/>
 		</xsl:attribute>
-		<xsl:value-of select="@displayname"/>
+		<xsl:value-of select="@speakername"/>
 	</a>
 	<xsl:if test="not(position()=last())">, </xsl:if>
 </xsl:template>

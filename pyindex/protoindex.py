@@ -75,7 +75,7 @@ class wransxmlscan(xml.sax.handler.ContentHandler):
 			self.binspeech = 'q:'
 			if attr['type'] == 'reply':
 				self.binspeech = 'r:'
-			mpnum = re.sub('^uk.org.publicwhip/member/', '', attr['id'])
+			mpnum = re.sub('^uk.org.publicwhip/member/', '', attr['speakerid'])
 			self.IndexWord(mpnum + 'member', self.binspeech)
 				
 		elif name == 'p':

@@ -1,4 +1,4 @@
-# $Id: clean.pm,v 1.7 2003/12/11 00:16:48 frabcus Exp $
+# $Id: clean.pm,v 1.8 2003/12/20 23:52:43 frabcus Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -54,6 +54,7 @@ sub fix_bothway_voters
 sub fix_division_corrections
 {
     my $dbh = shift;
+    fix_division_correction($dbh, 16, "2003-12-17", "2003-12-18");
     fix_division_correction($dbh, 309, "2003-09-15", "2003-09-16");
     fix_division_correction($dbh, 99, "2003-03-04", "2003-03-06");
     fix_division_correction($dbh, 329, "2002-10-23", "2002-10-28");

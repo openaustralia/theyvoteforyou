@@ -120,7 +120,7 @@ def DecodeWord(ww):
 
 
 # main calling function which demonstrates the searching
-word = 'cameras'
+word = '1028member'
 indl = DecodeWord(word)
 print indl
 for wrid in indl:

@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.19 2003/12/12 20:49:25 frabcus Exp $
+    # $Id: mp.php,v 1.20 2003/12/20 23:52:43 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -9,6 +9,8 @@
 
     include "db.inc";
     include "parliaments.inc";
+	include "xquery.inc";
+	include "protodecode.inc";
     $db = new DB(); 
 
     $first_name = db_scrub($_GET["firstname"]);
@@ -22,6 +24,9 @@
     $all_friends = false;
     if ($_GET["allfriends"] == "yes")
         $all_friends = true;
+    $expand = false;
+    if ($_GET["expand"] == "yes")
+        $expand = true;
 
     if ($last_name == "" && $first_name =="")
     {
@@ -47,10 +52,20 @@
 		}
     }
 
+    $this_anchor = "mp.php?firstname=" . urlencode($first_name) .
+        "&lastname=" . urlencode($last_name) . "&constituency=" .
+        urlencode($constituency);
+
     $title = html_scrub("$first_name $last_name MP, $constituency");
     include "header.inc";
-       
-    $query = "select first_name, last_name, title, constituency,
+
+	print '<p><a href="#divisions">Interesting Divisions</a>';
+	print ' | ';
+	print '<a href="#friends">Possible Friends</a>';
+	print ' | ';
+	print '<a href="#wrans">Written Answers</a>';
+	
+	$query = "select first_name, last_name, title, constituency,
         party, pw_mp.mp_id, round(100*rebellions/votes_attended,1),
         round(100*votes_attended/votes_possible,1), 
         rebellions, votes_attended, votes_possible,
@@ -63,8 +78,10 @@
     $query .= " constituency = '$constituency' order by entered_house desc";
     $db->query($query);
 
-    print "<h2>General Information</h2>
-        <p>Periods of continuous office for this ";
+    print "<h2><a name=\"general\">General Information</a></h2>";
+
+
+ 	print "<p>Periods of continuous office for this ";
     print "MP with their";
     print " rebellion and
         division attendance rates.";
@@ -103,19 +120,19 @@
         array_push($left_reason, $row[14]);
     }
     print "</table>";
-
 ?>
+
 <?php
     if (!$show_all)
     {
-        print "<h2>Interesting Divisions</h2>
+        print "<h2><a name=\"divisions\">Interesting Divisions</a></h2>
         <p>Divisions for which this MP's vote differed from the
         majority vote of their party (Rebel), or in which this MP was
         a teller (Teller) or both (Rebel Teller).";
     }
     else
     {
-        print "<h2>Divisions Attended</h2>
+        print "<h2><a name=\"divisions\">Divisions Attended</a></h2>
         <p>Divisions in which this MP voted.  The first column
         indicates if they voted against the majority vote of 
         their party (Rebel), were a teller for that side (Teller)
@@ -195,16 +212,12 @@
     }
     print "</table>\n";
 
-       
-    $this_anchor = "mp.php?firstname=" . urlencode($first_name) .
-        "&lastname=" . urlencode($last_name) . "&constituency=" .
-        urlencode($constituency);
     if (!$show_all)
         print "<p><a href=\"$this_anchor&showall=yes\">Show all divisions this MP voted in</a>";
     else
         print "<p><a href=\"$this_anchor\">Show only divisions MP rebelled in</a>";
 
-    print "<h2>Possible Friends</h2>";
+    print "<h2><a name=\"friends\">Possible Friends</a></h2>";
     print "<p>Shows which MPs voted most similarly to this one. The
     distance is measured from 0 (always voted the same) to 1 (always
     voted differently).  Only divisions that both MPs voted in are
@@ -279,6 +292,48 @@
         }
     }
 ?>
+
+<?php
+	print "<h2><a name=\"wrans\">Written Answers</a></h2>";
+	print "<p>Parliamentary written questions which this MP has asked or answered.  Data
+		goes back to the start of 2003.";
+	$totalfound = 0;
+	for ($i = 0; $i < count($mp_ids); ++$i)
+	{
+		$searchkey = $mp_ids[$i] . "member";
+		$ids = DecodeWord($searchkey);
+		if (count($ids) > 0)
+		{
+			$totalfound += count($ids);
+
+			$result = "";
+			foreach ($ids as $id)
+				$result .= FetchWrans($id);
+			$result = WrapResult($result);
+			
+			if ($expand)
+				print ApplyXSLT($result, "wrans-full.xslt");
+			else
+				print ApplyXSLT($result, "wrans-table.xslt");
+
+		}
+			
+		# Until we have more historic written answers this makes no sense:
+        #print "<h3>" . pretty_parliament_and_party($dates[$i], $parties[$i], $enter_reason[$i], $left_reason[$i]). "</h3>";
+	}
+	if ($totalfound == 0)
+	{
+		print "<p>None found";
+	}
+	else
+	{
+		if (!$expand)
+			print "<p><a href=\"$this_anchor&expand=yes\">Show contents of all these Written Answers on one large page</a></p>";
+		else
+			print "<p><a href=\"$this_anchor&expand=no\">Collapse all these answers into a summary table</a></p>";
+	}
+?>
+	
 
 <?php include "footer.inc" ?>
 <?php include "cache-end.inc"; ?>

@@ -7,7 +7,7 @@
 <!--
 Scratchpad of maybe useful stuff:
 <xsl:import href="wrans-core.xslt"/> 
-<xsl:value-of select="substring-after(@id,'uk.org.publicwhip/member/')"/>
+<xsl:value-of select="substring-after(@speakerid,'uk.org.publicwhip/member/')"/>
 -->
 
 <xsl:template match="publicwhip">
@@ -21,6 +21,7 @@ Scratchpad of maybe useful stuff:
 		<hr/>
 		<h2>
 			<xsl:value-of select="@title"/>
+			- <xsl:value-of select="stamp/@coldate"/>
 		</h2>
 	</xsl:if>
 	<xsl:apply-templates select="speech"/>
@@ -49,9 +50,9 @@ Scratchpad of maybe useful stuff:
         <b>
             <a>
                 <xsl:attribute name="href">
-                    mp.php?id=<xsl:value-of select="@id"/>
+                    mp.php?id=<xsl:value-of select="@speakerid"/>
 				</xsl:attribute>
-                <xsl:value-of select="@displayname"/>
+                <xsl:value-of select="@speakername"/>
             </a>:
         </b>
         <xsl:copy-of select="*"/>
