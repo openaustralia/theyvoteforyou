@@ -1,5 +1,5 @@
 <?  $title = "Counting votes on your behalf"; include "header.inc";
-# $Id: index.php,v 1.9 2003/10/03 10:56:20 frabcus Exp $
+# $Id: index.php,v 1.10 2003/10/03 23:30:05 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -15,6 +15,7 @@ For more information about the project, <a href="faq.php">read the FAQ</a>.
 <?php
     include "db.inc";
     include "render.inc";
+    include "parliaments.inc";
     $db = new DB(); 
 ?>
 
@@ -86,7 +87,8 @@ title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
             "&lastname=" . urlencode($row[1]) . "&constituency=" .
             urlencode($row[3]) . "\">$row[2]
             $row[0] $row[1]</a></td> <td>$row[3]</td>
-            <td>" . pretty_party($row[4], $row[8], $row[9]) . "</td><td class=\"percent\">$row[6]% rebel</td>";
+            <td>" . pretty_party($row[4], $row[8], $row[9]) . "</td>";
+        print "<td class=\"percent\">$row[6]% rebel (" .  year_range($row[10], $row[11]) . ")</td>";
         print "</tr>\n";
     }
 ?>
@@ -108,7 +110,8 @@ title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
             "&lastname=" . urlencode($row[1]) . "&constituency=" .
             urlencode($row[3]) . "\">$row[2]
             $row[0] $row[1]</a></td> <td>$row[3]</td>
-            <td>" . pretty_party($row[4], $row[8], $row[9]) . "</td><td class=\"percent\">$row[7]% attendance</td>";
+            <td>" . pretty_party($row[4], $row[8], $row[9]) . "</td>";
+        print "<td class=\"percent\">$row[7]% attendance (" .  year_range($row[10], $row[11]) . ")</td>";
         print "</tr>\n";
     }
     print "</table>\n";

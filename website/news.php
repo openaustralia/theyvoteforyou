@@ -1,5 +1,5 @@
 <? $title = "Site News"; include "header.inc";
-# $Id: news.php,v 1.12 2003/10/03 21:46:10 frabcus Exp $
+# $Id: news.php,v 1.13 2003/10/03 23:30:05 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -12,19 +12,38 @@
 */
 ?>
 
-<h2>1997 parliament just in - 4 October 2003 by Francis</h2>
-<p>You can now browse and examine most of the divisions from the
-1997-2001 parliament.</p>
+<h2>Votes back to 1997 - 4 October 2003 by Francis</h2>
+<p>You can now browse and examine most of the 1997-2001 parliament.
+There are still a few divisions missing because of errors in Hansard.
+Also the motion text extraction algorithm is particularly bad on this
+older data, so don't expect too much of it.  There's lots of fun new
+stuff to look at. For example, old warhorses and figures from recent
+history now appear in the twilight of their parliamentary career.  Take
+a look at <a
+href="mp.php?firstname=Paddy&lastname=Ashdown&constituency=Yeovil">Paddy
+Ashdown</a>, <a
+href="mp.php?firstname=John&lastname=Major&constituency=Huntingdon">John
+Major</a> or <a
+href="mp.php?firstname=Tony&lastname=Benn&constituency=Chesterfield">Tony
+Benn</a>.
+</p>
 
-hunting
-iraq
+<p>Go have a dig for information.  Perhaps you would like to know just
+how many divisions have been <a
+href="search.php?query=hunting&button=Search">spent trying to ban fox
+hunting</a> over the last six years (make sure you take off divisions
+that only mention it in passing in their motion text).  Or if you
+prefer, go hunting yourself for all the <a
+href="search.php?query=terrorism&button=Search">divisions on
+terrorism</a> which occurred <i>before</i> September 11th.  Let us know
+if you find anything interesting.
 
-<p>Amongst this new data is an interesting case of mass abstention.
+<p>Amongst this new data is a first case of mass abstention.
 In a <a href="division.php?date=2000-12-13&number=2">curious vote about EC fishing
 regulations</a>, 77 members from the Conservative party voted both aye
 and noe.  Does anyone know the story of what they were trying to signal?  Why
-is this the only occasion in 6 years when so many have used this to mean
-something?</p>.
+is this the only occasion in 6 years when so many have used double
+voting to mean something?</p>
 
 <h2>New logo and look - 2 October 2003 by Francis</h2>
 <p>Giles has been working away, and given us a new logo and look.  Thank

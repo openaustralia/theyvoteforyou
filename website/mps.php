@@ -1,5 +1,5 @@
 <?php 
-    # $Id: mps.php,v 1.3 2003/10/03 21:46:10 frabcus Exp $
+    # $Id: mps.php,v 1.4 2003/10/03 23:30:05 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -13,7 +13,6 @@
         $title = "Rebels";
     
     include "parliaments.inc";
-    $parliament = mysql_escape_string($_GET["parliament"]);
     $title .= " - " . parliament_name($parliament) . " Parliament";
 
     include "header.inc";
@@ -60,11 +59,10 @@
     if ($sort == "rebellions")
     {
 ?>
-<p>A rebellion is a suspected vote against the MP's party whip.  
-Unfortunately, Public Whip can only guess the party whip.  It assumes
-that the most common vote (aye or noe) for that party in that division
-was the party whip.  That is, the whip is the modal vote.  This heuristic will
-break down with a severe rebellion.
+<p>The Members of Parliament are listed with how often they turn up to
+vote, and a guess at the number of times they have gone against their
+party whip.  They are sorted so that the most rebellious appear first.
+You can change the order of the table by selecting the headings.
 <?php
     }
     else
@@ -76,11 +74,14 @@ party whip.  You can change the order of the table by selecting the
 headings.
 <?php
     }
+    if ($parliament == "2001")
+        print "<p><a href=\"mps.php?parliament=1997&sort=" . htmlentities($sort) . "\">View MPs for 1997 parliament</a>";
+    if ($parliament == "1997")
+        print "<p><a href=\"mps.php?parliament=2001&sort=" .  htmlentities($sort) . "\">View MPs for 2001 parliament</a>";
+    
     print "<table class=\"mps\"><tr class=\"headings\">\n";
 
-    $url = "mps.php";
-    if ($parliament <> "")
-        $url .= "?parliament=" . urlencode($parliament) . "&";
+    $url = "mps.php?parliament=" . urlencode($parliament) . "&";
     print "<tr class=\"headings\">";
     head_cell($url, $sort, "Name", "lastname", "Sort by surname");
     head_cell($url, $sort, "Constituency", "constituency", "Sort by constituency");

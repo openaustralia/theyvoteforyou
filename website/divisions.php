@@ -1,5 +1,5 @@
 <?php 
-# $Id: divisions.php,v 1.3 2003/10/03 21:46:10 frabcus Exp $
+# $Id: divisions.php,v 1.4 2003/10/03 23:30:05 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -9,7 +9,6 @@
     $sort = mysql_escape_string($_GET["sort"]);
 
     include "parliaments.inc";
-    $parliament = mysql_escape_string($_GET["parliament"]);
 
     $title = "Divisions - " . parliament_name($parliament) . " Parliament";
     include "header.inc";
@@ -48,14 +47,16 @@ the order of the table by selecting the headings.
         $order = "turnout desc, division_date desc, division_number desc";
     }
 
-
+    if ($parliament == "2001")
+        print "<p><a href=\"divisions.php?parliament=1997&sort=" .  htmlentities($sort) . "\">View divisions for 1997 parliament</a>";
+    if ($parliament == "1997")
+        print "<p><a href=\"divisions.php?parliament=2001&sort=" .  htmlentities($sort) . "\">View divisions for 2001 parliament</a>";
+ 
     $db->query("$divisions_query_start and division_date <= '" .
         parliament_date_to($parliament) . "' and division_date >= '" .
         parliament_date_from($parliament) . "' order by $order"); 
 
-    $url = "divisions.php";
-    if ($parliament <> "")
-        $url .= "?parliament=" . urlencode($parliament) . "&";
+    $url = "divisions.php?parliament=" . urlencode($parliament) . "&";
     print "<table class=\"votes\">\n";
     print "<tr class=\"headings\">";
     print "<td>No.</td>";

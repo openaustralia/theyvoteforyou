@@ -1,6 +1,6 @@
 <?php
 
-# $Id: parliaments.inc,v 1.3 2003/10/03 21:46:10 frabcus Exp $
+# $Id: parliaments.inc,v 1.4 2003/10/03 23:30:05 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -15,11 +15,9 @@ $parliaments = array(
     '2001' => array(from => '2001-06-07', to => '9999-12-31', name => '2001'),
     '1997' => array(from => '1997-05-01', to => '2001-05-14', name => '1997'),
 );
-
-function this_parliament()
-{
-    return 2001;
-}
+$parliament = mysql_escape_string($_GET["parliament"]);
+if ($parliament == "")
+    $parliament = 2001;
 
 function parliament_count()
 {
@@ -41,24 +39,18 @@ function date_to_parliament($date)
 
 function parliament_name($id)
 {
-    if ($id == "")
-        $id = this_parliament();
     global $parliaments;
     return $parliaments[$id]['name'];
 }
 
 function parliament_date_from($id)
 {
-    if ($id == "")
-        $id = this_parliament();
     global $parliaments;
     return $parliaments[$id]['from'];
 }
 
 function parliament_date_to($id)
 {
-    if ($id == "")
-        $id = this_parliament();
     global $parliaments;
     return $parliaments[$id]['to'];
 }
@@ -69,11 +61,13 @@ function year_range($from, $to)
     $y1 = substr($from, 0, 4);
     $y2 = substr($to, 0, 4);
     $ret = $y1;
-    if ($y1 <> $y2)
+#    if ($y1 <> $y2)
     {
         $ret .= "-";
         if ($y2 <> "9999")
             $ret .= $y2;
+        else
+            $ret .= date("Y");
     }
     return $ret;
 }

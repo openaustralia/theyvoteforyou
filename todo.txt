@@ -2,14 +2,11 @@ New stuff
 ---------
 
 Multi-parliament:
-    Security - sometimes we print things, like division number from URL without proper escaping (division.php)
-    Measure abstentions by parliament rather than global proportions?
-    Front page
-    News
-    MP page - print parliament in vote lists
-
     Vote map
         possible friends broken
+Measure abstentions by parliament rather than global proportions?
+Consider making search.php amalgamate MPs with the same name?  esp with > 2 parliaments
+MP page - print parliament in vote lists
 
 Facility to register and define voting subset for a particular issue
 - info to help select which votes and which way should have voted

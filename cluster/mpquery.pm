@@ -1,4 +1,4 @@
-# $Id: mpquery.pm,v 1.6 2003/10/03 21:46:10 frabcus Exp $
+# $Id: mpquery.pm,v 1.7 2003/10/03 23:30:05 frabcus Exp $
 # This extracts a vote distance metric for a set of MPs, and is able to
 # write it out in a format for loading into GNU Ooctave (or MatLab)
 
@@ -47,7 +47,7 @@ sub vote_distance_metric()
     my $limit = " where (mp_id = " . join(" or mp_id = ", @$mp_ixs) . ")";
     $limit .= " and (division_id = " . join(" or division_id = ", @div_ixs) . ")";
 #    print "$limit\n";
-    $sth = db::query($dbh, "select division_id, mp_id, vote from pw_vote $limit order by mp_id, division_id");
+    $sth = db::query($dbh, "select division_id, mp_id, vote from pw_vote $limit");
     print $sth->rows . " votes\n";
     my @votematrix;
     while (my @data = $sth->fetchrow_array())
