@@ -8,8 +8,11 @@ import cStringIO
 
 import mx.DateTime
 
+import miscfuncs
+
 # output to check for undetected member names
-toppath = os.path.expanduser('~/pwdata')
+toppath = miscfuncs.toppath
+
 seelines = open(os.path.join(toppath, 'emblinks.txt'), "w")
 
 # this detects the domain

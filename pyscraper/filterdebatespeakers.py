@@ -47,7 +47,7 @@ respeakervals = re.compile('(?:(\d+)\. )?<b>([^:<(]*?):?\s*(?:\((.*?)\))?\s*:?\s
 redivno = re.compile('<b>division no\. \d+</b>$(?i)')
 
 recomb = re.compile('(%s)' % (regspeaker, ))
-remarginal = re.compile('<b>[^<]*</b>')
+remarginal = re.compile('<b>[^<]*</b>(?i)')
 
 def FilterDebateSpeakers(fout, text, sdate):
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
