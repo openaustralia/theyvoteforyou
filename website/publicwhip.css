@@ -29,7 +29,7 @@ A:hover
     BACKGROUND-IMAGE: none;
     COLOR: #990000;
     BACKGROUND-REPEAT: repeat;
-    BACKGROUND-COLOR: #bbbbbb
+    BACKGROUND-COLOR: #bbbbbb;
 }
 H1
 {
@@ -192,8 +192,8 @@ LI.newsheadlines
 }
 LI.newsheadlines:hover
 {
-    BACKGROUND: #ddddff;
-    COLOR: #0000ff
+    BACKGROUND: #bbbbbb;
+    COLOR: #990000;
 }
 UL.newsheadlines
 {

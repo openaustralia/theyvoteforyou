@@ -2,7 +2,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.8 2003/10/02 14:01:42 frabcus Exp $
+# $Id: header.inc,v 1.9 2003/10/02 17:09:45 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -17,17 +17,14 @@ include "pretty.inc";
 <title>Public Whip - <? print $title ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
-<body>
-
-<!-- page centering format -->
-<table width="100%" height="100%"><tr><td align="CENTER" valign="TOP">
+<body align="center">
+<center>
 
 <!-- hold the maximum width of the content -->
-<table class="container" cellpadding="0" cellspacing="0">
+<table align="center" class="container" cellpadding="0" cellspacing="0">
 
 <!-- the site logo -->
-<tr><td class="identity"><img src="thepublicwhip.gif"></td></tr>
-
+<tr><td class="identity"><a href="index.php"><img src="thepublicwhip.gif" alt="The Public Whip"></a></td></tr>
 
 <!-- the main site navigation -->
 <tr class="headers"><td bgcolor="#666666"><a href="index.php">Home</a>
