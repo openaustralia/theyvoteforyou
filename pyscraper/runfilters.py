@@ -12,7 +12,7 @@ from filterwranssections import FilterWransSections
 
 
 from filterdebatecoltime import FilterDebateColTime
-
+from filterdebatespeakers import FilterDebateSpeakers
 
 toppath = os.path.expanduser('~/pwdata')
 
@@ -85,6 +85,11 @@ def RunWransFilters(fout, text, sdate):
 def RunDebateFilters(fout, text, sdate):
 	si = cStringIO.StringIO()
 	FilterDebateColTime(si, text, sdate)
+	text = si.getvalue()
+	si.close()
+
+	si = cStringIO.StringIO()
+	FilterDebateSpeakers(si, text, sdate)
 	text = si.getvalue()
 	si.close()
 

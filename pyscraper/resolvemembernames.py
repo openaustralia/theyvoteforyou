@@ -4,6 +4,7 @@
 
 import xml.sax
 import re
+import string
 
 class MemberList(xml.sax.handler.ContentHandler):
     def __init__(self):
