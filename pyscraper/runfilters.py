@@ -92,7 +92,9 @@ def RunFiltersDir(filterfunction, dname, datefrom, dateto, deleteoutput):
                         fout = open(tempfile, "w")
                         filterfunction(fout, text, sdate)
                         fout.close()
-                        xmlvalidate.parse(tempfile) # validate XML before renaming
+                        if sys.platform != "win32":
+							# this function leaves the file open which can't be renamed in win32
+							xmlvalidate.parse(tempfile) # validate XML before renaming
                         os.rename(tempfile, jfout)
 
 # These text filtering functions filter twice through stringfiles,
