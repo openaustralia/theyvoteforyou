@@ -91,7 +91,7 @@ foreach my $parliament (&PublicWhip::Parliaments::getlist())
     }
 
     # Print out
-    print OUT "rowid\tdate\tvoteno\t";
+    print OUT "rowid\tdate\tvoteno\tBill\t";
     for my $mp (sort {$a <=>$b} @mp_ixs) # XXX mp_ixs MUST always be sorted
     {
         print OUT $mp_name{$mp} . "\t";
