@@ -1,6 +1,6 @@
-# $Id: mplist.pm,v 1.2 2003/09/18 16:16:24 frabcus Exp $
+# $Id: mplist.pm,v 1.3 2003/09/18 21:09:23 frabcus Exp $
 # Parses lists of MPs, adds them to database.  Also has
-# special code to add in midterm changes such as bielections, 
+# special code to add in midterm changes such as byelections, 
 # party loyalty switching etc.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -21,14 +21,14 @@ sub insert_mps
 
     insert_mps_general_election($dbh, "../rawdata/Members2001.htm", "2001-06-07");
 
-    # Bielections and loyalty changes. Data from here:
+    # Byelections and loyalty changes. Data from here:
     # http://www.parliament.uk/directories/hcio/by_elections.cfm
 
     insert_mid_depart($dbh, "Jamie", "Cann", "Ipswich", "Lab", "2001-10-15", "died");
-    insert_mid_arrive($dbh, "Chris", "Mole", "", "Ipswich", "Lab", "2001-11-22", "bi_election");
+    insert_mid_arrive($dbh, "Chris", "Mole", "", "Ipswich", "Lab", "2001-11-22", "by_election");
 
     insert_mid_depart($dbh, "Raymond", "Powell", "Ogmore", "Lab", "2001-12-08", "died");
-    insert_mid_arrive($dbh, "Huw", "Irranca-Davies", "", "Ogmore", "Lab", "2002-02-14", "bi_election");
+    insert_mid_arrive($dbh, "Huw", "Irranca-Davies", "", "Ogmore", "Lab", "2002-02-14", "by_election");
 
     insert_mid_depart($dbh, "Paul", "Marsden", "Shrewsbury & Atcham", "Lab", "2001-12-09", "changed_party");
     insert_mid_arrive($dbh, "Paul", "Marsden", "", "Shrewsbury & Atcham", "LDem", "2001-12-10", "changed_party");
@@ -45,6 +45,9 @@ sub insert_mps
     insert_mid_arrive($dbh, "David", "Burnside", "", "South Antrim", "Ind UU", "2003-06-23", "changed_party");
     insert_mid_arrive($dbh, "Jeffrey M", "Donaldson", "", "Lagan Valley", "Ind UU", "2003-06-23", "changed_party");
     insert_mid_arrive($dbh, "Martin", "Smyth", "", "Belfast South", "Ind UU", "2003-06-23", "changed_party");
+
+    # You can get full list for earlier parliaments here:
+    # http://www.election.demon.co.uk/strengths.html
 }
 
 sub insert_mps_general_election

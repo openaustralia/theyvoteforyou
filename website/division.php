@@ -1,5 +1,5 @@
 <?php
-# $Id: division.php,v 1.3 2003/09/17 15:11:53 frabcus Exp $
+# $Id: division.php,v 1.4 2003/09/18 21:09:23 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -132,7 +132,7 @@
 
         $alldiv = $alldivs[$party];
         $expected = round($votes * ($alldiv / $alldivs_total), 1);
-        $abstentions = $expected - $total;
+        $abstentions = round($expected - $total, 1);
         $classabs = "normal";
         if (abs($abstentions) >= 2) { $classabs = "important"; }
         

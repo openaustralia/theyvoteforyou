@@ -1,5 +1,5 @@
-<?php $title = "FAQ"; include "header.inc" 
-# $Id: faq.php,v 1.3 2003/09/18 09:28:22 frabcus Exp $
+<?php $title = "Frequently Asked Questions"; include "header.inc" 
+# $Id: faq.php,v 1.4 2003/09/18 21:09:23 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -12,7 +12,14 @@
 Members of the United Kingdom Parliament, so that the public (people
 like us) can better influence their voting patterns.
 
-<h2>How does it work?</h2>
+<h2>First, can you explain "division" and other political jargon?</h2>
+<p>The House of Commons <i>divides</i> many times each week into those who
+vote "aye" ("yes", for the motion) and those who vote "noe" ("no",
+against the motion).  Each political party has <i>whips</i> who try to
+make their MPs (Members of Parliament) vote for the party line.
+Sometimes an MP <i>rebels</i> by voting agains the party whip.
+
+<h2>How does the Public Whip work?</h2>
 <p>All the House of Commons debate transcripts (<a href="http://www.parliament.the-stationery-office.co.uk/pa/cm/cmhansrd.htm">Hansard</a>) back to
 1988 are published electronically on the World Wide Web.  We've written
 a program to read it for you and separate out all the records of
@@ -89,12 +96,6 @@ would take away the notion of the public having access to it.  All that
 would happen is that the people who are already organized influentially
 would retain all the power but would have slightly better software
 (which they probably have already). 
-
-<h2>Can you explain "division" and other political jargon?</h2>
-<p>The House of Commons <i>divides</i> many times each week into those who
-vote "aye" ("yes", for the motion) and those who vote "noe" ("no",
-against the motion).  Each political party has <i>whips</i> who try to
-make their MPs vote for the party line.
 
 <h2>What organisation is behind the Public Whip?</h2>
 <p>None.  Just two guys <a href="http://www.flourish.org">Francis</a>

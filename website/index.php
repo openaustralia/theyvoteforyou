@@ -1,5 +1,5 @@
 <?  $title = "Counting votes on your behalf"; include "header.inc";
-# $Id: index.php,v 1.6 2003/09/18 16:16:24 frabcus Exp $
+# $Id: index.php,v 1.7 2003/09/18 21:09:23 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -10,8 +10,9 @@
 <!-- How does your MP vote? -->
 
 <p>Every week, a dozen or so times, your MP votes in the UK parliament.  This
-is the crucial, visible exercise of power.  This website presents and
+is the crucial, visible exercise of power.  The Public Whip presents and
 data mines their voting record, to help you hold them to account.
+For more information about the project, <a href="faq.php">read the FAQ</a>.
 
 <table class="layout"><tr><td class="layout">
 
@@ -94,9 +95,13 @@ title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
 <img src="mpseethumb.png"></a>
 <br><a href="mpsee.php">Where is Blair on this map?  </a>
 
-<h2>Site News</h2>
-<p><a href="news.php"><?php include "newsdate.inc" ?></a><br>
-<?php include "headlines.inc" ?>
+<h2>Search <a href="search.php">(help)</a></h2>
+<p><form class="search" action="search.php" name=pw>
+<input maxLength=256 size=10 name=query value=""> <input type=submit value="Search" name=button>
+</form></p>
+
+<h2>Site News<br><?php include "newsdate.inc" ?></h2>
+<ul class="newsheadlines"><a href="news.php"><?php include "headlines.inc" ?></a></ul>
 
 </td></tr></table>
 

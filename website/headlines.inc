@@ -1,3 +1,3 @@
-<br>Detecting abstentions
-<br>Which Gareth Thomas?
-<br>Summer's ended
+<li class="newsheadlines">Detecting abstentions
+<li class="newsheadlines">Which Gareth Thomas?
+<li class="newsheadlines">Summer's ended

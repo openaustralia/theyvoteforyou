@@ -1,4 +1,4 @@
-/* $Id: publicwhip.css,v 1.6 2003/09/18 09:28:22 frabcus Exp $
+/* $Id: publicwhip.css,v 1.7 2003/09/18 21:09:24 frabcus Exp $
 
 The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 This is free software, and you are welcome to redistribute it under
@@ -74,6 +74,7 @@ table td.layout { vertical-align: top; padding: 0; padding-right:1em; margin: 0;
 .footerleft { float: left; text-align: left; width: 50%;}
 .footerright { float: right; text-align: right; width: 50%;}
 
+
 /* Tables for bulk of data in the application */
 
 table { margin: 0;
@@ -103,6 +104,18 @@ table td.important { font-style: italic; font-weight: bold; }
 .newsdate {
           font-size: 1.0em; 
           font-style: italic;}
+li.newsheadlines {
+    margin: 0;
+    padding: 0;
+}
+li.newsheadlines:hover { 
+    color: #0000ff; 
+    background: #ddddff 
+}
+ul.newsheadlines {
+    padding: 1em;
+    margin: 0;
+}
 
 .motion { background-color: #eeeeee; }
 
@@ -115,4 +128,4 @@ table.bars {
         }
 table.bars td { padding: 0; }
 
- 
+

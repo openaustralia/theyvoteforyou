@@ -2,7 +2,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.6 2003/09/18 09:28:22 frabcus Exp $
+# $Id: header.inc,v 1.7 2003/09/18 21:09:23 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -19,12 +19,6 @@ include "pretty.inc";
 </head>
 <body>
 
-<div class="searchbox">
-<form class="search" action="search.php" name=pw>
-<input maxLength=256 size=10 name=query value=""> <input type=submit value="Search" name=button>
-</form>
-</div>
-
 <div class="navline">
 <a href="index.php">Home</a> |
 <a href="news.php">News</a> |
@@ -32,9 +26,10 @@ include "pretty.inc";
 <b>|</b>
 <a href="divisions.php">Divisions</a> | 
 <a href="mps.php">MPs</a> |
-<a href="mpsee.php">Vote Map</a>
-<b>|</b>
+<a href="mpsee.php">Vote Map</a> |
 <a href="code.php">Code</a>
+<b>|</b>
+<a href="search.php">Search</a>
 </div>
 
 <h1><?

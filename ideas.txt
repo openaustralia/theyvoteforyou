@@ -96,6 +96,10 @@ Infer no Whip if 10% +- from base?  Or at least +-1
 Animated cluster diagram over last 15 years.
 3 month window moving week by week
 
+Create classification tree so it offers some division questions for you
+to pick from, and tells you your party.  As does here for EDMs:
+http://www.stats.bris.ac.uk/~magpn/Research/Politics/whovote.htm
+
 Additional numeric data
 -----------------------
 
@@ -175,6 +179,8 @@ Gibson, Oxfam)
 Put in EDMs, so can see who supports an EDM and follows it through to
 actual vote (Sirius Gibson, Oxfam)
 http://edm.ais.co.uk/
+EDM analysis with MDS
+http://www.stats.bris.ac.uk/~magpn/Research/Politics/
 
 Analyse an MP's interests by their rebellions - work out a summary of
 their special interests.  Also link to which debates they spoke in.
@@ -332,6 +338,8 @@ Basic info (name, party, constituency, website)
 http://www.parliament.uk/directories/hciolists/alms.cfm
 http://www.psr.keele.ac.uk/area/uk/mps97.htm
 http://www.psr.keele.ac.uk/area/uk/mps.htm
+All byelections etc.
+http://www.election.demon.co.uk/strengths.html
 
 Biographical information:
 http://www.politicallinks.co.uk

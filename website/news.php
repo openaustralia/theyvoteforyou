@@ -1,5 +1,5 @@
 <?  $title = "Site News"; include "header.inc";
-# $Id: news.php,v 1.5 2003/09/18 09:28:22 frabcus Exp $
+# $Id: news.php,v 1.6 2003/09/18 21:09:24 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -11,6 +11,40 @@
 <p></p>
 */
 ?>
+
+<h2>Turncoats and byelections - 18 September 2003 by Francis</h2>
+<p>Politics, being human, is endlessly rich in the variety of things that it throws 
+up.  This may be good fun, but it's bad when you try and encode things
+in a rigid computer database.  The quirk in this case is <a
+href="mp.php?firstname=Paul&lastname=Marsden&constituency=Shrewsbury+%26+Atcham">Paul
+Marsden</a>, member for Shrewsbury & Atcham, who changed party from Labour to the
+Liberal Democrats about the time of the Afghanistan war.</p>
+
+<p>For a while now Public Whip has coped with this by treating him as
+two MPs, one who left the house on 10th December 2001, and another of a
+different party who joined the house the next day.  The same format is
+also used to store MPs who've died, resigned, won a new seat created
+during the Parliament, been expelled, or who have been certified as
+insane.   Really!  Check out the complete list of 
+<a href="http://www.election.demon.co.uk/causes.html">causes of byelections</a> since 1832.
+
+<p>A few people have queried Paul Marsden's position as top rebel
+in the list on the <a href="index.php">front page</a>.  Has the site
+accidentally counted his votes as a Liberal Democrat as rebellions
+agains the Labour whip?  The answer is no.  His entry there is
+calculated using only divisions while he took the Labour whip.  There is
+another entry for him as a Liberal Democrat further down the rebels
+table.  Today I've changed the site to clarify this a bit by saying
+"whilst Lab".  Hopefully that will lead people to realise it takes into
+account that he has changed party.  It seems reasonable that somebody
+who changed party had a high rebellion rate in their old party just
+before the change.
+
+<p>Today's a good day to be thinking about this as it's the Brent East
+byelection.  As I write the result hasn't been announced yet.  Amongst
+the thrilling administrative duties of running this web site, I look
+forward to entering the new MP into the database in time for their first
+division.
 
 <h2>Detecting abstentions - 16 September 2003 by Francis</h2>
 <p>Quite often members deliberately refrain from voting in a division,

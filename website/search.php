@@ -1,5 +1,5 @@
 <?php $title = "Search"; include "header.inc" 
-# $Id: search.php,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: search.php,v 1.2 2003/09/18 21:09:24 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -88,7 +88,7 @@ or <a href="divisions.hphp">all divisions</a>.
 
 <p class="search">Enter your MP, constituency or debate topic:</p>
 <form class="search" action="search.php" name=pw>
-<input maxLength=256 size=20 name=query value=""> <input type=submit value="Search" name=button>
+<input maxLength=256 size=25 name=query value=""> <input type="submit" value="Search" name="button">
 </form>
 <p class="search"><i>Example: "<?=$random_mp?>", "<?=$random_constituency?>" or "<?=$random_topic?>"</i>
 
