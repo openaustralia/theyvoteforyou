@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.7 2003/10/27 10:03:00 frabcus Exp $
+# $Id: pretty.inc,v 1.8 2004/01/21 15:27:19 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -103,17 +103,23 @@ function random_big_word($phrase)
     return $lesswords[array_rand($lesswords)];
 }
 
-function search_example($db)
+function search_example($db, $long)
 {
     $row = $db->query_one_row("select first_name, last_name from pw_mp
         order by rand() desc limit 1");
     $random_mp = $row[0] . " " . $row[1];
 
-    $row = $db->query_one_row("select constituency from pw_mp
-        order by rand() desc limit 1");
-    $random_constituency = random_big_word($row[0]);
-    if ($random_constituency == "")
-        $random_constituency = "Liverpool";
+    if ($long)
+    {
+        $row = $db->query_one_row("select constituency from pw_mp
+            order by rand() desc limit 1");
+        $random_constituency = random_big_word($row[0]);
+        if ($random_constituency == "")
+            $random_constituency = "Liverpool";
+        $random_constituency = ', "' . $random_constituency . '"';
+    }
+    else
+        $random_constituency = "";
 
     $row = $db->query_one_row("select division_name from pw_division
         order by rand() desc limit 1");
@@ -121,7 +127,7 @@ function search_example($db)
     if ($random_topic == "")
         $random_topic = "Trade";
 ?>
-<p class="search"><i>Example: "<?=$random_mp?>", "<?=$random_constituency?>" or "<?=$random_topic?>"</i>
+<p class="search"><i>Example: "OX1 3DR", "<?=$random_mp?>"<?=$random_constituency?> or "<?=$random_topic?>"</i>
 
 <?php
 }

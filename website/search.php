@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.18 2004/01/20 23:38:35 frabcus Exp $
+# $Id: search.php,v 1.19 2004/01/21 15:27:19 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -23,7 +23,6 @@
 ;    $db = new DB(); 
 
     $postcode = is_postcode($query);
-    $postcode = null; # disabled for now
 
     if ($query <> "")
     {
@@ -158,17 +157,16 @@ or <a href="divisions.hphp">all divisions</a>.
 
 ?>
 
-<p class="search">Enter your MP, constituency, debate topic or written answer topic:</p>
+<p class="search">Enter your postcode, MP name, constituency, debate topic or written answer topic:</p>
 <form class="search" action="search.php" name=pw>
 <input maxLength=256 size=25 name=query value=""> <input type="submit" value="Search" name="button">
 </form>
 
-<?php search_example($db) ?>
-<p class="search"><span class="ptitle">MPs:</span> You can <a
-href="http://www.faxyourmp.com/" target="faxyourmp_rocks">find your MP by postcode</a>
-on an external site, then enter their name or part of their name back
-here.  If you don't know exactly how to spell the name, write it as best
-you can like it sounds.
+<?php search_example($db, true) ?>
+<p class="search"><span class="ptitle">MPs:</span> You can enter a postcode
+to get a list of all MPs for that constituency, or else enter their name or
+part of their name.  If you don't know exactly how to spell the name,
+write it as best you can like it sounds.
 
 <p class="search"><span class="ptitle">Divisions:</span> 
 To find divisions you are interested in, enter the
