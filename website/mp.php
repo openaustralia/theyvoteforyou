@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.15 2003/10/27 10:03:00 frabcus Exp $
+    # $Id: mp.php,v 1.16 2003/10/28 01:15:50 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -22,25 +22,37 @@
     if ($_GET["allfriends"] == "yes")
         $all_friends = true;
 
+    if ($last_name == "" && $first_name =="")
+    {
+        $query = "select first_name, last_name
+            from pw_mp where constituency = '$constituency' 
+            order by entered_house desc limit 1";
+        $row = $db->query_one_row($query);
+        $first_name = $row[0];
+        $last_name = $row[1];
+    }
+
     $title .= html_scrub("$first_name $last_name, $constituency");
     include "header.inc";
        
-    $db->query("select first_name, last_name, title, constituency,
+    $query = "select first_name, last_name, title, constituency,
         party, pw_mp.mp_id, round(100*rebellions/votes_attended,1),
         round(100*votes_attended/votes_possible,1), 
         rebellions, votes_attended, votes_possible,
         entered_house, left_house,
         entered_reason, left_reason from pw_mp,
         pw_cache_mpinfo where
-        pw_mp.mp_id = pw_cache_mpinfo.mp_id and
-        first_name = '$first_name' and last_name='$last_name' and
-        constituency = '$constituency' 
-        order by entered_house desc");
+        pw_mp.mp_id = pw_cache_mpinfo.mp_id and ";
+    $query .= "first_name = '$first_name' and last_name='$last_name' and";
+    $query .= " constituency = '$constituency' order by entered_house desc";
+    $db->query($query);
 
     print "<h2>General Information</h2>
-        <p>Periods of continuous office for this MP with their rebellion and
-        division attendance rates.
-        Read a <a href=\"faq.php#clarify\">clear explanation</a> 
+        <p>Periods of continuous office for this ";
+    print "MP with their";
+    print " rebellion and
+        division attendance rates.";
+    print " Read a <a href=\"faq.php#clarify\">clear explanation</a> 
         of these terms, as they may not have the meanings you expect.";
     $prettyrow = 0;
     $mp_ids = array();
@@ -48,8 +60,8 @@
     $dates = array();
     $enter_reason = array();
     $left_reason = array();
-    print "<table><tr class=\"headings\">
-            <td>Party</td>
+    print "<table><tr class=\"headings\">";
+    print "<td>Party</td>
             <td>From</td><td>To</td>
             <td>Rebellions (estimate)</td><td>Attendance (divisions)</td>
             </tr>";
