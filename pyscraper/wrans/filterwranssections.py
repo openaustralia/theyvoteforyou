@@ -19,10 +19,14 @@ from clsinglespeech import qspeech
 from parlphrases import parlPhrases
 
 from miscfuncs import FixHTMLEntities
-from miscfuncs import WriteXMLHeader
+from miscfuncs import WriteXMLFile
 
+from filterwransques import FilterQuestion
+from filterwransreply import FilterReply
 
 fixsubs = 	[
+	('<intro><date> </intro><dpthd>', '', 1, '2003-10-06'), 
+	('how many crimes have been', '\\1 (1)', 1, '2004-03-04'),
         ( '<xref locref=390>', '', 1, '2003-06-19'),
         ( '</FONT></FONT></TD></TR>', '', 1, '2003-07-11'),
         ( 'It is a matter for the ', '(3) It is a matter for the ', 1, '2003-07-16'),
@@ -125,7 +129,7 @@ fixsubs = 	[
 
 
 	# broken link fixing material
-	( 'standards.php\*', 'standards.php', 1, '2003-12-08'), 
+	( 'standards.php\*', 'standards.php', 1, '2003-12-08'),
 	( 'http://www/', 'http://www.', 1, '2003-11-03'),
 	( 'www.mod.ukyissues', 'www.mod.uk/issues', 1, '2003-10-22'),
 	( 'http.V/', 'http://', 1, '2003-09-18'),
@@ -147,8 +151,12 @@ fixsubs = 	[
         # special note not end of block - when we have multiple answers
         ( '(Decisions on proposed closures of post offices are an operational matter for Post Office Ltd)', '<another-answer-to-follow>\\1', 1, '2004-01-22'),
         ( '(This includes securing the treatment, storage, transportation and disposal of radioactive waste)', '<another-answer-to-follow>\\1', 1, '2004-03-15'),
-
 ]
+
+
+
+
+
 
 # parse through the usual intro headings at the beginning of the file.
 def StripWransHeadings(headspeak, sdate):
@@ -157,26 +165,26 @@ def StripWransHeadings(headspeak, sdate):
 	if (headspeak[i][0] != 'Initial') or headspeak[i][2]:
 		print headspeak[0]
 		raise Exception, 'non-conforming Initial heading '
-	i = i + 1
+	i += 1
 
 	if (not re.match('written answers to questions(?i)', headspeak[i][0])) or headspeak[i][2]:
 		if not re.match('The following answers were received.*', headspeak[i][0]):
 			print headspeak[i]
 			raise Exception, 'non-conforming Initial heading '
 	else:
-		i = i + 1
+		i += 1
 
-	if (not re.match('The following answers were received.*', headspeak[i][0]) and 
+	if (not re.match('The following answers were received.*', headspeak[i][0]) and
             not re.match('The following question was answered on.*', headspeak[i][0]) and \
 			(sdate != mx.DateTime.DateTimeFrom(string.replace(headspeak[i][0], "&nbsp;", " ")).date)) or headspeak[i][2]:
-		if (not parlPhrases.majorheadings.has_key(headspeak[i][0])) or headspeak[i][2]:
+		if (not parlPhrases.wransmajorheadings.has_key(headspeak[i][0])) or headspeak[i][2]:
 			print headspeak[i]
 			raise Exception, 'non-conforming second heading '
 	else:
-		i = i + 1
+		i += 1
 
 	# find the url and colnum stamps that occur before anything else
-	stampurl = StampUrl()
+	stampurl = StampUrl(sdate)
 	for j in range(0, i):
 		stampurl.UpdateStampUrl(headspeak[j][1])
 
@@ -185,83 +193,9 @@ def StripWransHeadings(headspeak, sdate):
 	return (i, stampurl)
 
 
-def ScanQBatch(shspeak, stampurl, sdate):
-	shansblock = [ ]
-	qblock = [ ]
-
-	# go through the speeches in each block under a title, and output
-	# a Q&A block after every answer.
-	for shs in shspeak:
-		qb = qspeech(shs[0], shs[1], stampurl, sdate)
-		qblock.append(qb)
-                #print "-------------------------";
-                #print "type ", qb.typ, " len qblock ", len(qblock), qb.text
-
-                # special case: multiple replies
-                replytofollow = False
-		if re.search("\<another-answer-to-follow\>", qb.text):
-                    qb.text = qb.text.replace("<another-answer-to-follow>", "")
-                    replytofollow = True
-
-		# reply detected, output the block
-		if qb.typ == 'reply' and (not replytofollow):
-			# no preceeding question blocks with this reply
-			if len(qblock) < 2:
-				print shs[1]
-				raise Exception, ' Reply with no question ' + stampurl.stamp
-			shansblock.append(qblock)
-			qblock = []
-
-	# there's still questions sitting in this block
-	# errors to be generated later.
-	if qblock:
-		# these are common failures of the data
-		# print "block without answer " + stampurl.title + stampurl.stamp
-		qb = qspeech('speakerid="unknown" speakername="Error"', \
-                    ' <p>Answer missing in Hansard.</p> ',# should have <p class="error"> here but HTML fixer doesn't like it\
-                    stampurl, sdate)
-		qblock.append(qb)
-		shansblock.append(qblock)
-
-	return shansblock
 
 
 
-
-# A series of speeches blocked up into question and answer.
-def WritexmlSpeechBlock(fout, qblock, sdate):
-	# all the titles are in each speech, so lift from first speech
-	qb0s = qblock[0].sstampurl
-
-	colnumg = re.findall('colnum="([^"]*)"', qb0s.stamp)
-	if not colnumg:
-		raise Exception, 'missing column number'
-	colnum = colnumg[0]
-
-	# (we could choose answers to be the id code??)
-	sid = 'uk.org.publicwhip/wrans/%s.%s.%d' % (sdate, colnum, qb0s.ncid)
-
-	# get the stamps from the stamp on first speaker in block
-	fout.write('\n<wrans id="%s" minorheading="%s" majorheading="%s">\n' % \
-				(sid, FixHTMLEntities(qb0s.title), qb0s.majorheading))
-	fout.write(qb0s.stamp)
-	fout.write('\n')
-	fout.write('<page url="%s"/>' % qb0s.GetUrl())
-	fout.write('\n')
-
-	# output the speeches themselves (type single speech)
-	for qs in qblock:
-		fout.write('\t<speech %s type="%s">\n' % (qs.speaker, qs.typ))
-
-		# add in some tabbing
-		for st in qs.stext:
-			fout.write('\t\t')
-			fout.write(st)
-			fout.write('\n')
-
-		fout.write('\t</speech>\n')
-
-	fout.write('</wrans>\n')
 
 
 ################
@@ -277,49 +211,113 @@ def FilterWransSections(fout, text, sdate):
 
 	# full list of question batches
 	# We create a list of lists of speeches
-	qbl = []
-
-	for i in range(ih, len(headspeak)):
-		sht = headspeak[i]
+	flatb = [ ]
+	for sht in headspeak[ih:]:
+		# triplet of ( heading, unspokentext, [(speaker, text)] )
+		headingtxt = string.strip(sht[0])
+		unspoketxt = sht[1]
+		speechestxt = sht[2]
 
 		# update the stamps from the pre-spoken text
-		stampurl.UpdateStampUrl(sht[1])
-                #print "heading " , sht[0]
+		if (not re.match('(?:<[^>]*>|\s)*$', unspoketxt)):
+			print sht
+			raise Exception, "unspoken text under heading in wrans"
+		stampurl.UpdateStampUrl(unspoketxt)
+
+		# headings become one unmarked paragraph of text
 
 		# detect if this is a major heading
-		if not re.search('[a-z]', sht[0]) and not sht[2]:
-			if not parlPhrases.majorheadings.has_key(sht[0]):
-				print '"%s":"%s",' % (sht[0], sht[0])
-				raise Exception, "unrecognized major heading: "
-			else:
-				# correct spellings and copy over
-				stampurl.majorheading = parlPhrases.majorheadings[sht[0]]
+		if not re.search('[a-z]', headingtxt) and not speechestxt:
+			if not parlPhrases.wransmajorheadings.has_key(headingtxt):
+				print '"%s":"%s",' % (headingtxt, headingtxt)
+				raise Exception, "unrecognized major heading, please add to parlPhrases.wransmajorheadings"
+			majheadingtxtfx = parlPhrases.wransmajorheadings[headingtxt] # no need to fix since text is from a map.
+			qbH = qspeech('nospeaker="true"', majheadingtxtfx, stampurl)
+			qbH.typ = 'major-heading'
+			qbH.stext = [ majheadingtxtfx ]
+			flatb.append(qbH)
+			continue
+
 
 		# non-major heading; to a question batch
-		else:
-			if parlPhrases.majorheadings.has_key(sht[0]):
-				print sht[0]
-				raise Exception, ' speeches found in major heading '
+		if parlPhrases.wransmajorheadings.has_key(headingtxt):
+			raise Exception, ' speeches found in major heading %s' % headingtxt
 
-			stampurl.title = sht[0]
-			qbl.extend(ScanQBatch(sht[2], stampurl, sdate))
+		headingtxtfx = FixHTMLEntities(headingtxt)
+		headingmark = 'nospeaker="True"'
+		bNextStartofQ = True
 
-
-	# go through all the speeches in all the batches and clear them up (converting text to stext)
-	for qb in qbl:
+		# go through each of the speeches in a block and put it into our batch of speeches
 		qnums = []	# used to account for spurious qnums seen in answers
-		for qs in qb:
-			qs.FixSpeech(qnums)
+		for ss in speechestxt:
+			qb = qspeech(ss[0], ss[1], stampurl)
+			#print ss[0] + "  " + stampurl.stamp
+			lqnums = re.findall('\[(\d+)R?\]', ss[1])
+
+			# question posed
+			if re.match('(?:<[^>]*?>|\s)*?(to ask)(?i)', qb.text):
+				qb.typ = 'ques'
+
+				# put out the heading for this question-reply block.
+				# we don't assert true since we can have multiple questions answsered in a block.
+				if bNextStartofQ:
+					# put out a heading
+					# we need to make the heading of from the same stampurl as the first question
+					qbh = qspeech(headingmark, headingtxtfx, qb.sstampurl)
+					qbh.typ = 'minor-heading'
+					qbh.stext = [ headingtxtfx ]
+					flatb.append(qbh)
+
+					bNextStartofQ = False
+
+					# used to show that the subsequent headings in this block have been created,
+					# and weren't in the original text.
+					headingmark = 'nospeaker="True" inserted-heading="True"'
+					qnums = lqnums # reset the qnums count
+				else:
+					qnums.extend(lqnums)
+
+				qb.stext = FilterQuestion(qb.text, sdate)
+				if not lqnums:
+					errmess = ' <p class="error">Question number missing in Hansard, possibly truncated question.</p> '
+					qb.stext.append(errmess)
+
+				flatb.append(qb)
+
+			# do the reply
+			else:
+				if bNextStartofQ:
+					raise Exception, ' start of question expected '
+				qb.typ = 'reply'
+
+				# this case is so rare we flag them in the corrections of the html with this tag
+				if re.search("\<another-answer-to-follow\>", qb.text):
+					qb.text = qb.text.replace("<another-answer-to-follow>", "")
+				else:
+					bNextStartofQ = True
+
+				qb.stext = FilterReply(qb.text)
+
+				# check against qnums which are sometimes repeated in the answer code
+				for qn in lqnums:
+					# sometimes [n] is an enumeration or part of a title
+					nqn = string.atoi(qn)
+					if (not qnums.count(qn)) and (nqn > 100) and ((nqn < 1995) or (nqn > 2003)):
+						print ' unknown qnum present in answer ' + qb.sstampurl.stamp
+						print qn
+						raise Exception, ' make it clear '
+						self.stext.append('<p class="error">qnum present in answer</p>')
+
+				flatb.append(qb)
+
+		if not bNextStartofQ:
+			print speechestxt
+			raise Exception, "missing answer to question"
 
 
-	#
-	# we have built up the list of question blocks, now write it out
-	#
-	WriteXMLHeader(fout);
-	fout.write("<publicwhip>\n")
-	for qb in qbl:
-		WritexmlSpeechBlock(fout, qb, sdate)
+	# we now have everything flattened out in a series of speeches,
+	# where some of the speeches are headings (inserted and otherwise).
 
-	fout.write("</publicwhip>\n")
-
+	# output the list of entities
+	WriteXMLFile(fout, flatb, sdate)
 

@@ -28,7 +28,10 @@ rehousediv = re.compile('<p[^>]*>(?:<i>)?\s*The (?:House|Committee) (?:having )?
 
 foutdivisionreports = open("divreport.html", "w")
 #foutdivisionreports = None
-def PreviewDivisionTextGuess(foutdivisionreports, flatb):
+def PreviewDivisionTextGuess(flatb):
+	if not foutdivisionreports:
+		return
+
 	# loop back to find the heading title
 	# (replicating the code in the publicwhip database builder, for preview)
 	iTx = 1
@@ -86,15 +89,16 @@ def PreviewDivisionTextGuess(foutdivisionreports, flatb):
 
 
 # handle a division case
+regenddiv = '(Question accordingly|It appearing on the report)'
 def DivisionParsingPart(divno, unspoketxt, stampurl, sdate):
 	# find the ending of the division and split it off.
-	gquesacc = re.search("(Question accordingly)", unspoketxt)
+	gquesacc = re.search(regenddiv, unspoketxt)
 	if gquesacc:
-		divtext = unspoketxt[:gquesacc.end(1)]
+		divtext = unspoketxt[:gquesacc.start(1)]
 		unspoketxt = unspoketxt[gquesacc.start(1):]
 	else:
 		divtext = unspoketxt
-		print "division missing question accordingly"
+		print "division missing %s" % regenddiv
 		unspoketxt = ''
 
 	# Add a division object (will contain votes and motion text)

@@ -65,6 +65,10 @@ def MpTellerList(fsm, vote, sdate):
 	for fss in fsm:
 		while fss:
 			gftell = re.match('\s*(?:and )?([ \w.\-]*?)(?: and(.*))?\s*$', fss)
+			if not gftell:
+				print fss
+				raise Exception, "no match on teller line"
+
 			fssf = gftell.group(1)
 			fss = gftell.group(2)
 
@@ -96,10 +100,15 @@ def FilterDivision(text, sdate):
 					raise Exception, ' already set '
 				istatem[si] = i
 
+	# protect against truncating before the question accordingly  
+	if istatem[4] == -1:
+		istatem[4] = len(fs)
+
 	# deferred division, no tellers
 	if istatem[1] == -1 and istatem[3] == -1:
 		istatem[1] = istatem[2]
 		istatem[3] = istatem[4]
+
 
 	for si in range(5):
 		if istatem[si] == -1:

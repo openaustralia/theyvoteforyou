@@ -77,16 +77,17 @@ pcode = [ '', 'indent', 'italic', 'indentitalic' ]
 
 ###########################
 # this is the main function
-def FilterReply(qs):
+def FilterReply(text):
+	qs = None # just to kill off use of this class
 
 	# split into paragraphs.  The second results is a parallel array of bools
-	(textp, textpindent) = SplitParaIndents(qs.text)
+	(textp, textpindent) = SplitParaIndents(text)
 	if not textp:
 		raise Exception, ' no paragraphs in result '
 
 
 	# the resulting list of paragraphs
-	qs.stext = []
+	stext = []
 
 	# index into the textp array as we consume it.
 	i = 0
@@ -96,17 +97,17 @@ def FilterReply(qs):
 	qholdinganswer = resqbrack.match(textp[0])
 	if qholdinganswer:
 		pht = PhraseTokenize(qs, qholdinganswer.group(1))
-		qs.stext.append(pht.GetPara('holdinganswer'))
+		stext.append(pht.GetPara('holdinganswer'))
 		textp[i] = textp[i][qholdinganswer.span(0)[1]:]
 		if not textp[i]:
-			i = i+1
+			i += 1
 
 
 	# asked to reply
 	qaskedtoreply = reaskedtoreply.match(textp[i])
 	if qaskedtoreply:
 		pht = PhraseTokenize(qs, qaskedtoreply.group(0))
-		qs.stext.append(pht.GetPara('askedtoreply'))
+		stext.append(pht.GetPara('askedtoreply'))
 		textp[i] = textp[i][qaskedtoreply.span(0)[1]:]
 		if not textp[i]:
 			i = i+1
@@ -116,21 +117,21 @@ def FilterReply(qs):
 	while i < len(textp):
 		# deal with tables
 		if re.match('<table(?i)', textp[i]):
-                        if re.match('<table[^>]*>[\s\S]*?</table>$(?i)', textp[i]):
-                            qs.stext.append(ParseTable(textp[i]))
-                            i = i+1
-                            continue
-                        else:
-                            print "textp[i]: ", textp[i]
-                            raise Exception, "table start with no end"
+			if re.match('<table[^>]*>[\s\S]*?</table>$(?i)', textp[i]):
+				stext.extend(ParseTable(textp[i]))
+				i += 1
+				continue
+			else:
+				print "textp[i]: ", textp[i]
+				raise Exception, "table start with no end"
 
 		qletterinlibrary = reletterinlibrary.match(textp[i])
 		if qletterinlibrary:
 			pht = PhraseTokenize(qs, qletterinlibrary.group(0))
-			qs.stext.append(pht.GetPara('letterinlibrary'))
+			stext.append(pht.GetPara('letterinlibrary'))
 			textp[i] = textp[i][qletterinlibrary.span(0)[1]:]
 			if not textp[i]:
-				i = i+1
+				i += 1
 			continue
 
 		# <i>Letter from Ruth Kelly to Mr. Frank Field dated 2 December 2003:</i>
@@ -139,16 +140,16 @@ def FilterReply(qs):
 		qlettfrom = relettfrom.match(textp[i])
 		if qlettfrom:
 			pht = PhraseTokenize(qs, qlettfrom.group(1))
-			qs.stext.append(pht.GetPara('letterfrom'))
-			i = i+1
+			stext.append(pht.GetPara('letterfrom'))
+			i += 1
 			continue
 
 
 		# nothing special about this paragraph (except it may be indented)
 		pht = PhraseTokenize(qs, textp[i])
-		qs.stext.append(pht.GetPara(pcode[textpindent[i]]))
-		i = i+1
+		stext.append(pht.GetPara(pcode[textpindent[i]]))
+		i += 1
 
-
+	return stext
 
 

@@ -16,10 +16,10 @@ regtablejunk = '</?font[^>]*>|</?p>|\n(?i)'
 
 
 recolsplit = re.compile('(<t[dh][^>]*>[\s\S]*?(?:</t[dh]>|(?=<t[dh][^>]*>)))(?i)')
-recolmatch = re.compile('<t[dh](?: colspan=(\d+)(?: align=(center))?)?>\s*([\s\S]*?)\s*(?:</t[dh]>)?$(?i)')
+recolmatch = re.compile('<t[dh](?: colspan=\"?(\d+)\"?(?: align=(center))?)?>\s*([\s\S]*?)\s*(?:</t[dh]>)?$(?i)')
 def ParseRow(srow, hdcode):
 	# build up the list of entries for this row
-	Lscols = [ '<tr> ' ]
+	Lscols = [ '\t\t<tr> ' ]
 	for spcol in recolsplit.split(srow):
 		col = recolmatch.match(spcol)
 		if col:
@@ -36,20 +36,20 @@ def ParseRow(srow, hdcode):
 		# check that the outside text contains nothing but bogus close column tags
 		elif not re.match('(?:</t[dh]>|</font>|\s)*$(?i)', spcol):
 			print spcol
-			print srow
+			print "$$$%s$$$" % srow
+			print recolsplit.split(srow)
 			raise Exception, ' non column text '
 	Lscols.append('</tr>')
-	return Lscols
+	return string.join(Lscols, '')
 
 
 # replies can have tables
-def ParseTable(stable):
+def ParseTable(lstable):
 	# remove the table bracketing
-        original = stable
-	stable = re.match('<table[^>]*>\s*([\s\S]*?)\s*</table>$(?i)', stable).group(1)
-        if re.search('<table[^>]*>|</table>(?i)', stable):
-            print original
-            raise Exception, 'Double <table> start tag in table parse chunk'
+	stable = re.match('<table[^>]*>\s*([\s\S]*?)\s*</table>$(?i)', lstable).group(1)
+	if re.search('<table[^>]*>|</table>(?i)', stable):
+		print lstable
+		raise Exception, 'Double <table> start tag in table parse chunk'
 
 	# break into rows, making sure we can deal with non-closed <tr> symbols
 	sprows = re.split('(<tr[^>]*>[\s\S]*?(?:</tr>|(?=<tr[^>]*>)))(?i)', stable)
@@ -73,66 +73,43 @@ def ParseTable(stable):
 
 	# take out tags round the title; they're always out of order
         #print "stitle ", stitle
-	Lstitle = []
 	stitle = string.strip(re.sub('</?font[^>]*>|</?p>|</?i>|<br>|&nbsp;(?i)', '', stitle))
+	ctitle = ''
 	if stitle:
 		ts = re.match('(?:\s|<b>|<center>)+([\s\S]*?)(?:</b>|</center>)+\s*([\s\S]*?)\s*$(?i)', stitle)
 		if not ts:
-                        print "stitle:" , stitle
+			print "stitle:" , stitle
 			raise Exception, ' non-standard table title '
-		else:
-			Lstitle.append('<caption>')
-			Lstitle.extend(FixHTMLEntitiesL(ts.group(1), '</?font[^>]*>|</?p>|\n(?i)'))
-			if ts.group(2):
-				Lstitle.append(' -- ')
-				Lstitle.extend(FixHTMLEntitiesL(ts.group(2), '</?font[^>]*>|</?p>|\n(?i)'))
-			Lstitle.append('</caption>\n')
-
+		Lstitle = [ '\t<caption>' ]
+		Lstitle.append(FixHTMLEntities(ts.group(1), '</?font[^>]*>|</?p>|\n(?i)'))
+		if ts.group(2):
+			Lstitle.append(' -- ')
+			Lstitle.append(FixHTMLEntities(ts.group(2), '</?font[^>]*>|</?p>|\n(?i)'))
+		Lstitle.append('</caption>')
+		ctitle = string.join(Lstitle, '')
 
 	# split into header and body
 	for ih in range(len(srows)):
 		if re.search('<td[^>]*>(?i)', srows[ih]):
 			break
 
-	# parse out each of batches
-	Lshrows = [ ]
-	for srow in srows[:ih]:
-		Lshrows.append(ParseRow(srow, 'th'))
-
-	Lsdrows = [ ]
-	for srow in srows[ih:]:
-		Lsdrows.append(ParseRow(srow, 'td'))
-
-
-
 	# construct the text for writing the table
-	sio = cStringIO.StringIO()
+	res = [ '<table>' ]
+	if ctitle:
+		res.append(ctitle)
 
-	sio.write('<table>\n')
-	if Lstitle:
-		sio.write('\t\t')
-		map(sio.write, Lstitle)
-		sio.write('\n')
+	if ih > 0:
+		res.append('\t<thead>')
+		for srow in srows[:ih]:
+			res.append(ParseRow(srow, 'th'))
+		res.append('\t</thead>')
 
-	if Lshrows:
-		sio.write('\t\t\t<thead>\n')
-		for Lsh in Lshrows:
-			sio.write('\t\t\t')
-			map(sio.write, Lsh)
-			sio.write('\n')
-		sio.write('\t\t\t</thead>\n')
+	res.append('\t<tbody>')
+	for srow in srows[ih:]:
+		res.append(ParseRow(srow, 'td'))
+	res.append('\t</tbody>')
 
-	sio.write('\t\t\t<tbody>\n')
-	for Lsd in Lsdrows:
-		sio.write('\t\t\t')
-		map(sio.write, Lsd)
-		sio.write('\n')
-	sio.write('\t\t\t</tbody>\n')
-
-	sio.write('\t\t</table>\n')
-
-	res = sio.getvalue()
-	sio.close()
+	res.append('</table>')
 
 	return res
 

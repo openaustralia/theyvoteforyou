@@ -17,6 +17,8 @@ knownbadmatches = 'prime minister|nicholas brown|gareth thomas|lembit|' +\
 		  'advocate-general|ainsworth|jonathan shaw|gareth r[.] thomas|multiple times(?i)'
 
 fixsubs = 	[
+	( 'tbLlew', 'Llew', 1, '2004-03-11'), 
+
         ( 'Mr. Jim McNulty', 'Mr. McNulty', 1, '2003-01-07'),
         ( '(<B> Mr. Tony)(: </B>)', '\\1 Banks\\2', 1, '2004-01-29'),
 	( '<B> Mr. </B>\s* Shepherd:', '<B> Mr. Shepherd:</B>', 1, '2003-10-23'),
@@ -146,7 +148,7 @@ def FilterWransSpeakers(fout, text, sdate):
                 # oral questions" signifier)
 
                 # match the member to a unique identifier
-                (id, remadename, remadecons) = memberList.matchfullnamecons(boldnamestring, None, sdate)
+                (id, remadename, remadecons) = memberList.matchfullnamecons(boldnamestring, None, sdate, bsuppressmultimplematches=True)
 
 		# now output what we've decided
                 #if reason:

@@ -190,8 +190,8 @@ def FixHTMLEntitiesL(stex, signore=''):
 		stex = re.sub(signore, '', stex)
 	return StraightenHTMLrecurse(stex)
 
-def FixHTMLEntities(stex):
-	return string.join(StraightenHTMLrecurse(stex), '')
+def FixHTMLEntities(stex, signore=''):
+	return string.join(FixHTMLEntitiesL(stex, signore), '')
 
 
 
@@ -420,8 +420,10 @@ def WriteXMLFile(fout, flatb, sdate):
 		colnum = re.search('colnum="([^"]*)"', qb.sstampurl.stamp).group(1)
 		if colnum != pcolnum:
 			# check that the column numbers are increasing
+			# this is essential if the gids are to be unique.
 			icolnum = string.atoi(re.match('(\d+)[W]*$', colnum).group(1))
 			if icolnum <= picolnum:
+				print qb.sstampurl.stamp
 				raise Exception, "non-increasing column numbers %s %d" % (colnum, picolnum)
 			picolnum = icolnum
 

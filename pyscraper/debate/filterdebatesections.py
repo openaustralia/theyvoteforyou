@@ -20,7 +20,6 @@ from clsinglespeech import qspeech
 from parlphrases import parlPhrases
 
 from miscfuncs import FixHTMLEntities
-from miscfuncs import WriteXMLHeader
 from miscfuncs import WriteXMLFile
 
 from filterdivision import FilterDivision
@@ -155,7 +154,7 @@ def StripDebateHeadings(headspeak, sdate):
 
 
 # Handle normal type heading
-def NormalHeadingPart(sht0, stampurl):
+def NormalHeadingPart(headingtxt, stampurl):
 	# This is an attempt at major heading detection.
 	# This theory is utterly flawed since you can only tell the major headings
 	# by context, for example, the title of the adjournment debate, which is a
@@ -165,9 +164,6 @@ def NormalHeadingPart(sht0, stampurl):
 
 	# detect if this is a major heading and record it in the correct variable
 
-	# set the title for this batch
-	sht0 = string.strip(sht0)
-
 	bmajorheading = False
 
 
@@ -175,11 +171,11 @@ def NormalHeadingPart(sht0, stampurl):
 	if sht0 == 'Oral Answers to Questions':
 		bmajorheading = True
 	# Check if there are any other spellings of "Oral Answers to Questions" with a loose match
-	elif re.search('oral(?i)', sht0) and re.search('ques(?i)', sht0):
-		raise Exception, 'Oral question match not precise enough: %s' % sht0
+	elif re.search('oral(?i)', headingtxt) and re.search('ques(?i)', headingtxt):
+		raise Exception, 'Oral question match not precise enough: %s' % headingtxt
 
 	# All upper case headings
-	elif not re.search('[a-z]', sht0):
+	elif not re.search('[a-z]', headingtxt):
 		bmajorheading = True
 
 	# Other major headings, marked by _head in their anchor tag
@@ -188,14 +184,15 @@ def NormalHeadingPart(sht0, stampurl):
 
 	# we're not writing a block for division headings
 	# write out block for headings
-	qb = qspeech('nospeaker="true"', FixHTMLEntities(sht0), stampurl)
+	headingtxtfx = FixHTMLEntities(headingtxt)
+	qb = qspeech('nospeaker="true"', headingtxtfs, stampurl)
 	if bmajorheading:
 		qb.typ = 'major-heading'
 	else:
 		qb.typ = 'minor-heading'
 
 	# headings become one unmarked paragraph of text
-	qb.stext = [ qb.text ]
+	qb.stext = [ headingtxtfx ]
 	return qb
 
 
@@ -217,9 +214,8 @@ def FilterDebateSections(fout, text, sdate):
 	# this is a flat output of qspeeches, some encoding headings, and some divisions.
 	# see the typ variable for the type.
 	flatb = [ ]
-	for i in range(ih, len(headspeak)):
+	for sht in headspeak[ih:]:
 		# triplet of ( heading, unspokentext, [(speaker, text)] )
-		sht = headspeak[i]
 		headingtxt = string.strip(sht[0])
 		unspoketxt = sht[1]
 		speechestxt = sht[2]
@@ -253,8 +249,7 @@ def FilterDebateSections(fout, text, sdate):
 			flatb.append(qbd)
 
 			# write out our file with the report of all divisions
-			if foutdivisionreports:
-				PreviewDivisionTextGuess(foutdivisionreports, flatb)
+			PreviewDivisionTextGuess(flatb)
 
 		# continue and output unaccounted for unspoken text occuring after a
 		# division, or after a heading

@@ -16,11 +16,13 @@ from miscfuncs import ApplyFixSubstitutions
 
 fixsubs = 	[
 	( 'Continued in col 47W', '', 1, '2003-10-27' ),
+	( '<P><I>8 Mar 2004 : Column 1346W</I>', '\\1<P>', 1, '2004-03-08'), 
 
 	# Note the 2!
 	( '<H1 align=center></H1>[\s\S]{10,99}?\[Continued from column \d+?W\](?:</H2>)?', '', 2, '2003-11-17' ),
 	( '<H2 align=center> </H2>[\s\S]{10,99}?Monday 13 October 2003', '', 1, '2003-10-14' ),
 	( '<P>\[Continued from column 278W\]', '', 1, '2003-12-08'),
+	( '\[Continued from column 770W\]', '', 1, '2004-03-23'),
 
         ( '(<TABLE BORDER=1>)(\s*?<a name="30613w06.html_sbhd5">)', '\\2', 1, '2003-06-13'),
         ( '(</FONT>\s*?)<TABLE BORDER=1>(\s*?<P>\s*?<P>)', '\\1\\2', 1, '2003-06-13'),
@@ -95,7 +97,7 @@ recolnumcontvals = re.compile('<i>([^:<]*):\s*column\s*(\d+)w?&#151;continued</i
 # <a name="column_1099">
 reaname = '<a name="\S*?">(?i)'
 reanamevals = re.compile('<a name="(\S*?)">(?i)')
- 
+
 recomb = re.compile('\s*(%s|%s|%s|%s|%s)\s*' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolnumcont, reaname))
 remarginal = re.compile(':\s*column\s*\d+(?i)|</?a[\s>]')
 
@@ -122,7 +124,6 @@ def FilterWransColnum(fout, text, sdate):
 
 			colnum = lcolnum
 			fout.write(' <stamp coldate="%s" colnum="%sW"/>' % (sdate, lcolnum))
-
 			continue
 
 		columncontg = recolnumcontvals.match(fss)
@@ -138,13 +139,13 @@ def FilterWransColnum(fout, text, sdate):
 			fout.write(' ')
 			continue
 
-                # anchor names from HTML <a name="xxx">
-                anameg = reanamevals.match(fss)
-                if anameg:
-                        aname = anameg.group(1)
-                        fout.write('<stamp aname="%s"/>' % aname)
-                        continue
- 
+		# anchor names from HTML <a name="xxx">
+		anameg = reanamevals.match(fss)
+		if anameg:
+			aname = anameg.group(1)
+			fout.write('<stamp aname="%s"/>' % aname)
+			continue
+
 		# nothing detected
 		# check if we've missed anything obvious
 		if recomb.match(fss):

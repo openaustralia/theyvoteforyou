@@ -104,7 +104,7 @@ class ParlPhrases:
  	"Secretary of State",
 		]
 
-	majorheadings = {
+	wransmajorheadings = {
 		"ADVOCATE-GENERAL":"ADVOCATE-GENERAL",
 			"ADVOCATE GENERAL":"ADVOCATE-GENERAL",
 		"ADVOCATE-GENERAL FOR SCOTLAND":"ADVOCATE-GENERAL FOR SCOTLAND",
@@ -173,7 +173,7 @@ class ParlPhrases:
 		"WALES":"WALES",
 		"WORK AND PENSIONS":"WORK AND PENSIONS",
 			}
-        
+
 	daysofweek = 'Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday'
 	monthsofyear = 'January|February|March|April|May|June|July|August|September|October|November|December'
 	datephrase = '((?:%s )?((?:\d+ )?(?:%s)(?: \d+)?))' % (daysofweek, monthsofyear)

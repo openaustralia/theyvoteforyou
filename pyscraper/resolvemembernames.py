@@ -188,7 +188,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         return ids
 
     # Returns id, corrected name, corrected constituency
-    def matchfullnamecons(self, fullname, cons, date, alwaysmatchcons = True):
+    def matchfullnamecons(self, fullname, cons, date, alwaysmatchcons = True, bsuppressmultimplematches = False):
         ids = self.fullnametoids(fullname, date)
 
         cancons = self.conscanonical.get(cons, None)
@@ -206,7 +206,7 @@ class MemberList(xml.sax.handler.ContentHandler):
 
         if len(ids) == 0:
             raise Exception, 'No match: #' + fullname + "# " + (cons or "<nocons>")
-        if len(ids) > 1:
+        if len(ids) > 1 and not bsuppressmultimplematches:
             raise Exception, 'Matched multiple times: ' + fullname + " # " + (cons or "<nocons>")
 
         for id in ids: # pop is no good as it changes the set
