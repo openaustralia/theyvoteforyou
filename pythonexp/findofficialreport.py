@@ -29,7 +29,7 @@ def FindOfficialReport(text):
 	for hho in ho:
 		colno = hho[1]
 		date = mx.DateTime.DateTimeFrom(hho[0]).date
-		res.append((date, colno))
+		res.append((date, colno, 'someone', 'someone'))
 	return res
 
 	ho.extend(re.findall(rex2, text))

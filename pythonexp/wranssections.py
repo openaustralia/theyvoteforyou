@@ -440,6 +440,12 @@ def WransSections(fout, finr, sdate):
 			ncid = qb.ncid
 			shta.lastpageurl = qb.lastpageurl
 			shta.laststamp = qb.laststamp
-			qb.writexml(fout, sdate)
+			qbl.append(qb)
+
+	fout.write("<?xml version='1.0' encoding='us-ascii'?>\n")
+	fout.write("<publicwhip>\n")
+	for qb in qbl:
+		qb.writexml(fout, sdate)
+	fout.write("</publicwhip>\n")
 
 

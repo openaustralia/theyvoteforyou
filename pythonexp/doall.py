@@ -20,7 +20,7 @@ from fixwransspeakernames import WransSpeakerNames
 from wranssections import WransSections
 
 dtemp = toppath + "daydebtemp.htm"
-def ScanDirectories(func, dirout, dirin):
+def ScanDirectories(func, dirout, dirin, suff):
 	if not os.path.isdir(dirout):
 		os.mkdir(dirout)
 	fdirin = os.listdir(dirin)
@@ -29,7 +29,9 @@ def ScanDirectories(func, dirout, dirin):
 	for fin in fdirin:
 		sdate = re.findall('\d{4}-\d{2}-\d{2}', fin)[0]
 		jfin = os.path.join(dirin, fin)
-		jfout = os.path.join(dirout, fin)
+
+		jfout = os.path.join(dirout, re.sub('[.]html$', suff, fin))
+
 		if not os.path.isfile(jfout):
 			ofin = open(jfin)
 			finr = ofin.read()
@@ -73,16 +75,16 @@ if not os.path.isfile(hocdaydebatelist):
 
 # grab all the days we can
 # (comment the function call out line out if you want it to run past)
-#GlueHocDayDebate(toppath, dirgluedwranswers, hocdaydebatelist, 'answers', 'answers')
+GlueHocDayDebate(toppath, dirgluedwranswers, hocdaydebatelist, 'answers', 'answers')
 
 print dirwaremovechars
-ScanDirectories(RemoveLineChars, dirwaremovechars, dirgluedwranswers)
+ScanDirectories(RemoveLineChars, dirwaremovechars, dirgluedwranswers, '.html')
 print dirwacolumnnumbers
-ScanDirectories(FixWransColumnNumbers, dirwacolumnnumbers, dirwaremovechars)
+ScanDirectories(FixWransColumnNumbers, dirwacolumnnumbers, dirwaremovechars, '.html')
 print dirwaspeakers
-ScanDirectories(WransSpeakerNames, dirwaspeakers, dirwacolumnnumbers)
+ScanDirectories(WransSpeakerNames, dirwaspeakers, dirwacolumnnumbers, '.html')
 print dirwrans
-ScanDirectories(WransSections, dirwrans, dirwaspeakers)
+ScanDirectories(WransSections, dirwrans, dirwaspeakers, '.xml')
 sys.exit()
 
 

@@ -360,7 +360,7 @@ def FixReply(text, questionqnums):
 
 			# write links
 			for foff in FindOfficialReport(nt):
-				res.write('<offreplink coldate="%s" colnum="%s"/>\n' % foff)
+				res.write('<offreplink coldate="%s" colnum="%s" givenby="%s" givento="%s"/>\n' % foff)
 
 	sres = res.getvalue()
 	res.close()

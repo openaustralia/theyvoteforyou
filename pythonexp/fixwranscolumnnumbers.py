@@ -51,7 +51,7 @@ def FixWransColumnNumbers(fout, finr, sdate):
 		if len(columngroup) != 0:
 			if lcoldate == '':
 				lcoldate = columngroup[0][0]
-				jlcoldate = mx.DateTime.DateTimeFrom(lcoldate).date # should get from filename
+				jlcoldate = mx.DateTime.DateTimeFrom(lcoldate).date
 			elif lcoldate != columngroup[0][0]:
 				print "Column date disagrees %s -- %s" % (lcoldate, fss)
 
