@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.27 2004/10/13 13:08:14 frabcus Exp $
+# $Id: faq.php,v 1.28 2004/11/24 20:36:38 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -52,7 +52,7 @@ access.
 Election, although there are a few divisions missing in the 1997
 parliament.  New divisions are added semi-manually, so will not appear
 until a few days after they happen.  We give no warranty for the data; there
-may be factual inaccuracies.  <a href="mailto:support@publicwhip.org.uk">Let us
+may be factual inaccuracies.  <a href="mailto:team@publicwhip.org.uk">Let us
 know</a> if
 you find any.
 
@@ -150,7 +150,7 @@ double check the information. It may be nonsense.  If you can't be
 bothered, at least do some cursory cross checking.  Whichever way, use
 is at your own risk.  Of course we'd rather you helped us fix the
 software and correct any errors, so <a
-href="mailto:support@publicwhip.org.uk">send us an email</a> if you find
+href="mailto:team@publicwhip.org.uk">send us an email</a> if you find
 inaccuracies.
 
 <p>If you reproduce this information, or derive any interesting 
@@ -201,7 +201,7 @@ relating to the project.
 <h2><a name="email">Where can I email?</a></h2>
 <p>If you have any problems, comments, queries, suggestions or offers of help about this website
 then email <a
-href="mailto:support@publicwhip.org.uk">support@publicwhip.org.uk</a>.  If you would like
+href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a>.  If you would like
 to contact your MP about something that concerns you, then use <a href="http://www.faxyourmp.com">Fax Your MP</a>.
 
 <?php include "footer.inc" ?>

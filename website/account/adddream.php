@@ -1,6 +1,6 @@
 <?  
 
-# $Id: adddream.php,v 1.7 2004/06/15 10:27:01 frabcus Exp $
+# $Id: adddream.php,v 1.8 2004/11/24 20:36:39 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -88,7 +88,7 @@ if (user_isloggedin()) # User logged in, show settings screen
         to prevent spam.  If you represent an organisation, register with The
         Public Whip using an email address of that organisation.  Dream MPs which
         appear to represent an organisation but do not really will be removed.
-        Please contact <a href=\"mailto:support@publicwhip.org.uk\">support@publicwhip.org.uk</a>
+        Please contact <a href=\"mailto:team@publicwhip.org.uk\">team@publicwhip.org.uk</a>
         if you spot any such abuse.
         ";
 

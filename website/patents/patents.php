@@ -62,7 +62,7 @@ him, and would go if Lord Sainsbury was unable to.
 <br>James Heald <b>0778910 7539</b> of FFII-UK
 <br>Francis Irving 07970 543358 of The Public Whip
 
-<li>Comments, suggestions or for more information please <a href="mailto:support@publicwhip.org.uk">email us</a>.
+<li>Comments, suggestions or for more information please <a href="mailto:team@publicwhip.org.uk">email us</a>.
 </ul>
 
 <p><b>The Public Whip depends on our freedom to write software</b>
