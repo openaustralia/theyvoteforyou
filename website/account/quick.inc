@@ -8,7 +8,8 @@ if (!function_exists("user_isloggedin"))
     function user_isloggedin() {
             global $user_name,$id_hash,$hidden_hash_var,$LOGGED_IN;
 
-            $user_name=mysql_escape_string($_COOKIE["user_name"]);
+            if (!$user_name)
+                $user_name=mysql_escape_string($_COOKIE["user_name"]);
             $id_hash=mysql_escape_string($_COOKIE["id_hash"]);
 
             //have we already run the hash checks? 

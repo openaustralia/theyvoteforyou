@@ -163,7 +163,7 @@ function user_lost_password ($email,$user_name) {
 
 			//send a simple email with the new password
 			mail ($email,'Public Whip Password Reset','Your password '.
-				'has been reset to: '.$new_pass,'From: noreply@publicwhip.org.uk');
+				'has been reset to: '.$new_pass,'From: auto@publicwhip.org.uk');
 			$feedback .= ' Your new password has been emailed to you. ';
 			return true;
 		}
@@ -181,13 +181,14 @@ function user_change_email ($password1,$new_email,$user_name) {
 		//send out a new confirm email with a new hash
 		$user_name=strtolower($user_name);
 		$password1=strtolower($password1);
+#                print "user $user_name pw $password1 em $new_email";
 		$sql="UPDATE pw_dyn_user SET confirm_hash='$hash' WHERE user_name='$user_name' AND password='". md5($password1) ."'";
 		$result=db_query($sql);
 		if (!$result || db_affected_rows($result) < 1) {
-			$feedback .= ' Incorrect user name or password. ';
+			$feedback .= ' Incorrect user name or password.  ' . db_error();
 			return false;
 		} else {
-			$feedback .= ' Confirmation sent. ';
+			$feedback .= ' Confirmation email sent.  Check your new email address, and follow the link to complete the change.';
 			user_send_confirm_email($new_email,$hash,$user_name);
 			return true;
 		}
@@ -212,13 +213,38 @@ function user_send_confirm_email($email,$hash, $user) {
                 "\nIf you would not like to receive the newsletter, you can".
                 "\njust delete this email.  For more information about".
                 "\nthe project visit www.publicwhip.org.uk.";
-	mail ($email,'Public Whip Registration Confirmation',$message,'From: noreply@publicwhip.org.uk');
+	mail ($email,'Public Whip Registration Confirmation',$message,'From: auto@publicwhip.org.uk');
 }
 
 function user_register($user_name,$password1,$password2,$email,$real_name) {
 	global $feedback,$hidden_hash_var;
 	//all vars present and passwords match?
-	if ($user_name && $password1 && $password1==$password2 && $email && validate_email($email)) {
+	if (!$user_name )
+        {
+		$feedback .=  ' Please fill in your user name.';
+		return false;
+	}
+	else if (!$password1 )
+        {
+		$feedback .=  ' Please fill in your password.';
+		return false;
+	}
+	else if ($password1 != $password2 )
+        {
+		$feedback .=  ' Please enter matching passwords.';
+		return false;
+	}
+	else if (!$email)
+        {
+		$feedback .=  ' Please fill in your email address.';
+		return false;
+	}
+	else if (!validate_email($email) )
+        {
+		$feedback .=  ' Please fill in a valid email address.';
+		return false;
+	}
+        else {
 		//password and name are valid?
 		if (account_namevalid($user_name) && account_pwvalid($password1)) {
 			$user_name=strtolower($user_name);
@@ -250,10 +276,7 @@ function user_register($user_name,$password1,$password2,$email,$real_name) {
 			$feedback .=  ' Your account name or password are not valid. ';
 			return false;
 		}
-	} else {
-		$feedback .=  ' Please fill in your user name, matching passwords, and provide a valid email address.';
-		return false;
-	}
+	} 
 }
 
 function user_getid() {
