@@ -138,11 +138,11 @@ class SepHeadText:
 		if not re.match('(?:<[^>]*?>|\s)*$', self.unspoketext):
                         # We deliberately don't put "." in to avoid matching "19." before paragraph starts
                         gho = re.match('(\s*[()A-Za-z\-,\'\"/&#; 0-9]+)((?:<[^>]*?>|\s)*)$', self.unspoketext)
-			if gho:
+			if gho and not renotheadingmarg.search(self.unspoketext):
 				self.heading = self.heading + ' ' + gho.group(1)
                                 self.heading = re.sub("\s+", " ", self.heading)
 				self.unspoketext = gho.group(2)
-                                #print "merged dangling heading %s" % (self.heading)
+                                # print "merged dangling heading %s" % (self.heading)
                                 if len(self.heading) > 100:
                                         raise Exception, "Suspiciously long merged heading part - is it OK? %s" % self.heading
 
@@ -190,6 +190,8 @@ class SepHeadText:
 
 			# we have matched a heading thing
 			if gheading:
+                                #print "heading ", fss
+
 				if not gheading.group(1):
 					# print 'ignored heading tag containing no text following: ' + self.heading
 					continue

@@ -2,6 +2,8 @@
 set -e # exit upon error
 # set -x # show commands as run for debugging
 
+EDITOR=vim
+
 function bad_params()
 {
     cat <<END

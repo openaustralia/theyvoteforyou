@@ -239,6 +239,7 @@ def FilterDebateSections(fout, text, sdate):
                         # heading type
                         if not gdiv:
                                 qbh = NormalHeadingPart(headingtxt, stampurl)
+                                # print "h ", qbh.typ, qbh.stext
 
                                 # ram together minor headings into previous ones which have no speeches
                                 if qbh.typ == 'minor-heading' and len(flatb) > 0 and flatb[-1].typ == 'minor-heading':

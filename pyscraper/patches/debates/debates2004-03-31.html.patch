@@ -1,0 +1,20 @@
+--- debates/debates2004-03-31.html	Sat Apr  3 03:46:09 2004
++++ debates/debates2004-03-31-patchtmp.html	Thu Apr 15 15:48:33 2004
+@@ -27,7 +27,7 @@
+ <a name="40331-01_dpthd0"><H3><center>INTERNATIONAL DEVELOPMENT</center></H3>
+ 
+ 
+-<H4><center>The Secretary of State was asked&#151;</center></H4>
++<p>The Secretary of State was asked&#151;
+ 
+ <a name="40331-01_sbhd0"><H4><center>African Cotton</center></H4>
+ 
+@@ -341,7 +341,7 @@
+ <a name="40331-03_dpthd0"><H3><center>PRIME MINISTER</center></H3>
+ 
+ 
+-<H4><center>The Prime Minister was asked&#151;</center></H4>
++<p>The Prime Minister was asked&#151;
+ 
+ <a name="40331-03_sbhd1"><H4><center>Engagements</center></H4>
+ 
