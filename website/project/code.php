@@ -1,5 +1,5 @@
 <?php $title = "Source Code"; include "../header.inc" 
-# $Id: code.php,v 1.7 2004/06/08 15:56:03 frabcus Exp $
+# $Id: code.php,v 1.8 2004/06/13 15:51:52 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -20,7 +20,7 @@ software license.
 other Unixes, and it should run on Windows.  You need to install at
 least Python, preferably preferably MySQL, Perl and a web server with PHP also.
 Since so few people have used this code, there are bound to be problems.  Don't
-hesitate to <a href="mailto:francis@flourish.org">email me</a> for help,
+hesitate to <a href="mailto:support@publicwhip.org.uk">email us</a> for help,
 or even better join the <a href="https://lists.sourceforge.net/lists/listinfo/publicwhip-playing">publicwhip-playing email list</a> and ask us there.
 
 <p>If all this sounds like gobbledygook, then email me and ask for help.
@@ -208,7 +208,7 @@ different algorithms quicker.
 <h2>Ask me to make it easier</h2>
 
 <p>This stuff isn't in the easiest form for you to use at the moment.
-Do <a href="mailto:francis@flourish.org">email me</a> for help, and make
+Do <a href="mailto:support@publicwhip.org.uk">email us</a> for help, and make
 suggestions as to how it could be better.  I'd love to hear from you if
 you've got the thing working at all, and what you're using it for if you
 have.

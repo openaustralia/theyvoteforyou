@@ -1,7 +1,7 @@
-<?php $cache_postfix = rand(0, 10); include "cache-begin.inc"; ?>
+<?php $cache_params = rand(0, 10); include "cache-begin.inc"; ?>
 
 <?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
-# $Id: index.php,v 1.25 2004/02/20 11:33:23 frabcus Exp $
+# $Id: index.php,v 1.26 2004/06/13 15:51:52 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under

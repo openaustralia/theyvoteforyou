@@ -1,10 +1,5 @@
-<?php 
-    include "account/user.inc";
-    if (!user_isloggedin())
-        include "cache-begin.inc"; 
-?>
 <?php
-# $Id: division.php,v 1.32 2004/05/24 00:59:00 frabcus Exp $
+# $Id: division.php,v 1.33 2004/06/13 15:51:52 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -13,9 +8,6 @@
 # For details see the file LICENSE.html in the top level of the source.
 
     include "db.inc";
-    include "account/database.inc";
-    $db = new DB(); 
-
     $date = db_scrub($_GET["date"]);
     $div_no = db_scrub($_GET["number"]);
 
@@ -25,6 +17,16 @@
     $all_similars = false;
     if ($_GET["allsimilars"] == "yes")
         $all_similars = true;
+
+    include "account/user.inc";
+    if (!user_isloggedin()) {
+        $cache_params = "#date=$date#div_no=$div_no#show_all=$show_all#all_similars=$all_similars#";
+        include "cache-begin.inc"; 
+    }
+
+    include "account/database.inc";
+    include "cache-tools.inc";
+    $db = new DB(); 
 
     $db->query("select pw_division.division_id, division_name,
             source_url, rebellions, turnout, notes, motion, debate_url from pw_division,
@@ -125,6 +127,10 @@
                 if ($changedvote != $vote)
                 {
                     print "<tr><td colspan=2><div class=\"error\">";
+                    cache_delete("dreammp.php", "id=" . intval($row['rollie_id']));
+                    cache_delete("dreammps.php", "");
+                    cache_delete("division.php", "#date=$date#div_no=$div_no#*");
+
                     if ($changedvote == "--")
                     {
                         $query = "delete from pw_dyn_rollievote "  .

@@ -1,5 +1,5 @@
 <?php 
-# $Id: data.php,v 1.10 2004/06/08 15:56:03 frabcus Exp $
+# $Id: data.php,v 1.11 2004/06/13 15:51:52 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -7,28 +7,16 @@
 # For details see the file LICENSE.html in the top level of the source.
 
     include "../config.inc";
-    $wransdir = $xmltoppath . "/scrapedxml/wrans";
-
-    if ($_GET["wrans"])
-    {
-        $filename = $_GET["wrans"];
-        $filename = preg_replace("/[^0-9\-]/", "", $filename);
-        $filename = $wransdir . "/answers" . $filename . ".xml";
-        header("Content-type: text/xml");
-        readfile($filename);
-    }
-    else
-    {
-        $title = "Raw Data"; include "../header.inc";
+    $title = "Raw Data"; include "../header.inc";
 ?>
 
 <p>Here you can find raw data compiled by the Public Whip project.
 For example, if you want to load a voting record into a spreadsheet, or to get
-XML files of Written Answers.  For legal and copyright information, see
+XML files of Debates or Written Answers.  For legal and copyright information, see
 <a href="../faq.php#legal">our FAQ</a>. However, we ask that if you do
 anything fun or important with this data, you let us know!  Any problems using
 the data, or requests for a different format?  Email <a
-href="mailto:francis@publicwhip.org.uk">francis@publicwhip.org.uk</a>
+href="mailto:support@publicwhip.org.uk">support@publicwhip.org.uk</a>
 or ask on the <a href="https://lists.sourceforge.net/lists/listinfo/publicwhip-playing">publicwhip-playing email list</a>.
 
 
@@ -101,29 +89,8 @@ by MP identifier.
 
 <p>Dirty work should only be done once.  Instead of parsing Hansard again, just
 download and enjoy our XML files.  At the moment there are files containing
-Written Answers from the start of 2003.
+Debates and Written Answers from the start of the 2001 parliament.  They are
+available from the <a href="http://www.theyworkforyou.com/raw">raw data page on
+the TheyWorkForYou.com website</a>.
 
-<p>
-
-<?php
-    $dh = opendir($wransdir);
-    $wrans = array();
-    while (false !== ($filename = readdir($dh)))
-    {
-        if (preg_match("/^answers(.*)\.xml$/", $filename, $matches))
-        {
-            array_push($wrans, $matches[1]);
-        }
-    }
-    sort($wrans);
-    $wrans = array_reverse($wrans);
-    foreach ($wrans as $date)
-    {
-        print "<a href=\"data.php?wrans=" . $date . "\">";
-        print "answers" . $date . ".xml";
-        print "</a><br>";
-    }
-
-    include "../footer.inc";
-    }
-?>
+<?php include "../footer.inc"; ?>

@@ -1,5 +1,8 @@
-<?php include "cache-begin.inc"; ?>
 <?php 
+    $dreamid = intval($_GET["id"]);
+    $cache_params = "id=$dreamid";
+    include "cache-begin.inc"; 
+
     # $dreamid: dreammp.php,v 1.4 2004/04/16 12:32:42 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -16,8 +19,6 @@
     include "render.inc";
     include "account/user.inc";
     $db = new DB(); 
-
-    $dreamid = db_scrub($_GET["id"]);
 
     $query = "select name, description, pw_dyn_user.user_id, user_name, real_name, email
         from pw_dyn_rolliemp, pw_dyn_user
@@ -106,6 +107,13 @@
 
     }
 
+    function getmicrotime() 
+    { 
+        list($usec, $sec) = explode(" ", microtime()); 
+        return ((float)$usec + (float)$sec); 
+    } 
+    $timestart = getmicrotime();
+        
     print "<h2><a name=\"comparison\">Comparison to Real MPs</a></h2>";
     print "<p>Grades MPs acording to how often they voted the same as the dream
     MP.  If, in divisions where both voted, they always voted the same then
@@ -226,6 +234,10 @@
     }
 
     print "</table>\n";
+
+    $timenow = getmicrotime();
+    $timetook = $timenow - $timestart;
+    print "took $timetook from $timestart $timenow";
     
 ?>
 

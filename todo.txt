@@ -1,3 +1,8 @@
+Interesting Divisions link doesn't go to interesting divisions - and people would like to
+http://www.publicwhip.org.uk/mp.php?id=uk.org.publicwhip/member/779&showall=yes#divisions
+
+
+
 New division scraper:
 
 --------------------
@@ -51,8 +56,6 @@ Performance on sphinx
 Cache dream MP page - delete cache file when it changes
 Cope with changes to 
     - division.php 
-    - dreammps.php
-    - dreampmp.php
 
 Change "Account" button when logged in
 Web page URL of you

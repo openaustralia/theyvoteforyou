@@ -1,4 +1,7 @@
 <?php 
+    $cache_params = "";
+    include "cache-begin.inc"; 
+
     # $dreamid: dreammp.php,v 1.4 2004/04/16 12:32:42 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -14,8 +17,6 @@
     include "account/user.inc";
     $dbo = new DB(); 
     $db = new DB(); 
-
-    $dreamid = db_scrub($_GET["id"]);
 
     $title = "Dream MPs";
     include "header.inc";
@@ -98,4 +99,4 @@ you like.  For example:
 ?>
 
 <?php include "footer.inc" ?>
-
+<?php include "cache-end.inc"; ?>
