@@ -55,10 +55,14 @@ def StraightenHTMLrecurse(stex):
 				sres[i] = '+/-'
 			elif sres[i] == '&#188;':   # this is one quarter symbol
 				sres[i] = '1/4'
+			elif sres[i] == '&#189;':   # this is one half symbol
+				sres[i] = '1/2'
 			elif sres[i] == '&#190;':   # this is three quarter symbol
 				sres[i] = '3/4'
 			elif sres[i] == '&#95;':    # this is underscore symbol
 				sres[i] = '_'
+			elif sres[i] == '&pound;':
+				sres[i] = 'POUNDS'
 
 			elif sres[i] == '&nbsp;':
 				sres[i] = ' '

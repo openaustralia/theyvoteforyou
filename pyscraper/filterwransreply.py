@@ -13,6 +13,7 @@ from miscfuncs import FixHTMLEntities
 from miscfuncs import FixHTMLEntitiesL
 
 from filterwransreplytable import ParseTable
+from filterwransemblinks import ExtractHTTPlink
 
 # output to check for undetected member names
 seelines = open('ghgh.txt', "w")
@@ -68,10 +69,7 @@ def MergePersonPhrases(qs, sres):
 	return sres
 
 
-reglinksite = '(?:http://\s?[^\s./]*|www)[/.]\s?(?:[^\s./]+\.\s?)+(?:org|com|uk|tv|net|gov|int|it|ch|es)'
-reglinkmid = '(?:/[^\s./]*)*/'
-reglinktail = '[^\s./]*(?:\.\s?(?:s?html?|pdf|xls|(?:asp|php|cfm(?:\?[^\s.]+)?))?)?'
-reglink = '((%s)(?:(%s)(?:(%s))?)?)(?i)' % (reglinksite, reglinkmid, reglinktail)
+
 
 def ExtractPhraseRecurse(qs, stex, depth, rectag):
 	qspan = None
@@ -137,37 +135,7 @@ def ExtractPhraseRecurse(qs, stex, depth, rectag):
 	# of split at a detectable http link
 	# This is really hard to piece apart!
 	if not qspan:
-		qlink = re.search(reglink, stex)
-
-		if not qlink:
-			if re.search('www|http(?i)', stex):
-				seelines.write(' --failed to find link-- ' + stex + '\n')
-				print ' --failed to find link-- ' + stex
-				#sys.exit()
-
-		if qlink:
-			qstr = qlink.group(1)
-			qtags = ( '<a href="%s">' % qstr, '</a>' )
-			qspan = qlink.span(1)
-
-			# write out debug stuff
-			qplpch = [ ]
-			slo = qspan[0] - 10
-			shi = qspan[1] + 20
-			if slo < 0:
-				slo = 0
-			if shi > len(stex):
-				shi = len(stex)
-			qplpch.append(stex[slo:qspan[0]])
-			qplpch.append('(' + qlink.group(2) + ')')
-			if qlink.group(3):
-				qplpch.append('(' + qlink.group(3) + ')')
-			if qlink.group(4):
-				qplpch.append('(' + qlink.group(4) + ')')
-			qplpch.append(stex[qspan[1]:shi])
-			#print string.join(qplpch)
-			map(seelines.write, qplpch)
-			seelines.write('\n')
+		(qspan,qstr,qtags) = ExtractHTTPlink(stex, qs)
 
 
 	# we have a splitting off which we now recursesymbols down both ends and middle
@@ -258,6 +226,7 @@ def FilterReply(qs):
 	spclist = []
 	spclistinter = []
 	for nf in nfj:
+
 		# list of space type objects
 		if re.match('</?p>|</?ul>|<br>|</?font[^>]*>(?i)', nf):
 			spclist.append(nf)
@@ -270,9 +239,17 @@ def FilterReply(qs):
 		elif re.search('\S', nf):
 			# bring the string together with choss in between paragraph stuff
 			pstring = string.strip(nf)
+
+
 			if spclistinter:
 				spclistinter.append(pstring)
 				pstring = string.join(spclistinter, '')
+				spclistinter = [ ]
+
+			if re.search('<table(?i)', pstring):
+				if not re.match('<table[^>]*>\s*([\s\S]*?)\s*</table>(?i)', nf):
+					print nf
+					#print re.findall('<table[\s\S]*?</table>(?i)', qs.text)
 
 			# first entry
 			if not dell:

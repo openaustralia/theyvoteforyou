@@ -61,7 +61,30 @@ fixsubs = 	[
 	( 'Asked the Minister', 'To ask the Minister', 1, '2003-05-21'),
 
 	( '2003&#150;11&#150;21', '2003', 1, '2003-11-20'),
-	( '27Ooctober', '27 October', 1, '2003-10-27'), 
+	( '27Ooctober', '27 October', 1, '2003-10-27'),
+
+	( '<TD <', '<TD> <', 1, '2003-07-15'),
+
+
+	# broken link fixing material
+	( 'http://www/', 'http://www.', 1, '2003-11-03'),
+	( 'www.mod.ukyissues', 'www.mod.uk/issues', 1, '2003-10-22'),
+	( 'http.V/', 'http://', 1, '2003-09-18'),
+	( 'hhtp://', 'http://', 1, '2003-09-08'),
+	( 'http:www', 'http://www', 1, '2003-07-17'),
+	( 'www.lshtm.ac/', 'www.lshtm.ac.uk/', 1, '2003-07-10'),
+	( 'www.g8.fr.Evian', 'www.g8.fr/evian', 1, '2003-06-13'),
+	( 'http//wwwstatisticsgovuk/', 'http//www.statistics.gov.uk/', 1, '2003-09-01'),
+	( 'http:www', 'http://www', 1, '2003-07-01'),
+	( 'www.mod.ulc', 'www.mod.uk', 1, '2003-01-15'),
+	( 'www://defraweb', 'http://defraweb', 1, '2003-05-07'),
+	( 'www.hypo-org', 'www.hypo.org', 1, '2003-04-29'),
+	( 'www.btselem.orR', 'www.btselem.org', 1, '2003-04-14'),
+	( 'www.unicef-org', 'www.unicef.org', 1, '2003-02-28'),
+	( 'gov.ukyStatBase', 'gov.uk/StatBase', 1, '2003-05-22'),
+
+
+
 		]
 
 

@@ -43,7 +43,7 @@ def ParseTable(stable):
 		ts = re.match('(?:\s|<b>|<center>)+([\s\S]*?)(?:</b>|</center>)+\s*([\s\S]*?)\s*$(?i)', stitle)
 		if not ts:
 			print stitle
-			raise Exception, ' non-standard table title'
+			raise Exception, ' non-standard table 9title'
 
 		Lstitle.append('<div class="tabletitle">')
 		Lstitle.extend(FixHTMLEntitiesL(ts.group(1)))
@@ -63,7 +63,7 @@ def ParseTable(stable):
 		# build up the list of entries for this row
 		Lscols = [ '<tr> ' ]
 		for spcol in re.split('(<th[^>]*>[\s\S]*?(?:</th>|(?=<th>)))(?i)', srows[ih]):
-			col = re.match('<th(?: colspan=(\d+))?>\s*([\s\S]*?)\s*(?:</th>)?$(?i)', spcol)
+			col = re.match('<th(?: colspan=(\d+)(?: align=center)?)?>\s*([\s\S]*?)\s*(?:</th>)?$(?i)', spcol)
 			if col:
 				if col.group(1):
 					Lscols.append('<th colspan="%s">' % col.group(1))
@@ -73,7 +73,8 @@ def ParseTable(stable):
 				Lscols.append('</th> ')
 
 			# check that the outside text contains nothing but bogus close column tags
-			elif re.search('\S', re.sub('</th>(?i)', '', spcol)):
+			elif re.search('\S', re.sub('</th>|</font>(?i)', '', spcol)):
+				print spcol
 				print srows[ih]
 				raise Exception, ' non column text '
 		Lscols.append('</tr>')
@@ -85,7 +86,7 @@ def ParseTable(stable):
 		# build up the list of entries for this row
 		Lscols = [ '<tr> ' ]
 		for spcol in re.split('(<td[^>]*>[\s\S]*?(?:</td>|(?=<td>)))(?i)', srows[i]):
-			col = re.match('<td(?: colspan=(\d+))?>\s*([\s\S]*?)\s*(?:</td>)?$(?i)', spcol)
+			col = re.match('<td(?: colspan=(\d+))?(?: align=center)?>\s*([\s\S]*?)\s*(?:</td>)?$(?i)', spcol)
 			if col:
 				if col.group(1):
 					Lscols.append('<td colspan="%s">' % col.group(1))
@@ -95,7 +96,7 @@ def ParseTable(stable):
 				Lscols.append('</td> ')
 
 			# check that the outside text contains nothing but bogus close column tags
-			elif re.search('\S', re.sub('</td>(?i)', '', spcol)):
+			elif re.search('\S', re.sub('</td>|</font>(?i)', '', spcol)):
 				print spcol
 				print srows[i]
 				raise Exception, ' non column text '
