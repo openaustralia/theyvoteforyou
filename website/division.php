@@ -1,9 +1,10 @@
 <?php 
+    include "account/user.inc";
     if (!user_isloggedin())
         include "cache-begin.inc"; 
 ?>
 <?php
-# $Id: division.php,v 1.26 2004/02/10 23:20:00 frabcus Exp $
+# $Id: division.php,v 1.27 2004/02/10 23:22:33 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -13,7 +14,6 @@
 
     include "db.inc";
     include "account/database.inc";
-    include "account/user.inc";
     $db = new DB(); 
 
     $date = db_scrub($_GET["date"]);
