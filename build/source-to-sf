@@ -24,7 +24,7 @@ mv publicwhip publicwhip-source-$BUILD
 
 tar cvfz publicwhip-source-$BUILD.tar.gz publicwhip-source-$BUILD
 
-#ftp-upload --host upload.sourceforge.net --dir /incoming --user anonymous publicwhip-source-$BUILD.tar.gz
+ftp-upload --passive --host upload.sourceforge.net --dir /incoming --user anonymous publicwhip-source-$BUILD.tar.gz
 
-
+echo publicwhip-source-$BUILD.tar.gz now in sourceforge.net incoming
 
