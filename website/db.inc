@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.17 2005/03/28 12:55:44 goatchurch Exp $
+# $Id: db.inc,v 1.18 2005/03/28 17:06:41 goatchurch Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -9,7 +9,7 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 # debug setting which prints out all the statements in the SQL calls
-$bdebug = 0;
+$bdebug = 1;
 
 
 function db_scrub($text)

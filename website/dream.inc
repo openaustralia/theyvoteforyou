@@ -21,18 +21,83 @@ function calc_dreammp_person_distance($nvotessame, $nvotessamestrong,
 }
 
 
+# ensures rebuilds the table of dreammp counts across the board
+# does all or just this one dreammp
+# It's entries are considered out of date if they are blank,
+# or you can force everything is $dreamid = "force"
+function update_dreammp_votemeasures($db, $dreamid)
+{
+	global $bdebug;
+
+	$qselect  = "SELECT COUNT(*) AS nvotes";
+	$qselect .= ", SUM(pw_cache_divinfo.wiki_id IS NOT null) AS neditedmotions";
+
+	# (no score from dreamMP absents or abstentions)
+
+	$qfrom  = " FROM pw_dyn_rollievote";
+	$qjoin .= " LEFT JOIN pw_cache_dreaminfo
+					ON pw_cache_dreaminfo.rollie_id = pw_dyn_rollievote.rolliemp_id";
+
+	# factor through division due to the division_id not being common
+	$qjoin .= " LEFT JOIN pw_division
+					ON pw_division.division_date = pw_dyn_rollievote.division_date
+					AND pw_division.division_number = pw_dyn_rollievote.division_number";
+	$qjoin .= " LEFT JOIN pw_cache_divinfo
+					ON pw_cache_divinfo.division_id = pw_division.division_id";
+
+
+	# fill in the holes, or do where there is none
+	if ($dreamid == "force")
+		$qwhere = " WHERE 1=1";
+	elseif ($dreamid == null)
+		$qwhere = " WHERE pw_cache_dreaminfo.cache_uptodate IS null";
+	else
+		$qwhere = " WHERE pw_cache_dreaminfo.rollie_id = $dreamid";
+
+	$qgroup = " GROUP BY pw_cache_dreaminfo.rollie_id";
+	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
+	if ($bdebug == 1)
+		print "<h3>$query</h3>\n";
+    $db->query($query);
+
+	$rowarray = $db->fetch_rows_assoc();
+    foreach ($rowarray as $row)
+	{
+		$nvotes = $row["nvotes"];
+		$neditedmotions = $row["neditedmotions"];
+		$query ="REPLACE INTO pw_cache_dreaminfo
+				(rollie_id, cache_uptodate, votes_count, edited_motions_count)
+				VALUES ($dreamid, 0, $nvotes, $neditedmotions)";
+		$db->query($query);
+	}
+}
+
+
+
 # calculate the distance to all MPs of one dreamMP
 # "absent" means the MP was absent when the DreamMP voted
 function update_dreammp_person_distance($db, $dreamid)
 {
+# update the number of votes and number of motions edited
+# pw_cache_dreaminfo
+
 	global $bdebug;
-	# check
-    $row = $db->query_onez_row_assoc("SELECT cache_uptodate
-							  		  FROM pw_cache_dreaminfo
-							  		  WHERE rollie_id = $dreamid");
-	if ($row != null and $row["cache_uptodate"] == 1)
+	$query = "SELECT cache_uptodate
+			  FROM pw_cache_dreaminfo
+			  WHERE rollie_id = $dreamid";
+	$row = $db->query_onez_row_assoc($query); # allows no rows
+	if ($row == null)
+	{
+		update_dreammp_votemeasures($db, $dreamid);
+		$row = $db->query_one_row_assoc($query);
+	}
+	else
+		update_dreammp_votemeasures($db, $dreamid); # forces the sums to add up properly
+	if ($row["cache_uptodate"] == 1)
 		return;
 	print "<p>".$row["cache_uptodate"]."</p>\n";
+
+	# now go and rebuild all the distances
 
 	$qselect = "SELECT pw_mp.person AS person, ";
 
@@ -54,8 +119,8 @@ function update_dreammp_person_distance($db, $dreamid)
 	$qselect .= "SUM((pw_dyn_rollievote.vote = 'aye3' OR pw_dyn_rollievote.vote = 'no3')
 					 AND (pw_vote.vote = 'both' OR pw_vote.vote IS null))
 					 AS nvotesabsentstrong, ";
-
-	$qselect .= "SUM(pw_vote.vote IS NOT null) AS voteoverlap"; # or could be max
+	$qselect .= "SUM(pw_vote.vote IS NOT null)
+					 AS nvotesoverlap ";
 
 	# (no score from dreamMP absents or abstentions)
 
@@ -63,13 +128,17 @@ function update_dreammp_person_distance($db, $dreamid)
 	$qjoin  = " LEFT JOIN pw_division
 					ON pw_division.division_date = pw_dyn_rollievote.division_date
 					AND pw_division.division_number = pw_dyn_rollievote.division_number";
+	$qjoin .= " LEFT JOIN pw_cache_divinfo
+					ON pw_cache_divinfo.division_id = pw_division.division_id";
 	$qjoin .= " LEFT JOIN pw_vote
 					ON pw_vote.division_id = pw_division.division_id";
 	$qjoin .= " LEFT JOIN pw_mp
 					ON pw_mp.mp_id = pw_vote.mp_id";
 
-	$qwhere = " WHERE pw_dyn_rollievote.rolliemp_id = '$dreamid'";
+	# we do for one dreammp against all the votes they share with each MP
+	$qwhere = " WHERE pw_dyn_rollievote.rolliemp_id = $dreamid";
 	$qgroup = " GROUP BY pw_mp.person";
+
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
 	if ($bdebug == 1)
 		print "<h2>$query</h2>";
@@ -91,7 +160,7 @@ function update_dreammp_person_distance($db, $dreamid)
 
 	foreach ($rowarray as $row)
 	{
-		if (!$row['voteoverlap']) # can't quite see how to filter these out in the query
+		if (!$row['nvotesoverlap']) # can't quite see how to filter these out in the query
 			continue;
 		$nvotessame = $row['nvotessame'];
 		$nvotessamestrong = $row['nvotessamestrong'];
@@ -140,13 +209,12 @@ function update_dreammp_person_distance($db, $dreamid)
 	$dconsistency = ($dconsistencyc != 0.0 ? $dconsistencyn / $dconsistencyc : 0.0);
 
     # Mark as updated
-	$query ="REPLACE INTO pw_cache_dreaminfo
-				(rollie_id, cache_uptodate, consistency_with_mps)
-				VALUES ($dreamid, 1, $dconsistency)";
-	if ($bdebug == 1)
-		print "<h3>$query</h3>\n";
-    $db->query($query);
+    $db->query("UPDATE pw_cache_dreaminfo
+				SET cache_uptodate = 1, consistency_with_mps = $dconsistency
+				WHERE rollie_id = $dreamid");
 }
+
+
 
 
 

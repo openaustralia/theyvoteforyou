@@ -16,10 +16,11 @@
     include "render.inc";
     include "dream.inc";
     include_once "account/user.inc";
-    $dbo = new DB(); 
-    $db = new DB(); 
+    $dbo = new DB();
+    $db = new DB();
 
-    check_table_cache_counts_all_dream_mps($db);
+check_table_cache_counts_all_dream_mps($db); # dead
+	update_dreammp_votemeasures($db, null); # for all
 
     $title = "Dream MPs";
     include "header.inc";
@@ -64,7 +65,7 @@ you like.  For example:
     $query = "select name, description, pw_dyn_user.user_id as user_id, user_name,
                 pw_dyn_rolliemp.rollie_id, votes_count as count, edited_motions_count,
                 round(100 * edited_motions_count / votes_count, 0) as motions_percent
-        from pw_dyn_rolliemp, pw_dyn_user, pw_cache_dreaminfo where 
+        from pw_dyn_rolliemp, pw_dyn_user, pw_cache_dreaminfo where
             pw_dyn_rolliemp.user_id = pw_dyn_user.user_id and
             pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id and
             votes_count > 0
@@ -87,7 +88,7 @@ you like.  For example:
         print "<td>" . percentise($row['motions_percent']) . "</td>\n";
         print "<td><a href=\"dreammp.php?id=$dreamid\">" . $row['name'] . "</a></td>";
         print "<td>" . html_scrub($row['user_name']) . "</td>";
-        print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 300); 
+        print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 300);
         if ($your_dmp) {
             print " [<a href=\"account/editdream.php?id=$dreamid\">Edit...</a>]";
         }
