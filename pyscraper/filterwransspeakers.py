@@ -12,6 +12,8 @@ from miscfuncs import ApplyFixSubstitutions
 
 # this filter finds the speakers and replaces with full itendifiers
 # <speaker name="Eric Martlew  (Carlisle)"><p>Eric Martlew  (Carlisle)</p></speaker>
+
+# (these are temporary)
 knownbadmatches = 'prime minister|solicitor-general|nicholas brown|gareth thomas|lembit|' +\
 		  'advocate-general|ainsworth|jonathan shaw|gareth r[.] thomas|multiple times(?i)'
 
@@ -152,13 +154,13 @@ def FilterWransSpeakers(fout, text, sdate):
                 if reason:
 			if not re.search(knownbadmatches, reason):
 				print reason
-        		reason = ' reason="%s"' % (reason)
+        		reason = ' error="%s" speakername="%s"' % (reason, boldnamestring)
                 if remadename:
-        		remadename = ' displayname="%s"' % (remadename)
+        		remadename = ' speakername="%s"' % (remadename)
 
 		# put record in this place
-		fs[i] = '<speaker name="%s" id="%s"%s%s>%s</speaker>\n' % \
-						(boldnamestring, id, reason, remadename, boldnamestring)
+		fs[i] = '<speaker speakerid="%s"%s%s>%s</speaker>\n' % \
+						(id, reason, remadename, boldnamestring)
 
 	# scan through everything and output it into the file
 	for fss in fs:

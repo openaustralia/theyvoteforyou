@@ -70,10 +70,12 @@ def FilterDebateSpeakers(fout, text, sdate):
 						print ' unmatchable name --- ' + spstr
 
 
-			# match the member to a unique identifier
-			#(id, reason, remadename) = memberList.matchfullname(boldnamestring, sdate)
-			spxm = '<speaker name="%s">%s</speaker>\n' % (spstr, spstr)
-			fout.write(spxm)
+			# match the member to a unique identifier and displayname
+			result = memberList.matchdebatename(spstr, spstrbrack, sdate)
+
+			# put record in this place
+			spxm = '<speaker %s>%s</speaker>\n' % (result, spstr)
+			fout.write(spxm.encode("latin-1")) # For accents in names
 			continue
 
 

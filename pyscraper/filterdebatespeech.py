@@ -7,7 +7,6 @@ import cStringIO
 
 import mx.DateTime
 
-from resolvemembernames import memberList
 from parlphrases import parlPhrases
 from miscfuncs import SplitParaIndents
 

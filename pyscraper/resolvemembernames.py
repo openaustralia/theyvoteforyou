@@ -6,18 +6,23 @@ import xml.sax
 import re
 import string
 
+from parlphrases import parlPhrases
+
 class MemberList(xml.sax.handler.ContentHandler):
     def __init__(self):
         self.members={}
         self.fullnames={}
         self.lastnames={}
         self.aliases={}
+	self.debatedate=None
+	self.debatenamehistory=[]
 
         # "rah" here is a typo in division 64 on 13 Jan 2003 "Ancram, rah Michael"
-        self.titles = "Dr\\ |Hon\\ |hon\\ |rah\\ |rh\\ |Mrs\\ |Ms\\ |Dr\\ |Mr\\ |Miss\\ |Ms\\ |Rt\\ Hon\\ |The\\ Reverend\\ |Sir\\ |Rev\\ ";
+        self.titles = "Dr |Hon |hon |rah |rh |Mrs |Ms |Dr |Mr |Miss |Ms |Rt Hon |Reverend |The Reverend |Sir |Rev "
 	self.retitles = re.compile('^(?:%s)' % self.titles)
+	self.rejobs = re.compile('^%s$' % parlPhrases.regexpjobs)
 
-	self.honourifics = "\\ CBE|\\ OBE|\\ MBE|\\ QC|\\ BEM|\\ rh|\\ RH|\\ Esq|\\ QPM";
+	self.honourifics = " CBE| OBE| MBE| QC| BEM| rh| RH| Esq| QPM";
 	self.rehonourifics = re.compile('(?:%s)$' % self.honourifics)
 
         parser = xml.sax.make_parser()
@@ -69,10 +74,6 @@ class MemberList(xml.sax.handler.ContentHandler):
         text = text.replace(".", " ")
         text = text.replace("  ", " ")
 
-	# doesn't seem to improve matching, and anyway python doesn't like it,
-	# even in a comment
-	#text = text.replace('&#214;', 'Oe')
-
         # Remove initial titles
         (text, titlec) = self.retitles.subn("", text)
         if titlec > 1:
@@ -106,6 +107,69 @@ class MemberList(xml.sax.handler.ContentHandler):
 	id = ids[0]
         remadename = self.members[id]["firstname"] + " " + self.members[id]["lastname"]
         return id, '', remadename
+
+    # Matches names - exclusively for debates pages
+    def matchdebatename(self, input, bracket, date):
+	speakeroffice = ""
+
+	# Clear name history if date change
+	# The name history stores all recent names:
+	#   Mr. Stephen O'Brien (Eddisbury) 
+	# So it can match them when listed in shortened form:
+	#   Mr. O'Brien
+	if self.debatedate != date:
+	    self.debatedate = date
+	    self.debatenamehistory = []
+	
+	# Sometimes no bracketed component: Mr. Prisk
+	ids = self.fullnametoids(input, date)
+	# Different types of brackets...
+	if bracket:
+	    if len(ids) == 0:
+		# Sometimes name in brackets: 
+		# The Minister for Industry and the Regions (Jacqui Smith)
+		ids = self.fullnametoids(bracket, date)
+		speakeroffice = ' speakeroffice="%s" ' % input
+	    elif len(ids) > 1:
+		# TODO: Match constituency, maybe even if len(ids) == 1 here
+		# Disambiguate by constituency if we need to
+		# Sometimes constituency in brackets: Malcolm Bruce (Gordon)
+		print "ERROR - constituency disambiguate possible? " + input + " (" + bracket + ")"
+
+	# If of form "Mr. O'Brien" and ambiguous, look in recent name match history
+	if len(ids) > 1 and not bracket:
+	    # check of form "Mr. O'Brien"
+	    text = input
+	    text = text.replace(".", " ")
+	    text = text.replace("  ", " ")
+	    text = self.retitles.sub("", text)
+	    matches = self.lastnames.get(text, None)
+	    if matches:
+		# search through history, starting at the end
+		history = self.debatenamehistory
+		history.reverse()
+		for x in history:
+		    if x in ids:
+			# print "Hit history match " + input
+			# first match, use it and exit
+			ids = [x,]
+			break
+	    else:
+		print "No matches " + text
+
+	# Return errors
+        if len(ids) == 0:
+            return 'speakerid="unknown" error="No match" speakername="%s (%s)"' % (input, bracket)
+	if len(ids) > 1:
+	    return 'speakerid="unknown" error="Matched multiple times" speakername="%s (%s)"' % (input, bracket)
+	id = ids[0]
+	
+	# Store id in history for this day
+	self.debatenamehistory.append(id)
+
+	# Return id and name as XML attributes
+        remadename = self.members[id]["firstname"] + " " + self.members[id]["lastname"]
+        return 'speakerid="%s" speakername="%s"%s' % (id, remadename, speakeroffice)
 
     # Bradley, rh Keith <i>(Withington)</i>
     def matchfulldivisionname(self, inp, date):
