@@ -1,10 +1,11 @@
 Generic looping through files which calls the filters
 
-Parse dates for filenames into Japanese format
 Store generated data a bit more obviously away from the source code
 First run should make all the necessary directories automatically
+Use some tmpfile function for temporary filenames
 
 cvs remove removecomments.py
+findallhocdaydebate.py should die if date string empty
 
 My content grabber does this (horrifyingly) early on:
     # remove strange hyphens

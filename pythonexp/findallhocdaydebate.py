@@ -5,6 +5,9 @@ import urllib
 import urlparse
 import re
 
+# In Debian package python2.3-egenix-mxdatetime
+import mx.DateTime
+
 # Run this module to generate an xml file of all the links into the daydebates, written questions, etc.
 # The output file is used as a basis for planning the larger scale scraping.
 # This prog is not yet reliable for all cases.
@@ -54,8 +57,8 @@ for urlindexpage in urlindexpages:
 	srindexpage = urindexpage.read()
 	urindexpage.close()
 
-	# these index pages are very broken, need to delete linefeeds and find all the links out of them
-	srindexpage = re.sub('\n|\r', '', srindexpage)
+	# these index pages are very broken, need to collapse linefeeds to spaces and find all the links out of them
+	srindexpage = re.sub('(\n|\r)+', ' ', srindexpage)
 
 	# <b>Wednesday 5 November 2003</b>
 	#<td colspan=2><font size=+1><b>Wednesday 5 November 2003</b></font></td>
@@ -64,8 +67,10 @@ for urlindexpage in urlindexpages:
 
 	date = ''
 	for link in datelinks:
+                # print "link0 " , link[0], " link1 ", link[1], " link2 ", link[2]
 		if link[0] != '':
 			date = link[0]
+		        date = mx.DateTime.DateTimeFrom(date).date
 		elif re.search('debate|westminster|written(?i)', link[2]):
 			uind = urlparse.urljoin(urlindexpage, link[1])
 			daydebates.write('<daydeb date="%s" type="%s" url="%s"/>\n' % (date, link[2], uind))
