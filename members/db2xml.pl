@@ -2,8 +2,10 @@
 use strict;
 use lib "../scraper/";
 
-# $Id: member-list.pl,v 1.3 2003/11/19 23:59:36 frabcus Exp $
-# Outputs MP list as XML
+# $Id: db2xml.pl,v 1.1 2003/11/24 14:43:56 frabcus Exp $
+
+# Outputs MP list from database as XML file
+# (used to migrate from when database was main form of data)
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under

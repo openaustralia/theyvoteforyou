@@ -51,6 +51,15 @@ def WransSpeakerNames(fout, finr, sdate):
 
 		#print boldnamestring
 
+                # remove initial digits and a dot, if any
+                robj = re.match(r"(\d*\. )(.*)", boldnamestring)
+                deci = None
+                if robj:
+                    (deci, boldnamestring) = robj.groups()
+
+                # TODO: do something with deci here (it is the "failed
+                # oral questions" signifier)
+
                 # match the member to a unique identifier
                 (id, reason) = memberList.matchfullname(boldnamestring, sdate)
                 if reason <> "":

@@ -1,5 +1,7 @@
 #! /usr/bin/python2.3
 
+# Converts names of MPs into unique identifiers
+
 import xml.sax
 import re
 
@@ -14,7 +16,7 @@ class MemberList(xml.sax.handler.ContentHandler):
 
         parser = xml.sax.make_parser()
         parser.setContentHandler(self)
-        parser.parse("../migrate/members.xml")
+        parser.parse("../members/all-members.xml")
 
     def startElement(self, name, attr):
         """ This handler is invoked for each XML element (during loading)"""
@@ -63,5 +65,6 @@ class MemberList(xml.sax.handler.ContentHandler):
 
         return id, ""
 
+# Construct the global singleton of class which people will actually use
 memberList = MemberList()
 
