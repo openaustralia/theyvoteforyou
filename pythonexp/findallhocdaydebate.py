@@ -1,3 +1,5 @@
+#! /usr/bin/python2.3
+
 import sys
 import urllib
 import urlparse
@@ -20,7 +22,7 @@ urindex.close()
 
 # extract the per month volumes
 # <a href="cmhn0310.htm"><b>October</b></a>
-monthnames = 'January|February|March|April|May|June|July|August|September|October|November'
+monthnames = 'January|February|March|April|May|June|July|August|September|October|November|December'
 monthlinks = re.findall('<a href="(.*?)"><b>(?:' + monthnames + ')</b>(?i)', srindex)
 for month in monthlinks:
 	urlindexpages.append(urlparse.urljoin(urlindex, month))
