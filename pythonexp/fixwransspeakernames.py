@@ -4,6 +4,7 @@ import sys
 import re
 import os
 import string
+from resolvemembernames import memberList
 
 # this filter finds the speakers and replaces with full itendifiers
 # <speaker name="Eric Martlew  (Carlisle)"><p>Eric Martlew  (Carlisle)</p></speaker>
@@ -48,9 +49,15 @@ def WransSpeakerNames(fout, finr, sdate):
 				fs[i - 1] = oqnsep[0][0]
 				boldnamestring = oqnsep[0][1] + ' ' + boldnamestring
 
-		# now output what we've decided
 		#print boldnamestring
-		fs[i] = '<p><speaker name="%s"><font color="#003fcf">%s</font></speaker></p>\n' % (boldnamestring, boldnamestring)
+
+                # match the member to a unique identifier
+                (id, reason) = memberList.matchfullname(boldnamestring, sdate)
+                if reason <> "":
+                    reason = ' reason="%s"' % (reason)
+
+		# now output what we've decided
+		fs[i] = '<p><speaker name="%s" id="%s" %s><font color="#003fcf">%s</font></speaker></p>\n' % (boldnamestring, id, reason, boldnamestring)
 
 
 	# output everything now

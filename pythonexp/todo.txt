@@ -17,3 +17,8 @@ Time stamp exception:
 Time stamps aren't all being caught e.g. search for 1.27 pm in c2daydebatefixcolumnnumbers/daydebThursday13November2003.html
   this is a rare case outside of a heading.  explicit repair will be required.  
 
+Indexing into XML: 
+http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/155582
+(the "shelve" module looks quite sweet)
+
+
