@@ -1,0 +1,84 @@
+Party politics
+--------------
+
+Table of most rebellious by party - so see most rebellious Con and LDem.
+At the moment only Labour show up.
+Table of highest attendance by party - similarly.
+
+Compare attendance rates between parties, as they go in and out of
+government over the years  (use raw data "Extra Turnout" uses)
+Compare rebellion rates between parties
+
+Find out must rebellious divisions by party
+    e.g. find out what issues are fracturing the Tories
+
+Statistics by party - e.g. attendence rate. 
+How rebellious a party it is. etc.
+
+Proportion of abstentions within each party, may reveal times when MPs abstain in protest.  
+
+% of completely pliant MPs in each party, who always follow whip.
+
+Do Co-op members ever vote against Labour as a group?
+
+Academic analyses (of no short term practical political benefit)
+-----------------
+
+Analyse if MPs who are "sir" vote differently in anyway
+    first check data integrity that title always has "Sir" for knights
+Get data on gender etc. and analyse against that
+
+Regional analysis.  Scotland, NI, Wales, North v South.  Urban v.  Rural.  
+Area of land for constituency.  This gives a "ruralness" measure.
+Population of constituency.
+Distance of constituency from London vs. attendance rate
+
+Integrate parliamentary majority, and look for correlations with
+rebelliousness?  Majorities here:
+    http://www.psr.keele.ac.uk/area/uk/mps.htm
+(Should be no correlation, as reselection more important?)
+Plot majority as a colour on the cluster diagram
+
+
+Cluster distractions (geek fun, but pointless)
+--------------------
+
+Chris Lighthead:  "I've now written some code to estimate which of the
+eigenvectors are significant. The basic idea is that we generate
+synthetic data using the marginal  distributions for each statements --
+that is, like the data which would have been produced by the same number
+of respondents as have completed the real survey, but  as if their
+answers to any one question were unrelated to all the others; and having
+done that, we perform the principal components analysis on the synthetic
+data. The idea here is that we can compare the eigenvalues from the
+synthetic data to the eigenvalues from the real data. If the real
+eigenvalue is significantly larger than the one from the synthetic data,
+it likely represents real variation in the data; otherwise, random
+variation." - we could do this with MP clustering.
+
+Improve clustering distance algorithm
+    See J Vaughan suggestions
+
+Colour dots in cluster diagram by how many times they have voted.
+Bright colours for more relevant the data - i.e. how many intersections
+with other's votes there are.
+
+Play with stuff in vector search article
+http://www.perl.com/pub/a/2003/02/19/engine.html
+In particular PDL for speeding up octave algebra stuff
+
+>    Idea 2.  Darren suggested that the reason Tony Blair is an outlier
+>    in the java app is coz he only turns up to votes he thinks are
+>    going to be controversial, hence ones that people are probably
+>    going to vote against him.
+Find a metric to see if this is the case.
+
+Make cluster diagram for just divisions relating to one issue.  Or
+for one person's interested issues.  Plot point on cluster diagram for
+issues themselves.
+(I've tried this, with not that useful results - Francis)
+
+EDM analysis with MDS:
+http://www.stats.bris.ac.uk/~magpn/Research/Politics/
+
+

@@ -15,10 +15,14 @@ todo.txt - Things I'm thinking of doing in the short term
 ideas.txt - Zillions of ideas of things which could be done
 errata.txt - Errors in Hansard that the software has found
 
-scraper - Screen scrapes Hansard website to fill the database, some analysis
-rawdata - Source data files not previously available on the Internet
-cluster - MP cluster analysis using Multi-dimensional Scaling
-website - Code for www.publicwhip.org.uk, PHP extracts data from database
-build   - Scripts I use to upload to www.publicwhip.org.uk
+scraper   - Screen scrapes Hansard website to fill the database, some analysis
+rawdata   - Source data files not previously available on the Internet
+cluster   - MP cluster analysis using Multi-dimensional Scaling
+website   - Code for www.publicwhip.org.uk, PHP extracts data from database
+build     - Scripts I use to upload to www.publicwhip.org.uk
+
+members   - MP list as one fat XML file
+pythonexp - New experiments (using Python)
+
 
 If you need any help, please email me francis@flourish.org.
