@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.17 2004/01/20 23:37:41 frabcus Exp $
+# $Id: search.php,v 1.18 2004/01/20 23:38:35 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -23,6 +23,7 @@
 ;    $db = new DB(); 
 
     $postcode = is_postcode($query);
+    $postcode = null; # disabled for now
 
     if ($query <> "")
     {
