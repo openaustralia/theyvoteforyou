@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.14 2004/04/27 10:24:20 frabcus Exp $
+-- $Id: create.sql,v 1.15 2004/05/23 17:47:43 goatchurch Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -38,27 +38,27 @@ create table pw_debate_content (
     unique(day_date)
 );
 
--create table pw_mp (
--    mp_id int not null primary key auto_increment,
--    first_name varchar(100) not null,
--    last_name varchar(100) not null,
--    title varchar(100) not null,
--    constituency varchar(100) not null,
--    party varchar(100) not null,
--
--    -- these are inclusive, and measure days when the MP could vote
--    entered_house date not null default '1000-01-01',
--    left_house date not null default '9999-12-31',
--    entered_reason enum('unknown', 'general_election', 'by_election', 'changed_party',
--        'reinstated') not null default 'unknown',
--    left_reason enum('unknown', 'still_in_office', 'general_election',
--        'changed_party', 'died', 'declared_void', 'resigned',
--        'disqualified', 'became_peer') not null default 'unknown',
+create table pw_mp (
+    mp_id int not null primary key auto_increment,
+    first_name varchar(100) not null,
+    last_name varchar(100) not null,
+    title varchar(100) not null,
+    constituency varchar(100) not null,
+    party varchar(100) not null,
+
+    -- these are inclusive, and measure days when the MP could vote
+    entered_house date not null default '1000-01-01',
+    left_house date not null default '9999-12-31',
+    entered_reason enum('unknown', 'general_election', 'by_election', 'changed_party',
+        'reinstated') not null default 'unknown',
+    left_reason enum('unknown', 'still_in_office', 'general_election',
+        'changed_party', 'died', 'declared_void', 'resigned',
+        'disqualified', 'became_peer') not null default 'unknown',
 
     person int,
--
--    unique(first_name, last_name, constituency, entered_house, left_house)
--);
+
+    unique(first_name, last_name, constituency, entered_house, left_house)
+);
 
 create table pw_division (
     division_id int not null primary key auto_increment,
@@ -81,7 +81,7 @@ create table pw_vote (
     vote enum("aye", "no", "both", "tellaye", "tellno") not null,
 
     index(division_id),
-    index(mp_id).
+    index(mp_id),
     index(vote),
     unique(division_id, mp_id, vote)
 );
