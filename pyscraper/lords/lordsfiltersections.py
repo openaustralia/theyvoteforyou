@@ -38,13 +38,13 @@ fixsubs = 	[
 				('(\[\*The Tellers for .*?\s*<P>)([\s\S]*?)(Resolved .*? accordingly.)', '\\3 \\2 \\1', 1, '2004-03-23'),
 				('(Renfrew of Kaimsthorn,)\s*<br>\s*(L.)', '\\1 \\2', 1, '2004-03-23'),
 
-				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-03-15'),
-				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-02-23'),
-				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-01-26'),
-				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-01-05'),
+#				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-03-15'),
+#				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-02-23'),
+#				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-01-26'),
+#				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-01-05'),
 
 # this is the queens speech, and this sub doesn't fix it.
-				('<FONT SIZE=6><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2003-11-26'),
+#				('<FONT SIZE=6><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2003-11-26'),
 				( '<UL><UL><UL>(?i)', '<UL>', -1, 'all'),
 				( '</UL></UL></UL>(?i)', '</UL>', -1, 'all'),
 		]
@@ -65,7 +65,7 @@ def StripLordsDebateHeadings(headspeak, sdate):
 
 
 	# House of Lords
-	ih = StripDebateHeading('house of lords(?i)', ih, headspeak)
+	ih = StripDebateHeading('house of lords(?i)', ih, headspeak, True)
 
 	# Thursday, 18th December 2003.
 	if not re.match('the house met at .*(?i)', headspeak[ih][0]):
@@ -74,6 +74,11 @@ def StripLordsDebateHeadings(headspeak, sdate):
 			raise Exception, 'non-conforming date heading '
 		ih = ih + 1
 
+
+	if re.match("THE QUEEN'S SPEECH", headspeak[ih][0]):
+		print headspeak[ih][0]
+		print "*******  skipping entirely **********"
+		return (None, None)
 
 	# The House met at eleven of the clock (Prayers having been read earlier at the Judicial Sitting by the Lord Bishop of St Albans): The CHAIRMAN OF COMMITTEES on the Woolsack.
 	gstarttime = re.match('the house met at (.*)(?i)', headspeak[ih][0])
@@ -130,6 +135,8 @@ def LordsFilterSections(fout, text, sdate):
 
 	# break down into lists of headings and lists of speeches
 	(ih, stampurl) = StripLordsDebateHeadings(headspeak, sdate)
+	if ih == None: 
+		return
 
 	# loop through each detected heading and the detected partitioning of speeches which follow.
 	# this is a flat output of qspeeches, some encoding headings, and some divisions.

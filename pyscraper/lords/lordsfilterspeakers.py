@@ -46,13 +46,26 @@ class LordsList(xml.sax.handler.ContentHandler):
 			if self.lords.get(attr["id"]):
 				raise Exception, "Repeated identifier %s in members XML file" % attr["id"]
 			self.lords[attr["id"]] = attr
-			self.lordnames.setdefault(attr["lordname"], []).append(attr)
+
+			lname = attr["lordname"]
+			if not lname:
+				lname = attr["lordofname"]
+			if lname:
+				self.lordnames.setdefault(lname, []).append(attr)
+				lnamed = string.replace(lname, ".", "")
+				if lnamed != lname:
+					self.lordnames.setdefault(lnamed, []).append(attr)
+
 
 	def MatchLordName(self, ltitle, llordname, llordofname):
-		lmatches = self.lordnames.get(llordname, None)
+		lname = llordname
+		if not lname:
+			lname = llordofname
+
+		lmatches = self.lordnames.get(lname, None)
 		if lmatches: ## any number for now
 			return lmatches[0]["id"]
- 		print "Not found " + llordname
+ 		print "Not found " + lname
 		return "unrecognized"
 
 
@@ -71,9 +84,11 @@ class LordsList(xml.sax.handler.ContentHandler):
 
 # main function
 lordlist = LordsList()
-def GetLordSpeakerID(ltit, lname, lplace, loffice, sdate):
-	lid = 10
-	return "uk.org.publicwhip/lord/%d" % lid
+def GetLordSpeakerID(ltitle, llordname, llordofname, loffice, sdate):
+	lid = lordlist.MatchLordName(ltitle, llordname, llordofname)
+	if lid == "unrecognized":
+		print (ltitle, llordname, llordofname)
+	return lid
 
 
 

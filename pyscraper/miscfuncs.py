@@ -141,9 +141,9 @@ def StraightenHTMLrecurse(stex, stampurl):
 	if qisup:
 		sres = StraightenHTMLrecurse(stex[:qisup.span(1)[0]], stampurl)
 		sres.append(qtag[0])
-		sres.extend(StraightenHTMLrecurse(qisup.group(2)), stampurl)
+		sres.extend(StraightenHTMLrecurse(qisup.group(2), stampurl))
 		sres.append(qtag[1])
-		sres.extend(StraightenHTMLrecurse(stex[qisup.span(1)[1]:]), stampurl)
+		sres.extend(StraightenHTMLrecurse(stex[qisup.span(1)[1]:], stampurl))
 		return sres
 
 	sres = re.split('(&[a-z]*?;|&#\d+;|"|\xa3|&|\x01|\x0e|\x14|<[^>]*>|<|>)', stex)
