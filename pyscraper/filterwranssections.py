@@ -78,9 +78,8 @@ fixsubs = 	[
         ( '(Rural Affairs) (what discussions)', '\\1 (1) \\2', 1, '2004-02-25'),
         ( '<P align=left>\[Continued from column 536W\]</P>', '', 1, '2004-02-26'),
 
-        ( 'CORRECTION\s*<P>\s*<stamp aname="40223w83.html_wqn2"><B>  </B>[\s\S]*', '', 1, '2004-02-23'),
-
 	( '(column 45W\.)\[(108495)\]', '\\1 reference \\2', 1, '2003-04-28'),
+        ( '(To ask the Secretary of State for Health) (for how many former community)', '\\1 (1) \\2', 1, '2004-02-23'),
 
  	( 'Worcestershire</FONT></TD>', 'Worcestershire', 1, '2003-07-15'),
 
