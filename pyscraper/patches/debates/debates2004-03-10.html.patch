@@ -1,5 +1,5 @@
 --- /home/fawkes/pwdata/cmpages/debates/debates2004-03-10.html	Sun Oct  3 04:30:02 2004
-+++ /home/fawkes/pwdata/cmpages/debates/debates2004-03-10-patchtmp.html	Tue Nov  2 15:55:38 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-03-10-patchtmp.html	Tue Nov  2 16:39:49 2004
 @@ -23,7 +23,7 @@
  <H4><center>[Mr. Speaker in the Chair]</center></H4>
  
@@ -767,5 +767,13 @@
  <B>10 Mar 2004 : Column 1603</B></P>
 +<stamp parsemess-colnum="1605"/>
  committed some of the worst atrocities during what was known as the troubles in Northern Ireland? That is what the joint declaration does. How will that build confidence in our system of justice, especially in the Unionist community, which suffered probably more than most at the hands of the IRA. There is no justice in such cases.
+ <P>
+ 
+@@ -3295,6 +3375,7 @@
+ 
+ 
+ <B>10 Mar 2004 : Column 1604</B></P>
++<stamp parsemess-colnumoffset="2"/>
+ Ireland. The Bill may help with other aspects of the Prison Service, but, like my hon. Friend the Member for Belfast, North, we hope that the power will be used only as a last resort, to prevent unnecessary hardship for relatives in respect of visitation rights.
  <P>
  

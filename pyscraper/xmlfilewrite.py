@@ -215,6 +215,7 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 					if (string.atoi(ggidold.group(2)) > string.atoi(ggidnew.group(2))) and (string.atoi(ggidold.group(3)) == 0):
 						print "I think you should insert the following command before the listed speech: "
 						print '<stamp parsemess-colnum="%s"/>' % ggidold.group(1)
+						print 'Or perhaps <stamp parsemess-colnumoffset="%d"/>' % (int(ggidold.group(2))-int(ggidnew.group(2)))
 
 				else:
 					print "Gids don't fit the format"
@@ -225,8 +226,9 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 			print ""
 			print "missing speeches can be fixed by inserting a placeholder:"
 			print '    <parsemess-misspeech type="speech|heading" redirect="up|down|nowhere"/>'
-			print "changes in column number can be reset by inserting a command:"
+			print "changes in column number can be reset/offset by inserting a command:"
 			print '    <stamp parsemess-colnum="888|888W"/>'
+			print '    <stamp parsemess-colnumoffset="2"/>'
 			print "additional speeches can be fixed by inserting a numbering skip command:"
 			print '    <stamp parsemess-missgid="4"/>'
 			print '    where the missing number is of the paragraph as it would have been without it knocked out'
@@ -426,9 +428,12 @@ def CreateGIDs(gidpart, flatb, sdate):
 		# this is to do a mass change of column number when they've got out of sync with the GIDs
 		# (normally due to Hansard's cm->vo transition)
 		for colnumoffset in re.findall('parsemess-colnumoffset="([^"]*)"', qb.sstampurl.stamp):
-			pass
+			colnumoffset = string.atoi(colnumoffset)
 
-		colnum = realcolnum + colnumoffset
+		realcolnumbits = re.match('(\d+)([W]*)$', realcolnum)
+		irealcolnum = int(realcolnumbits.group(1))
+		colnumN = irealcolnum + colnumoffset
+		colnum = str(colnumN) + realcolnumbits.group(2)
 
 		qb.ignorenamemismatch = re.search('parsemess-ignorenamemismatch="yes"', qb.sstampurl.stamp)
 
