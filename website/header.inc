@@ -2,7 +2,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.25 2003/11/05 17:25:06 frabcus Exp $
+# $Id: header.inc,v 1.26 2003/11/26 17:22:46 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -10,7 +10,7 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 $loc = dirname($_SERVER['REQUEST_URI']);
-if (!is_bool(strpos($loc, "/account")) || !is_bool(strpos($loc, "/project"))) 
+if (!is_bool(strpos($loc, "/account")) || !is_bool(strpos($loc, "/project")) || !is_bool(strpos($loc, "/newsletters")) )
     $toppath = "../"; 
 else 
     $toppath = "";
