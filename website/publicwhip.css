@@ -430,4 +430,17 @@ TEXTAREA
     FONT-SIZE: 100%;
     FONT-FAMILY: Verdana, arial, sans-serif;
 }
+/* 1, 2, 3 on the front page */
+.actionsheading
+{
+    FONT-WEIGHT: bold;
+}
+OL.actions
+{
+    FONT-SIZE: 120%;
+}
+OL.actions P
+{
+    FONT-SIZE: 70%;
+}
 

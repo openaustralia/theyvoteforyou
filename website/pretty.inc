@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.15 2004/06/19 09:58:02 frabcus Exp $
+# $Id: pretty.inc,v 1.16 2004/07/13 08:37:24 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -103,33 +103,33 @@ function random_big_word($phrase)
     return $lesswords[array_rand($lesswords)];
 }
 
-function search_example($db, $long)
+function searchtip_random_mp($db)
 {
     $row = $db->query_one_row("select first_name, last_name from pw_mp
         order by rand() desc limit 1");
     $random_mp = $row[0] . " " . $row[1];
+    return $random_mp;
+}
 
-    if ($long)
-    {
-        $row = $db->query_one_row("select constituency from pw_mp
-            order by rand() desc limit 1");
-        $random_constituency = random_big_word($row[0]);
-        if ($random_constituency == "")
-            $random_constituency = "Liverpool";
-        $random_constituency = ', "' . $random_constituency . '"';
-    }
-    else
-        $random_constituency = "";
+function searchtip_random_constituency($db)
+{
+    $row = $db->query_one_row("select constituency from pw_mp
+        order by rand() desc limit 1");
+    $random_constituency = random_big_word($row[0]);
+    if ($random_constituency == "")
+        $random_constituency = "Liverpool";
+    $random_constituency = ', "' . $random_constituency . '"';
+    return $random_constituency;
+}
 
+function searchtip_random_topic($db)
+{
     $row = $db->query_one_row("select division_name from pw_division
         order by rand() desc limit 1");
     $random_topic = random_big_word($row[0]);
     if ($random_topic == "")
         $random_topic = "Trade";
-?>
-<p class="search"><i>Example: "OX1 3DR", "<?=$random_mp?>"<?=$random_constituency?> or "<?=$random_topic?>"</i>
-
-<?php
+    return $random_topic;
 }
 
 function percentise($num)

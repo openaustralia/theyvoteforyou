@@ -1,7 +1,7 @@
 <?php $cache_params = rand(0, 10); include "cache-begin.inc"; ?>
 
 <?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
-# $Id: index.php,v 1.28 2004/06/22 01:54:06 frabcus Exp $
+# $Id: index.php,v 1.29 2004/07/13 08:37:24 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -19,34 +19,72 @@ For more information about the project, <a href="faq.php">read the FAQ</a>.
     include "render.inc";
     include "parliaments.inc";
     $db = new DB(); 
+
+    $random_mp = searchtip_random_mp($db);
+    $random_topic = searchtip_random_topic($db);
+    $random_topic2 = searchtip_random_topic($db);
+    $random_topic3 = searchtip_random_topic($db);
 ?>
 
 <table class="layout"><tr>
 
-<td width="20%" class="layout" bgcolor="#eeeeee">
+<tr>
+
+<td width="20%" class="layout" bgcolor="#dddddd">
 <h2>Newsletter</h2>
 <p>Keep up with the Public Whip project.
 An at most monthly briefing.  
 <p><a href="account/register.php">Sign up now!</a>
 </td>
 
-<td class="layout" bgcolor="#dddddd">
-<h2>Search <a href="search.php">(help...)</a></h2>
-<p class="search">
-Enter your postcode, MP name or a topic:
-</p>
-<form class="search" action="search.php" name=pw>
-<input maxLength=256 size=25 name=query value=""> <input type=submit value="Search" name=button>
-</form></p>
-<?php search_example($db, false); ?>
-</td>
+<td class="layout" bgcolor="#eeeeee" colspan="2">
+<ol class="actions" type="1">
 
-<td class="layout" bgcolor="#eeeeee">
-<h2>Vote Map <a href="mpsee.php">(find Blair...)</a></h2>
+<li>
+<form class="search" action="search.php" name=pw>
+<p><span class="actionsheading">Find out how any MP votes</span>
+<br>Enter your postcode or MP name:
+<input maxLength=256 size=15 name=query value=""> <input type=submit value="Go" name=button>
+<br><i>Example: "OX1 3DR", "<?=$random_mp?>"</i>
+</form></p>
+</p>
+
+<li>
+<form class="search" action="search.php" name=pw>
+<p><span class="actionsheading">Search for votes in parliament on your subject</span>
+<br>Enter the topic to search for:
+<input maxLength=256 size=15 name=query value=""> <input type=submit value="Search" name=button>
+<br><i>Examples: "<?=$random_topic?>", "<?=$random_topic2?>", "<?=$random_topic3?>"</i>
+</form></p>
+</p>
+
+<li><p><span class="actionsheading"><a href="dreammps.php">Create your own Dream MP</a></span>
+<br>Choose how they vote, compare them to real MPs.
+<br>Busiest Dream MPs:
+<?php
+    $query = "select name, rollie_id, count(pw_dyn_rollievote.vote) as count
+        from pw_dyn_rolliemp, pw_dyn_rollievote where 
+            pw_dyn_rollievote.rolliemp_id = rollie_id group by rollie_id
+            order by count desc limit 3";
+    $db->query($query);
+    $dreams = array();
+    while ($row = $db->fetch_row())
+    { 
+        $dmp_name = $row[0];
+        $dreamid = $row[1];
+        array_push($dreams, "<a href=\"dreammp.php?id=$dreamid\">" .  $dmp_name . "</a>");
+    }
+    print join(", ", $dreams);
+?>
+</p>
+</ol>
+
+<td width="20%" class="layout" bgcolor="#eeeeee">
+<h2>Vote Map <a href="mpsee.php">
+<br>(find Blair...)</a></h2>
 <p><a href="mpsee.php">
 <img src="votemap/mpseethumb.png"></a>
 </td>
-
 
 </td></tr></table>
 
@@ -79,7 +117,9 @@ title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
 
 ?>
 
-</td></tr><tr><td>
+</td>
+
+</tr><tr><td>
 
 <h2>Top Rebels <a href="mps.php?sort=rebellions" title="Show all MPs ordered by rebellions">(more...)</a></h2>
 <table class="mps">
