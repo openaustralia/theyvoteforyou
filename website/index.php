@@ -1,5 +1,5 @@
-<?  $title = "Counting their votes on your behalf"; include "header.inc";
-# $Id: index.php,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+<?  $title = "Counting votes on your behalf"; include "header.inc";
+# $Id: index.php,v 1.2 2003/08/19 12:19:03 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under

@@ -2,7 +2,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.2 2003/08/19 12:10:32 frabcus Exp $
+# $Id: header.inc,v 1.3 2003/08/19 12:19:03 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -30,14 +30,7 @@ include "pretty.inc";
 </div>
 
 <h1><?
-if (true) # $title == "Counting their votes on your behalf")
-{
     print("the Public Whip - $title");
-}
-else
-{
-    print("$title - the Public Whip");
-}
 ?></h1>
 
 <hr class="topline">
