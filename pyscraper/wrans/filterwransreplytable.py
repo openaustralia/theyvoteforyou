@@ -31,7 +31,12 @@ def ParseRow(srow, hdcode, stampur):
 			if col.group(2):
 				talign = ' align="center"'
 			Lscols.append('<%s%s%s>' % (hdcode, tcolspan, talign))
-                        content = FixHTMLEntitiesL(col.group(3), '</?font[^>]*>|</?p>|\n|</?center>|</?B>(?i)', stampurl=stampur)
+
+			coltext = re.sub('\n', ' ', col.group(3))
+			coltext = re.sub('</?font[^>]*>|</?p>|</?center>|</?B>(?i)', '', coltext)
+			coltext = re.sub('^(?:<br>|\s)(?i)', '', coltext)
+			coltext = re.sub('(?:<br>|\s)$(?i)', '', coltext)
+			content = FixHTMLEntitiesL(coltext, '', stampurl=stampur)
 			Lscols.extend(content)
 			Lscols.append('</%s> ' % hdcode)
 
@@ -40,7 +45,7 @@ def ParseRow(srow, hdcode, stampur):
 			print "spcol:", spcol
 			print "srow:", srow
 			print "srowsplit:", recolsplit.split(srow)
-                        raise ContextException("non column text", stamp=stampur, fragment=srow)
+			raise ContextException("non column text", stamp=stampur, fragment=srow)
 	Lscols.append('</tr>')
 	return string.join(Lscols, '')
 
