@@ -1,6 +1,6 @@
 <?php
 
-# $Id: parliaments.inc,v 1.1 2003/10/02 09:42:03 frabcus Exp $
+# $Id: parliaments.inc,v 1.2 2003/10/02 13:51:12 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -13,7 +13,7 @@
 # (as it is not in URLs), so can be any clarifying pretty description.
 $parliaments = array(
     '2001' => array(id => '2001', from => '2001-06-07', to => '9999-12-31', name => '2001'),
-    '1997' => array(id => '1997', from => '1997-05-01', to => '2001-05-14', name => '1997-2001'),
+    '1997' => array(id => '1997', from => '1997-05-01', to => '2001-05-14', name => '1997'),
 );
 
 function this_parliament()

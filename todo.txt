@@ -8,6 +8,8 @@ Multi-parliament:
     Front page
     FAQ
     News
+    MP page - print parliament in vote lists
+            - possible friends broken
 
 Facility to register and define voting subset for a particular issue
 - info to help select which votes and which way should have voted

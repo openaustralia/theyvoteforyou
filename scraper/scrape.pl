@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: scrape.pl,v 1.6 2003/10/02 09:42:03 frabcus Exp $
+# $Id: scrape.pl,v 1.7 2003/10/02 13:51:12 frabcus Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -96,6 +96,10 @@ foreach my $argnum (0 .. $#ARGV)
     elsif ($_ eq "words")
     {
         word_count();
+    }
+    elsif ($_ eq "test")
+    {
+        test();
     }
     else
     {
@@ -256,6 +260,15 @@ sub all_divisions
         my ($day_date, $content) = @data;
         divisions::parse_all_divisions_on_page($dbh, $content, $day_date);
     }
+}
+
+sub test
+{
+    my $agent = WWW::Mechanize->new();
+    my $start_url = "http://www.publications.parliament.uk/pa/cm/cmvol321.htm";
+    $agent->get($start_url)->is_success() or die "Failed to read URL $start_url";
+    print "Temporary testing code...\n";
+    finddays::hunt_within_month_or_volume($dbh, $agent);
 }
 
 

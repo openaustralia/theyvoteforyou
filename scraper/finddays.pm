@@ -1,4 +1,4 @@
-# $Id: finddays.pm,v 1.3 2003/10/02 09:42:03 frabcus Exp $
+# $Id: finddays.pm,v 1.4 2003/10/02 13:51:12 frabcus Exp $
 # Scans various index pages in various ways to hunt down the content
 # for each day in text of Hansard beneath them all.  Stores URLs
 # of the first page of content.
@@ -44,6 +44,7 @@ sub hunt_within_month_or_volume
         if (!(defined $agent->follow_link(url_regex => qr#debtext#i, n => 1)))
         {
             error::warn("Couldn't find debate text from index", $agent->uri());
+            $c++;
             $agent->back();
             next;
         }
@@ -51,23 +52,37 @@ sub hunt_within_month_or_volume
         my $first_page = $agent->uri();
         $first_page =~ s/#.*$//; # remove inwards anchors after the hash
 
-        # Find this line, and extract date:
+        # Find either of these, and extract date:
         # <meta name="Date" content ="20 Jun 2001">
+        # <title>House of Commons Hansard Debates for 30 Nov 1998 (pt 1)</title>
         my $content = $agent->{content};
         my $p = HTML::TokeParser->new(\$content);
         my $date = undef;
         my $date_english = undef;
         my $token;
-        while ($token = $p->get_tag("meta")) 
+        while ($token = $p->get_tag("meta", "title")) 
         {
-            if ($token->[1]{name} and $token->[1]{name} eq "Date")
+            if ($token->[0] eq "meta")
             {
-                $date_english = $token->[1]{content};
-                $date = str2time($date_english);
-                error::log("Date is $date_english $date", $agent->uri(), error::CHITTER);
+                if ($token->[1]{name} and $token->[1]{name} eq "Date")
+                {
+                    $date_english = $token->[1]{content};
+                    last;
+                }
+            }
+            else # title
+            {
+                $_ = $p->get_trimmed_text("/title");
+                if (m/for \b(\d\d? [A-Z][a-z][a-z] \d\d\d\d\b)/)
+                {
+                    $date_english = $1;
+                    last;
+                }
             }
         }
+        $date = str2time($date_english);
         error::die("Couldn't find date", $agent->uri()) unless defined $date;
+        error::log("Date is $date_english $date", $agent->uri(), error::CHITTER);
 
         # See if we already have it
         my $sth = db::query($dbh, "select first_page_url from pw_hansard_day 
