@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.43 2005/01/15 20:38:11 frabcus Exp $
+    # $Id: mp.php,v 1.44 2005/01/22 14:54:11 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -11,7 +11,7 @@
     include "db.inc";
     include "parliaments.inc";
     include "constituencies.inc";
-    $db = new DB(); 
+    $db = new DB();
 
     $first_name = db_scrub($_GET["firstname"]);
     $last_name = db_scrub($_GET["lastname"]);
@@ -35,52 +35,44 @@
     if ($_GET["expand"] == "yes")
         $expand = true;
 
-    if ($last_name == "" && $first_name =="")
-    {
-		if ($constituency == "")
-		{
-			$id = str_replace("uk.org.publicwhip/member/", "", $id);
-			$query = "select first_name, last_name, constituency
-				from pw_mp where mp_id = '$id'
-				order by entered_house desc limit 1";
-			$row = $db->query_one_row($query);
-			$first_name = db_scrub($row[0]);
-			$last_name = db_scrub($row[1]);
-			$constituency = db_scrub($row[2]);
-		}
-		else
-		{
-            $constituency = $constituency;
-			$query = "select first_name, last_name
-				from pw_mp where constituency = '$constituency' 
-				order by entered_house desc limit 1";
-			$row = $db->query_one_row($query);
-			$first_name = db_scrub($row[0]);
-			$last_name = db_scrub($row[1]);
-		}
-    }
+	if ($constituency == "")
+	{
+		$id = str_replace("uk.org.publicwhip/member/", "", $id);
+		$query = "select first_name, last_name, constituency
+			from pw_mp where mp_id = '$id'
+			order by entered_house desc limit 1";
+		$row = $db->query_one_row($query);
+		$first_name = db_scrub($row[0]);
+		$last_name = db_scrub($row[1]);
+		$constituency = db_scrub($row[2]);
+	}
+	else
+	{
+		$query = "select first_name, last_name, mp_id
+			from pw_mp where constituency = '$constituency'
+			order by entered_house desc limit 1";
+		$row = $db->query_one_row($query);
+		$first_name = db_scrub($row[0]);
+		$last_name = db_scrub($row[1]);
+		$id = db_scrub($row[2]);
+	}
+	# find the person code for this mp
+	$row = $db->query_one_row("SELECT person, party FROM pw_mp WHERE pw_mp.mp_id = $id");
+	$person = $row[0];
+	$party = $row[1];
 
-    $this_anchor = "mp.php?firstname=" . urlencode($first_name) .
-        "&lastname=" . urlencode($last_name) . "&constituency=" .
-        urlencode($constituency);
+    $this_anchor = "mp.php?id=".urlencode($id);
 
     $title = html_scrub("Voting Record - $first_name $last_name MP, $constituency");
     include "header.inc";
-    
-    $query = "select person from pw_mp where ";
-    $query .= "first_name = '$first_name' and last_name='$last_name' and";
-    $query .= " constituency = '$constituency' order by entered_house desc limit 1";
-    $db->query($query);
-    $row = $db->fetch_row();
-    $person = $row[0];
 
 	print '<p>';
 	print '<a href="#divisions">Interesting Divisions</a>';
 	print ' | ';
 	print '<a href="#friends">Possible Friends</a>';
 	print ' | ';
-	print '<a href="#wrans">Written Answers</a>'; 
-	
+	print '<a href="#wrans">Written Answers</a>';
+
 ?>
 
 <?
@@ -277,14 +269,14 @@
             }
             if ($votedesc == "")
                 $votedesc = "Loyal";
-            
+
             $prettyrow = pretty_row_start($prettyrow);
             print "<td class=\"$class\">$votedesc</td>";
             print "<td>$row[1]</td> <td>$row[2]</td> <td><a
                 href=\"division.php?date=" . urlencode($row[2]) . "&number="
                 . urlencode($row[1]) . "\">$row[3]</a></td>
                 <td>$row[5]</td><td>$row[6]</td>
-                <td><a href=\"$row[4]\">Hansard</a></td>"; 
+                <td><a href=\"$row[4]\">Hansard</a></td>";
             print "</tr>\n";
         }
         if ($db->rows() == 0)
@@ -296,7 +288,7 @@
                 print "<td colspan=7>no rebellions, never teller</td></tr>\n";
         }
     }
-    while ($events_ix < count($events)) 
+    while ($events_ix < count($events))
     {
         print_event($events[$events_ix]);
         $events_ix ++;
@@ -320,12 +312,12 @@
         print "<h3>" . pretty_parliament_and_party($from_dates[$i], $parties[$i], $enter_reason[$i], $left_reason[$i]). "</h3>";
         print "<table class=\"mps\">\n";
         $query = "select first_name, last_name, title, constituency,
-            party, pw_mp.mp_id, 
+            party, pw_mp.mp_id,
             round(100*rebellions/votes_attended,1),
             round(100*votes_attended/votes_possible,1),
             distance, entered_reason, left_reason from pw_mp,
             pw_cache_mpinfo, pw_cache_mpdist where
-            pw_mp.mp_id = pw_cache_mpinfo.mp_id and 
+            pw_mp.mp_id = pw_cache_mpinfo.mp_id and
 
             (pw_mp.mp_id = pw_cache_mpdist.mp_id_1
             and pw_cache_mpdist.mp_id_2 = $mp_ids[$i]
@@ -391,7 +383,42 @@
         "&maj=wrans\">TheyWorkForYou.com</a>.";
     $searchkey = $mp_ids[0];
 ?>
-	
+
+<?php
+    function print_selected_dream($db, $id, $dreammpid)
+    {
+		// should count overlapping votes between dream and mp
+	    $query = "SELECT name, description, rollie_id, user_name, count(pw_dyn_rollievote.vote) as count
+		          FROM pw_dyn_rolliemp, pw_dyn_rollievote, pw_dyn_user
+				  WHERE pw_dyn_rollievote.rolliemp_id = $dreammpid and pw_dyn_rolliemp.user_id = pw_dyn_user.user_id and pw_dyn_rollievote.rolliemp_id = rollie_id
+				  GROUP BY rollie_id
+				  ORDER BY count desc";
+	    $db->query($query);
+	    $row = $db->fetch_row();
+		$link = "jmp.php?id=".urlencode($id)."&dreammpid=".urlencode($dreammpid);
+        print "<td>$row[4]</td>\n";
+        print "<td>".html_scrub($row[3])."</td>\n";
+        print "<td><a href=\"$link\">".html_scrub($row[0])."</a></td>\n";
+        //print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($dmp_description)), 0, 300);
+        print "</tr>\n";
+    }
+
+	print "<h2><a name=\"dreammotions\">Votes on Motions Chosen by a Dream MP</a></h2>";
+    print "<p>Selected list which can be used to find what they stand for. ";
+    print "<table>\n";
+    print "<tr class=\"headings\">
+        <td>Votes</td>
+        <td>Author</td>
+        <td>Name</td>
+        </tr>";
+
+    $prettyrow = 0;
+	$prettyrow = pretty_row_start($prettyrow);
+    print_selected_dream($db, $id, 219);
+    print_selected_dream($db, $id, 223);
+    print "</table>\n";
+?>
+
 
 <?php include "footer.inc" ?>
 <?php include "cache-end.inc"; ?>
