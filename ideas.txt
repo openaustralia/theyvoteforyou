@@ -1,0 +1,324 @@
+Data integrity
+--------------
+
+Search for MPs who voted on both sides in one division
+Check for an MP voting both for and against!  See "Abstention" here:
+http://www.parliament.uk/documents/upload/p09.pdf
+
+Party politics
+--------------
+
+Table of most rebellious by party - so see most rebellious Con and LDem.
+At the moment only Labour show up.
+
+Compare attendance rates between parties, as they go in and out of
+government over the years  (use raw data "Extra Turnout" uses)
+
+Find out must rebellious divisions by party
+    e.g. find out what issues are fracturing the Tories
+
+Statistics by party - e.g. attendence rate. 
+How rebellious a party it is. etc.
+
+Proportion of abstentions within each party, may reveal times when MPs abstain in protest.  
+Amusing tables
+--------------
+
+MPs who shouldn't be in their party
+
+% of completely pliant MPs, who always follow whip.
+
+Table of members who died, who changed party etc.
+
+Table of all MPs which have never voted - interesting to see
+    what reasons there are (speaker, refuse to take oath, dead, lazy...)
+
+Tables of worst attendance record (after those with an excuse, such as
+ministry posts, speaker, ill, SF...)
+
+Data anlaysis (using existing data)
+-------------
+
+Chris Lighthead:  "I've now written some code to estimate which of the
+eigenvectors are significant. The basic idea is that we generate
+synthetic data using the marginal  distributions for each statements --
+that is, like the data which would have been produced by the same number
+of respondents as have completed the real survey, but  as if their
+answers to any one question were unrelated to all the others; and having
+done that, we perform the principal components analysis on the synthetic
+data. The idea here is that we can compare the eigenvalues from the
+synthetic data to the eigenvalues from the real data. If the real
+eigenvalue is significantly larger than the one from the synthetic data,
+it likely represents real variation in the data; otherwise, random
+variation." - we could do this with MP clustering.
+
+Improve clustering distance algorithm
+    See J Vaughan suggestions
+
+>    Idea 2.  Darren suggested that the reason Tony Blair is an outlier
+>    in the java app is coz he only turns up to votes he thinks are
+>    going to be controversial, hence ones that people are probably
+>    going to vote against him.
+Find a metric to see if this is the case.
+
+Plot "Extra Turnout" over time - so can see how abstention rates change.
+Use abstention rates to highlight interesting divisions, where lots of
+people didnt turn up.
+Pick divisions with extreme "Extra Turnouts" (for the main parties) -
+these will be interesting
+
+Consider rebellions as % of available divisions, rather than % of
+divisions the MP went to.  This is a different measure, is it useful?
+
+Graph of how many MPs defect in each vote over time
+Watch for loyalty going down after start of term, to lowest at midterm,
+then up again
+
+Rebels who voted against this division, also voted against this division...
+Suspected friends - these MPs also rebelled like this MP
+(fixing existing Possible Friends to use raw metric, rather than 
+the cluster diagram positions)
+
+List in public divisions where the teller/clerk messed up with spelling.
+Why did this happen?  Anomalies in Hansard.  Email them to complain.
+
+Find three line whip definition
+Infer no Whip if 10% +- from base?  Or at least +-1
+
+Additional numeric data
+-----------------------
+
+Put time of division, so can work out importance (late at night less
+governmental)
+Also length of debate leading up to division
+Intended length of debate
+
+It is worth looking for MPs who spoke but did not vote.  This is a good
+way to detect active abstentions.  It may also have all sorts of other
+interesting meanings.
+division.php?date=2003-06-10&number=224&showall=yes
+
+Integrate parliamentary majority, and look for correlations with
+rebelliousness?  Majorities here:
+    http://www.psr.keele.ac.uk/area/uk/mps.htm
+(Should be no correlation, as reselection more important?)
+
+Analyse if MPs who are "sir" vote differently in anyway
+    first check data integrity that title always has "Sir" for knights
+Similarly, get data on gender etc. and analyse against that
+
+Count who tellers are - does this mean anything?
+Note they are often not listed in Hansard, so this might be a fools errand
+
+What can we learn from the information that aye/noe comes first, and
+    from the information as to whether government or not government is
+    aye or noe?
+
+Additional text content
+-----------------------
+
+Group votes by department, so you can see areas of interest (Sirius
+Gibson, Oxfam)
+
+Put in EDMs, so can see who supports an EDM and follows it through to
+actual vote (Sirius Gibson, Oxfam)
+
+Analyse an MP's interests by their rebellions - work out a summary of
+their special interests.  Also link to which debates they spoke in.
+
+Committees, and voting in committee
+
+Link to draft of Bill which is being debated
+    http://www.parliament.the-stationery-office.co.uk/pa/cm200203/cmstand/cmstand.htm
+    http://www.parliament.the-stationery-office.co.uk/pa/pabills.htm
+
+Usability
+---------
+
+Show majority in division table - sort by which ones majority was least on?
+
+Link from MP to other sources of info 
+    - Ask Aristotle
+    - Fax your MP
+    - Speeches on Hansard
+Link from search engine to
+    - link to search Hansard?
+
+Links to other political resource websites
+
+About one MP
+------------
+
+Name (title, first, last)
+Photo
+Party
+Parliamentary terms served 
+Failed candidacy
+Home page
+Constituency address / phone / fax
+Parliament address / phone / fax
+Email
+Surgery times
+Date of birth
+
+Salary
+Expenses - London stay (£150/night!), motoring
+Pension
+
+Register of interests
+Donations they have made (to political parties?)
+Entry from Who's who
+Company directorships
+Links to info on companies involved with
+
+Recent speeches (text)
+Voting record
+Committee membership
+Bills placed before parliament
+Video of them in parliament (or elsewhere)
+
+Local council positions
+Mayorships
+
+Responsiveness to faxes
+Voting activity
+Number of questions asked
+Time spent in parliament
+
+News mentions (Google news)
+Weblog mentions
+Search engine hits
+Links to their home page
+
+Comments/user provided links
+
+As much data historical, as well as current
+
+Sources
+-------
+
+Register of members interests
+http://www.parliament.the-stationery-office.co.uk/pa/cm/cmregmem
+
+Recent speeches
+http://www.publications.parliament.uk
+
+How responsive to contact (available in CSV!)
+Photo
+http://www.faxyourmp.com/stats.php3
+
+Donations to parties
+http://www.cleanpolitix.com
+
+Voting
+Top level:
+http://www.publications.parliament.uk/pa/cm/cmhansrd.htm
+Month:
+http://www.publications.parliament.uk/pa/cm/cmhn0306.htm
+Index of days talk:
+http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030610/debindx/30610-x.htm
+Leaf pages with votes on them:
+http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030604/debtext/30604-25.htm
+http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030611/debtext/30611-01.htm
+http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030610/debtext/30610-01.htm
+http://www.publications.parliament.uk/pa/cm200203/cmhansrd/vo021121/debtext/21121-01.htm
+http://www.publications.parliament.uk/pa/cm200001/cmhansrd/vo010316/debtext/10316-01.htm
+
+Motion being voted on:
+http://www.parliament.the-stationery-office.co.uk/pa/cm/cmagenda.htm
+
+Voting and question attendence
+http://www.parliament.uk/commons/lib/research/rp2003/rp03-032.pdf
+
+Loads of stuff:
+http://politics.guardian.co.uk/person/0,9290,-816,00.html
+http://www.epolitix.com
+
+Basic info (name, party, constituency, website)
+http://www.parliament.uk/directories/hciolists/alms.cfm
+http://www.psr.keele.ac.uk/area/uk/mps97.htm
+http://www.psr.keele.ac.uk/area/uk/mps.htm
+
+Biographical information:
+http://www.politicallinks.co.uk
+
+Internal to MPs:
+Parliamentary Data and Video Network (PDVN) mentioned here:
+http://www.parliament.the-stationery-office.co.uk/pa/cm200102/cmhansrd/vo020130/text/20130w11.htm
+
+All info from parliament listed in one place:
+http://www.parliament.the-stationery-office.co.uk/pa/cm/cmpubns.htm
+
+<< The Official Report (Hansard) is an edited verbatim report of
+proceedings in the Chamber, in Westminster Hall and in Standing
+Committees. MPs' words are reported with repetitions and redundancies
+omitted and with obvious mistakes corrected, but nothing is left out
+which adds to the meaning of the speech or illustrates the argument. 
+
+It is published in printed form at 7.30 am and appears on this website
+at 8.00 am. 
+
+It was first produced by Thomas Curson Hansard  as a private commercial
+venture from the early 1800s, and was first published as an official
+document in 1909.  It has appeared on this web site since 1996. >>
+
+http://www.hansard-westminster.co.uk
+
+Guardian article mentions what our project would like to do,
+and Government Information Awareness:
+http://observer.guardian.co.uk/business/story/0,6903,997037,00.html
+
+Do it for all Hansards in CHEA:
+http://www.hansard-westminster.co.uk/links.asp
+
+Hansard society (get them to send on study day)
+http://www.hansard-society.org.uk/
+
+Erskine May - commentary on standing orders
+The Times publish a Parliamentary Companion
+
+Story leads
+-----------
+
+Mersey Tunnels, the rebellion appears to be local to merseyside, in
+which case you have the national MPs voting and possibly overruling on a
+local issue which maybe many of them don't give a damn, but just want to
+prove their loyalty.
+http://www.publicwhip.org.uk/division.php?date=2003-06-10&number=225
+Note the MPs who were at the debate, but abstained (like Miller)
+Many constituencies have word "Liverpool" in their name, see how they
+behaved with regard to this vote.
+
+Similar constituency, but joined by habit.  Are these all smokers?
+http://www.publicwhip.org.uk/division.php?date=2003-04-14&number=162
+And why were the parties voting on opposite sides at all?  Is this a
+party issue, or just the way the system works?  Do what you're told if
+you can't be bothered to think.  Going through the motions.  Aren't a
+lot of divisions not present because people can't be bothered.  Foregone
+conclusion.  Only will flush out rebels, which doesn't serve anyone's
+interests.
+
+Umm, where are the Tories?
+http://www.publicwhip.org.uk/division.php?date=2003-05-08&number=180
+It's an amusing division, as so many Labour people rebelled, but Her
+Majesty's Opposition didn't give a damn.
+
+I spy strangers
+division.php?date=2003-03-14&number=114
+
+Jo Moore (sept 11 burying email controversy)
+date=2001-10-23&number=39
+
+Count the amount of parliamentary time wasted on hunting!  In hours,
+minutes, words and even monetary cost.
+http://www.publicwhip.org.uk/search.php?query=hunting&button=Search
+
+Look for divisions where Scottish MPs vote on English only issues, and
+see how honourable they are - do they not turn up?  Do they vote with
+the whip?
+
+e.g. Student Finance division 23 June 2003, div 244 - 10 Labour MPs voted in rebellion,
+but a further 100 abstained.
+
+Do Co-op members ever vote against Labour as a group?
+

@@ -1,0 +1,114 @@
+<?php $title = "FAQ"; include "header.inc" 
+# $Id: faq.php,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+
+# The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
+# This is free software, and you are welcome to redistribute it under
+# certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
+# For details see the file LICENSE.html in the top level of the source.
+?>
+
+<h2>What is the Public Whip?</h2>
+<p>The Public Whip is a project to monitor the voting records of
+Members of the United Kingdom Parliament, so that the public (people
+like us) can better influence their voting patterns.
+
+<h2>How does it work?</h2>
+<p>All the House of Commons debate transcripts (<a href="http://www.parliament.the-stationery-office.co.uk/pa/cm/cmhansrd.htm">Hansard</a>) back to
+1988 are published electronically on the World Wide Web.  We've written
+a program to read it for you and separate out all the records of
+voting.  This information has been added into an online database which
+you can access.
+
+<h2>What time period does it cover?</h2>
+<p>The data extends back to the start of this parliament, just after the
+June 2001 General Election.  New divisions are added semi-manually, so
+may not appear until a few days after they happen.  We give no warranty
+for the data; there may be factual inaccuracies.  <a href="mailto:support@publicwhip.org.uk">Let us know</a> if you find any.
+
+<?php
+    include "db.inc";
+    $db = new DB(); 
+
+    $div_count = $db->query_one_value("select count(*) from pw_division");
+    $mp_count = $db->query_one_value("select count(*) from pw_mp");
+    $vote_count = $db->query_one_value("select count(*) from pw_vote");
+    $vote_per_div = round($vote_count / $div_count, 2);
+    $db->query("select count(*) from pw_mp group by party"); $parties = $db->rows();
+    $rebellious_votes = $db->query_one_value("select sum(rebellions) from pw_cache_mpinfo");
+    $rebelocity = round(100 * $rebellious_votes / $vote_count, 2);
+    $attendance = round(100 * $vote_count / $div_count / $mp_count, 2);
+?>
+
+<p>Some numeric statistics: The database contains <?=$mp_count?> 
+MPs from <?=$parties?> parties. There are <?=$div_count?> divisions
+which have been counted.  A mean of <?=$vote_per_div?> MPs voted
+in each division.  In total <?=$vote_count?> votes were cast, of which
+<?=$rebellious_votes?> were against the majority vote for their party.
+That's an overall <?=$attendance?>% attendance rate and
+<?=$rebelocity?>% possible rebellion rate.
+
+<h2><a name="legal">What can I use this information for?</a></h2>
+
+<p>Anything.  The contents of this website are copyrighted by us, and
+except for the software you can use them how you like.  This data is
+distributed in the hope that it will be useful, but <b>without any
+warranty</b>; without even the implied warranty of
+<b>merchantability</b> or <b>fitness for a particular purpose</b>.
+
+<p>Amongst other things, this means that if you use it, you should
+double check the information. It may be nonsense.  If you can't be
+bothered, at least do some cursory cross checking.  Whichever way, use
+is at your own risk.  Of course we'd rather you helped us fix the
+software and correct any errors, so <a
+href="mailto:support@publicwhip.org.uk">send us an email</a> if you find
+inaccuracies.
+
+<p>If you reproduce this information, or derive any interesting 
+results from it, we ask you to refer your readers to
+www.publicwhip.org.uk.  This way they can use and contribute themselves.
+
+<h2>Can I play?</h2>
+
+<p>
+<A href="http://sourceforge.net"> <IMG align=right vspace=8 hspace=8
+src="http://sourceforge.net/sflogo.php?group_id=87640&amp;type=5"
+width="210" height="62" border="0" alt="SourceForge.net Logo" /></A>
+
+Sure.  All the software we've written is free and protected by the 
+<a href="GPL.php">GNU General Public License</a>.  It's not complicated,
+anyone can have a go running them.  But there's only a point in doing
+this if you are going to change it as otherwise you will see the same
+results. 
+<p>You will shortly be able to download the code from our <a
+href="http://www.sourceforge.net/projects/publicwhip">SourceForge
+project page</a>.
+<h2>Why are you giving everything away for free?</h2>
+
+<p>We're not; we're letting you take copies.  Whatever you do, we still 
+have our computers, all the programs, and our domain name.  The more 
+people who are playing with this sort of thing, the more cool ideas can 
+come out of it. 
+
+<p>We could wrap it up as a service and sell it to political lobbying
+organizations for cash.  This would, however, be pointless since it
+would take away the notion of the public having access to it.  All that
+would happen is that the people who are already organized influentially
+would retain all the power but would have slightly better software
+(which they probably have already). 
+
+<h2>Can you explain "division" and other political jargon?</h2>
+<p>The House of Commons <i>divides</i> many times each week into those who
+vote "aye" ("yes", for the motion) and those who vote "noe" ("no",
+against the motion).  Each political party has <i>whips</i> who try to
+make their MPs vote for the party line.
+
+<h2>What organisation is behind the Public Whip?</h2>
+<p>None.  Just two guys <a href="http://www.flourish.org">Francis</a>
+and Julian who had an idea and made it happen.
+
+<h2>Where can I email?</h2>
+<p>If you have any problems, comments, queries, suggestions or offers of help email <a
+href="mailto:support@publicwhip.org.uk">support@publicwhip.org.uk</a>.
+
+<?php include "footer.inc" ?>
+

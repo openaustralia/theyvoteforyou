@@ -1,0 +1,5 @@
+# htaccess file for local testing on my machine
+AddType application/x-httpd-php .php
+DirectoryIndex index.php
+
+RedirectPermanent /rebels.php http://www.publicwhip.org.uk/mps.php?sort=rebellions

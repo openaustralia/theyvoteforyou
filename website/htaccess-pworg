@@ -1,0 +1,7 @@
+# htaccess file for publicwhip.org.uk
+# Rename it to .htaccess for use
+AddHandler cgi-script .php
+Options ExecCGI
+DirectoryIndex index.php
+
+RedirectPermanent /rebels.php http://www.publicwhip.org.uk/mps.php?sort=rebellions
