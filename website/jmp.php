@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: jmp.php,v 1.4 2005/01/15 21:37:38 frabcus Exp $
+    # $Id: jmp.php,v 1.5 2005/01/20 22:49:20 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -27,15 +27,9 @@
         exit;
     }
 
-    $show_all = false;
-    if ($_GET["showall"] == "yes")
-        $show_all = true;
-    $all_friends = false;
-    if ($_GET["allfriends"] == "yes")
-        $all_friends = true;
-    $expand = false;
-    if ($_GET["expand"] == "yes")
-        $expand = true;
+	$limitdivs = 20;
+    if ($_GET["limit"] != "")
+		$limitdivs = db_scrub($_GET["limit"]);
 
     if ($last_name == "" && $first_name =="")
     {
@@ -76,7 +70,6 @@
 	include "header.inc";
 
 	# add the title of the chosen dream MP (if exists) and close the table.
-	$limitdivs = 20;
     $now = strftime("%Y-%m-%d");
 	print "</td></tr><tr><td>\n"; # get rid of colspan
 	if ($dreammpid != "")
