@@ -11,72 +11,77 @@ from miscfuncs import FixHTMLEntities
 
 # replies can have tables
 def ParseTable(stable):
+	# remove the table bracketing
+	stable = re.match('<table[^>]*>\s*([\s\S]*?)\s*</table>(?i)', stable).group(1)
+
 	# take out all the useless font and paragraph junk
-	stable = re.sub('</?font[^>]*>|</?p>|\n(?i)', ' ', stable)
 
-	# take out the bracketing
-	stable = re.findall('<table[^>]*>\s*(.*?)\s*</table>(?i)', stable)[0]
 
-	# break into rows
-	sprows = re.split('(<tr[^>]*>.*?</tr>)(?i)', stable)
+	# break into rows, making sure we deal with non-closed <tr> symbols
+	sprows = re.split('(<tr[^>]*>[\s\S]*?(?:</tr>|(?=<tr>)))(?i)', stable)
 
-	# first row is title
+	# build the rows
+	stitle = ''
 	srows = []
 	for sprow in sprows:
-		row = re.findall('^<tr[^>]*>\s*(.*?)\s*</tr>$(?i)', sprow)
-		if row:
-			if not srows:
-				srows.append('')
-			srows.append(row[0])
+		trg = re.match('<tr[^>]*>\s*([\s\S]*?)\s*(?:</tr>)?$(?i)', sprow)
+		if trg:
+			srows.append(trg.group(1))
 
 		else:
-			sprow = string.strip(sprow)
-			if not srows:
-				srows.append(sprow)
-			elif sprow:
-				print ' non-row text ' + sprow
+			if re.search('\S', sprow):
+				if (not srows) and (not stitle):
+					stitle = sprow
+				else:
+     					print ' non-row text ' + sprow
 
 	# take out tags round the title; they're always out of order
-	if srows[0]:
-		ts = re.findall('^(?:<b>|<center>)+\s*(.*?)\s*(?:</b>|</center>)+\s*(.*)\s*$(?i)', srows[0])
+	stitle = string.strip(re.sub('</?font[^>]*>|</?p>|\n(?i)', ' ', stitle))
+	if stitle:
+		ts = re.match('(?:\s|<b>|<center>)+([\s\S]*?)(?:</b>|</center>)+\s*([\s\S]*?)\s*$(?i)', stitle)
 		if ts:
-			if ts[0][1]:
-				srows[0] = ts[0][0] + ' -- ' + ts[0][1]
+			if ts.group(2):
+				stitle = ts.group(1) + ' -- ' + ts.group(2)
 			else:
-				srows[0] = ts[0][0]
+				stitle = ts.group(1)
 		else:
-			print ' non-standard table title: ' + srows[0]
-		srows[0] = FixHTMLEntities(srows[0])
+			print ' non-standard table title:' + stitle + ':'
+			sys.exit()
+
+		stitle = FixHTMLEntities(stitle)
 
 	# find where the headings stop and the rows begin
-	for ih in range(1, len(srows)):
+	for ih in range(len(srows)):
 		if re.search('<td>(?i)', srows[ih]):
 			break
 
 	# break each row down into columns
-	for i in range(1, len(srows)):
+	for i in range(len(srows)):
 		colt = 'td'
-		colregexp = '(<td[^>]*>.*?</td>)(?i)'
-		colexregexp = '^<td[^>]*>\s*(.*?)\s*</td>$(?i)'
+		colregexp = '(<td[^>]*>[\s\S]*?(?:</td>|(?=<td>)))(?i)'
+		colexregexp = '<td[^>]*>\s*([\s\S]*?)\s*(?:</td>)?$(?i)'
 		if i < ih:
-			colregexp = '(<th[^>]*>.*?</th>)(?i)'
-			colexregexp = '^<th[^>]*>\s*(.*?)\s*</th>$(?i)'
+			colregexp = '(<th[^>]*>[\s\S]*?(?:</th>|(?=<th>)))(?i)'
+			colexregexp = '<th[^>]*>\s*([\s\S]*?)\s*(?:</th>)?$(?i)'
 			colt = 'th'
 
 		srow = srows[i]
-		srow = re.sub('<td>\s*<td>\s*</td>(?i)', '<td></td><td>', srow)
-
 		spcols = re.split(colregexp, srow)
+
 		scols = [ colt ]
 		for spcol in spcols:
-			col = re.findall(colexregexp, spcol)
+			col = re.match(colexregexp, spcol)
 			if col:
-				coltext = FixHTMLEntities(col[0])
+				coltext = col.group(1)
+				coltext = re.sub('</?font[^>]*>|</?p>|\n(?i)', ' ', coltext)
+				coltext = FixHTMLEntities(coltext)
 				scols.append(coltext)
 			elif re.search('\S', spcol):
-				print ' non column text ' + srows[i]
-				print spcols
-				#sys.exit()
+				col = re.sub('</t[dh]>(?i)', '', spcol)
+				if re.search('\S', col):
+					print ' non column text ' + srows[i]
+					print spcols
+					sys.exit()
 
 		# copy the list back into the table
 		srows[i] = scols
@@ -86,9 +91,10 @@ def ParseTable(stable):
 	sio = cStringIO.StringIO()
 
 	sio.write('<table>\n')
-	sio.write('\t\t<div class="tabletitle">')
-	sio.write(srows[0])
-	sio.write('</div>\n')
+	if stitle:
+		sio.write('\t\t<div class="tabletitle">')
+		sio.write(stitle)
+		sio.write('</div>\n')
 
 	for i in range(1, len(srows)):
 		colt = srows[i][0]    # td or th

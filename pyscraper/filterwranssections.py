@@ -20,7 +20,7 @@ from miscfuncs import FixHTMLEntities
 fixsubs = 	[
 	( '<h2><center>written answers to</center></h2>\s*questions(?i)', \
 	  	'<h2><center>Written Answers to Questions</center></h2>', -1, 'all'),
-	( '<h\d align=center>written answers[\s\S]{10,150}?\[continued from column \d+?W\](?i)', '', -1, 'all'),
+	( '<h\d align=center>written answers[\s\S]{10,150}?\[continued from column \d+?W\](?:</h\d>)?(?i)', '', -1, 'all'),
 	( '<h\d><center>written answers[\s\S]{10,150}?\[continued from column \d+?W\](?i)', '', -1, 'all'),
 
 
@@ -60,6 +60,8 @@ fixsubs = 	[
 	( 'Asked the Minister', 'To ask the Minister', 1, '2003-05-19'),
 	( 'Asked the Minister', 'To ask the Minister', 1, '2003-05-21'),
 
+	( '2003&#150;11&#150;21', '2003', 1, '2003-11-20'),
+	( '27Ooctober', '27 October', 1, '2003-10-27'), 
 		]
 
 

@@ -164,7 +164,7 @@ class ParlPhrases:
 
 	daysofweek = 'Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday'
 	monthsofyear = 'January|February|March|April|May|June|July|August|September|October|November|December'
-	datephrase = '((?:%s )?(\d+ (?:%s)(?: \d+)?))' % (daysofweek, monthsofyear)
+	datephrase = '((?:%s )?((?:\d+ )?(?:%s)(?: \d+)?))' % (daysofweek, monthsofyear)
 	redatephrase = re.compile(datephrase)
 
 	# make a huge regexp

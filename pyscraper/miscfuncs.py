@@ -20,7 +20,7 @@ def StraightenHTMLrecurse(stex):
 	if qisup:
 		qtag = ('<i>', '</i>')
 	else:
-		qisup = re.search('(<sup>(.*?)</sup>)(?i)', stex)
+		qisup = re.search('(<sup>([\s\S]*?)</sup>)(?i)', stex)
 		if qisup:
 			qtag = ('<sup>', '</sup>')
 
@@ -73,7 +73,7 @@ def StraightenHTMLrecurse(stex):
 			elif sres[i] == '&gt;':
 				pass
 			else:
-				print sres[i]
+				print sres[i] + ' unknown ent'
 				sres[i] = 'UNKNOWN-ENTITY'
 
 		elif sres[i] == '"':
@@ -85,11 +85,10 @@ def StraightenHTMLrecurse(stex):
 			sres[i] = 'CLOSE-i-TAG-OUT-OF-PLACE'
 
 		elif sres[i][0] == '<' or sres[i][0] == '>':
-			print sres[i]
+			print sres[i] + ' tag out'
 			sres[i] = 'TAG-OUT-OF-PLACE'
 
 	return sres
-
 
 
 def FixHTMLEntities(stex):

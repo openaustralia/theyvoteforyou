@@ -66,54 +66,93 @@ def MergePersonPhrases(qs, sres):
 		i = i+1
 	return sres
 
-def ExtractPhraseRecurse(qs, stex):
+def ExtractPhraseRecurse(qs, stex, depth, rectag):
 	qspan = None
+	depth = depth+1
+	brecmiddle = 0
 
 	# split the text into known mpjobs
-	qjobs = rejobs.search(stex)
-	if qjobs:
-		qstr = '<mpjob>%s</mpjob>' % qjobs.group(1)
-		qspan = qjobs.span(1)
+	if depth == 1:
+		qjobs = rejobs.search(stex)
+		if qjobs:
+			qtags = ('<mpjob>', '</mpjob>')
+			qstr = qjobs.group(1)
+			qspan = qjobs.span(1)
 
-	# or split at known names in parenthesis
+	# or split at italics,
+	if not qspan:
+		qit = re.search('(<i>(.*?)</i>)', stex)
+		if qit:
+			qtags = ('<i>', '</i>')
+			qstr = qit.group(2)
+			qspan = qit.span(1)
+			brecmiddle = 1
+
+	# or split at sup (since these get confounded by parentheses
+	if not qspan:
+		qsup = re.search('(<sup>(.*?)</sup>)', stex)
+		if qsup:
+			qtags = ('<sup>', '</sup>')
+			qstr = qsup.group(2)
+			qspan = qsup.span(1)
+			brecmiddle = 1
+
+	# or split at parenthesis, finding known names
 	if not qspan:
 		qbrack = re.search('(\(([^)]*)\))', stex)
 		if qbrack:
+			qstr = qbrack.group(2)
+			qspan = qbrack.span(1)
+
 			if memberList.mpnameexists(qbrack.group(2), qs.sdate):
 				# we maybe can leave out the brackets if the xml thing puts them back in.
-				qstr = '<mpname>(%s)</mpname>)' % qbrack.group(2)
-				qspan = qbrack.span(1)
+				qtags = ('<mpname>(', ')</mpname>')
+			else:
+				qtags = ('(', ')')
+				brecmiddle = 1
 
 	# or split at official report statement
 	if not qspan:
 		qoffrep = reoffrepw.search(stex)
 		if qoffrep:
-			qstr = '<offrep>%s</offrep>' % re.sub('&#150;', '-', qoffrep.group(2))
+			qtags = ('<offrep>', '</offrep>')
+			qstr = qoffrep.group(2)
 			qspan = qoffrep.span(1)
 
 	# or split at a detectable date
-	if not qspan:
+	if (not qspan) and (rectag != '<datephrase>'):
 		qdateph = parlPhrases.redatephrase.search(stex)
 		if qdateph:
-			qstr = '<datephrase>%s</datephrase>' % qdateph.group(2)
+			qtags = ('<datephrase>', '</datephrase>')
+			qstr = qdateph.group(2)
 			qspan = qdateph.span(1)
 
-	# we have a splitting off which we now recursymbolsse down both ends
+	# we have a splitting off which we now recursesymbols down both ends and middle
 	if qspan:
-		res = ExtractPhraseRecurse(qs, stex[:qspan[0]])
-		res.append(qstr)
-		res.extend(ExtractPhraseRecurse(qs, stex[qspan[1]:]))
+		res = ExtractPhraseRecurse(qs, stex[:qspan[0]], depth+1, '')
+		res.append(qtags[0])
+		if brecmiddle:
+			res.extend(ExtractPhraseRecurse(qs, qstr, depth+1, qtags[0]))
+		else:
+			res.append(FixHTMLEntities(qstr))
+
+		res.append(qtags[1])
+		res.extend(ExtractPhraseRecurse(qs, stex[qspan[1]:], depth+1, ''))
 		return res
 
+	# bottom level
 	return [ FixHTMLEntities(stex) ]
 
 
 # main breaking up function.
 def BreakUpText(stex, qs):
-	sres = ExtractPhraseRecurse(qs, stex)
+	sres = ExtractPhraseRecurse(qs, stex, 1, '')
 	#MergePersonPhrases(qs, sres)
 	return sres
 
+
+resqbrack = re.compile('(\s*(?:\s|</?i>)*\[(?:\s|</?i>)*(.*?)(?:</i>|:|;|\s)*\](?:</i>|:|;|\s)*)')
+relettfrom = re.compile('<i>Letter from (.*?)(?: to (.*?))?(?:(?:,? dated| of)? %s)?:?</i>[.:]?$' % parlPhrases.datephrase)
 
 # main breaking up function.
 def BreakUpTextSB(i, n, stex, qs):
@@ -124,36 +163,80 @@ def BreakUpTextSB(i, n, stex, qs):
 	sres = [ ]
 	if i == 0:
 		# the delimeters are in a variety of different orders
-		qha = re.match('(\s*(?:\s|</?i>)*\[(?:\s|</?i>)*(.*?)(?:</i>|:|;|\s)*\](?:</i>|:|;|\s)*)', stex)
+		qha = resqbrack.match(stex)
 		if qha:
 			sres.append('<sqbracket>')
 			sres.extend(BreakUpText(qha.group(2), qs))
 			sres.append('</sqbracket>')
 			stex = stex[qha.span(1)[1]:]
+
+	# might want to hive off the square-bracket clause into a paragraph on its own.
+
+	# letter from paragraph form
+	# <i>Letter from Ruth Kelly to Mr. Frank Field dated 2 December 2003:</i>
+	# introducing a previous letter from a civil servant to an MP
+	qlettfrom = relettfrom.match(stex)
+	if qlettfrom:
+		perphxto = ''
+		if qlettfrom.group(2):
+			if memberList.mpnameexists(qlettfrom.group(2), qs.sdate):
+				perphxto = ' to <mpname>%s</mpname>' % qlettfrom.group(2)
+			else:
+				perphxto = ' to <perph>%s</perph>' % qlettfrom.group(2)
+				print ' Letter to unknown MP %s' % qlettfrom.group(2)
+				print stex
+
+		datephr = ''
+		if qlettfrom.group(3):
+			datephr = ' dated <datephrase>%s</datephrase>' % qlettfrom.group(3)
+		# build the entire paragraph
+		sres = [ '<letterfrom>', 'Letter from ', '<perph>', qlettfrom.group(1), '</perph>',
+				perphxto, datephr, '</letterfrom>' ]
+		return sres
+
+	# failed to detect the letter from case
+	qitpara = re.match('<i>Letter from(?i)', stex)
+	if qitpara:
+		print stex
+		raise Exception, ' failed to detect Letter from '
+
+
+	# otherwise go straight into the recursion
 	sres.extend(BreakUpText(stex, qs))
 	return sres
 
 
 # this is the main function.
 def FilterReply(qs):
- # break into pieces
+	# break into paragraphs
 	nfj = re.split('(<table[\s\S]*?</table>|</?p>|</?ul>|<br>|</?font[^>]*>)(?i)', qs.text)
 
 	# break up into sections separated by paragraph breaks
-	# these alternate in the list.
+	# these alternate in the list, with the spaces already as lists
 	dell = []
-	spc = ''
+
+	spclist = []
+	spclistinter = []
 	for nf in nfj:
 		if re.match('</?p>|</?ul>|<br>|</?font[^>]*>(?i)', nf):
-			spc = spc + nf
+			spclist.append(nf)
+
+		# sometimes italics are hidden among the paragraph choss
+		elif re.match('\s*<i>\s*$', nf):
+			spclistinter.append(string.strip(nf))
 		else:
 			if re.search('\S', nf):
-				dell.append(spc)
-				spc = ''
-				dell.append(string.strip(nf))
-	if not spc:
-		spc = ''
-	dell.append(spc)
+				dell.append(spclist)
+				spclist = []
+
+				pstring = string.strip(nf)
+				if spclistinter:
+					spclistinter.append(pstring)
+					pstring = string.join(spclistinter, '')
+
+				dell.append(pstring)
+
+	dell.append(spclist)
 
 
 
@@ -168,7 +251,12 @@ def FilterReply(qs):
 			qs.stext.append(ParseTable(dell[i2]))
 		else:
 			sres = BreakUpTextSB(i, n, dell[i2], qs)
-			qs.stext.append(string.join(sres, ''))
+			lstex = string.join(sres, '')
+			if re.search('TAG-OUT', lstex):
+				print dell[i2]
+				print lstex
+				#sys.exit()
+			qs.stext.append(lstex)
 
 	if not qs.stext:
 		print 'empty answer'
