@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.36 2004/06/22 14:31:15 frabcus Exp $
+    # $Id: mp.php,v 1.37 2004/06/23 18:56:11 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -88,7 +88,7 @@
     print "<h2><a name=\"general\">General Information</a></h2>";
 
  	print "<p>$first_name $last_name has been MP for $constituency during
-        the following periods of time, going back to 1997.
+        the following periods of time during the last two parliaments.
         <br>Read a <a href=\"faq.php#clarify\">clear explanation</a> of attendance
         and rebellions, as they may not have the meanings you expect.";
 
