@@ -1,6 +1,6 @@
 <?  $title = "Sign up for Newsletter"; include "../header.inc";
 
-# $Id: register.php,v 1.2 2003/10/11 10:29:13 frabcus Exp $
+# $Id: register.php,v 1.3 2003/10/11 10:49:38 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,6 +8,7 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 include('database.inc');
+include('user.inc');
 
 $user_name=mysql_escape_string($_POST["user_name"]);
 $password1=mysql_escape_string($_POST["password1"]);
