@@ -96,7 +96,8 @@ def StripDebateHeadings(headspeak, sdate):
 
 	# Tuesday 9 December 2003
 	if not re.match('the house met at .*(?i)', headspeak[ih][0]):
-		if ((sdate != mx.DateTime.DateTimeFrom(headspeak[ih][0]).date)) or headspeak[ih][2]:
+                givendate = re.sub('&nbsp;',' ',headspeak[ih][0]);
+		if ((sdate != mx.DateTime.DateTimeFrom(givendate).date)) or headspeak[ih][2]:
 			raise Exception, 'date heading %s mismatches with date %s' % (repr(headspeak[ih]), sdate)
 		ih = ih + 1
 
