@@ -7,7 +7,6 @@ import os
 import string
 from resolvemembernames import memberList
 
-
 from miscfuncs import ApplyFixSubstitutions
 
 # this filter finds the speakers and replaces with full itendifiers
@@ -181,3 +180,4 @@ def FilterWransSpeakers(fout, text, sdate):
 				print c,
 				c.encode("latin-1")
 			sys.exit()
+

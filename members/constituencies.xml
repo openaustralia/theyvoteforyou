@@ -416,6 +416,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/119">
     <name text="Carrick, Cumnock &amp; Doon Valley"/>
     <name text="Carrick, Cumnock and Doon Valley"/> <!-- ONS -->
+    <name text="Carrick Cumnock and Doon Valley"/> <!-- edm.ais.co.uk -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/120">
     <name text="Carshalton &amp; Wallington"/>
@@ -1671,6 +1672,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/481">
     <name text="Ross, Skye &amp; Inverness West"/>
     <name text="Ross, Skye and Inverness West"/> <!-- ONS -->
+    <name text="Ross Skye and Inverness West"/> <!-- edm.ais.co.uk -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/482">
     <name text="Rossendale &amp; Darwen"/>
@@ -2051,6 +2053,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/588">
     <name text="Tweeddale, Ettrick &amp; Lauderdale"/>
     <name text="Tweeddale, Ettrick and Lauderdale"/> <!-- ONS -->
+    <name text="Tweeddale Ettrick and Lauderdale"/> <!-- edm.ais.co.uk -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/589">
     <name text="Twickenham"/>
@@ -2183,6 +2186,7 @@ The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/629">
     <name text="West Tyrone"/>
+    <name text="Tyrone West"/> <!-- edm.ais.co.uk -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/630">
     <name text="West Worcestershire"/>
@@ -2201,6 +2205,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/634">
     <name text="Weston-Super-Mare"/>
     <name text="Weston Super Mare"/> <!-- FaxYourMP index -->
+    <name text="Weston-super-Mare"/> <!-- edm.ais.co.uk -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/635">
     <name text="Wigan"/>

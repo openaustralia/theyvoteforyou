@@ -61,6 +61,7 @@ We should find the exact date she started, and move her finish date.
 
 <!-- First added for 2001 parliament -->
 <alias lastname="MacKay" alternate="Mackay" />
+<alias constituency="Worcester" alternate="Michael John Foster" />
 <alias fullname="Anthony D Wright" alternate="Tony Wright" />
 <alias fullname="Phil Woolas" alternate="Philip Woolas" />
 <alias fullname="Pete Wishart" alternate="Peter Wishart" />

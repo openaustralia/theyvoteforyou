@@ -176,10 +176,7 @@ class MemberList(xml.sax.handler.ContentHandler):
     # Returns id, corrected name, corrected constituency
     def matchfullnamecons(self, fullname, cons, date):
         ids = self.fullnametoids(fullname, date)
-
-        cancons = self.conscanonical.get(cons, None)
-        if not cancons:
-            raise Exception, "Unknown constituency %s" % cons
+        cancons = self.canonicalisecons(cons)
 
         newids = sets.Set()
         matches = self.constituencies[cancons]
@@ -327,6 +324,13 @@ class MemberList(xml.sax.handler.ContentHandler):
             print ' potential missing MP name ' + input
 
         return 0
+
+    # Convert constituency name to canonical form, or throw exception if it isn't known
+    def canonicalisecons(self, cons):
+        cancons = self.conscanonical.get(cons, None)
+        if not cancons:
+            raise Exception, "Unknown constituency %s" % cons
+        return cancons
 
 # Construct the global singleton of class which people will actually use
 memberList = MemberList()
