@@ -7,6 +7,9 @@ Out of sequence dates are when the rescraper picked up new stuff?
 CRON = cron job on baked
 PWIP = weekly Public Whip update
 
+CRON 2004-06-08 Jim Marshall voted, when he was dead
+CRON 2004-06-08 Office of name broken on separate line to partial name
+CRON 2004-06-08 Solicitor-General date range moved
 CRON 2004-05-25 Advocate General disambiguation of office, date moved forward
 CRON 2004-05-21 Entirely missing speaker of wrans answer (fixed with broken-name)
 CRON 2003-10-27 Totally spurious <subhd> tag

@@ -6,6 +6,8 @@ import os
 import shutil
 import string
 import miscfuncs
+import re
+from resolvemembernames import memberList
 toppath = miscfuncs.toppath
 
 # File names of patch files

@@ -58,7 +58,7 @@ def GrabWatchCopies(sdate):
 			lastnum = string.atoi(numg.group(1))
 
 		# get copy from web
-		print "urling", watchpages[ww]
+		#print "urling", watchpages[ww]
 		ur = urllib.urlopen(watchpages[ww])
 		currval = ur.read()
 		ur.close()
@@ -70,7 +70,7 @@ def GrabWatchCopies(sdate):
 			# build the name for this page and make sure it follows, even when we have the same date
 			wwn = "%s%04d_%s.html" % (ww, lastnum + 1, sdate)
 			wwnj = os.path.join(watchdir, wwn)
-			print "Writing", wwnj
+			print "changed page", wwnj
 
 			assert not os.path.isfile(wwn)
 			wout = open(wwnj, "w")
