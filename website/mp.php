@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.22 2003/12/21 01:55:35 frabcus Exp $
+    # $Id: mp.php,v 1.23 2003/12/21 02:59:30 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -37,9 +37,9 @@
 				from pw_mp where mp_id = '$id'
 				order by entered_house desc limit 1";
 			$row = $db->query_one_row($query);
-			$first_name = $row[0];
-			$last_name = $row[1];
-			$constituency = $row[2];
+			$first_name = db_scrub($row[0]);
+			$last_name = db_scrub($row[1]);
+			$constituency = db_scrub($row[2]);
 		}
 		else
 		{
@@ -47,8 +47,8 @@
 				from pw_mp where constituency = '$constituency' 
 				order by entered_house desc limit 1";
 			$row = $db->query_one_row($query);
-			$first_name = $row[0];
-			$last_name = $row[1];
+			$first_name = db_scrub($row[0]);
+			$last_name = db_scrub($row[1]);
 		}
     }
 
@@ -323,7 +323,7 @@
 	}
 	if ($totalfound == 0)
 	{
-		print "<p>None found";
+		print "<p>None found.";
 	}
 	else
 	{

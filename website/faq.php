@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.15 2003/11/05 14:34:43 frabcus Exp $
+# $Id: faq.php,v 1.16 2003/12/21 02:59:30 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,9 +8,9 @@
 ?>
 
 <h2>What is the Public Whip?</h2>
-<p>The Public Whip is a project to monitor the voting records of
-Members of the United Kingdom Parliament, so that the public (people
-like us) can better influence their voting patterns.
+<p>The Public Whip is a project to monitor Members of the United Kingdom
+Parliament, so that the public (people like us) can better influence their
+voting patterns.
 
 <h2>First, can you explain "division" and other political jargon?</h2>
 <p>The House of Commons <i>divides</i> many times each week into those who
@@ -27,12 +27,13 @@ voting.  This information has been added into an online database which
 you can access.
 
 <h2>What time period does it cover?</h2>
-<p>The data extends back across two parliaments to the May 1997 General
+<p>Voting data extends back across two parliaments to the May 1997 General
 Election, although there are a few divisions missing in the 1997
 parliament.  New divisions are added semi-manually, so may not appear
-until a few days after they happen.  We give no warranty for the data;
-there may be factual inaccuracies.  <a
-href="mailto:support@publicwhip.org.uk">Let us know</a> if you find any.
+until a few days after they happen.  Written answers are indexed back
+to the start of 2003.  We give no warranty for the data; there may be factual
+inaccuracies.  <a href="mailto:support@publicwhip.org.uk">Let us know</a> if
+you find any.
 
 <?php
     include "db.inc";

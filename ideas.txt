@@ -140,6 +140,8 @@ Committees, and voting in committee
 Usability
 ---------
 
+Pie chart, rectangle graph by area for voting table
+
 Show ... for cut down text, but you can click the dots to open it out
 again.
 
@@ -199,6 +201,8 @@ Paragraph text needs max-width, so it can be shrunken
 
 Political toolbar - easy searches.  Popup links automatically on MP's
 names in Internet Explorer.
+
+Java in Opera Win32
 
 Gimmicks
 --------

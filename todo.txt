@@ -3,6 +3,9 @@ Wrans
 
 Index titles
 Check stemming
+POUND sign
+
+Some kind of "most inquisitive" on front page.
 
 uk.org.publicwhip/wrans/2003-11-06.755W.4 - refers to uk.org.publicwhip/wrans/2003-06-03.214W
 which does actually exist, but crosses over two entire columns, so referencing the one in the middle doesn't pick it up.  Ooops.  Need some kind of ranging?
@@ -15,22 +18,20 @@ uk.org.publicwhip/wrans/2003-10-27.110W.2 - fails to find offrep
 Back links to wrans that have referred to this one
 Check all found URL links
 
+Improve all MP name matching so no unknown ids
+
+Stats - count up how many questions/answers each person has done
+
 Web site
 --------
 
 Letter index on MP list
-
-Comments system
-
-Java in Opera Win32
 
 Pass W3C validator
 http://validator.w3.org/
 And bobby
 
 Find max teller people
-
-Pie chart, rectangle graph by area for voting table
 
 Abstain -> difference from expected
 Expected -> average no. of attendees
