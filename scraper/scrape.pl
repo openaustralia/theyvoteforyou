@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: scrape.pl,v 1.7 2003/10/02 13:51:12 frabcus Exp $
+# $Id: scrape.pl,v 1.8 2003/10/31 11:04:19 frabcus Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -155,6 +155,7 @@ sub mps
 {
     print "Inserting MPs...\n";
     mplist::insert_mps($dbh);
+#    mplist::mid_transfer($dbh);
 }
 
 sub crawl_recent_months

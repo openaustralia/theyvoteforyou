@@ -42,6 +42,11 @@ Top day of week for voting.  Distribution for individual MPs.
 Data anlaysis (using existing data)
 -------------
 
+If this is very important to you, we could add something that measured a
+sudden drop in attendance rate - so you could see that the MP used to
+vote a certain % of the time and now doesn't.  This would detect in
+long-term cases that something is up, so you could find out what it is.
+
 Chris Lighthead:  "I've now written some code to estimate which of the
 eigenvectors are significant. The basic idea is that we generate
 synthetic data using the marginal  distributions for each statements --

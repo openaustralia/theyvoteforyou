@@ -61,4 +61,7 @@ Improve motion text / title extraction
     division.php?date=2000-02-28&number=88 - too much text!
     division.php?date=2003-09-17&number=321 - not deferred division!
     division.php?date=2003-09-17&number=320 - not deferred division!
+Add explanations
+    division.php?date=2001-10-25&number=43 - multiple motions clearer,
+also show initial motion in second vote, rather than hardly any text
 

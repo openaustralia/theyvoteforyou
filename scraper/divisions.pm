@@ -1,4 +1,4 @@
-# $Id: divisions.pm,v 1.8 2003/10/27 09:36:41 frabcus Exp $
+# $Id: divisions.pm,v 1.9 2003/10/31 11:04:19 frabcus Exp $
 # Parses the body text of a page of Hansard containing a division.
 # Records the division and votes in a database, matching MP names
 # to an MP already in the database.
@@ -42,12 +42,23 @@ sub parse_all_divisions_on_page
     #######################################################################
     # Special case fixes
 
-    if ($day_date eq "2003-03-14")
+    if ($day_date eq "2003-03-14" )
     {
         # Names bunched together on one line, fix it in a fairly crude manner
         $content =~ s/([a-z])([A-Z])/$1<br>\n$2/g;
         $content =~ s/(\)\<\/i\>)([A-Z])/$1<br>\n$2/g;
         error::log("Patched a bad case of line bunching", $day_date, error::USEFUL);
+    }
+    if ($day_date eq "2003-10-27")
+    {
+        $content =~ s/([a-bd-z])([A-Z])/$1<br>\n$2/g; # no c for "Mc" names
+        $content =~ s/(\)\<\/i\>)([A-Z])/$1<br>\n$2/g;
+        $content =~ s/Widdecombe, rh Miss/Widdecombe, rh Ann/g;
+        $content =~ s/Cook, rh Robin <i>Livingston\)<\/i>/Cook, rh Robin <i>(Livingston)<\/i>/g;
+        $content =~ s/A. J.Bell/A. J.<br>Bell/g;
+        $content =~ s/Annette L.Brown/Annette L.<br>Brown/g;
+        $content =~ s/Dunwoody, Mrs/Dunwoody, Gwyneth/g;
+        error::log("Patched a case of line bunching", $day_date, error::USEFUL);
     }
     if ($day_date eq "2003-09-10")
     {

@@ -1,4 +1,4 @@
-# $Id: mputils.pm,v 1.4 2003/10/03 17:56:36 frabcus Exp $
+# $Id: mputils.pm,v 1.5 2003/10/31 11:04:19 frabcus Exp $
 # Parse names of MPs, search for an MP in the database.  Copes with the
 # various textual varieties you get, such as initials absent or present,
 # name abbreviations, titles/honours present or absent.  Uses a mixture
@@ -147,6 +147,9 @@ sub find_mp
     $firstname = "Michael" if ($firstname eq "Mich ael" && $lastname eq "Ancram");
     $firstname = "Michael" if ($firstname eq "Michael J" && $lastname eq "Martin");
     $firstname = "Robert" if ($firstname eq "Robert W" && $lastname eq "Smith" && $constituency eq "West Aberdeenshire & Kincardine");
+    $lastname = "Fitzsimons" if ($firstname eq "Lorna" && $lastname eq "Fitzsimmons");
+    $lastname = "Mandelson" if ($firstname eq "Peter" && $lastname eq "Mandleson");
+    $firstname = "Rosie" if ($firstname eq "Rose" && $lastname eq "Winterton");
 
     # Our clerks make their first genuine spelling mistakes as far as I can tell...
     # http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030226/debtext/30226-35.htm

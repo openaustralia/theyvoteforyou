@@ -1,4 +1,4 @@
-# $Id: mplist.pm,v 1.5 2003/10/03 17:56:36 frabcus Exp $
+# $Id: mplist.pm,v 1.6 2003/10/31 11:04:19 frabcus Exp $
 # Parses lists of MPs, adds them to database.  Also has
 # special code to add in midterm changes such as byelections, 
 # party loyalty switching etc.
@@ -30,7 +30,16 @@ sub insert_mps
 # http://www.parliament.uk/directories/hcio/by_elections.cfm
 # http://www.election.demon.co.uk/strengths.html
 
-sub insert_1997_parliament()
+sub mid_transfer
+{
+    my $dbh = shift;
+    $current_parliament_end_date = "9999-12-31";
+    $current_parliament_end_reason = "still_in_office";
+#    insert_mid_depart($dbh, "George", "Galloway", "Glasgow, Kelvin", "Lab", "2003-10-23", "changed_party");
+#    insert_mid_arrive($dbh, "George", "Galloway", "", "Glasgow, Kelvin", "Ind", "2003-10-24", "changed_party");
+}
+
+sub insert_1997_parliament
 {
     my $dbh = shift;
 
@@ -92,7 +101,7 @@ sub insert_1997_parliament()
     insert_mid_arrive($dbh, "Charles", "Wardle", "", "Bexhill & Battle", "Ind", "2001-04-12", "changed_party");
 }
 
-sub insert_2001_parliament()
+sub insert_2001_parliament
 {
     my $dbh = shift;
 
@@ -110,7 +119,6 @@ sub insert_2001_parliament()
     insert_mid_depart($dbh, "Andrew", "Hunter", "Basingstoke", "Con", "2002-10-01", "changed_party");
     insert_mid_arrive($dbh, "Andrew", "Hunter", "", "Basingstoke", "Ind Con", "2002-10-02", "changed_party");
 
-    # no replacement elected for this death yet:
     insert_mid_depart($dbh, "Paul", "Daisley", "Brent East", "Lab", "2003-06-18", "died");
     insert_mid_arrive($dbh, "Sarah", "Teather", "", "Brent East", "LDem", "2003-09-18", "by_election");
 
@@ -120,6 +128,9 @@ sub insert_2001_parliament()
     insert_mid_arrive($dbh, "David", "Burnside", "", "South Antrim", "Ind UU", "2003-06-23", "changed_party");
     insert_mid_arrive($dbh, "Jeffrey M", "Donaldson", "", "Lagan Valley", "Ind UU", "2003-06-23", "changed_party");
     insert_mid_arrive($dbh, "Martin", "Smyth", "", "Belfast South", "Ind UU", "2003-06-23", "changed_party");
+    
+    insert_mid_depart($dbh, "George", "Galloway", "Glasgow, Kelvin", "Lab", "2003-10-23", "changed_party");
+    insert_mid_arrive($dbh, "George", "Galloway", "", "Glasgow, Kelvin", "Ind", "2003-10-24", "changed_party");
 }
 
 sub insert_mps_general_election
