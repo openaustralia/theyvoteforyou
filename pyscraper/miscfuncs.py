@@ -77,6 +77,7 @@ entitymap = {
 
         '&#95;':'_',    # this is underscore symbol
 
+		'&#039;':"'",   # posession apostrophe
         "&#8364;":'&euro;', # this is euro currency
 }
 entitymaprev = entitymap.values()
@@ -232,13 +233,13 @@ def FixHTMLEntities(stex, signore='', stampurl=None):
 
 
 # The lookahead assertion (?=<table) stops matching tables when another begin table is reached
-restmatcher = '</?p>|</?ul>|<br>|</?font[^>]*>(?i)'
+restmatcher = '</?p(?: class[= ]"tabletext")?>|</?ul>|<br>|</?font[^>]*>(?i)'
 reparts = re.compile('(<table[\s\S]*?(?:</table>|(?=<table))|' + restmatcher + ')')
 reparts2 = re.compile('(<table[^>]*?>|' + restmatcher + ')')
 
 retable = re.compile('<table[\s\S]*?</table>(?i)')
 retablestart = re.compile('<table[\s\S]*?(?i)')
-reparaspace = re.compile('</?p>|</?ul>|<br>|</?font[^>]*>|<table[^>].*>$(?i)')
+reparaspace = re.compile('</?p(?: class[= ]"tabletext")?>|</?ul>|<br>|</?font[^>]*>|<table[^>].*>$(?i)')
 reparaempty = re.compile('\s*(?:<i>)?</i>\s*$|\s*$(?i)')
 reitalif = re.compile('\s*<i>\s*$(?i)')
 

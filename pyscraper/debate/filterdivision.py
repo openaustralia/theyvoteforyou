@@ -62,7 +62,7 @@ def MpList(fsm, vote, sdate):
                         #print "fssf ", fssf
 			ginp = reflipname.match(fssf)
 			if ginp:
-                                #print "grps ", ginp.groups() 
+                                #print "grps ", ginp.groups()
 				fnam = '%s %s' % (ginp.group(2), ginp.group(1))
 				cons = ginp.group(3)
 			else:
@@ -71,6 +71,9 @@ def MpList(fsm, vote, sdate):
 
                         #print "fss ", fssf
 			(mpid, remadename, remadecons) = memberList.matchfullnamecons(fnam, cons, sdate, alwaysmatchcons = False)
+			if not mpid:
+				print "no match for", fnam, cons, sdate
+				raise Exception, "No match on name %s" % fname
                         #print fnam, " --> ", remadename.encode("latin-1")
 			res.append('\t<mpname id="%s" vote="%s">%s</mpname>' % (mpid, vote, FixHTMLEntities(fssf)))
 

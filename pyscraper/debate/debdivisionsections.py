@@ -91,7 +91,7 @@ def PreviewDivisionTextGuess(flatb):
 	foutdivisionreports.flush()
 
 # handle a division case
-regenddiv = '(Question accordingly|It appearing on the report|<explicit-end-division>)'
+regenddiv = '(Question accordingly|It appearing on the [Rr]eport|<explicit-end-division>)'
 def DivisionParsingPart(divno, unspoketxt, stampurl, sdate):
 	# find the ending of the division and split it off.
 	gquesacc = re.search(regenddiv, unspoketxt)

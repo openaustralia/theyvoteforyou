@@ -252,7 +252,7 @@ class MemberList(xml.sax.handler.ContentHandler):
             ids = newids
 
         if len(ids) == 0:
-	        return None
+	        return None, None, None
         if len(ids) > 1:
             raise MultipleMatchException, 'Matched multiple times: ' + fullname + " : " + (cons or "[nocons]") + " : " + date
 
@@ -296,6 +296,7 @@ class MemberList(xml.sax.handler.ContentHandler):
     # Replace common annoying characters
     def basicsubs(self, txt):
         txt = txt.replace("&#150;", "-")
+        txt = txt.replace("&#039;", "'")
         return txt
 
     # Resets history - exclusively for debates pages

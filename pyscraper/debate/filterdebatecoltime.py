@@ -54,7 +54,12 @@ regcolumnum1 = '<p>\s*%s</p>\n' % regcolcore
 regcolumnum2 = '<p>\s*</ul>\s*%s</p>\n<ul>' % regcolcore
 regcolumnum3 = '<p>\s*</ul></font>\s*%s</p>\n<ul><font[^>]*>' % regcolcore
 regcolumnum4 = '<p>\s*</font>\s*%s</p>\n<font[^>]*>' % regcolcore
-recolumnumvals = re.compile('(?:<p>|<a name=".*?">|</ul>|</font>|\s)*<b>([^:<]*):\s*column\s*(\d+)(WH)?\s*</b>(?:</p>|<ul>|<font[^>]*>|\s)*$(?i)')
+regcolumnum5 = '\s*<br>&nbsp;<br>\s*%s\s*<br>&nbsp;<br>\s*' % regcolcore
+regcolumnum6 = '\s*<br>&nbsp;<br></ul>\s*%s\s*<br>&nbsp;<br><ul>\s*' % regcolcore
+recolumnumvals = re.compile('(?:<p>|<a name=".*?">|</ul>|</font>|<br>&nbsp;<br>|\s)*<b>([^:<]*):\s*column\s*(\d+)(WH)?\s*</b>(?:</p>|<ul>|<font[^>]*>|<br>&nbsp;<br>|\s)*$(?i)')
+
+
+
 
 #<i>13 Nov 2003 : Column 431&#151;continued</i>
 # these occur infrequently
@@ -73,7 +78,7 @@ reaname = '<a name="\S*?">'
 reanamevals = re.compile('<a name="(\S*?)">(?i)')
 
 
-recomb = re.compile('(%s|%s|%s|%s|%s|%s|%s)(?i)' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4, regcolnumcont, regtime, reaname))
+recomb = re.compile('(%s|%s|%s|%s|%s|%s|%s|%s|%s)(?i)' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4, regcolumnum5, regcolumnum6, regcolnumcont, regtime, reaname))
 remarginal = re.compile(':\s*column\s*(\d+)|\n(?:\d+[.:])?\d+\s*[ap]\.?m\.?[^,\w](?i)|</?a[\s>]')
 
 # This one used to break times into component parts: 7.10 pm
@@ -112,7 +117,7 @@ def FilterDebateColTime(fout, text, sdate, typ):
 			# write a column number stamp (has to increase no matter what)
 			if lcolnum > colnum:
 				colnum = lcolnum
-                        stamp.stamp = '<stamp coldate="%s" colnum="%sW"/>' % (sdate, lcolnum)
+				stamp.stamp = '<stamp coldate="%s" colnum="%sW"/>' % (sdate, lcolnum)
 			fout.write('<stamp coldate="%s" colnum="%s"/>' % (sdate, colnum))
 			continue
 

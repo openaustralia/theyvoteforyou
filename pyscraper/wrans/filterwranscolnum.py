@@ -88,7 +88,10 @@ fixsubs = 	[
 regcolumnum1 = '<p>\s<p><i>[^:<]*:\s*column:?\s*\d+w?\s*</i><p>(?i)'
 regcolumnum2 = '<p>\s</ul><p><i>[^:<]*:\s*column:?\s*\d+w?\s*</i><p>\s<ul>(?i)'
 regcolumnum3 = '<p>\s</ul>(?:</font>)+<p><i>[^:<]*:\s*column:?\s*\d+w?\s*</i><p>\s<ul>(?:<font[^>]*>)?(?i)'
-recolumnumvals = re.compile('(?:<p>|\s|</ul>|</font>)*<i>([^:<]*):\s*column:?\s*(\d+)w?\s*</i>(?:<p>|\s|<ul>|<font[^>]*>)*$(?i)')
+regcolumnum4 = '<br>&nbsp;<br><i>[^:<]*:\s*column:?\s*\d+w?\s*</i><br>&nbsp;<br>\s(?i)'
+regcolumnum5 = '<br>&nbsp;<br></ul><i>[^:<]*:\s*column:?\s*\d+w?\s*</i><br>&nbsp;<br>\s<ul>(?i)'
+
+recolumnumvals = re.compile('(?:<p>|\s|</ul>|</font>|<br>&nbsp;<br>)*<i>([^:<]*):\s*column:?\s*(\d+)w?\s*</i>(?:<p>|\s|<ul>|<font[^>]*>|<br>&nbsp;<br>)*$(?i)')
 
 #<i>23 Oct 2003 : Column 640W&#151;continued</i>
 regcolnumcont = '<i>[^:<]*:\s*column\s*\d+w?&#151;continued\s*</i>(?i)'
@@ -98,7 +101,7 @@ recolnumcontvals = re.compile('<i>([^:<]*):\s*column\s*(\d+)w?&#151;continued</i
 reaname = '<a name="\S*?">(?i)'
 reanamevals = re.compile('<a name="(\S*?)">(?i)')
 
-recomb = re.compile('\s*(%s|%s|%s|%s|%s)\s*' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolnumcont, reaname))
+recomb = re.compile('\s*(%s|%s|%s|%s|%s|%s|%s)\s*' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4, regcolumnum5, regcolnumcont, reaname))
 remarginal = re.compile(':\s*column\s*\d+(?i)|</?a[\s>]')
 
 
@@ -153,7 +156,7 @@ def FilterWransColnum(fout, text, sdate):
 		anameg = reanamevals.match(fss)
 		if anameg:
 			aname = anameg.group(1)
-                        stamp.aname = '<stamp aname="%s"/>' % aname  
+                        stamp.aname = '<stamp aname="%s"/>' % aname
 			fout.write(stamp.aname)
 			continue
 

@@ -98,7 +98,7 @@ class StampUrl:
 regsection1 = '<h\d><center>.*?\s*</center></h\d>'
 regsection2 = '<h\d align=center>.*?</h\d>'
 regsection3 = '<center><b>.*?</b></center>'
-regsection4 = '<p>\s*<center>.*?</center><p>'
+regsection4 = '<(?:p|br)>\s*<center>.*?</center><(?:p|br)>'
 regparsermessage = '<parsemess.*?>' #'<parsemess-speech redirect="+-1"/>'
 regspeaker = '<speaker [^>]*>.*?</speaker>'
 regtable = '<table[^>]*>[\s\S]*?</table>'	# these have centres, so must be separated out
@@ -110,7 +110,7 @@ respeakerval = re.compile('<speaker ([^>]*)>.*?</speaker>')
 resectiont1val = re.compile('<h\d><center>\s*(.*?)\s*</center></h\d>(?i)')
 resectiont2val = re.compile('<h\d align=center>\s*(.*?)\s*</h\d>(?i)')
 resectiont3val = re.compile('<center><b>(.*?)</b></center>(?i)')
-resectiont4val = re.compile('<p>\s*<center>(.*?)</center><p>(?i)')
+resectiont4val = re.compile('<(?:p|br)>\s*<center>(.*?)</center><(?:p|br)>(?i)')
 reparsermessage = re.compile('<parsemess-misspeech type="(.*?)" redirect="(up|down|nowhere)"/>')
 
 # These aren't actually headings, even though they are <H4><center>

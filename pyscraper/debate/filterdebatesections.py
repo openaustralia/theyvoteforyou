@@ -53,8 +53,8 @@ fixsubs = 	[
 	( '<UL><UL>End', '</UL><UL><UL><UL>End', 1, '2002-11-07'), # as above
         ( '<UL><UL>', '<UL><UL><UL>', 1, '2003-06-25'),
 
-	( '<UL><UL><UL>', '<UL>', 1, 'all'),
-	( '</UL></UL></UL>', '</UL>', 1, 'all'),
+	( '<UL><UL><UL>(?i)', '<UL>', 1, 'all'),
+	( '</UL></UL></UL>(?i)', '</UL>', 1, 'all'),
 		]
 
 
@@ -213,7 +213,7 @@ def NormalHeadingPart(headingtxt, stampurl):
 		bmajorheading = True
 
 	# [Mr. Edward O'Hara in the Chair]
-	# But if this is labeled major, then it gets concatenated with the subsequent major heading.  
+	# But if this is labeled major, then it gets concatenated with the subsequent major heading.
 	# It's kind of a procedural info about the running of things, so fair to have it as a heading alone.
 	#elif re.match('\[.*? in the chair\](?i)', headingtxt):
 	#	bmajorheading = True
@@ -227,7 +227,7 @@ def NormalHeadingPart(headingtxt, stampurl):
 	headingtxtfx = FixHTMLEntities(headingtxt)
 	qb = qspeech('nospeaker="true"', headingtxtfx, stampurl)
         if binsertedheading:
-                qb.typ = 'inserted-heading'                
+                qb.typ = 'inserted-heading'
         elif boralheading:
                 qb.typ = 'oral-heading'
 	elif bmajorheading:
