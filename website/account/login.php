@@ -1,5 +1,5 @@
 <?  
-# $Id: login.php,v 1.1 2003/10/11 10:29:13 frabcus Exp $
+# $Id: login.php,v 1.2 2003/10/13 15:14:34 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -49,10 +49,10 @@ if (!$ok)
 	<P>
 	<FORM ACTION="'. $PHP_SELF .'" METHOD="POST">
 	<B>User Name:</B><BR>
-	<INPUT TYPE="TEXT" NAME="user_name" VALUE="" SIZE="10" MAXLENGTH="15">
+	<INPUT TYPE="TEXT" NAME="user_name" VALUE="" SIZE="15" MAXLENGTH="15">
 	<P>
 	<B>Password:</B><BR>
-	<INPUT TYPE="password" NAME="password" VALUE="" SIZE="10" MAXLENGTH="15">
+	<INPUT TYPE="password" NAME="password" VALUE="" SIZE="15" MAXLENGTH="15">
 	<P>
 	<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Login To Public Whip">
 	</FORM>

@@ -7,6 +7,11 @@ Look for EDMs on parliament.uk (in daily papers)
 Web site
 --------
 
+Put divisions on same day as easy links from division page
+Put similar divisions on links
+
+Modify cluster rant?
+
 In possible friends print after parliament the party if it is a "whilst"
 
 Try registration with IE and no ?submit= (press ret)
@@ -45,8 +50,8 @@ More... for friends
 
 favicon.ico
 
-Do something to show that friends are not interesting when all zero
-distance
+Caching of pages using PHP
+Make sure fast CGI keeps db connections somehow
 
 Scraper
 -------

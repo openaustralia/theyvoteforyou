@@ -23,5 +23,5 @@ cd ../..
 # Make log file analysis from awsats
 zcat `ls -1 logs/*.gz | sort` | cat - logs/access_log | /usr/lib/cgi-bin/awstats.pl -config=publicwhip.org.uk
 # use cgi browser
-# http://francis/cgi-bin/awstats.pl?confg=publicwhip.org.uk
+# http://francis/cgi-bin/awstats.pl?config=publicwhip.org.uk
 

@@ -1,6 +1,6 @@
 <?  
 
-# $Id: changeemail.php,v 1.4 2003/10/11 21:18:31 frabcus Exp $
+# $Id: changeemail.php,v 1.5 2003/10/13 15:14:34 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -41,13 +41,13 @@ echo ' <P>
 	<P>
 	<FORM ACTION="'. $PHP_SELF .'" METHOD="POST">
 	<B>User Name:</B><BR>
-	<INPUT TYPE="TEXT" NAME="change_user_name" VALUE="'. $change_user_name .'" SIZE="10" MAXLENGTH="15">
+	<INPUT TYPE="TEXT" NAME="change_user_name" VALUE="'.  $change_user_name .'" SIZE="15" MAXLENGTH="15">
 	<P>
 	<B>Password:</B><BR>
-	<INPUT TYPE="password" NAME="password1" VALUE="" SIZE="10" MAXLENGTH="15">
+	<INPUT TYPE="password" NAME="password1" VALUE="" SIZE="15" MAXLENGTH="15">
 	<P>
-	<B>NEW Email (required - must be accurate to confirm):</B><BR>
-	<INPUT TYPE="TEXT" NAME="new_email" VALUE="" SIZE="20" MAXLENGTH="35">
+	<B>NEW Email (must be accurate to confirm):</B><BR>
+	<INPUT TYPE="TEXT" NAME="new_email" VALUE="" SIZE="40" MAXLENGTH="35">
 	<P>
 	<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Send My Confirmation">
 	</FORM>';

@@ -1,6 +1,6 @@
 <?  
 
-# $Id: register.php,v 1.4 2003/10/11 21:18:32 frabcus Exp $
+# $Id: register.php,v 1.5 2003/10/13 15:14:34 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -68,19 +68,19 @@ if (!$ok)
     <P>
     <FORM ACTION="<?=$PHP_SELF?>" METHOD="POST">
     <B>Real Name (first and last):</B><BR>
-    <INPUT TYPE="TEXT" NAME="real_name" VALUE="<?=$real_name?>" SIZE="20" MAXLENGTH="35">
+    <INPUT TYPE="TEXT" NAME="real_name" VALUE="<?=$real_name?>" SIZE="40" MAXLENGTH="35">
     <P>
-    <B>User Name (for login):</B><BR>
-    <INPUT TYPE="TEXT" NAME="user_name" VALUE="<?=$user_name?>" SIZE="10" MAXLENGTH="15">
+    <B>Login Name (real or made up, no spaces):</B><BR>
+    <INPUT TYPE="TEXT" NAME="user_name" VALUE="<?=$user_name?>" SIZE="40" MAXLENGTH="15">
     <P>
     <B>Password:</B><BR>
-    <INPUT TYPE="password" NAME="password1" VALUE="" SIZE="10" MAXLENGTH="15">
+    <INPUT TYPE="password" NAME="password1" VALUE="" SIZE="40" MAXLENGTH="15">
     <P>
     <B>Password (again):</B><BR>
-    <INPUT TYPE="password" NAME="password2" VALUE="" SIZE="10" MAXLENGTH="15">
+    <INPUT TYPE="password" NAME="password2" VALUE="" SIZE="40" MAXLENGTH="15">
     <P>
-    <B>Email (required - must be accurate to confirm):</B><BR>
-    <INPUT TYPE="TEXT" NAME="email" VALUE="<?=$email?>" SIZE="20" MAXLENGTH="35">
+    <B>Email (must be accurate to confirm):</B><BR>
+    <INPUT TYPE="TEXT" NAME="email" VALUE="<?=$email?>" SIZE="40" MAXLENGTH="35">
     <P>
     <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Sign Up For Newsletter">
     </FORM>
