@@ -1,5 +1,5 @@
 <?php 
-# $Id: data.php,v 1.11 2004/06/13 15:51:52 frabcus Exp $
+# $Id: data.php,v 1.12 2004/10/13 14:30:28 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -63,6 +63,14 @@ all-members.xml who are the same real world person. Usually this is because they
 have the same name and are in the same constituency.  Sometimes someone changes
 constituency between two parliaments, such as Shaun Woodward (Witney)
 and Shaun Woodward (St Helens South).  This file records that they are the same person.
+Also includes offices from ministers.xml which were held by that person.
+
+<p><a href="../data/ministers.xml">ministers.xml</a> - contains ministerial 
+positions and the department they were in.  Each one has a date
+range, the MP became a minister at some time on the start day, and
+stopped being one at some time on the end day.  The matchid field is one
+sample MP office which that person also held.  Alternatively, use
+the people.xml file to find out which person held the ministerial post.
 
 <p><a href="../mp-info.xml">mp-info.xml</a> - list of division attendance rate
 and rebelliousness for MPs in the all-members.xml file.  This is a live file,
