@@ -1,5 +1,5 @@
-<?php 
-    # $Id: mp-info.xml,v 1.5 2004/07/11 20:49:26 frabcus Exp $
+<?php require_once "common.inc";
+    # $Id: mp-info.xml,v 1.6 2005/01/16 00:21:14 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
