@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.13 2003/10/27 09:36:41 frabcus Exp $
+# $Id: faq.php,v 1.14 2003/11/05 12:19:29 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -109,7 +109,7 @@ www.publicwhip.org.uk.  This way they can use and contribute themselves.
 <a href="GPL.php">GNU General Public License</a>.  It's not complicated,
 anyone can have a go running them.  But there's only a point in doing
 this if you are going to change it as otherwise you will see the same
-results.  For more details go the special <a
+results.  For more details go to the special <a
 href="project/code.php">coding section</a> of this website.
 
 <h2>Why are you giving everything away for free?</h2>

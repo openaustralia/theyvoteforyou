@@ -1,4 +1,4 @@
-# $Id: calc.pm,v 1.5 2003/10/27 09:36:41 frabcus Exp $
+# $Id: calc.pm,v 1.6 2003/11/05 12:19:29 frabcus Exp $
 # Calculates various data and caches it in the database.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -46,15 +46,16 @@ sub guess_whip_for_division
     while (my @data = $sth->fetchrow_array())
     {
         my ($count, $vote, $party) = @data;
-        if ($vote eq "aye")
+        # Tellers tell for the side they would have voted for
+        if ($vote eq "aye" or $vote eq "tellaye") 
         {
             $partycount{$party} += $count;
         }
-        elsif ($vote eq "no")
+        elsif ($vote eq "no" or $vote eq "tellno")
         {
             $partycount{$party} -= $count;
         }
-        elsif ($vote eq "both")
+        elsif ($vote eq "both") 
         {
             # just ensure key is there
             $partycount{$party} += 0;
@@ -84,6 +85,7 @@ sub count_mp_info
     "create table pw_cache_mpinfo (
         mp_id int not null,
         rebellions int not null,
+        tells int not null,
         votes_attended int not null,
         votes_possible int not null,
         index(mp_id)
@@ -94,13 +96,21 @@ sub count_mp_info
     {
         my ($mpid, $party, $entered_house, $left_house) = @data;
 
-        my $sth = db::query($dbh, " select pw_vote.division_id, pw_vote.vote,
+        my $sth = db::query($dbh, "select pw_vote.division_id, pw_vote.vote,
             pw_cache_whip.whip_guess from pw_cache_whip, pw_vote where
             pw_cache_whip.party = ? and pw_cache_whip.division_id =
-            pw_vote.division_id and pw_vote.mp_id = ? and pw_vote.vote <>
-            pw_cache_whip.whip_guess and pw_cache_whip.whip_guess <> 'unknown' and
-            pw_vote.vote <> 'both'", $party, $mpid);
+            pw_vote.division_id and pw_vote.mp_id = ? and 
+            pw_cache_whip.whip_guess <> 'unknown' and
+            pw_vote.vote <> 'both' and 
+            pw_cache_whip.whip_guess <> replace(pw_vote.vote, 'tell', '')
+            ", $party, $mpid);
         my $rebel_count = $sth->rows;
+
+        $sth = db::query($dbh, " select division_id, vote
+            from pw_vote where mp_id = ? 
+            and (vote = 'tellaye' or vote = 'tellno')", 
+            $mpid);
+        my $tell_count = $sth->rows;
 
         $sth = db::query($dbh, "select count(*) from pw_vote where mp_id = $mpid");
         die "Failed to get vote count" if $sth->rows != 1;
@@ -114,8 +124,9 @@ sub count_mp_info
 
 #        print "MP $mpid $party $rebel_count\n";
 
-        db::query($dbh, "insert into pw_cache_mpinfo (mp_id, rebellions, votes_attended, votes_possible)
-            values (?, ?, ?, ?)", $mpid, $rebel_count, $votes, $divisions);
+        db::query($dbh, "insert into pw_cache_mpinfo (mp_id, rebellions,
+        tells, votes_attended, votes_possible)
+            values (?, ?, ?, ?, ?)", $mpid, $rebel_count, $tell_count, $votes, $divisions);
     }
 }
 

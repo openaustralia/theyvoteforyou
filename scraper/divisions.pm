@@ -1,4 +1,4 @@
-# $Id: divisions.pm,v 1.9 2003/10/31 11:04:19 frabcus Exp $
+# $Id: divisions.pm,v 1.10 2003/11/05 12:19:29 frabcus Exp $
 # Parses the body text of a page of Hansard containing a division.
 # Records the division and votes in a database, matching MP names
 # to an MP already in the database.
@@ -158,12 +158,17 @@ sub parse_all_divisions_on_page
     {
         error::log("Patched at least one constituency on wrong line (no italic)", $day_date, error::USEFUL);
     }
+    if ($content =~ s:\n <i>(\([\w ]+?\))</i>: <i>$1</i>:g)
+    {
+        error::log("Patched at least one constituency on wrong line (italic no br)", $day_date, error::USEFUL);
+    }
     # This is perhaps too sweeping a regexp, but it does the job -
-    # replace any newlines which aren't preceeded or followed by <br> with a <br>
-    if ($content =~ s/([^>])\n([^<])/$1\n<br>\n$2/g)
+    # replace any newlines with a <br>
+    if ($content =~ s/\n/\n<br>\n/g)
     {
         error::log("Patched missing <br> tags", $day_date, error::USEFUL);
     }
+    #print $content;
 
     my $p = HTML::TokeParser->new(\$content);
 
@@ -403,16 +408,25 @@ sub parse_one_division
     {
         my $name = shift;
         my $isaye = shift;
+        my $isteller = shift;
+
+        my $vote;
+        if ($isteller)
+        {
+            $vote = $isaye ? "tellaye" : "tellno";
+        }
+        else
+        {
+            $vote = $isaye ? "aye" : "no";
+        }
         
         my ($firstname, $lastname, $title, $constituency) = mputils::parse_formal_name($name);
-#        error::log("MP parse: $firstname/$lastname/$title --- $constituency", $day_date, error::CHITTER);
-
         my $mp_id = mputils::find_mp($dbh, $firstname, $lastname, $title, $constituency, $day_date);
 
         error::log("MP parse found: $mp_id $firstname $lastname", $day_date, error::CHITTER);
         db::query($dbh, "insert into pw_vote (division_id, mp_id, vote) 
             values (?,?,?)", 
-            $division_id, $mp_id, $isaye ? "aye" : "no");
+            $division_id, $mp_id, $vote);
     };
 
     my $reuselast = undef;
@@ -451,6 +465,7 @@ sub parse_one_division
         }
         
         # Parse votes
+        my $isteller = 0;
         while (1)
         {
             my $token = $p->get_tag("br", "p") or die "Couldn't find vote end";
@@ -465,14 +480,21 @@ sub parse_one_division
             {
                 $p->unget_token($t);
             }
+            error::log("Division parser: $_", $day_date, error::CHITTER);
 
             next if $_ eq "";
-            last if m/Tellers for the $teller_tag/;
-            if (m/AYES/ or m/NOES/ or m/Question accordingly/)
+            if (m/AYES/ or m/NOES/ or m/accordingly/ or m/40 Members/ or
+                m/Resolved,/ or 
+                m/We will have the result/ or # 2002-01-28, due to error at end of division
+                m/Question had not been decided in the affirmative/ or #2001-05-02
+                m/accordingy/ or # "accordingly" is typoed on 2001-01-10 as "accordingy"
+                m/Question was not decided in the affirmative/ or # 2000-04-14 
+                m/the only reason that the Division was inquorate was that/ or #1999-05-21 (although there is some other bug in this code meaning the italic paragraph above isn't picked up on)
+                m/That this House doth disagree with the Lords in the said amendment/ or #1997-07-30 (similar problem to just above)
+                m/That three be the Quorum/ #1997-07-30
+                )
             {
                 $reuselast = $_;
-                error::warn("No tellers, check correct parsing of division $division_number",
-                     $day_date);
                 last;
             }
             if (m/^\((.+)\)$/)
@@ -481,7 +503,24 @@ sub parse_one_division
                 next;
             }
 
-            add_name($_, $isaye);
+            if (m/Tellers for the $teller_tag/)
+            {
+                $isteller = 1;
+            }
+            else
+            {
+                if ($isteller and m/ and /)
+                {
+                    # sometimes tellers both on one line
+                    my ($teller1, $teller2) = split(/ and /);
+                    add_name($teller1, $isaye, $isteller);
+                    add_name($teller2, $isaye, $isteller);
+                }
+                else
+                {
+                    add_name($_, $isaye, $isteller);
+                }
+            }
         }
 
         return $isaye;

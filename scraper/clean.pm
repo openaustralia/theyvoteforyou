@@ -1,4 +1,4 @@
-# $Id: clean.pm,v 1.4 2003/10/27 09:36:41 frabcus Exp $
+# $Id: clean.pm,v 1.5 2003/11/05 12:19:29 frabcus Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -93,8 +93,38 @@ sub check_integrity
 {
     my $dbh = shift;
 
+    # Check deferred divisions
+    my $sth = db::query($dbh, "select division_date, division_number, division_name,
+        count(*) from pw_vote, pw_division where
+        (vote = 'tellaye' or vote = 'tellno') and
+        pw_vote.division_id = pw_division.division_id group by pw_vote.division_id");
+    while (my @data = $sth->fetchrow_array())
+    {
+        my ($date, $number, $name, $count) = @data;
+        if ($count != 0 && $count != 4)
+        {
+            error::warn("Teller count " . $count . " in division", "$date no. $number $name");
+        }
+        else
+        {
+            # Division no. 7 at the start of the 2001 parliament is
+            # actually about deferred divisions and title "Deferred
+            # Divisions", but is itself not a deferred division!  Hence
+            # the second clause in the following if.
+            my $deferred = ($name =~ m/Deferred Division/ and $name ne "Deferred Divisions");
+            if ($deferred && $count != 0)
+            {
+                error::warn("Tellers in deferred division!", "$date no. $number $name");
+            }
+            if (!$deferred && $count != 4)
+            {
+                error::warn("No tellers in non-deferred division", "$date no. $number $name");
+            }
+        }
+    }
+
     # Check all divisions are present in sequence
-    my $sth = db::query($dbh, "select division_date, division_number from pw_division order by division_date, division_number");
+    $sth = db::query($dbh, "select division_date, division_number from pw_division order by division_date, division_number");
     my $prev_number = 0;
     my $prev_date = "the-start-of-time";
     while (my @data = $sth->fetchrow_array())

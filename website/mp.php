@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.16 2003/10/28 01:15:50 frabcus Exp $
+    # $Id: mp.php,v 1.17 2003/11/05 12:19:29 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -40,7 +40,8 @@
         round(100*votes_attended/votes_possible,1), 
         rebellions, votes_attended, votes_possible,
         entered_house, left_house,
-        entered_reason, left_reason from pw_mp,
+        entered_reason, left_reason,
+        tells from pw_mp,
         pw_cache_mpinfo where
         pw_mp.mp_id = pw_cache_mpinfo.mp_id and ";
     $query .= "first_name = '$first_name' and last_name='$last_name' and";
@@ -64,7 +65,7 @@
     print "<td>Party</td>
             <td>From</td><td>To</td>
             <td>Rebellions (estimate)</td><td>Attendance (divisions)</td>
-            </tr>";
+            <td>Teller</td></tr>";
     while ($row = $db->fetch_row())
     {
         $prettyrow = pretty_row_start($prettyrow);
@@ -77,6 +78,7 @@
             <td>$row[12]</td>
             <td class=\"percent\">$row[8] out of $row[9], $row[6]</td>
             <td class=\"percent\">$row[9] out of $row[10], $row[7]</td>
+            <td>$row[15] times</td>
             ";
         print "</tr>\n";
         array_push($mp_ids, $row[5]);
@@ -91,16 +93,18 @@
 <?php
     if (!$show_all)
     {
-        print "<h2>Rebel Divisions</h2>
+        print "<h2>Interesting Divisions</h2>
         <p>Divisions for which this MP's vote differed from the
-        majority vote of their party.";
+        majority vote of their party (Rebel), or in which this MP was
+        a teller (Teller) or both (Rebel Teller).";
     }
     else
     {
         print "<h2>Divisions Attended</h2>
-        <p>Divisions in which this MP voted.  Those where they
-        voted differently from the majority in their party are
-        highlighted in red."; 
+        <p>Divisions in which this MP voted.  The first column
+        indicates if they voted against the majority vote of 
+        their party (Rebel), were a teller for that side (Teller)
+        or both (Rebel Teller)."; 
     }
 
     print "<table>\n";
@@ -117,37 +121,66 @@
 
         if (!$show_all)
         {
-            $query .= "and vote <> whip_guess and whip_guess <> 'unknown' and vote <> 'both'";
+            $query .= "and ((vote <> whip_guess and whip_guess <>
+            'unknown' and vote <> 'both') or vote = 'tellaye' or vote = 'tellno' )";
         }
         $query .= "order by division_date desc, division_number desc";
         $db->query($query);
 
-        print "<tr
-        class=\"headings\"><td>No.</td><td>Date</td><td>Subject</td>
+        print "<tr class=\"headings\">
+        <td>Role</td>
+        <td>No.</td><td>Date</td><td>Subject</td>
         <td>Vote</td><td>$parties[$i] Vote</td>
         <td>Debate</td></tr>";
         $prettyrow = 0;
         while ($row = $db->fetch_row())
         {
             $class = "";
-            if ($show_all && $row[5] != $row[6] && $row[6] != "unknown")
-                $class = "rebel";
-            $prettyrow = pretty_row_start($prettyrow, $class);
+            $votedesc = "";
+            if ($row[6] != "unknown")
+            {
+                $detelled = $row[5];
+                if ($detelled == "tellaye") $detelled = "aye";
+                if ($detelled == "tellno") $detelled = "no";
+
+                if ($detelled != $row[6])
+                {
+                    $class .= "rebel";
+                    $votedesc = "Rebel";
+                }
+                if ($row[5] == "tellaye" || $row[5] == "tellno")
+                {
+                    $class .= "teller";
+                    if ($votedesc == "Rebel")
+                        $votedesc = "Rebel Teller";
+                    else
+                        $votedesc = "Teller";
+                }
+            }
+            if ($votedesc == "")
+                $votedesc = "Loyal";
+            
+            $prettyrow = pretty_row_start($prettyrow);
+            print "<td class=\"$class\">$votedesc</td>";
             print "<td>$row[1]</td> <td>$row[2]</td> <td><a
                 href=\"division.php?date=" . urlencode($row[2]) . "&number="
                 . urlencode($row[1]) . "\">$row[3]</a></td>
                 <td>$row[5]</td><td>$row[6]</td>
                 <td><a href=\"$row[4]\">Hansard</a></td>"; 
             print "</tr>\n";
-        }
+         }
         if ($db->rows() == 0)
         {
             $prettyrow = pretty_row_start($prettyrow, "");
-            print "<td colspan=6>no rebellions</td></tr>\n";
+            if ($show_all)
+                print "<td colspan=7>no votes</td></tr>\n";
+            else
+                print "<td colspan=7>no rebellions, never teller</td></tr>\n";
         }
     }
     print "</table>\n";
 
+       
     $this_anchor = "mp.php?firstname=" . urlencode($first_name) .
         "&lastname=" . urlencode($last_name) . "&constituency=" .
         urlencode($constituency);

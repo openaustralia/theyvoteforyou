@@ -1,4 +1,4 @@
-# $Id: mputils.pm,v 1.5 2003/10/31 11:04:19 frabcus Exp $
+# $Id: mputils.pm,v 1.6 2003/11/05 12:19:29 frabcus Exp $
 # Parse names of MPs, search for an MP in the database.  Copes with the
 # various textual varieties you get, such as initials absent or present,
 # name abbreviations, titles/honours present or absent.  Uses a mixture
@@ -37,13 +37,20 @@ sub parse_formal_name
     # Remove dots, but leave a space between them
     s/\./ /g;
     s/  / /g;
+    # Strip "and" at start or end (for tellers)
+    s/ and$//;
+    s/^and //;
     # Strip trailing and leading spaces
     s/^\s+//;
     s/\s+$//;
 
-    # Parse strings such as:
+    # Parse MP name strings
+    my ($last, $title, $first, $extra);
+    
+    # First of all, ones such as.
     # Ancram, Rt Hon Michael QC (Con)
     # Campbell, rh Menzies <i>(NE Fife)</i>
+    if (
     m/^                   # start of line
       ([\w\-' Ö]+)        # last name (into var1) (IDS has space in his surname)
       ,\                  # comma and space
@@ -53,9 +60,27 @@ sub parse_formal_name
       (?:\ \((.+)\))?     # last info (party or constituency) is everything in brackets (into var4)
       $                   # end of line
       /x
-        or die "Couldn't match parts of $_";
+      )
+    {
+        ($last, $title, $first, $extra) = ($1, $2, $3, $4);
+    }
+    elsif (
+    m/^                   # start of line
+      ($titles)*          # any titles they may have, or none (into var1)
+      ([\w. ôö]+?)        # first name and initials (into var2) not greedy
+      \                   # space
+      ([\w\-'Ö]+)         # last name (into var3) - hope IDS is never teller! we want initials to go in first name, and there is no separator
+      $                   # end of line
+      /x
+      )
 
-    my ($last, $title, $first, $extra) = ($1, $2, $3, $4);
+    {
+        ($title, $first, $last) = ($1, $2, $3);
+    }
+    else
+    {
+        die "Couldn't match parts of $_";
+    }
 
     # Remove space from after titles
     if (defined $title)
@@ -82,6 +107,7 @@ sub find_mp
     $constituency = "Great Yarmouth" if ($constituency eq "Gt Yarmouth");
     $constituency = "West Aberdeenshire & Kincardine" if ($constituency eq "Aberdeenshire and Kincardine");
     $constituency = "Carmarthen East & Dinefwr" if ($constituency eq "E Carmarthen and Dinefwr");
+    $constituency = "Swansea West" if ($constituency eq "Swansea W");
 
     # Special cases for MP name variants
     # 2001- parliament...
@@ -94,12 +120,17 @@ sub find_mp
     $lastname = "Öpik" if ($firstname eq "Lembit" && $lastname eq "Opik");
     $firstname = "Siôn" if ($firstname eq "Siön" && $lastname eq "Simon");
     $firstname = "Gareth" if ($firstname eq "Gareth R" && $lastname eq "Thomas" && $constituency eq "Harrow West");
+    if ($firstname eq "Gareth R" && $lastname eq "Thomas" && $constituency eq "")
+        { $firstname = "Gareth"; $constituency = "Harrow West"; }
     $firstname = "Raymond" if ($firstname eq "Ray" && $lastname eq "Powell");
     $lastname = "Clark" if ($firstname eq "Helen" && $lastname eq "Brinton");
     $firstname = "Gregory" if ($firstname eq "Greg" && $lastname eq "Barker");
     $firstname = "Bob" if ($firstname eq "Robert" && $lastname eq "Spink");
     $firstname = "Robert" if ($firstname eq "Robert N" && $lastname eq "Wareing");
     $firstname = "Jimmy" if ($firstname eq "James" && $lastname eq "Wray");
+
+    $lastname = "Murrison" if ($firstname eq "Andrew" && $lastname eq "Morrison");
+    $lastname = "Turner" if ($firstname eq "Andrew" && $lastname eq "Taylor" && $constituency eq "Isle of Wight");
     # 1997-2001 parliament...
     $firstname = "Bob" if ($firstname eq "Robert" && $lastname eq "Ainsworth");
     $firstname = "Jeffrey M" if ($firstname eq "Jeffrey" && $lastname eq "Donaldson");
@@ -107,7 +138,6 @@ sub find_mp
     $firstname = "John" if ($firstname eq "John M" && $lastname eq "Taylor");
     $firstname = "Peter" if ($firstname eq "Peter L" && $lastname eq "Pike");
     $firstname = "Andrew" if ($firstname eq "Andrew F" && $lastname eq "Bennett");
-    $firstname = "Michael" if ($firstname eq "Michael J" && $lastname eq "Foster" && $constituency eq "Worcester");
     $firstname = "Ray" if ($firstname eq "Raymond" && $lastname eq "Whitney");
     $firstname = "Stephen" if ($firstname eq "Steve" && $lastname eq "McCabe");
     $firstname = "Norman" if ($firstname eq "Norman A" && $lastname eq "Godman");
@@ -123,6 +153,8 @@ sub find_mp
     $firstname = "Tony" if ($firstname eq "Anthony" && $lastname eq "Colman");
     $firstname = "Jack" if ($firstname eq "John" && $lastname eq "Cunningham" && $constituency eq "Copeland");
     $firstname = "Michael" if ($firstname eq "Michael John" && $lastname eq "Foster" && $constituency eq "Worcester");
+    $firstname = "Michael" if ($firstname eq "Michael J" && $lastname eq "Foster" && $constituency eq "Worcester");
+    $firstname = "Michael" if ($firstname eq "Michael J" && $lastname eq "Foster" && $date eq "2001-01-17"); # Michael Foster (worcester) tells 3 times on this day, with an ambiguous name listing, but Jabez (the other Michael Foster) votes each time, so it is clear what the situation is
     $firstname = "Anthony D" if ($firstname eq "Tony D" && $lastname eq "Wright" && $constituency eq "Great Yarmouth");
     $firstname = "Anthony D" if ($firstname eq "Tony" && $lastname eq "Wright" && $constituency eq "Great Yarmouth");
     $firstname = "Steve" if ($firstname eq "Professor Steve" && $lastname eq "Webb");
@@ -150,11 +182,7 @@ sub find_mp
     $lastname = "Fitzsimons" if ($firstname eq "Lorna" && $lastname eq "Fitzsimmons");
     $lastname = "Mandelson" if ($firstname eq "Peter" && $lastname eq "Mandleson");
     $firstname = "Rosie" if ($firstname eq "Rose" && $lastname eq "Winterton");
-
-    # Our clerks make their first genuine spelling mistakes as far as I can tell...
-    # http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030226/debtext/30226-35.htm
-    $lastname = "Murrison" if ($firstname eq "Andrew" && $lastname eq "Morrison");
-    $lastname = "Turner" if ($firstname eq "Andrew" && $lastname eq "Taylor" && $constituency eq "Isle of Wight");
+    if ($firstname eq "Nick St" && $lastname eq "Aubyn") { $firstname = "Nick"; $lastname = "St Aubyn"; }
 
     # Search for first name, last name,date exact match
     my $sth = db::query($dbh, "select mp_id from pw_mp where 

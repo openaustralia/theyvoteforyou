@@ -9,13 +9,19 @@ And bobby
 
 Mention Bureaucracy game on Hansard liaison page
 
+Consider calling rebels "dissenters"
+
 Scraper
 -------
+
+Check for divisions which don't have quorum of 40
 
 Measure abstentions by parliament rather than global proportions?
 
 Record tellers
 Crosscheck lack of tellers with deferred division, should be one to one correspondence.
+Find when tellers were against majority vote of their party
+Find max teller people
 
 Make cluster stuff store NUMBER OF VOTES both voted in for extra possible friends info
 
@@ -52,4 +58,14 @@ Improve motion text / title extraction
 Add explanations
     division.php?date=2001-10-25&number=43 - multiple motions clearer,
 also show initial motion in second vote, rather than hardly any text
+
+Campaigns
+---------
+
+Letter writing campaign by their constituents to MPs who use procedure
+in an entirely negative way - for example here, when Labour maliciously
+moved the house to sit in private, in order to stop the democratic
+discussion of the role of ministerial advisers
+http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030314/debtext/30314-19.htm
+
 

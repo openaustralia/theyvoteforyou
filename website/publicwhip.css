@@ -160,6 +160,22 @@ TABLE TR.evenrebel
 {
     BACKGROUND-COLOR: #da7777
 }
+TABLE TR.oddteller
+{
+    BACKGROUND-COLOR: #77ee77
+}
+TABLE TR.eventeller
+{
+    BACKGROUND-COLOR: #77da77
+}
+TABLE TR.oddrebelteller
+{
+    BACKGROUND-COLOR: #eeee77
+}
+TABLE TR.evenrebelteller
+{
+    BACKGROUND-COLOR: #dada77
+}
 TABLE TD
 {
     PADDING-RIGHT: 0.3em;
@@ -167,9 +183,17 @@ TABLE TD
     PADDING-BOTTOM: 0.3em;
     PADDING-TOP: 0.3em
 }
+TABLE TD.teller
+{
+    BACKGROUND-COLOR: #77ee77
+}
 TABLE TD.rebel
 {
     BACKGROUND-COLOR: #ee7777
+}
+TABLE TD.rebelteller
+{
+    BACKGROUND-COLOR: #eeee77
 }
 TABLE TD.whip
 {
