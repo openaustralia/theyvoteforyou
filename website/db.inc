@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.7 2005/01/14 16:07:26 frabcus Exp $
+# $Id: db.inc,v 1.8 2005/01/14 19:58:23 goatchurch Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -66,6 +66,10 @@ class DB
         return mysql_fetch_assoc($this->$result);
     }
 
+	function fetch_row_both()
+    {
+        return mysql_fetch_array($this->$result, MYSQL_BOTH);
+    }
 
     function fetch_rows_assoc()
     {
