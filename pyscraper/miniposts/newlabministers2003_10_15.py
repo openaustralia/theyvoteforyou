@@ -345,7 +345,7 @@ George Howarth							05 May 1997 - 28 July 99
 Mike O'Brien								05 May 1997 -  11 Jun 01
 Lord Williams of Mostyn						05 May 1997 - 28 July 98
 Kate Hoey								28 July 1998 - 28 July 99
-Lord Bassam	of Brighton						28 July 1999 - 29 May 02
+Lord Bassam of Brighton						28 July 1999 - 29 May 02
 Beverley Hughes                             11 June 2001 -29 May 02
 Robert Ainsworth                            11 June 2001 -13 June 03
 Angela Eagle	                            11 June 2001 -29 May 02

@@ -97,24 +97,25 @@ def WriteXML(moffice, fout):
 	fout.write('<moffice id="%s" name="%s"' % (moffice.moffid, moffice.fullname))
 	if moffice.matchid:
 		fout.write(' matchid="%s"' % moffice.matchid)
-	fout.write("\n")
+	#fout.write("\n")
 
-	fout.write('\tdept="%s" position="%s"\n' % (re.sub("&", "&amp;", moffice.dept), moffice.pos))
+	fout.write(' dept="%s" position="%s"' % (re.sub("&", "&amp;", moffice.dept), moffice.pos))
 
-	fout.write('\tfromdate="%s"' % moffice.sdatestart)
+	fout.write(' fromdate="%s"' % moffice.sdatestart)
 	if moffice.stimestart:
 		fout.write(' fromtime="%s"' % moffice.stimestart)
-	fout.write("\n")
+	#fout.write("\n")
 
 	if moffice.bopen:
-		fout.write('\ttodate="%s"' % "9999-12-31")
+		fout.write(' todate="%s"' % "9999-12-31")
 	else:
-		fout.write('\ttodate="%s"' % moffice.sdateend)
+		fout.write(' todate="%s"' % moffice.sdateend)
 		if moffice.stimeend:
 			fout.write(' totime="%s"' % moffice.stimeend)
-	fout.write("\n")
+	#fout.write("\n")
 
-	fout.write('\tsource="%s"/>\n' % moffice.sourcedoc)
+	fout.write(' source="%s">' % moffice.sourcedoc)
+	fout.write('</moffice>\n')
 
 
 class protooffice:
