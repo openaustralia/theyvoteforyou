@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.14 2003/10/27 09:48:00 frabcus Exp $
+    # $Id: mp.php,v 1.15 2003/10/27 10:03:00 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -29,7 +29,8 @@
         party, pw_mp.mp_id, round(100*rebellions/votes_attended,1),
         round(100*votes_attended/votes_possible,1), 
         rebellions, votes_attended, votes_possible,
-        entered_house, left_house from pw_mp,
+        entered_house, left_house,
+        entered_reason, left_reason from pw_mp,
         pw_cache_mpinfo where
         pw_mp.mp_id = pw_cache_mpinfo.mp_id and
         first_name = '$first_name' and last_name='$last_name' and
@@ -45,6 +46,8 @@
     $mp_ids = array();
     $parties = array();
     $dates = array();
+    $enter_reason = array();
+    $left_reason = array();
     print "<table><tr class=\"headings\">
             <td>Party</td>
             <td>From</td><td>To</td>
@@ -67,6 +70,8 @@
         array_push($mp_ids, $row[5]);
         array_push($parties, $row[4]);
         array_push($dates, $row[11]);
+        array_push($enter_reason, $row[13]);
+        array_push($left_reason, $row[14]);
     }
     print "</table>";
 
@@ -148,7 +153,7 @@
 
     for ($i = 0; $i < count($mp_ids); ++$i)
     {
-        print "<h3>" . parliament_name(date_to_parliament($dates[$i])) .  " Parliament</h3>";
+        print "<h3>" . pretty_parliament_and_party($dates[$i], $parties[$i], $enter_reason[$i], $left_reason[$i]). "</h3>";
         print "<table class=\"mps\">\n";
         $query = "select first_name, last_name, title, constituency,
             party, pw_mp.mp_id, 

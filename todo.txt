@@ -7,22 +7,12 @@ Look for EDMs on parliament.uk (in daily papers)
 Web site
 --------
 
-Attendance -> vote rate?
-
-noe -> no !
-
 <h2> spacing on IE
-
-In possible friends print after parliament the party if it is a "whilst"
-
-Try registration with IE and no ?submit= (press ret)
 
 Java in Opera Win32
 
 Measure abstentions by parliament rather than global proportions?
 MP page - print parliament in vote lists
-
-Print reason left in table
 
 Pass W3C validator
 http://validator.w3.org/

@@ -257,6 +257,8 @@ Link from search engine to
 
 Links to other political resource websites
 
+Print reason left parliament in table at top of mp.php
+
 links.php - takes links to days and chunks, does a redirect reduce
 bandwidth, and do tracking of where people link through to
 

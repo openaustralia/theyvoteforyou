@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.6 2003/10/12 20:19:27 frabcus Exp $
+# $Id: pretty.inc,v 1.7 2003/10/27 10:03:00 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -63,6 +63,20 @@ party shown.\">whilst " . $ret . "</span>";
     # Was going to use a special tag, but they aren't supported
     # very well, so just went for clarity of raw text
     #   "<acronym title=\"$raw\">$party</acronym>";
+}
+
+function pretty_parliament_and_party($date, $party, $entered_reason="", $left_reason="")
+{
+    $ret = parliament_name(date_to_parliament($date)) . " Parliament";
+    if ($entered_reason == "changed_party" || $left_reason == "changed_party")
+    {
+        $ret = $ret . " <span title=\"At some point, this MP changed party.
+They are listed separately for each party
+they were a member of.  This entry contains 
+details only for whilst they were in the 
+party shown.\">(whilst " . pretty_party_raw($party) . ")</span>";
+    }
+    return $ret;
 }
 
 # Helper function for random_big_word
