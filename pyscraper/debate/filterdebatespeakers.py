@@ -69,14 +69,15 @@ fixsubs = [
 # <B> Mr. Hutton: </B>
 # 2. <stamp aname="40205-06_para4"/><B> Mr. Colin Breed</B>:
 
-parties = "|".join(map(string.lower, memberList.partylist())) + "|uup|ld"
-regspeaker = '(?:\d+\. )?(?:<stamp aname=".*?"/>)?<b>[^<]*</b>(?:\s*\((?:' + parties + ')\))?\s*:?(?i)'
-respeakervals = re.compile('(?:(\d+)\. )?(<stamp aname=".*?"/>)?<b>\s*(?:Q?(\d+)\.)?([^:<(]*?):?\s*(?:\((.*?)\))?\s*:?\s*</b>(?:\s*\((' + parties + ')\))?(?i)')
+# Q4.  [161707]<a name="40317-03_wqn5"><B> Mr. Andy Reed  (Loughborough)</B>
+
+parties = "|".join(map(string.lower, memberList.partylist())) + "|uup|ld|dup"
+recomb = re.compile('((?:Q?\d+\.\s*)?(?:\[\d+\]\s*)?(?:<stamp aname=".*?"/>)?<b>[^<]*</b>(?:\s*\((?:%s)\))?\s*:?)(?i)' % parties)
+respeakervals = re.compile('(?:Q?(\d+)\.\s*)?(\[\d+\]\s*)?(<stamp aname=".*?"/>)?<b>\s*(?:Q?(\d+)\.)?([^:<(]*?):?\s*(?:\((.*?)\))?\s*:?\s*</b>(?:\s*\((%s)\))?(?i)' % parties)
 
 # <B>Division No. 322</B>
 redivno = re.compile('<b>division no\. \d+</b>$(?i)')
 
-recomb = re.compile('(%s)' % (regspeaker, ))
 remarginal = re.compile('<b>[^<]*</b>(?i)')
 
 def FilterDebateSpeakers(fout, text, sdate):
@@ -101,19 +102,24 @@ def FilterDebateSpeakers(fout, text, sdate):
 		if speakerg:
 			# optional parts of the group
 			# we can use oqnum to detect oral questions
+			anamestamp = speakerg.group(3) or ""
 			oqnum = speakerg.group(1)
-			anamestamp = speakerg.group(2) or ""
-			if speakerg.group(3):
+			if speakerg.group(4):
 				assert not oqnum
-				oqnum = speakerg.group(3)
+				oqnum = speakerg.group(4)
 			if oqnum:
 				oqnum = "(%s) " % oqnum
 			else:
 				oqnum = ""
-			party = speakerg.group(6)
 
-			spstr = string.strip(speakerg.group(4))
-			spstrbrack = speakerg.group(5) # the bracketted phrase
+			# the preceding square bracket qnums
+			if speakerg.group(2):
+				oqnum = speakerg.group(2) + " " + oqnum
+
+			party = speakerg.group(7)
+
+			spstr = string.strip(speakerg.group(5))
+			spstrbrack = speakerg.group(6) # the bracketted phrase
 
 			# match the member to a unique identifier and displayname
 			try:

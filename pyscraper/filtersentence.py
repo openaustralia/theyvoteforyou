@@ -24,6 +24,7 @@ reoffrepw = re.compile('<i>official(?:</i> <i>| )report,?</i>,? c(?:olumns?)?\.?
 restandingo = re.compile("Standing Order No.\s*(\d+(?:\s*\(\d+\))?(?:\s*\([a-z]\))?)\s*\(([^\(\)]*(?:\([^\(\)]*\))?)\)")
 restandingomarg = re.compile("Standing Order No")
 reqnum = re.compile("\s*\[(\d+)\]\s*$")
+refqnum = re.compile("\s*\[(\d+)\]\s*")
 
 class PhraseTokenize:
 
@@ -130,11 +131,19 @@ class PhraseTokenize:
 		self.lastdate = ''
 		self.toklist = [ ]
 
+		# separate out any qnums at end of paragraph
  		self.rmqnum = reqnum.search(stex)
 		if self.rmqnum:
 			stex = stex[:self.rmqnum.span(0)[0]]
 
-		# separate out any qnums at end of paragraph
+		# separate out qnums stuffed into front of paragraph (by the grabber of the speakername)
+		frqnum = refqnum.search(stex)
+		if frqnum:
+			assert not self.rmqnum
+			self.rmqnum = frqnum
+			stex = stex[frqnum.span(0)[1]:]
+
+
 		self.StandingOrder1(qs, stex)
 
 
@@ -142,7 +151,6 @@ class PhraseTokenize:
 
 		if (not bKillqnum) and self.rmqnum:
 			self.rqnum = ' qnum="%s"' % self.rmqnum.group(1)
-			print self.rqnum
 		else:
 			self.rqnum = ""
 
@@ -166,33 +174,4 @@ class PhraseTokenize:
 		return string.join(res, '')
 
 
-
-rewdslDUFF =  [ rreglink, rregemail,
-		'\$?\d+(?:,\d+)*\.?\d*',
-		'(?:[\w\'\-/%%]|&#\d+;)+',
-		'\$\d+\.?\d*',
-		'&quot;',
-		'&amp;',
-		'</?i>',
-		'</?sup>',
-		'\[\w+\]',
-		'[();&".,:]',
-		'\*+',
-		'='
-	  ]
-
-#rewdsDUFF = re.compile('(%s)' % string.join(rewdsl, '|'))
-#print rewds.findall('amounted to $2.479 billion.')
-#sys.exit()
-
-# this is highly experimental methods here, of tokenizing the words
-def DUFFFFilterSentence(text):
-	return
-	swords = rewds.split(text)
-	for sw in swords:
-		if not re.match('\s*$', sw):
-			if not rewds.match(sw):
-				print text
-				print sw
-				sys.exit()
 

@@ -45,7 +45,7 @@ redateindexlinks = re.compile('%s|%s' % (redatename, relink))
 
 # map from (date, type) to (URL-first, URL-index)
 # e.g. ("2003-02-01", "wrans") to ("http://...", "http://...")
-# URL-first is the first (index) page for the day, 
+# URL-first is the first (index) page for the day,
 # URL-index is the refering page which linked to the day
 reses = {}
 
@@ -69,41 +69,54 @@ def CmIndexFromPage(urllinkpage):
 		if link[0]:
 			odate = re.sub('\s', ' ', link[0])
 			sdate = mx.DateTime.DateTimeFrom(odate).date
+			continue
 
 		# the link types by name
-		elif re.search('debate|westminster|written(?i)', link[2]) and not re.search('Chronology', link[2]):
-			if not sdate:
-				raise Exception, 'No date for link in: ' + urllinkpage
-                        if sdate < earliestdate:
-                                continue
-			#if re.search('debate(?i)', link[2]):
-                        #        print sdate
+		if not re.search('debate|westminster|written(?i)', link[2]):
+			continue
 
-			# take out spaces and linefeeds we don't want
-			uind = urlparse.urljoin(urllinkpage, re.sub('\s', '', link[1]))
-			typ = string.strip(re.sub('\s\s+', ' ', link[2]))
+		if re.search('Chronology', link[2]):
+			print link
+			continue
 
-                        # check for repeats where the URLs differ
-                        if (sdate, typ) in reses:
-                            rc = reses[(sdate, typ)]
-                            otheruind = rc[0]
-                            if otheruind != uind:
-                                # sometimes they have old links to the cm edition as  
-                                # well as the vo edition, we pick the newer vo ones
-                                test1 = uind.replace('cmhansrd/cm', 'cmhansrd/vo')
-                                test2 = otheruind.replace('cmhansrd/cm', 'cmhansrd/vo')
-                                if test1 == test2:
-                                    # case of two URLs the same only vo/cm differ like this:
-                                    # (which is a bug in Hansard, should never happen)
-#http://www.publications.parliament.uk/pa/cm200203/cmhansrd/vo031006/index/31006-x.htm
-#http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm031006/index/31006-x.htm
-                                    # we replace both with just the vo edition:
-                                    #print "done replace of these two URLs into the vo one\nurl1: %s\nurl2: %s" % (uind, otheruind)
-                                    uind = test1
-                                else:
-                                    raise Exception, 'Repeated link to %s %s\nurl1: %s\nurl2: %s\nindex1: %s\nindex2: %s' % (sdate, typ, uind, otheruind, urllinkpage, rc[1])
-                        reses[(sdate, typ)] = (uind, urllinkpage)
+		# get rid of the new index pages
+		if re.search('/indexes/', link[1]):
+			continue
 
+		if not sdate:
+			raise Exception, 'No date for link in: ' + urllinkpage
+		if sdate < earliestdate:
+			continue
+
+		# take out spaces and linefeeds we don't want
+		uind = urlparse.urljoin(urllinkpage, re.sub('\s', '', link[1]))
+		typ = string.strip(re.sub('\s\s+', ' ', link[2]))
+
+		# check for repeats where the URLs differ
+		if (sdate, typ) in reses:
+
+			rc = reses[(sdate, typ)]
+			otheruind = rc[0]
+			if otheruind == uind:
+				continue
+
+			# sometimes they have old links to the cm edition as
+			# well as the vo edition, we pick the newer vo ones
+			test1 = uind.replace('cmhansrd/cm', 'cmhansrd/vo')
+			test2 = otheruind.replace('cmhansrd/cm', 'cmhansrd/vo')
+			if test1 != test2:
+				raise Exception, 'Repeated link to %s %s\nurl1: %s\nurl2: %s\nindex1: %s\nindex2: %s' % (sdate, typ, uind, otheruind, urllinkpage, rc[1])
+
+			# case of two URLs the same only vo/cm differ like this:
+			# (which is a bug in Hansard, should never happen)
+			#http://www.publications.parliament.uk/pa/cm200203/cmhansrd/vo031006/index/31006-x.htm
+			#http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm031006/index/31006-x.htm
+			# we replace both with just the vo edition:
+			#print "done replace of these two URLs into the vo one\nurl1: %s\nurl2: %s" % (uind, otheruind)
+			uind = test1
+
+		reses[(sdate, typ)] = (uind, urllinkpage)
+		print sdate, uind
 
 # Find all the index pages from the front index page by recursing into the months
 # and then the years and volumes pages
