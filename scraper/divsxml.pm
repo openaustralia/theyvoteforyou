@@ -1,4 +1,4 @@
-# $Id: divsxml.pm,v 1.2 2004/03/23 14:57:49 frabcus Exp $
+# $Id: divsxml.pm,v 1.3 2004/03/25 16:06:03 frabcus Exp $
 # Loads divisions from the XML files made by pyscraper into 
 # the MySQL database for the Public Whip website.
 
@@ -86,18 +86,9 @@ sub storemajor
     $lastminor = "";
 }
 
-sub loaddivision
-{ 
-	my ($twig, $div) = @_;
-
-    my $divdate = $div->att('divdate');
-    die "inconsistent date" if $divdate ne $curdate;
-    my $divnumber = $div->att('divnumber');
-    my $heading = $lastmajor;
-    if ($lastminor)
-    {
-        $heading .= " &#8212; " . $lastminor;
-    }
+sub tidyheading
+{
+    my $heading = shift;
 
     # we lowercase if necessary
     if ($heading !~ m/[a-z]/)
@@ -111,6 +102,22 @@ sub loaddivision
     $heading =~ s/^\s+//;
     $heading =~ s/\s+$//;
     $heading =~ s/\s+/ /g;
+
+    return $heading;
+}
+
+sub loaddivision
+{ 
+	my ($twig, $div) = @_;
+
+    my $divdate = $div->att('divdate');
+    die "inconsistent date" if $divdate ne $curdate;
+    my $divnumber = $div->att('divnumber');
+    my $heading = tidyheading($lastmajor);
+    if ($lastminor)
+    {
+        $heading .= " &#8212; " . tidyheading($lastminor);
+    }
 
     # Should emdashes in headings have spaces round them?  This removes them if they shouldn't.
     # $heading =~ s/ \&\#8212; /\&\#8212;/g;
