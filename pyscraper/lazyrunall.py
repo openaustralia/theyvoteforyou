@@ -34,10 +34,10 @@ scrape          update Hansard page index, and download new raw pages
 parse           process scraped HTML into tidy XML files
 
 And choose at least one of these sections to apply them to:
-wrans           process Written Answers into XML files
-debates         process Debates into XML files
-lords			process Lords into XML files
-regmem          process Register of Members Interests into XML files
+wrans           Written Answers
+debates         Debates
+lords           House of Lords
+regmem          Register of Members Interests
 
 Example command line
         ./lazyrunall.py --date=2004-03-03 --force-scrape scrape parse wrans
