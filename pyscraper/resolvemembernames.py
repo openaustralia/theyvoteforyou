@@ -48,9 +48,11 @@ class MemberList(xml.sax.handler.ContentHandler):
     def startElement(self, name, attr):
         """ This handler is invoked for each XML element (during loading)"""
         if name == "member":
+            if self.members.get(attr["id"]):
+                raise Exception, "Repeated identifier %s in members XML file" % attr["id"]
             self.members[attr["id"]] = attr
 
-            # index by "Firstname Lastname" for quick lookup
+            # index by "Firstname Lastname" for quick lookup ...
             compoundname = attr["firstname"] + " " + attr["lastname"]
             self.fullnames.setdefault(compoundname, []).append(attr)
 
@@ -60,15 +62,23 @@ class MemberList(xml.sax.handler.ContentHandler):
                 compoundname = fnnomidinitial[0] + " " + attr["lastname"]
                 self.fullnames.setdefault(compoundname, []).append(attr)
 
-            # and also by "Lastname"
+            # ... and also by "Lastname"
             lastname = attr["lastname"]
             self.lastnames.setdefault(lastname, []).append(attr)
 
-            # and by constituency
+            # ... and by constituency
             cons = attr["constituency"]
+            # check first date ranges don't overlap
+            for curattr in self.constituencies.get(cons, []):
+                if curattr['fromdate'] <= attr['fromdate'] <= curattr['todate'] \
+                    or curattr['fromdate'] <= attr['todate'] <= curattr['todate'] \
+                    or attr['fromdate'] <= curattr['fromdate'] <= attr['todate'] \
+                    or attr['fromdate'] <= curattr['todate'] <= attr['todate']:
+                    raise Exception, "Two entries for constituency %s with overlapping dates" % cons
+             # then add in
             self.constituencies.setdefault(cons, []).append(attr)
 
-            # and by party
+            # ... and by party
             cons = attr["party"]
             self.parties.setdefault(cons, []).append(attr)
 
