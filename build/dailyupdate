@@ -39,9 +39,8 @@ then
 	./load.pl --quiet --from=$FROMDATE calc
 
     # clear page cache
-    echo "delete from pw_cache_dreaminfo;" | mysql francis
-    echo "update pw_dyn_rolliemp set cache_uptodate = 0;" | mysql francis
-	rm -fr /home/francis/pwcache/*
+	cd ~/publicwhip/build
+    ./clear-caches
 
 	# export dump of database for developers
 	cd ~/publicwhip/build
