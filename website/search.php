@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.15 2004/01/05 12:07:59 frabcus Exp $
+# $Id: search.php,v 1.16 2004/01/20 22:21:04 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -18,58 +18,67 @@
     include "header.inc";
     include "render.inc";
     include "parliaments.inc";
-    $db = new DB(); 
+    include "postcode.inc";
+
+;    $db = new DB(); 
+
+    $postcode = is_postcode($query);
 
     if ($query <> "")
     {
         $found = false;
 
-        # Perform query on divisions
-        $db->query("$divisions_query_start and (upper(division_name) like '%$query%'
-        or upper(motion) like '%$query%')
-        order by division_date desc, division_number desc"); 
-
-        if ($db->rows() > 0)
+        if (!$postcode)
         {
-            $found = true;
-            print "<p>Found these " . $db->rows() . " divisions matching '$prettyquery':";
-            print "<table class=\"votes\">\n";
-            print "<tr
-            class=\"headings\"><td>No.</td><td>Date</td><td>Subject</td><td>Rebellions</td><td>Turnout</td></tr>";
-            render_divisions_table($db);
-            print "</table>\n";
+            # Perform query on divisions
+            $db->query("$divisions_query_start and (upper(division_name) like '%$query%'
+            or upper(motion) like '%$query%')
+            order by division_date desc, division_number desc"); 
+
+            if ($db->rows() > 0)
+            {
+                $found = true;
+                print "<p>Found these " . $db->rows() . " divisions matching '$prettyquery':";
+                print "<table class=\"votes\">\n";
+                print "<tr
+                class=\"headings\"><td>No.</td><td>Date</td><td>Subject</td><td>Rebellions</td><td>Turnout</td></tr>";
+                render_divisions_table($db);
+                print "</table>\n";
+            }
+
+            # Perform query on wrans
+            include "wrans.inc";
+            include "xquery.inc";
+            include "protodecode.inc";
+
+            $ids = wrans_search($prettyquery);	
+            if (count($ids) > 1000)
+            {
+                print "<p>More than 1000 matches, showing only first 1000.";
+                $ids = array_slice($ids, 0, 1000);
+            }
+            if (count($ids) > 0)
+            {
+                $found = true;
+
+                $result = "";
+                foreach ($ids as $id)
+                    $result .= FetchWrans($id);
+                $result = WrapResult($result);
+                print "<p>Found these " . count($ids) . " Written Answers matching '$prettyquery':";
+
+                $url = "wrans.php?search=" . urlencode($_GET["query"]);
+
+                print ApplyXSLT($result, "wrans-table.xslt");
+                print "<p><a href=\"$url&expand=yes\">Show contents of all these Written Answers on one large page</a></p>";
+            }
         }
-
-		# Perform query on wrans
-		include "wrans.inc";
-		include "xquery.inc";
-		include "protodecode.inc";
-
-		$ids = wrans_search($prettyquery);	
-		if (count($ids) > 1000)
-		{
-			print "<p>More than 1000 matches, showing only first 1000.";
-			$ids = array_slice($ids, 0, 1000);
-		}
-		if (count($ids) > 0)
-		{
-			$found = true;
-
-			$result = "";
-			foreach ($ids as $id)
-				$result .= FetchWrans($id);
-			$result = WrapResult($result);
-			print "<p>Found these " . count($ids) . " Written Answers matching '$prettyquery':";
-
-			$url = "wrans.php?search=" . urlencode($_GET["query"]);
-
-			print ApplyXSLT($result, "wrans-table.xslt");
-			print "<p><a href=\"$url&expand=yes\">Show contents of all these Written Answers on one large page</a></p>";
-		}
 
         # Perform query on MPs
         $score_clause = "(";
         $score_clause .= "(upper(concat(first_name, ' ', last_name)) = '$query') * 10";
+
+
         $querybits = explode(" ", $query);
 
         foreach ($querybits as $querybit)
@@ -89,6 +98,16 @@
             }
         }
         $score_clause .= ")";
+
+        if ($postcode)
+        {
+            $pccons = postcode_to_constituency($query);
+            if (isset($pccons))
+            {
+                # Overwrite over matches if we have postcode
+                $score_clause = "(constituency = '" . db_scrub($pccons) . "')";
+            }
+        }
 
         $db->query("$mps_query_start and ($score_clause > 0) 
                     order by $score_clause desc, constituency, entered_house desc, last_name, first_name");
