@@ -4,7 +4,7 @@
         include "cache-begin.inc"; 
 ?>
 <?php
-# $Id: division.php,v 1.29 2004/03/26 14:09:32 frabcus Exp $
+# $Id: division.php,v 1.30 2004/04/07 17:33:53 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -189,7 +189,10 @@
         where division_id = $div_id and vote = 'both'");
     $tellers = $db->query_one_value("select count(*) from pw_vote
         where division_id = $div_id and (vote = 'tellaye' or vote = 'tellno')");
-    print "<br>Turnout of $turnout. Votes were $ayes aye, $noes no, $boths both, $tellers tellers.  Guess $rebellions rebellions.";
+    print "<br>On $prettydate, $turnout MPs voted in division no. $div_no in the House of Commons.  
+        <br>Subject was '$name'
+        <br>Votes were $ayes aye, $noes no, $boths both, $tellers tellers.  
+        There were $rebellions rebellions against majority party vote.";
 
     if ($debate_url == "")
     {
@@ -199,15 +202,13 @@
     print "<br><a href=\"$debate_url\">Read the full debate</a> leading up to this division";
     if ($source != "")
         print ", <a href=\"$source\">check division listing</a>";
-    print " (on Hansard website)";
+    print " (on the Parliament website)";
     print "$notes";
     
-    print "<h2><a name=\"motion\">Motion</a></h2> <p>Procedural text extracted from the debate.
-    This is for guidance only, irrelevant text may be shown, crucial
-    text may be missing.  Check Hansard thoroughly and have knowledge of
-    parliamentary procedure to fully understand the meaning of the
-    division.
-    </p>";
+    print "<h2><a name=\"motion\">Motion</a></h2> <p>Procedural text extracted from the debate,
+    so you can try to work out what 'aye' (for the motion) and 'no' (against the motion) meant.
+    This is for guidance only, irrelevant text may be shown, crucial text may
+    be missing.</p>";
     print "<div class=\"motion\">$motion";
     print "</div>\n";
 

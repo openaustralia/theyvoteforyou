@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.30 2004/03/18 09:21:09 frabcus Exp $
+    # $Id: mp.php,v 1.31 2004/04/07 17:33:53 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -85,13 +85,14 @@
 
     print "<h2><a name=\"general\">General Information</a></h2>";
 
+ 	print "<p>$first_name $last_name has been MP for $constituency for
+        the following periods of time, going back to 1997.
+        <br>Read a <a href=\"faq.php#clarify\">clear explanation</a> of attendance
+        and rebellions, as they may not have the meanings you expect.";
 
- 	print "<p>Periods of continuous office for this ";
-    print "MP with their";
-    print " rebellion and
-        division attendance rates.";
-    print " Read a <a href=\"faq.php#clarify\">clear explanation</a> 
-        of these terms, as they may not have the meanings you expect.";
+    print "<p>Want to contact your MP?
+    <a href=\"http://www.faxyourmp.com\">Fax Your MP</a> for free.";
+
     $prettyrow = 0;
     $mp_ids = array();
     $parties = array();
@@ -113,8 +114,8 @@
             <td>" . pretty_party($row[4]) . "</td>
             <td>$row[11]</td>
             <td>$row[12]</td>
-            <td class=\"percent\">$row[8] out of $row[9], $row[6]</td>
-            <td class=\"percent\">$row[9] out of $row[10], $row[7]</td>
+            <td class=\"percent\">$row[8] votes out of $row[9], $row[6]</td>
+            <td class=\"percent\">$row[9] votes out of $row[10], $row[7]</td>
             <td>$row[15] times</td>
             ";
         print "</tr>\n";
@@ -127,15 +128,14 @@
     print "</table>";
 ?>
 
-<p>Want to contact your MP?  Use <a href="http://www.faxyourmp.com">Fax Your MP</a> for free.
-
 <?php
     if (!$show_all)
     {
         print "<h2><a name=\"divisions\">Interesting Divisions</a></h2>
-        <p>Divisions for which this MP's vote differed from the
+        <p>Votes in parliament for which this MP's vote differed from the
         majority vote of their party (Rebel), or in which this MP was
-        a teller (Teller) or both (Rebel Teller).";
+        a teller (Teller) or both (Rebel Teller). ";
+        print "You can also <a href=\"$this_anchor&showall=yes#divisions\">see all divisions this MP voted in</a>.";
     }
     else
     {
