@@ -9,10 +9,14 @@
 
 <p align=center><img src="../thepublicwhip.gif"></p>
 
-<p align=center>This protest was from 14th-18th May 2004, and has now finished.
-<a href="../">Click here to go to the main Public Whip site</a>.</p>
+<p align=center>Trying to understand what this patents argument is all
+about?  <a href="http://www.aleph1.co.uk/talks/swpatstalk.html">Read
+this excellent summary talk</a>.
 
-<p align=center>The outcome was unsatisfactory, but the fight isn't over.  <a href="http://kwiki.ffii.org/SwpatcninoEn">Latest News on Software Patents</a>.</p>
+<p align=center>This protest was from 14th-18th May 2004, and has now finished.
+<a href="../">Click here to go to the main Public Whip site</a>.
+<br>The outcome was unsatisfactory, but the campaign continues.  <a href="http://kwiki.ffii.org/SwpatcninoEn">Latest News on Software Patents</a>.</p>
+
 
 <hr>
 
