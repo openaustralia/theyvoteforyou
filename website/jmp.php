@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: jmp.php,v 1.5 2005/01/20 22:49:20 goatchurch Exp $
+    # $Id: jmp.php,v 1.6 2005/01/22 15:04:42 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -83,7 +83,7 @@
 	    $dmp_user_id = $row[2];
 	    $dmp_user_name = $row[3];
 	    $dmp_real_name = $row[4];
-		print "<h2>Selected by '<a href=\"dreammp?id=$dreammpid\">$dmp_name</a>' - Dream MP</h2>";
+		print "<h2>Selected by '<a href=\"dreammp.php?id=$dreammpid\">$dmp_name</a>' - Dream MP</h2>";
 	}
 	else
 		print "<h3>First $limitdivs divisions</h3>";
