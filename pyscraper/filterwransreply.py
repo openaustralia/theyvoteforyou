@@ -216,7 +216,7 @@ def ExtractJobRecurse(stex):
 def FindHonMembers(i, n, line, qs):
 	# first determin the jobs that are in the text
 	line = string.join(ExtractJobRecurse(line))
-#	return line
+	return line
 
 	res = ExtractHonMembersRecurse(qs, line)
 	return string.join(res, '')
