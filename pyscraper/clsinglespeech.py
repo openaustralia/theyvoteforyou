@@ -45,12 +45,13 @@ class qspeech:
 		self.sstampurl = copy.copy(stampurl)
 
 		# this is a bit shambolic as it's done in the other class as well.
+                # yes, it's atrocious!
 		self.StampToFront(stampurl)
 
 		# we also fix the question text as we know what type it is by the 'to ask' prefix.
                 # some question just have the "if he will make" e.g. 2004-01-29
+                # TODO: Francis broke this by adding extra things, probably shouldn't be here
                 #if re.match('(?:<[^>]*?>|\s)*?to ask(?i)', self.text):
-#                if re.match('(?:<[^>]*?>|\s)*?(to ask)|(foo)(?i)', self.text):
 
 		if re.match('(?:<[^>]*?>|\s)*?((to ask)' +
                                 '|(if s?he will make a statement)' +

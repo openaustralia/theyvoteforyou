@@ -15,6 +15,8 @@ from parlphrases import parlPhrases
 # it's possible we want to make this a class, like with speeches.
 # so that it sits in our list easily.
 
+# - I seem to be managing with qspeech.typ set to 'debdiv'
+
 def MpList(fsm, sdate):
 	res = [ ]
 	pfss = ''

@@ -1,4 +1,6 @@
 #! /usr/bin/python2.3
+# vim:sw=8:ts=8:et:nowrap
+
 import sys
 import re
 import os
@@ -163,7 +165,10 @@ def WriteXMLChunk(fout, qb, sdate, tagname, body):
 	spurl = re.match('<page (url=".*?")/>', qb.sstampurl.pageurl).group(1)
 
         speaker = ''
-        if tagname == 'speech':
+        # OK, having DIVISION here is a bit of a hack - the qb.speaker variable could
+        # be renamed to qb.attributes, for this new general purpose attribute store
+        # (it contains divnumber= and divdate= for divisions)
+        if tagname == 'speech' or tagname == 'DIVISION':
                 speaker = qb.speaker
 
 	# get the stamps from the stamp on first speaker in block
@@ -205,15 +210,28 @@ def FilterDebateSections(fout, text, sdate):
 		# deal with divisions separately
 		gdiv = re.match('Division No. (\d+)', sht[0])
 		if gdiv:
+                        # Add a heading subheading object (for navigation)
+                        qb = qspeech('', stampurl.title, stampurl, sdate)
+                        qb.typ = 'debminor'
+                        qblock.append(qb)
+
 			divno = string.atoi(gdiv.group(1))
 
 			# gotta learn how to deal with the procedural text too.
 			# for now think of this as a division object, maybe.
 			# either that, or we'll make the Ayes and Noes as speech statements
-			qbl.extend(FilterDivision(divno, sht[1], sdate))
+			# qbl.extend(FilterDivision(divno, sht[1], sdate))
 
-			if sht[2]:
-				print ' speeches found in division ' + sht[0]
+                        # Add a division object (will contain votes and motion text)
+                        qb = qspeech('divdate="%s" divnumber="%s"' % (sdate, divno), 'parsed data to go here', stampurl, sdate)
+                        qb.typ = 'debdiv' # this type field seems easiest way
+                        qblock.append(qb)
+
+#			if sht[2]:
+#				print ' speeches found in division ' + sht[0] # so what?
+
+                        # update column stamps from stuff in the division data itself
+                        stampurl.UpdateStampUrl(sht[1])
 
 		else:
 
@@ -249,14 +267,14 @@ def FilterDebateSections(fout, text, sdate):
 			# case of unspoken text (between heading and first speaker)
 			# which we will frig for now.
 			if (not re.match('(?:<[^>]*>|\s)*$', sht[1])):
+                                # there is some text
 				qb = qspeech('nospeaker="true"', sht[1], stampurl, sdate)
 				qb.typ = 'debspeech'
 				qblock.append(qb)
-
-			# update the stamps from any of the pre-spoken text
-			else:
-				stampurl.UpdateStampUrl(sht[1])
-
+                        else:
+                                # there is no text
+                                # update from stamps if there are any
+                                stampurl.UpdateStampUrl(sht[1])
 
 		# go through each of the speeches in a block and put it into our batch of speeches
 		for ss in sht[2]:
@@ -273,9 +291,9 @@ def FilterDebateSections(fout, text, sdate):
 
 	# go through all the speeches in all the batches and clear them up (converting text to stext)
 	for qblock in qbl:
-		if qblock:	# avoiding division types here
-			for qb in qblock:
-				FilterDebateSpeech(qb)
+                for qb in qblock:
+                        if qb.typ != 'debdiv':
+                                FilterDebateSpeech(qb)
 
 
 
@@ -283,11 +301,6 @@ def FilterDebateSections(fout, text, sdate):
 	WriteXMLHeader(fout);
 	fout.write("<publicwhip>\n")
 	for qblock in qbl:
-
-		if not qblock:
-			fout.write('\n\n<DIVISION/>\n\n')
-			continue
-
 		for qb in qblock:
                         if qb.typ == 'debmajor':
                                 fout.write('\n')
@@ -299,10 +312,12 @@ def FilterDebateSections(fout, text, sdate):
                                 fout.write('\n')
                         elif qb.typ == 'debspeech':
                                 WriteXMLSpeech(fout, qb, sdate)
+                        elif qb.typ == 'debdiv':
+                                fout.write('\n')
+                                WriteXMLChunk(fout, qb, sdate, 'DIVISION', 'Division not yet parsed')
+                                fout.write('\n')
                         else:
                                 raise Exception, 'question block type unknown %s ' % qb.type
 
 
 	fout.write("</publicwhip>\n")
-
-
