@@ -36,7 +36,12 @@ then
 	# and update counts of rebels etc.
 	./load.pl --from=$FROMDATE calc
 
+        # clear page cache
 	rm -fr /home/francis/pwcache/*
+
+	# export dump of database for developers
+	cd ~/publicwhip/build
+	./export-db
 fi
 
 

@@ -6,4 +6,6 @@ set -e
 mysqldump --add-drop-table francis pw_division pw_moffice pw_mp pw_vote | bzip2 - >~/www.publicwhip.org.uk_html/data/pw_static_tables.sql.bz2
 mysqldump --add-drop-table francis pw_cache_attendrank_today pw_cache_divinfo pw_cache_mpcoords pw_cache_mpdist pw_cache_mpinfo pw_cache_mpinfo_session2002 pw_cache_partyinfo pw_cache_rebelrank_today pw_cache_whip | bzip2 - >~/www.publicwhip.org.uk_html/data/pw_cache_tables.sql.bz2
 
+# Copies other stuff
+cp ../members/*.xml ~/www.publicwhip.org.uk_html/data/
 
