@@ -180,7 +180,7 @@ def FilterDebateSections(fout, text, sdate):
 		gdiv = re.match('Division No. (\d+)', sht[0])
 		if gdiv:
 			divno = string.atoi(gdiv.group(1))
-			qbl.extend(FilterDivision(divno, sht[1], sht[2]))
+			qbl.extend(FilterDivision(divno, sht[1], sht[2], sdate))
 			continue
 
 		# detect if this is a major heading and record it

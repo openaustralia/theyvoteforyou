@@ -15,8 +15,10 @@ class MemberList(xml.sax.handler.ContentHandler):
 
         # "rah" here is a typo in division 64 on 13 Jan 2003 "Ancram, rah Michael"
         self.titles = "Dr\\ |Hon\\ |hon\\ |rah\\ |rh\\ |Mrs\\ |Ms\\ |Dr\\ |Mr\\ |Miss\\ |Ms\\ |Rt\\ Hon\\ |The\\ Reverend\\ |Sir\\ |Rev\\ ";
+	self.retitles = re.compile('^(?:%s)' % self.titles)
 
 	self.honourifics = "\\ CBE|\\ OBE|\\ MBE|\\ QC|\\ BEM|\\ rh|\\ RH|\\ Esq|\\ QPM";
+	self.rehonourifics = re.compile('(?:%s)$' % self.honourifics)
 
         parser = xml.sax.make_parser()
         parser.setContentHandler(self)
@@ -69,12 +71,12 @@ class MemberList(xml.sax.handler.ContentHandler):
 	#text = text.replace('&#214;', 'Oe')
 
         # Remove initial titles
-        (text, titlec) = re.subn("^(" + self.titles + ")", "", text)
+        (text, titlec) = self.retitles.subn("", text)
         if titlec > 1:
             raise Exception, 'Multiple titles: ' + input
 
         # Remove final honourifics
-        (text, honourc) = re.subn("(" + self.honourifics + ")$", "", text)
+        (text, honourc) = self.rehonourifics.subn("", text)
         if honourc > 1:
             raise Exception, 'Multiple honourifics: ' + input
 
@@ -87,7 +89,7 @@ class MemberList(xml.sax.handler.ContentHandler):
             for attr in matches:
                 if date >= attr["fromdate"] and date <= attr["todate"]:
                     ids.append(attr["id"])
-	
+
 	return ids
 
     def matchfullname(self, input, date):
@@ -101,6 +103,15 @@ class MemberList(xml.sax.handler.ContentHandler):
 	id = ids[0]
         remadename = self.members[id]["firstname"] + " " + self.members[id]["lastname"]
         return id, '', remadename
+
+    # Bradley, rh Keith <i>(Withington)</i>
+    def matchfulldivisionname(self, inp, date):
+	ginp = re.match("([\w\-']*), ([ \w.#&;]*?)\s*(?:<i>\(([ \w&'.\-]*)\)</i>)?$", inp)
+	if ginp:
+		inp = '%s %s' % (ginp.group(2), ginp.group(1))
+	else:
+		print inp
+	return self.matchfullname(inp, date)
 
 
     def mpnameexists(self, input, date):
