@@ -1,7 +1,7 @@
 <?php require_once "common.inc";
     $dreamid = intval($_GET["id"]);
     $cache_params = "id=$dreamid";
-    include "cache-begin.inc"; 
+    include "cache-begin.inc";
 
     # $dreamid: dreammp.php,v 1.4 2004/04/16 12:32:42 frabcus Exp $
 
@@ -12,18 +12,21 @@
 
     include "db.inc";
     include('database.inc');
-    include "parliaments.inc";
-    include "constituencies.inc";
+    $db = new DB(); 
+
+	# standard decoding functions for the url attributes
+	include "decodeids.inc";
+	include "tablemake.inc";
+
     include "render.inc";
     include "dream.inc";
     include_once "account/user.inc";
-    $db = new DB(); 
 
     check_table_cache_dream_mp($db, $dreamid);
     $query = "select name, description, pw_dyn_user.user_id, user_name,
             votes_count, edited_motions_count
         from pw_dyn_rolliemp, pw_dyn_user, pw_cache_dreaminfo
-        where pw_dyn_rolliemp.user_id = pw_dyn_user.user_id 
+        where pw_dyn_rolliemp.user_id = pw_dyn_user.user_id
         and pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id
         and pw_cache_dreaminfo.rollie_id = '$dreamid'";
     $row = $db->query_one_row($query);
@@ -65,52 +68,7 @@
     print " <b>$dmp_votes_count</b> votes, of which <b>$dmp_edited_count</b> have edited motion text.";
 
     print "<table class=\"divisions\">\n";
-    # Table of votes in each division
-    $query = "select pw_division.division_id, pw_division.division_number, pw_division.division_date,
-        division_name, source_url, vote, object_key
-        from pw_division, pw_dyn_rollievote 
-        left outer join pw_dyn_wiki on pw_dyn_wiki.object_key = 
-            concat('motion-', pw_division.division_date, '-', pw_division.division_number)
-        where pw_dyn_rollievote.rolliemp_id = '$dreamid' and
-        pw_division.division_date = pw_dyn_rollievote.division_date and 
-        pw_division.division_number = pw_dyn_rollievote.division_number 
-        group by pw_division.division_date, pw_division.division_number
-        ";
-
-    $query .= "order by pw_division.division_date desc, pw_division.division_number desc";
-    $db->query($query);
-
-    print "<tr class=\"headings\">
-    <td>No.</td><td>Date</td><td>Subject</td>
-    <td>Dream Vote</td>
-    <td>Debate</td>
-    <td>Motion<br>Edited</td>
-    </tr>";
-    $prettyrow = 0;
-    $rollievote = array();
-    while ($row = $db->fetch_row())
-    {
-        $rollievote[$row[0]] = $row[5];
-        $prettyrow = pretty_row_start($prettyrow);
-        $vote = $row[5];
-        if ($vote == "both")
-            $vote = "abstain";
-        print "<td>$row[1]</td> <td>$row[2]</td> <td><a
-            href=\"division.php?date=" . urlencode($row[2]) . "&number=" . urlencode($row[1]) . "\">$row[3]</a></td>
-            <td>$vote</td>
-            <td><a href=\"$row[4]\">Hansard</a></td>";
-        if ($row[6])
-            print "<td>yes</td>";
-        else
-            print "<td>-</td>";
-        print "</tr>\n";
-    }
-
-    if ($db->rows() == 0)
-    {
-        $prettyrow = pretty_row_start($prettyrow, "");
-        print "<td colspan=7>this virtual MP has not yet voted in any divisions</td></tr>\n";
-    }
+	division_table($db, "dreammp", $dreamid, "", "", "all1", 'columns');
     print "</table>\n";
 
     if ($your_dmp)
@@ -124,13 +82,13 @@
 
     }
 
-    function getmicrotime() 
-    { 
-        list($usec, $sec) = explode(" ", microtime()); 
-        return ((float)$usec + (float)$sec); 
-    } 
+    function getmicrotime()
+    {
+        list($usec, $sec) = explode(" ", microtime());
+        return ((float)$usec + (float)$sec);
+    }
     $timestart = getmicrotime();
-        
+
     print "<h2><a name=\"comparison\">Comparison to Real MPs</a></h2>";
     print "<p>Grades MPs acording to how often they voted the same as the dream
     MP.  If, in divisions where both voted, they always voted the same then

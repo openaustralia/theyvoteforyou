@@ -1,5 +1,5 @@
 <?php
-    # $Id: decodeids.inc,v 1.3 2005/02/19 10:27:26 goatchurch Exp $
+    # $Id: decodeids.inc,v 1.4 2005/02/21 13:12:21 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -15,9 +15,14 @@
 	# mpgen says the equivalence class is by constituency or by person
 	function get_mpid_attr($db, $mpid, $bbyconstituency, $i)
 	{
+		global $bdebug;
+		# convert the mpid into a person-id
 		$query = "SELECT first_name, last_name, constituency, person, party, mp_id
 				  FROM   pw_mp
 				  WHERE mp_id = $mpid";
+
+		if ($bdebug == 1)
+			print "<h1>getmpattr: $query</h1>\n";
 		$row = $db->query_one_row_assoc($query);
 
 		# build the anchor tag
@@ -28,24 +33,65 @@
 		$person = $row['person'];
 		$party = $row['party'];
 
-		# get the mpids in this class (usually for the person)
+		# get the mpids in this class, for the person, or all reps of a constituency
 		if ($bbyconstituency)
-			$qwhere = "constituency = ".$constituency;
+			$qwhere = "constituency = $constituency";
 		else
-			$qwhere = "person = ".$person;
-		$query = "SELECT mp_id, constituency, person, entered_house
+			$qwhere = "person = $person";
+		$query = "SELECT pw_mp.mp_id as mpid, title, first_name, last_name, constituency, person, party,
+					entered_house, left_house, party, entered_reason, left_reason,
+					rebellions, votes_attended, votes_possible, tells
 				  FROM   pw_mp
+				  LEFT JOIN pw_cache_mpinfo ON pw_mp.mp_id = pw_cache_mpinfo.mp_id
 				  WHERE $qwhere
 				  ORDER BY entered_house DESC";
+		if ($bdebug == 1)
+			print "<h1>decode person: $query</h1>\n";
 		$row = $db->query($query);
+
+		# build a set of data for each mpid in this group
 		$mpids = array();
+		$mpprops = array();
 		$bmultiperson = false;  # record if this set really does cover more than one person
 	    while ($row = $db->fetch_row_assoc())
 	    {
+			$mppropname = $row['first_name'].' '.$row['last_name'];
+			$mppropanchor = "mpn$i=".urlencode(str_replace(" ", "_", $mppropname))."&"."mpc$i=".urlencode($row['constituency']);
+			$mpprop = 	array("mpid"		=> $row['mpid'],
+							  "title" 		=> $row['title'],
+							  "name" 		=> $mppropname,
+							  "person"		=> $row['person'],
+							  "party"		=> $row['party'],
+							  "constituency" => $row['constituency'],
+							  "mpanchor"	=> $mppropanchor, 
+							  "enteredhouse" => $row['entered_house'],
+							  "lefthouse" 	=> $row['left_house'],
+							  "enteredreason" => $row['entered_reason'],
+							  "leftreason" 	=> $row['left_reason'],
+							  "rebellions" 	=> $row['rebellions'],
+							  "votesattended" => $row['votes_attended'],
+							  "votespossible" => $row['votes_possible'],
+							  "tells" 		=> $row['tells']);
+
+			if ($bdebug == 1)
+			{
+				print "<h1>prop:";
+				print_r($mpprop);
+				print "</h1>\n";
+			}
+
+	    	array_push($mpprops, $mpprop);
+	    	if ($row['mpid'] == $mpprop['mpid'])  # recover the original mp
+				$thismpprop = $mpprop;
+
+
 	    	array_push($mpids, $row['mp_id']);
 	        if ($person != $row['person'])
 				$bmultiperson = true;
 	 	}
+
+		if ($bdebug == 1)
+			print "<h1>$mpname, $constituency, multiperson:$multiperson</h1>\n";
 
 		return array("mpid" 		=> $mpid,
 					 "mpname" 		=> $mpname,
@@ -54,6 +100,8 @@
 					 "party"		=> $party,
 					 "mpanchor"		=> $mpanchor,
 					 "mpids"		=> $mpids,
+					 "mpprops"		=> $mpprops,
+					 "mpprop"		=> $thismpprop,
 					 "bmultiperson" => $bmultiperson);
 	}
 
@@ -73,10 +121,7 @@
 		$constituency = db_scrub($constituency);
 	    $id = db_scrub($_GET["id"]);
 	    if ($constituency == "" and $id == "")
-		{
-			print "Error, constituency " . $cmatch . " not found";
-	        exit;
-	    }
+			return null;
 
 	   	if ($constituency == "")
 		{
@@ -115,6 +160,8 @@
 			if ($i != "")   # legacy doesn't apply to second and third entries which may be blank
 				return null;
 			$mpid = decode_mpid_legacy($db);
+			if ($mpid == null)
+				return null;
 			$bbyconstituency = false;
 		}
 
