@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: email.php,v 1.4 2005/01/15 20:38:11 frabcus Exp $
+# $Id: email.php,v 1.5 2005/02/18 13:57:58 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -14,7 +14,7 @@ $title = "Emailing Public Whip"; include "header.inc"
 <h2>Contact your MP</h2>
 
 <ul>
-<li><a href="http://www.faxyourmp.com">Fax Your MP</a> to contact your
+<li>Use <a href="http://www.writetothem.com">WriteToThem</a> to contact your
 own MP.
 <li>
 There are <a href="http://www.parliament.uk/directories/hciolists/alms.cfm">

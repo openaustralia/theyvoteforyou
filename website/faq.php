@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.32 2005/01/28 18:55:08 frabcus Exp $
+# $Id: faq.php,v 1.33 2005/02/18 13:57:58 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -217,7 +217,7 @@ on our forum.
 <p>If you have any problems, comments, queries, suggestions or offers of help about this website
 then email <a
 href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a>.  If you would like
-to contact your MP about something that concerns you, then use <a href="http://www.faxyourmp.com">Fax Your MP</a>.
+to contact your MP about something that concerns you, then use <a href="http://www.writetothem.com">WriteToThem</a>.
 
 <?php include "footer.inc" ?>
 

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.45 2005/02/18 10:14:03 frabcus Exp $
+    # $Id: mp.php,v 1.46 2005/02/18 13:57:58 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -174,7 +174,7 @@
     print "Performance data, recent speeches, and biographical links</a> ";
     print "at TheyWorkForYou.com.";
     print "<br>Contact your MP with 
-    <a href=\"http://www.faxyourmp.com\">Fax Your MP</a> for free.  Find
+    <a href=\"http://www.writetothem.com\">WriteToThem</a> for free.  Find
     the <a
     href=\"http://www.parliament.uk/directories/hciolists/alms.cfm\">email
     address</a> of some MPs.";
