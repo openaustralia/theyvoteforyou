@@ -2,7 +2,7 @@
 use strict;
 use lib "../scraper/";
 
-# $Id: cluster-parliament-static.pl,v 1.1 2005/03/28 14:26:32 frabcus Exp $
+# $Id: cluster-parliament-static.pl,v 1.2 2005/03/28 14:29:38 frabcus Exp $
 # Outputs a matrix of distances between pairs of MPs for
 # use by the GNU Octave script mds.m to do clustering.
 
@@ -19,6 +19,7 @@ my $dbh = db::connect();
 
 # Wipe metric database
 db::query($dbh, "drop table if exists pw_cache_mpdist");
+ERROR - this is out of date, there are new MP distance tables now
 db::query($dbh, 
 "create table pw_cache_mpdist (
     mp_id_1 int not null,
