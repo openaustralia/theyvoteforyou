@@ -176,12 +176,18 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto):
 # main function
 ###############
 def PullGluePages():
+	# make the output firectory
 	if not os.path.isdir(pwcmdirs):
 		os.mkdir(pwcmdirs)
 
+	# load the index file previously made by createhansardindex
 	ccmindex = LoadCmIndex(pwcmindex)
 
-	# we're just working with written questions for now
+	# bring in and glue together parliamentary debates, and answers and put into their own directories.
+	# third parameter is a regexp, fourth is the filename (%s becomes the date).
+	GlueAllType(pwcmdebates, ccmindex.res, 'debates(?i)', 'debates%s.html')
 	GlueAllType(pwcmwrans, ccmindex.res, 'answers(?i)', 'answers%s.html')
 
+
+# run main function
 PullGluePages()
