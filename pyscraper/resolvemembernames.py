@@ -345,8 +345,11 @@ class MemberList(xml.sax.handler.ContentHandler):
         # to missing constituency) look in recent name match history
         if len(ids) > 1:
             # search through history, starting at the end
-            history = copy.copy(self.debatenamehistory)
-            history.reverse()
+
+			# old wasteful way of coding it
+			#history = copy.copy(self.debatenamehistory)
+            #history.reverse()
+
             # [1:] here we misses the first entry, i.e. it misses the previous
             # speaker.  This is necessary for example here:
             #     http://www.publications.parliament.uk/pa/cm200304/cmhansrd/cm040127/debtext/40127-08.htm#40127-08_spnew13
@@ -355,11 +358,14 @@ class MemberList(xml.sax.handler.ContentHandler):
             # the previous speaker, we correctly match the one before.  As the
             # same person never speaks twice in a row, this shouldn't cause
             # trouble.
-            for x in history[1:]:
+            ix = len(self.debatenamehistory) - 2
+			while ix >= 0:
+			    x = self.debatenamehistory[ix]
                 if x in ids:
                     # first match, use it and exit
                     ids = sets.Set([x,])
                     break
+                ix -= 1
 
         # Special case - the AGforS is referred to as just the AG after first appearance
         office = input

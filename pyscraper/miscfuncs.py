@@ -231,7 +231,7 @@ reparts2 = re.compile('(<table[^>]*?>|' + restmatcher + ')')
 retable = re.compile('<table[\s\S]*?</table>(?i)')
 retablestart = re.compile('<table[\s\S]*?(?i)')
 reparaspace = re.compile('</?p>|</?ul>|<br>|</?font[^>]*>|<table[^>].*>$(?i)')
-reparaempty = re.compile('\s*(?:<i>)?</i>\s*|\s*$(?i)')
+reparaempty = re.compile('\s*(?:<i>)?</i>\s*$|\s*$(?i)')
 reitalif = re.compile('\s*<i>\s*$(?i)')
 
 # Break text into paragraphs.
@@ -245,20 +245,16 @@ def SplitParaSpace(text, stampurl):
 	# list of space objects, list of string
 	spclist = []
 	pstring = ''
-        parts = reparts.split(text)
-        newparts = []
-        # split up the start <table> bits without end </table> into component parts
-        for nf in parts:
-                if retablestart.match(nf) and not retable.match(nf):
-                        newparts.extend(reparts2.split(nf))
-                else:
-                        newparts.append(nf)
-#        print "newparts ", newparts
-	for nf in newparts:
-                #print "\nXspclist:", spclist
-                #print "\nXpstring:", pstring
-                #print "\nXnf:", nf
-                #print "\n----------------"
+	parts = reparts.split(text)
+	newparts = []
+	# split up the start <table> bits without end </table> into component parts
+	for nf in parts:
+
+		# a tiny bit of extra splitting up as output
+		if retablestart.match(nf) and not retable.match(nf):
+			newparts.extend(reparts2.split(nf))
+		else:
+			newparts.append(nf)
 
 		# get rid of blank and boring paragraphs
 		if reparaempty.match(nf):
@@ -321,7 +317,10 @@ def SplitParaSpace(text, stampurl):
 				print text
 				print spclist
 				print pstring
-				raise ContextException('font only in paragraph break', stamp=stampurl, fragment=pstring)
+				print "----------"
+				print nf
+				print "----------"
+				raise ContextException('font found in middle of paragraph should be a paragraph break or removed', stamp=stampurl, fragment=pstring)
 		bprevparaalone = bthisparaalone
 
 
