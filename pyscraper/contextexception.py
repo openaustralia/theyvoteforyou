@@ -1,4 +1,4 @@
-#! $Id: contextexception.py,v 1.6 2004/04/26 09:46:15 goatchurch Exp $
+#! $Id: contextexception.py,v 1.7 2004/04/30 16:07:06 goatchurch Exp $
 # vim:sw=8:ts=8:et:nowrap
 
 import os
@@ -14,7 +14,7 @@ toppath = miscfuncs.toppath
 
 # windows version of the patchtool shell script
 # this calls the contTEXT editor.
-def RunPatchToolW(typ, sdate, aname, frag):
+def RunPatchToolW(typ, sdate, stamp, frag):
 	qfolder = toppath
 	if typ != "lordspages":
 		qfolder = os.path.join(qfolder, "cmpages")
@@ -33,11 +33,6 @@ def RunPatchToolW(typ, sdate, aname, frag):
 	tmpfile = os.path.join(folder, "%s%s-patchtmp.html" % (stub, sdate))
 	tmppatchfile = os.path.join(pdire, "%s%s.html.patch.new" % (stub, sdate))
 
-	print aname
-	print patchfile
-	print orgfile
-	print tmpfile
-
 	shutil.copyfile(orgfile, tmpfile)
 	if os.path.isfile(patchfile):
 		print "Patching ", patchfile
@@ -49,18 +44,26 @@ def RunPatchToolW(typ, sdate, aname, frag):
 	rforlines = finforlines.read();
 	finforlines.close()
 
-	ganamef = re.search(('<a name\s*=\s*"%s">([\s\S]*?)<a name(?i)' % aname), rforlines)
+	if stamp:
+		aname = stamp.GetAName()
+		ganamef = re.search(('<a name\s*=\s*"%s">([\s\S]*?)<a name(?i)' % aname), rforlines)
+	else:
+		ganamef = None
+
 	if ganamef:
 		gp = ganamef.start(1)
 		fragl = string.find(ganamef.group(1), frag)
-		if fragl != -1:
-			gp += fragl
+	else:
+		fragl = string.find(rforlines, frag)
+	if fragl != -1:
+		gp += fragl
+
 	gl = string.count(rforlines, '\n', 0, gp)
 	gc = 0
 	if gl:
 		gc = gp - string.rfind(rforlines, '\n', 0, gp)
 	print "find loc codes ", gp, gl, gc
-	os.system("context %s /g%d:%d" % (tmpfile, gc + 1, gl + 1))
+	os.system('"C:\Program Files\ConTEXT\ConTEXT" %s /g%d:%d' % (tmpfile, gc + 1, gl + 1))
 
 
 	# now create the diff file
@@ -112,7 +115,7 @@ def RunPatchTool(type, sdate, ce):
             else:
                     status = os.system("./patchtool %s %s -c /%s" % (type, sdate, ce.stamp.GetAName()))
         else:
-			RunPatchToolW(type, sdate, ce.stamp.GetAName(), ce.fragment)
+			RunPatchToolW(type, sdate, ce.stamp, ce.fragment)
         memberList.reloadXML()
 
 

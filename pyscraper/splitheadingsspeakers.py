@@ -7,6 +7,8 @@ import os
 import string
 import StringIO
 
+from contextexception import ContextException
+
 
 # these types of stamps must be available in every question and batch.
 # <stamp coldate="2003-11-17" colnum="518W"/>
@@ -140,11 +142,11 @@ class SepHeadText:
                         gho = re.match('(\s*[()A-Za-z\-,\'\"/&#; 0-9]+)((?:<[^>]*?>|\s)*)$', self.unspoketext)
 			if gho and not renotheadingmarg.search(self.unspoketext):
 				self.heading = self.heading + ' ' + gho.group(1)
-                                self.heading = re.sub("\s+", " ", self.heading)
+				self.heading = re.sub("\s+", " ", self.heading)
 				self.unspoketext = gho.group(2)
-                                # print "merged dangling heading %s" % (self.heading)
-                                if len(self.heading) > 100:
-                                        raise Exception, "Suspiciously long merged heading part - is it OK? %s" % self.heading
+				# print "merged dangling heading %s" % (self.heading)
+				if len(self.heading) > 100:
+					raise ContextException("Suspiciously long merged heading part - is it OK? %s" % self.heading, stamp=None, fragment=self.heading)
 
 		# push block into list
 		self.shtext.append((self.heading, self.unspoketext, self.shspeak))

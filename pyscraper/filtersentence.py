@@ -25,7 +25,7 @@ reoffrepw = re.compile('<i>official(?:</i> <i>| )report,?</i>,? c(?:olumns?)?\.?
 class PhraseTokenize:
 
 	def RawTokensN(self, qs, stex):
-		self.toklist.append( ('', '', FixHTMLEntities(stex)) )
+		self.toklist.append( ('', '', FixHTMLEntities(stex, stampurl=qs.sstampurl)) )
 		return
 
 

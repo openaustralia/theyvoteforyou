@@ -218,7 +218,7 @@ def SplitLordsText(text, sdate):
 
 	if res[3]:
 		assert not re.search('<a name="column_(?!WA)\D+\d+">', res[3])
-		assert re.search('<center>Written Answers', res[3])
+		assert re.search('<center>\s*Written Answers', res[3])
 
 # could grab leading url labels to put into each section.
 

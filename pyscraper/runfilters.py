@@ -132,6 +132,8 @@ def RunFiltersDir(filterfunction, dname, options, deleteoutput):
                                 if sys.platform != "win32":
                                         # this function leaves the file open which can't be renamed in win32
                                         xmlvalidate.parse(tempfile) # validate XML before renaming
+                                if os.path.isfile(jfout):
+                                    os.remove(jfout)
                                 os.rename(tempfile, jfout)
                         except ContextException, ce:
                                 if options.patchtool:

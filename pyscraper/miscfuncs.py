@@ -8,23 +8,27 @@ import os
 
 # make the top path data directory value
 toppath = os.path.abspath(os.path.expanduser('~/pwdata/'))
-if os.name == 'nt':  # the case of julian developing on a university machine.  
+if os.name == 'nt':  # the case of julian developing on a university machine.
         toppath = os.path.abspath('../../pwdata')
         if re.search('\.\.', toppath):
                 toppath = 'C:\\pwdata'
-        
+
+
 if (not os.path.isdir(toppath)):
         raise Exception, 'Data directory %s does not exist, please create' % (toppath)
 # print "Data directory (set in miscfuncs.py): %s" % toppath
 
-# Migrate names to forms without pw 
+# Migrate names to forms without pw
 if os.path.exists(toppath + "/pwcmpages"):
         raise Exception, 'Folders have changed name, and you need to rescrape everything anyway.  Clear out %s and start again.' % (toppath)
+
+# import lower down so we get the top-path into the contextexception file
+from contextexception import ContextException
 
 # The names of entities and what they are are here:
 # http://www.bigbaer.com/reference/character_entity_reference.htm
 # Make sure you update WriteXMLHeader below also!
-# And update website/protodecode.inc
+# And update website/proto decode.inc
 entitymap = {
         '&nbsp;':' ',
         '&':'&amp;',
@@ -120,9 +124,7 @@ def ApplyFixSubstitutions(text, sdate, fixsubs):
 
 
 # this only accepts <sup> and <i> tags
-def StraightenHTMLrecurse(stex):
-
-
+def StraightenHTMLrecurse(stex, stampurl):
 	# split the text into <i></i> and <sup></sup> and <sub></sub>
 	qisup = re.search('(<i>(.*?)</i>)(?i)', stex)
 	if qisup:
@@ -137,11 +139,11 @@ def StraightenHTMLrecurse(stex):
                                 qtag = ('<sub>', '</sub>')
 
 	if qisup:
-		sres = StraightenHTMLrecurse(stex[:qisup.span(1)[0]])
+		sres = StraightenHTMLrecurse(stex[:qisup.span(1)[0]], stampurl)
 		sres.append(qtag[0])
-		sres.extend(StraightenHTMLrecurse(qisup.group(2)))
+		sres.extend(StraightenHTMLrecurse(qisup.group(2)), stampurl)
 		sres.append(qtag[1])
-		sres.extend(StraightenHTMLrecurse(stex[qisup.span(1)[1]:]))
+		sres.extend(StraightenHTMLrecurse(stex[qisup.span(1)[1]:]), stampurl)
 		return sres
 
 	sres = re.split('(&[a-z]*?;|&#\d+;|"|\xa3|&|\x01|\x0e|\x14|<[^>]*>|<|>)', stex)
@@ -197,20 +199,19 @@ def StraightenHTMLrecurse(stex):
                         sres[i] = ''
 
 		elif sres[i][0] == '<' or sres[i][0] == '>':
-			raise Exception, 'tag ' + sres[i] + ' tag out of place in ' + stex
-			sres[i] = 'TAG-OUT-OF-PLACE'
+			raise ContextException('tag %s tag out of place in %s' % (sres[i], stex), stamp=stampurl, fragment=stex)
 
 	return sres
 
 
-def FixHTMLEntitiesL(stex, signore=''):
+def FixHTMLEntitiesL(stex, signore='', stampurl=None):
 	# will formalize this into the recursion later
 	if signore:
 		stex = re.sub(signore, '', stex)
-	return StraightenHTMLrecurse(stex)
+	return StraightenHTMLrecurse(stex, stampurl)
 
-def FixHTMLEntities(stex, signore=''):
-	return string.join(FixHTMLEntitiesL(stex, signore), '')
+def FixHTMLEntities(stex, signore='', stampurl=None):
+	return string.join(FixHTMLEntitiesL(stex, signore, stampurl), '')
 
 
 
