@@ -1,8 +1,8 @@
 #!/usr/bin/perl -w
 use strict;
-use lib "../scraper/";
+use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.1 2004/04/27 10:24:19 frabcus Exp $
+# $Id: memxml2db.pl,v 1.1 2004/06/19 08:22:22 frabcus Exp $
 
 # Convert all-members.xml into the database format for Public Whip website
 
@@ -12,19 +12,20 @@ use lib "../scraper/";
 # For details see the file LICENSE.html in the top level of the source.
 
 use XML::Twig;
+use HTML::Entities;
 
-use error;
-use db;
-my $dbh = db::connect();
+use PublicWhip::Error;
+use PublicWhip::DB;
+my $dbh = PublicWhip::DB::connect();
 
-my $sth = db::query($dbh, "delete from pw_mp");
+my $sth = PublicWhip::DB::query($dbh, "delete from pw_mp");
 my %membertoperson;
 
 my $twig = XML::Twig->new(
     twig_handlers => { 'member' => \&loadmember, 'person' => \&loadperson }, 
     output_filter => 'safe');
-$twig->parsefile("people.xml");
-$twig->parsefile("all-members.xml");
+$twig->parsefile("../members/people.xml");
+$twig->parsefile("../members/all-members.xml");
 
 sub loadperson
 {
@@ -49,13 +50,18 @@ sub loadmember
     die "mp " . $id . " " . $memb->att('firstname') . " " . $memb->att('lastname') . " has no person" if !defined($person);
     $person =~ s#uk.org.publicwhip/person/##;
 
-    my $sth = db::query($dbh, "insert into pw_mp (first_name, last_name, title, constituency, party, 
+    # We encode entities as e.g. &Ouml;, as otherwise non-ASCII characters
+    # get lost somewhere between Perl, the database and the browser.
+    # Just done for names (not constituency and party) as they are the
+    # only place to have accents, and constituencies have & signs and
+    # the postcode search matching system uses them.
+    my $sth = PublicWhip::DB::query($dbh, "insert into pw_mp (first_name, last_name, title, constituency, party, 
         entered_house, left_house, entered_reason, left_reason, mp_id, person) values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-        $memb->att('firstname'), 
-        $memb->att('lastname'), 
+        encode_entities($memb->att('firstname')), 
+        encode_entities($memb->att('lastname')), 
         $memb->att('title'), 
-        $memb->att('constituency'), 
+        encode_entities($memb->att('constituency')), 
         $memb->att('party'), 
         $memb->att('fromdate'), 
         $memb->att('todate'), 

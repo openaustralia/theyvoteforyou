@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.5 2004/02/09 17:18:23 frabcus Exp $
+# $Id: db.inc,v 1.6 2004/06/19 08:22:24 frabcus Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -17,7 +17,7 @@ function db_scrub($text)
 
 function html_scrub($text)
 {
-    return htmlentities(stripslashes($text));
+    return htmlentities(html_entity_decode(stripslashes($text)));
 }
 
 class DB
