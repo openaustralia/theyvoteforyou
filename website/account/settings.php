@@ -1,5 +1,5 @@
 <?  
-# $Id: settings.php,v 1.7 2004/02/10 00:18:32 frabcus Exp $
+# $Id: settings.php,v 1.8 2004/06/15 10:27:01 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -7,7 +7,7 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 include('database.inc');
-include('user.inc');
+include_once('user.inc');
 include "../db.inc";
 $db = new DB(); 
 

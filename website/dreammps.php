@@ -14,7 +14,7 @@
     include "parliaments.inc";
     include "constituencies.inc";
     include "render.inc";
-    include "account/user.inc";
+    include_once "account/user.inc";
     $dbo = new DB(); 
     $db = new DB(); 
 

@@ -1,5 +1,5 @@
 <?php
-# $Id: division.php,v 1.33 2004/06/13 15:51:52 frabcus Exp $
+# $Id: division.php,v 1.34 2004/06/15 10:26:56 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -18,7 +18,7 @@
     if ($_GET["allsimilars"] == "yes")
         $all_similars = true;
 
-    include "account/user.inc";
+    include_once "account/user.inc";
     if (!user_isloggedin()) {
         $cache_params = "#date=$date#div_no=$div_no#show_all=$show_all#all_similars=$all_similars#";
         include "cache-begin.inc"; 

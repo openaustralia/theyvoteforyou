@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-begin.inc,v 1.9 2004/06/13 15:51:52 frabcus Exp $
+# $Id: cache-begin.inc,v 1.10 2004/06/15 10:26:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -14,7 +14,9 @@ $cache_file = $cache_dir . $cache_params . ".html";
 if (file_exists($cache_file) && ($_SERVER["SERVER_NAME"] != "localhostNOT"))
 {
     #print "using cache\n";
-    readfile($cache_file);
+    $content = file_get_contents($cache_file);
+    $content = preg_replace("/<!--ACCOUNTBEGIN.*ACCOUNTEND-->/", "", $content);
+    print $content;
     exit("");
 }
 ob_start();    

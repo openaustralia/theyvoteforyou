@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.35 2004/06/08 11:56:55 frabcus Exp $
+# $Id: header.inc,v 1.36 2004/06/15 10:26:57 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -17,6 +17,8 @@ else
     $toppath = "";
 
 include $toppath . "pretty.inc";
+include_once $toppath . "account/user.inc";
+include_once $toppath . "cache-tools.inc";
 
 $pagetitle = "$title - The Public Whip";
 if ($title == "Counting votes on your behalf")
@@ -68,7 +70,11 @@ Confused?  Tell us so we can improve!
 <a title="MPs who vote the way you want" href="<?=$toppath?>dreammps.php">Dream MPs</a>
 <!-- <a title="Cluster diagram of voting record" href="<?=$toppath?>mpsee.php">Vote Map</a> -->
 <a title="Help run the project" href="<?=$toppath?>project/index.php">Project</a>
-<a title="Login or change settings" href="<?=$toppath?>account/settings.php">Account</a>
+<!--ACCOUNTBEGIN-->
+<?php
+    print_account_navbar();
+?>
+<!--ACCOUNTEND-->
 <a title="Find an MP or division" href="<?=$toppath?>search.php">Search</a>
 </td>
 </tr>

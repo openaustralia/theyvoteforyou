@@ -1,6 +1,6 @@
 <?  
 
-# $Id: register.php,v 1.12 2004/05/24 00:59:00 frabcus Exp $
+# $Id: register.php,v 1.13 2004/06/15 10:27:01 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,7 +8,7 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 include('database.inc');
-include('user.inc');
+include_once('user.inc');
 
 $user_name=mysql_escape_string($_POST["user_name"]);
 $password1=mysql_escape_string($_POST["password1"]);

@@ -1,6 +1,6 @@
 <?  
 
-# $Id: adddream.php,v 1.6 2004/06/13 15:51:52 frabcus Exp $
+# $Id: adddream.php,v 1.7 2004/06/15 10:27:01 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,7 +8,7 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 include('database.inc');
-include('user.inc');
+include_once('user.inc');
 include "../db.inc";
 include "../cache-tools.inc";
 

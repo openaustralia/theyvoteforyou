@@ -1,6 +1,6 @@
 <?  
 
-# $Id: confirm.php,v 1.3 2004/01/17 18:50:04 frabcus Exp $
+# $Id: confirm.php,v 1.4 2004/06/15 10:27:01 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,7 +8,7 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 include('database.inc');
-include('user.inc');
+include_once('user.inc');
 
 $email=mysql_escape_string($_GET["email"]);
 $hash=mysql_escape_string($_GET["hash"]);

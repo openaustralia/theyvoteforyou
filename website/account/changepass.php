@@ -1,6 +1,6 @@
 <?  
 
-# $Id: changepass.php,v 1.1 2003/10/31 01:37:56 frabcus Exp $
+# $Id: changepass.php,v 1.2 2004/06/15 10:27:01 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,7 +8,7 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 include('database.inc');
-include('user.inc');
+include_once('user.inc');
 
 if (user_isloggedin())
 {

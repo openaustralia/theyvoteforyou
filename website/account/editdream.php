@@ -8,7 +8,7 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 include('database.inc');
-include('user.inc');
+include_once('user.inc');
 include "../db.inc";
 include "../cache-tools.inc";
 

@@ -1,6 +1,6 @@
 <?  
 
-# $Id: changeemail.php,v 1.6 2003/10/29 17:00:27 frabcus Exp $
+# $Id: changeemail.php,v 1.7 2004/06/15 10:27:01 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,7 +8,7 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 include('database.inc');
-include('user.inc');
+include_once('user.inc');
 
 $password1=mysql_escape_string($_POST["password1"]);
 $new_email=mysql_escape_string($_POST["new_email"]);

@@ -17,7 +17,7 @@
     include "xquery.inc";
     include "protodecode.inc";
     include "render.inc";
-    include "account/user.inc";
+    include_once "account/user.inc";
     $db = new DB(); 
 
     $query = "select name, description, pw_dyn_user.user_id, user_name, real_name, email
