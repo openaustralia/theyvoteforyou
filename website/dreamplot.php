@@ -1,5 +1,8 @@
 <?php require_once "common.inc";
-# $Id: dreamplot.php,v 1.3 2005/03/31 23:15:05 frabcus Exp $
+header("Content-Type: image/png");
+$dreamid = intval($_GET["id"]);
+$cache_params = "id=$dreamid"; include "cache-begin.inc";
+# $Id: dreamplot.php,v 1.4 2005/03/31 23:29:24 theyworkforyou Exp $
 
 # Draw thumbsketch histogram of how many MPs are each distance away
 # from the Dream MP.
@@ -14,7 +17,6 @@ include "parliaments.inc";
 include "dream.inc";
 
 $db = new DB(); 
-$dreamid = intval($_GET["id"]);
 update_dreammp_person_distance($db, $dreamid); # new method
 
 // Calculate number of MPs with distance to Dream MP in each of
@@ -54,6 +56,6 @@ $sparkline->Render(16); // height only for Sparkline_Bar
 
 $sparkline->Output();
 
-
+include "cache-end.inc";
 
 ?>

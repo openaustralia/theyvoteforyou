@@ -6,11 +6,11 @@
  *
  * Sparkline is distributed under a BSD License.  See LICENSE for details.
  *
- * $Id: Sparkline_Bar.php,v 1.1 2005/03/31 22:58:54 frabcus Exp $
+ * $Id: Sparkline_Bar.php,v 1.2 2005/03/31 23:29:25 theyworkforyou Exp $
  *
  */
 
-require_once('Sparkline.php');
+require_once('sparkline/lib/Sparkline.php');
 
 class Sparkline_Bar extends Sparkline {
 
