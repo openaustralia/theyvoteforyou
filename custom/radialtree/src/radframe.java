@@ -1,12 +1,9 @@
-// $Id: radframe.java,v 1.1 2004/10/19 09:03:11 goatchurch Exp $
-
-// The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
+// Copyright (C) 2004 Julian Todd
 // This is free software, and you are welcome to redistribute it under
 // certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 // For details see the file LICENSE.html in the top level of the source.
-
 ////////////////////////////////////////////////////////////////////////////////
-package radialtree; 
+package radialtree;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +18,7 @@ import java.io.BufferedReader;
 /////////////////////////////////////////////
 class radframe extends JFrame
 {
-	radpanel radpane;
+	raddisplay raddisp;
 
 	radframe()
 	{
@@ -29,8 +26,8 @@ class radframe extends JFrame
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(800, 700);
 
-		radpane = new radpanel();
-		getContentPane().add("Center", radpane);
+		raddisp = new raddisplay();
+		getContentPane().add("Center", raddisp);
 	}
 
 	/////////////////////////////////////////////
@@ -45,12 +42,12 @@ class radframe extends JFrame
 		try
 		{
 			radframe radfram = new radframe();
-			radfram.radpane.LoadData("ministers.xml");
+			radfram.raddisp.LoadData("ministers.xml");
 
 //			if (args.length > 1)
 //				mpf.mpsc.pp.SavePNG(args[1], Integer.parseInt(args[2]), Integer.parseInt(args[3]));
 			radfram.setVisible(true);
-			radfram.radpane.start();
+			radfram.raddisp.radpane.start();
 		}
 		catch (IOException e)
 		{
