@@ -2,7 +2,7 @@
 use strict;
 use lib "../scraper/";
 
-# $Id: cluster-animation.pl,v 1.2 2003/10/04 13:46:22 frabcus Exp $
+# $Id: cluster-animation.pl,v 1.3 2003/10/07 23:23:46 frabcus Exp $
 # Outputs a matrix of distances between pairs of MPs for
 # use by the GNU Octave script mds.m to do clustering.
 
@@ -13,23 +13,19 @@ use lib "../scraper/";
 
 use Date::Parse;
 
+use error;
 use db;
 my $dbh = db::connect();
 
 # Count MPs (which have voted at least once)
 use mpquery;
-my $mp_ixs = mpquery::get_mp_ixs($dbh, "votes_attended > 0", "limit 20");
-
-# Find number of divisions
-my $sth = db::query($dbh, "select count(*) from pw_division order by division_date, division_number");
-my @data = $sth->fetchrow_array();
-my $divcount = $data[0];
+my $mp_ixs = mpquery::get_mp_ixs($dbh, "votes_attended > 0 and entered_house >= '2001-06-07'", "limit 1000");
 
 # Work out distance metric
-my $date = str2time("2001-06-26");
+my $date = str2time("2001-06-07");
 my $window = "INTERVAL 3 MONTH";
 my $end = str2time("2003-03-01");
-my $step = 60*60*24*7; # one week
+my $step = 60*60*24*7; 
 for (; $date < $end; $date += $step)
 {
     my $metricD = mpquery::vote_distance_metric($dbh, $mp_ixs, 

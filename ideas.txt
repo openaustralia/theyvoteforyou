@@ -278,6 +278,12 @@ Newsletter (may be better than blog that you have)
 Broader context
 ---------------
 
+European Parliament.  
+Minutes here:
+http://www3.europarl.eu.int/omk/omnsapir.so/calendar?APP=PV1
+Attendance rates are pre processed here:
+http://www.europarliament.net/
+
 Do it for all Hansards in CHEA:
 http://www.hansard-westminster.co.uk/links.asp
 

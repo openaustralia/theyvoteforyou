@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.6 2003/10/03 21:46:10 frabcus Exp $
+# $Id: search.php,v 1.7 2003/10/07 23:23:46 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,8 +8,8 @@
 ?>
 
 <?php
-    $prettyquery = htmlentities($_GET["query"], ENT_QUOTES);
-    $query = strtoupper(mysql_escape_string($_GET["query"]));
+    $prettyquery = htmlentities(trim($_GET["query"]));
+    $query = strtoupper(mysql_escape_string(trim($_GET["query"])));
     $title = "Search for '$prettyquery'"; 
     if ($prettyquery == "")
         $title = "Search";
@@ -24,20 +24,47 @@
     {
         $found = false;
 
+        # Perform query on divisions
+        $db->query("$divisions_query_start and (upper(division_name) like '%$query%'
+        or upper(motion) like '%$query%')
+        order by division_date desc, division_number desc"); 
+
+        if ($db->rows() > 0)
+        {
+            $found = true;
+            print "<p>Found these " . $db->rows() . " divisions matching '$prettyquery':";
+            print "<table class=\"votes\">\n";
+            print "<tr
+            class=\"headings\"><td>No.</td><td>Date</td><td>Subject</td><td>Rebellions</td><td>Turnout</td></tr>";
+            render_divisions_table($db);
+            print "</table>\n";
+        }
+
         # Perform query on MPs
-        $score_clause = "
-            (upper(concat(first_name, ' ', last_name)) = '$query') * 10 + 
-            (upper(constituency) = '$query') * 10 + 
-            (soundex(concat(first_name, ' ', last_name)) = soundex('$query')) * 8 + 
-            (soundex(constituency) = soundex('$query')) * 8 + 
-            (soundex(last_name) = soundex('$query')) * 6 + 
-            (upper(constituency) like '%$query%') * 4 + 
-            (upper(last_name) like '%$query%') * 4 + 
-            (soundex(first_name) = soundex('$query')) * 2 + 
-            (upper(first_name) like '%$query%')";
+        $score_clause = "(";
+        $score_clause .= "(upper(concat(first_name, ' ', last_name)) = '$query') * 10";
+        $querybits = explode(" ", $query);
+
+        foreach ($querybits as $querybit)
+        {
+            $querybits = trim($querybits);
+            if ($querybits != "")
+            {
+                $score_clause .= "+ (upper(constituency) = '$querybit') * 10 + 
+                (soundex(concat(first_name, ' ', last_name)) = soundex('$querybit')) * 8 + 
+                (soundex(constituency) = soundex('$querybit')) * 8 + 
+                (soundex(last_name) = soundex('$querybit')) * 6 + 
+                (upper(constituency) like '%$querybit%') * 4 + 
+                (upper(last_name) like '%$querybit%') * 4 + 
+                (soundex(first_name) = soundex('$querybit')) * 2 + 
+                (upper(first_name) like '%$querybit%') + 
+                (soundex(constituency) like concat('%',soundex('$querybit'),'%'))";
+            }
+        }
+        $score_clause .= ")";
 
         $db->query("$mps_query_start and ($score_clause > 0) 
-                    order by constituency, entered_house desc, last_name, first_name");
+                    order by $score_clause desc, constituency, entered_house desc, last_name, first_name");
 
         if ($db->rows() > 0)
         {
@@ -66,22 +93,7 @@
             print "</table>\n";
         } 
 
-        # Perform query on divisions
-        $db->query("$divisions_query_start and (upper(division_name) like '%$query%'
-        or upper(motion) like '%$query%')
-        order by division_date desc, division_number desc"); 
-
-        if ($db->rows() > 0)
-        {
-            $found = true;
-            print "<p>Found these " . $db->rows() . " divisions matching '$prettyquery':";
-            print "<table class=\"votes\">\n";
-            print "<tr
-            class=\"headings\"><td>No.</td><td>Date</td><td>Subject</td><td>Rebellions</td><td>Turnout</td></tr>";
-            render_divisions_table($db);
-            print "</table>\n";
-        }
-
+        # Nothing?
         if (!$found)
         {
 ?>
@@ -90,6 +102,7 @@
 or <a href="divisions.hphp">all divisions</a>.
 <?php
         }
+
     }
 
 ?>
@@ -101,10 +114,9 @@ or <a href="divisions.hphp">all divisions</a>.
 <?php search_example($db) ?>
 <p class="search"><span class="ptitle">Search Tip 1:</span> You can <a
 href="http://www.locata.co.uk/commons/">find your MP by postcode</a>
-on an external site, then enter their name back here.  If you are having
-trouble, try using just the first name or just the last name.  If you
-don't know exactly how to spell the name, write it as best you
-can like it sounds.
+on an external site, then enter their name or part of their name back
+here.  If you don't know exactly how to spell the name, write it as best
+you can like it sounds.
 
 <p class="search"><span class="ptitle">Search Tip 2:</span> 
 To find divisions you are interested in, enter the

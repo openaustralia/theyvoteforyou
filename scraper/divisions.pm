@@ -1,4 +1,4 @@
-# $Id: divisions.pm,v 1.5 2003/10/03 17:56:36 frabcus Exp $
+# $Id: divisions.pm,v 1.6 2003/10/07 23:23:46 frabcus Exp $
 # Parses the body text of a page of Hansard containing a division.
 # Records the division and votes in a database, matching MP names
 # to an MP already in the database.
@@ -12,7 +12,6 @@ package divisions;
 use strict;
 
 use HTML::TokeParser;
-use Date::Parse;
 use Text::Autoformat;
 
 use db;

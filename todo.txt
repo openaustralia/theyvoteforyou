@@ -1,5 +1,15 @@
-New stuff
----------
+General
+-------
+
+Investigate EDMs, legality of using them
+Look for EDMs on parliament.uk (in daily papers)
+
+Web site
+--------
+
+Mailing list for newsletter
+
+Make site give user something to do
 
 Facility to register and define voting subset for a particular issue
 - info to help select which votes and which way should have voted
@@ -15,15 +25,7 @@ Facility to register and define voting subset for a particular issue
 Do Iraq subselection ourselves
 Do climate change subselection
 
-Investigate EDMs, legality of using them
-Look for EDMs on parliament.uk (in daily papers)
-
-Look at majorities
-
-Mailing list for newsletter
-
-Web site
---------
+Cluster diagram of each session
 
 Java in Opera Win32
 
@@ -33,12 +35,12 @@ Consider making search.php amalgamate MPs with the same name?  esp with > 2 parl
 MP page - print parliament in vote lists
 More... for friends
 
-Split search into components "Eddie O'Hara"
-
 favicon.ico
 
 Scraper
 -------
+
+Look at majorities
 
 Check for repeate typo'ed constituencies
  - in "check" do a search for solitary ones

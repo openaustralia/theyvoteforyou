@@ -1,4 +1,4 @@
-// $Id: mparr.java,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+// $Id: mparr.java,v 1.2 2003/10/07 23:23:46 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -53,6 +53,10 @@ class mparr
 		yeig = (yeig > 0.0 ? Math.sqrt(yeig) : 0.0); 
 		zeig = (zeig > 0.0 ? Math.sqrt(zeig) : 0.0); 
 
+		// measure the c of g of the parties.  
+		double[] ptyx = new double[5]; 
+		double[] ptyy = new double[5]; 
+		int[] ptyn = new int[5]; 
 		
 		for (int i = 0; i < nmpa; i++) 
 		{
@@ -63,7 +67,26 @@ class mparr
 			mpp.y *= yeig; 
 			mpp.z *= zeig; 
 
-			// find the ranges			
+			ptyx[mpp.partyid] += mpp.x; 
+			ptyy[mpp.partyid] += mpp.y; 
+			ptyn[mpp.partyid]++; 
+			
+			mpa[i] = mpp; 
+		}
+
+		// invert to put labour on the left 
+		boolean bInvertx = (ptyx[0] * ptyn[1] > ptyx[1] * ptyn[0]); 
+		boolean bInverty = ((ptyy[0] + ptyy[1]) * ptyn[2] < ptyy[2] * (ptyn[0] + ptyn[1])); 
+		
+		// invert and find the ranges
+		for (int i = 0; i < nmpa; i++) 
+		{
+			mppos mpp = mpa[i]; 
+			if (bInvertx) 
+				mpp.x = -mpp.x; 
+			if (bInverty) 
+				mpp.y = -mpp.y; 
+			
 			if ((i == 0) || (mpp.x < xlo)) 
 				xlo = mpp.x; 
 			if ((i == 0) || (mpp.x > xhi)) 
@@ -76,8 +99,6 @@ class mparr
 				zlo = mpp.z; 
 			if ((i == 0) || (mpp.z > zhi)) 
 				zhi = mpp.z; 
-		
-			mpa[i] = mpp; 
 		}
 	}
 }

@@ -1,4 +1,4 @@
-// $Id: plotpanel.java,v 1.2 2003/09/17 14:27:42 frabcus Exp $
+// $Id: plotpanel.java,v 1.3 2003/10/07 23:23:46 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -27,9 +27,10 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseEvent; 
 
 import java.awt.Cursor; 
+import java.awt.FontMetrics; 
 
 import java.io.File;
-import javax.imageio.ImageIO;
+//import javax.imageio.ImageIO;
 
 //
 //
@@ -37,12 +38,19 @@ import javax.imageio.ImageIO;
 //
 
 /////////////////////////////////////////////
-class plotpanel extends JPanel implements MouseListener, MouseMotionListener { Image offscreen;
+class plotpanel extends JPanel implements MouseListener, MouseMotionListener 
+{
+	Image offscreen;
     Dimension csize = new Dimension(1,1);
     Graphics offgraphics;
 
 	mparr ma = null; 
 	listmps lm = null; 
+	
+	// font sizes
+	int fmascent = -1; 
+	int fmdescent = -1; 
+
 	
 	double cenx, ceny; 
 	double sca; 
@@ -80,16 +88,26 @@ class plotpanel extends JPanel implements MouseListener, MouseMotionListener { I
 	/////////////////////////////////////////////
 	void InitScale()
 	{
-                cenx = (ma.xlo + ma.xhi) / 2; 
+		cenx = (ma.xlo + ma.xhi) / 2; 
 		ceny = (ma.ylo + ma.yhi) / 2; 
 		sca = Math.min(csize.width / (ma.xhi - ma.xlo), csize.height / (ma.yhi - ma.ylo)); 
 		repaint(); 
-                sca *= 0.9;
+		sca *= 0.9;
 	}
 
 
 	/////////////////////////////////////////////
-        public void paintComponent(Graphics g) 
+	void SetFM(Graphics g)
+	{
+		FontMetrics fm = g.getFontMetrics(); 
+		fmascent = fm.getAscent() - 5; 
+		fmdescent = fm.getDescent(); 
+		for (int i = 0 ; i < ma.mpa.length ; i++) 
+			ma.mpa[i].charwid = fm.stringWidth(ma.mpa[i].name); 
+	}
+		
+	/////////////////////////////////////////////
+    public void paintComponent(Graphics g) 
 	{
 		// remake the image if necessary  
 		Dimension d = getSize();
@@ -120,36 +138,41 @@ class plotpanel extends JPanel implements MouseListener, MouseMotionListener { I
 
 		// paint the selection 
 		g.setColor(Color.white); 
+		if (fmascent == -1) 
+			SetFM(g); 
 		for (int i = 0 ; i < ma.mpa.length ; i++) 
 		{
 			if (ma.mpa[i].bActive) 
 			{
 				g.setColor(Color.black); 
 				g.drawRect(ma.mpa[i].ix - rsdiam / 2 - 1, ma.mpa[i].iy - rsdiam / 2 - 1, rsdiam + 2, rsdiam + 2); 
+				g.fillRect(ma.mpa[i].ix + rsdiam / 2 + 3, ma.mpa[i].iy - fmascent - 1, ma.mpa[i].charwid, fmascent + fmdescent + 2); 
+				
 				g.setColor(Color.white); 
 				g.fillRect(ma.mpa[i].ix - rsdiam / 2, ma.mpa[i].iy - rsdiam / 2, rsdiam, rsdiam); 
+				g.drawString(ma.mpa[i].name, ma.mpa[i].ix + rsdiam / 2 + 3, ma.mpa[i].iy); 
 			}
 	    }
 	}
 
-        public void SavePNG(String filename, int w, int h)
+        public void SavePNG(String filename)
         {
             // Draw image
-            csize = new Dimension(w, h);
+            csize = new Dimension(533,400);
             BufferedImage img = new BufferedImage(csize.width, csize.height, BufferedImage.TYPE_INT_RGB);
             Graphics gfx = img.getGraphics();
             InitScale(); 
             paintGraph(gfx); 
 
             // Save to disk
-            try
+/*            try
             {
                 ImageIO.write(img, "png", new File(filename));
             } catch(IOException ioe) {
                 System.err.println("Error saving PNG");
                 System.exit(1);
             }
-        }
+*/        }
 
 	/////////////////////////////////////////////
     public void paintGraph(Graphics g) 

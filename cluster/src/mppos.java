@@ -1,4 +1,4 @@
-// $Id: mppos.java,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+// $Id: mppos.java,v 1.2 2003/10/07 23:23:46 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -16,7 +16,8 @@ class mppos
 	int mpid; // links back into the database, also is the index in the array.  
 	int partyid; // for drawing colour
 	String name; // mp's name.  
-
+    int charwid = -1; 
+	
 	// multi-dimensional scaling position.  
 	double x, y, z; 
 

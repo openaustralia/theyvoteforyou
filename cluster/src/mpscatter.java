@@ -1,4 +1,4 @@
-// $Id: mpscatter.java,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+// $Id: mpscatter.java,v 1.2 2003/10/07 23:23:46 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -21,9 +21,13 @@ import javax.swing.JSplitPane;
 
 import java.awt.BorderLayout; 
 import java.awt.FlowLayout; 
-import javax.swing.JCheckBox; 
 
+import javax.swing.JCheckBox; 
 import javax.swing.JButton; 
+import javax.swing.JSlider; 
+import javax.swing.event.ChangeListener; 
+import javax.swing.event.ChangeEvent; 
+
 import java.awt.event.ActionEvent; 
 import java.awt.event.ActionListener; 
 
@@ -51,6 +55,9 @@ class mpscatter extends JPanel
 {
 	// the array of mps
 	mparr ma; 
+	mparr[] maseq; // sequence of arrays.  
+	JSlider seqslide = null; 
+		
 	plotpanel pp; 
 	listmps lm; 
 
@@ -61,6 +68,11 @@ class mpscatter extends JPanel
 	/////////////////////////////////////////////
 	/////////////////////////////////////////////
 	mpscatter()
+	{
+	}		
+		
+	/////////////////////////////////////////////
+	void Construct() 
 	{
 		// put top panes into frame.  
 		pp = new plotpanel(); 
@@ -89,8 +101,30 @@ class mpscatter extends JPanel
 			{ public void actionPerformed(ActionEvent event) { pp.InitScale(); } } ); 
 		brow.add(buttReset); 
 
+/*JButton buttNEXT = new JButton("Next"); 
+buttNEXT.addActionListener(new ActionListener() 
+	{ public void actionPerformed(ActionEvent event) { s++; 
+	pp.ma = maseq[s]; pp.InitScale(); } 
+} ); 
+brow.add(buttNEXT); 
+*/		
+		JPanel vp = new JPanel(new BorderLayout()); 
+		vp.add("Center", pp); 
+		if (maseq.length > 1) 
+		{
+			seqslide = new JSlider(0, maseq.length - 1, 0); 
+        	vp.add("South", seqslide); 
+			seqslide.addChangeListener(new ChangeListener() 
+				{ public void stateChanged(ChangeEvent e) 
+					{ pp.ma = maseq[seqslide.getValue()]; 
+					  pp.InitScale(); 
+					}
+				} ); 
+   		}
+				
 		JSplitPane spane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT); 
-		spane.setLeftComponent(pp); 
+		spane.setLeftComponent(vp); 
+		
 		spane.setRightComponent(lm); 
         spane.setDividerLocation(500); 
 		
@@ -100,11 +134,33 @@ class mpscatter extends JPanel
 	}
 
 
-
 	/////////////////////////////////////////////
 	void LoadData(BufferedReader br) throws IOException  
 	{
-		ma = new mparr(br); 
+		mparr[] maseq = new mparr[1]; 
+		maseq[0] = new mparr(br);  
+		ma = maseq[0]; 
+		Construct(); 
+		
+		pp.ma = ma; 
+		lm.Init(ma, pp); 
+		pp.InitScale(); 
+	}
+		
+	/////////////////////////////////////////////
+	void LoadData(File[] coordfiles) throws IOException  
+	{
+		maseq = new mparr[coordfiles.length]; 
+		for (int i = 0; i < coordfiles.length; i++) 
+		{
+			BufferedReader br = new BufferedReader(new FileReader(coordfiles[i])); 
+			maseq[i] = new mparr(br);  
+        	br.close(); 
+		}
+				
+		ma = maseq[0]; 
+		Construct(); 
+		
 		pp.ma = ma; 
 		lm.Init(ma, pp); 
 		pp.InitScale(); 

@@ -2,7 +2,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.9 2003/10/02 17:09:45 frabcus Exp $
+# $Id: header.inc,v 1.10 2003/10/07 23:23:46 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -16,8 +16,14 @@ include "pretty.inc";
 <link href="publicwhip.css" type="text/css" rel="stylesheet">
 <title>Public Whip - <? print $title ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script>
+<!--
+function givefocus() { if (document.pw) document.pw.query.focus(); }
+// -->
+</script>
 </head>
-<body align="center">
+
+<body align="center" onLoad="givefocus()">
 <center>
 
 <!-- hold the maximum width of the content -->

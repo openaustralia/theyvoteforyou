@@ -10,7 +10,7 @@ cd logs
 mkdir -p tmpdownload
 cd tmpdownload
 
-rsync -v --progress --delete -az -e "ssh" $USER:./www.publicwhip.org.uk_logs/*.gz .
+rsync -v --progress --delete -az -e "ssh" $USER:./www.publicwhip.org.uk_logs/* .
 
 for X in access_log.*.gz
 do
@@ -22,7 +22,8 @@ cd ../..
 
 # Make log file analysis from awsats
 zcat `ls -1 logs/*.gz | sort` | cat - logs/access_log | /usr/lib/cgi-bin/awstats.pl -config=publicwhip.org.uk
-/usr/share/doc/awstats/examples/awstats_buildstaticpages.pl -config=publicwhip.org.uk -dir=logs/awstats -awstatsprog=/usr/lib/cgi-bin/awstats.pl
+# use cgi browser
 
-rsync -e ssh -Pva logs/awstats/ francis@sphinx.mythic-beasts.com:~/public_html/pwstats/
+#/usr/share/doc/awstats/examples/awstats_buildstaticpages.pl -config=publicwhip.org.uk -dir=logs/awstats -awstatsprog=/usr/lib/cgi-bin/awstats.pl
+#rsync -e ssh -Pva logs/awstats/ francis@sphinx.mythic-beasts.com:~/public_html/pwstats/
 

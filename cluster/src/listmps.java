@@ -1,4 +1,4 @@
-// $Id: listmps.java,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+// $Id: listmps.java,v 1.2 2003/10/07 23:23:46 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -35,7 +35,6 @@ import javax.swing.event.ListSelectionEvent;
 class listmps extends JScrollPane implements ListSelectionListener
 {
 	JList listall; 
-	mparr ma; 
 	plotpanel pp; 
 	boolean bEnableSelectionEvents = true; 
 
@@ -45,10 +44,9 @@ class listmps extends JScrollPane implements ListSelectionListener
 
 	void Init(mparr lma, plotpanel lpp) 
 	{
-		ma = lma; 
 		pp = lpp; 
 
-		listall = new JList(ma.mpa); 
+		listall = new JList(pp.ma.mpa); 
 		listall.addListSelectionListener(this); 
 
 		getViewport().setView(listall); 
@@ -59,7 +57,7 @@ class listmps extends JScrollPane implements ListSelectionListener
 		if (bEnableSelectionEvents)  
 		{
 			for (int i = e.getFirstIndex(); i <= e.getLastIndex(); i++) 
-				ma.mpa[i].bActive = listall.isSelectedIndex(i); 
+				pp.ma.mpa[i].bActive = listall.isSelectedIndex(i); 
 			pp.repaint(); 
 		}
 	}
