@@ -72,7 +72,7 @@ def StripLordsDebateHeadings(headspeak, sdate):
 
 
 	# find the url, colnum and time stamps that occur before anything else in the unspoken text
-	stampurl = StampUrl()
+	stampurl = StampUrl(sdate)
 
 	# set the time from the wording 'house met at' thing.
 	for j in range(0, ih):
@@ -165,7 +165,7 @@ def LordsFilterSections(fout, text, sdate):
 			# for now think of this as a division object, maybe.
 			# either that, or we'll make the Ayes and Noes as speech statements
 			divxml = LordsFilterDivision(divno, sht[1], sdate)
-			qb = qspeech('', divxml, stampurl, sdate)
+			qb = qspeech('', divxml, stampurl)
 			qb.typ = 'division'
 			qblock.append(qb)
 
@@ -174,14 +174,14 @@ def LordsFilterSections(fout, text, sdate):
 
 
 			# detect if this is a major heading and record it in the correct variable
-			qb = qspeech('', stampurl.title, stampurl, sdate)
+			qb = qspeech('', stampurl.title, stampurl)
 			qb.typ = 'debminor'
 			qblock.append(qb)
 
 			# case of unspoken text (between heading and first speaker)
 			# which we will frig for now.
 			if (not re.match('(?:<[^>]*>|\s)*$', sht[1])):
-				qb = qspeech('nospeaker="true"', sht[1], stampurl, sdate)
+				qb = qspeech('nospeaker="true"', sht[1], stampurl)
 				qb.typ = 'debspeech'
 				qblock.append(qb)
 
@@ -192,7 +192,7 @@ def LordsFilterSections(fout, text, sdate):
 
 		# go through each of the speeches in a block and put it into our batch of speeches
 		for ss in sht[2]:
-			qb = qspeech(ss[0], ss[1], stampurl, sdate)
+			qb = qspeech(ss[0], ss[1], stampurl)
 			qb.typ = 'debspeech'
 			qblock.append(qb)
 

@@ -27,23 +27,28 @@ fixsubs = 	[
 # <p></UL>\n<B>29 Jan 2004 : Column 321</B></P>\n<UL>
 # <P>\n</UL><FONT SIZE=3>\n<B>29 Jan 2004 : Column 369</B></P>\n<UL><FONT SIZE=2>
 # <P>\n<FONT SIZE=3>\n<B>29 Jan 2004 : Column 430</B></P>\n<FONT SIZE=2>
+# <P><a name="column_1442"></a><B>1 Apr 2004 : Column 1442</B></P><FONT SIZE=3>
+# <P></UL><a name="column_1519"></a><B>1 Apr 2004 : Column 1519</B></P><UL><FONT SIZE=3>
 
-regcolumnum1 = '<p>\s*<b>[^:<]*:\s*column\s*(?:GC|WA|WS)?\d+\s*</b></p>\n(?:<font size=3>)?(?i)'
-regcolumnum2 = '<p>\s*(?:</ul>){1,3}\s*<b>[^:<]*:\s*column\s*(?:GC|WA|WS)?\d+\s*</b></p>\s*(?:<ul>){1,3}(?:<FONT SIZE=3>)?(?i)'
-regcolumnum3 = '<p>\s*</ul><font size=3>\s*<b>[^:<]*:\s*column\s*(?:GC|WA|WS)?\d+\s*</b></p>\s*<ul><font size=2>(?i)'
-regcolumnum4 = '<p>\s*<font size=3>\s*<b>[^:<]*:\s*column\s*(?:GC|WA|WS)?\d+\s*</b></p>\s*<font size=2>(?i)'
+regcolumnum1 = '<p>\s*<b>[^:<]*:\s*column\s*(?:GC|WA|WS)?\d+\s*</b></p>\n(?:<font size=3>)?'
+regcolumnum2 = '<p>\s*(?:</ul>){1,3}\s*<b>[^:<]*:\s*column\s*(?:GC|WA|WS)?\d+\s*</b></p>\s*(?:<ul>){1,3}(?:<FONT SIZE=3>)?'
+regcolumnum3 = '<p>\s*</ul><font size=3>\s*<b>[^:<]*:\s*column\s*(?:GC|WA|WS)?\d+\s*</b></p>\s*<ul><font size=2>'
+regcolumnum4 = '<p>\s*<font size=3>\s*<b>[^:<]*:\s*column\s*(?:GC|WA|WS)?\d+\s*</b></p>\s*<font size=2>'
+regcolumnum5 = '<p>\s*(?:<font size=3>\s*)?<a name="column_\d+"></a>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\s*<font size=[23]>'
+regcolumnum5 = '<p>\s*(?:<font size=3>\s*)?<a name="column_\d+"></a>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\s*<font size=[23]>'
+regcolumnum6 = '<p>\s*</ul>\s*<a name="column_\d+"></a>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\s*<ul><font size=3>'
 
-recolumnumvals = re.compile('(?:<p>|</ul>|<font size=\d>|\s)*?<b>([^:<]*)\s*:\s*column\s*(\D*?)(\d+)\s*</b>(?:</p>|<ul>|<font size=\d>|\s)*$(?i)')
+recolumnumvals = re.compile('(?:<p>|</ul>|<font size=\d>|\s|</?a[^>]*>)*?<b>([^:<]*)\s*:\s*column\s*(\D*?)(\d+)\s*</b>(?:</p>|<ul>|<font size=\d>|\s)*$(?i)')
 
 # <H5>12.31 p.m.</H5>
 # the lords times put dots in "p.m."  but the commons never do.
-regtime1 = '(?:</?p>\s*|<h[45]>|\[|\n)(?:\d+(?:[:\.]\d+)?\.?\s*[ap]\.m\.\s*(?:</st>)?|12 noon)(?:\s*</?p>|\s*</h[45]>|\n)(?i)'
+regtime1 = '(?:</?p>\s*|<h[45]>|\[|\n)(?:\d+(?:[:\.]\d+)?\.?\s*[ap]\.m\.\s*(?:</st>)?|12 noon)(?:\s*</?p>|\s*</h[45]>|\n)'
 regtime2 = '<H5>Noon\s*</st></H5>'
 retimevals = re.compile('(?:</?p>\s*|<h\d>|\[|\n)\s*(\d+(?:[:\.]\d+)?\s*[apmnon\.]+|Noon)(?i)')
 
 
 
-recomb = re.compile('(%s|%s|%s|%s|%s|%s)' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4, regtime1, regtime2))
+recomb = re.compile('(%s|%s|%s|%s|%s|%s|%s|%s)(?i)' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4, regcolumnum5, regcolumnum6, regtime1, regtime2))
 
 remarginal = re.compile(':\s*column\s*\D*(\d+)(?i)')
 
@@ -124,10 +129,11 @@ def FilterLordsColtime(fout, text, sdate):
 			print fss
 			raise Exception, ' regexpvals not general enough '
 		if remarginal.search(fss):
-			print ' marginal coltime detection case '
 			print remarginal.search(fss).group(0)
-			print fss
-			sys.exit()
+			lregcolumnum6 = '<p>\s*</ul>\s*<a name="column_\d+"></a>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\s*<ul><font size=3>(?i)'
+			print re.findall(lregcolumnum6, fss)
+			#print fss
+			raise Exception, ' marginal coltime detection case '
 		fout.write(fss)
 
 
