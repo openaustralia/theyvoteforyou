@@ -5,6 +5,7 @@ import re
 import os
 import string
 import StringIO
+import types
 
 # In Debian package python2.3-egenix-mxdatetime
 import mx.DateTime
@@ -61,6 +62,13 @@ retoask = re.compile(toaskregexp)
 #	if not re.search('to ask the hon[.] member for(?i)', text):
 #		print text
 
+
+def FindOfficialReport(text):
+	ho = re.findall('<i>official report</i>(?i)', text)
+	if ho:
+		print ho[0]
+		print text
+		sys.exit()
 
 
 def QuestionBreakIntoParagraphs(text):
@@ -199,12 +207,105 @@ def FixQuestion(text):
 
 
 # replies can have tables
-def CleanupTable(stable):
-	return '<table>Stuff</table>'
+def ParseTable(stable):
+	# take out all the useless font and paragraph junk
+	stable = re.sub('</?font[^>]*>|</?p>|\n(?i)', ' ', stable)
+
+	# take out the bracketing
+	stable = re.findall('<table[^>]*>\s*(.*?)\s*</table>(?i)', stable)[0]
+
+	# break into rows
+	sprows = re.split('(<tr[^>]*>.*?</tr>)(?i)', stable)
+
+	# first row is title
+	srows = []
+	for sprow in sprows:
+		row = re.findall('^<tr[^>]*>\s*(.*?)\s*</tr>$(?i)', sprow)
+		if row:
+			if not srows:
+				srows.append('')
+			srows.append(row[0])
+
+		else:
+			sprow = string.strip(sprow)
+			if not srows:
+				srows.append(sprow)
+			elif sprow:
+				print ' non-row text ' + sprow
+
+	# take out tags round the title; they're always out of order
+	if srows[0]:
+		ts = re.findall('^(?:<b>|<center>)+\s*(.*?)\s*(?:</b>|</center>)+\s*(.*)\s*$(?i)', srows[0])
+		if ts:
+			if ts[0][1]:
+				srows[0] = ts[0][0] + ' - ' + ts[0][1]
+			else:
+				srows[0] = ts[0][0]
+		else:
+			print ' non-standard table title: ' + srows[0]
+
+	# find where the headings stop and the rows begin
+	for ih in range(1, len(srows)):
+		if re.search('<td>(?i)', srows[ih]):
+			break
+
+	# break each row down into columns
+	for i in range(1, len(srows)):
+		colt = 'td'
+		colregexp = '(<td[^>]*>.*?</td>)(?i)'
+		colexregexp = '^<td[^>]*>\s*(.*?)\s*</td>$(?i)'
+		if i < ih:
+			colregexp = '(<th[^>]*>.*?</th>)(?i)'
+			colexregexp = '^<th[^>]*>\s*(.*?)\s*</th>$(?i)'
+			colt = 'th'
+
+		srow = srows[i]
+		srow = re.sub('<td>\s*<td>\s*</td>(?i)', '<td></td><td>', srow)
+
+		spcols = re.split(colregexp, srow)
+		scols = [ colt ]
+		for spcol in spcols:
+			col = re.findall(colexregexp, spcol)
+			if col:
+				scols.append(col[0])
+			elif re.search('\S', spcol):
+				print ' non column text ' + srows[i]
+				print spcols
+				#sys.exit()
+
+		# copy the list back into the table
+		srows[i] = scols
+		# if i > 1 and len(srows[i]) != len(srows[1]):  print 'columns not consistent'
+
+	return srows
+
+def WriteTable(res, nt):
+	res.write('<table>\n')
+	res.write('\t<title>')
+	res.write(nt[0])
+	res.write('</title>\n')
+
+	for i in range(1, len(nt)):
+		colt = nt[i][0]    # td or th
+		res.write('\t<tr>')
+		for j in range(1, len(nt[i])):
+			res.write(' <%s> %s </%s> ' % (colt, nt[i][j], colt))
+		res.write('</tr>\n')
+
+	res.write('</table>\n')
 
 
 def ReplyBreakIntoParagraphs(text):
-	nfj = re.split('(<table [\s\S]*?</table>|</?p>|</?ul>|<br>|</?font[^>]*>)(?i)', text)
+	# take out holding answer string [<i>holding answer 8 April 2003</i>]:
+	# this information is not interesting and can be recreated from cross-reference with the question book.
+	qha = re.findall('^\s*(\[.*?holding answer.*?\]:?\s*)(.*?)$(?i)', text)
+	if not qha:
+		qha = re.findall('^\s*(<i>.*?holding answer.*?</i>:?\s*)(.*?)$(?i)', text)
+	if qha:
+		text = qha[0][1]
+
+	# break into pieces
+	nfj = re.split('(<table[\s\S]*?</table>|</?p>|</?ul>|<br>|</?font[^>]*>)(?i)', text)
 
 	# break up into sections separated by paragraph breaks
 	dell = []
@@ -226,8 +327,10 @@ def ReplyBreakIntoParagraphs(text):
 
 	pres = []
 	for i in range(1, len(dell)-1, 2):
-		if re.search('<table (?i)', dell[i]):
-			pres.append(CleanupTable(dell[i]))
+		# this puts a list into the result
+		if re.search('<table(?i)', dell[i]):
+			pres.append(ParseTable(dell[i]))
+
 		else:
 			pres.append(dell[i])
 
@@ -235,26 +338,28 @@ def ReplyBreakIntoParagraphs(text):
 		print 'empty answer'
 		return pres
 
-	# take out holding answer string [<i>holding answer 8 April 2003</i>]:
-	# this information is not interesting and can be recreated from cross-reference with the question book.
-	qha = re.findall('^\s*(\[.*?holding answer.*?\]:?\s*)(.*?)$(?i)', pres[0])
-	if not qha:
-		qha = re.findall('^\s*(<i>.*?holding answer.*?</i>:?\s*)(.*?)$(?i)', pres[0])
-	if qha:
-		pres[0] = qha[0][1]
 
 	return pres
 
 def FixReply(text):
+	FindOfficialReport(text)
+
 	res = StringIO.StringIO()
 
 	qnums = re.findall('\[\d+?\]', text)
 	if not qnums:
 		ntext = ReplyBreakIntoParagraphs(text)
 		for nt in ntext:
-			res.write('<p>')
-			res.write(nt)
-			res.write('</p>\n')
+			# a table
+			if isinstance(nt, types.ListType):
+				WriteTable(res, nt)
+
+			# simple text; make as paragraph
+			else:
+				res.write('<p>')
+				res.write(nt)
+				res.write('</p>\n')
+
 	else:
 		res.write("<error>qnum present in answer</error>\n")
 		print 'qnum present in answer ' + qnums[0]
@@ -267,3 +372,4 @@ def FixReply(text):
 		print 'unwanted value in reply'
 
 	return sres
+

@@ -398,3 +398,4 @@ def WransSections(fout, finr, sdate):
 			shta.laststamp = qb.laststamp
 			qb.writexml(fout, sdate)
 
+

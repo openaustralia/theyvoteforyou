@@ -26,9 +26,9 @@ fixsubs = 	[
 
 	( '<UL><i>Fiona Mactaggart [holding answer 3 July 2003]:</i>', \
 		'<B>Fiona Mactaggart </B> [holding answer 3 July 2003]', 1, '2003-07-07'),
-	( '<UL><i>Mr. Bradshaw [holding answer 23 June 2003]</i>:' \
+	( '<UL><i>Mr. Bradshaw [holding answer 23 June 2003]</i>:', \
 		'<B>Mr. Bradshaw </B> [holding answer 23 June 2003]', 1, '2003-06-24'),
-	( '<i>Mr. Bradshaw </i>[holding answer 17 June 2003]:' \
+	( '<i>Mr. Bradshaw </i>[holding answer 17 June 2003]:', \
 		'<B>Mr. Bradshaw </B> [holding answer 17 June 2003]', 1, '2003-06-18'),
 	( '<B> Mr. Bercow: Mr. John Bercow: </B>', '<B> Mr. John Bercow: </B>', 1, '2003-06-03'),
 	( '<B> Mr. Drew: Mr. David Drew: </B>', '<B> Mr. David Drew: </B>', 1, '2003-05-01'),
