@@ -17,11 +17,13 @@ echo "Copying raw data..."
 cd tmpuploadcopy
 cvs export -r HEAD -d data publicwhip/members
 rm -f data/*.pl data/*.py
+cd data
 cp $TOPDIR/custom/lightfoot/*.csv .
 cp $TOPDIR/custom/lightfoot/divnames.txt .
 zip votematrix-2001.csv.zip votematrix-2001.csv
 zip votematrix-1997.csv.zip votematrix-1997.csv
-cd ..
+rm *.csv
+cd ../..
 
 echo "Adding FastCGI header..."
 cd tmpuploadcopy

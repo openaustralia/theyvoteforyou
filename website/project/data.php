@@ -1,5 +1,5 @@
 <?php 
-# $Id: data.php,v 1.1 2004/02/06 16:14:25 frabcus Exp $
+# $Id: data.php,v 1.2 2004/02/06 16:45:06 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -21,13 +21,13 @@
         $title = "Raw Data"; include "../header.inc";
 ?>
 
-<h2>Introduction</h2>
-
 <p>Here you can find raw data compiled by the Public Whip project.
-For example, if you want to load a voting record into a spreadhseet, or to get
-XMl files of Written Answers.  Any problems using the data, or requests for
-a different format?  
-Email <a href="mailto:francis@publicwhip.org.uk">francis@publicwhip.org.uk</a>
+For example, if you want to load a voting record into a spreadsheet, or to get
+XML files of Written Answers.  For legal and copyright information, see
+<a href="../faq.php#legal">our FAQ</a>. However, we ask that if you do
+anything fun or important with this data, you let us know!  Any problems using
+the data, or requests for a different format?  Email <a
+href="mailto:francis@publicwhip.org.uk">francis@publicwhip.org.uk</a>
 
 
 <h2>MP votes for each division</h2>
@@ -40,8 +40,8 @@ by the names of the MPs, and the rows begin with the date and number of the
 division.
 
 <p>
-<a href="../data/votematrix-1997.csv.zip">votematrix-1997.csv.zip</a> - 
-<br><a href="../data/votematrix-2001.csv.zip">votematrix-2001.csv.zip</a> - 
+<a href="../data/votematrix-1997.csv.zip">votematrix-1997.csv.zip</a> - 271k
+<br><a href="../data/votematrix-2001.csv.zip">votematrix-2001.csv.zip</a> - 171k
 <br><a href="../data/divnames.txt">divnames.txt</a> - Names of divisions indexed by
 number/date pair
 

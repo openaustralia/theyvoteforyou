@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.17 2003/12/21 16:07:48 frabcus Exp $
+# $Id: faq.php,v 1.18 2004/02/06 16:45:06 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -85,6 +85,10 @@ available, there is no true way of identifying a "rebellion".  Perhaps
 you might like to ask your party whip's office to post this information
 on their website.  We know of no heuristics which can reliably detect
 free votes, perhaps you can think of some and let us know.
+
+<h2>Where is the data in spreadsheet file format or in XML?</h2>
+
+<p> Take a look at our <a href="project/data.php">Raw Data</a> page.
 
 <h2><a name="legal">Legal question, what can I use this information for?</a></h2>
 
