@@ -486,6 +486,7 @@ The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/140">
     <name text="Clwyd West"/>
+    <name text="Clwyd, West"/> <!-- Debates -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/141">
     <name text="Clydebank &amp; Milngavie"/>

@@ -21,7 +21,12 @@ How do we get past ones?
 
 <!-- Special -->
 <alias canonical="Tony Blair" alternate="The Prime Minister" from="1997-05-01" to="9999-31-01"/>
-<alias canonical="John Major" alternate="The Prime Minister" from ="1990-11-28" to="1997-04-08"/> <!-- note this will be ignored until a John Major is added for a parliament before 1997 for which he was PM - date ranges will make the code ignore the John Major below in relation to this Prime Minister entry -->
+
+<!-- note this will be ignored until a John Major is added for a parliament
+before 1997 for which he was PM - date ranges will make the code ignore the
+1997 parliament John Major in all-members.xml in relation to this Prime
+Minister entry -->
+<alias canonical="John Major" alternate="The Prime Minister" from ="1990-11-28" to="1997-04-08"/> 
 
 <!-- First added for 2001 parliament -->
 <alias canonical="Clare Short" alternate="Claire Short" />
@@ -40,6 +45,9 @@ How do we get past ones?
 <alias canonical="Bob Spink" alternate="Robert Spink" />
 <alias canonical="Jimmy Wray" alternate="James Wray" />
 <alias canonical="Andrew Murrison" alternate="Andrew Morrison" />
+
+<alias canonical="Annette Brooke" alternate="Annette L Brooke" />
+<alias canonical="Robert Wareing" alternate="Robert N Wareing" />
 
 <!-- First added for 1997 parliament -->
 <alias canonical="Bob Ainsworth" alternate="Robert Ainsworth" />

@@ -7,19 +7,22 @@ import xml.sax
 import re
 import string
 import copy
+import sets
+import sys
 
 from parlphrases import parlPhrases
 
 class MemberList(xml.sax.handler.ContentHandler):
     def __init__(self):
-        self.members={}
-        self.fullnames={}
-        self.lastnames={}
-        self.aliases={}
+        self.members={} # ID --> MPs
+        self.fullnames={} # "Firstname Lastname" --> MPs
+        self.lastnames={} # Surname --> MPs
         self.debatedate=None
-        self.debatenamehistory=[]
+        self.debatenamehistory=[] # recent speakers in debate
+        self.debateofficehistory={} # recent offices ("The Deputy Prime Minister")
         self.conscanonical = {} # constituency aliases --> canonical constituency
-        self.constituencies = {} # constituency --> MP ids
+        self.constituencies = {} # constituency --> MPs
+        self.parties = {} # constituency --> MPs
 
         # "rah" here is a typo in division 64 on 13 Jan 2003 "Ancram, rah Michael"
         self.titles = "Dr |Hon |hon |rah |rh |Mrs |Ms |Dr |Mr |Miss |Ms |Rt Hon |Reverend |The Reverend |Sir |Rev "
@@ -59,6 +62,10 @@ class MemberList(xml.sax.handler.ContentHandler):
             # and by constituency
             cons = attr["constituency"]
             self.constituencies.setdefault(cons, []).append(attr)
+
+            # and by party
+            cons = attr["party"]
+            self.parties.setdefault(cons, []).append(attr)
 
         elif name == "alias":
             matches = self.fullnames.get(attr["canonical"], None)
@@ -111,14 +118,22 @@ class MemberList(xml.sax.handler.ContentHandler):
             raise Exception, 'Multiple honourifics: ' + input
 
         # Find unique identifier for member
-        ids = []
+        ids = sets.Set()
         matches = self.fullnames.get(text, None)
         if not matches and titlec == 1:
             matches = self.lastnames.get(text, None)
+
+        # If a speaker, then match agains the secial speaker parties
+        if not matches and text == "Speaker":
+            matches = self.parties.get("SPK", None)
+        if not matches and text == "Deputy Speaker":
+            matches = copy.copy(self.parties.get("DCWM", None))
+            matches.extend(self.parties.get("CWM", None))
+
         if matches:
             for attr in matches:
                 if date >= attr["fromdate"] and date <= attr["todate"]:
-                    ids.append(attr["id"])
+                    ids.add(attr["id"])
 
         return ids
 
@@ -130,7 +145,8 @@ class MemberList(xml.sax.handler.ContentHandler):
         if len(ids) > 1:
             return 'unknown', 'Matched multiple times: ' + input, ''
 
-        id = ids[0]
+        for id in ids:
+            pass
         remadename = self.members[id]["firstname"] + " " + self.members[id]["lastname"]
         return id, '', remadename
 
@@ -144,72 +160,98 @@ class MemberList(xml.sax.handler.ContentHandler):
         # So it can match them when listed in shortened form:
         #   Mr. O'Brien
         if self.debatedate != date:
+            # TODO: Perhaps this is a bit loose - how far back in the history should
+            # we look?  Perhaps clear history every heading?  Currently it uses the
+            # entire day.  Check to find the maximum distance back Hansard needs
+            # to rely on.
             self.debatedate = date
             self.debatenamehistory = []
+            self.debateofficehistory = {}
         
         # Sometimes no bracketed component: Mr. Prisk
         ids = self.fullnametoids(input, date)
         # Different types of brackets...
         if bracket:
-            if len(ids) == 0:
-                # Sometimes name in brackets: 
-                # The Minister for Industry and the Regions (Jacqui Smith)
-                ids = self.fullnametoids(bracket, date)
+            # Sometimes name in brackets: 
+            # The Minister for Industry and the Regions (Jacqui Smith)
+            brackids = self.fullnametoids(bracket, date)
+            if brackids:
                 speakeroffice = ' speakeroffice="%s" ' % input
-            elif len(ids) > 1:
-                # Disambiguate by constituency if we need to
-                # Sometimes constituency in brackets: Malcolm Bruce (Gordon)
+                # If so, intersect those matches with ones from the first part
+                # (some offices get matched in first part - like Mr. Speaker)
+                if len(ids) > 0:
+                    ids = ids.intersection(brackids)
+                else:
+                    ids = brackids
 
-                # Get constituency in the form used in the MP table
-                cons = self.conscanonical.get(bracket, None)
-
-                # Search for constituency matches 
-                newids = []
+            # Sometimes constituency in brackets: Malcolm Bruce (Gordon)
+            # Get constituency in the form used in the MP table
+            cons = self.conscanonical.get(bracket, None)
+            if cons:
+                # Search for constituency matches, and intersect results with them
+                newids = sets.Set()
                 matches = self.constituencies.get(cons, None)
                 if matches:
                     for attr in matches:
                         if date >= attr["fromdate"] and date <= attr["todate"]:
                             if attr["id"] in ids:
-                                newids.append(attr["id"])
-                if len(newids) > 0:
-                    print "cons disambig! " , input, bracket
-                    ids = newids
+                                newids.add(attr["id"])
+                ids = newids
 
-        # If of form "Mr. O'Brien" and ambiguous, look in recent name match history
-        if len(ids) > 1 and not bracket:
-            # check of form "Mr. O'Brien"
-            text = input
-            text = text.replace(".", " ")
-            text = text.replace("  ", " ")
-            text = self.retitles.sub("", text)
-            matches = self.lastnames.get(text, None)
-            if matches:
-                # search through history, starting at the end
-                history = copy.copy(self.debatenamehistory)
-                history.reverse()
-                for x in history:
-                    if x in ids:
-                        # print "Hit history match " + input
-                        # first match, use it and exit
-                        ids = [x,]
-                        break
-            else:
-                print "No matches " + input
+        # check of form "Mr. O'Brien"
+        #if not bracket:
+        #    text = input
+        #    text = text.replace(".", " ")
+        #    text = text.replace("  ", " ")
+        #    text = self.retitles.sub("", text)
+        #    matches = self.lastnames.get(text, None)
+        #   if matches:
+
+        # If ambiguous (either form "Mr. O'Brien" or full name, ambiguous due
+        # to missing constituency) look in recent name match history
+        if len(ids) > 1:
+            # search through history, starting at the end
+            history = copy.copy(self.debatenamehistory)
+            history.reverse()
+            for x in history:
+                if x in ids:
+                    # first match, use it and exit
+                    ids = sets.Set([x,])
+                    break
+
+        # Office name history ("The Deputy Prime Minster (John Prescott)" is later
+        # referred to in the same day as just "The Deputy Prime Minister")
+        officeids = self.debateofficehistory.get(input, None)
+        if officeids:
+        #    print "hist match ", input, officeids
+            if len(ids) == 0:
+                ids = officeids
+
+        # Match between office and name - store for later use in the same days text
+        if speakeroffice <> "":
+        #    print "saving hist ",input, ids
+            self.debateofficehistory.setdefault(input, sets.Set()).union_update(ids)
 
         # Return errors
         if len(ids) == 0:
-        #    print "No matches " + input
+            print "No matches ",input 
             return 'speakerid="unknown" error="No match" speakername="%s (%s)"' % (input, bracket)
         if len(ids) > 1:
-        #    print "Multiple matches " + input
+            print "Multiple matches " + input
             return 'speakerid="unknown" error="Matched multiple times" speakername="%s (%s)"' % (input, bracket)
-        id = ids[0]
+        # Extract one id left
+        for id in ids:
+            pass
         
         # Store id in history for this day
         self.debatenamehistory.append(id)
 
         # Return id and name as XML attributes
         remadename = self.members[id]["firstname"] + " " + self.members[id]["lastname"]
+        if self.members[id]["party"] == "SPK" and re.search("Speaker", input):
+            remadename = input
+        if (self.members[id]["party"] == "CWM" or self.members[id]["party"] == "DCWM") and re.search("Deputy Speaker", input):
+            remadename = input
         return 'speakerid="%s" speakername="%s"%s' % (id, remadename, speakeroffice)
 
         # Bradley, rh Keith <i>(Withington)</i>
