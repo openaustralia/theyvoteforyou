@@ -24,7 +24,6 @@ def WransSpeakerNames(fout, finr, sdate):
 	fs = re.split(lregexp, finr)
 
 
-
 	for i in range(len(fs)):
 		fss = fs[i]
 
