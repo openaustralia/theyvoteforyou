@@ -9544,6 +9544,21 @@ http://www.election.demon.co.uk/strengths.html
     fromdate="2004-03-31" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
 />
 
+<member
+    id="uk.org.publicwhip/member/1360"
+    house="commons"
+    title="" firstname="Liam" lastname="Byrne"
+    constituency="Birmingham, Hodge Hill" party="Lab"
+    fromdate="2004-07-15" todate="9999-12-31" fromwhy="by_election" towhy="still_in_office"
+/>
 
-</publicwhip>
+<member
+    id="uk.org.publicwhip/member/1361"
+    house="commons"
+    title="" firstname="Parmjit" lastname="Gill"
+    constituency="Leicester South" party="Lab"
+    fromdate="2004-07-15" todate="9999-12-31" fromwhy="by_election" towhy="still_in_office"
+/>
 
+
+</publicwhip> 
