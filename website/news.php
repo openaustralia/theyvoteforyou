@@ -1,5 +1,5 @@
-<?  $title = "Site News"; include "header.inc";
-# $Id: news.php,v 1.6 2003/09/18 21:09:24 frabcus Exp $
+<? $title = "Site News"; include "header.inc";
+# $Id: news.php,v 1.7 2003/09/19 16:06:37 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -36,7 +36,7 @@ calculated using only divisions while he took the Labour whip.  There is
 another entry for him as a Liberal Democrat further down the rebels
 table.  Today I've changed the site to clarify this a bit by saying
 "whilst Lab".  Hopefully that will lead people to realise it takes into
-account that he has changed party.  It seems reasonable that somebody
+account that he has changed party.  It seems unsurprising that somebody
 who changed party had a high rebellion rate in their old party just
 before the change.
 
@@ -44,7 +44,7 @@ before the change.
 byelection.  As I write the result hasn't been announced yet.  Amongst
 the thrilling administrative duties of running this web site, I look
 forward to entering the new MP into the database in time for their first
-division.
+division!
 
 <h2>Detecting abstentions - 16 September 2003 by Francis</h2>
 <p>Quite often members deliberately refrain from voting in a division,

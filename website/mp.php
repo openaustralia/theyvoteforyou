@@ -1,5 +1,5 @@
 <?php 
-    # $Id: mp.php,v 1.2 2003/09/18 16:16:24 frabcus Exp $
+    # $Id: mp.php,v 1.3 2003/09/19 16:06:37 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -135,34 +135,31 @@
     }
 
     print "<h2>Possible Friends</h2>";
-    print "<p>Uses positions from the <a href=\"mpsee.php\">vote map</a>
-    to show which MPs voted most similarly to this one. The distance is
-    measured from 0 (always voted the same) to 1 (always voted
-    differently).  Only divisions that both MPs voted in are counted.
-    This may reveal relationships between MPs that were previously
-    unsuspected.  Or it may be nonsense.";
-
-    include "mpcoords-eigen.inc";
-    if ($eigx > 0) { $eigx = sqrt($eigx);} else { $eigx = 0; }
-    if ($eigy > 0) { $eigy = sqrt($eigy);} else { $eigy = 0; }
-    if ($eigz > 0) { $eigz = sqrt($eigz);} else { $eigz = 0; }
+    print "<p>Shows which MPs voted most similarly to this one. The
+    distance is measured from 0 (always voted the same) to 1 (always
+    voted differently).  Only divisions that both MPs voted in are
+    counted.  This may reveal relationships between MPs that were
+    previously unsuspected.  Or it may be nonsense.";
 
     print "<table class=\"mps\">\n";
     for ($i = 0; $i < count($mp_ids); ++$i)
     {
-        $row = $db->query_one_row("select x, y, z from pw_cache_mpcoords where
-            mp_id = $mp_ids[$i]"); 
-        $x = $row[0];
-        $y = $row[1];
-        $z = $row[2];
-
         $query = "select first_name, last_name, title, constituency,
             party, pw_mp.mp_id, round(100*rebellions/votes_attended,1),
             round(100*votes_attended/votes_possible,1),
-            sqrt(pow((x-($x))*$eigx,2) + pow((y-($y))*$eigy,2) + pow((z-($z))*$eigz,2)) as dist from pw_mp,
-            pw_cache_mpinfo, pw_cache_mpcoords where
-            pw_mp.mp_id = pw_cache_mpinfo.mp_id and pw_mp.mp_id =
-            pw_cache_mpcoords.mp_id order by dist limit 1,5";
+            distance from pw_mp,
+            pw_cache_mpinfo, pw_cache_mpdist where
+            pw_mp.mp_id = pw_cache_mpinfo.mp_id and 
+
+            ((pw_mp.mp_id = pw_cache_mpdist.mp_id_1
+            and pw_cache_mpdist.mp_id_2 = $mp_ids[$i]
+            and pw_cache_mpdist.mp_id_1 <> $mp_ids[$i]) or
+
+            (pw_mp.mp_id = pw_cache_mpdist.mp_id_2 and
+            pw_cache_mpdist.mp_id_1 = $mp_ids[$i]
+            and pw_cache_mpdist.mp_id_2 <> $mp_ids[$i]))
+
+            order by distance limit 0,5";
 
         $db->query($query);
         print "<tr class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Distance</td></tr>";
@@ -179,6 +176,11 @@
                 <td>" . pretty_party($row[4]) . "</td>
                 <td>$row[8]</td>";
             print "</tr>\n";
+        }
+        if ($db->rows() == 0)
+        {
+            $prettyrow = pretty_row_start($prettyrow, "");
+            print "<td colspan=4>no votes to compare</td></tr>\n";
         }
     }
     print "</table>\n";

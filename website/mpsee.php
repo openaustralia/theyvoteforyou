@@ -1,5 +1,5 @@
 <?php $title = "Vote map"; include "header.inc" 
-# $Id: mpsee.php,v 1.2 2003/09/18 09:28:22 frabcus Exp $
+# $Id: mpsee.php,v 1.3 2003/09/19 16:06:37 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -36,7 +36,7 @@ screenshot</a> of the clustered MPs.
 
 <center>
 <applet code="mpapplet.class" archive="mpscatt.jar" width="700" height="400">
-    <param name="posfile" value="mpcoords.php">
+    <param name="posfile" value="mpcoords.txt">
 	alt="Java applet."
 </applet>
 </center>

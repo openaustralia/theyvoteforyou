@@ -142,9 +142,11 @@ Collate all MPs articles in newspapers
 
 Regional analysis.  Scotland, NI, Whales, North v South.  Urban v.
 Rural.  
-
 Area of land for constituency.  This gives a "ruralness" measure.
 Population of constituency.
+Distance of constituency from London vs. attendance rate
+
+First term MPs vs. old warhorses.  More rebellious?  Less attentive?
 
 Make cluster diagram for just divisions relating to one issue.  Or
 for one person's interested issues.  Plot point on cluster diagram for
