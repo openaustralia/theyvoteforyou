@@ -1,5 +1,5 @@
 <?php 
-    # $Id: wrans.php,v 1.10 2003/12/21 01:05:22 frabcus Exp $
+    # $Id: wrans.php,v 1.11 2003/12/21 02:36:55 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -24,7 +24,21 @@
 		$title = "Written Answers matching '$prettysearch'";
 		include "header.inc";
 		
-		$ids = DecodeWord($prettysearch);
+		$words = split(" ", $prettysearch);
+		$ids = null;
+		foreach ($words as $word)
+		{
+			$wordids = DecodeWord($word);
+			if ($ids != null)
+				$ids = array_intersect($wordids, $ids);
+			else
+				$ids = $wordids;
+		}
+		if (count($ids) > 1000)
+		{
+			print "<p>More than 1000 matches, showing only first 1000.";
+			$ids = array_slice($ids, 0, 1000);
+		}
 		if (count($ids) > 0)
 		{
 
@@ -32,7 +46,7 @@
 			foreach ($ids as $id)
 				$result .= FetchWrans($id);
 			$result = WrapResult($result);
-			print "<p>Found these Written Answers matching '$prettysearch':";
+			print "<p>Found " . count($ids) . " Written Answers matching '$prettysearch':";
 
 			$url = "wrans.php?search=" . urlencode($_GET["search"]);
 			if (!$expand)
@@ -87,6 +101,11 @@
 <input maxLength=256 size=25 name=search value=""> <input type="submit" value="Search" name="button">
 </form>
 
-<p class="search"><i>Example: "Coastguard", "Cameras" or "China"</i>
+<p class="search"><i>Example: "Coastguard", "Speed Cameras" or "China"</i>
+
+<p class="search"><span class="ptitle">Search Tips:</span> You can enter
+multiple words separated by a space, and it will match anything which
+contains all the words.  There is no "stemming", so for instance
+"weapon" is a different word from "weapons".  Try searching for both.
 
 <?php include "footer.inc" ?>

@@ -1,12 +1,16 @@
 Wrans
 -----
 
+Index titles
+Check stemming
+
 uk.org.publicwhip/wrans/2003-11-06.755W.4 - refers to uk.org.publicwhip/wrans/2003-06-03.214W
 which does actually exist, but crosses over two entire columns, so referencing the one in the middle doesn't pick it up.  Ooops.  Need some kind of ranging?
 uk.org.publicwhip/wrans/2003-11-06.726W.0 - there is a phrase referring to debates, but the
 link is given to wrans ;)
 uk.org.publicwhip/wrans/2003-11-06.725W.2 - has a offrep which isn't there (as well
 as two which we don't have indexed yet)
+uk.org.publicwhip/wrans/2003-10-27.110W.2 - fails to find offrep
 
 Back links to wrans that have referred to this one
 Check all found URL links
