@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.3 2004/10/13 14:16:40 frabcus Exp $
+# $Id: memxml2db.pl,v 1.4 2005/01/14 08:25:09 theyworkforyou Exp $
 
 # Convert all-members.xml into the database format for Public Whip website
 
@@ -13,6 +13,8 @@ use lib "PublicWhip";
 
 use XML::Twig;
 use HTML::Entities;
+use Text::Iconv;
+my $iconv = new Text::Iconv('utf-8', 'iso-8859-1');
 
 use PublicWhip::Error;
 use PublicWhip::DB;
@@ -58,8 +60,9 @@ sub loadmember
     my $sth = PublicWhip::DB::query($dbh, "insert into pw_mp (first_name, last_name, title, constituency, party, 
         entered_house, left_house, entered_reason, left_reason, mp_id, person) values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-        encode_entities($memb->att('firstname')), 
-        encode_entities($memb->att('lastname')), 
+	# Attributes come out as UTF8, manually convert to latin-1
+        encode_entities($iconv->convert($memb->att('firstname'))), 
+        encode_entities($iconv->convert($memb->att('lastname'))), 
         $memb->att('title'), 
         encode_entities($memb->att('constituency')), 
         $memb->att('party'), 
