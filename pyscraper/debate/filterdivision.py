@@ -73,7 +73,7 @@ def MpList(fsm, vote, sdate):
 			(mpid, remadename, remadecons) = memberList.matchfullnamecons(fnam, cons, sdate, alwaysmatchcons = False)
 			if not mpid:
 				print "no match for", fnam, cons, sdate
-				raise Exception, "No match on name %s" % fname
+				raise Exception, "No match on name %s" % fnam
                         #print fnam, " --> ", remadename.encode("latin-1")
 			res.append('\t<mpname id="%s" vote="%s">%s</mpname>' % (mpid, vote, FixHTMLEntities(fssf)))
 

@@ -82,7 +82,7 @@ class LordsList(xml.sax.handler.ContentHandler):
 		res = [ ]
 		dres = [ ]
 		for lm in lmatches:
-			if (lm["title"] == ltitle) and (lm["lordname"] == llordname) and (lm["lordofname"] == llordofname):
+			if (lm["title"] == ltitle) and (lm["lordname"] == llordname) and (not llordofname or lm["lordofname"] == llordofname):
 				if (lm["fromdate"] <= sdate):
 					res.append(lm)
 				else:

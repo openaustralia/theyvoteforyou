@@ -157,7 +157,7 @@ def RunFiltersDir(filterfunction, dname, options, forcereparse):
 
 				elif options.quietc:
 					print ce.description
-					print "quietly moving to next day"
+                                        print "\tERROR! failed, quietly moving to next day"
 					# sys.exit(1) # remove this and it will continue past an exception (but then keep throwing the same tired errors)
 					break # leave the loop having not written the xml file; go onto the next day
 

@@ -7023,4 +7023,14 @@
 	comment=""
 />
 
+<lord
+	id="uk.org.publicwhip/lord/MS1"
+	house="lords"
+	title="Baroness" lordname="Neuberger" lordofname="Primrose Hill in the London Borough of Camden"
+	frontnames="Julia Babette Sarah"
+	peeragetype="Life peer" affiliation="Liberal Democrats"
+	fromdate="2004-02-04"
+	source="Matthew Somerville"
+	comment="Added to parse 2005-03-07, from date is iffy"
+/>
 </publicwhip>

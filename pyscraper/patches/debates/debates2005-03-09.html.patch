@@ -1,0 +1,45 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2005-03-09.html	Thu Mar 10 08:07:03 2005
++++ /home/fawkes/pwdata/cmpages/debates/debates2005-03-09-patchtmp.html	Thu Mar 10 08:21:21 2005
+@@ -11101,7 +11101,7 @@
+ Foster, Derek rh
+ 
+ <br>
+-Foster, Michael
++Foster, Michael (Worcester)
+ 
+ <br>
+ Foster, Michael Jabez
+@@ -11704,10 +11704,10 @@
+ Taylor, Dari
+ 
+ <br>
+-Thomas, Gareth
++Thomas, Gareth (Harrow West)
+ 
+ <br>
+-Thomas, Gareth
++Thomas, Gareth (Clwyd West)
+ 
+ <br>
+ Timms, Stephen
+@@ -11803,7 +11803,7 @@
+ Wright, Iain
+ 
+ <br>
+-Wright, Tony
++Wright, Tony (Cannock Chase)
+ 
+ <br>
+ Wyatt, Derek
+@@ -12061,7 +12061,10 @@
+ Forth, Eric rh
+ 
+ <br>
+-Foster, DonFox, Liam
++Foster, Don
++
++<br>
++Fox, Liam
+ 
+ <br>
+ Francois, Mark

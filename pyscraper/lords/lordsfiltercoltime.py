@@ -48,9 +48,9 @@ regcolumnum3 = '<p>\s*</ul>%s</p>\s*<ul><font size=3>' % regcolmat
 regcolumnum4 = '<p>\s*</ul><font size=3>%s</p>\s*<ul><font size=2>' % regcolmat
 regcolumnum5 = '<p>\s*(?:<font size=3>\s*)?<a name="column_\d+"></a>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\s*<font size=[23]>'
 regcolumnum6 = '<p>\s*</ul>\s*<a name="column_\d+"></a>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\s*<ul><font size=3>'
+regcolumnum7 = '%s\s*<br>&nbsp;<br>' % regcolmat
 
-
-recolumnumvals = re.compile('(?:<p>|</ul>|<font size=\d>|\s|</?a[^>]*>)*?<b>([^:<]*)\s*:\s*column\s*(\D*?)(\d+)\s*</b>(?:</p>|<ul>|<font size=\d>|\s)*$(?i)')
+recolumnumvals = re.compile('(?:<br>&nbsp;<br>|<p>|</ul>|<font size=\d>|\s|</?a[^>]*>)*?<b>([^:<]*)\s*:\s*column\s*(\D*?)(\d+)\s*</b>(?:<br>&nbsp;<br>|</p>|<ul>|<font size=\d>|\s)*$(?i)')
 
 # <H5>12.31 p.m.</H5>
 # the lords times put dots in "p.m."  but the commons never do.
@@ -62,7 +62,7 @@ retimevals = re.compile('(?:</?p>\s*|<h\d>|\[|\n)\s*(\d+(?:[:\.]\d+)?\s*[apmnon\
 reaname = '<a name\s*=\s*"[^"]*"></a>(?i)'
 reanamevals = re.compile('<a name\s*=\s*"([^"]*)">(?i)')
 
-recomb = re.compile('(%s|%s|%s|%s|%s|%s|%s|%s)(?i)' % (regcolumnum11, regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4, regtime1, regtime2, reaname))
+recomb = re.compile('(%s|%s|%s|%s|%s|%s|%s|%s|%s)(?i)' % (regcolumnum11, regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4, regcolumnum7, regtime1, regtime2, reaname))
 
 remarginal = re.compile(':\s*column\s*\D*(\d+)(?i)')
 
@@ -163,7 +163,7 @@ def SplitLordsText(text, sdate):
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
 	res = [ '', '', '', '' ]
 
-	wagc = re.search('<a name="column_(?:GC|CWH)\d+"></a>', text)
+	wagc = re.search('<a name="(?:column_(?:GC|CWH)\d+|[0-9-]+_cmtee0)"></a>', text)
 	wams = re.search('<a name="(?:wms|column_WS\d+)"></a>', text)
 	wama = re.search('<a name="(?:column_WA\d+|[\dw]*_writ0)"></a>', text)
 
@@ -221,7 +221,7 @@ def SplitLordsText(text, sdate):
 
 	if res[1]:
 		assert not re.search('<a name="column_(?!(?:GC|CWH))\D+\d+">', res[1])
-		assert re.search('<center>Official Report of the (?:Northern Ireland Orders )?Grand Committee', res[1])
+		assert re.search('<(?:h2 align=)?center>Official Report of the (?:Northern Ireland Orders )?Grand Committee', res[1])
 
 	if res[2]:
 		assert not re.search('<a name="column_(?!WS)\D+\d+">', res[2])
@@ -229,7 +229,7 @@ def SplitLordsText(text, sdate):
 
 	if res[3]:
 		assert not re.search('<a name="column_(?!WA)\D+\d+">', res[3])
-		assert re.search('<center>\s*Written Answers?', res[3]) # sometimes the s is missing
+		assert re.search('<(?:h3 align=)?center>\s*Written Answers?', res[3]) # sometimes the s is missing
 
 # could grab leading url labels to put into each section.
 

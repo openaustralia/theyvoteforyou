@@ -45,7 +45,7 @@ http://www.dfid.gov.uk/News/PressReleases/files/pr_gareththomas_13june03.html
 "to" date should be moved forward when necessary-->
 <alias constituency="Harrow West" 
         alternate="The Parliamentary Under-Secretary of State for International Development" 
-        from="2003-06-13" to="2005-03-01" />
+        from="2003-06-13" to="2005-04-11" />
 
 <!-- Sometimes these appear instead of fullnames.  resolvemembernames.py
 also loads in ministers.xml to match these to people.  Here we just have

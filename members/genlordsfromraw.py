@@ -2,6 +2,7 @@ import re
 import os
 import sys
 import string
+import urllib
 
 import mx.DateTime
 
@@ -156,6 +157,27 @@ class lordsrecords:
 			self.lordrec.append(nr)
 
 
+def LoadLifePeers():
+	ur = urllib.urlopen('http://www.election.demon.co.uk/lifepeers.html')
+	text = ur.read()
+	ur.close()
+	res = [ ]
+	rows = re.findall('<TR><TD VALIGN=TOP>(.*?)</TD><TD VALIGN=TOP><B>(.*?)(?: of (.*?))</B></TD><TD>(.*?)</TD></TR>', text)
+	for row in rows:
+		print row
+		lordrec = lordrecord()
+		lordrec.peeragetype = ''
+		lordrec.affiliation = ''
+		lordrec.date = mx.DateTime.strptime(row[0], "%d %B %Y")
+		print lordrec.date
+		assert False
+		lordrec.source = 'http://www.election.demon.co.uk/lifepeers.html'
+		lordrec.lordname
+		lordrec.title
+		
+		res.append(lordrec)
+	return res
+
 def LoadTableWithFromDate(fpath, fname):
 	fin = open(os.path.join(fpath, fname), "r")
 	text = fin.read()
@@ -274,6 +296,7 @@ def LoadExtendedNames(fpath, fname):
 
 rr1 = LoadTableWithFromDate('../rawdata/lords', 'Lords2004-02-09WithFromDate.html')
 rr2 = LoadTableWithFromDate('../rawdata/lords', 'LordsSince1997.html')
+rr3 = LoadLifePeers()
 
 # combine the inputs (could then sort and check duplicates)
 rr = lordsrecords()
