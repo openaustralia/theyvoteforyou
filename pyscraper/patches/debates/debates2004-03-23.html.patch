@@ -1,20 +1,10 @@
---- C:\publicwhip\pwdata\cmpages\debates\debates2004-03-23.html	Mon Jul 12 11:56:55 2004
-+++ C:\publicwhip\pwdata\cmpages\debates\debates2004-03-23-patchtmp.html	Mon Jul 12 15:03:35 2004
-@@ -14587,7 +14587,7 @@
- <H4><center>ADJOURNMENT (EASTER)</center></H4>
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-03-23.html	Fri Oct  8 10:37:50 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-03-23-patchtmp.html	Tue Oct 12 10:54:47 2004
+@@ -3108,6 +3108,7 @@
+ <a name="40323-25_spnew0"><B> Mr. Bercow: </B> 
+  My hon. Friend is making a characteristically robust contribution. In the context of taxes, is he aware of the sage verdict of the noble Lord Hattersley? In an article in <i>The Guardian</i> of 13 June 1995, he said that Labour could be either the party of higher taxes and proud of it, or the party of higher taxation that it is ashamed to describe, afraid to admit to and incapable of calculating with any accuracy.
  <P>
++<stamp parsemess-colnum="783"/>
  <P>
--<a name="40323-43_spnew2"><B> Ordered, </B> 
-+<a name="40323-43_spnew2"> Ordered,
-  
- <P>
- <BR>
-@@ -14595,7 +14595,7 @@
- <H4><center>PARLIAMENTARY CONTRIBUTORY PENSION FUND</center></H4>
- <P>
- <P>
--</UL></FONT><a name="40323-43_spnew3"><B> Ordered, </B> Ordered,--
-+</UL></FONT><a name="40323-43_spnew3"> Ordered, 
-  
- <P>
- <BR>
+ <a name="40323-25_spnew1"><B> Mr. Cameron: </B> 
+  I am afraid that, as someone who writes a column for <i>The Guardian</i> website, I take the <P>
