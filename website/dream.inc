@@ -72,20 +72,18 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 # or you can force everything is $dreamid = "force"
 function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 {
+    update_divisions_wiki_id($db);
+
 	global $bdebug;
 
 	$qselect  = "SELECT pw_dyn_rollievote.rolliemp_id, COUNT(*) AS nvotes";
-	$qselect .= ", SUM(pw_cache_divwiki.wiki_id IS NOT null) AS neditedmotions";
+	$qselect .= ", SUM(pw_cache_divwiki.wiki_id != -1) AS neditedmotions";
 
 	# (no score from dreamMP absents or abstentions)
 
-	$qfrom  = " FROM pw_dyn_rollievote";
+	$qfrom  = " FROM pw_dyn_rollievote, pw_cache_divwiki";
 	$qjoin .= " LEFT JOIN pw_cache_dreaminfo
 					ON pw_cache_dreaminfo.rollie_id = pw_dyn_rollievote.rolliemp_id";
-	$qjoin .= " LEFT JOIN pw_cache_divwiki
-					ON pw_cache_divwiki.division_date = pw_dyn_rollievote.division_date
-					AND pw_cache_divwiki.division_number = pw_dyn_rollievote.division_number";
-
 
 	# fill in the holes, or do where there is none
 	if ($dreamid == "force")
@@ -94,8 +92,10 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 		$qwhere = " WHERE pw_cache_dreaminfo.cache_uptodate IS null";
 	else
 		$qwhere = " WHERE pw_dyn_rollievote.rolliemp_id = $dreamid";
+	$qwhere .= " AND pw_cache_divwiki.division_date = pw_dyn_rollievote.division_date
+					AND pw_cache_divwiki.division_number = pw_dyn_rollievote.division_number";
 
-	$qgroup = " GROUP BY pw_cache_dreaminfo.rollie_id";
+	$qgroup = " GROUP BY pw_dyn_rollievote.rolliemp_id";
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
 	if ($bdebug == 1)
 		print "<h3>$query</h3>\n";
@@ -132,8 +132,8 @@ function update_dreammp_person_distance($db, $dreamid)
 	}
 	else
 		update_dreammp_votemeasures($db, $dreamid, $row["cache_uptodate"]); # forces the sums to add up properly
-#	if ($row["cache_uptodate"] == 1)
-#		return;
+	if ($row["cache_uptodate"] == 1)
+		return;
     if ($bdebug)
         print "<p>cache_uptodate: ".$row["cache_uptodate"]."</p>\n";
 
