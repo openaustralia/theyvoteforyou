@@ -7,6 +7,10 @@ date=2003-03-14&number=114
 answers2003-05-13
 check this line not lost: <a name="30513w02.html_dpthd1"><H3 align=center>ENVIRONMENT, FOOD AND RURAL AFFAIRS<xref locref=140></H3>
 
+Run these without patches, and an entire title is unceremoniously ditched:
+answers2001-07-05.xml
+answers2001-07-10.xml
+
 Check this one:
 ./lazyrunall.py parse --date=2003-12-18 --force-parse debates
 The correct division has an explicit-division-end, which doesn't need to be erased.
