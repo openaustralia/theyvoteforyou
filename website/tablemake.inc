@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.19 2005/03/28 21:00:08 goatchurch Exp $
+# $Id: tablemake.inc,v 1.20 2005/04/06 11:31:24 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -194,11 +194,11 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
     # (borrows css colour coding, but should have its own)
     else
     {
-		# abstention by dreammp
+	# abstention by dreammp
         if ($dtvote2 == "" or $dtvote2 == "abstain")
         {
             $roleclass = "rebelteller"; # yellow
-            $votedesc = "miss";
+            $votedesc = "none";
             $dismetric["ab2"] += 1;
             $votedesclong = "Dream MP abstained";
         }
@@ -209,7 +209,7 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
             if ($dtvote1 == "" or $dtvote1 == "abstain")
             {
                 $roleclass = "rebelteller"; # yellow
-                $votedesc = "miss";
+                $votedesc = "none";
                 if ($dtvote2 == "" or $dtvote2 == "abstain")
                     $dismetric["abboth"] += 1;
                 else
@@ -593,7 +593,7 @@ function division_table($db, $divtabattr, $events = "")
     {
         print "<tr class=\"headings\">";
         if ($voter2type != "")
-            print "<td>Role</td>";
+            print "<td>Comparison</td>";
         print "<td>Date.</td><td>No.</td>";
         print "<td>Subject</td>";
 
