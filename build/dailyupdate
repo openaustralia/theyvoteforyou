@@ -12,6 +12,8 @@ fi
 
 #FROMDATE=2001-06-01
 FROMDATE=2004-01-01 # until Julian sorts out gid replacing
+export HOME=/home/francis
+export CVS_RSH=ssh
 
 # Grab new scraped XML files from TheyWorkForYou
 rsync --recursive www.theyworkforyou.com::pwdata/scrapedxml/divisionsonly /home/francis/pwdata/scrapedxml
