@@ -353,7 +353,9 @@ def getXMLdiffname(jfout):
 	for pp in os.listdir(os.path.dirname(jfout)):
 		regpp = renn.match(pp)
 		if regpp:
-			ipp = string.atoi(regpp.group(1)) + 1
+			iipp = string.atoi(regpp.group(1)) + 1
+			if iipp > ipp:
+				ipp = iipp
 	res = "%s.diff%d" % (jfout, ipp)
 	assert renn.match(os.path.basename(res))
 	assert not os.path.isfile(res)

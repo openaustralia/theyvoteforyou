@@ -150,7 +150,7 @@ def FilterWransColnum(fout, text, sdate):
         			continue
                         if columncontg.group(3):
                                 lcolnum = string.atoi(columncontg.group(3))
-                                if colnum != lcolnum:
+                                if colnum != lcolnum and colnum != lcolnum+1:
                                         raise ContextException("Cont column number disagrees %d -- %s" % (colnum, fss), fragment=fss, stamp=stamp)
                                 fout.write(' ')
                                 continue
