@@ -7,15 +7,16 @@ import xml.sax
 import sets
 import datetime
 import sys
+import re
 
 sys.path.append("../pyscraper")
 from resolvemembernames import memberList
 
 today = datetime.date.today().isoformat()
 
-#uk.org.publicwhip/member/651 
+#uk.org.publicwhip/member/651
 #uk.org.publicwhip/member/674
-#uk.org.publicwhip/member/1335 
+#uk.org.publicwhip/member/1335
 
 # People who have been in two different constituencies.  The like of Michael
 # Portillo will eventually appear here.
@@ -29,16 +30,18 @@ class MultipleMatchException(Exception):
     pass
 
 class PersonSets(xml.sax.handler.ContentHandler):
-    
+
     def __init__(self):
         self.fullnamescons={} # "Firstname Lastname Constituency" --> MPs
         self.fullnames={} # "Firstname Lastname" --> MPs
+		self.ministermap={}
 
         parser = xml.sax.make_parser()
         parser.setContentHandler(self)
         parser.parse("all-members.xml")
+        parser.parse("ministers.xml")
 
-    def outputxml(self):
+    def outputxml(self, fout):
         for personset in self.fullnamescons.values():
             # OK, we generate a person id based on the mp id.
 
@@ -50,10 +53,12 @@ class PersonSets(xml.sax.handler.ContentHandler):
             # database
             mpidtouse = None
             for attr in personset:
-                mpnewid = int(attr["id"].replace("uk.org.publicwhip/member/", ""))
-                if not mpidtouse or mpnewid < mpidtouse:
-                    mpidtouse = mpnewid
-                    
+                mpidm = re.match("uk.org.publicwhip/member/(\d+)$", attr["id"])
+                if mpidm:
+                    mpnewid = int(mpidm.group(1))
+                    if not mpidtouse or mpnewid < mpidtouse:
+                        mpidtouse = mpnewid
+
             # Now we add 10000 to the one MP id we chose, to make the person ID
             personid = "uk.org.publicwhip/person/%d" % (mpidtouse + 10000)
 
@@ -61,16 +66,16 @@ class PersonSets(xml.sax.handler.ContentHandler):
             maxdate = "1000-01-01"
             attr = None
             for attr in personset:
-                if attr["fromdate"] > maxdate:
+                if attr["fromdate"] > maxdate and attr.has_key("firstname"):
                     maxdate = attr["fromdate"]
                     maxattr = attr
             latestname = "%s %s" % (maxattr["firstname"], maxattr["lastname"])
 
             # Output the XML
-            print '<person id="%s" latestname="%s">' % (personid, latestname.encode("latin-1"))
+            fout.write('<person id="%s" latestname="%s">\n' % (personid, latestname.encode("latin-1")))
             for attr in personset:
-                print '    <office id="%s"/>' % (attr["id"])
-            print '</person>'
+                fout.write('    <office id="%s"/>\n' % (attr["id"]))
+            fout.write('</person>\n')
 
     def crosschecks(self):
         # check date ranges don't overlap
@@ -83,6 +88,19 @@ class PersonSets(xml.sax.handler.ContentHandler):
                 if prevtodate:
                     assert prevtodate < fromdate, "date ranges overlap"
                 prevtodate = todate
+
+	# put ministerialships into each of the sets, based on matching matchid values
+	# this works because the members code forms a basis to which ministerialships get attached
+	def mergeministers(self):
+        for p in self.fullnamescons:
+			pset = self.fullnamescons[p]
+			for a in pset.copy():
+				memberid = a["id"]
+				for moff in self.ministermap.get(memberid, []):
+					pset.add(moff)
+
+
+
 
     def findotherpeoplewhoaresame(self):
         goterror = False
@@ -113,7 +131,7 @@ class PersonSets(xml.sax.handler.ContentHandler):
                         # Check that there is no MP with the same name/constituency
                         # as one of the two, and who overlaps in date with the other.
                         # That would mean they can't be the same person, as nobody
-                        # can be MP twice at once (and I think the media would 
+                        # can be MP twice at once (and I think the media would
                         # notice that!)
                         match = False
                         for id3 in range(len(fuzzierids)):
@@ -152,6 +170,9 @@ class PersonSets(xml.sax.handler.ContentHandler):
             # index by "Firstname Lastname Constituency"
             cancons = memberList.canonicalcons(attr["constituency"])
 
+			# MAKE A COPY.  (The xml documentation warns that the attr object can be reused, so shouldn't be put into your structures if it's not a copy).
+			attr = attr.copy()
+
             fullnameconskey = "%s %s [%s]" % (attr["firstname"], attr["lastname"], cancons)
             if fullnameconskey in manualmatches:
                 fullnameconskey = manualmatches[fullnameconskey]
@@ -159,6 +180,11 @@ class PersonSets(xml.sax.handler.ContentHandler):
 
             fullnamekey = "%s %s" % (attr["firstname"], attr["lastname"])
             self.fullnames.setdefault(fullnamekey, sets.Set()).add(attr)
+
+		if name == "moffice":
+			assert attr["id"] not in self.ministermap
+			if attr.has_key("matchid"):
+				self.ministermap.setdefault(attr["matchid"], sets.Set()).add(attr.copy())
 
     def endElement(self, name):
         pass
@@ -171,19 +197,24 @@ class PersonSets(xml.sax.handler.ContentHandler):
                 ids.append(attr["id"])
         return ids
 
+
+# the main code
 personSets = PersonSets()
 personSets.crosschecks()
-
 if personSets.findotherpeoplewhoaresame():
     print
     print "If they are, correct it with the manualmatches array"
     print "Or add another array to show people who appear to be but are not"
     print
     sys.exit(1)
+personSets.mergeministers()
 
-print """<?xml version="1.0" encoding="ISO-8859-1"?>
 
-<!-- 
+tempfile = "temppeople.xml"
+fout = open(tempfile, "w")
+fout.write("""<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
 
 Contains a unique identifier for each person, and a list of ids
 of offices which they have held.
@@ -193,9 +224,15 @@ Generated exclusively by personsets.py, don't hand edit it just now
 
 -->
 
-<publicwhip>"""
+<publicwhip>""")
 
-personSets.outputxml()
+personSets.outputxml(fout)
+fout.write("</publicwhip>\n")
+fout.close()
 
-print "</publicwhip>"
+# overwrite people.xml later, maybe
+print "File:%s written" % tempfile
+print "Should overwrite people.xml"
+
+print "minsters.xml is generated by lazyrunall.py parse chgpages"
 

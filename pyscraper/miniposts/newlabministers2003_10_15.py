@@ -524,6 +524,10 @@ Tony McNulty								13 June 2003-
 
 +HM Treasury
 
+Prime Minister
+
+Tony Blair 02 May 1997-
+
 Chancellor of the Exchequer
 
 Gordon Brown							02 May 1997 -
