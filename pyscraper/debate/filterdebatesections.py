@@ -198,11 +198,11 @@ def NormalHeadingPart(headingtxt, stampurl):
 
 	bmajorheading = False
 	boralheading = False
-        binsertedheading = False
+	binsertedheading = False
 
-        if re.search('-- lost heading --(?i)', headingtxt):
-            binsertedheading = True
-            
+	if re.search('-- lost heading --(?i)', headingtxt):
+		binsertedheading = True
+
         # Oral question are really a major heading
 	elif headingtxt == 'Oral Answers to Questions':
 		boralheading = True
@@ -210,6 +210,14 @@ def NormalHeadingPart(headingtxt, stampurl):
 	elif re.search('oral(?i)', headingtxt) and re.search('ques(?i)', headingtxt) and (not re.search(" Not ", headingtxt)) and \
                         stampurl.sdate != "2002-06-11": # has a genuine title with Oral in it
 		raise Exception, 'Oral question match not precise enough: %s' % headingtxt
+
+	# reuse of oral-heading flag for something else
+	elif re.match("\[.*? in the Chair\]$", headingtxt):
+		headingtxt = re.sub("\[|\]", "", headingtxt)
+		boralheading = True
+
+	elif re.search("in\s+the\s+chair(?i)", headingtxt):
+		raise Exception, 'in the chair match not precise enough: %s' % headingtxt
 
 	# All upper case headings
 	elif not re.search('[a-z]', headingtxt):
@@ -229,10 +237,10 @@ def NormalHeadingPart(headingtxt, stampurl):
 	# write out block for headings
 	headingtxtfx = FixHTMLEntities(headingtxt)
 	qb = qspeech('nospeaker="true"', headingtxtfx, stampurl)
-        if binsertedheading:
-                qb.typ = 'inserted-heading'
-        elif boralheading:
-                qb.typ = 'oral-heading'
+	if binsertedheading:
+		qb.typ = 'inserted-heading'
+	elif boralheading:
+		qb.typ = 'oral-heading'
 	elif bmajorheading:
 		qb.typ = 'major-heading'
 	else:
@@ -243,7 +251,32 @@ def NormalHeadingPart(headingtxt, stampurl):
 	return qb
 
 
+# designed to capture the section
+#Sitting suspended for a Division in the House.
+#On resuming-
+def GrabWestminDivisionInterruptProced(qbp):
+	if len(qbp.stext) < 3:
+		return None
+	iskip = 0
+	if re.search("italic.*?>on resuming&\S*</p>(?i)", qbp.stext[-1]):
+		if not re.search("italic.*?>sitting suspended(?: for (?:a division|divisions) in the house)?[\.\s]*(?i)", qbp.stext[-2]):
+			print "failed to detect sitting suspended interruption"
+			print qbp.stext[-2]
+			assert False
+		iskip = -2
 
+	elif re.search("italic.*?>sitting suspended(?: for| until|\.)(?i)", qbp.stext[-1]):
+		iskip = -1
+
+	# copy the lines into a non-speaking paragraph.
+	if iskip:
+		qbdp = qspeech('nospeaker="true"', "", qbp.sstampurl)
+		qbdp.typ = 'speech'
+		qbdp.stext = qbp.stext[iskip:]
+		# trim back the given one by two lines
+		qbp.stext = qbp.stext[:iskip]
+		return qbdp
+	return None
 ################
 # main function
 ################
@@ -266,82 +299,87 @@ def FilterDebateSections(text, sdate, typ):
 	# break down into lists of headings and lists of speeches
 	if typ == "debate":
 		(ih, stampurl) = StripDebateHeadings(headspeak, sdate)
-	else:
+	elif typ == "westminhall":
 		(ih, stampurl) = StripWestminhallHeadings(headspeak, sdate)
+	else:
+		assert False # to be for writminstat?
 
 	# loop through each detected heading and the detected partitioning of speeches which follow.
 	# this is a flat output of qspeeches, some encoding headings, and some divisions.
 	# see the typ variable for the type.
 	flatb = [ ]
 	for sht in headspeak[ih:]:
-                try:
-                        # triplet of ( heading, unspokentext, [(speaker, text)] )
-                        headingtxt = string.strip(sht[0])
-                        unspoketxt = sht[1]
-                        speechestxt = sht[2]
+		try:
+			# triplet of ( heading, unspokentext, [(speaker, text)] )
+			headingtxt = string.strip(sht[0])
+			unspoketxt = sht[1]
+			speechestxt = sht[2]
 
-                        # the heading detection, as a division or a heading speech object
-                        # detect division headings
-                        gdiv = re.match('Division No. (\d+)', headingtxt)
+			# the heading detection, as a division or a heading speech object
+			# detect division headings
+			gdiv = re.match('Division No. (\d+)', headingtxt)
 
-                        # heading type
-                        if not gdiv:
-                                qbh = NormalHeadingPart(headingtxt, stampurl)
-                                # print "h ", qbh.typ, qbh.stext
+			# heading type
+			if not gdiv:
+				qbh = NormalHeadingPart(headingtxt, stampurl)
+				# print "h ", qbh.typ, qbh.stext
 
-                                # ram together minor headings into previous ones which have no speeches
-                                if qbh.typ == 'minor-heading' and len(flatb) > 0 and flatb[-1].typ == 'minor-heading':
-                                        flatb[-1].stext.append(" &mdash; ")
-                                        flatb[-1].stext.extend(qbh.stext)
+				# ram together minor headings into previous ones which have no speeches
+				if qbh.typ == 'minor-heading' and len(flatb) > 0 and flatb[-1].typ == 'minor-heading':
+					flatb[-1].stext.append(" &mdash; ")
+					flatb[-1].stext.extend(qbh.stext)
 
-                                # ram together major headings into previous ones which have no speeches
-                                elif qbh.typ == 'major-heading' and len(flatb) > 0 and flatb[-1].typ == 'major-heading':
-                                        flatb[-1].stext.append(" &mdash; ")
-                                        flatb[-1].stext.extend(qbh.stext)
+				# ram together major headings into previous ones which have no speeches
+				elif qbh.typ == 'major-heading' and len(flatb) > 0 and flatb[-1].typ == 'major-heading':
+					flatb[-1].stext.append(" &mdash; ")
+					flatb[-1].stext.extend(qbh.stext)
 
+				# otherwise put out this heading
+				else:
+					flatb.append(qbh)
 
-                                # otherwise put out this heading
-                                else:
-                                        flatb.append(qbh)
+			# division case
+			else:
+				(unspoketxt, qbd) = DivisionParsingPart(string.atoi(gdiv.group(1)), unspoketxt, stampurl, sdate)
 
-                        # division case
-                        else:
-                                (unspoketxt, qbd) = DivisionParsingPart(string.atoi(gdiv.group(1)), unspoketxt, stampurl, sdate)
+				# grab some division text off the back end of the previous speech
+				# and wrap into a new no-speaker speech
+				qbdp = GrabDivisionProced(flatb[-1], qbd)
+				if qbdp:
+					flatb.append(qbdp)
+				flatb.append(qbd)
 
-                                # grab some division text off the back end of the previous speech
-                                # and wrap into a new no-speaker speech
-                                qbdp = GrabDivisionProced(flatb[-1], qbd)
-                                if qbdp:
-                                        flatb.append(qbdp)
-                                flatb.append(qbd)
+				# write out our file with the report of all divisions
+				PreviewDivisionTextGuess(flatb)
 
-                                # write out our file with the report of all divisions
-                                PreviewDivisionTextGuess(flatb)
+			# continue and output unaccounted for unspoken text occuring after a
+			# division, or after a heading
+			if (not re.match('(?:<[^>]*>|\s)*$', unspoketxt)):
+				qb = qspeech('nospeaker="true"', unspoketxt, stampurl)
+				qb.typ = 'speech'
+				FilterDebateSpeech(qb)
+				flatb.append(qb)
 
-                        # continue and output unaccounted for unspoken text occuring after a
-                        # division, or after a heading
-                        if (not re.match('(?:<[^>]*>|\s)*$', unspoketxt)):
-                                qb = qspeech('nospeaker="true"', unspoketxt, stampurl)
-                                qb.typ = 'speech'
-                                FilterDebateSpeech(qb)
-                                flatb.append(qb)
+			# there is no text; update from stamps if there are any
+			else:
+				stampurl.UpdateStampUrl(unspoketxt)
 
-                        # there is no text; update from stamps if there are any
-                        else:
-                                stampurl.UpdateStampUrl(unspoketxt)
+			# go through each of the speeches in a block and put it into our batch of speeches
+			for ss in speechestxt:
+				qb = qspeech(ss[0], ss[1], stampurl)
+				qb.typ = 'speech'
+				FilterDebateSpeech(qb)
 
-                        # go through each of the speeches in a block and put it into our batch of speeches
-                        for ss in speechestxt:
-                                qb = qspeech(ss[0], ss[1], stampurl)
-                                qb.typ = 'speech'
-                                FilterDebateSpeech(qb)
-                                flatb.append(qb)
+				qbdp = GrabWestminDivisionInterruptProced(qb) # captures tail off westminster hall speeches
+				flatb.append(qb)
+				if qbdp:
+					flatb.append(qbdp)
 
-                except ContextException, e:
-                        raise
-                except Exception, e:
-                        # add extra stamp info to the exception
-                        raise ContextException(str(e), stamp=stampurl, fragment=unspoketxt)
+		except ContextException, e:
+			raise
+		except Exception, e:
+			# add extra stamp info to the exception
+			raise ContextException(str(e), stamp=stampurl, fragment=unspoketxt)
 
 
 	# we now have everything flattened out in a series of speeches

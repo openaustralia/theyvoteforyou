@@ -304,10 +304,12 @@ def SplitParaSpace(text, stampurl):
 			pstring = nf
 			bthisparaalone = True
 
-		elif pstring:
-			pstring = pstring + string.strip(nf)
 		else:
-			pstring = string.strip(nf)
+			lnf = re.sub("\s+", " ", nf)
+			if pstring:
+				pstring = pstring + " " + string.strip(lnf)
+			else:
+				pstring = string.strip(lnf)
 
 
 		# check that paragraphs have some text

@@ -366,10 +366,10 @@ class MemberList(xml.sax.handler.ContentHandler):
 
                 # If so, intersect those matches with ones from the first part
                 # (some offices get matched in first part - like Mr. Speaker)
-                if len(ids) > 0:
-                    ids = ids.intersection(brackids)
-                else:
+                if len(ids) == 0 or (len(brackids) == 1 and re.search("speaker(?i)", input)):
                     ids = brackids
+                else:
+                    ids = ids.intersection(brackids)
 
             # Sometimes constituency in brackets: Malcolm Bruce (Gordon)
             # Get constituency in the form used in the MP table

@@ -75,6 +75,14 @@ redivno = re.compile('<b>division no\. \d+</b>$(?i)')
 remarginal = re.compile('<b>[^<]*</b>(?i)')
 
 def FilterDebateSpeakers(fout, text, sdate, typ):
+
+	if typ == "westminhall":
+		depspeakerrg = re.search("\[(.*?) in the Chair\]", text)
+		if not depspeakerrg:
+			print "can't find the [... in the Chair] phrase"
+		depspeaker = depspeakerrg.group(1)
+
+
 	# old style fixing (before patches existed)
 	if typ == "debate":
 		text = ApplyFixSubstitutions(text, sdate, fixsubs)
@@ -115,6 +123,11 @@ def FilterDebateSpeakers(fout, text, sdate, typ):
 
 			spstr = string.strip(speakerg.group(5))
 			spstrbrack = speakerg.group(6) # the bracketted phrase
+
+			# do quick substitution for dep speakers in westminster hall
+			if typ == "westminhall" and re.search("deputy[ \-]speaker(?i)", spstr) and not spstrbrack:
+				#spstrbrack = depspeaker
+				spstr = depspeaker
 
 			# match the member to a unique identifier and displayname
 			try:
