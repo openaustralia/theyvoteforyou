@@ -1,5 +1,15 @@
 #!/bin/bash
 
+if [ x$LOCKFILE = x ]
+then 
+	 /software/bin/run-with-lockfile -n /home/francis/pwdata/dailyupdate-lockfile $0
+	if [ $? = 100 ]
+	then
+		echo "Another copy of dailyupdate is already running" 1>&2
+	fi
+	exit $?
+fi
+
 #FROMDATE=2001-06-01
 FROMDATE=2004-01-01 # until Julian sorts out gid replacing
 

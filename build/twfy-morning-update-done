@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Gets message from theyworkforyou that the divisionsonly files have updated.
+# This needs to sit in cgi-bin on www.publicwhip.org.uk
+
+at NOW >/dev/null 2>/dev/null <<EOF
+/home/francis/publicwhip/build/dailyupdate
+EOF
+
+cat <<EOF
+Content-Type: text/plain
+
+Job scheduled.
+EOF
