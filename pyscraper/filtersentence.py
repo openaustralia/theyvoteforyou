@@ -143,7 +143,6 @@ class PhraseTokenize:
 			self.rmqnum = frqnum
 			stex = stex[frqnum.span(0)[1]:]
 
-
 		self.StandingOrder1(qs, stex)
 
 

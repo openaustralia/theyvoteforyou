@@ -108,13 +108,12 @@ def FilterDebateSpeakers(fout, text, sdate):
 				assert not oqnum
 				oqnum = speakerg.group(4)
 			if oqnum:
-				oqnum = "(%s) " % oqnum
+				oqnum = ' oral-qnum="%s"' % oqnum
 			else:
 				oqnum = ""
 
 			# the preceding square bracket qnums
-			if speakerg.group(2):
-				oqnum = speakerg.group(2) + " " + oqnum
+			sqbnum = speakerg.group(2) or ""
 
 			party = speakerg.group(7)
 
@@ -129,7 +128,7 @@ def FilterDebateSpeakers(fout, text, sdate):
 				raise ContextException(str(e), stamp=stampurl, fragment=fss)
 
 			# put record in this place
-			spxm = '%s<speaker %s>%s</speaker>\n%s' % (anamestamp, result.encode("latin-1"), spstr, oqnum)
+			spxm = '%s<speaker %s%s>%s</speaker>\n%s' % (anamestamp, result.encode("latin-1"), oqnum, spstr, sqbnum)
 			fout.write(spxm)
 			continue
 
