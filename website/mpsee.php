@@ -1,5 +1,5 @@
 <?php $title = "Vote map"; include "header.inc" 
-# $Id: mpsee.php,v 1.9 2003/10/23 00:11:23 frabcus Exp $
+# $Id: mpsee.php,v 1.10 2004/02/06 16:14:25 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -263,6 +263,18 @@ analysis of any kind.  I think these diagrams are about as far as it
 goes with this, and they are not bad.  If you would like the data in a 
 form you can play with in your own cluster analysis software, please 
 send us details and we can try to post it up for everyone like you to use.
+
+<p><b>2004-02-06</b> Chris Lightfoot took up our offer, and has generated very
+interesting cluster graphics using principal component analyis.  This differs
+from our distance-metric based clustering, by instead rotating a
+multidimensional space so the 2D projection you see has the maximum variance
+across it.  Full details and political commentary can be found on Chris' blog
+entry <a
+href="http://ex-parrot.com/~chris/wwwitter/20040203-which_parliamentary_co-ordinate_are_you.html">
+"Which Parliamentary co-ordinate are you?"</a>.  Chris's analysis also enables him to work out what
+the axes mean, go have a look.
+<p>
+
 
 <?php include "footer.inc" ?>
 

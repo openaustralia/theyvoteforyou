@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+
+echo "Writing division names"
+./divlist.pl >divnames.txt
+
+echo "Writing vote matrices"
+./votematrix.pl
+
+echo "Processing with PCA"
+./dopca <votematrix-2001.csv >../../website/votemap/mpcoords-lf-2001.txt
+./dopca <votematrix-1997.csv >../../website/votemap/mpcoords-lf-1997.txt
+
+

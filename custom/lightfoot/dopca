@@ -6,13 +6,23 @@
 # Email: chris@ex-parrot.com; WWW: http://www.ex-parrot.com/~chris/
 #
 
-my $rcsid = ''; $rcsid .= '$Id: dopca,v 1.1 2004/01/29 19:22:33 frabcus Exp $';
+my $rcsid = ''; $rcsid .= '$Id: dopca,v 1.2 2004/02/06 16:14:25 frabcus Exp $';
 
 use strict;
 
 #use Math::MatrixReal;
 
+use lib "./";
 use Eigs;
+
+my %divnames = ( );
+open(DIVNAMES, "divnames.txt") or die;
+<DIVNAMES>;
+while (defined($_ = <DIVNAMES>)) {
+    chomp;
+    my ($k, $v) = split(/#/);
+    $divnames{$k} = $v;
+}
 
 my $threshold = 500;
 
@@ -32,14 +42,19 @@ my @divisions = ( );    # names of divisions
 my @votes = ( );        # values of votes
 my @sx = ( );
 
-# first `division' is number of divisions in which MP votes.
+# record number of times each MP voted
+my @numvotes = ( );
 for (my $i = 0; $i < @mpnames; ++$i) {
-    $votes[0]->[$i] = 0;
+    $numvotes[$i] = 0;
 }
 
 my $n = 0;
 while (defined(my $line = <STDIN>)) {
     chomp($line);
+
+    # abstains are zero for this analysis
+    $line =~ s/--/0/g; 
+
     my @vv = split(/,\s*/, $line);
 
     last if (@vv < @mpnames);
@@ -58,7 +73,7 @@ while (defined(my $line = <STDIN>)) {
     next if ($voters < $threshold);
 
     for (my $i = 0; $i < @mpnames; ++$i) {
-        ++$votes[0]->[$i] if ($vv[$i]);
+        ++$numvotes[$i] if ($vv[$i]);
     }
 
     push(@divisions, $d);
@@ -72,33 +87,29 @@ printf STDERR "%d divisions with >= %d voters\n", scalar(@divisions), $threshold
 
 # normalise voting record.
 for (my $i = 0; $i < @mpnames; ++$i) {
-    $votes[0]->[$i] /= @divisions;
+    $numvotes[$i] /= @divisions;
 }
-
 
 my $cov = []; #new Math::MatrixReal(scalar(@divisions), scalar(@divisions));
 
 # Now need to compute variance-covariance matrix for these divisions.
 for (my $d1 = @divisions - 1; $d1 >= 0; --$d1) {
-    printf STDERR "%d\r", $d1;
+    printf STDERR "%d  \r", $d1;
     for (my $d2 = 0; $d2 <= $d1; ++$d2) {
-        my ($sx, $sy, $sxx, $syy, $sxy) = (0, 0, 0, 0, 0);
+        my $sxy = 0;
         for (my $i = 0; $i < @mpnames; ++$i) {
-#            $sxx += $votes[$d1]->[$i] ** 2;
-#            $syy += $votes[$d2]->[$i] ** 2;
             $sxy +=  $votes[$d1]->[$i] * $votes[$d2]->[$i];
         }
 
         my $c = ($sxy - $sx[$d1] * $sx[$d2] / @mpnames) / @mpnames;
 
         $cov->[$d1]->[$d2] = $cov->[$d2]->[$d1] = $c;
-        
-#        $cov->assign($d1 + 1, $d2 + 1, $c);
-#        $cov->assign($d2 + 1, $d1 + 1, $c);
     }
 }
 
 print STDERR "\n";
+
+my $L = sqrt(@divisions - 1.);
 
 if ($ARGV[0]) {
     my $vals = Eigs::compute_eigs(0, $cov);
@@ -107,12 +118,48 @@ if ($ARGV[0]) {
     my $E = Eigs::compute_eigs(1, $cov);
 
     # compute x, y coordinates for the various MPs.
+    my (@x, @y);
     for (my $i = 0; $i < @mpnames; ++$i) {
         my ($x, $y) = (0, 0);
         for (my $j = 0; $j < @divisions; ++$j) {
             $x += $E->[0]->[1]->[$j] * $votes[$j]->[$i];
             $y += $E->[1]->[1]->[$j] * $votes[$j]->[$i];
         }
-        printf "%f %f # %s\n", $x, $y, $mpnames[$i];
+        push(@x, $x / $L);
+        push(@y, $y / $L);
+#        printf "%f %f %f # %s\n", $x / $L, $y / $L, $numvotes[$i], $mpnames[$i];
     }
+
+    # print out report for the java applet to read.
+    my $NMPs = 0;
+    foreach (@numvotes) {
+        ++$NMPs if ($_ > 0);
+    }
+
+    print "$NMPs 1 1 1\n";
+    my $a = 1;
+    for (my $i = 0; $i < @mpnames; ++$i) {
+        next if ($numvotes[$i] == 0);
+        my ($name, $party) = ($mpnames[$i] =~ /^([^(]+?) +\(([^)]+)\)/);
+        printf "%d %f %f 0.0 \"%s\" \"%s\"\n", $a++, $x[$i] / $numvotes[$i], $y[$i] / $numvotes[$i], $name, $party;
+    }
+    
+### 
+###     print "# eigenvectors report\n";
+###     print "# x:\n";
+### 
+###     my @c = sort { abs($E->[0]->[1]->[$b]) <=> abs($E->[0]->[1]->[$a]) } (0 .. $#divisions);
+###     foreach (@c) {
+###         printf "# %f # %s: %s\n", $E->[0]->[1]->[$_], $divisions[$_], $divnames{$divisions[$_]};
+###     }
+### 
+###     print "#\n";
+###     print "# y:\n";
+### 
+###     @c = sort { abs($E->[1]->[1]->[$b]) <=> abs($E->[1]->[1]->[$a]) } (0 .. $#divisions);
+###     foreach (@c) {
+###         printf "# %f # %s: %s\n", $E->[1]->[1]->[$_], $divisions[$_], $divnames{$divisions[$_]};
+###     }
+###     
 }
+

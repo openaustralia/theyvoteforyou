@@ -1,5 +1,5 @@
 <?php $title = "Join the Project"; include "../header.inc" 
-# $Id: index.php,v 1.1 2003/10/22 22:43:09 frabcus Exp $
+# $Id: index.php,v 1.2 2004/02/06 16:14:25 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -14,8 +14,9 @@ post project updates, requests for help and information about the codebase
 there.
 
 <p>
-<a href="liaison.php">Hansard website correcting, campaign to improve their HTML</a>
+<a href="data.php">Raw data - load the votes into your favourite spreadsheet, and more</a>
 <br><a href="code.php">Source code, and instructions on using it</a>
+<br><a href="liaison.php">Hansard website correcting, campaign to improve their HTML</a>
 
 <p>If you would like to do something in particular, or offer your help
 in general, don't hesitate to email me <a

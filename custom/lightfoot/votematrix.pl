@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# vim:sw=4:ts=4:et:nowrap
 
 use lib "../../scraper/";
 use error;
@@ -6,10 +7,12 @@ use db;
 use parliaments;
 my $dbh = db::connect();
 
-# error::setverbosity(error::CHITTER);
-
 foreach my $parliament (@parliaments::list)
 {
+    my $outfile = "votematrix-" . $$parliament{'name'} . ".csv";
+    print STDERR "opening $outfile\n";
+    print "Parliament " . $$parliament{'name'} . "\n";
+    open(STDOUT, "> $outfile");
     print "Parliament " . $$parliament{'name'} . "\n";
 
     # Get ids of MPs
@@ -76,7 +79,7 @@ foreach my $parliament (@parliaments::list)
         for my $mp (@mp_ixs)
         {
             if (! defined $votematrix[$mp][$div])
-                { print "0"; }
+                { print "--"; }
             else
                 { print $votematrix[$mp][$div]; }
             print ", ";

@@ -1,6 +1,7 @@
 #! /bin/bash
 
 USER=francis@sphinx.mythic-beasts.com
+TOPDIR=`pwd`
 
 if [ -z "$REMOTE_DIR" ]
 then
@@ -10,7 +11,17 @@ fi
 
 echo "Fetching from CVS..."
 rm -fr tmpuploadcopy
-cvs export -r HEAD -d tmpuploadcopy publicwhip/website
+cvs -Q export -r HEAD -d tmpuploadcopy publicwhip/website
+
+echo "Copying raw data..."
+cd tmpuploadcopy
+cvs export -r HEAD -d data publicwhip/members
+rm -f data/*.pl data/*.py
+cp $TOPDIR/custom/lightfoot/*.csv .
+cp $TOPDIR/custom/lightfoot/divnames.txt .
+zip votematrix-2001.csv.zip votematrix-2001.csv
+zip votematrix-1997.csv.zip votematrix-1997.csv
+cd ..
 
 echo "Adding FastCGI header..."
 cd tmpuploadcopy
@@ -35,6 +46,7 @@ ssh $USER "chmod 0755 $REMOTE_DIR/account"
 ssh $USER "chmod 0755 $REMOTE_DIR/account/*.php"
 ssh $USER "chmod 0755 $REMOTE_DIR/project"
 ssh $USER "chmod 0755 $REMOTE_DIR/project/*.php"
+ssh $USER "chmod 0755 $REMOTE_DIR/data"
 ssh $USER "chmod 0755 $REMOTE_DIR/newsletters"
 ssh $USER "chmod 0755 $REMOTE_DIR/newsletters/*.php"
 
