@@ -55,6 +55,12 @@ which there may already be links to.
     You can put this message just before the speech that's gone into
     the wrong column and everything will be fine.
 
+<stamp parsemess-colnumoffset="2 or 0 or -2"/>
+    This offsets the column number by the specified amount until another
+    offset changes it (probably back to 0). This is due to Hansard
+    renumbering columns wholesale during the cm->vo transition, and me
+    not wanting to add hundreds of parsemess-colnums. :)
+
 <stamp parsemess-ignorenamemismatch="yes"/>
 	In this column this signals the xmlwriter to ignore mismatches in the name 
 	of the speakers when comparing records if it looks like there's 

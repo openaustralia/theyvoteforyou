@@ -407,6 +407,7 @@ def CreateGIDs(gidpart, flatb, sdate):
 	pcolnum = "####"
 	picolnum = -1
 	ncid = -1
+	colnumoffset = 0
 
 	# the missing gid numbers come previous to the gid they would have gone, to handle missing ones before the 0
 	# 0-1, 0-2, 0, 1, 2, 3-0, 3-1, 3, ...
@@ -416,11 +417,19 @@ def CreateGIDs(gidpart, flatb, sdate):
 	for qb in flatb:
 
 		# construct the gid
-		colnum = re.search('colnum="([^"]*)"', qb.sstampurl.stamp).group(1)
+		realcolnum = re.search('colnum="([^"]*)"', qb.sstampurl.stamp).group(1)
 
 		# this updates any column number corrections that were appended on the end of the stamp
-		for colnum in re.findall('parsemess-colnum="([^"]*)"', qb.sstampurl.stamp):
+		for realcolnum in re.findall('parsemess-colnum="([^"]*)"', qb.sstampurl.stamp):
 			pass
+
+		# this is to do a mass change of column number when they've got out of sync with the GIDs
+		# (normally due to Hansard's cm->vo transition)
+		for colnumoffset in re.findall('parsemess-colnumoffset="([^"]*)"', qb.sstampurl.stamp):
+			pass
+
+		colnum = realcolnum + colnumoffset
+
 		qb.ignorenamemismatch = re.search('parsemess-ignorenamemismatch="yes"', qb.sstampurl.stamp)
 
 
