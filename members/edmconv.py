@@ -1,6 +1,6 @@
-#!/usr/bin/python2.3
+#!/usr/bin/env python2.3
 # -*- coding: latin-1 -*-
-# $Id: edmconv.py,v 1.4 2004/05/30 10:48:01 frabcus Exp $
+# $Id: edmconv.py,v 1.5 2004/12/17 11:06:19 theyworkforyou Exp $
 
 # Makes file connecting MP ids to URL in the Early Day Motion EDM)
 # database at http://edm.ais.co.uk/
@@ -20,6 +20,12 @@ import sets
 sys.path.append("../pyscraper/")
 import re
 from resolvemembernames import memberList
+
+# NOTE: These pages will probably not work until they have been viewed via
+# EDM's crappy web interface, so that they are created and cached.
+#
+# curl http://edm.ais.co.uk/weblink/html/members.html/start=[a-z]/order=1/EDMI_SES=
+# is your friend.
 
 edm_index_url = "http://edm.ais.co.uk/cache/members/list.1.%s.html"
 date_today = datetime.date.today().isoformat()

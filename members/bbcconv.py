@@ -1,6 +1,6 @@
-#!/usr/bin/python2.3
+#!/usr/bin/env python2.3
 # -*- coding: latin-1 -*-
-# $Id: bbcconv.py,v 1.2 2004/03/11 11:25:54 frabcus Exp $
+# $Id: bbcconv.py,v 1.3 2004/12/17 11:06:19 theyworkforyou Exp $
 
 # Makes file connecting MP ids to URL of their BBC political profile
 # http://news.bbc.co.uk/1/hi/uk_politics/2160988.stm

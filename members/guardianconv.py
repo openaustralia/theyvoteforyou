@@ -1,5 +1,5 @@
-#!/usr/bin/python2.3
-# $Id: guardianconv.py,v 1.7 2004/06/11 09:10:07 theyworkforyou Exp $
+#!/usr/bin/env python2.3
+# $Id: guardianconv.py,v 1.8 2004/12/17 11:06:19 theyworkforyou Exp $
 
 # Converts tab file of Guardian URLs into XML.  Also extracts swing/majority
 # from the constituency page on the Guardian.
