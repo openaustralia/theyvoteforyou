@@ -52,7 +52,7 @@ class MemberList(xml.sax.handler.ContentHandler):
                 self.lastnames[lastname] = [attr,]
 
         elif name == "alias":
-            if self.fullnames.has_key(attr["alternate"]):
+	    if self.fullnames.has_key(attr["alternate"]):
                 raise Exception, 'Already have alternate ' + attr["alternate"]
             else:
                 self.fullnames[attr["alternate"]] = self.fullnames[attr["canonical"]]

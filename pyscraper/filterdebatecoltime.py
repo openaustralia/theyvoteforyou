@@ -15,6 +15,8 @@ from miscfuncs import ApplyFixSubstitutions
 #     <stamp coldate="2003-12-09" colnum="893"/>
 
 fixsubs = 	[
+	( '(<H3 align=center>THE PARLIAMENTARY DEBATES</H3>)', '<B>14 Oct 2003 : Column 1</B>\n\\1', 1, '2003-10-14'),
+	( '(<H4><center>THE PARLIAMENTARY DEBATES</center></H4>)', '<B>14 Jul 2003 : Column 1</B>\n\\1', 1, '2003-07-14'),
  		]
 
 # <B>9 Dec 2003 : Column 893</B>
@@ -33,7 +35,7 @@ regtime = '(?:</?p>\s*|<h[45]>|\[|\n)\d+(?:[:\.]\d+)?\s*[ap]m(?:\s*</?p>|</h[45]
 retimevals = re.compile('(?:</?p>\s*|<h\d>|\[|\n)\s*(\d+(?:[:\.]\d+)?\s*[ap]m)(?:\s*</?p>|</h\d>|\n)(?i)')
 
 recomb = re.compile('(%s|%s|%s)' % (regcolumnum, regcolnumcont, regtime))
-remarginal = re.compile(':\s*column\s*(\d+)|\n(?:\d+[.:])?\d+\s*[ap]m\W(?i)')
+remarginal = re.compile(':\s*column\s*(\d+)|\n(?:\d+[.:])?\d+\s*[ap]m[^,\w](?i)')
 
 
 

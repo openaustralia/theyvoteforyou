@@ -32,7 +32,7 @@ earliestdate = '1994-05-01'
 
 # regexps for decoding the data on an index page
 monthnames = 'January|February|March|April|May|June|July|August|September|October|November|December'
-dateindexlinks = '<b>\s*(\S+\s+\d+\s+(?:%s)\s+\d+)\s*</b>|<a href="([^"]*)">([^<]*)</a>(?i)' % monthnames
+redateindexlinks = re.compile('<b>\s*(\S+\s+\d+\s+(?:%s)\s+\d+)\s*</b>|<a\s+href="([^"]*)">([^<]*)</a>(?i)' % monthnames)
 
 
 # this pulls out all the direct links on this particular page
@@ -47,7 +47,7 @@ def CmIndexFromPage(urllinkpage):
 	# <b>Wednesday 5 November 2003</b>
 	#<td colspan=2><font size=+1><b>Wednesday 5 November 2003</b></font></td>
 	# <a href="../cm199900/cmhansrd/vo000309/debindx/00309-x.htm">Oral Questions and Debates</a>
-	datelinks = re.findall(dateindexlinks, srlinkpage)
+	datelinks = redateindexlinks.findall(srlinkpage)
 
 	# read the dates and links in order, and associate last date with each matching link
 	res = []
@@ -61,6 +61,8 @@ def CmIndexFromPage(urllinkpage):
 		elif re.search('debate|westminster|written(?i)', link[2]):
 			if not sdate:
 				raise Exception, 'No date for link in: ' + urllinkpage
+			if re.search('debate(?i)', link[2]):
+				print sdate
 
 			# take out spaces and linefeeds we don't want
 			uind = urlparse.urljoin(urllinkpage, re.sub('\s', '', link[1]))
@@ -106,6 +108,7 @@ def CmAllIndexPages(urlindex):
 		# <a href="cmvol352.htm"><b>Volume 352</b>
 		vollinks = re.findall('<a href="([^"]*)"><b>volume[^<]*</b>(?i)', sryearvol)
 		for vol in vollinks:
+			print vol
 			res.append(urlparse.urljoin(urlyearvol, re.sub('\s', '', vol)))
 
 	return res

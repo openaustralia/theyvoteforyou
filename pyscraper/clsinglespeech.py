@@ -33,7 +33,10 @@ class qspeech:
 		sp = re.split('(<stamp [^>]*>|<page url[^>]*>)', self.text)
 		for i in range(len(sp)):
 			if re.match('<stamp [^>]*>', sp[i]):
-				stampurl.stamp = sp[i]
+				if re.match('<stamp time[^>]*>', sp[i]):
+					stampurl.timestamp = sp[i]
+				else:
+					stampurl.stamp = sp[i]
 				sp[i] = ''
 
 				# string ends with a lower case character, and next begins with a lower case char
@@ -54,11 +57,8 @@ class qspeech:
 
 	def __init__(self, lspeaker, ltext, stampurl, lsdate):
 		self.speaker = lspeaker
-
 		self.text = ltext
-
 		self.sdate = lsdate
-
 		self.sstampurl = copy.copy(stampurl)
 
 		# this is a bit shambolic as it's done in the other class as well.
@@ -70,6 +70,11 @@ class qspeech:
 		else:
 			self.typ = 'reply'
 
+		# reset the id if the column changes
+		if stampurl.stamp != self.sstampurl.stamp:
+			stampurl.ncid = 0
+		else:
+			stampurl.ncid = stampurl.ncid + 1
 
 
 	def FixSpeech(self, qnums):

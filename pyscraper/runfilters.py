@@ -13,6 +13,8 @@ from filterwranssections import FilterWransSections
 
 from filterdebatecoltime import FilterDebateColTime
 from filterdebatespeakers import FilterDebateSpeakers
+from filterdebatesections import FilterDebateSections
+
 
 toppath = os.path.expanduser('~/pwdata')
 
@@ -93,7 +95,7 @@ def RunDebateFilters(fout, text, sdate):
 	text = si.getvalue()
 	si.close()
 
-	fout.write(text)
+	FilterDebateSections(fout, text, sdate)
 
 
 ###############

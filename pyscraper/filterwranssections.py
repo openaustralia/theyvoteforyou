@@ -10,7 +10,10 @@ import mx.DateTime
 
 
 from miscfuncs import ApplyFixSubstitutions
+
 from splitheadingsspeakers import SplitHeadingsSpeakers
+from splitheadingsspeakers import StampUrl
+
 from clsinglespeech import qspeech
 from parlphrases import parlPhrases
 
@@ -94,22 +97,6 @@ fixsubs = 	[
 		]
 
 
-# these types of stamps must be available in every question and batch.
-# <stamp coldate="2003-11-17" colnum="518" type="W"/>
-# <page url="http://www.publications.parliament.uk/pa/cm200102/cmhansrd/vo020522/text/20522w01.htm">
-
-class StampUrl:
-	def __init__(self):
-		self.stamp = ''
-		self.pageurl = ''
-		self.majorheading = 'BLANK MAJOR HEADING'
-		self.ncid = 0
-
-	def UpdateStampUrl(self, text):
-		for st in re.findall('(<stamp [^>]*?/>)', text):
-			self.stamp = st
-		for stp in re.findall('<(page url[^>]*?)/?>', text):
-			self.pageurl = '<%s/>' % stp  # puts missing slash back in.
 
 
 # parse through the usual intro headings at the beginning of the file.
@@ -161,12 +148,6 @@ def ScanQBatch(shspeak, stampurl, sdate):
 				print shs[1]
 			shansblock.append(qblock)
 			qblock = []
-
-		# reset the id if the column changes
-		if stampurl.stamp != qb.sstampurl.stamp:
-			stampurl.ncid = 0
-		else:
-			stampurl.ncid = stampurl.ncid + 1
 
 	if qblock:
 		# these are common failures of the data
