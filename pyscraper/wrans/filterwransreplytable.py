@@ -31,7 +31,9 @@ def ParseRow(srow, hdcode, stampur):
 			if col.group(2):
 				talign = ' align="center"'
 			Lscols.append('<%s%s%s>' % (hdcode, tcolspan, talign))
-			Lscols.extend(FixHTMLEntitiesL(col.group(3), '</?font[^>]*>|</?p>|\n|</?center>|</?B>(?i)', stampurl=stampur))
+                        content = FixHTMLEntitiesL(col.group(3), '</?font[^>]*>|</?p>|\n|</?center>|</?B>(?i)'
+                        content.replace("<br>", "")
+			Lscols.extend(content, stampurl=stampur))
 			Lscols.append('</%s> ' % hdcode)
 
 		# check that the outside text contains nothing but bogus close column tags
