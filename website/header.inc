@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.33 2004/04/10 11:46:55 frabcus Exp $
+# $Id: header.inc,v 1.34 2004/05/24 00:59:00 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -65,7 +65,8 @@ Confused?  Tell us so we can improve!
 <a title="Frequently Asked Questions" href="<?=$toppath?>faq.php">FAQ</a>
 <a title="List of all votes in Parliament" href="<?=$toppath?>divisions.php">Divisions</a>
 <a title="List of all Members of Parliament" href="<?=$toppath?>mps.php">MPs</a>
-<a title="Parliamentary Questions for Written Answer" href="<?=$toppath?>wrans.php">Wrans</a>
+<a title="Parliamentary Questions for Written Answer" href="<?=$toppath?>wrans.php">Written Answers</a>
+<a title="MPs who vote the way you want" href="<?=$toppath?>dreammps.php">Dream MPs</a>
 <a title="Cluster diagram of voting record" href="<?=$toppath?>mpsee.php">Vote Map</a>
 <a title="Help run the project" href="<?=$toppath?>project/index.php">Project</a>
 <a title="Login or change settings" href="<?=$toppath?>account/settings.php">Account</a>

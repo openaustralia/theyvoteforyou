@@ -1,3 +1,7 @@
+TODO:
+get edm links updated
+speech counts should be done by person id
+
 This file describes all the mpinfo, and how it gets updated when the list of
 members in all-members.xml alters.  There are scripts in this folder (e.g.
 guardianconv.py) which makes XML files in this folder (e.g.
@@ -8,11 +12,11 @@ guardian-links.xml).
 
 * personsets.py
 
-register of members interests - current data for each current MP
++ register of members interests - current data for each current MP
 currently linked to date regmem was published, so we have multiple entries
 should for each person find their most recent regmem? or history?
 
-edm links - 
+* edm links - 
 currently linked to date edmconv was last ran
 will degrade with time, want to find latest valid for person
 

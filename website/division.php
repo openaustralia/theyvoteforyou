@@ -4,7 +4,7 @@
         include "cache-begin.inc"; 
 ?>
 <?php
-# $Id: division.php,v 1.31 2004/05/11 14:53:38 frabcus Exp $
+# $Id: division.php,v 1.32 2004/05/24 00:59:00 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -221,12 +221,44 @@
     print " (on the Parliament website)";
     print "$notes";
     
+    # Show motion text
     print "<h2><a name=\"motion\">Motion</a></h2> <p>Procedural text extracted from the debate,
     so you can try to work out what 'aye' (for the motion) and 'no' (against the motion) meant.
     This is for guidance only, irrelevant text may be shown, crucial text may
     be missing.</p>";
     print "<div class=\"motion\">$motion";
     print "</div>\n";
+
+    # Show Dream MPs who voted in this division and their votes
+    $db->query("select name, rollie_id, vote, real_name, email from pw_dyn_rolliemp, pw_dyn_rollievote, pw_dyn_user
+        where pw_dyn_rollievote.rolliemp_id = pw_dyn_rolliemp.rollie_id and
+        pw_dyn_user.user_id = pw_dyn_rolliemp.user_id and
+        pw_dyn_rollievote.division_date = '$date' and pw_dyn_rollievote.division_number = '$div_no' ");
+    if ($db->rows() > 0)
+    {
+        $prettyrow = 0;
+        print "<h2><a name=\"dreammp\">Dream MP Voters</a></h2>";
+        print "<p>The following Dream MPs have voted in this division.  You can use this
+           to help you work out the meaning of the vote.";
+        print "<table><tr class=\"headings\">";
+        print "<td>Dream MP</td><td>Vote (in this division)</td><td>Made by</td><td>Email</td>";
+        while ($row = $db->fetch_row_assoc()) {
+            $dmp_real_name = $row["real_name"];
+            $dmp_email = preg_replace("/(.+)@(.+)/", "$2", $row["email"]);
+            $prettyrow = pretty_row_start($prettyrow);        
+            $vote = $row["vote"];
+            if ($vote == "both")
+                $vote = "abstain";
+            print "<td><a href=\"dreammp.php?id=" . $row["rollie_id"] . "\">";
+            print $row["name"] . "</a></td>";
+            print "<td>" . $vote . "</td>";
+            print "<td>" . html_scrub($dmp_real_name) . "</td>";
+            print "<td>" . html_scrub($dmp_email) . "</td>";
+            print "</tr>";
+        }
+        print "</table>";
+        print "<p><a href=\"account/adddream.php\">Make your own dream MP</a>";
+    }
 
     # Work out proportions for party voting (todo: cache)
     $db->query("select party, total_votes from pw_cache_partyinfo");

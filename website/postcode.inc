@@ -1,6 +1,5 @@
 <?php
 
-include "/home/francis/.pwdb.inc";
 include "constituencies.inc";
 
 function is_postcode($postcode)

@@ -1,3 +1,4 @@
+<?php include "cache-begin.inc"; ?>
 <?php 
     # $dreamid: dreammp.php,v 1.4 2004/04/16 12:32:42 frabcus Exp $
 
@@ -51,6 +52,7 @@
     }
     else
         print "<p><a href=\"account/adddream.php\">Make your own dream MP</a>";
+        print "<br><a href=\"dreammps.php\">See all dream MPs</a>";
 
     print "<h2><a name=\"divisions\">Divisions Attended</a></h2>
     <p>Divisions in which this dream MP has voted."; 
@@ -68,7 +70,7 @@
 
     print "<tr class=\"headings\">
     <td>No.</td><td>Date</td><td>Subject</td>
-    <td>Vote</td>
+    <td>Dream Vote</td>
     <td>Debate</td></tr>";
     $prettyrow = 0;
     $rollievote = array();
@@ -77,7 +79,7 @@
         $rollievote[$row[0]] = $row[5];
         $prettyrow = pretty_row_start($prettyrow);
         $vote = $row[5];
-        if ($vote = "both")
+        if ($vote == "both")
             $vote = "abstain";
         print "<td>$row[1]</td> <td>$row[2]</td> <td><a
             href=\"division.php?date=" . urlencode($row[2]) . "&number=" . urlencode($row[1]) . "\">$row[3]</a></td>
@@ -118,7 +120,7 @@
 
     print "<table class=\"mps\">\n";
     print "<tr class=\"headings\">";
-    print "<td>Name</td><td>Constituency</td><td>Party</td><td colspan=2>'" . html_scrub($dmp_name) . "'<br>agreement score</td>";
+    print "<td>Rank</td><td>Name</td><td>Constituency</td><td>Party</td><td colspan=2>'" . html_scrub($dmp_name) . "'<br>agreement score</td>";
     print "</tr>";
 
     $prettyrow = 0;
@@ -157,17 +159,30 @@
 
     function sortbyscore($row1, $row2)
     {
+        // First compare percentage (allow for n/a when MP has never voted in
+        // same division as dream MP)
         if ($row1['scoremax'] == 0)
-            $frac1 = -1;
+            $frac1 = 0; // change to -1 to put n/a at end
         else
             $frac1 = $row1['score'] / $row1['scoremax'];
         if ($row2['scoremax'] == 0)
-            $frac2 = -1;
+            $frac2 = 0; // change to -1 to put n/a at end
         else
             $frac2 = $row2['score'] / $row2['scoremax'];
         if ($frac1 <> $frac2)
             return $frac1 < $frac2;
         
+        // Then compare absolute (so it is better to have voted lots and
+        // agreed, than a little and agreed)
+        if ($row1['score'] <> $row2['score'])
+            return $row1['score'] < $row2['score'];
+
+        // Then reverse compare number of disagreed votes
+        // so 0 of 1 is better than 0 of 10
+        if ($row1['scoremax'] - $row1['score'] <> $row2['scoremax'] - $row2['score'])
+            return ($row1['scoremax'] - $row1['score']) > ($row2['scoremax'] - $row2['score']);
+
+        // Arbitarily sort after that
         if ($row1['last_name'] <> $row2['last_name'])
             return strcmp($row1['last_name'], $row2['last_name']);
         
@@ -185,13 +200,23 @@
 
     usort($rowarray, sortbyscore);
 
+    $rank = 0;
+    $userank = -1;
+    $prevscore = "";
     foreach ($rowarray as $row)
     {
+        $rank += 1;
+
         $score = $row['score'] . " of ". $row['scoremax'];
+        if ($score != $prevscore)
+            $userank = $rank;
+        $prevscore = $score;
+
         $perc = percentise(make_percent($row['score'], $row['scoremax']));
         
         $prettyrow = pretty_row_start($prettyrow);
 
+        print "<td>" . $userank . "</td>";
         print "<td>" . set_mp_with_link($row) . "</td></td>
             <td>" . $row['constituency'] . "</td>
             <td>" . set_party($row). "</td>
@@ -205,4 +230,4 @@
 ?>
 
 <?php include "footer.inc" ?>
-
+<?php include "cache-end.inc"; ?>

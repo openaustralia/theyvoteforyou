@@ -1,6 +1,6 @@
 <?  
 
-# $Id: adddream.php,v 1.4 2004/04/16 13:34:57 frabcus Exp $
+# $Id: adddream.php,v 1.5 2004/05/24 00:59:00 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -110,8 +110,8 @@ if (user_isloggedin()) # User logged in, show settings screen
         into the Public Whip website, by submitting it you grant us a wide
         license of use.  In particular, we will display the text on the
         website, alongside your dream MP's voting record and your name and
-        email.  You additionally grant us the right to publish the text in any other form, such
-        as on a poster, on a CD-ROM or in a newspaper.
+        email.  You additionally grant us the right to publish the text
+        in any other form, such as on a poster, on a CD-ROM or in a newspaper.
 
         <p><span class="ptitle">Privacy Notes:</span>
         By creating a dream MP you are making your name

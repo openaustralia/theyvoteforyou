@@ -1,6 +1,6 @@
 <?  
 
-# $Id: register.php,v 1.11 2004/02/11 00:07:56 frabcus Exp $
+# $Id: register.php,v 1.12 2004/05/24 00:59:00 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -54,16 +54,6 @@ else
 
 if (!$ok)
 {
-?>
-    <p><span class="ptitle">Privacy Policy:</span>
-    Your email address and info will never be given to or sold to third
-    parties.  We will only send you the Public Whip newsletter, or 
-    other occasional messages about the Public Whip.  Your login will
-    also give you access to the Dream MP feature.
-    In the future it may give you access to other free services on the Public
-    Whip website.  Any changes to this policy will require your explicit
-    agreement.
-<?
     if (!$feedback) {
         print "<p>What are you waiting for?  It's free!";
     }
@@ -85,6 +75,14 @@ if (!$ok)
     <B>Email (must be accurate to confirm):</B><BR>
     <INPUT TYPE="TEXT" NAME="email" VALUE="<?=$email?>" SIZE="40" MAXLENGTH="50">
     <P>
+    <p><span class="ptitle">Privacy Policy:</span>
+    Your email address and info will never be given to or sold to third
+    parties.  We will only send you the Public Whip newsletter, or 
+    other occasional messages about the Public Whip.  Your login will
+    also give you access to the Dream MP feature.
+    In the future it may give you access to other free services on the Public
+    Whip website.  Any changes to this policy will require your explicit
+    agreement.
     <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Sign Up For Newsletter">
     </FORM>
 <?php

@@ -37,6 +37,17 @@ Put up raw data for ranking scores for rebel/attend that are only in fawkes
 Dream MP
 --------
 
+Performance on sphinx
+Cache dream MP page - delete cache file when it changes
+Cope with changes to 
+    - division.php 
+    - dreammps.php
+    - dreampmp.php
+
+Comments (PHP/MySQL website style) on 
+    - individual votes
+    - dream MP page
+
 "If the MPs rarely decisively vote on anything meaningful, we should not
 apologize for it.  The deam MP exercise gets your optimistic
 participation, and then you uncover the full horror that out of all this
@@ -50,23 +61,15 @@ scientist or journalist by passing exams or getting the right jobs.  You do it
 by advancing human knowledge, finding key facts out that are real interesting.
 Then you get taken seriously.  Before then you're just a student."
 
-Make page with list of Dream MPs which I approve
-Performance on sphinx
-
-Comments
-Edit MP page
-Web page URL of you
+Make authority clearer - link to email domain web page?
 
 Party comparison
+Put dream MP ranking on MP page
 
-Add rank number on left column
-Sort by number of times voted on issues 
-or add that into the score with a weight
+Check what Julian thinks of score sorting etc.
 
 Change "Account" button when logged in
-Cache dream MP page - delete cache file when it changes
-
-make sure db-get is getting new tables
+Web page URL of you
 
 Wrans
 -----

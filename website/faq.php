@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.22 2004/05/18 23:09:59 frabcus Exp $
+# $Id: faq.php,v 1.23 2004/05/24 00:59:00 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -120,9 +120,9 @@ each vote.  If you are a member of a political party, and want to fix the Public
 Whip site, lobby them to do this, then let us know.
 </ol>
 
-<p>Parties can't have it both ways - complain that we don't know what the whip is,
+<p>Parties can't have it both ways&mdash;complain that we don't know what the whip is,
 and at the same time not tell us.  There is no contradiction in admitting the whip
-exists and recording it officially - after all some whips <a href="http://www.cabinet-office.gov.uk/civilservice/min-mp-pay/min_sal_tables.htm">are paid a salary by the taxpayer</a> so
+exists and recording it officially&mdash;after all some whips <a href="http://www.cabinet-office.gov.uk/civilservice/min-mp-pay/min_sal_tables.htm">are paid a salary by the taxpayer</a> so
 there is a precedent for admitting they exist.
 
 <h2><a name="spreadsheet">Where is the data in spreadsheet file format or in XML?</a></h2>

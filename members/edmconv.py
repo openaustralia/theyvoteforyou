@@ -1,6 +1,6 @@
 #!/usr/bin/python2.3
 # -*- coding: latin-1 -*-
-# $Id: edmconv.py,v 1.2 2004/03/08 15:15:55 frabcus Exp $
+# $Id: edmconv.py,v 1.3 2004/05/24 00:59:00 frabcus Exp $
 
 # Makes file connecting MP ids to URL in the Early Day Motion EDM)
 # database at http://edm.ais.co.uk/
@@ -40,9 +40,14 @@ for letter in [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
     content = ur.read()
     ur.close()
 
+    if re.search("Not Found(?i)", content):
+        raise Exception, "Failed to get content in url %s" % test_url
+
     matcher = '<TD ALIGN="LEFT" VALIGN="TOP"><A HREF="(/weblink/html/member.html/.*)/log=\d+/pos=\d+" TARGET="_parent"><font face="arial,helvetica" size=2>(.*)/(.*)</A></TD>\s*<TD ALIGN="LEFT" VALIGN="TOP"><font face="arial,helvetica" size=2>(.*)</TD>'
     matches = re.findall(matcher, content)
     for (url, last, first, cons) in matches:
+        print last, first, url
+    
         first = re.sub(" \(.*\)", "", first)
         id, name, cons =  memberList.matchfullnamecons(first + " " + last, cons, date_today)
         url = urlparse.urljoin(test_url, url)
