@@ -15,22 +15,15 @@ Parliament, so that you can hold them to account.
 ***********************************************************************
 Editorial
 
-... First division of new session
-
-It hasn't happened yet, but now I'm waiting for when Hansard bind the
-last session into one volume. This practice dates from when The
-Official Record was only available on paper. When the bound text is
-published on the web, I'll scrape it again to get any corrections that
-have been made. And since the daily text will then be taken down, to
-fix all the links from Public Whip to point to the new bound volume
-text.
+Happy new session! Last week, the Queen's Speech marked the start of the
+parliamentary new year. In the next few days we'll be able to celebrate
+the division number rolling over to one again. 
 
 Meanwhile, there's a brand new charity dedicated to making fresh
-websites similar to Public Whip, which use the internet to help society.
-Their publicity has been so good you may well have heard about them
-already - otherwise catch up now at http://www.mysociety.org . It's
-inspiring to read on their website the ideas that they've collected. Now
-they're winnowing them down to the perfect projects to actually fund. 
+websites which, like Public Whip, use the internet to help society.
+They're called http://www.mysociety.org . It's inspiring to read on
+their website the ideas that they've collected. Now they're winnowing
+them down to the perfect projects to actually fund. 
 
  - Francis, The Public Whip (http://www.publicwhip.org.uk)
 
@@ -137,16 +130,16 @@ cross check to the clerks inside the lobby who write down a list
 of names. Although formally it need not be, in practice it is always
 the case that a teller supports the side that he tells for.
 
-The tellers are listed in Hansard, but until now Public Whip wasn't
-counting them. Now it does, and you will notice that everyone's 
-attendance rate has gone up slightly. The effect is particularly extreme
-for some party whips, who tell very often. For example, Hugh Robertson's
-attendance went from 64.3% to 71.8%. Thanks to everyone who asked for
-and helped us add this feature - you know who you are.
+The tellers are listed in Hansard, but Public Whip wasn't counting them.
+Now it does, and you will notice that everyone's attendance rate has
+gone up slightly. The effect is particularly extreme for some party
+whips, who tell very often. For example, Hugh Robertson's attendance
+went from 64.3% to 71.8%. Thanks to everyone who asked for and helped us
+add this feature - you know who you are.
 http://www.publicwhip.org.uk/mp.php?firstname=Hugh&lastname=Robertson&constituency=Faversham+%26+Mid+Kent
 
 The occasions when an MP telled are now summarised in the same table
-which lists when they rebelled.  Sometimes an MP is both a rebel and a
+which lists when they rebelled. Sometimes an MP is both a rebel and a
 teller, which is perhaps especially significant. Jeremy Corbyn, for
 example, has done this on many occasions. 
 http://www.publicwhip.org.uk/mp.php?firstname=Jeremy&lastname=Corbyn&constituency=Islington+North
@@ -163,13 +156,13 @@ http://www.publicwhip.org.uk/division.php?date=2003-11-19&number=381
 Project Spotlight
 
 Matt Ashby has been busy hassling Hansard for us, following our call
-last month for help getting errors and ommissions fixed. Have a look
+last month for help getting errors and omissions fixed. Have a look
 here and you can see the comments he has made chasing up TSO.
 Thank you Matt, and keep at it!
 http://sourceforge.net/tracker/index.php?func=detail&aid=828133&group_id=87640&atid=602722
 
 You can join Matt, and with just a few telephone calls help us out no
-end.  Here's the full details on what to do.
+end. Here's the full details on what to do.
 http://www.publicwhip.org.uk/project/liaison.php
 Send me an email, francis@publicwhip.org.uk, if you have any questions!
 
