@@ -3,15 +3,18 @@ Instructions
 run findallhocdaydebate.py
 	generates hocdaydebatelist.xml with a list of links (crashes at one point)
 
+mkdir glueddaydebates
 run gluehocdaydebate.py
 	scans through hocdaydebatelist.xml and generates files of each glued day in gluedaydebates/
 	the filenames are not acceptable; need to generate proper Japanese date formats.
 
+mkdir c1daydebateremovechars
 run removelinebreaks.py
 	scans through gluedaydebates/ and filters files to c1daydebateremovechars/ without their comments, badlinefeeds and internal links
 
 [removecomments.py has been combined into the above case]
 
+mkdir c2daydebatefixcolumnnumbers
 run fixdebatecolumnnumbers.py
 	scans through c1daydebateremovechars/ converts columns and times, and writes into c2daydebatefixcolumnnumbers/
 

@@ -1,0 +1,15 @@
+Generic looping through files which calls the filters
+
+Parse dates for filenames into Japanese format
+Store generated data a bit more obviously away from the source code
+First run should make all the necessary directories automatically
+
+cvs remove removecomments.py
+
+My content grabber does this (horrifyingly) early on:
+    # remove strange hyphens
+    $all_content =~ s/&#150;/-/g;
+    $all_content =~ s/&#151;/-/g;
+
+Time stamps aren't all being caught e.g. search for pm in c2daydebatefixcolumnnumbers/daydebThursday13November2003.html
+
