@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.32 2004/04/08 14:19:28 frabcus Exp $
+    # $Id: mp.php,v 1.33 2004/04/24 11:32:07 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -61,7 +61,7 @@
         "&lastname=" . urlencode($last_name) . "&constituency=" .
         urlencode($constituency);
 
-    $title = html_scrub("$first_name $last_name MP, $constituency - Voting Record");
+    $title = html_scrub("Voting Record - $first_name $last_name MP, $constituency");
     include "header.inc";
 
 	print '<p><a href="#divisions">Interesting Divisions</a>';
