@@ -1,5 +1,5 @@
 <?php $title = "Ministerial whirl"; include "header.inc" 
-# $Id: minwhirl.php,v 1.2 2004/11/20 00:16:48 frabcus Exp $
+# $Id: minwhirl.php,v 1.3 2004/11/30 11:19:41 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -7,32 +7,26 @@
 # For details see the file LICENSE.html in the top level of the source.
 ?>
 
-<p><span class="ptitle">Instructions: </span> Wait for applet to load.  
-Buttons on the bottom shift the date forward and 
-backward by days, months, or to the next reshuffle.
-Colours are zoned according to the Ministeries.
-Distance from the centre is the level of power.
-Click on a name to highlight all the ministers in a department.
-Click on the same name again to see the ministerial biography.
- </p>
+<p>See how Tony Blair's government has changed from day to day, month to
+month, reshuffled to reshuffle by clicking on the buttons at the bottom
+of the Java applet.  
 
-<p><span class="ptitle">Not working?</span>  If you are able, download <a href="http://www.java.com">Sun's Java
-software</a>.  On Windows, the old unsupported Microsoft versions of
-Java will not do.</p>
+<p>The colours are zoned by government department, and the distance from
+the centre signifies seniority, with the cabinet occupying the inner
+layer.  
 
-<!--<center>
-<APPLET  CODE = "radapplet.class"  WIDTH = "700" HEIGHT = "550">
-    <PARAM NAME = CODE VALUE = "radapplet.class" >
-    <PARAM NAME = archive VALUE = "radcls.jar" >
-    <PARAM NAME="type" VALUE="application/x-java-applet;version=1.4">
-    <PARAM NAME = "ministers" VALUE="http://www.mythic-beasts.com/~julian/ministers.xml">
-    <PARAM NAME = "blairimg" VALUE="http://www.mythic-beasts.com/~julian/10047.jpg">
-    <PARAM NAME = "startdate" VALUE="1997-05-02">
-    <PARAM NAME = "framemseconds" VALUE="50">
-Sun Java 1.4 or above required
-</APPLET>
-</center>
--->
+Click on a name once to find the department that person is in.  
+
+Click in the same name a second time to review that person's career in
+government.  
+
+<p><span class="ptitle">Not working?</span>  Wait for the applet below
+to load.  If you are able, download <a href="http://www.java.com">Sun's
+Java software</a>.  On Windows, the old unsupported Microsoft versions
+of Java will not do.</p>
+
+<p><a href="#details">Read more about this below</a>.
+
 
 <p align=center>
 
@@ -57,23 +51,23 @@ Sun Java 1.4 or above required
     else if (_ns == true && _ns6 == false) document.writeln('<EMBED \
 	    type="application/x-java-applet;version=1.4" \
             CODE = "radapplet.class" \
-            ARCHIVE = "minwhirl/radcls.jar" \
+            ARCHIVE = "radcls.jar" \
             WIDTH = "750" \
             HEIGHT = "550" \
             ministers = "/data/ministers.xml" \
-            blairimg = "http://www.publicwhip.org.uk/minwhirl/blair.jpg" \
+            blairimg = "minwhirl/blair.jpg" \
             startdate = "1997-05-02" \
             framemseconds = "50" \
 	    scriptable=false \
 	    pluginspage="http://java.sun.com/products/plugin/index.html#download"><NOEMBED><XMP>');
 //--></SCRIPT>
-<APPLET  CODE = "radapplet.class" ARCHIVE = "minwhirl/radcls.jar" WIDTH = "750" HEIGHT = "550"></XMP>
+<APPLET  CODE = "radapplet.class" ARCHIVE = "radcls.jar" WIDTH = "750" HEIGHT = "550"></XMP>
     <PARAM NAME = CODE VALUE = "radapplet.class" >
-    <PARAM NAME = ARCHIVE VALUE = "minwhirl/radcls.jar" >
+    <PARAM NAME = ARCHIVE VALUE = "radcls.jar" >
     <PARAM NAME="type" VALUE="application/x-java-applet;version=1.4">
     <PARAM NAME="scriptable" VALUE="false">
     <PARAM NAME = "ministers" VALUE="/data/ministers.xml">
-    <PARAM NAME = "blairimg" VALUE="http://www.publicwhip.org.uk/minwhirl/blair.jpg">
+    <PARAM NAME = "blairimg" VALUE="minwhirl/blair.jpg">
     <PARAM NAME = "startdate" VALUE="1997-05-02">
     <PARAM NAME = "framemseconds" VALUE="50">
 SSun Java 1.4 or above required
@@ -84,6 +78,31 @@ SSun Java 1.4 or above required
 
 <!--"END_CONVERTED_APPLET"-->
 
-<p>More of the same?  <a href="mpsee.php">Try our map of MP votes</a>
+<h2><a name="details">Background</a></h2>
+
+<p>This applet is a visualization of the XML file <a
+href="/data/ministers.xml">ministers.xml</a>, which the Publicwhip
+central computer updates every twelve hours by scanning the
+Parliamentary webpage
+<a href="http://www.parliament.uk/directories/hciolists/hmg.cfm">Her
+Majesty's Government</a> for changes.  We have kept all versions of
+<a href="http://cvs.sourceforge.net/viewcvs.py/publicwhip/publicwhip/rawdata/chggpages/govposts/">
+this page</a> back to June 2004, which is about when we first thought of
+this idea.  Earlier information was kindly sent to us by the House of
+Commons library in several emails.  The source code for this little
+program is in the
+<a
+href="http://cvs.sourceforge.net/viewcvs.py/publicwhip/publicwhip/">SourceForge
+CVS</a> under custom/radialtree, and is protected by the General Public
+License.  
+
+<p>If you have any easy to implement suggestions for improvements while the
+code is still fresh in our minds, please email the team.  We've already
+thought about using pictures instead of names, but they don't fit on the
+page and are much more unrecognizable than names.  
+
+
+<p>More of the same?  <a href="mpsee.php">Try our map of MP
+votes</a></p>
 
 <?php include "footer.inc" ?>
