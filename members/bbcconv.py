@@ -1,6 +1,6 @@
 #!/usr/bin/python2.3
 # -*- coding: latin-1 -*-
-# $Id: bbcconv.py,v 1.1 2004/03/11 11:18:47 frabcus Exp $
+# $Id: bbcconv.py,v 1.2 2004/03/11 11:25:54 frabcus Exp $
 
 # Makes file connecting MP ids to URL of their BBC political profile
 # http://news.bbc.co.uk/1/hi/uk_politics/2160988.stm
@@ -51,7 +51,6 @@ for test_url in alphaurls:
         match = map(lambda x: x.strip(), match)
         (url, last, first, cons) = match
 
-        print "%s %s, %s" % (first, last, cons)
         first = re.sub(" \(.*\)", "", first)
         id, name, cons =  memberList.matchfullnamecons(first + " " + last, cons, date_today)
         url = urlparse.urljoin(bbc_index_url, url)
