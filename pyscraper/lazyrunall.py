@@ -8,6 +8,7 @@ import sys
 sys.path.append('debate')
 sys.path.append('wrans')
 sys.path.append('common')
+sys.path.append('lords')
 
 from optparse import OptionParser
 from createhansardindex import UpdateHansardIndex
@@ -35,6 +36,7 @@ parse           process scraped HTML into tidy XML files
 And choose at least one of these sections to apply them to:
 wrans           process Written Answers into XML files
 debates         process Debates into XML files
+lords			process Lords into XML files
 regmem          process Register of Members Interests into XML files
 
 Example command line
@@ -101,9 +103,8 @@ if len(args) == 0:
 #
 if options.scrape:
 		UpdateHansardIndex()
-# for now while I get the scraping code going.  
-#		if options.lords:
-#			UpdateLordsHansardIndex()
+		if options.lords:
+			UpdateLordsHansardIndex()
 		if options.forcescrape:
 			if options.wrans:
 				PullGluePages(options.datefrom, options.dateto, True, "wrans", "answers")
