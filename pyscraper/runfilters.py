@@ -4,7 +4,7 @@ import sys
 import re
 import os
 import string
-import StringIO
+import cStringIO
 
 from filterwranscolnum import FilterWransColnum
 from filterwransspeakers import FilterWransSpeakers
@@ -26,12 +26,12 @@ tempfile = toppath + "filtertemp"
 
 # filter twice through stringfiles, and then to the real file
 def RunFilters(fout, text, sdate):
-	si = StringIO.StringIO()
+	si = cStringIO.StringIO()
 	FilterWransColnum(si, text, sdate)
 	text = si.getvalue()
 	si.close()
 
-	si = StringIO.StringIO()
+	si = cStringIO.StringIO()
 	FilterWransSpeakers(si, text, sdate)
 	text = si.getvalue()
 	si.close()

@@ -141,9 +141,8 @@ class SepHeadText:
 			self.StampPageUrl(self.shtext[i][1])
 			i = i + 1
 
-		#if (not re.match('The following answers were received.*', self.shtext[i][0]) and \
-		#		(sdate != mx.DateTime.DateTimeFrom(self.shtext[i][0]).date)) or (len(self.shtext[i][2]) != 0):
-		if (not re.match('The following answers were received.*', self.shtext[i][0])) or (len(self.shtext[i][2]) != 0):
+		if (not re.match('The following answers were received.*', self.shtext[i][0]) and \
+				(sdate != mx.DateTime.DateTimeFrom(self.shtext[i][0]).date)) or (len(self.shtext[i][2]) != 0):
 			if (not majorheadings.has_key(self.shtext[i][0])) or (len(self.shtext[i][2]) != 0):
 				print 'non-conforming second heading '
 				print self.shtext[i]
