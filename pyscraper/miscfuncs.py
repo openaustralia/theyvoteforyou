@@ -172,6 +172,10 @@ def StraightenHTMLrecurse(stex, stampurl):
 				pass
 			elif sres[i] == '&gt;':
 				pass
+			elif sres[i] == '&ldquo;':
+				sres[i] = '&quot'
+			elif sres[i] == '&rdquo;':
+				sres[i] = '&quot'
 			else:
 				raise Exception, sres[i] + ' unknown ent'
 				sres[i] = 'UNKNOWN-ENTITY'
