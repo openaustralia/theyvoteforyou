@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php
-# $Id: division.php,v 1.20 2004/02/04 23:42:49 frabcus Exp $
+# $Id: division.php,v 1.21 2004/02/05 00:10:33 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -228,7 +228,7 @@
         # Table of MP votes
 #        print $query;
         $db->query($query);
-        print " ROWS " . $db->rows() . " \n";
+#        print " ROWS " . $db->rows() . " \n";
 
         global $mps;
 
