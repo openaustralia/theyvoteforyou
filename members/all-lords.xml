@@ -186,7 +186,7 @@
 	id="uk.org.publicwhip/lord/18"
 	house="lords"
 	title="Lord" lordname="Archer" lordofname="Weston-Super-Mare"
-	frontnames=""
+	frontnames="Jeffrey Howard"
 	peeragetype="Life peer" affiliation="Other"
 	fromdate="1992-07-27"
 	source="Lords2004-02-09WithFromDate.html"
@@ -194,16 +194,6 @@
 />
 <lord
 	id="uk.org.publicwhip/lord/19"
-	house="lords"
-	title="Lord" lordname="Archer" lordofname="Weston-super-mare"
-	frontnames="Jeffrey Howard"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/20"
 	house="lords"
 	title="Lord" lordname="Armstrong" lordofname="Ilminster"
 	frontnames="Robert Temple"
@@ -213,7 +203,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/21"
+	id="uk.org.publicwhip/lord/20"
 	house="lords"
 	title="Earl" lordname="" lordofname="Arran"
 	frontnames="Arthur Desmond Colquhoun"
@@ -223,7 +213,7 @@
 	comment="sits as Lord Sudley"
 />
 <lord
-	id="uk.org.publicwhip/lord/22"
+	id="uk.org.publicwhip/lord/21"
 	house="lords"
 	title="Lord" lordname="Ashcroft" lordofname=""
 	frontnames="Michael Anthony"
@@ -233,27 +223,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/23"
+	id="uk.org.publicwhip/lord/22"
 	house="lords"
 	title="Lord" lordname="Ashdown" lordofname="Norton-sub-Hamdon"
-	frontnames=""
+	frontnames="Jeremy John Durham"
 	peeragetype="Life peer" affiliation="Liberal Democrat"
 	fromdate="2001-07-10"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/24"
-	house="lords"
-	title="Lord" lordname="Ashdown" lordofname="Norton-sub-hamdon"
-	frontnames="Jeremy John Durham"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/25"
+	id="uk.org.publicwhip/lord/23"
 	house="lords"
 	title="Lord" lordname="Ashley" lordofname="Stoke"
 	frontnames="Jack"
@@ -263,7 +243,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/26"
+	id="uk.org.publicwhip/lord/24"
 	house="lords"
 	title="Baroness" lordname="Ashton" lordofname="Upholland"
 	frontnames="Catherine Margaret"
@@ -273,7 +253,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/27"
+	id="uk.org.publicwhip/lord/25"
 	house="lords"
 	title="Lord" lordname="Astor" lordofname="Hever"
 	frontnames="John Jacob"
@@ -283,7 +263,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/28"
+	id="uk.org.publicwhip/lord/26"
 	house="lords"
 	title="Viscount" lordname="Astor" lordofname=""
 	frontnames="William Waldorf"
@@ -293,7 +273,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/29"
+	id="uk.org.publicwhip/lord/27"
 	house="lords"
 	title="Lord" lordname="Attenborough" lordofname=""
 	frontnames="Richard Samuel"
@@ -303,7 +283,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/30"
+	id="uk.org.publicwhip/lord/28"
 	house="lords"
 	title="Earl" lordname="Attlee" lordofname=""
 	frontnames="John Richard"
@@ -313,7 +293,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/31"
+	id="uk.org.publicwhip/lord/29"
 	house="lords"
 	title="Lord" lordname="Avebury" lordofname=""
 	frontnames="Eric Reginald"
@@ -323,7 +303,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/32"
+	id="uk.org.publicwhip/lord/30"
 	house="lords"
 	title="Lord" lordname="Bach" lordofname=""
 	frontnames="William Stephen Goulden"
@@ -333,7 +313,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/33"
+	id="uk.org.publicwhip/lord/31"
 	house="lords"
 	title="Lord" lordname="Bagri" lordofname=""
 	frontnames="Raj Kumar"
@@ -343,7 +323,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/34"
+	id="uk.org.publicwhip/lord/32"
 	house="lords"
 	title="Lord" lordname="Baker" lordofname="Dorking"
 	frontnames="Kenneth Wilfred"
@@ -353,7 +333,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/35"
+	id="uk.org.publicwhip/lord/33"
 	house="lords"
 	title="Earl" lordname="Baldwin" lordofname="Bewdley"
 	frontnames="Edward Alfred Alexander"
@@ -363,7 +343,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/36"
+	id="uk.org.publicwhip/lord/34"
 	house="lords"
 	title="Lord" lordname="Barber" lordofname=""
 	frontnames="Anthony Perrinott Lysberg"
@@ -373,7 +353,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/37"
+	id="uk.org.publicwhip/lord/35"
 	house="lords"
 	title="Lord" lordname="Barber" lordofname="Tewkesbury"
 	frontnames="Derek Coates"
@@ -383,7 +363,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/38"
+	id="uk.org.publicwhip/lord/36"
 	house="lords"
 	title="Baroness" lordname="Barker" lordofname=""
 	frontnames="Elizabeth Jean"
@@ -393,7 +373,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/39"
+	id="uk.org.publicwhip/lord/37"
 	house="lords"
 	title="Lord" lordname="Barnett" lordofname=""
 	frontnames="Joel"
@@ -403,7 +383,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/40"
+	id="uk.org.publicwhip/lord/38"
 	house="lords"
 	title="Lord" lordname="Bassam" lordofname="Brighton"
 	frontnames="John Steven"
@@ -413,7 +393,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/41"
+	id="uk.org.publicwhip/lord/39"
 	house="lords"
 	title="Lord" lordname="Beaumont" lordofname="Whitley"
 	frontnames="Timothy Wentworth"
@@ -423,7 +403,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/42"
+	id="uk.org.publicwhip/lord/40"
 	house="lords"
 	title="Lord" lordname="Bell" lordofname=""
 	frontnames="Timothy John Leigh"
@@ -433,7 +413,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/43"
+	id="uk.org.publicwhip/lord/41"
 	house="lords"
 	title="Lord" lordname="Belstead" lordofname=""
 	frontnames="John Julian"
@@ -443,7 +423,7 @@
 	comment="sits as Lord Ganzoni"
 />
 <lord
-	id="uk.org.publicwhip/lord/44"
+	id="uk.org.publicwhip/lord/42"
 	house="lords"
 	title="Lord" lordname="Berkeley" lordofname=""
 	frontnames="Anthony Fitzhardinge"
@@ -453,7 +433,7 @@
 	comment="sits as Lord Gueterbock"
 />
 <lord
-	id="uk.org.publicwhip/lord/45"
+	id="uk.org.publicwhip/lord/43"
 	house="lords"
 	title="Lord" lordname="Bernstein" lordofname="Craigweil"
 	frontnames="Alexander"
@@ -463,7 +443,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/46"
+	id="uk.org.publicwhip/lord/44"
 	house="lords"
 	title="Lord" lordname="Best" lordofname=""
 	frontnames="Richard Stuart"
@@ -473,7 +453,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/47"
+	id="uk.org.publicwhip/lord/45"
 	house="lords"
 	title="Lord" lordname="Bhatia" lordofname=""
 	frontnames="Amirali Alibhai"
@@ -483,7 +463,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/48"
+	id="uk.org.publicwhip/lord/46"
 	house="lords"
 	title="Lord" lordname="Biffen" lordofname=""
 	frontnames="William John"
@@ -493,7 +473,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/49"
+	id="uk.org.publicwhip/lord/47"
 	house="lords"
 	title="Baroness" lordname="Billingham" lordofname=""
 	frontnames="Angela Theodora"
@@ -503,7 +483,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/50"
+	id="uk.org.publicwhip/lord/48"
 	house="lords"
 	title="Lord" lordname="Bingham" lordofname="Cornhill"
 	frontnames="Thomas Henry"
@@ -513,7 +493,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/51"
+	id="uk.org.publicwhip/lord/49"
 	house="lords"
 	title="Lord" lordname="Birt" lordofname=""
 	frontnames="John"
@@ -523,7 +503,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/52"
+	id="uk.org.publicwhip/lord/50"
 	house="lords"
 	title="Lord" lordname="Black" lordofname="Crossharbour"
 	frontnames="Conrad Moffat"
@@ -533,7 +513,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/53"
+	id="uk.org.publicwhip/lord/51"
 	house="lords"
 	title="Baroness" lordname="Blackstone" lordofname=""
 	frontnames="Tessa Ann Vosper"
@@ -543,7 +523,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/54"
+	id="uk.org.publicwhip/lord/52"
 	house="lords"
 	title="Lord" lordname="Blackwell" lordofname=""
 	frontnames="Norman Roy"
@@ -553,7 +533,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/55"
+	id="uk.org.publicwhip/lord/53"
 	house="lords"
 	title="Lord" lordname="Blaker" lordofname=""
 	frontnames="Peter Allan Renshaw"
@@ -563,7 +543,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/56"
+	id="uk.org.publicwhip/lord/54"
 	house="lords"
 	title="Baroness" lordname="Blatch" lordofname=""
 	frontnames="Emily May"
@@ -573,7 +553,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/57"
+	id="uk.org.publicwhip/lord/55"
 	house="lords"
 	title="Lord" lordname="Blease" lordofname=""
 	frontnames="William John"
@@ -583,7 +563,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/58"
+	id="uk.org.publicwhip/lord/56"
 	house="lords"
 	title="Viscount" lordname="Bledisloe" lordofname=""
 	frontnames="Christopher Hiley Ludlow"
@@ -593,7 +573,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/59"
+	id="uk.org.publicwhip/lord/57"
 	house="lords"
 	title="Baroness" lordname="Blood" lordofname=""
 	frontnames="May"
@@ -603,7 +583,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/60"
+	id="uk.org.publicwhip/lord/58"
 	house="lords"
 	title="Lord" lordname="Blyth" lordofname="Rowington"
 	frontnames="James"
@@ -613,7 +593,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/61"
+	id="uk.org.publicwhip/lord/59"
 	house="lords"
 	title="Baroness" lordname="Boothroyd" lordofname=""
 	frontnames="Betty"
@@ -623,7 +603,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/62"
+	id="uk.org.publicwhip/lord/60"
 	house="lords"
 	title="Lord" lordname="Borrie" lordofname=""
 	frontnames="Gordon Johnson"
@@ -633,7 +613,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/63"
+	id="uk.org.publicwhip/lord/61"
 	house="lords"
 	title="Lord" lordname="Boston" lordofname="Faversham"
 	frontnames="Terence George"
@@ -643,7 +623,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/64"
+	id="uk.org.publicwhip/lord/62"
 	house="lords"
 	title="Lord" lordname="Bowness" lordofname=""
 	frontnames="Peter Spencer"
@@ -653,7 +633,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/65"
+	id="uk.org.publicwhip/lord/63"
 	house="lords"
 	title="Lord" lordname="Boyce" lordofname=""
 	frontnames="Michael Cecil"
@@ -663,7 +643,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/66"
+	id="uk.org.publicwhip/lord/64"
 	house="lords"
 	title="Lord" lordname="Brabazon" lordofname="Tara"
 	frontnames="Ivon Anthony"
@@ -673,7 +653,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/67"
+	id="uk.org.publicwhip/lord/65"
 	house="lords"
 	title="Lord" lordname="Bradshaw" lordofname=""
 	frontnames="William Peter"
@@ -683,7 +663,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/68"
+	id="uk.org.publicwhip/lord/66"
 	house="lords"
 	title="Lord" lordname="Bragg" lordofname=""
 	frontnames="Melvyn"
@@ -693,7 +673,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/69"
+	id="uk.org.publicwhip/lord/67"
 	house="lords"
 	title="Lord" lordname="Bramall" lordofname=""
 	frontnames="Edwin Noel Westby"
@@ -703,7 +683,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/70"
+	id="uk.org.publicwhip/lord/68"
 	house="lords"
 	title="Lord" lordname="Brennan" lordofname=""
 	frontnames="Daniel Joseph"
@@ -713,7 +693,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/71"
+	id="uk.org.publicwhip/lord/69"
 	house="lords"
 	title="Lord" lordname="Brett" lordofname=""
 	frontnames="William Henry"
@@ -723,7 +703,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/72"
+	id="uk.org.publicwhip/lord/70"
 	house="lords"
 	title="Lord" lordname="Bridge" lordofname="Harwich"
 	frontnames="Nigel Cyprian"
@@ -733,7 +713,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/73"
+	id="uk.org.publicwhip/lord/71"
 	house="lords"
 	title="Viscount" lordname="Bridgeman" lordofname=""
 	frontnames="Robin John Orlando"
@@ -743,7 +723,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/74"
+	id="uk.org.publicwhip/lord/72"
 	house="lords"
 	title="Lord" lordname="Bridges" lordofname=""
 	frontnames="Thomas Edward"
@@ -753,7 +733,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/75"
+	id="uk.org.publicwhip/lord/73"
 	house="lords"
 	title="Lord" lordname="Briggs" lordofname=""
 	frontnames="Asa"
@@ -763,7 +743,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/76"
+	id="uk.org.publicwhip/lord/74"
 	house="lords"
 	title="Lord" lordname="Brightman" lordofname=""
 	frontnames="John Anson"
@@ -773,7 +753,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/77"
+	id="uk.org.publicwhip/lord/75"
 	house="lords"
 	title="Baroness" lordname="Brigstocke" lordofname=""
 	frontnames="Heather Renwick"
@@ -783,7 +763,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/78"
+	id="uk.org.publicwhip/lord/76"
 	house="lords"
 	title="Lord" lordname="Brittan" lordofname="Spennithorne"
 	frontnames="Leon"
@@ -793,7 +773,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/79"
+	id="uk.org.publicwhip/lord/77"
 	house="lords"
 	title="Lord" lordname="Brooke" lordofname="Alverthorpe"
 	frontnames="Clive"
@@ -803,7 +783,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/80"
+	id="uk.org.publicwhip/lord/78"
 	house="lords"
 	title="Lord" lordname="Brooke" lordofname="Sutton Mandeville"
 	frontnames="Peter Leonard"
@@ -813,7 +793,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/81"
+	id="uk.org.publicwhip/lord/79"
 	house="lords"
 	title="Viscount" lordname="Brookeborough" lordofname=""
 	frontnames="Alan Henry"
@@ -823,7 +803,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/82"
+	id="uk.org.publicwhip/lord/80"
 	house="lords"
 	title="Lord" lordname="Brookman" lordofname=""
 	frontnames="David Keith"
@@ -833,7 +813,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/83"
+	id="uk.org.publicwhip/lord/81"
 	house="lords"
 	title="Lord" lordname="Brooks" lordofname="Tremorfa"
 	frontnames="John Edward"
@@ -843,27 +823,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/84"
-	house="lords"
-	title="Lord" lordname="Brougham And Vaux" lordofname=""
-	frontnames="Michael John"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/85"
+	id="uk.org.publicwhip/lord/82"
 	house="lords"
 	title="Lord" lordname="Brougham and Vaux" lordofname=""
-	frontnames=""
+	frontnames="Michael John"
 	peeragetype="Deputy Hereditary" affiliation="Conservative"
 	fromdate="1967-06-20"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/86"
+	id="uk.org.publicwhip/lord/83"
 	house="lords"
 	title="Lord" lordname="Brown" lordofname="Eaton-under-Heywood"
 	frontnames=""
@@ -873,7 +843,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/87"
+	id="uk.org.publicwhip/lord/84"
 	house="lords"
 	title="Lord" lordname="Browne" lordofname="Madingley"
 	frontnames="Edmund John Phillip"
@@ -883,27 +853,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/88"
+	id="uk.org.publicwhip/lord/85"
 	house="lords"
 	title="Lord" lordname="Browne-Wilkinson" lordofname=""
-	frontnames=""
+	frontnames="Nicolas Christopher Henry"
 	peeragetype="Law Lord" affiliation="Cross bench"
 	fromdate="1991-10-01"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/89"
-	house="lords"
-	title="Lord" lordname="Browne-wilkinson" lordofname=""
-	frontnames="Nicolas Christopher Henry"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/90"
+	id="uk.org.publicwhip/lord/86"
 	house="lords"
 	title="Lord" lordname="Bruce" lordofname="Donington"
 	frontnames="Donald William Trevor"
@@ -913,7 +873,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/91"
+	id="uk.org.publicwhip/lord/87"
 	house="lords"
 	title="Lord" lordname="Bullock" lordofname=""
 	frontnames="Alan Louis Charles"
@@ -923,7 +883,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/92"
+	id="uk.org.publicwhip/lord/88"
 	house="lords"
 	title="Lord" lordname="Burlison" lordofname=""
 	frontnames="Thomas Henry"
@@ -933,7 +893,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/93"
+	id="uk.org.publicwhip/lord/89"
 	house="lords"
 	title="Lord" lordname="Burnham" lordofname=""
 	frontnames="Hugh John Frederick"
@@ -943,7 +903,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/94"
+	id="uk.org.publicwhip/lord/90"
 	house="lords"
 	title="Lord" lordname="Burns" lordofname=""
 	frontnames="Terence"
@@ -953,7 +913,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/95"
+	id="uk.org.publicwhip/lord/91"
 	house="lords"
 	title="Baroness" lordname="Buscombe" lordofname=""
 	frontnames="Peta Jane"
@@ -963,7 +923,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/96"
+	id="uk.org.publicwhip/lord/92"
 	house="lords"
 	title="Lord" lordname="Butler" lordofname="Brockwell"
 	frontnames="Frederick Edward Robin"
@@ -973,7 +933,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/97"
+	id="uk.org.publicwhip/lord/93"
 	house="lords"
 	title="Lord" lordname="Buxton" lordofname="Alsa"
 	frontnames="Aubrey Leland Oakes"
@@ -983,7 +943,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/98"
+	id="uk.org.publicwhip/lord/94"
 	house="lords"
 	title="Baroness" lordname="Byford" lordofname=""
 	frontnames="Hazel"
@@ -993,7 +953,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/99"
+	id="uk.org.publicwhip/lord/95"
 	house="lords"
 	title="Earl" lordname="" lordofname="Caithness"
 	frontnames="Malcolm Ian"
@@ -1003,7 +963,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/100"
+	id="uk.org.publicwhip/lord/96"
 	house="lords"
 	title="Lord" lordname="Callaghan" lordofname="Cardiff"
 	frontnames="Leonard James"
@@ -1013,7 +973,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/101"
+	id="uk.org.publicwhip/lord/97"
 	house="lords"
 	title="Lord" lordname="Cameron" lordofname="Lochbroom"
 	frontnames="Kenneth John"
@@ -1023,7 +983,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/102"
+	id="uk.org.publicwhip/lord/98"
 	house="lords"
 	title="Lord" lordname="Campbell" lordofname="Alloway"
 	frontnames="Alan Robertson"
@@ -1033,7 +993,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/103"
+	id="uk.org.publicwhip/lord/99"
 	house="lords"
 	title="Lord" lordname="Campbell" lordofname="Croy"
 	frontnames="Gordon Thomas Calthrop"
@@ -1043,27 +1003,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/104"
+	id="uk.org.publicwhip/lord/100"
 	house="lords"
 	title="Lord" lordname="Campbell-Savours" lordofname=""
-	frontnames=""
+	frontnames="Dale Norman"
 	peeragetype="Life peer" affiliation="Labour"
 	fromdate="2001-07-04"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/105"
-	house="lords"
-	title="Lord" lordname="Campbell-savours" lordofname=""
-	frontnames="Dale Norman"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/106"
+	id="uk.org.publicwhip/lord/101"
 	house="lords"
 	title="Arch-bishop" lordname="" lordofname="Canterbury"
 	frontnames=""
@@ -1073,7 +1023,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/107"
+	id="uk.org.publicwhip/lord/102"
 	house="lords"
 	title="Archbishop" lordname="" lordofname="Canterbury"
 	frontnames="Rowan Douglas"
@@ -1083,7 +1033,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/108"
+	id="uk.org.publicwhip/lord/103"
 	house="lords"
 	title="Lord" lordname="Carey" lordofname="Clifton"
 	frontnames="George Leonard"
@@ -1093,7 +1043,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/109"
+	id="uk.org.publicwhip/lord/104"
 	house="lords"
 	title="Lord" lordname="Carlile" lordofname="Berriew"
 	frontnames="Alexander Charles"
@@ -1103,7 +1053,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/110"
+	id="uk.org.publicwhip/lord/105"
 	house="lords"
 	title="Lord" lordname="Carlisle" lordofname="Bucklow"
 	frontnames="Mark"
@@ -1113,7 +1063,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/111"
+	id="uk.org.publicwhip/lord/106"
 	house="lords"
 	title="Baroness" lordname="Carnegy" lordofname="Lour"
 	frontnames="Elizabeth Patricia"
@@ -1123,7 +1073,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/112"
+	id="uk.org.publicwhip/lord/107"
 	house="lords"
 	title="Lord" lordname="Carr" lordofname="Hadley"
 	frontnames="Leonard Robert"
@@ -1133,7 +1083,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/113"
+	id="uk.org.publicwhip/lord/108"
 	house="lords"
 	title="Lord" lordname="Carrington" lordofname=""
 	frontnames="Peter Alexander Rupert"
@@ -1143,7 +1093,7 @@
 	comment="sits as Lord Carington of Upton"
 />
 <lord
-	id="uk.org.publicwhip/lord/114"
+	id="uk.org.publicwhip/lord/109"
 	house="lords"
 	title="Lord" lordname="Carswell" lordofname=""
 	frontnames=""
@@ -1153,7 +1103,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/115"
+	id="uk.org.publicwhip/lord/110"
 	house="lords"
 	title="Lord" lordname="Carter" lordofname=""
 	frontnames="Denis Victor"
@@ -1163,7 +1113,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/116"
+	id="uk.org.publicwhip/lord/111"
 	house="lords"
 	title="Lord" lordname="Cavendish" lordofname="Furness"
 	frontnames="Richard Hugh"
@@ -1173,7 +1123,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/117"
+	id="uk.org.publicwhip/lord/112"
 	house="lords"
 	title="Lord" lordname="Chadlington" lordofname=""
 	frontnames="Peter Selwyn"
@@ -1183,7 +1133,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/118"
+	id="uk.org.publicwhip/lord/113"
 	house="lords"
 	title="Lord" lordname="Chalfont" lordofname=""
 	frontnames="Arthur"
@@ -1193,7 +1143,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/119"
+	id="uk.org.publicwhip/lord/114"
 	house="lords"
 	title="Baroness" lordname="Chalker" lordofname="Wallasey"
 	frontnames="Lynda"
@@ -1203,7 +1153,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/120"
+	id="uk.org.publicwhip/lord/115"
 	house="lords"
 	title="Lord" lordname="Chan" lordofname=""
 	frontnames="Michael Chew Koon"
@@ -1213,7 +1163,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/121"
+	id="uk.org.publicwhip/lord/116"
 	house="lords"
 	title="Viscount" lordname="Chandos" lordofname=""
 	frontnames="Thomas Orlando"
@@ -1223,7 +1173,7 @@
 	comment="sits as Lord Lyttelton of Aldershot"
 />
 <lord
-	id="uk.org.publicwhip/lord/122"
+	id="uk.org.publicwhip/lord/117"
 	house="lords"
 	title="Lord" lordname="Chapple" lordofname=""
 	frontnames="Francis Joseph"
@@ -1233,7 +1183,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/123"
+	id="uk.org.publicwhip/lord/118"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Chelmsford"
 	frontnames="John Warren"
@@ -1243,7 +1193,7 @@
 	comment="not in receipt of a writ of summons"
 />
 <lord
-	id="uk.org.publicwhip/lord/124"
+	id="uk.org.publicwhip/lord/119"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Chester"
 	frontnames="Peter Robert"
@@ -1253,7 +1203,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/125"
+	id="uk.org.publicwhip/lord/120"
 	house="lords"
 	title="Lord" lordname="Chilver" lordofname=""
 	frontnames="Amos Henry"
@@ -1263,7 +1213,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/126"
+	id="uk.org.publicwhip/lord/121"
 	house="lords"
 	title="Lord" lordname="Chitnis" lordofname=""
 	frontnames="Pratap Chidamber"
@@ -1273,7 +1223,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/127"
+	id="uk.org.publicwhip/lord/122"
 	house="lords"
 	title="Marquess" lordname="" lordofname="Cholmondeley"
 	frontnames="David George Philip"
@@ -1283,7 +1233,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/128"
+	id="uk.org.publicwhip/lord/123"
 	house="lords"
 	title="Lord" lordname="Chorley" lordofname=""
 	frontnames="Roger Richard Edward"
@@ -1293,7 +1243,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/129"
+	id="uk.org.publicwhip/lord/124"
 	house="lords"
 	title="Lord" lordname="Christopher" lordofname=""
 	frontnames="Anthony Martin Grosvenor"
@@ -1303,7 +1253,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/130"
+	id="uk.org.publicwhip/lord/125"
 	house="lords"
 	title="Lord" lordname="Clark" lordofname="Kempston"
 	frontnames="William Gibson Haig"
@@ -1313,7 +1263,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/131"
+	id="uk.org.publicwhip/lord/126"
 	house="lords"
 	title="Lord" lordname="Clark" lordofname="Windermere"
 	frontnames="David George"
@@ -1323,7 +1273,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/132"
+	id="uk.org.publicwhip/lord/127"
 	house="lords"
 	title="Lord" lordname="Clarke" lordofname="Hampstead"
 	frontnames="Anthony James"
@@ -1333,47 +1283,27 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/133"
+	id="uk.org.publicwhip/lord/128"
 	house="lords"
 	title="Lord" lordname="Clement-Jones" lordofname=""
-	frontnames=""
+	frontnames="Timothy Francis"
 	peeragetype="Life peer" affiliation="Liberal Democrat"
 	fromdate="1998-07-17"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/134"
-	house="lords"
-	title="Lord" lordname="Clement-jones" lordofname=""
-	frontnames="Timothy Francis"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/135"
+	id="uk.org.publicwhip/lord/129"
 	house="lords"
 	title="Lord" lordname="Clinton-Davis" lordofname=""
-	frontnames=""
+	frontnames="Stanley Clinton"
 	peeragetype="Life peer" affiliation="Labour"
 	fromdate="1990-05-08"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/136"
-	house="lords"
-	title="Lord" lordname="Clinton-davis" lordofname=""
-	frontnames="Stanley Clinton"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/137"
+	id="uk.org.publicwhip/lord/130"
 	house="lords"
 	title="Lord" lordname="Clyde" lordofname=""
 	frontnames="James John"
@@ -1383,7 +1313,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/138"
+	id="uk.org.publicwhip/lord/131"
 	house="lords"
 	title="Lord" lordname="Cobbold" lordofname=""
 	frontnames="David Antony Fromanteel"
@@ -1393,7 +1323,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/139"
+	id="uk.org.publicwhip/lord/132"
 	house="lords"
 	title="Lord" lordname="Cockfield" lordofname=""
 	frontnames="Francis Arthur"
@@ -1403,7 +1333,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/140"
+	id="uk.org.publicwhip/lord/133"
 	house="lords"
 	title="Lord" lordname="Coe" lordofname=""
 	frontnames="Sebastian Newbold"
@@ -1413,7 +1343,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/141"
+	id="uk.org.publicwhip/lord/134"
 	house="lords"
 	title="Baroness" lordname="Cohen" lordofname="Pimlico"
 	frontnames="Janet"
@@ -1423,7 +1353,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/142"
+	id="uk.org.publicwhip/lord/135"
 	house="lords"
 	title="Viscount" lordname="Colville" lordofname="Culross"
 	frontnames="John Mark Alexander"
@@ -1433,7 +1363,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/143"
+	id="uk.org.publicwhip/lord/136"
 	house="lords"
 	title="Lord" lordname="Colwyn" lordofname=""
 	frontnames="Ian Anthony"
@@ -1443,7 +1373,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/144"
+	id="uk.org.publicwhip/lord/137"
 	house="lords"
 	title="Lord" lordname="Condon" lordofname=""
 	frontnames="Paul Leslie"
@@ -1453,7 +1383,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/145"
+	id="uk.org.publicwhip/lord/138"
 	house="lords"
 	title="Lord" lordname="Constantine" lordofname="Stanmore"
 	frontnames="Theodore"
@@ -1463,7 +1393,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/146"
+	id="uk.org.publicwhip/lord/139"
 	house="lords"
 	title="Lord" lordname="Cooke" lordofname="Islandreagh"
 	frontnames="Victor Alexander"
@@ -1473,7 +1403,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/147"
+	id="uk.org.publicwhip/lord/140"
 	house="lords"
 	title="Lord" lordname="Cooke" lordofname="Thorndon"
 	frontnames="Robin Brunskill"
@@ -1483,7 +1413,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/148"
+	id="uk.org.publicwhip/lord/141"
 	house="lords"
 	title="Lord" lordname="Cope" lordofname="Berkeley"
 	frontnames="John Ambrose"
@@ -1493,7 +1423,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/149"
+	id="uk.org.publicwhip/lord/142"
 	house="lords"
 	title="Lord" lordname="Corbett" lordofname="Castle Vale"
 	frontnames="Robin"
@@ -1503,7 +1433,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/150"
+	id="uk.org.publicwhip/lord/143"
 	house="lords"
 	title="Earl" lordname="" lordofname="Courtown"
 	frontnames="James Patrick Montagu Burgoyne Winthrop"
@@ -1513,7 +1443,7 @@
 	comment="sits as Lord Saltersford"
 />
 <lord
-	id="uk.org.publicwhip/lord/151"
+	id="uk.org.publicwhip/lord/144"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Coventry"
 	frontnames="Colin James"
@@ -1523,7 +1453,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/152"
+	id="uk.org.publicwhip/lord/145"
 	house="lords"
 	title="Baroness" lordname="Cox" lordofname=""
 	frontnames="Caroline Anne"
@@ -1533,7 +1463,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/153"
+	id="uk.org.publicwhip/lord/146"
 	house="lords"
 	title="Lord" lordname="Craig" lordofname="Radley"
 	frontnames="David Brownrigg"
@@ -1543,7 +1473,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/154"
+	id="uk.org.publicwhip/lord/147"
 	house="lords"
 	title="Viscount" lordname="Craigavon" lordofname=""
 	frontnames="Janric Fraser"
@@ -1553,7 +1483,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/155"
+	id="uk.org.publicwhip/lord/148"
 	house="lords"
 	title="Lord" lordname="Crathorne" lordofname=""
 	frontnames="Charles James"
@@ -1563,27 +1493,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/156"
+	id="uk.org.publicwhip/lord/149"
 	house="lords"
-	title="Earl" lordname="" lordofname="Crawford And Balcarres"
+	title="Earl" lordname="" lordofname="Crawford and Balcarres"
 	frontnames="Robert Alexander"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment="sits as Lord Balniel -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/157"
-	house="lords"
-	title="Earl" lordname="Crawford and Balcarres" lordofname=""
-	frontnames=""
 	peeragetype="Life peer" affiliation="Conservative"
 	fromdate="1975-01-24"
 	source="Lords2004-02-09WithFromDate.html"
-	comment=""
+	comment="sits as Lord Balniel"
 />
 <lord
-	id="uk.org.publicwhip/lord/158"
+	id="uk.org.publicwhip/lord/150"
 	house="lords"
 	title="Baroness" lordname="Crawley" lordofname=""
 	frontnames="Christine Mary"
@@ -1593,7 +1513,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/159"
+	id="uk.org.publicwhip/lord/151"
 	house="lords"
 	title="Lord" lordname="Crickhowell" lordofname=""
 	frontnames="Roger Nicholas"
@@ -1603,7 +1523,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/160"
+	id="uk.org.publicwhip/lord/152"
 	house="lords"
 	title="Lord" lordname="Croham" lordofname=""
 	frontnames="Douglas Albert Vivian"
@@ -1613,7 +1533,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/161"
+	id="uk.org.publicwhip/lord/153"
 	house="lords"
 	title="Lord" lordname="Cuckney" lordofname=""
 	frontnames="John Graham"
@@ -1623,7 +1543,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/162"
+	id="uk.org.publicwhip/lord/154"
 	house="lords"
 	title="Lord" lordname="Cullen" lordofname="Whitekirk"
 	frontnames="William Douglas"
@@ -1633,7 +1553,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/163"
+	id="uk.org.publicwhip/lord/155"
 	house="lords"
 	title="Baroness" lordname="Cumberlege" lordofname=""
 	frontnames="Julia Frances"
@@ -1643,7 +1563,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/164"
+	id="uk.org.publicwhip/lord/156"
 	house="lords"
 	title="Lord" lordname="Currie" lordofname="Marylebone"
 	frontnames="David Anthony"
@@ -1653,7 +1573,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/165"
+	id="uk.org.publicwhip/lord/157"
 	house="lords"
 	title="Lord" lordname="Dahrendorf" lordofname=""
 	frontnames="Ralf"
@@ -1663,27 +1583,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/166"
-	house="lords"
-	title="Baroness" lordname="Darcy De Knayth" lordofname=""
-	frontnames="Davina Marcia"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/167"
+	id="uk.org.publicwhip/lord/158"
 	house="lords"
 	title="Baroness" lordname="Darcy de Knayth" lordofname=""
-	frontnames=""
+	frontnames="Davina Marcia"
 	peeragetype="Elected Hereditary" affiliation="Cross bench"
 	fromdate="1943-03-23"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/168"
+	id="uk.org.publicwhip/lord/159"
 	house="lords"
 	title="Baroness" lordname="David" lordofname=""
 	frontnames="Nora Ratcliff"
@@ -1693,7 +1603,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/169"
+	id="uk.org.publicwhip/lord/160"
 	house="lords"
 	title="Lord" lordname="Davies" lordofname="Coity"
 	frontnames="David Garfield"
@@ -1703,7 +1613,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/170"
+	id="uk.org.publicwhip/lord/161"
 	house="lords"
 	title="Lord" lordname="Davies" lordofname="Oldham"
 	frontnames="Bryan"
@@ -1713,7 +1623,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/171"
+	id="uk.org.publicwhip/lord/162"
 	house="lords"
 	title="Lord" lordname="Dean" lordofname="Harptree"
 	frontnames="Arthur Paul"
@@ -1723,27 +1633,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/172"
+	id="uk.org.publicwhip/lord/163"
 	house="lords"
 	title="Baroness" lordname="Dean" lordofname="Thornton-le-Fylde"
-	frontnames=""
+	frontnames="Brenda"
 	peeragetype="Life peer" affiliation="Labour"
 	fromdate="1993-10-12"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/173"
-	house="lords"
-	title="Baroness" lordname="Dean" lordofname="Thornton-le-fylde"
-	frontnames="Brenda"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/174"
+	id="uk.org.publicwhip/lord/164"
 	house="lords"
 	title="Lord" lordname="Dearing" lordofname=""
 	frontnames="Ronald Ernest"
@@ -1753,7 +1653,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/175"
+	id="uk.org.publicwhip/lord/165"
 	house="lords"
 	title="Lord" lordname="Deedes" lordofname=""
 	frontnames="William Francis"
@@ -1763,27 +1663,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/176"
+	id="uk.org.publicwhip/lord/166"
 	house="lords"
 	title="Baroness" lordname="Delacourt-Smith" lordofname="Alteryn"
-	frontnames=""
+	frontnames="Margaret Rosalind"
 	peeragetype="Life peer" affiliation="Other"
 	fromdate="1974-07-05"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/177"
-	house="lords"
-	title="Baroness" lordname="Delacourt-smith" lordofname="Alteryn"
-	frontnames="Margaret Rosalind"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/178"
+	id="uk.org.publicwhip/lord/167"
 	house="lords"
 	title="Lord" lordname="Denham" lordofname=""
 	frontnames="Bertram Stanley Mitford"
@@ -1793,7 +1683,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/179"
+	id="uk.org.publicwhip/lord/168"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Derby"
 	frontnames="Jonathan Sansbury"
@@ -1803,7 +1693,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/180"
+	id="uk.org.publicwhip/lord/169"
 	house="lords"
 	title="Lord" lordname="Desai" lordofname=""
 	frontnames="Meghnad Jagdishchandra"
@@ -1813,7 +1703,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/181"
+	id="uk.org.publicwhip/lord/170"
 	house="lords"
 	title="Lord" lordname="Dholakia" lordofname=""
 	frontnames="Navnit"
@@ -1823,7 +1713,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/182"
+	id="uk.org.publicwhip/lord/171"
 	house="lords"
 	title="Lord" lordname="Diamond" lordofname=""
 	frontnames="John"
@@ -1833,7 +1723,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/183"
+	id="uk.org.publicwhip/lord/172"
 	house="lords"
 	title="Lord" lordname="Dixon" lordofname=""
 	frontnames="Donald"
@@ -1843,27 +1733,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/184"
+	id="uk.org.publicwhip/lord/173"
 	house="lords"
 	title="Lord" lordname="Dixon-Smith" lordofname=""
-	frontnames=""
+	frontnames="Robert William"
 	peeragetype="Life peer" affiliation="Conservative"
 	fromdate="1993-10-11"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/185"
-	house="lords"
-	title="Lord" lordname="Dixon-smith" lordofname=""
-	frontnames="Robert William"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/186"
+	id="uk.org.publicwhip/lord/174"
 	house="lords"
 	title="Lord" lordname="Donaldson" lordofname="Lymington"
 	frontnames="John Francis"
@@ -1873,7 +1753,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/187"
+	id="uk.org.publicwhip/lord/175"
 	house="lords"
 	title="Lord" lordname="Donoughue" lordofname=""
 	frontnames="Bernard"
@@ -1883,7 +1763,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/188"
+	id="uk.org.publicwhip/lord/176"
 	house="lords"
 	title="Lord" lordname="Dormand" lordofname="Easington"
 	frontnames="John Donkin"
@@ -1893,7 +1773,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/189"
+	id="uk.org.publicwhip/lord/177"
 	house="lords"
 	title="Lord" lordname="Dubs" lordofname=""
 	frontnames="Alfred"
@@ -1903,7 +1783,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/190"
+	id="uk.org.publicwhip/lord/178"
 	house="lords"
 	title="Earl" lordname="" lordofname="Dundee"
 	frontnames="Alexander Henry"
@@ -1913,7 +1793,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/191"
+	id="uk.org.publicwhip/lord/179"
 	house="lords"
 	title="Baroness" lordname="Dunn" lordofname=""
 	frontnames="Lydia Selina"
@@ -1923,7 +1803,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/192"
+	id="uk.org.publicwhip/lord/180"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Durham"
 	frontnames="Nicholas Thomas"
@@ -1933,7 +1813,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/193"
+	id="uk.org.publicwhip/lord/181"
 	house="lords"
 	title="Lord" lordname="Eames" lordofname=""
 	frontnames="Robert Henry Alexander"
@@ -1943,7 +1823,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/194"
+	id="uk.org.publicwhip/lord/182"
 	house="lords"
 	title="Lord" lordname="Eatwell" lordofname=""
 	frontnames="John Leonard"
@@ -1953,7 +1833,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/195"
+	id="uk.org.publicwhip/lord/183"
 	house="lords"
 	title="Baroness" lordname="Eccles" lordofname="Moulton"
 	frontnames="Diana Catherine"
@@ -1963,7 +1843,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/196"
+	id="uk.org.publicwhip/lord/184"
 	house="lords"
 	title="Lord" lordname="Eden" lordofname="Winton"
 	frontnames="John Benedict"
@@ -1973,7 +1853,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/197"
+	id="uk.org.publicwhip/lord/185"
 	house="lords"
 	title="Lord" lordname="Elder" lordofname=""
 	frontnames="Thomas Murray"
@@ -1983,27 +1863,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/198"
+	id="uk.org.publicwhip/lord/186"
 	house="lords"
 	title="Lord" lordname="Elis-Thomas" lordofname=""
-	frontnames=""
+	frontnames="Dafydd Elis"
 	peeragetype="Life peer" affiliation="Cross bench"
 	fromdate="1992-09-18"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/199"
-	house="lords"
-	title="Lord" lordname="Elis-thomas" lordofname=""
-	frontnames="Dafydd Elis"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/200"
+	id="uk.org.publicwhip/lord/187"
 	house="lords"
 	title="Baroness" lordname="Elles" lordofname=""
 	frontnames="Diana Louie"
@@ -2013,7 +1883,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/201"
+	id="uk.org.publicwhip/lord/188"
 	house="lords"
 	title="Lord" lordname="Elliott" lordofname="Morpeth"
 	frontnames="Robert William"
@@ -2023,7 +1893,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/202"
+	id="uk.org.publicwhip/lord/189"
 	house="lords"
 	title="Lord" lordname="Elton" lordofname=""
 	frontnames="Rodney"
@@ -2033,27 +1903,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/203"
+	id="uk.org.publicwhip/lord/190"
 	house="lords"
 	title="Lord" lordname="Elystan-Morgan" lordofname=""
-	frontnames=""
+	frontnames="Dafydd Elystan"
 	peeragetype="Life peer" affiliation="Cross bench"
 	fromdate="1981-05-27"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/204"
-	house="lords"
-	title="Lord" lordname="Elystan-morgan" lordofname=""
-	frontnames="Dafydd Elystan"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/205"
+	id="uk.org.publicwhip/lord/191"
 	house="lords"
 	title="Baroness" lordname="Emerton" lordofname=""
 	frontnames="Audrey Caroline"
@@ -2063,7 +1923,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/206"
+	id="uk.org.publicwhip/lord/192"
 	house="lords"
 	title="Earl" lordname="" lordofname="Erroll"
 	frontnames="Merlin"
@@ -2073,7 +1933,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/207"
+	id="uk.org.publicwhip/lord/193"
 	house="lords"
 	title="Lord" lordname="Evans" lordofname="Parkside"
 	frontnames="John"
@@ -2083,7 +1943,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/208"
+	id="uk.org.publicwhip/lord/194"
 	house="lords"
 	title="Lord" lordname="Evans" lordofname="Temple Guiting"
 	frontnames="Matthew"
@@ -2093,7 +1953,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/209"
+	id="uk.org.publicwhip/lord/195"
 	house="lords"
 	title="Lord" lordname="Evans" lordofname="Watford"
 	frontnames="David Charles"
@@ -2103,7 +1963,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/210"
+	id="uk.org.publicwhip/lord/196"
 	house="lords"
 	title="Lord" lordname="Ewing" lordofname="Kirkford"
 	frontnames="Harry"
@@ -2113,7 +1973,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/211"
+	id="uk.org.publicwhip/lord/197"
 	house="lords"
 	title="Lord" lordname="Ezra" lordofname=""
 	frontnames="Derek"
@@ -2123,7 +1983,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/212"
+	id="uk.org.publicwhip/lord/198"
 	house="lords"
 	title="Lord" lordname="Falconer" lordofname="Thoroton"
 	frontnames="Charles Leslie"
@@ -2133,7 +1993,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/213"
+	id="uk.org.publicwhip/lord/199"
 	house="lords"
 	title="Baroness" lordname="Falkender" lordofname=""
 	frontnames="Marcia Matilda"
@@ -2143,7 +2003,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/214"
+	id="uk.org.publicwhip/lord/200"
 	house="lords"
 	title="Viscount" lordname="Falkland" lordofname=""
 	frontnames="Lucius Edward William Plantagenet"
@@ -2153,7 +2013,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/215"
+	id="uk.org.publicwhip/lord/201"
 	house="lords"
 	title="Baroness" lordname="Farrington" lordofname="Ribbleton"
 	frontnames="Josephine"
@@ -2163,7 +2023,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/216"
+	id="uk.org.publicwhip/lord/202"
 	house="lords"
 	title="Lord" lordname="Faulkner" lordofname="Worcester"
 	frontnames="Richard Oliver"
@@ -2173,7 +2033,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/217"
+	id="uk.org.publicwhip/lord/203"
 	house="lords"
 	title="Lord" lordname="Fearn" lordofname=""
 	frontnames="Ronald Cyril"
@@ -2183,7 +2043,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/218"
+	id="uk.org.publicwhip/lord/204"
 	house="lords"
 	title="Lord" lordname="Feldman" lordofname=""
 	frontnames="Basil"
@@ -2193,7 +2053,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/219"
+	id="uk.org.publicwhip/lord/205"
 	house="lords"
 	title="Lord" lordname="Fellowes" lordofname=""
 	frontnames="Robert"
@@ -2203,7 +2063,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/220"
+	id="uk.org.publicwhip/lord/206"
 	house="lords"
 	title="Earl" lordname="Ferrers" lordofname=""
 	frontnames="Robert Washington"
@@ -2213,7 +2073,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/221"
+	id="uk.org.publicwhip/lord/207"
 	house="lords"
 	title="Lord" lordname="Filkin" lordofname=""
 	frontnames="David Geoffrey Nigel"
@@ -2223,7 +2083,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/222"
+	id="uk.org.publicwhip/lord/208"
 	house="lords"
 	title="Baroness" lordname="Finlay" lordofname="Llandaff"
 	frontnames="Ilora Gillian"
@@ -2233,7 +2093,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/223"
+	id="uk.org.publicwhip/lord/209"
 	house="lords"
 	title="Baroness" lordname="Fisher" lordofname="Rednal"
 	frontnames="Doris Mary Gertrude"
@@ -2243,7 +2103,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/224"
+	id="uk.org.publicwhip/lord/210"
 	house="lords"
 	title="Lord" lordname="Fitt" lordofname=""
 	frontnames="Gerard"
@@ -2253,7 +2113,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/225"
+	id="uk.org.publicwhip/lord/211"
 	house="lords"
 	title="Baroness" lordname="Flather" lordofname=""
 	frontnames="Shreela"
@@ -2263,7 +2123,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/226"
+	id="uk.org.publicwhip/lord/212"
 	house="lords"
 	title="Lord" lordname="Flowers" lordofname=""
 	frontnames="Brian Hilton"
@@ -2273,7 +2133,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/227"
+	id="uk.org.publicwhip/lord/213"
 	house="lords"
 	title="Baroness" lordname="Fookes" lordofname=""
 	frontnames="Janet Evelyn"
@@ -2283,7 +2143,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/228"
+	id="uk.org.publicwhip/lord/214"
 	house="lords"
 	title="Lord" lordname="Forsyth" lordofname="Drumlean"
 	frontnames="Michael Bruce"
@@ -2293,7 +2153,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/229"
+	id="uk.org.publicwhip/lord/215"
 	house="lords"
 	title="Lord" lordname="Forte" lordofname=""
 	frontnames="Charles"
@@ -2303,7 +2163,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/230"
+	id="uk.org.publicwhip/lord/216"
 	house="lords"
 	title="Lord" lordname="Foster" lordofname="Thames Bank"
 	frontnames="Norman Robert"
@@ -2313,7 +2173,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/231"
+	id="uk.org.publicwhip/lord/217"
 	house="lords"
 	title="Lord" lordname="Fowler" lordofname=""
 	frontnames="Peter Norman"
@@ -2323,7 +2183,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/232"
+	id="uk.org.publicwhip/lord/218"
 	house="lords"
 	title="Lord" lordname="Fraser" lordofname="Carmyllie"
 	frontnames="Peter Lovat"
@@ -2333,7 +2193,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/233"
+	id="uk.org.publicwhip/lord/219"
 	house="lords"
 	title="Lord" lordname="Freeman" lordofname=""
 	frontnames="Roger Norman"
@@ -2343,7 +2203,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/234"
+	id="uk.org.publicwhip/lord/220"
 	house="lords"
 	title="Lord" lordname="Freyberg" lordofname=""
 	frontnames="Valerian Bernard"
@@ -2353,7 +2213,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/235"
+	id="uk.org.publicwhip/lord/221"
 	house="lords"
 	title="Lord" lordname="Fyfe" lordofname="Fairfield"
 	frontnames="George Lennox"
@@ -2363,7 +2223,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/236"
+	id="uk.org.publicwhip/lord/222"
 	house="lords"
 	title="Baroness" lordname="Gale" lordofname=""
 	frontnames="Anita"
@@ -2373,7 +2233,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/237"
+	id="uk.org.publicwhip/lord/223"
 	house="lords"
 	title="Lord" lordname="Gallacher" lordofname=""
 	frontnames="John"
@@ -2383,7 +2243,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/238"
+	id="uk.org.publicwhip/lord/224"
 	house="lords"
 	title="Baroness" lordname="Gardner" lordofname="Parkes"
 	frontnames="Rachel Trixie Anne"
@@ -2393,27 +2253,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/239"
+	id="uk.org.publicwhip/lord/225"
 	house="lords"
 	title="Lord" lordname="Garel-Jones" lordofname=""
-	frontnames=""
+	frontnames="William Armand Thomas Tristan"
 	peeragetype="Life peer" affiliation="Conservative"
 	fromdate="1997-10-22"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/240"
-	house="lords"
-	title="Lord" lordname="Garel-jones" lordofname=""
-	frontnames="William Armand Thomas Tristan"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/241"
+	id="uk.org.publicwhip/lord/226"
 	house="lords"
 	title="Lord" lordname="Gavron" lordofname=""
 	frontnames="Robert"
@@ -2423,7 +2273,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/242"
+	id="uk.org.publicwhip/lord/227"
 	house="lords"
 	title="Lord" lordname="Geddes" lordofname=""
 	frontnames="Euan Michael Ross"
@@ -2433,7 +2283,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/243"
+	id="uk.org.publicwhip/lord/228"
 	house="lords"
 	title="Lord" lordname="Geraint" lordofname=""
 	frontnames="Geraint Wyn"
@@ -2443,7 +2293,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/244"
+	id="uk.org.publicwhip/lord/229"
 	house="lords"
 	title="Lord" lordname="Gibson" lordofname=""
 	frontnames="Richard Patrick Tallentyre"
@@ -2453,7 +2303,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/245"
+	id="uk.org.publicwhip/lord/230"
 	house="lords"
 	title="Baroness" lordname="Gibson" lordofname="Market Rasen"
 	frontnames="Anne"
@@ -2463,7 +2313,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/246"
+	id="uk.org.publicwhip/lord/231"
 	house="lords"
 	title="Lord" lordname="Gilbert" lordofname=""
 	frontnames="John William"
@@ -2473,7 +2323,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/247"
+	id="uk.org.publicwhip/lord/232"
 	house="lords"
 	title="Lord" lordname="Gilmour" lordofname="Craigmillar"
 	frontnames="Ian Hedworth John Little"
@@ -2483,7 +2333,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/248"
+	id="uk.org.publicwhip/lord/233"
 	house="lords"
 	title="Lord" lordname="Glenamara" lordofname=""
 	frontnames="Edward Watson"
@@ -2493,7 +2343,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/249"
+	id="uk.org.publicwhip/lord/234"
 	house="lords"
 	title="Lord" lordname="Glenarthur" lordofname=""
 	frontnames="Simon Mark"
@@ -2503,7 +2353,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/250"
+	id="uk.org.publicwhip/lord/235"
 	house="lords"
 	title="Lord" lordname="Glentoran" lordofname=""
 	frontnames="Thomas Robin Valerian"
@@ -2513,7 +2363,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/251"
+	id="uk.org.publicwhip/lord/236"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Gloucester"
 	frontnames="David Edward"
@@ -2523,7 +2373,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/252"
+	id="uk.org.publicwhip/lord/237"
 	house="lords"
 	title="Lord" lordname="Goff" lordofname="Chieveley"
 	frontnames="Robert Lionel Archibald"
@@ -2533,7 +2383,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/253"
+	id="uk.org.publicwhip/lord/238"
 	house="lords"
 	title="Baroness" lordname="Golding" lordofname=""
 	frontnames="Llinos"
@@ -2543,7 +2393,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/254"
+	id="uk.org.publicwhip/lord/239"
 	house="lords"
 	title="Lord" lordname="Goldsmith" lordofname=""
 	frontnames="Peter Henry"
@@ -2553,7 +2403,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/255"
+	id="uk.org.publicwhip/lord/240"
 	house="lords"
 	title="Lord" lordname="Goodhart" lordofname=""
 	frontnames="William Howard"
@@ -2563,7 +2413,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/256"
+	id="uk.org.publicwhip/lord/241"
 	house="lords"
 	title="Lord" lordname="Gordon" lordofname="Strathblane"
 	frontnames="James Stuart"
@@ -2573,7 +2423,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/257"
+	id="uk.org.publicwhip/lord/242"
 	house="lords"
 	title="Viscount" lordname="Goschen" lordofname=""
 	frontnames="Giles John Harry"
@@ -2583,7 +2433,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/258"
+	id="uk.org.publicwhip/lord/243"
 	house="lords"
 	title="Baroness" lordname="Goudie" lordofname=""
 	frontnames="Mary Teresa"
@@ -2593,7 +2443,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/259"
+	id="uk.org.publicwhip/lord/244"
 	house="lords"
 	title="Baroness" lordname="Gould" lordofname="Potternewton"
 	frontnames="Joyce Brenda"
@@ -2603,7 +2453,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/260"
+	id="uk.org.publicwhip/lord/245"
 	house="lords"
 	title="Lord" lordname="Grabiner" lordofname=""
 	frontnames="Anthony Stephen"
@@ -2613,7 +2463,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/261"
+	id="uk.org.publicwhip/lord/246"
 	house="lords"
 	title="Lord" lordname="Graham" lordofname="Edmonton"
 	frontnames="Thomas Edward"
@@ -2623,7 +2473,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/262"
+	id="uk.org.publicwhip/lord/247"
 	house="lords"
 	title="Lord" lordname="Grantchester" lordofname=""
 	frontnames="Christopher John"
@@ -2633,7 +2483,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/263"
+	id="uk.org.publicwhip/lord/248"
 	house="lords"
 	title="Lord" lordname="Gray" lordofname="Contin"
 	frontnames="James Hector Northey"
@@ -2643,7 +2493,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/264"
+	id="uk.org.publicwhip/lord/249"
 	house="lords"
 	title="Lord" lordname="Greaves" lordofname=""
 	frontnames="Anthony Robert"
@@ -2653,7 +2503,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/265"
+	id="uk.org.publicwhip/lord/250"
 	house="lords"
 	title="Lord" lordname="Greene" lordofname="Harrow Weald"
 	frontnames="Sidney Francis"
@@ -2663,7 +2513,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/266"
+	id="uk.org.publicwhip/lord/251"
 	house="lords"
 	title="Baroness" lordname="Greenfield" lordofname=""
 	frontnames="Susan Adele"
@@ -2673,7 +2523,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/267"
+	id="uk.org.publicwhip/lord/252"
 	house="lords"
 	title="Baroness" lordname="Greengross" lordofname=""
 	frontnames="Sally Ralea"
@@ -2683,7 +2533,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/268"
+	id="uk.org.publicwhip/lord/253"
 	house="lords"
 	title="Lord" lordname="Greenway" lordofname=""
 	frontnames="Ambrose Charles Drexel"
@@ -2693,7 +2543,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/269"
+	id="uk.org.publicwhip/lord/254"
 	house="lords"
 	title="Lord" lordname="Gregson" lordofname=""
 	frontnames="John"
@@ -2703,7 +2553,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/270"
+	id="uk.org.publicwhip/lord/255"
 	house="lords"
 	title="Lord" lordname="Grenfell" lordofname=""
 	frontnames="Julian Pascoe Francis St Leger"
@@ -2713,7 +2563,7 @@
 	comment="sits as Lord Grenfell of Kilvey"
 />
 <lord
-	id="uk.org.publicwhip/lord/271"
+	id="uk.org.publicwhip/lord/256"
 	house="lords"
 	title="Lord" lordname="Griffiths" lordofname=""
 	frontnames="William Hugh"
@@ -2723,7 +2573,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/272"
+	id="uk.org.publicwhip/lord/257"
 	house="lords"
 	title="Lord" lordname="Griffiths" lordofname="Fforestfach"
 	frontnames="Brian"
@@ -2733,7 +2583,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/273"
+	id="uk.org.publicwhip/lord/258"
 	house="lords"
 	title="Lord" lordname="Grocott" lordofname=""
 	frontnames="Bruce Joseph"
@@ -2743,7 +2593,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/274"
+	id="uk.org.publicwhip/lord/259"
 	house="lords"
 	title="Lord" lordname="Guthrie" lordofname="Craigiebank"
 	frontnames="Charles Ronald Llewelyn"
@@ -2753,7 +2603,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/275"
+	id="uk.org.publicwhip/lord/260"
 	house="lords"
 	title="Lord" lordname="Habgood" lordofname=""
 	frontnames="John Stapylton"
@@ -2763,7 +2613,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/276"
+	id="uk.org.publicwhip/lord/261"
 	house="lords"
 	title="Baroness" lordname="Hale" lordofname="Richmond"
 	frontnames=""
@@ -2773,7 +2623,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/277"
+	id="uk.org.publicwhip/lord/262"
 	house="lords"
 	title="Baroness" lordname="Hamwee" lordofname=""
 	frontnames="Sally Rachel"
@@ -2783,7 +2633,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/278"
+	id="uk.org.publicwhip/lord/263"
 	house="lords"
 	title="Baroness" lordname="Hanham" lordofname=""
 	frontnames="Joan Brownlow"
@@ -2793,7 +2643,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/279"
+	id="uk.org.publicwhip/lord/264"
 	house="lords"
 	title="Lord" lordname="Hannay" lordofname="Chiswick"
 	frontnames="David Hugh Alexander"
@@ -2803,7 +2653,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/280"
+	id="uk.org.publicwhip/lord/265"
 	house="lords"
 	title="Lord" lordname="Hanningfield" lordofname=""
 	frontnames="Paul Edward Winston"
@@ -2813,7 +2663,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/281"
+	id="uk.org.publicwhip/lord/266"
 	house="lords"
 	title="Lord" lordname="Hanson" lordofname=""
 	frontnames="James Edward"
@@ -2823,7 +2673,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/282"
+	id="uk.org.publicwhip/lord/267"
 	house="lords"
 	title="Lord" lordname="Hardie" lordofname=""
 	frontnames="Andrew Rutherford"
@@ -2833,7 +2683,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/283"
+	id="uk.org.publicwhip/lord/268"
 	house="lords"
 	title="Lord" lordname="Hardy" lordofname="Wath"
 	frontnames="Peter"
@@ -2843,7 +2693,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/284"
+	id="uk.org.publicwhip/lord/269"
 	house="lords"
 	title="Lord" lordname="Harris" lordofname="Haringey"
 	frontnames="Jonathan Toby"
@@ -2853,7 +2703,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/285"
+	id="uk.org.publicwhip/lord/270"
 	house="lords"
 	title="Lord" lordname="Harris" lordofname="High Cross"
 	frontnames="Ralph"
@@ -2863,7 +2713,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/286"
+	id="uk.org.publicwhip/lord/271"
 	house="lords"
 	title="Lord" lordname="Harris" lordofname="Peckham"
 	frontnames="Philip Charles"
@@ -2873,7 +2723,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/287"
+	id="uk.org.publicwhip/lord/272"
 	house="lords"
 	title="Baroness" lordname="Harris" lordofname="Richmond"
 	frontnames="Angela Felicity"
@@ -2883,7 +2733,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/288"
+	id="uk.org.publicwhip/lord/273"
 	house="lords"
 	title="Lord" lordname="Harrison" lordofname=""
 	frontnames="Lyndon Henry Arthur"
@@ -2893,7 +2743,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/289"
+	id="uk.org.publicwhip/lord/274"
 	house="lords"
 	title="Lord" lordname="Haskel" lordofname=""
 	frontnames="Simon"
@@ -2903,7 +2753,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/290"
+	id="uk.org.publicwhip/lord/275"
 	house="lords"
 	title="Lord" lordname="Haskins" lordofname=""
 	frontnames="Christopher Robin"
@@ -2913,7 +2763,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/291"
+	id="uk.org.publicwhip/lord/276"
 	house="lords"
 	title="Lord" lordname="Hattersley" lordofname=""
 	frontnames="Roy Sydney George"
@@ -2923,7 +2773,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/292"
+	id="uk.org.publicwhip/lord/277"
 	house="lords"
 	title="Lord" lordname="Hayhoe" lordofname=""
 	frontnames="Bernard John"
@@ -2933,7 +2783,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/293"
+	id="uk.org.publicwhip/lord/278"
 	house="lords"
 	title="Baroness" lordname="Hayman" lordofname=""
 	frontnames="Helene Valerie"
@@ -2943,7 +2793,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/294"
+	id="uk.org.publicwhip/lord/279"
 	house="lords"
 	title="Lord" lordname="Healey" lordofname=""
 	frontnames="Denis Winston"
@@ -2953,7 +2803,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/295"
+	id="uk.org.publicwhip/lord/280"
 	house="lords"
 	title="Lord" lordname="Henley" lordofname=""
 	frontnames="Oliver Michael Robert"
@@ -2963,7 +2813,7 @@
 	comment="sits as Lord Northington"
 />
 <lord
-	id="uk.org.publicwhip/lord/296"
+	id="uk.org.publicwhip/lord/281"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Hereford"
 	frontnames="John Keith"
@@ -2973,7 +2823,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/297"
+	id="uk.org.publicwhip/lord/282"
 	house="lords"
 	title="Lord" lordname="Heseltine" lordofname=""
 	frontnames="Michael Ray Dibdin"
@@ -2983,7 +2833,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/298"
+	id="uk.org.publicwhip/lord/283"
 	house="lords"
 	title="Lord" lordname="Higgins" lordofname=""
 	frontnames="Terence Langley"
@@ -2993,27 +2843,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/299"
+	id="uk.org.publicwhip/lord/284"
 	house="lords"
 	title="Lord" lordname="Hill-Norton" lordofname=""
-	frontnames=""
+	frontnames="Peter John"
 	peeragetype="Life peer" affiliation="Cross bench"
 	fromdate="1979-02-05"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/300"
-	house="lords"
-	title="Lord" lordname="Hill-norton" lordofname=""
-	frontnames="Peter John"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/301"
+	id="uk.org.publicwhip/lord/285"
 	house="lords"
 	title="Baroness" lordname="Hilton" lordofname="Eggardon"
 	frontnames="Jennifer"
@@ -3023,7 +2863,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/302"
+	id="uk.org.publicwhip/lord/286"
 	house="lords"
 	title="Lord" lordname="Hobhouse" lordofname="Woodborough"
 	frontnames="John Stewart"
@@ -3033,7 +2873,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/303"
+	id="uk.org.publicwhip/lord/287"
 	house="lords"
 	title="Lord" lordname="Hodgson" lordofname="Astley Abbotts"
 	frontnames="Robin Granville"
@@ -3043,7 +2883,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/304"
+	id="uk.org.publicwhip/lord/288"
 	house="lords"
 	title="Lord" lordname="Hoffmann" lordofname=""
 	frontnames="Leonard Hubert"
@@ -3053,7 +2893,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/305"
+	id="uk.org.publicwhip/lord/289"
 	house="lords"
 	title="Baroness" lordname="Hogg" lordofname=""
 	frontnames="Sarah Elizabeth Mary"
@@ -3063,7 +2903,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/306"
+	id="uk.org.publicwhip/lord/290"
 	house="lords"
 	title="Lord" lordname="Hogg" lordofname="Cumbernauld"
 	frontnames="Norman"
@@ -3073,7 +2913,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/307"
+	id="uk.org.publicwhip/lord/291"
 	house="lords"
 	title="Lord" lordname="Hollick" lordofname=""
 	frontnames="Clive Richard"
@@ -3083,7 +2923,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/308"
+	id="uk.org.publicwhip/lord/292"
 	house="lords"
 	title="Baroness" lordname="Hollis" lordofname="Heigham"
 	frontnames="Patricia Lesley"
@@ -3093,7 +2933,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/309"
+	id="uk.org.publicwhip/lord/293"
 	house="lords"
 	title="Lord" lordname="Holme" lordofname="Cheltenham"
 	frontnames="Richard Gordon"
@@ -3103,7 +2943,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/310"
+	id="uk.org.publicwhip/lord/294"
 	house="lords"
 	title="Earl" lordname="" lordofname="Home"
 	frontnames="David Alexander Cospatrick"
@@ -3113,7 +2953,7 @@
 	comment="sits as Lord Douglas"
 />
 <lord
-	id="uk.org.publicwhip/lord/311"
+	id="uk.org.publicwhip/lord/295"
 	house="lords"
 	title="Baroness" lordname="Hooper" lordofname=""
 	frontnames="Gloria Dorothy"
@@ -3123,7 +2963,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/312"
+	id="uk.org.publicwhip/lord/296"
 	house="lords"
 	title="Lord" lordname="Hooson" lordofname=""
 	frontnames="Hugh Emlyn"
@@ -3133,7 +2973,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/313"
+	id="uk.org.publicwhip/lord/297"
 	house="lords"
 	title="Lord" lordname="Hope" lordofname="Craighead"
 	frontnames="James Arthur David"
@@ -3143,7 +2983,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/314"
+	id="uk.org.publicwhip/lord/298"
 	house="lords"
 	title="Baroness" lordname="Howarth" lordofname="Breckland"
 	frontnames="Valerie Georgina"
@@ -3153,7 +2993,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/315"
+	id="uk.org.publicwhip/lord/299"
 	house="lords"
 	title="Earl" lordname="Howe" lordofname=""
 	frontnames="Frederick Richard Penn"
@@ -3163,7 +3003,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/316"
+	id="uk.org.publicwhip/lord/300"
 	house="lords"
 	title="Lord" lordname="Howe" lordofname="Aberavon"
 	frontnames="Richard Edward Geoffrey"
@@ -3173,7 +3013,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/317"
+	id="uk.org.publicwhip/lord/301"
 	house="lords"
 	title="Baroness" lordname="Howe" lordofname="Idlicote"
 	frontnames="Elspeth Rosamund Morton"
@@ -3183,7 +3023,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/318"
+	id="uk.org.publicwhip/lord/302"
 	house="lords"
 	title="Lord" lordname="Howell" lordofname="Guildford"
 	frontnames="David Arthur Russell"
@@ -3193,7 +3033,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/319"
+	id="uk.org.publicwhip/lord/303"
 	house="lords"
 	title="Baroness" lordname="Howells" lordofname="St Davids"
 	frontnames="Rosalind Patricia-anne"
@@ -3203,7 +3043,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/320"
+	id="uk.org.publicwhip/lord/304"
 	house="lords"
 	title="Lord" lordname="Howie" lordofname="Troon"
 	frontnames="William"
@@ -3213,7 +3053,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/321"
+	id="uk.org.publicwhip/lord/305"
 	house="lords"
 	title="Lord" lordname="Hoyle" lordofname=""
 	frontnames="Eric Douglas Harvey"
@@ -3223,7 +3063,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/322"
+	id="uk.org.publicwhip/lord/306"
 	house="lords"
 	title="Lord" lordname="Hughes" lordofname="Woodside"
 	frontnames="Robert"
@@ -3233,7 +3073,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/323"
+	id="uk.org.publicwhip/lord/307"
 	house="lords"
 	title="Lord" lordname="Hunt" lordofname="Chesterton"
 	frontnames="Julian Charles Roland"
@@ -3243,7 +3083,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/324"
+	id="uk.org.publicwhip/lord/308"
 	house="lords"
 	title="Lord" lordname="Hunt" lordofname="Kings Heath"
 	frontnames="Philip Alexander"
@@ -3253,7 +3093,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/325"
+	id="uk.org.publicwhip/lord/309"
 	house="lords"
 	title="Lord" lordname="Hunt" lordofname="Tanworth"
 	frontnames="John Joseph Benedict"
@@ -3263,7 +3103,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/326"
+	id="uk.org.publicwhip/lord/310"
 	house="lords"
 	title="Lord" lordname="Hunt" lordofname="Wirral"
 	frontnames="David James Fletcher"
@@ -3273,7 +3113,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/327"
+	id="uk.org.publicwhip/lord/311"
 	house="lords"
 	title="Lord" lordname="Hurd" lordofname="Westwell"
 	frontnames="Douglas Richard"
@@ -3283,7 +3123,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/328"
+	id="uk.org.publicwhip/lord/312"
 	house="lords"
 	title="Lord" lordname="Hussey" lordofname="North Bradley"
 	frontnames="Marmaduke James"
@@ -3293,7 +3133,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/329"
+	id="uk.org.publicwhip/lord/313"
 	house="lords"
 	title="Lord" lordname="Hutchinson" lordofname="Lullington"
 	frontnames="Jeremy Nicolas"
@@ -3303,7 +3143,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/330"
+	id="uk.org.publicwhip/lord/314"
 	house="lords"
 	title="Lord" lordname="Hutton" lordofname=""
 	frontnames="James Brian Edward"
@@ -3313,7 +3153,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/331"
+	id="uk.org.publicwhip/lord/315"
 	house="lords"
 	title="Lord" lordname="Hylton" lordofname=""
 	frontnames="Raymond Hervey"
@@ -3323,7 +3163,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/332"
+	id="uk.org.publicwhip/lord/316"
 	house="lords"
 	title="Lord" lordname="Imbert" lordofname=""
 	frontnames="Peter Michael"
@@ -3333,7 +3173,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/333"
+	id="uk.org.publicwhip/lord/317"
 	house="lords"
 	title="Lord" lordname="Inge" lordofname=""
 	frontnames="Peter Anthony"
@@ -3343,7 +3183,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/334"
+	id="uk.org.publicwhip/lord/318"
 	house="lords"
 	title="Lord" lordname="Inglewood" lordofname=""
 	frontnames="William Richard"
@@ -3353,7 +3193,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/335"
+	id="uk.org.publicwhip/lord/319"
 	house="lords"
 	title="Lord" lordname="Irvine" lordofname="Lairg"
 	frontnames="Alexander Andrew Mackay"
@@ -3363,7 +3203,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/336"
+	id="uk.org.publicwhip/lord/320"
 	house="lords"
 	title="Lord" lordname="Islwyn" lordofname=""
 	frontnames="Royston John"
@@ -3373,7 +3213,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/337"
+	id="uk.org.publicwhip/lord/321"
 	house="lords"
 	title="Lord" lordname="Jacobs" lordofname=""
 	frontnames="David Anthony"
@@ -3383,7 +3223,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/338"
+	id="uk.org.publicwhip/lord/322"
 	house="lords"
 	title="Baroness" lordname="James" lordofname="Holland Park"
 	frontnames="Phyllis Dorothy"
@@ -3393,7 +3233,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/339"
+	id="uk.org.publicwhip/lord/323"
 	house="lords"
 	title="Lord" lordname="Janner" lordofname="Braunstone"
 	frontnames="Greville Ewan"
@@ -3403,7 +3243,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/340"
+	id="uk.org.publicwhip/lord/324"
 	house="lords"
 	title="Lord" lordname="Jauncey" lordofname="Tullichettle"
 	frontnames="Charles Eliot"
@@ -3413,7 +3253,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/341"
+	id="uk.org.publicwhip/lord/325"
 	house="lords"
 	title="Baroness" lordname="Jay" lordofname="Paddington"
 	frontnames="Margaret Ann"
@@ -3423,7 +3263,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/342"
+	id="uk.org.publicwhip/lord/326"
 	house="lords"
 	title="Baroness" lordname="Jeger" lordofname=""
 	frontnames="Lena May"
@@ -3433,7 +3273,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/343"
+	id="uk.org.publicwhip/lord/327"
 	house="lords"
 	title="Earl" lordname="Jellicoe" lordofname=""
 	frontnames="George Patrick John Rushworth"
@@ -3443,7 +3283,7 @@
 	comment="sits as Lord Jellicoe of Southampton"
 />
 <lord
-	id="uk.org.publicwhip/lord/344"
+	id="uk.org.publicwhip/lord/328"
 	house="lords"
 	title="Lord" lordname="Jenkin" lordofname="Roding"
 	frontnames="Charles Patrick Fleeming"
@@ -3453,7 +3293,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/345"
+	id="uk.org.publicwhip/lord/329"
 	house="lords"
 	title="Lord" lordname="Jenkins" lordofname="Putney"
 	frontnames="Hugh Gater"
@@ -3463,7 +3303,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/346"
+	id="uk.org.publicwhip/lord/330"
 	house="lords"
 	title="Lord" lordname="Joffe" lordofname=""
 	frontnames="Joel Goodman"
@@ -3473,7 +3313,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/347"
+	id="uk.org.publicwhip/lord/331"
 	house="lords"
 	title="Lord" lordname="Jones" lordofname=""
 	frontnames="Stephen Barry"
@@ -3483,7 +3323,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/348"
+	id="uk.org.publicwhip/lord/332"
 	house="lords"
 	title="Lord" lordname="Jopling" lordofname=""
 	frontnames="Thomas Michael"
@@ -3493,7 +3333,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/349"
+	id="uk.org.publicwhip/lord/333"
 	house="lords"
 	title="Lord" lordname="Jordan" lordofname=""
 	frontnames="William Brian"
@@ -3503,7 +3343,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/350"
+	id="uk.org.publicwhip/lord/334"
 	house="lords"
 	title="Lord" lordname="Judd" lordofname=""
 	frontnames="Frank Ashcroft"
@@ -3513,7 +3353,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/351"
+	id="uk.org.publicwhip/lord/335"
 	house="lords"
 	title="Lord" lordname="Keith" lordofname="Castleacre"
 	frontnames="Kenneth Alexander"
@@ -3523,7 +3363,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/352"
+	id="uk.org.publicwhip/lord/336"
 	house="lords"
 	title="Lord" lordname="Kelvedon" lordofname=""
 	frontnames="Henry Paul Guinness"
@@ -3533,7 +3373,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/353"
+	id="uk.org.publicwhip/lord/337"
 	house="lords"
 	title="Baroness" lordname="Kennedy" lordofname="The Shaws"
 	frontnames="Helena Ann"
@@ -3543,7 +3383,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/354"
+	id="uk.org.publicwhip/lord/338"
 	house="lords"
 	title="Lord" lordname="Kilclooney" lordofname=""
 	frontnames="John David"
@@ -3553,7 +3393,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/355"
+	id="uk.org.publicwhip/lord/339"
 	house="lords"
 	title="Lord" lordname="Kilpatrick" lordofname="Kincraig"
 	frontnames="Robert"
@@ -3563,7 +3403,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/356"
+	id="uk.org.publicwhip/lord/340"
 	house="lords"
 	title="Lord" lordname="Kimball" lordofname=""
 	frontnames="Marcus Richard"
@@ -3573,7 +3413,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/357"
+	id="uk.org.publicwhip/lord/341"
 	house="lords"
 	title="Lord" lordname="King" lordofname="Bridgwater"
 	frontnames="Thomas Jeremy"
@@ -3583,7 +3423,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/358"
+	id="uk.org.publicwhip/lord/342"
 	house="lords"
 	title="Lord" lordname="King" lordofname="Wartnaby"
 	frontnames="John Leonard"
@@ -3593,7 +3433,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/359"
+	id="uk.org.publicwhip/lord/343"
 	house="lords"
 	title="Lord" lordname="King" lordofname="West Bromwich"
 	frontnames="Tarsem"
@@ -3603,7 +3443,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/360"
+	id="uk.org.publicwhip/lord/344"
 	house="lords"
 	title="Lord" lordname="Kingsdown" lordofname=""
 	frontnames="Robert"
@@ -3613,7 +3453,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/361"
+	id="uk.org.publicwhip/lord/345"
 	house="lords"
 	title="Lord" lordname="Kingsland" lordofname=""
 	frontnames="Christopher James"
@@ -3623,7 +3463,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/362"
+	id="uk.org.publicwhip/lord/346"
 	house="lords"
 	title="Lord" lordname="Kirkham" lordofname=""
 	frontnames="Graham"
@@ -3633,7 +3473,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/363"
+	id="uk.org.publicwhip/lord/347"
 	house="lords"
 	title="Lord" lordname="Kirkhill" lordofname=""
 	frontnames="John Farquharson"
@@ -3643,7 +3483,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/364"
+	id="uk.org.publicwhip/lord/348"
 	house="lords"
 	title="Baroness" lordname="Knight" lordofname="Collingtree"
 	frontnames="Joan Christabel Jill"
@@ -3653,7 +3493,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/365"
+	id="uk.org.publicwhip/lord/349"
 	house="lords"
 	title="Lord" lordname="Knights" lordofname=""
 	frontnames="Philip Douglas"
@@ -3663,7 +3503,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/366"
+	id="uk.org.publicwhip/lord/350"
 	house="lords"
 	title="Lord" lordname="Laing" lordofname="Dunphail"
 	frontnames="Hector"
@@ -3673,7 +3513,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/367"
+	id="uk.org.publicwhip/lord/351"
 	house="lords"
 	title="Lord" lordname="Laird" lordofname=""
 	frontnames="John Dunn"
@@ -3683,7 +3523,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/368"
+	id="uk.org.publicwhip/lord/352"
 	house="lords"
 	title="Lord" lordname="Laming" lordofname=""
 	frontnames="William Herbert"
@@ -3693,7 +3533,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/369"
+	id="uk.org.publicwhip/lord/353"
 	house="lords"
 	title="Lord" lordname="Lamont" lordofname="Lerwick"
 	frontnames="Norman Stewart Hughson"
@@ -3703,7 +3543,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/370"
+	id="uk.org.publicwhip/lord/354"
 	house="lords"
 	title="Lord" lordname="Lane" lordofname=""
 	frontnames="Geoffrey Dawson"
@@ -3713,7 +3553,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/371"
+	id="uk.org.publicwhip/lord/355"
 	house="lords"
 	title="Lord" lordname="Lane" lordofname="Horsell"
 	frontnames="Peter Stewart"
@@ -3723,7 +3563,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/372"
+	id="uk.org.publicwhip/lord/356"
 	house="lords"
 	title="Lord" lordname="Lang" lordofname="Monkton"
 	frontnames="Ian Bruce"
@@ -3733,7 +3573,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/373"
+	id="uk.org.publicwhip/lord/357"
 	house="lords"
 	title="Lord" lordname="Lawson" lordofname="Blaby"
 	frontnames="Nigel"
@@ -3743,7 +3583,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/374"
+	id="uk.org.publicwhip/lord/358"
 	house="lords"
 	title="Lord" lordname="Layard" lordofname=""
 	frontnames="Peter Richard Grenville"
@@ -3753,7 +3593,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/375"
+	id="uk.org.publicwhip/lord/359"
 	house="lords"
 	title="Lord" lordname="Lea" lordofname="Crondall"
 	frontnames="David Edward"
@@ -3763,7 +3603,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/376"
+	id="uk.org.publicwhip/lord/360"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Leicester"
 	frontnames="Timothy John"
@@ -3773,7 +3613,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/377"
+	id="uk.org.publicwhip/lord/361"
 	house="lords"
 	title="Lord" lordname="Lester" lordofname="Herne Hill"
 	frontnames="Anthony Paul"
@@ -3783,7 +3623,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/378"
+	id="uk.org.publicwhip/lord/362"
 	house="lords"
 	title="Lord" lordname="Levene" lordofname="Portsoken"
 	frontnames="Peter Keith"
@@ -3793,7 +3633,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/379"
+	id="uk.org.publicwhip/lord/363"
 	house="lords"
 	title="Lord" lordname="Levy" lordofname=""
 	frontnames="Michael Abraham"
@@ -3803,7 +3643,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/380"
+	id="uk.org.publicwhip/lord/364"
 	house="lords"
 	title="Lord" lordname="Lewis" lordofname="Newnham"
 	frontnames="Jack"
@@ -3813,7 +3653,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/381"
+	id="uk.org.publicwhip/lord/365"
 	house="lords"
 	title="Earl" lordname="" lordofname="Lindsay"
 	frontnames="James Randolph"
@@ -3823,7 +3663,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/382"
+	id="uk.org.publicwhip/lord/366"
 	house="lords"
 	title="Baroness" lordname="Linklater" lordofname="Butterstone"
 	frontnames="Veronica"
@@ -3833,7 +3673,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/383"
+	id="uk.org.publicwhip/lord/367"
 	house="lords"
 	title="Lord" lordname="Lipsey" lordofname=""
 	frontnames="David Lawrence"
@@ -3843,7 +3683,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/384"
+	id="uk.org.publicwhip/lord/368"
 	house="lords"
 	title="Earl" lordname="" lordofname="Listowel"
 	frontnames="Francis Michael"
@@ -3853,7 +3693,7 @@
 	comment="sits as Lord Hare"
 />
 <lord
-	id="uk.org.publicwhip/lord/385"
+	id="uk.org.publicwhip/lord/369"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Liverpool"
 	frontnames="James Stuart"
@@ -3863,7 +3703,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/386"
+	id="uk.org.publicwhip/lord/370"
 	house="lords"
 	title="Earl" lordname="" lordofname="Liverpool"
 	frontnames="Edward Peter Bertram Savile"
@@ -3873,7 +3713,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/387"
+	id="uk.org.publicwhip/lord/371"
 	house="lords"
 	title="Lord" lordname="Livsey" lordofname="Talgarth"
 	frontnames="Richard Arthur Lloyd"
@@ -3883,7 +3723,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/388"
+	id="uk.org.publicwhip/lord/372"
 	house="lords"
 	title="Lord" lordname="Lloyd" lordofname="Berwick"
 	frontnames="Anthony John Leslie"
@@ -3893,7 +3733,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/389"
+	id="uk.org.publicwhip/lord/373"
 	house="lords"
 	title="Baroness" lordname="Lloyd" lordofname="Highbury"
 	frontnames="June Kathleen"
@@ -3903,27 +3743,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/390"
+	id="uk.org.publicwhip/lord/374"
 	house="lords"
 	title="Lord" lordname="Lloyd-Webber" lordofname=""
-	frontnames=""
+	frontnames="Andrew"
 	peeragetype="Life peer" affiliation="Conservative"
 	fromdate="1997-02-18"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/391"
-	house="lords"
-	title="Lord" lordname="Lloyd-webber" lordofname=""
-	frontnames="Andrew"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/392"
+	id="uk.org.publicwhip/lord/375"
 	house="lords"
 	title="Baroness" lordname="Lockwood" lordofname=""
 	frontnames="Betty"
@@ -3933,7 +3763,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/393"
+	id="uk.org.publicwhip/lord/376"
 	house="lords"
 	title="Lord" lordname="Lofthouse" lordofname="Pontefract"
 	frontnames="Geoffrey"
@@ -3943,7 +3773,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/394"
+	id="uk.org.publicwhip/lord/377"
 	house="lords"
 	title="Bishop" lordname="" lordofname="London"
 	frontnames="Richard John Carew"
@@ -3953,7 +3783,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/395"
+	id="uk.org.publicwhip/lord/378"
 	house="lords"
 	title="Lord" lordname="Lucas" lordofname=""
 	frontnames="Ralph Matthew"
@@ -3963,7 +3793,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/396"
+	id="uk.org.publicwhip/lord/379"
 	house="lords"
 	title="Lord" lordname="Luce" lordofname=""
 	frontnames="Richard Napier"
@@ -3973,7 +3803,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/397"
+	id="uk.org.publicwhip/lord/380"
 	house="lords"
 	title="Baroness" lordname="Ludford" lordofname=""
 	frontnames="Sarah Ann"
@@ -3983,7 +3813,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/398"
+	id="uk.org.publicwhip/lord/381"
 	house="lords"
 	title="Lord" lordname="Luke" lordofname=""
 	frontnames="Arthur Charles St John"
@@ -3993,7 +3823,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/399"
+	id="uk.org.publicwhip/lord/382"
 	house="lords"
 	title="Lord" lordname="Lyell" lordofname=""
 	frontnames="Charles"
@@ -4003,7 +3833,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/400"
+	id="uk.org.publicwhip/lord/383"
 	house="lords"
 	title="Lord" lordname="MacGregor" lordofname="Pulham Market"
 	frontnames=""
@@ -4013,7 +3843,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/401"
+	id="uk.org.publicwhip/lord/384"
 	house="lords"
 	title="Lord" lordname="MacKenzie" lordofname="Culkein"
 	frontnames=""
@@ -4023,7 +3853,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/402"
+	id="uk.org.publicwhip/lord/385"
 	house="lords"
 	title="Lord" lordname="MacLaurin" lordofname="Knebworth"
 	frontnames=""
@@ -4033,7 +3863,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/403"
+	id="uk.org.publicwhip/lord/386"
 	house="lords"
 	title="Lord" lordname="Macaulay" lordofname="Bragar"
 	frontnames="Donald"
@@ -4043,7 +3873,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/404"
+	id="uk.org.publicwhip/lord/387"
 	house="lords"
 	title="Lord" lordname="Macdonald" lordofname="Tradeston"
 	frontnames="Angus John"
@@ -4053,7 +3883,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/405"
+	id="uk.org.publicwhip/lord/388"
 	house="lords"
 	title="Lord" lordname="Macfarlane" lordofname="Bearsden"
 	frontnames="Norman Somerville"
@@ -4063,7 +3893,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/406"
+	id="uk.org.publicwhip/lord/389"
 	house="lords"
 	title="Lord" lordname="Macgregor" lordofname="Pulham Market"
 	frontnames="John Roddick Russell"
@@ -4073,7 +3903,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/407"
+	id="uk.org.publicwhip/lord/390"
 	house="lords"
 	title="Lord" lordname="Mackay" lordofname="Clashfern"
 	frontnames="James Peter Hymers"
@@ -4083,7 +3913,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/408"
+	id="uk.org.publicwhip/lord/391"
 	house="lords"
 	title="Lord" lordname="Mackay" lordofname="Drumadoon"
 	frontnames="Donald Sage"
@@ -4093,7 +3923,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/409"
+	id="uk.org.publicwhip/lord/392"
 	house="lords"
 	title="Lord" lordname="Mackenzie" lordofname="Framwellgate"
 	frontnames="Brian"
@@ -4103,7 +3933,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/410"
+	id="uk.org.publicwhip/lord/393"
 	house="lords"
 	title="Lord" lordname="Mackenzie" lordofname="Culkein"
 	frontnames="Hector Uisdean"
@@ -4113,7 +3943,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/411"
+	id="uk.org.publicwhip/lord/394"
 	house="lords"
 	title="Lord" lordname="Mackie" lordofname="Benshie"
 	frontnames="George Yull"
@@ -4123,7 +3953,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/412"
+	id="uk.org.publicwhip/lord/395"
 	house="lords"
 	title="Lord" lordname="Maclaurin" lordofname="Knebworth"
 	frontnames="Ian Charter"
@@ -4133,7 +3963,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/413"
+	id="uk.org.publicwhip/lord/396"
 	house="lords"
 	title="Lord" lordname="Maclennan" lordofname="Rogart"
 	frontnames="Robert Adam Ross"
@@ -4143,7 +3973,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/414"
+	id="uk.org.publicwhip/lord/397"
 	house="lords"
 	title="Baroness" lordname="Maddock" lordofname=""
 	frontnames="Diana Margaret"
@@ -4153,7 +3983,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/415"
+	id="uk.org.publicwhip/lord/398"
 	house="lords"
 	title="Lord" lordname="Maginnis" lordofname="Drumglass"
 	frontnames="Kenneth Wiggins"
@@ -4163,7 +3993,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/416"
+	id="uk.org.publicwhip/lord/399"
 	house="lords"
 	title="Baroness" lordname="Mallalieu" lordofname=""
 	frontnames="Ann"
@@ -4173,7 +4003,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/417"
+	id="uk.org.publicwhip/lord/400"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Manchester"
 	frontnames="Nigel Simeon"
@@ -4183,7 +4013,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/418"
+	id="uk.org.publicwhip/lord/401"
 	house="lords"
 	title="Lord" lordname="Mancroft" lordofname=""
 	frontnames="Benjamin Lloyd Stormont"
@@ -4193,7 +4023,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/419"
+	id="uk.org.publicwhip/lord/402"
 	house="lords"
 	title="Countess" lordname="" lordofname="Mar"
 	frontnames="Margaret"
@@ -4203,27 +4033,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/420"
+	id="uk.org.publicwhip/lord/403"
 	house="lords"
-	title="Earl" lordname="" lordofname="Mar And Kellie"
+	title="Earl" lordname="" lordofname="Mar and Kellie"
 	frontnames="James Thorne"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment="sits as Lord Erskine of Alloa Tower -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/421"
-	house="lords"
-	title="Earl" lordname="Mar and Kellie" lordofname=""
-	frontnames=""
 	peeragetype="Hereds given LPs" affiliation="Liberal Democrat"
 	fromdate="2000-04-19"
 	source="Lords2004-02-09WithFromDate.html"
-	comment=""
+	comment="sits as Lord Erskine of Alloa Tower"
 />
 <lord
-	id="uk.org.publicwhip/lord/422"
+	id="uk.org.publicwhip/lord/404"
 	house="lords"
 	title="Lord" lordname="Marlesford" lordofname=""
 	frontnames="Mark Shuldham"
@@ -4233,7 +4053,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/423"
+	id="uk.org.publicwhip/lord/405"
 	house="lords"
 	title="Lord" lordname="Marsh" lordofname=""
 	frontnames="Richard William"
@@ -4243,7 +4063,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/424"
+	id="uk.org.publicwhip/lord/406"
 	house="lords"
 	title="Lord" lordname="Marshall" lordofname="Knightsbridge"
 	frontnames="Colin Marsh"
@@ -4253,7 +4073,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/425"
+	id="uk.org.publicwhip/lord/407"
 	house="lords"
 	title="Baroness" lordname="Masham" lordofname="Ilton"
 	frontnames="Susan Lilian Primrose"
@@ -4263,7 +4083,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/426"
+	id="uk.org.publicwhip/lord/408"
 	house="lords"
 	title="Lord" lordname="Mason" lordofname="Barnsley"
 	frontnames="Roy"
@@ -4273,7 +4093,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/427"
+	id="uk.org.publicwhip/lord/409"
 	house="lords"
 	title="Baroness" lordname="Massey" lordofname="Darwen"
 	frontnames="Doreen Elizabeth"
@@ -4283,7 +4103,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/428"
+	id="uk.org.publicwhip/lord/410"
 	house="lords"
 	title="Lord" lordname="May" lordofname="Oxford"
 	frontnames="Robert Mccredie"
@@ -4293,7 +4113,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/429"
+	id="uk.org.publicwhip/lord/411"
 	house="lords"
 	title="Lord" lordname="Mayhew" lordofname="Twysden"
 	frontnames="Patrick Barnabas Burke"
@@ -4303,7 +4123,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/430"
+	id="uk.org.publicwhip/lord/412"
 	house="lords"
 	title="Lord" lordname="McAlpine" lordofname="West Green"
 	frontnames=""
@@ -4313,7 +4133,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/431"
+	id="uk.org.publicwhip/lord/413"
 	house="lords"
 	title="Lord" lordname="McCarthy" lordofname=""
 	frontnames=""
@@ -4323,7 +4143,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/432"
+	id="uk.org.publicwhip/lord/414"
 	house="lords"
 	title="Lord" lordname="McCluskey" lordofname=""
 	frontnames=""
@@ -4333,7 +4153,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/433"
+	id="uk.org.publicwhip/lord/415"
 	house="lords"
 	title="Lord" lordname="McColl" lordofname="Dulwich"
 	frontnames=""
@@ -4343,7 +4163,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/434"
+	id="uk.org.publicwhip/lord/416"
 	house="lords"
 	title="Baroness" lordname="McFarlane" lordofname="Llandaff"
 	frontnames=""
@@ -4353,7 +4173,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/435"
+	id="uk.org.publicwhip/lord/417"
 	house="lords"
 	title="Lord" lordname="McIntosh" lordofname="Haringey"
 	frontnames=""
@@ -4363,7 +4183,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/436"
+	id="uk.org.publicwhip/lord/418"
 	house="lords"
 	title="Baroness" lordname="McIntosh" lordofname="Hudnall"
 	frontnames=""
@@ -4373,7 +4193,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/437"
+	id="uk.org.publicwhip/lord/419"
 	house="lords"
 	title="Lord" lordname="McNally" lordofname=""
 	frontnames=""
@@ -4383,7 +4203,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/438"
+	id="uk.org.publicwhip/lord/420"
 	house="lords"
 	title="Lord" lordname="Mcalpine" lordofname="West Green"
 	frontnames="Robert Alistair"
@@ -4393,7 +4213,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/439"
+	id="uk.org.publicwhip/lord/421"
 	house="lords"
 	title="Lord" lordname="Mccarthy" lordofname=""
 	frontnames="William Edward John"
@@ -4403,7 +4223,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/440"
+	id="uk.org.publicwhip/lord/422"
 	house="lords"
 	title="Lord" lordname="Mccluskey" lordofname=""
 	frontnames="John Herbert"
@@ -4413,7 +4233,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/441"
+	id="uk.org.publicwhip/lord/423"
 	house="lords"
 	title="Lord" lordname="Mccoll" lordofname="Dulwich"
 	frontnames="Ian"
@@ -4423,7 +4243,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/442"
+	id="uk.org.publicwhip/lord/424"
 	house="lords"
 	title="Baroness" lordname="Mcfarlane" lordofname="Llandaff"
 	frontnames="Jean Kennedy"
@@ -4433,7 +4253,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/443"
+	id="uk.org.publicwhip/lord/425"
 	house="lords"
 	title="Lord" lordname="Mcintosh" lordofname="Haringey"
 	frontnames="Andrew Robert"
@@ -4443,7 +4263,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/444"
+	id="uk.org.publicwhip/lord/426"
 	house="lords"
 	title="Baroness" lordname="Mcintosh" lordofname="Hudnall"
 	frontnames="Genista Mary"
@@ -4453,7 +4273,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/445"
+	id="uk.org.publicwhip/lord/427"
 	house="lords"
 	title="Lord" lordname="Mcnally" lordofname=""
 	frontnames="Tom"
@@ -4463,27 +4283,17 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/446"
+	id="uk.org.publicwhip/lord/428"
 	house="lords"
 	title="Lord" lordname="Merlyn-Rees" lordofname=""
-	frontnames=""
+	frontnames="Merlyn"
 	peeragetype="Life peer" affiliation="Labour"
 	fromdate="1992-07-01"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/447"
-	house="lords"
-	title="Lord" lordname="Merlyn-rees" lordofname=""
-	frontnames="Merlyn"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/448"
+	id="uk.org.publicwhip/lord/429"
 	house="lords"
 	title="Lord" lordname="Methuen" lordofname=""
 	frontnames="Robert Alexander Holt"
@@ -4493,7 +4303,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/449"
+	id="uk.org.publicwhip/lord/430"
 	house="lords"
 	title="Baroness" lordname="Michie" lordofname="Gallanach"
 	frontnames="Janet Ray"
@@ -4503,7 +4313,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/450"
+	id="uk.org.publicwhip/lord/431"
 	house="lords"
 	title="Baroness" lordname="Miller" lordofname="Chilthorne Domer"
 	frontnames="Susan Elizabeth"
@@ -4513,7 +4323,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/451"
+	id="uk.org.publicwhip/lord/432"
 	house="lords"
 	title="Baroness" lordname="Miller" lordofname="Hendon"
 	frontnames="Doreen"
@@ -4523,7 +4333,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/452"
+	id="uk.org.publicwhip/lord/433"
 	house="lords"
 	title="Lord" lordname="Millett" lordofname=""
 	frontnames="Peter Julian"
@@ -4533,7 +4343,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/453"
+	id="uk.org.publicwhip/lord/434"
 	house="lords"
 	title="Lord" lordname="Mishcon" lordofname=""
 	frontnames="Victor"
@@ -4543,7 +4353,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/454"
+	id="uk.org.publicwhip/lord/435"
 	house="lords"
 	title="Lord" lordname="Mitchell" lordofname=""
 	frontnames="Parry Andrew"
@@ -4553,7 +4363,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/455"
+	id="uk.org.publicwhip/lord/436"
 	house="lords"
 	title="Lord" lordname="Molyneaux" lordofname="Killead"
 	frontnames="James Henry"
@@ -4563,7 +4373,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/456"
+	id="uk.org.publicwhip/lord/437"
 	house="lords"
 	title="Lord" lordname="Monro" lordofname="Langholm"
 	frontnames="Hector Seymour Peter"
@@ -4573,7 +4383,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/457"
+	id="uk.org.publicwhip/lord/438"
 	house="lords"
 	title="Lord" lordname="Monson" lordofname=""
 	frontnames="John"
@@ -4583,7 +4393,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/458"
+	id="uk.org.publicwhip/lord/439"
 	house="lords"
 	title="Lord" lordname="Montagu" lordofname="Beaulieu"
 	frontnames="Edward John Barrington"
@@ -4593,7 +4403,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/459"
+	id="uk.org.publicwhip/lord/440"
 	house="lords"
 	title="Duke" lordname="" lordofname="Montrose"
 	frontnames="James"
@@ -4603,7 +4413,7 @@
 	comment="sits as Earl Graham"
 />
 <lord
-	id="uk.org.publicwhip/lord/460"
+	id="uk.org.publicwhip/lord/441"
 	house="lords"
 	title="Lord" lordname="Moore" lordofname="Lower Marsh"
 	frontnames="John Edward Michael"
@@ -4613,7 +4423,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/461"
+	id="uk.org.publicwhip/lord/442"
 	house="lords"
 	title="Lord" lordname="Moore" lordofname="Wolvercote"
 	frontnames="Philip Brian Cecil"
@@ -4623,7 +4433,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/462"
+	id="uk.org.publicwhip/lord/443"
 	house="lords"
 	title="Lord" lordname="Moran" lordofname=""
 	frontnames="Richard John Mcmoran"
@@ -4633,7 +4443,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/463"
+	id="uk.org.publicwhip/lord/444"
 	house="lords"
 	title="Lord" lordname="Morgan" lordofname=""
 	frontnames="Kenneth Owen"
@@ -4643,7 +4453,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/464"
+	id="uk.org.publicwhip/lord/445"
 	house="lords"
 	title="Baroness" lordname="Morgan" lordofname="Huyton"
 	frontnames="Sally"
@@ -4653,7 +4463,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/465"
+	id="uk.org.publicwhip/lord/446"
 	house="lords"
 	title="Lord" lordname="Morris" lordofname="Aberavon"
 	frontnames="John"
@@ -4663,7 +4473,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/466"
+	id="uk.org.publicwhip/lord/447"
 	house="lords"
 	title="Lord" lordname="Morris" lordofname="Manchester"
 	frontnames="Alfred"
@@ -4673,7 +4483,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/467"
+	id="uk.org.publicwhip/lord/448"
 	house="lords"
 	title="Lord" lordname="Moser" lordofname=""
 	frontnames="Claus Adolf"
@@ -4683,27 +4493,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/468"
-	house="lords"
-	title="Lord" lordname="Mowbray And Stourton" lordofname=""
-	frontnames="Charles Edward"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/469"
+	id="uk.org.publicwhip/lord/449"
 	house="lords"
 	title="Lord" lordname="Mowbray and Stourton" lordofname=""
-	frontnames=""
+	frontnames="Charles Edward"
 	peeragetype="Elected Hereditary" affiliation="Conservative"
 	fromdate="1965-05-07"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/470"
+	id="uk.org.publicwhip/lord/450"
 	house="lords"
 	title="Lord" lordname="Moynihan" lordofname=""
 	frontnames="Colin Berkeley"
@@ -4713,7 +4513,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/471"
+	id="uk.org.publicwhip/lord/451"
 	house="lords"
 	title="Lord" lordname="Murray" lordofname="Epping Forest"
 	frontnames="Lionel"
@@ -4723,7 +4523,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/472"
+	id="uk.org.publicwhip/lord/452"
 	house="lords"
 	title="Lord" lordname="Murton" lordofname="Lindisfarne"
 	frontnames="Henry Oscar"
@@ -4733,7 +4533,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/473"
+	id="uk.org.publicwhip/lord/453"
 	house="lords"
 	title="Lord" lordname="Mustill" lordofname=""
 	frontnames="Michael John"
@@ -4743,7 +4543,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/474"
+	id="uk.org.publicwhip/lord/454"
 	house="lords"
 	title="Lord" lordname="Naseby" lordofname=""
 	frontnames="Michael Wolfgang Laurence"
@@ -4753,7 +4553,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/475"
+	id="uk.org.publicwhip/lord/455"
 	house="lords"
 	title="Lord" lordname="Neill" lordofname="Bladen"
 	frontnames="Francis Patrick"
@@ -4763,7 +4563,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/476"
+	id="uk.org.publicwhip/lord/456"
 	house="lords"
 	title="Lord" lordname="Newby" lordofname=""
 	frontnames="Richard Mark"
@@ -4773,7 +4573,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/477"
+	id="uk.org.publicwhip/lord/457"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Newcastle"
 	frontnames="John Martin"
@@ -4783,7 +4583,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/478"
+	id="uk.org.publicwhip/lord/458"
 	house="lords"
 	title="Lord" lordname="Newton" lordofname="Braintree"
 	frontnames="Antony Harold"
@@ -4793,7 +4593,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/479"
+	id="uk.org.publicwhip/lord/459"
 	house="lords"
 	title="Lord" lordname="Nicholls" lordofname="Birkenhead"
 	frontnames="Donald James"
@@ -4803,7 +4603,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/480"
+	id="uk.org.publicwhip/lord/460"
 	house="lords"
 	title="Baroness" lordname="Nicholson" lordofname="Winterbourne"
 	frontnames="Emma Harriet"
@@ -4813,7 +4613,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/481"
+	id="uk.org.publicwhip/lord/461"
 	house="lords"
 	title="Lord" lordname="Nickson" lordofname=""
 	frontnames="David Wigley"
@@ -4823,7 +4623,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/482"
+	id="uk.org.publicwhip/lord/462"
 	house="lords"
 	title="Baroness" lordname="Nicol" lordofname=""
 	frontnames="Olive Mary Wendy"
@@ -4833,7 +4633,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/483"
+	id="uk.org.publicwhip/lord/463"
 	house="lords"
 	title="Baroness" lordname="Noakes" lordofname=""
 	frontnames="Shelia Valerie"
@@ -4843,7 +4643,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/484"
+	id="uk.org.publicwhip/lord/464"
 	house="lords"
 	title="Lord" lordname="Nolan" lordofname=""
 	frontnames="Michael Patrick"
@@ -4853,7 +4653,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/485"
+	id="uk.org.publicwhip/lord/465"
 	house="lords"
 	title="Duke" lordname="" lordofname="Norfolk"
 	frontnames="Edward William"
@@ -4863,7 +4663,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/486"
+	id="uk.org.publicwhip/lord/466"
 	house="lords"
 	title="Lord" lordname="Northbourne" lordofname=""
 	frontnames="Christopher George Walter"
@@ -4873,7 +4673,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/487"
+	id="uk.org.publicwhip/lord/467"
 	house="lords"
 	title="Lord" lordname="Northbrook" lordofname=""
 	frontnames="Francis Thomas"
@@ -4883,7 +4683,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/488"
+	id="uk.org.publicwhip/lord/468"
 	house="lords"
 	title="Earl" lordname="" lordofname="Northesk"
 	frontnames="David John Macrae"
@@ -4893,7 +4693,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/489"
+	id="uk.org.publicwhip/lord/469"
 	house="lords"
 	title="Lord" lordname="Northfield" lordofname=""
 	frontnames="William Donald"
@@ -4903,7 +4703,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/490"
+	id="uk.org.publicwhip/lord/470"
 	house="lords"
 	title="Baroness" lordname="Northover" lordofname=""
 	frontnames="Lindsay Patricia"
@@ -4913,7 +4713,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/491"
+	id="uk.org.publicwhip/lord/471"
 	house="lords"
 	title="Lord" lordname="Norton" lordofname="Louth"
 	frontnames="Philip"
@@ -4923,7 +4723,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/492"
+	id="uk.org.publicwhip/lord/472"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Norwich"
 	frontnames=""
@@ -4933,47 +4733,27 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/493"
+	id="uk.org.publicwhip/lord/473"
 	house="lords"
 	title="Baroness" lordname="O'Cathain" lordofname=""
-	frontnames=""
+	frontnames="Detta"
 	peeragetype="Life peer" affiliation="Conservative"
 	fromdate="1991-06-21"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/494"
+	id="uk.org.publicwhip/lord/474"
 	house="lords"
 	title="Baroness" lordname="O'Neill" lordofname="Bengarve"
-	frontnames=""
+	frontnames="Onora Sylvia"
 	peeragetype="Life peer" affiliation="Cross bench"
 	fromdate="1999-02-25"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/495"
-	house="lords"
-	title="Baroness" lordname="O'cathain" lordofname=""
-	frontnames="Detta"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/496"
-	house="lords"
-	title="Baroness" lordname="O'neill" lordofname="Bengarve"
-	frontnames="Onora Sylvia"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/497"
+	id="uk.org.publicwhip/lord/475"
 	house="lords"
 	title="Lord" lordname="Oakeshott" lordofname="Seagrove Bay"
 	frontnames="Matthew Alan"
@@ -4983,7 +4763,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/498"
+	id="uk.org.publicwhip/lord/476"
 	house="lords"
 	title="Lord" lordname="Oliver" lordofname="Aylmerton"
 	frontnames="Peter Raymond"
@@ -4993,7 +4773,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/499"
+	id="uk.org.publicwhip/lord/477"
 	house="lords"
 	title="Earl" lordname="" lordofname="Onslow"
 	frontnames="Michael William Copplestone Dillon"
@@ -5003,27 +4783,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/500"
+	id="uk.org.publicwhip/lord/478"
 	house="lords"
 	title="Baroness" lordname="Oppenheim-Barnes" lordofname=""
-	frontnames=""
+	frontnames="Sally"
 	peeragetype="Life peer" affiliation="Conservative"
 	fromdate="1989-02-09"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/501"
-	house="lords"
-	title="Baroness" lordname="Oppenheim-barnes" lordofname=""
-	frontnames="Sally"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/502"
+	id="uk.org.publicwhip/lord/479"
 	house="lords"
 	title="Lord" lordname="Orme" lordofname=""
 	frontnames="Stanley"
@@ -5033,7 +4803,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/503"
+	id="uk.org.publicwhip/lord/480"
 	house="lords"
 	title="Lord" lordname="Ouseley" lordofname=""
 	frontnames="Herman George"
@@ -5043,7 +4813,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/504"
+	id="uk.org.publicwhip/lord/481"
 	house="lords"
 	title="Lord" lordname="Owen" lordofname=""
 	frontnames="David Anthony Llewellyn"
@@ -5053,7 +4823,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/505"
+	id="uk.org.publicwhip/lord/482"
 	house="lords"
 	title="Lord" lordname="Oxburgh" lordofname=""
 	frontnames="Ernest Ronald"
@@ -5063,7 +4833,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/506"
+	id="uk.org.publicwhip/lord/483"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Oxford"
 	frontnames="Richard Douglas"
@@ -5073,7 +4843,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/507"
+	id="uk.org.publicwhip/lord/484"
 	house="lords"
 	title="Lord" lordname="Palmer" lordofname=""
 	frontnames="Adrian Bailie Nottage"
@@ -5083,7 +4853,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/508"
+	id="uk.org.publicwhip/lord/485"
 	house="lords"
 	title="Lord" lordname="Palumbo" lordofname=""
 	frontnames="Peter Garth"
@@ -5093,7 +4863,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/509"
+	id="uk.org.publicwhip/lord/486"
 	house="lords"
 	title="Lord" lordname="Parekh" lordofname=""
 	frontnames="Bhikhu Chhotalal"
@@ -5103,7 +4873,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/510"
+	id="uk.org.publicwhip/lord/487"
 	house="lords"
 	title="Baroness" lordname="Park" lordofname="Monmouth"
 	frontnames="Daphne Margaret Sybil Desiree"
@@ -5113,7 +4883,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/511"
+	id="uk.org.publicwhip/lord/488"
 	house="lords"
 	title="Lord" lordname="Parkinson" lordofname=""
 	frontnames="Cecil Edward"
@@ -5123,7 +4893,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/512"
+	id="uk.org.publicwhip/lord/489"
 	house="lords"
 	title="Lord" lordname="Parry" lordofname=""
 	frontnames="Gordon Samuel David"
@@ -5133,7 +4903,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/513"
+	id="uk.org.publicwhip/lord/490"
 	house="lords"
 	title="Lord" lordname="Patel" lordofname=""
 	frontnames="Narendra Babubhai"
@@ -5143,7 +4913,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/514"
+	id="uk.org.publicwhip/lord/491"
 	house="lords"
 	title="Lord" lordname="Patel" lordofname="Blackburn"
 	frontnames="Adam Hafejee"
@@ -5153,7 +4923,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/515"
+	id="uk.org.publicwhip/lord/492"
 	house="lords"
 	title="Lord" lordname="Patten" lordofname=""
 	frontnames="John Haggit Charles"
@@ -5163,7 +4933,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/516"
+	id="uk.org.publicwhip/lord/493"
 	house="lords"
 	title="Lord" lordname="Paul" lordofname=""
 	frontnames="Swraj"
@@ -5173,7 +4943,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/517"
+	id="uk.org.publicwhip/lord/494"
 	house="lords"
 	title="Lord" lordname="Pearson" lordofname="Rannoch"
 	frontnames="Malcolm Everard Maclaren"
@@ -5183,7 +4953,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/518"
+	id="uk.org.publicwhip/lord/495"
 	house="lords"
 	title="Earl" lordname="Peel" lordofname=""
 	frontnames="William James Robert"
@@ -5193,7 +4963,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/519"
+	id="uk.org.publicwhip/lord/496"
 	house="lords"
 	title="Lord" lordname="Pendry" lordofname=""
 	frontnames="Thomas"
@@ -5203,7 +4973,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/520"
+	id="uk.org.publicwhip/lord/497"
 	house="lords"
 	title="Baroness" lordname="Perry" lordofname="Southwark"
 	frontnames="Pauline"
@@ -5213,7 +4983,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/521"
+	id="uk.org.publicwhip/lord/498"
 	house="lords"
 	title="Lord" lordname="Peston" lordofname=""
 	frontnames="Maurice Harry"
@@ -5223,7 +4993,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/522"
+	id="uk.org.publicwhip/lord/499"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Peterborough"
 	frontnames="Ian Patrick Martyn"
@@ -5233,7 +5003,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/523"
+	id="uk.org.publicwhip/lord/500"
 	house="lords"
 	title="Lord" lordname="Peyton" lordofname="Yeovil"
 	frontnames="John Wynne William"
@@ -5243,7 +5013,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/524"
+	id="uk.org.publicwhip/lord/501"
 	house="lords"
 	title="Lord" lordname="Phillips" lordofname="Sudbury"
 	frontnames="Andrew Wyndham"
@@ -5253,7 +5023,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/525"
+	id="uk.org.publicwhip/lord/502"
 	house="lords"
 	title="Lord" lordname="Phillips" lordofname="Worth Matravers"
 	frontnames="Nicholas Addison"
@@ -5263,7 +5033,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/526"
+	id="uk.org.publicwhip/lord/503"
 	house="lords"
 	title="Baroness" lordname="Pike" lordofname=""
 	frontnames="Irene Mervyn Parnicott"
@@ -5273,7 +5043,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/527"
+	id="uk.org.publicwhip/lord/504"
 	house="lords"
 	title="Lord" lordname="Pilkington" lordofname="Oxenford"
 	frontnames="Peter"
@@ -5283,7 +5053,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/528"
+	id="uk.org.publicwhip/lord/505"
 	house="lords"
 	title="Baroness" lordname="Pitkeathley" lordofname=""
 	frontnames="Jill Elizabeth"
@@ -5293,7 +5063,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/529"
+	id="uk.org.publicwhip/lord/506"
 	house="lords"
 	title="Lord" lordname="Plant" lordofname="Highfield"
 	frontnames="Raymond"
@@ -5303,7 +5073,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/530"
+	id="uk.org.publicwhip/lord/507"
 	house="lords"
 	title="Baroness" lordname="Platt" lordofname="Writtle"
 	frontnames="Beryl Catherine"
@@ -5313,7 +5083,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/531"
+	id="uk.org.publicwhip/lord/508"
 	house="lords"
 	title="Lord" lordname="Plumb" lordofname=""
 	frontnames="Charles Henry"
@@ -5323,7 +5093,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/532"
+	id="uk.org.publicwhip/lord/509"
 	house="lords"
 	title="Lord" lordname="Plummer" lordofname="St Marylebone"
 	frontnames="Arthur Desmond Herne"
@@ -5333,7 +5103,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/533"
+	id="uk.org.publicwhip/lord/510"
 	house="lords"
 	title="Lord" lordname="Ponsonby" lordofname="Shulbrede"
 	frontnames="Frederick Matthew Thomas"
@@ -5343,7 +5113,7 @@
 	comment="sits as Lord Ponsonby of Roehampton"
 />
 <lord
-	id="uk.org.publicwhip/lord/534"
+	id="uk.org.publicwhip/lord/511"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Portsmouth"
 	frontnames="Kenneth William"
@@ -5353,7 +5123,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/535"
+	id="uk.org.publicwhip/lord/512"
 	house="lords"
 	title="Lord" lordname="Powell" lordofname="Bayswater"
 	frontnames="Charles David"
@@ -5363,7 +5133,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/536"
+	id="uk.org.publicwhip/lord/513"
 	house="lords"
 	title="Baroness" lordname="Prashar" lordofname=""
 	frontnames="Usha Kumari"
@@ -5373,7 +5143,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/537"
+	id="uk.org.publicwhip/lord/514"
 	house="lords"
 	title="Lord" lordname="Prior" lordofname=""
 	frontnames="James Michael Leathes"
@@ -5383,27 +5153,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/538"
+	id="uk.org.publicwhip/lord/515"
 	house="lords"
 	title="Lord" lordname="Prys-Davies" lordofname=""
-	frontnames=""
+	frontnames="Gwilym Prys"
 	peeragetype="Life peer" affiliation="Labour"
 	fromdate="1983-02-09"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/539"
-	house="lords"
-	title="Lord" lordname="Prys-davies" lordofname=""
-	frontnames="Gwilym Prys"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/540"
+	id="uk.org.publicwhip/lord/516"
 	house="lords"
 	title="Lord" lordname="Puttnam" lordofname=""
 	frontnames="David Terence"
@@ -5413,7 +5173,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/541"
+	id="uk.org.publicwhip/lord/517"
 	house="lords"
 	title="Lord" lordname="Pym" lordofname=""
 	frontnames="Francis Leslie"
@@ -5423,7 +5183,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/542"
+	id="uk.org.publicwhip/lord/518"
 	house="lords"
 	title="Lord" lordname="Quinton" lordofname=""
 	frontnames="Anthony Meredith"
@@ -5433,7 +5193,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/543"
+	id="uk.org.publicwhip/lord/519"
 	house="lords"
 	title="Lord" lordname="Quirk" lordofname=""
 	frontnames="Charles Randolph"
@@ -5443,7 +5203,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/544"
+	id="uk.org.publicwhip/lord/520"
 	house="lords"
 	title="Lord" lordname="Radice" lordofname=""
 	frontnames="Giles Heneage"
@@ -5453,7 +5213,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/545"
+	id="uk.org.publicwhip/lord/521"
 	house="lords"
 	title="Baroness" lordname="Ramsay" lordofname="Cartvale"
 	frontnames="Meta"
@@ -5463,7 +5223,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/546"
+	id="uk.org.publicwhip/lord/522"
 	house="lords"
 	title="Lord" lordname="Randall" lordofname="St Budeaux"
 	frontnames="Stuart Jeffrey"
@@ -5473,7 +5233,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/547"
+	id="uk.org.publicwhip/lord/523"
 	house="lords"
 	title="Baroness" lordname="Rawlings" lordofname=""
 	frontnames="Patricia Elizabeth"
@@ -5483,7 +5243,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/548"
+	id="uk.org.publicwhip/lord/524"
 	house="lords"
 	title="Lord" lordname="Rawlinson" lordofname="Ewell"
 	frontnames="Peter Anthony Grayson"
@@ -5493,7 +5253,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/549"
+	id="uk.org.publicwhip/lord/525"
 	house="lords"
 	title="Lord" lordname="Razzall" lordofname=""
 	frontnames="Edward Timothy"
@@ -5503,7 +5263,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/550"
+	id="uk.org.publicwhip/lord/526"
 	house="lords"
 	title="Lord" lordname="Rea" lordofname=""
 	frontnames="John Nicolas"
@@ -5513,7 +5273,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/551"
+	id="uk.org.publicwhip/lord/527"
 	house="lords"
 	title="Lord" lordname="Reay" lordofname=""
 	frontnames="Hugh William"
@@ -5523,7 +5283,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/552"
+	id="uk.org.publicwhip/lord/528"
 	house="lords"
 	title="Lord" lordname="Redesdale" lordofname=""
 	frontnames="Rupert Bertram"
@@ -5533,7 +5293,7 @@
 	comment="sits as Lord Mitford"
 />
 <lord
-	id="uk.org.publicwhip/lord/553"
+	id="uk.org.publicwhip/lord/529"
 	house="lords"
 	title="Lord" lordname="Rees" lordofname=""
 	frontnames="Peter Wynford Innes"
@@ -5543,27 +5303,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/554"
+	id="uk.org.publicwhip/lord/530"
 	house="lords"
 	title="Lord" lordname="Rees-Mogg" lordofname=""
-	frontnames=""
+	frontnames="William"
 	peeragetype="Life peer" affiliation="Cross bench"
 	fromdate="1988-08-08"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/555"
-	house="lords"
-	title="Lord" lordname="Rees-mogg" lordofname=""
-	frontnames="William"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/556"
+	id="uk.org.publicwhip/lord/531"
 	house="lords"
 	title="Baroness" lordname="Rendell" lordofname="Babergh"
 	frontnames="Ruth Barbara"
@@ -5573,7 +5323,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/557"
+	id="uk.org.publicwhip/lord/532"
 	house="lords"
 	title="Lord" lordname="Renfrew" lordofname="Kaimsthorn"
 	frontnames="Andrew Colin"
@@ -5583,7 +5333,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/558"
+	id="uk.org.publicwhip/lord/533"
 	house="lords"
 	title="Lord" lordname="Rennard" lordofname=""
 	frontnames="Christopher John"
@@ -5593,7 +5343,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/559"
+	id="uk.org.publicwhip/lord/534"
 	house="lords"
 	title="Lord" lordname="Renton" lordofname=""
 	frontnames="David Lockhart-mure"
@@ -5603,7 +5353,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/560"
+	id="uk.org.publicwhip/lord/535"
 	house="lords"
 	title="Lord" lordname="Renton" lordofname="Mount Harry"
 	frontnames="Ronald Timothy"
@@ -5613,7 +5363,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/561"
+	id="uk.org.publicwhip/lord/536"
 	house="lords"
 	title="Lord" lordname="Renwick" lordofname="Clifton"
 	frontnames="Robin William"
@@ -5623,7 +5373,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/562"
+	id="uk.org.publicwhip/lord/537"
 	house="lords"
 	title="Lord" lordname="Richard" lordofname=""
 	frontnames="Ivor Seward"
@@ -5633,7 +5383,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/563"
+	id="uk.org.publicwhip/lord/538"
 	house="lords"
 	title="Lord" lordname="Richardson" lordofname=""
 	frontnames="John Samuel"
@@ -5643,7 +5393,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/564"
+	id="uk.org.publicwhip/lord/539"
 	house="lords"
 	title="Baroness" lordname="Richardson" lordofname="Calow"
 	frontnames="Kathleen Margaret"
@@ -5653,7 +5403,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/565"
+	id="uk.org.publicwhip/lord/540"
 	house="lords"
 	title="Lord" lordname="Richardson" lordofname="Duntisbourne"
 	frontnames="Gordon William Humphreys"
@@ -5663,7 +5413,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/566"
+	id="uk.org.publicwhip/lord/541"
 	house="lords"
 	title="Lord" lordname="Rix" lordofname=""
 	frontnames="Brian Norman Roger"
@@ -5673,7 +5423,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/567"
+	id="uk.org.publicwhip/lord/542"
 	house="lords"
 	title="Lord" lordname="Roberts" lordofname="Conwy"
 	frontnames="Ieuan Wyn Pritchard"
@@ -5683,7 +5433,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/568"
+	id="uk.org.publicwhip/lord/543"
 	house="lords"
 	title="Lord" lordname="Robertson" lordofname="Port Ellen"
 	frontnames="George Islay Macneill"
@@ -5693,7 +5443,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/569"
+	id="uk.org.publicwhip/lord/544"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Rochester"
 	frontnames="Michael James"
@@ -5703,7 +5453,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/570"
+	id="uk.org.publicwhip/lord/545"
 	house="lords"
 	title="Lord" lordname="Rodger" lordofname="Earlsferry"
 	frontnames="Alan Ferguson"
@@ -5713,7 +5463,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/571"
+	id="uk.org.publicwhip/lord/546"
 	house="lords"
 	title="Lord" lordname="Rodgers" lordofname="Quarry Bank"
 	frontnames="William Thomas"
@@ -5723,7 +5473,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/572"
+	id="uk.org.publicwhip/lord/547"
 	house="lords"
 	title="Lord" lordname="Rogan" lordofname=""
 	frontnames="Dennis Robert David"
@@ -5733,7 +5483,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/573"
+	id="uk.org.publicwhip/lord/548"
 	house="lords"
 	title="Lord" lordname="Rogers" lordofname="Riverside"
 	frontnames="Richard George"
@@ -5743,7 +5493,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/574"
+	id="uk.org.publicwhip/lord/549"
 	house="lords"
 	title="Lord" lordname="Roll" lordofname="Ipsden"
 	frontnames="Eric"
@@ -5753,7 +5503,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/575"
+	id="uk.org.publicwhip/lord/550"
 	house="lords"
 	title="Lord" lordname="Rooker" lordofname=""
 	frontnames="Jeffrey William"
@@ -5763,7 +5513,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/576"
+	id="uk.org.publicwhip/lord/551"
 	house="lords"
 	title="Lord" lordname="Roper" lordofname=""
 	frontnames="John Francis Hodgess"
@@ -5773,7 +5523,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/577"
+	id="uk.org.publicwhip/lord/552"
 	house="lords"
 	title="Earl" lordname="" lordofname="Rosslyn"
 	frontnames="Peter"
@@ -5783,7 +5533,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/578"
+	id="uk.org.publicwhip/lord/553"
 	house="lords"
 	title="Lord" lordname="Rotherwick" lordofname=""
 	frontnames="Herbert Robin"
@@ -5793,7 +5543,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/579"
+	id="uk.org.publicwhip/lord/554"
 	house="lords"
 	title="Earl" lordname="Russell" lordofname=""
 	frontnames="Conrad Sebastian Robert"
@@ -5803,27 +5553,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/580"
+	id="uk.org.publicwhip/lord/555"
 	house="lords"
 	title="Lord" lordname="Russell-Johnston" lordofname=""
-	frontnames=""
+	frontnames="David Russell"
 	peeragetype="Life peer" affiliation="Liberal Democrat"
 	fromdate="1997-07-21"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/581"
-	house="lords"
-	title="Lord" lordname="Russell-johnston" lordofname=""
-	frontnames="David Russell"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/582"
+	id="uk.org.publicwhip/lord/556"
 	house="lords"
 	title="Lord" lordname="Ryder" lordofname="Wensum"
 	frontnames="Richard Andrew"
@@ -5833,7 +5573,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/583"
+	id="uk.org.publicwhip/lord/557"
 	house="lords"
 	title="Lord" lordname="Saatchi" lordofname=""
 	frontnames="Maurice"
@@ -5843,7 +5583,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/584"
+	id="uk.org.publicwhip/lord/558"
 	house="lords"
 	title="Lord" lordname="Sainsbury" lordofname="Preston Candover"
 	frontnames="John Davan"
@@ -5853,7 +5593,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/585"
+	id="uk.org.publicwhip/lord/559"
 	house="lords"
 	title="Lord" lordname="Sainsbury" lordofname="Turville"
 	frontnames="David John"
@@ -5863,7 +5603,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/586"
+	id="uk.org.publicwhip/lord/560"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Salisbury"
 	frontnames="David Staffurth"
@@ -5873,7 +5613,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/587"
+	id="uk.org.publicwhip/lord/561"
 	house="lords"
 	title="Marquess" lordname="" lordofname="Salisbury"
 	frontnames="Robert Michael James"
@@ -5883,7 +5623,7 @@
 	comment="sits as Lord Gascoyne-Cecil"
 />
 <lord
-	id="uk.org.publicwhip/lord/588"
+	id="uk.org.publicwhip/lord/562"
 	house="lords"
 	title="Lady" lordname="Saltoun" lordofname="Abernethy"
 	frontnames="Flora Marjory"
@@ -5893,7 +5633,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/589"
+	id="uk.org.publicwhip/lord/563"
 	house="lords"
 	title="Lord" lordname="Sandberg" lordofname=""
 	frontnames="Michael Graham Ruddock"
@@ -5903,7 +5643,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/590"
+	id="uk.org.publicwhip/lord/564"
 	house="lords"
 	title="Lord" lordname="Sanderson" lordofname="Bowden"
 	frontnames="Charles Russell"
@@ -5913,7 +5653,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/591"
+	id="uk.org.publicwhip/lord/565"
 	house="lords"
 	title="Earl" lordname="" lordofname="Sandwich"
 	frontnames="John Edward Hollister"
@@ -5923,7 +5663,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/592"
+	id="uk.org.publicwhip/lord/566"
 	house="lords"
 	title="Lord" lordname="Saville" lordofname="Newdigate"
 	frontnames="Mark Oliver"
@@ -5933,7 +5673,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/593"
+	id="uk.org.publicwhip/lord/567"
 	house="lords"
 	title="Lord" lordname="Sawyer" lordofname=""
 	frontnames="Lawrence"
@@ -5943,7 +5683,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/594"
+	id="uk.org.publicwhip/lord/568"
 	house="lords"
 	title="Lord" lordname="Scanlon" lordofname=""
 	frontnames="Hugh Parr"
@@ -5953,7 +5693,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/595"
+	id="uk.org.publicwhip/lord/569"
 	house="lords"
 	title="Lord" lordname="Scarman" lordofname=""
 	frontnames="Leslie George"
@@ -5963,7 +5703,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/596"
+	id="uk.org.publicwhip/lord/570"
 	house="lords"
 	title="Baroness" lordname="Scotland" lordofname="Asthal"
 	frontnames="Patricia Janet"
@@ -5973,7 +5713,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/597"
+	id="uk.org.publicwhip/lord/571"
 	house="lords"
 	title="Lord" lordname="Scott" lordofname="Foscote"
 	frontnames="Richard Rashleigh Folliott"
@@ -5983,7 +5723,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/598"
+	id="uk.org.publicwhip/lord/572"
 	house="lords"
 	title="Baroness" lordname="Scott" lordofname="Needham Market"
 	frontnames="Rosalind Carol"
@@ -5993,7 +5733,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/599"
+	id="uk.org.publicwhip/lord/573"
 	house="lords"
 	title="Baroness" lordname="Seccombe" lordofname=""
 	frontnames="Joan Anna Dalziel"
@@ -6003,7 +5743,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/600"
+	id="uk.org.publicwhip/lord/574"
 	house="lords"
 	title="Earl" lordname="" lordofname="Selborne"
 	frontnames="John Roundell"
@@ -6013,7 +5753,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/601"
+	id="uk.org.publicwhip/lord/575"
 	house="lords"
 	title="Lord" lordname="Selkirk" lordofname="Douglas"
 	frontnames="James Alexander"
@@ -6023,7 +5763,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/602"
+	id="uk.org.publicwhip/lord/576"
 	house="lords"
 	title="Lord" lordname="Selsdon" lordofname=""
 	frontnames="Malcolm Mceacharn"
@@ -6033,7 +5773,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/603"
+	id="uk.org.publicwhip/lord/577"
 	house="lords"
 	title="Lord" lordname="Sewel" lordofname=""
 	frontnames="John Buttifant"
@@ -6043,7 +5783,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/604"
+	id="uk.org.publicwhip/lord/578"
 	house="lords"
 	title="Lord" lordname="Sharman" lordofname=""
 	frontnames="Colin Morven"
@@ -6053,7 +5793,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/605"
+	id="uk.org.publicwhip/lord/579"
 	house="lords"
 	title="Baroness" lordname="Sharp" lordofname="Guildford"
 	frontnames="Margaret Lucy"
@@ -6063,7 +5803,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/606"
+	id="uk.org.publicwhip/lord/580"
 	house="lords"
 	title="Baroness" lordname="Sharples" lordofname=""
 	frontnames="Pamela"
@@ -6073,7 +5813,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/607"
+	id="uk.org.publicwhip/lord/581"
 	house="lords"
 	title="Lord" lordname="Shaw" lordofname="Northstead"
 	frontnames="Michael Norman"
@@ -6083,7 +5823,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/608"
+	id="uk.org.publicwhip/lord/582"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Sheffield"
 	frontnames="John"
@@ -6093,7 +5833,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/609"
+	id="uk.org.publicwhip/lord/583"
 	house="lords"
 	title="Lord" lordname="Sheldon" lordofname=""
 	frontnames="Robert Edward"
@@ -6103,7 +5843,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/610"
+	id="uk.org.publicwhip/lord/584"
 	house="lords"
 	title="Lord" lordname="Sheppard" lordofname="Didgemere"
 	frontnames="Allen John George"
@@ -6113,7 +5853,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/611"
+	id="uk.org.publicwhip/lord/585"
 	house="lords"
 	title="Lord" lordname="Sheppard" lordofname="Liverpool"
 	frontnames="David Stuart"
@@ -6123,7 +5863,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/612"
+	id="uk.org.publicwhip/lord/586"
 	house="lords"
 	title="Earl" lordname="" lordofname="Shrewsbury"
 	frontnames="Charles Henry John Benedict Crofton Chetwynd"
@@ -6133,7 +5873,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/613"
+	id="uk.org.publicwhip/lord/587"
 	house="lords"
 	title="Lord" lordname="Shutt" lordofname="Greetland"
 	frontnames="David Trevor"
@@ -6143,7 +5883,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/614"
+	id="uk.org.publicwhip/lord/588"
 	house="lords"
 	title="Lord" lordname="Simon" lordofname="Glaisdale"
 	frontnames="Jocelyn Edward Salis"
@@ -6153,7 +5893,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/615"
+	id="uk.org.publicwhip/lord/589"
 	house="lords"
 	title="Lord" lordname="Simon" lordofname="Highbury"
 	frontnames="David Alec Gwyn"
@@ -6163,7 +5903,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/616"
+	id="uk.org.publicwhip/lord/590"
 	house="lords"
 	title="Viscount" lordname="Simon" lordofname=""
 	frontnames="Jan David"
@@ -6173,7 +5913,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/617"
+	id="uk.org.publicwhip/lord/591"
 	house="lords"
 	title="Lord" lordname="Simpson" lordofname="Dunkeld"
 	frontnames="George"
@@ -6183,7 +5923,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/618"
+	id="uk.org.publicwhip/lord/592"
 	house="lords"
 	title="Lord" lordname="Skelmersdale" lordofname=""
 	frontnames="Roger"
@@ -6193,7 +5933,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/619"
+	id="uk.org.publicwhip/lord/593"
 	house="lords"
 	title="Lord" lordname="Skidelsky" lordofname=""
 	frontnames="Robert Jacob Alexander"
@@ -6203,7 +5943,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/620"
+	id="uk.org.publicwhip/lord/594"
 	house="lords"
 	title="Viscount" lordname="Slim" lordofname=""
 	frontnames="John Douglas"
@@ -6213,7 +5953,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/621"
+	id="uk.org.publicwhip/lord/595"
 	house="lords"
 	title="Lord" lordname="Slynn" lordofname="Hadley"
 	frontnames="Gordon"
@@ -6223,7 +5963,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/622"
+	id="uk.org.publicwhip/lord/596"
 	house="lords"
 	title="Lord" lordname="Smith" lordofname="Clifton"
 	frontnames="Trevor Arthur"
@@ -6233,7 +5973,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/623"
+	id="uk.org.publicwhip/lord/597"
 	house="lords"
 	title="Baroness" lordname="Smith" lordofname="Gilmorehill"
 	frontnames="Elizabeth Margaret"
@@ -6243,7 +5983,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/624"
+	id="uk.org.publicwhip/lord/598"
 	house="lords"
 	title="Lord" lordname="Smith" lordofname="Leigh"
 	frontnames="Peter Richard Charles"
@@ -6253,7 +5993,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/625"
+	id="uk.org.publicwhip/lord/599"
 	house="lords"
 	title="Earl" lordname="" lordofname="Snowdon"
 	frontnames="Antony Charles Robert"
@@ -6263,7 +6003,7 @@
 	comment="sits as Lord Armstrong-Jones"
 />
 <lord
-	id="uk.org.publicwhip/lord/626"
+	id="uk.org.publicwhip/lord/600"
 	house="lords"
 	title="Lord" lordname="Soulsby" lordofname="Swaffham Prior"
 	frontnames="Ernest Jackson Lawson"
@@ -6273,7 +6013,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/627"
+	id="uk.org.publicwhip/lord/601"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Southwark"
 	frontnames="Thomas Frederick"
@@ -6283,7 +6023,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/628"
+	id="uk.org.publicwhip/lord/602"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Southwell"
 	frontnames=""
@@ -6293,7 +6033,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/629"
+	id="uk.org.publicwhip/lord/603"
 	house="lords"
 	title="Bishop" lordname="" lordofname="St Albans"
 	frontnames="Christopher William"
@@ -6303,27 +6043,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/630"
-	house="lords"
-	title="Bishop" lordname="" lordofname="St Edmundsbury And Ipswich"
-	frontnames="John Hubert Richard"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/631"
+	id="uk.org.publicwhip/lord/604"
 	house="lords"
 	title="Bishop" lordname="" lordofname="St Edmundsbury and Ipswich"
-	frontnames=""
+	frontnames="John Hubert Richard"
 	peeragetype="Bishops and Archbishops" affiliation="Bishops"
 	fromdate="2002-01-14"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/632"
+	id="uk.org.publicwhip/lord/605"
 	house="lords"
 	title="Lord" lordname="St John" lordofname="Bletso"
 	frontnames="Anthony Tudor"
@@ -6333,7 +6063,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/633"
+	id="uk.org.publicwhip/lord/606"
 	house="lords"
 	title="Lord" lordname="St John" lordofname="Fawsley"
 	frontnames="Norman Antony Francis"
@@ -6343,7 +6073,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/634"
+	id="uk.org.publicwhip/lord/607"
 	house="lords"
 	title="Lord" lordname="Stallard" lordofname=""
 	frontnames="Albert William"
@@ -6353,7 +6083,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/635"
+	id="uk.org.publicwhip/lord/608"
 	house="lords"
 	title="Lord" lordname="Steel" lordofname="Aikwood"
 	frontnames="David Martin Scott"
@@ -6363,7 +6093,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/636"
+	id="uk.org.publicwhip/lord/609"
 	house="lords"
 	title="Lord" lordname="Sterling" lordofname="Plaistow"
 	frontnames="Jeffrey Maurice"
@@ -6373,7 +6103,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/637"
+	id="uk.org.publicwhip/lord/610"
 	house="lords"
 	title="Baroness" lordname="Stern" lordofname=""
 	frontnames="Vivien Helen"
@@ -6383,7 +6113,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/638"
+	id="uk.org.publicwhip/lord/611"
 	house="lords"
 	title="Lord" lordname="Stevens" lordofname="Ludgate"
 	frontnames="David Robert"
@@ -6393,7 +6123,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/639"
+	id="uk.org.publicwhip/lord/612"
 	house="lords"
 	title="Lord" lordname="Stevenson" lordofname="Coddenham"
 	frontnames="Henry Dennistoun"
@@ -6403,7 +6133,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/640"
+	id="uk.org.publicwhip/lord/613"
 	house="lords"
 	title="Lord" lordname="Stewartby" lordofname=""
 	frontnames="Bernard Harold Ian Halley"
@@ -6413,7 +6143,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/641"
+	id="uk.org.publicwhip/lord/614"
 	house="lords"
 	title="Lord" lordname="Steyn" lordofname=""
 	frontnames="Johan Van Zyl"
@@ -6423,7 +6153,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/642"
+	id="uk.org.publicwhip/lord/615"
 	house="lords"
 	title="Lord" lordname="Stoddart" lordofname="Swindon"
 	frontnames="David Leonard"
@@ -6433,7 +6163,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/643"
+	id="uk.org.publicwhip/lord/616"
 	house="lords"
 	title="Lord" lordname="Stokes" lordofname=""
 	frontnames="Donald Gresham"
@@ -6443,7 +6173,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/644"
+	id="uk.org.publicwhip/lord/617"
 	house="lords"
 	title="Lord" lordname="Stone" lordofname="Blackheath"
 	frontnames="Andrew Zelig"
@@ -6453,7 +6183,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/645"
+	id="uk.org.publicwhip/lord/618"
 	house="lords"
 	title="Lord" lordname="Strabolgi" lordofname=""
 	frontnames="David Montague De Burgh"
@@ -6463,7 +6193,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/646"
+	id="uk.org.publicwhip/lord/619"
 	house="lords"
 	title="Baroness" lordname="Strange" lordofname=""
 	frontnames="Jean Cherry"
@@ -6473,7 +6203,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/647"
+	id="uk.org.publicwhip/lord/620"
 	house="lords"
 	title="Lord" lordname="Strathclyde" lordofname=""
 	frontnames="Thomas Galloway Dunlop Du Roy De Blicquy"
@@ -6483,7 +6213,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/648"
+	id="uk.org.publicwhip/lord/621"
 	house="lords"
 	title="Lord" lordname="Sutherland" lordofname="Houndwood"
 	frontnames="Stewart Ross"
@@ -6493,7 +6223,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/649"
+	id="uk.org.publicwhip/lord/622"
 	house="lords"
 	title="Lord" lordname="Swinfen" lordofname=""
 	frontnames="Roger Mynors Swinfen"
@@ -6503,7 +6233,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/650"
+	id="uk.org.publicwhip/lord/623"
 	house="lords"
 	title="Baroness" lordname="Symons" lordofname="Vernham Dean"
 	frontnames="Elizabeth Conway"
@@ -6513,7 +6243,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/651"
+	id="uk.org.publicwhip/lord/624"
 	house="lords"
 	title="Lord" lordname="Tanlaw" lordofname=""
 	frontnames="Simon Brooke"
@@ -6523,7 +6253,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/652"
+	id="uk.org.publicwhip/lord/625"
 	house="lords"
 	title="Lord" lordname="Taverne" lordofname=""
 	frontnames="Dick"
@@ -6533,7 +6263,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/653"
+	id="uk.org.publicwhip/lord/626"
 	house="lords"
 	title="Lord" lordname="Taylor" lordofname="Blackburn"
 	frontnames="Thomas"
@@ -6543,7 +6273,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/654"
+	id="uk.org.publicwhip/lord/627"
 	house="lords"
 	title="Lord" lordname="Taylor" lordofname="Warwick"
 	frontnames="John David Beckett"
@@ -6553,7 +6283,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/655"
+	id="uk.org.publicwhip/lord/628"
 	house="lords"
 	title="Lord" lordname="Tebbit" lordofname=""
 	frontnames="Norman Beresford"
@@ -6563,27 +6293,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/656"
+	id="uk.org.publicwhip/lord/629"
 	house="lords"
 	title="Lord" lordname="Temple-Morris" lordofname=""
-	frontnames=""
+	frontnames="Peter"
 	peeragetype="Life peer" affiliation="Labour"
 	fromdate="2001-06-22"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/657"
-	house="lords"
-	title="Lord" lordname="Temple-morris" lordofname=""
-	frontnames="Peter"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/658"
+	id="uk.org.publicwhip/lord/630"
 	house="lords"
 	title="Lord" lordname="Templeman" lordofname=""
 	frontnames="Sydney William"
@@ -6593,7 +6313,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/659"
+	id="uk.org.publicwhip/lord/631"
 	house="lords"
 	title="Viscount" lordname="Tenby" lordofname=""
 	frontnames="William"
@@ -6603,7 +6323,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/660"
+	id="uk.org.publicwhip/lord/632"
 	house="lords"
 	title="Baroness" lordname="Thatcher" lordofname=""
 	frontnames="Margaret Hilda"
@@ -6613,7 +6333,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/661"
+	id="uk.org.publicwhip/lord/633"
 	house="lords"
 	title="Lord" lordname="Thomas" lordofname="Gresford"
 	frontnames="Donald Martin"
@@ -6623,7 +6343,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/662"
+	id="uk.org.publicwhip/lord/634"
 	house="lords"
 	title="Lord" lordname="Thomas" lordofname="Gwydir"
 	frontnames="Peter John Mitchell"
@@ -6633,7 +6353,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/663"
+	id="uk.org.publicwhip/lord/635"
 	house="lords"
 	title="Lord" lordname="Thomas" lordofname="Macclesfield"
 	frontnames="Terence James"
@@ -6643,7 +6363,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/664"
+	id="uk.org.publicwhip/lord/636"
 	house="lords"
 	title="Lord" lordname="Thomas" lordofname="Swynnerton"
 	frontnames="Hugh Swynnerton"
@@ -6653,7 +6373,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/665"
+	id="uk.org.publicwhip/lord/637"
 	house="lords"
 	title="Baroness" lordname="Thomas" lordofname="Walliswood"
 	frontnames="Susan Petronella"
@@ -6663,7 +6383,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/666"
+	id="uk.org.publicwhip/lord/638"
 	house="lords"
 	title="Lord" lordname="Thomson" lordofname="Monifieth"
 	frontnames="George Morgan"
@@ -6673,7 +6393,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/667"
+	id="uk.org.publicwhip/lord/639"
 	house="lords"
 	title="Baroness" lordname="Thornton" lordofname=""
 	frontnames="Dorothea Glenys"
@@ -6683,7 +6403,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/668"
+	id="uk.org.publicwhip/lord/640"
 	house="lords"
 	title="Lord" lordname="Tombs" lordofname=""
 	frontnames="Francis Leonard"
@@ -6693,7 +6413,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/669"
+	id="uk.org.publicwhip/lord/641"
 	house="lords"
 	title="Lord" lordname="Tomlinson" lordofname=""
 	frontnames="John Edward"
@@ -6703,7 +6423,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/670"
+	id="uk.org.publicwhip/lord/642"
 	house="lords"
 	title="Lord" lordname="Tope" lordofname=""
 	frontnames="Graham Norman"
@@ -6713,7 +6433,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/671"
+	id="uk.org.publicwhip/lord/643"
 	house="lords"
 	title="Lord" lordname="Tordoff" lordofname=""
 	frontnames="Geoffrey Johnson"
@@ -6723,7 +6443,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/672"
+	id="uk.org.publicwhip/lord/644"
 	house="lords"
 	title="Lord" lordname="Trefgarne" lordofname=""
 	frontnames="David"
@@ -6733,7 +6453,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/673"
+	id="uk.org.publicwhip/lord/645"
 	house="lords"
 	title="Lord" lordname="Triesman" lordofname=""
 	frontnames=""
@@ -6743,7 +6463,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/674"
+	id="uk.org.publicwhip/lord/646"
 	house="lords"
 	title="Lord" lordname="Trotman" lordofname=""
 	frontnames="Alexander James"
@@ -6753,7 +6473,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/675"
+	id="uk.org.publicwhip/lord/647"
 	house="lords"
 	title="Baroness" lordname="Trumpington" lordofname=""
 	frontnames="Jean Alys"
@@ -6763,7 +6483,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/676"
+	id="uk.org.publicwhip/lord/648"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Truro"
 	frontnames="William"
@@ -6773,7 +6493,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/677"
+	id="uk.org.publicwhip/lord/649"
 	house="lords"
 	title="Lord" lordname="Tugendhat" lordofname=""
 	frontnames="Christopher Samuel"
@@ -6783,7 +6503,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/678"
+	id="uk.org.publicwhip/lord/650"
 	house="lords"
 	title="Lord" lordname="Turnberg" lordofname=""
 	frontnames="Leslie Arnold"
@@ -6793,7 +6513,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/679"
+	id="uk.org.publicwhip/lord/651"
 	house="lords"
 	title="Baroness" lordname="Turner" lordofname="Camden"
 	frontnames="Muriel Winifred"
@@ -6803,7 +6523,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/680"
+	id="uk.org.publicwhip/lord/652"
 	house="lords"
 	title="Baroness" lordname="Uddin" lordofname=""
 	frontnames="Manzila Pola"
@@ -6813,7 +6533,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/681"
+	id="uk.org.publicwhip/lord/653"
 	house="lords"
 	title="Viscount" lordname="Ullswater" lordofname=""
 	frontnames="Nicholas James Christopher"
@@ -6823,7 +6543,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/682"
+	id="uk.org.publicwhip/lord/654"
 	house="lords"
 	title="Lord" lordname="Varley" lordofname=""
 	frontnames="Eric Graham"
@@ -6833,7 +6553,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/683"
+	id="uk.org.publicwhip/lord/655"
 	house="lords"
 	title="Lord" lordname="Vincent" lordofname="Coleshill"
 	frontnames="Richard Frederick"
@@ -6843,7 +6563,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/684"
+	id="uk.org.publicwhip/lord/656"
 	house="lords"
 	title="Lord" lordname="Vinson" lordofname=""
 	frontnames="Nigel"
@@ -6853,7 +6573,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/685"
+	id="uk.org.publicwhip/lord/657"
 	house="lords"
 	title="Lord" lordname="Vivian" lordofname=""
 	frontnames="Nicholas Crespigny Laurence"
@@ -6863,7 +6583,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/686"
+	id="uk.org.publicwhip/lord/658"
 	house="lords"
 	title="Lord" lordname="Waddington" lordofname=""
 	frontnames="David Charles"
@@ -6873,7 +6593,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/687"
+	id="uk.org.publicwhip/lord/659"
 	house="lords"
 	title="Lord" lordname="Wade" lordofname="Chorlton"
 	frontnames="William Oulton"
@@ -6883,7 +6603,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/688"
+	id="uk.org.publicwhip/lord/660"
 	house="lords"
 	title="Lord" lordname="Wakeham" lordofname=""
 	frontnames="John"
@@ -6893,7 +6613,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/689"
+	id="uk.org.publicwhip/lord/661"
 	house="lords"
 	title="Lord" lordname="Waldegrave" lordofname="North Hill"
 	frontnames="William Arthur"
@@ -6903,7 +6623,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/690"
+	id="uk.org.publicwhip/lord/662"
 	house="lords"
 	title="Lord" lordname="Walker" lordofname="Gestingthorpe"
 	frontnames="Robert"
@@ -6913,7 +6633,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/691"
+	id="uk.org.publicwhip/lord/663"
 	house="lords"
 	title="Lord" lordname="Walker" lordofname="Worcester"
 	frontnames="Peter Edward"
@@ -6923,7 +6643,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/692"
+	id="uk.org.publicwhip/lord/664"
 	house="lords"
 	title="Lord" lordname="Wallace" lordofname="Saltaire"
 	frontnames="William John Lawrence"
@@ -6933,7 +6653,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/693"
+	id="uk.org.publicwhip/lord/665"
 	house="lords"
 	title="Baroness" lordname="Walmsley" lordofname=""
 	frontnames="Joan Margaret"
@@ -6943,7 +6663,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/694"
+	id="uk.org.publicwhip/lord/666"
 	house="lords"
 	title="Lord" lordname="Walpole" lordofname=""
 	frontnames="Robert Horatio"
@@ -6953,7 +6673,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/695"
+	id="uk.org.publicwhip/lord/667"
 	house="lords"
 	title="Lord" lordname="Walton" lordofname="Detchant"
 	frontnames="John Nicholas"
@@ -6963,7 +6683,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/696"
+	id="uk.org.publicwhip/lord/668"
 	house="lords"
 	title="Lord" lordname="Warner" lordofname=""
 	frontnames="Norman Reginald"
@@ -6973,7 +6693,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/697"
+	id="uk.org.publicwhip/lord/669"
 	house="lords"
 	title="Baroness" lordname="Warnock" lordofname=""
 	frontnames="Helen Mary"
@@ -6983,7 +6703,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/698"
+	id="uk.org.publicwhip/lord/670"
 	house="lords"
 	title="Baroness" lordname="Warwick" lordofname="Undercliffe"
 	frontnames="Diana Mary"
@@ -6993,7 +6713,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/699"
+	id="uk.org.publicwhip/lord/671"
 	house="lords"
 	title="Lord" lordname="Watson" lordofname="Invergowrie"
 	frontnames="Michael Goodall"
@@ -7003,7 +6723,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/700"
+	id="uk.org.publicwhip/lord/672"
 	house="lords"
 	title="Lord" lordname="Watson" lordofname="Richmond"
 	frontnames="Alan John"
@@ -7013,7 +6733,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/701"
+	id="uk.org.publicwhip/lord/673"
 	house="lords"
 	title="Viscount" lordname="Waverley" lordofname=""
 	frontnames="John Desmond Forbes"
@@ -7023,7 +6743,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/702"
+	id="uk.org.publicwhip/lord/674"
 	house="lords"
 	title="Lord" lordname="Weatherill" lordofname=""
 	frontnames="Bruce Bernard"
@@ -7033,7 +6753,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/703"
+	id="uk.org.publicwhip/lord/675"
 	house="lords"
 	title="Lord" lordname="Wedderburn" lordofname="Charlton"
 	frontnames="Kenneth William"
@@ -7043,7 +6763,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/704"
+	id="uk.org.publicwhip/lord/676"
 	house="lords"
 	title="Lord" lordname="Weidenfeld" lordofname=""
 	frontnames="Arthur George"
@@ -7053,7 +6773,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/705"
+	id="uk.org.publicwhip/lord/677"
 	house="lords"
 	title="Lord" lordname="Whaddon" lordofname=""
 	frontnames="John Derek"
@@ -7063,7 +6783,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/706"
+	id="uk.org.publicwhip/lord/678"
 	house="lords"
 	title="Baroness" lordname="Whitaker" lordofname=""
 	frontnames="Janet Alison"
@@ -7073,7 +6793,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/707"
+	id="uk.org.publicwhip/lord/679"
 	house="lords"
 	title="Lord" lordname="Whitty" lordofname=""
 	frontnames="John Lawrence"
@@ -7083,7 +6803,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/708"
+	id="uk.org.publicwhip/lord/680"
 	house="lords"
 	title="Lord" lordname="Wigoder" lordofname=""
 	frontnames="Basil Thomas"
@@ -7093,7 +6813,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/709"
+	id="uk.org.publicwhip/lord/681"
 	house="lords"
 	title="Baroness" lordname="Wilcox" lordofname=""
 	frontnames="Judith Ann"
@@ -7103,7 +6823,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/710"
+	id="uk.org.publicwhip/lord/682"
 	house="lords"
 	title="Baroness" lordname="Wilkins" lordofname=""
 	frontnames="Rosalie Catherine"
@@ -7113,7 +6833,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/711"
+	id="uk.org.publicwhip/lord/683"
 	house="lords"
 	title="Baroness" lordname="Williams" lordofname="Crosby"
 	frontnames="Shirley Vivien Teresa Brittain"
@@ -7123,7 +6843,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/712"
+	id="uk.org.publicwhip/lord/684"
 	house="lords"
 	title="Lord" lordname="Williams" lordofname="Elvel"
 	frontnames="Charles Cuthbert Powell"
@@ -7133,7 +6853,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/713"
+	id="uk.org.publicwhip/lord/685"
 	house="lords"
 	title="Lord" lordname="Williamson" lordofname="Horton"
 	frontnames="David Francis"
@@ -7143,27 +6863,17 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/714"
-	house="lords"
-	title="Lord" lordname="Willoughby De Broke" lordofname=""
-	frontnames="Leopold David"
-	peeragetype="" affiliation=""
-	fromdate=""
-	source="Lords2003-11-26.html"
-	comment=" -- in extname, missing from mainlists"
-/>
-<lord
-	id="uk.org.publicwhip/lord/715"
+	id="uk.org.publicwhip/lord/686"
 	house="lords"
 	title="Lord" lordname="Willoughby de Broke" lordofname=""
-	frontnames=""
+	frontnames="Leopold David"
 	peeragetype="Elected Hereditary" affiliation="Conservative"
 	fromdate="1986-05-25"
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/716"
+	id="uk.org.publicwhip/lord/687"
 	house="lords"
 	title="Lord" lordname="Wilson" lordofname="Dinton"
 	frontnames=""
@@ -7173,7 +6883,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/717"
+	id="uk.org.publicwhip/lord/688"
 	house="lords"
 	title="Lord" lordname="Wilson" lordofname="Tillyorn"
 	frontnames="David Clive"
@@ -7183,7 +6893,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/718"
+	id="uk.org.publicwhip/lord/689"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Winchester"
 	frontnames="Michael Charles"
@@ -7193,7 +6903,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/719"
+	id="uk.org.publicwhip/lord/690"
 	house="lords"
 	title="Lord" lordname="Windlesham" lordofname=""
 	frontnames="David James George"
@@ -7203,7 +6913,7 @@
 	comment="sits as Lord Hennessy"
 />
 <lord
-	id="uk.org.publicwhip/lord/720"
+	id="uk.org.publicwhip/lord/691"
 	house="lords"
 	title="Lord" lordname="Winston" lordofname=""
 	frontnames="Robert Maurice Lipson"
@@ -7213,7 +6923,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/721"
+	id="uk.org.publicwhip/lord/692"
 	house="lords"
 	title="Lord" lordname="Wolfson" lordofname=""
 	frontnames="Leonard Gordon"
@@ -7223,7 +6933,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/722"
+	id="uk.org.publicwhip/lord/693"
 	house="lords"
 	title="Lord" lordname="Wolfson" lordofname="Sunningdale"
 	frontnames="David"
@@ -7233,7 +6943,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/723"
+	id="uk.org.publicwhip/lord/694"
 	house="lords"
 	title="Lord" lordname="Woolf" lordofname=""
 	frontnames="Harry Kenneth"
@@ -7243,7 +6953,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/724"
+	id="uk.org.publicwhip/lord/695"
 	house="lords"
 	title="Lord" lordname="Woolmer" lordofname="Leeds"
 	frontnames="Kenneth John"
@@ -7253,7 +6963,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/725"
+	id="uk.org.publicwhip/lord/696"
 	house="lords"
 	title="Bishop" lordname="" lordofname="Worcester"
 	frontnames="Peter Stephen Maurice"
@@ -7263,7 +6973,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/726"
+	id="uk.org.publicwhip/lord/697"
 	house="lords"
 	title="Lord" lordname="Wright" lordofname="Richmond"
 	frontnames="Patrick Richard Henry"
@@ -7273,7 +6983,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/727"
+	id="uk.org.publicwhip/lord/698"
 	house="lords"
 	title="Arch-bishop" lordname="" lordofname="York"
 	frontnames=""
@@ -7283,7 +6993,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/728"
+	id="uk.org.publicwhip/lord/699"
 	house="lords"
 	title="Archbishop" lordname="" lordofname="York"
 	frontnames="David Michael"
@@ -7293,7 +7003,7 @@
 	comment=" -- in extname, missing from mainlists"
 />
 <lord
-	id="uk.org.publicwhip/lord/729"
+	id="uk.org.publicwhip/lord/700"
 	house="lords"
 	title="Lord" lordname="Young" lordofname="Graffham"
 	frontnames="David Ivor"
@@ -7303,7 +7013,7 @@
 	comment=""
 />
 <lord
-	id="uk.org.publicwhip/lord/730"
+	id="uk.org.publicwhip/lord/701"
 	house="lords"
 	title="Baroness" lordname="Young" lordofname="Old Scone"
 	frontnames="Barbara Scott"
@@ -7312,10 +7022,5 @@
 	source="Lords2004-02-09WithFromDate.html"
 	comment=""
 />
-
-
-<lordalias fullname="The Lord Bishop of Salisbury" alternate="Lord Bishop of Salisbury" />
-<lordalias fullname="The Lord Bishop of London" alternate="Lord Bishop of London" />
-<lordalias fullname="The Lord Bishop of St Edmundsbury and Ipswich" alternate="The Lord Bishop of Edmundsbury and Ipswich" />
 
 </publicwhip>

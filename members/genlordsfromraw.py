@@ -151,7 +151,7 @@ class lordsrecords:
 				r.lordname = nr.lordname
 				r.lordofname = nr.lordofname
 		else:
-			print nr
+			print "Inserting extname %s" % nr
 			nr.comments = nr.comments + " -- in extname, missing from mainlists"
 			self.lordrec.append(nr)
 
@@ -212,6 +212,19 @@ def LoadTableWithFromDate(fpath, fname):
 
 	return res
 
+# special capitalization for lords names (capswords not good enough)
+def LdCap(nam):
+	res = re.split("(\s+|-|\.|')", nam)
+	for i in range(len(res)):
+		res[i] = string.capitalize(res[i])
+		if (i != 0) and (i != len(res) - 1):
+			if re.match("And|De|Sub|Le", res[i]):
+				res[i] = string.lower(res[i])
+		if res[i] == ".":
+			res[i] = ""
+	return string.join(res, "")
+
+
 # run through and find extended names information
 # this creates incomplete records which are later to be merged with the main list
 def LoadExtendedNames(fpath, fname):
@@ -236,9 +249,10 @@ def LoadExtendedNames(fpath, fname):
 		lordrec.source = fname
 
 		lordrec.title = fnm.group(4)
-		lordrec.lordname = string.replace(string.capwords(re.sub('&#8217;', "'", fnm.group(1))), ".", "")
+		lordrec.lordname = LdCap(string.replace(fnm.group(1), "&#8217;", "'"))
 		if fnm.group(2):
-			lordrec.lordofname = string.replace(string.capwords(fnm.group(2)), ".", "")
+			lordrec.lordofname = LdCap(fnm.group(2))
+
 		lordrec.frontnames = string.capwords(fnm.group(3))
 		if fnm.group(5):
 			assert not lordrec.lordofname
@@ -304,13 +318,6 @@ for r in rr.lordrec:
 	r.lid = lid
 	r.OutRecord(lordsxml)
 	lid += 1
-
-lordsxml.write("""
-
-<lordalias fullname="The Lord Bishop of Salisbury" alternate="Lord Bishop of Salisbury" />
-<lordalias fullname="The Lord Bishop of London" alternate="Lord Bishop of London" />
-<lordalias fullname="The Lord Bishop of St Edmundsbury and Ipswich" alternate="The Lord Bishop of Edmundsbury and Ipswich" />
-""")
 
 lordsxml.write("\n</publicwhip>\n")
 lordsxml.close()

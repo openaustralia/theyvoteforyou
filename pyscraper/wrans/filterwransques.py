@@ -34,7 +34,7 @@ def ExtractQnum(tex):
 # the other question form is as a single paragraph
 def FilterQuestion(text, sdate, stampurl):
 	# split into paragraphs.  The second results is a parallel array of bools
-	(textp, textpindent) = SplitParaIndents(text)
+	(textp, textpindent) = SplitParaIndents(text, stampurl)
 	if not textp:
 		raise ContextException('no paragraphs in result', stamp=stampurl, fragment=text)
 

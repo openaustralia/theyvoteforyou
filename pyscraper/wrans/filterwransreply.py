@@ -77,11 +77,11 @@ pcode = [ '', 'indent', 'italic', 'indentitalic' ]
 
 ###########################
 # this is the main function
-def FilterReply(text):
+def FilterReply(text, stampurl):
 	qs = None # just to kill off use of this class
 
 	# split into paragraphs.  The second results is a parallel array of bools
-	(textp, textpindent) = SplitParaIndents(text)
+	(textp, textpindent) = SplitParaIndents(text, stampurl)
 	if not textp:
 		raise Exception, ' no paragraphs in result '
 

@@ -1,4 +1,4 @@
-#! $Id: contextexception.py,v 1.7 2004/04/30 16:07:06 goatchurch Exp $
+#! $Id: contextexception.py,v 1.8 2004/05/03 19:14:20 goatchurch Exp $
 # vim:sw=8:ts=8:et:nowrap
 
 import os
@@ -126,5 +126,5 @@ if __name__ == '__main__':
 	if len(sys.argv) != 3:
 		print "Usage ./contextexception.py wrans 2004-03-25"
 		sys.exit(1)
-	RunPatchToolW(sys.argv[1], sys.argv[2], "")
+	RunPatchToolW(sys.argv[1], sys.argv[2], None, "")
 

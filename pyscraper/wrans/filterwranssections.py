@@ -292,7 +292,7 @@ def FilterWransSections(fout, text, sdate):
                                                         raise ContextException('unknown qnum %s present in answer, make it clear' % qn, stamp = qb.sstampurl, fragment = qb.text)
 
                                 try:
-                                        qb.stext = FilterReply(qb.text)
+                                        qb.stext = FilterReply(qb.text, qb.sstampurl)
                                 except Exception, e:
                                         raise ContextException(str(e), stamp=qb.sstampurl, fragment=qb.text)
 

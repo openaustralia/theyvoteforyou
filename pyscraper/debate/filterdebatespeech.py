@@ -26,7 +26,7 @@ pcode = [ '', 'indent', 'italic', 'indentitalic' ]
 def FilterDebateSpeech(qs):
 
 	# split into paragraphs.  The second results is a parallel array of bools
-	(textp, textpindent) = SplitParaIndents(qs.text)
+	(textp, textpindent) = SplitParaIndents(qs.text, qs.sstampurl)
 
 	qs.stext = [ ]
 	i = 0

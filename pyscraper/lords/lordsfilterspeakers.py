@@ -41,6 +41,8 @@ class LordsList(xml.sax.handler.ContentHandler):
 		parser = xml.sax.make_parser()
 		parser.setContentHandler(self)
 		parser.parse("../members/all-lords.xml")
+		parser.parse("../members/all-lords-extras.xml")
+		parser.parse("../members/lordaliases.xml")
 
 	def startElement(self, name, attr):
 		""" This handler is invoked for each XML element (during loading)"""
@@ -54,9 +56,6 @@ class LordsList(xml.sax.handler.ContentHandler):
 				lname = attr["lordofname"]
 			if lname:
 				self.lordnames.setdefault(lname, []).append(attr)
-				lnamed = string.replace(lname, ".", "")
-				if lnamed != lname:
-					self.lordnames.setdefault(lnamed, []).append(attr)
 
 		if name == "lordalias":
 			self.aliasfulllordname[attr["alternate"]] = attr["fullname"]
@@ -80,7 +79,7 @@ class LordsList(xml.sax.handler.ContentHandler):
 				res.append(lm)
 
 		if len(res) != 1:
-			print (ltitle, llordname, llordofname)
+			print (ltitle, llordname, llordofname, len(res))
 			print "Not matched in "
 			for lm in lmatches:
 				print "%s [%s] [of %s]" % (lm["title"], lm["lordname"], lm["lordofname"])
@@ -134,8 +133,6 @@ def GetLordSpeakerID(ltitle, llordname, llordofname, loffice, sdate):
 	return lid
 
 
-
-
 ################## the end of lords resolve names
 
 
@@ -176,7 +173,7 @@ respeakervals = re.compile('([^:(]*?)\s*(?:\(([^:)]*)\))?(:)?$')
 renonspek = re.compile('division|contents|amendment(?i)')
 reboldempty = re.compile('<b>\s*</b>(?i)')
 
-regenericspeak = re.compile('(?:The (?:Deputy )?Chairman(?: of Committees)?|Noble Lords|A Noble Lord)$')
+regenericspeak = re.compile('the (?:deputy )?chairman of committees|the deputy speaker|the clerk of the parliaments|the lord chancellor|the noble lord said(?i)')
 #retitlesep = re.compile('(Lord|Baroness|Viscount|Earl|The Earl of|The Lord Bishop of|The Duke of|The Countess of|Lady)\s*(.*)$')
 
 hontitles = [ 'Lord Bishop', 'Lord', 'Baroness', 'Viscount', 'Earl', 'Countess', 'Archbishop', 'Duke', 'Lady' ]
@@ -221,7 +218,8 @@ def LordsFilterSpeakers(fout, text, sdate):
 		namec = respeakervals.match(fssb)
 		if not namec:
 			print fssb
-		assert namec
+			raise ContextException("bad format", fragment=fssb)
+
 		if namec.group(2):
 			name = namec.group(2)
 			loffice = namec.group(1)
@@ -236,7 +234,7 @@ def LordsFilterSpeakers(fout, text, sdate):
 		if re.match('noble lords|a noble lord|a noble baroness(?i)', name):
 			fout.write('<speaker speakerid="%s">%s</speaker>' % ('no-match', name))
 			continue
-		if re.match('the (?:deputy )?chairman of committees|the deputy speaker|the clerk of the parliaments|the lord chancellor(?i)', name):
+		if regenericspeak.match(name):
 			fout.write('<speaker speakerid="%s">%s</speaker>' % ('no-match', name))
 			continue
 
@@ -247,7 +245,7 @@ def LordsFilterSpeakers(fout, text, sdate):
 		if not hom:
 			fout.write('<speaker speakerid="%s">%s</speaker>' % ('no-match', name))
 			print "format failure on " + name
-			raise Exception, "lord name format failure"
+			raise ContextException("lord name format failure", fragment=name)
 
 		# now we have a speaker, try and break it up
 		ltit = hom.group(1)

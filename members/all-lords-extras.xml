@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<publicwhip>
+
+<lord
+	id="uk.org.publicwhip/lord/10000"
+	house="lords"
+	title="Bishop" lordname="" lordofname="Guildford"
+	frontnames=""
+	peeragetype="" affiliation=""
+	fromdate="1957-10-04"
+	source="appears in 2003-10-29"
+	comment=""
+/>
+
+<lord
+	id="uk.org.publicwhip/lord/10001"
+	house="lords"
+	title="Lord" lordname="Williams" lordofname="Mostyn"
+	frontnames=""
+	peeragetype="" affiliation=""
+	fromdate="1957-10-04"
+	source="appears in 2003-09-18"
+	comment=""
+/>
+
+<lord
+	id="uk.org.publicwhip/lord/10002"
+	house="lords"
+	title="Lord" lordname="Hodgson" lordofname=""
+	frontnames=""
+	peeragetype="" affiliation=""
+	fromdate="1957-10-04"
+	source="appears in 2003-07-14, but maybe same as of Astley Abbotts"
+	comment=""
+/>
+
+<lord
+	id="uk.org.publicwhip/lord/10003"
+	house="lords"
+	title="Lord" lordname="Perry" lordofname="Walton"
+	frontnames=""
+	peeragetype="" affiliation=""
+	fromdate="1957-10-04"
+	source="appears in 2003-07-14"
+	comment=""
+/>
+
+<lord
+	id="uk.org.publicwhip/lord/10004"
+	house="lords"
+	title="Bishop" lordname="" lordofname="Blackburn"
+	frontnames=""
+	peeragetype="" affiliation=""
+	fromdate="1957-10-04"
+	source="appears in 2003-07-09"
+	comment=""
+/>
+
+</publicwhip>
+

@@ -230,7 +230,7 @@ reitalif = re.compile('\s*<i>\s*$(?i)')
 
 # Break text into paragraphs.
 # the result alternates between lists of space types, and strings
-def SplitParaSpace(text):
+def SplitParaSpace(text, stampurl):
 	res = []
 
 	# used to detect over breaking in spaces
@@ -302,7 +302,7 @@ def SplitParaSpace(text):
 			print "\nspclist:", spclist
 			print "\npstring:", pstring
 			print "\nthe text:", text
-			raise Exception, ' no text in paragraph '
+			raise ContextException('no text in paragraph', stamp=stampurl, fragment=pstring)
 
 		# check that paragraph spaces aren't only font text, and have something
 		# real in them, unless they are breaks because of tables
@@ -333,8 +333,8 @@ def SplitParaSpace(text):
 
 
 # Break text into paragraphs and mark the paragraphs according to their <ul> indentation
-def SplitParaIndents(text):
-	dell = SplitParaSpace(text)
+def SplitParaIndents(text, stampurl):
+	dell = SplitParaSpace(text, stampurl)
         #print "dell", dell
 
 	res =  [ ]
@@ -346,7 +346,7 @@ def SplitParaIndents(text):
 				if re.match('<ul>(?i)', sp):
 					if bIndent:
 						print text
-						raise Exception, ' already indentented '
+						raise ContextException(' already indentented ', stamp=stampurl, fragment=sp)
 					bIndent = 1
 				elif re.match('</ul>(?i)', sp):
 					# no error
