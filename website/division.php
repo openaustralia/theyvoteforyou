@@ -1,6 +1,7 @@
 <?php include "cache-begin.inc"; ?>
 <?php
-# $Id: division.php,v 1.17 2004/01/28 10:19:55 frabcus Exp $
+# $Id: division.php,v 1.18 2004/02/04 18:52:48 frabcus Exp $
+# vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -47,7 +48,11 @@
     if (!$show_all)
         print '<a href="#rebels">Rebel Voters</a>'; 
     else    
-        print '<a href="#voters">Vote List</a>'; 
+    {
+        print '<a href="#voters">Voter List</a>'; 
+    	print ' | ';
+        print '<a href="#nonvoters">Non-Voter List</a>'; 
+    }
 #	print ' | ';
 #	print '<a href="#similar">Similar Divisions</a>'; 
 
@@ -216,64 +221,86 @@
     }
     print "</table>";
 
-    # Table of MP votes
-    $query = "select first_name, last_name, title, pw_mp.party,
-        vote, pw_mp.mp_id, whip_guess, constituency from pw_vote, pw_mp,
-        pw_cache_whip where pw_vote.division_id = $div_id and
-        pw_vote.mp_id = pw_mp.mp_id and pw_cache_whip.division_id =
-        $div_id and pw_cache_whip.party = pw_mp.party ";
-    if (!$show_all)
+    function vote_table($div_id, $db, $date, $show_all, $query)
     {
-        $query .= "and whip_guess <> 'unknown' and vote <> 'both' and
-                whip_guess <> replace(vote, 'tell', '')";
-    }
-    $query .= "order by party, last_name, first_name desc";
-    $db->query($query);
+        # Table of MP votes
+        $db->query($query);
+print " ROWS " . $db->rows() . " \n";
 
+        print "<table class=\"votes\"><tr class=\"headings\"><td>MP</td><td>Constituency</td><td>Party</td><td>Vote</td></tr>";
+        $prettyrow = 0;
+        while ($row = $db->fetch_row())
+        {
+            $class = "";
+            if ($row[4] == "")
+                $row[4] = "nonvoter";
+            $nt4 = str_replace("tell", "", $row[4]);
+            $nt6 = str_replace("tell", "", $row[6]);
+            if ($show_all && $nt6 != $nt4 && $nt6 <> "unknown" && $nt4 <> "both" && $nt4 <> "nonvoter")
+            {
+                $class = "rebel";
+            }
+            $prettyrow = pretty_row_start($prettyrow, $class);
+            print "<td><a href=\"mp.php?firstname=" . urlencode($row[0]) .
+                "&lastname=" . urlencode($row[1]) . "&constituency=" .
+                urlencode($row[7]) . "\">$row[2] $row[0] $row[1]</a></td>
+                <td>$row[7]</td><td>" . pretty_party($row[3]) . "</td><td>$row[4]</td>";
+            print "</tr>";
+        }
+        if ($db->rows() == 0)
+        {
+            $prettyrow = pretty_row_start($prettyrow, "");
+            print "<td colspan=4>no rebellions</td></tr>\n";
+        }
+        print "</table>";
+    }
+    
+    $query = "select first_name, last_name, title, pw_mp.party,
+        vote, pw_mp.mp_id, whip_guess, constituency from pw_mp
+        left join pw_vote, pw_cache_whip on pw_vote.mp_id = pw_mp.mp_id and 
+            pw_cache_whip.party = pw_mp.party
+        where pw_vote.division_id = $div_id
+            and pw_cache_whip.division_id = $div_id
+            and entered_house <= '$date' and left_house >= '$date' and vote is not null ";
     if (!$show_all)
     {
+        $query .= "and vote is not null and whip_guess <> 'unknown' and vote <>
+            'both' and whip_guess <> replace(vote, 'tell', '')";
         print "<h2><a name=\"rebels\">Rebel Voters</a></h2>
         <p>MPs for which their vote in this division differed from
         the majority vote of their party.";
     }
     else
     {
-        print "<h2><a name=\"voters\">Vote List</a></h2>
+        print "<h2><a name=\"voters\">Voter List</a></h2>
             <p>Vote of each MP. Those where they voted differently from
             the majority in their party are marked in red.";
     }
-
-    print "<table class=\"votes\"><tr class=\"headings\"><td>MP</td><td>Constituency</td><td>Party</td><td>Vote</td></tr>";
-    $prettyrow = 0;
-    while ($row = $db->fetch_row())
-    {
-        $class = "";
-        $nt4 = str_replace("tell", "", $row[4]);
-        $nt6 = str_replace("tell", "", $row[6]);
-        if ($show_all && $nt6 != $nt4 && $nt6 <> "unknown" && $nt4 <> "both")
-        {
-            $class = "rebel";
-        }
-        $prettyrow = pretty_row_start($prettyrow, $class);
-        print "<td><a href=\"mp.php?firstname=" . urlencode($row[0]) .
-            "&lastname=" . urlencode($row[1]) . "&constituency=" .
-            urlencode($row[7]) . "\">$row[2] $row[0] $row[1]</a></td>
-            <td>$row[7]</td><td>" . pretty_party($row[3]) . "</td><td>$row[4]</td>";
-        print "</tr>";
-    }
-    if ($db->rows() == 0)
-    {
-        $prettyrow = pretty_row_start($prettyrow, "");
-        print "<td colspan=4>no rebellions</td></tr>\n";
-    }
-    print "</table>";
-
+    $query .= "order by party, last_name, first_name desc";
+    vote_table($div_id, $db, $date, $show_all, $query);
     if (!$show_all)
     {
-        print "<p><a href=\"$this_anchor&showall=yes#voters\">Show all MPs who voted in this division</a>";
+        print "<p><a href=\"$this_anchor&showall=yes#voters\">Show all MPs who voted in this division, and all MPs who did not</a>";
     }
     else
     {
+        print "<p><a href=\"$this_anchor#rebels\">Show only MPs who rebelled in this division</a>";
+    }
+
+    if ($show_all)
+    {
+        $query = "select first_name, last_name, title, pw_mp.party,
+            vote, pw_mp.mp_id, \"\", constituency from pw_mp
+            left join pw_vote on pw_vote.mp_id = pw_mp.mp_id
+            and pw_vote.division_id = $div_id
+                where entered_house <= '$date' and left_house >= '$date' and vote is null ";
+        $query .= "order by party, last_name, first_name desc";
+        print "<h2><a name=\"nonvoters\">Non-Voter List</a></h2>
+            <p>MPs who did not vote in the division.  There are many
+            reasons an MP may not vote - read this
+            <a href=\"faq.php#clarify\">clear explanation</a> of
+            attendance to find some reasons.";
+        vote_table($div_id, $db, $date, $show_all, $query);
         print "<p><a href=\"$this_anchor#rebels\">Show only MPs who rebelled in this division</a>";
     }
 
