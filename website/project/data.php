@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: data.php,v 1.15 2005/01/15 20:38:12 frabcus Exp $
+# $Id: data.php,v 1.16 2005/02/05 21:22:02 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -104,7 +104,16 @@ the TheyWorkForYou.com website</a>.
 
 <p><a href="../data/pw_static_tables.sql.bz2">pw_static_tables.sql.bz2</a> -
 Text dump of MySQL tables containing raw voting and MP data.
+<br><a href="../data/pw_dynamic_tables.sql.bz2">pw_dynamic_tables.sql.bz2</a> -
+Text dump of MySQL tables containing Dream MP votes and edited motion text.
 <br><a href="../data/pw_cache_tables.sql.bz2">pw_cache_tables.sql.bz2</a> -
 Text dump of MySQL tables containing cached calculations.
+
+<h2>Other stuff we might have missed above</h2>
+
+<p>You can <a href="../data/">browse raw data on PublicWhip</a> and <a
+href="http://theyworkforyou.com/pwdata/">and on TheyWorkForYou.com</a>.  There
+might be some other useful tidbits.
+
 
 <?php include "../footer.inc"; ?>
