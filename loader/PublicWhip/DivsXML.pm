@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.3 2004/07/05 18:59:03 theyworkforyou Exp $
+# $Id: DivsXML.pm,v 1.4 2004/07/13 13:47:54 theyworkforyou Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Loads divisions from the XML files made by pyscraper into
@@ -340,7 +340,7 @@ sub loaddivision {
         }
     }
 
-    print "new division $divdate $divnumber $heading\n";
+    #print "new division $divdate $divnumber $heading\n";
 
     # Add division to tables
     PublicWhip::DB::query(
@@ -373,7 +373,7 @@ sub loaddivision {
     PublicWhip::DB::query( $dbh,
         "update pw_division set valid = 1 where division_id = ?",
         $division_id );
-    PublicWhip::Error::log( "XML added new division $divnumber $heading",
+    PublicWhip::Error::log( "Added new division $divnumber $heading from XML",
         $divdate, ERR_IMPORTANT );
     $PublicWhip::DivsXML::divisions_changed = 1;
 }

@@ -29,7 +29,7 @@ cd ~/publicwhip/loader
 # Load new divisions
 if ! ./load.pl --from=$FROMDATE divsxml 
 then
-	echo "There were new divisions"
+	echo "There were new divisions, recalculating cached values"
 	# There were new divisions, so run checks
 	# DISABLED too much chitter
 	# ./load.pl --from=$FROMDATE check
