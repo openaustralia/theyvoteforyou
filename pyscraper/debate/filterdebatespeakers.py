@@ -32,7 +32,6 @@ fixsubs = [
 	( '\(Mr. Nick Raynsford </B>\s*\)', '(Mr. Nick Raynsford) </B>', 1, '2003-01-23'),
         ( '(<B> Mr. Prisk)( rose&#151; )(</B>)', '\\1\\3\n<I>\\2</I>', 1, '2004-01-06'),
 
-        ( '(<B> Mr. Blunkett:)( I )(</B>)', '\\1\\3\\2', 1, '2003-12-17'),
         ( '(<B> Mr. Adrian Bailey  \()Blaby(\):</B> )', '\\1West Bromwich West\\2', 1, '2003-10-30'),
         ( '(\(Dr. Stephen Ladyman)( </B>)', '\\1)\\2', 1, '2004-02-11'),
 

@@ -1,0 +1,58 @@
+--- C:\publicwhip\pwdata\cmpages\debates\debates2003-12-17.html	Thu Jul 08 00:38:19 2004
++++ C:\publicwhip\pwdata\cmpages\debates\debates2003-12-17-patchtmp.html	Sun Jul 11 22:26:34 2004
+@@ -3225,16 +3225,18 @@
+ <B>17 Dec 2003 : Column 1655</B></P>
+ constituents say to us. It is an important right to be able to make representations to Ministers, and to leave it to Ministers and officials to make the decision.
+ <P>
++<stamp parsemess-colnum="1654"/>
+ <P>
+-<a name="31217-27_spnew4"><B> Mr. Turner: </B> 
++<a name="31217-27_spnew4"><B> Mr. Turner: </B>
+  I thank the hon. Gentleman for his intervention. Indeed, it is an important right for us to make representations, but it is not the right of someone who has lived in a constituency for two weeks to demand that a Member of Parliament supply a letter. It is certainly wrong for a lawyer supported from the public purse to advise someone that they have that right.
+ <P>
++<stamp parsemess-colnum="1655"/>
+ <P>
+-<a name="31217-27_spnew5"><B> Jeremy Corbyn: </B> 
++<a name="31217-27_spnew5"><B> Jeremy Corbyn: </B>
+  Surely any constituent has a right to go to his Member of Parliament. Whether his Member of Parliament makes representations is down to that Member of Parliament. I hope that the hon. Gentleman will withdraw his remark that people have no right to do that. Everyone has a right to go to their MP.
+ <P>
+ <P>
+-<a name="31217-27_spnew6"><B> Mr. Turner: </B> 
++<a name="31217-27_spnew6"><B> Mr. Turner: </B>
+  I said that that person had no right to expect such a letter. That is what I intended to say anyway, and I hope that the hon. Gentleman will forgive me if I did not make that clear.
+ <P>
+ 
+@@ -3710,12 +3712,14 @@
+ <B>17 Dec 2003 : Column 1671</B></P>
+ 
+ <P>
++<stamp parsemess-colnum="1670"/>
+ <P>
+-<a name="31217-31_spnew5"><B> Ms Sally Keeble  (Northampton, North)</B> 
++<a name="31217-31_spnew5"><B> Ms Sally Keeble  (Northampton, North)</B>
+  (Lab): Does my hon. Friend agree that a good deal of illegal entry into this country and abuse of the system has been carried out by traffickers who have deliberately brought people into the country for benefits scams, servitude and other purposes, and that the Bill will help to clamp down on that abuse?
+ <P>
++<stamp parsemess-colnum="1671"/>
+ <P>
+-<a name="31217-31_spnew6"><B> Beverley Hughes: </B> 
++<a name="31217-31_spnew6"><B> Beverley Hughes: </B>
+  I entirely agree with my hon. Friend. We have added to the Sexual Offences Act 2003, which penalises trafficking for sexual exploitation, by including in the Bill a measure that criminalises trafficking for non-sexual exploitation, domestic slavery, organ harvesting and labour exploitation. I am very much committed to that.
+ <P>
+ 
+@@ -5631,7 +5635,6 @@
+ <P>
+ <page url="http://www.publications.parliament.uk/pa/cm200304/cmhansrd/vo031217/debtext/31217-34.htm"/>
+ 
+-
+ <H4><center>ASYLUM AND IMMIGRATION (TREATMENT OF CLAIMANTS, ETC.) BILL (PROGRAMME)</center></H4>
+ <P>
+ 
+@@ -6597,6 +6600,8 @@
+ 
+ 
+ <B>17 Dec 2003 : Column 1684</B></P>
++
++<stamp parsemess-colnum="1685"/>
+ 
+ 
+ <H4><center>ASYLUM AND IMMIGRATION (TREATMENT OF CLAIMANTS, ETC.) BILL [MONEY]</center></H4>
