@@ -29,6 +29,7 @@ tempfile = os.path.join(toppath, "gluetemp")
 class LoadCmIndex(xml.sax.handler.ContentHandler):
 	def __init__(self, lpwcmindex):
 		self.res = []
+                self.check = {}
 		if not os.path.isfile(lpwcmindex):
 			return
 		parser = xml.sax.make_parser()
@@ -39,6 +40,12 @@ class LoadCmIndex(xml.sax.handler.ContentHandler):
 		if name == "cmdaydeb":
 			ddr = (attr["date"], attr["type"], attr["url"])
 			self.res.append(ddr)
+
+                        # check for repeats - error in input XML
+                        key = (attr["date"], attr["type"])
+                        if key in self.check:
+                                raise Exception, "Same date/type twice %s %s\nurl1: %s\nurl2: %s" % (ddr + (self.check[key],))
+                        self.check[key] = attr["url"]
 
 
 
@@ -156,37 +163,39 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto, deleteoutput):
 		dgf = os.path.join(pcmdir, (fproto % dnu[0]))
 
                 if deleteoutput:
-                    if os.path.isfile(dgf):
-                            os.remove(dgf)
+                        if os.path.isfile(dgf):
+                                os.remove(dgf)
                 else:
-                    # hansard index page
-                    urlx = dnu[2]
+                        # hansard index page
+                        urlx = dnu[2]
 
-                    # if we already have got the file, check the pagex link agrees in the first line
-                    # no need to scrape it in again
-                    if os.path.exists(dgf):
-                            fpgx = open(dgf, "r")
-                            pgx = fpgx.readline()
-                            fpgx.close()
-                            if pgx:
-                                    pgx = re.findall('<pagex url="([^"]*)"[^/]*/>', pgx)
-                                    if pgx:
-                                            if pgx[0] == urlx:
-                                                    # print 'skipping ' + urlx
-                                                    continue
-                            print 'RE-scraping ' + urlx
-                    else:
-                            print 'scraping ' + urlx
+                        # if we already have got the file, check the pagex link agrees in the first line
+                        # no need to scrape it in again
+                        if os.path.exists(dgf):
+                                fpgx = open(dgf, "r")
+                                pgx = fpgx.readline()
+                                fpgx.close()
+                                if pgx:
+                                        pgx = re.findall('<pagex url="([^"]*)"[^/]*/>', pgx)
+                                        if pgx:
+                                                if pgx[0] == urlx:
+                                                        # print 'skipping ' + urlx
+                                                        continue
 
-                    url0 = ExtractFirstLink(urlx)
+                                print 'old url was ' + pgx[0]
+                                print 'RE-scraping ' + urlx
+                        else:
+                                print 'scraping ' + urlx
 
-                    # now we take out the local pointer and start the gluing
-                    dtemp = open(tempfile, "w")
-                    GlueByNext(dtemp, url0, urlx)
+                        url0 = ExtractFirstLink(urlx)
 
-                    # close and move
-                    dtemp.close()
-                    os.rename(tempfile, dgf)
+                        # now we take out the local pointer and start the gluing
+                        dtemp = open(tempfile, "w")
+                        GlueByNext(dtemp, url0, urlx)
+
+                        # close and move
+                        dtemp.close()
+                        os.rename(tempfile, dgf)
 
 
 

@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.31 2004/04/07 18:53:36 frabcus Exp $
+# $Id: header.inc,v 1.32 2004/04/08 14:19:28 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -18,9 +18,9 @@ else
 
 include $toppath . "pretty.inc";
 
-$pagetitle = "$title - Public Whip";
+$pagetitle = "$title - The Public Whip";
 if ($title == "Counting votes on your behalf")
-    $pagetitle = "Public Whip - $title";
+    $pagetitle = "The Public Whip - $title";
 
 ?>
 

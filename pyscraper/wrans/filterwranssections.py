@@ -28,7 +28,6 @@ from contextexception import ContextException
 
 # Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
-	('<intro><date> </intro><dpthd>', '', 1, '2003-10-06'), 
 	('how many crimes have been', '\\1 (1)', 1, '2004-03-04'),
         ( '<xref locref=390>', '', 1, '2003-06-19'),
         ( '</FONT></FONT></TD></TR>', '', 1, '2003-07-11'),
@@ -39,23 +38,12 @@ fixsubs = 	[
 	( '<h\d><center>written answers[\s\S]{10,150}?\[continued from column \d+?W\](?i)', '', -1, 'all'),
  
 
-	( '<H2 align=center> </H2>', '', 1, '2003-09-15'),
-	( '<H1 align=center></H1>\s*<H2 align=center>Monday 15 September 2003</H2>', '', 1, '2003-09-15'),
-	( '<H1 align=center></H1>', '', 1, '2003-10-06'),
 
 
         ( '(\<UL\>\(2\) what research work he has \<i\>\(a\)</i> commissioned and \<i\>\(b\)\</i\> evaluated on external)(\<P\>\</UL\>)', '\\1 counter pulsation; and what conclusions about its efficacy were drawn. [143813] \\2', 1, '2003-12-16'),
 
 
 	# sort out a lot of nasty to-ask problems
-	( 'To as the Deputy Prime Minister', 'To ask the Deputy Prime Minister', 1, '2003-10-06'),
-	( '\n What ', '\n To ask the Secretary of State for Northern Ireland what ', 4, '2003-09-10'),
-	( '\n If he will ', '\n To ask the Secretary of State for Northern Ireland if he will ', 2, '2003-09-10'),
-
- 	( '\n If he will ', '\n To ask the Secretary of State for Scotland if he will ', 1, '2003-09-09'),
- 	( '\n How many ', '\n To ask the Secretary of State for Scotland how many ', 1, '2003-09-09'),
- 	( '\n What recent ', '\n To ask the Secretary of State for Scotland what recent ', 2, '2003-09-09'),
- 	( '\n When he ', '\n To ask the Secretary of State for Scotland when he ', 2, '2003-09-09'),
 
  	( '\n If he ', '\n To ask the Secretary of State for Work and Pensions if he ', 2, '2003-07-07'),
  	( '\n What ', '\n To ask the Secretary of State for Work and Pensions what ', 2, '2003-07-07'),

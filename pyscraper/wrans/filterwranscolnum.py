@@ -1,4 +1,5 @@
 #! /usr/bin/python2.3
+# vim:sw=8:ts=8:et:nowrap
 
 import sys
 import re
@@ -8,6 +9,8 @@ import string
 import mx.DateTime
 
 from miscfuncs import ApplyFixSubstitutions
+from splitheadingsspeakers import StampUrl
+from contextexception import ContextException
 
 # this filter converts column number tags of form:
 #     <I>23 Oct 2003 : Column 637W</I>
@@ -108,34 +111,37 @@ def FilterWransColnum(fout, text, sdate):
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
         text = text.replace("{**con**}{**/con**}", "")
 
+        stamp = StampUrl(sdate) # for error messages
+
 	colnum = -1
 	for fss in recomb.split(text):
-
 		columng = recolumnumvals.match(fss)
 		if columng:
 			ldate = mx.DateTime.DateTimeFrom(columng.group(1)).date
 			if sdate != ldate:
-				raise Exception, "Column date disagrees %s -- %s" % (sdate, fss)
+				raise ContextException("Column date disagrees %s -- %s" % (sdate, fss), fragment=fss, stamp=stamp)
 
 			lcolnum = string.atoi(columng.group(2))
 			if (colnum == -1) or (lcolnum == colnum + 1):
 				pass  # good
 			elif lcolnum < colnum:
-				raise Exception, "Colnum not incrementing %d -- %s" % (lcolnum, fss)
+				raise ContextException("Colnum not incrementing %d -- %s" % (lcolnum, fss), fragment=fss, stamp=stamp)
 			# column numbers do get skipped during division listings
 
 			colnum = lcolnum
-			fout.write(' <stamp coldate="%s" colnum="%sW"/>' % (sdate, lcolnum))
+                        stamp.stamp = '<stamp coldate="%s" colnum="%sW"/>' % (sdate, lcolnum)
+			fout.write(' ')
+                        fout.write(stamp.stamp)
 			continue
 
 		columncontg = recolnumcontvals.match(fss)
 		if columncontg:
 			ldate = mx.DateTime.DateTimeFrom(columncontg.group(1)).date
 			if sdate != ldate:
-				raise Exception, ("Cont column date disagrees %s -- %s" % (sdate, fss))
+				raise ContextException("Cont column date disagrees %s -- %s" % (sdate, fss), fragment=fss, stamp=stamp)
 			lcolnum = string.atoi(columncontg.group(2))
 			if colnum != lcolnum:
-				raise Exception, "Cont column number disagrees %d -- %s" % (colnum, fss)
+				raise ContextException("Cont column number disagrees %d -- %s" % (colnum, fss), fragment=fss, stamp=stamp)
 
 			# no need to output anything
 			fout.write(' ')
@@ -145,19 +151,18 @@ def FilterWransColnum(fout, text, sdate):
 		anameg = reanamevals.match(fss)
 		if anameg:
 			aname = anameg.group(1)
-			fout.write('<stamp aname="%s"/>' % aname)
+                        stamp.aname = '<stamp aname="%s"/>' % aname  
+			fout.write(stamp.aname)
 			continue
 
 		# nothing detected
 		# check if we've missed anything obvious
 		if recomb.match(fss):
-			print fss
-			raise Exception, ' regexpvals not general enough '
+			raise ContextException('regexpvals not general enough', fragment=fss, stamp=stamp)
 		if remarginal.search(fss):
-			print ' marginal colnum detection case '
-			print remarginal.search(fss).group(0)
-			# print fss
-			raise Exception, ' marginal colnum detection case '
+			raise ContextException('marginal colnum detection case',
+			        fragment=remarginal.search(fss).group(0),
+                                stamp=stamp)
 
 		fout.write(fss)
 

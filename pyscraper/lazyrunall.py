@@ -52,6 +52,9 @@ parser.add_option("--force-parse",
 parser.add_option("--force-scrape",
                   action="store_true", dest="forcescrape", default=False,
                   help="forces redownloading of HTML first deleting output files")
+parser.add_option("--force-index",
+                  action="store_true", dest="forceindex", default=False,
+                  help="forces redownloading of HTML index files")
 
 parser.add_option("--from", dest="datefrom", metavar="date", default="1000-01-01",
                   help="date to process back to, default is start of time")
@@ -116,7 +119,7 @@ if not options.debates and not options.wrans and not options.regmem:
 # First all the force deletions of old data
 #
 if options.scrape:
-		UpdateHansardIndex()
+		UpdateHansardIndex(options.forceindex)
 		if options.lords:
 			UpdateLordsHansardIndex()
 		if options.forcescrape:

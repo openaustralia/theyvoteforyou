@@ -1,4 +1,6 @@
 #! /usr/bin/python2.3
+# vim:sw=8:ts=8:et:nowrap
+
 import sys
 import os
 import urllib
@@ -30,13 +32,22 @@ urlcmindex = "http://www.publications.parliament.uk/pa/cm/cmhansrd.htm"
 pwcmindex = os.path.join(toppath, "cmindex.xml")
 
 # scrape limit date
-earliestdate = '2001-11-25'
+earliestdate = '2001-06-01' # start of 2001 parliament
 #earliestdate = '1994-05-01'
 
 # regexps for decoding the data on an index page
 monthnames = 'January|February|March|April|May|June|July|August|September|October|November|December'
-redateindexlinks = re.compile('<b>\s*(\S+\s+\d+\s+(?:%s)\s+\d+)\s*</b>|<a\s+href="([^"]*)">([^<]*)</a>(?i)' % monthnames)
+# the chunk [A-Za-z<> ] catches the text "Questions tabled during the recess
+# and answered on" on http://www.publications.parliament.uk/pa/cm/cmvol390.htm
+redatename = '<b>[A-Za-z<> ]*?\s*(\S+\s+\d+\s+(?:%s)\s+\d+)\s*</b>' % monthnames
+relink = '<a\s+href="([^"]*)">(?:<b>)?([^<]*)(?:</b>)?</a>(?i)'
+redateindexlinks = re.compile('%s|%s' % (redatename, relink))
 
+# map from (date, type) to (URL-first, URL-index)
+# e.g. ("2003-02-01", "wrans") to ("http://...", "http://...")
+# URL-first is the first (index) page for the day, 
+# URL-index is the refering page which linked to the day
+reses = {}
 
 # this pulls out all the direct links on this particular page
 def CmIndexFromPage(urllinkpage):
@@ -53,7 +64,6 @@ def CmIndexFromPage(urllinkpage):
 	datelinks = redateindexlinks.findall(srlinkpage)
 
 	# read the dates and links in order, and associate last date with each matching link
-	res = []
 	sdate = ''
 	for link in datelinks:
 		if link[0]:
@@ -61,17 +71,38 @@ def CmIndexFromPage(urllinkpage):
 			sdate = mx.DateTime.DateTimeFrom(odate).date
 
 		# the link types by name
-		elif re.search('debate|westminster|written(?i)', link[2]):
+		elif re.search('debate|westminster|written(?i)', link[2]) and not re.search('Chronology', link[2]):
 			if not sdate:
 				raise Exception, 'No date for link in: ' + urllinkpage
+                        if sdate < earliestdate:
+                                continue
 			#if re.search('debate(?i)', link[2]):
                         #        print sdate
 
 			# take out spaces and linefeeds we don't want
 			uind = urlparse.urljoin(urllinkpage, re.sub('\s', '', link[1]))
 			typ = string.strip(re.sub('\s\s+', ' ', link[2]))
-			res.append((sdate, typ, uind))
-	return res
+
+                        # check for repeats where the URLs differ
+                        if (sdate, typ) in reses:
+                            rc = reses[(sdate, typ)]
+                            otheruind = rc[0]
+                            if otheruind != uind:
+                                # sometimes they have old links to the cm edition as  
+                                # well as the vo edition, we pick the newer vo ones
+                                test1 = uind.replace('cmhansrd/cm', 'cmhansrd/vo')
+                                test2 = otheruind.replace('cmhansrd/cm', 'cmhansrd/vo')
+                                if test1 == test2:
+                                    # case of two URLs the same only vo/cm differ like this:
+                                    # (which is a bug in Hansard, should never happen)
+#http://www.publications.parliament.uk/pa/cm200203/cmhansrd/vo031006/index/31006-x.htm
+#http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm031006/index/31006-x.htm
+                                    # we replace both with just the vo edition:
+                                    print "done replace of these two URLs into the vo one\nurl1: %s\nurl2: %s" % (uind, otheruind)
+                                    uind = test1
+                                else:
+                                    raise Exception, 'Repeated link to %s %s\nurl1: %s\nurl2: %s\nindex1: %s\nindex2: %s' % (sdate, typ, uind, otheruind, urllinkpage, rc[1])
+                        reses[(sdate, typ)] = (uind, urllinkpage)
 
 
 # Find all the index pages from the front index page by recursing into the months
@@ -82,7 +113,6 @@ def CmAllIndexPages(urlindex):
 	# except the first one, which will have been looked at
 	res = [ ]
 
-	#print urlindex
 	urindex = urllib.urlopen(urlindex)
 	srindex = urindex.read()
 	urindex.close()
@@ -102,7 +132,6 @@ def CmAllIndexPages(urlindex):
 
 	# extract the volume links
 	for yearvol in yearvollinks:
-		#print yearvol
 		urlyearvol = urlparse.urljoin(urlindex, re.sub('\s', '', yearvol))
 		uryearvol = urllib.urlopen(urlyearvol)
 		sryearvol = uryearvol.read()
@@ -111,9 +140,7 @@ def CmAllIndexPages(urlindex):
 		# <a href="cmvol352.htm"><b>Volume 352</b>
 		vollinks = re.findall('<a href="([^"]*)"><b>volume[^<]*</b>(?i)', sryearvol)
 		for vol in vollinks:
-			#print vol
 			res.append(urlparse.urljoin(urlyearvol, re.sub('\s', '', vol)))
-
 	return res
 
 
@@ -148,39 +175,40 @@ class LoadOldIndex(xml.sax.handler.ContentHandler):
 
 	def CompareHeading(self, urllisthead):
 		if not self.res:
-			return 0
+			return False
 
 		for i in range(len(urllisthead)):
 			if (i >= len(self.res)) or (self.res[i] != urllisthead[i]):
 				#print i
-				return 0
-		return 1
+				return False
+		return True
 
 
 
 ###############
 # main function
 ###############
-def UpdateHansardIndex():
+def UpdateHansardIndex(force):
+        global reses
+        reses = {}
+        
 	# get front page (which we will compare against)
-	urllisth = CmIndexFromPage(urlcmindex)
+	CmIndexFromPage(urlcmindex)
+        urllisth = map(lambda r: r + (reses[r][0],), reses.keys())
 	urllisth.sort()
 	urllisth.reverse()
 
 	# compare this leading term against the old index
 	oldindex = LoadOldIndex(pwcmindex)
-	if oldindex.CompareHeading(urllisth):
+	if oldindex.CompareHeading(urllisth) and not force:
 		#print ' Head appears the same, no new list '
 		return
-	#print 'compare heading now doesnt work because Im sorting the data'
-	#print 'and there are discrepancies between the front page and those'
-	#print 'listed in the November page!!!'
-
 
 	# extend our list to all the pages
 	cres = CmAllIndexPages(urlcmindex)
 	for cr in cres:
-		urllisth.extend(CmIndexFromPage(cr))
+		CmIndexFromPage(cr)
+        urllisth = map(lambda r: r + (reses[r][0],), reses.keys())
 	urllisth.sort()
 	urllisth.reverse()
 

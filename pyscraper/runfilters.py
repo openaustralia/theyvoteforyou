@@ -88,9 +88,13 @@ def RunFiltersDir(filterfunction, dname, options, deleteoutput):
 				os.remove(jfout)
 			continue
 
-		# skip already processed files
+		# skip already processed files, if date is earler
 		if os.path.isfile(jfout):
-			continue
+                        out_modified = os.stat(jfout).st_mtime
+                        in_modified = os.stat(jfin).st_mtime
+                        if in_modified < out_modified:
+                                continue
+                        print "input modified since output reparsing, out: ", out_modified, " in: ", in_modified
 
                 again = True
                 while again:

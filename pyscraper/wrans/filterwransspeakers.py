@@ -25,10 +25,6 @@ fixsubs = 	[
 	( '<B> Mr. </B>\s* Shepherd:', '<B> Mr. Shepherd:</B>', 1, '2003-10-23'),
 	( '<B> Margaret Becket </B>', '<B> Margaret Beckett </B>', 1, '2003-11-11'),
 
-	( '<UL><i>Mr. Bradshaw \[holding answer 11 September 2003\]:</i>', \
-		'<B>Mr. Bradshaw </B> [holding answer 11 September 2003]:', 1, '2003-09-18'),
-	( ' and the Northern Ireland Administration[.]\s*<P></UL>', \
-		' and the Northern Ireland Administration. <P>', 1, '2003-09-18'),
 	( '<P></UL>\s*<P>\s*\{\*\*con\*\*\}\{\*\*/con\*\*\}<P>\s*<B> Mr. Moss:  \(4\)</B>', \
 							'<p>(4)', 1, '2002-06-10'),
 
@@ -57,8 +53,6 @@ fixsubs = 	[
         ( '(Margaret Hodge: )(The total annual)', '<B>\\1</B>\\2', 1, '2003-12-15'),
         ( '(David Davis: ):', '\\1', 1, '2003-12-15'),
 
-	( '\s*</B>\s*\(Leeds, North-West\):', '</B>', 1, '2003-09-15'),
-
 	# completely delete an answer that refers to the next response as answer
 	( '<B> Mr. Jamieson </B>[\s\S]*?\[114072\]\.', '', 1, '2003-06-03'),
         ( '<B> Mr. McNulty: </B>\s*? I refer the hon. Member to the answer given today \[144178\].', '', 1, '2003-12-18'),
@@ -69,7 +63,6 @@ fixsubs = 	[
 	( '<UL>(We are intending to have)', '<B>Beverley Hughes</B> \\1', 1, '2003-01-29'), 
 
 	# this removes a bogus y-dotdot character that the latin-1 encoding can't deal with
-	( '</sup> .38-0030</FONT>', '</sup> 38-0030</FONT>', 1, '2003-09-17'),
 	( 'credit of .45 per', 'credit of 45 per', 1, '2002-12-02'),
 	( 'units of .5,000 or more', 'units of 5,000 or more', 1, '2002-11-26'),
 	( 'available .23 million', 'available 23 million', 1, '2002-11-26'),
