@@ -5,6 +5,8 @@
 
 import sys
 import os
+import datetime
+
 # change current directory to pyscraper folder script is in
 os.chdir(os.path.dirname(sys.argv[0]) or '.')
 
@@ -12,6 +14,9 @@ sys.path.append('debate')
 sys.path.append('wrans')
 sys.path.append('common')
 sys.path.append('lords')
+sys.path.append('miniposts')
+
+from crongrabpages import GrabWatchCopies
 
 from optparse import OptionParser
 from createhansardindex import UpdateHansardIndex
@@ -41,6 +46,7 @@ wrans           Written Answers
 debates         Debates
 lords           House of Lords
 regmem          Register of Members Interests
+chgpages        Special pages that change, like list of cabinet ministers
 
 Example command line
         ./lazyrunall.py --date=2004-03-03 --force-scrape scrape parse wrans
@@ -84,6 +90,7 @@ options.wrans = False
 options.debates = False
 options.lords = False
 options.regmem = False
+options.chgpages = False
 for arg in args:
         if arg == "scrape":
                 options.scrape = True
@@ -97,6 +104,9 @@ for arg in args:
                 options.lords = True
         elif arg == "regmem":
                 options.regmem = True
+        elif arg == "chgpages":
+                options.chgpages = True
+
         else:
                 print >>sys.stderr, "error: no such option %s" % arg
                 parser.print_help()
@@ -108,8 +118,8 @@ if not options.scrape and not options.parse:
         print >>sys.stderr, "error: choose what to do; scrape, parse or both of them"
         parser.print_help()
         sys.exit(1)
-if not options.debates and not options.wrans and not options.regmem and not options.lords:
-        print >>sys.stderr, "error: choose what work on; debates, wrans, regmem or several of them"
+if not options.debates and not options.wrans and not options.regmem and not options.lords and not options.chgpages:
+        print >>sys.stderr, "error: choose what work on; debates, wrans, regmem, chgpages or several of them"
         parser.print_help()
         sys.exit(1)
 
@@ -122,36 +132,30 @@ if not options.debates and not options.wrans and not options.regmem and not opti
 # First all the force deletions of old data
 #
 if options.scrape:
-                if options.wrans or options.debates:
-                        UpdateHansardIndex(options.forceindex)
+	# get the indexes
+	if options.wrans or options.debates:
+		UpdateHansardIndex(options.forceindex)
+	if options.lords:
+		UpdateLordsHansardIndex()
+
+	# get the changing pages
+	if options.chgpages:
+		GrabWatchCopies(datetime.date.today().isoformat())
+
+	# these force the rescraping of the html by deleting the old copies (should be a setting in the scraper)
+	if options.forcescrape:
+		if options.wrans:
+			PullGluePages(options.datefrom, options.dateto, True, "wrans", "answers")
+		if options.debates:
+			PullGluePages(options.datefrom, options.dateto, True, "debates", "debates")
 		if options.lords:
-			UpdateLordsHansardIndex()
-		if options.forcescrape:
-			if options.wrans:
-				PullGluePages(options.datefrom, options.dateto, True, "wrans", "answers")
-			if options.debates:
-				PullGluePages(options.datefrom, options.dateto, True, "debates", "debates")
-			if options.lords:
-				LordsPullGluePages(options.datefrom, options.dateto, True)
-			if options.regmem:
-				RegmemPullGluePages(True)
-
-if options.parse:
-	if options.forceparse:
-#		if options.wrans:
-#			RunFiltersDir(RunWransFilters, 'wrans', options, True)
-#		if options.debates:
-#			RunFiltersDir(RunDebateFilters, 'debates', options, True)
-#		if options.lords:
-#			RunFiltersDir(RunLordsFilters, 'lordspages', options, True)
+			LordsPullGluePages(options.datefrom, options.dateto, True)
 		if options.regmem:
-			RunFiltersDir(RunRegmemFilters, 'regmem', options, True)
+			RegmemPullGluePages(True)
 
-
-#
-# Then download/generate the new data
-#
-if options.scrape:
+	#
+	# Then download/generate the new data
+	#
 	if options.wrans:
 		PullGluePages(options.datefrom, options.dateto, False, "wrans", "answers")
 	if options.debates:
@@ -162,7 +166,15 @@ if options.scrape:
 		# TODO - date ranges when we do index page stuff for regmem
 		RegmemPullGluePages(False)
 
+#
+# Then do the parsing
+#
 if options.parse:
+	# this was used to force parsing by deleting the old copies, now nearly redundant.
+	if options.forceparse:
+		if options.regmem:
+			RunFiltersDir(RunRegmemFilters, 'regmem', options, True)
+
 	if options.wrans:
 		RunFiltersDir(RunWransFilters, 'wrans', options, options.forceparse)
 	if options.debates:
