@@ -20,3 +20,10 @@ php_flag magic_quotes on
 RedirectPermanent /rebels.php http://www.publicwhip.org.uk/mps.php?sort=rebellions
 RedirectPermanent /code.php http://www.publicwhip.org.uk/project/code.php
 
+# Net strike
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !^/patents\.php 
+RewriteCond %{REQUEST_URI} !^/thepublicwhip\.gif 
+RewriteCond %{REQUEST_URI} !^/publicwhip\.css
+RewriteRule .*          /patents.php [R=302,L]
+

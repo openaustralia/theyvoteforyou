@@ -17,22 +17,22 @@ cd scraper
 ./scrape.pl divsxml check calc
 cd ..
 
-echo "Scraping new written answers"
-cd pyscraper
-./lazyrunall.py --from 2001-06-01 scrape parse wrans 
-cd ..
+#echo "Scraping new written answers"
+#cd pyscraper
+#./lazyrunall.py --from 2001-06-01 scrape parse wrans 
+#cd ..
 
 echo "Getting dynamic tables for backup"
 build/getdb
 
-echo "Making wrans indices"
-cd pyindex
-./protoidindex.py
-./protoindex.py
-cd ..
+#echo "Making wrans indices"
+#cd pyindex
+#./protoidindex.py
+#./protoindex.py
+#cd ..
 
-echo "Upload XML files"
-build/upload-xml
+#echo "Upload XML files"
+#build/upload-xml
 
 echo "Uploading new division database"
 build/upload-db
