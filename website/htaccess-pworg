@@ -7,6 +7,10 @@ DirectoryIndex index.php
 # make things safe
 php_flag register_globals off
 php_flag magic_quotes on
+<Files ~ "\.inc$">
+    Order allow,deny
+    Deny from all
+</Files>
 
 # all links on publicwhip.org.uk are permalinks
 # this lets us move pages without breaking them
