@@ -18,20 +18,17 @@ from fixspeech import FixQuestion
 class SepHeadText:
 
 	def EndSpeech(self):
-		# check for no text
-		fltext = re.sub('<[^>]*?>|\s', '', self.text)
-		if len(fltext) == 0:
-			if self.speaker != 'No one':
-				print 'Speaker with no text: ' + self.speaker
-				self.shspeak.append((self.speaker, self.text))
-
-			# output no one text in case there's colstamps and pageurls
-			elif len(self.shspeak) == 0:
-				self.unspoketext = self.text
-		else:
-			if self.speaker == 'No one':
-				print 'Text with no speaker\n' + self.text
+		if self.speaker != 'No one':
 			self.shspeak.append((self.speaker, self.text))
+			if re.match('(?:<[^>]*?>|\s)*$', self.text):
+				print 'Speaker with no text'
+		elif not self.shspeak:
+			self.unspoketext = self.text
+		else:
+			print 'logic error in EndSpeech'
+			raise Exception, 'logic error in EndSpeech'
+
+
 		self.speaker = 'No one'
 		self.text = ''
 
@@ -39,6 +36,18 @@ class SepHeadText:
 		self.EndSpeech()
 		if (self.heading == 'Initial') and (len(self.shspeak) != 0):
 			print 'Speeches without heading'
+
+		# concatenate unspoken text with the title if it's a dangle outside heading
+		if not re.match('(?:<[^>]*?>|\s)*$', self.unspoketext):
+			ho = re.findall('^\s*(.*?)(?:\s|<p>)*$(?i)', self.unspoketext)
+			if ho:
+				self.heading = self.heading + ' ' + ho[0]
+				self.unspoketext = ''
+			else:
+				print 'text without speaker'
+				print self.unspoketext
+
+		# push block into list
 		self.shtext.append((self.heading, self.unspoketext, self.shspeak))
 
 		self.heading = nextheading
@@ -144,29 +153,38 @@ class SepHeadText:
 
 
 class qspeech:
+	# static value used to carry qnums found in questions and compare any that show up
+	# spuriously in answers so we can delete them without printing an error.
+	questionqnums = []
 
 	# function to shuffle column stamps out of the way to the front, so we can glue paragraphs together
 	def StampToFront(self):
 		# remove the stamps from the text, checking for cases where we can glue back together.
 		sp = re.split('(<stamp [^>]*>|<page url[^>]*>)', self.text)
-		self.text = ''
 		for i in range(len(sp)):
 			if re.match('<stamp [^>]*>', sp[i]):
 				self.laststamp = sp[i]
+				sp[i] = ''
+
+				# string ends with a lower case character, and next begins with a lower case char
+				if (i > 0) and (i < len(sp) - 1):
+					esp = re.findall('^([\s\S]*?[a-z])(?:<p>|\s)*$', sp[i-1])
+					if len(esp) != 0:
+						bsp = re.findall('^(?:<p>|\s)*([\s\S]*?)$', sp[i + 1])
+						if len(bsp) != 0:
+							sp[i-1] = esp[0]
+							sp[i+1] = bsp[0]
+							sp[i] = ' '
+
 			elif re.match('<page url[^>]*>', sp[i]):
 				self.lastpageurl = sp[i]
+				sp[i] = ''
 
-			# append the pieces back together
-			else:
-				# string ends with a lower case character, and next begins with a lower case char
-				if (i < len(sp) - 1):
-					esp = re.findall('^([\s\S]*?[a-z])(?:<[^>]*?>|\s)*?$', sp[i])
-					if len(esp) != 0:
-						bsp = re.findall('^(?:<[^>]*?>|\s)*?([a-z][\s\S]*?)$', sp[i + 1])
-						if len(bsp) != 0:
-							sp[i] = esp[0] + ' '
-							sp[i + 1] = bsp[0]
-				self.text = self.text + sp[i]
+		# stick everything together
+		self.text = ''
+		for s in sp:
+			if s:
+				self.text = self.text + s
 
 	def __init__(self, lspeaker, ltext, llaststamp, llastpageurl, lncid):
 		self.speaker = lspeaker
@@ -184,11 +202,16 @@ class qspeech:
 		# set the type and clear up qnums
 		if re.match('(?:<[^>]*?>|\s)*?to ask(?i)', self.text):
 			self.typ = 'ques'
-			self.text = FixQuestion(self.text)
+			(self.text, qnums) = FixQuestion(self.text)
+			self.questionqnums.extend(qnums)
 
 		else:
 			self.typ = 'reply'
-			self.text = FixReply(self.text)
+			self.text = FixReply(self.text, self.questionqnums)
+
+			# the only way to clear this static class
+			while self.questionqnums:
+				self.questionqnums.pop()
 
 	def writexml(self, fout):
 		fout.write('\t<speech %s type="%s">\n' % (self.speaker, self.typ))
@@ -320,25 +343,45 @@ majorheadings = {
 		"WORK AND PENSIONS":"WORK AND PENSIONS",
 		}
 
+
 fixsubs = 	[
-	( '<H\d align=center>Written Answers[\s\S]{10,99}?\[Continued from column \d+?W\](?i)', '', -1, 'all'),
-	( '<H\d><center>Written Answers[\s\S]{10,99}?\[Continued from column \d+?W\](?i)', '', -1, 'all'),
 	( '<h2><center>written answers to</center></h2>\s*questions(?i)', \
 	  	'<h2><center>Written Answers to Questions</center></h2>', -1, 'all'),
+	( '<h\d align=center>written answers[\s\S]{10,150}?\[continued from column \d+?W\](?i)', '', -1, 'all'),
+	( '<h\d><center>written answers[\s\S]{10,150}?\[continued from column \d+?W\](?i)', '', -1, 'all'),
+
+
 	( '<H2 align=center> </H2>', '', 1, '2003-09-15'),
 	( '<H1 align=center></H1>\s*<H2 align=center>Monday 15 September 2003</H2>', '', 1, '2003-09-15'),
 	( '<H1 align=center></H1>', '', 1, '2003-10-06'),
 
-	( '</H3>\s*Trading Arrangements', ' Trading Arrangements</H3>', 1, '2003-09-01'),
-	( '</H3>\s*Support Services', ' Support Services</H3>', 1, '2003-09-01'),
-	( '</H3>\s*Support Service', ' Support Service</H3>', 1, '2003-09-01'),
-	( '</H3>\s*\(Clinical Trials\) Regulations', ' (Clinical Trials) Regulations</H3>', 1, '2003-09-01'),
+	( '<BR>\s*</FONT>\s*<H4><center>Energy Policy</center></H4>', '', 1, '2003-04-29'),
 
-	( '</H3>\s*Control Programme', ' Control Programme</H3>', 1, '2003-07-17'),
-	( '</H3>\s*\(Regulatory Impact Assessments\)', ' (Regulatory Impact Assessments)</H3>', 1, '2003-07-17'),
-	( '</H3>\s*Involvement in Health', ' Involvement in Health</H3>', 1, '2003-07-17'),
+	( 'To as the Deputy Prime Minister', 'To ask the Deputy Prime Minister', 1, '2003-10-06'),
+	( '\n What ', '\n To ask the Secretary of State for Northern Ireland what ', 4, '2003-09-10'),
+	( '\n If he will ', '\n To ask the Secretary of State for Northern Ireland if he will ', 2, '2003-09-10'),
+
+ 	( '\n If he will ', '\n To ask the Secretary of State for Scotland if he will ', 1, '2003-09-09'),
+ 	( '\n How many ', '\n To ask the Secretary of State for Scotland how many ', 1, '2003-09-09'),
+ 	( '\n What recent ', '\n To ask the Secretary of State for Scotland what recent ', 2, '2003-09-09'),
+ 	( '\n When he ', '\n To ask the Secretary of State for Scotland when he ', 2, '2003-09-09'),
+
+ 	( '\n If he ', '\n To ask the Secretary of State for Work and Pensions if he ', 2, '2003-07-07'),
+ 	( '\n What ', '\n To ask the Secretary of State for Work and Pensions what ', 2, '2003-07-07'),
+ 	( '\n How many ', '\n To ask the Secretary of State for Work and Pensions how many ', 1, '2003-07-07'),
+ 	( '\n What ', '\n To ask the Secretary of State for Culture, Media and Sport what ', 1, '2003-06-30'),
+
+
+ 	( '\n To\s*ask ', '\n To ask ', 10, '2003-07-07'), # linefeed example I can't piece apart
+ 	( 'Worcestershire</FONT></TD>', 'Worcestershire', 1, '2003-07-15'),
+
+	( '\{\*\*con\*\*\}\{\*\*/con\*\*\}', '', 3, '2002-07-24'),
+	( '\n\s*\(1\)\s*To ask', '\n To ask (1) ', 3, '2002-07-24'),
 
 	( '<i>The following questions were answered on 10 June</i>', '', 1, '2003-06-10'),
+
+	( 'Vol. No. 412,', '', 1, '2003-11-10'),
+
 		]
 
 def ApplyFixSubs(finr, sdate):
@@ -348,6 +391,7 @@ def ApplyFixSubs(finr, sdate):
 			if sub[2] != -1 and res[1] != sub[2]:
 				print 'wrong substitutions %d on %s' % (res[1], sub[0])
 			finr = res[0]
+
 	return finr
 
 

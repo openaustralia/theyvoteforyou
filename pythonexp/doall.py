@@ -76,9 +76,9 @@ GlueHocDayDebate(dirgluedwranswers, hocdaydebatelist, 'answers', 'answers')
 print dirwaremovechars
 ScanDirectories(RemoveLineChars, dirwaremovechars, dirgluedwranswers)
 print dirwacolumnnumbers
-ScanDirectories(FixWransColumnNumbers, dirwacolumnnumbers, dirwaremovechars)
+#ScanDirectories(FixWransColumnNumbers, dirwacolumnnumbers, dirwaremovechars)
 print dirwaspeakers
-#ScanDirectories(WransSpeakerNames, dirwaspeakers, dirwacolumnnumbers)
+ScanDirectories(WransSpeakerNames, dirwaspeakers, dirwacolumnnumbers)
 print dirwrans
 ScanDirectories(WransSections, dirwrans, dirwaspeakers)
 sys.exit()

@@ -9,6 +9,7 @@ import types
 
 # In Debian package python2.3-egenix-mxdatetime
 import mx.DateTime
+from findofficialreport import FindOfficialReport
 
 toaskregexp = '^\s*' +\
 		'to ask the (secretary of state for (?:' +\
@@ -63,12 +64,6 @@ retoask = re.compile(toaskregexp)
 #		print text
 
 
-def FindOfficialReport(text):
-	ho = re.findall('<i>official report</i>(?i)', text)
-	if ho:
-		print ho[0]
-		print text
-		sys.exit()
 
 
 def QuestionBreakIntoParagraphs(text):
@@ -144,7 +139,6 @@ def QuestionBreakIntoParagraphs(text):
 				delltail = dell[i+2:]
 				dell = dell[:i]
 				dell.extend(delltail)
-				print 'shortening dangling bit'
 
 	# break out the numbers
 	p1 = re.findall('^([\s\S]*?\S)\s*?\(1\)\s*?(\S[\s\S]*?)$', dell[1])
@@ -179,21 +173,20 @@ def QuestionBreakIntoParagraphs(text):
 
 
 def FixQuestion(text):
+
+	# find the qnums
+	qnums = re.findall('\[(\d+)\]', text)
+	if not qnums:
+		return ('<error>qnum missing</error>\n', qnums)
+
+	text = re.sub('\[(\d+?)\]', '<qcode qnum="\\1"/>', text)
+	ntext = QuestionBreakIntoParagraphs(text)
+
 	res = StringIO.StringIO()
-
-	# sort out qnums
-	bqnum = re.subn('\[(\d+?)\]', '<qcode qnum="\\1"/>', text)
-	text = bqnum[0]
-	if bqnum[1] != 0:
-		ntext = QuestionBreakIntoParagraphs(text)
-		for nt in ntext:
-			res.write('<p>')
-			res.write(nt)
-			res.write('</p>\n')
-
-	else:
-		res.write("<error>qnum missing</error>\n")
-
+	for nt in ntext:
+		res.write('<p>')
+		res.write(nt)
+		res.write('</p>\n')
 
 	sres = res.getvalue()
 	res.close()
@@ -201,7 +194,7 @@ def FixQuestion(text):
 	if re.search('<font|<br(?i)', sres):
 		print 'unwanted value in question'
 
-	return sres
+	return (sres, qnums)
 
 
 
@@ -341,29 +334,33 @@ def ReplyBreakIntoParagraphs(text):
 
 	return pres
 
-def FixReply(text):
-	#FindOfficialReport(text)
-
+def FixReply(text, questionqnums):
 	res = StringIO.StringIO()
 
-	qnums = re.findall('\[\d+?\]', text)
-	if not qnums:
-		ntext = ReplyBreakIntoParagraphs(text)
-		for nt in ntext:
-			# a table
-			if isinstance(nt, types.ListType):
-				WriteTable(res, nt)
+	# find the qnums
+	qnums = re.findall('\[(\d+)\]', text)
+	if qnums:
+		for qn in qnums:
+			if not questionqnums.count(qn):
+				print 'qnum present in answer ' + qn
+				return ('<error>unknown qnum present in answer</error>\n')
+		text = re.sub('\[(\d+?)\]', ' ', text)
 
-			# simple text; make as paragraph
-			else:
-				res.write('<p>')
-				res.write(nt)
-				res.write('</p>\n')
+	ntext = ReplyBreakIntoParagraphs(text)
+	for nt in ntext:
+		# a table
+		if isinstance(nt, types.ListType):
+			WriteTable(res, nt)
 
-	else:
-		res.write("<error>qnum present in answer</error>\n")
-		print 'qnum present in answer ' + qnums[0]
+		# simple text; make as paragraph
+		else:
+			res.write('<p>')
+			res.write(nt)
+			res.write('</p>\n')
 
+			# write links
+			for foff in FindOfficialReport(nt):
+				res.write('<offreplink coldate="%s" colnum="%s"/>\n' % foff)
 
 	sres = res.getvalue()
 	res.close()

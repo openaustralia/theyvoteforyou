@@ -12,7 +12,6 @@ knownbadmatches = 'prime minister|solicitor-general|nicholas brown|gareth thomas
 		  'advocate-general|ainsworth|jonathan shaw|gareth r[.] thomas|multiple times(?i)'
 
 fixsubs = 	[
-	( '<B> Alun Michael: For </B>', '<B> Alun Michael: </B> For', 1, '2003-11-17'),
 	( '<B> Mr. </B>\s* Shepherd:', '<B> Mr. Shepherd:</B>', 1, '2003-10-23'),
 	( '<B> Margaret Becket </B>', '<B> Margaret Beckett </B>', 1, '2003-11-11'),
 
@@ -24,14 +23,22 @@ fixsubs = 	[
 		' and the Northern Ireland Administration. <P>', 1, '2003-09-18'),
 	( '<P></UL>\s*<P>\s*\{**con**\}\{**/con**\}<P>\s*<B> Mr. Moss:  (4)</B>', '<p>(4)', 1, '2002-06-10'),
 
-	( '<UL><i>Fiona Mactaggart [holding answer 3 July 2003]:</i>', \
+	( '<UL><i>Fiona Mactaggart \[holding answer 3 July 2003\]:</i>', \
 		'<B>Fiona Mactaggart </B> [holding answer 3 July 2003]', 1, '2003-07-07'),
-	( '<UL><i>Mr. Bradshaw [holding answer 23 June 2003]</i>:', \
+	( '<UL><i>Mr. Bradshaw \[holding answer 23 June 2003\]</i>:', \
 		'<B>Mr. Bradshaw </B> [holding answer 23 June 2003]', 1, '2003-06-24'),
-	( '<i>Mr. Bradshaw </i>[holding answer 17 June 2003]:', \
+	( '<i>Mr. Bradshaw </i>\[holding answer 17 June 2003\]:', \
 		'<B>Mr. Bradshaw </B> [holding answer 17 June 2003]', 1, '2003-06-18'),
+	(' <i>Jacqui Smith \[holding answers 27 February 2003 and 27 March 2003\]:</i>', \
+		'<B>Jacqui Smith </B> [holding answers 27 February 2003 and 27 March 2003]', 1, '2003-03-28'),
+
 	( '<B> Mr. Bercow: Mr. John Bercow: </B>', '<B> Mr. John Bercow: </B>', 1, '2003-06-03'),
 	( '<B> Mr. Drew: Mr. David Drew: </B>', '<B> Mr. David Drew: </B>', 1, '2003-05-01'),
+	( '<B> Matthew Taylor: Matthew Taylor: </B>', '<B> Matthew Taylor: </B>', 1, '2003-07-02'),
+
+	( '</B>\s*\(Leeds, North-West\):', ' (Leeds, North-West) </B>', 1, '2003-09-15'),
+
+	( '<TR valign=top><TD><FONT SIZE=-1>\s*<P>\s*<page', '</TABLE>\n<page', 1, '2002-07-24'),
 
 
 
