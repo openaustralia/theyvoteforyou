@@ -378,6 +378,10 @@ P.italic
 {
     FONT-STYLE: italic
 }
+P.error
+{
+    FONT-STYLE: italic
+}
 P.numindent
 {
 	MARGIN-LEFT: 3em;
