@@ -2,6 +2,7 @@ Being errors found each day running the scraping cron job
 CRON = cron job on baked
 PWIP = weekly Public Whip update
 
+CRON 2004-03-19 Slight misspelt wrans major heading CHURCH COMMISSIONER
 CRON 2004-03-18 Part name inside bold: Multiple matches Gareth Thomas (Clwyd, West) (Lab)
 CRON 2004-03-16 Wrans with two answers (although really a messup and the questions should be separate)
 PWIP 2004-03-04 Missing (1) in wrans which appears otherwise fine
