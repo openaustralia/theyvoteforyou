@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.8 2003/10/11 20:24:36 frabcus Exp $
+# $Id: faq.php,v 1.9 2003/10/13 15:18:52 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -101,8 +101,9 @@ would retain all the power but would have slightly better software
 
 <h2>What organisation is behind the Public Whip?</h2>
 <p>None.  Just two guys <a href="http://www.flourish.org">Francis</a>
-and Julian who had an idea and made it happen.  Giles designed the look
-of the website.  We're hosted by the ever helpful and encouraging
+and Julian who had an idea and made it happen.  <a
+href="http://www.knownoffender.net/">Giles</a> designed the look of the
+website.  We're hosted by the ever helpful and encouraging
 <a href="http://www.mythic-beasts.com/">Mythic Beasts</a>.
 
 <h2>Where can I email?</h2>
