@@ -1,5 +1,5 @@
 <? $title = "Site News"; include "header.inc";
-# $Id: news.php,v 1.8 2003/09/25 20:29:17 uid37249 Exp $
+# $Id: news.php,v 1.9 2003/09/25 20:57:36 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -18,11 +18,16 @@
 <p>When I first analysed the database of votes which the Public Whip
 software generated, I was a bit shocked.  There are dozens of occasions
 when an MP voted both aye and noe in the same division. How could
-this be?
-
-Fortunately, it is perfectly allowed.  Have a look at the new
+this be?  Fortunately, it is perfectly allowed.  Have a look at the new
 page about <a href="boths.php">double voting</a> for a list of occasions
 when it has happened.  And for an explanation.</p>
+
+<p>Before today, MPs who voted twice were listed twice everywhere.  This
+meant that one of their votes counted them as a rebel!  They no longer
+are, so the number of rebellions is slightly reduced for some MPs and
+divisions.  On the other hand, the counts printed in Hansard "The House
+divided: Ayes 199, Noes 393" include double votes, so they differ even
+more from Public Whip's counts which list double voters separately.
 
 <h2>Turncoats and byelections - 18 September 2003 by Francis</h2>
 <p>Politics, being human, is endlessly rich in the variety of things that it throws 
@@ -43,7 +48,7 @@ insane.   Really!  Check out the complete list of
 <p>A few people have queried Paul Marsden's position as top rebel
 in the list on the <a href="index.php">front page</a>.  Has the site
 accidentally counted his votes as a Liberal Democrat as rebellions
-agains the Labour whip?  The answer is no.  His entry there is
+against the Labour whip?  The answer is no.  His entry there is
 calculated using only divisions while he took the Labour whip.  There is
 another entry for him as a Liberal Democrat further down the rebels
 table.  Today I've changed the site to clarify this a bit by saying
@@ -74,7 +79,7 @@ interesting is happening.</p>
 <p>This calculation has been in Public Whip for a while, manifest as a
 mysterious column of numbers on the party table in the division listing.
 I've hopefully made it a bit clearer, using the terminology of
-abstentions, and displating high abstention parties even if nobody in them
+abstentions, and displaying high abstention parties even if nobody in them
 voted.  Have a look at the recent <a
 href="division.php?date=2003-09-10&number=307">Iraq and the UN vote</a>,
 where the Lib Dems proposed a motion.  You can see from the large
@@ -83,7 +88,7 @@ been to abstain.  Indeed none of them voted at all.</p>
 
 <h2>Which Gareth Thomas? - 12 September 2003 by Francis</h2>
 <p>One of the things I'm doing at the moment is improving the quality of
-data for the current parliament.  There are sometimes ommissions or
+data for the current parliament.  There are sometimes omissions or
 inconsistencies within Hansard itself.  Those errors for recent months
 are corrected when the session is put into a "bound volume".  Although
 this concept originally applied to the paper versions of Hansard, it is
