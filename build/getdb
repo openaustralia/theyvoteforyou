@@ -8,7 +8,7 @@ set -e
 USER=francis@sphinx.mythic-beasts.com
 
 echo "Fetching remote dynamic tables..."
-ssh $USER "mysqldump --add-drop-table francis pw_dyn_user pw_dyn_rolliemp pw_dyn_rollievote pw_dyn_auditlog >pw_dyn_tables.sql"
+ssh $USER "mysqldump --add-drop-table francis pw_dyn_user pw_dyn_rolliemp pw_dyn_rollievote pw_dyn_auditlog pw_dyn_wiki >pw_dyn_tables.sql"
 scp $USER:./pw_dyn_tables.sql pw_dyn_tables.sql
 
 echo "Replacing local dynamic tables..."
