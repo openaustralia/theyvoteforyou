@@ -40,8 +40,8 @@ fixsubs = 	[
 # <B> Mr. Hutton: </B>
 
 
-regspeaker = '(?:\d+\. )?<b>[^<]*</b>(?:\s*\((?:con|lab|ld|snp)\))?\s*:?(?i)'
-respeakervals = re.compile('(?:(\d+)\. )?<b>([^:<(]*?):?\s*(?:\((.*?)\))?\s*:?\s*</b>(?:\s*\((con|lab|ld|snp)\))?(?i)')
+regspeaker = '(?:\d+\. )?(?:<stamp aname=".*?"/>)?<b>[^<]*</b>(?:\s*\((?:con|lab|ld|snp)\))?\s*:?(?i)'
+respeakervals = re.compile('(?:(\d+)\. )?(?:<stamp aname=".*?"/>)?<b>([^:<(]*?):?\s*(?:\((.*?)\))?\s*:?\s*</b>(?:\s*\((con|lab|ld|snp)\))?(?i)')
 
 # <B>Division No. 322</B>
 redivno = re.compile('<b>division no\. \d+</b>$(?i)')
@@ -59,6 +59,9 @@ def FilterDebateSpeakers(fout, text, sdate):
 		if redivno.match(fss):
 			fout.write(fss.encode("latin-1"))
 			continue
+
+#                print "fss=",fss
+#                print "######################"
 
 		# speaker detection
 		speakerg = respeakervals.match(fss)

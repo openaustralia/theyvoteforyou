@@ -1,4 +1,5 @@
 #! /usr/bin/python2.3
+# vim:sw=8:ts=8:et:nowrap
 
 import sys
 import re
@@ -27,6 +28,8 @@ class qspeech:
 			if re.match('<stamp [^>]*>', sp[i]):
 				if re.match('<stamp time[^>]*>', sp[i]):
 					stampurl.timestamp = sp[i]
+				elif re.match('<stamp aname[^>]*>', sp[i]):
+                                        stampurl.aname = sp[i] 
 				else:
 					stampurl.stamp = sp[i]
 				sp[i] = ''

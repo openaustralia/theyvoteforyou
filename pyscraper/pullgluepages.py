@@ -1,4 +1,5 @@
 #! /usr/bin/python2.3
+# vim:sw=8:ts=8:et:nowrap
 
 import sys
 import urllib
@@ -54,9 +55,13 @@ def WriteCleanText(fout, text):
 			pass
 
 		elif re.match('<a[^>]*>(?i)', ab):
-			# this would catch if we've actually found a link
-			if not re.match('<a name\s*?=\s*\S*?\s*?>(?i)', ab):
-				print ab
+			anamem = re.match('<a name\s*?=\s*?"?(\S*?)"?\s*?>(?i)', ab)
+                        if anamem:
+                                fout.write('<a name="%s">' % anamem.group(1))
+                        else:
+                                # We should never find any other sort of <a> tag - such
+                                # as a link (as there aren't any on parliament.uk)
+                                print "Caught a link ", ab
 
 		elif re.match('</a>(?i)', ab):
 			pass
@@ -141,7 +146,7 @@ def ExtractFirstLink(url):
 
 
 # read through our index list of daydebates
-def GlueAllType(pcmdir, cmindex, nametype, fproto):
+def GlueAllType(pcmdir, cmindex, nametype, fproto, deleteoutput):
 	if not os.path.isdir(pcmdir):
 		os.mkdir(pcmdir)
 
@@ -153,41 +158,45 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto):
 		# make the filename
 		dgf = os.path.join(pcmdir, (fproto % dnu[0]))
 
-		# hansard index page
-		urlx = dnu[2]
+                if deleteoutput:
+                    if os.path.isfile(dgf):
+                            os.remove(dgf)
+                else:
+                    # hansard index page
+                    urlx = dnu[2]
 
-		# if we already have got the file, check the pagex link agrees in the first line
-		# no need to scrape it in again
-		if os.path.exists(dgf):
-			fpgx = open(dgf, "r")
-			pgx = fpgx.readline()
-			fpgx.close()
-			if pgx:
-				pgx = re.findall('<pagex url="([^"]*)"[^/]*/>', pgx)
-				if pgx:
-					if pgx[0] == urlx:
-						# print 'skipping ' + urlx
-						continue
-			print 'RE-scraping ' + urlx
-		else:
-			print 'scraping ' + urlx
+                    # if we already have got the file, check the pagex link agrees in the first line
+                    # no need to scrape it in again
+                    if os.path.exists(dgf):
+                            fpgx = open(dgf, "r")
+                            pgx = fpgx.readline()
+                            fpgx.close()
+                            if pgx:
+                                    pgx = re.findall('<pagex url="([^"]*)"[^/]*/>', pgx)
+                                    if pgx:
+                                            if pgx[0] == urlx:
+                                                    # print 'skipping ' + urlx
+                                                    continue
+                            print 'RE-scraping ' + urlx
+                    else:
+                            print 'scraping ' + urlx
 
-		url0 = ExtractFirstLink(urlx)
+                    url0 = ExtractFirstLink(urlx)
 
-		# now we take out the local pointer and start the gluing
-		dtemp = open(tempfile, "w")
-		GlueByNext(dtemp, url0, urlx)
+                    # now we take out the local pointer and start the gluing
+                    dtemp = open(tempfile, "w")
+                    GlueByNext(dtemp, url0, urlx)
 
-		# close and move
-		dtemp.close()
-		os.rename(tempfile, dgf)
+                    # close and move
+                    dtemp.close()
+                    os.rename(tempfile, dgf)
 
 
 
 ###############
 # main function
 ###############
-def PullGluePages(datefrom, dateto):
+def PullGluePages(datefrom, dateto, deleteoutput):
 	# make the output firectory
 	if not os.path.isdir(pwcmdirs):
 		os.mkdir(pwcmdirs)
@@ -202,8 +211,8 @@ def PullGluePages(datefrom, dateto):
 
 	# bring in and glue together parliamentary debates, and answers and put into their own directories.
 	# third parameter is a regexp, fourth is the filename (%s becomes the date).
-	GlueAllType(pwcmdebates, ccmindex.res, 'debates(?i)', 'debates%s.html')
-	GlueAllType(pwcmwrans, ccmindex.res, 'answers(?i)', 'answers%s.html')
+	GlueAllType(pwcmdebates, ccmindex.res, 'debates(?i)', 'debates%s.html', deleteoutput)
+	GlueAllType(pwcmwrans, ccmindex.res, 'answers(?i)', 'answers%s.html', deleteoutput)
 
 
 

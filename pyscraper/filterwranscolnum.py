@@ -48,8 +48,12 @@ recolumnumvals = re.compile('(?:<p>|\s|</ul>|</font>)*<i>([^:<]*):\s*column:?\s*
 regcolnumcont = '<i>[^:<]*:\s*column\s*\d+w?&#151;continued\s*</i>(?i)'
 recolnumcontvals = re.compile('<i>([^:<]*):\s*column\s*(\d+)w?&#151;continued</i>(?i)')
 
-recomb = re.compile('\s*(%s|%s|%s|%s)\s*' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolnumcont))
-remarginal = re.compile(':\s*column\s*\d+(?i)')
+# <a name="column_1099">
+reaname = '<a name="\S*?">(?i)'
+reanamevals = re.compile('<a name="(\S*?)">(?i)')
+ 
+recomb = re.compile('\s*(%s|%s|%s|%s|%s)\s*' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolnumcont, reaname))
+remarginal = re.compile(':\s*column\s*\d+(?i)|</?a[\s>]')
 
 
 
@@ -90,7 +94,13 @@ def FilterWransColnum(fout, text, sdate):
 			fout.write(' ')
 			continue
 
-
+                # anchor names from HTML <a name="xxx">
+                anameg = reanamevals.match(fss)
+                if anameg:
+                        aname = anameg.group(1)
+                        fout.write('<stamp aname="%s"/>' % aname)
+                        continue
+ 
 		# nothing detected
 		# check if we've missed anything obvious
 		if recomb.match(fss):

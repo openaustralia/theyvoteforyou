@@ -1,6 +1,8 @@
 #! /bin/bash
+set -e
 
 USER=francis@sphinx.mythic-beasts.com
+export CVSROOT=:ext:frabcus@cvs.sourceforge.net:/cvsroot/publicwhip
 TOPDIR=`pwd`
 
 if [ -z "$REMOTE_DIR" ]

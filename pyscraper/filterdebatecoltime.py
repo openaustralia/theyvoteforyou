@@ -1,4 +1,5 @@
 #! /usr/bin/python2.3
+# vim:sw=8:ts=8:et:nowrap
 
 import sys
 import re
@@ -30,7 +31,7 @@ fixsubs = 	[
 
 
 # <B>9 Dec 2003 : Column 893</B>
-regcolumnum1 = '<p>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n(?i)'
+regcolumnum1 = '\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n(?i)' # was also <p> at start before aname stuff
 regcolumnum2 = '<p>\s*</ul>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n<ul>(?i)'
 regcolumnum3 = '<p>\s*</ul></font>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n<ul><font[^>]*>(?i)'
 regcolumnum4 = '<p>\s*</font>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n<font[^>]*>(?i)'
@@ -50,8 +51,13 @@ recolnumcontvals = re.compile('<i>([^:<]*):\s*column\s*(\d+)&#151;continued</i>(
 regtime = '(?:</?p>\s*|<h[45]>|\[|\n)(?:\d+(?:[:\.]\d+)?\s*[ap]\.?m\.?(?:</st>)?|12 noon)(?:\s*</?p>|\s*</h[45]>|\n)(?i)'
 retimevals = re.compile('(?:</?p>\s*|<h\d>|\[|\n)\s*(\d+(?:[:\.]\d+)?\s*[apmnon.]+)(?i)')
 
-recomb = re.compile('(%s|%s|%s|%s|%s|%s)' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4, regcolnumcont, regtime))
-remarginal = re.compile(':\s*column\s*(\d+)|\n(?:\d+[.:])?\d+\s*[ap]\.?m\.?[^,\w](?i)')
+# <a name="column_1099">
+reaname = '<a name="\S*?">(?i)'
+reanamevals = re.compile('<a name="(\S*?)">(?i)')
+                                               
+
+recomb = re.compile('(%s|%s|%s|%s|%s|%s|%s)' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4, regcolnumcont, regtime, reaname))
+remarginal = re.compile(':\s*column\s*(\d+)|\n(?:\d+[.:])?\d+\s*[ap]\.?m\.?[^,\w](?i)|</?a[\s>]')
 
 # This one used to break times into component parts: 7.10 pm
 regparsetime = re.compile("^(\d+)[\.:](\d+)\s?([\w\.]+)$")
@@ -65,7 +71,8 @@ def FilterDebateColTime(fout, text, sdate):
 	time = ''	# need to use a proper timestamp code class
 	#fs =
 	for fss in recomb.split(text):
-
+#                print "fss=", fss
+#                print "######################################"
 		# column number type
 		columng = recolumnumvals.match(fss)
 		if columng:
@@ -129,7 +136,14 @@ def FilterDebateColTime(fout, text, sdate):
 			    
 			fout.write('<stamp time="%s"/>' % time)
 			continue
-
+                
+                # anchor names from HTML <a name="xxx">
+                anameg = reanamevals.match(fss)
+                if anameg:
+                        aname = anameg.group(1)
+                        fout.write('<stamp aname="%s"/>' % aname)
+                        continue
+                
 		# nothing detected
 		# check if we've missed anything obvious
 		if recomb.match(fss):
@@ -137,7 +151,9 @@ def FilterDebateColTime(fout, text, sdate):
 			raise Exception, ' regexpvals not general enough '
 		if remarginal.search(fss):
 			print ' marginal coltime detection case '
+			print remarginal.search(fss).groups()
 			print remarginal.search(fss).group(0)
+                        print '--------------------------------\n'
 			print fss
 			sys.exit()
 		fout.write(fss)

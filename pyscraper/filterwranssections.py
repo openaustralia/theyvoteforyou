@@ -185,7 +185,7 @@ def StripWransHeadings(headspeak, sdate):
 	for j in range(0, i):
 		stampurl.UpdateStampUrl(headspeak[j][1])
 
-	if (not stampurl.stamp) or (not stampurl.pageurl):
+	if (not stampurl.stamp) or (not stampurl.pageurl) or (not stampurl.aname):
 		raise Exception, ' missing stamp url at beginning of file '
 	return (i, stampurl)
 
@@ -245,7 +245,7 @@ def WritexmlSpeechBlock(fout, qblock, sdate):
 				(sid, FixHTMLEntities(qb0s.title), qb0s.majorheading))
 	fout.write(qb0s.stamp)
 	fout.write('\n')
-	fout.write(qb0s.pageurl)
+	fout.write('<page url="%s"/>' % qb0s.GetUrl())
 	fout.write('\n')
 
 	# output the speeches themselves (type single speech)

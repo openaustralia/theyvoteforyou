@@ -19,14 +19,22 @@ class StampUrl:
 		self.majorheading = 'BLANK MAJOR HEADING'
 		self.ncid = 0
 		self.timestamp = ''
+                self.aname = ''
 
 	def UpdateStampUrl(self, text):
 		for st in re.findall('(<stamp coldate[^>]*?/>)', text):
 			self.stamp = st
+		for st in re.findall('(<stamp aname[^>]*?/>)', text):
+			self.aname = st
 		for stp in re.findall('<(page url[^>]*?)/?>', text):
 			self.pageurl = '<%s/>' % stp  # puts missing slash back in.
 		for st in re.findall('(<stamp time[^>]*?/>)', text):
 			self.timestamp = st
+
+        def GetUrl(self):
+            spurl = re.match('<page url="(.*?)"/>', self.pageurl).group(1)
+            saname = re.match('<stamp aname="(.*?)"/>', self.aname).group(1)
+            return '%s#%s' % (spurl, saname)
 
 
 

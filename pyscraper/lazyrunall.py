@@ -24,6 +24,9 @@ parser.add_option("--debates",
 parser.add_option("--force",
                   action="store_true", dest="force", default=False,
                   help="forces reprocessing of wrans/debates by first deleting output files")
+parser.add_option("--rescrape",
+                  action="store_true", dest="rescrape", default=False,
+                  help="forces redownloading of HTML first deleting output files")
 
 parser.add_option("-f", "--from", dest="datefrom", metavar="date", default="1000-01-01",
                   help="date to process back to, default is start of time")
@@ -41,7 +44,9 @@ if (options.date):
 
 if options.network:
         UpdateHansardIndex()
-        PullGluePages(options.datefrom, options.dateto)
+        if options.rescrape:
+            PullGluePages(options.datefrom, options.dateto, True)
+        PullGluePages(options.datefrom, options.dateto, False)
 
 if options.wrans:
         if options.force:

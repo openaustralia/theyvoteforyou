@@ -162,7 +162,7 @@ def WriteXMLChunk(fout, qb, sdate, tagname, body):
 	stime = re.match('<stamp( time=".*?")/>', qb.sstampurl.timestamp).group(1)
 	sstamp = 'colnum="%s"%s' % (colnum, stime)
 
-	spurl = re.match('<page (url=".*?")/>', qb.sstampurl.pageurl).group(1)
+	spurl = qb.sstampurl.GetUrl()
 
         speaker = ''
         # OK, having DIVISION here is a bit of a hack - the qb.speaker variable could
@@ -172,7 +172,7 @@ def WriteXMLChunk(fout, qb, sdate, tagname, body):
                 speaker = qb.speaker
 
 	# get the stamps from the stamp on first speaker in block
-	fout.write('\n<%s id="%s" %s %s %s %s>\n' % \
+	fout.write('\n<%s id="%s" %s %s %s url="%s">\n' % \
 				(tagname, sid, speaker, stithead, sstamp, spurl))
         fout.write(body)
 
