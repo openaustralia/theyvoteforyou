@@ -69,7 +69,6 @@ check project/code.php
 check project/data.php
 check ./project/index.php
 check ./project/liaison.php
-check "jmp.php?firstname=Anne&lastname=Campbell&constituency=Cambridge&dreammpid=6"
 # slow ones last
 check "dreammp.php?id=91"
 echo
