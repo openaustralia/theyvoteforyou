@@ -1,4 +1,4 @@
-#! /usr/bin/python2.3
+#! /usr/bin/env python2.3
 # vim:sw=4:ts=4:et:nowrap
 
 # Converts names of MPs into unique identifiers
