@@ -80,8 +80,8 @@ class PhraseTokenize:
 		if qcpart.group(2):
 			qcpartlead = qcpart.group(1)[len(qcpart.group(1)) - len(qcpart.group(2)):]
 			if string.atoi(qcpartlead) >= string.atoi(qcpart.group(2)):
-				print qoffrep.group(0)
-				raise Exception, ' non-following column leadoff '
+				print ' non-following column leadoff ', qoffrep.group(0)
+				#raise Exception, ' non-following column leadoff '
 
 		# this gives a link to the date.colnumW type show.
 		qcolcode = qcpart.group(1) + string.upper(qcpart.group(3))
