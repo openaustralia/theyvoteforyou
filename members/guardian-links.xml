@@ -1548,7 +1548,9 @@
 <personinfo id="uk.org.publicwhip/person/10310" guardian_mp_summary="http://politics.guardian.co.uk/person/0,,-2679,00.html" />
 <consinfo canonical="Wantage" guardian_election_results="http://politics.guardian.co.uk/hoc/constituency/0,,-1402,00.html" />
 <memberinfo id="uk.org.publicwhip/member/994" swing_to_lose_seat="5.7" />
+<memberinfo id="uk.org.publicwhip/member/1364" swing_to_lose_seat="5.7" />
 <memberinfo id="uk.org.publicwhip/member/994" majority_in_seat="5600" />
+<memberinfo id="uk.org.publicwhip/member/1364" majority_in_seat="5600" />
 
 <personinfo id="uk.org.publicwhip/person/10311" guardian_mp_summary="http://politics.guardian.co.uk/person/0,,-2695,00.html" />
 <consinfo canonical="Plymouth, Devonport" guardian_election_results="http://politics.guardian.co.uk/hoc/constituency/0,,-1222,00.html" />
