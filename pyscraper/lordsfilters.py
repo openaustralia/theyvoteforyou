@@ -6,6 +6,8 @@ import os
 import string
 import cStringIO
 
+from lordsfiltercoltime import FilterLordsColtime
+
 import mx.DateTime
 
 import miscfuncs
@@ -27,71 +29,7 @@ tempfile = os.path.join(toppath, "filtertemp")
 
 
 
-# the new Lords thing
-# <B>19 Nov 2003 : Column 1926</B></P>
-# <p></UL>\n<B>29 Jan 2004 : Column 321</B></P>\n<UL>
-# <P>\n</UL><FONT SIZE=3>\n<B>29 Jan 2004 : Column 369</B></P>\n<UL><FONT SIZE=2>
-# <P>\n<FONT SIZE=3>\n<B>29 Jan 2004 : Column 430</B></P>\n<FONT SIZE=2>
-
-regcolumnum1 = '<p>\s*<b>[^:<]*:\s*column\s*(?:GC|WA|WS)?\d+\s*</b></p>\n(?i)'
-regcolumnum2 = '<p>\s*</ul>\s*<b>[^:<]*:\s*column\s*(?:GC|WA|WS)?\d+\s*</b></p>\s*<ul>(?i)'
-regcolumnum3 = '<p>\s*</ul><font size=3>\s*<b>[^:<]*:\s*column\s*(?:GC|WA|WS)?\d+\s*</b></p>\s*<ul><font size=2>(?i)'
-regcolumnum4 = '<p>\s*<font size=3>\s*<b>[^:<]*:\s*column\s*(?:GC|WA|WS)?\d+\s*</b></p>\s*<font size=2>(?i)'
-
-recolumnumvals = re.compile('(?:<p>|</ul>|<font size=\d>|\s)*?<b>([^:<]*)\s*:\s*column\s*(\D*?)(\d+)\s*</b>(?:</p>|<ul>|<font size=\d>|\s)*$(?i)')
-
-recomb = re.compile('(%s|%s|%s|%s)' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4))
-
-remarginal = re.compile(':\s*column\s*\D*(\d+)(?i)')
-
-def FilterLordsColtime(fout, text, sdate):
-
-	for fss in recomb.split(text):
-		# column number type
-
-		colnum = -1
-
-		columng = recolumnumvals.match(fss)
-		if columng:
-			# check date
-			ldate = mx.DateTime.DateTimeFrom(columng.group(1)).date
-			#if sdate != ldate:
-			#	raise Exception, "Column date disagrees %s -- %s" % (sdate, fss)
-
-			lindexstyle = columng.group(2)
-			
-			# check number
-			lcolnum = string.atoi(columng.group(3))
-			#if lcolnum == colnum - 1:
-			#	pass	# spurious decrementing of column number stamps
-			#elif (colnum == -1) or (lcolnum == colnum + 1):
-			#	pass  # good
-			
-			# column numbers do get skipped during division listings
-			#elif lcolnum < colnum:
-			#	raise Exception, "Colnum not incrementing %d -- %s" % (lcolnum, fss)
-
-			# write a column number stamp
-			colnum = lcolnum
-			#fout.write('<stamp coldate="%s" colnum="%s"/>' % (sdate, colnum))
-
-			print (ldate, colnum, lindexstyle)
-			continue
-
-		# nothing detected
-		# check if we've missed anything obvious
-		if recomb.match(fss):
-			print fss
-			raise Exception, ' regexpvals not general enough '
-		if remarginal.search(fss):
-			print ' marginal coltime detection case '
-			print remarginal.search(fss).group(0)
-			print fss
-			sys.exit()
-		fout.write(fss)
-
-
-# this
+# this is a standard copy from one directory to the other
 def RunFiltersDir(filterfunction, dname):
 	# the in and out directories for the type
 	pwcmdirin = pwlordspages
@@ -100,6 +38,7 @@ def RunFiltersDir(filterfunction, dname):
 	# create output directory
 	if not os.path.isdir(pwxmldirout):
 		os.mkdir(pwxmldirout)
+        print pwxmldirout;
 
 	# loop through file in input directory in reverse date order
 	fdirin = os.listdir(pwcmdirin)
