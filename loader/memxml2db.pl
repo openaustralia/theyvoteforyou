@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.5 2005/02/24 19:26:58 theyworkforyou Exp $
+# $Id: memxml2db.pl,v 1.6 2005/03/04 01:30:17 theyworkforyou Exp $
 
 # Convert all-members.xml into the database format for Public Whip website
 
@@ -55,6 +55,9 @@ sub loadmember
     die "mp " . $id . " " . $memb->att('firstname') . " " . $memb->att('lastname') . " has no person" if !defined($person);
     $person =~ s#uk.org.publicwhip/person/##;
 
+    my $party = $memb->att('party');
+    $party = 'Lab' if ($party eq 'Lab/Co-op');
+
     # We encode entities as e.g. &Ouml;, as otherwise non-ASCII characters
     # get lost somewhere between Perl, the database and the browser.
     my $sth = PublicWhip::DB::query($dbh, "insert into pw_mp (first_name, last_name, title, constituency, party, 
@@ -65,7 +68,7 @@ sub loadmember
         encode_entities($iconv->convert($memb->att('lastname'))), 
         $memb->att('title'), 
         encode_entities($iconv->convert($memb->att('constituency'))), 
-        $memb->att('party'), 
+        $party,
         $memb->att('fromdate'), 
         $memb->att('todate'), 
         $memb->att('fromwhy'), 
