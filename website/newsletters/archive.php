@@ -1,5 +1,5 @@
 <? 
-# $Id: archive.php,v 1.4 2004/01/21 17:07:22 frabcus Exp $
+# $Id: archive.php,v 1.5 2004/01/23 12:13:38 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -30,6 +30,9 @@ function render_newsletter($newsletter)
     $c = 0;
 	while ($line = fgets($handle))
 	{
+        $line = preg_replace("/\b(\S+\@\S+)\b/is", "<a href=\"mailto:\\1\">\\1</a>", $line);
+        $line = preg_replace("/(\s|^)(http:\/\/\S+)(\s)/is", "\\1<a href=\"\\2\">\\2</a>\\3", $line);
+
         $c++;
         if ($c >= 4)
             print $line . "<br>";
