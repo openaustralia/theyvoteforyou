@@ -6982,7 +6982,7 @@ http://www.election.demon.co.uk/strengths.html
     house="commons"
     title="" firstname="Robert" lastname="Jackson"
     constituency="Wantage" party="Con"
-    fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    fromdate="2001-06-07" todate="2005-01-15" fromwhy="general_election" towhy="changed_party"
 />
 <member
     id="uk.org.publicwhip/member/995"
@@ -9572,6 +9572,13 @@ http://www.election.demon.co.uk/strengths.html
     title="" firstname="Andrew" lastname="Hunter"
     constituency="Basingstoke" party="DU"
     fromdate="2004-12-10" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
+/>
+<member
+    id="uk.org.publicwhip/member/1364"
+    house="commons"
+    title="" firstname="Robert" lastname="Jackson"
+    constituency="Wantage" party="Lab"
+    fromdate="2005-01-16" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
 />
 
 
