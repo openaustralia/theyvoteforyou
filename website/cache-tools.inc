@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-tools.inc,v 1.8 2005/01/18 02:05:59 frabcus Exp $
+# $Id: cache-tools.inc,v 1.9 2005/01/18 03:45:24 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -11,9 +11,9 @@ include_once $toppath . "account/user.inc";
 function newsletter_navbar() {
     $ret = "";
     if (!user_isloggedin()) {
-        $ret .= '<a title="Subscribe to our email newsletter" href="/account/register.php">Newsletter</a>';
+        $ret .= '<a title="Subscribe to our email newsletter" href="/account/register.php">News</a>';
     } else {
-        $ret .= '<a title="Email newsletter archives" href="/newsletters/archive.php">Newsletter</a>';
+        $ret .= '<a title="Email newsletter archives" href="/newsletters/archive.php">News</a>';
     }
     return $ret;
 }
@@ -23,6 +23,7 @@ function account_navbar() {
     if (user_isloggedin()) {
         global $user_name;
         $ret .= $user_name . " ";
+        $ret .= '<a title="Chat with other users" href="/forum">Forum</a>';
         $ret .= '<a title="Change account settings, such as whether you get the newsletter" href="/account/settings.php">';
         $ret .= "Settings";
         $ret .= '</a>';
@@ -33,6 +34,7 @@ function account_navbar() {
         $ret .= '<a title="Login to edit your Dream MPs or change your newsletter settings" href="/account/settings.php">';
         $ret .= "Login";
         $ret .= '</a>';
+        $ret .= '<a title="Chat with other users" href="/forum">Forum</a>';
         $ret .= '<a title="Register to get a newsletter or make a Dream MP" href="/account/register.php">';
         $ret .= "Signup";
         $ret .= '</a>';
