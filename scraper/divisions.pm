@@ -1,4 +1,4 @@
-# $Id: divisions.pm,v 1.11 2003/11/30 18:34:00 frabcus Exp $
+# $Id: divisions.pm,v 1.12 2003/12/20 18:10:35 frabcus Exp $
 # Parses the body text of a page of Hansard containing a division.
 # Records the division and votes in a database, matching MP names
 # to an MP already in the database.
@@ -42,6 +42,11 @@ sub parse_all_divisions_on_page
     #######################################################################
     # Special case fixes
 
+	if ($day_date eq "2003-12-17" or $day_date eq "2003-12-18")
+	{
+		$content =~ s/Sio\(r\)n/Siôn/g;
+        error::log("Patched brackets in Siôn", $day_date, error::USEFUL);
+	}
     if ($day_date eq "2003-03-14" )
     {
         # Names bunched together on one line, fix it in a fairly crude manner
