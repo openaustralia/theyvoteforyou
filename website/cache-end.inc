@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-end.inc,v 1.4 2004/08/01 21:57:45 frabcus Exp $
+# $Id: cache-end.inc,v 1.5 2005/02/18 11:09:54 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -15,7 +15,7 @@ if (stristr($user_agent, "bot")) {
 
 # Cache the page if they are not a bot (otherwise we cache loads
 # of spurious pages as mindless things crawl the site)
-if (!$bot) {
+if (!$bot && $pw_cache_enable) {
     $page = ob_get_contents();
     if (!file_exists($cache_dir))
         mkdir($cache_dir, 0770);
