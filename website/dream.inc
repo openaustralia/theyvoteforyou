@@ -192,10 +192,11 @@ function dream_box($dreamid, $dmp_name) {
     $html = '
 <div style="position: relative; width: 21em; color: #000000; 
 background-color: #eeeeee; font-family: Verdana, Arial, Sans-serif; 
-margin: 0 0 0 0; border: 1px solid #003300; padding: 0 0 0 0;">
+font-size: 70%; margin: 0 0 0 0; border: 1px solid #003300; padding: 0 0 0 0;">
     <div style="text-align: center; background-color: #003300">
         <a href="http://www.publicwhip.org.uk" style="color: #ffffff">
-            <img src="http://www.publicwhip.org.uk/smallpublicwhip.gif" alt="The Public Whip">
+            <img src="http://www.publicwhip.org.uk/smallpublicwhip.gif" 
+                alt="The Public Whip" border="0">
         </a>
     </div>
     <form style="text-align: left" action="http://www.publicwhip.org.uk/mp.php" name="pw">
