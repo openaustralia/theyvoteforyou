@@ -21,6 +21,8 @@ def GenPatchFileNames(typ, sdate):
 		stub = "answers"
 	elif stub == "lordspages":
 		stub = "daylord"
+	elif stub == "westminhall":
+		stub = "westminster"
 
 	pdire = os.path.join("patches", typ)
 	if not os.path.isdir(pdire):

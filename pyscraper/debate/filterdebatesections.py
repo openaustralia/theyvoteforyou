@@ -156,6 +156,34 @@ def StripDebateHeadings(headspeak, sdate):
 	return (ih, stampurl)
 
 
+def StripWestminhallHeadings(headspeak, sdate):
+	# check and strip the first two headings in as much as they are there
+	ih = 0
+	ih = StripDebateHeading('Initial', ih, headspeak)
+
+	# Westminster Hall
+	ih = StripDebateHeading('westminster hall(?i)', ih, headspeak)
+
+	# date line
+	if ((sdate != mx.DateTime.DateTimeFrom(headspeak[ih][0]).date)) or headspeak[ih][2]:
+		raise Exception, 'date heading %s mismatches with date %s' % (repr(headspeak[ih]), sdate)
+	ih = ih + 1
+
+	# next line is:
+	# <H3><center>[Mr. John McWilliam in the Chair]</center></H3>
+	# but we leave it as a title.
+
+	# find the url, colnum and time stamps that occur before anything else in the unspoken text
+	stampurl = StampUrl(sdate)
+	stampurl.timestamp = '<stamp time="%s"/>' % "unknown"
+
+	for j in range(0, ih):
+		stampurl.UpdateStampUrl(headspeak[j][1])
+
+	if (not stampurl.stamp) or (not stampurl.pageurl):
+		raise Exception, ' missing stamp url at beginning of file '
+	return (ih, stampurl)
+
 
 
 # Handle normal type heading
@@ -183,6 +211,12 @@ def NormalHeadingPart(headingtxt, stampurl):
 	# All upper case headings
 	elif not re.search('[a-z]', headingtxt):
 		bmajorheading = True
+
+	# [Mr. Edward O'Hara in the Chair]
+	# But if this is labeled major, then it gets concatenated with the subsequent major heading.  
+	# It's kind of a procedural info about the running of things, so fair to have it as a heading alone.
+	#elif re.match('\[.*? in the chair\](?i)', headingtxt):
+	#	bmajorheading = True
 
 	# Other major headings, marked by _head in their anchor tag
 	elif re.search('_head', stampurl.aname):
@@ -213,12 +247,20 @@ def FilterDebateSections(text, sdate, typ):
 	# old style fixing (before patches existed)
 	if typ == "debate":
 		text = ApplyFixSubstitutions(text, sdate, fixsubs)
+	else:
+		# this is crap!!!
+		text = re.sub('<UL><UL><UL>', '<UL>', text)
+		text = re.sub('</UL></UL></UL>', '</UL>', text)
+
 
 	# split into list of triples of (heading, pre-first speech text, [ (speaker, text) ])
 	headspeak = SplitHeadingsSpeakers(text)
 
 	# break down into lists of headings and lists of speeches
-	(ih, stampurl) = StripDebateHeadings(headspeak, sdate)
+	if typ == "debate":
+		(ih, stampurl) = StripDebateHeadings(headspeak, sdate)
+	else:
+		(ih, stampurl) = StripWestminhallHeadings(headspeak, sdate)
 
 	# loop through each detected heading and the detected partitioning of speeches which follow.
 	# this is a flat output of qspeeches, some encoding headings, and some divisions.
