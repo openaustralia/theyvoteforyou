@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.4 2005/01/14 08:25:09 theyworkforyou Exp $
+# $Id: memxml2db.pl,v 1.5 2005/02/24 19:26:58 theyworkforyou Exp $
 
 # Convert all-members.xml into the database format for Public Whip website
 
@@ -64,7 +64,7 @@ sub loadmember
         encode_entities($iconv->convert($memb->att('firstname'))), 
         encode_entities($iconv->convert($memb->att('lastname'))), 
         $memb->att('title'), 
-        encode_entities($memb->att('constituency')), 
+        encode_entities($iconv->convert($memb->att('constituency'))), 
         $memb->att('party'), 
         $memb->att('fromdate'), 
         $memb->att('todate'), 
