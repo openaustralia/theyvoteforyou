@@ -10,7 +10,7 @@ cd logs
 mkdir -p tmpdownload
 cd tmpdownload
 
-rsync -v --progress --delete -az -e "ssh" $USER:./www.publicwhip.org.uk_logs/* .
+rsync -T /tmp -v --progress --delete -az -e "ssh" $USER:./www.publicwhip.org.uk_logs/* .
 
 for X in access_log.*.gz
 do

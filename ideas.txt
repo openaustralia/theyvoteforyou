@@ -308,6 +308,8 @@ Actually post a whipping sheet to MPs.  This would arrive every week at
 the same time as their party whipping sheet.  It would tell them how
 many voters in their constituency have register with organisations which
 would like them to vote particular ways.
+Decentralised - get our mailing list subscribers to print the PDF and
+post it to them.
 
 Make big wall chart of cluster diagram - colour, pretty
 Maybe even sell it to people
