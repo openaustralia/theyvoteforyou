@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.40 2004/10/17 01:08:17 frabcus Exp $
+    # $Id: mp.php,v 1.41 2004/10/17 01:41:07 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -65,6 +65,13 @@
 
     $title = html_scrub("Voting Record - $first_name $last_name MP, $constituency");
     include "header.inc";
+    
+    $query = "select person from pw_mp where ";
+    $query .= "first_name = '$first_name' and last_name='$last_name' and";
+    $query .= " constituency = '$constituency' order by entered_house desc limit 1";
+    $db->query($query);
+    $row = $db->fetch_row();
+    $person = $row[0];
 
 	print '<p>';
 	print '<a href="#divisions">Interesting Divisions</a>';
@@ -73,6 +80,33 @@
 	print ' | ';
 	print '<a href="#wrans">Written Answers</a>'; 
 	
+?>
+
+<?
+ 	$query = "select dept, position, from_date, to_date
+        from pw_moffice where pw_moffice.person = '$person'
+        order by from_date desc";
+    $db->query($query);
+    $prettyrow = 0;
+    $events = array();
+    $now = strftime("%Y-%m-%d");
+    print "now $now";
+    $currently_minister = "";
+    while ($row = $db->fetch_row_assoc())
+    {
+        if ($row["from_date"] <= $now && $now <= $row["to_date"]) 
+        {
+            $currently_minister = $row["position"].  ", " .  $row["dept"];
+        }
+        if ($row["to_date"] != "9999-12-31")
+        {
+            array_push($events, array($row["to_date"], "Stopped being " .  $row["position"].  ", " . $row["dept"]));
+        }
+        array_push($events, array($row["from_date"], "Became " .  $row["position"]. ", " . $row["dept"]));
+    }
+?>
+
+<?
 	$query = "select first_name, last_name, title, constituency,
         party, pw_mp.mp_id, round(100*rebellions/votes_attended,1),
         round(100*votes_attended/votes_possible,1), 
@@ -88,10 +122,22 @@
 
     print "<h2><a name=\"general\">General Information</a></h2>";
 
- 	print "<p>$first_name $last_name has been MP for $constituency during
-        the following periods of time during the last two parliaments.
-        <br>Read a <a href=\"faq.php#clarify\">clear explanation</a> of attendance
-        and rebellions, as they may not have the meanings you expect.";
+    if ($currently_minister) 
+    {
+        print "<p><b>$first_name $last_name</b> is currently <b>$currently_minister</b>.<br>
+            MP for <b>$constituency</b> during the following periods of time during the last two
+            parliaments:<br>
+            Read a <a href=\"faq.php#clarify\">clear explanation</a> of attendance
+            and rebellions, as they may not have the meanings you expect.";
+    }
+    else
+    {
+        print "<p><b>$first_name $last_name</b> has been MP for <b>$constituency</b> during
+            the following periods of time during the last two
+            parliaments:<br>
+            Read a <a href=\"faq.php#clarify\">clear explanation</a> of attendance
+            and rebellions, as they may not have the meanings you expect.";
+    }
 
     $prettyrow = 0;
     $mp_ids = array();
@@ -141,56 +187,6 @@
     href=\"http://www.parliament.uk/directories/hciolists/alms.cfm\">email
     address</a> of some MPs.";
 
-?>
-
-<?
-    /*print "<h2><a name=\"ministers\">Ministerial Posts</a></h2>";
-
-    print "<table><tr class=\"headings\">";
-    print "
-            <td>From</td><td>To</td>
-            <td>Position</td>
-            <td>Department</td>
-            </tr>"; */
- 	$query = "select dept, position, from_date, to_date
-        from pw_moffice where pw_moffice.person = '$person'
-        order by from_date desc";
-    $db->query($query);
-    $prettyrow = 0;
-    $events = array();
-    $now = strftime("%Y-%m-%d");
-    print "now $now";
-    while ($row = $db->fetch_row_assoc())
-    {
-        if ($row["from_date"] <= $now && $now <= $row["to_date"]) 
-        {
-            print "<p>Currently " .  $row["position"].  ", " .  $row["dept"];
-        }
-        if ($row["to_date"] != "9999-12-31")
-        {
-            array_push($events, array($row["to_date"], "Stopped being " .  $row["position"].  ", " . $row["dept"]));
-        }
-        array_push($events, array($row["from_date"], "Became " .  $row["position"]. ", " . $row["dept"]));
-        /*
-        if ($row["end_date"] == "9999-12-31") { $row["end_date"] = "still in office"; }
-        $prettyrow = pretty_row_start($prettyrow);
-        print "<td>" . $row["from_date"] ."</td>";
-        print "<td>" . $row["to_date"] ."</td>";
-        print "<td>" . $row["position"] ."</td>";
-        print "<td>" . $row["dept"] . "</td>";
-        print "</tr>\n";
-        */
-    }
-    /*
-    if ($db->rows() == 0)
-    {
-        $prettyrow = pretty_row_start($prettyrow, "");
-        print "<td colspan=7>none</td></tr>\n";
-    }
-    print "</table>";
-    print "<p>Only paid positions in Government since 1997 are shown.";
-    */
- 
 ?>
 
 
