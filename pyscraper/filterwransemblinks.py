@@ -9,7 +9,9 @@ import cStringIO
 import mx.DateTime
 
 # output to check for undetected member names
-seelines = open('emblinks.txt', "w")
+toppath = os.path.expanduser('~/pwdata')
+print toppath
+seelines = open(os.path.join(toppath, 'emblinks.txt'), "w")
 
 # this detects the domain
 reglinkdomt = '(?:\.or[gq]|\.com|[\.\s]uk|\.tv|\.net|\.gov|\.int|\.info|\.it|\.ch|\.es|\.mz|\.lu|\.fr|\.dk|\.mil)(?!\w)'
