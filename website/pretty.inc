@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.16 2004/07/13 08:37:24 frabcus Exp $
+# $Id: pretty.inc,v 1.17 2005/01/15 14:40:34 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -196,6 +196,139 @@ function trim_characters ($text, $start, $length) {
 	}
 	
 	return $text;
+}
+
+/* Safe tag stripping code from Matthew Somerville, thanks Matthew! */
+
+$guy_c = array('lt'=>'[[[', 'gt'=>']]]', 'quot'=>'{|}'); /* Let's hope 
+no-one ever tries to use these in text... */
+$guy_cq = array('lt'=>'\[\[\[', 'gt'=>'\]\]\]', 'quot'=>'\{\|\}');
+
+/* Removes all non-ISO characters, escapes all HTML entities */
+function safehtml($in) {
+    return htmlentities(preg_replace("/[\x80-\x9f]/","",$in));
+}
+
+/* Removes all HTML and escapes HTML entities */
+function strip_all($str) {
+    return safehtml(strip_tags($str));
+}
+
+function guy_formdisplay($str) {
+    global $guy_c;
+    return str_replace(array($guy_c['lt'], $guy_c['gt'], 
+$guy_c['quot']),array('&lt;','&gt;','&quot;'),$str);
+}
+
+/* Used upon submission; only keeps allowed HTML (see array below) */
+function guy_strip_bad($str, $mode='') {
+    global $guy_c;
+    $html_allowed = array('a', 'b', 'i', 'p');
+	$html_allowed_regexp = join('|',$html_allowed);
+	$html_allowed_striptags = '<'.join('><',$html_allowed).'>';
+	$str = strip_tags($str,$html_allowed_striptags);
+	$str = 
+preg_replace_callback("/<($html_allowed_regexp)\b(.*?)>/si",'guy_attrcheck',$str);
+	$str = preg_replace('/<\/([^ 
+>]+)[^>]*>/si',$guy_c['lt'].'/$1'.$guy_c['gt'],$str);
+	$str = preg_replace('#^\s+$#m','',$str);
+	$str = safehtml($str);
+	return $str;
+}
+
+/* PRIVATE; only keeps allowed attributes of allowed HTML */
+function guy_attrcheck($arr) {
+	global $guy_c;
+	$element = strtolower($arr[1]); $attributes = $arr[2];
+	$nosp = ''; $sp = 'title|class'; $dims = '';
+	$ok = array();
+
+	if ($element == 'a') {
+		$nosp = 'href|hreflang|name|lang';
+	} elseif ($element == 'img') {
+		$nosp = 'longdesc|src|align';
+		$sp .= '|class|alt';
+		if (!preg_match('/alt/i',$attributes)) {
+			$ok = array('alt={|}{|}');
+		}
+		preg_match("/src\s*=\s*\"([^\s\">]+)\"/is",$attributes,$matches);
+		if (isset($matches[1])) {
+			$dims = guy_imagedims($matches[1]);
+		} else {
+			preg_match("/src\s*=\s*'([^\s'>]+)'/is",$attributes,$matches);
+			if (isset($matches[1])) {
+				$dims = guy_imagedims($matches[1]);
+			} else {
+				preg_match("/src\s*=\s*([^'\"][^\s>]+)/is",$attributes,$matches);
+				if (isset($matches[1])) {
+					$dims = guy_imagedims($matches[1]);
+				}
+			}
+		}
+	} elseif ($element == 'ins' || $element == 'del') {
+		$nosp = 'cite|datetime|lang';
+	} elseif ($element == 'blockquote' || $element == 'q') {
+		$nosp = "cite|lang";
+	} elseif ($element == 'br' || $element == 'news' || $element == 
+	'column') {
+		$sp='';
+	} elseif ($element == 'span') {
+		$sp .= '|class';
+		$nosp = 'lang';
+	} elseif ($element == 'form') {
+		$sp = '';
+		$nosp = 'cc|counter';
+	} elseif ($element == 'submenu') {
+		$sp = '';
+		$nosp = 'level';
+	} elseif ($element == 'ol') {
+		$nosp = 'type';
+	} else {
+		$nosp = "lang";
+	}
+
+	if ($nosp) {
+		preg_match_all("/(?:$nosp)\s*=\s*\"[^\s\">]+\"/is",$attributes,$matches);
+		$ok = 
+		array_merge($ok,str_replace('"',$guy_c['quot'],$matches[0]));
+		preg_match_all("/(?:$nosp)\s*=\s*'[^\s'>]+'/is",$attributes,$matches);
+		$ok = array_merge($ok,$matches[0]);
+		preg_match_all("/(?:$nosp)\s*=\s*[^\s>'\"][^\s>]*/is",$attributes,$matches);
+		$ok = array_merge($ok,$matches[0]);
+	}
+	if ($sp) {	
+		preg_match_all("/(?:$sp)\s*=\s*\"[^\"]*\"/is",$attributes,$matches);
+		$ok = 
+		array_merge($ok,str_replace('"',$guy_c['quot'],$matches[0]));
+		preg_match_all("/(?:$sp)\s*=\s*'[^']*'/is",$attributes,$matches);
+		$ok = array_merge($ok,$matches[0]);
+		preg_match_all("/(?:$sp)\s*=\s*[^\s>'\"][^\s>]*/is",$attributes,$matches);
+		$ok = array_merge($ok,$matches[0]);
+	}
+	$ok = join(' ',$ok);
+	return $guy_c['lt'] . $element . ($ok ? " $ok" : '') . ($dims ? ' 
+'.str_replace('"',$guy_c['quot'],$dims) : '') .$guy_c['gt'];
+}
+
+/* PRIVATE; finds image dimensions, if possible */
+function guy_imagedims($src) {
+	if (substr($src,0,1)=='/') $src = 
+substr_replace($src,$_SERVER['DOCUMENT_ROOT'].'/',0,1);
+	if (is_file($src)) {
+		$wh = @GetImageSize($src);
+		return $wh[3];
+	}
+	return '';
+}
+
+/* Used upon generation; does only minimal replacement */
+function guy2html($input) {
+	global $guy_cq;
+	$patterns = array("/&amp;(#?[A-Za-z0-9]+?;)/", 
+	'/'.$guy_cq['lt'].'/', '/'.$guy_cq['gt'].'/', '/'.$guy_cq['quot'].'/');
+	$replace = array("&\\1", '<', '>', '"');
+	$input = preg_replace($patterns,$replace,$input);
+	return $input;
 }
 
 ?>

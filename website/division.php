@@ -1,5 +1,5 @@
 <?php
-# $Id: division.php,v 1.42 2005/01/14 20:36:08 frabcus Exp $
+# $Id: division.php,v 1.43 2005/01/15 14:40:34 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -244,12 +244,22 @@
     # Show motion text
     print "<h2><a name=\"motion\">Motion</a></h2> <p>Procedural text extracted from the debate,
     so you can try to work out what 'aye' (for the motion) and 'no' (against the motion) meant.
-    This is for guidance only, irrelevant text may be shown, crucial text may
-    be missing.</p>";
+    This is for guidance only, irrelevant text may be shown, crucial text may be missing.
+    </p>";
     print "<div class=\"motion\">" . $motion_data['text_body']; # TODO: validate this text_body
     print "</div>\n";
     print "<p><a href=\"account/wiki.php?key=$motion_key&r=" .
-     urlencode($_SERVER["REQUEST_URI"]) . "\">Edit motion text</a></p>\n";
+     urlencode($_SERVER["REQUEST_URI"]) . "\">Edit motion text</a>";
+    if ($motion_data['user_id'] != 0) {
+        $db->query("select * from pw_dyn_user where user_id = " . $motion_data['user_id']);
+        $row = $db->fetch_row_assoc();
+        $last_editor = $row['real_name'];
+        print " (last edited by $last_editor on " .
+            $motion_data['edit_date'] . ")";
+    } else {
+        print " (be the first to edit this)";
+    }
+    print "</p>\n";
 
     # Work out proportions for party voting (todo: cache)
     $db->query("select party, total_votes from pw_cache_partyinfo");

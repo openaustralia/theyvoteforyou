@@ -1,5 +1,5 @@
 <?php
-# $Id: gather.inc,v 1.3 2005/01/14 20:36:08 frabcus Exp $
+# $Id: gather.inc,v 1.4 2005/01/15 14:40:34 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Gather information from the database
@@ -17,28 +17,35 @@ function get_motion_wiki_key($date, $div_no)
 # is a hash with text_body, user_id, edit_date.
 function get_wiki_current_value($key) 
 {
-    $matches = array();
-    if (preg_match("/^motion-(\d\d\d\d-\d\d-\d\d)-(\d+)$/",$key, $matches)) {
-        return get_motion_text($matches[1], $matches[2]);
-    }
-}
-
-# Returns the most recent edited wiki text for motion, or the default
-# text.  Return value is a hash with keys text_body, user_id, edit_date.
-# user_id is 0 if this text has never been edited.
-function get_motion_text($date, $div_no)
-{
-    $extra = array('help_pre' => "Motion text:");
-
+    # See if page has been altered
     global $db;
-    $key = get_motion_wiki_key($date, $div_no);
     $db->query("select text_body, user_id, edit_date from 
         pw_dyn_wiki where object_key = '$key' order by wiki_id desc limit 1");
     if ($db->rows() >= 1) {
-        $row = $db->fetch_row_assoc();
-        return array_merge($extra, $row);
+        $result = $db->fetch_row_assoc();
     }
 
+    $matches = array();
+    if (preg_match("/^motion-(\d\d\d\d-\d\d-\d\d)-(\d+)$/",$key, $matches)) {
+        if (!$result) {
+            $result = get_motion_default_text($matches[1], $matches[2]);
+        }
+        if (preg_match("/--- MOTION EFFECT ---(.*)--- COMMENT/s", $result['text_body'], $matches)) {
+            $result['text_body'] = $matches[1];
+        }
+        $result['text_body'] = guy2html(guy_strip_bad($result['text_body']));
+    } else {
+        die("Unknown wiki key type '" . html_scrub($key). "'");
+    }
+    return $result;
+}
+
+# Returns the default text for a motion, that is what was screen scraped
+# originally.  Return value is a hash with keys text_body, user_id, edit_date.
+# user_id is 0 as this text has never been edited.
+function get_motion_default_text($date, $div_no)
+{
+    global $db;
     $db->query("select motion from pw_division 
         where division_date = '$date' and division_number = '$div_no'");
     if ($db->rows() >=1) {
@@ -52,7 +59,7 @@ function get_motion_text($date, $div_no)
         $result['text_body'] = str_replace(' pwmotiontext="yes"', '', $result['text_body']);
         $result['text_body'] = "--- MOTION EFFECT ---\n\n" . $result['text_body'] .
             "\n--- COMMENTS AND NOTES ---\n\n(put thoughts and notes for other researchers here)\n";
-        return array_merge($extra, $result);
+        return $result;
     }
 
     die("Couldn't find motion text for division " . htmlspecialchars($date) . " " . htmlspecialchars($div_no));

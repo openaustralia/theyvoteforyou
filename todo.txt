@@ -1,12 +1,8 @@
 Wiki
 ----
 
-Strip out spurious HTML tags and comment prefixes etc.
-Do auto redirect back to page when editing
 Clear cache after editing
-Add help text describe tags to do
-Add help text describing what to write
-Improve "edit motion text" stuff
+Improve help text describing what to write
 
 General
 -------
