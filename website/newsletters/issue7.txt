@@ -15,15 +15,15 @@ that you can hold them to account.
 ***********************************************************************
 PublicWhip used by MPs and prospective MPs
 
-When Julian thought up Public Whip, he wanted anyone to see how
-MPs voted. And now it's happening - as an MP invites their constituents
-to use PW to view their voting record:
+When Julian thought up Public Whip, he wanted anyone to see how MPs
+voted. And now it's happening - as an MP invites their constituents to
+use PW to view their voting record:
 	http://www.flourish.org/blog/index.php?p=119
 
 
 The LibDem prospective candidate for Brentford and Isleworth has
 a Dream MP (http://www.andrewdakers.com/) showing how he'd vote:
-        http://www.publicwhip.org.uk/forum/viewtopic.php?t=8
+    http://www.publicwhip.org.uk/forum/viewtopic.php?t=8
 
 
 The blog of Sandra Gidley MP - links to PublicWhip,
@@ -31,21 +31,21 @@ TheyWorkForYou.com and FaxYourMP.com
 	http://romseyredhead.blogspot.com/
 
 
+Send us any more examples you see over the election period.
 
 ***********************************************************************
 Attention All Campaigners!
 
-Does your MP say one thing about Hunting, Top Up Fees,
-Iraq, Europe or Health, but vote however their leaders
-tell them to?
+Does your MP say one thing about Hunting, Top Up Fees, Iraq, Europe or
+Health, but vote however their leaders tell them to?
 
-PublicWhip allows you to create a "Dream MP" who votes as
-you like. That Dream MP can then be compared to any
-other MP (real or dream) for the votes you care about.
+PublicWhip allows you to create a "Dream MP" who votes as you like.
+That Dream MP can then be compared to any other MP (real or dream) for
+the votes you care about.
 
-With an election possibly a couple of months away, now is
-possibly the best time to hold your MP (or all MPs) to account
-on topics of interest to you.
+With an election possibly a couple of months away, now is possibly the
+best time to hold your MP (or all MPs) to account on topics of
+interest to you.
 
       http://www.publicwhip.org.uk/dreammps.php
 
@@ -53,44 +53,39 @@ on topics of interest to you.
 ***********************************************************************
 Motion Text Editing
 
-Above the motion text for every parliamentary division, we currently make the
-following statement:
+Above the motion text for every parliamentary division, we currently
+make the following statement:
 
-   "Procedural text extracted from the debate, so you can try
-   to work out what 'aye' (for the motion) and 'no' (against
-   the motion) meant. This is for guidance only, irrelevant
-   text may be shown, crucial text may be missing."
+   "Procedural text extracted from the debate, so you can try to work
+   out what 'aye' (for the motion) and 'no' (against the motion)
+   meant. This is for guidance only, irrelevant text may be shown,
+   crucial text may be missing."
 
-While www.theyworkforyou.com helps make debates more friendly,
-it doesn't make the motions more readable, and we still
-often guess it wrong. Not only that, even when we get it
-right, the accurate text uses too much Parliamentary jargon
-and refers to other documents by citing page and line
-numbers (for example).
+While www.theyworkforyou.com helps make debates more friendly, it
+doesn't make the motions more readable, and we still often guess it
+wrong. Not only that, even when we get it right, the accurate text
+uses too much Parliamentary jargon and refers to other documents by
+citing page and line numbers (for example).
 
-Publicwhip now allows anyone to write a plain english
-version of the motion, with links to explanations and
-relevant document.
+Public Whip now allows anyone to write a plain english version of the
+motion, with links to explanations and relevant document.
 
-Julian took on the task of doing all the Iraq votes
-and the counter-terrorism legislation. This was before the
-events of 9th and 10th of March 2005 when they held 20
-votes on this law, many of which were based on scaps of
-paper printed at 4 o'clock in the morning and not filed
-online at a place where they could be found. Nevertheless,
-he did as well as he could and you are invited to have a
+Julian took on the task of doing all the Iraq votes and the
+counter-terrorism legislation. This was before the events of 9th and
+10th of March 2005 when they held 20 votes on this law. Many of those
+were based on scraps of paper printed at 4 o'clock in the morning
+which were not filed online in a place where they could be found.
+Nevertheless, he did as well as he could and you are invited to have a
 look at the examples
         http://www.publicwhip.org.uk/division.php?date=2005-03-10&number=136
 
-We are calling for anyone who is passionate about other
-issues in Parliament that have been subject to frequent,
-repeated votes by MPs.  It could be immigration,
-education, the environment, transport, ID cards,
-international development, and so on.  Find the
-divisions, mark them with a dreamMP, and fix the motion
-text so that other people can see the precise measures
-that were voted upon.  Publicwhip is about informed
-choice, and not having to take anyone's word for things.
+We are calling for anyone who is passionate about other issues in
+Parliament that have been subject to frequent, repeated votes by MPs.
+It could be immigration, education, the environment, transport, ID
+cards, international development, and so on.  Find the divisions, mark
+them with a Dream MP, and fix the motion text so that other people can
+see the precise measures that were voted upon.  Public Whip is about
+informed choice, and not having to take anyone's word for things.
 
         http://www.publicwhip.org.uk/
 

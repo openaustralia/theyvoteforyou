@@ -2,16 +2,16 @@
 use strict;
 use lib "loader/";
 
-my $text = "website/newsletters/dream1.txt";
-my $test_name = "";
+my $text = "website/newsletters/issue7.txt";
+#my $test_name = "";
 #my $test_name = "Jo Kibble";
-#my $test_name = "Francis Irving";
+my $test_name = "Francis Irving";
 #my $test_name = "Julian Todd";
 
-#my $type = "all";
-my $type = "dream"; 
+my $type = "all";
+#my $type = "dream"; 
 
-my $amount = 200;
+my $amount = 1;
 
 use PublicWhip::Error;
 use PublicWhip::DB;
@@ -30,7 +30,7 @@ my $already_clause = "left join pw_dyn_newsletters_sent on
 # Create query string
 my $query;
 if ($type eq "all") {
-    $query = "select real_name, email, user_name from pw_dyn_user 
+    $query = "select real_name, email, user_name, pw_dyn_user.user_id from pw_dyn_user 
         $already_clause $where_newsletter $where";
 
 } elsif ($type eq "dream") {
@@ -64,7 +64,9 @@ foreach my $k (keys %$all)
     $realname =~ s/@/(at)/;
     my $to = $realname . " <" . $email . ">";
 
-    print "Sending to $to who is $username dream count $dreamcount...";
+    print "Sending to $to who is $username";
+    print " (dream count $dreamcount)" if ($type eq "dream");
+    print "...";
 
     open(SENDMAIL, "|/usr/lib/sendmail -oi -t") or die "Can't fork for sendmail: $!\n";
     print SENDMAIL <<"EOF";
