@@ -105,7 +105,7 @@ if not options.scrape and not options.parse:
         print >>sys.stderr, "error: choose what to do; scrape, parse or both of them"
         parser.print_help()
         sys.exit(1)
-if not options.debates and not options.wrans and not options.regmem:
+if not options.debates and not options.wrans and not options.regmem and not options.lords:
         print >>sys.stderr, "error: choose what work on; debates, wrans, regmem or several of them"
         parser.print_help()
         sys.exit(1)

@@ -22,6 +22,7 @@ from miscfuncs import WriteXMLFile
 
 from filterdivision import FilterDivision
 from lordsfilterdivisions import LordsFilterDivision
+from lordsfilterdivisions import LordsDivisionParsingPart
 from filterdebatespeech import FilterDebateSpeech
 
 # Legacy patch system, use patchfilter.py and patchtool now
@@ -35,7 +36,7 @@ fixsubs = 	[
     			('(<ul><ul>House adjourned.*?.</ul></ul>)', '<ul>\\1</ul>', 1, '2004-03-25'),
 
 				('(\[\*The Tellers for .*?\s*<P>)([\s\S]*?)(Resolved .*? accordingly.)', '\\3 \\2 \\1', 1, '2004-03-23'),
-				('(Renfrew of Kaimsthorn,)\s*<br>\s*(L.)', '\\1 \\2', 1, '2004-03-23'), 
+				('(Renfrew of Kaimsthorn,)\s*<br>\s*(L.)', '\\1 \\2', 1, '2004-03-23'),
 
 				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-03-15'),
 				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-02-23'),
@@ -184,5 +185,5 @@ def LordsFilterSections(fout, text, sdate):
 	# we now have everything flattened out in a series of speeches
 
 	# output the list of entities
-	WriteXMLFile(fout, flatb, sdate)
+	WriteXMLFile("lords", fout, flatb, sdate)
 

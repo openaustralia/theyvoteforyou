@@ -105,7 +105,7 @@ def RunFiltersDir(filterfunction, dname, options, deleteoutput):
                 again = True
                 while again:
                         again = False
-                        
+
                         # apply patch filter
                         kfin = jfin
                         if ApplyPatches(jfin, patchtempfile):
@@ -135,6 +135,7 @@ def RunFiltersDir(filterfunction, dname, options, deleteoutput):
                                 os.rename(tempfile, jfout)
                         except ContextException, ce:
                                 if options.patchtool:
+                                        fout.close()
                                         print ce
                                         RunPatchTool(dname, sdate, ce)
                                         again = True

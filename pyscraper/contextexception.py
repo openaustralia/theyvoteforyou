@@ -1,19 +1,29 @@
-#! $Id: contextexception.py,v 1.5 2004/04/20 14:13:47 goatchurch Exp $
+#! $Id: contextexception.py,v 1.6 2004/04/26 09:46:15 goatchurch Exp $
 # vim:sw=8:ts=8:et:nowrap
 
 import os
+import string
+import re
 import sys
+import shutil
+
 from resolvemembernames import memberList
 
 import miscfuncs
 toppath = miscfuncs.toppath
 
-def RunPatchToolW(typ, sdate, aname):
-	qfolder = os.path.join(toppath, "cmpages")
+# windows version of the patchtool shell script
+# this calls the contTEXT editor.
+def RunPatchToolW(typ, sdate, aname, frag):
+	qfolder = toppath
+	if typ != "lordspages":
+		qfolder = os.path.join(qfolder, "cmpages")
 	folder = os.path.join(qfolder, typ)
 	stub = typ
 	if stub == "wrans":
 		stub = "answers"
+	elif stub == "lordspages":
+		stub = "daylord"
 
 	pdire = os.path.join("patches", typ)
 	if not os.path.isdir(pdire):
@@ -21,22 +31,51 @@ def RunPatchToolW(typ, sdate, aname):
 	patchfile = os.path.join(pdire, "%s%s.html.patch" % (stub, sdate))
 	orgfile = os.path.join(folder, "%s%s.html" % (stub, sdate))
 	tmpfile = os.path.join(folder, "%s%s-patchtmp.html" % (stub, sdate))
+	tmppatchfile = os.path.join(pdire, "%s%s.html.patch.new" % (stub, sdate))
 
+	print aname
 	print patchfile
 	print orgfile
 	print tmpfile
 
-	if os.path.isfile(tmpfile):
-		os.remove(tmpfile)
-	sys.exit(0)
-	# how can there be no copy command??
-	#os.copy(orgfile, tmpfile)
+	shutil.copyfile(orgfile, tmpfile)
 	if os.path.isfile(patchfile):
-		status = os.system("patch --quiet context %s <%s" % (tmpfile, patchfile))
-	os.system("context %s" % tmpfile)
+		print "Patching ", patchfile
+		status = os.system("patch --quiet %s <%s" % (tmpfile, patchfile))
 
-	# create patch file nonsense
+	# run the editor (first finding the line number to be edited)
+	gp = 0
+	finforlines = open(tmpfile, "r")
+	rforlines = finforlines.read();
+	finforlines.close()
 
+	ganamef = re.search(('<a name\s*=\s*"%s">([\s\S]*?)<a name(?i)' % aname), rforlines)
+	if ganamef:
+		gp = ganamef.start(1)
+		fragl = string.find(ganamef.group(1), frag)
+		if fragl != -1:
+			gp += fragl
+	gl = string.count(rforlines, '\n', 0, gp)
+	gc = 0
+	if gl:
+		gc = gp - string.rfind(rforlines, '\n', 0, gp)
+	print "find loc codes ", gp, gl, gc
+	os.system("context %s /g%d:%d" % (tmpfile, gc + 1, gl + 1))
+
+
+	# now create the diff file
+	if os.path.isfile(tmppatchfile):
+		os.remove(tmppatchfile)
+	ern = os.system("diff -u %s %s > %s" % (orgfile, tmpfile, tmppatchfile))
+	if ern == 2:
+		print "Error running diff"
+		sys.exit(1)
+	os.remove(tmpfile)
+	if os.path.isfile(patchfile):
+		os.remove(patchfile)
+	if os.path.getsize(tmppatchfile):
+		os.rename(tmppatchfile, patchfile)
+		print "Making patchfile ", patchfile
 
 
 
@@ -73,10 +112,16 @@ def RunPatchTool(type, sdate, ce):
             else:
                     status = os.system("./patchtool %s %s -c /%s" % (type, sdate, ce.stamp.GetAName()))
         else:
-            status = os.system("pachtwin.bat %s %s" % (type, sdate))
+			RunPatchToolW(type, sdate, ce.stamp.GetAName(), ce.fragment)
         memberList.reloadXML()
 
 
 # should work from command line really.
-#RunPatchToolW("debates", "2002-02-26", "")
+# Run mainloop when run directly (for testing)
+if __name__ == '__main__':
+	print sys.argv
+	if len(sys.argv) != 3:
+		print "Usage ./contextexception.py wrans 2004-03-25"
+		sys.exit(1)
+	RunPatchToolW(sys.argv[1], sys.argv[2], "")
 

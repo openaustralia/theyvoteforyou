@@ -30,7 +30,7 @@ from lordsfilterspeakers import lordlist
 recontma = re.compile('<center><b>(.*?)\s*</b></center>(?i)')
 retellma = re.compile('(.*?)\s*\[(Teller)\]$')
 reoffma = re.compile('(.*?)\s*\((.*?)\)$')
-def LordsFilterDivision(text, sdate):
+def LordsFilterDivision(text, stampurl, sdate):
 
 	# the intention is to splice out the known parts of the division
 	fs = re.split('\s*(?:<br>|<p>)\s*(?i)', text)
@@ -69,7 +69,7 @@ def LordsFilterDivision(text, sdate):
 			if offm:
 				lfss = offm.group(1)
 
-			lordid = lordlist.MatchRevName(lfss)
+			lordid = lordlist.MatchRevName(lfss, stampurl)
 			lordw = '\t<lord id="%s" vote="%s"%s>%s</lord>' % (lordid, contstate, tels, FixHTMLEntities(fss))
 
 			if contstate == 'content':
@@ -110,7 +110,7 @@ def LordsDivisionParsingPart(divno, unspoketxt, stampurl, sdate):
 
 	# filtering divisions here because we may need more sophisticated detection
 	# of end of division than the "Question accordingly" marker.
-	qbd.stext = LordsFilterDivision(qbd.text, sdate)
+	qbd.stext = LordsFilterDivision(qbd.text, stampurl, sdate)
 
 	return (unspoketxt, qbd)
 

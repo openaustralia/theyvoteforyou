@@ -8,6 +8,7 @@ import string
 from resolvemembernames import memberList
 
 from miscfuncs import ApplyFixSubstitutions
+from contextexception import ContextException
 
 
 
@@ -37,7 +38,7 @@ class LordsList(xml.sax.handler.ContentHandler):
 
 		parser = xml.sax.make_parser()
 		parser.setContentHandler(self)
-		parser.parse("../memberslords/all-lords.xml")
+		parser.parse("../members/all-lords.xml")
 
 	def startElement(self, name, attr):
 		""" This handler is invoked for each XML element (during loading)"""
@@ -55,10 +56,11 @@ class LordsList(xml.sax.handler.ContentHandler):
 		return "unrecognized"
 
 
-	def MatchRevName(self, fss):
+	def MatchRevName(self, fss, stampurl):
 		lfn = re.match('(.*?)(?: of (.*?))?, (.*?\.)$', fss)
 		if not lfn:
 			print fss
+			raise ContextException("No match of format", stamp=stampurl, fragment=fss)
 		ltitle = titleconv[lfn.group(3)]
 		llordname = lfn.group(1)
 		llordofname = None
@@ -174,15 +176,15 @@ def LordsFilterSpeakers(fout, text, sdate):
 
 		# get rid of some standard ones
 		if re.match('noble lords|a noble lord|a noble baroness(?i)', name):
-			fout.write('<speaker id="%s">%s</speaker>' % ('no-match', name))
+			fout.write('<speaker speakerid="%s">%s</speaker>' % ('no-match', name))
 			continue
 		if re.match('the (?:deputy )?chairman of committees|the deputy speaker|the clerk of the parliaments(?i)', name):
-			fout.write('<speaker id="%s">%s</speaker>' % ('no-match', name))
+			fout.write('<speaker speakerid="%s">%s</speaker>' % ('no-match', name))
 			continue
 
 		hom = honcompl.match(name)
 		if not hom:
-			fout.write('<speaker id="%s">%s</speaker>' % ('no-match', name))
+			fout.write('<speaker speakerid="%s">%s</speaker>' % ('no-match', name))
 			print name
 			continue
 
@@ -197,7 +199,7 @@ def LordsFilterSpeakers(fout, text, sdate):
 
 		lsid = GetLordSpeakerID(ltit, lname, lplace, loffice, sdate)
 
-		fout.write('<speaker id="%s" colon="%s">%s</speaker>' % (lsid, colon, name))
+		fout.write('<speaker speakerid="%s" colon="%s">%s</speaker>' % (lsid, colon, name))
 
 
 
