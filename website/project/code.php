@@ -1,5 +1,5 @@
 <?php $title = "Source Code"; include "../header.inc" 
-# $Id: code.php,v 1.11 2004/11/24 20:36:40 frabcus Exp $
+# $Id: code.php,v 1.12 2004/12/13 00:24:49 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -146,7 +146,7 @@ database tables.  First you have to tell Perl your MySQL username and
 password.  Copy the file config.pm.incvs to config.pm and edit it.  Now
 run:
 
-<p><tt>./memxml2db.pl
+<p><tt>./memxml2db.pl</tt>
 
 <p>Next you need the script called <i>load.pl</i>. It loads the divisons
 from the XML files into the database and does various cached
