@@ -35,7 +35,7 @@ function postcode_to_constituency($postcode)
     if (!is_postcode($postcode))
         return undef;
 
-    # Otherwise hit the BBC server
+    # Otherwise hit the BBC server (URL is private)
     global $bbc_postcode_search;
     $filename = $bbc_postcode_search .  urlencode($postcode) . "&customer=news_constituency";
     $file = file_get_contents($filename);
