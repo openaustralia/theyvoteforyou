@@ -1,5 +1,5 @@
 <?php $title = "Vote map"; include "header.inc" 
-# $Id: mpsee.php,v 1.13 2004/07/22 10:27:45 frabcus Exp $
+# $Id: mpsee.php,v 1.14 2004/11/30 11:22:34 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -276,6 +276,7 @@ political movements"</a>.  Chris's analysis enables him to work out what
 the axes mean, and draw pictures of how MPs move between the last two parliaments.  Go have a look.
 <p>
 
+<p>More of the same?  <a href="minwhirl.php">Try our Ministerial Whirl</a></p>
 
 <?php include "footer.inc" ?>
 
