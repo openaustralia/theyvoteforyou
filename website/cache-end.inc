@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-end.inc,v 1.3 2004/06/22 21:20:46 frabcus Exp $
+# $Id: cache-end.inc,v 1.4 2004/08/01 21:57:45 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -9,7 +9,7 @@
 # See if the user is a robot
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
 $bot = false;
-if (stristr($user_agent, "GoogleBot") or stristr($user_agent, "MSNBot")) {
+if (stristr($user_agent, "bot")) {
     $bot = true;
 }
 
