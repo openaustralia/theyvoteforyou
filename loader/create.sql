@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.15 2005/03/28 10:53:41 frabcus Exp $
+-- $Id: create.sql,v 1.16 2005/03/28 14:26:33 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -196,7 +196,11 @@ create table pw_dyn_newsletters_sent (
 -- information about one Dream MP
 create table pw_cache_dreaminfo (
     rollie_id int not null primary key,
-    cache_uptodate bool NOT NULL default 0,
+
+    -- 0 - nothing is up to date
+    -- 1 - quick calculation done
+    -- 2 - slow and quick calculations done
+    cache_uptodate int NOT NULL,
 
     votes_count int not null,
     edited_motions_count int not null,

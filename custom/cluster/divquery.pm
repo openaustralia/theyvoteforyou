@@ -1,4 +1,4 @@
-# $Id: divquery.pm,v 1.1 2004/01/17 18:53:51 frabcus Exp $
+# $Id: divquery.pm,v 1.1 2005/03/28 14:26:32 frabcus Exp $
 # This extracts a distance metric for a set of divisions, and is able to write
 # it out in a format for loading into GNU Ooctave (or MatLab)
 

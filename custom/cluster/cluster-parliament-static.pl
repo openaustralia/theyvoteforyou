@@ -2,7 +2,7 @@
 use strict;
 use lib "../scraper/";
 
-# $Id: cluster-parliament-static.pl,v 1.4 2003/10/15 06:59:00 frabcus Exp $
+# $Id: cluster-parliament-static.pl,v 1.1 2005/03/28 14:26:32 frabcus Exp $
 # Outputs a matrix of distances between pairs of MPs for
 # use by the GNU Octave script mds.m to do clustering.
 

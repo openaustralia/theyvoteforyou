@@ -1,4 +1,4 @@
-# $Id: mds.m,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: mds.m,v 1.1 2005/03/28 14:26:32 frabcus Exp $
 # Multidimensional scaling on matrix of distances between
 # pairs of MPs, for some distance metric.
 # Octave source file (should be compatible with Matlab)

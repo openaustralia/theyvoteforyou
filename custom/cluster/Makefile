@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.5 2003/10/04 13:46:22 frabcus Exp $
+# $Id: Makefile,v 1.1 2005/03/28 14:26:32 frabcus Exp $
 # Used to run the votemaping calculation, build the Java applet etc.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd

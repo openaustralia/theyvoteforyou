@@ -1,4 +1,4 @@
-# $Id: mpquery.pm,v 1.9 2003/10/27 09:36:41 frabcus Exp $
+# $Id: mpquery.pm,v 1.1 2005/03/28 14:26:32 frabcus Exp $
 # This extracts a vote distance metric for a set of MPs, and is able to
 # write it out in a format for loading into GNU Ooctave (or MatLab)
 

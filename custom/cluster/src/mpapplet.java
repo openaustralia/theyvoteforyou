@@ -1,4 +1,4 @@
-// $Id: mpapplet.java,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+// $Id: mpapplet.java,v 1.1 2005/03/28 14:26:33 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under

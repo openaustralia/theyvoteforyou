@@ -2,7 +2,7 @@
 use strict;
 use lib "../scraper/";
 
-# $Id: cluster-iraq.pl,v 1.3 2003/10/27 10:04:42 frabcus Exp $
+# $Id: cluster-iraq.pl,v 1.1 2005/03/28 14:26:32 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under

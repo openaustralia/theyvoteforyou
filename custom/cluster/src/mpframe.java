@@ -1,4 +1,4 @@
-// $Id: mpframe.java,v 1.4 2003/10/08 11:01:31 frabcus Exp $
+// $Id: mpframe.java,v 1.1 2005/03/28 14:26:33 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
