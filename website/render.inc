@@ -1,6 +1,6 @@
 <?php
 
-# $Id: render.inc,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: render.inc,v 1.2 2003/09/18 16:16:24 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -48,7 +48,8 @@ function render_divisions_table($db)
 
 $mps_query_start = "select first_name, last_name, title, constituency,
         party, pw_mp.mp_id, round(100*rebellions/votes_attended,1),
-        round(100*votes_attended/votes_possible,1) from pw_mp,
+        round(100*votes_attended/votes_possible,1), entered_reason,
+        left_reason from pw_mp,
         pw_cache_mpinfo where
         pw_mp.mp_id = pw_cache_mpinfo.mp_id";
 
@@ -73,7 +74,7 @@ function render_mps_table($db)
 
         print "<td><a href=$anchor>$row[2] $row[0] $row[1]</a></td></td>
             <td>$row[3]</td>
-            <td>" . pretty_party($row[4]) . "</td>
+            <td>" . pretty_party($row[4], $row[8], $row[9]) . "</td>
             <td class=\"percent\">$row[6]</td>
             <td class=\"percent\">$row[7]%</td>";
         print "</tr>\n";

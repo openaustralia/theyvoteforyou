@@ -1,5 +1,5 @@
 <?php 
-    # $Id: mp.php,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+    # $Id: mp.php,v 1.2 2003/09/18 16:16:24 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -135,12 +135,12 @@
     }
 
     print "<h2>Possible Friends</h2>";
-    print "<p>Uses positions from the <a href=\"mpsee.php\">MP cluster
-    diagram</a> to show which MPs voted most similarly to this 
-    one. The distance is measured from 0 (always voted the same)
-    to 1 (always voted differently).  Only divisions that both MPs voted
-    in are counted. This may reveal relationships between MPs that were
-    previously unsuspected.  Or it may be nonsense.";
+    print "<p>Uses positions from the <a href=\"mpsee.php\">vote map</a>
+    to show which MPs voted most similarly to this one. The distance is
+    measured from 0 (always voted the same) to 1 (always voted
+    differently).  Only divisions that both MPs voted in are counted.
+    This may reveal relationships between MPs that were previously
+    unsuspected.  Or it may be nonsense.";
 
     include "mpcoords-eigen.inc";
     if ($eigx > 0) { $eigx = sqrt($eigx);} else { $eigx = 0; }

@@ -20,6 +20,9 @@ Facility to register and define voting subset for a particular issue
 - who made the issue is crucial, as some expertise is needed, and
   viewers of the site need to understand any bias that they have
 - Report to take into your MP constituency surgery
+- Let NGO entere postcodes of their supporters (in their own client app)
+  and use these to find MPs where the most people agree with the issue,
+  but the MP has voted the other way.
 Do Iraq subselection ourselves
 Do climate change subselection
 
@@ -74,4 +77,6 @@ Improve motion text extraction
     division.php?date=2003-02-03&number=74 - and div 73, detail missing
     division.php?date=2003-09-16&number=313 - too much text [interruption]
     division.php?date=2001-11-26&number=85 - excess interruption
+    division.php?date=2002-02-06&number=158 - incomplete
+
 

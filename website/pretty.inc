@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: pretty.inc,v 1.2 2003/09/18 16:16:24 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -33,10 +33,18 @@ function pretty_party_raw($party)
     return $party;
 }
 
-function pretty_party($party)
+function pretty_party($party, $entered_reason="", $left_reason="")
 {
-    $raw = pretty_party_raw($party);
-    return $raw;
+    $ret = pretty_party_raw($party);
+    if ($entered_reason == "changed_party")
+    {
+        $ret = "whilst " . $ret;
+    }
+    if ($left_reason == "changed_party")
+    {
+        $ret = "whilst " . $ret;
+    }
+    return $ret;
 
     # Was going to use a special tag, but they aren't supported
     # very well, so just went for clarity of raw text

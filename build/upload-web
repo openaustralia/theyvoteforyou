@@ -1,6 +1,9 @@
 #! /bin/bash
 set -e
 
+echo "Extracting headlines..."
+build/extractheadlines
+
 USER=francis@sphinx.mythic-beasts.com
 
 echo "Uploading web pages..."

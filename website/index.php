@@ -1,5 +1,5 @@
 <?  $title = "Counting votes on your behalf"; include "header.inc";
-# $Id: index.php,v 1.5 2003/09/18 09:28:22 frabcus Exp $
+# $Id: index.php,v 1.6 2003/09/18 16:16:24 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -35,7 +35,7 @@ data mines their voting record, to help you hold them to account.
             "&lastname=" . urlencode($row[1]) . "&constituency=" .
             urlencode($row[3]) . "\"mp.php?mpid=$row[5]\">$row[2]
             $row[0] $row[1]</a></td> <td>$row[3]</td>
-            <td>" . pretty_party($row[4]) . "</td><td class=\"percent\">$row[6]% rebel</td>";
+            <td>" . pretty_party($row[4], $row[8], $row[9]) . "</td><td class=\"percent\">$row[6]% rebel</td>";
         print "</tr>\n";
     }
 ?>
@@ -57,7 +57,7 @@ data mines their voting record, to help you hold them to account.
             "&lastname=" . urlencode($row[1]) . "&constituency=" .
             urlencode($row[3]) . "\"mp.php?mpid=$row[5]\">$row[2]
             $row[0] $row[1]</a></td> <td>$row[3]</td>
-            <td>" . pretty_party($row[4]) . "</td><td class=\"percent\">$row[7]% attendance</td>";
+            <td>" . pretty_party($row[4], $row[8], $row[9]) . "</td><td class=\"percent\">$row[7]% attendance</td>";
         print "</tr>\n";
     }
     print "</table>\n";

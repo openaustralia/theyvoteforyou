@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+-- $Id: create.sql,v 1.2 2003/09/18 16:16:24 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -49,12 +49,14 @@ create table pw_mp (
     -- these are inclusive, and measure days when the MP could vote
     entered_house date not null default '1000-01-01',
     left_house date not null default '9999-12-31',
+    entered_reason enum('unknown', 'general_election', 'bi_election', 'changed_party') not null default 'unknown',
+    left_reason enum('unknown', 'still_in_office', 'general_election', 'bi_election', 'changed_party', 'died') not null default 'unknown',
 
     unique(first_name, last_name, constituency, entered_house, left_house)
 );
 
 create table pw_division (
-	division_id int not null primary key auto_increment,
+    division_id int not null primary key auto_increment,
     valid bool,
 
     division_date date not null,

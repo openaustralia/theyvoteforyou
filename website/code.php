@@ -1,5 +1,5 @@
 <?php $title = "Source Code"; include "header.inc" 
-# $Id: code.php,v 1.4 2003/08/19 17:53:01 frabcus Exp $
+# $Id: code.php,v 1.5 2003/09/18 16:16:24 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -197,7 +197,7 @@ machine, called hansard.php.  This lets you view complete days of
 hansard, extracted from pw_content.  View URLs in this form:
 http://localhost/publicwhip/hansard.php?date=2003-06-05
 
-<h2>Clustering (Multi-dimensional scaling)</h2>
+<h2>Vote map (Clustering, Multi-dimensional scaling)</h2>
 
 <p>Octave is a mathematics package which we use to perform linear
 algebra for the MP clustering.  Download it from the <a
