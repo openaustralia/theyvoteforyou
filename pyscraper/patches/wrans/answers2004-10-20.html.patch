@@ -1,0 +1,67 @@
+--- /home/fawkes/pwdata/cmpages/wrans/answers2004-10-20.html	Thu Oct 21 08:06:54 2004
++++ /home/fawkes/pwdata/cmpages/wrans/answers2004-10-20-patchtmp.html	Fri Oct 22 04:01:54 2004
+@@ -957,7 +957,7 @@
+ <tr valign=top><th class "tabletext"></th><th class "tabletext" colspan=3>Total kWh
+ 
+ </th></tr>
+-<tr valign=top><th class "tabletext"></th><th class "tabletext">2002&#150;03</th><th class "tabletext">2003&#150;04</th><th class "tabletext">Percentage<br>
++<tr valign=top><th class "tabletext"></th><th class "tabletext">2002&#150;03</th><th class "tabletext">2003&#150;04</th><th class "tabletext">Percentage
+ -/+
+ 
+ 
+@@ -1764,8 +1764,8 @@
+ 
+ 
+ 
+-<tr valign=top><th class "tabletext">Project</th><th class "tabletext">Total<br>
+-award (&#163;)</th><th class "tabletext">Year of award</th><th class "tabletext" colspan=2>Grant paid to date<br>
++<tr valign=top><th class "tabletext">Project</th><th class "tabletext">Total
++award (&#163;)</th><th class "tabletext">Year of award</th><th class "tabletext" colspan=2>Grant paid to date
+ by financial year (&#163;)
+ 
+ 
+@@ -3262,7 +3262,7 @@
+ 
+ 
+ 
+-<tr valign=top><th class "tabletext"></th><th class "tabletext" colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RPI (Housing)<sup>(9)</sup><br>
++<tr valign=top><th class "tabletext"></th><th class "tabletext" colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RPI (Housing) (9)
+ </th><th class "tabletext" colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RPI (All items)
+ 
+ </th></tr>
+@@ -3524,7 +3524,7 @@
+ 
+ 
+ 
+-<tr valign=top><th class "tabletext"></th><th class "tabletext">Residential property purchases below threshold<sup>(10)</sup></th><th class "tabletext">All residential<br>
++<tr valign=top><th class "tabletext"></th><th class "tabletext">Residential property purchases below threshold<sup>(10)</sup></th><th class "tabletext">All residential 
+ property purchases
+ 
+ 
+@@ -5089,7 +5089,7 @@
+ <tr valign=top><td class "tabletext">Commander-in-Chief Fleet</td><td class "tabletext">2.245&nbsp;million
+ 
+ </td></tr>
+-<tr valign=top><td class "tabletext">2nd Sea Lord/Commander-in-Chief Naval<br>
++<tr valign=top><td class "tabletext">2nd Sea Lord/Commander-in-Chief Naval
+ &nbsp;&nbsp;&nbsp;Home Command</td><td class "tabletext">3.904&nbsp;million
+ 
+ </td></tr>
+@@ -5102,7 +5102,7 @@
+ <tr valign=top><td class "tabletext">Commander-in-Chief Strike Command</td><td class "tabletext">3.176&nbsp;million
+ 
+ </td></tr>
+-<tr valign=top><td class "tabletext">Commander-in-Chief Personnel and<br>
++<tr valign=top><td class "tabletext">Commander-in-Chief Personnel and
+ &nbsp;&nbsp;&nbsp;Training Command</td><td class "tabletext">2.682&nbsp;million
+ 
+ </td></tr>
+@@ -12087,7 +12087,7 @@
+ 
+ 
+ 
+-<p><a name="41020w26.html_wqn8"><b> Mr. Llwyd: </b>  how many sitting lay magistrates there were in <i>(a)</i>&nbsp;1997 and <i>(b)</i>&nbsp;2003.  [192199]</p>
++<p><a name="41020w26.html_wqn8"><b> Mr. Llwyd: </b> To ask the Parliamentary Secretary, Department for Constitutional Affairs  how many sitting lay magistrates there were in <i>(a)</i>&nbsp;1997 and <i>(b)</i>&nbsp;2003.  [192199]</p>
+ 
+ 
+ 
