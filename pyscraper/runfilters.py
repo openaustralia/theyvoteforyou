@@ -1,4 +1,5 @@
 #! /usr/bin/python2.3
+# vim:sw=8:ts=8:et:nowrap
 
 import sys
 import re
@@ -24,6 +25,8 @@ toppath = os.path.expanduser('~/pwdata')
 pwcmdirs = os.path.join(toppath, "cmpages")
 # outgoing directory of scaped pages directories
 pwxmldirs = os.path.join(toppath, "scrapedxml")
+# file to store list of newly done dates
+recentnewfile = "recentnew.txt"
 
 tempfile = os.path.join(toppath, "filtertemp")
 
@@ -38,8 +41,8 @@ def RunFiltersDir(filterfunction, dname, datefrom, dateto, deleteoutput):
 	pwxmldirout = os.path.join(pwxmldirs, dname)
 
 	# create output directory
-	if not os.path.isdir(pwxmldirout):
-		os.mkdir(pwxmldirout)
+        if not os.path.isdir(pwxmldirout):
+                os.mkdir(pwxmldirout)
 
 	# loop through file in input directory in reverse date order
 	fdirin = os.listdir(pwcmdirin)
@@ -73,6 +76,12 @@ def RunFiltersDir(filterfunction, dname, datefrom, dateto, deleteoutput):
                         ofin = open(jfin)
                         text = ofin.read()
                         ofin.close()
+
+                        # store
+                        newlistf = os.path.join(pwxmldirout, recentnewfile)
+                        file = open(newlistf,'a+')
+                        file.write(sdate + '\n')
+                        file.close()
 
                         # call the filter function and copy the temp file into the correct place.
                         # this avoids partially processed files getting into the output when you hit escape.
