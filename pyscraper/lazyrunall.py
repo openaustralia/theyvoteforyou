@@ -119,7 +119,8 @@ if not options.debates and not options.wrans and not options.regmem and not opti
 # First all the force deletions of old data
 #
 if options.scrape:
-		UpdateHansardIndex(options.forceindex)
+                if options.wrans or options.debates:
+                        UpdateHansardIndex(options.forceindex)
 		if options.lords:
 			UpdateLordsHansardIndex()
 		if options.forcescrape:

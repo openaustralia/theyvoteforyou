@@ -24,6 +24,9 @@ fixsubs = 	[
 ]
 
 def RunRegmemFilters(fout, text, sdate):
+        # message for cron so I check I'm using this
+        print "New register of members interests!  Maybe should use it / check it is used in mpinfoin.pl - %s" % sdate
+
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
 
         miscfuncs.WriteXMLHeader(fout)
@@ -42,6 +45,7 @@ def RunRegmemFilters(fout, text, sdate):
         categoryname = None
         subcategory = None
         for row in rows:
+                #print row
                 if len(row) == 1 and row[0] == "&nbsp;":
                         # <TR><TD COLSPAN=4>&nbsp;</TD></TR>
                         pass
@@ -63,14 +67,21 @@ def RunRegmemFilters(fout, text, sdate):
                 elif len(row) == 2 and row[0] == '' and re.match('Nil\.\.?', row[1]):
                         # <TR><TD></TD><TD COLSPAN=3><B>Nil.</B></TD></TR> 
                         fout.write('Nil.\n')
-                elif len(row) == 2:
+                elif len(row) == 2 and row[0] != '':
                         # <TR><TD><B>1.</B></TD><TD COLSPAN=3><B>Remunerated directorships</B></TD></TR>
                         if category:
                                 fout.write('\t</category>\n')
-                        category = re.match("(\d\d?)\.$", row[0]).group(1)
+                        digits = row[0].replace("&nbsp;", "")
+                        category = re.match("\s*(\d\d?)\.$", digits).group(1)
                         categoryname = row[1]
                         subcategory = None
                         fout.write('\t<category type="%s" name="%s">\n' % (category, categoryname))
+                elif len(row) == 2 and row[0] == '':
+                        # <TR><TD></TD><TD COLSPAN=3><B>Donations to the Office of the Leader of the Liberal Democrats received from:</B></TD></TR>
+                        if subcategory:
+                                fout.write('\t\t<item subcategory="%s">%s</item>\n' % (subcategory, FixHTMLEntities(row[1])))
+                        else:
+                                fout.write('\t\t<item>%s</item>\n' % FixHTMLEntities(row[1]))
                 elif len(row) == 3 and row[0] == '' and row[1] == '':
                         # <TR><TD></TD><TD></TD><TD COLSPAN=2>19 and 20 September 2002, two days fishing on the River Tay in Scotland as a guest of Scottish Coal. (Registered 3 October 2002)</TD></TR>
                         if subcategory:

@@ -10,7 +10,7 @@ import sys
 sys.path.append("../pyscraper/")
 from resolvemembernames import memberList
 
-photodir = "/home/francis/devel/fawkes/www/docs/images/mps/"
+photodir = "/home/francis/devel/fawkes/www/docs/images/orig/"
 photodate = "2004-04-13"
 
 dir = os.listdir(photodir)

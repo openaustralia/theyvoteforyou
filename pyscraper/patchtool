@@ -36,6 +36,7 @@ shift 2
 # Folders to put the patches into
 mkdir -p patches/debates
 mkdir -p patches/wrans
+mkdir -p patches/regmem
 PATCHDEST=`pwd`
 PATCHFILE=patches/$FOLDER/$STUB$DATE.html.patch
 

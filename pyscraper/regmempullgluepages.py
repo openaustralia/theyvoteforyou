@@ -25,16 +25,18 @@ def GlueByNext(fout, url, regmemdate):
 	# loop which scrapes through all the pages following the nextlinks
         starttablewritten = False
         matcheddate = False
+        sections = 0
 	while 1:
 		print " reading " + url
 		ur = urllib.urlopen(url)
 		sr = ur.read()
 		ur.close();
 
+                sections += 1
+
                 # check date
                 if not matcheddate:
-                        # THE JANUARY 2004 EDITION)
-                        dateinpage = re.search("current as at\s*<b>(.*)</b>", sr)
+                        dateinpage = re.search("current as at\s*<[bB]>(.*)</[bB]>", sr)
                         if not dateinpage:
                                 raise Exception, 'Not found date marker'
                         dateinpage = dateinpage.group(1).replace("&nbsp;", " ")
@@ -74,12 +76,15 @@ def GlueByNext(fout, url, regmemdate):
 		# find the lead on with the footer
 		footer = hrsections[3]
 
-                nextsectionlink = re.findall('<A href="(.*?)"><IMG border=0 align=top src="/pa/img/nextgrn.gif" ALT="next page"></A>', footer)
+                nextsectionlink = re.findall('<A href="([^>]*?)"><IMG border=0\s+align=top src="/pa/img/nextgrn.gif" ALT="next page"></A>', footer)
 		if not nextsectionlink:
 			break
 		if len(nextsectionlink) > 1:
 			raise Exception, "More than one Next Section!!!"
 		url = urlparse.urljoin(url, nextsectionlink[0])
+
+        # you evidently didn't find any links
+        assert sections > 10
         
         fout.write('</TABLE>')
 
@@ -124,6 +129,34 @@ def GlueAllType(pcmdir, cmindex, fproto, deleteoutput):
                     dtemp.close()
                     os.rename(tempfile, dgf)
 
+# Get index of all regmem pages from the index
+def FindRegmemPages():
+        ixurl = 'http://www.publications.parliament.uk/pa/cm/cmhocpap.htm'
+        ur = urllib.urlopen(ixurl)
+        content = ur.read()
+        ur.close();
+
+        # <A HREF="/pa/cm199900/cmregmem/memi02.htm">Register 
+        #              of Members' Interests November 2000</A>
+        allurls = re.findall('<a href="([^>]*)">(?i)', content)
+        urls = []
+        for url in allurls:
+                if url.find("cmregmem") >= 0:
+                        url = urlparse.urljoin(ixurl, url)
+                        
+                        # find date
+                        ur = urllib.urlopen(url)
+                        content = ur.read()
+                        ur.close();
+                        # <B>14&nbsp;May&nbsp;2001&nbsp;(Dissolution)</B>
+                        content = content.replace("&nbsp;", " ")
+                        alldates = re.findall('<[Bb]>(\d+ [A-Z][a-z]* \d\d\d\d)', content)
+                        assert len(alldates) == 1
+                        date = mx.DateTime.DateTimeFrom(alldates[0]).date
+
+                        urls.append((date, url))
+                
+        return urls
 
 
 ###############
@@ -134,12 +167,14 @@ def RegmemPullGluePages(deleteoutput):
 	if not os.path.isdir(pwcmdirs):
 		os.mkdir(pwcmdirs)
                 
-        # Current data
+        # When these were hardcoded originally:
         # http://www.publications.parliament.uk/pa/cm/cmhocpap.htm#register
-        urls = [ 
-                ('2004-01-31', 'http://www.publications.parliament.uk/pa/cm/cmregmem/memi02.htm'),
-                ('2003-12-04', 'http://www.publications.parliament.uk/pa/cm200203/cmregmem/memi02.htm')
-                ]
+        # urls = [ 
+        #        ('2004-01-31', 'http://www.publications.parliament.uk/pa/cm/cmregmem/memi02.htm'),
+        #        ('2003-12-04', 'http://www.publications.parliament.uk/pa/cm200203/cmregmem/memi02.htm')
+        #        ]
+        
+        urls = FindRegmemPages();
 
 	# bring in and glue together parliamentary register of members interests and put into their own directories.
 	# third parameter is a regexp, fourth is the filename (%s becomes the date).
