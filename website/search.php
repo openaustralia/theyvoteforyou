@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: search.php,v 1.35 2005/03/28 10:53:41 frabcus Exp $
+# $Id: search.php,v 1.36 2005/03/28 11:28:39 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -34,8 +34,8 @@
             include "header.inc";
             
             # Perform query on divisions
-            $db->query("$divisions_query_start and (upper(division_name) like '%$query%'
-                or upper(motion) like '%$query%')
+            $db->query("$divisions_query_start and (lower(division_name) like '%$query%'
+                or lower(motion) like '%$query%')
                 order by division_date desc, division_number desc");
 
             if ($db->rows() > 0)
@@ -52,7 +52,7 @@
 
         # Perform query on MPs
         $score_clause = "(";
-        $score_clause .= "(upper(concat(first_name, ' ', last_name)) = '$query') * 10";
+        $score_clause .= "(lower(concat(first_name, ' ', last_name)) = '$query') * 10";
 
 
         $querybits = explode(" ", $query);
@@ -62,14 +62,14 @@
             $querybits = trim($querybits);
             if ($querybits != "")
             {
-                $score_clause .= "+ (upper(constituency) = '$querybit') * 10 + 
+                $score_clause .= "+ (lower(constituency) = '$querybit') * 10 + 
                 (soundex(concat(first_name, ' ', last_name)) = soundex('$querybit')) * 8 + 
                 (soundex(constituency) = soundex('$querybit')) * 8 + 
                 (soundex(last_name) = soundex('$querybit')) * 6 + 
-                (upper(constituency) like '%$querybit%') * 4 + 
-                (upper(last_name) like '%$querybit%') * 4 + 
+                (lower(constituency) like '%$querybit%') * 4 + 
+                (lower(last_name) like '%$querybit%') * 4 + 
                 (soundex(first_name) = soundex('$querybit')) * 2 + 
-                (upper(first_name) like '%$querybit%') + 
+                (lower(first_name) like '%$querybit%') + 
                 (soundex(constituency) like concat('%',soundex('$querybit'),'%'))";
             }
         }
@@ -103,7 +103,7 @@
         if ($db->rows() > 0)
         {
             $found = true;
-            print "<p>Found these MPs matching ";
+            print "<p>Found these MPs whose names sound like ";
             if ($postcode)
                 print "postcode ";
             print "'$prettyquery':";
