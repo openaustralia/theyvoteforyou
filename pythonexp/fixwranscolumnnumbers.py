@@ -5,26 +5,24 @@ import re
 import os
 import string
 
+# In Debian package python2.3-egenix-mxdatetime
+import mx.DateTime
+
 # this filter converts time and column number tags into xml form
-# <stamp time="3.55 pm"/>
-# <stamp coldate="7 Nov 2000" colnum="139"/>
+# <I>23 Oct 2003 : Column 637W</I>
+# <stamp coldate="7 Nov 2000" colnum="637"/>
 
-def FixColumnNumbers(fout, finr):
+def FixWransColumnNumbers(fout, finr):
 
-	# <B>7 Nov 2000 : Column 180</B>
-	lcolumnregexp = '<b>\s*.*?\s*:\s*column\s*\d+\s*</b>(?i)'
-	columnregexp = '<b>\s*(.*?)\s*:\s*column\s*(\d+)\s*</b>(?i)'
+	# <I>23 Oct 2003 : Column 637W</I>
+	lcolumnregexp = '<i>\s*.*?\s*:\s*column\s*\d+w\s*</i>(?i)'
+	columnregexp = '<i>\s*(.*?)\s*:\s*column\s*(\d+)w\s*</i>(?i)'
 
-	#<i>14 Oct 2003 : Column 31&#151;continued</i>
-	lcolumncontregexp = '<i>\s*.*?\s*:\s*column\s*\d+&#151;continued\s*</i>(?i)'
-	columncontregexp = '<i>\s*(.*?)\s*:\s*column\s*(\d+)&#151;continued\s*</i>(?i)'
+	#<i>23 Oct 2003 : Column 640W&#151;continued</i>
+	lcolumncontregexp = '<i>\s*.*?\s*:\s*column\s*\d+w&#151;continued\s*</i>(?i)'
+	columncontregexp = '<i>\s*(.*?)\s*:\s*column\s*(\d+)w&#151;continued\s*</i>(?i)'
 
-	# <H5>4.40 pm</H5>  or <H4>4 pm</H4>
-	ltimeregexp = '<h\d>[\d.]+\s*[ap]m(?:</st>)?</h\d>(?i)'
-	timeregexp = '<h\d>([\d.]+\s*[ap]m(?:</st>)?)</h\d>(?i)'
-
-	combiregexp = '(%s|%s|%s)' % (lcolumnregexp, lcolumncontregexp, ltimeregexp)
-
+	combiregexp = '(%s|%s)' % (lcolumnregexp, lcolumncontregexp)
 
 	fs = re.split(combiregexp, finr)
 
@@ -39,6 +37,7 @@ def FixColumnNumbers(fout, finr):
 		if len(columngroup) != 0:
 			if lcoldate == '':
 				lcoldate = columngroup[0][0]
+				jlcoldate = mx.DateTime.DateTimeFrom(lcoldate).date # should get from filename
 			elif lcoldate != columngroup[0][0]:
 				print "Column date disagrees %s -- %s" % (lcoldate, fss)
 
@@ -51,9 +50,8 @@ def FixColumnNumbers(fout, finr):
 				# column numbers do get skipped during division listings
 
 				lcolnum = llcolnum
-				fout.write('<stamp coldate="%s" colnum="%s"/>' % columngroup[0])  # a tuple
-
-			else:
+				fout.write('<stamp coldate="%s" colnum="%s" type="W"/>' % (jlcoldate, lcolnum))
+ 			else:
 				pass #print "spurious column number decrementation -- don't output"
 
 			continue
@@ -69,10 +67,4 @@ def FixColumnNumbers(fout, finr):
 			# no need to output result
 			continue
 
-		timegroup = re.findall(timeregexp, fss)
-		if len(timegroup) != 0:
-			fout.write('<stamp time="%s"/>' % timegroup[0])
-			continue
-
 		fout.write(fss)
-

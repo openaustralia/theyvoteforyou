@@ -8,10 +8,14 @@ import string
 from findallhocdaydebate import FindAllHocDayDebate
 from gluehocdaydebate import GlueHocDayDebate
 from removelinebreaks import RemoveLineChars
+
 from fixdebatecolumnnumbers import FixColumnNumbers
 from fixspeakernames import SpeakerNames
 from foldsections import Folding
 
+from fixwranscolumnnumbers import FixWransColumnNumbers
+from fixwransspeakernames import WransSpeakerNames
+from wranssections import WransSections
 
 dtemp = "daydebtemp.htm"
 def ScanDirectories(func, dirout, dirin):
@@ -34,17 +38,26 @@ def ScanDirectories(func, dirout, dirin):
 
 
 
+
+
 # file names and directories
 urlindex = "http://www.publications.parliament.uk/pa/cm/cmhansrd.htm"
 hocdaydebatelist = "hocdaydebatelist.xml"
 
+# daily debates directories
 dirglueddaydebates = 'glueddaydebates'
 dirremovechars = 'c1daydebateremovechars'
 dircolumnnumbers = 'c2daydebatefixcolumnnumbers'
 dirspeakers = 'c3daydebatematchspeakers'
 dirfolding = 'c4folding'
 
+# written answers directories
 dirgluedwranswers = 'gluedwranswers'
+dirwaremovechars = 'c1wransremovechars'
+dirwacolumnnumbers = 'c2wransfixcolumnnumbers'
+dirwaspeakers = 'c3wransmatchspeakers'
+dirwrans = 'c4wrans'
+
 
 
 # discover the index of all the pages
@@ -55,8 +68,14 @@ if not os.path.isfile(hocdaydebatelist):
 
 # grab all the days we can
 # (comment the function call out line out if you want it to run past)
-GlueHocDayDebate(dirgluedwranswers, hocdaydebatelist, 'answers', 'answers')
+#GlueHocDayDebate(dirgluedwranswers, hocdaydebatelist, 'answers', 'answers')
+
+ScanDirectories(RemoveLineChars, dirwaremovechars, dirgluedwranswers)
+ScanDirectories(FixWransColumnNumbers, dirwacolumnnumbers, dirwaremovechars)
+ScanDirectories(WransSpeakerNames, dirwaspeakers, dirwacolumnnumbers)
+ScanDirectories(WransSections, dirwrans, dirwaspeakers)
 sys.exit()
+
 
 # grab all the days we can
 # (comment the function call out line out if you want it to run past)
