@@ -76,6 +76,9 @@ fixsubs = 	[
 	( '\{\*\*con\*\*\}\{\*\*/con\*\*\}', '', 1, '2003-05-19'),
         ( '(\[142901)', '\\1]', 1, '2003-12-11'),
 
+        ( '(&nbsp;a minimum energy)<P>', '\\1 efficiency rating.  [153278]', 1, '2004-02-10'),
+        ( '(what the countries of origin were; and if he will make a statement.)', '\\1 [147100]', 1, '2004-01-15'),
+
  	( '\n To\s*ask ', '\n To ask ', 10, '2003-07-07'), # linefeed example I can't piece apart
  	#( '\n To as the Secretary', '\n To ask the Secretary', 1, '2003-05-19'),
  	( '\n To as the Secretary', '\n To ask the Secretary', 1, '2003-05-12'),
@@ -172,7 +175,8 @@ def StripWransHeadings(headspeak, sdate):
 	else:
 		i = i + 1
 
-	if (not re.match('The following answers were received.*', headspeak[i][0]) and \
+	if (not re.match('The following answers were received.*', headspeak[i][0]) and 
+            not re.match('The following question was answered on.*', headspeak[i][0]) and \
 			(sdate != mx.DateTime.DateTimeFrom(headspeak[i][0]).date)) or headspeak[i][2]:
 		if (not parlPhrases.majorheadings.has_key(headspeak[i][0])) or headspeak[i][2]:
 			print headspeak[i]
@@ -280,6 +284,7 @@ def FilterWransSections(fout, text, sdate):
 
 	for i in range(ih, len(headspeak)):
 		sht = headspeak[i]
+#                print "sht", sht
 
 		# update the stamps from the pre-spoken text
 		stampurl.UpdateStampUrl(sht[1])

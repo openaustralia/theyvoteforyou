@@ -174,8 +174,10 @@ def WriteXMLChunk(fout, qb, sdate, tagname, body):
                 speaker = qb.speaker
 
 	# get the stamps from the stamp on first speaker in block
-	fout.write('\n<%s id="%s" %s %s %s url="%s">\n' % \
+	fout.write('\n<%s id="%s" %s %s %s url="%s">' % \
 				(tagname, sid, speaker, stithead, sstamp, spurl))
+        if tagname == 'speech' or tagname == 'DIVISION':
+                fout.write('\n')
         fout.write(body)
 
 	fout.write('</%s>\n' % (tagname))
@@ -205,7 +207,7 @@ def FilterDebateSections(fout, text, sdate):
 #               print "###############"
 
 		# set the title for this batch
-		stampurl.title = FixHTMLEntities(sht[0])
+		stampurl.title = string.strip(FixHTMLEntities(sht[0]))
 
 		qblock = [ ]
 

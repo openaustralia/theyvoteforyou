@@ -144,9 +144,9 @@ def FilterWransSpeakers(fout, text, sdate):
                 # useless and at the start of the page.
 		# 27. <B> Mr. Steen: </B>
 		if i > 0:
-			oqnsep = re.findall('^([\s\S]*?)Q?(\d+\.)\s*?$', fs[i-1])
+			oqnsep = re.findall('^([\s\S]*?)Q?(\d+\.)(\s*?(?:<stamp aname=".*?"/>)?)$', fs[i-1])
 			if oqnsep:
-				fs[i-1] = oqnsep[0][0]
+				fs[i-1] = oqnsep[0][0] + oqnsep[0][2] 
 				boldnamestring = oqnsep[0][1] + ' ' + boldnamestring
 
 		# take out the initial digits and a dot which we may have just put in

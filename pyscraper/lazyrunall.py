@@ -29,11 +29,11 @@ parser.add_option("--rescrape",
                   action="store_true", dest="rescrape", default=False,
                   help="forces redownloading of HTML first deleting output files")
 
-parser.add_option("-f", "--from", dest="datefrom", metavar="date", default="1000-01-01",
+parser.add_option("--from", dest="datefrom", metavar="date", default="1000-01-01",
                   help="date to process back to, default is start of time")
-parser.add_option("-t", "--to", dest="dateto", metavar="date", default="9999-12-31",
+parser.add_option("--to", dest="dateto", metavar="date", default="9999-12-31",
                   help="date to process up to, default is present day")
-parser.add_option("-d", "--date", dest="date", metavar="date", default=None,
+parser.add_option("--date", dest="date", metavar="date", default=None,
                   help="date to process (overrides --from and --to)")
 
 (options, args) = parser.parse_args()

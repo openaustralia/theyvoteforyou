@@ -25,6 +25,7 @@ fixsubs = 	[
 	( '<B> (I also have real worries .*?\(Mrs. Dunwoody\))</B>', '\\1', 1, '2003-09-16'),
         ( '(<B> Mr. Prisk)( rose&#151; )(</B>)', '\\1\\3\n<I>\\2</I>', 1, '2004-01-06'),
 
+        ( '(<B>The Advocate-General)(:</B>)', '\\1 for Scotland\\2', 7, '2004-02-10'),
         ( '(<B>The Advocate-General)(:</B>)', '\\1 for Scotland\\2', 5, '2004-01-13'),
         ( '(<B>The Advocate-General)(:</B>)', '\\1 for Scotland\\2', 4, '2003-12-02'),
         ( '(<B>The Advocate-General)(:</B>)', '\\1 for Scotland\\2', 6, '2003-10-28'),

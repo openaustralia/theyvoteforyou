@@ -33,7 +33,6 @@ def ExtractQnum(tex):
 # we break this into separate paragraphs and discover that the final ones are indentent.
 # the other question form is as a single paragraph
 def FilterQuestion(text, sdate):
-
 	# split into paragraphs.  The second results is a parallel array of bools
 	(textp, textpindent) = SplitParaIndents(text)
 	if not textp:

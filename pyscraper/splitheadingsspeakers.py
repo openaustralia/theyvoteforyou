@@ -36,8 +36,12 @@ class StampUrl:
 
         def GetUrl(self):
             spurl = re.match('<page url="(.*?)"/>', self.pageurl).group(1)
-            saname = re.match('<stamp aname="(.*?)"/>', self.aname).group(1)
-            return '%s#%s' % (spurl, saname)
+            anamem = re.match('<stamp aname="(.*?)"/>', self.aname)
+            if anamem:
+                saname = anamem.group(1)
+                return '%s#%s' % (spurl, saname)
+            else:
+                return spurl
 
 
 
