@@ -1,4 +1,4 @@
-# $Id: divsxml.pm,v 1.6 2004/04/15 16:13:21 frabcus Exp $
+# $Id: divsxml.pm,v 1.7 2004/05/19 09:29:35 frabcus Exp $
 # Loads divisions from the XML files made by pyscraper into 
 # the MySQL database for the Public Whip website.
 
@@ -169,6 +169,8 @@ sub loaddivision
 { 
 	my ($twig, $div) = @_;
 
+    # Makes heading
+    
     my $divdate = $div->att('divdate');
     die "inconsistent date" if $divdate ne $curdate;
     my $divnumber = $div->att('divnumber');
@@ -190,6 +192,7 @@ sub loaddivision
         $motion_text = "No motion text available";
     }
 
+    # Find votes of MPs
     my $votes;
 	for (my $mplist = $div->first_child('mplist'); $mplist; 
 		$mplist = $mplist->next_sibling('mplist'))
@@ -218,6 +221,7 @@ sub loaddivision
 
     if ($sth->rows > 0)
     { 
+        # We already have - update it
         my @data = $sth->fetchrow_array();
         die "Incomplete division $divnumber, $divdate already exists, clean the database" if ($data[1] != 1);
         my $existing_divid = $data[0];
@@ -255,6 +259,8 @@ sub loaddivision
             }
         }
 
+        my $differ = 0;
+
         my @voters = keys %$votes;
         my @existing_voters = keys %$existing_votes;
         @voters = sort @voters;
@@ -263,28 +269,47 @@ sub loaddivision
         my $amount = @$missing;
         if ($amount > 0 )
         {
-            print Dumper($missing);
-            error::die("Voter list differs in XML to one in database - $amount in symmetric diff\n$url", $divdate . " " . $divnumber) 
+            error::log("Voter list differs in XML to one in database - $amount in symmetric diff\n$url" .
+                Dumper($missing),
+                , $divdate . " " . $divnumber, error::USEFUL);
+            $differ = 1;
         }
 
-        foreach my $testid (@voters)
+        if (!$differ)
         {
-            my $indvotes = $votes->{$testid};
-            my $existing_indvotes = $existing_votes->{$testid};
-            @$indvotes = sort @$indvotes;
-            @$existing_indvotes = sort @$existing_indvotes;
-            # print $testid, $indvotes, $existing_indvotes, "\n";
-            my $missing = array_difference($indvotes, $existing_indvotes);
-            my $amount = @$missing;
-            if ($amount > 0 )
+            foreach my $testid (@voters)
             {
-                print "xml ", Dumper($indvotes), "\n";
-                print "db ", Dumper($existing_indvotes), "\n";
-                error::die("Votes for MP $testid differs between database and XML", $curdate);
+                my $indvotes = $votes->{$testid};
+                my $existing_indvotes = $existing_votes->{$testid};
+                @$indvotes = sort @$indvotes;
+                @$existing_indvotes = sort @$existing_indvotes;
+                # print $testid, $indvotes, $existing_indvotes, "\n";
+                my $missing = array_difference($indvotes, $existing_indvotes);
+                my $amount = @$missing;
+                if ($amount > 0 )
+                {
+                    error::log("Votes for MP $testid differs between database and XML\n" .
+                        "xml " . Dumper($indvotes) . "\n" .
+                        "db " . Dumper($existing_indvotes) . "\n"
+                        , $curdate, error::USEFUL);
+                    $differ = 1;
+                }
             }
-
         }
-        return;
+
+        if ($differ)
+        {
+            # Remove existing division we're correcting
+            my $sth = db::query($dbh, "delete from pw_division where
+                division_number = ? and division_date = ?", $divnumber, $divdate);
+            die "Deleted not one old version of division but " . $sth->rows . " for $divnumber on $divdate" if ($sth->rows != 1);
+            clean::erase_duff_divisions($dbh);
+        }
+        else
+        {   
+            # We already have the correct division
+            return;
+        }
     }
     
     # Add division to tables
