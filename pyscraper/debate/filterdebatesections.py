@@ -53,8 +53,8 @@ fixsubs = 	[
 	( '<UL><UL>End', '</UL><UL><UL><UL>End', 1, '2002-11-07'), # as above
         ( '<UL><UL>', '<UL><UL><UL>', 1, '2003-06-25'),
 
-	( '<UL><UL><UL>(?i)', '<UL>', 1, 'all'),
-	( '</UL></UL></UL>(?i)', '</UL>', 1, 'all'),
+	( '<UL><UL><UL>(?i)', '<UL>', -1, 'all'),
+	( '</UL></UL></UL>(?i)', '</UL>', -1, 'all'),
 		]
 
 
