@@ -1,0 +1,12 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-03-15.html	Fri Oct  8 10:38:23 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-03-15-patchtmp.html	Tue Oct 12 12:15:02 2004
+@@ -691,7 +691,9 @@
+ 
+ <B>15 Mar 2004 : Column 21</B></P>
+ 
++<stamp parsemess-colnum="20"/>
+ <H4><center>Orders of the Day</center></H4>
++<stamp parsemess-colnum="21"/>
+ <H4><center>CONSOLIDATED FUND (NO. 2) BILL</center></H4>
+ <P>
+ 

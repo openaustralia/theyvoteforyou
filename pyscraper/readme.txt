@@ -21,7 +21,8 @@ Special tags you can put in patches:
 	tag.
 
 <explicit-end-division>
-
+	Marks the end of a division listing, for when the parser is having
+	trouble otherwise telling.
 
 
 The following are for handling those cases where the a new download of 
