@@ -342,7 +342,7 @@ def ReplyBreakIntoParagraphs(text):
 	return pres
 
 def FixReply(text):
-	FindOfficialReport(text)
+	#FindOfficialReport(text)
 
 	res = StringIO.StringIO()
 
