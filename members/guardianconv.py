@@ -1,5 +1,5 @@
 #!/usr/bin/python2.3
-# $Id: guardianconv.py,v 1.1 2004/02/25 08:37:54 frabcus Exp $
+# $Id: guardianconv.py,v 1.2 2004/02/25 15:48:55 frabcus Exp $
 
 # Converts tab file of Guardian URLs into XML
 
@@ -21,11 +21,15 @@ print '''<?xml version="1.0" encoding="ISO-8859-1"?>
 
 ih = open(input, 'r')
 
+c = 0
 for l in ih:
+    c = c + 1
     origname, origcons, personurl, consurl = map(string.strip, l.split("\t"))
     id, name, cons =  memberList.matchfullnamecons(origname, origcons, date)
     print '<memberinfo id="%s" guardian_mp_summary="%s" />' % (id, personurl)
     print '<consinfo id="%s" guardian_election_results="%s" />' % (id, consurl)
+
+assert c == 659, "Expected %d MPs" % c
 
 ih.close()
 
