@@ -32,10 +32,13 @@ import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 
 import java.text.SimpleDateFormat;
-import java.util.Date; 
+import java.util.Date;
+
+import java.net.URL;
+
 
 /////////////////////////////////////////////
-class radpanel extends JPanel implements MouseListener, MouseMotionListener, Runnable
+public class radpanel extends JPanel implements MouseListener, MouseMotionListener, Runnable
 {
 	Image offscreen;
     Dimension csize = new Dimension(1,1);
@@ -48,6 +51,7 @@ class radpanel extends JPanel implements MouseListener, MouseMotionListener, Run
 	personfloat personfactive = null;
 	boolean bselectdept = false;
 	boolean bmousedown = false;
+	boolean bdisplaybio = false;
 
 	SimpleDateFormat formatter = new SimpleDateFormat("EEE d MMM yyyy");
 	Date today = new Date();
@@ -71,14 +75,17 @@ class radpanel extends JPanel implements MouseListener, MouseMotionListener, Run
 	Color colseldept = new Color(200, 0, 0);
 
 	/////////////////////////////////////////////
-	radpanel()
+	radpanel(String lblairimg) throws IOException
 	{
 System.out.println(formatter.format(today));
 
 		addMouseListener(this);
         addMouseMotionListener(this);
 		//setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
-		blairimg = getToolkit().getImage("data/10047.jpg");
+System.out.println(lblairimg);
+		URL blairurl = new URL(lblairimg);
+		//blairimg = getToolkit().getImage("data/10047.jpg");
+		blairimg = getToolkit().getImage(blairurl);
 	}
 
 	/////////////////////////////////////////////
@@ -183,7 +190,7 @@ System.out.println(formatter.format(today));
 		}
 
 		// write in the bio text
-		else if (personfactive != null)
+		else if ((personfactive != null) && bdisplaybio)
 		{
 			g.setFont(fontnormal);
 			g.setColor(Color.white);
@@ -192,8 +199,8 @@ System.out.println(formatter.format(today));
 			int rw = personfactive.maxdstringwidth;
 			int rh = fmnormal.getHeight() * personfactive.officebio.length;
 
-			if (rx < 3) 
-				rx = 3; 
+			if (rx < 3)
+				rx = 3;
 			if (rx + rw > csize.width - 3)
 				rx = csize.width - 3 - rw;
 			g.fillRect(rx - 3, ry - fmnormal.getAscent() - 3, rw + 6, rh + 6);
@@ -245,6 +252,8 @@ System.out.println(formatter.format(today));
 		String sdate = nyear + "-" + (nmonth < 10 ? "0" : "") + nmonth + "-" + (nday < 10 ? "0" : "") + nday;
 		labeldate.setText(sdate);
 		mintimes.AllocateSectors(sdate);
+
+		bdisplaybio = false;
 		repaint();
 	}
 
@@ -297,6 +306,7 @@ System.out.println(formatter.format(today));
 		personfactive = mintimes.FindHit(e.getX(), e.getY());
 		bselectdept = ((personfactive != null) && (personfactive != ppersonfactive));
 		bmousedown = true;
+		bdisplaybio = ((personfactive != null) && !bselectdept);
 		repaint();
 	}
 

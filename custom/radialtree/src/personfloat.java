@@ -81,7 +81,8 @@ class personfloat
 		maxdstringwidth = 0;
 		for (int i = 0; i < npoffices; i++)
 		{
-			officebio[i] = poffices[i].startdate + "  " + poffices[i].stopdate + "  " + poffices[i].position + "  " + poffices[i].dept;
+			String lstopdate = (poffices[i].stopdate.startsWith("9999") ? "  -----               " : poffices[i].stopdate);
+			officebio[i] = poffices[i].startdate + "  " + lstopdate + "  " + poffices[i].position + "  " + poffices[i].dept;
 			maxdstringwidth = Math.max(maxdstringwidth, fm.stringWidth(officebio[i]));
 		}
 		dstringheight = fm.getHeight();

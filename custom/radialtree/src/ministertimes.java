@@ -41,14 +41,14 @@ class ministertimes
 
 	// load the data from the structured xml file
 	// using very primitive parsing technology
-	ministertimes(File data) throws IOException
+	ministertimes(BufferedReader br) throws IOException
 	{
 		// set the colours
 		for (int i = 0; i < coltimeserved.length; i++)
 			coltimeserved[i] = new Color(i * 2, 0, 0);
 
 		// load the ministers.xml data
-		personfloats = loaddat.LoadMinisters(data);
+		personfloats = loaddat.LoadMinisters(br);
 
 		// make list of departments
 		depts = loaddat.ExtractDepts(personfloats);

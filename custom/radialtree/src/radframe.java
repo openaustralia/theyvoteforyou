@@ -15,18 +15,19 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 
 
+
 /////////////////////////////////////////////
 class radframe extends JFrame
 {
 	raddisplay raddisp;
 
-	radframe()
+	radframe() throws IOException
 	{
 		super("Ministerial roulette");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(800, 700);
 
-		raddisp = new raddisplay();
+		raddisp = new raddisplay("data/10046.jpg");
 		getContentPane().add("Center", raddisp);
 	}
 
@@ -42,7 +43,7 @@ class radframe extends JFrame
 		try
 		{
 			radframe radfram = new radframe();
-			radfram.raddisp.LoadData("ministers.xml");
+			radfram.raddisp.LoadData(new BufferedReader(new FileReader(new File("data/ministers.xml"))));
 
 //			if (args.length > 1)
 //				mpf.mpsc.pp.SavePNG(args[1], Integer.parseInt(args[2]), Integer.parseInt(args[3]));
