@@ -12,19 +12,11 @@ A
 {
     TEXT-DECORATION: none
 }
-A:visited
+A:link, A:active, A:visited
 {
     COLOR: #990000
 }
-A:link
-{
-    COLOR: #990000
-}
-A:active
-{
-    COLOR: #990000
-}
-A:hover
+A:link:hover, A:active:hover, A:visited:hover
 {
     BACKGROUND-IMAGE: none;
     COLOR: #990000;
