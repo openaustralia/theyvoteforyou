@@ -1,0 +1,13 @@
+# Build Francis's own crontab from Public Whip one (in crontab) and his other stuff
+
+cd ~/publicwhip/build
+cp crontab ~/bin/crontab-working
+cd ~/bin
+
+# Personal stuff, you didn't see this
+echo "@reboot       /home/francis/fleafall/lobby" >>crontab-working
+echo "00 8 * * *    /usr/bin/python2.3 /home/francis/fleafall/lobbystats.py >/home/francis/public_html/fleastats.txt" >>crontab-working
+
+echo "48 * * * *    /usr/bin/python2.3 /home/francis/pyblagg/pyblagg.py /home/francis/pyblagg/config.ini" >>crontab-working
+
+crontab crontab-working

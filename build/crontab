@@ -1,6 +1,6 @@
 # m h dom mon dow command
 
-27 1 * * *       /home/francis/bin/recent-check
+# Clean out the cache as it gets very full
 39 * * * *    /usr/sbin/tmpwatch 12 /home/francis/pwcache
 
 
