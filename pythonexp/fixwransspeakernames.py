@@ -8,7 +8,7 @@ import string
 # this filter finds the speakers and replaces with full itendifiers
 # <speaker name="Eric Martlew  (Carlisle)"><p>Eric Martlew  (Carlisle)</p></speaker>
 
-def WransSpeakerNames(fout, finr):
+def WransSpeakerNames(fout, finr, sdate):
 
 	# <B> Mrs. Iris Robinson: </B>
 	lspeakerregexp = '<b>.*?</b>\s*?:|<b>.*?</b>'
@@ -44,7 +44,7 @@ def WransSpeakerNames(fout, finr):
 		# These signify aborted oral questions, and are normally useless and at the start of the page.
 		# 27. <B> Mr. Steen: </B>
 		if i > 0:
-			oqnsep = re.findall('^([\s\S]*?)(\d+[.])\s*?$', fs[i - 1])
+			oqnsep = re.findall('^([\s\S]*?)Q?(\d+[.])\s*?$', fs[i - 1])
 			if len(oqnsep) != 0:
 				fs[i - 1] = oqnsep[0][0]
 				boldnamestring = oqnsep[0][1] + ' ' + boldnamestring

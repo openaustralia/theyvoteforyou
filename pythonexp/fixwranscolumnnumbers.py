@@ -12,7 +12,25 @@ import mx.DateTime
 # <I>23 Oct 2003 : Column 637W</I>
 # <stamp coldate="7 Nov 2000" colnum="637"/>
 
-def FixWransColumnNumbers(fout, finr):
+fixsubs = 	[
+	( 'Continued in col 47W', '', 1, '2003-10-27' ),
+	( '<H1 align=center>Written Answers[\s\S]{10,99}?\[Continued from column \d+?W\]', '', -1, 'all' ),
+	( '<H1 align=center></H1>[\s\S]{10,99}?\[Continued from column \d+?W\]', '', 1, '2003-11-17' ),
+	( '<H2 align=center> </H2>[\s\S]{10,99}?Monday 13 October 2003', '', 1, '2003-10-14' ),
+		]
+def ApplyFixSubs(finr, sdate):
+	for sub in fixsubs:
+		if sub[3] == 'all' or sub[3] == sdate:
+			res = re.subn(sub[0], sub[1], finr)
+			if sub[2] != -1 and res[1] != sub[2]:
+				print 'wrong substitutions %d on %s' % (res[1], sub[0])
+			finr = res[0]
+	return finr
+
+
+def FixWransColumnNumbers(fout, finr, sdate):
+
+	finr = ApplyFixSubs(finr, sdate)
 
 	# <I>23 Oct 2003 : Column 637W</I>
 	lcolumnregexp = '<i>\s*.*?\s*:\s*column\s*\d+w\s*</i>(?i)'
@@ -30,9 +48,6 @@ def FixWransColumnNumbers(fout, finr):
 	lcolnum = -1
 
 	for fss in fs:
-		if not fss:
-			continue
-
 		columngroup = re.findall(columnregexp, fss)
 		if len(columngroup) != 0:
 			if lcoldate == '':

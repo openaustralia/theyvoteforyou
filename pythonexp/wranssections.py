@@ -180,15 +180,24 @@ class qbatch:
 			print "block without answer"
 			self.shansblock.append(self.qblock)
 
+	def writexmlspeech(self, fout, shai, type):
+		fout.write('\t<speaker name="%s" type="%s">\n' % (shai[0], type))
+		fout.write(shai[1])
+		fout.write('\t</speaker>\n')
+
+
 	def writexml(self, fout):
 		for sha in self.shansblock:
-			fout.write('<wrans title=%s>\n' % (self.title,))
-			fout.write('\t%d\n' % len(sha))
-			fout.write('</wrans>\n')
+			fout.write('<wrans title="%s">\n' % (self.title,))
+			for i in range(len(sha)):
+				if i < len(sha) - 1:
+					self.writexmlspeech(fout, sha[i], 'question')
+				else:
+					self.writexmlspeech(fout, sha[i], 'reply')
+			fout.write('</wrans>\n\n')
 
 
-
-def WransSections(fout, finr):
+def WransSections(fout, finr, sdate):
 	sht = SepHeadText(finr)
 	print len(sht.shtext)
 

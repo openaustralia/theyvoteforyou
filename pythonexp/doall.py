@@ -23,6 +23,7 @@ def ScanDirectories(func, dirout, dirin):
 		os.mkdir(dirout)
 	fdirin = os.listdir(dirin)
 	for fin in fdirin:
+		sdate = re.findall('\d{4}-\d{2}-\d{2}', fin)[0]
 		jfin = os.path.join(dirin, fin)
 		jfout = os.path.join(dirout, fin)
 		if not os.path.isfile(jfout):
@@ -32,7 +33,7 @@ def ScanDirectories(func, dirout, dirin):
 
 			print fin
 			tempfile = open(dtemp, "w")
-			apply(func, (tempfile, finr))
+			apply(func, (tempfile, finr, sdate))
 			tempfile.close()
 			os.rename(dtemp, jfout)
 
@@ -70,7 +71,7 @@ if not os.path.isfile(hocdaydebatelist):
 # (comment the function call out line out if you want it to run past)
 #GlueHocDayDebate(dirgluedwranswers, hocdaydebatelist, 'answers', 'answers')
 
-ScanDirectories(RemoveLineChars, dirwaremovechars, dirgluedwranswers)
+#ScanDirectories(RemoveLineChars, dirwaremovechars, dirgluedwranswers)
 ScanDirectories(FixWransColumnNumbers, dirwacolumnnumbers, dirwaremovechars)
 ScanDirectories(WransSpeakerNames, dirwaspeakers, dirwacolumnnumbers)
 ScanDirectories(WransSections, dirwrans, dirwaspeakers)

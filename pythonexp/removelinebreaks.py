@@ -8,7 +8,7 @@ import re
 # we also take out comments and local pointers <a name=>
 
 
-def RemoveLineChars(fout, finr):
+def RemoveLineChars(fout, finr, sdate):
 	nrems = 0
 
 	# get rid of dos linefeeds
