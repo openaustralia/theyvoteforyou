@@ -1,5 +1,5 @@
 <?php $title = "Hansard Liaison Subproject"; include "../header.inc" 
-# $Id: liaison.php,v 1.3 2003/10/23 00:11:23 frabcus Exp $
+# $Id: liaison.php,v 1.4 2003/11/21 15:57:28 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -81,7 +81,8 @@ website, so they have to answer to them.
 <p><span class="ptitle">House of Commons Information Office (HCInfo)</span>.
 The first port of call for anything.  These are
 very friendly folk.  They seem used to the most peculiar of queries.
-Best is to ring them up on 020 7219 4272.  
+Best is to ring them up on 020 7219 4272. Email <a
+href="mailto:hcinfo@parliament.uk">hcinfo@parliament.uk</a>.
 
 <p><span class="ptitle">House of Commons Library Help Desk</span>.
 Another help desk, though more for internal use by parliament, whereas
