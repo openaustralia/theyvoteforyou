@@ -111,7 +111,7 @@ def FilterQuestion(qs):
 
 	# no paragraph breaks in the block of text
 	if len(dell) == 3:
-		qs.stext.append(FixHTMLEntities(dell[1]))
+		qs.stext.append('<div>%s</div>' % FixHTMLEntities(dell[1]))
 		return
 
 	# look for numbering in the first section
@@ -140,11 +140,11 @@ def FilterQuestion(qs):
 	# break out the numbers
 	p1 = re.findall('^([\s\S]*?\S)\s*?\(1\)\s*?(\S[\s\S]*?)$', dell[1])
 	if p1:
-		qs.stext.append(p1[0][0])
-		qs.stext.append('(1) ' + p1[0][1])
+		qs.stext.append('<div>%s</div>' % FixHTMLEntities(p1[0][0]))
+		qs.stext.append('<div>(1) %s</div>' %  FixHTMLEntities(p1[0][1]))
 	else:
 		print 'no first number match ' + qs.sstampurl.stamp
-		qs.stext.append(dell[1])
+		qs.stext.append('<div>%s</div>' % dell[1])
 
 	# do the rest of the paragraphs and look for numbers
 	for i in range(3, len(dell)-1, 2):
@@ -161,12 +161,8 @@ def FilterQuestion(qs):
 				print dell[i]
 				p1 = None
 		if p1:
-			qs.stext.append('(%d) %s' % (len(qs.stext), pi[0][1]))
+			qs.stext.append('<div>(%d) %s</div>' % (len(qs.stext), FixHTMLEntities(pi[0][1])))
 		else:
-			qs.stext.append(dell[i])
+			qs.stext.append('<div>%s</div>' % FixHTMLEntities(dell[i]))
 
-
-	# rumble it in
-	for i in range(len(qs.stext)):
-		qs.stext[i] = FixHTMLEntities(qs.stext[i])
 

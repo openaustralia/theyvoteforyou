@@ -154,23 +154,13 @@ def BreakUpText(stex, qs):
 resqbrack = re.compile('(\s*(?:\s|</?i>)*\[(?:\s|</?i>)*(.*?)(?:</i>|:|;|\s)*\](?:</i>|:|;|\s)*)')
 relettfrom = re.compile('<i>Letter from (.*?)(?: to (.*?))?(?:(?:,? dated| of)? %s)?:?</i>[.:]?$' % parlPhrases.datephrase)
 
+
 # main breaking up function.
 def BreakUpTextSB(i, n, stex, qs):
 
-	# First convert from the text into a list where the first entry is always a bracketed phrase
-	# only in the first paragraph
-	# <i>[holding answer 17 September 2003]:</i>
 	sres = [ ]
-	if i == 0:
-		# the delimeters are in a variety of different orders
-		qha = resqbrack.match(stex)
-		if qha:
-			sres.append('<sqbracket>')
-			sres.extend(BreakUpText(qha.group(2), qs))
-			sres.append('</sqbracket>')
-			stex = stex[qha.span(1)[1]:]
 
-	# might want to hive off the square-bracket clause into a paragraph on its own.
+	# recognize the structure of known paragraphs
 
 	# letter from paragraph form
 	# <i>Letter from Ruth Kelly to Mr. Frank Field dated 2 December 2003:</i>
@@ -213,36 +203,54 @@ def FilterReply(qs):
 
 	# break up into sections separated by paragraph breaks
 	# these alternate in the list, with the spaces already as lists
+	delholdinganswer = ''
 	dell = []
 
 	spclist = []
 	spclistinter = []
 	for nf in nfj:
+		# list of space type objects
 		if re.match('</?p>|</?ul>|<br>|</?font[^>]*>(?i)', nf):
 			spclist.append(nf)
 
-		# sometimes italics are hidden among the paragraph choss
+		# sometimes italics are hidden among the paragraph choss, and we want to bring it forward
 		elif re.match('\s*<i>\s*$', nf):
 			spclistinter.append(string.strip(nf))
-		else:
-			if re.search('\S', nf):
-				dell.append(spclist)
-				spclist = []
 
-				pstring = string.strip(nf)
-				if spclistinter:
-					spclistinter.append(pstring)
-					pstring = string.join(spclistinter, '')
+		# a non space type
+		elif re.search('\S', nf):
+			# bring the string together with choss in between paragraph stuff
+			pstring = string.strip(nf)
+			if spclistinter:
+				spclistinter.append(pstring)
+				pstring = string.join(spclistinter, '')
 
-				dell.append(pstring)
+			# first entry
+			if not dell:
+				# <i>[holding answer 17 September 2003]:</i>
+				qha = resqbrack.match(pstring)
+				if qha:
+					delholdinganswer = qha.group(2)
+					pstring = pstring[qha.span(1)[1]:]
+
+			dell.append(spclist)
+			dell.append(pstring)
 
 	dell.append(spclist)
 
 
+	# the resulting list of paragraphs
+	qs.stext = []
+
+	if delholdinganswer:
+		sres = [ '<div class="sqbracket">' ]
+		sres.extend(BreakUpText(delholdinganswer, qs))
+		sres.append('</div>')
+		lstex = string.join(sres, '')
+		qs.stext.append(lstex)
 
 	# we now have the paragraphs interspersed with inter-paragraph symbols
 	# for now ignore these inter-paragraph symbols and parse the paragraphs themselves
-	qs.stext = []
 	n = (len(dell)-1) / 2
 	for i in range(n):
 		# this puts a list into the result
@@ -250,7 +258,9 @@ def FilterReply(qs):
 		if re.search('<table(?i)', dell[i2]):
 			qs.stext.append(ParseTable(dell[i2]))
 		else:
-			sres = BreakUpTextSB(i, n, dell[i2], qs)
+			sres = [ '<div>' ]
+			sres.extend(BreakUpTextSB(i, n, dell[i2], qs))
+			sres.append('</div>')
 			lstex = string.join(sres, '')
 			if re.search('TAG-OUT', lstex):
 				print dell[i2]

@@ -174,9 +174,9 @@ def WritexmlSpeechBlock(fout, qblock, sdate):
 
 		# add in some tabbing
 		for st in qs.stext:
-			fout.write('\t\t<div>')
+			fout.write('\t\t')
 			fout.write(st)
-			fout.write('</div>\n')
+			fout.write('\n')
 
 		fout.write('\t</speech>\n')
 
