@@ -1,4 +1,4 @@
-// $Id: mpframe.java,v 1.3 2003/10/07 23:23:46 frabcus Exp $
+// $Id: mpframe.java,v 1.4 2003/10/08 11:01:31 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -63,7 +63,7 @@ class mpframe extends JFrame
 			mpf.mpsc.LoadData(coordfiles); 
 			
 			if (args.length > 1)
-				mpf.mpsc.pp.SavePNG(args[1]);
+				mpf.mpsc.pp.SavePNG(args[1], Integer.parseInt(args[2]), Integer.parseInt(args[3]));
 			else
 				mpf.show(); 
 		}

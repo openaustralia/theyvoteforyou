@@ -1,4 +1,4 @@
-// $Id: mparr.java,v 1.2 2003/10/07 23:23:46 frabcus Exp $
+// $Id: mparr.java,v 1.3 2003/10/08 11:01:31 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -15,9 +15,9 @@ import java.io.StreamTokenizer;
 /////////////////////////////////////////////
 class mparr
 {
-	double ranfac = 0.0005; 
 	mppos[] mpa; // the data.  
-
+    boolean[] mpactive; // the active flags 
+	
 	double xlo, xhi; 
 	double ylo, yhi; 
 	double zlo, zhi; 
@@ -27,7 +27,7 @@ class mparr
 	double zeig; 
 	
 	// construct the data from a given buffer (online or in a file).  
-	mparr(BufferedReader br) throws IOException
+	mparr(BufferedReader br, double ranfac) throws IOException
 	{
 		StreamTokenizer stoken = new StreamTokenizer(br); 
   		stoken.quoteChar('"'); 
@@ -86,7 +86,45 @@ class mparr
 				mpp.x = -mpp.x; 
 			if (bInverty) 
 				mpp.y = -mpp.y; 
-			
+		}
+		
+		// it's still too jumpy.  normalize.  (keep the coding simple) 
+		double xg = 0; 
+		double yg = 0; 
+		for (int i = 0; i < nmpa; i++) 
+		{
+			mppos mpp = mpa[i]; 
+			xg += mpp.x; 
+			yg += mpp.y; 
+		}
+		xg /= nmpa; 
+		yg /= nmpa; 
+
+        // variance  
+		double vg = 0.0; 
+		for (int i = 0; i < nmpa; i++) 
+		{
+			mppos mpp = mpa[i]; 
+			double xd = mpp.x - xg; 
+			double yd = mpp.y - yg; 
+			vg += xd * xd + yd * yd; 
+		}
+		vg /= nmpa; 
+System.out.println("Variance " + vg); 
+		
+		// normalize the points 
+		for (int i = 0; i < nmpa; i++) 
+		{
+			mppos mpp = mpa[i]; 
+			mpp.x = (mpp.x - xg) / vg; 
+			mpp.y = (mpp.y - yg) / vg; 
+		}
+				
+												
+		// find the ranges  
+		for (int i = 0; i < nmpa; i++) 
+		{
+			mppos mpp = mpa[i]; 
 			if ((i == 0) || (mpp.x < xlo)) 
 				xlo = mpp.x; 
 			if ((i == 0) || (mpp.x > xhi)) 

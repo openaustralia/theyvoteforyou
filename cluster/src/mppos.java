@@ -1,4 +1,4 @@
-// $Id: mppos.java,v 1.2 2003/10/07 23:23:46 frabcus Exp $
+// $Id: mppos.java,v 1.3 2003/10/08 11:01:31 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -27,7 +27,6 @@ class mppos
 
 	// positions on the screen for picking purposes.  
 	int ix, iy; 
-	boolean bActive = false; 
 
 	mppos(StreamTokenizer stoken, double ranfac) throws IOException  
 	{

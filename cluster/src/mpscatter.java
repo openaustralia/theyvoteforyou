@@ -1,4 +1,4 @@
-// $Id: mpscatter.java,v 1.2 2003/10/07 23:23:46 frabcus Exp $
+// $Id: mpscatter.java,v 1.3 2003/10/08 11:01:31 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -53,9 +53,12 @@ import java.awt.Dimension;
 /////////////////////////////////////////////
 class mpscatter extends JPanel
 {
+	double ranfac = 0.0005; 
+	
 	// the array of mps
 	mparr ma; 
 	mparr[] maseq; // sequence of arrays.  
+	boolean[] mpactive; 
 	JSlider seqslide = null; 
 		
 	plotpanel pp; 
@@ -71,6 +74,7 @@ class mpscatter extends JPanel
 	{
 	}		
 		
+	
 	/////////////////////////////////////////////
 	void Construct() 
 	{
@@ -78,7 +82,10 @@ class mpscatter extends JPanel
 		pp = new plotpanel(); 
 		lm = new listmps(); 
 		pp.lm = lm; 
-
+		ma.mpactive = new boolean[ma.mpa.length]; 
+		for (int i = 0; i < maseq.length; i++) 
+			maseq[i].mpactive = ma.mpactive; 
+	
 		setSize(700, 400); 
 		pp.setPreferredSize(new Dimension(500, 400)); 
 		//	lm.setPreferredSize(new Dimension(200, 400)); // seems to cause it to squash up badly.  
@@ -117,7 +124,7 @@ brow.add(buttNEXT);
 			seqslide.addChangeListener(new ChangeListener() 
 				{ public void stateChanged(ChangeEvent e) 
 					{ pp.ma = maseq[seqslide.getValue()]; 
-					  pp.InitScale(); 
+					  pp.repaint(); //pp.InitScale(); 
 					}
 				} ); 
    		}
@@ -138,7 +145,7 @@ brow.add(buttNEXT);
 	void LoadData(BufferedReader br) throws IOException  
 	{
 		mparr[] maseq = new mparr[1]; 
-		maseq[0] = new mparr(br);  
+		maseq[0] = new mparr(br, ranfac);  
 		ma = maseq[0]; 
 		Construct(); 
 		
@@ -154,7 +161,7 @@ brow.add(buttNEXT);
 		for (int i = 0; i < coordfiles.length; i++) 
 		{
 			BufferedReader br = new BufferedReader(new FileReader(coordfiles[i])); 
-			maseq[i] = new mparr(br);  
+			maseq[i] = new mparr(br, 0.0);  
         	br.close(); 
 		}
 				

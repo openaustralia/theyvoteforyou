@@ -25,7 +25,7 @@ Facility to register and define voting subset for a particular issue
 Do Iraq subselection ourselves
 Do climate change subselection
 
-Cluster diagram of each session
+Cluster diagram of each _session_
 
 Java in Opera Win32
 

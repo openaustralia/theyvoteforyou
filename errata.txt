@@ -1,5 +1,5 @@
-Hansard errata
---------------
+Hansard debate errata
+---------------------
 
 27 Nov 2002, Division 10 has wrong ayes count or wrong vote list
 - it says 240 ayes, but 341 are listed!
@@ -16,4 +16,13 @@ http://www.publications.parliament.uk/pa/cm200001/cmhansrd/vo001214/hallindx/012
 20 Jul 1999 Division listing incomplete
 http://www.publications.parliament.uk/pa/cm199899/cmhansrd/vo990720/debtext/90720-22.htm
 Next page -23.htm doesn't contain rest of division.
+
+Formatting troubles
+-------------------
+
+31 January, the Oral questions link points to nothing.  The file name is
+out by one day.
+http://www.publications.parliament.uk/pa/cm/cmvo236.htm
+They must be creating these volume index pages by hand!
+
 

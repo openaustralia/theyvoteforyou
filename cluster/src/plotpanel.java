@@ -1,4 +1,4 @@
-// $Id: plotpanel.java,v 1.3 2003/10/07 23:23:46 frabcus Exp $
+// $Id: plotpanel.java,v 1.4 2003/10/08 11:01:31 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -30,7 +30,7 @@ import java.awt.Cursor;
 import java.awt.FontMetrics; 
 
 import java.io.File;
-//import javax.imageio.ImageIO;
+import javax.imageio.ImageIO;
 
 //
 //
@@ -91,8 +91,8 @@ class plotpanel extends JPanel implements MouseListener, MouseMotionListener
 		cenx = (ma.xlo + ma.xhi) / 2; 
 		ceny = (ma.ylo + ma.yhi) / 2; 
 		sca = Math.min(csize.width / (ma.xhi - ma.xlo), csize.height / (ma.yhi - ma.ylo)); 
-		repaint(); 
 		sca *= 0.9;
+		repaint(); 
 	}
 
 
@@ -142,7 +142,7 @@ class plotpanel extends JPanel implements MouseListener, MouseMotionListener
 			SetFM(g); 
 		for (int i = 0 ; i < ma.mpa.length ; i++) 
 		{
-			if (ma.mpa[i].bActive) 
+			if (ma.mpactive[i]) 
 			{
 				g.setColor(Color.black); 
 				g.drawRect(ma.mpa[i].ix - rsdiam / 2 - 1, ma.mpa[i].iy - rsdiam / 2 - 1, rsdiam + 2, rsdiam + 2); 
@@ -155,24 +155,24 @@ class plotpanel extends JPanel implements MouseListener, MouseMotionListener
 	    }
 	}
 
-        public void SavePNG(String filename)
+        public void SavePNG(String filename, int w, int h)
         {
             // Draw image
-            csize = new Dimension(533,400);
+            csize = new Dimension(w,h);
             BufferedImage img = new BufferedImage(csize.width, csize.height, BufferedImage.TYPE_INT_RGB);
             Graphics gfx = img.getGraphics();
             InitScale(); 
             paintGraph(gfx); 
 
             // Save to disk
-/*            try
+            try
             {
                 ImageIO.write(img, "png", new File(filename));
             } catch(IOException ioe) {
                 System.err.println("Error saving PNG");
                 System.exit(1);
             }
-*/        }
+        }
 
 	/////////////////////////////////////////////
     public void paintGraph(Graphics g) 
@@ -203,8 +203,8 @@ class plotpanel extends JPanel implements MouseListener, MouseMotionListener
 			int dy = ma.mpa[i].iy - downy; 
 			int dsq = dx * dx + dy * dy; 
 
-			ma.mpa[i].bActive = (dsq < rsdiam * rsdiam); 
-			if (ma.mpa[i].bActive) 
+			ma.mpactive[i] = (dsq < rsdiam * rsdiam); 
+			if (ma.mpactive[i]) 
 				nsel++; 
 	    }
 		if (nsel == 0) 
@@ -215,7 +215,7 @@ class plotpanel extends JPanel implements MouseListener, MouseMotionListener
 			int j = 0; 
 			for (int i = 0 ; i < ma.mpa.length ; i++) 
 			{
-				if (ma.mpa[i].bActive) 
+				if (ma.mpactive[i]) 
 				{
 					indices[j] = i; 
 					j++; 
