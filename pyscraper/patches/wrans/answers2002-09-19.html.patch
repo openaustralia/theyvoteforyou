@@ -1,0 +1,86 @@
+--- wrans/answers2002-09-19.html	2004-04-08 11:02:50.000000000 +0100
++++ wrans/answers2002-09-19-patchtmp.html	2004-04-08 17:25:44.000000000 +0100
+@@ -4415,7 +4415,7 @@
+ <TABLE BORDER=1>
+ 
+ <P>
+-<FONT SIZE=-1><center><B>Number of persons convicted at all courts for offences relating to pornography England and Wales 2000 <sup>1</sup> .<sup>,</sup> <sup>2</sup> .OffenceStatute</center></B>
++<TR><TD><FONT SIZE=-1><center><B>Number of persons convicted at all courts for offences relating to pornography England and Wales 2000 <sup>1</sup> .<sup>,</sup> <sup>2</sup> .OffenceStatute</center></B>
+ </FONT></FONT></TD><TD><FONT SIZE=-1><i>Total convicted</i>
+ </FONT></TD></TR>
+ 
+@@ -18793,18 +18793,6 @@
+ <a name="20919w71.html_spnew0"><B> Mr. Meacher </B> 
+  <i>[holding answer 24 July 2002]:</i> I refer the hon. Member to the answer given by my hon. Friend the Parliamentary Under Secretary to Transport (Mr. Jamieson) on 24 July, <i>Official Report</i>, column 1249W.
+ 
+-<a name="20919w71.html_sbhd1"><H4><center>Meat Imports</center></H4>
+-
+-
+-<P>
+-<P>
+-<a name="20919w71.html_wqn1"><B> Geraldine Smith: </B> 
+-To ask the Secretary of State for Environment, Food and Rural Affairs what controls on meat imports are in place to guard against foot and mouth and other diseases.  [73654]
+-<P><P>
+-<P>
+-<a name="20919w71.html_spnew1"><B>  </B> 
+-
+-
+ <a name="20919w71.html_sbhd2"><H4><center>Are You Doing Your Bit? Campaign</center></H4>
+ 
+ 
+@@ -22292,7 +22280,7 @@
+ <P>
+ <P>
+ <a name="20919w86.html_wqn4"><B> Mr. Burstow: </B> 
+-To ask the Secretary of State for Health, when he expects only frictional levels of delayed discharge to be achieved;  [64523]
++To ask the Secretary of State for Health, (1) when he expects only frictional levels of delayed discharge to be achieved;  [64523]
+ <P>
+ <UL>(2) how many people he estimates have experienced frictional discharge for each quarter of the last year; and how many he expects to experience frictional discharge in the next year.  [64668]<P></UL>
+ <P>
+@@ -26250,6 +26238,7 @@
+ <P>
+ <a name="20919100.html_wqn9"><B>  </B> 
+ <P>
++<B> <broken-name>Unknown: </b> To ask someone something (original question not in Hansard).
+ <P>
+ <P>
+ <a name="20919100.html_spnew9"><B> Ms Blears: </B> 
+@@ -26946,25 +26935,25 @@
+ 
+ <P>
+ 
+-<a name="20919103.html_para15">The hon. Lady's second question asked if the Secretary of State will list the countries in which her Department operates a sector wide approach to development. [73283]
++<a name="20919103.html_para15">The hon. Lady's second question asked if the Secretary of State will list the countries in which her Department operates a sector wide approach to development. <ok-extra-qnum>[73283]
+ <P>
+ 
+ <a name="20919103.html_para16">My Department supports one or more sector wide approaches in a number of aid dependent Low Income Countries, including in Bangladesh, Ghana, Malawi, Mozambique, Rwanda, Tanzania, Uganda and Zambia.
+ <P>
+ 
+-<a name="20919103.html_para17">The hon. Lady's third question asked what the Secretary of State is doing to promote good government in Ethiopia. [73287]
++<a name="20919103.html_para17">The hon. Lady's third question asked what the Secretary of State is doing to promote good government in Ethiopia. <ok-extra-qnum>[73287]
+ <P>
+ 
+ <a name="20919103.html_para18">We are currently developing a partnership with the Ethiopian Government and as part of this process we are formulating our Country Assistance Plan for Ethiopia. Our Plan will be based on the Ethiopian Government's Poverty Reduction Strategy Paper, which includes a commitment to good governance. We are considering support through our programme for Civil Service Reform and capacity building of local government. We also have a Partnership Fund, which has the objective of increasing awareness, accountability and responsiveness of government to the public and civil society.
+ <P>
+ 
+-<a name="20919103.html_para19">The hon. Lady's fourth question asked what assistance the Secretary of State's Department has provided <i>(a)</i> bilaterally and <i>(b)</i> multilaterally to the EPRDF in Ethiopia in each of the last five years. [73284]
++<a name="20919103.html_para19">The hon. Lady's fourth question asked what assistance the Secretary of State's Department has provided <i>(a)</i> bilaterally and <i>(b)</i> multilaterally to the EPRDF in Ethiopia in each of the last five years. <ok-extra-qnum>[73284]
+ <P>
+ 
+ <a name="20919103.html_para20">The DFID bilateral programme has not provided any financial or technical assistance to the EPRDF in any of the last five years. We are not aware of any specific multilateral contributions direct to the EPRDF.
+ <P>
+ 
+-<a name="20919103.html_para21">The hon. Lady's fifth question asked what steps the Secretary of State's Department is taking to encourage Ethiopia to fulfil its obligations under the Convention of the Child. [73285]
++<a name="20919103.html_para21">The hon. Lady's fifth question asked what steps the Secretary of State's Department is taking to encourage Ethiopia to fulfil its obligations under the Convention of the Child. <ok-extra-qnum>[73285]
+ <P>
+ 
+ <a name="20919103.html_para22">Implementation of the UN Convention on the Rights of the Child (CRC), which has been signed by Ethiopia, is monitored by the Committee of the Rights of the Child, who examine reports submitted by States' such as Ethiopia. Under the CRC, UNICEF has a legal obligation to promote and protect child rights by supporting the work of the Committee. DFID has been supporting UNICEF to increase its capacity to apply human rights principles and the provisions of the Convention in the design and implementation of its programmes. UNICEF has been testing out rights-based programming in East Africa including Ethiopia. DFID is also funding a project to rehabilitate street children into their communities and to raise awareness of children's issues in Addis Ababa.
+@@ -27010,8 +26999,6 @@
+ FY 2002&#150;2003&#151;&#163;55,000 (expected)
+ 
+ 
+-
+-
+ <P>
+ </UL></FONT><P><I>19 Sept 2002 : Column 424W</I><P>
+ <UL><FONT SIZE=-1>
