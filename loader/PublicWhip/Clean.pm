@@ -1,4 +1,4 @@
-# $Id: Clean.pm,v 1.1 2004/06/08 11:56:54 frabcus Exp $
+# $Id: Clean.pm,v 1.2 2004/06/08 13:05:18 frabcus Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -13,17 +13,11 @@ use PublicWhip::Error;
 
 sub erase_duff_divisions {
     my $dbh = shift;
-    # This SQL is just ALL WRONG
-    #PublicWhip::DB::query(
-    #    $dbh, "update pw_debate_content, pw_division set
-    #	divisions_extracted = 0 where pw_division.valid = 0 and
-	#	pw_division.division_date = pw_debate_content.day_date"
-    # );
-    #PublicWhip::DB::query(
-    #    $dbh, "delete from pw_vote left join pw_division on
-	#	pw_division.division_id = pw_vote.division_id 
-	#	where (pw_division.valid = 0 or pw_division.valid is null)"
-    #);
+    PublicWhip::DB::query(
+        $dbh, "delete from pw_vote left join pw_division on
+		pw_division.division_id = pw_vote.division_id 
+		where (pw_division.valid = 0 or pw_division.valid is null)"
+    );
     PublicWhip::DB::query( $dbh,
         "delete from pw_division where pw_division.valid = 0" );
 }

@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.1 2004/06/08 11:56:54 frabcus Exp $
+-- $Id: create.sql,v 1.2 2004/06/08 13:05:09 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -19,24 +19,7 @@
 --    Or you can load this file into some GUI client and inject it.
 -- 
 
-drop table if exists pw_hansard_day, pw_debate_content;
 drop table if exists pw_mp, pw_division, pw_vote;
-
-create table pw_hansard_day (
-    day_date date not null,
-    first_page_url blob not null,
-
-    unique(day_date)
-);
-
-create table pw_debate_content (
-    day_date date not null,
-    content longblob,
-    download_date datetime not null,
-    divisions_extracted int not null default 0,
-
-    unique(day_date)
-);
 
 create table pw_mp (
     mp_id int not null primary key auto_increment,
