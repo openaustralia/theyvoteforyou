@@ -2,7 +2,7 @@
 
 $cache_params = rand(0, 10); include "cache-begin.inc";
 
-# $Id: index.php,v 1.44 2005/03/28 17:35:59 frabcus Exp $
+# $Id: index.php,v 1.45 2005/03/28 18:16:28 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -27,7 +27,7 @@ For more information about the project, <a href="faq.php">read the FAQ</a>.
 
     include "dream.inc";
 
-	update_dreammp_votemeasures($db, null); # for all
+	update_dreammp_votemeasures($db, null, 0); # for all
 
     $random_mp = searchtip_random_mp($db);
     $random_topic = searchtip_random_topic($db);

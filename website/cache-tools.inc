@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-tools.inc,v 1.11 2005/02/18 19:43:41 frabcus Exp $
+# $Id: cache-tools.inc,v 1.12 2005/03/28 18:16:28 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -83,7 +83,7 @@ function notify_dream_mp_updated($db, $dreamid) {
     }
 
     # Mark cache table for updating    
-    $db->query("update pw_dyn_rolliemp set cache_uptodate = 0 where rollie_id = '$dreamid'"); 
+    $db->query("delete from pw_cache_dreaminfo where rollie_id = '$dreamid'"); 
 }
 # ... when a Dream MP is added or deleted
 function notify_dream_list_changed($db) {

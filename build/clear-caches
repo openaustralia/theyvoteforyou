@@ -3,6 +3,6 @@
 set -e
 
 echo "delete from pw_cache_dreaminfo;" | mysql francis
-echo "update pw_dyn_rolliemp set cache_uptodate = 0;" | mysql francis
+echo "delete from pw_cache_dreamreal_distance;" | mysql francis
 rm -fr /home/francis/pwcache/*
 

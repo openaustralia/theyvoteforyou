@@ -19,7 +19,7 @@
     $dbo = new DB();
     $db = new DB();
 
-	update_dreammp_votemeasures($db, null); # for all
+	update_dreammp_votemeasures($db, null, 0); # for all
 
     $title = "Dream MPs";
     include "header.inc";

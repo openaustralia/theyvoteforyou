@@ -25,7 +25,7 @@ function calc_dreammp_person_distance($nvotessame, $nvotessamestrong,
 # does all or just this one dreammp
 # It's entries are considered out of date if they are blank,
 # or you can force everything is $dreamid = "force"
-function update_dreammp_votemeasures($db, $dreamid)
+function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 {
 	global $bdebug;
 
@@ -52,7 +52,7 @@ function update_dreammp_votemeasures($db, $dreamid)
 	elseif ($dreamid == null)
 		$qwhere = " WHERE pw_cache_dreaminfo.cache_uptodate IS null";
 	else
-		$qwhere = " WHERE pw_cache_dreaminfo.rollie_id = $dreamid";
+		$qwhere = " WHERE pw_dyn_rollievote.rolliemp_id = $dreamid";
 
 	$qgroup = " GROUP BY pw_cache_dreaminfo.rollie_id";
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
@@ -67,7 +67,7 @@ function update_dreammp_votemeasures($db, $dreamid)
 		$neditedmotions = $row["neditedmotions"];
 		$query ="REPLACE INTO pw_cache_dreaminfo
 				(rollie_id, cache_uptodate, votes_count, edited_motions_count)
-				VALUES (".$row['rolliemp_id'].", ".($dreamid != null ? 1 : 0).", $nvotes, $neditedmotions)";
+				VALUES (".$row['rolliemp_id'].", $cache_uptodate_default, $nvotes, $neditedmotions)";
 		$db->query($query);
 	}
 }
@@ -78,21 +78,19 @@ function update_dreammp_votemeasures($db, $dreamid)
 # "absent" means the MP was absent when the DreamMP voted
 function update_dreammp_person_distance($db, $dreamid)
 {
-# update the number of votes and number of motions edited
-# pw_cache_dreaminfo
+    # update the number of votes and number of motions edited
 
 	global $bdebug;
 	$query = "SELECT cache_uptodate
 			  FROM pw_cache_dreaminfo
 			  WHERE rollie_id = $dreamid";
 	$row = $db->query_onez_row_assoc($query); # allows no rows
-	if ($row == null)
-	{
-		update_dreammp_votemeasures($db, $dreamid);
+	if ($row == null) {
+		update_dreammp_votemeasures($db, $dreamid, 0);
 		$row = $db->query_one_row_assoc($query);
 	}
 	else
-		update_dreammp_votemeasures($db, $dreamid); # forces the sums to add up properly
+		update_dreammp_votemeasures($db, $dreamid, $row["cache_uptodate"]); # forces the sums to add up properly
 	if ($row["cache_uptodate"] == 1)
 		return;
     if ($bdebug)
