@@ -12,6 +12,7 @@ from miscfuncs import ApplyFixSubstitutions
 
 
 fixsubs = [
+        ('(Gareth Thomas  \(Clwyd, West\)) \(Lab\)', '\\1', 1, '2004-03-17'),
         ('23. (Mr. David Rendel)', '\\1', 1, '2003-06-30'),
         ('<B> Caroline Flint\): </B>', '<B> Caroline Flint: </B>', 1, '2003-07-14'),
         ('<B> Ms King </B>', '<B> Oona King </B>', 1, '2003-09-11'),
