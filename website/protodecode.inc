@@ -17,7 +17,8 @@ function ReadNumberPair($fin)
 	$ln = fread($fin, 20);
 	$matches = preg_match('|\s*(\d+)\s*(\d+)\n$|', $ln, $lng);
 	if ($matches != 1)
-		print 'Error in protodecode: ' . $ln . ' does not match pair of numbers ';
+		#print 'Error in protodecode: ' . $ln . ' does not match pair of numbers ';
+        return array(false, false);
 	return array(intval($lng[1]), intval($lng[2]));
 }
 
@@ -39,21 +40,28 @@ function FetchWrans($wrid)
 
 	# get the first line of the index to find the column number
 	if (!file_exists($fninx))
-		return null;
+		return false;
 	$finx = fopen($fninx, 'r');
 	list($lcolnum, $lse) = ReadNumberPair($finx);
+    if (!$lcolnum)
+        return false;
 
 	# seek to correct column number
 	if ($colnum > $lcolnum)
 	{
 		fseek($finx, ($colnum - $lcolnum) * 20);
 		list($lcolnum, $lse) = ReadNumberPair($finx);
+        if (!$lcolnum)
+            return false;
 	}
 	if ($lcolnum != $colnum)
-		print 'Error in protodecode: colnum mismatch';
+		#print 'Error in protodecode: colnum mismatch';
+        return false;
 
 	# length of string we will read out
 	list($dummy, $end) = ReadNumberPair($finx);
+    if (!$end)
+        return false;
 	$lgth = $end - $lse;
 	fclose($finx);
 
@@ -71,7 +79,8 @@ function FetchWrans($wrid)
 	$regsq = sprintf('|<wrans id="%s"[\s\S]*?</wrans>|', $wrid);
 	$matches = preg_match($regsq, $wranscol, $wrg);
 	if ($matches != 1)
-		print 'Error in protodecode: not exactly one matching question! Instead, ' . $matches . ' matches. ' . $wrid;
+		#print 'Error in protodecode: not exactly one matching question! Instead, ' . $matches . ' matches. ' . $wrid;
+        return false;
 	return $wrg[0];
 }
 
