@@ -1,0 +1,90 @@
+--- wrans/answers2002-11-07.html	2004-04-06 09:21:27.000000000 +0100
++++ wrans/answers2002-11-07-patchtmp.html	2004-04-07 11:37:55.000000000 +0100
+@@ -626,7 +626,7 @@
+ 
+ <P>
+ <P>
+-<a name="21107w02.html_wqn12"><B> Tom Blake: </B> 
++<a name="21107w02.html_wqn12"><B> Tom Brake: </B> 
+ To ask the Secretary of State for Transport how many copies of the <i>(a)</i> main document and <i>(b)</i> summary of the consultation documents (i) Future Development of Air Transport in the United Kingdom: A National Consultation, (ii) Future Development of Air Transport in the United Kingdom: North of England, (iii) Future Development of Air Transport in the United Kingdom: South West, (iv) Future Development of Air Transport in the United Kingdom: Midlands, (v) Future Development of Air Transport in the United Kingdom: Wales and (vi) Future Development of Air Transport in the United Kingdom: South East have been <i>(A)</i> issued in hard copy and <i>(B)</i> downloaded from the website.  [78813]
+ 
+ 
+@@ -1306,7 +1306,7 @@
+  I will write to the hon. Member and a copy of my letter will be placed in the Library of the House.
+ <P>
+ <P>
+-<a name="21107w05.html_wqn2"><B> Mr. Simpson: </B> 
++<a name="21107w05.html_wqn2"><B> Alan Simpson: </B> 
+ To ask the Secretary of State for Defence what plans he has to include medical staff in a call up of reservists in respect of planned military action against terrorism.  [78577]<P>
+ <P>
+ <P>
+@@ -1665,7 +1665,7 @@
+ 
+ <P>
+ <P>
+-<a name="21107w06.html_wqn6"><B> Mr. Kennedy: </B> 
++<a name="21107w06.html_wqn6"><B> Charles Kennedy: </B> 
+ To ask the Secretary of State for Defence if he will list the steps being taken by the Government to ensure that bids to build the replacement for the Invincible Class Carriers take account of UK dry dock facilities; and if he will make a statement.  [78989]<P>
+ <P>
+ <P>
+@@ -1689,7 +1689,7 @@
+ 
+ <P>
+ <P>
+-<a name="21107w06.html_wqn8"><B> Mr. Duncan: </B> 
++<a name="21107w06.html_wqn8"><B> Peter Duncan: </B> 
+ To ask the Secretary of State for Defence how many civilian aircraft landings and take-offs were recorded at RAF Machrihanish during each of the last five years.  [78734]<P>
+ <P>
+ <P>
+@@ -1847,6 +1847,8 @@
+ Professor D King CSA to the Government
+ Dr. A Keddy Department of Trade & Industry
+ 
++</TD></TR>
++</TABLE>
+ 
+ <a name="21107w07.html_sbhd3"><H4><center>PFI Projects</center></H4>
+ 
+@@ -2077,10 +2079,7 @@
+ <P>
+ <a name="21107w08.html_wqn2"><B> Llew Smith: </B> 
+ To ask the Secretary of State for Defence if he will make a statement on the meaning of the phrase 
+-<P>
+-<BR>
+-<UL><FONT SIZE=-1>"strengthen the arrangements for consequence management,"
+-<P>
++"strengthen the arrangements for consequence management,"
+ in paragraph 27 of the Government response to the Defence Select Committee report on Defence and Security in the UK, HC 1230, Session 2001&#150;02, in respect of the vulnerability of nuclear installations to terrorist attack.  [80365]<P></UL>
+ <P>
+ <P>
+@@ -17062,8 +17061,7 @@
+ <P>
+ <a name="21107w60.html_wqn9"><B> Mrs. Iris Robinson: </B> 
+ To ask the Secretary of State for Northern Ireland, how many <i>(a)</i> doctors and
+-<P>
+-<UL><i>(b)</i> practices are involved in each of the general practice out of hours co-operatives in Northern Ireland.  [79782]<P></UL>
++<i>(b)</i> practices are involved in each of the general practice out of hours co-operatives in Northern Ireland.  [79782]<P>
+ <P>
+ <P>
+ <a name="21107w60.html_spnew9"><B> Desmond Browne: </B> 
+@@ -23992,6 +23990,7 @@
+ <a name="21107w87.html_wqn3"><B> Mr. Simon: </B> 
+ To ask the Chancellor of the Exchequer what proportion of the Royal Mint's fixed costs are covered by its Treasury contract for UK coin production in 2001&#150;2002.  [78345]
+ <P>
++<B> Mr. Simon: </B> 
+ <UL>To ask the Chancellor of the Exchequer, whether the Royal Mint is benefiting from the contribution to overheads made on its monopoly circulating coin contract with the Treasury to price down overseas contracts in competition with the privately owned Birmingham Mint.  [78343]<P></UL>
+ <P>
+ <P>
+@@ -25487,10 +25486,10 @@
+ <P>
+ <P>
+ <a name="21107w92.html_wqn5"><B> Dr. Francis: </B> 
+-To ask the Secretary of State for the Home Department if he will make a statement on the Government's policy on consistency of approach to sentencing;  [78689]
++To ask the Secretary of State for the Home Department (1) if he will make a statement on the Government's policy on consistency of approach to sentencing;  [78689]
+ <P>
+ <UL>
+-(2)when he will implement the provisions in the Crime Sentences Act 1997 regarding <i>(a)</i> the imposition of curfew orders, <i>(b)</i> community punishment orders and <i>(c)</i> driving disqualifications for fine defaulters.  [78682]<P></UL>
++(2) when he will implement the provisions in the Crime Sentences Act 1997 regarding <i>(a)</i> the imposition of curfew orders, <i>(b)</i> community punishment orders and <i>(c)</i> driving disqualifications for fine defaulters.  [78682]<P></UL>
+ <P>
+ <P>
+ <a name="21107w92.html_spnew5"><B> Hilary Benn: </B> 

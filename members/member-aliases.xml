@@ -30,9 +30,7 @@ A date range can also be specified, for which the alias is valid.
 <!-- Offices (only those that are needed) -->
 
 <alias fullname="Tony Blair" alternate="The Prime Minister" from="1997-05-01" to="9999-31-01"/>
-
-<!-- Nore sure what date ranges to use - so just conservatively extend for now-->
-<alias fullname="John Prescott" alternate="The Deputy Prime Minister" from="2003-03-20" to="2003-03-20"/>
+<alias fullname="John Prescott" alternate="The Deputy Prime Minister" from="1997-05-01" to="9999-31-02"/>
 
 <!-- note this will be ignored until a John Major is added for a parliament
 before 1997 for which he was PM - date ranges will make the code ignore the
@@ -62,8 +60,26 @@ We should find the exact date she started, and move her finish date over time.
         from="1999-05-20" to="2004-05-01"/>
 <alias fullname="Lynda Clark" alternate="The Advocate-General"
         from="1999-05-20" to="2004-05-01"/>
+<alias fullname="Lynda Clark" alternate="Advocate-General"
+        from="1999-05-20" to="2004-05-01"/>
 
 <!-- First added for 2001 parliament -->
+<alias fullname="Norman Baker" alternate="Noman Baker" />
+<alias lastname="Wilshire" alternate="Wiltshire" />
+<alias fullname="Annabelle Ewing" alternate="Anabelle Ewing" />
+<alias fullname="Lawrie Quinn" alternate="Laurie Quinn" />
+<alias lastname="Fallon" alternate="Fallen" />
+<alias lastname="McNulty" alternate="NcNulty" />
+<alias lastname="MacKinlay" alternate="Mackinlay" />
+<alias fullname="Stephen O'Brien" alternate="Stephen O'Brian" />
+<alias fullname="John Robertson" alternate="John Robertston" />
+<alias lastname="MacKinlay" alternate="Mackinlay" />
+<alias lastname="MacShane" alternate="Macshane" />
+<alias fullname="Stephen O'Brien" alternate="Stephen O Brien" />
+<alias lastname="Hinchliffe" alternate="Hinchcliffe" />
+<alias lastname="Lidington" alternate="Liddington" />
+<alias fullname="Jacqui Smith" alternate="Jaqui Smith" />
+<alias fullname="Gordon Marsden" alternate="Gorden Marsden" />
 <alias fullname="Charles Hendry" alternate="Charles Hedry" />
 <alias fullname="Annette Brooke" alternate="Annette L Brook" />
 <alias fullname="Shaun Woodward" alternate="Shaun Woodwood" />
@@ -106,6 +122,7 @@ We should find the exact date she started, and move her finish date over time.
 <alias fullname="Anne Picking" alternate="Ann Picking" />
 <alias fullname="Ann McKechin" alternate="Anne McKechin" />
 <alias fullname="Thomas McAvoy" alternate="Tommy McAvoy" />
+<alias fullname="Fiona Mactaggart" alternate="Fiona McTaggart" />
 <alias fullname="Fiona Mactaggart" alternate="Fiona MacTaggart" />
 <alias fullname="Andrew MacKinlay" alternate="Andrew Mackinlay" />
 <alias fullname="David Maclean" alternate="David MacLean" />

@@ -1,4 +1,5 @@
 #! /usr/bin/python2.3
+# vim:sw=8:ts=8:et:nowrap
 
 import sys
 import re
@@ -56,12 +57,20 @@ class StampUrl:
 	# extract a url and hash link to position in the web.
 	def GetUrl(self):
 		spurl = re.match('<page url="(.*?)"/>', self.pageurl).group(1)
-		anamem = re.match('<stamp aname="(.*?)"/>', self.aname)
+		anamem = self.GetAName()
 		if anamem:
-			saname = anamem.group(1)
-			return '%s#%s' % (spurl, saname)
+			return '%s#%s' % (spurl, anamem)
 		else:
 			return spurl
+
+        # extract anchor
+        def GetAName(self):
+		anamem = re.match('<stamp aname="(.*?)"/>', self.aname)
+		if anamem:
+                        return anamem.group(1)
+                else:
+                        return None
+
 
 
 

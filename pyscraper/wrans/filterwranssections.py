@@ -225,7 +225,7 @@ def FilterWransSections(fout, text, sdate):
                 # the next bit.  Happens a lot in wrans in January 2003.
                 # e.g. In 2003-01-15 we have heading "Birmingham Northern Relief Road "
                 # with extra bit "(Low-noise Tarmac)" to pull in.
-                bhmatch = re.match('(\s*[()A-Za-z\-\' ]+)([\s\S]*)$', unspoketxt)
+                bhmatch = re.match('(\s*[()A-Za-z\-,\' 0-9]+)([\s\S]*)$', unspoketxt)
                 if bhmatch:
                         # Merge the heading part back in
                         headingtxt = headingtxt + bhmatch.group(1)
@@ -236,8 +236,7 @@ def FilterWransSections(fout, text, sdate):
 
 		# update the stamps from the pre-spoken text
 		if (not re.match('(?:<[^>]*>|\s)*$', unspoketxt)):
-			print sht
-			raise Exception, "unspoken text under heading in wrans"
+			raise ContextException("unspoken text under heading in wrans", stamp=stampurl, fragment=unspoketxt)
 		stampurl.UpdateStampUrl(unspoketxt)
 
 		# headings become one unmarked paragraph of text
@@ -245,8 +244,7 @@ def FilterWransSections(fout, text, sdate):
 		# detect if this is a major heading
 		if not re.search('[a-z]', headingtxt) and not speechestxt:
 			if not parlPhrases.wransmajorheadings.has_key(headingtxt):
-				print '"%s":"%s",' % (headingtxt, headingtxt)
-				raise Exception, "unrecognized major heading, please add to parlPhrases.wransmajorheadings"
+				raise ContextException("unrecognized major heading, please add to parlPhrases.wransmajorheadings", fragment = headingtxt, stampurl = stampurl)
 			majheadingtxtfx = parlPhrases.wransmajorheadings[headingtxt] # no need to fix since text is from a map.
 			qbH = qspeech('nospeaker="true"', majheadingtxtfx, stampurl)
 			qbH.typ = 'major-heading'
@@ -293,7 +291,7 @@ def FilterWransSections(fout, text, sdate):
 				else:
 					qnums.extend(lqnums)
 
-				qb.stext = FilterQuestion(qb.text, sdate)
+				qb.stext = FilterQuestion(qb.text, sdate, qb.sstampurl)
 				if not lqnums:
 					errmess = ' <p class="error">Question number missing in Hansard, possibly truncated question.</p> '
 					qb.stext.append(errmess)
@@ -312,17 +310,20 @@ def FilterWransSections(fout, text, sdate):
 				else:
 					bNextStartofQ = True
 
-				qb.stext = FilterReply(qb.text)
-
 				# check against qnums which are sometimes repeated in the answer code
 				for qn in lqnums:
 					# sometimes [n] is an enumeration or part of a title
 					nqn = string.atoi(qn)
-					if (not qnums.count(qn)) and (nqn > 100) and ((nqn < 1995) or (nqn > 2003)):
-						print ' unknown qnum present in answer ' + qb.sstampurl.stamp
-						print qn
-						raise Exception, ' make it clear '
-						self.stext.append('<p class="error">qnum present in answer</p>')
+					if (not qnums.count(qn)) and (nqn > 100) and ((nqn < 1900) or (nqn > 2010)):
+                                                if qb.text.find("<ok-extra-qnum>") >= 0:
+                                                        qb.text = qb.text.replace("<ok-extra-qnum>", "")
+                                                else:
+                                                        raise ContextException('unknown qnum %s present in answer, make it clear' % qn, stamp = qb.sstampurl, fragment = qb.text)
+
+                                try:
+                                        qb.stext = FilterReply(qb.text)
+                                except Exception, e:
+                                        raise ContextException(str(e), stamp=qb.sstampurl, fragment=qb.text)
 
 				flatb.append(qb)
 

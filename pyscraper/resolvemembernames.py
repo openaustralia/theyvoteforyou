@@ -17,8 +17,15 @@ from parlphrases import parlPhrases
 regnospeakers = "Hon\.? Members|Members of the House of Commons|" + \
         "Deputy Speaker|Second Deputy Chairman(?i)|The Chairman|First Deputy Chairman|Temporary Chairman"
 
+# Cases we want to specially match - add these in as we need them
+class MultipleMatchException(Exception):
+    pass
+
 class MemberList(xml.sax.handler.ContentHandler):
     def __init__(self):
+        self.reloadXML()
+
+    def reloadXML(self):
         self.members={} # ID --> MPs
         self.fullnames={} # "Firstname Lastname" --> MPs
         self.lastnames={} # Surname --> MPs
@@ -34,7 +41,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         self.retitles = re.compile('^(?:%s)' % self.titles)
         self.rejobs = re.compile('^%s$' % parlPhrases.regexpjobs)
 
-        self.honourifics = " CBE| OBE| MBE| QC| BEM| rh| RH| Esq| QPM| JP| FSA| Bt| B.Ed \(Hons\)";
+        self.honourifics = " MP| CBE| OBE| MBE| QC| BEM| rh| RH| Esq| QPM| JP| FSA| Bt| B.Ed \(Hons\)";
         self.rehonourifics = re.compile('(?:%s)$' % self.honourifics)
 
         parser = xml.sax.make_parser()
@@ -188,7 +195,10 @@ class MemberList(xml.sax.handler.ContentHandler):
         return ids
 
     # Returns id, corrected name, corrected constituency
-    def matchfullnamecons(self, fullname, cons, date, alwaysmatchcons = True, bsuppressmultimplematches = False):
+    def matchfullnamecons(self, fullname, cons, date, alwaysmatchcons = True):
+        fullname = fullname.strip()
+        if cons:
+            cons = cons.strip()
         ids = self.fullnametoids(fullname, date)
 
         cancons = self.conscanonical.get(cons, None)
@@ -205,9 +215,9 @@ class MemberList(xml.sax.handler.ContentHandler):
             ids = newids
 
         if len(ids) == 0:
-            raise Exception, 'No match: #' + fullname + "# " + (cons or "<nocons>")
-        if len(ids) > 1 and not bsuppressmultimplematches:
-            raise Exception, 'Matched multiple times: ' + fullname + " # " + (cons or "<nocons>")
+            raise Exception, 'No match: ' + fullname + " " + (cons or "[nocons]")
+        if len(ids) > 1:
+            raise MultipleMatchException, 'Matched multiple times: ' + fullname + " " + (cons or "[nocons]")
 
         for id in ids: # pop is no good as it changes the set
             pass

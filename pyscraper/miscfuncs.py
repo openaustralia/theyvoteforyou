@@ -140,8 +140,11 @@ def StraightenHTMLrecurse(stex):
 		sres.extend(StraightenHTMLrecurse(stex[qisup.span(1)[1]:]))
 		return sres
 
-	sres = re.split('(&[a-z]*?;|&#\d+;|"|\xa3|&|\x01|<[^>]*>|<|>)', stex)
+	sres = re.split('(&[a-z]*?;|&#\d+;|"|\xa3|&|\x01|\x0e|\x14|<[^>]*>|<|>)', stex)
 	for i in range(len(sres)):
+                #print "sresi ", sres[i], "\n"
+                #print "-----------------------------------------------\n"
+
 		if not sres[i]:
 			pass
 		elif sres[i][0] == '&':
@@ -170,8 +173,13 @@ def StraightenHTMLrecurse(stex):
 		elif sres[i] == '"':
 			sres[i] = '&quot;'
 
+                # junk chars sometimes get in
 		elif sres[i] == '\x01':
                         sres[i] = ''
+		elif sres[i] == '\x0e':
+                        sres[i] = ' '
+		elif sres[i] == '\x14':
+                        sres[i] = ' '
 
                 elif sres[i] == '\xa3':
                         sres[i] = '&pound;'

@@ -25,6 +25,10 @@ from lordsfiltercoltime import FilterLordsColtime
 from lordsfilterspeakers import LordsFilterSpeakers
 from lordsfiltersections import LordsFilterSections
 
+from contextexception import ContextException
+from contextexception import RunPatchTool
+
+from resolvemembernames import memberList
 
 import miscfuncs
 toppath = miscfuncs.toppath
@@ -46,7 +50,7 @@ if not os.path.isdir(pwxmldirs):
 	os.mkdir(pwxmldirs)
 
 # this
-def RunFiltersDir(filterfunction, dname, datefrom, dateto, deleteoutput):
+def RunFiltersDir(filterfunction, dname, options, deleteoutput):
 	# the in and out directories for the type
 	if dname == 'lordspages':
 		pwcmdirin = os.path.join(toppath, dname)
@@ -73,7 +77,7 @@ def RunFiltersDir(filterfunction, dname, datefrom, dateto, deleteoutput):
 		sdate = re.search('\d{4}-\d{2}-\d{2}', fin).group(0)
 
 		# skip dates outside the range specified on the command line
-		if sdate < datefrom or sdate > dateto:
+		if sdate < options.datefrom or sdate > options.dateto:
 			continue
 
 		# create the output file name
@@ -88,31 +92,44 @@ def RunFiltersDir(filterfunction, dname, datefrom, dateto, deleteoutput):
 		if os.path.isfile(jfout):
 			continue
 
-		# apply patch filter
-		if ApplyPatches(jfin, patchtempfile):
-			jfin = patchtempfile
+                again = True
+                while again:
+                        again = False
+                        
+                        # apply patch filter
+                        kfin = jfin
+                        if ApplyPatches(jfin, patchtempfile):
+                                kfin = patchtempfile
 
-		# read the text of the file
-		print "runfilters " + fin
-		ofin = open(jfin)
-		text = ofin.read()
-		ofin.close()
+                        # read the text of the file
+                        print "runfilters " + fin
+                        ofin = open(kfin)
+                        text = ofin.read()
+                        ofin.close()
 
-		# store
-		newlistf = os.path.join(pwxmldirout, recentnewfile)
-		file = open(newlistf,'a+')
-		file.write(sdate + '\n')
-		file.close()
+                        # store
+                        newlistf = os.path.join(pwxmldirout, recentnewfile)
+                        file = open(newlistf,'a+')
+                        file.write(sdate + '\n')
+                        file.close()
 
-		# call the filter function and copy the temp file into the correct place.
-		# this avoids partially processed files getting into the output when you hit escape.
-		fout = open(tempfile, "w")
-		filterfunction(fout, text, sdate)
-		fout.close()
-		if sys.platform != "win32":
-			# this function leaves the file open which can't be renamed in win32
-			xmlvalidate.parse(tempfile) # validate XML before renaming
-		os.rename(tempfile, jfout)
+                        # call the filter function and copy the temp file into the correct place.
+                        # this avoids partially processed files getting into the output when you hit escape.
+                        try:
+                                fout = open(tempfile, "w")
+                                filterfunction(fout, text, sdate)
+                                fout.close()
+                                if sys.platform != "win32":
+                                        # this function leaves the file open which can't be renamed in win32
+                                        xmlvalidate.parse(tempfile) # validate XML before renaming
+                                os.rename(tempfile, jfout)
+                        except ContextException, ce:
+                                if options.patchtool:
+                                        print ce
+                                        RunPatchTool(dname, ce)
+                                        again = True
+                                else:
+                                        raise ce
 
 
 # These text filtering functions filter twice through stringfiles,
@@ -132,6 +149,8 @@ def RunWransFilters(fout, text, sdate):
 
 
 def RunDebateFilters(fout, text, sdate):
+        memberList.cleardebatehistory()
+
 	si = cStringIO.StringIO()
 	FilterDebateColTime(si, text, sdate)
 	text = si.getvalue()

@@ -106,6 +106,7 @@ remarginal = re.compile(':\s*column\s*\d+(?i)|</?a[\s>]')
 
 def FilterWransColnum(fout, text, sdate):
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
+        text = text.replace("{**con**}{**/con**}", "")
 
 	colnum = -1
 	for fss in recomb.split(text):

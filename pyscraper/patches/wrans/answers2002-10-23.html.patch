@@ -1,0 +1,84 @@
+--- wrans/answers2002-10-23.html	2004-04-06 09:23:55.000000000 +0100
++++ wrans/answers2002-10-23-patchtmp.html	2004-04-07 12:17:43.000000000 +0100
+@@ -104,7 +104,7 @@
+ <P>
+ <P>
+ <a name="21023w01.html_spnew5"><B> Mr. Jamieson: </B> 
+- I refer the hon. Member to my answer of 22 October 2002 [76201].
++ I refer the hon. Member to my answer of 22 October 2002 <ok-extra-qnum>[76201].
+ <P>
+ 
+ <a name="21023w01.html_para1">Spend for the Traffic Area network was:
+@@ -1075,10 +1075,8 @@
+ <P>
+ <a name="21023w05.html_wqn5"><B> Syd Rapson: </B> 
+ To ask the Secretary of State for International Development what advice she will give to developing country Governments on how they can
+-<P>
+-<UL><i>(a)</i> promote sustainable development and <i>(b)</i> reduce poverty whilst managing the (i) quality, (ii) timing,
+-<P>
+-(iii) sequencing and (iv) scope of import liberalisation. [76266]<P></UL>
++<i>(a)</i> promote sustainable development and <i>(b)</i> reduce poverty whilst managing the (i) quality, (ii) timing,
++(iii) sequencing and (iv) scope of import liberalisation. [76266]<P>
+ <P>
+ <P>
+ <a name="21023w05.html_spnew5"><B> Clare Short: </B> 
+@@ -1475,9 +1473,7 @@
+ <P>
+ <P>
+ <a name="21023w07.html_wqn1"><B> Dr. Tonge: </B> 
+-To ask the Secretary of State for International Development what her Department's estimate is of the percentage of UK aid spent on
+-<P>
+-<UL>HIV/AIDS programmes in Rwanda.  [74891]
++To ask the Secretary of State for International Development what her Department's estimate is of the percentage of UK aid spent on HIV/AIDS programmes in Rwanda.  [74891]
+ 
+ 
+ 
+@@ -1503,11 +1499,8 @@
+ <P>
+ <a name="21023w07.html_wqn2"><B> Norman Lamb: </B> 
+ To ask the Secretary of State for International Development how many people she estimates are suffering from malnutrition as a result of famine in <i>(a)</i> Mauritania, <i>(b)</i> Mali, <i>(c)</i> Senegal,
+-<P>
+-<UL><i>(d)</i> Eritrea, <i>(e)</i> Ethiopia, <i>(f)</i> Zambia, <i>(g)</i> Angola,
+-<P>
++<i>(d)</i> Eritrea, <i>(e)</i> Ethiopia, <i>(f)</i> Zambia, <i>(g)</i> Angola,
+ <i>(h)</i> Zimbabwe, <i>(i)</i> Mozambique, <i>(j)</i> Lesotho and
+-<P>
+ <i>(k)</i> Malawi.  [76223]
+ 
+ 
+@@ -3895,7 +3888,7 @@
+ <P>
+ <P>
+ <a name="21023w15.html_spnew0"><B> Ruth Kelly: </B> 
+- I refer the hon. Member to the answer I gave him on 22 October [75841]
++ I refer the hon. Member to the answer I gave him on 22 October <ok-extra-qnum>[75841]
+ 
+ <a name="21023w15.html_sbhd1"><H4><center>Royal Mint</center></H4>
+ 
+@@ -4823,7 +4816,7 @@
+ <P>
+ <P>
+ <a name="21023w18.html_wqn1"><B> Linda Gilroy: </B> 
+- What steps is the Secretary of State taking to ensure that Human Rights are respected in Northern Ireland.  [74014]<P>
++To ask the Secretary of State for Northern Ireland what steps is the Secretary of State taking to ensure that Human Rights are respected in Northern Ireland.  [74014]<P>
+ <P>
+ <P>
+ <a name="21023w18.html_spnew1"><B> Desmond Browne: </B> 
+@@ -4848,7 +4841,7 @@
+ <P>
+ <P>
+ <a name="21023w18.html_wqn2"><B> Tony Cunningham: </B> 
+- What steps is the Secretary of State taking to promote Human Rights in all communities in Northern Ireland.  [74015]<P>
++To ask the Secretary of State for Northern Ireland what steps is the Secretary of State taking to promote Human Rights in all communities in Northern Ireland.  [74015]<P>
+ <P>
+ <P>
+ <a name="21023w18.html_spnew2"><B> Desmond Browne: </B> 
+@@ -4984,7 +4977,7 @@
+ <P>
+ <P>
+ <a name="21023w19.html_wqn0"><B> Mr. Bellingham: </B> 
+- ''To ask the Secretary of State for Northern Ireland, when he next expects to meet representatives of the security forces to discuss measures to combat the illegal drugs trade.  [74023]<P>
++To ask the Secretary of State for Northern Ireland, when he next expects to meet representatives of the security forces to discuss measures to combat the illegal drugs trade.  [74023]<P>
+ <P>
+ <P>
+ <a name="21023w19.html_spnew0"><B> Jane Kennedy: </B> 

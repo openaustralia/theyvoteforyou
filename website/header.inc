@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.30 2004/02/20 11:33:23 frabcus Exp $
+# $Id: header.inc,v 1.31 2004/04/07 18:53:36 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -43,10 +43,22 @@ function givefocus(field) { if (document.pw) eval("document.pw." + field + ".foc
 <table align="center" class="container" cellpadding="0" cellspacing="0">
 
 <!-- the site logo -->
-<tr><td class="identity"><a href="<?=$toppath?>index.php"><img src="<?=$toppath?>thepublicwhip.gif" alt="The Public Whip"></a></td></tr>
+<tr><td class="identity">
+<a href="<?=$toppath?>index.php"><img src="<?=$toppath?>thepublicwhip.gif" alt="The Public Whip"></a>
+</td>
+
+<td class="minifeedbackcell">
+Confused?  Tell us so we can improve!
+    <form method="post" action="index.php" style="margin-top: 0; margin-bottom: 0;">
+    <form class="minifeedback" action="search.php" name="feedback">
+    <input class="minifeedback" maxLength=256 size=25 name=query value=""> 
+    <input class="minifeedback" type=submit value="Feedback" name="button">
+    </form></p>
+
+</td></tr>
 
 <!-- the main site navigation -->
-<tr class="headers"><td bgcolor="#666666">
+<tr class="headers"><td colspan="2" bgcolor="#666666">
 <a title="Front page and site highlights" href="<?=$toppath?>index.php">Home</a>
 <a title="Subscribe to our email newsletter" href="<?=$toppath?>account/register.php">Newsletter</a>
 <a title="Frequently Asked Questions" href="<?=$toppath?>faq.php">FAQ</a>
@@ -61,9 +73,9 @@ function givefocus(field) { if (document.pw) eval("document.pw." + field + ".foc
 </tr>
 
 <!-- the title bar -->
-<tr><td class="pagetitlebar"><h1><? print $title ?></h1></td></tr>
+<tr><td class="pagetitlebar" colspan="2"><h1><? print $title ?></h1></td></tr>
 
 <!-- the rest of the content -->
-<tr><td>
+<tr><td colspan="2">
 
 

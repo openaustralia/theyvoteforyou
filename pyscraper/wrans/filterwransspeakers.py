@@ -1,13 +1,17 @@
 #! /usr/bin/python2.3
 # -*- coding: latin-1 -*-
+# vim:sw=8:ts=8:et:nowrap
 
 import sys
 import re
 import os
 import string
 from resolvemembernames import memberList
+from resolvemembernames import MultipleMatchException
+from splitheadingsspeakers import StampUrl
 
 from miscfuncs import ApplyFixSubstitutions
+from contextexception import ContextException
 
 # this filter finds the speakers and replaces with full itendifiers
 # <speaker name="Eric Martlew  (Carlisle)"><p>Eric Martlew  (Carlisle)</p></speaker>
@@ -94,13 +98,18 @@ def FilterWransSpeakers(fout, text, sdate):
 	# setup for scanning through the file.
 	fs = re.split(lregexp, text)
 
+        # for error messages
+	stampurl = StampUrl(sdate)
+
+
 	for i in range(len(fs)):
 		fss = fs[i]
+		stampurl.UpdateStampUrl(fss)
 
 		if re.match(tableregexp, fss):
 			continue
 
-		speakerg = re.findall('<b>\s*([^:]*):*?([^<:]*)</b>(?i)', fss)
+		speakerg = re.findall('<b>\s*([^:]*)[:\s]*?([^<:]*)</b>(?i)', fss)
 		if not speakerg:
 			continue
 
@@ -150,10 +159,24 @@ def FilterWransSpeakers(fout, text, sdate):
                     boldnamestring = boldnamestring.replace('<broken-name>', '')
                     remadename = ' speakername="%s" error="Name ambiguous in Hansard"' % (boldnamestring)
                 else:
-                    # match the member to a unique identifier
-                    (id, remadename, remadecons) = memberList.matchfullnamecons(boldnamestring, None, sdate, bsuppressmultimplematches=True)
-                    if remadename:
-                            remadename = ' speakername="%s"' % (remadename)
+                    try:
+                        # split bracketed cons out if present
+                        brakmatch = re.match("(.*)\s+\((.*)\)", boldnamestring)
+                        if brakmatch:
+                                (name, cons) = brakmatch.groups()
+                        else:
+                                (name, cons) = (boldnamestring, None)
+
+                        # match the member to a unique identifier
+                        try:
+                                (id, remadename, remadecons) = memberList.matchfullnamecons(name, cons, sdate)
+                                if remadename:
+                                        remadename = ' speakername="%s"' % (remadename)
+                        except MultipleMatchException, mme:
+                                remadename = ' speakername="%s" error="%s"' % (boldnamestring, mme)
+                    except Exception, e:
+                        # add extra stamp info to the exception
+                        raise ContextException(str(e), stamp=stampurl, fragment=boldnamestring)
 
 		# put record in this place
 		fs[i] = '<speaker speakerid="%s"%s>%s</speaker>\n' % \

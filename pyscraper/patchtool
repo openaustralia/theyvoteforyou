@@ -24,12 +24,12 @@ END
 
 [ "$1" = "" ] && bad_params
 [ "$2" = "" ] && bad_params
-[ "$3" != "" ] && bad_params
 
 FOLDER=$1
 STUB=$1
 [ "$1" = "wrans" ] && STUB=answers
 DATE=$2
+shift 2
 
 # Folders to put the patches into
 mkdir -p patches/debates
@@ -45,8 +45,8 @@ cd ~/pwdata/cmpages
 # Make copy of original, and launch editor
 rm -f $TEMPFILE
 cp $ORIGFILE $TEMPFILE
-[ -e $PATCHDEST/$PATCHFILE ] && patch $TEMPFILE <$PATCHDEST/$PATCHFILE
-$EDITOR $TEMPFILE
+[ -e $PATCHDEST/$PATCHFILE ] && patch --quiet $TEMPFILE <$PATCHDEST/$PATCHFILE
+$EDITOR $TEMPFILE $@
 
 # Create patchfile from changes, or delete patchfile if none
 set +e

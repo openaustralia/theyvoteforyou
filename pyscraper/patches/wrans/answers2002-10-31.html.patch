@@ -1,0 +1,88 @@
+--- wrans/answers2002-10-31.html	2004-04-06 09:22:37.000000000 +0100
++++ wrans/answers2002-10-31-patchtmp.html	2004-04-07 12:04:34.000000000 +0100
+@@ -202,9 +202,9 @@
+ <P>
+ <P>
+ <a name="21031w02.html_wqn0"><B> Mr. Jenkin: </B> 
+-To ask the Secretary of State for Defence <i>(1)</i> if the anthrax innoculation programme offered to <i>(a)</i> Navy, <i>(b)</i> Army, <i>(c)</i> Air Force and <i>(d)</i> other Ministry of Defence personnel is compulsory;  [78101]
++To ask the Secretary of State for Defence (1) if the anthrax innoculation programme offered to <i>(a)</i> Navy, <i>(b)</i> Army, <i>(c)</i> Air Force and <i>(d)</i> other Ministry of Defence personnel is compulsory;  [78101]
+ <P>
+-<UL><i>(2)</i> what proportion of <i>(a)</i> Navy, <i>(b)</i> Army, <i>(c)</i> Air Force and <i>(d)</i> other Ministry of Defence personnel (i) are fully vaccinated and (ii) have commenced a vaccination programme against anthrax; and if he will make a statement.  [78100]<P></UL>
++<UL>(2) what proportion of <i>(a)</i> Navy, <i>(b)</i> Army, <i>(c)</i> Air Force and <i>(d)</i> other Ministry of Defence personnel (i) are fully vaccinated and (ii) have commenced a vaccination programme against anthrax; and if he will make a statement.  [78100]<P></UL>
+ <P>
+ <P>
+ <a name="21031w02.html_spnew0"><B> Dr. Moonie: </B> 
+@@ -4635,7 +4635,7 @@
+ 
+ <P>
+ 32. <a name="21031w19.html_wqn5"><B> Mr. Huw Edwards </B> 
+- What she is doing to increase the number of women setting up their own businesses. [76452]<P>
++To ask the Minister for Women what she is doing to increase the number of women setting up their own businesses. [76452]<P>
+ <P>
+ <P>
+ <a name="21031w19.html_spnew5"><B> Ms Hewitt: </B> 
+@@ -4646,7 +4646,7 @@
+ 
+ <P>
+ 34. <a name="21031w19.html_wqn6"><B> Joan Ruddock: </B> 
+- If she will make a statement on the implementation of the Article 13 Directives on Race and Employment and the feasibility study on a single equality body.  [76454]<P>
++To ask the Minister for Women if she will make a statement on the implementation of the Article 13 Directives on Race and Employment and the feasibility study on a single equality body.  [76454]<P>
+ <P>
+ <P>
+ <a name="21031w19.html_spnew6"><B> Ms Hewitt: </B> 
+@@ -4657,7 +4657,7 @@
+ 
+ <P>
+ 33. <a name="21031w19.html_wqn7"><B> Michael Fabricant: </B> 
+- What proportion of her time was spent over the last month on the pay gap between the sexes.  [76453]<P>
++To ask the Minister for Women what proportion of her time was spent over the last month on the pay gap between the sexes.  [76453]<P>
+ <P>
+ <P>
+ <a name="21031w19.html_spnew7"><B> Ms Hewitt: </B> 
+@@ -4675,8 +4675,8 @@
+ <a name="21031w19.html_para3">We have amended the law to provide for equal pay questionnaires and every Government Department and Agency is conducting an Equal Pay review by April 2003.
+ 
+ <P>
+-36. <a name="21031w19.html_wqn9"><B> Jim Knight </B> 
+-: What steps she is taking to reduce the pay gap between the sexes.  [76456]
++36. <a name="21031w19.html_wqn9"><B> Jim Knight: </B> 
++ To ask the Minister for Women what steps she is taking to reduce the pay gap between the sexes.  [76456]
+ 
+ 
+ 
+@@ -4699,7 +4699,7 @@
+ 
+ <P>
+ 37. <a name="21031w20.html_wqn0"><B> Dr. Harris </B> 
+-: What progress has been made in increasing the proportion of women appointed to non-departmental public bodies since 1997.  [76457]<P>
++To ask the Minister for Women what progress has been made in increasing the proportion of women appointed to non-departmental public bodies since 1997.  [76457]<P>
+ <P>
+ <P>
+ <a name="21031w20.html_spnew0"><B> Ms Hewitt: </B> 
+@@ -4716,7 +4716,7 @@
+ 
+ <P>
+ 38. <a name="21031w20.html_wqn1"><B> Mr. Graham Allen </B> 
+-: What assistance she offers to political parties who wish to reduce the imbalance between the sexes among their candidates.  [76458]<P>
++To ask the Minister for Women what assistance she offers to political parties who wish to reduce the imbalance between the sexes among their candidates.  [76458]<P>
+ <P>
+ <P>
+ <a name="21031w20.html_spnew1"><B> Ms Hewitt: </B> 
+@@ -4730,7 +4730,7 @@
+ 
+ <P>
+ 39. <a name="21031w20.html_wqn2"><B> Dr. Gibson : </B> 
+- When she will release the Greenfield Report.  [76460]<P>
++To ask the Minister for Women when she will release the Greenfield Report.  [76460]<P>
+ <P>
+ <P>
+ <a name="21031w20.html_spnew2"><B> Ms Hewitt: </B> 
+@@ -4747,7 +4747,7 @@
+ 
+ <P>
+ 40. <a name="21031w20.html_wqn3"><B> Mr. Crausby: </B> 
+- What action she is taking to enable working women to balance work and family life. [76461]<P>
++To ask the Minister for Women what action she is taking to enable working women to balance work and family life. [76461]<P>
+ <P>
+ <P>
+ <a name="21031w20.html_spnew3"><B> Ms Hewitt: </B> 

@@ -297,7 +297,8 @@ TABLE.bars TD
     PADDING-BOTTOM: 0px;
     MARGIN: 0px;
     PADDING-TOP: 0px;
-    BACKGROUND-COLOR: #003300
+    BACKGROUND-COLOR: #003300;
+    COLOR: #FFFFFF;
 }
 .pagetitlebar
 {
@@ -407,4 +408,16 @@ CAPTION.innerhtml
     FONT-WEIGHT: bold;
 }
 
+.minifeedback
+{
+    MARGIN-TOP: 0.5em;
+} 
+.minifeedbackcell
+{
+    BACKGROUND-COLOR: #003300;
+    COLOR: #FFFFFF;
+    FLOAT: right;
+    TEXT-ALIGN: right;
+    VERTICAL-ALIGN: center;
+}
 

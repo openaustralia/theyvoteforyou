@@ -60,6 +60,10 @@ parser.add_option("--to", dest="dateto", metavar="date", default="9999-12-31",
 parser.add_option("--date", dest="date", metavar="date", default=None,
                   help="date to process (overrides --from and --to)")
 
+parser.add_option("--patchtool", 
+                  action="store_true", dest="patchtool", default=None,
+                  help="launch ./patchtool to fix errors in source HTML")
+
 (options, args) = parser.parse_args()
 if (options.date):
         options.datefrom = options.date
@@ -128,13 +132,13 @@ if options.scrape:
 if options.parse:
 	if options.forceparse:
 		if options.wrans:
-			RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto, True)
+			RunFiltersDir(RunWransFilters, 'wrans', options, True)
 		if options.debates:
-			RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, True)
+			RunFiltersDir(RunDebateFilters, 'debates', options, True)
 		if options.lords:
-			RunFiltersDir(RunLordsFilters, 'lordspages', options.datefrom, options.dateto, True)
+			RunFiltersDir(RunLordsFilters, 'lordspages', options, True)
 		if options.regmem:
-			RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', True)
+			RunFiltersDir(RunRegmemFilters, 'regmem', options, True)
 
 
 #
@@ -153,12 +157,12 @@ if options.scrape:
 
 if options.parse:
 	if options.wrans:
-		RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto, False)
+		RunFiltersDir(RunWransFilters, 'wrans', options, False)
 	if options.debates:
-		RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, False)
+		RunFiltersDir(RunDebateFilters, 'debates', options, False)
 	if options.lords:
-		RunFiltersDir(RunLordsFilters, 'lordspages', options.datefrom, options.dateto, False)
+		RunFiltersDir(RunLordsFilters, 'lordspages', options, False)
 	if options.regmem:
 		# TODO - date ranges when we do index page stuff for regmem
-		RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', False)
+		RunFiltersDir(RunRegmemFilters, 'regmem', options, False)
 
