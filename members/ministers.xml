@@ -102,13 +102,13 @@
 	fromdate="2003-06-13"
 	todate="2004-04-16" totime="15:34"
 	source="newlabministers2003-10-15 chgpages"/>
-<moffice id="uk.org.publicwhip/moffice/1122" name="Mr Douglas Alexander" matchid="uk.org.publicwhip/member/693"
-	dept="Foreign &amp; Commonwealth Office" position="Minister of State"
+<moffice id="uk.org.publicwhip/moffice/1121" name="Mr Douglas Alexander" matchid="uk.org.publicwhip/member/693"
+	dept="Department of Trade and Industry" position="Minister of State"
 	fromdate="2004-09-10" fromtime="13:53"
 	todate="9999-12-31"
 	source="chgpages"/>
-<moffice id="uk.org.publicwhip/moffice/1121" name="Mr Douglas Alexander" matchid="uk.org.publicwhip/member/693"
-	dept="Department of Trade and Industry" position="Minister of State"
+<moffice id="uk.org.publicwhip/moffice/1122" name="Mr Douglas Alexander" matchid="uk.org.publicwhip/member/693"
+	dept="Foreign &amp; Commonwealth Office" position="Minister of State"
 	fromdate="2004-09-10" fromtime="13:53"
 	todate="9999-12-31"
 	source="chgpages"/>
