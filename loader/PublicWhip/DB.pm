@@ -1,4 +1,4 @@
-# $Id: DB.pm,v 1.1 2004/06/08 11:56:54 frabcus Exp $
+# $Id: DB.pm,v 1.2 2004/06/08 23:43:42 frabcus Exp $
 # Bumf for accessing the MySQL database
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -14,6 +14,7 @@ use PublicWhip::Config;
 use PublicWhip::Error;
 
 use DBI;
+#DBI->trace(2);
 
 sub connect {
     my $dbh = DBI->connect(

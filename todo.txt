@@ -1,4 +1,5 @@
 New division scraper:
+
 --------------------
 
 On this one, the two tellers for the noes have been lost
@@ -34,15 +35,27 @@ Put debate XML files and regmem XML files up on site
 Update the votematrix CSV files - people are using them!
 Put up raw data for ranking scores for rebel/attend that are only in fawkes
 
+More activity
+-------------
+
+Make SourceForge mailing list
+Copy MP loader from fawkes for Public Whip database
+
 Dream MP
 --------
 
+Change register.php to say it is registration
+Make newsletter signing more streamlined?
+Change frontpage newsletter advert depending on whether you are logged in
 Performance on sphinx
 Cache dream MP page - delete cache file when it changes
 Cope with changes to 
     - division.php 
     - dreammps.php
     - dreampmp.php
+
+Change "Account" button when logged in
+Web page URL of you
 
 Comments (PHP/MySQL website style) on 
     - individual votes
@@ -67,9 +80,6 @@ Party comparison
 Put dream MP ranking on MP page
 
 Check what Julian thinks of score sorting etc.
-
-Change "Account" button when logged in
-Web page URL of you
 
 Wrans
 -----

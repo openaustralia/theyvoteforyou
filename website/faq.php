@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.23 2004/05/24 00:59:00 frabcus Exp $
+# $Id: faq.php,v 1.24 2004/06/08 23:43:47 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,7 +8,7 @@
 ?>
 
 <a href="http://www.newstatesman.com/newmedia">
-<img align=right src="http://www.newstatesman.com/nma/nma2004/Graphics/buttons/nominatedbutton.gif" border="0"></a>
+<img align="right" src="images/nmashortlisted.gif" border="0"></a>
 
 <ul>
 <li><a href="#whatis">What is the Public Whip?</a> <br/>
