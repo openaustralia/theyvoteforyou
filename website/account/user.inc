@@ -15,7 +15,8 @@ password text,
 remote_addr text,
 confirm_hash text,
 is_confirmed int not null default 0,
-is_newsletter int not null default 1
+is_newsletter int not null default 1,
+reg_date datetime
 );
 
 */
@@ -259,8 +260,9 @@ function user_register($user_name,$password1,$password2,$email,$real_name) {
 			} else {
 				//create a new hash to insert into the db and the confirmation email
 				$hash=md5($email.$hidden_hash_var);
-				$sql="INSERT INTO pw_dyn_user (user_name,real_name,password,email,remote_addr,confirm_hash,is_confirmed) ".
-					"VALUES ('$user_name','$real_name','". md5($password1) ."','$email','$GLOBALS[REMOTE_ADDR]','$hash','0')";
+				$sql="INSERT INTO pw_dyn_user
+                                (user_name,real_name,password,email,remote_addr,confirm_hash,is_confirmed, reg_date) ".
+					"VALUES ('$user_name','$real_name','".  md5($password1) ."','$email','$GLOBALS[REMOTE_ADDR]','$hash','0',NOW())";
 				$result=db_query($sql);
 				if (!$result) {
 					$feedback .= ' Trouble with the database. '.db_error();
