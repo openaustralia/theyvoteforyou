@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.2 2005/03/16 11:01:45 frabcus Exp $
+# $Id: divisionvote.inc,v 1.3 2005/04/02 11:57:46 theyworkforyou Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -25,7 +25,7 @@
 			global $bdebug;
             $submit=mysql_escape_string($_POST["submit"]);
 
-            print "<div class=\"tablerollie\">";
+            print "<div class=\"tabledream\">";
             print "<span class=\"ptitle\">Dream MP</span>";
 
 			$qrdiv = "pw_dyn_rollievote.division_date = '".$divattr["division_date"]."'
@@ -112,12 +112,12 @@
                 print '<a href="dreammp.php?id=' . $row['rollie_id'] . '">' . html_scrub($row['name']) . "</a>: \n";
                 print "</td><td>\n";
                 print ' <select name="vote' . $row['rollie_id'] . '" size="1">
+                                    <option ' . vote_value("--", $vote) . '>Non-voter</option>
                                     <option ' . vote_value("aye3", $vote) . '>Aye 3-Line</option>
                                     <option ' . vote_value("aye", $vote) . '>Aye</option>
+                                    <option ' . vote_value("both", $vote) . '>Abstain</option>
                                     <option ' . vote_value("no", $vote) . '>No</option>
                                     <option ' . vote_value("no3", $vote) . '>No 3-Line</option>
-                                    <option ' . vote_value("both", $vote) . '>Abstain</option>
-                                    <option ' . vote_value("--", $vote) . '>Non-voter</option>
                                 </select></p>';
                 print '</td></tr>';
             }

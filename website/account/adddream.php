@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: adddream.php,v 1.13 2005/02/18 19:43:41 frabcus Exp $
+# $Id: adddream.php,v 1.14 2005/04/02 11:57:46 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -101,7 +101,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     ?>
         <P>
         <FORM ACTION="<?=$PHP_SELF?>" METHOD="POST">
-        <B>Name (enter the name of your organisation or the issue your dream MP votes on behalf of):</B><BR>
+        <B>Dream MP Name (enter the name of your organisation or the issue your dream MP votes on behalf of):</B><BR>
         <INPUT TYPE="TEXT" NAME="name" VALUE="<?=html_scrub($name)?>" SIZE="40" MAXLENGTH="50">
         <P>
         <B>Description (the criteria you will use to choose how your dream MP votes, give as much detail as possible):</B><BR>

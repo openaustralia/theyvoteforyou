@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.8 2005/03/28 19:59:25 frabcus Exp $
+# $Id: wiki.php,v 1.9 2005/04/02 11:57:46 theyworkforyou Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -79,35 +79,20 @@ if (user_isloggedin()) # User logged in, show settings screen
         proceedings that are referred to so that readers who want to follow the
         story further will know where to look.</p>
 
-        <p>You can write comments, but please keep them below the "COMMENTS AND
+        <div class="tableexplain">
+        <p><span class="ptitle">You can write comments</span>.  Keep them below the "COMMENTS AND
         NOTES" line so that they don't interfere with the provision of what we
         hope could be the most authoratitive and accessible record of what's
         going on in Parliament.</p>
 
-        <p>Questions, thoughts? 
+        <p><span class="ptitle">Questions, thoughts?</span>
         <a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=2">Chat
 with other motion researchers on our special forum</a>.
 
-        <p>Leave the "DIVISION TITLE", "MOTION EFFECT" and "COMMENTS AND NOTES"
+        <p><span class="ptitle">Seperators</span>. Leave the "DIVISION TITLE", "MOTION EFFECT" and "COMMENTS AND NOTES"
         in place, so our computer can work it out.
 
-        <p><b>Motion result:</b>
-<?
-        }
-
-?>
-        <P>
-        <FORM ACTION="<?=$REQUEST_URI?>" METHOD="POST">
-        <textarea name="newtext" rows="20" cols="80"><?=html_scrub($values['text_body'])?></textarea>
-        <p>
-        <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Save">
-        <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Cancel">
-        </FORM>
-        </P>
-<?
-        if (strstr($key, "motion-")) {
-?>
-        You can use the following HTML tags:
+        <p><span class="ptitle">HTML tags</span>. You can use the following:
         <ul>
         <li>&lt;p&gt; - begin paragraph
         <li>&lt;p class="italic"&gt; - begin italic paragraph
@@ -118,6 +103,24 @@ with other motion researchers on our special forum</a>.
         <li>&lt;a href="http://..."&gt; &lt;/a&gt; - link
         </ul>
 
+        </div>
+
+        <p><b>Edit division title and motion text:</b>
+<?
+        }
+
+?>
+        <P>
+        <FORM ACTION="<?=$REQUEST_URI?>" METHOD="POST">
+        <textarea name="newtext" rows="25" cols="60"><?=html_scrub($values['text_body'])?></textarea>
+        <p>
+        <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Save">
+        <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Cancel">
+        </FORM>
+        </P>
+<?
+        if (strstr($key, "motion-")) {
+?>
         <p><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=2">Discuss this
 with other motion text editors on our forum</a>.
 
