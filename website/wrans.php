@@ -1,5 +1,5 @@
 <?php 
-    # $Id: wrans.php,v 1.6 2003/12/11 00:16:48 frabcus Exp $
+    # $Id: wrans.php,v 1.7 2003/12/12 10:39:37 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -9,6 +9,7 @@
     include "db.inc";
     include "parliaments.inc";
 	include "xquery.inc";
+	include "protodecode.inc";
     $db = new DB(); 
     $title = html_scrub("Written Answers");
     include "header.inc";
@@ -28,20 +29,20 @@
 <?
 	if ($prettysearch <> "")
 	{
-		$query = 'stag("wrans") ..  etag("wrans") containing word("' 
-				. $shellsearch . '")';
-		print $query;
-		$result = sgrep_query("wrans", $query);
-		if ($result)
-			print_transform("wrans-table.xslt", $result);	
+		$ids = DecodeWord($shellsearch);
+		$result = "";
+		foreach ($ids as $id)
+		{
+			$result .= FetchWrans($id);
+		}
+		$result = WrapResult($result);
+		print_transform("wrans-table.xslt", $result);
 	}
 	
 	if ($shellid <> "")
 	{
-		$query = 'stag("wrans") ..  etag("wrans") containing
-			(attribute("id") containing attvalue("' . $shellid . '"))'; 
-		print $query;
-		$result = sgrep_query("wrans", $query);
+		$result = WrapResult(FetchWrans($shellid));
+#		print "<pre>" . html_scrub($result) . "</pre>";
 		if ($result)
 			print_transform("wrans.xslt", $result);	
 	}
