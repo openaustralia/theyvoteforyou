@@ -195,6 +195,8 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto, deleteoutput):
 
                         # close and move
                         dtemp.close()
+                        if os.path.isfile(dgf):
+                            os.remove(dgf)
                         os.rename(tempfile, dgf)
 
 
