@@ -10,7 +10,6 @@ import mx.DateTime
 
 # output to check for undetected member names
 toppath = os.path.expanduser('~/pwdata')
-print toppath
 seelines = open(os.path.join(toppath, 'emblinks.txt'), "w")
 
 # this detects the domain

@@ -8,13 +8,49 @@ import os
 toppath = os.path.abspath(os.path.expanduser('~/pwdata/'))
 if os.name == 'nt':  # the case of julian developing on a university machine.  
     toppath = os.path.abspath('../../pwdata')
-    print toppath
     if re.search('\.\.', toppath):
         toppath = 'C:\\pwdata'
         
 print "Data directory (set in miscfuncs.py): %s" % toppath
 if (not os.path.isdir(toppath)):
     raise Exception, 'Directory does not exist, please create'
+
+entitymap = {
+        '&nbsp;':' ',
+        '&':'&amp;',
+
+        '&#150;':'&ndash;',
+        '&#151;':' &mdash; ',
+
+        '&#232;':'&egrave;',   # this is e-grave
+        '&#233;':'&eacute;',   # this is e-acute
+        '&#234;':'&ecirc;',   # this is e-hat
+        '&#235;':'&euml;',   # this is e-double-dot
+
+        '&#224;':'&agrave;',   # this is a-grave
+        '&#225;':'&aacute;',   # this is a-acute
+        '&#226;':'&acirc;',   # this is a-hat as in debacle
+
+        '&#244;':'&ocirc;',   # this is o-hat
+        '&#246;':'&ouml;',   # this is o-double-dot
+        '&#214;':'&Ouml;',   # this is capital o-double-dot
+
+        '&#231;':'&ccedil;',   # this is cedilla
+        '&#252;':'&uuml;',   # this is u-double-dot
+        '&#241;':'&ntilde;',   # spanish n as in Senor
+
+        '&#177;':'&plusmn;',   # this is +/- symbol
+        '&#163;':'&pound;',   # UK currency
+        '&#183;':'&middot;',   # middle dot
+        '&#176;':'&deg;',   # this is the degrees
+
+        '&#188;':'&frac14;',   # this is one quarter symbol
+        '&#189;':'&frac12;',   # this is one half symbol
+        '&#190;':'&frac34;',   # this is three quarter symbol
+
+        '&#95;':'_',    # this is underscore symbol
+}
+entitymaprev = entitymap.values()
 
 
 
@@ -79,69 +115,19 @@ def StraightenHTMLrecurse(stex):
 			pass
 		elif sres[i][0] == '&':
 
+                        # Put new entities in entitymap if you can, or special cases
+                        # in this if statement.
+
 			# The names of entities and what they are are here:
 			# http://www.bigbaer.com/reference/character_entity_reference.htm
 			# Make sure you update WriteXMLHeader below also!
 
-			if sres[i] == '&#150;':
-				sres[i] = '&ndash;'
-			elif sres[i] == '&#151;':
-				sres[i] = ' &mdash; '
-			elif sres[i] == '&#232;':   # this is e-grave
-				sres[i] = '&egrave;'
-			elif sres[i] == '&#233;':   # this is e-acute
-				sres[i] = '&eacute;'
-			elif sres[i] == '&#234;':   # this is e-hat
-				sres[i] = '&ecirc;'
-			elif sres[i] == '&#235;':   # this is e-double-dot
-				sres[i] = '&euml;'
-
-			elif sres[i] == '&#224;':   # this is a-grave
-				sres[i] = '&agrave;'
-			elif sres[i] == '&#225;':   # this is a-acute
-				sres[i] = '&aacute;'
-			elif sres[i] == '&#226;':   # this is a-hat as in debacle
-				sres[i] = '&acirc;'
-
-			elif sres[i] == '&#244;':   # this is o-hat
-				sres[i] = '&ocirc;'
-			elif sres[i] == '&#246;':   # this is o-double-dot
-				sres[i] = '&ouml;'
-			elif sres[i] == '&#214;':   # this is capital o-double-dot
-				sres[i] = '&Ouml;'
-
-			elif sres[i] == '&#231;':   # this is cedilla
-				sres[i] = '&ccedil;'
-			elif sres[i] == '&#252;':   # this is u-double-dot
-				sres[i] = '&uuml;'
-			elif sres[i] == '&#241;':   # spanish n as in Senor
-				sres[i] = '&ntilde;'
-
-			elif sres[i] == '&#177;':   # this is +/- symbol
-				sres[i] = '&plusmn;'
-			elif sres[i] == '&#163;':   # UK currency
-				sres[i] = '&pound;'
-			elif sres[i] == '&pound;':
+                        if sres[i] in entitymap:
+                                sres[i] = entitymap[sres[i]]
+                        elif sres[i] in entitymaprev:
+                                pass
+			elif sres[i] == '&mdash;': # special case as entitymap maps it with spaces
 				pass
-			elif sres[i] == '&#183;':   # middle dot
-				sres[i] = '&middot;'
-			elif sres[i] == '&#176;':   # this is the degrees
-				sres[i] = '&deg;'
-
-			elif sres[i] == '&#188;':   # this is one quarter symbol
-				sres[i] = '&frac14;'
-			elif sres[i] == '&#189;':   # this is one half symbol
-				sres[i] = '&frac12;'
-			elif sres[i] == '&#190;':   # this is three quarter symbol
-				sres[i] = '&frac34;'
-
-			elif sres[i] == '&#95;':    # this is underscore symbol
-				sres[i] = '_'
-
-			elif sres[i] == '&nbsp;':
-				sres[i] = ' '
-			elif sres[i] == '&':
-				sres[i] = '&amp;'
 			elif sres[i] == '&quot;':
 				pass
 			elif sres[i] == '&amp;':
@@ -151,7 +137,7 @@ def StraightenHTMLrecurse(stex):
 			elif sres[i] == '&gt;':
 				pass
 			else:
-				print sres[i] + ' unknown ent'
+				raise Exception, sres[i] + ' unknown ent'
 				sres[i] = 'UNKNOWN-ENTITY'
 
 		elif sres[i] == '"':

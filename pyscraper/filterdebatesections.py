@@ -192,7 +192,7 @@ def FilterDebateSections(fout, text, sdate):
 	for i in range(ih, len(headspeak)):
 		sht = headspeak[i]
 
-                print "sht: siz ", len(sht), ": 0 ", sht[0], " 1 ", sht[1], " 2 ", sht[2]
+                # print "sht: siz ", len(sht), ": 0 ", sht[0], " 1 ", sht[1], " 2 ", sht[2]
 
 		# set the title for this batch
 		stampurl.title = FixHTMLEntities(sht[0])
@@ -248,7 +248,6 @@ def FilterDebateSections(fout, text, sdate):
 			# which we will frig for now.
 			# force major headings to have at least one thing here.
 			if (not re.match('(?:<[^>]*>|\s)*$', sht[1])):
-                                print "nospeaker"
 				qb = qspeech('nospeaker="true"', sht[1], stampurl, sdate)
 				qb.typ = 'debspeech'
 				qblock.append(qb)
