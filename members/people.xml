@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<publicwhip>
+
+<!-- 
+
+Members of parliament who are unexpectedly the same person.  It is assumed that
+anyone in all-members.xml with the same name in the same seat is the same
+person.  This adds extras.
+
+-->
+
+<!-- none yet ;) -->
+
+</publicwhip>

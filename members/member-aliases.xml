@@ -60,6 +60,30 @@ We should find the exact date she started, and move her finish date.
         from="2001-12-31" to="2004-03-01"/>
 
 <!-- First added for 2001 parliament -->
+<alias fullname="Shaun Woodward" alternate="Shaun Woodwood" />
+<alias fullname="Phil Woolas" alternate="Phill Woolas" />
+<alias fullname="Michael Weir" alternate="Michael Wier" />
+<alias fullname="Andy Burnham" alternate="Andrew Burnham" />
+<alias fullname="Alistair Burt" alternate="Alastair Burt" />
+<alias fullname="Martin Smyth" alternate="W Martin Smyth" />
+<alias fullname="Rosemary McKenna" alternate="Rosemary Mckenna" />
+<alias fullname="Louise Ellman" alternate="Louise J Ellman" />
+<alias fullname="Janet Dean" alternate="Janet E A Dean" />
+<alias fullname="Anne McGuire" alternate="Anne Mcguire" />
+<alias fullname="Thomas McAvoy" alternate="Thomas Mcavoy" />
+<alias fullname="Martyn Jones" alternate="Martyn David Jones" />
+<alias fullname="Martin O'Neill" alternate="Martin O'neill" />
+<alias fullname="Kevin McNamara" alternate="Kevin Mcnamara" />
+<alias fullname="Jon Owen Jones" alternate="John Owen Jones" />
+<alias fullname="John McWilliam" alternate="John Mcwilliam" />
+<alias fullname="John McFall" alternate="John Mcfall" />
+<alias fullname="John McDonnell" alternate="John McDonell" />
+<alias fullname="Ian McCartney" alternate="Ian Mccartney" />
+<alias fullname="Denis MacShane" alternate="Denis Macshane" />
+<alias fullname="Brian H Donohoe" alternate="Brian Donohue" />
+<alias fullname="Andy King" alternate="Andrew King" />
+<alias fullname="Anne McIntosh" alternate="Ann McIntosh" />
+<alias fullname="Alistair Burt" alternate="Alistait Burt" />
 <alias fullname="Richard Younger-Ross" alternate="Richard Younger Ross" />
 <alias fullname="Michael Weir" alternate="Mike Weir" />
 <alias fullname="Chris Ruane" alternate="Christopher Ruane" />
@@ -70,6 +94,7 @@ We should find the exact date she started, and move her finish date.
 <alias fullname="Nick Ainger" alternate="Nicholas Ainger" />
 <alias fullname="Laurence Robertson" alternate="Laurance Robertson" />
 <alias fullname="Robert Marshall-Andrews" alternate="Bob Marshall-Andrews" />
+<alias fullname="Geoffrey Clifton-Brown" alternate="Geoffrey Clifton-brown" />
 <alias fullname="Geoffrey Clifton-Brown" alternate="Geoffrey Clifton Brown" />
 <alias fullname="Mohammad Sarwar" alternate="Mohammed Sarwar" />
 <alias fullname="Anne Picking" alternate="Ann Picking" />
@@ -143,6 +168,7 @@ We should find the exact date she started, and move her finish date.
 <alias fullname="Siôn Simon" alternate="Sio(r)n Simon" />
 <alias fullname="Siôn Simon" alternate="Sion Simon" />
 <alias fullname="Raymond Powell" alternate="Ray Powell" />
+<alias fullname="Helen Clark" alternate="Helen Clarke" />
 <alias fullname="Helen Clark" alternate="Helen Brinton" /> <!-- marriage -->
 <alias fullname="Gregory Barker" alternate="Greg Barker" />
 <alias fullname="Bob Spink" alternate="Robert Spink" />
