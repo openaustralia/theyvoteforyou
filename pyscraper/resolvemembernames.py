@@ -15,7 +15,8 @@ from parlphrases import parlPhrases
 
 # These we don't necessarily match to a speaker id, deliberately
 regnospeakers = "Hon\.? Members|Members of the House of Commons|" + \
-        "Deputy Speaker|Second Deputy Chairman(?i)|The Chairman|First Deputy Chairman|Temporary Chairman"
+        "Deputy Speaker|Second Deputy Chairman(?i)|Speaker-Elect|" + \
+        "The Chairman|First Deputy Chairman|Temporary Chairman"
 
 # Cases we want to specially match - add these in as we need them
 class MultipleMatchException(Exception):

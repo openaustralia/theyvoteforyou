@@ -107,45 +107,49 @@ def StripDebateHeadings(headspeak, sdate):
 			raise Exception, 'non-conforming date heading %s' % repr(headspeak[ih])
 		ih = ih + 1
 
+        gstarttime = None
+        if sdate != "2001-06-13":
+                #The House met at half-past Ten o'clock
+                gstarttime = re.match('the house (?:being )?met at (.*)(?i)', headspeak[ih][0])
+                if (not gstarttime) or headspeak[ih][2]:
+                        raise Exception, 'non-conforming "the house met at" heading %s' % repr(headspeak[ih])
+                ih = ih + 1
 
-	#The House met at half-past Ten o'clock
-	gstarttime = re.match('the house met at (.*)(?i)', headspeak[ih][0])
-	if (not gstarttime) or headspeak[ih][2]:
-		raise Exception, 'non-conforming "the house met at" heading %s' % repr(headspeak[ih])
-	ih = ih + 1
+        # Start of a new parliament is special
+        if sdate != "2001-06-14" and sdate != "2001-06-13":
+
+                #PRAYERS
+                ih = StripDebateHeading('prayers(?i)', ih, headspeak)
 
 
-	#PRAYERS
-	ih = StripDebateHeading('prayers(?i)', ih, headspeak)
-
-
-	# in the chair
-	ih = StripDebateHeading('\[.*? in the chair\](?i)', ih, headspeak, True)
+                # in the chair
+                ih = StripDebateHeading('\[.*? in the chair\](?i)', ih, headspeak, True)
 
 
 	# find the url, colnum and time stamps that occur before anything else in the unspoken text
 	stampurl = StampUrl(sdate)
 
 	# set the time from the wording 'house met at' thing.
-	time = gstarttime.group(1)
-	if re.match("^half-past Nine(?i)", time):
-		newtime = '09:30:00'
-	elif re.match("^half-past Ten(?i)", time):
-		newtime = '10:30:00'
-	elif re.match("^twenty-five minutes past\s*Eleven(?i)", time):
-		newtime = '11:25:00'
-	elif re.match("^half-past Eleven(?i)", time):
-		newtime = '11:30:00'
-	elif re.match("^half-past Two(?i)", time):
-		newtime = '14:30:00'
-	elif re.match("^Ten o'clock(?i)", time):
-		newtime = '10:00:00'
-	elif re.match("^Six o'clock(?i)", time):
-		newtime = '18:00:00'
-	else:
-		newtime = "unknown " + time
-		raise Exception, "Start time not known: " + time
-	stampurl.timestamp = '<stamp time="%s"/>' % newtime
+        if gstarttime:
+                time = gstarttime.group(1)
+                if re.match("^half-past Nine(?i)", time):
+                        newtime = '09:30:00'
+                elif re.match("^half-past Ten(?i)", time):
+                        newtime = '10:30:00'
+                elif re.match("^twenty-five minutes past\s*Eleven(?i)", time):
+                        newtime = '11:25:00'
+                elif re.match("^half-past Eleven(?i)", time):
+                        newtime = '11:30:00'
+                elif re.match("^half-past Two(?i)", time):
+                        newtime = '14:30:00'
+                elif re.match("^Ten o'clock(?i)", time):
+                        newtime = '10:00:00'
+                elif re.match("^Six o'clock(?i)", time):
+                        newtime = '18:00:00'
+                else:
+                        newtime = "unknown " + time
+                        raise Exception, "Start time not known: " + time
+                stampurl.timestamp = '<stamp time="%s"/>' % newtime
 
 	for j in range(0, ih):
 		stampurl.UpdateStampUrl(headspeak[j][1])

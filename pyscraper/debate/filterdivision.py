@@ -71,6 +71,7 @@ def MpList(fsm, vote, sdate):
 
                         #print "fss ", fssf
 			(mpid, remadename, remadecons) = memberList.matchfullnamecons(fnam, cons, sdate, alwaysmatchcons = False)
+                        #print fnam, " --> ", remadename.encode("latin-1")
 			res.append('\t<mpname id="%s" vote="%s">%s</mpname>' % (mpid, vote, FixHTMLEntities(fssf)))
 
 	return res
@@ -92,6 +93,7 @@ def MpTellerList(fsm, vote, sdate):
 				raise Exception, ' too many tellers '
 
 			(mpid, remadename, remadecons) = memberList.matchfullnamecons(fssf.strip(), None, sdate)
+                        #print fssf, " ++> ", remadename.encode("latin-1")
 			res.append('\t<mpname id="%s" vote="%s" teller="yes">%s</mpname>' % (mpid, vote, FixHTMLEntities(fssf)))
 
 	return res
