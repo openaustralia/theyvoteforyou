@@ -1,5 +1,5 @@
 <?php
-# $Id: footer.inc,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: footer.inc,v 1.2 2003/10/02 14:01:42 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -7,15 +7,23 @@
 # For details see the file LICENSE.html in the top level of the source.
 ?>
 
-<hr class="bottomline">
+<!-- the end of the major content -->
+</td></tr>
 
-<p class="footer"><span class="footerleft">
+<!-- the footer section -->
+<tr class="headers"><td bgcolor="#003300"><p class="footer"><span class="footerleft">
+
 Email: <a href="mailto:support@publicwhip.org.uk">support@publicwhip.org.uk</a>
 </span>
 <span class="footerright">
 <a href="faq.php#legal">Legal information</a>
-</span></p>
+</span></p></td></tr>
+
+<!-- hold the maximum width of the content -->
+</table>
+
+<!-- end page centering format -->
+</td></tr></table>
 
 </body>
 </html>
-

@@ -2,7 +2,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.7 2003/09/18 21:09:23 frabcus Exp $
+# $Id: header.inc,v 1.8 2003/10/02 14:01:42 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -19,21 +19,30 @@ include "pretty.inc";
 </head>
 <body>
 
-<div class="navline">
-<a href="index.php">Home</a> |
-<a href="news.php">News</a> |
-<a href="faq.php">FAQ</a> 
-<b>|</b>
-<a href="divisions.php">Divisions</a> | 
-<a href="mps.php">MPs</a> |
-<a href="mpsee.php">Vote Map</a> |
+<!-- page centering format -->
+<table width="100%" height="100%"><tr><td align="CENTER" valign="TOP">
+
+<!-- hold the maximum width of the content -->
+<table class="container" cellpadding="0" cellspacing="0">
+
+<!-- the site logo -->
+<tr><td class="identity"><img src="thepublicwhip.gif"></td></tr>
+
+
+<!-- the main site navigation -->
+<tr class="headers"><td bgcolor="#666666"><a href="index.php">Home</a>
+<a href="news.php">News</a>
+<a href="faq.php">FAQ</a>
+<a href="divisions.php">Divisions</a>
+<a href="mps.php">MPs</a>
+<a href="mpsee.php">VoteMap</a>
 <a href="code.php">Code</a>
-<b>|</b>
-<a href="search.php">Search</a>
-</div>
+<a href="search.php">Search</a></td></tr>
 
-<h1><?
-    print("the Public Whip - $title");
-?></h1>
+<!-- the title bar -->
+<tr><td class="pagetitlebar"><h1><? print $title ?></h1></td></tr>
 
-<hr class="topline">
+<!-- the rest of the content -->
+<tr><td>
+
+

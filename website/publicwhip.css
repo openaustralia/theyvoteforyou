@@ -1,132 +1,299 @@
-/* $Id: publicwhip.css,v 1.8 2003/09/25 20:29:17 uid37249 Exp $
-
-The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
-This is free software, and you are welcome to redistribute it under
-certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
-For details see the file LICENSE.html in the top level of the source.  */
-
-/* Main general formatting */
-
-body {  background: #ffffff;
-        color: #000000;
-        margin-top: 0.5em; margin-bottom: 0.5em;
-        font-family: arial, sans-serif;
-        font-size: 1em;
-        text-align: left;
-     }
-
-a { text-decoration: none }
-a:visited { color: #000088 }
-a:link { color: #0000ff }
-a:active { color: #ff0000 }
-a:hover { color: #0000ff; background: #ddddff }
-
-h1 { text-align: left; 
-     color: #880088;
-     margin-top: 0.2em;
-     margin-bottom: 0.2em;
-     font-size: 1.6em;
-     }
-
-h2 { text-align: left; 
-     color: #880088;
-     margin-top: 0.5em;
-     margin-bottom: 0em;
-     font-size: 1.2em;
-     }
-
-hr { 
-     margin-bottom: 0em;
-     margin-top: 0em; 
-     
-     border-bottom: none; 
-     border-right: none; 
-     border-left: none; 
-     border-top: none;
-
-     color: #bbbbff;
-     background-color: #bbbbff;
-     height: 1px;
+BODY
+{
+    MARGIN-TOP: 0.5em;
+    FONT-SIZE: 70%;
+    BACKGROUND: #ffffff;
+    MARGIN-BOTTOM: 0.5em;
+    COLOR: #000000;
+    FONT-FAMILY: Verdana, arial, sans-serif;
+    TEXT-ALIGN: left
 }
-
-.ptitle { color: #880088;
-          font-size: 1.0em; 
-          font-weight: bold;}
-
-/* Layout, for columns etc. */
-
-.rightbar { float: right; }
-
-table.layout { width: 100%;
-            border: 0;
-            padding: 0;
-            margin: 0;
-            }
-table td.layout { vertical-align: top; padding: 0; padding-right:1em; margin: 0; }
-
-/* Navigation stuff that is on every page */
-
-.navline { text-align: left; }
-.searchbox { text-align: right; 
-             float: right; }
-
-.footer{ margin-top: 0.5em; }
-.footerleft { float: left; text-align: left; width: 50%;}
-.footerright { float: right; text-align: right; width: 50%;}
-
-
-/* Tables for bulk of data in the application */
-
-table { margin: 0;
-        padding: 0;
-        margin-top: 0.6em;
-        margin-bottom: 0.6em;
-        }
-
-table.votes { width: 100%; }
-table.mps { width: 100%; }
-table.mix { width: 100%; }
-
-table tr.headings { font-weight: bold; background-color: #dadada;}
-table tr.odd { background-color: #eeeeee; }
-table tr.even { background-color: #dadada; }
-table tr.oddrebel { background-color: #ee7777; }
-table tr.evenrebel { background-color: #da7777; }
-
-table td { padding: 0.3em; }
-
-table td.rebel { background-color: #ee7777; }
-table td.whip { font-weight: bold; }
-table td.percent { text-align: right; }
-table td.important { font-style: italic; font-weight: bold; }
-
-/* Stuff specific to one page or place */
-
-.newsdate {
-          font-size: 1.0em; 
-          font-style: italic;}
-li.newsheadlines {
-    margin: 0;
-    padding: 0;
+A
+{
+    TEXT-DECORATION: none
 }
-li.newsheadlines:hover { 
-    color: #0000ff; 
-    background: #ddddff 
+A:visited
+{
+    COLOR: #990000
 }
-ul.newsheadlines {
-    padding: 1em;
-    margin: 0;
+A:link
+{
+    COLOR: #990000
 }
-
-.motion { background-color: #eeeeee; }
-
-.search { text-align: left; }
-
-table.bars {  
-        margin: 0;
-        padding: 0;
-        margin-top: 0;
-        }
-table.bars td { padding: 0; }
-
-
+A:active
+{
+    COLOR: #990000
+}
+A:hover
+{
+    BACKGROUND-IMAGE: none;
+    COLOR: #990000;
+    BACKGROUND-REPEAT: repeat;
+    BACKGROUND-COLOR: #bbbbbb
+}
+H1
+{
+    MARGIN-TOP: 0.2em;
+    FONT-SIZE: 140%;
+    MARGIN-BOTTOM: 0.2em;
+    COLOR: #003300;
+    TEXT-ALIGN: left
+}
+H2
+{
+    MARGIN-TOP: 0.5em;
+    FONT-SIZE: 110%;
+    MARGIN-BOTTOM: 0em;
+    COLOR: #003300;
+    TEXT-ALIGN: left
+}
+HR
+{
+    BORDER-RIGHT: medium none;
+    BORDER-TOP: medium none;
+    MARGIN-TOP: 0em;
+    MARGIN-BOTTOM: 0em;
+    BORDER-LEFT: medium none;
+    COLOR: #bbbbff;
+    BORDER-BOTTOM: medium none;
+    HEIGHT: 1px;
+    BACKGROUND-COLOR: #bbbbff
+}
+.ptitle
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 100%;
+    COLOR: #004000
+}
+.rightbar
+{
+    FLOAT: right
+}
+TABLE.layout
+{
+    BORDER-RIGHT: 0px;
+    PADDING-RIGHT: 0px;
+    BORDER-TOP: 0px;
+    PADDING-LEFT: 0px;
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    BORDER-LEFT: 0px;
+    WIDTH: 100%;
+    PADDING-TOP: 0px;
+    BORDER-BOTTOM: 0px
+}
+TABLE TD.layout
+{
+    PADDING-RIGHT: 1em;
+    PADDING-LEFT: 0px;
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    VERTICAL-ALIGN: top;
+    PADDING-TOP: 0px
+}
+.searchbox
+{
+    FLOAT: right;
+    TEXT-ALIGN: right
+}
+.footer
+{
+    MARGIN-TOP: 0.5em;
+    COLOR: #ffffff
+}
+.footerleft
+{
+    FLOAT: left;
+    WIDTH: 50%;
+    COLOR: #ffffff;
+    TEXT-ALIGN: left
+}
+.footerright
+{
+    FLOAT: right;
+    WIDTH: 50%;
+    COLOR: #ffffff;
+    TEXT-ALIGN: right
+}
+TABLE
+{
+    PADDING-RIGHT: 0px;
+    PADDING-LEFT: 0px;
+    FONT-SIZE: 100%;
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0.6em 0px;
+    PADDING-TOP: 0px
+}
+TABLE.votes
+{
+    WIDTH: 100%
+}
+TABLE.mps
+{
+    WIDTH: 100%
+}
+TABLE TR.headings
+{
+    FONT-WEIGHT: bold;
+    BACKGROUND-COLOR: #dadada
+}
+TABLE TR.odd
+{
+    BACKGROUND-COLOR: #eeeeee
+}
+TABLE TR.even
+{
+    BACKGROUND-COLOR: #dadada
+}
+TABLE TR.oddrebel
+{
+    BACKGROUND-COLOR: #ee7777
+}
+TABLE TR.evenrebel
+{
+    BACKGROUND-COLOR: #da7777
+}
+TABLE TD
+{
+    PADDING-RIGHT: 0.3em;
+    PADDING-LEFT: 0.3em;
+    PADDING-BOTTOM: 0.3em;
+    PADDING-TOP: 0.3em
+}
+TABLE TD.rebel
+{
+    BACKGROUND-COLOR: #ee7777
+}
+TABLE TD.whip
+{
+    FONT-WEIGHT: bold
+}
+TABLE TD.percent
+{
+    TEXT-ALIGN: right
+}
+TABLE TD.important
+{
+    FONT-WEIGHT: bold;
+    FONT-STYLE: italic
+}
+.newsdate
+{
+    FONT-SIZE: 100%;
+    FONT-STYLE: italic
+}
+LI.newsheadlines
+{
+    PADDING-RIGHT: 0px;
+    PADDING-LEFT: 0px;
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    PADDING-TOP: 0px
+}
+LI.newsheadlines:hover
+{
+    BACKGROUND: #ddddff;
+    COLOR: #0000ff
+}
+UL.newsheadlines
+{
+    PADDING-RIGHT: 1em;
+    PADDING-LEFT: 1em;
+    PADDING-BOTTOM: 1em;
+    MARGIN: 0px;
+    PADDING-TOP: 1em
+}
+.motion
+{
+    BACKGROUND-COLOR: #eeeeee
+}
+.search
+{
+    TEXT-ALIGN: left
+}
+TABLE.bars
+{
+    PADDING-RIGHT: 0px;
+    PADDING-LEFT: 0px;
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    PADDING-TOP: 0px
+}
+TABLE.bars TD
+{
+    PADDING-RIGHT: 0px;
+    PADDING-LEFT: 0px;
+    PADDING-BOTTOM: 0px;
+    PADDING-TOP: 0px
+}
+.container
+{
+    BORDER-RIGHT: #003300 1px solid;
+    PADDING-RIGHT: 0px;
+    BORDER-TOP: #003300 1px solid;
+    PADDING-LEFT: 0px;
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    BORDER-LEFT: #003300 1px solid;
+    WIDTH: 65em;
+    PADDING-TOP: 0px;
+    BORDER-BOTTOM: #003300 1px solid
+}
+.identity
+{
+    PADDING-RIGHT: 0px;
+    PADDING-LEFT: 0px;
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    PADDING-TOP: 0px;
+    BACKGROUND-COLOR: #003300
+}
+.pagetitlebar
+{
+    BACKGROUND-COLOR: #cccccc
+}
+.layout
+{
+}
+IMG
+{
+    BORDER-RIGHT: 0px;
+    BORDER-TOP: 0px;
+    BORDER-LEFT: 0px;
+    BORDER-BOTTOM: 0px
+}
+.headers
+{
+}
+.headers A:active
+{
+    COLOR: #ffffff;
+    BACKGROUND-COLOR: transparent
+}
+.headers A:hover
+{
+    COLOR: #ffffff;
+    BACKGROUND-COLOR: transparent;
+    TEXT-DECORATION: underline
+}
+.headers A:link
+{
+    COLOR: #ffffff;
+    BACKGROUND-COLOR: transparent
+}
+.headers A:visited
+{
+    COLOR: #ffffff;
+    BACKGROUND-COLOR: transparent
+}
+.headers A
+{
+    PADDING-RIGHT: 6px;
+    PADDING-LEFT: 6px;
+    COLOR: #ffffff;
+    BACKGROUND-COLOR: transparent
+}
+.headers TD
+{
+    BORDER-BOTTOM: #003300 1px solid
+}
