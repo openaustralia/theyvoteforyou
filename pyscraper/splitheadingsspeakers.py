@@ -153,7 +153,6 @@ class SepHeadText:
                                 # there's a negative regexp match (for "The ... was asked - " which
                                 # isn't a heading even though it looks like one).  Check we don't
                                 #  match it.
-                                print "#" + fss + "#"
                                 negativematch = renotheading.search(fss)
                                 if not negativematch:
 
@@ -164,7 +163,7 @@ class SepHeadText:
                                     self.EndHeading(gheading.group(1))
                                     continue
 
-                                print "renotheading matched ", fss
+                                #print "renotheading matched ", fss
                                 fss = negativematch.group(1)
                                     
                                     

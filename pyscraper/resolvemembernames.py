@@ -143,9 +143,11 @@ class MemberList(xml.sax.handler.ContentHandler):
         text = text.replace("  ", " ")
 
         # Remove initial titles (may be several)
-        titlec = 1
-        while titlec > 0:
-            (text, titlec) = self.retitles.subn("", text)
+        titletotal = 0
+        titlegot = 1
+        while titlegot > 0:
+            (text, titlegot) = self.retitles.subn("", text)
+            titletotal = titletotal + titlegot
 
         # Remove final honourifics
         (text, honourc) = self.rehonourifics.subn("", text)
@@ -155,7 +157,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         # Find unique identifier for member
         ids = sets.Set()
         matches = self.fullnames.get(text, None)
-        if not matches:
+        if not matches and titletotal > 0:
             matches = self.lastnames.get(text, None)
 
         # If a speaker, then match agains the secial speaker parties

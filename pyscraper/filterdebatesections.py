@@ -327,30 +327,38 @@ def FilterDebateSections(fout, text, sdate):
 			else:
 				qb.stext = [ qb.text ] 
 		
-
+        # flatten list of blocks into one list, and merge together adjacent
+        # headings where necessary
+        flatb = [];
+	for qblock in qbl:
+		for qb in qblock:
+                        # merge together adjacent subheadings
+                        if qb.typ == 'debminor' and len(flatb) > 0 and flatb[-1].typ == 'debminor':
+                                flatb[-1].stext.append(" &mdash; ")
+                                flatb[-1].stext.extend(qb.stext)
+                        else:
+                                flatb.append(qb)
 
 	# output the list of entities
 	WriteXMLHeader(fout);
 	fout.write("<publicwhip>\n")
-
-	for qblock in qbl:
-		for qb in qblock:
-			if qb.typ == 'debmajor':
-				fout.write('\n')
-				WriteXMLChunk(fout, qb, sdate, 'MAJOR-HEADING', qb.stext)
-				fout.write('\n')
-			elif qb.typ == 'debminor':
-				fout.write('\n')
-				WriteXMLChunk(fout, qb, sdate, 'MINOR-HEADING', qb.stext)
-				fout.write('\n')
-			elif qb.typ == 'debspeech':
-				WriteXMLChunk(fout, qb, sdate, 'speech', qb.stext)
-			elif qb.typ == 'debdiv':
-				fout.write('\n')
-				WriteXMLChunk(fout, qb, sdate, 'DIVISION', qb.stext)
-				fout.write('\n')
-			else:
-				raise Exception, 'question block type unknown %s ' % qb.type
+        for qb in flatb:
+                if qb.typ == 'debmajor':
+                        fout.write('\n')
+                        WriteXMLChunk(fout, qb, sdate, 'MAJOR-HEADING', qb.stext)
+                        fout.write('\n')
+                elif qb.typ == 'debminor':
+                        fout.write('\n')
+                        WriteXMLChunk(fout, qb, sdate, 'MINOR-HEADING', qb.stext)
+                        fout.write('\n')
+                elif qb.typ == 'debspeech':
+                        WriteXMLChunk(fout, qb, sdate, 'speech', qb.stext)
+                elif qb.typ == 'debdiv':
+                        fout.write('\n')
+                        WriteXMLChunk(fout, qb, sdate, 'DIVISION', qb.stext)
+                        fout.write('\n')
+                else:
+                        raise Exception, 'question block type unknown %s ' % qb.type
 
 	fout.write("</publicwhip>\n")
 	
