@@ -123,15 +123,15 @@ class PhraseTokenize:
 		qstandingoph = restandingo.search(stex)
 		if not qstandingoph:
 			if restandingomarg.search(stex):
-				print "Marginal standing order "
-				print stex
+				#print "Marginal standing order ", stex
+				pass
 			return nextfunc(qs, stex)
 
 		# this works well, except when two standing orders are quoted (number x and y)
 		# should work out a standard hyperlink for them.
 		#qstandingoph
 		stando = qstandingoph.group(1)
-		print "standing order: %s : %s " % (qstandingoph.group(1), qstandingoph.group(2))
+		#print "standing order: %s : %s " % (qstandingoph.group(1), qstandingoph.group(2))
 
 		if restandingomarg.search(stex[:qstandingoph.span(0)[0]]):
 			print "Marginal standing order "

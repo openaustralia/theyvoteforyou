@@ -296,8 +296,9 @@ def FilterWransSections(fout, text, sdate):
 				flatb.append(qb)
 
 		if not bNextStartofQ:
-                        # Note - not sure if this should be speechestxt[0][1] here.  Does what I want for now...
-			raise ContextException("missing answer to question", stamp=stampurl, fragment=speechestxt[0][1])
+                        print speechestxt
+                        # Note - not sure if this should be speechestxt[-1][1] here.  Does what I want for now...
+			raise ContextException("missing answer to question", stamp=stampurl, fragment=speechestxt[-1][1])
 
 
 	# we now have everything flattened out in a series of speeches,

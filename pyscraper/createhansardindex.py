@@ -76,7 +76,7 @@ def CmIndexFromPage(urllinkpage):
 			continue
 
 		if re.search('Chronology', link[2]):
-			print link
+			# print "Chronology:", link
 			continue
 
 		# get rid of the new index pages
@@ -116,7 +116,7 @@ def CmIndexFromPage(urllinkpage):
 			uind = test1
 
 		reses[(sdate, typ)] = (uind, urllinkpage)
-		print sdate, uind
+		#print sdate, uind
 
 # Find all the index pages from the front index page by recursing into the months
 # and then the years and volumes pages

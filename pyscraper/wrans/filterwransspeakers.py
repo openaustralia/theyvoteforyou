@@ -22,7 +22,6 @@ fixsubs = 	[
 
         ( 'Mr. Jim McNulty', 'Mr. McNulty', 1, '2003-01-07'),
         ( '(<B> Mr. Tony)(: </B>)', '\\1 Banks\\2', 1, '2004-01-29'),
-	( '<B> Mr. </B>\s* Shepherd:', '<B> Mr. Shepherd:</B>', 1, '2003-10-23'),
 	( '<B> Margaret Becket </B>', '<B> Margaret Beckett </B>', 1, '2003-11-11'),
 
 	( '<UL>(Beverley Hughes):', '<B>\\1</B>', 1, '2003-04-10'),

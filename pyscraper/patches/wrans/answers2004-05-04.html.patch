@@ -1,0 +1,52 @@
+--- wrans/answers2004-05-04.html	Thu May 13 08:54:14 2004
++++ wrans/answers2004-05-04-patchtmp.html	Thu May 13 11:49:58 2004
+@@ -5994,7 +5994,7 @@
+ 15. <a name="40504w21.html_wqn1"><B> Norman Lamb: </B> 
+  To ask the Secretary of State for Health, if he will make a statement on the PFI contract in respect of the Norfolk and Norwich hospital. [169837]
+ <P>
+-<UL>Dr. Ladyman: The Norfolk and Norwich University Hospital PFI scheme was the fourth major PFI scheme to reach financial close and sign contracts. The Norfolk and Norwich is a high quality hospital and was recently named among the top 40 hospitals in the UK by an international company involved in measuring healthcare performance.
++<UL><B>Dr. Ladyman: </B> The Norfolk and Norwich University Hospital PFI scheme was the fourth major PFI scheme to reach financial close and sign contracts. The Norfolk and Norwich is a high quality hospital and was recently named among the top 40 hospitals in the UK by an international company involved in measuring healthcare performance.
+ <P></UL>
+ <P>
+ 
+@@ -6024,11 +6024,11 @@
+ 17. <a name="40504w21.html_wqn3"><B> Mr. Best: </B> 
+  To ask the Secretary of State for Health, what plans he has to increase the number of NHS dentists in Leeds.  [169839]
+ <P>
+-<UL>Miss Melanie Johnson: Currently 145 dentists are treating NHS patients in the Leeds area. The overall number of dentists treating NHS patients in Leeds has remained similar for the 12 months to December 2003, the latest data that we have available. The primary care trusts in Leeds are currently preparing action plans to submit to West Yorkshire Strategic Health Authority, which include plans to increase the numbers of dentists accepting NHS patients locally.
++<UL><B>Miss Melanie Johnson: </B> Currently 145 dentists are treating NHS patients in the Leeds area. The overall number of dentists treating NHS patients in Leeds has remained similar for the 12 months to December 2003, the latest data that we have available. The primary care trusts in Leeds are currently preparing action plans to submit to West Yorkshire Strategic Health Authority, which include plans to increase the numbers of dentists accepting NHS patients locally.
+ <P>
+ <P></UL><P>
+ 19. <a name="40504w21.html_wqn4"><B> Richard Younger-Ross: </B> 
+- If he will make a statement on NHS dental provision in south Devon.  [169842]<P>
++ To ask the Secretary of State for Health, if he will make a statement on NHS dental provision in south Devon.  [169842]<P>
+ <P>
+ <P>
+ <a name="40504w21.html_spnew2"><B> Ms Rosie Winterton: </B> 
+@@ -6039,7 +6039,7 @@
+ 
+ <P>
+ 18. <a name="40504w21.html_wqn5"><B> Harry Cohen: </B> 
+- What assessment he has made of the public health reports from primary care trusts in areas suffering from health inequality.  [169841]<P>
++ To ask the Secretary of State for Health what assessment he has made of the public health reports from primary care trusts in areas suffering from health inequality.  [169841]<P>
+ <P>
+ <P>
+ <a name="40504w21.html_spnew3"><B> Miss Melanie Johnson: </B> 
+@@ -6050,7 +6050,7 @@
+ 
+ <P>
+ 20. <a name="40504w21.html_wqn6"><B> Sandra Gidley: </B> 
+- If he will make a statement on his Department's policy on the abuse of elderly people. [169843]<P>
++ To ask the Secretary of State for Health if he will make a statement on his Department's policy on the abuse of elderly people. [169843]<P>
+ <P>
+ <P>
+ <a name="40504w21.html_spnew4"><B> Dr. Ladyman: </B> 
+@@ -6090,7 +6090,7 @@
+ 
+ <P>
+ <P>
+-<a name="40504w21.html_wqn9"><B> 23.Angela Watkinson: </B> 
++<a name="40504w21.html_wqn9"><B> Angela Watkinson: </B> 
+ To ask the Secretary of State for Health, when he proposes to start the pre-legislative scrutiny stages of the draft mental health bill.  [169846]<P>
+ <P>
+ <P>

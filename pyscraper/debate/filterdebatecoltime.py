@@ -22,7 +22,6 @@ fixsubs = 	[
         ( '<B> Ordered, </B>', 'Ordered, ', 2, '2004-03-23'),
         ( '\(Sylvia Heal </B>\s*\)\:', '(Sylvia Heal):</B>', 1, '2003-06-20'),
 
-	( '(<H3 align=center>THE PARLIAMENTARY DEBATES</H3>)', '<P>\n\n<B>14 Oct 2003 : Column 1</B></P>\n\\1', 1, '2003-10-14'),
 	( '(<H4><center>THE PARLIAMENTARY DEBATES</center></H4>)', '<P>\n\n<B>14 Jul 2003 : Column 1</B></P>\n\\1', 1, '2003-07-14'),
 
 	( '<B>27 Mar 2003 : Column 563</B></P>\s*<UL><UL><UL>\s*</UL></UL></UL>', '', 1, '2003-03-27'),

@@ -35,7 +35,6 @@ fixsubs = 	[
         ( 'Taylor, Andrew', 'Turner, Andrew', 1, '2003-02-26'),
         ( '(Brown, Russell),', '\\1', 1, '2003-09-10'),
         ( 'Baird Vera', 'Baird, Vera', 1, '2003-09-10'),
-        ( 'itemMercer', 'Mercer', 1, '2003-10-15'),
         ( 'Livingston\)', '(Livingston)', 1, '2003-10-27'),
         ( '<BR>\n, David', '<BR>\nBorrow, David', 1, '2003-11-18'),
         ( '(Charlotte Atkins an)<BR>\s*d', '\\1d<BR>', 1, '2004-03-15'),
@@ -75,7 +74,7 @@ def StripDebateHeading(hmatch, ih, headspeak, bopt=False):
 	if (not re.match(hmatch, headspeak[ih][0])) or headspeak[ih][2]:
 		if bopt:
 			return ih
-		print headspeak[ih]
+		print "headspeak", headspeak[ih]
 		raise Exception, 'non-conforming "%s" heading ' % hmatch
 	return ih + 1
 
@@ -104,7 +103,7 @@ def StripDebateHeadings(headspeak, sdate):
 	# Tuesday 9 December 2003
 	if not re.match('the house met at .*(?i)', headspeak[ih][0]):
 		if ((sdate != mx.DateTime.DateTimeFrom(headspeak[ih][0]).date)) or headspeak[ih][2]:
-			raise Exception, 'non-conforming date heading %s' % repr(headspeak[ih])
+			raise Exception, 'date heading %s mismatches with date %s' % (repr(headspeak[ih]), sdate)
 		ih = ih + 1
 
         gstarttime = None
