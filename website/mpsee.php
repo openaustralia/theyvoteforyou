@@ -1,5 +1,5 @@
 <?php $title = "Vote map"; include "header.inc" 
-# $Id: mpsee.php,v 1.3 2003/09/19 16:06:37 frabcus Exp $
+# $Id: mpsee.php,v 1.4 2003/09/25 22:57:48 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -34,12 +34,56 @@ Alternatively, get a taste with a <a href="mpsee.png">static
 screenshot</a> of the clustered MPs.
 </p>
 
-<center>
-<applet code="mpapplet.class" archive="mpscatt.jar" width="700" height="400">
-    <param name="posfile" value="mpcoords.txt">
-	alt="Java applet."
-</applet>
-</center>
+<p align=center>
+<!--"CONVERTED_APPLET"-->
+<!-- HTML CONVERTER -->
+<SCRIPT LANGUAGE="JavaScript"><!--
+    var _info = navigator.userAgent; 
+    var _ns = false; 
+    var _ns6 = false;
+    var _ie = (_info.indexOf("MSIE") > 0 && _info.indexOf("Win") > 0 && _info.indexOf("Windows 3.1") < 0);
+//--></SCRIPT>
+    <COMMENT>
+        <SCRIPT LANGUAGE="JavaScript1.1"><!--
+        var _ns = (navigator.appName.indexOf("Netscape") >= 0 && ((_info.indexOf("Win") > 0 && _info.indexOf("Win16") < 0 && java.lang.System.getProperty("os.version").indexOf("3.5") < 0) || (_info.indexOf("Sun") > 0) || (_info.indexOf("Linux") > 0) || (_info.indexOf("AIX") > 0) || (_info.indexOf("OS/2") > 0) || (_info.indexOf("IRIX") > 0)));
+        var _ns6 = ((_ns == true) && (_info.indexOf("Mozilla/5") >= 0));
+//--></SCRIPT>
+    </COMMENT>
+
+<SCRIPT LANGUAGE="JavaScript"><!--
+    if (_ie == true) document.writeln('<OBJECT classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93" WIDTH = "700" HEIGHT = "400"  codebase="http://java.sun.com/products/plugin/autodl/jinstall-1_4-windows-i586.cab#Version=1,4,0,0"><NOEMBED><XMP>');
+    else if (_ns == true && _ns6 == false) document.writeln('<EMBED \
+	    type="application/x-java-applet;version=1.4" \
+            CODE = "mpapplet.class" \
+            ARCHIVE = "mpscatt.jar" \
+            WIDTH = "700" \
+            HEIGHT = "400" \
+            posfile ="mpcoords.txt" \
+	    scriptable=false \
+	    pluginspage="http://java.sun.com/products/plugin/index.html#download"><NOEMBED><XMP>');
+//--></SCRIPT>
+<APPLET  CODE = "mpapplet.class" ARCHIVE = "mpscatt.jar" WIDTH = "700" HEIGHT = "400"></XMP>
+    <PARAM NAME = CODE VALUE = "mpapplet.class" >
+    <PARAM NAME = ARCHIVE VALUE = "mpscatt.jar" >
+    <PARAM NAME="type" VALUE="application/x-java-applet;version=1.4">
+    <PARAM NAME="scriptable" VALUE="false">
+    <PARAM NAME = "posfile" VALUE="mpcoords.txt">
+Sun Java 1.4 or above required
+</APPLET>
+</NOEMBED>
+</EMBED>
+</OBJECT>
+
+<!--
+<APPLET CODE = "mpapplet.class" ARCHIVE = "mpscatt.jar" WIDTH = "700" HEIGHT = "400">
+<PARAM NAME = "posfile" VALUE="mpcoords.txt">
+alt="Java applet."
+
+</APPLET>
+-->
+<!--"END_CONVERTED_APPLET"-->
+
+</p>
 
 <hr class="bottomline">
 

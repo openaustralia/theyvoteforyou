@@ -27,8 +27,6 @@ Mailing list for newsletter
 Website
 -------
 
-Java applet proper detection
-
 Consider changing support@ email addr to something less corporate sounding
 
 Trim some opinion waffle out of Cluster text
