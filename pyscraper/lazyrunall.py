@@ -22,12 +22,21 @@ Hansard.  Converts them into handy XML files, tidying up HTML errors,
 generating unique identifiers for speeches, reordering sections, name matching
 MPs and so on as it goes.
 
-Specify any or all of the following as commands to this script:
+Specify at least one of the following actions to take:
+scrape          update Hansard page index, and download new raw pages
+parse           process scraped HTML into tidy XML files
 
-network         update Hansard page index, and download new raw pages
+And choose at least one of these sections to apply them to:
 wrans           process Written Answers into XML files
 debates         process Debates into XML files
-regmem          process Register of Members Interests into XML files""")
+regmem          process Register of Members Interests into XML files
+
+Example command line
+        ./lazyrunall.py --date=2004-03-03 --force-scrape scrape parse wrans
+It forces redownload of the Written Answers for 3rd March, and reprocesses them.""")
+
+
+# See what options there are
 
 parser.add_option("--force-parse",
                   action="store_true", dest="forceparse", default=False,
@@ -48,13 +57,18 @@ if (options.date):
         options.datefrom = options.date
         options.dateto = options.date
 
-options.network = False
+# See what commands there are
+
+options.scrape = False
+options.parse = False
 options.wrans = False
 options.debates = False
 options.regmem = False
 for arg in args:
-        if arg == "network":
-                options.network = True
+        if arg == "scrape":
+                options.scrape = True
+        elif arg == "parse":
+                options.parse = True
         elif arg == "wrans":
                 options.wrans = True
         elif arg == "debates":
@@ -66,30 +80,39 @@ for arg in args:
                 print >>sys.stderr, "error: no such option %s" % arg
                 sys.exit(1)
 
-# Do the work
+# Do the work - all the conditions are so beautifully symmetrical, there
+# must be a nicer way of doing it all...
 
-if options.network:
+if options.scrape:
         UpdateHansardIndex()
         if options.forcescrape:
-                PullGluePages(options.datefrom, options.dateto, True, "wrans", "answers")
-                PullGluePages(options.datefrom, options.dateto, True, "debates", "debates")
-                RegmemPullGluePages(True)
-        PullGluePages(options.datefrom, options.dateto, False, "wrans", "answers")
-        PullGluePages(options.datefrom, options.dateto, False, "debates", "debates")
-        RegmemPullGluePages(False)
+                if options.wrans:
+                        PullGluePages(options.datefrom, options.dateto, True, "wrans", "answers")
+                if options.debates:
+                        PullGluePages(options.datefrom, options.dateto, True, "debates", "debates")
+                if options.regmem:
+                        RegmemPullGluePages(True)
+        if options.wrans:
+                PullGluePages(options.datefrom, options.dateto, False, "wrans", "answers")
+        if options.debates:
+                PullGluePages(options.datefrom, options.dateto, False, "debates", "debates")
+        if options.regmem:
+                # TODO - date ranges when we do index page stuff for regmem
+                RegmemPullGluePages(False)
 
-if options.wrans:
+if options.parse:
         if options.forceparse:
-                RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto, True)
-        RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto, False)
-if options.debates:
-        if options.forceparse:
-                RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, True)
-        RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, False)
-if options.regmem:
-        # Maybe could obey date range here - but no point for now.
-        # When we get index page properly for regmem, we can do
-        if options.forceparse:
-                RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', True)
-        RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', False)
+                if options.wrans:
+                        RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto, True)
+                if options.debates:
+                        RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, True)
+                if options.regmem:
+                        RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', True)
+        if options.wrans:
+                RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto, False)
+        if options.debates:
+                RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, False)
+        if options.regmem:
+                # TODO - date ranges when we do index page stuff for regmem
+                RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', False)
 

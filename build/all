@@ -16,7 +16,7 @@ cd ..
 
 echo "Scraping new written answers"
 cd pyscraper
-./lazyrunall.py --from 2003-01-01 network wrans debates
+./lazyrunall.py --from 2003-01-01 scrape parse wrans debates
 cd ..
 
 echo "Getting dynamic tables for backup"
