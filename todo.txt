@@ -1,3 +1,16 @@
+Wiki
+----
+
+Strip out spurious HTML tags and comment prefixes etc.
+Do auto redirect back to page when editing
+Clear cache after editing
+Add help text describe tags to do
+Add help text describing what to write
+Improve "edit motion text" stuff
+
+General
+-------
+
 Make it clearer before you sign up that your email domain is public when
 you make a Dream MP.
 

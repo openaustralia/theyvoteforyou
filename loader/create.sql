@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.5 2004/10/13 14:16:40 frabcus Exp $
+-- $Id: create.sql,v 1.6 2005/01/14 20:36:07 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -135,12 +135,31 @@ create table pw_dyn_rollievote (
     unique(division_date, division_number, rolliemp_id)
 );
 
+-- changes people have been making are stored here for debugging
 create table pw_dyn_auditlog (
     auditlog_id int not null primary key auto_increment,
     user_id int not null,
     event_date datetime,
     event text,
     remote_addr text
+);
+
+-- for wiki text objects.  this is a transaction table, we only
+-- insert rows into it, so we can show history.  when reading
+-- from it, use the most recent row for a given object_key.
+create table pw_dyn_wiki (
+    wiki_id int not null primary key auto_increment,
+    -- name/id of object this is an edit of 
+    object_key varchar(100) not null, 
+
+    -- the new text that has change
+    text_body text not null,
+
+    -- who and when this changes was made
+    user_id int not null, 
+    edit_date datetime,
+
+    index(object_key)
 );
 
 -------------------------------------------------------------------------------

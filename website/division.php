@@ -1,5 +1,5 @@
 <?php
-# $Id: division.php,v 1.41 2005/01/14 20:22:42 goatchurch Exp $
+# $Id: division.php,v 1.42 2005/01/14 20:36:08 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -12,6 +12,7 @@
 
     $date = db_scrub($_GET["date"]);
     $div_no = db_scrub($_GET["number"]);
+    $motion_key = get_motion_wiki_key($date, $div_no);
 
     $show_all = false;
     if ($_GET["showall"] == "yes")
@@ -26,7 +27,7 @@
         include "cache-begin.inc";
     }
 
-    include "account/database.inc";
+    include "database.inc";
     include_once "cache-tools.inc";
     $db = new DB();
     $db2 = new DB();
@@ -61,7 +62,7 @@
     $rebellions = $row[3];
     $turnout = $row[4];
     $notes = $row[5];
-    $motion = $row[6];
+    $original_motion = $row[6];
     $debate_url = $row[7];
     $source_gid = $row[8];
     $debate_gid = $row[9];
@@ -69,6 +70,8 @@
     $this_anchor = "division.php?date=" . urlencode($date) .  "&number=" . urlencode($div_no); 
     $title = "$name - $prettydate - Division No. $div_no";
     include "header.inc";
+
+    $motion_data = get_wiki_current_value($motion_key);
 
     print '<p><a href="#motion">Motion</a>';
 	print ' | ';
@@ -243,39 +246,10 @@
     so you can try to work out what 'aye' (for the motion) and 'no' (against the motion) meant.
     This is for guidance only, irrelevant text may be shown, crucial text may
     be missing.</p>";
-    print "<div class=\"motion\">$motion";
+    print "<div class=\"motion\">" . $motion_data['text_body']; # TODO: validate this text_body
     print "</div>\n";
-
-    # Show Dream MPs who voted in this division and their votes
-    $db->query("select name, rollie_id, vote, real_name, email from pw_dyn_rolliemp, pw_dyn_rollievote, pw_dyn_user
-        where pw_dyn_rollievote.rolliemp_id = pw_dyn_rolliemp.rollie_id and
-        pw_dyn_user.user_id = pw_dyn_rolliemp.user_id and
-        pw_dyn_rollievote.division_date = '$date' and pw_dyn_rollievote.division_number = '$div_no' ");
-    if ($db->rows() > 0)
-    {
-        $prettyrow = 0;
-        print "<h2><a name=\"dreammp\">Dream MP Voters</a></h2>";
-        print "<p>The following Dream MPs have voted in this division.  You can use this
-           to help you work out the meaning of the vote.";
-        print "<table><tr class=\"headings\">";
-        print "<td>Dream MP</td><td>Vote (in this division)</td><td>Made by</td><td>Email</td>";
-        while ($row = $db->fetch_row_assoc()) {
-            $dmp_real_name = $row["real_name"];
-            $dmp_email = preg_replace("/(.+)@(.+)/", "$2", $row["email"]);
-            $prettyrow = pretty_row_start($prettyrow);
-            $vote = $row["vote"];
-            if ($vote == "both")
-                $vote = "abstain";
-            print "<td><a href=\"dreammp.php?id=" . $row["rollie_id"] . "\">";
-            print $row["name"] . "</a></td>";
-            print "<td>" . $vote . "</td>";
-            print "<td>" . html_scrub($dmp_real_name) . "</td>";
-            print "<td>" . html_scrub($dmp_email) . "</td>";
-            print "</tr>";
-        }
-        print "</table>";
-        print "<p><a href=\"account/adddream.php\">Make your own dream MP</a>";
-    }
+    print "<p><a href=\"account/wiki.php?key=$motion_key&r=" .
+     urlencode($_SERVER["REQUEST_URI"]) . "\">Edit motion text</a></p>\n";
 
     # Work out proportions for party voting (todo: cache)
     $db->query("select party, total_votes from pw_cache_partyinfo");
@@ -542,6 +516,38 @@
     }
 */
 }
+
+    # Show Dream MPs who voted in this division and their votes
+    $db->query("select name, rollie_id, vote, real_name, email from pw_dyn_rolliemp, pw_dyn_rollievote, pw_dyn_user
+        where pw_dyn_rollievote.rolliemp_id = pw_dyn_rolliemp.rollie_id and
+        pw_dyn_user.user_id = pw_dyn_rolliemp.user_id and
+        pw_dyn_rollievote.division_date = '$date' and pw_dyn_rollievote.division_number = '$div_no' ");
+    if ($db->rows() > 0)
+    {
+        $prettyrow = 0;
+        print "<h2><a name=\"dreammp\">Dream MP Voters</a></h2>";
+        print "<p>The following Dream MPs have voted in this division.  You can use this
+           to help you work out the meaning of the vote.";
+        print "<table><tr class=\"headings\">";
+        print "<td>Dream MP</td><td>Vote (in this division)</td><td>Made by</td><td>Email</td>";
+        while ($row = $db->fetch_row_assoc()) {
+            $dmp_real_name = $row["real_name"];
+            $dmp_email = preg_replace("/(.+)@(.+)/", "$2", $row["email"]);
+            $prettyrow = pretty_row_start($prettyrow);        
+            $vote = $row["vote"];
+            if ($vote == "both")
+                $vote = "abstain";
+            print "<td><a href=\"dreammp.php?id=" . $row["rollie_id"] . "\">";
+            print $row["name"] . "</a></td>";
+            print "<td>" . $vote . "</td>";
+            print "<td>" . html_scrub($dmp_real_name) . "</td>";
+            print "<td>" . html_scrub($dmp_email) . "</td>";
+            print "</tr>";
+        }
+        print "</table>";
+        print "<p><a href=\"account/adddream.php\">Make your own dream MP</a>";
+    }
+
 ?>
 
 <?php include "footer.inc" ?>

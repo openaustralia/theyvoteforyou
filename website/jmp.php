@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php
-    # $Id: jmp.php,v 1.1 2005/01/14 19:58:23 goatchurch Exp $
+    # $Id: jmp.php,v 1.2 2005/01/14 20:36:08 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -10,9 +10,9 @@
     include "db.inc";
     include "parliaments.inc";
     include "constituencies.inc";
-    include "jgetdb.inc";
-    $db = new DB();
+    include "gather.inc";
     $db1 = new DB();
+    $db = new DB();
 
     $first_name = db_scrub($_GET["firstname"]);
     $last_name = db_scrub($_GET["lastname"]);
@@ -45,7 +45,7 @@
 			$query = "select first_name, last_name, constituency
 				from pw_mp where mp_id = '$id'
 				order by entered_house desc limit 1";
-			$row = $db->query_one_row($query);
+			$row = $db1->query_one_row($query);
 			$first_name = db_scrub($row[0]);
 			$last_name = db_scrub($row[1]);
 			$constituency = db_scrub($row[2]);
@@ -56,7 +56,7 @@
 			$query = "select first_name, last_name
 				from pw_mp where constituency = '$constituency'
 				order by entered_house desc limit 1";
-			$row = $db->query_one_row($query);
+			$row = $db1->query_one_row($query);
 			$first_name = db_scrub($row[0]);
 			$last_name = db_scrub($row[1]);
 		}
@@ -73,7 +73,7 @@
 		              'constituency' => $constituency, 'id' => $id);
 
 	# do the header, which opens a title table
-	include "jheader.inc";
+	include "header.inc";
 
 	# add the title of the chosen dream MP (if exists) and close the table.
 	$limitdivs = 20;
@@ -84,7 +84,7 @@
 		$query = "select name, description, pw_dyn_user.user_id, user_name, real_name, email
 	        from pw_dyn_rolliemp, pw_dyn_user
 	        where pw_dyn_rolliemp.user_id = pw_dyn_user.user_id and rollie_Id = '$dreammpid'";
-	    $row = $db->query_one_row($query);
+	    $row = $db1->query_one_row($query);
 	    $dmp_name = html_scrub($row[0]);
 	    $dmp_description = $row[1];
 	    $dmp_user_id = $row[2];
@@ -100,8 +100,8 @@
     $query = "select person from pw_mp where ";
     $query .= "first_name = '$first_name' and last_name='$last_name' and";
     $query .= " constituency = '$constituency' order by entered_house desc limit 1";
-    $db->query($query);
-    $row = $db->fetch_row();
+    $db1->query($query);
+    $row = $db1->fetch_row();
     $person = $row[0];
 ?>
 
@@ -109,11 +109,11 @@
  	$query = "select dept, position, from_date, to_date
         from pw_moffice where pw_moffice.person = '$person'
         order by from_date desc";
-    $db->query($query);
+    $db1->query($query);
     $prettyrow = 0;
     $events = array();
     $currently_minister = "";
-    while ($row = $db->fetch_row_assoc())
+    while ($row = $db1->fetch_row_assoc())
     {
         if ($row["from_date"] <= $now && $now <= $row["to_date"])
         {
@@ -140,7 +140,7 @@
         pw_mp.mp_id = pw_cache_mpinfo.mp_id and ";
     $query .= "first_name = '$first_name' and last_name='$last_name' and";
     $query .= " constituency = '$constituency' order by entered_house desc";
-    $db->query($query);
+    $db1->query($query);
 
     $prettyrow = 0;
     $mp_ids = array();
@@ -150,7 +150,7 @@
     $enter_reason = array();
     $left_reason = array();
     $person = 0;
-    while ($row = $db->fetch_row())
+    while ($row = $db1->fetch_row())
     {
         $prettyrow = pretty_row_start($prettyrow);
         $row[6] = percentise($row[6]);
@@ -228,10 +228,10 @@
         }
 
         $query = "select ".$qselect." FROM ".$qfrom." WHERE ".$qwhere." ".$qtail;
-        $db->query($query);
+        $db1->query($query);
 
 
-        while ($row = $db->fetch_row_both())
+        while ($row = $db1->fetch_row_both())
         {
 			$division_id = $row[0];
 			$division_number = $row[1];
@@ -245,13 +245,15 @@
 			{
 				$dreamvote = $vote;
 				$vote = "absent";
-		        $db1->query("SELECT vote FROM pw_vote WHERE pw_vote.division_id = $division_id and pw_vote.mp_id = $mp_ids[$i]");
-		        if ($rowvote = $db1->fetch_row())
+		        $db->query("SELECT vote FROM pw_vote WHERE pw_vote.division_id = $division_id and pw_vote.mp_id = $mp_ids[$i]");
+		        if ($rowvote = $db->fetch_row())
 		        	$vote = $rowvote[0];
 			}
 
 			$row4 = $row['source_url'];
-			$motion = $row['motion'];
+            $motion_key = get_motion_wiki_key($division_date, $division_number);
+            $motion_data = get_wiki_current_value($motion_key);
+			$motion = $motion_data['text_body'];
 
             while ($events_ix < count($events) && $division_date >= $events[$events_ix][0])
 			{
@@ -276,7 +278,7 @@
 				writepersonvote("", "DreamMP", $dreamvote);
 
 			# get the summary of the rest of the voting from the database
-			$partysummary = GetPartyVoteSummary($db1, $division_id);
+			$partysummary = GetPartyVoteSummary($db, $division_id);
 
 			# total votes
 			$totalayes = array_sum(array_values($partysummary['ayes'])) + array_sum(array_values($partysummary['tellayes']));

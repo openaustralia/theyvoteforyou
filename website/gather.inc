@@ -1,5 +1,5 @@
 <?php
-# $Id: gather.inc,v 1.2 2005/01/14 19:58:23 goatchurch Exp $
+# $Id: gather.inc,v 1.3 2005/01/14 20:36:08 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Gather information from the database
@@ -13,14 +13,14 @@ function get_motion_wiki_key($date, $div_no)
     return "motion-$date-$div_no";
 }
 
-# 
+# Returns current value of wiki text based on a key.  Return value
+# is a hash with text_body, user_id, edit_date.
 function get_wiki_current_value($key) 
 {
     $matches = array();
     if (preg_match("/^motion-(\d\d\d\d-\d\d-\d\d)-(\d+)$/",$key, $matches)) {
         return get_motion_text($matches[1], $matches[2]);
     }
-    
 }
 
 # Returns the most recent edited wiki text for motion, or the default
@@ -28,13 +28,15 @@ function get_wiki_current_value($key)
 # user_id is 0 if this text has never been edited.
 function get_motion_text($date, $div_no)
 {
+    $extra = array('help_pre' => "Motion text:");
+
     global $db;
     $key = get_motion_wiki_key($date, $div_no);
     $db->query("select text_body, user_id, edit_date from 
         pw_dyn_wiki where object_key = '$key' order by wiki_id desc limit 1");
     if ($db->rows() >= 1) {
         $row = $db->fetch_row_assoc();
-        return $row;
+        return array_merge($extra, $row);
     }
 
     $db->query("select motion from pw_division 
@@ -46,7 +48,11 @@ function get_motion_text($date, $div_no)
             'edit_date' => $date,
             'user_id' => 0
         );
-        return $result;
+        $result['text_body'] = str_replace(' class=""', '', $result['text_body']);
+        $result['text_body'] = str_replace(' pwmotiontext="yes"', '', $result['text_body']);
+        $result['text_body'] = "--- MOTION EFFECT ---\n\n" . $result['text_body'] .
+            "\n--- COMMENTS AND NOTES ---\n\n(put thoughts and notes for other researchers here)\n";
+        return array_merge($extra, $result);
     }
 
     die("Couldn't find motion text for division " . htmlspecialchars($date) . " " . htmlspecialchars($div_no));
