@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php
-# $Id: division.php,v 1.11 2003/10/27 09:36:41 frabcus Exp $
+# $Id: division.php,v 1.12 2003/10/28 01:40:31 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -144,8 +144,8 @@
         if ($both > 0) { $classboth = "important"; }
 
         $alldiv = $alldivs[$party];
-        $expected = round($votes * ($alldiv / $alldivs_total), 1);
-        $abstentions = round($expected - $total, 1);
+        $expected = round($votes * ($alldiv / $alldivs_total), 0);
+        $abstentions = round($expected - $total, 0);
         $classabs = "normal";
         if (abs($abstentions) >= 2) { $classabs = "important"; }
         
