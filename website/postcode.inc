@@ -33,7 +33,7 @@ function postcode_to_constituency($postcode)
 {
     # Try and match with regexp to exclude non postcodes quickly
     if (!is_postcode($postcode))
-        return null;
+        return false;
 
     # Otherwise hit the server (URL is private)
     global $postcode_search_url;
@@ -52,7 +52,7 @@ function postcode_to_constituency($postcode)
      
     if (!xml_parse($xml_parser, $file, true))
     {
-        return null;
+        return false;
 #        die(sprintf("XML error: %s at line %d",
 #            xml_error_string(xml_get_error_code($xml_parser)),
 #            xml_get_current_line_number($xml_parser)));
