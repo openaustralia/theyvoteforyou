@@ -283,7 +283,7 @@ def FilterDebateSections(fout, text, sdate):
 	# we now have everything flattened out in a series of speeches
 
 	# output the list of entities
-	WriteXMLFile(fout, flatb, sdate)
+	WriteXMLFile("debate", fout, flatb, sdate)
 
 
 

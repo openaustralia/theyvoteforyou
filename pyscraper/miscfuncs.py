@@ -427,7 +427,7 @@ def WriteXMLHeader(fout):
 
 
 # write out a whole file which is a list of qspeeches, and construct the ids.
-def WriteXMLFile(fout, flatb, sdate):
+def WriteXMLFile(gidpart, fout, flatb, sdate):
 	WriteXMLHeader(fout);
 	fout.write("<publicwhip>\n")
 
@@ -453,7 +453,7 @@ def WriteXMLFile(fout, flatb, sdate):
 			ncid += 1
 
 		# this is our GID !!!!
-		sid = 'uk.org.publicwhip/debate/%s.%s.%d' % (sdate, colnum, ncid)
+		sid = 'uk.org.publicwhip/%s/%s.%s.%d' % (gidpart, sdate, colnum, ncid)
 
 		# extract the time stamp (if there is one)
 		stime = ""

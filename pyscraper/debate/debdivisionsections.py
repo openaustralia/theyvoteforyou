@@ -18,7 +18,6 @@ from parlphrases import parlPhrases
 
 from miscfuncs import FixHTMLEntities
 from miscfuncs import WriteXMLHeader
-from miscfuncs import WriteXMLFile
 
 from filterdivision import FilterDivision
 from filterdebatespeech import FilterDebateSpeech

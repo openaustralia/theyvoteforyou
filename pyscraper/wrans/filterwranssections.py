@@ -307,5 +307,5 @@ def FilterWransSections(fout, text, sdate):
 	# where some of the speeches are headings (inserted and otherwise).
 
 	# output the list of entities
-	WriteXMLFile(fout, flatb, sdate)
+	WriteXMLFile("wrans", fout, flatb, sdate)
 
