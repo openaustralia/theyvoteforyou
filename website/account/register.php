@@ -1,6 +1,6 @@
 <?  
 
-# $Id: register.php,v 1.5 2003/10/13 15:14:34 frabcus Exp $
+# $Id: register.php,v 1.6 2003/10/29 17:00:27 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -68,7 +68,7 @@ if (!$ok)
     <P>
     <FORM ACTION="<?=$PHP_SELF?>" METHOD="POST">
     <B>Real Name (first and last):</B><BR>
-    <INPUT TYPE="TEXT" NAME="real_name" VALUE="<?=$real_name?>" SIZE="40" MAXLENGTH="35">
+    <INPUT TYPE="TEXT" NAME="real_name" VALUE="<?=$real_name?>" SIZE="40" MAXLENGTH="50">
     <P>
     <B>Login Name (real or made up, no spaces):</B><BR>
     <INPUT TYPE="TEXT" NAME="user_name" VALUE="<?=$user_name?>" SIZE="40" MAXLENGTH="15">
@@ -80,7 +80,7 @@ if (!$ok)
     <INPUT TYPE="password" NAME="password2" VALUE="" SIZE="40" MAXLENGTH="15">
     <P>
     <B>Email (must be accurate to confirm):</B><BR>
-    <INPUT TYPE="TEXT" NAME="email" VALUE="<?=$email?>" SIZE="40" MAXLENGTH="35">
+    <INPUT TYPE="TEXT" NAME="email" VALUE="<?=$email?>" SIZE="40" MAXLENGTH="50">
     <P>
     <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Sign Up For Newsletter">
     </FORM>
