@@ -1,5 +1,5 @@
 <?  
-# $Id: settings.php,v 1.4 2003/10/31 01:37:56 frabcus Exp $
+# $Id: settings.php,v 1.5 2003/12/21 16:07:48 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -70,7 +70,7 @@ if (user_isloggedin()) # User logged in, show settings screen
         <br><a href="changepass.php">Change password</a>
 	<P>
 	<FORM ACTION="'. $PHP_SELF .'" METHOD="POST">
-	<INPUT TYPE="checkbox" NAME="newsletter" ' . $newsletter . '>Email newsletter (at most once a fortnight)
+	<INPUT TYPE="checkbox" NAME="newsletter" ' . $newsletter . '>Email newsletter (at most once a month)
 	<P>
 	<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Change">
 	</FORM>

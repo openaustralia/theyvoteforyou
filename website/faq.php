@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.16 2003/12/21 02:59:30 frabcus Exp $
+# $Id: faq.php,v 1.17 2003/12/21 16:07:48 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,7 +8,7 @@
 ?>
 
 <h2>What is the Public Whip?</h2>
-<p>The Public Whip is a project to monitor Members of the United Kingdom
+<p>The Public Whip is a project to watch Members of the United Kingdom
 Parliament, so that the public (people like us) can better influence their
 voting patterns.
 
@@ -17,19 +17,22 @@ voting patterns.
 vote "aye" ("yes", for the motion) and those who vote "no" (against the
 motion).  Each political party has <i>whips</i> who try to make their
 MPs (Members of Parliament) vote for the party line.  Sometimes an MP
-<i>rebels</i> by voting against the party whip.
+<i>rebels</i> by voting against the party whip.  
+
+<p>A <i>Written Answer</i> is a Government reply to a question from an MP, 
+usually containing detailed factual information.
 
 <h2>How does the Public Whip work?</h2>
 <p>All the House of Commons debate transcripts (<a href="http://www.parliament.the-stationery-office.co.uk/pa/cm/cmhansrd.htm">Hansard</a>) back to
 1988 are published electronically on the World Wide Web.  We've written
 a program to read it for you and separate out all the records of
-voting.  This information has been added into an online database which
-you can access.
+voting and the written answers.  This information has been added into an online
+database which you can access.
 
 <h2>What time period does it cover?</h2>
 <p>Voting data extends back across two parliaments to the May 1997 General
 Election, although there are a few divisions missing in the 1997
-parliament.  New divisions are added semi-manually, so may not appear
+parliament.  New divisions are added semi-manually, so will not appear
 until a few days after they happen.  Written answers are indexed back
 to the start of 2003.  We give no warranty for the data; there may be factual
 inaccuracies.  <a href="mailto:support@publicwhip.org.uk">Let us know</a> if
@@ -51,12 +54,12 @@ you find any.
 ?>
 
 <p>Some numeric statistics: The database contains <?=$mp_count?> 
-MPs from <?=$parties?> parties. There are <?=$div_count?> divisions
+MP records from <?=$parties?> parties. There are <?=$div_count?> divisions
 which have been counted.  A mean of <?=$vote_per_div?> MPs voted
 in each division.  In total <?=$vote_count?> votes were cast, of which
 <?=$rebellious_votes?> were against the majority vote for their party.
-That's an overall <?=$attendance?>% attendance rate and
-<?=$rebelocity?>% rebellion rate.
+That's an overall <?=$attendance?>% attendance rate and <?=$rebelocity?>%
+rebellion rate.  A total of 46878 written answers are indexed.
 
 <h2><a name="clarify">What do the "rebellion"
 and "attendance" figures mean exactly?</a></h2>
@@ -135,7 +138,7 @@ website.  We're hosted by the ever helpful and encouraging
 
 <h2>How can I keep up with what you are doing?</h2>
 <p><a href="account/register.php">Subscribe to our newsletter!</a>  It's
-at most once a fortnight, and has interesting news and articles
+at most once a month, and has interesting news and articles
 relating to the project.
 
 <h2>Where can I email?</h2>
