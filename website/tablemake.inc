@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablemake.inc,v 1.13 2005/03/18 12:39:27 frabcus Exp $
+    # $Id: tablemake.inc,v 1.14 2005/03/18 18:07:04 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -129,12 +129,12 @@
 			}
 			if ($vote == "aye3")
 			{
-				$vote = "AYE";
+				$vote = "aye (3 line)";
 				return "aye";
 			}
 			if ($vote == "no3")
 			{
-				$vote = "NO";
+				$vote = "no (3 line)";
 				return "no";
 			}
 		}
@@ -147,9 +147,10 @@
 	}
 
 	# this makes a comment on the row used to highlight rebels
-	function workrolecolumn(&$roleclass, $voter1type, &$vote1, $voter2type, &$vote2, $showwhich)
+	function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$vote1, $voter2type, &$vote2, $showwhich)
 	{
 		$votedesc = "";
+		$votedesclong = "";
 
 		$dtvote1 = workrolevote($voter1type, $vote1);
 		if ($voter2type == "")
@@ -160,8 +161,9 @@
 		# mp to party terminology
 		if ($voter1type == "mp" and $voter2type == "party")
 		{
-			if ($vote1 == "absent")
+			if ($vote1 == "absent") {
 				$votedesc = "absent";
+            }
 			else if ($dtvote1 != $dtvote2 and $vote2 != "unknown")
 			{
 				$roleclass = "rebel";
@@ -172,8 +174,9 @@
 				$roleclass .= "teller";
 				$votedesc .= " Teller";
 			}
-			if ($votedesc == "")
+			if ($votedesc == "") {
 				$votedesc = "Loyal";
+            }
 		}
 
 		# other cross comparisons
@@ -185,17 +188,20 @@
 				{
 					$roleclass = "rebelteller"; # yellow
 					$votedesc = "miss";
+					$votedesclong = "Either MP or Dream MP abstained";
 				}
 				else
 				{
 					$roleclass = "rebel";
 					$votedesc = "disagree";
+					$votedesclong = "MP rebelled against Dream MP";
 				}
 			}
 			else
 			{
 				$roleclass = "teller";  # green
 				$votedesc = "agree";
+				$votedesclong = "MP loyal to Dream MP";
 			}
 		}
 
@@ -328,15 +334,13 @@
    		print "<td>$gname</td><td$ayecla>$sayes</td><td$nocla>$snoes</td></tr>\n";
 		$lnrows += 1;
 	}
-	function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $roleclass, $voter1, $vote1, $vote2, $row, $divhref, $hrefsource)
+	function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, $voter1, $vote1, $vote2, $row, $divhref, $hrefsource)
 	{
 		# title part of the expanded motion text
 		print "<tr class=\"motiontitle$pretrowclass\">";
 
-		#if ($voter2type != "")
-		#	print $rolecol;
 		$divlink = "<a href=\"$divhref\">";
-		print "<td colspan=4 align=left>$divlink".$row['division_name']."</a></td>";
+		print "<td colspan=4 align=left>$divlink".$row['division_name']."</a> </td>";
 		print "<td colspan=3>$divlink".$row['divisiondate']." #".$row['divisionnumber']."</a></td>";
 		print "</tr>\n";
 
@@ -344,8 +348,19 @@
 		print "<tr valign=\"top\">";
 		print "<td colspan=4>$motiontext</td>\n";
 
+		print "<td>";
+
+        # Coloured box saying whether MP and Dream MP agree/disgagree/miss
+		print "<table class=\"votetab\">";
+        print "<tr>";
+        print "<td class=\"$roleclass\">";
+        print $votedesclong;
+        print "</td>";
+        print "</tr>";
+		print "</table>";
+
 		# make the table of party in the right hand side
-		print "<td><table class=\"votetab\">";
+        print "<table class=\"votetab\">";
 		#print "<tr class=\"headings\"><td></td><td>Aye</td><td>No</td></tr>\n";
 
 		$lnrows = 0;
@@ -353,13 +368,18 @@
 		# get the summary of the rest of the voting from the database
 		$partysummary = GetPartyVoteSummaryH($db, $divisionid);
 
-		# total votes
+		# total up votes
 		$totalayes = array_sum(array_values($partysummary['ayes'])) + array_sum(array_values($partysummary['tellayes']));
 		$totalnoes = array_sum(array_values($partysummary['noes'])) + array_sum(array_values($partysummary['tellnoes']));
 
+        # MP's vote
 		$ayecla = ($totalayes > $totalnoes ? " class=\"majority\"" : "");
 		$nocla = ($totalnoes > $totalayes ? " class=\"majority\"" : "");
 		writepersonvote($lnrows, "strong", $voter1['name'], $vote1, $ayecla, $nocla);
+
+        # Dream MP's vote
+		if ($vote2 != "")
+			writepersonvote($lnrows, "", "DreamMP", $vote2, $ayecla, $nocla);
 
 		# votes of rest of parties (a rather poor way to put it together)
 		$party = $voter1['party'];
@@ -373,9 +393,6 @@
 		foreach ($partys as $lparty)
 			writenumbervote($lnrows, $lparty, $partysummary['ayes'][$lparty], $partysummary['noes'][$lparty], $ayecla, $nocla);
 		writenumbervote($lnrows, "Total", $totalayes, $totalnoes, $ayecla, $nocla);
-
-		if ($vote2 != "")
-			writepersonvote($lnrows, $roleclass, "DreamMP", $vote2, $ayecla, $nocla);
 
 		print "</table></td></tr>\n";
  	}
@@ -587,7 +604,9 @@
 		            $pretrowclass = "strong";
 
 				$roleclass = "";
-				$rolecol = workrolecolumn($roleclass, $voter1type, $vote1, $voter2type, $vote2, $showwhich);
+                $votedesc = "";
+                $votedesclong = "";
+				$rolecol = workrolecolumn($roleclass, $votedesc, $votedesclong, $voter1type, $vote1, $voter2type, $vote2, $showwhich);
 				if ($rolecol == "")
 					continue;      # final filter bail out
 			}
@@ -608,15 +627,21 @@
 			writeevents($events, $row['divisiondate'], $breversed);
 
 			# votedisplay is none, 'fullmotion'(for showing the jmp view)
+            $printed = false;
 			if ($divtabattr['votedisplay'] == 'fullmotion')
 			{
                 $division_key = get_motion_wiki_key($row['divisiondate'], $row['divisionnumber']);
                 $wikiinfo = get_wiki_current_value($division_key);
-				$motiontext = sanitise_wiki_text_for_display($wikiinfo['text_body']);
-				print_motion_row($motiontext, $db, $row['divisionid'], $pretrowclass, $roleclass, $voter1, $vote1, $vote2, $row, $divhref, $hrefsource);
-	            $nrows += 2;
+                if ($wikiinfo['user_id'] == 0) {
+
+                } else {
+                    $printed = true;
+                    $motiontext = sanitise_wiki_text_for_display($wikiinfo['text_body']);
+                    print_motion_row($motiontext, $db, $row['divisionid'], $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, $voter1, $vote1, $vote2, $row, $divhref, $hrefsource);
+                    $nrows += 2;
+                }
 			}
-			else
+			if (!$printed)
 			{
 				print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter2type, $vote1, $vote2, $row, $showmotionwikistate, $divhref, $hrefsource);
 	            $nrows += 1;

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.62 2005/03/14 18:58:15 goatchurch Exp $
+    # $Id: mp.php,v 1.63 2005/03/18 18:07:03 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -23,8 +23,15 @@
 	# First is an mp (arranged by person or by constituency)
 	# Second is another mp (by person), a dream mp, or a/the party
 	$voter1attr = get_mpid_attr_decode($db, "");
-	if ($voter1attr == null)
-		die("No mp found that fit parameters");
+	if ($voter1attr == null) {
+        $title = "MP not found";
+        include "header.inc";
+		print "<p>No MP found. If you entered a postcode, please make
+        sure it is correct.  Or you can <a href=\"/mps.php\">browse
+        all MPs</a>.";
+        include "footer.inc";
+        exit;
+    }
 	$voter1type = "mp";
 
 	# against a dreammp, another mp, or the party
@@ -88,7 +95,7 @@
 
 	$dismodes["allvotes"] = array("dtype"	=> "allvotes",
 							 "generalinfo" => "eventsonly",
-							 "description" => "All votes",
+							 "description" => ($voter2type == "dreammp") ? "Short version" : "All votes",
 							 "votelist"	=> "all",
 							 "defaultparl" => "recent");
 	if ($voter2type == "party")
@@ -149,9 +156,9 @@
 
 	# generate title and header of this webpage
 	if ($voter2type == "dreammp")
-		$title = $mpprop['name']." MP, ".$mpprop['constituency']." - Whipped by '".$voter2attr['name']."'";
+		$title = "Whipping Report - '".$voter2attr['name']."' on " . $mpprop['name']." MP, ".$mpprop['constituency'];
 	else if ($voter2type == "person")
-		$title = $mpprop['name']." MP, ".$mpprop['constituency']." - Compared to ".$voter2attr["mpprop"]['name']." MP";
+		$title = "Comparison between " . $mpprop['name']." MP, ".$mpprop['constituency']." and ".$voter2attr["mpprop"]['name']." MP";
 	else if ($dismode["possfriends"] == "all")
 		$title = "Friends of ".$mpprop['name']." MP, ".$mpprop['constituency'];
 	else if ($voter1attr["bmultiperson"])
@@ -160,44 +167,20 @@
 		$title = "Voting Record - ".$mpprop['name']." MP, ".$mpprop['constituency'];
     include "header.inc";
 
-
-	# make list of links to other display modes
-	$leadch = "<p>"; # get those bars between the links working
+    # make list of links to other display modes
+    $leadch = "<p>"; # get those bars between the links working
     foreach ($dismodes as $ldisplay => $ldismode)
-	{
-		print $leadch;
-		$leadch = " | ";
-		$dlink = "href=\"$thispage".($ldisplay != "summary" ? "&display=$ldisplay" : "")."\"";
+    {
+        print $leadch;
+        $leadch = " | ";
+        $dlink = "href=\"$thispage".($ldisplay != "summary" ? "&display=$ldisplay" : "")."\"";
         if ($ldisplay == $display)
             print $ldismode["description"];
         else
             print "<a $dlink>".$ldismode["description"]."</a>";
-	}
+    }
 
-	# secondary links to variations
-	if ($voter2type != "party")
-	{
-		if ($display != "summary" and $voter2type != "dreammp")
-			$dislink = "&display=$display";
-		$dlink = "href=\"$thispagemp$dislink\"";
-		print $leadch;
-		$leadch = " | ";
-		print "<a $dlink>Without comparison</a>";
-	}
-	if ($voter2type == "person")
-	{
-		$dlink = "mp.php?";
-		$dlink .= "mpn=".urlencode(str_replace(" ", "_", $voter2["mpprop"]['name']))."&mpc=".urlencode($voter2["mpprop"]['constituency']);
-		print $leadch;
-		print "<a href=\"$dlink\">Compared MP</a>";
-	}
-	if ($voter2type == "dreammp")
-	{
-		$dlink = "href=\"dreammp.php?id=$voter2\"";
-		print $leadch;
-		print "<a $dlink>Dream MP</a>";
-	}
-	print "</p>\n";
+    print "</p>\n";
 ?>
 
 <?
@@ -279,7 +262,7 @@
     {
 		# title for the vote table
 	    if ($voter2type == "dreammp")
-	        $vtitle = "Votes chosen by '".$voter2attr['name']."' Dream MP";
+	        $vtitle = ""; #Votes chosen by '".$voter2attr['name']."' Dream MP";
 		else if ($voter2type == "person")
 			$vtitle = "Votes compared to ".$voter2attr["mpprop"]['name']." MP";
 		else if ($dismode["votelist"] == "short")
@@ -288,7 +271,8 @@
 			$vtitle .= "Every Vote";
 		else
 			$vtitle = "Votes Attended";
-		print "<h2><a name=\"divisions\">$vtitle</a></h2>\n";
+        if ($vtitle) 
+            print "<h2><a name=\"divisions\">$vtitle</a></h2>\n";
 
 		# subtext for the vote table
 		if ($dismode["votelist"] == "short" and $voter2type == "party")
@@ -297,6 +281,10 @@
 	        	a teller (Teller) or both (Rebel Teller).  \n";
 		else if ($dismode["votelist"] == "every" and $voter2type == "party")
 			print "<p>All votes this MP could have attended. \n";
+	    else if ($voter2type == "dreammp") {
+            print "<p>Shows all votes on this issue, and how <a href=\"$thispagemp\">" . $mpprop['name'] . "</a> voted on them.";
+            print "<p><b>'".html_scrub($voter2attr['name'])."' Dream MP Description:</b> ".html_scrub($voter2attr['description'])."\n";
+        }
 
 		if ($dismode["generalinfo"] and !$voter1attr['bmultiperson'])
 		    print " Also shows when this MP became or stopped being a paid minister. </p>";
