@@ -1,7 +1,7 @@
 # htaccess file for publicwhip.org.uk
 # Rename it to .htaccess for use
 AddHandler fastcgi-script .php
-<FilesMatch "\.xml$">
+<FilesMatch "^(mp-info.xml|dreamquery.xml)$">
     AddHandler fastcgi-script .xml
 </FilesMatch>
 Options ExecCGI

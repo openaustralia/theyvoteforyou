@@ -1,6 +1,6 @@
 # htaccess file for local testing on my machine
 AddType application/x-httpd-php .php
-<FilesMatch "\.xml$">
+<FilesMatch "^(mp-info.xml|dreamquery.xml)$">
     AddType application/x-httpd-php .xml
 </FilesMatch>
 DirectoryIndex index.php
