@@ -1,5 +1,5 @@
 <?  
-# $Id: settings.php,v 1.3 2003/10/15 06:59:00 frabcus Exp $
+# $Id: settings.php,v 1.4 2003/10/31 01:37:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -67,6 +67,7 @@ if (user_isloggedin()) # User logged in, show settings screen
 	<br><span class="ptitle">Email:</span> ' . user_getemail() . '
         <p><a href="logout.php">Logout</a>
         <br><a href="changeemail.php">Change email</a>
+        <br><a href="changepass.php">Change password</a>
 	<P>
 	<FORM ACTION="'. $PHP_SELF .'" METHOD="POST">
 	<INPUT TYPE="checkbox" NAME="newsletter" ' . $newsletter . '>Email newsletter (at most once a fortnight)
@@ -90,6 +91,7 @@ else # User not logged in, show login screen
         Enter your user name and password and we\'ll set a cookie so we know you\'re logged in.
         <p>Not got a login?  <A HREF="register.php">Register a new
         account</A>.  You will receive a free email newsletter.
+        <br>Lost your password? <a href="lostpass.php">Reset your password here</a>.
         <P>
         <FORM ACTION="'. $PHP_SELF .'" METHOD="POST">
         <B>User Name:</B><BR>

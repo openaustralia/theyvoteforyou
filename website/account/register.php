@@ -1,6 +1,6 @@
 <?  
 
-# $Id: register.php,v 1.6 2003/10/29 17:00:27 frabcus Exp $
+# $Id: register.php,v 1.7 2003/10/31 01:37:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -47,6 +47,8 @@ else
     Quickly fill in the information below, and we'll send you
     a confirmation email.  You will then receive the Public
     Whip newsletter, which will be at most once a fortnight.";
+    print "<p><a href=\"../news.php\">Read archive of previous newsletters</a>";
+    print "<br><a href=\"settings.php\">Log in to change settings if you already signed up</a>";
     
 }
 

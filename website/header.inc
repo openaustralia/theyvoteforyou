@@ -2,7 +2,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.23 2003/10/22 22:43:09 frabcus Exp $
+# $Id: header.inc,v 1.24 2003/10/31 01:37:55 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -44,7 +44,7 @@ function givefocus() { if (document.pw) document.pw.query.focus(); }
 <!-- the main site navigation -->
 <tr class="headers"><td bgcolor="#666666">
 <a title="Front page and site highlights" href="<?=$toppath?>index.php">Home</a>
-<a title="Subscribe to our email newsletter" href="<?=$toppath?>news.php">Newsletter</a>
+<a title="Subscribe to our email newsletter" href="<?=$toppath?>account/register.php">Newsletter</a>
 <a title="Frequently Asked Questions" href="<?=$toppath?>faq.php">FAQ</a>
 <a title="List of all votes in Parliament" href="<?=$toppath?>divisions.php">Divisions</a>
 <a title="List of all Members of Parliament" href="<?=$toppath?>mps.php">MPs</a>

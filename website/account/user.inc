@@ -139,8 +139,8 @@ function user_change_password ($new_password1,$new_password2,$change_user_name,$
 			return false;
 		}
 	} else {
-		return false;
 		$feedback .= ' New passwords must match. ';
+		return false;
 	}
 }
 
@@ -163,8 +163,12 @@ function user_lost_password ($email,$user_name) {
 			$result=db_query($sql);
 
 			//send a simple email with the new password
-			mail ($email,'Public Whip Password Reset','Your password '.
-				'has been reset to: '.$new_pass,'From: auto@publicwhip.org.uk');
+                        $message = 
+                                "Your password has been changed to: $new_pass".
+                                "\nYour username is $user_name, email address $email.".
+                                "\n\nLogin here: http://www.publicwhip.org.uk/account/settings.php".
+                                "\n\nAfter login you can change your password to something memorable.";
+			mail ($email,'Public Whip Password Reset',$message,'From: auto@publicwhip.org.uk');
 			$feedback .= ' Your new password has been emailed to you. ';
 			return true;
 		}
