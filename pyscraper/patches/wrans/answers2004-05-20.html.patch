@@ -1,37 +1,24 @@
---- C:\publicwhip\pwdata\cmpages\wrans\answers2004-05-20.html	Sat May 29 11:14:26 2004
-+++ C:\publicwhip\pwdata\cmpages\wrans\answers2004-05-20-patchtmp.html	Wed Jun 02 11:47:59 2004
-@@ -277,7 +277,7 @@
- <P>
- <P>
- <a name="40520w01.html_wqn17"><B> Andrew George: </B> 
--To ask the Secretary of State for Environment, Food and Rural Affairs what advice the Central Scientific Laboratory has provided to her Department on the <i>(a)</i>&nbsp;specificity and <i>(b)</i>&nbsp;sensitivity of the Bovigam gamma interferon test; and what advice it has provided on the applicability of the test as a bovine TB control measure;  [172999]
-+To ask the Secretary of State for Environment, Food and Rural Affairs (1) what advice the Central Scientific Laboratory has provided to her Department on the <i>(a)</i>&nbsp;specificity and <i>(b)</i>&nbsp;sensitivity of the Bovigam gamma interferon test; and what advice it has provided on the applicability of the test as a bovine TB control measure;  [172999]
- <P>
- <UL>(2) what recent discussions her Department and its agencies have had with Central Science Laboratory on the practical application of its Bovigam gamma interferon test for bovine TB in cattle.  [172555]<P></UL>
- <P>
-@@ -6949,10 +6949,10 @@
- <BR>
- <UL><FONT SIZE=-1>
- <BR>
-- <sup>1</sup>  Covers Dorset and Bournemouth councils with Social Services responsibility. <sup><BR>
--  2</sup>  Dorset health authority includes Bournemouth. <sup><BR>
--  3</sup>  Nursing data includes places in general nursing homes, mental nursing homes and private hospitals and clinics. <sup><BR>
--  4</sup>  Comparable data not available. In 1997 Dorset county council included Poole and Bournemouth councils.<i>Source:</i>RA and RH(N) form A
-+ <sup>1</sup>  Covers Dorset and Bournemouth councils with Social Services responsibility. <BR>
-+  <sup>2</sup>  Dorset health authority includes Bournemouth. <BR>
-+  <sup>3</sup>  Nursing data includes places in general nursing homes, mental nursing homes and private hospitals and clinics. <BR>
-+  <sup>4</sup>  Comparable data not available. In 1997 Dorset county council included Poole and Bournemouth councils.<i>Source:</i>RA and RH(N) form A
- </UL></FONT>
- <a name="40520w22.html_dpthd0"><H3 align=center>TREASURY</H3>
+--- C:\publicwhip\pwdata\cmpages\wrans\answers2004-05-20.html	Thu Dec 23 09:50:03 2004
++++ C:\publicwhip\pwdata\cmpages\wrans\answers2004-05-20-patchtmp.html	Thu Dec 23 12:40:56 2004
+@@ -556,8 +556,8 @@
  
-@@ -7869,8 +7869,8 @@
  
- <P>
- <P>
--<a name="40520w24.html_wqn0"><B> Mr. Wareing: </B> 
--, To ask the Chancellor of the Exchequer what the level of unemployment was in Liverpool, West Derby constituency in each year since 1989.  [173672]<P>
-+<a name="40520w24.html_wqn0"><B> Mr. Wareing: </B>
-+ To ask the Chancellor of the Exchequer what the level of unemployment was in Liverpool, West Derby constituency in each year since 1989.  [173672]<P>
- <P>
- <P>
- <a name="40520w24.html_spnew0"><B> Ruth Kelly  </B> 
+ 
+-<p><a name="40520w01.html_wqn17"><b> Andrew George: </b> 
+- To ask the Secretary of State for Environment, Food and Rural Affairs what advice the Central Scientific Laboratory has provided to her Department on the <i>(a)</i>&nbsp;specificity and <i>(b)</i>&nbsp;sensitivity of the Bovigam gamma interferon test; and what advice it has provided on the applicability of the test as a bovine TB control measure;  [172999]
++<p><a name="40520w01.html_wqn17"><b> Andrew George: </b>
++ To ask the Secretary of State for Environment, Food and Rural Affairs (1) what advice the Central Scientific Laboratory has provided to her Department on the <i>(a)</i>&nbsp;specificity and <i>(b)</i>&nbsp;sensitivity of the Bovigam gamma interferon test; and what advice it has provided on the applicability of the test as a bovine TB control measure;  [172999]
+ 
+ </p>
+ 
+@@ -13800,8 +13800,8 @@
+ 
+ 
+ 
+-<p><a name="40520w26.html_wqn0"><b> Mr. Wareing: </b> 
+-, To ask the Chancellor of the Exchequer what the level of unemployment was in Liverpool, West Derby constituency in each year since 1989.  [173672]</p>
++<p><a name="40520w26.html_wqn0"><b> Mr. Wareing: </b>
++To ask the Chancellor of the Exchequer what the level of unemployment was in Liverpool, West Derby constituency in each year since 1989.  [173672]</p>
+ 
+ 
+ 
