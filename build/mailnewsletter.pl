@@ -3,8 +3,8 @@ use strict;
 use lib "scraper/";
 
 my $text = "website/newsletters/issue2.txt";
-my $test_name = "";
-#my $test_name = "Francis Irving";
+#my $test_name = "";
+my $test_name = "Francis Irving";
 
 use error;
 use db;
