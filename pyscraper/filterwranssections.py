@@ -18,6 +18,7 @@ from clsinglespeech import qspeech
 from parlphrases import parlPhrases
 
 from miscfuncs import FixHTMLEntities
+from miscfuncs import WriteXMLHeader
 
 
 fixsubs = 	[
@@ -299,7 +300,7 @@ def FilterWransSections(fout, text, sdate):
 	#
 	# we have built up the list of question blocks, now write it out
 	#
-	fout.write('<?xml version="1.0" encoding="ISO-8859-1"?>\n')
+	WriteXMLHeader(fout);
 	fout.write("<publicwhip>\n")
 	for qb in qbl:
 		WritexmlSpeechBlock(fout, qb, sdate)

@@ -289,31 +289,36 @@ def WriteXMLHeader(fout):
 	# These entity definitions for latin-1 chars are from here:
 	# http://www.w3.org/TR/REC-html40/sgml/entities.html
 	fout.write('''
-<!ENTITY ndash   CDATA "&#8211;" -- en dash, U+2013 ISOpub -->
-<!ENTITY mdash   CDATA "&#8212;" -- em dash, U+2014 ISOpub -->
 
-<!ENTITY egrave CDATA "&#232;" -- latin small letter e with grave, U+00E8 ISOlat1 -->
-<!ENTITY eacute CDATA "&#233;" -- latin small letter e with acute, U+00E9 ISOlat1 -->
-<!ENTITY ecirc  CDATA "&#234;" -- latin small letter e with circumflex, U+00EA ISOlat1 -->
-<!ENTITY euml   CDATA "&#235;" -- latin small letter e with diaeresis, U+00EB ISOlat1 -->
-<!ENTITY agrave CDATA "&#224;" -- latin small letter a with grave, U+00E0 ISOlat1 -->
-<!ENTITY aacute CDATA "&#225;" -- latin small letter a with acute, U+00E1 ISOlat1 -->
-<!ENTITY acirc  CDATA "&#226;" -- latin small letter a with circumflex, U+00E2 ISOlat1 -->
-<!ENTITY ocirc  CDATA "&#244;" -- latin small letter o with circumflex, U+00F4 ISOlat1 -->
-<!ENTITY ouml   CDATA "&#246;" -- latin small letter o with diaeresis, U+00F6 ISOlat1 -->
-<!ENTITY Ouml   CDATA "&#214;" -- latin capital letter O with diaeresis, U+00D6 ISOlat1 -->
-<!ENTITY ccedil CDATA "&#231;" -- latin small letter c with cedilla, U+00E7 ISOlat1 -->
-<!ENTITY uuml   CDATA "&#252;" -- latin small letter u with diaeresis, U+00FC ISOlat1 -->
-<!ENTITY ntilde CDATA "&#241;" -- latin small letter n with tilde, U+00F1 ISOlat1 -->
+<!DOCTYPE publicwhip PUBLIC "http://publicwhip.org.uk" "none.dtd"
+[
 
-<!ENTITY plusmn CDATA "&#177;" -- plus-minus sign = plus-or-minus sign, U+00B1 ISOnum -->
-<!ENTITY pound  CDATA "&#163;" -- pound sign, U+00A3 ISOnum -->
-<!ENTITY middot CDATA "&#183;" -- middle dot, U+00B7 ISOnum -->
-<!ENTITY deg    CDATA "&#176;" -- degree sign, U+00B0 ISOnum -->
+<!ENTITY ndash   "&#8211;">
+<!ENTITY mdash   "&#8212;" >
 
-<!ENTITY frac14 CDATA "&#188;" -- vulgar fraction one quarter, U+00BC ISOnum -->
-<!ENTITY frac12 CDATA "&#189;" -- vulgar fraction one half, U+00BD ISOnum -->
-<!ENTITY frac34 CDATA "&#190;" -- vulgar fraction three quarters, U+00BE ISOnum -->
+<!ENTITY egrave "&#232;" >
+<!ENTITY eacute "&#233;" >
+<!ENTITY ecirc  "&#234;" >
+<!ENTITY euml   "&#235;" >
+<!ENTITY agrave "&#224;" >
+<!ENTITY aacute "&#225;" >
+<!ENTITY acirc  "&#226;" >
+<!ENTITY ocirc  "&#244;" >
+<!ENTITY ouml   "&#246;" >
+<!ENTITY Ouml   "&#214;" >
+<!ENTITY ccedil "&#231;" >
+<!ENTITY uuml   "&#252;" >
+<!ENTITY ntilde "&#241;" >
+
+<!ENTITY plusmn "&#177;" >
+<!ENTITY pound  "&#163;" >
+<!ENTITY middot "&#183;" >
+<!ENTITY deg    "&#176;" >
+
+<!ENTITY frac14 "&#188;" >
+<!ENTITY frac12 "&#189;" >
+<!ENTITY frac34 "&#190;" >
+]>
 
 ''');
 

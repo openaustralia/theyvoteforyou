@@ -18,6 +18,7 @@ from clsinglespeech import qspeech
 from parlphrases import parlPhrases
 
 from miscfuncs import FixHTMLEntities
+from miscfuncs import WriteXMLHeader
 
 from filterdivision import FilterDivision
 from filterdebatespeech import FilterDebateSpeech
@@ -255,7 +256,7 @@ def FilterDebateSections(fout, text, sdate):
 
 
 	# output the list of entities
-	fout.write('<?xml version="1.0" encoding="ISO-8859-1"?>\n')
+	WriteXMLHeader(fout);
 	fout.write("<publicwhip>\n")
 	for qblock in qbl:
 

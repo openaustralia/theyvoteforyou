@@ -1,9 +1,7 @@
 Wrans
 -----
 
-FAQ wording
-
-Index titles
+Index text in titles
 Check stemming
 POUND sign
 
