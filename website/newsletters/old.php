@@ -1,5 +1,5 @@
-<? $title = "Old Site News"; include "header.inc";
-# $Id: old.php,v 1.1 2003/11/26 17:22:46 frabcus Exp $
+<? $title = "Old Site News"; include "../header.inc";
+# $Id: old.php,v 1.2 2003/11/27 00:41:49 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -12,7 +12,8 @@
 */
 ?>
 
-<p><a href="archive.php">Newsletter</a>
+<p>Have a look at the more recent <a href="archive.php">newsletter archives</a> as
+well.
 
 <h2>Votes back to 1997 - 4 October 2003 by Francis</h2>
 <p>You can now browse and examine most of the 1997-2001 parliament.
@@ -165,4 +166,5 @@ votes</a> on the Water Bill.  I'm doing these updates semi-manually at
 the moment, so new divisions will only be available a few days after
 they happen.</p>
 
-<?php include "footer.inc" ?>
+<?php include "../footer.inc" ?>
+
