@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablemake.inc,v 1.12 2005/03/14 18:58:16 goatchurch Exp $
+    # $Id: tablemake.inc,v 1.13 2005/03/18 12:39:27 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -454,21 +454,19 @@
 			$aquery["qgroup"]  = " GROUP BY pw_division.division_id";
 		}
 
-		# extract attibutes
+        # full motion text display
+        if ($divtabattr['votedisplay'] == 'fullmotion')
+        {
+            $aquery["qselect"] .= ", pw_division.division_id AS divisionid";
+        }
+
+        # extract attibutes
 		$showwhich = $divtabattr["showwhich"];
 		$voter1type = $divtabattr["voter1type"];
 		$voter1 = $divtabattr["voter1"];
 		$voter2type = $divtabattr["voter2type"];
 		$voter2 = $divtabattr["voter2"];
 		$headings = $divtabattr["headings"];
-
-		# full motion text display
-		if ($divtabattr['votedisplay'] == 'fullmotion')
-		{
-			$aquery["qselect"] .= ", text_body AS motiontext, user_id AS motionedituser, edit_date AS motioneditdate";
-			$aquery["qselect"] .= ", pw_division.division_id AS divisionid";
-			$aquery["qorder"] .= ", wiki_id DESC";
-		}
 
 		# construct the first column of votes
 		$bonlyvotes1 = ($showwhich == "all1" or $showwhich == "both" or $showwhich == "bothdiff");
@@ -610,10 +608,11 @@
 			writeevents($events, $row['divisiondate'], $breversed);
 
 			# votedisplay is none, 'fullmotion'(for showing the jmp view)
-			if ($divtabattr['votedisplay'] == 'fullmotion' and $row['motionedited'] != "")
+			if ($divtabattr['votedisplay'] == 'fullmotion')
 			{
-				# text_body AS motiontext, user_id AS motionedituser, edit_date AS motioneditdate";
-				$motiontext = sanitise_wiki_text_for_display($row['motiontext']);
+                $division_key = get_motion_wiki_key($row['divisiondate'], $row['divisionnumber']);
+                $wikiinfo = get_wiki_current_value($division_key);
+				$motiontext = sanitise_wiki_text_for_display($wikiinfo['text_body']);
 				print_motion_row($motiontext, $db, $row['divisionid'], $pretrowclass, $roleclass, $voter1, $vote1, $vote2, $row, $divhref, $hrefsource);
 	            $nrows += 2;
 			}
