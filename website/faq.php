@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.21 2004/03/16 00:55:08 frabcus Exp $
+# $Id: faq.php,v 1.22 2004/05/18 23:09:59 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -21,6 +21,7 @@
 <li><a href="#legal">Legal question, what can I use this information for?</a> <br/>
 <li><a href="#playwith">Can I play with the software?</a> <br/>
 <li><a href="#whyfree">Why are you giving everything away for free?</a> <br/>
+<li><a href="#patents">What is the fuss about software patents?</a> <br/>
 <li><a href="#organisation">What organisation is behind the Public Whip?</a> <br/>
 <li><a href="#keepup">How can I keep up with what you are doing?</a> <br/>
 <li><a href="#email">Where can I email?</a> <br/>
@@ -170,6 +171,12 @@ would take away the notion of the public having access to it.  All that
 would happen is that the people who are already organized influentially
 would retain all the power but would have slightly better software
 (which they probably have already). 
+
+<h2><a name="patents">What is the fuss about software patents?</a></h2>
+<p>A new European directive on software patents threatens the existence
+of websites like The Public Whip.  On 14th-18th May 2004 we suspended
+service to protest about this.  We'd like your help to stop it.  <a
+href="patents/patents.php">For more information see here</a>.
 
 <h2><a name="organisation">What organisation is behind the Public Whip?</a></h2>
 <p>None.  Just two guys <a href="http://www.flourish.org">Francis</a>

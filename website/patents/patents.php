@@ -1,14 +1,20 @@
-#! /software/bin/php4-fcgi
 <html>
 <head>
 <META NAME="ROBOTS" CONTENT="NOARCHIVE">
 <META NAME="ROBOTS" CONTENT="NOINDEX">
 <title>Patent directive will destroy this website - The Public Whip</title>
-<link href="<?=$toppath?>patents.css" type="text/css" rel="stylesheet">
+<link href="../publicwhip.css" type="text/css" rel="stylesheet">
 
 </head>
 
-<p align=center><img src="patents.gif"></p>
+<p align=center><img src="../thepublicwhip.gif"></p>
+
+<p align=center>This protest was from 14th-18th May 2004, and has now finished.
+<a href="../">Click here to go to the main Public Whip site</a>.</p>
+
+<p align=center>The outcome was unsatisfactory, but the fight isn't over.  <a href="http://kwiki.ffii.org/SwpatcninoEn">Latest News on Software Patents</a>.</p>
+
+<hr>
 
 <p><i>Imagine that someone owned a patent giving them the exlusive right to know
 how to make a piece of toast, or how to lock a front door. Everytime you did
@@ -59,10 +65,11 @@ him, and would go if Lord Sainsbury was unable to.
 
 
 <p><i>For further information and updates on the situation see:</i>
-<br><a href="http://swpat.ffii.org/journal/04/cons0507/index.en.html">EU Council Plans to Scrap Parliamentary Vote without Discussion</a>
+<br><a href="http://swpat.ffii.org/journal/04/cons0507/index.en.html">EU Council Plans to Scrap Parliamentary Vote without Discussion</a> (FFII)
 <br><a href="http://linuxtoday.com/news_story.php3?ltsn=2000-05-26-004-04-OP-LF">The Anatomy of a Trivial Patent</a>
 <br><a href="http://swpat.ffii.org/papers/europarl0309/demands/index.en.html">Call for Action signed by 20 MEPs</a>
-<br><a href="http://swpat.ffii.org/index.en.html">Latest News on Software Patents</a>
+<br><a href="http://www.itworld.com/Man/2687/040514eupatents/">E.U. ministers try to force through software patents</a> (IDG News Service)
+<br><a href="http://kwiki.ffii.org/SwpatcninoEn">Latest News on Software Patents</a>
 
 <p>The Public Whip is a project to watch Members of the United Kingdom
 Parliament, so that the public (people like us) can better influence their
