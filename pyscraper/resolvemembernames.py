@@ -232,7 +232,7 @@ class MemberList(xml.sax.handler.ContentHandler):
             (text, honourgot) = self.rehonourifics.subn("", text)
             honourtotal = honourtotal + honourgot
 
-		return text, titletotal
+		return text.strip(), titletotal
 
     # date can be none, will give more matches
     def fullnametoids(self, tinput, date):
@@ -327,6 +327,7 @@ class MemberList(xml.sax.handler.ContentHandler):
     def basicsubs(self, txt):
         txt = txt.replace("&#150;", "-")
         txt = txt.replace("&#039;", "'")
+        txt = txt.replace("&nbsp;", " ")
         return txt
 
     # Resets history - exclusively for debates pages
@@ -359,6 +360,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         if bracket:
             # Sometimes name in brackets:
             # The Minister for Industry and the Regions (Jacqui Smith)
+	        bracket = self.basicsubs(bracket)
             brackids = self.fullnametoids(bracket, date)
             if brackids:
                 speakeroffice = ' speakeroffice="%s" ' % input
@@ -384,9 +386,13 @@ class MemberList(xml.sax.handler.ContentHandler):
                                 newids.add(attr["id"])
                 ids = newids
 
+
+
+
         # If ambiguous (either form "Mr. O'Brien" or full name, ambiguous due
         # to missing constituency) look in recent name match history
         if len(ids) > 1:
+
             # search through history, starting at the end
 
 			# old wasteful way of coding it
@@ -401,6 +407,11 @@ class MemberList(xml.sax.handler.ContentHandler):
             # the previous speaker, we correctly match the one before.  As the
             # same person never speaks twice in a row, this shouldn't cause
             # trouble.
+
+
+			# this looking back two can sometimes fail if a speaker is interrupted
+			# by something procedural, and then picks up his thread straight after himself
+			# (eg in westminsterhall if there is a suspension to go vote in a division in the main chamber on something about which they haven't heard the debate)
             ix = len(self.debatenamehistory) - 2
 			while ix >= 0:
 			    x = self.debatenamehistory[ix]
@@ -409,6 +420,8 @@ class MemberList(xml.sax.handler.ContentHandler):
                     ids = sets.Set([x,])
                     break
                 ix -= 1
+
+
 
         # Special case - the AGforS is referred to as just the AG after first appearance
         office = input
@@ -444,7 +457,8 @@ class MemberList(xml.sax.handler.ContentHandler):
                 raise Exception, "Multiple matches %s, possibles are %s" % (rebracket, names)
             self.debatenamehistory.append(None) # see below
             return 'speakerid="unknown" error="Matched multiple times" speakername="%s"' % (rebracket)
-        # Extract one id left
+
+        # Extract the one id remaining
         for id in ids:
             pass
 

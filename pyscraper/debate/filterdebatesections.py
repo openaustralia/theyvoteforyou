@@ -206,7 +206,7 @@ def NormalHeadingPart(headingtxt, stampurl):
 	elif headingtxt == 'Oral Answers to Questions':
 		boralheading = True
 	# Check if there are any other spellings of "Oral Answers to Questions" with a loose match
-	elif re.search('oral(?i)', headingtxt) and re.search('ques(?i)', headingtxt) and \
+	elif re.search('oral(?i)', headingtxt) and re.search('ques(?i)', headingtxt) and (not re.search(" Not ", headingtxt)) and \
                         stampurl.sdate != "2002-06-11": # has a genuine title with Oral in it
 		raise Exception, 'Oral question match not precise enough: %s' % headingtxt
 
@@ -252,9 +252,11 @@ def FilterDebateSections(text, sdate, typ):
 	if typ == "debate":
 		text = ApplyFixSubstitutions(text, sdate, fixsubs)
 	else:
+		assert typ == "westminhall"
 		# this is crap!!!
-		text = re.sub('<UL><UL><UL>', '<UL>', text)
-		text = re.sub('</UL></UL></UL>', '</UL>', text)
+		text = re.sub('<ul><ul><ul>(?i)', '<ul>', text)
+		text = re.sub('</ul></ul></ul>(?i)', '</ul>', text)
+		text = re.sub('<h5></h5>(?i)', '', text)
 
 
 	# split into list of triples of (heading, pre-first speech text, [ (speaker, text) ])
