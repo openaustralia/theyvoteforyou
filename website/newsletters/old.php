@@ -1,5 +1,5 @@
 <? $title = "Old Site News"; include "../header.inc";
-# $Id: old.php,v 1.2 2003/11/27 00:41:49 frabcus Exp $
+# $Id: old.php,v 1.3 2004/11/22 00:21:49 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -23,26 +23,26 @@ older data, so don't expect too much of it.  There's lots of fun new
 stuff to look at. For example, old warhorses and figures from recent
 history now appear in the twilight of their parliamentary career.  Take
 a look at <a
-href="mp.php?firstname=Paddy&lastname=Ashdown&constituency=Yeovil">Paddy
+href="/mp.php?firstname=Paddy&lastname=Ashdown&constituency=Yeovil">Paddy
 Ashdown</a>, <a
-href="mp.php?firstname=John&lastname=Major&constituency=Huntingdon">John
+href="/mp.php?firstname=John&lastname=Major&constituency=Huntingdon">John
 Major</a> or <a
-href="mp.php?firstname=Tony&lastname=Benn&constituency=Chesterfield">Tony
+href="/mp.php?firstname=Tony&lastname=Benn&constituency=Chesterfield">Tony
 Benn</a>.
 </p>
 
 <p>Go have a dig for information.  Perhaps you would like to know just
 how many divisions have been <a
-href="search.php?query=hunting&button=Search">spent trying to ban fox
+href="/search.php?query=hunting&button=Search">spent trying to ban fox
 hunting</a> over the last six years (make sure you take off divisions
 that only mention it in passing in their motion text).  Or if you
 prefer, go hunting yourself for all the <a
-href="search.php?query=terrorism&button=Search">divisions on
+href="/search.php?query=terrorism&button=Search">divisions on
 terrorism</a> which occurred <i>before</i> September 11th.  Let us know
 if you find anything interesting.
 
 <p>Amongst this new data is a first case of mass abstention.
-In a <a href="division.php?date=2000-12-13&number=2">curious vote about EC fishing
+In a <a href="/division.php?date=2000-12-13&number=2">curious vote about EC fishing
 regulations</a>, 77 members from the Conservative party voted both aye
 and no.  Does anyone know the story of what they were trying to signal?  Why
 is this the only occasion in 6 years when so many have used double
@@ -59,7 +59,7 @@ something.  If anything doesn't work, then send us an email.</p>
 software generated, I was a bit shocked.  There are dozens of occasions
 when an MP voted both aye and no in the same division. How could
 this be?  Fortunately, it is perfectly allowed.  Have a look at the new
-page about <a href="boths.php">double voting</a> for a list of occasions
+page about <a href="/boths.php">double voting</a> for a list of occasions
 when it has happened.  And for an explanation.</p>
 
 <p>Before today, MPs who voted twice were listed twice everywhere.  This
@@ -73,7 +73,7 @@ more from Public Whip's counts which list double voters separately.
 <p>Politics, being human, is endlessly rich in the variety of things that it throws 
 up.  This may be good fun, but it's bad when you try and encode things
 in a rigid computer database.  The quirk in this case is <a
-href="mp.php?firstname=Paul&lastname=Marsden&constituency=Shrewsbury+%26+Atcham">Paul
+href="/mp.php?firstname=Paul&lastname=Marsden&constituency=Shrewsbury+%26+Atcham">Paul
 Marsden</a>, member for Shrewsbury & Atcham, who changed party from Labour to the
 Liberal Democrats about the time of the Afghanistan war.</p>
 
@@ -86,7 +86,7 @@ insane.   Really!  Check out the complete list of
 <a href="http://www.election.demon.co.uk/causes.html">causes of byelections</a> since 1832.
 
 <p>A few people have queried Paul Marsden's position as top rebel
-in the list on the <a href="index.php">front page</a>.  Has the site
+in the list on the <a href="/index.php">front page</a>.  Has the site
 accidentally counted his votes as a Liberal Democrat as rebellions
 against the Labour whip?  The answer is no.  His entry there is
 calculated using only divisions while he took the Labour whip.  There is
@@ -121,7 +121,7 @@ mysterious column of numbers on the party table in the division listing.
 I've hopefully made it a bit clearer, using the terminology of
 abstentions, and displaying high abstention parties even if nobody in them
 voted.  Have a look at the recent <a
-href="division.php?date=2003-09-10&number=307">Iraq and the UN vote</a>,
+href="/division.php?date=2003-09-10&number=307">Iraq and the UN vote</a>,
 where the Lib Dems proposed a motion.  You can see from the large
 abstention number for the Conservatives that the party whip must have
 been to abstain.  Indeed none of them voted at all.</p>
@@ -136,7 +136,7 @@ passed on to the electronic version.  There are also sometimes errors in
 the bound volume text as well.</p>
 
 <p>One example is <a
-href="http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030120/debtext/30120-25.htm">division 56</a> from
+href="/http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030120/debtext/30120-25.htm">division 56</a> from
 during a debate on occupational pensions at the start of this year.
 There are two MPs both called Gareth Thomas, one the member for Clwyd
 West and the other for Harrow West.  In this division Hansard doesn't
@@ -147,7 +147,7 @@ Information Office</a>, who seem to regularly get strange queries like
 this.  After some time researching the answer, someone in this
 not-quite-byzantine bureaucracy kindly emailed me on Wednesday to say
 that the voting member was the one for Harrow West.  You can now
-<a href="division.php?date=2003-01-20&number=56&showall=yes">see the
+<a href="/division.php?date=2003-01-20&number=56&showall=yes">see the
 division</a> on this site.</p>
 
 <p>This all sounds a bit trivial and tedious, if necessary as every
@@ -161,7 +161,7 @@ yet.</p>
 <h2>Summer's ended - 9 September 2003 by Francis</h2>
 <p>Parliament has reconvened now summer is over.  However, under this new
 system, after only two weeks it will adjourn for the party conferences. 
-Yesterday there were <a href="search.php?query=water+bill&button=Search">three divisions
+Yesterday there were <a href="/search.php?query=water+bill&button=Search">three divisions
 votes</a> on the Water Bill.  I'm doing these updates semi-manually at
 the moment, so new divisions will only be available a few days after
 they happen.</p>
