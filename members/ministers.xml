@@ -46,6 +46,7 @@
 <chgpageupdates date="2004-09-09" time="14:26"/>
 <chgpageupdates date="2004-09-10" time="13:53"/>
 <chgpageupdates date="2004-09-10" time="15:10"/>
+<chgpageupdates date="2004-11-04" time="12:04"/>
 
 <ministerofficegroup>
 <moffice id="uk.org.publicwhip/moffice/1000" name="Duke of Abercorn" dept="HM Household" position="Lord Steward" fromdate="2000-01-01" todate="9999-12-31" source="newlabministers2003-10-15 chgpages"></moffice>
@@ -725,7 +726,8 @@
 <moffice id="uk.org.publicwhip/moffice/7" name="Ian McCartney" matchid="uk.org.publicwhip/member/379" dept="Cabinet Office" position="Minister of State" fromdate="1999-07-28" todate="2001-06-11" source="newlabministers2003-10-15"></moffice>
 <moffice id="uk.org.publicwhip/moffice/373" name="Ian McCartney" matchid="uk.org.publicwhip/member/1064" dept="Department for Work and Pensions" position="Minister of State" fromdate="2001-06-11" todate="2003-04-04" source="newlabministers2003-10-15"></moffice>
 <moffice id="uk.org.publicwhip/moffice/1072" name="Rt Hon Ian McCartney" matchid="uk.org.publicwhip/member/1064" dept="No Department" position="Minister without Portfolio" fromdate="2003-04-04" todate="2004-04-16" totime="15:34" source="newlabministers2003-10-15 chgpages"></moffice>
-<moffice id="uk.org.publicwhip/moffice/1119" name="Rt Hon Ian McCartney" matchid="uk.org.publicwhip/member/1064" dept="Cabinet Office" position="Minister without Portfolio" fromdate="2004-09-09" fromtime="14:26" todate="9999-12-31" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1119" name="Rt Hon Ian McCartney" matchid="uk.org.publicwhip/member/1064" dept="Cabinet Office" position="Minister without Portfolio" fromdate="2004-09-09" fromtime="14:26" todate="2004-09-09" totime="14:26" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1130" name="Rt Hon Ian McCartney" matchid="uk.org.publicwhip/member/1064" dept="No Department" position="Minister without Portfolio" fromdate="2004-11-04" fromtime="12:04" todate="9999-12-31" source="chgpages"></moffice>
 </ministerofficegroup>
 
 <ministerofficegroup>
@@ -966,6 +968,10 @@
 
 <ministerofficegroup>
 <moffice id="uk.org.publicwhip/moffice/1096" name="Joan Ryan" matchid="uk.org.publicwhip/member/1207" dept="HM Treasury" position="Lords Commissioner" fromdate="2002-05-29" todate="9999-12-31" source="newlabministers2003-10-15 chgpages"></moffice>
+</ministerofficegroup>
+
+<ministerofficegroup>
+<moffice id="uk.org.publicwhip/moffice/1131" name="Lord Saatchi" dept="HM Household" position="Lords in Waiting" fromdate="2004-11-04" fromtime="12:04" todate="9999-12-31" source="chgpages"></moffice>
 </ministerofficegroup>
 
 <ministerofficegroup>
