@@ -89,7 +89,7 @@ def PreviewDivisionTextGuess(flatb):
 				foutdivisionreports.write("%s\n" % flatb[-iTx].stext[j])
 			j += 1
 
-
+	foutdivisionreports.flush()
 
 # handle a division case
 regenddiv = '(Question accordingly|It appearing on the report|<explicit-end-division>)'

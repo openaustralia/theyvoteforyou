@@ -15,9 +15,14 @@ def ApplyPatches(filein, fileout):
         patchfile = os.path.join("patches", fileshort + ".patch")
         if not os.path.isfile(patchfile):
                 return False
-        
+
         # Apply the patch
         shutil.copyfile(filein, fileout)
+
+		# delete temporary file that might have been created by a previous patch failure 
+        filoutorg = fileout + ".orig"
+        if os.path.isfile(filoutorg):
+            os.remove(filoutorg)
         status = os.system("patch --quiet %s <%s" % (fileout, patchfile))
         if status != 0:
                 raise Exception, "Error running 'patch' file %s" % fileshort

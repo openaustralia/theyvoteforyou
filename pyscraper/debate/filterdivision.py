@@ -161,55 +161,6 @@ def FilterDivision(text, sdate):
 
 	return stext
 
-rebr = re.compile('\s*<br>\s*')
-# Cope of Berkeley, L. [Teller]
-retell = re.compile('(.*?)\s*\[Teller\]$')
-def ExtrVotes(text, side):
-	res = [ ]
-	for nam in rebr.split(text):
-		if nam:
-			# do the unique id thing
-			gtell = retell.match(nam)
-			lnam = nam
-			if gtell:
-				lnam = gtell.group(1)
-
-			id = "unknown" # id from lnam
-
-			res.append('\t<vote id="')
-			res.append(id)
-			res.append('" side="')
-			res.append(side)
-			res.append('"')
-			if gtell:
-				res.append(' Teller="1"')
-			res.append('>')
-			res.append(nam)
-			res.append('</vote>\n')
-
-	return res
-
-
-#regdivsecs = '<P>\s*<center><b>(CONTENTS)\s*</B></center><br>(([^<>/]|<br>)*)<P>\s*<center><b>(NOT-CONTENTS)\s*</B></center><br>(([^<>/]|<br>)*)([\s\S]*)$(?i)'
-regdivsecs = '\s*<P>\s*<center><b>(CONTENTS)\s*</B></center><br>((?:[^<>/]|<br>)*)<P>\s*<center><b>(NOT-CONTENTS)\s*</B></center><br>(([^<>/]|<br>)*)([\s\S]*)$(?i)'
-def LordsFilterDivision(divno, divtext, sdate):
-
-# <P>\s<center><b>CONTENTS\s</B></center><br>
-# <P>\s<center><b>NOT-CONTENTS\s</B></center><br>
-	gcontents = re.match(regdivsecs, divtext)
-	if not gcontents:
-		print divtext
-		sys.exit(0)
-
-	res = [ ]
-	res.append('<divisionside side="content">\n')
-	res.extend(ExtrVotes(gcontents.group(2), 'yes'))
-	res.append('</divisionside>\n')
-	res.append('<divisionside side="not-content">\n')
-	res.extend(ExtrVotes(gcontents.group(4), 'no'))
-	res.append('</divisionside>\n')
-
-	return string.join(res, '')
 
 
 
