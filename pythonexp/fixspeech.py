@@ -9,7 +9,7 @@ import StringIO
 # In Debian package python2.3-egenix-mxdatetime
 import mx.DateTime
 
-toaskregexp = '^((?:<[^>]*>|\s)*)' +\
+toaskregexp = '^\s*' +\
 		'to ask the (secretary of state for (?:' +\
 				'defence|' +\
 				'northern ireland|' +\
@@ -55,115 +55,115 @@ toaskregexp = '^((?:<[^>]*>|\s)*)' +\
 				')([\s\S]*)$(?i)'
 
 retoask = re.compile(toaskregexp)
+# split off the to ask part
+#se = retoask.findall(text)
+#if len(se) == 0:
+#	if not re.search('to ask the hon[.] member for(?i)', text):
+#		print text
 
-alphabet = '0abcdefghijklmnopqrstuvwxyz'
 
-class quesstruc:
 
-	def extractqnumsections(self):
-		lnumlist = []
-		if re.search('\(1\)[\s\S]*?\(2\)', self.text):
-			numsec = re.split('(\(\d+\))', self.text)
-			inum = 0
-			for ns in numsec:
-				nfa = re.findall('\((\d+)\)', ns)
-				if len(nfa) != 0:
-					if inum == 0:
-						lnumlist.append('')
-						inum = 1
-					linum = string.atoi(nfa[0])
-					if linum != inum:
-						print 'non-consecutive numbering'
-				else:
-					lnumlist.append(ns)
-					inum = inum + 1
-		else:
-			lnumlist.append(self.text)
+def QuestionBreakIntoParagraphs(text):
+	# To ask ... (1) how many ...;  [138423]
+	# <P>
+	# <P>
+	# <UL>(2) what the ... United Kingdom;  [138424]
+	# <P>
+	# (3) if she will ... grants.  [138425]<P></UL>
+	nfj = re.split('(</?p>|</?ul>)(?i)', text)
 
-		# now do the letter lists and put into numlist
-		self.numlist = []
-		for i in range(len(lnumlist)):
-			letlist = []
-			if re.search('<i>\(a\)</i>[\s\S]*?<i>\(b\)</i>(?i)', lnumlist[i]):
-				letsec = re.split('(<i>\([a-z]\)</i>)(?i)', lnumlist[i])
-				ilet = 0
-				for ls in letsec:
-					lfa = re.findall('<i>\(([a-z])\)</i>(?i)', ls)
-					if len(lfa) != 0:
-						if ilet == 0:
-							letlist.append(('0', ''))
-							ilet = 1
-						lilet = string.find(alphabet, lfa[0]) # don't know ascii
-						if lilet != ilet:
-							print 'non-consecutive lettering ' + lfa[0]
-							print lilet
-					else:
-						letlist.append(ls)
-						ilet = ilet + 1
+	# break up into sections separated by paragraph breaks
+	dell = []
+	spc = ''
+	for nf in nfj:
+		if re.match('(</?p>|</?ul>)(?i)', nf):
+			if not spc:
+				spc = ''
+			spc = spc + nf
+		elif re.search('\S', nf):
+			if not spc:
+				print 'error space'
+				print nfj
+				sys.exit()
+			dell.append(spc)
+			spc = None
+			dell.append(nf)
+	if not spc:
+		spc = ''
+	dell.append(spc)
+
+	# the result strong
+	pres = []
+
+	# deal with subsets
+	if len(dell) < 3:
+		print 'error no space parsing'
+		return pres
+
+	# sometimes column numbers have added in line breaks that shouldn't be there.
+	# this recognizes the pattern and takes them out
+	# remove any breaks that look like a column had been there
+	# \n\n\n\n', '<P><P><P>', '\n
+	for i in range(len(dell) - 3, 1, -2):
+		if re.match('(<p>){3}$(?i)', dell[i]) and re.search('\n{4}$', dell[i-1]) and \
+							  re.match('\n', dell[i+1]):
+			# merge the string across the middle string
+			dell[i-1] = re.sub('\n{4}$', ' ', dell[i-1]) + dell[i+1][1:]
+			delltail = dell[i+2:]
+			dell = dell[0:i]
+			dell.extend(delltail)
+
+	# remove whitespace (linefeeds) on all the strings
+	for i in range(len(dell)):
+		dell[i] = string.strip(dell[i])
+
+	# no paragraph breaks in the block of text
+	if len(dell) == 3:
+		pres.append(dell[1])
+		return pres
+
+	if not re.search('\(2\)', dell[3]):
+		print 'no find'
+		#print dell
+		#sys.exit()
+
+	# the text is broken into questions (1), (2) etc, with a <ul> surrounding the secondary parts
+	if (not re.search('<ul>(?i)', dell[2])) or (not re.search('</ul>(?i)', dell[len(dell)-1])):
+		print '<ul> things not conforming to pattern in part-question'
+		#print dell
+		#sys.exit()
+
+
+	# break out the numbers
+	p1 = re.findall('^([\s\S]*?\S)\s*?\(1\)\s*?(\S[\s\S]*?)$', dell[1])
+	if p1:
+		pres.append(p1[0][0])
+		pres.append('(1) ' + p1[0][1])
+	else:
+		print 'no first number match'
+		pres.append(dell[1])
+
+	# do the rest of the paragraphs and look for numbers
+	for i in range(3, len(dell)-1, 2):
+		if p1:
+			pi = re.findall('^\((\d+?)\)\s*(\S[\s\S]*?)$', dell[i])
+			if pi:
+				pin = string.atoi(pi[0][0])
+				if pin != len(pres):
+					print 'numbers not consecutive'
+					p1 = None
 			else:
-				letlist.append(lnumlist[i])
+				print 'no number match'
+				print dell[i]
+				p1 = None
+		if p1:
+			pres.append('(%d) %s' % (len(pres), pi[0][1]))
+		else:
+			pres.append(dell[i])
 
 
-			# remove <ul> and <p> garbage from ends of the sections
-			nletlist = []
-			for ll in letlist:
-				nfj = re.findall('^(?:</?p>|</?ul>|\s)*([\s\S]*?)(?:</?p>|</?ul>|\s)*$(?i)', ll)
-				si = re.sub('<qcode [^>]*>$', '', nfj[0])
-				tags = re.findall('<(\w*)[^>]*>', si)
-				if len(tags) != 0:
-					self.errtag = 'bad sections parsing'
-				nletlist.append(nfj[0])
-			self.numlist.append(nletlist)
+	return pres
 
-
-	def __init__(self, text):
-		self.text = None
-		self.errtag = None
-
-		# split off the to ask part
-		se = retoask.findall(text)
-		if len(se) == 0:
-			if not re.search('to ask the hon[.] member for(?i)', text):
-				print text
-			return
-
-		# we have a recognized person who is asked
-
-		#check for junk
-		if re.sub('</?p>|\s(?i)', '', se[0][0]) != '':
-			print 'unrecognized junk before to ask: ' + se[0][0]
-
-		self.whoasked = se[0][1]
-		self.text = se[0][2]
-
-		self.extractqnumsections()
-
-
-	def writexml(self, fout):
-		if not self.text:
-			return
-
-		fout.write('<toask>%s</toask>\n' % self.whoasked)
-		if self.errtag:
-			fout.write('<queserror>%s</queserror>\n' % self.errtag)
-			return
-
-		for i in range(0, len(self.numlist)):
-			if (i == 0) and (len(self.numlist[i]) == 0):
-				continue
-			if (i != 0):
-				fout.write('<subques num="%d">\n' % i)
-				for j in range(len(self.numlist[i])):
-					if (i == 0) and (len(self.numlist[i][j]) == 0):
-						continue
-					if (j != 0):
-						fout.write('<subletques let="%s">\n' % alphabet[j])
-					fout.write(self.numlist[i][j])
-					fout.write('\n')
-					if (j != 0):
-						fout.write('</subletques>\n')
-			if (i != 0):
-				fout.write('</subques>\n')
 
 def FixQuestion(text):
 	res = StringIO.StringIO()
@@ -172,8 +172,12 @@ def FixQuestion(text):
 	bqnum = re.subn('\[(\d+?)\]', '<qcode qnum="\\1"/>', text)
 	text = bqnum[0]
 	if bqnum[1] != 0:
-		qs = quesstruc(text)
-		qs.writexml(res)
+		ntext = QuestionBreakIntoParagraphs(text)
+		for nt in ntext:
+			res.write('<p>')
+			res.write(nt)
+			res.write('</p>\n')
+
 	else:
 		res.write("<error>qnum missing</error>\n")
 
@@ -183,14 +187,53 @@ def FixQuestion(text):
 	return sres
 
 
+
+
+# replies can have tables
+
+def ReplyBreakIntoParagraphs(text):
+	nfj = re.split('(<table [\s\S]*?</table>|</?p>|</?ul>|<br>|</?font[^>]*>)(?i)', text)
+
+	# break up into sections separated by paragraph breaks
+	dell = []
+	spc = ''
+	for nf in nfj:
+		if re.match('(</?p>|</?ul>|<br>|</?font[^>]*>)(?i)', nf):
+			spc = spc + nf
+		elif re.search('\S', nf):
+			dell.append(spc)
+			spc = ''
+			dell.append(nf)
+	if not spc:
+		spc = ''
+	dell.append(spc)
+
+	# remove whitespace (linefeeds) on all the strings
+	for i in range(len(dell)):
+		dell[i] = string.strip(dell[i])
+
+	pres = []
+	for i in range(1, len(dell)-1, 2):
+		if re.search('<table (?i)', dell[i]):
+			pres.append('<table>Stuff</table>')
+		else:
+			pres.append(dell[i])
+	return pres
+
+
 def FixReply(text):
 	res = StringIO.StringIO()
 
-	if re.search('\[\d+?\]', text):
+	if not re.search('\[\d+?\]', text):
+		ntext = ReplyBreakIntoParagraphs(text)
+		for nt in ntext:
+			res.write('<p>')
+			res.write(nt)
+			res.write('</p>\n')
+	else:
 		res.write("<error>qnum present in answer</error>\n")
 		print 'qnum present in answer'
 
-	res.write('<reply textlength="%d"/>\n' % len(text))
 
 	sres = res.getvalue()
 	res.close()

@@ -68,7 +68,7 @@ def FixWransColumnNumbers(fout, finr, sdate):
 				# column numbers do get skipped during division listings
 
 				lcolnum = llcolnum
-				fout.write('<stamp coldate="%s" colnum="%s" type="W"/>' % (jlcoldate, lcolnum))
+				fout.write('<stamp coldate="%s" colnum="%sW"/>' % (jlcoldate, lcolnum))
  			else:
 				pass #print "spurious column number decrementation -- don't output"
 

@@ -48,13 +48,13 @@ class SepHeadText:
 
 	def __init__(self, finr):
 		lsectionregexp = '<h\d><center>.*?</center></h\d>|<h\d align=center>.*?</h\d>'
-		lspeakerregexp = '<speaker .*?>.*?</speaker>'
-		ltableregexp = '<table.*?>[\s\S]*?</table>'	# these have centres, so must be separated out
+		lspeakerregexp = '<speaker [^>]*>.*?</speaker>'
+		ltableregexp = '<table[^>]*>[\s\S]*?</table>'	# these have centres, so must be separated out
 
 		lregexp = '(%s|%s|%s)(?i)' % (lsectionregexp, lspeakerregexp, ltableregexp)
 
 		tableregexp = ltableregexp + '(?i)'
-		speakerregexp = '<speaker name="(.*?)">.*?</speaker>'
+		speakerregexp = '<speaker ([^>]*)>.*?</speaker>'
 		sectionregexp1 = '<center>\s*(.*?)\s*</center>(?i)'
 		sectionregexp2 = '<h\d align=center>\s*(.*?)\s*</h\d>(?i)'
 
@@ -147,34 +147,37 @@ class qspeech:
 
 	# function to shuffle column stamps out of the way to the front, so we can glue paragraphs together
 	def StampToFront(self):
-		# we make a batch of stamps, leaving the last stamp in if none are being included
-		ts = re.findall('(<stamp[^>]*?/>)', self.text)
-		if len(ts) == 0:
-			self.stamp = self.laststamp
-			return
-		for self.laststamp in ts:
-			self.stamp = self.stamp + self.laststamp
-
 		# remove the stamps from the text, checking for cases where we can glue back together.
-		sp = re.split('<stamp[^>]*?/>', self.text)
+		sp = re.split('(<stamp[^>]*?/>)', self.text)
 		self.text = ''
 		for i in range(len(sp)):
-			# string ends with a lower case character, and next begins with a lower case char
-			if (i < len(sp) - 1):
-				esp = re.findall('^([\s\S]*?[a-z])(?:<[^>]*?>|\s)*?$', sp[i])
-				if len(esp) != 0:
-					bsp = re.findall('^(?:<[^>]*?>|\s)*?([a-z][\s\S]*?)$', sp[i + 1])
-					if len(bsp) != 0:
-						sp[i] = esp[0] + ' '
-						sp[i + 1] = bsp[0]
-			self.text = self.text + sp[i]
+			if re.match('<stamp[^>]*?/>', sp[i]):
+				if not re.sub('<[^>]*>|\s', '', self.text):
+					self.stamp = sp[i]
+					self.ncid = 0
+					print 'firststamp ' + sp[i]
 
-	def __init__(self, lspeaker, ltext, llaststamp, llastpageurl):
+				self.laststamp = sp[i]
+
+			# append the pieces back together
+			else:
+				# string ends with a lower case character, and next begins with a lower case char
+				if (i < len(sp) - 1):
+					esp = re.findall('^([\s\S]*?[a-z])(?:<[^>]*?>|\s)*?$', sp[i])
+					if len(esp) != 0:
+						bsp = re.findall('^(?:<[^>]*?>|\s)*?([a-z][\s\S]*?)$', sp[i + 1])
+						if len(bsp) != 0:
+							sp[i] = esp[0] + ' '
+							sp[i + 1] = bsp[0]
+				self.text = self.text + sp[i]
+
+	def __init__(self, lspeaker, ltext, llaststamp, llastpageurl, lncid):
 		self.speaker = lspeaker
-		self.stamp = ''
+		self.stamp = llaststamp
 		self.laststamp = llaststamp
 		self.pageurl = llastpageurl
 		self.text = ltext
+		self.ncid = lncid
 
 		# this is a bit shambolic as it's done in the other class as well.
 		self.StampToFront()
@@ -196,8 +199,7 @@ class qspeech:
 			self.text = FixReply(self.text)
 
 	def writexml(self, fout):
-		fout.write('\t<speech speaker="%s" type="%s">\n' % (self.speaker, self.typ))
-		fout.write('\t\t%s\n' % self.stamp)
+		fout.write('\t<speech %s type="%s">\n' % (self.speaker, self.typ))
 
 		# add in some tabbing
 		sio = StringIO.StringIO(self.text)
@@ -208,16 +210,17 @@ class qspeech:
 			fout.write('\t\t')
 			fout.write(rl)
 
-		fout.write('\t</speech>\n\n')
+		fout.write('\t</speech>\n')
 
 class qbatch:
-	def __init__(self, lmajorheading, ltitle, shspeak, llaststamp, llastpageurl):
+	def __init__(self, lmajorheading, ltitle, shspeak, llaststamp, llastpageurl, lncid):
 		self.majorheading = lmajorheading
 		self.title = ltitle
 		self.stamp = llaststamp
 		self.laststamp = llaststamp
 		self.pageurl = llastpageurl
 		self.lastpageurl = llastpageurl
+		self.ncid = lncid
 
 		self.shansblock = [ ]
 		qblock = [ ]
@@ -227,7 +230,7 @@ class qbatch:
 
 		# throw in a batch of speakers
 		for shs in shspeak:
-			qb = qspeech(shs[0], shs[1], self.laststamp, self.lastpageurl)
+			qb = qspeech(shs[0], shs[1], self.laststamp, self.lastpageurl, self.ncid)
 			qblock.append(qb)
 			self.laststamp = qb.laststamp
 			self.lastpageurl = qb.lastpageurl
@@ -236,24 +239,30 @@ class qbatch:
 				self.shansblock.append(qblock)
 				qblock = []
 
+			# reset the id if the column changes
+			if qb.laststamp != qb.stamp:
+				self.ncid = 0
+			else:
+				self.ncid = self.ncid + 1
+
 		if len(qblock) != 0:
 			print "block without answer " + self.title
 			self.shansblock.append(qblock)
 
 	# this obviously can be changed to suit
-	def writexml(self, fout):
-		fout.write('\n<wransblock title="%s" majorheading="%s">' % (self.title, self.majorheading))
+	def writexml(self, fout, sdate):
 		for sha in self.shansblock:
-			fout.write('\n<wrans title="%s">\n' % (self.title,))
-			fout.write(self.pageurl)
+			colnum = re.findall('colnum="([^"]*)"', sha[0].stamp)[0]
+			sid = 'uk.org.publicwhip/wrans/%s.%s.%d' % (sdate, colnum, sha[0].ncid)
+			fout.write('\n<wrans id="%s" title="%s" majorheading="%s">\n' % \
+						(sid, self.title, self.majorheading))
+			fout.write(sha[0].stamp)
 			fout.write('\n')
-			fout.write(self.stamp)
+			fout.write(sha[0].pageurl)
 			fout.write('\n')
 			for i in range(len(sha)):
 				sha[i].writexml(fout)
 			fout.write('</wrans>\n')
-		fout.write('</wransblock>\n')
-
 
 majorheadings = {
 		"ADVOCATE-GENERAL":"ADVOCATE-GENERAL",
@@ -363,6 +372,10 @@ def WransSections(fout, finr, sdate):
 
 	lastmajorheading = ''
 
+	# full list of question batches
+	qbl = []
+
+	ncid = 0
 	for i in range(shta.ifh, len(shta.shtext)):
 		sht = shta.shtext[i]
 
@@ -382,7 +395,10 @@ def WransSections(fout, finr, sdate):
 		else:
 			if majorheadings.has_key(sht[0]):
 				print 'speeches found in major heading ' + sht[0]
-			qb = qbatch(lastmajorheading, sht[0], sht[2], shta.laststamp, shta.lastpageurl)
-			qb.writexml(fout)
-			shta.laststamp = qb.laststamp
+			qb = qbatch(lastmajorheading, sht[0], sht[2], shta.laststamp, shta.lastpageurl, ncid)
+			qbl.append(qb)
+			ncid = qb.ncid
 			shta.lastpageurl = qb.lastpageurl
+			shta.laststamp = qb.laststamp
+			qb.writexml(fout, sdate)
+
