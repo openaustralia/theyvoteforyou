@@ -1,4 +1,4 @@
-<?php 
+<?php require_once "common.inc";
     $dreamid = intval($_GET["id"]);
     $cache_params = "id=$dreamid";
     include "cache-begin.inc"; 

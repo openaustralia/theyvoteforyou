@@ -1,10 +1,11 @@
-<?php $title = "Join the Project"; include "../header.inc" 
-# $Id: index.php,v 1.4 2004/11/24 20:36:41 frabcus Exp $
+<?php require_once "../common.inc";
+# $Id: index.php,v 1.5 2005/01/15 20:38:12 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
+$title = "Join the Project"; include "../header.inc" 
 ?>
 
 <p>Join in with the Public Whip project, or examine and use the source code behind it.

@@ -1,5 +1,5 @@
-<? 
-# $Id: archive.php,v 1.7 2004/06/15 23:46:49 frabcus Exp $
+<?php require_once "../common.inc";
+# $Id: archive.php,v 1.8 2005/01/15 20:38:11 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under

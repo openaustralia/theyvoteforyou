@@ -1,13 +1,12 @@
 <?php
-# $Id: cache-tools.inc,v 1.6 2005/01/15 14:54:01 frabcus Exp $
+# $Id: cache-tools.inc,v 1.7 2005/01/15 20:38:10 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-include_once "config.php";
-include_once 'account/user.inc';
+include_once $toppath . "account/user.inc";
 
 function newsletter_navbar() {
     $ret = "";

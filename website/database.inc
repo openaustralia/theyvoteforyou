@@ -6,19 +6,13 @@
 // Copyright 1999-2000 (c) The SourceForge Crew
 // http://sourceforge.net
 //
-// $Id: database.inc,v 1.2 2005/01/15 14:54:01 frabcus Exp $
+// $Id: database.inc,v 1.3 2005/01/15 20:38:10 frabcus Exp $
 //
 // /etc/local.inc includes the machine specific database connect info
 
-include_once "config.php";
-$sys_dbhost=$host;
-$sys_dbuser=$user;
-$sys_dbpasswd=$password;
-$sys_dbname=$database;
-
 function db_connect() {
-	global $sys_dbhost,$sys_dbuser,$sys_dbpasswd;
-	$conn = mysql_connect($sys_dbhost,$sys_dbuser,$sys_dbpasswd);
+	global $host,$user,$password;
+	$conn = mysql_connect($host,$user,$password);
 	if (!$conn) {
 		echo mysql_error();
 	}
@@ -26,8 +20,8 @@ function db_connect() {
 }
 
 function db_query($qstring,$print=0) {
-	global $sys_dbname;
-	return @mysql($sys_dbname,$qstring);
+	global $database;
+	return @mysql($database,$qstring);
 }
 
 function db_numrows($qhandle) {

@@ -1,4 +1,4 @@
-<?  
+<?php require_once "../common.inc";
 
 # $dreamid: editdream.php,v 1.1 2004/04/16 13:38:56 frabcus Exp $
 

@@ -1,5 +1,5 @@
-<?php 
-# $Id: search.php,v 1.31 2004/11/30 10:59:12 frabcus Exp $
+<?php require_once "common.inc";
+# $Id: search.php,v 1.32 2005/01/15 20:38:11 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under

@@ -1,12 +1,11 @@
-<?php 
-# $Id: data.php,v 1.14 2004/11/24 20:36:41 frabcus Exp $
+<?php require_once "../common.inc";
+# $Id: data.php,v 1.15 2005/01/15 20:38:12 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-    include "../config.inc";
     $title = "Raw Data"; include "../header.inc";
 ?>
 

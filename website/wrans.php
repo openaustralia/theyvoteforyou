@@ -1,5 +1,5 @@
-<?php 
-    # $Id: wrans.php,v 1.17 2004/06/22 01:54:06 frabcus Exp $
+<?php require_once "common.inc";
+    # $Id: wrans.php,v 1.18 2005/01/15 20:38:11 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under

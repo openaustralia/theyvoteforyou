@@ -469,12 +469,12 @@ function validate_email ($address) {
 
 function login_screen()
 {
-    global $feedback;
+    global $feedback, $toppath;
 
     $onload = "givefocus('user_name')";
 
     $title = "Login to The Public Whip"; 
-    include "../header.inc";
+    include $toppath . "header.inc";
 
     if ($feedback) {
         print "<div class=\"error\"><h2>Login not correct,

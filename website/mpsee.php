@@ -1,15 +1,12 @@
-<?php $title = "Vote map"; include "header.inc" 
-# $Id: mpsee.php,v 1.14 2004/11/30 11:22:34 frabcus Exp $
+<?php require_once "common.inc";
+# $Id: mpsee.php,v 1.15 2005/01/15 20:38:11 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
-?>
 
-
-<?
-    include "db.inc";
+    $title = "Vote map"; include "header.inc" 
 ?>
 
 <p>For your convenience, this is a tool for 

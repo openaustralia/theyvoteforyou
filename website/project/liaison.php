@@ -1,10 +1,11 @@
-<?php $title = "Hansard Liaison Subproject"; include "../header.inc" 
-# $Id: liaison.php,v 1.4 2003/11/21 15:57:28 frabcus Exp $
+<?php require_once "../common.inc";
+# $Id: liaison.php,v 1.5 2005/01/15 20:38:12 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
+$title = "Hansard Liaison Subproject"; include "../header.inc" 
 ?>
 
 <p>The Public Whip puts the pages on the parliamentary website through

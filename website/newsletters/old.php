@@ -1,15 +1,13 @@
-<? $title = "Old Site News"; include "../config.php"; include "../header.inc";
-# $Id: old.php,v 1.6 2005/01/15 14:54:02 frabcus Exp $
+<?php require_once "../common.inc";
+# $Id: old.php,v 1.7 2005/01/15 20:38:11 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-/*
-<h2>2003 by Francis</h2>
-<p></p>
-*/
+$title = "Old Site News"; include "../header.inc";
+
 ?>
 
 <p>Have a look at the more recent <a href="archive.php">newsletter archives</a> as

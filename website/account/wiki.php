@@ -1,5 +1,5 @@
-<?php
-# $Id: wiki.php,v 1.1 2005/01/15 15:08:03 frabcus Exp $
+<?php require_once "../common.inc";
+# $Id: wiki.php,v 1.2 2005/01/15 20:38:11 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -9,6 +9,7 @@
 
 include('../database.inc');
 include_once('user.inc');
+
 include "../db.inc";
 include "../cache-tools.inc";
 include "../gather.inc";

@@ -1,5 +1,5 @@
-<?php
-# $Id: division.php,v 1.43 2005/01/15 14:40:34 frabcus Exp $
+<?php require_once "common.inc";
+# $Id: division.php,v 1.44 2005/01/15 20:38:10 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd

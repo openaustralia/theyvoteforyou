@@ -1,6 +1,6 @@
-<?  
+<?php require_once "../common.inc";
 
-# $Id: logout.php,v 1.5 2005/01/14 16:07:27 frabcus Exp $
+# $Id: logout.php,v 1.6 2005/01/15 20:38:11 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under

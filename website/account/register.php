@@ -1,6 +1,6 @@
-<?  
+<?php require_once "../common.inc";
 
-# $Id: register.php,v 1.16 2005/01/14 16:07:27 frabcus Exp $
+# $Id: register.php,v 1.17 2005/01/15 20:38:11 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under

@@ -1,10 +1,12 @@
-<?php $title = "Source Code"; include "../header.inc" 
-# $Id: code.php,v 1.15 2005/01/15 14:54:02 frabcus Exp $
+<?php require_once "../common.inc";
+# $Id: code.php,v 1.16 2005/01/15 20:38:12 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
+
+$title = "Source Code"; include "../header.inc" 
 ?>
 
 <h2>Introduction</h2>

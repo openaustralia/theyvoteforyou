@@ -3,21 +3,14 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.41 2005/01/15 14:54:01 frabcus Exp $
+# $Id: header.inc,v 1.42 2005/01/15 20:38:11 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-$loc = dirname($_SERVER['REQUEST_URI']);
-if (!is_bool(strpos($loc, "/account")) || !is_bool(strpos($loc, "/project")) || !is_bool(strpos($loc, "/newsletters")) )
-    $toppath = "../"; 
-else 
-    $toppath = "";
-
-include $toppath . "pretty.inc";
-include_once $toppath . "config.php";
+include_once $toppath . "pretty.inc";
 include_once $toppath . "account/user.inc";
 include_once $toppath . "cache-tools.inc";
 

@@ -1,4 +1,4 @@
-<?php 
+<?php require_once "common.inc";
     $cache_params = "";
     include "cache-begin.inc"; 
 

@@ -1,14 +1,12 @@
 <?php
 
-# $Id: db.inc,v 1.9 2005/01/15 14:54:01 frabcus Exp $
+# $Id: db.inc,v 1.10 2005/01/15 20:38:10 frabcus Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
-
-include_once "config.php";
 
 function db_scrub($text)
 {

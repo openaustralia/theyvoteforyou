@@ -1,6 +1,6 @@
 <?php
 
-# $Id: parliaments.inc,v 1.10 2004/06/08 11:56:55 frabcus Exp $
+# $Id: parliaments.inc,v 1.11 2005/01/15 20:38:11 frabcus Exp $
 # This data is duplicated in loader/PublicWhip/Parliaments.pm
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -13,8 +13,8 @@
 # give the scond an id with the month in as well.  The name can change
 # (as it is not in URLs), so can be any clarifying pretty description.
 $parliaments = array(
-    '2001' => array(from => '2001-06-07', to => '9999-12-31', name => '2001'),
-    '1997' => array(from => '1997-05-01', to => '2001-05-14', name => '1997'),
+    '2001' => array('from' => '2001-06-07', 'to' => '9999-12-31', 'name' => '2001'),
+    '1997' => array('from' => '1997-05-01', 'to' => '2001-05-14', 'name' => '1997'),
 );
 $parliament = db_scrub($_GET["parliament"]);
 if ($parliament == "")
@@ -23,7 +23,7 @@ if ($parliament == "")
 # These are parliamentary sessions (i.e. years) - nothing to do with
 # PHP or web sessions or anything like that.
 $parlsessions = array(
-	'2002' => array(from => '2002-11-13', to => '2003-11-20', name => '2002/2003'),
+	'2002' => array('from' => '2002-11-13', 'to' => '2003-11-20', 'name' => '2002/2003'),
 );
 $parlsession = db_scrub($_GET["session"]);
 

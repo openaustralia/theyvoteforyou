@@ -1,10 +1,12 @@
-<?php $title = "Ministerial whirl"; include "header.inc"
-# $Id: minwhirl.php,v 1.5 2004/12/26 23:42:49 goatchurch Exp $
+<?php require_once "common.inc";
+# $Id: minwhirl.php,v 1.6 2005/01/15 20:38:11 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2004 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
+
+$title = "Ministerial whirl"; include "header.inc"
 ?>
 
 <p>See how Tony Blair's government has changed from day to day, month to

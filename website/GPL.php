@@ -1,10 +1,12 @@
-<?php $title = "GNU General Public License"; include "header.inc" 
-# $Id: GPL.php,v 1.2 2003/10/13 17:45:58 frabcus Exp $
+<?php require_once "common.inc";
+# $Id: GPL.php,v 1.3 2005/01/15 20:38:10 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
+
+$title = "GNU General Public License"; include "header.inc" 
 ?>
 
 <H1>GNU General Public License</H1>

@@ -1,12 +1,15 @@
-<?php $cache_params = rand(0, 10); include "cache-begin.inc"; ?>
+<?php require_once "common.inc";
 
-<?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
-# $Id: index.php,v 1.33 2004/11/19 23:45:13 frabcus Exp $
+$cache_params = rand(0, 10); include "cache-begin.inc";
+
+# $Id: index.php,v 1.34 2005/01/15 20:38:11 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
+
+$title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
 ?>
 
 <p>Every week, a dozen or so times, your MP votes in the UK parliament.  This

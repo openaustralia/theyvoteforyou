@@ -1,12 +1,12 @@
-<?php include "cache-begin.inc"; ?>
-<?php 
-    # $Id: boths.php,v 1.6 2003/10/27 09:36:41 frabcus Exp $
+<?php require_once "common.inc";
+    # $Id: boths.php,v 1.7 2005/01/15 20:38:10 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
     # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
     # For details see the file LICENSE.html in the top level of the source.
 
+    include "cache-begin.inc";
     $title = "Voted both aye and no"; 
     include "header.inc";
     include "db.inc";
