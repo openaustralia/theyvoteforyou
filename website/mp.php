@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.28 2004/01/31 18:41:34 frabcus Exp $
+    # $Id: mp.php,v 1.29 2004/03/16 00:55:09 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -126,6 +126,8 @@
     }
     print "</table>";
 ?>
+
+<p>Want to contact your MP?  Use <a href="http://www.faxyourmp.com">Fax Your MP</a> for free.
 
 <?php
     if (!$show_all)

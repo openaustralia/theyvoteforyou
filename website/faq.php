@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.20 2004/03/12 17:27:41 frabcus Exp $
+# $Id: faq.php,v 1.21 2004/03/16 00:55:08 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -184,8 +184,10 @@ at most once a month, and has interesting news and articles
 relating to the project.
 
 <h2><a name="email">Where can I email?</a></h2>
-<p>If you have any problems, comments, queries, suggestions or offers of help email <a
-href="mailto:support@publicwhip.org.uk">support@publicwhip.org.uk</a>.
+<p>If you have any problems, comments, queries, suggestions or offers of help about this website
+then email <a
+href="mailto:support@publicwhip.org.uk">support@publicwhip.org.uk</a>.  If you would like
+to contact your MP about something that concerns you, then use <a href="http://www.faxyourmp.com">Fax Your MP</a>.
 
 <?php include "footer.inc" ?>
 
