@@ -90,8 +90,8 @@ regcolumnum5 = '<br>&nbsp;<br></ul><i>[^:<]*:\s*column:?\s*\d+w?\s*</i><br>&nbsp
 recolumnumvals = re.compile('(?:<p>|\s|</ul>|</font>|<br>&nbsp;<br>|<br>)*<i>([^:<]*):\s*column:?\s*(\d+)w?\s*</i>(?:<p>|\s|<ul>|<font[^>]*>|<br>&nbsp;<br>)*$(?i)')
 
 #<i>23 Oct 2003 : Column 640W&#151;continued</i>
-regcolnumcont = '<i>[^:<]*:\s*column\s*\d+w?&#151;continued\s*</i>(?i)'
-recolnumcontvals = re.compile('<i>([^:<]*):\s*column\s*(\d+)w?&#151;continued</i>(?i)')
+regcolnumcont = '<i>[^:<]*:\s*column\s*\d+w?&#151;continued\s*</i>|\[Continued from column \d+w?\](?i)'
+recolnumcontvals = re.compile('<i>([^:<]*):\s*column\s*(\d+)w?&#151;continued</i>|\[Continued from column (\d+)w?\](?i)')
 
 # <a name="column_1099">
 reaname = '<a name="\S*?">(?i)'
@@ -136,17 +136,24 @@ def FilterWransColnum(fout, text, sdate):
 			continue
 
 		columncontg = recolnumcontvals.match(fss)
-		if columncontg:
-			ldate = mx.DateTime.DateTimeFrom(columncontg.group(1)).date
-			if sdate != ldate:
-				raise ContextException("Cont column date disagrees %s -- %s" % (sdate, fss), fragment=fss, stamp=stamp)
-			lcolnum = string.atoi(columncontg.group(2))
-			if colnum != lcolnum:
-				raise ContextException("Cont column number disagrees %d -- %s" % (colnum, fss), fragment=fss, stamp=stamp)
+                if columncontg:
+                        if columncontg.group(1):
+        			ldate = mx.DateTime.DateTimeFrom(columncontg.group(1)).date
+        			if sdate != ldate:
+	        			raise ContextException("Cont column date disagrees %s -- %s" % (sdate, fss), fragment=fss, stamp=stamp)
+        			lcolnum = string.atoi(columncontg.group(2))
+        			if colnum != lcolnum:
+        				raise ContextException("Cont column number disagrees %d -- %s" % (colnum, fss), fragment=fss, stamp=stamp)
 
-			# no need to output anything
-			fout.write(' ')
-			continue
+        			# no need to output anything
+        			fout.write(' ')
+        			continue
+                        if columncontg.group(3):
+                                lcolnum = string.atoi(columncontg.group(3))
+                                if colnum != lcolnum:
+                                        raise ContextException("Cont column number disagrees %d -- %s" % (colnum, fss), fragment=fss, stamp=stamp)
+                                fout.write(' ')
+                                continue
 
 		# anchor names from HTML <a name="xxx">
 		anameg = reanamevals.match(fss)

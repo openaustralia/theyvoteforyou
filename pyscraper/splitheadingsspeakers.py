@@ -114,7 +114,7 @@ resectiont4val = re.compile('<(?:p|br)>\s*<center>(.*?)</center><(?:p|br)>(?i)')
 reparsermessage = re.compile('<parsemess-misspeech type="(.*?)" redirect="(up|down|nowhere)"/>')
 
 # These aren't actually headings, even though they are <H4><center>
-renotheading = re.compile('>\s*(The .* (?:was|were) asked\s*(?:&#151;|--))\s*<')
+renotheading = re.compile('>(?:\s*|(?:&nbsp;)*)(The .* (?:was|were) asked\s*(?:&#151;|--))\s*<')
 # catch cases of the previous regexp not being broad enough
 renotheadingmarg = re.compile('asked')
 

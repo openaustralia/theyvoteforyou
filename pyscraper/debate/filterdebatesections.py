@@ -86,8 +86,9 @@ def StripDebateHeadings(headspeak, sdate):
 		ih = StripDebateHeading('\[WHICH OPENED .*?\]', ih, headspeak, True)
 		ih = StripDebateHeading('.*? YEAR OF THE REIGN OF.*?', ih, headspeak)
 		ih = StripDebateHeading('HER MAJESTY QUEEN ELIZABETH II', ih, headspeak, True)
-		ih = StripDebateHeading('SI.*? SERIES', ih, headspeak)
-		ih = StripDebateHeading('VOLUME \d+', ih, headspeak)
+                ih = StripDebateHeading('SI.*? SERIES.*?VOLUME \d+', ih, headspeak, True)
+		ih = StripDebateHeading('SI.*? SERIES', ih, headspeak, True)
+		ih = StripDebateHeading('VOLUME \d+', ih, headspeak, True)
 		ih = StripDebateHeading('.*? VOLUME OF SESSION .*?', ih, headspeak)
 
 
@@ -218,7 +219,7 @@ def NormalHeadingPart(headingtxt, stampurl):
         # If this is labeled major, then it gets concatenated with the
         # subsequent major heading.  It's kind of a procedural info about the
         # running of things, so fair to have it as a minor heading alone.
-	elif re.match("\[.*? in the Chair\]$", headingtxt):
+	elif re.match("\[.*? in the Chair\.?\]$(?i)", headingtxt):
 		bmajorheading = False
 
 	elif re.search("in\s+the\s+chair(?i)", headingtxt):
