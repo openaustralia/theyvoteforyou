@@ -1,0 +1,10 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-01-13.html	Sun Aug 15 04:27:51 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-01-13-patchtmp.html	Sun Aug 15 21:28:48 2004
+@@ -591,6 +591,7 @@
+ 25. <a name="40113-05_wqn0"><B> Mr. Graham Allen  (Nottingham, North)</B> 
+  (Lab): What progress he has made since 2 December 2003 regarding lawyers' fees for former miners' claims for compensation and the role of the office for the supervision of solicitors.  [147120]<P>
+ <P>
++<parsemess-misspeech type="speech" redirect="down"/>
+ <P>
+ <a name="40113-05_spmin0"><B>The Parliamentary Under-Secretary of State for Constitutional Affairs   (Mr. David Lammy): </B> 
+  The Law Society's compliance board is urgently investigating the claims made in this House that some solicitors have inappropriately charged additional fees in compensation cases for mining-related diseases. The board is also investigating the basis on which the charges have been made. I am expecting to hear from the Law Society later this week.

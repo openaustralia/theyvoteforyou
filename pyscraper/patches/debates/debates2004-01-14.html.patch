@@ -1,0 +1,16 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-01-14.html	Sun Aug 15 04:27:42 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-01-14-patchtmp.html	Sun Aug 15 21:24:33 2004
+@@ -741,10 +741,10 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="818"/>
+ 
+-
+-<H4><center>Orders of the Day</center></H4>
+-
++<H4><center>ORDERS OF THE DAY</center></H4>
++ 
+ <a name="40114-03_head0"><H3><center>Employment Relations Bill</center></H3>
+ 
+ 

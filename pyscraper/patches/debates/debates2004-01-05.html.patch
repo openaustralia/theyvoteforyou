@@ -1,0 +1,10 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-01-05.html	Sun Aug 15 04:28:19 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-01-05-patchtmp.html	Sun Aug 15 21:40:31 2004
+@@ -733,6 +733,7 @@
+ 
+ <P>
+ <page url="http://www.publications.parliament.uk/pa/cm200304/cmhansrd/vo040105/debtext/40105-06.htm"/>
++<stamp parsemess-colnum="20"/>
+ 
+ 
+ <a name="40105-06_head0"><H3><center>Libya</center></H3>

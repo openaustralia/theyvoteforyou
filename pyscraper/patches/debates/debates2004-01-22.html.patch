@@ -1,0 +1,11 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-01-22.html	Sun Aug 15 04:27:12 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-01-22-patchtmp.html	Sun Aug 15 20:26:37 2004
+@@ -645,7 +645,7 @@
+ 
+ <B>22 Jan 2004 : Column 1469</B></P>
+ 
+-
++<stamp parsemess-colnum="1468"/>
+ 
+ 
+ <a name="40122-05_head0"><H3><center>Business of the House</center></H3>
