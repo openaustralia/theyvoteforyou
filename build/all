@@ -1,0 +1,35 @@
+#! /bin/bash
+set -e
+
+# Run regularly - perhaps every Friday - to update Public Whip site in full.
+
+# TODO: Add clustering
+# TODO: Add raw data CSV exporting
+
+echo "Getting dynamic tables for backup"
+build/getdb
+
+echo "Scraping new divisions"
+cd scraper
+./scrape.pl months content divisions check calc
+cd ..
+
+echo "Scraping new written answers"
+cd pyscraper
+./lazyrunall.pl --from 2003-01-01 --network --wrans 
+cd ..
+
+echo "Making wrans indices"
+cd pyindex
+./protoidindex.py
+./protoindex.py
+cd ..
+
+echo "Upload XML files"
+build/upload-xml
+
+echo "Uploading new division database"
+build/upload-db
+
+echo "Done"
+

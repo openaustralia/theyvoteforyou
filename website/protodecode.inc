@@ -21,24 +21,6 @@ function ReadNumberPair($fin)
 	return array(intval($lng[1]), intval($lng[2]));
 }
 
-function FetchRandomWrans()
-{
-    global $pwxmwrans;
-
-    $dh = opendir($pwxmwrans);
-    $dates = array();
-    while (false !== ($filename = readdir($dh)))
-    {
-        if (preg_match("/^answers(.*)\.xml$/", $filename, $matches))
-        {
-            array_push($dates, $matches[1]);
-        }
-    }
-    rsort($dates);
-    print $dates[0];
-}
-
-
 function FetchWrans($wrid)
 {
 	global $pwxmwrans;
@@ -89,7 +71,7 @@ function FetchWrans($wrid)
 	$regsq = sprintf('|<wrans id="%s"[\s\S]*?</wrans>|', $wrid);
 	$matches = preg_match($regsq, $wranscol, $wrg);
 	if ($matches != 1)
-		print 'Error in protodecode: not exactly one matching question! Instead, ' . $matches . ' matches.';
+		print 'Error in protodecode: not exactly one matching question! Instead, ' . $matches . ' matches. ' . $wrid;
 	return $wrg[0];
 }
 
