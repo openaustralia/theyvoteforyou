@@ -44,18 +44,7 @@ cd ..
 
 echo "Uploading web pages..."
 rsync -v --progress --delete -az -e "ssh" tmpuploadcopy/ $USER:$REMOTE_DIR
-ssh $USER "chmod 0755 $REMOTE_DIR"
-ssh $USER "chmod 0755 $REMOTE_DIR/*.php"
-ssh $USER "chmod 0755 $REMOTE_DIR/*.xml"
-ssh $USER "chmod 0755 $REMOTE_DIR/account"
-ssh $USER "chmod 0755 $REMOTE_DIR/account/*.php"
-ssh $USER "chmod 0755 $REMOTE_DIR/project"
-ssh $USER "chmod 0755 $REMOTE_DIR/project/*.php"
-ssh $USER "chmod 0755 $REMOTE_DIR/data"
-ssh $USER "chmod 0755 $REMOTE_DIR/newsletters"
-ssh $USER "chmod 0755 $REMOTE_DIR/newsletters/*.php"
-ssh $USER "chmod 0755 $REMOTE_DIR/patents"
-ssh $USER "chmod 0755 $REMOTE_DIR/patents/*.php"
+ssh $USER "chmod -R 0755 $REMOTE_DIR"
 
 echo "Deleting remote cache files..."
 ssh $USER "rm -fr /home/francis/pwcache/$CACHE_PREFIX*"
