@@ -72,7 +72,7 @@ def RunFiltersDir(filterfunction, dname, datefrom, dateto, deleteoutput):
                                 continue
 
                         # read the text of the file
-                        print fin
+                        print "runfilters " + fin
                         ofin = open(jfin)
                         text = ofin.read()
                         ofin.close()
