@@ -2,7 +2,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.4 2003/09/09 14:26:07 frabcus Exp $
+# $Id: header.inc,v 1.5 2003/09/09 14:36:23 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -20,13 +20,13 @@ include "pretty.inc";
 <body>
 
 <div class="navline">
-<a href="index.php">Home</a> ||
+<a href="index.php">Home</a> |
+<a href="news.php">News</a> <b>|</b>
 <a href="divisions.php">Divisions</a> | 
 <a href="mps.php">MPs</a> |
 <a href="mpsee.php">Cluster</a> |
-<a href="code.php">Code</a> ||
+<a href="code.php">Code</a> <b>|</b>
 <a href="faq.php">FAQ</a> |
-<a href="news.php">News</a> |
 <a href="search.php">Search</a>
 </div>
 
