@@ -1,6 +1,6 @@
 <?  $title = "Change Email Address"; include "../header.inc";
 
-# $Id: changeemail.php,v 1.1 2003/10/11 00:22:19 frabcus Exp $
+# $Id: changeemail.php,v 1.2 2003/10/11 10:29:12 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,7 +8,6 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 include('database.inc');
-include('user.inc');
 
 $password1=mysql_escape_string($_POST["password1"]);
 $new_email=mysql_escape_string($_POST["new_email"]);
@@ -34,7 +33,7 @@ if (!$ok)
 {
 echo ' <P>
     Quickly fill in the information below, and we\'ll send you
-    a confirmation email.
+    an email for you to confirm your new address.
 	<P>
 	<FORM ACTION="'. $PHP_SELF .'" METHOD="POST">
 	<B>User Name:</B><BR>

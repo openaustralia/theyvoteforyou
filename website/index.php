@@ -1,5 +1,5 @@
 <?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
-# $Id: index.php,v 1.12 2003/10/08 00:45:53 frabcus Exp $
+# $Id: index.php,v 1.13 2003/10/11 10:29:12 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -21,10 +21,11 @@ For more information about the project, <a href="faq.php">read the FAQ</a>.
 
 <table class="layout"><tr>
 
-<td class="layout" bgcolor="#eeeeee">
-<h2>Site News <a href="news.php">(more...)</a></h2>
-<ul class="newsheadlines"><a href="news.php"><?php include "headlines.inc" ?></a></ul>
-<?php include "newsdate.inc" ?>
+<td width="25%" class="layout" bgcolor="#eeeeee">
+<h2>Newsletter</h2>
+<p>Keep up with the Public Whip project.
+An at most fortnightly briefing.  
+<p><a href="account/register.php">Sign up now!</a>
 </td>
 
 <td class="layout" bgcolor="#dddddd">

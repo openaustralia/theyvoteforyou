@@ -1,6 +1,6 @@
 <?  $title = "Sign up for Newsletter"; include "../header.inc";
 
-# $Id: register.php,v 1.1 2003/10/11 00:22:19 frabcus Exp $
+# $Id: register.php,v 1.2 2003/10/11 10:29:13 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,7 +8,6 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 include('database.inc');
-include('user.inc');
 
 $user_name=mysql_escape_string($_POST["user_name"]);
 $password1=mysql_escape_string($_POST["password1"]);
@@ -44,6 +43,7 @@ else
     Quickly fill in the information below, and we'll send you
     a confirmation email.  You will then receive the Public
     Whip newsletter, which will be at most once a fortnight.";
+    
 }
 
 if (!$ok)
@@ -52,8 +52,10 @@ if (!$ok)
     <p><span class="ptitle">Privacy Policy:</span>
     Your email address and info will never be given to or sold to third
     parties.  We will only send you the Public Whip newsletter, or 
-    other occasional messages about the Public Whip.  Any changes to
-    this policy will require you explicit agreement.
+    other occasional messages about the Public Whip.  Your login may
+    in the future give you access to other free services on the Public
+    Whip website.  Any changes to this policy will require your explicit
+    agreement.
 <?
     if (!$feedback) {
         print "<p>What are you waiting for?  It's free!";

@@ -1,12 +1,8 @@
 <?php
 
-$hidden_hash_var='your_password_here';
-
-$LOGGED_IN=false;
-//clear it out in case someone sets it in the URL or something
-unset($LOGGED_IN);
-
 $feedback = '';
+
+include "quick.inc";
 
 /*
 
@@ -24,30 +20,9 @@ is_newsletter int not null default 1
 
 */
 
-function user_isloggedin() {
-	global $user_name,$id_hash,$hidden_hash_var,$LOGGED_IN;
-	//have we already run the hash checks? 
-	//If so, return the pre-set var
-	if (isset($LOGGED_IN)) {
-		return $LOGGED_IN;
-	}
-	if ($user_name && $id_hash) {
-		$hash=md5($user_name.$hidden_hash_var);
-		if ($hash == $id_hash) {
-			$LOGGED_IN=true;
-			return true;
-		} else {
-			$LOGGED_IN=false;
-			return false;
-		}
-	} else {
-		$LOGGED_IN=false;
-		return false;
-	}
-}
-
 function user_login($user_name,$password) {
-	global $feedback;
+	global $feedback, $LOGGED_IN;
+
 	if (!$user_name || !$password) {
 		$feedback .=  ' Please enter your user name and password. ';
 		return false;
@@ -62,6 +37,7 @@ function user_login($user_name,$password) {
 		} else {
 			if (db_result($result,0,'is_confirmed') == '1') {
 				user_set_tokens($user_name);
+                                $LOGGED_IN = true;
 				$feedback .=  ' You are now logged in.';
 				return true;
 			} else {
@@ -73,6 +49,8 @@ function user_login($user_name,$password) {
 }
 
 function user_logout() {
+        global $LOGGED_IN;
+        $LOGGED_IN = false;
 	setcookie('user_name','',(time()+2592000),'/','',0);
 	setcookie('id_hash','',(time()+2592000),'/','',0);
 }
@@ -210,7 +188,7 @@ function user_change_email ($password1,$new_email,$user_name) {
 			return false;
 		} else {
 			$feedback .= ' Confirmation sent. ';
-			user_send_confirm_email($new_email,$hash);
+			user_send_confirm_email($new_email,$hash,$user_name);
 			return true;
 		}
 	} else {
@@ -219,16 +197,21 @@ function user_change_email ($password1,$new_email,$user_name) {
 	}
 }
 
-function user_send_confirm_email($email,$hash) {
+function user_send_confirm_email($email,$hash, $user) {
 	/*
 		Used in the initial registration function
 		as well as the change email address function
 	*/
 
-	$message = "Thank you for registering at publicwhip.org.uk".
+	$message = "Thank you for registering with the Public Whip!".
 		"\nSimply follow this link to confirm your registration: ".
 		"\n\nhttp://www.publicwhip.org.uk/account/confirm.php?hash=$hash&email=". urlencode($email).
-		"\n\nOnce you have confirmed, you will receive the Public Whip newsletter.";
+		"\n\nOnce you have confirmed, you will in future receive the".
+                "\nat most fortnightly Public Whip newsletter.".
+                "\n\nYour username is $user, email address $email.".
+                "\nIf you would not like to receive the newsletter, you can".
+                "\njust delete this email.  For more information about".
+                "\nthe project visit www.publicwhip.org.uk.";
 	mail ($email,'Public Whip Registration Confirmation',$message,'From: noreply@publicwhip.org.uk');
 }
 
@@ -258,7 +241,7 @@ function user_register($user_name,$password1,$password2,$email,$real_name) {
 					return false;
 				} else {
 					//send the confirm email
-					user_send_confirm_email($email,$hash);
+					user_send_confirm_email($email,$hash,$user_name);
 					$feedback .= ' You have successfully registered.  Check your email for a confirmation message.  Follow the link in the email to confirm your account.';
 					return true;
 				}
@@ -312,12 +295,43 @@ function user_getemail() {
 	}
 }
 
+function user_getnewsletter() {
+	global $G_USER_RESULT;
+	//see if we have already fetched this user from the db, if not, fetch it
+	if (!$G_USER_RESULT) {
+		$G_USER_RESULT=db_query("SELECT * FROM pw_dyn_user WHERE user_name='" . user_getname() . "'");
+	}
+	if ($G_USER_RESULT && db_numrows($G_USER_RESULT) > 0) {
+		if (db_result($G_USER_RESULT,0,'is_newsletter'))
+                    return true;
+                else
+                    return false;
+	} else {
+		return false;
+	}
+}
+
+function user_changenewsletter($newsletter) {
+        global $feedback;
+        if ($newsletter)
+            $newsletter = 1;
+        else
+            $newsletter = 0;
+        $result=db_query("UPDATE pw_dyn_user SET is_newsletter='" . $newsletter . "' WHERE user_name='" . user_getname() . "'");
+	if ($result) {
+                $feedback .= " Newsletter setting changed. ";
+		return true;
+	} else {
+                $feedback .= " Error writing to database. ". db_error();
+		return false;
+	}
+}
 function user_getname() {
 	if (user_isloggedin()) {
 		return $GLOBALS['user_name'];
 	} else {
 		//look up the user some day when we need it
-		return ' ERROR - Not Logged In ';
+		return ' Not logged in. ';
 	}
 }
 
@@ -347,7 +361,7 @@ function account_namevalid($name) {
 	// must contain all legal characters
 	if (strspn($name,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_")
 		!= strlen($name)) {
-		$feedback .= " Illegal character in name. ";
+		$feedback .= " Please only use the alphabet, dash and underscore in your username. ";
 		return false;
 	}
 

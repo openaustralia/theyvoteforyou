@@ -1,6 +1,6 @@
 <?  
 
-# $Id: confirm.php,v 1.1 2003/10/11 00:22:19 frabcus Exp $
+# $Id: confirm.php,v 1.2 2003/10/11 10:29:13 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -25,7 +25,8 @@ include "../header.inc";
 if ($feedback) {
     if ($worked)
     {
-	echo "<p>$feedback</p>";
+	print "<p>$feedback</p><p><a href=\"settings.php\">Account
+        settings</a>";
     }
     else
     {

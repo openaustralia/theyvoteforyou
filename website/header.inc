@@ -2,16 +2,17 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.14 2003/10/11 07:49:58 frabcus Exp $
+# $Id: header.inc,v 1.15 2003/10/11 10:29:12 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-if (strpos($_SERVER{'REQUEST_URI'}, "/account")) $toppath = "../"; else $toppath = "";
+if (strpos(dirname($_SERVER{'REQUEST_URI'}), "/account")) $toppath = "../"; else $toppath = "";
 
 include $toppath . "pretty.inc";
+include $toppath . "account/quick.inc";
 ?>
 
 <head>
@@ -42,7 +43,14 @@ function givefocus() { if (document.pw) document.pw.query.focus(); }
 <a href="<?=$toppath?>mps.php">MPs</a>
 <a href="<?=$toppath?>mpsee.php">VoteMap</a>
 <a href="<?=$toppath?>code.php">Code</a>
-<a href="<?=$toppath?>search.php">Search</a></td></tr>
+<?  if (user_isloggedin()) {?>
+<a href="<?=$toppath?>account/settings.php">Account</a>
+<? } else {?>
+<a href="<?=$toppath?>account/login.php">Login</a>
+<? } ?>
+<a href="<?=$toppath?>search.php">Search</a>
+</td>
+</tr>
 
 <!-- the title bar -->
 <tr><td class="pagetitlebar"><h1><? print $title ?></h1></td></tr>

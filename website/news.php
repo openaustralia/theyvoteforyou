@@ -1,5 +1,5 @@
 <? $title = "Site News"; include "header.inc";
-# $Id: news.php,v 1.13 2003/10/03 23:30:05 frabcus Exp $
+# $Id: news.php,v 1.14 2003/10/11 10:29:12 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -11,6 +11,12 @@
 <p></p>
 */
 ?>
+
+<h2>Newsletter now! - 11 October 2003 by Francis</h2>
+<p>There's now a free Public Whip newsletter.  At most every fortnight
+we'll email you with news, articles and comment about the project.  <a
+href="account/register.php">Sign up now!</a> This is the last time I'll
+add news to this page - I'll see you again in the newsletter.
 
 <h2>Votes back to 1997 - 4 October 2003 by Francis</h2>
 <p>You can now browse and examine most of the 1997-2001 parliament.
