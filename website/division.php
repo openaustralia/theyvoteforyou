@@ -4,7 +4,7 @@
         include "cache-begin.inc"; 
 ?>
 <?php
-# $Id: division.php,v 1.28 2004/02/11 00:07:47 frabcus Exp $
+# $Id: division.php,v 1.29 2004/03/26 14:09:32 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -27,7 +27,7 @@
         $all_similars = true;
 
     $row = $db->query_one_row("select pw_division.division_id, division_name,
-            source_url, rebellions, turnout, notes, motion from pw_division,
+            source_url, rebellions, turnout, notes, motion, debate_url from pw_division,
             pw_cache_divinfo where pw_division.division_id =
             pw_cache_divinfo.division_id and division_date = '$date'
             and division_number='$div_no'");
@@ -38,6 +38,7 @@
     $turnout = $row[4];
     $notes = $row[5];
     $motion = $row[6];
+    $debate_url = $row[7];
     $prettydate = date("j M Y", strtotime($date));
     $div_no = html_scrub($div_no); 
     $this_anchor = "division.php?date=" . urlencode($date) .  "&number=" . urlencode($div_no); 
@@ -189,7 +190,16 @@
     $tellers = $db->query_one_value("select count(*) from pw_vote
         where division_id = $div_id and (vote = 'tellaye' or vote = 'tellno')");
     print "<br>Turnout of $turnout. Votes were $ayes aye, $noes no, $boths both, $tellers tellers.  Guess $rebellions rebellions.";
-    print "<br><a href=\"$source\">Read the full debate leading up to this division (on Hansard website)</a>";
+
+    if ($debate_url == "")
+    {
+        $debate_url = $source;
+        $source = "";
+    }
+    print "<br><a href=\"$debate_url\">Read the full debate</a> leading up to this division";
+    if ($source != "")
+        print ", <a href=\"$source\">check division listing</a>";
+    print " (on Hansard website)";
     print "$notes";
     
     print "<h2><a name=\"motion\">Motion</a></h2> <p>Procedural text extracted from the debate.

@@ -118,7 +118,7 @@ def PreviewDivisionTextGuess(foutdivisionreports, flatb):
 		iTx -= 1
 		j = 0
 		while j < len(flatb[-iTx].stext):
-			if re.search('pwmotiontext="True"', flatb[-iTx].stext[j]):
+			if re.search('pwmotiontext="yes"', flatb[-iTx].stext[j]):
 				foutdivisionreports.write("%s\n" % flatb[-iTx].stext[j])
 			j += 1
 
@@ -301,10 +301,10 @@ reqput = re.compile('%s|%s|%s|%s|%s(?i)' % (regqput, regqputt, regitbe, regitbep
 def SubsPWtextset(stext):
 	res = [ ]
 	for st in stext:
-		if re.search('pwmotiontext="True"', st) or not re.match('<p', st):
+		if re.search('pwmotiontext="yes"', st) or not re.match('<p', st):
 			res.append(st)
 		else:
-			res.append(re.sub('<p(.*?)>', '<p\\1 pwmotiontext="True">', st))
+			res.append(re.sub('<p(.*?)>', '<p\\1 pwmotiontext="yes">', st))
 	return res
 
 def GrabDivisionProced(qbp, qbd):

@@ -1,5 +1,5 @@
 <?php $title = "Source Code"; include "../header.inc" 
-# $Id: code.php,v 1.2 2004/01/28 13:16:00 frabcus Exp $
+# $Id: code.php,v 1.3 2004/03/26 14:09:32 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -27,6 +27,10 @@ help.
 I can tell you where to go and what to read to learn how to get it up
 and running.  Or if there is a particular good idea that you want to try
 out, I might help more directly by implementing it.
+
+<p><i>This page is quite out of date now, and does not document the new parser.
+You should look at the Python parser which is in pyscraper, rather than the
+old Perl one.  Email to ask us for help, and I'll update this page.</i>
 
 <h2>Roughly how it works</h2>
 <p>Perl code downloads data from the UK parliament

@@ -83,6 +83,8 @@ for arg in args:
 # Do the work - all the conditions are so beautifully symmetrical, there
 # must be a nicer way of doing it all...
 
+# First all the force deletions of old data
+
 if options.scrape:
         UpdateHansardIndex()
         if options.forcescrape:
@@ -92,13 +94,6 @@ if options.scrape:
                         PullGluePages(options.datefrom, options.dateto, True, "debates", "debates")
                 if options.regmem:
                         RegmemPullGluePages(True)
-        if options.wrans:
-                PullGluePages(options.datefrom, options.dateto, False, "wrans", "answers")
-        if options.debates:
-                PullGluePages(options.datefrom, options.dateto, False, "debates", "debates")
-        if options.regmem:
-                # TODO - date ranges when we do index page stuff for regmem
-                RegmemPullGluePages(False)
 
 if options.parse:
         if options.forceparse:
@@ -108,6 +103,19 @@ if options.parse:
                         RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, True)
                 if options.regmem:
                         RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', True)
+
+# Then download/generate the new data
+
+if options.scrape:
+        if options.wrans:
+                PullGluePages(options.datefrom, options.dateto, False, "wrans", "answers")
+        if options.debates:
+                PullGluePages(options.datefrom, options.dateto, False, "debates", "debates")
+        if options.regmem:
+                # TODO - date ranges when we do index page stuff for regmem
+                RegmemPullGluePages(False)
+
+if options.parse:
         if options.wrans:
                 RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto, False)
         if options.debates:

@@ -1,4 +1,4 @@
-# $Id: divsxml.pm,v 1.3 2004/03/25 16:06:03 frabcus Exp $
+# $Id: divsxml.pm,v 1.4 2004/03/26 14:09:32 frabcus Exp $
 # Loads divisions from the XML files made by pyscraper into 
 # the MySQL database for the Public Whip website.
 
@@ -22,8 +22,10 @@ our $debatepath = $toppath . "scrapedxml/debates/";
 our $curdate;
 our $dbh;
 
-our $lastmajor = "";
-our $lastminor = "";
+our $lastmajor;
+our $lastminor;
+our $lastmotiontext;
+our $lastheadingurl;
 
 sub read_xml_files
 {
@@ -35,6 +37,7 @@ sub read_xml_files
             'division' => \&loaddivision,
             'major-heading' => \&storemajor,
             'minor-heading' => \&storeminor,
+            'p' => \&storemotion,
         }, output_filter => 'safe');
 
     opendir DIR, $debatepath or die "Cannot open $debatepath: $!\n";
@@ -45,6 +48,10 @@ sub read_xml_files
             if (($curdate ge $from) and ($curdate le $to))
             {
                 error::log("Processing XML divisions", $curdate, error::USEFUL);
+                $lastmajor = "";
+                $lastminor = "";
+                $lastmotiontext = "";
+                $lastheadingurl = "";
                 $twig->parsefile($debatepath . "debates" . $curdate. ".xml");
             }
         }
@@ -75,15 +82,49 @@ sub storeminor
 { 
 	my ($twig, $minor) = @_;
 
-    $lastminor = $minor->sprint(1);
+    my $t = $minor->sprint(1);
+
+    $lastminor = $t;
+    $lastmotiontext = "";
+    $lastheadingurl = $minor->att('url');
 }
 
 sub storemajor
 { 
 	my ($twig, $major) = @_;
+    my $t = $major->sprint(1);
 
-    $lastmajor = $major->sprint(1);
+    # Ignore capital "DEFERRED DIVISION" headings, as they are
+    # announced in the middle of other debates and confuse
+    # things (the actual votes appear at the end of the days
+    # proceedings, with a separate lowercase "deferred division" heading)
+    if ($t =~ m/^\s*DEFERRED DIVISION\s*$/)
+    {
+        return;
+    }
+    # 2003-02-26 Iraq debate has a capital title
+    # "BUSINESS OF THE HOUSE" which is unimportant
+    # and otherwise overwrites the correct title
+    if ($t =~ m/^\s*BUSINESS OF THE HOUSE\s*$/)
+    {
+        return;
+    }
+
+    $lastmajor = $t;
     $lastminor = "";
+    $lastmotiontext = "";
+    $lastheadingurl = $major->att('url');
+}
+
+sub storemotion
+{ 
+	my ($twig, $p) = @_;
+
+    if ($p->att('pwmotiontext'))
+    {
+        $lastmotiontext .= $p->sprint(0);
+        $lastmotiontext .= "\n\n";
+    }
 }
 
 sub tidyheading
@@ -123,7 +164,12 @@ sub loaddivision
     # $heading =~ s/ \&\#8212; /\&\#8212;/g;
     
     my $url = $div->att('url');
-    my $motion_text = "No motion text available";
+    my $debate_url = $lastheadingurl;
+    my $motion_text = $lastmotiontext;
+    if ($motion_text eq "")
+    {
+        $motion_text = "No motion text available";
+    }
 
     my $votes;
 	for (my $mplist = $div->first_child('mplist'); $mplist; 
@@ -147,7 +193,7 @@ sub loaddivision
     }
 
     # See if we already have the division
-    my $sth = db::query($dbh, "select division_id, valid, division_name, motion from pw_division where
+    my $sth = db::query($dbh, "select division_id, valid, division_name, motion, source_url, debate_url from pw_division where
         division_number = ? and division_date = ?", $divnumber, $divdate);
     die "Division $divnumber on $divdate already in database more than once" if ($sth->rows > 1);
 
@@ -158,59 +204,64 @@ sub loaddivision
         my $existing_divid = $data[0];
         my $existing_heading = $data[2];
         my $existing_motion = $data[3];
-        if (($existing_heading ne $heading) or ($existing_motion ne $motion_text))
+        my $existing_source_url = $data[4];
+        my $existing_debate_url = $data[5];
+        if (($existing_heading ne $heading) or ($existing_motion ne $motion_text)
+            or ($existing_source_url ne $url) or ($existing_debate_url ne $debate_url))
         {
-            db::query($dbh, "update pw_division set division_name = ?, motion = ? where division_id = ?", $heading, $motion_text, $existing_divid);
-            error::log("Existing division $divnumber, $divdate, id $existing_divid name $existing_heading has had its name and/or motion text corrected with the one from XML called $heading", $divdate, error::USEFUL);
+            my $sth = db::query($dbh, "update pw_division set division_name = ?, motion = ?, source_url = ?, debate_url = ? where division_id = ?", $heading, $motion_text, $url, $debate_url, $existing_divid);
+        
+            die "Failed to fix division name/motion/URLs" if $sth->rows != 1;
+            error::log("Existing division $divnumber, $divdate, id $existing_divid name $existing_heading has had its name/motion/URLs corrected with the one from XML called $heading", $divdate, error::IMPORTANT);
         }
         else
         {
             error::log("Division already in DB for division $divnumber on date $divdate", $divdate, error::USEFUL);
-            my $sth = db::query($dbh, "select mp_id, vote from pw_vote where division_id = $existing_divid");
-            my $existing_votes;
-            while (@data = $sth->fetchrow_array())
-            {
-                my $exist_mpid = $data[0];
-                my $exist_vote = $data[1];
-                if ($exist_vote eq "both")
-                {
-                    push @{$existing_votes->{$exist_mpid}}, "aye";
-                    push @{$existing_votes->{$exist_mpid}}, "no";
-                }
-                else
-                {
-                    push @{$existing_votes->{$exist_mpid}}, $exist_vote;
-                }
-            }
+        }
 
-            my @voters = keys %$votes;
-            my @existing_voters = keys %$existing_votes;
-            @voters = sort @voters;
-            @existing_voters = sort @existing_voters;
-            my $missing = array_difference(\@voters,  \@existing_voters);
+        my $sth = db::query($dbh, "select mp_id, vote from pw_vote where division_id = $existing_divid");
+        my $existing_votes;
+        while (@data = $sth->fetchrow_array())
+        {
+            my $exist_mpid = $data[0];
+            my $exist_vote = $data[1];
+            if ($exist_vote eq "both")
+            {
+                push @{$existing_votes->{$exist_mpid}}, "aye";
+                push @{$existing_votes->{$exist_mpid}}, "no";
+            }
+            else
+            {
+                push @{$existing_votes->{$exist_mpid}}, $exist_vote;
+            }
+        }
+
+        my @voters = keys %$votes;
+        my @existing_voters = keys %$existing_votes;
+        @voters = sort @voters;
+        @existing_voters = sort @existing_voters;
+        my $missing = array_difference(\@voters,  \@existing_voters);
+        my $amount = @$missing;
+        if ($amount > 0 )
+        {
+            print Dumper($missing);
+            error::die("Voter list differs in XML to one in database - $amount in symmetric diff", $curdate) 
+        }
+
+        foreach my $testid (@voters)
+        {
+            my $indvotes = $votes->{$testid};
+            my $existing_indvotes = $existing_votes->{$testid};
+            @$indvotes = sort @$indvotes;
+            @$existing_indvotes = sort @$existing_indvotes;
+            # print $testid, $indvotes, $existing_indvotes, "\n";
+            my $missing = array_difference($indvotes, $existing_indvotes);
             my $amount = @$missing;
             if ($amount > 0 )
             {
-                print Dumper($missing);
-                error::die("Voter list differs in XML to one in database - $amount in symmetric diff", $curdate) 
-            }
-
-            foreach my $testid (@voters)
-            {
-                my $indvotes = $votes->{$testid};
-                my $existing_indvotes = $existing_votes->{$testid};
-                @$indvotes = sort @$indvotes;
-                @$existing_indvotes = sort @$existing_indvotes;
-                # print $testid, $indvotes, $existing_indvotes, "\n";
-                my $missing = array_difference($indvotes, $existing_indvotes);
-                my $amount = @$missing;
-                if ($amount > 0 )
-                {
-                    print "xml ", Dumper($indvotes), "\n";
-                    print "db ", Dumper($existing_indvotes), "\n";
-                    error::die("Votes for MP $testid differs between database and XML", $curdate);
-                }
-
+                print "xml ", Dumper($indvotes), "\n";
+                print "db ", Dumper($existing_indvotes), "\n";
+                error::die("Votes for MP $testid differs between database and XML", $curdate);
             }
 
         }
@@ -219,8 +270,8 @@ sub loaddivision
     
     # Add division to tables
     db::query($dbh, "insert into pw_division 
-        (valid, division_date, division_number, division_name, source_url, motion) values
-        (0, ?, ?, ?, ?, ?)", $divdate, $divnumber, $heading, $url, $motion_text);
+        (valid, division_date, division_number, division_name, source_url, debate_url, motion) values
+        (0, ?, ?, ?, ?, ?, ?)", $divdate, $divnumber, $heading, $url, $debate_url, $motion_text);
     $sth = db::query($dbh, "select last_insert_id()");
     die "Failed to get last insert id for new division" if $sth->rows != 1;
     my @data = $sth->fetchrow_array();
@@ -242,17 +293,5 @@ sub loaddivision
     db::query($dbh, "update pw_division set valid = 1 where division_id = ?", $division_id);
     error::log("XML added new division $divnumber $heading", $divdate, error::IMPORTANT);
 }
-
-=pod
-    # Ignore capital "DEFERRED DIVISION" headings, as they are
-    # announced in the middle of other debates and confuse
-    # things (the actual votes appear at the end of the days
-    # proceedings, with a separate lowercase "deferred division" heading)
-    #elsif ($text !~ m/DEFERRED DIVISION/)
-    # 2003-02-26 Iraq debate has a capital title
-    # "BUSINESS OF THE HOUSE" which is unimportant
-    # and otherwise overwrites the correct title
-    #if ($text !~ m/BUSINESS OF THE HOUSE/) 
-=cut
 
 1;

@@ -103,7 +103,7 @@ class PhraseTokenize:
 
 	def GetPara(self, ptype, bBegToMove=False):
 		if bBegToMove:
-			res = [ '<p class="%s" pwmotiontext="True">' % ptype ]
+			res = [ '<p class="%s" pwmotiontext="yes">' % ptype ]
 		elif ptype:
 			res = [ '<p class="%s">' % ptype ]
 		else:
