@@ -63,14 +63,16 @@ you like.  For example:
 
     $query = "select name, description, pw_dyn_user.user_id as user_id, user_name,
                 pw_dyn_rolliemp.rollie_id, votes_count as count, edited_motions_count,
-                round(100 * edited_motions_count / votes_count, 1) as motions_percent
+                round(100 * edited_motions_count / votes_count, 0) as motions_percent
         from pw_dyn_rolliemp, pw_dyn_user, pw_cache_dreaminfo where 
             pw_dyn_rolliemp.user_id = pw_dyn_user.user_id and
-            pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id 
+            pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id and
+            votes_count > 0
             order by motions_percent desc, edited_motions_count desc, votes_count desc";
     $dbo->query($query);
 
     $prettyrow = 0;
+    $c = 0;
     while ($row = $dbo->fetch_row_assoc())
     {
         $prettyrow = pretty_row_start($prettyrow);
@@ -90,8 +92,10 @@ you like.  For example:
             print " [<a href=\"account/editdream.php?id=$dreamid\">Edit...</a>]";
         }
         print "</td></tr>";
+        $c++;
     }
     print "</table>\n";
+    print "That makes $c Dream MPs who have voted at least once.";
 
 ?>
 

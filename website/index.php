@@ -2,7 +2,7 @@
 
 $cache_params = rand(0, 10); include "cache-begin.inc";
 
-# $Id: index.php,v 1.36 2005/02/22 13:28:41 frabcus Exp $
+# $Id: index.php,v 1.37 2005/02/22 13:48:03 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -70,9 +70,9 @@ href="account/adddream.php">create</a> an MP who votes how you want</span>
 <br>Some examples:
 <?php
     $query = "select name, pw_dyn_rolliemp.rollie_id, votes_count as count,
-        round(100 * edited_motions_count / votes_count, 1) as motions_percent
+        round(100 * edited_motions_count / votes_count, 0) as motions_percent
         from pw_dyn_rolliemp, pw_cache_dreaminfo where 
-            pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id 
+            pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id and votes_count > 0
             order by motions_percent desc, edited_motions_count desc, votes_count desc
             limit 5";
     $db->query($query);
