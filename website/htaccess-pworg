@@ -1,6 +1,6 @@
 # htaccess file for publicwhip.org.uk
 # Rename it to .htaccess for use
-AddHandler cgi-script .php
+AddHandler fastcgi-script .php
 Options ExecCGI
 DirectoryIndex index.php
 
