@@ -4,7 +4,7 @@ import sys
 import re
 import os
 import string
-import StringIO
+import cStringIO
 
 # In Debian package python2.3-egenix-mxdatetime
 import mx.DateTime
@@ -13,144 +13,58 @@ from filterwranssinglespeech import FixReply
 from filterwranssinglespeech import FixQuestion
 
 from miscfuncs import ApplyFixSubstitutions
+from splitheadingsspeakers import SplitHeadingsSpeakers
 
+# these types of stamps must be available in every question and batch.
+# <stamp coldate="2003-11-17" colnum="518" type="W"/>
+# <page url="http://www.publications.parliament.uk/pa/cm200102/cmhansrd/vo020522/text/20522w01.htm">
 
-# we do the work in several passes in several classes to keep it separate
-class SepHeadText:
+class StampUrl:
+	def __init__(self):
+		self.stamp = ''
+		self.pageurl = ''
+		self.majorheading = 'BLANK MAJOR HEADING'
+		self.ncid = 0
 
-	def EndSpeech(self):
-		if self.speaker != 'No one':
-			self.shspeak.append((self.speaker, self.text))
-			if re.match('(?:<[^>]*?>|\s)*$', self.text):
-				print 'Speaker with no text'
-		elif not self.shspeak:
-			self.unspoketext = self.text
-		else:
-			print 'logic error in EndSpeech'
-			raise Exception, 'logic error in EndSpeech'
-
-
-		self.speaker = 'No one'
-		self.text = ''
-
-	def EndHeading(self, nextheading):
-		self.EndSpeech()
-		if (self.heading == 'Initial') and (len(self.shspeak) != 0):
-			print 'Speeches without heading'
-
-		# concatenate unspoken text with the title if it's a dangle outside heading
-		if not re.match('(?:<[^>]*?>|\s)*$', self.unspoketext):
-			ho = re.findall('^\s*(.*?)(?:\s|<p>)*$(?i)', self.unspoketext)
-			if ho:
-				self.heading = self.heading + ' ' + ho[0]
-				self.unspoketext = ''
-			else:
-				print 'text without speaker'
-				print self.unspoketext
-
-		# push block into list
-		self.shtext.append((self.heading, self.unspoketext, self.shspeak))
-
-		self.heading = nextheading
-		self.unspoketext = ''	# for holding colstamps
-		self.shspeak = []
-
-
-	def __init__(self, finr):
-		lsectionregexp = '<h\d><center>.*?</center></h\d>|<h\d align=center>.*?</h\d>'
-		lspeakerregexp = '<speaker [^>]*>.*?</speaker>'
-		ltableregexp = '<table[^>]*>[\s\S]*?</table>'	# these have centres, so must be separated out
-
-		lregexp = '(%s|%s|%s)(?i)' % (lsectionregexp, lspeakerregexp, ltableregexp)
-
-		tableregexp = ltableregexp + '(?i)'
-		speakerregexp = '<speaker ([^>]*)>.*?</speaker>'
-		sectionregexp1 = '<center>\s*(.*?)\s*</center>(?i)'
-		sectionregexp2 = '<h\d align=center>\s*(.*?)\s*</h\d>(?i)'
-
-		fs = re.split(lregexp, finr)
-
-		# this makes a list of pairs of headings and their following text
-		self.shtext = [] # return value
-
-		self.heading = 'Initial'
-		self.shspeak = []
-		self.unspoketext = ''
-
-		self.speaker = 'No one'
-		self.text = ''
-
-		for fss in fs:
-			# stick tables back into the text
-			if re.match(tableregexp, fss):
-				self.text = self.text + fss
-				continue
-
-			speakergroup = re.findall(speakerregexp, fss)
-			if len(speakergroup) != 0:
-				self.EndSpeech()
-				self.speaker = speakergroup[0]
-				continue
-
-			headinggroup = re.findall(sectionregexp1, fss)
-			if len(headinggroup) == 0:
-				headinggroup = re.findall(sectionregexp2, fss)
-			if len(headinggroup) != 0:
-				if headinggroup[0] == '':
-					print 'missing heading'
-					print self.heading
-
-				self.EndHeading(headinggroup[0])
-				continue
-
-
-			if self.text != '':
-				self.text = self.text + fss
-			else:
-				self.text = fss
-
-		self.EndHeading('No more')
-
-
-	# functions here are a second pass, batching the stamps and pageurls
-	# this could be in a different class
-	def StampPageUrl(self, text):
+	def UpdateStampUrl(self, text):
 		for st in re.findall('(<stamp [^>]*?/>)', text):
-			self.laststamp = st
+			self.stamp = st
 		for stp in re.findall('<(page url[^>]*?)/?>', text):
-			self.lastpageurl = '<%s/>' % stp
+			self.pageurl = '<%s/>' % stp  # puts missing slash back in.
 
 
-	def StripHeadings(self, sdate):
-		self.lastpageurl = ''
-		self.laststamp = ''
+# parse through the usual intro headings at the beginning of the file.
+def StripWransHeadings(headspeak, sdate):
+	# check and strip the first two headings in as much as they are there
+	i = 0
+	if (headspeak[i][0] != 'Initial') or headspeak[i][2]:
+		print headspeak[0]
+		raise Exception, 'non-conforming Initial heading '
+	i = i + 1
 
-		# check and strip the first two headings in as much as they are there
-		i = 0
-		if (self.shtext[i][0] != 'Initial') or (len(self.shtext[i][2]) != 0):
-			print 'non-conforming Initial heading '
-		else:
-			self.StampPageUrl(self.shtext[i][1])
-			i = i + 1
+	if (not re.match('written answers to questions(?i)', headspeak[i][0])) or headspeak[i][2]:
+		if not re.match('The following answers were received.*', headspeak[i][0]):
+			print headspeak[i]
+			raise Exception, 'non-conforming Initial heading '
+	else:
+		i = i + 1
 
-		if (not re.match('written answers to questions(?i)', self.shtext[i][0])) or (len(self.shtext[i][2]) != 0):
-			if not re.match('The following answers were received.*', self.shtext[i][0]):
-				print 'non-conforming first heading '
-				print self.shtext[0]
-		else:
-			self.StampPageUrl(self.shtext[i][1])
-			i = i + 1
+	if (not re.match('The following answers were received.*', headspeak[i][0]) and \
+			(sdate != mx.DateTime.DateTimeFrom(headspeak[i][0]).date)) or headspeak[i][2]:
+		if (not majorheadings.has_key(headspeak[i][0])) or headspeak[i][2]:
+			print headspeak[i]
+			raise Exception, 'non-conforming second heading '
+	else:
+		i = i + 1
 
-		if (not re.match('The following answers were received.*', self.shtext[i][0]) and \
-				(sdate != mx.DateTime.DateTimeFrom(self.shtext[i][0]).date)) or (len(self.shtext[i][2]) != 0):
-			if (not majorheadings.has_key(self.shtext[i][0])) or (len(self.shtext[i][2]) != 0):
-				print 'non-conforming second heading '
-				print self.shtext[i]
-		else:
-			self.StampPageUrl(self.shtext[i][1])
-			i = i + 1
-		self.ifh = i
+	# find the url and colnum stamps that occur before anything else
+	stampurl = StampUrl()
+	for j in range(0, i):
+		stampurl.UpdateStampUrl(headspeak[j][1])
 
+	if (not stampurl.stamp) or (not stampurl.pageurl):
+		raise Exception, ' missing stamp url at beginning of file '
+	return (i, stampurl)
 
 
 class qspeech:
@@ -159,12 +73,12 @@ class qspeech:
 	questionqnums = []
 
 	# function to shuffle column stamps out of the way to the front, so we can glue paragraphs together
-	def StampToFront(self):
+	def StampToFront(self, stampurl):
 		# remove the stamps from the text, checking for cases where we can glue back together.
 		sp = re.split('(<stamp [^>]*>|<page url[^>]*>)', self.text)
 		for i in range(len(sp)):
 			if re.match('<stamp [^>]*>', sp[i]):
-				self.laststamp = sp[i]
+				stampurl.stamp = sp[i]
 				sp[i] = ''
 
 				# string ends with a lower case character, and next begins with a lower case char
@@ -178,29 +92,31 @@ class qspeech:
 							sp[i] = ' '
 
 			elif re.match('<page url[^>]*>', sp[i]):
-				self.lastpageurl = sp[i]
+				stampurl.pageurl = sp[i]
 				sp[i] = ''
 
-		# stick everything together
+		# stick everything back together
 		self.text = ''
 		for s in sp:
 			if s:
 				self.text = self.text + s
 
-	def __init__(self, lspeaker, ltext, llaststamp, llastpageurl, lncid):
+	def __init__(self, lspeaker, ltext, stampurl):
 		self.speaker = lspeaker
-		self.stamp = llaststamp
-		self.laststamp = llaststamp
-		self.pageurl = llastpageurl
-		self.lastpageurl = self.pageurl
 		self.text = ltext
-		self.ncid = lncid
+
+		self.stamp = stampurl.stamp
+		self.pageurl = stampurl.pageurl
+		self.ncid = stampurl.ncid
 
 		# this is a bit shambolic as it's done in the other class as well.
-		self.StampToFront()
+		self.StampToFront(stampurl)
 
 
 		# set the type and clear up qnums
+		# we also fix the question text as we know what type it is by the 'to ask' prefix.
+		#
+		# these fix functions are very big and somewhere else.
 		if re.match('(?:<[^>]*?>|\s)*?to ask(?i)', self.text):
 			self.typ = 'ques'
 			(self.text, qnums) = FixQuestion(self.text)
@@ -210,7 +126,7 @@ class qspeech:
 			self.typ = 'reply'
 			self.text = FixReply(self.text, self.questionqnums)
 
-			# the only way to clear this static class
+			# the only way I know to clear this static class
 			while self.questionqnums:
 				self.questionqnums.pop()
 
@@ -218,7 +134,7 @@ class qspeech:
 		fout.write('\t<speech %s type="%s">\n' % (self.speaker, self.typ))
 
 		# add in some tabbing
-		sio = StringIO.StringIO(self.text)
+		sio = cStringIO.StringIO(self.text)
 		while 1:
 			rl = sio.readline()
 			if not rl:
@@ -229,14 +145,13 @@ class qspeech:
 		fout.write('\t</speech>\n')
 
 class qbatch:
-	def __init__(self, lmajorheading, ltitle, shspeak, llaststamp, llastpageurl, lncid):
-		self.majorheading = lmajorheading
+	def __init__(self, ltitle, shspeak, stampurl):
 		self.title = ltitle
-		self.stamp = llaststamp
-		self.laststamp = llaststamp
-		self.pageurl = llastpageurl
-		self.lastpageurl = llastpageurl
-		self.ncid = lncid
+		self.majorheading = stampurl.majorheading
+
+		self.stamp = stampurl.stamp
+		self.pageurl = stampurl.pageurl
+		self.ncid = stampurl.ncid
 
 		self.shansblock = [ ]
 		qblock = [ ]
@@ -246,34 +161,34 @@ class qbatch:
 
 		# throw in a batch of speakers
 		for shs in shspeak:
-			qb = qspeech(shs[0], shs[1], self.laststamp, self.lastpageurl, self.ncid)
+			qb = qspeech(shs[0], shs[1], stampurl)
 			qblock.append(qb)
-			self.laststamp = qb.laststamp
-			self.lastpageurl = qb.lastpageurl
 
 			if qb.typ == 'reply':
+				if len(qblock) < 2:
+					print ' Reply with no question ' + stampurl.stamp
 				self.shansblock.append(qblock)
 				qblock = []
 
 			# reset the id if the column changes
-			if qb.laststamp != qb.stamp:
-				self.ncid = 0
+			if stampurl.stamp != qb.stamp:
+				stampurl.ncid = 0
 			else:
-				self.ncid = self.ncid + 1
+				stampurl.ncid = stampurl.ncid + 1
 
 		if qblock:
+			# these are common failures of the data
 			print "block without answer " + self.title
 			self.shansblock.append(qblock)
+
 
 	# this obviously can be changed to suit
 	def writexml(self, fout, sdate):
 		for sha in self.shansblock:
 			colnumg = re.findall('colnum="([^"]*)"', sha[0].stamp)
-			if colnumg:
-				colnum = colnumg[0]
-			else:
-				colnum = 'BADCOL'
-				print 'missing column number'
+			if not colnumg:
+				raise Exception, 'missing column number'
+			colnum = colnumg[0]
 			sid = 'uk.org.publicwhip/wrans/%s.%s.%d' % (sdate, colnum, sha[0].ncid)
 			fout.write('\n<wrans id="%s" title="%s" majorheading="%s">\n' % \
 						(sid, self.title, self.majorheading))
@@ -385,65 +300,48 @@ fixsubs = 	[
 
 		]
 
-def ApplyFixSubs(finr, sdate):
-	for sub in fixsubs:
-		if sub[3] == 'all' or sub[3] == sdate:
-			res = re.subn(sub[0], sub[1], finr)
-			if sub[2] != -1 and res[1] != sub[2]:
-				print 'wrong substitutions %d on %s' % (res[1], sub[0])
-			finr = res[0]
 
-	return finr
-
-
-
-# these types of stamps must be available in every question and batch.
-# <stamp coldate="2003-11-17" colnum="518" type="W"/>
-# <page url="http://www.publications.parliament.uk/pa/cm200102/cmhansrd/vo020522/text/20522w01.htm">
-
-def FilterWransSections(fout, finr, sdate):
-
-	# get rid of spurious headings in the middle of the text
-	finr = ApplyFixSubs(finr, sdate)
+def FilterWransSections(fout, text, sdate):
+	text = ApplyFixSubstitutions(text, sdate, fixsubs)
+	headspeak = SplitHeadingsSpeakers(text)
 
 	# break down into lists of headings and lists of speeches
-	shta = SepHeadText(finr)
+	(ih, stampurl) = StripWransHeadings(headspeak, sdate)
 
-	shta.StripHeadings(sdate)
-
-	lastmajorheading = ''
 
 	# full list of question batches
 	qbl = []
 
-	ncid = 0
-	for i in range(shta.ifh, len(shta.shtext)):
-		sht = shta.shtext[i]
+	for i in range(ih, len(headspeak)):
+		sht = headspeak[i]
 
-		# update the stamps (keeping only the last ones)
-		shta.StampPageUrl(sht[1])
+		# update the stamps from the pre-spoken text
+		stampurl.UpdateStampUrl(sht[1])
 
 		# detect if this is a major heading
-		if not re.search('[a-z]', sht[0]) and len(sht[2]) == 0:
+		if not re.search('[a-z]', sht[0]) and not sht[2]:
 			if not majorheadings.has_key(sht[0]):
-				print "unknown major heading: " + sht[0]
 				print '"%s":"%s",' % (sht[0], sht[0])
-				print lastmajorheading
+				raise Exception, "unrecognized major heading: "
 			else:
-				lastmajorheading = majorheadings[sht[0]]	# correct spellings
+				# correct spellings and copy over
+				stampurl.majorheading = majorheadings[sht[0]]
 
 		# non-major heading; to a question batch
 		else:
 			if majorheadings.has_key(sht[0]):
-				print 'speeches found in major heading ' + sht[0]
-			qb = qbatch(lastmajorheading, sht[0], sht[2], shta.laststamp, shta.lastpageurl, ncid)
-			qbl.append(qb)
-			ncid = qb.ncid
-			shta.lastpageurl = qb.lastpageurl
-			shta.laststamp = qb.laststamp
+				print sht[0]
+				raise Exception, ' speeches found in major heading '
+
+			qb = qbatch(sht[0], sht[2], stampurl)
 			qbl.append(qb)
 
-	fout.write("<?xml version='1.0' encoding='us-ascii'?>\n")
+
+	#
+	# we have built up the list of question blocks, now write it out
+	#
+
+	fout.write('<?xml version="1.0" encoding="ISO-8859-1"?>\n')
 	fout.write("<publicwhip>\n")
 	for qb in qbl:
 		qb.writexml(fout, sdate)
