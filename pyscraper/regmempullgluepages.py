@@ -8,6 +8,7 @@ import re
 import os.path
 import time
 import mx.DateTime
+import tempfile
 
 import miscfuncs
 toppath = miscfuncs.toppath
@@ -19,7 +20,7 @@ toppath = miscfuncs.toppath
 pwcmdirs = os.path.join(toppath, "cmpages")
 pwcmregmem = os.path.join(pwcmdirs, "regmem")
 
-tempfile = os.path.join(toppath, "gluetemp")
+tempfilename = tempfile.mktemp("", "pw-gluetemp-", toppath)
 
 def GlueByNext(fout, url, regmemdate):
 	# loop which scrapes through all the pages following the nextlinks
@@ -122,12 +123,12 @@ def GlueAllType(pcmdir, cmindex, fproto, deleteoutput):
                             print 'scraping ' + url
 
                     # now we take out the local pointer and start the gluing
-                    dtemp = open(tempfile, "w")
+                    dtemp = open(tempfilename, "w")
                     GlueByNext(dtemp, url, dnu[0])
 
                     # close and move
                     dtemp.close()
-                    os.rename(tempfile, dgf)
+                    os.rename(tempfilename, dgf)
 
 # Get index of all regmem pages from the index
 def FindRegmemPages():

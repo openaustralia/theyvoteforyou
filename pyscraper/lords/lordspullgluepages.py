@@ -8,6 +8,7 @@ import os.path
 import xml.sax
 import time
 import string
+import tempfile
 
 import miscfuncs
 toppath = miscfuncs.toppath
@@ -21,7 +22,7 @@ pwlordsindex = os.path.join(toppath, "lordindex.xml")
 # output directories (everything of one day in one file).  
 pwlordspages = os.path.join(toppath, "lordspages")
 
-tempfile = os.path.join(toppath, "gluetemp")
+tempfilename = tempfile.mktemp("", "pw-gluetemp-", toppath)
 
 # this does the main loading and gluing of the initial day debate
 # files from which everything else feeds forward
@@ -198,14 +199,14 @@ def LordsPullGluePages(datefrom, dateto, deleteoutput):
 
 		# now we take out the local pointer and start the gluing
 		# we could check that all our links above get cleared.
-		dtemp = open(tempfile, "w")
+		dtemp = open(tempfilename, "w")
 		GlueByNext(dtemp, urla, urlx)
 
 		# close and move
 		dtemp.close()
 		if os.path.isfile(dgf):
 			os.remove(dgf)
-		os.rename(tempfile, dgf)
+		os.rename(tempfilename, dgf)
 
 
 

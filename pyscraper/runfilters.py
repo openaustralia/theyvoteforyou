@@ -6,6 +6,7 @@ import re
 import os
 import string
 import cStringIO
+import tempfile
 
 import xml.sax
 xmlvalidate = xml.sax.make_parser()
@@ -45,8 +46,8 @@ pwxmldirs = os.path.join(toppath, "scrapedxml")
 # file to store list of newly done dates
 recentnewfile = "recentnew.txt"
 
-tempfile = os.path.join(toppath, "filtertemp.xml")
-patchtempfile = os.path.join(toppath, "applypatchtemp")
+tempfilename = tempfile.mktemp(".xml", "pw-filtertemp-", toppath)
+patchtempfilename = tempfile.mktemp("", "pw-appypatchtemp-", toppath)
 
 # create the output directory
 if not os.path.isdir(pwxmldirs):
@@ -104,8 +105,8 @@ def RunFiltersDir(filterfunction, dname, options, forcereparse):
 		while True:
 			# apply patch filter
 			kfin = jfin
-			if ApplyPatches(jfin, patchtempfile):
-				kfin = patchtempfile
+			if ApplyPatches(jfin, patchtempfilename):
+				kfin = patchtempfilename
 
 			# read the text of the file
 			print "parsing " + fin
@@ -118,23 +119,23 @@ def RunFiltersDir(filterfunction, dname, options, forcereparse):
 			try:
 				# do the filtering, then write the result
                                 if dname == 'regmem':
-                                        regmemout = open(tempfile, 'w')
+                                        regmemout = open(tempfilename, 'w')
                                         filterfunction(regmemout, text, sdate)
                                         regmemout.close()
                                 else:
                                         (flatb, gidname) = filterfunction(text, sdate)
-                                        WriteXMLFile(gidname, tempfile, jfout, flatb, sdate, options.quietc)
+                                        WriteXMLFile(gidname, tempfilename, jfout, flatb, sdate, options.quietc)
 
 				if sys.platform != "win32":
 					# this function leaves the file open which can't be renamed in win32
-					xmlvalidate.parse(tempfile) # validate XML before renaming
+					xmlvalidate.parse(tempfilename) # validate XML before renaming
 
 				# we will signal that it's safe by doing this in write function
 				if os.path.isfile(jfout):
 					assert False # shouldn't happen (we leave by an exception)
 					print "Leave for XML match testing: No over-write of file"
 				else:
-					os.rename(tempfile, jfout)
+					os.rename(tempfilename, jfout)
 
 				# store
 				newlistf = os.path.join(pwxmldirout, recentnewfile)

@@ -8,6 +8,7 @@ import re
 import os.path
 import xml.sax
 import time
+import tempfile
 
 import miscfuncs
 toppath = miscfuncs.toppath
@@ -21,7 +22,7 @@ pwcmindex = os.path.join(toppath, "cmindex.xml")
 # output directories
 pwcmdirs = os.path.join(toppath, "cmpages")
 
-tempfile = os.path.join(toppath, "gluetemp")
+tempfilename = tempfile.mktemp("", "pw-gluetemp-", toppath)
 
 # this does the main loading and gluing of the initial day debate files from which everything else feeds forward
 
@@ -193,14 +194,14 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto, deleteoutput):
 		url0 = ExtractFirstLink(urlx)
 
 		# now we take out the local pointer and start the gluing
-		dtemp = open(tempfile, "w")
+		dtemp = open(tempfilename, "w")
 		GlueByNext(dtemp, url0, urlx)
 
 		# close and move
 		dtemp.close()
 		if os.path.isfile(dgf):
                             os.remove(dgf)
-		os.rename(tempfile, dgf)
+		os.rename(tempfilename, dgf)
 
 
 

@@ -16,7 +16,6 @@ toppath = miscfuncs.toppath
 # directories
 pwcmdirs = os.path.join(toppath, "cmpages")
 pwxmldirs = os.path.join(toppath, "scrapedxml")
-tempfile = os.path.join(toppath, "filtertemp")
 if not os.path.isdir(pwxmldirs):
 	os.mkdir(pwxmldirs)
 
