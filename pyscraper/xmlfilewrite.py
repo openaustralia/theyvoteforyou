@@ -142,6 +142,14 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 	def endDocument(self):
 		pass #print "doc leng", len(self.prevflatb)
 
+	def prepprint(self, optxt):
+		try:
+			res = optxt[:70].encode("latin-1", "ignore") # this is unprepared text
+		except:
+			res = optxt[:70]
+			print "Knacked on latin"
+		return res
+
 
 	# the exception throwing function which should give good hits as to
 	# what we can do to fix this.
@@ -162,7 +170,7 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 			print "gid", self.prevflatb[ilf].gid
 			print "    ", self.prevflatb[ilf].nametype, self.prevflatb[ilf].speakerid, "|", self.prevflatb[ilf].speakername
 			oldparatxt = string.join(self.prevflatb[ilf].paras, "|")
-			print "    ", oldparatxt[:70].encode("latin-1", "ignore") # this is unprepared text
+			print "    ", self.prepprint(oldparatxt)
 			print ""
 
 			if ifgb < len(flatb):
@@ -171,7 +179,7 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 				print "    ", qb.typ
 				print "    ", qb.speaker
 				newparatxt = string.join(qb.stext, "|")
-				print "    ", newparatxt[:70].encode("latin-1", "ignore")
+				print "    ", self.prepprint(newparatxt)
 
 				if re.sub("<[^>]*>|\s+", "", oldparatxt)[:50] == re.sub("<[^>]*>|\s+", "", newparatxt)[:50]:
 					print "First 50 chars of speech match"
