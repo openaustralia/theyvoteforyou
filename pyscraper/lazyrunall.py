@@ -3,6 +3,8 @@
 
 # Run the script with --help to see command line options
 
+import sys
+
 from optparse import OptionParser
 from createhansardindex import UpdateHansardIndex
 from pullgluepages import PullGluePages
@@ -14,25 +16,24 @@ from regmempullgluepages import RegmemPullGluePages
 
 parser = OptionParser()
 
-parser.add_option("--network",
-                  action="store_true", dest="network", default=False,
-                  help="update Hansard page index, and download new raw pages")
-parser.add_option("--wrans",
-                  action="store_true", dest="wrans", default=False,
-                  help="process Written Answers into XML files")
-parser.add_option("--debates",
-                  action="store_true", dest="debates", default=False,
-                  help="process Debates into XML files")
-parser.add_option("--regmem",
-                  action="store_true", dest="regmem", default=False,
-                  help="process Register of Members Interests into XML files")
+parser.set_usage("""
+Crawls the website of the proceedings of the UK parliament, also known as
+Hansard.  Converts them into handy XML files, tidying up HTML errors,
+generating unique identifiers for speeches, reordering sections, name matching
+MPs and so on as it goes.
 
+Specify any or all of the following as commands to this script:
 
-parser.add_option("--force",
-                  action="store_true", dest="force", default=False,
+network         update Hansard page index, and download new raw pages
+wrans           process Written Answers into XML files
+debates         process Debates into XML files
+regmem          process Register of Members Interests into XML files""")
+
+parser.add_option("--force-parse",
+                  action="store_true", dest="forceparse", default=False,
                   help="forces reprocessing of wrans/debates by first deleting output files")
-parser.add_option("--rescrape",
-                  action="store_true", dest="rescrape", default=False,
+parser.add_option("--force-scrape",
+                  action="store_true", dest="forcescrape", default=False,
                   help="forces redownloading of HTML first deleting output files")
 
 parser.add_option("--from", dest="datefrom", metavar="date", default="1000-01-01",
@@ -47,28 +48,46 @@ if (options.date):
         options.datefrom = options.date
         options.dateto = options.date
 
+options.network = False
+options.wrans = False
+options.debates = False
+options.regmem = False
+for arg in args:
+        if arg == "network":
+                options.network = True
+        elif arg == "wrans":
+                options.wrans = True
+        elif arg == "debates":
+                options.debates = True
+        elif arg == "regmem":
+                options.regmem = True
+        else:
+                parser.print_help()
+                print >>sys.stderr, "error: no such option %s" % arg
+                sys.exit(1)
+
 # Do the work
 
 if options.network:
         UpdateHansardIndex()
-        if options.rescrape:
+        if options.forcescrape:
                 PullGluePages(options.datefrom, options.dateto, True)
                 RegmemPullGluePages(True)
         PullGluePages(options.datefrom, options.dateto, False)
         RegmemPullGluePages(False)
 
 if options.wrans:
-        if options.force:
+        if options.forceparse:
                 RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto, True)
         RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto, False)
 if options.debates:
-        if options.force:
+        if options.forceparse:
                 RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, True)
         RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, False)
 if options.regmem:
         # Maybe could obey date range here - but no point for now.
         # When we get index page properly for regmem, we can do
-        if options.force:
+        if options.forceparse:
                 RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', True)
         RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', False)
 
