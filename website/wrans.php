@@ -1,5 +1,5 @@
 <?php 
-    # $Id: wrans.php,v 1.9 2003/12/19 16:27:33 frabcus Exp $
+    # $Id: wrans.php,v 1.10 2003/12/21 01:05:22 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -53,15 +53,25 @@
 	else if ($shellid != "")
 	{
 		// ID query
-		$result = WrapResult(FetchWrans($shellid));
+		$wrans = FetchWrans($shellid);
+		if ($wrans)
+		{
+			$result = WrapResult($wrans);
 
-		$title = "Written Answers";
-		if ($result)
-			$title = ApplyXSLT($result, "wrans-title.xslt");
-		include "header.inc";
+			$title = "Written Answers";
+			if ($result)
+				$title = ApplyXSLT($result, "wrans-title.xslt");
+			include "header.inc";
 
-		if ($result)
-			print ApplyXSLT($result, "wrans-full.xslt");	
+			if ($result)
+				print ApplyXSLT($result, "wrans-full.xslt");	
+		}
+		else
+		{
+			$title = "Written Answer not found";
+			include "header.inc";
+			print "<p>Written answer " . $shellid . " not in database.";
+		}
 		print "<hr>";
 	}
 	else

@@ -3,5 +3,5 @@
 USER=francis@sphinx.mythic-beasts.com
 DIR=/home/francis/pwdata/
 
-rsync -v --progress --delete --exclude pwcmpages -T /tmp -az -e "ssh" $DIR $USER:$DIR
+rsync -v --progress --delete --exclude pwcmpages --exclude "pwscrapedxml/debates" -T /tmp -az -e "ssh" $DIR $USER:$DIR
 

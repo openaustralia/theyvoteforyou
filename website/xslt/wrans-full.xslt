@@ -27,15 +27,11 @@ Scratchpad of maybe useful stuff:
 	<xsl:apply-templates select="speech"/>
 	<p>
 		<a>
-			<xsl:attribute name="href">
-				wrans.php?id=<xsl:value-of select="@id"/>
-			</xsl:attribute>
+			<xsl:attribute name="href">wrans.php?id=<xsl:value-of select="@id"/></xsl:attribute>
 			[ Permanent link to just this item ]
 		</a>
 		<a>
-			<xsl:attribute name="href">
-				<xsl:value-of select="page/@url"/>
-			</xsl:attribute>
+			<xsl:attribute name="href"><xsl:value-of select="page/@url"/></xsl:attribute>
 			[ Original source of this answer in Hansard ]
 		</a>
 	</p>
@@ -49,14 +45,28 @@ Scratchpad of maybe useful stuff:
     <p>
         <b>
             <a>
-                <xsl:attribute name="href">
-                    mp.php?id=<xsl:value-of select="@speakerid"/>
-				</xsl:attribute>
+                <xsl:attribute name="href">mp.php?id=<xsl:value-of select="@speakerid"/></xsl:attribute>
                 <xsl:value-of select="@speakername"/>
             </a>:
         </b>
-        <xsl:copy-of select="*"/>
+		<xsl:apply-templates select="*" mode="innerhtml"/>
     </p>
 </xsl:template>
 
+<!-- Stuff to process the XHTML inside the XML fils, that is the actual body text -->
+<xsl:template match="phrase[@class=&quot;offrep&quot;]" mode="innerhtml">
+	<a>
+		<xsl:attribute name="href">wrans.php?id=uk.org.publicwhip/<xsl:value-of select="@id"/></xsl:attribute>
+		<xsl:apply-templates mode="innerhtml"/>
+	</a>
+</xsl:template>
+
+<!-- This matches and copies all other tags in the inner HTML that we haven't matched above -->
+<xsl:template match="*" mode="innerhtml">
+	<xsl:copy>
+		<xsl:apply-templates mode="innerhtml"/>
+	</xsl:copy>
+</xsl:template>
+
 </xsl:stylesheet>
+

@@ -38,6 +38,8 @@ function FetchWrans($wrid)
 	$colnum = intval($gcolid[2]);
 
 	# get the first line of the index to find the column number
+	if (!file_exists($fninx))
+		return null;
 	$finx = fopen($fninx, 'r');
 	list($lcolnum, $lse) = ReadNumberPair($finx);
 

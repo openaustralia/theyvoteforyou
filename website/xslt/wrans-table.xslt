@@ -30,9 +30,7 @@
 		<td>
 			<div>
 				<a>
-					<xsl:attribute name="href">
-						wrans.php?id=<xsl:value-of select="@id"/>
-					</xsl:attribute>
+					<xsl:attribute name="href">wrans.php?id=<xsl:value-of select="@id"/></xsl:attribute>
 					<xsl:value-of select="@title"/>
 				</a>
 			</div>
@@ -44,9 +42,7 @@
  
 <xsl:template match="speech">
 	<a>
-		<xsl:attribute name="href">
-			mp.php?id=<xsl:value-of select="@speakerid"/>
-		</xsl:attribute>
+		<xsl:attribute name="href">mp.php?id=<xsl:value-of select="@speakerid"/></xsl:attribute>
 		<xsl:value-of select="@speakername"/>
 	</a>
 	<xsl:if test="not(position()=last())">, </xsl:if>
