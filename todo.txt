@@ -49,6 +49,8 @@ Give help on how to request answers from hcinfo
 Web site
 --------
 
+Popular pages today are...  Grep the logs somehow clever.
+
 Postcode search redirect automatically to MP page
 
 Letter index on MP list
