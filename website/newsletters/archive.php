@@ -1,5 +1,5 @@
 <? 
-# $Id: archive.php,v 1.5 2004/01/23 12:13:38 frabcus Exp $
+# $Id: archive.php,v 1.6 2004/01/23 12:26:50 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -50,7 +50,7 @@ include "../header.inc";
 
 if ($issue == 0)
 {
-?><p>This is the archive of old issues for the Public Whip newsletter.  At most
+?><p>This is the archive of old issues of the Public Whip newsletter.  At most
 every month we'll email you with news, articles and comment about the
 project.  <a href="../account/register.php">Sign up now!</a>  It's free!<p><?
 
