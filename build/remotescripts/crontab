@@ -1,5 +1,6 @@
 # m h dom mon dow command
 
 27 1 * * *       /home/francis/bin/recent-check
-39 2,14 * * *    /usr/sbin/tmpwatch 24 /home/francis/pwcache
+39 2,8,14,20 * * *    /usr/sbin/tmpwatch 12 /home/francis/pwcache
+
 
