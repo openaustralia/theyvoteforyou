@@ -177,7 +177,7 @@ class MemberList(xml.sax.handler.ContentHandler):
 	if ginp:
 		inp = '%s %s' % (ginp.group(2), ginp.group(1))
 	else:
-		print inp
+		print "No match:", inp
 	return self.matchfullname(inp, date)
 
 

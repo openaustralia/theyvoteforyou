@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.24 2003/12/22 01:54:21 frabcus Exp $
+    # $Id: mp.php,v 1.25 2004/01/17 18:50:04 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -213,9 +213,9 @@
     print "</table>\n";
 
     if (!$show_all)
-        print "<p><a href=\"$this_anchor&showall=yes\">Show all divisions this MP voted in</a>";
+        print "<p><a href=\"$this_anchor&showall=yes#divisions\">Show all divisions this MP voted in</a>";
     else
-        print "<p><a href=\"$this_anchor\">Show only divisions MP rebelled in</a>";
+        print "<p><a href=\"$this_anchor#divisions\">Show only divisions MP rebelled in</a>";
 
     print "<h2><a name=\"friends\">Possible Friends</a></h2>";
     print "<p>Shows which MPs voted most similarly to this one. The
@@ -282,13 +282,13 @@
         print "</table>\n";
         if (!$all_friends)
         {
-            print "<p><a href=\"$this_anchor&allfriends=yes\">Show all MPs in order of friendliness to this one</a>";
+            print "<p><a href=\"$this_anchor&allfriends=yes#friends\">Show all MPs in order of friendliness to this one</a>";
             if ($same_voters > 4)
                 print " ($same_voters MPs voted exactly the same as this one)";
         }
         else
         {
-            print "<p><a href=\"$this_anchor\">Show only a few possible friends</a>";
+            print "<p><a href=\"$this_anchor#friends\">Show only a few possible friends</a>";
         }
     }
 ?>

@@ -1,3 +1,8 @@
+Ideas of things that could be done with Public Whip data, or similar.
+I don't intend to do any of them, as they don't fit my goals - but they
+might give you useful suggestions.  There are probably a few political
+science papers in here.
+
 Party politics
 --------------
 
@@ -24,6 +29,10 @@ Do Co-op members ever vote against Labour as a group?
 Academic analyses (of no short term practical political benefit)
 -----------------
 
+Graph of how many MPs defect in each vote over time
+Watch for loyalty going down after start of term, to lowest at midterm,
+then up again
+
 Analyse if MPs who are "sir" vote differently in anyway
     first check data integrity that title always has "Sir" for knights
 Get data on gender etc. and analyse against that
@@ -38,7 +47,9 @@ rebelliousness?  Majorities here:
     http://www.psr.keele.ac.uk/area/uk/mps.htm
 (Should be no correlation, as reselection more important?)
 Plot majority as a colour on the cluster diagram
+dONE - no correlation.  see website/custom/majority-rebellions.png
 
+First term MPs vs. old warhorses.  More rebellious?  Less attentive?
 
 Cluster distractions (geek fun, but pointless)
 --------------------
@@ -80,5 +91,29 @@ issues themselves.
 
 EDM analysis with MDS:
 http://www.stats.bris.ac.uk/~magpn/Research/Politics/
+
+Miscellaneous
+-------------
+
+Create classification tree so it offers some division questions for you
+to pick from, and tells you your party.  As does here for EDMs:
+http://www.stats.bris.ac.uk/~magpn/Research/Politics/whovote.htm
+
+Find "Motion made, and Question proposed," and "Question put and agreed
+to." when there was no division.  Record these "virtual divisions" as
+divisions, as they are really, just they were totally uncontested for
+whatever reason.  Count them up and see where and how many there are,
+whether there are more near bedtime etc.
+
+What can we learn from the information that aye/no comes first, and
+    from the information as to whether government or not government is
+    aye or no?
+
+Measure lobbying power behind each issue (expenditure by interested
+parties).  Again, correlate to time spent on it.
+
+Value of the vote.  What is the monetary expenditure cost of agreeing
+the motion?  Graph against time spent discussing, and see how silly the
+correlation is.
 
 

@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php
-# $Id: division.php,v 1.15 2003/11/05 17:25:06 frabcus Exp $
+# $Id: division.php,v 1.16 2004/01/17 18:50:04 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -16,6 +16,9 @@
     $show_all = false;
     if ($_GET["showall"] == "yes")
         $show_all = true;
+    $all_similars = false;
+    if ($_GET["allsimilars"] == "yes")
+        $all_similars = true;
 
     $row = $db->query_one_row("select pw_division.division_id, division_name,
             source_url, rebellions, turnout, notes, motion from pw_division,
@@ -32,10 +35,23 @@
     $prettydate = date("j M Y", strtotime($date));
     $div_no = html_scrub($div_no);
 
+    $this_anchor = "division.php?date=" . urlencode($date) .  "&number=" . urlencode($div_no);
+
     $title = "$name - $prettydate - Division No. $div_no";
     include "header.inc";
 
-    print "<h2>Summary</h2>";
+    print '<p><a href="#motion">Motion</a>';
+	print ' | ';
+	print '<a href="#summary">Party Summary</a>';
+	print ' | ';
+    if (!$show_all)
+        print '<a href="#rebels">Rebel Voters</a>'; 
+    else    
+        print '<a href="#voters">Vote List</a>'; 
+#	print ' | ';
+#	print '<a href="#similar">Similar Divisions</a>'; 
+
+	print "<h2>Summary</h2>";
 
     $ayes = $db->query_one_value("select count(*) from pw_vote
         where division_id = $div_id and vote = 'aye'");
@@ -49,7 +65,7 @@
     print "<br><a href=\"$source\">Read the full debate leading up to this division (on Hansard website)</a>";
     print "$notes";
     
-    print "<h2>Motion</h2> <p>Procedural text extracted from the debate.
+    print "<h2><a name=\"motion\">Motion</a></h2> <p>Procedural text extracted from the debate.
     This is for guidance only, irrelevant text may be shown, crucial
     text may be missing.  Check Hansard thoroughly and have knowledge of
     parliamentary procedure to fully understand the meaning of the
@@ -73,7 +89,7 @@
         pw_vote.mp_id = pw_mp.mp_id and pw_cache_whip.division_id =
         pw_vote.division_id and pw_cache_whip.party = pw_mp.party group
         by pw_mp.party, vote order by party, vote");
-    print "<h2>Party Summary</h2>";
+    print "<h2><a name=\"summary\">Party Summary</a></h2>";
     print "<p>Votes by party, red entries are votes against the majority for that party.  ";
     print "
     <div class=\"tableexplain\">
@@ -216,13 +232,13 @@
 
     if (!$show_all)
     {
-        print "<h2>Rebel Voters</h2>
+        print "<h2><a name=\"rebels\">Rebel Voters</a></h2>
         <p>MPs for which their vote in this division differed from
         the majority vote of their party.";
     }
     else
     {
-        print "<h2>Vote List</h2>
+        print "<h2><a name=\"voters\">Vote List</a></h2>
             <p>Vote of each MP. Those where they voted differently from
             the majority in their party are marked in red.";
     }
@@ -232,7 +248,7 @@
     while ($row = $db->fetch_row())
     {
         $class = "";
-        if ($showall && $row[6] != $row[4] && $row[6] <> "unknown" && $row[4] <> "both")
+        if ($show_all && $row[6] != $row[4] && $row[6] <> "unknown" && $row[4] <> "both")
         {
             $class = "rebel";
         }
@@ -250,18 +266,76 @@
     }
     print "</table>";
 
-    $anchor = "division.php?date=" . urlencode($date) .
-        "&number=" . urlencode($div_no);
     if (!$show_all)
     {
-        $anchor .= "&showall=yes";
-        print "<p><a href=\"$anchor\">Show all MPs who voted in this division</a>";
+        print "<p><a href=\"$this_anchor&showall=yes#voters\">Show all MPs who voted in this division</a>";
     }
     else
     {
-        print "<p><a href=\"$anchor\">Show only MPs who rebelled in this division</a>";
+        print "<p><a href=\"$this_anchor#rebels\">Show only MPs who rebelled in this division</a>";
     }
 
+/*    print "<h2><a name=\"similar\">Similar Divisions</a></h2>";
+    print "<p>Shows which divisions had similar rebels to this one.
+    Distance is measured from near 0 (many common rebels) to 1 (no
+    common rebels).  Only MPs who voted in both divisions are counted.";
+
+    print "<table class=\"votes\">\n";
+    $query = 
+        "select pw_division.division_id, division_number, division_date, division_name, 
+       rebellions, turnout, distance from pw_division, pw_cache_divinfo, pw_cache_divdist where
+        pw_division.division_id = pw_cache_divinfo.division_id and
+        (pw_division.division_id = pw_cache_divdist.div_id_1
+        and pw_cache_divdist.div_id_2 = $div_id
+        and pw_cache_divdist.div_id_1 <> $div_id)
+        ";
+
+    print "<tr class=\"headings\"><td>Number</td><td>Date</td><td>Subject</td><td>Distance</td><td>Rebellions</td><td>Turnout</td></tr>";
+    $prettyrow = 0;
+
+    $db->query($query . " and distance = 0");
+    $same_rebels = $db->rows();
+
+    $limit = "";
+    if (!$all_similars)
+        $limit .= " limit 0,10"; 
+    $db->query($query . " order by distance / (rebellions + 1) $limit");
+
+    while ($row = $db->fetch_row())
+    {
+        $prettyrow = pretty_row_start($prettyrow);
+
+        $class = "";
+        if ($row[4] >= 10)
+        {
+            $class = "rebel";
+        }
+        $prettyrow = pretty_row_start($prettyrow, $class);
+        print "<td>$row[1]</td> <td>$row[2]</td> <td><a
+            href=\"division.php?date=" . urlencode($row[2]) . "&number="
+            . urlencode($row[1]) . "\">$row[3]</a></td> 
+            <td>$row[6]</td> 
+            <td>$row[4]</td> 
+            <td>$row[5]</td>";
+        print "</tr>\n";
+    }
+    if ($db->rows() == 0)
+    {
+        $prettyrow = pretty_row_start($prettyrow, "");
+        print "<td colspan=6>no common MPs to compare</td></tr>\n";
+    }
+    print "</table>\n";
+    if (!$all_similars)
+    {
+        print "<p><a href=\"$this_anchor&allsimilars=yes#similar\">Show all divisions in order of similarity to this one</a>";
+        if ($same_rebels > 4)
+            print " ($same_rebels divisions had exactly the same rebels as this one)";
+    }
+    else
+    {
+        print "<p><a href=\"$this_anchor#similar\">Show only a few similar divisions</a>";
+    }
+*/
 ?>
 
 <?php include "footer.inc" ?>

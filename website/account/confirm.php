@@ -1,6 +1,6 @@
 <?  
 
-# $Id: confirm.php,v 1.2 2003/10/11 10:29:13 frabcus Exp $
+# $Id: confirm.php,v 1.3 2004/01/17 18:50:04 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under

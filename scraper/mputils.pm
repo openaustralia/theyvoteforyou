@@ -1,4 +1,4 @@
-# $Id: mputils.pm,v 1.6 2003/11/05 12:19:29 frabcus Exp $
+# $Id: mputils.pm,v 1.7 2004/01/17 18:50:04 frabcus Exp $
 # Parse names of MPs, search for an MP in the database.  Copes with the
 # various textual varieties you get, such as initials absent or present,
 # name abbreviations, titles/honours present or absent.  Uses a mixture
@@ -43,6 +43,8 @@ sub parse_formal_name
     # Strip trailing and leading spaces
     s/^\s+//;
     s/\s+$//;
+
+    $_ = "Simon, Sion" if ($_ eq "Simon, Sio(r)n (B'ham Erdington)");
 
     # Parse MP name strings
     my ($last, $title, $first, $extra);
@@ -111,6 +113,7 @@ sub find_mp
 
     # Special cases for MP name variants
     # 2001- parliament...
+    $firstname = "Siôn" if ($firstname eq "Sion" && $lastname eq "Simon");
     $firstname = "Nick" if ($firstname eq "Nicholas" && $lastname eq "Brown");
     $firstname = "Geoff" if ($firstname eq "Geoffrey" && $lastname eq "Hoon");
     $firstname = "Jonathan R" if ($firstname eq "Jonathan" && $lastname eq "Shaw");

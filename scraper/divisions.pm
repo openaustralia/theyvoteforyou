@@ -1,4 +1,4 @@
-# $Id: divisions.pm,v 1.13 2003/12/20 23:52:43 frabcus Exp $
+# $Id: divisions.pm,v 1.14 2004/01/17 18:50:04 frabcus Exp $
 # Parses the body text of a page of Hansard containing a division.
 # Records the division and votes in a database, matching MP names
 # to an MP already in the database.
@@ -283,8 +283,11 @@ sub parse_one_division
                         # which we lowercase first of all
                         $text = autoformat $text, { case => 'highlight' };
                         # strip trailing/leading spaces autoformat puts in...
-                        $text =~ s/^\s+//;
-                        $text =~ s/\s+$//;
+                        if (defined $text)
+                        {
+                            $text =~ s/^\s+//;
+                            $text =~ s/\s+$//;
+                        }
                         $last_heading = $text;
                         $motion_text = "";
                         $last_subheading = "";
