@@ -1,5 +1,5 @@
 <?php $title = "Source Code"; include "../header.inc" 
-# $Id: code.php,v 1.12 2004/12/13 00:24:49 frabcus Exp $
+# $Id: code.php,v 1.13 2004/12/13 00:40:50 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -153,7 +153,7 @@ from the XML files into the database and does various cached
 calculations for use on the website.  Run it with no parameters to find
 out its syntax.  Now do this:
 
-<p><tt>./load.pl divsxml check calc
+<p><tt>./load.pl divsxml check calc</tt>
 
 <p>While you're doing this all, you probably want to run a tool like the <a
 href="http://www.mysql.com/products/mysqlcc/">MySQL Control Center</a>
