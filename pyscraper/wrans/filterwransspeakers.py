@@ -24,7 +24,6 @@ fixsubs = 	[
         ( '(<B> Mr. Tony)(: </B>)', '\\1 Banks\\2', 1, '2004-01-29'),
 
 	( '<UL>(Beverley Hughes):', '<B>\\1</B>', 1, '2003-04-10'),
-        ( '<UL>(Mr. Morley):', '<B>\\1</B> ', 1, '2003-05-01'),
 
 	( '<UL>\(1\) (Tim Loughton): (To ask the Deputy Prime Minister) (how many times he has been in residence at Dorneywood since June 2001; and on what dates;  \[97476\])', '<B>\\1</B> \\2 (1) \\3 <p><UL>', 1, '2003-03-28'),
 	( '<UL>Mr. Denham:', '<B>Mr. Denham</B>', 1, '2003-03-06'),
@@ -42,7 +41,6 @@ fixsubs = 	[
         ( '(Mr\. McNulty:) (We are always happy)', '<B>\\1</B> \\2', 1, '2004-01-06'), 
         ( ' \((141053)\)', '[\\1]', 1, '2004-01-05'),
 
-	( '\<UL\>\<i\>(Mr\. Morley)( {holding answer 11 December 2003].*? before April 2004\.)<P></UL>', '<B>\\1: </B> <i>\\2', 1, '2003-12-18'),
         ( ' \((142642)\)', '[\\1]', 1, '2003-12-18'),
 
         ( '(Margaret Hodge: )(The total annual)', '<B>\\1</B>\\2', 1, '2003-12-15'),
