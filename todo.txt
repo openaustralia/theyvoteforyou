@@ -4,11 +4,9 @@ On live server:
 
 Migrate away from mpdist table to new one
 
-
-1. Clear the value when wiki page edited
-2. Set the value if it missing whenever it is used
-    - division table
-    - in division.php
+Clear file cache for:
+    divisions.php when a motion text is edited
+    (perhaps just clear everything then!)
 
 General
 -------

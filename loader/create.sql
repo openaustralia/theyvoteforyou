@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.20 2005/03/28 20:01:59 frabcus Exp $
+-- $Id: create.sql,v 1.21 2005/03/31 09:22:17 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -16,7 +16,7 @@
 --    mysql_setpermission to do this with.
 -- 
 -- 3. Type something like "cat create.sql | mysql --database=yourdb -u username -p"
---    Or you can load this file into some GUI client and inject it.
+--    Or you can load this file into a GUI client and inject it.
 -- 
 
 -------------------------------------------------------------------------------
@@ -189,8 +189,9 @@ create table pw_dyn_newsletters_sent (
 
 -------------------------------------------------------------------------------
 -- Cache tables
---   there are lots more of these made automatically by loader.pl
---   those written to by the website itself are here
+--   Those written to by the website itself during PHP requests are here.
+--   There are also lots more cache tables made automatically by loader.pl,
+--   which is run once a day.
 
 -- information about one Dream MP
 create table pw_cache_dreaminfo (
