@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 use strict;
-use lib "scraper/";
+use lib "loader/";
 
 my $text = "website/newsletters/issue5.txt";
 #my $test_name = "";

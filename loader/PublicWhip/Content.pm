@@ -1,4 +1,4 @@
-# $Id: Content.pm,v 1.1 2004/06/08 11:50:48 frabcus Exp $
+# $Id: Content.pm,v 1.1 2004/06/08 11:56:54 frabcus Exp $
 # For each day which we have the start URL for (from PublicWhip::FindDays.pm),
 # downloads the transcript for the entire day and stores it in the
 # database as one HTML file.

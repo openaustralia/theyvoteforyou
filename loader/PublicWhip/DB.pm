@@ -1,4 +1,4 @@
-# $Id: DB.pm,v 1.1 2004/06/08 11:50:48 frabcus Exp $
+# $Id: DB.pm,v 1.1 2004/06/08 11:56:54 frabcus Exp $
 # Bumf for accessing the MySQL database
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd

@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: scrape.pl,v 1.14 2004/06/08 11:50:48 frabcus Exp $
+# $Id: load.pl,v 1.1 2004/06/08 11:56:54 frabcus Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 

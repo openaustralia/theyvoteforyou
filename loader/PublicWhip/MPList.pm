@@ -1,4 +1,4 @@
-# $Id: MPList.pm,v 1.1 2004/06/08 11:50:49 frabcus Exp $
+# $Id: MPList.pm,v 1.1 2004/06/08 11:56:54 frabcus Exp $
 # Parses lists of MPs, adds them to database.  Also has
 # special code to add in midterm changes such as byelections,
 # party loyalty switching etc.

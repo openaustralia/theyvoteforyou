@@ -12,7 +12,6 @@
     include "constituencies.inc";
     include "render.inc";
     include "account/user.inc";
-    include "pretty.inc";
     $dbo = new DB(); 
     $db = new DB(); 
 

@@ -1,4 +1,4 @@
-# $Id: MPUtils.pm,v 1.1 2004/06/08 11:50:49 frabcus Exp $
+# $Id: MPUtils.pm,v 1.1 2004/06/08 11:56:54 frabcus Exp $
 # Parse names of MPs, search for an MP in the database.  Copes with the
 # various textual varieties you get, such as initials absent or present,
 # name abbreviations, titles/honours present or absent.  Uses a mixture

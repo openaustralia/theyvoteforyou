@@ -1,11 +1,3 @@
-Written answers
----------------
-
-Here's a couple of ideas: a section called "answers that are in the Library".
-
-Also, if we find enough funny business, what about, random question of
-the day?  People could subscribe to this, and this would get them involved.
-
 Data anlaysis (using existing data)
 -------------
 
@@ -55,6 +47,9 @@ Additional text content
 -----------------------
 
 House of Lords divisions
+
+When Dream MP gives votes more context, allow anyone to vote on any division.  
+Perhaps they have to give their postcode first.
 
 Issue sub-selector.  User can log in, name an issue, and say which way
 votes should have gone to satisfy him on that issue.  Get all manner of

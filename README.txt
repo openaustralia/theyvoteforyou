@@ -16,7 +16,7 @@ ideas.txt - Zillions of ideas of things which could be done
 errata.txt - Errors in Hansard that the software has found
 
 pyscraper - Hansard screen scraper which makes XML files, written in Python
-scraper   - Load XML files into the database (also the old pre-Python scraper)
+loader    - Load XML files into the database
 rawdata   - Source data files not previously available on the Internet
 cluster   - MP cluster analysis using Multi-dimensional Scaling
 

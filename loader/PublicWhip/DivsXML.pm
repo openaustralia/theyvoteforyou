@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.1 2004/06/08 11:50:48 frabcus Exp $
+# $Id: DivsXML.pm,v 1.1 2004/06/08 11:56:54 frabcus Exp $
 # Loads divisions from the XML files made by pyscraper into
 # the MySQL database for the Public Whip website.
 

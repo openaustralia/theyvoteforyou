@@ -1,4 +1,4 @@
-# $Id: Error.pm,v 1.1 2004/06/08 11:50:49 frabcus Exp $
+# $Id: Error.pm,v 1.1 2004/06/08 11:56:54 frabcus Exp $
 # Error handling.  We often find divisions with slightly different
 # date that requires updating of the parser, or new special case code.
 # This module centrally handles parsing errors for ease.

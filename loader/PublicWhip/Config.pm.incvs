@@ -1,0 +1,14 @@
+package PublicWhip::Config;
+
+# rename this as Config.pm, and edit it with your settings
+
+use vars qw($user $pass $pwdata);
+
+$user   = "";
+$pass   = "";
+$dbspec = "DBI:mysql:hansard";
+
+# this is where the XML files come from:
+$pwdata = "/home/username/pwdata/";
+
+1;

@@ -13,8 +13,8 @@ echo "Scraping new divisions"
 cd pyscraper
 ./lazyrunall.py --from 2001-06-01 scrape parse debates
 cd ..
-cd scraper
-./scrape.pl divsxml check calc
+cd loader
+./load.pl divsxml check calc
 cd ..
 
 #echo "Scraping new written answers"

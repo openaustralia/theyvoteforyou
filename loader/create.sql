@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.15 2004/05/23 17:47:43 goatchurch Exp $
+-- $Id: create.sql,v 1.1 2004/06/08 11:56:54 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd

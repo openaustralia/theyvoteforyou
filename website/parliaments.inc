@@ -1,7 +1,7 @@
 <?php
 
-# $Id: parliaments.inc,v 1.9 2004/02/11 00:07:47 frabcus Exp $
-# This data is duplicated in scraper/parliaments.pm
+# $Id: parliaments.inc,v 1.10 2004/06/08 11:56:55 frabcus Exp $
+# This data is duplicated in loader/PublicWhip/Parliaments.pm
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under

@@ -1,4 +1,4 @@
-# $Id: FindDays.pm,v 1.1 2004/06/08 11:50:49 frabcus Exp $
+# $Id: FindDays.pm,v 1.1 2004/06/08 11:56:54 frabcus Exp $
 # Scans various index pages in various ways to hunt down the content
 # for each day in text of Hansard beneath them all.  Stores URLs
 # of the first page of content.

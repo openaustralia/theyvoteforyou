@@ -1,5 +1,5 @@
 <?php $title = "Source Code"; include "../header.inc" 
-# $Id: code.php,v 1.4 2004/05/23 17:10:46 frabcus Exp $
+# $Id: code.php,v 1.5 2004/06/08 11:56:55 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -82,22 +82,13 @@ you can download them from
 href="http://www.activestate.com/ActivePerl/">ActivePerl</a>.
 Unix-based operating systems will probably have Perl already installed.
 
-<p> If you want to run the old Perl scraper, you also need to install some
-extra special Perl modules for screen scraping (the automated downloading and
-parsing of Hansard's website).  You probably don't need these for
-the new Python scraper which you should be using (please let me
-know if you do or don't).  <p>To install them follow the <a
+<p> You may need to install some extra Perl modules.  <p>To install them follow the <a
 href="http://www.cpan.org/misc/cpan-faq.html#How_install_Perl_modules">CPAN
 instructions</a> (Comprehensive Perl Archive Network) under Unix or <a
 href="http://aspn.activestate.com/ASPN/docs/ActivePerl-5.6/faq/ActivePerl-faq2.html">PPM instructions</a> (Perl Package Manager) under Windows.  
 
-The modules you need to install are:  
-HTML::TokeParser,
-HTML::TreeBuilder,
-HTML::FormatText,
+The modules you may need to install are:  
 Text::ExtractWords,
-WWW::Mechanize,
-HTTP::Status,
 Text::Autoformat,
 Date::Parse,
 Getopt::Long.  
@@ -136,8 +127,8 @@ weren't downloaded/parsed last time.  When you are done, you should have
 lots of XML files in the pwdata/scrapedxml/debates folder.  Take a look
 at them.  These are used by the Perl script in the next phase.
 
-<p>Change to the <i>scraper</i> directory.  The
-script called <i>scraper.pl</i> in there loads the divisons from the XML files
+<p>Change to the <i>loader</i> directory.  The
+script called <i>load.pl</i> in there loads the divisons from the XML files
 into the database and does various cached calculations for use on the website.
 Run it with no parameters to find out its syntax.  First you have to tell Perl
 your MySQL username and password.  Copy the file config.pm.incvs to config.pm
