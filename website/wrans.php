@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: wrans.php,v 1.2 2003/12/05 18:29:39 frabcus Exp $
+    # $Id: wrans.php,v 1.3 2003/12/05 20:23:28 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -9,42 +9,31 @@
 
     include "db.inc";
     include "parliaments.inc";
+	include "xquery.inc";
     $db = new DB(); 
-
-    $path = "/home/francis/pwdata/pwscrapedxml/wrans/";
-
-	$sgrepout = array();
-	print "<pre>";
-	$command = <<<END
-	sgrep -x /home/francis/pwdata/pwscrapedxml/wrans/ixsgrep -g xml 'stag("wrans") ..  etag("wrans") containing (stag("speech") .. etag("speech") containing (attribute("id") containing attvalue("uk.org.publicwhip/member/1113")))'
-END;
-	exec("sgrep a", $sgrepout);
-	print join("\n", $sgrepout);
-	print "moose $command";
-	print "</pre>";
-
-
-#    $date = db_scrub($_GET["date"]);
-
-#    $show_all = false;
-#    if ($_GET["showall"] == "yes")
-#        $show_all = true;
-
-    $title = html_scrub("Written Answers $date");
+    $title = html_scrub("Written Answers");
     include "header.inc";
-    
-    $xmlfile = $path . "answers2003-11-17.xml";
-    $xsltfile = "wrans.xslt";
 
-    $xsltproc = xslt_create();
-    xslt_set_encoding($xsltproc, 'ISO-8859-1');
-    $html = xslt_process($xsltproc, $xmlfile, $xsltfile, NULL);
+    $prettyquery = html_scrub(trim($_GET["query"]));
+?>
 
-    if (empty($html)) {
-       die('XSLT processing error: '. xslt_error($xsltproc));
-    }
-    xslt_free($xsltproc);
-    print $html;
+<p class="search">Search in Written Answers:</p>
+<form class="search" action="wrans.php" name=pw>
+<input maxLength=256 size=25 name=query value=""> <input type="submit" value="Search" name="button">
+</form>
+
+<?
+# MP query
+#	$query = 'stag("wrans") ..  etag("wrans") containing (stag("speech") ..  etag("speech") containing (attribute("id") containing attvalue("uk.org.publicwhip/member/1032")))';
+
+	if ($prettyquery <> "")
+	{
+		$query = 'stag("wrans") ..  etag("wrans") containing 
+				(stag("speech") ..  etag("speech") containing word("' 
+				. $prettyquery . '"))';
+		$result = sgrep_query("wrans", $query);
+		print_transform("wrans.xslt", $result);	
+	}
 ?>
 
 <?php include "footer.inc" ?>
