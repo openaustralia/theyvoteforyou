@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: load.pl,v 1.6 2004/11/20 18:23:10 theyworkforyou Exp $
+# $Id: load.pl,v 1.7 2004/11/20 18:29:34 frabcus Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -38,12 +38,6 @@ if ($date) {
     $from = $date;
     $to   = $date;
 }
-my $where_clause = "";
-my @where_params;
-$where_clause .= "and day_date >= ? " if defined $from;
-push @where_params, $from if defined $from;
-$where_clause .= "and day_date <= ? " if defined $to;
-push @where_params, $to if defined $to;
 $from = "1000-01-01" if not defined $from;
 $to   = "9999-12-31" if not defined $to;
 
@@ -127,7 +121,7 @@ sub check {
     PublicWhip::Error::log("Fixing bothway votes...", "", ERR_USEFUL);
     PublicWhip::Clean::fix_bothway_voters($dbh);
     PublicWhip::Error::log("Checking integrity...", "", ERR_USEFUL);
-    PublicWhip::Clean::check_integrity($dbh);
+    PublicWhip::Clean::check_integrity($dbh, $from, $to);
 }
 
 sub all_divsxml {
