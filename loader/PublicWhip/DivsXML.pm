@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.2 2004/07/05 16:49:37 theyworkforyou Exp $
+# $Id: DivsXML.pm,v 1.3 2004/07/05 18:59:03 theyworkforyou Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Loads divisions from the XML files made by pyscraper into
@@ -29,10 +29,14 @@ our $lastminor;
 our $lastmotiontext;
 our $lastheadingurl;
 
+our $divisions_changed;
+
 sub read_xml_files {
     $dbh = shift;
     my $from = shift;
     my $to   = shift;
+
+    $divisions_changed = 0;
 
     my $twig = XML::Twig->new(
         twig_handlers => {
@@ -250,8 +254,8 @@ sub loaddivision {
             die "Failed to fix division name/motion/URLs" if $sth->rows != 1;
             PublicWhip::Error::log(
 "Existing division $divnumber, $divdate, id $existing_divid name $existing_heading has had its name/motion/URLs corrected with the one from XML called $heading",
-                $divdate, ERR_IMPORTANT
-            );
+                $divdate, ERR_IMPORTANT);
+            $PublicWhip::DivsXML::divisions_changed = 1;
         }
         else {
             PublicWhip::Error::log(
@@ -371,6 +375,7 @@ sub loaddivision {
         $division_id );
     PublicWhip::Error::log( "XML added new division $divnumber $heading",
         $divdate, ERR_IMPORTANT );
+    $PublicWhip::DivsXML::divisions_changed = 1;
 }
 
 1;

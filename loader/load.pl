@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: load.pl,v 1.3 2004/07/05 16:49:37 theyworkforyou Exp $
+# $Id: load.pl,v 1.4 2004/07/05 18:59:03 theyworkforyou Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -68,7 +68,12 @@ for (@ARGV) {
     elsif ( $_ eq "test" )      { test(); }
     else { help(); exit; }
 }
-exit;
+
+if ($PublicWhip::DivsXML::divisions_changed) {
+    exit 1;
+} else {
+    exit;
+}
 
 sub help {
     print <<END;

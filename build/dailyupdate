@@ -1,0 +1,30 @@
+#!/bin/bash
+
+#FROMDATE=2001-06-01
+FROMDATE=2004-01-01 # until Julian sorts out gid replacing
+
+# Grab new scraped XML files from TheyWorkForYou
+rsync --recursive www.theyworkforyou.com::pwdata/scrapedxml/divisionsonly /home/francis/pwdata/scrapedxml
+
+# Update everything
+cd ~/publicwhip/
+cvs -Q update -dP
+
+# Load new list of members
+cd ~/publicwhip/loader
+./memxml2db.pl
+
+# Load new divisions
+if ! ./load.pl --from=$FROMDATE divsxml 
+then
+	echo "There were new divisions"
+	# There were new divisions, so run checks
+	# DISABLED too much chitter
+	# ./load.pl --from=$FROMDATE check
+	# and update counts of rebels etc.
+	./load.pl --from=$FROMDATE calc
+
+	rm -fr /home/francis/pwcache/*
+fi
+
+

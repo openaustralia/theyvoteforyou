@@ -3,4 +3,6 @@
 # Clean out the cache as it gets very full
 39 * * * *    /usr/sbin/tmpwatch 12 /home/francis/pwcache
 
+# Grab division XML files from TheyWorkForYou and load into database
+45 8 * * *    /home/francis/publicwhip/build/dailyupdate
 
