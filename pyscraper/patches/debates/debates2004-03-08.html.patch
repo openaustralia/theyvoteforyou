@@ -1,0 +1,43 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-03-08.html	Sun Oct  3 04:30:15 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-03-08-patchtmp.html	Tue Nov  2 22:58:04 2004
+@@ -13,7 +13,7 @@
+ 
+ 
+ <B>8 Mar 2004 : Column 1223</B></P>
+-
++<stamp parsemess-colnumoffset="2"/>
+ <H2><center>House of Commons</center></H2>
+ <H4><center>Monday 8 March 2004</center></H4>
+ <H4><center>The House met at half-past Two o'clock</center></H4>
+@@ -221,6 +221,7 @@
+  (Lab): Will my right hon. Friend call on the BBC to desist from the odious licensing campaign that it is conducting, in which it implies, regardless of the Data Protection Act 1998, that it is able to snoop on every household in the country and threatens people with the repulsive slogan, "Get one or get done" and the prospect of a huge fine or a prison sentence? Will she make it clear to the BBC that if it conducts a campaign with menaces and threats of that kind, using licence payers' money to do so, more and more people will believe that there ought not to be a licence at all?
+ <P>
+ <P>
++<stamp parsemess-colnum="1228"/>
+ <a name="40308-02_spnew3"><B> Tessa Jowell: </B> 
+  I am well aware of my right hon. Friend's interest in that matter. He has raised it with me <P>
+ 
+@@ -292,6 +293,7 @@
+ <a name="40308-02_para0">The investment that the UK Film Council is making to ensure that we have the necessary range of skills, to which my right hon. Friend referred, is also important for the future of the British film industry. Record investment was made in UK films last year. I believe that that will continue, and the Government are taking action to ensure that it does.
+ <P>
+ <P>
++<stamp parsemess-colnum="1230"/>
+ <a name="40308-02_spnew14"><B> Mr. Mark Field  (Cities of London and Westminster)</B> 
+  (Con): Members have referred to the tax loophole closed <P>
+ 
+@@ -952,6 +954,7 @@
+ <a name="40308-07_para4">Will the Minister comment on a further specific matter? She alluded at that time to a Home Office study that established that the maximum immigration from the country concerned would be between 5,000 and 13,000 a year. Will she confirm that she still holds and stands by those figures? Ministers have been asked about that repeatedly in recent weeks, but have provided evasive answers.
+ <P>
+ <P>
++<stamp parsemess-colnum="1249"/>
+ <a name="40308-07_spnew7"><B> Beverley Hughes: </B> 
+  We have not given any evasive answers. I certainly accept that we should be as well <P>
+ 
+@@ -1650,6 +1653,7 @@
+ 
+ 
+ <B>8 Mar 2004 : Column 1262</B></P>
++<stamp parsemess-colnumoffset="1"/>
+ and the fulfilment by the financial system of obligations that, whatever their legal status, have great moral, social and economic importance. I hope that the report's receipt will be the beginning of a process that leads to the restoration of a trust that has been sorely and dangerously diminished in recent years, and that the Financial Secretary will join us and others in a common effort to achieve that common aim.
+ <P>
+ <P>

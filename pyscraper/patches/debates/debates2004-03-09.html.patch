@@ -1,0 +1,56 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-03-09.html	Sun Oct  3 04:30:08 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-03-09-patchtmp.html	Tue Nov  2 17:28:55 2004
+@@ -13,6 +13,7 @@
+ 
+ 
+ <B>9 Mar 2004 : Column 1359</B></P>
++<stamp parsemess-colnumoffset="2"/>
+  
+ <H2><center>House of Commons</center></H2>
+ <H4><center>Tuesday 9 March 2004</center></H4>
+@@ -1531,6 +1532,8 @@
+ <a name="40309-11_spnew7"><B> David Winnick  (Walsall, North)</B> 
+  (Lab): I am going to the Home Affairs Committee in a moment, so I will be unable to listen to the rest of the debate. Does the hon. Gentleman accept that, for many of us, the question of human rights in Iraq was not a petty, unimportant issue, but that we considered human rights there and in Kosovo in the same light? As I remember it, the nationalist parties opposed intervention in Kosovo, as they did in Iraq. If a regime such as Saddam's, as my right hon. Friend the Member for Carrick, Cumnock and Doon Valley (Mr. Foulkes) has said, is responsible for the murder of hundreds of thousands of people over the years, why should we in the House of Commons oppose military action to end such tyranny?
+ <P>
++<parsemess-misspeech type="speech" redirect="nowhere"/>
++<parsemess-misspeech type="speech" redirect="nowhere"/>
+ <P>
+ <a name="40309-11_spnew8"><B> Mr. Llwyd: </B> 
+  No one in this House, I imagine, would ever have supported the Saddam regime. No one in my party has ever said anything of the kind, and no one ever would. However, the remit of this debate is to look at the legal process and to see where Parliament fits into that process, if at all.
+@@ -1554,7 +1557,8 @@
+ <P>
+ <a name="40309-11_spnew13"><B> Jeremy Corbyn  (Islington, North)</B> 
+  (Lab): Has the hon. Gentleman had a chance to read Hans Blix's statement on the way in which he was removed from Iraq while still undertaking weapons inspection, and replaced by the Iraq survey group, which did not find any weapons of mass destruction? Mr. Blix is concerned that the real aim of the United States and Britain was always to go to war, rather than to achieve some kind of peaceful resolution to what was obviously a serious situation.
+-<P>
++ <P>
++<stamp parsemess-colnum="1402"/>
+ <P>
+ <a name="40309-11_spnew14"><B> Mr. Llwyd: </B> 
+  I agree with the hon. Gentleman, who knows that we opposed the war from the beginning.
+@@ -2139,6 +2143,8 @@
+ 
+ <a name="40309-16_para5">I would say to right hon. and hon. Members who were sceptical about the military action against Iraq, that none of those achievements, including a free press, an independent judiciary, recognition of all religions&#151;Sunni and Shi'a Kurds, as well as Arab Kurds&#151;could possibly have been achieved without the military action that we set in place.
+ <P>
++<parsemess-misspeech type="speech" redirect="nowhere"/>
++<parsemess-misspeech type="speech" redirect="nowhere"/>
+ <P>
+ <a name="40309-16_spnew1"><B> Sir Menzies Campbell  (North-East Fife)</B> 
+  (LD): We can certainly agree about the enormous contribution of Sir Jeremy Greenstock to Iraq, and, indeed, his contribution when he was our permanent representative at the United Nations. However, all the constitutional elements to which the Foreign Secretary has just referred stand no chance of implementation unless the security situation is sufficiently stable. What is the Government's present judgment on the extent to which a stable security position will obtain when the constitutional responsibilities are handed over? How many British troops will be required to be in station in Iraq and for how long?
+@@ -2171,6 +2177,7 @@
+ 
+ <P>
+ <P>
++
+ <a name="40309-16_spnew3"><B> Mr. Dominic Grieve  (Beaconsfield)</B> 
+  (Con): I have no difficulty in associating myself with the Foreign Secretary's last remarks about the position in Iraq. In a sense, it is probably right to say that the judgment of <P>
+ 
+@@ -6998,7 +7005,8 @@
+ 
+ <a name="40309-38_time0"><H5>8.1 pm</H5>
+ </P>
+-
++<parsemess-misspeech type="speech" redirect="nowhere"/>
++<parsemess-misspeech type="speech" redirect="nowhere"/>
+ <P>
+ <P>
+ <a name="40309-38_spnew0"><B> Jon Trickett  (Hemsworth)</B> 
