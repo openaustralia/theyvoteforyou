@@ -7,16 +7,61 @@
 
 </head>
 
+<p><b>What is this all about software patents?</b>  
+<i>Imagine that someone owned a patent giving them the exlusive right to know
+how to make a piece of toast, or how to lock a front door. Everytime you did
+one of these simple actions, you risk being sued and forced to pay huge damages
+for patent violation.</i>
+
+<a
+href="http://www.aleph1.co.uk/talks/swpatstalk.html">Read this excellent
+summary talk</a> to find out more.
+
+
 <p align=center><img src="../thepublicwhip.gif"></p>
 
-<p align=center>Trying to understand what this patents argument is all
-about?  <a href="http://www.aleph1.co.uk/talks/swpatstalk.html">Read
-this excellent summary talk</a>.
+<p>Hello,</p>
+<p>
+Once again, we're forced to ask for your <b>urgent help</b> opposing the threat of
+<a target="_blank"
+href="http://swpat.ffii.org/index.en.html#intro">Software Patents</a>.
+</p>
 
-<p align=center>This protest was from 14th-18th May 2004, and has now finished.
+<p>The European Council is 
+attempting to <b>circumvent democracy</b> by 
+<a target="_blank"
+href="http://news.zdnet.co.uk/business/legal/0,39020651,39180705,00.htm">pushing
+through</a> the directive as an 
+A-list item (to be voted on <b>without debate</b>) in the week before Christmas
+during a <b>Fisheries Council</b> meeting.
+Software patents would do huge damage to websites like the Public Whip. The European
+Parliament has already voted against the directive.
+
+<p><b>Please act now!</b> <a target="_blank"
+href="http://demo.ffii.org/letter.html">Read</a> and 
+<a target="_blank" href="http://demo.ffii.org/support.php">sign</a> the 
+<a target="_blank" href="http://demo.ffii.org/letter.html">Open
+Letter</a> to the Ministers of Agriculture. Then consider 
+<a target="_blank" href="http://www.faxyourmp.com/">faxing your MP</a>
+or contacting the 
+<a target="_blank"
+href="http://www.direct.gov.uk/QuickFind/OrganisationDetails/fs/en?CONTENT_ID=4008763&chk=7pDwd7">
+Department for Environment, Food &amp; Rural Affairs</a> (minister
+Margaret Beckett).</p>
+
+<p>Apologies for the unavailability of Public Whip meanwhile.  We'll be
+back in a couple of days.  Thank you for your help - this is important.</p>
+
+&mdash The Public Whip Team</b>
+<br><a href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a></p>
+
+<p><b>Media queries</b>, please ring:
+<br>Rufus Pollock <b>7795 176 976</b> of FFII-UK
+<br>Francis Irving 07970 543358 of The Public Whip
+
+<!-- <p align=center>This protest was from 14th-18th May 2004, and has now finished.
 <a href="../">Click here to go to the main Public Whip site</a>.
 <br>The outcome was unsatisfactory, but the campaign continues.  <a href="http://kwiki.ffii.org/SwpatcninoEn">Latest News on Software Patents</a>.</p>
-
 
 <hr>
 
@@ -45,7 +90,7 @@ They are about to pass the much worse form of the directive.
 <p><b>The Public Whip and many other websites are suspending service
 for the duration of this decision period.</b>
 
-<p><b>Please act now to save The Public Whip and other cool software:</b>
+<p><b>Please act now to save The Public Whip and other cool software</b>
 
 <p>
 <ul>
@@ -78,5 +123,8 @@ him, and would go if Lord Sainsbury was unable to.
 <p>The Public Whip is a project to watch Members of the United Kingdom
 Parliament, so that the public (people like us) can better influence their
 voting patterns. 
+
+<hr>
+-->
 
 </html>
