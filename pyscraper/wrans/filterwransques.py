@@ -18,15 +18,17 @@ from contextexception import ContextException
 # <P>
 # (3) if she will ... grants.  [138425]<P></UL>
 
-def ExtractQnum(tex):
+def ExtractQnum(tex, stampurl):
 	qn = re.match('(.*?)\s*\[?(\d+R?)\]$', tex)
 	if not qn:
 		# print tex, 'qnum not at end of line'
 		return (tex, '0')
 
-	if re.search('\[(\d+R?)\]', qn.group(1)):
+	isqn = re.search('\[(\d+R?)\]', qn.group(1))
+	if isqn:
 		print tex
-		print 'qnum in middle of index block'
+		print 'A colnum may be removing a necessary <p> tag before the (2)'
+		raise ContextException('qnum in middle of index block', stamp=stampurl, fragment=isqn.group(1))
 	return (qn.group(1), qn.group(2))
 
 
@@ -55,7 +57,7 @@ def FilterQuestion(text, sdate, stampurl):
 		if not gbone:
 			raise ContextException('no (1) in first multipart para', fragment=text, stamp=stampurl)
 		textn.append( (textp[0][:gbone.span(0)[0]], '') )
-		eqnum = ExtractQnum(textp[0][gbone.span(0)[1]:])
+		eqnum = ExtractQnum(textp[0][gbone.span(0)[1]:], stampurl)
 		textn.append(eqnum)
 
 		# scan through the rest of the numbered paragraphs
@@ -66,13 +68,13 @@ def FilterQuestion(text, sdate, stampurl):
 			gbnumseq = string.atoi(gbnum.group(1))
 			if gbnumseq != i + 1:
 				raise ContextException('paragraph numbers not consecutive', fragment=textp[i], stamp=stampurl)
-			eqnum = ExtractQnum(textp[i][gbnum.span(0)[1]:])
+			eqnum = ExtractQnum(textp[i][gbnum.span(0)[1]:], stampurl)
 			textn.append(eqnum)
 
 
 	# single paragraph type
 	else:
-		eqnum = ExtractQnum(textp[0])
+		eqnum = ExtractQnum(textp[0], stampurl)
 		textn.append(eqnum)
 
 

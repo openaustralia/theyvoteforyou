@@ -17,7 +17,7 @@ from filterwransreplytable import ParseTable
 #from filtersentence import FilterSentence
 from filtersentence import PhraseTokenize
 
-
+from contextexception import ContextException
 
 # the set of known parliamentary offices.
 rejobs = re.compile('((?:[Mm]y (?:rt\. |[Rr]ight )?[Fh]on\.? [Ff]riend )?[Tt]he (?:then |former )?(?:%s))' % parlPhrases.regexpjobs)
@@ -123,7 +123,7 @@ def FilterReply(text, stampurl):
 				continue
 			else:
 				print "textp[i]: ", textp[i]
-				raise Exception, "table start with no end"
+				raise ContextException("table start with no end", stamp=stampurl, fragment=textp[i])
 
 		qletterinlibrary = reletterinlibrary.match(textp[i])
 		if qletterinlibrary:

@@ -30,8 +30,6 @@ fixsubs = 	[
 
 
 	( '<TR valign=top><TD><FONT SIZE=-1>\s*<P>\s*<page', '</TABLE>\n<page', 1, '2002-07-24'),
-	( '<i>Mr. Ingram \[holding answer 4 December 2003\]:</i>', '<B>Mr. Ingram:</B> [holding answer 4 December 2003]', 1, '2003-12-08' ),
-	( '</B>\s*ask', '</B> To ask', 1, '2003-12-08'),
 	( '<UL>Paul Goggins:([^<]*)<P></UL>', '<B>Paul Goggins:</B> \\1', 1, '2003-11-19'),
 	( '\): To ask', ' To ask', 1, '2003-05-06'),
 
@@ -43,7 +41,6 @@ fixsubs = 	[
 
         ( ' \((142642)\)', '[\\1]', 1, '2003-12-18'),
 
-        ( '(Margaret Hodge: )(The total annual)', '<B>\\1</B>\\2', 1, '2003-12-15'),
         ( '(David Davis: ):', '\\1', 1, '2003-12-15'),
 
 	# completely delete an answer that refers to the next response as answer

@@ -1,5 +1,5 @@
---- /home/fawkes/pwdata/cmpages/debates/debates2004-07-06.html	Thu Jul  8 14:46:52 2004
-+++ /home/fawkes/pwdata/cmpages/debates/debates2004-07-06-patchtmp.html	Thu Jul 15 08:57:48 2004
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-07-06.html	Fri Jul 16 13:52:35 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-07-06-patchtmp.html	Fri Jul 16 15:06:46 2004
 @@ -133,7 +133,9 @@
  <P>
  <P>
@@ -11,7 +11,7 @@
  <P>
  <P>
  <a name="40706-01_spnew10"><B> Ms Winterton: </B> 
-@@ -624,18 +626,19 @@
+@@ -624,16 +626,16 @@
  
  
  <P>
@@ -30,11 +30,8 @@
 +<a name="40706-05_spnew0"><B> Mr. Dismore: </B>
   May I celebrate my right hon. Friend's answer and the fact that he, rather than the Conservative party, is running the health service in London? There is still some spare capacity at Edgware hospital. Will he work with Barnet and Chase Farm trust and others to find out whether that extra capacity can be brought into use by some of the consultants there, who seem a little reluctant to travel the short distance involved?
  <P>
-+<stamp parsemess-missgid="4"/>
  <P>
- <B>Mr. Hutton</B>: I will certainly look into the matter that my hon. Friend has raised.
- 
-@@ -643,12 +646,12 @@
+@@ -643,12 +645,12 @@
  
  
  <P>

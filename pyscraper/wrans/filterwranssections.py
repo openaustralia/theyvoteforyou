@@ -40,7 +40,6 @@ fixsubs = 	[
 
 
 
-        ( '(\<UL\>\(2\) what research work he has \<i\>\(a\)</i> commissioned and \<i\>\(b\)\</i\> evaluated on external)(\<P\>\</UL\>)', '\\1 counter pulsation; and what conclusions about its efficacy were drawn. [143813] \\2', 1, '2003-12-16'),
 
 
 	# sort out a lot of nasty to-ask problems

@@ -1,5 +1,5 @@
 #! /usr/bin/python2.3
-# vim:sw=8:ts=8:et:nowrap
+# vim:sw=8:ts=8:nowrap
 
 import re
 import sys
@@ -301,7 +301,8 @@ def CreateGIDs(gidpart, flatb, sdate):
 
 		# this executes the missing ncid numbering command
 		bmissgid = False
-		for missgid in re.findall('parsemess-missgid="([^"]*)"', qb.sstampurl.stamp):
+		lsmissgid = re.findall('parsemess-missgid="([^"]*)"', qb.sstampurl.stamp)
+		for missgid in lsmissgid:
 			if ncid == string.atoi(missgid):
 				bmissgid = True
 

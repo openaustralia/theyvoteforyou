@@ -22,7 +22,6 @@ fixsubs = 	[
 	( '<P><I>8 Mar 2004 : Column 1346W</I>', '\\1<P>', 1, '2004-03-08'), 
 
 	# Note the 2!
-	( '<P>\[Continued from column 278W\]', '', 1, '2003-12-08'),
 	( '\[Continued from column 770W\]', '', 1, '2004-03-23'),
 
         ( '(<TABLE BORDER=1>)(\s*?<a name="30613w06.html_sbhd5">)', '\\2', 1, '2003-06-13'),
