@@ -1,5 +1,5 @@
 <?php $title = "Hansard Liaison Subproject"; include "../header.inc" 
-# $Id: liaison.php,v 1.1 2003/10/22 22:43:09 frabcus Exp $
+# $Id: liaison.php,v 1.2 2003/10/22 22:59:34 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -26,6 +26,9 @@ exceptions to our code.
 website.  This includes standards compliant HTML,
 consistency of data to aid computerised parsing, and ultimately
 provision of information as XML or other structured data files.
+<li>Persuade the official record to record the party whips at a division,
+if it is clearly visible such as a member waving people into the right
+lobby.
 </ul>
 
 <h2>Current Status</h2>
