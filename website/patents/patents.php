@@ -2,7 +2,7 @@
 <head>
 <META NAME="ROBOTS" CONTENT="NOARCHIVE">
 <META NAME="ROBOTS" CONTENT="NOINDEX">
-<title>Patent directive will destroy this website - The Public Whip</title>
+<title>Software patents - The Public Whip</title>
 <link href="../publicwhip.css" type="text/css" rel="stylesheet">
 
 </head>
