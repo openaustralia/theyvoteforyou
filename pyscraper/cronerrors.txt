@@ -1,3 +1,7 @@
+Speedup ideas:
+- if patch fails, try parsing without patch, then erase patch if that works
+- make it easier to erase patch and force reparse - special patchtool command line option
+
 Being errors found each day running the scraping cron job
 Out of sequence dates are when the rescraper picked up new stuff?
 CRON = cron job on baked
