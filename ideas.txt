@@ -130,6 +130,8 @@ Rural.
 Additional text content
 -----------------------
 
+Software to follow legislation from Queen's speech
+
 Group votes by department, so you can see areas of interest (Sirius
 Gibson, Oxfam)
 
