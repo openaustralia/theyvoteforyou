@@ -1,5 +1,5 @@
 <?php 
-    # $Id: wrans.php,v 1.15 2004/02/20 11:33:23 frabcus Exp $
+    # $Id: wrans.php,v 1.16 2004/06/19 09:58:02 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -97,16 +97,6 @@ get a list of all the questions they asked.</p>
     $result = WrapResult($result);
     print ApplyXSLT($result, "wrans-table.xslt");
 }
-/*
-<form class="search" action="wrans.php" name=pw>
-<input maxLength=256 size=25 name=search value=""> <input type="submit" value="Search" name="button">
-</form>
-
-<p class="search"><i>Example: "Coastguard", "Speed Cameras" or "China"</i>
-
-<p class="search"><span class="ptitle">Search Tips:</span> 
-<? search_wrans_tip() ?>
-*/
 ?>
 
 <?php include "footer.inc" ?>

@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.25 2004/02/20 11:33:23 frabcus Exp $
+# $Id: search.php,v 1.26 2004/06/19 09:58:02 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -189,9 +189,6 @@ name of a subject, such as "Pensions" or "Hunting".  The Public Whip
 will search the titles of the divisions and the text of the motion being
 debated.  If you enter multiple words, it will only find entries where they 
 appear next to each other as you enter them.  You can enter part of a word.
-
-<p class="search"><span class="ptitle">Written Answers:</span> 
-<?php search_wrans_tip() ?>
 
 <?php include "footer.inc" ?>
 
