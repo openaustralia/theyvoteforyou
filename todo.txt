@@ -1,7 +1,7 @@
 Wrans
 -----
 
-Leage table of how many didn't questions 
+League table of how many didn't questions 
 
 Index text in titles
 Check stemming
@@ -38,6 +38,13 @@ Make tables have alternating rows
 Stats - count up how many questions/answers each person has done
 
 Simple comments / vote system?
+
+Search for all questions that are about Hansard that you can now answer,
+and send off the answers.
+Put party/constuency in speakername?
+Separate out date of asking and date of answering
+
+Give help on how to request answers from hcinfo
 
 Web site
 --------

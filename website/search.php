@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.14 2003/12/22 01:54:21 frabcus Exp $
+# $Id: search.php,v 1.15 2004/01/05 12:07:59 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -39,6 +39,33 @@
             render_divisions_table($db);
             print "</table>\n";
         }
+
+		# Perform query on wrans
+		include "wrans.inc";
+		include "xquery.inc";
+		include "protodecode.inc";
+
+		$ids = wrans_search($prettyquery);	
+		if (count($ids) > 1000)
+		{
+			print "<p>More than 1000 matches, showing only first 1000.";
+			$ids = array_slice($ids, 0, 1000);
+		}
+		if (count($ids) > 0)
+		{
+			$found = true;
+
+			$result = "";
+			foreach ($ids as $id)
+				$result .= FetchWrans($id);
+			$result = WrapResult($result);
+			print "<p>Found these " . count($ids) . " Written Answers matching '$prettyquery':";
+
+			$url = "wrans.php?search=" . urlencode($_GET["query"]);
+
+			print ApplyXSLT($result, "wrans-table.xslt");
+			print "<p><a href=\"$url&expand=yes\">Show contents of all these Written Answers on one large page</a></p>";
+		}
 
         # Perform query on MPs
         $score_clause = "(";
@@ -108,22 +135,30 @@ or <a href="divisions.hphp">all divisions</a>.
 
 ?>
 
-<p class="search">Enter your MP, constituency or debate topic:</p>
+<p class="search">Enter your MP, constituency, debate topic or written answer topic:</p>
 <form class="search" action="search.php" name=pw>
 <input maxLength=256 size=25 name=query value=""> <input type="submit" value="Search" name="button">
 </form>
 
 <?php search_example($db) ?>
-<p class="search"><span class="ptitle">Search Tip 1:</span> You can <a
+<p class="search"><span class="ptitle">MPs:</span> You can <a
 href="http://www.faxyourmp.com/" target="faxyourmp_rocks">find your MP by postcode</a>
 on an external site, then enter their name or part of their name back
 here.  If you don't know exactly how to spell the name, write it as best
 you can like it sounds.
 
-<p class="search"><span class="ptitle">Search Tip 2:</span> 
+<p class="search"><span class="ptitle">Divisions:</span> 
 To find divisions you are interested in, enter the
 name of a subject, such as "Pensions" or "Hunting".  The Public Whip
 will search the titles of the divisions and the text of the motion being
-debated.
+debated.  If you enter multiple words, it will only find entries where they 
+appear next to each other as you enter them.  You can enter part of a word.
+
+<p class="search"><span class="ptitle">Written Answers:</span> 
+To find Written Answers, enter the name of a subject, such as "China" or "Fair
+Trade".  You can enter multiple words separated by a space, and the Public Whip
+will match answers which contains all the words.  Enter exact whole words, so
+try "weapons" as well as "weapon".
 
 <?php include "footer.inc" ?>
+

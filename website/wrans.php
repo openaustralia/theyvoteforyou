@@ -1,5 +1,5 @@
 <?php 
-    # $Id: wrans.php,v 1.13 2003/12/21 03:32:52 frabcus Exp $
+    # $Id: wrans.php,v 1.14 2004/01/05 12:08:00 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -23,17 +23,8 @@
 		// Search query
 		$title = "Written Answers matching '$prettysearch'";
 		include "header.inc";
-		
-		$words = split(" ", $prettysearch);
-		$ids = null;
-		foreach ($words as $word)
-		{
-			$wordids = array_unique(DecodeWord($word));
-			if ($ids != null)
-				$ids = array_intersect($wordids, $ids);
-			else
-				$ids = $wordids;
-		}
+		include "wrans.inc";
+		$ids = wrans_search($prettysearch);	
 		if (count($ids) > 1000)
 		{
 			print "<p>More than 1000 matches, showing only first 1000.";
@@ -41,12 +32,11 @@
 		}
 		if (count($ids) > 0)
 		{
-
 			$result = "";
 			foreach ($ids as $id)
 				$result .= FetchWrans($id);
 			$result = WrapResult($result);
-			print "<p>Found " . count($ids) . " Written Answers matching '$prettysearch':";
+			print "<p>Found these " . count($ids) . " Written Answers matching '$prettysearch':";
 
 			$url = "wrans.php?search=" . urlencode($_GET["search"]);
 			if (!$expand)
@@ -86,16 +76,15 @@
 			include "header.inc";
 			print "<p>Written answer " . $shellid . " not in database.";
 		}
-		print "<hr>";
 	}
 	else
 	{
 		$title = "Written Answers";
 		include "header.inc";
+		print "Use the <a href=\"search.php\">general search page</a> to find Written Answers now.";
 	}
 
-?>
-
+/*
 <p class="search">Search in Written Answers:</p>
 <form class="search" action="wrans.php" name=pw>
 <input maxLength=256 size=25 name=search value=""> <input type="submit" value="Search" name="button">
@@ -107,5 +96,7 @@
 multiple words separated by a space, and it will match anything which
 contains all the words.  There is no "stemming", so for instance
 "weapon" is a different word from "weapons".  Try searching for both.
+*/
+?>
 
 <?php include "footer.inc" ?>
