@@ -1,4 +1,4 @@
-# $Id: Clean.pm,v 1.6 2004/11/20 18:29:35 frabcus Exp $
+# $Id: Clean.pm,v 1.7 2004/11/22 03:46:35 frabcus Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -163,15 +163,14 @@ sub check_integrity {
     my $from = shift;
     my $to   = shift;
 
-    my $where = " and division_date >= '$from' and division_date <= '$to'";
+    my $where = "division_date >= '$from' and division_date <= '$to'";
 
     # Check deferred divisions
     my $sth = PublicWhip::DB::query(
         $dbh, "select division_date, division_number, division_name,
         count(*) from pw_vote, pw_division where
         (vote = 'tellaye' or vote = 'tellno') and
-        pw_vote.division_id = pw_division.division_id group by pw_vote.division_id
-        $where"
+        pw_vote.division_id = pw_division.division_id and $where group by pw_vote.division_id"
     );
     while ( my @data = $sth->fetchrow_array() ) {
         my ( $date, $number, $name, $count ) = @data;
@@ -203,8 +202,8 @@ sub check_integrity {
 
     # Check all divisions are present in sequence
     $sth = PublicWhip::DB::query( $dbh,
-"select division_date, division_number from pw_division order by
-division_date, division_number $where"
+"select division_date, division_number from pw_division where $where order by
+division_date, division_number"
     );
     my $prev_number = 0;
     my $prev_date   = "the-start-of-time";
