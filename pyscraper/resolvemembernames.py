@@ -341,15 +341,6 @@ class MemberList(xml.sax.handler.ContentHandler):
             remadename = input
         return 'speakerid="%s" speakername="%s"%s' % (id, remadename, speakeroffice)
 
-    # Bradley, rh Keith <i>(Withington)</i>
-    def matchfulldivisionname(self, inp, date):
-        ginp = re.match("([\w\-']*), ([ \w.#&;]*?)\s*(?:<i>\(([ \w&'.\-]*)\)</i>)?$", inp)
-        if ginp:
-            inp = '%s %s' % (ginp.group(2), ginp.group(1))
-        else:
-            print "No match (matchfulldivisionname):", inp
-        return self.matchfullname(inp, date)
-
 
     def mpnameexists(self, input, date):
         ids = self.fullnametoids(input, date)

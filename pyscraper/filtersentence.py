@@ -100,6 +100,7 @@ class PhraseTokenize:
 
 		self.DateTokens1(qs, stex)
 
+
 	def GetPara(self, ptype):
 		if ptype:
 			res = [ '<p class="%s">' % ptype ]

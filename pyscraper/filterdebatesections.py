@@ -138,16 +138,6 @@ def StripDebateHeadings(headspeak, sdate):
 		raise Exception, ' missing stamp url at beginning of file '
 	return (ih, stampurl)
 
-# A series of speeches blocked up into question and answer.
-def WriteXMLSpeech(fout, qb, sdate):
-       	# add in some tabbing
-        body = ''
-	for st in qb.stext:
-		body += '\t'
-		body += st
-		body += '\n'
-
-        WriteXMLChunk(fout, qb, sdate, 'speech', body)
 
 # A series of speeches blocked up into question and answer.
 def WriteXMLChunk(fout, qb, sdate, tagname, body):
@@ -160,30 +150,83 @@ def WriteXMLChunk(fout, qb, sdate, tagname, body):
 	sid = 'uk.org.publicwhip/debate/%s.%s.%d' % (sdate, colnum, qb.sstampurl.ncid)
 
 	# title headings
-        stithead = 'majorheading="%s"' % (qb.sstampurl.majorheading)
-        if qb.sstampurl.title <> "":
-                stithead += ' title="%s"' % (qb.sstampurl.title)
+	stithead = 'majorheading="%s"' % (qb.sstampurl.majorheading)
+	if qb.sstampurl.title <> "":
+		stithead += ' title="%s"' % (qb.sstampurl.title)
 
 	stime = re.match('<stamp( time=".*?")/>', qb.sstampurl.timestamp).group(1)
 	sstamp = 'colnum="%s"%s' % (colnum, stime)
 
 	spurl = qb.sstampurl.GetUrl()
 
-        speaker = ''
-        # OK, having DIVISION here is a bit of a hack - the qb.speaker variable could
-        # be renamed to qb.attributes, for this new general purpose attribute store
-        # (it contains divnumber= and divdate= for divisions)
-        if tagname == 'speech' or tagname == 'DIVISION':
-                speaker = qb.speaker
+	speaker = ''
+
+	# OK, having DIVISION here is a bit of a hack - the qb.speaker variable could
+	# be renamed to qb.attributes, for this new general purpose attribute store
+	# (it contains divnumber= and divdate= for divisions)
+	if tagname == 'speech' or tagname == 'DIVISION':
+		speaker = qb.speaker
 
 	# get the stamps from the stamp on first speaker in block
-	fout.write('\n<%s id="%s" %s %s %s url="%s">' % \
-				(tagname, sid, speaker, stithead, sstamp, spurl))
-        if tagname == 'speech' or tagname == 'DIVISION':
-                fout.write('\n')
-        fout.write(body)
+	fout.write('\n<%s id="%s" %s %s %s url="%s">\n' % (tagname, sid, speaker, stithead, sstamp, spurl)) 
+
+	# put out the paragraphs in body text 
+	for lb in body:
+		fout.write('\t')
+		fout.write(lb)
+		fout.write('\n')
 
 	fout.write('</%s>\n' % (tagname))
+
+
+
+# Handle normal type heading 
+def NormalHeadingPart(sht0, stampurl, sdate): 
+	# This is an attempt at major heading detection.
+	# This theory is utterly flawed since you can only tell the major headings
+	# by context, for example, the title of the adjournment debate, which is a
+	# separate entity from whatever came before, and so should not be within that
+	# prior major heading.  Also, Oral questions heading is a super-major heading,
+	# so doesn't fit into the scheme.
+
+	# detect if this is a major heading and record it in the correct variable
+
+	# set the title for this batch
+	stampurl.title = string.strip(FixHTMLEntities(sht0))
+
+	bmajorheading = False
+
+	# detect division headings 
+	gdiv = re.match('Division No. (\d+)', sht0)
+	divno = -1
+	if gdiv:
+		divno = string.atoi(gdiv.group(1))
+		
+	# All upper case headings - these tend to be uniform, so we can check their names
+	elif not re.search('[a-z]', sht0):
+		bmajorheading = True
+
+	# Other major headings, marked by _head in their anchor tag - doesn't seem
+	# worth checking their names.
+	elif re.search('_head', stampurl.aname):
+		bmajorheading = True
+
+
+	# write out block for headings
+	if bmajorheading:
+		stampurl.majorheading = stampurl.title
+		stampurl.title = ''
+		qb = qspeech('', stampurl.majorheading, stampurl, sdate)
+		qb.typ = 'debmajor'
+		qb.stext = [ stampurl.majorheading ] 
+
+	else:
+		qb = qspeech('', stampurl.title, stampurl, sdate)
+		qb.typ = 'debminor'
+		qb.stext = [ stampurl.title ] 
+
+	return (divno, qb)	
+
 
 ################
 # main function
@@ -198,95 +241,60 @@ def FilterDebateSections(fout, text, sdate):
 	# break down into lists of headings and lists of speeches
 	(ih, stampurl) = StripDebateHeadings(headspeak, sdate)
 
-
-	# full list of question batches
-	# We create a list of lists of speeches
+	# loop through each detected heading and the detected partitioning of speeches which follow. 
 	qbl = [ ]
-
 	for i in range(ih, len(headspeak)):
+		# triplet of ( heading, unspokentext, [(speaker, text)] ) 
 		sht = headspeak[i]
 
-#                print "sht: siz ", len(sht), ": 0 ", sht[0], " 1 ", sht[1], " 2 ", sht[2]
-#               print "###############"
-
-		# set the title for this batch
-		stampurl.title = string.strip(FixHTMLEntities(sht[0]))
-
+		# we convert this section into a list of speeches with an empty 
+		# speech block at the top.  (If we didn't, we'd miss titles with no speeches).  
+		# the stampurl object keeps the title info in it as well.  
 		qblock = [ ]
 
+		# the heading (empty speech) object 
+		(divno, qb) = NormalHeadingPart(sht[0], stampurl, sdate)
+		qblock.append(qb)  
 
-		# deal with divisions separately
-		gdiv = re.match('Division No. (\d+)', sht[0])
-		if gdiv:
-                        # Add a heading subheading object (for navigation)
-                        qb = qspeech('', stampurl.title, stampurl, sdate)
-                        qb.typ = 'debminor'
-                        qblock.append(qb)
+		# the unspoken text after the heading part 
 
-			divno = string.atoi(gdiv.group(1))
+		# division case 
+		sht1 = sht[1]
+		if divno != -1:
+			# find the ending of the division 
+			gquesacc = re.search("(Question accordingly)", sht1)
+			if gquesacc:
+				divtext = sht1[:gquesacc.end(1)]
+				sht1 = sht1[gquesacc.start(1):]
+			else:
+				divtext = sht1
+				print "division missing question accordingly" 
+				sht1 = ''
+			
+			
 
-			# gotta learn how to deal with the procedural text too.
-			# for now think of this as a division object, maybe.
-			# either that, or we'll make the Ayes and Noes as speech statements
-			# qbl.extend(FilterDivision(divno, sht[1], sdate))
+			# Add a division object (will contain votes and motion text)
+			qb = qspeech('divdate="%s" divnumber="%s"' % (sdate, divno), divtext, stampurl, sdate) 
+			qb.typ = 'debdiv' # this type field seems easiest way  
+			qblock.append(qb)
 
-                        # Add a division object (will contain votes and motion text)
-                        qb = qspeech('divdate="%s" divnumber="%s"' % (sdate, divno), 'parsed data to go here', stampurl, sdate)
-                        qb.typ = 'debdiv' # this type field seems easiest way
-                        qblock.append(qb)
 
-#			if sht[2]:
-#				print ' speeches found in division ' + sht[0] # so what?
-
-                        # update column stamps from stuff in the division data itself
-                        stampurl.UpdateStampUrl(sht[1])
-
-		else:
-
-                        # This is an attempt at major heading detection.
-                        # This theory is utterly flawed since you can only tell the major headings
-                        # by context, for example, the title of the adjournment debate, which is a
-                        # separate entity from whatever came before, and so should not be within that
-                        # prior major heading.  Also, Oral questions heading is a super-major heading,
-                        # so doesn't fit into the scheme.
-
-			# detect if this is a major heading and record it in the correct variable
-
-                        bmajorheading = False
-
-                        # All upper case headings - these tend to be uniform, so we can check their names
-                        if not re.search('[a-z]', sht[0]):
-                                bmajorheading = True
-                                stampurl.majorheading = stampurl.title
-				stampurl.title = ''
-                        # Other major headings, marked by _head in their anchor tag - doesn't seem
-                        # worth checking their names.
-                        elif re.search('_head', stampurl.aname):
-                                bmajorheading = True
-				stampurl.majorheading = stampurl.title
-				stampurl.title = ''
-
-                        # write out block for headings
-                        if bmajorheading:
-                                qb = qspeech('', stampurl.majorheading, stampurl, sdate)
-                                qb.typ = 'debmajor'
-                                qblock.append(qb)
-                        else:
-                                qb = qspeech('', stampurl.title, stampurl, sdate)
-                                qb.typ = 'debminor'
-                                qblock.append(qb)
-
+		# non-division unspoken text
+		if True:
 			# case of unspoken text (between heading and first speaker)
 			# which we will frig for now.
-			if (not re.match('(?:<[^>]*>|\s)*$', sht[1])):
-                                # there is some text
-				qb = qspeech('nospeaker="true"', sht[1], stampurl, sdate)
+			# there is some text
+			if (not re.match('(?:<[^>]*>|\s)*$', sht1)):
+				qb = qspeech('nospeaker="true"', sht1, stampurl, sdate)
 				qb.typ = 'debspeech'
 				qblock.append(qb)
-                        else:
-                                # there is no text
-                                # update from stamps if there are any
-                                stampurl.UpdateStampUrl(sht[1])
+
+			else:
+				# there is no text
+				# update from stamps if there are any
+				stampurl.UpdateStampUrl(sht1)
+
+
 
 		# go through each of the speeches in a block and put it into our batch of speeches
 		for ss in sht[2]:
@@ -294,6 +302,7 @@ def FilterDebateSections(fout, text, sdate):
 			qb.typ = 'debspeech'
 			qblock.append(qb)
 
+		# put this heading block into the speech block.  
 		qbl.append(qblock)
 
 
@@ -303,33 +312,38 @@ def FilterDebateSections(fout, text, sdate):
 
 	# go through all the speeches in all the batches and clear them up (converting text to stext)
 	for qblock in qbl:
-                for qb in qblock:
-                        if qb.typ != 'debdiv':
-                                FilterDebateSpeech(qb)
-
+		for qb in qblock:
+			if qb.typ == 'debdiv':
+				FilterDivision(qb)
+			else:
+				FilterDebateSpeech(qb)
+		
 
 
 	# output the list of entities
 	WriteXMLHeader(fout);
 	fout.write("<publicwhip>\n")
+
 	for qblock in qbl:
 		for qb in qblock:
-                        if qb.typ == 'debmajor':
-                                fout.write('\n')
-                                WriteXMLChunk(fout, qb, sdate, 'MAJOR-HEADING', qb.sstampurl.majorheading)
-                                fout.write('\n')
-                        elif qb.typ == 'debminor':
-                                fout.write('\n')
-                                WriteXMLChunk(fout, qb, sdate, 'MINOR-HEADING', qb.sstampurl.title)
-                                fout.write('\n')
-                        elif qb.typ == 'debspeech':
-                                WriteXMLSpeech(fout, qb, sdate)
-                        elif qb.typ == 'debdiv':
-                                fout.write('\n')
-                                WriteXMLChunk(fout, qb, sdate, 'DIVISION', 'Division not yet parsed')
-                                fout.write('\n')
-                        else:
-                                raise Exception, 'question block type unknown %s ' % qb.type
-
+			if qb.typ == 'debmajor':
+				fout.write('\n')
+				WriteXMLChunk(fout, qb, sdate, 'MAJOR-HEADING', qb.stext)
+				fout.write('\n')
+			elif qb.typ == 'debminor':
+				fout.write('\n')
+				WriteXMLChunk(fout, qb, sdate, 'MINOR-HEADING', qb.stext)
+				fout.write('\n')
+			elif qb.typ == 'debspeech':
+				WriteXMLChunk(fout, qb, sdate, 'speech', qb.stext)
+			elif qb.typ == 'debdiv':
+				fout.write('\n')
+				WriteXMLChunk(fout, qb, sdate, 'DIVISION', qb.stext)
+				fout.write('\n')
+			else:
+				raise Exception, 'question block type unknown %s ' % qb.type
 
 	fout.write("</publicwhip>\n")
+	
+
+
