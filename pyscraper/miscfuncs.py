@@ -8,6 +8,10 @@ import os
 toppath = os.path.abspath(os.path.expanduser('~/pwdata/'))
 if os.name == 'nt':  # the case of julian developing on a university machine.  
     toppath = os.path.abspath('../../pwdata')
+    print toppath
+    if re.search('\.\.', toppath):
+        toppath = 'C:\\pwdata'
+        
 print "Data directory (set in miscfuncs.py): %s" % toppath
 if (not os.path.isdir(toppath)):
     raise Exception, 'Directory does not exist, please create'
