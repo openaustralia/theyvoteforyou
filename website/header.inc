@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.38 2004/06/15 23:46:49 frabcus Exp $
+# $Id: header.inc,v 1.39 2005/01/14 09:16:44 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -30,6 +30,7 @@ if ($title == "Counting votes on your behalf")
 <link href="/publicwhip.css" type="text/css" rel="stylesheet">
 <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.publicwhip.org.uk/feeds/interestingdivisions.xml" />
 <title><? print $pagetitle ?></title>
 <script>
 <!--

@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.28 2004/11/24 20:36:38 frabcus Exp $
+# $Id: faq.php,v 1.29 2005/01/14 09:16:44 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -18,6 +18,7 @@
 <li><a href="#wrans">Where have the Written Answers gone?</a><br/>
 <li><a href="#clarify">What do the "rebellion" and "attendance" figures mean exactly?</a> <br/>
 <li><a href="#freevotes">Why do you incorrectly say people are rebels in free votes?</a> <br/>
+<li><a href="#rss">Are there any RSS syndication feeds?</a> <br/>
 <li><a href="#spreadsheet">Where is the data in spreadsheet file format or in XML?</a> <br/>
 <li><a href="#legal">Legal question, what can I use this information for?</a> <br/>
 <li><a href="#playwith">Can I play with the software?</a> <br/>
@@ -132,6 +133,16 @@ Whip site, lobby them to do this, then let us know.
 and at the same time not tell us.  There is no contradiction in admitting the whip
 exists and recording it officially&mdash;after all some whips <a href="http://www.cabinet-office.gov.uk/civilservice/min-mp-pay/min_sal_tables.htm">are paid a salary by the taxpayer</a> so
 there is a precedent for admitting they exist.
+
+<h2><a name="rss">Are there any RSS syndication feeds?</a></h2>
+
+<p> First an explanation.  RSS is a way to let you easily read news from lots
+of different sources.  You need a special program called a newsreader to do
+this.  On the BBC website, there's a <a href="http://news.bbc.co.uk/2/hi/help/3223484.stm">full
+desription</a> of how to do it.  We provide the following RSS feeds:
+
+<p> <a href="/feeds/interestingdivisions.xml">interestingdivisions.xml</a> &mdash; 
+Find out every time there are more than 10 "rebellions" in a division.
 
 <h2><a name="spreadsheet">Where is the data in spreadsheet file format or in XML?</a></h2>
 

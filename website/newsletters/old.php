@@ -1,5 +1,5 @@
 <? $title = "Old Site News"; include "../header.inc";
-# $Id: old.php,v 1.3 2004/11/22 00:21:49 frabcus Exp $
+# $Id: old.php,v 1.4 2005/01/14 09:16:45 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -136,7 +136,7 @@ passed on to the electronic version.  There are also sometimes errors in
 the bound volume text as well.</p>
 
 <p>One example is <a
-href="/http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030120/debtext/30120-25.htm">division 56</a> from
+href="http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030120/debtext/30120-25.htm">division 56</a> from
 during a debate on occupational pensions at the start of this year.
 There are two MPs both called Gareth Thomas, one the member for Clwyd
 West and the other for Harrow West.  In this division Hansard doesn't
