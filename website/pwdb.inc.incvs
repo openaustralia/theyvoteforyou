@@ -1,0 +1,15 @@
+<?php
+
+# Public Whip database params, change these
+$host = "localhost";
+$user = "";
+$password = "";
+$database = "tpw";
+
+# Authentication value - only needed for publicwhip.org.uk itself
+$hidden_hash_var=''; 
+
+# Not available except for publicwhip.org.uk
+$postcode_search_url = "none";
+
+?>
