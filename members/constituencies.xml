@@ -1,0 +1,2149 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<publicwhip>
+
+<!--
+
+Unique identifiers and alternative names for UK parliamentary constituencies.
+Currently as they are in 2003 - will need to update when boundary changes come
+in.
+
+Currently has the name forms used for the list of MPs on the Parliament website
+and by the ONS (Office of National Statistics).  The Parliament versions are more
+accurate, so considered canonical.
+
+-->
+
+<constituency id="uk.org.publicwhip/cons/1">
+    <name text="Aberavon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/2">
+    <name text="Aberdeen Central"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/3">
+    <name text="Aberdeen North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/4">
+    <name text="Aberdeen South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/5">
+    <name text="Airdrie &amp; Shotts"/>
+    <name text="Airdrie and Shotts"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/6">
+    <name text="Aldershot"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/7">
+    <name text="Aldridge-Brownhills"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/8">
+    <name text="Altrincham &amp; Sale West"/>
+    <name text="Altrincham and Sale West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/9">
+    <name text="Alyn &amp; Deeside"/>
+    <name text="Alyn and Deeside"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/10">
+    <name text="Amber Valley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/11">
+    <name text="Angus"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/12">
+    <name text="Argyll &amp; Bute"/>
+    <name text="Argyll and Bute"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/13">
+    <name text="Arundel &amp; South Downs"/>
+    <name text="Arundel and South Downs"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/14">
+    <name text="Ashfield"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/15">
+    <name text="Ashford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/16">
+    <name text="Ashton-under-Lyne"/>
+    <name text="Ashton under Lyne"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/17">
+    <name text="Aylesbury"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/18">
+    <name text="Ayr"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/19">
+    <name text="Banbury"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/20">
+    <name text="Banff &amp; Buchan"/>
+    <name text="Banff and Buchan"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/21">
+    <name text="Barking"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/22">
+    <name text="Barnsley Central"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/23">
+    <name text="Barnsley East &amp; Mexborough"/>
+    <name text="Barnsley East and Mexborough"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/24">
+    <name text="Barnsley West &amp; Penistone"/>
+    <name text="Barnsley West and Penistone"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/25">
+    <name text="Barrow &amp; Furness"/>
+    <name text="Barrow and Furness"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/26">
+    <name text="Basildon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/27">
+    <name text="Basingstoke"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/28">
+    <name text="Bassetlaw"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/29">
+    <name text="Bath"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/30">
+    <name text="Batley &amp; Spen"/>
+    <name text="Batley and Spen"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/31">
+    <name text="Battersea"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/32">
+    <name text="Beaconsfield"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/33">
+    <name text="Beckenham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/34">
+    <name text="Bedford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/35">
+    <name text="Belfast East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/36">
+    <name text="Belfast North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/37">
+    <name text="Belfast South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/38">
+    <name text="Belfast West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/39">
+    <name text="Berwick-upon-Tweed"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/40">
+    <name text="Bethnal Green &amp; Bow"/>
+    <name text="Bethnal Green and Bow"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/41">
+    <name text="Beverley &amp; Holderness"/>
+    <name text="Beverley and Holderness"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/42">
+    <name text="Bexhill &amp; Battle"/>
+    <name text="Bexhill and Battle"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/43">
+    <name text="Bexleyheath &amp; Crayford"/>
+    <name text="Bexleyheath and Crayford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/44">
+    <name text="Billericay"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/45">
+    <name text="Birkenhead"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/46">
+    <name text="Birmingham, Edgbaston"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/47">
+    <name text="Birmingham, Erdington"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/48">
+    <name text="Birmingham, Hall Green"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/49">
+    <name text="Birmingham, Hodge Hill"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/50">
+    <name text="Birmingham, Ladywood"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/51">
+    <name text="Birmingham, Northfield"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/52">
+    <name text="Birmingham, Perry Barr"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/53">
+    <name text="Birmingham, Selly Oak"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/54">
+    <name text="Birmingham, Sparkbrook &amp; Small Heath"/>
+    <name text="Birmingham, Sparkbrook and Small Heath"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/55">
+    <name text="Birmingham, Yardley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/56">
+    <name text="Bishop Auckland"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/57">
+    <name text="Blaby"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/58">
+    <name text="Blackburn"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/59">
+    <name text="Blackpool North &amp; Fleetwood"/>
+    <name text="Blackpool North and Fleetwood"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/60">
+    <name text="Blackpool South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/61">
+    <name text="Blaenau Gwent"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/62">
+    <name text="Blaydon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/63">
+    <name text="Blyth Valley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/64">
+    <name text="Bognor Regis &amp; Littlehampton"/>
+    <name text="Bognor Regis and Littlehampton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/65">
+    <name text="Bolsover"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/66">
+    <name text="Bolton North East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/67">
+    <name text="Bolton South East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/68">
+    <name text="Bolton West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/69">
+    <name text="Bootle"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/70">
+    <name text="Boston &amp; Skegness"/>
+    <name text="Boston and Skegness"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/71">
+    <name text="Bosworth"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/72">
+    <name text="Bournemouth East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/73">
+    <name text="Bournemouth West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/74">
+    <name text="Bracknell"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/75">
+    <name text="Bradford North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/76">
+    <name text="Bradford South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/77">
+    <name text="Bradford West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/78">
+    <name text="Braintree"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/79">
+    <name text="Brecon &amp; Radnorshire"/>
+    <name text="Brecon and Radnorshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/80">
+    <name text="Brent East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/81">
+    <name text="Brent North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/82">
+    <name text="Brent South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/83">
+    <name text="Brentford &amp; Isleworth"/>
+    <name text="Brentford and Isleworth"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/84">
+    <name text="Brentwood &amp; Ongar"/>
+    <name text="Brentwood and Ongar"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/85">
+    <name text="Bridgend"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/86">
+    <name text="Bridgwater"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/87">
+    <name text="Brigg &amp; Goole"/>
+    <name text="Brigg and Goole"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/88">
+    <name text="Brighton, Kemptown"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/89">
+    <name text="Brighton, Pavilion"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/90">
+    <name text="Bristol East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/91">
+    <name text="Bristol North West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/92">
+    <name text="Bristol South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/93">
+    <name text="Bristol West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/94">
+    <name text="Bromley &amp; Chislehurst"/>
+    <name text="Bromley and Chislehurst"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/95">
+    <name text="Bromsgrove"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/96">
+    <name text="Broxbourne"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/97">
+    <name text="Broxtowe"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/98">
+    <name text="Buckingham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/99">
+    <name text="Burnley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/100">
+    <name text="Burton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/101">
+    <name text="Bury North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/102">
+    <name text="Bury South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/103">
+    <name text="Bury St Edmunds"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/104">
+    <name text="Caernarfon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/105">
+    <name text="Caerphilly"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/106">
+    <name text="Caithness, Sutherland &amp; Easter Ross"/>
+    <name text="Caithness, Sutherland and Easter Ross"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/107">
+    <name text="Calder Valley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/108">
+    <name text="Camberwell &amp; Peckham"/>
+    <name text="Camberwell and Peckham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/109">
+    <name text="Cambridge"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/110">
+    <name text="Cannock Chase"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/111">
+    <name text="Canterbury"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/112">
+    <name text="Cardiff Central"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/113">
+    <name text="Cardiff North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/114">
+    <name text="Cardiff South &amp; Penarth"/>
+    <name text="Cardiff South and Penarth"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/115">
+    <name text="Cardiff West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/116">
+    <name text="Carlisle"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/117">
+    <name text="Carmarthen East &amp; Dinefwr"/>
+    <name text="Carmarthen East and Dinefwr"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/118">
+    <name text="Carmarthen West &amp; South Pembrokeshire"/>
+    <name text="Carmarthen West and South Pembrokeshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/119">
+    <name text="Carrick, Cumnock &amp; Doon Valley"/>
+    <name text="Carrick, Cumnock and Doon Valley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/120">
+    <name text="Carshalton &amp; Wallington"/>
+    <name text="Carshalton and Wallington"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/121">
+    <name text="Castle Point"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/122">
+    <name text="Central Fife"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/123">
+    <name text="Central Suffolk &amp; North Ipswich"/>
+    <name text="Central Suffolk and North Ipswich"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/124">
+    <name text="Ceredigion"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/125">
+    <name text="Charnwood"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/126">
+    <name text="Chatham &amp; Aylesford"/>
+    <name text="Chatham and Aylesford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/127">
+    <name text="Cheadle"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/128">
+    <name text="Cheltenham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/129">
+    <name text="Chesham &amp; Amersham"/>
+    <name text="Chesham and Amersham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/130">
+    <name text="Chester, City of"/>
+    <name text="City of Chester"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/131">
+    <name text="Chesterfield"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/132">
+    <name text="Chichester"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/133">
+    <name text="Chingford &amp; Woodford Green"/>
+    <name text="Chingford and Woodford Green"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/134">
+    <name text="Chipping Barnet"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/135">
+    <name text="Chorley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/136">
+    <name text="Christchurch"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/137">
+    <name text="Cities of London &amp; Westminster"/>
+    <name text="Cities of London and Westminster"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/138">
+    <name text="Cleethorpes"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/139">
+    <name text="Clwyd South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/140">
+    <name text="Clwyd West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/141">
+    <name text="Clydebank &amp; Milngavie"/>
+    <name text="Clydebank and Milngavie"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/142">
+    <name text="Clydesdale"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/143">
+    <name text="Coatbridge &amp; Chryston"/>
+    <name text="Coatbridge and Chryston"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/144">
+    <name text="Colchester"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/145">
+    <name text="Colne Valley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/146">
+    <name text="Congleton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/147">
+    <name text="Conwy"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/148">
+    <name text="Copeland"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/149">
+    <name text="Corby"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/150">
+    <name text="Cotswold"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/151">
+    <name text="Coventry North East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/152">
+    <name text="Coventry North West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/153">
+    <name text="Coventry South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/154">
+    <name text="Crawley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/155">
+    <name text="Crewe &amp; Nantwich"/>
+    <name text="Crewe and Nantwich"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/156">
+    <name text="Crosby"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/157">
+    <name text="Croydon Central"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/158">
+    <name text="Croydon North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/159">
+    <name text="Croydon South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/160">
+    <name text="Cumbernauld &amp; Kilsyth"/>
+    <name text="Cumbernauld and Kilsyth"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/161">
+    <name text="Cunninghame North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/162">
+    <name text="Cunninghame South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/163">
+    <name text="Cynon Valley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/164">
+    <name text="Dagenham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/165">
+    <name text="Darlington"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/166">
+    <name text="Dartford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/167">
+    <name text="Daventry"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/168">
+    <name text="Delyn"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/169">
+    <name text="Denton &amp; Reddish"/>
+    <name text="Denton and Reddish"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/170">
+    <name text="Derby North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/171">
+    <name text="Derby South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/172">
+    <name text="Devizes"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/173">
+    <name text="Dewsbury"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/174">
+    <name text="Don Valley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/175">
+    <name text="Doncaster Central"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/176">
+    <name text="Doncaster North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/177">
+    <name text="Dover"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/178">
+    <name text="Dudley North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/179">
+    <name text="Dudley South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/180">
+    <name text="Dulwich &amp; West Norwood"/>
+    <name text="Dulwich and West Norwood"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/181">
+    <name text="Dumbarton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/182">
+    <name text="Dumfries"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/183">
+    <name text="Dundee East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/184">
+    <name text="Dundee West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/185">
+    <name text="Dunfermline East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/186">
+    <name text="Dunfermline West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/187">
+    <name text="Durham, City of"/>
+    <name text="City of Durham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/188">
+    <name text="Ealing North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/189">
+    <name text="Ealing, Acton &amp; Shepherd's Bush"/>
+    <name text="Ealing, Acton and Shepherd's Bush"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/190">
+    <name text="Ealing, Southall"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/191">
+    <name text="Easington"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/192">
+    <name text="East Antrim"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/193">
+    <name text="East Devon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/194">
+    <name text="East Ham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/195">
+    <name text="East Hampshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/196">
+    <name text="East Kilbride"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/197">
+    <name text="East Londonderry"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/198">
+    <name text="East Lothian"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/199">
+    <name text="East Surrey"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/200">
+    <name text="East Worthing &amp; Shoreham"/>
+    <name text="East Worthing and Shoreham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/201">
+    <name text="East Yorkshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/202">
+    <name text="Eastbourne"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/203">
+    <name text="Eastleigh"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/204">
+    <name text="Eastwood"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/205">
+    <name text="Eccles"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/206">
+    <name text="Eddisbury"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/207">
+    <name text="Edinburgh Central"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/208">
+    <name text="Edinburgh East &amp; Musselburgh"/>
+    <name text="Edinburgh East and Musselburgh"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/209">
+    <name text="Edinburgh North &amp; Leith"/>
+    <name text="Edinburgh North and Leith"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/210">
+    <name text="Edinburgh South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/211">
+    <name text="Edinburgh West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/212">
+    <name text="Edinburgh, Pentlands"/>
+    <name text="Edinburgh Pentlands"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/213">
+    <name text="Edmonton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/214">
+    <name text="Ellesmere Port &amp; Neston"/>
+    <name text="Ellesmere Port and Neston"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/215">
+    <name text="Elmet"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/216">
+    <name text="Eltham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/217">
+    <name text="Enfield North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/218">
+    <name text="Enfield, Southgate"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/219">
+    <name text="Epping Forest"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/220">
+    <name text="Epsom &amp; Ewell"/>
+    <name text="Epson and Ewell"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/221">
+    <name text="Erewash"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/222">
+    <name text="Erith &amp; Thamesmead"/>
+    <name text="Erith and Thamesmead"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/223">
+    <name text="Esher &amp; Walton"/>
+    <name text="Esher and Walton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/224">
+    <name text="Exeter"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/225">
+    <name text="Falkirk East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/226">
+    <name text="Falkirk West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/227">
+    <name text="Falmouth &amp; Camborne"/>
+    <name text="Falmouth and Camborne"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/228">
+    <name text="Fareham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/229">
+    <name text="Faversham &amp; Mid Kent"/>
+    <name text="Faversham and Mid Kent"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/230">
+    <name text="Feltham &amp; Heston"/>
+    <name text="Feltham and Heston"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/231">
+    <name text="Fermanagh &amp; South Tyrone"/>
+    <name text="Fermanagh and South Tyrone"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/232">
+    <name text="Finchley &amp; Golders Green"/>
+    <name text="Finchley and Golders Green"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/233">
+    <name text="Folkestone &amp; Hythe"/>
+    <name text="Folkestone and Hythe"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/234">
+    <name text="Forest of Dean"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/235">
+    <name text="Foyle"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/236">
+    <name text="Fylde"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/237">
+    <name text="Gainsborough"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/238">
+    <name text="Galloway &amp; Upper Nithsdale"/>
+    <name text="Galloway and Upper Nithsdale"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/239">
+    <name text="Gateshead East &amp; Washington West"/>
+    <name text="Gateshead East and Washington West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/240">
+    <name text="Gedling"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/241">
+    <name text="Gillingham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/242">
+    <name text="Glasgow, Anniesland"/>
+    <name text="Glasgow Anniesland"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/243">
+    <name text="Glasgow, Baillieston"/>
+    <name text="Glasgow Baillieston"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/244">
+    <name text="Glasgow, Cathcart"/>
+    <name text="Glasgow Cathcart"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/245">
+    <name text="Glasgow, Govan"/>
+    <name text="Glasgow Govan"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/246">
+    <name text="Glasgow, Kelvin"/>
+    <name text="Glasgow Kelvin"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/247">
+    <name text="Glasgow, Maryhill"/>
+    <name text="Glasgow Maryhill"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/248">
+    <name text="Glasgow, Pollok"/>
+    <name text="Glasgow Pollok"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/249">
+    <name text="Glasgow, Rutherglen"/>
+    <name text="Glasgow Rutherglen"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/250">
+    <name text="Glasgow, Shettleston"/>
+    <name text="Glasgow Shettleston"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/251">
+    <name text="Glasgow, Springburn"/>
+    <name text="Glasgow Springburn"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/252">
+    <name text="Gloucester"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/253">
+    <name text="Gordon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/254">
+    <name text="Gosport"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/255">
+    <name text="Gower"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/256">
+    <name text="Grantham &amp; Stamford"/>
+    <name text="Grantham and Stamford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/257">
+    <name text="Gravesham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/258">
+    <name text="Great Grimsby"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/259">
+    <name text="Great Yarmouth"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/260">
+    <name text="Greenock &amp; Inverclyde"/>
+    <name text="Greenock and Inverclyde"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/261">
+    <name text="Greenwich &amp; Woolwich"/>
+    <name text="Greenwich and Woolwich"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/262">
+    <name text="Guildford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/263">
+    <name text="Hackney North &amp; Stoke Newington"/>
+    <name text="Hackney North and Stoke Newington"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/264">
+    <name text="Hackney South &amp; Shoreditch"/>
+    <name text="Hackney South and Shoreditch"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/265">
+    <name text="Halesowen &amp; Rowley Regis"/>
+    <name text="Halesowen and Rowley Regis"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/266">
+    <name text="Halifax"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/267">
+    <name text="Haltemprice &amp; Howden"/>
+    <name text="Haltemprice and Howden"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/268">
+    <name text="Halton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/269">
+    <name text="Hamilton North &amp; Bellshill"/>
+    <name text="Hamilton North and Bellshill"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/270">
+    <name text="Hamilton South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/271">
+    <name text="Hammersmith &amp; Fulham"/>
+    <name text="Hammersmith and Fulham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/272">
+    <name text="Hampstead &amp; Highgate"/>
+    <name text="Hampstead and Highgate"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/273">
+    <name text="Harborough"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/274">
+    <name text="Harlow"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/275">
+    <name text="Harrogate &amp; Knaresborough"/>
+    <name text="Harrogate and Knaresborough"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/276">
+    <name text="Harrow East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/277">
+    <name text="Harrow West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/278">
+    <name text="Hartlepool"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/279">
+    <name text="Harwich"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/280">
+    <name text="Hastings &amp; Rye"/>
+    <name text="Hastings and Rye"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/281">
+    <name text="Havant"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/282">
+    <name text="Hayes &amp; Harlington"/>
+    <name text="Hayes and Harlington"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/283">
+    <name text="Hazel Grove"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/284">
+    <name text="Hemel Hempstead"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/285">
+    <name text="Hemsworth"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/286">
+    <name text="Hendon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/287">
+    <name text="Henley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/288">
+    <name text="Hereford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/289">
+    <name text="Hertford &amp; Stortford"/>
+    <name text="Hertford and Stortford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/290">
+    <name text="Hertsmere"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/291">
+    <name text="Hexham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/292">
+    <name text="Heywood &amp; Middleton"/>
+    <name text="Heywood and Middleton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/293">
+    <name text="High Peak"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/294">
+    <name text="Hitchin &amp; Harpenden"/>
+    <name text="Hitchin and Harpenden"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/295">
+    <name text="Holborn &amp; St Pancras"/>
+    <name text="Holborn and St Pancras"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/296">
+    <name text="Hornchurch"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/297">
+    <name text="Hornsey &amp; Wood Green"/>
+    <name text="Hornsey and Wood Green"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/298">
+    <name text="Horsham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/299">
+    <name text="Houghton &amp; Washington East"/>
+    <name text="Houghton and Washington East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/300">
+    <name text="Hove"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/301">
+    <name text="Huddersfield"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/302">
+    <name text="Huntingdon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/303">
+    <name text="Hyndburn"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/304">
+    <name text="Ilford North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/305">
+    <name text="Ilford South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/306">
+    <name text="Inverness East, Nairn &amp; Lochaber"/>
+    <name text="Inverness East, Nairn and Lochaber"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/307">
+    <name text="Ipswich"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/308">
+    <name text="Isle of Wight"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/309">
+    <name text="Islington North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/310">
+    <name text="Islington South &amp; Finsbury"/>
+    <name text="Islington South and Finsbury"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/311">
+    <name text="Islwyn"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/312">
+    <name text="Jarrow"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/313">
+    <name text="Keighley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/314">
+    <name text="Kensington &amp; Chelsea"/>
+    <name text="Kensington and Chelsea"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/315">
+    <name text="Kettering"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/316">
+    <name text="Kilmarnock &amp; Loudoun"/>
+    <name text="Kilmarnock and Loudoun"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/317">
+    <name text="Kingston &amp; Surbiton"/>
+    <name text="Kingston and Surbiton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/318">
+    <name text="Kingston upon Hull East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/319">
+    <name text="Kingston upon Hull North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/320">
+    <name text="Kingston upon Hull West &amp; Hessle"/>
+    <name text="Kingston upon Hull West and Hessle"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/321">
+    <name text="Kingswood"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/322">
+    <name text="Kirkcaldy"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/323">
+    <name text="Knowsley North &amp; Sefton East"/>
+    <name text="Knowsley North and Sefton East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/324">
+    <name text="Knowsley South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/325">
+    <name text="Lagan Valley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/326">
+    <name text="Lancaster &amp; Wyre"/>
+    <name text="Lancaster and Wyre"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/327">
+    <name text="Leeds Central"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/328">
+    <name text="Leeds East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/329">
+    <name text="Leeds North East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/330">
+    <name text="Leeds North West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/331">
+    <name text="Leeds West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/332">
+    <name text="Leicester East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/333">
+    <name text="Leicester South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/334">
+    <name text="Leicester West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/335">
+    <name text="Leigh"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/336">
+    <name text="Leominster"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/337">
+    <name text="Lewes"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/338">
+    <name text="Lewisham East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/339">
+    <name text="Lewisham West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/340">
+    <name text="Lewisham, Deptford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/341">
+    <name text="Leyton &amp; Wanstead"/>
+    <name text="Leyton and Wanstead"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/342">
+    <name text="Lichfield"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/343">
+    <name text="Lincoln"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/344">
+    <name text="Linlithgow"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/345">
+    <name text="Liverpool, Garston"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/346">
+    <name text="Liverpool, Riverside"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/347">
+    <name text="Liverpool, Walton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/348">
+    <name text="Liverpool, Wavertree"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/349">
+    <name text="Liverpool, West Derby"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/350">
+    <name text="Livingston"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/351">
+    <name text="Llanelli"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/352">
+    <name text="Loughborough"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/353">
+    <name text="Louth &amp; Horncastle"/>
+    <name text="Louth and Horncastle"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/354">
+    <name text="Ludlow"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/355">
+    <name text="Luton North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/356">
+    <name text="Luton South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/357">
+    <name text="Macclesfield"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/358">
+    <name text="Maidenhead"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/359">
+    <name text="Maidstone &amp; The Weald"/>
+    <name text="Maidstone and The Weald"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/360">
+    <name text="Makerfield"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/361">
+    <name text="Maldon &amp; East Chelmsford"/>
+    <name text="Maldon and East Chelmsford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/362">
+    <name text="Manchester Central"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/363">
+    <name text="Manchester, Blackley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/364">
+    <name text="Manchester, Gorton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/365">
+    <name text="Manchester, Withington"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/366">
+    <name text="Mansfield"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/367">
+    <name text="Medway"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/368">
+    <name text="Meirionnydd Nant Conwy"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/369">
+    <name text="Meriden"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/370">
+    <name text="Merthyr Tydfil &amp; Rhymney"/>
+    <name text="Merthyr Tydfil and Rhymney"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/371">
+    <name text="Mid Bedfordshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/372">
+    <name text="Mid Dorset &amp; North Poole"/>
+    <name text="Mid Dorset and North Poole"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/373">
+    <name text="Mid Norfolk"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/374">
+    <name text="Mid Sussex"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/375">
+    <name text="Mid Ulster"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/376">
+    <name text="Mid Worcestershire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/377">
+    <name text="Middlesbrough"/>
+    <name text="Middlesborough"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/378">
+    <name text="Middlesbrough South &amp; East Cleveland"/>
+    <name text="Middlesborough South and East Cleveland"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/379">
+    <name text="Midlothian"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/380">
+    <name text="Milton Keynes South West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/381">
+    <name text="Mitcham &amp; Morden"/>
+    <name text="Mitcham and Morden"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/382">
+    <name text="Mole Valley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/383">
+    <name text="Monmouth"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/384">
+    <name text="Montgomeryshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/385">
+    <name text="Moray"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/386">
+    <name text="Morecambe &amp; Lunesdale"/>
+    <name text="Morecambe and Lunesdale"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/387">
+    <name text="Morley &amp; Rothwell"/>
+    <name text="Morley and Rothwell"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/388">
+    <name text="Motherwell &amp; Wishaw"/>
+    <name text="Motherwell and Wishaw"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/389">
+    <name text="Neath"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/390">
+    <name text="New Forest East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/391">
+    <name text="New Forest West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/392">
+    <name text="Newark"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/393">
+    <name text="Newbury"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/394">
+    <name text="Newcastle upon Tyne Central"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/395">
+    <name text="Newcastle upon Tyne East &amp; Wallsend"/>
+    <name text="Newcastle upon Tyne East and Wallsend"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/396">
+    <name text="Newcastle upon Tyne North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/397">
+    <name text="Newcastle-under-Lyme"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/398">
+    <name text="Newport East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/399">
+    <name text="Newport West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/400">
+    <name text="Newry &amp; Armagh"/>
+    <name text="Newry and Armagh"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/401">
+    <name text="Normanton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/402">
+    <name text="North Antrim"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/403">
+    <name text="North Cornwall"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/404">
+    <name text="North Devon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/405">
+    <name text="North Dorset"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/406">
+    <name text="North Down"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/407">
+    <name text="North Durham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/408">
+    <name text="North East Bedfordshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/409">
+    <name text="North East Cambridgeshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/410">
+    <name text="North East Derbyshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/411">
+    <name text="North East Fife"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/412">
+    <name text="North East Hampshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/413">
+    <name text="North East Hertfordshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/414">
+    <name text="North East Milton Keynes"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/415">
+    <name text="North Essex"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/416">
+    <name text="North Norfolk"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/417">
+    <name text="North Shropshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/418">
+    <name text="North Southwark &amp; Bermondsey"/>
+    <name text="North Southwark and Bermondsey"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/419">
+    <name text="North Swindon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/420">
+    <name text="North Tayside"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/421">
+    <name text="North Thanet"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/422">
+    <name text="North Tyneside"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/423">
+    <name text="North Warwickshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/424">
+    <name text="North West Cambridgeshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/425">
+    <name text="North West Durham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/426">
+    <name text="North West Hampshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/427">
+    <name text="North West Leicestershire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/428">
+    <name text="North West Norfolk"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/429">
+    <name text="North Wiltshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/430">
+    <name text="Northampton North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/431">
+    <name text="Northampton South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/432">
+    <name text="Northavon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/433">
+    <name text="Norwich North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/434">
+    <name text="Norwich South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/435">
+    <name text="Nottingham East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/436">
+    <name text="Nottingham North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/437">
+    <name text="Nottingham South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/438">
+    <name text="Nuneaton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/439">
+    <name text="Ochil"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/440">
+    <name text="Ogmore"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/441">
+    <name text="Old Bexley &amp; Sidcup"/>
+    <name text="Old Bexley and Sidcup"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/442">
+    <name text="Oldham East &amp; Saddleworth"/>
+    <name text="Oldham East and Saddleworth"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/443">
+    <name text="Oldham West &amp; Royton"/>
+    <name text="Oldham West and Royton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/444">
+    <name text="Orkney &amp; Shetland"/>
+    <name text="Orkney and Shetland"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/445">
+    <name text="Orpington"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/446">
+    <name text="Oxford East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/447">
+    <name text="Oxford West &amp; Abingdon"/>
+    <name text="Oxford West and Abingdon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/448">
+    <name text="Paisley North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/449">
+    <name text="Paisley South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/450">
+    <name text="Pendle"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/451">
+    <name text="Penrith &amp; The Border"/>
+    <name text="Penrith and The Border"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/452">
+    <name text="Perth"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/453">
+    <name text="Peterborough"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/454">
+    <name text="Plymouth, Devonport"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/455">
+    <name text="Plymouth, Sutton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/456">
+    <name text="Pontefract &amp; Castleford"/>
+    <name text="Pontefract and Castleford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/457">
+    <name text="Pontypridd"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/458">
+    <name text="Poole"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/459">
+    <name text="Poplar &amp; Canning Town"/>
+    <name text="Poplar and Canning Town"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/460">
+    <name text="Portsmouth North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/461">
+    <name text="Portsmouth South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/462">
+    <name text="Preseli Pembrokeshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/463">
+    <name text="Preston"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/464">
+    <name text="Pudsey"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/465">
+    <name text="Putney"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/466">
+    <name text="Rayleigh"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/467">
+    <name text="Reading East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/468">
+    <name text="Reading West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/469">
+    <name text="Redcar"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/470">
+    <name text="Redditch"/>
+    <name text="Reddith"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/471">
+    <name text="Regent's Park &amp; Kensington North"/>
+    <name text="Regent's Park and Kensington North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/472">
+    <name text="Reigate"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/473">
+    <name text="Rhondda"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/474">
+    <name text="Ribble Valley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/475">
+    <name text="Richmond (Yorks)"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/476">
+    <name text="Richmond Park"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/477">
+    <name text="Rochdale"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/478">
+    <name text="Rochford &amp; Southend East"/>
+    <name text="Rochford and Southend East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/479">
+    <name text="Romford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/480">
+    <name text="Romsey"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/481">
+    <name text="Ross, Skye &amp; Inverness West"/>
+    <name text="Ross, Skye and Inverness West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/482">
+    <name text="Rossendale &amp; Darwen"/>
+    <name text="Rossendale and Darwen"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/483">
+    <name text="Rother Valley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/484">
+    <name text="Rotherham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/485">
+    <name text="Roxburgh &amp; Berwickshire"/>
+    <name text="Roxburgh and Berwickshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/486">
+    <name text="Rugby &amp; Kenilworth"/>
+    <name text="Rugby and Kenilworth"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/487">
+    <name text="Ruislip - Northwood"/>
+    <name text="Ruislip-Northwood"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/488">
+    <name text="Runnymede &amp; Weybridge"/>
+    <name text="Runnymede and Weybridge"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/489">
+    <name text="Rushcliffe"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/490">
+    <name text="Rutland &amp; Melton"/>
+    <name text="Rutland and Melton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/491">
+    <name text="Ryedale"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/492">
+    <name text="Saffron Walden"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/493">
+    <name text="Salford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/494">
+    <name text="Salisbury"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/495">
+    <name text="Scarborough &amp; Whitby"/>
+    <name text="Scarborough and Whitby"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/496">
+    <name text="Scunthorpe"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/497">
+    <name text="Sedgefield"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/498">
+    <name text="Selby"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/499">
+    <name text="Sevenoaks"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/500">
+    <name text="Sheffield Central"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/501">
+    <name text="Sheffield, Attercliffe"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/502">
+    <name text="Sheffield, Brightside"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/503">
+    <name text="Sheffield, Hallam"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/504">
+    <name text="Sheffield, Heeley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/505">
+    <name text="Sheffield, Hillsborough"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/506">
+    <name text="Sherwood"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/507">
+    <name text="Shipley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/508">
+    <name text="Shrewsbury &amp; Atcham"/>
+    <name text="Shrewsbury and Atcham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/509">
+    <name text="Sittingbourne &amp; Sheppey"/>
+    <name text="Sittingbourne and Sheppey"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/510">
+    <name text="Skipton &amp; Ripon"/>
+    <name text="Skipton and Ripon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/511">
+    <name text="Sleaford &amp; North Hykeham"/>
+    <name text="Sleaford and North Hykeham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/512">
+    <name text="Slough"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/513">
+    <name text="Solihull"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/514">
+    <name text="Somerton &amp; Frome"/>
+    <name text="Somerton and Frome"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/515">
+    <name text="South Antrim"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/516">
+    <name text="South Cambridgeshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/517">
+    <name text="South Derbyshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/518">
+    <name text="South Dorset"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/519">
+    <name text="South Down"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/520">
+    <name text="South East Cambridgeshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/521">
+    <name text="South East Cornwall"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/522">
+    <name text="South Holland &amp; The Deepings"/>
+    <name text="South Holland and The Deepings"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/523">
+    <name text="South Norfolk"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/524">
+    <name text="South Ribble"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/525">
+    <name text="South Shields"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/526">
+    <name text="South Staffordshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/527">
+    <name text="South Suffolk"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/528">
+    <name text="South Swindon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/529">
+    <name text="South Thanet"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/530">
+    <name text="South West Bedfordshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/531">
+    <name text="South West Devon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/532">
+    <name text="South West Hertfordshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/533">
+    <name text="South West Norfolk"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/534">
+    <name text="South West Surrey"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/535">
+    <name text="Southampton, Itchen"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/536">
+    <name text="Southampton, Test"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/537">
+    <name text="Southend West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/538">
+    <name text="Southport"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/539">
+    <name text="Spelthorne"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/540">
+    <name text="St Albans"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/541">
+    <name text="St Helens North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/542">
+    <name text="St Helens South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/543">
+    <name text="St Ives"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/544">
+    <name text="Stafford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/545">
+    <name text="Staffordshire Moorlands"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/546">
+    <name text="Stalybridge &amp; Hyde"/>
+    <name text="Stalybridge and Hyde"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/547">
+    <name text="Stevenage"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/548">
+    <name text="Stirling"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/549">
+    <name text="Stockport"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/550">
+    <name text="Stockton North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/551">
+    <name text="Stockton South"/>
+    <name text="Stockport South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/552">
+    <name text="Stoke-on-Trent Central"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/553">
+    <name text="Stoke-on-Trent North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/554">
+    <name text="Stoke-on-Trent South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/555">
+    <name text="Stone"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/556">
+    <name text="Stourbridge"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/557">
+    <name text="Strangford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/558">
+    <name text="Stratford-on-Avon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/559">
+    <name text="Strathkelvin &amp; Bearsden"/>
+    <name text="Strathkelvin and Bearsden"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/560">
+    <name text="Streatham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/561">
+    <name text="Stretford &amp; Urmston"/>
+    <name text="Stretford and Urmston"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/562">
+    <name text="Stroud"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/563">
+    <name text="Suffolk Coastal"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/564">
+    <name text="Sunderland North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/565">
+    <name text="Sunderland South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/566">
+    <name text="Surrey Heath"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/567">
+    <name text="Sutton &amp; Cheam"/>
+    <name text="Sutton and Cheam"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/568">
+    <name text="Sutton Coldfield"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/569">
+    <name text="Swansea East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/570">
+    <name text="Swansea West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/571">
+    <name text="Tamworth"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/572">
+    <name text="Tatton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/573">
+    <name text="Taunton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/574">
+    <name text="Teignbridge"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/575">
+    <name text="Telford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/576">
+    <name text="Tewkesbury"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/577">
+    <name text="Thurrock"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/578">
+    <name text="Tiverton &amp; Honiton"/>
+    <name text="Tiverton and Honiton"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/579">
+    <name text="Tonbridge &amp; Malling"/>
+    <name text="Tonbridge and Malling"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/580">
+    <name text="Tooting"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/581">
+    <name text="Torbay"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/582">
+    <name text="Torfaen"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/583">
+    <name text="Torridge &amp; West Devon"/>
+    <name text="Torridge and West Devon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/584">
+    <name text="Totnes"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/585">
+    <name text="Tottenham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/586">
+    <name text="Truro &amp; St Austell"/>
+    <name text="Truro and St Austell"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/587">
+    <name text="Tunbridge Wells"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/588">
+    <name text="Tweeddale, Ettrick &amp; Lauderdale"/>
+    <name text="Tweeddale, Ettrick and Lauderdale"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/589">
+    <name text="Twickenham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/590">
+    <name text="Tyne Bridge"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/591">
+    <name text="Tynemouth"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/592">
+    <name text="Upminster"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/593">
+    <name text="Upper Bann"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/594">
+    <name text="Uxbridge"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/595">
+    <name text="Vale of Clwyd"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/596">
+    <name text="Vale of Glamorgan"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/597">
+    <name text="Vale of York"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/598">
+    <name text="Vauxhall"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/599">
+    <name text="Wakefield"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/600">
+    <name text="Wallasey"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/601">
+    <name text="Walsall North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/602">
+    <name text="Walsall South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/603">
+    <name text="Walthamstow"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/604">
+    <name text="Wansbeck"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/605">
+    <name text="Wansdyke"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/606">
+    <name text="Wantage"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/607">
+    <name text="Warley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/608">
+    <name text="Warrington North"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/609">
+    <name text="Warrington South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/610">
+    <name text="Warwick &amp; Leamington"/>
+    <name text="Warwick and Leamington"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/611">
+    <name text="Watford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/612">
+    <name text="Waveney"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/613">
+    <name text="Wealden"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/614">
+    <name text="Weaver Vale"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/615">
+    <name text="Wellingborough"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/616">
+    <name text="Wells"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/617">
+    <name text="Welwyn Hatfield"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/618">
+    <name text="Wentworth"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/619">
+    <name text="West Aberdeenshire &amp; Kincardine"/>
+    <name text="West Aberdeenshire and Kincardine"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/620">
+    <name text="West Bromwich East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/621">
+    <name text="West Bromwich West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/622">
+    <name text="West Chelmsford"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/623">
+    <name text="West Derbyshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/624">
+    <name text="West Dorset"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/625">
+    <name text="West Ham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/626">
+    <name text="West Lancashire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/627">
+    <name text="West Renfrewshire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/628">
+    <name text="West Suffolk"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/629">
+    <name text="West Tyrone"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/630">
+    <name text="West Worcestershire"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/631">
+    <name text="Westbury"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/632">
+    <name text="Western Isles"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/633">
+    <name text="Westmorland &amp; Lonsdale"/>
+    <name text="Westmorland and Lonsdale"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/634">
+    <name text="Weston-Super-Mare"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/635">
+    <name text="Wigan"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/636">
+    <name text="Wimbledon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/637">
+    <name text="Winchester"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/638">
+    <name text="Windsor"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/639">
+    <name text="Wirral South"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/640">
+    <name text="Wirral West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/641">
+    <name text="Witney"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/642">
+    <name text="Woking"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/643">
+    <name text="Wokingham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/644">
+    <name text="Wolverhampton North East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/645">
+    <name text="Wolverhampton South East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/646">
+    <name text="Wolverhampton South West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/647">
+    <name text="Woodspring"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/648">
+    <name text="Worcester"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/649">
+    <name text="Workington"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/650">
+    <name text="Worsley"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/651">
+    <name text="Worthing West"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/652">
+    <name text="Wrekin, The"/>
+    <name text="The Wrekin"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/653">
+    <name text="Wrexham"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/654">
+    <name text="Wycombe"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/655">
+    <name text="Wyre Forest"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/656">
+    <name text="Wythenshawe &amp; Sale East"/>
+    <name text="Wythenshawe and Sale East"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/657">
+    <name text="Yeovil"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/658">
+    <name text="Ynys Môn"/>
+    <name text="Ynys Mon"/>
+</constituency>
+<constituency id="uk.org.publicwhip/cons/659">
+    <name text="York, City of"/>
+    <name text="City of York"/>
+</constituency>
+
+</publicwhip>
