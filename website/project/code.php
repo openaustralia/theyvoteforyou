@@ -1,5 +1,5 @@
 <?php $title = "Source Code"; include "../header.inc" 
-# $Id: code.php,v 1.8 2004/06/13 15:51:52 frabcus Exp $
+# $Id: code.php,v 1.9 2004/10/14 21:41:03 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -83,16 +83,23 @@ you can download them from
 href="http://www.activestate.com/ActivePerl/">ActivePerl</a>.
 Unix-based operating systems will probably have Perl already installed.
 
-<p> You may need to install some extra Perl modules.  <p>To install them follow the <a
+<p> You will need to install some extra Perl modules.  To install them follow the <a
 href="http://www.cpan.org/misc/cpan-faq.html#How_install_Perl_modules">CPAN
 instructions</a> (Comprehensive Perl Archive Network) under Unix or <a
-href="http://aspn.activestate.com/ASPN/docs/ActivePerl-5.6/faq/ActivePerl-faq2.html">PPM instructions</a> (Perl Package Manager) under Windows.  
+href="http://aspn.activestate.com/ASPN/docs/ActivePerl-5.6/faq/ActivePerl-faq2.html">PPM
+instructions</a> (Perl Package Manager) under Windows.    When using
+PPM, if you get errors about Text::Reform then see 
+<a href="http://www.mail-archive.com/dbi-users%40perl.org/msg20734.html">this message</a>.
 
-The modules you may need to install are:  
+<p>The modules you need to make sure you have installed are:  
 Text::ExtractWords,
 Text::Autoformat,
 Date::Parse,
-Getopt::Long.  
+Getopt::Long,
+XML::Twig.
+DBI,
+DBD-mysql,
+encode.
 Tell me if this list is wrong.
 
 <p>
@@ -129,14 +136,20 @@ weren't downloaded/parsed last time.  When you are done, you should have
 lots of XML files in the pwdata/scrapedxml/debates folder.  Take a look
 at them.  These are used by the Perl script in the next phase.
 
-<p>Change to the <i>loader</i> directory.  The
-script called <i>load.pl</i> in there loads the divisons from the XML files
-into the database and does various cached calculations for use on the website.
-Run it with no parameters to find out its syntax.  First you have to tell Perl
-your MySQL username and password.  Copy the file config.pm.incvs to config.pm
-and edit it.  Now do this:
+<p>Change to the <i>loader</i> directory.    You need
+<i>memxml2db.pl</i>, which will load the information about MPs into
+database tables.  First you have to tell Perl your MySQL username and
+password.  Copy the file config.pm.incvs to config.pm and edit it.  Now
+run:
 
-<p><tt>./scrape.pl divsxml check calc
+<p><tt>./memxml2db.pl
+
+<p>Next you need the script called <i>load.pl</i>. It loads the divisons
+from the XML files into the database and does various cached
+calculations for use on the website.  Run it with no parameters to find
+out its syntax.  Now do this:
+
+<p><tt>./load.pl divsxml check calc
 
 <p>While you're doing this all, you probably want to run a tool like the <a
 href="http://www.mysql.com/products/mysqlcc/">MySQL Control Center</a>
@@ -154,12 +167,14 @@ href="http://www.php.net/downloads.php">php.net</a>.
 
 <p>Configure the web server to serve the files in the website folder
 from the Public Whip distribution.  For Apache, add lines like this to
-httpd.conf.
+httpd.conf.  (This installs Public Whip as the top level site for a
+domain on your web server, it only runs properly in that configuration,
+as some URLs are referred to as, for example, /publicwhip.css).
 
 <pre>
-Alias /publicwhip/ /home/francis/devel/publicwhip/website/
+DocumentRoot /home/francis/devel/publicwhip/website/
 
-&lt;Directory /home/francis/devel/publicwhip/&gt;
+&lt;Directory /home/francis/devel/publicwhip/website&gt;
     Options Indexes Includes FollowSymLinks MultiViews
     AllowOverride All
 
@@ -180,7 +195,7 @@ the file pwdb.inc.incvs to pwdb.inc and edit it with your MySQL
 settings.  You also need to edit db.inc to point to this file (TODO:
 work out a way to remove that need).
 
-<p>Now browse to <a href="http://localhost/publicwhip">http://localhost/publicwhip/</a>.
+<p>Now browse to <a href="http://localhost/">http://localhost/</a>.
 
 <h2>Vote map (Clustering, Multi-dimensional scaling)</h2>
 
