@@ -62,6 +62,10 @@ Usability (some sort of done - this is just some notes)
 Make big wall chart of cluster diagram - colour, pretty
 Maybe even sell it to people
 
+Play with stuff in vector search article
+http://www.perl.com/pub/a/2003/02/19/engine.html
+In particular PDL for speeding up octave algebra stuff
+
 Scraper
 -------
 

@@ -125,6 +125,7 @@ Gibson, Oxfam)
 
 Put in EDMs, so can see who supports an EDM and follows it through to
 actual vote (Sirius Gibson, Oxfam)
+http://edm.ais.co.uk/
 
 Analyse an MP's interests by their rebellions - work out a summary of
 their special interests.  Also link to which debates they spoke in.
@@ -282,6 +283,12 @@ http://www.hansard-society.org.uk/
 
 Erskine May - commentary on standing orders
 The Times publish a Parliamentary Companion
+
+Reselect - resource file for Labour members who disagree with their MPs
+over the Iraq issue
+http://www.reselect.org.uk/
+
+http://www.stats.ox.ac.uk/~firth/tapiR/
 
 Story leads
 -----------
