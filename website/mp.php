@@ -1,5 +1,5 @@
 <?php 
-    # $Id: mp.php,v 1.9 2003/10/12 20:19:27 frabcus Exp $
+    # $Id: mp.php,v 1.10 2003/10/13 17:45:59 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -10,9 +10,9 @@
     include "parliaments.inc";
     $db = new DB(); 
 
-    $first_name = mysql_escape_string($_GET["firstname"]);
-    $last_name = mysql_escape_string($_GET["lastname"]);
-    $constituency = mysql_escape_string($_GET["constituency"]);
+    $first_name = db_scrub($_GET["firstname"]);
+    $last_name = db_scrub($_GET["lastname"]);
+    $constituency = db_scrub($_GET["constituency"]);
 
     $show_all = false;
     if ($_GET["showall"] == "yes")
@@ -21,7 +21,7 @@
     if ($_GET["allfriends"] == "yes")
         $all_friends = true;
 
-    $title .= htmlentities("$first_name $last_name, $constituency");
+    $title .= html_scrub("$first_name $last_name, $constituency");
     include "header.inc";
        
     $db->query("select first_name, last_name, title, constituency,

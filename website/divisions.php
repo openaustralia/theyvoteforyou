@@ -1,14 +1,15 @@
 <?php 
-# $Id: divisions.php,v 1.4 2003/10/03 23:30:05 frabcus Exp $
+# $Id: divisions.php,v 1.5 2003/10/13 17:45:59 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-    $sort = mysql_escape_string($_GET["sort"]);
-
+    include "db.inc";
     include "parliaments.inc";
+
+    $sort = db_scrub($_GET["sort"]);
 
     $title = "Divisions - " . parliament_name($parliament) . " Parliament";
     include "header.inc";
@@ -22,7 +23,6 @@ just divisions where the whips allowed free voting.  You can change
 the order of the table by selecting the headings.
 
 <?
-    include "db.inc";
     include "render.inc";
     $db = new DB(); 
 
@@ -48,9 +48,9 @@ the order of the table by selecting the headings.
     }
 
     if ($parliament == "2001")
-        print "<p><a href=\"divisions.php?parliament=1997&sort=" .  htmlentities($sort) . "\">View divisions for 1997 parliament</a>";
+        print "<p><a href=\"divisions.php?parliament=1997&sort=" .  html_scrub($sort) . "\">View divisions for 1997 parliament</a>";
     if ($parliament == "1997")
-        print "<p><a href=\"divisions.php?parliament=2001&sort=" .  htmlentities($sort) . "\">View divisions for 2001 parliament</a>";
+        print "<p><a href=\"divisions.php?parliament=2001&sort=" .  html_scrub($sort) . "\">View divisions for 2001 parliament</a>";
  
     $db->query("$divisions_query_start and division_date <= '" .
         parliament_date_to($parliament) . "' and division_date >= '" .

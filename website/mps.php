@@ -1,12 +1,17 @@
 <?php 
-    # $Id: mps.php,v 1.4 2003/10/03 23:30:05 frabcus Exp $
+    # $Id: mps.php,v 1.5 2003/10/13 17:45:59 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
     # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
     # For details see the file LICENSE.html in the top level of the source.
 
-    $sort = mysql_escape_string($_GET["sort"]);
+    include "header.inc";
+    include "db.inc";
+    include "render.inc";
+    $db = new DB(); 
+
+    $sort = db_scrub($_GET["sort"]);
     if ($sort != "rebellions")
         $title = "MPs"; 
     else
@@ -14,11 +19,6 @@
     
     include "parliaments.inc";
     $title .= " - " . parliament_name($parliament) . " Parliament";
-
-    include "header.inc";
-    include "db.inc";
-    include "render.inc";
-    $db = new DB(); 
 
     if ($sort == "")
     {
@@ -75,9 +75,9 @@ headings.
 <?php
     }
     if ($parliament == "2001")
-        print "<p><a href=\"mps.php?parliament=1997&sort=" . htmlentities($sort) . "\">View MPs for 1997 parliament</a>";
+        print "<p><a href=\"mps.php?parliament=1997&sort=" . html_scrub($sort) . "\">View MPs for 1997 parliament</a>";
     if ($parliament == "1997")
-        print "<p><a href=\"mps.php?parliament=2001&sort=" .  htmlentities($sort) . "\">View MPs for 2001 parliament</a>";
+        print "<p><a href=\"mps.php?parliament=2001&sort=" .  html_scrub($sort) . "\">View MPs for 2001 parliament</a>";
     
     print "<table class=\"mps\"><tr class=\"headings\">\n";
 

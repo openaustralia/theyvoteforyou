@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.10 2003/10/12 20:35:57 frabcus Exp $
+# $Id: search.php,v 1.11 2003/10/13 17:45:59 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,8 +8,9 @@
 ?>
 
 <?php
-    $prettyquery = htmlentities(trim($_GET["query"]));
-    $query = strtoupper(mysql_escape_string(trim($_GET["query"])));
+    include "db.inc";
+     $prettyquery = html_scrub(trim($_GET["query"]));
+    $query = strtoupper(db_scrub(trim($_GET["query"])));
     $title = "Search for '$prettyquery'"; 
     if ($prettyquery == "")
     {
@@ -17,8 +18,7 @@
         $title = "Search";
     }
     include "header.inc";
-    include "db.inc";
-    include "render.inc";
+   include "render.inc";
     include "parliaments.inc";
     $db = new DB(); 
 

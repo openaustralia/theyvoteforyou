@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: db.inc,v 1.2 2003/10/13 17:45:58 frabcus Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -9,6 +9,16 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 include "/home/francis/.pwdb.inc";
+
+function db_scrub($text)
+{
+    return mysql_escape_string(stripslashes($text));
+}
+
+function html_scrub($text)
+{
+    return htmlentities(stripslashes($text));
+}
 
 class DB
 {

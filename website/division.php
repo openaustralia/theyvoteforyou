@@ -1,5 +1,5 @@
 <?php
-# $Id: division.php,v 1.8 2003/10/11 07:51:52 frabcus Exp $
+# $Id: division.php,v 1.9 2003/10/13 17:45:58 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -9,8 +9,8 @@
     include "db.inc";
     $db = new DB(); 
 
-    $date = mysql_escape_string($_GET["date"]);
-    $div_no = mysql_escape_string($_GET["number"]);
+    $date = db_scrub($_GET["date"]);
+    $div_no = db_scrub($_GET["number"]);
 
     $show_all = false;
     if ($_GET["showall"] == "yes")
@@ -29,7 +29,7 @@
     $notes = $row[5];
     $motion = $row[6];
     $prettydate = date("j M Y", strtotime($date));
-    $div_no = htmlentities($div_no);
+    $div_no = html_scrub($div_no);
 
     $title = "Division $div_no - $prettydate - $name";
     include "header.inc";

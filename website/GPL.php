@@ -1,5 +1,5 @@
 <?php $title = "GNU General Public License"; include "header.inc" 
-# $Id: GPL.php,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: GPL.php,v 1.2 2003/10/13 17:45:58 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -20,7 +20,6 @@ Copyright (C) 1989, 1991 Free Software Foundation, Inc.
 Everyone is permitted to copy and distribute verbatim copies
 of this license document, but changing it is not allowed.
 </PRE>
-
 
 
 <H2>Preamble</H2>

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: wordfreq.php,v 1.2 2003/10/03 21:46:10 frabcus Exp $
+# $Id: wordfreq.php,v 1.3 2003/10/13 17:45:59 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -41,7 +41,7 @@
     # word to search on.  
     for ($i=1;$i<5;$i++)
     {
-    	$word = mysql_escape_string($_GET["word$i"]);
+    	$word = db_scrub($_GET["word$i"]);
     	if ($word != "")
      		$words[$i - 1] = $word;
     	else
@@ -122,7 +122,7 @@ For example, try "death" and "taxes".
     for ($i=0;$i<count($words);$i++) 
 	{
         $width = 100; 
-		print "<tr><td>\"" . htmlentities($words[$i]) . "\"</td>"; 
+		print "<tr><td>\"" . html_scrub($words[$i]) . "\"</td>"; 
 		print "<td><img src=\"row$i.png\" width=\"$width\" height=\"$bheight\"/></td></tr>"; 
 	}
     print "</table>"; 
@@ -131,7 +131,7 @@ For example, try "death" and "taxes".
     print "<table><tr class=\"headings\"><td>Date</td><td>Chart</td>"; 
     for ($i=0;$i<count($words);$i++) 
 	{
-		print "<td>" . htmlentities($words[$i]) . "</td>"; 
+		print "<td>" . html_scrub($words[$i]) . "</td>"; 
 	}
     print "</tr>\n";
     

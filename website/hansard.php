@@ -1,5 +1,5 @@
 <?php 
-    # $Id: hansard.php,v 1.2 2003/10/03 21:46:10 frabcus Exp $
+    # $Id: hansard.php,v 1.3 2003/10/13 17:45:59 frabcus Exp $
     # Test page, just for use on local machine.  The pw_debate_content
     # database is too big for us to put on mythic-beasts at the moment.
 
@@ -10,9 +10,9 @@
     
     include "db.inc";
     $db = new DB(); 
-    $date = mysql_escape_string($_GET["date"]);
+    $date = db_scrub($_GET["date"]);
 
-    $title .= "Hansard Content " . htmlentities($date);
+    $title .= "Hansard Content " . html_scrub($date);
     include "header.inc";
 
     $row = $db->query_one_row("select content, download_date,

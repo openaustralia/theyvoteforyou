@@ -1,6 +1,6 @@
 <?php
 
-# $Id: parliaments.inc,v 1.5 2003/10/04 13:46:22 frabcus Exp $
+# $Id: parliaments.inc,v 1.6 2003/10/13 17:45:59 frabcus Exp $
 # This data is duplicated in scraper/parliaments.pm
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -16,7 +16,7 @@ $parliaments = array(
     '2001' => array(from => '2001-06-07', to => '9999-12-31', name => '2001'),
     '1997' => array(from => '1997-05-01', to => '2001-05-14', name => '1997'),
 );
-$parliament = mysql_escape_string($_GET["parliament"]);
+$parliament = db_scrub($_GET["parliament"]);
 if ($parliament == "")
     $parliament = 2001;
 

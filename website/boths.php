@@ -1,5 +1,5 @@
 <?php 
-    # $Id: boths.php,v 1.3 2003/10/03 21:46:10 frabcus Exp $
+    # $Id: boths.php,v 1.4 2003/10/13 17:45:58 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -13,7 +13,7 @@
     include "parliaments.inc";
     $db = new DB(); 
 
-    $sort = mysql_escape_string($_GET["sort"]);
+    $sort = db_scrub($_GET["sort"]);
     if ($sort == "")
     {
         $sort = "date";
