@@ -10,7 +10,9 @@ import xml.sax
 # In Debian package python2.3-egenix-mxdatetime
 import mx.DateTime
 
-toppath = os.path.expanduser('~/pwdata/')
+import miscfuncs
+
+toppath = miscfuncs.toppath
 
 # Generates an xml file with all the links into the daydebates, written questions, etc.
 # The output file is used as a basis for planning the larger scale scraping.
@@ -25,7 +27,7 @@ toppath = os.path.expanduser('~/pwdata/')
 # url for commons index
 urlcmindex = "http://www.publications.parliament.uk/pa/cm/cmhansrd.htm"
 # index file which is created
-pwcmindex = toppath + "pwcmindex.xml"
+pwcmindex = os.path.join(toppath, "pwcmindex.xml")
 
 # scrape limit date
 earliestdate = '2001-11-25'
@@ -122,7 +124,7 @@ def WriteXML(fout, urllist):
 	# avoid printing duplicates
 	for i in range(len(urllist)):
 		r = urllist[i]
-		if (i > 0) and (r != urllist[i-1]):
+		if (i == 0) or (r != urllist[i-1]):
 			if r[0] >= earliestdate:
 				fout.write('<cmdaydeb date="%s" type="%s" url="%s"/>\n' % r)
 

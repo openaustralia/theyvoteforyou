@@ -2,6 +2,41 @@
 import re
 import sys
 import string
+import os
+
+# make the top path data directory value
+toppath = os.path.abspath(os.path.expanduser('~/pwdata/'))
+if os.name == 'nt':  # the case of julian developing on a university machine.  
+    toppath = os.path.abspath('../../pwdata')
+print "Data directory (set in miscfuncs.py): %s" % toppath
+if (not os.path.isdir(toppath)):
+    raise Exception, 'Directory does not exist, please create'
+
+
+
+def WriteCleanText(fout, text):
+    	abf = re.split('(<[^>]*>)', text)
+	for ab in abf:
+		# delete comments and links
+		if re.match('<!-[^>]*?->', ab):
+			pass
+
+		elif re.match('<a[^>]*>(?i)', ab):
+			# this would catch if we've actually found a link
+			if not re.match('<a name\s*?=\s*\S*?\s*?>(?i)', ab):
+				print ab
+
+		elif re.match('</a>(?i)', ab):
+			pass
+
+		# spaces only inside tags
+		elif re.match('<[^>]*>', ab):
+			fout.write(re.sub('\s', ' ', ab))
+
+		# take out spurious > symbols and dos linefeeds
+		else:
+			fout.write(re.sub('>|\r', '', ab))
+
 
 def ApplyFixSubstitutions(text, sdate, fixsubs):
 	for sub in fixsubs:

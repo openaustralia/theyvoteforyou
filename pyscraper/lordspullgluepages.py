@@ -7,6 +7,7 @@ import re
 import os.path
 import xml.sax
 import time
+import string
 
 import miscfuncs
 toppath = miscfuncs.toppath
@@ -15,21 +16,18 @@ toppath = miscfuncs.toppath
 # and stores them on the disk
 
 # index file which is created
-pwcmindex = os.path.join(toppath, "pwcmindex.xml")
+pwlordsindex = os.path.join(toppath, "pwlordindex.xml")
 
-# output directories
-pwcmdirs = os.path.join(toppath, "pwcmpages")
-
-pwcmwrans = os.path.join(pwcmdirs, "wrans")
-pwcmdebates = os.path.join(pwcmdirs, "debates")
-# statements and westminster hall
+# output directories (everything of one day in one file).  
+pwlordspages = os.path.join(toppath, "pwlordspages")
 
 tempfile = os.path.join(toppath, "gluetemp")
 
-# this does the main loading and gluing of the initial day debate files from which everything else feeds forward
+# this does the main loading and gluing of the initial day debate
+# files from which everything else feeds forward
 
 # gets the index file which we use to go through the pages
-class LoadCmIndex(xml.sax.handler.ContentHandler):
+class LoadLordsIndex(xml.sax.handler.ContentHandler):
 	def __init__(self, lpwcmindex):
 		self.res = []
 		if not os.path.isfile(lpwcmindex):
@@ -39,35 +37,43 @@ class LoadCmIndex(xml.sax.handler.ContentHandler):
 		parser.parse(lpwcmindex)
 
 	def startElement(self, name, attr):
-		if name == "cmdaydeb":
-			ddr = (attr["date"], attr["type"], attr["url"])
+		if name == "lordsdaydeb":
+			ddr = (attr["date"], attr["url"])
 			self.res.append(ddr)
 
 
+# extract the table of contents from an index page
+def ExtractIndexContents(urlx):
+    urx = urllib.urlopen(urlx)
 
-def WriteCleanText(fout, text):
+    # find the contents label
+    stcont = '<a name="contents"></a>\s*$'
+    while 1:
+        xline = urx.readline()
+        if not xline:
+            print '%s not found in %s' % (stcont, urlx) 
+            raise Exception, "cannot index"
+	if re.match(stcont, xline):
+            break
+    
+    lklins = []
+    while 1:
+        xline = urx.readline()
+        if not xline:
+            print '<hr> not found in %s' % urlx 
+            raise Exception, "cannot index"
+	if re.match('<hr>$', xline):
+            break
+        lklins.append(xline)
+    
+    lktex = string.join(lklins, '')
 
-	abf = re.split('(<[^>]*>)', text)
-	for ab in abf:
-		# delete comments and links
-		if re.match('<!-[^>]*?->', ab):
-			pass
-
-		elif re.match('<a[^>]*>(?i)', ab):
-			# this would catch if we've actually found a link
-			if not re.match('<a name\s*?=\s*\S*?\s*?>(?i)', ab):
-				print ab
-
-		elif re.match('</a>(?i)', ab):
-			pass
-
-		# spaces only inside tags
-		elif re.match('<[^>]*>', ab):
-			fout.write(re.sub('\s', ' ', ab))
-
-		# take out spurious > symbols and dos linefeeds
-		else:
-			fout.write(re.sub('>|\r', '', ab))
+    # get the links
+    #<p><a href="../text/40129w01.htm#40129w01_sbhd7"><H3><center>Olympic Games 2012: London Bid</center></H3>
+    #</a></p>
+    relkex = re.compile('<p><a href="(\S*?.htm)#\S*"><H3><center>(.*?)</center></H3>\s*</a></p>')
+    res = relkex.findall(lktex)
+    return res
 
 
 def GlueByNext(fout, url, urlx):
@@ -102,7 +108,7 @@ def GlueByNext(fout, url, urlx):
 
 		# write the body of the text
 		for i in range(1,len(hrsections) - 1):
-			WriteCleanText(fout, hrsections[i])
+			miscfuncs.WriteCleanText(fout, hrsections[i])
 
 		# find the lead on with the footer
 		footer = hrsections[len(hrsections) - 1]
@@ -116,45 +122,25 @@ def GlueByNext(fout, url, urlx):
 		url = urlparse.urljoin(url, nextsectionlink[0])
 
 
-# now we have the difficulty of pulling in the first link out of this silly index page
-def ExtractFirstLink(url):
-	urx = urllib.urlopen(url)
-	while 1:
-		xline = urx.readline()
-		if not xline:
-			break
-		if re.search('<hr>(?i)', xline):
-			break
 
-	lk = []
-	while xline:
-		# <a HREF =" ../debtext/31106-01.htm#31106-01_writ0">Oral Answers to Questions </a>
-		lk = re.findall('<a\s+href\s*=\s*"(.*?)">.*?</a>(?i)', xline)
-		if lk:
-			break
-		xline = urx.readline()
-	urx.close()
+###############
+# main function
+###############
+def PullGluePages():
+	# make the output firectory
+	if not os.path.isdir(pwlordspages):
+		os.mkdir(pwlordspages)
 
-	if not lk:
-		raise Exception, "No link found!!!"
-	return urlparse.urljoin(url, re.sub('#.*$' , '', lk[0]))
+	# load the index file previously made by createhansardindex
+	clordsindex = LoadLordsIndex(pwlordsindex)
 
-
-# read through our index list of daydebates
-def GlueAllType(pcmdir, cmindex, nametype, fproto):
-	if not os.path.isdir(pcmdir):
-		os.mkdir(pcmdir)
-
-	for dnu in cmindex:
-		# pick only the right type
-		if not re.search(nametype, dnu[1]):
-			continue
-
+        # loop through the index of each lord line.  
+        for dnu in clordsindex.res:
 		# make the filename
-		dgf = os.path.join(pcmdir, (fproto % dnu[0]))
+		dgf = os.path.join(pwlordspages, ('daylord%s.html' % dnu[0])) 
 
 		# hansard index page
-		urlx = dnu[2]
+		urlx = dnu[1]
 
 		# if we already have got the file, check the pagex link agrees in the first line
 		# no need to scrape it in again
@@ -172,7 +158,10 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto):
 		else:
 			print '\nscraping ' + urlx
 
-		url0 = ExtractFirstLink(urlx)
+                # The different sections are often all run together
+                # with the title of written answers in the middle of a page.  
+                icont = ExtractIndexContents(urlx)
+                url0 = urlparse.urljoin(urlx, icont[0][0])
 
 		# now we take out the local pointer and start the gluing
 		dtemp = open(tempfile, "w")
@@ -181,24 +170,6 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto):
 		# close and move
 		dtemp.close()
 		os.rename(tempfile, dgf)
-
-
-
-###############
-# main function
-###############
-def PullGluePages():
-	# make the output firectory
-	if not os.path.isdir(pwcmdirs):
-		os.mkdir(pwcmdirs)
-
-	# load the index file previously made by createhansardindex
-	ccmindex = LoadCmIndex(pwcmindex)
-
-	# bring in and glue together parliamentary debates, and answers and put into their own directories.
-	# third parameter is a regexp, fourth is the filename (%s becomes the date).
-	GlueAllType(pwcmdebates, ccmindex.res, 'debates(?i)', 'debates%s.html')
-	GlueAllType(pwcmwrans, ccmindex.res, 'answers(?i)', 'answers%s.html')
 
 
 # run main function
