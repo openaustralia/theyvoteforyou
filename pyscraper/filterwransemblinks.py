@@ -55,7 +55,10 @@ def ExtractHTTPlink(stex, qs):
 		qstrmid = re.sub(' ', '', qlink.group(3))
 		qstrmid = re.sub('&#15[01];', '-', qstrmid)
 		qstrmid = re.sub('&#95;', '_', qstrmid)
-	if not re.match('[\w\-/.]*$', qstrmid):
+		if re.search('&#\d+;', qstrmid):
+			print ' undemangled href symbol ' + qstrmid
+		qstrmid = re.sub('&', '&amp;', qstrmid)
+	if not re.match('[\w\-/.+;]*$', qstrmid):
 		print ' bad midd -- ' + qstrmid
 
 	qstrtail = ''
@@ -63,7 +66,10 @@ def ExtractHTTPlink(stex, qs):
 		qstrtail = re.sub(' ', '', qlink.group(4))
 		qstrtail = re.sub('&#15[01];', '-', qstrtail)
 		qstrtail = re.sub('&#95;', '_', qstrtail)
-	if not re.match('[\w\-./?&=%]*$', qstrtail):
+		if re.search('&#\d+;', qstrtail):
+			print ' undemangled href symbol ' + qstrtail
+		qstrtail = re.sub('&', '&amp;', qstrtail)
+	if not re.match('[\w\-./\?&=%;]*$', qstrtail):
 		print ' bad tail -- ' + qstrtail
 
 

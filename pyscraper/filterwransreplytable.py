@@ -12,6 +12,35 @@ from miscfuncs import FixHTMLEntitiesL
 
 regtablejunk = '</?font[^>]*>|</?p>|\n(?i)'
 
+
+
+recolsplit = re.compile('(<t[dh][^>]*>[\s\S]*?(?:</t[dh]>|(?=<t[dh]>)))(?i)')
+recolmatch = re.compile('<t[dh](?: colspan=(\d+)(?: align=(center))?)?>\s*([\s\S]*?)\s*(?:</t[dh]>)?$(?i)')
+def ParseRow(srow, hdcode):
+	# build up the list of entries for this row
+	Lscols = [ '<tr> ' ]
+	for spcol in recolsplit.split(srow):
+		col = recolmatch.match(spcol)
+		if col:
+			tcolspan = ''
+			if col.group(1):
+				colspan = ' colspan="%s"' % col.group(1)
+			talign = ''
+			if col.group(2):
+				talign = ' align="center"'
+			Lscols.append('<%s%s%s>' % (hdcode, tcolspan, talign))
+			Lscols.extend(FixHTMLEntitiesL(col.group(3), '</?font[^>]*>|</?p>|\n(?i)'))
+			Lscols.append('</%s> ' % hdcode)
+
+		# check that the outside text contains nothing but bogus close column tags
+		elif re.search('\S', re.sub('</t[dh]>|</font>(?i)', '', spcol)):
+			print spcol
+			print srow
+			raise Exception, ' non column text '
+	Lscols.append('</tr>')
+	return Lscols
+
+
 # replies can have tables
 def ParseTable(stable):
 	# remove the table bracketing
@@ -45,69 +74,32 @@ def ParseTable(stable):
 			print stitle
 			raise Exception, ' non-standard table 9title'
 
-		Lstitle.append('<div class="tabletitle">')
-		Lstitle.extend(FixHTMLEntitiesL(ts.group(1)))
+		Lstitle.append('<caption>')
+		Lstitle.extend(FixHTMLEntitiesL(ts.group(1), '</?font[^>]*>|</?p>|\n(?i)'))
 		if ts.group(2):
 			Lstitle.append(' -- ')
 			Lstitle.extend(FixHTMLEntitiesL(ts.group(2), '</?font[^>]*>|</?p>|\n(?i)'))
-		Lstitle.append('</div>\n')
+		Lstitle.append('</caption>\n')
 
 
-	# write out the rows, th type and then td type
-	Lshrows = [ ]
+	# split into header and body
 	for ih in range(len(srows)):
-		# move onto standard rows
 		if re.search('<td[^>]*>(?i)', srows[ih]):
 			break
 
-		# build up the list of entries for this row
-		Lscols = [ '<tr> ' ]
-		for spcol in re.split('(<th[^>]*>[\s\S]*?(?:</th>|(?=<th>)))(?i)', srows[ih]):
-			col = re.match('<th(?: colspan=(\d+)(?: align=center)?)?>\s*([\s\S]*?)\s*(?:</th>)?$(?i)', spcol)
-			if col:
-				if col.group(1):
-					Lscols.append('<th colspan="%s">' % col.group(1))
-				else:
-					Lscols.append('<th>')
-				Lscols.extend(FixHTMLEntitiesL(col.group(2), '</?font[^>]*>|</?p>|\n(?i)'))
-				Lscols.append('</th> ')
-
-			# check that the outside text contains nothing but bogus close column tags
-			elif re.search('\S', re.sub('</th>|</font>(?i)', '', spcol)):
-				print spcol
-				print srows[ih]
-				raise Exception, ' non column text '
-		Lscols.append('</tr>')
-		Lshrows.append(Lscols)
-
+	# parse out each of batches
+	Lshrows = [ ]
+	for srow in srows[:ih]:
+		Lshrows.append(ParseRow(srow, 'th'))
 
 	Lsdrows = [ ]
-	for i in range(ih, len(srows)):
-		# build up the list of entries for this row
-		Lscols = [ '<tr> ' ]
-		for spcol in re.split('(<td[^>]*>[\s\S]*?(?:</td>|(?=<td>)))(?i)', srows[i]):
-			col = re.match('<td(?: colspan=(\d+))?(?: align=center)?>\s*([\s\S]*?)\s*(?:</td>)?$(?i)', spcol)
-			if col:
-				if col.group(1):
-					Lscols.append('<td colspan="%s">' % col.group(1))
-				else:
-					Lscols.append('<td>')
-				Lscols.extend(FixHTMLEntitiesL(col.group(2), '</?font[^>]*>|</?p>|\n(?i)'))
-				Lscols.append('</td> ')
-
-			# check that the outside text contains nothing but bogus close column tags
-			elif re.search('\S', re.sub('</td>|</font>(?i)', '', spcol)):
-				print spcol
-				print srows[i]
-				raise Exception, ' non column text '
-		Lscols.append('</tr>')
-		Lsdrows.append(Lscols)
+	for srow in srows[ih:]:
+		Lsdrows.append(ParseRow(srow, 'td'))
 
 
 
 	# construct the text for writing the table
 	sio = cStringIO.StringIO()
-
 
 	sio.write('<table>\n')
 	if Lstitle:
@@ -115,15 +107,20 @@ def ParseTable(stable):
 		map(sio.write, Lstitle)
 		sio.write('\n')
 
-	for Lsh in Lshrows:
-		sio.write('\t\t\t')
-		map(sio.write, Lsh)
-		sio.write('\n')
+	if Lshrows:
+		sio.write('\t\t\t<thead>\n')
+		for Lsh in Lshrows:
+			sio.write('\t\t\t')
+			map(sio.write, Lsh)
+			sio.write('\n')
+		sio.write('\t\t\t</thead>\n')
 
+	sio.write('\t\t\t<tbody>\n')
 	for Lsd in Lsdrows:
 		sio.write('\t\t\t')
 		map(sio.write, Lsd)
 		sio.write('\n')
+	sio.write('\t\t\t</tbody>\n')
 
 	sio.write('\t\t</table>\n')
 
@@ -131,3 +128,5 @@ def ParseTable(stable):
 	sio.close()
 
 	return res
+
+

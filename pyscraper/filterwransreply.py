@@ -84,6 +84,24 @@ def ExtractPhraseRecurse(qs, stex, depth, rectag):
 			qstr = qjobs.group(1)
 			qspan = qjobs.span(1)
 
+
+	# or split at official report statement
+	if not qspan:
+		qoffrep = reoffrepw.search(stex)
+		if qoffrep:
+			# extract the proper column without the dash
+			qcpart = re.match('(\d+)(?:&#150;(\d+))?([WS]*)(?i)$', qoffrep.group(2))
+			if qcpart.group(2):
+				qcpartlead = qcpart.group(1)[len(qcpart.group(1)) - len(qcpart.group(2)):]
+				if string.atoi(qcpartlead) >= string.atoi(qcpart.group(2)):
+					print qoffrep.group(1)
+					raise Exception, ' non-following column leadoff '
+
+			qcolcode = qcpart.group(1) + string.upper(qcpart.group(3))
+			qtags = ('<offrep column="%s">' % qcolcode, '</offrep>')
+			qstr = '<i>Official Report</i> Column %s' % qoffrep.group(2)
+			qspan = qoffrep.span(1)
+
 	# or split at italics,
 	if not qspan:
 		qit = re.search('(<i>(.*?)</i>)', stex)
@@ -116,13 +134,6 @@ def ExtractPhraseRecurse(qs, stex, depth, rectag):
 				qtags = ('(', ')')
 				brecmiddle = 1
 
-	# or split at official report statement
-	if not qspan:
-		qoffrep = reoffrepw.search(stex)
-		if qoffrep:
-			qtags = ('<offrep>', '</offrep>')
-			qstr = qoffrep.group(2)
-			qspan = qoffrep.span(1)
 
 	# or split at a detectable date, avoiding
 	if not qspan:
@@ -197,8 +208,8 @@ def BreakUpTextSB(i, n, stex, qs):
 		if qlettfrom.group(3):
 			datephr = ' dated <datephrase>%s</datephrase>' % qlettfrom.group(3)
 		# build the entire paragraph
-		sres = [ '<div class="letterfrom">', 'Letter from ', '<perph>', qlettfrom.group(1), '</perph>',
-				perphxto, datephr, '</div>' ]
+		sres = [ '<p class="letterfrom">', 'Letter from ', '<perph>', qlettfrom.group(1), '</perph>',
+				perphxto, datephr, '</p>' ]
 		return sres
 
 	# failed to detect the letter from case
@@ -269,9 +280,9 @@ def FilterReply(qs):
 	qs.stext = []
 
 	if delholdinganswer:
-		sres = [ '<div class="sqbracket">' ]
+		sres = [ '<p class="holdinganswer">' ]
 		sres.extend(BreakUpText(delholdinganswer, qs))
-		sres.append('</div>')
+		sres.append('</p>')
 		lstex = string.join(sres, '')
 		qs.stext.append(lstex)
 
@@ -284,9 +295,9 @@ def FilterReply(qs):
 		if re.search('<table(?i)', dell[i2]):
 			qs.stext.append(ParseTable(dell[i2]))
 		else:
-			sres = [ '<div>' ]
+			sres = [ '<p>' ]
 			sres.extend(BreakUpTextSB(i, n, dell[i2], qs))
-			sres.append('</div>')
+			sres.append('</p>')
 			lstex = string.join(sres, '')
 			if re.search('TAG-OUT', lstex):
 				print dell[i2]
