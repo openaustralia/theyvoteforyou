@@ -1,5 +1,5 @@
 #!/usr/bin/env python2.3
-# $Id: faxyourmpconv.py,v 1.4 2004/05/30 10:59:52 frabcus Exp $
+# $Id: faxyourmpconv.py,v 1.5 2004/12/18 18:11:57 theyworkforyou Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Converts Fax Your MP responsiveness CSV file into XML - matching
@@ -61,7 +61,7 @@ for row in csvreader:
     else:
         if voteside.lower() == "no":
             nohash[id] = nohash.get(id, 0) + int(votecount)
-        elif voteside.lower() == "yes":
+        elif voteside.lower() == "yes" or voteside.lower() == "yes"+chr(160):
             yeshash[id] = yeshash.get(id, 0) + int(votecount)
         else:
             raise Exception, "Strange vote %s" % voteside
