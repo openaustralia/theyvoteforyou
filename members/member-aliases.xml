@@ -303,6 +303,14 @@ different spellings of the offices -->
 <alias fullname="Peter Mandelson" alternate="Peter Mandleson" />
 <alias fullname="Rosie Winterton" alternate="Rose Winterton" />
 
+<!-- Full names used by new BBC database -->
+<alias fullname="Nick Harvey" alternate="Nicholas Harvey" />
+<alias fullname="Doug Naysmith" alternate="Douglas Naysmith" />
+<alias fullname="Jackie Lawrence" alternate="Jacqueline Lawrence" />
+<alias fullname="Jacqui Smith" alternate="Jacqueline Smith" />
+<alias fullname="Liam Byrne" alternate="Liam Bryne" />
+<alias fullname="Kenneth Clarke" alternate="Ken Clarke" />
+
 <!-- Various harder aliases/typos to worry about later
 	 These came up during the old Public Whip division parsing.
     $firstname = "Gareth" if ($firstname eq "Gareth R" && $lastname eq "Thomas" && $constituency eq "Harrow West");

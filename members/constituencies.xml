@@ -137,18 +137,22 @@ The list of MPs from the parliament website are considered canonical.
 <constituency id="uk.org.publicwhip/cons/35">
     <name text="Belfast East"/>
     <name text="Belfast, East"/> <!-- regmem -->
+    <name text="East Belfast"/> <!-- New BBC db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/36">
     <name text="Belfast North"/>
     <name text="Belfast, North"/> <!-- regmem -->
+    <name text="North Belfast"/> <!-- New BBC db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/37">
     <name text="Belfast South"/>
     <name text="Belfast, South"/> <!-- regmem -->
+    <name text="South Belfast"/> <!-- New BBC db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/38">
     <name text="Belfast West"/>
     <name text="Belfast, West"/> <!-- regmem -->
+    <name text="West Belfast"/> <!-- New BBC db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/39">
     <name text="Berwick-upon-Tweed"/>
@@ -383,6 +387,7 @@ The list of MPs from the parliament website are considered canonical.
     <name text="Caithness, Sutherland &amp; Easter Ross"/>
     <name text="Caithness, Sutherland and Easter Ross"/> <!-- ONS -->
     <name text="Caithness Sutherland and Easter Ross"/> <!-- edm.ais.co.uk -->
+    <name text="Caithness Sutherland &amp; Easter Ross"/> <!-- New BBC db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/107">
     <name text="Calder Valley"/>
@@ -432,6 +437,7 @@ The list of MPs from the parliament website are considered canonical.
     <name text="Carrick, Cumnock &amp; Doon Valley"/>
     <name text="Carrick, Cumnock and Doon Valley"/> <!-- ONS -->
     <name text="Carrick Cumnock and Doon Valley"/> <!-- edm.ais.co.uk -->
+    <name text="Carrick Cumnock &amp; Doon Valley"/> <!-- New BBC db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/120">
     <name text="Carshalton &amp; Wallington"/>
@@ -1083,6 +1089,7 @@ The list of MPs from the parliament website are considered canonical.
     <name text="Inverness East, Nairn &amp; Lochaber"/>
     <name text="Inverness East, Nairn and Lochaber"/> <!-- ONS -->
     <name text="Inverness East Nairn and Lochaber"/> <!-- edm.ais.co.uk -->
+    <name text="Inverness East Nairn &amp; Lochaber"/> <!-- New BBC db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/307">
     <name text="Ipswich"/>
@@ -2204,6 +2211,7 @@ The list of MPs from the parliament website are considered canonical.
     <name text="West Aberdeenshire &amp; Kincardine"/>
     <name text="West Aberdeenshire and Kincardine"/> <!-- ONS -->
     <name text="Aberdeenshire W &amp; Kincardine"/> <!-- BBC politics db -->
+    <name text="Aberdeenshire West &amp; Kincardine"/> <!-- BBC politics db -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/620">
     <name text="West Bromwich East"/>
