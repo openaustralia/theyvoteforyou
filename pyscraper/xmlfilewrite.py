@@ -16,8 +16,6 @@ def WriteXMLHeader(fout):
 
 	# These entity definitions for latin-1 chars are from here:
 	# http://www.w3.org/TR/REC-html40/sgml/entities.html
-        # NOTE: also update ../website/protodecode.inc when you update this
-        # TODO: make these share the chunk of entity code somehow
 	fout.write('''
 
 <!DOCTYPE publicwhip
