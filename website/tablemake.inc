@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablemake.inc,v 1.4 2005/02/25 07:51:51 goatchurch Exp $
+    # $Id: tablemake.inc,v 1.5 2005/03/04 02:27:54 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -210,7 +210,7 @@
 	# headings is 'none', 'columns', 'fulldesc'(for changing mps)
 	# sortby is 'date', 'subject', 'rebellions', 'turnout'
 	# $parldatelimit is null or a line from $parliaments
-	function division_table($db, $voter1type, $voter1, $voter2type, $voter2, $showwhich, $headings, $sortby, $parldatelimit)
+	function division_table($db, $voter1type, $voter1, $voter2type, $voter2, $showwhich, $headings, $sortby = "date", $parldatelimit = null)
 	{
 		global $bdebug;
 		if ($bdebug == 1)

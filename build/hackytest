@@ -2,6 +2,7 @@
 set -e
 
 cd website
+cvs -q update -dP
 ALLFILES=`find . -name "*.php" -or -name "*.inc"`
 WEBROOT=http://publicwhip.owl
 WEBERRORLOG=/var/log/apache/error.log
