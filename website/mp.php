@@ -1,5 +1,5 @@
 <?php 
-    # $Id: mp.php,v 1.3 2003/09/19 16:06:37 frabcus Exp $
+    # $Id: mp.php,v 1.4 2003/09/25 20:29:17 uid37249 Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -90,7 +90,7 @@
 
         if (!$show_all)
         {
-            $query .= "and vote <> whip_guess and whip_guess <> 'unknown' ";
+            $query .= "and vote <> whip_guess and whip_guess <> 'unknown' and vote <> 'both'";
         }
         $query .= "order by division_date desc, division_number desc";
         $db->query($query);
@@ -162,7 +162,7 @@
             order by distance limit 0,5";
 
         $db->query($query);
-        print "<tr class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Distance</td></tr>";
+        print "<tr class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Distance</td><td>Rebellions</td><td>Attendance</td></tr>";
         $prettyrow = 0;
         while ($row = $db->fetch_row())
         {
@@ -175,6 +175,9 @@
                 <td>$row[3]</td>
                 <td>" . pretty_party($row[4]) . "</td>
                 <td>$row[8]</td>";
+            if ($row[6] == "") { $row[6] = "n/a"; } else { $row[6] .= "%"; }
+            print "<td class=\"percent\">$row[6]</td>";
+            print "<td class=\"percent\">$row[7]%</td>";
             print "</tr>\n";
         }
         if ($db->rows() == 0)

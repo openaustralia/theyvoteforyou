@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: scrape.pl,v 1.4 2003/09/17 15:11:53 frabcus Exp $
+# $Id: scrape.pl,v 1.5 2003/09/25 20:29:17 uid37249 Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -62,12 +62,10 @@ my $dbh = db::connect();
 
 foreach my $argnum (0 .. $#ARGV)
 {
+    clean();
+
     $_ = $ARGV[$argnum];
-    if ($_ eq "clean")
-    {
-        clean();
-    }
-    elsif ($_ eq "mps")
+    if ($_ eq "mps")
     {
         mps();
     }
@@ -118,7 +116,6 @@ scrape.pl [OPTION]... [COMMAND]...
 
 Commands are any or all of these, in order you want them run:
 mps - insert MPs into database from local raw data files
-clean - tidy up bad records in the database from interrupted crawls
 months - scan back through months to get new day URLs
 sessions - scan recent sessions and find day URLs
 content - fetch debate content for all days
@@ -143,18 +140,17 @@ END
 
 }
 
-sub mps
-{
-    print "Inserting MPs...\n";
-    mplist::insert_mps($dbh);
-}
-
+# Called every time to tidy up database
 sub clean
 {
     print "Erasing half-parsed divisions...\n";
     clean::erase_duff_divisions($dbh);
-    print "Fixing up corrections we know about...\n";
-    clean::fix_division_corrections($dbh);
+}
+
+sub mps
+{
+    print "Inserting MPs...\n";
+    mplist::insert_mps($dbh);
 }
 
 sub crawl_recent_months
@@ -196,6 +192,10 @@ sub check
 {
     print "Checking integrity...\n";
     clean::check_integrity($dbh);
+    print "Fixing up corrections we know about...\n";
+    clean::fix_division_corrections($dbh);
+    print "Fixing bothway votes...\n";
+    clean::fix_bothway_voters($dbh);
 }
 
 sub word_count

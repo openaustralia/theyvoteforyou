@@ -1,4 +1,4 @@
-# $Id: clean.pm,v 1.2 2003/09/17 15:28:40 frabcus Exp $
+# $Id: clean.pm,v 1.3 2003/09/25 20:29:17 uid37249 Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -20,6 +20,27 @@ sub erase_duff_divisions
         pw_division.division_id = pw_vote.division_id and pw_division.valid
         = 0");
     db::query($dbh, "delete from pw_division where pw_division.valid = 0");
+}
+
+# An MP can vote both aye and noe in the same division
+# See under "Abstention" here: http://www.parliament.uk/documents/upload/p09.pdf
+sub fix_bothway_voters
+{
+    my $dbh = shift;
+
+    my $sth = db::query($dbh, "select a.mp_id, a.division_id, a.vote, b.vote from pw_vote as a, pw_vote as b where 
+        a.mp_id = b.mp_id and a.division_id = b.division_id and a.vote < b.vote"); # use < so only get the asymmetric half o entries
+    while (my @data = $sth->fetchrow_array())
+    {
+        my ($mp_id, $division_id) = @data;
+        my $sth2 = db::query($dbh, "update pw_vote set vote = 'both' where mp_id = ? and division_id = ? and vote = ?",
+            $mp_id, $division_id, "aye");
+        error::die("Unexpectedly altered " . $sth2->rows . " fixing bothway votes aye", "$division_id $mp_id") if ($sth2->rows != 1);
+        $sth2 = db::query($dbh, "delete from pw_vote where mp_id = ? and division_id = ? and vote = ?",
+            $mp_id, $division_id, "noe");
+        error::die("Unexpectedly altered " . $sth2->rows . " fixing bothway votes noe", "$division_id $mp_id") if ($sth2->rows != 1);
+    }
+    error::log("Fixed up " . $sth->rows . " bothway votes", "", error::IMPORTANT) if ($sth->rows > 0);
 }
 
 sub fix_division_corrections
@@ -87,14 +108,22 @@ sub check_integrity
         $prev_date = $date; 
     }
     
+    # Check no two MPs were in the same constituency at the same time
+    $sth = db::query($dbh, "select a.mp_id, b.mp_id, a.entered_house,
+        a.left_house, b.entered_house, b.left_house, a.constituency from
+        pw_mp as a, pw_mp as b where a.constituency = b.constituency and
+        a.mp_id <> b.mp_id and ( (a.entered_house <= b.left_house and
+        a.left_house >= b.entered_house) or (b.entered_house <=
+        a.left_house and b.left_house >= a.entered_house))");
+    error::warn("Database contains " . $sth->rows . " MPs in the same constituency at the same time", "") if ($sth->rows > 0);
+    
     # Check there aren't divisions in the future
     $sth = db::query($dbh, "select * from pw_division where division_date > current_date()");
-    error::warn("Database contains " . $sth->rows . " division(S) in the future!", "") if ($sth->rows > 0);
+    error::warn("Database contains " . $sth->rows . " division(s) in the future!", "") if ($sth->rows > 0);
 
     # Check nobody voted when they were not in the house (e.g. dead)
-    # TODO Find a way of expressing this query without it overloading # db!
-#    $sth = db::query($dbh, "select pw_mp.mp_id from pw_vote, pw_mp,pw_division where pw_vote.mp_id = pw_mp.mp_id and pw_vote.division_id = pw_division.division_id and division_date < entered_house or division_date > left_house");
- #   error::warn("Database contains " . $sth->rows . " MPs who voted when they were not in the house!", "") if ($sth->rows > 0);
+    $sth = db::query($dbh, "select pw_mp.mp_id from pw_vote, pw_mp,pw_division where pw_vote.mp_id = pw_mp.mp_id and pw_vote.division_id = pw_division.division_id and (division_date < entered_house or division_date > left_house)");
+    error::warn("Database contains " . $sth->rows . " MP(s) who voted when they were not in the house!", "") if ($sth->rows > 0);
 }
 
 1;

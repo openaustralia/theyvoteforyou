@@ -159,6 +159,11 @@ correlation is.
 Measure lobbying power behind each issue (expenditure by interested
 parties).  Again, correlate to time spent on it.
 
+> Obviously no group will expose their membership list to us.  However, in 
+> a local program they should be able to parse a list of post-codes and 
+> adjust the table of which MPs are doing the least where they have the 
+> most representation. 
+
 Additional text content
 -----------------------
 
@@ -173,7 +178,20 @@ Issue sub-selector.  User can log in, name an issue, and say which way
 votes should have gone to satisfy him on that issue.  Get all manner of
 people to make issues for next general election.
 
-Software to follow legislation from Queen's speech
+Software to follow all legislation sources:
+     - parliamentary bills - which can be introduced into either House
+     - white papers - on the parliamentary website I think
+     - green papers - not sure
+     - other consultative papers issues by departments
+     - consultative papers issues by other statutory bodies such as regulators
+     - papers from the downing st Performance and Innovation Unit
+     - EDMs  
+     - private members bills
+     - 10 minute rule bills
+     - EC directives which have to be implemneted in domsetic law
+     - the Queen's speech
+     - international treaties which apart from major EU treaties are ratified
+     under the Ponsonby Rule without a vote in parliament.
 
 Group votes by department, so you can see areas of interest (Sirius
 Gibson, Oxfam)
@@ -214,6 +232,9 @@ Links to other political resource websites
 hansard.php - takes links to days and chunks, does a redirect
 reduce bandwidth, and do tracking of where people link through to
 
+Colour blind people, or indeed blind people, need a better rebel marker
+than redness in MPs division list.  Boldness is one idea.
+
 Log failed searches so we can improve the search engine
 
 Detect MS Java applet and upgrade it
@@ -232,6 +253,9 @@ Usability (some sort of done - this is just some notes)
     - company name/logo at topleft, search at topright
     - search input box on front page (http://www.useit.com/alertbox/20010513.html)
     - print stylesheet media="print" removing menus
+
+Political toolbar - easy searches.  Popup links automatically on MP's
+names in Internet Explorer.
 
 Physicsl gimmicks
 -----------------

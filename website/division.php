@@ -1,5 +1,5 @@
 <?php
-# $Id: division.php,v 1.4 2003/09/18 21:09:23 frabcus Exp $
+# $Id: division.php,v 1.5 2003/09/25 20:29:17 uid37249 Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -41,7 +41,9 @@
         where division_id = $div_id and vote = 'aye'");
     $noes = $db->query_one_value("select count(*) from pw_vote
         where division_id = $div_id and vote = 'noe'");
-    print "<br>Turnout of $turnout. Votes were $ayes aye, $noes noe.  Guess $rebellions rebellions.";
+    $boths = $db->query_one_value("select count(*) from pw_vote
+        where division_id = $div_id and vote = 'both'");
+    print "<br>Turnout of $turnout. Votes were $ayes aye, $noes noe, $boths both.  Guess $rebellions rebellions.";
     print "<br><a href=\"$source\">Read the full debate leading up to this division (on Hansard website)</a>";
     print "$notes";
     
@@ -81,6 +83,7 @@
     # Precalc values
     $ayes = array();
     $noes = array();
+    $boths = array();
     $whips = array();
     $prettyrow = 0;
     while ($row = $db->fetch_row())
@@ -98,6 +101,10 @@
         {
             $noes[$party] += $count;
         }
+        else if ($vote == "both")
+        {
+            $boths[$party] += $count;
+        }
         else
         {
             print "Unknown vote type: " + $vote;
@@ -107,12 +114,13 @@
     }
 
     # Make table
-    print "<table><tr class=\"headings\"><td>Party</td><td>Ayes</td><td>Noes</td><td>Turnout</td>";
+    print "<table><tr class=\"headings\"><td>Party</td><td>Ayes</td><td>Noes</td>";
+    print "<td><a href=\"boths.php\" title=\"More info about MPs who vote aye and noe in the same division\">Boths</a></td>";
+    print "<td>Turnout</td>";
     print "<td>Expected</td><td>Abstain</td></tr>";
-    #$allparties = array_unique(array_merge(array_keys($ayes), array_keys($noes)));
     $allparties = array_keys($alldivs);
     usort($allparties, strcasecmp);
-    $votes = array_sum(array_values($ayes)) + array_sum(array_values($noes));
+    $votes = array_sum(array_values($ayes)) + array_sum(array_values($noes)) + array_sum(array_values($boths));
     if ($votes <> $turnout)
     {
         print "<p>Error $votes <> $turnout\n";
@@ -121,14 +129,19 @@
     {
         $aye = $ayes[$party];
         $noe = $noes[$party];
+        $both = $boths[$party];
         if ($aye == "") { $aye = 0; }
         if ($noe == "") { $noe = 0; }
+        if ($both == "") { $both = 0; }
         $whip = $whips[$party];
-        $total = $aye + $noe;
+        $total = $aye + $noe + $both;
         $classaye = "normal";
         $classnoe = "normal";
         if ($whip == "aye") { if ($noe > 0) { $classnoe = "rebel";} ;} else { $classnoe = "whip"; }
         if ($whip == "noe") { if ($aye > 0) { $classaye = "rebel";} ;} else { $classaye = "whip"; }
+
+        $classboth = "normal";
+        if ($both > 0) { $classboth = "important"; }
 
         $alldiv = $alldivs[$party];
         $expected = round($votes * ($alldiv / $alldivs_total), 1);
@@ -136,12 +149,13 @@
         $classabs = "normal";
         if (abs($abstentions) >= 2) { $classabs = "important"; }
         
-        if ($aye > 0 or $noe > 0 or $abstentions >= 2)
+        if ($aye > 0 or $noe > 0 or $both > 0 or $abstentions >= 2)
         {
             $prettyrow = pretty_row_start($prettyrow);        
             print "<td>" . pretty_party($party) . "</td>";
             print "<td class=\"$classaye\">$aye</td>";
             print "<td class=\"$classnoe\">$noe</td>";
+            print "<td class=\"$classboth\">$both</td>";
             print "<td>$total</td>";
             print "<td>$expected</td>";
             print "<td class=\"$classabs\">$abstentions</td>";
@@ -158,7 +172,7 @@
         $div_id and pw_cache_whip.party = pw_mp.party ";
     if (!$show_all)
     {
-        $query .= "and vote <> whip_guess and whip_guess <> 'unknown' ";
+        $query .= "and vote <> whip_guess and whip_guess <> 'unknown' and vote <> 'both'";
     }
     $query .= "order by vote, last_name, first_name desc";
     $db->query($query);
@@ -181,7 +195,7 @@
     while ($row = $db->fetch_row())
     {
         $class = "";
-        if ($showall && $row[6] != $row[4] && $row[6] <> "unknown")
+        if ($showall && $row[6] != $row[4] && $row[6] <> "unknown" && $row[4] <> "both")
         {
             $class = "rebel";
         }

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: render.inc,v 1.2 2003/09/18 16:16:24 frabcus Exp $
+# $Id: render.inc,v 1.3 2003/09/25 20:29:17 uid37249 Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -63,14 +63,7 @@ function render_mps_table($db)
             "&lastname=" . urlencode($row[1]) . "&constituency=" .
             urlencode($row[3]) . "\"";
 
-        if ($row[6] == "")
-        {
-            $row[6] = "n/a";
-        }
-        else
-        {
-            $row[6] .= "%";
-        }
+        if ($row[6] == "") { $row[6] = "n/a"; } else { $row[6] .= "%"; }
 
         print "<td><a href=$anchor>$row[2] $row[0] $row[1]</a></td></td>
             <td>$row[3]</td>

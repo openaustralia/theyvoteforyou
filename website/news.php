@@ -1,5 +1,5 @@
 <? $title = "Site News"; include "header.inc";
-# $Id: news.php,v 1.7 2003/09/19 16:06:37 frabcus Exp $
+# $Id: news.php,v 1.8 2003/09/25 20:29:17 uid37249 Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -11,6 +11,18 @@
 <p></p>
 */
 ?>
+
+<h2>MP votes twice! - 25 September 2003 by Francis</h2>
+<p>"There's an MP who's voted more than once in this division!"</p>
+
+<p>When I first analysed the database of votes which the Public Whip
+software generated, I was a bit shocked.  There are dozens of occasions
+when an MP voted both aye and noe in the same division. How could
+this be?
+
+Fortunately, it is perfectly allowed.  Have a look at the new
+page about <a href="boths.php">double voting</a> for a list of occasions
+when it has happened.  And for an explanation.</p>
 
 <h2>Turncoats and byelections - 18 September 2003 by Francis</h2>
 <p>Politics, being human, is endlessly rich in the variety of things that it throws 
@@ -41,10 +53,9 @@ who changed party had a high rebellion rate in their old party just
 before the change.
 
 <p>Today's a good day to be thinking about this as it's the Brent East
-byelection.  As I write the result hasn't been announced yet.  Amongst
-the thrilling administrative duties of running this web site, I look
+byelection.  As I write the result hasn't been announced yet.  I look
 forward to entering the new MP into the database in time for their first
-division!
+division...
 
 <h2>Detecting abstentions - 16 September 2003 by Francis</h2>
 <p>Quite often members deliberately refrain from voting in a division,

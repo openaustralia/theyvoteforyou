@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.3 2003/09/18 21:09:23 frabcus Exp $
+-- $Id: create.sql,v 1.4 2003/09/25 20:29:17 uid37249 Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -72,9 +72,10 @@ create table pw_division (
 create table pw_vote (
     division_id int not null,
     mp_id int not null,
-    vote enum("aye", "noe") not null,
+    vote enum("aye", "noe", "both") not null,
 
     index(division_id),
-    index(mp_id)
+    index(mp_id).
+    unique(division_id, mp_id, vote)
 );
 

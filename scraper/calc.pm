@@ -1,4 +1,4 @@
-# $Id: calc.pm,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: calc.pm,v 1.2 2003/09/25 20:29:17 uid37249 Exp $
 # Calculates various data and caches it in the database.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -54,6 +54,10 @@ sub guess_whip_for_division
         {
             $partycount{$party} -= $count;
         }
+        elsif ($vote eq "both")
+        {
+            # ignore
+        }
         else
         {
             die "Vote neither aye nor noe - party $party division $divid";
@@ -92,7 +96,8 @@ sub count_mp_info
             pw_cache_whip.whip_guess from pw_cache_whip, pw_vote where
             pw_cache_whip.party = ? and pw_cache_whip.division_id =
             pw_vote.division_id and pw_vote.mp_id = ? and pw_vote.vote <>
-            pw_cache_whip.whip_guess and pw_cache_whip.whip_guess <> 'unknown';", $party, $mpid);
+            pw_cache_whip.whip_guess and pw_cache_whip.whip_guess <> 'unknown' and
+            pw_vote.vote <> 'both'", $party, $mpid);
         my $rebel_count = $sth->rows;
 
         $sth = db::query($dbh, "select count(*) from pw_vote where mp_id = $mpid");
@@ -131,10 +136,10 @@ sub count_division_info
 
         my $sth = db::query($dbh, "select count(*) from pw_vote,
             pw_cache_whip, pw_mp where pw_vote.division_id = ? and
-            pw_cache_whip.division_id = ? and pw_vote.vote !=
+            pw_cache_whip.division_id = ? and pw_vote.vote <> 
             pw_cache_whip.whip_guess and pw_mp.party = pw_cache_whip.party
             and pw_vote.mp_id = pw_mp.mp_id and pw_cache_whip.whip_guess
-            <> 'unknown'", $division_id, $division_id);
+            <> 'unknown' and pw_vote.vote <> 'both'", $division_id, $division_id);
 
         die "Failed to count rebels for div $division_id" if $sth->rows != 1;
         my $rebellions = $sth->fetchrow_arrayref()->[0];

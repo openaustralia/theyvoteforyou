@@ -1,6 +1,6 @@
-# $Id: mpquery.pm,v 1.4 2003/09/19 16:06:36 frabcus Exp $
-# This is included by octavein.pl and mpcoords2db.pl.
-# It defines the set of MPs which we are going to analyse.
+# $Id: mpquery.pm,v 1.5 2003/09/25 20:29:17 uid37249 Exp $
+# This extracts a vote distance metric for a set of MPs, and is able to
+# write it out in a format for loading into GNU Ooctave (or MatLab)
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -34,8 +34,9 @@ sub vote_distance_metric()
     my $clause = shift;
 
     # Count divisions
-    print "$clause";
+    # print "$clause";
     my $sth = db::query($dbh, "select division_id from pw_division $clause");
+    print $sth->rows . " division\n";
     my @div_ixs;
     while (my @data = $sth->fetchrow_array())
     {
@@ -43,8 +44,11 @@ sub vote_distance_metric()
     }
 
     # Read all votes in, and make array of MPs and their vote in each division
-    my $limit = " where mp_id = " . join(" or mp_id = ", @$mp_ixs);
+    my $limit = " where (mp_id = " . join(" or mp_id = ", @$mp_ixs) . ")";
+    $limit .= " and (division_id = " . join(" or division_id = ", @div_ixs) . ")";
+    print "$limit\n";
     $sth = db::query($dbh, "select division_id, mp_id, vote from pw_vote $limit order by mp_id, division_id");
+    print $sth->rows . " votes\n";
     my @votematrix;
     while (my @data = $sth->fetchrow_array())
     {

@@ -1,11 +1,3 @@
-Pre-mass publicity
-------------------
-
-Log file rotation
-SourceForge backup
-
-Mailing list for newsletter
-
 New stuff
 ---------
 
@@ -27,23 +19,19 @@ Investigate EDMs, legality of using them
 
 Look at majorities
 
+Log file rotation
+SourceForge backup
+
+Mailing list for newsletter
+
 Website
 -------
+
+Java applet proper detection
 
 Consider changing support@ email addr to something less corporate sounding
 
 Trim some opinion waffle out of Cluster text
-
-Display Paul Marsden (Lab) clearer
-Lab (ex)
-as Lab (now LDem)
-as LDem (now Lab)
-
-Newsletter
-Some kind of comments system
-
-Colour blind people, or indeed blind people, need a better rebel marker
-than redness in MPs division list.  Boldness is one idea.
 
 Find logo
 
@@ -52,16 +40,8 @@ Scraper
 
 Check out tapiR, see if useful
 
-Check nobody existing voted when they were dead!
-Check no constituency had two MPs at once
-
 Check "Question accordingly..." fits with our counting
 Tally vote numbers in text and check they fit with our counting
-
-Deal with when an MP voted twice in one division
-Search for MPs who voted on both sides in one division
-Check for an MP voting both for and against!  See "Abstention" here:
-http://www.parliament.uk/documents/upload/p09.pdf
 
 Also I need to tidy the whole thing up to be more usable.  Reduce the
 number of commands, make the pipeline more straightforward, and so it
@@ -75,5 +55,5 @@ Improve motion text extraction
     division.php?date=2003-09-16&number=313 - too much text [interruption]
     division.php?date=2001-11-26&number=85 - excess interruption
     division.php?date=2002-02-06&number=158 - incomplete
-
+    division.php?date=2003-09-10&number=307 - motion missed completely
 

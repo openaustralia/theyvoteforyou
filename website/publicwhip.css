@@ -1,4 +1,4 @@
-/* $Id: publicwhip.css,v 1.7 2003/09/18 21:09:24 frabcus Exp $
+/* $Id: publicwhip.css,v 1.8 2003/09/25 20:29:17 uid37249 Exp $
 
 The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 This is free software, and you are welcome to redistribute it under
@@ -85,6 +85,7 @@ table { margin: 0;
 
 table.votes { width: 100%; }
 table.mps { width: 100%; }
+table.mix { width: 100%; }
 
 table tr.headings { font-weight: bold; background-color: #dadada;}
 table tr.odd { background-color: #eeeeee; }
