@@ -79,19 +79,21 @@ fdirin = os.listdir(dirin)
 for fin in fdirin:
 	jfin = os.path.join(dirin, fin)
 	jfout = os.path.join(dirout, fin)
-	#if os.path.isfile(jfout):
-	#	print "skipping " + fin
-	#	continue
+	if os.path.isfile(jfout):
+		print "skipping " + fin
+		continue
 
 	print fin
-	fin = open(jfin);
-	fr = fin.read()
-	fin.close()
+	ffin = open(jfin);
+	fr = ffin.read()
+	ffin.close()
 
 	tempfile = open(dtemp, "w")
 	tempfile.write(foldhtmlhead)
 
-	stsec = StripSections(fr)
+	sdatel = re.findall('(\d{4}-\d{2}-\d{2})', jfin)
+	sdate = sdatel[0]
+	stsec = StripSections(fr, sdate)
 
 	stsec.foldwrite(tempfile)
 
