@@ -1,5 +1,5 @@
 <?php
-# $Id: division.php,v 1.5 2003/09/25 20:29:17 uid37249 Exp $
+# $Id: division.php,v 1.6 2003/10/03 10:56:20 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -115,7 +115,7 @@
 
     # Make table
     print "<table><tr class=\"headings\"><td>Party</td><td>Ayes</td><td>Noes</td>";
-    print "<td><a href=\"boths.php\" title=\"More info about MPs who vote aye and noe in the same division\">Boths</a></td>";
+    print "<td><a href=\"boths.php\" title=\"More info about MPs who vote aye and noe in the same division\">Both</a></td>";
     print "<td>Turnout</td>";
     print "<td>Expected</td><td>Abstain</td></tr>";
     $allparties = array_keys($alldivs);

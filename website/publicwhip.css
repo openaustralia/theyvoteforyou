@@ -76,7 +76,7 @@ TABLE.layout
     BORDER-TOP: 0px;
     PADDING-LEFT: 0px;
     PADDING-BOTTOM: 0px;
-    MARGIN: 0px;
+    MARGIN: 0.5em;
     BORDER-LEFT: 0px;
     WIDTH: 100%;
     PADDING-TOP: 0px;
@@ -85,11 +85,11 @@ TABLE.layout
 TABLE TD.layout
 {
     PADDING-RIGHT: 1em;
-    PADDING-LEFT: 0px;
-    PADDING-BOTTOM: 0px;
+    PADDING-LEFT: 1em;
+    PADDING-BOTTOM: 0.5em;
+    PADDING-TOP: 0.5em;
     MARGIN: 0px;
     VERTICAL-ALIGN: top;
-    PADDING-TOP: 0px
 }
 .searchbox
 {
@@ -198,7 +198,7 @@ LI.newsheadlines:hover
 UL.newsheadlines
 {
     PADDING-RIGHT: 1em;
-    PADDING-LEFT: 1em;
+    PADDING-LEFT: 2em;
     PADDING-BOTTOM: 1em;
     MARGIN: 0px;
     PADDING-TOP: 1em

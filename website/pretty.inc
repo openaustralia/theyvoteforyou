@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.3 2003/09/18 21:09:24 frabcus Exp $
+# $Id: pretty.inc,v 1.4 2003/10/03 10:56:20 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -73,6 +73,29 @@ function random_big_word($phrase)
     $lesswords = array_filter($words, "interesting_word");
 #    print "<p>lesswords: "; foreach ($lesswords as $word) { print "'$word';"; }
     return $lesswords[array_rand($lesswords)];
+}
+
+function search_example($db)
+{
+    $row = $db->query_one_row("select first_name, last_name from pw_mp
+        order by rand() desc limit 1");
+    $random_mp = $row[0] . " " . $row[1];
+
+    $row = $db->query_one_row("select constituency from pw_mp
+        order by rand() desc limit 1");
+    $random_constituency = random_big_word($row[0]);
+    if ($random_constituency == "")
+        $random_constituency = "Liverpool";
+
+    $row = $db->query_one_row("select division_name from pw_division
+        order by rand() desc limit 1");
+    $random_topic = random_big_word($row[0]);
+    if ($random_topic == "")
+        $random_topic = "Trade";
+?>
+<p class="search"><i>Example: "<?=$random_mp?>", "<?=$random_constituency?>" or "<?=$random_topic?>"</i>
+
+<?php
 }
 
 ?>

@@ -1,5 +1,5 @@
 <? $title = "Site News"; include "header.inc";
-# $Id: news.php,v 1.10 2003/10/02 15:33:51 frabcus Exp $
+# $Id: news.php,v 1.11 2003/10/03 10:56:20 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -17,8 +17,7 @@
 you Giles!  This involves a few changes, and I might have broken
 something.  If anything doesn't work, then send us an email.</p>
 
-<h2>MP votes twice! - 25 September 2003 by Francis</h2>
-<p>"There's an MP who's voted more than once in this division!"</p>
+<h2>MP votes twice in one division - 25 September 2003 by Francis</h2>
 
 <p>When I first analysed the database of votes which the Public Whip
 software generated, I was a bit shocked.  There are dozens of occasions

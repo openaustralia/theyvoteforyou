@@ -1,5 +1,5 @@
 <?php $title = "Search"; include "header.inc" 
-# $Id: search.php,v 1.3 2003/10/02 09:42:03 frabcus Exp $
+# $Id: search.php,v 1.4 2003/10/03 10:56:20 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -87,27 +87,24 @@ or <a href="divisions.hphp">all divisions</a>.
         }
     }
 
-    $row = $db->query_one_row("select first_name, last_name from pw_mp
-        order by rand() desc limit 1");
-    $random_mp = $row[0] . " " . $row[1];
-
-    $row = $db->query_one_row("select constituency from pw_mp
-        order by rand() desc limit 1");
-    $random_constituency = random_big_word($row[0]);
-    if ($random_constituency == "")
-        $random_constituency = "Liverpool";
-
-    $row = $db->query_one_row("select division_name from pw_division
-        order by rand() desc limit 1");
-    $random_topic = random_big_word($row[0]);
-    if ($random_topic == "")
-        $random_topic = "Trade";
 ?>
 
 <p class="search">Enter your MP, constituency or debate topic:</p>
 <form class="search" action="search.php" name=pw>
 <input maxLength=256 size=25 name=query value=""> <input type="submit" value="Search" name="button">
 </form>
-<p class="search"><i>Example: "<?=$random_mp?>", "<?=$random_constituency?>" or "<?=$random_topic?>"</i>
+<?php search_example($db) ?>
+<p class="search"><span class="ptitle">Search Tip 1:</span> You can <a
+href="http://www.locata.co.uk/commons/">find your MP by postcode</a>
+on an external site, then enter their name back here.  If you are having
+trouble, try using just the first name or just the last name.  If you
+don't know exactly how to spell the name, write it as best you
+can like it sounds.
+
+<p class="search"><span class="ptitle">Search Tip 2:</span> 
+To find divisions you are interested in, enter the
+name of a subject, such as "Pensions" or "Hunting".  The Public Whip
+will search the titles of the divisions and the text of the motion being
+debated.
 
 <?php include "footer.inc" ?>
