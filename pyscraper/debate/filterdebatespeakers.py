@@ -63,8 +63,11 @@ fixsubs = [
 # Q4.  [161707]<a name="40317-03_wqn5"><B> Mr. Andy Reed  (Loughborough)</B>
 
 parties = "|".join(map(string.lower, memberList.partylist())) + "|uup|ld|dup"
+# Rough match:
 recomb = re.compile('((?:Q?\d+\.\s*)?(?:\[\d+\]\s*)?(?:<stamp aname=".*?"/>)?<b>[^<]*</b>(?:\s*\((?:%s)\))?\s*:?)(?i)' % parties)
-respeakervals = re.compile('(?:Q?(\d+)\.\s*)?(\[\d+\]\s*)?(<stamp aname=".*?"/>)?<b>\s*(?:Q?(\d+)\.)?([^:<(]*?):?\s*(?:\((.*?)\))?\s*:?\s*</b>(?:\s*\((%s)\))?(?i)' % parties)
+# Specific match:
+# Notes - sometimes party appears inside bold tags, so we match and throw it away on either side
+respeakervals = re.compile('(?:Q?(\d+)\.\s*)?(\[\d+\]\s*)?(<stamp aname=".*?"/>)?<b>\s*(?:Q?(\d+)\.)?([^:<(]*?):?\s*(?:\((.*?)\))?(?:\s*\((%s)\))?\s*:?\s*</b>(?:\s*\((%s)\))?(?i)' % (parties, parties))
 
 # <B>Division No. 322</B>
 redivno = re.compile('<b>division no\. \d+</b>$(?i)')
