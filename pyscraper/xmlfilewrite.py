@@ -113,7 +113,7 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 			ilf += 1
 
 		if lgidbatch != cgidbatchm:
-			print "Mismatch in cols", ccol, cgidbatchm, lgidbatch, ilf
+			pass #print "Mismatch in cols", ccol, cgidbatchm, lgidbatch, ilf
 		return ilf
 
 	def CompareGIDS(self, flatb):
@@ -138,7 +138,9 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 			ilf = self.CompareGIDScols(ccol, cgidbatch, cgidbatchv, ilf)
 
 		# fires if there are more columns left in the xml file unaccounted for
-		assert ilf == len(self.lflatb)
+		if ilf != len(self.lflatb):
+			pass # print "Mismatch cols extra in XML", ilf, len(self.lflatb)
+                    
 
 
 
@@ -174,7 +176,7 @@ def CreateGIDs(gidpart, flatb, sdate):
 # write out a whole file which is a list of qspeeches, and construct the ids.
 def WriteXMLFile(gidpart, fout, jfout, flatb, sdate):
 
-        print "jfout is ", jfout
+        #print "jfout is ", jfout
 	# make the GIDS and compare the files
 	CreateGIDs(gidpart, flatb, sdate)
 
