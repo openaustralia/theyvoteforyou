@@ -1,6 +1,0 @@
-#!/bin/bash
-set -e
-
-cat news.php | grep h2 | grep "-" | head --lines=1 | perl -pe "s/.* - //; s/ by .*//;" >newsdate.inc
-cat news.php | grep h2 | grep "-" | perl -pe "s/<h2>/<li class=\"newsheadlines\">/;s/ - .*//;" | head --lines 3 >headlines.inc
-
