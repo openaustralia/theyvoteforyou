@@ -139,7 +139,7 @@ def StraightenHTMLrecurse(stex):
 		sres.extend(StraightenHTMLrecurse(stex[qisup.span(1)[1]:]))
 		return sres
 
-	sres = re.split('(&[a-z]*?;|&#\d+;|"|&|\x01|<[^>]*>|<|>)', stex)
+	sres = re.split('(&[a-z]*?;|&#\d+;|"|\xa3|&|\x01|<[^>]*>|<|>)', stex)
 	for i in range(len(sres)):
 		if not sres[i]:
 			pass
@@ -172,10 +172,16 @@ def StraightenHTMLrecurse(stex):
 		elif sres[i] == '\x01':
                         sres[i] = ''
 
+                elif sres[i] == '\xa3':
+                        sres[i] = '&pound;'
+
 		elif sres[i] == '<i>':
 			sres[i] = '' # 'OPEN-i-TAG-OUT-OF-PLACE'
 		elif sres[i] == '</i>':
 			sres[i] = '' # 'CLOSE-i-TAG-OUT-OF-PLACE'
+
+                elif re.match('<xref locref=\d+>', sres[i]): # what is this? wrans 2003-05-13 has one
+                        sres[i] = ''
 
 		elif sres[i][0] == '<' or sres[i][0] == '>':
 			raise Exception, 'tag ' + sres[i] + ' tag out of place in ' + stex
@@ -438,7 +444,7 @@ def WriteXMLFile(fout, flatb, sdate):
 		# extract the time stamp (if there is one)
 		stime = ""
 		if qb.sstampurl.timestamp:
-			re.match('<stamp( time=".*?")/>', qb.sstampurl.timestamp).group(1)
+			stime = re.match('<stamp( time=".*?")/>', qb.sstampurl.timestamp).group(1)
 
 		# build the full tag for this object
 		# some of the info is a repeat of the text in the GID

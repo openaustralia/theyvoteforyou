@@ -23,6 +23,7 @@ def MpList(fsm, vote, sdate):
 	res = [ ]
 	pfss = ''
 	for fss in fsm:
+                #print "fss ", fss
 
 		# break up concattenated lines
 		# Beresford, Sir PaulBlunt, Crispin
@@ -42,7 +43,7 @@ def MpList(fsm, vote, sdate):
 			#	raise Exception, ' out of alphabetical order %s and %s' % (pfss, fssf)
 			#pfss = fssf
 
-			# fliprount the name
+			# flipround the name
 			# Bradley, rh Keith <i>(Withington)</i>
 			# Simon, Sio(r)n <i>(Withington)</i>
 			ginp = reflipname.match(fssf)

@@ -1,0 +1,10 @@
+--- debates/debates2003-12-18.html	2004-03-16 15:05:37.000000000 +0000
++++ debates/debates2003-12-18-patchtmp.html	2004-04-02 17:54:15.000000000 +0100
+@@ -4219,6 +4219,7 @@
+ Ms Bridget Prentice<P>
+ <P>
+ 
++<explicit-end-division>
+ 
+ <P>
+ <P>

@@ -233,6 +233,12 @@ def FilterDebateSections(fout, text, sdate):
 				flatb[-1].stext.append(" &mdash; ")
 				flatb[-1].stext.extend(qbh.stext)
 
+			# ram together major headings into previous ones which have no speeches
+			elif qbh.typ == 'major-heading' and len(flatb) > 0 and flatb[-1].typ == 'major-heading':
+				flatb[-1].stext.append(" &mdash; ")
+				flatb[-1].stext.extend(qbh.stext)
+
+
 			# otherwise put out this heading
 			else:
 				flatb.append(qbh)

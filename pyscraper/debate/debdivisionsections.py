@@ -92,15 +92,18 @@ def PreviewDivisionTextGuess(flatb):
 
 
 # handle a division case
-regenddiv = '(Question accordingly|It appearing on the report)'
+regenddiv = '(Question accordingly|It appearing on the report|<explicit-end-division>)'
 def DivisionParsingPart(divno, unspoketxt, stampurl, sdate):
 	# find the ending of the division and split it off.
 	gquesacc = re.search(regenddiv, unspoketxt)
 	if gquesacc:
 		divtext = unspoketxt[:gquesacc.start(1)]
 		unspoketxt = unspoketxt[gquesacc.start(1):]
+                # TODO: Shouldn't we have to strip <explicit-end-division> here, we don't seem to need to
+                # does it just vanish?
 	else:
 		divtext = unspoketxt
+                print unspoketxt
 		print "division missing %s" % regenddiv
 		unspoketxt = ''
 

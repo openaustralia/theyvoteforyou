@@ -12,10 +12,6 @@ from miscfuncs import ApplyFixSubstitutions
 # this filter finds the speakers and replaces with full itendifiers
 # <speaker name="Eric Martlew  (Carlisle)"><p>Eric Martlew  (Carlisle)</p></speaker>
 
-# (these are temporary)
-knownbadmatches = 'prime minister|nicholas brown|gareth thomas|lembit|' +\
-		  'advocate-general|ainsworth|jonathan shaw|gareth r[.] thomas|multiple times(?i)'
-
 fixsubs = 	[
 	( 'tbLlew', 'Llew', 1, '2004-03-11'), 
 
@@ -147,29 +143,30 @@ def FilterWransSpeakers(fout, text, sdate):
                 # TODO: do something with deci here (it is the "failed
                 # oral questions" signifier)
 
-                # match the member to a unique identifier
-                (id, remadename, remadecons) = memberList.matchfullnamecons(boldnamestring, None, sdate, bsuppressmultimplematches=True)
-
-		# now output what we've decided
-                #if reason:
-		#	if not re.search(knownbadmatches, reason):
-		#		print reason
-        	#	reason = ' error="%s" speakername="%s"' % (reason, boldnamestring)
-                if remadename:
-        		remadename = ' speakername="%s"' % (remadename)
+                # see if it is an explicitly bad/ambiguous name which will never match
+                if boldnamestring.find('<broken-name>') >= 0:
+                    id = 'unknown'
+                    boldnamestring = boldnamestring.replace('<broken-name>', '')
+                    remadename = ' speakername="%s" error="Name ambiguous in Hansard"' % (boldnamestring)
+                else:
+                    # match the member to a unique identifier
+                    (id, remadename, remadecons) = memberList.matchfullnamecons(boldnamestring, None, sdate, bsuppressmultimplematches=True)
+                    if remadename:
+                            remadename = ' speakername="%s"' % (remadename)
 
 		# put record in this place
 		fs[i] = '<speaker speakerid="%s"%s>%s</speaker>\n' % \
-						(id, remadename, boldnamestring)
+                                    (id.encode("latin-1"), remadename.encode("latin-1"), boldnamestring)
 
 	# scan through everything and output it into the file
 	for fss in fs:
+                fout.write(fss) # For accent in "Siôn Simon"
+                continue
 		try:
-			fout.write(fss.encode("latin-1")) # For accent in "Siôn Simon"
+                    fout.write(fss.encode("latin-1")) # For accent in "Siôn Simon"
 		except:
 			print ' --- latin-1 encoding failed --- '
 
-			print fss
 			for c in fss:
 				print c,
 				c.encode("latin-1")

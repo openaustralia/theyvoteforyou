@@ -220,6 +220,19 @@ def FilterWransSections(fout, text, sdate):
 		unspoketxt = sht[1]
 		speechestxt = sht[2]
 
+                # Cases where a heading spreads out of its centre tag into
+                # the next bit.  Happens a lot in wrans in January 2003.
+                # e.g. In 2003-01-15 we have heading "Birmingham Northern Relief Road "
+                # with extra bit "(Low-noise Tarmac)" to pull in.
+                bhmatch = re.match('(\s*[()A-Za-z\-\' ]+)([\s\S]*)$', unspoketxt)
+                if bhmatch:
+                        # Merge the heading part back in
+                        headingtxt = headingtxt + bhmatch.group(1)
+                        headingtxt = re.sub("\s+", " ", headingtxt)
+                        unspoketxt = bhmatch.group(2)
+                        print "Merged into heading: ", headingtxt
+                  
+
 		# update the stamps from the pre-spoken text
 		if (not re.match('(?:<[^>]*>|\s)*$', unspoketxt)):
 			print sht

@@ -48,14 +48,22 @@ rm -f $TEMPFILE
 cd $PATCHDEST
 if [ -s $PATCHFILE.new ]
 then
-    mv $PATCHFILE.new $PATCHFILE
     echo Written patch file $PATCHFILE
-    cvs add $PATCHFILE
+    if [ -e $PATCHFILE ]
+    then
+        mv $PATCHFILE.new $PATCHFILE
+    else
+        mv $PATCHFILE.new $PATCHFILE
+        cvs add $PATCHFILE
+    fi
 else
     rm -f $PATCHFILE.new
-    rm -f $PATCHFILE
     echo No changes from original, deleted patch $PATCHFILE
-    cvs remove $PATCHFILE
+    if [ -e $PATCHFILE ]
+    then
+        rm -f $PATCHFILE
+        cvs remove $PATCHFILE
+    fi
 fi
 
 

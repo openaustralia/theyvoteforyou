@@ -98,7 +98,9 @@ class SepHeadText:
 		sptext = string.join(self.textl, '')
 		if self.speaker != 'No one':
 			self.shspeak.append((self.speaker, sptext))
-			if re.match('(?:<[^>]*?>|\s)*$', sptext):
+                        # Specifically "unknown" speakers e.g. "Several hon members rose" don't
+                        # have text in their "speech" bit.
+			if re.match('(?:<[^>]*?>|\s)*$', sptext) and not re.match('speakerid="unknown"', self.speaker):
 				print 'Speaker with no text ' + self.speaker
 				#print sptext
 				#print self.unspoketext
