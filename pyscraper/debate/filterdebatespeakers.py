@@ -21,11 +21,9 @@ fixsubs = [
         ('<B> Caroline Flint\): </B>', '<B> Caroline Flint: </B>', 1, '2003-07-14'),
         ('<B> Ms King </B>', '<B> Oona King </B>', 1, '2003-09-11'),
 
-	('<B> Sir Sydney Chapman: I </B>', '<B> Sir Sydney Chapman: </B> I ', 1, '2003-12-09'),
 	('<B> Simon Hughes:  \(Southwark', '<B> Simon Hughes  (Southwark', 1, '2003-11-19'),
 	( '<B>\("(The registers of political parties)</B>', '//1', 1, '2000-11-29'),
 	( '\(Mr. Denis MacShane </B>\s*\)', '(Mr. Denis MacShane) </B>', 1, '2003-05-21'),
-	( '] Andy King', ' Andy King', 1, '2003-12-10'),
 
 	( '\(Sir Alan Haselhurst </B>', '(Sir Alan Haselhurst) </B>', 1, '2003-03-25'),
 	( '<B> Yvette Cooper: I </B>', '<B> Yvette Cooper: </B> I ', 1, '2003-02-03'),
