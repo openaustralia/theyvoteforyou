@@ -106,6 +106,10 @@ Committees, and voting in committee
 Usability
 ---------
 
+Abstain -> difference from expected
+Expected -> average no. of attendees
+visually draw guesses further right
+
 Pass W3C validator
 http://validator.w3.org/
 And bobby

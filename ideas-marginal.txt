@@ -56,6 +56,9 @@ Find people who have telled the most times
 Cluster distractions (geek fun, but pointless)
 --------------------
 
+Make clustering cope with tellaye/tellno
+Make cluster stuff store NUMBER OF VOTES both voted in for extra possible friends info
+
 Chris Lighthead:  "I've now written some code to estimate which of the
 eigenvectors are significant. The basic idea is that we generate
 synthetic data using the marginal  distributions for each statements --

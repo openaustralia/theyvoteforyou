@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.27 2004/01/28 19:46:22 frabcus Exp $
+    # $Id: mp.php,v 1.28 2004/01/31 18:41:34 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -18,7 +18,7 @@
     $last_name = db_scrub($_GET["lastname"]);
     # The consmatch converts constituency to canonical form as it comes in
     $constituency = $_GET["constituency"];
-    $constituency = $consmatch[stripslashes($constituency)];
+    $constituency = $consmatch[strtolower(stripslashes($constituency))];
     $constituency = db_scrub($constituency);
     $id = db_scrub($_GET["id"]);
 

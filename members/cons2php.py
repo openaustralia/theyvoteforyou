@@ -16,7 +16,7 @@ class ConsConvert(xml.sax.handler.ContentHandler):
         elif name == "name":
             if self.canonical == "":
                 self.canonical = attr["text"]
-            print '"' + attr["text"].encode("latin-1") + '" => ',
+            print '"' + attr["text"].encode("latin-1").lower() + '" => ',
 
     def endElement(self, name):
         if name == "name":

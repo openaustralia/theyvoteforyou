@@ -33,8 +33,6 @@ Check all found URL links
 Improve all MP name matching so no unknown ids
 Make "unknown" name link a better page (rather than a meaningless error)
 
-Make tables have alternating rows
-
 Stats - count up how many questions/answers each person has done
 
 Simple comments / vote system?
@@ -53,14 +51,14 @@ Google search on division name
 
 Popular pages today are...  Grep the logs somehow clever.
 
-Abstain -> difference from expected
-Expected -> average no. of attendees
-visually draw guesses further right
+Tour somehow for first time users
 
 FAQ needs to give more of an impression that we would like help
 
 Scraper
 -------
+
+Improve XML parser to be used for divisions.
 
 House of Lords
 
@@ -69,11 +67,6 @@ Resolve all the errors that "scraper.pl check" squirts out
 Check for divisions which don't have quorum of 40
 
 Measure abstentions by parliament rather than global proportions?
-
-Make clustering cope with tellaye/tellno
-Make cluster stuff store NUMBER OF VOTES both voted in for extra possible friends info
-
-Look at majorities
 
 Make one script I have to run which just does everything (backup logs,
 get latest divisions, upload to db)
