@@ -1,0 +1,57 @@
+--- C:\publicwhip\pwdata\cmpages\wrans\answers2004-03-25.html	Wed Mar 31 16:59:11 2004
++++ C:\publicwhip\pwdata\cmpages\wrans\answers2004-03-25-patchtmp.html	Tue May 04 01:49:53 2004
+@@ -8,7 +8,7 @@
+ 
+ <P>
+ <P><I>25 Mar 2004 : Column 935W</I><P>
+-
++<P>
+ 
+ <a name="40325w01.html_writ0"><H1 align=center>Written Answers to Questions</H1>
+ 
+@@ -26,11 +26,11 @@
+ 
+ <P>
+ <P>
+-<a name="40325w01.html_wqn0"><B> Mr. Clappison: </B> 
++<a name="40325w01.html_wqn0"><B> Mr. Clappison: </B>
+ To ask the Secretary of State for Education and Skills how many of the Higher Education Bill's <i>(a)</i>&nbsp;clauses and <i>(b)</i>&nbsp;schedules were (i) debated, (ii) partially debated and (iii) not debated during the recent committee stage.  [162988]<P>
+ <P>
+ <P>
+-<a name="40325w01.html_spnew0"><B> Alan Johnson  </B> 
++<a name="40325w01.html_spnew0"><B> Alan Johnson  </B>
+ <i>[holding answer 23&nbsp;March 2004]</i>: 25 clauses of the bill were formally debated during Committee Stage. Debates over fourteen sessions were both wide-ranging and detailed. Debate on the fees provisions lasted for seven committee sessions, and ensured a very full exploration of the Government's policy on tuition fees. A similarly long debate on the Government's proposal to establish an Office for Fair Access lasted for three Committee sessions. 25 clauses and seven schedules were not debated. Among the clauses not debated are 10 clauses that cover technical, interpretative or commencement provisions. The wide-ranging discussion on several clauses meant that the debates touched on a number of issues associated with later clauses that were not formally reached.
+ <P>
+ 
+@@ -45,11 +45,11 @@
+ 
+ <P>
+ <P>
+-<a name="40325w01.html_wqn1"><B> Mr. Carmichael: </B> 
++<a name="40325w01.html_wqn1"><B> Mr. Carmichael: </B>
+ To ask the Chancellor of the Exchequer what plans the Government have to make an additional submission to the European Court of Justice regarding the level of excise duty levied by the Greek Government on ouzo.  [163308]<P>
+ <P>
+ <P>
+-<a name="40325w01.html_spnew1"><B> John Healey: </B> 
++<a name="40325w01.html_spnew1"><B> John Healey: </B>
+  Officials from Customs, DTI and DEFRA are in the process of considering the legal and practical implications of such an approach to the European Court of Justice.
+ 
+ <a name="40325w01.html_sbhd2"><H3 align=center>Bicycles</H3>
+@@ -57,7 +57,7 @@
+ 
+ <P>
+ <P>
+-<a name="40325w01.html_wqn2"><B> John Thurso: </B> 
++<a name="40325w01.html_wqn2"><B> John Thurso: </B>
+ To ask the Chancellor of the Exchequer how much revenue was collected from the <i>(a)</i>&nbsp;import and <i>(b)</i>&nbsp;sale of bicycles in the last year for which figures are available, broken down by (i) country of origin and (ii) number of machines in each case.  [163124]
+ 
+ 
+@@ -68,7 +68,7 @@
+ <P>
+ <P>
+ <P>
+-<a name="40325w01.html_spnew2"><B> John Healey: </B> 
++<a name="40325w01.html_spnew2"><B> John Healey: </B>
+  The number of non-motorised bicycles and other cycles (including delivery tricycles) <sup>1</sup>  imported in 2003 from non-EU countries and the value of the revenue declared, broken down by country of origin, is shown in the following table:
+ <P>
+ <BR>

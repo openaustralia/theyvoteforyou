@@ -288,16 +288,11 @@ def FilterWransSections(fout, text, sdate):
 					# sometimes [n] is an enumeration or part of a title
 					nqn = string.atoi(qn)
 					if (not qnums.count(qn)) and (nqn > 100) and ((nqn < 1900) or (nqn > 2010)):
-                                                if qb.text.find("<ok-extra-qnum>") >= 0:
-                                                        qb.text = qb.text.replace("<ok-extra-qnum>", "", 1)
-                                                else:
-                                                        raise ContextException('unknown qnum %s present in answer, make it clear' % qn, stamp = qb.sstampurl, fragment = qb.text)
-
-                                try:
-                                        qb.stext = FilterReply(qb.text, qb.sstampurl)
-                                except Exception, e:
-                                        raise ContextException(str(e), stamp=qb.sstampurl, fragment=qb.text)
-
+						if qb.text.find("<ok-extra-qnum>") >= 0:
+							qb.text = qb.text.replace("<ok-extra-qnum>", "", 1)
+						else:
+							raise ContextException('unknown qnum %s present in answer, make it clear' % qn, stamp = qb.sstampurl, fragment = qb.text)
+				qb.stext = FilterReply(qb.text, qb.sstampurl)
 				flatb.append(qb)
 
 		if not bNextStartofQ:

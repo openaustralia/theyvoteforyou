@@ -109,17 +109,17 @@ def FilterDebateSpeakers(fout, text, sdate):
 			spstrbrack = speakerg.group(4) # the bracketted phrase
 
 			# match the member to a unique identifier and displayname
-                        try:
-                                result = memberList.matchdebatename(spstr, spstrbrack, sdate)
-                        except Exception, e:
-                                # add extra stamp info to the exception
-                                raise ContextException(str(e), stamp=stampurl, fragment=fss)
+			try:
+				result = memberList.matchdebatename(spstr, spstrbrack, sdate)
+			except Exception, e:
+				# add extra stamp info to the exception
+				raise ContextException(str(e), stamp=stampurl, fragment=fss)
 
 			# put record in this place
 			spxm = '<speaker %s>%s</speaker>\n' % (result.encode("latin-1"), spstr)
-                        if anamestamp:
-                            spxm = anamestamp + spxm
-			fout.write(spxm) 
+			if anamestamp:
+				spxm = anamestamp + spxm
+			fout.write(spxm)
 			continue
 
 

@@ -25,26 +25,10 @@ from lordsfilterdivisions import LordsFilterDivision
 from lordsfilterdivisions import LordsDivisionParsingPart
 from filterdebatespeech import FilterDebateSpeech
 
+from contextexception import ContextException
+
 # Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
-				# heading so full of crap I can only discard it completely
-				('<center>\s*(<TABLE[\s\S]*?</TABLE>)\s*</center>', '\\1', 2, '2004-03-04'),
-				('colspan=center', 'align=center', 4, '2004-03-04'),
-
-				('<H5>(Second Reading debate resumed.</H5>)', '<H5 align=center>\\1', 1, '2003-12-15'),
-				('<hr width=25%>', '', 1, '2004-03-25'),
-    			('(<ul><ul>House adjourned.*?.</ul></ul>)', '<ul>\\1</ul>', 1, '2004-03-25'),
-
-				('(\[\*The Tellers for .*?\s*<P>)([\s\S]*?)(Resolved .*? accordingly.)', '\\3 \\2 \\1', 1, '2004-03-23'),
-				('(Renfrew of Kaimsthorn,)\s*<br>\s*(L.)', '\\1 \\2', 1, '2004-03-23'),
-
-#				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-03-15'),
-#				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-02-23'),
-#				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-01-26'),
-#				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-01-05'),
-
-# this is the queens speech, and this sub doesn't fix it.
-#				('<FONT SIZE=6><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2003-11-26'),
 				( '<UL><UL><UL>(?i)', '<UL>', -1, 'all'),
 				( '</UL></UL></UL>(?i)', '</UL>', -1, 'all'),
 		]
@@ -122,6 +106,107 @@ def LordsHeadingPart(headingtxt, stampurl):
 	return qb
 
 
+# this function is taken from debdivisionsections
+def SubsPWtextset(stext):
+	res = [ ]
+	for st in stext:
+		if re.search('pwmotiontext="yes"', st) or not re.match('<p', st):
+			res.append(st)
+		else:
+			res.append(re.sub('<p(.*?)>', '<p\\1 pwmotiontext="yes">', st))
+	return res
+
+#	<p>On Question, Whether the said amendment (No. 2) shall be agreed to?</p>
+#reqput = re.compile('%s|%s|%s|%s|%s(?i)' % (regqput, regqputt, regitbe, regitbepq1, regitbepq))
+resaidamend =  re.compile("<p[^>]*>On Question, Whether (?:the said amendment|the amendment|the House|Clause|Amendment|the Bill|the said Motion)")
+
+#	<p>On Question, Whether the said amendment (No. 2) shall be agreed to?</p>
+#	<p>Their Lordships divided: Contents, 133; Not-Contents, 118.</p>
+#housedivtxt = "The (?:House|Committee) (?:(?:having )?divided|proceeded to a Division)"
+relorddiv = re.compile('<p[^>]*>(?:\*\s*)?Their Lordships divided: Contents,? (\d+); Not-Contents, (\d+)\.</p>$')
+def GrabLordDivisionProced(qbp, qbd):
+	if not re.match("speech|motion", qbp.typ) or len(qbp.stext) < 1:
+		print qbp.stext
+		raise Exception, "previous to division not speech"
+
+	hdg = relorddiv.match(qbp.stext[-1])
+	if not hdg:
+		print qbp.stext[-1]
+		raise ContextException("no lordships divided before division", stamp=qbp.sstampurl)
+
+	# if previous thing is already a no-speaker, we don't need to break it out
+	# (the coding on the question put is complex and multilined)
+	if re.search('nospeaker="true"', qbp.speaker):
+		qbp.stext = SubsPWtextset(qbp.stext)
+		return None
+
+	# look back at previous paragraphs and skim off a part of what's there
+	# to make a non-spoken bit reporting on the division.
+	iskim = 1
+	if not resaidamend.match(qbp.stext[-2]):
+		print qbp.stext[-2]
+		raise Exception, "no on said amendment"
+	iskim = 2
+
+	# copy the two lines into a non-speaking paragraph.
+	qbdp = qspeech('nospeaker="true"', "", qbp.sstampurl)
+	qbdp.typ = 'speech'
+	qbdp.stext = SubsPWtextset(qbp.stext[-iskim:])
+
+	# trim back the given one by two lines
+	qbp.stext = qbp.stext[:-iskim]
+
+	return qbdp
+
+# separate out the making of motions and my lords speeches
+def FilterLordsSpeech(qb):
+	recol = re.search('colon="(:?)"', qb.speaker)
+	if not recol: # no match cases
+		return None
+
+	# no colon, must be making a motion
+	if recol.group(1):
+		if re.search("<p>moved (?i)", qb.stext[0]):
+			print qb.speaker
+			print qb.stext[0]
+			assert False
+		return None
+
+	# just a question
+	if re.match("<p>asked Her Majesty's Government|<p>rose to ask|<p>rose to call|<p>asked the|<p>&mdash;Took the Oath", qb.stext[0]):
+		return None
+
+	# identify a moved amendment
+	if not re.match("<p>moved,? |<p>Amendments? |<p>had given notice|<p>rose to move", qb.stext[0]):
+		print qb.stext
+		print "no moved amendment"
+		raise ContextException("missing moved amendment", stamp=qb.sstampurl)
+		return None
+
+	# separate out when he starts to speak about his motion
+	nstext = [ ]
+	for i in range(len(qb.stext)):
+		rens = re.match("(<p>The noble \S* said:\s*)", qb.stext[i])
+		if rens:
+			nstext = [ "<p>" +  qb.stext[i][rens.end(1):] ]
+			nstext.extend(qb.stext[i+1:])
+			qb.stext = qb.stext[:i]
+			break
+	assert i > 0
+	qb.stext = SubsPWtextset(qb.stext)
+	qb.typ = 'motion'
+
+	if not nstext:
+		return None
+
+	# build the speech part
+	qbres = qspeech(string.replace(qb.speaker, 'colon=""', 'colon=":"'), "", qb.sstampurl)
+	qbres.typ = 'speech'
+	qbres.stext = nstext
+	return qbres
+
+
+
 ################
 # main function
 ################
@@ -135,7 +220,7 @@ def LordsFilterSections(fout, text, sdate):
 
 	# break down into lists of headings and lists of speeches
 	(ih, stampurl) = StripLordsDebateHeadings(headspeak, sdate)
-	if ih == None: 
+	if ih == None:
 		return
 
 	# loop through each detected heading and the detected partitioning of speeches which follow.
@@ -164,9 +249,9 @@ def LordsFilterSections(fout, text, sdate):
 
 			# grab some division text off the back end of the previous speech
 			# and wrap into a new no-speaker speech
-			#qbdp = GrabDivisionProced(flatb[-1], qbd)
-			#if qbdp:
-			#	flatb.append(qbdp)
+			qbdp = GrabLordDivisionProced(flatb[-1], qbd)
+			if qbdp:
+				flatb.append(qbdp)
 			flatb.append(qbd)
 
 		# continue and output unaccounted for unspoken text occuring after a
@@ -186,7 +271,10 @@ def LordsFilterSections(fout, text, sdate):
 			qb = qspeech(ss[0], ss[1], stampurl)
 			qb.typ = 'speech'
 			FilterDebateSpeech(qb)
+			qbsep = FilterLordsSpeech(qb)
 			flatb.append(qb)
+			if qbsep:
+				flatb.append(qbsep)
 
 
 	# we now have everything flattened out in a series of speeches

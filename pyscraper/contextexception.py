@@ -1,4 +1,4 @@
-#! $Id: contextexception.py,v 1.8 2004/05/03 19:14:20 goatchurch Exp $
+#! $Id: contextexception.py,v 1.9 2004/05/04 10:07:59 goatchurch Exp $
 # vim:sw=8:ts=8:et:nowrap
 
 import os
@@ -47,11 +47,14 @@ def RunPatchToolW(typ, sdate, stamp, frag):
 	if stamp:
 		aname = stamp.GetAName()
 		ganamef = re.search(('<a name\s*=\s*"%s">([\s\S]*?)<a name(?i)' % aname), rforlines)
+		if ganamef:
+			gp = ganamef.start(1)
 	else:
 		ganamef = None
 
-	if ganamef:
-		gp = ganamef.start(1)
+	if not frag:
+		fragl = -1
+	elif ganamef:
 		fragl = string.find(ganamef.group(1), frag)
 	else:
 		fragl = string.find(rforlines, frag)

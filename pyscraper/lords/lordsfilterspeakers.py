@@ -10,6 +10,7 @@ from resolvemembernames import memberList
 from miscfuncs import ApplyFixSubstitutions
 from contextexception import ContextException
 
+from splitheadingsspeakers import StampUrl
 
 
 
@@ -62,7 +63,7 @@ class LordsList(xml.sax.handler.ContentHandler):
 
 
 	# main matchinf function
-	def GetLordID(self, ltitle, llordname, llordofname):
+	def GetLordID(self, ltitle, llordname, llordofname, loffice, stampurl):
 		if ltitle == "Lord Bishop":
 			ltitle = "Bishop"
 		llordofname = string.replace(llordofname, ".", "")
@@ -75,15 +76,15 @@ class LordsList(xml.sax.handler.ContentHandler):
 
 		res = [ ]
 		for lm in lmatches:
-			if (lm["title"] == ltitle) and (lm["lordname"] == llordname) and (lm["lordofname"] == llordofname):
+			if (lm["title"] == ltitle) and (lm["lordname"] == llordname) and (lm["lordofname"] == llordofname) and (lm["fromdate"] <= stampurl.sdate):
 				res.append(lm)
 
 		if len(res) != 1:
 			print (ltitle, llordname, llordofname, len(res))
 			print "Not matched in "
 			for lm in lmatches:
-				print "%s [%s] [of %s]" % (lm["title"], lm["lordname"], lm["lordofname"])
-			raise Exception, "no match of name"
+				print "%s [%s] [of %s] [from %s]" % (lm["title"], lm["lordname"], lm["lordofname"], lm["fromdate"])
+			raise ContextException("no match of name", stamp=stampurl, fragment=(llordname or llordofname))
 
 		return res[0]["id"]
 
@@ -126,11 +127,8 @@ class LordsList(xml.sax.handler.ContentHandler):
 		return res[0]["id"]
 
 
-# main function getting something from list
+# class instantiation
 lordlist = LordsList()
-def GetLordSpeakerID(ltitle, llordname, llordofname, loffice, sdate):
-	lid = lordlist.GetLordID(ltitle, llordname, llordofname)
-	return lid
 
 
 ################## the end of lords resolve names
@@ -149,25 +147,9 @@ def GetLordSpeakerID(ltitle, llordname, llordofname, loffice, sdate):
 
 
 
-fixsubs = 	[
-#	( '(<B> Baroness Barker:)( My .*?)</B>', '\\1</B>\\2', 1, '2004-01-07'),
-
-	( '<center><b>(The Government .*? 4,000 this September. )</B></center>', '\\1', 1, '2004-03-15' ),
-	( '(<B>The Parliamentary .*?Affairs\))</B>  (Lord Filkin)', '\\1 (\\2)</B>', 1, '2004-02-10'),
-	( '(<B> Lord Davies of Oldham:)( My Lords,)  (</B>)', '\\1 \\3 \\2', 1, '2004-02-09'),
-	( '(<B> Baroness Barker: )(My Lords, .*?Order Paper.) (</B>)', '\\1 \\3 \\2', 1, '2004-01-07'),
-	( '<B>( In the Title )</B>', '\\1', 1, '2003-11-11'),
-
-	# this is special to grand committee section
-	#( 'Committees\):', 'Committees:', 1, '2004-02-03'),
-]
-
-# <B> Baroness Anelay of St Johns: </B>
-
-
 # marks out center types bold headings which are never speakers
-respeaker = re.compile('(<center><b>[^<]*</b></center>|<b>[^<]*</b>)(?i)')
-respeakerb = re.compile('<b>\s*([^<]*?)\s*</b>(?i)')
+respeaker = re.compile('(<center><b>[^<]*</b></center>|<b>[^<]*</b>(?:\s*:)?)(?i)')
+respeakerb = re.compile('<b>\s*([^<]*?)\s*</b>(\s*:)?(?i)')
 respeakervals = re.compile('([^:(]*?)\s*(?:\(([^:)]*)\))?(:)?$')
 
 renonspek = re.compile('division|contents|amendment(?i)')
@@ -181,8 +163,9 @@ hontitleso = string.join(hontitles, '|')
 
 honcompl = re.compile('(?:The (%s)|(%s) (.*?)\s*)(?: of (.*))?$' % (hontitleso, hontitleso))
 
+
 def LordsFilterSpeakers(fout, text, sdate):
-	text = ApplyFixSubstitutions(text, sdate, fixsubs)
+	stampurl = StampUrl(sdate)
 
 	# setup for scanning through the file.
 	for fss in respeaker.split(text):
@@ -192,8 +175,13 @@ def LordsFilterSpeakers(fout, text, sdate):
 		bffs = respeakerb.match(fss)
 		if not bffs:
 			fout.write(fss)
+			stampurl.UpdateStampUrl(fss)
 			continue
+
+		# grab a trailing colon if there is one
 		fssb = bffs.group(1)
+		if bffs.group(2):
+			fssb = fssb + ":"
 
 		# empty bold phrase
 		if not re.search('\S', fssb):
@@ -218,7 +206,7 @@ def LordsFilterSpeakers(fout, text, sdate):
 		namec = respeakervals.match(fssb)
 		if not namec:
 			print fssb
-			raise ContextException("bad format", fragment=fssb)
+			raise ContextException("bad format", stamp=stampurl, fragment=fssb)
 
 		if namec.group(2):
 			name = namec.group(2)
@@ -245,7 +233,7 @@ def LordsFilterSpeakers(fout, text, sdate):
 		if not hom:
 			fout.write('<speaker speakerid="%s">%s</speaker>' % ('no-match', name))
 			print "format failure on " + name
-			raise ContextException("lord name format failure", fragment=name)
+			raise ContextException("lord name format failure", stamp=stampurl, fragment=name)
 
 		# now we have a speaker, try and break it up
 		ltit = hom.group(1)
@@ -258,7 +246,7 @@ def LordsFilterSpeakers(fout, text, sdate):
 		if hom.group(4):
 			lplace = hom.group(4)
 
-		lsid = GetLordSpeakerID(ltit, lname, lplace, loffice, sdate)
+		lsid = lordlist.GetLordID(ltit, lname, lplace, loffice, stampurl)
 
 		fout.write('<speaker speakerid="%s" speakername="%s" colon="%s">%s</speaker>' % (lsid, name, colon, name))
 

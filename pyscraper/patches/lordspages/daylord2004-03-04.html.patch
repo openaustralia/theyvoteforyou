@@ -1,0 +1,35 @@
+--- C:\publicwhip\pwdata\lordspages\daylord2004-03-04.html	Fri Apr 02 20:37:37 2004
++++ C:\publicwhip\pwdata\lordspages\daylord2004-03-04-patchtmp.html	Mon May 03 22:53:53 2004
+@@ -4299,21 +4299,20 @@
+ 
+ <a name="40304-18_para9"></a>I am reluctant to agree to the amendment. This style of legislative drafting does not suit everybody, but it became clear in earlier debate that many of us find the use of initials very helpful. It is now a common form of drafting. I know that the noble Lord, Lord Renton, thinks that this is perhaps the first time. I regret to tell him that it is not. This device was used for example in the Criminal Justice Act 2003, the Sexual Offences Act 2003, and the Proceeds of Crime Act 2002. It was also used by the Law Commission in its proposed draft Bill, which accompanied its recent report on this issue, Children: their non-accidental death and serious injury (criminal trials) no. 282. I will not tire the House with a complete list of examples in earlier legislation where letters are used in an effort to simplify drafting. The list is very long indeed and includes Acts such as the Consumer Credit Act 1974, which contains references to persons from A to Z, and the pi&#232;ce de r&#233;sistance was probably the Local Government Finance Act 1988 which created the community charge. In that Act I found a very interesting calculation that I would like to share with your Lordships. At one stage it says,<p>
+ 
+-<center>
++
+ 
+ <TABLE WIDTH=10%><TR><TD ALIGN=CENTER>A&nbsp;&nbsp;x&nbsp;&nbsp;B</TD></TR>
+ <TR><TD></TD></TR>
+ <TR><TD ALIGN=CENTER>C</TD></TR></TABLE>
+ 
+-</center>
++
+ 
+ <P>
+ 
+ <a name="40304-18_para10"></a>is the formula to be used. Then, later on the following appears:<p>
+ 
+-<center>
+ 
+-<TABLE WIDTH=25%><TR><TD ALIGN=CENTER>(</TD><td align=center>P&nbsp;&nbsp;x&nbsp;&nbsp;A</td><td></td><td colspan=center>)&nbsp;&nbsp;+&nbsp;&nbsp;</td><td colspan=center>(</td><td colspan=center>Q&nbsp;&nbsp;x&nbsp;&nbsp;A</TD><TD>x</TD><TD>1</td><td colspan=center>)</TD></TR>
++<TABLE WIDTH=25%><TR><TD ALIGN=CENTER>(</TD><td align=center>P&nbsp;&nbsp;x&nbsp;&nbsp;A</td><td></td><td align=center>)&nbsp;&nbsp;+&nbsp;&nbsp;</td><td align=center>(</td><td align=center>Q&nbsp;&nbsp;x&nbsp;&nbsp;A</TD><TD>x</TD><TD>1</td><td align=center>)</TD></TR>
+ 
+ 
+ <TR><TD></td><td></TD><td></td><td></td><td></td><td></TD><TD></TD><TD></TD><TD></TD></TR>
+@@ -4321,7 +4320,6 @@
+ 
+ <TR><TD ALIGN=CENTER>(</TD><td ALIGN=CENTER>C</td><TD></td><TD align=center>)</td><TD ALIGN=CENTER>(</TD><TD ALIGN=CENTER>C</TD><TD></TD><TD>5</TD><TD>)</TD></TR></TABLE>
+ 
+-</center>
+ 
+ 
+ 
