@@ -1,5 +1,5 @@
 <?php $title = "Vote map"; include "header.inc" 
-# $Id: mpsee.php,v 1.7 2003/10/15 16:43:33 frabcus Exp $
+# $Id: mpsee.php,v 1.8 2003/10/22 23:11:47 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -229,10 +229,10 @@ is clearly treated as a sport by the professional players.
 
 <p>I suspect it's because they mostly show up to votes which tend to be on 
 contentious issues when many MPs are rebelling.  This gives them a 
-higher than expected dissimilarity measure than if they turned up to the 
+higher than expected dissimilarity measure than if they turned up to 
 all the non-contentious votes when there was no rebellion.  They show up 
 during these contentious issues in order to encourage their MPs to vote 
-they way want; the rebellions could have been larger had they not shown up.
+the way they want; the rebellions could have been larger had they not shown up.
 
 <p>The impression that they are pulling their party away from its centre of 
 gravity, in the way that the leaders of the other parties are not, is 
