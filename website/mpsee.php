@@ -1,5 +1,5 @@
 <?php $title = "Vote map"; include "header.inc" 
-# $Id: mpsee.php,v 1.4 2003/09/25 22:57:48 frabcus Exp $
+# $Id: mpsee.php,v 1.5 2003/10/04 13:46:22 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -30,11 +30,17 @@ through the list to see them all.  </p>
 
 <p>Not working?  If you are able, download <a href="http://www.java.com">Sun's Java
 software</a>.  On Windows, the old unsupported Microsoft versions of Java will not do.
-Alternatively, get a taste with a <a href="mpsee.png">static
-screenshot</a> of the clustered MPs.
+Alternatively, get a taste with a static 
+<a href="votemap/mpsee-2001.png">2001 screenshot</a> or
+<a href="votemap/mpsee-1997.png">1997 screenshot</a> of the clustered MPs.
 </p>
 
+<?php
+function applet($year)
+{
+?>
 <p align=center>
+
 <!--"CONVERTED_APPLET"-->
 <!-- HTML CONVERTER -->
 <SCRIPT LANGUAGE="JavaScript"><!--
@@ -58,7 +64,7 @@ screenshot</a> of the clustered MPs.
             ARCHIVE = "mpscatt.jar" \
             WIDTH = "700" \
             HEIGHT = "400" \
-            posfile ="mpcoords.txt" \
+            posfile ="mpcoords-<?=$year?>.txt" \
 	    scriptable=false \
 	    pluginspage="http://java.sun.com/products/plugin/index.html#download"><NOEMBED><XMP>');
 //--></SCRIPT>
@@ -67,27 +73,27 @@ screenshot</a> of the clustered MPs.
     <PARAM NAME = ARCHIVE VALUE = "mpscatt.jar" >
     <PARAM NAME="type" VALUE="application/x-java-applet;version=1.4">
     <PARAM NAME="scriptable" VALUE="false">
-    <PARAM NAME = "posfile" VALUE="mpcoords.txt">
+    <PARAM NAME = "posfile" VALUE="votemap/mpcoords-<?=$year?>.txt">
 Sun Java 1.4 or above required
 </APPLET>
 </NOEMBED>
 </EMBED>
 </OBJECT>
 
-<!--
-<APPLET CODE = "mpapplet.class" ARCHIVE = "mpscatt.jar" WIDTH = "700" HEIGHT = "400">
-<PARAM NAME = "posfile" VALUE="mpcoords.txt">
-alt="Java applet."
-
-</APPLET>
--->
 <!--"END_CONVERTED_APPLET"-->
+<?php
+    }
+    print "<h2>Vote map 2001 parliament</h2>\n";
+    applet("2001");
+    print "<h2>Vote map 1997 parliament</h2>\n";
+    applet("1997");
+?>
 
 </p>
 
 <hr class="bottomline">
 
-<h2>What is this picture showing? </h2> 
+<h2>What are these pictures showing? </h2> 
 
 <p>This requires a few words of explanation.  </p> 
 

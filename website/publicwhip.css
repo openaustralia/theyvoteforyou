@@ -42,7 +42,15 @@ H1
 H2
 {
     MARGIN-TOP: 0.5em;
-    FONT-SIZE: 110%;
+    FONT-SIZE: 120%;
+    MARGIN-BOTTOM: 0em;
+    COLOR: #003300;
+    TEXT-ALIGN: left
+}
+H3
+{
+    MARGIN-TOP: 0.2em;
+    FONT-SIZE: 100%;
     MARGIN-BOTTOM: 0em;
     COLOR: #003300;
     TEXT-ALIGN: left

@@ -1,23 +1,25 @@
-# $Id: Makefile,v 1.4 2003/10/03 17:56:36 frabcus Exp $
-# Used to run the clustering calculation, build the Java applet etc.
+# $Id: Makefile,v 1.5 2003/10/04 13:46:22 frabcus Exp $
+# Used to run the votemaping calculation, build the Java applet etc.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-all: mpscatt.jar mpcoords.txt mpsee.png mpseethumb.png 
-	cp mpcoords.txt ../website
-	cp mpsee.png ../website
-	cp mpseethumb.png ../website
+all: mpscatt.jar mpcoords mpsee-1997.png mpsee-2001.png mpseethumb.png 
+	cp mpcoords-1997.txt ../website/votemap
+	cp mpcoords-2001.txt ../website/votemap
+	cp mpsee-1997.png ../website/votemap
+	cp mpsee-2001.png ../website/votemap
+	cp mpseethumb.png ../website/votemap
 	cp mpscatt.jar ../website
 
 # Make file of coordinates of MPs - the perl script calls out
 # to octave itself.  It also writes the raw distance metric
 # to the database for use.
-mpcoords.txt:
+mpcoords:
 	cluster-parliament-static.pl
-.PHONY: mpcoords.txt
+.PHONY: mpcoords
 
 # Make Java applet
 mpscatt.jar: src/*.java
@@ -25,13 +27,15 @@ mpscatt.jar: src/*.java
 	jar cvf mpscatt.jar *.class
 	rm *.class
 
-# Test view the cluster
-test: mpcoords.txt mpscatt.jar
-	java -classpath mpscatt.jar mpframe mpcoords.txt
+# Test view the votemap
+test: mpcoords-1997.txt mpscatt.jar
+	java -classpath mpscatt.jar mpframe mpcoords-1997.txt
 
-# Static graphic of cluster
-mpsee.png: mpcoords.txt mpscatt.jar
-	java -classpath mpscatt.jar mpframe mpcoords.txt mpsee.png 533 400
-mpseethumb.png: mpcoords.txt mpscatt.jar
-	java -classpath mpscatt.jar mpframe mpcoords.txt mpseethumb.png 150 100
+# Static graphic of votemap
+mpsee-2001.png: mpcoords-2001.txt mpscatt.jar
+	java -classpath mpscatt.jar mpframe mpcoords-2001.txt mpsee-2001.png 533 400
+mpsee-1997.png: mpcoords-1997.txt mpscatt.jar
+	java -classpath mpscatt.jar mpframe mpcoords-1997.txt mpsee-1997.png 533 400
+mpseethumb.png: mpcoords-2001.txt mpscatt.jar
+	java -classpath mpscatt.jar mpframe mpcoords-2001.txt mpseethumb.png 150 100
 

@@ -1,7 +1,8 @@
 #! /usr/bin/perl -w 
 use strict;
+use lib "../scraper/";
 
-# $Id: wordfreq.pl,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: wordfreq.pl,v 1.2 2003/10/04 13:46:22 frabcus Exp $
 # Some rough playing with counting word frequencies in Hansard
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -9,7 +10,7 @@ use strict;
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-require "../scraper/db.pm";
+use db;
 my $dbh = db::connect();
 
 # Get list of all dates we know about

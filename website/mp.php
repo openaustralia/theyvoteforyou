@@ -1,5 +1,5 @@
 <?php 
-    # $Id: mp.php,v 1.6 2003/10/03 21:46:10 frabcus Exp $
+    # $Id: mp.php,v 1.7 2003/10/04 13:46:22 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -7,6 +7,7 @@
     # For details see the file LICENSE.html in the top level of the source.
 
     include "db.inc";
+    include "parliaments.inc";
     $db = new DB(); 
 
     $first_name = mysql_escape_string($_GET["firstname"]);
@@ -35,6 +36,7 @@
     $prettyrow = 0;
     $mp_ids = array();
     $parties = array();
+    $dates = array();
     print "<table><tr class=\"headings\">
             <td>Party</td>
             <td>From</td><td>To</td>
@@ -55,6 +57,7 @@
         print "</tr>\n";
         array_push($mp_ids, $row[5]);
         array_push($parties, $row[4]);
+        array_push($dates, $row[11]);
     }
     print "</table>";
 
@@ -139,13 +142,14 @@
     counted.  This may reveal relationships between MPs that were
     previously unsuspected.  Or it may be nonsense.";
 
-    print "<table class=\"mps\">\n";
     for ($i = 0; $i < count($mp_ids); ++$i)
     {
+        print "<h3>" . parliament_name(date_to_parliament($dates[$i])) .  " Parliament</h3>";
+        print "<table class=\"mps\">\n";
         $query = "select first_name, last_name, title, constituency,
             party, pw_mp.mp_id, round(100*rebellions/votes_attended,1),
             round(100*votes_attended/votes_possible,1),
-            distance from pw_mp,
+            distance, entered_reason, left_reason from pw_mp,
             pw_cache_mpinfo, pw_cache_mpdist where
             pw_mp.mp_id = pw_cache_mpinfo.mp_id and 
 
@@ -171,7 +175,7 @@
 
             print "<td><a href=$anchor>$row[2] $row[0] $row[1]</a></td></td>
                 <td>$row[3]</td>
-                <td>" . pretty_party($row[4]) . "</td>
+                <td>" . pretty_party($row[4], $row[9], $row[10]) . "</td>
                 <td>$row[8]</td>";
             if ($row[6] == "") { $row[6] = "n/a"; } else { $row[6] .= "%"; }
             print "<td class=\"percent\">$row[6]</td>";
@@ -183,8 +187,8 @@
             $prettyrow = pretty_row_start($prettyrow, "");
             print "<td colspan=6>no votes to compare</td></tr>\n";
         }
+        print "</table>\n";
     }
-    print "</table>\n";
 ?>
 
 <?php include "footer.inc" ?>

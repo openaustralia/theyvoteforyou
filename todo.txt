@@ -1,12 +1,11 @@
 New stuff
 ---------
 
-Multi-parliament:
-    Vote map
-        possible friends broken
+Scale on vote map
 Measure abstentions by parliament rather than global proportions?
 Consider making search.php amalgamate MPs with the same name?  esp with > 2 parliaments
 MP page - print parliament in vote lists
+More... for friends
 
 Facility to register and define voting subset for a particular issue
 - info to help select which votes and which way should have voted

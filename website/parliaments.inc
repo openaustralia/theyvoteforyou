@@ -1,6 +1,7 @@
 <?php
 
-# $Id: parliaments.inc,v 1.4 2003/10/03 23:30:05 frabcus Exp $
+# $Id: parliaments.inc,v 1.5 2003/10/04 13:46:22 frabcus Exp $
+# This data is duplicated in scraper/parliaments.pm
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -34,7 +35,7 @@ function date_to_parliament($date)
         if ($parliament['from'] <= $date && $date <= $parliament['to'])
             return $id;
     }
-    return "Unknown";
+    return "unknown";
 }
 
 function parliament_name($id)

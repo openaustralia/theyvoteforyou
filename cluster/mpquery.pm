@@ -1,4 +1,4 @@
-# $Id: mpquery.pm,v 1.7 2003/10/03 23:30:05 frabcus Exp $
+# $Id: mpquery.pm,v 1.8 2003/10/04 13:46:22 frabcus Exp $
 # This extracts a vote distance metric for a set of MPs, and is able to
 # write it out in a format for loading into GNU Ooctave (or MatLab)
 
@@ -10,7 +10,7 @@
 package mpquery;
 use strict;
 
-sub get_mp_ixs()
+sub get_mp_ixs
 {
     my $dbh = shift; 
     my $where = shift;
@@ -27,14 +27,13 @@ sub get_mp_ixs()
     return \@mp_ixs;
 }
 
-sub vote_distance_metric()
+sub vote_distance_metric
 {
     my $dbh = shift;
     my $mp_ixs = shift;
     my $clause = shift;
 
     # Count divisions
-    # print "$clause";
     my $sth = db::query($dbh, "select division_id from pw_division $clause");
     print $sth->rows . " division\n";
     my @div_ixs;
@@ -46,7 +45,6 @@ sub vote_distance_metric()
     # Read all votes in, and make array of MPs and their vote in each division
     my $limit = " where (mp_id = " . join(" or mp_id = ", @$mp_ixs) . ")";
     $limit .= " and (division_id = " . join(" or division_id = ", @div_ixs) . ")";
-#    print "$limit\n";
     $sth = db::query($dbh, "select division_id, mp_id, vote from pw_vote $limit");
     print $sth->rows . " votes\n";
     my @votematrix;
@@ -56,6 +54,7 @@ sub vote_distance_metric()
         my $votescore = undef;
         $votescore = 1 if ($vote eq "aye");
         $votescore = -1 if ($vote eq "noe");
+        $votescore = 0 if ($vote eq "both");
         die "Unexpected $vote voted" if (!defined $votescore);
         
         $votematrix[$mp_dat][$div_dat] += $votescore;

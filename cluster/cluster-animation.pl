@@ -1,7 +1,8 @@
 #! /usr/bin/perl -w 
 use strict;
+use lib "../scraper/";
 
-# $Id: cluster-animation.pl,v 1.1 2003/09/19 16:06:36 frabcus Exp $
+# $Id: cluster-animation.pl,v 1.2 2003/10/04 13:46:22 frabcus Exp $
 # Outputs a matrix of distances between pairs of MPs for
 # use by the GNU Octave script mds.m to do clustering.
 
@@ -12,11 +13,11 @@ use strict;
 
 use Date::Parse;
 
-require "../scraper/db.pm";
+use db;
 my $dbh = db::connect();
 
 # Count MPs (which have voted at least once)
-require "mpquery.pm";
+use mpquery;
 my $mp_ixs = mpquery::get_mp_ixs($dbh, "votes_attended > 0", "limit 20");
 
 # Find number of divisions

@@ -1,5 +1,5 @@
 <?  $title = "Counting votes on your behalf"; include "header.inc";
-# $Id: index.php,v 1.10 2003/10/03 23:30:05 frabcus Exp $
+# $Id: index.php,v 1.11 2003/10/04 13:46:22 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -39,8 +39,7 @@ For more information about the project, <a href="faq.php">read the FAQ</a>.
 <td class="layout" bgcolor="#eeeeee">
 <h2>Vote Map <a href="mpsee.php">(find Blair...)</a></h2>
 <p><a href="mpsee.php">
-<img src="mpseethumb.png"></a>
-<!--<br><a href="mpsee.php">Where is Blair on this map?  </a>-->
+<img src="votemap/mpseethumb.png"></a>
 </td>
 
 
