@@ -148,6 +148,8 @@ def RunFiltersDir(filterfunction, dname, options, forcereparse):
 
 				elif options.quietc:
 					print ce.description
+					print "quietly calling sys.exit(1)"
+					sys.exit(1) # remove this and it will continue past an exception (but then keep throwing the same tired errors)
 					break # leave the loop having not written the xml file; go onto the next day
 
 				else:
