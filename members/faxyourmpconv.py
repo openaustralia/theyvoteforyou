@@ -1,5 +1,5 @@
-#!/usr/bin/python2.3
-# $Id: faxyourmpconv.py,v 1.1 2004/03/18 13:38:17 frabcus Exp $
+#!/usr/bin/env python2.3
+# $Id: faxyourmpconv.py,v 1.2 2004/03/18 14:01:21 frabcus Exp $
 
 # Converts Fax Your MP responsiveness CSV file into XML - matching
 # member names and adding up data on the way.
