@@ -4,7 +4,7 @@
         include "cache-begin.inc"; 
 ?>
 <?php
-# $Id: division.php,v 1.30 2004/04/07 17:33:53 frabcus Exp $
+# $Id: division.php,v 1.31 2004/05/11 14:53:38 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -26,11 +26,28 @@
     if ($_GET["allsimilars"] == "yes")
         $all_similars = true;
 
-    $row = $db->query_one_row("select pw_division.division_id, division_name,
+    $db->query("select pw_division.division_id, division_name,
             source_url, rebellions, turnout, notes, motion, debate_url from pw_division,
             pw_cache_divinfo where pw_division.division_id =
             pw_cache_divinfo.division_id and division_date = '$date'
             and division_number='$div_no'");
+    if ($db->rows() > 1)
+        die("Duplicate division in database " . $this->rows());
+
+    $prettydate = date("j M Y", strtotime($date));
+    if ($db->rows() <= 0)
+    {
+        $title = "$prettydate - Division No. $div_no";
+        include "header.inc";
+        print "<p>Public Whip does not yet have this division.   
+        New divisions are added one or two weeks after they happen.</p>
+        <p><a href=\"divisions.php\">Browse for a division</a> </p>
+        ";
+    }
+    else
+    {
+    $row = $db->fetch_row();
+
     $div_id = $row[0];
     $name = $row[1];
     $source = $row[2];
@@ -39,7 +56,6 @@
     $notes = $row[5];
     $motion = $row[6];
     $debate_url = $row[7];
-    $prettydate = date("j M Y", strtotime($date));
     $div_no = html_scrub($div_no); 
     $this_anchor = "division.php?date=" . urlencode($date) .  "&number=" . urlencode($div_no); 
     $title = "$name - $prettydate - Division No. $div_no";
@@ -507,6 +523,7 @@
         print "<p><a href=\"$this_anchor#similar\">Show only a few similar divisions</a>";
     }
 */
+}
 ?>
 
 <?php include "footer.inc" ?>
