@@ -6,7 +6,7 @@
 AddType application/x-httpd-fastphp .php
 Action application/x-httpd-fastphp /fcgi/php
 
-<FilesMatch "^(mp-info.xml|dreamquery.xml)$">
+<FilesMatch "^(mp-info.xml|dreamquery.xml|mpdream-info.xml)$">
     AddHandler application/x-httpd-fastphp .xml
 </FilesMatch>
 Options ExecCGI
@@ -23,7 +23,10 @@ php_flag magic_quotes on
 # all links on publicwhip.org.uk are permalinks
 # this lets us move pages without breaking them
 RedirectPermanent /rebels.php http://www.publicwhip.org.uk/mps.php?sort=rebellions
+RedirectPermanent /news.php http://www.publicwhip.org.uk/newsletters/archive.php
 RedirectPermanent /code.php http://www.publicwhip.org.uk/project/code.php
+RedirectPermanent /mp-info.xml http://www.publicwhip.org.uk/feeds/mp-info.xml
+
 
 # Net strike
 #Options +FollowSymLinks

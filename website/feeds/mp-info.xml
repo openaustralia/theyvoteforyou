@@ -1,0 +1,83 @@
+<?php require_once "../common.inc";
+# $Id: mp-info.xml,v 1.1 2005/03/31 15:10:05 frabcus Exp $
+
+# Print information in XML about each MP.  e.g. Rebellion rate.
+
+# The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
+# This is free software, and you are welcome to redistribute it under
+# certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
+# For details see the file LICENSE.html in the top level of the source.
+
+include "../db.inc";
+include "../parliaments.inc";
+include "../render.inc";
+$db = new DB(); 
+$db2 = new DB(); 
+
+header("Content-type: text/xml");
+
+print "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n";
+print "<publicwhip>\n";
+
+$query = "select division_date from pw_division order by division_date desc limit 1";
+$db->query($query);
+$row = $db->fetch_row_assoc();
+$last_div_date = $row['division_date'];
+
+$order = "entered_house, last_name, first_name, constituency";
+$query = "$mps_query_start order by $order";
+
+$db->query($query);
+while ($row = $db->fetch_row_assoc())
+{
+    $id = $row['mp_id'];
+    
+    print "\n";
+    print "<memberinfo id=\"uk.org.publicwhip/member/" . $id . "\" \n";
+    if ($row['left_house'] >= $last_div_date)
+        print " public_whip_data_date=\"" . $last_div_date . "\"\n";
+    else
+        print " public_whip_data_date=\"complete\"\n";
+
+    $att = $row['attendance'];
+    if ($att == "") { $att="n/a"; } else { $att.="%"; }
+    $reb = $row['rebellions'];
+    if ($reb == "") { $reb="n/a"; } else { $reb.="%"; }
+    print " public_whip_division_attendance=\"$att\"\n";
+    print " public_whip_rebellions=\"$reb\"\n";
+
+    # Attendance rank
+    $db2->query("select attend_rank, attend_outof from pw_cache_attendrank_today where mp_id=$id");
+    if ($db2->rows() > 1)
+    {
+        die("Too many return values for attendrank mp $id");
+    }
+    if ($db2->rows() == 1)
+    {
+        $row = $db2->fetch_row();
+        $attendrank = $row[0];
+        $outof = $row[1];
+        print " public_whip_attendrank=\"$attendrank\" public_whip_attendrank_outof=\"$outof\"\n";
+    }
+
+    # Rebellion rank
+    $db2->query("select rebel_rank, rebel_outof from pw_cache_rebelrank_today where mp_id=$id");
+    if ($db2->rows() > 1)
+    {
+        die("Too many return values for rebelrank mp $id");
+    }
+    if ($db2->rows() == 1)
+    {
+        $row = $db2->fetch_row();
+        $rebelrank = $row[0];
+        $outof = $row[1];
+        print " public_whip_rebelrank=\"$rebelrank\" public_whip_rebelrank_outof=\"$outof\"\n";
+    }
+
+
+    print "/>\n";
+}
+
+print "\n</publicwhip>\n";
+
+?>

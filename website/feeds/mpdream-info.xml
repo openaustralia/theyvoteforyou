@@ -1,0 +1,43 @@
+<?php require_once "../common.inc";
+# $Id: mpdream-info.xml,v 1.1 2005/03/31 15:10:05 frabcus Exp $
+
+# Print information about all MPs and how they compare to the given
+# Dream MP.
+
+# The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
+# This is free software, and you are welcome to redistribute it under
+# certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
+# For details see the file LICENSE.html in the top level of the source.
+
+include "../db.inc";
+include "../parliaments.inc";
+include "../dream.inc";
+
+header("Content-type: text/xml");
+print "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n";
+print "<publicwhip>\n";
+
+$db = new DB(); 
+$dreamid = intval($_GET["id"]);
+update_dreammp_person_distance($db, $dreamid); # new method
+
+$query = "select person, distance_a, distance_b,
+          (nvotessame + nvotessamestrong + nvotesdiffer + nvotesdifferstrong) as both_voted
+          from pw_cache_dreamreal_distance where rollie_id = $dreamid";
+$db->query($query);
+while ($row = $db->fetch_row_assoc())
+{
+    $personid = $row['person'];
+    
+    print "\n";
+    print "<personinfo id=\"uk.org.publicwhip/person/" . $personid . "\" \n";
+    print " public_whip_dreammp" . $dreamid . "_distance=\"". $row['distance_a'] ."\"\n";
+    print " public_whip_dreammp" . $dreamid . "_both_voted=\"". $row['both_voted'] ."\"\n";
+    # print " public_whip_distance_ignoreabstain_dreammp_" . $dreamid . "=\"". $row['distance_b'] ."\"\n";
+
+    print "/>\n";
+}
+
+print "\n</publicwhip>\n";
+
+?>

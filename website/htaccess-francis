@@ -1,21 +1,32 @@
 # htaccess file for local testing on my machine
+# Rename it to .htaccess for use
+
 AddType application/x-httpd-php .php
-<FilesMatch "^(mp-info.xml|dreamquery.xml)$">
+
+
+
+
+<FilesMatch "^(mp-info.xml|dreamquery.xml|mpdream-info.xml)$">
     AddType application/x-httpd-php .xml
 </FilesMatch>
+Options ExecCGI
 DirectoryIndex index.php
 
 # make things safe
 php_flag register_globals off
 php_flag magic_quotes on
-
 <Files ~ "\.inc$">
     Order allow,deny
     Deny from all
 </Files>
 
+# all links on publicwhip.org.uk are permalinks
+# this lets us move pages without breaking them
 RedirectPermanent /rebels.php http://www.publicwhip.org.uk/mps.php?sort=rebellions
 RedirectPermanent /news.php http://www.publicwhip.org.uk/newsletters/archive.php
+RedirectPermanent /code.php http://www.publicwhip.org.uk/project/code.php
+RedirectPermanent /mp-info.xml http://www.publicwhip.org.uk/feeds/mp-info.xml
+
 
 # Net strike
 #Options +FollowSymLinks

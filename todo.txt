@@ -1,7 +1,3 @@
-On live server:
-    alter table pw_dyn_rolliemp drop cache_uptodate;
-    drop table pw_cache_dreamreal_score
-
 Migrate away from mpdist table to new one
 
 Clear file cache for:
