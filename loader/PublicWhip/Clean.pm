@@ -1,4 +1,4 @@
-# $Id: Clean.pm,v 1.3 2004/06/08 23:43:42 frabcus Exp $
+# $Id: Clean.pm,v 1.4 2004/07/05 16:47:53 frabcus Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -13,9 +13,15 @@ use PublicWhip::Error;
 
 sub erase_duff_divisions {
     my $dbh = shift;
-    PublicWhip::DB::query($dbh, "delete pw_vote from pw_vote left join pw_division on
-        pw_division.division_id = pw_vote.division_id 
-        where (pw_division.valid = 0 or pw_division.valid is null)");
+    my $sth = PublicWhip::DB::query($dbh, "select pw_vote.division_id, pw_vote.mp_id from 
+        pw_vote left join pw_division on
+        pw_division.division_id = pw_vote.division_id where
+        (pw_division.valid = 0 or pw_division.valid is null)");
+    while ( my @data = $sth->fetchrow_array() ) {
+        my ( $division_id, $mp_id ) = @data;
+        PublicWhip::DB::query($dbh, "delete from pw_vote where division_id = ? and mp_id = ?", $division_id, $mp_id);
+    }
+
     PublicWhip::DB::query( $dbh,
         "delete from pw_division where pw_division.valid = 0" );
 }
