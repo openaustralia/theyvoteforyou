@@ -8,6 +8,7 @@ Letter index on MP list
 What % are answers in the library
 
 Back links to wrans that have referred to this one
+Show forward links inline immediately - indeed show backlinks immediately 
 
 Comments system
 

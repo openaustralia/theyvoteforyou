@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<publicwhip>
 
-<members>
+<!-- 
+
+Members of the UK Parliament, House of Commons, 1997-2001.
+
+Each entry is one MP for one term of office in one party.  If there is a
+general election, or a change of party, then the MP has a new entry.
+
+-->
 
 <member
     id="uk.org.publicwhip/member/1"
@@ -9481,5 +9489,5 @@
     fromdate="2003-10-24" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
 />
 
+</publicwhip>
 
-</members>

@@ -1,4 +1,4 @@
-# $Id: divisions.pm,v 1.10 2003/11/05 12:19:29 frabcus Exp $
+# $Id: divisions.pm,v 1.11 2003/11/30 18:34:00 frabcus Exp $
 # Parses the body text of a page of Hansard containing a division.
 # Records the division and votes in a database, matching MP names
 # to an MP already in the database.
@@ -132,6 +132,13 @@ sub parse_all_divisions_on_page
     {
         $content =~ s/item>Mercer, Patrick/Mercer, Patrick/;
         error::log("Removed spurious text before name", $day_date, error::USEFUL);
+    }
+    if ($day_date eq "2003-11-18")
+    { 
+        # See Hansard bug: 
+        # http://sourceforge.net/tracker/index.php?func=detail&aid=846654&group_id=87640&atid=602722
+        $content =~s/\n, David\n/\nBorrow, David\n/;
+        error::log("Fixed missing Borrow", $day_date, error::USEFUL);
     }
 
     #######################################################################

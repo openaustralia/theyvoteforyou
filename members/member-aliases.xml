@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<publicwhip>
+
+<!-- 
+
+Alternatives names for members of parliament.  The canonical name is the
+one listed in all-members.xml.  An alternative might be a name
+contraction (Geoff vs. Geoffrey), a typing mistake, or a change in
+middle initial.
+
+TODO: Does julian's code in resolvemembernames remove need for initial
+entries in here?
+TODO: Date ranges, esp. for The Prime Minister
+
+-->
+
+<!-- Special -->
+<alias canonical="Tony Blair" alternate="The Prime Minister" />
+
+<!-- First added for 2001 parliament -->
+<alias canonical="Nick Brown" alternate="Nicholas Brown" />
+<alias canonical="Geoff Hoon" alternate="Geoffrey Hoon" />
+<!-- <alias canonical="Jonathan R Shaw" alternate="Jonathan Shaw" /> -->
+<alias canonical="Dave Watts" alternate="David Watts" />
+<alias canonical="Des Browne" alternate="Desmond Brown" />
+<alias canonical="Annette Brooke" alternate="Annette L Brooke" />
+<alias canonical="Lembit Öpik" alternate="Lembit Opik" />
+<alias canonical="Siôn Simon" alternate="Siön Simon" />
+<alias canonical="Raymond Powell" alternate="Ray Powell" />
+<alias canonical="Helen Clark" alternate="Helen Brinton" /> <!-- marriage -->
+<alias canonical="Gregory Barker" alternate="Greg Barker" />
+<alias canonical="Bob Spink" alternate="Robert Spink" />
+<alias canonical="Robert Wareing" alternate="Robert N Wareing" />
+<alias canonical="Jimmy Wray" alternate="James Wray" />
+<alias canonical="Andrew Murrison" alternate="Andrew Morrison" />
+
+<!-- First added for 1997 parliament -->
+<alias canonical="Bob Ainsworth" alternate="Robert Ainsworth" />
+<!-- <alias canonical="Jeffrey M Donaldson" alternate="Jeffrey Donaldson" /> -->
+<alias canonical="Gerry Bermingham" alternate="Gerald Bermingham" />
+<alias canonical="John Taylor" alternate="John M Taylor" />
+<alias canonical="Peter Pike" alternate="Peter L Pike" />
+<alias canonical="Andrew Bennett" alternate="Andrew F Bennett" />
+<alias canonical="Ray Whitney" alternate="Raymond Whitney" />
+<alias canonical="Stephen McCabe" alternate="Steve McCabe" />
+<alias canonical="Norman Godman" alternate="Norman A Godman" />
+<alias canonical="Jim Wallace" alternate="James Wallace" />
+<alias canonical="Edward O'Hara" alternate="Eddie O'Hara" />
+<alias canonical="Andy Reed" alternate="Andrew Reed" />
+<alias canonical="Mo Mowlam" alternate="Majorie Mowlam" />
+<alias canonical="Alan Williams" alternate="Alan W Williams" />
+<alias canonical="Bob Blizzard" alternate="Robert Blizzard" />
+<alias canonical="Archie Hamilton" alternate="Archibald Hamilton" />
+<alias canonical="Tom Brake" alternate="Thomas Brake" />
+<alias canonical="Liz Blackman" alternate="Elizabeth Blackman" />
+<alias canonical="Tony Colman" alternate="Anyhony Colman" />
+<alias canonical="Steve Webb" alternate="Professor Steve Webb" />
+<alias canonical="James Plaskitt" alternate="James Plaskit" />
+<alias canonical="Claire Curtis-Thomas" alternate="Clare Curtis-Thomas" />
+<alias canonical="Phil Hope" alternate="Philip Hope" />
+<alias canonical="Steve Webb" alternate="Steven Webb" />
+<alias canonical="Dale Campbell-Savours" alternate="D N Campbell-Savours" />
+<alias canonical="Jenny Jones" alternate="Jennifer Jones" />
+<alias canonical="Joe Ashton" alternate="Joseph Ashton" />
+<alias canonical="Tommy Graham" alternate="Thomas Graham" />
+<alias canonical="David Amess" alternate="D avid Amess" />
+<alias canonical="Christopher Gill" alternate="Christoper Gill" />
+<alias canonical="Tess Kingham" alternate="Tessa Kingham" />
+<alias canonical="Andrew Love" alternate="Andy Love" />
+<alias canonical="Denis Murphy" alternate="Dennis Murphy" />
+<alias canonical="Bill O'Brien" alternate="William O'Brien" />
+<alias canonical="Chris McCafferty" alternate="Christine McCafferty" />
+<alias canonical="Phil Sawford" alternate="Philip Sawford" />
+<alias canonical="Rudi Vis" alternate="Rudolf Vis" />
+<alias canonical="Thomas McAvoy" alternate="Th omas McAvoy" />
+<alias canonical="Michael Ancram" alternate="Mich ael Ancram" />
+<alias canonical="Michael Martin" alternate="Michael J Martin" />
+<alias canonical="Lorna Fitzsimons" alternate="Lorna Fitzsimmons" />
+<alias canonical="Peter Mandelson" alternate="Peter Mandleson" />
+<alias canonical="Rosie Winterton" alternate="Rose Winterton" />
+
+<!-- Various harder aliases/typos to worry about later
+    $firstname = "Gareth" if ($firstname eq "Gareth R" && $lastname eq "Thomas" && $constituency eq "Harrow West");
+    if ($firstname eq "Gareth R" && $lastname eq "Thomas" && $constituency eq "")
+        { $firstname = "Gareth"; $constituency = "Harrow West"; }
+    $lastname = "Turner" if ($firstname eq "Andrew" && $lastname eq "Taylor" && $constituency eq "Isle of Wight");
+    $firstname = "Jack" if ($firstname eq "John" && $lastname eq "Cunningham" && $constituency eq "Copeland");
+    $firstname = "Michael" if ($firstname eq "Michael John" && $lastname eq "Foster" && $constituency eq "Worcester");
+    $firstname = "Michael" if ($firstname eq "Michael J" && $lastname eq "Foster" && $constituency eq "Worcester");
+    $firstname = "Michael" if ($firstname eq "Michael J" && $lastname eq "Foster" && $date eq "2001-01-17"); # Michael Foster (worcester) tells 3 times on this day, with an ambiguous name listing, but Jabez (the other Michael Foster) votes each time, so it is clear what the situation is
+    $firstname = "Anthony D" if ($firstname eq "Tony D" && $lastname eq "Wright" && $constituency eq "Great Yarmouth");
+    $firstname = "Anthony D" if ($firstname eq "Tony" && $lastname eq "Wright" && $constituency eq "Great Yarmouth");
+    $firstname = "Robert" if ($firstname eq "Robert W" && $lastname eq "Smith" && $constituency eq "West Aberdeenshire & Kincardine");
+    if ($firstname eq "Nick St" && $lastname eq "Aubyn") { $firstname = "Nick"; $lastname = "St Aubyn"; }
+-->
+
+</publicwhip>
+

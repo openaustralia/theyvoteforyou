@@ -10,6 +10,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         self.members={}
         self.fullnames={}
         self.lastnames={}
+        self.aliases={}
 
         # "rah" here is a typo in division 64 on 13 Jan 2003 "Ancram, rah Michael"
         self.titles = "Dr\\ |Hon\\ |hon\\ |rah\\ |rh\\ |Mrs\\ |Ms\\ |Dr\\ |Mr\\ |Miss\\ |Ms\\ |Rt\\ Hon\\ |The\\ Reverend\\ |Sir\\ |Rev\\ ";
@@ -17,6 +18,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         parser = xml.sax.make_parser()
         parser.setContentHandler(self)
         parser.parse("../members/all-members.xml")
+        parser.parse("../members/member-aliases.xml")
 
     def startElement(self, name, attr):
         """ This handler is invoked for each XML element (during loading)"""
@@ -43,6 +45,12 @@ class MemberList(xml.sax.handler.ContentHandler):
                 self.lastnames[lastname].append(attr)
             else:
                 self.lastnames[lastname] = [attr,]
+                
+        if name == "alias":
+            if self.fullnames.has_key(attr["alternate"]):
+                raise Exception, 'Already have alternate ' + attr["alternate"]
+            else:
+                self.fullnames[attr["alternate"]] = self.fullnames[attr["canonical"]]
 
     def matchfullname(self, input, date):
         text = input

@@ -2,10 +2,11 @@
 use strict;
 use lib "../scraper/";
 
-# $Id: db2xml.pl,v 1.1 2003/11/24 14:43:56 frabcus Exp $
+# $Id: db2xml.pl,v 1.2 2003/11/30 18:34:00 frabcus Exp $
 
-# Outputs MP list from database as XML file
-# (used to migrate from when database was main form of data)
+# Outputs MP list from database as part of an XML file
+# (used to migrate from when database was main form of data,
+# you shouldn't need to use this any more)
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -15,9 +16,6 @@ use lib "../scraper/";
 use error;
 use db;
 my $dbh = db::connect();
-
-print "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n\n";
-print "<members>\n\n"; 
 
 my $sth = db::query($dbh, "select first_name, last_name, title, constituency, party, 
     entered_house, left_house, entered_reason, left_reason, mp_id from pw_mp
@@ -36,6 +34,4 @@ while (my @row = $sth->fetchrow_array())
 />
 END
 }
-
-print "\n\n</members>\n"; 
 
