@@ -197,6 +197,7 @@ class protooffice:
 		self.bopen = True
 
 	def SetChainBack(self, sdatet):
+		self.sdatet = sdatet
 		(self.sdateend, self.stimeend) = self.sdatet  # when we close it, it brings it up to the day the file changed
 		self.bopen = False
 
@@ -301,7 +302,7 @@ def ParseGovPostsChggdir():
 		for chainproto in chainprotos:
 			if chainproto.bopen and (chainproto.fn != gp):
 				chainproto.SetChainBack(sdatet)
-				#print "closing", chainproto.lasname
+				#print "closing", chainproto.lasname, chainproto.sdatet
 
 		# append on the new chains
 		bfrontopen = not chainprotos
@@ -334,6 +335,7 @@ def SetNameMatch(cp, cpsdates):
 		cp.remadename = re.sub("^Rt Hon ", "", cp.remadename)
 		cp.remadename = re.sub(" [CO]BE$", "", cp.remadename)
 		cp.remadecons = ""
+
 
 	# make the structure we will sort by.  Note the ((,),) structure
 	cp.sortobj = ((re.sub("(.*) (\S+)$", "\\2 \\1", cp.remadename), cp.remadecons), cp.sdatestart)
