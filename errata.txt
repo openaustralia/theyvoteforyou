@@ -1,24 +1,11 @@
 Hansard errata
 --------------
 
-Ask about Gareth Thomas ambiguity:
-http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030120/debtext/30120-25.htm#30120-25_div56
-
 27 Nov 2002, Division 10 has wrong ayes count or wrong vote list
-- it says 341 ayes, but 240 are listed!
+- it says 240 ayes, but 341 are listed!
 http://www.publications.parliament.uk/pa/cm200203/cmhansrd/vo021127/debtext/21127-30.htm
 
-Why does a division 73 appear twice here, and where is division 74? (3 Feb 2003):
+Why does a division 73 appear twice (identical!) here, and where is division 74? (3 Feb 2003):
 http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030203/debindx/30203-x.htm
 http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030204/debindx/30204-x.htm
-
-Ask about corrections of divisions - are they fixed up properly in bound volume?
-329 2002-10-28 is correction of 329 2002-10-23
-99 2003-03-06 is correctoin of 99 2003-03-04
-
-Trivial
--------
-
-Ask about 253 2003-06-24 division labelled wrongly in index
-
 

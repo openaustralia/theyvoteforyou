@@ -1,10 +1,3 @@
-Data integrity
---------------
-
-Search for MPs who voted on both sides in one division
-Check for an MP voting both for and against!  See "Abstention" here:
-http://www.parliament.uk/documents/upload/p09.pdf
-
 Party politics
 --------------
 
@@ -37,6 +30,10 @@ Table of all MPs which have never voted - interesting to see
 Tables of worst attendance record (after those with an excuse, such as
 ministry posts, speaker, ill, SF...)
 
+"Performance tests" for government - turning excessive monitoring and
+testing back onto them.
+corruptometer, loyaltometer, evilness, sleepometer, waffle-meter
+
 Data anlaysis (using existing data)
 -------------
 
@@ -55,6 +52,14 @@ variation." - we could do this with MP clustering.
 
 Improve clustering distance algorithm
     See J Vaughan suggestions
+
+Colour dots in cluster diagram by how many times they have voted.
+Bright colours for more relevant the data - i.e. how many intersections
+with other's votes there are.
+
+Play with stuff in vector search article
+http://www.perl.com/pub/a/2003/02/19/engine.html
+In particular PDL for speeding up octave algebra stuff
 
 >    Idea 2.  Darren suggested that the reason Tony Blair is an outlier
 >    in the java app is coz he only turns up to votes he thinks are
@@ -86,6 +91,9 @@ Why did this happen?  Anomalies in Hansard.  Email them to complain.
 Find three line whip definition
 Infer no Whip if 10% +- from base?  Or at least +-1
 
+Animated cluster diagram over last 15 years.
+3 month window moving week by week
+
 Additional numeric data
 -----------------------
 
@@ -104,11 +112,13 @@ It is worth looking for MPs who spoke but did not vote.  This is a good
 way to detect active abstentions.  It may also have all sorts of other
 interesting meanings.
 division.php?date=2003-06-10&number=224&showall=yes
+Count how many times MP spoke in a debate, or on the day
 
 Integrate parliamentary majority, and look for correlations with
 rebelliousness?  Majorities here:
     http://www.psr.keele.ac.uk/area/uk/mps.htm
 (Should be no correlation, as reselection more important?)
+Plot majority as a colour on the cluster diagram
 
 Analyse if MPs who are "sir" vote differently in anyway
     first check data integrity that title always has "Sir" for knights
@@ -127,8 +137,26 @@ Collate all MPs articles in newspapers
 Regional analysis.  Scotland, NI, Whales, North v South.  Urban v.
 Rural.  
 
+Area of land for constituency.  This gives a "ruralness" measure.
+Population of constituency.
+
+Make cluster diagram for just divisions relating to one issue.  Or
+for one person's interested issues.  Plot point on cluster diagram for
+issues themselves.
+
+Value of the vote.  What is the monetary expenditure cost of agreeing
+the motion?  Graph against time spent discussing, and see how silly the
+correlation is.
+
+Measure lobbying power behind each issue (expenditure by interested
+parties).  Again, correlate to time spent on it.
+
 Additional text content
 -----------------------
+
+Issue sub-selector.  User can log in, name an issue, and say which way
+votes should have gone to satisfy him on that issue.  Get all manner of
+people to make issues for next general election.
 
 Software to follow legislation from Queen's speech
 
@@ -151,6 +179,10 @@ Link to draft of Bill which is being debated
 Usability
 ---------
 
+Email reports to people when search queries change
+e.g. When your MP has voted.  When he has rebelled.  When an issue is
+voted on, and so on.
+
 Show majority in division table - sort by which ones majority was least on?
 
 Link from MP to other sources of info 
@@ -161,6 +193,38 @@ Link from search engine to
     - link to search Hansard?
 
 Links to other political resource websites
+
+hansard.php - takes links to days and chunks, does a redirect
+reduce bandwidth, and do tracking of where people link through to
+
+Log failed searches so we can improve the search engine
+
+Detect MS Java applet and upgrade it
+FastCGI if our load gets high
+mod_gzip to reduce bandwidth
+
+Usability (some sort of done - this is just some notes)
+    - make website name link back to homepage
+    - consider link titles http://www.useit.com/alertbox/980111.html
+    - about the authors, so feels personal to people
+    - consider breadcrumb trail
+    - about section (not all FAQ?)
+    - company name/logo at topleft, search at topright
+    - search input box on front page (http://www.useit.com/alertbox/20010513.html)
+    - print stylesheet media="print" removing menus
+
+Physicsl gimmicks
+-----------------
+
+Actually post a whipping sheet to MPs.  This would arrive every week at
+the same time as their party whipping sheet.  It would tell them how
+many voters in their constituency have register with organisations which
+would like them to vote particular ways.
+
+Make big wall chart of cluster diagram - colour, pretty
+Maybe even sell it to people
+
+Newsletter (may be better than blog that you have)
 
 About one MP
 ------------

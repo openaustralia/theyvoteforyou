@@ -23,71 +23,35 @@ Facility to register and define voting subset for a particular issue
 Do Iraq subselection ourselves
 Do climate change subselection
 
-Investigate EDMs
+Investigate EDMs, legality of using them
 
 Look at majorities
 
 Website
 -------
 
+Put news (at least headlines) on front page
+
 Make cluster diagram clearer in "highlights" section on front page
 
 Sort cluster diagram name entries by surname - rather than no order
 
-Think more about excess motion text on bills
-
 Consider changing support@ email addr to something less corporate sounding
-
-Move distant metric stuff so it is uses the initial data, not the munged
-data from the cluster diagram
-
-Change our use of the word "rebel" more consistently
 
 Trim some opinion waffle out of Cluster text
 
-News/blog of observations we make about things
-Some kind of news system
+Newsletter
 Some kind of comments system
-Solicit help in some way?
-Email address more prominant everywhere
-
-Log failed searches so we can improve the search engine
 
 Colour blind people, or indeed blind people, need a better rebel marker
 than redness in MPs division list.  Boldness is one idea.
 
-Log file grabbing for permanent keeps?
-
-hansard.php - takes links to days and chunks, does a redirect
-reduce bandwidth, and do tracking of where people link through to
-
 Find logo
-
-Detect MS Java applet and upgrade it
-
-FastCGI if our load gets high
-mod_gzip to reduce bandwidth
-
-Usability (some sort of done - this is just some notes)
-    - make website name link back to homepage
-    - consider link titles http://www.useit.com/alertbox/980111.html
-    - about the authors, so feels personal to people
-    - license link violates by popping up new window - should be in main window
-    - consider breadcrumb trail
-    - about section (not all FAQ?)
-    - company name/logo at topleft, search at topright
-    - search input box on front page (http://www.useit.com/alertbox/20010513.html)
-    - print stylesheet media="print" removing menus
-
-Make big wall chart of cluster diagram - colour, pretty
-Maybe even sell it to people
-
-Play with stuff in vector search article
-http://www.perl.com/pub/a/2003/02/19/engine.html
-In particular PDL for speeding up octave algebra stuff
 
 Scraper
 -------
+
+Check out tapiR, see if useful
 
 Finish last few divisions that you don't have right
     Missing division 74
@@ -99,9 +63,17 @@ Check "Question accordingly..." fits with our counting
 Tally vote numbers in text and check they fit with our counting
 
 Deal with when an MP voted twice in one division
+Search for MPs who voted on both sides in one division
+Check for an MP voting both for and against!  See "Abstention" here:
+http://www.parliament.uk/documents/upload/p09.pdf
 
 Also I need to tidy the whole thing up to be more usable.  Reduce the
 number of commands, make the pipeline more straightforward, and so it
 doesn't go wrong if you do things in the wrong order.
+
+Make one script I have to run which just does everything (backup logs,
+backup sf cvs repository, get latest divisions, upload to db)
+
+Improve motion text extraction
 
 

@@ -1,5 +1,5 @@
 <?  $title = "News"; include "header.inc";
-# $Id: news.php,v 1.3 2003/09/12 09:41:43 frabcus Exp $
+# $Id: news.php,v 1.4 2003/09/17 12:01:33 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -11,6 +11,30 @@
 <p></p>
 */
 ?>
+
+<h2>Detecting abstentions - 16 September 2003 by Francis</h2>
+<p>Quite often members deliberately refrain from voting in a division,
+even if they are in the house so could have done so.  Conversely, on an
+important vote, the whip of one party will deliberately try and get a
+higher turnout.  A while ago Becka suggested a way of detecting these
+effects.</p>
+
+<p>You add up the turnouts for each party across <b>all</b> divisions
+and end up with a percentage expected vote share per party.  Then you
+calculate, given the total turnout for this particular division, what
+the percentage would lead you to expect.  If the number of voters in
+the party is much different from your expectation, then something
+interesting is happening.</p>
+
+<p>This calculation has been in Public Whip for a while, manifest as a
+mysterious column of numbers on the party table in the division listing.
+I've hopefully made it a bit clearer, using the terminology of
+abstentions, and displating high abstention parties even if nobody in them
+voted.  Have a look at the recent <a
+href="division.php?date=2003-09-10&number=307">Iraq and the UN vote</a>,
+where the Lib Dems proposed a motion.  You can see from the large
+abstention number for the Conservatives that the party whip must have
+been to abstain.  Indeed none of them voted at all.</p>
 
 <h2>Which Gareth Thomas? - 12 September 2003 by Francis</h2>
 <p>One of the things I'm doing at the moment is improving the quality of

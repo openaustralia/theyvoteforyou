@@ -1,4 +1,4 @@
-/* $Id: publicwhip.css,v 1.3 2003/09/09 14:26:08 frabcus Exp $
+/* $Id: publicwhip.css,v 1.4 2003/09/17 12:01:33 frabcus Exp $
 
 The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 This is free software, and you are welcome to redistribute it under
@@ -68,6 +68,7 @@ hr.topline */
 table td.rebel { background-color: #ee7777; }
 table td.whip { font-weight: bold; }
 table td.percent { text-align: right; }
+table td.important { font-style: italic; font-weight: bold; }
 
 table { margin: 0;
         padding: 0;

@@ -1,5 +1,5 @@
 <?php
-# $Id: division.php,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: division.php,v 1.2 2003/09/17 12:01:32 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -70,7 +70,12 @@
         by pw_mp.party, vote order by party, vote");
     print "<h2>Party Summary</h2>";
     print "<p>Votes by party, bold entries are a guess at the party
-    whip, red entries a guess at rebels.</p>";
+    whip, red entries a guess at rebels.  Abstentions are calculated
+    from the expected turnout, which is statistical based on the
+    average proporionate turnout for that party in all divisions. A
+    negative abstention indicates that more members of that party than
+    expected voted; this is always relative, so it could be that another
+    party has failed to turn out <i>en masse</i>.</p>";
 
     # Precalc values
     $ayes = array();
@@ -102,8 +107,9 @@
 
     # Make table
     print "<table><tr class=\"headings\"><td>Party</td><td>Ayes</td><td>Noes</td><td>Turnout</td>";
-    print "<td>Expected</td><td>Extra Turnout</td></tr>";
-    $allparties = array_unique(array_merge(array_keys($ayes), array_keys($noes)));
+    print "<td>Expected</td><td>Abstain</td></tr>";
+    #$allparties = array_unique(array_merge(array_keys($ayes), array_keys($noes)));
+    $allparties = array_keys($alldivs);
     usort($allparties, strcasecmp);
     $votes = array_sum(array_values($ayes)) + array_sum(array_values($noes));
     if ($votes <> $turnout)
@@ -125,20 +131,21 @@
 
         $alldiv = $alldivs[$party];
         $expected = round($votes * ($alldiv / $alldivs_total), 1);
-        $extra = number_format(100 * $total / ($votes * ($alldiv / $alldivs_total)) - 100, 1);
-        if ($extra > 0)
-        {
-            $extra = "+" . $extra;
-        }
+        $abstentions = $expected - $total;
+        $classabs = "normal";
+        if (abs($abstentions) >= 2) { $classabs = "important"; }
         
-        $prettyrow = pretty_row_start($prettyrow);        
-        print "<td>" . pretty_party($party) . "</td>";
-        print "<td class=\"$classaye\">$aye</td>";
-        print "<td class=\"$classnoe\">$noe</td>";
-        print "<td>$total</td>";
-        print "<td>$expected</td>";
-        print "<td class=\"percent\">$extra%</td>";
-        print "</tr>";
+        if ($aye > 0 or $noe > 0 or $abstentions >= 2)
+        {
+            $prettyrow = pretty_row_start($prettyrow);        
+            print "<td>" . pretty_party($party) . "</td>";
+            print "<td class=\"$classaye\">$aye</td>";
+            print "<td class=\"$classnoe\">$noe</td>";
+            print "<td>$total</td>";
+            print "<td>$expected</td>";
+            print "<td class=\"$classabs\">$abstentions</td>";
+            print "</tr>";
+        }
     }
     print "</table>";
 
