@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablemake.inc,v 1.9 2005/03/06 11:13:30 frabcus Exp $
+    # $Id: tablemake.inc,v 1.10 2005/03/07 00:56:16 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -220,9 +220,11 @@
 		print "<td>".$row['divisiondate']."</td>";
 		print "<td>".$row['divisionnumber']."</td>";
 		$divdesc = $row['division_name'];
-		if ($row['motionedited'] == "")
-			$divdesc .= " (<i>uncorrected</i>)";
-		print "<td><a href=\"$divhref\">$divdesc</a></td>\n";
+		print "<td>";
+        print "<a href=\"$divhref\">$divdesc</a>";
+        if ($row['motionedited'] == "")
+            print " <span title=\"Motion text needs editing\"><i>*</i></span>";
+        print "</td>\n";
 
 		if ($voter1type != "")
 		{
@@ -235,10 +237,10 @@
 		}
 
 		# alternative columns on division table
-		else
+		else {
 			print "<td>".$row['rebellions']."</td> <td>".$row['turnout']."</td>\n";
-
-		print "</tr>\n";
+        }
+        print "</tr>\n";
 	}
 
 	function GetPartyVoteSummaryH($db, $div_id)
