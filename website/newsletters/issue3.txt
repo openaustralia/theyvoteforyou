@@ -4,9 +4,9 @@ Welcome to the third Public Whip newsletter.
 
 Inside this issue:
 * Editorial
-* Site Updates: "Written Answers"
-* Feature Article: "The Official Answer"
-* Project Spotlight: "Real Uses"
+* Site Updates: "Searching for Written Answers"
+* Feature Article: "What are Written Answers?"
+* Project Spotlight: "Outside World"
 
 The Public Whip ( http://www.publicwhip.org.uk ) is a project to
 data-mine the record of Members of the United Kingdom Parliament, so
@@ -15,13 +15,14 @@ that you can hold them to account.
 ***********************************************************************
 Editorial
 
-Today's newsletter is a special edition to warm you this winter with
-our new Written Answers database. What sort of subjects has your MP
-been asking about recently? What exactly is this type of parliamentary
-question?  Now with the Public Whip you can find out.  Read on.
+Need a warming distraction from the winter?  Today's newsletter
+introduces our new Written Answers database.  What sort of subjects
+has your MP been asking about recently? What exactly is this type of
+parliamentary question?  Now with the Public Whip you can find out.
+Read on.
 
 In other news, a lone French hacker has started whipping the European
-parliament. Check out http://www.europarliament.net for everything you
+Parliament. Check out http://www.europarliament.net for everything you
 ever wanted to know about how your MEP has voted and their attendance
 record. There are statistics by political group, country and even
 gender.
@@ -31,10 +32,10 @@ Now, which major world parliament has next dibs?
  - Francis, The Public Whip (http://www.publicwhip.org.uk)
 
 ***********************************************************************
-Written Answers - Site Updates 
+Searching for Written Answers - Site Updates 
 
 After two months of hacking, we now have a database for the year 2003
-of all the House of Commons written questions and answers which is
+of all the House of Commons written questions and answers. It is
 searchable by keyword and by member. Our source-code is freely
 available in the usual place for public perusal. 
 
@@ -47,29 +48,30 @@ http://www.publicwhip.org.uk/search.php?query=Birt&button=Search
 
 You can view all the written questions asked or answered by your MP.
 Search for your MP on the Public Whip site, select their name and then
-choose "Written Answers".
+choose "Written Answers". For example, here are those for Douglas
+Alexander MP. 
 
 http://www.publicwhip.org.uk/mp.php?id=uk.org.publicwhip/member/693#wrans
 
 Some answers refer the honourable member to an answer that was given
-to another question. We have tried to generate the links to them
-where possible. This is a difficult feature since it requires the
-computer to interpret the English language, and some of the column
-references are numerically wrong. We could do something about their
-software, given a chance. 
+to another question. We have tried to generate the links to them where
+possible, so you can just click straight through to the other
+question.  This doesn't always work as it requires the computer to
+interpret the English language, and many of the column references are
+numerically wrong in Hansard.
 
 ***********************************************************************
-The Official Answer - Feature Article 
+What are Written Answers? - Feature Article 
 
 Just after the state opening of Parliament we at Public Whip looked
-carefully at what we had achieved. We had extracted from the online
+carefully at what we had done. We had extracted from the online
 Hansard documents all the voting records of the divisions made by our
 representative MPs to find out exactly how they were behaving.
 Superficially it seemed that votes in the division lobbies were the
 only thing that counted. It is the decisive act. Indeed, due to the
 existence of the Division Bell -- which saves them the inconvenience
 of actually sitting through the debate before the vote -- we were
-confident of that nothing else that went on was of any consequence. 
+confident that nothing else that went on was of any consequence. 
 
 Obviously this is a great simplification. The votes mean a lot less
 than we thought they'd mean because MPs, on the whole, do what they
@@ -99,33 +101,27 @@ authority of a minister, so only a minister can say it).
 
 http://www.publicwhip.org.uk/wrans.php?search=terrorism+act+applications&expand=yes
 
-Sometimes the answers provide genuinely new information, although it
-isn't always accurate or complete. For example, here are two
-questions from the middle of last year about the national DNA
-database. One says that 95 per cent of individuals on the database
-have a criminal conviction. The other answer contradicts this,
-stating that the database does not store information about individual
-convictions.
+Sometimes the answers provide genuinely new information, and comparing
+two of them can be telling. For example, here are two questions from
+the middle of last year about the national DNA database. One says that
+95 per cent of individuals on the database have a criminal conviction.
+The other answer contradicts this, stating that the database does not
+store information about individual convictions.
 
 http://www.publicwhip.org.uk/wrans.php?id=uk.org.publicwhip/wrans/2003-04-08.208W.6
 http://www.publicwhip.org.uk/wrans.php?id=uk.org.publicwhip/wrans/2003-07-17.595W.4
 
-We are all aware of the tactics politicians use to not answer the
-question in a live political interview (waffling, stating the obvious,
-misrepresenting the question, saying something completely different)
-until the time has run out. 
+There are lots of gems buried in Written Answers. We hope you enjoy
+discovering them for yourself as you surf through the database. 
 
-Since Written Answers have no time limit and the responses must be
-considered (since the questions are given long in advance), there is a
-completely different set of techniques to avoid giving the relevant
-answer. We hope you enjoy discovering them for yourself as you surf
-through the database. 
+* For more details about "Questions for Written Answer" read this factsheet:
+http://www.parliament.uk/parliamentary_publications_and_archives/factsheets/p01.cfm
 
-[ For more details about "Questions for Written Answer" read this factsheet:
-http://www.parliament.uk/parliamentary_publications_and_archives/factsheets/p01.cfm ]
+* Spot any interesting Written Answers during your searching?  Send a
+mail to support@publicwhip.org.uk to tell us about it.
 
 ***********************************************************************
-Real Uses - Project Spotlight
+Outside World - Project Spotlight
 
 "Galloway attends fewest votes in last Commons session" - at the start
 of the new year, the Independent newspaper ran an article about MP
