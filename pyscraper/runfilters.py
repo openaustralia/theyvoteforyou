@@ -97,7 +97,7 @@ def RunFiltersDir(filterfunction, dname, options, deleteoutput):
 				patch_modified = os.stat(patchfile).st_mtime
 			if (not deleteoutput) and (in_modified < out_modified) and ((not patchfile) or patch_modified < out_modified):
 				continue
-			print "input modified since output reparsing, out: ", out_modified, " in: ", in_modified, " patch: ", repr(patch_modified)
+			print "input modified since output reparsing ", fin
 
 		# here we repeat the parsing and run the patchtool editor until this file goes through.
 		again = True
