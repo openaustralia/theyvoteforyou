@@ -40,7 +40,7 @@
         if ($matches = get_motion_from_key($row['object_key'])) {
             $division_date = $matches[1];
             $division_number = $matches[2];
-            print "<td><a href=\"division.php?date=\"" . $division_date . "&number=" . $division_number . ">" . $division_date . "#" . $division_number . "</a></td>";
+            print "<td><a href=\"division.php?date=" . $division_date . "&number=" . $division_number . "\">" . $division_date . "#" . $division_number . "</a></td>";
         } else {
             print "<td>" . $row['object_key'] . "</td>";
         }
