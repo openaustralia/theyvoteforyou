@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.7 2003/11/05 12:19:29 frabcus Exp $
+-- $Id: create.sql,v 1.8 2004/02/09 17:18:23 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -38,25 +38,25 @@ create table pw_debate_content (
     unique(day_date)
 );
 
-create table pw_mp (
-    mp_id int not null primary key auto_increment,
-    first_name varchar(100) not null,
-    last_name varchar(100) not null,
-    title varchar(100) not null,
-    constituency varchar(100) not null,
-    party varchar(100) not null,
-
-    -- these are inclusive, and measure days when the MP could vote
-    entered_house date not null default '1000-01-01',
-    left_house date not null default '9999-12-31',
-    entered_reason enum('unknown', 'general_election', 'by_election', 'changed_party', 
-        'reinstated') not null default 'unknown',
-    left_reason enum('unknown', 'still_in_office', 'general_election',
-        'changed_party', 'died', 'declared_void', 'resigned',
-        'disqualified', 'became_peer') not null default 'unknown',
-
-    unique(first_name, last_name, constituency, entered_house, left_house)
-);
+-create table pw_mp (
+-    mp_id int not null primary key auto_increment,
+-    first_name varchar(100) not null,
+-    last_name varchar(100) not null,
+-    title varchar(100) not null,
+-    constituency varchar(100) not null,
+-    party varchar(100) not null,
+-
+-    -- these are inclusive, and measure days when the MP could vote
+-    entered_house date not null default '1000-01-01',
+-    left_house date not null default '9999-12-31',
+-    entered_reason enum('unknown', 'general_election', 'by_election', 'changed_party',
+-        'reinstated') not null default 'unknown',
+-    left_reason enum('unknown', 'still_in_office', 'general_election',
+-        'changed_party', 'died', 'declared_void', 'resigned',
+-        'disqualified', 'became_peer') not null default 'unknown',
+-
+-    unique(first_name, last_name, constituency, entered_house, left_house)
+-);
 
 create table pw_division (
     division_id int not null primary key auto_increment,
@@ -81,4 +81,42 @@ create table pw_vote (
     index(mp_id).
     unique(division_id, mp_id, vote)
 );
+
+CREATE TABLE pw_dyn_user (
+  user_id int(11) NOT NULL auto_increment,
+  user_name text,
+  real_name text,
+  email text,
+  password text,
+  remote_addr text,
+  confirm_hash text,
+  is_confirmed int(11) NOT NULL default '0',
+  is_newsletter int(11) NOT NULL default '1',
+  reg_date datetime default NULL,
+  PRIMARY KEY  (user_id)
+) TYPE=MyISAM;
+
+-- rolliemp is as in "roll your own MP"
+
+create table pw_dyn_rolliemp (
+    rollie_id int not null primary key auto_increment,
+    name varchar(100) not null,
+    user_id int not null,
+    description blob not null,
+
+    unique(rollie_id, name, user_id)
+);
+
+create table pw_dyn_rollievote (
+    division_date date not null,
+    division_number int not null,
+    rolliemp_id int not null,
+    vote enum("aye", "no", "both") not null,
+
+    index(division_date),
+    index(division_number),
+    index(rolliemp_id),
+    unique(division_date, division_number, rolliemp_id)
+);
+
 

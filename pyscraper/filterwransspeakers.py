@@ -53,16 +53,30 @@ fixsubs = 	[
 	( '<B> Mr. Drew: Mr. David Drew: </B>', '<B> Mr. David Drew: </B>', 1, '2003-05-01'),
 	( '<B> Matthew Taylor: Matthew Taylor: </B>', '<B> Matthew Taylor: </B>', 1, '2003-07-02'),
 
-	( '</B>\s*\(Leeds, North-West\):', ' (Leeds, North-West) </B>', 1, '2003-09-15'),
-
 	( '<TR valign=top><TD><FONT SIZE=-1>\s*<P>\s*<page', '</TABLE>\n<page', 1, '2002-07-24'),
 	( '<i>Mr. Ingram \[holding answer 4 December 2003\]:</i>', '<B>Mr. Ingram:</B> [holding answer 4 December 2003]', 1, '2003-12-08' ),
 	( '</B>\s*ask', '</B> To ask', 1, '2003-12-08'),
 	( '<UL>Paul Goggins:([^<]*)<P></UL>', '<B>Paul Goggins:</B> \\1', 1, '2003-11-19'),
 	( '\): To ask', ' To ask', 1, '2003-05-06'),
 
+	( '(<P>\s*)<UL>(Dr. Ladyman: )(Central Government do not themselves .*? care sector.\s*)<P></UL>', '\\1<B>\\2</B> \\3', 1, '2004-01-19'),
+	( '\<UL\>\<i\>(Miss Melanie Johnson )\</i\>(\[holding answer 13 January 2004\].*? two to three times a year.\s*)\<P\>\</UL\>', '<B>\\1</B> \\2', 1, '2004-01-14'),
+
+        ( '(Mr\. McNulty:) (We are always happy)', '<B>\\1</B> \\2', 1, '2004-01-06'), 
+        ( ' \((141053)\)', '[\\1]', 1, '2004-01-05'),
+
+	( '\<UL\>\<i\>(Mr\. Morley)( {holding answer 11 December 2003].*? before April 2004\.)<P></UL>', '<B>\\1: </B> <i>\\2', 1, '2003-12-18'),
+        ( ' \((142642)\)', '[\\1]', 1, '2003-12-18'),
+
+        ( '(Margaret Hodge: )(The total annual)', '<B>\\1</B>\\2', 1, '2003-12-15'),
+        ( '(David Davis: ):', '\\1', 1, '2003-12-15'),
+
+	( '\s*</B>\s*\(Leeds, North-West\):', '</B>', 1, '2003-09-15'),
+
 	# completely delete an answer that refers to the next response as answer
-	( '<B> Mr. Jamieson </B>[\s\S]*\[114072\]\.', '', 1, '2003-06-03'),
+	( '<B> Mr. Jamieson </B>[\s\S]*?\[114072\]\.', '', 1, '2003-06-03'),
+        ( '<B> Mr. McNulty: </B>\s*? I refer the hon. Member to the answer given today \[144178\].', '', 1, '2003-12-18'),
+
 
 	( '</UL>\s*<P>\s*<P>\s*<B>  Barbara Follett </B>\s*\(4\)', '<P>(4)', 1, '2003-02-06'),
 	( '<UL>\(5\)', '(5)', 1, '2003-02-06'),

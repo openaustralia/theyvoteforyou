@@ -1,6 +1,6 @@
 <?  
 
-# $Id: addrollie.php,v 1.1 2004/02/08 04:01:44 frabcus Exp $
+# $Id: addrollie.php,v 1.2 2004/02/09 17:18:23 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -71,7 +71,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     }
     else
     {
-        print "<p>Create your own dream MP.  Here you have to name and describe
+        print "<p>Make up your own MP.  Here you have to name and describe
         your MP.  Afterwards, you will be able to specify how, if at all, your MP voted in
         every division.  Your MP can represent anything you like.  For example:
         <ul>
@@ -110,18 +110,26 @@ if (user_isloggedin()) # User logged in, show settings screen
         <B>Description (the criteria your dream MP uses to vote, give as much detail as possible):</B><BR>
         <textarea name="description" rows="6" cols="80"><?=html_scrub($description)?></textarea></p>
 
+        <p><span class="ptitle">Copyright Notes:</span>  While you retain copyright of any text you enter
+        into the Public Whip website, by submitting it you grant us a wide
+        license of use.  In particular, we will display the text on the
+        website, alongside your dream MP's voting record and your name and
+        email.  You additionally grant us the right to publish the text in any other form, such
+        as on a poster, on a CD-ROM or in a newspaper.
+
         <p><span class="ptitle">Privacy Notes:</span>
         By creating a dream MP you are making your name
         <b><?=user_getrealname()?></b>, your email address <b><?=user_getemail()?></b> and
         your made-up MP's voting record public.  If you do not
-        which to do so, register a free, anonymous email address with a
+        wish to do so, create a free, anonymous email address with a
         provider such as <a href="http://www.fastmail.fm">FastMail.fm</a> and register here
         with that account.  Be aware, people viewing the Public Whip website will be able to
         associate the description, voting record and commentary relating to your
         dream MP with your email address.
+
         <p><INPUT TYPE="checkbox" NAME="confirmprivacy">Confirm you have read the
-        above privacy notes, and realise that by submitting this form you will make your
-        email address and name public.
+        above privacy notes, and realise in particular that by submitting this
+        form you will make your email address and name public.
         <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Roll Your Own MP">
         </FORM>
     <?php

@@ -34,6 +34,10 @@ fixsubs = 	[
 
 	( '<BR>\s*</FONT>\s*<H4><center>Energy Policy</center></H4>', '', 1, '2003-04-29'),
 
+
+        ( '(\<UL\>\(2\) what research work he has \<i\>\(a\)</i> commissioned and \<i\>\(b\)\</i\> evaluated on external)(\<P\>\</UL\>)', '\\1 counter pulsation; and what conclusions about its efficacy were drawn. [143813] \\2', 1, '2003-12-16'),
+
+
 	# sort out a lot of nasty to-ask problems
 	( 'To as the Deputy Prime Minister', 'To ask the Deputy Prime Minister', 1, '2003-10-06'),
 	( '\n What ', '\n To ask the Secretary of State for Northern Ireland what ', 4, '2003-09-10'),
@@ -60,6 +64,9 @@ fixsubs = 	[
 	( '\n Asked the Secretary', '\nTo ask the Secretary', 1, '2003-03-21'),
 	( ' What (measures will be)', 'To ask the Secretary of State for Work and Pensions what \\1', 1, '2003-03-17'),
 
+	( ' What (plans he has to reform)', 'To ask the Chancellor of the Exchequer what \\1', 1, '2004-01-29'),
+	( ' If (he will make a statement)', 'To ask the Chancellor of the Exchequer if \\1', 2, '2004-01-29'),
+	( '( To) (the Secretary of State for Trade and Industry)', '\\1 ask \\2', 1, '2004-01-26'),
 
 	# this is complicated because the speaker name has already been tokenized (into part \\1)
 	( '\{\*\*con\*\*\}\{\*\*/con\*\*\}(<P>[\s\S]*?)(\(1\)\s*pursuant to his response)', '\\1 To ask the Secretary of State for Defence \\2', 1, '2003-06-03'),
@@ -67,6 +74,7 @@ fixsubs = 	[
 	( '\n (ask the Secretary of State)', '\n To \\1', 1, '2003-06-03'),
 	( '\((115021)\)', '[\\1]', 1, '2003-06-03'),
 	( '\{\*\*con\*\*\}\{\*\*/con\*\*\}', '', 1, '2003-05-19'),
+        ( '(\[142901)', '\\1]', 1, '2003-12-11'),
 
  	( '\n To\s*ask ', '\n To ask ', 10, '2003-07-07'), # linefeed example I can't piece apart
  	#( '\n To as the Secretary', '\n To ask the Secretary', 1, '2003-05-19'),
@@ -141,13 +149,12 @@ fixsubs = 	[
 	( 'www.btselem.orR', 'www.btselem.org', 1, '2003-04-14'),
 	( 'www.unicef-org', 'www.unicef.org', 1, '2003-02-28'),
 	( 'gov.ukyStatBase', 'gov.uk/StatBase', 1, '2003-05-22'),
+        ( 'defraweb', 'www.defra.gov.uk', 1, '2003-12-18'),
 
+        # special note not end of block - when we have multiple answers
+        ( '(Decisions on proposed closures of post offices are an operational matter for Post Office Ltd)', '<another-answer-to-follow>\\1', 1, '2004-01-22'),
 
-
-		]
-
-
-
+]
 
 # parse through the usual intro headings at the beginning of the file.
 def StripWransHeadings(headspeak, sdate):
@@ -194,9 +201,14 @@ def ScanQBatch(shspeak, stampurl, sdate):
 		qblock.append(qb)
                 #print "type ", qb.typ, " len qblock ", len(qblock)
 
-		# reply detected, output the block
-		if qb.typ == 'reply':
+                # special case: multiple replies
+                replytofollow = False
+		if re.search("\<another-answer-to-follow\>", qb.text):
+                    qb.text = qb.text.replace("<another-answer-to-follow>", "")
+                    replytofollow = True
 
+		# reply detected, output the block
+		if qb.typ == 'reply' and (not replytofollow):
 			# no preceeding question blocks with this reply
 			if len(qblock) < 2:
 				print shs[1]

@@ -22,7 +22,9 @@ fixsubs = 	[
 	( '<H2 align=center> </H2>[\s\S]{10,99}?Monday 13 October 2003', '', 1, '2003-10-14' ),
 	( '<P>\[Continued from column 278W\]', '', 1, '2003-12-08'),
 
-		]
+        # Stop the remarginal matching this reference to a column number
+        ( 'from that stated in Hansard 16 January 2003: column 792W', 'Hansard 16 January 2003: col. 792W', 1, '2004-01-13' )
+]
 
 #<P>
 #</UL><P><I>20 Nov 2003 : Column 1203W</I><P>

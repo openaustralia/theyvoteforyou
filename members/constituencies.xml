@@ -1135,6 +1135,7 @@ website.  The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/330">
     <name text="Leeds North West"/>
+    <name text="Leeds, North-West"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/331">
     <name text="Leeds West"/>

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.4 2004/02/08 04:01:43 frabcus Exp $
+# $Id: db.inc,v 1.5 2004/02/09 17:18:23 frabcus Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -80,6 +80,8 @@ class DB
 
     function rows()
     {
+        if (gettype($this->$result) == "boolean")
+            return $this->$result;
         return mysql_num_rows($this->$result);
     }
 

@@ -1,5 +1,5 @@
 <?php 
-    # $Id: rolliemp.php,v 1.1 2004/02/08 04:01:43 frabcus Exp $
+    # $Id: rolliemp.php,v 1.2 2004/02/09 17:18:23 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -11,6 +11,7 @@
     include "constituencies.inc";
 	include "xquery.inc";
 	include "protodecode.inc";
+    include "render.inc";
     include "account/user.inc";
     $db = new DB(); 
 
@@ -27,14 +28,14 @@
     $real_name = $row[4];
     $email = $row[5];
 
-    $title = "Hand Rolled MP - '" . html_scrub($name) . "' - by " . html_scrub($real_name);
+    $title = "'" . html_scrub($name) . "' - Roll Your Own MP";
     include "header.inc";
 
     print "<p><b>Description:</b> " . html_scrub($description). "</p>";
     print "<p><b>Created by:</b> " . html_scrub($real_name) . " &lt;" . html_scrub($email) . "&gt;</p>";
 
     print "<h2><a name=\"divisions\">Divisions Attended</a></h2>
-    <p>Divisions in which this virtual MP voted."; 
+    <p>Divisions in which this dream MP voted."; 
 
     print "<table>\n";
     # Table of votes in each division
@@ -79,7 +80,21 @@
 
         }
     }
+
+    print "<h2>Comparison to Real MPs</h2>";
+    $query = "$mps_query_start ";
+	$db->query($query);
+
+    print "<table class=\"mps\">\n";
+    print "<tr class=\"headings\">";
+    print "<td>Name</td><td>Constituency</td><td>Party</td><td>Rebellions<br>(estimate)</td>";
+    print "<td>Attendance<br>(divisions)</td>";
+    print "</tr>";
+
+    render_mps_table($db);
+    print "</table>\n";
+    
 ?>
-	
 
 <?php include "footer.inc" ?>
+

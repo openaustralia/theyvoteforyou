@@ -32,16 +32,21 @@ def ExtractQnum(tex):
 
 # we break this into separate paragraphs and discover that the final ones are indentent.
 # the other question form is as a single paragraph
-def FilterQuestion(text):
+def FilterQuestion(text, sdate):
 
 	# split into paragraphs.  The second results is a parallel array of bools
 	(textp, textpindent) = SplitParaIndents(text)
 	if not textp:
 		raise Exception, ' no paragraphs in result '
 
-	#print textp
-
 	textn = [ ]
+
+        # special case exceptions.  Indented text in questions nearly always marks numbered sections 
+        # - rarely is it quoted text like this:
+        if sdate == '2004-01-05' and len(textp) > 1 and re.search('"Given that 98.5 per cent', text):
+            # if this happens a lot - do this properly, so the indented bit gets its own paragraph
+            textp = (string.join(textp, " "),)
+            textpindent = (0,)
 
 	# multi-part type
 	if len(textp) > 1:

@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php
-# $Id: division.php,v 1.22 2004/02/08 04:01:43 frabcus Exp $
+# $Id: division.php,v 1.23 2004/02/09 17:18:23 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -77,7 +77,7 @@
         $query = "select rollie_id, name, description from 
             pw_dyn_rolliemp where user_id = '" . user_getid() . "'";
 
-        print "<p>Votes in this division for your dream MPs.</p>";
+        print "<p>Vote in this division for your dream MPs.</p>";
         print '<FORM ACTION="division.php?date=' . urlencode($date) . '&number=' . urlencode($div_no) . '" METHOD="POST">';
         print '<table>';
         $db->query($query);
@@ -85,37 +85,10 @@
         
         foreach ($rowarray as $row)
         {
-            # alter dream MP's vote if they submitted form
-            if ($submit)
-            {
-                $changedvote = mysql_escape_string($_POST["vote" . $row['rollie_id']]);
-                if ($changedvote)
-                {
-                    print "<tr><td colspan=2><div class=\"error\">";
-                    if ($changedvote == "--")
-                    {
-                    }
-                    else
-                    {
-                        $query = "update pw_dyn_rollievote set vote='" . $changedvote . "'" . 
-                            " where rolliemp_id='" . $row['rollie_id'] . "' and " . 
-                            "division_date = '$date' and division_number = '$div_no'";
-                        print $query;
-                        $db->query($query);
-                        if ($db->rows() == 0)
-                            print "Error changing '" . $row['name'] . "' to " . $changedvote . " (no change)";
-                        elseif ($db_.rows() > 1)
-                            print "Error changing '" . $row['name'] . "' to " . $changedvote . " (too many rows)";
-                        else
-                            print "Changed '" . $row['name'] . "' to " . $changedvote;
-                    }
-                    print "</div></td></tr>";
-                }
-            }
-            # display dream MP vote
+            # find dream MP vote
             $query = "select vote from pw_dyn_rollievote where 
-                    division_date = $date and division_number = $div_no and
-                    rolliemp_id = " . $row['rollie_id'];
+                    division_date = '$date' and division_number = '$div_no' and
+                    rolliemp_id = '" . $row['rollie_id'] . "'";
             $db->query($query);
             if ($db->rows() == 0)
                 $vote = "--";
@@ -124,8 +97,50 @@
                 $qrow = $db->fetch_row_assoc();
                 $vote = $qrow['vote'];
             }
+            # alter dream MP's vote if they submitted form
+            if ($submit)
+            {
+                $changedvote = mysql_escape_string($_POST["vote" . $row['rollie_id']]);
+                if ($changedvote != $vote)
+                {
+                    print "<tr><td colspan=2><div class=\"error\">";
+                    if ($changedvote == "--")
+                    {
+                        $query = "delete from pw_dyn_rollievote "  .
+                            " where rolliemp_id='" . $row['rollie_id'] . "' and " . 
+                            "division_date = '$date' and division_number = '$div_no'";
+                        $db->query($query);
+                        if ($db->rows() == 0)
+                            print "Error changing '" . $row['name'] . "' to non-voter (no change)";
+                        elseif ($db->rows() > 1)
+                            print "Error changing '" . $row['name'] . "' to non-voter (too many rows)";
+                        print "Changed '" . $row['name'] . "' to non-voter";
+                    }
+                    else
+                    {
+                        $query = "update pw_dyn_rollievote set vote='" . $changedvote . "'" . 
+                            " where rolliemp_id='" . $row['rollie_id'] . "' and " . 
+                            "division_date = '$date' and division_number = '$div_no'";
+                        if ($vote == "--")
+                        {
+                            $query = "insert into pw_dyn_rollievote (vote, rolliemp_id, division_date,
+                                    division_number) values ('" . $changedvote . "', ".
+                                "'" . $row['rollie_id'] . "', '$date', '$div_no')";
+                        }
+                        $db->query($query);
+                        if ($db->rows() == 0)
+                            print "Error changing '" . $row['name'] . "' to " . $changedvote . " (no change)";
+                        elseif ($db->rows() > 1)
+                            print "Error changing '" . $row['name'] . "' to " . $changedvote . " (too many rows)";
+                        print "Changed '" . $row['name'] . "' to " . $changedvote;
+                    }
+                    print "</div></td></tr>";
+                    $vote = $changedvote;
+                }
+            }
+            # display dream MP vote
             print "<tr><td>\n";
-            print '<i>' . $row['name'] . "</i>: \n";
+            print '<a href="rolliemp.php?id=' . $row['rollie_id'] . '">' . $row['name'] . "</a>: \n";
             print "</td><td>\n";
             print ' <select name="vote' . $row['rollie_id'] . '" size="1">
                                 <option ' . vote_value("aye", $vote) . '>Aye</option>
@@ -135,9 +150,13 @@
                             </select></p>';
             print '</td></tr>';
         }
+        print "<tr><td>\n";
+        print ' <a href="account/addrollie.php">[Add new dream MP]</a>';
+        print "</td><td>\n";
+        if (count ($rowarray) > 0)
+            print '<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Update Votes">';
+        print '</td></tr>';
         print '</table>';
-	    print '<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Update Votes">';
-        print ' <a href="account/addrollie.php">[Create new dream MP]</a>';
         print '</FORM>';
     }
     else
