@@ -1,7 +1,7 @@
 <?php $cache_postfix = rand(0, 10); include "cache-begin.inc"; ?>
 
 <?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
-# $Id: index.php,v 1.16 2003/10/21 08:36:22 frabcus Exp $
+# $Id: index.php,v 1.17 2003/10/21 18:33:53 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -10,8 +10,8 @@
 ?>
 
 <p>Every week, a dozen or so times, your MP votes in the UK parliament.  This
-is the crucial, visible exercise of power.  The Public Whip presents and
-data mines their voting record, to help you hold them to account.
+is their crucial, visible exercise of power.  The Public Whip 
+data-mines their voting record to help you hold them to account.
 For more information about the project, <a href="faq.php">read the FAQ</a>.
 
 <?php
