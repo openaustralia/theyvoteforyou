@@ -16,6 +16,7 @@ export CVS_RSH=/software/bin/ssh
 
 # Grab new scraped XML files from TheyWorkForYou
 rsync --recursive www.theyworkforyou.com::pwdata/scrapedxml/divisionsonly /home/francis/pwdata/scrapedxml
+chmod -R a+r /home/francis/pwdata
 
 # Update everything
 cd ~/publicwhip/
@@ -31,10 +32,10 @@ then
 	# echo "There were new divisions, recalculating cached values"
 
 	# There were new divisions, so run checks
-	./load.pl --from=$FROMDATE check
+	./load.pl --quiet --from=$FROMDATE check
 
 	# and update counts of rebels etc.
-	./load.pl --from=$FROMDATE calc
+	./load.pl --quiet --from=$FROMDATE calc
 
         # clear page cache
 	rm -fr /home/francis/pwcache/*
