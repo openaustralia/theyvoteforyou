@@ -35,6 +35,7 @@ def RunRegmemFilters(fout, text, sdate):
         rows = [ re.sub('\[<A NAME="n\d+"><A HREF="\#note\d+">\d+</A>\]', '', row) for row in rows ]
         rows = [ re.findall("<TD.*?>(.*?)</TD>", row) for row in rows ]
 
+        membercount = 0
         needmemberend = False
         category = None
         categoryname = None
@@ -53,6 +54,7 @@ def RunRegmemFilters(fout, text, sdate):
                                 fout.write('</regmem>\n')                                
                                 needmemberend = False
                         fout.write('<regmem memberid="%s">\n' % id)
+                        membercount = membercount + 1
                         needmemberend = True
                         category = None
                         categoryname = None
@@ -95,6 +97,8 @@ def RunRegmemFilters(fout, text, sdate):
         if needmemberend:
                 fout.write('</regmem>\n')                                
                 needmemberend = False
+
+        assert membercount == 659, "Not found exactly 659 members in regmem, found %d" % membercount
 
 	fout.write("</publicwhip>\n")
 
