@@ -7,9 +7,9 @@
 include "config.inc";
 
 # in/output directories
-$pwprotoidxdir = $toppath . '/protoidx';
-$pwprotoindexdir = $toppath . '/protoindex';
-$pwxmldirs = $toppath . '/scrapedxml';
+$pwprotoidxdir = $xmltoppath . '/protoidx';
+$pwprotoindexdir = $xmltoppath . '/protoindex';
+$pwxmldirs = $xmltoppath . '/scrapedxml';
 $pwxmwrans = $pwxmldirs . '/wrans';
 
 function ReadNumberPair($fin)
@@ -102,6 +102,7 @@ function WrapResult($result)
 <!ENTITY ocirc  "&#244;" >
 <!ENTITY ouml   "&#246;" >
 <!ENTITY Ouml   "&#214;" >
+<!ENTITY iacute "&#237;" >
 <!ENTITY ccedil "&#231;" >
 <!ENTITY uuml   "&#252;" >
 <!ENTITY ntilde "&#241;" >
@@ -115,6 +116,7 @@ function WrapResult($result)
 <!ENTITY frac12 "&#189;" >
 <!ENTITY frac34 "&#190;" >
 
+<!ENTITY euro "&#8364;" >
 ]>
 
 <publicwhip>\n' . 

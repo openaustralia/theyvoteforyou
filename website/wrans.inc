@@ -22,7 +22,7 @@ function wrans_recent_popular($count)
 {
     include "config.inc";
     
-    $rh = fopen($toppath . '/wrans-recent-popular.txt', 'r');
+    $rh = fopen($xmltoppath . '/wrans-recent-popular.txt', 'r');
     $resuilt = '';
     $ids = array();
     for ($i = 0; $i < $count; ++$i)

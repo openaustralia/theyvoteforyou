@@ -24,6 +24,7 @@ if os.path.exists(toppath + "/pwcmpages"):
 # The names of entities and what they are are here:
 # http://www.bigbaer.com/reference/character_entity_reference.htm
 # Make sure you update WriteXMLHeader below also!
+# And update website/protodecode.inc
 entitymap = {
         '&nbsp;':' ',
         '&':'&amp;',
@@ -357,13 +358,15 @@ def WriteXMLHeader(fout):
 	
 	# These entity definitions for latin-1 chars are from here:
 	# http://www.w3.org/TR/REC-html40/sgml/entities.html
+        # NOTE: also update website/protodecode.inc when you update this
+        # TODO: make these share the chunk of entity code somehow
 	fout.write('''
 
 <!DOCTYPE publicwhip 
 [
 
 <!ENTITY ndash   "&#8211;">
-<!ENTITY mdash   "&#8212;" >
+<!ENTITY mdash   "&#8212;">
 
 <!ENTITY egrave "&#232;" >
 <!ENTITY eacute "&#233;" >
@@ -393,4 +396,17 @@ def WriteXMLHeader(fout):
 ]>
 
 ''');
+
+
+
+
+
+
+
+
+
+
+
+
+
 
