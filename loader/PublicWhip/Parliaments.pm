@@ -1,4 +1,4 @@
-# $Id: Parliaments.pm,v 1.1 2004/06/08 11:56:54 frabcus Exp $
+# $Id: Parliaments.pm,v 1.2 2005/01/01 19:12:46 sams Exp $
 # List of parliaments we are covering.  This data is duplicated in
 # website/parliaments.inc.
 
@@ -20,13 +20,17 @@
 package PublicWhip::Parliaments;
 use strict;
 
-our @list = (
+our @list = ( # put newer Parliaments first
     { id => '2001', from => '2001-06-07', to => '9999-12-31', name => '2001' },
     { id => '1997', from => '1997-05-01', to => '2001-05-14', name => '1997' }
 );
 
 sub getlist {
     return @list;
+}
+
+sub getcurrent {
+	return ($list[0]);
 }
 
 1;
