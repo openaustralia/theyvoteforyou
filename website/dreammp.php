@@ -1,5 +1,5 @@
 <?php 
-    # $Id: dreammp.php,v 1.3 2004/04/02 20:57:59 frabcus Exp $
+    # $Id: dreammp.php,v 1.4 2004/04/16 12:32:42 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -43,7 +43,7 @@
         print "<p><a href=\"account/adddream.php\">Make your own dream MP</a>";
 
     print "<h2><a name=\"divisions\">Divisions Attended</a></h2>
-    <p>Divisions in which this dream MP voted."; 
+    <p>Divisions in which this dream MP has voted."; 
 
     print "<table>\n";
     # Table of votes in each division
@@ -82,10 +82,12 @@
 
     if (user_isloggedin())
     {
-        print "To select votes for your virtual MP, <a href=\"search.php\">search</a> or
-                <a href=\"divisions.php\">browse</a> for divisions.  On the page for
-                each division you can choose how your made-up MP would have voted.  Only vote
-                on divisions which your MP cares about.";
+        print "You need to choose which divisions your dream MP votes in, and
+        how they vote for each one. To do this <a
+        href=\"search.php\">search</a> or <a href=\"divisions.php\">browse</a>
+        for divisions.  On the page for each division you can choose how your
+        made-up MP would have voted.  Only vote on divisions which your MP
+        cares about.";
 
     }
 

@@ -1,6 +1,6 @@
 <?  
 
-# $Id: adddream.php,v 1.2 2004/02/11 00:07:56 frabcus Exp $
+# $Id: adddream.php,v 1.3 2004/04/16 12:32:44 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -108,7 +108,7 @@ if (user_isloggedin()) # User logged in, show settings screen
         <B>Name (enter the name of your organisation or the issue your dream MP votes on behalf of):</B><BR>
         <INPUT TYPE="TEXT" NAME="name" VALUE="<?=html_scrub($name)?>" SIZE="40" MAXLENGTH="50">
         <P>
-        <B>Description (the criteria your dream MP uses to vote, give as much detail as possible):</B><BR>
+        <B>Description (the criteria you will use to choose how your dream MP votes, give as much detail as possible):</B><BR>
         <textarea name="description" rows="6" cols="80"><?=html_scrub($description)?></textarea></p>
 
         <p><span class="ptitle">Copyright Notes:</span>  While you retain copyright of any text you enter
