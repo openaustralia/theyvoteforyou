@@ -190,9 +190,9 @@ function get_top_dream_query($count) {
 # Returns HTML postcode search box for MP/DreamMP comparison.
 function dream_box($dreamid, $dmp_name) {
     $html = '
-<div style="position: relative; width: 21em; color: #000000; 
+<div style="position: relative; width: 23em; color: #000000; 
 background-color: #eeeeee; font-family: Verdana, Arial, Sans-serif; 
-font-size: 70%; margin: 0 0 0 0; border: 1px solid #003300; padding: 0 0 0 0;">
+margin: 0 0 0 0; border: 1px solid #003300; padding: 0 0 0 0;">
     <div style="text-align: center; background-color: #003300">
         <a href="http://www.publicwhip.org.uk" style="color: #ffffff">
             <img src="http://www.publicwhip.org.uk/smallpublicwhip.gif" 
