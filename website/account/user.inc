@@ -485,7 +485,7 @@ function login_screen()
         <P>
         Enter your user name and password and we\'ll set a cookie so we know you\'re logged in.
         <p>Not got a login?  <A HREF="register.php">Register a new
-        account</A>.  You will receive a free email newsletter.
+        account</A>.  You will also receive a free email newsletter.
         <br>Lost your password? <a href="lostpass.php">Reset your password here</a>.
         <P>
         <FORM ACTION="'. $PHP_SELF .'" METHOD="POST" name=pw>
