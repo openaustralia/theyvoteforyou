@@ -34,6 +34,10 @@ RedirectPermanent /code.php http://www.publicwhip.org.uk/project/code.php
 #RewriteCond %{REQUEST_URI} !^/mp-info.xml
 #RewriteRule .*          http://www.publicwhip.org.uk/patents/patents.php [R=302,L]
 
+# This one worked in the end:
+#RewriteEngine On
+#RewriteRule /(.+).php /patents/index.html [R]
+
 #Alternative way of net striking:
 #RedirectMatch /[^p] http://www.publicwhip.org.uk/patents/patents.php
 

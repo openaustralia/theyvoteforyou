@@ -5,8 +5,10 @@ set -e
 # their timestamps so we store all the data forever.
 
 USER=francis@sphinx.mythic-beasts.com
+LOGS=~/webstats/publicwhip/logs
+START=`pwd`
 
-cd logs
+cd $LOGS
 mkdir -p tmpdownload
 cd tmpdownload
 
@@ -18,10 +20,10 @@ do
     cp -a $X ../access_log.$DATE.gz
 done
 cp -a access_log ../
-cd ../..
+cd $START
 
 # Make log file analysis from awsats
-zcat `ls -1 logs/*.gz | sort` | cat - logs/access_log | /usr/lib/cgi-bin/awstats.pl -config=publicwhip.org.uk
+zcat `ls -1 $LOGS/*.gz | sort` | cat - $LOGS/access_log | /usr/lib/cgi-bin/awstats.pl -config=publicwhip.org.uk
 # use cgi browser
 echo "Now browse to:"
 echo "http://localhost/cgi-bin/awstats.pl?config=publicwhip.org.uk"

@@ -2,9 +2,9 @@
 use strict;
 use lib "loader/";
 
-my $text = "website/newsletters/issueX.txt";
-#my $test_name = "";
-my $test_name = "Francis Irving";
+my $text = "website/newsletters/extra3.txt";
+my $test_name = "";
+#my $test_name = "Francis Irving";
 #my $test_name = "Julian Todd";
 
 use PublicWhip::Error;
@@ -30,7 +30,7 @@ while (my @data = $sth->fetchrow_array())
 
     open(SENDMAIL, "|/usr/lib/sendmail -oi -t") or die "Can't fork for sendmail: $!\n";
     print SENDMAIL <<"EOF";
-From: Francis Irving <francis\@publicwhip.org.uk>
+From: Public Whip Team <team\@publicwhip.org.uk>
 To: $to
 EOF
 

@@ -37,7 +37,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         self.debateofficehistory={} # recent offices ("The Deputy Prime Minister")
         self.conscanonical = {} # constituency aliases --> canonical constituency
         self.constituencies = {} # constituency --> MPs
-        self.parties = {} # constituency --> MPs
+        self.parties = {} # party --> MPs
         self.officetopersonmap = {} # member ID --> person ID
         self.persontoofficemap = {} # person ID --> office
 
@@ -208,7 +208,6 @@ class MemberList(xml.sax.handler.ContentHandler):
             if date >= attr["fromdate"] and date <= attr["todate"]:
                 ids.append(attr["id"])
         return ids
-
 
 	# useful to have this function out there
 	def striptitles(self, text):
