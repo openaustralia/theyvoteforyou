@@ -10,8 +10,12 @@ import os.path
 # the outputs go into glueddaydebates/
 
 # read through our index list of daydebates
-def GlueHocDayDebate(dglueddaydebates, hocdaydebatelist):
+def GlueHocDayDebate(dglueddaydebates, hocdaydebatelist, nametype, fileprefix):
+	if not os.path.isdir(dglueddaydebates):
+		os.mkdir(dglueddaydebates)
+
 	fhocdaydebatelist = open(hocdaydebatelist);
+	nametyperegexp = nametype + '(?i)'	# debate, answers, statement, westminster
 
 	# generate the filenames we will use, and the urls that will point into them
 	daydebateurl = []
@@ -29,13 +33,12 @@ def GlueHocDayDebate(dglueddaydebates, hocdaydebatelist):
 
 		if (len(ddate) != 1) or (len(dtype) != 1) or (len(durl) != 1):
 			print "BAD XML file"
-		if not re.search('debate(?i)', dtype[0]):
+		if not re.search(nametyperegexp, dtype[0]):
 			continue
 
 		# quick and dirty file name for now
-		sdate = 'daydeb' + re.sub('\s', '', ddate[0]) + '.html'
+		sdate = fileprefix + re.sub('\s', '', ddate[0]) + '.html'
 		daydebateurl.append( (sdate, durl[0]) )
-
 	# glueddaydebates
 
 
@@ -75,6 +78,7 @@ def GlueHocDayDebate(dglueddaydebates, hocdaydebatelist):
 		urx.close()
 		if len(lk) == 0:
 			print "No link found!!!"
+			return
 
 		# now we take out the local pointer and start the gluing
 		url = urlparse.urljoin(dnu[1], re.sub('#.*?$' , '', lk[0]))

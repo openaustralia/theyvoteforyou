@@ -44,6 +44,8 @@ dircolumnnumbers = 'c2daydebatefixcolumnnumbers'
 dirspeakers = 'c3daydebatematchspeakers'
 dirfolding = 'c4folding'
 
+dirgluedwranswers = 'gluedwranswers'
+
 
 # discover the index of all the pages
 if not os.path.isfile(hocdaydebatelist):
@@ -52,11 +54,13 @@ if not os.path.isfile(hocdaydebatelist):
 	daydebates.close()
 
 # grab all the days we can
-dirglueddaydebates = 'glueddaydebates'
-if not os.path.isdir(dirglueddaydebates):
-	os.mkdir(dirglueddaydebates)
 # (comment the function call out line out if you want it to run past)
-GlueHocDayDebate(dirglueddaydebates, hocdaydebatelist)
+GlueHocDayDebate(dirgluedwranswers, hocdaydebatelist, 'answers', 'answers')
+sys.exit()
+
+# grab all the days we can
+# (comment the function call out line out if you want it to run past)
+#GlueHocDayDebate(dirglueddaydebates, hocdaydebatelist, 'debate', 'daydeb')
 
 
 # remove chars and comments

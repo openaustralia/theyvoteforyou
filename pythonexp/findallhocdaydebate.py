@@ -56,6 +56,8 @@ def FindAllHocDayDebate(daydebates, urlindex):
 
 		# these index pages are very broken, need to collapse linefeeds to spaces and find all the links out of them
 		srindexpage = re.sub('(\n|\r)+', ' ', srindexpage)
+		srindexpage = re.sub('<!--.*?-->', ' ', srindexpage)	# take out comments, which comment links
+
 
 		# <b>Wednesday 5 November 2003</b>
 		#<td colspan=2><font size=+1><b>Wednesday 5 November 2003</b></font></td>
