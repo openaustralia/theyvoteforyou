@@ -1,4 +1,4 @@
-# $Id: finddays.pm,v 1.4 2003/10/02 13:51:12 frabcus Exp $
+# $Id: finddays.pm,v 1.5 2004/03/15 12:09:50 frabcus Exp $
 # Scans various index pages in various ways to hunt down the content
 # for each day in text of Hansard beneath them all.  Stores URLs
 # of the first page of content.
@@ -35,7 +35,7 @@ sub hunt_within_month_or_volume
         # Remove CR/LF from in URL (should be done in WWW::Mechanize?)
         s/\r//g;
         s/\n//g;
-        $agent->_push_page_stack();
+        #$agent->_push_page_stack(); # needed in some versions of WWW::Mechanize
         $agent->get($_);
         error::die("Error getting debate index URL " . $agent->response->status_line, $agent->uri()) unless $agent->success;
         error::log("Debate found", $agent->uri(), error::USEFUL);
@@ -105,6 +105,7 @@ sub hunt_within_month_or_volume
                 (FROM_UNIXTIME(?), ?)", $date, $first_page);
         }
 
+
         $agent->back();
         $agent->back();
         $c++;
@@ -161,6 +162,7 @@ sub hunt_within_session
     {
         error::log("Volume found", $agent->uri(), error::USEFUL);
         finddays::hunt_within_month_or_volume($dbh, $agent);
+        error::log("Volume done", $agent->uri(), error::USEFUL);
         $agent->back();
         $c++;
     }
@@ -192,6 +194,7 @@ sub recent_sessions
             undef $skip_forwards;
             error::log("Session found", $agent->uri(), error::USEFUL);
             finddays::hunt_within_session($dbh, $agent);
+            error::log("Session done", $agent->uri(), error::USEFUL);
         }
         $agent->back();
 

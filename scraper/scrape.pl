@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: scrape.pl,v 1.9 2004/01/26 10:04:58 frabcus Exp $
+# $Id: scrape.pl,v 1.10 2004/03/15 12:09:50 frabcus Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -172,12 +172,19 @@ sub crawl_recent_months
 
 sub crawl_recent_sessions
 {
+    if ($force)
+    {
+        clear_crawl_in_range();
+        clear_content_in_range();
+        clear_divisions_in_range();
+    }
+
     # Test most recent month and sessions crawl
     my $agent = WWW::Mechanize->new();
     my $start_url = "http://www.publications.parliament.uk/pa/cm/cmhansrd.htm";
     $agent->get($start_url)->is_success() or die "Failed to read URL $start_url";
     print "Scanning recent sessions...\n";
-    finddays::recent_sessions($dbh, $agent, "cmse0001", "cmse9798"); # inclusive
+    finddays::recent_sessions($dbh, $agent, "cmse0203", "cmse9798"); # inclusive
 }
 
 sub update_calc
@@ -208,8 +215,7 @@ sub all_content
 
     if ($force)
     {
-        my $sth = db::query($dbh, "delete from pw_debate_content where
-            1=1 $where_clause", @where_params);
+        clear_content_in_range();
         clear_divisions_in_range();
     }
 
@@ -230,9 +236,24 @@ sub all_content
     }
 }
 
+# Clear index of URLs for date range
+sub clear_crawl_in_range
+{
+    print "Clearing crawl URL index " . $where_params[0] . " to " . $where_params[1] . "\n";
+    my $sth = db::query($dbh, "delete from pw_hansard_day where 1=1 $where_clause", @where_params);
+}
+
+# Clean out downloaded content for date range
+sub clear_content_in_range
+{
+    print "Clearing downloaded content " . $where_params[0] . " to " . $where_params[1] . "\n";
+    my $sth = db::query($dbh, "delete from pw_debate_content where 1=1 $where_clause", @where_params);
+}
+
 # Clean out all parsed divisions we already have for date range
 sub clear_divisions_in_range
 {
+    print "Clearing parsed divisions " . $where_params[0] . " to " . $where_params[1] . "\n";
     my $sth = db::query($dbh, "update pw_debate_content set divisions_extracted = 0 where 1=1 $where_clause", @where_params);
     my $new_where_clause = $where_clause;
     $new_where_clause =~ s/day_date/division_date/g;

@@ -1,3 +1,9 @@
+Get ministerial positions etc. from:
+David Butler's "Twentieth Century British Political Facts"
+- Her Majesty's Government URL: http://www.parliament.uk/directories/hciolists/hmg.cfm
+Dod's Parliamentary Companion - annual
+Vacher's Parliamentary Companion - quarterly
+
 POLIS (database of written answers, speeches and other things):
 http://www.polis.parliament.uk/
 

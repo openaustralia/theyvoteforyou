@@ -1,4 +1,4 @@
-# $Id: content.pm,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: content.pm,v 1.2 2004/03/15 12:09:50 frabcus Exp $
 # For each day which we have the start URL for (from finddays.pm),
 # downloads the transcript for the entire day and stores it in the
 # database as one HTML file.
@@ -14,6 +14,7 @@ use strict;
 use WWW::Mechanize;
 use HTML::TokeParser;
 use HTTP::Status;
+use Data::Dumper;
 use divisions;
 use error;
 
@@ -33,11 +34,14 @@ sub fetch_day_content
         my $content = $agent->content();
         if ($content !~ m/<hr>(.*)<hr>/si)
         {
+            # print Dumper($content);
             error::die("Error finding <hr> demarkers in content", $agent->uri());
         }
         $all_content .= "\n<!-- Public Whip source " . $agent->uri() . " -->\n";
         $all_content .= $1;
 
+        my @link = $agent->find_link(text => "Next Section");
+        print $link[0][0] . "\n";
     }
     while ($agent->follow_link(text => "Next Section"));
 

@@ -1,19 +1,13 @@
 #! /usr/bin/python2.3
 # vim:sw=8:ts=8:et:nowrap
 
-import sys
 import re
 import os
 import string
-import cStringIO
 
-import xml.sax
-xmlvalidate = xml.sax.make_parser()
-
+from resolvemembernames import memberList
 import miscfuncs
 toppath = miscfuncs.toppath
-
-from HTMLParser import HTMLParser
 
 # directories
 pwcmdirs = os.path.join(toppath, "cmpages")
@@ -22,37 +16,22 @@ tempfile = os.path.join(toppath, "filtertemp")
 if not os.path.isdir(pwxmldirs):
 	os.mkdir(pwxmldirs)
 
-class MyHTMLParser(HTMLParser):
-        def __init__(self):
-                HTMLParser.__init__(self)
-                self.state = 'start'
-                self.data = ''
-                self.datastore = {}
-
-        def handle_starttag(self, tag, attrs):
-                self.tagstack.append((tag, attrs))
-                self.datastack.append(self.data)
-                self.data = ''
-
-        def handle_endtag(self, tag):
-                if self.tagstack[-1][0] == tag:
-                        (tag, attr) = self.tagstack.pop()
-                        self.data = self.datastack.pop()
-                else:
-                        self.data = self.datastack.pop()
-                        print "Spurious close tag %s data %s" % (tag, self.data)
-
-
-        def handle_data(self, data):
-                self.data = self.data + data
-
 def RunRegmemFilters(fout, text, sdate):
         miscfuncs.WriteXMLHeader(fout)
 	fout.write("<publicwhip>\n")
 
         print "RunRegmemFilters ", sdate
-        p = MyHTMLParser()
-        p.feed(text)
+
+        rows = re.findall("<TR>(.*)</TR>", text)
+        rows = [ re.sub("(<B>)|(</B>)", "", row) for row in rows ]
+        rows = [ re.sub("&#173;", "-", row) for row in rows ]
+        rows = [ re.findall("<TD.*?>(.*?)</TD>", row) for row in rows ]
+
+        for row in rows:
+                if len(row) == 1 and row[0] != "&nbsp;":
+                        print row
+                        (lastname, firstname, constituency) = re.search("^([^,]*), ([^(]*) \((.*)\)$", row[0]).groups()
+                        print memberList.matchfullnamecons(firstname + " " + memberList.lowercaselastname(lastname), constituency, sdate)
 
 	fout.write("</publicwhip>\n")
 

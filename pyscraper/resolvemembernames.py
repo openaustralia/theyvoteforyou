@@ -30,7 +30,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         self.parties = {} # constituency --> MPs
 
         # "rah" here is a typo in division 64 on 13 Jan 2003 "Ancram, rah Michael"
-        self.titles = "Dr |Hon |hon |rah |rh |Mrs |Ms |Dr |Mr |Miss |Ms |Rt Hon |Reverend |The Rev |The Reverend |Sir |Rev |Prof "
+        self.titles = "Dr |Hon |hon |rah |rh |Mrs |Ms |Mr |Miss |Ms |Rt Hon |Reverend |The Rev |The Reverend |Sir |Rev |Prof "
         self.retitles = re.compile('^(?:%s)' % self.titles)
         self.rejobs = re.compile('^%s$' % parlPhrases.regexpjobs)
 
@@ -143,9 +143,9 @@ class MemberList(xml.sax.handler.ContentHandler):
         text = text.replace("  ", " ")
 
         # Remove initial titles
-        (text, titlec) = self.retitles.subn("", text)
-        if titlec > 1:
-            raise Exception, 'Multiple titles: ' + input
+        titlec = 1
+        while titlec > 0:
+            (text, titlec) = self.retitles.subn("", text)
 
         # Remove final honourifics
         (text, honourc) = self.rehonourifics.subn("", text)
@@ -210,6 +210,23 @@ class MemberList(xml.sax.handler.ContentHandler):
         remadename = self.members[id]["firstname"] + " " + self.members[id]["lastname"]
         remadecons = self.members[id]["constituency"]
         return id, remadename, remadecons
+
+    # Lowercases a surname, getting cases like these right:
+    #     CLIFTON-BROWN to Clifton-Brown 
+    #     MCAVOY to McAvoy
+    def lowercaselastname(self, name):
+        words = re.split("( |-|')", name)
+        words = [ string.capitalize(word) for word in words ]
+
+        def handlescottish(word):
+            if (re.match("Mc[a-z]", word)):
+                return word[0:2] + string.upper(word[2]) + word[3:]
+            if (re.match("Mac[a-z]", word)):
+                return word[0:3] + string.upper(word[3]) + word[4:]
+            return word
+        words = map(handlescottish, words)
+
+        return string.join(words , "")
 
     # Resets history - exclusively for debates pages
     # The name history stores all recent names:

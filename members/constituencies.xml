@@ -7,11 +7,16 @@ Unique identifiers and alternative names for UK parliamentary constituencies.
 Currently as they are in 2003 - will need to update when boundary changes come
 in.
 
-Currently has the name forms used for the list of MPs on the Parliament website,
-by the ONS (Office of National Statistics), by FaxYourMP.com, and several variants
-of BBC name.  Also some used in Hansard debates and the Guardian.
+Currently has the name forms from:
+- the list of MPs on the Parliament website
+- Hansard debates 
+- Register of members interests (regmem)
+- the ONS (Office of National Statistics)
+- FaxYourMP.com
+- BBC (from several places)
+- Guardian website (Ask Aristotle)
 
-The Parliament versions are more accurate, so considered canonical.
+The list of MPs from the parliament website are considered canonical.
 
 -->
 
@@ -131,15 +136,19 @@ The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/35">
     <name text="Belfast East"/>
+    <name text="Belfast, East"/> <!-- regmem -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/36">
     <name text="Belfast North"/>
+    <name text="Belfast, North"/> <!-- regmem -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/37">
     <name text="Belfast South"/>
+    <name text="Belfast, South"/> <!-- regmem -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/38">
     <name text="Belfast West"/>
+    <name text="Belfast, West"/> <!-- regmem -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/39">
     <name text="Berwick-upon-Tweed"/>
@@ -796,6 +805,7 @@ The Parliament versions are more accurate, so considered canonical.
     <name text="Faversham &amp; Mid Kent"/>
     <name text="Faversham and Mid Kent"/> <!-- ONS -->
     <name text="Faversham &amp; Kent Mid"/> <!-- BBC politics db -->
+    <name text="Faversham and Mid-Kent"/> <!-- regmem -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/230">
     <name text="Feltham &amp; Heston"/>
@@ -944,6 +954,7 @@ The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/270">
     <name text="Hamilton South"/>
+    <name text="Hamilton, South"/> <!-- regmem -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/271">
     <name text="Hammersmith &amp; Fulham"/>
@@ -1151,6 +1162,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/330">
     <name text="Leeds North West"/>
     <name text="Leeds, North-West"/>
+    <name text="North West Leeds"/> <!-- regmem -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/331">
     <name text="Leeds West"/>
@@ -1294,6 +1306,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/371">
     <name text="Mid Bedfordshire"/>
     <name text="Bedfordshire Mid"/> <!-- FaxYourMP index -->
+    <name text="Mid-Bedfordshire"/> <!-- regmem -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/372">
     <name text="Mid Dorset &amp; North Poole"/>
@@ -1301,6 +1314,7 @@ The Parliament versions are more accurate, so considered canonical.
     <name text="Dorset Mid and Poole North"/> <!-- FaxYourMP index -->
     <name text="Mid Dorset and Poole North"/> <!-- Guardian -->
     <name text="Dorset Mid &amp; Poole North"/> <!-- BBC politics db -->
+    <name text="Mid-Dorset and North Poole"/> <!-- regmem -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/373">
     <name text="Mid Norfolk"/>
@@ -1317,6 +1331,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/376">
     <name text="Mid Worcestershire"/>
     <name text="Worcestershire Mid"/> <!-- FaxYourMP index -->
+    <name text="Mid Worcester"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/377">
     <name text="Middlesbrough"/>
@@ -1353,6 +1368,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/386">
     <name text="Morecambe &amp; Lunesdale"/>
     <name text="Morecambe and Lunesdale"/> <!-- ONS -->
+    <name text="Morecombe and Lunesdale"/> <!-- regmem -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/387">
     <name text="Morley &amp; Rothwell"/>
@@ -1379,6 +1395,7 @@ The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/394">
     <name text="Newcastle upon Tyne Central"/>
+    <name text="Newcastle-upon-Tyne Central"/> <!-- regmem -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/395">
     <name text="Newcastle upon Tyne East &amp; Wallsend"/>
@@ -1386,6 +1403,7 @@ The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/396">
     <name text="Newcastle upon Tyne North"/>
+    <name text="Newcastle-upon-Tyne, North"/> <!-- regmem -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/397">
     <name text="Newcastle-under-Lyme"/>
@@ -1501,6 +1519,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/425">
     <name text="North West Durham"/>
     <name text="Durham North West"/> <!-- FaxYourMP index -->
+    <name text="Durham, North West"/> <!-- regmem -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/426">
     <name text="North West Hampshire"/>
@@ -1627,6 +1646,7 @@ The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/462">
     <name text="Preseli Pembrokeshire"/>
+    <name text="Preseli, Pembrokeshire"/> <!-- regmem -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/463">
     <name text="Preston"/>
@@ -2303,6 +2323,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/658">
     <name text="Ynys Môn"/>
     <name text="Ynys Mon"/> <!-- ONS -->
+    <name text="Ynys M&amp;ocirc;n"/> <!-- regmem -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/659">
     <name text="York, City of"/>

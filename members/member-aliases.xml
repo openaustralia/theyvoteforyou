@@ -60,6 +60,13 @@ We should find the exact date she started, and move her finish date.
         from="2001-12-31" to="2004-03-01"/>
 
 <!-- First added for 2001 parliament -->
+<alias fullname="Michael Weir" alternate="Mike Weir" />
+<alias fullname="Chris Ruane" alternate="Christopher Ruane" />
+<alias fullname="Calum MacDonald" alternate="Calum A MacDonald" />
+<alias fullname="John Gummer" alternate="John Selwyn Gummer" />
+<alias fullname="Jon Cruddas" alternate="John Cruddas" />
+<alias fullname="Tony Colman" alternate="Anthony Colman" />
+<alias fullname="Nick Ainger" alternate="Nicholas Ainger" />
 <alias fullname="Laurence Robertson" alternate="Laurance Robertson" />
 <alias fullname="Robert Marshall-Andrews" alternate="Bob Marshall-Andrews" />
 <alias fullname="Geoffrey Clifton-Brown" alternate="Geoffrey Clifton Brown" />
@@ -74,6 +81,8 @@ We should find the exact date she started, and move her finish date.
 <!-- "Michael/Mike Foster" could be either "Michael Jabez Foster" or
     "Michael John Foster".  So we match all possibilities to both constituencies,
     forcing the need for a constituency to disambiguate. -->
+<alias constituency="Worcester" alternate="Michael J Foster" /> 
+<alias constituency="Hastings &amp; Rye" alternate="Michael J Foster" /> 
 <alias constituency="Worcester" alternate="Mike Foster" /> 
 <alias constituency="Hastings &amp; Rye" alternate="Mike Foster" /> 
 <alias constituency="Worcester" alternate="Michael Foster" /> 
@@ -88,6 +97,7 @@ We should find the exact date she started, and move her finish date.
 <alias fullname="Andrew Bennett" alternate="Andrew F Bennett" />
 <alias lastname="MacKay" alternate="Mackay" />
 <alias constituency="Worcester" alternate="Michael John Foster" />
+<alias fullname="Tony Wright" alternate="Anthony Wright" />
 <alias fullname="Anthony D Wright" alternate="Tony Wright" />
 <alias fullname="Phil Woolas" alternate="Philip Woolas" />
 <alias fullname="Pete Wishart" alternate="Peter Wishart" />
@@ -95,6 +105,7 @@ We should find the exact date she started, and move her finish date.
 <alias fullname="Desmond Turner" alternate="Des Turner" />
 <alias fullname="Jenny Tonge" alternate="Jennifer Tonge" />
 <alias fullname="Gareth Thomas" alternate="Gareth Richard Thomas" /> <!-- from Guardian - supposedly Harrow West, can check and change this to a constituency= field if needed -->
+<alias fullname="Gareth Thomas" alternate="Gareth R Thomas" /> 
 <alias fullname="John Taylor" alternate="John M Taylor" />
 <alias fullname="Llew Smith" alternate="Llewellyn Smith" />
 <alias fullname="John Smith" alternate="John P Smith" />
@@ -107,6 +118,7 @@ We should find the exact date she started, and move her finish date.
 <alias fullname="Andrew MacKay" alternate="Andrew Mackay" />
 <alias fullname="Huw Irranca-Davies" alternate="Huw Irranca-Davis" />
 <alias fullname="Lady Hermon" alternate="Sylvia Hermon" />
+<alias fullname="Lady Hermon" alternate="Lady Sylvia Hermon" />
 <alias fullname="Mike Hancock" alternate="Michael Hancock" />
 <alias fullname="Michael Foster" alternate="Michael John Foster" /> <!-- maybe dodgy, confusion with the other Michael Foster? -->
 <alias fullname="Jeff Ennis" alternate="Jeffrey Ennis" />
@@ -121,9 +133,11 @@ We should find the exact date she started, and move her finish date.
 <alias fullname="Des Browne" alternate="Desmond Brown" />
 <alias fullname="Des Browne" alternate="Desmond Browne" />
 <alias fullname="Lembit Öpik" alternate="Lembit Opik" />
+<alias fullname="Lembit Öpik" alternate="Lembit &amp;ouml;pik" />
 <alias fullname="Lembit Öpik" alternate="Lembit &amp;#214;pik" />
 <alias fullname="Lembit Öpik" alternate="Lembit Opik" />
 <alias fullname="Siôn Simon" alternate="Siön Simon" />
+<alias fullname="Siôn Simon" alternate="Si&amp;ocirc;n Simon" />
 <alias fullname="Siôn Simon" alternate="Si&amp;#244;n Simon" />
 <alias fullname="Siôn Simon" alternate="Sio(r)n Simon" />
 <alias fullname="Siôn Simon" alternate="Sion Simon" />
