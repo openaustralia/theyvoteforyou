@@ -60,6 +60,10 @@ We should find the exact date she started, and move her finish date.
         from="2001-12-31" to="2004-03-01"/>
 
 <!-- First added for 2001 parliament -->
+<alias fullname="Peter Pike" alternate="Peter L Pike" />
+<alias fullname="Michael Martin" alternate="Michael J Martin" />
+<alias fullname="Calum MacDonald" alternate="Calum Macdonald" />
+<alias fullname="Andrew Bennett" alternate="Andrew F Bennett" />
 <alias lastname="MacKay" alternate="Mackay" />
 <alias constituency="Worcester" alternate="Michael John Foster" />
 <alias fullname="Anthony D Wright" alternate="Tony Wright" />
@@ -87,6 +91,7 @@ We should find the exact date she started, and move her finish date.
 <alias fullname="Jim Cunningham" alternate="James Cunningham" />
 <alias fullname="Tim Boswell" alternate="Timothy Boswell" />
 <alias fullname="A J Beith" alternate="Alan Beith" />
+<alias fullname="A J Beith" alternate="AJ Beith" />
 <alias fullname="Clare Short" alternate="Claire Short" />
 <alias fullname="Nick Brown" alternate="Nicholas Brown" />
 <alias fullname="Geoff Hoon" alternate="Geoffrey Hoon" />

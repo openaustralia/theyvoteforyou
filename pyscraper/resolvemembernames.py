@@ -9,6 +9,7 @@ import string
 import copy
 import sets
 import sys
+import datetime
 
 from parlphrases import parlPhrases
 
@@ -120,6 +121,15 @@ class MemberList(xml.sax.handler.ContentHandler):
 
     def partylist(self):
         return self.parties.keys()
+
+    def currentmpslist(self):
+        today = datetime.date.today().isoformat()
+        matches = self.members.values()
+        ids = []
+        for attr in matches:
+            if today >= attr["fromdate"] and today <= attr["todate"]:
+                ids.append(attr["id"])
+        return ids
 
     def fullnametoids(self, input, date):
         text = input

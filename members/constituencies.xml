@@ -370,6 +370,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/106">
     <name text="Caithness, Sutherland &amp; Easter Ross"/>
     <name text="Caithness, Sutherland and Easter Ross"/> <!-- ONS -->
+    <name text="Caithness Sutherland and Easter Ross"/> <!-- edm.ais.co.uk -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/107">
     <name text="Calder Valley"/>
@@ -647,6 +648,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/189">
     <name text="Ealing, Acton &amp; Shepherd's Bush"/>
     <name text="Ealing, Acton and Shepherd's Bush"/> <!-- ONS -->
+    <name text="Ealing Acton and Shepherd's Bush"/> <!-- edm.ais.co.uk -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/190">
     <name text="Ealing, Southall"/>
@@ -1057,6 +1059,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/306">
     <name text="Inverness East, Nairn &amp; Lochaber"/>
     <name text="Inverness East, Nairn and Lochaber"/> <!-- ONS -->
+    <name text="Inverness East Nairn and Lochaber"/> <!-- edm.ais.co.uk -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/307">
     <name text="Ipswich"/>
@@ -1236,6 +1239,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/359">
     <name text="Maidstone &amp; The Weald"/>
     <name text="Maidstone and The Weald"/> <!-- ONS -->
+    <name text="Maidstone and the Weald"/> <!-- edm.ais.co.uk -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/360">
     <name text="Makerfield"/>
