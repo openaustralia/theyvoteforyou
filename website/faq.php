@@ -1,5 +1,5 @@
 <?php $title = "FAQ"; include "header.inc" 
-# $Id: faq.php,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: faq.php,v 1.2 2003/08/19 12:10:32 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -69,19 +69,13 @@ www.publicwhip.org.uk.  This way they can use and contribute themselves.
 
 <h2>Can I play?</h2>
 
-<p>
-<A href="http://sourceforge.net"> <IMG align=right vspace=8 hspace=8
-src="http://sourceforge.net/sflogo.php?group_id=87640&amp;type=5"
-width="210" height="62" border="0" alt="SourceForge.net Logo" /></A>
-
-Sure.  All the software we've written is free and protected by the 
+<p> Sure.  All the software we've written is free and protected by the 
 <a href="GPL.php">GNU General Public License</a>.  It's not complicated,
 anyone can have a go running them.  But there's only a point in doing
 this if you are going to change it as otherwise you will see the same
-results. 
-<p>You will shortly be able to download the code from our <a
-href="http://www.sourceforge.net/projects/publicwhip">SourceForge
-project page</a>.
+results.  For more details go the special <a
+href="code.php">coding section</a> of this website.
+
 <h2>Why are you giving everything away for free?</h2>
 
 <p>We're not; we're letting you take copies.  Whatever you do, we still 

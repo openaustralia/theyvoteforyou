@@ -114,6 +114,9 @@ What can we learn from the information that aye/noe comes first, and
     from the information as to whether government or not government is
     aye or noe?
 
+How many articles do Labour MPs supply to the Times, for example?
+Collate all MPs articles in newspapers
+
 Additional text content
 -----------------------
 
@@ -241,6 +244,7 @@ http://www.psr.keele.ac.uk/area/uk/mps.htm
 
 Biographical information:
 http://www.politicallinks.co.uk
+http://www.dodonline.co.uk/politics2/BIOG/MP_BIOGS/bio.asp?id=0163
 
 Internal to MPs:
 Parliamentary Data and Video Network (PDVN) mentioned here:

@@ -80,3 +80,8 @@ Tally vote numbers in text and check they fit with our counting
 
 Deal with when an MP voted twice in one division
 
+Also I need to tidy the whole thing up to be more usable.  Reduce the
+number of commands, make the pipeline more straightforward, and so it
+doesn't go wrong if you do things in the wrong order.
+
+

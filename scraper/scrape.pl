@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: scrape.pl,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: scrape.pl,v 1.2 2003/08/19 12:10:32 frabcus Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -95,7 +95,7 @@ voting records within a MySQL database.
 
 scrape.pl [OPTION]... [COMMAND]...
 
-Commands are any or all of:
+Commands are any or all of these, in order you want them run:
 mps - insert MPs into database from local raw data files
 clean - tidy up bad records in the database from interrupted crawls
 months - scan recent months and find day URLs

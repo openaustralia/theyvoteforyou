@@ -2,7 +2,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: header.inc,v 1.2 2003/08/19 12:10:32 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -24,6 +24,7 @@ include "pretty.inc";
 <a href="divisions.php">Divisions</a> | 
 <a href="mps.php">MPs</a> |
 <a href="mpsee.php">Cluster</a> |
+<a href="code.php">Code</a> |
 <a href="faq.php">FAQ</a> |
 <a href="search.php">Search</a>
 </div>
