@@ -71,10 +71,11 @@ you like.  For example:
     print "<table class=\"mps\">\n";
     print "<tr class=\"headings\">
         <td>Voted</td>
-        <td>Edited Motions</td>
+        <td>Motions Edited</td>
         <td>Name</td>
         <td>Made by</td>
         <td>Description</td>
+        <td>Profile</td>
         </tr>";
 
 
@@ -91,14 +92,18 @@ you like.  For example:
             $your_dmp = false;
 
         print "<td>" . $row['count'] . "</td>\n";
-        print "<td>" . percentise($row['motions_percent']) . "</td>\n";
-        print "<td><a href=\"dreammp.php?id=$dreamid\">" . $row['name'] . "</a></td>";
+        print "<td>" . percentise($row['motions_percent']) . "</td>";
+        print "<td><a href=\"dreammp.php?id=$dreamid\">" . trim_characters($row['name'],0,20) . "</a></td>";
         print "<td>" . html_scrub($row['user_name']) . "</td>";
-        print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 300);
+        print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 150);
         if ($your_dmp) {
             print " [<a href=\"account/editdream.php?id=$dreamid\">Edit...</a>]";
         }
-        print "</td></tr>";
+        print "</td>";
+        print "<td>0&nbsp;<img src=\"dreamplot.php?id=$dreamid\">&nbsp;1";
+        print "</td>\n";
+
+        print "</tr>";
         $c++;
     }
     print "</table>\n";
