@@ -2,6 +2,8 @@ Being errors found each day running the scraping cron job
 CRON = cron job on baked
 PWIP = weekly Public Whip update
 
+CRON 2004-04-27 New entity &#247; which is division symbol
+CRON 2004-04-26 Bad paragraph number in wrans
 CRON 2004-04-?? Added alias with hyphen in name
 CRON 2004-04-23 Word from text got into bold round name
 CRON 2004-04-20 Missing (1) in two wrans, typo of "M.r", missing bold round name

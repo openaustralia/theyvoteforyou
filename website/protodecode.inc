@@ -92,6 +92,7 @@ function WrapResult($result)
 <!ENTITY ndash   "&#8211;">
 <!ENTITY mdash   "&#8212;">
 <!ENTITY iexcl   "&#161;">
+<!ENTITY divide  "&#247;">
 
 <!ENTITY egrave "&#232;" >
 <!ENTITY eacute "&#233;" >
