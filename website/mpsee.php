@@ -1,5 +1,5 @@
 <?php $title = "Vote map"; include "header.inc" 
-# $Id: mpsee.php,v 1.5 2003/10/04 13:46:22 frabcus Exp $
+# $Id: mpsee.php,v 1.6 2003/10/13 15:01:37 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -93,114 +93,176 @@ Sun Java 1.4 or above required
 
 <hr class="bottomline">
 
-<h2>What are these pictures showing? </h2> 
 
-<p>This requires a few words of explanation.  </p> 
+<h2>What is cluster analysis?</h2>
 
-<p>Imagine you picked 5 cities in Europe: 
-Amsterdam, Antwerp, Athens, Barcelona, and Basel, 
-and you wrote down distance table (in kilometres) 
-between them, like so: </p>
+<p>Cluster analysis is a technique used by scientists who have measured 
+comparable features of a set of similar objects, and need to group them 
+into categories.  The objects can be anything from homonid skulls, to 
+beetles, to fossilized grass seeds.  The features can be forebrow size, 
+leg length, or spikiness.  Usually, there are very many features which 
+are all compared at once.  They are multiplied and reduced down to one 
+single <em>dissimilarity measure</em>.  We invent a formula that 
+decides, for example, that this skull is 0.97 skull units different to 
+that skull, according to our measure.
 
-<pre>
-Amsterdam | Antwerp | Athens | Barcelona | Basel | 
-        0 |     156 |   3022 |      1538 |   780 | Amsterdam
-      156 |       0 |   2971 |      1365 |   629 | Antwerp     
-     3022 |    2971 |      0 |      3313 |  2567 | Athens
-     1538 |    1365 |   3313 |         0 |  1056 | Barcelona
-      780 |     629 |   2567 |      1056 |     0 | Basel
-</pre>
+<p>We can use computational techniques to simulate a spring network between 
+all the different skulls in the  collection.  If the two skulls are 
+placed too close together, according to the dissimilatity measure, they 
+are pushed apart; if they start are too far apart, a force pulls them 
+together.  The computer calculates the positions of the skulls in space 
+to minimize the strain in the spring network.
 
-<p>I copied these numbers out of a road atlas I 
-happened to find.  Let us suppose these distances are 
-"as the crow flies".  This table of distances is a 
-symmetric matrix of values.  </p>  
+<p>If all has gone well, and we have chosen an appropriate dissimilarity 
+function, the skulls in the collection will group into clusters which 
+probably correspond to one species.  The clusters will be in bigger 
+clusters, which may or may not correspond to a genus, and so on.
 
-<p>From this matrix, it's possible to recover the relative 
-locations of these cities on a map.  You can do this by 
-cutting lengths of stiff wire to scale and arranging them on a 
-table so that ends corresponding to the same city matched up.  </p>   
+<p>Since the dissimilarity measure is arbitrarily chosen, and 
+experimentally altered to make better results, it takes further proof to 
+be sure that the clusters are significant and not a mistake due to the 
+way you are measuring at it.
 
-<p>The other technique is to use matrix algebra to recover the 
-positions using a method called "Multi-Dimensional Scaling" 
-(in this case, dimensions equals 2).  
-The calculation for 600 cities takes about 
-three minutes on a home computer.  </p>
+<h2>How is this cluster analysis done?</h2>
 
-<p>What does this have to do with MPs?  
-Using Multi-Dimensional Scaling, we can start with a table 
-of distances between people that has nothing to do with 
-cities on a map, and use the same algorithm to work out 
-where these people would have to be put on a map to best 
-represent their positions in relation to one another.  </p>  
+<p>We've chosen a dissimilarity measure which depends on the number of 
+votes the same way, and the number of votes against one another, between 
+two MPs when they both vote in the same division.  If every time two MPs 
+vote in the chamber they always vote the same way, their dissimilarity 
+measure is zero.  If they always vote on opposite sides, when they both 
+vote, their dissimilarity measure is one.  The actual function is: 
+[Number of votes on opposite sides] / [Number of divisions in which both 
+voted].
 
-<p>In this experiment, 
-the distance between two MPs is the proportion of divisions 
-in which they voted on opposite sides out of the number of 
-times they both voted in the same division.  
-Two MPs who always vote against one another are distance 1.0 apart, 
-while two MPs who always vote the same way are distance 0.0 apart.  </p>
+<p>Our cluster analysis calculation was done using Multi-Dimensional 
+Scaling.  The mathematics behind this is available in many textbooks, 
+and  <a href="http://www.ast.cam.ac.uk/~rgm/scratch/statsbook/stmulsca.html">on the web</a>.  The 
+calculation itself, as opposed to the proof that this calculation gives 
+what you want, is reasonably simple to describe.  Although most people 
+won't understand it, it's important to mention it openly in case they do.
 
-<p>So, that's how this diagram is made.  
-The choice of how we make up the distances is arbitrary, 
-and if I had more time I'd experiment with more than one 
-possible metric.  
-It's likely we ought to throw out several of the outliers 
-(eg MPs who never vote on anything) who may be distorting 
-the map by their presence.  
-Maybe we can try to make an image for each year  
-so as to see if we can detect drifts in voting patterns 
-as MPs progress through their careers.  </p>  
+<p>It ought to be a rule that the public does not accept any computational 
+result unless the computation is itself publically available.  The 
+analogy between computer algorithms whose output has a bearing on, say, 
+government policy, and the law, is close.  We do not tolerate being 
+subject to laws that are secret and unpublished, regardless of whether 
+we understand them; we can hire a lawyer if we don't.  The same should 
+be true with computational results which can sometimes hide a great many 
+errors and fudge factors that should not be present.
 
-<p>Whatever you think of it, it's just a bit of fun, not to 
-be taken too seriously.  One can say for certain 
-that the results here need some debugging.  For example, 
-the Prime Minister is way out on the fringe of the diagram, and 
-that can't be true.  Anyone is free to have a look at 
-our program and run it, and work out what is going awol.  </p>  
+<p>Multidimensional scaling.  First step: write the dissimilarity measure 
+as a symmetric matrix: 650 MPs along the top, 650 MPs down the side.  
+The dissimilarity measure between MP1 and MP99, say, is the same as the 
+dissimilarity measure between MP99 and MP1, which is why it is 
+symmetric.  The matrix also has zeros down the diagonal.
 
-<p>I do consider it encouraging that the parties 
-have clustered in the image.  Notice that the shape is 
-two-dimensional, rather than extending along a 
-left-right political axis of the kind they teach 
-you about in your first lesson on politics.   
-I remember being told that there is this 
-one-dimensional space of political opinion, with 
-communists on the left, and feudalists on the right, 
-onto which you had to nail your political colours.  
-And, from the position on the line you choose, 
-it was possible to 
-inform your entire political mind down to the finest detail.  </p>  
+<p>Factorize this symmetric matrix into its diagonal form of an orthogonal 
+matrix, times a diagonal matrix of eigen values, times the transpose of 
+the orthogonal matrix.  This is one of those fundamental matrix 
+operations discovered by mathematicians hundreds of years ago, and 
+taught in first year college maths degrees.  The first two columns of 
+the orthogonal matrix, scaled by the square root of the corresponding 
+eigenvalues, are the coordinates of the points in the map.  In practice, 
+we can choose any number of dimensions, or columns, to make the clusters 
+in multi-dimensional space, but, in this case, two dimensions give a 
+good picture.
 
-<p>The fact is, there are many distinct political issues 
-which are not constrained together in one vector.  You may be 
-pro-road building, but against city centre incinerators, 
-even though the two issues tend to be highly correlated 
-across the spectrum of parties, from the ones that 
-are pro-business and for letting them build whatever they like, 
-to those that are anti-business who would prefer development 
-cease altogether.  
-Whereas, the people might like some things 
-to be selectively built, but don't want their air 
-contaminated just because it's allowed.  </p> 
+<h2>What do the axes mean?</h2>
 
-<p>There's an interesting experiment which may get done 
-one day, based on this image.  
-Suppose we selected, say, fifty interesting votes in 
-parliament (which are, after all, done on our behalf), 
-and we asked all the people in a 
-representative sample of the general public 
-to vote on them, and act as a people's parliament.  
-I don't know what the results 
-of this would be, but let's suppose people's interests 
-are often the same to an extent that we can't see, 
-because we are artificially divided by the choice of  
-different parties.  Suppose the votes of the general public formed 
-a single, fourth cluster in this multi-dimensional image.  
-If this cluster is nowhere near any of the three parties, 
-what does this say about the system?  How can we explain why the 
-parties are where they are, and not where the people are?  
-Is it a fact that we are being taken for a 
-ride and just could not prove it?  </p>  
+<p>This is the most popular question.
+
+<p>The axes don't mean anything.  Here's why:
+
+<p>The diagram is generated to represent the closeness of the voting 
+patterns.  MPs who usually vote the same way are plotted close to one 
+another, and MPs who usually vote far apart are plotted further 
+distant.  You can reflect this map across a line, or rotate it through 
+any angle, and the distances between the points will be no different.  
+The meaningful axes you're looking don't necessarily have to be 
+horizontal or vertical.  We've kept this orientation of the picture 
+because it fits on the screen nicely.
+
+<p>There can also be distortions in the angles between the clusters.  If 
+the Tory party voting pattern moved close to Labour, for example, the 
+axis between the Labour cluster and the LibDem cluster would rotate 
+counter-clockwise to bring the Tories closer to one rather than the other.
+
+<p>I would guess than any meaning you do see in the axes are subjective, 
+post-hoc observations.  Distances are important, not the directions.  
+You should pay no attention to them.
+
+<p>I am not a believer in those Left-Right/Libertarian-Authoritarian 
+political diagrams on which I've seen analysts attempt to plot people's 
+political views.  This type of analysis is, I think, more of a tool of 
+persuasion than of sociological measure.  The idea that you can nail 
+your opinion to some point on a spectrum, and someone else can read out 
+your personal set of policies from its location, is worse than 
+professional astrology.  Each person's set of preferences will depend on 
+personal experience, expertise, reasoning, and hearsay.  We are all so 
+different with regards to the input of these factors.  It's not probable 
+they would fit into a philosophically pre-determined spectrum.
+
+<p>Perhaps some sort of survey and cluster analysis will suggest a 
+different, realistic pattern.  But the measurements will be too 
+confounded by the persuasive nature of policy tables having done their 
+work already.  Such a survey would have to work from behavoiral data, 
+rather than stated opinion polls.
+
+<p>One very good critique of our current electorial system is that it 
+depends entirely on the self-measurement of human opinion.  Human beings 
+are notorious for holding opinions that are systematically at odds with 
+even their own reality (eg to ask: "How many units of alchohol do you 
+think you drink a week?").  Policy spectrums, which this cluster diagram 
+is emphatically not, are an easy way to influence political opinions by 
+bundling policies up -- ones which you do like, together with ones you 
+don't fully understand and probably wouldn't like if you did -- and 
+getting you to pick from them.  In practice, influencing opinions are 
+far easier for many politicians and vested interests to do, particularly 
+for ones not immediately in power, than to make changes to reality.
+
+<p>The election game, which puts the public's battered and misdirected 
+opinion at a higher level of importance than any sociological measure, 
+is clearly treated as a sport by the professional players.
+
+
+<h2>Why is Tony Blair and his cabinet so far away from the rest of his party?</h2>
+
+<p>I suspect it's because they mostly show up to votes which tend to be on 
+contentious issues when many MPs are rebelling.  This gives them a 
+higher than expected dissimilarity measure than if they turned up to the 
+all the non-contentious votes when there was no rebellion.  They show up 
+during these contentious issues in order to encourage their MPs to vote 
+they way want; the rebellions could have been larger had they not shown up.
+
+<p>The impression that they are pulling their party away from its centre of 
+gravity, in the way that the leaders of the other parties are not, is 
+probably correct.
+
+
+<h2>What are the green dots?</h2>
+
+<p>We've coloured the MPs who are not in the three big parties green.  
+These parties don't have enough MPs to form colourful clusters; it's for 
+aesthetic reasons, rather than anything we have against these smaller 
+parties, that they are all lumped together.  You can, however, click on 
+the indivual members to find out pretty quickly that the Welsh and 
+Scottish national party members tend to associate with the LibDems, 
+while the Ulster parties tend to align with the Tories.
+
+
+<h2>Any future developments?</h2>
+
+<p>We've tried a few experiments, such as subselecting for votes on 
+particular issues, and calculating the pattern for a three-month sliding 
+window and animating it through time.  Neither produced very 
+enlightening results, so we've not bothered to publish them.
+
+<p>The pattern per parliament is reasonably stable and consistent.  In 
+fact, it's a much better result than you normally get from cluster 
+analysis of any kind.  I think these diagrams are about as far as it 
+goes with this, and they are not bad.  If you would like the data in a 
+form you can play with in your own cluster analysis software, please 
+send us details and we can try to post it up for everyone like you to use.
 
 <?php include "footer.inc" ?>
+
