@@ -12,6 +12,9 @@ from miscfuncs import ApplyFixSubstitutions
 
 
 fixsubs = [
+        ('<B> Ordered, </B> Ordered,--', 'Ordered,--', 1, '2004-03-23'),
+        ('<B> Ordered, </B>', 'Ordered,--', 1, '2004-03-23'),
+
         ('(Gareth Thomas  \(Clwyd, West\)) \(Lab\)', '\\1', 1, '2004-03-17'),
         ('23. (Mr. David Rendel)', '\\1', 1, '2003-06-30'),
         ('<B> Caroline Flint\): </B>', '<B> Caroline Flint: </B>', 1, '2003-07-14'),

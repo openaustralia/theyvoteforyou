@@ -113,8 +113,9 @@ def FilterDebateColTime(fout, text, sdate):
 			elif lcolnum < colnum:
 				raise Exception, "Colnum not incrementing %d -- %s" % (lcolnum, fss)
 
-			# write a column number stamp
-			colnum = lcolnum
+			# write a column number stamp (has to increase no matter what)
+			if lcolnum > colnum:
+				colnum = lcolnum
 			fout.write('<stamp coldate="%s" colnum="%s"/>' % (sdate, colnum))
 			continue
 

@@ -26,6 +26,7 @@ from miscfuncs import WriteXMLFile
 from filterdivision import FilterDivision
 from filterdebatespeech import FilterDebateSpeech
 
+
 fixsubs = 	[
         ( 'Taylor, Andrew', 'Turner, Andrew', 1, '2003-02-26'),
         ( '(Brown, Russell),', '\\1', 1, '2003-09-10'),
@@ -57,10 +58,71 @@ fixsubs = 	[
 
 	( '<UL><UL><UL>Adjourned', '<UL>Adjourned', 1, '2004-03-05'),
 	( 'o\'clock\.\s*</UL></UL></UL>', 'o\'clock.</UL>', 1, '2004-03-05'),
-        
+
 	( '<UL><UL><UL>', '<UL>', 1, 'all'),
 	( '</UL></UL></UL>', '</UL>', 1, 'all'),
 		]
+
+rehousediv = re.compile('<p[^>]*>(?:<i>)?\s*The (?:House|Committee) (?:having )?divided(?:</i>|:)+ Ayes,? (\d+), Noes (\d+)\.</p>$')
+
+foutdivisionreports = open("divreport.html", "w")
+#foutdivisionreports = None
+def PreviewDivisionTextGuess(foutdivisionreports, flatb):
+	# loop back to find the heading title
+	# (replicating the code in the publicwhip database builder, for preview)
+	iTx = 1
+	i = 1
+	heading = "NONE"
+	while i < len(flatb):
+		if re.search("division", flatb[-i].typ) and iTx == 1:
+			iTx = i
+		if re.search("heading", flatb[-i].typ):
+			heading = string.join(flatb[-i].stext)
+			break
+		i += 1
+	# the place we search for motion text from
+	if iTx == 1:
+		iTx = i
+ 	# keep going back to find the major heading
+ 	if i < len(flatb) and not re.search("major-heading", flatb[-i].typ):
+		while i < len(flatb):
+			i += 1
+			if re.search("major-heading", flatb[-i].typ):
+				heading = '%s %s' % (string.join(flatb[-i].stext), heading)
+				break
+
+	divno = re.search('divnumber="(\d+)"', flatb[-1].speaker).group(1)
+	link = flatb[-1].sstampurl.GetUrl()
+	pwlink = 'http://www.publicwhip.org.uk/division.php?date=%s&number=%s' % (flatb[-1].sstampurl.sdate, divno)
+	foutdivisionreports.write('<h2><a href="%s">Division %s</a>   <a href="%s">%s</a></h2>\n' % (pwlink, divno, link, heading))
+
+	hdivcg = re.match('\s*<divisioncount ayes="(\d+)" noes="(\d+)"', flatb[-1].stext[0])
+	hdivcayes = string.atoi(hdivcg.group(1))
+	hdivcnoes = string.atoi(hdivcg.group(2))
+
+	# check for house divided consistency in vote counting
+	bMismatch = False
+	hdg = rehousediv.match(flatb[-2].stext[-1])
+	if hdg:
+		hdivayes = string.atoi(hdg.group(1))
+		hdivnoes = string.atoi(hdg.group(2))
+
+		if (hdivayes != hdivcayes) or (hdivnoes != hdivcnoes):
+			bMismatch = True
+
+	if bMismatch:
+		foutdivisionreports.write('<p><b>Mismatch Count Ayes: %d, Count Noes: %d.</b></p>\n' % (hdivcayes, hdivcnoes))
+
+	# write out the detected motion text for Francis
+	while iTx >= 3:
+		iTx -= 1
+		j = 0
+		while j < len(flatb[-iTx].stext):
+			if re.search('pwmotiontext="True"', flatb[-iTx].stext[j]):
+				foutdivisionreports.write("%s\n" % flatb[-iTx].stext[j])
+			j += 1
+
+
 
 # parse through the usual intro headings at the beginning of the file.
 #[Mr. Speaker in the Chair] 0
@@ -220,8 +282,11 @@ def DivisionParsingPart(divno, unspoketxt, stampurl, sdate):
 # pull out the lines in the previous speech
 #	<p><i>Question put,</i> That the amendment be made: &mdash; </p>
 #	<p class="announce-division" ayes="145" noes="366"><i>The House divided:</i> Ayes 145, Noes 366.</p>
-rehousediv = re.compile('<p[^>]*><i>The (?:House|Committee) (?:having )?divided(?:</i>|:)+ Ayes (\d+), Noes (\d+)\.</p>$')
 rehousedivmarginal = re.compile('house divided.*?ayes.*?Noes')
+
+# these are cases where a division is a correction, so there is no text above 
+# (in the database the result gets substituted)
+redivshouldappear = re.compile('.*?Division .*? should appear as follows:|.*?in col.*?insert')
 
 #<a name="40316-33_para15"><i>It being Seven o'clock,</i> Madam Deputy Speaker <i>put the Question already proposed from the Chair, pursuant to Order [5 January].</i>
 regqput = ".*?question put.*?</p>"
@@ -230,6 +295,17 @@ regitbe = "(?:<[^>]*>|\s)*It being .*?o'clock(?i)"
 regitbepq = "(?:<[^>]*>|\s)*It being .*? hours .*? put the question(?i)"
 regitbepq1 = "(?:<[^>]*>|\s)*It being .*? (?:hour|minute).*?(?i)"
 reqput = re.compile('%s|%s|%s|%s|%s(?i)' % (regqput, regqputt, regitbe, regitbepq1, regitbepq))
+
+# this hack sets the motion text flag on a set of paragraphs
+# for use by the publicwhip motion text stuff
+def SubsPWtextset(stext):
+	res = [ ]
+	for st in stext:
+		if re.search('pwmotiontext="True"', st) or not re.match('<p', st):
+			res.append(st)
+		else:
+			res.append(re.sub('<p(.*?)>', '<p\\1 pwmotiontext="True">', st))
+	return res
 
 def GrabDivisionProced(qbp, qbd):
 	if qbp.typ != 'speech' or len(qbp.stext) < 1:
@@ -244,44 +320,42 @@ def GrabDivisionProced(qbp, qbd):
 
 	hdg = rehousediv.match(qbp.stext[-1])
 	if not hdg:
+		hdg = redivshouldappear.match(qbp.stext[-1])
+	if not hdg:
 		print qbp.stext[-1]
 		# another correction one
-		if qbp.sstampurl.sdate == '2003-09-16':
-			return None
-		raise Exception, "no house divided before division"
-
-	# check for house divided consistency in vote counting
-	hdivayes = string.atoi(hdg.group(1))
-	hdivnoes = string.atoi(hdg.group(2))
-	hdivcg = re.match('\s*<divisioncount ayes="(\d+)" noes="(\d+)"', qbd.stext[0])
-	hdivcayes = string.atoi(hdivcg.group(1))
-	hdivcnoes = string.atoi(hdivcg.group(2))
-
-	if (hdivayes != hdivcayes) or (hdivnoes != hdivcnoes):
-		print "Mismatch in vote-counting [tbd full report]"
-		print qbp.stext[-1]
-		print qbd.stext[0]
+		#:  qbp.sstampurl.sdate == '2003-09-16':
+		if True:
+			raise Exception, "no house divided before division"
+		return None
 
 	# if previous thing is already a no-speaker, we don't need to break it out
 	# (the coding on the question put is complex and multilined)
 	if re.search('nospeaker="true"', qbp.speaker):
+		qbp.stext = SubsPWtextset(qbp.stext)
 		return None
 
+	# look back at previous paragraphs and skim off a part of what's there
+	# to make a non-spoken bit reporting on the division.
 	iskim = 1
-	hdq = reqput.match(qbp.stext[-2])
-	if not hdq:
-		# this is the speaker telling them to move on
-		if not re.search('Serjeant at Arms|peaceful outcome', qbp.stext[-2]):
-			print qbp.stext[-2]
-			raise Exception, "no question put before division"
-
+	if re.search('Serjeant at Arms|peaceful outcome', qbp.stext[-2]):
+		pass
 	else:
-		iskim = 2
+		while len(qbp.stext) >= iskim:
+			if reqput.match(qbp.stext[-iskim]):
+				break
+			iskim += 1
+
+		# haven't found a question put before we reach the front
+		if len(qbp.stext) < iskim:
+			iskim = 1
+			# VALID in 99% of cases: raise Exception, "no question put before division"
 
 	# copy the two lines into a non-speaking paragraph.
 	qbdp = qspeech('nospeaker="true"', "", qbp.sstampurl)
 	qbdp.typ = 'speech'
-	qbdp.stext = qbp.stext[-iskim:]
+	qbdp.stext = SubsPWtextset(qbp.stext[-iskim:])
+
 
 	# trim back the given one by two lines
 	qbp.stext = qbp.stext[:-iskim]
@@ -333,11 +407,17 @@ def FilterDebateSections(fout, text, sdate):
 		# division case
 		else:
 			(unspoketxt, qbd) = DivisionParsingPart(string.atoi(gdiv.group(1)), unspoketxt, stampurl, sdate)
+
+			# grab some division text off the back end of the previous speech 
+			# and wrap into a new no-speaker speech
 			qbdp = GrabDivisionProced(flatb[-1], qbd)
 			if qbdp:
 				flatb.append(qbdp)
 			flatb.append(qbd)
 
+			# write out our file with the report of all divisions
+			if foutdivisionreports:
+				PreviewDivisionTextGuess(foutdivisionreports, flatb)
 
 		# continue and output unaccounted for unspoken text occuring after a
 		# division, or after a heading

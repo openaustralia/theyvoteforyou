@@ -224,7 +224,7 @@ class MemberList(xml.sax.handler.ContentHandler):
 
     # Resets history - exclusively for debates pages
     # The name history stores all recent names:
-    #   Mr. Stephen O'Brien (Eddisbury) 
+    #   Mr. Stephen O'Brien (Eddisbury)
     # So it can match them when listed in shortened form:
     #   Mr. O'Brien
     def cleardebatehistory(self):
@@ -248,7 +248,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         ids = self.fullnametoids(input, date)
         # Different types of brackets...
         if bracket:
-            # Sometimes name in brackets: 
+            # Sometimes name in brackets:
             # The Minister for Industry and the Regions (Jacqui Smith)
             brackids = self.fullnametoids(bracket, date)
             if brackids:
