@@ -1,5 +1,5 @@
 #!/usr/bin/env python2.3
-# $Id: faxyourmpconv.py,v 1.3 2004/04/26 16:56:17 frabcus Exp $
+# $Id: faxyourmpconv.py,v 1.4 2004/05/30 10:59:52 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Converts Fax Your MP responsiveness CSV file into XML - matching
@@ -53,13 +53,18 @@ for row in csvreader:
     if origcons == "Stefstown": # i didn't know stef was knighted
         continue
     
-    id, name, cons =  memberList.matchfullnamecons(origname, origcons, date_today)
-    if voteside.lower() == "no":
-        nohash[id] = nohash.get(id, 0) + int(votecount)
-    elif voteside.lower() == "yes":
-        yeshash[id] = yeshash.get(id, 0) + int(votecount)
+    try:
+        id, name, cons =  memberList.matchfullnamecons(origname, origcons, date_today)
+    except Exception, e:
+        print >>sys.stderr, "FaxYourMP name match failed"
+        print >>sys.stderr, e
     else:
-        raise Exception, "Strange vote %s" % voteside
+        if voteside.lower() == "no":
+            nohash[id] = nohash.get(id, 0) + int(votecount)
+        elif voteside.lower() == "yes":
+            yeshash[id] = yeshash.get(id, 0) + int(votecount)
+        else:
+            raise Exception, "Strange vote %s" % voteside
 
 ih.close()
 
