@@ -261,14 +261,13 @@ def FilterDebateSections(fout, text, sdate):
                                 bmajorheading = True
                                 stampurl.majorheading = stampurl.title
 				stampurl.title = ''
-
                         # Other major headings, marked by _head in their anchor tag - doesn't seem
                         # worth checking their names.
-                        if re.search('_head', stampurl.aname):
+                        elif re.search('_head', stampurl.aname):
                                 bmajorheading = True
 				stampurl.majorheading = stampurl.title
 				stampurl.title = ''
-                                
+
                         # write out block for headings
                         if bmajorheading:
                                 qb = qspeech('', stampurl.majorheading, stampurl, sdate)
