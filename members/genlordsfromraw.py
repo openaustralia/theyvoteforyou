@@ -1,6 +1,7 @@
 import re
 import os
 import sys
+import string 
 
 import mx.DateTime
 
@@ -43,6 +44,14 @@ class lordrecord:
 		self.date = ''
 		self.source = ''
 
+		self.comments = ''
+
+	def daltname(self):
+		if self.lordname:
+			return self.lordname
+		assert self.lordofname
+		return self.lordofname
+
 	def OutRecord(self, fout):
 		fout.write('<lord\n')
 		fout.write('\tid="uk.org.publicwhip/lord/%d"\n\thouse="lords"\n' % self.lid)
@@ -51,7 +60,15 @@ class lordrecord:
 		fout.write('\tpeeragetype="%s" affiliation="%s"\n' % (self.peeragetype, self.affiliation))
 		fout.write('\tfromdate="%s"\n' % self.date)
 		fout.write('\tsource="%s"\n' % self.source)
+		fout.write('\tcomment="%s"\n' % self.comments)
 		fout.write('/>\n')
+
+	def __repr__(self):
+		return '<%s [%s] [of %s]>' % (self.title, self.lordname, self.lordofname)
+
+
+def lrsort(nr1, nr2):
+	return nr1.daltname() < nr2.daltname()
 
 #	<TR VALIGN=TOP>
 #		<TD WIDTH=222 HEIGHT=16 BGCOLOR="#ffffbf">
@@ -75,19 +92,24 @@ class lordsrecords:
 		self.lordrec = [ ]
 
 	# find a record with matching stuff
-	def FindRec(self, lname, ltitle, lofname, bForce):
+	def FindRec(self, lname, ltitle, lofname):
+
+		# these work on blank fields
 
         # match by name
-		renam = re.compile(lname, re.I)
-		lr1 = [ ]
+		lr1a = [ ]
 		for r in self.lordrec:
-			if renam.match(r.lordname):
+			if lname == r.lordname:
+				lr1a.append(r)
+
+		# match by ofname
+		lr1 = [ ]
+		for r in lr1a:
+			if lofname == r.lordofname:
 				lr1.append(r)
 
 		# no match cases
 		if not lr1:
-			if bForce:
-				print "failed to find " + lname
 			return None
 
 		# match by title
@@ -98,46 +120,29 @@ class lordsrecords:
 				lr2.append(r)
 
 		if not lr2:
-			if bForce:
-				print "failed to find " + ltitle + " " + lname + " in " + lr1[0].title
 			return None
+
+		if len(lr2) != 1:
+			print lr2
+		assert len(lr2) == 1
 
 		return lr2[0]
 
-	# run through and find extended names information
-	def LoadExtendedNames(self, fpath, fname):
-		fin = open(os.path.join(fpath, fname), "r")
-		text = fin.read()
-		fin.close()
 
-		# extract the rows (very cheeky splitting of the <br> tag
-		rows = re.findall('[rp]>\s*([^<]*)<b(?i)', text)
-		for row in rows:
-			if not row:
-				continue
-			row = re.sub('\s+', ' ', row)
-
-			#ACTON, RICHARD GERALD, Lord (sits as Lord Acton of Bridgnorth)
-			fnm = re.match('(.*?)(?: OF (.*?))?,\s*(.*?),\s*(.*?)\s*(?:\((.*?)\))?$', row)
-			if fnm.group(5):
-				continue # don't know what to do here
-
-			ltitle = fnm.group(4)
-			lname = re.sub('&#8217;', "'", fnm.group(1))
-			lofname = fnm.group(2)
-			lfrontnames = fnm.group(3)	# needs here to case down by case
-
-			# find the record in the list
-			r = self.FindRec(lname, ltitle, lofname, True)
-
-			# we have the name, now give it the full thing
-			if r: # should never fail
-				r.frontnames = lfrontnames
 
 	def AddRecord(self, nr):
-		r = self.FindRec(nr.lordname, nr.title, nr.lordofname, False)
+		r = self.FindRec(nr.lordname, nr.title, nr.lordofname)
 		if not r:
 			# check consistency
+			self.lordrec.append(nr)
+
+	def AddExtnameRecord(self, nr):
+		r = self.FindRec(nr.lordname, nr.title, nr.lordofname)
+		if r:
+			r.frontnames = nr.frontnames
+			r.comments = nr.comments
+		else:
+			nr.comments = nr.comments + " -- in extname, missing from mainlists"
 			self.lordrec.append(nr)
 
 
@@ -165,7 +170,16 @@ def LoadTableWithFromDate(fpath, fname):
 		# decode the easy parts
 		lordrec.peeragetype = cols[1]
 		lordrec.affiliation = cols[2]
-		lordrec.date = cols[3] # mx.DateTime.DateFrom(cols[3]).date
+
+		# the mx.datetime can't handle this
+		dt = re.match('(\d{1,2})/(\d{1,2})/(\d{4})', cols[3])
+		assert dt
+		dyr = string.atoi(dt.group(3))
+		dmo = string.atoi(dt.group(2))
+		dda = string.atoi(dt.group(1))
+		assert (dyr <= 2004) and (dyr > 1900) and (dmo >= 1) and (dmo <= 12) and (dda >= 1) and (dda <= 31)
+		lordrec.date = '%04d-%02d-%02d' % (dyr, dmo, dda)
+
 		lordrec.source = fname
 
 		# decode the fullname
@@ -178,10 +192,55 @@ def LoadTableWithFromDate(fpath, fname):
 		if lfn.group(2):
 			lordrec.lordofname = lfn.group(2)
 
+		# map the bishops into of-names
+		if re.search('bishop(?i)', lordrec.title):
+			assert not lordrec.lordofname
+			lordrec.lordofname = lordrec.lordname
+			lordrec.lordname = ''
+
 		res.append(lordrec)
 
 	return res
 
+# run through and find extended names information
+# this creates incomplete records which are later to be merged with the main list
+def LoadExtendedNames(fpath, fname):
+	fin = open(os.path.join(fpath, fname), "r")
+	text = fin.read()
+	fin.close()
+
+	res = [ ]
+
+	# extract the rows (very cheeky splitting of the <br> tag
+	rows = re.findall('[rp]>\s*([^<]*)<b(?i)', text)
+	for row in rows:
+		if not row:
+			continue
+		row = re.sub('\s+', ' ', row)
+
+		#ACTON, RICHARD GERALD, Lord (sits as Lord Acton of Bridgnorth)
+		fnm = re.match('(.*?)(?: OF (.*?))?,\s*(.*?),\s*(.*?)( of)?\s*(?:\((.*?)\))?$', row)
+
+		lordrec = lordrecord()
+
+		lordrec.source = fname
+
+		lordrec.title = fnm.group(4)
+		lordrec.lordname = string.capwords(re.sub('&#8217;', "'", fnm.group(1)))
+		if fnm.group(2):
+			lordrec.lordofname = string.capwords(fnm.group(2))
+		lordrec.frontnames = string.capwords(fnm.group(3))
+		if fnm.group(5):
+			assert not lordrec.lordofname
+			lordrec.lordofname = lordrec.lordname
+			lordrec.lordname = ''
+
+		if fnm.group(6):
+			lordrec.comments  = fnm.group(6)
+
+		res.append(lordrec)
+
+	return res
 
 
 
@@ -195,23 +254,51 @@ rr2 = LoadTableWithFromDate('../rawdata/lords', 'LordsSince1997.html')
 # combine the inputs (could then sort and check duplicates)
 rr = lordsrecords()
 rr.lordrec.extend(rr1)
+
+# merge in records from second list
 for nr in rr2:
 	rr.AddRecord(nr)
 
-rr.LoadExtendedNames('../rawdata/lords', 'Lords2003-11-26.html')
+# merge in and over-write fields from extendednames list
+rr3 = LoadExtendedNames('../rawdata/lords', 'Lords2003-11-26.html')
+for nr in rr3:
+	rr.AddExtnameRecord(nr)
 
+# get the list sorted
+rr.lordrec.sort(lrsort)
 
 # write out the file
 lordsxml = open('all-lords.xml', "w")
 lordsxml.write("""<?xml version="1.0" encoding="ISO-8859-1"?>
 <publicwhip>
 
+<lord
+	id="uk.org.publicwhip/lord/0"
+	house="lords"
+	title="Queen" lordname="Elizabeth" lordofname="Windsor"
+	frontnames=""
+	peeragetype="Monarch" affiliation="Crown"
+	fromdate="1954-01-30"
+	source=""
+	comment=""
+/>
+
 """)
+
+
 lid = 1
 for r in rr.lordrec:
 	r.lid = lid
 	r.OutRecord(lordsxml)
 	lid += 1
+
+lordsxml.write("""
+
+<lordalias fullname="The Lord Bishop of Salisbury" alternate="Lord Bishop of Salisbury" />
+<lordalias fullname="The Lord Bishop of London" alternate="Lord Bishop of London" />
+<lordalias fullname="St. Edmundsbury and Ipswich" alternate="Edmundsbury and Ipswich" />
+""")
+
 lordsxml.write("\n</publicwhip>\n")
 lordsxml.close()
 

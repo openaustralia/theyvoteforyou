@@ -36,6 +36,8 @@ class LordsList(xml.sax.handler.ContentHandler):
 		self.lordnames={} # "lordnames" --> lords
 		self.parties = {} # constituency --> MPs
 
+		self.aliasfulllordname = { }
+
 		parser = xml.sax.make_parser()
 		parser.setContentHandler(self)
 		parser.parse("../members/all-lords.xml")
@@ -56,14 +58,18 @@ class LordsList(xml.sax.handler.ContentHandler):
 				if lnamed != lname:
 					self.lordnames.setdefault(lnamed, []).append(attr)
 
+		if name == "lordalias":
+			self.aliasfulllordname[attr["alternate"]] = attr["fullname"]
 
+	# main matchinf function
 	def MatchLordName(self, ltitle, llordname, llordofname):
+
 		lname = llordname
 		if not lname:
 			lname = llordofname
 
 		lmatches = self.lordnames.get(lname, None)
-		if lmatches: ## any number for now
+		if lmatches: # any number for now
 			return lmatches[0]["id"]
  		print "Not found " + lname
 		return "unrecognized"
@@ -88,6 +94,7 @@ def GetLordSpeakerID(ltitle, llordname, llordofname, loffice, sdate):
 	lid = lordlist.MatchLordName(ltitle, llordname, llordofname)
 	if lid == "unrecognized":
 		print (ltitle, llordname, llordofname)
+		raise Exception, "no matched name"
 	return lid
 
 
@@ -193,15 +200,18 @@ def LordsFilterSpeakers(fout, text, sdate):
 		if re.match('noble lords|a noble lord|a noble baroness(?i)', name):
 			fout.write('<speaker speakerid="%s">%s</speaker>' % ('no-match', name))
 			continue
-		if re.match('the (?:deputy )?chairman of committees|the deputy speaker|the clerk of the parliaments(?i)', name):
+		if re.match('the (?:deputy )?chairman of committees|the deputy speaker|the clerk of the parliaments|the lord chancellor(?i)', name):
 			fout.write('<speaker speakerid="%s">%s</speaker>' % ('no-match', name))
 			continue
+
+		# sort out any lords aliases
+		name = lordlist.aliasfulllordname.get(name, name)
 
 		hom = honcompl.match(name)
 		if not hom:
 			fout.write('<speaker speakerid="%s">%s</speaker>' % ('no-match', name))
-			print name
-			continue
+			print "format failure on " + name
+			raise Exception, "lord name format failure"
 
 		# now we have a speaker, try and break it up
 		ltit = hom.group(1)
@@ -214,7 +224,7 @@ def LordsFilterSpeakers(fout, text, sdate):
 
 		lsid = GetLordSpeakerID(ltit, lname, lplace, loffice, sdate)
 
-		fout.write('<speaker speakerid="%s" colon="%s">%s</speaker>' % (lsid, colon, name))
+		fout.write('<speaker speakerid="%s" speakername="%s" colon="%s">%s</speaker>' % (lsid, name, colon, name))
 
 
 

@@ -49,8 +49,8 @@ recolumnumvals = re.compile('(?:<p>|</ul>|<font size=\d>|\s|</?a[^>]*>)*?<b>([^:
 # <H5>12.31 p.m.</H5>
 # the lords times put dots in "p.m."  but the commons never do.
 regtime1 = '(?:</?p>\s*|<h[45]>|\[|\n)(?:\d+(?:[:\.]\d+)?\.?\s*[ap]\.m\.\s*(?:</st>)?|12 noon)(?:\s*</?p>|\s*</h[45]>|\n)'
-regtime2 = '<H5>Noon\s*</st></H5>'
-retimevals = re.compile('(?:</?p>\s*|<h\d>|\[|\n)\s*(\d+(?:[:\.]\d+)?\s*[apmnon\.]+|Noon)(?i)')
+regtime2 = '<H5>(?:Noon|Midnight)\s*</st></H5>'
+retimevals = re.compile('(?:</?p>\s*|<h\d>|\[|\n)\s*(\d+(?:[:\.]\d+)?\s*[apmnon\.]+|Noon|Midnight)(?i)')
 
 # <a name="column_1099">
 reaname = '<a name\s*=\s*"[^"]*"></a>(?i)'
