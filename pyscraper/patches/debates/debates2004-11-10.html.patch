@@ -1,0 +1,287 @@
+--- C:\publicwhip\pwdata\cmpages\debates\debates2004-11-10.html	Thu Nov 18 09:35:41 2004
++++ C:\publicwhip\pwdata\cmpages\debates\debates2004-11-10-patchtmp.html	Thu Nov 18 10:30:00 2004
+@@ -15,11 +15,11 @@
+ <b>10 Nov 2004 : Column 825</b>
+ 
+ <br>&nbsp;<br>
+-<h2 align=center><a name="place_0">House of Commons</h2>
+-<h4 align=center><a name="date_0">Wednesday 10 November 2004</h4>
+-<h4 align=center><a name="hd_0">The House met at half-past Eleven o&#039;clock</h4>
+-<h4 align=center><a name="hd_1">PRAYERS</h4>
+-<h4 align=center><a name="hd_2">[Mr. Speaker in the Chair]</h4>
++<h2 align=center>House of Commons</h2>
++<h4 align=center>Wednesday 10 November 2004</h4>
++<h4 align=center>The House met at half-past Eleven o&#039;clock</h4>
++<h4 align=center>PRAYERS</h4>
++<h4 align=center>[Mr. Speaker in the Chair]</h4>
+ 
+ 
+ <a name="oralhd_0">
+@@ -31,12 +31,12 @@
+ <a name="41110-01_sbhd0"><h4 align=center>Sierra Leone</h4>
+ 
+ 
+-<p><a name="qn_0">1. <a name="41110-01_wqn0"><b> Mr. Win Griffiths  (Bridgend)</b> 
++<p><a name="qn_0">1. <a name="41110-01_wqn0"><b> Mr. Win Griffiths  (Bridgend)</b>
+  (Lab): What plans he has to visit Sierra Leone in the next three months to discuss progress on the agreement made with its Government on the development of Sierra Leone after the civil war.  [197140]
+ </p>
+ 
+ 
+-<p><a name="st_0"><a name="41110-01_spmin0"><b>The Secretary of State for International Development  (Hilary Benn): </b> 
++<p><a name="st_0"><a name="41110-01_spmin0"><b>The Secretary of State for International Development  (Hilary Benn): </b>
+  I was in Sierra Leone in March this year. During my visit I had wide-ranging discussions about progress on our 10-year agreement. We are about to carry out a joint review of it with the Government of Sierra Leone.
+ </p>
+ 
+@@ -122,7 +122,7 @@
+ </p>
+ 
+ 
+-<p><a name="st_7"><a name="41110-01_spmin1"><b>The Parliamentary Under-Secretary of State for International Development  (Mr. Gareth Thomas): </b> 
++<p><a name="st_7"><a name="41110-01_spmin1"><b>Mr. Gareth Thomas (Harrow West): </b>
+  Remittances from the UK are estimated at between &#163;3 billion and &#163;4 billion, with the Indian sub-continent, the Caribbean and sub-Saharan Africa the leading 
+ 
+ <br>&nbsp;<br>
+@@ -209,7 +209,7 @@
+ 
+ 
+ 
+-<p><a name="st_15"><a name="41110-01_spnew12"><b> Tony Worthington  (Clydebank and Milngavie)</b> 
++<p><a name="st_15"><a name="41110-01_spnew12"><b> Tony Worthington  (Clydebank and Milngavie)</b>
+  (Lab): The Secretary of State knows that this is an immense problem. As more money goes in to HIV/AIDS and reproductive health, it simply will not be possible to improve health services unless we improve the supply of nurses and doctors. There is no sign of any international effort to tackle that issue. Staff are emigrating; staff are themselves dying from HIV/AIDS and there is a totally unsatisfactory secondary and tertiary health system. Perhaps there should be a World Health Organisation-led effort to deal with the problem of the capacity of health services through human resources in Africa.
+ </p>
+ 
+@@ -522,8 +522,8 @@
+ 
+ 
+ 
+-<h4 align=center><a name="hd_4">PRIME MINISTER</h4>
+-<h4 align=center><a name="hd_5">The Prime Minister was asked&#151;</h4>
++<h4 align=center>PRIME MINISTER</h4>
++<h4 align=center>The Prime Minister was asked&#151;</h4>
+ <a name="subhd_6">
+ <a name="41110-03_sbhd2"><h4 align=center>Arctic Star Campaign Medal</h4>
+ 
+@@ -533,7 +533,7 @@
+ </p>
+ 
+ 
+-<p><a name="st_41"><a name="41110-03_spmin2"><b>The Prime Minister  (Mr. Tony Blair): </b> 
++<p><a name="st_41"><a name="41110-03_spmin2"><b>The Prime Minister  (Mr. Tony Blair): </b>
+  Perhaps I can answer this question in a little detail, if I might. First, we owe the heroes of the Arctic convoys an immense debt of gratitude. They risked, and in many cases gave, their lives under some of the harshest conditions imaginable in order to keep this nation free and democratic in the second world war.
+ </p>
+ 
+@@ -1071,11 +1071,9 @@
+ 
+ <a name="topichd_0">
+ <a name="41110-05_head0"><h3 align=center>Train Derailment (Ufton)</h3>
+-<a name="time_0">
+-<a name="41110-05_time0"><h5></h5>
+ 
+ 
+-<p><a name="st_0"><a name="41110-05_spmin0"><b>The Secretary of State for Transport  (Mr. Alistair Darling): </b> 
++<p><a name="st_0"><a name="41110-05_spmin0"><b>The Secretary of State for Transport  (Mr. Alistair Darling): </b>
+  With permission, Mr Speaker, I would like to make a short statement on the train derailment that occurred at the Ufton level crossing in Berkshire on Saturday evening.
+ </p>
+ 
+@@ -1698,11 +1696,9 @@
+ 
+ <br>&nbsp;<br>
+ <a name="41110-08_head0"><h3 align=center>Alcohol-Related Anti-Social Behaviour and Domestic Violence</h3>
+-<a name="time_1">
+-<a name="41110-08_time0"><h5></h5>
+ 
+ 
+-<p><a name="st_35"><a name="41110-08_spnew11"><b> Mr. Andrew Turner </b> 
++<p><a name="st_35"><a name="41110-08_spnew11"><b> Mr. Andrew Turner </b>
+ : I beg to move,
+ </p>
+ <ul>
+@@ -1866,14 +1862,14 @@
+ 
+ 
+ <br>
+-<center><a name="amdthd_0">Alcohol-Related Anti-Social Behaviour And Domestic Violence</center><br>
++<center>Alcohol-Related Anti-Social Behaviour And Domestic Violence</center><br>
+ 
+ 
+ <p><a name="st_37">Mr. Andrew Turner accordingly presented a Bill to amend the law relating to antisocial behaviour orders to extend their application to cases of domestic violence and alcohol-related disorder: And the same was read the First time; and ordered to be read a Second time on Friday 19 November, and to be printed [Bill 177].</p>
+ 
+ 
+ 
+-<h4 align=center><a name="hd_0">HUMAN TISSUE BILL (PROGRAMME) (NO. 2)</h4>
++<h4 align=center>HUMAN TISSUE BILL (PROGRAMME) (NO. 2)</h4>
+ 
+ 
+ <p><a name="st_38"><i>Motion made, and Question put forthwith, pursuant to Orders [28 June 2001 and 6 November 2003],</i>
+@@ -3269,12 +3265,10 @@
+ 
+ 
+ <br>
+-<center><a name="amdthd_1">Prohibition of activities without consent etc.</center><br>
++<center>Prohibition of activities without consent etc.</center><br>
+ 
+ 
+ <p><a name="st_42"><i>Lords amendment</i>: No. 1
+-<a name="time_2">
+-<a name="41110-10_time0"><h5></h5>
+ </p>
+ 
+ 
+@@ -3370,8 +3364,6 @@
+ 
+ 
+ <p><a name="st_48"><i>Lords amendment No. 2 agreed to.</i>
+-<a name="time_3">
+-<a name="41110-10_time1"><h5></h5>
+ </p>
+ 
+ 
+@@ -3384,7 +3376,7 @@
+ 
+ 
+ <br>
+-<center><a name="amdthd_2">Activities involving material from adults who lack capacity to consent</center><br>
++<center>Activities involving material from adults who lack capacity to consent</center><br>
+ 
+ 
+ <p><a name="st_50"><i>Lords amendment:</i> No. 3
+@@ -3455,7 +3447,7 @@
+ 
+ 
+ <br>
+-<center><a name="amdthd_3">Powers of court to dispense with need for consent</center><br>
++<center>Powers of court to dispense with need for consent</center><br>
+ 
+ 
+ <p><a name="st_56"><i>Lords amendment:</i> No. 4
+@@ -3608,8 +3600,6 @@
+ <p>
+ <a name="41110-11_para2">
+ <a name="stpa_81">The Government recognise that extending the &quot;missing persons&quot; order under clause 7(1) and schedule 5(9) to &quot;non-responders&quot; may result in an increase in the number of applications to waive consent to use tissue in these situations. It is clear, however, that the numbers will still be small. There are 18 genetics centres in England, for example, and we might anticipate that each might have a couple of cases a year. We consider that it should remain an exceptional circumstance, but to save any potential burden on, and cost to, the NHS and to make it easier for both professionals and patients, we consider it appropriate for such applications to be made to the Human Tissue Authority rather than to the High Court.
+-<a name="time_4">
+-<a name="41110-11_time0"><h5></h5>
+ </p>
+ 
+ <p>
+@@ -3758,8 +3748,6 @@
+ 
+ <p><a name="st_67"><a name="41110-12_spnew0"><b> Mrs. Patsy Calton  (Cheadle) (LD):</b> 
+  I want to bring to the attention of the House a number of points that have surfaced recently from the cancer research world, on which I seek clarification from the Minister. The concerns relate to material that has been stored previously, such as material stored several years ago. As someone whose material was stored several years ago, I can speak with some authority on the matter. I understand that ethics committees are already refusing permission because of the lack of consent in cases such as that of my own stored material. A number of people in my position would be horrified to think that material that had been lying in a tissue bank for some years could not be used now because of misunderstandings about the intentions of the Bill.
+-<a name="time_5">
+-<a name="41110-12_time0"><h5></h5>
+ </p>
+ 
+ <p>
+@@ -3871,7 +3859,7 @@
+ 
+ 
+ <br>
+-<center><a name="amdthd_4">Restriction on transplants involving a live donor</center><br>
++<center>Restriction on transplants involving a live donor</center><br>
+ 
+ 
+ <p><a name="st_74"><i>Lords amendment:</i> No. 18
+@@ -3927,8 +3915,6 @@
+ <p>
+ <a name="41110-12_para12">
+ <a name="stpa_108">We accept that both regulation-making powers should be subject to the same level of scrutiny, and the amendments will thus make the definition of transplantable material a matter for regulations subject to the affirmative procedure made by the Secretary of State. As with the other affirmative powers in the Bill, the Secretary of State will have to consult the National Assembly for Wales and the relevant Northern Ireland Department before acting under the powers.
+-<a name="time_6">
+-<a name="41110-12_time1"><h5></h5>
+ </p>
+ 
+ 
+@@ -4015,7 +4001,7 @@
+ 
+ 
+ <br>
+-<center><a name="amdthd_5">Inspectorate of anatomy and pathology</center><br>
++<center>Inspectorate of anatomy and pathology</center><br>
+ 
+ 
+ <p><a name="st_85"><i>Lords amendment:</i> No. 19
+@@ -4108,8 +4094,6 @@
+ <p>
+ <a name="41110-13_para10">
+ <a name="stpa_119">The Minister will not be surprised if I remind her that on Third Reading on 28 June at column 118, I asked whether it was the intention of the Government, who had initiated the review of arm&#039;s-length bodies at that stage, to combine the work of the HFEA and HTA. Those of us who served on the Standing Committee were only too well aware that the two authorities were designed to function in a similar manner, and we raised that issue in February. Happily, our advice was that if that was the Government&#039;s intention, they should at least tell the other place before the Bill completed its passage. That was overtaken in September by further announcements on the review.
+-<a name="time_7">
+-<a name="41110-13_time0"><h5></h5>
+ </p>
+ 
+ <p>
+@@ -4250,8 +4234,6 @@
+ <p>
+ <a name="41110-14_para4">
+ <a name="stpa_137">The hon. Member for Oxford, West and Abingdon asked whether the merger was appropriate. The HFEA currently licenses in vitro fertilisation, fertility clinics and the storage of sperm, eggs and embryos. We believe that its approach and structure and those of the HTA are similar and that merging will not significantly disrupt their activities.
+-<a name="time_8">
+-<a name="41110-14_time0"><h5></h5>
+ </p>
+ 
+ <p>
+@@ -4458,8 +4440,6 @@
+ 
+ <p><a name="st_102"><a name="41110-15_spnew2"><b> Dr. Murrison: </b> 
+  Perhaps I can expand a little further. If a doctor was required, for example, to remove a part of a body&#151;disarticulate a part of it&#151;in order to get to or to treat someone who was living, how would he or she stand in relation to the clause?
+-<a name="time_9">
+-<a name="41110-15_time0"><h5></h5>
+ </p>
+ 
+ 
+@@ -4637,12 +4617,10 @@
+ 
+ 
+ <br>
+-<center><a name="amdthd_6">Orders and regulations</center><br>
++<center>Orders and regulations</center><br>
+ 
+ 
+ <p><a name="st_115"><i>Lords amendment:</i> No. 49
+-<a name="time_10">
+-<a name="41110-16_time0"><h5></h5>
+ </p>
+ 
+ 
+@@ -4770,7 +4748,7 @@
+ 
+ 
+ <br>
+-<center><a name="amdthd_7">Commencement</center><br>
++<center>Commencement</center><br>
+ 
+ 
+ <p><a name="st_123"><i>Lords amendment</i>: No. 55
+@@ -4851,7 +4829,7 @@
+ 
+ <h4 align=center>Schedule 1</h4>
+ <br>
+-<center><a name="amdthd_8">Scheduled purposes</center><br>
++<center>Scheduled purposes</center><br>
+ 
+ 
+ <p><a name="st_128"><i>Lords amendment:</i> No. 56
+@@ -4903,8 +4881,6 @@
+ <b>10 Nov 2004 : Column 892</b>
+ 
+ <br>&nbsp;<br>
+-<a name="time_11">
+-<a name="41110-17_time0"><h5></h5>
+ </p>
+ 
+ <p>
+@@ -5188,8 +5164,6 @@
+ 
+ 
+ <p><a name="st_142"><i>Motion made, and Question proposed</i>, That this House do now adjourn.&#151;<i>[Mr. Ainger.]</i>
+-<a name="time_12">
+-<a name="41110-18_time0"><h5></h5>
+ </p>
+ 
+ 
+@@ -5305,8 +5279,6 @@
+ <p>
+ <a name="41110-19_para6">
+ <a name="stpa_217">Is anything being done beyond Northern Ireland, and in relation to the Irish republic, to prevent this activity from happening? We must bear it in mind that the problem will multiply because, according to Irish law, people may claim citizenship through three generations. We are not considering only the circumstances tomorrow, but those for the next three decades at least.
+-<a name="time_13">
+-<a name="41110-19_time0"><h5></h5>
+ </p>
+ 
+ 

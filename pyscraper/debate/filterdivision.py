@@ -83,19 +83,20 @@ def MpList(fsm, vote, sdate):
 def MpTellerList(fsm, vote, sdate):
 	res = [ ]
 	for fss in fsm:
-		while fss:
-			gftell = re.match('\s*(?:and )?([ \w.\-\'&#;]*?)(?: and(.*))?\s*\.?\s*$', fss)
+		while fss: # split by lines, but linefeed sometimes missing
+			gftell = re.match('\s*(?:and )?([ \w.\-\'&#;]*?)(?:\(([ \w.\-\'&#;]*)\))?(?: and(.*))?\s*\.?\s*$', fss)
 			if not gftell:
 				raise Exception, "no match on teller line %s" % fss
 
 			fssf = gftell.group(1)
-			fss = gftell.group(2)
+			fssfcons = gftell.group(2)
+			fss = gftell.group(3)
 
 			if len(res) >= 2:
 				print fsm
 				raise Exception, ' too many tellers '
 
-			(mpid, remadename, remadecons) = memberList.matchfullnamecons(fssf.strip(), None, sdate)
+			(mpid, remadename, remadecons) = memberList.matchfullnamecons(fssf.strip(), fssfcons, sdate)
                         #print fssf, " ++> ", remadename.encode("latin-1")
 			res.append('\t<mpname id="%s" vote="%s" teller="yes">%s</mpname>' % (mpid, vote, FixHTMLEntities(fssf)))
 
