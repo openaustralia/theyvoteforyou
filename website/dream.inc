@@ -20,30 +20,71 @@ function calc_dreammp_person_distance($nvotessame, $nvotessamestrong,
 	return $score / $weight;
 }
 
+# write out an explanation of the calculation above
+function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
+									  $nvotesdiffer, $nvotesdifferstrong,
+									  $nvotesabsent, $nvotesabsentstrong,
+									  $db, $person, $dreamid)
+{
+	global $bdebug;
+
+	if ($bdebug == 1)
+		print "<p>$person ddddd   $dreamid</p>";
+
+	print "<p class=\"indent\">Between this MP and the dreamMP there were $nvotessame agreement(s) and $nvotessamestrong strong agreement(s),
+					$nvotesdiffer disagreement(s) and $nvotesdifferstrong strong disagreement(s),
+					and $nvotesabsent missed vote(s) and $nvotesabsentstrong missed votes where there was a strong demand to vote.</p>\n";
+
+	$tlw = 5.0;
+	$score = $nvotesdiffer + $tlw * $nvotesdifferstrong + 0.1 * $nvotesabsent + ($tlw / 2) * $nvotesabsentstrong;
+	$weight = $nvotessame + $tlw * $nvotessamestrong + $nvotesdiffer + $tlw * $nvotesdifferstrong +
+			  0.2 * $nvotesabsent + $tlw * $nvotesabsentstrong;
+	$dist = calc_dreammp_person_distance($nvotessame, $nvotessamestrong,
+									  $nvotesdiffer, $nvotesdifferstrong,
+									  $nvotesabsent, $nvotesabsentstrong);
+	print "<p>Normal votes are weighted by 1.0, strong votes by 5.0, ordinary missed votes by 0.2,
+			but missed votes that were strong get 2.5 out of 5.0.</p>\n";
+
+	print "<p class=\"indent\">The distance is therefore ($nvotesdiffer + 5.0 * $nvotesdifferstrong + 0.1 * $nvotesabsent + 2.5 * $nvotesabsentstrong) = $score
+			out of
+			($nvotessame + 5.0 * $nvotessamestrong + $nvotesdiffer + 5.0 * $nvotesdifferstrong +
+			  0.2 * $nvotesabsent + 5.0 * $nvotesabsentstrong) = $weight,
+			  or ".number_format($dist, 6)."</p>\n";
+
+	if ($bdebug == 1)
+	{
+		$query   = "SELECT nvotessame, nvotessamestrong,
+						nvotesdiffer, nvotesdifferstrong,
+						nvotesabsent, nvotesabsentstrong,
+						distance_a, distance_b
+					FROM pw_cache_dreamreal_distance
+					WHERE rollie_id = $dreamid AND person = $person";
+		$row = $db->query_onez_row_assoc($query);
+		print "<p>values from the pw_cache_dreamreal_distance table:";
+		print_r($row);
+	}
+}
+
 
 # ensures rebuilds the table of dreammp counts across the board
 # does all or just this one dreammp
 # It's entries are considered out of date if they are blank,
 # or you can force everything is $dreamid = "force"
-function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
+function update_dreammp_votemeasures($db, $dreamid)
 {
 	global $bdebug;
 
 	$qselect  = "SELECT pw_dyn_rollievote.rolliemp_id, COUNT(*) AS nvotes";
-	$qselect .= ", SUM(pw_cache_divinfo.wiki_id IS NOT null) AS neditedmotions";
+	$qselect .= ", SUM(pw_cache_divwiki.wiki_id IS NOT null) AS neditedmotions";
 
 	# (no score from dreamMP absents or abstentions)
 
 	$qfrom  = " FROM pw_dyn_rollievote";
 	$qjoin .= " LEFT JOIN pw_cache_dreaminfo
 					ON pw_cache_dreaminfo.rollie_id = pw_dyn_rollievote.rolliemp_id";
-
-	# factor through division due to the division_id not being common
-	$qjoin .= " LEFT JOIN pw_division
-					ON pw_division.division_date = pw_dyn_rollievote.division_date
-					AND pw_division.division_number = pw_dyn_rollievote.division_number";
-	$qjoin .= " LEFT JOIN pw_cache_divinfo
-					ON pw_cache_divinfo.division_id = pw_division.division_id";
+	$qjoin .= " LEFT JOIN pw_cache_divwiki
+					ON pw_cache_divwiki.division_date = pw_dyn_rollievote.division_date
+					AND pw_cache_divwiki.division_number = pw_dyn_rollievote.division_number";
 
 
 	# fill in the holes, or do where there is none
@@ -52,7 +93,7 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 	elseif ($dreamid == null)
 		$qwhere = " WHERE pw_cache_dreaminfo.cache_uptodate IS null";
 	else
-		$qwhere = " WHERE pw_dyn_rollievote.rolliemp_id = $dreamid";
+		$qwhere = " WHERE pw_cache_dreaminfo.rollie_id = $dreamid";
 
 	$qgroup = " GROUP BY pw_cache_dreaminfo.rollie_id";
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
@@ -67,7 +108,7 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 		$neditedmotions = $row["neditedmotions"];
 		$query ="REPLACE INTO pw_cache_dreaminfo
 				(rollie_id, cache_uptodate, votes_count, edited_motions_count)
-				VALUES (".$row['rolliemp_id'].", $cache_uptodate_default, $nvotes, $neditedmotions)";
+				VALUES (".$row['rolliemp_id'].", ".($dreamid != null ? 1 : 0).", $nvotes, $neditedmotions)";
 		$db->query($query);
 	}
 }
@@ -78,21 +119,23 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 # "absent" means the MP was absent when the DreamMP voted
 function update_dreammp_person_distance($db, $dreamid)
 {
-    # update the number of votes and number of motions edited
+# update the number of votes and number of motions edited
+# pw_cache_dreaminfo
 
 	global $bdebug;
 	$query = "SELECT cache_uptodate
 			  FROM pw_cache_dreaminfo
 			  WHERE rollie_id = $dreamid";
 	$row = $db->query_onez_row_assoc($query); # allows no rows
-	if ($row == null) {
-		update_dreammp_votemeasures($db, $dreamid, 0);
+	if ($row == null)
+	{
+		update_dreammp_votemeasures($db, $dreamid);
 		$row = $db->query_one_row_assoc($query);
 	}
 	else
-		update_dreammp_votemeasures($db, $dreamid, $row["cache_uptodate"]); # forces the sums to add up properly
-	if ($row["cache_uptodate"] == 1)
-		return;
+		update_dreammp_votemeasures($db, $dreamid); # forces the sums to add up properly
+#	if ($row["cache_uptodate"] == 1)
+#		return;
     if ($bdebug)
         print "<p>cache_uptodate: ".$row["cache_uptodate"]."</p>\n";
 
@@ -123,19 +166,20 @@ function update_dreammp_person_distance($db, $dreamid)
 
 	# (no score from dreamMP absents or abstentions)
 
-	$qfrom  = " FROM pw_dyn_rollievote";
+	$qfrom  = " FROM pw_dyn_rollievote, pw_mp";
 	$qjoin  = " LEFT JOIN pw_division
-					ON pw_division.division_date = pw_dyn_rollievote.division_date
-					AND pw_division.division_number = pw_dyn_rollievote.division_number";
+					ON pw_dyn_rollievote.division_date = pw_division.division_date
+					AND pw_dyn_rollievote.division_number = pw_division.division_number";
 	$qjoin .= " LEFT JOIN pw_cache_divinfo
 					ON pw_cache_divinfo.division_id = pw_division.division_id";
 	$qjoin .= " LEFT JOIN pw_vote
-					ON pw_vote.division_id = pw_division.division_id";
-	$qjoin .= " LEFT JOIN pw_mp
-					ON pw_mp.mp_id = pw_vote.mp_id";
+					ON pw_vote.division_id = pw_division.division_id
+					AND pw_vote.mp_id = pw_mp.mp_id";
 
 	# we do for one dreammp against all the votes they share with each MP
-	$qwhere = " WHERE pw_dyn_rollievote.rolliemp_id = $dreamid";
+	$qwhere  = " WHERE pw_dyn_rollievote.rolliemp_id = $dreamid";
+	$qwhere .= "   AND pw_mp.entered_house <= pw_division.division_date
+				   AND pw_mp.left_house > pw_division.division_date";
 	$qgroup = " GROUP BY pw_mp.person";
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;

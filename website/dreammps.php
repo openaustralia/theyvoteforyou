@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
     $cache_params = "";
-    include "cache-begin.inc"; 
+    include "cache-begin.inc";
 
     # $dreamid: dreammp.php,v 1.4 2004/04/16 12:32:42 frabcus Exp $
 
@@ -18,6 +18,7 @@
     include_once "account/user.inc";
     $dbo = new DB();
     $db = new DB();
+	global $bdebug;
 
 	update_dreammp_votemeasures($db, null, 0); # for all
 
@@ -36,7 +37,7 @@ you like.  For example:
  
    <p><a href="account/adddream.php">Make your own dream MP
    <br><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=1">Discuss dream MPs on our forum</a>
-  <?php 
+  <?php
         if (!user_isloggedin())
         {
             print "(you will need to log in or register)";
@@ -52,6 +53,21 @@ you like.  For example:
    correcting motion text for its divisions.</b> </p>
 <?php
 
+    $query = "SELECT name, description, pw_dyn_user.user_id AS user_id,
+					 user_name, pw_dyn_rolliemp.rollie_id,
+					 votes_count AS count, edited_motions_count,
+                	 round(100 * edited_motions_count / votes_count, 0) AS motions_percent
+        	  FROM pw_dyn_rolliemp
+			  LEFT JOIN pw_dyn_user
+			  			ON pw_dyn_user.user_id = pw_dyn_rolliemp.user_id
+			  LEFT JOIN pw_cache_dreaminfo
+			  			ON pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id
+			  WHERE votes_count > 0
+			  ORDER BY motions_percent DESC, edited_motions_count DESC, votes_count DESC";
+	if ($bdebug == 1)
+		print "<h5>$query</h5>\n";
+    $dbo->query($query);
+
     print "<table class=\"mps\">\n";
     print "<tr class=\"headings\">
         <td>Voted</td>
@@ -61,15 +77,6 @@ you like.  For example:
         <td>Description</td>
         </tr>";
 
-    $query = "select name, description, pw_dyn_user.user_id as user_id, user_name,
-                pw_dyn_rolliemp.rollie_id, votes_count as count, edited_motions_count,
-                round(100 * edited_motions_count / votes_count, 0) as motions_percent
-        from pw_dyn_rolliemp, pw_dyn_user, pw_cache_dreaminfo where
-            pw_dyn_rolliemp.user_id = pw_dyn_user.user_id and
-            pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id and
-            votes_count > 0
-            order by motions_percent desc, edited_motions_count desc, votes_count desc";
-    $dbo->query($query);
 
     $prettyrow = 0;
     $c = 0;

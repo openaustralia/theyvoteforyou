@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.65 2005/03/21 19:23:28 goatchurch Exp $
+    # $Id: mp.php,v 1.66 2005/03/28 21:00:08 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -367,26 +367,11 @@
 					$dismetric = $mpprop["dismetric"];
 			}
 
-			$naggree = $dismetric["agree"] + $dismetric["agree3"];
-			$naggreestrong = $dismetric["agree3"];
-			$ndisaggree = $dismetric["disagree"] + $dismetric["disagree3"];
-			$ndisaggreestrong = $dismetric["disagree3"];
-			$nmiss = $dismetric["ab1"] + $dismetric["ab1line3"];
-			$nmissstrong = $dismetric["ab1line3"];
-			print "<p>There were $naggree agreement(s), $naggreestrong of which were strong agreement(s),
-					and $ndisaggree disagreement(s), $ndisaggreestrong of which were strong disagreement(s),
-					and $nmiss missed vote(s), $nmissstrong of which were strong demand(s) to vote.</p>\n";
-			$rnum = $naggree + $naggreestrong * 2 + $nmiss * 0.5 + $nmissstrong * 0.5;
-			$rden = $naggree + $naggreestrong * 2 + $ndisaggree + $ndisaggreestrong * 2 + $nmiss + $nmissstrong * 2;
-			if ($rden != 0)
-			{
-				print "<p>By weighting strong votes out of 3, and skewing against abstentions (which normally count as a half)
-						in the strong votes, we calculate the distance as:</p>\n";
-				print "(naggree + naggreestrong * 2 + nmiss * 0.5 + nmissstrong * 0.5) / (naggree + naggreestrong * 2 + ndisaggree + ndisaggreestrong * 2 + nmiss + nmissstrong * 2)";
-				print " = ".($rnum * 1.0 / $rden)." (Todo: improve layout here)</p>\n";
-			}
-			else
-				print "<p>No overlapping votes, so distance defaults to 0.0</p>\n";
+			# outputs an explanation of the votes
+			print_dreammp_person_distance($dismetric["agree"], $dismetric["agree3"],
+									  $dismetric["disagree"], $dismetric["disagree3"],
+									  $dismetric["ab1"], $dismetric["ab1line3"],
+									  $db, $mpprop["person"], $voter2);
 		}
 
 		if ($voter2type == "person" and $showwhich == "everyvote")
