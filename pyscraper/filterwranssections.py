@@ -33,6 +33,7 @@ fixsubs = 	[
 
 	( '<BR>\s*</FONT>\s*<H4><center>Energy Policy</center></H4>', '', 1, '2003-04-29'),
 
+	# sort out a lot of nasty to-ask problems
 	( 'To as the Deputy Prime Minister', 'To ask the Deputy Prime Minister', 1, '2003-10-06'),
 	( '\n What ', '\n To ask the Secretary of State for Northern Ireland what ', 4, '2003-09-10'),
 	( '\n If he will ', '\n To ask the Secretary of State for Northern Ireland if he will ', 2, '2003-09-10'),
@@ -47,12 +48,56 @@ fixsubs = 	[
  	( '\n How many ', '\n To ask the Secretary of State for Work and Pensions how many ', 1, '2003-07-07'),
  	( '\n What ', '\n To ask the Secretary of State for Culture, Media and Sport what ', 1, '2003-06-30'),
 
+	( '(that initiatives the Government)', 'To ask the Secretary of State for Wales \\1', 1, '2003-06-04'),
+	( ' What (recent discussions he has)', 'To ask the Secretary of State for Wales what \\1', 1, '2003-06-04'),
+	( ' What (meetings he has held)', 'To ask the Secretary of State for Wales what \\1', 1, '2003-06-04'),
+	( ' What (discussions he has had)', 'To ask the Secretary of State for Wales what \\1', 1, '2003-06-04'),
+ 	( ' (on military flights at Northolt)', 'To ask the Secretary of State for Defence SOMETHING \\1', 1, '2003-06-03'),
+	( '\n What (steps her Department)', '\n To ask the Secretary of State for Trade and Industry what \\1', 1, '2003-05-01'),
+	( '\n If (she will make a statement)', '\n To ask the Secretary of State for Trade and Industry if \\1', 1, '2003-05-01'),
+	( '\n When he expects', '\nTo ask the Secretary of State for Education and Skills when he expects', 1, '2003-04-10'),
+	( '\n Asked the Secretary', '\nTo ask the Secretary', 1, '2003-03-21'),
+	( ' What (measures will be)', 'To ask the Secretary of State for Work and Pensions what \\1', 1, '2003-03-17'),
+
+
+	# this is complicated because the speaker name has already been tokenized (into part \\1)
+	( '\{\*\*con\*\*\}\{\*\*/con\*\*\}(<P>[\s\S]*?)(\(1\)\s*pursuant to his response)', '\\1 To ask the Secretary of State for Defence \\2', 1, '2003-06-03'),
+
+	( '\n (ask the Secretary of State)', '\n To \\1', 1, '2003-06-03'),
+	( '\((115021)\)', '[\\1]', 1, '2003-06-03'),
+	( '\{\*\*con\*\*\}\{\*\*/con\*\*\}', '', 1, '2003-05-19'),
 
  	( '\n To\s*ask ', '\n To ask ', 10, '2003-07-07'), # linefeed example I can't piece apart
+ 	#( '\n To as the Secretary', '\n To ask the Secretary', 1, '2003-05-19'),
+ 	( '\n To as the Secretary', '\n To ask the Secretary', 1, '2003-05-12'),
+ 	( '\n To as the Secretary', '\n To ask the Secretary', 1, '2003-04-29'),
+ 	( '\n To as the Secretary', '\n To ask the Secretary', 2, '2003-01-14'),
+ 	( '\n To\s*ask ', '\n To ask ', 7, '2003-04-10'),
+ 	( '\n To\s*ask ', '\n To ask ', 9, '2003-03-06'),
+ 	( '\n To\s*ask ', '\n To ask ', 37, '2003-01-27'),
+
+	( '\((108679)\)', '[\\1]', 1, '2003-05-12'),
+	( '\((109290)\)', '[\\1]', 1, '2003-05-06'),
+
+	( '24 April \[108495\]', '24 April reference 108495', 1, '2003-04-28'),
+
  	( 'Worcestershire</FONT></TD>', 'Worcestershire', 1, '2003-07-15'),
 
 	( '\{\*\*con\*\*\}\{\*\*/con\*\*\}', '', 3, '2002-07-24'),
+	( '\{\*\*con\*\*\}\{\*\*/con\*\*\}', '', 1, '2003-01-13'),
 	( '\n\s*\(1\)\s*To ask', '\n To ask (1) ', 3, '2002-07-24'),
+
+	( 'how the proposed', '(1) how the proposed', 1, '2003-04-28'),
+	( 'Cabinet Office if', 'Cabinet Office (1) if', 1, '2003-04-03'),
+	( '<P>\s*<UL> (\[106584\])<P></UL>', '\\1', 1, '2003-04-01'),
+	( 'Home Department when he will', 'Home Department (1) when he will', 1, '2003-03-13'),
+ 	( '\(1\) Asked (the Secretary of State for International Development) what', ' To ask \\1 (1) what', 1, '2003-03-07'),
+ 	( ' Asked the Secretary', 'To ask the Secretary', 7, '2003-03-07'),
+	( 'Commonwealth Affairs what assessment', 'Commonwealth Affairs (1) what assessment', 1, '2003-03-07'),
+ 	( '\n What discussions he', '\nTo ask the Secretary of State for Wales what discussions he', 2, '2003-02-12'),
+	( '\{\*\*con\*\*\}\{\*\*/con\*\*\}', '', 1, '2003-01-30'),
+	( 'Rural Affairs what estimates', 'Rural Affairs (1) what estimates', 1, '2003-01-29'),
+
 
 	( '<i>The following questions were answered on 10 June</i>', '', 1, '2003-06-10'),
 
@@ -70,10 +115,13 @@ fixsubs = 	[
 	( '<TD <', '<TD> <', 1, '2003-07-15'),
 	( '<TABLE BORDER=1>\s*<P>\s*</FONT></TH></TR>', '<TABLE BORDER=1>', 2, '2002-10-22'),
 
+	( '131278\]', ' [131278]', 1, '2003-10-06'),
+	( 'Department how many asylum applications', 'Department (1) how many asylum applications', 1, '2003-09-18'),
 
 	#( '<TABLE BORDER=1>\s*<H4>', '<H4>', 6, '2002-10-22'),
 
 	( '"</i>Guidance', '</i>"Guidance', 1, '2003-10-30'),
+	( ' \[116654\]', '', 1, '2003-06-10'),
 
 	# broken link fixing material
 	( 'http://www/', 'http://www.', 1, '2003-11-03'),
@@ -137,21 +185,27 @@ def ScanQBatch(shspeak, stampurl, sdate):
 	shansblock = [ ]
 	qblock = [ ]
 
-	# throw in a batch of speakers
+	# go through the speeches in each block under a title, and output
+	# a Q&A block after every answer.
 	for shs in shspeak:
 		qb = qspeech(shs[0], shs[1], stampurl, sdate)
 		qblock.append(qb)
 
+		# reply detected, output the block
 		if qb.typ == 'reply':
+
+			# no preceeding question blocks with this reply
 			if len(qblock) < 2:
 				print ' Reply with no question ' + stampurl.stamp
 				print shs[1]
 			shansblock.append(qblock)
 			qblock = []
 
+	# there's still questions sitting in this block
+	# errors to be generated later.
 	if qblock:
 		# these are common failures of the data
-		print "block without answer " + stampurl.title
+		print "block without answer " + stampurl.title + stampurl.stamp
 		shansblock.append(qblock)
 	return shansblock
 

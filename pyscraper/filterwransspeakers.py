@@ -33,7 +33,18 @@ fixsubs = 	[
 	( '<UL><i>Mr. Bradshaw \[holding answer 23 June 2003\]</i>:', \
 		'<B>Mr. Bradshaw </B> [holding answer 23 June 2003]', 1, '2003-06-24'),
 	( '<i>Mr. Bradshaw </i>\[holding answer 17 June 2003\]:', \
-		'<B>Mr. Bradshaw </B> [holding answer 17 June 2003]', 1, '2003-06-18'),
+		'</ul><B>Mr. Bradshaw </B> [holding answer 17 June 2003]', 1, '2003-06-18'),
+	( '<UL><i>(Mr. Morley) (\[holding answer 22 May 2003\]):</i>', \
+		'<B>\\1</B> \\2', 1, '2003-06-03'),
+	( '<UL><i>(Mr. Morley) (\[holding answer 9 April 2003\]):</i>', \
+		'<B>\\1</B> \\2', 1, '2003-05-08'),
+	( '<UL>(Mr. MacShane):', '<B>\\1</B>', 1, '2003-05-07'),
+	( '<UL>(Mr. Morley):', '<B>\\1</B>', 1, '2003-04-28'),
+	( '<UL>(Beverley Hughes):', '<B>\\1</B>', 1, '2003-04-10'),
+
+	( '<UL>\(1\) (Tim Loughton): (To ask the Deputy Prime Minister) (how many times he has been in residence at Dorneywood since June 2001; and on what dates;  \[97476\])', '<B>\\1</B> \\2 (1) \\3 <p><UL>', 1, '2003-03-28'),
+	( '<UL>Mr. Denham:', '<B>Mr. Denham</B>', 1, '2003-03-06'),
+
 
 	( '<B> Mr. Bercow: Mr. John Bercow: </B>', '<B> Mr. John Bercow: </B>', 1, '2003-06-03'),
 	( '<B> Mr. Drew: Mr. David Drew: </B>', '<B> Mr. David Drew: </B>', 1, '2003-05-01'),
@@ -44,7 +55,15 @@ fixsubs = 	[
 	( '<TR valign=top><TD><FONT SIZE=-1>\s*<P>\s*<page', '</TABLE>\n<page', 1, '2002-07-24'),
 	( '<i>Mr. Ingram \[holding answer 4 December 2003\]:</i>', '<B>Mr. Ingram:</B> [holding answer 4 December 2003]', 1, '2003-12-08' ),
 	( '</B>\s*ask', '</B> To ask', 1, '2003-12-08'),
-	( '<UL>Paul Goggins:', '<B>Paul Goggins:</B>', 1, '2003-11-19'),
+	( '<UL>Paul Goggins:([^<]*)<P></UL>', '<B>Paul Goggins:</B> \\1', 1, '2003-11-19'),
+	( '\): To ask', ' To ask', 1, '2003-05-06'),
+
+	# completely delete an answer that refers to the next response as answer
+	( '<B> Mr. Jamieson </B>[\s\S]*\[114072\]\.', '', 1, '2003-06-03'),
+
+	( '</UL>\s*<P>\s*<P>\s*<B>  Barbara Follett </B>\s*\(4\)', '<P>(4)', 1, '2003-02-06'),
+	( '<UL>\(5\)', '(5)', 1, '2003-02-06'),
+	( '<UL>(We are intending to have)', '<B>Beverley Hughes</B> \\1', 1, '2003-01-29'), 
 
 	# this removes a bogus y-dotdot character that the latin-1 encoding can't deal with
 	( '</sup> .38-0030</FONT>', '</sup> 38-0030</FONT>', 1, '2003-09-17'),

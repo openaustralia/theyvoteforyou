@@ -22,26 +22,40 @@ fixsubs = 	[
 	( '<H2 align=center> </H2>[\s\S]{10,99}?Monday 13 October 2003', '', 1, '2003-10-14' ),
  		]
 
+#<P>
+#</UL><P><I>20 Nov 2003 : Column 1203W</I><P>
+#<UL>
 # <I>23 Oct 2003 : Column 637W</I>
-lcolumnregexp = '<i>\s*.*?\s*:\s*column:?\s*\d+w?\s*</i>(?i)'
-columnregexp = '<i>\s*(.*?)\s*:\s*column:?\s*(\d+)w?\s*</i>(?i)'
+
+# These are very specific cases which attempt to undo the full column inserting macro which
+# they use, which pushes column stamps right into the middle of sentences and paragraphs that
+# may be indented with ul and font changed.
+# Undoing the insertion fully means we can automatically glue paragraphs back together.  
+
+# columns never show up in the middle of tables.
+
+
+regcolumnum1 = '<p>\s<p><i>[^:<]*:\s*column:?\s*\d+w?\s*</i><p>(?i)'
+regcolumnum2 = '<p>\s</ul><p><i>[^:<]*:\s*column:?\s*\d+w?\s*</i><p>\s<ul>(?i)'
+regcolumnum3 = '<p>\s</ul>(?:</font>)+<p><i>[^:<]*:\s*column:?\s*\d+w?\s*</i><p>\s<ul>(?:<font[^>]*>)?(?i)'
+recolumnumvals = re.compile('(?:<p>|\s|</ul>|</font>)*<i>([^:<]*):\s*column:?\s*(\d+)w?\s*</i>(?:<p>|\s|<ul>|<font[^>]*>)*$(?i)')
 
 #<i>23 Oct 2003 : Column 640W&#151;continued</i>
-lcolumncontregexp = '<i>\s*.*?\s*:\s*column\s*\d+w?&#151;continued\s*</i>(?i)'
-columncontregexp = '<i>\s*(.*?)\s*:\s*column\s*(\d+)w?&#151;continued\s*</i>(?i)'
+regcolnumcont = '<i>[^:<]*:\s*column\s*\d+w?&#151;continued\s*</i>(?i)'
+recolnumcontvals = re.compile('<i>([^:<]*):\s*column\s*(\d+)w?&#151;continued</i>(?i)')
 
-combiregexp = '(%s|%s)' % (lcolumnregexp, lcolumncontregexp)
+recomb = re.compile('\s*(%s|%s|%s|%s)\s*' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolnumcont))
+remarginal = re.compile(':\s*column\s*\d+(?i)')
+
 
 
 def FilterWransColnum(fout, text, sdate):
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
 
-	fs = re.split(combiregexp, text)
-
 	colnum = -1
+	for fss in recomb.split(text):
 
-	for fss in fs:
-		columng = re.match(columnregexp, fss)
+		columng = recolumnumvals.match(fss)
 		if columng:
 			ldate = mx.DateTime.DateTimeFrom(columng.group(1)).date
 			if sdate != ldate:
@@ -55,11 +69,11 @@ def FilterWransColnum(fout, text, sdate):
 			# column numbers do get skipped during division listings
 
 			colnum = lcolnum
-			fout.write('<stamp coldate="%s" colnum="%sW"/>' % (sdate, lcolnum))
+			fout.write(' <stamp coldate="%s" colnum="%sW"/>' % (sdate, lcolnum))
 
 			continue
 
-		columncontg = re.match(columncontregexp, fss)
+		columncontg = recolnumcontvals.match(fss)
 		if columncontg:
 			ldate = mx.DateTime.DateTimeFrom(columncontg.group(1)).date
 			if sdate != ldate:
@@ -68,7 +82,21 @@ def FilterWransColnum(fout, text, sdate):
 			if colnum != lcolnum:
 				raise Exception, "Cont column number disagrees %d -- %s" % (colnum, fss)
 
-			# no need to output result
-		else:
-			fout.write(fss)
+			# no need to output anything
+			fout.write(' ')
+			continue
+
+
+		# nothing detected
+		# check if we've missed anything obvious
+		if recomb.match(fss):
+			print fss
+			raise Exception, ' regexpvals not general enough '
+		if remarginal.search(fss):
+			print ' marginal colnum detection case '
+			print remarginal.search(fss).group(0)
+			print fss
+			raise Exception, ' marginal colnum detection case '
+
+		fout.write(fss)
 

@@ -11,6 +11,7 @@ from resolvemembernames import memberList
 from parlphrases import parlPhrases
 from miscfuncs import FixHTMLEntities
 from miscfuncs import FixHTMLEntitiesL
+from miscfuncs import SplitParaIndents
 
 from filterwransreplytable import ParseTable
 from filterwransemblinks import ExtractHTTPlink
@@ -179,7 +180,6 @@ def BreakUpText(stex, qs):
 	return sres
 
 
-resqbrack = re.compile('(\s*(?:\s|</?i>)*\[(?:\s|</?i>)*(.*?)(?:</i>|:|;|\s)*\](?:</i>|:|;|\s)*)')
 relettfrom = re.compile('<i>Letter from (.*?)(?: to (.*?))?(?:(?:,? dated| of)?,? %s)?:?</i>[.:]?$' % parlPhrases.datephrase)
 
 
@@ -224,89 +224,117 @@ def BreakUpTextSB(i, n, stex, qs):
 	return sres
 
 
-# this is the main function.
+
+# square bracket at the beginning of an answer
+resqbrack = re.compile('\s*(?:\s|</?i>)*\[(?:\s|</?i>)*(.*?)(?:</i>|:|;|\s)*\](?:</i>|:|;|\s)*')
+
+
+listlinlprorogue = 	[
+		'I am unable to provide the information requested before the House prorogues. ?',
+		'I have not been able to answer this Question before Prorogation. ',
+		'I regret that it has not been possible to provide an answer before Prorogation, ',
+		'The information requested will take some time to collate and ',
+		'This information will take some time to collate. ',
+		'The information is not readily available. ',
+		'It will not be possible to collate the information requested by the hon. Gentleman within the accepted timescale. ',
+			]
+
+linliww = 'I will write to'
+listlinlhm = [	' my hon.? Friend',
+		' the hon. Member, and my hon. Friend',
+		' the hon. Member',
+		' the hon. Gentleman',
+		' my right hon. Friend',
+		' my hon. Member',
+		' the right hon. and learned Member',
+		' the right hon. Member',
+	 ]
+linlwi = ' with (?:the|this) information'
+linlsoon = ' as soon as possible| in due course| shortly'
+linlcopy = '(?: and place|, placing) a copy(?: of (?:my|the) letter)?|(?: and|, ) a copy(?: of (?:my|the) (?:letter|reply))? will be placed'
+linlliby = ' in the (?:House of Commons Library|(?:Library|Libraries)(?: of the House)?)'
+
+
+regletterinlib = '(?:%s)?%s(?:%s)(?:%s)?(?:%s)?(?:(?:%s)(?:%s))?\.' % \
+		(string.join(listlinlprorogue, '|'), linliww, string.join(listlinlhm, '|'), linlwi, linlsoon, linlcopy, linlliby)
+reletterinlibrary = re.compile(regletterinlib)
+
+#print reletterinlibrary.findall('The information is not readily available. I will write to the hon. Member, placing a copy of my letter in the Library of the House.')
+#sys.exit()
+
+
+reaskedtoreply = re.compile('I have been asked to reply\.?$')
+
+###########################
+# this is the main function
 def FilterReply(qs):
-	# break into paragraphs
-	nfj = re.split('(<table[\s\S]*?</table>|</?p>|</?ul>|<br>|</?font[^>]*>)(?i)', qs.text)
 
-	# break up into sections separated by paragraph breaks
-	# these alternate in the list, with the spaces already as lists
-	delholdinganswer = ''
-	dell = []
-
-	spclist = []
-	spclistinter = []
-	for nf in nfj:
-
-		# list of space type objects
-		if re.match('</?p>|</?ul>|<br>|</?font[^>]*>(?i)', nf):
-			spclist.append(nf)
-
-		# sometimes italics are hidden among the paragraph choss, and we want to bring it forward
-		elif re.match('\s*<i>\s*$', nf):
-			spclistinter.append(string.strip(nf))
-
-		# a non space type
-		elif re.search('\S', nf):
-			# bring the string together with choss in between paragraph stuff
-			pstring = string.strip(nf)
+	# split into paragraphs.  The second results is a parallel array of bools
+	(textp, textpindent) = SplitParaIndents(qs.text)
+	if not textp:
+		raise Exception, ' no paragraphs in result '
 
 
-			if spclistinter:
-				spclistinter.append(pstring)
-				pstring = string.join(spclistinter, '')
-				spclistinter = [ ]
+	# deal with holding answer phrase
+	# <i>[holding answer 17 September 2003]:</i>
+	textnholdinganswer = ''
+	qha = resqbrack.match(textp[0])
+	if qha:
+		textnholdinganswer = qha.group(1)
+		textp[0] = textp[0][qha.span(0)[1]:]
+		if not textp[0]:
+			textp.pop(0)
+			textpindent.pop(0)
 
-			if re.search('<table(?i)', pstring):
-				if not re.match('<table[^>]*>\s*([\s\S]*?)\s*</table>(?i)', nf):
-					print nf
-					#print re.findall('<table[\s\S]*?</table>(?i)', qs.text)
-
-			# first entry
-			if not dell:
-				# <i>[holding answer 17 September 2003]:</i>
-				qha = resqbrack.match(pstring)
-				if qha:
-					delholdinganswer = qha.group(2)
-					pstring = pstring[qha.span(1)[1]:]
-
-			dell.append(spclist)
-			dell.append(pstring)
-
-	dell.append(spclist)
 
 
 	# the resulting list of paragraphs
 	qs.stext = []
 
-	if delholdinganswer:
+	if textnholdinganswer:
 		sres = [ '<p class="holdinganswer">' ]
-		sres.extend(BreakUpText(delholdinganswer, qs))
+		sres.extend(BreakUpText(textnholdinganswer, qs))
 		sres.append('</p>')
 		lstex = string.join(sres, '')
 		qs.stext.append(lstex)
 
+	# asked to reply
+	if reaskedtoreply.match(textp[0]):
+		textp.pop(0)
+		textpindent.pop(0)
+		qs.stext.append('<p class="askedtoreply">I have been asked to reply.</p>')
+	if re.search('have been asked to reply', textp[0]):
+		print textp
+		#sys.exit()
+
+
+	# copy in library type phrase
+	if reletterinlibrary.match(textp[0]) and (len(textp) == 1):
+		qs.stext.append('<p class="letterinlibrary">I will write to my hon. Friend and place a copy of my letter in the Library.</p>')
+		return
+
+	if re.search('I will write.*?library(?i)', textp[len(textp)-1]):
+		print textp
+		#sys.exit()
+
+
 	# we now have the paragraphs interspersed with inter-paragraph symbols
 	# for now ignore these inter-paragraph symbols and parse the paragraphs themselves
-	n = (len(dell)-1) / 2
-	for i in range(n):
+	n = len(textp)
+	for i in range(len(textp)):
 		# this puts a list into the result
-		i2 = i*2 + 1
-		if re.search('<table(?i)', dell[i2]):
-			qs.stext.append(ParseTable(dell[i2]))
+		if re.search('<table(?i)', textp[i]):
+			qs.stext.append(ParseTable(textp[i]))
 		else:
 			sres = [ '<p>' ]
-			sres.extend(BreakUpTextSB(i, n, dell[i2], qs))
+			sres.extend(BreakUpTextSB(i, n, textp[i], qs))
 			sres.append('</p>')
 			lstex = string.join(sres, '')
 			if re.search('TAG-OUT', lstex):
-				print dell[i2]
+				print textp[i]
 				print lstex
 				#sys.exit()
 			qs.stext.append(lstex)
 
-	if not qs.stext:
-		print 'empty answer'
-		raise Exception, 'empty answer'
 
 

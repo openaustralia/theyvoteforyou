@@ -9,20 +9,12 @@ from filterwransques import FilterQuestion
 from filterwransreply import FilterReply
 
 
-def TestMergeAcrossStamp(s0, s1):
-	# extract the last word of one, and first word of other, and check if they should glue
-	# they always do if we don't end with a dot punctuation, or some html symbol
-	# there may be more gluing conditions
-	gesp = re.match('([\s\S]*?([\w,]+))(?:<p>|\s)*$(?i)', s0)
-	if not gesp:
-		return None
-	gbsp = re.match('(?:<p>|\s)*((\w+)[\s\S]*)$(?i)', s1)
-	if not gbsp:
-		return None
-
-	#if re.search(',$', gesp.group(2)):
-	#	print 'TXMERGE', gesp.group(2), gbsp.group(2)
-	return ( gesp.group(1), gbsp.group(1) )
+qnummisserrors = {
+		'<stamp coldate="2003-11-17" colnum="616W"/>':'<error>truncated question</error>',
+		'<stamp coldate="2003-11-05" colnum="660W"/>':'<error>truncated question</error>',
+		'<stamp coldate="2003-10-27" colnum="29W"/>':'<error>truncated question</error>',
+		'<stamp coldate="2003-07-16" colnum="349W"/>':'<error>truncated question</error>',
+		}
 
 
 
@@ -38,15 +30,6 @@ class qspeech:
 				else:
 					stampurl.stamp = sp[i]
 				sp[i] = ''
-
-				# string ends with a lower case character, and next begins with a lower case char
-				if (i > 0) and (i < len(sp) - 1):
-					# strip out new paragraph symbols that we don't need
-					ebsp = TestMergeAcrossStamp(sp[i-1], sp[i+1])
-					if ebsp:
-						sp[i-1] = ebsp[0]
-						sp[i] = ' '
-						sp[i+1] = ebsp[1]
 
 			elif re.match('<page url[^>]*>', sp[i]):
 				stampurl.pageurl = sp[i]
@@ -82,24 +65,28 @@ class qspeech:
 
 		# find the qnums
 		if self.typ == 'ques':
+			#self.text = re.sub('\[(\d+?)\]', ' ', self.text)
+			self.stext = FilterQuestion(self.text)
+
+			qnums.extend(self.qnums)	# a return value mapped back into reply types
 			if not self.qnums:
-				print ' qnum missing in question ' + self.sstampurl.stamp
-				self.stext = [ '<error>qnum missing</error>' ]
-				return
-
-			qnums.extend(self.qnums)	# a return value mapped into reply types
-			self.text = re.sub('\[(\d+?)\]', ' ', self.text)
-			FilterQuestion(self)
-
+				if not qnummisserrors.has_key(self.sstampurl.stamp):
+					print ' qnum missing in question ' + self.sstampurl.stamp
+				errmess = qnummisserrors.get(self.sstampurl.stamp, '<error>qnum missing</error>')
+				self.stext.append(errmess)
 
 		elif self.typ == 'reply':
-			for qn in self.qnums:
-				if (not qnums.count(qn)) and (qn > 100):	# sometimes [n] is an enumeration
-					print ' unknown qnum present in answer ' + self.sstampurl.stamp
-					self.stext = [ '<error>qnum present</error>' ]
-					return
-
 			FilterReply(self)
+
+			# check against qnums which are sometimes repeated in the answer code
+			for qn in self.qnums:
+				# sometimes [n] is an enumeration or part of a title
+				nqn = string.atoi(qn)
+				if (not qnums.count(qn)) and (nqn > 100) and (nqn != 2003) and (nqn != 2002):
+					print ' unknown qnum present in answer ' + self.sstampurl.stamp
+					print qn
+					raise Exception, ' make it clear '
+					self.stext.append('<error>qnum present</error>')
 
 		else:
 			raise Exception, ' unrecognized speech type '
