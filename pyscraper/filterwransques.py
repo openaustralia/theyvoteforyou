@@ -111,7 +111,7 @@ def FilterQuestion(qs):
 
 	# no paragraph breaks in the block of text
 	if len(dell) == 3:
-		qs.stext.append(dell[1])
+		qs.stext.append(FixHTMLEntities(dell[1]))
 		return
 
 	# look for numbering in the first section

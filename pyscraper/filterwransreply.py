@@ -80,8 +80,8 @@ def ExtractPhraseRecurse(qs, stex):
 		qbrack = re.search('(\(([^)]*)\))', stex)
 		if qbrack:
 			if memberList.mpnameexists(qbrack.group(2), qs.sdate):
+				# we maybe can leave out the brackets if the xml thing puts them back in.
 				qstr = '<mpname>(%s)</mpname>)' % qbrack.group(2)
-				print qstr
 				qspan = qbrack.span(1)
 
 	# or split at official report statement
@@ -106,6 +106,7 @@ def ExtractPhraseRecurse(qs, stex):
 		return res
 
 	return [ FixHTMLEntities(stex) ]
+
 
 # main breaking up function.
 def BreakUpText(stex, qs):

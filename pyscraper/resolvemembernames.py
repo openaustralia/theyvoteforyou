@@ -45,7 +45,7 @@ class MemberList(xml.sax.handler.ContentHandler):
                 self.lastnames[lastname].append(attr)
             else:
                 self.lastnames[lastname] = [attr,]
-                
+
         if name == "alias":
             if self.fullnames.has_key(attr["alternate"]):
                 raise Exception, 'Already have alternate ' + attr["alternate"]
@@ -114,7 +114,10 @@ class MemberList(xml.sax.handler.ContentHandler):
                 if date >= attr["fromdate"] and date <= attr["todate"]:
                     return 1
 
-        return 0
+        if re.match('Mr\. |Mrs\. |Miss |Dr\. ', input):
+		print ' potential missing MP name ' + input
+
+	return 0
 
 # Construct the global singleton of class which people will actually use
 memberList = MemberList()

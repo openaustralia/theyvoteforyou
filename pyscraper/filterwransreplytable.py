@@ -86,9 +86,9 @@ def ParseTable(stable):
 	sio = cStringIO.StringIO()
 
 	sio.write('<table>\n')
-	sio.write('\t\t<title>')
+	sio.write('\t\t<div class="tabletitle">')
 	sio.write(srows[0])
-	sio.write('</title>\n')
+	sio.write('</div>\n')
 
 	for i in range(1, len(srows)):
 		colt = srows[i][0]    # td or th
