@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.52 2005/02/21 13:12:21 goatchurch Exp $
+    # $Id: mp.php,v 1.53 2005/02/21 19:37:44 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -22,7 +22,7 @@
 	# mps take priority, then dreammps (the whips)
 	$voter1attr = get_mpid_attr_decode($db, "");
 	if ($voter1attr == null)
-		die("No noticed mp votes");
+		die("No mp found that fit parameters");
 	$voter1type = "mp";
 
 	# against a dreammp, another mp, or the party
@@ -91,7 +91,7 @@
 	# generate the header of this webpage
 	if ($showwhichvotes == "none")
 		$title = html_scrub("Friends of ".$voter1attr['mpname']." MP, ".$voter1attr['constituency']);
-    else if ($voter2type == "dreammpid")
+    else if ($voter2type == "dreammp")
 		$title = html_scrub($voter1attr['mpname']." MP, ".$voter1attr['constituency']." - Whipped by '".$voter2attr['name']."'");
     else if ($voter2type == "person")
 		$title = html_scrub($voter1attr['mpname']." MP, ".$voter1attr['constituency']." - Compared to ".$voter2attr['mpname']." MP");
@@ -174,7 +174,12 @@
 	        print "You can also see <a href=\"$this_anchor#divisions\">
 				   only the votes".$voter1attr['mpname']." MP rebelled in</a>. ";
 		}
-
+	    else if ($voter2type == "dreammp")
+	    {
+	        print "<h2><a name=\"divisions\">Votes chosen by '".$voter2attr['name']."' Dream MP</a></h2>
+	        	<p>The first column indicates this MP voted in comparison.
+	        		You can also see <a href=\"$this_anchor&showall=yes#divisions\">all votes this MP attended</a>.";
+	    }
     	else if ($showwhichvotes == "bothdiff")
 	    {
 	        print "<h2><a name=\"divisions\">Interesting Votes</a></h2>

@@ -1,17 +1,11 @@
 <?php
-    # $Id: tablemake.inc,v 1.2 2005/02/21 13:12:21 goatchurch Exp $
+    # $Id: tablemake.inc,v 1.3 2005/02/21 19:37:46 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
     # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
     # For details see the file LICENSE.html in the top level of the source.
 
-
-
-	# the table which summarises a set of mps, the same one or different ones in the same constituency
-	# idtype is 'mp', 'dreammp'
-	# whip is 'dreammp', 'mp', or 'party'
-	# show is 'rebeltell', 'whippedandvoted', 'whipped', 'whippedorvoted', 'all'
 
 
 	# this assigns an mp here and returns the MP's party
@@ -25,11 +19,11 @@
 		# searching against a person, not just an mpid
 		if ($bperson)
 		{
+			$aquery["qjoin"]   .= "	LEFT JOIN pw_vote as pwvote$i ON
+										pwvote$i.division_id = pw_division.division_id";
 			$aquery["qjoin"]   .= " LEFT JOIN pw_mp as pwmp$i ON
-										pwmp$i.person = ".$voter['personid']."
-									LEFT JOIN pw_vote as pwvote$i ON
-										pwvote$i.division_id = pw_division.division_id
-										AND pwvote$i.mp_id = pwmp$i.mp_id";
+										pwvote$i.mp_id = pwmp$i.mp_id";
+			$aquery["qwhere"] .= " AND pwmp$i.person = ".$voter['personid'];
 
 			# get the fields for this particular person time range
 	        $datecond = "";
@@ -42,6 +36,7 @@
 			}
 			if ($datecond != "")
 				$aquery["qwhere"] .= " AND ($datecond)";
+			$aquery["qwhere"] .= " AND pwmp$i.person = ".$voter['personid'];
 			if ($bdebug == 1)
 				print "<h1>datecond: $datecond</h1>\n";
 		}
@@ -274,6 +269,7 @@
         $query = $aquery["qselect"].$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"].$aquery["qgroup"].$aquery["qorder"];
 		if ($bdebug == 1)
 		{
+			$query .= " LIMIT 10";
 			print "<h1>GGGG $voter1type ";
 			print_r($voter1);
 			print " $voter2type $voter2 $showwhich $headings</h1>";
