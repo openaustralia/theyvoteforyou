@@ -406,6 +406,57 @@ def WriteXMLHeader(fout):
 
 
 
+# write out a whole file which is a list of qspeeches, and construct the ids.
+def WriteXMLFile(fout, flatb, sdate):
+	WriteXMLHeader(fout);
+	fout.write("<publicwhip>\n")
+
+	pcolnum = "####"
+	picolnum = -1
+	ncid = -1
+	for qb in flatb:
+
+		# construct the gid
+		colnum = re.search('colnum="([^"]*)"', qb.sstampurl.stamp).group(1)
+		if colnum != pcolnum:
+			# check that the column numbers are increasing
+			icolnum = string.atoi(re.match('(\d+)[W]*$', colnum).group(1))
+			if icolnum <= picolnum:
+				raise Exception, "non-increasing column numbers %s %d" % (colnum, picolnum)
+			picolnum = icolnum
+
+			pcolnum = colnum
+			ncid = 0
+		else:
+			ncid += 1
+
+		# this is our GID !!!!
+		sid = 'uk.org.publicwhip/debate/%s.%s.%d' % (sdate, colnum, ncid)
+
+		# extract the time stamp (if there is one)
+		stime = ""
+		if qb.sstampurl.timestamp:
+			re.match('<stamp( time=".*?")/>', qb.sstampurl.timestamp).group(1)
+
+		# build the full tag for this object
+		# some of the info is a repeat of the text in the GID
+		fulltag = '<%s id="%s" %s colnum="%s" %s url="%s">\n' % (qb.typ, sid, qb.speaker, colnum, stime, qb.sstampurl.GetUrl())
+		fout.write('\n')
+		fout.write(fulltag)
+
+		# put out the paragraphs in body text
+		for lb in qb.stext:
+			fout.write('\t')
+			fout.write(lb)
+			fout.write('\n')
+
+		# end tag
+		fout.write('</%s>\n' % qb.typ)
+
+
+	fout.write("</publicwhip>\n\n")
+
+
 
 
 

@@ -21,6 +21,7 @@ from parlphrases import parlPhrases
 
 from miscfuncs import FixHTMLEntities
 from miscfuncs import WriteXMLHeader
+from miscfuncs import WriteXMLFile
 
 from filterdivision import FilterDivision
 from filterdebatespeech import FilterDebateSpeech
@@ -118,7 +119,7 @@ def StripDebateHeadings(headspeak, sdate):
 
 
 	# find the url, colnum and time stamps that occur before anything else in the unspoken text
-	stampurl = StampUrl()
+	stampurl = StampUrl(sdate)
 
 	# set the time from the wording 'house met at' thing.
 	time = gstarttime.group(1)
@@ -127,7 +128,7 @@ def StripDebateHeadings(headspeak, sdate):
 	elif re.match("^half-past Ten(?i)", time):
 		newtime = '10:30:00'
 	elif re.match("^twenty-five minutes pastEleven(?i)", time):
-		newtime = '11:25:00' 
+		newtime = '11:25:00'
 	elif re.match("^half-past Eleven(?i)", time):
 		newtime = '11:30:00'
 	elif re.match("^half-past Two(?i)", time):
@@ -145,49 +146,10 @@ def StripDebateHeadings(headspeak, sdate):
 	return (ih, stampurl)
 
 
-# A series of speeches blocked up into question and answer.
-def WriteXMLChunk(fout, qb, sdate, tagname, body):
-	gcolnum = re.search('colnum="([^"]*)"', qb.sstampurl.stamp)
-	if not gcolnum:
-		raise Exception, 'missing column number'
-	colnum = gcolnum.group(1)
-
-	# (we could choose answers to be the id code??)
-	sid = 'uk.org.publicwhip/debate/%s.%s.%d' % (sdate, colnum, qb.sstampurl.ncid)
-
-	# title headings
-	stithead = 'majorheading="%s"' % (qb.sstampurl.majorheading)
-	if qb.sstampurl.title <> "":
-		stithead += ' minorheading="%s"' % (qb.sstampurl.title)
-
-	stime = re.match('<stamp( time=".*?")/>', qb.sstampurl.timestamp).group(1)
-	sstamp = 'colnum="%s"%s' % (colnum, stime)
-
-	spurl = qb.sstampurl.GetUrl()
 
 
-	# OK, having division here is a bit of a hack - the qb.speaker variable could
-	# be renamed to qb.attributes, for this new general purpose attribute store
-	# (it contains divnumber= and divdate= for divisions)
-	speaker = ''
-	if tagname == 'speech' or tagname == 'division':
-		speaker = qb.speaker
-
-	# get the stamps from the stamp on first speaker in block
-	fout.write('\n<%s id="%s" %s %s %s url="%s">\n' % (tagname, sid, speaker, stithead, sstamp, spurl)) 
-
-	# put out the paragraphs in body text 
-	for lb in body:
-		fout.write('\t')
-		fout.write(lb)
-		fout.write('\n')
-
-	fout.write('</%s>\n' % (tagname))
-
-
-
-# Handle normal type heading 
-def NormalHeadingPart(sht0, stampurl, sdate): 
+# Handle normal type heading
+def NormalHeadingPart(sht0, stampurl):
 	# This is an attempt at major heading detection.
 	# This theory is utterly flawed since you can only tell the major headings
 	# by context, for example, the title of the adjournment debate, which is a
@@ -198,23 +160,19 @@ def NormalHeadingPart(sht0, stampurl, sdate):
 	# detect if this is a major heading and record it in the correct variable
 
 	# set the title for this batch
-        sht0 = string.strip(sht0)
+	sht0 = string.strip(sht0)
 
 	bmajorheading = False
 
-	# detect division headings 
-	gdiv = re.match('Division No. (\d+)', sht0)
-	divno = -1
-	if gdiv:
-		divno = string.atoi(gdiv.group(1))
-        # Oral question are really a major heading
-        elif sht0 == 'Oral Answers to Questions':
+
+	# Oral question are really a major heading
+	if sht0 == 'Oral Answers to Questions':
 		bmajorheading = True
-        # Check if there are any other spellings of "Oral Answers to Questions" with a loose match
-        elif re.search('oral(?i)', sht0) and re.search('ques(?i)', sht0):
-                raise Exception, 'Oral question match not precise enough: %s' % sht0
-	
-        # All upper case headings 
+	# Check if there are any other spellings of "Oral Answers to Questions" with a loose match
+	elif re.search('oral(?i)', sht0) and re.search('ques(?i)', sht0):
+		raise Exception, 'Oral question match not precise enough: %s' % sht0
+
+	# All upper case headings
 	elif not re.search('[a-z]', sht0):
 		bmajorheading = True
 
@@ -222,22 +180,113 @@ def NormalHeadingPart(sht0, stampurl, sdate):
 	elif re.search('_head', stampurl.aname):
 		bmajorheading = True
 
-        # we're not writing a block for division headings
-        if divno != -1:
-                qb = None
-        # write out block for headings
-        elif bmajorheading:
-                stampurl.majorheading = FixHTMLEntities(sht0)
-                stampurl.title = ''
-                qb = qspeech('', stampurl.majorheading, stampurl, sdate)
-                qb.typ = 'debmajor'
+	# we're not writing a block for division headings
+	# write out block for headings
+	qb = qspeech('nospeaker="true"', FixHTMLEntities(sht0), stampurl)
+	if bmajorheading:
+		qb.typ = 'major-heading'
+	else:
+		qb.typ = 'minor-heading'
 
-        else:
-                stampurl.title = FixHTMLEntities(sht0)
-                qb = qspeech('', stampurl.title, stampurl, sdate)
-                qb.typ = 'debminor'
+	# headings become one unmarked paragraph of text
+	qb.stext = [ qb.text ]
+	return qb
 
-	return (divno, qb)	
+
+# handle a division case
+def DivisionParsingPart(divno, unspoketxt, stampurl, sdate):
+	# find the ending of the division and split it off.
+	gquesacc = re.search("(Question accordingly)", unspoketxt)
+	if gquesacc:
+		divtext = unspoketxt[:gquesacc.end(1)]
+		unspoketxt = unspoketxt[gquesacc.start(1):]
+	else:
+		divtext = unspoketxt
+		print "division missing question accordingly"
+		unspoketxt = ''
+
+	# Add a division object (will contain votes and motion text)
+	spattr = 'nospeaker="true" divdate="%s" divnumber="%s"' % (sdate, divno)
+	qbd = qspeech(spattr, divtext, stampurl)
+	qbd.typ = 'division' # this type field seems easiest way
+
+	# filtering divisions here because we may need more sophisticated detection
+	# of end of division than the "Question accordingly" marker.
+	qbd.stext = FilterDivision(qbd.text, sdate)
+
+	return (unspoketxt, qbd)
+
+
+# pull out the lines in the previous speech
+#	<p><i>Question put,</i> That the amendment be made: &mdash; </p>
+#	<p class="announce-division" ayes="145" noes="366"><i>The House divided:</i> Ayes 145, Noes 366.</p>
+rehousediv = re.compile('<p[^>]*><i>The (?:House|Committee) (?:having )?divided(?:</i>|:)+ Ayes (\d+), Noes (\d+)\.</p>$')
+rehousedivmarginal = re.compile('house divided.*?ayes.*?Noes')
+
+#<a name="40316-33_para15"><i>It being Seven o'clock,</i> Madam Deputy Speaker <i>put the Question already proposed from the Chair, pursuant to Order [5 January].</i>
+regqput = ".*?question put.*?</p>"
+regqputt = ".*?question, .*?, put.*?</p>"
+regitbe = "(?:<[^>]*>|\s)*It being .*?o'clock(?i)"
+regitbepq = "(?:<[^>]*>|\s)*It being .*? hours .*? put the question(?i)"
+regitbepq1 = "(?:<[^>]*>|\s)*It being .*? (?:hour|minute).*?(?i)"
+reqput = re.compile('%s|%s|%s|%s|%s(?i)' % (regqput, regqputt, regitbe, regitbepq1, regitbepq))
+
+def GrabDivisionProced(qbp, qbd):
+	if qbp.typ != 'speech' or len(qbp.stext) < 1:
+
+		# this is that crazy correction one
+		if qbp.sstampurl.sdate == '2003-12-18':
+			return None
+
+		print qbp.stext
+		raise Exception, "previous to division not speech"
+
+
+	hdg = rehousediv.match(qbp.stext[-1])
+	if not hdg:
+		print qbp.stext[-1]
+		# another correction one
+		if qbp.sstampurl.sdate == '2003-09-16':
+			return None
+		raise Exception, "no house divided before division"
+
+	# check for house divided consistency in vote counting
+	hdivayes = string.atoi(hdg.group(1))
+	hdivnoes = string.atoi(hdg.group(2))
+	hdivcg = re.match('\s*<divisioncount ayes="(\d+)" noes="(\d+)"', qbd.stext[0])
+	hdivcayes = string.atoi(hdivcg.group(1))
+	hdivcnoes = string.atoi(hdivcg.group(2))
+
+	if (hdivayes != hdivcayes) or (hdivnoes != hdivcnoes):
+		print "Mismatch in vote-counting [tbd full report]"
+		print qbp.stext[-1]
+		print qbd.stext[0]
+
+	# if previous thing is already a no-speaker, we don't need to break it out
+	# (the coding on the question put is complex and multilined)
+	if re.search('nospeaker="true"', qbp.speaker):
+		return None
+
+	iskim = 1
+	hdq = reqput.match(qbp.stext[-2])
+	if not hdq:
+		# this is the speaker telling them to move on
+		if not re.search('Serjeant at Arms|peaceful outcome', qbp.stext[-2]):
+			print qbp.stext[-2]
+			raise Exception, "no question put before division"
+
+	else:
+		iskim = 2
+
+	# copy the two lines into a non-speaking paragraph.
+	qbdp = qspeech('nospeaker="true"', "", qbp.sstampurl)
+	qbdp.typ = 'speech'
+	qbdp.stext = qbp.stext[-iskim:]
+
+	# trim back the given one by two lines
+	qbp.stext = qbp.stext[:-iskim]
+
+	return qbdp
 
 
 ################
@@ -253,123 +302,67 @@ def FilterDebateSections(fout, text, sdate):
 	# break down into lists of headings and lists of speeches
 	(ih, stampurl) = StripDebateHeadings(headspeak, sdate)
 
-	# loop through each detected heading and the detected partitioning of speeches which follow. 
-	qbl = [ ]
+	# loop through each detected heading and the detected partitioning of speeches which follow.
+	# this is a flat output of qspeeches, some encoding headings, and some divisions.
+	# see the typ variable for the type.
+	flatb = [ ]
 	for i in range(ih, len(headspeak)):
-		# triplet of ( heading, unspokentext, [(speaker, text)] ) 
+		# triplet of ( heading, unspokentext, [(speaker, text)] )
 		sht = headspeak[i]
+		headingtxt = string.strip(sht[0])
+		unspoketxt = sht[1]
+		speechestxt = sht[2]
 
-		# we convert this section into a list of speeches with an empty 
-		# speech block at the top.  (If we didn't, we'd miss titles with no speeches).  
-		# the stampurl object keeps the title info in it as well.  
-		qblock = [ ]
+		# the heading detection, as a division or a heading speech object
+		# detect division headings
+		gdiv = re.match('Division No. (\d+)', headingtxt)
 
-		# the heading (empty speech) object 
-		(divno, qb) = NormalHeadingPart(sht[0], stampurl, sdate)
-                if qb:
-                        qblock.append(qb)  
+		# heading type
+		if not gdiv:
+			qbh = NormalHeadingPart(headingtxt, stampurl)
 
-		# the unspoken text after the heading part 
+			# ram together minor headings into previous ones which have no speeches
+			if qbh.typ == 'minor-heading' and len(flatb) > 0 and flatb[-1].typ == 'minor-heading':
+				flatb[-1].stext.append(" &mdash; ")
+				flatb[-1].stext.extend(qbh.stext)
 
-		# division case 
-		sht1 = sht[1]
-		if divno != -1:
-			# find the ending of the division 
-			gquesacc = re.search("(Question accordingly)", sht1)
-			if gquesacc:
-				divtext = sht1[:gquesacc.end(1)]
-				sht1 = sht1[gquesacc.start(1):]
+			# otherwise put out this heading
 			else:
-				divtext = sht1
-				print "division missing question accordingly" 
-				sht1 = ''
-			
-			
+				flatb.append(qbh)
 
-			# Add a division object (will contain votes and motion text)
-			qb = qspeech('divdate="%s" divnumber="%s"' % (sdate, divno), divtext, stampurl, sdate) 
-			qb.typ = 'debdiv' # this type field seems easiest way  
-			qblock.append(qb)
-
-
-		# non-division unspoken text
-		if True:
-			# case of unspoken text (between heading and first speaker)
-			# which we will frig for now.
-			# there is some text
-			if (not re.match('(?:<[^>]*>|\s)*$', sht1)):
-				qb = qspeech('nospeaker="true"', sht1, stampurl, sdate)
-				qb.typ = 'debspeech'
-				qblock.append(qb)
-
-			else:
-				# there is no text
-				# update from stamps if there are any
-				stampurl.UpdateStampUrl(sht1)
+		# division case
+		else:
+			(unspoketxt, qbd) = DivisionParsingPart(string.atoi(gdiv.group(1)), unspoketxt, stampurl, sdate)
+			qbdp = GrabDivisionProced(flatb[-1], qbd)
+			if qbdp:
+				flatb.append(qbdp)
+			flatb.append(qbd)
 
 
+		# continue and output unaccounted for unspoken text occuring after a
+		# division, or after a heading
+		if (not re.match('(?:<[^>]*>|\s)*$', unspoketxt)):
+			qb = qspeech('nospeaker="true"', unspoketxt, stampurl)
+			qb.typ = 'speech'
+			FilterDebateSpeech(qb)
+			flatb.append(qb)
+
+		# there is no text; update from stamps if there are any
+		else:
+			stampurl.UpdateStampUrl(unspoketxt)
 
 		# go through each of the speeches in a block and put it into our batch of speeches
-		for ss in sht[2]:
-			qb = qspeech(ss[0], ss[1], stampurl, sdate)
-			qb.typ = 'debspeech'
-			qblock.append(qb)
-
-		# put this heading block into the speech block.  
-		qbl.append(qblock)
+		for ss in speechestxt:
+			qb = qspeech(ss[0], ss[1], stampurl)
+			qb.typ = 'speech'
+			FilterDebateSpeech(qb)
+			flatb.append(qb)
 
 
-	# we now have headings and series of speeches in qbl.
-	# this is where we do some transformation and gluing together of the parts
-
-
-	# go through all the speeches in all the batches and clear them up (converting text to stext)
-	for qblock in qbl:
-		for qb in qblock:
-			if qb.typ == 'debdiv':
-				FilterDivision(qb)
-			elif qb.typ == 'debspeech':
-				FilterDebateSpeech(qb)
-			# heading type 
-			else:
-				qb.stext = [ qb.text ] 
-		
-        # flatten list of blocks into one list, and merge together adjacent
-        # headings where necessary
-        flatb = [];
-	for qblock in qbl:
-		for qb in qblock:
-                        # merge together adjacent subheadings
-                        # TODO: WARNING - this doesn't alter all the title
-                        # fields stored in the qb really it should
-                        if qb.typ == 'debminor' and len(flatb) > 0 and flatb[-1].typ == 'debminor':
-                                flatb[-1].stext.append(" &mdash; ")
-                                flatb[-1].stext.extend(qb.stext)
-                        else:
-                                flatb.append(qb)
+	# we now have everything flattened out in a series of speeches
 
 	# output the list of entities
-	WriteXMLHeader(fout);
-	fout.write("<publicwhip>\n")
-        for qb in flatb:
-                if qb.typ == 'debmajor':
-                        fout.write('\n')
-                        WriteXMLChunk(fout, qb, sdate, 'major-heading', qb.stext)
-                        fout.write('\n')
-                elif qb.typ == 'debminor':
-                        fout.write('\n')
-                        WriteXMLChunk(fout, qb, sdate, 'minor-heading', qb.stext)
-                        fout.write('\n')
-                elif qb.typ == 'debspeech':
-                        WriteXMLChunk(fout, qb, sdate, 'speech', qb.stext)
-                elif qb.typ == 'debdiv':
-                        fout.write('\n')
-                        WriteXMLChunk(fout, qb, sdate, 'division', qb.stext)
-                        fout.write('\n')
-                else:
-                        raise Exception, 'question block type unknown %s ' % qb.type
+	WriteXMLFile(fout, flatb, sdate)
 
-	fout.write("</publicwhip>\n")
-	
 
 

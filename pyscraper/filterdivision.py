@@ -79,13 +79,13 @@ def MpTellerList(fsm, vote, sdate):
 
 
 # this splitting up isn't going to deal with some of the bad cases in 2003-09-10
-def FilterDivision(qs):
+def FilterDivision(text, sdate):
 
 	# the intention is to splice out the known parts of the division
-	fs = re.split('\s*(?:<br>|<p>|\n)\s*(?i)', qs.text)
+	fs = re.split('\s*(?:<br>|<p>|\n)\s*(?i)', text)
 
 	# extract the positions of the key statements
-	statem = [ 'AYES', 'Tellers for the Ayes:', 'NOES', 'Tellers for the Noes:', 'Question accordingly.*' ]
+	statem = [ 'AYES', 'Tellers for the Ayes:', 'NOES', 'Tellers for the Noes:', 'Question accordingly.*|</FONT>' ]
 	istatem = [ -1, -1, -1, -1, -1 ]
 
 	for i in range(len(fs)):
@@ -96,6 +96,15 @@ def FilterDivision(qs):
 					raise Exception, ' already set '
 				istatem[si] = i
 
+	# deferred division, no tellers
+	if istatem[1] == -1 and istatem[3] == -1:
+		istatem[1] = istatem[2]
+		istatem[3] = istatem[4]
+
+	for si in range(5):
+		if istatem[si] == -1:
+			print istatem
+			raise Exception, ' division delimeter not set '
 
 	mpayes = [ ]
 	mptayes = [ ]
@@ -103,27 +112,28 @@ def FilterDivision(qs):
 	mptnoes = [ ]
 
 	if (istatem[0] < istatem[1]) and (istatem[0] != -1) and (istatem[1] != -1):
-		mpayes = MpList(fs[istatem[0]+1:istatem[1]], 'aye', qs.sdate)
+		mpayes = MpList(fs[istatem[0]+1:istatem[1]], 'aye', sdate)
 	if (istatem[2] < istatem[3]) and (istatem[2] != -1) and (istatem[3] != -1):
-		mpnoes = MpList(fs[istatem[2]+1:istatem[3]], 'no', qs.sdate)
+		mpnoes = MpList(fs[istatem[2]+1:istatem[3]], 'no', sdate)
 
 	if (istatem[1] < istatem[2]) and (istatem[1] != -1) and (istatem[2] != -1):
-		mptayes = MpTellerList(fs[istatem[1]+1:istatem[2]], 'aye', qs.sdate)
+		mptayes = MpTellerList(fs[istatem[1]+1:istatem[2]], 'aye', sdate)
 	if (istatem[3] < istatem[4]) and (istatem[3] != -1) and (istatem[4] != -1):
-		mptnoes = MpTellerList(fs[istatem[3]+1:istatem[4]], 'no', qs.sdate)
-
-	qs.stext = [ ]
-	qs.stext.append('<divisioncount ayes="%d" noes="%d" tellerayes="%d" tellernoes="%d"/>' % (len(mpayes), len(mpnoes), len(mptayes), len(mptnoes)))
-	qs.stext.append('<mplist vote="aye">')
-	qs.stext.extend(mpayes)
-	qs.stext.extend(mptayes)
-	qs.stext.append('</mplist>')
-	qs.stext.append('<mplist vote="no">')
-	qs.stext.extend(mpnoes)
-	qs.stext.extend(mptnoes)
-	qs.stext.append('</mplist>')
+		mptnoes = MpTellerList(fs[istatem[3]+1:istatem[4]], 'no', sdate)
 
 
+	stext = [ ]
+	stext.append('<divisioncount ayes="%d" noes="%d" tellerayes="%d" tellernoes="%d"/>' % (len(mpayes), len(mpnoes), len(mptayes), len(mptnoes)))
+	stext.append('<mplist vote="aye">')
+	stext.extend(mpayes)
+	stext.extend(mptayes)
+	stext.append('</mplist>')
+	stext.append('<mplist vote="no">')
+	stext.extend(mpnoes)
+	stext.extend(mptnoes)
+	stext.append('</mplist>')
+
+	return stext
 
 rebr = re.compile('\s*<br>\s*')
 # Cope of Berkeley, L. [Teller]

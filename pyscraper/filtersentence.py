@@ -101,11 +101,14 @@ class PhraseTokenize:
 		self.DateTokens1(qs, stex)
 
 
-	def GetPara(self, ptype):
-		if ptype:
+	def GetPara(self, ptype, bBegToMove=False):
+		if bBegToMove:
+			res = [ '<p class="%s" pwmotiontext="True">' % ptype ]
+		elif ptype:
 			res = [ '<p class="%s">' % ptype ]
 		else:
 			res = [ '<p>' ]
+
 		for tok in self.toklist:
 			if tok[0]:
 				res.append('<%s%s>' % (tok[0], tok[1]))
@@ -113,6 +116,7 @@ class PhraseTokenize:
 				res.append('</%s>' % tok[0])
 			else:
 				res.append(tok[2])
+
 		res.append('</p>')
 		return string.join(res, '')
 

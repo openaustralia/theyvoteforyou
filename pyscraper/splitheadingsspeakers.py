@@ -14,34 +14,49 @@ import StringIO
 
 # this class contains the running values for place identification as we scan through the file.
 class StampUrl:
-	def __init__(self):
-		self.stamp = ''
+	def __init__(self, lsdate):
+		self.sdate = lsdate
+
+		# url of this record
 		self.pageurl = ''
-		self.majorheading = 'BLANK MAJOR HEADING'
-		self.ncid = 0
+		# column number stamp
+		self.stamp = ''
+		# last time stamp
 		self.timestamp = ''
-                self.aname = ''
+		# last <a name=""> html code, for identifying major headings
+		self.aname = ''
 
-        # this is shambolically also done in clsinglespeech.py
+	# extract the stamp codes from the text, and return the glued together text.
 	def UpdateStampUrl(self, text):
-                # print "UpdateStampURL in splitheadingsspeakers.py", text
-		for st in re.findall('(<stamp coldate[^>]*?/>)', text):
-			self.stamp = st
-		for st in re.findall('(<stamp aname[^>]*?/>)', text):
-			self.aname = st
-		for stp in re.findall('<(page url[^>]*?)/?>', text):
-			self.pageurl = '<%s/>' % stp  # puts missing slash back in.
-		for st in re.findall('(<stamp time[^>]*?/>)', text):
-			self.timestamp = st
+		# remove the stamps from the text, checking for cases where we can glue back together.
+		sp = re.split('(<stamp [^>]*>|<page url[^>]*>)', text)
+		for i in range(len(sp)):
+			if re.match('<stamp [^>]*>', sp[i]):
+				if re.match('<stamp time[^>]*>', sp[i]):
+					self.timestamp = sp[i]
+				elif re.match('<stamp aname[^>]*>', sp[i]):
+					self.aname = sp[i]
+				else:
+					self.stamp = sp[i]
+				sp[i] = ''
 
-        def GetUrl(self):
-            spurl = re.match('<page url="(.*?)"/>', self.pageurl).group(1)
-            anamem = re.match('<stamp aname="(.*?)"/>', self.aname)
-            if anamem:
-                saname = anamem.group(1)
-                return '%s#%s' % (spurl, saname)
-            else:
-                return spurl
+			elif re.match('<page url[^>]*>', sp[i]):
+				self.pageurl = sp[i]
+				sp[i] = ''
+
+		# stick everything back together
+		return string.join(sp, '')
+
+
+	# extract a url and hash link to position in the web.
+	def GetUrl(self):
+		spurl = re.match('<page url="(.*?)"/>', self.pageurl).group(1)
+		anamem = re.match('<stamp aname="(.*?)"/>', self.aname)
+		if anamem:
+			saname = anamem.group(1)
+			return '%s#%s' % (spurl, saname)
+		else:
+			return spurl
 
 
 
@@ -71,7 +86,7 @@ resectiont4val = re.compile('<p>\s*<center>(.*?)</center><p>(?i)')
 # These aren't actually headings, even though they are <H4><center>
 renotheading = re.compile('>\s*(The .* was asked\s*&#151;)\s*<')
 # catch cases of the previous regexp not being broad enough
-renotheadingmarg = re.compile('asked')                
+renotheadingmarg = re.compile('asked')
 
 class SepHeadText:
 	def EndSpeech(self):
@@ -137,7 +152,7 @@ class SepHeadText:
 				self.speaker = gspeaker.group(1)
 				continue
 
-			# recognize a heading instance
+			# recognize a heading instance from the four kinds
 			gheading = resectiont1val.match(fss)
 			if not gheading:
 				gheading = resectiont2val.match(fss)
@@ -145,28 +160,27 @@ class SepHeadText:
 				gheading = resectiont3val.match(fss)
 			if not gheading:
 				gheading = resectiont4val.match(fss)
+
+			# we have matched a heading thing
 			if gheading:
 				if not gheading.group(1):
 					# print 'ignored heading tag containing no text following: ' + self.heading
 					continue
 
-                                # there's a negative regexp match (for "The ... was asked - " which
-                                # isn't a heading even though it looks like one).  Check we don't
-                                #  match it.
-                                negativematch = renotheading.search(fss)
-                                if not negativematch:
+				# there's a negative regexp match (for "The ... was asked - " which
+				# isn't a heading even though it looks like one).  Check we don't
+				#  match it.
+				negativematch = renotheading.search(fss)
+				if not negativematch:
+					if renotheadingmarg.search(fss):
+						raise Exception, '"The ... was asked" match not broad enough: %s' % fss
 
-                                    if renotheadingmarg.search(fss):
-                                        raise Exception, '"The ... was asked" match not broad enough: %s' % fss
+					# we are definitely a heading
+					self.EndHeading(gheading.group(1))
+					continue
 
-                                    # we are definitely a heading
-                                    self.EndHeading(gheading.group(1))
-                                    continue
-
-                                #print "renotheading matched ", fss
-                                fss = negativematch.group(1)
-                                    
-                                    
+				#print "renotheading matched ", fss
+				fss = negativematch.group(1)
 
 
 			# more plain text; throw back into the pot.
@@ -176,6 +190,7 @@ class SepHeadText:
 			self.textl.append(fss)
 
 		self.EndHeading('No more')
+
 
 # main function.
 def SplitHeadingsSpeakers(text):

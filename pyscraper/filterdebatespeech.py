@@ -21,20 +21,6 @@ from filtersentence import PhraseTokenize
 
 pcode = [ '', 'indent', 'italic', 'indentitalic' ]
 
-rehousediv = re.compile('<i>The House divided:</i> Ayes (\d+), Noes (\d+)\.$')
-rehousedivmarginal = re.compile('house divided.*?ayes.*?Noes')
-
-def ProceduralTextDetector(tp, tpcode):
-	#<i>The House divided:</i> Ayes 335, Noes 129.
-	hdg = rehousediv.match(tp)
-	if hdg: 
-		return '<p class="announce-division" ayes="%s" noes="%s">%s</p>' % (hdg.group(1), hdg.group(2), FixHTMLEntities(tp))
-
-	if rehousedivmarginal.search(tp): 
-		print "Marginal case: %s" % tp
-
-	return ''
-	
 
 # this is the main function.
 def FilterDebateSpeech(qs):
@@ -46,21 +32,25 @@ def FilterDebateSpeech(qs):
 	i = 0
 
 	# go through the rest of the paragraphs
+	bBegToMove = False
 	while i < len(textp):
+
 		# deal with tables
 		if re.match('<table(?i)', textp[i]):
 			qs.stext.append(ParseTable(textp[i]))
-
+			bBegToMove = False
 
 		# nothing special about this paragraph (except it may be indented)
 		else:
-			tpx = ProceduralTextDetector(textp[i], textpindent[i])
+			if re.match("I beg to move", textp[i]):
+				btBegToMove = True
+			else:
+				btBegToMove = False
 
-			# otherwise it's a line of standard text that may be italicked 
-			if not tpx: 
-				pht = PhraseTokenize(qs, textp[i])
-				tpx = pht.GetPara(pcode[textpindent[i]])
-				
+			pht = PhraseTokenize(qs, textp[i])
+			tpx = pht.GetPara(pcode[textpindent[i]], bBegToMove or btBegToMove)
+			bBegToMove = btBegToMove
+
 			qs.stext.append(tpx)
 
 		i = i + 1
