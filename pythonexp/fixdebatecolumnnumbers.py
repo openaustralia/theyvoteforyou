@@ -9,42 +9,25 @@ import string
 # <stamp time="3.55 pm"/>
 # <stamp coldate="7 Nov 2000" colnum="139"/>
 
-# in and out files for this filter
-dirin = "c1daydebateremovechars"
-dirout = "c2daydebatefixcolumnnumbers"
-dtemp = "daydebtemp.htm"
+def FixColumnNumbers(fout, finr):
 
-# <B>7 Nov 2000 : Column 180</B>
-lcolumnregexp = '<b>\s*.*?\s*:\s*column\s*\d+\s*</b>(?i)'
-columnregexp = '<b>\s*(.*?)\s*:\s*column\s*(\d+)\s*</b>(?i)'
+	# <B>7 Nov 2000 : Column 180</B>
+	lcolumnregexp = '<b>\s*.*?\s*:\s*column\s*\d+\s*</b>(?i)'
+	columnregexp = '<b>\s*(.*?)\s*:\s*column\s*(\d+)\s*</b>(?i)'
 
-#<i>14 Oct 2003 : Column 31&#151;continued</i>
-lcolumncontregexp = '<i>\s*.*?\s*:\s*column\s*\d+&#151;continued\s*</i>(?i)'
-columncontregexp = '<i>\s*(.*?)\s*:\s*column\s*(\d+)&#151;continued\s*</i>(?i)'
+	#<i>14 Oct 2003 : Column 31&#151;continued</i>
+	lcolumncontregexp = '<i>\s*.*?\s*:\s*column\s*\d+&#151;continued\s*</i>(?i)'
+	columncontregexp = '<i>\s*(.*?)\s*:\s*column\s*(\d+)&#151;continued\s*</i>(?i)'
 
-# <H5>4.40 pm</H5>  or <H4>4 pm</H4>
-ltimeregexp = '<h\d>[\d.]+\s*[ap]m(?:</st>)?</h\d>(?i)'
-timeregexp = '<h\d>([\d.]+\s*[ap]m(?:</st>)?)</h\d>(?i)'
+	# <H5>4.40 pm</H5>  or <H4>4 pm</H4>
+	ltimeregexp = '<h\d>[\d.]+\s*[ap]m(?:</st>)?</h\d>(?i)'
+	timeregexp = '<h\d>([\d.]+\s*[ap]m(?:</st>)?)</h\d>(?i)'
 
-combiregexp = '(%s|%s|%s)' % (lcolumnregexp, lcolumncontregexp, ltimeregexp)
+	combiregexp = '(%s|%s|%s)' % (lcolumnregexp, lcolumncontregexp, ltimeregexp)
 
-# scan through directory
-fdirin = os.listdir(dirin)
 
-for fin in fdirin:
-	jfin = os.path.join(dirin, fin)
-	jfout = os.path.join(dirout, fin)
-	if os.path.isfile(jfout):
-		print "skipping " + fin
-		continue
+	fs = re.split(combiregexp, finr)
 
-	print fin
-	fin = open(jfin);
-	fr = fin.read()
-	fs = re.split(combiregexp, fr)
-	fin.close()
-
-	tempfile = open(dtemp, "w")
 	lcoldate = ''
 	lcolnum = -1
 
@@ -68,7 +51,7 @@ for fin in fdirin:
 				# column numbers do get skipped during division listings
 
 				lcolnum = llcolnum
-				tempfile.write('<stamp coldate="%s" colnum="%s"/>' % columngroup[0])  # a tuple
+				fout.write('<stamp coldate="%s" colnum="%s"/>' % columngroup[0])  # a tuple
 
 			else:
 				pass #print "spurious column number decrementation -- don't output"
@@ -88,11 +71,9 @@ for fin in fdirin:
 
 		timegroup = re.findall(timeregexp, fss)
 		if len(timegroup) != 0:
-			tempfile.write('<stamp time="%s"/>' % timegroup[0])
+			fout.write('<stamp time="%s"/>' % timegroup[0])
 			continue
 
-		tempfile.write(fss)
+		fout.write(fss)
 
-	tempfile.close()
-	os.rename(dtemp, jfout)
 

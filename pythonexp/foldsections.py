@@ -9,17 +9,14 @@ from stripsections import StripSections
 # this filter finds the speakers and replaces with full itendifiers
 # <speaker name="Eric Martlew  (Carlisle)"><p>Eric Martlew  (Carlisle)</p></speaker>
 
-# in and out files for this filter
-dirin = "c3daydebatematchspeakers"
-dirout = "c4folding"
-dtemp = "daydebtemp.htm"
+def Folding(fout, finr):
 
-lsectionregexp = '(<center>.*?</center>|<h\d align=center>.*?</h\d>)(?i)'
-sectionregexp1 = '<center>(.*?)</center>(?i)'
-sectionregexp2 = '<h\d align=center>(.*?)</h\d>(?i)'
+	lsectionregexp = '(<center>.*?</center>|<h\d align=center>.*?</h\d>)(?i)'
+	sectionregexp1 = '<center>(.*?)</center>(?i)'
+	sectionregexp2 = '<h\d align=center>(.*?)</h\d>(?i)'
 
 
-foldhtmlhead = """
+	foldhtmlhead = """
 <html>
 <head>
 <title>Folding Debates</title>
@@ -70,34 +67,14 @@ function cycle(me)
 </head>
 <body>
 """
-foldhtmlfoot = "</body></html>"
+	foldhtmlfoot = "</body></html>"
 
-# scan through directory
-fdirin = os.listdir(dirin)
+	fout.write(foldhtmlhead)
 
+	#sdatel = re.findall('(\d{4}-\d{2}-\d{2})', finr)
+	sdate = '1900-01-01'  # sdatel[0]
+	stsec = StripSections(finr, sdate)
 
-for fin in fdirin:
-	jfin = os.path.join(dirin, fin)
-	jfout = os.path.join(dirout, fin)
-	if os.path.isfile(jfout):
-		print "skipping " + fin
-		continue
+	stsec.foldwrite(fout)
 
-	print fin
-	ffin = open(jfin);
-	fr = ffin.read()
-	ffin.close()
-
-	tempfile = open(dtemp, "w")
-	tempfile.write(foldhtmlhead)
-
-	sdatel = re.findall('(\d{4}-\d{2}-\d{2})', jfin)
-	sdate = sdatel[0]
-	stsec = StripSections(fr, sdate)
-
-	stsec.foldwrite(tempfile)
-
-	tempfile.write(foldhtmlfoot)
-	tempfile.close()
-
-	os.rename(dtemp, jfout)
+	fout.write(foldhtmlfoot)

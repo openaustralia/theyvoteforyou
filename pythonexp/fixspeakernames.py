@@ -8,41 +8,18 @@ import string
 # this filter finds the speakers and replaces with full itendifiers
 # <speaker name="Eric Martlew  (Carlisle)"><p>Eric Martlew  (Carlisle)</p></speaker>
 
-# in and out files for this filter
-dirin = "c2daydebatefixcolumnnumbers"
-dirout = "c3daydebatematchspeakers"
-dtemp = "gdaydebtemp.htm"
+def SpeakerNames(fout, finr):
 
+	# <B> Mr. Eric Martlew  (Carlisle):</B>
+	# <B> Mr. Grieve: </B>
+	lspeakerregexp = '(<b>.*?</b>\s*?:|<b>.*?</b>)(?i)'
+	speakerregexp = '<b>\s*([^:]*?):?\s*</b>(?i)'
 
-# <B> Mr. Eric Martlew  (Carlisle):</B>
-# <B> Mr. Grieve: </B>
-lspeakerregexp = '(<b>.*?</b>\s*?:|<b>.*?</b>)(?i)'
-speakerregexp = '<b>\s*([^:]*?):?\s*</b>(?i)'
-
-#print re.findall(lspeakerregexp, '<b> hi there </b> \n: dkdk')
-#sys.exit()
-
-# scan through directory
-fdirin = os.listdir(dirin)
-
-for fin in fdirin:
-	jfin = os.path.join(dirin, fin)
-	jfout = os.path.join(dirout, fin)
-	if os.path.isfile(jfout):
-		print "skipping " + fin
-		continue
-
-	print fin
-	fin = open(jfin);
-	fr = fin.read()
-	fin.close()
-
-	tempfile = open(dtemp, "w")
 
 	# setup for scanning through the file.
 	# we should have a name matching module which gets the unique ids, and
 	# takes the full speaker name and date to find a match.
-	fs = re.split(lspeakerregexp, fr)
+	fs = re.split(lspeakerregexp, finr)
 
 	# hard code one value
 	nameexp = { 'The Prime Minister':'Mr. Tony Blair ((The Prime Minister))'}
@@ -53,7 +30,7 @@ for fin in fdirin:
 			continue
 		speakergroup = re.findall(speakerregexp, fss)
 		if len(speakergroup) == 0:
-			tempfile.write(fss)
+			fout.write(fss)
 			continue
 
 		# we have a string in bold
@@ -61,7 +38,7 @@ for fin in fdirin:
 
 		# discard divisions from consideration
 		if (re.search('Division', boldnamestring)):
-			tempfile.write(fss)
+			fout.write(fss)
 			continue
 
 		# full name type : Mr. Eric Martlew  (Carlisle)
@@ -116,8 +93,6 @@ for fin in fdirin:
 
 		# now output what we've decided
 		#print boldnamestring
-		tempfile.write('<p><speaker name="%s"><font color="#003fcf">%s</font></speaker></p>\n' % (boldnamestring, boldnamestring))
+		fout.write('<p><speaker name="%s"><font color="#003fcf">%s</font></speaker></p>\n' % (boldnamestring, boldnamestring))
 
-	tempfile.close()
-	os.rename(dtemp, jfout)
 
