@@ -4,10 +4,12 @@ Speedup ideas:
 
 Being errors found each day running the scraping cron job
 Out of sequence dates are when the rescraper picked up new stuff?
+Dates are quite rough as sometimes I put todays date rather than the error date
 CRON = cron job on baked
 PWIP = weekly Public Whip update
 
-CRON 2004-06-17 Gareth Thomas disambiguation of office, date moved forward
+CRON 2004-06-17 "Dame" added to list of titles in resolvemembernames.py
+CRON 2004-06-16 Gareth Thomas disambiguation of office, date moved forward
 CRON 2004-06-14 Confusing <P ALIGN="center"> in table
 CRON 2004-06-14 Style padding attributes in <td> in a wrans
 CRON 2004-06-11 Four part question broken into two sections
