@@ -1,5 +1,6 @@
 #!/usr/bin/env python2.3
-# $Id: faxyourmpconv.py,v 1.2 2004/03/18 14:01:21 frabcus Exp $
+# $Id: faxyourmpconv.py,v 1.3 2004/04/26 16:56:17 frabcus Exp $
+# vim:sw=4:ts=4:et:nowrap
 
 # Converts Fax Your MP responsiveness CSV file into XML - matching
 # member names and adding up data on the way.
@@ -38,6 +39,8 @@ for row in csvreader:
 
     origname, origcons, voteside, votecount = map(string.strip, row)
     origname = origname.replace("\\", "")
+    origcons = origcons.replace("\\", "")
+    origcons = origcons.replace("Stretford and ~~~~~~~", "Stretford and Urmston")
 
     # no longer in house - TODO give better date
     if origname == "Dennis Canavan" or origname == "Rt Hon Paul Daisley": 
