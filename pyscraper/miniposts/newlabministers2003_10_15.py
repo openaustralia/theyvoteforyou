@@ -893,7 +893,6 @@ class Minlabmin:
 		else:
 			fout.write('\ttodate="%s" todateincomplete="yes"\n' % dateofinfo)
 		fout.write('\tsource="newlabministers2003-10-15"/>\n')
-		fout.write('/>\n')
 
 def ParseOldRecords():
 	dept = None
