@@ -27,7 +27,9 @@ class personoffice
 								  "Chancellor of the Exchequer",
 								  "Chancellor of the Duchy of Lancaster",
 								  "Parliamentary Secretary to the Treasury",
+								  "Chief Secretary to the Treasury",
 								  "Lord Privy Seal",
+								  "President of the Council"
 								},
 
 								{ "Minister of State",
@@ -48,7 +50,6 @@ class personoffice
 								  "Assistant Whip",
 								  "Baronesses in Waiting",
 								  "Paymaster General",
-								  "President of the Council",
 								  "Lords in Waiting",
 								  "Comptroller",
 								  "Vice Chamberlain",
