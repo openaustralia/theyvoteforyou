@@ -5,6 +5,9 @@ import re
 import string
 import cStringIO
 
+#! /usr/bin/python2.3
+
+
 
 toaskregexp = '^\s*' +\
 		'to ask the (secretary of state for (?:' +\
@@ -113,7 +116,7 @@ def FilterQuestion(qs):
 
 	# look for numbering in the first section
 	if not re.search('\(2\)', dell[3]):
-		print 'no find'
+		print 'no find ' + qs.sstampurl.stamp
 		#print dell
 		#sys.exit()
 
@@ -140,7 +143,7 @@ def FilterQuestion(qs):
 		qs.stext.append(p1[0][0])
 		qs.stext.append('(1) ' + p1[0][1])
 	else:
-		print 'no first number match'
+		print 'no first number match ' + qs.sstampurl.stamp
 		qs.stext.append(dell[1])
 
 	# do the rest of the paragraphs and look for numbers

@@ -37,9 +37,12 @@ class qspeech:
 			if s:
 				self.text = self.text + s
 
-	def __init__(self, lspeaker, ltext, stampurl):
+	def __init__(self, lspeaker, ltext, stampurl, lsdate):
 		self.speaker = lspeaker
+
 		self.text = ltext
+
+		self.sdate = lsdate
 
 		self.sstampurl = copy.copy(stampurl)
 
@@ -55,7 +58,7 @@ class qspeech:
 
 
 	def FixSpeech(self, qnums):
-		self.qnums = re.findall('\[(\d+)\]', self.text)
+		self.qnums = re.findall('\[(\d+)R?\]', self.text)
 
 		# find the qnums
 		if self.typ == 'ques':

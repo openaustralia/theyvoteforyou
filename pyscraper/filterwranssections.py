@@ -12,67 +12,8 @@ import mx.DateTime
 from miscfuncs import ApplyFixSubstitutions
 from splitheadingsspeakers import SplitHeadingsSpeakers
 from clsinglespeech import qspeech
+from parlphrases import parlPhrases
 
-
-
-majorheadings = {
-		"ADVOCATE-GENERAL":"ADVOCATE-GENERAL",
-			"ADVOCATE GENERAL":"ADVOCATE-GENERAL",
-		"ADVOCATE-GENERAL FOR SCOTLAND":"ADVOCATE-GENERAL FOR SCOTLAND",
-		"CABINET OFFICE":"CABINET OFFICE",
-			"CABINET":"CABINET OFFICE",
-		"CULTURE MEDIA AND SPORT":"CULTURE MEDIA AND SPORT",
-			"CULTURE, MEDIA AND SPORT":"CULTURE MEDIA AND SPORT",
-			"CULTURE, MEDIA AND SPORTA":"CULTURE MEDIA AND SPORT",
-			"CULTURE, MEDIA, SPORT":"CULTURE MEDIA AND SPORT",
-		"CHURCH COMMISSIONERS":"CHURCH COMMISSIONERS",
-		"CONSTITUTIONAL AFFAIRS":"CONSTITUTIONAL AFFAIRS",
-		"DEFENCE":"DEFENCE",
-		"DEPUTY PRIME MINISTER":"DEPUTY PRIME MINISTER",
-		"ENVIRONMENT FOOD AND RURAL AFFAIRS":"ENVIRONMENT FOOD AND RURAL AFFAIRS",
-			"ENVIRONMENT, FOOD AND RURAL AFFAIRS":"ENVIRONMENT FOOD AND RURAL AFFAIRS",
-			"DEFRA":"ENVIRONMENT, FOOD AND RURAL AFFAIRS",
-		"ENVIRONMENT, FOOD AND THE REGIONS":"ENVIRONMENT, FOOD AND THE REGIONS",
-		"ENVIRONMENT":"ENVIRONMENT",
-		"EDUCATION AND SKILLS":"EDUCATION AND SKILLS",
-		"EDUCATION":"EDUCATION",
-		"ELECTORAL COMMISSION COMMITTEE":"ELECTORAL COMMISSION COMMITTEE",
-			"ELECTORAL COMMISSION":"ELECTORAL COMMISSION COMMITTEE",
-		"FOREIGN AND COMMONWEALTH AFFAIRS":"FOREIGN AND COMMONWEALTH AFFAIRS",
-			"FOREIGN AND COMMONWEALTH":"FOREIGN AND COMMONWEALTH AFFAIRS",
-			"FOREIGN AND COMMONWEALTH OFFICE":"FOREIGN AND COMMONWEALTH AFFAIRS",
-		"HOME DEPARTMENT":"HOME DEPARTMENT",
-			"HOME OFFICE":"HOME DEPARTMENT",
-			"HOME":"HOME DEPARTMENT",
-		"HEALTH":"HEALTH",
-		"HOUSE OF COMMONS":"HOUSE OF COMMONS",
-		"HOUSE OF COMMONS COMMISSION":"HOUSE OF COMMONS COMMISSION",
-			"HOUSE OF COMMMONS COMMISSION":"HOUSE OF COMMONS COMMISSION",
-		"INTERNATIONAL DEVELOPMENT":"INTERNATIONAL DEVELOPMENT",
-			"INTERNATIONAL DEVELOPENT":"INTERNATIONAL DEVELOPMENT",
-		"LEADER OF THE HOUSE":"LEADER OF THE HOUSE",
-		"LEADER OF THE COUNCIL":"LEADER OF THE COUNCIL",
-		"LORD CHANCELLOR":"LORD CHANCELLOR",
-			"LORD CHANCELLOR'S DEPARTMENT":"LORD CHANCELLOR",
-			"LORD CHANCELLORS DEPARTMENT":"LORD CHANCELLOR",
-			"LORD CHANCELLOR'S DEPT":"LORD CHANCELLOR",
-		"MINISTER FOR WOMEN":"MINISTER FOR WOMEN",
-		"NORTHERN IRELAND":"NORTHERN IRELAND",
-		"PRIME MINISTER":"PRIME MINISTER",
-		"PRIVY COUNCIL":"PRIVY COUNCIL",
-			"PRIVY COUNCIL OFFICE":"PRIVY COUNCIL",
-		"PRESIDENT OF THE COUNCIL":"PRESIDENT OF THE COUNCIL",
-		"PUBLIC ACCOUNTS COMMISSION":"PUBLIC ACCOUNTS COMMISSION",
-		"SOLICITOR-GENERAL":"SOLICITOR-GENERAL",
-			"SOLICITOR GENERAL":"SOLICITOR-GENERAL",
-		"SCOTLAND":"SCOTLAND",
-		"TRANSPORT":"TRANSPORT",
-		"TRANSPORT, LOCAL GOVERNMENT AND THE REGIONS":"TRANSPORT, LOCAL GOVERNMENT AND THE REGIONS",
-		"TRADE AND INDUSTRY":"TRADE AND INDUSTRY",
-		"TREASURY":"TREASURY",
-		"WALES":"WALES",
-		"WORK AND PENSIONS":"WORK AND PENSIONS",
-		}
 
 
 fixsubs = 	[
@@ -112,6 +53,11 @@ fixsubs = 	[
 	( '<i>The following questions were answered on 10 June</i>', '', 1, '2003-06-10'),
 
 	( 'Vol. No. 412,', '', 1, '2003-11-10'),
+	( '</TH></TH>', '</TH>', 1, '2003-11-17'),
+	( '<TR valign=top><TD><FONT SIZE=-1>Quarter to', '<TR valign=top><TH><FONT SIZE=-1>Quarter to', 1, '2003-05-06'),
+
+	( 'Asked the Minister', 'To ask the Minister', 1, '2003-05-19'),
+	( 'Asked the Minister', 'To ask the Minister', 1, '2003-05-21'),
 
 		]
 
@@ -152,7 +98,7 @@ def StripWransHeadings(headspeak, sdate):
 
 	if (not re.match('The following answers were received.*', headspeak[i][0]) and \
 			(sdate != mx.DateTime.DateTimeFrom(headspeak[i][0]).date)) or headspeak[i][2]:
-		if (not majorheadings.has_key(headspeak[i][0])) or headspeak[i][2]:
+		if (not parlPhrases.majorheadings.has_key(headspeak[i][0])) or headspeak[i][2]:
 			print headspeak[i]
 			raise Exception, 'non-conforming second heading '
 	else:
@@ -168,13 +114,13 @@ def StripWransHeadings(headspeak, sdate):
 	return (i, stampurl)
 
 
-def ScanQBatch(shspeak, stampurl):
+def ScanQBatch(shspeak, stampurl, sdate):
 	shansblock = [ ]
 	qblock = [ ]
 
 	# throw in a batch of speakers
 	for shs in shspeak:
-		qb = qspeech(shs[0], shs[1], stampurl)
+		qb = qspeech(shs[0], shs[1], stampurl, sdate)
 		qblock.append(qb)
 
 		if qb.typ == 'reply':
@@ -191,7 +137,7 @@ def ScanQBatch(shspeak, stampurl):
 
 	if qblock:
 		# these are common failures of the data
-		print "block without answer " + self.title
+		print "block without answer " + stampurl.title
 		shansblock.append(qblock)
 	return shansblock
 
@@ -257,21 +203,21 @@ def FilterWransSections(fout, text, sdate):
 
 		# detect if this is a major heading
 		if not re.search('[a-z]', sht[0]) and not sht[2]:
-			if not majorheadings.has_key(sht[0]):
+			if not parlPhrases.majorheadings.has_key(sht[0]):
 				print '"%s":"%s",' % (sht[0], sht[0])
 				raise Exception, "unrecognized major heading: "
 			else:
 				# correct spellings and copy over
-				stampurl.majorheading = majorheadings[sht[0]]
+				stampurl.majorheading = parlPhrases.majorheadings[sht[0]]
 
 		# non-major heading; to a question batch
 		else:
-			if majorheadings.has_key(sht[0]):
+			if parlPhrases.majorheadings.has_key(sht[0]):
 				print sht[0]
 				raise Exception, ' speeches found in major heading '
 
 			stampurl.title = sht[0]
-			qbl.extend(ScanQBatch(sht[2], stampurl))
+			qbl.extend(ScanQBatch(sht[2], stampurl, sdate))
 
 
 	# go through all the speeches in all the batches and clear them up (converting text to stext)
