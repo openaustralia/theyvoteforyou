@@ -2,7 +2,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.17 2003/10/11 20:54:18 frabcus Exp $
+# $Id: header.inc,v 1.18 2003/10/13 15:15:15 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -33,7 +33,7 @@ function givefocus() { if (document.pw) document.pw.query.focus(); }
 <table align="center" class="container" cellpadding="0" cellspacing="0">
 
 <!-- the site logo -->
-<tr><td class="identity"><a href="index.php"><img src="<?=$toppath?>thepublicwhip.gif" alt="The Public Whip"></a></td></tr>
+<tr><td class="identity"><a href="<?=$toppath?>index.php"><img src="<?=$toppath?>thepublicwhip.gif" alt="The Public Whip"></a></td></tr>
 
 <!-- the main site navigation -->
 <tr class="headers"><td bgcolor="#666666"><a href="<?=$toppath?>index.php">Home</a>
