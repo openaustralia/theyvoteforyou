@@ -1,5 +1,5 @@
 <?php
-    # $Id: decodeids.inc,v 1.9 2005/03/21 19:23:27 goatchurch Exp $
+    # $Id: decodeids.inc,v 1.10 2005/03/27 20:47:17 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -152,6 +152,7 @@
 		$mpname = db_scrub($_GET["mpn$i"]);
 		$mpconstituency = db_scrub($_GET["mpc$i"]);
 		$mppostcode = db_scrub($_GET["mppc$i"]);
+		$mpurlid = db_scrub($_GET["mpid$i"]);
 		if ($bdebug == 1)
 			print "<h1> MPN=".html_scrub($mpname)." MPC=".html_scrub($mpconstituency)." MPPC=".html_scrub($mppostcode)."</h1>";
 
@@ -164,12 +165,18 @@
             
 		if ($mpname == "" and $mpconstituency == "")
 		{
-			if ($i != "")   # legacy doesn't apply to second and third entries which may be blank
-				return null;
-			$mpid = decode_mpid_legacy($db);
-			if ($mpid == null)
-				return null;
-			$bbyconstituency = false;
+            if ($mpurlid != "") {
+                # By identifier directly
+                $mpid = $mpurlid;
+            }
+            else {
+                if ($i != "")   # legacy doesn't apply to second and third entries which may be blank
+                    return null;
+                $mpid = decode_mpid_legacy($db);
+                if ($mpid == null)
+                    return null;
+                $bbyconstituency = false;
+            }
 		}
 
 		# this is stable for one or both matching labels being present
