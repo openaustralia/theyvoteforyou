@@ -14,7 +14,8 @@ A:link, A:active, A:visited
 }
 TABLE.mps A:link, TABLE.mps A:active, TABLE.mps A:visited,
 TABLE.votes A:link, TABLE.votes A:active, TABLE.votes A:visited,
-TABLE.divisions A:link, TABLE.divisions A:active, TABLE.divisions A:visited
+TABLE.divisions A:link, TABLE.divisions A:active, TABLE.divisions A:visited,
+TABLE.edits A:link, TABLE.edits A:active, TABLE.edits A:visited
 {
     TEXT-DECORATION: none
 }
@@ -141,19 +142,7 @@ TABLE
     MARGIN: 0.6em 0px;
     PADDING-TOP: 0px
 }
-TABLE.votes
-{
-    WIDTH: 100%
-}
-TABLE.mps
-{
-    WIDTH: 100%
-}
-TABLE.divisions
-{
-    WIDTH: 100%
-}
-TABLE.wrans
+TABLE.votes, TABLE.mps, TABLE.divisions, TABLE.wrans, TABLE.edits
 {
     WIDTH: 100%
 }

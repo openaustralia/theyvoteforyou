@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.49 2005/02/18 12:13:18 frabcus Exp $
+# $Id: division.php,v 1.50 2005/02/18 15:43:10 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -547,7 +547,7 @@
         print "<h2><a name=\"dreammp\">Dream MP Voters</a></h2>";
         print "<p>The following Dream MPs have voted in this division.  You can use this
            to help you work out the meaning of the vote.";
-        print "<table><tr class=\"headings\">";
+        print "<table class=\"divisions\"><tr class=\"headings\">";
         print "<td>Dream MP</td><td>Vote (in this division)</td><td>Made by</td>";
         while ($row = $db->fetch_row_assoc()) {
             $prettyrow = pretty_row_start($prettyrow);        

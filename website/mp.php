@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.46 2005/02/18 13:57:58 frabcus Exp $
+    # $Id: mp.php,v 1.47 2005/02/18 15:43:10 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -211,7 +211,7 @@
         print "<td colspan=7>" . $event[1] .  "</td></tr>\n";
     }
 
-    print "<table>\n";
+    print "<table class=\"votes\">\n";
     $events_ix = 0;
     for ($i = 0; $i < count($mp_ids); ++$i)
     {
@@ -400,7 +400,7 @@
     print "<p>Votes on motions chosen by a Dream MP.  A selected list which can
         be used to find what an MP stands for. Email us if you think your Dream
         MP is appropriate to include here."; 
-    print "<table>\n";
+    print "<table class=\"mps\">\n";
     print "<tr class=\"headings\">
         <td>Votes</td>
         <td>Made by</td>

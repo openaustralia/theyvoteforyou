@@ -18,7 +18,7 @@
    <p>Recent changes to motion text.
 <?php
 
-    print "<table>\n";
+    print "<table class=\"edits\">\n";
     print "<tr class=\"headings\">
         <td>Object</td>
         <td>Text</td>

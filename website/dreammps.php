@@ -47,7 +47,7 @@ you like.  For example:
    a Dream MP to all Real MPs.  Only Dream MPs who have voted are shown.
 <?php
 
-    print "<table>\n";
+    print "<table class=\"mps\">\n";
     print "<tr class=\"headings\">
         <td>Voted</td>
         <td>Name</td>
