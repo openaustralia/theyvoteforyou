@@ -12,10 +12,17 @@ import miscfuncs
 import difflib
 import mx.DateTime
 
+from xmlfilewrite import WriteXMLHeader
+import newlabministers2003_10_15
 
 toppath = miscfuncs.toppath
 chggdir = os.path.join(toppath, "chggpages")
+sxml = os.path.join(toppath, "scrapedxml")
+chggxml = os.path.join(sxml, "chggxml")
+chgtmp = os.path.join(toppath, "tempchgg.xml")
 
+if not os.path.isdir(chggxml):
+	os.mkdir(chggxml)
 
 uniqgovposns = ["Prime Minister",
 				"Chancellor of the Exchequer",
@@ -45,6 +52,7 @@ uniqgovposns = ["Prime Minister",
 govposns = ["Secretary of State",
 			"Minister without Portfolio",
 			"Minister of State",
+			"Parliamentary Secretary",
 			"Parliamentary Under-Secretary",
 			"Assistant Whip",
 			"Lords Commissioner",
@@ -75,7 +83,7 @@ govdepts = ["Department of Health",
 			"No Department",
 			]
 
-renampos = re.compile("<td><b>([^,]*),\s*([^<]*)</b></td><td>([^,]*)(?:,\s*([^<]*))?(?:</td>)?(?i)")
+renampos = re.compile("<td><b>([^,]*),\s*([^<]*)</b></td><td>([^,<]*)(?:,\s*([^<]*))?(?:</td>)?\s*$(?i)")
 
 class protooffice:
 	def __init__(self, lsdatet, e, deptno):  # department number to extract multiple departments
@@ -84,24 +92,48 @@ class protooffice:
 		nampos = renampos.match(e)
 		self.lasname = nampos.group(1)
 		self.froname = nampos.group(2)
-		self.pos = nampos.group(3)
+		pos = nampos.group(3)
 		dept = nampos.group(4) or "No Department"
 
 		# separate out the departments if more than one
 		if dept not in govdepts:
-			for gd in govdepts:
-				if (gd == dept[:len(gd)]) and (dept[len(gd):len(gd) + 5] == " and ") and (dept[len(gd) + 5:] in govdepts):
-					self.depts = [ dept[:len(gd)], dept[len(gd) + 5:] ]
-					break
-			print self.depts
-		else:
-			self.depts = [ dept ]
+			self.depts = None
 
-		if not self.depts:
-			print "No match on", dept
+			# go through and try to match <dept> + " and "
+			for gd in govdepts:
+				dept0 = dept[:len(gd)]
+				if (gd == dept0) and (dept[len(gd):len(gd) + 5] == " and "):
+					dept1 = dept[len(gd) + 5:]
+
+					# we're trying to split these strings up, but it's pretty rigid
+					if dept1 in govdepts:
+						self.depts = [ (pos, dept0), (pos, dept1) ]
+						break
+					pd1 = re.match("([^,]+),\s*(.+)$", dept1)
+					if pd1 and pd1.group(2) in govdepts:
+						self.depts = [ (pos, dept0), (pd1.group(1), pd1.group(2)) ]
+						break
+					print "Attempted match on", dept0
+
+			if not self.depts:
+				print "No match with", dept
+
+		else:
+			self.depts = [ (pos, dept) ]
+
 
 		# map down to the department for this record
-		self.dept = self.depts[deptno]
+		self.pos = self.depts[deptno][0]
+		self.dept = self.depts[deptno][1]
+
+	# do the xml thing
+	def WriteXML(self, fout):
+		fout.write('<minister-post name="%s %s"\n' % (self.froname, self.lasname))
+		fout.write('\tdept="%s" position="%s"\n' % (self.dept, self.pos))
+		fout.write('\tfromdate="%s" fromtime="%s"\n' % self.sdatetstart)
+		fout.write('\ttodate="%s" totime="%s"\n' % (self.bopen and ("9999-99-99", "99:99") or self.sdatetend))
+		fout.write('\tsource="chgpages"/>\n')
+		fout.write('/>\n')
 
 	# turns the protooffice into a part of a chain
 	def SetChainFront(self, fn):
@@ -124,6 +156,7 @@ class protooffice:
 			self.fn = fn
 			return True
 		return False
+
 
 def ParsePage(fr):
 
@@ -177,7 +210,7 @@ def ParsePage(fr):
 	return (sdate, stime), res
 
 # this goes through all the files and chains govt positions together
-def ParseGovPosts():
+def ParseGovPostsChggdir():
 	govpostdir = os.path.join(chggdir, "govposts")
 
 	gps = os.listdir(govpostdir)
@@ -208,17 +241,53 @@ def ParseGovPosts():
 		for chainproto in chainprotos:
 			if chainproto.bopen and (chainproto.fn != gp):
 				chainproto.SetChainBack(sdatet)
-				print "closing", chainproto.lasname
+				#print "closing", chainproto.lasname
 
 		# append on the new chains
 		for prof in proffnew:
 			prof.SetChainFront(gp)
 			chainprotos.append(prof)
 
+	#
+	# everything is up to date now.
+	# Close off the file
+	#
+
 	# set the present dates on those not closed
 	for chainproto in chainprotos:
 		if chainproto.bopen:
 			chainproto.sdatetend = ("9999-99-99", "")
+
+	return chainprotos
+
+
+
+
+# main function that sticks it together
+def ParseGovPosts():
+
+	# get from our two sources (which unfortunately don't overlap, so they can't be merged)
+	# We have a gap from 2003-10-15 to 2004-06-06 which needs filling !!!
+	porres = newlabministers2003_10_15.ParseOldRecords()
+	cpres = ParseGovPostsChggdir()
+
+	fout = open(chgtmp, "w")
+	WriteXMLHeader(fout)
+	fout.write("<publicwhip>\n")
+
+	for po in porres:
+		po.WriteXML(fout)
+
+	for cp in cpres:
+		cp.WriteXML(fout)
+
+	fout.write("</publicwhip>\n\n")
+	fout.close();
+
+	# copy file over to its place
+	# ...
+
+	return
 
 	# output the result
 	cblist = {}
@@ -235,6 +304,4 @@ def ParseGovPosts():
 		for d in cblist[c]:
 			print "   ", d
 
-#	for chainproto in chainprotos:
-#		print chainproto.lasname, chainproto.dept, chainproto.pos
 
