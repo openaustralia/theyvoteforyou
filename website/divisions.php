@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.9 2005/02/25 07:51:51 goatchurch Exp $
+# $Id: divisions.php,v 1.10 2005/03/05 11:57:48 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -58,7 +58,12 @@ the order of the table by selecting the headings.
     print "</tr>";
 
 	# would like to have the above heading put into the scheme
-	division_table($db, "", "", "", "", "everyvote", "none", $sort, $parliaments[$parliament]);
+	$divtabattr = array(
+			"showwhich"		=> 'everyvote',
+			"headings"		=> 'none',
+			"sortby"		=> $sort,
+			"parldatelimit"	=> $parliaments[$parliament]	);
+	division_table($db, $divtabattr);
 
     print "</table>\n";
 

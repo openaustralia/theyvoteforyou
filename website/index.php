@@ -2,7 +2,7 @@
 
 $cache_params = rand(0, 10); include "cache-begin.inc";
 
-# $Id: index.php,v 1.39 2005/03/04 01:14:40 frabcus Exp $
+# $Id: index.php,v 1.40 2005/03/05 11:57:48 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -13,16 +13,18 @@ $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "head
 ?>
 
 <p>Every week, a dozen or so times, your MP votes in the UK parliament.  This
-is their crucial, visible exercise of power.  The Public Whip 
+is their crucial, visible exercise of power.  The Public Whip
 data-mines their voting record to help you hold them to account.
 For more information about the project, <a href="faq.php">read the FAQ</a>.
 
 <?php
     include "db.inc";
-    include "render.inc";
-    include "parliaments.inc";
+    $db = new DB();
+
+	include "decodeids.inc";
+	include "tablemake.inc";
+
     include "dream.inc";
-    $db = new DB(); 
 
     check_table_cache_counts_all_dream_mps($db);
 
@@ -41,7 +43,7 @@ For more information about the project, <a href="faq.php">read the FAQ</a>.
 <p>Chat to other users <a href="/forum">in our new forum</a>.
 <h2>Newsletter</h2>
 <p>Keep up with the Public Whip project.
-An at most monthly briefing.  
+An at most monthly briefing.
 <p><a href="account/register.php">Sign up now!</a>
 </td>
 
@@ -75,7 +77,7 @@ href="account/adddream.php">create</a> an MP who votes how you want</span>
     $db->query(get_top_dream_query(5));
     $dreams = array();
     while ($row = $db->fetch_row_assoc())
-    { 
+    {
         $dmp_name = $row['name'];
         $dreamid = $row['rollie_id'];
         array_push($dreams, "<a href=\"dreammp.php?id=$dreamid\">" .  $dmp_name . "</a>");
@@ -99,27 +101,17 @@ href="account/adddream.php">create</a> an MP who votes how you want</span>
 
 <td colspan=2>
 
-<h2>Recent Controversial Divisions <a href="divisions.php?sort=rebellions"
-title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
-<!-- <p>Selected at random from divisions with more than 10 rebellions.  -->
+<h2>Recent Divisions <a href="divisions.php"
+title="Show all divisions ordered by most recent">(more...)</a></h2>
 
 <?php
-    $db->query("$divisions_query_start and " . parliament_query_range_div($parliament) . "
-        and rebellions > 10 and
-        pw_division.division_id = pw_cache_divinfo.division_id order by
-        division_date desc limit 5"); 
+	$divtabattr = array(
+			"showwhich"		=> 'rebellions10',
+			"headings"		=> 'none',
+			"limitby"		=> 5	);
 
     print "<table class=\"votes\">\n";
-    print "<tr class=\"headings\">\n";
-    $prettyrow = 0;
-    while ($row = $db->fetch_row())
-    {
-        $prettyrow = pretty_row_start($prettyrow);
-        print "<td>$row[2]</td> 
-               <td><a href=\"division.php?date=" . urlencode($row[2]) . "&number=" . urlencode($row[1]) . "\">$row[3]</a></td> 
-               <td>$row[5] rebels</td>";
-        print "</tr>\n";
-    }
+	division_table($db, $divtabattr);
     print "</table>\n";
 
 ?>
@@ -131,6 +123,13 @@ title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
 <h2>Top Rebels <a href="mps.php?sort=rebellions" title="Show all MPs ordered by rebellions">(more...)</a></h2>
 <table class="mps">
 <?php
+$mps_query_start = "select first_name, last_name, title, constituency,
+        party, pw_mp.mp_id as mp_id, round(100*rebellions/votes_attended,0) as rebellions,
+        round(100*votes_attended/votes_possible,0) as attendance, entered_reason,
+        left_reason, entered_house, left_house from pw_mp,
+        pw_cache_mpinfo where
+        pw_mp.mp_id = pw_cache_mpinfo.mp_id";
+
     $db->query("$mps_query_start and " . parliament_query_range($parliament) . "
         order by round(rebellions/votes_attended,10) desc, last_name,
         first_name, constituency, party limit 3");

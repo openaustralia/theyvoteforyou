@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablemake.inc,v 1.5 2005/03/04 02:27:54 frabcus Exp $
+    # $Id: tablemake.inc,v 1.6 2005/03/05 11:57:48 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -205,16 +205,20 @@
 	# one or two independent voting actors.
 	# votertype is 'dreammp', 'mp', 'party'
 	# voter is a mpid, dreammpid, blank-for-self party,
-	# showwhich is 'everyvote', 'all1', 'all2', 'either', 'both', 'bothdiff' (tellers appear automatically)
+	# showwhich is 'everyvote', 'rebellions10', 'all1', 'all2', 'either', 'both', 'bothdiff' (tellers appear automatically)
 	# (then we need a signal for order and for expanded display, and for events)
 	# headings is 'none', 'columns', 'fulldesc'(for changing mps)
 	# sortby is 'date', 'subject', 'rebellions', 'turnout'
 	# $parldatelimit is null or a line from $parliaments
-	function division_table($db, $voter1type, $voter1, $voter2type, $voter2, $showwhich, $headings, $sortby = "date", $parldatelimit = null)
+	function division_table($db, $divtabattr)
 	{
 		global $bdebug;
 		if ($bdebug == 1)
-			print "<h1>divisiontable: $voter1type, $voter1, $voter2type, $voter2, $showwhich, $headings</h1>";
+		{
+			print "<h1>";
+			print_r($divtabattr);
+			print "</h1>";
+		}
 
 		# the underlying division list
 		$aquery = array();
@@ -229,9 +233,9 @@
 
 		# where clause with limitation for one parliament, or dummy condition
 		$aquery["qwhere"]  = " WHERE 1=1";
-		if ($parldatelimit)
-			$aquery["qwhere"]  = " WHERE (pw_division.division_date >= \"".$parldatelimit['from']."\"
-								  		  AND pw_division.division_date < \"".$parldatelimit['to']."\")";
+		if ($divtabattr["parldatelimit"])
+			$aquery["qwhere"]  = " WHERE (pw_division.division_date >= \"".$divtabattr["parldatelimit"]['from']."\"
+								  		  AND pw_division.division_date < \"".$divtabattr["parldatelimit"]['to']."\")";
 
 		# this handles joins with the wiki motion text
 		$aquery["qgroup"]  = " GROUP BY pw_division.division_id";
@@ -239,6 +243,7 @@
 
 		# accumulate the ordering command
 		$aquery["qorder"]  = " ORDER BY";
+		$sortby = $divtabattr["sortby"];
 		if ($sortby == "subject")
 			$aquery["qorder"] .= " division_name, ";
 		if ($sortby == "rebellions" or $sortby == "turnout")
@@ -251,9 +256,17 @@
 							 	concat('motion-', pw_division.division_date, '-', pw_division.division_number)";
 
 
+		# extract attibutes
+		$showwhich = $divtabattr["showwhich"];
+		$voter1type = $divtabattr["voter1type"];
+		$voter1 = $divtabattr["voter1"];
+		$voter2type = $divtabattr["voter2type"];
+		$voter2 = $divtabattr["voter2"];
+		$headings = $divtabattr["headings"];
+
 		# construct the first column of votes
 		$bonlyvotes1 = ($showwhich == "all1" or $showwhich == "both" or $showwhich == "bothdiff");
-		if ($voter1type == "mp")
+		if ($divtabattr["voter1type"] == "mp")
 			divmpconds($aquery, $db, $voter1, $bonlyvotes1, false, 1);
 		else if ($voter1type == "dreammp")
 			divdreammpconds($aquery, $db, $voter1, $bonlyvotes1, 1);
@@ -278,20 +291,27 @@
 			# put in the selection mechanism of diffs into this
 			if ($showwhich == "bothdiff")
 				$aquery["qwhere"]  .= " AND ".$aquery["vote1"]." <> ".$aquery["vote2"];
-			else if ($showwhich == "either");
+			else if ($showwhich == "either")
 				$aquery["qwhere"]  .= " AND (".$aquery["vote1"]." IS NOT NULL OR ".$aquery["vote2"]." IS NOT NULL)";
 		}
 
+		# apply a selection for "controversial" divisions
+		if ($showwhich == "rebellions10")
+			$aquery["qwhere"]  .= " AND rebellions > 10";
 
+		# apply the limit
+		if ($divtabattr["limitby"] != "")
+			$aquery["qlimit"] = " LIMIT ".$divtabattr["limitby"];
 
         # main set that grabs all the divisions and makes a coarse subsampling
-        $query = $aquery["qselect"].$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"].$aquery["qgroup"].$aquery["qorder"];
+        $query = $aquery["qselect"].$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"].$aquery["qgroup"].$aquery["qorder"].$aquery["qlimit"];
 		if ($bdebug == 1)
 		{
-			$query .= " LIMIT 10";
+			if ($divtabattr["limitby"] == "")
+				$query .= " LIMIT 10";
 			print "<h1>GGGG $voter1type ";
 			print_r($voter1);
-			print " $voter2type $voter2 $showwhich $headings</h1>";
+			print" $voter2type $voter2 $showwhich $headings</h1>";
 			print "<h1>query: $query</h1>\n";
 		}
         $db->query($query);
@@ -362,8 +382,8 @@
 					continue;      # final filter bail out
 			}
 
-			# it's ugly if it's all red at the top when sorted
-			else if ($row['rebellions'] >= 10 and $sortby != "rebellions")
+			# colour red if rebelions, except cases where it's ugly or unnecessary
+			else if ($row['rebellions'] >= 10 and $sortby != "rebellions" and $showwhich != "rebellions10")
 	            $pretrowclass = "rebel";
 
 

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.55 2005/02/25 07:51:51 goatchurch Exp $
+    # $Id: mp.php,v 1.56 2005/03/05 11:57:48 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -209,7 +209,17 @@
     	$events_ix = 0;
 	    print "<table class=\"votes\">\n";
     	foreach ($voter1attr['mpprops'] as $mpprop)
-			division_table($db, $voter1type, $mpprop, $voter2type, $voter2, $showwhichvotes, 'columns', 'date', null);
+		{
+			$divtabattr = array(
+					"voter1type" 	=> $voter1type,
+					"voter1"        => $mpprop,
+					"voter2type"	=> $voter2type,
+					"voter2"		=> $voter2,
+					"showwhich"		=> $showwhichvotes,
+					"headings"		=> 'columns',
+					"sortby"		=> 'date'	);
+			division_table($db, $divtabattr);
+		}
 	    print "</table>\n";
 
 		# link back to short case
