@@ -1,0 +1,10 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-02-12.html	Sun Aug 22 04:30:15 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-02-12-patchtmp.html	Wed Sep  1 16:37:49 2004
+@@ -524,6 +524,7 @@
+ 10. <a name="40212-05_wqn0"><B> Mrs. Ann Cryer  (Keighley)</B> 
+  (Lab): What response he has received to the consultation paper "Every Child Matters".  [154519]<P>
+ <P>
++<stamp parsemess-ignorenamemismatch="yes"/>
+ <P>
+ <a name="40212-05_spmin0"><B>The Minister for Children   (Margaret Hodge): </B> 
+   The response to the Green Paper "Every Child Matters" has been extremely high. We have received more than 4,500 responses, of which I am pleased to say that more than 3,000 were from children and young people. I propose to publish a report shortly, which will set out the way forward.

@@ -105,7 +105,7 @@ def StripDebateHeadings(headspeak, sdate):
                 #The House met at half-past Ten o'clock
                 gstarttime = re.match('the house (?:being )?met at (.*)(?i)', headspeak[ih][0])
                 if (not gstarttime) or headspeak[ih][2]:
-                        raise Exception, 'non-conforming "the house met at" heading %s' % repr(headspeak[ih])
+                        raise ContextException('non-conforming "the house met at" heading %s' % repr(headspeak[ih]), "")
                 ih = ih + 1
 
         # Start of a new parliament is special
@@ -195,9 +195,13 @@ def NormalHeadingPart(headingtxt, stampurl):
 
 	bmajorheading = False
 	boralheading = False
+        binsertedheading = False
 
-	# Oral question are really a major heading
-	if headingtxt == 'Oral Answers to Questions':
+        if re.search('-- lost heading --(?i)', headingtxt):
+            binsertedheading = True
+            
+        # Oral question are really a major heading
+	elif headingtxt == 'Oral Answers to Questions':
 		boralheading = True
 	# Check if there are any other spellings of "Oral Answers to Questions" with a loose match
 	elif re.search('oral(?i)', headingtxt) and re.search('ques(?i)', headingtxt) and \
@@ -222,7 +226,9 @@ def NormalHeadingPart(headingtxt, stampurl):
 	# write out block for headings
 	headingtxtfx = FixHTMLEntities(headingtxt)
 	qb = qspeech('nospeaker="true"', headingtxtfx, stampurl)
-        if boralheading:
+        if binsertedheading:
+                qb.typ = 'inserted-heading'                
+        elif boralheading:
                 qb.typ = 'oral-heading'
 	elif bmajorheading:
 		qb.typ = 'major-heading'

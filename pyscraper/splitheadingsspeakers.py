@@ -200,7 +200,7 @@ class SepHeadText:
 
 				# this is complex due to the heading speech structure we maintain at this point
 				if re.search('heading', gparmess.group(1)):
-					self.EndHeading("-- Lost Heading --")
+					self.EndHeading("-- Lost Heading --")  # this is used to avoid concatenation
 
 				# missing a speech
 				else:
