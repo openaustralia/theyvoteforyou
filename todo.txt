@@ -21,22 +21,41 @@ MP wallplanner - show their diary
 Rankings on rebellion/attendance PER PARTY
 "Totally toady" to "Usual suspect"
 Cost in pounds / word of an MP
+Do a big usability thing - get Tom L to help with his ideas
 
 Dream MP
 --------
+
+"If the MPs rarely decisively vote on anything meaningful, we should not
+apologize for it.  The deam MP exercise gets your optimistic
+participation, and then you uncover the full horror that out of all this
+apparent activity, there's fu*ck all happening.  It's only for show.
+It's a disgrace."
+- we need a discussion page for this, so people can work it out
+
+"We can rate MPs on the basis of what they successfully get out through
+written questions, because this is like science.  You don't become a respected
+scientist or journalist by passing exams or getting the right jobs.  You do it
+by advancing human knowledge, finding key facts out that are real interesting.
+Then you get taken seriously.  Before then you're just a student."
+
+Make page with list of Dream MPs which I approve
+Performance on sphinx
 
 Comments
 Edit MP page
 Web page URL of you
 
 Party comparison
+
 Add rank number on left column
+Sort by number of times voted on issues 
+or add that into the score with a weight
 
 Change "Account" button when logged in
 Cache dream MP page - delete cache file when it changes
 
-db-get get new tables
-test auditing (esp. ip)
+make sure db-get is getting new tables
 
 Wrans
 -----
