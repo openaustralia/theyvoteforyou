@@ -5,6 +5,8 @@ import re
 import os
 import string
 
+toppath = os.path.expanduser('~/pwdata/')
+
 from findallhocdaydebate import FindAllHocDayDebate
 from gluehocdaydebate import GlueHocDayDebate
 from removelinebreaks import RemoveLineChars
@@ -17,7 +19,7 @@ from fixwranscolumnnumbers import FixWransColumnNumbers
 from fixwransspeakernames import WransSpeakerNames
 from wranssections import WransSections
 
-dtemp = "daydebtemp.htm"
+dtemp = toppath + "daydebtemp.htm"
 def ScanDirectories(func, dirout, dirin):
 	if not os.path.isdir(dirout):
 		os.mkdir(dirout)
@@ -45,21 +47,21 @@ def ScanDirectories(func, dirout, dirin):
 
 # file names and directories
 urlindex = "http://www.publications.parliament.uk/pa/cm/cmhansrd.htm"
-hocdaydebatelist = "hocdaydebatelist.xml"
+hocdaydebatelist = toppath + "hocdaydebatelist.xml"
 
 # daily debates directories
-dirglueddaydebates = 'glueddaydebates'
-dirremovechars = 'c1daydebateremovechars'
-dircolumnnumbers = 'c2daydebatefixcolumnnumbers'
-dirspeakers = 'c3daydebatematchspeakers'
-dirfolding = 'c4folding'
+dirglueddaydebates = toppath + 'glueddaydebates'
+dirremovechars = toppath + 'c1daydebateremovechars'
+dircolumnnumbers = toppath + 'c2daydebatefixcolumnnumbers'
+dirspeakers = toppath + 'c3daydebatematchspeakers'
+dirfolding = toppath + 'c4folding'
 
 # written answers directories
-dirgluedwranswers = 'gluedwranswers'
-dirwaremovechars = 'c1wransremovechars'
-dirwacolumnnumbers = 'c2wransfixcolumnnumbers'
-dirwaspeakers = 'c3wransmatchspeakers'
-dirwrans = 'c4wrans'
+dirgluedwranswers = toppath + 'gluedwranswers'
+dirwaremovechars = toppath + 'c1wransremovechars'
+dirwacolumnnumbers = toppath + 'c2wransfixcolumnnumbers'
+dirwaspeakers = toppath + 'c3wransmatchspeakers'
+dirwrans = toppath + 'c4wrans'
 
 
 
@@ -71,12 +73,12 @@ if not os.path.isfile(hocdaydebatelist):
 
 # grab all the days we can
 # (comment the function call out line out if you want it to run past)
-GlueHocDayDebate(dirgluedwranswers, hocdaydebatelist, 'answers', 'answers')
+#GlueHocDayDebate(toppath, dirgluedwranswers, hocdaydebatelist, 'answers', 'answers')
 
 print dirwaremovechars
 ScanDirectories(RemoveLineChars, dirwaremovechars, dirgluedwranswers)
 print dirwacolumnnumbers
-#ScanDirectories(FixWransColumnNumbers, dirwacolumnnumbers, dirwaremovechars)
+ScanDirectories(FixWransColumnNumbers, dirwacolumnnumbers, dirwaremovechars)
 print dirwaspeakers
 ScanDirectories(WransSpeakerNames, dirwaspeakers, dirwacolumnnumbers)
 print dirwrans

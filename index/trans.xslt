@@ -44,7 +44,7 @@
                 <xsl:value-of select="@name"/>
             </a>:
         </b>
-        <xsl:value-of select="."/>
+        <xsl:copy-of select="*"/>
     </p>
 </xsl:template>
 

@@ -10,7 +10,7 @@ import os.path
 # the outputs go into glueddaydebates/
 
 # read through our index list of daydebates
-def GlueHocDayDebate(dglueddaydebates, hocdaydebatelist, nametype, fileprefix):
+def GlueHocDayDebate(toppath, dglueddaydebates, hocdaydebatelist, nametype, fileprefix):
 	if not os.path.isdir(dglueddaydebates):
 		os.mkdir(dglueddaydebates)
 
@@ -43,10 +43,10 @@ def GlueHocDayDebate(dglueddaydebates, hocdaydebatelist, nametype, fileprefix):
 
 
 	# this is used to check the results
-	junkfile = "daydebjunk.htm"
+	junkfile = toppath + "daydebjunk.htm"
 
 	# this is used to avoid partial files
-	tempfile = "gdaydebtemp.htm"
+	tempfile = toppath + "gdaydebtemp.htm"
 
 	# output files
 	junk = open(junkfile, "a");

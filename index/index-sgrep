@@ -1,6 +1,6 @@
 #! /bin/bash
 
-sgrep -I -g xml -v -c ../pythonexp/c4wrans/ix ../pythonexp/c4wrans/*.html
+sgrep -I -g xml -v -c ~/pwdata/c4wrans/ix ~/pwdata/c4wrans/*.html
 
 
 
