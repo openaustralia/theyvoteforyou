@@ -37,6 +37,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         self.constituencies = {} # constituency --> MPs
         self.parties = {} # constituency --> MPs
         self.officetopersonmap = {} # member ID --> person ID
+        self.persontoofficemap = {} # person ID --> office
 
         # "rah" here is a typo in division 64 on 13 Jan 2003 "Ancram, rah Michael"
         self.titles = "Dr |Hon |hon |rah |rh |Mrs |Ms |Mr |Miss |Rt Hon |Reverend |The Rev |The Reverend |Sir |Rev |Prof "
@@ -149,7 +150,7 @@ class MemberList(xml.sax.handler.ContentHandler):
             if attr["id"] in self.officetopersonmap:
                 raise Exception, "Same office id %s appeared twice" % attr["id"]
             self.officetopersonmap[attr["id"]] = self.loadperson
-
+            self.persontoofficemap.setdefault(self.loadperson, []).append(attr["id"])
 
             
     def endElement(self, name):
@@ -437,11 +438,44 @@ class MemberList(xml.sax.handler.ContentHandler):
             raise Exception, "Unknown constituency %s" % cons
         return cancons
 
-    def getmember(self, id):
-        return self.members[id]
+    def getmember(self, memberid):
+        return self.members[memberid]
 
-    def membertoperson(self, id):
-        return self.officetopersonmap[id]
+    # Returns the set of members which are the same person in the same
+    # parliament / byelection continuously in time.  i.e. We ignore
+    # changing party.
+    # There must be a simpler way of doing this function, too complex
+    def getmembersoneelection(self, memberid):
+        personid = self.officetopersonmap[memberid]
+        members = self.persontoofficemap[personid]
+   
+        ids = [memberid, ]
+        def scanoneway(whystr, datestr, delta, whystrrev, datestrrev):
+            id = memberid
+            while 1:
+                attr = self.getmember(id)
+                if attr[whystr] != "changed_party":
+                    break
+                dayend = datetime.date(*map(int, attr[datestr].split("-")))
+                dayafter = datetime.date.fromordinal(dayend.toordinal() + delta).isoformat()
+                for m in members:
+                    mattr = self.getmember(m)
+                    if mattr[whystrrev] == "changed_party" and mattr[datestrrev] == dayafter:
+                        id = mattr["id"]
+                        break
+                else:
+                    raise Exception, "Couldn't find %s %s member party changed from %s date %s" % (whystr, attr[whystr], id, dayafter)
+
+                ids.append(id)
+
+        scanoneway("towhy", "todate", +1, "fromwhy", "fromdate")
+        scanoneway("fromwhy", "fromdate", -1, "towhy", "todate")
+
+        return ids
+            
+
+    def membertoperson(self, memberid):
+        return self.officetopersonmap[memberid]
 
 
 # Construct the global singleton of class which people will actually use

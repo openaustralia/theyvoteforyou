@@ -1,5 +1,5 @@
 #!/usr/bin/python2.3
-# $Id: guardianconv.py,v 1.5 2004/05/13 15:54:03 frabcus Exp $
+# $Id: guardianconv.py,v 1.6 2004/05/16 01:39:40 frabcus Exp $
 
 # Converts tab file of Guardian URLs into XML.  Also extracts swing/majority
 # from the constituency page on the Guardian.
@@ -20,7 +20,8 @@ sys.path.append("../pyscraper")
 from resolvemembernames import memberList
 
 print '''<?xml version="1.0" encoding="ISO-8859-1"?>
-<publicwhip>'''
+<publicwhip>
+'''
 
 ih = open(input, 'r')
 
@@ -36,22 +37,29 @@ for l in ih:
     print '<personinfo id="%s" guardian_mp_summary="%s" />' % (personid, personurl)
     print '<consinfo canonical="%s" guardian_election_results="%s" />' % (cons.encode("latin-1"), consurl)
 
+    # Majority
+    setsameelection =  memberList.getmembersoneelection(id)
+    print setsameelection
+
     # Grab swing from the constituency page
     ur = urllib.urlopen(consurl)
     content = ur.read()
     ur.close()
     m = re.search("requires a (\d+\.\d+) \&\#037\; swing to gain seat", content)
     if m:
-        print '<personinfo id="%s" today_swing_to_lose_mp_seat="%s" date="%s"/>' % (personid, m.group(1), date)
+        for id in setsameelection:
+            print '<memberinfo id="%s" swing_to_lose_seat="%s" />' % (id, m.group(1))
     else:
         print >>sys.stderr, "no match for swing at url %s" % consurl
 
-    m = re.search("majority: (\d+\,\d+)", content)
+    m = re.search("majority: ([\d,]+)", content)
     if m:
-        print '<personinfo id="%s" today_majority_mp_seat="%s" date="%s"/>' % (personid, m.group(1).replace(",", ""), date)
+        for id in setsameelection:
+            print '<memberinfo id="%s" majority_in_seat="%s" />' % (id, m.group(1).replace(",", ""))
     else:
         print >>sys.stderr, "no match for majority at url %s" % consurl
 
+    print ''
 
 assert c == 659, "Expected %d MPs" % c
 

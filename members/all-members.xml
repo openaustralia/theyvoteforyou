@@ -8,10 +8,10 @@ Members of the UK Parliament, House of Commons, 1997-2004
 Each entry is one MP for one term of office in one party.  If there is a
 general election, or a change of party, then the MP has a new entry.
 
-entered_reason can have these values:
+fromwhy can have these values:
     unknown, general_election, by_election, changed_party, reinstated
 
-left_reason can have these values:
+towhy can have these values:
     unknown, still_in_office, general_election, changed_party, died,
     declared_void, resigned, disqualified, became_peer
 
@@ -9533,7 +9533,17 @@ http://www.election.demon.co.uk/strengths.html
     house="commons"
     title="" firstname="Ann" lastname="Winterton"
     constituency="Congleton" party="Ind Con"
-    fromdate="2004-02-25" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
+    fromdate="2004-02-25" todate="2004-03-30" fromwhy="changed_party" towhy="changed_party"
 />
+
+<member
+    id="uk.org.publicwhip/member/1359"
+    house="commons"
+    title="" firstname="Ann" lastname="Winterton"
+    constituency="Congleton" party="Con"
+    fromdate="2004-03-31" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
+/>
+
+
 </publicwhip>
 
