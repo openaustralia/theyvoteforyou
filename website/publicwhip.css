@@ -466,3 +466,19 @@ OL.actions P
     FONT-SIZE: 70%;
 }
 
+/* For patent protest pages in patent/ */
+BODY.patent
+{
+    WIDTH: 60%;
+    MARGIN-LEFT: 20%;
+}
+BODY.patent P
+{
+    text-align: center;
+}
+BODY.patent H1
+{
+    text-align: center;
+    font-size: 200%;
+}
+

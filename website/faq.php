@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.35 2005/02/24 21:22:17 frabcus Exp $
+# $Id: faq.php,v 1.36 2005/03/08 01:27:12 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -224,7 +224,7 @@ desription</a> of how to do it.  We provide the following RSS feeds:
 <p>A new European directive on software patents threatens the existence
 of websites like The Public Whip.  On 14th-18th May 2004 we suspended
 service to protest about this.  We'd like your help to stop it.  <a
-href="patents/patents.php">For more information see here</a>.
+href="patents/explain.php">For more information see here</a>.
 
 <h2><a name="organisation">What organisation is behind the Public Whip?</a></h2>
 <p>None.  Just two guys <a href="http://www.flourish.org">Francis</a>
