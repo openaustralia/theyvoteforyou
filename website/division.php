@@ -1,5 +1,5 @@
 <?php
-# $Id: division.php,v 1.35 2004/06/15 11:59:44 frabcus Exp $
+# $Id: division.php,v 1.36 2004/07/06 21:39:07 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -42,7 +42,7 @@
         $title = "$prettydate - Division No. $div_no";
         include "header.inc";
         print "<p>Public Whip does not yet have this division.   
-        New divisions are added one or two weeks after they happen.</p>
+        New divisions are added one or two working days after they happen.</p>
         <p><a href=\"divisions.php\">Browse for a division</a> </p>
         ";
     }
