@@ -1,79 +1,68 @@
 import sys
+import os
+import re
 
 # this filter removes trailing angle brackets and linefeeds that break up tags
+# we also take out comments and local pointers <a name=>
 
 
 # in and out files for this filter
-filein = "hocdaydebate2000-11-07.htm"
-fileout = "f1hocdaydebate2000-11-07.htm"
+dirin = "glueddaydebates"
+dirout = "c1daydebateremovechars"
+dtemp = "daydebtemp.htm"
+
+# this is used to check the results
+junkfile = "daydebjunk.htm"
+junk = open(junkfile, "a");
 
 
-fin = open(filein);
-finr = fin.read()
-fin.close()
+fdirin = os.listdir(dirin)
 
-fout = open(fileout, "w");
 
-nline = 0
-bInAngleBrack = 0
-bInQuotes = 0
-bInParameter = 0
+for fin in fdirin:
+	jfin = os.path.join(dirin, fin)
+	jfout = os.path.join(dirout, fin)
+	if os.path.isfile(jfout):
+		print "skipping " + fin
+		continue
 
-i = 0
-for c in finr:
-	i = i + 1
-	if c == '<':
-		if bInParameter:
-			print "bracket < in parameter quotes (okay) line %d" % nline
-		elif bInQuotes:
-			print "bracket < in quotes (okay) line %d" % nline
-			print finr[i-50:i+50]
-		elif bInAngleBrack:
-			print "bracket < in bracket on line %d" % nline
-   		else:
-			bInAngleBrack = 1;
+	tempfile = open(dtemp, "w")
+	nrems = 0
 
-	elif c == '>':
-		if bInParameter:
-			print "bracket > in parameter quotes (okay) line %d" % nline
-		elif bInQuotes:
-			print "bracket > in quotes (okay) line %d" % nline;
-		elif bInAngleBrack:
-			bInAngleBrack = 0;
+	ofin = open(jfin)
+	finr = ofin.read()
+	ofin.close()
+
+	# get rid of dos linefeeds
+	finr = re.sub('\r', '', finr)
+
+	abf = re.split('(<[^>]*>)', finr)
+	for ab in abf:
+		# delete comments and links
+		if re.match('<!-[^>]*?->', ab):
+			junk.write(ab)
+		elif re.match('<a[^>]*>(?i)', ab):
+			junk.write(ab)
+
+			# this would catch if we've actually found a link
+			if not re.match('<a name\s*?=\s*\S*?\s*?>(?i)', ab):
+				print ab
+		elif re.match('</a>(?i)', ab):
+			junk.write(ab)
+
+		# take out linefeeds
+		elif re.match('<[^>]*>', ab):
+			fn = re.subn('\n', '', ab)
+			nrems = nrems + fn[1]
+			tempfile.write(fn[0])
+
+		# take out spurious > symbols
 		else:
-			print "floating bracket > on line %d" % nline
+			fn = re.subn('>', '', ab)
+			nrems = nrems + fn[1]
+			tempfile.write(fn[0])
 
-	elif c == '"':
-		if bInParameter:
-			bInParameter = 0;
-		elif bInAngleBrack:
-			bInParameter = 1;
-		elif bInQuotes:
-			bInQuotes = 0;
-		else:
-			bInQuotes = 1;
-
-	# it's all about knowing when to discard a linefeed
-	if bInAngleBrack and (c == '\n'):
-		if bInParameter:
-			print " removing linefeed in parameter on line %d" % nline
-		else:
-			print " removing linefeed in bracket on line %d" % nline
-
-	elif c != '\r':
-		fout.write(c);
-		if c == '\n':
-			if bInQuotes:
-				print " killing quote state at end of line %d" % nline
-				bInQuotes = 0;
-			nline = nline + 1;
-
-#endfor k in file
-if bInQuotes or bInAngleBrack or bInParameter:
-	print "File ended without closing bracketing";
-print " nlines ", nline
-
-fout.close()
-
-
+	tempfile.close()
+	os.rename(dtemp, jfout)
+	print "%s removed %d" % (fin, nrems)
 
