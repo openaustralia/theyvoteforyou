@@ -192,6 +192,7 @@ def ScanQBatch(shspeak, stampurl, sdate):
 	for shs in shspeak:
 		qb = qspeech(shs[0], shs[1], stampurl, sdate)
 		qblock.append(qb)
+                #print "type ", qb.typ, " len qblock ", len(qblock)
 
 		# reply detected, output the block
 		if qb.typ == 'reply':
@@ -270,6 +271,7 @@ def FilterWransSections(fout, text, sdate):
 
 		# update the stamps from the pre-spoken text
 		stampurl.UpdateStampUrl(sht[1])
+                #print "heading " , sht[0]
 
 		# detect if this is a major heading
 		if not re.search('[a-z]', sht[0]) and not sht[2]:

@@ -18,6 +18,7 @@ knownbadmatches = 'prime minister|solicitor-general|nicholas brown|gareth thomas
 		  'advocate-general|ainsworth|jonathan shaw|gareth r[.] thomas|multiple times(?i)'
 
 fixsubs = 	[
+        ( '(<B> Mr. Tony)(: </B>)', '\\1 Banks\\2', 1, '2004-01-29'),
 	( '<B> Mr. </B>\s* Shepherd:', '<B> Mr. Shepherd:</B>', 1, '2003-10-23'),
 	( '<B> Margaret Becket </B>', '<B> Margaret Beckett </B>', 1, '2003-11-11'),
 

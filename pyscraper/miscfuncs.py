@@ -92,7 +92,7 @@ def ApplyFixSubstitutions(text, sdate, fixsubs):
 def StraightenHTMLrecurse(stex):
 
 
-	# split the text into <i></i> and <sup></sup>
+	# split the text into <i></i> and <sup></sup> and <sub></sub>
 	qisup = re.search('(<i>(.*?)</i>)(?i)', stex)
 	if qisup:
 		qtag = ('<i>', '</i>')
@@ -100,6 +100,10 @@ def StraightenHTMLrecurse(stex):
 		qisup = re.search('(<sup>(.*?)</sup>)(?i)', stex)
 		if qisup:
 			qtag = ('<sup>', '</sup>')
+                else:
+                        qisup = re.search('(<sub>(.*?)</sub>)(?i)', stex)
+                        if qisup:
+                                qtag = ('<sub>', '</sub>')
 
 	if qisup:
 		sres = StraightenHTMLrecurse(stex[:qisup.span(1)[0]])
