@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.38 2004/07/22 10:11:35 frabcus Exp $
+    # $Id: mp.php,v 1.39 2004/10/13 14:16:45 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -66,7 +66,9 @@
     $title = html_scrub("Voting Record - $first_name $last_name MP, $constituency");
     include "header.inc";
 
-	print '<p><a href="#divisions">Interesting Divisions</a>';
+	print '<p><a href="#ministers">Ministerial Posts</a>';
+	print ' | ';
+	print '<a href="#divisions">Interesting Divisions</a>';
 	print ' | ';
 	print '<a href="#friends">Possible Friends</a>';
 	print ' | ';
@@ -95,7 +97,8 @@
     $prettyrow = 0;
     $mp_ids = array();
     $parties = array();
-    $dates = array();
+    $from_dates = array();
+    $to_dates = array();
     $enter_reason = array();
     $left_reason = array();
     $person = 0;
@@ -121,7 +124,8 @@
         print "</tr>\n";
         array_push($mp_ids, $row[5]);
         array_push($parties, $row[4]);
-        array_push($dates, $row[11]);
+        array_push($from_dates, $row[11]);
+        array_push($to_dates, $row[12]);
         array_push($enter_reason, $row[13]);
         array_push($left_reason, $row[14]);
         $person = $row[16];
@@ -138,6 +142,42 @@
     href=\"http://www.parliament.uk/directories/hciolists/alms.cfm\">email
     address</a> of some MPs.";
 
+?>
+
+<?
+    print "<h2><a name=\"ministers\">Ministerial Posts</a></h2>";
+
+    print "<table><tr class=\"headings\">";
+    print "
+            <td>From</td><td>To</td>
+            <td>Position</td>
+            <td>Department</td>
+            </tr>";
+ 	$query = "select dept, position, from_date, to_date
+        from pw_moffice where pw_moffice.person = '$person'
+        order by from_date desc";
+    $db->query($query);
+    $prettyrow = 0;
+    while ($row = $db->fetch_row_assoc())
+    {
+        if ($row["end_date"] == "9999-12-31") { $row["end_date"] = "still in office"; }
+        $prettyrow = pretty_row_start($prettyrow);
+        print "<td>" . $row["from_date"] ."</td>";
+        print "<td>" . $row["to_date"] ."</td>";
+        print "<td>" . $row["position"] ."</td>";
+        print "<td>" . $row["dept"] . "</td>";
+        print "</tr>\n";
+    }
+    if ($db->rows() == 0)
+    {
+        $prettyrow = pretty_row_start($prettyrow, "");
+        print "<td colspan=7>none</td></tr>\n";
+    }
+
+    print "</table>";
+
+    print "<p>Only paid positions in Government since 1997 are shown.";
+ 
 ?>
 
 <?php
@@ -245,7 +285,7 @@
 
     for ($i = 0; $i < count($mp_ids); ++$i)
     {
-        print "<h3>" . pretty_parliament_and_party($dates[$i], $parties[$i], $enter_reason[$i], $left_reason[$i]). "</h3>";
+        print "<h3>" . pretty_parliament_and_party($from_dates[$i], $parties[$i], $enter_reason[$i], $left_reason[$i]). "</h3>";
         print "<table class=\"mps\">\n";
         $query = "select first_name, last_name, title, constituency,
             party, pw_mp.mp_id, 

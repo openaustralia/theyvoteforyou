@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.2 2004/10/13 13:47:42 frabcus Exp $
+# $Id: memxml2db.pl,v 1.3 2004/10/13 14:16:40 frabcus Exp $
 
 # Convert all-members.xml into the database format for Public Whip website
 
@@ -19,6 +19,7 @@ use PublicWhip::DB;
 my $dbh = PublicWhip::DB::connect();
 
 my $sth = PublicWhip::DB::query($dbh, "delete from pw_mp");
+$sth = PublicWhip::DB::query($dbh, "delete from pw_moffice");
 my %membertoperson;
 
 my $twig = XML::Twig->new(
@@ -74,13 +75,11 @@ sub loadmember
 sub loadmoffice
 { 
 	my ($twig, $moff) = @_;
-    print $moff->att('name') . "\n";
 
     my $mofficeid = $moff->att('id');
     $mofficeid =~ s#uk.org.publicwhip/moffice/##;
     my $mpid = $moff->att('matchid');
     if (!$mpid) {
-        print "No match id\n";
         return;
     }
     $mpid =~ s#uk.org.publicwhip/member/##;

@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.4 2004/10/13 13:47:42 frabcus Exp $
+-- $Id: create.sql,v 1.5 2004/10/13 14:16:40 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -89,6 +89,8 @@ create table pw_moffice (
     to_date date not null default '9999-12-31',
 
     person int,
+
+    index(person)
 );
 
 -------------------------------------------------------------------------------
