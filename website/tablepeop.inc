@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablepeop.inc,v 1.1 2005/03/10 08:15:57 goatchurch Exp $
+    # $Id: tablepeop.inc,v 1.2 2005/03/14 18:58:16 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -39,9 +39,9 @@
 		{
 			$distance = $row['distance'];
 			if ($distance == 0)
-				$distance .= " - always vote the same";
+				$distance = "0 - always vote the same";
 			elseif ($distance == 1)
-				$distance .= " - always vote the differently";
+				$distance = "1 - always vote the differently";
 			print "<td>$distance</td>";
 		}
 
@@ -75,15 +75,16 @@
 	# a function which generates any table of mps for printing,
 	# and marks their votes or distance rankings, or second votes
 	# in another division.
-	# This is used to show the people who are friends, w
+	# This is used to show the people who are friends, where
 	# listtype is:
 	#   'parliament', then 'parliament' is a value from $parliaments,
-	#   'mpdistance', then 'mpidfriend' is an mpid for distance from
+	#   'mpdistance', then 'mpfriend' is an mpprop for distance from
 	# 	'dreamdistance', then 'dreammpid' is what we compare to
 	#   'division', then 'divdate', 'divno' index into that
 	#   'division2, then there's also 'divdate2', 'divno2'
 	# limit is nothing or a number
 	# sortby is 'turnout', 'rebellions', 'name', 'constituency', 'attendance'
+	# showwhich is 'rebels', 'voters', 'allpossible'
 	function mp_table($db, $mptabattr)
 	{
 		global $bdebug;
@@ -118,22 +119,28 @@
 
 
 		# go through the different list selection cases
+
+		# range of mps in one parliament
 		if ($mptabattr["listtype"] == 'parliament')
 		{
 			$parliament = $mptabattr["parliament"];
 			$aquery["qwhere"] .= " AND left_house > '".$parliament['from']."'
 								   AND entered_house <= '".$parliament['to']."'";
 		}
+
+		# list of possible friends of an mp
 		elseif ($mptabattr["listtype"] == 'mpdistance')
 		{
+			$mpprop = $mptabattr["mpfriend"];
 			$aquery["qselect"] .= ", distance";
 			$aquery["qjoin"] .= " LEFT JOIN pw_cache_mpdist
-									ON pw_cache_mpdist.mp_id = pw_mp.mp_id
-									AND pw_cache_mpdist.mp_id_1 <> ".$mptabattr["mpidfriend"]."
-						 			AND pw_cache_mpdist.mp_id_2 = ".$mptabattr["mpidfriend"];
+									ON pw_cache_mpdist.mp_id_1 = pw_mp.mp_id
+									 AND pw_cache_mpdist.mp_id_1 <> ".$mpprop["mpid"]."
+						 			 AND pw_cache_mpdist.mp_id_2 = ".$mpprop["mpid"];
 			$aquery["qorder"] = " ORDER BY distance";
-			$friendlk = $mptabattr["lkfriend"];
+			$friendlk = "mpn2=".urlencode(str_replace(" ", "_", $mpprop['name']))."&mpc2=".urlencode($mpprop['constituency']);
 		}
+
 		elseif ($mptabattr["listtype"] == 'dreamdistance')
 		{
 			$aquery["qjoin"] .= "  ON ".$mptabattr["dreammpid"];
@@ -178,6 +185,20 @@
 				$href .= "&$friendlk";
 			$nrows += 1; # number from 1
 			print_mp_row($nrows, $row, $mpname, $href, $colstyle);
+		}
+
+
+		# return value
+		# find the number of voters which are the same
+		if ($mptabattr["listtype"] == 'mpdistance' and $mptabattr["limit"])
+		{
+			$query = "SELECT pw_mp.mp_id as mpid".$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"]." AND distance = 0";
+			if ($bdebug == 1)
+				print "\n<h3>$query</h3>\n";
+			$db->query($query);
+			$same_voters = $db->rows();
+			if ($same_voters >= $mptabattr["limit"])
+                return $same_voters;
 		}
 	}
 

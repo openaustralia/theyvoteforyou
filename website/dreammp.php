@@ -12,7 +12,7 @@
 
     include "db.inc";
     include('database.inc');
-    $db = new DB(); 
+    $db = new DB();
 
 	# standard decoding functions for the url attributes
 	include "decodeids.inc";
@@ -74,7 +74,8 @@
 			"voter1type" 	=> "dreammp",
 			"voter1"        => $dreamid,
 			"showwhich"		=> "all1",
-			"headings"		=> 'columns');
+			"headings"		=> 'columns',
+			"motionwikistate" => "listunedited");
 	division_table($db, $divtabattr);
     print "</table>\n";
 

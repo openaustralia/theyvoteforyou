@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.61 2005/03/09 19:38:51 goatchurch Exp $
+    # $Id: mp.php,v 1.62 2005/03/14 18:58:15 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -202,33 +202,46 @@
 
 <?
 	# extract the events in this mp's life
-	$events = "";
 	if ($dismode["generalinfo"])
 	{
-		$mpattr = $voter1attr;
 		# the events that have happened in this MP's career
-   		if (!$mpattr['bmultiperson'])
+   		if (!$voter1attr['bmultiperson'])
 		{
 			# generate ministerial events (maybe events for general elections?)
 		 	$query = "SELECT dept, position, from_date, to_date
 		        	  FROM pw_moffice
-					  WHERE pw_moffice.person = '".$mpattr["mpprop"]["person"]."'
+					  WHERE pw_moffice.person = '".$voter1attr["mpprop"]["person"]."'
 		        	  ORDER BY from_date DESC";
 			if ($bdebug == 1)
 				print "<h1>query for events: $query</h1>\n";
 		    $db->query($query);
 
-			$events = array();
+			# we insert an events array into each mpprop, which we will allocate timewise
+			for ($i = 0; $i < count($voter1attr["mpprops"]); $i++)
+				$voter1attr["mpprops"][$i]["mpevents"] = array();
+
+			function puteventintompprop(&$mpprops, $eventdate, $eventdesc)
+			{
+				for ($i = 0; $i < count($mpprops) - 1; $i++)
+					if ($eventdate >= $mpprops[$i + 1]["lefthouse"])
+						break;
+	            array_push($mpprops[$i]["mpevents"], array($eventdate, $eventdesc));
+			}
+
 			$currently_minister = "";
 			# it goes in reverse order
 		    while ($row = $db->fetch_row_assoc())
 		    {
 		        if ($row["to_date"] == "9999-12-31")
-		            $currently_minister = $row["position"].  ", " .  $row["dept"];
+		            $currently_minister = $row["position"].", ".$row["dept"];
 				else
-		            array_push($events, array($row["to_date"],   "Stopped being " .  $row["position"].  ", " . $row["dept"]));
-		        array_push($events, 	array($row["from_date"], "Became " .  $row["position"]. ", 		   " . $row["dept"]));
+					puteventintompprop($voter1attr["mpprops"], $row["to_date"], "Stopped being ".$row["position"].", ".$row["dept"]);
+				puteventintompprop($voter1attr["mpprops"], $row["from_date"], "Became ".$row["position"].", ".$row["dept"]);
 		    }
+
+			# reverse the arrays that we create (could have done above loop already reversed)
+			for ($i = 0; $i < count($voter1attr["mpprops"]); $i++)
+				$voter1attr["mpprops"][$i]["mpevents"] = array_reverse($voter1attr["mpprops"][$i]["mpevents"]);
 		}
 	}
 
@@ -240,7 +253,7 @@
 	    if ($currently_minister)
 	        print "<p><b>".$mpprop['name']."</b> is currently <b>$currently_minister</b>.<br>
 	               MP for <b>".$mpprop['constituency']."</b>";
-	    else if ($mpattr['bmultiperson'])
+	    else if ($voter1attr['bmultiperson'])
 	        print "<p>MPs who have represented <b>".$mpprop['constituency']."</b>";
 	    else
 	        print "<p><b>".$mpprop['name']."</b> has been MP for <b>".$mpprop['constituency']."</b>";
@@ -248,7 +261,7 @@
 		print "(Check out <a href=\"faq.php#clarify\">our explanation</a> of 'attendance'
 	            and 'rebellions', as they may not have the meanings you expect.)</p>";
 
-		seat_summary_table($mpattr['mpprops'], $mpattr['bmultiperson']);
+		seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson']);
 
 	    print "<p><a href=\"http://www.theyworkforyou.com/mp/?m=".$mpprop["mpid"]."\">
 	    		Performance data, recent speeches, and biographical links</a>
@@ -285,7 +298,7 @@
 		else if ($dismode["votelist"] == "every" and $voter2type == "party")
 			print "<p>All votes this MP could have attended. \n";
 
-		if ($events !== "")
+		if ($dismode["generalinfo"] and !$voter1attr['bmultiperson'])
 		    print " Also shows when this MP became or stopped being a paid minister. </p>";
 
 		# convert the view for the table selection depending on who are the voting actors
@@ -321,18 +334,12 @@
 			$divtabattr["sortby"] = 'datereversed';
 		}
 
-		# put in the events list
-		if ($events !== "")
-		{
-			if ($divtabattr['sortby'] == 'date')
-				$events = array_reverse($events);
-		}
-
 		# make the table over this MP's votes
 	    print "<table class=\"votes\">\n";
     	foreach ($voter1attr['mpprops'] as $mpprop)
 		{
 			$divtabattr["voter1"] = $mpprop;
+			$events = $mpprop["mpevents"];  # a bit confused, but a complete list of events per mpid makes the code simple
 			division_table($db, $divtabattr, $events);
 		}
 	    print "</table>\n";
@@ -354,16 +361,34 @@
 		    counted.  This may reveal relationships between MPs that were
 		    previously unsuspected.  Or it may be nonsense.";
 
-		# loop and make a table for each
-		if ($dismode["possfriends"] == "some")
-		{
-			foreach ($voter1attr['mpprops'] as $mpprop)
-				print_possible_friends($db, $mpprop, $dismode["possfriends"]);
-		}
 
-		# if it's a show all, then just do it of one sitting mp
-		else
-			print_possible_friends($db, $voter1attr['mpprop'], $dismode["possfriends"]);
+	# 	'dreamdistance', then 'dreammpid' is what we compare to
+	#   'division', then 'divdate', 'divno' index into that
+	#   'division2, then there's also 'divdate2', 'divno2'
+	# limit is nothing or a number
+	# sortby is 'turnout', 'rebellions', 'name', 'constituency', 'attendance'
+
+		# loop and make a table for each
+		foreach ($voter1attr['mpprops'] as $mpprop)
+		{
+			$mptabattr = array("listtype" => 'mpdistance',
+							   'mpfriend' => $mpprop);
+			if ($dismode["possfriends"] == "some")
+				$mptabattr["limit"] = 5;
+
+	        print "<h3>" . pretty_parliament_and_party($mpprop['enteredhouse'], $mpprop['party'], $mpprop['enteredreason'], $mpprop['leftreason']). "</h3>";
+	        print "<table class=\"mps\">\n";
+	        print "<tr class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Distance</td></tr>\n";
+			$same_voters = mp_table($db, $mptabattr);
+	        print "</table>\n";
+
+			if ($same_voters)
+                print "<p>($same_voters MPs voted exactly the same as this one)\n";
+
+			# do only one table if it's a show all case
+			if ($dismode["possfriends"] == "all")
+				break;
+		}
     }
 ?>
 

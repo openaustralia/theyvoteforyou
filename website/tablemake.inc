@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablemake.inc,v 1.11 2005/03/09 19:38:52 goatchurch Exp $
+    # $Id: tablemake.inc,v 1.12 2005/03/14 18:58:16 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -212,7 +212,7 @@
         print "<td colspan=7>" . $event[1] .  "</td></tr>\n";
     }
 
-	function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter2type, $vote1, $vote2, $row, $divhref, $hrefsource)
+	function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter2type, $vote1, $vote2, $row, $showmotionwikistate, $divhref, $hrefsource)
 	{
     	print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even")."$pretrowclass\">";
 		if ($voter2type != "")
@@ -221,9 +221,11 @@
 		print "<td>".$row['divisionnumber']."</td>";
 		$divdesc = $row['division_name'];
 		print "<td>";
-        print "<a href=\"$divhref\">$divdesc</a>";
-        if ($row['motionedited'] == "")
-            print " <span title=\"Motion text needs editing\"><i>*</i></span>";
+        print "<a href=\"$divhref\">$divdesc";
+        if ($showmotionwikistate == "listunedited" and !$row['motionedited'])
+            print " <i>(unedited)</i>";
+        print "</a>";
+
         print "</td>\n";
 
 		if ($voter1type != "")
@@ -384,8 +386,8 @@
 		while ($events && (!$date or ($breversed == ($date >= $events[count($events) - 1][0]))))
 		{
 			$event = array_pop($events);
-			print "<tr><td></td><td>$event[0]</td>";
-			print "<td colspan=5 align=center>$event[1]</td></tr>\n";
+			print "<tr class=\"jobevent\"><td></td><td>$event[0]</td>";
+			print "<td colspan=2 align=center>$event[1]</td><td colspan=3></td></tr>\n";
 		}
  	}
 
@@ -399,6 +401,7 @@
 	# headings is 'none', 'columns', 'fulldesc'(for changing mps)
 	# sortby is 'date', 'subject', 'rebellions', 'turnout'
 	# $parldatelimit is null or a line from $parliaments
+	# motionwikistate is nothing or 'listunedited' for the "(unedited)" symbols
 	function division_table($db, $divtabattr, $events = "")
 	{
 		global $bdebug;
@@ -414,8 +417,7 @@
         $aquery["qselect"] = " SELECT
 								pw_division.division_number AS divisionnumber,
 							  	pw_division.division_date 	AS divisiondate,
-							  	division_name, source_url, debate_url, source_gid, debate_gid,
-								object_key AS motionedited";
+							  	division_name, source_url, debate_url, source_gid, debate_gid";
 
 		$aquery["qfrom"]   = " FROM pw_division";
 		$aquery["qjoin"]   = " LEFT JOIN pw_cache_divinfo ON pw_cache_divinfo.division_id = pw_division.division_id";
@@ -425,9 +427,6 @@
 		if ($divtabattr["parldatelimit"])
 			$aquery["qwhere"]  = " WHERE (pw_division.division_date >= \"".$divtabattr["parldatelimit"]['from']."\"
 								  		  AND pw_division.division_date < \"".$divtabattr["parldatelimit"]['to']."\")";
-
-		# this handles joins with the wiki motion text
-		$aquery["qgroup"]  = " GROUP BY pw_division.division_id";
 
 
 		# accumulate the ordering command
@@ -445,9 +444,15 @@
 
 
 		# corrected column (yet another division_id coding!)
-		$aquery["qjoin"]  .= " LEFT JOIN pw_dyn_wiki ON pw_dyn_wiki.object_key =
-							 	concat('motion-', pw_division.division_date, '-', pw_division.division_number)";
-
+		# motionwikistate is nothing or 'listunedited' for the "(unedited)" symbols
+		$showmotionwikistate = $divtabattr["motionwikistate"];
+		if ($showmotionwikistate)
+		{
+			$aquery["qselect"] .= ", object_key AS motionedited";
+			$aquery["qjoin"]  .= " LEFT JOIN pw_dyn_wiki ON pw_dyn_wiki.object_key =
+								 	concat('motion-', pw_division.division_date, '-', pw_division.division_number)";
+			$aquery["qgroup"]  = " GROUP BY pw_division.division_id";
+		}
 
 		# extract attibutes
 		$showwhich = $divtabattr["showwhich"];
@@ -605,7 +610,7 @@
 			writeevents($events, $row['divisiondate'], $breversed);
 
 			# votedisplay is none, 'fullmotion'(for showing the jmp view)
-			if ($divtabattr['votedisplay'] == 'fullmotion' and 	$row['motionedited'] != "")
+			if ($divtabattr['votedisplay'] == 'fullmotion' and $row['motionedited'] != "")
 			{
 				# text_body AS motiontext, user_id AS motionedituser, edit_date AS motioneditdate";
 				$motiontext = sanitise_wiki_text_for_display($row['motiontext']);
@@ -614,10 +619,13 @@
 			}
 			else
 			{
-				print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter2type, $vote1, $vote2, $row, $divhref, $hrefsource);
+				print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter2type, $vote1, $vote2, $row, $showmotionwikistate, $divhref, $hrefsource);
 	            $nrows += 1;
 	 		}
         }
+
+		# finish the remainder of the events
+		writeevents($events, "", $breversed);
 	}
 
 ?>

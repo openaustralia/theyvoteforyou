@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.53 2005/03/04 01:40:32 frabcus Exp $
+# $Id: division.php,v 1.54 2005/03/14 18:58:14 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -8,208 +8,94 @@
 # For details see the file LICENSE.html in the top level of the source.
 
     include "db.inc";
+    $db = new DB();
+    $db2 = new DB();
+
     include "gather.inc";
+   	include "decodeids.inc";
 
-    $date = db_scrub($_GET["date"]);
-    $div_no = db_scrub($_GET["number"]);
-    $motion_key = get_motion_wiki_key($date, $div_no);
+	# decode the attributes
+	$divattr = get_division_attr_decode($db, "");
 
-    $show_all = false;
-    if ($_GET["showall"] == "yes")
-        $show_all = true;
+	$div_id = $divattr["division_id"];
+	$name = $divattr["name"];
+	$source = $divattr["source_url"];
+	$rebellions = $divattr["rebellions"];
+	$turnout = $divattr["turnout"];
+	$original_motion = $divattr["original_motion"];
+	$debate_url = $divattr["debate_url"];
+	$source_gid = $divattr["source_gid"];
+	$debate_gid = $divattr["debate_gid"];
+	$div_no = html_scrub($divattr["division_number"]);
+	$this_anchor = $divattr["divhref"];
 
     include_once "account/user.inc";
-    if (!user_isloggedin()) {
+    if (!user_isloggedin()) 
+	{
         $cache_params = "#date=$date#div_no=$div_no#show_all=$show_all#";
         include "cache-begin.inc";
     }
 
     include "database.inc";
     include_once "cache-tools.inc";
-    $db = new DB();
-    $db2 = new DB();
 
-    $db->query("select pw_division.division_id, division_name,
-            source_url, rebellions, turnout, notes, motion, debate_url,
-            source_gid, debate_gid from pw_division,
-            pw_cache_divinfo where pw_division.division_id =
-            pw_cache_divinfo.division_id and division_date = '$date'
-            and division_number='$div_no'");
-    if ($db->rows() > 1)
-        die("Duplicate division in database " . $this->rows());
+    include "divisionvote.inc";
 
-    $prettydate = date("j M Y", strtotime($date));
-    if ($db->rows() <= 0)
-    {
-        $title = "$prettydate - Division No. $div_no";
-        include "header.inc";
-        print "<p>Public Whip does not have this division.  Perhaps it
-        doesn't exist, or it hasn't been added to The Public Whip yet.
-        New divisions are added one or two working days after they happen.</p>
-        <p><a href=\"divisions.php\">Browse for a division</a> </p>
-        ";
-    }
-    else
-    {
-        $row = $db->fetch_row();
+	$title = "$name - ".$divattr["prettydate"]." - Division No. $div_no";
+	include "header.inc";
 
-        $div_id = $row[0];
-        $name = $row[1];
-        $source = $row[2];
-        $rebellions = $row[3];
-        $turnout = $row[4];
-        $notes = $row[5];
-        $original_motion = $row[6];
-        $debate_url = $row[7];
-        $source_gid = $row[8];
-        $debate_gid = $row[9];
-        $div_no = html_scrub($div_no); 
-        $this_anchor = "division.php?date=" . urlencode($date) .  "&number=" . urlencode($div_no); 
-        $title = "$name - $prettydate - Division No. $div_no";
-        include "header.inc";
+	# constants
+	$dismodes = array();
+	$dismodes["summary"] = array("dtype"	=> "summary",
+							 "description" 	=> "Summary",
+							 "motiontext" 	=> "yes",
+							 "partysummary"	=> "yes",
+							 "showwhich" 	=> "rebels",
+							 "dreamvoters"	=> "all");
 
-        $motion_data = get_wiki_current_value($motion_key);
+	$dismodes["allvotes"] = array("dtype"	=> "allvotes",
+							 "description" 	=> "All voters",
+							 "motiontext" 	=> "yes",
+							 "partysummary"	=> "yes",
+							 "showwhich" 	=> "voters",
+							 "dreamvoters"	=> "all");
 
-        print '<p><a href="#motion">Motion</a>';
-        print ' | ';
-        print '<a href="#summary">Party Summary</a>';
-        print ' | ';
-        if (!$show_all)
-            print '<a href="#rebels">Rebel Voters</a>';
+	$dismodes["allpossible"] = array("dtype"	=> "allpossible",
+							 "description" 	=> "All possible voters",
+							 "motiontext" 	=> "yes",
+							 "showwhich" 	=> "allpossible");
+
+	# work out which display mode we are in
+	$display = $_GET["display"];
+	if (!$dismodes[$display])
+	{
+		if ($_GET["showall"] == "yes")
+			$display = "allvotes"; # legacy
+		else
+			$display = "summary"; # default
+	}
+	$dismode = $dismodes[$display];
+
+	# make list of links to other display modes
+	$thispage = $divattr["divhref"];
+	$leadch = "<p>"; # get those bars between the links working
+    foreach ($dismodes as $ldisplay => $ldismode)
+	{
+		print $leadch;
+		$leadch = " | ";
+		$dlink = "href=\"$thispage".($ldisplay != "summary" ? "&display=$ldisplay" : "")."\"";
+        if ($ldisplay == $display)
+            print $ldismode["description"];
         else
-        {
-            print '<a href="#voters">Voter List</a>';
-            print ' | ';
-            print '<a href="#nonvoters">Non-Voter List</a>';
-        }
-        print ' | ';
-        print '<a href="#dreammp">Dream MP Voters</a>';
+            print "<a $dlink>".$ldismode["description"]."</a>";
+	}
 
-    #	print ' | ';
-    #	print '<a href="#similar">Similar Divisions</a>';
+	$motion_data = get_wiki_current_value($divattr["motion_key"]);
 
-        # Dream MP feature
-        function vote_value($value, $curr)
-        {
-            $ret = "value=\"" . html_scrub($value) . "\" ";
-            if ($value == $curr)
-            {
-                $ret .= "selected ";
-            }
-            return $ret;
-        }
 
-        if (user_isloggedin())
-        {
-            $submit=mysql_escape_string($_POST["submit"]);
-
-            print "<div class=\"tablerollie\">";
-            print "<span class=\"ptitle\">Dream MP</span>";
-
-            $query = "select rollie_id, name, description from
-                pw_dyn_rolliemp where user_id = '" . user_getid() . "'";
-
-            print "<p>Vote in this division for your dream MPs.</p>";
-            print '<FORM ACTION="division.php?date=' . urlencode($date) . '&number=' . urlencode($div_no) . '" METHOD="POST">';
-            print '<table>';
-            $db->query($query);
-            $rowarray = $db->fetch_rows_assoc();
-
-            foreach ($rowarray as $row)
-            {
-                # find dream MP vote
-                $query = "select vote from pw_dyn_rollievote where
-                        division_date = '$date' and division_number = '$div_no' and
-                        rolliemp_id = '" . $row['rollie_id'] . "'";
-                $db->query($query);
-                if ($db->rows() == 0)
-                    $vote = "--";
-                else
-                {
-                    $qrow = $db->fetch_row_assoc();
-                    $vote = $qrow['vote'];
-                }
-                # alter dream MP's vote if they submitted form
-                if ($submit)
-                {
-                    $changedvote = mysql_escape_string($_POST["vote" . $row['rollie_id']]);
-                    if ($changedvote != $vote)
-                    {
-                        print "<tr><td colspan=2><div class=\"error\">";
-                        notify_dream_mp_updated($db, intval($row['rollie_id']));
-                        notify_division_updated($db, $date, $div_no);
-
-                        if ($changedvote == "--")
-                        {
-                            $query = "delete from pw_dyn_rollievote "  .
-                                " where rolliemp_id='" . $row['rollie_id'] . "' and " .
-                                "division_date = '$date' and division_number = '$div_no'";
-                            $db->query($query);
-                            if ($db->rows() == 0)
-                                print "Error changing '" . html_scrub($row['name']) . "' to non-voter (no change)";
-                            elseif ($db->rows() > 1)
-                                print "Error changing '" . html_scrub($row['name']) . "' to non-voter (too many rows)";
-                            audit_log("Changed '" . $row['name'] . "' to non-voter for division " . $date . " " . $div_no);
-                            print html_scrub("Changed '" . $row['name'] . "' to non-voter");
-                        }
-                        else
-                        {
-                            $query = "update pw_dyn_rollievote set vote='" . $changedvote . "'" .
-                                " where rolliemp_id='" . $row['rollie_id'] . "' and " .
-                                "division_date = '$date' and division_number = '$div_no'";
-                            if ($vote == "--")
-                            {
-                                $query = "insert into pw_dyn_rollievote (vote, rolliemp_id, division_date,
-                                        division_number) values ('" . $changedvote . "', ".
-                                    "'" . $row['rollie_id'] . "', '$date', '$div_no')";
-                            }
-                            $db->query($query);
-                            if ($db->rows() == 0)
-                                print "Error changing '" . html_scrub($row['name']) . "' to " . $changedvote . " (no change)";
-                            elseif ($db->rows() > 1)
-                                print "Error changing '" . html_scrub($row['name']) . "' to " . $changedvote . " (too many rows)";
-                            audit_log("Changed '" . $row['name'] . "' to " . $changedvote . " for division " . $date . " " . $div_no);
-                            print html_scrub("Changed '" . $row['name'] . "' to " . $changedvote);
-                        }
-                        print "</div></td></tr>";
-                        $vote = $changedvote;
-                    }
-                }
-                # display dream MP vote
-                print "<tr><td>\n";
-                print '<a href="dreammp.php?id=' . $row['rollie_id'] . '">' . html_scrub($row['name']) . "</a>: \n";
-                print "</td><td>\n";
-                print ' <select name="vote' . $row['rollie_id'] . '" size="1">
-                                    <option ' . vote_value("aye3", $vote) . '>Aye 3-Line</option>
-                                    <option ' . vote_value("aye", $vote) . '>Aye</option>
-                                    <option ' . vote_value("no", $vote) . '>No</option>
-                                    <option ' . vote_value("no3", $vote) . '>No 3-Line</option>
-                                    <option ' . vote_value("both", $vote) . '>Abstain</option>
-                                    <option ' . vote_value("--", $vote) . '>Non-voter</option>
-                                </select></p>';
-                print '</td></tr>';
-            }
-            print "<tr><td>\n";
-            print ' <a href="account/adddream.php">[Add new dream MP]</a>';
-            print "</td><td>\n";
-            if (count ($rowarray) > 0)
-                print '<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Update Votes">';
-            print '</td></tr>';
-            print '<tr><td colspan=2><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=1">Questions? Discuss it here</a></td><tr>';
-            print '</table>';
-            print '</FORM>';
-            print "</div>";
-        }
-        else
-        {
-    /*
-            print "<p>Have a strong view on this division?  <a href=\"account/adddream.php\">Create your
-                own dream MP</a>, and have them vote how you would like them to have voted.  Essential
-                for any campaigning organisation, parliamentary candidate, or just for fun.";
-            print "<p>Already have a dream MP?  <a href=\"account/settings.php\">Login here</a>";
-            */
-
-        }
+	# Dream MP feature
+	if (user_isloggedin())
+		write_dream_vote($divattr);
 
         # Summary
         print "<h2>Summary</h2>";
@@ -229,7 +115,8 @@
 
         $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
         $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
-        if ($debate_gid != "") {
+        if ($debate_gid != "") 
+		{
             print "<br><a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">Read the full debate</a> leading up to this division";
             print " (on TheyWorkForYou.com)";
         }
@@ -240,9 +127,9 @@
         # Unused -- $debate_url contains start of debate link on parliament website.
         # Unused -- $source_gid contains division listing link on TheyWorkForYou.com website.
 
-        print "$notes";
-
-        # Show motion text
+	if ($dismode["motiontext"])
+    {
+    	# Show motion text
         print "<h2><a name=\"motion\">Motion</a></h2>";
         if ($motion_data['user_id'] == 0) {
             print "<p>Procedural text extracted from the debate,
@@ -251,7 +138,7 @@
             </p>";
         } else {
             print "<p>Result of the motion in a human readable form, as judged by
-            our team of self-appointed experts.</p>"; 
+            our team of self-appointed experts.</p>";
         }
         print "<div class=\"motion\">" . sanitise_wiki_text_for_display($motion_data['text_body']); # TODO: validate this text_body
         print "</div>\n";
@@ -267,8 +154,12 @@
             print " (be the first to edit this)";
         }
         print "</p>\n";
+	}
 
-        # Work out proportions for party voting (todo: cache)
+
+	# Work out proportions for party voting (todo: cache)
+	if ($dismode["partysummary"])
+    {
         $db->query("select party, total_votes from pw_cache_partyinfo");
         $alldivs = array();
         while ($row = $db->fetch_row())
@@ -356,6 +247,7 @@
             }
         }
         print "</table>";
+	}
 
         $mps = array();
 
@@ -366,7 +258,7 @@
 
             global $mps, $db2;
 
-            print "<table class=\"votes\"><tr class=\"headings\"><td>MP</td><td>Constituency</td><td>Party</td><td>Vote</td></tr>";
+            print "<table class=\"votes\"><tr class=\"headings\"><td>MP::</td><td>Constituency</td><td>Party</td><td>Vote</td></tr>";
             $prettyrow = 0;
             while ($row = $db->fetch_row())
             {
@@ -410,9 +302,9 @@
             }
             print "</table>";
         }
-        
+
         $query = "select first_name, last_name, title, pw_mp.party,
-            vote, pw_mp.mp_id, whip_guess, constituency, person from pw_mp, pw_vote, pw_cache_whip 
+            vote, pw_mp.mp_id, whip_guess, constituency, person from pw_mp, pw_vote, pw_cache_whip
             where pw_vote.mp_id = pw_mp.mp_id
                 and pw_cache_whip.party = pw_mp.party
                 and pw_vote.division_id = $div_id
@@ -436,7 +328,7 @@
         vote_table($div_id, $db, $date, $show_all, $query);
         if (!$show_all)
         {
-            print "<p><a href=\"$this_anchor&showall=yes#voters\">Show detailed voting records - 
+            print "<p><a href=\"$this_anchor&showall=yes#voters\">Show detailed voting records -
             all MPs who voted in this division, and all MPs who did not</a>";
         }
         else
@@ -449,7 +341,7 @@
             $mp_not_already = "mp_id<>" . join(" and mp_id<>", $mps);
             $query = "select first_name, last_name, title, pw_mp.party,
                 \"\", pw_mp.mp_id, \"\", constituency, person from pw_mp where
-                    entered_house <= '$date' and left_house >= '$date' and 
+                    entered_house <= '$date' and left_house >= '$date' and
                     ($mp_not_already)";
             $query .= "order by party, last_name, first_name desc";
             print "<h2><a name=\"nonvoters\">Non-Voter List</a></h2>
@@ -457,7 +349,7 @@
                 reasons an MP may not vote - read this
                 <a href=\"faq.php#clarify\">clear explanation</a> of
                 attendance to find some reasons.  Note that MPs who voted both for
-                and against are listed in the table above, not this table.  Search 
+                and against are listed in the table above, not this table.  Search
                 for \"both\" to find them.";
             vote_table($div_id, $db, $date, $show_all, $query);
             print "<p><a href=\"$this_anchor#rebels\">Show only MPs who rebelled in this division</a>";
@@ -477,7 +369,7 @@
             print "<table class=\"divisions\"><tr class=\"headings\">";
             print "<td>Dream MP</td><td>Vote (in this division)</td><td>Made by</td>";
             while ($row = $db->fetch_row_assoc()) {
-                $prettyrow = pretty_row_start($prettyrow);        
+                $prettyrow = pretty_row_start($prettyrow);
                 $vote = $row["vote"];
                 if ($vote == "both")
                     $vote = "abstain";
@@ -489,13 +381,13 @@
             }
             print "</table>";
             print "<p><a href=\"account/adddream.php\">Make your own dream MP</a>";
-        }
+
     }
 
 ?>
 
 <?php include "footer.inc" ?>
-<?php 
+<?php
 if (!user_isloggedin())
-    include "cache-end.inc"; 
+    include "cache-end.inc";
 ?>

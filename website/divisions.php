@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.13 2005/03/08 20:39:42 goatchurch Exp $
+# $Id: divisions.php,v 1.14 2005/03/14 18:58:15 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -132,19 +132,17 @@
     makeheadcelldivlink($rdisplay, $sort, "Turnout", "turnout", "Sort by turnout");
     print "</tr>";
 
-	$rdismodes["rebelall"] = array("dtype"	=> "rebelall",
-							 "description" => "All Rebellions for all Parliaments since 1997",
-							 "lkdescription" => "All Rebellions",
-							 "parliament" => "all",
-							 "showwhich" => "rebellions10");
 
 	# would like to have the above heading put into the scheme
 	$divtabattr = array(
 			"showwhich"		=> $rdismode["showwhich"],
 			"headings"		=> 'none',
-			"sortby"		=> $sort	);
-	if ($rdismode != "all")
+			"sortby"		=> $sort);
+
+	if ($rdismode["parliament"] != "all")
 		$divtabattr["parldatelimit"] = $parliaments[$rdisplay];
+	else
+		$divtabattr["motionwikistate"] = "listunedited"; 
 
 	division_table($db, $divtabattr);
     print "</table>\n";

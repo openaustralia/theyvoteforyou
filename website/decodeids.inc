@@ -1,5 +1,5 @@
 <?php
-    # $Id: decodeids.inc,v 1.5 2005/03/06 01:22:17 goatchurch Exp $
+    # $Id: decodeids.inc,v 1.6 2005/03/14 18:58:13 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -224,6 +224,43 @@
 					 "anchor"		=> "dmp$i=".urlencode($dreammpid));
 	}
 
+	# do the attributes for a division listing
+	function get_division_attr_decode($db, $i)
+	{
+		global $bdebug;
+	    $div_date = db_scrub($_GET["date$i"]);
+	    $div_no = db_scrub($_GET["number$i"]);
+	    if (!$div_date or !$div_no)
+	    	return none;
+
+		$query = "SELECT division_date, division_number,
+						 pw_division.division_id AS division_id,
+						 division_name, motion, notes,
+						 source_url, debate_url, source_gid, debate_gid,
+						 rebellions, turnout
+				  FROM pw_division
+				  LEFT JOIN pw_cache_divinfo
+				  	ON pw_cache_divinfo.division_id = pw_division.division_id
+				  WHERE division_date = '$div_date' AND division_number = '$div_no'";
+
+		if ($bdebug == 1)
+			print "<h5>$query</h5>";
+	    $row = $db->query_one_row_assoc($query);
+	    $motion_key = get_motion_wiki_key($row["division_date"], $row['division_number']);
+
+		return array("division_date" 	=> $row["division_date"],
+					 "division_number" 	=> $row['division_number'],
+					 "division_id" 		=> $row['division_id'],
+					 "prettydate"		=> date("j M Y", strtotime($row["division_date"])),
+					 "name"				=> $row["division_name"],
+					 "debate_url"		=> $row["debate_url"],
+					 "source_url"		=> $row["source_url"],
+					 "debate_gid"		=> $row["debate_gid"],
+					 "source_gid"		=> $row["source_gid"],
+					 "rebellions"		=> $row["rebellions"],
+					 "turnout"			=> $row["turnout"],
+					 "divhref"			=> "division.php?date=".urlencode($row["division_date"])."&number=".urlencode($row["division_number"]),
+					 "motion_key"		=> $motion_key,
+					 "original_motion"	=> $row["motion"]);
+	}
 ?>
-
-

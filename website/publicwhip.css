@@ -210,6 +210,12 @@ TABLE TR.motiontitlestrong
     FONT-WEIGHT: bold;
     BACKGROUND-COLOR: #aaaaee
 }
+TABLE TR.jobevent
+{
+    FONT-STYLE: italic;
+    BACKGROUND-COLOR: #99ccee
+}
+
 TABLE TD
 {
     PADDING-RIGHT: 0.3em;
