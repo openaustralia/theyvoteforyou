@@ -1,5 +1,5 @@
 #!/usr/bin/python2.3
-# $Id: guardianconv.py,v 1.6 2004/05/16 01:39:40 frabcus Exp $
+# $Id: guardianconv.py,v 1.7 2004/06/11 09:10:07 theyworkforyou Exp $
 
 # Converts tab file of Guardian URLs into XML.  Also extracts swing/majority
 # from the constituency page on the Guardian.
@@ -39,7 +39,7 @@ for l in ih:
 
     # Majority
     setsameelection =  memberList.getmembersoneelection(id)
-    print setsameelection
+    #print setsameelection
 
     # Grab swing from the constituency page
     ur = urllib.urlopen(consurl)
