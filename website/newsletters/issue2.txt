@@ -104,7 +104,7 @@ improving market competition.
 
 The battle isn't won yet, standards have to be constantly championed.
 Take a look at the parliamentary live internet video broadcasts. You can
-find them at http://www.parliamentlive.tv/. They are broadcast only in
+find them at http://www.parliamentlive.tv . They are broadcast only in
 Windows Media Player format. This is a closed format, owned by
 Microsoft, which nobody else can make software to create or play. On
 a selfish note, this means that I can't view broadcasts of my democratic
@@ -134,7 +134,7 @@ The tellers are listed in Hansard, but Public Whip wasn't counting them.
 Now it does, and you will notice that everyone's attendance rate has
 gone up slightly. The effect is particularly extreme for some party
 whips, who tell very often. For example, Hugh Robertson's attendance
-went from 64.3% to 71.8%. Thanks to everyone who asked for and helped us
+went from 64.3% to 72.4%. Thanks to everyone who asked for and helped us
 add this feature - you know who you are.
 http://www.publicwhip.org.uk/mp.php?firstname=Hugh&lastname=Robertson&constituency=Faversham+%26+Mid+Kent
 

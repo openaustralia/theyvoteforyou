@@ -177,7 +177,6 @@ def ExtractHonMembersRecurse(qs, stex):
 
 
 	# recursion part
-        print "recursion part"
 	if mps:
 		res = ExtractHonMembersRecurse(qs, stex[:qhm.span(1)[0]])
 		res.append(mps)
@@ -186,7 +185,7 @@ def ExtractHonMembersRecurse(qs, stex):
 	else:
                 print "stexing"
                 print stex
-                oldstex = stetx
+                oldstex = stex
                 stex = FixHTMLEntities(stex)
                 if stex <> oldstex:
                         print "newstex"
@@ -217,7 +216,7 @@ def ExtractJobRecurse(stex):
 def FindHonMembers(i, n, line, qs):
 	# first determin the jobs that are in the text
 	line = string.join(ExtractJobRecurse(line))
-	return line
+#	return line
 
 	res = ExtractHonMembersRecurse(qs, line)
 	return string.join(res, '')

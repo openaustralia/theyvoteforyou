@@ -2,9 +2,9 @@
 use strict;
 use lib "scraper/";
 
-my $text = "website/newsletters/issue1.txt";
+my $text = "website/newsletters/issue2.txt";
+my $test_name = "";
 #my $test_name = "Francis Irving";
-my $test_name = "awp\@bcs.org.uk";
 
 use error;
 use db;
