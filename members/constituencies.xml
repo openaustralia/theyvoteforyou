@@ -7,9 +7,9 @@ Unique identifiers and alternative names for UK parliamentary constituencies.
 Currently as they are in 2003 - will need to update when boundary changes come
 in.
 
-Currently has the name forms used for the list of MPs on the Parliament website
-and by the ONS (Office of National Statistics).  The Parliament versions are more
-accurate, so considered canonical.
+Currently has the name forms used for the list of MPs on the Parliament website,
+by the ONS (Office of National Statistics), and by FaxYourMP.com (also BBC iCan).
+The Parliament versions are more accurate, so considered canonical.
 
 -->
 
@@ -27,7 +27,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/5">
     <name text="Airdrie &amp; Shotts"/>
-    <name text="Airdrie and Shotts"/>
+    <name text="Airdrie and Shotts"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/6">
     <name text="Aldershot"/>
@@ -37,11 +37,11 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/8">
     <name text="Altrincham &amp; Sale West"/>
-    <name text="Altrincham and Sale West"/>
+    <name text="Altrincham and Sale West"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/9">
     <name text="Alyn &amp; Deeside"/>
-    <name text="Alyn and Deeside"/>
+    <name text="Alyn and Deeside"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/10">
     <name text="Amber Valley"/>
@@ -51,11 +51,11 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/12">
     <name text="Argyll &amp; Bute"/>
-    <name text="Argyll and Bute"/>
+    <name text="Argyll and Bute"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/13">
     <name text="Arundel &amp; South Downs"/>
-    <name text="Arundel and South Downs"/>
+    <name text="Arundel and South Downs"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/14">
     <name text="Ashfield"/>
@@ -65,7 +65,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/16">
     <name text="Ashton-under-Lyne"/>
-    <name text="Ashton under Lyne"/>
+    <name text="Ashton under Lyne"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/17">
     <name text="Aylesbury"/>
@@ -78,7 +78,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/20">
     <name text="Banff &amp; Buchan"/>
-    <name text="Banff and Buchan"/>
+    <name text="Banff and Buchan"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/21">
     <name text="Barking"/>
@@ -88,15 +88,15 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/23">
     <name text="Barnsley East &amp; Mexborough"/>
-    <name text="Barnsley East and Mexborough"/>
+    <name text="Barnsley East and Mexborough"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/24">
     <name text="Barnsley West &amp; Penistone"/>
-    <name text="Barnsley West and Penistone"/>
+    <name text="Barnsley West and Penistone"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/25">
     <name text="Barrow &amp; Furness"/>
-    <name text="Barrow and Furness"/>
+    <name text="Barrow and Furness"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/26">
     <name text="Basildon"/>
@@ -112,7 +112,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/30">
     <name text="Batley &amp; Spen"/>
-    <name text="Batley and Spen"/>
+    <name text="Batley and Spen"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/31">
     <name text="Battersea"/>
@@ -143,19 +143,19 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/40">
     <name text="Bethnal Green &amp; Bow"/>
-    <name text="Bethnal Green and Bow"/>
+    <name text="Bethnal Green and Bow"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/41">
     <name text="Beverley &amp; Holderness"/>
-    <name text="Beverley and Holderness"/>
+    <name text="Beverley and Holderness"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/42">
     <name text="Bexhill &amp; Battle"/>
-    <name text="Bexhill and Battle"/>
+    <name text="Bexhill and Battle"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/43">
     <name text="Bexleyheath &amp; Crayford"/>
-    <name text="Bexleyheath and Crayford"/>
+    <name text="Bexleyheath and Crayford"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/44">
     <name text="Billericay"/>
@@ -165,34 +165,44 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/46">
     <name text="Birmingham, Edgbaston"/>
+    <name text="Birmingham Edgbaston"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/47">
     <name text="Birmingham, Erdington"/>
+    <name text="Birmingham Erdington"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/48">
     <name text="Birmingham, Hall Green"/>
+    <name text="Birmingham Hall Green"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/49">
     <name text="Birmingham, Hodge Hill"/>
+    <name text="Birmingham Hodge Hill"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/50">
     <name text="Birmingham, Ladywood"/>
+    <name text="Birmingham Ladywood"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/51">
     <name text="Birmingham, Northfield"/>
+    <name text="Birmingham Northfield"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/52">
     <name text="Birmingham, Perry Barr"/>
+    <name text="Birmingham Perry Barr"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/53">
     <name text="Birmingham, Selly Oak"/>
+    <name text="Birmingham Selly Oak"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/54">
     <name text="Birmingham, Sparkbrook &amp; Small Heath"/>
-    <name text="Birmingham, Sparkbrook and Small Heath"/>
+    <name text="Birmingham, Sparkbrook and Small Heath"/> <!-- ONS -->
+    <name text="Birmingham Sparkbrook and Small Heath"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/55">
     <name text="Birmingham, Yardley"/>
+    <name text="Birmingham Yardley"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/56">
     <name text="Bishop Auckland"/>
@@ -205,7 +215,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/59">
     <name text="Blackpool North &amp; Fleetwood"/>
-    <name text="Blackpool North and Fleetwood"/>
+    <name text="Blackpool North and Fleetwood"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/60">
     <name text="Blackpool South"/>
@@ -221,7 +231,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/64">
     <name text="Bognor Regis &amp; Littlehampton"/>
-    <name text="Bognor Regis and Littlehampton"/>
+    <name text="Bognor Regis and Littlehampton"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/65">
     <name text="Bolsover"/>
@@ -240,7 +250,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/70">
     <name text="Boston &amp; Skegness"/>
-    <name text="Boston and Skegness"/>
+    <name text="Boston and Skegness"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/71">
     <name text="Bosworth"/>
@@ -268,7 +278,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/79">
     <name text="Brecon &amp; Radnorshire"/>
-    <name text="Brecon and Radnorshire"/>
+    <name text="Brecon and Radnorshire"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/80">
     <name text="Brent East"/>
@@ -281,11 +291,11 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/83">
     <name text="Brentford &amp; Isleworth"/>
-    <name text="Brentford and Isleworth"/>
+    <name text="Brentford and Isleworth"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/84">
     <name text="Brentwood &amp; Ongar"/>
-    <name text="Brentwood and Ongar"/>
+    <name text="Brentwood and Ongar"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/85">
     <name text="Bridgend"/>
@@ -295,13 +305,15 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/87">
     <name text="Brigg &amp; Goole"/>
-    <name text="Brigg and Goole"/>
+    <name text="Brigg and Goole"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/88">
     <name text="Brighton, Kemptown"/>
+    <name text="Brighton Kemptown"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/89">
     <name text="Brighton, Pavilion"/>
+    <name text="Brighton Pavilion"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/90">
     <name text="Bristol East"/>
@@ -317,7 +329,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/94">
     <name text="Bromley &amp; Chislehurst"/>
-    <name text="Bromley and Chislehurst"/>
+    <name text="Bromley and Chislehurst"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/95">
     <name text="Bromsgrove"/>
@@ -354,20 +366,21 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/106">
     <name text="Caithness, Sutherland &amp; Easter Ross"/>
-    <name text="Caithness, Sutherland and Easter Ross"/>
+    <name text="Caithness, Sutherland and Easter Ross"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/107">
     <name text="Calder Valley"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/108">
     <name text="Camberwell &amp; Peckham"/>
-    <name text="Camberwell and Peckham"/>
+    <name text="Camberwell and Peckham"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/109">
     <name text="Cambridge"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/110">
     <name text="Cannock Chase"/>
+    <name text="Canock Chase"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/111">
     <name text="Canterbury"/>
@@ -380,7 +393,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/114">
     <name text="Cardiff South &amp; Penarth"/>
-    <name text="Cardiff South and Penarth"/>
+    <name text="Cardiff South and Penarth"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/115">
     <name text="Cardiff West"/>
@@ -390,29 +403,32 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/117">
     <name text="Carmarthen East &amp; Dinefwr"/>
-    <name text="Carmarthen East and Dinefwr"/>
+    <name text="Carmarthen East and Dinefwr"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/118">
     <name text="Carmarthen West &amp; South Pembrokeshire"/>
-    <name text="Carmarthen West and South Pembrokeshire"/>
+    <name text="Carmarthen West and South Pembrokeshire"/> <!-- ONS -->
+    <name text="Carmarthen West and Pembrokeshire South"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/119">
     <name text="Carrick, Cumnock &amp; Doon Valley"/>
-    <name text="Carrick, Cumnock and Doon Valley"/>
+    <name text="Carrick, Cumnock and Doon Valley"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/120">
     <name text="Carshalton &amp; Wallington"/>
-    <name text="Carshalton and Wallington"/>
+    <name text="Carshalton and Wallington"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/121">
     <name text="Castle Point"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/122">
     <name text="Central Fife"/>
+    <name text="Fife Central"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/123">
     <name text="Central Suffolk &amp; North Ipswich"/>
-    <name text="Central Suffolk and North Ipswich"/>
+    <name text="Central Suffolk and North Ipswich"/> <!-- ONS -->
+    <name text="Suffolk Central and North Ipswich"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/124">
     <name text="Ceredigion"/>
@@ -422,7 +438,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/126">
     <name text="Chatham &amp; Aylesford"/>
-    <name text="Chatham and Aylesford"/>
+    <name text="Chatham and Aylesford"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/127">
     <name text="Cheadle"/>
@@ -432,11 +448,11 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/129">
     <name text="Chesham &amp; Amersham"/>
-    <name text="Chesham and Amersham"/>
+    <name text="Chesham and Amersham"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/130">
     <name text="Chester, City of"/>
-    <name text="City of Chester"/>
+    <name text="City of Chester"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/131">
     <name text="Chesterfield"/>
@@ -446,7 +462,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/133">
     <name text="Chingford &amp; Woodford Green"/>
-    <name text="Chingford and Woodford Green"/>
+    <name text="Chingford and Woodford Green"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/134">
     <name text="Chipping Barnet"/>
@@ -459,7 +475,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/137">
     <name text="Cities of London &amp; Westminster"/>
-    <name text="Cities of London and Westminster"/>
+    <name text="Cities of London and Westminster"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/138">
     <name text="Cleethorpes"/>
@@ -472,14 +488,14 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/141">
     <name text="Clydebank &amp; Milngavie"/>
-    <name text="Clydebank and Milngavie"/>
+    <name text="Clydebank and Milngavie"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/142">
     <name text="Clydesdale"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/143">
     <name text="Coatbridge &amp; Chryston"/>
-    <name text="Coatbridge and Chryston"/>
+    <name text="Coatbridge and Chryston"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/144">
     <name text="Colchester"/>
@@ -516,7 +532,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/155">
     <name text="Crewe &amp; Nantwich"/>
-    <name text="Crewe and Nantwich"/>
+    <name text="Crewe and Nantwich"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/156">
     <name text="Crosby"/>
@@ -532,13 +548,15 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/160">
     <name text="Cumbernauld &amp; Kilsyth"/>
-    <name text="Cumbernauld and Kilsyth"/>
+    <name text="Cumbernauld and Kilsyth"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/161">
     <name text="Cunninghame North"/>
+    <name text="Cuninghame North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/162">
     <name text="Cunninghame South"/>
+    <name text="Cuninghame South"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/163">
     <name text="Cynon Valley"/>
@@ -560,7 +578,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/169">
     <name text="Denton &amp; Reddish"/>
-    <name text="Denton and Reddish"/>
+    <name text="Denton and Reddish"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/170">
     <name text="Derby North"/>
@@ -594,7 +612,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/180">
     <name text="Dulwich &amp; West Norwood"/>
-    <name text="Dulwich and West Norwood"/>
+    <name text="Dulwich and West Norwood"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/181">
     <name text="Dumbarton"/>
@@ -616,51 +634,59 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/187">
     <name text="Durham, City of"/>
-    <name text="City of Durham"/>
+    <name text="City of Durham"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/188">
     <name text="Ealing North"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/189">
     <name text="Ealing, Acton &amp; Shepherd's Bush"/>
-    <name text="Ealing, Acton and Shepherd's Bush"/>
+    <name text="Ealing, Acton and Shepherd's Bush"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/190">
     <name text="Ealing, Southall"/>
+    <name text="Ealing Southall"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/191">
     <name text="Easington"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/192">
     <name text="East Antrim"/>
+    <name text="Antrim East"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/193">
     <name text="East Devon"/>
+    <name text="Devon East"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/194">
     <name text="East Ham"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/195">
     <name text="East Hampshire"/>
+    <name text="Hampshire East"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/196">
     <name text="East Kilbride"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/197">
     <name text="East Londonderry"/>
+    <name text="Londonderry East"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/198">
     <name text="East Lothian"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/199">
     <name text="East Surrey"/>
+    <name text="Surrey East"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/200">
     <name text="East Worthing &amp; Shoreham"/>
-    <name text="East Worthing and Shoreham"/>
+    <name text="East Worthing and Shoreham"/> <!-- ONS -->
+    <name text="Worthing East and Shoreham"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/201">
     <name text="East Yorkshire"/>
+    <name text="Yorkshire East"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/202">
     <name text="Eastbourne"/>
@@ -682,11 +708,11 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/208">
     <name text="Edinburgh East &amp; Musselburgh"/>
-    <name text="Edinburgh East and Musselburgh"/>
+    <name text="Edinburgh East and Musselburgh"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/209">
     <name text="Edinburgh North &amp; Leith"/>
-    <name text="Edinburgh North and Leith"/>
+    <name text="Edinburgh North and Leith"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/210">
     <name text="Edinburgh South"/>
@@ -696,14 +722,14 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/212">
     <name text="Edinburgh, Pentlands"/>
-    <name text="Edinburgh Pentlands"/>
+    <name text="Edinburgh Pentlands"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/213">
     <name text="Edmonton"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/214">
     <name text="Ellesmere Port &amp; Neston"/>
-    <name text="Ellesmere Port and Neston"/>
+    <name text="Ellesmere Port and Neston"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/215">
     <name text="Elmet"/>
@@ -716,24 +742,26 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/218">
     <name text="Enfield, Southgate"/>
+    <name text="Enfield Southgate"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/219">
     <name text="Epping Forest"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/220">
     <name text="Epsom &amp; Ewell"/>
-    <name text="Epson and Ewell"/>
+    <name text="Epson and Ewell"/> <!-- ONS -->
+    <name text="Epsom and Ewell"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/221">
     <name text="Erewash"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/222">
     <name text="Erith &amp; Thamesmead"/>
-    <name text="Erith and Thamesmead"/>
+    <name text="Erith and Thamesmead"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/223">
     <name text="Esher &amp; Walton"/>
-    <name text="Esher and Walton"/>
+    <name text="Esher and Walton"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/224">
     <name text="Exeter"/>
@@ -746,30 +774,30 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/227">
     <name text="Falmouth &amp; Camborne"/>
-    <name text="Falmouth and Camborne"/>
+    <name text="Falmouth and Camborne"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/228">
     <name text="Fareham"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/229">
     <name text="Faversham &amp; Mid Kent"/>
-    <name text="Faversham and Mid Kent"/>
+    <name text="Faversham and Mid Kent"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/230">
     <name text="Feltham &amp; Heston"/>
-    <name text="Feltham and Heston"/>
+    <name text="Feltham and Heston"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/231">
     <name text="Fermanagh &amp; South Tyrone"/>
-    <name text="Fermanagh and South Tyrone"/>
+    <name text="Fermanagh and South Tyrone"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/232">
     <name text="Finchley &amp; Golders Green"/>
-    <name text="Finchley and Golders Green"/>
+    <name text="Finchley and Golders Green"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/233">
     <name text="Folkestone &amp; Hythe"/>
-    <name text="Folkestone and Hythe"/>
+    <name text="Folkestone and Hythe"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/234">
     <name text="Forest of Dean"/>
@@ -785,11 +813,11 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/238">
     <name text="Galloway &amp; Upper Nithsdale"/>
-    <name text="Galloway and Upper Nithsdale"/>
+    <name text="Galloway and Upper Nithsdale"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/239">
     <name text="Gateshead East &amp; Washington West"/>
-    <name text="Gateshead East and Washington West"/>
+    <name text="Gateshead East and Washington West"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/240">
     <name text="Gedling"/>
@@ -799,43 +827,44 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/242">
     <name text="Glasgow, Anniesland"/>
-    <name text="Glasgow Anniesland"/>
+    <name text="Glasgow Anniesland"/> <!-- ONS -->
+    <name text="Glasgow Aniesland"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/243">
     <name text="Glasgow, Baillieston"/>
-    <name text="Glasgow Baillieston"/>
+    <name text="Glasgow Baillieston"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/244">
     <name text="Glasgow, Cathcart"/>
-    <name text="Glasgow Cathcart"/>
+    <name text="Glasgow Cathcart"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/245">
     <name text="Glasgow, Govan"/>
-    <name text="Glasgow Govan"/>
+    <name text="Glasgow Govan"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/246">
     <name text="Glasgow, Kelvin"/>
-    <name text="Glasgow Kelvin"/>
+    <name text="Glasgow Kelvin"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/247">
     <name text="Glasgow, Maryhill"/>
-    <name text="Glasgow Maryhill"/>
+    <name text="Glasgow Maryhill"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/248">
     <name text="Glasgow, Pollok"/>
-    <name text="Glasgow Pollok"/>
+    <name text="Glasgow Pollok"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/249">
     <name text="Glasgow, Rutherglen"/>
-    <name text="Glasgow Rutherglen"/>
+    <name text="Glasgow Rutherglen"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/250">
     <name text="Glasgow, Shettleston"/>
-    <name text="Glasgow Shettleston"/>
+    <name text="Glasgow Shettleston"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/251">
     <name text="Glasgow, Springburn"/>
-    <name text="Glasgow Springburn"/>
+    <name text="Glasgow Springburn"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/252">
     <name text="Gloucester"/>
@@ -851,7 +880,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/256">
     <name text="Grantham &amp; Stamford"/>
-    <name text="Grantham and Stamford"/>
+    <name text="Grantham and Stamford"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/257">
     <name text="Gravesham"/>
@@ -864,51 +893,51 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/260">
     <name text="Greenock &amp; Inverclyde"/>
-    <name text="Greenock and Inverclyde"/>
+    <name text="Greenock and Inverclyde"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/261">
     <name text="Greenwich &amp; Woolwich"/>
-    <name text="Greenwich and Woolwich"/>
+    <name text="Greenwich and Woolwich"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/262">
     <name text="Guildford"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/263">
     <name text="Hackney North &amp; Stoke Newington"/>
-    <name text="Hackney North and Stoke Newington"/>
+    <name text="Hackney North and Stoke Newington"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/264">
     <name text="Hackney South &amp; Shoreditch"/>
-    <name text="Hackney South and Shoreditch"/>
+    <name text="Hackney South and Shoreditch"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/265">
     <name text="Halesowen &amp; Rowley Regis"/>
-    <name text="Halesowen and Rowley Regis"/>
+    <name text="Halesowen and Rowley Regis"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/266">
     <name text="Halifax"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/267">
     <name text="Haltemprice &amp; Howden"/>
-    <name text="Haltemprice and Howden"/>
+    <name text="Haltemprice and Howden"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/268">
     <name text="Halton"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/269">
     <name text="Hamilton North &amp; Bellshill"/>
-    <name text="Hamilton North and Bellshill"/>
+    <name text="Hamilton North and Bellshill"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/270">
     <name text="Hamilton South"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/271">
     <name text="Hammersmith &amp; Fulham"/>
-    <name text="Hammersmith and Fulham"/>
+    <name text="Hammersmith and Fulham"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/272">
     <name text="Hampstead &amp; Highgate"/>
-    <name text="Hampstead and Highgate"/>
+    <name text="Hampstead and Highgate"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/273">
     <name text="Harborough"/>
@@ -918,7 +947,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/275">
     <name text="Harrogate &amp; Knaresborough"/>
-    <name text="Harrogate and Knaresborough"/>
+    <name text="Harrogate and Knaresborough"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/276">
     <name text="Harrow East"/>
@@ -934,14 +963,14 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/280">
     <name text="Hastings &amp; Rye"/>
-    <name text="Hastings and Rye"/>
+    <name text="Hastings and Rye"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/281">
     <name text="Havant"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/282">
     <name text="Hayes &amp; Harlington"/>
-    <name text="Hayes and Harlington"/>
+    <name text="Hayes and Harlington"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/283">
     <name text="Hazel Grove"/>
@@ -963,7 +992,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/289">
     <name text="Hertford &amp; Stortford"/>
-    <name text="Hertford and Stortford"/>
+    <name text="Hertford and Stortford"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/290">
     <name text="Hertsmere"/>
@@ -973,32 +1002,32 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/292">
     <name text="Heywood &amp; Middleton"/>
-    <name text="Heywood and Middleton"/>
+    <name text="Heywood and Middleton"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/293">
     <name text="High Peak"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/294">
     <name text="Hitchin &amp; Harpenden"/>
-    <name text="Hitchin and Harpenden"/>
+    <name text="Hitchin and Harpenden"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/295">
     <name text="Holborn &amp; St Pancras"/>
-    <name text="Holborn and St Pancras"/>
+    <name text="Holborn and St Pancras"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/296">
     <name text="Hornchurch"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/297">
     <name text="Hornsey &amp; Wood Green"/>
-    <name text="Hornsey and Wood Green"/>
+    <name text="Hornsey and Wood Green"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/298">
     <name text="Horsham"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/299">
     <name text="Houghton &amp; Washington East"/>
-    <name text="Houghton and Washington East"/>
+    <name text="Houghton and Washington East"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/300">
     <name text="Hove"/>
@@ -1020,7 +1049,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/306">
     <name text="Inverness East, Nairn &amp; Lochaber"/>
-    <name text="Inverness East, Nairn and Lochaber"/>
+    <name text="Inverness East, Nairn and Lochaber"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/307">
     <name text="Ipswich"/>
@@ -1033,7 +1062,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/310">
     <name text="Islington South &amp; Finsbury"/>
-    <name text="Islington South and Finsbury"/>
+    <name text="Islington South and Finsbury"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/311">
     <name text="Islwyn"/>
@@ -1046,28 +1075,31 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/314">
     <name text="Kensington &amp; Chelsea"/>
-    <name text="Kensington and Chelsea"/>
+    <name text="Kensington and Chelsea"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/315">
     <name text="Kettering"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/316">
     <name text="Kilmarnock &amp; Loudoun"/>
-    <name text="Kilmarnock and Loudoun"/>
+    <name text="Kilmarnock and Loudoun"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/317">
     <name text="Kingston &amp; Surbiton"/>
-    <name text="Kingston and Surbiton"/>
+    <name text="Kingston and Surbiton"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/318">
     <name text="Kingston upon Hull East"/>
+    <name text="Hull East"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/319">
     <name text="Kingston upon Hull North"/>
+    <name text="Hull North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/320">
     <name text="Kingston upon Hull West &amp; Hessle"/>
-    <name text="Kingston upon Hull West and Hessle"/>
+    <name text="Kingston upon Hull West and Hessle"/> <!-- ONS -->
+    <name text="Hull West and Hessle"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/321">
     <name text="Kingswood"/>
@@ -1077,7 +1109,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/323">
     <name text="Knowsley North &amp; Sefton East"/>
-    <name text="Knowsley North and Sefton East"/>
+    <name text="Knowsley North and Sefton East"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/324">
     <name text="Knowsley South"/>
@@ -1087,7 +1119,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/326">
     <name text="Lancaster &amp; Wyre"/>
-    <name text="Lancaster and Wyre"/>
+    <name text="Lancaster and Wyre"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/327">
     <name text="Leeds Central"/>
@@ -1130,10 +1162,11 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/340">
     <name text="Lewisham, Deptford"/>
+    <name text="Lewisham Deptford"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/341">
     <name text="Leyton &amp; Wanstead"/>
-    <name text="Leyton and Wanstead"/>
+    <name text="Leyton and Wanstead"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/342">
     <name text="Lichfield"/>
@@ -1146,18 +1179,23 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/345">
     <name text="Liverpool, Garston"/>
+    <name text="Liverpool Garston"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/346">
     <name text="Liverpool, Riverside"/>
+    <name text="Liverpool Riverside"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/347">
     <name text="Liverpool, Walton"/>
+    <name text="Liverpool Walton"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/348">
     <name text="Liverpool, Wavertree"/>
+    <name text="Liverpool Wavertree"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/349">
     <name text="Liverpool, West Derby"/>
+    <name text="Liverpool West Derby"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/350">
     <name text="Livingston"/>
@@ -1170,7 +1208,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/353">
     <name text="Louth &amp; Horncastle"/>
-    <name text="Louth and Horncastle"/>
+    <name text="Louth and Horncastle"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/354">
     <name text="Ludlow"/>
@@ -1189,26 +1227,30 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/359">
     <name text="Maidstone &amp; The Weald"/>
-    <name text="Maidstone and The Weald"/>
+    <name text="Maidstone and The Weald"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/360">
     <name text="Makerfield"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/361">
     <name text="Maldon &amp; East Chelmsford"/>
-    <name text="Maldon and East Chelmsford"/>
+    <name text="Maldon and East Chelmsford"/> <!-- ONS -->
+    <name text="Maldon and Chelmsford East"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/362">
     <name text="Manchester Central"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/363">
     <name text="Manchester, Blackley"/>
+    <name text="Manchester Blackley"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/364">
     <name text="Manchester, Gorton"/>
+    <name text="Manchester Gorton"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/365">
     <name text="Manchester, Withington"/>
+    <name text="Manchester Withington"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/366">
     <name text="Mansfield"/>
@@ -1218,40 +1260,48 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/368">
     <name text="Meirionnydd Nant Conwy"/>
+    <name text="Meirionydd Nant Conwy"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/369">
     <name text="Meriden"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/370">
     <name text="Merthyr Tydfil &amp; Rhymney"/>
-    <name text="Merthyr Tydfil and Rhymney"/>
+    <name text="Merthyr Tydfil and Rhymney"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/371">
     <name text="Mid Bedfordshire"/>
+    <name text="Bedfordshire Mid"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/372">
     <name text="Mid Dorset &amp; North Poole"/>
-    <name text="Mid Dorset and North Poole"/>
+    <name text="Mid Dorset and North Poole"/> <!-- ONS -->
+    <name text="Dorset Mid and Poole North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/373">
     <name text="Mid Norfolk"/>
+    <name text="Norfolk Mid"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/374">
     <name text="Mid Sussex"/>
+    <name text="Sussex Mid"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/375">
     <name text="Mid Ulster"/>
+    <name text="Ulster Mid"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/376">
     <name text="Mid Worcestershire"/>
+    <name text="Worcestershire Mid"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/377">
     <name text="Middlesbrough"/>
-    <name text="Middlesborough"/>
+    <name text="Middlesborough"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/378">
     <name text="Middlesbrough South &amp; East Cleveland"/>
-    <name text="Middlesborough South and East Cleveland"/>
+    <name text="Middlesborough South and East Cleveland"/> <!-- ONS -->
+    <name text="Middlesbrough South and East Cleveland"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/379">
     <name text="Midlothian"/>
@@ -1261,7 +1311,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/381">
     <name text="Mitcham &amp; Morden"/>
-    <name text="Mitcham and Morden"/>
+    <name text="Mitcham and Morden"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/382">
     <name text="Mole Valley"/>
@@ -1277,15 +1327,15 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/386">
     <name text="Morecambe &amp; Lunesdale"/>
-    <name text="Morecambe and Lunesdale"/>
+    <name text="Morecambe and Lunesdale"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/387">
     <name text="Morley &amp; Rothwell"/>
-    <name text="Morley and Rothwell"/>
+    <name text="Morley and Rothwell"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/388">
     <name text="Motherwell &amp; Wishaw"/>
-    <name text="Motherwell and Wishaw"/>
+    <name text="Motherwell and Wishaw"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/389">
     <name text="Neath"/>
@@ -1307,13 +1357,14 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/395">
     <name text="Newcastle upon Tyne East &amp; Wallsend"/>
-    <name text="Newcastle upon Tyne East and Wallsend"/>
+    <name text="Newcastle upon Tyne East and Wallsend"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/396">
     <name text="Newcastle upon Tyne North"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/397">
     <name text="Newcastle-under-Lyme"/>
+    <name text="Newcastle under Lyme"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/398">
     <name text="Newport East"/>
@@ -1323,95 +1374,121 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/400">
     <name text="Newry &amp; Armagh"/>
-    <name text="Newry and Armagh"/>
+    <name text="Newry and Armagh"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/401">
     <name text="Normanton"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/402">
     <name text="North Antrim"/>
+    <name text="Antrim North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/403">
     <name text="North Cornwall"/>
+    <name text="Cornwall North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/404">
     <name text="North Devon"/>
+    <name text="Devon North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/405">
     <name text="North Dorset"/>
+    <name text="Dorset North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/406">
     <name text="North Down"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/407">
     <name text="North Durham"/>
+    <name text="Durham North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/408">
     <name text="North East Bedfordshire"/>
+    <name text="Bedfordshire North East"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/409">
     <name text="North East Cambridgeshire"/>
+    <name text="Cambridgeshire North East"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/410">
     <name text="North East Derbyshire"/>
+    <name text="Derbyshire North East"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/411">
     <name text="North East Fife"/>
+    <name text="Fife North East"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/412">
     <name text="North East Hampshire"/>
+    <name text="Hampshire North East"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/413">
     <name text="North East Hertfordshire"/>
+    <name text="Hertfordshire North East"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/414">
     <name text="North East Milton Keynes"/>
+    <name text="Milton Keynes North East"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/415">
     <name text="North Essex"/>
+    <name text="Essex North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/416">
     <name text="North Norfolk"/>
+    <name text="Norfolk North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/417">
     <name text="North Shropshire"/>
+    <name text="Shropshire North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/418">
     <name text="North Southwark &amp; Bermondsey"/>
-    <name text="North Southwark and Bermondsey"/>
+    <name text="North Southwark and Bermondsey"/> <!-- ONS -->
+    <name text="Southwark North and Bermondsey"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/419">
     <name text="North Swindon"/>
+    <name text="Swindon North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/420">
     <name text="North Tayside"/>
+    <name text="Tayside North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/421">
     <name text="North Thanet"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/422">
     <name text="North Tyneside"/>
+    <name text="Tyneside North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/423">
     <name text="North Warwickshire"/>
+    <name text="Warwickshire North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/424">
     <name text="North West Cambridgeshire"/>
+    <name text="Cambridgeshire North West"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/425">
     <name text="North West Durham"/>
+    <name text="Durham North West"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/426">
     <name text="North West Hampshire"/>
+    <name text="Hampshire North West"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/427">
     <name text="North West Leicestershire"/>
+    <name text="Leicestershire North West"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/428">
     <name text="North West Norfolk"/>
+    <name text="Norfolk North West"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/429">
     <name text="North Wiltshire"/>
+    <name text="Wiltshire North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/430">
     <name text="Northampton North"/>
@@ -1448,19 +1525,19 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/441">
     <name text="Old Bexley &amp; Sidcup"/>
-    <name text="Old Bexley and Sidcup"/>
+    <name text="Old Bexley and Sidcup"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/442">
     <name text="Oldham East &amp; Saddleworth"/>
-    <name text="Oldham East and Saddleworth"/>
+    <name text="Oldham East and Saddleworth"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/443">
     <name text="Oldham West &amp; Royton"/>
-    <name text="Oldham West and Royton"/>
+    <name text="Oldham West and Royton"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/444">
     <name text="Orkney &amp; Shetland"/>
-    <name text="Orkney and Shetland"/>
+    <name text="Orkney and Shetland"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/445">
     <name text="Orpington"/>
@@ -1470,7 +1547,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/447">
     <name text="Oxford West &amp; Abingdon"/>
-    <name text="Oxford West and Abingdon"/>
+    <name text="Oxford West and Abingdon"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/448">
     <name text="Paisley North"/>
@@ -1483,7 +1560,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/451">
     <name text="Penrith &amp; The Border"/>
-    <name text="Penrith and The Border"/>
+    <name text="Penrith and The Border"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/452">
     <name text="Perth"/>
@@ -1493,13 +1570,15 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/454">
     <name text="Plymouth, Devonport"/>
+    <name text="Plymouth Devonport"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/455">
     <name text="Plymouth, Sutton"/>
+    <name text="Plymouth Sutton"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/456">
     <name text="Pontefract &amp; Castleford"/>
-    <name text="Pontefract and Castleford"/>
+    <name text="Pontefract and Castleford"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/457">
     <name text="Pontypridd"/>
@@ -1509,7 +1588,8 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/459">
     <name text="Poplar &amp; Canning Town"/>
-    <name text="Poplar and Canning Town"/>
+    <name text="Poplar and Canning Town"/> <!-- ONS -->
+    <name text="Poplar and Caning Town"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/460">
     <name text="Portsmouth North"/>
@@ -1543,11 +1623,11 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/470">
     <name text="Redditch"/>
-    <name text="Reddith"/>
+    <name text="Reddith"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/471">
     <name text="Regent's Park &amp; Kensington North"/>
-    <name text="Regent's Park and Kensington North"/>
+    <name text="Regent's Park and Kensington North"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/472">
     <name text="Reigate"/>
@@ -1560,6 +1640,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/475">
     <name text="Richmond (Yorks)"/>
+    <name text="Richmond (Yorkshire)"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/476">
     <name text="Richmond Park"/>
@@ -1569,7 +1650,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/478">
     <name text="Rochford &amp; Southend East"/>
-    <name text="Rochford and Southend East"/>
+    <name text="Rochford and Southend East"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/479">
     <name text="Romford"/>
@@ -1579,11 +1660,11 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/481">
     <name text="Ross, Skye &amp; Inverness West"/>
-    <name text="Ross, Skye and Inverness West"/>
+    <name text="Ross, Skye and Inverness West"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/482">
     <name text="Rossendale &amp; Darwen"/>
-    <name text="Rossendale and Darwen"/>
+    <name text="Rossendale and Darwen"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/483">
     <name text="Rother Valley"/>
@@ -1593,26 +1674,28 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/485">
     <name text="Roxburgh &amp; Berwickshire"/>
-    <name text="Roxburgh and Berwickshire"/>
+    <name text="Roxburgh and Berwickshire"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/486">
     <name text="Rugby &amp; Kenilworth"/>
-    <name text="Rugby and Kenilworth"/>
+    <name text="Rugby and Kenilworth"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/487">
     <name text="Ruislip - Northwood"/>
-    <name text="Ruislip-Northwood"/>
+    <name text="Ruislip-Northwood"/> <!-- ONS -->
+    <name text="Ruislip Northwood"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/488">
     <name text="Runnymede &amp; Weybridge"/>
-    <name text="Runnymede and Weybridge"/>
+    <name text="Runnymede and Weybridge"/> <!-- ONS -->
+    <name text="Runymede and Weybridge"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/489">
     <name text="Rushcliffe"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/490">
     <name text="Rutland &amp; Melton"/>
-    <name text="Rutland and Melton"/>
+    <name text="Rutland and Melton"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/491">
     <name text="Ryedale"/>
@@ -1628,7 +1711,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/495">
     <name text="Scarborough &amp; Whitby"/>
-    <name text="Scarborough and Whitby"/>
+    <name text="Scarborough and Whitby"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/496">
     <name text="Scunthorpe"/>
@@ -1647,18 +1730,23 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/501">
     <name text="Sheffield, Attercliffe"/>
+    <name text="Sheffield Attercliffe"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/502">
     <name text="Sheffield, Brightside"/>
+    <name text="Sheffield Brightside"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/503">
     <name text="Sheffield, Hallam"/>
+    <name text="Sheffield Hallam"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/504">
     <name text="Sheffield, Heeley"/>
+    <name text="Sheffield Heeley"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/505">
     <name text="Sheffield, Hillsborough"/>
+    <name text="Sheffield Hillsborough"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/506">
     <name text="Sherwood"/>
@@ -1668,19 +1756,19 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/508">
     <name text="Shrewsbury &amp; Atcham"/>
-    <name text="Shrewsbury and Atcham"/>
+    <name text="Shrewsbury and Atcham"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/509">
     <name text="Sittingbourne &amp; Sheppey"/>
-    <name text="Sittingbourne and Sheppey"/>
+    <name text="Sittingbourne and Sheppey"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/510">
     <name text="Skipton &amp; Ripon"/>
-    <name text="Skipton and Ripon"/>
+    <name text="Skipton and Ripon"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/511">
     <name text="Sleaford &amp; North Hykeham"/>
-    <name text="Sleaford and North Hykeham"/>
+    <name text="Sleaford and North Hykeham"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/512">
     <name text="Slough"/>
@@ -1690,74 +1778,93 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/514">
     <name text="Somerton &amp; Frome"/>
-    <name text="Somerton and Frome"/>
+    <name text="Somerton and Frome"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/515">
     <name text="South Antrim"/>
+    <name text="Antrim South"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/516">
     <name text="South Cambridgeshire"/>
+    <name text="Cambridgeshire South"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/517">
     <name text="South Derbyshire"/>
+    <name text="Derbyshire South"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/518">
     <name text="South Dorset"/>
+    <name text="Dorset South"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/519">
     <name text="South Down"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/520">
     <name text="South East Cambridgeshire"/>
+    <name text="Cambridgeshire South East"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/521">
     <name text="South East Cornwall"/>
+    <name text="Cornwall South East"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/522">
     <name text="South Holland &amp; The Deepings"/>
-    <name text="South Holland and The Deepings"/>
+    <name text="South Holland and The Deepings"/> <!-- ONS -->
+    <name text="South Holland and the Deepings"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/523">
     <name text="South Norfolk"/>
+    <name text="Norfolk South"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/524">
     <name text="South Ribble"/>
+    <name text="Ribble South"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/525">
     <name text="South Shields"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/526">
     <name text="South Staffordshire"/>
+    <name text="Staffordshire South"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/527">
     <name text="South Suffolk"/>
+    <name text="Suffolk South"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/528">
     <name text="South Swindon"/>
+    <name text="Swindon South"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/529">
     <name text="South Thanet"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/530">
     <name text="South West Bedfordshire"/>
+    <name text="Bedfordshire South West"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/531">
     <name text="South West Devon"/>
+    <name text="Devon South West"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/532">
     <name text="South West Hertfordshire"/>
+    <name text="Hertfordshire South West"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/533">
     <name text="South West Norfolk"/>
+    <name text="Norfolk South West"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/534">
     <name text="South West Surrey"/>
+    <name text="Surrey South West"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/535">
     <name text="Southampton, Itchen"/>
+    <name text="Southampton Itchen"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/536">
     <name text="Southampton, Test"/>
+    <name text="Southampton Test"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/537">
     <name text="Southend West"/>
@@ -1770,15 +1877,19 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/540">
     <name text="St Albans"/>
+    <name text="St. Albans"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/541">
     <name text="St Helens North"/>
+    <name text="St. Helens North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/542">
     <name text="St Helens South"/>
+    <name text="St. Helens South"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/543">
     <name text="St Ives"/>
+    <name text="St. Ives"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/544">
     <name text="Stafford"/>
@@ -1788,7 +1899,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/546">
     <name text="Stalybridge &amp; Hyde"/>
-    <name text="Stalybridge and Hyde"/>
+    <name text="Stalybridge and Hyde"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/547">
     <name text="Stevenage"/>
@@ -1804,16 +1915,19 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/551">
     <name text="Stockton South"/>
-    <name text="Stockport South"/>
+    <name text="Stockport South"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/552">
     <name text="Stoke-on-Trent Central"/>
+    <name text="Stoke on Trent Central"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/553">
     <name text="Stoke-on-Trent North"/>
+    <name text="Stoke on Trent North"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/554">
     <name text="Stoke-on-Trent South"/>
+    <name text="Stoke on Trent South"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/555">
     <name text="Stone"/>
@@ -1826,17 +1940,18 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/558">
     <name text="Stratford-on-Avon"/>
+    <name text="Stratford on Avon"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/559">
     <name text="Strathkelvin &amp; Bearsden"/>
-    <name text="Strathkelvin and Bearsden"/>
+    <name text="Strathkelvin and Bearsden"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/560">
     <name text="Streatham"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/561">
     <name text="Stretford &amp; Urmston"/>
-    <name text="Stretford and Urmston"/>
+    <name text="Stretford and Urmston"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/562">
     <name text="Stroud"/>
@@ -1855,7 +1970,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/567">
     <name text="Sutton &amp; Cheam"/>
-    <name text="Sutton and Cheam"/>
+    <name text="Sutton and Cheam"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/568">
     <name text="Sutton Coldfield"/>
@@ -1889,11 +2004,11 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/578">
     <name text="Tiverton &amp; Honiton"/>
-    <name text="Tiverton and Honiton"/>
+    <name text="Tiverton and Honiton"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/579">
     <name text="Tonbridge &amp; Malling"/>
-    <name text="Tonbridge and Malling"/>
+    <name text="Tonbridge and Malling"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/580">
     <name text="Tooting"/>
@@ -1906,7 +2021,8 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/583">
     <name text="Torridge &amp; West Devon"/>
-    <name text="Torridge and West Devon"/>
+    <name text="Torridge and West Devon"/> <!-- ONS -->
+    <name text="Devon West and Torridge"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/584">
     <name text="Totnes"/>
@@ -1916,14 +2032,14 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/586">
     <name text="Truro &amp; St Austell"/>
-    <name text="Truro and St Austell"/>
+    <name text="Truro and St Austell"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/587">
     <name text="Tunbridge Wells"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/588">
     <name text="Tweeddale, Ettrick &amp; Lauderdale"/>
-    <name text="Tweeddale, Ettrick and Lauderdale"/>
+    <name text="Tweeddale, Ettrick and Lauderdale"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/589">
     <name text="Twickenham"/>
@@ -1939,6 +2055,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/593">
     <name text="Upper Bann"/>
+    <name text="Upper Ban"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/594">
     <name text="Uxbridge"/>
@@ -1990,7 +2107,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/610">
     <name text="Warwick &amp; Leamington"/>
-    <name text="Warwick and Leamington"/>
+    <name text="Warwick and Leamington"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/611">
     <name text="Watford"/>
@@ -2018,7 +2135,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/619">
     <name text="West Aberdeenshire &amp; Kincardine"/>
-    <name text="West Aberdeenshire and Kincardine"/>
+    <name text="West Aberdeenshire and Kincardine"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/620">
     <name text="West Bromwich East"/>
@@ -2028,30 +2145,37 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/622">
     <name text="West Chelmsford"/>
+    <name text="Chelmsford West"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/623">
     <name text="West Derbyshire"/>
+    <name text="Derbyshire West"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/624">
     <name text="West Dorset"/>
+    <name text="Dorset West"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/625">
     <name text="West Ham"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/626">
     <name text="West Lancashire"/>
+    <name text="Lancashire West"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/627">
     <name text="West Renfrewshire"/>
+    <name text="Renfrewshire West"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/628">
     <name text="West Suffolk"/>
+    <name text="Suffolk West"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/629">
     <name text="West Tyrone"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/630">
     <name text="West Worcestershire"/>
+    <name text="Worcestershire West"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/631">
     <name text="Westbury"/>
@@ -2061,10 +2185,11 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/633">
     <name text="Westmorland &amp; Lonsdale"/>
-    <name text="Westmorland and Lonsdale"/>
+    <name text="Westmorland and Lonsdale"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/634">
     <name text="Weston-Super-Mare"/>
+    <name text="Weston Super Mare"/> <!-- FaxYourMP index -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/635">
     <name text="Wigan"/>
@@ -2119,7 +2244,7 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/652">
     <name text="Wrekin, The"/>
-    <name text="The Wrekin"/>
+    <name text="The Wrekin"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/653">
     <name text="Wrexham"/>
@@ -2132,18 +2257,18 @@ accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/656">
     <name text="Wythenshawe &amp; Sale East"/>
-    <name text="Wythenshawe and Sale East"/>
+    <name text="Wythenshawe and Sale East"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/657">
     <name text="Yeovil"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/658">
     <name text="Ynys Môn"/>
-    <name text="Ynys Mon"/>
+    <name text="Ynys Mon"/> <!-- ONS -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/659">
     <name text="York, City of"/>
-    <name text="City of York"/>
+    <name text="City of York"/> <!-- ONS -->
 </constituency>
 
 </publicwhip>
