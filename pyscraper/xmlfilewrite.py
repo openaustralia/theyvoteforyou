@@ -429,8 +429,12 @@ class wransblock:
 						print lb
 						print lqb.GID
 						assert False
+
+				elif reqnm.group(1) == '0':
+					print "missing qnum in", lqb.GID   # as long as there is at least one, we are okay
 				else:
 					self.qnums.append(reqnm.group(1))
+
 		elif lqb.typ == "reply":
 			self.replies.append(lqb)
 		else:
