@@ -2,7 +2,7 @@
 use strict;
 use lib "../scraper/";
 
-# $Id: member-list.pl,v 1.1 2003/11/12 14:38:55 frabcus Exp $
+# $Id: member-list.pl,v 1.2 2003/11/18 20:17:46 frabcus Exp $
 # Outputs MP list as XML
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -17,16 +17,20 @@ my $dbh = db::connect();
 print "<members>\n\n"; 
 
 my $sth = db::query($dbh, "select first_name, last_name, title, constituency, party, 
-    entered_house, left_house, entered_reason, left_reason from pw_mp
+    entered_house, left_house, entered_reason, left_reason, mp_id from pw_mp
     order by entered_house, last_name, first_name, constituency");
 
 while (my @row = $sth->fetchrow_array())
 {
-    print "<member>\n";
-    print " <title>$row[2]</title> <firstname>$row[0]</firstname> <lastname>$row[1]</lastname>\n";
-    print " <constituency>$row[3]</constituency> <party>$row[4]</party>\n";
-    print " <date from=\"$row[5]\" to=\"$row[6]\" fromwhy=\"$row[7]\" towhy=\"$row[8]\" />\n";
-    print "</member>\n";
+    print <<END
+<member
+    id="uk.org.publicwhip/member/$row[9]"
+    house="commons"
+    title="$row[2]" firstname="$row[0]" lastname="$row[1]"
+    constituency="$row[3]" party="$row[4]"
+    fromdate="$row[5]" todate="$row[6]" fromwhy="$row[7]" towhy="$row[8]"
+/>
+END
 }
 
 print "\n\n<members>\n"; 
