@@ -6,7 +6,7 @@
 import sys
 import os
 # change current directory to pyscraper folder script is in 
-os.chdir(os.path.dirname(sys.argv[0])) 
+os.chdir(os.path.dirname(sys.argv[0]) or '.')
 
 sys.path.append('debate')
 sys.path.append('wrans')
