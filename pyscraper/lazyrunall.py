@@ -15,7 +15,7 @@ sys.path.append('wrans')
 sys.path.append('common')
 sys.path.append('lords')
 sys.path.append('miniposts')
-sys.path.append('wrminstat')
+sys.path.append('wms')
 
 from crongrabpages import GrabWatchCopies
 from minpostparse import ParseGovPosts
@@ -25,7 +25,7 @@ from createhansardindex import UpdateHansardIndex
 from lordscreatehansardindex import UpdateLordsHansardIndex
 from pullgluepages import PullGluePages
 from lordspullgluepages import LordsPullGluePages
-from runfilters import RunFiltersDir, RunDebateFilters, RunWransFilters, RunLordsFilters, RunWestminhallFilters, RunWrminstatFilters
+from runfilters import RunFiltersDir, RunDebateFilters, RunWransFilters, RunLordsFilters, RunWestminhallFilters, RunWMSFilters
 from regmemfilter import RunRegmemFilters
 from regmempullgluepages import RegmemPullGluePages
 
@@ -47,7 +47,7 @@ And choose at least one of these sections to apply them to:
 wrans           Written Answers
 debates         Debates
 westminhall     Westminster Hall
-wrminstat       Written Ministerial Statements
+wms             Written Ministerial Statements
 lords           House of Lords
 regmem          Register of Members Interests
 chgpages        Special pages that change, like list of cabinet ministers
@@ -96,7 +96,7 @@ options.parse = False
 options.wrans = False
 options.debates = False
 options.westminhall = False
-options.wrminstat = False
+options.wms = False
 options.lords = False
 options.regmem = False
 options.chgpages = False
@@ -111,8 +111,8 @@ for arg in args:
                 options.debates = True
         elif arg == "westminhall":
                 options.westminhall = True
-        elif arg == "wrminstat":
-                options.wrminstat = True
+        elif arg == "wms":
+                options.wms = True
         elif arg == "lords":
                 options.lords = True
         elif arg == "regmem":
@@ -131,7 +131,7 @@ if not options.scrape and not options.parse:
         print >>sys.stderr, "error: choose what to do; scrape, parse or both of them"
         parser.print_help()
         sys.exit(1)
-if not options.debates and not options.westminhall and not options.wrminstat and not options.wrans and not options.regmem and not options.lords and not options.chgpages:
+if not options.debates and not options.westminhall and not options.wms and not options.wrans and not options.regmem and not options.lords and not options.chgpages:
         print >>sys.stderr, "error: choose what work on; debates, wrans, regmem, chgpages or several of them"
         parser.print_help()
         sys.exit(1)
@@ -146,7 +146,7 @@ if not options.debates and not options.westminhall and not options.wrminstat and
 #
 if options.scrape:
 	# get the indexes
-	if options.wrans or options.debates or options.westminhall or options.wrminstat:
+	if options.wrans or options.debates or options.westminhall or options.wms:
 		UpdateHansardIndex(options.forceindex)
 	if options.lords:
 		UpdateLordsHansardIndex(options.forceindex)
@@ -170,8 +170,8 @@ if options.scrape:
 		PullGluePages(options.datefrom, options.dateto, options.forcescrape, "debates", "debates")
 	if options.westminhall:
 		PullGluePages(options.datefrom, options.dateto, options.forcescrape, "westminhall", "westminster")
-	if options.wrminstat:
-		PullGluePages(options.datefrom, options.dateto, options.forcescrape, "wrminstat", "ministerial")
+	if options.wms:
+		PullGluePages(options.datefrom, options.dateto, options.forcescrape, "wms", "ministerial")
 	if options.lords:
 		LordsPullGluePages(options.datefrom, options.dateto, options.forcescrape)
 	if options.regmem:
@@ -193,8 +193,8 @@ if options.parse:
 		RunFiltersDir(RunDebateFilters, 'debates', options, options.forceparse)
 	if options.westminhall:
 		RunFiltersDir(RunWestminhallFilters, 'westminhall', options, options.forceparse)
-        if options.wrminstat:
-                RunFiltersDir(RunWrminstatFilters, 'wrminstat', options, options.forceparse)
+        if options.wms:
+                RunFiltersDir(RunWMSFilters, 'wms', options, options.forceparse)
 	if options.lords:
 		RunFiltersDir(RunLordsFilters, 'lordspages', options, options.forceparse)
 	if options.regmem:

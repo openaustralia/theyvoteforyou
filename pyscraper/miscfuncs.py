@@ -209,7 +209,7 @@ def StraightenHTMLrecurse(stex, stampurl):
 			sres[i] = ''
 
 		# allow brs through
-		elif re.match('<br>', sres[i]):
+		elif re.match('<br>(?i)', sres[i]):
 			sres[i] = '<br/>'
 
 		elif sres[i][0] == '<' or sres[i][0] == '>':

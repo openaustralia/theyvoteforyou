@@ -17,8 +17,9 @@ from filterwranscolnum import FilterWransColnum
 from filterwransspeakers import FilterWransSpeakers
 from filterwranssections import FilterWransSections
 
-from filterwrminstatcolnum import FilterWrminstatColnum
-from filterwrminstatspeakers import FilterWrminstatSpeakers
+from filterwmscolnum import FilterWMSColnum
+from filterwmsspeakers import FilterWMSSpeakers
+from filterwmssections import FilterWMSSections
 
 from filterdebatecoltime import FilterDebateColTime
 from filterdebatespeakers import FilterDebateSpeakers
@@ -214,21 +215,19 @@ def RunWestminhallFilters(text, sdate):
 	flatb = FilterDebateSections(text, sdate, "westminhall")
 	return (flatb, "westminhall")
 
-def RunWrminstatFilters(text, sdate):
+def RunWMSFilters(text, sdate):
         si = cStringIO.StringIO()
-        FilterWrminstatColnum(si, text, sdate)
+        FilterWMSColnum(si, text, sdate)
         text = si.getvalue()
         si.close()
 
         si = cStringIO.StringIO()
-        FilterWrminstatSpeakers(si, text, sdate)
+        FilterWMSSpeakers(si, text, sdate)
         text = si.getvalue()
         si.close()
-        print text
-        assert False
 
-        flatb = FilterDebateSections(text, sdate, "wrminstat")
-        return (flatb, "wrminstat")
+        flatb = FilterWMSSections(text, sdate)
+        return (flatb, "wms")
 
 # These text filtering functions filter twice through stringfiles,
 # before directly filtering to the real file.

@@ -180,31 +180,30 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 		# this flag set if running in a cron job
 		exdesc = "Failed to match gid %s (%d out of %d)" % (self.prevflatb[ilf].gid, ilf, len(self.prevflatb))
 		if not bquietc:
-			print "\n*** GID match fault ***"
-			print "old version: %s" % self.lfilenames[0]
-			print "new version: %s" % self.lfilenames[1]
+			print ""
+			print "gids don't match between old and new XML file"
+			print "old file: %s" % self.lfilenames[0]
+			print "new file: %s" % self.lfilenames[1]
 			print ""
 
 			# print out errors and hints how to fix
-			print "Unmatched line gid: %s" % self.prevflatb[ilf].gid
-
-			print "first record in old XML file that we failed to match:"
-			print "gid", self.prevflatb[ilf].gid
-			print "    ", self.prevflatb[ilf].nametype.encode("latin-1"), self.prevflatb[ilf].speakerid.encode("latin-1"), "|", self.prevflatb[ilf].speakername.encode("latin-1")
+			print "gid in old xml file we failed to match: %s" % self.prevflatb[ilf].gid
+			print "    Type: ", self.prevflatb[ilf].nametype.encode("latin-1")
+			print "    Speaker: ", self.prevflatb[ilf].speakerid.encode("latin-1"), "|", self.prevflatb[ilf].speakername.encode("latin-1")
 			oldparatxt = string.join(self.prevflatb[ilf].paras, "|")
-			print "    ", self.prepprint(oldparatxt)
+			print "    Para: ", self.prepprint(oldparatxt)
 			print ""
 
 			if ifgb < len(flatb):
 				qb = flatb[ifgb]
-				print "Line attempting to match: %s" % qb.GID
-				print "    ", qb.typ
-				print "    ", qb.speaker
+				print "gid in new file attempting to match to: %s" % qb.GID
+				print "    Type: ", qb.typ
+				print "    Speaker: ", qb.speaker
 				newparatxt = string.join(qb.stext, "|")
-				print "    ", self.prepprint(newparatxt)
+				print "    Para: ", self.prepprint(newparatxt)
 
 				if re.sub("<[^>]*>|\s+", "", oldparatxt)[:50] == re.sub("<[^>]*>|\s+", "", newparatxt)[:50]:
-					print "First 50 chars of speech match"
+					print "first 50 chars of speech match"
 
 				ggidold = re.search("\.((\d+)[WAS]*)\.(\d+)$", self.prevflatb[ilf].gid)
 				ggidnew = re.search("\.((\d+)[WAS]*)\.(\d+)$", flatb[ifgb].GID)
@@ -224,15 +223,8 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 				print "Can't find matches beyond end of new file"
 
 			print ""
-			print "missing speeches can be fixed by inserting a placeholder:"
-			print '    <parsemess-misspeech type="speech|heading" redirect="up|down|nowhere"/>'
-			print "changes in column number can be reset/offset by inserting a command:"
-			print '    <stamp parsemess-colnum="888|888W"/>'
-			print '    <stamp parsemess-colnumoffset="2"/>'
-			print "additional speeches can be fixed by inserting a numbering skip command:"
-			print '    <stamp parsemess-missgid="4"/>'
-			print '    where the missing number is of the paragraph as it would have been without it knocked out'
-			print "See readme.txt for full set of commands\n"
+			print "You need to fix the new file so the gids are matched up to the old one."
+			print "See readme.txt for set of commands to fix the gids\n"
 
 
 		# get a position we will jump to of last match (if we can)
@@ -310,7 +302,7 @@ def CreateGIDs(gidpart, flatb, sdate):
 		for colnumoffset in re.findall('parsemess-colnumoffset="([^"]*)"', qb.sstampurl.stamp):
 			colnumoffset = string.atoi(colnumoffset)
 
-		realcolnumbits = re.match('(\d+)([W]*)$', realcolnum)
+		realcolnumbits = re.match('(\d+)([WS]*)$', realcolnum)
 		irealcolnum = int(realcolnumbits.group(1))
 		colnumN = irealcolnum + colnumoffset
 		colnum = str(colnumN) + realcolnumbits.group(2)
@@ -322,7 +314,7 @@ def CreateGIDs(gidpart, flatb, sdate):
 		if colnum != pcolnum:
 			# check that the column numbers are increasing
 			# this is essential if the gids are to be unique.
-			icolnum = string.atoi(re.match('(\d+)[W]*$', colnum).group(1))
+			icolnum = string.atoi(re.match('(\d+)[WS]*$', colnum).group(1))
 			if icolnum <= picolnum:
 				print qb.sstampurl.stamp
 				raise ContextException("non-increasing column numbers %s %d" % (colnum, picolnum), stamp=qb.sstampurl, fragment=colnum)

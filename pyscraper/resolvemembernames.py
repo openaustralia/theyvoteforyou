@@ -246,7 +246,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         # If a speaker, then match against the secial speaker parties
         if not matches and (text == "Speaker" or text == "The Speaker"):
             matches = self.parties.get("SPK", None)
-        if not matches and (text == "Deputy Speaker" or text == "Deputy-Speaker"):
+        if not matches and (text == "Deputy Speaker" or text == "Deputy-Speaker" or text == "Madam Deputy Speaker"):
             matches = copy.copy(self.parties.get("DCWM", None))
             matches.extend(self.parties.get("CWM", None))
 
@@ -292,27 +292,25 @@ class MemberList(xml.sax.handler.ContentHandler):
         return lid, remadename, remadecons
 
     # Exclusively for WMS
-    def matchwrminstatname(self, office, fullname, date):
+    def matchwmsname(self, office, fullname, date):
         office = self.basicsubs(office)
+        speakeroffice = ' speakeroffice="%s"' % office
         fullname = self.basicsubs(fullname)
-        brackids = self.fullnametoids(fullname, date)
-        if brackids:
-            speakeroffice = ' speakeroffice="%s"' % office
-            ids = brackids
+        ids = self.fullnametoids(fullname, date)
 
-        rebracket = office
-        rebracket += " (" + fullname + ")"
+#        rebracket = office
+#        rebracket += " (" + fullname + ")"
         if len(ids) == 0:
-            if not re.search(regnospeakers, office):
-                raise Exception, "No matches %s" % (rebracket)
-            return 'speakerid="unknown" error="No match" speakername="%s"' % (rebracket)
+#            if not re.search(regnospeakers, office):
+#               raise Exception, "No matches %s" % (rebracket)
+            return 'speakerid="unknown" error="No match" speakername="%s"%s' % (fullname, speakeroffice)
         if len(ids) > 1:
             names = ""
             for id in ids:
                 names += self.members[id]["firstname"] + " " + self.members[id]["lastname"] + " (" + self.members[id]["constituency"] + ") "
-            if not re.search(regnospeakers, office):
-                raise Exception, "Multiple matches %s, possibles are %s" % (rebracket, names)
-            return 'speakerid="unknown" error="Matched multiple times" speakername="%s"' % (rebracket)
+#            if not re.search(regnospeakers, office):
+#                raise Exception, "Multiple matches %s, possibles are %s" % (rebracket, names)
+            return 'speakerid="unknown" error="Matched multiple times" speakername="%s"%s' % (fullname, speakeroffice)
 
         for id in ids:
             pass

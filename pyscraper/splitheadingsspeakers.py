@@ -236,7 +236,7 @@ class SepHeadText:
 				negativematch = renotheading.search(fss)
 				if not negativematch:
 					if renotheadingmarg.search(fss):
-						raise Exception, '"The ... was asked" match not broad enough: %s' % fss
+						raise ContextException('"The ... was asked" match not broad enough: %s' % fss, stamp=None, fragment=fss)
 
 					# we are definitely a heading
 					self.EndHeading(gheading.group(1))
