@@ -21,11 +21,16 @@ toppath = miscfuncs.toppath
 # screw things up) and all have independent column numbering systems.
 
 
-# url with bound volumes 
-urlbndvols = 'http://www.publications.parliament.uk/pa/ld199900/ldhansrd/pdvn/home.htm'
 
-# url with the alldays thing on it.  
+# url with the alldays thing on it.
 urlalldays = 'http://www.publications.parliament.uk/pa/ld199900/ldhansrd/pdvn/allddays.htm'
+
+# url with bound volumes
+# we don't yet scrape across these, as it will be complex.  
+# deep in here are days which overlap the ones listed in urlalldays, 
+# but they have different urls even though appearing to be the same text.  
+# Probably, vols should over-ride the days one.
+urlbndvols = 'http://www.publications.parliament.uk/pa/ld199900/ldhansrd/pdvn/home.htm'
 
 pwlordindex = os.path.join(toppath, "lordindex.xml")
 
@@ -37,11 +42,11 @@ def LordsIndexFromAll(urlalldays):
     urlinkpage = urllib.urlopen(urlalldays)
     srlinkpage = urlinkpage.read()
     urlinkpage.close()
-    
+
     # remove comments because they sometimes contain wrong links
     srlinkpage = re.sub('<!--[\s\S]*?-->', ' ', srlinkpage)
 
-    # Find lines of the form: 
+    # Find lines of the form:
     # <p><a href="lds04/index/40129-x.htm">29 Jan 2004</a></p>
     realldayslinks = re.compile('<p><a href="([^"]*)">([^<]*)</a></p>(?i)')
     datelinks = realldayslinks.findall(srlinkpage)
@@ -51,7 +56,7 @@ def LordsIndexFromAll(urlalldays):
         sdate = mx.DateTime.DateTimeFrom(link[1]).date
         uind = urlparse.urljoin(urlalldays, re.sub('\s', '', link[0]))
         res.append((sdate, uind))
-        
+
     return res
 
 
@@ -64,7 +69,7 @@ def WriteXML(fout, urllist):
 		r = urllist[i]
 		if (i == 0) or (r != urllist[i-1]):
 			if r[0] >= earliestdate:
-				fout.write('<lordsdaydeb date="%s" url="%s"/>\n' % r) 
+				fout.write('<lordsdaydeb date="%s" url="%s"/>\n' % r)
 
 	fout.write("\n</publicwhip>\n")
 
@@ -76,14 +81,16 @@ def UpdateLordsHansardIndex():
 	# get front page (which we will compare against)
 	urllisth = LordsIndexFromAll(urlalldays)
 
+	# compare the above with a loading of the head of the lordindex
+	# if not match, take it, and properly deal with urlbndvols
+
 	urllisth.sort()
 	urllisth.reverse()
 
-        # we need to extend it to the volumes, but this will do for now.  
+        # we need to extend it to the volumes, but this will do for now.
 
 	fpwlordindex = open(pwlordindex, "w");
 	WriteXML(fpwlordindex, urllisth)
 	fpwlordindex.close()
 
-UpdateLordsHansardIndex()
 

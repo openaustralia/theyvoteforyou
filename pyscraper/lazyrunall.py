@@ -11,7 +11,9 @@ sys.path.append('common')
 
 from optparse import OptionParser
 from createhansardindex import UpdateHansardIndex
+from lordscreatehansardindex import UpdateLordsHansardIndex
 from pullgluepages import PullGluePages
+from lordspullgluepages import LordsPullGluePages
 from runfilters import RunFiltersDir, RunDebateFilters, RunWransFilters
 from regmemfilter import RunRegmemFilters
 from regmempullgluepages import RegmemPullGluePages
@@ -63,10 +65,12 @@ if (options.date):
 
 # See what commands there are
 
+# can't you do this with a dict mapping strings to bools?
 options.scrape = False
 options.parse = False
 options.wrans = False
 options.debates = False
+options.lords = False
 options.regmem = False
 for arg in args:
         if arg == "scrape":
@@ -77,6 +81,8 @@ for arg in args:
                 options.wrans = True
         elif arg == "debates":
                 options.debates = True
+        elif arg == "lords":
+                options.lords = True
         elif arg == "regmem":
                 options.regmem = True
         else:
@@ -90,44 +96,54 @@ if len(args) == 0:
 # Do the work - all the conditions are so beautifully symmetrical, there
 # must be a nicer way of doing it all...
 
+#
 # First all the force deletions of old data
-
+#
 if options.scrape:
-        UpdateHansardIndex()
-        if options.forcescrape:
-                if options.wrans:
-                        PullGluePages(options.datefrom, options.dateto, True, "wrans", "answers")
-                if options.debates:
-                        PullGluePages(options.datefrom, options.dateto, True, "debates", "debates")
-                if options.regmem:
-                        RegmemPullGluePages(True)
+		UpdateHansardIndex()
+# for now while I get the scraping code going.  
+#		if options.lords:
+#			UpdateLordsHansardIndex()
+		if options.forcescrape:
+			if options.wrans:
+				PullGluePages(options.datefrom, options.dateto, True, "wrans", "answers")
+			if options.debates:
+				PullGluePages(options.datefrom, options.dateto, True, "debates", "debates")
+			if options.lords:
+				LordsPullGluePages(options.datefrom, options.dateto, True)
+			if options.regmem:
+				RegmemPullGluePages(True)
 
 if options.parse:
-        if options.forceparse:
-                if options.wrans:
-                        RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto, True)
-                if options.debates:
-                        RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, True)
-                if options.regmem:
-                        RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', True)
+	if options.forceparse:
+		if options.wrans:
+			RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto, True)
+		if options.debates:
+			RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, True)
+		if options.regmem:
+			RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', True)
 
+
+#
 # Then download/generate the new data
-
+#
 if options.scrape:
-        if options.wrans:
-                PullGluePages(options.datefrom, options.dateto, False, "wrans", "answers")
-        if options.debates:
-                PullGluePages(options.datefrom, options.dateto, False, "debates", "debates")
-        if options.regmem:
-                # TODO - date ranges when we do index page stuff for regmem
-                RegmemPullGluePages(False)
+	if options.wrans:
+		PullGluePages(options.datefrom, options.dateto, False, "wrans", "answers")
+	if options.debates:
+		PullGluePages(options.datefrom, options.dateto, False, "debates", "debates")
+	if options.lords:
+		LordsPullGluePages(options.datefrom, options.dateto, False)
+	if options.regmem:
+		# TODO - date ranges when we do index page stuff for regmem
+		RegmemPullGluePages(False)
 
 if options.parse:
-        if options.wrans:
-                RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto, False)
-        if options.debates:
-                RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, False)
-        if options.regmem:
-                # TODO - date ranges when we do index page stuff for regmem
-                RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', False)
+	if options.wrans:
+		RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto, False)
+	if options.debates:
+		RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, False)
+	if options.regmem:
+		# TODO - date ranges when we do index page stuff for regmem
+		RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', False)
 

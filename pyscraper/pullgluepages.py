@@ -107,7 +107,7 @@ def GlueByNext(fout, url, urlx):
 			WriteCleanText(fout, hrsections[i])
 
 		# find the lead on with the footer
-		footer = hrsections[len(hrsections) - 1]
+		footer = hrsections[-1]
 
 		# the files are sectioned by the <hr> tag into header, body and footer.
 		nextsectionlink = re.findall('<\s*a\s+href\s*=\s*"?(.*?)"?\s*>next section</a>(?i)', footer)
@@ -202,7 +202,7 @@ def PullGluePages(datefrom, dateto, deleteoutput, folder, type):
 	ccmindex = LoadCmIndex(pwcmindex)
 
         # extract date range we want
-        def indaterange(x): 
+        def indaterange(x):
                 return x[0] >= datefrom and x[0] <= dateto
         ccmindex.res = filter(indaterange,ccmindex.res)
 
@@ -211,4 +211,5 @@ def PullGluePages(datefrom, dateto, deleteoutput, folder, type):
         # type is "answers" or "debates"
         pwcmfolder = os.path.join(pwcmdirs, folder)
 	GlueAllType(pwcmfolder, ccmindex.res, type + '(?i)', type + '%s.html', deleteoutput)
+
 

@@ -44,47 +44,48 @@ class LoadLordsIndex(xml.sax.handler.ContentHandler):
 
 # extract the table of contents from an index page
 def ExtractIndexContents(urlx):
-    urx = urllib.urlopen(urlx)
+	urx = urllib.urlopen(urlx)
 
-    # find the contents label
-    stcont = '<a name="contents"></a>\s*$'
-    while 1:
-        xline = urx.readline()
-        if not xline:
-            print '%s not found in %s' % (stcont, urlx) 
-            raise Exception, "cannot index"
-	if re.match(stcont, xline):
-            break
-    
-    lklins = []
-    while 1:
-        xline = urx.readline()
-        if not xline:
-            print '<hr> not found in %s' % urlx 
-            raise Exception, "cannot index"
-	if re.match('<hr>\s*$', xline):
-            break
-        lklins.append(xline)
-    
-    lktex = string.join(lklins, '')
+	# find the contents label which is a reliable way to get to the first link in after the stack of intro
+	stcont = '<a name="contents"></a>\s*$'
+	while True:
+		xline = urx.readline()
+		if not xline:
+			print '%s not found in %s' % (stcont, urlx)
+			raise Exception, "cannot index"
+		if re.match(stcont, xline):
+			break
 
-    # get the links
-    #<p><a href="../text/40129w01.htm#40129w01_sbhd7"><H3><center>Olympic Games 2012: London Bid</center></H3>
-    #</a></p>
-    relkex = re.compile('<p><a href="(\S*?.htm)#\S*"><H3><center>(.*?)</center></H3>\s*</a></p>')
-    res = relkex.findall(lktex)
-    return res
+	# this gets all the lines down to the <hr> in the middle
+	lklins = []
+	while True:
+		xline = urx.readline()
+		if not xline:
+			print '<hr> not found in %s' % urlx
+			raise Exception, "cannot index"
+		if re.match('<hr>\s*$', xline):
+			break
+		lklins.append(xline)
+	lktex = string.join(lklins, '')
+
+	# get the links
+	#<p><a href="../text/40129w01.htm#40129w01_sbhd7"><H3><center>Olympic Games 2012: London Bid</center></H3>
+	#</a></p>
+	relkex = re.compile('<p><a href="(\S*?.htm)#\S*"><H3><center>(.*?)</center></H3>\s*</a></p>')
+	res = relkex.findall(lktex)
+	return res
 
 
-def GlueByNext(fout, url, urlx):
+def GlueByNext(fout, urla, urlx):
 	# put out the indexlink for comparison with the hansardindex file
 	lt = time.gmtime()
 	fout.write('<pagex url="%s" scrapedate="%s" scrapetime="%s"/>\n' % \
 			(urlx, time.strftime('%Y-%m-%d', lt), time.strftime('%X', lt)))
 
 	# loop which scrapes through all the pages following the nextlinks
-	while 1:
-		print " reading " + url
+	# knocking off the known links as we go in case a "next page" is missing.
+	while urla:
+		url = urla[0]
 		ur = urllib.urlopen(url)
 		sr = ur.read()
 		ur.close();
@@ -107,26 +108,43 @@ def GlueByNext(fout, url, urlx):
 
 
 		# write the body of the text
-		for i in range(1,len(hrsections) - 1):
-			miscfuncs.WriteCleanText(fout, StripAnchorTags(hrsections[i]))
+		for i in range(1, len(hrsections) - 1):
+			miscfuncs.WriteCleanText(fout, hrsections[i])
 
 		# find the lead on with the footer
-		footer = hrsections[len(hrsections) - 1]
+		footer = hrsections[-1]
 
 		# the files are sectioned by the <hr> tag into header, body and footer.
 		nextsectionlink = re.findall('<\s*a\s+href\s*=\s*"?(.*?)"?\s*>next section</a>(?i)', footer)
-		if not nextsectionlink:
-			break
 		if len(nextsectionlink) > 1:
 			raise Exception, "More than one Next Section!!!"
-		url = urlparse.urljoin(url, nextsectionlink[0])
+		if not nextsectionlink:
+			urla = urla[1:]
+			if urla:
+				print "Bridging the missing next section link at %s" % url
+		else:
+			url = urlparse.urljoin(url, nextsectionlink[0])
+			# this link is known
+			if (len(urla) > 1) and (urla[1] == url):
+				urla = urla[1:]
+			# unknown link, either there's a gap in the urla's or a mistake.
+			else:
+				for uo in urla:
+					if uo == url:
+						print string.join(urla, "\n")
+						print "\n\n"
+						print url
+						print "\n\n"
+						raise Exception, "Next Section misses out the urla list"
+				urla[0] = url
 
+	pass  #endwhile urla
 
 
 ###############
 # main function
 ###############
-def PullGluePages():
+def LordsPullGluePages(datefrom, dateto, deleteoutput):
 	# make the output firectory
 	if not os.path.isdir(pwlordspages):
 		os.mkdir(pwlordspages)
@@ -134,10 +152,10 @@ def PullGluePages():
 	# load the index file previously made by createhansardindex
 	clordsindex = LoadLordsIndex(pwlordsindex)
 
-        # loop through the index of each lord line.  
-        for dnu in clordsindex.res:
+	# loop through the index of each lord line.
+	for dnu in clordsindex.res:
 		# make the filename
-		dgf = os.path.join(pwlordspages, ('daylord%s.html' % dnu[0])) 
+		dgf = os.path.join(pwlordspages, ('daylord%s.html' % dnu[0]))
 
 		# hansard index page
 		urlx = dnu[1]
@@ -152,26 +170,30 @@ def PullGluePages():
 				pgx = re.findall('<pagex url="([^"]*)"[^/]*/>', pgx)
 				if pgx:
 					if pgx[0] == urlx:
-						print 'skipping ' + urlx
+						#print 'skipping ' + urlx
 						continue
 			print '\nRE-scraping ' + urlx
 		else:
 			print '\nscraping ' + urlx
 
-                # The different sections are often all run together
-                # with the title of written answers in the middle of a page.  
-                icont = ExtractIndexContents(urlx)
-                url0 = urlparse.urljoin(urlx, icont[0][0])
+		# The different sections are often all run together
+		# with the title of written answers in the middle of a page.
+		icont = ExtractIndexContents(urlx)
+		# this gets the first link (the second [0][1] would be it's title.)
+		urla = [ ]
+		for iconti in icont:
+			uo = urlparse.urljoin(urlx, iconti[0])
+			if (not urla) or (urla[-1] != uo):
+				urla.append(uo)
 
 		# now we take out the local pointer and start the gluing
+		# we could check that all our links above get cleared.
 		dtemp = open(tempfile, "w")
-		GlueByNext(dtemp, url0, urlx)
+		GlueByNext(dtemp, urla, urlx)
 
 		# close and move
 		dtemp.close()
 		os.rename(tempfile, dgf)
 
 
-# run main function
-PullGluePages()
 
