@@ -17,6 +17,7 @@ sys.path.append('lords')
 sys.path.append('miniposts')
 
 from crongrabpages import GrabWatchCopies
+from minpostparse import ParseGovPosts
 
 from optparse import OptionParser
 from createhansardindex import UpdateHansardIndex
@@ -195,5 +196,8 @@ if options.parse:
 		RunFiltersDir(RunLordsFilters, 'lordspages', options, options.forceparse)
 	if options.regmem:
 		RunFiltersDir(RunRegmemFilters, 'regmem', options, options.forceparse)
+
+	if options.chgpages:
+		ParseGovPosts()
 
 
