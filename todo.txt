@@ -18,6 +18,8 @@ Java in Opera Win32
 Measure abstentions by parliament rather than global proportions?
 MP page - print parliament in vote lists
 
+Print reason left in table
+
 Scraper
 -------
 

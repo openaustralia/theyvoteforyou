@@ -135,6 +135,7 @@ Similarly, get data on gender etc. and analyse against that
 
 Count who tellers are - does this mean anything?
 Note they are often not listed in Hansard, so this might be a fools errand
+Telling is another vote type - aye/noe/both/tell
 
 What can we learn from the information that aye/noe comes first, and
     from the information as to whether government or not government is
@@ -143,7 +144,7 @@ What can we learn from the information that aye/noe comes first, and
 How many articles do Labour MPs supply to the Times, for example?
 Collate all MPs articles in newspapers
 
-Regional analysis.  Scotland, NI, Whales, North v South.  Urban v.
+Regional analysis.  Scotland, NI, Wales, North v South.  Urban v.
 Rural.  
 Area of land for constituency.  This gives a "ruralness" measure.
 Population of constituency.

@@ -1,5 +1,7 @@
+<?php $cache_postfix = rand(0, 10); include "cache-begin.inc"; ?>
+
 <?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
-# $Id: index.php,v 1.15 2003/10/15 06:59:00 frabcus Exp $
+# $Id: index.php,v 1.16 2003/10/21 08:36:22 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -70,8 +72,6 @@ title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
     print "</table>\n";
 
 ?>
-
-<?php include "cache-begin.inc"; ?>
 
 <h2>Top Rebels <a href="mps.php?sort=rebellions" title="Show all MPs ordered by rebellions">(more...)</a></h2>
 <table class="mps">
