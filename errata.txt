@@ -5,3 +5,11 @@ Hansard errata
 - it says 240 ayes, but 341 are listed!
 http://www.publications.parliament.uk/pa/cm200203/cmhansrd/vo021127/debtext/21127-30.htm
 
+Thu 14 Dec 2000
+The Debate link here:
+http://www.publications.parliament.uk/pa/cm/cmvol359.htm
+Goes to the correct URL:
+http://www.publications.parliament.uk/pa/cm200001/cmhansrd/vo001214/debindx/01214-x.htm
+But it displays Westminster Hall text!  Indeed, the same text as:
+http://www.publications.parliament.uk/pa/cm200001/cmhansrd/vo001214/hallindx/01214-x.htm
+

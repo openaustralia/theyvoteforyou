@@ -19,34 +19,31 @@ Investigate EDMs, legality of using them
 
 Look at majorities
 
-Log file rotation
-SourceForge backup
-
 Mailing list for newsletter
 
-Website
--------
+Split search into components "Eddie O'Hara"
 
-Consider changing support@ email addr to something less corporate sounding
-
-Trim some opinion waffle out of Cluster text
-
-Find logo
+favicon.ico
 
 Scraper
 -------
 
 Check out tapiR, see if useful
 
-Check "Question accordingly..." fits with our counting
-Tally vote numbers in text and check they fit with our counting
+Make one script I have to run which just does everything (backup logs,
+backup sf cvs repository, get latest divisions, upload to db)
 
 Also I need to tidy the whole thing up to be more usable.  Reduce the
 number of commands, make the pipeline more straightforward, and so it
 doesn't go wrong if you do things in the wrong order.
 
-Make one script I have to run which just does everything (backup logs,
-backup sf cvs repository, get latest divisions, upload to db)
+Check "Question accordingly..." fits with our counting
+Tally vote numbers in text and check they fit with our counting
+
+Search for divisions on days MP joined/left, as these could have
+off-by-one errors for their changed party
+
+Check SourceForge backup
 
 Improve motion text extraction
     division.php?date=2003-02-03&number=74 - and div 73, detail missing

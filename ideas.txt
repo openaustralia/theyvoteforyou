@@ -193,6 +193,12 @@ Software to follow all legislation sources:
      - international treaties which apart from major EU treaties are ratified
      under the Ponsonby Rule without a vote in parliament.
 
+Link to draft of Bill which is being debated
+    http://www.parliament.uk/what_s_on/what_s_on.cfm
+    http://www.parliament.the-stationery-office.co.uk/pa/cm200203/cmstand/cmstand.htm
+    http://www.parliament.the-stationery-office.co.uk/pa/pabills.htm
+    http://bills.ais.co.uk
+
 Group votes by department, so you can see areas of interest (Sirius
 Gibson, Oxfam)
 
@@ -206,10 +212,6 @@ Analyse an MP's interests by their rebellions - work out a summary of
 their special interests.  Also link to which debates they spoke in.
 
 Committees, and voting in committee
-
-Link to draft of Bill which is being debated
-    http://www.parliament.the-stationery-office.co.uk/pa/cm200203/cmstand/cmstand.htm
-    http://www.parliament.the-stationery-office.co.uk/pa/pabills.htm
 
 Usability
 ---------
@@ -326,6 +328,9 @@ http://www.parliament.the-stationery-office.co.uk/pa/cm/cmregmem
 
 Recent speeches
 http://www.publications.parliament.uk
+
+POLIS:
+http://www.polis.parliament.uk/
 
 How responsive to contact (available in CSV!)
 Photo

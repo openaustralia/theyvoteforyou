@@ -15,7 +15,14 @@ rsync -v --progress --delete -az -e "ssh" $USER:./www.publicwhip.org.uk_logs/*.g
 for X in access_log.*.gz
 do
     DATE=`stat --terse --format=%y $X | cut -d "." -f 1 | tr " " "-"`
-    cp -a $X ../access_log.$DATE.tar.gz
+    cp -a $X ../access_log.$DATE.gz
 done
 cp -a access_log ../
+cd ../..
+
+# Make log file analysis from awsats
+zcat `ls -1 logs/*.gz | sort` | cat - logs/access_log | /usr/lib/cgi-bin/awstats.pl -config=publicwhip.org.uk
+/usr/share/doc/awstats/examples/awstats_buildstaticpages.pl -config=publicwhip.org.uk -dir=logs/awstats -awstatsprog=/usr/lib/cgi-bin/awstats.pl
+
+rsync -e ssh -Pva logs/awstats/ francis@sphinx.mythic-beasts.com:~/public_html/pwstats/
 
