@@ -12,5 +12,8 @@ My content grabber does this (horrifyingly) early on:
     $all_content =~ s/&#150;/-/g;
     $all_content =~ s/&#151;/-/g;
 
-Time stamps aren't all being caught e.g. search for pm in c2daydebatefixcolumnnumbers/daydebThursday13November2003.html
+
+Time stamp exception:
+Time stamps aren't all being caught e.g. search for 1.27 pm in c2daydebatefixcolumnnumbers/daydebThursday13November2003.html
+  this is a rare case outside of a heading.  explicit repair will be required.  
 
