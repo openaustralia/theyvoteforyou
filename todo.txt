@@ -7,6 +7,10 @@ Look for EDMs on parliament.uk (in daily papers)
 Web site
 --------
 
+In possible friends print after parliament the party if it is a "whilst"
+
+Try registration with IE and no ?submit= (press ret)
+
 Share DB connection with registration
 
 Mailing list for newsletter
@@ -46,6 +50,9 @@ distance
 
 Scraper
 -------
+
+Make cluster stuff store NUMBER OF VOTES both voted in for extra
+possible friends info
 
 Look at majorities
 

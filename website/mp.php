@@ -1,5 +1,5 @@
 <?php 
-    # $Id: mp.php,v 1.7 2003/10/04 13:46:22 frabcus Exp $
+    # $Id: mp.php,v 1.8 2003/10/11 22:47:18 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -17,6 +17,9 @@
     $show_all = false;
     if ($_GET["showall"] == "yes")
         $show_all = true;
+    $all_friends = false;
+    if ($_GET["allfriends"] == "yes")
+        $all_friends = true;
 
     $title .= htmlentities("$first_name $last_name, $constituency");
     include "header.inc";
@@ -122,18 +125,13 @@
     }
     print "</table>\n";
 
-    $anchor = "mp.php?firstname=" . urlencode($first_name) .
+    $this_anchor = "mp.php?firstname=" . urlencode($first_name) .
         "&lastname=" . urlencode($last_name) . "&constituency=" .
         urlencode($constituency);
     if (!$show_all)
-    {
-        $anchor .= "&showall=yes";
-        print "<p><a href=\"$anchor\">Show all divisions this MP voted in</a>";
-    }
+        print "<p><a href=\"$this_anchor&showall=yes\">Show all divisions this MP voted in</a>";
     else
-    {
-        print "<p><a href=\"$anchor\">Show only divisions MP rebelled in</a>";
-    }
+        print "<p><a href=\"$this_anchor\">Show only divisions MP rebelled in</a>";
 
     print "<h2>Possible Friends</h2>";
     print "<p>Shows which MPs voted most similarly to this one. The
@@ -147,7 +145,8 @@
         print "<h3>" . parliament_name(date_to_parliament($dates[$i])) .  " Parliament</h3>";
         print "<table class=\"mps\">\n";
         $query = "select first_name, last_name, title, constituency,
-            party, pw_mp.mp_id, round(100*rebellions/votes_attended,1),
+            party, pw_mp.mp_id, 
+            round(100*rebellions/votes_attended,1),
             round(100*votes_attended/votes_possible,1),
             distance, entered_reason, left_reason from pw_mp,
             pw_cache_mpinfo, pw_cache_mpdist where
@@ -159,21 +158,31 @@
 
             (pw_mp.mp_id = pw_cache_mpdist.mp_id_2 and
             pw_cache_mpdist.mp_id_1 = $mp_ids[$i]
-            and pw_cache_mpdist.mp_id_2 <> $mp_ids[$i]))
+            and pw_cache_mpdist.mp_id_2 <> $mp_ids[$i]))";
 
-            order by distance limit 0,5";
-
-        $db->query($query);
         print "<tr class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Distance</td><td>Rebellions</td><td>Attendance</td></tr>";
         $prettyrow = 0;
+
+        $db->query($query . " and distance = 0");
+        $same_voters = $db->rows();
+
+        $limit = "";
+        if (!$all_friends)
+            $limit .= " limit 0,5"; 
+        $db->query($query . " order by distance $limit");
+
         while ($row = $db->fetch_row())
         {
             $prettyrow = pretty_row_start($prettyrow);
             $anchor = "\"mp.php?firstname=" . urlencode($row[0]) .
                 "&lastname=" . urlencode($row[1]) . "&constituency=" .
                 urlencode($row[3]) . "\"";
+            if ($row[8] == "0")
+                $row[8] = "0 (always vote same)";
+            if ($row[8] == "1")
+                $row[8] = "1 (always vote different)";
 
-            print "<td><a href=$anchor>$row[2] $row[0] $row[1]</a></td></td>
+            print "<td><a href=$anchor>$row[2] $row[0] $row[1]</a></td>
                 <td>$row[3]</td>
                 <td>" . pretty_party($row[4], $row[9], $row[10]) . "</td>
                 <td>$row[8]</td>";
@@ -188,6 +197,16 @@
             print "<td colspan=6>no votes to compare</td></tr>\n";
         }
         print "</table>\n";
+        if (!$all_friends)
+        {
+            print "<p><a href=\"$this_anchor&allfriends=yes\">Show all MPs in order of friendliness to this one</a>";
+            if ($same_voters > 4)
+                print " ($same_voters MPs voted exactly the same as this one)";
+        }
+        else
+        {
+            print "<p><a href=\"$this_anchor\">Show only a few possible friends</a>";
+        }
     }
 ?>
 
