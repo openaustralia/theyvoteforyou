@@ -1,13 +1,12 @@
 <?php
-# $Id: dream.inc,v 1.20 2005/03/31 09:20:01 frabcus Exp $
+# $Id: dream.inc,v 1.21 2005/03/31 15:19:04 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-include_once "wiki.inc";
-
+include_once $toppath . "wiki.inc";
 
 # the equation that should be reused on the different places
 function calc_dreammp_person_distance($nvotessame, $nvotessamestrong,
