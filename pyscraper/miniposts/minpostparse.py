@@ -143,7 +143,7 @@ class protooffice:
 		self.fullname = "%s %s" % (self.froname, self.lasname)
 
 		# special Gareth Thomas match
-		if self.fullname == "Mr Gareth Thomas" and self.sdatet[0] >= '2004-04-16' and self.sdatet[0] <= '2004-09-10':
+		if self.fullname == "Mr Gareth Thomas" and self.sdatet[0] >= '2004-04-16' and self.sdatet[0] <= '2004-09-20':
 			self.cons = "Harrow West"
 
 		pos = nampos.group(4)
@@ -203,7 +203,7 @@ class protooffice:
 
 	# this helps us chain the offices
 	def StickChain(self, nextrec, fn):
-		assert (self.sdateend, self.stimeend) < nextrec.sdatet
+                assert (self.sdateend, self.stimeend) < nextrec.sdatet
 		assert self.bopen
 
 		if (self.lasname == nextrec.lasname) and (self.froname == nextrec.froname) and (self.dept == nextrec.dept):
@@ -227,10 +227,10 @@ def ParsePage(fr):
 	frdate = re.search(">Her Majesty's Government at\s+(.*?)\s*<", fr)
 	msdate = mx.DateTime.DateTimeFrom(frdate.group(1)).date
 
-	if msdate != sudate and sudate != "2004-09-20":   # is it always posted up on the day it is announced?
+	if msdate != sudate and sudate != "2004-09-20" and sudate != '2005-03-10':   # is it always posted up on the day it is announced?
 		print "Updated date is %s, but date of change %s" % (sudate, msdate)
 
-	sdate = msdate
+	sdate = sudate
 	stime = sutime	# or midnight if not posted properly to match the msdate
 
 	# extract the alphabetical list

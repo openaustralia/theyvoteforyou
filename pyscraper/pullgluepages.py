@@ -54,7 +54,7 @@ class LoadCmIndex(xml.sax.handler.ContentHandler):
 			key = (attr["date"], attr["type"])
 			if key in self.check:
 				raise Exception, "Same date/type twice %s %s\nurl1: %s\nurl2: %s" % (ddr + (self.check[key],))
-			if not re.search("answers|debates|westminster|ministerial(?i)", attr["type"]):
+			if not re.search("answers|debates|westminster|ministerial|votes(?i)", attr["type"]):
 				raise Exception, "cmdaydeb of unrecognized type: %s" % attr["type"]
 			self.check[key] = attr["url"]
 
@@ -104,11 +104,13 @@ def GlueByNext(fout, url, urlx):
 		ur.close();
 
 		# write the marker telling us which page this comes from
-		fout.write('<page url="' + url + '"/>\n')
+                if (url != urlx):
+                        fout.write('<page url="' + url + '"/>\n')
 
+                sr = re.sub('<!-- end of variable data -->.*<hr>(?si)', '<hr>', sr)
 
 		# split by sections
-		hrsections = re.split('<hr>(?i)', sr)
+                hrsections = re.split('<hr(?: size=3)?>(?i)', sr)
 
 		# this is the case for debates on 2003-03-13 page 30
 		# http://www.publications.parliament.uk/pa/cm200203/cmhansrd/vo030313/debtext/30313-32.htm
@@ -118,7 +120,6 @@ def GlueByNext(fout, url, urlx):
 			print url
 			fout.write('<UL><UL><UL></UL></UL></UL>\n')
 			break
-
 
 		# write the body of the text
 		for i in range(1,len(hrsections) - 1):
@@ -200,7 +201,10 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto, forcescrape):
 		urlx = dnu[2]
 
 
-		url0 = ExtractFirstLink(urlx, dgf, forcescrape)
+                if dnu[1] == 'Votes and Proceedings':
+                        url0 = urlx
+                else:
+                        url0 = ExtractFirstLink(urlx, dgf, forcescrape)
                 if not url0:
                         continue
 

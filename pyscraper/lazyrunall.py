@@ -51,6 +51,7 @@ wms             Written Ministerial Statements
 lords           House of Lords
 regmem          Register of Members Interests
 chgpages        Special pages that change, like list of cabinet ministers
+votes           Votes and Proceedings
 
 Example command line
         ./lazyrunall.py --date=2004-03-03 --force-scrape scrape parse wrans
@@ -100,6 +101,7 @@ options.wms = False
 options.lords = False
 options.regmem = False
 options.chgpages = False
+options.votes = False
 for arg in args:
         if arg == "scrape":
                 options.scrape = True
@@ -119,6 +121,8 @@ for arg in args:
                 options.regmem = True
         elif arg == "chgpages":
                 options.chgpages = True
+        elif arg == "votes":
+                options.votes = True
 
         else:
                 print >>sys.stderr, "error: no such option %s" % arg
@@ -131,8 +135,8 @@ if not options.scrape and not options.parse:
         print >>sys.stderr, "error: choose what to do; scrape, parse or both of them"
         parser.print_help()
         sys.exit(1)
-if not options.debates and not options.westminhall and not options.wms and not options.wrans and not options.regmem and not options.lords and not options.chgpages:
-        print >>sys.stderr, "error: choose what work on; debates, wrans, regmem, chgpages or several of them"
+if not options.debates and not options.westminhall and not options.wms and not options.wrans and not options.regmem and not options.lords and not options.chgpages and not options.votes:
+        print >>sys.stderr, "error: choose what work on; debates, wrans, regmem, wms, votes, chgpages or several of them"
         parser.print_help()
         sys.exit(1)
 
@@ -146,7 +150,7 @@ if not options.debates and not options.westminhall and not options.wms and not o
 #
 if options.scrape:
 	# get the indexes
-	if options.wrans or options.debates or options.westminhall or options.wms:
+	if options.wrans or options.debates or options.westminhall or options.wms or options.votes:
 		UpdateHansardIndex(options.forceindex)
 	if options.lords:
 		UpdateLordsHansardIndex(options.forceindex)
@@ -174,6 +178,8 @@ if options.scrape:
 		PullGluePages(options.datefrom, options.dateto, options.forcescrape, "wms", "ministerial")
 	if options.lords:
 		LordsPullGluePages(options.datefrom, options.dateto, options.forcescrape)
+        if options.votes:
+                PullGluePages(options.datefrom, options.dateto, options.forcescrape, "votes", "votes")
 	if options.regmem:
 		# TODO - date ranges when we do index page stuff for regmem
 		RegmemPullGluePages(options.forcescrape)

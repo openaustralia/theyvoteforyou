@@ -28,6 +28,7 @@ toppath = miscfuncs.toppath
 
 # url for commons index
 urlcmindex = "http://www.publications.parliament.uk/pa/cm/cmhansrd.htm"
+urlvotesindex = "http://www.publications.parliament.uk/pa/cm/cmvote/cmvote.htm"
 # index file which is created
 pwcmindex = os.path.join(toppath, "cmindex.xml")
 
@@ -37,16 +38,18 @@ earliestdate = '2001-06-01' # start of 2001 parliament
 
 # regexps for decoding the data on an index page
 monthnames = 'January|February|March|April|May|June|July|August|September|October|November|December'
+daynames = '(?:Sun|Mon|Tues|Wednes|Thurs|Fri|Satur)day'
 # the chunk [A-Za-z<> ] catches the text "Questions tabled during the recess
 # and answered on" on http://www.publications.parliament.uk/pa/cm/cmvol390.htm
 redatename = '<b>[A-Za-z<> ]*?\s*(\S+\s+\d+\s+(?:%s)\s+\d+)\s*</b>' % monthnames
+revotelink = '<a\s+href="([^"]*)">(?:<b>)?((?:%s),(?:&nbsp;| )\d+\S*?(?:&nbsp;| )(?:%s)(?:&nbsp;| )\d+)\s*(?:</b>)?</(?:a|td)>(?i)' % (daynames, monthnames)
 relink = '<a\s+href="([^"]*)">(?:<b>)?([^<]*)(?:</b>)?</a>(?i)'
 
 # we lack the patching system here to overcome these special cases
 respecialdate1 = "<b>Friday 23 July 2004 to(?:<br>|\s*)Friday 27 August(?: 2004)?</b>"
 respecialdate2 = "<b>Friday 17 September 2004 to<br>Thursday 30 September 2004</b>"
 
-redateindexlinks = re.compile('%s|(%s|%s)|%s' % (redatename, respecialdate1, respecialdate2, relink))
+redateindexlinks = re.compile('%s|(%s|%s)|%s|%s' % (redatename, respecialdate1, respecialdate2, revotelink, relink))
 
 # map from (date, type) to (URL-first, URL-index)
 # e.g. ("2003-02-01", "wrans") to ("http://...", "http://...")
@@ -92,29 +95,36 @@ def CmIndexFromPage(urllinkpage):
 			sdate = mx.DateTime.DateTimeFrom(odate).date
 			continue
 
-		# move indexes down to keep old code working
-		link = link1[1:]
+                if link1[2]:
+                        odate = re.sub('&nbsp;', ' ', link1[3])
+                        if link1[3] == 'Friday, 6 February 2003':
+                                odate = '7 February 2003'
+                        sdate = mx.DateTime.DateTimeFrom(odate).date
+                        if sdate < earliestdate:
+                                continue
+                        uind = urlparse.urljoin(urllinkpage, re.sub('\s', '', link1[2]))
+                        typ = "Votes and Proceedings"
+                else:
+                	# the link types by name
+		        if not re.search('debate|westminster|written(?i)', link1[5]):
+			        continue
 
-		# the link types by name
-		if not re.search('debate|westminster|written(?i)', link[2]):
-			continue
+               		if re.search('Chronology', link1[5]):
+        			# print "Chronology:", link
+	        		continue
 
-		if re.search('Chronology', link[2]):
-			# print "Chronology:", link
-			continue
+		        # get rid of the new index pages
+        		if re.search('/indexes/', link1[4]):
+	        		continue
 
-		# get rid of the new index pages
-		if re.search('/indexes/', link[1]):
-			continue
+        		if not sdate:
+        			raise Exception, 'No date for link in: ' + urllinkpage
+        		if sdate < earliestdate:
+        			continue
 
-		if not sdate:
-			raise Exception, 'No date for link in: ' + urllinkpage
-		if sdate < earliestdate:
-			continue
-
-		# take out spaces and linefeeds we don't want
-		uind = urlparse.urljoin(urllinkpage, re.sub('\s', '', link[1]))
-		typ = string.strip(re.sub('\s\s+', ' ', link[2]))
+        		# take out spaces and linefeeds we don't want
+        		uind = urlparse.urljoin(urllinkpage, re.sub('\s', '', link1[4]))
+        		typ = string.strip(re.sub('\s\s+', ' ', link1[5]))
 
 		# check for repeats where the URLs differ
 		if (sdate, typ) in reses:
@@ -199,6 +209,7 @@ def WriteXML(fout, urllist):
 class LoadOldIndex(xml.sax.handler.ContentHandler):
 	def __init__(self, lpwcmindex):
 		self.res = []
+                self.resv = []
 		if not os.path.isfile(lpwcmindex):
 			return
 		parser = xml.sax.make_parser()
@@ -207,17 +218,28 @@ class LoadOldIndex(xml.sax.handler.ContentHandler):
 
 	def startElement(self, name, attr):
 		if name == "cmdaydeb":
-			ddr = (attr["date"], attr["type"], attr["url"])
-			self.res.append(ddr)
+                        if attr['type'] == 'Votes and Proceedings':
+                                self.resv.append( (attr['date'], attr['type'], attr['url']) )
+                        else:
+        			ddr = (attr["date"], attr["type"], attr["url"])
+        			self.res.append(ddr)
 
 	def CompareHeading(self, urllisthead):
 		if not self.res:
 			return False
-
+                res = 0
+                resv = 0
 		for i in range(len(urllisthead)):
-			if (i >= len(self.res)) or (self.res[i] != urllisthead[i]):
-				#print i
-				return False
+                        if urllisthead[i][1] == 'Votes and Proceedings':
+                                if i >= len(self.resv) or urllisthead[i] != self.resv[resv]:
+                                        return False
+                                else:
+                                        resv += 1
+                        else:
+                                if i >= len(self.res) or urllisthead[i] != self.res[res]:
+        				return False
+                                else:
+                                        res += 1
 		return True
 
 
@@ -229,21 +251,23 @@ def UpdateHansardIndex(force):
 	global reses
 	reses = {}
 
-	# get front page (which we will compare against)
+        # get front page (which we will compare against)
 	CmIndexFromPage(urlcmindex)
+        CmIndexFromPage(urlvotesindex)
         urllisth = map(lambda r: r + (reses[r][0],), reses.keys())
 	urllisth.sort()
 	urllisth.reverse()
 
-	# compare this leading term against the old index
+        # compare this leading term against the old index
 	oldindex = LoadOldIndex(pwcmindex)
 	if oldindex.CompareHeading(urllisth) and not force:
 		#print ' Head appears the same, no new list '
 		return
 
-	# extend our list to all the pages
+        # extend our list to all the pages
 	cres = CmAllIndexPages(urlcmindex)
-	for cr in cres:
+	cres += CmAllIndexPages(urlvotesindex)
+        for cr in cres:
 		CmIndexFromPage(cr)
         urllisth = map(lambda r: r + (reses[r][0],), reses.keys())
 	urllisth.sort()
