@@ -212,8 +212,10 @@ def StraightenHTMLrecurse(stex, stampurl):
 			sres[i] = '<br/>'
 
 		elif sres[i][0] == '<' or sres[i][0] == '>':
-			print sres[i][0]
-			print stex
+                        print "Part:", sres[i][0]
+                        print "All:",sres[i]
+                        print "stex:", stex
+                        print "raising"
 			raise ContextException('tag %s tag out of place in %s' % (sres[i], stex), stamp=stampurl, fragment=stex)
 
 	return sres

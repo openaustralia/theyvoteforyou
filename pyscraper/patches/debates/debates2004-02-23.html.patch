@@ -1,16 +1,44 @@
---- C:\publicwhip\pwdata\cmpages\debates\debates2004-02-23.html	Mon Jul 12 12:01:48 2004
-+++ C:\publicwhip\pwdata\cmpages\debates\debates2004-02-23-patchtmp.html	Mon Jul 12 15:15:44 2004
-@@ -259,11 +259,11 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-02-23.html	Sun Oct  3 04:31:10 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-02-23-patchtmp.html	Sat Nov 20 10:10:11 2004
+@@ -30,7 +30,7 @@
+ 
+ <P>
+ 
+-<a name="40223-01_para0">The House met at half-past Two o'clock
++<H4><center>The House met at half-past Two o'clock</center></H4>
+ <H4><center>PRAYERS</center></H4>
+ <H4><center>[Mr. Speaker in the Chair]</center></H4>
+ 
+@@ -260,10 +260,7 @@
  
  
  <B>23 Feb 2004 : Column 8</B></P>
--The Minister for Crime Reduction, Policing and Community Safety (
-+
- <P>
- <P>
- <P>
+-The Minister for Crime Reduction, Policing and Community Safety (<P>
+-<P>
+-<P>
 -<a name="40223-02_spnew8"><B> Ms Hazel Blears): </B> 
-+<a name="40223-02_spnew8"><B> The Minister for Crime Reduction, Policing and Community Safety (Ms Hazel Blears): </B>
++<B>The Minister for Crime Reduction, Policing and Community Safety (Ms Hazel Blears): </B> 
   I have not had any formal discussions with Gloucestershire police authority about its final budget for next year. I understand that it has now set a final budget of &#163;92 million for 2004&#150;05, an increase of 6 per cent. over this year.
  <P>
  <P>
+@@ -4205,6 +4202,7 @@
+ <H4><center>GENDER RECOGNITION BILL [LORDS] (PROGRAMME)</center></H4>
+ <P>
+ 
++<stamp parsemess-missgid="0"/>
+ <a name="40223-31_para0"><i>Motion made, and Question put forthwith, pursuant to Orders [28 June 2001 and 6 November 2003],</i>
+ <P>
+ <BR>
+@@ -4245,10 +4243,12 @@
+ <P>
+ <BR>
+ <i>Question agreed to.</i>
++<stamp parsemess-missgid="0"/>
+ <H4><center>GENDER RECOGNITION BILL [LORDS] [MONEY]</center></H4>
+ 
+ <P>
+ </FONT></UL>
++<stamp parsemess-missgid="0"/>
+ <a name="40223-31_para1"><i>Queen's recommendation having been signified&#151;</i>
+ <P>
+ 

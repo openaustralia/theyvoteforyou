@@ -1,0 +1,11 @@
+--- /home/fawkes/pwdata/cmpages/wrans/answers2004-03-01.html	Sun Oct  3 04:28:50 2004
++++ /home/fawkes/pwdata/cmpages/wrans/answers2004-03-01-patchtmp.html	Mon Nov 22 00:57:43 2004
+@@ -17,6 +17,8 @@
+ 
+ <H2 align=center>Monday 1 March 2004</H2>
+ 
++<stamp parsemess-colnumoffset="-20"/>
++
+ 
+ <a name="40301w01.html_dpthd0"><H3 align=center>INTERNATIONAL DEVELOPMENT</H3>
+ 

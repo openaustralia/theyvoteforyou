@@ -1,0 +1,26 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-03-01.html	Sun Oct  3 04:30:44 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-03-01-patchtmp.html	Mon Nov 22 00:34:42 2004
+@@ -867,19 +867,19 @@
+ 
+ <P>
+ <center><B>TABLE</center></B>
+-</FONT><P>
+ 
+-<TR><TD><FONT SIZE=-1><i>Proceedings</i></FONT></TD><TD><FONT SIZE=-1><i>Time for conclusion of proceedings</i></FONT></TR>
++<TR><TD>Proceedings</i></TD><TD><i>Time for conclusion of proceedings</i>
+ 
+ 
+-</FONT></TD></TR>
++</TD></TR>
+ <TR><TD><FONT SIZE=-1>Amendments relating to Clauses 1 and 2, Clause 6, Clause 15, Clauses 3 to 5.</FONT></TD><TD><FONT SIZE=-1>1 hour 15 minutes after commencement of proceedings on consideration.
+ </FONT></TD></TR>
+ <TR><TD><FONT SIZE=-1>Amendments relating to Clauses 7 to 10.</FONT></TD><TD><FONT SIZE=-1>2 hours 30 minutes after commencement of proceedings on consideration.
+ </FONT></TD></TR>
+ <TR><TD><FONT SIZE=-1>Amendments relating to Clause 11, Schedules 1 and 2, Clauses 12 and 13, Schedule 3, Clause 14, Clauses 16 to 29, Schedule 4, new Clauses, new Schedules, remaining proceedings on consideration.</FONT></TD><TD><FONT SIZE=-1>9 p.m.
+ </FONT></TD></TR>
+-<TR><TD><FONT SIZE=-1>Third Reading</FONT></TD><TD><FONT SIZE=-1>10 p.m.
++<TR><TD><FONT SIZE=-1>Third Reading</FONT></TD><TD>
++<p><FONT SIZE=-1>10 p.m.
+ 
+ <P>
+ <P>

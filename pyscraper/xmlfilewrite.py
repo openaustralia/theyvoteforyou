@@ -190,7 +190,7 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 
 			print "first record in old XML file that we failed to match:"
 			print "gid", self.prevflatb[ilf].gid
-			print "    ", self.prevflatb[ilf].nametype, self.prevflatb[ilf].speakerid, "|", self.prevflatb[ilf].speakername
+			print "    ", self.prevflatb[ilf].nametype.encode("latin-1"), self.prevflatb[ilf].speakerid.encode("latin-1"), "|", self.prevflatb[ilf].speakername.encode("latin-1")
 			oldparatxt = string.join(self.prevflatb[ilf].paras, "|")
 			print "    ", self.prepprint(oldparatxt)
 			print ""
