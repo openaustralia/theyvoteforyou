@@ -1,5 +1,5 @@
 <?php $title = "Source Code"; include "../header.inc" 
-# $Id: code.php,v 1.9 2004/10/14 21:41:03 frabcus Exp $
+# $Id: code.php,v 1.10 2004/11/09 23:17:51 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -35,6 +35,10 @@ loads that data into a MySQL database.  A combination of Perl and Octave (an
 open source mathematics package, compatible with Matlab) code perform various
 calculations on the data to form other database tables.  The website is written
 in PHP and makes pages by querying the MySQL database.
+
+<p>You can skip a whole stage by grabbing the database dumps from the
+bottom of the <a href="data.php">raw data</a> page, and loading these
+into MySQL.  Then go straight to "Running the website locally" below.
 
 <h2>Getting the source code</h2>
 <A href="http://sourceforge.net/projects/publicwhip"> <IMG align=right vspace=8 hspace=8
