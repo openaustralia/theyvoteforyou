@@ -1,5 +1,5 @@
 <?php $title = "Hansard Liaison Subproject"; include "../header.inc" 
-# $Id: liaison.php,v 1.2 2003/10/22 22:59:34 frabcus Exp $
+# $Id: liaison.php,v 1.3 2003/10/23 00:11:23 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -54,12 +54,29 @@ comments.
 
 <h2>Baffled Outsider's Guide to the Parliamentary Bureaucracy</h2>
 
-<p>House of Commons, Parliament, Hansard, The Stationary Office,
-HMSO.  What are they?  What do they all do?  When you ring up part of
-it you get to talk to incredibly helpful people.  Yet somehow you
-still spend hours trailing round offices to find the one that is
-responsible.  This baffling complex semi-privatised bureaucracy is still
-a mystery to me, but I can shed a bit of light.  
+<p><a href="http://www.hansard-westminster.co.uk">Hansard</a> are part
+of Parliament.  They are separate from Government, of course. They have
+about 16 reporters who sit in the chamber and listen to a small amount of
+debate in five or ten minute "shifts".  They then spend an hour typing
+it up on a computer with a tape recording.  They produce the Official
+Report each day in some (unknown) file format, and it is electronically
+transferred to TSO (The Stationary Office).
+
+<p>TSO used to also be part of Hansard/Parliament, but were privatised
+in 1996.  They are an independent, private publishing company.  They
+take the electronic Hansard, and from it produce the daily paper copy.
+They also make the bound copies.  More recently, they make the web site.
+
+<p>(This is clearly a relic of the past, as if web publishing were
+analogous to normal publishing.  You don't need a printing press, and
+the equivalent (a web server) already exists within the organisation
+which wants to publish it, making it pointless for them to contract it
+out to an external one.  A reform could streamline this.)
+
+<p>The website publications.parliament.uk is on a separate server to
+parliament.uk.  It is managed by TSO rather than Parliament.  TSO also
+do other publishing work, but they are a customer of the Parliament
+website, so they have to answer to them.
 
 <p><span class="ptitle">House of Commons Information Office (HCInfo)</span>.
 The first port of call for anything.  These are
@@ -77,9 +94,8 @@ goes to this division of parliament.
 
 <p><span class="ptitle">The Stationary Office (TSO)</span>.  
 This privatised part of the old HMSO (Her Majesty's Stationary
-Office) is based mainly in Norwich.   That such a basic democratic
-service has been privatised is somewhat strange.  Their main
-office for supplying books is 08457 023474.
+Office) is based mainly in Norwich.  Their phone number is
+08457 023474.
 
 <p><span class="ptitle">Parliamentary Press</span>.  An office
 of TSO based in London.  Phone them on 0207 394 4255.

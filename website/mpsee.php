@@ -1,5 +1,5 @@
 <?php $title = "Vote map"; include "header.inc" 
-# $Id: mpsee.php,v 1.8 2003/10/22 23:11:47 frabcus Exp $
+# $Id: mpsee.php,v 1.9 2003/10/23 00:11:23 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -142,7 +142,7 @@ what you want, is reasonably simple to describe.  Although most people
 won't understand it, it's important to mention it openly in case they do.
 
 <p>It ought to be a rule that the public does not accept any computational 
-result unless the computation is itself publically  available.  The 
+result unless the computation is itself publicly available.  The 
 analogy between computer algorithms whose output has a bearing on, say, 
 government policy, and the law, is close.  We do not tolerate being 
 subject to laws that are secret and unpublished, regardless of whether 
