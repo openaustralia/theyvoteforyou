@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: scrape.pl,v 1.13 2004/04/28 15:16:17 frabcus Exp $
+# $Id: scrape.pl,v 1.14 2004/06/08 11:50:48 frabcus Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -12,14 +12,15 @@ use strict;
 
 use WWW::Mechanize;
 use Getopt::Long;
-use clean;
-use finddays;
-use content;
-use divsxml;
-use divisions;
-use calc;
-use mplist;
-use error;
+use PublicWhip::Clean;
+use PublicWhip::FindDays;
+use PublicWhip::Content;
+use PublicWhip::DivsXML;
+use PublicWhip::Divisions;
+use PublicWhip::Calc;
+use PublicWhip::MPList;
+use PublicWhip::DB;
+use PublicWhip::Error;
 
 my $from;
 my $to;
@@ -28,19 +29,21 @@ my $verbose;
 my $chitter;
 my $quiet;
 my $force;
-my $result = GetOptions ("from=s"   => \$from,
-                          "to=s" => \$to,
-                          "date=s" => \$date,
-                          "verbose" => \$verbose,
-                          "chitter" => \$chitter,
-                          "quiet" => \$quiet,
-                          "force" => \$force);
+my $result = GetOptions(
+    "from=s"  => \$from,
+    "to=s"    => \$to,
+    "date=s"  => \$date,
+    "verbose" => \$verbose,
+    "chitter" => \$chitter,
+    "quiet"   => \$quiet,
+    "force"   => \$force
+);
 
-if ($date)
-{
-    die "Specify either specific date or date range, not both" if ($from || $to);
+if ($date) {
+    die "Specify either specific date or date range, not both"
+      if ( $from || $to );
     $from = $date;
-    $to = $date;
+    $to   = $date;
 }
 my $where_clause = "";
 my @where_params;
@@ -49,76 +52,38 @@ push @where_params, $from if defined $from;
 $where_clause .= "and day_date <= ? " if defined $to;
 push @where_params, $to if defined $to;
 $from = "1000-01-01" if not defined $from;
-$to = "9999-12-31" if not defined $to;
+$to   = "9999-12-31" if not defined $to;
 
-error::setverbosity(error::IMPORTANT + 1) if $quiet;
-error::setverbosity(error::USEFUL) if $verbose;
-error::setverbosity(error::CHITTER) if $chitter;
+PublicWhip::Error::setverbosity( ERR_IMPORTANT + 1 ) if $quiet;
+PublicWhip::Error::setverbosity(ERR_USEFUL)          if $verbose;
+PublicWhip::Error::setverbosity(ERR_CHITTER)         if $chitter;
 
-if ($#ARGV < 0 || (!$result))
-{
+if ( $#ARGV < 0 || ( !$result ) ) {
     help();
     exit;
 }
 
-my $dbh = db::connect();
+my $dbh = PublicWhip::DB::connect();
 
-foreach my $argnum (0 .. $#ARGV)
-{
+for (@ARGV) {
     clean();
 
-    $_ = $ARGV[$argnum];
-    if ($_ eq "mps")
-    {
-        mps();
-    }
-    elsif ($_ eq "months")
-    {
-        crawl_recent_months();
-    }
-    elsif ($_ eq "sessions")
-    {
-        crawl_recent_sessions();
-    }
-    elsif ($_ eq "content")
-    {
-        all_content();
-    }
-    elsif ($_ eq "divsxml")
-    {
-        all_divsxml();        
-    }
-    elsif ($_ eq "divisions")
-    {
-        all_divisions();        
-    }
-    elsif ($_ eq "calc")
-    {
-        update_calc();
-    }
-    elsif ($_ eq "check")
-    {
-        check();
-    }
-    elsif ($_ eq "words")
-    {
-        word_count();
-    }
-    elsif ($_ eq "test")
-    {
-        test();
-    }
-    else
-    {
-        help();
-        exit;
-    }
+    if    ( $_ eq "mps" )       { mps(); }
+    elsif ( $_ eq "months" )    { crawl_recent_months(); }
+    elsif ( $_ eq "sessions" )  { crawl_recent_sessions(); }
+    elsif ( $_ eq "content" )   { all_content(); }
+    elsif ( $_ eq "divsxml" )   { all_divsxml(); }
+    elsif ( $_ eq "divisions" ) { all_divisions(); }
+    elsif ( $_ eq "calc" )      { update_calc(); }
+    elsif ( $_ eq "check" )     { check(); }
+    elsif ( $_ eq "words" )     { word_count(); }
+    elsif ( $_ eq "test" )      { test(); }
+    else { help(); exit; }
 }
 exit;
 
-sub help
-{
-print <<END;
+sub help {
+    print <<END;
 
 Downloads divisions from Hansard via HTTP, and parses them into MP
 voting records within a MySQL database.
@@ -152,153 +117,165 @@ END
 }
 
 # Called every time to tidy up database
-sub clean
-{
+sub clean {
     print "Erasing half-parsed divisions...\n";
-    clean::erase_duff_divisions($dbh);
+    PublicWhip::Clean::erase_duff_divisions($dbh);
 }
 
-sub mps
-{
+sub mps {
     print "Inserting MPs...\n";
-    mplist::insert_mps($dbh);
-#    mplist::mid_transfer($dbh);
+    PublicWhip::MPList::insert_mps($dbh);
+
+    #    mplist::mid_transfer($dbh);
 }
 
-sub crawl_recent_months
-{
+sub crawl_recent_months {
+
     # Test most recent month and sessions crawl
-    my $agent = WWW::Mechanize->new();
+    my $agent     = WWW::Mechanize->new();
     my $start_url = "http://www.publications.parliament.uk/pa/cm/cmhansrd.htm";
-    $agent->get($start_url)->is_success() or die "Failed to read URL $start_url";
+    $agent->get($start_url)->is_success()
+      or die "Failed to read URL $start_url";
     print "Scanning recent months...\n";
-    finddays::recent_months($dbh, $agent);
+    PublicWhip::FindDays::recent_months( $dbh, $agent );
+
     # Add this on end of recent_months to start only back from Jan:
     #, "cmhn0301");
     #http://www.publications.parliament.uk/pa/cm/cmhn0302.htm
 }
 
-sub crawl_recent_sessions
-{
-    if ($force)
-    {
+sub crawl_recent_sessions {
+    if ($force) {
         clear_crawl_in_range();
         clear_content_in_range();
         clear_divisions_in_range();
     }
 
     # Test most recent month and sessions crawl
-    my $agent = WWW::Mechanize->new();
+    my $agent     = WWW::Mechanize->new();
     my $start_url = "http://www.publications.parliament.uk/pa/cm/cmhansrd.htm";
-    $agent->get($start_url)->is_success() or die "Failed to read URL $start_url";
+    $agent->get($start_url)->is_success()
+      or die "Failed to read URL $start_url";
     print "Scanning recent sessions...\n";
-    finddays::recent_sessions($dbh, $agent, "cmse0203", "cmse9798"); # inclusive
+    PublicWhip::FindDays::recent_sessions( $dbh, $agent, "cmse0203",
+        "cmse9798" );    # inclusive
 }
 
-sub update_calc
-{
+sub update_calc {
     print "Counting party statistics...\n";
-    calc::count_party_stats($dbh);
+    PublicWhip::Calc::count_party_stats($dbh);
     print "Guessing whip for each party/division...\n";
-    calc::guess_whip_for_all($dbh);
+    PublicWhip::Calc::guess_whip_for_all($dbh);
     print "Counting rebellions/attendence by MP...\n";
-    calc::count_mp_info($dbh);
+    PublicWhip::Calc::count_mp_info($dbh);
     print "Counting rebellions/turnout by division...\n";
-    calc::count_division_info($dbh);
+    PublicWhip::Calc::count_division_info($dbh);
     print "Rankings...\n";
-    calc::current_rankings($dbh);
+    PublicWhip::Calc::current_rankings($dbh);
 }
 
-sub check
-{
+sub check {
     print "Checking integrity...\n";
-    clean::check_integrity($dbh);
+    PublicWhip::Clean::check_integrity($dbh);
     print "Fixing up corrections we know about...\n";
-    clean::fix_division_corrections($dbh);
+    PublicWhip::Clean::fix_division_corrections($dbh);
     print "Fixing bothway votes...\n";
-    clean::fix_bothway_voters($dbh);
+    PublicWhip::Clean::fix_bothway_voters($dbh);
 }
 
-sub all_content
-{
+sub all_content {
     my $agent = WWW::Mechanize->new();
 
-    if ($force)
-    {
+    if ($force) {
         clear_content_in_range();
         clear_divisions_in_range();
     }
 
     my $new_where_clause = $where_clause;
     $new_where_clause =~ s/day_date/pw_hansard_day.day_date/g;
-    my $sth = db::query($dbh, "select pw_hansard_day.day_date,
+    my $sth = PublicWhip::DB::query(
+        $dbh, "select pw_hansard_day.day_date,
         first_page_url from pw_hansard_day left join pw_debate_content on
         pw_hansard_day.day_date = pw_debate_content.day_date where
-        pw_debate_content.day_date is null $new_where_clause order by day_date desc", 
-        @where_params);
-    
+        pw_debate_content.day_date is null $new_where_clause order by day_date desc",
+        @where_params
+    );
+
     print "Getting content for " . $sth->rows() . " missing days\n";
-    while (my @data = $sth->fetchrow_array())
-    {
-        my ($date, $url) = @data;
+    while ( my @data = $sth->fetchrow_array() ) {
+        my ( $date, $url ) = @data;
         $agent->get($url);
-        content::fetch_day_content($dbh, $agent, $date);
+        PublicWhip::Content::fetch_day_content( $dbh, $agent, $date );
     }
 }
 
 # Clear index of URLs for date range
-sub clear_crawl_in_range
-{
-    print "Clearing crawl URL index " . $where_params[0] . " to " . $where_params[1] . "\n";
-    my $sth = db::query($dbh, "delete from pw_hansard_day where 1=1 $where_clause", @where_params);
+sub clear_crawl_in_range {
+    print "Clearing crawl URL index "
+      . $where_params[0] . " to "
+      . $where_params[1] . "\n";
+    my $sth =
+      PublicWhip::DB::query( $dbh,
+        "delete from pw_hansard_day where 1=1 $where_clause",
+        @where_params );
 }
 
 # Clean out downloaded content for date range
-sub clear_content_in_range
-{
-    print "Clearing downloaded content " . $where_params[0] . " to " . $where_params[1] . "\n";
-    my $sth = db::query($dbh, "delete from pw_debate_content where 1=1 $where_clause", @where_params);
+sub clear_content_in_range {
+    print "Clearing downloaded content "
+      . $where_params[0] . " to "
+      . $where_params[1] . "\n";
+    my $sth =
+      PublicWhip::DB::query( $dbh,
+        "delete from pw_debate_content where 1=1 $where_clause",
+        @where_params );
 }
 
 # Clean out all parsed divisions we already have for date range
-sub clear_divisions_in_range
-{
-    print "Clearing parsed divisions " . $where_params[0] . " to " . $where_params[1] . "\n";
-    my $sth = db::query($dbh, "update pw_debate_content set divisions_extracted = 0 where 1=1 $where_clause", @where_params);
+sub clear_divisions_in_range {
+    print "Clearing parsed divisions "
+      . $where_params[0] . " to "
+      . $where_params[1] . "\n";
+    my $sth = PublicWhip::DB::query(
+        $dbh,
+"update pw_debate_content set divisions_extracted = 0 where 1=1 $where_clause",
+        @where_params
+    );
     my $new_where_clause = $where_clause;
     $new_where_clause =~ s/day_date/division_date/g;
-    $sth = db::query($dbh, "update pw_division set valid = 0 where 1=1 $new_where_clause", @where_params);
+    $sth =
+      PublicWhip::DB::query( $dbh,
+        "update pw_division set valid = 0 where 1=1 $new_where_clause",
+        @where_params );
     clean();
 }
 
-sub all_divisions
-{
-    if ($force)
-    {
-        clear_divisions_in_range();
-    }
+sub all_divisions {
+    clear_divisions_in_range() if $force;
 
-    my $sth = db::query($dbh, "select day_date, content from pw_debate_content where divisions_extracted = 0 $where_clause", @where_params);
+    my $sth = PublicWhip::DB::query(
+        $dbh,
+"select day_date, content from pw_debate_content where divisions_extracted = 0 $where_clause",
+        @where_params
+    );
     print "Getting divisions for " . $sth->rows() . " days\n\n";
-    while (my @data = $sth->fetchrow_array())
-    {
-        my ($day_date, $content) = @data;
-        divisions::parse_all_divisions_on_page($dbh, $content, $day_date);
+    while ( my @data = $sth->fetchrow_array() ) {
+        my ( $day_date, $content ) = @data;
+        PublicWhip::Divisions::parse_all_divisions_on_page( $dbh, $content,
+            $day_date );
     }
 }
 
-sub all_divsxml
-{
-    divsxml::read_xml_files($dbh, $from, $to);
+sub all_divsxml {
+    PublicWhip::DivsXML::read_xml_files( $dbh, $from, $to );
 }
 
-sub test
-{
-    my $agent = WWW::Mechanize->new();
+sub test {
+    my $agent     = WWW::Mechanize->new();
     my $start_url = "http://www.publications.parliament.uk/pa/cm/cmvol321.htm";
-    $agent->get($start_url)->is_success() or die "Failed to read URL $start_url";
+    $agent->get($start_url)->is_success()
+      or die "Failed to read URL $start_url";
     print "Temporary testing code...\n";
-    finddays::hunt_within_month_or_volume($dbh, $agent);
+    PublicWhip::FindDays::hunt_within_month_or_volume( $dbh, $agent );
 }
-
 
