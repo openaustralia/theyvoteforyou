@@ -20,6 +20,7 @@ from contextexception import ContextException
 # Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
 
+        ('<b>[^<]*?</b>\s+<br>&nbsp;<br><ul><ul><ul>\s+</ul></ul></ul>\s*$', '', -1, 'all'),
         ( '\(Sylvia Heal </B>\s*\)\:', '(Sylvia Heal):</B>', 1, '2003-06-20'),
 	( '(<H4><center>THE PARLIAMENTARY DEBATES</center></H4>)', '<P>\n\n<B>14 Jul 2003 : Column 1</B></P>\n\\1', 1, '2003-07-14'),
 
