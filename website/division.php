@@ -1,5 +1,5 @@
 <?php
-# $Id: division.php,v 1.40 2005/01/14 16:07:26 frabcus Exp $
+# $Id: division.php,v 1.41 2005/01/14 20:22:42 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -8,6 +8,8 @@
 # For details see the file LICENSE.html in the top level of the source.
 
     include "db.inc";
+    include "gather.inc";
+
     $date = db_scrub($_GET["date"]);
     $div_no = db_scrub($_GET["number"]);
 
@@ -21,13 +23,13 @@
     include_once "account/user.inc";
     if (!user_isloggedin()) {
         $cache_params = "#date=$date#div_no=$div_no#show_all=$show_all#all_similars=$all_similars#";
-        include "cache-begin.inc"; 
+        include "cache-begin.inc";
     }
 
-    include "database.inc";
+    include "account/database.inc";
     include_once "cache-tools.inc";
-    $db = new DB(); 
-    $db2 = new DB(); 
+    $db = new DB();
+    $db2 = new DB();
 
     $db->query("select pw_division.division_id, division_name,
             source_url, rebellions, turnout, notes, motion, debate_url,
@@ -73,17 +75,17 @@
 	print '<a href="#summary">Party Summary</a>';
 	print ' | ';
     if (!$show_all)
-        print '<a href="#rebels">Rebel Voters</a>'; 
-    else    
+        print '<a href="#rebels">Rebel Voters</a>';
+    else
     {
-        print '<a href="#voters">Voter List</a>'; 
+        print '<a href="#voters">Voter List</a>';
     	print ' | ';
-        print '<a href="#nonvoters">Non-Voter List</a>'; 
+        print '<a href="#nonvoters">Non-Voter List</a>';
     }
-    
+
 #	print ' | ';
-#	print '<a href="#similar">Similar Divisions</a>'; 
-    
+#	print '<a href="#similar">Similar Divisions</a>';
+
     # Dream MP feature
     function vote_value($value, $curr)
     {
@@ -98,11 +100,11 @@
     if (user_isloggedin())
     {
         $submit=mysql_escape_string($_POST["submit"]);
-        
+
         print "<div class=\"tablerollie\">";
         print "<span class=\"ptitle\">Dream MP</span>";
 
-        $query = "select rollie_id, name, description from 
+        $query = "select rollie_id, name, description from
             pw_dyn_rolliemp where user_id = '" . user_getid() . "'";
 
         print "<p>Vote in this division for your dream MPs.</p>";
@@ -110,11 +112,11 @@
         print '<table>';
         $db->query($query);
         $rowarray = $db->fetch_rows_assoc();
-        
+
         foreach ($rowarray as $row)
         {
             # find dream MP vote
-            $query = "select vote from pw_dyn_rollievote where 
+            $query = "select vote from pw_dyn_rollievote where
                     division_date = '$date' and division_number = '$div_no' and
                     rolliemp_id = '" . $row['rollie_id'] . "'";
             $db->query($query);
@@ -139,7 +141,7 @@
                     if ($changedvote == "--")
                     {
                         $query = "delete from pw_dyn_rollievote "  .
-                            " where rolliemp_id='" . $row['rollie_id'] . "' and " . 
+                            " where rolliemp_id='" . $row['rollie_id'] . "' and " .
                             "division_date = '$date' and division_number = '$div_no'";
                         $db->query($query);
                         if ($db->rows() == 0)
@@ -151,8 +153,8 @@
                     }
                     else
                     {
-                        $query = "update pw_dyn_rollievote set vote='" . $changedvote . "'" . 
-                            " where rolliemp_id='" . $row['rollie_id'] . "' and " . 
+                        $query = "update pw_dyn_rollievote set vote='" . $changedvote . "'" .
+                            " where rolliemp_id='" . $row['rollie_id'] . "' and " .
                             "division_date = '$date' and division_number = '$div_no'";
                         if ($vote == "--")
                         {
@@ -196,7 +198,7 @@
     }
     else
     {
-/*       
+/*
         print "<p>Have a strong view on this division?  <a href=\"account/adddream.php\">Create your
             own dream MP</a>, and have them vote how you would like them to have voted.  Essential
             for any campaigning organisation, parliamentary candidate, or just for fun.";
@@ -204,7 +206,7 @@
         */
 
     }
- 
+
     # Summary
 	print "<h2>Summary</h2>";
 
@@ -216,9 +218,9 @@
         where division_id = $div_id and vote = 'both'");
     $tellers = $db->query_one_value("select count(*) from pw_vote
         where division_id = $div_id and (vote = 'tellaye' or vote = 'tellno')");
-    print "<br>On $prettydate, $turnout MPs voted in division no. $div_no in the House of Commons.  
+    print "<br>On $prettydate, $turnout MPs voted in division no. $div_no in the House of Commons.
         <br>Subject was '$name'
-        <br>Votes were $ayes aye, $noes no, $boths both, $tellers tellers.  
+        <br>Votes were $ayes aye, $noes no, $boths both, $tellers tellers.
         There were $rebellions rebellions against majority party vote.";
 
     $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
@@ -235,7 +237,7 @@
     # Unused -- $source_gid contains division listing link on TheyWorkForYou.com website.
 
     print "$notes";
-    
+
     # Show motion text
     print "<h2><a name=\"motion\">Motion</a></h2> <p>Procedural text extracted from the debate,
     so you can try to work out what 'aye' (for the motion) and 'no' (against the motion) meant.
@@ -260,7 +262,7 @@
         while ($row = $db->fetch_row_assoc()) {
             $dmp_real_name = $row["real_name"];
             $dmp_email = preg_replace("/(.+)@(.+)/", "$2", $row["email"]);
-            $prettyrow = pretty_row_start($prettyrow);        
+            $prettyrow = pretty_row_start($prettyrow);
             $vote = $row["vote"];
             if ($vote == "both")
                 $vote = "abstain";
@@ -285,16 +287,11 @@
     $alldivs_total = array_sum(array_values($alldivs));
 
     # Table of votes by party
-    $db->query("select pw_mp.party, count(*), vote, whip_guess from pw_vote,
-        pw_mp, pw_cache_whip where pw_vote.division_id = $div_id and
-        pw_vote.mp_id = pw_mp.mp_id and pw_cache_whip.division_id =
-        pw_vote.division_id and pw_cache_whip.party = pw_mp.party group
-        by pw_mp.party, vote order by party, vote");
     print "<h2><a name=\"summary\">Party Summary</a></h2>";
     print "<p>Votes by party, red entries are votes against the majority for that party.  ";
     print "
     <div class=\"tableexplain\">
-    <span class=\"ptitle\">What is Tell?</span> 
+    <span class=\"ptitle\">What is Tell?</span>
     '+1 tell' means that in addition one member of that party was a
     teller for that division lobby. Tellers are usually whips, or else
     particularly support the vote they tell for.</p>
@@ -311,75 +308,33 @@
     party has failed to turn out <i>en masse</i>.</p>
     </div>";
 
-    # Precalc values
-    $ayes = array();
-    $noes = array();
-    $boths = array();
-    $tellayes = array();
-    $tellnoes = array();
-    $whips = array();
-    $prettyrow = 0;
-    while ($row = $db->fetch_row())
-    {
-        $party = $row[0];
-        $count = $row[1];
-        $vote = $row[2];
-        $whip = $row[3];
 
-        if ($vote == "aye")
-        {
-            $ayes[$party] += $count;
-        }
-        else if ($vote == "no")
-        {
-            $noes[$party] += $count;
-        }
-        else if ($vote == "both")
-        {
-            $boths[$party] += $count;
-        }
-        else if ($vote == "tellaye")
-        {
-            $tellayes[$party] += $count;
-        }
-        else if ($vote == "tellno")
-        {
-            $tellnoes[$party] += $count;
-        }
-        else
-        {
-            print "Unknown vote type: " + $vote;
-        }
 
-        $whips[$party] = $whip;
-    }
+	$partysummary = GetPartyVoteSummary($db, $div_id);
 
     # Make table
     print "<table><tr class=\"headings\"><td>Party</td><td>Ayes</td><td>Noes</td>";
     print "<td>Both</td>";
-#    print "<td>Tell<br>Ayes</td><td>Tell<br>Noes</td>";
     print "<td>Turnout</td>";
     print "<td>Expected</td><td>Abstain</td></tr>";
+	$prettyrow = 0;
     $allparties = array_keys($alldivs);
     usort($allparties, strcasecmp);
-    $votes = array_sum(array_values($ayes)) +
-        array_sum(array_values($noes)) + array_sum(array_values($boths)) +
-        array_sum(array_values($tellayes)) + array_sum(array_values($tellnoes));
-    if ($votes <> $turnout)
+    if ($partysummary['votes'] <> $turnout)
     {
         print "<p>Error $votes <> $turnout\n";
     }
     foreach ($allparties as $party)
     {
-        $aye = $ayes[$party];
-        $no = $noes[$party];
-        $both = $boths[$party];
-        $tellaye = $tellayes[$party];
-        $tellno = $tellnoes[$party];
+        $aye = $partysummary['ayes'][$party];
+        $no = $partysummary['noes'][$party];
+        $both = $partysummary['boths'][$party];
+        $tellaye = $partysummary['tellayes'][$party];
+        $tellno = $partysummary['tellnoes'][$party];
         if ($aye == "") { $aye = 0; }
         if ($no == "") { $no = 0; }
         if ($both == "") { $both = 0; }
-        $whip = $whips[$party];
+        $whip = $partysummary['whips'][$party];
         $total = $aye + $no + $both + $tellaye + $tellno;
         $classaye = "normal";
         $classno = "normal";
@@ -390,11 +345,11 @@
         if ($both > 0) { $classboth = "important"; }
 
         $alldiv = $alldivs[$party];
-        $expected = round($votes * ($alldiv / $alldivs_total), 0);
+        $expected = round($partysummary['votes'] * ($alldiv / $alldivs_total), 0);
         $abstentions = round($expected - $total, 0);
         $classabs = "normal";
         if (abs($abstentions) >= 2) { $classabs = "important"; }
-        
+
         if ($tellaye > 0 or $tellno > 0 or $aye > 0 or $no > 0 or $both > 0 or $abstentions >= 2)
         {
             if ($tellaye > 0)
@@ -402,7 +357,7 @@
             if ($tellno > 0)
                 $no .= " (+" . $tellno . " tell)";
 
-            $prettyrow = pretty_row_start($prettyrow);        
+            $prettyrow = pretty_row_start($prettyrow);
             print "<td>" . pretty_party($party) . "</td>";
             print "<td class=\"$classaye\">$aye</td>";
             print "<td class=\"$classno\">$no</td>";
@@ -417,7 +372,7 @@
     }
     print "</table>";
 
-    $mps = array(); 
+    $mps = array();
 
     function vote_table($div_id, $db, $date, $show_all, $query)
     {
