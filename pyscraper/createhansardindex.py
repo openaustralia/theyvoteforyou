@@ -98,7 +98,7 @@ def CmIndexFromPage(urllinkpage):
 #http://www.publications.parliament.uk/pa/cm200203/cmhansrd/vo031006/index/31006-x.htm
 #http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm031006/index/31006-x.htm
                                     # we replace both with just the vo edition:
-                                    print "done replace of these two URLs into the vo one\nurl1: %s\nurl2: %s" % (uind, otheruind)
+                                    #print "done replace of these two URLs into the vo one\nurl1: %s\nurl2: %s" % (uind, otheruind)
                                     uind = test1
                                 else:
                                     raise Exception, 'Repeated link to %s %s\nurl1: %s\nurl2: %s\nindex1: %s\nindex2: %s' % (sdate, typ, uind, otheruind, urllinkpage, rc[1])

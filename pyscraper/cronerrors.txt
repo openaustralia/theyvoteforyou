@@ -2,6 +2,10 @@ Being errors found each day running the scraping cron job
 CRON = cron job on baked
 PWIP = weekly Public Whip update
 
+CRON 2004-04-?? Added alias with hyphen in name
+CRON 2004-04-23 Word from text got into bold round name
+CRON 2004-04-20 Missing (1) in two wrans, typo of "M.r", missing bold round name
+CRON 2004-04-19 House of Commons header merged with next
 CRON 2004-03-31 Gareth Thomas disambiguation of office, date moved forward
 CRON 2004-03-19 Slight misspelt wrans major heading CHURCH COMMISSIONER
 CRON 2004-03-18 Part name inside bold: Multiple matches Gareth Thomas (Clwyd, West) (Lab)
