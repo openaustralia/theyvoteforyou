@@ -51,6 +51,7 @@
 <chgpageupdates date="2004-11-30" time="10:40"/>
 <chgpageupdates date="2004-12-01" time="11:35"/>
 <chgpageupdates date="2004-12-16" time="10:31"/>
+<chgpageupdates date="2004-12-17" time="10:41"/>
 
 <ministerofficegroup>
 <moffice id="uk.org.publicwhip/moffice/1000" name="Duke of Abercorn" dept="HM Household" position="Lord Steward" fromdate="2000-01-01" todate="9999-12-31" source="newlabministers2003-10-15 chgpages"></moffice>
@@ -907,6 +908,10 @@
 </ministerofficegroup>
 
 <ministerofficegroup>
+<moffice id="uk.org.publicwhip/moffice/1135" name="James Purnell" matchid="uk.org.publicwhip/member/1176" dept="HM Treasury" position="Assistant Whip" fromdate="2004-12-17" fromtime="10:41" todate="9999-12-31" source="chgpages"></moffice>
+</ministerofficegroup>
+
+<ministerofficegroup>
 <moffice id="uk.org.publicwhip/moffice/157" name="Joyce Quin" matchid="uk.org.publicwhip/member/493" dept="Home Office" position="Minister of State" fromdate="1997-05-05" todate="1998-07-28" source="newlabministers2003-10-15"></moffice>
 <moffice id="uk.org.publicwhip/moffice/113" name="Joyce Quin" matchid="uk.org.publicwhip/member/493" dept="Foreign &amp; Commonwealth Office" position="Minister of State" fromdate="1998-07-28" todate="1999-07-28" source="newlabministers2003-10-15"></moffice>
 <moffice id="uk.org.publicwhip/moffice/385" name="Joyce Quin" matchid="uk.org.publicwhip/member/493" dept="Ministry of Agriculture, Fisheries and Food" position="Minister of State" fromdate="1999-07-28" todate="2001-06-08" source="newlabministers2003-10-15"></moffice>
@@ -1097,7 +1102,8 @@
 </ministerofficegroup>
 
 <ministerofficegroup>
-<moffice id="uk.org.publicwhip/moffice/1109" name="Derek Twigg" matchid="uk.org.publicwhip/member/1295" dept="HM Treasury" position="Lords Commissioner" fromdate="2002-05-29" todate="9999-12-31" source="newlabministers2003-10-15 chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1109" name="Derek Twigg" matchid="uk.org.publicwhip/member/1295" dept="HM Treasury" position="Lords Commissioner" fromdate="2002-05-29" todate="2004-04-16" totime="15:34" source="newlabministers2003-10-15 chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1136" name="Derek Twigg" matchid="uk.org.publicwhip/member/1295" dept="Department for Education and Skills" position="Parliamentary Under-Secretary" fromdate="2004-12-17" fromtime="10:41" todate="9999-12-31" source="chgpages"></moffice>
 </ministerofficegroup>
 
 <ministerofficegroup>

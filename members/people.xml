@@ -698,6 +698,7 @@ Generated exclusively by personsets.py, don't hand edit it just now
 </person>
 <person id="uk.org.publicwhip/person/11176" latestname="James Purnell">
     <office id="uk.org.publicwhip/member/1176"/>
+    <office id="uk.org.publicwhip/moffice/1135"/>
 </person>
 <person id="uk.org.publicwhip/person/10534" latestname="Barry Sheerman">
     <office id="uk.org.publicwhip/member/1218"/>
@@ -1811,6 +1812,7 @@ Generated exclusively by personsets.py, don't hand edit it just now
     <office id="uk.org.publicwhip/member/1295"/>
     <office id="uk.org.publicwhip/member/610"/>
     <office id="uk.org.publicwhip/moffice/1109"/>
+    <office id="uk.org.publicwhip/moffice/1136"/>
 </person>
 <person id="uk.org.publicwhip/person/10179" latestname="Alan Duncan">
     <office id="uk.org.publicwhip/member/179"/>
