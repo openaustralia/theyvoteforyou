@@ -24,6 +24,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         """ This handler is invoked for each XML element (during loading)"""
         if name == "member":
             self.members[attr["id"]] = attr
+
             # index by "Firstname Lastname" for quick lookup
             compoundname = attr["firstname"] + " " + attr["lastname"]
             if self.fullnames.has_key(compoundname):
@@ -31,12 +32,13 @@ class MemberList(xml.sax.handler.ContentHandler):
             else:
                 self.fullnames[compoundname] = [attr,]
 
-            # add in names without the middle initial -- should be made in a second
-            # pass to make sure we're not adding in matches that shouldn't be there.
+            # add in names without the middle initial
             fnnomidinitial = re.findall('^(\S*)\s\S$', attr["firstname"])
             if fnnomidinitial:
                 compoundname = fnnomidinitial[0] + " " + attr["lastname"]
-                if not self.fullnames.has_key(compoundname):
+		if self.fullnames.has_key(compoundname):
+                    self.fullnames[compoundname].append(attr)
+		else:
                     self.fullnames[compoundname] = [attr,]
 
 	    # and also by "Lastname"
@@ -46,7 +48,7 @@ class MemberList(xml.sax.handler.ContentHandler):
             else:
                 self.lastnames[lastname] = [attr,]
 
-        if name == "alias":
+        elif name == "alias":
             if self.fullnames.has_key(attr["alternate"]):
                 raise Exception, 'Already have alternate ' + attr["alternate"]
             else:

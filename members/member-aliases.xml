@@ -3,13 +3,16 @@
 
 <!-- 
 
-Alternatives names for members of parliament.  The canonical name is the
+Alternative names for members of parliament.  The canonical name is the
 one listed in all-members.xml.  An alternative might be a name
-contraction (Geoff vs. Geoffrey), a typing mistake, or a change in
-middle initial.
+contraction (Geoff vs. Geoffrey), a typing mistake.
 
-TODO: Does julian's code in resolvemembernames remove need for initial
-entries in here?
+Middle initials:  Note that missing middle initials aren't included
+in this file, even though some of the canonical names in all-members.xml
+have middle initials.  You should in addition to these aliases match
+to canonical names with the initial (which is on the end of the first
+name) removed.
+
 TODO: Date ranges, esp. for The Prime Minister
 
 TODO: The Solicitor-General
@@ -24,35 +27,26 @@ How do we get past ones?
 <!-- First added for 2001 parliament -->
 <alias canonical="Nick Brown" alternate="Nicholas Brown" />
 <alias canonical="Geoff Hoon" alternate="Geoffrey Hoon" />
-<!-- <alias canonical="Jonathan R Shaw" alternate="Jonathan Shaw" /> -->
 <alias canonical="Dave Watts" alternate="David Watts" />
 <alias canonical="Des Browne" alternate="Desmond Brown" />
-<alias canonical="Annette Brooke" alternate="Annette L Brooke" />
 <alias canonical="Lembit Öpik" alternate="Lembit Opik" />
 <alias canonical="Siôn Simon" alternate="Siön Simon" />
 <alias canonical="Raymond Powell" alternate="Ray Powell" />
 <alias canonical="Helen Clark" alternate="Helen Brinton" /> <!-- marriage -->
 <alias canonical="Gregory Barker" alternate="Greg Barker" />
 <alias canonical="Bob Spink" alternate="Robert Spink" />
-<alias canonical="Robert Wareing" alternate="Robert N Wareing" />
 <alias canonical="Jimmy Wray" alternate="James Wray" />
 <alias canonical="Andrew Murrison" alternate="Andrew Morrison" />
 
 <!-- First added for 1997 parliament -->
 <alias canonical="Bob Ainsworth" alternate="Robert Ainsworth" />
-<!-- <alias canonical="Jeffrey M Donaldson" alternate="Jeffrey Donaldson" /> -->
 <alias canonical="Gerry Bermingham" alternate="Gerald Bermingham" />
-<alias canonical="John Taylor" alternate="John M Taylor" />
-<alias canonical="Peter Pike" alternate="Peter L Pike" />
-<alias canonical="Andrew Bennett" alternate="Andrew F Bennett" />
 <alias canonical="Ray Whitney" alternate="Raymond Whitney" />
 <alias canonical="Stephen McCabe" alternate="Steve McCabe" />
-<alias canonical="Norman Godman" alternate="Norman A Godman" />
 <alias canonical="Jim Wallace" alternate="James Wallace" />
 <alias canonical="Edward O'Hara" alternate="Eddie O'Hara" />
 <alias canonical="Andy Reed" alternate="Andrew Reed" />
 <alias canonical="Mo Mowlam" alternate="Majorie Mowlam" />
-<alias canonical="Alan Williams" alternate="Alan W Williams" />
 <alias canonical="Bob Blizzard" alternate="Robert Blizzard" />
 <alias canonical="Archie Hamilton" alternate="Archibald Hamilton" />
 <alias canonical="Tom Brake" alternate="Thomas Brake" />
@@ -78,7 +72,6 @@ How do we get past ones?
 <alias canonical="Rudi Vis" alternate="Rudolf Vis" />
 <alias canonical="Thomas McAvoy" alternate="Th omas McAvoy" />
 <alias canonical="Michael Ancram" alternate="Mich ael Ancram" />
-<alias canonical="Michael Martin" alternate="Michael J Martin" />
 <alias canonical="Lorna Fitzsimons" alternate="Lorna Fitzsimmons" />
 <alias canonical="Peter Mandelson" alternate="Peter Mandleson" />
 <alias canonical="Rosie Winterton" alternate="Rose Winterton" />

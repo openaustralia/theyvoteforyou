@@ -7,7 +7,10 @@ import string
 import StringIO
 
 
-# this breaks the text into a list of triples; headings, unspokentext (pre-speaker), and speaker list
+# this breaks the text into a list of triples; headings, unspokentext
+# (pre-speaker), and list of speaker-pairs.
+# where a speaker-pair is speaker and text that was said.
+
 class SepHeadText:
 	def EndSpeech(self):
 		if self.speaker != 'No one':
