@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: s8-header.inc,v 1.1 2005/02/22 10:49:01 sams Exp $
+# $Id: s8-header.inc,v 1.1 2005/02/24 21:35:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
