@@ -1,9 +1,0 @@
-#! /bin/bash
-
-DIR=~/pwdata/pwscrapedxml/wrans
-
-# Check well formed XML
-xmlwf $DIR/*.xml
-# Create index
-sgrep -I -i -g xml -v -c $DIR/ixsgrep $DIR/*.xml
-

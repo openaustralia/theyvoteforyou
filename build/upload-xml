@@ -1,7 +1,7 @@
 #! /bin/bash
 
 USER=francis@sphinx.mythic-beasts.com
-DIR=/home/francis/pwdata/pwscrapedxml/
+DIR=/home/francis/pwdata/
 
-rsync -v --progress --delete -T /tmp -az -e "ssh" $DIR $USER:$DIR
+rsync -v --progress --delete --exclude pwcmpages -T /tmp -az -e "ssh" $DIR $USER:$DIR
 

@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.18 2003/11/05 17:25:06 frabcus Exp $
+    # $Id: mp.php,v 1.19 2003/12/12 20:49:25 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -14,6 +14,7 @@
     $first_name = db_scrub($_GET["firstname"]);
     $last_name = db_scrub($_GET["lastname"]);
     $constituency = db_scrub($_GET["constituency"]);
+    $id = db_scrub($_GET["id"]);
 
     $show_all = false;
     if ($_GET["showall"] == "yes")
@@ -24,12 +25,26 @@
 
     if ($last_name == "" && $first_name =="")
     {
-        $query = "select first_name, last_name
-            from pw_mp where constituency = '$constituency' 
-            order by entered_house desc limit 1";
-        $row = $db->query_one_row($query);
-        $first_name = $row[0];
-        $last_name = $row[1];
+		if ($constituency == "")
+		{
+			$id = str_replace("uk.org.publicwhip/member/", "", $id);
+			$query = "select first_name, last_name, constituency
+				from pw_mp where mp_id = '$id'
+				order by entered_house desc limit 1";
+			$row = $db->query_one_row($query);
+			$first_name = $row[0];
+			$last_name = $row[1];
+			$constituency = $row[2];
+		}
+		else
+		{
+			$query = "select first_name, last_name
+				from pw_mp where constituency = '$constituency' 
+				order by entered_house desc limit 1";
+			$row = $db->query_one_row($query);
+			$first_name = $row[0];
+			$last_name = $row[1];
+		}
     }
 
     $title = html_scrub("$first_name $last_name MP, $constituency");

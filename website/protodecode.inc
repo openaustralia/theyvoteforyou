@@ -1,6 +1,8 @@
 <?
 
 # converted from ../pyindex/protodecode.py
+# Doing our own indexing using partly the filesystem,
+# and partly byte offsets listed in text files.
 
 $toppath = '/home/francis/pwdata';
 

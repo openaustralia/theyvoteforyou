@@ -1,5 +1,5 @@
 <?php 
-    # $Id: wrans.php,v 1.7 2003/12/12 10:39:37 frabcus Exp $
+    # $Id: wrans.php,v 1.8 2003/12/12 20:49:25 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -11,41 +11,60 @@
 	include "xquery.inc";
 	include "protodecode.inc";
     $db = new DB(); 
-    $title = html_scrub("Written Answers");
-    include "header.inc";
 
     $prettysearch = html_scrub(trim($_GET["search"]));
-    $shellsearch = escapeshellcmd(strtolower($prettysearch));
-    $shellid = escapeshellcmd(html_scrub(trim($_GET["id"])));
+    $shellid = html_scrub(trim($_GET["id"]));
+
+	if ($prettysearch != "")
+	{
+		// Search query
+		$title = "Written Answers matching '$prettysearch'";
+		include "header.inc";
+		
+		$ids = DecodeWord($prettysearch);
+		if (count($ids) > 0)
+		{
+			$result = "";
+			foreach ($ids as $id)
+				$result .= FetchWrans($id);
+			$result = WrapResult($result);
+			print "<p>Found these Written Answers matching '$prettysearch':";
+			print ApplyXSLT($result, "wrans-table.xslt");
+		}
+		else
+		{
+			print "<p>Not found any Written Answers matching '$prettysearch'.";
+		}
+	}
+	else if ($shellid != "")
+	{
+		// ID query
+		$result = WrapResult(FetchWrans($shellid));
+
+		$title = "Written Answers";
+		if ($result)
+			$title = ApplyXSLT($result, "wrans-title.xslt");
+		include "header.inc";
+
+		if ($result)
+			print ApplyXSLT($result, "wrans-full.xslt");	
+		print "<hr>";
+	}
+	else
+	{
+		$title = "Written Answers";
+		include "header.inc";
+	}
+
 ?>
 
 <p><b>You've stumbled upon... Some new stuff.  It isn't ready yet.</b>
-
+	
 <p class="search">Search in Written Answers:</p>
 <form class="search" action="wrans.php" name=pw>
 <input maxLength=256 size=25 name=search value=""> <input type="submit" value="Search" name="button">
 </form>
 
-<?
-	if ($prettysearch <> "")
-	{
-		$ids = DecodeWord($shellsearch);
-		$result = "";
-		foreach ($ids as $id)
-		{
-			$result .= FetchWrans($id);
-		}
-		$result = WrapResult($result);
-		print_transform("wrans-table.xslt", $result);
-	}
-	
-	if ($shellid <> "")
-	{
-		$result = WrapResult(FetchWrans($shellid));
-#		print "<pre>" . html_scrub($result) . "</pre>";
-		if ($result)
-			print_transform("wrans.xslt", $result);	
-	}
-?>
+<p class="search"><i>Example: "Coastguard", "Cameras" or "China"</i>
 
 <?php include "footer.inc" ?>

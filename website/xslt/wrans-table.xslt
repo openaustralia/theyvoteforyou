@@ -2,6 +2,8 @@
     xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
     xmlns:html="http://www.w3.org/1999/xhtml">
 
+<!-- Tabulated -->
+
 <xsl:template match="publicwhip">
 	<table class="wrans">
 		<tr class="headings">
