@@ -53,7 +53,7 @@ if not os.path.isdir(pwxmldirs):
 	os.mkdir(pwxmldirs)
 
 # this
-def RunFiltersDir(filterfunction, dname, options, deleteoutput):
+def RunFiltersDir(filterfunction, dname, options, forcereparse):
 	# the in and out directories for the type
 	if dname == 'lordspages':
 		pwcmdirin = os.path.join(toppath, dname)
@@ -95,9 +95,10 @@ def RunFiltersDir(filterfunction, dname, options, deleteoutput):
 			patch_modified = None
 			if os.path.isfile(patchfile):
 				patch_modified = os.stat(patchfile).st_mtime
-			if (not deleteoutput) and (in_modified < out_modified) and ((not patchfile) or patch_modified < out_modified):
+			if (not forcereparse) and (in_modified < out_modified) and ((not patchfile) or patch_modified < out_modified):
 				continue
-			print "input modified since output reparsing ", fin
+                        if not forcereparse:
+                                print "input modified since output reparsing ", fin
 
 		# here we repeat the parsing and run the patchtool editor until this file goes through.
 		again = True

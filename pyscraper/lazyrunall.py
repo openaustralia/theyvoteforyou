@@ -129,7 +129,7 @@ if not options.debates and not options.wrans and not options.regmem and not opti
 # must be a nicer way of doing it all...
 
 #
-# First all the force deletions of old data
+# First do indexes
 #
 if options.scrape:
 	# get the indexes
@@ -153,21 +153,22 @@ if options.scrape:
 		if options.regmem:
 			RegmemPullGluePages(True)
 
-	#
-	# Then download/generate the new data
-	#
+#
+# Download/generate the new data
+#
+if options.scrape:
 	if options.wrans:
-		PullGluePages(options.datefrom, options.dateto, False, "wrans", "answers")
+		PullGluePages(options.datefrom, options.dateto, options.forcescrape, "wrans", "answers")
 	if options.debates:
-		PullGluePages(options.datefrom, options.dateto, False, "debates", "debates")
+		PullGluePages(options.datefrom, options.dateto, options.forcescrape, "debates", "debates")
 	if options.lords:
-		LordsPullGluePages(options.datefrom, options.dateto, False)
+		LordsPullGluePages(options.datefrom, options.dateto, options.forcescrape)
 	if options.regmem:
 		# TODO - date ranges when we do index page stuff for regmem
-		RegmemPullGluePages(False)
+		RegmemPullGluePages(options.forcescrape)
 
-#
-# Then do the parsing
+# 
+# Parse it into XML
 #
 if options.parse:
 	# this was used to force parsing by deleting the old copies, now nearly redundant.
@@ -182,7 +183,6 @@ if options.parse:
 	if options.lords:
 		RunFiltersDir(RunLordsFilters, 'lordspages', options, options.forceparse)
 	if options.regmem:
-		# TODO - date ranges when we do index page stuff for regmem
-		RunFiltersDir(RunRegmemFilters, 'regmem', options, False)
+		RunFiltersDir(RunRegmemFilters, 'regmem', options, options.forceparse)
 
 

@@ -9,6 +9,7 @@ import sets
 from resolvemembernames import memberList
 from miscfuncs import FixHTMLEntities
 from miscfuncs import ApplyFixSubstitutions
+from xmlfilewrite import WriteXMLHeader
 import miscfuncs
 toppath = miscfuncs.toppath
 
@@ -24,13 +25,13 @@ fixsubs = 	[
 	( 'Nestle&#171;', 'Nestle', 1, '2004-01-31' ),
 ]
 
-def RunRegmemFilters(fout, text, sdate):
+def RunRegmemFilters(fout, jfout, text, sdate):
         # message for cron so I check I'm using this
-        print "New register of members interests!  Check it is working properly lvia mpinfoin.pl) - %s" % sdate
+        print "New register of members interests!  Check it is working properly (via mpinfoin.pl) - %s" % sdate
 
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
 
-        miscfuncs.WriteXMLHeader(fout)
+        WriteXMLHeader(fout)
 	fout.write("<publicwhip>\n")
 
         rows = re.findall("<TR>(.*)</TR>", text)
@@ -126,7 +127,6 @@ def RunRegmemFilters(fout, text, sdate):
 if __name__ == '__main__':
         from runfilters import RunFiltersDir
         RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', True)
-        RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', False)
 
 
 
