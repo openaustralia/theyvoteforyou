@@ -1,9 +1,18 @@
 #! /usr/bin/python2.3
+# -*- coding: latin-1 -*-
 
 # Converts constituency XML file into a PHP array for canonicalising
 # constituency names.
 
 import xml.sax
+import xml.sax.saxutils
+
+# where is htmlentities from PHP when you need it?
+# or HTML::Entities from Perl.
+def escape_to_entities(s):
+    s = xml.sax.saxutils.escape(s)
+    s = s.replace(u"ô", "&ocirc;".encode("latin-1"))
+    return s
 
 class ConsConvert(xml.sax.handler.ContentHandler):
     id = ""
@@ -16,7 +25,7 @@ class ConsConvert(xml.sax.handler.ContentHandler):
 
         elif name == "name":
             if self.canonical == "":
-                self.canonical = attr["text"]
+                self.canonical = escape_to_entities(attr["text"])
                 self.idtext = self.idtext + '"' + self.id + '" => "' + self.canonical + '",\n'
             print '"' + attr["text"].encode("latin-1").lower() + '" => ',
 
