@@ -62,9 +62,9 @@ foreach my $parliament (&PublicWhip::Parliaments::getlist())
     {
         push @mp_ixs, $data[0];
         #$mp_name{$data[0]} = $data[0] . " " . $data[1] . " " . $data[2] . " (" . $data[3] . ")";
-        $mp_name{$data[0]} = "mpid$data[0]\t$data[3]";
-        print METADATA $data[0] . "\t" . $data[1] . "\t" . $data[2] . "\t" . $data[3] .
-        "\thttp://publicwhip.com/mp.php?mpid=$data[0]\n";
+
+        $mp_name{$data[0]} = "mpid$data[0]"; #-$data[3]"; # commented out to stay =<8 chars
+        print METADATA $data[0] . "\t" . $data[1] . "\t" . $data[2] . "\t" . $data[3] .  "\thttp://publicwhip.com/mp.php?mpid=$data[0]\n";
     }
 
     my @div_ixs;
@@ -73,7 +73,7 @@ foreach my $parliament (&PublicWhip::Parliaments::getlist())
     {
         push @div_ixs, $data[0];
         $data[3]=~ s/&#8212;/-/g;
-        $div_name{$data[0]} = $data[1] . " " . $data[2] . "\t" . $data[3];
+        $div_name{$data[0]} = $data[1] . "\t" . $data[2] . "\t" . $data[3];
     }
 
     $limit=""; # reset limit from use above
@@ -91,20 +91,18 @@ foreach my $parliament (&PublicWhip::Parliaments::getlist())
     }
 
     # Print out
-    print OUT "rowid\tdate\tvoteno\tparty\t";
+    print OUT "rowid\tdate\tvoteno\t";
     for my $mp (sort {$a <=>$b} @mp_ixs) # XXX mp_ixs MUST always be sorted
     {
-        print OUT $mp_name{$mp} . "\t ";
+        print OUT $mp_name{$mp} . "\t";
     }
     print OUT "\n";
-    my $rowid=1;
     for my $div (@div_ixs)
     {
-        print OUT "$rowid\t";
-        $rowid++;
+        print OUT "$div\t";
         #print OUT $div_name{$div} . "\t ";
         my $name= $div_name{$div};
-        $name =~s# #\t#; # date [space] vote [tab] name
+        #$name =~s# #\t#; # date [space] vote [tab] name
         print OUT "$name\t";
 
         for my $mp (sort  {$a <=>$b} @mp_ixs) # XXX mp_ixs MUST always be sorted
