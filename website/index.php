@@ -2,7 +2,7 @@
 
 $cache_params = rand(0, 10); include "cache-begin.inc";
 
-# $Id: index.php,v 1.35 2005/01/18 03:45:30 frabcus Exp $
+# $Id: index.php,v 1.36 2005/02/22 13:28:41 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -67,12 +67,14 @@ An at most monthly briefing.
 <li><p><span class="actionsheading">Discover your Dream MP</span>
 <br>Either <a href="dreammps.php">browse</a> or <a
 href="account/adddream.php">create</a> an MP who votes how you want</span>
-<br>Best attending:
+<br>Some examples:
 <?php
-    $query = "select name, rollie_id, count(pw_dyn_rollievote.vote) as count
-        from pw_dyn_rolliemp, pw_dyn_rollievote where 
-            pw_dyn_rollievote.rolliemp_id = rollie_id group by rollie_id
-            order by count desc limit 3";
+    $query = "select name, pw_dyn_rolliemp.rollie_id, votes_count as count,
+        round(100 * edited_motions_count / votes_count, 1) as motions_percent
+        from pw_dyn_rolliemp, pw_cache_dreaminfo where 
+            pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id 
+            order by motions_percent desc, edited_motions_count desc, votes_count desc
+            limit 5";
     $db->query($query);
     $dreams = array();
     while ($row = $db->fetch_row())
@@ -109,7 +111,6 @@ title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
         and rebellions > 10 and
         pw_division.division_id = pw_cache_divinfo.division_id order by
         division_date desc limit 5"); 
-#        rand() limit 5"); 
 
     print "<table class=\"votes\">\n";
     print "<tr class=\"headings\">\n";
