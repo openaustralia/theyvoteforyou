@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.35 2004/06/22 13:54:00 frabcus Exp $
+    # $Id: mp.php,v 1.36 2004/06/22 14:31:15 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -17,12 +17,12 @@
     # The consmatch converts constituency to canonical form as it comes in
     $constituency = $_GET["constituency"];
     $constituency = $consnames[$consmatch[strtolower(stripslashes(html_entity_decode($constituency)))]];
-    if ($constituency == "") {
+    $constituency = db_scrub($constituency);
+    $id = db_scrub($_GET["id"]);
+    if ($constituency == "" and $id == "") {
         print "Error, constituency " . $_GET["constituency"] . " not found";
         exit;
     }
-    $constituency = db_scrub($constituency);
-    $id = db_scrub($_GET["id"]);
 
     $show_all = false;
     if ($_GET["showall"] == "yes")
