@@ -23,8 +23,8 @@ fixsubs = 	[
 	( '<B> Yvette Cooper: I </B>', '<B> Yvette Cooper: </B> I ', 1, '2003-02-03'),
 	( '\(Mr. Nick Raynsford </B>\s*\)', '(Mr. Nick Raynsford) </B>', 1, '2003-01-23'),
 	( '<B> (I also have real worries .*?\(Mrs. Dunwoody\))</B>', '\\1', 1, '2003-09-16'),
-
-		]
+        ( '(<B> Mr. Prisk)( rose&#151; )(</B>)', '\\1\\3\n<I>\\2</I>', 1, '2004-01-06'),
+]
 
 # 2. <B> Mr. Colin Breed  (South-East Cornwall)</B> (LD):
 # <B> Mr. Hutton: </B>
@@ -38,8 +38,6 @@ redivno = re.compile('<b>division no\. \d+</b>$(?i)')
 
 recomb = re.compile('(%s)' % (regspeaker, ))
 remarginal = re.compile('<b>[^<]*</b>')
-
-renonperson = re.compile('(?:Several h|H)on\. Members|Mr\. Speaker')
 
 def FilterDebateSpeakers(fout, text, sdate):
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
@@ -62,13 +60,6 @@ def FilterDebateSpeakers(fout, text, sdate):
 
 			spstr = string.strip(speakerg.group(2))
 			spstrbrack = speakerg.group(3) # the bracketted phrase
-
-			# filter out the boring cases to see what's missing from this filter.
-			if (not renonperson.match(spstr)) and (not re.search('Deputy|General|Minister|Lords|Chairman', spstr)):
-				if not memberList.mpnameexists(spstr, sdate):
-					if (not spstrbrack) or (not memberList.mpnameexists(spstrbrack, sdate)):
-						print ' unmatchable name --- ' + spstr
-
 
 			# match the member to a unique identifier and displayname
 			result = memberList.matchdebatename(spstr, spstrbrack, sdate)

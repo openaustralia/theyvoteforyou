@@ -129,7 +129,7 @@ class SepHeadText:
 				gheading = resectiont4val.match(fss)
 			if gheading:
 				if not gheading.group(1):
-					print 'heading with no text ignored following: ' + self.heading
+					# print 'ignored heading tag containing no text following: ' + self.heading
 					continue
 
 				self.EndHeading(gheading.group(1))

@@ -198,8 +198,8 @@ def ScanQBatch(shspeak, stampurl, sdate):
 
 			# no preceeding question blocks with this reply
 			if len(qblock) < 2:
-				print ' Reply with no question ' + stampurl.stamp
 				print shs[1]
+				raise Exception, ' Reply with no question ' + stampurl.stamp
 			shansblock.append(qblock)
 			qblock = []
 

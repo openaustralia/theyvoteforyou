@@ -28,6 +28,8 @@ fixsubs = 	[
 		'\\1</H3>\n<H3 align=center>\\2\n\\3\n<H3 align=center>\\4</H3>', 1, '2003-10-27'),
 	( "(<H4><center>FOURTEENTH VOLUME OF SESSION 2002&#150;2003)<P>(House of Commons</center></H4>)", \
 		'\\1</center></H4>\n<H4><center>\\2', 1, '2003-06-16'),
+        ( '(<H4><center>THIRD VOLUME OF SESSION 2003&#150;2004)(House of Commons</center></H4>)', \
+                '\\1</center></H4>\n<H4><center>\\2', 1, '2004-01-26'),
 	( "<P>\s*(The House met at half-past Two o'clock)", '<H4><center>\\1</center></H4>', 1, '2003-04-28'),
 	( "(<H3 align=center>TENTH VOLUME OF SESSION 2002&#150;2003)(House of Commons</H3>)", \
 		'\\1</H3>\n<H3 align=center>\\2', 1, '2003-04-07'),
@@ -231,8 +233,7 @@ def FilterDebateSections(fout, text, sdate):
 						stampurl.majorheading = stampurl.title
 						break
 				if not stampurl.majorheading:
-					print '"%s"' % sht[0]
-					raise Exception, "unrecognized major heading: "
+					raise Exception, "unrecognized major heading: %s" % (sht[0])
 				stampurl.title = ''
                                 
                         # write out block for headings

@@ -149,9 +149,8 @@ def StraightenHTMLrecurse(stex):
 			sres[i] = 'CLOSE-i-TAG-OUT-OF-PLACE'
 
 		elif sres[i][0] == '<' or sres[i][0] == '>':
-			print sres[i] + ' tag out of place '
+			raise Exception, 'tag ' + sres[i] + ' tag out of place in ' + stex
 			sres[i] = 'TAG-OUT-OF-PLACE'
-			#raise Exception, ' now'
 
 	return sres
 

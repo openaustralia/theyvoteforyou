@@ -77,12 +77,9 @@ fixsubs = 	[
 	( '(Maple 2b,?) .(\d+</FONT>)', '\\1 ?\\2', 4, '2003-06-04'), # not a latin problem, but bogus char is bad xml
 	( 'Larch 3 .2305', 'Larch 3 ?2305', 1, '2003-06-04'), # as above
 	( 'cfm.4', 'cfm 4', 1, '2003-06-03'), # as above.  don't know what char is supposed to be.
+        ( 'Laura0 Moffatt', 'Laura Moffatt', 1, '2004-01-27')
 
-
-
-
-
- 		]
+]
 
 def FilterWransSpeakers(fout, text, sdate):
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)

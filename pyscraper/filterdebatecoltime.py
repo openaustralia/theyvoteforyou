@@ -25,9 +25,8 @@ fixsubs = 	[
 	( '<B>4 Feb 2003 : Column 251</B></P>\s*<UL><UL><UL>\s*</UL></UL></UL>', '', 1, '2003-02-04'),
 	( '<B>24 Sept 2002 : Column 155</B></P>\s*<UL><UL><UL><FONT SIZE=-1>\s*</UL></UL></UL>', '', 1, '2002-09-24'),
 	( '<H4>2.20</H4>', '<H4>2.20 pm</H4>', 1, '2003-02-28'), 
-
-		]
-
+        ( '(<H5>2.58)(</H5>)', '\\1 pm\\2', 1, '2004-01-13'),
+]
 
 
 # <B>9 Dec 2003 : Column 893</B>
@@ -48,11 +47,11 @@ recolnumcontvals = re.compile('<i>([^:<]*):\s*column\s*(\d+)&#151;continued</i>(
 # <H5>12.31 pm</H5>
 # <p>\n12.31 pm\n<p>
 # [3:31 pm<P>    -- at the beginning of divisions
-regtime = '(?:</?p>\s*|<h[45]>|\[|\n)(?:\d+(?:[:\.]\d+)?\s*[ap]m(?:</st>)?|12 noon)(?:\s*</?p>|\s*</h[45]>|\n)(?i)'
-retimevals = re.compile('(?:</?p>\s*|<h\d>|\[|\n)\s*(\d+(?:[:\.]\d+)?\s*[apmnon]+)(?i)')
+regtime = '(?:</?p>\s*|<h[45]>|\[|\n)(?:\d+(?:[:\.]\d+)?\s*[ap]\.?m\.?(?:</st>)?|12 noon)(?:\s*</?p>|\s*</h[45]>|\n)(?i)'
+retimevals = re.compile('(?:</?p>\s*|<h\d>|\[|\n)\s*(\d+(?:[:\.]\d+)?\s*[apmnon.]+)(?i)')
 
 recomb = re.compile('(%s|%s|%s|%s|%s|%s)' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4, regcolnumcont, regtime))
-remarginal = re.compile(':\s*column\s*(\d+)|\n(?:\d+[.:])?\d+\s*[ap]m[^,\w](?i)')
+remarginal = re.compile(':\s*column\s*(\d+)|\n(?:\d+[.:])?\d+\s*[ap]\.?m\.?[^,\w](?i)')
 
 # This one used to break times into component parts: 7.10 pm
 regparsetime = re.compile("^(\d+)[\.:](\d+)\s?([\w\.]+)$")
@@ -105,6 +104,7 @@ def FilterDebateColTime(fout, text, sdate):
 		timeg = retimevals.match(fss)
 		if timeg:
 			time = timeg.group(1)
+                        #print "time ", time
 
 			# This code lifted from fix_time PHP code from easyParliament
 			# (thanks Phil!)

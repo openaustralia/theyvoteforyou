@@ -198,15 +198,6 @@ class MemberList(xml.sax.handler.ContentHandler):
                                 newids.add(attr["id"])
                 ids = newids
 
-        # check of form "Mr. O'Brien"
-        #if not bracket:
-        #    text = input
-        #    text = text.replace(".", " ")
-        #    text = text.replace("  ", " ")
-        #    text = self.retitles.sub("", text)
-        #    matches = self.lastnames.get(text, None)
-        #   if matches:
-
         # If ambiguous (either form "Mr. O'Brien" or full name, ambiguous due
         # to missing constituency) look in recent name match history
         if len(ids) > 1:
@@ -223,22 +214,23 @@ class MemberList(xml.sax.handler.ContentHandler):
         # referred to in the same day as just "The Deputy Prime Minister")
         officeids = self.debateofficehistory.get(input, None)
         if officeids:
-        #    print "hist match ", input, officeids
             if len(ids) == 0:
                 ids = officeids
 
         # Match between office and name - store for later use in the same days text
         if speakeroffice <> "":
-        #    print "saving hist ",input, ids
             self.debateofficehistory.setdefault(input, sets.Set()).union_update(ids)
 
         # Return errors
         if len(ids) == 0:
-            if not re.search("Hon. Members(?i)", input):
-                print "No matches ",input 
+            if not re.search("Hon\.? Members|Deputy Speaker(?i)", input):
+                print "No matches %s (%s)" % (input, bracket)
             return 'speakerid="unknown" error="No match" speakername="%s (%s)"' % (input, bracket)
         if len(ids) > 1:
-            print "Multiple matches " + input
+            names = ""
+            for id in ids:
+                names += self.members[id]["firstname"] + " " + self.members[id]["lastname"] + " (" + self.members[id]["constituency"] + ") "
+            print "Multiple matches %s (%s), possibles are %s" % (input, bracket, names)
             return 'speakerid="unknown" error="Matched multiple times" speakername="%s (%s)"' % (input, bracket)
         # Extract one id left
         for id in ids:
