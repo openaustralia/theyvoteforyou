@@ -16,7 +16,6 @@ import mx.DateTime
 toppath = miscfuncs.toppath
 chggdir = os.path.join(toppath, "chggpages")
 
-renampos = re.compile("<td><b>([^,]*),\s*([^<]*)</b></td><td>([^,]*)(?:,\s*([^<]*))?</td>(?i)")
 
 uniqgovposns = ["Prime Minister",
 				"Chancellor of the Exchequer",
@@ -74,10 +73,9 @@ govdepts = ["Department of Health",
 			"House of Commons",
 			"Foreign & Commonwealth Office",
 			"No Department",
-
-#			"Department for Education and Skills and Department for Work and Pensions",
-#			"Department of Trade and Industry and Foreign & Commonwealth Office",
 			]
+
+renampos = re.compile("<td><b>([^,]*),\s*([^<]*)</b></td><td>([^,]*)(?:,\s*([^<]*))?(?:</td>)?(?i)")
 
 class protooffice:
 	def __init__(self, lsdatet, e, deptno):  # department number to extract multiple departments
@@ -147,7 +145,7 @@ def ParsePage(fr):
 
 	# extract the alphabetical list
 	alphl = re.search("ALPHABETICAL LIST OF HM GOVERNMENT([\s\S]*?)</table>", fr).group(1)
-	lst = re.findall("<tr>([\s\S]*?)</tr>(?i)", alphl)
+	lst = re.split("</?tr>(?i)", alphl)
 
 	# match the name form on each entry
 	#<TD><B>Abercorn, Duke of</B></TD><TD>Lord Steward, HM Household</TD>
@@ -155,9 +153,13 @@ def ParsePage(fr):
 	res = [ ]
 
 	luniqgov = uniqgovposns[:]
-	for e in lst:
+	for e1 in lst:
+		e = e1.strip()
+		if re.match("(?:<[^<]*>|\s)*$", e):
+			continue
+
 		# multiple entry of departments (simple inefficient method)
-		for deptno in range(3):
+		for deptno in range(3):  # at most 3 offices at a time, we'll handle
 			ec = protooffice((sdate, stime), e, deptno)
 
 			# prove we've got all the posts
@@ -219,7 +221,20 @@ def ParseGovPosts():
 			chainproto.sdatetend = ("9999-99-99", "")
 
 	# output the result
+	cblist = {}
 	for chainproto in chainprotos:
-		print chainproto.sdatetstart, chainproto.sdatetend, chainproto.lasname
-		print "    ", chainproto.pos, chainproto.dept
+		#print chainproto.sdatetstart, chainproto.sdatetend, chainproto.lasname
+		if chainproto.dept not in cblist:
+			cblist[chainproto.dept] = []
+		if chainproto.pos not in cblist[chainproto.dept]:
+			cblist[chainproto.dept].append(chainproto.pos)
+
+	for c in cblist:
+		print
+		print c
+		for d in cblist[c]:
+			print "   ", d
+
+#	for chainproto in chainprotos:
+#		print chainproto.lasname, chainproto.dept, chainproto.pos
 
