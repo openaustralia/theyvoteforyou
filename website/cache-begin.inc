@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-begin.inc,v 1.10 2004/06/15 10:26:56 frabcus Exp $
+# $Id: cache-begin.inc,v 1.11 2004/06/15 10:59:41 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -11,11 +11,14 @@ if (!isset($cache_params))
     $cache_params = md5($_SERVER['QUERY_STRING']);
 $cache_file = $cache_dir . $cache_params . ".html";
 
+include_once $toppath . "account/user.inc";
+include_once $toppath . "cache-tools.inc";
+
 if (file_exists($cache_file) && ($_SERVER["SERVER_NAME"] != "localhostNOT"))
 {
-    #print "using cache\n";
+    print "using cache\n";
     $content = file_get_contents($cache_file);
-    $content = preg_replace("/<!--ACCOUNTBEGIN.*ACCOUNTEND-->/", "", $content);
+    $content = preg_replace("/<!--ACCOUNTBEGIN[\s\S]*ACCOUNTEND-->/", account_navbar(), $content);
     print $content;
     exit("");
 }

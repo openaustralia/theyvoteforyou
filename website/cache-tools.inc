@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-tools.inc,v 1.1 2004/06/15 10:26:56 frabcus Exp $
+# $Id: cache-tools.inc,v 1.2 2004/06/15 10:59:41 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -7,17 +7,26 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 
-function print_account_navbar() {
-    ?><a title="Login or change settings" href="<?=$toppath?>account/settings.php"><?php
+function account_navbar() {
+    $ret = "";
     if (user_isloggedin()) {
         global $user_name;
-        print $user_name . "'s account";
+        $ret .= $user_name . " ";
+        $ret .= '<a title="Change account settings, such as whether you get the newsletter" href="/account/settings.php">';
+        $ret .= "Settings";
+        $ret .= '</a>';
+        $ret .= '<a title="" href="/account/logout.php">';
+        $ret .= "Logout";
+        $ret .= '</a>';
     } else {
-        print "Login";
+        $ret .= '<a title="Login to edit your Dream MPs or change your newsletter settings" href="/account/settings.php">';
+        $ret .= "Login";
+        $ret .= '</a>';
+        $ret .= '<a title="Register to get a newsletter or make a Dream MP" href="/account/register.php">';
+        $ret .= "Signup";
+        $ret .= '</a>';
     }
-    ?>
-    </a>
-    <?php
+    return $ret;
 }
 
 function cache_delete($file_stub, $cache_params) {

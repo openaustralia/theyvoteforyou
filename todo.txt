@@ -52,12 +52,9 @@ Dream MP
 Change register.php to say it is registration
 Make newsletter signing more streamlined?
 Change frontpage newsletter advert depending on whether you are logged in
+    and also Newsletter nav bar link
 Performance on sphinx
-Cache dream MP page - delete cache file when it changes
-Cope with changes to 
-    - division.php 
 
-Change "Account" button when logged in
 Web page URL of you
 
 Comments (PHP/MySQL website style) on 

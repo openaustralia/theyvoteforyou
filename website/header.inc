@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.36 2004/06/15 10:26:57 frabcus Exp $
+# $Id: header.inc,v 1.37 2004/06/15 10:59:41 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -27,9 +27,9 @@ if ($title == "Counting votes on your behalf")
 ?>
 
 <head>
-<link href="<?=$toppath?>publicwhip.css" type="text/css" rel="stylesheet">
-<link rel="icon" href="<?=$toppath?>favicon.ico" type="image/x-icon" />
-<link rel="shortcut icon" href="<?=$toppath?>favicon.ico" type="image/x-icon" />
+<link href="/publicwhip.css" type="text/css" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 <title><? print $pagetitle ?></title>
 <script>
 <!--
@@ -61,7 +61,8 @@ Confused?  Tell us so we can improve!
 </td></tr>
 
 <!-- the main site navigation -->
-<tr class="headers"><td colspan="2" bgcolor="#666666">
+<tr class="headers">
+<td bgcolor="#666666">
 <a title="Front page and site highlights" href="<?=$toppath?>index.php">Home</a>
 <a title="Subscribe to our email newsletter" href="<?=$toppath?>account/register.php">Newsletter</a>
 <a title="Frequently Asked Questions" href="<?=$toppath?>faq.php">FAQ</a>
@@ -70,12 +71,14 @@ Confused?  Tell us so we can improve!
 <a title="MPs who vote the way you want" href="<?=$toppath?>dreammps.php">Dream MPs</a>
 <!-- <a title="Cluster diagram of voting record" href="<?=$toppath?>mpsee.php">Vote Map</a> -->
 <a title="Help run the project" href="<?=$toppath?>project/index.php">Project</a>
+<a title="Find an MP or division" href="<?=$toppath?>search.php">Search</a>
+</td>
+<td bgcolor="#666666" align="right">
 <!--ACCOUNTBEGIN-->
 <?php
-    print_account_navbar();
+    print account_navbar();
 ?>
 <!--ACCOUNTEND-->
-<a title="Find an MP or division" href="<?=$toppath?>search.php">Search</a>
 </td>
 </tr>
 
