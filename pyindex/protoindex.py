@@ -40,7 +40,7 @@ class wransxmlscan(xml.sax.handler.ContentHandler):
 		fout = unsortindfile.get(lww[0:2], None)
 		if not fout:
 			fname = os.path.join(pwprotoindexdir, lww[0:2] + '.txt')
-			print fname
+			# print fname
 			fout = open(fname, "w")
 			unsortindfile[lww[0:2]] = fout
 		fout.write(lww)
@@ -116,7 +116,7 @@ fwransxmlall.reverse()
 for fwrans in fwransxmlall:
 #	if fwrans < 'answers2003-08':
 #		break
-	print ' -- ' + fwrans
+	# print ' -- ' + fwrans
 	wr = wransxmlscan(os.path.join(pwxmwrans, fwrans))
 
 

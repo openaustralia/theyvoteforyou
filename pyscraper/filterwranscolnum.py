@@ -56,7 +56,8 @@ fixsubs = 	[
         # weird fragment
         ('(<P><I>10 Jun 2003 : Column 764W</I><P>)\s*?<P>\s*?<UL>We have a duty to provide our troops with the best available equipment with which to protect themselves and succeed in conflict. Depleted Uranium munitions provide a unique anti-armour capability. Therefore, British Forces deployed to the Gulf have DU munitions available as part of their armoury, and<P></UL>', '\\1', 1, '2003-06-10'),
 
-
+        ( '(<P><I>8 Mar 2004 : Column 1346W</I>)', '\\1<P>', 1, '2004-03-08'),
+        ( '(Home Department) (how many crimes)', '\\1 (1) \\2', 1, '2004-03-04'),
 
 
         ( '(\[109374\]<P>)</UL>', '\\1', 1, '2003-04-30'),
@@ -155,7 +156,7 @@ def FilterWransColnum(fout, text, sdate):
 		if remarginal.search(fss):
 			print ' marginal colnum detection case '
 			print remarginal.search(fss).group(0)
-			print fss
+			# print fss
 			raise Exception, ' marginal colnum detection case '
 
 		fout.write(fss)

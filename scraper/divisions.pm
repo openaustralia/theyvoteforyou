@@ -1,4 +1,4 @@
-# $Id: divisions.pm,v 1.15 2004/03/02 08:44:27 frabcus Exp $
+# $Id: divisions.pm,v 1.16 2004/03/12 10:46:39 frabcus Exp $
 # Parses the body text of a page of Hansard containing a division.
 # Records the division and votes in a database, matching MP names
 # to an MP already in the database.
@@ -151,9 +151,20 @@ sub parse_all_divisions_on_page
     { 
         # See Hansard bug: 
         # http://sourceforge.net/tracker/index.php?func=detail&aid=846654&group_id=87640&atid=602722
-        $content =~s/\n, David\n/\nBorrow, David\n/;
+        $content =~ s/\n, David\n/\nBorrow, David\n/;
         error::log("Fixed missing Borrow", $day_date, error::USEFUL);
     }
+    if ($day_date eq "2004-03-03")
+    {
+        $content =~ s/Brown, RussellBrowne, Desmond/Brown, Russell\n<br>\nBrowne, Desmond/;
+        error::log("Fixed merged name", $day_date, error::USEFUL);
+    }
+    if ($day_date eq "2004-03-02")
+    {
+        $content =~ s/Irranca-Davies, HuwJackson, Helen/Irranca-Davies, Huw\n<br>\nJackson, Helen/;;
+        error::log("Fixed merged name", $day_date, error::USEFUL);
+    }
+
 
     #######################################################################
     # Errata

@@ -6,6 +6,9 @@ set -e
 # TODO: Add cluster diagram generation
 # TODO: Add raw data CSV exporting
 
+echo "Updating from CVS"
+cvs -Q update -dP
+
 echo "Scraping new divisions"
 cd scraper
 ./scrape.pl months content divisions check calc

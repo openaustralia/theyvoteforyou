@@ -39,7 +39,7 @@ fwransxmlall.reverse()
 for fwrans in fwransxmlall:
 #	if fwrans < 'answers2003-08':
 #		break
-	print ' -- ' + fwrans
+#	print ' -- ' + fwrans
 
 
 	fnamex = re.sub('\.xml', '-ind.txt', fwrans)
