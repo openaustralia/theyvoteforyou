@@ -15,7 +15,7 @@ from createhansardindex import UpdateHansardIndex
 from lordscreatehansardindex import UpdateLordsHansardIndex
 from pullgluepages import PullGluePages
 from lordspullgluepages import LordsPullGluePages
-from runfilters import RunFiltersDir, RunDebateFilters, RunWransFilters
+from runfilters import RunFiltersDir, RunDebateFilters, RunWransFilters, RunLordsFilters
 from regmemfilter import RunRegmemFilters
 from regmempullgluepages import RegmemPullGluePages
 
@@ -121,6 +121,8 @@ if options.parse:
 			RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto, True)
 		if options.debates:
 			RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, True)
+		if options.lords:
+			RunFiltersDir(RunLordsFilters, 'lordspages', options.datefrom, options.dateto, True)
 		if options.regmem:
 			RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', True)
 
@@ -144,6 +146,8 @@ if options.parse:
 		RunFiltersDir(RunWransFilters, 'wrans', options.datefrom, options.dateto, False)
 	if options.debates:
 		RunFiltersDir(RunDebateFilters, 'debates', options.datefrom, options.dateto, False)
+	if options.lords:
+		RunFiltersDir(RunLordsFilters, 'lordspages', options.datefrom, options.dateto, False)
 	if options.regmem:
 		# TODO - date ranges when we do index page stuff for regmem
 		RunFiltersDir(RunRegmemFilters, 'regmem', '1000-01-01', '9999-12-31', False)

@@ -201,15 +201,15 @@ def PullGluePages(datefrom, dateto, deleteoutput, folder, type):
 	# load the index file previously made by createhansardindex
 	ccmindex = LoadCmIndex(pwcmindex)
 
-        # extract date range we want
-        def indaterange(x):
-                return x[0] >= datefrom and x[0] <= dateto
-        ccmindex.res = filter(indaterange,ccmindex.res)
+	# extract date range we want
+	def indaterange(x):
+		return x[0] >= datefrom and x[0] <= dateto
+	ccmindex.res = filter(indaterange,ccmindex.res)
 
 	# bring in and glue together parliamentary debates, and answers and put into their own directories.
 	# third parameter is a regexp, fourth is the filename (%s becomes the date).
-        # type is "answers" or "debates"
-        pwcmfolder = os.path.join(pwcmdirs, folder)
+	# type is "answers" or "debates"
+	pwcmfolder = os.path.join(pwcmdirs, folder)
 	GlueAllType(pwcmfolder, ccmindex.res, type + '(?i)', type + '%s.html', deleteoutput)
 
 

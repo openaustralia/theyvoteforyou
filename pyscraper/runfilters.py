@@ -21,6 +21,10 @@ from filterdebatecoltime import FilterDebateColTime
 from filterdebatespeakers import FilterDebateSpeakers
 from filterdebatesections import FilterDebateSections
 
+from lordsfiltercoltime import FilterLordsColtime
+from lordsfilterspeakers import LordsFilterSpeakers
+from lordsfiltersections import LordsFilterSections
+
 
 import miscfuncs
 toppath = miscfuncs.toppath
@@ -44,12 +48,15 @@ if not os.path.isdir(pwxmldirs):
 # this
 def RunFiltersDir(filterfunction, dname, datefrom, dateto, deleteoutput):
 	# the in and out directories for the type
-	pwcmdirin = os.path.join(pwcmdirs, dname)
+	if dname == 'lordspages':
+		pwcmdirin = os.path.join(toppath, dname)
+	else:
+		pwcmdirin = os.path.join(pwcmdirs, dname)
 	pwxmldirout = os.path.join(pwxmldirs, dname)
 
 	# create output directory
-        if not os.path.isdir(pwxmldirout):
-                os.mkdir(pwxmldirout)
+	if not os.path.isdir(pwxmldirout):
+		os.mkdir(pwxmldirout)
 
 	# loop through file in input directory in reverse date order
 	fdirin = os.listdir(pwcmdirin)
@@ -57,52 +64,54 @@ def RunFiltersDir(filterfunction, dname, datefrom, dateto, deleteoutput):
 	fdirin.reverse()
 	for fin in fdirin:
 		jfin = os.path.join(pwcmdirin, fin)
-                if not re.search('\.html$', fin): # avoid vim swap files etc.
-                        continue
+		if not re.search('\.html$', fin): # avoid vim swap files etc.
+			continue
 
 		# extract the date from the file name
 		sdate = re.search('\d{4}-\d{2}-\d{2}', fin).group(0)
 
-                # skip dates outside the range specified on the command line
-                if sdate < datefrom or sdate > dateto:
-                        continue
+		# skip dates outside the range specified on the command line
+		if sdate < datefrom or sdate > dateto:
+			continue
 
 		# create the output file name
 		jfout = os.path.join(pwxmldirout, re.sub('\.html$', '.xml', fin))
 
-                if deleteoutput:
-                        if os.path.isfile(jfout):
-                                os.remove(jfout)
-                else:
-                        # skip already processed files
-                        if os.path.isfile(jfout):
-                                continue
+		if deleteoutput:
+			if os.path.isfile(jfout):
+				os.remove(jfout)
+			continue
 
-                        # apply patch filter
-                        if ApplyPatches(jfin, patchtempfile):
-                                jfin = patchtempfile
+		# skip already processed files
+		if os.path.isfile(jfout):
+			continue
 
-                        # read the text of the file
-                        print "runfilters " + fin
-                        ofin = open(jfin)
-                        text = ofin.read()
-                        ofin.close()
+		# apply patch filter
+		if ApplyPatches(jfin, patchtempfile):
+			jfin = patchtempfile
 
-                        # store
-                        newlistf = os.path.join(pwxmldirout, recentnewfile)
-                        file = open(newlistf,'a+')
-                        file.write(sdate + '\n')
-                        file.close()
+		# read the text of the file
+		print "runfilters " + fin
+		ofin = open(jfin)
+		text = ofin.read()
+		ofin.close()
 
-                        # call the filter function and copy the temp file into the correct place.
-                        # this avoids partially processed files getting into the output when you hit escape.
-                        fout = open(tempfile, "w")
-                        filterfunction(fout, text, sdate)
-                        fout.close()
-                        if sys.platform != "win32":
-							# this function leaves the file open which can't be renamed in win32
-							xmlvalidate.parse(tempfile) # validate XML before renaming
-                        os.rename(tempfile, jfout)
+		# store
+		newlistf = os.path.join(pwxmldirout, recentnewfile)
+		file = open(newlistf,'a+')
+		file.write(sdate + '\n')
+		file.close()
+
+		# call the filter function and copy the temp file into the correct place.
+		# this avoids partially processed files getting into the output when you hit escape.
+		fout = open(tempfile, "w")
+		filterfunction(fout, text, sdate)
+		fout.close()
+		if sys.platform != "win32":
+			# this function leaves the file open which can't be renamed in win32
+			xmlvalidate.parse(tempfile) # validate XML before renaming
+		os.rename(tempfile, jfout)
+
 
 # These text filtering functions filter twice through stringfiles,
 # before directly filtering to the real file.
@@ -133,5 +142,50 @@ def RunDebateFilters(fout, text, sdate):
 
 	FilterDebateSections(fout, text, sdate)
 
+
+
+
+##############
+# lords filters stuff -- to be cleared up in a bit.
+##############
+
+# this is not working easily.
+
+# the lords block can be split into four pieces
+
+regbeggc = '<H2><center>Official Report of the Grand Committee'
+regbegws1 = '<h3 align=center>Written Statements</h3>'
+regbegws2 = '<H3><center>Written Statements</center></H3>'
+regbegwa = '<H3><center>Written Answers</center></H3>'
+
+regoralwritten = re.compile('([\s\S]*?)((?:%s|%s|%s|%s)[\s\S]*)$' % (regbeggc, regbegws1, regbegws2, regbegwa) )
+
+
+# split out and throw away written stuff for now.
+def SplitLordsText(text):
+	morwr = regoralwritten.match(text)
+	if morwr:
+		print 'debate %d  rest %d' % (len(morwr.group(1)), len(morwr.group(2)))
+		return morwr.group(1)
+	return text
+
+
+
+# These text filtering functions filter twice through stringfiles,
+# before directly filtering to the real file.
+def RunLordsFilters(fout, text, sdate):
+	text = SplitLordsText(text)
+
+	si = cStringIO.StringIO()
+	FilterLordsColtime(si, text, sdate)
+   	text = si.getvalue()
+	si.close()
+
+	si = cStringIO.StringIO()
+	LordsFilterSpeakers(si, text, sdate)
+   	text = si.getvalue()
+	si.close()
+
+	LordsFilterSections(fout, text, sdate)
 
 

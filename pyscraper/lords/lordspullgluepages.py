@@ -154,8 +154,18 @@ def LordsPullGluePages(datefrom, dateto, deleteoutput):
 
 	# loop through the index of each lord line.
 	for dnu in clordsindex.res:
+		# implement date range
+		if dnu[0] < datefrom or dnu[0] > dateto:
+			continue
+
 		# make the filename
 		dgf = os.path.join(pwlordspages, ('daylord%s.html' % dnu[0]))
+
+		# implement the deleteoutput
+		if deleteoutput:
+			if os.path.isfile(dgf):
+				os.remove(dgf)
+			continue
 
 		# hansard index page
 		urlx = dnu[1]
