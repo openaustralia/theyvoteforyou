@@ -1,10 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
 <members>
 
 <member
     id="uk.org.publicwhip/member/1"
     house="commons"
     title="" firstname="Diane" lastname="Abbott"
-    constituency="Hackney North & Stoke Newington" party="Lab"
+    constituency="Hackney North &amp; Stoke Newington" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -25,7 +27,7 @@
     id="uk.org.publicwhip/member/4"
     house="commons"
     title="" firstname="Nick" lastname="Ainger"
-    constituency="Carmarthen West & South Pembrokeshire" party="Lab"
+    constituency="Carmarthen West &amp; South Pembrokeshire" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -81,7 +83,7 @@
     id="uk.org.publicwhip/member/12"
     house="commons"
     title="" firstname="Janet" lastname="Anderson"
-    constituency="Rossendale & Darwen" party="Lab"
+    constituency="Rossendale &amp; Darwen" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -116,7 +118,7 @@
     id="uk.org.publicwhip/member/17"
     house="commons"
     title="" firstname="Candy" lastname="Atherton"
-    constituency="Falmouth & Camborne" party="Lab"
+    constituency="Falmouth &amp; Camborne" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -144,7 +146,7 @@
     id="uk.org.publicwhip/member/21"
     house="commons"
     title="" firstname="John" lastname="Austin"
-    constituency="Erith & Thamesmead" party="Lab"
+    constituency="Erith &amp; Thamesmead" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -207,7 +209,7 @@
     id="uk.org.publicwhip/member/30"
     house="commons"
     title="" firstname="Nigel" lastname="Beard"
-    constituency="Bexleyheath & Crayford" party="Lab"
+    constituency="Bexleyheath &amp; Crayford" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -263,7 +265,7 @@
     id="uk.org.publicwhip/member/38"
     house="commons"
     title="" firstname="Andrew" lastname="Bennett"
-    constituency="Denton & Reddish" party="Lab"
+    constituency="Denton &amp; Reddish" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -368,7 +370,7 @@
     id="uk.org.publicwhip/member/53"
     house="commons"
     title="Sir" firstname="Richard" lastname="Body"
-    constituency="Boston & Skegness" party="Con"
+    constituency="Boston &amp; Skegness" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -431,14 +433,14 @@
     id="uk.org.publicwhip/member/62"
     house="commons"
     title="" firstname="Graham" lastname="Brady"
-    constituency="Altrincham & Sale West" party="Con"
+    constituency="Altrincham &amp; Sale West" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/63"
     house="commons"
     title="" firstname="Tom" lastname="Brake"
-    constituency="Carshalton & Wallington" party="LDem"
+    constituency="Carshalton &amp; Wallington" party="LDem"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -466,7 +468,7 @@
     id="uk.org.publicwhip/member/67"
     house="commons"
     title="Rt Hon" firstname="Peter" lastname="Brooke"
-    constituency="Cities of London & Westminster" party="Con"
+    constituency="Cities of London &amp; Westminster" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -480,7 +482,7 @@
     id="uk.org.publicwhip/member/69"
     house="commons"
     title="Rt Hon" firstname="Nick" lastname="Brown"
-    constituency="Newcastle upon Tyne East & Wallsend" party="Lab"
+    constituency="Newcastle upon Tyne East &amp; Wallsend" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -494,14 +496,14 @@
     id="uk.org.publicwhip/member/71"
     house="commons"
     title="" firstname="Des" lastname="Browne"
-    constituency="Kilmarnock & Loudoun" party="Lab"
+    constituency="Kilmarnock &amp; Loudoun" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/72"
     house="commons"
     title="" firstname="Angela" lastname="Browning"
-    constituency="Tiverton & Honiton" party="Con"
+    constituency="Tiverton &amp; Honiton" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -522,7 +524,7 @@
     id="uk.org.publicwhip/member/75"
     house="commons"
     title="" firstname="Karen" lastname="Buck"
-    constituency="Regent's Park & Kensington North" party="Lab"
+    constituency="Regent's Park &amp; Kensington North" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -543,7 +545,7 @@
     id="uk.org.publicwhip/member/78"
     house="commons"
     title="" firstname="John" lastname="Burnett"
-    constituency="Torridge & West Devon" party="LDem"
+    constituency="Torridge &amp; West Devon" party="LDem"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -557,7 +559,7 @@
     id="uk.org.publicwhip/member/80"
     house="commons"
     title="" firstname="Paul" lastname="Burstow"
-    constituency="Sutton & Cheam" party="LDem"
+    constituency="Sutton &amp; Cheam" party="LDem"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -676,7 +678,7 @@
     id="uk.org.publicwhip/member/97"
     house="commons"
     title="" firstname="Ian" lastname="Cawsey"
-    constituency="Brigg & Goole" party="Lab"
+    constituency="Brigg &amp; Goole" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -711,7 +713,7 @@
     id="uk.org.publicwhip/member/102"
     house="commons"
     title="" firstname="Malcolm" lastname="Chisholm"
-    constituency="Edinburgh North & Leith" party="Lab"
+    constituency="Edinburgh North &amp; Leith" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -732,7 +734,7 @@
     id="uk.org.publicwhip/member/105"
     house="commons"
     title="" firstname="Michael" lastname="Clapham"
-    constituency="Barnsley West & Penistone" party="Lab"
+    constituency="Barnsley West &amp; Penistone" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -746,7 +748,7 @@
     id="uk.org.publicwhip/member/107"
     house="commons"
     title="Rt Hon" firstname="Alan" lastname="Clark"
-    constituency="Kensington & Chelsea" party="Con"
+    constituency="Kensington &amp; Chelsea" party="Con"
     fromdate="1997-05-01" todate="1999-09-05" fromwhy="general_election" towhy="died"
 />
 <member
@@ -809,7 +811,7 @@
     id="uk.org.publicwhip/member/116"
     house="commons"
     title="Rt Hon" firstname="Tom" lastname="Clarke"
-    constituency="Coatbridge & Chryston" party="Lab"
+    constituency="Coatbridge &amp; Chryston" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -858,21 +860,21 @@
     id="uk.org.publicwhip/member/123"
     house="commons"
     title="" firstname="Harry" lastname="Cohen"
-    constituency="Leyton & Wanstead" party="Lab"
+    constituency="Leyton &amp; Wanstead" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/124"
     house="commons"
     title="" firstname="Iain" lastname="Coleman"
-    constituency="Hammersmith & Fulham" party="Lab"
+    constituency="Hammersmith &amp; Fulham" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/125"
     house="commons"
     title="" firstname="Tim" lastname="Collins"
-    constituency="Westmorland & Lonsdale" party="Con"
+    constituency="Westmorland &amp; Lonsdale" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -914,7 +916,7 @@
     id="uk.org.publicwhip/member/131"
     house="commons"
     title="" firstname="Yvette" lastname="Cooper"
-    constituency="Pontefract & Castleford" party="Lab"
+    constituency="Pontefract &amp; Castleford" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -970,7 +972,7 @@
     id="uk.org.publicwhip/member/139"
     house="commons"
     title="" firstname="James" lastname="Cran"
-    constituency="Beverley & Holderness" party="Con"
+    constituency="Beverley &amp; Holderness" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1040,7 +1042,7 @@
     id="uk.org.publicwhip/member/149"
     house="commons"
     title="Rt Hon" firstname="David" lastname="Curry"
-    constituency="Skipton & Ripon" party="Con"
+    constituency="Skipton &amp; Ripon" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1082,7 +1084,7 @@
     id="uk.org.publicwhip/member/155"
     house="commons"
     title="" firstname="Edward" lastname="Davey"
-    constituency="Kingston & Surbiton" party="LDem"
+    constituency="Kingston &amp; Surbiton" party="LDem"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1117,7 +1119,7 @@
     id="uk.org.publicwhip/member/160"
     house="commons"
     title="" firstname="Quentin" lastname="Davies"
-    constituency="Grantham & Stamford" party="Con"
+    constituency="Grantham &amp; Stamford" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1131,7 +1133,7 @@
     id="uk.org.publicwhip/member/162"
     house="commons"
     title="Rt Hon" firstname="David" lastname="Davis"
-    constituency="Haltemprice & Howden" party="Con"
+    constituency="Haltemprice &amp; Howden" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1145,7 +1147,7 @@
     id="uk.org.publicwhip/member/164"
     house="commons"
     title="" firstname="Hilton" lastname="Dawson"
-    constituency="Lancaster & Wyre" party="Lab"
+    constituency="Lancaster &amp; Wyre" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1187,14 +1189,14 @@
     id="uk.org.publicwhip/member/170"
     house="commons"
     title="" firstname="Jim" lastname="Dobbin"
-    constituency="Heywood & Middleton" party="Lab/Co-op"
+    constituency="Heywood &amp; Middleton" party="Lab/Co-op"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/171"
     house="commons"
     title="Rt Hon" firstname="Frank" lastname="Dobson"
-    constituency="Holborn & St Pancras" party="Lab"
+    constituency="Holborn &amp; St Pancras" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1250,21 +1252,21 @@
     id="uk.org.publicwhip/member/179"
     house="commons"
     title="" firstname="Alan" lastname="Duncan"
-    constituency="Rutland & Melton" party="Con"
+    constituency="Rutland &amp; Melton" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/180"
     house="commons"
     title="Rt Hon" firstname="Iain" lastname="Duncan Smith"
-    constituency="Chingford & Woodford Green" party="Con"
+    constituency="Chingford &amp; Woodford Green" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/181"
     house="commons"
     title="" firstname="Gwyneth" lastname="Dunwoody"
-    constituency="Crewe & Nantwich" party="Lab"
+    constituency="Crewe &amp; Nantwich" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1313,7 +1315,7 @@
     id="uk.org.publicwhip/member/188"
     house="commons"
     title="" firstname="Jeff" lastname="Ennis"
-    constituency="Barnsley East & Mexborough" party="Lab"
+    constituency="Barnsley East &amp; Mexborough" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1390,7 +1392,7 @@
     id="uk.org.publicwhip/member/199"
     house="commons"
     title="" firstname="Jim" lastname="Fitzpatrick"
-    constituency="Poplar & Canning Town" party="Lab"
+    constituency="Poplar &amp; Canning Town" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1404,7 +1406,7 @@
     id="uk.org.publicwhip/member/201"
     house="commons"
     title="" firstname="Howard" lastname="Flight"
-    constituency="Arundel & South Downs" party="Con"
+    constituency="Arundel &amp; South Downs" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1439,7 +1441,7 @@
     id="uk.org.publicwhip/member/206"
     house="commons"
     title="Rt Hon" firstname="Eric" lastname="Forth"
-    constituency="Bromley & Chislehurst" party="Con"
+    constituency="Bromley &amp; Chislehurst" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1467,14 +1469,14 @@
     id="uk.org.publicwhip/member/210"
     house="commons"
     title="" firstname="Michael Jabez" lastname="Foster"
-    constituency="Hastings & Rye" party="Lab"
+    constituency="Hastings &amp; Rye" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/211"
     house="commons"
     title="Rt Hon" firstname="George" lastname="Foulkes"
-    constituency="Carrick, Cumnock & Doon Valley" party="Lab/Co-op"
+    constituency="Carrick, Cumnock &amp; Doon Valley" party="Lab/Co-op"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1495,7 +1497,7 @@
     id="uk.org.publicwhip/member/214"
     house="commons"
     title="" firstname="Christopher" lastname="Fraser"
-    constituency="Mid Dorset & North Poole" party="Con"
+    constituency="Mid Dorset &amp; North Poole" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1509,7 +1511,7 @@
     id="uk.org.publicwhip/member/216"
     house="commons"
     title="" firstname="Sam" lastname="Galbraith"
-    constituency="Strathkelvin & Bearsden" party="Lab"
+    constituency="Strathkelvin &amp; Bearsden" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1572,7 +1574,7 @@
     id="uk.org.publicwhip/member/225"
     house="commons"
     title="" firstname="Nick" lastname="Gibb"
-    constituency="Bognor Regis & Littlehampton" party="Con"
+    constituency="Bognor Regis &amp; Littlehampton" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1593,7 +1595,7 @@
     id="uk.org.publicwhip/member/228"
     house="commons"
     title="" firstname="Cheryl" lastname="Gillan"
-    constituency="Chesham & Amersham" party="Con"
+    constituency="Chesham &amp; Amersham" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1607,21 +1609,21 @@
     id="uk.org.publicwhip/member/230"
     house="commons"
     title="" firstname="Norman" lastname="Godman"
-    constituency="Greenock & Inverclyde" party="Lab"
+    constituency="Greenock &amp; Inverclyde" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/231"
     house="commons"
     title="" firstname="Roger" lastname="Godsiff"
-    constituency="Birmingham, Sparkbrook & Small Heath" party="Lab"
+    constituency="Birmingham, Sparkbrook &amp; Small Heath" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/232"
     house="commons"
     title="" firstname="Paul" lastname="Goggins"
-    constituency="Wythenshawe & Sale East" party="Lab"
+    constituency="Wythenshawe &amp; Sale East" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1747,7 +1749,7 @@
     id="uk.org.publicwhip/member/250"
     house="commons"
     title="" firstname="John" lastname="Gunnell"
-    constituency="Morley & Rothwell" party="Lab"
+    constituency="Morley &amp; Rothwell" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1782,7 +1784,7 @@
     id="uk.org.publicwhip/member/255"
     house="commons"
     title="Sir" firstname="Archie" lastname="Hamilton"
-    constituency="Epsom & Ewell" party="Con"
+    constituency="Epsom &amp; Ewell" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1796,7 +1798,7 @@
     id="uk.org.publicwhip/member/257"
     house="commons"
     title="" firstname="Philip" lastname="Hammond"
-    constituency="Runnymede & Weybridge" party="Con"
+    constituency="Runnymede &amp; Weybridge" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1817,14 +1819,14 @@
     id="uk.org.publicwhip/member/260"
     house="commons"
     title="Rt Hon" firstname="Harriet" lastname="Harman"
-    constituency="Camberwell & Peckham" party="Lab"
+    constituency="Camberwell &amp; Peckham" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/261"
     house="commons"
     title="" firstname="Evan" lastname="Harris"
-    constituency="Oxford West & Abingdon" party="LDem"
+    constituency="Oxford West &amp; Abingdon" party="LDem"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1852,14 +1854,14 @@
     id="uk.org.publicwhip/member/265"
     house="commons"
     title="" firstname="John" lastname="Hayes"
-    constituency="South Holland & The Deepings" party="Con"
+    constituency="South Holland &amp; The Deepings" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/266"
     house="commons"
     title="" firstname="Sylvia" lastname="Heal"
-    constituency="Halesowen & Rowley Regis" party="Lab"
+    constituency="Halesowen &amp; Rowley Regis" party="Lab"
     fromdate="1997-05-01" todate="2000-11-01" fromwhy="general_election" towhy="changed_party"
 />
 <member
@@ -1880,14 +1882,14 @@
     id="uk.org.publicwhip/member/269"
     house="commons"
     title="" firstname="David" lastname="Heath"
-    constituency="Somerton & Frome" party="LDem"
+    constituency="Somerton &amp; Frome" party="LDem"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/270"
     house="commons"
     title="Sir" firstname="Edward" lastname="Heath"
-    constituency="Old Bexley & Sidcup" party="Con"
+    constituency="Old Bexley &amp; Sidcup" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -1978,7 +1980,7 @@
     id="uk.org.publicwhip/member/283"
     house="commons"
     title="Rt Hon" firstname="Douglas" lastname="Hogg"
-    constituency="Sleaford & North Hykeham" party="Con"
+    constituency="Sleaford &amp; North Hykeham" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2027,7 +2029,7 @@
     id="uk.org.publicwhip/member/290"
     house="commons"
     title="Rt Hon" firstname="Michael" lastname="Howard"
-    constituency="Folkestone & Hythe" party="Con"
+    constituency="Folkestone &amp; Hythe" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2041,7 +2043,7 @@
     id="uk.org.publicwhip/member/292"
     house="commons"
     title="" firstname="George" lastname="Howarth"
-    constituency="Knowsley North & Sefton East" party="Lab"
+    constituency="Knowsley North &amp; Sefton East" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2069,7 +2071,7 @@
     id="uk.org.publicwhip/member/296"
     house="commons"
     title="" firstname="Beverley" lastname="Hughes"
-    constituency="Stretford & Urmston" party="Lab"
+    constituency="Stretford &amp; Urmston" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2083,14 +2085,14 @@
     id="uk.org.publicwhip/member/298"
     house="commons"
     title="" firstname="Simon" lastname="Hughes"
-    constituency="North Southwark & Bermondsey" party="LDem"
+    constituency="North Southwark &amp; Bermondsey" party="LDem"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/299"
     house="commons"
     title="" firstname="Joan" lastname="Humble"
-    constituency="Blackpool North & Fleetwood" party="Lab"
+    constituency="Blackpool North &amp; Fleetwood" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2118,7 +2120,7 @@
     id="uk.org.publicwhip/member/303"
     house="commons"
     title="Rt Hon" firstname="John" lastname="Hutton"
-    constituency="Barrow & Furness" party="Lab"
+    constituency="Barrow &amp; Furness" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2153,7 +2155,7 @@
     id="uk.org.publicwhip/member/308"
     house="commons"
     title="" firstname="Glenda" lastname="Jackson"
-    constituency="Hampstead & Highgate" party="Lab"
+    constituency="Hampstead &amp; Highgate" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2195,7 +2197,7 @@
     id="uk.org.publicwhip/member/314"
     house="commons"
     title="" firstname="Alan" lastname="Johnson"
-    constituency="Kingston upon Hull West & Hessle" party="Lab"
+    constituency="Kingston upon Hull West &amp; Hessle" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2216,7 +2218,7 @@
     id="uk.org.publicwhip/member/317"
     house="commons"
     title="Rt Hon" firstname="Barry" lastname="Jones"
-    constituency="Alyn & Deeside" party="Lab"
+    constituency="Alyn &amp; Deeside" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2279,7 +2281,7 @@
     id="uk.org.publicwhip/member/326"
     house="commons"
     title="Rt Hon" firstname="Tessa" lastname="Jowell"
-    constituency="Dulwich & West Norwood" party="Lab"
+    constituency="Dulwich &amp; West Norwood" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2300,14 +2302,14 @@
     id="uk.org.publicwhip/member/329"
     house="commons"
     title="" firstname="Alan" lastname="Keen"
-    constituency="Feltham & Heston" party="Lab/Co-op"
+    constituency="Feltham &amp; Heston" party="Lab/Co-op"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/330"
     house="commons"
     title="" firstname="Ann" lastname="Keen"
-    constituency="Brentford & Isleworth" party="Lab"
+    constituency="Brentford &amp; Isleworth" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2328,14 +2330,14 @@
     id="uk.org.publicwhip/member/333"
     house="commons"
     title="" firstname="Fraser" lastname="Kemp"
-    constituency="Houghton & Washington East" party="Lab"
+    constituency="Houghton &amp; Washington East" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/334"
     house="commons"
     title="Rt Hon" firstname="Charles" lastname="Kennedy"
-    constituency="Ross, Skye & Inverness West" party="LDem"
+    constituency="Ross, Skye &amp; Inverness West" party="LDem"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2377,14 +2379,14 @@
     id="uk.org.publicwhip/member/340"
     house="commons"
     title="" firstname="Andy" lastname="King"
-    constituency="Rugby & Kenilworth" party="Lab"
+    constituency="Rugby &amp; Kenilworth" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/341"
     house="commons"
     title="" firstname="Oona" lastname="King"
-    constituency="Bethnal Green & Bow" party="Lab"
+    constituency="Bethnal Green &amp; Bow" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2412,14 +2414,14 @@
     id="uk.org.publicwhip/member/345"
     house="commons"
     title="Sir" firstname="Archy" lastname="Kirkwood"
-    constituency="Roxburgh & Berwickshire" party="LDem"
+    constituency="Roxburgh &amp; Berwickshire" party="LDem"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/346"
     house="commons"
     title="" firstname="Ashok" lastname="Kumar"
-    constituency="Middlesbrough South & East Cleveland" party="Lab"
+    constituency="Middlesbrough South &amp; East Cleveland" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2517,7 +2519,7 @@
     id="uk.org.publicwhip/member/360"
     house="commons"
     title="Rt Hon" firstname="Helen" lastname="Liddell"
-    constituency="Airdrie & Shotts" party="Lab"
+    constituency="Airdrie &amp; Shotts" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2531,7 +2533,7 @@
     id="uk.org.publicwhip/member/362"
     house="commons"
     title="Rt Hon" firstname="Peter" lastname="Lilley"
-    constituency="Hitchin & Harpenden" party="Con"
+    constituency="Hitchin &amp; Harpenden" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2552,7 +2554,7 @@
     id="uk.org.publicwhip/member/365"
     house="commons"
     title="" firstname="Richard" lastname="Livsey"
-    constituency="Brecon & Radnorshire" party="LDem"
+    constituency="Brecon &amp; Radnorshire" party="LDem"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2587,14 +2589,14 @@
     id="uk.org.publicwhip/member/370"
     house="commons"
     title="Sir" firstname="Michael" lastname="Lord"
-    constituency="Central Suffolk & North Ipswich" party="DCWM"
+    constituency="Central Suffolk &amp; North Ipswich" party="DCWM"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/371"
     house="commons"
     title="" firstname="Tim" lastname="Loughton"
-    constituency="East Worthing & Shoreham" party="Con"
+    constituency="East Worthing &amp; Shoreham" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2650,14 +2652,14 @@
     id="uk.org.publicwhip/member/394"
     house="commons"
     title="Rt Hon" firstname="David" lastname="Maclean"
-    constituency="Penrith & The Border" party="Con"
+    constituency="Penrith &amp; The Border" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/396"
     house="commons"
     title="Rt Hon" firstname="Robert" lastname="Maclennan"
-    constituency="Caithness, Sutherland & Easter Ross" party="LDem"
+    constituency="Caithness, Sutherland &amp; Easter Ross" party="LDem"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2685,7 +2687,7 @@
     id="uk.org.publicwhip/member/406"
     house="commons"
     title="" firstname="Ken" lastname="Maginnis"
-    constituency="Fermanagh & South Tyrone" party="UU"
+    constituency="Fermanagh &amp; South Tyrone" party="UU"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2720,7 +2722,7 @@
     id="uk.org.publicwhip/member/411"
     house="commons"
     title="" firstname="Seamus" lastname="Mallon"
-    constituency="Newry & Armagh" party="SDLP"
+    constituency="Newry &amp; Armagh" party="SDLP"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2755,7 +2757,7 @@
     id="uk.org.publicwhip/member/416"
     house="commons"
     title="" firstname="Paul" lastname="Marsden"
-    constituency="Shrewsbury & Atcham" party="Lab"
+    constituency="Shrewsbury &amp; Atcham" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2874,14 +2876,14 @@
     id="uk.org.publicwhip/member/381"
     house="commons"
     title="" firstname="Siobhain" lastname="McDonagh"
-    constituency="Mitcham & Morden" party="Lab"
+    constituency="Mitcham &amp; Morden" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/383"
     house="commons"
     title="" firstname="John" lastname="McDonnell"
-    constituency="Hayes & Harlington" party="Lab"
+    constituency="Hayes &amp; Harlington" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2930,7 +2932,7 @@
     id="uk.org.publicwhip/member/392"
     house="commons"
     title="" firstname="Rosemary" lastname="McKenna"
-    constituency="Cumbernauld & Kilsyth" party="Lab"
+    constituency="Cumbernauld &amp; Kilsyth" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -2986,7 +2988,7 @@
     id="uk.org.publicwhip/member/427"
     house="commons"
     title="Rt Hon" firstname="Michael" lastname="Meacher"
-    constituency="Oldham West & Royton" party="Lab"
+    constituency="Oldham West &amp; Royton" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3014,7 +3016,7 @@
     id="uk.org.publicwhip/member/431"
     house="commons"
     title="Rt Hon" firstname="Alun" lastname="Michael"
-    constituency="Cardiff South & Penarth" party="Lab/Co-op"
+    constituency="Cardiff South &amp; Penarth" party="Lab/Co-op"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3028,7 +3030,7 @@
     id="uk.org.publicwhip/member/433"
     house="commons"
     title="" firstname="Ray" lastname="Michie"
-    constituency="Argyll & Bute" party="LDem"
+    constituency="Argyll &amp; Bute" party="LDem"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3042,7 +3044,7 @@
     id="uk.org.publicwhip/member/435"
     house="commons"
     title="" firstname="Andrew" lastname="Miller"
-    constituency="Ellesmere Port & Neston" party="Lab"
+    constituency="Ellesmere Port &amp; Neston" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3070,7 +3072,7 @@
     id="uk.org.publicwhip/member/439"
     house="commons"
     title="" firstname="Michael" lastname="Moore"
-    constituency="Tweeddale, Ettrick & Lauderdale" party="LDem"
+    constituency="Tweeddale, Ettrick &amp; Lauderdale" party="LDem"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3084,7 +3086,7 @@
     id="uk.org.publicwhip/member/441"
     house="commons"
     title="" firstname="Alasdair" lastname="Morgan"
-    constituency="Galloway & Upper Nithsdale" party="SNP"
+    constituency="Galloway &amp; Upper Nithsdale" party="SNP"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3315,7 +3317,7 @@
     id="uk.org.publicwhip/member/475"
     house="commons"
     title="Rt Hon" firstname="Tom" lastname="Pendry"
-    constituency="Stalybridge & Hyde" party="Lab"
+    constituency="Stalybridge &amp; Hyde" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3329,7 +3331,7 @@
     id="uk.org.publicwhip/member/477"
     house="commons"
     title="" firstname="Eric" lastname="Pickles"
-    constituency="Brentwood & Ongar" party="Con"
+    constituency="Brentwood &amp; Ongar" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3350,7 +3352,7 @@
     id="uk.org.publicwhip/member/480"
     house="commons"
     title="" firstname="James" lastname="Plaskitt"
-    constituency="Warwick & Leamington" party="Lab"
+    constituency="Warwick &amp; Leamington" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3441,14 +3443,14 @@
     id="uk.org.publicwhip/member/493"
     house="commons"
     title="Rt Hon" firstname="Joyce" lastname="Quin"
-    constituency="Gateshead East & Washington West" party="Lab"
+    constituency="Gateshead East &amp; Washington West" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/494"
     house="commons"
     title="" firstname="Lawrie" lastname="Quinn"
-    constituency="Scarborough & Whitby" party="Lab"
+    constituency="Scarborough &amp; Whitby" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3476,7 +3478,7 @@
     id="uk.org.publicwhip/member/498"
     house="commons"
     title="Rt Hon" firstname="Nick" lastname="Raynsford"
-    constituency="Greenwich & Woolwich" party="Lab"
+    constituency="Greenwich &amp; Woolwich" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3497,7 +3499,7 @@
     id="uk.org.publicwhip/member/501"
     house="commons"
     title="Rt Hon" firstname="John" lastname="Reid"
-    constituency="Hamilton North & Bellshill" party="Lab"
+    constituency="Hamilton North &amp; Bellshill" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3546,7 +3548,7 @@
     id="uk.org.publicwhip/member/508"
     house="commons"
     title="" firstname="Barbara" lastname="Roche"
-    constituency="Hornsey & Wood Green" party="Lab"
+    constituency="Hornsey &amp; Wood Green" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3595,21 +3597,21 @@
     id="uk.org.publicwhip/member/515"
     house="commons"
     title="" firstname="Andrew" lastname="Rowe"
-    constituency="Faversham & Mid Kent" party="Con"
+    constituency="Faversham &amp; Mid Kent" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/516"
     house="commons"
     title="" firstname="Ted" lastname="Rowlands"
-    constituency="Merthyr Tydfil & Rhymney" party="Lab"
+    constituency="Merthyr Tydfil &amp; Rhymney" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/517"
     house="commons"
     title="" firstname="Frank" lastname="Roy"
-    constituency="Motherwell & Wishaw" party="Lab"
+    constituency="Motherwell &amp; Wishaw" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3658,7 +3660,7 @@
     id="uk.org.publicwhip/member/525"
     house="commons"
     title="" firstname="Alex" lastname="Salmond"
-    constituency="Banff & Buchan" party="SNP"
+    constituency="Banff &amp; Buchan" party="SNP"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3707,14 +3709,14 @@
     id="uk.org.publicwhip/member/532"
     house="commons"
     title="" firstname="Brian" lastname="Sedgemore"
-    constituency="Hackney South & Shoreditch" party="Lab"
+    constituency="Hackney South &amp; Shoreditch" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/533"
     house="commons"
     title="" firstname="Jonathan R" lastname="Shaw"
-    constituency="Chatham & Aylesford" party="Lab"
+    constituency="Chatham &amp; Aylesford" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3812,14 +3814,14 @@
     id="uk.org.publicwhip/member/547"
     house="commons"
     title="Rt Hon" firstname="Chris" lastname="Smith"
-    constituency="Islington South & Finsbury" party="Lab"
+    constituency="Islington South &amp; Finsbury" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/548"
     house="commons"
     title="" firstname="Geraldine" lastname="Smith"
-    constituency="Morecambe & Lunesdale" party="Lab"
+    constituency="Morecambe &amp; Lunesdale" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3847,7 +3849,7 @@
     id="uk.org.publicwhip/member/552"
     house="commons"
     title="Sir" firstname="Robert" lastname="Smith"
-    constituency="West Aberdeenshire & Kincardine" party="LDem"
+    constituency="West Aberdeenshire &amp; Kincardine" party="LDem"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3875,7 +3877,7 @@
     id="uk.org.publicwhip/member/556"
     house="commons"
     title="" firstname="Clive" lastname="Soley"
-    constituency="Ealing, Acton & Shepherd's Bush" party="Lab"
+    constituency="Ealing, Acton &amp; Shepherd's Bush" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3931,7 +3933,7 @@
     id="uk.org.publicwhip/member/563"
     house="commons"
     title="Sir" firstname="John" lastname="Stanley"
-    constituency="Tonbridge & Malling" party="Con"
+    constituency="Tonbridge &amp; Malling" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -3966,7 +3968,7 @@
     id="uk.org.publicwhip/member/568"
     house="commons"
     title="" firstname="David" lastname="Stewart"
-    constituency="Inverness East, Nairn & Lochaber" party="Lab"
+    constituency="Inverness East, Nairn &amp; Lochaber" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -4001,7 +4003,7 @@
     id="uk.org.publicwhip/member/573"
     house="commons"
     title="Rt Hon" firstname="Gavin" lastname="Strang"
-    constituency="Edinburgh East & Musselburgh" party="Lab"
+    constituency="Edinburgh East &amp; Musselburgh" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -4071,7 +4073,7 @@
     id="uk.org.publicwhip/member/583"
     house="commons"
     title="Sir" firstname="Peter" lastname="Tapsell"
-    constituency="Louth & Horncastle" party="Con"
+    constituency="Louth &amp; Horncastle" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -4099,7 +4101,7 @@
     id="uk.org.publicwhip/member/587"
     house="commons"
     title="" firstname="Ian" lastname="Taylor"
-    constituency="Esher & Walton" party="Con"
+    constituency="Esher &amp; Walton" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -4120,14 +4122,14 @@
     id="uk.org.publicwhip/member/590"
     house="commons"
     title="" firstname="Matthew" lastname="Taylor"
-    constituency="Truro & St Austell" party="LDem"
+    constituency="Truro &amp; St Austell" party="LDem"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/591"
     house="commons"
     title="Sir" firstname="Teddy" lastname="Taylor"
-    constituency="Rochford & Southend East" party="Con"
+    constituency="Rochford &amp; Southend East" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -4302,7 +4304,7 @@
     id="uk.org.publicwhip/member/616"
     house="commons"
     title="" firstname="Rudi" lastname="Vis"
-    constituency="Finchley & Golders Green" party="Lab"
+    constituency="Finchley &amp; Golders Green" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -4316,7 +4318,7 @@
     id="uk.org.publicwhip/member/618"
     house="commons"
     title="Rt Hon" firstname="Jim" lastname="Wallace"
-    constituency="Orkney & Shetland" party="LDem"
+    constituency="Orkney &amp; Shetland" party="LDem"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -4344,7 +4346,7 @@
     id="uk.org.publicwhip/member/622"
     house="commons"
     title="" firstname="Charles" lastname="Wardle"
-    constituency="Bexhill & Battle" party="Con"
+    constituency="Bexhill &amp; Battle" party="Con"
     fromdate="1997-05-01" todate="2001-04-11" fromwhy="general_election" towhy="changed_party"
 />
 <member
@@ -4379,7 +4381,7 @@
     id="uk.org.publicwhip/member/627"
     house="commons"
     title="" firstname="Bowen" lastname="Wells"
-    constituency="Hertford & Stortford" party="Con"
+    constituency="Hertford &amp; Stortford" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -4414,7 +4416,7 @@
     id="uk.org.publicwhip/member/632"
     house="commons"
     title="" firstname="John" lastname="Whittingdale"
-    constituency="Maldon & East Chelmsford" party="Con"
+    constituency="Maldon &amp; East Chelmsford" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -4428,7 +4430,7 @@
     id="uk.org.publicwhip/member/634"
     house="commons"
     title="Rt Hon" firstname="Ann" lastname="Widdecombe"
-    constituency="Maidstone & The Weald" party="Con"
+    constituency="Maidstone &amp; The Weald" party="Con"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -4456,7 +4458,7 @@
     id="uk.org.publicwhip/member/638"
     house="commons"
     title="" firstname="Alan" lastname="Williams"
-    constituency="Carmarthen East & Dinefwr" party="Lab"
+    constituency="Carmarthen East &amp; Dinefwr" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -4477,7 +4479,7 @@
     id="uk.org.publicwhip/member/641"
     house="commons"
     title="" firstname="Phil" lastname="Willis"
-    constituency="Harrogate & Knaresborough" party="LDem"
+    constituency="Harrogate &amp; Knaresborough" party="LDem"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -4540,7 +4542,7 @@
     id="uk.org.publicwhip/member/650"
     house="commons"
     title="" firstname="Mike" lastname="Wood"
-    constituency="Batley & Spen" party="Lab"
+    constituency="Batley &amp; Spen" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -4554,14 +4556,14 @@
     id="uk.org.publicwhip/member/652"
     house="commons"
     title="" firstname="Phil" lastname="Woolas"
-    constituency="Oldham East & Saddleworth" party="Lab"
+    constituency="Oldham East &amp; Saddleworth" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/653"
     house="commons"
     title="" firstname="Tony" lastname="Worthington"
-    constituency="Clydebank & Milngavie" party="Lab"
+    constituency="Clydebank &amp; Milngavie" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -4589,7 +4591,7 @@
     id="uk.org.publicwhip/member/657"
     house="commons"
     title="" firstname="Derek" lastname="Wyatt"
-    constituency="Sittingbourne & Sheppey" party="Lab"
+    constituency="Sittingbourne &amp; Sheppey" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
 <member
@@ -4708,7 +4710,7 @@
     id="uk.org.publicwhip/member/673"
     house="commons"
     title="Rt Hon" firstname="Michael" lastname="Portillo"
-    constituency="Kensington & Chelsea" party="Con"
+    constituency="Kensington &amp; Chelsea" party="Con"
     fromdate="1999-11-25" todate="2001-05-14" fromwhy="by_election" towhy="general_election"
 />
 <member
@@ -4764,7 +4766,7 @@
     id="uk.org.publicwhip/member/681"
     house="commons"
     title="" firstname="Sylvia" lastname="Heal"
-    constituency="Halesowen & Rowley Regis" party="SPK"
+    constituency="Halesowen &amp; Rowley Regis" party="SPK"
     fromdate="2000-11-02" todate="2001-05-14" fromwhy="changed_party" towhy="general_election"
 />
 <member
@@ -4799,14 +4801,14 @@
     id="uk.org.publicwhip/member/686"
     house="commons"
     title="" firstname="Charles" lastname="Wardle"
-    constituency="Bexhill & Battle" party="Ind"
+    constituency="Bexhill &amp; Battle" party="Ind"
     fromdate="2001-04-12" todate="2001-05-14" fromwhy="changed_party" towhy="general_election"
 />
 <member
     id="uk.org.publicwhip/member/687"
     house="commons"
     title="" firstname="Diane" lastname="Abbott"
-    constituency="Hackney North & Stoke Newington" party="Lab"
+    constituency="Hackney North &amp; Stoke Newington" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -4827,7 +4829,7 @@
     id="uk.org.publicwhip/member/690"
     house="commons"
     title="" firstname="Nick" lastname="Ainger"
-    constituency="Carmarthen West & South Pembrokeshire" party="Lab"
+    constituency="Carmarthen West &amp; South Pembrokeshire" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -4890,7 +4892,7 @@
     id="uk.org.publicwhip/member/699"
     house="commons"
     title="" firstname="Janet" lastname="Anderson"
-    constituency="Rossendale & Darwen" party="Lab"
+    constituency="Rossendale &amp; Darwen" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -4911,7 +4913,7 @@
     id="uk.org.publicwhip/member/702"
     house="commons"
     title="" firstname="Candy" lastname="Atherton"
-    constituency="Falmouth & Camborne" party="Lab"
+    constituency="Falmouth &amp; Camborne" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -4939,7 +4941,7 @@
     id="uk.org.publicwhip/member/706"
     house="commons"
     title="" firstname="John" lastname="Austin"
-    constituency="Erith & Thamesmead" party="Lab"
+    constituency="Erith &amp; Thamesmead" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -4988,7 +4990,7 @@
     id="uk.org.publicwhip/member/713"
     house="commons"
     title="" firstname="Gregory" lastname="Barker"
-    constituency="Bexhill & Battle" party="Con"
+    constituency="Bexhill &amp; Battle" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5037,7 +5039,7 @@
     id="uk.org.publicwhip/member/720"
     house="commons"
     title="" firstname="Nigel" lastname="Beard"
-    constituency="Bexleyheath & Crayford" party="Lab"
+    constituency="Bexleyheath &amp; Crayford" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5093,7 +5095,7 @@
     id="uk.org.publicwhip/member/728"
     house="commons"
     title="" firstname="Andrew" lastname="Bennett"
-    constituency="Denton & Reddish" party="Lab"
+    constituency="Denton &amp; Reddish" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5240,14 +5242,14 @@
     id="uk.org.publicwhip/member/749"
     house="commons"
     title="" firstname="Graham" lastname="Brady"
-    constituency="Altrincham & Sale West" party="Con"
+    constituency="Altrincham &amp; Sale West" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/750"
     house="commons"
     title="" firstname="Tom" lastname="Brake"
-    constituency="Carshalton & Wallington" party="LDem"
+    constituency="Carshalton &amp; Wallington" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5275,7 +5277,7 @@
     id="uk.org.publicwhip/member/754"
     house="commons"
     title="" firstname="Annette" lastname="Brooke"
-    constituency="Mid Dorset & North Poole" party="LDem"
+    constituency="Mid Dorset &amp; North Poole" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5289,7 +5291,7 @@
     id="uk.org.publicwhip/member/756"
     house="commons"
     title="Rt Hon" firstname="Nick" lastname="Brown"
-    constituency="Newcastle upon Tyne East & Wallsend" party="Lab"
+    constituency="Newcastle upon Tyne East &amp; Wallsend" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5303,14 +5305,14 @@
     id="uk.org.publicwhip/member/758"
     house="commons"
     title="" firstname="Des" lastname="Browne"
-    constituency="Kilmarnock & Loudoun" party="Lab"
+    constituency="Kilmarnock &amp; Loudoun" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/759"
     house="commons"
     title="" firstname="Angela" lastname="Browning"
-    constituency="Tiverton & Honiton" party="Con"
+    constituency="Tiverton &amp; Honiton" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5331,7 +5333,7 @@
     id="uk.org.publicwhip/member/762"
     house="commons"
     title="" firstname="Karen" lastname="Buck"
-    constituency="Regent's Park & Kensington North" party="Lab"
+    constituency="Regent's Park &amp; Kensington North" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5352,7 +5354,7 @@
     id="uk.org.publicwhip/member/765"
     house="commons"
     title="" firstname="John" lastname="Burnett"
-    constituency="Torridge & West Devon" party="LDem"
+    constituency="Torridge &amp; West Devon" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5380,7 +5382,7 @@
     id="uk.org.publicwhip/member/769"
     house="commons"
     title="" firstname="Paul" lastname="Burstow"
-    constituency="Sutton & Cheam" party="LDem"
+    constituency="Sutton &amp; Cheam" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5422,7 +5424,7 @@
     id="uk.org.publicwhip/member/775"
     house="commons"
     title="" firstname="David" lastname="Cairns"
-    constituency="Greenock & Inverclyde" party="Lab"
+    constituency="Greenock &amp; Inverclyde" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5492,7 +5494,7 @@
     id="uk.org.publicwhip/member/785"
     house="commons"
     title="" firstname="Alistair" lastname="Carmichael"
-    constituency="Orkney & Shetland" party="LDem"
+    constituency="Orkney &amp; Shetland" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5520,14 +5522,14 @@
     id="uk.org.publicwhip/member/789"
     house="commons"
     title="" firstname="Ian" lastname="Cawsey"
-    constituency="Brigg & Goole" party="Lab"
+    constituency="Brigg &amp; Goole" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/790"
     house="commons"
     title="" firstname="Colin" lastname="Challen"
-    constituency="Morley & Rothwell" party="Lab"
+    constituency="Morley &amp; Rothwell" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5569,7 +5571,7 @@
     id="uk.org.publicwhip/member/796"
     house="commons"
     title="" firstname="Michael" lastname="Clapham"
-    constituency="Barnsley West & Penistone" party="Lab"
+    constituency="Barnsley West &amp; Penistone" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5618,7 +5620,7 @@
     id="uk.org.publicwhip/member/803"
     house="commons"
     title="Rt Hon" firstname="Tom" lastname="Clarke"
-    constituency="Coatbridge & Chryston" party="Lab"
+    constituency="Coatbridge &amp; Chryston" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5667,21 +5669,21 @@
     id="uk.org.publicwhip/member/810"
     house="commons"
     title="" firstname="Harry" lastname="Cohen"
-    constituency="Leyton & Wanstead" party="Lab"
+    constituency="Leyton &amp; Wanstead" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/811"
     house="commons"
     title="" firstname="Iain" lastname="Coleman"
-    constituency="Hammersmith & Fulham" party="Lab"
+    constituency="Hammersmith &amp; Fulham" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/812"
     house="commons"
     title="" firstname="Tim" lastname="Collins"
-    constituency="Westmorland & Lonsdale" party="Con"
+    constituency="Westmorland &amp; Lonsdale" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5702,7 +5704,7 @@
     id="uk.org.publicwhip/member/815"
     house="commons"
     title="" firstname="Derek" lastname="Conway"
-    constituency="Old Bexley & Sidcup" party="Con"
+    constituency="Old Bexley &amp; Sidcup" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5723,7 +5725,7 @@
     id="uk.org.publicwhip/member/818"
     house="commons"
     title="" firstname="Yvette" lastname="Cooper"
-    constituency="Pontefract & Castleford" party="Lab"
+    constituency="Pontefract &amp; Castleford" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5772,7 +5774,7 @@
     id="uk.org.publicwhip/member/825"
     house="commons"
     title="" firstname="James" lastname="Cran"
-    constituency="Beverley & Holderness" party="Con"
+    constituency="Beverley &amp; Holderness" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5842,7 +5844,7 @@
     id="uk.org.publicwhip/member/835"
     house="commons"
     title="Rt Hon" firstname="David" lastname="Curry"
-    constituency="Skipton & Ripon" party="Con"
+    constituency="Skipton &amp; Ripon" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5877,7 +5879,7 @@
     id="uk.org.publicwhip/member/840"
     house="commons"
     title="" firstname="Edward" lastname="Davey"
-    constituency="Kingston & Surbiton" party="LDem"
+    constituency="Kingston &amp; Surbiton" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5919,14 +5921,14 @@
     id="uk.org.publicwhip/member/846"
     house="commons"
     title="" firstname="Quentin" lastname="Davies"
-    constituency="Grantham & Stamford" party="Con"
+    constituency="Grantham &amp; Stamford" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/847"
     house="commons"
     title="Rt Hon" firstname="David" lastname="Davis"
-    constituency="Haltemprice & Howden" party="Con"
+    constituency="Haltemprice &amp; Howden" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5940,7 +5942,7 @@
     id="uk.org.publicwhip/member/849"
     house="commons"
     title="" firstname="Hilton" lastname="Dawson"
-    constituency="Lancaster & Wyre" party="Lab"
+    constituency="Lancaster &amp; Wyre" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -5982,14 +5984,14 @@
     id="uk.org.publicwhip/member/855"
     house="commons"
     title="" firstname="Jim" lastname="Dobbin"
-    constituency="Heywood & Middleton" party="Lab/Co-op"
+    constituency="Heywood &amp; Middleton" party="Lab/Co-op"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/856"
     house="commons"
     title="Rt Hon" firstname="Frank" lastname="Dobson"
-    constituency="Holborn & St Pancras" party="Lab"
+    constituency="Holborn &amp; St Pancras" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6066,28 +6068,28 @@
     id="uk.org.publicwhip/member/867"
     house="commons"
     title="" firstname="Alan" lastname="Duncan"
-    constituency="Rutland & Melton" party="Con"
+    constituency="Rutland &amp; Melton" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/868"
     house="commons"
     title="" firstname="Peter" lastname="Duncan"
-    constituency="Galloway & Upper Nithsdale" party="Con"
+    constituency="Galloway &amp; Upper Nithsdale" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/869"
     house="commons"
     title="Rt Hon" firstname="Iain" lastname="Duncan Smith"
-    constituency="Chingford & Woodford Green" party="Con"
+    constituency="Chingford &amp; Woodford Green" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/870"
     house="commons"
     title="" firstname="Gwyneth" lastname="Dunwoody"
-    constituency="Crewe & Nantwich" party="Lab"
+    constituency="Crewe &amp; Nantwich" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6129,7 +6131,7 @@
     id="uk.org.publicwhip/member/876"
     house="commons"
     title="" firstname="Jeff" lastname="Ennis"
-    constituency="Barnsley East & Mexborough" party="Lab"
+    constituency="Barnsley East &amp; Mexborough" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6185,7 +6187,7 @@
     id="uk.org.publicwhip/member/884"
     house="commons"
     title="" firstname="Mark" lastname="Field"
-    constituency="Cities of London & Westminster" party="Con"
+    constituency="Cities of London &amp; Westminster" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6199,7 +6201,7 @@
     id="uk.org.publicwhip/member/886"
     house="commons"
     title="" firstname="Jim" lastname="Fitzpatrick"
-    constituency="Poplar & Canning Town" party="Lab"
+    constituency="Poplar &amp; Canning Town" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6213,7 +6215,7 @@
     id="uk.org.publicwhip/member/888"
     house="commons"
     title="" firstname="Howard" lastname="Flight"
-    constituency="Arundel & South Downs" party="Con"
+    constituency="Arundel &amp; South Downs" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6248,7 +6250,7 @@
     id="uk.org.publicwhip/member/893"
     house="commons"
     title="Rt Hon" firstname="Eric" lastname="Forth"
-    constituency="Bromley & Chislehurst" party="Con"
+    constituency="Bromley &amp; Chislehurst" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6276,14 +6278,14 @@
     id="uk.org.publicwhip/member/897"
     house="commons"
     title="" firstname="Michael Jabez" lastname="Foster"
-    constituency="Hastings & Rye" party="Lab"
+    constituency="Hastings &amp; Rye" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/898"
     house="commons"
     title="Rt Hon" firstname="George" lastname="Foulkes"
-    constituency="Carrick, Cumnock & Doon Valley" party="Lab/Co-op"
+    constituency="Carrick, Cumnock &amp; Doon Valley" party="Lab/Co-op"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6367,7 +6369,7 @@
     id="uk.org.publicwhip/member/910"
     house="commons"
     title="" firstname="Nick" lastname="Gibb"
-    constituency="Bognor Regis & Littlehampton" party="Con"
+    constituency="Bognor Regis &amp; Littlehampton" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6388,14 +6390,14 @@
     id="uk.org.publicwhip/member/913"
     house="commons"
     title="" firstname="Michelle" lastname="Gildernew"
-    constituency="Fermanagh & South Tyrone" party="SF"
+    constituency="Fermanagh &amp; South Tyrone" party="SF"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/914"
     house="commons"
     title="" firstname="Cheryl" lastname="Gillan"
-    constituency="Chesham & Amersham" party="Con"
+    constituency="Chesham &amp; Amersham" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6409,14 +6411,14 @@
     id="uk.org.publicwhip/member/916"
     house="commons"
     title="" firstname="Roger" lastname="Godsiff"
-    constituency="Birmingham, Sparkbrook & Small Heath" party="Lab"
+    constituency="Birmingham, Sparkbrook &amp; Small Heath" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/917"
     house="commons"
     title="" firstname="Paul" lastname="Goggins"
-    constituency="Wythenshawe & Sale East" party="Lab"
+    constituency="Wythenshawe &amp; Sale East" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6437,7 +6439,7 @@
     id="uk.org.publicwhip/member/920"
     house="commons"
     title="" firstname="Chris" lastname="Grayling"
-    constituency="Epsom & Ewell" party="Con"
+    constituency="Epsom &amp; Ewell" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6549,7 +6551,7 @@
     id="uk.org.publicwhip/member/936"
     house="commons"
     title="" firstname="Philip" lastname="Hammond"
-    constituency="Runnymede & Weybridge" party="Con"
+    constituency="Runnymede &amp; Weybridge" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6570,14 +6572,14 @@
     id="uk.org.publicwhip/member/939"
     house="commons"
     title="Rt Hon" firstname="Harriet" lastname="Harman"
-    constituency="Camberwell & Peckham" party="Lab"
+    constituency="Camberwell &amp; Peckham" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/940"
     house="commons"
     title="" firstname="Evan" lastname="Harris"
-    constituency="Oxford West & Abingdon" party="LDem"
+    constituency="Oxford West &amp; Abingdon" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6605,7 +6607,7 @@
     id="uk.org.publicwhip/member/944"
     house="commons"
     title="" firstname="Dai" lastname="Havard"
-    constituency="Merthyr Tydfil & Rhymney" party="Lab"
+    constituency="Merthyr Tydfil &amp; Rhymney" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6619,14 +6621,14 @@
     id="uk.org.publicwhip/member/946"
     house="commons"
     title="" firstname="John" lastname="Hayes"
-    constituency="South Holland & The Deepings" party="Con"
+    constituency="South Holland &amp; The Deepings" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/947"
     house="commons"
     title="" firstname="Sylvia" lastname="Heal"
-    constituency="Halesowen & Rowley Regis" party="DCWM"
+    constituency="Halesowen &amp; Rowley Regis" party="DCWM"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6647,7 +6649,7 @@
     id="uk.org.publicwhip/member/950"
     house="commons"
     title="" firstname="David" lastname="Heath"
-    constituency="Somerton & Frome" party="LDem"
+    constituency="Somerton &amp; Frome" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6766,7 +6768,7 @@
     id="uk.org.publicwhip/member/967"
     house="commons"
     title="Rt Hon" firstname="Douglas" lastname="Hogg"
-    constituency="Sleaford & North Hykeham" party="Con"
+    constituency="Sleaford &amp; North Hykeham" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6815,7 +6817,7 @@
     id="uk.org.publicwhip/member/974"
     house="commons"
     title="Rt Hon" firstname="Michael" lastname="Howard"
-    constituency="Folkestone & Hythe" party="Con"
+    constituency="Folkestone &amp; Hythe" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6829,7 +6831,7 @@
     id="uk.org.publicwhip/member/976"
     house="commons"
     title="" firstname="George" lastname="Howarth"
-    constituency="Knowsley North & Sefton East" party="Lab"
+    constituency="Knowsley North &amp; Sefton East" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6857,7 +6859,7 @@
     id="uk.org.publicwhip/member/980"
     house="commons"
     title="" firstname="Beverley" lastname="Hughes"
-    constituency="Stretford & Urmston" party="Lab"
+    constituency="Stretford &amp; Urmston" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6871,14 +6873,14 @@
     id="uk.org.publicwhip/member/982"
     house="commons"
     title="" firstname="Simon" lastname="Hughes"
-    constituency="North Southwark & Bermondsey" party="LDem"
+    constituency="North Southwark &amp; Bermondsey" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/983"
     house="commons"
     title="" firstname="Joan" lastname="Humble"
-    constituency="Blackpool North & Fleetwood" party="Lab"
+    constituency="Blackpool North &amp; Fleetwood" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6906,7 +6908,7 @@
     id="uk.org.publicwhip/member/987"
     house="commons"
     title="Rt Hon" firstname="John" lastname="Hutton"
-    constituency="Barrow & Furness" party="Lab"
+    constituency="Barrow &amp; Furness" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6941,7 +6943,7 @@
     id="uk.org.publicwhip/member/992"
     house="commons"
     title="" firstname="Glenda" lastname="Jackson"
-    constituency="Hampstead & Highgate" party="Lab"
+    constituency="Hampstead &amp; Highgate" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -6983,7 +6985,7 @@
     id="uk.org.publicwhip/member/998"
     house="commons"
     title="" firstname="Alan" lastname="Johnson"
-    constituency="Kingston upon Hull West & Hessle" party="Lab"
+    constituency="Kingston upon Hull West &amp; Hessle" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7046,7 +7048,7 @@
     id="uk.org.publicwhip/member/1007"
     house="commons"
     title="Rt Hon" firstname="Tessa" lastname="Jowell"
-    constituency="Dulwich & West Norwood" party="Lab"
+    constituency="Dulwich &amp; West Norwood" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7074,14 +7076,14 @@
     id="uk.org.publicwhip/member/1011"
     house="commons"
     title="" firstname="Alan" lastname="Keen"
-    constituency="Feltham & Heston" party="Lab/Co-op"
+    constituency="Feltham &amp; Heston" party="Lab/Co-op"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/1012"
     house="commons"
     title="" firstname="Ann" lastname="Keen"
-    constituency="Brentford & Isleworth" party="Lab"
+    constituency="Brentford &amp; Isleworth" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7102,14 +7104,14 @@
     id="uk.org.publicwhip/member/1015"
     house="commons"
     title="" firstname="Fraser" lastname="Kemp"
-    constituency="Houghton & Washington East" party="Lab"
+    constituency="Houghton &amp; Washington East" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/1016"
     house="commons"
     title="Rt Hon" firstname="Charles" lastname="Kennedy"
-    constituency="Ross, Skye & Inverness West" party="LDem"
+    constituency="Ross, Skye &amp; Inverness West" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7151,14 +7153,14 @@
     id="uk.org.publicwhip/member/1022"
     house="commons"
     title="" firstname="Andy" lastname="King"
-    constituency="Rugby & Kenilworth" party="Lab"
+    constituency="Rugby &amp; Kenilworth" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/1023"
     house="commons"
     title="" firstname="Oona" lastname="King"
-    constituency="Bethnal Green & Bow" party="Lab"
+    constituency="Bethnal Green &amp; Bow" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7172,7 +7174,7 @@
     id="uk.org.publicwhip/member/1025"
     house="commons"
     title="Sir" firstname="Archy" lastname="Kirkwood"
-    constituency="Roxburgh & Berwickshire" party="LDem"
+    constituency="Roxburgh &amp; Berwickshire" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7193,7 +7195,7 @@
     id="uk.org.publicwhip/member/1028"
     house="commons"
     title="" firstname="Ashok" lastname="Kumar"
-    constituency="Middlesbrough South & East Cleveland" party="Lab"
+    constituency="Middlesbrough South &amp; East Cleveland" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7263,7 +7265,7 @@
     id="uk.org.publicwhip/member/1038"
     house="commons"
     title="" firstname="Mark" lastname="Lazarowicz"
-    constituency="Edinburgh North & Leith" party="Lab/Co-op"
+    constituency="Edinburgh North &amp; Leith" party="Lab/Co-op"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7326,7 +7328,7 @@
     id="uk.org.publicwhip/member/1047"
     house="commons"
     title="Rt Hon" firstname="Helen" lastname="Liddell"
-    constituency="Airdrie & Shotts" party="Lab"
+    constituency="Airdrie &amp; Shotts" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7347,7 +7349,7 @@
     id="uk.org.publicwhip/member/1050"
     house="commons"
     title="Rt Hon" firstname="Peter" lastname="Lilley"
-    constituency="Hitchin & Harpenden" party="Con"
+    constituency="Hitchin &amp; Harpenden" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7375,14 +7377,14 @@
     id="uk.org.publicwhip/member/1054"
     house="commons"
     title="Sir" firstname="Michael" lastname="Lord"
-    constituency="Central Suffolk & North Ipswich" party="DCWM"
+    constituency="Central Suffolk &amp; North Ipswich" party="DCWM"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/1055"
     house="commons"
     title="" firstname="Tim" lastname="Loughton"
-    constituency="East Worthing & Shoreham" party="Con"
+    constituency="East Worthing &amp; Shoreham" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7417,7 +7419,7 @@
     id="uk.org.publicwhip/member/1060"
     house="commons"
     title="" firstname="John" lastname="Lyons"
-    constituency="Strathkelvin & Bearsden" party="Lab"
+    constituency="Strathkelvin &amp; Bearsden" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7452,7 +7454,7 @@
     id="uk.org.publicwhip/member/1079"
     house="commons"
     title="Rt Hon" firstname="David" lastname="Maclean"
-    constituency="Penrith & The Border" party="Con"
+    constituency="Penrith &amp; The Border" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7501,7 +7503,7 @@
     id="uk.org.publicwhip/member/1091"
     house="commons"
     title="" firstname="Seamus" lastname="Mallon"
-    constituency="Newry & Armagh" party="SDLP"
+    constituency="Newry &amp; Armagh" party="SDLP"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7543,7 +7545,7 @@
     id="uk.org.publicwhip/member/1097"
     house="commons"
     title="" firstname="Paul" lastname="Marsden"
-    constituency="Shrewsbury & Atcham" party="Lab"
+    constituency="Shrewsbury &amp; Atcham" party="Lab"
     fromdate="2001-06-07" todate="2001-12-09" fromwhy="general_election" towhy="changed_party"
 />
 <member
@@ -7641,14 +7643,14 @@
     id="uk.org.publicwhip/member/1065"
     house="commons"
     title="" firstname="Siobhain" lastname="McDonagh"
-    constituency="Mitcham & Morden" party="Lab"
+    constituency="Mitcham &amp; Morden" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/1067"
     house="commons"
     title="" firstname="John" lastname="McDonnell"
-    constituency="Hayes & Harlington" party="Lab"
+    constituency="Hayes &amp; Harlington" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7704,7 +7706,7 @@
     id="uk.org.publicwhip/member/1077"
     house="commons"
     title="" firstname="Rosemary" lastname="McKenna"
-    constituency="Cumbernauld & Kilsyth" party="Lab"
+    constituency="Cumbernauld &amp; Kilsyth" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7746,7 +7748,7 @@
     id="uk.org.publicwhip/member/1107"
     house="commons"
     title="Rt Hon" firstname="Michael" lastname="Meacher"
-    constituency="Oldham West & Royton" party="Lab"
+    constituency="Oldham West &amp; Royton" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7774,7 +7776,7 @@
     id="uk.org.publicwhip/member/1111"
     house="commons"
     title="Rt Hon" firstname="Alun" lastname="Michael"
-    constituency="Cardiff South & Penarth" party="Lab/Co-op"
+    constituency="Cardiff South &amp; Penarth" party="Lab/Co-op"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7795,7 +7797,7 @@
     id="uk.org.publicwhip/member/1114"
     house="commons"
     title="" firstname="Andrew" lastname="Miller"
-    constituency="Ellesmere Port & Neston" party="Lab"
+    constituency="Ellesmere Port &amp; Neston" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -7830,7 +7832,7 @@
     id="uk.org.publicwhip/member/1119"
     house="commons"
     title="" firstname="Michael" lastname="Moore"
-    constituency="Tweeddale, Ettrick & Lauderdale" party="LDem"
+    constituency="Tweeddale, Ettrick &amp; Lauderdale" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8089,7 +8091,7 @@
     id="uk.org.publicwhip/member/1157"
     house="commons"
     title="" firstname="Eric" lastname="Pickles"
-    constituency="Brentwood & Ongar" party="Con"
+    constituency="Brentwood &amp; Ongar" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8110,7 +8112,7 @@
     id="uk.org.publicwhip/member/1160"
     house="commons"
     title="" firstname="James" lastname="Plaskitt"
-    constituency="Warwick & Leamington" party="Lab"
+    constituency="Warwick &amp; Leamington" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8138,7 +8140,7 @@
     id="uk.org.publicwhip/member/1164"
     house="commons"
     title="Rt Hon" firstname="Michael" lastname="Portillo"
-    constituency="Kensington & Chelsea" party="Con"
+    constituency="Kensington &amp; Chelsea" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8180,7 +8182,7 @@
     id="uk.org.publicwhip/member/1170"
     house="commons"
     title="" firstname="Adam" lastname="Price"
-    constituency="Carmarthen East & Dinefwr" party="PC"
+    constituency="Carmarthen East &amp; Dinefwr" party="PC"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8194,7 +8196,7 @@
     id="uk.org.publicwhip/member/1172"
     house="commons"
     title="" firstname="Mark" lastname="Prisk"
-    constituency="Hertford & Stortford" party="Con"
+    constituency="Hertford &amp; Stortford" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8222,21 +8224,21 @@
     id="uk.org.publicwhip/member/1176"
     house="commons"
     title="" firstname="James" lastname="Purnell"
-    constituency="Stalybridge & Hyde" party="Lab"
+    constituency="Stalybridge &amp; Hyde" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/1177"
     house="commons"
     title="Rt Hon" firstname="Joyce" lastname="Quin"
-    constituency="Gateshead East & Washington West" party="Lab"
+    constituency="Gateshead East &amp; Washington West" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/1178"
     house="commons"
     title="" firstname="Lawrie" lastname="Quinn"
-    constituency="Scarborough & Whitby" party="Lab"
+    constituency="Scarborough &amp; Whitby" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8264,7 +8266,7 @@
     id="uk.org.publicwhip/member/1182"
     house="commons"
     title="Rt Hon" firstname="Nick" lastname="Raynsford"
-    constituency="Greenwich & Woolwich" party="Lab"
+    constituency="Greenwich &amp; Woolwich" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8285,14 +8287,14 @@
     id="uk.org.publicwhip/member/1185"
     house="commons"
     title="" firstname="Alan" lastname="Reid"
-    constituency="Argyll & Bute" party="LDem"
+    constituency="Argyll &amp; Bute" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/1186"
     house="commons"
     title="Rt Hon" firstname="John" lastname="Reid"
-    constituency="Hamilton North & Bellshill" party="Lab"
+    constituency="Hamilton North &amp; Bellshill" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8320,7 +8322,7 @@
     id="uk.org.publicwhip/member/1190"
     house="commons"
     title="" firstname="Hugh" lastname="Robertson"
-    constituency="Faversham & Mid Kent" party="Con"
+    constituency="Faversham &amp; Mid Kent" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8362,7 +8364,7 @@
     id="uk.org.publicwhip/member/1196"
     house="commons"
     title="" firstname="Barbara" lastname="Roche"
-    constituency="Hornsey & Wood Green" party="Lab"
+    constituency="Hornsey &amp; Wood Green" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8397,7 +8399,7 @@
     id="uk.org.publicwhip/member/1201"
     house="commons"
     title="" firstname="Frank" lastname="Roy"
-    constituency="Motherwell & Wishaw" party="Lab"
+    constituency="Motherwell &amp; Wishaw" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8446,7 +8448,7 @@
     id="uk.org.publicwhip/member/1208"
     house="commons"
     title="" firstname="Alex" lastname="Salmond"
-    constituency="Banff & Buchan" party="SNP"
+    constituency="Banff &amp; Buchan" party="SNP"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8495,7 +8497,7 @@
     id="uk.org.publicwhip/member/1215"
     house="commons"
     title="" firstname="Brian" lastname="Sedgemore"
-    constituency="Hackney South & Shoreditch" party="Lab"
+    constituency="Hackney South &amp; Shoreditch" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8509,7 +8511,7 @@
     id="uk.org.publicwhip/member/1217"
     house="commons"
     title="" firstname="Jonathan R" lastname="Shaw"
-    constituency="Chatham & Aylesford" party="Lab"
+    constituency="Chatham &amp; Aylesford" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8558,7 +8560,7 @@
     id="uk.org.publicwhip/member/1224"
     house="commons"
     title="" firstname="Mark" lastname="Simmonds"
-    constituency="Boston & Skegness" party="Con"
+    constituency="Boston &amp; Skegness" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8614,14 +8616,14 @@
     id="uk.org.publicwhip/member/1232"
     house="commons"
     title="Rt Hon" firstname="Chris" lastname="Smith"
-    constituency="Islington South & Finsbury" party="Lab"
+    constituency="Islington South &amp; Finsbury" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/1233"
     house="commons"
     title="" firstname="Geraldine" lastname="Smith"
-    constituency="Morecambe & Lunesdale" party="Lab"
+    constituency="Morecambe &amp; Lunesdale" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8649,7 +8651,7 @@
     id="uk.org.publicwhip/member/1237"
     house="commons"
     title="Sir" firstname="Robert" lastname="Smith"
-    constituency="West Aberdeenshire & Kincardine" party="LDem"
+    constituency="West Aberdeenshire &amp; Kincardine" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8670,7 +8672,7 @@
     id="uk.org.publicwhip/member/1240"
     house="commons"
     title="" firstname="Clive" lastname="Soley"
-    constituency="Ealing, Acton & Shepherd's Bush" party="Lab"
+    constituency="Ealing, Acton &amp; Shepherd's Bush" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8726,7 +8728,7 @@
     id="uk.org.publicwhip/member/1248"
     house="commons"
     title="Sir" firstname="John" lastname="Stanley"
-    constituency="Tonbridge & Malling" party="Con"
+    constituency="Tonbridge &amp; Malling" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8761,7 +8763,7 @@
     id="uk.org.publicwhip/member/1253"
     house="commons"
     title="" firstname="David" lastname="Stewart"
-    constituency="Inverness East, Nairn & Lochaber" party="Lab"
+    constituency="Inverness East, Nairn &amp; Lochaber" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8789,7 +8791,7 @@
     id="uk.org.publicwhip/member/1257"
     house="commons"
     title="Rt Hon" firstname="Gavin" lastname="Strang"
-    constituency="Edinburgh East & Musselburgh" party="Lab"
+    constituency="Edinburgh East &amp; Musselburgh" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8859,14 +8861,14 @@
     id="uk.org.publicwhip/member/1267"
     house="commons"
     title="" firstname="Mark" lastname="Tami"
-    constituency="Alyn & Deeside" party="Lab"
+    constituency="Alyn &amp; Deeside" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/1268"
     house="commons"
     title="Sir" firstname="Peter" lastname="Tapsell"
-    constituency="Louth & Horncastle" party="Con"
+    constituency="Louth &amp; Horncastle" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8894,7 +8896,7 @@
     id="uk.org.publicwhip/member/1272"
     house="commons"
     title="" firstname="Ian" lastname="Taylor"
-    constituency="Esher & Walton" party="Con"
+    constituency="Esher &amp; Walton" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8908,7 +8910,7 @@
     id="uk.org.publicwhip/member/1274"
     house="commons"
     title="" firstname="Matthew" lastname="Taylor"
-    constituency="Truro & St Austell" party="LDem"
+    constituency="Truro &amp; St Austell" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8922,7 +8924,7 @@
     id="uk.org.publicwhip/member/1276"
     house="commons"
     title="Sir" firstname="Teddy" lastname="Taylor"
-    constituency="Rochford & Southend East" party="Con"
+    constituency="Rochford &amp; Southend East" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -8950,7 +8952,7 @@
     id="uk.org.publicwhip/member/1280"
     house="commons"
     title="Sir" firstname="John" lastname="Thurso"
-    constituency="Caithness, Sutherland & Easter Ross" party="LDem"
+    constituency="Caithness, Sutherland &amp; Easter Ross" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -9104,7 +9106,7 @@
     id="uk.org.publicwhip/member/1302"
     house="commons"
     title="" firstname="Rudi" lastname="Vis"
-    constituency="Finchley & Golders Green" party="Lab"
+    constituency="Finchley &amp; Golders Green" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -9195,7 +9197,7 @@
     id="uk.org.publicwhip/member/1315"
     house="commons"
     title="" firstname="John" lastname="Whittingdale"
-    constituency="Maldon & East Chelmsford" party="Con"
+    constituency="Maldon &amp; East Chelmsford" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -9209,7 +9211,7 @@
     id="uk.org.publicwhip/member/1317"
     house="commons"
     title="Rt Hon" firstname="Ann" lastname="Widdecombe"
-    constituency="Maidstone & The Weald" party="Con"
+    constituency="Maidstone &amp; The Weald" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -9258,14 +9260,14 @@
     id="uk.org.publicwhip/member/1324"
     house="commons"
     title="" firstname="Roger" lastname="Williams"
-    constituency="Brecon & Radnorshire" party="LDem"
+    constituency="Brecon &amp; Radnorshire" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/1325"
     house="commons"
     title="" firstname="Phil" lastname="Willis"
-    constituency="Harrogate & Knaresborough" party="LDem"
+    constituency="Harrogate &amp; Knaresborough" party="LDem"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -9328,7 +9330,7 @@
     id="uk.org.publicwhip/member/1334"
     house="commons"
     title="" firstname="Mike" lastname="Wood"
-    constituency="Batley & Spen" party="Lab"
+    constituency="Batley &amp; Spen" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -9342,14 +9344,14 @@
     id="uk.org.publicwhip/member/1336"
     house="commons"
     title="" firstname="Phil" lastname="Woolas"
-    constituency="Oldham East & Saddleworth" party="Lab"
+    constituency="Oldham East &amp; Saddleworth" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
     id="uk.org.publicwhip/member/1337"
     house="commons"
     title="" firstname="Tony" lastname="Worthington"
-    constituency="Clydebank & Milngavie" party="Lab"
+    constituency="Clydebank &amp; Milngavie" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -9384,7 +9386,7 @@
     id="uk.org.publicwhip/member/1342"
     house="commons"
     title="" firstname="Derek" lastname="Wyatt"
-    constituency="Sittingbourne & Sheppey" party="Lab"
+    constituency="Sittingbourne &amp; Sheppey" party="Lab"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
 <member
@@ -9426,7 +9428,7 @@
     id="uk.org.publicwhip/member/1348"
     house="commons"
     title="" firstname="Paul" lastname="Marsden"
-    constituency="Shrewsbury & Atcham" party="LDem"
+    constituency="Shrewsbury &amp; Atcham" party="LDem"
     fromdate="2001-12-10" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
 />
 <member
@@ -9480,4 +9482,4 @@
 />
 
 
-<members>
+</members>

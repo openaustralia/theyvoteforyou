@@ -2,7 +2,7 @@
 use strict;
 use lib "../scraper/";
 
-# $Id: member-list.pl,v 1.2 2003/11/18 20:17:46 frabcus Exp $
+# $Id: member-list.pl,v 1.3 2003/11/19 23:59:36 frabcus Exp $
 # Outputs MP list as XML
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -14,6 +14,7 @@ use error;
 use db;
 my $dbh = db::connect();
 
+print "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n\n";
 print "<members>\n\n"; 
 
 my $sth = db::query($dbh, "select first_name, last_name, title, constituency, party, 
@@ -22,6 +23,7 @@ my $sth = db::query($dbh, "select first_name, last_name, title, constituency, pa
 
 while (my @row = $sth->fetchrow_array())
 {
+    $row[3] =~ s/&/&amp;/g;
     print <<END
 <member
     id="uk.org.publicwhip/member/$row[9]"
@@ -33,5 +35,5 @@ while (my @row = $sth->fetchrow_array())
 END
 }
 
-print "\n\n<members>\n"; 
+print "\n\n</members>\n"; 
 
