@@ -776,7 +776,7 @@ Henry McLeish							05 May 1997 -17 May 99
 
 Parliamentary Secretary
 
-Anne McGuire							29 May 2002-
+Anne McGuire							29 May 2002- 13 June 2003
 
 Parliamentary Under-Secretary
 
@@ -845,7 +845,17 @@ Peter Hain								05 May 1997 - 28 July 99
 Win Griffiths								05 May 1997 - 28 July 98
 Jon Owen Jones							28 July 1998 - 28 July 99
 David Hanson								28 July 1999 -  11 Jun 01
-Don Touhig                                                                                        11 June 2001 -
+Don Touhig                                11 June 2001 - 13 June 2003
+
++No Department
+
+Minister Without Portfolio
+
+Peter Mandelson							05 May 1997 - 27 July 98
+Charles Clarke                         08 June 2001 - 24 Oct 02
+John Reid								24 Oct 2002 - 04 Apr 03
+Ian McCartney							04 Apr 2003 -
+
 """
 
 dateofinfo = "2003-10-15"

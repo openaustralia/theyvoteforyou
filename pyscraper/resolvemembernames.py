@@ -250,15 +250,15 @@ class MemberList(xml.sax.handler.ContentHandler):
             ids = newids
 
         if len(ids) == 0:
-            raise Exception, 'No match: ' + fullname + " : " + (cons or "[nocons]")
+	        return None
         if len(ids) > 1:
-            raise MultipleMatchException, 'Matched multiple times: ' + fullname + " : " + (cons or "[nocons]")
+            raise MultipleMatchException, 'Matched multiple times: ' + fullname + " : " + (cons or "[nocons]") + " : " + date
 
-        for id in ids: # pop is no good as it changes the set
+        for lid in ids: # pop is no good as it changes the set
             pass
-        remadename = self.members[id]["firstname"] + " " + self.members[id]["lastname"]
-        remadecons = self.members[id]["constituency"]
-        return id, remadename, remadecons
+        remadename = self.members[lid]["firstname"] + " " + self.members[lid]["lastname"]
+        remadecons = self.members[lid]["constituency"]
+        return lid, remadename, remadecons
 
     # Exclusively for wrans
     def matchwransname(self, fullname, cons, date):
@@ -266,7 +266,10 @@ class MemberList(xml.sax.handler.ContentHandler):
         # The Deputy Prime Minister and First Secretary of State   (Mr. Prescott)
         # Just turning alwaysmatchcons off for now
         # Do something fancier if it happens a lot
-        return self.matchfullnamecons(fullname, cons, date, alwaysmatchcons = False)
+        res = self.matchfullnamecons(fullname, cons, date, alwaysmatchcons = False)
+		if not res:
+			raise Exception, 'No match: ' + fullname + " : " + (cons or "[nocons]")
+		return res
 
     # Lowercases a surname, getting cases like these right:
     #     CLIFTON-BROWN to Clifton-Brown

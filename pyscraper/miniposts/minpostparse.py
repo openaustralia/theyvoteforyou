@@ -269,7 +269,7 @@ def ParseGovPostsChggdir():
 	return chainprotos, sdatetlist
 
 # endeavour to get an id into all the names
-def SetNameMatch(cp):
+def SetNameMatch(cp, busedateend):
 	cp.matchid = ""
 
 	# don't match names that are in the lords
@@ -282,7 +282,18 @@ def SetNameMatch(cp):
 			cons = fnm.group(2)
 		elif fullname == "Mr Gareth Thomas" and cp.dept == "Department for International Development" and cp.sdatestart == "2004-04-16":
 			cons = "Harrow West"
-		cp.matchid, cp.remadename, cp.remadecons = memberList.matchfullnamecons(fullname, cons, cp.sdatestart)
+
+		# helps to glue end to end
+		# but try other date end if first doesn't work
+		cpsdates = [cp.sdatestart, cp.sdateend]
+		if busedateend:
+			cpsdates = [cp.sdateend, cp.sdatestart]
+
+		res0 = cpsdates[0] and memberList.matchfullnamecons(fullname, cons, cpsdates[0])
+		res1 = cpsdates[1] and memberList.matchfullnamecons(fullname, cons, cpsdates[1])
+		if not (res0 or res1):
+			raise Exception, 'No match: ' + fullname + " : " + (cons or "[nocons]")
+		cp.matchid, cp.remadename, cp.remadecons = (res0 or res1)
 
 	else:
 		cp.remadename = cp.fullname
@@ -304,12 +315,13 @@ def ParseGovPosts():
 
 	moffidn = 1;
 	for po in porres:
-		SetNameMatch(po)
+		po.sxfromincomplete = None
+		SetNameMatch(po, True)
 		po.moffid = "uk.org.publicwhip/moffice/%d" % moffidn
 		rpcp.append((po.sortobj, po))
 		moffidn += 1
 	for cp in cpres:
-		SetNameMatch(cp)
+		SetNameMatch(cp, False)
 		cp.moffid = "uk.org.publicwhip/moffice/%d" % moffidn
 		rpcp.append((cp.sortobj, cp))
 		moffidn += 1
@@ -331,12 +343,23 @@ def ParseGovPosts():
 	# output the file, a tag round the groups of offices which form a single person
 	prevrpm = None
 	for rp in rpcp:
-		if prevrpm != rp[0][0]:
-			if prevrpm:
-				fout.write("</ministerofficegroup>\n")
+
+		if not prevrpm:
 			fout.write("\n<ministerofficegroup>\n")
+
+		elif prevrpm[0][0] != rp[0][0]:
+			fout.write("</ministerofficegroup>\n")
+			fout.write("\n<ministerofficegroup>\n")
+
+		# output un-glued ends
+		if not rp[1].sdateend:
+			print "\n"
+			print rp[1].remadename, rp[1].pos, rp[1].dept
+		if rp[1].sxfromincomplete:
+			print "  ", rp[1].remadename, rp[1].pos, rp[1].dept
+
 		rp[1].WriteXML(fout)
-		prevrpm = rp[0][0]
+		prevrpm = rp
 
 	if prevrpm:
 		fout.write("</ministerofficegroup>\n")
