@@ -1,5 +1,5 @@
 <?php
-# $Id: division.php,v 1.36 2004/07/06 21:39:07 frabcus Exp $
+# $Id: division.php,v 1.37 2004/07/20 10:12:14 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -29,7 +29,8 @@
     $db = new DB(); 
 
     $db->query("select pw_division.division_id, division_name,
-            source_url, rebellions, turnout, notes, motion, debate_url from pw_division,
+            source_url, rebellions, turnout, notes, motion, debate_url,
+            source_gid, debate_gid from pw_division,
             pw_cache_divinfo where pw_division.division_id =
             pw_cache_divinfo.division_id and division_date = '$date'
             and division_number='$div_no'");
@@ -58,6 +59,8 @@
     $notes = $row[5];
     $motion = $row[6];
     $debate_url = $row[7];
+    $source_gid = $row[8];
+    $debate_gid = $row[9];
     $div_no = html_scrub($div_no); 
     $this_anchor = "division.php?date=" . urlencode($date) .  "&number=" . urlencode($div_no); 
     $title = "$name - $prettydate - Division No. $div_no";
@@ -216,15 +219,19 @@
         <br>Votes were $ayes aye, $noes no, $boths both, $tellers tellers.  
         There were $rebellions rebellions against majority party vote.";
 
-    if ($debate_url == "")
-    {
-        $debate_url = $source;
-        $source = "";
+    $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
+    $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
+    if ($debate_gid != "") {
+        print "<br><a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">Read the full debate</a> leading up to this division";
+        print " (on TheyWorkForYou.com)";
     }
-    print "<br><a href=\"$debate_url\">Read the full debate</a> leading up to this division";
     if ($source != "")
-        print ", <a href=\"$source\">check division listing</a>";
+        print "<br><a href=\"$source\">Check original division listing</a>";
     print " (on the Parliament website)";
+
+    # Unused -- $debate_url contains start of debate link on parliament website.
+    # Unused -- $source_gid contains division listing link on TheyWorkForYou.com website.
+
     print "$notes";
     
     # Show motion text

@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.4 2004/07/13 13:47:54 theyworkforyou Exp $
+# $Id: DivsXML.pm,v 1.5 2004/07/20 10:12:14 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Loads divisions from the XML files made by pyscraper into
@@ -28,6 +28,7 @@ our $lastmajor;
 our $lastminor;
 our $lastmotiontext;
 our $lastheadingurl;
+our $lastheadinggid;
 
 our $divisions_changed;
 
@@ -58,6 +59,7 @@ sub read_xml_files {
                 $lastminor      = "";
                 $lastmotiontext = "";
                 $lastheadingurl = "";
+                $lastheadinggid = "";
                 $twig->parsefile( $PublicWhip::Config::debatepath . "$PublicWhip::Config::fileprefix" . $curdate . ".xml" );
             }
         }
@@ -92,6 +94,7 @@ sub storeminor {
     $lastminor      = $t;
     $lastmotiontext = "";
     $lastheadingurl = $minor->att('url');
+    $lastheadinggid = $minor->att('id');
 }
 
 sub storemajor {
@@ -117,6 +120,7 @@ sub storemajor {
     $lastminor      = "";
     $lastmotiontext = "";
     $lastheadingurl = $major->att('url');
+    $lastheadinggid = $major->att('id');
 }
 
 sub storemotion {
@@ -183,7 +187,9 @@ sub loaddivision {
 # $heading =~ s/ \&\#8212; /\&\#8212;/g;
 
     my $url         = $div->att('url');
+    my $gid         = $div->att('id');
     my $debate_url  = $lastheadingurl;
+    my $debate_gid  = $lastheadinggid;
     my $motion_text = $lastmotiontext;
     $lastmotiontext = "";
     if ( $motion_text eq "" ) {
@@ -218,7 +224,8 @@ sub loaddivision {
     # See if we already have the division
     my $sth = PublicWhip::DB::query(
         $dbh,
-"select division_id, valid, division_name, motion, source_url, debate_url from pw_division where
+"select division_id, valid, division_name, motion, source_url,
+debate_url, source_gid, debate_gid from pw_division where
         division_number = ? and division_date = ?", $divnumber, $divdate
     );
     die "Division $divnumber on $divdate already in database more than once"
@@ -236,24 +243,31 @@ sub loaddivision {
         my $existing_motion     = $data[3];
         my $existing_source_url = $data[4];
         my $existing_debate_url = $data[5];
+        my $existing_source_gid = $data[6];
+        my $existing_debate_gid = $data[7];
         if (   ( $existing_heading ne $heading )
             or ( $existing_motion     ne $motion_text )
             or ( $existing_source_url ne $url )
-            or ( $existing_debate_url ne $debate_url ) )
+            or ( $existing_debate_url ne $debate_url )
+            or ( $existing_source_gid ne $gid )
+            or ( $existing_debate_gid ne $debate_gid ) )
         {
             my $sth = PublicWhip::DB::query(
                 $dbh,
-"update pw_division set division_name = ?, motion = ?, source_url = ?, debate_url = ? where division_id = ?",
+"update pw_division set division_name = ?, motion = ?, source_url = ?,
+debate_url = ?, source_gid = ?, debate_gid = ? where division_id = ?",
                 $heading,
                 $motion_text,
                 $url,
                 $debate_url,
+                $gid,
+                $debate_gid,
                 $existing_divid
             );
 
             die "Failed to fix division name/motion/URLs" if $sth->rows != 1;
             PublicWhip::Error::log(
-"Existing division $divnumber, $divdate, id $existing_divid name $existing_heading has had its name/motion/URLs corrected with the one from XML called $heading",
+"Existing division $divnumber, $divdate, id $existing_divid name $existing_heading has had its name/motion/URLs/gids corrected with the one from XML called $heading",
                 $divdate, ERR_IMPORTANT);
             $PublicWhip::DivsXML::divisions_changed = 1;
         }
@@ -345,9 +359,10 @@ sub loaddivision {
     # Add division to tables
     PublicWhip::DB::query(
         $dbh, "insert into pw_division 
-        (valid, division_date, division_number, division_name, source_url, debate_url, motion) values
+        (valid, division_date, division_number, division_name,
+        source_url, debate_url, source_gid, debate_gid, motion) values
         (0, ?, ?, ?, ?, ?, ?)", $divdate, $divnumber, $heading, $url,
-        $debate_url,            $motion_text
+        $debate_url, $gid, $debate_gid,           $motion_text
     );
     $sth = PublicWhip::DB::query( $dbh, "select last_insert_id()" );
     die "Failed to get last insert id for new division" if $sth->rows != 1;

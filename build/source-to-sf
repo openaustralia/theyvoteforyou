@@ -5,6 +5,8 @@ set -e
 
 cd ../publicwhip # make sure in sensible place
 
+cvs -Q update -dP
+
 BUILD=`cat build/source-release.txt`
 let BUILD=BUILD+1
 echo $BUILD >build/source-release.txt
