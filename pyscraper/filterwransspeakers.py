@@ -84,6 +84,8 @@ fixsubs = 	[
 	( 'Larch 3 .2305', 'Larch 3 ?2305', 1, '2003-06-04'), # as above
         ( 'Laura0 Moffatt', 'Laura Moffatt', 1, '2004-01-27'),
 
+        ( '<B>  Howells: </B>', '<B> Dr. Howells: </B>', 1, '2003-02-24'),
+
         ( 'è', '&euro;', 3, '2003-06-12'),
         ( '(16. )(Keith Vaz: )(To ask)', '\\1<B>\\2</B>\\3', 1, '2003-06-12'),
 
