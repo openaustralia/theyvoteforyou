@@ -21,10 +21,6 @@ pwcmindex = os.path.join(toppath, "cmindex.xml")
 # output directories
 pwcmdirs = os.path.join(toppath, "cmpages")
 
-pwcmwrans = os.path.join(pwcmdirs, "wrans")
-pwcmdebates = os.path.join(pwcmdirs, "debates")
-# statements and westminster hall
-
 tempfile = os.path.join(toppath, "gluetemp")
 
 # this does the main loading and gluing of the initial day debate files from which everything else feeds forward
@@ -197,7 +193,7 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto, deleteoutput):
 ###############
 # main function
 ###############
-def PullGluePages(datefrom, dateto, deleteoutput):
+def PullGluePages(datefrom, dateto, deleteoutput, folder, type):
 	# make the output firectory
 	if not os.path.isdir(pwcmdirs):
 		os.mkdir(pwcmdirs)
@@ -212,8 +208,7 @@ def PullGluePages(datefrom, dateto, deleteoutput):
 
 	# bring in and glue together parliamentary debates, and answers and put into their own directories.
 	# third parameter is a regexp, fourth is the filename (%s becomes the date).
-	GlueAllType(pwcmdebates, ccmindex.res, 'debates(?i)', 'debates%s.html', deleteoutput)
-	GlueAllType(pwcmwrans, ccmindex.res, 'answers(?i)', 'answers%s.html', deleteoutput)
-
-
+        # type is "answers" or "debates"
+        pwcmfolder = os.path.join(pwcmdirs, folder)
+	GlueAllType(pwcmfolder, ccmindex.res, type + '(?i)', type + '%s.html', deleteoutput)
 

@@ -71,9 +71,11 @@ for arg in args:
 if options.network:
         UpdateHansardIndex()
         if options.forcescrape:
-                PullGluePages(options.datefrom, options.dateto, True)
+                PullGluePages(options.datefrom, options.dateto, True, "wrans", "answers")
+                PullGluePages(options.datefrom, options.dateto, True, "debates", "debates")
                 RegmemPullGluePages(True)
-        PullGluePages(options.datefrom, options.dateto, False)
+        PullGluePages(options.datefrom, options.dateto, False, "wrans", "answers")
+        PullGluePages(options.datefrom, options.dateto, False, "debates", "debates")
         RegmemPullGluePages(False)
 
 if options.wrans:
