@@ -1,0 +1,5 @@
+#! /bin/bash
+
+sgrep -I -g xml -v -c ~/pwdata/pwscrapedxml/wrans/ixsgrep ~/pwdata/pwscrapedxml/wrans/*.xml
+
+

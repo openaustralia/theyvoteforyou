@@ -1,3 +1,0 @@
-#! /bin/bash
-
-sgrep -x ../pythonexp/c4wrans/ix -g xml 'stag("wrans") .. etag("wrans") containing (stag("speech") .. etag("speech") containing (attribute("id") containing attvalue("uk.org.publicwhip/member/1060")))'

@@ -1,0 +1,9 @@
+#! /bin/bash
+
+echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"
+echo "<publicwhip>"
+
+sgrep -x ~/pwdata/pwscrapedxml/wrans/ixsgrep -g xml 'stag("wrans") ..  etag("wrans") containing (stag("speech") .. etag("speech") containing (attribute("id") containing attvalue("uk.org.publicwhip/member/1113")))'
+
+echo "</publicwhip>"
+

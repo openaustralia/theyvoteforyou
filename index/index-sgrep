@@ -1,6 +1,0 @@
-#! /bin/bash
-
-sgrep -I -g xml -v -c ~/pwdata/c4wrans/ix ~/pwdata/c4wrans/*.html
-
-
-

@@ -1,5 +1,7 @@
 #! /bin/bash
 
-createhansardindex.py
-pullgluepages.py
-runfilters.py
+./createhansardindex.py
+./pullgluepages.py
+./runfilters.py
+
+
