@@ -1,6 +1,6 @@
 <?  
 
-# $Id: adddream.php,v 1.3 2004/04/16 12:32:44 frabcus Exp $
+# $Id: adddream.php,v 1.4 2004/04/16 13:34:57 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -19,11 +19,6 @@ if (user_isloggedin()) # User logged in, show settings screen
     $name=db_scrub($_POST["name"]);
     $description=db_scrub($_POST["description"]);
     $submit=db_scrub($_POST["submit"]);
-
-    if (!user_isloggedin())
-    {
-        print "<p><a href=\"settings.php\">Log in first</a> before rolling your own MP.";
-    }
 
     $ok = false;
     if ($submit && (!$just_logged_in)) 

@@ -1,5 +1,5 @@
 <?php 
-    # $Id: dreammp.php,v 1.4 2004/04/16 12:32:42 frabcus Exp $
+    # $dreamid: dreammp.php,v 1.4 2004/04/16 12:32:42 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -7,6 +7,7 @@
     # For details see the file LICENSE.html in the top level of the source.
 
     include "db.inc";
+    include('account/database.inc');
     include "parliaments.inc";
     include "constituencies.inc";
     include "xquery.inc";
@@ -15,30 +16,39 @@
     include "account/user.inc";
     $db = new DB(); 
 
-    $id = db_scrub($_GET["id"]);
+    $dreamid = db_scrub($_GET["id"]);
 
     $query = "select name, description, pw_dyn_user.user_id, user_name, real_name, email
         from pw_dyn_rolliemp, pw_dyn_user
-        where pw_dyn_rolliemp.user_id = pw_dyn_user.user_id and rollie_Id = '$id'";
+        where pw_dyn_rolliemp.user_id = pw_dyn_user.user_id and rollie_Id = '$dreamid'";
     $row = $db->query_one_row($query);
-    $name = $row[0];
-    $description = $row[1];
-    $user_id = $row[2];
-    $user_name = $row[3];
-    $real_name = $row[4];
-    $email = preg_replace("/(.+)@(.+)/", "email domain: $2", $row[5]);
+    $dmp_name = $row[0];
+    $dmp_description = $row[1];
+    $dmp_user_id = $row[2];
+    $dmp_user_name = $row[3];
+    $dmp_real_name = $row[4];
+    $dmp_email = preg_replace("/(.+)@(.+)/", "email domain: $2", $row[5]);
 
-    $title = "'" . html_scrub($name) . "' - Dream MP";
+    $title = "'" . html_scrub($dmp_name) . "' - Dream MP";
     include "header.inc";
+
+    #print "User of MP: $dmp_user_id Your id: " . user_getid() . " Name: ". user_getname();
+    if (user_isloggedin())
+        $your_dmp = ($dmp_user_id == user_getid());
+    else
+        $your_dmp = false;
 
     print '<p><a href="#divisions">Divisions Attended</a>';
 	print ' | ';
 	print '<a href="#comparison">Comparison to Real MPs</a>';
 
-    print "<p><b>Description:</b> " . html_scrub($description). "</p>";
-    print "<p><b>Made by:</b> " . html_scrub($real_name) . " (" . html_scrub($email) . ")</p>";
-    if (user_isloggedin())
-        print "<p><a href=\"account/adddream.php\">Make a new dream MP</a>";
+    print "<p><b>Description:</b> " . str_replace("\n", "<br>", html_scrub($dmp_description)). "</p>";
+    print "<p><b>Made by:</b> " . html_scrub($dmp_real_name) . " (" . html_scrub($dmp_email) . ")</p>";
+    if ($your_dmp)
+    {
+        print "<p><a href=\"account/editdream.php?id=$dreamid\">Edit name/description of this dream MP</a>";
+        print "<br><a href=\"account/adddream.php\">Make a new dream MP</a>";
+    }
     else
         print "<p><a href=\"account/adddream.php\">Make your own dream MP</a>";
 
@@ -49,7 +59,7 @@
     # Table of votes in each division
     $query = "select pw_division.division_id, pw_division.division_number, pw_division.division_date,
         division_name, source_url, vote from pw_division,
-        pw_dyn_rollievote where pw_dyn_rollievote.rolliemp_id = '$id' and
+        pw_dyn_rollievote where pw_dyn_rollievote.rolliemp_id = '$dreamid' and
         pw_division.division_date = pw_dyn_rollievote.division_date and 
         pw_division.division_number = pw_dyn_rollievote.division_number ";
 
@@ -66,9 +76,12 @@
     {
         $rollievote[$row[0]] = $row[5];
         $prettyrow = pretty_row_start($prettyrow);
+        $vote = $row[5];
+        if ($vote = "both")
+            $vote = "abstain";
         print "<td>$row[1]</td> <td>$row[2]</td> <td><a
             href=\"division.php?date=" . urlencode($row[2]) . "&number=" . urlencode($row[1]) . "\">$row[3]</a></td>
-            <td>$row[5]</td>
+            <td>$vote</td>
             <td><a href=\"$row[4]\">Hansard</a></td>"; 
         print "</tr>\n";
     }
@@ -80,7 +93,7 @@
     }
     print "</table>\n";
 
-    if (user_isloggedin())
+    if ($your_dmp)
     {
         print "You need to choose which divisions your dream MP votes in, and
         how they vote for each one. To do this <a
@@ -105,7 +118,7 @@
 
     print "<table class=\"mps\">\n";
     print "<tr class=\"headings\">";
-    print "<td>Name</td><td>Constituency</td><td>Party</td><td colspan=2>'" . html_scrub($name) . "'<br>agreement score</td>";
+    print "<td>Name</td><td>Constituency</td><td>Party</td><td colspan=2>'" . html_scrub($dmp_name) . "'<br>agreement score</td>";
     print "</tr>";
 
     $prettyrow = 0;
@@ -119,7 +132,7 @@
             pw_vote.division_id = pw_division.division_id and
             pw_dyn_rollievote.division_number = pw_division.division_number and 
                 pw_dyn_rollievote.division_date = pw_division.division_date
-            and pw_vote.mp_id = " . $row['mp_id'] . " and pw_dyn_rollievote.rolliemp_id = '$id'";
+            and pw_vote.mp_id = " . $row['mp_id'] . " and pw_dyn_rollievote.rolliemp_id = '$dreamid'";
 
         $db->query($query);
         $qrowarray = $db->fetch_rows_assoc();

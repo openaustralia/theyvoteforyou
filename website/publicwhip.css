@@ -420,4 +420,14 @@ CAPTION.innerhtml
     TEXT-ALIGN: right;
     VERTICAL-ALIGN: center;
 }
+INPUT
+{
+    FONT-SIZE: 100%;
+    FONT-FAMILY: Verdana, arial, sans-serif;
+}
+TEXTAREA
+{
+    FONT-SIZE: 100%;
+    FONT-FAMILY: Verdana, arial, sans-serif;
+}
 
