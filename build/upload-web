@@ -2,6 +2,7 @@
 set -e
 
 REMOTE_DIR='/web/SERVERS/www.publicwhip.org.uk/docs'
+CACHE_PREFIX="web-SERVERS-www.publicwhip.org.uk-docs-"
 source build/internalupload
 
 

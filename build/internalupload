@@ -39,3 +39,6 @@ ssh $USER "chmod 0755 $REMOTE_DIR/*.php"
 ssh $USER "chmod 0755 $REMOTE_DIR/account"
 ssh $USER "chmod 0755 $REMOTE_DIR/account/*.php"
 
+echo "Deleting remote cache files..."
+ssh $USER "rm -fr /home/francis/pwcache/$CACHE_PREFIX*"
+

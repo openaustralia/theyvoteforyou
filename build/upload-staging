@@ -2,6 +2,6 @@
 set -e
 
 REMOTE_DIR="/home/francis/public_html/publicwhip"
+CACHE_PREFIX="home-francis-public_html-"
 source build/internalupload
-
 
