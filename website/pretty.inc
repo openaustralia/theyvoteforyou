@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.9 2004/01/28 13:57:53 frabcus Exp $
+# $Id: pretty.inc,v 1.10 2004/01/28 14:04:41 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -52,8 +52,8 @@ function pretty_party($party, $entered_reason="", $left_reason="")
     $ret = pretty_party_raw($party);
     if ($entered_reason == "changed_party" || $left_reason == "changed_party")
     {
-        $ret = "<span title=\"At some point, this MP changed party.
-They are listed separately for each party
+        $ret = "<span title=\"At some point, this MP changed party. 
+They are listed separately for each party 
 they were a member of.  This entry contains 
 details only for whilst they were in the 
 party shown.\">whilst " . $ret . "</span>";
