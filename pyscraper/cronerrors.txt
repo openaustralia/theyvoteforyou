@@ -7,6 +7,10 @@ Out of sequence dates are when the rescraper picked up new stuff?
 CRON = cron job on baked
 PWIP = weekly Public Whip update
 
+CRON 2003-10-27 Totall spurious <subhd> tag
+CRON 2003-11-06 Extra <TABLE> 4 times
+CRON 2003-11-06 Mangled "Opik"
+CRON 2004-05-20 Missing (1) in first para multi-part wrans
 CRON 2004-05-18 Missing "." in time stamp "4 58 pm"
 CRON 2004-05-12 Missing "Robertson:" at end of name, limit to ask the
 CRON 2004-05-17 Missing "to" in "to ask"

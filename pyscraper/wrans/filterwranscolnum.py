@@ -19,7 +19,6 @@ from contextexception import ContextException
 
 # Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
-	( 'Continued in col 47W', '', 1, '2003-10-27' ),
 	( '<P><I>8 Mar 2004 : Column 1346W</I>', '\\1<P>', 1, '2004-03-08'), 
 
 	# Note the 2!

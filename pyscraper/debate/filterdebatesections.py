@@ -38,8 +38,6 @@ fixsubs = 	[
         ( 'Livingston\)', '(Livingston)', 1, '2003-10-27'),
         ( '<BR>\n, David', '<BR>\nBorrow, David', 1, '2003-11-18'),
         ( '(Charlotte Atkins an)<BR>\s*d', '\\1d<BR>', 1, '2004-03-15'),
-	( "(<H3 align=center>.*?)(House of Commons</H3>)\s*(<H2.*?</H2>)\s*(The House.*?clock)", \
-		'\\1</H3>\n<H3 align=center>\\2\n\\3\n<H3 align=center>\\4</H3>', 1, '2003-10-27'),
         ( '(<H4><center>THIRD VOLUME OF SESSION 2003&#150;2004)(House of Commons</center></H4>)', \
                 '\\1</center></H4>\n<H4><center>\\2', 1, '2004-01-26'),
 	( "(<H3 align=center>TENTH VOLUME OF SESSION 2002&#150;2003)(House of Commons</H3>)", \
