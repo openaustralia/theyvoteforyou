@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.16 2005/03/08 20:41:56 goatchurch Exp $
+# $Id: db.inc,v 1.17 2005/03/28 12:55:44 goatchurch Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -36,7 +36,7 @@ class DB
     {
         global $pw_host, $pw_user, $pw_password, $pw_database;
 
-        $this->link = mysql_connect($pw_host, $pw_user, $pw_password) 
+        $this->link = mysql_connect($pw_host, $pw_user, $pw_password)
             or die("Could not connect : " . mysql_error());
 
         mysql_select_db($pw_database, $this->link) 
@@ -109,6 +109,16 @@ class DB
         return $row;
     }
 
+    function query_onez_row_assoc($query)
+    {
+        $this->query($query);
+        if ($this->rows() == 0)
+        	return null;
+		if ($this->rows() != 1)
+			die("Single row query didn't get one row, got " . $this->rows() . " on query: ".$query);
+        $row = $this->fetch_row_assoc();
+        return $row;
+    }
 
     function query_one_value($query)
     {

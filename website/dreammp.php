@@ -24,22 +24,29 @@
 
     #include_once "account/user.inc";
 
-    check_table_cache_dream_mp($db, $dreamid);
-    $query = "SELECT name, description, pw_dyn_user.user_id, user_name,
-				votes_count, edited_motions_count
-        	  FROM pw_dyn_rolliemp, pw_dyn_user, pw_cache_dreaminfo
-			  WHERE pw_dyn_rolliemp.user_id = pw_dyn_user.user_id
-				AND pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id
-				AND pw_cache_dreaminfo.rollie_id = '$dreamid'";
+# old code
+check_table_cache_dream_mp($db, $dreamid);
+	update_dreammp_person_distance($db, $dreamid); # new method
+
+	$qselect = "SELECT pw_dyn_rolliemp.name AS name, pw_dyn_rolliemp.description AS description,
+					   pw_dyn_user.user_id AS user_id, user_name,
+					   votes_count, edited_motions_count, consistency_with_mps";
+	$qfrom	 = " FROM pw_dyn_rolliemp";
+	$qjoin 	 = " LEFT JOIN pw_cache_dreaminfo ON pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id";
+	$qjoin 	.= " LEFT JOIN pw_dyn_user ON pw_dyn_user.user_id = pw_dyn_rolliemp.user_id";
+	$qwhere  = " WHERE pw_dyn_rolliemp.rollie_id = $dreamid";
+	$query = $qselect.$qfrom.$qjoin.$qwhere;
+
+
 	if ($bdebug == 1)
 		print "<h3>$query</h3>\n";
-    $row = $db->query_one_row($query);
-    $dmp_name = $row[0];
-    $dmp_description = $row[1];
-    $dmp_user_id = $row[2];
-    $dmp_user_name = $row[3];
-    $dmp_votes_count = $row[4];
-    $dmp_edited_count = $row[5];
+    $row = $db->query_one_row_assoc($query);
+    $dmp_name = $row["name"];
+    $dmp_description = $row["description"];
+    $dmp_user_id = $row["user_id"];
+    $dmp_user_name = $row["user_name"];
+    $dmp_votes_count = $row["votes_count"];
+    $dmp_edited_count = $row["edited_motions_count"];
 
     $title = "'" . html_scrub($dmp_name) . "' - Dream MP";
     include "header.inc";
@@ -73,7 +80,7 @@
     print "<br><a href=\"dreammps.php\">See all dream MPs</a>";
     print '<br><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=1">Discuss dream MP on our forum</a>';
 
-    
+
     print "<h2><a name=\"divisions\">Divisions Attended</a></h2>
     <p>Divisions in which this dream MP has voted.";
     print " <b>$dmp_votes_count</b> votes, of which <b>$dmp_edited_count</b> have edited motion text.";

@@ -2,11 +2,159 @@
 
 include_once "wiki.inc";
 
+
+# the equation that should be reused on the different places
+function calc_dreammp_person_distance($nvotessame, $nvotessamestrong,
+									  $nvotesdiffer, $nvotesdifferstrong,
+									  $nvotesabsent, $nvotesabsentstrong)
+{
+	# absents have low weighting, except where it was 3-line
+	# 3-line has higher than 3 to make it rise above the noise.
+	$tlw = 5.0;
+	$weight = $nvotessame + $tlw * $nvotessamestrong + $nvotesdiffer + $tlw * $nvotesdifferstrong +
+			  0.2 * $nvotesabsent + $tlw * $nvotesabsentstrong;
+
+	$score = $nvotesdiffer + $tlw * $nvotesdifferstrong + 0.1 * $nvotesabsent + ($tlw / 2) * $nvotesabsentstrong;
+	if ($weight == 0.0)
+		return -1.0;
+	return $score / $weight;
+}
+
+
+# calculate the distance to all MPs of one dreamMP
+# "absent" means the MP was absent when the DreamMP voted
+function update_dreammp_person_distance($db, $dreamid)
+{
+	global $bdebug;
+	# check
+    $row = $db->query_onez_row_assoc("SELECT cache_uptodate
+							  		  FROM pw_cache_dreaminfo
+							  		  WHERE rollie_id = $dreamid");
+	if ($row != null and $row["cache_uptodate"] == 1)
+		return;
+	print "<p>".$row["cache_uptodate"]."</p>\n";
+
+	$qselect = "SELECT pw_mp.person AS person, ";
+
+	$qselect .= "SUM((pw_dyn_rollievote.vote = 'aye' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye'))
+					 OR (pw_dyn_rollievote.vote = 'no' AND (pw_vote.vote = 'no' OR pw_vote.vote = 'tellno')))
+					 AS nvotessame, ";
+	$qselect .= "SUM((pw_dyn_rollievote.vote = 'aye3' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye'))
+					 OR (pw_dyn_rollievote.vote = 'no3' AND (pw_vote.vote = 'no' OR pw_vote.vote = 'tellno')))
+					 AS nvotessamestrong, ";
+	$qselect .= "SUM((pw_dyn_rollievote.vote = 'aye' AND (pw_vote.vote = 'no' OR pw_vote.vote = 'tellno'))
+					 OR (pw_dyn_rollievote.vote = 'no' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye')))
+					 AS nvotesdiffer, ";
+	$qselect .= "SUM((pw_dyn_rollievote.vote = 'aye3' AND (pw_vote.vote = 'no' OR pw_vote.vote = 'tellno'))
+					 OR (pw_dyn_rollievote.vote = 'no3' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye')))
+					 AS nvotesdifferstrong, ";
+	$qselect .= "SUM((pw_dyn_rollievote.vote = 'aye' OR pw_dyn_rollievote.vote = 'no')
+					 AND (pw_vote.vote = 'both' OR pw_vote.vote IS null))
+					 AS nvotesabsent, ";
+	$qselect .= "SUM((pw_dyn_rollievote.vote = 'aye3' OR pw_dyn_rollievote.vote = 'no3')
+					 AND (pw_vote.vote = 'both' OR pw_vote.vote IS null))
+					 AS nvotesabsentstrong, ";
+
+	$qselect .= "SUM(pw_vote.vote IS NOT null) AS voteoverlap"; # or could be max
+
+	# (no score from dreamMP absents or abstentions)
+
+	$qfrom  = " FROM pw_dyn_rollievote";
+	$qjoin  = " LEFT JOIN pw_division
+					ON pw_division.division_date = pw_dyn_rollievote.division_date
+					AND pw_division.division_number = pw_dyn_rollievote.division_number";
+	$qjoin .= " LEFT JOIN pw_vote
+					ON pw_vote.division_id = pw_division.division_id";
+	$qjoin .= " LEFT JOIN pw_mp
+					ON pw_mp.mp_id = pw_vote.mp_id";
+
+	$qwhere = " WHERE pw_dyn_rollievote.rolliemp_id = '$dreamid'";
+	$qgroup = " GROUP BY pw_mp.person";
+	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
+	if ($bdebug == 1)
+		print "<h2>$query</h2>";
+
+	# do the database/scoring thing
+	$db->query($query);
+	$rowarray = $db->fetch_rows_assoc();
+	if ($bdebug == 1)
+		print "<h2>DONE</h2>";
+
+	# lock and clear the table
+	$db->query("LOCK TABLE pw_cache_dreamreal_distance WRITE");
+	$db->query("DELETE FROM pw_cache_dreamreal_distance
+				WHERE rollie_id = '$dreamid'");
+
+	# this likes votes that are all one side or other
+	$dconsistencyn = 0.0;
+	$dconsistencyc = 0.0;
+
+	foreach ($rowarray as $row)
+	{
+		if (!$row['voteoverlap']) # can't quite see how to filter these out in the query
+			continue;
+		$nvotessame = $row['nvotessame'];
+		$nvotessamestrong = $row['nvotessamestrong'];
+		$nvotesdiffer = $row['nvotesdiffer'];
+		$nvotesdifferstrong = $row['nvotesdifferstrong'];
+		$nvotesabsent = $row['nvotesabsent'];
+		$nvotesabsentstrong = $row['nvotesabsentstrong'];
+		$person = $row['person'];
+
+		$distancea = calc_dreammp_person_distance($nvotessame, $nvotessamestrong,
+											   	  $nvotesdiffer, $nvotesdifferstrong,
+											   	  $nvotesabsent, $nvotesabsentstrong);
+
+		# score without absentions
+		$distanceb = calc_dreammp_person_distance($nvotessame, $nvotessamestrong,
+											   	  $nvotesdiffer, $nvotesdifferstrong, 0, 0);
+
+		if ($bdebug == 1)
+			print "<p>mpnum ".$row['person']." distance $distancea vs $nvotessame</p>\n";
+
+		$query   = "INSERT INTO pw_cache_dreamreal_distance
+                    (rollie_id, person,
+						nvotessame, nvotessamestrong,
+						nvotesdiffer, nvotesdifferstrong,
+						nvotesabsent, nvotesabsentstrong,
+						distance_a, distance_b)
+                	VALUES ($dreamid, $person,
+						$nvotessame, $nvotessamestrong,
+						$nvotesdiffer, $nvotesdifferstrong,
+						$nvotesabsent, $nvotesabsentstrong,
+						$distancea, $distanceb)";
+		#if ($bdebug == 1)
+		#	print "<h5>$query</h5>\n";
+		$db->query($query);
+
+		# quick hack until better formulae are found
+		if ($distancea < 0.1 or $distancea > 0.9)
+			$dconsistencyn += 1.0;
+		$dconsistencyc += 1.0;
+	}
+
+	# unlock, then post update(?)
+	$db->query("UNLOCK TABLES");
+
+
+	$dconsistency = ($dconsistencyc != 0.0 ? $dconsistencyn / $dconsistencyc : 0.0);
+
+    # Mark as updated
+	$query ="REPLACE INTO pw_cache_dreaminfo
+				(rollie_id, cache_uptodate, consistency_with_mps)
+				VALUES ($dreamid, 1, $dconsistency)";
+	if ($bdebug == 1)
+		print "<h3>$query</h3>\n";
+    $db->query($query);
+}
+
+
+
 # Return score and what it is out of for how much the MP follows the "whip" of
 # the Dream MP.  The "_a" here means this is scoring system A.
 function calc_dream_mp_score_a($db, $dreamid, $personid) {
-    $query = "select pw_vote.vote as mpvote, pw_dyn_rollievote.vote as rollievote from 
-        pw_vote, pw_dyn_rollievote, pw_division, pw_mp where 
+    $query = "select pw_vote.vote as mpvote, pw_dyn_rollievote.vote as rollievote from
+        pw_vote, pw_dyn_rollievote, pw_division, pw_mp where
         pw_vote.division_id = pw_division.division_id and
         pw_dyn_rollievote.division_number = pw_division.division_number and
             pw_dyn_rollievote.division_date = pw_division.division_date
@@ -53,7 +201,7 @@ function sortbyscore_a($row1, $row2)
         $frac2 = $row2['score_a'] / $row2['scoremax_a'];
     if ($frac1 <> $frac2)
         return $frac1 < $frac2;
-    
+
     // Then compare absolute (so it is better to have voted lots and
     // agreed, than a little and agreed)
     if ($row1['score_a'] <> $row2['score_a'])
@@ -67,16 +215,16 @@ function sortbyscore_a($row1, $row2)
     // Arbitarily sort after that
     if ($row1['last_name'] <> $row2['last_name'])
         return strcmp($row1['last_name'], $row2['last_name']);
-    
+
     if ($row1['first_name'] <> $row2['first_name'])
         return strcmp($row1['first_name'], $row2['first_name']);
-    
+
     if ($row1['constituency'] <> $row2['constituency'])
         return strcmp($row1['constituency'], $row2['constituency']);
 
     if ($row1['party'] <> $row2['party'])
         return strcmp($row1['party'], $row2['party']);
-    
+
 }
 
 
@@ -129,7 +277,7 @@ function check_table_cache_dream_mp($db, $dreamid) {
         if ($row['scoremax_a'] > 0) {
             $db->query("replace into pw_cache_dreamreal_score
                     (rollie_id, person, score_a, scoremax_a, rank_a, rank_outof_a)
-                values ('$dreamid', '".$row['person']."', 
+                values ('$dreamid', '".$row['person']."',
                         '".$row['score_a']."', '".$row['scoremax_a']."',
                         $dbrank, $dbrank_outof)");
         }
@@ -137,7 +285,7 @@ function check_table_cache_dream_mp($db, $dreamid) {
     $db->query("unlock tables");
 
     # Mark as updated
-    $db->query("update pw_dyn_rolliemp set cache_uptodate = 1 where rollie_id = '$dreamid'"); 
+    $db->query("update pw_dyn_rolliemp set cache_uptodate = 1 where rollie_id = '$dreamid'");
 }
 
 # Update cache of just the counts part
@@ -155,14 +303,14 @@ function check_table_cache_counts_dream_mp($db, $dreamid) {
         select count(*) from pw_dyn_rollievote, pw_division, pw_dyn_wiki where
         pw_dyn_rollievote.division_date = pw_division.division_date and
         pw_dyn_rollievote.division_number = pw_division.division_number and
-        pw_dyn_wiki.object_key = concat('motion-', pw_division.division_date, 
+        pw_dyn_wiki.object_key = concat('motion-', pw_division.division_date,
             '-', pw_division.division_number)
         and pw_dyn_rollievote.rolliemp_id = '$dreamid'
         group by pw_dyn_rollievote.division_date, pw_dyn_rollievote.division_number");
     $motion_count = $db->rows();
 
-    $db->query("replace into pw_cache_dreaminfo 
-        (rollie_id, votes_count, edited_motions_count) 
+    $db->query("replace into pw_cache_dreaminfo
+        (rollie_id, votes_count, edited_motions_count)
         values ('$dreamid', '$votes', '$motion_count')");
 }
 
@@ -179,10 +327,10 @@ function check_table_cache_counts_all_dream_mps($db) {
 function get_top_dream_query($count) {
     $query = "select name, pw_dyn_rolliemp.rollie_id, votes_count as count,
         round(100 * edited_motions_count / votes_count, 0) as motions_percent
-        from pw_dyn_rolliemp, pw_cache_dreaminfo where 
+        from pw_dyn_rolliemp, pw_cache_dreaminfo where
             pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id and votes_count > 0
             order by motions_percent desc, edited_motions_count desc, votes_count desc";
-    if ($count) 
+    if ($count)
         $query .= " limit $count";
     return $query;
 }
@@ -190,12 +338,12 @@ function get_top_dream_query($count) {
 # Returns HTML postcode search box for MP/DreamMP comparison.
 function dream_box($dreamid, $dmp_name) {
     $html = '
-<div style="position: relative; width: 23em; color: #000000; 
-background-color: #eeeeee; font-family: Verdana, Arial, Sans-serif; 
+<div style="position: relative; width: 23em; color: #000000;
+background-color: #eeeeee; font-family: Verdana, Arial, Sans-serif;
 margin: 0 0 0 0; border: 1px solid #003300; padding: 0 0 0 0;">
     <div style="text-align: center; background-color: #003300">
         <a href="http://www.publicwhip.org.uk" style="color: #ffffff">
-            <img src="http://www.publicwhip.org.uk/smallpublicwhip.gif" 
+            <img src="http://www.publicwhip.org.uk/smallpublicwhip.gif"
                 alt="The Public Whip" border="0">
         </a>
     </div>
@@ -203,7 +351,7 @@ margin: 0 0 0 0; border: 1px solid #003300; padding: 0 0 0 0;">
         <p style="padding: 0 10px 0 10px">
             <b>'.html_scrub($dmp_name).'<br>How did your MP vote?</b>
             <br>Your postcode:
-            <input maxLength="256" size="10" name="mppc" value=""> 
+            <input maxLength="256" size="10" name="mppc" value="">
             <input type="hidden" name="display" value="motions">
             <input type="hidden" name="dmp" value="'.html_scrub($dreamid).'">
             <input type="submit" value="Go" name="button">

@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablepeop.inc,v 1.6 2005/03/22 00:44:41 goatchurch Exp $
+    # $Id: tablepeop.inc,v 1.7 2005/03/28 12:55:44 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -230,15 +230,15 @@
 			$dreamid = $mptabattr["dreammpid"];
 
 			# we need to make the proper equation here, to people
-			$aquery["qselect"]  .= ", ((scoremax_a - score_a + 1) / (scoremax_a + 1)) AS distance";
-			$aquery["qjoin"] 	.= " LEFT JOIN pw_cache_dreamreal_score
-										ON pw_cache_dreamreal_score.person = pw_mp.person
-										AND pw_cache_dreamreal_score.rollie_id = '$dreamid'";
+			$aquery["qselect"]  .= ", distance_a AS distance";
+			$aquery["qjoin"] 	.= " LEFT JOIN pw_cache_dreamreal_distance
+										ON pw_cache_dreamreal_distance.person = pw_mp.person
+										AND pw_cache_dreamreal_distance.rollie_id = $dreamid";
 			$aquery["qorder"] = " ORDER BY distance";
 
 			# this should use the left-reason case
 			$aquery["qwhere"] 	.= " AND left_house = '9999-12-31'
-									 AND scoremax_a <> 0";
+									 AND distance_a <> -1";
 
 			#$aquery["qgroupby"] = " GROUP BY pw_mp.person";
 
