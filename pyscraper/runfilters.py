@@ -89,12 +89,17 @@ def RunFiltersDir(filterfunction, dname, options, deleteoutput):
 			continue
 
 		# skip already processed files, if date is earler
+                # (checking output date against input and patchfile, if there is one)
 		if os.path.isfile(jfout):
                         out_modified = os.stat(jfout).st_mtime
                         in_modified = os.stat(jfin).st_mtime
-                        if in_modified < out_modified:
+                        patchfile = "patches/%s/%s.patch" % (dname,fin)
+                        patch_modified = None
+                        if os.path.isfile(patchfile):
+                                patch_modified = os.stat(patchfile).st_mtime
+                        if in_modified < out_modified and ((not patchfile) or patch_modified < out_modified):
                                 continue
-                        print "input modified since output reparsing, out: ", out_modified, " in: ", in_modified
+                        print "input modified since output reparsing, out: ", out_modified, " in: ", in_modified, " patch: ", repr(patch_modified)
 
                 again = True
                 while again:
