@@ -25,7 +25,7 @@ fixsubs = 	[
 	( 'Nestle&#171;', 'Nestle', 1, '2004-01-31' ),
 ]
 
-def RunRegmemFilters(fout, jfout, text, sdate):
+def RunRegmemFilters(fout, text, sdate):
         # message for cron so I check I'm using this
         print "New register of members interests!  Check it is working properly (via mpinfoin.pl) - %s" % sdate
 
@@ -60,7 +60,7 @@ def RunRegmemFilters(fout, jfout, text, sdate):
                         if needmemberend:
                                 fout.write('</regmem>\n')                                
                                 needmemberend = False
-                        fout.write(('<regmem memberid="%s" membername="%s">\n' % (id, remadename)).encode("latin-1"))
+                        fout.write(('<regmem memberid="%s" membername="%s" date="%s">\n' % (id, remadename, sdate)).encode("latin-1"))
                         memberset.add(id)
                         needmemberend = True
                         category = None

@@ -1,0 +1,11 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-10-28.html	Sat Oct 30 06:01:33 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-10-28-patchtmp.html	Sat Oct 30 06:59:28 2004
+@@ -8069,6 +8069,8 @@
+ 
+ 
+ <br>
++<P>
++<explicit-end-division>
+ Question agreed to.</p>
+ 
+ </p>

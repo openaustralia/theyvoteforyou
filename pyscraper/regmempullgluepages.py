@@ -131,31 +131,38 @@ def GlueAllType(pcmdir, cmindex, fproto, deleteoutput):
 
 # Get index of all regmem pages from the index
 def FindRegmemPages():
-        ixurl = 'http://www.publications.parliament.uk/pa/cm/cmhocpap.htm'
-        ur = urllib.urlopen(ixurl)
-        content = ur.read()
-        ur.close();
-
-        # <A HREF="/pa/cm199900/cmregmem/memi02.htm">Register 
-        #              of Members' Interests November 2000</A>
-        allurls = re.findall('<a href="([^>]*)">(?i)', content)
         urls = []
-        for url in allurls:
-                if url.find("cmregmem") >= 0:
-                        url = urlparse.urljoin(ixurl, url)
-                        
-                        # find date
-                        ur = urllib.urlopen(url)
-                        content = ur.read()
-                        ur.close();
-                        # <B>14&nbsp;May&nbsp;2001&nbsp;(Dissolution)</B>
-                        content = content.replace("&nbsp;", " ")
-                        alldates = re.findall('<[Bb]>(\d+ [A-Z][a-z]* \d\d\d\d)', content)
-                        assert len(alldates) == 1
-                        date = mx.DateTime.DateTimeFrom(alldates[0]).date
+        for ixurl in ('http://www.publications.parliament.uk/pa/cm/cmhocpap.htm', 
+                      'http://www.publications.parliament.uk/pa/cm/cmregmem/memi02.htm'):
+                # print "IXURL", ixurl
+                ur = urllib.urlopen(ixurl)
+                content = ur.read()
+                ur.close();
 
-                        urls.append((date, url))
-                
+                # <A HREF="/pa/cm199900/cmregmem/memi02.htm">Register 
+                #              of Members' Interests November 2000</A>
+                allurls = re.findall('<a href="([^>]*)">(?i)', content)
+                for url in allurls:
+                        #print url
+                        if url.find("memi02") >= 0 and url != "/pa/cm/cmregmem/memi02.htm":
+                                url = urlparse.urljoin(ixurl, url)
+                                
+                                # find date
+                                ur = urllib.urlopen(url)
+                                content = ur.read()
+                                ur.close();
+                                # <B>14&nbsp;May&nbsp;2001&nbsp;(Dissolution)</B>
+                                content = content.replace("&nbsp;", " ")
+                                alldates = re.findall('<[Bb]>(\d+ [A-Z][a-z]* \d\d\d\d)', content)
+                                if len(alldates) != 1:
+                                        print alldates
+                                        raise Exception, 'Date match failed, expected one got %d\n%s' % (len(alldates), url)
+                                  
+                                date = mx.DateTime.DateTimeFrom(alldates[0]).date
+
+                                #print date, url
+                                urls.append((date, url))
+                        
         return urls
 
 

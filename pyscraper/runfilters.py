@@ -117,8 +117,13 @@ def RunFiltersDir(filterfunction, dname, options, forcereparse):
 			# this avoids partially processed files getting into the output when you hit escape.
 			try:
 				# do the filtering, then write the result
-				(flatb, gidname) = filterfunction(text, sdate)
-				WriteXMLFile(gidname, tempfile, jfout, flatb, sdate, options.quietc)
+                                if dname == 'regmem':
+                                        regmemout = open(tempfile, 'w')
+                                        filterfunction(regmemout, text, sdate)
+                                        regmemout.close()
+                                else:
+                                        (flatb, gidname) = filterfunction(text, sdate)
+                                        WriteXMLFile(gidname, tempfile, jfout, flatb, sdate, options.quietc)
 
 				if sys.platform != "win32":
 					# this function leaves the file open which can't be renamed in win32
