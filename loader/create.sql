@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.7 2005/01/23 14:31:37 frabcus Exp $
+-- $Id: create.sql,v 1.8 2005/02/18 10:14:03 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -162,6 +162,7 @@ create table pw_dyn_wiki (
     index(object_key)
 );
 
+-- who each issue of newsletter has been sent to so far
 create table pw_dyn_newsletters_sent (
     user_id int not null,
     newsletter_name varchar(100) not null,

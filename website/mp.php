@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.44 2005/01/22 14:54:11 goatchurch Exp $
+    # $Id: mp.php,v 1.45 2005/02/18 10:14:03 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -71,7 +71,7 @@
 	print ' | ';
 	print '<a href="#friends">Possible Friends</a>';
 	print ' | ';
-	print '<a href="#wrans">Written Answers</a>';
+	print '<a href="#dreammotions">Dream MP Comparisons</a>';
 
 ?>
 
@@ -377,16 +377,9 @@
 ?>
 
 <?php
-	print "<h2><a name=\"wrans\">Written Answers</a></h2>";
-    print "<p>Parliamentary written questions which this MP has asked or answered. ";
-	print "<br>These are now available from <a href=\"http://www.theyworkforyou.com/search?pid=".urlencode($person).
-        "&maj=wrans\">TheyWorkForYou.com</a>.";
-    $searchkey = $mp_ids[0];
-?>
-
-<?php
     function print_selected_dream($db, $id, $dreammpid)
     {
+        global $first_name, $last_name;
 		// should count overlapping votes between dream and mp
 	    $query = "SELECT name, description, rollie_id, user_name, count(pw_dyn_rollievote.vote) as count
 		          FROM pw_dyn_rolliemp, pw_dyn_rollievote, pw_dyn_user
@@ -398,18 +391,21 @@
 		$link = "jmp.php?id=".urlencode($id)."&dreammpid=".urlencode($dreammpid);
         print "<td>$row[4]</td>\n";
         print "<td>".html_scrub($row[3])."</td>\n";
-        print "<td><a href=\"$link\">".html_scrub($row[0])."</a></td>\n";
-        //print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($dmp_description)), 0, 300);
+        print "<td><a href=\"$link\">Compare $first_name $last_name to '".html_scrub($row[0])."'</a></td>\n";
+        print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row[1])), 0, 50);
         print "</tr>\n";
     }
 
-	print "<h2><a name=\"dreammotions\">Votes on Motions Chosen by a Dream MP</a></h2>";
-    print "<p>Selected list which can be used to find what they stand for. ";
+	print "<h2><a name=\"dreammotions\">Dream MP Comparisons</a></h2>";
+    print "<p>Votes on motions chosen by a Dream MP.  A selected list which can
+        be used to find what an MP stands for. Email us if you think your Dream
+        MP is appropriate to include here."; 
     print "<table>\n";
     print "<tr class=\"headings\">
         <td>Votes</td>
-        <td>Author</td>
-        <td>Name</td>
+        <td>Made by</td>
+        <td>Dream MP</td>
+        <td>Description</td>
         </tr>";
 
     $prettyrow = 0;

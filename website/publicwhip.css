@@ -8,7 +8,12 @@ BODY
     FONT-FAMILY: Verdana, arial, sans-serif;
     TEXT-ALIGN: left
 }
-A
+A:link, A:active, A:visited
+{
+    TEXT-DECORATION: underline
+}
+TABLE.mps A:link, TABLE.mps A:active, TABLE.mps A:visited,
+TABLE.votes A:link, TABLE.votes A:active, TABLE.votes A:visited
 {
     TEXT-DECORATION: none
 }
@@ -286,7 +291,7 @@ TABLE.bars TD
     PADDING-BOTTOM: 0px;
     MARGIN: 0px;
     BORDER-LEFT: #003300 1px solid;
-    WIDTH: 65em;
+    WIDTH: 90%;
     PADDING-TOP: 0px;
     BORDER-BOTTOM: #003300 1px solid
 }
@@ -302,7 +307,11 @@ TABLE.bars TD
 }
 .pagetitlebar
 {
-    BACKGROUND-COLOR: #cccccc
+    BACKGROUND-COLOR: #cccccc;
+}
+.pagenavlinks
+{
+    BACKGROUND-COLOR: #664466;
 }
 .layout
 {
@@ -314,36 +323,24 @@ IMG
     BORDER-LEFT: 0px;
     BORDER-BOTTOM: 0px
 }
-.headers
-{
-}
-.headers A:active
-{
-    COLOR: #ffffff;
-    BACKGROUND-COLOR: transparent
-}
-.headers A:hover
-{
-    COLOR: #ffffff;
-    BACKGROUND-COLOR: transparent;
-    TEXT-DECORATION: underline
-}
-.headers A:link
-{
-    COLOR: #ffffff;
-    BACKGROUND-COLOR: transparent
-}
-.headers A:visited
-{
-    COLOR: #ffffff;
-    BACKGROUND-COLOR: transparent
-}
 .headers A
 {
     PADDING-RIGHT: 6px;
     PADDING-LEFT: 6px;
     COLOR: #ffffff;
     BACKGROUND-COLOR: transparent
+}
+.headers A:link, .headers A:visited, .headers A:active
+{
+    COLOR: #ffffff;
+    BACKGROUND-COLOR: transparent;
+    TEXT-DECORATION: none
+}
+.headers A:hover
+{
+    COLOR: #ffffff;
+    BACKGROUND-COLOR: transparent;
+    TEXT-DECORATION: underline
 }
 .headers TD
 {

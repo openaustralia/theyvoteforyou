@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.47 2005/01/22 14:46:40 frabcus Exp $
+# $Id: division.php,v 1.48 2005/02/18 10:14:03 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -85,6 +85,8 @@
     	print ' | ';
         print '<a href="#nonvoters">Non-Voter List</a>';
     }
+	print ' | ';
+	print '<a href="#dreammp">Dream MP Voters</a>';
 
 #	print ' | ';
 #	print '<a href="#similar">Similar Divisions</a>';

@@ -1,12 +1,26 @@
 Wiki
 ----
 
-Forum
-Improve help text describing what to write
+Deemphasise that it is for a particular Dream MP?
+Selection mechanism of sets of votes
+"Record of MP according to Dream MP's whip"
+
+Show recent changes to Wiki pages
+in league table log
+
+Mark on division listing which ones have / haven't been edited
 Work out good ways to link to the dream MP report pages.
+History of wiki
+Printable jmp page
+
+Just use usernames 
+
+Link to Hansard should be to TWFY on Interesting Divisions table
 
 General
 -------
+
+Show which pages are looked at a lot, and encourage poeple to look at least popular.
 
 Make links underlined, the ones in the middle of the text anyway (rather than navigation)
 
