@@ -1,4 +1,4 @@
-# $Id: divsxml.pm,v 1.4 2004/03/26 14:09:32 frabcus Exp $
+# $Id: divsxml.pm,v 1.5 2004/03/26 14:25:52 frabcus Exp $
 # Loads divisions from the XML files made by pyscraper into 
 # the MySQL database for the Public Whip website.
 
@@ -166,6 +166,7 @@ sub loaddivision
     my $url = $div->att('url');
     my $debate_url = $lastheadingurl;
     my $motion_text = $lastmotiontext;
+    $lastmotiontext = "";
     if ($motion_text eq "")
     {
         $motion_text = "No motion text available";
