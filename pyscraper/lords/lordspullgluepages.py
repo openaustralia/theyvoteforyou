@@ -203,6 +203,8 @@ def LordsPullGluePages(datefrom, dateto, deleteoutput):
 
 		# close and move
 		dtemp.close()
+		if os.path.isfile(dgf):
+			os.remove(dgf)
 		os.rename(tempfile, dgf)
 
 

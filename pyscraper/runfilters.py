@@ -226,7 +226,6 @@ def RunLordsFilters(text, sdate):
 		si.close()
 
 		flatb = LordsFilterSections(text, sdate)
-		WriteXMLFile("lords", fout, jfout, flatb, sdate)
 		return (flatb, "lords")
 
 	# error for now

@@ -111,7 +111,6 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 
 		self.gid = None
 		self.binp = False
-		self.binheading = False # heading text has no paragraph marker around it
 		self.lqb = None
 
 		parser = xml.sax.make_parser()
@@ -123,11 +122,11 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 	def startElement(self, name, attr):
 		# a division will get nothing since there are no paras
 		# however we might want to put in some code anyway just to compare if any names change.
-		if re.search("division$|-heading|speech|ques|reply", name):
+		if re.search("division$|-heading|speech|ques|reply|motion", name):
 			self.lqb = lqspeech(name, attr)
 
 		elif name == "p":
-			assert not self.lqb.binheading
+			assert self.lqb and not self.lqb.binheading
 			self.paracont = [ ]
 			self.binp = True
 
