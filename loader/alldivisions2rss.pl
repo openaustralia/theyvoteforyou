@@ -13,7 +13,7 @@ my $this_parliament=PublicWhip::Parliaments::getcurrent();
 my $results=  PublicWhip::DB::query($dbh,
 		 PublicWhip::SQLfragments::divisions_query_start() .
 		 "and ". PublicWhip::SQLfragments::parliament_query_range_div($this_parliament) .
-		 PublicWhip::SQLfragments::divisions_controversial() .
+		 PublicWhip::SQLfragments::divisions_all() .
 		" limit 30 "
 		);
 
