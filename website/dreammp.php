@@ -20,15 +20,17 @@
 
     include "render.inc";
     include "dream.inc";
-    include_once "account/user.inc";
+    #include_once "account/user.inc";
 
     check_table_cache_dream_mp($db, $dreamid);
-    $query = "select name, description, pw_dyn_user.user_id, user_name,
-            votes_count, edited_motions_count
-        from pw_dyn_rolliemp, pw_dyn_user, pw_cache_dreaminfo
-        where pw_dyn_rolliemp.user_id = pw_dyn_user.user_id
-        and pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id
-        and pw_cache_dreaminfo.rollie_id = '$dreamid'";
+    $query = "SELECT name, description, pw_dyn_user.user_id, user_name,
+				votes_count, edited_motions_count
+        	  FROM pw_dyn_rolliemp, pw_dyn_user, pw_cache_dreaminfo
+			  WHERE pw_dyn_rolliemp.user_id = pw_dyn_user.user_id
+				AND pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id
+				AND pw_cache_dreaminfo.rollie_id = '$dreamid'";
+	if ($bdebug == 1)
+		print "<h3>$query</h3>\n";
     $row = $db->query_one_row($query);
     $dmp_name = $row[0];
     $dmp_description = $row[1];

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.12 2005/03/06 11:13:17 frabcus Exp $
+# $Id: divisions.php,v 1.13 2005/03/08 20:39:42 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -15,59 +15,142 @@
 	include "decodeids.inc";
 	include "tablemake.inc";
 
+	# constants
+	$rdismodes = array();
+
+	$rdefaultdisplay = ""; # I don't know how to grab the front
+	foreach ($parliaments as $lrdisplay => $val)
+	{
+		$rdismodes[$lrdisplay] = array("dtype"	=> $lrdisplay,
+								 "description" => "Divisions - ".$val['name']." Parliament",
+								 "lkdescription" => $val['name']." Parliament",
+								 "parliament" => $ldisplay,
+								 "showwhich" => 'everyvote');
+		if (!$rdefaultdisplay)
+			$rdefaultdisplay = $lrdisplay;
+	}
+
+	$rdismodes["rebelall"] = array("dtype"	=> "rebelall",
+							 "description" => "All Rebellions for all Parliaments since 1997",
+							 "lkdescription" => "All Rebellions",
+							 "parliament" => "all",
+							 "showwhich" => "rebellions10");
+
+	$rdismodes["every"] = array("dtype"	=> "every",
+							 "description" => "All Divisions for all Parliaments since 1997",
+							 "lkdescription" => "All Divisions",
+							 "parliament" => "all",
+							 "showwhich" => "everyvote");
+
+
+	# find the display mode
+	$rdisplay = $_GET["rdisplay"];
+	if (!$rdismodes[$rdisplay])
+	{
+		$rdisplay = $_GET["parliament"]; # legacy
+		if (!$rdismodes[$rdisplay])
+			$rdisplay = $rdefaultdisplay;
+	}
+	$rdismode = $rdismodes[$rdisplay];
+
+	# the sort field
     $sort = db_scrub($_GET["sort"]);
 	if ($sort == "")
 		$sort = "date";
 
-	# this indexes into the array $parliaments
-	# should go into decodeids so can be a general purpose division rendering category
-	$parliament = db_scrub($_GET["parliament"]);
-	if ($parliament == "")
-	    $parliament = "2001";  # prefer to be able to fetch first row from $parliaments
-
-    $title = "Divisions - " . parliament_name($parliament) . " Parliament";
+	# do the title and header
+    $title = $rdismode['description'];
+	if ($sort != 'date')
+		$title .= " (sorted by $sort)";
     include "header.inc";
-?>
 
+	# do the tabbing list using a function that leaves out default parameters
+	function makedivlink($rdisplay, $sort)
+	{
+		$base = "divisions.php";
+		if ($rdisplay == $rdefaultdisplay)
+		{
+			if ($sort == "date")
+				return $base;
+			return "$base?sort=$sort";
+		}
+		if ($sort == "date")
+			return "$base?rdisplay=$rdisplay";
+		return "$base?rdisplay=$rdisplay&sort=$sort";
+	}
 
-<p>A <i>division</i> is the House of Commons terminology for what would
-normally be called a vote.  The word <i>vote</i> is reserved for the
-individual choice of each MP within a division.  Divisions with a high
-number of suspected rebellions are marked in red.  Sometimes these are
-just divisions where the whips allowed free voting.  You can change
-the order of the table by selecting the headings.
+	$leadch = "<p>"; # get those bars between the links working
+    foreach ($rdismodes as $lrdisplay => $lrdismode)
+	{
+		print $leadch;
+		$leadch = " | ";
+		$dlink = makedivlink($lrdisplay, $sort);
+        if ($lrdisplay == $rdisplay)
+            print $lrdismode["lkdescription"];
+        else
+            print "<a href=\"$dlink\">".$lrdismode["lkdescription"]."</a>";
+	}
+	print "</p>\n";
 
-<?
+	print "<p>A <i>division</i> is the House of Commons terminology for what would
+		   normally be called a vote.  The word <i>vote</i> is reserved for the
+		   individual choice of each MP within a division.  </p>";
+	if ($sort != "rebellions" and $rdisplay != "rebelall")
+		print "<p>Divisions with a high number of suspected rebellions
+			   (votes different from the majority of the party)
+			   are marked in red.  Often these are
+			   not real rebellions against the party whip, because it's a
+			   free vote.  However, there is no published information
+			   which says when it is a free vote, we can't tell you which
+			   they are, so have to use your judgement.
+			   By convention, bipartisan matters concerning the running of
+			   Parliament (such as setting the working ours), and matters
+			   of moral conscience (eg the death penalty) are free votes.  </p>";
+
+	if ($sort == "date")
+		print "<p>You can change the order of the table by selecting
+				the headings.</p>";
+
     include "render.inc";
 
-	# this stuff to be turned into a series of tabbing tyle links
-    if ($parliament == "2001")
-        print "<p><a href=\"divisions.php?parliament=1997&sort=" .  html_scrub($sort) . "\">View divisions for 1997-2001 parliament</a>";
-    if ($parliament == "1997")
-        print "<p><a href=\"divisions.php?parliament=2001&sort=" .  html_scrub($sort) . "\">View divisions for 2001-2005 parliament</a>";
-    $url = "divisions.php?parliament=" . urlencode($parliament) . "&";
+	function makeheadcelldivlink($rdisplay, $sort, $hcelltitle, $hcellsort, $hcellalt)
+	{
+		$dlink = makedivlink($rdisplay, $hcellsort);
+		if ($sort == $hcellsort)
+			print "<td>$hcelltitle</td>";
+		else
+			print "<td><a href=\"$dlink\" alt=\"$hcellalt\">$hcelltitle</a></td>";
+	}
 
 	# these head cells are tabbing type links
     print "<table class=\"votes\">\n";
     print "<tr class=\"headings\">";
     print "<td>No.</td>";
-    head_cell($url, $sort, "Date", "date", "Sort by date");
-    head_cell($url, $sort, "Subject", "subject", "Sort by subject");
-    head_cell($url, $sort, "Rebellions", "rebellions", "Sort by rebellions");
-    head_cell($url, $sort, "Turnout", "turnout", "Sort by turnout");
+	makeheadcelldivlink($rdisplay, $sort, "Date", "date", "Sort by date");
+    makeheadcelldivlink($rdisplay, $sort, "Subject", "subject", "Sort by subject");
+    makeheadcelldivlink($rdisplay, $sort, "Rebellions", "rebellions", "Sort by rebellions");
+    makeheadcelldivlink($rdisplay, $sort, "Turnout", "turnout", "Sort by turnout");
     print "</tr>";
+
+	$rdismodes["rebelall"] = array("dtype"	=> "rebelall",
+							 "description" => "All Rebellions for all Parliaments since 1997",
+							 "lkdescription" => "All Rebellions",
+							 "parliament" => "all",
+							 "showwhich" => "rebellions10");
 
 	# would like to have the above heading put into the scheme
 	$divtabattr = array(
-			"showwhich"		=> 'everyvote',
+			"showwhich"		=> $rdismode["showwhich"],
 			"headings"		=> 'none',
-			"sortby"		=> $sort,
-			"parldatelimit"	=> $parliaments[$parliament]	);
+			"sortby"		=> $sort	);
+	if ($rdismode != "all")
+		$divtabattr["parldatelimit"] = $parliaments[$rdisplay];
+
 	division_table($db, $divtabattr);
-
     print "</table>\n";
-
 ?>
 
 <?php include "footer.inc" ?>
 <?php include "cache-end.inc" ?>
+
+
