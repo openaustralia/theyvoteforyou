@@ -1,5 +1,5 @@
 #!/usr/bin/env python2.3
-# $Id: guardianconv.py,v 1.8 2004/12/17 11:06:19 theyworkforyou Exp $
+# $Id: guardianconv.py,v 1.9 2004/12/17 11:41:35 frabcus Exp $
 
 # Converts tab file of Guardian URLs into XML.  Also extracts swing/majority
 # from the constituency page on the Guardian.
@@ -42,7 +42,18 @@ for l in ih:
     #print setsameelection
 
     # Grab swing from the constituency page
-    ur = urllib.urlopen(consurl)
+    again = 1
+    # we retry URLs as sometimes (1 in 40) they fail (some
+    # incompatibility between Guardian web server and Python url
+    # library?)
+    while again:
+        print >>sys.stderr, "Trying %s" % consurl
+        try:
+            ur = urllib.urlopen(consurl)
+            again = 0
+        except:
+            print >>sys.stderr, "---------------------- RETRYING URL"
+            again = 1
     content = ur.read()
     ur.close()
     m = re.search("requires a (\d+\.\d+) \&\#037\; swing to gain seat", content)
