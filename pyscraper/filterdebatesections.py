@@ -130,7 +130,7 @@ def StripDebateHeadings(headspeak, sdate):
 	return (ih, stampurl)
 
 # A series of speeches blocked up into question and answer.
-def WritexmlSpeech(fout, qb, sdate):
+def WriteXMLSpeech(fout, qb, sdate):
        	# add in some tabbing
         body = ''
 	for st in qb.stext:
@@ -138,17 +138,17 @@ def WritexmlSpeech(fout, qb, sdate):
 		body += st
 		body += '\n'
 
-        WritexmlChunk(fout, qb, sdate, 'speech', body, '')
+        WriteXMLChunk(fout, qb, sdate, 'speech', body)
 
 # A series of speeches blocked up into question and answer.
-def WritexmlChunk(fout, qb, sdate, tagname, body, idextra):
+def WriteXMLChunk(fout, qb, sdate, tagname, body):
 	gcolnum = re.search('colnum="([^"]*)"', qb.sstampurl.stamp)
 	if not gcolnum:
 		raise Exception, 'missing column number'
 	colnum = gcolnum.group(1)
 
 	# (we could choose answers to be the id code??)
-	sid = 'uk.org.publicwhip/debate/%s.%s.%d%s' % (sdate, colnum, qb.sstampurl.ncid, idextra)
+	sid = 'uk.org.publicwhip/debate/%s.%s.%d' % (sdate, colnum, qb.sstampurl.ncid)
 
 	# title headings
         stithead = 'majorheading="%s"' % (qb.sstampurl.majorheading)
@@ -192,6 +192,8 @@ def FilterDebateSections(fout, text, sdate):
 	for i in range(ih, len(headspeak)):
 		sht = headspeak[i]
 
+                print "sht: siz ", len(sht), ": 0 ", sht[0], " 1 ", sht[1], " 2 ", sht[2]
+
 		# set the title for this batch
 		stampurl.title = FixHTMLEntities(sht[0])
 
@@ -232,11 +234,21 @@ def FilterDebateSections(fout, text, sdate):
 					print '"%s"' % sht[0]
 					raise Exception, "unrecognized major heading: "
 				stampurl.title = ''
+                                
+                        if bmajorheading:
+                                qb = qspeech('', stampurl.majorheading, stampurl, sdate)
+                                qb.typ = 'debmajor'
+                                qblock.append(qb)
+                        else:
+                                qb = qspeech('', stampurl.title, stampurl, sdate)
+                                qb.typ = 'debminor'
+                                qblock.append(qb)
 
 			# case of unspoken text (between heading and first speaker)
 			# which we will frig for now.
 			# force major headings to have at least one thing here.
-			if (not re.match('(?:<[^>]*>|\s)*$', sht[1])) or bmajorheading or (not sht[2]):
+			if (not re.match('(?:<[^>]*>|\s)*$', sht[1])):
+                                print "nospeaker"
 				qb = qspeech('nospeaker="true"', sht[1], stampurl, sdate)
 				qb.typ = 'debspeech'
 				qblock.append(qb)
@@ -276,22 +288,19 @@ def FilterDebateSections(fout, text, sdate):
 			fout.write('\n\n<DIVISION/>\n\n')
 			continue
 
-		# major heading signal
-		if not qblock[0].sstampurl.title:
-                        fout.write('\n')
-                        WritexmlChunk(fout, qblock[0], sdate, 'MAJOR-HEADING', qblock[0].sstampurl.majorheading, 'h1')
-                        fout.write('\n')
-			if not qblock[0].stext:
-				continue
-
-		# go through the components of this block
-		if qblock[0].sstampurl.title:
-                        fout.write('\n')
-                        WritexmlChunk(fout, qblock[0], sdate, 'MINOR-HEADING', qblock[0].sstampurl.title, 'h2')
-                        fout.write('\n')
-
 		for qb in qblock:
-			WritexmlSpeech(fout, qb, sdate)
+                        if qb.typ == 'debmajor':
+                                fout.write('\n')
+                                WriteXMLChunk(fout, qb, sdate, 'MAJOR-HEADING', qb.sstampurl.majorheading)
+                                fout.write('\n')
+                        elif qb.typ == 'debminor':
+                                fout.write('\n')
+                                WriteXMLChunk(fout, qb, sdate, 'MINOR-HEADING', qb.sstampurl.title)
+                                fout.write('\n')
+                        elif qb.typ == 'debspeech':
+                                WriteXMLSpeech(fout, qb, sdate)
+                        else:
+                                raise Exception, 'question block type unknown %s ' % qb.type
 
 
 	fout.write("</publicwhip>\n")
