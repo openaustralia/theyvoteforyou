@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.25 2004/01/17 18:50:04 frabcus Exp $
+    # $Id: mp.php,v 1.26 2004/01/21 17:07:22 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -9,6 +9,7 @@
 
     include "db.inc";
     include "parliaments.inc";
+    include "constituencies.inc";
 	include "xquery.inc";
 	include "protodecode.inc";
     $db = new DB(); 
@@ -43,6 +44,7 @@
 		}
 		else
 		{
+            $constituency = $consmatch[$constituency];
 			$query = "select first_name, last_name
 				from pw_mp where constituency = '$constituency' 
 				order by entered_house desc limit 1";

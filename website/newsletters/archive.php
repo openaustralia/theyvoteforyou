@@ -1,40 +1,83 @@
-<? $title = "News Archive"; include "../header.inc";
-# $Id: archive.php,v 1.3 2003/12/03 11:06:09 frabcus Exp $
+<? 
+# $Id: archive.php,v 1.4 2004/01/21 17:07:22 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
+$issue = intval($_GET["issue"]);
 
-/*
-<h2>2003 by Francis</h2>
-<p></p>
-*/
+function newsletter_title($newsletter)
+{
+	$handle = fopen($newsletter, 'r');
+	$line = fgets($handle);
+    fclose($handle);
+    return str_replace("Subject: ", "", $line);
+}
+function newsletter_date($newsletter)
+{
+	$handle = fopen($newsletter, 'r');
+	$dummy = fgets($handle);
+	$line = fgets($handle);
+    fclose($handle);
+    return strtotime(str_replace("Date: ", "", $line));
+}
+
 
 function render_newsletter($newsletter)
 {
 	$handle = fopen($newsletter, 'r');
+    $c = 0;
 	while ($line = fgets($handle))
 	{
-	    print $line . "<br>";
+        $c++;
+        if ($c >= 4)
+            print $line . "<br>";
 	}
 	fclose($handle);
 }
+
+$title = "Newsletter Archive"; 
+if ($issue != 0)
+{
+    $title = newsletter_title("issue" . $issue . ".txt") . " - " .
+        date("Y-m-d", newsletter_date("issue" . $issue . ".txt"));
+}
+include "../header.inc";
+
+if ($issue == 0)
+{
+?><p>This is the archive of old issues for the Public Whip newsletter.  At most
+every month we'll email you with news, articles and comment about the
+project.  <a href="../account/register.php">Sign up now!</a>  It's free!<p><?
+
+    $dh = opendir(".");
+    while (false !== ($filename = readdir($dh)))
+    {
+        if (preg_match("/^issue(.*)\.txt$/", $filename, $matches))
+        {
+            print "<a href=\"archive.php?issue=" . $matches[1] . "\">";
+            print date("Y-m-d", newsletter_date($filename));
+            print " - ";
+            print newsletter_title($filename);
+            print "</a>";
+            print "<br>";
+        }
+    }
+    print "<p><a href=\"old.php\">Older site news</a><?";
+   /*3 December 2003
+   31 October 2003 */
+
+}
+else
+{
+    print "<p><a href=\"archive.php\">Full list of old newsletter issues here</a>";
+    print "<br><a href=\"../account/register.php\">Subscribe to the newsletter for free!</a> ";
+    print "</p><hr><p>";
+    render_newsletter("issue" . $issue . ".txt");
+}
+
 ?>
-
-<p>There's a free Public Whip newsletter.  At most every fortnight
-we'll email you with news, articles and comment about the project.  <a
-href="account/register.php">Sign up now!</a>
-
-<hr><h2>Latest Newsletter - 3 December 2003</h2>
-<p> <?php render_newsletter("issue2.txt"); ?>
-
-<hr><h2>Previous Newsletter - 31 October 2003</h2>
-<p> <?php render_newsletter("issue1.txt"); ?>
-
-<hr><p><a href="old.php">Older site news</a>
-
-<p>
 
 <?php include "../footer.inc" ?>
 
