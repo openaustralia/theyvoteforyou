@@ -1,0 +1,37 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-04-19.html	Thu Dec  2 08:09:40 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-04-19-patchtmp.html	Mon Jan 10 01:12:32 2005
+@@ -4042,8 +4042,8 @@
+ 
+ 
+ 
+-
+-<p>New Clause
++<a name="dummyanchor">
++<h4 align=center>New Clause</h4>
+ 
+ 
+ </p>
+@@ -14061,7 +14061,7 @@
+ 
+ 
+ 
+-<p>After Clause 49
++<h4 align=center>After Clause 49</h4>
+ 
+ 
+ 
+@@ -17325,10 +17325,13 @@
+ </p>
+ 
+ 
++<parsemess-misspeech type="heading" redirect="up"/>
++<parsemess-misspeech type="speech" redirect="up"/>
+ 
+ 
+ <br>
+-<center>Justice</center><br>
++<stamp parsemess-colnum="126"/>
++<h4 align=center>Justice</h4><br>
+ 
+ <br>
+ 

@@ -1,13 +1,29 @@
---- debates/debates2004-04-23.html	Mon Apr 26 14:15:46 2004
-+++ debates/debates2004-04-23-patchtmp.html	Mon Apr 26 14:31:33 2004
-@@ -2404,8 +2404,8 @@
-  We would have to have a retrospective referendum of some kind. My hon. Friend is deep into the realms of metaphysics, but I think that I follow him. The Bill would come into force more than six months after the treaty had been adopted, so we could not have the referendum laid by down by the timetable in the Bill because six months would already have lapsed. I am glad that he clarified that, because I did not quite get it the first time round either.
- <P>
- <P>
--<a name="40423-18_spnew7"><B> Ms Munn: Neither </B> 
-- did I.
-+<a name="40423-18_spnew7"><B> Ms Munn: </B> 
-+Neither  did I.
- <P>
- <P>
- <a name="40423-18_spnew8"><B> David Cairns: </B> 
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-04-23.html	Thu Dec  2 08:09:25 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-04-23-patchtmp.html	Sat Jan  8 18:30:24 2005
+@@ -64,7 +64,7 @@
+ 
+ 
+ 
+-<p><a name="40423-01_spmin0"><b>Madam Deputy Speaker:</b> 
++<p><a name="40423-01_spmin0"><b>Sylvia Heal (Madam Deputy Speaker):</b> 
+  I can inform hon. Members that, at this moment in time, I have had no request from the Prime Minister or another member of the Government to come to the House.
+ 
+ 
+@@ -1624,6 +1624,9 @@
+ 
+ 
+ 
++<stamp parsemess-missgid="4"/>
++<stamp parsemess-colnum="550"/>
++
+ <p><a name="40423-07_spnew1"><b> Mr. Pike: </b> 
+  I agree. Many young people would not go to school if it were not the law. Once the law exists, 
+ 
+@@ -1845,6 +1848,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="553"/>
+ 
+ <p><a name="40423-08_spnew1"><b> Mr. Martlew: </b> 
+  The figure is actually 28 children a year, based on the last three years. Obviously, that is too many. 

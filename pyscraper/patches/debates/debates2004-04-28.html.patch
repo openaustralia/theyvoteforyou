@@ -1,12 +1,18 @@
---- debates/debates2004-04-28.html	Fri Apr 30 08:06:13 2004
-+++ debates/debates2004-04-28-patchtmp.html	Tue May  4 01:51:39 2004
-@@ -516,9 +516,6 @@
- </FONT></UL>
- <a name="40428-03_para8"><i>[Interruption.]</i> Of course, Mr. Speaker, Conservative Members want your protection against the truth.
- <P>
--<a name="40428-03_wqn2"><B>  </B> 
--<P>
--<P>
- <P>
- <a name="40428-03_spnew16"><B> Mr. Howard: </B> 
-  The organisation to which the Prime Minister refers has been disbanded&#151;and there is only one party leader at the Dispatch Box who has stood on a manifesto based on taking this country out of the European Union, and it is not me.
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-04-28.html	Thu Dec  2 08:09:16 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-04-28-patchtmp.html	Sat Jan  8 18:19:44 2005
+@@ -2038,6 +2038,15 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="895"/>
++<parsemess-misspeech type="speech" redirect="up"/>
++<parsemess-misspeech type="speech" redirect="up"/>
++<stamp parsemess-colnum="896"/>
++<parsemess-misspeech type="speech" redirect="up"/>
++<parsemess-misspeech type="speech" redirect="up"/>
++<parsemess-misspeech type="speech" redirect="up"/>
++<parsemess-misspeech type="speech" redirect="up"/>
++<parsemess-misspeech type="speech" redirect="up"/>
+ 
+ 
+ <p><a name="40428-07_spnew0"><b> Mr. Burnett: </b> 

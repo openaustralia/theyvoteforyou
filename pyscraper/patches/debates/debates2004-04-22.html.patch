@@ -1,0 +1,47 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-04-22.html	Thu Dec  2 08:09:28 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-04-22-patchtmp.html	Sat Jan  8 18:36:09 2005
+@@ -2934,8 +2934,6 @@
+ 
+ 
+ 
+-<b>22 Apr 2004 : Column 456</b>
+-
+ <br>&nbsp;<br>the European Union. That is the Opposition&#039;s policy, and they will be reminded of it in the coming months running up to the referendum.
+ </p>
+ 
+@@ -2945,14 +2943,13 @@
+ 
+ 
+ 
+-
+ <p><a name="40422-11_spnew14"><b> John Mann  (Bassetlaw) (Lab):</b> 
+  Following this morning&#039;s revelation that an estimated &#163;30 million&#151;perhaps much more&#151;has been deducted by solicitors in various guises from miners&#039; compensation, may we have an urgent debate or statement next week? We should discuss, in particular, whether the Government ever envisaged that miners, their widows and families should receive anything less than 100 per cent. of their industrial injury compensation.
+ </p>
+ 
+ 
+ 
+-
++<stamp parsemess-colnum="456"/>
+ 
+ 
+ 
+@@ -2963,6 +2960,8 @@
+ </p>
+ 
+ 
++<parsemess-misspeech type="speech" redirect="up"/>
++<parsemess-misspeech type="speech" redirect="up"/>
+ 
+ 
+ <h4 align=center>BILL PRESENTED</h4>
+@@ -3004,10 +3003,6 @@
+ 
+ 
+ <a name="40422-11_time0"><h5>1.27 pm</h5>
+-&nbsp;&nbsp;&nbsp;
+-
+-
+-
+ 
+ <p><a name="40422-11_spnew16"><b> Mr. Gerald Howarth  (Aldershot) (Con):</b> 
+  On a point of order, Mr. Speaker. I am grateful to you for allowing me to raise a point of order in advance of the debate. The debate that we are about to commence is on an extremely serious issue: the erection of a screen, separating us from our constituents and our electorates, which has cost &#163;500,000. We have no papers on it. The Government tell us that it is such a serious issue&#151;the security position being so demanding&#151;that the screen had to be erected in advance of the House having an opportunity to debate the matter.

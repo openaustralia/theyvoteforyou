@@ -1,5 +1,5 @@
 --- /home/fawkes/pwdata/cmpages/debates/debates2004-05-12.html	Thu Dec  2 08:08:51 2004
-+++ /home/fawkes/pwdata/cmpages/debates/debates2004-05-12-patchtmp.html	Sun Dec  5 19:44:41 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-05-12-patchtmp.html	Sat Jan  8 13:55:48 2005
 @@ -502,6 +502,7 @@
  
  
@@ -96,3 +96,23 @@
  <p><a name="40512-03_spmin15"><b>The Prime Minister:</b> 
   First, I definitely prefer the right hon. and learned Gentleman like that. It is far more true to his character. As I said, we shall shortly announce what we are able to do. Since we are talking about records on pensions, has the right hon. and learned Gentleman forgotten the 9 million people who lost pension rights under the last Conservative Government? Perhaps he has also forgotten the pension mis-selling scandal and the fact that his right hon. Friend the shadow Chancellor has said that there will be a real-terms cash freeze in all budgets, including the budget with responsibility for pensions.
  </p>
+@@ -6914,8 +6926,8 @@
+ 
+ 
+ 
+-
+-<p>Clause 1
++<a name="dumyanchor">
++<h4 align=center>Clause 1</h4>
+ 
+ 
+ </p>
+@@ -6924,7 +6936,7 @@
+ 
+ 
+ <br>
+-<center>Regional Spatial Strategy</center><br>
++<h4 align=center>Regional Spatial Strategy</h4><br>
+ 
+ 
+ 

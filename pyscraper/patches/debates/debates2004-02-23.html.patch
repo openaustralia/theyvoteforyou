@@ -1,5 +1,5 @@
 --- /home/fawkes/pwdata/cmpages/debates/debates2004-02-23.html	Sun Oct  3 04:31:10 2004
-+++ /home/fawkes/pwdata/cmpages/debates/debates2004-02-23-patchtmp.html	Sun Dec  5 20:17:03 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-02-23-patchtmp.html	Mon Jan 10 01:23:16 2005
 @@ -30,7 +30,7 @@
  
  <P>
@@ -21,7 +21,7 @@
   I have not had any formal discussions with Gloucestershire police authority about its final budget for next year. I understand that it has now set a final budget of &#163;92 million for 2004&#150;05, an increase of 6 per cent. over this year.
  <P>
  <P>
-@@ -4193,18 +4190,17 @@
+@@ -4193,15 +4190,13 @@
  
  
  
@@ -30,39 +30,19 @@
  
  <P>
 -
-+<stamp parsemess-missgid="0"/>
  <a name="40223-30_para3"><i>Bill read a Second time.</i><P>
  <page url="http://www.publications.parliament.uk/pa/cm200304/cmhansrd/vo040223/debtext/40223-31.htm"/>
  
 -
++<stamp parsemess-colnum="107"/>
  <H4><center>GENDER RECOGNITION BILL [LORDS] (PROGRAMME)</center></H4>
  <P>
  
-+<stamp parsemess-missgid="0"/>
- <a name="40223-31_para0"><i>Motion made, and Question put forthwith, pursuant to Orders [28 June 2001 and 6 November 2003],</i>
- <P>
- <BR>
-@@ -4245,13 +4241,16 @@
- <P>
- <BR>
- <i>Question agreed to.</i>
-+<stamp parsemess-missgid="0"/>
- <H4><center>GENDER RECOGNITION BILL [LORDS] [MONEY]</center></H4>
- 
- <P>
- </FONT></UL>
-+<stamp parsemess-missgid="0"/>
- <a name="40223-31_para1"><i>Queen's recommendation having been signified&#151;</i>
- <P>
- 
-+<stamp parsemess-missgid="0"/>
- <a name="40223-31_para2"><i>Motion made, and Question put forthwith, pursuant to Standing Order No. 52(1)(a) (Money resolutions and ways and means resolutions in connection with Bills),</i>
- <P>
- <BR>
-@@ -4265,6 +4264,7 @@
+@@ -4265,6 +4260,8 @@
  <P>
  </FONT></UL>
  <a name="40223-31_para3"><i>Question agreed to.</i>
++<stamp parsemess-colnum="108"/>
 +	
  <H4><center>DELEGATED LEGISLATION</center></H4>
  

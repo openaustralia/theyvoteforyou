@@ -1,0 +1,33 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-04-30.html	Thu Dec  2 08:09:10 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-04-30-patchtmp.html	Sat Jan  8 18:14:49 2005
+@@ -36,7 +36,10 @@
+ 
+ 
+ 
++<parsemess-misspeech type="heading" redirect="down"/>
++<parsemess-misspeech type="heading" redirect="down"/>
+ 
++<stamp parsemess-missgid="2"/>
+ 
+ <a name="40430-01_head0"><h3 align=center>Orders of the Day</h3>
+ 
+@@ -45,8 +48,6 @@
+ 
+ 
+ 
+-
+-
+ <p><i>As amended in the Standing Committee, considered.</i>
+ 
+ 
+@@ -58,8 +59,8 @@
+ 
+ 
+ 
+-
+-<p>New Clause 1
++<a name="dummyanchor">
++<h4 align=center>New Clause 1</h4>
+ 
+ 
+ </p>
