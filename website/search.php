@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.19 2004/01/21 15:27:19 frabcus Exp $
+# $Id: search.php,v 1.20 2004/01/28 13:57:53 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -101,12 +101,15 @@
 
         if ($postcode)
         {
-            $pccons = postcode_to_constituency($query);
+            print "Postcode searching is not available.  Please search for your MP name. If you don't know their name, you can try searching for your town or district name, or use <a href=\"http://www.faxyourmp.com\">FaxYourMP</a> to find your MP name from postcode.";
+            $score_clause = "(1=0)";
+        # disabled
+/*            $pccons = postcode_to_constituency($query);
             if (isset($pccons))
             {
                 # Overwrite over matches if we have postcode
                 $score_clause = "(constituency = '" . db_scrub($pccons) . "')";
-            }
+            } */ 
         }
 
         $db->query("$mps_query_start and ($score_clause > 0) 
