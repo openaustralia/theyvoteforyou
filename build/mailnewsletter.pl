@@ -3,15 +3,15 @@ use strict;
 use lib "loader/";
 
 my $text = "website/newsletters/issue7.txt";
-#my $test_name = "";
+my $test_name = "";
 #my $test_name = "Jo Kibble";
-my $test_name = "Francis Irving";
+#my $test_name = "Francis Irving";
 #my $test_name = "Julian Todd";
 
 my $type = "all";
 #my $type = "dream"; 
 
-my $amount = 1;
+my $amount = 1000000;
 
 use PublicWhip::Error;
 use PublicWhip::DB;
@@ -88,6 +88,6 @@ EOF
 
     print "done\n";
 
-    sleep 3; # One second probably enough
+    sleep 2; # One second probably enough
 }
 

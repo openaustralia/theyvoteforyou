@@ -11,6 +11,7 @@ then
 fi
 
 FROMDATE=2001-06-01
+PATH=$PATH:/software/bin
 export HOME=/home/francis
 export CVS_RSH=/software/bin/ssh
 
