@@ -953,6 +953,12 @@ def ParseOldRecords():
 		minlabmin = Minlabmin()
 
 		minlabmin.fullname = decode.group(1)
+		fnm = re.match("(.*?)\s+\[(.*?)\]", minlabmin.fullname)
+		if fnm:
+			minlabmin.fullname = fnm.group(1)
+			minlabmin.cons = fnm.group(2)
+		else:
+			minlabmin.cons = ""
 		minlabmin.dept = dept
 		minlabmin.pos = position
 		minlabmin.responsibility = decode.group(2)

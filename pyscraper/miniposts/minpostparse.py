@@ -89,7 +89,17 @@ import newlabministers2003_10_15
 from newlabministers2003_10_15 import opendate
 
 
-renampos = re.compile("<td><b>([^,]*),\s*([^<]*)</b></td><td>([^,<]*)(?:,\s*([^<]*))?(?:</td>)?\s*$(?i)")
+renampos = re.compile("""<td><b>
+	([^,]*),	# last name
+	\s*
+	([^<(]*?)	# first name
+	\s*
+	(?:\(([^)]*)\))? # constituency
+	</b></td><td>
+	([^,<]*)	# position
+	(?:,\s*([^<]*))? # department
+	(?:</td>)?\s*$(?i)""",
+	re.X)
 
 
 # do the xml thing
@@ -124,12 +134,20 @@ class protooffice:
 		self.sourcedoc = "chgpages"
 
 		nampos = renampos.match(e)
+
 		self.lasname = nampos.group(1)
 		self.froname = nampos.group(2)
-		self.froname = re.sub(" (?:QC|MBE)$", "", self.froname)
+		self.cons = nampos.group(3)
+
+		self.froname = re.sub(" (?:QC|MBE)?$", "", self.froname)
 		self.fullname = "%s %s" % (self.froname, self.lasname)
-		pos = nampos.group(3)
-		dept = nampos.group(4) or "No Department"
+
+		# special Gareth Thomas match
+		if self.fullname == "Mr Gareth Thomas" and self.sdatet[0] >= '2004-04-16' and self.sdatet[0] <= '2004-09-10':
+			self.cons = "Harrow West"
+
+		pos = nampos.group(4)
+		dept = nampos.group(5) or "No Department"
 
 		# separate out the departments if more than one
 		if dept not in govdepts:
@@ -184,6 +202,7 @@ class protooffice:
 		assert self.bopen
 
 		if (self.lasname == nextrec.lasname) and (self.froname == nextrec.froname) and (self.dept == nextrec.dept):
+			assert self.cons == nextrec.cons  # just to catch the rare matches are right
 			(self.sdateend, self.stimeend) = nextrec.sdatet
 			self.fn = fn
 			return True
@@ -298,23 +317,13 @@ def SetNameMatch(cp, cpsdates):
 	# don't match names that are in the lords
 	if not re.search("Duke |Lord |Baroness ", cp.fullname):
 		fullname = cp.fullname
-		cons = ""
-		fnm = re.match("(.*?)\s+\[(.*?)\]", fullname)
-		if fnm:
-			fullname = fnm.group(1)
-			cons = fnm.group(2)
-
-		# special Gareth Thomas match
-		elif fullname == "Mr Gareth Thomas" and cp.dept == "Department for International Development" and cpsdates[0] == "2004-04-16":
-			cons = "Harrow West"
-		elif fullname == "Mr Gareth Thomas":
-			print "Warning, unreconized Gareth Thomas at", cp.dept, cpsdates[0]
+		cons = cp.cons
 
 		cp.matchid, cp.remadename, cp.remadecons = memberList.matchfullnamecons(fullname, cons, cpsdates[0])
 		if not cp.matchid:
-                        cp.matchid, cp.remadename, cp.remadecons = memberList.matchfullnamecons(fullname, cons, cpsdates[1])
+			cp.matchid, cp.remadename, cp.remadecons = memberList.matchfullnamecons(fullname, cons, cpsdates[1])
 		if not cp.matchid:
-                        raise Exception, 'No match: ' + fullname + " : " + (cons or "[nocons]") + "\nOrig:" + cp.fullname
+			raise Exception, 'No match: ' + fullname + " : " + (cons or "[nocons]") + "\nOrig:" + cp.fullname
 
 	else:
 		cp.remadename = cp.fullname

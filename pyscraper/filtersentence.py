@@ -59,8 +59,8 @@ class PhraseTokenize:
 			return nextfunc(qs, stex)
 
 		qstrlink = ConstructHTTPlink(qhttp.group(1), qhttp.group(2), qhttp.group(3))
-
-		nextfunc(qs, stex[:qhttp.span(0)[0]])
+ 
+ 		nextfunc(qs, stex[:qhttp.span(0)[0]])
 		self.toklist.append( ('a', ' href="%s"' % qstrlink, FixHTMLEntities(qhttp.group(0)) ) )
 		self.HTTPlinkToken3(qs, stex[qhttp.span(0)[1]:])
 
