@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.29 2004/08/14 08:57:51 frabcus Exp $
+# $Id: search.php,v 1.30 2004/08/15 10:33:43 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -17,6 +17,7 @@
     }
     include "render.inc";
     include "parliaments.inc";
+    include "constituencies.inc";
     include "postcode.inc";
 
     $db = new DB(); 

@@ -11,5 +11,8 @@ $hidden_hash_var='';
 
 # Not available except for publicwhip.org.uk
 $postcode_search_url = "none";
+define ("POSTCODE_SEARCH_DOMAIN", "none");
+define ("POSTCODE_SEARCH_PORT", "none");
+define ("POSTCODE_SEARCH_PATH", "none");
 
 ?>
