@@ -1,0 +1,77 @@
+#! /bin/bash
+set -e
+
+cd website
+ALLFILES=`find . -name "*.php" -or -name "*.inc"`
+WEBROOT=http://publicwhip.owl
+WEBERRORLOG=/var/log/apache/error.log
+
+# Check syntax of all PHP files
+echo -n "Checking for syntax errors..."
+for X in $ALLFILES
+do
+    echo -n "."
+    if php4 -l $X | grep -v "No syntax errors detected"
+    then
+        exit 1
+    fi
+done
+echo
+
+# Check webpages make no errors
+function check {
+    cp $WEBERRORLOG /tmp/pw_hackytest_prevlog
+    echo -n "."
+    if ! lynx -source $WEBROOT/$1 | grep "Legal information" >/dev/null
+    then
+        echo "Incomplete page for $1"
+        exit 1
+    fi
+    if ! diff /tmp/pw_hackytest_prevlog $WEBERRORLOG
+    then
+        echo "PHP warning for $1"
+        exit 1
+    fi
+}
+
+echo -n "Checking via HTTP requests..."
+check index.php
+check account/wiki.php
+check account/adddream.php
+check account/changeemail.php
+check account/changepass.php
+check account/confirm.php
+check account/editdream.php
+check account/logout.php
+check account/lostpass.php
+check account/register.php
+check account/settings.php
+check GPL.php
+check boths.php
+check division.php
+check "division.php?date=2004-06-15&number=196"
+check divisions.php
+check dreammps.php
+check email.php
+check faq.php
+check index.php
+check "search.php?query=iraq&button=Search"
+check minwhirl.php
+check "mp.php?firstname=Peter&lastname=Ainsworth&constituency=East+Surrey"
+check mps.php
+check mpsee.php
+check search.php
+check wrans.php
+check newsletters/archive.php
+check newsletters/old.php
+check project/code.php
+check project/data.php
+check ./project/index.php
+check ./project/liaison.php
+check "jmp.php?firstname=Anne&lastname=Campbell&constituency=Cambridge&dreammpid=6"
+# slow ones last
+check "dreammp.php?id=91"
+echo
+
+echo "All checks OK"
+
