@@ -56,10 +56,20 @@ def StraightenHTMLrecurse(stex):
 				sres[i] = 'a'
 			elif sres[i] == '&#224;':   # this is a-acute
 				sres[i] = 'a'
+			elif sres[i] == '&#226;':   # this is a-grave as in debacle
+				sres[i] = 'a'
 			elif sres[i] == '&#244;':   # this is o-hat
 				sres[i] = 'o'
+			elif sres[i] == '&#246;':   # this is o-double-dot
+				sres[i] = 'o'
+			elif sres[i] == '&#214;':   # this is capital o-double-dot
+				sres[i] = 'O'
+			elif sres[i] == '&#231;':   # this is cedilla
+				sres[i] = 'c'
 			elif sres[i] == '&#252;':   # this is u-double-dot
 				sres[i] = 'u'
+			elif sres[i] == '&#241;':   # spanish n as in Senor
+				sres[i] = 'n'
 			elif sres[i] == '&#177;':   # this is +/- symbol
 				sres[i] = '+/-'
 			elif sres[i] == '&#188;':   # this is one quarter symbol
@@ -256,9 +266,9 @@ def SplitParaIndents(text):
 		res.append(tex)
 		resdent.append(cindent)
 
-	if bIndent:
-		print text
-		raise ' still indented after last space '
+	#if bIndent:
+	#	print text
+	#	raise ' still indented after last space '
 	return (res, resdent)
 
 

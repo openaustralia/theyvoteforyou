@@ -21,7 +21,8 @@ fixsubs = 	[
 	( '<H1 align=center></H1>[\s\S]{10,99}?\[Continued from column \d+?W\](?:</H2>)?', '', 2, '2003-11-17' ),
 	( '<H2 align=center> </H2>[\s\S]{10,99}?Monday 13 October 2003', '', 1, '2003-10-14' ),
 	( '<P>\[Continued from column 278W\]', '', 1, '2003-12-08'),
- 		]
+
+		]
 
 #<P>
 #</UL><P><I>20 Nov 2003 : Column 1203W</I><P>
@@ -31,7 +32,7 @@ fixsubs = 	[
 # These are very specific cases which attempt to undo the full column inserting macro which
 # they use, which pushes column stamps right into the middle of sentences and paragraphs that
 # may be indented with ul and font changed.
-# Undoing the insertion fully means we can automatically glue paragraphs back together.  
+# Undoing the insertion fully means we can automatically glue paragraphs back together.
 
 # columns never show up in the middle of tables.
 

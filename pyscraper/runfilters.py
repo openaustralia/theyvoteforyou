@@ -107,9 +107,9 @@ if not os.path.isdir(pwxmldirs):
 	os.mkdir(pwxmldirs)
 
 # operate the filters on written answers
-RunFiltersDir(RunWransFilters, 'wrans')
+#RunFiltersDir(RunWransFilters, 'wrans')
 
 # operate the filters on debates
-#RunFiltersDir(RunDebateFilters, 'debates')
+RunFiltersDir(RunDebateFilters, 'debates')
 
 

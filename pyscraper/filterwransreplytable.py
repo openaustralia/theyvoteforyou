@@ -33,7 +33,7 @@ def ParseRow(srow, hdcode):
 			Lscols.append('</%s> ' % hdcode)
 
 		# check that the outside text contains nothing but bogus close column tags
-		elif re.search('\S', re.sub('</t[dh]>|</font>(?i)', '', spcol)):
+		elif not re.match('(?:</t[dh]>|</font>|\s)*$(?i)', spcol):
 			print spcol
 			print srow
 			raise Exception, ' non column text '
@@ -54,13 +54,14 @@ def ParseTable(stable):
 	srows = []
 	for sprow in sprows:
 		trg = re.match('<tr[^>]*>([\s\S]*?)(?:</tr>)?$(?i)', sprow)
+
 		if trg:
 			srows.append(trg.group(1))
 
 		elif re.search('\S', sprow):
 			if (not srows) and (not stitle):
 				stitle = sprow
-			else:
+			elif not re.match('(?:</t[dhr]>|</font>|\s)*$(?i)', sprow):
 				print sprow
 				raise Exception, ' non-row text '
 

@@ -40,16 +40,18 @@ class StampUrl:
 regsection1 = '<h\d><center>.*?</center></h\d>'
 regsection2 = '<h\d align=center>.*?</h\d>'
 regsection3 = '<center><b>.*?</b></center>'
+regsection4 = '<p>\s*<center>.*?</center><p>'
 regspeaker = '<speaker [^>]*>.*?</speaker>'
 regtable = '<table[^>]*>[\s\S]*?</table>'	# these have centres, so must be separated out
 
-recomb = re.compile('(%s|%s|%s|%s|%s)(?i)' % (regsection1, regsection2, regsection3, regspeaker, regtable))
+recomb = re.compile('(%s|%s|%s|%s|%s|%s)(?i)' % (regtable, regspeaker, regsection1, regsection2, regsection3, regsection4))
 
 retableval = re.compile('(%s)(?i)' % regtable)
 respeakerval = re.compile('<speaker ([^>]*)>.*?</speaker>')
 resectiont1val = re.compile('<h\d><center>\s*(.*?)\s*</center></h\d>(?i)')
 resectiont2val = re.compile('<h\d align=center>\s*(.*?)\s*</h\d>(?i)')
 resectiont3val = re.compile('<center><b>(.*?)</b></center>(?i)')
+resectiont4val = re.compile('<p>\s*<center>(.*?)</center><p>(?i)')
 
 
 class SepHeadText:
@@ -123,9 +125,12 @@ class SepHeadText:
 				gheading = resectiont2val.match(fss)
 			if not gheading:
 				gheading = resectiont3val.match(fss)
+			if not gheading:
+				gheading = resectiont4val.match(fss)
 			if gheading:
 				if not gheading.group(1):
-					print 'empty heading following: ' + self.heading
+					print 'heading with no text ignored following: ' + self.heading
+					continue
 
 				self.EndHeading(gheading.group(1))
 				continue

@@ -14,27 +14,44 @@ from miscfuncs import ApplyFixSubstitutions
 # into xml form
 #     <stamp coldate="2003-12-09" colnum="893"/>
 
+# this accounts for the cases where the colnum at the very start is left out.
 fixsubs = 	[
-	( '(<H3 align=center>THE PARLIAMENTARY DEBATES</H3>)', '<B>14 Oct 2003 : Column 1</B>\n\\1', 1, '2003-10-14'),
-	( '(<H4><center>THE PARLIAMENTARY DEBATES</center></H4>)', '<B>14 Jul 2003 : Column 1</B>\n\\1', 1, '2003-07-14'),
- 		]
+	( '(<H3 align=center>THE PARLIAMENTARY DEBATES</H3>)', '<P>\n\n<B>14 Oct 2003 : Column 1</B></P>\n\\1', 1, '2003-10-14'),
+	( '(<H4><center>THE PARLIAMENTARY DEBATES</center></H4>)', '<P>\n\n<B>14 Jul 2003 : Column 1</B></P>\n\\1', 1, '2003-07-14'),
+
+	( '(<P>\n</FONT></UL>)(\s*<B>23 Jun 2003 : Column 836</B></P>)', '\\1<P>\\2', 1, '2003-06-23'),
+	( '<B>27 Mar 2003 : Column 563</B></P>\s*<UL><UL><UL>\s*</UL></UL></UL>', '', 1, '2003-03-27'),
+	( '<B>10 Mar 2003 : Column 141</B></P>\s*<UL><UL><UL>\s*</UL></UL></UL>', '', 1, '2003-03-10'),
+	( '<B>4 Feb 2003 : Column 251</B></P>\s*<UL><UL><UL>\s*</UL></UL></UL>', '', 1, '2003-02-04'),
+	( '<B>24 Sept 2002 : Column 155</B></P>\s*<UL><UL><UL><FONT SIZE=-1>\s*</UL></UL></UL>', '', 1, '2002-09-24'),
+	( '<H4>2.20</H4>', '<H4>2.20 pm</H4>', 1, '2003-02-28'), 
+
+		]
+
+
 
 # <B>9 Dec 2003 : Column 893</B>
-regcolumnum = '<b>[^:<]*:\s*column\s*\d+\s*</b>(?i)'
-recolumnumvals = re.compile('<b>([^:<]*):\s*column\s*(\d+)\s*</b>(?i)')
+regcolumnum1 = '<p>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n(?i)'
+regcolumnum2 = '<p>\s*</ul>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n<ul>(?i)'
+regcolumnum3 = '<p>\s*</ul></font>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n<ul><font[^>]*>(?i)'
+regcolumnum4 = '<p>\s*</font>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n<font[^>]*>(?i)'
+recolumnumvals = re.compile('(?:<p>|</ul>|</font>|\s)*<b>([^:<]*):\s*column\s*(\d+)\s*</b>(?:</p>|<ul>|<font[^>]*>|\s)*$(?i)')
+
 
 #<i>13 Nov 2003 : Column 431&#151;continued</i>
-# these occur infrequently  
+# these occur infrequently
 regcolnumcont = '<i>[^:<]*:\s*column\s*\d+&#151;continued</i>(?i)'
 recolnumcontvals = re.compile('<i>([^:<]*):\s*column\s*(\d+)&#151;continued</i>(?i)')
+
+
 
 # <H5>12.31 pm</H5>
 # <p>\n12.31 pm\n<p>
 # [3:31 pm<P>    -- at the beginning of divisions
-regtime = '(?:</?p>\s*|<h[45]>|\[|\n)\d+(?:[:\.]\d+)?\s*[ap]m(?:\s*</?p>|</h[45]>|\n)(?i)'
-retimevals = re.compile('(?:</?p>\s*|<h\d>|\[|\n)\s*(\d+(?:[:\.]\d+)?\s*[ap]m)(?:\s*</?p>|</h\d>|\n)(?i)')
+regtime = '(?:</?p>\s*|<h[45]>|\[|\n)(?:\d+(?:[:\.]\d+)?\s*[ap]m(?:</st>)?|12 noon)(?:\s*</?p>|\s*</h[45]>|\n)(?i)'
+retimevals = re.compile('(?:</?p>\s*|<h\d>|\[|\n)\s*(\d+(?:[:\.]\d+)?\s*[apmnon]+)(?i)')
 
-recomb = re.compile('(%s|%s|%s)' % (regcolumnum, regcolnumcont, regtime))
+recomb = re.compile('(%s|%s|%s|%s|%s|%s)' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4, regcolnumcont, regtime))
 remarginal = re.compile(':\s*column\s*(\d+)|\n(?:\d+[.:])?\d+\s*[ap]m[^,\w](?i)')
 
 

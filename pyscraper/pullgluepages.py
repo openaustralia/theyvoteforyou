@@ -82,11 +82,22 @@ def GlueByNext(fout, url, urlx):
 		sr = ur.read()
 		ur.close();
 
+		# write the marker telling us which page this comes from
+		fout.write('<page url="' + url + '"/>\n')
+
+
 		# split by sections
 		hrsections = re.split('<hr>(?i)', sr)
 
-		# write the marker telling us which page this comes from
-		fout.write('<page url="' + url + '"/>\n')
+		# this is the case for debates on 2003-03-13 page 30
+		# http://www.publications.parliament.uk/pa/cm200203/cmhansrd/vo030313/debtext/30313-32.htm
+		if len(hrsections) == 1:
+			print len(hrsections)
+			print ' page missing '
+			print url
+			fout.write('<UL><UL><UL></UL></UL></UL>\n')
+			break
+
 
 		# write the body of the text
 		for i in range(1,len(hrsections) - 1):

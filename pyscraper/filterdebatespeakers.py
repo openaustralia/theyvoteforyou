@@ -17,6 +17,12 @@ fixsubs = 	[
 	("<B> (The Prime Minister's website.*?McCartney\))</B>", '//1', 1, '2003-06-04'),
 	( '<B>\("(The registers of political parties)</B>', '//1', 1, '2000-11-29'),
 	( '\(Mr. Denis MacShane </B>\s*\)', '(Mr. Denis MacShane) </B>', 1, '2003-05-21'),
+	( '] Andy King', ' Andy King', 1, '2003-12-10'),
+
+	( '\(Sir Alan Haselhurst </B>', '(Sir Alan Haselhurst) </B>', 1, '2003-03-25'),
+	( '<B> Yvette Cooper: I </B>', '<B> Yvette Cooper: </B> I ', 1, '2003-02-03'),
+	( '\(Mr. Nick Raynsford </B>\s*\)', '(Mr. Nick Raynsford) </B>', 1, '2003-01-23'),
+	( '<B> (I also have real worries .*?\(Mrs. Dunwoody\))</B>', '\\1', 1, '2003-09-16'),
 
 		]
 
@@ -25,7 +31,7 @@ fixsubs = 	[
 
 
 regspeaker = '(?:\d+\. )?<b>[^<]*</b>(?:\s*\((?:con|lab|ld)\))?\s*:?(?i)'
-respeakervals = re.compile('(?:(\d+)\. )?<b>([^:<(]*?)(?:\((.*?)\))?\s*:?\s*</b>(?:\s*\((con|lab|ld)\))?(?i)')
+respeakervals = re.compile('(?:(\d+)\. )?<b>([^:<(]*?):?\s*(?:\((.*?)\))?\s*:?\s*</b>(?:\s*\((con|lab|ld)\))?(?i)')
 
 # <B>Division No. 322</B>
 redivno = re.compile('<b>division no\. \d+</b>$(?i)')
@@ -58,10 +64,10 @@ def FilterDebateSpeakers(fout, text, sdate):
 			spstrbrack = speakerg.group(3) # the bracketted phrase
 
 			# filter out the boring cases to see what's missing from this filter.
-			if (not renonperson.match(spstr)) and (not re.search('Deputy', spstr)):
+			if (not renonperson.match(spstr)) and (not re.search('Deputy|General|Minister|Lords|Chairman', spstr)):
 				if not memberList.mpnameexists(spstr, sdate):
 					if (not spstrbrack) or (not memberList.mpnameexists(spstrbrack, sdate)):
-						print spstr
+						print ' unmatchable name --- ' + spstr
 
 
 			# match the member to a unique identifier
@@ -78,7 +84,7 @@ def FilterDebateSpeakers(fout, text, sdate):
 			print fss
 			raise Exception, ' regexpvals not general enough '
 		if remarginal.search(fss):
-			print ' marginal coltime detection case '
+			print ' marginal speaker detection case '
 			print remarginal.search(fss).group(0)
 			print fss
 			sys.exit()

@@ -53,11 +53,10 @@ def MpTellerList(fsm, sdate):
 
 
 # this splitting up isn't going to deal with some of the bad cases in 2003-09-10
-def FilterDivision(divno, divtext, followspeeches, sdate):
-	print "-- lots of work for Francis Division no. %d " % divno
+def FilterDivision(divno, divtext, sdate):
 
 	# GIVE UP FOR NOW!
-	return [ ]
+	return [ None ]
 
 	# the intention is to splice out the known parts of the division
 	fs = re.split('\s*(?:<br>|<p>)\s*(?i)', divtext)

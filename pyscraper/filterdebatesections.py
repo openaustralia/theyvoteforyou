@@ -33,6 +33,14 @@ fixsubs = 	[
 	( "(<H3 align=center>NINTH VOLUME OF SESSION 2002&#150;2003)ana(House of Commons</H3>)", \
 		'\\1</H3>\n<H3 align=center>\\2', 1, '2003-03-24'),
 	( '\{\*\*pq num="76041"\*\*\}', '', 1, '2002-10-30'),
+
+	( '<i> </i>', '', 1, '2003-01-27'),
+
+	( '<UL><UL>Adjourned', '</UL><UL><UL><UL>Adjourned', 1, '2003-05-22'), # putting a consistent error back in
+	( '<UL><UL>End', '</UL><UL><UL><UL>End', 1, '2002-11-07'), # as above
+
+	( '<UL><UL><UL>', '<UL>', 1, 'all'),
+	( '</UL></UL></UL>', '</UL>', 1, 'all'),
 		]
 
 
@@ -76,52 +84,36 @@ def StripDebateHeadings(headspeak, sdate):
 			raise Exception, 'non-conforming date heading '
 		ih = ih + 1
 
-	#The House met at half-past Ten o'clock 0
-	ih = StripDebateHeading('the house met at .*(?i)', ih, headspeak)
 
-	#PRAYERS 0
+	#The House met at half-past Ten o'clock
+	gstarttime = re.match('the house met at (.*)(?i)', headspeak[ih][0])
+	if (not gstarttime) or headspeak[ih][2]:
+		print headspeak[ih]
+		raise Exception, 'non-conforming "%s" heading ' % hmatch
+	ih = ih + 1
+
+
+	#PRAYERS
 	ih = StripDebateHeading('prayers(?i)', ih, headspeak)
+
+
+	# in the chair
+	ih = StripDebateHeading('\[.*? in the chair\](?i)', ih, headspeak, True)
 
 
 	# find the url, colnum and time stamps that occur before anything else in the unspoken text
 	stampurl = StampUrl()
+
+	# set the time from the wording 'house met at' thing.
+	# this should be encoded into a proper time code.
+	stampurl.timestamp = '<stamp time="%s"/>' % gstarttime.group(1)
+
 	for j in range(0, ih):
 		stampurl.UpdateStampUrl(headspeak[j][1])
 
 	if (not stampurl.stamp) or (not stampurl.pageurl):
 		raise Exception, ' missing stamp url at beginning of file '
 	return (ih, stampurl)
-
-
-def ScanQBatch(shspeak, stampurl, sdate):
-	shansblock = [ ]
-	qblock = [ ]
-
-	# throw in a batch of speakers
-	for shs in shspeak:
-		qb = qspeech(shs[0], shs[1], stampurl, sdate)
-		qblock.append(qb)
-
-		if qb.typ == 'reply':
-			if len(qblock) < 2:
-				print ' Reply with no question ' + stampurl.stamp
-				print shs[1]
-			shansblock.append(qblock)
-			qblock = []
-
-		# reset the id if the column changes
-		if stampurl.stamp != qb.sstampurl.stamp:
-			stampurl.ncid = 0
-		else:
-			stampurl.ncid = stampurl.ncid + 1
-
-	if qblock:
-		# these are common failures of the data
-		print "block without answer " + stampurl.title
-		shansblock.append(qblock)
-	return shansblock
-
-
 
 
 # A series of speeches blocked up into question and answer.
@@ -134,19 +126,20 @@ def WritexmlSpeech(fout, qb, sdate):
 	# (we could choose answers to be the id code??)
 	sid = 'uk.org.publicwhip/debate/%s.%s.%d' % (sdate, colnum, qb.sstampurl.ncid)
 
-	# get the stamps from the stamp on first speaker in block
-	fout.write('\n<speech id="%s" %s title="%s" majorheading="%s">\n' % \
-				(sid, qb.speaker, FixHTMLEntities(qb.sstampurl.title), qb.sstampurl.majorheading))
-	fout.write(qb.sstampurl.stamp)
-	fout.write('\n')
-	fout.write(qb.sstampurl.timestamp)
-	fout.write('\n')
-	fout.write(qb.sstampurl.pageurl)
-	fout.write('\n')
+	# title headings
+	stithead = 'title="%s" majorheading="%s"' % (qb.sstampurl.title, qb.sstampurl.majorheading)
 
+	stime = re.match('<stamp( time=".*?")/>', qb.sstampurl.timestamp).group(1)
+	sstamp = 'colnum="%s"%s' % (colnum, stime)
+
+	spurl = re.match('<page (url=".*?")/>', qb.sstampurl.pageurl).group(1)
+
+	# get the stamps from the stamp on first speaker in block
+	fout.write('\n<speech id="%s" %s %s %s %s>\n' % \
+				(sid, qb.speaker, stithead, sstamp, spurl))
 	# add in some tabbing
 	for st in qb.stext:
-		fout.write('\t\t')
+		fout.write('\t')
 		fout.write(st)
 		fout.write('\n')
 	fout.write('</speech>\n')
@@ -173,64 +166,102 @@ def FilterDebateSections(fout, text, sdate):
 	for i in range(ih, len(headspeak)):
 		sht = headspeak[i]
 
-		# update the stamps from the pre-spoken text
-		stampurl.UpdateStampUrl(sht[1])
+		# set the title for this batch
+		stampurl.title = FixHTMLEntities(sht[0])
+
+		qblock = [ ]
+
 
 		# deal with divisions separately
 		gdiv = re.match('Division No. (\d+)', sht[0])
 		if gdiv:
 			divno = string.atoi(gdiv.group(1))
-			qbl.extend(FilterDivision(divno, sht[1], sht[2], sdate))
-			continue
 
-		# detect if this is a major heading and record it
-		if sht[0] and (not re.search('[a-z]', sht[0])) and not sht[2]:
-			stampurl.majorheading = None
-			for knhd in parlPhrases.debatemajorheadings:
-				if re.match(knhd, sht[0]):
-					stampurl.majorheading = sht[0]
-					break
-			if not stampurl.majorheading:
-				print '"%s"' % sht[0]
-				raise Exception, "unrecognized major heading: "
-			continue
+			# gotta learn how to deal with the procedural text too.
+			# for now think of this as a division object, maybe.
+			# either that, or we'll make the Ayes and Noes as speech statements
+			qbl.extend(FilterDivision(divno, sht[1], sdate))
 
-		# ensure that non-major heading doesn't show up in the list anyway.
-		# (this suggest structure not understood)
-		for knhd in parlPhrases.debatemajorheadings:
-			if re.match(knhd, sht[0]):
-				print sht[0]
-				print ' speeches found in known major heading '
+			if sht[2]:
+				print ' speeches found in division ' + sht[0]
 
-		# batch up the speeches in one heading
-		stampurl.title = sht[0]
+		else:
 
-		# put a title into this list too
-		# qbl.append(stampurl.title)
+		# This is an attempt at major heading detection.
+		# This theory is utterly flawed since you can only tell the major headings
+		# by context, for example, the title of the adjournment debate, which is a
+		# separate entity from whatever came before, and so should not be within that
+		# prior major heading.  Also, Oral questions heading is a super-major heading,
+		# so doesn't fit into the scheme.
+
+			# detect if this is a major heading and record it in the correct variable
+			bmajorheading = sht[0] and (not re.search('[a-z]', sht[0])) and not sht[2]
+			if bmajorheading:
+				stampurl.majorheading = None
+				for knhd in parlPhrases.debatemajorheadings:
+					if re.match(knhd, sht[0]):
+						stampurl.majorheading = stampurl.title
+						break
+				if not stampurl.majorheading:
+					print '"%s"' % sht[0]
+					raise Exception, "unrecognized major heading: "
+				stampurl.title = ''
+
+			# case of unspoken text (between heading and first speaker)
+			# which we will frig for now.
+			# force major headings to have at least one thing here.
+			if (not re.match('(?:<[^>]*>|\s)*$', sht[1])) or bmajorheading or (not sht[2]):
+				qb = qspeech('name="NOBODY-SPOKE-THIS"', sht[1], stampurl, sdate)
+				qb.typ = 'debspeech'
+				qblock.append(qb)
+
+			# update the stamps from any of the pre-spoken text
+			else:
+				stampurl.UpdateStampUrl(sht[1])
+
 
 		# go through each of the speeches in a block and put it into our batch of speeches
-		qblock = [ ]
-		for shs in sht[2]:
-			qb = qspeech(shs[0], shs[1], stampurl, sdate)
+		for ss in sht[2]:
+			qb = qspeech(ss[0], ss[1], stampurl, sdate)
 			qb.typ = 'debspeech'
 			qblock.append(qb)
+
 		qbl.append(qblock)
 
 
 	# we now have headings and series of speeches in qbl.
 	# this is where we do some transformation and gluing together of the parts
 
+
 	# go through all the speeches in all the batches and clear them up (converting text to stext)
 	for qblock in qbl:
-		for qb in qblock:
-			FilterDebateSpeech(qb)
+		if qblock:	# avoiding division types here
+			for qb in qblock:
+				FilterDebateSpeech(qb)
 
-	# for now we just output it as a flat object
+
+
+	# output the list of entities
 	fout.write('<?xml version="1.0" encoding="ISO-8859-1"?>\n')
 	fout.write("<publicwhip>\n")
 	for qblock in qbl:
+
+		if not qblock:
+			fout.write('\n\n<DIVISION/>\n\n')
+			continue
+
+		# major heading signal
+		if not qblock[0].sstampurl.title:
+			fout.write('\n\n<MAJOR-HEADING>%s</MAJOR-HEADING>\n\n' % qblock[0].sstampurl.majorheading)
+			if not qblock[0].stext:
+				continue
+
+		# go through the components of this block
+		if qblock[0].sstampurl.title:
+			fout.write('\n\n<MINOR-HEADING>%s</MINOR-HEADING>\n\n' % qblock[0].sstampurl.title)
 		for qb in qblock:
 			WritexmlSpeech(fout, qb, sdate)
+
 
 	fout.write("</publicwhip>\n")
 
