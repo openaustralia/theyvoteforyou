@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.52 2005/02/24 21:22:17 frabcus Exp $
+# $Id: division.php,v 1.53 2005/03/04 01:40:32 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -180,8 +180,10 @@
                 print '<a href="dreammp.php?id=' . $row['rollie_id'] . '">' . html_scrub($row['name']) . "</a>: \n";
                 print "</td><td>\n";
                 print ' <select name="vote' . $row['rollie_id'] . '" size="1">
+                                    <option ' . vote_value("aye3", $vote) . '>Aye 3-Line</option>
                                     <option ' . vote_value("aye", $vote) . '>Aye</option>
                                     <option ' . vote_value("no", $vote) . '>No</option>
+                                    <option ' . vote_value("no3", $vote) . '>No 3-Line</option>
                                     <option ' . vote_value("both", $vote) . '>Abstain</option>
                                     <option ' . vote_value("--", $vote) . '>Non-voter</option>
                                 </select></p>';

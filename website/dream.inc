@@ -19,15 +19,20 @@ function calc_dream_mp_score_a($db, $dreamid, $personid) {
     $c = 0.0;
     foreach ($qrowarray as $qrow)
     {
-        $t++;
+        $weight = 1;
         $mpvote = $qrow['mpvote'];
         $mpvote = str_replace("tell", "", $mpvote);
         $rollievote = $qrow['rollievote'];
+        if ($rollievote == "aye3" or $rollievote == "no3") {
+            $rollievote = str_replace("3", "", $rollievote);
+            $weight = 3;
+        }
+        $t += $weight;
 
         if ($mpvote == $rollievote)
-            $c++;
+            $c += $weight;
         elseif ($mpvote == "both" or $rollievote == "both")
-            $c = $c + 0.5;
+            $c = $c + ($weight / 2);
     }
 
     return array($c, $t);
