@@ -1,0 +1,65 @@
+--- C:\publicwhip\pwdata\cmpages\debates\debates2003-11-19.html	Wed Jun 09 11:05:18 2004
++++ C:\publicwhip\pwdata\cmpages\debates\debates2003-11-19-patchtmp.html	Sun Jun 13 12:04:55 2004
+@@ -15178,6 +15178,7 @@
+ <page url="http://www.publications.parliament.uk/pa/cm200203/cmhansrd/vo031119/debtext/31119-42.htm"/>
+ 
+ 
++<stamp parsemess-colnum="925"/>
+ 
+ <a name="31119-42_head0"><H3><center>MMR Vaccine</center></H3>
+ 
+@@ -15192,7 +15193,7 @@
+ 
+ <P>
+ <P>
+-<a name="31119-42_spnew0"><B> Norman Baker  (Lewes):</B> 
++<a name="31119-42_spnew0"><B> Norman Baker  (Lewes):</B>
+  Nineteen hours ago I was attending a breakfast meeting in Newhaven to discuss infrastructure works in my constituency. It seems a long time ago.
+ <P>
+ 
+@@ -15302,9 +15303,10 @@
+ <a name="31119-43_time0"><H5>2.30 am</H5>
+ </P>
+ 
++<stamp parsemess-colnum="928"/>
+ <P>
+ <P>
+-<a name="31119-43_spmin0"><B>The Parliamentary Under-Secretary of State for Health   (Miss Melanie Johnson): </B> 
++<a name="31119-43_spmin0"><B>The Parliamentary Under-Secretary of State for Health   (Miss Melanie Johnson): </B>
+  I congratulate the hon. Member for Lewes (Norman Baker) on securing this debate on his constituent and the MMR issue. Many other hon. Members and I care greatly about the health and safety of children. Many of us, as parents, well understand the difficulties of deciding whether to have children vaccinated and, indeed, the concerns that any parent must have about the health of their child.
+ <P>
+ 
+@@ -15334,12 +15336,13 @@
+ 
+ <a name="31119-43_para6">A number of studies cannot find any difference between the rate of autism in children receiving MMR and in those who do not receive it. Other studies have found no sudden increase in autism associated with the introduction of the MMR vaccine in the UK in 1988, no difference in the age of diagnosis between MMR-immunised and un-immunised children, no difference in the MMR immunisation rates between those children with autism and the general population, and no link between the timing of MMR and the onset of autism.
+ <P>
++<stamp parsemess-colnum="930"/>
+ <P>
+-<a name="31119-43_spnew0"><B> Norman Baker: </B> 
++<a name="31119-43_spnew0"><B> Norman Baker: </B>
+  One thing that I did not mention was some staggering figures on the incidence of autism in the United States, which tend to suggest, taking all the states on average, that there has been an overall increase of 870 per cent. between 1992 and 2002&#151;from 12,000 cases to 118,000 cases in just 10 years. Has the Department of Health made any studies as to what the reasons might be for that gigantic increase in the US? Has that been investigated at all?
+ <P>
+ <P>
+-<a name="31119-43_spnew1"><B> Miss Johnson: </B> 
++<a name="31119-43_spnew1"><B> Miss Johnson: </B>
+  Obviously, I am not responsible for health care in the US, although I appreciate that its experience may be relevant to ours. In the UK, vaccinations are not compulsory but voluntary. I do not have an analysis with me this evening of the US figures that the hon. Gentleman has quoted, and I cannot therefore comment on their validity or on what the scientific community has said about them.
+ <P>
+ 
+@@ -15405,13 +15408,15 @@
+ <page url="http://www.publications.parliament.uk/pa/cm200203/cmhansrd/vo031119/debtext/31119-44.htm"/>
+ 
+ 
++<stamp parsemess-colnum="931"/>
+ <P>
+ <P>
+-<a name="31119-44_spnew0"><B> Mrs. Eleanor Laing  (Epping Forest):</B> 
++<a name="31119-44_spnew0"><B> Mrs. Eleanor Laing  (Epping Forest):</B>
+  Will the Minister ensure that the money that the taxpayer has spent so far does not go to waste? It appears that the research that has so far been carried out has been to no avail, simply because it does not appear suitable to take forward the court case. Will she assure the House that taxpayers' money that has gone into the research on the possible link between MMR and autism will not be put to waste, but will be followed up so that we can finally reach a conclusion on this question?
+ <P>
++<stamp parsemess-colnum="932"/>
+ <P>
+-<a name="31119-44_spnew1"><B> Miss Johnson: </B> 
++<a name="31119-44_spnew1"><B> Miss Johnson: </B>
+  The hon. Lady makes a good point, and I was saying that we hope that the money will not go to waste. I understand that most, if not all, of the expenditure is incurred by claimants, so much of the expenditure is effectively their property. They have the ability to put the information into the public domain, so the main onus does not rest with the Government.
+ <P>
+ 
