@@ -1,5 +1,7 @@
 #! /usr/bin/python2.3
 
+# this makes the list of indexes for the different words, and will have a quick decoding.
+
 import sys
 import re
 import os
@@ -17,8 +19,6 @@ pwprotoindexdir = os.path.join(toppath, "pwprotoindex")
 
 pwxmldirs = os.path.join(toppath, "pwscrapedxml")
 pwxmwrans = os.path.join(pwxmldirs, "wrans")
-
-tempfile = os.path.join(toppath, "filtertemp")
 
 
 # gives prefixes and file handles
@@ -112,36 +112,72 @@ for fwrans in fwransxmlall:
 	print ' -- ' + fwrans
 	wr = wransxmlscan(os.path.join(pwxmwrans, fwrans))
 
-# go through all the files, re-open and sort them
+
+# go through all the files we've made; close, re-open and sort them
 for k in unsortindfile.keys():
 	fname = unsortindfile[k].name
 	unsortindfile[k].close()
 
+	# re-open
 	fin = open(fname, "r")
 	wlines = fin.readlines()
 	fin.close()
 
 	wlines.sort()
 
-	# now make the outputs, removing repeats
-	fout = open(fname, "w")
+	# now make list of pairs: (words, lists of links)
+	liwordlinks = [ ]
+
 	word = ''
+	liwlink = [ ]
+	lillink = ''
+	nwordc = 0
+
 	for wl in wlines:
 		itab = string.index(wl, '\t')
 		lword = wl[:itab]
-		wrid = wl[itab+1:len(wl)-1]	# lose the linefeed.
+		wrid = wl[itab+1:len(wl)-1]	# lose the linefeed
 		if word != lword:
 			if word:
-				fout.write('\n')
+				liwordlinks.append( (word, liwlink) )
+			liwlink = [ ]
+			lillink = ''
 			word = lword
-			fout.write(word)
-			fout.write('\t')
-			fout.write(wrid)
-		else:
-			fout.write(' ')
-			fout.write(wrid)
+			nwordc = nwordc + len(word)	# only need to do for new words
+		if wrid != lillink:
+			liwlink.append(wrid)
+			lillink = wrid
 	if word:
-		fout.write('\n')
-	fout.close()
+		liwordlinks.append( (word, liwlink) )
 
+
+	# now make the outputs, removing repeats
+	fout = open(fname, "w")
+
+	# the numbers which will set the size of the file (20 bytes)
+	fout.write('%9d %9d\n' % (len(liwordlinks), nwordc))
+
+	# write out the words (we could number them so it's possible to binary search this list)
+	for i in range(len(liwordlinks)):
+		fout.write('%8d %s\n' % (i, liwordlinks[i][0]))
+
+	# write out the lseek offsets (fixed fields)
+	lseo = 20 + nwordc + (10 * len(liwordlinks)) + (len(liwordlinks) + 1) * 10
+	for liw in liwordlinks:
+		fout.write('%9d\n' % lseo)
+		for lw in liw[1]:
+			lseo = lseo + len(lw) + 1
+	fout.write('%9d\n' % lseo)
+
+	# write out the links on each line
+	for liw in liwordlinks:
+		fout.write(liw[1][0])
+		for lw in liw[1][1:]:
+			fout.write(' ')
+			fout.write(lw)
+		fout.write('\n')
+
+	fout.close()
+	if os.stat(fname)[6] != lseo:
+		raise Exception, ' programming adding up error '
 
