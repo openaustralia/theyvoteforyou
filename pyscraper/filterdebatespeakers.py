@@ -53,6 +53,9 @@ fixsubs = 	[
 
         ( '(<B> Mr\. Spellar)\)', '\\1', 1, '2003-03-31'),
 
+        # wrong constituency in debates
+        ( 'Sir Archy Kirkwood  \(Brecon and Radnorshire\)', 'Sir Archy Kirkwood (Roxburgh and Berwickshire)', 1, '2003-06-26'),
+
         
 ]
 
