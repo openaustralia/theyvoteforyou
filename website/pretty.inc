@@ -1,11 +1,25 @@
 <?php
 
-# $Id: pretty.inc,v 1.4 2003/10/03 10:56:20 frabcus Exp $
+# $Id: pretty.inc,v 1.5 2003/10/03 21:46:10 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
+
+#function print_link($page, $params)
+#{
+#    print "<a href=\"" . $page . $params;
+#    if ($_GET["parliament"] != "")
+#    {
+#        if ($parms == "")
+#            print "?";
+#        else
+#            print "&";
+#        print urlencode($_GET["parliament"]);
+#    }
+#    print "\">";
+#}
 
 function pretty_row_start($prettyrow, $append = "")
 {

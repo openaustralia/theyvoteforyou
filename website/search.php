@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.5 2003/10/03 17:56:36 frabcus Exp $
+# $Id: search.php,v 1.6 2003/10/03 21:46:10 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,10 +8,10 @@
 ?>
 
 <?php
-    $origquery = mysql_escape_string($_GET["query"]);
-    $query = strtoupper($query);
-    $title = "Search for '$origquery'"; 
-    if ($origquery == "")
+    $prettyquery = htmlentities($_GET["query"], ENT_QUOTES);
+    $query = strtoupper(mysql_escape_string($_GET["query"]));
+    $title = "Search for '$prettyquery'"; 
+    if ($prettyquery == "")
         $title = "Search";
     include "header.inc";
 
@@ -42,7 +42,7 @@
         if ($db->rows() > 0)
         {
             $found = true;
-            print "<p>Found these MPs matching '$origquery':";
+            print "<p>Found these MPs matching '$prettyquery':";
             print "<table class=\"mps\"><tr
                 class=\"headings\"><td>Date</td><td>Name</td><td>Constituency</td><td>Party</td><td>Rebellions</td><td>Attendance</td></tr>\n";
             $prettyrow = 0;
@@ -74,7 +74,7 @@
         if ($db->rows() > 0)
         {
             $found = true;
-            print "<p>Found these divisions matching '$origquery':";
+            print "<p>Found these " . $db->rows() . " divisions matching '$prettyquery':";
             print "<table class=\"votes\">\n";
             print "<tr
             class=\"headings\"><td>No.</td><td>Date</td><td>Subject</td><td>Rebellions</td><td>Turnout</td></tr>";
@@ -85,7 +85,7 @@
         if (!$found)
         {
 ?>
-<p>Nothing found matching '<?=$origquery?>'.
+<p>Nothing found matching '<?=$prettyquery?>'.
 <p>Try browsing the list of <a href="mps.php">all MPs</a>
 or <a href="divisions.hphp">all divisions</a>.
 <?php

@@ -1,5 +1,5 @@
 <?php 
-    # $Id: boths.php,v 1.2 2003/09/25 21:19:43 frabcus Exp $
+    # $Id: boths.php,v 1.3 2003/10/03 21:46:10 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -10,6 +10,7 @@
     include "header.inc";
     include "db.inc";
     include "render.inc";
+    include "parliaments.inc";
     $db = new DB(); 
 
     $sort = mysql_escape_string($_GET["sort"]);
@@ -35,35 +36,45 @@
     $count = $db->rows();
 
 ?>
-<p>Amazingly, on <? print $count; ?> occasions in this parliament,
+<p>Amazingly, on <? print $count; ?> occasions in these parliaments,
 an MP has voted twice in the same division.  It's a little known fact that this is perfectly
 allowable, provided one vote is aye and the other is noe.  For details see under the
 heading "abstention" in the <a href="http://www.parliament.uk/documents/upload/p09.pdf">division factsheet</a> from the House of Commons Information Office.  
 
 <p>An MP may have done this to cancel the effect of a mistaken vote in
-the wrong lobby.   However, it would seem reasonable to me to encourage the
-practice as a signal of active abstention from the vote.  You
-can see in the table below that there is slight evidence of such
-a meaning, since when one MP double votes a few others often also
-do so.  Unless they just followed each other blindly into the 
-wrong lobby...
+the wrong lobby.   However, it would seem reasonable to encourage the
+practice as a signal of active abstention from the vote.  You can see in
+the table below one clear case of this happening, where many Conservative
+members abstain on a fishing issue.
 
 <p>This table lists all instances of double voting.  You can select the column
 headings to sort it by MP name or by division date.
 
 <?php
     $url = "boths.php?";
-    print "<table class=\"mix\"><tr class=\"headings\">\n";
-    print "<tr class=\"headings\"><td>No.</td>";
-    head_cell($url, $sort, "Date", "date", "Sort by division date");
-    print "<td>Division</td>";
-    head_cell($url, $sort, "MP", "lastname", "Sort by surname");
-    print "<td>Constituency</td><td>Party</td>";
-    print "</tr>";
 
     $prettyrow = 0;
+    $lastparl = "";
     while ($row = $db->fetch_row())
     {
+        $thisparl = date_to_parliament($row[7]);
+        if ($lastparl == "" or ($thisparl != $lastparl and $sort == "date"))
+        {
+            if ($lastparl != "")
+                print "</table>\n";
+            if ($sort == "date")
+                print "<h2>" . parliament_name($thisparl) . " Parliament</h2>\n";
+
+            print "<table class=\"mix\"><tr class=\"headings\">\n";
+            print "<tr class=\"headings\"><td>No.</td>";
+            head_cell($url, $sort, "Date", "date", "Sort by division date");
+            print "<td>Division</td>";
+            head_cell($url, $sort, "MP", "lastname", "Sort by surname");
+            print "<td>Constituency</td><td>Party</td>";
+            print "</tr>";
+        }
+        $lastparl = $thisparl;
+
         $prettyrow = pretty_row_start($prettyrow);
         print "<td>$row[6]</td><td>$row[7]</td><td><a href=\"division.php?date=" . urlencode($row[7]) .
         "&number=" . urlencode($row[6]) . "\">$row[8]</a></td>";

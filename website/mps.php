@@ -1,5 +1,5 @@
 <?php 
-    # $Id: mps.php,v 1.2 2003/10/02 09:42:03 frabcus Exp $
+    # $Id: mps.php,v 1.3 2003/10/03 21:46:10 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -12,12 +12,8 @@
     else
         $title = "Rebels";
     
-    $parliament = mysql_escape_string($_GET["parliament"]);
-
     include "parliaments.inc";
-    if ($parliament == "")
-        $parliament = this_parliament();
-
+    $parliament = mysql_escape_string($_GET["parliament"]);
     $title .= " - " . parliament_name($parliament) . " Parliament";
 
     include "header.inc";
@@ -82,7 +78,9 @@ headings.
     }
     print "<table class=\"mps\"><tr class=\"headings\">\n";
 
-    $url = "mps.php?";
+    $url = "mps.php";
+    if ($parliament <> "")
+        $url .= "?parliament=" . urlencode($parliament) . "&";
     print "<tr class=\"headings\">";
     head_cell($url, $sort, "Name", "lastname", "Sort by surname");
     head_cell($url, $sort, "Constituency", "constituency", "Sort by constituency");

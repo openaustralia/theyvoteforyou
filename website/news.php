@@ -1,5 +1,5 @@
 <? $title = "Site News"; include "header.inc";
-# $Id: news.php,v 1.11 2003/10/03 10:56:20 frabcus Exp $
+# $Id: news.php,v 1.12 2003/10/03 21:46:10 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -11,6 +11,20 @@
 <p></p>
 */
 ?>
+
+<h2>1997 parliament just in - 4 October 2003 by Francis</h2>
+<p>You can now browse and examine most of the divisions from the
+1997-2001 parliament.</p>
+
+hunting
+iraq
+
+<p>Amongst this new data is an interesting case of mass abstention.
+In a <a href="division.php?date=2000-12-13&number=2">curious vote about EC fishing
+regulations</a>, 77 members from the Conservative party voted both aye
+and noe.  Does anyone know the story of what they were trying to signal?  Why
+is this the only occasion in 6 years when so many have used this to mean
+something?</p>.
 
 <h2>New logo and look - 2 October 2003 by Francis</h2>
 <p>Giles has been working away, and given us a new logo and look.  Thank

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: wordfreq.php,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: wordfreq.php,v 1.2 2003/10/03 21:46:10 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -122,7 +122,7 @@ For example, try "death" and "taxes".
     for ($i=0;$i<count($words);$i++) 
 	{
         $width = 100; 
-		print "<tr><td>\"$words[$i]\"</td>"; 
+		print "<tr><td>\"" . htmlentities($words[$i]) . "\"</td>"; 
 		print "<td><img src=\"row$i.png\" width=\"$width\" height=\"$bheight\"/></td></tr>"; 
 	}
     print "</table>"; 
@@ -131,7 +131,7 @@ For example, try "death" and "taxes".
     print "<table><tr class=\"headings\"><td>Date</td><td>Chart</td>"; 
     for ($i=0;$i<count($words);$i++) 
 	{
-		print "<td>$words[$i]</td>"; 
+		print "<td>" . htmlentities($words[$i]) . "</td>"; 
 	}
     print "</tr>\n";
     

@@ -1,5 +1,5 @@
 <?php
-# $Id: division.php,v 1.6 2003/10/03 10:56:20 frabcus Exp $
+# $Id: division.php,v 1.7 2003/10/03 21:46:10 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -13,10 +13,8 @@
     $div_no = mysql_escape_string($_GET["number"]);
 
     $show_all = false;
-    if (mysql_escape_string($_GET["showall"]) == "yes")
-    {
+    if ($_GET["showall"] == "yes")
         $show_all = true;
-    }
 
     $row = $db->query_one_row("select pw_division.division_id, division_name,
             source_url, rebellions, turnout, notes, motion from pw_division,
@@ -30,12 +28,13 @@
     $turnout = $row[4];
     $notes = $row[5];
     $motion = $row[6];
+    $date = date("j M Y", strtotime($date));
+    $div_no = htmlentities($div_no);
 
-    $title = "Division $div_no - $name";
+    $title = "Division $div_no - $date - $name";
     include "header.inc";
 
     print "<h2>Summary</h2>";
-    print "<p>Vote took place on $date.";
 
     $ayes = $db->query_one_value("select count(*) from pw_vote
         where division_id = $div_id and vote = 'aye'");

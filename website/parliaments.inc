@@ -1,6 +1,6 @@
 <?php
 
-# $Id: parliaments.inc,v 1.2 2003/10/02 13:51:12 frabcus Exp $
+# $Id: parliaments.inc,v 1.3 2003/10/03 21:46:10 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -12,8 +12,8 @@
 # give the scond an id with the month in as well.  The name can change
 # (as it is not in URLs), so can be any clarifying pretty description.
 $parliaments = array(
-    '2001' => array(id => '2001', from => '2001-06-07', to => '9999-12-31', name => '2001'),
-    '1997' => array(id => '1997', from => '1997-05-01', to => '2001-05-14', name => '1997'),
+    '2001' => array(from => '2001-06-07', to => '9999-12-31', name => '2001'),
+    '1997' => array(from => '1997-05-01', to => '2001-05-14', name => '1997'),
 );
 
 function this_parliament()
@@ -21,34 +21,44 @@ function this_parliament()
     return 2001;
 }
 
+function parliament_count()
+{
+    global $parliaments;
+    return count($parliaments);
+}
+
 function date_to_parliament($date)
 {
     global $parliaments;
 
-    foreach ($parliaments as $parliament)
+    foreach ($parliaments as $id => $parliament)
     {
         if ($parliament['from'] <= $date && $date <= $parliament['to'])
-        {
-            return $parliament['name'];
-        }
+            return $id;
     }
     return "Unknown";
 }
 
 function parliament_name($id)
 {
+    if ($id == "")
+        $id = this_parliament();
     global $parliaments;
     return $parliaments[$id]['name'];
 }
 
 function parliament_date_from($id)
 {
+    if ($id == "")
+        $id = this_parliament();
     global $parliaments;
     return $parliaments[$id]['from'];
 }
 
 function parliament_date_to($id)
 {
+    if ($id == "")
+        $id = this_parliament();
     global $parliaments;
     return $parliaments[$id]['to'];
 }

@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.5 2003/10/02 17:21:54 frabcus Exp $
+# $Id: faq.php,v 1.6 2003/10/03 21:46:10 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -27,13 +27,15 @@ voting.  This information has been added into an online database which
 you can access.
 
 <h2>What time period does it cover?</h2>
-<p>The data extends back to the start of this parliament, just after the
-June 2001 General Election.  New divisions are added semi-manually, so
-may not appear until a few days after they happen.  We give no warranty
-for the data; there may be factual inaccuracies.  <a href="mailto:support@publicwhip.org.uk">Let us know</a> if you find any.
+<p>The data extends back across two parliaments to the May 1997 General
+Election.  New divisions are added semi-manually, so may not appear
+until a few days after they happen.  We give no warranty for the data;
+there may be factual inaccuracies.  <a
+href="mailto:support@publicwhip.org.uk">Let us know</a> if you find any.
 
 <?php
     include "db.inc";
+    include "parliaments.inc";
     $db = new DB(); 
 
     $div_count = $db->query_one_value("select count(*) from pw_division");
@@ -43,7 +45,7 @@ for the data; there may be factual inaccuracies.  <a href="mailto:support@public
     $db->query("select count(*) from pw_mp group by party"); $parties = $db->rows();
     $rebellious_votes = $db->query_one_value("select sum(rebellions) from pw_cache_mpinfo");
     $rebelocity = round(100 * $rebellious_votes / $vote_count, 2);
-    $attendance = round(100 * $vote_count / $div_count / $mp_count, 2);
+    $attendance = round(100 * $vote_count / $div_count / ($mp_count / parliament_count()), 2);
 ?>
 
 <p>Some numeric statistics: The database contains <?=$mp_count?> 
@@ -52,7 +54,7 @@ which have been counted.  A mean of <?=$vote_per_div?> MPs voted
 in each division.  In total <?=$vote_count?> votes were cast, of which
 <?=$rebellious_votes?> were against the majority vote for their party.
 That's an overall <?=$attendance?>% attendance rate and
-<?=$rebelocity?>% possible rebellion rate.
+<?=$rebelocity?>% rebellion rate.
 
 <h2><a name="legal">Legal question, what can I use this information for?</a></h2>
 

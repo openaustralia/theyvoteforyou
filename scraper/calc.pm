@@ -1,4 +1,4 @@
-# $Id: calc.pm,v 1.2 2003/09/25 20:29:17 uid37249 Exp $
+# $Id: calc.pm,v 1.3 2003/10/03 21:46:10 frabcus Exp $
 # Calculates various data and caches it in the database.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -56,11 +56,12 @@ sub guess_whip_for_division
         }
         elsif ($vote eq "both")
         {
-            # ignore
+            # just ensure key is there
+            $partycount{$party} += 0;
         }
         else
         {
-            die "Vote neither aye nor noe - party $party division $divid";
+            die "Vote neither aye, noe nor both - party $party division $divid";
         }
     }
     foreach (keys %partycount)

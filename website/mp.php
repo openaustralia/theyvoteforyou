@@ -1,5 +1,5 @@
 <?php 
-    # $Id: mp.php,v 1.5 2003/10/02 09:42:03 frabcus Exp $
+    # $Id: mp.php,v 1.6 2003/10/03 21:46:10 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -14,12 +14,10 @@
     $constituency = mysql_escape_string($_GET["constituency"]);
 
     $show_all = false;
-    if (mysql_escape_string($_GET["showall"]) == "yes")
-    {
+    if ($_GET["showall"] == "yes")
         $show_all = true;
-    }
 
-    $title .= "$first_name $last_name, $constituency";
+    $title .= htmlentities("$first_name $last_name, $constituency");
     include "header.inc";
        
     $db->query("select first_name, last_name, title, constituency,

@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: cluster-parliament-static.pl,v 1.1 2003/09/19 16:06:36 frabcus Exp $
+# $Id: cluster-parliament-static.pl,v 1.2 2003/10/03 21:46:10 frabcus Exp $
 # Outputs a matrix of distances between pairs of MPs for
 # use by the GNU Octave script mds.m to do clustering.
 
@@ -10,6 +10,7 @@ use strict;
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
+require "../scraper/error.pm";
 require "../scraper/db.pm";
 my $dbh = db::connect();
 
