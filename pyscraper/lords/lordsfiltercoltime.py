@@ -9,7 +9,6 @@ import mx.DateTime
 
 from miscfuncs import ApplyFixSubstitutions
 
-
 # this filter converts column number tags of form:
 #     <B>9 Dec 2003 : Column 893</B>
 # into xml form
@@ -17,6 +16,10 @@ from miscfuncs import ApplyFixSubstitutions
 
 # Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
+( '<P>\s*</UL></UL></UL>', '</UL></UL></UL><P>', -1, 'all'),
+# to insert a break which is otherwise not detectable
+('<a name="column_15"></a>', '<a name="wms"></a>\\s', 1, '2004-01-12'),
+('<a name="column_5"></a>', '<a name="wms"></a>\\s', 1, '2004-01-06'),
 
 		]
 
@@ -31,13 +34,15 @@ fixsubs = 	[
 # <P><a name="column_1442"></a><B>1 Apr 2004 : Column 1442</B></P><FONT SIZE=3>
 # <P></UL><a name="column_1519"></a><B>1 Apr 2004 : Column 1519</B></P><UL><FONT SIZE=3>
 
-regcolumnum1 = '<p>\s*<b>[^:<]*:\s*column\s*(?:GC|WA|WS)?\d+\s*</b></p>\n(?:<font size=3>)?'
-regcolumnum2 = '<p>\s*(?:</ul>){1,3}\s*<b>[^:<]*:\s*column\s*(?:GC|WA|WS)?\d+\s*</b></p>\s*(?:<ul>){1,3}(?:<FONT SIZE=3>)?'
-regcolumnum3 = '<p>\s*</ul><font size=3>\s*<b>[^:<]*:\s*column\s*(?:GC|WA|WS)?\d+\s*</b></p>\s*<ul><font size=2>'
-regcolumnum4 = '<p>\s*<font size=3>\s*<b>[^:<]*:\s*column\s*(?:GC|WA|WS)?\d+\s*</b></p>\s*<font size=2>'
-regcolumnum5 = '<p>\s*(?:<font size=3>\s*)?<a name="column_\d+"></a>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\s*<font size=[23]>'
+regcolmat = '\s*<a name="column_\d+"></a>\s*<b>[^:<]*:\s*column\s*\d+\s*</b>'
+regcolumnum11 = '<p>%s</p>\s*<font size=3>' % regcolmat
+regcolumnum1 = '<p>%s</p>' % regcolmat
+regcolumnum2 = '<p>\s*<font size=3>%s</p>\s*<font size=2>' % regcolmat
+regcolumnum3 = '<p>\s*</ul>%s</p>\s*<ul><font size=3>' % regcolmat
+regcolumnum4 = '<p>\s*</ul><font size=3>%s</p>\s*<ul><font size=2>' % regcolmat
 regcolumnum5 = '<p>\s*(?:<font size=3>\s*)?<a name="column_\d+"></a>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\s*<font size=[23]>'
 regcolumnum6 = '<p>\s*</ul>\s*<a name="column_\d+"></a>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\s*<ul><font size=3>'
+
 
 recolumnumvals = re.compile('(?:<p>|</ul>|<font size=\d>|\s|</?a[^>]*>)*?<b>([^:<]*)\s*:\s*column\s*(\D*?)(\d+)\s*</b>(?:</p>|<ul>|<font size=\d>|\s)*$(?i)')
 
@@ -47,27 +52,17 @@ regtime1 = '(?:</?p>\s*|<h[45]>|\[|\n)(?:\d+(?:[:\.]\d+)?\.?\s*[ap]\.m\.\s*(?:</
 regtime2 = '<H5>Noon\s*</st></H5>'
 retimevals = re.compile('(?:</?p>\s*|<h\d>|\[|\n)\s*(\d+(?:[:\.]\d+)?\s*[apmnon\.]+|Noon)(?i)')
 
+# <a name="column_1099">
+reaname = '<a name\s*=\s*"[^"]*"></a>(?i)'
+reanamevals = re.compile('<a name\s*=\s*"([^"]*)">(?i)')
 
-
-recomb = re.compile('(%s|%s|%s|%s|%s|%s|%s|%s)(?i)' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4, regcolumnum5, regcolumnum6, regtime1, regtime2))
+recomb = re.compile('(%s|%s|%s|%s|%s|%s|%s|%s)(?i)' % (regcolumnum11, regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4, regtime1, regtime2, reaname))
 
 remarginal = re.compile(':\s*column\s*\D*(\d+)(?i)')
 
-
-
-# We have to separate into sections since they are on different time-lines and will
-# require different detection.
-# foutarr[0]  debates
-# foutarr[1]  Grand Committee
-# foutarr[2]  Written Statements
-# foutarr[3]  Written Answers
-
-
 def FilterLordsColtime(fout, text, sdate):
-	text = ApplyFixSubstitutions(text, sdate, fixsubs)
-        indexstyle = " NONE "
 	colnum = -1
-        time = ''
+	time = ''
 
 	for fss in recomb.split(text):
 
@@ -88,15 +83,6 @@ def FilterLordsColtime(fout, text, sdate):
 			if sdate != ldate:
 				raise Exception, "Column date disagrees %s -- %s" % (sdate, fss)
 
-                        # get the index style out
-			lindexstyle = columng.group(2)
-                        if not re.match('(?:|GC|WS|WA)$', lindexstyle):
-				raise Exception, "Colnum index style not recognized: %s" % lindexstyle
-                        if indexstyle != lindexstyle:
-                                indexstyle = lindexstyle
-                                colnum = -1  # restart the numbering
-                                #print indexstyle
-
 			# check number
 			lcolnum = string.atoi(columng.group(3))
 			if lcolnum == colnum - 1:
@@ -105,8 +91,8 @@ def FilterLordsColtime(fout, text, sdate):
 				pass	# spurious repeat of column number stamps
 			# good (we get skipped columns in divisions)
 			elif (colnum == -1) or (lcolnum == colnum + 1) or (lcolnum == colnum + 2):
-                            colnum = lcolnum
-                            fout.write('<stamp coldate="%s" colnum="%s" colstyle="%s"/>' % (sdate, colnum, lindexstyle))
+				colnum = lcolnum
+				fout.write('<stamp coldate="%s" colnum="%s"/>' % (sdate, colnum))
 
 			# column numbers do get skipped during division listings
 			else:
@@ -124,6 +110,13 @@ def FilterLordsColtime(fout, text, sdate):
 			fout.write('<stamp time="%s"/>' % time)
 			continue
 
+		# anchor names from HTML <a name="xxx">
+		anameg = reanamevals.match(fss)
+		if anameg:
+			aname = anameg.group(1)
+			fout.write('<stamp aname="%s"/>' % aname)
+			continue
+
 		# nothing detected
 		# check if we've missed anything obvious
 		if recomb.match(fss):
@@ -136,5 +129,102 @@ def FilterLordsColtime(fout, text, sdate):
 			#print fss
 			raise Exception, ' marginal coltime detection case '
 		fout.write(fss)
+
+
+
+
+##############
+# lords filters stuff -- to be cleared up in a bit.
+##############
+
+# this is not working easily.
+
+# split the text into the four categories.
+
+# the parsing for each is quite different, which is why this is done first.
+
+# against my instincts, I'm using the <a name> tags to break it up since
+# the column numbering can be errant and on either side of the title
+
+# this is not very elegant or orthogonal, but there are few enough cases
+# to do it brutally like this
+
+regacol = '<a name="column_([^\d>"]*)\d+"></a>'
+
+def SplitLordsText(text, sdate):
+	text = ApplyFixSubstitutions(text, sdate, fixsubs)
+	res = [ '', '', '', '' ]
+
+	wagc = re.search('<a name="column_GC\d+"></a>', text)
+	wams = re.search('<a name="(?:wms|column_WS\d+)"></a>', text)
+	wama = re.search('<a name="(?:column_WA\d+|[\dw]*_writ0)"></a>', text)
+
+	# set end of house of lords section and check order
+	if wagc:
+		holend = wagc.start(0)
+		if wams:
+			assert holend < wams.start(0)
+		elif wama:
+			assert holend < wama.start(0)
+	elif wams:
+		holend = wams.start(0)
+		if wama:
+			assert holend < wama.start(0)
+	elif wama:
+		holend = wama.start(0)
+	else:
+		holend = len(text)
+
+	# set the grand committee end
+	res[0] = text[:holend]
+	if wagc:
+		if wams:
+			gcend = wams.start(0)
+		elif wama:
+			gcend = wama.start(0)
+		else:
+			gcend = len(text)
+		res[1] = text[holend:gcend]
+	else:
+		gcend = holend
+
+	# set the ministerial statements end
+	if wams:
+		if wama:
+			msend = wama.start(0)
+		else:
+			msend = len(text)
+		res[2] = text[gcend:msend]
+	else:
+		msend = gcend
+
+	# set the written answers end
+	maend = len(text)
+	if wama:
+		res[3] = text[msend:]
+
+	# check the wrong column numbering or wrong titles aren't found in the wrong place
+	assert not re.search('<a name="column_\D+\d+">', res[0])
+	assert re.search('House of Lords\s*(?:<FONT SIZE=3>)?</center>', res[0])
+	assert re.search('(?:<ul><ul>|</a>)(?:Parliament was prorogued|House adjourned )(?i)', res[0])
+
+	if res[1]:
+		assert not re.search('<a name="column_(?!GC)\D+\d+">', res[1])
+		assert re.search('<center>Official Report of the (?:Northern Ireland Orders )?Grand Committee', res[1])
+
+	if res[2]:
+		assert not re.search('<a name="column_(?!WS)\D+\d+">', res[2])
+		assert re.search('center>Written Statements', res[2])
+
+	if res[3]:
+		assert not re.search('<a name="column_(?!WA)\D+\d+">', res[3])
+		assert re.search('<center>Written Answers', res[3])
+
+# could grab leading url labels to put into each section.
+
+	print map(len, res)
+	return res
+
+
 
 

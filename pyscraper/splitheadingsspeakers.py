@@ -85,7 +85,7 @@ class StampUrl:
 
 # the fixed strings for piecing apart the text
 # we need to split off tables because they often contain a heading type in them.
-regsection1 = '<h\d><center>.*?</center></h\d>'
+regsection1 = '<h\d><center>.*?\s*</center></h\d>'
 regsection2 = '<h\d align=center>.*?</h\d>'
 regsection3 = '<center><b>.*?</b></center>'
 regsection4 = '<p>\s*<center>.*?</center><p>'

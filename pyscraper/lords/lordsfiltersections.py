@@ -18,19 +18,34 @@ from clsinglespeech import qspeech
 from parlphrases import parlPhrases
 
 from miscfuncs import FixHTMLEntities
-from miscfuncs import WriteXMLHeader
+from miscfuncs import WriteXMLFile
 
 from filterdivision import FilterDivision
-from filterdivision import LordsFilterDivision
+from lordsfilterdivisions import LordsFilterDivision
 from filterdebatespeech import FilterDebateSpeech
 
 # Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
 				# heading so full of crap I can only discard it completely
+				('<center>\s*(<TABLE[\s\S]*?</TABLE>)\s*</center>', '\\1', 2, '2004-03-04'),
+				('colspan=center', 'align=center', 4, '2004-03-04'),
+
+				('<H5>(Second Reading debate resumed.</H5>)', '<H5 align=center>\\1', 1, '2003-12-15'),
+				('<hr width=25%>', '', 1, '2004-03-25'),
+    			('(<ul><ul>House adjourned.*?.</ul></ul>)', '<ul>\\1</ul>', 1, '2004-03-25'),
+
+				('(\[\*The Tellers for .*?\s*<P>)([\s\S]*?)(Resolved .*? accordingly.)', '\\3 \\2 \\1', 1, '2004-03-23'),
+				('(Renfrew of Kaimsthorn,)\s*<br>\s*(L.)', '\\1 \\2', 1, '2004-03-23'), 
+
+				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-03-15'),
+				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-02-23'),
 				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-01-26'),
 				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-01-05'),
-				( '<UL><UL><UL>', '<UL>', -1, 'all'),
-				( '</UL></UL></UL>', '</UL>', -1, 'all'),
+
+# this is the queens speech, and this sub doesn't fix it.
+				('<FONT SIZE=6><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2003-11-26'),
+				( '<UL><UL><UL>(?i)', '<UL>', -1, 'all'),
+				( '</UL></UL></UL>(?i)', '</UL>', -1, 'all'),
 		]
 
 
@@ -84,49 +99,21 @@ def StripLordsDebateHeadings(headspeak, sdate):
 	return (ih, stampurl)
 
 
-# A series of speeches blocked up into question and answer.
-def WriteXMLSpeech(fout, qb, sdate):
-       	# add in some tabbing
-        body = ''
-	for st in qb.stext:
-		body += '\t'
-		body += st
-		body += '\n'
 
-        WriteXMLChunk(fout, qb, sdate, 'speech', body)
+# Handle normal type heading
+def LordsHeadingPart(headingtxt, stampurl):
+	bmajorheading = False
 
-# A series of speeches blocked up into question and answer.
-def WriteXMLChunk(fout, qb, sdate, tagname, body):
-	gcolnum = re.search('colnum="([^"]*)"', qb.sstampurl.stamp)
-	if not gcolnum:
-		raise Exception, 'missing column number'
-	colnum = gcolnum.group(1)
+	headingtxtfx = FixHTMLEntities(headingtxt)
+	qb = qspeech('nospeaker="true"', headingtxtfx, stampurl)
+	if bmajorheading:
+		qb.typ = 'major-heading'
+	else:
+		qb.typ = 'minor-heading'
 
-	# (we could choose answers to be the id code??)
-	sid = 'uk.org.publicwhip/debate/%s.%s.%d' % (sdate, colnum, qb.sstampurl.ncid)
-
-	# title headings
-        stithead = 'majorheading="%s"' % (qb.sstampurl.majorheading)
-        if qb.sstampurl.title <> "":
-                stithead += ' minorheading="%s"' % (qb.sstampurl.title)
-
-	stime = '9999'  #re.match('<stamp( time=".*?")/>', qb.sstampurl.timestamp).group(1)
-	sstamp = 'colnum="%s"%s' % (colnum, stime)
-
-	spurl = re.match('<page (url=".*?")/>', qb.sstampurl.pageurl).group(1)
-
-	speaker = ''
-	if tagname == 'speech':
-		speaker = 'speaker="%s" ' % qb.speaker
-
-	# get the stamps from the stamp on first speaker in block
-	fout.write('\n<%s id="%s" %s %s %s %s>\n' % \
-				(tagname, sid, speaker, stithead, sstamp, spurl))
-        fout.write(body)
-
-	fout.write('</%s>\n' % (tagname))
-
-
+	# headings become one unmarked paragraph of text
+	qb.stext = [ headingtxtfx ]
+	return qb
 
 
 ################
@@ -143,102 +130,59 @@ def LordsFilterSections(fout, text, sdate):
 	# break down into lists of headings and lists of speeches
 	(ih, stampurl) = StripLordsDebateHeadings(headspeak, sdate)
 
+	# loop through each detected heading and the detected partitioning of speeches which follow.
+	# this is a flat output of qspeeches, some encoding headings, and some divisions.
+	# see the typ variable for the type.
+	flatb = [ ]
 
-	# We create a list of lists of speeches
-	qbl = [ ]
+	for sht in headspeak[ih:]:
+		# triplet of ( heading, unspokentext, [(speaker, text)] )
+		headingtxt = string.strip(sht[0])
+		unspoketxt = sht[1]
+		speechestxt = sht[2]
 
-	for i in range(ih, len(headspeak)):
-		sht = headspeak[i]
+		# the heading detection, as a division or a heading speech object
+		# detect division headings
+		gdiv = re.match('Division No. (\d+)', headingtxt)
 
-		# set the title for this batch
-		stampurl.title = FixHTMLEntities(sht[0])
+		# heading type
+		if not gdiv:
+			qbh = LordsHeadingPart(headingtxt, stampurl)
+			flatb.append(qbh)
 
-		qblock = [ ]
-
-
-		# deal with divisions separately
-		gdiv = re.match('Division No. (\d+)', sht[0])
-		if gdiv:
-			divno = string.atoi(gdiv.group(1))
-			print sht[0]
-
-			# gotta learn how to deal with the procedural text too.
-			# for now think of this as a division object, maybe.
-			# either that, or we'll make the Ayes and Noes as speech statements
-			divxml = LordsFilterDivision(divno, sht[1], sdate)
-			qb = qspeech('', divxml, stampurl)
-			qb.typ = 'division'
-			qblock.append(qb)
-
-
+		# division type
 		else:
+			(unspoketxt, qbd) = LordsDivisionParsingPart(string.atoi(gdiv.group(1)), unspoketxt, stampurl, sdate)
 
+			# grab some division text off the back end of the previous speech
+			# and wrap into a new no-speaker speech
+			#qbdp = GrabDivisionProced(flatb[-1], qbd)
+			#if qbdp:
+			#	flatb.append(qbdp)
+			flatb.append(qbd)
 
-			# detect if this is a major heading and record it in the correct variable
-			qb = qspeech('', stampurl.title, stampurl)
-			qb.typ = 'debminor'
-			qblock.append(qb)
+		# continue and output unaccounted for unspoken text occuring after a
+		# division, or after a heading
+		if (not re.match('(?:<[^>]*>|\s)*$', unspoketxt)):
+			qb = qspeech('nospeaker="true"', unspoketxt, stampurl)
+			qb.typ = 'speech'
+			FilterDebateSpeech(qb)
+			flatb.append(qb)
 
-			# case of unspoken text (between heading and first speaker)
-			# which we will frig for now.
-			if (not re.match('(?:<[^>]*>|\s)*$', sht[1])):
-				qb = qspeech('nospeaker="true"', sht[1], stampurl)
-				qb.typ = 'debspeech'
-				qblock.append(qb)
-
-			# update the stamps from any of the pre-spoken text
-			else:
-				stampurl.UpdateStampUrl(sht[1])
-
+		# there is no text; update from stamps if there are any
+		else:
+			stampurl.UpdateStampUrl(unspoketxt)
 
 		# go through each of the speeches in a block and put it into our batch of speeches
-		for ss in sht[2]:
+		for ss in speechestxt:
 			qb = qspeech(ss[0], ss[1], stampurl)
-			qb.typ = 'debspeech'
-			qblock.append(qb)
-
-		qbl.append(qblock)
-
-
-	# we now have headings and series of speeches in qbl.
-	# this is where we do some transformation and gluing together of the parts
+			qb.typ = 'speech'
+			FilterDebateSpeech(qb)
+			flatb.append(qb)
 
 
-	# go through all the speeches in all the batches and clear them up (converting text to stext)
-	for qblock in qbl:
-		for qb in qblock:
-			if qb.typ != 'division':
-				FilterDebateSpeech(qb)
-
-
+	# we now have everything flattened out in a series of speeches
 
 	# output the list of entities
-	WriteXMLHeader(fout);
-	fout.write("<publicwhip>\n")
-	for qblock in qbl:
-
-		if not qblock:
-                        raise Exception, "No content in qblock"
-
-		for qb in qblock:
-                        if qb.typ == 'debmajor':
-                                fout.write('\n')
-                                WriteXMLChunk(fout, qb, sdate, 'major-heading', qb.sstampurl.majorheading)
-                                fout.write('\n')
-                        elif qb.typ == 'debminor':
-                                fout.write('\n')
-                                WriteXMLChunk(fout, qb, sdate, 'minor-heading', qb.sstampurl.title)
-                                fout.write('\n')
-                        elif qb.typ == 'division':
-                                fout.write('\n')
-                                WriteXMLChunk(fout, qb, sdate, 'division', qb.text)
-                                fout.write('\n')
-                        elif qb.typ == 'debspeech':
-                                WriteXMLSpeech(fout, qb, sdate)
-                        else:
-                                raise Exception, 'question block type unknown %s ' % qb.typ
-
-
-	fout.write("</publicwhip>\n")
-
+	WriteXMLFile(fout, flatb, sdate)
 
