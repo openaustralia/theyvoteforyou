@@ -24,7 +24,8 @@ def WriteCleanText(fout, text):
 		elif re.match('<a[^>]*>(?i)', ab):
 			# this would catch if we've actually found a link
 			if not re.match('<a name\s*?=\s*\S*?\s*?>(?i)', ab):
-				print ab
+				print 'Anchor left in clean text: %s' % ab
+				fout.write(re.sub('\s', ' ', ab))
 
 		elif re.match('</a>(?i)', ab):
 			pass
