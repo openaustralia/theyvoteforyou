@@ -1,7 +1,7 @@
 <?php $cache_params = rand(0, 10); include "cache-begin.inc"; ?>
 
 <?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
-# $Id: index.php,v 1.29 2004/07/13 08:37:24 frabcus Exp $
+# $Id: index.php,v 1.30 2004/07/13 12:10:36 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -44,7 +44,7 @@ An at most monthly briefing.
 <form class="search" action="search.php" name=pw>
 <p><span class="actionsheading">Find out how any MP votes</span>
 <br>Enter your postcode or MP name:
-<input maxLength=256 size=15 name=query value=""> <input type=submit value="Go" name=button>
+<input maxLength=256 size=10 name=query value=""> <input type=submit value="Go" name=button>
 <br><i>Example: "OX1 3DR", "<?=$random_mp?>"</i>
 </form></p>
 </p>
@@ -53,7 +53,7 @@ An at most monthly briefing.
 <form class="search" action="search.php" name=pw>
 <p><span class="actionsheading">Search for votes in parliament on your subject</span>
 <br>Enter the topic to search for:
-<input maxLength=256 size=15 name=query value=""> <input type=submit value="Search" name=button>
+<input maxLength=256 size=10 name=query value=""> <input type=submit value="Search" name=button>
 <br><i>Examples: "<?=$random_topic?>", "<?=$random_topic2?>", "<?=$random_topic3?>"</i>
 </form></p>
 </p>
@@ -79,7 +79,7 @@ An at most monthly briefing.
 </p>
 </ol>
 
-<td width="20%" class="layout" bgcolor="#eeeeee">
+<td width="20%" class="layout" bgcolor="#dddddd">
 <h2>Vote Map <a href="mpsee.php">
 <br>(find Blair...)</a></h2>
 <p><a href="mpsee.php">
