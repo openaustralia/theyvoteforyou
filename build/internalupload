@@ -27,6 +27,11 @@ do
 done
 cd ..
 
+echo "Moving htaccess..."
+cd tmpuploadcopy
+cp htaccess-pworg .htaccess
+cd ..
+
 echo "Uploading web pages..."
 rsync -v --progress --delete -az -e "ssh" tmpuploadcopy/ $USER:$REMOTE_DIR
 ssh $USER "chmod 0755 $REMOTE_DIR"
