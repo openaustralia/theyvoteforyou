@@ -15,6 +15,9 @@ toppath = miscfuncs.toppath
 # Pulls in all the debates, written answers, etc, glues them together, removes comments,
 # and stores them on the disk
 
+# index file which is created   
+pwcmindex = os.path.join(toppath, "cmindex.xml")
+
 # output directories
 pwcmdirs = os.path.join(toppath, "cmpages")
 
