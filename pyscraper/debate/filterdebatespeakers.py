@@ -118,7 +118,7 @@ def FilterDebateSpeakers(fout, text, sdate, typ):
 
 			# match the member to a unique identifier and displayname
 			try:
-                                print "spstr", spstr, ",", spstrbrack
+                                #print "spstr", spstr, ",", spstrbrack
 				result = memberList.matchdebatename(spstr, spstrbrack, sdate)
 			except Exception, e:
 				# add extra stamp info to the exception
