@@ -23,7 +23,8 @@ fixsubs = 	[
 		'<B>Mr. Bradshaw </B> [holding answer 11 September 2003]:', 1, '2003-09-18'),
 	( ' and the Northern Ireland Administration[.]\s*<P></UL>', \
 		' and the Northern Ireland Administration. <P>', 1, '2003-09-18'),
-	( '<P></UL>\s*<P>\s*\{**con**\}\{**/con**\}<P>\s*<B> Mr. Moss:  (4)</B>', '<p>(4)', 1, '2002-06-10'),
+	( '<P></UL>\s*<P>\s*\{\*\*con\*\*\}\{\*\*/con\*\*\}<P>\s*<B> Mr. Moss:  \(4\)</B>', \
+							'<p>(4)', 1, '2002-06-10'),
 
 	( '<UL><i>Fiona Mactaggart \[holding answer 3 July 2003\]:</i>', \
 		'<B>Fiona Mactaggart </B> [holding answer 3 July 2003]', 1, '2003-07-07'),

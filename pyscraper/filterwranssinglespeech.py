@@ -10,6 +10,7 @@ import types
 # In Debian package python2.3-egenix-mxdatetime
 import mx.DateTime
 from extractofficialreportlinks import ExtractOfficialReportLinks
+from extractofficialreportlinks import IdentCodes
 
 toaskregexp = '^\s*' +\
 		'to ask the (secretary of state for (?:' +\
@@ -288,15 +289,19 @@ def WriteTable(res, nt):
 	res.write('</table>\n')
 
 
-def ReplyBreakIntoParagraphs(text):
+
+def RemoveHoldingAnswer(line):
 	# take out holding answer string [<i>holding answer 8 April 2003</i>]:
 	# this information is not interesting and can be recreated from cross-reference with the question book.
-	qha = re.findall('^\s*(\[.*?holding answer.*?\]:?\s*)(.*?)$(?i)', text)
+	qha = re.findall('^\s*\[(.*?holding answer.*?)\]:?\s*(.*)$(?i)', line)
 	if not qha:
-		qha = re.findall('^\s*(<i>.*?holding answer.*?</i>:?\s*)(.*?)$(?i)', text)
+		qha = re.findall('^\s*<i>(.*?holding answer.*?)</i>:?\s*(.*)$(?i)', line)
 	if qha:
-		text = qha[0][1]
+		return qha[0][1]
+	return line
 
+
+def ReplyBreakIntoParagraphs(text):
 	# break into pieces
 	nfj = re.split('(<table[\s\S]*?</table>|</?p>|</?ul>|<br>|</?font[^>]*>)(?i)', text)
 
@@ -306,10 +311,15 @@ def ReplyBreakIntoParagraphs(text):
 	for nf in nfj:
 		if re.match('(</?p>|</?ul>|<br>|</?font[^>]*>)(?i)', nf):
 			spc = spc + nf
-		elif re.search('\S', nf):
-			dell.append(spc)
-			spc = ''
-			dell.append(nf)
+		else:
+			# first line
+			if not dell:
+				nf = RemoveHoldingAnswer(nf)
+
+			if re.search('\S', nf):
+				dell.append(spc)
+				spc = ''
+				dell.append(nf)
 	if not spc:
 		spc = ''
 	dell.append(spc)
@@ -318,21 +328,28 @@ def ReplyBreakIntoParagraphs(text):
 	for i in range(len(dell)):
 		dell[i] = string.strip(dell[i])
 
+
+
+
+
 	pres = []
+	n = (len(dell)-1) / 2
 	for i in range(1, len(dell)-1, 2):
 		# this puts a list into the result
 		if re.search('<table(?i)', dell[i]):
 			pres.append(ParseTable(dell[i]))
 
 		else:
-			pres.append(dell[i])
+			lline = dell[i]
+			lline = IdentCodes(lline, i, n)
+
+			pres.append(lline)
 
 	if not pres:
 		print 'empty answer'
 		return pres
-
-
 	return pres
+
 
 def FixReply(text, questionqnums):
 	res = StringIO.StringIO()
