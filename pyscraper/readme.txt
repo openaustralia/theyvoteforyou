@@ -46,13 +46,16 @@ which there may already be links to.
 
 
 
-<stamp parsemess-colnum="888|888W"/>
-    This resets the column number (use W or WS after the number if in 
-    written answers or westminster hall).  Please avoid destroying 
-    the structure of a column number that's already there (all the ul's and 
-    p's preceding and trailing it) or the regexp won't find it.  
-    You can put this message just before the speech that's gone into 
-    the wrong column and everything will be fine.  
+<stamp parsemess-colnum="888 --or-- 888W"/>
+    This resets the column number (use W or WS after the number if in
+    written answers or westminster hall).  Please avoid destroying
+    the structure of a column number that's already there (all the ul's and
+    p's preceding and trailing it) or the regexp won't find it.
+    You can put this message just before the speech that's gone into
+    the wrong column and everything will be fine.
 
+<stamp parsemess-ignorenamemismatch="yes"/>
+	In this column this signals the xmlwriter to ignore mismatches in the name 
+	of the speakers when comparing records if it looks like there's 
+	been a genuine correction in the versions
 
- 

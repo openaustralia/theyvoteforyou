@@ -77,8 +77,8 @@ class StampUrl:
 		else:
 			return spurl
 
-        # extract anchor
-        def GetAName(self):
+    # extract anchor
+	def GetAName(self):
 		anamem = re.match('<stamp aname="(.*?)"/>', self.aname)
 		if anamem:
 			return anamem.group(1)

@@ -95,11 +95,15 @@ class lqspeech:
 				# speakerids mismatch, but maybe we've improved things better, so check the speaker names are different
 				print "Speakerid mismatch", qb.speaker
 
-				respname = re.search('speakername="(.*?)"', qb.speaker)
-				if respname and (respname.group(1) == self.speakername):
-					print "but speaker names remain the same"
+				if not qb.ignorenamemismatch:
+					respname = re.search('speakername="(.*?)"', qb.speaker)
+					if respname and (respname.group(1) == self.speakername):
+						print "but speaker names remain the same"
+					else:
+						print 'You can force it to be ignore by inserting <stamp parsemess-ignorenamemismatch="yes"/>'
+						return False
 				else:
-					return False
+					print 'which is ignored by the <stamp parsemess-ignorenamemismatch="yes"/> flag'
 
 		# we're going to accept this, but we're going to make a diff file for inspection
 		# rather than compare across the <p> lines
@@ -281,6 +285,8 @@ def CreateGIDs(gidpart, flatb, sdate):
 		# this updates any column number corrections that were appended on the end of the stamp
 		for colnum in re.findall('parsemess-colnum="([^"]*)"', qb.sstampurl.stamp):
 			pass
+		qb.ignorenamemismatch = re.search('parsemess-ignorenamemismatch="yes"', qb.sstampurl.stamp)
+
 
 		# this numbers the speech numbers in the column numbers
 		if colnum != pcolnum:
