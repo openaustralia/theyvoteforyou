@@ -1,12 +1,10 @@
 <?php
-    # $Id: tablepeop.inc,v 1.4 2005/03/20 22:31:53 goatchurch Exp $
+    # $Id: tablepeop.inc,v 1.5 2005/03/21 19:23:31 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
     # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
     # For details see the file LICENSE.html in the top level of the source.
-
-
 
 	function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich)
 	{
@@ -52,17 +50,23 @@
 
 		print "<td>$party</td>";
 
-
-
-
 		# distance voting table
-		if ($colstyle == "distance")
+		if ($colstyle == "mpdistance")
 		{
 			$distance = $row['distance'];
 			if ($distance == 0)
 				$distance = "0 - always vote the same";
 			elseif ($distance == 1)
 				$distance = "1 - always vote the differently";
+			print "<td>$distance</td>";
+		}
+		elseif ($colstyle == "dreamdistance")
+		{
+			$distance = $row['distance'];
+			if ($distance < 0.1)
+				$distance .= " (best)";
+			elseif ($distance > 0.9)
+				$distance .= " (worst)";
 			print "<td>$distance</td>";
 		}
 
@@ -129,7 +133,6 @@
 		$aquery["qjoin"] =  " LEFT JOIN pw_cache_mpinfo ON pw_cache_mpinfo.mp_id = pw_mp.mp_id";
 		$aquery["qwhere"] = " WHERE 1=1";
 
-
 		$aquery["qorder"]  = " ORDER BY";
 
 		# concatenates to the default case
@@ -148,6 +151,11 @@
 		        $aquery["qorder"] .= " constituency, last_name, first_name";
 			else  # by name
 		        $aquery["qorder"] .= " last_name, first_name, constituency, party";
+		}
+
+		elseif ($mptabattr["listtype"] == 'division2')
+		{
+	        $aquery["qorder"] .= " last_name, first_name, constituency, party";
 		}
 
 		# without a vote column
@@ -185,14 +193,29 @@
 									ON pw_cache_mpdist.mp_id_1 = pw_mp.mp_id
 									 AND pw_cache_mpdist.mp_id_1 <> ".$mpprop["mpid"]."
 						 			 AND pw_cache_mpdist.mp_id_2 = ".$mpprop["mpid"];
+			$aquery["qwhere"] .= " AND distance IS NOT null";
 			$aquery["qorder"] = " ORDER BY distance";
 			$friendlk = "mpn2=".urlencode(str_replace(" ", "_", $mpprop['name']))."&mpc2=".urlencode($mpprop['constituency']);
 		}
 
 		elseif ($mptabattr["listtype"] == 'dreamdistance')
 		{
-			$aquery["qjoin"] .= "  ON ".$mptabattr["dreammpid"];
-			$friendlk = "dreammpid=".$mptabattr["dreammpid"];
+			$dreamid = $mptabattr["dreammpid"];
+
+			# we need to make the proper equation here, to people
+			$aquery["qselect"]  .= ", ((scoremax_a - score_a + 1) / (scoremax_a + 1)) AS distance";
+			$aquery["qjoin"] 	.= " LEFT JOIN pw_cache_dreamreal_score
+										ON pw_cache_dreamreal_score.person = pw_mp.person
+										AND pw_cache_dreamreal_score.rollie_id = '$dreamid'";
+			$aquery["qorder"] = " ORDER BY distance";
+
+			# this should use the left-reason case
+			$aquery["qwhere"] 	.= " AND left_house = '9999-12-31'
+									 AND scoremax_a <> 0";
+
+			#$aquery["qgroupby"] = " GROUP BY pw_mp.person";
+
+			$friendlk = "dmp=".$mptabattr["dreammpid"];
 		}
 
 		# list MPs voting in one division
@@ -235,9 +258,22 @@
 
 			$aquery["qgroupby"] = " GROUP BY pw_mp.mp_id";  # remove double ministers
 		}
+
+		# double division case
 		elseif ($mptabattr["listtype"] == 'division2')
 		{
-			$aquery["qjoin"] .= "  ON ".$mptabattr["dreammpid"];
+			$aquery["qselect"] 	.= ", pw_vote_a.vote AS vote_a, pw_vote_b.vote AS pw_vote_b";
+			$aquery["qjoin"] 	.= " LEFT JOIN pw_vote AS pw_vote_a ON pw_vote_a.mp_id = pw_mp.mp_id
+										AND pw_vote_a.division_id = ".$mptabattr["divid"];
+			$aquery["qjoin"] 	.= " LEFT JOIN pw_vote AS pw_vote_b ON pw_vote_b.mp_id = pw_mp.mp_id
+										AND pw_vote_b.division_id = ".$mptabattr["divid"];
+
+#			if ($showwhich == 'allpossible')
+#	        	$aquery["qwhere"] 	.= " AND entered_house <= '".$mptabattr["divdate"]."'
+#	        							 AND left_house > '".$mptabattr["divdate"]."'";
+#			else
+				$aquery["qwhere"] 	.= " AND pw_vote_a.vote IS NOT null
+										 AND pw_vote_b.vote IS NOT null";
 		}
 
 
@@ -253,7 +289,7 @@
 
 		# determin the column type
 		if ($friendlk)
-			$colstyle = "distance";
+			$colstyle = $mptabattr["listtype"];
 		elseif ($mptabattr["limit"])
 			$colstyle = "short".$mptabattr["sortby"]; # a short table on the index page
 		elseif ($mptabattr["listtype"] == "division")
@@ -290,5 +326,4 @@
                 return $same_voters;
 		}
 	}
-
 ?>

@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablemake.inc,v 1.15 2005/03/20 22:31:53 goatchurch Exp $
+    # $Id: tablemake.inc,v 1.16 2005/03/21 19:23:30 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -23,7 +23,7 @@
 										pwvote$i.division_id = pw_division.division_id";
 			$aquery["qjoin"]   .= " LEFT JOIN pw_mp as pwmp$i ON
 										pwvote$i.mp_id = pwmp$i.mp_id";
-			$aquery["qwhere"] .= " AND pwmp$i.person = ".$voter["mpprop"]['person'];
+			$aquery["qwhere"]  .= " AND pwmp$i.person = ".$voter["mpprop"]['person'];
 
 			# get the fields for this particular person time range
 	        $datecond = "";
@@ -434,6 +434,14 @@
 		}
  	}
 
+	function writelinkheading($desc, $link)
+	{
+		if ($link)
+			print "<td><a href=\"$link\">$desc</a></td>";
+		else
+			print "<td>$desc</td>";
+	}
+
 	# table that shows a selected heap of divisions, and provides a comparison between
 	# one or two independent voting actors.
 	# votertype is 'dreammp', 'mp', 'party'
@@ -556,7 +564,10 @@
 		if ($bdebug == 1)
 		{
 			if ($divtabattr["limitby"] == "")
+			{
 				$query .= " LIMIT 30";
+				print "<h3>Limiting by 30 for shorter table</h3>"; 
+			}
 			print "<h1>GGGG $voter1type ";
 			print_r($voter1);
 			print" $voter2type $voter2 $showwhich $headings</h1>";
@@ -581,7 +592,11 @@
 
 			# comparison type
             if ($voter1type == "mp" and $voter2type == "person")
-				print "<td>".$voter1["name"]."</td><td>".$voter2["mpprop"]["name"]."</td>";
+			{
+				writelinkheading($voter1["name"], $divtabattr["voter1link"]);
+				writelinkheading($voter2["mpprop"]["name"], $divtabattr["voter2link"]);
+			}
+
 			# mp to dream or party type
 			else
 			{
@@ -597,7 +612,7 @@
 		        	if ($voter2type == "party")
 						print "<td>$voter2 Vote</td>";
 					else if ($voter2type == "dreammp")
-						print "<td>Dream Vote</td>";
+						writelinkheading("Dream Vote", $divtabattr["voter2link"]);
 					else
 						print "<td>Vote</td>";
 				}

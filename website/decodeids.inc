@@ -1,5 +1,5 @@
 <?php
-    # $Id: decodeids.inc,v 1.8 2005/03/18 16:52:10 goatchurch Exp $
+    # $Id: decodeids.inc,v 1.9 2005/03/21 19:23:27 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -240,6 +240,8 @@
 		global $bdebug;
 	    $div_date = db_scrub($_GET["date$i"]);
 	    $div_no = db_scrub($_GET["number$i"]);
+	    if (!$div_date and $i != "")
+		    $div_date = db_scrub($_GET["date"]);
 	    if (!$div_date or !$div_no)
 	    	return none;
 

@@ -20,6 +20,8 @@
 
     include "render.inc";
     include "dream.inc";
+	include "tablepeop.inc";
+
     #include_once "account/user.inc";
 
     check_table_cache_dream_mp($db, $dreamid);
@@ -97,65 +99,33 @@
 
     }
 
-    $timestart = getmicrotime();
 
     print "<h2><a name=\"comparison\">Comparison to Real MPs</a></h2>";
+
     print "<p>Grades MPs acording to how often they voted the same as the dream
-    MP.  If, in divisions where both voted, they always voted the same then
-    the score is 100%.  If they always voted differently, the score is 0%.";
+	    	MP.  If, in divisions where both voted, they always voted the same then
+    		the score is 0.0.  If they always voted differently, the score is 1.0.";
 
-    $now = strftime("%Y-%m-%d");
-    $query = "select first_name, last_name, title, constituency,
-        party, pw_mp.mp_id as mp_id, pw_mp.person,
-        entered_reason, left_reason, entered_house, left_house,
-        score_a, scoremax_a, rank_a, rank_outof_a
-        from pw_mp, pw_cache_dreamreal_score
-        where pw_mp.person = pw_cache_dreamreal_score.person
-        and pw_cache_dreamreal_score.rollie_id = '$dreamid'";
-    $query .= " and rank_outof_a is not null
-        and left_house > '$now'
-        order by rank_a";
-    $row = $db->query($query);
+	$mptabattr = array("listtype" => 'dreamdistance',
+					   'dreammpid' => $dreamid);
+	print "<table class=\"mps\">\n";
+	print "<tr class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Distance</td></tr>\n";
+	mp_table($db, $mptabattr);
+	print "</table>\n";
 
-    print "<table class=\"mps\">\n";
-    print "<tr class=\"headings\">";
-    print "<td>Rank</td><td>Name</td><td>Constituency</td><td>Party</td><td colspan=2>'" . html_scrub($dmp_name) . "'<br>agreement score</td>";
-    print "</tr>";
-
-    $prettyrow = 0;
-    while ($row = $db->fetch_row_assoc())
-    {
-        $rank = $row['rank_a']; # . "/" . $row['rank_outof_a'];
-        $score = $row['score_a'] . " of ". $row['scoremax_a'];
-        $perc = percentise(make_percent($row['score_a'], $row['scoremax_a']));
-        $prettyrow = pretty_row_start($prettyrow);
-
-        print "<td>" . $rank . "</td>";
-        print "<td>" . set_mp_with_link($row) . "</td></td>
-            <td>" . $row['constituency'] . "</td>
-            <td>" . set_party($row). "</td>
-            <td>" . $score . "</td>
-            <td class=\"percent\">" . $perc . "</td>";
-        print "</tr>\n";
-    }
-
-    print "</table>\n";
 
     print '<h2><a name="dreambox">Add Dream MP to Your Website</a></h2>';
     print '<p>Get people thinking about your issue, by adding a Dream MP search
-box to your website.  This lets people compare their own MP to your Dream MP,
-like this.</p>';
+			box to your website.  This lets people compare their own MP to your Dream MP,
+			like this.</p>';
     print dream_box($dreamid, $dmp_name);
     print '<p>To do this copy and paste the following HTML into your website.
-Feel free to fiddle with it to fit the look of your site better.  We only
-ask that you leave the link to Public Whip in.';
+			Feel free to fiddle with it to fit the look of your site better.  We only
+			ask that you leave the link to Public Whip in.';
     print '<pre class="htmlsource">';
     print htmlspecialchars(dream_box($dreamid, $dmp_name));
     print '</pre>';
 
-    $timenow = getmicrotime();
-    $timetook = $timenow - $timestart;
-//    print "took $timetook from $timestart $timenow";
 ?>
 
 <?php include "footer.inc" ?>

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.64 2005/03/20 22:31:53 goatchurch Exp $
+    # $Id: mp.php,v 1.65 2005/03/21 19:23:28 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -64,15 +64,23 @@
 	# (and whether the first is a constituency or a person)
 	# select a mode for what is displayed
 	# code for the 0th mp def, if it is there.
-    $thispagemp = "mp.php?";
-	$thispagemp .= "mpn=".urlencode(str_replace(" ", "_", $mpprop['name']))."&"."mpc=".urlencode($mpprop['constituency']);
+    $voter1link = "mp.php?";
+	$voter1link .= "mpn=".urlencode(str_replace(" ", "_", $mpprop['name']))."&"."mpc=".urlencode($mpprop['constituency']);
 
 	# extend to the comparison type
-	$thispage = $thispagemp;
+	$thispage = $voter1link;
 	if ($voter2type == "dreammp")
-		$thispage .= "&dmp=".$voter2;
+	{
+		$thispage .= "&dmp=$voter2";
+	    $voter2link = "dreammp.php?id=$voter2";
+	}
 	else if ($voter2type == "person")
-		$thispage .= "&mpn2=".urlencode(str_replace(" ", "_", $voter2["mpprop"]['name']))."&"."mpc2=".urlencode($voter2["mpprop"]['constituency']);
+	{
+		$lmpn = urlencode(str_replace(" ", "_", $voter2["mpprop"]['name']));
+		$lmpc = urlencode($voter2["mpprop"]['constituency']);
+		$thispage .= "&mpn2=$lmpn&"."mpc2=$lmpc";
+	    $voter2link = "mp.php?mpn=$lmpn&"."mpc=$lmpc";
+	}
 
 	# constants
 	$dismodes = array();
@@ -271,7 +279,7 @@
 			$vtitle .= "Every Vote";
 		else
 			$vtitle = "Votes Attended";
-        if ($vtitle) 
+        if ($vtitle)
             print "<h2><a name=\"divisions\">$vtitle</a></h2>\n";
 
 		# subtext for the vote table
@@ -282,8 +290,9 @@
 		else if ($dismode["votelist"] == "every" and $voter2type == "party")
 			print "<p>All votes this MP could have attended. \n";
 	    else if ($voter2type == "dreammp") {
-            print "<p>Shows all votes on this issue, and how <a href=\"$thispagemp\">" . $mpprop['name'] . "</a> voted on them.";
+            print "<p>Shows all votes on this issue, and how <a href=\"$voter1link\">" . $mpprop['name'] . "</a> voted on them.";
             print "<p><b>'".html_scrub($voter2attr['name'])."' Dream MP Description:</b> ".html_scrub($voter2attr['description'])."\n";
+			print "<p>";
         }
 
 		if ($dismode["generalinfo"] and !$voter1attr['bmultiperson'])
@@ -308,8 +317,10 @@
 		$divtabattr = array(
 				"voter1type" 	=> $voter1type,
 				#"voter1"        => $mpprop,
+				"voter1link"	=> $voter1link,
 				"voter2type"	=> $voter2type,
 				"voter2"		=> $voter2,
+				"voter2link"	=> $voter2link,
 				"showwhich"		=> $showwhichvotes,
 				"votedisplay"	=> $dismode["votedisplay"],
 				"headings"		=> 'columns',
@@ -324,20 +335,64 @@
 
 		# make the table over this MP's votes
 	    print "<table class=\"votes\">\n";
-    	foreach ($voter1attr['mpprops'] as $mpprop)
+    	foreach ($voter1attr['mpprops'] as $lkey => $mpprop)
 		{
 			$divtabattr["voter1"] = $mpprop;
 			$events = $mpprop["mpevents"];  # a bit confused, but a complete list of events per mpid makes the code simple
-			if (!$dismetric)
-				$dismetric = division_table($db, $divtabattr, $events);
 
+			# long asignment for return value because we're lacking foreach as &
+			$voter1attr['mpprops'][$lkey]["dismetric"] = division_table($db, $divtabattr, $events);
+
+			# remove repeated listing of headings
+			#if ($divtabattr["headings"] == 'columns')
+			#	$divtabattr["headings"] = 'none';
 		}
 	    print "</table>\n";
 
-		print "<p>In the first table there were ".$dismetric["agree"]." + ".$dismetric["agree3"]." agrees,
-				".$dismetric["disagree"]." + ".$dismetric["disagree3"]." disagrees,
-				".$dismetric["ab1"]." + ".$dismetric["ab1line3"]." + ".$dismetric["ab2"]." misses. ";
-		print "This can be used to generate a distance table.</p>\n"; 
+		# generate a friendliness table from the data
+		if ($voter2type == "dreammp")
+		{
+			print "<h3>Similarity equation</h3>\n";
+			print "<p>To help with the understanding of similarity measures, here is
+					how we derive the numbers.</p>\n";
+			# sum up the arrays
+			foreach ($voter1attr['mpprops'] as $mpprop)
+			{
+				if ($dismetric)
+				{
+					foreach($mpprop["dismetric"] as $lkey => $lvalue)
+						$dismetric[$lkey] += $lvalue;
+				}
+				else
+					$dismetric = $mpprop["dismetric"];
+			}
+
+			$naggree = $dismetric["agree"] + $dismetric["agree3"];
+			$naggreestrong = $dismetric["agree3"];
+			$ndisaggree = $dismetric["disagree"] + $dismetric["disagree3"];
+			$ndisaggreestrong = $dismetric["disagree3"];
+			$nmiss = $dismetric["ab1"] + $dismetric["ab1line3"];
+			$nmissstrong = $dismetric["ab1line3"];
+			print "<p>There were $naggree agreement(s), $naggreestrong of which were strong agreement(s),
+					and $ndisaggree disagreement(s), $ndisaggreestrong of which were strong disagreement(s),
+					and $nmiss missed vote(s), $nmissstrong of which were strong demand(s) to vote.</p>\n";
+			$rnum = $naggree + $naggreestrong * 2 + $nmiss * 0.5 + $nmissstrong * 0.5;
+			$rden = $naggree + $naggreestrong * 2 + $ndisaggree + $ndisaggreestrong * 2 + $nmiss + $nmissstrong * 2;
+			if ($rden != 0)
+			{
+				print "<p>By weighting strong votes out of 3, and skewing against abstentions (which normally count as a half)
+						in the strong votes, we calculate the distance as:</p>\n";
+				print "(naggree + naggreestrong * 2 + nmiss * 0.5 + nmissstrong * 0.5) / (naggree + naggreestrong * 2 + ndisaggree + ndisaggreestrong * 2 + nmiss + nmissstrong * 2)";
+				print " = ".($rnum * 1.0 / $rden)." (Todo: improve layout here)</p>\n";
+			}
+			else
+				print "<p>No overlapping votes, so distance defaults to 0.0</p>\n";
+		}
+
+		if ($voter2type == "person" and $showwhich == "everyvote")
+		{
+			print "<p>[Explanation of distance relationship between MPs and people should be shown here.]</p>\n";
+		}
 	}
 ?>
 
@@ -401,9 +456,9 @@
 	        <td>Dream MP</td>
 	        <td>Description</td>
 	        </tr>";
-	
+
 	    $prettyrow = 0;
-        if ($dismode["dreamcompare"] == "all") 
+        if ($dismode["dreamcompare"] == "all")
             $db->query(get_top_dream_query(null));
         else
             $db->query(get_top_dream_query(8));
