@@ -1,4 +1,3 @@
-
 Data anlaysis (using existing data)
 -------------
 
@@ -43,6 +42,8 @@ lobbying.
 
 Correlate voting record with geographical location.  Do MPs at constituencies
 near each other tend to vote the same as each other?
+
+Cost in pounds / word of an MP
 
 Additional text content
 -----------------------
@@ -209,6 +210,8 @@ Java in Opera Win32
 Gimmicks
 --------
 
+MP wallplanner - show their diary
+
 Fantasy party/cabinet, based on voting.
 Virtual top trumps - choose your favourites, play them, lose them, try
 to get ones whose careers are on the up.
@@ -232,6 +235,8 @@ Maybe even sell it to people
 
 Stand as Public Whip candidate in election with manifesto to do as your
 constituents want.  
+
+"Totally toady" to "Usual suspect"
 
 Broader context
 ---------------

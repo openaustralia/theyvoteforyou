@@ -1,42 +1,15 @@
 Interesting Divisions link doesn't go to interesting divisions - and people would like to
 http://www.publicwhip.org.uk/mp.php?id=uk.org.publicwhip/member/779&showall=yes#divisions
 
-2003-06-13 - check tables
-2003-06-12 - check euro
-
-MP wallplanner - show their diary
-Rankings on rebellion/attendance PER PARTY
-"Totally toady" to "Usual suspect"
-Cost in pounds / word of an MP
-
 Do a big usability thing - get Tom L to help with his ideas
 Make log file stats daily to see what happens as you subtly change links
 Controversial: Remove cluster map, Remove division attendance
 
-Put debate XML files and regmem XML files up on site
 Update the votematrix CSV files - people are using them!
 Put up raw data for ranking scores for rebel/attend that are only in fawkes
 
-Copy MP loader from fawkes for Public Whip database
-
-
-New division scraper:
---------------------
-
-On this one, the two tellers for the noes have been lost
-date=2003-03-14&number=114
-
-answers2003-05-13
-check this line not lost: <a name="30513w02.html_dpthd1"><H3 align=center>ENVIRONMENT, FOOD AND RURAL AFFAIRS<xref locref=140></H3>
-
-Run these without patches, and an entire title is unceremoniously ditched:
-answers2001-07-05.xml
-answers2001-07-10.xml
-
-Check this one:
-./lazyrunall.py parse --date=2003-12-18 --force-parse debates
-The correct division has an explicit-division-end, which doesn't need to be erased.
-So some unspoken text is being lost.
+General Election
+    Write letter to new MPs to tell them about the Public Whip
 
 Dream MP
 --------
@@ -46,7 +19,6 @@ http://www.livejournal.com/developer/embedding.bml
 Javascript, make .js file with just a "document.write"
 Inline frames, just inline to HTML file
 CGI script / serverside include
-
 
 Change frontpage newsletter advert depending on whether you are logged in
 
@@ -92,19 +64,31 @@ FAQ needs to give more of an impression that we would like help
 
 Link to ideas.txt file
 
-Scraper
--------
+Backup dynamic database on cron job (newsletter does this OK for now)
 
-House of Lords
+Voting accuracy
+---------------
+
+On this one, the two tellers for the noes have been lost
+date=2003-03-14&number=114
+
+answers2003-05-13
+check this line not lost: <a name="30513w02.html_dpthd1"><H3 align=center>ENVIRONMENT, FOOD AND RURAL AFFAIRS<xref locref=140></H3>
+
+Run these without patches, and an entire title is unceremoniously ditched:
+answers2001-07-05.xml
+answers2001-07-10.xml
+
+Check this one:
+./lazyrunall.py parse --date=2003-12-18 --force-parse debates
+The correct division has an explicit-division-end, which doesn't need to be erased.
+So some unspoken text is being lost.
 
 Resolve all the errors that "scraper.pl check" squirts out
 
 Check for divisions which don't have quorum of 40
 
 Measure abstentions by parliament rather than global proportions?
-
-Make one script I have to run which just does everything (backup logs,
-get latest divisions, upload to db)
 
 Check "Question accordingly..." fits with our counting
 Tally vote numbers in text and check they fit with our counting
@@ -113,19 +97,11 @@ Search for divisions on days MP joined/left, as these could have
 off-by-one errors for their changed party
 
 Improve motion text / title extraction
-    division.php?date=2003-02-03&number=74 - and div 73, detail missing
-    division.php?date=2003-09-16&number=313 - too much text [interruption]
-    division.php?date=2001-11-26&number=85 - excess interruption
     division.php?date=2002-02-06&number=158 - incomplete
-    division.php?date=2003-09-10&number=307 - motion missed completely
-    division.php?date=2001-01-22&number=71 - title is wrong!
     division.php?date=1997-07-07&number=42 - nothing of any use!
     division.php?date=2000-02-28&number=88 - too much text!
     division.php?date=2003-09-17&number=321 - not deferred division!
     division.php?date=2003-09-17&number=320 - not deferred division!
-Add explanations
-    division.php?date=2001-10-25&number=43 - multiple motions clearer,
-also show initial motion in second vote, rather than hardly any text
 
 
 
