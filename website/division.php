@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php
-# $Id: division.php,v 1.16 2004/01/17 18:50:04 frabcus Exp $
+# $Id: division.php,v 1.17 2004/01/28 10:19:55 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -248,7 +248,9 @@
     while ($row = $db->fetch_row())
     {
         $class = "";
-        if ($show_all && $row[6] != $row[4] && $row[6] <> "unknown" && $row[4] <> "both")
+        $nt4 = str_replace("tell", "", $row[4]);
+        $nt6 = str_replace("tell", "", $row[6]);
+        if ($show_all && $nt6 != $nt4 && $nt6 <> "unknown" && $nt4 <> "both")
         {
             $class = "rebel";
         }
