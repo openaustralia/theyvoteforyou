@@ -10,15 +10,6 @@ from filterwransques import FilterQuestion
 from filterwransreply import FilterReply
 
 
-qnummisserrors = {
-		'<stamp coldate="2003-11-17" colnum="616W"/>':'<error>truncated question</error>',
-		'<stamp coldate="2003-11-05" colnum="660W"/>':'<error>truncated question</error>',
-		'<stamp coldate="2003-10-27" colnum="29W"/>':'<error>truncated question</error>',
-		'<stamp coldate="2003-07-16" colnum="349W"/>':'<error>truncated question</error>',
-		}
-
-
-
 class qspeech:
 	# function to shuffle column stamps out of the way to the front, so we can glue paragraphs together
 	def StampToFront(self, stampurl):
@@ -80,9 +71,7 @@ class qspeech:
 
 			qnums.extend(self.qnums)	# a return value mapped back into reply types
 			if not self.qnums:
-				if not qnummisserrors.has_key(self.sstampurl.stamp):
-					print ' qnum missing in question ' + self.sstampurl.stamp
-				errmess = qnummisserrors.get(self.sstampurl.stamp, '<error>qnum missing</error>')
+				errmess = ' <p class="error">Question number missing in Hansard, possibly truncated question.</p> '
 				self.stext.append(errmess)
 
 		elif self.typ == 'reply':
@@ -97,7 +86,7 @@ class qspeech:
 					print ' unknown qnum present in answer ' + self.sstampurl.stamp
 					print qn
 					raise Exception, ' make it clear '
-					self.stext.append('<error>qnum present</error>')
+					self.stext.append('<error>qnum presen in answer</error>')
 
 		else:
 			raise Exception, ' unrecognized speech type '

@@ -26,13 +26,11 @@ fixsubs = 	[
 	  	'<h2><center>Written Answers to Questions</center></h2>', -1, 'all'),
 	( '<h\d align=center>written answers[\s\S]{10,150}?\[continued from column \d+?W\](?:</h\d>)?(?i)', '', -1, 'all'),
 	( '<h\d><center>written answers[\s\S]{10,150}?\[continued from column \d+?W\](?i)', '', -1, 'all'),
-
+ 
 
 	( '<H2 align=center> </H2>', '', 1, '2003-09-15'),
 	( '<H1 align=center></H1>\s*<H2 align=center>Monday 15 September 2003</H2>', '', 1, '2003-09-15'),
 	( '<H1 align=center></H1>', '', 1, '2003-10-06'),
-
-	( '<BR>\s*</FONT>\s*<H4><center>Energy Policy</center></H4>', '', 1, '2003-04-29'),
 
 
         ( '(\<UL\>\(2\) what research work he has \<i\>\(a\)</i> commissioned and \<i\>\(b\)\</i\> evaluated on external)(\<P\>\</UL\>)', '\\1 counter pulsation; and what conclusions about its efficacy were drawn. [143813] \\2', 1, '2003-12-16'),
@@ -58,8 +56,6 @@ fixsubs = 	[
 	( ' What (meetings he has held)', 'To ask the Secretary of State for Wales what \\1', 1, '2003-06-04'),
 	( ' What (discussions he has had)', 'To ask the Secretary of State for Wales what \\1', 1, '2003-06-04'),
  	( ' (on military flights at Northolt)', 'To ask the Secretary of State for Defence SOMETHING \\1', 1, '2003-06-03'),
-	( '\n What (steps her Department)', '\n To ask the Secretary of State for Trade and Industry what \\1', 1, '2003-05-01'),
-	( '\n If (she will make a statement)', '\n To ask the Secretary of State for Trade and Industry if \\1', 1, '2003-05-01'),
 	( '\n When he expects', '\nTo ask the Secretary of State for Education and Skills when he expects', 1, '2003-04-10'),
 	( '\n Asked the Secretary', '\nTo ask the Secretary', 1, '2003-03-21'),
 	( ' What (measures will be)', 'To ask the Secretary of State for Work and Pensions what \\1', 1, '2003-03-17'),
@@ -78,20 +74,14 @@ fixsubs = 	[
 
         ( '(&nbsp;a minimum energy)<P>', '\\1 efficiency rating.  [153278]', 1, '2004-02-10'),
         ( '(what the countries of origin were; and if he will make a statement.)', '\\1 [147100]', 1, '2004-01-15'),
-
+        
  	( '\n To\s*ask ', '\n To ask ', 10, '2003-07-07'), # linefeed example I can't piece apart
- 	#( '\n To as the Secretary', '\n To ask the Secretary', 1, '2003-05-19'),
- 	( '\n To as the Secretary', '\n To ask the Secretary', 1, '2003-05-12'),
- 	( '\n To as the Secretary', '\n To ask the Secretary', 1, '2003-04-29'),
  	( '\n To as the Secretary', '\n To ask the Secretary', 2, '2003-01-14'),
  	( '\n To\s*ask ', '\n To ask ', 7, '2003-04-10'),
  	( '\n To\s*ask ', '\n To ask ', 9, '2003-03-06'),
  	( '\n To\s*ask ', '\n To ask ', 37, '2003-01-27'),
 
-	( '\((108679)\)', '[\\1]', 1, '2003-05-12'),
-	( '\((109290)\)', '[\\1]', 1, '2003-05-06'),
-
-	( '24 April \[108495\]', '24 April reference 108495', 1, '2003-04-28'),
+	( '(column 45W\.)\[(108495)\]', '\\1 reference \\2', 1, '2003-04-28'),
 
  	( 'Worcestershire</FONT></TD>', 'Worcestershire', 1, '2003-07-15'),
 
@@ -109,23 +99,21 @@ fixsubs = 	[
  	( '\n What discussions he', '\nTo ask the Secretary of State for Wales what discussions he', 2, '2003-02-12'),
 	( '\{\*\*con\*\*\}\{\*\*/con\*\*\}', '', 1, '2003-01-30'),
 	( 'Rural Affairs what estimates', 'Rural Affairs (1) what estimates', 1, '2003-01-29'),
+        
 
 
 	( '<i>The following questions were answered on 10 June</i>', '', 1, '2003-06-10'),
 
 	( 'Vol. No. 412,', '', 1, '2003-11-10'),
 	( '</TH></TH>', '</TH>', 1, '2003-11-17'),
-	( '<TR valign=top><TD><FONT SIZE=-1>Quarter to', '<TR valign=top><TH><FONT SIZE=-1>Quarter to', 1, '2003-05-06'),
-
-	( 'Asked the Minister', 'To ask the Minister', 1, '2003-05-19'),
-	( 'Asked the Minister', 'To ask the Minister', 1, '2003-05-21'),
-	#( '</B>\s*Asked', '</B> To ask', 1, '2003-03-21'),
 
 	( '2003&#150;11&#150;21', '2003', 1, '2003-11-20'),
 	( '27Ooctober', '27 October', 1, '2003-10-27'),
 
 	( '<TD <', '<TD> <', 1, '2003-07-15'),
 	( '<TABLE BORDER=1>\s*<P>\s*</FONT></TH></TR>', '<TABLE BORDER=1>', 2, '2002-10-22'),
+
+
 
 	( '131278\]', ' [131278]', 1, '2003-10-06'),
 	( 'Department how many asylum applications', 'Department (1) how many asylum applications', 1, '2003-09-18'),
@@ -153,6 +141,7 @@ fixsubs = 	[
 	( 'www.unicef-org', 'www.unicef.org', 1, '2003-02-28'),
 	( 'gov.ukyStatBase', 'gov.uk/StatBase', 1, '2003-05-22'),
         ( 'defraweb', 'www.defra.gov.uk', 1, '2003-12-18'),
+        ( 'sn99&#150;35\(s.htm\);', 'sn99-35s.htm;', 1, '2003-07-16'),
 
         # special note not end of block - when we have multiple answers
         ( '(Decisions on proposed closures of post offices are an operational matter for Post Office Ltd)', '<another-answer-to-follow>\\1', 1, '2004-01-22'),
@@ -203,7 +192,8 @@ def ScanQBatch(shspeak, stampurl, sdate):
 	for shs in shspeak:
 		qb = qspeech(shs[0], shs[1], stampurl, sdate)
 		qblock.append(qb)
-                #print "type ", qb.typ, " len qblock ", len(qblock)
+                #print "-------------------------";
+                #print "type ", qb.typ, " len qblock ", len(qblock), qb.text
 
                 # special case: multiple replies
                 replytofollow = False
@@ -224,8 +214,13 @@ def ScanQBatch(shspeak, stampurl, sdate):
 	# errors to be generated later.
 	if qblock:
 		# these are common failures of the data
-		print "block without answer " + stampurl.title + stampurl.stamp
+		# print "block without answer " + stampurl.title + stampurl.stamp
+		qb = qspeech('speakerid="unknown" speakername="Error"', \
+                    ' <p>Answer missing in Hansard.</p> ',# should have <p class="error"> here but HTML fixer doesn't like it\
+                    stampurl, sdate)
+		qblock.append(qb)
 		shansblock.append(qblock)
+
 	return shansblock
 
 

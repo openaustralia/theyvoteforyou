@@ -1,4 +1,5 @@
 #! /usr/bin/python2.3
+# vim:sw=8:ts=8:et:nowrap
 
 import sys
 import re
@@ -44,7 +45,11 @@ def ParseRow(srow, hdcode):
 # replies can have tables
 def ParseTable(stable):
 	# remove the table bracketing
-	stable = re.match('<table[^>]*>\s*([\s\S]*?)\s*</table>(?i)', stable).group(1)
+        original = stable
+	stable = re.match('<table[^>]*>\s*([\s\S]*?)\s*</table>$(?i)', stable).group(1)
+        if re.search('<table[^>]*>|</table>(?i)', stable):
+            print original
+            raise Exception, 'Double <table> start tag in table parse chunk'
 
 	# break into rows, making sure we can deal with non-closed <tr> symbols
 	sprows = re.split('(<tr[^>]*>[\s\S]*?(?:</tr>|(?=<tr[^>]*>)))(?i)', stable)
@@ -62,18 +67,19 @@ def ParseTable(stable):
 			if (not srows) and (not stitle):
 				stitle = sprow
 			elif not re.match('(?:</t[dhr]>|</font>|\s)*$(?i)', sprow):
-				print sprow
+				print "sprow:" , sprow
 				raise Exception, ' non-row text '
 
 
 	# take out tags round the title; they're always out of order
+        #print "stitle ", stitle
 	Lstitle = []
-	stitle = string.strip(re.sub('</?font[^>]*>|</?p>|<br>|&nbsp;(?i)', '', stitle))
+	stitle = string.strip(re.sub('</?font[^>]*>|</?p>|</?i>|<br>|&nbsp;(?i)', '', stitle))
 	if stitle:
 		ts = re.match('(?:\s|<b>|<center>)+([\s\S]*?)(?:</b>|</center>)+\s*([\s\S]*?)\s*$(?i)', stitle)
 		if not ts:
-			print ' non-standard table title '
-			print stitle
+                        print "stitle:" , stitle
+			raise Exception, ' non-standard table title '
 		else:
 			Lstitle.append('<caption>')
 			Lstitle.extend(FixHTMLEntitiesL(ts.group(1), '</?font[^>]*>|</?p>|\n(?i)'))

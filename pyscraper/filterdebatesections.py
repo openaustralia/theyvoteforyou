@@ -32,12 +32,14 @@ fixsubs = 	[
 		'\\1</center></H4>\n<H4><center>\\2', 1, '2003-06-16'),
         ( '(<H4><center>THIRD VOLUME OF SESSION 2003&#150;2004)(House of Commons</center></H4>)', \
                 '\\1</center></H4>\n<H4><center>\\2', 1, '2004-01-26'),
-	( "<P>\s*(The House met at half-past Two o'clock)", '<H4><center>\\1</center></H4>', 1, '2003-04-28'),
 	( "(<H3 align=center>TENTH VOLUME OF SESSION 2002&#150;2003)(House of Commons</H3>)", \
 		'\\1</H3>\n<H3 align=center>\\2', 1, '2003-04-07'),
 	( "(<H3 align=center>NINTH VOLUME OF SESSION 2002&#150;2003)ana(House of Commons</H3>)", \
 		'\\1</H3>\n<H3 align=center>\\2', 1, '2003-03-24'),
 	( '\{\*\*pq num="76041"\*\*\}', '', 1, '2002-10-30'),
+        ( '(2003)(House of Commons)', '\\1</center></H4>\n<H4><center>\\2', 1, '2003-06-03'),
+        ( '(2003)(House of Commons)', '\\1</center></H4>\n<H4><center>\\2', 1, '2003-05-12'),
+        ( '(2003)(House of Commons)', '\\1</center></H4>\n<H4><center>\\2', 1, '2003-04-28'),
 
         ( '(<FONT SIZE=-1>2 Dec. 2003)', '\\1\n</FONT></TD></TR>\n</TABLE>', 1, '2004-02-05'),
 
@@ -254,13 +256,7 @@ def FilterDebateSections(fout, text, sdate):
                         # All upper case headings - these tend to be uniform, so we can check their names
                         if not re.search('[a-z]', sht[0]):
                                 bmajorheading = sht[0]
-				stampurl.majorheading = None
-				for knhd in parlPhrases.debatemajorheadings:
-					if re.match(knhd, sht[0]):
-						stampurl.majorheading = stampurl.title
-						break
-				if not stampurl.majorheading:
-					raise Exception, "unrecognized major heading: %s" % (sht[0])
+                                stampurl.majorheading = stampurl.title
 				stampurl.title = ''
 
                         # Other major headings, marked by _head in their anchor tag - doesn't seem

@@ -21,7 +21,9 @@ if (not os.path.isdir(toppath)):
 if os.path.exists(toppath + "/pwcmpages"):
         raise Exception, 'Folders have changed name, and you need to rescrape everything anyway.  Clear out %s and start again.' % (toppath)
 
-
+# The names of entities and what they are are here:
+# http://www.bigbaer.com/reference/character_entity_reference.htm
+# Make sure you update WriteXMLHeader below also!
 entitymap = {
         '&nbsp;':' ',
         '&':'&amp;',
@@ -42,6 +44,8 @@ entitymap = {
         '&#246;':'&ouml;',   # this is o-double-dot
         '&#214;':'&Ouml;',   # this is capital o-double-dot
 
+        '&#237;':'&iacute;', # this is i-acute
+
         '&#231;':'&ccedil;',   # this is cedilla
         '&#252;':'&uuml;',   # this is u-double-dot
         '&#241;':'&ntilde;',   # spanish n as in Senor
@@ -56,6 +60,8 @@ entitymap = {
         '&#190;':'&frac34;',   # this is three quarter symbol
 
         '&#95;':'_',    # this is underscore symbol
+
+        "&#8364;":'&euro;', # this is euro currency
 }
 entitymaprev = entitymap.values()
 
@@ -129,10 +135,6 @@ def StraightenHTMLrecurse(stex):
                         # Put new entities in entitymap if you can, or special cases
                         # in this if statement.
 
-			# The names of entities and what they are are here:
-			# http://www.bigbaer.com/reference/character_entity_reference.htm
-			# Make sure you update WriteXMLHeader below also!
-
                         if sres[i] in entitymap:
                                 sres[i] = entitymap[sres[i]]
                         elif sres[i] in entitymaprev:
@@ -179,9 +181,14 @@ def FixHTMLEntities(stex):
 
 
 
+# The lookahead assertion (?=<table) stops matching tables when another begin table is reached
+restmatcher = '</?p>|</?ul>|<br>|</?font[^>]*>(?i)'
+reparts = re.compile('(<table[\s\S]*?(?:</table>|(?=<table))|' + restmatcher + ')')
+reparts2 = re.compile('(<table[^>]*?>|' + restmatcher + ')')
 
 retable = re.compile('<table[\s\S]*?</table>(?i)')
-reparaspace = re.compile('</?p>|</?ul>|<br>|</?font[^>]*>(?i)')
+retablestart = re.compile('<table[\s\S]*?(?i)')
+reparaspace = re.compile('</?p>|</?ul>|<br>|</?font[^>]*>|<table[^>].*>$(?i)')
 reparaempty = re.compile('\s*(?:<i>)?</i>\s*|\s*$(?i)')
 reitalif = re.compile('\s*<i>\s*$(?i)')
 
@@ -196,7 +203,20 @@ def SplitParaSpace(text):
 	# list of space objects, list of string
 	spclist = []
 	pstring = ''
-	for nf in re.split('(<table[\s\S]*?</table>|</?p>|</?ul>|<br>|</?font[^>]*>)(?i)', text):
+        parts = reparts.split(text)
+        newparts = []
+        # split up the start <table> bits without end </table> into component parts
+        for nf in parts:
+                if retablestart.match(nf) and not retable.match(nf):
+                        newparts.extend(reparts2.split(nf))
+                else:
+                        newparts.append(nf)
+#        print "newparts ", newparts
+	for nf in newparts:
+                #print "\nXspclist:", spclist
+                #print "\nXpstring:", pstring
+                #print "\nXnf:", nf
+                #print "\n----------------"
 
 		# get rid of blank and boring paragraphs
 		if reparaempty.match(nf):
@@ -243,9 +263,9 @@ def SplitParaSpace(text):
 
 		# check that paragraphs have some text
 		if re.match('(?:<[^>]*>|\s)*$', pstring):
-			print text
-			print spclist
-			print pstring
+			print "\nspclist:", spclist
+			print "\npstring:", pstring
+			print "\nthe text:", text
 			raise Exception, ' no text in paragraph '
 
 		# check that paragraph spaces aren't only font text, and have something
@@ -279,6 +299,7 @@ def SplitParaSpace(text):
 # Break text into paragraphs and mark the paragraphs according to their <ul> indentation
 def SplitParaIndents(text):
 	dell = SplitParaSpace(text)
+        #print "dell", dell
 
 	res =  [ ]
 	resdent = [ ]
@@ -342,6 +363,7 @@ def WriteXMLHeader(fout):
 <!ENTITY ocirc  "&#244;" >
 <!ENTITY ouml   "&#246;" >
 <!ENTITY Ouml   "&#214;" >
+<!ENTITY iacute "&#237;" >
 <!ENTITY ccedil "&#231;" >
 <!ENTITY uuml   "&#252;" >
 <!ENTITY ntilde "&#241;" >
@@ -354,6 +376,8 @@ def WriteXMLHeader(fout):
 <!ENTITY frac14 "&#188;" >
 <!ENTITY frac12 "&#189;" >
 <!ENTITY frac34 "&#190;" >
+
+<!ENTITY euro "&#8364;" >
 ]>
 
 ''');

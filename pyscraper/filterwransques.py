@@ -20,8 +20,7 @@ from miscfuncs import SplitParaIndents
 def ExtractQnum(tex):
 	qn = re.match('(.*?)\s*\[?(\d+R?)\]$', tex)
 	if not qn:
-		print tex
-		print 'qnum not at end of line'
+		# print tex, 'qnum not at end of line'
 		return (tex, '0')
 
 	if re.search('\[(\d+R?)\]', qn.group(1)):

@@ -13,7 +13,8 @@ import sys
 from parlphrases import parlPhrases
 
 # These we don't necessarily match to a speaker id, deliberately
-regnospeakers = "Hon\.? Members|Deputy Speaker|Members of the House of Commons|Second Deputy Chairman(?i)"
+regnospeakers = "Hon\.? Members|Members of the House of Commons|" + \
+        "Deputy Speaker|Second Deputy Chairman(?i)|The Chairman|First Deputy Chairman|Temporary Chairman"
 
 class MemberList(xml.sax.handler.ContentHandler):
     def __init__(self):
@@ -28,7 +29,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         self.parties = {} # constituency --> MPs
 
         # "rah" here is a typo in division 64 on 13 Jan 2003 "Ancram, rah Michael"
-        self.titles = "Dr |Hon |hon |rah |rh |Mrs |Ms |Dr |Mr |Miss |Ms |Rt Hon |Reverend |The Reverend |Sir |Rev "
+        self.titles = "Dr |Hon |hon |rah |rh |Mrs |Ms |Dr |Mr |Miss |Ms |Rt Hon |Reverend |The Rev |The Reverend |Sir |Rev "
         self.retitles = re.compile('^(?:%s)' % self.titles)
         self.rejobs = re.compile('^%s$' % parlPhrases.regexpjobs)
 
@@ -136,7 +137,7 @@ class MemberList(xml.sax.handler.ContentHandler):
             matches = self.lastnames.get(text, None)
 
         # If a speaker, then match agains the secial speaker parties
-        if not matches and text == "Speaker":
+        if not matches and (text == "Speaker" or text == "The Speaker"):
             matches = self.parties.get("SPK", None)
         if not matches and text == "Deputy Speaker":
             matches = copy.copy(self.parties.get("DCWM", None))
@@ -222,9 +223,13 @@ class MemberList(xml.sax.handler.ContentHandler):
                     ids = sets.Set([x,])
                     break
 
+        # Special case - the AGforS is referred to as just the AG after first appearance
+        office = input
+        if office == "The Advocate-General":
+            office = "The Advocate-General for Scotland"
         # Office name history ("The Deputy Prime Minster (John Prescott)" is later
         # referred to in the same day as just "The Deputy Prime Minister")
-        officeids = self.debateofficehistory.get(input, None)
+        officeids = self.debateofficehistory.get(office, None)
         if officeids:
             if len(ids) == 0:
                 ids = officeids
@@ -241,13 +246,14 @@ class MemberList(xml.sax.handler.ContentHandler):
         # Return errors
         if len(ids) == 0:
             if not re.search(regnospeakers, input):
-                print "No matches %s" % (rebracket)
+                raise Exception, "No matches %s" % (rebracket)
             return 'speakerid="unknown" error="No match" speakername="%s"' % (rebracket)
         if len(ids) > 1:
             names = ""
             for id in ids:
                 names += self.members[id]["firstname"] + " " + self.members[id]["lastname"] + " (" + self.members[id]["constituency"] + ") "
-            print "Multiple matches %s, possibles are %s" % (rebracket, names)
+            if not re.search(regnospeakers, input):
+                raise Exception, "Multiple matches %s, possibles are %s" % (rebracket, names)
             return 'speakerid="unknown" error="Matched multiple times" speakername="%s"' % (rebracket)
         # Extract one id left
         for id in ids:
@@ -270,7 +276,7 @@ class MemberList(xml.sax.handler.ContentHandler):
             if ginp:
                 inp = '%s %s' % (ginp.group(2), ginp.group(1))
             else:
-                print "No match:", inp
+                print "No match (matchfulldivisionname):", inp
             return self.matchfullname(inp, date)
 
 

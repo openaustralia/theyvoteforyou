@@ -18,11 +18,10 @@ knownbadmatches = 'prime minister|solicitor-general|nicholas brown|gareth thomas
 		  'advocate-general|ainsworth|jonathan shaw|gareth r[.] thomas|multiple times(?i)'
 
 fixsubs = 	[
+        ( 'Mr. Jim McNulty', 'Mr. McNulty', 1, '2003-01-07'),
         ( '(<B> Mr. Tony)(: </B>)', '\\1 Banks\\2', 1, '2004-01-29'),
 	( '<B> Mr. </B>\s* Shepherd:', '<B> Mr. Shepherd:</B>', 1, '2003-10-23'),
 	( '<B> Margaret Becket </B>', '<B> Margaret Beckett </B>', 1, '2003-11-11'),
-
-	( '<B> Yvette Cooper/Ms Rosie Winterton: </B>', '<B> Ms Rosie Winterton: </B>', 1, '2003-05-14'),
 
 	( '<UL><i>Mr. Bradshaw \[holding answer 11 September 2003\]:</i>', \
 		'<B>Mr. Bradshaw </B> [holding answer 11 September 2003]:', 1, '2003-09-18'),
@@ -39,18 +38,14 @@ fixsubs = 	[
 		'</ul><B>Mr. Bradshaw </B> [holding answer 17 June 2003]', 1, '2003-06-18'),
 	( '<UL><i>(Mr. Morley) (\[holding answer 22 May 2003\]):</i>', \
 		'<B>\\1</B> \\2', 1, '2003-06-03'),
-	( '<UL><i>(Mr. Morley) (\[holding answer 9 April 2003\]):</i>', \
-		'<B>\\1</B> \\2', 1, '2003-05-08'),
-	( '<UL>(Mr. MacShane):', '<B>\\1</B>', 1, '2003-05-07'),
-	( '<UL>(Mr. Morley):', '<B>\\1</B>', 1, '2003-04-28'),
 	( '<UL>(Beverley Hughes):', '<B>\\1</B>', 1, '2003-04-10'),
+        ( '<UL>(Mr. Morley):', '<B>\\1</B> ', 1, '2003-05-01'),
 
 	( '<UL>\(1\) (Tim Loughton): (To ask the Deputy Prime Minister) (how many times he has been in residence at Dorneywood since June 2001; and on what dates;  \[97476\])', '<B>\\1</B> \\2 (1) \\3 <p><UL>', 1, '2003-03-28'),
 	( '<UL>Mr. Denham:', '<B>Mr. Denham</B>', 1, '2003-03-06'),
 
 
 	( '<B> Mr. Bercow: Mr. John Bercow: </B>', '<B> Mr. John Bercow: </B>', 1, '2003-06-03'),
-	( '<B> Mr. Drew: Mr. David Drew: </B>', '<B> Mr. David Drew: </B>', 1, '2003-05-01'),
 	( '<B> Matthew Taylor: Matthew Taylor: </B>', '<B> Matthew Taylor: </B>', 1, '2003-07-02'),
 
 	( '<TR valign=top><TD><FONT SIZE=-1>\s*<P>\s*<page', '</TABLE>\n<page', 1, '2002-07-24'),
@@ -77,8 +72,8 @@ fixsubs = 	[
 	( '<B> Mr. Jamieson </B>[\s\S]*?\[114072\]\.', '', 1, '2003-06-03'),
         ( '<B> Mr. McNulty: </B>\s*? I refer the hon. Member to the answer given today \[144178\].', '', 1, '2003-12-18'),
 
+        ( 'McLoughin', 'McLoughlin', 1, '2003-03-07'), 
 
-	( '</UL>\s*<P>\s*<P>\s*<B>  Barbara Follett </B>\s*\(4\)', '<P>(4)', 1, '2003-02-06'),
 	( '<UL>\(5\)', '(5)', 1, '2003-02-06'),
 	( '<UL>(We are intending to have)', '<B>Beverley Hughes</B> \\1', 1, '2003-01-29'), 
 
@@ -92,7 +87,10 @@ fixsubs = 	[
 	( '(Maple 2b,?) .(\d+</FONT>)', '\\1 ?\\2', 4, '2003-06-04'), # not a latin problem, but bogus char is bad xml
 	( 'Larch 3 .2305', 'Larch 3 ?2305', 1, '2003-06-04'), # as above
 	( 'cfm.4', 'cfm 4', 1, '2003-06-03'), # as above.  don't know what char is supposed to be.
-        ( 'Laura0 Moffatt', 'Laura Moffatt', 1, '2004-01-27')
+        ( 'Laura0 Moffatt', 'Laura Moffatt', 1, '2004-01-27'),
+
+        ( 'è', '&euro;', 3, '2003-06-12'),
+        ( '(16. )(Keith Vaz: )(To ask)', '\\1<B>\\2</B>\\3', 1, '2003-06-12'),
 
 ]
 

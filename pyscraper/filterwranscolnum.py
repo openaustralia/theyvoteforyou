@@ -22,6 +22,33 @@ fixsubs = 	[
 	( '<H2 align=center> </H2>[\s\S]{10,99}?Monday 13 October 2003', '', 1, '2003-10-14' ),
 	( '<P>\[Continued from column 278W\]', '', 1, '2003-12-08'),
 
+        ( '(<TABLE BORDER=1>)(\s*?<a name="30613w06.html_sbhd5">)', '\\2', 1, '2003-06-13'),
+        ( '(</FONT>\s*?)<TABLE BORDER=1>(\s*?<P>\s*?<P>)', '\\1\\2', 1, '2003-06-13'),
+        ( '(<TABLE BORDER=1>\s*?)<TABLE BORDER=1>', '\\1', 1, '2003-06-13'),
+        ( '<TABLE BORDER=1>(\s*?<a name="30613w19.html_sbhd5">)', '\\1', 1, '2003-06-13'),
+
+        # NIGHTMARE table day - still doesn't work
+        # Excess table tag
+        ( '<TABLE BORDER=1>(\s*?<a name="30612w07.html_sbhd1">)', '\\1', 1, '2003-06-12'),
+        ( '(<a name="30612w23.html_para1">)\s*?<TABLE BORDER=1>', '\\1', 1, '2003-06-12'),
+#        ( '(<TABLE BORDER=1>\s*?)<P>', '\\1', 21, '2003-06-12'),
+        ( '(<P><I>12 Jun 2003 : Column 1065W</I><P>\s*?)<TABLE BORDER=1>', '\\1', 1, '2003-06-12'),
+        # Title with end /TH /TR, but no begin TH TR, bad bolding
+        ( '(<center>)<B>(&#163;000Country/YearTotal DFID Programme</center>)</B>(\s*?</FONT>)</FONT></TH></TR>', '\\1\\2\\3', 1, '2003-06-12'),
+        # Table immediately followed by spurious end TH end TR - heading then in TDs
+        ( '(<TABLE BORDER=1>)\s*?<P>\s*?</FONT></TH></TR>', '\\1', 1, '2003-06-12'),
+        # Malformed heading
+        # ( '(<FONT SIZE=-1><center>)<B>(&#163;000</center>)</B>','\\1\\2', 1, '2003-06-12'),
+
+        ( '(\[109374\]<P>)</UL>', '\\1', 1, '2003-04-30'),
+
+        ( '(Mr. Kenneth Clarke: )(To ask the Chancellor of the Exchequer)', '</UL>\n\n<B>\\1</B>\\2', 1, '2003-04-30'),
+        ( '<B>  Barbara Follett </B>\s*?\(4\)', '(4)', 1, '2003-02-06'),
+        ( '(<B> Mr )(</B>\s*?)(Jamieson:)', '\\1\\3\\2', 1, '2003-01-30'),
+
+        ( '(<UL>)(The Solicitor-General)( <i>\[holding answer 14 May 2003\]:</i>)', '<B>\\2</B>\\3', 1, '2003-06-12'),
+
+
         # Stop the remarginal matching this reference to a column number
         ( 'from that stated in Hansard 16 January 2003: column 792W', 'Hansard 16 January 2003: col. 792W', 1, '2004-01-13' )
 ]

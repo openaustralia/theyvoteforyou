@@ -116,9 +116,13 @@ def FilterReply(qs):
 	while i < len(textp):
 		# deal with tables
 		if re.match('<table(?i)', textp[i]):
-			qs.stext.append(ParseTable(textp[i]))
-			i = i+1
-			continue
+                        if re.match('<table[^>]*>[\s\S]*?</table>$(?i)', textp[i]):
+                            qs.stext.append(ParseTable(textp[i]))
+                            i = i+1
+                            continue
+                        else:
+                            print "textp[i]: ", textp[i]
+                            raise Exception, "table start with no end"
 
 		qletterinlibrary = reletterinlibrary.match(textp[i])
 		if qletterinlibrary:
