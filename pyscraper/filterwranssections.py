@@ -51,6 +51,8 @@ fixsubs = 	[
  	( '\n How many ', '\n To ask the Secretary of State for Work and Pensions how many ', 1, '2003-07-07'),
  	( '\n What ', '\n To ask the Secretary of State for Culture, Media and Sport what ', 1, '2003-06-30'),
 
+ 	( ' What assessment', '\n To ask the Secretary of State for Culture, Media and Sport what ', 1, '2004-03-08'),
+
  	( ' (on military flights at Northolt)', 'To ask the Secretary of State for Defence SOMETHING \\1', 1, '2003-06-03'),
 	( '\n When he expects', '\nTo ask the Secretary of State for Education and Skills when he expects', 1, '2003-04-10'),
 	( '\n Asked the Secretary', '\nTo ask the Secretary', 1, '2003-03-21'),
@@ -98,6 +100,8 @@ fixsubs = 	[
 	( '\{\*\*con\*\*\}\{\*\*/con\*\*\}', '', 1, '2003-01-30'),
 	( 'Rural Affairs what estimates', 'Rural Affairs (1) what estimates', 1, '2003-01-29'),
         
+
+	( '(<UL>) (<i>\(a\)</i>&nbsp;housing associations)', '\\1 (2) \\2', 1, '2004-03-05' ),
 
 	( 'Vol. No. 412,', '', 1, '2003-11-10'),
 	( '</TH></TH>', '</TH>', 1, '2003-11-17'),
