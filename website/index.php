@@ -1,7 +1,7 @@
 <?php $cache_params = rand(0, 10); include "cache-begin.inc"; ?>
 
 <?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
-# $Id: index.php,v 1.30 2004/07/13 12:10:36 frabcus Exp $
+# $Id: index.php,v 1.31 2004/07/16 14:22:33 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -38,6 +38,7 @@ An at most monthly briefing.
 </td>
 
 <td class="layout" bgcolor="#eeeeee" colspan="2">
+<h2>At the Public Whip you can:</i></h2>
 <ol class="actions" type="1">
 
 <li>
@@ -58,9 +59,10 @@ An at most monthly briefing.
 </form></p>
 </p>
 
-<li><p><span class="actionsheading"><a href="dreammps.php">Create your own Dream MP</a></span>
-<br>Choose how they vote, compare them to real MPs.
-<br>Busiest Dream MPs:
+<li><p><span class="actionsheading">Discover your Dream MP</span>
+<br>Either <a href="dreammps.php">browse</a> or <a
+href="account/adddream.php">create</a> an MP who votes how you want</span>
+<br>Best attending:
 <?php
     $query = "select name, rollie_id, count(pw_dyn_rollievote.vote) as count
         from pw_dyn_rolliemp, pw_dyn_rollievote where 
