@@ -1,4 +1,6 @@
-# $Id: DivsXML.pm,v 1.1 2004/06/08 11:56:54 frabcus Exp $
+# $Id: DivsXML.pm,v 1.2 2004/07/05 16:49:37 theyworkforyou Exp $
+# vim:sw=4:ts=4:et:nowrap
+
 # Loads divisions from the XML files made by pyscraper into
 # the MySQL database for the Public Whip website.
 
@@ -18,7 +20,7 @@ use Data::Dumper;
 use Unicode::String qw(utf8 latin1 utf16);
 
 our $toppath    = $ENV{'HOME'} . "/pwdata/";
-our $debatepath = $toppath . "scrapedxml/debates/";
+
 our $curdate;
 our $dbh;
 
@@ -42,18 +44,17 @@ sub read_xml_files {
         output_filter => 'safe'
     );
 
-    opendir DIR, $debatepath or die "Cannot open $debatepath: $!\n";
+    opendir DIR, $PublicWhip::Config::debatepath or die "Cannot open $PublicWhip::Config::debatepath: $!\n";
     while ( my $file = readdir(DIR) ) {
-        if ( $file =~ m/^debates(\d\d\d\d-\d\d-\d\d).xml$/ ) {
+        if ( $file =~ m/^$PublicWhip::Config::fileprefix(\d\d\d\d-\d\d-\d\d).xml$/ ) {
             $curdate = $1;
             if ( ( $curdate ge $from ) and ( $curdate le $to ) ) {
-                PublicWhip::Error::log( "Processing XML divisions",
-                    $curdate, ERR_USEFUL );
+                PublicWhip::Error::log( "Processing XML divisions", $curdate, ERR_USEFUL );
                 $lastmajor      = "";
                 $lastminor      = "";
                 $lastmotiontext = "";
                 $lastheadingurl = "";
-                $twig->parsefile( $debatepath . "debates" . $curdate . ".xml" );
+                $twig->parsefile( $PublicWhip::Config::debatepath . "$PublicWhip::Config::fileprefix" . $curdate . ".xml" );
             }
         }
     }
@@ -334,6 +335,8 @@ sub loaddivision {
             return;
         }
     }
+
+    print "new division $divdate $divnumber $heading\n";
 
     # Add division to tables
     PublicWhip::DB::query(

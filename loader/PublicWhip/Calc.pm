@@ -1,4 +1,4 @@
-# $Id: Calc.pm,v 1.1 2004/06/08 11:56:54 frabcus Exp $
+# $Id: Calc.pm,v 1.2 2004/07/05 16:49:37 theyworkforyou Exp $
 # Calculates various data and caches it in the database.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -241,8 +241,8 @@ sub count_party_stats {
         $dbh,
         "create table pw_cache_partyinfo (
         party varchar(100) not null,
-        total_votes int not null,
-    );"
+        total_votes int not null
+    )"
     );
 
     my $sth = PublicWhip::DB::query(
@@ -324,8 +324,7 @@ sub current_rankings {
             $rank++;
             $activerank = $rank if ( $mprebel{$mp} != $prevvalue );
             $prevvalue = $mprebel{$mp};
-            PublicWhip::Error::log( $mp . " rebel $activerank of " . $#mpsrebel,
-                "", ERR_CHITTER );
+            PublicWhip::Error::log( $mp . " rebel $activerank of " . $#mpsrebel, "", ERR_CHITTER );
             PublicWhip::DB::query(
                 $dbh,
 "insert into pw_cache_rebelrank_today (mp_id, rebel_rank, rebel_outof)

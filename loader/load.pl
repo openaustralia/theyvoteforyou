@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: load.pl,v 1.2 2004/06/08 13:05:09 frabcus Exp $
+# $Id: load.pl,v 1.3 2004/07/05 16:49:37 theyworkforyou Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -100,29 +100,29 @@ END
 
 # Called every time to tidy up database
 sub clean {
-    print "Erasing half-parsed divisions...\n";
+    PublicWhip::Error::log("Erasing half-parsed divisions...", "", ERR_USEFUL);
     PublicWhip::Clean::erase_duff_divisions($dbh);
 }
 
 sub update_calc {
-    print "Counting party statistics...\n";
+    PublicWhip::Error::log("Counting party statistics...", "", ERR_USEFUL);
     PublicWhip::Calc::count_party_stats($dbh);
-    print "Guessing whip for each party/division...\n";
+    PublicWhip::Error::log("Guessing whip for each party/division...", "", ERR_USEFUL);
     PublicWhip::Calc::guess_whip_for_all($dbh);
-    print "Counting rebellions/attendence by MP...\n";
+    PublicWhip::Error::log("Counting rebellions/attendence by MP...", "", ERR_USEFUL);
     PublicWhip::Calc::count_mp_info($dbh);
-    print "Counting rebellions/turnout by division...\n";
+    PublicWhip::Error::log("Counting rebellions/turnout by division...", "", ERR_USEFUL);
     PublicWhip::Calc::count_division_info($dbh);
-    print "Rankings...\n";
+    PublicWhip::Error::log("Rankings...", "", ERR_USEFUL);
     PublicWhip::Calc::current_rankings($dbh);
 }
 
 sub check {
-    print "Checking integrity...\n";
+    PublicWhip::Error::log("Checking integrity...", "", ERR_USEFUL);
     PublicWhip::Clean::check_integrity($dbh);
-    print "Fixing up corrections we know about...\n";
+    PublicWhip::Error::log("Fixing up corrections we know about...", "", ERR_USEFUL);
     PublicWhip::Clean::fix_division_corrections($dbh);
-    print "Fixing bothway votes...\n";
+    PublicWhip::Error::log("Fixing bothway votes...", "", ERR_USEFUL);
     PublicWhip::Clean::fix_bothway_voters($dbh);
 }
 
@@ -131,6 +131,6 @@ sub all_divsxml {
 }
 
 sub test {
-    print "Temporary testing code...\n";
+    PublicWhip::Error::log("Temporary testing code...", "", ERR_USEFUL);
 }
 
