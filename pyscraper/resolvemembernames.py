@@ -256,6 +256,9 @@ class MemberList(xml.sax.handler.ContentHandler):
 
         return string.join(words , "")
 
+    def fixnamecase(self, name):
+        return self.lowercaselastname(name)
+
     # Replace common annoying characters
     def basicsubs(self, txt):
         txt = txt.replace("&#150;", "-")
