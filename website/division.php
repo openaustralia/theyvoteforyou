@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php
-# $Id: division.php,v 1.21 2004/02/05 00:10:33 frabcus Exp $
+# $Id: division.php,v 1.22 2004/02/08 04:01:43 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -9,6 +9,8 @@
 # For details see the file LICENSE.html in the top level of the source.
 
     include "db.inc";
+    include "account/database.inc";
+    include "account/user.inc";
     $db = new DB(); 
 
     $date = db_scrub($_GET["date"]);
@@ -34,10 +36,8 @@
     $notes = $row[5];
     $motion = $row[6];
     $prettydate = date("j M Y", strtotime($date));
-    $div_no = html_scrub($div_no);
-
-    $this_anchor = "division.php?date=" . urlencode($date) .  "&number=" . urlencode($div_no);
-
+    $div_no = html_scrub($div_no); 
+    $this_anchor = "division.php?date=" . urlencode($date) .  "&number=" . urlencode($div_no); 
     $title = "$name - $prettydate - Division No. $div_no";
     include "header.inc";
 
@@ -53,9 +53,104 @@
     	print ' | ';
         print '<a href="#nonvoters">Non-Voter List</a>'; 
     }
+    
 #	print ' | ';
 #	print '<a href="#similar">Similar Divisions</a>'; 
+    
+    # Roll your own MP feature
+    function vote_value($value, $curr)
+    {
+        $ret = "value=\"$value\" ";
+        if ($value == $curr)
+        {
+            $ret .= "selected ";
+        }
+        return $ret;
+    }
 
+    print "<div class=\"tablerollie\">";
+    print "<span class=\"ptitle\">Roll Your Own MP</span>";
+    if (user_isloggedin())
+    {
+        $submit=mysql_escape_string($_POST["submit"]);
+
+        $query = "select rollie_id, name, description from 
+            pw_dyn_rolliemp where user_id = '" . user_getid() . "'";
+
+        print "<p>Votes in this division for your dream MPs.</p>";
+        print '<FORM ACTION="division.php?date=' . urlencode($date) . '&number=' . urlencode($div_no) . '" METHOD="POST">';
+        print '<table>';
+        $db->query($query);
+        $rowarray = $db->fetch_rows_assoc();
+        
+        foreach ($rowarray as $row)
+        {
+            # alter dream MP's vote if they submitted form
+            if ($submit)
+            {
+                $changedvote = mysql_escape_string($_POST["vote" . $row['rollie_id']]);
+                if ($changedvote)
+                {
+                    print "<tr><td colspan=2><div class=\"error\">";
+                    if ($changedvote == "--")
+                    {
+                    }
+                    else
+                    {
+                        $query = "update pw_dyn_rollievote set vote='" . $changedvote . "'" . 
+                            " where rolliemp_id='" . $row['rollie_id'] . "' and " . 
+                            "division_date = '$date' and division_number = '$div_no'";
+                        print $query;
+                        $db->query($query);
+                        if ($db->rows() == 0)
+                            print "Error changing '" . $row['name'] . "' to " . $changedvote . " (no change)";
+                        elseif ($db_.rows() > 1)
+                            print "Error changing '" . $row['name'] . "' to " . $changedvote . " (too many rows)";
+                        else
+                            print "Changed '" . $row['name'] . "' to " . $changedvote;
+                    }
+                    print "</div></td></tr>";
+                }
+            }
+            # display dream MP vote
+            $query = "select vote from pw_dyn_rollievote where 
+                    division_date = $date and division_number = $div_no and
+                    rolliemp_id = " . $row['rollie_id'];
+            $db->query($query);
+            if ($db->rows() == 0)
+                $vote = "--";
+            else
+            {
+                $qrow = $db->fetch_row_assoc();
+                $vote = $qrow['vote'];
+            }
+            print "<tr><td>\n";
+            print '<i>' . $row['name'] . "</i>: \n";
+            print "</td><td>\n";
+            print ' <select name="vote' . $row['rollie_id'] . '" size="1">
+                                <option ' . vote_value("aye", $vote) . '>Aye</option>
+                                <option ' . vote_value("no", $vote) . '>No</option>
+                                <option ' . vote_value("both", $vote) . '>Abstain</option>
+                                <option ' . vote_value("--", $vote) . '>Non-voter</option>
+                            </select></p>';
+            print '</td></tr>';
+        }
+        print '</table>';
+	    print '<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Update Votes">';
+        print ' <a href="account/addrollie.php">[Create new dream MP]</a>';
+        print '</FORM>';
+    }
+    else
+    {
+        print "<p>Have a strong view on this division?  <a href=\"account/addrollie.php\">Roll your
+            own dream MP</a>, and have them vote how you would like them to have voted.  Essential
+            for any campaigning organisation, parliamentary candidate, or just for fun.";
+        print "<p>Already have a dream MP?  <a href=\"account/settings.php\">Login here</a>";
+
+    }
+    print "</div>";
+ 
+    # Summary
 	print "<h2>Summary</h2>";
 
     $ayes = $db->query_one_value("select count(*) from pw_vote

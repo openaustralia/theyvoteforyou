@@ -79,6 +79,16 @@ HR
     FLOAT: right;
     PADDING-TOP: 1em;
 }
+.tablerollie
+{
+    WIDTH: 33%;
+    FLOAT: right;
+    PADDING-TOP: 1em;
+    PADDING-LEFT: 1em;
+    PADDING-BOTTOM: 1em;
+    PADDING-RIGHT: 1em;
+    BACKGROUND-COLOR: #eeeeee
+}
 TABLE.layout
 {
     BORDER-RIGHT: 0px;

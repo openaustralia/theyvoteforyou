@@ -357,7 +357,7 @@ function user_changenewsletter($newsletter) {
 }
 function user_getname() {
 	if (user_isloggedin()) {
-		return $GLOBALS['user_name'];
+		return mysql_escape_string($GLOBALS['user_name']);
 	} else {
 		//look up the user some day when we need it
 		return ' Not logged in. ';
@@ -421,6 +421,58 @@ function account_namevalid($name) {
 
 function validate_email ($address) {
 	return (ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'. '@'. '[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.' . '[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $address));
+}
+
+function login_screen()
+{
+    global $feedback;
+
+    $onload = "givefocus('user_name')";
+
+    $title = "Login to The Public Whip"; 
+    include "../header.inc";
+
+    if ($feedback) {
+        print "<div class=\"error\"><h2>Login not correct,
+        please try again</h2><p>$feedback</div>";
+    }
+
+    print '
+        <P>
+        Enter your user name and password and we\'ll set a cookie so we know you\'re logged in.
+        <p>Not got a login?  <A HREF="register.php">Register a new
+        account</A>.  You will receive a free email newsletter.
+        <br>Lost your password? <a href="lostpass.php">Reset your password here</a>.
+        <P>
+        <FORM ACTION="'. $PHP_SELF .'" METHOD="POST" name=pw>
+        <B>User Name:</B><BR>
+        <INPUT TYPE="TEXT" NAME="user_name" VALUE="" SIZE="15" MAXLENGTH="15">
+        <P>
+        <B>Password:</B><BR>
+        <INPUT TYPE="password" NAME="password" VALUE="" SIZE="15" MAXLENGTH="15">
+        <P>
+        <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Login To Public Whip">
+        </FORM>
+        <P>';
+}
+
+function do_login_screen()
+{
+    if (!user_isloggedin())
+    {
+        $user_name=mysql_escape_string($_POST["user_name"]);
+        $password=mysql_escape_string($_POST["password"]);
+        $submit=mysql_escape_string($_POST["submit"]);
+
+        if ($submit) {
+            if (user_login($user_name,$password))
+            {
+                $feedback = "";
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 ?>

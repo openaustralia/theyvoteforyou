@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.3 2003/10/15 06:59:00 frabcus Exp $
+# $Id: db.inc,v 1.4 2004/02/08 04:01:43 frabcus Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -48,10 +48,35 @@ class DB
             or die("Query failed : " .  mysql_error());
     }
 
+    function query_errcheck($query)
+    {
+#print $query;
+        $this->$result = mysql_query($query, $this->link);
+        return $this->$result;
+    }
+
+
     function fetch_row()
     {
         return mysql_fetch_row($this->$result);
     }
+
+    function fetch_row_assoc()
+    {
+        return mysql_fetch_assoc($this->$result);
+    }
+
+
+    function fetch_rows_assoc()
+    {
+        $ret = array();
+        while ($row = mysql_fetch_assoc($this->$result))
+        {
+            array_push($ret, $row);
+        }
+        return $ret;
+    }
+
 
     function rows()
     {
@@ -65,6 +90,15 @@ class DB
         $row = $this->fetch_row();
         return $row;
     }
+
+    function query_one_row_assoc($query)
+    {
+        $this->query($query);
+        if ($this->rows() != 1) die("Single row query didn't get one row, got " . $this->rows());
+        $row = $this->fetch_row_assoc();
+        return $row;
+    }
+
 
     function query_one_value($query)
     {

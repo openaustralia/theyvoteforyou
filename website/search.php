@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.23 2004/01/28 21:32:16 frabcus Exp $
+# $Id: search.php,v 1.24 2004/02/08 04:01:43 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -12,7 +12,7 @@
     $title = "Search for '$prettyquery'"; 
     if ($prettyquery == "")
     {
-        $onload = "givefocus()";
+        $onload = "givefocus('query')";
         $title = "Search";
     }
     include "render.inc";

@@ -1,5 +1,5 @@
 <?  
-# $Id: settings.php,v 1.5 2003/12/21 16:07:48 frabcus Exp $
+# $Id: settings.php,v 1.6 2004/02/08 04:01:44 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -9,21 +9,7 @@
 include('database.inc');
 include('user.inc');
 
-$just_logged_in = false;
-if (!user_isloggedin())
-{
-    $user_name=mysql_escape_string($_POST["user_name"]);
-    $password=mysql_escape_string($_POST["password"]);
-    $submit=mysql_escape_string($_POST["submit"]);
-
-    if ($submit) {
-        if (user_login($user_name,$password))
-        {
-            $just_logged_in = true;
-            $feedback = "";
-        }
-    }
-}
+$just_logged_in = do_login_screen();
 
 if (user_isloggedin()) # User logged in, show settings screen
 {
@@ -41,7 +27,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     $title = "Account Settings"; 
     include "../header.inc";
 
-    if ($feedback) {
+    if ($feedback && (!$just_logged_in)) {
         if ($ok)
         {
             print "<p>$feedback</p>";
@@ -78,31 +64,7 @@ if (user_isloggedin()) # User logged in, show settings screen
 }
 else # User not logged in, show login screen
 {
-    $title = "Login to The Public Whip"; 
-    include "../header.inc";
-
-    if ($feedback) {
-        print "<div class=\"error\"><h2>Login not correct,
-        please try again</h2><p>$feedback</div>";
-    }
-
-    print '
-        <P>
-        Enter your user name and password and we\'ll set a cookie so we know you\'re logged in.
-        <p>Not got a login?  <A HREF="register.php">Register a new
-        account</A>.  You will receive a free email newsletter.
-        <br>Lost your password? <a href="lostpass.php">Reset your password here</a>.
-        <P>
-        <FORM ACTION="'. $PHP_SELF .'" METHOD="POST">
-        <B>User Name:</B><BR>
-        <INPUT TYPE="TEXT" NAME="user_name" VALUE="" SIZE="15" MAXLENGTH="15">
-        <P>
-        <B>Password:</B><BR>
-        <INPUT TYPE="password" NAME="password" VALUE="" SIZE="15" MAXLENGTH="15">
-        <P>
-        <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Login To Public Whip">
-        </FORM>
-        <P>';
+    login_screen();
 }
 ?>
 <?php include "../footer.inc" ?>

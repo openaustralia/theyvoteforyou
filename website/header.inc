@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.28 2004/01/05 16:22:39 frabcus Exp $
+# $Id: header.inc,v 1.29 2004/02/08 04:01:43 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -31,7 +31,7 @@ if ($title == "Counting votes on your behalf")
 <title><? print $pagetitle ?></title>
 <script>
 <!--
-function givefocus() { if (document.pw) document.pw.query.focus(); }
+function givefocus(field) { if (document.pw) eval("document.pw." + field + ".focus()"); }
 // -->
 </script>
 </head>

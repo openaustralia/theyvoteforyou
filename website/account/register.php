@@ -1,6 +1,6 @@
 <?  
 
-# $Id: register.php,v 1.9 2003/12/21 16:07:48 frabcus Exp $
+# $Id: register.php,v 1.10 2004/02/08 04:01:44 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -58,8 +58,9 @@ if (!$ok)
     <p><span class="ptitle">Privacy Policy:</span>
     Your email address and info will never be given to or sold to third
     parties.  We will only send you the Public Whip newsletter, or 
-    other occasional messages about the Public Whip.  Your login may
-    in the future give you access to other free services on the Public
+    other occasional messages about the Public Whip.  Your login will
+    also give you access to the Roll Your Own MP feature.
+    In the future it may give you access to other free services on the Public
     Whip website.  Any changes to this policy will require your explicit
     agreement.
 <?
