@@ -85,21 +85,15 @@ public class radpanel extends JPanel implements MouseListener, MouseMotionListen
 
 
 	/////////////////////////////////////////////
-	radpanel(String lblairimg, boolean bisurl) throws IOException
+	radpanel(Image lblairimg) throws IOException
 	{
 		stoday = formatter.format(today);
 
 		addMouseListener(this);
         addMouseMotionListener(this);
 System.out.println(stoday);
-System.out.println(lblairimg);
-		if (bisurl)
-		{
-			URL blairurl = new URL(lblairimg);
-			blairimg = getToolkit().getImage(blairurl);
-		}
-		else
-			blairimg = getToolkit().getImage(lblairimg);
+
+		blairimg = lblairimg;
 	}
 
 	/////////////////////////////////////////////
@@ -211,8 +205,6 @@ System.out.println(lblairimg);
 	/////////////////////////////////////////////
     public void paintWoverlay(Graphics g)
 	{
-		g.setFont(fontbold);
-
 		// now the overlaid stuff
 		if (bselectdept)
 		{
@@ -236,6 +228,20 @@ System.out.println(lblairimg);
 			}
 		}
 
+		// write the date
+		int sdwid = fmlarge.stringWidth(sdatelong);
+		int sdheg = fmlarge.getHeight();
+		int sdx = (csize.width - sdwid) / 2;
+		int sdy = csize.height - sdheg - 10;
+		g.setColor(biobcol);
+		g.fillRect(sdx - biobpoff, sdy - fmlarge.getAscent() - biobpoff, sdwid + biobpoff * 2, sdheg + biobpoff * 2);
+		g.setColor(Color.blue);
+		g.drawRect(sdx - biobpoff, sdy - fmlarge.getAscent() - biobpoff, sdwid + biobpoff * 2, sdheg + biobpoff * 2);
+		g.setFont(fontlarge);
+		g.setColor(Color.black);
+		g.drawString(sdatelong, sdx, sdy);
+
+
 		// write in the department name
 		if (bselectdept && (personfactive != null))
 		{
@@ -256,6 +262,7 @@ System.out.println(lblairimg);
 			g.setColor(biobcol);
 			g.fillRect(personfactive.sx - biobpoff, personfactive.sy - fmbold.getAscent() - biobpoff, fmbold.stringWidth(personfactive.pname) + biobpoff * 2, fmbold.getHeight() + biobpoff * 2);
 			g.setColor(Color.black);
+			g.setFont(fontbold);
 			g.drawString(personfactive.pname, personfactive.sx, personfactive.sy);
 
 			g.setFont(fontnormal);
@@ -277,19 +284,6 @@ System.out.println(lblairimg);
 			for (int i = 0; i < personfactive.officebio.length; i++)
 				g.drawString(personfactive.officebio[i], rx, ry + i * fmnormal.getHeight());
 		}
-
-		// write the date
-		int sdwid = fmlarge.stringWidth(sdatelong);
-		int sdheg = fmlarge.getHeight();
-		int sdx = (csize.width - sdwid) / 2;
-		int sdy = csize.height - sdheg - 10;
-		g.setColor(biobcol);
-		g.fillRect(sdx - biobpoff, sdy - fmlarge.getAscent() - biobpoff, sdwid + biobpoff * 2, sdheg + biobpoff * 2);
-		g.setColor(Color.blue);
-		g.drawRect(sdx - biobpoff, sdy - fmlarge.getAscent() - biobpoff, sdwid + biobpoff * 2, sdheg + biobpoff * 2);
-		g.setFont(fontlarge);
-		g.setColor(Color.black);
-		g.drawString(sdatelong, sdx, sdy);
 	}
 
 
@@ -394,8 +388,8 @@ System.out.println(lblairimg);
 		bdisplaybio = ((personfactive != null) && !bselectdept);
 		repaint();
 
-		if ((Math.abs(csize.width / 2 - e.getX()) < 5) && (Math.abs(csize.height / 2 - e.getY()) < 5))
-			bblairjit = !bblairjit; 
+		if ((Math.abs(csize.width / 2 - e.getX()) < 10) && (Math.abs(csize.height / 2 - e.getY()) < 10))
+			bblairjit = !bblairjit;
 	}
 
     public void mouseReleased(MouseEvent e)

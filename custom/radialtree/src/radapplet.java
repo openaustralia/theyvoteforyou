@@ -1,4 +1,4 @@
-// $Id: radapplet.java,v 1.2 2004/11/19 22:15:23 goatchurch Exp $
+// $Id: radapplet.java,v 1.3 2004/11/30 10:35:52 goatchurch Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -17,6 +17,10 @@ import java.io.InputStreamReader;
 import java.io.BufferedReader;
 
 import radialtree.raddisplay;
+import java.awt.Image;
+
+import java.net.URL;
+
 
 /////////////////////////////////////////////
 public class radapplet extends JApplet
@@ -37,18 +41,22 @@ public class radapplet extends JApplet
 
 		try
 		{
-			raddisp = new raddisplay(blairimg, true);
+			Image lblairimg = getImage(getCodeBase(), blairimg);
+			raddisp = new raddisplay(lblairimg);
 			raddisp.radpane.SetDate(getParameter("startdate"), Integer.parseInt(getParameter("framemseconds")));
-			getContentPane().add("Center", raddisp);
 
+			getContentPane().add("Center", new JLabel("Loading: " + getCodeBase().toString() + ministers));
+			getContentPane().repaint();
 			BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(ministers)));
 			raddisp.LoadData(br);
+			getContentPane().removeAll();
+			getContentPane().add(raddisp);
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 			getContentPane().removeAll();
-			getContentPane().add("Center", new JLabel("Data error"));
+			getContentPane().add("Center", new JLabel("Data error", JLabel.CENTER));
 		}
 	}
 

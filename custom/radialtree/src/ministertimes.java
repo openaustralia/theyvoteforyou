@@ -63,12 +63,27 @@ class ministertimes
 		for (int i = 0; i < personfloats.length; i++)
 		{
 			personfloat personf = personfloats[i];
-			int j = personf.GetMIndex(sdate);
-			if (j != -1)
+			for (int j = 0; j < personf.npoffices; j++)
 			{
-				String ndate = (bFore ? personf.poffices[j].stopdate : personf.poffices[j].startdate);
-				if (rdate.equals("") || (bFore ? (ndate.compareTo(rdate) <= 0) : (ndate.compareTo(rdate) >= 0)))
-					rdate = ndate;
+				// j = personf.GetMIndex(sdate)
+				if (bFore)
+				{
+					String ndate = personf.poffices[j].stopdate;
+					if ((ndate.compareTo(sdate) >= 0) && (rdate.equals("") || (ndate.compareTo(rdate) <= 0)))
+						rdate = ndate;
+					ndate = personf.poffices[j].startdate;
+					if ((ndate.compareTo(sdate) >= 0) && (rdate.equals("") || (ndate.compareTo(rdate) <= 0)))
+						rdate = ndate;
+				}
+				else
+				{
+					String ndate = personf.poffices[j].stopdate;
+					if ((ndate.compareTo(sdate) <= 0) && (rdate.equals("") || (ndate.compareTo(rdate) >= 0)))
+						rdate = ndate;
+					ndate = personf.poffices[j].startdate;
+					if ((ndate.compareTo(sdate) <= 0) && (rdate.equals("") || (ndate.compareTo(rdate) >= 0)))
+						rdate = ndate;
+				}
 			}
 		}
 

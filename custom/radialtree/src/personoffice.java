@@ -26,6 +26,7 @@ class personoffice
 								  "Chief Whip (House of Lords)",
 								  "Chancellor of the Exchequer",
 								  "Chancellor of the Duchy of Lancaster",
+								  "Parliamentary Secretary to the Treasury",
 								  "Lord Privy Seal",
 								},
 

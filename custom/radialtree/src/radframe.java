@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import java.io.FileReader;
 import java.io.BufferedReader;
 
+import java.awt.Image;
 
 
 /////////////////////////////////////////////
@@ -27,7 +28,8 @@ class radframe extends JFrame
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(800, 700);
 
-		raddisp = new raddisplay("data/10047.jpg", false);
+		Image lblairimg = getToolkit().getImage("data/10047.jpg");
+		raddisp = new raddisplay(lblairimg);
 		raddisp.radpane.SetDate("1997-05-02", 50);
 		getContentPane().add("Center", raddisp);
 	}

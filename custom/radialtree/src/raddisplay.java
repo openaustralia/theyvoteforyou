@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -42,14 +43,14 @@ public class raddisplay extends JPanel
 	JButton blatershuff = new JButton(">> Reshuffle");
 	JButton bgotoday = new JButton("Today");
 
-	public raddisplay(String lblairimg, boolean bisurl) throws IOException
+	public raddisplay(Image lblairimg) throws IOException
 	{
 		super(new BorderLayout());
-		radpane = new radpanel(lblairimg, bisurl);
+		radpane = new radpanel(lblairimg);
 		radpane.labeldate = labeldate;
 		add("Center", radpane);
 
-		JPanel lower = new JPanel(new GridLayout(2, 7));
+		JPanel lower = new JPanel(new GridLayout(2, 6));
 
 		// year zero
 		bgozero.addActionListener(new ActionListener()
@@ -62,7 +63,6 @@ public class raddisplay extends JPanel
 		lower.add(bearliershuff);
 
 		// middle spacing
-		lower.add(new JLabel());
 		lower.add(new JLabel());
 		lower.add(new JLabel());
 
@@ -91,7 +91,7 @@ public class raddisplay extends JPanel
 		lower.add(bearlierday);
 
 		//lower.add(labeldate);
-		lower.add(new JLabel(""));
+		//lower.add(new JLabel(""));
 
 		// later day
 		blaterday.addActionListener(new ActionListener()
