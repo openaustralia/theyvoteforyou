@@ -421,7 +421,7 @@ function account_namevalid($name) {
 	global $feedback;
 	// no spaces
 	if (strrpos($name,' ') > 0) {
-		$feedback .= " There cannot be any spaces in the login name. ";
+		$feedback .= " There cannot be any spaces in the user name. ";
 		return false;
 	}
 

@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: register.php,v 1.17 2005/01/15 20:38:11 frabcus Exp $
+# $Id: register.php,v 1.18 2005/02/18 12:21:37 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -27,7 +27,7 @@ if ($submit) {
 	$ok = user_register($user_name,$password1,$password2,$email,$real_name);
 }
 
-$title = "Sign up for Newsletter and Dream MP"; 
+$title = "Sign up for Newsletter, Forum and Dream MP"; 
 include "../header.inc";
 
 if ($feedback) {
@@ -67,7 +67,7 @@ if (!$ok)
     <B>Real Name (first and last):</B><BR>
     <INPUT TYPE="TEXT" NAME="real_name" VALUE="<?=$real_name?>" SIZE="40" MAXLENGTH="50">
     <P>
-    <B>Login Name (real or made up, no spaces):</B><BR>
+    <B>User Name (real or made up, no spaces):</B><BR>
     <INPUT TYPE="TEXT" NAME="user_name" VALUE="<?=$user_name?>" SIZE="40" MAXLENGTH="15">
     <P>
     <B>Password:</B><BR>
@@ -83,7 +83,8 @@ if (!$ok)
     Your email address and info will never be given to or sold to third
     parties.  We will only send you the Public Whip newsletter, or 
     other occasional messages about the Public Whip.  Your login will
-    also give you access to the Dream MP feature.
+    also give you access to the Dream MP feature, the ability to edit
+    motion text and will display your user name on your postings in the forum.
     In the future it may give you access to other free services on the Public
     Whip website.  Any changes to this policy will require your explicit
     agreement.
