@@ -170,7 +170,7 @@ def NormalHeadingPart(headingtxt, stampurl):
 	# detect if this is a major heading and record it in the correct variable
 
 	bmajorheading = False
-        boralheading = False
+	boralheading = False
 
 	# Oral question are really a major heading
 	if headingtxt == 'Oral Answers to Questions':
@@ -208,9 +208,11 @@ def NormalHeadingPart(headingtxt, stampurl):
 ################
 # main function
 ################
-def FilterDebateSections(text, sdate):
+def FilterDebateSections(text, sdate, typ):
 	# make the corrections at this level which enables the headings to be resolved.
-	text = ApplyFixSubstitutions(text, sdate, fixsubs)
+	# old style fixing (before patches existed)
+	if typ == "debate":
+		text = ApplyFixSubstitutions(text, sdate, fixsubs)
 
 	# split into list of triples of (heading, pre-first speech text, [ (speaker, text) ])
 	headspeak = SplitHeadingsSpeakers(text)

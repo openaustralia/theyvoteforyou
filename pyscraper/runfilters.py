@@ -45,7 +45,7 @@ pwxmldirs = os.path.join(toppath, "scrapedxml")
 # file to store list of newly done dates
 recentnewfile = "recentnew.txt"
 
-tempfile = os.path.join(toppath, "filtertemp")
+tempfile = os.path.join(toppath, "filtertemp.xml")
 patchtempfile = os.path.join(toppath, "applypatchtemp")
 
 # create the output directory
@@ -87,7 +87,7 @@ def RunFiltersDir(filterfunction, dname, options, forcereparse):
 		jfout = os.path.join(pwxmldirout, re.sub('\.html$', '.xml', fin))
 
 		# skip already processed files, if date is earler
-                # (checking output date against input and patchfile, if there is one)
+		# (checking output date against input and patchfile, if there is one)
 		if os.path.isfile(jfout):
 			out_modified = os.stat(jfout).st_mtime
 			in_modified = os.stat(jfin).st_mtime
@@ -101,10 +101,7 @@ def RunFiltersDir(filterfunction, dname, options, forcereparse):
 				print "input modified since output reparsing ", fin
 
 		# here we repeat the parsing and run the patchtool editor until this file goes through.
-		again = True
-		while again:
-			again = False
-
+		while True:
 			# apply patch filter
 			kfin = jfin
 			if ApplyPatches(jfin, patchtempfile):
@@ -116,17 +113,12 @@ def RunFiltersDir(filterfunction, dname, options, forcereparse):
 			text = ofin.read()
 			ofin.close()
 
-			# store
-			newlistf = os.path.join(pwxmldirout, recentnewfile)
-			fil = open(newlistf,'a+')
-			fil.write(sdate + '\n')
-			fil.close()
-
 			# call the filter function and copy the temp file into the correct place.
 			# this avoids partially processed files getting into the output when you hit escape.
 			try:
+				# do the filtering, then write the result
 				(flatb, gidname) = filterfunction(text, sdate)
-				WriteXMLFile(gidname, tempfile, jfout, flatb, sdate)
+				WriteXMLFile(gidname, tempfile, jfout, flatb, sdate, options.quietc)
 
 				if sys.platform != "win32":
 					# this function leaves the file open which can't be renamed in win32
@@ -134,17 +126,30 @@ def RunFiltersDir(filterfunction, dname, options, forcereparse):
 
 				# we will signal that it's safe by doing this in write function
 				if os.path.isfile(jfout):
+					assert False # shouldn't happen (we leave by an exception)
 					print "Leave for XML match testing: No over-write of file"
-					# we can exit here and have the two files to look at by eye
-					#os.remove(tempfile)
 				else:
 					os.rename(tempfile, jfout)
+
+				# store
+				newlistf = os.path.join(pwxmldirout, recentnewfile)
+				fil = open(newlistf,'a+')
+				fil.write(sdate + '\n')
+				fil.close()
+
+				# we leave the loop
+				break
 
 			except ContextException, ce:
 				if options.patchtool:
 					print ce
 					RunPatchTool(dname, sdate, ce)
-					again = True
+					continue # emphasise that this is the repeat condition
+
+				elif options.quietc:
+					print ce.description
+					break # leave the loop having not written the xml file; go onto the next day
+
 				else:
 					raise
 
@@ -170,19 +175,34 @@ def RunDebateFilters(text, sdate):
 	memberList.cleardebatehistory()
 
 	si = cStringIO.StringIO()
-	FilterDebateColTime(si, text, sdate)
+	FilterDebateColTime(si, text, sdate, "debate")
 	text = si.getvalue()
 	si.close()
 
 	si = cStringIO.StringIO()
-	FilterDebateSpeakers(si, text, sdate)
+	FilterDebateSpeakers(si, text, sdate, "debate")
 	text = si.getvalue()
 	si.close()
 
-	flatb = FilterDebateSections(text, sdate)
+	flatb = FilterDebateSections(text, sdate, "debate")
 	return (flatb, "debate")
 
 
+def RunWestminhallFilters(text, sdate):
+	memberList.cleardebatehistory()
+
+	si = cStringIO.StringIO()
+	FilterDebateColTime(si, text, sdate, "westminhall")
+	text = si.getvalue()
+	si.close()
+
+	si = cStringIO.StringIO()
+	FilterDebateSpeakers(si, text, sdate, "westminhall")
+	text = si.getvalue()
+	si.close()
+
+	flatb = FilterDebateSections(text, sdate, "westminhall")
+	return (flatb, "westminhall")
 
 
 

@@ -79,8 +79,10 @@ redivno = re.compile('<b>division no\. \d+</b>$(?i)')
 
 remarginal = re.compile('<b>[^<]*</b>(?i)')
 
-def FilterDebateSpeakers(fout, text, sdate):
-	text = ApplyFixSubstitutions(text, sdate, fixsubs)
+def FilterDebateSpeakers(fout, text, sdate, typ):
+	# old style fixing (before patches existed)
+	if typ == "debate":
+		text = ApplyFixSubstitutions(text, sdate, fixsubs)
 
         # for error messages
 	stampurl = StampUrl(sdate)

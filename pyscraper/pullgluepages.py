@@ -41,11 +41,13 @@ class LoadCmIndex(xml.sax.handler.ContentHandler):
 			ddr = (attr["date"], attr["type"], attr["url"])
 			self.res.append(ddr)
 
-                        # check for repeats - error in input XML
-                        key = (attr["date"], attr["type"])
-                        if key in self.check:
-                                raise Exception, "Same date/type twice %s %s\nurl1: %s\nurl2: %s" % (ddr + (self.check[key],))
-                        self.check[key] = attr["url"]
+			# check for repeats - error in input XML
+			key = (attr["date"], attr["type"])
+			if key in self.check:
+				raise Exception, "Same date/type twice %s %s\nurl1: %s\nurl2: %s" % (ddr + (self.check[key],))
+			if not re.search("answers|debates|westminster|ministerial(?i)", attr["type"]):
+				raise Exception, "cmdaydeb of unrecognized type: %s" % attr["type"]
+			self.check[key] = attr["url"]
 
 
 
@@ -162,16 +164,16 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto, deleteoutput):
 		# make the filename
 		dgf = os.path.join(pcmdir, (fproto % dnu[0]))
 
-                if deleteoutput:
-                        if os.path.isfile(dgf):
-                                os.remove(dgf)
-                else:
-                        # hansard index page
-                        urlx = dnu[2]
+		if deleteoutput:
+			if os.path.isfile(dgf):
+				os.remove(dgf)
 
-                        # if we already have got the file, check the pagex link agrees in the first line
-                        # no need to scrape it in again
-                        if os.path.exists(dgf):
+		# hansard index page
+		urlx = dnu[2]
+
+		# if we already have got the file, check the pagex link agrees in the first line
+		# no need to scrape it in again
+		if os.path.exists(dgf):
                                 fpgx = open(dgf, "r")
                                 pgx = fpgx.readline()
                                 fpgx.close()
@@ -184,27 +186,27 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto, deleteoutput):
 
                                 print 'old url was ' + pgx[0]
                                 print 'RE-scraping ' + urlx
-                        else:
+		else:
                                 print 'scraping ' + urlx
 
-                        url0 = ExtractFirstLink(urlx)
+		url0 = ExtractFirstLink(urlx)
 
-                        # now we take out the local pointer and start the gluing
-                        dtemp = open(tempfile, "w")
-                        GlueByNext(dtemp, url0, urlx)
+		# now we take out the local pointer and start the gluing
+		dtemp = open(tempfile, "w")
+		GlueByNext(dtemp, url0, urlx)
 
-                        # close and move
-                        dtemp.close()
-                        if os.path.isfile(dgf):
+		# close and move
+		dtemp.close()
+		if os.path.isfile(dgf):
                             os.remove(dgf)
-                        os.rename(tempfile, dgf)
+		os.rename(tempfile, dgf)
 
 
 
 ###############
 # main function
 ###############
-def PullGluePages(datefrom, dateto, deleteoutput, folder, type):
+def PullGluePages(datefrom, dateto, deleteoutput, folder, typ):
 	# make the output firectory
 	if not os.path.isdir(pwcmdirs):
 		os.mkdir(pwcmdirs)
@@ -221,6 +223,6 @@ def PullGluePages(datefrom, dateto, deleteoutput, folder, type):
 	# third parameter is a regexp, fourth is the filename (%s becomes the date).
 	# type is "answers" or "debates"
 	pwcmfolder = os.path.join(pwcmdirs, folder)
-	GlueAllType(pwcmfolder, ccmindex.res, type + '(?i)', type + '%s.html', deleteoutput)
+	GlueAllType(pwcmfolder, ccmindex.res, typ + '(?i)', typ + '%s.html', deleteoutput)
 
 

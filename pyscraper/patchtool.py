@@ -36,7 +36,7 @@ def GenPatchFileNames(typ, sdate):
 # windows version of the patchtool shell script
 # this calls the contTEXT editor.
 def RunPatchToolW(typ, sdate, stamp, frag):
-        (patchfile, orgfile, tmpfile, tmppatchfile) = GenPatchFileNames(typ, sdate)
+	(patchfile, orgfile, tmpfile, tmppatchfile) = GenPatchFileNames(typ, sdate)
 
 	shutil.copyfile(orgfile, tmpfile)
 	if os.path.isfile(patchfile):

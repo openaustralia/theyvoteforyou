@@ -23,7 +23,7 @@ from createhansardindex import UpdateHansardIndex
 from lordscreatehansardindex import UpdateLordsHansardIndex
 from pullgluepages import PullGluePages
 from lordspullgluepages import LordsPullGluePages
-from runfilters import RunFiltersDir, RunDebateFilters, RunWransFilters, RunLordsFilters
+from runfilters import RunFiltersDir, RunDebateFilters, RunWransFilters, RunLordsFilters, RunWestminhallFilters
 from regmemfilter import RunRegmemFilters
 from regmempullgluepages import RegmemPullGluePages
 
@@ -44,6 +44,8 @@ parse           process scraped HTML into tidy XML files
 And choose at least one of these sections to apply them to:
 wrans           Written Answers
 debates         Debates
+westminhall     Westminster Hall
+wrminstat       Written Ministerial Statements
 lords           House of Lords
 regmem          Register of Members Interests
 chgpages        Special pages that change, like list of cabinet ministers
@@ -75,6 +77,9 @@ parser.add_option("--date", dest="date", metavar="date", default=None,
 parser.add_option("--patchtool",
                   action="store_true", dest="patchtool", default=None,
                   help="launch ./patchtool to fix errors in source HTML")
+parser.add_option("--quietc",
+                  action="store_true", dest="quietc", default=None,
+                  help="low volume error messages; continue processing further files")
 
 (options, args) = parser.parse_args()
 if (options.date):
@@ -88,6 +93,8 @@ options.scrape = False
 options.parse = False
 options.wrans = False
 options.debates = False
+options.westminhall = False
+options.wrminstat = False
 options.lords = False
 options.regmem = False
 options.chgpages = False
@@ -100,6 +107,10 @@ for arg in args:
                 options.wrans = True
         elif arg == "debates":
                 options.debates = True
+        elif arg == "westminhall":
+                options.westminhall = True
+        elif arg == "wrminstat":
+                options.wrminstat = True
         elif arg == "lords":
                 options.lords = True
         elif arg == "regmem":
@@ -118,7 +129,7 @@ if not options.scrape and not options.parse:
         print >>sys.stderr, "error: choose what to do; scrape, parse or both of them"
         parser.print_help()
         sys.exit(1)
-if not options.debates and not options.wrans and not options.regmem and not options.lords and not options.chgpages:
+if not options.debates and not options.westminhall and not options.wrminstat and not options.wrans and not options.regmem and not options.lords and not options.chgpages:
         print >>sys.stderr, "error: choose what work on; debates, wrans, regmem, chgpages or several of them"
         parser.print_help()
         sys.exit(1)
@@ -144,12 +155,6 @@ if options.scrape:
 
 	# these force the rescraping of the html by deleting the old copies (should be a setting in the scraper)
 	if options.forcescrape:
-		if options.wrans:
-			PullGluePages(options.datefrom, options.dateto, True, "wrans", "answers")
-		if options.debates:
-			PullGluePages(options.datefrom, options.dateto, True, "debates", "debates")
-		if options.lords:
-			LordsPullGluePages(options.datefrom, options.dateto, True)
 		if options.regmem:
 			RegmemPullGluePages(True)
 
@@ -161,13 +166,17 @@ if options.scrape:
 		PullGluePages(options.datefrom, options.dateto, options.forcescrape, "wrans", "answers")
 	if options.debates:
 		PullGluePages(options.datefrom, options.dateto, options.forcescrape, "debates", "debates")
+	if options.westminhall:
+		PullGluePages(options.datefrom, options.dateto, options.forcescrape, "westminhall", "westminster")
+	if options.wrminstat:
+		PullGluePages(options.datefrom, options.dateto, options.forcescrape, "wrminstat", "ministerial")
 	if options.lords:
 		LordsPullGluePages(options.datefrom, options.dateto, options.forcescrape)
 	if options.regmem:
 		# TODO - date ranges when we do index page stuff for regmem
 		RegmemPullGluePages(options.forcescrape)
 
-# 
+#
 # Parse it into XML
 #
 if options.parse:
@@ -180,6 +189,8 @@ if options.parse:
 		RunFiltersDir(RunWransFilters, 'wrans', options, options.forceparse)
 	if options.debates:
 		RunFiltersDir(RunDebateFilters, 'debates', options, options.forceparse)
+	if options.westminhall:
+		RunFiltersDir(RunWestminhallFilters, 'westminhall', options, options.forceparse)
 	if options.lords:
 		RunFiltersDir(RunLordsFilters, 'lordspages', options, options.forceparse)
 	if options.regmem:

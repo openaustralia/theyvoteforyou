@@ -54,30 +54,31 @@ fixsubs = 	[
 
 
 # <B>9 Dec 2003 : Column 893</B>
-regcolumnum1 = '<p>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n(?i)'
-regcolumnum2 = '<p>\s*</ul>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n<ul>(?i)'
-regcolumnum3 = '<p>\s*</ul></font>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n<ul><font[^>]*>(?i)'
-regcolumnum4 = '<p>\s*</font>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n<font[^>]*>(?i)'
-recolumnumvals = re.compile('(?:<p>|<a name=".*?">|</ul>|</font>|\s)*<b>([^:<]*):\s*column\s*(\d+)\s*</b>(?:</p>|<ul>|<font[^>]*>|\s)*$(?i)')
+regcolcore = '<b>[^:<]*:\s*column\s*\d+(?:WH)?\s*</b>'
+regcolumnum1 = '<p>\s*%s</p>\n' % regcolcore
+regcolumnum2 = '<p>\s*</ul>\s*%s</p>\n<ul>' % regcolcore
+regcolumnum3 = '<p>\s*</ul></font>\s*%s</p>\n<ul><font[^>]*>' % regcolcore
+regcolumnum4 = '<p>\s*</font>\s*%s</p>\n<font[^>]*>' % regcolcore
+recolumnumvals = re.compile('(?:<p>|<a name=".*?">|</ul>|</font>|\s)*<b>([^:<]*):\s*column\s*(\d+)(WH)?\s*</b>(?:</p>|<ul>|<font[^>]*>|\s)*$(?i)')
 
 #<i>13 Nov 2003 : Column 431&#151;continued</i>
 # these occur infrequently
-regcolnumcont = '<i>[^:<]*:\s*column\s*\d+&#151;continued</i>(?i)'
-recolnumcontvals = re.compile('<i>([^:<]*):\s*column\s*(\d+)&#151;continued</i>(?i)')
+regcolnumcont = '<i>[^:<]*:\s*column\s*\d+(?:WH)?&#151;continued</i>'
+recolnumcontvals = re.compile('<i>([^:<]*):\s*column\s*(\d+)(WH)?&#151;continued</i>(?i)')
 
 
 # <H5>12.31 pm</H5>
 # <p>\n12.31 pm\n<p>
 # [3:31 pm<P>    -- at the beginning of divisions
-regtime = '(?:</?p>\s*|<h[45]>|\[|\n)(?:\d+(?:[:\.]\d+)?\s*[ap]\.?m\.?(?:</st>)?|12 noon)(?:\s*</?p>|\s*</h[45]>|\n)(?i)'
+regtime = '(?:</?p>\s*|<h[45]>|\[|\n)(?:\d+(?:[:\.]\d+)?\s*[ap]\.?m\.?(?:</st>)?|12 noon)(?:\s*</?p>|\s*</h[45]>|\n)'
 retimevals = re.compile('(?:</?p>\s*|<h\d>|\[|\n)\s*(\d+(?:[:\.]\d+)?\s*[apmnon.]+)(?i)')
 
 # <a name="column_1099">
-reaname = '<a name="\S*?">(?i)'
+reaname = '<a name="\S*?">'
 reanamevals = re.compile('<a name="(\S*?)">(?i)')
 
 
-recomb = re.compile('(%s|%s|%s|%s|%s|%s|%s)' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4, regcolnumcont, regtime, reaname))
+recomb = re.compile('(%s|%s|%s|%s|%s|%s|%s)(?i)' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4, regcolnumcont, regtime, reaname))
 remarginal = re.compile(':\s*column\s*(\d+)|\n(?:\d+[.:])?\d+\s*[ap]\.?m\.?[^,\w](?i)|</?a[\s>]')
 
 # This one used to break times into component parts: 7.10 pm
@@ -85,16 +86,16 @@ regparsetime = re.compile("^(\d+)[\.:](\d+)\s?([\w\.]+)$")
 # 7 pm
 regparsetimeonhour = re.compile("^(\d+)()\s?([\w\.]+)$")
 
-def FilterDebateColTime(fout, text, sdate):
-	text = ApplyFixSubstitutions(text, sdate, fixsubs)
+def FilterDebateColTime(fout, text, sdate, typ):
+	# old style fixing (before patches existed)
+	if typ == "debate":
+		text = ApplyFixSubstitutions(text, sdate, fixsubs)
+
 	stamp = StampUrl(sdate) # for error messages
 
 	colnum = -1
 	time = ''	# need to use a proper timestamp code class
-	#fs =
 	for fss in recomb.split(text):
-#                print "fss=", fss
-#                print "######################################"
 		# column number type
 		columng = recolumnumvals.match(fss)
 		if columng:
@@ -161,9 +162,9 @@ def FilterDebateColTime(fout, text, sdate):
 			fout.write('<stamp time="%s"/>' % time)
 			continue
 
-                # anchor names from HTML <a name="xxx">
-                anameg = reanamevals.match(fss)
-                if anameg:
+		# anchor names from HTML <a name="xxx">
+		anameg = reanamevals.match(fss)
+		if anameg:
                         aname = anameg.group(1)
                         stamp.aname = '<stamp aname="%s"/>' % aname
                         fout.write('<stamp aname="%s"/>' % aname)
@@ -173,13 +174,17 @@ def FilterDebateColTime(fout, text, sdate):
 		# nothing detected
 		# check if we've missed anything obvious
 		if recomb.match(fss):
+			print fss
+			print regcolnumcont
+			print re.match(regcolnumcont + "(?i)", fss)
 			raise ContextException('regexpvals not general enough', stamp=stamp, fragment=fss)
 		if remarginal.search(fss):
 			print fss
-                        print '--------------------------------\n'
+			print '--------------------------------\n'
 			print "marginal found: ", remarginal.search(fss).groups()
 			print "zeroth: ", remarginal.search(fss).group(0)
-                        print '--------------------------------\n'
-                        raise ContextException('marginal coltime detection case', stamp=stamp, fragment=fss)
+			print '--------------------------------\n'
+			raise ContextException('marginal coltime detection case', stamp=stamp, fragment=fss)
 		fout.write(fss)
+
 
