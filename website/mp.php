@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.37 2004/06/23 18:56:11 frabcus Exp $
+    # $Id: mp.php,v 1.38 2004/07/22 10:11:35 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -92,9 +92,6 @@
         <br>Read a <a href=\"faq.php#clarify\">clear explanation</a> of attendance
         and rebellions, as they may not have the meanings you expect.";
 
-    print "<p>Want to contact your MP?
-    <a href=\"http://www.faxyourmp.com\">Fax Your MP</a> for free.";
-
     $prettyrow = 0;
     $mp_ids = array();
     $parties = array();
@@ -130,6 +127,17 @@
         $person = $row[16];
     }
     print "</table>";
+
+    print "<p>";
+    print "Performance data, recent speeches, and biographical links at ";
+    print "<a href=\"http://www.theyworkforyou.com/mp/?m=" .  $mp_ids[0]. "\">";
+    print "TheyWorkForYou.com</a>";
+    print "<br>Contact your MP with 
+    <a href=\"http://www.faxyourmp.com\">Fax Your MP</a> for free.  Find
+    the <a
+    href=\"http://www.parliament.uk/directories/hciolists/alms.cfm\">email
+    address</a> of some MPs.";
+
 ?>
 
 <?php
