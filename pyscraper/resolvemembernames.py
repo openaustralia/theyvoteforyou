@@ -146,10 +146,13 @@ class MemberList(xml.sax.handler.ContentHandler):
 
     def currentmpslist(self):
         today = datetime.date.today().isoformat()
+        return self.mpslistondate(today)
+
+    def mpslistondate(self, date):
         matches = self.members.values()
         ids = []
         for attr in matches:
-            if today >= attr["fromdate"] and today <= attr["todate"]:
+            if date >= attr["fromdate"] and date <= attr["todate"]:
                 ids.append(attr["id"])
         return ids
 

@@ -4,6 +4,7 @@
 import re
 import os
 import string
+import sets
 
 from resolvemembernames import memberList
 from miscfuncs import FixHTMLEntities
@@ -25,7 +26,7 @@ fixsubs = 	[
 
 def RunRegmemFilters(fout, text, sdate):
         # message for cron so I check I'm using this
-        print "New register of members interests!  Maybe should use it / check it is used in mpinfoin.pl - %s" % sdate
+        print "New register of members interests!  Check it is working properly lvia mpinfoin.pl) - %s" % sdate
 
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
 
@@ -39,7 +40,7 @@ def RunRegmemFilters(fout, text, sdate):
         rows = [ re.sub('\[<A NAME="n\d+"><A HREF="\#note\d+">\d+</A>\]', '', row) for row in rows ]
         rows = [ re.findall("<TD.*?>(.*?)</TD>", row) for row in rows ]
 
-        membercount = 0
+        memberset = sets.Set()
         needmemberend = False
         category = None
         categoryname = None
@@ -58,8 +59,8 @@ def RunRegmemFilters(fout, text, sdate):
                         if needmemberend:
                                 fout.write('</regmem>\n')                                
                                 needmemberend = False
-                        fout.write('<regmem memberid="%s">\n' % id)
-                        membercount = membercount + 1
+                        fout.write(('<regmem memberid="%s" membername="%s">\n' % (id, remadename)).encode("latin-1"))
+                        memberset.add(id)
                         needmemberend = True
                         category = None
                         categoryname = None
@@ -110,7 +111,15 @@ def RunRegmemFilters(fout, text, sdate):
                 fout.write('</regmem>\n')                                
                 needmemberend = False
 
-        assert membercount == 659, "Not found exactly 659 members in regmem, found %d" % membercount
+        membersetexpect = sets.Set(memberList.mpslistondate(sdate))
+        
+        # check for missing/extra entries
+        missing = membersetexpect.difference(memberset)
+        if len(missing) > 0:
+                print "Missing %d MP entries:\n" % len(missing), missing
+        extra = memberset.difference(membersetexpect)
+        if len(extra) > 0:
+                print "Extra %d MP entries:\n" % len(missing), extra
 
 	fout.write("</publicwhip>\n")
 
