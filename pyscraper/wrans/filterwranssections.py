@@ -240,7 +240,9 @@ def FilterWransSections(fout, text, sdate):
 			lqnums = re.findall('\[(\d+)R?\]', ss[1])
 
 			# question posed
-			if re.match('(?:<[^>]*?>|\s)*?(to ask)(?i)', qb.text):
+			if re.match('(?:<[^>]*?>|\s)*?(to ask)(?i)', qb.text) or \
+                           re.search('<wrans-question>', qb.text):
+                                qb.text = qb.text.replace('<wrans-question>', '')
 				qb.typ = 'ques'
 
 				# put out the heading for this question-reply block.

@@ -15,6 +15,11 @@ Special tags you can put in patches:
     this often picks up errors.  This marker says that a particular qnum
     is fine - it is a link to another question for example.
 
+<wrans-question>
+	This is a Written Answer question.  Normally the words "To ask" mark
+	this.  When they are missing you can either add them in, or add this
+	tag.
+
 <explicit-end-division>
 
 

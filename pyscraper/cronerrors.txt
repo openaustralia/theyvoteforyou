@@ -1,7 +1,10 @@
 Being errors found each day running the scraping cron job
+Out of sequence dates are when the rescraper picked up new stuff?
 CRON = cron job on baked
 PWIP = weekly Public Whip update
 
+CRON 2004-04-27 Missing bold formatting on name, some wrans without "to ask" at start of question
+CRON 2004-04-28 Missing k in "to ask", missing "(1)" in multi-part question, 
 CRON 2004-04-27 New entity &#247; which is division symbol
 CRON 2004-04-26 Bad paragraph number in wrans
 CRON 2004-04-?? Added alias with hyphen in name
