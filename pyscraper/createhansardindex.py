@@ -28,7 +28,8 @@ urlcmindex = "http://www.publications.parliament.uk/pa/cm/cmhansrd.htm"
 pwcmindex = toppath + "pwcmindex.xml"
 
 # scrape limit date
-earliestdate = '1994-05-01'
+earliestdate = '2001-11-25'
+#earliestdate = '1994-05-01'
 
 # regexps for decoding the data on an index page
 monthnames = 'January|February|March|April|May|June|July|August|September|October|November|December'

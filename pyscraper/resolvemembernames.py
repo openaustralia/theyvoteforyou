@@ -32,32 +32,35 @@ class MemberList(xml.sax.handler.ContentHandler):
 
             # index by "Firstname Lastname" for quick lookup
             compoundname = attr["firstname"] + " " + attr["lastname"]
-            if self.fullnames.has_key(compoundname):
-                self.fullnames[compoundname].append(attr)
-            else:
-                self.fullnames[compoundname] = [attr,]
+	    self.fullnames.setdefault(compoundname, []).append(attr)
 
             # add in names without the middle initial
             fnnomidinitial = re.findall('^(\S*)\s\S$', attr["firstname"])
             if fnnomidinitial:
                 compoundname = fnnomidinitial[0] + " " + attr["lastname"]
-		if self.fullnames.has_key(compoundname):
-                    self.fullnames[compoundname].append(attr)
-		else:
-                    self.fullnames[compoundname] = [attr,]
+		self.fullnames.setdefault(compoundname, []).append(attr)
 
 	    # and also by "Lastname"
             lastname = attr["lastname"]
-            if self.lastnames.has_key(lastname):
-                self.lastnames[lastname].append(attr)
-            else:
-                self.lastnames[lastname] = [attr,]
+	    self.lastnames.setdefault(lastname, []).append(attr)
 
         elif name == "alias":
-	    if self.fullnames.has_key(attr["alternate"]):
-                raise Exception, 'Already have alternate ' + attr["alternate"]
-            else:
-                self.fullnames[attr["alternate"]] = self.fullnames[attr["canonical"]]
+	    matches = self.fullnames.get(attr["canonical"], None)
+	    if not matches:
+		raise Exception, 'Canonical name not found ' + attr["canonical"]
+	    # append every canonical match to the alternates
+	    for m in matches:
+		newattr = {}
+		newattr['id'] = m['id']
+		# merge date ranges - take the smallest range covered by
+		# the canonical name, and the alias's range (if it has one)
+		early = max(m['fromdate'], attr.get('from', '1000-01-01'))
+		late = min(m['todate'], attr.get('to', '9999-12-31'))
+		# sometimes the ranges don't overlap
+		if early <= late:
+		    newattr['fromdate'] = early
+		    newattr['todate'] = late
+		    self.fullnames.setdefault(attr["alternate"], []).append(newattr)
 
     def fullnametoids(self, input, date):
 	text = input

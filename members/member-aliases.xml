@@ -13,8 +13,6 @@ have middle initials.  You should in addition to these aliases match
 to canonical names with the initial (which is on the end of the first
 name) removed.
 
-TODO: Date ranges, esp. for The Prime Minister
-
 TODO: The Solicitor-General
 Says current one here: http://www.parliament.uk/directories/hciolists/hmg.cfm
 How do we get past ones?
@@ -22,15 +20,19 @@ How do we get past ones?
 -->
 
 <!-- Special -->
-<alias canonical="Tony Blair" alternate="The Prime Minister" />
+<alias canonical="Tony Blair" alternate="The Prime Minister" from="1997-05-01" to="9999-31-01"/>
+<alias canonical="John Major" alternate="The Prime Minister" from ="1990-11-28" to="1997-04-08"/> <!-- note this will be ignored until a John Major is added for a parliament before 1997 for which he was PM - date ranges will make the code ignore the John Major below in relation to this Prime Minister entry -->
 
 <!-- First added for 2001 parliament -->
+<alias canonical="Clare Short" alternate="Claire Short" />
 <alias canonical="Nick Brown" alternate="Nicholas Brown" />
 <alias canonical="Geoff Hoon" alternate="Geoffrey Hoon" />
 <alias canonical="Dave Watts" alternate="David Watts" />
 <alias canonical="Des Browne" alternate="Desmond Brown" />
 <alias canonical="Lembit Öpik" alternate="Lembit Opik" />
+<alias canonical="Lembit Öpik" alternate="Lembit &amp;#214;pik" />
 <alias canonical="Siôn Simon" alternate="Siön Simon" />
+<alias canonical="Siôn Simon" alternate="Si&amp;#244;n Simon" />
 <alias canonical="Raymond Powell" alternate="Ray Powell" />
 <alias canonical="Helen Clark" alternate="Helen Brinton" /> <!-- marriage -->
 <alias canonical="Gregory Barker" alternate="Greg Barker" />
@@ -77,6 +79,7 @@ How do we get past ones?
 <alias canonical="Rosie Winterton" alternate="Rose Winterton" />
 
 <!-- Various harder aliases/typos to worry about later
+	 These came up during the old Public Whip division parsing.
     $firstname = "Gareth" if ($firstname eq "Gareth R" && $lastname eq "Thomas" && $constituency eq "Harrow West");
     if ($firstname eq "Gareth R" && $lastname eq "Thomas" && $constituency eq "")
         { $firstname = "Gareth"; $constituency = "Harrow West"; }
