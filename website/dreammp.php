@@ -53,6 +53,7 @@
     else
         print "<p><a href=\"account/adddream.php\">Make your own dream MP</a>";
         print "<br><a href=\"dreammps.php\">See all dream MPs</a>";
+        print '<br><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=1">Discuss dream MP on our forum</a>';
 
     print "<h2><a name=\"divisions\">Divisions Attended</a></h2>
     <p>Divisions in which this dream MP has voted."; 
@@ -212,7 +213,7 @@
 
     $timenow = getmicrotime();
     $timetook = $timenow - $timestart;
-    print "took $timetook from $timestart $timenow";
+//    print "took $timetook from $timestart $timenow";
     
 ?>
 

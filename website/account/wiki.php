@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.3 2005/01/16 00:13:16 frabcus Exp $
+# $Id: wiki.php,v 1.4 2005/01/22 14:46:40 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -83,6 +83,10 @@ if (user_isloggedin()) # User logged in, show settings screen
         hope could be the most authoratitive and accessible record of what's
         going on in Parliament.</p>
 
+        <p>Questions, thoughts? 
+        <a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=2">Chat
+with other motion researchers on our special forum</a>.
+
         <p>Leave the "MOTION EFFECT" and "COMMENTS AND NOTES" in place, so our
         computer can work it out.
 
@@ -112,6 +116,10 @@ if (user_isloggedin()) # User logged in, show settings screen
         <li>&lt;b&gt; &lt;/b&gt; - bold
         <li>&lt;a href="http://..."&gt; &lt;/a&gt; - link
         </ul>
+
+        <p><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=2">Discuss this
+with other motion text editors on our forum</a>.
+
         
 <?
         }

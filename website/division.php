@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.46 2005/01/16 00:13:14 frabcus Exp $
+# $Id: division.php,v 1.47 2005/01/22 14:46:40 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -195,6 +195,7 @@
         if (count ($rowarray) > 0)
             print '<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Update Votes">';
         print '</td></tr>';
+        print '<tr><td colspan=2><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=1">Questions? Discuss it here</a></td><tr>';
         print '</table>';
         print '</FORM>';
         print "</div>";

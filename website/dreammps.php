@@ -32,6 +32,7 @@ you like.  For example:
     </ul>
  
    <p><a href="account/adddream.php">Make your own dream MP
+   <br><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=1">Discuss dream MPs on our forum</a>
   <?php 
         if (!user_isloggedin())
         {

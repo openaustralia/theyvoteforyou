@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.30 2005/01/15 20:38:11 frabcus Exp $
+# $Id: faq.php,v 1.31 2005/01/22 14:46:40 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -208,7 +208,9 @@ website.  We're hosted by the ever helpful and encouraging
 <h2><a name="keepup">How can I keep up with what you are doing?</a></h2>
 <p><a href="account/register.php">Subscribe to our newsletter!</a>  It's
 at most once a month, and has interesting news and articles
-relating to the project.
+relating to the project. You can 
+<a href="http://www.publicwhip.org.uk/forum">chat with other users</a>
+on our forum.
 
 <h2><a name="email">Where can I email?</a></h2>
 <p>If you have any problems, comments, queries, suggestions or offers of help about this website
