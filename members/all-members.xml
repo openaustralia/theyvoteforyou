@@ -780,6 +780,7 @@ http://www.election.demon.co.uk/strengths.html
     constituency="South Shields" party="Lab"
     fromdate="1997-05-01" todate="2001-05-14" fromwhy="general_election" towhy="general_election"
 />
+<!-- Helen Brinton is Helen Clark's previous name -->
 <member
     id="uk.org.publicwhip/member/109"
     house="commons"
@@ -5603,6 +5604,7 @@ http://www.election.demon.co.uk/strengths.html
     constituency="Hertsmere" party="Con"
     fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
 />
+<!-- Helen Brinton is Helen Clark's previous name -->
 <member
     id="uk.org.publicwhip/member/798"
     house="commons"

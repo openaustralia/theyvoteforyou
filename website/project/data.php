@@ -1,5 +1,5 @@
 <?php 
-# $Id: data.php,v 1.6 2004/03/11 11:18:48 frabcus Exp $
+# $Id: data.php,v 1.7 2004/04/27 09:08:45 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -59,6 +59,12 @@ holding office, loyal to the same party.  An MP who was in both parliaments
 will appear twice.  An MP who also changed party will appear three times.
 Dates of deaths, byelections and party changes or whip revocations are
 recorded.
+
+<p><a href="../data/people.xml">people</a> - links together groups of MPs from
+all-members.xml who are the same real world person. Usually this is because they
+have the same name and are in the same constituency.  Sometimes someone changes
+constituency between two parliaments, such as Shaun Woodward (St Helens South)
+and Shaun Woodward (Witney).  This file records that they are the same person.
 
 <p><a href="../mp-info.xml">mp-info.xml</a> - list of division attendance rate
 and rebelliousness for MPs in the all-members.xml file.  This is a live file,

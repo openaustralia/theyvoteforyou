@@ -214,8 +214,8 @@ Harriet Harman started on 11th June 2001
 <alias fullname="Siôn Simon" alternate="Sion Simon" />
 <alias fullname="Raymond Powell" alternate="Ray Powell" />
 <alias fullname="Helen Clark" alternate="Helen Clarke" />
-<alias lastname="Clark" alternate="Brinton" /> <!-- marriage -->
-<alias fullname="Helen Clark" alternate="Helen Brinton" /> <!-- marriage -->
+<alias lastname="Clark" alternate="Brinton" /> <!-- marriage - Brinton is her previous name -->
+<alias fullname="Helen Clark" alternate="Helen Brinton" /> <!-- marriage - Brinton is her previous name -->
 <alias fullname="Gregory Barker" alternate="Greg Barker" />
 <alias fullname="Bob Spink" alternate="Robert Spink" />
 <alias fullname="Jimmy Wray" alternate="James Wray" />

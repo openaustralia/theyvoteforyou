@@ -38,7 +38,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         self.parties = {} # constituency --> MPs
 
         # "rah" here is a typo in division 64 on 13 Jan 2003 "Ancram, rah Michael"
-        self.titles = "Dr |Hon |hon |rah |rh |Mrs |Ms |Mr |Miss |Ms |Rt Hon |Reverend |The Rev |The Reverend |Sir |Rev |Prof "
+        self.titles = "Dr |Hon |hon |rah |rh |Mrs |Ms |Mr |Miss |Rt Hon |Reverend |The Rev |The Reverend |Sir |Rev |Prof "
         self.retitles = re.compile('^(?:%s)' % self.titles)
         self.rejobs = re.compile('^%s$' % parlPhrases.regexpjobs)
 
@@ -153,6 +153,7 @@ class MemberList(xml.sax.handler.ContentHandler):
                 ids.append(attr["id"])
         return ids
 
+    # date can be none, will give more matches
     def fullnametoids(self, input, date):
         text = input
 
@@ -190,12 +191,15 @@ class MemberList(xml.sax.handler.ContentHandler):
 
         if matches:
             for attr in matches:
-                if date >= attr["fromdate"] and date <= attr["todate"]:
+                if (date == None) or (date >= attr["fromdate"] and date <= attr["todate"]):
                     ids.add(attr["id"])
 
         return ids
 
     # Returns id, corrected name, corrected constituency
+    # alwaysmatchcons says it is an error to have an unknown constituency
+    # (rather than just treating cons as None if the cons is unknown)
+    # date or cons can be None
     def matchfullnamecons(self, fullname, cons, date, alwaysmatchcons = True):
         fullname = self.basicsubs(fullname)
         fullname = fullname.strip()
@@ -211,7 +215,7 @@ class MemberList(xml.sax.handler.ContentHandler):
             newids = sets.Set()
             matches = self.constituencies[cancons]
             for attr in matches:
-                if date >= attr["fromdate"] and date <= attr["todate"]:
+                if (date == None) or (date >= attr["fromdate"] and date <= attr["todate"]):
                     if attr["id"] in ids:
                         newids.add(attr["id"])
             ids = newids
@@ -404,6 +408,15 @@ class MemberList(xml.sax.handler.ContentHandler):
         if self.members[id]["party"] == "CWM" or self.members[id]["party"] == "DCWM":
             return True
         return False
+
+    def canonicalcons(self, cons):
+        cancons = self.conscanonical.get(cons, None)
+        if not cancons:
+            raise Exception, "Unknown constituency %s" % cons
+        return cancons
+
+    def getmember(self, id):
+        return self.members[id]
 
 
 # Construct the global singleton of class which people will actually use
