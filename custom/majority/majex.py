@@ -4,7 +4,6 @@ import re
 import xml.sax
 import sys
 import string
-import MySQLdb
 import os
 from resolvemembernames import memberList
 
