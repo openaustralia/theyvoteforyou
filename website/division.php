@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.56 2005/03/18 16:52:10 goatchurch Exp $
+# $Id: division.php,v 1.57 2005/03/20 22:31:53 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -30,6 +30,11 @@
         exit;
     }
 
+	# second division (which we can compare against)
+	$divattr2 = get_division_attr_decode($db, "2");
+	if ($divattr2 != "none")
+		$div2invert = ($_GET["div2invert"] == "yes");
+
 	$div_id = $divattr["division_id"];
 	$name = $divattr["name"];
 	$source = $divattr["source_url"];
@@ -54,7 +59,22 @@
 
     include "divisionvote.inc";
 
+	# make the title
 	$title = "$name - ".$divattr["prettydate"]." - Division No. $div_no";
+	if ($divattr2 != "none")
+	{
+		$divattr2 = get_division_attr_decode($db, "2");
+		if ($divattr2 != "none")
+		{
+			$title .= " compared to Division No. ".$divattr2["division_id"];
+			if ($divattr2["prettydate"] == $divattr["prettydate"])
+				$title .= " on the same day";
+			else
+				$title .= " on ".$divattr2["prettydate"];
+			if ($div2invert)
+				$title .= " (inverted)";
+		}
+	}
 	include "header.inc";
 
 	# constants
@@ -62,6 +82,7 @@
 	$dismodes["summary"] = array("dtype"	=> "summary",
 							 "description" 	=> "Summary",
 							 "motiontext" 	=> "yes",
+							 "summarytext"	=> "yes",
 							 "partysummary"	=> "yes",
 							 "showwhich" 	=> "rebels",
 							 "dreamvoters"	=> "all");
@@ -69,12 +90,14 @@
 	$dismodes["allvotes"] = array("dtype"	=> "allvotes",
 							 "description" 	=> "All voters",
 							 "motiontext" 	=> "yes",
+							 "summarytext"	=> "yes",
 							 "partysummary"	=> "yes",
 							 "showwhich" 	=> "voters",
 							 "dreamvoters"	=> "all");
 
 	$dismodes["allpossible"] = array("dtype"	=> "allpossible",
 							 "description" 	=> "All possible voters",
+							 "summarytext"	=> "yes",
 							 "motiontext" 	=> "yes",
 							 "showwhich" 	=> "allpossible");
 
@@ -89,41 +112,46 @@
 	}
 	$dismode = $dismodes[$display];
 
+	# the sort field
+    $sort = db_scrub($_GET["sort"]);
+	if ($sort == "")
+		$sort = "party";
+
 	# make list of links to other display modes
 	$thispage = $divattr["divhref"];
+	$tpdisplay = ($display == "summary" ? "" : "&display=$display");
+	$tpsort = ($sort == "sort" ? "" : "&sort=$sort");
 	$leadch = "<p>"; # get those bars between the links working
     foreach ($dismodes as $ldisplay => $ldismode)
 	{
 		print $leadch;
 		$leadch = " | ";
-		$dlink = "href=\"$thispage".($ldisplay != "summary" ? "&display=$ldisplay" : "")."\"";
+		$dlink = $thispage.($ldisplay == "summary" ? "" : $ldisplay).$tpsort;
         if ($ldisplay == $display)
-            print $ldismode["description"];
+			print $ldismode["description"];
         else
-            print "<a $dlink>".$ldismode["description"]."</a>";
+            print "<a href=\"$dlink\">".$ldismode["description"]."</a>";
 	}
 
-	$motion_data = get_wiki_current_value($divattr["motion_key"]);
 
-
-	# Dream MP feature
+	# Dream MP voting feature
 	if (user_isloggedin())
 		write_dream_vote($db, $divattr);
 
-        # Summary
-        print "<h2>Summary</h2>";
+	# Summary
+	if ($dismode["summarytext"])
+    {
+    	print "<h2>Summary</h2>";
 
-        $ayes = $db->query_one_value("select count(*) from pw_vote
-            where division_id = $div_id and vote = 'aye'");
-        $noes = $db->query_one_value("select count(*) from pw_vote
-            where division_id = $div_id and vote = 'no'");
-        $boths = $db->query_one_value("select count(*) from pw_vote
-            where division_id = $div_id and vote = 'both'");
-        $tellers = $db->query_one_value("select count(*) from pw_vote
-            where division_id = $div_id and (vote = 'tellaye' or vote = 'tellno')");
+        $query = "SELECT sum(vote = 'aye') AS ayes,
+						 sum(vote = 'no')  AS noes,
+						 sum(vote = 'both') AS boths,
+						 sum(vote = 'tellaye' or vote = 'tellno') AS tellers
+				  FROM pw_vote WHERE division_id = $div_id";
+		$row = $db->query_one_row_assoc($query);
         print "<br>On $prettydate, $turnout MPs voted in division no. $div_no in the House of Commons.
             <br>Subject was '$name'
-            <br>Votes were $ayes aye, $noes no, $boths both, $tellers tellers.
+            <br>Votes were ".$row["ayes"]." aye, ".$row["noes"]." no, ".$row["boths"]." both, ".$row["tellers"]." tellers.
             There were $rebellions rebellions against majority party vote.";
 
         $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
@@ -134,14 +162,18 @@
             print " (on TheyWorkForYou.com)";
         }
         if ($source != "")
-            print "<br><a href=\"$source\">Check original division listing</a>";
-        print " (on the Parliament website)";
+    	{
+    		print "<br><a href=\"$source\">Check original division listing</a>";
+        	print " (on the Parliament website)";
+		}
+	}
 
-        # Unused -- $debate_url contains start of debate link on parliament website.
-        # Unused -- $source_gid contains division listing link on TheyWorkForYou.com website.
-
+	# motion text paragraph
 	if ($dismode["motiontext"])
     {
+		# current motion text from the database
+		$motion_data = get_wiki_current_value($divattr["motion_key"]);
+
     	# Show motion text
         print "<h2><a name=\"motion\">Motion</a></h2>";
         if ($motion_data['user_id'] == 0) {
@@ -263,41 +295,68 @@
 	}
 
 
-	if ($display == "summary")
-	{
-		print "<h2><a name=\"votes\">Rebel Voters</a></h2>\n";
-		print "<p>MPs for which their vote in this division differed from the majority vote of their party.</p>\n";
-	}
-	elseif ($display == "allvotes")
-	{
-		print "<h2><a name=\"votes\">All Votes Cast</a></h2>\n";
-		print "<p>MPs for which their vote in this division differed
-				from the majority vote of their party are marked in red.
-				Also shows which MPs were ministers at the time of this vote.</p>\n";
-	}
-	else
-	{
-		print "<h2><a name=\"votes\">All MPs eligable to vote</a></h2>\n";
-		print "<p>Includes MPs who were absent (or abstained) 
-				for this vote.</p>\n";
-	}
+	# Division votes table
+	if ($dismode["showwhich"])
+    {
+		# title for the division table (with explanation and links to the other cases)
+		if ($display == "summary")
+		{
+			print "<h2><a name=\"votes\">Rebel Voters - sorted by $sort</a></h2>\n";
+			print "<p>MPs for which their vote in this division differed from the majority vote of their party.
+					You can see <a href=\"$thispage&display=allvotes$tpsort\">all votes</a> in this division,
+					or <a href=\"$thispage&display=everyvote$tpsort\">every eligible MP</a> who could have
+					voted in this division</p>\n";
+		}
+		elseif ($display == "allvotes")
+		{
+			print "<h2><a name=\"votes\">All Votes Cast - sorted by $sort</a></h2>\n";
+			print "<p>MPs for which their vote in this division differed
+					from the majority vote of their party are marked in red.
+					Also shows which MPs were ministers at the time of this vote.
+					You can also see <a href=\"$thispage&display=allpossible$tpsort\">every eligible MP</a>
+					including those who did not vote in this division.</p>\n";
+		}
+		else
+		{
+			print "<h2><a name=\"votes\">All MPs Eligible to Vote - sorted by $sort</a></h2>\n";
+			print "<p>Includes MPs who were absent (or abstained)
+					from this vote.</p>\n";
+		}
 
 
-	# sortby is 'turnout', 'rebellions', 'name', 'constituency', 'attendance'
-	# showwhich is 'rebels', 'voters', 'allpossible'
-		print "<table class=\"votes\"><tr class=\"headings\"><td>MP</td><td>Constituency</td><td>Party</td><td>Vote</td></tr>";
+		# the sort by cases
+		print "<table class=\"votes\"><tr class=\"headings\">";
+		if ($sort == "name")
+			print "<td>MP</td>";
+		else
+			print "<td><a href=\"$thispage$tpdisplay&sort=name\">MP</a></td>";
+		if ($sort == "constituency")
+			print "<td>Constituency</td>";
+		else
+			print "<td><a href=\"$thispage$tpdisplay&sort=constituency\">Constituency</a></td>";
+		if ($sort == "party")
+			print "<td>Party</td>";
+		else
+			print "<td><a href=\"$thispage$tpdisplay\">Party</a></td>";
+		if ($sort == "vote")
+			print "<td>Vote</td>";
+		else
+			print "<td><a href=\"$thispage$tpdisplay&sort=vote\">Vote</a></td>";
+		print "</tr>\n";
+
 		$mptabattr = array("listtype"	=> "division",
 							"divdate"	=> $divattr["division_date"],
 							"divno"		=> $divattr["division_number"],
 							"divid"		=> $divattr["division_id"],  # redundant, but the above two are not used by all tables
-							"sortby"	=> "party", # name, vote, constituency
+							"sortby"	=> $sort,
 							"showwhich" => $dismode["showwhich"]);
 		mp_table($db, $mptabattr);
 		print "</table>";
+	}
 
 
 
-        # Show Dream MPs who voted in this division and their votes
+	# Show Dream MPs who voted in this division and their votes
         $db->query("select name, rollie_id, vote, user_name from pw_dyn_rolliemp, pw_dyn_rollievote, pw_dyn_user
             where pw_dyn_rollievote.rolliemp_id = pw_dyn_rolliemp.rollie_id and
             pw_dyn_user.user_id = pw_dyn_rolliemp.user_id and

@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablemake.inc,v 1.14 2005/03/18 18:07:04 frabcus Exp $
+    # $Id: tablemake.inc,v 1.15 2005/03/20 22:31:53 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -147,28 +147,38 @@
 	}
 
 	# this makes a comment on the row used to highlight rebels
-	function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$vote1, $voter2type, &$vote2, $showwhich)
+	function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$vote1, $voter2type, &$vote2, $showwhich, &$dismetric)
 	{
 		$votedesc = "";
 		$votedesclong = "";
 
+		# no comparison vote
 		$dtvote1 = workrolevote($voter1type, $vote1);
 		if ($voter2type == "")
 			return "<td></td>";
 
+		$vote2line3 = ($vote2 == "aye3" or $vote2 == "no3");
 		$dtvote2 = workrolevote($voter2type, $vote2);
 
 		# mp to party terminology
 		if ($voter1type == "mp" and $voter2type == "party")
 		{
-			if ($vote1 == "absent") {
+			if ($vote1 == "absent")
+			{
 				$votedesc = "absent";
-            }
-			else if ($dtvote1 != $dtvote2 and $vote2 != "unknown")
+				$dismetric["ab1"] += 1;
+			}
+			elseif ($vote2 == "unknown")
+				$dismetric["ab2"] += 1;
+			elseif ($dtvote1 == $dtvote2)
+				$dismetric["agree"] += 1;
+			else
 			{
 				$roleclass = "rebel";
 				$votedesc = "Rebel";
+				$dismetric["disagree"] += 1;
 			}
+
 			if ($vote1 == "tellaye" || $vote1 == "tellno")
 			{
 				$roleclass .= "teller";
@@ -180,27 +190,43 @@
 		}
 
 		# other cross comparisons
+		# (borrows css colour coding, but should have its own)
 		else
 		{
+			# differences
 			if ($dtvote1 != $dtvote2)
 			{
-				if ($dtvote1 == "" or $dtvote1 == "abstain" or $dtvote2 == "" or $dtvote2 == "abstain")
+				if ($dtvote1 == "" or $dtvote1 == "abstain")
 				{
 					$roleclass = "rebelteller"; # yellow
 					$votedesc = "miss";
+					if ($dtvote2 == "" or $dtvote2 == "abstain")
+						$dismetric["abboth"] += 1;
+					else
+						$dismetric[($vote2line3 ? "ab1line3" : "ab1")] += 1;
+				}
+				elseif ($dtvote2 == "" or $dtvote2 == "abstain")
+				{
+					$roleclass = "rebelteller"; # yellow
+					$votedesc = "miss";
+					$dismetric["ab2"] += 1;
 					$votedesclong = "Either MP or Dream MP abstained";
 				}
 				else
 				{
 					$roleclass = "rebel";
 					$votedesc = "disagree";
+					$dismetric[($vote2line3 ? "disagree3" : "disagree")]++;
 					$votedesclong = "MP rebelled against Dream MP";
 				}
 			}
+
+			# same
 			else
 			{
 				$roleclass = "teller";  # green
 				$votedesc = "agree";
+				$dismetric[($vote2line3 ? "agree3" : "agree")] += 1;
 				$votedesclong = "MP loyal to Dream MP";
 			}
 		}
@@ -543,6 +569,7 @@
 		$prettyrow = 0;
 		$nrows = 0;
 
+
 		# write the headings if wanted
 		if ($headings == "columns" or $headings == "fulldesc")
 		{
@@ -590,6 +617,10 @@
     	    }
 		}
 
+		# sums for the distance metric (the second voter controls the 3-line quality
+		$dismetric = array("agree"=>0, "disagree"=>0, "agree3"=>0, "disagree3"=>0,
+						   "ab1"=>0, "ab1line3"=>0, "ab2"=>0, "abboth"=>0);
+
         while ($row = $db->fetch_row_assoc())
         {
 			# mark the role column and fix the terminology of the vote
@@ -606,7 +637,7 @@
 				$roleclass = "";
                 $votedesc = "";
                 $votedesclong = "";
-				$rolecol = workrolecolumn($roleclass, $votedesc, $votedesclong, $voter1type, $vote1, $voter2type, $vote2, $showwhich);
+				$rolecol = workrolecolumn($roleclass, $votedesc, $votedesclong, $voter1type, $vote1, $voter2type, $vote2, $showwhich, $dismetric);
 				if ($rolecol == "")
 					continue;      # final filter bail out
 			}
@@ -650,6 +681,8 @@
 
 		# finish the remainder of the events
 		writeevents($events, "", $breversed);
+
+		return $dismetric;
 	}
 
 ?>

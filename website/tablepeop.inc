@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablepeop.inc,v 1.3 2005/03/18 16:52:10 goatchurch Exp $
+    # $Id: tablepeop.inc,v 1.4 2005/03/20 22:31:53 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -110,7 +110,7 @@
 	#   'division', then 'divdate', 'divno' index into that
 	#   'division2, then there's also 'divdate2', 'divno2'
 	# limit is nothing or a number
-	# sortby is 'turnout', 'rebellions', 'name', 'constituency', 'attendance'
+	# sortby is 'turnout', 'rebellions', 'name', 'constituency', 'attendance', 'party', 'vote'
 	# showwhich is 'rebels', 'voters', 'allpossible'
 	function mp_table($db, $mptabattr)
 	{
@@ -219,8 +219,8 @@
 			# comparison to the whip
 			if ($showwhich == 'rebels')
 				$aquery["qwhere"]	.= " AND whip_guess <> 'unknown'
-										 AND pw_vote.vote <> 'both'
 										 AND whip_guess <> replace(pw_vote.vote, 'tell', '')";
+										 #AND pw_vote.vote <> 'both'
 
 			# vote table sorting
 			$aquery["qselect"] 	.= ", pw_vote_sortorder.position AS votesort";

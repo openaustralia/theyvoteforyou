@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.63 2005/03/18 18:07:03 frabcus Exp $
+    # $Id: mp.php,v 1.64 2005/03/20 22:31:53 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -328,9 +328,16 @@
 		{
 			$divtabattr["voter1"] = $mpprop;
 			$events = $mpprop["mpevents"];  # a bit confused, but a complete list of events per mpid makes the code simple
-			division_table($db, $divtabattr, $events);
+			if (!$dismetric)
+				$dismetric = division_table($db, $divtabattr, $events);
+
 		}
 	    print "</table>\n";
+
+		print "<p>In the first table there were ".$dismetric["agree"]." + ".$dismetric["agree3"]." agrees,
+				".$dismetric["disagree"]." + ".$dismetric["disagree3"]." disagrees,
+				".$dismetric["ab1"]." + ".$dismetric["ab1line3"]." + ".$dismetric["ab2"]." misses. ";
+		print "This can be used to generate a distance table.</p>\n"; 
 	}
 ?>
 
