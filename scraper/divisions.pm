@@ -1,4 +1,4 @@
-# $Id: divisions.pm,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: divisions.pm,v 1.2 2003/09/09 14:26:07 frabcus Exp $
 # Parses the body text of a page of Hansard containing a division.
 # Records the division and votes in a database, matching MP names
 # to an MP already in the database.
@@ -122,12 +122,17 @@ sub parse_one_division
     {   
         my $token = $p->get_token() or return 0;
         my $amendment_move = ($token->[0] eq "T" and $token->[1] =~ m/I beg to move/);
-        if ($token->[0] eq "S" and $token->[1] eq "center")
+        if ($token->[0] eq "S" and 
+            ($token->[1] eq "center"
+            || (($token->[1] eq "h3") && ($token->[2]{align} eq "center"))
+            ))
         {
+            my $startwas = $token->[1];
+
             # We've found a title
             $token = $p->get_token(); # skip <b> token if there is one
             $p->unget_token($token) if ($token->[0] eq "T");
-            my $text = $p->get_trimmed_text("/center");
+            my $text = $p->get_trimmed_text("/" . $startwas);
             error::log("Title scan: $text", $day_date, error::CHITTER);
 
             # See if it is a division number

@@ -1,4 +1,4 @@
-# $Id: error.pm,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: error.pm,v 1.2 2003/09/09 14:26:07 frabcus Exp $
 # Error handling.  We often find divisions with slightly different
 # date that requires updating of the parser, or new special case code.
 # This module centrally handles parsing errors for ease.
@@ -13,9 +13,17 @@ use strict;
 
 use Carp;
 
-use constant IMPORTANT => 0;
-use constant USEFUL => 1;
-use constant CHITTER => 2;
+use constant IMPORTANT => 10;
+use constant USEFUL => 5;
+use constant CHITTER => 1;
+
+our $verbosity = IMPORTANT;
+
+sub setverbosity
+{
+    my $new = shift;
+    $verbosity = $new;    
+}
 
 sub printout
 {
@@ -32,17 +40,27 @@ sub log
     my $location = shift;
     my $level = shift;
 
+    # Don't show anything if level lower than verbosity level
+    if ($level < $verbosity)
+    {
+        return;
+    }
+
     if ($level == IMPORTANT)
     {
         printout("LOG+", $msg, $location);
     }
-    if ($level == USEFUL)
+    elsif ($level == USEFUL)
     {
         printout("LOG=", $msg, $location);
     }
-    if ($level == CHITTER)
+    elsif ($level == CHITTER)
     {
-#        printout("LOG-", $msg, $location);
+        printout("LOG-", $msg, $location);
+    }
+    else 
+    {
+        die "Unknown verbosity " . $level;
     }
 }
 

@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: scrape.pl,v 1.2 2003/08/19 12:10:32 frabcus Exp $
+# $Id: scrape.pl,v 1.3 2003/09/09 14:26:07 frabcus Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -18,18 +18,37 @@ use content;
 use divisions;
 use calc;
 use mplist;
+use error;
 
 my $from;
 my $to;
+my $date;
+my $verbose;
+my $chitter;
+my $quiet;
 my $result = GetOptions ("from=s"   => \$from,
-                          "to=s" => \$to);
+                          "to=s" => \$to,
+                          "date=s" => \$date,
+                          "verbose" => \$verbose,
+                          "chitter" => \$chitter,
+                          "quiet" => \$quiet);
 
+if ($date)
+{
+    die "Specify either specific date or date range, not both" if ($from || $to);
+    $from = $date;
+    $to = $date;
+}
 my $where_clause = "";
 my @where_params;
 $where_clause .= "and day_date >= ? " if defined $from;
 push @where_params, $from if defined $from;
 $where_clause .= "and day_date <= ? " if defined $to;
 push @where_params, $to if defined $to;
+
+error::setverbosity(error::IMPORTANT + 1) if $quiet;
+error::setverbosity(error::USEFUL) if $verbose;
+error::setverbosity(error::CHITTER) if $chitter;
 
 if ($#ARGV < 0 || (!$result))
 {
@@ -107,8 +126,15 @@ calc - update cached calculations, do this after every crawl
 words - count word frequencies
 
 These options apply to "content" and "divisions" commands only:
---from=YYYY-MM-DD - from date to apply, or else all into the past
---to=YYYY-MM-DD - to date to apply, or else all into the future
+--date=YYYY-MM-DD - date to apply to
+--from=YYYY-MM-DD - process all from this date onwards
+--to=YYYY-MM-DD - process all up to this date
+(you can specify from and to for an inclusive date range)
+
+These are general options:
+--quiet - say nothing, except for errors
+--verbose - say more about what is going on
+--chitter - display detailed debug logs
 
 END
 

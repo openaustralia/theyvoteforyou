@@ -21,6 +21,7 @@ Statistics by party - e.g. attendence rate.
 How rebellious a party it is. etc.
 
 Proportion of abstentions within each party, may reveal times when MPs abstain in protest.  
+
 Amusing tables
 --------------
 
@@ -116,6 +117,9 @@ What can we learn from the information that aye/noe comes first, and
 
 How many articles do Labour MPs supply to the Times, for example?
 Collate all MPs articles in newspapers
+
+Regional analysis.  Scotland, NI, Whales, North v South.  Urban v.
+Rural.  
 
 Additional text content
 -----------------------
