@@ -107,18 +107,21 @@ def FilterWransSpeakers(fout, text, sdate):
                 # oral questions" signifier)
 
                 # match the member to a unique identifier
-                (id, reason) = memberList.matchfullname(boldnamestring, sdate)
+                (id, reason, remadename) = memberList.matchfullname(boldnamestring, sdate)
 
 		# now output what we've decided
                 if reason:
 			if not re.search(knownbadmatches, reason):
 				print reason
         		reason = ' reason="%s"' % (reason)
+                if remadename:
+        		remadename = ' displayname="%s"' % (remadename)
 
 		# put record in this place
-		fs[i] = '<speaker name="%s" id="%s"%s>%s</speaker>\n' % \
-						(boldnamestring, id, reason, boldnamestring)
+		fs[i] = '<speaker name="%s" id="%s"%s%s>%s</speaker>\n' % \
+						(boldnamestring, id, reason, remadename, boldnamestring)
 
 	# scan through everything and output it into the file
 	for fss in fs:
-		fout.write(fss)
+		fout.write(fss.encode("latin-1")) # For accent in "Siôn Simon"
+

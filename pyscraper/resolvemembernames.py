@@ -78,13 +78,14 @@ class MemberList(xml.sax.handler.ContentHandler):
             for attr in matches:
                 if date >= attr["fromdate"] and date <= attr["todate"]:
                     if id <> "":
-                        return 'unknown', 'Matched multiple times: ' + input
+                        return 'unknown', 'Matched multiple times: ' + input, ''
                     id = attr["id"]
 
         if id == "":
-            return 'unknown', 'No match: ' + input
+            return 'unknown', 'No match: ' + input, ''
 
-        return id, ""
+        remadename = self.members[id]["firstname"] + " " + self.members[id]["lastname"]
+        return id, '', remadename
 
 # Construct the global singleton of class which people will actually use
 memberList = MemberList()
