@@ -82,11 +82,6 @@
 
     }
 
-    function getmicrotime()
-    {
-        list($usec, $sec) = explode(" ", microtime());
-        return ((float)$usec + (float)$sec);
-    }
     $timestart = getmicrotime();
 
     print "<h2><a name=\"comparison\">Comparison to Real MPs</a></h2>";

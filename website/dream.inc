@@ -170,6 +170,7 @@ function check_table_cache_counts_dream_mp($db, $dreamid) {
 function check_table_cache_counts_all_dream_mps($db) {
     $db->query("select rollie_id from pw_dyn_rolliemp where cache_uptodate = 0");
     while ($row = $db->fetch_row_assoc()) {
+        #check_table_cache_counts_dream_mp($db, $row['rollie_id']);
         check_table_cache_counts_dream_mp($db, $row['rollie_id']);
     }
 }

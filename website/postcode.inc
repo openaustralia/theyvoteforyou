@@ -4,15 +4,6 @@
 // This is now a copy from the theyworkforyou.com code, these functions
 // are in utility.php there, so we add them at the start.
 
-// Returns the unixtime in microseconds.
-function getmicrotime() {
-    $mtime = microtime();
-    $mtime = explode(" ",$mtime);
-    $mtime = $mtime[1] + $mtime[0];
-
-    return $mtime;
-}
-
 function validate_postcode ($postcode) {
     // See http://www.govtalk.gov.uk/gdsc/html/noframes/PostCode-2-1-Release.htm
 

@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.11 2005/03/04 01:40:31 frabcus Exp $
+-- $Id: create.sql,v 1.12 2005/03/04 02:14:15 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -44,6 +44,9 @@ create table pw_mp (
 
     person int,
 
+    index(entered_house),
+    index(left_house),
+    index(person),
     unique(first_name, last_name, constituency, entered_house, left_house)
 );
 
@@ -61,7 +64,9 @@ create table pw_division (
 
     source_gid text not null, -- global identifier
     debate_gid text not null, -- global identifier
-
+    
+    index(division_date),
+    index(division_number),
     unique(division_date, division_number)
 );
 
@@ -121,6 +126,7 @@ create table pw_dyn_rolliemp (
     description blob not null,
     cache_uptodate bool NOT NULL default 0,
 
+    index(user_id),
     unique(rollie_id, name, user_id)
 );
 
@@ -190,13 +196,16 @@ create table pw_cache_dreaminfo (
 create table pw_cache_dreamreal_score (
     rollie_id int not null,
     person int not null,
-    unique(rollie_id, person),
 
     -- scoring system A
     score_a int,
     scoremax_a int,
     rank_a int, -- can be null if not currently sitting
     rank_outof_a int -- can be null if not currently sitting
+
+    index(rollie_id),
+    index(person),
+    unique(rollie_id, person),
 );
 
 -------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: common.inc,v 1.2 2005/01/15 22:32:14 frabcus Exp $
+# $Id: common.inc,v 1.3 2005/03/04 02:14:15 frabcus Exp $
 
 # Included from all main .php files on the first line
 
@@ -16,6 +16,12 @@ if (!is_bool(strpos($loc, "/forum")) || !is_bool(strpos($loc, "/account")) || !i
     $toppath = "../"; 
 else 
     $toppath = "";
+
+function getmicrotime()
+{
+    list($usec, $sec) = explode(" ", microtime());
+    return ((float)$usec + (float)$sec);
+}
 
 include_once $toppath . "config.php";
 

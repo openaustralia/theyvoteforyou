@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: search.php,v 1.33 2005/02/18 10:14:04 frabcus Exp $
+# $Id: search.php,v 1.34 2005/03/04 02:14:15 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,7 +8,7 @@
 
     include "db.inc";
     $prettyquery = html_scrub(trim($_GET["query"]));
-    $query = strtoupper(db_scrub(trim($_GET["query"])));
+    $query = strtolower(db_scrub(trim($_GET["query"])));
     $title = "Search for '$prettyquery'"; 
     if ($prettyquery == "")
     {
@@ -36,8 +36,8 @@
             
             # Perform query on divisions
             $db->query("$divisions_query_start and (upper(division_name) like '%$query%'
-            or upper(motion) like '%$query%')
-            order by division_date desc, division_number desc"); 
+                or upper(motion) like '%$query%')
+                order by division_date desc, division_number desc");
 
             if ($db->rows() > 0)
             {
