@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.13 2004/02/20 11:33:23 frabcus Exp $
+# $Id: pretty.inc,v 1.14 2004/05/24 15:55:16 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -159,6 +159,53 @@ function make_percent($a, $b)
         $frac = sprintf("%6.1f", 100*$a/$b);
 
     return $frac;
+}
+
+// This function from Phil Gyford
+function trim_characters ($text, $start, $length) {
+	// Pass it a string, a numeric start position and a numeric length.
+	// If the start position is > 0, the string will be trimmed to start at the
+	// nearest word boundary after (or at) that position.
+	// If the string is then longer than $length, it will be trimmed to the nearest
+	// word boundary below (or at) that length.
+	// If either end is trimmed, ellipses will be added.
+	// The modified string is then returned - its *maximum* length is $length.
+	// HTML is always stripped (must be for trimming to prevent broken tags).
+
+	$text = strip_tags($text);
+
+	// Trim start.
+	if ($start > 0) {
+		$text = substr($text, $start);
+		
+		// Word boundary.         
+		if (preg_match ("/.+?\b(.*)/", $text, $matches)) {
+			$text = $matches[1];
+			// Strip spare space at the start.
+			$text = preg_replace ("/^\s/", '', $text);
+		}
+		$text = '...' . $text;
+	}
+	
+	// Trim end.
+	if (strlen($text) > $length) {
+
+		// Allow space for ellipsis.
+		$text = substr($text, 0, $length - 3); 
+
+		// Word boundary.         
+		if (preg_match ("/(.*)\b.+/", $text, $matches)) {
+			$text = $matches[1];
+			// Strip spare space at the end.
+			$text = preg_replace ("/\s$/", '', $text);
+		}
+		// We don't want to use the HTML entity for an ellipsis (&#8230;), because then 
+		// it screws up when we subsequently use htmlentities() to print the returned
+		// string!
+		$text .= '...'; 
+	}
+	
+	return $text;
 }
 
 ?>
