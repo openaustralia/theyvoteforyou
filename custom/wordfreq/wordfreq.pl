@@ -2,7 +2,7 @@
 use strict;
 use lib "../scraper/";
 
-# $Id: wordfreq.pl,v 1.2 2003/10/04 13:46:22 frabcus Exp $
+# $Id: wordfreq.pl,v 1.1 2004/01/26 10:04:58 frabcus Exp $
 # Some rough playing with counting word frequencies in Hansard
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd

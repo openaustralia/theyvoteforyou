@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: scrape.pl,v 1.8 2003/10/31 11:04:19 frabcus Exp $
+# $Id: scrape.pl,v 1.9 2004/01/26 10:04:58 frabcus Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -126,7 +126,6 @@ content - fetch debate content for all days
 divisions - parse divisions from local content and add them to database
 check - check database consistency
 calc - update cached calculations, do this after every crawl
-words - count word frequencies
 
 These options apply to "content" and "divisions" commands only:
 --date=YYYY-MM-DD - date to apply to
@@ -201,12 +200,6 @@ sub check
     clean::fix_division_corrections($dbh);
     print "Fixing bothway votes...\n";
     clean::fix_bothway_voters($dbh);
-}
-
-sub word_count
-{
-    print "Counting word frequencies...\n";
-    calc::count_word_frequencies($dbh);
 }
 
 sub all_content

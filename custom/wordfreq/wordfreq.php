@@ -1,6 +1,6 @@
 <?php
 
-# $Id: wordfreq.php,v 1.3 2003/10/13 17:45:59 frabcus Exp $
+# $Id: wordfreq.php,v 1.1 2004/01/26 10:04:58 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
