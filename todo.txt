@@ -92,6 +92,9 @@ Give help on how to request answers from hcinfo
 Web site
 --------
 
+On konqueror on division page the "What is Tell?" etc. bar overlaps the Rebel
+voters table in some cases. (On divisions with few voters / parties)
+
 Popular pages today are...  Grep the logs somehow clever.
 
 Tour somehow for first time users

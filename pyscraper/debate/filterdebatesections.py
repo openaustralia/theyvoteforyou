@@ -165,11 +165,11 @@ def NormalHeadingPart(headingtxt, stampurl):
 	# detect if this is a major heading and record it in the correct variable
 
 	bmajorheading = False
-
+        boralheading = False
 
 	# Oral question are really a major heading
 	if headingtxt == 'Oral Answers to Questions':
-		bmajorheading = True
+		boralheading = True
 	# Check if there are any other spellings of "Oral Answers to Questions" with a loose match
 	elif re.search('oral(?i)', headingtxt) and re.search('ques(?i)', headingtxt):
 		raise Exception, 'Oral question match not precise enough: %s' % headingtxt
@@ -186,7 +186,9 @@ def NormalHeadingPart(headingtxt, stampurl):
 	# write out block for headings
 	headingtxtfx = FixHTMLEntities(headingtxt)
 	qb = qspeech('nospeaker="true"', headingtxtfx, stampurl)
-	if bmajorheading:
+        if boralheading:
+                qb.typ = 'oral-heading'
+	elif bmajorheading:
 		qb.typ = 'major-heading'
 	else:
 		qb.typ = 'minor-heading'
