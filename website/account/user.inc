@@ -219,7 +219,7 @@ function user_lost_password ($email,$user_name) {
 
 function user_change_email ($password1,$new_email,$user_name) {
 	global $feedback,$hidden_hash_var;
-	if (validate_email($new_email)) {
+	if (pw_validate_email($new_email)) {
 		$hash=md5($new_email.$hidden_hash_var);
 		//change the confirm hash in the db but not the email - 
 		//send out a new confirm email with a new hash
@@ -286,7 +286,7 @@ function user_register($user_name,$password1,$password2,$email,$real_name) {
 		$feedback .=  ' Please fill in your email address.';
 		return false;
 	}
-	else if (!validate_email($email) )
+	else if (!pw_validate_email($email) )
         {
 		$feedback .=  ' Please fill in a valid email address.';
 		return false;
@@ -463,7 +463,7 @@ function account_namevalid($name) {
 	return true;
 }
 
-function validate_email ($address) {
+function pw_validate_email ($address) {
 	return (ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'. '@'. '[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.' . '[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $address));
 }
 

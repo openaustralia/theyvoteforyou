@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.10 2005/01/15 20:38:10 frabcus Exp $
+# $Id: db.inc,v 1.11 2005/01/18 02:05:59 frabcus Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -30,12 +30,12 @@ class DB
 
     function connect()
     {
-        global $host, $user, $password, $database;
+        global $pw_host, $pw_user, $pw_password, $pw_database;
 
-        $this->link = mysql_connect($host, $user, $password) 
+        $this->link = mysql_connect($pw_host, $pw_user, $pw_password) 
             or die("Could not connect : " . mysql_error());
 
-        mysql_select_db($database, $this->link) 
+        mysql_select_db($pw_database, $this->link) 
            or die("Could not select database : " . mysql_error());
     }
 

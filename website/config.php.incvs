@@ -3,14 +3,14 @@
 # This file is called .php, so you can't display its contents by browsing to it.
 
 # Public Whip database params, change these
-$host = "localhost";
-$user = "";
-$password = "";
-$database = "tpw";
+$pw_host = "localhost";
+$pw_user = "";
+$pw_password = "";
+$pw_database = "tpw";
 
 # Cache HTML files for speed up rendering
-$cache_enable = false;
-$cache_top = "/blah/pwcache";
+$pw_cache_enable = false;
+$pw_cache_top = "/blah/pwcache";
 
 # Authentication value - only needed for publicwhip.org.uk itself
 $hidden_hash_var=''; 

@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-tools.inc,v 1.7 2005/01/15 20:38:10 frabcus Exp $
+# $Id: cache-tools.inc,v 1.8 2005/01/18 02:05:59 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -41,9 +41,9 @@ function account_navbar() {
 }
 
 function cache_delete($file_stub, $cache_params) {
-    global $cache_top;
+    global $pw_cache_top;
 #    print "toppath $toppath";
-    $cache_dir = $cache_top . "/" . substr(str_replace("/", "-", $_SERVER["SCRIPT_NAME"]),1);
+    $cache_dir = $pw_cache_top . "/" . substr(str_replace("/", "-", $_SERVER["SCRIPT_NAME"]),1);
 #    print "<br>1. $cache_dir";
     $cache_dir = str_replace("account-", "", $cache_dir);
 #    print "<br>2. $cache_dir";

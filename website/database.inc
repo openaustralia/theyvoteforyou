@@ -6,13 +6,13 @@
 // Copyright 1999-2000 (c) The SourceForge Crew
 // http://sourceforge.net
 //
-// $Id: database.inc,v 1.3 2005/01/15 20:38:10 frabcus Exp $
+// $Id: database.inc,v 1.4 2005/01/18 02:05:59 frabcus Exp $
 //
 // /etc/local.inc includes the machine specific database connect info
 
 function db_connect() {
-	global $host,$user,$password;
-	$conn = mysql_connect($host,$user,$password);
+	global $pw_host,$pw_user,$pw_password;
+	$conn = mysql_connect($pw_host,$pw_user,$pw_password);
 	if (!$conn) {
 		echo mysql_error();
 	}
@@ -20,8 +20,8 @@ function db_connect() {
 }
 
 function db_query($qstring,$print=0) {
-	global $database;
-	return @mysql($database,$qstring);
+	global $pw_database;
+	return @mysql($pw_database,$qstring);
 }
 
 function db_numrows($qhandle) {
