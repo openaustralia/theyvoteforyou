@@ -1,5 +1,5 @@
---- /home/fawkes/pwdata/cmpages/wrans/answers2004-11-01.html	Tue Nov  2 08:06:00 2004
-+++ /home/fawkes/pwdata/cmpages/wrans/answers2004-11-01-patchtmp.html	Thu Nov 18 12:33:15 2004
+--- C:\publicwhip\pwdata\cmpages\wrans\answers2004-11-01.html	Thu Nov 18 11:31:23 2004
++++ C:\publicwhip\pwdata\cmpages\wrans\answers2004-11-01-patchtmp.html	Thu Dec 23 12:19:48 2004
 @@ -4850,12 +4850,12 @@
  
  
@@ -14,4 +14,23 @@
 +<p><b>Mr. Chope: </b>To ask the Secretary of State for the Home Department when older pensioners will be able to apply for free passports.  [191474]</p>
  
  
+ 
+@@ -13753,7 +13753,7 @@
+ 
+ 
+ 
+-<p><a name="41101w39.html_spnew11"><b> Dr. Ladyman: </b> 
++<p><a name="41101w39.html_spnew11"><b> Dr. Ladyman: </b>
+  Figures on waiting times for people requiring wheelchairs are not collected centrally. The information may be available from the 151 national health service wheelchair services, which actually arrange for the provision of wheelchairs in England. 45&nbsp;centres participated in the wheelchair services collaborative, which ran until June 2004. The services that participated were:
+ 
+ 
+@@ -13855,7 +13855,8 @@
+ <tr valign=top><td class "tabletext">West Dorset Wheelchair Service</td><td class "tabletext">North Dorset PCT
+ </td></tr>
+ <tr valign=top><td class "tabletext">The Wheelchair Service</td><td class "tabletext">West Kent NHS and Social Care Trust (Medway PCT, Dartford, &nbsp;Gravesham and Swanley PCT)
+-</table><br>&nbsp;<br><i>1 Nov 2004 : Column 149W</i><br>&nbsp;<br>
++</td></tr>
++</table>
+ 
+ </p>
  

@@ -37,10 +37,7 @@ def GenPatchFileNames(typ, sdate):
 
 # Launches editor on copy of file, and makes patch file of changes the user
 # makes interactively
-def RunPatchToolW(typ, sdate, stamp, frag, insertstring):
-	print "insert-string"
-	print insertstring
-
+def RunPatchToolW(typ, sdate, stamp, frag):
 	(patchfile, orgfile, tmpfile, tmppatchfile) = GenPatchFileNames(typ, sdate)
 
 	shutil.copyfile(orgfile, tmpfile)
@@ -106,7 +103,7 @@ def RunPatchTool(type, sdate, ce):
 
         print "\nHit RETURN to launch your editor to make patches "
         sys.stdin.readline()
-        RunPatchToolW(type, sdate, ce.stamp, ce.fragment, ce.insertstring)
+        RunPatchToolW(type, sdate, ce.stamp, ce.fragment)
         memberList.reloadXML()
 
 
@@ -128,5 +125,5 @@ in the patches folder underneath this folder.  The original file is
 untouched.  We consider the patches permanent data, so add them to CVS.
 """
  		sys.exit(1)
-	RunPatchToolW(sys.argv[1], sys.argv[2], None, "", "")
+	RunPatchToolW(sys.argv[1], sys.argv[2], None, "")
 

@@ -283,126 +283,6 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 
 
 
-	# the big qnum matching system
-	def CrossReferenceByQnums(self, flatb):
-
-		# we don't rearrange the new layout, we just make sure that the
-		# old gids will match to them, if poss.
-
-		# extract the major headings and match them separately to the minor headings
-		# triplets that do the questions
-
-		# build up a structure that makes it possible for the old stuff to map to
-		majorheadings = { }
-		questiongroups = [ ]
-		questiongroup = None
-		for qb in flatb:
-			qb.oldfoundgid = None  # this is used for the cross-referencing
-			if qb.typ == "major-heading":
-				if questiongroup:
-					questiongroups.append(questiongroup)
-					questiongroup = None
-				majorheading = string.join(qb.stext, "").strip()
-				assert majorheading not in majorheadings
-				majorheadings[majorheading] = qb
-			elif qb.typ == "minor-heading":
-				if questiongroup:
-					questiongroups.append(questiongroup)
-				questiongroup = [ qb ]
-			else:
-				assert qb.typ == "ques" or qb.typ == "reply"
-				questiongroup.append(qb)
-		if questiongroup:
-			questiongroups.append(questiongroup)
-
-
-		# now generate the qnums cross-referencing to these question groups
-		# (there must always be some question numbers)
-		qnums = { }
-		for questiongroup in questiongroups:
-			lqnum = None
-			for qb in questiongroup:
-				for lb in qb.stext:
-					for qn in re.findall('qnum="([^"]*)"', lb):
-						assert qn not in qnums
-						qnums[qn] = questiongroup
-						lqnum = qn
-			if not lqnum:
-				print "will be difficult to match to without qnum in group",
-				print "minor heading", string.join(questiongroup[0].stext, "")
-				print "first paragraph", questiongroup[1].stext[0]
-				return ""
-
-
-		# now we go through all the old entries and form question groups,
-		# as well as matching up the major headings where possible
-		oldquestiongroups = [ ]
-		oldquestiongroup = None
-		for pqb in self.prevflatb:
-			if pqb.nametype == "major-heading":
-				if oldquestiongroup:
-					oldquestiongroups.append(oldquestiongroup)
-					oldquestiongroup = None
-				omajorheading = string.join(pqb.paras, "").strip()
-				if majorheadings.has_key(omajorheading):
-					qb = majorheadings[omajorheading]
-					assert not qb.oldfoundgid # multiple headings of the same name
-					qb.oldfoundgid = pqb.gid
-				else:
-					# not important since these are not linked to
-					print "can't find old major heading '%s' in wrans" % omajorheading
-
-			elif pqb.nametype == "minor-heading":
-				if oldquestiongroup:
-					oldquestiongroups.append(oldquestiongroup)
-				oldquestiongroup = [ pqb ]
-			else:
-				assert pqb.nametype == "ques" or pqb.nametype == "reply"
-				oldquestiongroup.append(pqb)
-		if oldquestiongroup:
-			oldquestiongroups.append(oldquestiongroup)
-
-		# now go through the old question groups and find matches by examining the qnums
-		for oldquestiongroup in oldquestiongroups:
-			matchquestiongroups = [ ]
-			for pqb in oldquestiongroup:
-				for qnum in pqb.qnums:
-					if qnums.has_key(qnum):
-						matchquestiongroup = qnums[qnum]
-						if matchquestiongroup not in matchquestiongroups:
-							matchquestiongroups.append(matchquestiongroup)
-
-			# we now have a group we wish to match to; we can allocate the entries
-			# in parallel?
-			if not len(matchquestiongroups) == 1:
-				print "we match not to one question group"
-				print len(matchquestiongroups)
-				print "oldgid", oldquestiongroup[0].gid
-				return ""
-			matchquestiongroup = matchquestiongroups[0]
-
-			# this is where we lie them side by side
-			if len(matchquestiongroup) != len(oldquestiongroup):
-				print "we can't match differing question group sizes"
-				print "newgid", matchquestiongroup[0].GID, "oldgid", matchquestiongroup[0].oldfoundgid
-				return ""
-
-			for i in range(len(oldquestiongroup)):
-				if matchquestiongroup[i].oldfoundgid:
-					print "matching a second old gid into same place"
-					print "newgid", matchquestiongroup[i].GID, "oldgid", matchquestiongroup[i].oldfoundgid
-					print "newoldgid", oldquestiongroup[i].gid
-					return ""
-
-				matchquestiongroup[i].oldfoundgid = oldquestiongroup[i].gid
-
-		# we've now successfully matched everything, make the mappings as a list
-		res = [ ]
-		for qb in flatb:
-			if qb.oldfoundgid and qb.oldfoundgid != qb.GID:
-				res.append('<parsemess-mapgid newgid="%s" oldgid="%s"/>' % (qb.GID, qb.oldfoundgid))
-
-		return string.join(res, "\n")
 
 # write out a whole file which is a list of qspeeches, and construct the ids.
 def CreateGIDs(gidpart, flatb, sdate):
@@ -487,45 +367,159 @@ def getXMLdiffname(jfout):
 	assert not os.path.isfile(res)
 	return res
 
+def WriteXMLspeechrecord(fout, qb, bMakeOldWransGidsToNew, bIsWrans):
+	# Is this value needed?
+	colnum = re.search('colnum="([^"]*)"', qb.sstampurl.stamp).group(1)
+
+	# extract the time stamp (if there is one)
+	stime = ""
+	if qb.sstampurl.timestamp:
+		stime = re.match('<stamp( time=".*?")/>', qb.sstampurl.timestamp).group(1)
+
+	fout.write('\n')
+
+	if bMakeOldWransGidsToNew:
+		assert bIsWrans
+		fout.write('<gidredirect oldwranstype="yes" oldgid="%s" newgid="%s"/>\n' % (qb.GID, qb.qGID))
+
+	# decompose so we can make the wrans types
+	if bIsWrans:
+		lid = qb.qGID
+		lmidstr = 'oldstyleid="%s" %s' % (qb.GID, qb.speaker)
+	else:
+		lid = qb.GID
+		lmidstr = qb.speaker
+
+	# build the full tag for this object
+	# some of the info is a repeat of the text in the GID
+	fulltag = '<%s id="%s" %s colnum="%s" %s url="%s">\n' % (qb.typ, lid, lmidstr, colnum, stime, qb.sstampurl.GetUrl())
+	fout.write(fulltag)
+
+	# put out the paragraphs in body text
+	for lb in qb.stext:
+		fout.write('\t')
+		fout.write(lb)
+		fout.write('\n')
+
+	# end tag
+	fout.write('</%s>\n' % qb.typ)
+
+
+errco = 9900
+class wransblock:
+	def __init__(self, lqb):
+		self.headingqb = lqb
+		self.queses = [ ]
+		self.replies = [ ]
+		self.qnums = [ ]
+		self.altheadinggids = [ ]
+
+	def addqb(self, lqb):
+		global errco
+		if lqb.typ == "ques":
+			self.queses.append(lqb)
+			# this handles qnum list, or single qnum question (a bit terse)
+			for lb in (lqb.stext[1:] or lqb.stext):
+				reqnm = re.search('<p (?:class="numindent" )?qnum="([\d\w]+)">', lb)
+				if not reqnm:   # missing qnum!
+					if re.search('<p class="error">', lb):
+						self.qnums.append("ZZZZerror%d" % errco)
+						errco += 1
+					else:
+						print lb
+						print lqb.GID
+						assert False
+				else:
+					self.qnums.append(reqnm.group(1))
+		elif lqb.typ == "reply":
+			self.replies.append(lqb)
+		else:
+			assert False
+
+	# the function that does the business
+	def regidcodes(self, minhgid, sdate):
+		# find minimal qnum which will be used as the basis
+		self.qnums.sort()
+		basegidq = 'uk.org.publicwhip/wransq/%s.%s' % (sdate, self.qnums[0])
+		self.headingqb.qGID = basegidq + ".h"  # this is what we link to
+		for rqnum in self.qnums[1:]:   # the mapping for the other qnums
+			self.altheadinggids.append('uk.org.publicwhip/wransq/%s.%s.h' % (sdate, rqnum))
+
+		# renumber the parts of the question (which aren't going to be linked to anyway)
+		for i in range(len(self.queses)):
+			self.queses[i].qGID = "%s.q%d" % (basegidq, i)
+		for i in range(len(self.replies)):
+			self.replies[i].qGID = "%s.r%d" % (basegidq, i)
+
+		# this value is used for labelling the major heading.
+		# high probability that the value is stable, but it won't be used for linking
+		if not minhgid or (basegidq < minhgid):
+			minhgid = basegidq
+		return minhgid
+
+	def WriteXMLrecords(self, fout, bMakeOldWransGidsToNew):
+		WriteXMLspeechrecord(fout, self.headingqb, bMakeOldWransGidsToNew, True)
+		if self.altheadinggids:
+			fout.write('\n')
+		for ah in self.altheadinggids:
+			fout.write('<gidredirect oldgid="%s" newgid="%s"/>\n' % (ah, self.headingqb.qGID))
+
+		for qb in self.queses:
+			WriteXMLspeechrecord(fout, qb, bMakeOldWransGidsToNew, True)
+		for qb in self.replies:
+			WriteXMLspeechrecord(fout, qb, bMakeOldWransGidsToNew, True)
+
+
+# this is the code for implementing the new gids code
+# keep your hacking to this area and things will be simple
+def CreateWransGIDs(flatb, sdate):
+	# first divide into major blocks and wranswer pieces
+	majblocks = [ ]
+	for qb in flatb:
+		if qb.typ == "major-heading":
+			majblocks.append((qb, [ ]))
+		elif qb.typ == "minor-heading":
+			majblocks[-1][1].append(wransblock(qb))
+		else:
+			majblocks[-1][1][-1].addqb(qb)
+
+	# now renumber the gids everywhere
+	for majblock in majblocks:
+		minqnum = ""
+		for qblock in majblock[1]:
+			minqnum = qblock.regidcodes(minqnum, sdate)
+		assert minqnum
+		majblock[0].qGID = minqnum + ".mh" # major heading
+	return majblocks
+
 # write out a whole file which is a list of qspeeches, and construct the ids.
 def WriteXMLFile(gidpart, tempname, jfout, flatb, sdate, bquietc):
 
     #print "jfout is ", jfout
 	# make the GIDS and compare the files
+	bIsWrans = (gidpart == "wrans")
 	CreateGIDs(gidpart, flatb, sdate)
+	if bIsWrans:
+		majblocks = CreateWransGIDs(flatb, sdate)
+		bMakeOldWransGidsToNew = (sdate < "2005")
 
 	fout = open(tempname, "w")
 	WriteXMLHeader(fout);
 	fout.write("<publicwhip>\n")
 
-	pcolnum = "####"
-	picolnum = -1
-	ncid = -1
-
 	# go through and output all the records into the file
-	for qb in flatb:
-		# Is this value needed?
-		colnum = re.search('colnum="([^"]*)"', qb.sstampurl.stamp).group(1)
+	if bIsWrans:
+		for majblock in majblocks:
+			WriteXMLspeechrecord(fout, majblock[0], bMakeOldWransGidsToNew, True)
+			for qblock in majblock[1]:
+				qblock.WriteXMLrecords(fout, bMakeOldWransGidsToNew)
 
-		# extract the time stamp (if there is one)
-		stime = ""
-		if qb.sstampurl.timestamp:
-			stime = re.match('<stamp( time=".*?")/>', qb.sstampurl.timestamp).group(1)
+	else:
+		for qb in flatb:
+			WriteXMLspeechrecord(fout, qb, False, False)
 
-		# build the full tag for this object
-		# some of the info is a repeat of the text in the GID
-		fulltag = '<%s id="%s" %s colnum="%s" %s url="%s">\n' % (qb.typ, qb.GID, qb.speaker, colnum, stime, qb.sstampurl.GetUrl())
-		fout.write('\n')
-		fout.write(fulltag)
 
-		# put out the paragraphs in body text
-		for lb in qb.stext:
-			fout.write('\t')
-			fout.write(lb)
-			fout.write('\n')
 
-		# end tag
-		fout.write('</%s>\n' % qb.typ)
 
 	# end of file.  should close and copy
 	# should also be opened in this function too
@@ -538,14 +532,15 @@ def WriteXMLFile(gidpart, tempname, jfout, flatb, sdate, bquietc):
 	if os.path.isfile(jfout):
 		# load file
 		ppf = PrevParsedFile(jfout)
+		assert ppf.bIsWrans == bIsWrans
 		ppf.lfilenames = (jfout, tempname)  # used in the message in case of error
 
 		# compare values, returns an exception which can be thrown if failure
-		coxexception = ppf.CompareGIDS(flatb, bquietc)
-		if coxexception:
-			if ppf.bIsWrans:
-				coxexception.insertstring = ppf.CrossReferenceByQnums(flatb)
-			raise coxexception
+		# wrans use qnums for their gids, so are supposedly stable
+		if not ppf.bIsWrans:
+			coxexception = ppf.CompareGIDS(flatb, bquietc)
+			if coxexception:
+				raise coxexception
 
 		# make a file to record the differences (for keeping track of later)
 		jfoutpatch = getXMLdiffname(jfout)

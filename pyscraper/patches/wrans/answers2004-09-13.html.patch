@@ -1,26 +1,83 @@
---- /home/fawkes/pwdata/cmpages/wrans/answers2004-09-13.html	Tue Sep 14 08:06:19 2004
-+++ /home/fawkes/pwdata/cmpages/wrans/answers2004-09-13-patchtmp.html	Fri Oct 22 12:18:24 2004
-@@ -755,7 +755,7 @@
+--- C:\publicwhip\pwdata\cmpages\wrans\answers2004-09-13.html	Thu Dec 23 09:43:32 2004
++++ C:\publicwhip\pwdata\cmpages\wrans\answers2004-09-13-patchtmp.html	Thu Dec 23 12:23:57 2004
+@@ -732,11 +732,11 @@
+ 
  <P>
  <P>
- <a name="40913w03.html_spnew10"><B> Malcolm Wicks: </B> 
+-<a name="40913w03.html_wqn9"><B> Mr. Bellingham: </B> 
++<a name="40913w03.html_wqn9"><B> Mr. Bellingham: </B>
+ To ask the Secretary of State for Work and Pensions what steps his Department is taking to reduce the burden on employers' liability compulsory insurance on small businesses with good health and safety track records; and what legislative changes are proposed.  [186352]<P>
+ <P>
+ <P>
+-<a name="40913w03.html_spnew9"><B> Jane Kennedy: </B> 
++<a name="40913w03.html_spnew9"><B> Jane Kennedy: </B>
+  The Employers' Liability Compulsory Insurance (ELCI) Review identified a number of steps that would help to reduce the burden of ELCI on small businesses with good health and safety track records.
+ <P>
+ 
+@@ -750,12 +750,12 @@
+ 
+ <P>
+ <P>
+-<a name="40913w03.html_wqn10"><B> Mr. Jim Cunningham: </B> 
++<a name="40913w03.html_wqn10"><B> Mr. Jim Cunningham: </B>
+ To ask the Secretary of State for Work and Pensions what advice the Government provide for young people on saving for pensions. [187303]<P>
+ <P>
+ <P>
+-<a name="40913w03.html_spnew10"><B> Malcolm Wicks: </B> 
 - Through our Informed Choice <sup>1</sup>  programme, we are delivering a range of initiatives which help to break down the barriers people, including young people, often experience in planning ahead for their financial future in retirement. We are making people aware of their options and ensuring they have the right information at the right time, together with the basic financial awareness and skills, to help them make appropriate choices. The range of initiatives include 
++<a name="40913w03.html_spnew10"><B> Malcolm Wicks: </B>
 + Through our Informed Choice <sup>1</sup>  programme, we are delivering a range of initiatives which help to break down the barriers people, including young people, often experience in planning ahead for their financial future in retirement. We are making people aware of their options and ensuring they have the right information at the right time, together with the basic financial awareness and skills, to help them make appropriate choices. The range of initiatives include
  
  
  
-@@ -841,8 +841,8 @@
+@@ -779,11 +779,11 @@
+ <UL><FONT SIZE=-1> <sup>2</sup>  Towards a National Strategy for Financial Capability, November 2003 and Building Financial Capability in the UK, May 2004.</FONT></UL>
+ <P>
+ <P>
+-<a name="40913w03.html_wqn11"><B> Mr. Anthony D. Wright: </B> 
++<a name="40913w03.html_wqn11"><B> Mr. Anthony D. Wright: </B>
+ To ask the Secretary of State for Work and Pensions what estimate he has made of the average weekly pension in Great Yarmouth in each year since 1997 if pensions had been linked to earnings. [186701]<P>
+ <P>
+ <P>
+-<a name="40913w03.html_spnew11"><B> Malcolm Wicks: </B> 
++<a name="40913w03.html_spnew11"><B> Malcolm Wicks: </B>
+  The information is not available in the format requested. However, such information as is available is in the table.
+ <P>
+ 
+@@ -794,7 +794,7 @@
+ 
+ <TR valign=top><TH><FONT SIZE=-1></FONT></TH><TH><FONT SIZE=-1></FONT></TH><TH><FONT SIZE=-1>&#163;
+ </FONT></TH></TR>
+-<TR valign=top><TH><FONT SIZE=-1>As at April each year</FONT></TH><TH><FONT SIZE=-1>Average State Pension in Great Yarmouth</FONT></TH><TH><FONT SIZE=-1>Average State Pension in Great Yarmouth with basic State Pension uprated by earnings 
++<TR valign=top><TH><FONT SIZE=-1>As at April each year</FONT></TH><TH><FONT SIZE=-1>Average State Pension in Great Yarmouth</FONT></TH><TH><FONT SIZE=-1>Average State Pension in Great Yarmouth with basic State Pension uprated by earnings
+ </FONT></TH></TR>
+ 
+ 
+@@ -841,11 +841,11 @@
  
  <P>
  <P>
 -<a name="40913w03.html_wqn12"><B> Mr. Anthony D. Wright: </B> 
 - Yarmouth constituency were <i>(a)</i>&nbsp;entitled to and <i>(b)</i>&nbsp;took up the winter fuel payment in the last year for which figures are available.  [186704]<P>
 +<a name="40913w03.html_wqn12"><B> Mr. Anthony D. Wright: </B>
-+To ask the Secretary of state --missing text-- Yarmouth constituency were <i>(a)</i>&nbsp;entitled to and <i>(b)</i>&nbsp;took up the winter fuel payment in the last year for which figures are available.  [186704]<P>
++To ask the Secretary of State for Work and Pensions (missing text) Yarmouth constituency were <i>(a)</i>&nbsp;entitled to and <i>(b)</i>&nbsp;took up the winter fuel payment in the last year for which figures are available.  [186704]<P>
  <P>
  <P>
- <a name="40913w03.html_spnew12"><B> Malcolm Wicks: </B> 
-@@ -3824,11 +3824,11 @@
+-<a name="40913w03.html_spnew12"><B> Malcolm Wicks: </B> 
++<a name="40913w03.html_spnew12"><B> Malcolm Wicks: </B>
+  For winter 2003&#150;04 the number of pensioners in the Great Yarmouth constituency who received a winter fuel payment was 22,220. It is not possible to say how many pensioners were entitled to a winter fuel payment.
+ <P>
+ <BR>
+@@ -858,7 +858,7 @@
+ <UL><FONT SIZE=-1><i>Source:</i> IAD Information Centre, 100&nbsp;per cent. samples.</FONT></UL>
+ <P>
+ <P>
+-<a name="40913w03.html_wqn13"><B> Mr. Woodward: </B> 
++<a name="40913w03.html_wqn13"><B> Mr. Woodward: </B>
+ To ask the Secretary of State for Work and Pensions how many and what percentage of the adult population the Government estimates have claimed the basic state pension in each year since 1990. [186828]<P>
+ <P>
+ <P>
+@@ -3824,10 +3824,10 @@
  
  <P>
  <P>
@@ -29,12 +86,10 @@
  To ask the Parliamentary Secretary, Department for Constitutional Affairs, if he will break down by type of debt the money owed to the Legal Services Commission.  [185950]
  <P>
 -<UL><i>Mr. Lammy </i>[pursuant to his reply, 21&nbsp;July 2004, Official Report, c. 376W]: I listed in my previous answer the break down by type of debt of the money owed to the Legal Services Commission in 2003&#150;04. This omitted to indicate that these figures were in thousands and the following table now reflects this.
--<P></UL><P>
-+<b>Mr. Lammy </b>[pursuant to his reply, 21&nbsp;July 2004, Official Report, c. 376W]: I listed in my previous answer the break down by type of debt of the money owed to the Legal Services Commission in 2003&#150;04. This omitted to indicate that these figures were in thousands and the following table now reflects this.
-+<P>
++<UL><b>Mr. Lammy </b>[pursuant to his reply, 21&nbsp;July 2004, Official Report, c. 376W]: I listed in my previous answer the break down by type of debt of the money owed to the Legal Services Commission in 2003&#150;04. This omitted to indicate that these figures were in thousands and the following table now reflects this.
+ <P></UL><P>
  
  <a name="40913w13.html_para5">
- <TABLE BORDER=1>
 @@ -5092,8 +5092,8 @@
  
  <P>
@@ -46,22 +101,3 @@
  <P>
  <UL>(2) what the <i>(a)</i>&nbsp;average, <i>(b)</i>&nbsp;shortest and <i>(c)</i>&nbsp;longest length of time taken between 1997 and 2004 to complete a building project for a new school was from the start of specifying the project to the opening of the new building.  [187750]<P></UL>
  <P>
-@@ -5783,17 +5783,9 @@
- <UL>(2) what assessment she has made of how the lessons learned from the CSV Lending Time pilot projects can be transferred to and adopted by other local authorities; [187835]
- <P>
- (3) whether she has requested reports on the CSV Lending Time pilot schemes from the local authorities involved;  [187836]
--<P></UL>
--<P>
--
--<a name="40913w21.html_para6">
--<a name="40913w21.html_sbhd4"><H3 align=center>CSV Lending Time Project</H3>
--
--
- <P>
--<P>
--<a name="40913w21.html_wqn5"><B>  </B> 
- (4) what plans she has to ensure long-term support for the CSV Lending Time pilot projects.  [187837]<P>
-+<P></UL>
- <P>
- <P>
- <a name="40913w21.html_spnew4"><B> Estelle Morris: </B> 
