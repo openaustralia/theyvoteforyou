@@ -44,8 +44,9 @@ relink = '<a\s+href="([^"]*)">(?:<b>)?([^<]*)(?:</b>)?</a>(?i)'
 
 # we lack the patching system here to overcome these special cases
 respecialdate1 = "<b>Friday 23 July 2004 to(?:<br>|\s*)Friday 27 August(?: 2004)?</b>"
+respecialdate2 = "<b>Friday 17 September 2004 to<br>Thursday 30 September 2004</b>"
 
-redateindexlinks = re.compile('%s|(%s)|%s' % (redatename, respecialdate1, relink))
+redateindexlinks = re.compile('%s|(%s|%s)|%s' % (redatename, respecialdate1, respecialdate2, relink))
 
 # map from (date, type) to (URL-first, URL-index)
 # e.g. ("2003-02-01", "wrans") to ("http://...", "http://...")
@@ -79,9 +80,15 @@ def CmIndexFromPage(urllinkpage):
 			sdate = mx.DateTime.DateTimeFrom(odate).date
 			continue
 
+		# these come from the special dates (of ranges) listed from above.
+		# any more of these and I'll have to make special code to handle them
 		if link1[1]:
-			assert link1[1][0:22] == "<b>Friday 23 July 2004"
-			odate = "1 Sept 2004" # the date quoted on the wrans page
+			if link1[1][0:22] == "<b>Friday 23 July 2004":
+				odate = "1 Sept 2004" # the date quoted on the wrans page
+			elif link1[1][0:27] == "<b>Friday 17 September 2004":
+				odate = "30 September 2004" # the date quoted on the wrans page
+			else:
+				assert False
 			sdate = mx.DateTime.DateTimeFrom(odate).date
 			continue
 
