@@ -41,6 +41,7 @@ fixsubs = 	[
         # Column numbers are totally knackered here
         ( '<B>16 Jun 2003 : Column 184</B></P>', '', 1, '2003-06-16'),
         ( '<B>8 May 2003 : Column 928</B></P>', '', 1, '2003-05-08'),
+        ( '<B>7 May 2003 : Column 808</B></P>', '', 1, '2003-05-07'),
 ]
 
 
