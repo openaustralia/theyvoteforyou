@@ -7,16 +7,24 @@ Look for EDMs on parliament.uk (in daily papers)
 Web site
 --------
 
-Speed things up
-    - reduce queries on MP page, more indices?
-    - use cache for front page and division lists
+> (One comment: obviously all your pages are going to get
+> indexed in, e.g., Google fairly shortly. For some search
+> terms -- names of obscurer MPs and of pieces of
+> legislation -- you'll be quite high up the results. It
+> might be worth putting a one-sentence description of the
+> project at the top of each results page to explain what's
+> going on, since some of the pages might look a touch
+> confusing for the first-time visitor.)
+
+META keywords
+
+Use hotcopy or similar for new db uploading
+http://www.mysql.com/doc/en/mysqlhotcopy.html
 
 <h2> spacing on IE
 
 Put divisions on same day as easy links from division page
 Put similar divisions on links
-
-Modify cluster rant?
 
 In possible friends print after parliament the party if it is a "whilst"
 
@@ -24,40 +32,11 @@ Try registration with IE and no ?submit= (press ret)
 
 Share DB connection with registration
 
-Mailing list for newsletter
-
-Make site give user something to do
-
-Facility to register and define voting subset for a particular issue
-- info to help select which votes and which way should have voted
-- SP adopters / constituency
-- Auto email to adopters in each ward
-- include journalism, so a comment on the issue / on each vote
-- who made the issue is crucial, as some expertise is needed, and
-  viewers of the site need to understand any bias that they have
-- Report to take into your MP constituency surgery
-- Let NGO entere postcodes of their supporters (in their own client app)
-  and use these to find MPs where the most people agree with the issue,
-  but the MP has voted the other way.
-Do Iraq subselection ourselves
-Do climate change subselection
-
-META keywords
-
-Cluster diagram of each _session_
-
 Java in Opera Win32
 
-Scale markings for distance on vote map (to cross-compare spread 'tween parliaments?)
 Measure abstentions by parliament rather than global proportions?
-Consider making search.php amalgamate MPs with the same name?  esp with > 2 parliaments
 MP page - print parliament in vote lists
-More... for friends
 
-favicon.ico
-
-Caching of pages using PHP
-Make sure fast CGI keeps db connections somehow
 
 Scraper
 -------

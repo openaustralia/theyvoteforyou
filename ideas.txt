@@ -170,6 +170,8 @@ parties).  Again, correlate to time spent on it.
 Additional text content
 -----------------------
 
+House of Lords divisions
+
 Hansard search and browser.
 - Decent search engine of structure data (database by MP who said what when)
 - Highlight MPs names, with their party, how they voted in this
@@ -180,6 +182,19 @@ Written answers.
 Issue sub-selector.  User can log in, name an issue, and say which way
 votes should have gone to satisfy him on that issue.  Get all manner of
 people to make issues for next general election.
+- info to help select which votes and which way should have voted
+- SP adopters / constituency
+- Auto email to adopters in each ward
+- include journalism, so a comment on the issue / on each vote
+- who made the issue is crucial, as some expertise is needed, and
+  viewers of the site need to understand any bias that they have
+- Report to take into your MP constituency surgery
+- Let NGO entere postcodes of their supporters (in their own client app)
+  and use these to find MPs where the most people agree with the issue,
+  but the MP has voted the other way.
+Do Iraq subselection ourselves
+Do climate change subselection
+
 
 Software to follow all legislation sources:
      - parliamentary bills - which can be introduced into either House
@@ -248,22 +263,16 @@ than redness in MPs division list.  Boldness is one idea.
 
 Log failed searches so we can improve the search engine
 
-Detect MS Java applet and upgrade it
-FastCGI if our load gets high
 mod_gzip to reduce bandwidth
+Make sure fast CGI keeps db connections somehow
 
-Paragraph text should always be wrapped with a max width, so it is
-readable on very wide browsers. (Giles)
+Paragraph text needs min width
 
-Usability (some sort of done - this is just some notes)
-    - make website name link back to homepage
-    - consider link titles http://www.useit.com/alertbox/980111.html
-    - about the authors, so feels personal to people
-    - consider breadcrumb trail
-    - about section (not all FAQ?)
-    - company name/logo at topleft, search at topright
-    - search input box on front page (http://www.useit.com/alertbox/20010513.html)
-    - print stylesheet media="print" removing menus
+- about the authors, so feels personal to people
+- consider breadcrumb trail
+- about section (not all FAQ?)
+- company name/logo at topleft, search at topright
+- print stylesheet media="print" removing menus
 
 Political toolbar - easy searches.  Popup links automatically on MP's
 names in Internet Explorer.

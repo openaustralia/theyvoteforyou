@@ -2,7 +2,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.21 2003/10/15 06:59:00 frabcus Exp $
+# $Id: header.inc,v 1.22 2003/10/15 17:15:48 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -41,15 +41,16 @@ function givefocus() { if (document.pw) document.pw.query.focus(); }
 <tr><td class="identity"><a href="<?=$toppath?>index.php"><img src="<?=$toppath?>thepublicwhip.gif" alt="The Public Whip"></a></td></tr>
 
 <!-- the main site navigation -->
-<tr class="headers"><td bgcolor="#666666"><a href="<?=$toppath?>index.php">Home</a>
-<a href="<?=$toppath?>news.php">Newsletter</a>
-<a href="<?=$toppath?>faq.php">FAQ</a>
-<a href="<?=$toppath?>divisions.php">Divisions</a>
-<a href="<?=$toppath?>mps.php">MPs</a>
-<a href="<?=$toppath?>mpsee.php">Vote Map</a>
-<a href="<?=$toppath?>code.php">Code</a>
-<a href="<?=$toppath?>account/settings.php">Account</a>
-<a href="<?=$toppath?>search.php">Search</a>
+<tr class="headers"><td bgcolor="#666666">
+<a title="Front page and site highlights" href="<?=$toppath?>index.php">Home</a>
+<a title="Subscribe to our email newsletter" href="<?=$toppath?>news.php">Newsletter</a>
+<a title="Frequently Asked Questions" href="<?=$toppath?>faq.php">FAQ</a>
+<a title="List of all votes in Parliament" href="<?=$toppath?>divisions.php">Divisions</a>
+<a title="List of all Members of Parliament" href="<?=$toppath?>mps.php">MPs</a>
+<a title="Cluster diagram of voting record" href="<?=$toppath?>mpsee.php">Vote Map</a>
+<a title="Software source code" href="<?=$toppath?>code.php">Code</a>
+<a title="Login or change settings" href="<?=$toppath?>account/settings.php">Account</a>
+<a title="Find an MP or division" href="<?=$toppath?>search.php">Search</a>
 </td>
 </tr>
 

@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.9 2003/10/13 15:18:52 frabcus Exp $
+# $Id: faq.php,v 1.10 2003/10/15 17:15:48 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -106,14 +106,14 @@ href="http://www.knownoffender.net/">Giles</a> designed the look of the
 website.  We're hosted by the ever helpful and encouraging
 <a href="http://www.mythic-beasts.com/">Mythic Beasts</a>.
 
-<h2>Where can I email?</h2>
-<p>If you have any problems, comments, queries, suggestions or offers of help email <a
-href="mailto:support@publicwhip.org.uk">support@publicwhip.org.uk</a>.
-
 <h2>How can I keep up with what you are doing?</h2>
 <p><a href="account/register.php">Subscribe to our newsletter!</a>  It's
 at most once a fortnight, and has interesting news and articles
 relating to the project.
+
+<h2>Where can I email?</h2>
+<p>If you have any problems, comments, queries, suggestions or offers of help email <a
+href="mailto:support@publicwhip.org.uk">support@publicwhip.org.uk</a>.
 
 <?php include "footer.inc" ?>
 
