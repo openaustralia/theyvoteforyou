@@ -1,4 +1,4 @@
-# $Id: divisions.pm,v 1.14 2004/01/17 18:50:04 frabcus Exp $
+# $Id: divisions.pm,v 1.15 2004/03/02 08:44:27 frabcus Exp $
 # Parses the body text of a page of Hansard containing a division.
 # Records the division and votes in a database, matching MP names
 # to an MP already in the database.
@@ -107,6 +107,10 @@ sub parse_all_divisions_on_page
     if ($content =~ s/Johnson Smith, ?\n<[Bb][Rr]>\n? Rt Hon Sir Geoffrey/Johnson Smith, Rt Hon Sir Geoffrey/g)
     {
         error::log("Patched at least one misformatted Geoffrey Johnson Smith", $day_date, error::USEFUL);
+    }
+    if ($content =~ s/Johnson Smith, ?\n Rt Hon Sir Geoffrey/Johnson Smith, Rt Hon Sir Geoffrey/g)
+    {
+        error::log("Patched at least one more misformatted Geoffrey Johnson Smith", $day_date, error::USEFUL);
     }
     if ($day_date eq "1997-06-18")
     {

@@ -3,7 +3,7 @@ set -e
 
 # Run regularly - perhaps every Friday - to update Public Whip site in full.
 
-# TODO: Add clustering
+# TODO: Add cluster diagram generation
 # TODO: Add raw data CSV exporting
 
 echo "Getting dynamic tables for backup"
