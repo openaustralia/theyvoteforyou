@@ -72,10 +72,12 @@ class PersonSets(xml.sax.handler.ContentHandler):
                     maxattr = attr
             latestname = "%s %s" % (maxattr["firstname"], maxattr["lastname"])
 
-            # Output the XML
+            # Output the XML (sorted)
             fout.write('<person id="%s" latestname="%s">\n' % (personid, latestname.encode("latin-1")))
-            for attr in personset:
-                fout.write('    <office id="%s"/>\n' % (attr["id"]))
+			ofidl = [ str(attr["id"])  for attr in personset ]
+			ofidl.sort()
+            for ofid in ofidl:
+                fout.write('    <office id="%s"/>\n' % (ofid))
             fout.write('</person>\n')
 
     def crosschecks(self):
@@ -233,3 +235,5 @@ fout.close()
 
 # overwrite people.xml
 os.rename("temppeople.xml", "people.xml")
+
+
