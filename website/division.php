@@ -1,10 +1,9 @@
 <?php 
-$submit=mysql_escape_string($_POST["submit"]);
-if ($submit)
-    include "cache-begin.inc"; 
+    if (!user_isloggedin())
+        include "cache-begin.inc"; 
 ?>
 <?php
-# $Id: division.php,v 1.25 2004/02/10 23:18:19 frabcus Exp $
+# $Id: division.php,v 1.26 2004/02/10 23:20:00 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -74,6 +73,8 @@ if ($submit)
 
     if (user_isloggedin())
     {
+        $submit=mysql_escape_string($_POST["submit"]);
+        
         print "<div class=\"tablerollie\">";
         print "<span class=\"ptitle\">Roll Your Own MP</span>";
 
@@ -499,6 +500,6 @@ if ($submit)
 
 <?php include "footer.inc" ?>
 <?php 
-if ($submit)
+if (!user_isloggedin())
     include "cache-end.inc"; 
 ?>
