@@ -24,14 +24,15 @@ fixsubs = 	[
 	( '\(Mr. Nick Raynsford </B>\s*\)', '(Mr. Nick Raynsford) </B>', 1, '2003-01-23'),
 	( '<B> (I also have real worries .*?\(Mrs. Dunwoody\))</B>', '\\1', 1, '2003-09-16'),
         ( '(<B> Mr. Prisk)( rose&#151; )(</B>)', '\\1\\3\n<I>\\2</I>', 1, '2004-01-06'),
+        ( '(<B>The Advocate-General)(:</B>)', '\\1 for Scotland\\2', 5, '2004-01-13'),
 ]
 
 # 2. <B> Mr. Colin Breed  (South-East Cornwall)</B> (LD):
 # <B> Mr. Hutton: </B>
 
 
-regspeaker = '(?:\d+\. )?<b>[^<]*</b>(?:\s*\((?:con|lab|ld)\))?\s*:?(?i)'
-respeakervals = re.compile('(?:(\d+)\. )?<b>([^:<(]*?):?\s*(?:\((.*?)\))?\s*:?\s*</b>(?:\s*\((con|lab|ld)\))?(?i)')
+regspeaker = '(?:\d+\. )?<b>[^<]*</b>(?:\s*\((?:con|lab|ld|snp)\))?\s*:?(?i)'
+respeakervals = re.compile('(?:(\d+)\. )?<b>([^:<(]*?):?\s*(?:\((.*?)\))?\s*:?\s*</b>(?:\s*\((con|lab|ld|snp)\))?(?i)')
 
 # <B>Division No. 322</B>
 redivno = re.compile('<b>division no\. \d+</b>$(?i)')

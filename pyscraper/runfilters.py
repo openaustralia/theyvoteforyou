@@ -47,6 +47,8 @@ def RunFiltersDir(filterfunction, dname, datefrom, dateto, deleteoutput):
 	fdirin.reverse()
 	for fin in fdirin:
 		jfin = os.path.join(pwcmdirin, fin)
+                if not re.search('\.html$', fin): # avoid vim swap files etc.
+                        continue
 
 		# extract the date from the file name
 		sdate = re.search('\d{4}-\d{2}-\d{2}', fin).group(0)
