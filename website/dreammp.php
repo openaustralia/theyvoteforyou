@@ -1,5 +1,5 @@
 <?php 
-    # $Id: dreammp.php,v 1.1 2004/02/10 00:18:32 frabcus Exp $
+    # $Id: dreammp.php,v 1.2 2004/02/11 00:07:47 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -28,7 +28,7 @@
     $real_name = $row[4];
     $email = preg_replace("/(.+)@(.+)/", "email: $2", $row[5]);
 
-    $title = "'" . html_scrub($name) . "' - Roll Your Own MP";
+    $title = "'" . html_scrub($name) . "' - Dream MP";
     include "header.inc";
 
     print '<p><a href="#divisions">Divisions Attended</a>';
@@ -96,9 +96,7 @@
     $query = "select first_name, last_name, title, constituency,
         party, pw_mp.mp_id as mp_id,
         entered_reason, left_reason, entered_house, left_house from pw_mp ";
-    $query .= " where entered_house <= '" .
-        parliament_date_to($parliament) . "' and entered_house >= '".
-        parliament_date_from($parliament) . "' ";
+    $query .= " where " . parliament_query_range($parliament);
     $query .= "order by rand()";
 
 	$db->query($query);

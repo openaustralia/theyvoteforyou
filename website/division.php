@@ -4,7 +4,7 @@
         include "cache-begin.inc"; 
 ?>
 <?php
-# $Id: division.php,v 1.27 2004/02/10 23:22:33 frabcus Exp $
+# $Id: division.php,v 1.28 2004/02/11 00:07:47 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -60,7 +60,7 @@
 #	print ' | ';
 #	print '<a href="#similar">Similar Divisions</a>'; 
     
-    # Roll your own MP feature
+    # Dream MP feature
     function vote_value($value, $curr)
     {
         $ret = "value=\"" . html_scrub($value) . "\" ";
@@ -76,7 +76,7 @@
         $submit=mysql_escape_string($_POST["submit"]);
         
         print "<div class=\"tablerollie\">";
-        print "<span class=\"ptitle\">Roll Your Own MP</span>";
+        print "<span class=\"ptitle\">Dream MP</span>";
 
         $query = "select rollie_id, name, description from 
             pw_dyn_rolliemp where user_id = '" . user_getid() . "'";
@@ -169,7 +169,7 @@
     else
     {
 /*       
-        print "<p>Have a strong view on this division?  <a href=\"account/adddream.php\">Roll your
+        print "<p>Have a strong view on this division?  <a href=\"account/adddream.php\">Create your
             own dream MP</a>, and have them vote how you would like them to have voted.  Essential
             for any campaigning organisation, parliamentary candidate, or just for fun.";
         print "<p>Already have a dream MP?  <a href=\"account/settings.php\">Login here</a>";

@@ -1,7 +1,7 @@
 <?php $cache_postfix = rand(0, 10); include "cache-begin.inc"; ?>
 
 <?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
-# $Id: index.php,v 1.23 2004/01/28 19:31:19 frabcus Exp $
+# $Id: index.php,v 1.24 2004/02/11 00:07:47 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -50,35 +50,14 @@ Enter your postcode, MP name or a topic:
 
 </td></tr></table>
 
-<h2>Interesting Divisions <a href="divisions.php?sort=rebellions"
-title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
-<p>Selected at random from divisions with more than 10 rebellions.
-
-<?php
-    $db->query("$divisions_query_start and rebellions > 10 and
-        pw_division.division_id = pw_cache_divinfo.division_id order by
-        rand() limit 5"); 
-
-    print "<table class=\"votes\">\n";
-    print "<tr class=\"headings\">\n";
-    $prettyrow = 0;
-    while ($row = $db->fetch_row())
-    {
-        $prettyrow = pretty_row_start($prettyrow);
-        print "<td>$row[2]</td> 
-               <td><a href=\"division.php?date=" . urlencode($row[2]) . "&number=" . urlencode($row[1]) . "\">$row[3]</a></td> 
-               <td>$row[5] rebels</td>";
-        print "</tr>\n";
-    }
-    print "</table>\n";
-
-?>
+<table class="layout"><tr><td>
 
 <h2>Top Rebels <a href="mps.php?sort=rebellions" title="Show all MPs ordered by rebellions">(more...)</a></h2>
 <table class="mps">
 <?php
-    $db->query("$mps_query_start order by round(rebellions/votes_attended,10) desc, last_name,
-        first_name, constituency, party limit 5");
+    $db->query("$mps_query_start and " . parliament_query_range($parliament) . "
+        order by round(rebellions/votes_attended,10) desc, last_name,
+        first_name, constituency, party limit 3");
 
     $c = 0;
     $prettyrow = 0;
@@ -97,11 +76,14 @@ title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
 ?>
 </table>
 
+</td><td>
+
 <h2>Best Attendance <a href="mps.php?sort=attendance" title="Show all MPs ordered by attendance">(more...)</a></h2>
 <table class="mps">
 <?
-    $db->query("$mps_query_start order by round(votes_attended/votes_possible,10) desc, last_name,
-        first_name, constituency, party limit 5");
+    $db->query("$mps_query_start and " . parliament_query_range($parliament) . "
+        order by round(votes_attended/votes_possible,10) desc, last_name,
+        first_name, constituency, party limit 3");
 
     $c = 0;
     $prettyrow = 0;
@@ -119,6 +101,35 @@ title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
     }
     print "</table>\n";
 ?>
+
+</td></tr><td colspan=2>
+
+<h2>Interesting Divisions <a href="divisions.php?sort=rebellions"
+title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
+<p>Selected at random from divisions with more than 10 rebellions.
+
+<?php
+    $db->query("$divisions_query_start and " . parliament_query_range_div($parliament) . "
+        and rebellions > 10 and
+        pw_division.division_id = pw_cache_divinfo.division_id order by
+        rand() limit 5"); 
+
+    print "<table class=\"votes\">\n";
+    print "<tr class=\"headings\">\n";
+    $prettyrow = 0;
+    while ($row = $db->fetch_row())
+    {
+        $prettyrow = pretty_row_start($prettyrow);
+        print "<td>$row[2]</td> 
+               <td><a href=\"division.php?date=" . urlencode($row[2]) . "&number=" . urlencode($row[1]) . "\">$row[3]</a></td> 
+               <td>$row[5] rebels</td>";
+        print "</tr>\n";
+    }
+    print "</table>\n";
+
+?>
+
+</td></tr></table>
 
 <?php include "footer.inc" ?>
 <?php include "cache-end.inc"; ?>

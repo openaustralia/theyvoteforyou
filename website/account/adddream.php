@@ -1,6 +1,6 @@
 <?  
 
-# $Id: adddream.php,v 1.1 2004/02/10 00:18:32 frabcus Exp $
+# $Id: adddream.php,v 1.2 2004/02/11 00:07:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -56,7 +56,7 @@ if (user_isloggedin()) # User logged in, show settings screen
         }
     }
 
-    $title = "Roll Your Own Dream MP"; 
+    $title = "Create a New Dream MP"; 
     include "../header.inc";
 
     if ($feedback && (!$just_logged_in)) {
@@ -131,7 +131,7 @@ if (user_isloggedin()) # User logged in, show settings screen
         <p><INPUT TYPE="checkbox" NAME="confirmprivacy">Confirm you have read the
         above privacy notes, and realise in particular that by submitting this
         form you will make your email address and name public.
-        <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Roll Your Own MP">
+        <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Create Dream MP">
         </FORM>
     <?php
     }

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: parliaments.inc,v 1.8 2003/12/22 01:54:21 frabcus Exp $
+# $Id: parliaments.inc,v 1.9 2004/02/11 00:07:47 frabcus Exp $
 # This data is duplicated in scraper/parliaments.pm
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -61,6 +61,20 @@ function parliament_date_to($id)
 {
     global $parliaments;
     return $parliaments[$id]['to'];
+}
+
+function parliament_query_range($id)
+{
+    return " entered_house <= '" .
+        parliament_date_to($id) . "' and entered_house >= '".
+        parliament_date_from($id) . "' ";
+}
+
+function parliament_query_range_div($id)
+{
+    return " division_date <= '" .
+        parliament_date_to($id) . "' and division_date >= '".
+        parliament_date_from($id) . "' ";
 }
 
 
