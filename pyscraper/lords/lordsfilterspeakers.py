@@ -75,9 +75,21 @@ class LordsList(xml.sax.handler.ContentHandler):
 		lmatches = self.lordnames.get(lname, [])
 
 		res = [ ]
+		dres = [ ]
 		for lm in lmatches:
-			if (lm["title"] == ltitle) and (lm["lordname"] == llordname) and (lm["lordofname"] == llordofname) and (lm["fromdate"] <= stampurl.sdate):
-				res.append(lm)
+			if (lm["title"] == ltitle) and (lm["lordname"] == llordname) and (lm["lordofname"] == llordofname):
+				if (lm["fromdate"] <= stampurl.sdate):
+					res.append(lm)
+				else:
+					dres.append(lm)
+
+		# case of date range killing off an otherwise match
+		# (possibly a bishop changes, and keeps same location)
+		# need to include date ranges
+		if (len(res) == 0) and (len(dres) == 1):
+			print "removing date matching"
+			print "%s [%s] [of %s] [from %s]" % (lm["title"], lm["lordname"], lm["lordofname"], lm["fromdate"])
+			res = dres
 
 		if len(res) != 1:
 			print (ltitle, llordname, llordofname, len(res))
@@ -90,7 +102,7 @@ class LordsList(xml.sax.handler.ContentHandler):
 
 
 	def MatchRevName(self, fss, stampurl):
-		lfn = re.match('(.*?)(?: of (.*?))?, (.*?\.)$', fss)
+		lfn = re.match('(.*?)(?: of (.*?))?, ((?:L|B|Abp|Bp|V|E|D|M|C|Ly)\.)$', fss)
 		if not lfn:
 			print fss
 			raise ContextException("No match of format", stamp=stampurl, fragment=fss)

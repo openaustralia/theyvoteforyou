@@ -8,6 +8,8 @@ import string
 import mx.DateTime
 
 from miscfuncs import ApplyFixSubstitutions
+from contextexception import ContextException
+from splitheadingsspeakers import StampUrl
 
 # this filter converts column number tags of form:
 #     <B>9 Dec 2003 : Column 893</B>
@@ -20,6 +22,10 @@ fixsubs = 	[
 # to insert a break which is otherwise not detectable
 ('<a name="column_15"></a>', '<a name="wms"></a>\\s', 1, '2004-01-12'),
 ('<a name="column_5"></a>', '<a name="wms"></a>\\s', 1, '2004-01-06'),
+('(<a name="column_)=(\d+"></a>)', '\\1\\2', 21, '2003-06-19'),
+('(Column )=(\d+)', '\\1\\2', 21, '2003-06-19'),
+
+#('column_CWH', 'column_GC', 57, '2002-12-18'),
 
 		]
 
@@ -64,6 +70,7 @@ def FilterLordsColtime(fout, text, sdate):
 	colnum = -1
 	time = ''
 
+	stampurl = StampUrl(sdate)
 	for fss in recomb.split(text):
 
 		# column number type
@@ -115,6 +122,7 @@ def FilterLordsColtime(fout, text, sdate):
 		if anameg:
 			aname = anameg.group(1)
 			fout.write('<stamp aname="%s"/>' % aname)
+			stampurl.aname = aname
 			continue
 
 		# nothing detected
@@ -127,7 +135,7 @@ def FilterLordsColtime(fout, text, sdate):
 			lregcolumnum6 = '<p>\s*</ul>\s*<a name="column_\d+"></a>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\s*<ul><font size=3>(?i)'
 			print re.findall(lregcolumnum6, fss)
 			#print fss
-			raise Exception, ' marginal coltime detection case '
+			raise ContextException(' marginal coltime detection case ', stamp=stampurl, fragment=fss)
 		fout.write(fss)
 
 
@@ -155,7 +163,7 @@ def SplitLordsText(text, sdate):
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
 	res = [ '', '', '', '' ]
 
-	wagc = re.search('<a name="column_GC\d+"></a>', text)
+	wagc = re.search('<a name="column_(?:GC|CWH)\d+"></a>', text)
 	wams = re.search('<a name="(?:wms|column_WS\d+)"></a>', text)
 	wama = re.search('<a name="(?:column_WA\d+|[\dw]*_writ0)"></a>', text)
 
@@ -204,12 +212,15 @@ def SplitLordsText(text, sdate):
 		res[3] = text[msend:]
 
 	# check the wrong column numbering or wrong titles aren't found in the wrong place
-	assert not re.search('<a name="column_\D+\d+">', res[0])
-	assert re.search('House of Lords\s*(?:<FONT SIZE=3>)?</center>', res[0])
-	assert re.search('(?:<ul><ul>|</a>)(?:Parliament was prorogued|House adjourned )(?i)', res[0])
+	chns = re.search('<a name="column_\D+\d+">', res[0])
+	if chns:
+		print chns.group(0)
+		raise ContextException("wrong column numbering in main debate", fragment=chns.group(0))
+	#assert re.search('House of Lords\s*(?:<FONT SIZE=3>)?</center>', res[0])
+	assert re.search('(?:<ul><ul>|</a>)\s*(?:Parliament was prorogued|House adjourned )(?i)', res[0])
 
 	if res[1]:
-		assert not re.search('<a name="column_(?!GC)\D+\d+">', res[1])
+		assert not re.search('<a name="column_(?!(?:GC|CWH))\D+\d+">', res[1])
 		assert re.search('<center>Official Report of the (?:Northern Ireland Orders )?Grand Committee', res[1])
 
 	if res[2]:

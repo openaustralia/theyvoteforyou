@@ -181,24 +181,30 @@ def StraightenHTMLrecurse(stex, stampurl):
 
                 # junk chars sometimes get in
 		elif sres[i] == '\x01':
-                        sres[i] = ''
+			sres[i] = ''
 		elif sres[i] == '\x0e':
-                        sres[i] = ' '
+			sres[i] = ' '
 		elif sres[i] == '\x14':
-                        sres[i] = ' '
+			sres[i] = ' '
 
-                elif sres[i] == '\xa3':
-                        sres[i] = '&pound;'
+		elif sres[i] == '\xa3':
+			sres[i] = '&pound;'
 
 		elif sres[i] == '<i>':
 			sres[i] = '' # 'OPEN-i-TAG-OUT-OF-PLACE'
 		elif sres[i] == '</i>':
 			sres[i] = '' # 'CLOSE-i-TAG-OUT-OF-PLACE'
 
-                elif re.match('<xref locref=\d+>', sres[i]): # what is this? wrans 2003-05-13 has one
-                        sres[i] = ''
+		elif re.match('<xref locref=\d+>', sres[i]): # what is this? wrans 2003-05-13 has one
+			sres[i] = ''
+
+		# allow brs through
+		elif re.match('<br>', sres[i]):
+			pass
 
 		elif sres[i][0] == '<' or sres[i][0] == '>':
+			print sres[i][0]
+			print stex
 			raise ContextException('tag %s tag out of place in %s' % (sres[i], stex), stamp=stampurl, fragment=stex)
 
 	return sres
@@ -315,7 +321,7 @@ def SplitParaSpace(text, stampurl):
 				print text
 				print spclist
 				print pstring
-				raise Exception, ' font only in paragraph break '
+				raise ContextException('font only in paragraph break', stamp=stampurl, fragment=pstring)
 		bprevparaalone = bthisparaalone
 
 

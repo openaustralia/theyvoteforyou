@@ -65,7 +65,7 @@ def StripLordsDebateHeadings(headspeak, sdate):
 		return (None, None)
 
 	# The House met at eleven of the clock (Prayers having been read earlier at the Judicial Sitting by the Lord Bishop of St Albans): The CHAIRMAN OF COMMITTEES on the Woolsack.
-	gstarttime = re.match('the house met at (.*)(?i)', headspeak[ih][0])
+	gstarttime = re.match('(?:reassembling.*?recess, )?the house met at (.*)(?i)', headspeak[ih][0])
 	if (not gstarttime) or headspeak[ih][2]:
 		print headspeak[ih]
 		raise Exception, 'non-conforming "%s" heading ' % hmatch
@@ -118,7 +118,7 @@ def SubsPWtextset(stext):
 
 #	<p>On Question, Whether the said amendment (No. 2) shall be agreed to?</p>
 #reqput = re.compile('%s|%s|%s|%s|%s(?i)' % (regqput, regqputt, regitbe, regitbepq1, regitbepq))
-resaidamend =  re.compile("<p[^>]*>On Question, Whether (?:the said amendment|the amendment|the House|Clause|Amendment|the Bill|the said Motion)")
+resaidamend =  re.compile("<p[^>]*>On Question, (?:[Ww]hether|That) (?:the said amendment|the amendment|the House|Clause|Amendment|the Bill|the said [Mm]otion|Lord|the manuscript|the Motion)")
 
 #	<p>On Question, Whether the said amendment (No. 2) shall be agreed to?</p>
 #	<p>Their Lordships divided: Contents, 133; Not-Contents, 118.</p>
@@ -145,7 +145,7 @@ def GrabLordDivisionProced(qbp, qbd):
 	iskim = 1
 	if not resaidamend.match(qbp.stext[-2]):
 		print qbp.stext[-2]
-		raise Exception, "no on said amendment"
+		raise ContextException("no on said amendment", stamp=qbp.sstampurl, fragment=qbp.stext[-2])
 	iskim = 2
 
 	# copy the two lines into a non-speaking paragraph.
@@ -169,11 +169,11 @@ def FilterLordsSpeech(qb):
 		if re.search("<p>moved (?i)", qb.stext[0]):
 			print qb.speaker
 			print qb.stext[0]
-			assert False
+			raise ContextException("has moved amendment after colon", stamp=qb.sstampurl)
 		return None
 
 	# just a question
-	if re.match("<p>asked Her Majesty's Government|<p>rose to ask|<p>rose to call|<p>asked the|<p>&mdash;Took the Oath", qb.stext[0]):
+	if re.match("<p>asked Her Majesty's Government|<p>rose to (?:ask|call|draw attention|consider)|<p>asked the|<p>&mdash;Took the Oath", qb.stext[0]):
 		return None
 
 	# identify a moved amendment
