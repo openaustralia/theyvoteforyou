@@ -35,6 +35,8 @@ fixsubs = 	[
         ( '(</FONT></TD><TD><FONT SIZE=-1>"Section)', '<TR><TD>\\1', 1, '2003-05-20'),
 
         ( '(<B>)( 8. )(Mr. Alistair Carmichael)', '\\2\\1\\3', 1, '2003-01-07'),
+
+        ( '<B>( As a number of Members have said, .*?)</B>', '\\1', 1, '2003-06-20'),
 ]
 
 
