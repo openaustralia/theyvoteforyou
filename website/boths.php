@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: boths.php,v 1.7 2005/01/15 20:38:10 frabcus Exp $
+    # $Id: boths.php,v 1.8 2005/02/24 21:22:11 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -66,7 +66,7 @@ headings to sort it by MP name or by division date.
             if ($sort == "date")
                 print "<h2>" . parliament_name($thisparl) . " Parliament</h2>\n";
 
-            print "<table class=\"mix\"><tr class=\"headings\">\n";
+            print "<table class=\"mps\"><tr class=\"headings\">\n";
             print "<tr class=\"headings\"><td>No.</td>";
             head_cell($url, $sort, "Date", "date", "Sort by division date");
             print "<td>Division</td>";

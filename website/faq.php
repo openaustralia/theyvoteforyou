@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.34 2005/02/24 20:08:29 frabcus Exp $
+# $Id: faq.php,v 1.35 2005/02/24 21:22:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -11,24 +11,33 @@ $title = "Frequently Asked Questions"; include "header.inc"
 <a href="http://www.newstatesman.com/newmedia">
 <img align="right" src="images/nmawinnerbutton.gif" border="0"></a>
 
+<p>
 <ul>
 <li><a href="#whatis">What is the Public Whip?</a> <br/>
 <li><a href="#jargon">First, can you explain "division" and other political jargon?</a> <br/>
 <li><a href="#how">How does the Public Whip work?</a> <br/>
 <li><a href="#timeperiod">What time period does it cover?</a> <br/>
 <li><a href="#wrans">Where have the Written Answers gone?</a><br/>
+
+<br>
 <li><a href="#clarify">What do the "rebellion" and "attendance" figures mean exactly?</a> <br/>
 <li><a href="#freevotes">Why do you incorrectly say people are rebels in free votes?</a> <br/>
-<li><a href="#rss">Are there any RSS syndication feeds?</a> <br/>
-<li><a href="#spreadsheet">Where is the data in spreadsheet file format or in XML?</a> <br/>
+<li><a href="#abstentions">How do you estimate abstentions?</a> <br/>
+
+<br>
 <li><a href="#legal">Legal question, what can I use this information for?</a> <br/>
 <li><a href="#playwith">Can I play with the software?</a> <br/>
 <li><a href="#whyfree">Why are you giving everything away for free?</a> <br/>
+<li><a href="#rss">Are there any RSS syndication feeds?</a> <br/>
+<li><a href="#spreadsheet">Where is the data in spreadsheet file format or in XML?</a> <br/>
 <li><a href="#patents">What is the fuss about software patents?</a> <br/>
+
+<br>
 <li><a href="#organisation">What organisation is behind the Public Whip?</a> <br/>
 <li><a href="#keepup">How can I keep up with what you are doing?</a> <br/>
 <li><a href="#email">Where can I email?</a> <br/>
 </ul>
+</p>
 
 <h2><a name="whatis">What is the Public Whip?</a></h2>
 <p>The Public Whip is a project to watch Members of the United Kingdom
@@ -138,20 +147,20 @@ and at the same time not tell us.  There is no contradiction in admitting the wh
 exists and recording it officially&mdash;after all some whips <a href="http://www.cabinet-office.gov.uk/civilservice/min-mp-pay/min_sal_tables.htm">are paid a salary by the taxpayer</a> so
 there is a precedent for admitting they exist.
 
-<h2><a name="rss">Are there any RSS syndication feeds?</a></h2>
+<h2><a name="abstentions">How do you estimate abstentions?</a></h2>
 
-<p> First an explanation.  RSS is a way to let you easily read news from lots
-of different sources.  You need a special program called a newsreader to do
-this.  On the BBC website, there's a <a href="http://news.bbc.co.uk/2/hi/help/3223484.stm">full
-desription</a> of how to do it.  We provide the following RSS feeds:
+<p>It isn't possible for an MP to abstain in the UK parliament.  They can
+however not vote at all.  We try to detect massive low turnouts on the division
+page by estimating abstentions for each party.
 
-<p> 
-<a href="/feeds/interestingdivisions.xml">interestingdivisions.xml</a> &mdash; Find out every time there are more than 10 "rebellions" in a division.
-<br><a href="/feeds/alldivisions.xml">alldivisions.xml</a> &mdash; Keep on top of every division in Parliament, after it happens.
-
-<h2><a name="spreadsheet">Where is the data in spreadsheet file format or in XML?</a></h2>
-
-<p> Take a look at our <a href="project/data.php">Raw Data</a> page.
+<p>They are calculated from the expected turnout, which is statistical based on
+the average proportionate turnout for that party in all divisions. A negative
+abstention indicates that more members of that party than expected voted; this
+is always relative, so it could be that another party has failed to turn out
+<i>en masse</i>.</p>
+ 
+<p>Sometimes MPs also indicate abstention by <a href="boths.php">voting both
+aye and no</a>.  
 
 <h2><a name="legal">Legal question, what can I use this information for?</a></h2>
 
@@ -195,6 +204,21 @@ would take away the notion of the public having access to it.  All that
 would happen is that the people who are already organized influentially
 would retain all the power but would have slightly better software
 (which they probably have already). 
+
+<h2><a name="rss">Are there any RSS syndication feeds?</a></h2>
+
+<p> First an explanation.  RSS is a way to let you easily read news from lots
+of different sources.  You need a special program called a newsreader to do
+this.  On the BBC website, there's a <a href="http://news.bbc.co.uk/2/hi/help/3223484.stm">full
+desription</a> of how to do it.  We provide the following RSS feeds:
+
+<p> 
+<a href="/feeds/interestingdivisions.xml">interestingdivisions.xml</a> &mdash; Find out every time there are more than 10 "rebellions" in a division.
+<br><a href="/feeds/alldivisions.xml">alldivisions.xml</a> &mdash; Keep on top of every division in Parliament, after it happens.
+
+<h2><a name="spreadsheet">Where is the data in spreadsheet file format or in XML?</a></h2>
+
+<p> Take a look at our <a href="project/data.php">Raw Data</a> page.
 
 <h2><a name="patents">What is the fuss about software patents?</a></h2>
 <p>A new European directive on software patents threatens the existence

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.7 2005/01/15 20:38:11 frabcus Exp $
+# $Id: divisions.php,v 1.8 2005/02/24 21:22:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -50,9 +50,9 @@ the order of the table by selecting the headings.
     }
 
     if ($parliament == "2001")
-        print "<p><a href=\"divisions.php?parliament=1997&sort=" .  html_scrub($sort) . "\">View divisions for 1997 parliament</a>";
+        print "<p><a href=\"divisions.php?parliament=1997&sort=" .  html_scrub($sort) . "\">View divisions for 1997-2001 parliament</a>";
     if ($parliament == "1997")
-        print "<p><a href=\"divisions.php?parliament=2001&sort=" .  html_scrub($sort) . "\">View divisions for 2001 parliament</a>";
+        print "<p><a href=\"divisions.php?parliament=2001&sort=" .  html_scrub($sort) . "\">View divisions for 2001-2005 parliament</a>";
  
     $db->query("$divisions_query_start and division_date <= '" .
         parliament_date_to($parliament) . "' and division_date >= '" .

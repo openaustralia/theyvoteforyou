@@ -2,7 +2,7 @@
 
 $cache_params = rand(0, 10); include "cache-begin.inc";
 
-# $Id: index.php,v 1.37 2005/02/22 13:48:03 frabcus Exp $
+# $Id: index.php,v 1.38 2005/02/24 21:22:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -21,6 +21,7 @@ For more information about the project, <a href="faq.php">read the FAQ</a>.
     include "db.inc";
     include "render.inc";
     include "parliaments.inc";
+    include "dream.inc";
     $db = new DB(); 
 
     $random_mp = searchtip_random_mp($db);
@@ -69,18 +70,12 @@ An at most monthly briefing.
 href="account/adddream.php">create</a> an MP who votes how you want</span>
 <br>Some examples:
 <?php
-    $query = "select name, pw_dyn_rolliemp.rollie_id, votes_count as count,
-        round(100 * edited_motions_count / votes_count, 0) as motions_percent
-        from pw_dyn_rolliemp, pw_cache_dreaminfo where 
-            pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id and votes_count > 0
-            order by motions_percent desc, edited_motions_count desc, votes_count desc
-            limit 5";
-    $db->query($query);
+    $db->query(get_top_dream_query(5));
     $dreams = array();
-    while ($row = $db->fetch_row())
+    while ($row = $db->fetch_row_assoc())
     { 
-        $dmp_name = $row[0];
-        $dreamid = $row[1];
+        $dmp_name = $row['name'];
+        $dreamid = $row['rollie_id'];
         array_push($dreams, "<a href=\"dreammp.php?id=$dreamid\">" .  $dmp_name . "</a>");
     }
     print join(", ", $dreams);

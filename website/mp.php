@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.53 2005/02/21 19:37:44 goatchurch Exp $
+    # $Id: mp.php,v 1.54 2005/02/24 21:22:17 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -16,7 +16,7 @@
 	include "decodeids.inc";
 	include "tablemake.inc";
 	include "tableoth.inc";
-
+    include "dream.inc";
 
 	# decode the incoming line, getting all the alternatives;
 	# mps take priority, then dreammps (the whips)
@@ -171,7 +171,8 @@
     {
 		if ($voter2type == "person")
 		{
-	        print "You can also see <a href=\"$this_anchor#divisions\">
+            print "<h2><a name=\"divisions\">Votes compared to ".$voter2attr['mpname']." MP</a></h2>";
+	        print "<p>You can also see <a href=\"$this_anchor#divisions\">
 				   only the votes".$voter1attr['mpname']." MP rebelled in</a>. ";
 		}
 	    else if ($voter2type == "dreammp")
@@ -254,10 +255,13 @@
         </tr>";
 
     $prettyrow = 0;
-	$prettyrow = pretty_row_start($prettyrow);
-    print_selected_dream($db, $voter1attr["mpprop"], 219);
-	$prettyrow = pretty_row_start($prettyrow);
-    print_selected_dream($db, $voter1attr["mpprop"], 258);
+    $db->query(get_top_dream_query(8));
+    $dreams = array();
+    while ($row = $db->fetch_row_assoc()) { 
+        $dreamid = $row['rollie_id'];
+        $prettyrow = pretty_row_start($prettyrow);
+        print_selected_dream($db, $voter1attr["mpprop"], $dreamid);
+    }
     print "</table>\n";
 ?>
 

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.11 2005/01/15 20:38:11 frabcus Exp $
+    # $Id: mps.php,v 1.12 2005/02/24 21:22:17 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -87,9 +87,9 @@ explanation</a> of these terms, as they may not have the meanings
 you expect. You can change the order of the table by selecting the headings.
 <?php
     if ($parliament != "1997" or $parlsession != "")
-        print "<p><a href=\"mps.php?parliament=1997&sort=" . html_scrub($sort) . "\">View MPs for 1997 parliament</a>";
+        print "<p><a href=\"mps.php?parliament=1997&sort=" . html_scrub($sort) . "\">View MPs for 1997-2001 parliament</a>";
     if ($parliament != "2001" or $parlsession != "")
-        print "<p><a href=\"mps.php?parliament=2001&sort=" .  html_scrub($sort) . "\">View MPs for 2001 parliament</a>";
+        print "<p><a href=\"mps.php?parliament=2001&sort=" .  html_scrub($sort) . "\">View MPs for 2001-2005 parliament</a>";
     
     print "<table class=\"mps\">\n";
 

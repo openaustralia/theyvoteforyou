@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.1 2005/02/21 13:12:22 goatchurch Exp $
+    # $Id: tableoth.inc,v 1.2 2005/02/24 21:22:17 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -135,7 +135,7 @@
                 $distance = "1 (always vote different)";
 
             print "<td><a href=\"mp.php?$friendanchor&$friendcomp&showall=yes\">".
-				$row['title']." $friendmpname</a></td>";
+				$row['title']." $friendmpname</a> (compare)</td>";
 			print "<td>".$row['constituency']."</td>";
 			print "<td>".pretty_party($row['party'], $row['entered_reason'], $row['left_reason']) . "</td>";
 			print "<td>$distance</td>";

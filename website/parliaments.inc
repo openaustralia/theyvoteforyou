@@ -1,6 +1,6 @@
 <?php
 
-# $Id: parliaments.inc,v 1.11 2005/01/15 20:38:11 frabcus Exp $
+# $Id: parliaments.inc,v 1.12 2005/02/24 21:22:17 frabcus Exp $
 # This data is duplicated in loader/PublicWhip/Parliaments.pm
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -13,8 +13,8 @@
 # give the scond an id with the month in as well.  The name can change
 # (as it is not in URLs), so can be any clarifying pretty description.
 $parliaments = array(
-    '2001' => array('from' => '2001-06-07', 'to' => '9999-12-31', 'name' => '2001'),
-    '1997' => array('from' => '1997-05-01', 'to' => '2001-05-14', 'name' => '1997'),
+    '2001' => array('from' => '2001-06-07', 'to' => '9999-12-31', 'name' => '2001-2005'),
+    '1997' => array('from' => '1997-05-01', 'to' => '2001-05-14', 'name' => '1997-2001'),
 );
 $parliament = db_scrub($_GET["parliament"]);
 if ($parliament == "")
