@@ -1,8 +1,0 @@
-#! /bin/bash
-
-USER=francis@sphinx.mythic-beasts.com
-DIR=/home/francis/pwdata/
-
-scp build/remotescripts/* $USER:/home/francis/bin
-rsync --delete --exclude wrans-recent-popular.txt --exclude cmpages --exclude "scrapedxml/debates" -T /tmp -az -e "ssh" $DIR $USER:$DIR
-
