@@ -3,7 +3,9 @@ Wrans
 
 Index text in titles
 Check stemming
-POUND sign
+
+Entities - sort out set_entity_encoding on sphinx
+Decide whether you should just use numbers for entities
 
 Some kind of "most inquisitive" on front page
 

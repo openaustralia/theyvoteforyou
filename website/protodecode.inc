@@ -77,10 +77,40 @@ function FetchWrans($wrid)
 
 function WrapResult($result)
 {
-	return "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" . 
-			  "<publicwhip>\n" . 
-			  $result .
-			  "</publicwhip>\n";
+	return '<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE publicwhip
+[
+<!ENTITY ndash   "&#8211;">
+<!ENTITY mdash   "&#8212;">
+
+<!ENTITY egrave "&#232;" >
+<!ENTITY eacute "&#233;" >
+<!ENTITY ecirc  "&#234;" >
+<!ENTITY euml   "&#235;" >
+<!ENTITY agrave "&#224;" >
+<!ENTITY aacute "&#225;" >
+<!ENTITY acirc  "&#226;" >
+<!ENTITY ocirc  "&#244;" >
+<!ENTITY ouml   "&#246;" >
+<!ENTITY Ouml   "&#214;" >
+<!ENTITY ccedil "&#231;" >
+<!ENTITY uuml   "&#252;" >
+<!ENTITY ntilde "&#241;" >
+
+<!ENTITY plusmn "&#177;" >
+<!ENTITY pound  "&#163;" >
+<!ENTITY middot "&#183;" >
+<!ENTITY deg    "&#176;" >
+
+<!ENTITY frac14 "&#188;" >
+<!ENTITY frac12 "&#189;" >
+<!ENTITY frac34 "&#190;" >
+
+]>
+
+<publicwhip>\n' . 
+$result .
+"</publicwhip>\n";
 }
 
 function DecodeWord($ww)

@@ -290,7 +290,7 @@ def WriteXMLHeader(fout):
 	# http://www.w3.org/TR/REC-html40/sgml/entities.html
 	fout.write('''
 
-<!DOCTYPE publicwhip PUBLIC "http://publicwhip.org.uk" "none.dtd"
+<!DOCTYPE publicwhip 
 [
 
 <!ENTITY ndash   "&#8211;">
