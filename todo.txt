@@ -10,6 +10,7 @@ Multi-parliament:
     News
     MP page - print parliament in vote lists
             - possible friends broken
+    boths.php
 
 Facility to register and define voting subset for a particular issue
 - info to help select which votes and which way should have voted
@@ -56,10 +57,11 @@ off-by-one errors for their changed party
 
 Check SourceForge backup
 
-Improve motion text extraction
+Improve motion text / title extraction
     division.php?date=2003-02-03&number=74 - and div 73, detail missing
     division.php?date=2003-09-16&number=313 - too much text [interruption]
     division.php?date=2001-11-26&number=85 - excess interruption
     division.php?date=2002-02-06&number=158 - incomplete
     division.php?date=2003-09-10&number=307 - motion missed completely
+    division.php?date=2001-01-22&number=71 - title is wrong!
 

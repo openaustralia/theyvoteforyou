@@ -2,5 +2,5 @@
 set -e
 
 cat website/news.php | grep h2 | grep "-" | head --lines=1 | perl -pe "s/.* - //; s/ by .*//;" >website/newsdate.inc
-cat website/news.php | grep h2 | grep "-" | perl -pe "s/<h2>/<li class=\"newsheadlines\">/;s/ - .*//;" >website/headlines.inc
+cat website/news.php | grep h2 | grep "-" | perl -pe "s/<h2>/<li class=\"newsheadlines\">/;s/ - .*//;" | head --lines 5 >website/headlines.inc
 
