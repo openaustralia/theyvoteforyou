@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.7 2003/10/07 23:23:46 frabcus Exp $
+# $Id: search.php,v 1.8 2003/10/08 00:45:53 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -12,9 +12,11 @@
     $query = strtoupper(mysql_escape_string(trim($_GET["query"])));
     $title = "Search for '$prettyquery'"; 
     if ($prettyquery == "")
+    {
+        $onload = "givefocus()";
         $title = "Search";
+    }
     include "header.inc";
-
     include "db.inc";
     include "render.inc";
     include "parliaments.inc";
@@ -111,6 +113,7 @@ or <a href="divisions.hphp">all divisions</a>.
 <form class="search" action="search.php" name=pw>
 <input maxLength=256 size=25 name=query value=""> <input type="submit" value="Search" name="button">
 </form>
+
 <?php search_example($db) ?>
 <p class="search"><span class="ptitle">Search Tip 1:</span> You can <a
 href="http://www.locata.co.uk/commons/">find your MP by postcode</a>

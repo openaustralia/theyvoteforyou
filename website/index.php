@@ -1,5 +1,5 @@
-<?  $title = "Counting votes on your behalf"; include "header.inc";
-# $Id: index.php,v 1.11 2003/10/04 13:46:22 frabcus Exp $
+<?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
+# $Id: index.php,v 1.12 2003/10/08 00:45:53 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under

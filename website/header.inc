@@ -2,7 +2,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.10 2003/10/07 23:23:46 frabcus Exp $
+# $Id: header.inc,v 1.11 2003/10/08 00:45:53 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -23,7 +23,7 @@ function givefocus() { if (document.pw) document.pw.query.focus(); }
 </script>
 </head>
 
-<body align="center" onLoad="givefocus()">
+<body align="center" onLoad="<?=$onload?>">
 <center>
 
 <!-- hold the maximum width of the content -->
