@@ -50,6 +50,7 @@
 <chgpageupdates date="2004-11-22" time="16:00"/>
 <chgpageupdates date="2004-11-30" time="10:40"/>
 <chgpageupdates date="2004-12-01" time="11:35"/>
+<chgpageupdates date="2004-12-16" time="10:31"/>
 
 <ministerofficegroup>
 <moffice id="uk.org.publicwhip/moffice/1000" name="Duke of Abercorn" dept="HM Household" position="Lord Steward" fromdate="2000-01-01" todate="9999-12-31" source="newlabministers2003-10-15 chgpages"></moffice>
@@ -167,7 +168,7 @@
 
 <ministerofficegroup>
 <moffice id="uk.org.publicwhip/moffice/57" name="David Blunkett" matchid="uk.org.publicwhip/member/50" dept="Department for Education and Employment" position="Secretary of State" fromdate="1997-05-02" todate="2001-06-08" source="newlabministers2003-10-15"></moffice>
-<moffice id="uk.org.publicwhip/moffice/1017" name="Rt Hon David Blunkett" matchid="uk.org.publicwhip/member/739" dept="Home Office" position="Secretary of State" fromdate="2001-06-08" todate="9999-12-31" source="newlabministers2003-10-15 chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1017" name="Rt Hon David Blunkett" matchid="uk.org.publicwhip/member/739" dept="Home Office" position="Secretary of State" fromdate="2001-06-08" todate="2004-04-16" totime="15:34" source="newlabministers2003-10-15 chgpages"></moffice>
 </ministerofficegroup>
 
 <ministerofficegroup>
@@ -261,7 +262,8 @@
 <moffice id="uk.org.publicwhip/moffice/67" name="Charles Clarke" matchid="uk.org.publicwhip/member/113" dept="Department for Education and Employment" position="Parliamentary Under-Secretary" fromdate="1998-07-28" todate="1999-07-28" source="newlabministers2003-10-15"></moffice>
 <moffice id="uk.org.publicwhip/moffice/159" name="Charles Clarke" matchid="uk.org.publicwhip/member/113" dept="Home Office" position="Minister of State" fromdate="1999-07-28" todate="2001-06-11" source="newlabministers2003-10-15"></moffice>
 <moffice id="uk.org.publicwhip/moffice/444" name="Charles Clarke" matchid="uk.org.publicwhip/member/801" dept="No Department" position="Minister without Portfolio" fromdate="2001-06-08" todate="2002-10-24" source="newlabministers2003-10-15"></moffice>
-<moffice id="uk.org.publicwhip/moffice/1026" name="Rt Hon Charles Clarke" matchid="uk.org.publicwhip/member/801" dept="Department for Education and Skills" position="Secretary of State" fromdate="2002-10-25" todate="9999-12-31" source="newlabministers2003-10-15 chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1026" name="Rt Hon Charles Clarke" matchid="uk.org.publicwhip/member/801" dept="Department for Education and Skills" position="Secretary of State" fromdate="2002-10-25" todate="2004-04-16" totime="15:34" source="newlabministers2003-10-15 chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1132" name="Rt Hon Charles Clarke" matchid="uk.org.publicwhip/member/801" dept="Home Office" position="Secretary of State" fromdate="2004-12-16" fromtime="10:31" todate="9999-12-31" source="chgpages"></moffice>
 </ministerofficegroup>
 
 <ministerofficegroup>
@@ -633,7 +635,8 @@
 <ministerofficegroup>
 <moffice id="uk.org.publicwhip/moffice/282" name="Ruth Kelly" matchid="uk.org.publicwhip/member/1014" dept="HM Treasury" position="Economic Secretary" fromdate="2001-06-11" todate="2002-05-29" source="newlabministers2003-10-15"></moffice>
 <moffice id="uk.org.publicwhip/moffice/1061" name="Ms Ruth Kelly" matchid="uk.org.publicwhip/member/1014" dept="HM Treasury" position="Financial Secretary" fromdate="2002-05-29" todate="2004-04-16" totime="15:34" source="newlabministers2003-10-15 chgpages"></moffice>
-<moffice id="uk.org.publicwhip/moffice/1127" name="Ms Ruth Kelly" matchid="uk.org.publicwhip/member/1014" dept="Cabinet Office" position="Minister of State" fromdate="2004-09-10" fromtime="13:53" todate="9999-12-31" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1127" name="Ms Ruth Kelly" matchid="uk.org.publicwhip/member/1014" dept="Cabinet Office" position="Minister of State" fromdate="2004-09-10" fromtime="13:53" todate="2004-09-10" totime="13:53" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1133" name="Rt Hon Ruth Kelly" matchid="uk.org.publicwhip/member/1014" dept="Department for Education and Skills" position="Secretary of State" fromdate="2004-12-16" fromtime="10:31" todate="9999-12-31" source="chgpages"></moffice>
 </ministerofficegroup>
 
 <ministerofficegroup>
@@ -783,7 +786,8 @@
 </ministerofficegroup>
 
 <ministerofficegroup>
-<moffice id="uk.org.publicwhip/moffice/1078" name="Mr David Miliband" matchid="uk.org.publicwhip/member/1113" dept="Department for Education and Skills" position="Minister of State" fromdate="2002-05-29" todate="9999-12-31" source="newlabministers2003-10-15 chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1078" name="Mr David Miliband" matchid="uk.org.publicwhip/member/1113" dept="Department for Education and Skills" position="Minister of State" fromdate="2002-05-29" todate="2004-04-16" totime="15:34" source="newlabministers2003-10-15 chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1134" name="Mr David Miliband" matchid="uk.org.publicwhip/member/1113" dept="Cabinet Office" position="Minister of State" fromdate="2004-12-16" fromtime="10:31" todate="9999-12-31" source="chgpages"></moffice>
 </ministerofficegroup>
 
 <ministerofficegroup>

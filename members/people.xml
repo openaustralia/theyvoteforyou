@@ -358,6 +358,7 @@ Generated exclusively by personsets.py, don't hand edit it just now
     <office id="uk.org.publicwhip/member/113"/>
     <office id="uk.org.publicwhip/member/801"/>
     <office id="uk.org.publicwhip/moffice/1026"/>
+    <office id="uk.org.publicwhip/moffice/1132"/>
     <office id="uk.org.publicwhip/moffice/159"/>
     <office id="uk.org.publicwhip/moffice/444"/>
     <office id="uk.org.publicwhip/moffice/67"/>
@@ -763,6 +764,7 @@ Generated exclusively by personsets.py, don't hand edit it just now
     <office id="uk.org.publicwhip/member/332"/>
     <office id="uk.org.publicwhip/moffice/1061"/>
     <office id="uk.org.publicwhip/moffice/1127"/>
+    <office id="uk.org.publicwhip/moffice/1133"/>
     <office id="uk.org.publicwhip/moffice/282"/>
 </person>
 <person id="uk.org.publicwhip/person/10563" latestname="John Stanley">
@@ -2808,6 +2810,7 @@ Generated exclusively by personsets.py, don't hand edit it just now
 <person id="uk.org.publicwhip/person/11113" latestname="David Miliband">
     <office id="uk.org.publicwhip/member/1113"/>
     <office id="uk.org.publicwhip/moffice/1078"/>
+    <office id="uk.org.publicwhip/moffice/1134"/>
 </person>
 <person id="uk.org.publicwhip/person/10162" latestname="David Davis">
     <office id="uk.org.publicwhip/member/162"/>
