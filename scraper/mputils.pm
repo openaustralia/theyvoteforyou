@@ -1,4 +1,4 @@
-# $Id: mputils.pm,v 1.2 2003/09/29 19:36:28 frabcus Exp $
+# $Id: mputils.pm,v 1.3 2003/10/02 09:42:03 frabcus Exp $
 # Parse names of MPs, search for an MP in the database.  Copes with the
 # various textual varieties you get, such as initials absent or present,
 # name abbreviations, titles/honours present or absent.  Uses a mixture
@@ -19,6 +19,8 @@ use strict;
 #use POSIX;
 #use locale;
 #setlocale(LC_CTYPE, "cy.ISO8859-14") or die "Welsh setlocale failed";
+# This code didn't work everywhere, so we explicitly check for the 
+# letter ô in various regexps below.
 
 sub parse_formal_name
 {
@@ -76,8 +78,10 @@ sub find_mp
     # Special cases for constituencies
     $constituency = "" if (! defined $constituency);
     $constituency =~ s/ W$/ West/;
+    $constituency = "Carmarthen East & Dinefwr" if ($constituency eq "E Carmarthen");
 
     # Special cases for MP name variants
+    # 2001- parliament...
     $firstname = "Nick" if ($firstname eq "Nicholas" && $lastname eq "Brown");
     $firstname = "Geoff" if ($firstname eq "Geoffrey" && $lastname eq "Hoon");
     $firstname = "Jonathan R" if ($firstname eq "Jonathan" && $lastname eq "Shaw");
@@ -93,6 +97,22 @@ sub find_mp
     $firstname = "Bob" if ($firstname eq "Robert" && $lastname eq "Spink");
     $firstname = "Robert" if ($firstname eq "Robert N" && $lastname eq "Wareing");
     $firstname = "Jimmy" if ($firstname eq "James" && $lastname eq "Wray");
+    # 1997-2001 parliament...
+    $firstname = "Bob" if ($firstname eq "Robert" && $lastname eq "Ainsworth");
+    $firstname = "Jeffrey M" if ($firstname eq "Jeffrey" && $lastname eq "Donaldson");
+    $firstname = "Gerry" if ($firstname eq "Gerald" && $lastname eq "Bermingham");
+    $firstname = "John" if ($firstname eq "John M" && $lastname eq "Taylor");
+    $firstname = "Peter" if ($firstname eq "Peter L" && $lastname eq "Pike");
+    $firstname = "Andrew" if ($firstname eq "Andrew F" && $lastname eq "Bennett");
+    $firstname = "Michael" if ($firstname eq "Michael J" && $lastname eq "Foster" && $constituency eq "Worcester");
+    $firstname = "Ray" if ($firstname eq "Raymond" && $lastname eq "Whitney");
+    $firstname = "Stephen" if ($firstname eq "Steve" && $lastname eq "McCabe");
+    $firstname = "Norman" if ($firstname eq "Norman A" && $lastname eq "Godman");
+    $firstname = "Jim" if ($firstname eq "James" && $lastname eq "Wallace");
+    $firstname = "Edward" if ($firstname eq "Eddie" && $lastname eq "O'Hara");
+    $firstname = "Andy" if ($firstname eq "Andrew" && $lastname eq "Reed");
+    $firstname = "Mo" if ($firstname eq "Marjorie" && $lastname eq "Mowlam");
+    $firstname = "Alan" if ($firstname eq "Alan W" && $lastname eq "Williams");
 
     # Our clerks make their first genuine spelling mistakes as far as I can tell...
     # http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030226/debtext/30226-35.htm
@@ -108,10 +128,11 @@ sub find_mp
     # If we find too many, use constituency to discriminate
     if ($hits > 1)
     {
-        #print "Duplicate name discriminating by constituency: $firstname, $lastname, $constituency"
+#        print "Duplicate name discriminating by constituency: $firstname, $lastname, $constituency\n";
         $sth = db::query($dbh, "select mp_id from pw_mp where 
-            first_name = ? and last_name = ? and constituency = ?",
-            $firstname, $lastname, $constituency);
+            first_name = ? and last_name = ? and constituency = ? and entered_house <= ?
+            and left_house >= ?",
+            $firstname, $lastname, $constituency, $date, $date);
         $hits = $sth->rows;
     }
     

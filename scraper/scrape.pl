@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: scrape.pl,v 1.5 2003/09/25 20:29:17 uid37249 Exp $
+# $Id: scrape.pl,v 1.6 2003/10/02 09:42:03 frabcus Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -173,7 +173,7 @@ sub crawl_recent_sessions
     my $start_url = "http://www.publications.parliament.uk/pa/cm/cmhansrd.htm";
     $agent->get($start_url)->is_success() or die "Failed to read URL $start_url";
     print "Scanning recent sessions...\n";
-    finddays::recent_sessions($dbh, $agent);
+    finddays::recent_sessions($dbh, $agent, "cmse0001", "cmse9798"); # inclusive
 }
 
 sub update_calc

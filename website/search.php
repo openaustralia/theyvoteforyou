@@ -1,5 +1,5 @@
 <?php $title = "Search"; include "header.inc" 
-# $Id: search.php,v 1.2 2003/09/18 21:09:24 frabcus Exp $
+# $Id: search.php,v 1.3 2003/10/02 09:42:03 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -10,6 +10,7 @@
 <?php
     include "db.inc";
     include "render.inc";
+    include "parliaments.inc";
     $db = new DB(); 
     $origquery = mysql_escape_string($_GET["query"]);
     $query = strtoupper($query);
@@ -31,15 +32,32 @@
             (upper(first_name) like '%$query%')";
 
         $db->query("$mps_query_start and ($score_clause > 0) 
-                    order by last_name, first_name");
+                    order by constituency, entered_house desc, last_name, first_name");
 
         if ($db->rows() > 0)
         {
             $found = true;
             print "<p>Found these MPs matching '$origquery':";
             print "<table class=\"mps\"><tr
-                class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Rebellions</td><td>Attendance</td></tr>\n";
-            render_mps_table($db);
+                class=\"headings\"><td>Date</td><td>Name</td><td>Constituency</td><td>Party</td><td>Rebellions</td><td>Attendance</td></tr>\n";
+            $prettyrow = 0;
+            while ($row = $db->fetch_row())
+            {
+                $prettyrow = pretty_row_start($prettyrow);
+                $anchor = "\"mp.php?firstname=" . urlencode($row[0]) .
+                    "&lastname=" . urlencode($row[1]) . "&constituency=" .
+                    urlencode($row[3]) . "\"";
+
+                if ($row[6] == "") { $row[6] = "n/a"; } else { $row[6] .= "%"; }
+
+                print "<td>" . year_range($row[10], $row[11]) . "</td>";
+                print "<td><a href=$anchor>$row[2] $row[0] $row[1]</a></td></td>
+                    <td>$row[3]</td>
+                    <td>" . pretty_party($row[4], $row[8], $row[9]) . "</td>
+                    <td class=\"percent\">$row[6]</td>
+                    <td class=\"percent\">$row[7]%</td>";
+                print "</tr>\n";
+            }
             print "</table>\n";
         } 
 

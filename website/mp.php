@@ -1,5 +1,5 @@
 <?php 
-    # $Id: mp.php,v 1.4 2003/09/25 20:29:17 uid37249 Exp $
+    # $Id: mp.php,v 1.5 2003/10/02 09:42:03 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -183,7 +183,7 @@
         if ($db->rows() == 0)
         {
             $prettyrow = pretty_row_start($prettyrow, "");
-            print "<td colspan=4>no votes to compare</td></tr>\n";
+            print "<td colspan=6>no votes to compare</td></tr>\n";
         }
     }
     print "</table>\n";

@@ -1,4 +1,4 @@
-# $Id: finddays.pm,v 1.2 2003/09/17 15:11:53 frabcus Exp $
+# $Id: finddays.pm,v 1.3 2003/10/02 09:42:03 frabcus Exp $
 # Scans various index pages in various ways to hunt down the content
 # for each day in text of Hansard beneath them all.  Stores URLs
 # of the first page of content.
@@ -41,37 +41,33 @@ sub hunt_within_month_or_volume
         error::log("Debate found", $agent->uri(), error::USEFUL);
 
         # Following through to body text (from index)
-        $agent->follow_link(url_regex => qr#debtext#i, n => 1);
+        if (!(defined $agent->follow_link(url_regex => qr#debtext#i, n => 1)))
+        {
+            error::warn("Couldn't find debate text from index", $agent->uri());
+            $agent->back();
+            next;
+        }
         error::die("Error getting debate first page URL " . $agent->response->status_line, $agent->uri()) unless $agent->success;
         my $first_page = $agent->uri();
         $first_page =~ s/#.*$//; # remove inwards anchors after the hash
 
         # Find this line, and extract date:
-        # <i>4 Jun 2003 : Column 232&#151;continued</i></P>
+        # <meta name="Date" content ="20 Jun 2001">
         my $content = $agent->{content};
         my $p = HTML::TokeParser->new(\$content);
         my $date = undef;
         my $date_english = undef;
-        while (my $token = $p->get_tag("i", "b")) 
+        my $token;
+        while ($token = $p->get_tag("meta")) 
         {
-            if ($token->[0] eq "b")
+            if ($token->[1]{name} and $token->[1]{name} eq "Date")
             {
-                $_ = $p->get_trimmed_text("/b");
-            }
-            else
-            {
-                $_ = $p->get_trimmed_text("/i");
-            }
-            error::log("Date hunt: $_", $agent->uri(), error::CHITTER);
-            if (m/^(.+) : Column/)
-            {
-               $date_english = $1;
-               $date = str2time($1);
-               error::log("Date is $date", $agent->uri(), error::CHITTER);
-               last;
+                $date_english = $token->[1]{content};
+                $date = str2time($date_english);
+                error::log("Date is $date_english $date", $agent->uri(), error::CHITTER);
             }
         }
-        die "Couldn't find date" if !defined $date;
+        error::die("Couldn't find date", $agent->uri()) unless defined $date;
 
         # See if we already have it
         my $sth = db::query($dbh, "select first_page_url from pw_hansard_day 
@@ -159,6 +155,9 @@ sub recent_sessions
 {
     my $dbh = shift;
     my $agent = shift;
+    my $skip_forwards = shift;
+    my $stop_at = shift;
+
     error::die("Error getting session URL " . $agent->response->status_line, $agent->uri()) unless $agent->success;
     my $content = $agent->{content}; # put in local variable to copy it out of the agent, so agent can walk recursively
     my $p = HTML::TokeParser->new(\$content);
@@ -169,15 +168,20 @@ sub recent_sessions
     while ($agent->follow_link(url_regex => qr#cmse\d\d\d\d.htm#i, n => $c))
     {
         my $url = $agent->uri();
-        error::log("Session found", $agent->uri(), error::USEFUL);
-        finddays::hunt_within_session($dbh, $agent);
+        if (defined $skip_forwards && $agent->uri() !~ m/$skip_forwards/)
+        {
+            error::log("Skipping session", $agent->uri(), error::USEFUL);
+        }
+        else
+        {
+            undef $skip_forwards;
+            error::log("Session found", $agent->uri(), error::USEFUL);
+            finddays::hunt_within_session($dbh, $agent);
+        }
         $agent->back();
 
-        # TODO For now we stop at the current parliament as a convenient
-        # breaking point - later we'll need to get historical MPs and
-        # deal with changes of government and the old formats of the
-        # online version of Hansard
-        last if $url =~ m/0102/;
+        # Stop if reach end point
+        last if $url =~ m/$stop_at/;
         $c++;
     }
 }

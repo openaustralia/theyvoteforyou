@@ -1,10 +1,20 @@
-<?php $title = "Divisions"; include "header.inc" 
-# $Id: divisions.php,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+<?php 
+# $Id: divisions.php,v 1.2 2003/10/02 09:42:03 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
+
+    $sort = mysql_escape_string($_GET["sort"]);
+    $parliament = mysql_escape_string($_GET["parliament"]);
+
+    include "parliaments.inc";
+    if ($parliament == "")
+        $parliament = this_parliament();
+
+    $title = "Divisions - " . parliament_name($parliament) . " Parliament";
+    include "header.inc";
 ?>
 
 <p>A <i>division</i> is the House of Commons terminology for what would
@@ -14,9 +24,7 @@ number of suspected rebellions are marked in red.  Sometimes these are
 just divisions where the whips allowed free voting.  You can change
 the order of the table by selecting the headings.
 
-<?php
-    $sort = mysql_escape_string($_GET["sort"]);
-
+<?
     include "db.inc";
     include "render.inc";
     $db = new DB(); 
@@ -43,7 +51,9 @@ the order of the table by selecting the headings.
     }
 
 
-    $db->query("$divisions_query_start order by $order"); 
+    $db->query("$divisions_query_start and division_date <= '" .
+    parliament_date_to($parliament) . "' and division_date >= '" .
+    parliament_date_from($parliament) . "' order by $order"); 
 
     $url = "divisions.php?";
     print "<table class=\"votes\">\n";

@@ -1,6 +1,14 @@
 New stuff
 ---------
 
+Multi-parliament:
+    Vote map
+    Michael Heseltine attendance rate
+    Measure abstentions by parliament rather than global proportions?
+    Front page
+    FAQ
+    News
+
 Facility to register and define voting subset for a particular issue
 - info to help select which votes and which way should have voted
 - SP adopters / constituency
@@ -28,7 +36,8 @@ favicon.ico
 Scraper
 -------
 
-Check out tapiR, see if useful
+remake pw_mp to have left_reason entered_reason - make it error if you
+don't make an entry using the reasons
 
 Make one script I have to run which just does everything (backup logs,
 backup sf cvs repository, get latest divisions, upload to db)

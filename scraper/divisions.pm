@@ -1,4 +1,4 @@
-# $Id: divisions.pm,v 1.3 2003/09/12 09:41:43 frabcus Exp $
+# $Id: divisions.pm,v 1.4 2003/10/02 09:42:03 frabcus Exp $
 # Parses the body text of a page of Hansard containing a division.
 # Records the division and votes in a database, matching MP names
 # to an MP already in the database.
@@ -92,6 +92,15 @@ sub parse_all_divisions_on_page
     {
         $content =~ s/\n/\n<br>/g;
         error::log("Patched a bad day 16 July 2001", $day_date, error::IMPORTANT);
+    }
+    # Name on two lines when should be on one
+    if ($content =~ s/Johnson Smith, ?\n<[Bb][Rr]>\n Rt Hon Sir Geoffrey/Johnson Smith, Rt Hon Sir Geoffrey/g)
+    {
+        error::log("Patched at least one misformatted Geoffrey Johnson Smith", $day_date, error::IMPORTANT);
+    }
+    if ($content =~ s:Williams, Rt Hon Alan\n<BR>\n <i>\(Swansea W\)<\/i>:Williams, Rt Hon Alan <i>(Swansea W)</i>:g)
+    {
+        error::log("Patched at least one misformatted Alan Williams", $day_date, error::IMPORTANT);
     }
 
     my $p = HTML::TokeParser->new(\$content);

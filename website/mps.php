@@ -1,5 +1,5 @@
 <?php 
-    # $Id: mps.php,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+    # $Id: mps.php,v 1.2 2003/10/02 09:42:03 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -8,14 +8,18 @@
 
     $sort = mysql_escape_string($_GET["sort"]);
     if ($sort != "rebellions")
-    {
         $title = "MPs"; 
-    }
     else
-    {
         $title = "Rebels";
-    }
     
+    $parliament = mysql_escape_string($_GET["parliament"]);
+
+    include "parliaments.inc";
+    if ($parliament == "")
+        $parliament = this_parliament();
+
+    $title .= " - " . parliament_name($parliament) . " Parliament";
+
     include "header.inc";
     include "db.inc";
     include "render.inc";
@@ -53,7 +57,9 @@
     {
         $order = "round(votes_attended/votes_possible,10) desc, last_name, first_name";
     }
-    $db->query("$mps_query_start order by $order");
+    $db->query("$mps_query_start and entered_house <= '" .
+        parliament_date_to($parliament) . "' and entered_house >= '".
+        parliament_date_from($parliament) . "' order by $order");
 
     if ($sort == "rebellions")
     {
