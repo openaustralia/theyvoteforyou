@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: wrans.php,v 1.4 2003/12/08 18:36:02 frabcus Exp $
+    # $Id: wrans.php,v 1.5 2003/12/08 19:00:49 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -19,6 +19,8 @@
     $shellid = escapeshellcmd(html_scrub(trim($_GET["id"])));
 ?>
 
+<p><b>You've stumbled upon... Some new stuff.  It isn't ready yet.</b>
+
 <p class="search">Search in Written Answers:</p>
 <form class="search" action="wrans.php" name=pw>
 <input maxLength=256 size=25 name=search value=""> <input type="submit" value="Search" name="button">
@@ -31,7 +33,8 @@
 				. $shellsearch . '")';
 		print $query;
 		$result = sgrep_query("wrans", $query);
-		print_transform("wrans-table.xslt", $result);	
+		if ($result)
+			print_transform("wrans-table.xslt", $result);	
 	}
 	
 	if ($shellid <> "")
@@ -40,7 +43,8 @@
 			(attribute("id") containing attvalue("' . $shellid . '"))'; 
 		print $query;
 		$result = sgrep_query("wrans", $query);
-		print_transform("wrans.xslt", $result);	
+		if ($result)
+			print_transform("wrans.xslt", $result);	
 	}
 ?>
 
