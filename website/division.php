@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.61 2005/03/28 19:59:24 frabcus Exp $
+# $Id: division.php,v 1.62 2005/03/28 20:01:59 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -218,7 +218,7 @@
 	        print "</div>\n";
 
 	    	print "<p><a href=\"account/wiki.php?key=".$divattr["motion_key"]."&r=" .
-	         urlencode($_SERVER["REQUEST_URI"]) . "\">Edit and correct this motion</a>";
+	         urlencode($_SERVER["REQUEST_URI"]) . "\">Edit and correct this motion or the division title</a>";
 	        if ($motion_data['user_id'] != 0) {
 	            $db->query("select * from pw_dyn_user where user_id = " . $motion_data['user_id']);
 	            $row = $db->fetch_row_assoc();

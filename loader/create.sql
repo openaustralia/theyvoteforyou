@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.19 2005/03/28 19:59:23 frabcus Exp $
+-- $Id: create.sql,v 1.20 2005/03/28 20:01:59 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -229,6 +229,8 @@ create table pw_cache_dreamreal_distance (
 
 -- Distance between an MP (mp_id) and a set of MPs (person).
 -- This is driven by the MP (mp_id).
+-- TODO: For consistency with others, should create this table in 
+-- the code that users it (in dailyupdate)
 create table pw_cache_realreal_distance (
     mp_id int not null,
     person int not null,
