@@ -152,6 +152,17 @@ def ExtractFirstLink(url):
 		raise Exception, "No link found!!!"
 	return urlparse.urljoin(url, re.sub('#.*$' , '', lk[0]))
 
+def getHTMLdiffname(jfout):
+        renn = re.compile("%s.diff(\d+)" % os.path.basename(jfout))
+        ipp = 1
+        for pp in os.listdir(os.path.dirname(jfout)):
+                regpp = renn.match(pp)
+                if regpp:
+                        ipp = string.atoi(regpp.group(1)) + 1
+        res = "%s.diff%d" % (jfout, ipp)
+        assert renn.match(os.path.basename(res))
+        assert not os.path.isfile(res)
+        return res
 
 # read through our index list of daydebates
 def GlueAllType(pcmdir, cmindex, nametype, fproto, deleteoutput):
@@ -166,44 +177,32 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto, deleteoutput):
 		# make the filename
 		dgf = os.path.join(pcmdir, (fproto % dnu[0]))
 
-		if deleteoutput:
-			if os.path.isfile(dgf):
-				os.remove(dgf)
-
 		# hansard index page
 		urlx = dnu[2]
 
-		# if we already have got the file, check the pagex link agrees in the first line
-		# no need to scrape it in again
-		if os.path.exists(dgf):
-                                fpgx = open(dgf, "r")
-                                pgx = fpgx.readline()
-                                fpgx.close()
-                                if pgx:
-                                        pgx = re.findall('<pagex url="([^"]*)"[^/]*/>', pgx)
-                                        if pgx:
-                                                if pgx[0] == urlx:
-                                                        # print 'skipping ' + urlx
-                                                        continue
-
-                                print 'old url was ' + pgx[0]
-                                print 'RE-scraping ' + urlx
-		else:
-                                print 'scraping ' + urlx
+                print 'scraping %s %s' % (dnu[0], dnu[1])
 
 		url0 = ExtractFirstLink(urlx)
 
 		# now we take out the local pointer and start the gluing
 		dtemp = open(tempfilename, "w")
 		GlueByNext(dtemp, url0, urlx)
-
-		# close and move
 		dtemp.close()
-		if os.path.isfile(dgf):
-                            os.remove(dgf)
-		os.rename(tempfilename, dgf)
 
-
+                if os.path.exists(dgf):
+                        outpatch = getHTMLdiffname(dgf)
+                        ern = os.system('diff -u --ignore-matching-lines="<.*?url=[^>]*>" %s %s > %s' % (tempfilename, dgf, outpatch))
+                        if ern == 2:
+                                print "Error running diff"
+                                raise Exception, "Error running diff"
+                        if not os.path.getsize(outpatch):
+                                os.remove(outpatch)
+                        else:
+                                print "Writing difffile %s of over-written HTML output" % outpatch
+                                os.remove(dgf)
+	        	        os.rename(tempfilename, dgf)
+                else:
+        		os.rename(tempfilename, dgf)
 
 ###############
 # main function

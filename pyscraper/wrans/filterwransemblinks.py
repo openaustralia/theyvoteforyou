@@ -26,8 +26,8 @@ reglinkmid = '(?:/(?:(?:[^/:;,?="<()]|&#\d+;)(?!www\.))+)*/'
 
 # this detects the tail section of a url trailing a slash
 #reglinktail = '[^./:;,]*(?:\.\s?(?:s?html?|pdf|xls|(?:asp|php|cfm(?:\?[^\s.]+)?)))|\w*'
-regasptype = '(?:asp|php|cfm|gif|jpg|jpeg|png)(?:\?\s?\w+=[\w/]+(?:&\w+=[\w/%]+)*)?'
-reglinktail = '(?:[^./:;,?=]|&#\d+;)*(?:\.\s?(?:s?html?|xls|pdf(?:\?Open ?Element)?|%s))|(?:[\w-]|&#\d+;)*' % regasptype
+regasptype = '(?:asp|nsf|php|cfm|gif|jpg|jpeg|png)(?:\?\s?\w+=[\w/]+(?:&\w+=[\w/%]+)*)?'
+reglinktail = '(?:[^./:;,?=]|&#\d+;)*(?:\.\s?(?:s?html?|xls|doc|pdf(?:\?Open ?Element)?|%s))|(?:[\w-]|&#\d+;)*' % regasptype
 
 
 rreglink = '(?:(?:%s)(?:(?:%s)(?:%s)?)?)' % (reglinkdom, reglinkmid, reglinktail)
