@@ -440,10 +440,10 @@ class wransblock:
 	def regidcodes(self, minhgid, sdate):
 		# find minimal qnum which will be used as the basis
 		self.qnums.sort()
-		basegidq = 'uk.org.publicwhip/wransq/%s.%s' % (sdate, self.qnums[0])
+		basegidq = 'uk.org.publicwhip/wrans/%s.%s' % (sdate, self.qnums[0])
 		self.headingqb.qGID = basegidq + ".h"  # this is what we link to
 		for rqnum in self.qnums[1:]:   # the mapping for the other qnums
-			self.altheadinggids.append('uk.org.publicwhip/wransq/%s.%s.h' % (sdate, rqnum))
+			self.altheadinggids.append('uk.org.publicwhip/wrans/%s.%s.h' % (sdate, rqnum))
 
 		# renumber the parts of the question (which aren't going to be linked to anyway)
 		for i in range(len(self.queses)):

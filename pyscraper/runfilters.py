@@ -47,7 +47,7 @@ pwxmldirs = os.path.join(toppath, "scrapedxml")
 recentnewfile = "recentnew.txt"
 
 tempfilename = tempfile.mktemp(".xml", "pw-filtertemp-", toppath)
-patchtempfilename = tempfile.mktemp("", "pw-appypatchtemp-", toppath)
+patchtempfilename = tempfile.mktemp("", "pw-applypatchtemp-", toppath)
 
 # create the output directory
 if not os.path.isdir(pwxmldirs):
