@@ -52,6 +52,7 @@ reses = {}
 # this pulls out all the direct links on this particular page
 def CmIndexFromPage(urllinkpage):
 	urlinkpage = urllib.urlopen(urllinkpage)
+        #print "urllinkpage ", urllinkpage
 	srlinkpage = urlinkpage.read()
 	urlinkpage.close()
 

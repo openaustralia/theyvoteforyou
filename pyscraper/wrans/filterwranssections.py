@@ -132,7 +132,6 @@ fixsubs = 	[
         ( 'sn99&#150;35\(s.htm\);', 'sn99-35s.htm;', 1, '2003-07-16'),
 
         # special note not end of block - when we have multiple answers
-        ( '(Decisions on proposed closures of post offices are an operational matter for Post Office Ltd)', '<another-answer-to-follow>\\1', 1, '2004-01-22'),
         ( '(This includes securing the treatment, storage, transportation and disposal of radioactive waste)', '<another-answer-to-follow>\\1', 1, '2004-03-15'),
 ]
 

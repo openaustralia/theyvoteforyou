@@ -33,7 +33,6 @@ fixsubs = 	[
 	( '<UL>Paul Goggins:([^<]*)<P></UL>', '<B>Paul Goggins:</B> \\1', 1, '2003-11-19'),
 	( '\): To ask', ' To ask', 1, '2003-05-06'),
 
-	( '(<P>\s*)<UL>(Dr. Ladyman: )(Central Government do not themselves .*? care sector.\s*)<P></UL>', '\\1<B>\\2</B> \\3', 1, '2004-01-19'),
 	( '\<UL\>\<i\>(Miss Melanie Johnson )\</i\>(\[holding answer 13 January 2004\].*? two to three times a year.\s*)\<P\>\</UL\>', '<B>\\1</B> \\2', 1, '2004-01-14'),
 
         ( '(Mr\. McNulty:) (We are always happy)', '<B>\\1</B> \\2', 1, '2004-01-06'), 
