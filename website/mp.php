@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.60 2005/03/06 11:16:49 frabcus Exp $
+    # $Id: mp.php,v 1.61 2005/03/09 19:38:51 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -16,6 +16,7 @@
 	include "tablemake.inc";
 	include "tableoth.inc";
     include "dream.inc";
+	include "tablepeop.inc";
 
 	# decode the parameters.
 	# first is the two voting objects which get compared together.

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: parliaments.inc,v 1.12 2005/02/24 21:22:17 frabcus Exp $
+# $Id: parliaments.inc,v 1.13 2005/03/09 19:38:51 goatchurch Exp $
 # This data is duplicated in loader/PublicWhip/Parliaments.pm
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -78,6 +78,7 @@ function parliament_query_range_div($id)
 }
 
 
+# possibly dead function
 function year_range($from, $to)
 {
     $y1 = substr($from, 0, 4);

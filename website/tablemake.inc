@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablemake.inc,v 1.10 2005/03/07 00:56:16 frabcus Exp $
+    # $Id: tablemake.inc,v 1.11 2005/03/09 19:38:52 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -580,7 +580,7 @@
 				$vote2 = $row['vote2'];
 
 				# detect three line whips (in dream mps)
-				if ($vote2 == "aye3" or $vote2 == "no3")
+				if ($vote1 == "aye3" or $vote1 == "no3" or $vote2 == "aye3" or $vote2 == "no3")
 		            $pretrowclass = "strong";
 
 				$roleclass = "";
@@ -589,7 +589,7 @@
 					continue;      # final filter bail out
 			}
 
-			# colour red if rebelions, except cases where it's ugly or unnecessary
+			# colour red if rebellions, except cases where it's ugly or unnecessary
 			else if ($row['rebellions'] >= 10 and $sortby != "rebellions" and $showwhich != "rebellions10")
 	            $pretrowclass = "rebel";
 

@@ -2,7 +2,7 @@
 
 $cache_params = rand(0, 10); include "cache-begin.inc";
 
-# $Id: index.php,v 1.40 2005/03/05 11:57:48 goatchurch Exp $
+# $Id: index.php,v 1.41 2005/03/09 19:38:51 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -23,6 +23,7 @@ For more information about the project, <a href="faq.php">read the FAQ</a>.
 
 	include "decodeids.inc";
 	include "tablemake.inc";
+	include "tablepeop.inc";
 
     include "dream.inc";
 
@@ -121,60 +122,29 @@ title="Show all divisions ordered by most recent">(more...)</a></h2>
 </tr><tr><td>
 
 <h2>Top Rebels <a href="mps.php?sort=rebellions" title="Show all MPs ordered by rebellions">(more...)</a></h2>
-<table class="mps">
+
 <?php
-$mps_query_start = "select first_name, last_name, title, constituency,
-        party, pw_mp.mp_id as mp_id, round(100*rebellions/votes_attended,0) as rebellions,
-        round(100*votes_attended/votes_possible,0) as attendance, entered_reason,
-        left_reason, entered_house, left_house from pw_mp,
-        pw_cache_mpinfo where
-        pw_mp.mp_id = pw_cache_mpinfo.mp_id";
 
-    $db->query("$mps_query_start and " . parliament_query_range($parliament) . "
-        order by round(rebellions/votes_attended,10) desc, last_name,
-        first_name, constituency, party limit 3");
-
-    $c = 0;
-    $prettyrow = 0;
-    while ($row = $db->fetch_row())
-    {
-        $c++;
-        $prettyrow = pretty_row_start($prettyrow);
-        print "<td>$c</td><td><a href=\"mp.php?firstname=" . urlencode($row[0]) .
-            "&lastname=" . urlencode($row[1]) . "&constituency=" .
-            urlencode($row[3]) . "\">$row[2]
-            $row[0] $row[1]</a></td> <td>$row[3]</td>
-            <td>" . pretty_party($row[4], $row[8], $row[9]) . "</td>";
-        print "<td class=\"percent\">$row[6]% rebel (" .  year_range($row[10], $row[11]) . ")</td>";
-        print "</tr>\n";
-    }
+	$mptabattr = array("listtype" 	=> "parliament",
+					   "parliament" => $parliaments[$parliament], # current parl I assume
+					   "limit"	=> 3,
+					   "sortby"		=> "rebellions");
+	print "<table class=\"mps\">\n";
+	mp_table($db, $mptabattr);
+	print "</table>\n";
 ?>
-</table>
 
 </td><td>
 
 <h2>Best Attendance <a href="mps.php?sort=attendance" title="Show all MPs ordered by attendance">(more...)</a></h2>
-<table class="mps">
 <?
-    $db->query("$mps_query_start and " . parliament_query_range($parliament) . "
-        order by round(votes_attended/votes_possible,10) desc, last_name,
-        first_name, constituency, party limit 3");
-
-    $c = 0;
-    $prettyrow = 0;
-    while ($row = $db->fetch_row())
-    {
-        $c++;
-        $prettyrow = pretty_row_start($prettyrow);
-        print "<td>$c</td><td><a href=\"mp.php?firstname=" . urlencode($row[0]) .
-            "&lastname=" . urlencode($row[1]) . "&constituency=" .
-            urlencode($row[3]) . "\">$row[2]
-            $row[0] $row[1]</a></td> <td>$row[3]</td>
-            <td>" . pretty_party($row[4], $row[8], $row[9]) . "</td>";
-        print "<td class=\"percent\">$row[7]% attendance (" .  year_range($row[10], $row[11]) . ")</td>";
-        print "</tr>\n";
-    }
-    print "</table>\n";
+	$mptabattr = array("listtype" 	=> "parliament",
+					   "parliament" => $parliaments[$parliament], # current parl I assume
+					   "limit"	=> 3,
+					   "sortby"		=> "attendance");
+	print "<table class=\"mps\">\n";
+	mp_table($db, $mptabattr);
+	print "</table>\n";
 ?>
 
 </td></tr></table>

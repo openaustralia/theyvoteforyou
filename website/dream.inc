@@ -8,7 +8,7 @@ function calc_dream_mp_score_a($db, $dreamid, $personid) {
     $query = "select pw_vote.vote as mpvote, pw_dyn_rollievote.vote as rollievote from 
         pw_vote, pw_dyn_rollievote, pw_division, pw_mp where 
         pw_vote.division_id = pw_division.division_id and
-        pw_dyn_rollievote.division_number = pw_division.division_number and 
+        pw_dyn_rollievote.division_number = pw_division.division_number and
             pw_dyn_rollievote.division_date = pw_division.division_date
         and pw_vote.mp_id = pw_mp.mp_id
         and pw_mp.person = '" . $personid . "' and pw_dyn_rollievote.rolliemp_id = '$dreamid'";
@@ -127,7 +127,7 @@ function check_table_cache_dream_mp($db, $dreamid) {
         }
 
         if ($row['scoremax_a'] > 0) {
-            $db->query("insert into pw_cache_dreamreal_score
+            $db->query("replace into pw_cache_dreamreal_score
                     (rollie_id, person, score_a, scoremax_a, rank_a, rank_outof_a)
                 values ('$dreamid', '".$row['person']."', 
                         '".$row['score_a']."', '".$row['scoremax_a']."',

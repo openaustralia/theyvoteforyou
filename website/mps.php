@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.12 2005/02/24 21:22:17 frabcus Exp $
+    # $Id: mps.php,v 1.13 2005/03/09 19:38:51 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -8,15 +8,18 @@
     include "cache-begin.inc";
 
     include "db.inc";
+    include "tablemake.inc";
+    include "tablepeop.inc";
+
     include "render.inc";
-    $db = new DB(); 
+    $db = new DB();
 
     $sort = db_scrub($_GET["sort"]);
     if ($sort != "rebellions")
-        $title = "MPs"; 
+        $title = "MPs";
     else
         $title = "Rebels";
-    
+
     include "parliaments.inc";
 	if ($parlsession != "")
 		$title .= " - " . parlsession_name($parlsession) . " Session";
@@ -24,61 +27,6 @@
 		$title .= " - " . parliament_name($parliament) . " Parliament";
     include "header.inc";
 
-    if ($sort == "")
-    {
-        $sort = "lastname";
-    }
-    if ($sort == "lastname")
-    {
-        $order = "last_name, first_name, constituency, party";
-    }
-    elseif ($sort == "firstname")
-    {
-        $order = "first_name, last_name, constituency, party";
-    }
-    elseif ($sort == "title")
-    {
-        $order = "title, last_name, first_name, constituency, party";
-    }
-    elseif ($sort == "constituency")
-    {
-        $order = "constituency, last_name, first_name, party";
-    }
-    elseif ($sort == "party")
-    {
-        $order = "party, last_name, first_name, constituency";
-    }
-    elseif ($sort == "rebellions")
-    {
-        $order = "round(rebellions/votes_attended,10) desc, last_name, first_name";
-    }
-    elseif ($sort == "attendance")
-    {
-        $order = "round(votes_attended/votes_possible,10) desc, last_name, first_name";
-    }
-
-	if ($parlsession == "")
-	{
-		$query = "$mps_query_start and entered_house <= '" .
-			parliament_date_to($parliament) . "' and entered_house >= '".
-			parliament_date_from($parliament) . "' order by $order";
-	}
-	else
-	{
-		$query = "$mps_query_start and (" .
-		"(entered_house >= '" .  parlsession_date_from($parlsession) . "' and " .
-		"entered_house <= '".  parlsession_date_to($parlsession) . "') " .
-		" or " .
-		"(left_house >= '" .  parlsession_date_from($parlsession) . "' and " .
-		"left_house <= '".  parlsession_date_to($parlsession) . "') " .
-		" or " .
-		"(entered_house < '" .  parlsession_date_from($parlsession) . "' and " .
-		"left_house > '".  parlsession_date_to($parlsession) . "') " .
-		") order by $order";
-		$query = str_replace('pw_cache_mpinfo', 'pw_cache_mpinfo_session'.$parlsession, $query);
-	}
-
-	$db->query($query);
 ?>
 <p>The Members of Parliament are listed with the number of times they
 voted against the majority vote for their party and how often they turn up
@@ -86,11 +34,12 @@ to vote.  Read a <a href="faq.php#clarify">clear
 explanation</a> of these terms, as they may not have the meanings
 you expect. You can change the order of the table by selecting the headings.
 <?php
+	# this stuff to be tabbed like with the divisions table
     if ($parliament != "1997" or $parlsession != "")
         print "<p><a href=\"mps.php?parliament=1997&sort=" . html_scrub($sort) . "\">View MPs for 1997-2001 parliament</a>";
     if ($parliament != "2001" or $parlsession != "")
         print "<p><a href=\"mps.php?parliament=2001&sort=" .  html_scrub($sort) . "\">View MPs for 2001-2005 parliament</a>";
-    
+
     print "<table class=\"mps\">\n";
 
     $url = "mps.php?parliament=" . urlencode($parliament) . "&";
@@ -102,9 +51,14 @@ you expect. You can change the order of the table by selecting the headings.
     head_cell($url, $sort, "Attendance<br>(divisions)", "attendance", "Sort by attendance");
     print "</tr>";
 
-    render_mps_table($db);
-    print "</table>\n";
 
+	# a function which generates any table of mps for printing,
+	$mptabattr = array("listtype" 	=> "parliament",
+					   "parliament" => $parliaments[$parliament],
+					   "showwhich" 	=> "all",
+					   "sortby"		=> $sort);
+	mp_table($db, $mptabattr);
+    print "</table>\n";
 ?>
 
 <?php include "footer.inc" ?>
