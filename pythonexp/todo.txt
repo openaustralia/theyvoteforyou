@@ -1,10 +1,3 @@
-Generic looping through files which calls the filters
-
-Store generated data a bit more obviously away from the source code
-First run should make all the necessary directories automatically
-Use some tmpfile function for temporary filenames
-
-cvs remove removecomments.py
 findallhocdaydebate.py should die if date string empty
 
 My content grabber does this (horrifyingly) early on:
@@ -12,6 +5,11 @@ My content grabber does this (horrifyingly) early on:
     $all_content =~ s/&#150;/-/g;
     $all_content =~ s/&#151;/-/g;
 
+Make final output files called *.xml
+    - Set correct content encoding at top of XML file (iso 8859?)
+        (sgrep gives error UTF16 decoding errors)
+    - Pass xmlwf
+    - Pass a xsltproc conversion (entities)
 
 Time stamp exception:
 Time stamps aren't all being caught e.g. search for 1.27 pm in c2daydebatefixcolumnnumbers/daydebThursday13November2003.html
@@ -20,5 +18,4 @@ Time stamps aren't all being caught e.g. search for 1.27 pm in c2daydebatefixcol
 Indexing into XML: 
 http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/155582
 (the "shelve" module looks quite sweet)
-
 
