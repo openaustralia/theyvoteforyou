@@ -17,12 +17,12 @@ How rebellious a party it is. etc.
 
 Proportion of abstentions within each party, may reveal times when MPs abstain in protest.  
 
+% of completely pliant MPs in each party, who always follow whip.
+
 Amusing tables
 --------------
 
 MPs who shouldn't be in their party
-
-% of completely pliant MPs, who always follow whip.
 
 Table of members who died, who changed party etc.
 
@@ -42,10 +42,9 @@ Top day of week for voting.  Distribution for individual MPs.
 Data anlaysis (using existing data)
 -------------
 
-If this is very important to you, we could add something that measured a
-sudden drop in attendance rate - so you could see that the MP used to
-vote a certain % of the time and now doesn't.  This would detect in
-long-term cases that something is up, so you could find out what it is.
+Measure a sudden drop in attendance rate - so you could see that the MP
+used to vote a certain % of the time and now doesn't.  This will 
+detect illness/injury/busy for some other reason.
 
 Chris Lighthead:  "I've now written some code to estimate which of the
 eigenvectors are significant. The basic idea is that we generate

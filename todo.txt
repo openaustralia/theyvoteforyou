@@ -1,24 +1,18 @@
-General
--------
-
-Investigate EDMs, legality of using them
-Look for EDMs on parliament.uk (in daily papers)
-
 Web site
 --------
 
-<h2> spacing on IE
-
 Java in Opera Win32
-
-Measure abstentions by parliament rather than global proportions?
-MP page - print parliament in vote lists
 
 Pass W3C validator
 http://validator.w3.org/
+And bobby
+
+Mention Bureaucracy game on Hansard liaison page
 
 Scraper
 -------
+
+Measure abstentions by parliament rather than global proportions?
 
 Record tellers
 Crosscheck lack of tellers with deferred division, should be one to one correspondence.
@@ -27,7 +21,7 @@ Make cluster stuff store NUMBER OF VOTES both voted in for extra possible friend
 
 Look at majorities
 
-Check for repeate typo'ed constituencies
+Check for repeated typo'ed constituencies
  - in "check" do a search for solitary ones
 
 Garbage collection!
@@ -38,17 +32,11 @@ don't make an entry using the reasons
 Make one script I have to run which just does everything (backup logs,
 backup sf cvs repository, get latest divisions, upload to db)
 
-Also I need to tidy the whole thing up to be more usable.  Reduce the
-number of commands, make the pipeline more straightforward, and so it
-doesn't go wrong if you do things in the wrong order.
-
 Check "Question accordingly..." fits with our counting
 Tally vote numbers in text and check they fit with our counting
 
 Search for divisions on days MP joined/left, as these could have
 off-by-one errors for their changed party
-
-Check SourceForge backup
 
 Improve motion text / title extraction
     division.php?date=2003-02-03&number=74 - and div 73, detail missing
