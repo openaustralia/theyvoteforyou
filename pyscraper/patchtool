@@ -2,17 +2,29 @@
 set -e # exit upon error
 # set -x # show commands as run for debugging
 
-# This generates files for the patchfilter.py filter.
+function bad_params()
+{
+    cat <<END
 
-# They are standard patch files which apply to the glued HTML files which we
-# download from Hansard.  Any special errors in Hansard are fixed by
-# these patches.  
+This generates files for the patchfilter.py filter.
 
-# Run this tool like this:
-#   ./patchtool wrans 2004-03-25
-# This will launch your editor, and upon exit write out a patch of your changes
-# in the patches folder underneath this folder.  The original file is
-# untouched.  We consider the patches permanent data so they are added to CVS.
+They are standard patch files which apply to the glued HTML files which we
+download from Hansard.  Any special errors in Hansard are fixed by
+these patches.  
+
+Run this tool like this:
+  ./patchtool wrans 2004-03-25
+This will launch your editor, and upon exit write out a patch of your changes
+in the patches folder underneath this folder.  The original file is
+untouched.  We consider the patches permanent data so they are added to CVS.
+
+END
+    exit 1
+}
+
+[ "$1" = "" ] && bad_params
+[ "$2" = "" ] && bad_params
+[ "$3" != "" ] && bad_params
 
 FOLDER=$1
 STUB=$1

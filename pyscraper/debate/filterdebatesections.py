@@ -29,6 +29,7 @@ from debdivisionsections import PreviewDivisionTextGuess
 from debdivisionsections import DivisionParsingPart
 from debdivisionsections import GrabDivisionProced
 
+# Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
         ( 'Taylor, Andrew', 'Turner, Andrew', 1, '2003-02-26'),
         ( '(Brown, Russell),', '\\1', 1, '2003-09-10'),

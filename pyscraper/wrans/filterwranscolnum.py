@@ -14,6 +14,7 @@ from miscfuncs import ApplyFixSubstitutions
 # into xml form
 #     <stamp coldate="2003-10-23" colnum="637W"/>
 
+# Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
 	( 'Continued in col 47W', '', 1, '2003-10-27' ),
 	( '<P><I>8 Mar 2004 : Column 1346W</I>', '\\1<P>', 1, '2004-03-08'), 

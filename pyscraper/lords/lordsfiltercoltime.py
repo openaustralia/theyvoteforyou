@@ -15,6 +15,7 @@ from miscfuncs import ApplyFixSubstitutions
 # into xml form
 #     <stamp coldate="2003-12-09" colnum="893"/>
 
+# Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
 
 		]

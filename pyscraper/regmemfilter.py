@@ -18,6 +18,7 @@ tempfile = os.path.join(toppath, "filtertemp")
 if not os.path.isdir(pwxmldirs):
 	os.mkdir(pwxmldirs)
 
+# Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
 	( 'Nestle&#171;', 'Nestle', 1, '2004-01-31' ),
 ]

@@ -26,6 +26,7 @@ from filterwransreply import FilterReply
 
 from contextexception import ContextException
 
+# Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
 	('<intro><date> </intro><dpthd>', '', 1, '2003-10-06'), 
 	('how many crimes have been', '\\1 (1)', 1, '2004-03-04'),
@@ -302,7 +303,7 @@ def FilterWransSections(fout, text, sdate):
 			# do the reply
 			else:
 				if bNextStartofQ:
-					raise Exception, ' start of question expected '
+					raise ContextException('start of question expected', stamp = qb.sstampurl, fragment = qb.text)
 				qb.typ = 'reply'
 
 				# this case is so rare we flag them in the corrections of the html with this tag

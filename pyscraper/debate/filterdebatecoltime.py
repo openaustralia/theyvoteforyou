@@ -15,7 +15,7 @@ from miscfuncs import ApplyFixSubstitutions
 # into xml form
 #     <stamp coldate="2003-12-09" colnum="893"/>
 
-# this accounts for the cases where the colnum at the very start is left out.
+# Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
         ( '<B> Ordered, </B>', 'Ordered, ', 2, '2004-03-23'),
         ( '\(Sylvia Heal </B>\s*\)\:', '(Sylvia Heal):</B>', 1, '2003-06-20'),

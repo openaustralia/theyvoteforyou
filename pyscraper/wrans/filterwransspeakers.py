@@ -12,6 +12,7 @@ from miscfuncs import ApplyFixSubstitutions
 # this filter finds the speakers and replaces with full itendifiers
 # <speaker name="Eric Martlew  (Carlisle)"><p>Eric Martlew  (Carlisle)</p></speaker>
 
+# Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
 	( 'tbLlew', 'Llew', 1, '2004-03-11'), 
 

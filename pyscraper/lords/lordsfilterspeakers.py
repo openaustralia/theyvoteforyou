@@ -10,6 +10,7 @@ from resolvemembernames import memberList
 from miscfuncs import ApplyFixSubstitutions
 
 
+# Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
 	( '(<B> Baroness Barker:)( My .*?)</B>', '\\1</B>\\2', 1, '2004-01-07'),
 

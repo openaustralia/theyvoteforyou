@@ -105,6 +105,7 @@ def WriteCleanText(fout, text):
 			fout.write(re.sub('>|\r', '', ab))
 
 
+# Legacy patch system, use patchfilter.py and patchtool now
 def ApplyFixSubstitutions(text, sdate, fixsubs):
 	for sub in fixsubs:
 		if sub[3] == 'all' or sub[3] == sdate:

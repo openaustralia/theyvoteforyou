@@ -24,6 +24,7 @@ from filterdivision import FilterDivision
 from filterdivision import LordsFilterDivision
 from filterdebatespeech import FilterDebateSpeech
 
+# Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
 				# heading so full of crap I can only discard it completely
 				('<FONT SIZE=4><center>\s*THE PARLIAMENTARY DEBATES[\s\S]*<HR WIDTH=50%>', '<H2><center>House of Lords</center></H2>', 1, '2004-01-26'),
