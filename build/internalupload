@@ -49,5 +49,6 @@ ssh $USER "chmod -R 0755 $REMOTE_DIR"
 
 echo "Deleting remote cache files and db tables..."
 ssh $USER "rm -fr /home/francis/pwcache/$CACHE_PREFIX*"
-ssh $USER 'echo "delete from pw_cache_dreaminfo" | mysql francis'
+ssh $USER 'echo "delete from pw_cache_dreaminfo;" | mysql francis'
+ssh $USER 'echo "update pw_dyn_rolliemp set cache_uptodate = 0;" | mysql francis'
 

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.33 2005/02/18 13:57:58 frabcus Exp $
+# $Id: faq.php,v 1.34 2005/02/24 20:08:29 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -40,7 +40,11 @@ voting patterns.
 vote "aye" ("yes", for the motion) and those who vote "no" (against the
 motion).  Each political party has <i>whips</i> who try to make their
 MPs (Members of Parliament) vote for the party line.  Sometimes an MP
-<i>rebels</i> by voting against the party whip.  
+<i>rebels</i> by voting against the party whip.  A <i>teller</i> is
+an MP involved in the counting of the vote.  For more information on all these
+terms, see the 
+<a href="http://www.parliament.uk/parliamentary_publications_and_archives/factsheets/p09.cfm">
+Parliament factsheet on divisions</a>.
 
 <h2><a name="how">How does the Public Whip work?</a></h2>
 <p>All the House of Commons debate transcripts (<a href="http://www.parliament.the-stationery-office.co.uk/pa/cm/cmhansrd.htm">Hansard</a>) back to
@@ -52,11 +56,10 @@ access.
 <h2><a name="timeperiod">What time period does it cover?</a></h2>
 <p>Voting data extends back across two parliaments to the May 1997 General
 Election, although there are a few divisions missing in the 1997
-parliament.  New divisions are added semi-manually, so will not appear
-until a few days after they happen.  We give no warranty for the data; there
+parliament.  New divisions usually appear in Public Whip the next morning, but
+sometimes take a day or two longer.  We give no warranty for the data; there
 may be factual inaccuracies.  <a href="mailto:team@publicwhip.org.uk">Let us
-know</a> if
-you find any.
+know</a> if you find any.
 
 <?php
     include "db.inc";

@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.46 2005/02/18 11:08:50 goatchurch Exp $
+# $Id: header.inc,v 1.47 2005/02/24 20:08:29 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -63,7 +63,7 @@ Confused?  Tell us so we can improve!
 <?php print newsletter_navbar(); ?>
 <!--NEWSLETTEREND-->
 <a title="Frequently Asked Questions" href="<?=$toppath?>faq.php">FAQ</a>
-<a title="List of all divisions in Parliament" href="<?=$toppath?>divisions.php">Votes</a>
+<a title="List of all votes in Parliament" href="<?=$toppath?>divisions.php">Divisions</a>
 <a title="List of all Members of Parliament" href="<?=$toppath?>mps.php">MPs</a>
 <a title="MPs who vote the way you want" href="<?=$toppath?>dreammps.php">Dream</a>
 <!-- <a title="Cluster diagram of voting record" href="<?=$toppath?>mpsee.php">Vote Map</a> -->
