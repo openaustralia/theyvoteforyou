@@ -5,6 +5,8 @@
 
 import sys
 
+sys.path.append('debate')
+
 from optparse import OptionParser
 from createhansardindex import UpdateHansardIndex
 from pullgluepages import PullGluePages
