@@ -1,5 +1,5 @@
 <?php $title = "FAQ"; include "header.inc" 
-# $Id: faq.php,v 1.2 2003/08/19 12:10:32 frabcus Exp $
+# $Id: faq.php,v 1.3 2003/09/18 09:28:22 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -47,13 +47,13 @@ in each division.  In total <?=$vote_count?> votes were cast, of which
 That's an overall <?=$attendance?>% attendance rate and
 <?=$rebelocity?>% possible rebellion rate.
 
-<h2><a name="legal">What can I use this information for?</a></h2>
+<h2><a name="legal">Legal question, what can I use this information for?</a></h2>
 
 <p>Anything.  The contents of this website are copyrighted by us, and
 except for the software you can use them how you like.  This data is
-distributed in the hope that it will be useful, but <b>without any
-warranty</b>; without even the implied warranty of
-<b>merchantability</b> or <b>fitness for a particular purpose</b>.
+distributed in the hope that it will be useful, but without any
+warranty; without even the implied warranty of
+merchantability or fitness for a particular purpose.
 
 <p>Amongst other things, this means that if you use it, you should
 double check the information. It may be nonsense.  If you can't be
@@ -67,9 +67,9 @@ inaccuracies.
 results from it, we ask you to refer your readers to
 www.publicwhip.org.uk.  This way they can use and contribute themselves.
 
-<h2>Can I play?</h2>
+<h2>Can I play with the software?</h2>
 
-<p> Sure.  All the software we've written is free and protected by the 
+<p> Sure.  All the software we've written is free (libre and gratuit), protected by the 
 <a href="GPL.php">GNU General Public License</a>.  It's not complicated,
 anyone can have a go running them.  But there's only a point in doing
 this if you are going to change it as otherwise you will see the same

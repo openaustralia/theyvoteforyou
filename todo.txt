@@ -30,15 +30,15 @@ Look at majorities
 Website
 -------
 
-Make cluster diagram clearer in "highlights" section on front page
-
 Consider changing support@ email addr to something less corporate sounding
 
 Trim some opinion waffle out of Cluster text
 
 Display Paul Marsden (Lab) clearer
+Lab (ex)
+as Lab (now LDem)
+as LDem (now Lab)
 
-Put news (at least headlines) on front page
 Newsletter
 Some kind of comments system
 
@@ -72,6 +72,6 @@ backup sf cvs repository, get latest divisions, upload to db)
 
 Improve motion text extraction
     division.php?date=2003-02-03&number=74 - and div 73, detail missing
-
-
+    division.php?date=2003-09-16&number=313 - too much text [interruption]
+    division.php?date=2001-11-26&number=85 - excess interruption
 

@@ -1,5 +1,5 @@
-<?php $title = "Clustering"; include "header.inc" 
-# $Id: mpsee.php,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+<?php $title = "Vote map"; include "header.inc" 
+# $Id: mpsee.php,v 1.2 2003/09/18 09:28:22 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under

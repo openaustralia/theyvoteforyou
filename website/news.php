@@ -1,5 +1,5 @@
-<?  $title = "News"; include "header.inc";
-# $Id: news.php,v 1.4 2003/09/17 12:01:33 frabcus Exp $
+<?  $title = "Site News"; include "header.inc";
+# $Id: news.php,v 1.5 2003/09/18 09:28:22 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under

@@ -88,7 +88,7 @@ Suspected friends - these MPs also rebelled like this MP
 the cluster diagram positions)
 
 List in public divisions where the teller/clerk messed up with spelling.
-Why did this happen?  Anomalies in Hansard.  Email them to complain.
+Why did this happen?
 
 Find three line whip definition
 Infer no Whip if 10% +- from base?  Or at least +-1
@@ -100,10 +100,10 @@ Additional numeric data
 -----------------------
 
 Find "Motion made, and Question proposed," and "Question put and agreed
-to." when there was no division.  Record these as divisions, as they are
-really, just they were totally uncontested for whatever reason.  Count
-them up and see where and how many there are, whether there are more
-near bedtime etc.
+to." when there was no division.  Record these "virtual divisions" as
+divisions, as they are really, just they were totally uncontested for
+whatever reason.  Count them up and see where and how many there are,
+whether there are more near bedtime etc.
 
 Put time of division, so can work out importance (late at night less
 governmental)
@@ -156,6 +156,13 @@ parties).  Again, correlate to time spent on it.
 Additional text content
 -----------------------
 
+Hansard search and browser.
+- Decent search engine of structure data (database by MP who said what when)
+- Highlight MPs names, with their party, how they voted in this
+  division, if they rebelled, links to their details page etc.
+
+Written answers.
+
 Issue sub-selector.  User can log in, name an issue, and say which way
 votes should have gone to satisfy him on that issue.  Get all manner of
 people to make issues for next general election.
@@ -204,6 +211,9 @@ Log failed searches so we can improve the search engine
 Detect MS Java applet and upgrade it
 FastCGI if our load gets high
 mod_gzip to reduce bandwidth
+
+Paragraph text should always be wrapped with a max width, so it is
+readable on very wide browsers. (Giles)
 
 Usability (some sort of done - this is just some notes)
     - make website name link back to homepage
@@ -412,4 +422,12 @@ e.g. Student Finance division 23 June 2003, div 244 - 10 Labour MPs voted in reb
 but a further 100 abstained.
 
 Do Co-op members ever vote against Labour as a group?
+
+Questions
+---------
+
+What makes a division just get waved through without a vote?  How is a
+vote caused?
+
+
 

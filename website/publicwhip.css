@@ -1,16 +1,18 @@
-/* $Id: publicwhip.css,v 1.5 2003/09/17 15:11:53 frabcus Exp $
+/* $Id: publicwhip.css,v 1.6 2003/09/18 09:28:22 frabcus Exp $
 
 The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 This is free software, and you are welcome to redistribute it under
 certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 For details see the file LICENSE.html in the top level of the source.  */
 
+/* Main general formatting */
+
 body {  background: #ffffff;
         color: #000000;
         margin-top: 0.5em; margin-bottom: 0.5em;
         font-family: arial, sans-serif;
         font-size: 1em;
-        text-align: justify;
+        text-align: left;
      }
 
 a { text-decoration: none }
@@ -47,28 +49,32 @@ hr {
      height: 1px;
 }
 
-/* hr.bottomline
-hr.topline */
+.ptitle { color: #880088;
+          font-size: 1.0em; 
+          font-weight: bold;}
+
+/* Layout, for columns etc. */
+
+.rightbar { float: right; }
+
+table.layout { width: 100%;
+            border: 0;
+            padding: 0;
+            margin: 0;
+            }
+table td.layout { vertical-align: top; padding: 0; padding-right:1em; margin: 0; }
+
+/* Navigation stuff that is on every page */
 
 .navline { text-align: left; }
+.searchbox { text-align: right; 
+             float: right; }
 
 .footer{ margin-top: 0.5em; }
 .footerleft { float: left; text-align: left; width: 50%;}
 .footerright { float: right; text-align: right; width: 50%;}
 
-.search { text-align: left; }
-
-.motion { background-color: #eeeeee; }
-
-.ptitle { color: #880088;
-          font-size: 1.0em; 
-          font-weight: bold;}
-
-table td.rebel { background-color: #ee7777; }
-table td.whip { font-weight: bold; }
-table td.percent { text-align: right; }
-table td.important { font-style: italic; font-weight: bold; }
-table td.layout { vertical-align: top; padding: 0; padding-right:1em; margin: 0; }
+/* Tables for bulk of data in the application */
 
 table { margin: 0;
         padding: 0;
@@ -78,26 +84,29 @@ table { margin: 0;
 
 table.votes { width: 100%; }
 table.mps { width: 100%; }
-table.layout { width: 100%;
-            border: 0;
-            padding: 0;
-            margin: 0;
-            }
 
 table tr.headings { font-weight: bold; background-color: #dadada;}
-
 table tr.odd { background-color: #eeeeee; }
 table tr.even { background-color: #dadada; }
 table tr.oddrebel { background-color: #ee7777; }
 table tr.evenrebel { background-color: #da7777; }
 
-/*
-table tr.oddalert { background-color: #eeaaaa; }
-table tr.evenalert { background-color: #daaaaa; }
-.license IMG { vertical-align: middle }
-*/
-
 table td { padding: 0.3em; }
+
+table td.rebel { background-color: #ee7777; }
+table td.whip { font-weight: bold; }
+table td.percent { text-align: right; }
+table td.important { font-style: italic; font-weight: bold; }
+
+/* Stuff specific to one page or place */
+
+.newsdate {
+          font-size: 1.0em; 
+          font-style: italic;}
+
+.motion { background-color: #eeeeee; }
+
+.search { text-align: left; }
 
 table.bars {  
         margin: 0;
@@ -105,9 +114,5 @@ table.bars {
         margin-top: 0;
         }
 table.bars td { padding: 0; }
-
-.newsdate {
-          font-size: 1.0em; 
-          font-style: italic;}
 
  
