@@ -1,5 +1,5 @@
 <?php $title = "Ministerial whirl"; include "header.inc" 
-# $Id: minwhirl.php,v 1.1 2004/11/19 23:45:13 frabcus Exp $
+# $Id: minwhirl.php,v 1.2 2004/11/20 00:16:48 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -57,7 +57,7 @@ Sun Java 1.4 or above required
     else if (_ns == true && _ns6 == false) document.writeln('<EMBED \
 	    type="application/x-java-applet;version=1.4" \
             CODE = "radapplet.class" \
-            ARCHIVE = "radcls.jar" \
+            ARCHIVE = "minwhirl/radcls.jar" \
             WIDTH = "750" \
             HEIGHT = "550" \
             ministers = "/data/ministers.xml" \
@@ -67,9 +67,9 @@ Sun Java 1.4 or above required
 	    scriptable=false \
 	    pluginspage="http://java.sun.com/products/plugin/index.html#download"><NOEMBED><XMP>');
 //--></SCRIPT>
-<APPLET  CODE = "radapplet.class" ARCHIVE = "radcls.jar" WIDTH = "750" HEIGHT = "550"></XMP>
-    <PARAM NAME = CODE VALUE = "mpapplet.class" >
-    <PARAM NAME = ARCHIVE VALUE = "radcls.jar" >
+<APPLET  CODE = "radapplet.class" ARCHIVE = "minwhirl/radcls.jar" WIDTH = "750" HEIGHT = "550"></XMP>
+    <PARAM NAME = CODE VALUE = "radapplet.class" >
+    <PARAM NAME = ARCHIVE VALUE = "minwhirl/radcls.jar" >
     <PARAM NAME="type" VALUE="application/x-java-applet;version=1.4">
     <PARAM NAME="scriptable" VALUE="false">
     <PARAM NAME = "ministers" VALUE="/data/ministers.xml">
