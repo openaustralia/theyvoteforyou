@@ -83,6 +83,9 @@ for arg in args:
                 parser.print_help()
                 print >>sys.stderr, "error: no such option %s" % arg
                 sys.exit(1)
+if len(args) == 0:
+        parser.print_help()
+        sys.exit(1)
 
 # Do the work - all the conditions are so beautifully symmetrical, there
 # must be a nicer way of doing it all...

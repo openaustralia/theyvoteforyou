@@ -23,11 +23,14 @@ from miscfuncs import WriteXMLFile
 from filterdivision import FilterDivision
 from filterdebatespeech import FilterDebateSpeech
 
+import miscfuncs
+toppath = miscfuncs.toppath
 
 rehousediv = re.compile('<p[^>]*>(?:<i>)?\s*The (?:House|Committee) (?:having )?divided(?:</i>|:)+ Ayes,? (\d+), Noes (\d+)\.</p>$')
 
-foutdivisionreports = open("divreport.html", "w")
+foutdivisionreports = open(os.path.join(toppath, "divreport.html"), "w")
 #foutdivisionreports = None
+
 def PreviewDivisionTextGuess(flatb):
 	if not foutdivisionreports:
 		return
