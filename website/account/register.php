@@ -1,6 +1,6 @@
 <?  
 
-# $Id: register.php,v 1.14 2004/06/15 23:46:49 frabcus Exp $
+# $Id: register.php,v 1.15 2004/06/19 07:50:29 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -17,23 +17,20 @@ $email=mysql_escape_string($_POST["email"]);
 $real_name=mysql_escape_string($_POST["real_name"]);
 $submit=mysql_escape_string($_POST["submit"]);
 
-$ok = false;
-if ($submit) {
+if (user_isloggedin()) {
 	user_logout();
 	$user_name='';
+}
+
+$ok = false;
+if ($submit) {
 	$ok = user_register($user_name,$password1,$password2,$email,$real_name);
 }
 
 $title = "Sign up for Newsletter and Dream MP"; 
 include "../header.inc";
 
-if (user_isloggedin()) {
-    global $user_name;
-    print '<p>You are already logged in as ' . $user_name . '.  Please <a href="logout.php">logout</a> before
-    registering a new account. </a>';
-    $ok = true;
-}
-else if ($feedback) {
+if ($feedback) {
     if ($ok)
     {
 	echo "<p>$feedback</p>";

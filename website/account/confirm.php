@@ -1,6 +1,6 @@
 <?  
 
-# $Id: confirm.php,v 1.4 2004/06/15 10:27:01 frabcus Exp $
+# $Id: confirm.php,v 1.5 2004/06/19 07:50:29 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -25,13 +25,13 @@ include "../header.inc";
 if ($feedback) {
     if ($worked)
     {
-	print "<p>$feedback</p><p><a href=\"settings.php\">Account
-        settings</a>";
+        print "<p>$feedback</p>";
+        print '<p><a href="adddream.php">Make your own Dream MP</a>';
+        print "<br><a href=\"settings.php\">Account settings</a>";
     }
     else
     {
-	echo "<div class=\"error\"><h2>Confirmation
-        of registration failed</h2><p>$feedback</div>";
+        echo "<div class=\"error\"><h2>Confirmation of registration failed</h2><p>$feedback</div>";
     }
 }
 

@@ -41,6 +41,13 @@ So some unspoken text is being lost.
 Dream MP
 --------
 
+Syndication
+http://www.livejournal.com/developer/embedding.bml
+Javascript, make .js file with just a "document.write"
+Inline frames, just inline to HTML file
+CGI script / serverside include
+
+
 Change frontpage newsletter advert depending on whether you are logged in
 
 Web page URL of you
