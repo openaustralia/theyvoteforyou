@@ -9,7 +9,7 @@ import os.path
 import xml.sax
 import time
 import tempfile
-
+import string
 import miscfuncs
 toppath = miscfuncs.toppath
 

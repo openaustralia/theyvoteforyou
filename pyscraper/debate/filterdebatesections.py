@@ -144,7 +144,7 @@ def StripDebateHeadings(headspeak, sdate):
                         newtime = '18:00:00'
                 else:
                         newtime = "unknown " + time
-                        raise Exception, "Start time not known: " + time
+                        raise ContextException, "Start time not known: " + time
                 stampurl.timestamp = '<stamp time="%s"/>' % newtime
 
 	for j in range(0, ih):
