@@ -15,14 +15,15 @@ todo.txt - Things I'm thinking of doing in the short term
 ideas.txt - Zillions of ideas of things which could be done
 errata.txt - Errors in Hansard that the software has found
 
-scraper   - Screen scrapes Hansard website to fill the database, some analysis
+scraper   - Screen scraper which directly fills the database with divisions
 rawdata   - Source data files not previously available on the Internet
 cluster   - MP cluster analysis using Multi-dimensional Scaling
-website   - Code for www.publicwhip.org.uk, PHP extracts data from database
-build     - Scripts I use to upload to www.publicwhip.org.uk
 
-members   - MP list as one fat XML file
-pythonexp - New experiments (using Python)
+members   - MP list as one fat XML file (used by pyscraper)
+pyscraper - Hansard screen scraper which makes XML files, does Written Answers
+pyindex   - Indexing code for XML made by pyscraper
 
+website   - Code for www.publicwhip.org.uk, PHP extracts data from database/XML
+build     - Scripts I use for admin, such as to upload to www.publicwhip.org.uk
 
 If you need any help, please email me francis@flourish.org.
