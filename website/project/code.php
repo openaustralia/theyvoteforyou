@@ -1,5 +1,5 @@
 <?php $title = "Source Code"; include "../header.inc" 
-# $Id: code.php,v 1.5 2004/06/08 11:56:55 frabcus Exp $
+# $Id: code.php,v 1.6 2004/06/08 15:48:47 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -97,11 +97,11 @@ Tell me if this list is wrong.
 <p>
 
 <p><span class="ptitle">MySQL</span> - Get this database server from <a
-href="http://www.mysql.com">MySQL.com</a>.  After installing it you need
-to set up the instructions to create a database and a user with
-privileges to access that database. The database can have any name.
-You need to set up the database tables, which all begin with
-<i>pw_</i>.  To do this read the instructions at the top of the file
+href="http://www.mysql.com">MySQL.com</a>.  You need version 4.0 or above.  After
+installing it you need to set up the instructions to create a database and a
+user with privileges to access that database. The database can have any name.
+You need to set up the database tables, which all begin with <i>pw_</i>.  To do
+this read the instructions at the top of the file
 create.sql.  It contains the SQL commands which create the tables.
 
 <h2>Scraping parliamentary transcripts</h2>
@@ -109,7 +109,8 @@ create.sql.  It contains the SQL commands which create the tables.
 <p>Use the command line and change to the <i>pyscraper</i> directory.  The
 script called <i>lazyrunall.py</i> in there does all of the screen scraping
 from Hansard.  Run it with no parameters to find out its syntax.  Then
-do something like this 
+do something like this, include a date limit as the parser gives errors
+if you go too far back.
 
 <p><tt>./lazyrunall.py --from 2001-06-01 scrape parse
 debates wrans</tt>
