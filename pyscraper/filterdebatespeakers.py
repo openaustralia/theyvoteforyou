@@ -56,7 +56,7 @@ fixsubs = 	[
         # wrong constituency in debates
         ( 'Sir Archy Kirkwood  \(Brecon and Radnorshire\)', 'Sir Archy Kirkwood (Roxburgh and Berwickshire)', 1, '2003-06-26'),
 
-        
+        ( '(<B> Ms Hazel Blears)\)', '\\1', 1, '2004-02-23'), # cron
 ]
 
 # 2. <B> Mr. Colin Breed  (South-East Cornwall)</B> (LD):
