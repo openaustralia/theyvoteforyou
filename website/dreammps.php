@@ -19,7 +19,7 @@
     $dbo = new DB(); 
     $db = new DB(); 
 
-    check_table_cache_all_dream_mps($db);
+    check_table_cache_counts_all_dream_mps($db);
 
     $title = "Dream MPs";
     include "header.inc";

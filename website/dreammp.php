@@ -93,13 +93,19 @@
     print "<p>Grades MPs acording to how often they voted the same as the dream
     MP.  If, in divisions where both voted, they always voted the same then
     the score is 100%.  If they always voted differently, the score is 0%.";
-    $query = "select first_name, last_name, title, constituency,
-        party, pw_mp.mp_id as mp_id,
-        entered_reason, left_reason, entered_house, left_house from pw_mp ";
-    $query .= " where " . parliament_query_range($parliament);
-    $query .= "order by rand()";
 
-	$db->query($query);
+    $now = strftime("%Y-%m-%d");
+    $query = "select first_name, last_name, title, constituency,
+        party, pw_mp.mp_id as mp_id, pw_mp.person,
+        entered_reason, left_reason, entered_house, left_house,
+        score_a, scoremax_a, rank_a, rank_outof_a
+        from pw_mp, pw_cache_dreamreal_score
+        where pw_mp.person = pw_cache_dreamreal_score.person
+        and pw_cache_dreamreal_score.rollie_id = '$dreamid'";
+    $query .= " and rank_outof_a is not null 
+        and left_house > '$now'
+        order by rank_a";
+    $row = $db->query($query);
 
     print "<table class=\"mps\">\n";
     print "<tr class=\"headings\">";
@@ -107,75 +113,14 @@
     print "</tr>";
 
     $prettyrow = 0;
-    $rowarray = $db->fetch_rows_assoc();
-    foreach ($rowarray as $key=>$copy_row)
+    while ($row = $db->fetch_row_assoc())
     {
-        $row =& $rowarray[$key]; # so we can modify $row values
-        $ret  = calc_dream_mp_score($db, $dreamid, $row['mp_id']);
-        $row['score'] = $ret[0];
-        $row['scoremax'] = $ret[1];
-    }
-
-    function sortbyscore($row1, $row2)
-    {
-        // First compare percentage (allow for n/a when MP has never voted in
-        // same division as dream MP)
-        if ($row1['scoremax'] == 0)
-            $frac1 = 0; // change to -1 to put n/a at end
-        else
-            $frac1 = $row1['score'] / $row1['scoremax'];
-        if ($row2['scoremax'] == 0)
-            $frac2 = 0; // change to -1 to put n/a at end
-        else
-            $frac2 = $row2['score'] / $row2['scoremax'];
-        if ($frac1 <> $frac2)
-            return $frac1 < $frac2;
-        
-        // Then compare absolute (so it is better to have voted lots and
-        // agreed, than a little and agreed)
-        if ($row1['score'] <> $row2['score'])
-            return $row1['score'] < $row2['score'];
-
-        // Then reverse compare number of disagreed votes
-        // so 0 of 1 is better than 0 of 10
-        if ($row1['scoremax'] - $row1['score'] <> $row2['scoremax'] - $row2['score'])
-            return ($row1['scoremax'] - $row1['score']) > ($row2['scoremax'] - $row2['score']);
-
-        // Arbitarily sort after that
-        if ($row1['last_name'] <> $row2['last_name'])
-            return strcmp($row1['last_name'], $row2['last_name']);
-        
-        if ($row1['first_name'] <> $row2['first_name'])
-            return strcmp($row1['first_name'], $row2['first_name']);
-        
-        if ($row1['constituency'] <> $row2['constituency'])
-            return strcmp($row1['constituency'], $row2['constituency']);
-
-        if ($row1['party'] <> $row2['party'])
-            return strcmp($row1['party'], $row2['party']);
-
-        
-    }
-
-    usort($rowarray, sortbyscore);
-
-    $rank = 0;
-    $userank = -1;
-    $prevscore = "";
-    foreach ($rowarray as $row)
-    {
-        $rank += 1;
-
-        $score = $row['score'] . " of ". $row['scoremax'];
-        if ($score != $prevscore)
-            $userank = $rank;
-        $prevscore = $score;
-
-        $perc = percentise(make_percent($row['score'], $row['scoremax']));
-        
+        $rank = $row['rank_a']; # . "/" . $row['rank_outof_a'];
+        $score = $row['score_a'] . " of ". $row['scoremax_a'];
+        $perc = percentise(make_percent($row['score_a'], $row['scoremax_a']));
         $prettyrow = pretty_row_start($prettyrow);
 
-        print "<td>" . $userank . "</td>";
+        print "<td>" . $rank . "</td>";
         print "<td>" . set_mp_with_link($row) . "</td></td>
             <td>" . $row['constituency'] . "</td>
             <td>" . set_party($row). "</td>

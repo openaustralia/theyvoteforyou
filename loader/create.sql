@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.9 2005/02/18 19:43:41 frabcus Exp $
+-- $Id: create.sql,v 1.10 2005/03/04 01:14:22 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -176,11 +176,27 @@ create table pw_dyn_newsletters_sent (
 --   there are lots more of these made automatically by loader.pl
 --   those written to by the website itself are here
 
+-- information about one Dream MP
 create table pw_cache_dreaminfo (
     rollie_id int not null primary key,
 
     votes_count int not null,
     edited_motions_count int not null
+);
+
+-- information about a real MP for a particular Dream MP
+-- e.g. Scores for how well they follow the Dream MP's whip.
+-- done per parliament, as there are rankings
+create table pw_cache_dreamreal_score (
+    rollie_id int not null,
+    person int not null,
+    unique(rollie_id, person),
+
+    -- scoring system A
+    score_a int,
+    scoremax_a int,
+    rank_a int, -- can be null if not currently sitting
+    rank_outof_a int -- can be null if not currently sitting
 );
 
 -------------------------------------------------------------------------------
