@@ -17,7 +17,7 @@ from miscfuncs import ApplyFixSubstitutions
 fixsubs = 	[
 	( 'Continued in col 47W', '', 1, '2003-10-27' ),
 
-	# Note the 2!  
+	# Note the 2!
 	( '<H1 align=center></H1>[\s\S]{10,99}?\[Continued from column \d+?W\](?:</H2>)?', '', 2, '2003-11-17' ),
 	( '<H2 align=center> </H2>[\s\S]{10,99}?Monday 13 October 2003', '', 1, '2003-10-14' ),
  		]
@@ -43,23 +43,19 @@ def FilterWransColnum(fout, text, sdate):
 	for fss in fs:
 		columng = re.match(columnregexp, fss)
 		if columng:
-
 			ldate = mx.DateTime.DateTimeFrom(columng.group(1)).date
 			if sdate != ldate:
 				raise Exception, "Column date disagrees %s -- %s" % (sdate, fss)
 
 			lcolnum = string.atoi(columng.group(2))
-			if lcolnum != lcolnum - 1:
-				if (colnum == -1) or (lcolnum == colnum + 1):
-					pass  # good
-				elif lcolnum < colnum:
-					raise Exception, "Colnum not incrementing %d -- %s" % (lcolnum, fss)
-				# column numbers do get skipped during division listings
+			if (colnum == -1) or (lcolnum == colnum + 1):
+				pass  # good
+			elif lcolnum < colnum:
+				raise Exception, "Colnum not incrementing %d -- %s" % (lcolnum, fss)
+			# column numbers do get skipped during division listings
 
-				colnum = lcolnum
-				fout.write('<stamp coldate="%s" colnum="%sW"/>' % (sdate, lcolnum))
- 			else:
-				pass #print "spurious column number decrementation -- don't output"
+			colnum = lcolnum
+			fout.write('<stamp coldate="%s" colnum="%sW"/>' % (sdate, lcolnum))
 
 			continue
 

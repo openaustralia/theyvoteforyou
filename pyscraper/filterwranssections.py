@@ -59,7 +59,7 @@ fixsubs = 	[
 
 	( 'Asked the Minister', 'To ask the Minister', 1, '2003-05-19'),
 	( 'Asked the Minister', 'To ask the Minister', 1, '2003-05-21'),
-	( '</B>\s*Asked', '</B> To ask', 1, '2003-03-21'),
+	#( '</B>\s*Asked', '</B> To ask', 1, '2003-03-21'),
 
 	( '2003&#150;11&#150;21', '2003', 1, '2003-11-20'),
 	( '27Ooctober', '27 October', 1, '2003-10-27'),

@@ -10,22 +10,65 @@ from filterwranscolnum import FilterWransColnum
 from filterwransspeakers import FilterWransSpeakers
 from filterwranssections import FilterWransSections
 
-toppath = os.path.expanduser('~/pwdata/')
+
+from filterdebatecoltime import FilterDebateColTime
+
+
+toppath = os.path.expanduser('~/pwdata')
 
 # master function which carries the glued pages into the xml filtered pages
 
-# in/output directories
-pwcmdirs = toppath + "pwcmpages/"
-pwcmwrans = pwcmdirs + "wrans/"
+# incoming directory of glued pages directories
+pwcmdirs = os.path.join(toppath, "pwcmpages")
+# outgoing directory of scaped pages directories
+pwxmldirs = os.path.join(toppath, "pwscrapedxml")
 
-pwxmldirs = toppath + "pwscrapedxml/"
-pwxmwrans = pwxmldirs + "wrans/"
-
-tempfile = toppath + "filtertemp"
+tempfile = os.path.join(toppath, "filtertemp")
 
 
-# filter twice through stringfiles, and then to the real file
-def RunFilters(fout, text, sdate):
+# this
+def RunFiltersDir(filterfunction, dname):
+	# the in and out directories for the type
+	pwcmdirin = os.path.join(pwcmdirs, dname)
+	pwxmldirout = os.path.join(pwxmldirs, dname)
+
+	# create output directory
+	if not os.path.isdir(pwxmldirout):
+		os.mkdir(pwxmldirout)
+
+	# loop through file in input directory in reverse date order
+	fdirin = os.listdir(pwcmdirin)
+	fdirin.sort()
+	fdirin.reverse()
+	for fin in fdirin:
+		jfin = os.path.join(pwcmdirin, fin)
+
+		# extract the date from the file name
+		sdate = re.search('\d{4}-\d{2}-\d{2}', fin).group(0)
+
+		# create the output file name
+		jfout = os.path.join(pwxmldirout, re.sub('\.html$', '.xml', fin))
+
+		# skip already processed files
+		if os.path.isfile(jfout):
+			continue
+
+		# read the text of the file
+		print fin
+		ofin = open(jfin)
+		text = ofin.read()
+		ofin.close()
+
+		# call the filter function and copy the temp file into the correct place.
+		# this avoids partially processed files getting into the output when you hit escape.
+		fout = open(tempfile, "w")
+		filterfunction(fout, text, sdate)
+		fout.close()
+		os.rename(tempfile, jfout)
+
+# These text filtering functions filter twice through stringfiles,
+# before directly filtering to the real file.
+def RunWransFilters(fout, text, sdate):
 	si = cStringIO.StringIO()
 	FilterWransColnum(si, text, sdate)
 	text = si.getvalue()
@@ -39,42 +82,27 @@ def RunFilters(fout, text, sdate):
 	FilterWransSections(fout, text, sdate)
 
 
+def RunDebateFilters(fout, text, sdate):
+	si = cStringIO.StringIO()
+	FilterDebateColTime(si, text, sdate)
+	text = si.getvalue()
+	si.close()
+
+	fout.write(text)
+
+
 ###############
 # Main Function
 ###############
-def RunFiltersDir():
-	if not os.path.isdir(pwxmldirs):
-		os.mkdir(pwxmldirs)
 
-	# filtering on written answers (will generalize into others)
-	if not os.path.isdir(pwxmwrans):
-		os.mkdir(pwxmwrans)
+# create the output directory
+if not os.path.isdir(pwxmldirs):
+	os.mkdir(pwxmldirs)
 
-	dirin = pwcmwrans
-	dirout = pwxmwrans
+# operate the filters on written answers
+#RunFiltersDir(RunWransFilters, 'wrans')
 
-	fdirin = os.listdir(dirin)
-	fdirin.sort()
-	fdirin.reverse()
-	for fin in fdirin:
-		jfin = os.path.join(dirin, fin)
-
-		sdate = re.findall('\d{4}-\d{2}-\d{2}', fin)[0]
-		jfout = os.path.join(dirout, re.sub('[.]html$', '.xml', fin))
-
-		if os.path.isfile(jfout):
-			continue
-
-		ofin = open(jfin)
-		text = ofin.read()
-		ofin.close()
-
-		print fin
-		fout = open(tempfile, "w")
-		RunFilters(fout, text, sdate)
-		fout.close()
-		os.rename(tempfile, jfout)
-
-RunFiltersDir()
+# operate the filters on debates
+RunFiltersDir(RunDebateFilters, 'debates')
 
 

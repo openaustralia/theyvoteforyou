@@ -1,3 +1,4 @@
 #! /bin/bash
 
-rm ~/pwdata/pwscrapedxml/wrans/*
+rm -f ~/pwdata/pwscrapedxml/wrans/*
+rm -f ~/pwdata/pwscrapedxml/debates/*
