@@ -1,5 +1,5 @@
 #!/usr/bin/env python2.3
-# $Id: guardianconv.py,v 1.9 2004/12/17 11:41:35 frabcus Exp $
+# $Id: guardianconv.py,v 1.10 2004/12/24 14:46:56 theyworkforyou Exp $
 
 # Converts tab file of Guardian URLs into XML.  Also extracts swing/majority
 # from the constituency page on the Guardian.
@@ -56,10 +56,13 @@ for l in ih:
             again = 1
     content = ur.read()
     ur.close()
-    m = re.search("requires a (\d+\.\d+) \&\#037\; swing to gain seat", content)
+
+    m = re.search('<td align="right" valign="top"><b><font size="2" face="Geneva,Arial,sans-serif">(\d{1,2}\.\d)</font></b></td>.*?<tr.*?<td align="right" valign="top"><font size="2" face="Geneva,Arial,sans-serif">(\d{1,2}\.\d)</font></td>(?s)', content)
     if m:
+        swing = round( ( float(m.group(1)) - float(m.group(2)) ) / 2 , 2)
+#    m = re.search("requires a (\d+\.\d+) \&\#037\; swing to gain seat", content)
         for id in setsameelection:
-            print '<memberinfo id="%s" swing_to_lose_seat="%s" />' % (id, m.group(1))
+            print '<memberinfo id="%s" swing_to_lose_seat="%s" />' % (id, swing)
     else:
         print >>sys.stderr, "no match for swing at url %s" % consurl
 
