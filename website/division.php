@@ -1,5 +1,5 @@
 <?php
-# $Id: division.php,v 1.7 2003/10/03 21:46:10 frabcus Exp $
+# $Id: division.php,v 1.8 2003/10/11 07:51:52 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -28,10 +28,10 @@
     $turnout = $row[4];
     $notes = $row[5];
     $motion = $row[6];
-    $date = date("j M Y", strtotime($date));
+    $prettydate = date("j M Y", strtotime($date));
     $div_no = htmlentities($div_no);
 
-    $title = "Division $div_no - $date - $name";
+    $title = "Division $div_no - $prettydate - $name";
     include "header.inc";
 
     print "<h2>Summary</h2>";
