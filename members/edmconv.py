@@ -1,6 +1,6 @@
 #!/usr/bin/python2.3
 # -*- coding: latin-1 -*-
-# $Id: edmconv.py,v 1.3 2004/05/24 00:59:00 frabcus Exp $
+# $Id: edmconv.py,v 1.4 2004/05/30 10:48:01 frabcus Exp $
 
 # Makes file connecting MP ids to URL in the Early Day Motion EDM)
 # database at http://edm.ais.co.uk/
@@ -46,7 +46,7 @@ for letter in [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
     matcher = '<TD ALIGN="LEFT" VALIGN="TOP"><A HREF="(/weblink/html/member.html/.*)/log=\d+/pos=\d+" TARGET="_parent"><font face="arial,helvetica" size=2>(.*)/(.*)</A></TD>\s*<TD ALIGN="LEFT" VALIGN="TOP"><font face="arial,helvetica" size=2>(.*)</TD>'
     matches = re.findall(matcher, content)
     for (url, last, first, cons) in matches:
-        print last, first, url
+        print >>sys.stderr, last, first, url
     
         first = re.sub(" \(.*\)", "", first)
         id, name, cons =  memberList.matchfullnamecons(first + " " + last, cons, date_today)
@@ -68,6 +68,6 @@ allmembers = sets.Set(memberList.currentmpslist())
 symdiff = allmembers.symmetric_difference(aismembers)
 if len(symdiff) > 0:
     print >>sys.stderr, "Failed to get all MPs, these ones in symmetric difference"
-    print symdiff
+    print >>sys.stderr, symdiff
 
 
