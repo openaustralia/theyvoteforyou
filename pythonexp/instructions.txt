@@ -18,11 +18,20 @@ mkdir c2daydebatefixcolumnnumbers
 run fixdebatecolumnnumbers.py
 	scans through c1daydebateremovechars/ converts columns and times, and writes into c2daydebatefixcolumnnumbers/
 
+mkdir c3daydebatematchspeakers
+run fixspeakernames.py
+	this requires a lot of attention to get right.  Should be tracking down names and tags everywhere in the document, including in the divisions.
 
+mkdir c4folding
+run foldsections.py
+	trying to separate out the different bits according to title and content.
+
+
+
+Things to do:
 
 The loops through the directories need moving out of the files into a generic place
-Next filters to do: the name identifications.
-Breaking and identifying chunks.
+
 
 
 

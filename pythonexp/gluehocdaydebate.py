@@ -45,7 +45,7 @@ while 1:
 junkfile = "daydebjunk.htm"
 
 # this is used to avoid partial files
-tempfile = "daydebtemp.htm"
+tempfile = "gdaydebtemp.htm"
 
 # output files
 junk = open(junkfile, "a");
@@ -60,7 +60,7 @@ for dnu in daydebateurl:
 
 	# now we have the difficulty of pulling in the first link out of this silly index page
 	print dnu[1]
-	urx = urllib.urlopen(dnu[1])
+	urx = urllib.urlopen(re.sub('\s', '', dnu[1]))
 	while 1:
 		xline = urx.readline()
 		if not xline:

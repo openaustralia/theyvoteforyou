@@ -11,7 +11,7 @@ import string
 # in and out files for this filter
 dirin = "c2daydebatefixcolumnnumbers"
 dirout = "c3daydebatematchspeakers"
-dtemp = "daydebtemp.htm"
+dtemp = "gdaydebtemp.htm"
 
 
 # <B> Mr. Eric Martlew  (Carlisle):</B>

@@ -4,6 +4,7 @@ import sys
 import re
 import os
 import string
+from stripsections import StripSections
 
 # this filter finds the speakers and replaces with full itendifiers
 # <speaker name="Eric Martlew  (Carlisle)"><p>Eric Martlew  (Carlisle)</p></speaker>
@@ -74,12 +75,13 @@ foldhtmlfoot = "</body></html>"
 # scan through directory
 fdirin = os.listdir(dirin)
 
+
 for fin in fdirin:
 	jfin = os.path.join(dirin, fin)
 	jfout = os.path.join(dirout, fin)
-	if os.path.isfile(jfout):
-		print "skipping " + fin
-		continue
+	#if os.path.isfile(jfout):
+	#	print "skipping " + fin
+	#	continue
 
 	print fin
 	fin = open(jfin);
@@ -89,41 +91,11 @@ for fin in fdirin:
 	tempfile = open(dtemp, "w")
 	tempfile.write(foldhtmlhead)
 
-	# setup for scanning through the file.
-	# we should have a name matching module which gets the unique ids, and
-	# takes the full speaker name and date to find a match.
-	fs = re.split(lsectionregexp, fr)
+	stsec = StripSections(fr)
 
-	# the map which will expand the names from the common abbreviations
-	for fss in fs:
-		if not fss:
-			continue
-		sectiongroup = re.findall(sectionregexp1, fss)
-		if len(sectiongroup) == 0:
-			sectiongroup = re.findall(sectionregexp2, fss)
-			if len(sectiongroup) == 0:
-
-				# don't fold nothing
-				if (len(fss) < 20):
-					tempfile.write(fss)
-					continue
-
-				# put folds around this text
-				tempfile.write('<span onclick="cycle(this)" class="phid" pos="first">')
-				tempfile.write(fss)
-				tempfile.write('</span><span onclick="cycle(this)" class="pvis" pos="last">')
-				tempfile.write('<center>(')
-				for i in range(len(fss) / 300):
-					tempfile.write('-')
-				tempfile.write(')</center>')
-				tempfile.write('</span>')
-
-				continue
-
-		# we can detect divisions here, but keep simple for now.
-		heading = sectiongroup[0]
-		tempfile.write('<h3 align=center><font color="#004f3f">%s</font></h3>\n' % heading)
+	stsec.foldwrite(tempfile)
 
 	tempfile.write(foldhtmlfoot)
 	tempfile.close()
+
 	os.rename(dtemp, jfout)
