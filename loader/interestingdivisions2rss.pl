@@ -40,9 +40,9 @@ my $results=  PublicWhip::DB::query($dbh,
 
    while (my $result= $results->fetchrow_hashref) {
             $rss->add_item(
-	          title => "$result->{rebellions} Rebellions in $result->{division_name}",
-                  link => "http://www.publicwhip.org.uk/division.php?date=$result->{division_date};number=$result->{division_number}",
-		  description=> "$result->{rebellions} rebellions ($result->{turnout} voters) in vote on $result->{division_name} on $result->{division_date}"
+	          title => "$result->{rebellions} rebellions in $result->{division_name}",
+                  link => "http://www.publicwhip.org.uk/division.php?date=$result->{division_date}&number=$result->{division_number}",
+		  description => "<p>$result->{rebellions} MPs rebelled out of $result->{turnout} voters in this vote on $result->{division_name} in the House of Commons.</p>",
                 );
 
 }
