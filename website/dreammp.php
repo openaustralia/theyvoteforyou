@@ -48,6 +48,12 @@
     else
         $your_dmp = false;
 
+    print "<div class=\"tableexplain\">";
+    print '<h2><a name="compare">Compare to Your MP</a></h2><p>';
+    print dream_box($dreamid, $dmp_name);
+    print '<p>Why not <a href="#dreambox">add this to your own website?</a>';
+    print "</div>";
+
     print '<p><a href="#divisions">Divisions Attended</a>';
 	print ' | ';
 	print '<a href="#comparison">Comparison to Real MPs</a>';
@@ -55,16 +61,17 @@
     print "<p><b>Description:</b> " . str_replace("\n", "<br>", html_scrub($dmp_description)). "</p>";
     print "<p><b>Made by:</b> " . html_scrub($dmp_user_name) . ". ";
     print "</p>";
-    if ($your_dmp)
-    {
+
+    if ($your_dmp) {
         print "<p><a href=\"account/editdream.php?id=$dreamid\">Edit name/description of this dream MP</a>";
         print "<br><a href=\"account/adddream.php\">Make a new dream MP</a>";
     }
     else
         print "<p><a href=\"account/adddream.php\">Make your own dream MP</a>";
-        print "<br><a href=\"dreammps.php\">See all dream MPs</a>";
-        print '<br><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=1">Discuss dream MP on our forum</a>';
+    print "<br><a href=\"dreammps.php\">See all dream MPs</a>";
+    print '<br><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=1">Discuss dream MP on our forum</a>';
 
+    
     print "<h2><a name=\"divisions\">Divisions Attended</a></h2>
     <p>Divisions in which this dream MP has voted.";
     print " <b>$dmp_votes_count</b> votes, of which <b>$dmp_edited_count</b> have edited motion text.";
@@ -134,10 +141,21 @@
 
     print "</table>\n";
 
+    print '<h2><a name="dreambox">Add Dream MP to Your Website</a></h2>';
+    print '<p>Get people thinking about your issue, by adding a Dream MP search
+box to your website.  This lets people compare their own MP to your Dream MP,
+like this.</p>';
+    print dream_box($dreamid, $dmp_name);
+    print '<p>To do this copy and paste the following HTML into your website.
+Feel free to fiddle with it to fit the look of your site better.  We only
+ask that you leave the link to Public Whip in.';
+    print '<pre class="htmlsource">';
+    print htmlspecialchars(dream_box($dreamid, $dmp_name));
+    print '</pre>';
+
     $timenow = getmicrotime();
     $timetook = $timenow - $timestart;
 //    print "took $timetook from $timestart $timenow";
-
 ?>
 
 <?php include "footer.inc" ?>

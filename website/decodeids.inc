@@ -1,5 +1,5 @@
 <?php
-    # $Id: decodeids.inc,v 1.6 2005/03/14 18:58:13 goatchurch Exp $
+    # $Id: decodeids.inc,v 1.7 2005/03/18 15:36:28 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -7,6 +7,7 @@
     # For details see the file LICENSE.html in the top level of the source.
 
     include "parliaments.inc";
+    include "postcode.inc";
 
  	# this maps all constituency names to numbers
     include "constituencies.inc";
@@ -150,8 +151,17 @@
 
 		$mpname = db_scrub($_GET["mpn$i"]);
 		$mpconstituency = db_scrub($_GET["mpc$i"]);
+		$mppostcode = db_scrub($_GET["mppc$i"]);
 		if ($bdebug == 1)
-			print "<h1> MPN=$mpname MPC=$mpconstituency</h1>";
+			print "<h1> MPN=".htmlscrub($mpname)." MPC=".htmlscrub($mpconstituency)." MPPC=".htmlscrub($mppostcode)."</h1>";
+
+        if (is_postcode($mppostcode)) {
+            $pccons = postcode_to_constituency($mppostcode);
+            if (isset($pccons)) {
+                $mpconstituency = $pccons; 
+            }
+        }
+            
 		if ($mpname == "" and $mpconstituency == "")
 		{
 			if ($i != "")   # legacy doesn't apply to second and third entries which may be blank

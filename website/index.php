@@ -2,7 +2,7 @@
 
 $cache_params = rand(0, 10); include "cache-begin.inc";
 
-# $Id: index.php,v 1.41 2005/03/09 19:38:51 goatchurch Exp $
+# $Id: index.php,v 1.42 2005/03/18 15:36:28 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -58,7 +58,7 @@ An at most monthly briefing.
 <br>Enter your postcode or MP name:
 <input maxLength=256 size=10 name=query value=""> <input type=submit value="Go" name=button>
 <br><i>Example: "OX1 3DR", "<?=$random_mp?>"</i>
-</form></p>
+</form>
 </p>
 
 <li>

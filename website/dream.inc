@@ -187,4 +187,29 @@ function get_top_dream_query($count) {
     return $query;
 }
 
-?>
+# Returns HTML postcode search box for MP/DreamMP comparison.
+function dream_box($dreamid, $dmp_name) {
+    $html = '
+<div style="position: relative; width: 21em; color: #000000; 
+background-color: #eeeeee; font-family: Verdana, Arial, Sans-serif; 
+margin: 0 0 0 0; border: 1px solid #003300; padding: 0 0 0 0;">
+    <div style="text-align: center; background-color: #003300">
+        <a href="http://www.publicwhip.org.uk" style="color: #ffffff">
+            <img src="http://www.publicwhip.org.uk/smallpublicwhip.gif" alt="The Public Whip">
+        </a>
+    </div>
+    <form style="text-align: left" action="http://www.publicwhip.org.uk/mp.php" name="pw">
+        <p style="padding: 0 10px 0 10px">
+            <b>'.html_scrub($dmp_name).'<br>How did your MP vote?</b>
+            <br>Your postcode:
+            <input maxLength="256" size="10" name="mppc" value=""> 
+            <input type="hidden" name="display" value="motions">
+            <input type="hidden" name="dmp" value="'.html_scrub($dreamid).'">
+            <input type="submit" value="Go" name="button">
+        </p>
+    </form>
+</div>
+';
+    return $html;
+}
+

@@ -486,4 +486,13 @@ BODY.patent H1
     text-align: center;
     font-size: 200%;
 }
+/* For showing HTML source */
+PRE.htmlsource
+{
+	border: solid 1px #4d6c25;
+	margin: 0 18px 1em;
+	height: 15em;
+	overflow: scroll;
+}
+
 
