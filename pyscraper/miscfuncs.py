@@ -38,54 +38,66 @@ def StraightenHTMLrecurse(stex):
 		if not sres[i]:
 			pass
 		elif sres[i][0] == '&':
+
+			# The names of entities and what they are are here:
+			# http://www.bigbaer.com/reference/character_entity_reference.htm
+			# Make sure you update WriteXMLHeader below also!
+
 			if sres[i] == '&#150;':
-				sres[i] = '-'
+				sres[i] = '&ndash;'
 			elif sres[i] == '&#151;':
-				sres[i] = ' -- '
-			elif sres[i] == '&#163;':
-				sres[i] = 'POUNDS'
-			elif sres[i] == '&#233;':   # this is e-acute
-				sres[i] = 'e'
+				sres[i] = ' &mdash; '
 			elif sres[i] == '&#232;':   # this is e-grave
-				sres[i] = 'e'
+				sres[i] = '&egrave;'
+			elif sres[i] == '&#233;':   # this is e-acute
+				sres[i] = '&eacute;'
 			elif sres[i] == '&#234;':   # this is e-hat
-				sres[i] = 'e'
+				sres[i] = '&ecirc;'
 			elif sres[i] == '&#235;':   # this is e-double-dot
-				sres[i] = 'e'
+				sres[i] = '&euml;'
+
+			elif sres[i] == '&#224;':   # this is a-grave
+				sres[i] = '&agrave;'
 			elif sres[i] == '&#225;':   # this is a-acute
-				sres[i] = 'a'
-			elif sres[i] == '&#224;':   # this is a-acute
-				sres[i] = 'a'
-			elif sres[i] == '&#226;':   # this is a-grave as in debacle
-				sres[i] = 'a'
+				sres[i] = '&aacute;'
+			elif sres[i] == '&#226;':   # this is a-hat as in debacle
+				sres[i] = '&acirc;'
+
 			elif sres[i] == '&#244;':   # this is o-hat
-				sres[i] = 'o'
+				sres[i] = '&ocirc;'
 			elif sres[i] == '&#246;':   # this is o-double-dot
-				sres[i] = 'o'
+				sres[i] = '&ouml;'
 			elif sres[i] == '&#214;':   # this is capital o-double-dot
-				sres[i] = 'O'
+				sres[i] = '&Ouml;'
+
 			elif sres[i] == '&#231;':   # this is cedilla
-				sres[i] = 'c'
+				sres[i] = '&ccedil;'
 			elif sres[i] == '&#252;':   # this is u-double-dot
-				sres[i] = 'u'
+				sres[i] = '&uuml;'
 			elif sres[i] == '&#241;':   # spanish n as in Senor
-				sres[i] = 'n'
+				sres[i] = '&ntilde;'
+
 			elif sres[i] == '&#177;':   # this is +/- symbol
-				sres[i] = '+/-'
-			elif sres[i] == '&#188;':   # this is one quarter symbol
-				sres[i] = '1/4'
-			elif sres[i] == '&#189;':   # this is one half symbol
-				sres[i] = '1/2'
-			elif sres[i] == '&#190;':   # this is three quarter symbol
-				sres[i] = '3/4'
+				sres[i] = '&plusmn;'
+			elif sres[i] == '&#163;':   # UK currency
+				sres[i] = '&pound;'
+			elif sres[i] == '&pound;':
+				pass
+			elif sres[i] == '&#183;':   # middle dot
+				sres[i] = '&middot;'
 			elif sres[i] == '&#176;':   # this is the degrees
-				sres[i] = 'DEGREES'
+				sres[i] = '&deg;'
+
+			elif sres[i] == '&#188;':   # this is one quarter symbol
+				sres[i] = '&frac14;'
+			elif sres[i] == '&#189;':   # this is one half symbol
+				sres[i] = '&frac12;'
+			elif sres[i] == '&#190;':   # this is three quarter symbol
+				sres[i] = '&frac34;'
+
 			elif sres[i] == '&#95;':    # this is underscore symbol
 				sres[i] = '_'
-			elif sres[i] == '&#183;':   # this is an unknown symbol
-				sres[i] = '&quot;'
-			elif sres[i] == '&pound;':
-				sres[i] = 'POUNDS'
+
 			elif sres[i] == '&nbsp;':
 				sres[i] = ' '
 			elif sres[i] == '&':
@@ -271,4 +283,37 @@ def SplitParaIndents(text):
 	#	raise ' still indented after last space '
 	return (res, resdent)
 
+def WriteXMLHeader(fout):
+	fout.write('<?xml version="1.0" encoding="ISO-8859-1"?>\n')
+	
+	# These entity definitions for latin-1 chars are from here:
+	# http://www.w3.org/TR/REC-html40/sgml/entities.html
+	fout.write('''
+<!ENTITY ndash   CDATA "&#8211;" -- en dash, U+2013 ISOpub -->
+<!ENTITY mdash   CDATA "&#8212;" -- em dash, U+2014 ISOpub -->
+
+<!ENTITY egrave CDATA "&#232;" -- latin small letter e with grave, U+00E8 ISOlat1 -->
+<!ENTITY eacute CDATA "&#233;" -- latin small letter e with acute, U+00E9 ISOlat1 -->
+<!ENTITY ecirc  CDATA "&#234;" -- latin small letter e with circumflex, U+00EA ISOlat1 -->
+<!ENTITY euml   CDATA "&#235;" -- latin small letter e with diaeresis, U+00EB ISOlat1 -->
+<!ENTITY agrave CDATA "&#224;" -- latin small letter a with grave, U+00E0 ISOlat1 -->
+<!ENTITY aacute CDATA "&#225;" -- latin small letter a with acute, U+00E1 ISOlat1 -->
+<!ENTITY acirc  CDATA "&#226;" -- latin small letter a with circumflex, U+00E2 ISOlat1 -->
+<!ENTITY ocirc  CDATA "&#244;" -- latin small letter o with circumflex, U+00F4 ISOlat1 -->
+<!ENTITY ouml   CDATA "&#246;" -- latin small letter o with diaeresis, U+00F6 ISOlat1 -->
+<!ENTITY Ouml   CDATA "&#214;" -- latin capital letter O with diaeresis, U+00D6 ISOlat1 -->
+<!ENTITY ccedil CDATA "&#231;" -- latin small letter c with cedilla, U+00E7 ISOlat1 -->
+<!ENTITY uuml   CDATA "&#252;" -- latin small letter u with diaeresis, U+00FC ISOlat1 -->
+<!ENTITY ntilde CDATA "&#241;" -- latin small letter n with tilde, U+00F1 ISOlat1 -->
+
+<!ENTITY plusmn CDATA "&#177;" -- plus-minus sign = plus-or-minus sign, U+00B1 ISOnum -->
+<!ENTITY pound  CDATA "&#163;" -- pound sign, U+00A3 ISOnum -->
+<!ENTITY middot CDATA "&#183;" -- middle dot, U+00B7 ISOnum -->
+<!ENTITY deg    CDATA "&#176;" -- degree sign, U+00B0 ISOnum -->
+
+<!ENTITY frac14 CDATA "&#188;" -- vulgar fraction one quarter, U+00BC ISOnum -->
+<!ENTITY frac12 CDATA "&#189;" -- vulgar fraction one half, U+00BD ISOnum -->
+<!ENTITY frac34 CDATA "&#190;" -- vulgar fraction three quarters, U+00BE ISOnum -->
+
+''');
 
