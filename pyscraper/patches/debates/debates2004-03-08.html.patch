@@ -1,5 +1,5 @@
 --- /home/fawkes/pwdata/cmpages/debates/debates2004-03-08.html	Sun Oct  3 04:30:15 2004
-+++ /home/fawkes/pwdata/cmpages/debates/debates2004-03-08-patchtmp.html	Tue Nov  2 22:58:04 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-03-08-patchtmp.html	Thu Nov 18 11:27:34 2004
 @@ -13,7 +13,7 @@
  
  
@@ -33,11 +33,45 @@
  <a name="40308-07_spnew7"><B> Beverley Hughes: </B> 
   We have not given any evasive answers. I certainly accept that we should be as well <P>
  
-@@ -1650,6 +1653,7 @@
+@@ -1650,8 +1653,15 @@
  
  
  <B>8 Mar 2004 : Column 1262</B></P>
 +<stamp parsemess-colnumoffset="1"/>
  and the fulfilment by the financial system of obligations that, whatever their legal status, have great moral, social and economic importance. I hope that the report's receipt will be the beginning of a process that leads to the restoration of a trust that has been sorely and dangerously diminished in recent years, and that the Financial Secretary will join us and others in a common effort to achieve that common aim.
  <P>
++<parsemess-misspeech type="speech" redirect="up"/>
++<parsemess-misspeech type="speech" redirect="up"/>
++<parsemess-misspeech type="speech" redirect="up"/>
++<parsemess-misspeech type="speech" redirect="up"/>
++<parsemess-misspeech type="speech" redirect="up"/>
++<stamp parsemess-colnumoffset="2"/>
  <P>
+ <a name="40308-09_spnew3"><B> Ruth Kelly: </B> 
+  I thank the hon. Member for Arundel and South Downs (Mr. Flight) for his most reasonable response and shall try to deal with his points in turn. First, however, he ought at least to acknowledge the fundamental reforms that the Government introduced in setting up the Financial Services Authority. Those reforms were long overdue, and the notion that the Government have not done everything that they can to overhaul regulation, protect policyholders and keep the system up to date is ludicrous.
+@@ -3077,14 +3087,15 @@
+ 
+ <B>8 Mar 2004 : Column 1282</B></P>
+ 
+-<H4><center>Orders of the Day</center></H4>
+ <P>
+ <page url="http://www.publications.parliament.uk/pa/cm200304/cmhansrd/vo040308/debtext/40308-15.htm"/>
+ 
++<a name="40308-15_head0"><H2><center>Orders of the Day</center></H2>
+ 
+ <a name="40308-15_head0"><H3><center>European Parliamentary and Local Elections (Pilots) Bill</center></H3>
+ 
+ 
++<stamp parsemess-ignorenamemismatch="yes"/>
+ <P>
+ 
+ <a name="40308-15_para0"><i>Lords amendments considered.</i>
+@@ -8055,7 +8066,7 @@
+ 
+ <B>8 Mar 2004 : Column 1349</B></P>
+ 
+-NOMINATION OF SELECT COMMITTEES
++<H4><center>NOMINATION OF SELECT COMMITTEES</center></H4>
+ <P>
+ 
+ <a name="40308-35_para1"><i>Motion made,</i>
