@@ -224,7 +224,7 @@ def FilterDebateSections(fout, text, sdate):
 			# which we will frig for now.
 			# force major headings to have at least one thing here.
 			if (not re.match('(?:<[^>]*>|\s)*$', sht[1])) or bmajorheading or (not sht[2]):
-				qb = qspeech('name="NOBODY-SPOKE-THIS"', sht[1], stampurl, sdate)
+				qb = qspeech('nospeaker="true"', sht[1], stampurl, sdate)
 				qb.typ = 'debspeech'
 				qblock.append(qb)
 
