@@ -24,6 +24,9 @@ MP page - print parliament in vote lists
 
 Print reason left in table
 
+Pass W3C validator
+http://validator.w3.org/
+
 Scraper
 -------
 
