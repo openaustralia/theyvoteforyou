@@ -2,14 +2,15 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.22 2003/10/15 17:15:48 frabcus Exp $
+# $Id: header.inc,v 1.23 2003/10/22 22:43:09 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-if (!is_bool(strpos(dirname($_SERVER['REQUEST_URI']), "/account"))) 
+$loc = dirname($_SERVER['REQUEST_URI']);
+if (!is_bool(strpos($loc, "/account")) || !is_bool(strpos($loc, "/project"))) 
     $toppath = "../"; 
 else 
     $toppath = "";
@@ -48,7 +49,7 @@ function givefocus() { if (document.pw) document.pw.query.focus(); }
 <a title="List of all votes in Parliament" href="<?=$toppath?>divisions.php">Divisions</a>
 <a title="List of all Members of Parliament" href="<?=$toppath?>mps.php">MPs</a>
 <a title="Cluster diagram of voting record" href="<?=$toppath?>mpsee.php">Vote Map</a>
-<a title="Software source code" href="<?=$toppath?>code.php">Code</a>
+<a title="Help run the project" href="<?=$toppath?>project/index.php">Project</a>
 <a title="Login or change settings" href="<?=$toppath?>account/settings.php">Account</a>
 <a title="Find an MP or division" href="<?=$toppath?>search.php">Search</a>
 </td>

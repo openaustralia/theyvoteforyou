@@ -1,5 +1,5 @@
-<?php $title = "Source Code"; include "header.inc" 
-# $Id: code.php,v 1.5 2003/09/18 16:16:24 frabcus Exp $
+<?php $title = "Source Code"; include "../header.inc" 
+# $Id: code.php,v 1.1 2003/10/22 22:43:09 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -228,5 +228,5 @@ suggestions as to how it could be better.  I'd love to hear from you if
 you've got the thing working at all, and what you're using it for if you
 have.
 
-<?php include "footer.inc" ?>
+<?php include "../footer.inc" ?>
 

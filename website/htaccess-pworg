@@ -8,4 +8,8 @@ DirectoryIndex index.php
 php_flag register_globals off
 php_flag magic_quotes on
 
+# all links on publicwhip.org.uk are permalinks
+# this lets us move pages without breaking them
 RedirectPermanent /rebels.php http://www.publicwhip.org.uk/mps.php?sort=rebellions
+RedirectPermanent /code.php http://www.publicwhip.org.uk/project/code.php
+

@@ -7,6 +7,11 @@ Look for EDMs on parliament.uk (in daily papers)
 Web site
 --------
 
+Attendance -> vote rate?
+
+Dig out more details on Hansard organisational structure for liaison
+project subpage
+
 <h2> spacing on IE
 
 In possible friends print after parliament the party if it is a "whilst"
@@ -23,8 +28,10 @@ Print reason left in table
 Scraper
 -------
 
-Make cluster stuff store NUMBER OF VOTES both voted in for extra
-possible friends info
+Record tellers
+Crosscheck lack of tellers with deferred division, should be one to one correspondence.
+
+Make cluster stuff store NUMBER OF VOTES both voted in for extra possible friends info
 
 Look at majorities
 
@@ -60,5 +67,6 @@ Improve motion text / title extraction
     division.php?date=2001-01-22&number=71 - title is wrong!
     division.php?date=1997-07-07&number=42 - nothing of any use!
     division.php?date=2000-02-28&number=88 - too much text!
-
+    division.php?date=2003-09-17&number=321 - not deferred division!
+    division.php?date=2003-09-17&number=320 - not deferred division!
 

@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.11 2003/10/21 18:16:18 frabcus Exp $
+# $Id: faq.php,v 1.12 2003/10/22 22:43:09 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -110,7 +110,7 @@ www.publicwhip.org.uk.  This way they can use and contribute themselves.
 anyone can have a go running them.  But there's only a point in doing
 this if you are going to change it as otherwise you will see the same
 results.  For more details go the special <a
-href="code.php">coding section</a> of this website.
+href="project/code.php">coding section</a> of this website.
 
 <h2>Why are you giving everything away for free?</h2>
 
