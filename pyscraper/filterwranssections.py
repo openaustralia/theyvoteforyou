@@ -14,6 +14,7 @@ from splitheadingsspeakers import SplitHeadingsSpeakers
 from clsinglespeech import qspeech
 from parlphrases import parlPhrases
 
+from miscfuncs import FixHTMLEntities
 
 
 fixsubs = 	[
@@ -159,7 +160,7 @@ def WritexmlSpeechBlock(fout, qblock, sdate):
 
 	# get the stamps from the stamp on first speaker in block
 	fout.write('\n<wrans id="%s" title="%s" majorheading="%s">\n' % \
-				(sid, qb0s.title, qb0s.majorheading))
+				(sid, FixHTMLEntities(qb0s.title), qb0s.majorheading))
 	fout.write(qb0s.stamp)
 	fout.write('\n')
 	fout.write(qb0s.pageurl)

@@ -21,4 +21,7 @@ def FixHTMLEntities(text):
     # is not there".  i.e. This matches all ampersands not followed by
     # some-letters-and-a-semicolon.
     text = re.sub("&(?![a-z]+;)", "&amp;", text)
-    return text    
+
+    # take out ALL tags
+    text = re.sub('<[^>]*>', ' ', text)
+    return text

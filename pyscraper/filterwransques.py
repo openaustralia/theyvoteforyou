@@ -5,7 +5,7 @@ import re
 import string
 import cStringIO
 
-#! /usr/bin/python2.3
+from miscfuncs import FixHTMLEntities
 
 
 
@@ -166,4 +166,7 @@ def FilterQuestion(qs):
 			qs.stext.append(dell[i])
 
 
+	# rumble it in
+	for i in range(len(qs.stext)):
+		qs.stext[i] = FixHTMLEntities(qs.stext[i])
 

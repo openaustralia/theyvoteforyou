@@ -19,35 +19,6 @@ seelines = open('ghgh.txt', "w")
 
 
 
-# A common prefix on answers which needs to be taken out.
-def RemoveHoldingAnswer(qs, line):
-	# <i>[holding answer 17 September 2003]:</i>
-	# the delimeters are in a variety of different orders
-	qha = re.match('((?:\s|</?i>)*\[(?:\s|</?i>)*holding answers?\s*(?:on|of|issued|issued on)?\s*([\w\s]*?)(?:</i>|:|;|\s)*\](?:</i>|:|;|\s)*)', line)
-	if qha:
-		line = line[qha.span(1)[1]:]	# take the tail of the string.
-		dt = qha.group(2)
-
-		# could deal with 'and' in this string.
-		dgroups = re.match('(\d+)\s*([A-Z][a-z]*)\s*(\d*)$', dt)
-		if dgroups:
-			dgyr = dgroups.group(3)
-			if not dgyr:
-				dgyr = '%d' % mx.DateTime.DateTimeFrom(qs.sdate).year
-			ddt = dgroups.group(1) + ' ' + dgroups.group(2) + ' ' +  dgyr
-			holdans = mx.DateTime.DateTimeFrom(ddt).date
-			qs.holdinganswer.append(holdans)
-		else:
-			print ' not pure date: ' + dt
-			print qha.group(1)
-
-	# successfully cleared this quote from front of line
-	if qs.sdate != '2003-02-28' and qs.sdate != '2003-02-25':
-		if re.search('holding answer ', line):
-			print line
-			#sys.exit()
-
-	return line
 
 
 
@@ -61,65 +32,18 @@ def RemoveHoldingAnswer(qs, line):
 # on 4 June 2003, <i>Official Report,</i> column 22WS
 # columns 687&#150;89W
 
-offrepwre = '<i>official(?:</i> <i>| )report,?</i>,?'
-offrepre = '((?:on|of|in|and)? ?%s[.,]? %s c(?:olumns?)?\.? (\d+(?:&#150;\d+)?[WS]*)[,.]?)(?i)' % (parlPhrases.datephrase, offrepwre)
-reoffrep = re.compile(offrepre)
-
-
-def ExtractOffRepRecurse(qs, stex):
-	# we are now down to a segment of text in which we can look for these official reports
-	qoffrep = reoffrep.search(stex)
-	if qoffrep:
-		res = ExtractOffRepRecurse(qs, string.strip(stex[:qoffrep.span(1)[0]]))
-		offdate = mx.DateTime.DateTimeFrom(qoffrep.group(2)).date
-		offcolnum = re.sub('&#150;', '-', qoffrep.group(3))
-
-		res.append('<offrep date="%s" column="%s">%s</offrep>' % (offdate, offcolnum, qoffrep.group(1)))
-		print offdate + "  " + offcolnum
-		res.extend(ExtractBracketNamesRecurse(qs, string.strip(stex[qoffrep.span(1)[1]:])))
-		return res
-
-	if re.search('official report(?i)', stex):
-		seelines.write(stex)
-		seelines.write('\n')
-
-	return [ string.strip(FixHTMLEntities(stex)) ]
-
+reoffrepw = re.compile('(<i>official(?:</i> <i>| )report,?</i>,? c(?:olumns?)?\.? (\d+(?:&#150;\d+)?[WS]*))(?i)')
 
 # the set of known parliamentary offices.
 rejobs = re.compile('((?:[Mm]y (?:rt\. |[Rr]ight )?[Fh]on\.? [Ff]riend )?[Tt]he (?:then |former )?(?:%s))' % parlPhrases.regexpjobs)
 
-def ExtractBracketNamesRecurse(qs, stex):
-	# split the remaining chunks at the brackets
-	qbrack = re.search('(\(([^)]*)\))', stex)
-	if qbrack:
-		if memberList.mpnameexists(qbrack.group(2), qs.sdate):
-			res = ExtractBracketNamesRecurse(qs, string.strip(stex[:qbrack.span(1)[0]]))
-			res.append('(<mpname>%s</mpname>)' % qbrack.group(2))
-			res.extend(ExtractBracketNamesRecurse(qs, string.strip(stex[qbrack.span(1)[1]:])))
-			return res
-
-	# we are now down to a segment of text in which we can look for these official reports
-	return ExtractOffRepRecurse(qs, stex)
-
-def ExtractJobRecurse(qs, stex):
-	# split the text into known mpjobs
-	qjobs = rejobs.search(stex)
-	if qjobs:
-		res = ExtractJobRecurse(qs, string.strip(stex[:qjobs.span(1)[0]]))
-		res.append('<mpjob>%s</mpjob>' % qjobs.group(1))
-		res.extend(ExtractJobRecurse(qs, string.strip(stex[qjobs.span(1)[1]:])))
-		return res
-	return ExtractBracketNamesRecurse(qs, stex)
 
 
-# this should pick out phrases refering to members for constituencies without being tooo greedy
+# this should pick out phrases refering to members for constituencies without being too greedy
 # and jumping across a long sentence to grab an hon member part of a later phrase where it occurs
 # just before a brackets.
 rememconstit = re.compile('((?:[Mm]y (?:[Rr]ight )?[Hh]on\.? [Ff]riend,?(?: the [Mm]ember)|[Tt]he (?:[Rr]ight )?[Hh]on\.? [Mm]ember) for (.*?(?! [Mm]ember ).*?),?)$')
-def ExtractPersonPhrases(qs, stex):
-	sres = ExtractJobRecurse(qs, stex)
-
+def MergePersonPhrases(qs, sres):
 	i = 0
 	while i < len(sres):
 		sr1 = ''
@@ -142,29 +66,83 @@ def ExtractPersonPhrases(qs, stex):
 		i = i+1
 	return sres
 
+def ExtractPhraseRecurse(qs, stex):
+	qspan = None
 
-def FindHonMembers(i, n, line, qs):
-	# first determin the jobs that are in the text
-	line = string.join(ExtractPersonPhrases(qs, line))
-	return line
+	# split the text into known mpjobs
+	qjobs = rejobs.search(stex)
+	if qjobs:
+		qstr = '<mpjob>%s</mpjob>' % qjobs.group(1)
+		qspan = qjobs.span(1)
 
+	# or split at known names in parenthesis
+	if not qspan:
+		qbrack = re.search('(\(([^)]*)\))', stex)
+		if qbrack:
+			if memberList.mpnameexists(qbrack.group(2), qs.sdate):
+				qstr = '<mpname>(%s)</mpname>)' % qbrack.group(2)
+				print qstr
+				qspan = qbrack.span(1)
+
+	# or split at official report statement
+	if not qspan:
+		qoffrep = reoffrepw.search(stex)
+		if qoffrep:
+			qstr = '<offrep>%s</offrep>' % re.sub('&#150;', '-', qoffrep.group(2))
+			qspan = qoffrep.span(1)
+
+	# or split at a detectable date
+	if not qspan:
+		qdateph = parlPhrases.redatephrase.search(stex)
+		if qdateph:
+			qstr = '<datephrase>%s</datephrase>' % qdateph.group(2)
+			qspan = qdateph.span(1)
+
+	# we have a splitting off which we now recursymbolsse down both ends
+	if qspan:
+		res = ExtractPhraseRecurse(qs, stex[:qspan[0]])
+		res.append(qstr)
+		res.extend(ExtractPhraseRecurse(qs, stex[qspan[1]:]))
+		return res
+
+	return [ FixHTMLEntities(stex) ]
+
+# main breaking up function.
+def BreakUpText(stex, qs):
+	sres = ExtractPhraseRecurse(qs, stex)
+	#MergePersonPhrases(qs, sres)
+	return sres
+
+
+# main breaking up function.
+def BreakUpTextSB(i, n, stex, qs):
+
+	# First convert from the text into a list where the first entry is always a bracketed phrase
+	# only in the first paragraph
+	# <i>[holding answer 17 September 2003]:</i>
+	sres = [ ]
+	if i == 0:
+		# the delimeters are in a variety of different orders
+		qha = re.match('(\s*(?:\s|</?i>)*\[(?:\s|</?i>)*(.*?)(?:</i>|:|;|\s)*\](?:</i>|:|;|\s)*)', stex)
+		if qha:
+			sres.append('<sqbracket>')
+			sres.extend(BreakUpText(qha.group(2), qs))
+			sres.append('</sqbracket>')
+			stex = stex[qha.span(1)[1]:]
+	sres.extend(BreakUpText(stex, qs))
+	return sres
 
 
 # this is the main function.
 def FilterReply(qs):
-	# break into pieces
+ # break into pieces
 	nfj = re.split('(<table[\s\S]*?</table>|</?p>|</?ul>|<br>|</?font[^>]*>)(?i)', qs.text)
-	qs.holdinganswer = []
 
 	# break up into sections separated by paragraph breaks
+	# these alternate in the list.
 	dell = []
 	spc = ''
 	for nf in nfj:
-		# first line may have this holding answer value which we want to take out
-		# and discard if in a paragraph on its own.
-		if not dell:
-			nf = RemoveHoldingAnswer(qs, nf)
-
 		if re.match('</?p>|</?ul>|<br>|</?font[^>]*>(?i)', nf):
 			spc = spc + nf
 		else:
@@ -177,19 +155,19 @@ def FilterReply(qs):
 	dell.append(spc)
 
 
+
 	# we now have the paragraphs interspersed with inter-paragraph symbols
 	# for now ignore these inter-paragraph symbols and parse the paragraphs themselves
 	qs.stext = []
 	n = (len(dell)-1) / 2
-	for i in range(1, len(dell)-1, 2):
+	for i in range(n):
 		# this puts a list into the result
-		if re.search('<table(?i)', dell[i]):
-			qs.stext.append(ParseTable(dell[i]))
+		i2 = i*2 + 1
+		if re.search('<table(?i)', dell[i2]):
+			qs.stext.append(ParseTable(dell[i2]))
 		else:
-			lline = dell[i]
-			lline = FindHonMembers(len(qs.stext), n, lline, qs)
-
-			qs.stext.append(lline)
+			sres = BreakUpTextSB(i, n, dell[i2], qs)
+			qs.stext.append(string.join(sres, ''))
 
 	if not qs.stext:
 		print 'empty answer'
