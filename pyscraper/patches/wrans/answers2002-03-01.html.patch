@@ -1,0 +1,12 @@
+--- wrans/answers2002-03-01.html	2004-04-06 09:50:08.000000000 +0100
++++ wrans/answers2002-03-01-patchtmp.html	2004-04-09 14:54:10.000000000 +0100
+@@ -1094,6 +1094,9 @@
+ <TR valign=top><TD><FONT SIZE=-1>Scotland</FONT></TD><TD><FONT SIZE=-1>89
+ </FONT></TD></TR>
+ <TR valign=top><TD><FONT SIZE=-1>Northern Ireland</FONT></TD><TD><FONT SIZE=-1>21(1)
++</TD></TR>
++
++</TABLE>
+ 
+ <P>
+ 

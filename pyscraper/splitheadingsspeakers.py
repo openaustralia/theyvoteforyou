@@ -133,11 +133,18 @@ class SepHeadText:
 			print 'Speeches without heading'
 
 		# concatenate unspoken text with the title if it's a dangle outside heading
+                # e.g. In 2003-01-15 we have heading "Birmingham Northern Relief Road "
+                # with extra bit "(Low-noise Tarmac)" to pull in.
 		if not re.match('(?:<[^>]*?>|\s)*$', self.unspoketext):
-			gho = re.match('\s*(.*?)(?:\s|<p>)*$(?i)', self.unspoketext)
+                        # We deliberately don't put "." in to avoid matching "19." before paragraph starts
+                        gho = re.match('(\s*[()A-Za-z\-,\'\"/&#; 0-9]+)((?:<[^>]*?>|\s)*)$', self.unspoketext)
 			if gho:
 				self.heading = self.heading + ' ' + gho.group(1)
-				self.unspoketext = ''
+                                self.heading = re.sub("\s+", " ", self.heading)
+				self.unspoketext = gho.group(2)
+                                #print "merged dangling heading %s" % (self.heading)
+                                if len(self.heading) > 100:
+                                        raise Exception, "Suspiciously long merged heading part - is it OK? %s" % self.heading
 
 		# push block into list
 		self.shtext.append((self.heading, self.unspoketext, self.shspeak))

@@ -1,4 +1,4 @@
-#! $Id: contextexception.py,v 1.3 2004/04/08 16:49:26 frabcus Exp $
+#! $Id: contextexception.py,v 1.4 2004/04/09 15:50:29 frabcus Exp $
 # vim:sw=8:ts=8:et:nowrap
 
 import os
@@ -21,15 +21,18 @@ class ContextException(Exception):
             ret = ret + repr(self.stamp) + "\n"
         return ret
 
-def RunPatchTool(type, ce):
-        if type != "wrans":
-                raise Exception, "Only wrans in patchtool at the moment"
+def RunPatchTool(type, sdate, ce):
         if not ce.stamp:
-                raise Exception, "Require a stamp in ContextException for this for now"
+                print "No stamp available, so won't move your cursor to right place"
+        else:
+                assert ce.stamp.sdate == sdate
 
         print "\nHit RETURN to launch your editor to make patches "
         sys.stdin.readline()
-        status = os.system("./patchtool %s %s -c /%s" % (type, ce.stamp.sdate, ce.stamp.GetAName()))
+        if not ce.stamp:
+                status = os.system("./patchtool %s %s" % (type, sdate))
+        else:
+                status = os.system("./patchtool %s %s -c /%s" % (type, sdate, ce.stamp.GetAName()))
 
         memberList.reloadXML()
 

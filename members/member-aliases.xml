@@ -50,15 +50,13 @@ http://www.dfid.gov.uk/News/PressReleases/files/pr_gareththomas_13june03.html
 <!-- 
 The Solicitor-General
 Says current one here: http://www.parliament.uk/directories/hciolists/hmg.cfm
-Harriet Harman started in 2001: http://politics.guardian.co.uk/person/parliament/0,9307,-2223,00.html
-We should find the exact date she started, and move her finish date over time.
+We have them all in Public Whip CVS under rawdata/ministers
+Harriet Harman started on 11th June 2001
 -->
-<alias fullname="Harriet Harman" alternate="The Solicitor General"
-        from="2001-12-31" to="2004-05-01"/>
-<alias fullname="Harriet Harman" alternate="The Solicitor-General"
-        from="2001-12-31" to="2004-05-01"/>
-<alias fullname="Harriet Harman" alternate="Solicitor-General"
-        from="2001-12-31" to="2004-05-01"/>
+<alias fullname="Harriet Harman" alternate="The Solicitor General" from="2001-06-11" to="2004-05-01"/>
+<alias fullname="Harriet Harman" alternate="The Solicitor-General" from="2001-06-11" to="2004-05-01"/>
+<alias fullname="Harriet Harman" alternate="Solicitor-General" from="2001-06-11" to="2004-05-01"/>
+<alias fullname="Harriet Harman" alternate="Solicitor General" from="2001-06-11" to="2004-05-01"/>
 
 <alias fullname="Lynda Clark" alternate="The Advocate-General for Scotland"
         from="1999-05-20" to="2004-05-01"/>
@@ -70,6 +68,10 @@ We should find the exact date she started, and move her finish date over time.
         from="1999-05-20" to="2004-05-01"/>
 
 <!-- First added for 2001 parliament -->
+<alias fullname="Richard Younger-Ross" alternate="Richard Younger-Rose" />
+<alias lastname="Lazarowicz" alternate="Lazarowic" />
+<alias fullname="Alun Michael" alternate="Alun Micheal" />
+<alias fullname="Margaret Beckett" alternate="Magaret Beckett" />
 <alias fullname="Margaret Moran" alternate="Margaret Morgan" />
 <alias fullname="Malcolm Wicks" alternate="Malcom Wicks" />
 <alias fullname="Margaret Hodge" alternate="Maragret Hodge" />
@@ -137,6 +139,7 @@ We should find the exact date she started, and move her finish date over time.
 <alias fullname="Anne Picking" alternate="Ann Picking" />
 <alias fullname="Ann McKechin" alternate="Anne McKechin" />
 <alias fullname="Thomas McAvoy" alternate="Tommy McAvoy" />
+<alias fullname="Fiona Mactaggart" alternate="Fiona Mctaggart" />
 <alias fullname="Fiona Mactaggart" alternate="Fiona McTaggart" />
 <alias fullname="Fiona Mactaggart" alternate="Fiona MacTaggart" />
 <alias fullname="Andrew MacKinlay" alternate="Andrew Mackinlay" />
@@ -208,6 +211,7 @@ We should find the exact date she started, and move her finish date over time.
 <alias fullname="Siôn Simon" alternate="Sion Simon" />
 <alias fullname="Raymond Powell" alternate="Ray Powell" />
 <alias fullname="Helen Clark" alternate="Helen Clarke" />
+<alias lastname="Clark" alternate="Brinton" /> <!-- marriage -->
 <alias fullname="Helen Clark" alternate="Helen Brinton" /> <!-- marriage -->
 <alias fullname="Gregory Barker" alternate="Greg Barker" />
 <alias fullname="Bob Spink" alternate="Robert Spink" />

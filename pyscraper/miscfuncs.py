@@ -50,8 +50,10 @@ entitymap = {
         '&#243;':'&oacute;',   # this is o-acute
 
         '&#237;':'&iacute;', # this is i-acute
+        '&#238;':'&icirc;', # this is i-circumflex
 
         '&#231;':'&ccedil;',   # this is cedilla
+        '&#199;':'&Ccedil;',   # this is capital C-cedilla
         '&#252;':'&uuml;',   # this is u-double-dot
         '&#241;':'&ntilde;',   # spanish n as in Senor
 
@@ -377,13 +379,12 @@ def WriteXMLHeader(fout):
 	
 	# These entity definitions for latin-1 chars are from here:
 	# http://www.w3.org/TR/REC-html40/sgml/entities.html
-        # NOTE: also update website/protodecode.inc when you update this
+        # NOTE: also update ../website/protodecode.inc when you update this
         # TODO: make these share the chunk of entity code somehow
 	fout.write('''
 
 <!DOCTYPE publicwhip 
 [
-
 <!ENTITY ndash   "&#8211;">
 <!ENTITY mdash   "&#8212;">
 <!ENTITY iexcl   "&#161;">
@@ -400,7 +401,9 @@ def WriteXMLHeader(fout):
 <!ENTITY Ouml   "&#214;" >
 <!ENTITY oacute "&#243;" >
 <!ENTITY iacute "&#237;" >
+<!ENTITY icirc  "&#238;" >
 <!ENTITY ccedil "&#231;" >
+<!ENTITY Ccedil "&#199;" >
 <!ENTITY uuml   "&#252;" >
 <!ENTITY ntilde "&#241;" >
 

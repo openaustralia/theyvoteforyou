@@ -176,7 +176,7 @@ def StripWransHeadings(headspeak, sdate):
 		stampurl.UpdateStampUrl(headspeak[j][1])
 
 	if (not stampurl.stamp) or (not stampurl.pageurl) or (not stampurl.aname):
-		raise Exception, ' missing stamp url at beginning of file '
+		raise ContextException('missing stamp url at beginning of file')
 	return (i, stampurl)
 
 
@@ -205,21 +205,6 @@ def FilterWransSections(fout, text, sdate):
 		unspoketxt = sht[1]
 		speechestxt = sht[2]
 
-                # Cases where a heading spreads out of its centre tag into
-                # the next bit.  Happens a lot in wrans in January 2003.
-                # e.g. In 2003-01-15 we have heading "Birmingham Northern Relief Road "
-                # with extra bit "(Low-noise Tarmac)" to pull in.
-                bhmatch = re.match('(\s*[()A-Za-z\-,\'\" 0-9]+)([\s\S]*)$', unspoketxt)
-                if bhmatch:
-                        # Merge the heading part back in
-                        headingtxt = headingtxt + bhmatch.group(1)
-                        headingtxt = re.sub("\s+", " ", headingtxt)
-                        unspoketxt = bhmatch.group(2)
-                        if len(headingtxt) > 100:
-                                raise Exception, "Suspiciously long merged heading part - is it OK? %s" % headingtext
-                        #print "Merged into heading: ", headingtxt
-                  
-
 		# update the stamps from the pre-spoken text
 		if (not re.match('(?:<[^>]*>|\s)*$', unspoketxt)):
 			raise ContextException("unspoken text under heading in wrans", stamp=stampurl, fragment=unspoketxt)
@@ -230,7 +215,7 @@ def FilterWransSections(fout, text, sdate):
 		# detect if this is a major heading
 		if not re.search('[a-z]', headingtxt) and not speechestxt:
 			if not parlPhrases.wransmajorheadings.has_key(headingtxt):
-				raise ContextException("unrecognized major heading, please add to parlPhrases.wransmajorheadings", fragment = headingtxt, stampurl = stampurl)
+				raise ContextException("unrecognized major heading, please add to parlPhrases.wransmajorheadings", fragment = headingtxt, stamp = stampurl)
 			majheadingtxtfx = parlPhrases.wransmajorheadings[headingtxt] # no need to fix since text is from a map.
 			qbH = qspeech('nospeaker="true"', majheadingtxtfx, stampurl)
 			qbH.typ = 'major-heading'

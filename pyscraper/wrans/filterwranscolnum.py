@@ -108,8 +108,14 @@ remarginal = re.compile(':\s*column\s*\d+(?i)|</?a[\s>]')
 
 
 def FilterWransColnum(fout, text, sdate):
+        # Legacy individual substitution rules
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
+
+        # Remove junk
         text = text.replace("{**con**}{**/con**}", "")
+        (text, c) = re.subn(".*Job No: .* Folios: .*", "", text)
+        if c > 0:
+                print "replaced %d Job No / Folios things" % c
 
         stamp = StampUrl(sdate) # for error messages
 

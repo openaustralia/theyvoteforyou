@@ -105,7 +105,9 @@ function WrapResult($result)
 <!ENTITY Ouml   "&#214;" >
 <!ENTITY oacute "&#243;" >
 <!ENTITY iacute "&#237;" >
+<!ENTITY icirc  "&#238;" >
 <!ENTITY ccedil "&#231;" >
+<!ENTITY Ccedil "&#199;" >
 <!ENTITY uuml   "&#252;" >
 <!ENTITY ntilde "&#241;" >
 

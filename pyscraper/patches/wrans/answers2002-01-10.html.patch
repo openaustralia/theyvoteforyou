@@ -1,0 +1,24 @@
+--- wrans/answers2002-01-10.html	2004-04-06 09:59:22.000000000 +0100
++++ wrans/answers2002-01-10-patchtmp.html	2004-04-09 16:17:54.000000000 +0100
+@@ -159,7 +159,7 @@
+ 21. <a name="20110w01.html_wqn6"><B> Mr. Baron: </B> 
+  To ask the Secretary of State for Education and Skills what recent meetings she has had with the Association of Colleges to discuss the number of <i>(a)</i> teachers and <i>(b)</i> lecturers in further education.  [23853]
+ <P>
+-<UL>23. Mr. Simmonds: To ask the Secretary of State for Education and Skills what recent meetings she has had with the Association of Colleges to discuss the numbers of <i>(a)</i> teachers and <i>(b)</i> lecturers in further education.  [23857]<P></UL>
++<UL>23. <B>Mr. Simmonds: </B> To ask the Secretary of State for Education and Skills what recent meetings she has had with the Association of Colleges to discuss the numbers of <i>(a)</i> teachers and <i>(b)</i> lecturers in further education.  [23857]<P></UL>
+ <P>
+ <P>
+ <a name="20110w01.html_spnew1"><B> Margaret Hodge: </B> 
+@@ -2674,10 +2674,10 @@
+ <a name="20110w11.html_spnew2"><B> Ms Keeble: </B> 
+  The table provides the most recent estimates (1996) for number of households and people in private rented HMO dwellings in England.
+ 
+-<TABLE BORDER=1>
+-
+ Estimates<sup>(6)</sup> of the number of households and people in private rented HMOs in 1996
+ <P>
++<TABLE BORDER=1>
++
+ 
+ <TR valign=top><TH><FONT SIZE=-1><i></i></FONT></TH><TH><FONT SIZE=-1><i>Households</i></FONT></TH><TH><FONT SIZE=-1><i>People</i>
+ </FONT></TH></TR>

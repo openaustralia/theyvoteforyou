@@ -130,7 +130,7 @@ def RunFiltersDir(filterfunction, dname, options, deleteoutput):
                         except ContextException, ce:
                                 if options.patchtool:
                                         print ce
-                                        RunPatchTool(dname, ce)
+                                        RunPatchTool(dname, sdate, ce)
                                         again = True
                                 else:
                                         raise

@@ -1,0 +1,11 @@
+--- wrans/answers2002-02-07.html	2004-04-06 09:54:09.000000000 +0100
++++ wrans/answers2002-02-07-patchtmp.html	2004-04-09 15:01:55.000000000 +0100
+@@ -3696,7 +3696,7 @@
+ <P>
+ <P>
+ <a name="20207w15.html_spnew2"><B> Mr. Spellar: </B> 
+- I refer my hon. Friend to the answer I gave on 6 February 2002 [33622].
++ I refer my hon. Friend to the answer I gave on 6 February 2002 <ok-extra-qnum>[33622].
+ 
+ <a name="20207w15.html_sbhd2"><H4><center>Agricultural Buildings</center></H4>
+ 
