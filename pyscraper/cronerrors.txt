@@ -8,7 +8,10 @@ Dates are quite rough as sometimes I put todays date rather than the error date
 CRON = cron job on baked
 PWIP = weekly Public Whip update
 
-CRON-2004-07-07 Solicitor-General date range moved
+CRON 2004-07-15 FONT tag in middle of paragraph
+CRON 2004-07-14 Missing (1) in wrans
+CRON 2004-07-13 Terry Davis listed as voting when he had resigned, removed him
+CRON 2004-07-07 Solicitor-General date range moved
 CRON 2004-06-?? Missing "To ask the" (twice)
 CRON 2004-06-?? Space in the middle of name "ji m"
 CRON 2004-06-28 Missing (1) in first para multi-part wrans

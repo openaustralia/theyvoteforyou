@@ -142,7 +142,7 @@ def RunFiltersDir(filterfunction, dname, options, forcereparse):
 
 			except ContextException, ce:
 				if options.patchtool:
-					print ce
+					print "runfilters.py", ce
 					RunPatchTool(dname, sdate, ce)
 					continue # emphasise that this is the repeat condition
 

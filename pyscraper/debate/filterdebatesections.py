@@ -324,6 +324,8 @@ def FilterDebateSections(text, sdate, typ):
                                 FilterDebateSpeech(qb)
                                 flatb.append(qb)
 
+                except ContextException, e:
+                        raise
                 except Exception, e:
                         # add extra stamp info to the exception
                         raise ContextException(str(e), stamp=stampurl, fragment=unspoketxt)

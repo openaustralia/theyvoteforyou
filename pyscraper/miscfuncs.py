@@ -314,11 +314,11 @@ def SplitParaSpace(text, stampurl):
 				if not re.match('</?font[^>]*>(?i)', sl):
 					bnonfont = True
 			if not bnonfont:
-				print text
-				print spclist
-				print pstring
+				print "text:", text
+				print "spclist:", spclist
+				print "pstring", pstring
 				print "----------"
-				print nf
+				print "nf", nf
 				print "----------"
 				raise ContextException('font found in middle of paragraph should be a paragraph break or removed', stamp=stampurl, fragment=pstring)
 		bprevparaalone = bthisparaalone
