@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php
-# $Id: division.php,v 1.14 2003/11/05 14:54:04 frabcus Exp $
+# $Id: division.php,v 1.15 2003/11/05 17:25:06 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -32,7 +32,7 @@
     $prettydate = date("j M Y", strtotime($date));
     $div_no = html_scrub($div_no);
 
-    $title = "Division $div_no - $prettydate - $name";
+    $title = "$name - $prettydate - Division No. $div_no";
     include "header.inc";
 
     print "<h2>Summary</h2>";
@@ -74,15 +74,25 @@
         pw_vote.division_id and pw_cache_whip.party = pw_mp.party group
         by pw_mp.party, vote order by party, vote");
     print "<h2>Party Summary</h2>";
-    print "<p>Votes by party, red entries are votes against the majority
-    for that party.  '+1 tell' means one member of that party was a
-    teller for that division lobby; tellers are usually whips, or else
-    particularly support the vote they tell for.  Abstentions are
+    print "<p>Votes by party, red entries are votes against the majority for that party.  ";
+    print "
+    <div class=\"tableexplain\">
+    <span class=\"ptitle\">What is Tell?</span> 
+    '+1 tell' means that in addition one member of that party was a
+    teller for that division lobby. Tellers are usually whips, or else
+    particularly support the vote they tell for.</p>
+    <p>
+    <span class=\"ptitle\">What are Boths?</span> An MP can vote both
+    aye and no in the same division. The <a href=\"boths.php\">boths
+    page</a> explains this, and lists all cases of it happening.
+    <p>
+    <span class=\"ptitle\">What is Abstain?</span> Abstentions are
     calculated from the expected turnout, which is statistical based on
     the average proporionate turnout for that party in all divisions. A
     negative abstention indicates that more members of that party than
     expected voted; this is always relative, so it could be that another
-    party has failed to turn out <i>en masse</i>.</p>";
+    party has failed to turn out <i>en masse</i>.</p>
+    </div>";
 
     # Precalc values
     $ayes = array();
@@ -129,7 +139,7 @@
 
     # Make table
     print "<table><tr class=\"headings\"><td>Party</td><td>Ayes</td><td>Noes</td>";
-    print "<td><a href=\"boths.php\" title=\"More info about MPs who vote aye and no in the same division\">Both</a></td>";
+    print "<td>Both</td>";
 #    print "<td>Tell<br>Ayes</td><td>Tell<br>Noes</td>";
     print "<td>Turnout</td>";
     print "<td>Expected</td><td>Abstain</td></tr>";

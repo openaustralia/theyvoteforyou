@@ -73,9 +73,11 @@ HR
     FONT-SIZE: 100%;
     COLOR: #004000
 }
-.rightbar
+.tableexplain
 {
-    FLOAT: right
+    WIDTH: 33%;
+    FLOAT: right;
+    PADDING-TOP: 1em;
 }
 TABLE.layout
 {

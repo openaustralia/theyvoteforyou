@@ -9,6 +9,11 @@ And bobby
 
 Find max teller people
 
+Pie chart, rectangle graph by area for voting table
+
+Abstain -> difference from expected
+Expected -> average no. of attendees
+visually draw guesses further right
 
 Scraper
 -------

@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.17 2003/11/05 12:19:29 frabcus Exp $
+    # $Id: mp.php,v 1.18 2003/11/05 17:25:06 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -32,7 +32,7 @@
         $last_name = $row[1];
     }
 
-    $title .= html_scrub("$first_name $last_name, $constituency");
+    $title = html_scrub("$first_name $last_name MP, $constituency");
     include "header.inc";
        
     $query = "select first_name, last_name, title, constituency,

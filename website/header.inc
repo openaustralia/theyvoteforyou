@@ -2,7 +2,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.24 2003/10/31 01:37:55 frabcus Exp $
+# $Id: header.inc,v 1.25 2003/11/05 17:25:06 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -17,13 +17,17 @@ else
 
 include $toppath . "pretty.inc";
 
+$pagetitle = "$title - Public Whip";
+if ($title == "Counting votes on your behalf")
+    $pagetitle = "Public Whip - $title";
+
 ?>
 
 <head>
 <link href="<?=$toppath?>publicwhip.css" type="text/css" rel="stylesheet">
 <link rel="icon" href="<?=$toppath?>favicon.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="<?=$toppath?>favicon.ico" type="image/x-icon" />
-<title>Public Whip - <? print $title ?></title>
+<title><? print $pagetitle ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script>
 <!--
