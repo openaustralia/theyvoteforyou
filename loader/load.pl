@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: load.pl,v 1.4 2004/07/05 18:59:03 theyworkforyou Exp $
+# $Id: load.pl,v 1.5 2004/10/17 01:08:16 frabcus Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -10,7 +10,6 @@ use strict;
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-use WWW::Mechanize;
 use Getopt::Long;
 use PublicWhip::Clean;
 use PublicWhip::DivsXML;

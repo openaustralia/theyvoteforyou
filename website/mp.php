@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.39 2004/10/13 14:16:45 frabcus Exp $
+    # $Id: mp.php,v 1.40 2004/10/17 01:08:17 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -66,8 +66,7 @@
     $title = html_scrub("Voting Record - $first_name $last_name MP, $constituency");
     include "header.inc";
 
-	print '<p><a href="#ministers">Ministerial Posts</a>';
-	print ' | ';
+	print '<p>';
 	print '<a href="#divisions">Interesting Divisions</a>';
 	print ' | ';
 	print '<a href="#friends">Possible Friends</a>';
@@ -133,9 +132,9 @@
     print "</table>";
 
     print "<p>";
-    print "Performance data, recent speeches, and biographical links at ";
     print "<a href=\"http://www.theyworkforyou.com/mp/?m=" .  $mp_ids[0]. "\">";
-    print "TheyWorkForYou.com</a>";
+    print "Performance data, recent speeches, and biographical links</a> ";
+    print "at TheyWorkForYou.com.";
     print "<br>Contact your MP with 
     <a href=\"http://www.faxyourmp.com\">Fax Your MP</a> for free.  Find
     the <a
@@ -145,21 +144,34 @@
 ?>
 
 <?
-    print "<h2><a name=\"ministers\">Ministerial Posts</a></h2>";
+    /*print "<h2><a name=\"ministers\">Ministerial Posts</a></h2>";
 
     print "<table><tr class=\"headings\">";
     print "
             <td>From</td><td>To</td>
             <td>Position</td>
             <td>Department</td>
-            </tr>";
+            </tr>"; */
  	$query = "select dept, position, from_date, to_date
         from pw_moffice where pw_moffice.person = '$person'
         order by from_date desc";
     $db->query($query);
     $prettyrow = 0;
+    $events = array();
+    $now = strftime("%Y-%m-%d");
+    print "now $now";
     while ($row = $db->fetch_row_assoc())
     {
+        if ($row["from_date"] <= $now && $now <= $row["to_date"]) 
+        {
+            print "<p>Currently " .  $row["position"].  ", " .  $row["dept"];
+        }
+        if ($row["to_date"] != "9999-12-31")
+        {
+            array_push($events, array($row["to_date"], "Stopped being " .  $row["position"].  ", " . $row["dept"]));
+        }
+        array_push($events, array($row["from_date"], "Became " .  $row["position"]. ", " . $row["dept"]));
+        /*
         if ($row["end_date"] == "9999-12-31") { $row["end_date"] = "still in office"; }
         $prettyrow = pretty_row_start($prettyrow);
         print "<td>" . $row["from_date"] ."</td>";
@@ -167,18 +179,20 @@
         print "<td>" . $row["position"] ."</td>";
         print "<td>" . $row["dept"] . "</td>";
         print "</tr>\n";
+        */
     }
+    /*
     if ($db->rows() == 0)
     {
         $prettyrow = pretty_row_start($prettyrow, "");
         print "<td colspan=7>none</td></tr>\n";
     }
-
     print "</table>";
-
     print "<p>Only paid positions in Government since 1997 are shown.";
+    */
  
 ?>
+
 
 <?php
     if (!$show_all)
@@ -186,7 +200,7 @@
         print "<h2><a name=\"divisions\">Interesting Divisions</a></h2>
         <p>Votes in parliament for which this MP's vote differed from the
         majority vote of their party (Rebel), or in which this MP was
-        a teller (Teller) or both (Rebel Teller). ";
+        a teller (Teller) or both (Rebel Teller).  ";
         print "You can also <a href=\"$this_anchor&showall=yes#divisions\">see all divisions this MP voted in</a>.";
     }
     else
@@ -195,10 +209,22 @@
         <p>Divisions in which this MP voted.  The first column
         indicates if they voted against the majority vote of 
         their party (Rebel), were a teller for that side (Teller)
-        or both (Rebel Teller)."; 
+        or both (Rebel Teller). "; 
+    }
+    print " Also shows when the MP became or stopped
+        being a paid minister. ";
+
+    function print_event($event)
+    {
+        global $prettyrow;
+        $prettyrow = pretty_row_start($prettyrow);
+        print "<td>&nbsp;</td><td>&nbsp;</td>";
+        print "<td>" . $event[0] . "</td>";
+        print "<td colspan=7>" . $event[1] .  "</td></tr>\n";
     }
 
     print "<table>\n";
+    $events_ix = 0;
     for ($i = 0; $i < count($mp_ids); ++$i)
     {
         # Table of votes in each division
@@ -226,6 +252,11 @@
         $prettyrow = 0;
         while ($row = $db->fetch_row())
         {
+            while ($events_ix < count($events) && $row[2] <= $events[$events_ix][0]) {
+                print_event($events[$events_ix]);
+                $events_ix ++;
+            }
+
             $class = "";
             $votedesc = "";
             if ($row[6] != "unknown")
@@ -259,7 +290,7 @@
                 <td>$row[5]</td><td>$row[6]</td>
                 <td><a href=\"$row[4]\">Hansard</a></td>"; 
             print "</tr>\n";
-         }
+        }
         if ($db->rows() == 0)
         {
             $prettyrow = pretty_row_start($prettyrow, "");
@@ -268,6 +299,11 @@
             else
                 print "<td colspan=7>no rebellions, never teller</td></tr>\n";
         }
+    }
+    while ($events_ix < count($events)) 
+    {
+        print_event($events[$events_ix]);
+        $events_ix ++;
     }
     print "</table>\n";
 
