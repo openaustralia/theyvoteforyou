@@ -2,11 +2,8 @@
 # vim:sw=8:ts=8:et:nowrap
 
 # to do:
-# start making unique IDs on the records
-# match the names to IDs from the MPnames
-# Lowercase the positions for departments and ensure that the names are all known
-# Sort the records to keep names in the same place
-# merge into the peoplexml thing so we can put together the dates of position
+# Fill in the 2003-2004 gap
+
 
 
 import os
@@ -231,6 +228,7 @@ def ParseGovPostsChggdir():
 	gps.sort() # important to do in order of date
 
 	chainprotos = [ ]
+	sdatetlist = [ ]
 	for gp in gps:
 		print "**** file", gp
 		f = open(os.path.join(govpostdir, gp))
@@ -265,8 +263,10 @@ def ParseGovPostsChggdir():
 			prof.SetChainFront(gp)
 			chainprotos.append(prof)
 
+		sdatetlist.append(sdatet)
+
 	# no need to close off the running cases with year 9999, because it's done in the writexml
-	return chainprotos
+	return chainprotos, sdatetlist
 
 # endeavour to get an id into all the names
 def SetNameMatch(cp):
@@ -297,7 +297,7 @@ def ParseGovPosts():
 	# get from our two sources (which unfortunately don't overlap, so they can't be merged)
 	# We have a gap from 2003-10-15 to 2004-06-06 which needs filling !!!
 	porres = newlabministers2003_10_15.ParseOldRecords()
-	cpres = ParseGovPostsChggdir()
+	cpres, sdatetlist = ParseGovPostsChggdir()
 
 	# allocate ids and merge lists
 	rpcp = []
@@ -323,6 +323,10 @@ def ParseGovPosts():
 	fout = open(chgtmp, "w")
 	WriteXMLHeader(fout)
 	fout.write("<publicwhip>\n")
+
+	fout.write("\n")
+	for lsdatet in sdatetlist:
+		fout.write('<chgpageupdates date="%s" time="%s"/>\n' % lsdatet)
 
 	# output the file, a tag round the groups of offices which form a single person
 	prevrpm = None
