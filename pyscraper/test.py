@@ -2,7 +2,7 @@
 
 from resolvemembernames import memberList
 
-print memberList.matchdebatename("Annette L. Brooke", None, "2003-11-21")
+print memberList.matchdebatename("James Marshall", None, "2003-11-21")
 print memberList.matchdebatename("Gareth Thomas", "Clwyd, West", "2003-11-21")
 
 (id, reason, remade) = memberList.matchfullname("The Prime Minister", "2003-11-21")

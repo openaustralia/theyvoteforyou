@@ -45,6 +45,31 @@ Says current one here: http://www.parliament.uk/directories/hciolists/hmg.cfm
 -->
 
 <!-- First added for 2001 parliament -->
+<alias canonical="Anthony D Wright" alternate="Tony Wright" />
+<alias canonical="Phil Woolas" alternate="Philip Woolas" />
+<alias canonical="Pete Wishart" alternate="Peter Wishart" />
+<alias canonical="Alan Williams" alternate="Alan John Williams" />
+<alias canonical="Desmond Turner" alternate="Des Turner" />
+<alias canonical="Jenny Tonge" alternate="Jennifer Tonge" />
+<alias canonical="Gareth Thomas" alternate="Gareth Richard Thomas" /> <!-- from Guardian - supposedly Harrow West, can check and change this to a constituency= field if needed -->
+<alias canonical="John Taylor" alternate="John M Taylor" />
+<alias canonical="Llew Smith" alternate="Llewellyn Smith" />
+<alias canonical="John Smith" alternate="John P Smith" />
+<alias canonical="Jim Sheridan" alternate="James Sheridan" />
+<alias canonical="Terry Rooney" alternate="Terence Rooney" />
+<alias canonical="Nick Palmer" alternate="Nicholas Palmer" />
+<alias canonical="Eddie McGrady" alternate="Eddie Mcgrady" />
+<alias canonical="Jim Marshall" alternate="James Marshall" />
+<alias canonical="Rob Marris" alternate="Robert Marris" />
+<alias canonical="Andrew MacKay" alternate="Andrew Mackay" />
+<alias canonical="Huw Irranca-Davies" alternate="Huw Irranca-Davis" />
+<alias canonical="Lady Hermon" alternate="Sylvia Hermon" />
+<alias canonical="Mike Hancock" alternate="Michael Hancock" />
+<alias canonical="Michael Foster" alternate="Michael John Foster" /> <!-- maybe dodgy, confusion with the other Michael Foster? -->
+<alias canonical="Jeff Ennis" alternate="Jeffrey Ennis" />
+<alias canonical="Jim Cunningham" alternate="James Cunningham" />
+<alias canonical="Tim Boswell" alternate="Timothy Boswell" />
+<alias canonical="A J Beith" alternate="Alan Beith" />
 <alias canonical="Clare Short" alternate="Claire Short" />
 <alias canonical="Nick Brown" alternate="Nicholas Brown" />
 <alias canonical="Geoff Hoon" alternate="Geoffrey Hoon" />
@@ -57,6 +82,7 @@ Says current one here: http://www.parliament.uk/directories/hciolists/hmg.cfm
 <alias canonical="Siôn Simon" alternate="Siön Simon" />
 <alias canonical="Siôn Simon" alternate="Si&amp;#244;n Simon" />
 <alias canonical="Siôn Simon" alternate="Sio(r)n Simon" />
+<alias canonical="Siôn Simon" alternate="Sion Simon" />
 <alias canonical="Raymond Powell" alternate="Ray Powell" />
 <alias canonical="Helen Clark" alternate="Helen Brinton" /> <!-- marriage -->
 <alias canonical="Gregory Barker" alternate="Greg Barker" />

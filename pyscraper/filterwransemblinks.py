@@ -11,6 +11,7 @@ import mx.DateTime
 import miscfuncs
 
 # output to check for undetected member names
+import miscfuncs
 toppath = miscfuncs.toppath
 
 seelines = open(os.path.join(toppath, 'emblinks.txt'), "w")
@@ -124,7 +125,6 @@ def ExtractHTTPlink(stex, qs):
 #############
 # main type call which generates a file of all the links in the file on disk
 if __name__ == '__main__':
-	toppath = os.path.expanduser('~/pwdata')
 	pwcmdirs = os.path.join(toppath, "cmpages")
 	pwcmdirin = os.path.join(pwcmdirs, 'wrans')
 

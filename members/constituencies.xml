@@ -9,7 +9,7 @@ in.
 
 Currently has the name forms used for the list of MPs on the Parliament website,
 by the ONS (Office of National Statistics), by FaxYourMP.com, and by the BBC
-website.  Also some used in Hansard debates.
+website.  Also some used in Hansard debates and the Guardian.
 
 The Parliament versions are more accurate, so considered canonical.
 
@@ -359,7 +359,7 @@ The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/103">
     <name text="Bury St Edmunds"/>
-    <name text="Bury St. Edmunds"/> <!-- BBC (manual) -->
+    <name text="Bury St. Edmunds"/> <!-- BBC -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/104">
     <name text="Caernarfon"/>
@@ -1019,7 +1019,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/295">
     <name text="Holborn &amp; St Pancras"/>
     <name text="Holborn and St Pancras"/> <!-- ONS -->
-    <name text="Holborn and St. Pancras"/> <!-- BBC (manual) -->
+    <name text="Holborn and St. Pancras"/> <!-- BBC -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/296">
     <name text="Hornchurch"/>
@@ -1246,7 +1246,7 @@ The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/362">
     <name text="Manchester Central"/>
-    <name text="Manchester, Central"/> <!-- BBC (manual) -->
+    <name text="Manchester, Central"/> <!-- BBC -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/363">
     <name text="Manchester, Blackley"/>
@@ -1285,6 +1285,7 @@ The Parliament versions are more accurate, so considered canonical.
     <name text="Mid Dorset &amp; North Poole"/>
     <name text="Mid Dorset and North Poole"/> <!-- ONS -->
     <name text="Dorset Mid and Poole North"/> <!-- FaxYourMP index -->
+    <name text="Mid Dorset and Poole North"/> <!-- Guardian -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/373">
     <name text="Mid Norfolk"/>
@@ -1649,6 +1650,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/475">
     <name text="Richmond (Yorks)"/>
     <name text="Richmond (Yorkshire)"/> <!-- FaxYourMP index -->
+    <name text="Richmond"/> <!-- Guardian -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/476">
     <name text="Richmond Park"/>
@@ -2041,7 +2043,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/586">
     <name text="Truro &amp; St Austell"/>
     <name text="Truro and St Austell"/> <!-- ONS -->
-    <name text="Truro and St. Austell"/> <!-- BBC (manual) -->
+    <name text="Truro and St. Austell"/> <!-- BBC -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/587">
     <name text="Tunbridge Wells"/>

@@ -108,7 +108,7 @@ def GlueByNext(fout, url, urlx):
 
 		# write the body of the text
 		for i in range(1,len(hrsections) - 1):
-			miscfuncs.WriteCleanText(fout, hrsections[i])
+			miscfuncs.WriteCleanText(fout, StripAnchorTags(hrsections[i]))
 
 		# find the lead on with the footer
 		footer = hrsections[len(hrsections) - 1]

@@ -1,5 +1,12 @@
 #! /usr/bin/perl
+# $Id: makecons.pl,v 1.4 2004/02/25 08:37:54 frabcus Exp $
+
 # Make the constituency XML file, has heuristics to match same names
+
+# The Public Whip, Copyright (C) 2004 Francis Irving and Julian Todd
+# This is free software, and you are welcome to redistribute it under
+# certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
+# For details see the file LICENSE.html in the top level of the source.
 
 print <<END;
 <?xml version="1.0" encoding="ISO-8859-1"?>

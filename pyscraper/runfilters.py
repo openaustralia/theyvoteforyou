@@ -20,7 +20,8 @@ from filterdebatespeakers import FilterDebateSpeakers
 from filterdebatesections import FilterDebateSections
 
 
-toppath = os.path.expanduser('~/pwdata')
+import miscfuncs
+toppath = miscfuncs.toppath
 
 # master function which carries the glued pages into the xml filtered pages
 

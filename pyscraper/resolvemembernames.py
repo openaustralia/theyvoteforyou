@@ -29,7 +29,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         self.parties = {} # constituency --> MPs
 
         # "rah" here is a typo in division 64 on 13 Jan 2003 "Ancram, rah Michael"
-        self.titles = "Dr |Hon |hon |rah |rh |Mrs |Ms |Dr |Mr |Miss |Ms |Rt Hon |Reverend |The Rev |The Reverend |Sir |Rev "
+        self.titles = "Dr |Hon |hon |rah |rh |Mrs |Ms |Dr |Mr |Miss |Ms |Rt Hon |Reverend |The Rev |The Reverend |Sir |Rev |Prof "
         self.retitles = re.compile('^(?:%s)' % self.titles)
         self.rejobs = re.compile('^%s$' % parlPhrases.regexpjobs)
 
@@ -102,6 +102,8 @@ class MemberList(xml.sax.handler.ContentHandler):
             if self.loadconsid: # name tag within constituency tag
                 if not self.loadconscanon:
                     self.loadconscanon = attr["text"] # canonical constituency name is first listed
+                if self.conscanonical.get(attr["text"], None):
+                    raise Exception, "Constituency file has two names the same %s" % attr["text"]
                 self.conscanonical[attr["text"]] = self.loadconscanon
             pass
             
@@ -150,6 +152,8 @@ class MemberList(xml.sax.handler.ContentHandler):
 
         return ids
 
+    # Returns id, error, corrected name
+    # TODO: Get rid of error return, just use Exceptions
     def matchfullname(self, input, date):
         ids = self.fullnametoids(input, date)
 
@@ -162,6 +166,33 @@ class MemberList(xml.sax.handler.ContentHandler):
             pass
         remadename = self.members[id]["firstname"] + " " + self.members[id]["lastname"]
         return id, '', remadename
+
+    # Returns id, corrected name, corrected constituency
+    def matchfullnamecons(self, fullname, cons, date):
+        ids = self.fullnametoids(fullname, date)
+
+        cancons = self.conscanonical.get(cons, None)
+        if not cancons:
+            raise Exception, "Unknown constituency %s" % cons
+
+        newids = sets.Set()
+        matches = self.constituencies[cancons]
+        for attr in matches:
+            if date >= attr["fromdate"] and date <= attr["todate"]:
+                if attr["id"] in ids:
+                    newids.add(attr["id"])
+
+        ids = newids
+        if len(ids) == 0:
+            raise Exception, 'No match: ' + fullname + ", " + cons
+        if len(ids) > 1:
+            raise Exception, 'Matched multiple times: ' + fullname + ", " + cons
+
+        for id in ids:
+            pass
+        remadename = self.members[id]["firstname"] + " " + self.members[id]["lastname"]
+        remadecons = self.members[id]["constituency"]
+        return id, remadename, remadecons
 
     # Matches names - exclusively for debates pages
     def matchdebatename(self, input, bracket, date):
@@ -270,14 +301,14 @@ class MemberList(xml.sax.handler.ContentHandler):
             remadename = input
         return 'speakerid="%s" speakername="%s"%s' % (id, remadename, speakeroffice)
 
-        # Bradley, rh Keith <i>(Withington)</i>
-        def matchfulldivisionname(self, inp, date):
-            ginp = re.match("([\w\-']*), ([ \w.#&;]*?)\s*(?:<i>\(([ \w&'.\-]*)\)</i>)?$", inp)
-            if ginp:
-                inp = '%s %s' % (ginp.group(2), ginp.group(1))
-            else:
-                print "No match (matchfulldivisionname):", inp
-            return self.matchfullname(inp, date)
+    # Bradley, rh Keith <i>(Withington)</i>
+    def matchfulldivisionname(self, inp, date):
+        ginp = re.match("([\w\-']*), ([ \w.#&;]*?)\s*(?:<i>\(([ \w&'.\-]*)\)</i>)?$", inp)
+        if ginp:
+            inp = '%s %s' % (ginp.group(2), ginp.group(1))
+        else:
+            print "No match (matchfulldivisionname):", inp
+        return self.matchfullname(inp, date)
 
 
     def mpnameexists(self, input, date):

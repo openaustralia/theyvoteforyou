@@ -66,21 +66,30 @@ entitymap = {
 entitymaprev = entitymap.values()
 
 
+def StripAnchorTags(text):
+        raise Exception, "I've never called this function, so test it"
+
+        abf = re.split('(<[^>]*>)', text)
+
+        ret = ''
+	for ab in abf:
+		if re.match('<a[^>]*>(?i)', ab):
+                        pass
+
+		elif re.match('</a>(?i)', ab):
+			pass
+
+                else:
+                        ret = ret + ab
+
+        return ret
+
 
 def WriteCleanText(fout, text):
     	abf = re.split('(<[^>]*>)', text)
 	for ab in abf:
 		# delete comments and links
 		if re.match('<!-[^>]*?->', ab):
-			pass
-
-		elif re.match('<a[^>]*>(?i)', ab):
-			# this would catch if we've actually found a link
-			if not re.match('<a name\s*?=\s*\S*?\s*?>(?i)', ab):
-				print 'Anchor left in clean text: %s' % ab
-				fout.write(re.sub('\s', ' ', ab))
-
-		elif re.match('</a>(?i)', ab):
 			pass
 
 		# spaces only inside tags
