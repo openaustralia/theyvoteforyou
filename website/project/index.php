@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: index.php,v 1.5 2005/01/15 20:38:12 frabcus Exp $
+# $Id: index.php,v 1.6 2005/03/28 12:02:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -9,17 +9,18 @@ $title = "Join the Project"; include "../header.inc"
 ?>
 
 <p>Join in with the Public Whip project, or examine and use the source code behind it.
-Before jumping in, make sure you are <a
-href="../account/register.php">signed up to our newsletter</a>.  We'll
-post project updates, requests for help and information about the codebase
-there.
 
 <p>
-<ul>
+<ul> 
+<li>Make sure you are <a href="../account/register.php">signed up to our
+newsletter</a>.
 <li>Join the <a href="https://lists.sourceforge.net/lists/listinfo/publicwhip-playing">publicwhip-playing email list</a> where we chat about all this stuff.
-<li><a href="data.php">Raw data</a> - load the votes into your favourite spreadsheet, and more
-<li><a href="code.php">Source code</a>, and instructions on using it
-<li><a href="liaison.php">Hansard website correcting</a>, campaign to improve their HTML
+</ul>
+<ul>
+<li><a href="research.php">Parliamentary research</a> &mdash; work with others to understand divisions
+<li><a href="data.php">Raw data</a> &mdash; load the votes into your favourite spreadsheet, and more
+<li><a href="code.php">Source code</a> &mdash; instructions on using it for programmers
+<li><a href="liaison.php">Hansard website correcting</a> &mdash; to improve their HTML
 </ul>
 
 <p>If you would like to do something in particular, or offer your help
