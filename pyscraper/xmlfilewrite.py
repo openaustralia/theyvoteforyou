@@ -145,12 +145,14 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 		# print out errors and hints how to fix
 		print ""
 		print "*** Column compare match fault ***"
+                print "first record in old XML file that we failed to match:"
 		print "gid", prevflatbi.gid
 		print "    ", prevflatbi.nametype, prevflatbi.speakerid, "|", prevflatbi.speakername
 		print "    ", string.join(prevflatbi.paras, "|")[:60].encode("latin-1", "ignore") # this is unprepared text
 		print "    last matched line", ifgb
 
 		print "------------------------"
+                print "column in new record which is trying to fit to:"
 		for qb in flatbgidbatch:
 			print qb.GID, qb.typ
 			print "    ", qb.speaker

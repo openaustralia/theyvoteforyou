@@ -10,6 +10,7 @@ import mx.DateTime
 
 from miscfuncs import FixHTMLEntities
 from miscfuncs import FixHTMLEntitiesL
+from contextexception import ContextException
 
 regtablejunk = '</?font[^>]*>|</?p>|\n(?i)'
 
@@ -35,10 +36,10 @@ def ParseRow(srow, hdcode, stampur):
 
 		# check that the outside text contains nothing but bogus close column tags
 		elif not re.match('(?:</t[dh]>|</font>|\s)*$(?i)', spcol):
-			print spcol
-			print "$$$%s$$$" % srow
-			print recolsplit.split(srow)
-			raise Exception, ' non column text '
+			print "spcol:", spcol
+			print "srow:", srow
+			print "srowsplit:", recolsplit.split(srow)
+                        raise ContextException("non column text", stamp=stampur, fragment=srow)
 	Lscols.append('</tr>')
 	return string.join(Lscols, '')
 
