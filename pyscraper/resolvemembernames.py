@@ -214,6 +214,7 @@ class MemberList(xml.sax.handler.ContentHandler):
 	def striptitles(self, text):
         # Remove dots, but leave a space between them
         text = text.replace(".", " ")
+        text = text.replace("&nbsp;", " ")
         text = text.replace("  ", " ")
 
         # Remove initial titles (may be several)
@@ -236,7 +237,6 @@ class MemberList(xml.sax.handler.ContentHandler):
     # date can be none, will give more matches
     def fullnametoids(self, tinput, date):
         text, titletotal = self.striptitles(tinput)
-
 
         # Find unique identifier for member
         ids = sets.Set()
