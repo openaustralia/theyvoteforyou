@@ -1,6 +1,10 @@
-<?php include "cache-begin.inc"; ?>
+<?php 
+$submit=mysql_escape_string($_POST["submit"]);
+if ($submit)
+    include "cache-begin.inc"; 
+?>
 <?php
-# $Id: division.php,v 1.24 2004/02/10 00:18:32 frabcus Exp $
+# $Id: division.php,v 1.25 2004/02/10 23:18:19 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -72,8 +76,6 @@
     {
         print "<div class=\"tablerollie\">";
         print "<span class=\"ptitle\">Roll Your Own MP</span>";
-
-        $submit=mysql_escape_string($_POST["submit"]);
 
         $query = "select rollie_id, name, description from 
             pw_dyn_rolliemp where user_id = '" . user_getid() . "'";
@@ -496,4 +498,7 @@
 ?>
 
 <?php include "footer.inc" ?>
-<?php include "cache-end.inc"; ?>
+<?php 
+if ($submit)
+    include "cache-end.inc"; 
+?>
