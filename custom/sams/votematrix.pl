@@ -50,6 +50,11 @@ foreach my $parliament (&PublicWhip::Parliaments::getlist())
 
     print METADATA $vote_query->rows . " divisions\n";
     print METADATA "\n\n\n";
+    print METADATA "Data Values\n";
+    foreach my $key (sort {$Output_Values{$a} <=> $Output_Values{$b}} keys %Output_Values) {
+        print METADATA "      $key: $Output_Values{$key}\n"
+    }
+    print METADATA "\n\n\n";
     print METADATA "Variables match to MP names as mpidXXX where XXX is the mpid number below\n\n";
     print METADATA "mpid\tfirstname\tsurname\tparty\tPublicWhip URL\n";
 
