@@ -27,18 +27,33 @@ fixsubs = 	[
         ( '(<TABLE BORDER=1>\s*?)<TABLE BORDER=1>', '\\1', 1, '2003-06-13'),
         ( '<TABLE BORDER=1>(\s*?<a name="30613w19.html_sbhd5">)', '\\1', 1, '2003-06-13'),
 
-        # NIGHTMARE table day - still doesn't work
+        # NIGHTMARE table day - works now
         # Excess table tag
         ( '<TABLE BORDER=1>(\s*?<a name="30612w07.html_sbhd1">)', '\\1', 1, '2003-06-12'),
-        ( '(<a name="30612w23.html_para1">)\s*?<TABLE BORDER=1>', '\\1', 1, '2003-06-12'),
-#        ( '(<TABLE BORDER=1>\s*?)<P>', '\\1', 21, '2003-06-12'),
         ( '(<P><I>12 Jun 2003 : Column 1065W</I><P>\s*?)<TABLE BORDER=1>', '\\1', 1, '2003-06-12'),
         # Title with end /TH /TR, but no begin TH TR, bad bolding
         ( '(<center>)<B>(&#163;000Country/YearTotal DFID Programme</center>)</B>(\s*?</FONT>)</FONT></TH></TR>', '\\1\\2\\3', 1, '2003-06-12'),
         # Table immediately followed by spurious end TH end TR - heading then in TDs
         ( '(<TABLE BORDER=1>)\s*?<P>\s*?</FONT></TH></TR>', '\\1', 1, '2003-06-12'),
         # Malformed heading
-        # ( '(<FONT SIZE=-1><center>)<B>(&#163;000</center>)</B>','\\1\\2', 1, '2003-06-12'),
+        ( '(<center>)<B>(&#163;000</center>)</B>', '\\1\\2', 1, '2003-06-12'),
+
+        ( '(</FONT>\s*?)<TABLE BORDER=1>(\s*?<a name="30611w01.html_sbhd8">)', '\\1\\2', 1, '2003-06-11'),
+        ( '<TABLE BORDER=1>(\s*?<a name="30611w09.html_sbhd6">)', '\\1', 1, '2003-06-11'),
+        ( '(Ethnic Minority Business Forum members</center></B>\s*)</FONT><P>\s*</FONT></TH></TR>', '\\1', 1, '2003-06-11'),
+        ( '<TABLE BORDER=1>\s*?<P>\s*?(<P>\s*?<a name="30611w13.html_wqn3">)', '\\1', 1, '2003-06-11'),
+        ( '<TABLE BORDER=1>\s*(<a name="30611w14.html_dpthd0">)', '\\1', 1, '2003-06-11'),
+        ( '(<P><I>11 Jun 2003 : Column 907W</I><P>\s*)<TABLE BORDER=1>', '\\1', 1, '2003-06-11'),
+        ( '(<P><I>11 Jun 2003 : Column 945W</I><P>\s*)<TABLE BORDER=1>', '\\1', 1, '2003-06-11'),
+        ( '<TABLE BORDER=1>\s*?(<P>\s*?<page)', '\\1', 2, '2003-06-11'),
+        ( '<TABLE BORDER=1>(\s*?The Northern Ireland)', '\\1', 1, '2003-06-11'),
+
+
+        # weird fragment
+        ('(<P><I>10 Jun 2003 : Column 764W</I><P>)\s*?<P>\s*?<UL>We have a duty to provide our troops with the best available equipment with which to protect themselves and succeed in conflict. Depleted Uranium munitions provide a unique anti-armour capability. Therefore, British Forces deployed to the Gulf have DU munitions available as part of their armoury, and<P></UL>', '\\1', 1, '2003-06-10'),
+
+
+
 
         ( '(\[109374\]<P>)</UL>', '\\1', 1, '2003-04-30'),
 
@@ -48,9 +63,9 @@ fixsubs = 	[
 
         ( '(<UL>)(The Solicitor-General)( <i>\[holding answer 14 May 2003\]:</i>)', '<B>\\2</B>\\3', 1, '2003-06-12'),
 
-
         # Stop the remarginal matching this reference to a column number
         ( 'from that stated in Hansard 16 January 2003: column 792W', 'Hansard 16 January 2003: col. 792W', 1, '2004-01-13' )
+
 ]
 
 #<P>

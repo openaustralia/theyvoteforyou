@@ -956,6 +956,7 @@ website.  The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/277">
     <name text="Harrow West"/>
+    <name text="Harrow, West"/> <!-- Debates -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/278">
     <name text="Hartlepool"/>

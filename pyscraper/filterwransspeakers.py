@@ -36,8 +36,6 @@ fixsubs = 	[
 		'<B>Mr. Bradshaw </B> [holding answer 23 June 2003]', 1, '2003-06-24'),
 	( '<i>Mr. Bradshaw </i>\[holding answer 17 June 2003\]:', \
 		'</ul><B>Mr. Bradshaw </B> [holding answer 17 June 2003]', 1, '2003-06-18'),
-	( '<UL><i>(Mr. Morley) (\[holding answer 22 May 2003\]):</i>', \
-		'<B>\\1</B> \\2', 1, '2003-06-03'),
 	( '<UL>(Beverley Hughes):', '<B>\\1</B>', 1, '2003-04-10'),
         ( '<UL>(Mr. Morley):', '<B>\\1</B> ', 1, '2003-05-01'),
 
@@ -45,7 +43,6 @@ fixsubs = 	[
 	( '<UL>Mr. Denham:', '<B>Mr. Denham</B>', 1, '2003-03-06'),
 
 
-	( '<B> Mr. Bercow: Mr. John Bercow: </B>', '<B> Mr. John Bercow: </B>', 1, '2003-06-03'),
 	( '<B> Matthew Taylor: Matthew Taylor: </B>', '<B> Matthew Taylor: </B>', 1, '2003-07-02'),
 
 	( '<TR valign=top><TD><FONT SIZE=-1>\s*<P>\s*<page', '</TABLE>\n<page', 1, '2002-07-24'),
@@ -84,9 +81,7 @@ fixsubs = 	[
 	( 'available .23 million', 'available 23 million', 1, '2002-11-26'),
 	( 'approved a .4 million', 'approved a 4 million', 1, '2002-11-26'),
 	( '<FONT SIZE=-1>[^\d]0\.3\s*</FONT>', '<FONT SIZE=-1>0.3</FONT>', 2, '2002-10-22'), # note the 2; the problem is a dropped dot
-	( '(Maple 2b,?) .(\d+</FONT>)', '\\1 ?\\2', 4, '2003-06-04'), # not a latin problem, but bogus char is bad xml
 	( 'Larch 3 .2305', 'Larch 3 ?2305', 1, '2003-06-04'), # as above
-	( 'cfm.4', 'cfm 4', 1, '2003-06-03'), # as above.  don't know what char is supposed to be.
         ( 'Laura0 Moffatt', 'Laura Moffatt', 1, '2004-01-27'),
 
         ( 'è', '&euro;', 3, '2003-06-12'),

@@ -1,3 +1,6 @@
+2003-06-13 - check tables
+2003-06-12 - check euro
+
 Wrans
 -----
 
@@ -54,6 +57,8 @@ Popular pages today are...  Grep the logs somehow clever.
 Tour somehow for first time users
 
 FAQ needs to give more of an impression that we would like help
+
+Link to ideas.txt file
 
 Scraper
 -------

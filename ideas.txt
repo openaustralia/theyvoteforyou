@@ -48,6 +48,9 @@ post-code membership, and creates a table of MPs who are doing the least
 where the group has the most supporters.  Finds good targets for
 lobbying.
 
+Correlate voting record with geographical location.  Do MPs at constituencies
+near each other tend to vote the same as each other?
+
 Additional text content
 -----------------------
 

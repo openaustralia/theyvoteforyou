@@ -51,10 +51,6 @@ fixsubs = 	[
  	( '\n How many ', '\n To ask the Secretary of State for Work and Pensions how many ', 1, '2003-07-07'),
  	( '\n What ', '\n To ask the Secretary of State for Culture, Media and Sport what ', 1, '2003-06-30'),
 
-	( '(that initiatives the Government)', 'To ask the Secretary of State for Wales \\1', 1, '2003-06-04'),
-	( ' What (recent discussions he has)', 'To ask the Secretary of State for Wales what \\1', 1, '2003-06-04'),
-	( ' What (meetings he has held)', 'To ask the Secretary of State for Wales what \\1', 1, '2003-06-04'),
-	( ' What (discussions he has had)', 'To ask the Secretary of State for Wales what \\1', 1, '2003-06-04'),
  	( ' (on military flights at Northolt)', 'To ask the Secretary of State for Defence SOMETHING \\1', 1, '2003-06-03'),
 	( '\n When he expects', '\nTo ask the Secretary of State for Education and Skills when he expects', 1, '2003-04-10'),
 	( '\n Asked the Secretary', '\nTo ask the Secretary', 1, '2003-03-21'),
@@ -64,10 +60,7 @@ fixsubs = 	[
 	( ' If (he will make a statement)', 'To ask the Chancellor of the Exchequer if \\1', 2, '2004-01-29'),
 	( '( To) (the Secretary of State for Trade and Industry)', '\\1 ask \\2', 1, '2004-01-26'),
 
-	# this is complicated because the speaker name has already been tokenized (into part \\1)
-	( '\{\*\*con\*\*\}\{\*\*/con\*\*\}(<P>[\s\S]*?)(\(1\)\s*pursuant to his response)', '\\1 To ask the Secretary of State for Defence \\2', 1, '2003-06-03'),
 
-	( '\n (ask the Secretary of State)', '\n To \\1', 1, '2003-06-03'),
 	( '\((115021)\)', '[\\1]', 1, '2003-06-03'),
 	( '\{\*\*con\*\*\}\{\*\*/con\*\*\}', '', 1, '2003-05-19'),
         ( '(\[142901)', '\\1]', 1, '2003-12-11'),
@@ -101,9 +94,6 @@ fixsubs = 	[
 	( 'Rural Affairs what estimates', 'Rural Affairs (1) what estimates', 1, '2003-01-29'),
         
 
-
-	( '<i>The following questions were answered on 10 June</i>', '', 1, '2003-06-10'),
-
 	( 'Vol. No. 412,', '', 1, '2003-11-10'),
 	( '</TH></TH>', '</TH>', 1, '2003-11-17'),
 
@@ -121,7 +111,7 @@ fixsubs = 	[
 	#( '<TABLE BORDER=1>\s*<H4>', '<H4>', 6, '2002-10-22'),
 
 	( '"</i>Guidance', '</i>"Guidance', 1, '2003-10-30'),
-	( ' \[116654\]', '', 1, '2003-06-10'),
+
 
 	# broken link fixing material
 	( 'standards.php\*', 'standards.php', 1, '2003-12-08'), 
@@ -279,7 +269,6 @@ def FilterWransSections(fout, text, sdate):
 
 	for i in range(ih, len(headspeak)):
 		sht = headspeak[i]
-#                print "sht", sht
 
 		# update the stamps from the pre-spoken text
 		stampurl.UpdateStampUrl(sht[1])

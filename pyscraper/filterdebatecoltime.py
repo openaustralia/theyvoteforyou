@@ -33,6 +33,8 @@ fixsubs = 	[
 
         ( '(fine, or both.".\'\&\#151\;)', '\\1</FONT></TD></TR></TABLE>', 1, '2003-05-20'),
         ( '(</FONT></TD><TD><FONT SIZE=-1>"Section)', '<TR><TD>\\1', 1, '2003-05-20'),
+
+        ( '(<B>)( 8. )(Mr. Alistair Carmichael)', '\\2\\1\\3', 1, '2003-01-07'),
 ]
 
 
