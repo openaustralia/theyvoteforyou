@@ -1,5 +1,5 @@
 <?php 
-# $Id: data.php,v 1.9 2004/04/30 02:26:15 frabcus Exp $
+# $Id: data.php,v 1.10 2004/06/08 15:56:03 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -29,6 +29,7 @@ XML files of Written Answers.  For legal and copyright information, see
 anything fun or important with this data, you let us know!  Any problems using
 the data, or requests for a different format?  Email <a
 href="mailto:francis@publicwhip.org.uk">francis@publicwhip.org.uk</a>
+or ask on the <a href="https://lists.sourceforge.net/lists/listinfo/publicwhip-playing">publicwhip-playing email list</a>.
 
 
 <h2>MP votes for each division</h2>
