@@ -1,0 +1,5 @@
+#!/bin/bash
+
+join -1 2 -2 2 -o 1.1,2.1 sphinx-wrans.txt baked-wrans.txt | sort | uniq | sed "s#uk.org.publicwhip/wrans/##g"
+
+
