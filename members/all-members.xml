@@ -6240,7 +6240,7 @@ http://www.election.demon.co.uk/strengths.html
     house="commons"
     title="" firstname="Howard" lastname="Flight"
     constituency="Arundel &amp; South Downs" party="Con"
-    fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    fromdate="2001-06-07" todate="2005-03-24" fromwhy="general_election" towhy="changed_party"
 />
 <member
     id="uk.org.publicwhip/member/889"
@@ -9586,6 +9586,13 @@ http://www.election.demon.co.uk/strengths.html
     title="" firstname="Jonathan" lastname="Sayeed"
     constituency="Mid Bedfordshire" party="Ind"
     fromdate="2005-02-03" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
+/>
+<member
+    id="uk.org.publicwhip/member/1366"
+    house="commons"
+    title="" firstname="Howard" lastname="Flight"
+    constituency="Arundel &amp; South Downs" party="Ind"
+    fromdate="2005-03-25" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
 />
 
 
