@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.18 2005/03/28 18:16:27 frabcus Exp $
+-- $Id: create.sql,v 1.19 2005/03/28 19:59:23 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -246,5 +246,12 @@ create table pw_cache_realreal_distance (
     unique(mp_id, person)
 );
 
+-- Stores the most recent wiki item for this division
+create table pw_cache_divwiki (
+    division_date date not null,
+    division_number int not null,
+    wiki_id int not null,
+    unique(division_date, division_number)
+);
 
 -------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 <?php
-# $Id: wiki.inc,v 1.1 2005/03/28 10:06:21 frabcus Exp $
+# $Id: wiki.inc,v 1.2 2005/03/28 19:59:24 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Gather information from the database
@@ -33,13 +33,23 @@ function get_wiki_current_value($key)
 
     $matches = array();
     if (preg_match("/^motion-(\d\d\d\d-\d\d-\d\d)-(\d+)$/",$key, $matches)) {
+        list($motion, $division_name) = get_motion_default_values($matches[1], $matches[2]);
         if (!$result) {
-            $result = get_motion_default_text($matches[1], $matches[2]);
+            $result = array(
+                'text_body' => $motion,
+                'edit_date' => $matches[1],
+                'user_id' => 0
+            );
         }
-        # Put wrapper on if not there
+        # Put wrappers on if they are not there
         if (!preg_match("/--- MOTION EFFECT ---/s", $result['text_body'])) {
-            $result['text_body'] = "--- MOTION EFFECT ---\n\n" . $result['text_body'] .
+            $result['text_body'] = 
+                "--- MOTION EFFECT ---\n\n" . $result['text_body'] .
                 "\n--- COMMENTS AND NOTES ---\n\n(put thoughts and notes for other researchers here)\n";
+        }
+        if (!preg_match("/--- DIVISION TITLE ---/s", $result['text_body'])) {
+            $result['text_body'] = 
+                "--- DIVISION TITLE ---\n\n" . $division_name . "\n\n" . $result['text_body'];
         }
     } else {
         die("Unknown wiki key type '" . html_scrub($key). "'");
@@ -47,38 +57,63 @@ function get_wiki_current_value($key)
     return $result;
 }
 
-# Call this if display the wiki text, as opposed to letting somebody edit it
-function sanitise_wiki_text_for_display($text)
+# Call this to get motion from wiki text for display
+function extract_motion_text_from_wiki_text($text)
 {
     if (preg_match("/--- MOTION EFFECT ---(.*)--- COMMENT/s", $text, $matches)) {
-        $text = $matches[1];
+        $motion = $matches[1];
     }
-    $text = guy2html(guy_strip_bad($text));
+    $motion = guy2html(guy_strip_bad($motion));
 
-    return $text;
+    return $motion;
 }
 
-# Returns the default text for a motion, that is what was screen scraped
-# originally.  Return value is a hash with keys text_body, user_id, edit_date.
-# user_id is 0 as this text has never been edited.
-function get_motion_default_text($date, $div_no)
+# Call this to get title from wiki text for display
+function extract_title_from_wiki_text($text)
+{
+    if (preg_match("/--- DIVISION TITLE ---(.*)--- MOTION EFFECT/s", $text, $matches)) {
+        $title = $matches[1];
+    }
+    $title = trim(strip_tags($title));
+
+    return $title;
+}
+
+# Returns a list of: 
+#  the default text for a motion, 
+#  the default title of the motion. 
+# In both cases, that is what was screen scraped originally.  
+function get_motion_default_values($date, $div_no)
 {
     global $db;
-    $db->query("select motion from pw_division 
+    $db->query("select motion, division_name from pw_division 
         where division_date = '$date' and division_number = '$div_no'");
-    if ($db->rows() >=1) {
+    if ($db->rows() >= 1) {
         $row = $db->fetch_row_assoc();
-        $result = array(
-            'text_body' => $row['motion'],
-            'edit_date' => $date,
-            'user_id' => 0
-        );
-        $result['text_body'] = str_replace(' class=""', '', $result['text_body']);
-        $result['text_body'] = str_replace(' pwmotiontext="yes"', '', $result['text_body']);
-        return $result;
+        $motion = $row['motion'];
+        $motion = str_replace(' class=""', '', $motion);
+        $motion = str_replace(' pwmotiontext="yes"', '', $motion);
+        return array($motion, $row['division_name']);
     }
 
     die("Couldn't find motion text for division " . htmlspecialchars($date) . " " . htmlspecialchars($div_no));
+}
+
+# Makes sure the wiki_id value is up to date in pw_cache_divwiki for every
+# division.
+function update_divisions_wiki_id($db)
+{
+    $result = $db->query("INSERT INTO pw_cache_divwiki
+        SELECT pw_division.division_date AS division_date, pw_division.division_number AS division_number,
+                       IFNULL(MAX(pw_dyn_wiki.wiki_id), -1) AS value
+        FROM pw_division
+        LEFT JOIN pw_cache_divwiki ON pw_division.division_date = pw_cache_divwiki.division_date AND
+            pw_division.division_number = pw_cache_divwiki.division_number
+        LEFT JOIN pw_dyn_wiki ON pw_dyn_wiki.object_key =
+            concat('motion-', pw_division.division_date, '-', pw_division.division_number)
+        WHERE pw_cache_divwiki.wiki_id IS NULL
+        GROUP BY pw_division.division_id
+    ");
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.17 2005/03/28 10:06:21 frabcus Exp $
+# $Id: tablemake.inc,v 1.18 2005/03/28 19:59:24 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -252,7 +252,8 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter
         print $rolecol;
     print "<td>".$row['divisiondate']."</td>";
     print "<td>".$row['divisionnumber']."</td>";
-    $divdesc = $row['division_name'];
+    $divdesc_edited = extract_title_from_wiki_text($row['text_body']);
+    $divdesc = $divdesc_edited ? $divdesc_edited : $row['division_name'];
     print "<td>";
     print "<a href=\"$divhref\">$divdesc";
     if ($showmotionwikistate == "listunedited" and !$row['motionedited'])
@@ -367,7 +368,9 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
     print "<tr class=\"motiontitle$pretrowclass\">";
 
     $divlink = "<a href=\"$divhref\">";
-    print "<td colspan=4 align=left>$divlink".$row['division_name']."</a> </td>";
+    $divdesc_edited = extract_title_from_wiki_text($row['text_body']);
+    $divdesc = $divdesc_edited ? $divdesc_edited : $row['division_name'];
+    print "<td colspan=4 align=left>$divlink$divdesc</a> </td>";
     print "<td colspan=3>$divlink".$row['divisiondate']." #".$row['divisionnumber']."</a></td>";
     print "</tr>\n";
 
@@ -456,6 +459,8 @@ function writelinkheading($desc, $link)
 # motionwikistate is nothing or 'listunedited' for the "(unedited)" symbols
 function division_table($db, $divtabattr, $events = "")
 {
+    update_divisions_wiki_id($db);
+
     global $bdebug;
     if ($bdebug == 1)
     {
@@ -498,13 +503,11 @@ function division_table($db, $divtabattr, $events = "")
     # corrected column (yet another division_id coding!)
     # motionwikistate is nothing or 'listunedited' for the "(unedited)" symbols
     $showmotionwikistate = $divtabattr["motionwikistate"];
-    if ($showmotionwikistate)
-    {
-        $aquery["qselect"] .= ", object_key AS motionedited";
-        $aquery["qjoin"]  .= " LEFT JOIN pw_dyn_wiki ON pw_dyn_wiki.object_key =
-                                concat('motion-', pw_division.division_date, '-', pw_division.division_number)";
-        $aquery["qgroup"]  = " GROUP BY pw_division.division_id";
-    }
+    $aquery["qselect"] .= ", pw_dyn_wiki.wiki_id AS motionedited, pw_dyn_wiki.text_body AS text_body";
+    $aquery["qjoin"]  .= "  LEFT JOIN pw_cache_divwiki ON pw_cache_divwiki.division_date = pw_division.division_date
+                                    AND pw_cache_divwiki.division_number = pw_division.division_number
+                            LEFT JOIN pw_dyn_wiki ON pw_dyn_wiki.wiki_id = pw_cache_divwiki.wiki_id
+                            ";
 
     # full motion text display
     if ($divtabattr['votedisplay'] == 'fullmotion')
@@ -683,7 +686,7 @@ function division_table($db, $divtabattr, $events = "")
 
             } else {
                 $printed = true;
-                $motiontext = sanitise_wiki_text_for_display($wikiinfo['text_body']);
+                $motiontext = extract_motion_text_from_wiki_text($wikiinfo['text_body']);
                 print_motion_row($motiontext, $db, $row['divisionid'], $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, $voter1, $vote1, $vote2, $row, $divhref, $hrefsource);
                 $nrows += 2;
             }

@@ -1,4 +1,4 @@
-# $Id: Calc.pm,v 1.3 2005/03/28 17:35:58 frabcus Exp $
+# $Id: Calc.pm,v 1.4 2005/03/28 19:59:23 frabcus Exp $
 # Calculates various data and caches it in the database.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -193,7 +193,6 @@ sub count_division_info {
         division_id int not null,
         rebellions int not null,
         turnout int not null,
-        wiki_id int, -- can be NULL if not filled in yet
         index(division_id)
     );"
     );

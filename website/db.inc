@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.19 2005/03/28 17:35:59 frabcus Exp $
+# $Id: db.inc,v 1.20 2005/03/28 19:59:24 frabcus Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -45,7 +45,7 @@ class DB
 
     function query($query)
     {
-print "<p>$query";
+#print "<p>$query";
         $this->$result = mysql_query($query, $this->link) 
             or die("Query failed : " .  mysql_error());
     }

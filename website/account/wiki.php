@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.7 2005/03/28 10:06:21 frabcus Exp $
+# $Id: wiki.php,v 1.8 2005/03/28 19:59:25 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -12,7 +12,7 @@ include_once('user.inc');
 
 include "../db.inc";
 include "../cache-tools.inc";
-include "../gather.inc";
+include "../wiki.inc";
 $db = new DB(); 
 
 $just_logged_in = do_login_screen();
@@ -88,8 +88,8 @@ if (user_isloggedin()) # User logged in, show settings screen
         <a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=2">Chat
 with other motion researchers on our special forum</a>.
 
-        <p>Leave the "MOTION EFFECT" and "COMMENTS AND NOTES" in place, so our
-        computer can work it out.
+        <p>Leave the "DIVISION TITLE", "MOTION EFFECT" and "COMMENTS AND NOTES"
+        in place, so our computer can work it out.
 
         <p><b>Motion result:</b>
 <?

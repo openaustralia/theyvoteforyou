@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.60 2005/03/28 10:06:21 frabcus Exp $
+# $Id: division.php,v 1.61 2005/03/28 19:59:24 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -37,7 +37,9 @@
 	$singlemotionpage = ($divattr2 == "none");
 
 	$div_id = $divattr["division_id"];
-	$name = $divattr["name"];
+    # current motion text from the database
+    $motion_data = get_wiki_current_value($divattr["motion_key"]);
+	$name = extract_title_from_wiki_text($motion_data['text_body']);
 	$source = $divattr["source_url"];
 	$rebellions = $divattr["rebellions"];
 	$turnout = $divattr["turnout"];
@@ -201,9 +203,6 @@
     {
 		if ($singlemotionpage)
 		{
-			# current motion text from the database
-			$motion_data = get_wiki_current_value($divattr["motion_key"]);
-
 	    	# Show motion text
 	        print "<h2><a name=\"motion\">Motion</a></h2>";
 	        if ($motion_data['user_id'] == 0) {
@@ -215,7 +214,7 @@
 	            print "<p>Result of the motion in a human readable form, as judged by
 	            our team of self-appointed experts.</p>";
 	        }
-	        print "<div class=\"motion\">" . sanitise_wiki_text_for_display($motion_data['text_body']); # TODO: validate this text_body
+	        print "<div class=\"motion\">" . extract_motion_text_from_wiki_text($motion_data['text_body']); # TODO: validate this text_body
 	        print "</div>\n";
 
 	    	print "<p><a href=\"account/wiki.php?key=".$divattr["motion_key"]."&r=" .
@@ -238,12 +237,12 @@
 			$motion_data_a = get_wiki_current_value($divattr["motion_key"]);
 			$titlea = "<a href=\"".$divattr["divhref"]."\">".$divattr["name"]." - ".$divattr["prettydate"]." - Division No. ".$divattr["division_number"]."</a>";
 	        print "<h2><a name=\"motion\">Motion (a) ".($motion_data_a['user_id'] == 0 ? " (unedited)" : "")."</a>: $titlea</h2>";
-	        print "<div class=\"motion\">".sanitise_wiki_text_for_display($motion_data_a['text_body'])."</div>\n";
+	        print "<div class=\"motion\">".extract_motion_text_from_wiki_text($motion_data_a['text_body'])."</div>\n";
 
 			$motion_data_b = get_wiki_current_value($divattr2["motion_key"]);
 			$titleb = "<a href=\"".$divattr2["divhref"]."\">".$divattr2["name"]." - ".$divattr2["prettydate"]." - Division No. ".$divattr2["division_number"]."</a>";
 	        print "<h2>Motion (b) ".($motion_data_b['user_id'] == 0 ? " (unedited)" : "").": $titleb</h2>";
-	        print "<div class=\"motion\">".sanitise_wiki_text_for_display($motion_data_b['text_body'])."</div>\n";
+	        print "<div class=\"motion\">".extract_motion_text_from_wiki_text($motion_data_b['text_body'])."</div>\n";
 		}
 	}
 

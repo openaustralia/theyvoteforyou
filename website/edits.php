@@ -21,7 +21,8 @@
     print "<table class=\"edits\">\n";
     print "<tr class=\"headings\">
         <td>Object</td>
-        <td>Text</td>
+        <td>Division Title</td>
+        <td>Motion Text</td>
         <td>Made by</td>
         <td>Date</td>
         </tr>";
@@ -44,7 +45,8 @@
         } else {
             print "<td>" . $row['object_key'] . "</td>";
         }
-        print "<td>" . trim_characters(sanitise_wiki_text_for_display($row['text_body']), 0, 200) . "</td>\n";
+        print "<td>" . trim_characters(extract_title_from_wiki_text($row['text_body']), 0, 200) . "</td>\n";
+        print "<td>" . trim_characters(extract_motion_text_from_wiki_text($row['text_body']), 0, 200) . "</td>\n";
         print "<td>" . html_scrub($row['user_name']) . "</td>";
         print "<td>" . $row['edit_date'] . "</td>\n";
         print "</td></tr>";
