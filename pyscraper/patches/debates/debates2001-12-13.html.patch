@@ -1,0 +1,22 @@
+--- debates/debates2001-12-13.html	2004-02-12 13:28:16.000000000 +0000
++++ debates/debates2001-12-13-patchtmp.html	2004-04-10 02:53:39.000000000 +0100
+@@ -4259,7 +4259,8 @@
+ 
+ <P>
+ <FONT SIZE=-1>
+-<center><B>"8A Transport of animals destined for slaughter </B></center><BR>
++<p><i>"8A Transport of animals destined for slaughter </I>
++<p>
+ A person commits an offence if without lawful authority or excuse (proof of which shall lie on him) he transports, or knowingly causes or permits to be transported, any animal destined for slaughter for more than 8 hours".'.&#151;<i>[David  Taylor.]</i>
+ <P>
+ </FONT><P>
+@@ -4283,7 +4284,8 @@
+ 
+ <P>
+ <FONT SIZE=-1>
+-<center><B>"8A Bringing of animals to markets </B></center><BR>
++<p><i>"8A Bringing of animals to markets </i>
++<p>
+ A person commits an offence if without lawful authority or excuse (proof of which shall lie on him) he brings, or knowingly causes or permits to be brought, to market any animal which has been brought to a market in the previous 20 days.".'.
+ <P>
+ </FONT>

@@ -1,0 +1,25 @@
+--- debates/debates2001-10-08.html	2004-04-09 18:28:48.000000000 +0100
++++ debates/debates2001-10-08-patchtmp.html	2004-04-10 03:09:48.000000000 +0100
+@@ -17,7 +17,7 @@
+ 
+ <P>
+ 
+-<a name="11008-01_para0">The House met at Six o'clock, notice having been given by Mr. Speaker, pursuant to Standing Order No. 13 (Earlier meeting of House in certain circumstances).
++<H4><center>The House met at Six o'clock, notice having been given by Mr. Speaker, pursuant to Standing Order No. 13 (Earlier meeting of House in certain circumstances)</center></H4>
+ 
+ <H4><center>PRAYERS</center></H4>
+ <H4><center>[Mr. Speaker in the Chair]</center></H4>
+@@ -2992,10 +2992,11 @@
+ <a name="11008-27_para4"><i>Resolved,</i>
+ <P>
+ <BR>
+-<UL><FONT SIZE=-1>That this House do now adjourn.&#151;<i>[Mr. Norris.]</i>
++<FONT SIZE=-1>That this House do now adjourn.&#151;<i>[Mr. Norris.]</i>
+ <P>
+-<UL><UL>Adjourned accordingly at Twelve midnight.
++Adjourned accordingly at Twelve midnight.
+ </UL></UL></UL>
++<UL><UL><UL>
+ 
+ 
+ 

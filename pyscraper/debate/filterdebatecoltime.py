@@ -9,6 +9,8 @@ import string
 import mx.DateTime
 
 from miscfuncs import ApplyFixSubstitutions
+from splitheadingsspeakers import StampUrl
+from contextexception import ContextException
 
 # this filter converts column number tags of form:
 #     <B>9 Dec 2003 : Column 893</B>
@@ -26,7 +28,6 @@ fixsubs = 	[
 	( '<B>27 Mar 2003 : Column 563</B></P>\s*<UL><UL><UL>\s*</UL></UL></UL>', '', 1, '2003-03-27'),
 	( '<B>10 Mar 2003 : Column 141</B></P>\s*<UL><UL><UL>\s*</UL></UL></UL>', '', 1, '2003-03-10'),
 	( '<B>4 Feb 2003 : Column 251</B></P>\s*<UL><UL><UL>\s*</UL></UL></UL>', '', 1, '2003-02-04'),
-	( '<B>24 Sept 2002 : Column 155</B></P>\s*<UL><UL><UL><FONT SIZE=-1>\s*</UL></UL></UL>', '', 1, '2002-09-24'),
 	( '<H4>2.20</H4>', '<H4>2.20 pm</H4>', 1, '2003-02-28'), 
         ( '(<H5>2.58)(</H5>)', '\\1 pm\\2', 1, '2004-01-13'),
 
@@ -89,6 +90,7 @@ regparsetimeonhour = re.compile("^(\d+)()\s?([\w\.]+)$")
 
 def FilterDebateColTime(fout, text, sdate):
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
+        stamp = StampUrl(sdate) # for error messages
 
 	colnum = -1
 	time = ''	# need to use a proper timestamp code class
@@ -102,7 +104,7 @@ def FilterDebateColTime(fout, text, sdate):
 			# check date
 			ldate = mx.DateTime.DateTimeFrom(columng.group(1)).date
 			if sdate != ldate:
-				raise Exception, "Column date disagrees %s -- %s" % (sdate, fss)
+				raise ContextException("Column date disagrees %s -- %s" % (sdate, fss), stamp=stamp, fragment=fss)
 
 			# check number
 			lcolnum = string.atoi(columng.group(2))
@@ -112,11 +114,12 @@ def FilterDebateColTime(fout, text, sdate):
 				pass  # good
 			# column numbers do get skipped during division listings
 			elif lcolnum < colnum:
-				raise Exception, "Colnum not incrementing %d -- %s" % (lcolnum, fss)
+				raise ContextException("Colnum not incrementing %d -- %s" % (lcolnum, fss), stamp=stamp, fragment=fss)
 
 			# write a column number stamp (has to increase no matter what)
 			if lcolnum > colnum:
 				colnum = lcolnum
+                        stamp.stamp = '<stamp coldate="%s" colnum="%sW"/>' % (sdate, lcolnum)
 			fout.write('<stamp coldate="%s" colnum="%s"/>' % (sdate, colnum))
 			continue
 
@@ -124,11 +127,11 @@ def FilterDebateColTime(fout, text, sdate):
 		if columncg:
 			ldate = mx.DateTime.DateTimeFrom(columncg.group(1)).date
 			if sdate != ldate:
-				raise Exception, "Column date disagrees %s -- %s" % (sdate, fss)
+				raise ContextException("Column date disagrees %s -- %s" % (sdate, fss), stamp=stamp, fragment=fss)
 
 			lcolnum = string.atoi(columncg.group(2))
 			if colnum != lcolnum:
-				raise Exception, "Cont column number disagrees %d -- %s" % (colnum, fss)
+				raise ContextException("Cont column number disagrees %d -- %s" % (colnum, fss), stamp=stamp, fragment=fss)
 
 			continue
 
@@ -156,7 +159,7 @@ def FilterDebateColTime(fout, text, sdate):
 			    time = "%02d:%02d:00" % (hour, mins)
 			else:
 			    time = "unknown " + time
-			    raise Exception, "Time not matched: " + time
+			    raise ContextException("Time not matched: " + time, stamp=stamp, fragment=fss)
 			    
 			fout.write('<stamp time="%s"/>' % time)
 			continue
@@ -165,20 +168,20 @@ def FilterDebateColTime(fout, text, sdate):
                 anameg = reanamevals.match(fss)
                 if anameg:
                         aname = anameg.group(1)
+                        stamp.aname = '<stamp aname="%s"/>' % aname  
                         fout.write('<stamp aname="%s"/>' % aname)
                         continue
                 
 		# nothing detected
 		# check if we've missed anything obvious
 		if recomb.match(fss):
-			print fss
-			raise Exception, ' regexpvals not general enough '
+			raise ContextException('regexpvals not general enough', stamp=stamp, fragment=fss)
 		if remarginal.search(fss):
-			print ' marginal coltime detection case '
-			print remarginal.search(fss).groups()
-			print remarginal.search(fss).group(0)
-                        print '--------------------------------\n'
 			print fss
-			sys.exit()
+                        print '--------------------------------\n'
+			print "marginal found: ", remarginal.search(fss).groups()
+			print "zeroth: ", remarginal.search(fss).group(0)
+                        print '--------------------------------\n'
+                        raise ContextException('marginal coltime detection case', stamp=stamp, fragment=fss)
 		fout.write(fss)
 

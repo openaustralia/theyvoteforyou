@@ -25,7 +25,8 @@ from filterdebatespeech import FilterDebateSpeech
 import miscfuncs
 toppath = miscfuncs.toppath
 
-rehousediv = re.compile('<p[^>]*>(?:<i>)?\s*The (?:House|Committee) (?:having )?divided(?:</i>|:)+ Ayes,? (\d+), Noes (\d+)\.</p>$')
+housedivtxt = "The (?:House|Committee) (?:(?:having )?divided|proceeded to a Division)"
+rehousediv = re.compile('<p[^>]*>(?:<i>)?\s*%s(?:</i>|:|-)+ Ayes,? (\d+), Noes (\d+)\.</p>$' % housedivtxt)
 
 foutdivisionreports = open(os.path.join(toppath, "divreport.html"), "w")
 #foutdivisionreports = None
@@ -161,11 +162,9 @@ def GrabDivisionProced(qbp, qbd):
 	if not hdg:
 		hdg = redivshouldappear.match(qbp.stext[-1])
 	if not hdg:
-		print qbp.stext[-1]
 		# another correction one
-		#:  qbp.sstampurl.sdate == '2003-09-16':
-		if True:
-			raise Exception, "no house divided before division"
+		if qbp.sstampurl.sdate != '2003-09-16':
+			raise Exception, "no house divided before division: %s" % qbp.stext[-1]
 		return None
 
 	# if previous thing is already a no-speaker, we don't need to break it out

@@ -1,0 +1,22 @@
+--- debates/debates2002-05-20.html	2004-02-12 13:12:25.000000000 +0000
++++ debates/debates2002-05-20-patchtmp.html	2004-04-10 01:37:07.000000000 +0100
+@@ -3742,7 +3742,8 @@
+ No. 322, in page 89, line 15, at end insert&#151;
+ <BR>
+ 
+-<center><B>'The Adoption (Northern Ireland) Order 1987 (S.I. 1987/2203 (N.I. 22)) </B></center><BR>
++<P><i>'The Adoption (Northern Ireland) Order 1987 (S.I. 1987/2203 (N.I. 22)) </i>
++<P>
+ 45A In Article 2(2) (interpretation), in the definition of "prescribed" for "Articles 54" there is substituted "Articles 53(3B) and (3D), 54".'&#151;<i>[Jacqui  Smith.]</i>
+ <BR>
+ <P>
+@@ -3839,7 +3840,8 @@
+ <i>Amendments made:</i> No. 286, in page 96, line 40, at end insert&#151;
+ <BR>
+ 
+-<center><B>'The Criminal Justice and Court Services Act 2000 (c.43) </B></center><BR>
++<P><i>'The Criminal Justice and Court Services Act 2000 (c.43) </i>
++<P>
+ 2A (1) The facilities to be provided by local authorities as part of the service maintained under section 1(1) of the Adoption Act 1976 include such arrangements as the authorities may be required by regulations to make for the provision of adoption support services to prescribed persons.
+ <BR>
+ <BR>

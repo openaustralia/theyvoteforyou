@@ -15,3 +15,6 @@ Special tags you can put in patches:
     this often picks up errors.  This marker says that a particular qnum
     is fine - it is a link to another question for example.
 
+<explicit-end-division>
+
+

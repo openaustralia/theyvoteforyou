@@ -14,22 +14,35 @@ from miscfuncs import FixHTMLEntities
 # it's possible we want to make this a class, like with speeches.
 # so that it sits in our list easily.
 
-sionsm = "Sio\(r\)n|Sio\[circ\]n"
+sionsm = "Sio\(r\)n|Sio\[circ\]n|Si\&\#244\;n|Si\&\#246\;n"
 fullnm = "([ \w\-'#&;]*), ([ \w.#&;]*?|%s)(?:[ \.]rh)?" % sionsm
-constnm = "(?:(?:<i>|\()+([ \w&',.\-]*)(?:\)|</i>)+)"
+constnm = "(?:(?:<i>|\()+([ \w&#;\d',.\-]*)(?:\)|</i>)+)"
 reflipname = re.compile("%s\s*%s?$" % (fullnm, constnm))
+reconstnm = re.compile("%s$" % constnm)
 
 def MpList(fsm, vote, sdate):
+        # Merge constituencies alone onto end of previous line
+        newfsm = []
+        for fss in fsm:
+            if reconstnm.match(fss):
+                # print "constnm only %s appending to previous line %s" % (fss, newfsm[-1])
+                newfsm[-1] += " "
+                newfsm[-1] += fss
+            else:
+                newfsm.append(fss)
+
 	res = [ ]
 	pfss = ''
-	for fss in fsm:
+	for fss in newfsm:
                 #print "fss ", fss
 
 		# break up concattenated lines
 		# Beresford, Sir PaulBlunt, Crispin
 
 		while re.search('\S', fss):
-			regsep = re.search('(.*?,.*?(?:[a-z]|</i>|\.|\)))([A-Z&].*?,.*)$', fss)
+                        # there was an & in [A-Z] on line below, but it broke up this incorrectly:
+                        # Simon, Si&#244;n <i>(B'ham Erdington)</i>
+			regsep = re.search('(.*?,.*?(?:[a-z]|</i>|\.|\)))([A-Z].*?,.*)$', fss)
 			if regsep:
 				fssf = regsep.group(1)
 				fss = regsep.group(2)
@@ -46,12 +59,14 @@ def MpList(fsm, vote, sdate):
 			# flipround the name
 			# Bradley, rh Keith <i>(Withington)</i>
 			# Simon, Sio(r)n <i>(Withington)</i>
+                        #print "fssf ", fssf
 			ginp = reflipname.match(fssf)
 			if ginp:
+                                #print "grps ", ginp.groups() 
 				fnam = '%s %s' % (ginp.group(2), ginp.group(1))
 				cons = ginp.group(3)
 			else:
-				raise Exception, "No reverse name match (filterdivision): %s" % fssf
+				raise Exception, "No flipped name match (filterdivision): %s" % fssf
 				fnam = fssf;
 
                         #print "fss ", fssf
@@ -65,10 +80,9 @@ def MpTellerList(fsm, vote, sdate):
 	res = [ ]
 	for fss in fsm:
 		while fss:
-			gftell = re.match('\s*(?:and )?([ \w.\-]*?)(?: and(.*))?\s*$', fss)
+			gftell = re.match('\s*(?:and )?([ \w.\-\'&#;]*?)(?: and(.*))?\s*\.?\s*$', fss)
 			if not gftell:
-				print fss
-				raise Exception, "no match on teller line"
+				raise Exception, "no match on teller line %s" % fss
 
 			fssf = gftell.group(1)
 			fss = gftell.group(2)

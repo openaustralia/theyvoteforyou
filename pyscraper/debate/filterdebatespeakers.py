@@ -7,8 +7,10 @@ import re
 import os
 import string
 from resolvemembernames import memberList
+from splitheadingsspeakers import StampUrl
 
 from miscfuncs import ApplyFixSubstitutions
+from contextexception import ContextException
 
 
 # Legacy patch system, use patchfilter.py and patchtool now
@@ -27,7 +29,6 @@ fixsubs = [
 	( '\(Sir Alan Haselhurst </B>', '(Sir Alan Haselhurst) </B>', 1, '2003-03-25'),
 	( '<B> Yvette Cooper: I </B>', '<B> Yvette Cooper: </B> I ', 1, '2003-02-03'),
 	( '\(Mr. Nick Raynsford </B>\s*\)', '(Mr. Nick Raynsford) </B>', 1, '2003-01-23'),
-	( '<B> (I also have real worries .*?\(Mrs. Dunwoody\))</B>', '\\1', 1, '2003-09-16'),
         ( '(<B> Mr. Prisk)( rose&#151; )(</B>)', '\\1\\3\n<I>\\2</I>', 1, '2004-01-06'),
 
         ( '(<B> Mr. Blunkett:)( I )(</B>)', '\\1\\3\\2', 1, '2003-12-17'),
@@ -70,7 +71,7 @@ fixsubs = [
 
 parties = "|".join(map(string.lower, memberList.partylist())) + "|uup|ld"
 regspeaker = '(?:\d+\. )?(?:<stamp aname=".*?"/>)?<b>[^<]*</b>(?:\s*\((?:' + parties + ')\))?\s*:?(?i)'
-respeakervals = re.compile('(?:(\d+)\. )?(<stamp aname=".*?"/>)?<b>([^:<(]*?):?\s*(?:\((.*?)\))?\s*:?\s*</b>(?:\s*\((' + parties + ')\))?(?i)')
+respeakervals = re.compile('(?:(\d+)\. )?(<stamp aname=".*?"/>)?<b>\s*(?:Q?\d+\.)?([^:<(]*?):?\s*(?:\((.*?)\))?\s*:?\s*</b>(?:\s*\((' + parties + ')\))?(?i)')
 
 # <B>Division No. 322</B>
 redivno = re.compile('<b>division no\. \d+</b>$(?i)')
@@ -81,8 +82,12 @@ remarginal = re.compile('<b>[^<]*</b>(?i)')
 def FilterDebateSpeakers(fout, text, sdate):
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
 
+        # for error messages
+	stampurl = StampUrl(sdate)
+
 	# setup for scanning through the file.
 	for fss in recomb.split(text):
+		stampurl.UpdateStampUrl(fss)
                 #print fss
                 #print "--------------------"
 
@@ -104,13 +109,17 @@ def FilterDebateSpeakers(fout, text, sdate):
 			spstrbrack = speakerg.group(4) # the bracketted phrase
 
 			# match the member to a unique identifier and displayname
-			result = memberList.matchdebatename(spstr, spstrbrack, sdate)
+                        try:
+                                result = memberList.matchdebatename(spstr, spstrbrack, sdate)
+                        except Exception, e:
+                                # add extra stamp info to the exception
+                                raise ContextException(str(e), stamp=stampurl, fragment=fss)
 
 			# put record in this place
-			spxm = '<speaker %s>%s</speaker>\n' % (result, spstr)
+			spxm = '<speaker %s>%s</speaker>\n' % (result.encode("latin-1"), spstr)
                         if anamestamp:
                             spxm = anamestamp + spxm
-			fout.write(spxm.encode("latin-1")) # For accents in names
+			fout.write(spxm) 
 			continue
 
 
@@ -118,14 +127,9 @@ def FilterDebateSpeakers(fout, text, sdate):
 		# nothing detected
 		# check if we've missed anything obvious
 		if recomb.match(fss):
-			print fss
-			raise Exception, ' regexpvals not general enough '
+			raise ContextException('regexpvals not general enough', fragment=fss, stamp=stampurl)
 		if remarginal.search(fss):
-			print ' marginal speaker detection case '
-			print remarginal.search(fss).group(0)
-			print fss
-			sys.exit()
+			raise ContextException(' marginal speaker detection case: %s' % remarginal.search(fss).group(0), fragment=fss, stamp=stampurl)
 
 		# this is where we phase in the ascii encoding
-		fout.write(fss.encode("latin-1"))
-
+		fout.write(fss)

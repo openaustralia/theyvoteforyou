@@ -177,6 +177,7 @@ def FilterWransSpeakers(fout, text, sdate):
 	for fss in fs:
                 fout.write(fss) # For accent in "Siôn Simon"
                 continue
+                # OLD CODE - we now doing encodings above:
 		try:
                     fout.write(fss.encode("latin-1")) # For accent in "Siôn Simon"
 		except:

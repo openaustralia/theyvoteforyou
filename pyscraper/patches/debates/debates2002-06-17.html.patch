@@ -1,0 +1,145 @@
+--- debates/debates2002-06-17.html	2004-02-12 13:10:22.000000000 +0000
++++ debates/debates2002-06-17-patchtmp.html	2004-04-10 01:25:05.000000000 +0100
+@@ -778,10 +778,7 @@
+ 
+ <B>17 Jun 2002 : Column 20</B></P>
+ 
+-The Secretary of State for Defence (<P>
+-<P>
+-<P>
+-<a name="20617-06_spnew0"><B> Mr. Geoffrey Hoon): </B> 
++<a name="20617-06_spnew0"><B> The Secretary of State for Defence (Mr. Geoffrey Hoon): </B> 
+  The decision that Brigadier Jim Dutton should succeed Brigadier Roger Lane as commander 3 Commando Brigade in April 2002 was taken by the First Sea Lord in July 2001, as part of the normal appointing process for senior officers in the naval service. Ministers were not involved and would not expect to be because it was a routine changeover at one-star level.
+ <P>
+ 
+@@ -3839,8 +3836,8 @@
+ <P>
+ <FONT SIZE=-1><BR>
+ <i>Amendments made:</i> No. 125, in page 276, line 17, at end insert&#151;
+-<center><B>'General</B></center><BR>
+-A1 In any instrument made before section 242(1) to (3) of this Act comes into force&#151;
++<P><i>'General</i>
++<p>A1 In any instrument made before section 242(1) to (3) of this Act comes into force&#151;
+ <BR>
+ <BR>
+ (a) a reference to the making of an administration order shall be treated as including a reference to the appointment of an administrator under paragraph 12 or 20 of Schedule B1 to the Insolvency Act 1986 (c. 45) (inserted by section 242(2) of this Act), and
+@@ -4092,7 +4089,8 @@
+ No. 134, in page 284, line 12, at end insert&#151;
+ <BR>
+ 
+-<center><B>'Employment Rights Act 1996 (c. 18)</B></center><BR>
++<p><i>'Employment Rights Act 1996 (c. 18)</i>
++<p>
+ 41A (1) The Employment Rights Act 1996 shall be amended as follows.
+ <BR>
+ <BR>
+@@ -5120,8 +5118,8 @@
+ <i>Amendments made:</i> No. 374, in page 304, line 10, at end insert&#151;
+ <BR>
+ 
+-<center><B>'Designation orders under Schedule 4 to the 1998 Act</B></center><BR>
+-' (1) Subject to sub-paragraph (2), the repeals made by section 200 do not affect&#151;
++<p><i>'Designation orders under Schedule 4 to the 1998 Act</i>
++<p>' (1) Subject to sub-paragraph (2), the repeals made by section 200 do not affect&#151;
+ <P>
+ </FONT>
+ 
+@@ -5174,8 +5172,8 @@
+ <i>Amendments made:</i> No. 382, in page 304, line 17, at end insert&#151;
+ <BR>
+ 
+-<center><B>'Registered Designs Act 1949 (c. 88)</B></center><BR>
+-A1 (1) The Registered Designs Act 1949 is amended as follows.
++<P><I>'Registered Designs Act 1949 (c. 88)</I>
++<P>A1 (1) The Registered Designs Act 1949 is amended as follows.
+ <BR>
+ <BR>
+ (2) In section 11A(1) (powers exercisable in consequence of report of Competition Commission), paragraphs (a) and (b) shall cease to have effect.
+@@ -5281,8 +5279,8 @@
+ No. 384, in page 308, line 44, at end insert&#151;
+ <BR>
+ 
+-<center><B>'Patents Act 1977 (c. 37)</B></center><BR>
+-6A (1) The Patents Act 1977 is amended as follows.
++<p><i>'Patents Act 1977 (c. 37)</i>
++<p>6A (1) The Patents Act 1977 is amended as follows.
+ <BR>
+ <BR>
+ (2) After section 50 there is inserted&#151;
+@@ -5360,8 +5358,8 @@
+ No. 388, in page 314, line 42, at end insert&#151;
+ <BR>
+ 
+-<center><B>'Agricultural Marketing (Northern Ireland) Order 1982 (S.I. 1982/1080 (N.I. 12))</B></center><BR>
+-9A (1) The Agricultural Marketing (Northern Ireland) Order 1982 is amended as follows.
++<P><i>'Agricultural Marketing (Northern Ireland) Order 1982 (S.I. 1982/1080 (N.I. 12))</i>
++<p>9A (1) The Agricultural Marketing (Northern Ireland) Order 1982 is amended as follows.
+ <BR>
+ <BR>
+ (2) For article 23 (action following report by Commission) there is substituted&#151;
+@@ -5595,8 +5593,8 @@
+ No. 391, in page 317, line 9, at end insert&#151;
+ <BR>
+ 
+-<center><B>'Copyright, Designs and Patents Act 1988 (c. 48)</B></center><BR>
+-15A (1) The Copyright, Designs and Patents Act 1988 is amended as follows.
++<p><i>'Copyright, Designs and Patents Act 1988 (c. 48)</i>
++<p>15A (1) The Copyright, Designs and Patents Act 1988 is amended as follows.
+ <BR>
+ <BR>
+ (2) In section 144 (powers exercisable in consequence of report of Commission) for subsections (1) and (2) there is substituted&#151;
+@@ -5640,8 +5638,8 @@
+ <BR>
+ <BR>
+ (da) after paragraph 4 there is inserted&#151; 
+-<center><B>"Further provision about references under paragraph 4 </B></center><BR>
+-4A (1) The following sections of Part 3 of the Enterprise Act 2002 shall apply, with the modifications mentioned in sub-paragraphs (2) and (3), for the purposes of references under paragraph 4 as they apply for the purposes of references under that Part&#151;
++<p><i>"Further provision about references under paragraph 4 </i>
++<p>4A (1) The following sections of Part 3 of the Enterprise Act 2002 shall apply, with the modifications mentioned in sub-paragraphs (2) and (3), for the purposes of references under paragraph 4 as they apply for the purposes of references under that Part&#151;
+ <BR>
+ <BR>
+ (a) section 106 (attendance of witnesses and production of documents etc.);
+@@ -5735,8 +5733,8 @@
+ (ga) after paragraph 8 there is inserted&#151;
+ <BR>
+ 
+-<center><B>"Enforcement</B></center><BR>
+-8A (1) The court may, on an application by the OFT, enquire into whether any person ("the defaulter") has refused or otherwise failed, without reasonable excuse, to comply with a notice under paragraph 8(1).
++<P><i>"Enforcement</i>
++<P>8A (1) The court may, on an application by the OFT, enquire into whether any person ("the defaulter") has refused or otherwise failed, without reasonable excuse, to comply with a notice under paragraph 8(1).
+ <BR>
+ <BR>
+ (2) An application under sub&#150;paragraph (1) shall include details of the possible failure which the OFT considers has occurred.
+@@ -5781,8 +5779,8 @@
+ (b) on conviction on indictment, to imprisonment for a term not exceeding two years or to a fine or to both.
+ <BR>
+ 
+-<center><B>False or misleading information</B></center><BR>
+-8C (1) A person commits an offence if&#151;
++<p><i>False or misleading information</i>
++<p>8C (1) A person commits an offence if&#151;
+ <BR>
+ <BR>
+ (a) he supplies any information to the OFT or the Competition Commission in connection with any of their functions under this Schedule;
+@@ -5817,8 +5815,8 @@
+ No. 396, in page 325, line 16, at end insert&#151;
+ <BR>
+ 
+-<center><B>'Osteopaths Act 1993 (c. 21)</B></center><BR>
+-25A (1) The Osteopaths Act 1993 is amended as follows.
++<p><i>'Osteopaths Act 1993 (c. 21)</i>
++<p>25A (1) The Osteopaths Act 1993 is amended as follows.
+ <BR>
+ <BR>
+ (2) In section 33(2) (competition and anti-competitive practices)&#151;
+@@ -5881,8 +5879,8 @@
+ No. 399, in page 326, line 17, at end insert&#151;
+ <BR>
+ 
+-<center><B>'Chiropractors Act 1994 (c. 17)</B></center><BR>
+-26A (1) The Chiropractors Act 1994 is amended as follows.
++<p><i>'Chiropractors Act 1994 (c. 17)</i>
++<p>26A (1) The Chiropractors Act 1994 is amended as follows.
+ <BR>
+ <BR>
+ (2) In section 33(2) (competition and anti-competitive practices)&#151;

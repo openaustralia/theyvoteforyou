@@ -1,0 +1,24 @@
+--- debates/debates2002-07-09.html	2004-02-12 13:07:29.000000000 +0000
++++ debates/debates2002-07-09-patchtmp.html	2004-04-10 01:16:57.000000000 +0100
+@@ -1452,8 +1452,8 @@
+ <TABLE BORDER=1>
+ 
+ <P>
+-<center><B>ProceedingsTime for conclusion of proceedings</center></B>
+-</FONT></FONT></TR>
++<TR><TD>Proceedings</TD><TD>Time for conclusion of proceedings
++</TR>
+ 
+ 
+ 
+@@ -3665,8 +3665,8 @@
+ No. 61, in page 164, line 43, at end insert&#151;
+ <BR>
+ 
+-<center><B> 'Rehabilitation of Offenders (Northern Ireland) Order 1978</B></center><BR>
+-7A In Article 8(2) of the Rehabilitation of Offenders (Northern Ireland) Order 1978 (S.I. 1978/ 1908 (N.I. 27)) (limitations on rehabilitation under Order etc.), after sub-paragraph (b) there shall be inserted&#151;
++'<i>Rehabilitation of Offenders (Northern Ireland) Order 1978</i>
++<p>7A In Article 8(2) of the Rehabilitation of Offenders (Northern Ireland) Order 1978 (S.I. 1978/ 1908 (N.I. 27)) (limitations on rehabilitation under Order etc.), after sub-paragraph (b) there shall be inserted&#151;
+ <BR>
+ <BR>
+ "(bb) in any proceedings on an application for an order under Article 6 or 6A of the Criminal Justice (Northern Ireland) Order 1998 (S.I. 1998/ 2839 (N.I. 20)) or in any appeal against the making of such an order;".'.&#151;<i>[Mr. Denham.]</i>

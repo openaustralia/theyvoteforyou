@@ -1,5 +1,5 @@
 --- debates/debates2003-01-20.html	2004-03-16 15:36:04.000000000 +0000
-+++ debates/debates2003-01-20-patchtmp.html	2004-04-09 19:58:14.000000000 +0100
++++ debates/debates2003-01-20-patchtmp.html	2004-04-02 18:16:19.000000000 +0100
 @@ -3691,7 +3691,7 @@
  <BR>
  Follett, Barbara
@@ -32,3 +32,13 @@
  <P>
  <P>
  Tellers for the Noes:
+@@ -6150,8 +6150,7 @@
+ <BR>
+ Pound, Stephen
+ <BR>
+-Prentice, Ms Bridget
+-<i>(Lewisham E)</i>
++Prentice, Ms Bridget <i>(Lewisham E)</i>
+ <BR>
+ Prentice, Gordon <i>(Pendle)</i>
+ <BR>

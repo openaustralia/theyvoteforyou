@@ -196,6 +196,7 @@ class MemberList(xml.sax.handler.ContentHandler):
 
     # Returns id, corrected name, corrected constituency
     def matchfullnamecons(self, fullname, cons, date, alwaysmatchcons = True):
+        fullname = self.basicsubs(fullname)
         fullname = fullname.strip()
         if cons:
             cons = cons.strip()
@@ -215,9 +216,9 @@ class MemberList(xml.sax.handler.ContentHandler):
             ids = newids
 
         if len(ids) == 0:
-            raise Exception, 'No match: ' + fullname + " " + (cons or "[nocons]")
+            raise Exception, 'No match: ' + fullname + " : " + (cons or "[nocons]")
         if len(ids) > 1:
-            raise MultipleMatchException, 'Matched multiple times: ' + fullname + " " + (cons or "[nocons]")
+            raise MultipleMatchException, 'Matched multiple times: ' + fullname + " : " + (cons or "[nocons]")
 
         for id in ids: # pop is no good as it changes the set
             pass
@@ -250,6 +251,11 @@ class MemberList(xml.sax.handler.ContentHandler):
 
         return string.join(words , "")
 
+    # Replace common annoying characters
+    def basicsubs(self, txt):
+        txt = txt.replace("&#150;", "-")
+        return txt
+
     # Resets history - exclusively for debates pages
     # The name history stores all recent names:
     #   Mr. Stephen O'Brien (Eddisbury)
@@ -266,6 +272,7 @@ class MemberList(xml.sax.handler.ContentHandler):
     # Matches names - exclusively for debates pages
     def matchdebatename(self, input, bracket, date):
         speakeroffice = ""
+        input = self.basicsubs(input)
 
         # Clear name history if date change
         if self.debatedate != date:

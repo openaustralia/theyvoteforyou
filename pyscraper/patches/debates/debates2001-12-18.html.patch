@@ -1,0 +1,16 @@
+--- debates/debates2001-12-18.html	2004-02-12 13:27:49.000000000 +0000
++++ debates/debates2001-12-18-patchtmp.html	2004-04-10 02:52:37.000000000 +0100
+@@ -9865,9 +9865,11 @@
+ <a name="11218-41_para3"><i>Resolved,</i>
+ <P>
+ <BR>
+-<UL><FONT SIZE=-1>That this House do now adjourn.&#151;[<i>Angela Smith</i>.]
++<FONT SIZE=-1>That this House do now adjourn.&#151;[<i>Angela Smith</i>.]
+ <P>
+-<UL><UL>Adjourned accordingly at twenty-five minutes to Twelve midnight.
++Adjourned accordingly at twenty-five minutes to Twelve midnight.
++
++<UL><UL><UL>
+ </UL></UL></UL>
+ 
+ 
