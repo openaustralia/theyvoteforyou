@@ -1,5 +1,5 @@
 <?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
-# $Id: index.php,v 1.13 2003/10/11 10:29:12 frabcus Exp $
+# $Id: index.php,v 1.14 2003/10/12 20:35:57 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -21,7 +21,7 @@ For more information about the project, <a href="faq.php">read the FAQ</a>.
 
 <table class="layout"><tr>
 
-<td width="25%" class="layout" bgcolor="#eeeeee">
+<td width="20%" class="layout" bgcolor="#eeeeee">
 <h2>Newsletter</h2>
 <p>Keep up with the Public Whip project.
 An at most fortnightly briefing.  
@@ -35,6 +35,7 @@ An at most fortnightly briefing.
 <input maxLength=256 size=25 name=query value=""> <input type=submit value="Search" name=button>
 </form></p>
 <?php search_example($db); ?>
+<p><a href="http://www.faxyourmp.com/" target="faxyourmp_rocks">find MP name by postcode (external)</a>
 </td>
 
 <td class="layout" bgcolor="#eeeeee">

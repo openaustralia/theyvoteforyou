@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.9 2003/10/12 20:19:27 frabcus Exp $
+# $Id: search.php,v 1.10 2003/10/12 20:35:57 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -117,7 +117,7 @@ or <a href="divisions.hphp">all divisions</a>.
 
 <?php search_example($db) ?>
 <p class="search"><span class="ptitle">Search Tip 1:</span> You can <a
-href="http://www.locata.co.uk/commons/">find your MP by postcode</a>
+href="http://www.faxyourmp.com/" target="faxyourmp_rocks">find your MP by postcode</a>
 on an external site, then enter their name or part of their name back
 here.  If you don't know exactly how to spell the name, write it as best
 you can like it sounds.
