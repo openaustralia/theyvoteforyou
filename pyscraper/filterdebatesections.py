@@ -192,7 +192,8 @@ def NormalHeadingPart(sht0, stampurl, sdate):
 	# detect if this is a major heading and record it in the correct variable
 
 	# set the title for this batch
-	stampurl.title = string.strip(FixHTMLEntities(sht0))
+        sht0 = string.strip(sht0)
+	stampurl.title = FixHTMLEntities(sht0)
 
 	bmajorheading = False
 
@@ -201,13 +202,20 @@ def NormalHeadingPart(sht0, stampurl, sdate):
 	divno = -1
 	if gdiv:
 		divno = string.atoi(gdiv.group(1))
-		
-	# All upper case headings - these tend to be uniform, so we can check their names
+
+        # Oral question are really a major heading
+        elif sht0 == 'Oral Answers to Questions':
+		bmajorheading = True
+        # Check if there are any other spellings of "Oral Answers to Questions" with a loose match
+        elif re.search('oral(?i)', sht0): 
+                raise Exception, 'Oral question match not precise enough'
+	
+        # The Secretary of State was asked &mdash;
+		# All upper case headings 
 	elif not re.search('[a-z]', sht0):
 		bmajorheading = True
 
-	# Other major headings, marked by _head in their anchor tag - doesn't seem
-	# worth checking their names.
+	# Other major headings, marked by _head in their anchor tag
 	elif re.search('_head', stampurl.aname):
 		bmajorheading = True
 

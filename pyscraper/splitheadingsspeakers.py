@@ -68,6 +68,10 @@ resectiont2val = re.compile('<h\d align=center>\s*(.*?)\s*</h\d>(?i)')
 resectiont3val = re.compile('<center><b>(.*?)</b></center>(?i)')
 resectiont4val = re.compile('<p>\s*<center>(.*?)</center><p>(?i)')
 
+# These aren't actually headings, even though they are <H4><center>
+renotheading = re.compile('>(The .* was asked&#151;)<')
+# catch cases of the previous regexp not being broad enough
+renotheadingmarg = re.compile('asked')                
 
 class SepHeadText:
 	def EndSpeech(self):
@@ -146,8 +150,24 @@ class SepHeadText:
 					# print 'ignored heading tag containing no text following: ' + self.heading
 					continue
 
-				self.EndHeading(gheading.group(1))
-				continue
+                                # there's a negative regexp match (for "The ... was asked - " which
+                                # isn't a heading even though it looks like one).  Check we don't
+                                #  match it.
+                                print "#" + fss + "#"
+                                negativematch = renotheading.search(fss)
+                                if not negativematch:
+
+                                    if renotheadingmarg.search(fss):
+                                        raise Exception, '"The ... was asked" match not precise enough'
+
+                                    # we are definitely a heading
+                                    self.EndHeading(gheading.group(1))
+                                    continue
+
+                                print "renotheading matched ", fss
+                                fss = negativematch.group(1)
+                                    
+                                    
 
 
 			# more plain text; throw back into the pot.
