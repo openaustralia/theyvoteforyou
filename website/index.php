@@ -1,7 +1,7 @@
 <?php $cache_postfix = rand(0, 10); include "cache-begin.inc"; ?>
 
 <?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
-# $Id: index.php,v 1.18 2003/10/23 12:11:29 frabcus Exp $
+# $Id: index.php,v 1.19 2003/10/23 14:20:03 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -96,7 +96,7 @@ title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
 ?>
 </table>
 
-<h2>Best Vote Rate <a href="mps.php?sort=attendance" title="Show all MPs ordered by attendance">(more...)</a></h2>
+<h2>Best Attendance <a href="mps.php?sort=attendance" title="Show all MPs ordered by attendance">(more...)</a></h2>
 <table class="mps">
 <?
     $db->query("$mps_query_start order by round(votes_attended/votes_possible,10) desc, last_name,
