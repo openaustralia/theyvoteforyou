@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: scrape.pl,v 1.11 2004/03/19 21:22:45 frabcus Exp $
+# $Id: scrape.pl,v 1.12 2004/03/23 14:57:49 frabcus Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -48,6 +48,8 @@ $where_clause .= "and day_date >= ? " if defined $from;
 push @where_params, $from if defined $from;
 $where_clause .= "and day_date <= ? " if defined $to;
 push @where_params, $to if defined $to;
+$from = "1000-01-01" if not defined $from;
+$to = "9999-12-31" if not defined $to;
 
 error::setverbosity(error::IMPORTANT + 1) if $quiet;
 error::setverbosity(error::USEFUL) if $verbose;
@@ -152,9 +154,8 @@ END
 # Called every time to tidy up database
 sub clean
 {
-    print "TODO PUT CLEAN BACK\n\n";
-    #print "Erasing half-parsed divisions...\n";
-    #clean::erase_duff_divisions($dbh);
+    print "Erasing half-parsed divisions...\n";
+    clean::erase_duff_divisions($dbh);
 }
 
 sub mps
@@ -286,7 +287,7 @@ sub all_divisions
 
 sub all_divsxml
 {
-    divsxml::read_xml_files($dbh);
+    divsxml::read_xml_files($dbh, $from, $to);
 }
 
 sub test

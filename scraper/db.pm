@@ -1,4 +1,4 @@
-# $Id: db.pm,v 1.4 2003/10/03 17:56:36 frabcus Exp $
+# $Id: db.pm,v 1.5 2004/03/23 14:57:49 frabcus Exp $
 # Bumf for accessing the MySQL database
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -8,12 +8,13 @@
 
 package db;
 use strict;
+use config;
 
 use DBI;
 
 sub connect
 {
-    my $dbh = DBI->connect("DBI:mysql:tpw")
+    my $dbh = DBI->connect("DBI:mysql:tpw", $config::user, $config::pass, { RaiseError => 1, PrintError => 0 })
                 or die "Couldn't connect to database: " . DBI->errstr;
     return $dbh;
 }

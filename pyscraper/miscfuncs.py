@@ -29,8 +29,10 @@ entitymap = {
         '&nbsp;':' ',
         '&':'&amp;',
 
-        '&#150;':'&ndash;',
-        '&#151;':' &mdash; ',
+        # see http://www.cs.tut.fi/~jkorpela/www/windows-chars.html for a useful, if now dated in
+        # terms of browser support for the proper solutions, info on windows ndash/mdash (150/151)
+        '&#150;':'&ndash;',  # convert windows latin-1 extension ndash into a real one
+        '&#151;':'&mdash;',  # likewise mdash
 
         '&#232;':'&egrave;',   # this is e-grave
         '&#233;':'&eacute;',   # this is e-acute

@@ -146,7 +146,7 @@ def FilterWransSpeakers(fout, text, sdate):
                 # oral questions" signifier)
 
                 # match the member to a unique identifier
-                (id, remadename, remadecons) = memberList.matchfullname(boldnamestring, None, sdate)
+                (id, remadename, remadecons) = memberList.matchfullnamecons(boldnamestring, None, sdate)
 
 		# now output what we've decided
                 #if reason:
@@ -157,8 +157,8 @@ def FilterWransSpeakers(fout, text, sdate):
         		remadename = ' speakername="%s"' % (remadename)
 
 		# put record in this place
-		fs[i] = '<speaker speakerid="%s"%s%s>%s</speaker>\n' % \
-						(id, reason, remadename, boldnamestring)
+		fs[i] = '<speaker speakerid="%s"%s>%s</speaker>\n' % \
+						(id, remadename, boldnamestring)
 
 	# scan through everything and output it into the file
 	for fss in fs:

@@ -105,12 +105,12 @@ def FilterDivision(qs):
 	if (istatem[0] < istatem[1]) and (istatem[0] != -1) and (istatem[1] != -1):
 		mpayes = MpList(fs[istatem[0]+1:istatem[1]], 'aye', qs.sdate)
 	if (istatem[2] < istatem[3]) and (istatem[2] != -1) and (istatem[3] != -1):
-		mpnoes = MpList(fs[istatem[2]+1:istatem[3]], 'noe', qs.sdate)
+		mpnoes = MpList(fs[istatem[2]+1:istatem[3]], 'no', qs.sdate)
 
 	if (istatem[1] < istatem[2]) and (istatem[1] != -1) and (istatem[2] != -1):
 		mptayes = MpTellerList(fs[istatem[1]+1:istatem[2]], 'aye', qs.sdate)
 	if (istatem[3] < istatem[4]) and (istatem[3] != -1) and (istatem[4] != -1):
-		mptnoes = MpTellerList(fs[istatem[3]+1:istatem[4]], 'noe', qs.sdate)
+		mptnoes = MpTellerList(fs[istatem[3]+1:istatem[4]], 'no', qs.sdate)
 
 	qs.stext = [ ]
 	qs.stext.append('<divisioncount ayes="%d" noes="%d" tellerayes="%d" tellernoes="%d"/>' % (len(mpayes), len(mpnoes), len(mptayes), len(mptnoes)))
@@ -118,7 +118,7 @@ def FilterDivision(qs):
 	qs.stext.extend(mpayes)
 	qs.stext.extend(mptayes)
 	qs.stext.append('</mplist>')
-	qs.stext.append('<mplist vote="noe">')
+	qs.stext.append('<mplist vote="no">')
 	qs.stext.extend(mpnoes)
 	qs.stext.extend(mptnoes)
 	qs.stext.append('</mplist>')

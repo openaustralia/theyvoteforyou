@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.11 2004/02/11 11:34:56 frabcus Exp $
+-- $Id: create.sql,v 1.12 2004/03/23 14:57:49 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -64,7 +64,7 @@ create table pw_division (
 
     division_date date not null,
     division_number int not null,
-    division_name blob not null,
+    division_name text not null,
     source_url blob not null,
     motion blob not null,
     notes blob not null,

@@ -1,4 +1,4 @@
-# $Id: divsxml.pm,v 1.1 2004/03/21 11:50:55 frabcus Exp $
+# $Id: divsxml.pm,v 1.2 2004/03/23 14:57:49 frabcus Exp $
 # Loads divisions from the XML files made by pyscraper into 
 # the MySQL database for the Public Whip website.
 
@@ -15,17 +15,42 @@ use Text::Autoformat;
 use db;
 use error;
 use Data::Dumper;
+use Unicode::String qw(utf8 latin1 utf16);
 
 our $toppath = $ENV{'HOME'} . "/pwdata/";
-our $curdate = "2004-03-08";
+our $debatepath = $toppath . "scrapedxml/debates/";
+our $curdate;
 our $dbh;
+
+our $lastmajor = "";
+our $lastminor = "";
 
 sub read_xml_files
 {
     $dbh = shift;
+    my $from = shift;
+    my $to = shift;
 
-    my $twig = XML::Twig->new(twig_handlers => { 'division' => \&loaddivision }, output_filter => 'safe');
-    $twig->parsefile($toppath . "scrapedxml/debates/debates" . $curdate. ".xml");
+    my $twig = XML::Twig->new(twig_handlers => { 
+            'division' => \&loaddivision,
+            'major-heading' => \&storemajor,
+            'minor-heading' => \&storeminor,
+        }, output_filter => 'safe');
+
+    opendir DIR, $debatepath or die "Cannot open $debatepath: $!\n";
+    while (my $file = readdir(DIR)) {
+        if ($file =~ m/^debates(\d\d\d\d-\d\d-\d\d).xml$/)
+        {
+            $curdate = $1;
+            if (($curdate ge $from) and ($curdate le $to))
+            {
+                error::log("Processing XML divisions", $curdate, error::USEFUL);
+                $twig->parsefile($debatepath . "debates" . $curdate. ".xml");
+            }
+        }
+    }
+    closedir DIR;
+
 }
 
 sub array_difference
@@ -46,8 +71,21 @@ sub array_difference
         return \@difference;
 }
 
+sub storeminor
+{ 
+	my ($twig, $minor) = @_;
 
-# Add <wrans> container in
+    $lastminor = $minor->sprint(1);
+}
+
+sub storemajor
+{ 
+	my ($twig, $major) = @_;
+
+    $lastmajor = $major->sprint(1);
+    $lastminor = "";
+}
+
 sub loaddivision
 { 
 	my ($twig, $div) = @_;
@@ -55,21 +93,27 @@ sub loaddivision
     my $divdate = $div->att('divdate');
     die "inconsistent date" if $divdate ne $curdate;
     my $divnumber = $div->att('divnumber');
-    my $heading = $div->att('majorheading');
-    if ($div->att('minorheading'))
+    my $heading = $lastmajor;
+    if ($lastminor)
     {
-        $heading .= " - " . $div->att('minorheading');
+        $heading .= " &#8212; " . $lastminor;
     }
 
+    # we lowercase if necessary
     if ($heading !~ m/[a-z]/)
     {
-        # we lowercase first of all
-        $heading = autoformat $heading, { case => 'highlight' };
-        # strip trailing/leading/multiple spaces autoformat puts in...
-        $heading =~ s/^\s+//;
+        $heading =~ s/^\s+//; # spaces confuse autoformat
         $heading =~ s/\s+$//;
-        $heading =~ s/\s+/ /g;
+        $heading = autoformat $heading, { case => 'highlight' };
     }
+    # clear up all spaces to be just spaces, not line feeds, and
+    # not be trailing leading (autoformat puts them in)
+    $heading =~ s/^\s+//;
+    $heading =~ s/\s+$//;
+    $heading =~ s/\s+/ /g;
+
+    # Should emdashes in headings have spaces round them?  This removes them if they shouldn't.
+    # $heading =~ s/ \&\#8212; /\&\#8212;/g;
     
     my $url = $div->att('url');
     my $motion_text = "No motion text available";
@@ -105,10 +149,12 @@ sub loaddivision
         my @data = $sth->fetchrow_array();
         die "Incomplete division $divnumber, $divdate already exists, clean the database" if ($data[1] != 1);
         my $existing_divid = $data[0];
-        if (($data[2] ne $heading) or ($data[3] ne $motion_text))
+        my $existing_heading = $data[2];
+        my $existing_motion = $data[3];
+        if (($existing_heading ne $heading) or ($existing_motion ne $motion_text))
         {
-            db::query($dbh, "update pw_division set division_name = ?, motion = ? where division_id = ?", $heading, $motion_text, $data[0]);
-            error::log("Existing division $divnumber, $divdate, id $existing_divid name " . $data[2] . " has had its name and/or motion text corrected with the one we have found called $heading", $divdate, error::USEFUL);
+            db::query($dbh, "update pw_division set division_name = ?, motion = ? where division_id = ?", $heading, $motion_text, $existing_divid);
+            error::log("Existing division $divnumber, $divdate, id $existing_divid name $existing_heading has had its name and/or motion text corrected with the one from XML called $heading", $divdate, error::USEFUL);
         }
         else
         {
@@ -132,14 +178,33 @@ sub loaddivision
 
             my @voters = keys %$votes;
             my @existing_voters = keys %$existing_votes;
+            @voters = sort @voters;
+            @existing_voters = sort @existing_voters;
             my $missing = array_difference(\@voters,  \@existing_voters);
             my $amount = @$missing;
-            error::die("Voter list differs in XML to one in database - $amount in symmetric diff", $curdate) if ($amount > 0 );
+            if ($amount > 0 )
+            {
+                print Dumper($missing);
+                error::die("Voter list differs in XML to one in database - $amount in symmetric diff", $curdate) 
+            }
 
-#            foreach my $testid (@voters)
-#            {
-#                my @vote = `
-#            }
+            foreach my $testid (@voters)
+            {
+                my $indvotes = $votes->{$testid};
+                my $existing_indvotes = $existing_votes->{$testid};
+                @$indvotes = sort @$indvotes;
+                @$existing_indvotes = sort @$existing_indvotes;
+                # print $testid, $indvotes, $existing_indvotes, "\n";
+                my $missing = array_difference($indvotes, $existing_indvotes);
+                my $amount = @$missing;
+                if ($amount > 0 )
+                {
+                    print "xml ", Dumper($indvotes), "\n";
+                    print "db ", Dumper($existing_indvotes), "\n";
+                    error::die("Votes for MP $testid differs between database and XML", $curdate);
+                }
+
+            }
 
         }
         return;
@@ -154,8 +219,15 @@ sub loaddivision
     my @data = $sth->fetchrow_array();
     my $division_id = $data[0];
 
-#    db::query($dbh, "insert into pw_vote (division_id, mp_id, vote) values (?,?,?)", 
-#        $division_id, $mp_id, $vote);
+    foreach my $mp_id (keys %$votes)
+    {
+        my $votelist = $votes->{$mp_id};
+        foreach my $vote (@$votelist)
+        {
+                db::query($dbh, "insert into pw_vote (division_id, mp_id, vote) values (?,?,?)", 
+                    $division_id, $mp_id, $vote);
+        }
+    }
 
     # Confirm change (this should be done with transactions, but I don't
     # want to get into them as web providers I want to use may not offer
@@ -165,15 +237,6 @@ sub loaddivision
 }
 
 =pod
-sub parse_one_division
-{
-    my $dbh = shift;
-    my $divdate = shift;
-
-
-    return 1;
-}
-
     # Ignore capital "DEFERRED DIVISION" headings, as they are
     # announced in the middle of other debates and confuse
     # things (the actual votes appear at the end of the days
