@@ -66,7 +66,7 @@ for urlindexpage in urlindexpages:
 			date = link[0]
 		elif re.search('debate|westminster|written(?i)', link[2]):
 			uind = urlparse.urljoin(urlindexpage, link[1])
-			daydebates.write('<daydeb date="%s" type="%s" url="%s">\n' % (date, link[2], uind))
+			daydebates.write('<daydeb date="%s" type="%s" url="%s"/>\n' % (date, link[2], uind))
 	print date
 
 daydebates.close()
