@@ -1,5 +1,5 @@
 <?php 
-# $Id: data.php,v 1.8 2004/04/27 10:24:20 frabcus Exp $
+# $Id: data.php,v 1.9 2004/04/30 02:26:15 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -36,15 +36,24 @@ href="mailto:francis@publicwhip.org.uk">francis@publicwhip.org.uk</a>
 <p>These are CSV files for loading into a spreadsheet.  They contain a matrix
 of every vote of each MP in each division.  1 for aye, -1 for noe, 0 for both, 
 -- if they didn't vote.  Very very occasionally you will see -2 or 2 when
-Hansard recorded that an MP both voted and telled.  The columns are headed
-by the names of the MPs, and the rows begin with the date and number of the
-division.
+Hansard recorded that an MP both voted and telled.  The columns are headed by
+the names of the MPs, and the rows begin with the date and number of the
+division.  
 
 <p>
 <a href="../data/votematrix-1997.csv.zip">votematrix-1997.csv.zip</a> - 271k
 <br><a href="../data/votematrix-2001.csv.zip">votematrix-2001.csv.zip</a> - 171k
 <br><a href="../data/divnames.txt">divnames.txt</a> - Names of divisions indexed by
 number/date pair
+
+<p>You may have problems using these files because they have more than 256
+columns, and some spreadsheets don't go beyond column IV.  See if your
+spreadsheet can import "from column x" so you can load the files in chunks.
+OpenOffice (or StarOffice) has a "Column type" drop down on the import dialog. 
+You can select multiple columns and choose "Hide", then more of the other
+columns will be loaded.  Try to find a copy of Quattro Pro, it works fine with
+more columns.  If you are really stuck, email me and I'll export the data in
+multiple files.
 
 <h2>MP and constituency names, dates and aliases</h2>
 
