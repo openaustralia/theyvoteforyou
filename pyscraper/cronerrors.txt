@@ -8,6 +8,9 @@ Dates are quite rough as sometimes I put todays date rather than the error date
 CRON = cron job on baked
 PWIP = weekly Public Whip update
 
+
+CRON 2004-06-28 Missing (1) in first para multi-part wrans
+CRON 2004-06-28 Spurious </tr> </td> in wrans
 CRON 2004-06-17 "Dame" added to list of titles in resolvemembernames.py
 CRON 2004-06-16 Gareth Thomas disambiguation of office, date moved forward
 CRON 2004-06-14 Confusing <P ALIGN="center"> in table
