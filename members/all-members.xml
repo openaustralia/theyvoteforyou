@@ -3,10 +3,24 @@
 
 <!-- 
 
-Members of the UK Parliament, House of Commons, 1997-2001.
+Members of the UK Parliament, House of Commons, 1997-2004
 
 Each entry is one MP for one term of office in one party.  If there is a
 general election, or a change of party, then the MP has a new entry.
+
+entered_reason can have these values:
+    unknown, general_election, by_election, changed_party, reinstated
+
+left_reason can have these values:
+    unknown, still_in_office, general_election, changed_party, died,
+    declared_void, resigned, disqualified, became_peer
+
+Any change of whip (whether the person resigning the whip, or having it 
+withdrawn from them) counts as changed_party.  For other definitions,
+search the file for people, and look them up at election.demon below.
+
+Data comes from here for changes between parliaments:
+http://www.election.demon.co.uk/strengths.html
 
 -->
 
@@ -9311,7 +9325,7 @@ general election, or a change of party, then the MP has a new entry.
     house="commons"
     title="" firstname="Ann" lastname="Winterton"
     constituency="Congleton" party="Con"
-    fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    fromdate="2001-06-07" todate="2004-02-24" fromwhy="general_election" towhy="changed_party"
 />
 <member
     id="uk.org.publicwhip/member/1331"
@@ -9458,21 +9472,21 @@ general election, or a change of party, then the MP has a new entry.
     house="commons"
     title="" firstname="David" lastname="Burnside"
     constituency="South Antrim" party="Ind UU"
-    fromdate="2003-06-23" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
+    fromdate="2003-06-23" todate="2004-01-08" fromwhy="changed_party" towhy="changed_party"
 />
 <member
     id="uk.org.publicwhip/member/1352"
     house="commons"
     title="" firstname="Jeffrey M" lastname="Donaldson"
     constituency="Lagan Valley" party="Ind UU"
-    fromdate="2003-06-23" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
+    fromdate="2003-06-23" todate="2004-01-04" fromwhy="changed_party" towhy="changed_party"
 />
 <member
     id="uk.org.publicwhip/member/1353"
     house="commons"
     title="" firstname="Martin" lastname="Smyth"
     constituency="Belfast South" party="Ind UU"
-    fromdate="2003-06-23" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
+    fromdate="2003-06-23" todate="2004-01-08" fromwhy="changed_party" towhy="changed_party"
 />
 <member
     id="uk.org.publicwhip/member/1350"
@@ -9487,6 +9501,37 @@ general election, or a change of party, then the MP has a new entry.
     title="" firstname="George" lastname="Galloway"
     constituency="Glasgow, Kelvin" party="Ind"
     fromdate="2003-10-24" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
+/>
+
+<member
+    id="uk.org.publicwhip/member/1355"
+    house="commons"
+    title="" firstname="Jeffrey M" lastname="Donaldson"
+    constituency="Lagan Valley" party="DU"
+    fromdate="2004-01-05" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
+/>
+
+<member
+    id="uk.org.publicwhip/member/1356"
+    house="commons"
+    title="" firstname="David" lastname="Burnside"
+    constituency="South Antrim" party="UU"
+    fromdate="2004-01-09" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
+/>
+<member
+    id="uk.org.publicwhip/member/1357"
+    house="commons"
+    title="" firstname="Martin" lastname="Smyth"
+    constituency="Belfast South" party="UU"
+    fromdate="2004-01-09" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
+/>
+
+<member
+    id="uk.org.publicwhip/member/1358"
+    house="commons"
+    title="" firstname="Ann" lastname="Winterton"
+    constituency="Congleton" party="Ind Con"
+    fromdate="2004-02-25" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
 />
 
 </publicwhip>
