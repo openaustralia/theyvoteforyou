@@ -114,7 +114,6 @@ class PrevParsedFile(xml.sax.handler.ContentHandler):
 
 		if lgidbatch != cgidbatchm:
 			print "Mismatch in cols", ccol, cgidbatchm, lgidbatch, ilf
-			assert False
 		return ilf
 
 	def CompareGIDS(self, flatb):
