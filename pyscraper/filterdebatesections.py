@@ -26,6 +26,13 @@ from filterdivision import FilterDivision
 from filterdebatespeech import FilterDebateSpeech
 
 fixsubs = 	[
+        ( 'Taylor, Andrew', 'Turner, Andrew', 1, '2003-02-26'),
+        ( '(Brown, Russell),', '\\1', 1, '2003-09-10'),
+        ( 'Baird Vera', 'Baird, Vera', 1, '2003-09-10'),
+        ( 'itemMercer', 'Mercer', 1, '2003-10-15'),
+        ( 'Livingston\)', '(Livingston)', 1, '2003-10-27'),
+        ( '<BR>\n, David', '<BR>\nBorrow, David', 1, '2003-11-18'),
+        ( '(Charlotte Atkins an)<BR>\s*d', '\\1d<BR>', 1, '2004-03-15'),
 	( "(<H3 align=center>.*?)(House of Commons</H3>)\s*(<H2.*?</H2>)\s*(The House.*?clock)", \
 		'\\1</H3>\n<H3 align=center>\\2\n\\3\n<H3 align=center>\\4</H3>', 1, '2003-10-27'),
         ( '(<H4><center>THIRD VOLUME OF SESSION 2003&#150;2004)(House of Commons</center></H4>)', \
@@ -151,7 +158,7 @@ def WriteXMLChunk(fout, qb, sdate, tagname, body):
 	# title headings
 	stithead = 'majorheading="%s"' % (qb.sstampurl.majorheading)
 	if qb.sstampurl.title <> "":
-		stithead += ' title="%s"' % (qb.sstampurl.title)
+		stithead += ' minorheading="%s"' % (qb.sstampurl.title)
 
 	stime = re.match('<stamp( time=".*?")/>', qb.sstampurl.timestamp).group(1)
 	sstamp = 'colnum="%s"%s' % (colnum, stime)
@@ -159,11 +166,11 @@ def WriteXMLChunk(fout, qb, sdate, tagname, body):
 	spurl = qb.sstampurl.GetUrl()
 
 
-	# OK, having DIVISION here is a bit of a hack - the qb.speaker variable could
+	# OK, having division here is a bit of a hack - the qb.speaker variable could
 	# be renamed to qb.attributes, for this new general purpose attribute store
 	# (it contains divnumber= and divdate= for divisions)
 	speaker = ''
-	if tagname == 'speech' or tagname == 'DIVISION':
+	if tagname == 'speech' or tagname == 'division':
 		speaker = qb.speaker
 
 	# get the stamps from the stamp on first speaker in block
@@ -192,7 +199,6 @@ def NormalHeadingPart(sht0, stampurl, sdate):
 
 	# set the title for this batch
         sht0 = string.strip(sht0)
-	stampurl.title = FixHTMLEntities(sht0)
 
 	bmajorheading = False
 
@@ -201,7 +207,6 @@ def NormalHeadingPart(sht0, stampurl, sdate):
 	divno = -1
 	if gdiv:
 		divno = string.atoi(gdiv.group(1))
-
         # Oral question are really a major heading
         elif sht0 == 'Oral Answers to Questions':
 		bmajorheading = True
@@ -217,17 +222,20 @@ def NormalHeadingPart(sht0, stampurl, sdate):
 	elif re.search('_head', stampurl.aname):
 		bmajorheading = True
 
+        # we're not writing a block for division headings
+        if divno != -1:
+                qb = None
+        # write out block for headings
+        elif bmajorheading:
+                stampurl.majorheading = FixHTMLEntities(sht0)
+                stampurl.title = ''
+                qb = qspeech('', stampurl.majorheading, stampurl, sdate)
+                qb.typ = 'debmajor'
 
-	# write out block for headings
-	if bmajorheading:
-		stampurl.majorheading = stampurl.title
-		stampurl.title = ''
-		qb = qspeech('', stampurl.majorheading, stampurl, sdate)
-		qb.typ = 'debmajor'
-
-	else:
-		qb = qspeech('', stampurl.title, stampurl, sdate)
-		qb.typ = 'debminor'
+        else:
+                stampurl.title = FixHTMLEntities(sht0)
+                qb = qspeech('', stampurl.title, stampurl, sdate)
+                qb.typ = 'debminor'
 
 	return (divno, qb)	
 
@@ -258,7 +266,8 @@ def FilterDebateSections(fout, text, sdate):
 
 		# the heading (empty speech) object 
 		(divno, qb) = NormalHeadingPart(sht[0], stampurl, sdate)
-		qblock.append(qb)  
+                if qb:
+                        qblock.append(qb)  
 
 		# the unspoken text after the heading part 
 
@@ -331,6 +340,8 @@ def FilterDebateSections(fout, text, sdate):
 	for qblock in qbl:
 		for qb in qblock:
                         # merge together adjacent subheadings
+                        # TODO: WARNING - this doesn't alter all the title
+                        # fields stored in the qb really it should
                         if qb.typ == 'debminor' and len(flatb) > 0 and flatb[-1].typ == 'debminor':
                                 flatb[-1].stext.append(" &mdash; ")
                                 flatb[-1].stext.extend(qb.stext)
@@ -343,17 +354,17 @@ def FilterDebateSections(fout, text, sdate):
         for qb in flatb:
                 if qb.typ == 'debmajor':
                         fout.write('\n')
-                        WriteXMLChunk(fout, qb, sdate, 'MAJOR-HEADING', qb.stext)
+                        WriteXMLChunk(fout, qb, sdate, 'major-heading', qb.stext)
                         fout.write('\n')
                 elif qb.typ == 'debminor':
                         fout.write('\n')
-                        WriteXMLChunk(fout, qb, sdate, 'MINOR-HEADING', qb.stext)
+                        WriteXMLChunk(fout, qb, sdate, 'minor-heading', qb.stext)
                         fout.write('\n')
                 elif qb.typ == 'debspeech':
                         WriteXMLChunk(fout, qb, sdate, 'speech', qb.stext)
                 elif qb.typ == 'debdiv':
                         fout.write('\n')
-                        WriteXMLChunk(fout, qb, sdate, 'DIVISION', qb.stext)
+                        WriteXMLChunk(fout, qb, sdate, 'division', qb.stext)
                         fout.write('\n')
                 else:
                         raise Exception, 'question block type unknown %s ' % qb.type

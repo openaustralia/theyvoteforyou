@@ -177,47 +177,36 @@ class MemberList(xml.sax.handler.ContentHandler):
 
         return ids
 
-    # Returns id, error, corrected name
-    # TODO: Get rid of error return, just use Exceptions
-    def matchfullname(self, input, date):
-        ids = self.fullnametoids(input, date)
-
-        if len(ids) == 0:
-            return 'unknown', 'No match: ' + input, ''
-        if len(ids) > 1:
-            return 'unknown', 'Matched multiple times: ' + input, ''
-
-        for id in ids:
-            pass
-        remadename = self.members[id]["firstname"] + " " + self.members[id]["lastname"]
-        return id, '', remadename
-
     # Returns id, corrected name, corrected constituency
-    def matchfullnamecons(self, fullname, cons, date):
+    def matchfullnamecons(self, fullname, cons, date, alwaysmatchcons = True):
         ids = self.fullnametoids(fullname, date)
-        cancons = self.canonicalisecons(cons)
 
-        newids = sets.Set()
-        matches = self.constituencies[cancons]
-        for attr in matches:
-            if date >= attr["fromdate"] and date <= attr["todate"]:
-                if attr["id"] in ids:
-                    newids.add(attr["id"])
+        cancons = self.conscanonical.get(cons, None)
+        if alwaysmatchcons and cons and not cancons:
+            raise Exception, "Unknown constituency %s" % cons
 
-        ids = newids
+        if cancons and len(ids) > 1:
+            newids = sets.Set()
+            matches = self.constituencies[cancons]
+            for attr in matches:
+                if date >= attr["fromdate"] and date <= attr["todate"]:
+                    if attr["id"] in ids:
+                        newids.add(attr["id"])
+            ids = newids
+
         if len(ids) == 0:
-            raise Exception, 'No match: ' + fullname + ", " + cons
+            raise Exception, 'No match: #' + fullname + "# " + (cons or "<nocons>")
         if len(ids) > 1:
-            raise Exception, 'Matched multiple times: ' + fullname + ", " + cons
+            raise Exception, 'Matched multiple times: ' + fullname + " # " + (cons or "<nocons>")
 
-        for id in ids:
+        for id in ids: # pop is no good as it changes the set
             pass
         remadename = self.members[id]["firstname"] + " " + self.members[id]["lastname"]
         remadecons = self.members[id]["constituency"]
         return id, remadename, remadecons
 
     # Lowercases a surname, getting cases like these right:
-    #     CLIFTON-BROWN to Clifton-Brown 
+    #     CLIFTON-BROWN to Clifton-Brown
     #     MCAVOY to McAvoy
     def lowercaselastname(self, name):
         words = re.split("( |-|')", name)
@@ -372,13 +361,6 @@ class MemberList(xml.sax.handler.ContentHandler):
             print ' potential missing MP name ' + input
 
         return 0
-
-    # Convert constituency name to canonical form, or throw exception if it isn't known
-    def canonicalisecons(self, cons):
-        cancons = self.conscanonical.get(cons, None)
-        if not cancons:
-            raise Exception, "Unknown constituency %s" % cons
-        return cancons
 
     def isspeaker(self, id):
         if self.members[id]["party"] == "SPK":

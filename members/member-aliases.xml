@@ -60,6 +60,8 @@ We should find the exact date she started, and move her finish date.
         from="2001-12-31" to="2004-03-01"/>
 
 <!-- First added for 2001 parliament -->
+<alias fullname="Charles Hendry" alternate="Charles Hedry" />
+<alias fullname="Annette Brooke" alternate="Annette L Brook" />
 <alias fullname="Shaun Woodward" alternate="Shaun Woodwood" />
 <alias fullname="Phil Woolas" alternate="Phill Woolas" />
 <alias fullname="Michael Weir" alternate="Michael Wier" />
@@ -165,6 +167,7 @@ We should find the exact date she started, and move her finish date.
 <alias fullname="Siôn Simon" alternate="Siön Simon" />
 <alias fullname="Siôn Simon" alternate="Si&amp;ocirc;n Simon" />
 <alias fullname="Siôn Simon" alternate="Si&amp;#244;n Simon" />
+<alias fullname="Siôn Simon" alternate="Sio[circ]n Simon" />
 <alias fullname="Siôn Simon" alternate="Sio(r)n Simon" />
 <alias fullname="Siôn Simon" alternate="Sion Simon" />
 <alias fullname="Raymond Powell" alternate="Ray Powell" />

@@ -14,66 +14,66 @@ from miscfuncs import FixHTMLEntities
 # it's possible we want to make this a class, like with speeches.
 # so that it sits in our list easily.
 
-reflipname = re.compile("([ \w\-'#&;]*), ((?:[ \w.#&;]|\(r\))*?)\s*(?:<i>\(([ \w&',.\-]*)\)</i>)?$") 
+sionsm = "Sio\(r\)n|Sio\[circ\]n"
+fullnm = "([ \w\-'#&;]*), ([ \w.#&;]*?|%s)(?:[ \.]rh)?" % sionsm
+constnm = "(?:(?:<i>|\()+([ \w&',.\-]*)(?:\)|</i>)+)"
+reflipname = re.compile("%s\s*%s?$" % (fullnm, constnm))
 
 def MpList(fsm, vote, sdate):
 	res = [ ]
 	pfss = ''
 	for fss in fsm:
 
-		# break up concattenated lines 
+		# break up concattenated lines
 		# Beresford, Sir PaulBlunt, Crispin
 
-		while re.search('\S', fss): 
-			regsep = re.search('(.*?,.*?(?:[a-z]|</i>|\.))([A-Z].*?,.*)$', fss)
-			if regsep: 
+		while re.search('\S', fss):
+			regsep = re.search('(.*?,.*?(?:[a-z]|</i>|\.|\)))([A-Z&].*?,.*)$', fss)
+			if regsep:
 				fssf = regsep.group(1)
 				fss = regsep.group(2)
 			else:
 				fssf = fss
 				fss = ''
 
-			# check alphabetical
-			if pfss and (pfss > fssf):
-				print pfss, fssf
-				raise Exception, ' out of order '
+			# check alphabetical - but "rh" and so on confound so don't bother
+			#if pfss and (pfss > fssf):
+			#	print pfss, fssf
+			#	raise Exception, ' out of alphabetical order %s and %s' % (pfss, fssf)
+			#pfss = fssf
 
-			# fliprount the name 
+			# fliprount the name
 			# Bradley, rh Keith <i>(Withington)</i>
 			# Simon, Sio(r)n <i>(Withington)</i>
 			ginp = reflipname.match(fssf)
 			if ginp:
 				fnam = '%s %s' % (ginp.group(2), ginp.group(1))
+				cons = ginp.group(3)
 			else:
-				#raise Exception, "No reverse name match (filterdivision): %s" % fss 
-				print "No reverse name match (filterdivision): %s" % fssf 
-				fnam = fssf; 
-			
-			(mpid, errmess, remadename) = memberList.matchfullname(fnam, sdate) 
-			res.append('\t<mpname id="%s" vote="%s">%s</mpname>' % (mpid, vote, FixHTMLEntities(fss)))
+				raise Exception, "No reverse name match (filterdivision): %s" % fssf
+				fnam = fssf;
+
+                        #print "fss ", fssf
+			(mpid, remadename, remadecons) = memberList.matchfullnamecons(fnam, cons, sdate, alwaysmatchcons = False)
+			res.append('\t<mpname id="%s" vote="%s">%s</mpname>' % (mpid, vote, FixHTMLEntities(fssf)))
 
 	return res
-	
+
 # this pulls out two tellers with the and between them.
 def MpTellerList(fsm, vote, sdate):
 	res = [ ]
 	for fss in fsm:
-		while re.search('\S', fss): 
+		while fss:
+			gftell = re.match('\s*(?:and )?([ \w.\-]*?)(?: and(.*))?\s*$', fss)
+			fssf = gftell.group(1)
+			fss = gftell.group(2)
 
 			if len(res) >= 2:
-				print fss
+				print fsm
 				raise Exception, ' too many tellers '
 
-			gftell = re.match('([ \w.\-]*?) and(.*)$', fss)
-			if gftell:
-				fssf = gftell.group(1)
-				fss = gftell.group(2)
-			else:
-				fssf = fss
-				fss = ''
-				
-			(mpid, errmess, remadename) = memberList.matchfullname(fssf, sdate)
-			res.append('\t<mpname id="%s" vote="%s" teller="yes">%s</mpname>' % (mpid, vote, FixHTMLEntities(fssf))) 
+			(mpid, remadename, remadecons) = memberList.matchfullnamecons(fssf.strip(), None, sdate)
+			res.append('\t<mpname id="%s" vote="%s" teller="yes">%s</mpname>' % (mpid, vote, FixHTMLEntities(fssf)))
 
 	return res
 
@@ -112,19 +112,18 @@ def FilterDivision(qs):
 	if (istatem[3] < istatem[4]) and (istatem[3] != -1) and (istatem[4] != -1):
 		mptnoes = MpTellerList(fs[istatem[3]+1:istatem[4]], 'noe', qs.sdate)
 
-	qs.stext = [ ] 
-	qs.stext.append('<divisioncount ayes="%d" noes="%d" tellerayes="%d" tellernoes="%d"/>' % (len(mpayes), len(mpnoes), len(mptayes), len(mptnoes)))  
-	qs.stext.append('<mplist vote="aye">') 
-# commented out to keep it short.  
-#	qs.stext.extend(mpayes)
+	qs.stext = [ ]
+	qs.stext.append('<divisioncount ayes="%d" noes="%d" tellerayes="%d" tellernoes="%d"/>' % (len(mpayes), len(mpnoes), len(mptayes), len(mptnoes)))
+	qs.stext.append('<mplist vote="aye">')
+	qs.stext.extend(mpayes)
 	qs.stext.extend(mptayes)
-	qs.stext.append('</mplist>') 
-	qs.stext.append('<mplist vote="noe">') 
-#	qs.stext.extend(mpnoes)
+	qs.stext.append('</mplist>')
+	qs.stext.append('<mplist vote="noe">')
+	qs.stext.extend(mpnoes)
 	qs.stext.extend(mptnoes)
-	qs.stext.append('</mplist>') 
-	
-	
+	qs.stext.append('</mplist>')
+
+
 
 rebr = re.compile('\s*<br>\s*')
 # Cope of Berkeley, L. [Teller]

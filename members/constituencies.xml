@@ -9,7 +9,7 @@ in.
 
 Currently has the name forms from:
 - the list of MPs on the Parliament website
-- Hansard debates 
+- Hansard debates (speakers and divisions)
 - Register of members interests (regmem)
 - the ONS (Office of National Statistics)
 - FaxYourMP.com
@@ -245,6 +245,7 @@ The list of MPs from the parliament website are considered canonical.
 <constituency id="uk.org.publicwhip/cons/64">
     <name text="Bognor Regis &amp; Littlehampton"/>
     <name text="Bognor Regis and Littlehampton"/> <!-- ONS -->
+    <name text="Bognor Regis" /> <!-- Divisions -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/65">
     <name text="Bolsover"/>
@@ -396,6 +397,7 @@ The list of MPs from the parliament website are considered canonical.
 <constituency id="uk.org.publicwhip/cons/110">
     <name text="Cannock Chase"/>
     <name text="Canock Chase"/> <!-- FaxYourMP index -->
+    <name text="Cannock"/>
 </constituency>
 <constituency id="uk.org.publicwhip/cons/111">
     <name text="Canterbury"/>
@@ -504,6 +506,7 @@ The list of MPs from the parliament website are considered canonical.
 <constituency id="uk.org.publicwhip/cons/140">
     <name text="Clwyd West"/>
     <name text="Clwyd, West"/> <!-- Debates -->
+    <name text="Clwyd W"/> <!-- Debates -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/141">
     <name text="Clydebank &amp; Milngavie"/>
@@ -709,6 +712,7 @@ The list of MPs from the parliament website are considered canonical.
 <constituency id="uk.org.publicwhip/cons/201">
     <name text="East Yorkshire"/>
     <name text="Yorkshire East"/> <!-- FaxYourMP index -->
+    <name text="E Yorkshire"/> <!-- Divisions -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/202">
     <name text="Eastbourne"/>
@@ -980,6 +984,7 @@ The list of MPs from the parliament website are considered canonical.
 <constituency id="uk.org.publicwhip/cons/277">
     <name text="Harrow West"/>
     <name text="Harrow, West"/> <!-- Debates -->
+    <name text="Harrow W"/> <!-- Debates -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/278">
     <name text="Hartlepool"/>
@@ -1383,6 +1388,7 @@ The list of MPs from the parliament website are considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/390">
     <name text="New Forest East"/>
+    <name text="New Forest E"/> <!-- Divisions -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/391">
     <name text="New Forest West"/>
@@ -1461,6 +1467,7 @@ The list of MPs from the parliament website are considered canonical.
 <constituency id="uk.org.publicwhip/cons/411">
     <name text="North East Fife"/>
     <name text="Fife North East"/> <!-- FaxYourMP index -->
+    <name text="NE Fife"/> <!-- Division -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/412">
     <name text="North East Hampshire"/>
@@ -1491,6 +1498,7 @@ The list of MPs from the parliament website are considered canonical.
     <name text="North Southwark and Bermondsey"/> <!-- ONS -->
     <name text="Southwark North and Bermondsey"/> <!-- FaxYourMP index -->
     <name text="Southwark North &amp; Bermondsey"/> <!-- BBC politics db -->
+    <name text="Southwark N"/> <!-- Divisions -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/419">
     <name text="North Swindon"/>
@@ -1503,6 +1511,7 @@ The list of MPs from the parliament website are considered canonical.
 <constituency id="uk.org.publicwhip/cons/421">
     <name text="North Thanet"/>
     <name text="Thanet North"/>
+    <name text="N Thanet"/> <!-- Divisions -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/422">
     <name text="North Tyneside"/>
@@ -1536,6 +1545,7 @@ The list of MPs from the parliament website are considered canonical.
 <constituency id="uk.org.publicwhip/cons/429">
     <name text="North Wiltshire"/>
     <name text="Wiltshire North"/> <!-- FaxYourMP index -->
+    <name text="N Wilts"/> <!-- Divisions -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/430">
     <name text="Northampton North"/>
@@ -1595,6 +1605,7 @@ The list of MPs from the parliament website are considered canonical.
 <constituency id="uk.org.publicwhip/cons/447">
     <name text="Oxford West &amp; Abingdon"/>
     <name text="Oxford West and Abingdon"/> <!-- ONS -->
+    <name text="Oxford W &amp; Abingdon"/> <!-- Divisions -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/448">
     <name text="Paisley North"/>
@@ -1746,6 +1757,7 @@ The list of MPs from the parliament website are considered canonical.
 <constituency id="uk.org.publicwhip/cons/490">
     <name text="Rutland &amp; Melton"/>
     <name text="Rutland and Melton"/> <!-- ONS -->
+    <name text="Rutland"/> <!-- Divisions -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/491">
     <name text="Ryedale"/>
@@ -2299,6 +2311,7 @@ The list of MPs from the parliament website are considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/651">
     <name text="Worthing West"/>
+    <name text="Worthing W"/> <!-- Division -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/652">
     <name text="Wrekin, The"/>

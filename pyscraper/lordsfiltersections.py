@@ -107,7 +107,7 @@ def WriteXMLChunk(fout, qb, sdate, tagname, body):
 	# title headings
         stithead = 'majorheading="%s"' % (qb.sstampurl.majorheading)
         if qb.sstampurl.title <> "":
-                stithead += ' title="%s"' % (qb.sstampurl.title)
+                stithead += ' minorheading="%s"' % (qb.sstampurl.title)
 
 	stime = '9999'  #re.match('<stamp( time=".*?")/>', qb.sstampurl.timestamp).group(1)
 	sstamp = 'colnum="%s"%s' % (colnum, stime)
@@ -217,21 +217,20 @@ def LordsFilterSections(fout, text, sdate):
 	for qblock in qbl:
 
 		if not qblock:
-			fout.write('\n\n<DIVISION/>\n\n')
-			continue
+                        raise Exception, "No content in qblock"
 
 		for qb in qblock:
                         if qb.typ == 'debmajor':
                                 fout.write('\n')
-                                WriteXMLChunk(fout, qb, sdate, 'MAJOR-HEADING', qb.sstampurl.majorheading)
+                                WriteXMLChunk(fout, qb, sdate, 'major-heading', qb.sstampurl.majorheading)
                                 fout.write('\n')
                         elif qb.typ == 'debminor':
                                 fout.write('\n')
-                                WriteXMLChunk(fout, qb, sdate, 'MINOR-HEADING', qb.sstampurl.title)
+                                WriteXMLChunk(fout, qb, sdate, 'minor-heading', qb.sstampurl.title)
                                 fout.write('\n')
                         elif qb.typ == 'division':
                                 fout.write('\n')
-                                WriteXMLChunk(fout, qb, sdate, 'DIVISION', qb.text)
+                                WriteXMLChunk(fout, qb, sdate, 'division', qb.text)
                                 fout.write('\n')
                         elif qb.typ == 'debspeech':
                                 WriteXMLSpeech(fout, qb, sdate)

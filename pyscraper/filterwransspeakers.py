@@ -146,13 +146,13 @@ def FilterWransSpeakers(fout, text, sdate):
                 # oral questions" signifier)
 
                 # match the member to a unique identifier
-                (id, reason, remadename) = memberList.matchfullname(boldnamestring, sdate)
+                (id, remadename, remadecons) = memberList.matchfullname(boldnamestring, None, sdate)
 
 		# now output what we've decided
-                if reason:
-			if not re.search(knownbadmatches, reason):
-				print reason
-        		reason = ' error="%s" speakername="%s"' % (reason, boldnamestring)
+                #if reason:
+		#	if not re.search(knownbadmatches, reason):
+		#		print reason
+        	#	reason = ' error="%s" speakername="%s"' % (reason, boldnamestring)
                 if remadename:
         		remadename = ' speakername="%s"' % (remadename)
 
