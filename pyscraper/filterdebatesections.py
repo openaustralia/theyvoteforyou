@@ -28,8 +28,6 @@ from filterdebatespeech import FilterDebateSpeech
 fixsubs = 	[
 	( "(<H3 align=center>.*?)(House of Commons</H3>)\s*(<H2.*?</H2>)\s*(The House.*?clock)", \
 		'\\1</H3>\n<H3 align=center>\\2\n\\3\n<H3 align=center>\\4</H3>', 1, '2003-10-27'),
-	( "(<H4><center>FOURTEENTH VOLUME OF SESSION 2002&#150;2003)<P>(House of Commons</center></H4>)", \
-		'\\1</center></H4>\n<H4><center>\\2', 1, '2003-06-16'),
         ( '(<H4><center>THIRD VOLUME OF SESSION 2003&#150;2004)(House of Commons</center></H4>)', \
                 '\\1</center></H4>\n<H4><center>\\2', 1, '2004-01-26'),
 	( "(<H3 align=center>TENTH VOLUME OF SESSION 2002&#150;2003)(House of Commons</H3>)", \
@@ -47,6 +45,7 @@ fixsubs = 	[
 
 	( '<UL><UL>Adjourned', '</UL><UL><UL><UL>Adjourned', 1, '2003-05-22'), # putting a consistent error back in
 	( '<UL><UL>End', '</UL><UL><UL><UL>End', 1, '2002-11-07'), # as above
+        ( '<UL><UL>', '<UL><UL><UL>', 1, '2003-06-25'),
 
 	( '<UL><UL><UL>Adjourned', '<UL>Adjourned', 1, '2004-03-05'),
 	( 'o\'clock\.\s*</UL></UL></UL>', 'o\'clock.</UL>', 1, '2004-03-05'),
@@ -207,11 +206,10 @@ def NormalHeadingPart(sht0, stampurl, sdate):
         elif sht0 == 'Oral Answers to Questions':
 		bmajorheading = True
         # Check if there are any other spellings of "Oral Answers to Questions" with a loose match
-        elif re.search('oral(?i)', sht0): 
-                raise Exception, 'Oral question match not precise enough'
+        elif re.search('oral(?i)', sht0) and re.search('ques(?i)', sht0):
+                raise Exception, 'Oral question match not precise enough: %s' % sht0
 	
-        # The Secretary of State was asked &mdash;
-		# All upper case headings 
+        # All upper case headings 
 	elif not re.search('[a-z]', sht0):
 		bmajorheading = True
 

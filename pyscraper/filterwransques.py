@@ -61,7 +61,6 @@ def FilterQuestion(text, sdate):
 		for i in range(1, len(textp)):
 			gbnum = re.search('^\((\d+)\)', textp[i])
 			if (not gbnum) or (string.atoi(gbnum.group(1)) != i + 1):
-				print text
 				print textp
 				raise Exception, ' no number match in paragraph '
 			eqnum = ExtractQnum(textp[i][gbnum.span(0)[1]:])

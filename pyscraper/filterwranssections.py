@@ -23,6 +23,9 @@ from miscfuncs import WriteXMLHeader
 
 
 fixsubs = 	[
+        ( '<xref locref=390>', '', 1, '2003-06-19'),
+        ( '</FONT></FONT></TD></TR>', '', 1, '2003-07-11'),
+        ( 'It is a matter for the ', '(3) It is a matter for the ', 1, '2003-07-16'),
 	( '<h2><center>written answers to</center></h2>\s*questions(?i)', \
 	  	'<h2><center>Written Answers to Questions</center></h2>', -1, 'all'),
 	( '<h\d align=center>written answers[\s\S]{10,150}?\[continued from column \d+?W\](?:</h\d>)?(?i)', '', -1, 'all'),
@@ -71,7 +74,6 @@ fixsubs = 	[
         ( '(&nbsp;a minimum energy)<P>', '\\1 efficiency rating.  [153278]', 1, '2004-02-10'),
         ( '(what the countries of origin were; and if he will make a statement.)', '\\1 [147100]', 1, '2004-01-15'),
         
- 	( '\n To\s*ask ', '\n To ask ', 10, '2003-07-07'), # linefeed example I can't piece apart
  	( '\n To as the Secretary', '\n To ask the Secretary', 2, '2003-01-14'),
  	( '\n To\s*ask ', '\n To ask ', 7, '2003-04-10'),
  	( '\n To\s*ask ', '\n To ask ', 9, '2003-03-06'),
@@ -110,7 +112,6 @@ fixsubs = 	[
 	( '2003&#150;11&#150;21', '2003', 1, '2003-11-20'),
 	( '27Ooctober', '27 October', 1, '2003-10-27'),
 
-	( '<TD <', '<TD> <', 1, '2003-07-15'),
 	( '<TABLE BORDER=1>\s*<P>\s*</FONT></TH></TR>', '<TABLE BORDER=1>', 2, '2002-10-22'),
 
 

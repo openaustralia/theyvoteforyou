@@ -17,10 +17,11 @@ from miscfuncs import ApplyFixSubstitutions
 
 # this accounts for the cases where the colnum at the very start is left out.
 fixsubs = 	[
+        ( '\(Sylvia Heal </B>\s*\)\:', '(Sylvia Heal):</B>', 1, '2003-06-20'),
+
 	( '(<H3 align=center>THE PARLIAMENTARY DEBATES</H3>)', '<P>\n\n<B>14 Oct 2003 : Column 1</B></P>\n\\1', 1, '2003-10-14'),
 	( '(<H4><center>THE PARLIAMENTARY DEBATES</center></H4>)', '<P>\n\n<B>14 Jul 2003 : Column 1</B></P>\n\\1', 1, '2003-07-14'),
 
-	( '(<P>\n</FONT></UL>)(\s*<B>23 Jun 2003 : Column 836</B></P>)', '\\1<P>\\2', 1, '2003-06-23'),
 	( '<B>27 Mar 2003 : Column 563</B></P>\s*<UL><UL><UL>\s*</UL></UL></UL>', '', 1, '2003-03-27'),
 	( '<B>10 Mar 2003 : Column 141</B></P>\s*<UL><UL><UL>\s*</UL></UL></UL>', '', 1, '2003-03-10'),
 	( '<B>4 Feb 2003 : Column 251</B></P>\s*<UL><UL><UL>\s*</UL></UL></UL>', '', 1, '2003-02-04'),
@@ -36,7 +37,6 @@ fixsubs = 	[
 
         ( '(<B>)( 8. )(Mr. Alistair Carmichael)', '\\2\\1\\3', 1, '2003-01-07'),
 
-        ( '<B>( As a number of Members have said, .*?)</B>', '\\1', 1, '2003-06-20'),
         ( '(Mr. Chaytor:)', '\n<P>\n<B>\\1</B>', 1, '2004-02-24'),
         ( '(Mr. Hall:)', '\n<P>\n<B>\\1</B>', 1, '2004-01-19'),
         ( '(Tony Cunningham:)', '\n<P>\n<B>\\1</B>', 1, '2004-01-15'),

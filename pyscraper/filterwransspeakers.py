@@ -29,20 +29,12 @@ fixsubs = 	[
 	( '<P></UL>\s*<P>\s*\{\*\*con\*\*\}\{\*\*/con\*\*\}<P>\s*<B> Mr. Moss:  \(4\)</B>', \
 							'<p>(4)', 1, '2002-06-10'),
 
-	( '<UL><i>Fiona Mactaggart \[holding answer 3 July 2003\]:</i>', \
-		'<B>Fiona Mactaggart </B> [holding answer 3 July 2003]', 1, '2003-07-07'),
-	( '<UL><i>Mr. Bradshaw \[holding answer 23 June 2003\]</i>:', \
-		'<B>Mr. Bradshaw </B> [holding answer 23 June 2003]', 1, '2003-06-24'),
-	( '<i>Mr. Bradshaw </i>\[holding answer 17 June 2003\]:', \
-		'</ul><B>Mr. Bradshaw </B> [holding answer 17 June 2003]', 1, '2003-06-18'),
 	( '<UL>(Beverley Hughes):', '<B>\\1</B>', 1, '2003-04-10'),
         ( '<UL>(Mr. Morley):', '<B>\\1</B> ', 1, '2003-05-01'),
 
 	( '<UL>\(1\) (Tim Loughton): (To ask the Deputy Prime Minister) (how many times he has been in residence at Dorneywood since June 2001; and on what dates;  \[97476\])', '<B>\\1</B> \\2 (1) \\3 <p><UL>', 1, '2003-03-28'),
 	( '<UL>Mr. Denham:', '<B>Mr. Denham</B>', 1, '2003-03-06'),
 
-
-	( '<B> Matthew Taylor: Matthew Taylor: </B>', '<B> Matthew Taylor: </B>', 1, '2003-07-02'),
 
 	( '<TR valign=top><TD><FONT SIZE=-1>\s*<P>\s*<page', '</TABLE>\n<page', 1, '2002-07-24'),
 	( '<i>Mr. Ingram \[holding answer 4 December 2003\]:</i>', '<B>Mr. Ingram:</B> [holding answer 4 December 2003]', 1, '2003-12-08' ),

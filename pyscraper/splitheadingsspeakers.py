@@ -69,7 +69,7 @@ resectiont3val = re.compile('<center><b>(.*?)</b></center>(?i)')
 resectiont4val = re.compile('<p>\s*<center>(.*?)</center><p>(?i)')
 
 # These aren't actually headings, even though they are <H4><center>
-renotheading = re.compile('>(The .* was asked&#151;)<')
+renotheading = re.compile('>\s*(The .* was asked\s*&#151;)\s*<')
 # catch cases of the previous regexp not being broad enough
 renotheadingmarg = re.compile('asked')                
 
@@ -157,7 +157,7 @@ class SepHeadText:
                                 if not negativematch:
 
                                     if renotheadingmarg.search(fss):
-                                        raise Exception, '"The ... was asked" match not precise enough'
+                                        raise Exception, '"The ... was asked" match not broad enough: %s' % fss
 
                                     # we are definitely a heading
                                     self.EndHeading(gheading.group(1))
