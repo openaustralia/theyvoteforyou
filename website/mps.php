@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mps.php,v 1.8 2003/10/27 09:48:00 frabcus Exp $
+    # $Id: mps.php,v 1.9 2003/12/08 18:36:02 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -69,7 +69,7 @@ you expect. You can change the order of the table by selecting the headings.
     if ($parliament == "1997")
         print "<p><a href=\"mps.php?parliament=2001&sort=" .  html_scrub($sort) . "\">View MPs for 2001 parliament</a>";
     
-    print "<table class=\"mps\"><tr class=\"headings\">\n";
+    print "<table class=\"mps\">\n";
 
     $url = "mps.php?parliament=" . urlencode($parliament) . "&";
     print "<tr class=\"headings\">";

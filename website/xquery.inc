@@ -21,7 +21,6 @@ function sgrep_query($xmlfolder, $query)
 
 function print_transform($xsltfile, $xmlfile)
 {
-    $xsltfile = "wrans.xslt";
     $xsltproc = xslt_create();
     xslt_set_encoding($xsltproc, 'ISO-8859-1');
 	$html = xslt_process($xsltproc, 'arg:/_xml', $xsltfile, NULL, array('/_xml' => $xmlfile));

@@ -5,5 +5,5 @@ DIR=~/pwdata/pwscrapedxml/wrans
 # Check well formed XML
 xmlwf $DIR/*.xml
 # Create index
-sgrep -I -g xml -v -c $DIR/ixsgrep $DIR/*.xml
+sgrep -I -i -g xml -v -c $DIR/ixsgrep $DIR/*.xml
 

@@ -2,26 +2,18 @@
     xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
     xmlns:html="http://www.w3.org/1999/xhtml">
 
-<xsl:template match="writtenanswers">
-
-<html>
-<head>
-<title>Written answer</title>
-</head>
-<body>
-        <xsl:apply-templates select="wrans">
-            <xsl:sort order="descending" select="stamp/@coldate"/>
-        </xsl:apply-templates>
-</body>
-</html>
+<xsl:template match="publicwhip">
+	<xsl:apply-templates select="wrans">
+		<xsl:sort order="descending" select="stamp/@coldate"/>
+	</xsl:apply-templates>
 </xsl:template>
  
 <xsl:template match="wrans"> 
-    <h1>
+    <h2>
         <xsl:value-of select="stamp/@coldate"/>
         <xsl:text> </xsl:text>
         <xsl:value-of select="@title"/>
-    </h1>
+    </h2>
     <b>
         <xsl:apply-templates select="speech"/>
     </b>
@@ -29,7 +21,7 @@
         <xsl:attribute name="href">
             <xsl:value-of select="page/@url"/>
         </xsl:attribute>
-        Read the original source of this answer in Hansard
+        <p>Read the original source of this answer in Hansard</p>
     </a>
 </xsl:template>
   
