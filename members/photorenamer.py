@@ -13,12 +13,25 @@ from resolvemembernames import memberList
 photodir = "/home/francis/devel/fawkes/www/docs/images/orig/"
 photodate = "2004-04-13"
 
-dir = os.listdir(photodir)
-renamemap = {}
+# Remove junk from directory
+if os.path.exists(os.path.join(photodir, "Thumbs.db")):
+    os.remove(os.path.join(photodir, "Thumbs.db"))
 
 # Perform name matching
+dir = os.listdir(photodir)
+renamemap = {}
 for file in dir:
-    match = re.match("([a-z_-]+)_([a-z-]+)(?:_(\d+))?_?.jpg", file) 
+    mfile = file
+    if file == "drew-david_178.jpg":
+        mfile = "drew_david_178.jpg"
+    if file == "murphy_john_445.jpg":
+        mfile = "murphy_jim_445.jpg"
+    if file== "raynsford-nick_496.jpg":
+        mfile = "raynsford_nick_496.jpg"
+    if file== "robathan_robert_502.jpg":
+        mfile = "robathan_andrew_502.jpg"
+
+    match = re.match("([a-z_-]+)_([a-z-]+)(?:_(\d+))?_?.jpg", mfile) 
     assert match, "didn't match %s" % file
     (last, first, alienid) = match.groups()
 
@@ -36,11 +49,16 @@ for file in dir:
     fullname = "%s %s" % (first, last)
     fullname = memberList.fixnamecase(fullname)
     (id, correctname, correctcons) = memberList.matchfullnamecons(fullname, cons, photodate)
-    id = id.replace("uk.org.publicwhip/member/", "")
+    id = memberList.membertoperson(id)
+    id = id.replace("uk.org.publicwhip/person/", "")
 
     renamemap[file] = "%s.jpg" % id
 
+    # print file, renamemap[file]
+
 assert len(renamemap.keys()) == 659, "got %d keys, not 659" % len(renamemap.keys())
+
+# sys.exit(1)
 
 # Do renaming
 for name, newname in renamemap.iteritems():

@@ -182,9 +182,9 @@ def LordsPullGluePages(datefrom, dateto, deleteoutput):
 					if pgx[0] == urlx:
 						#print 'skipping ' + urlx
 						continue
-			print '\nRE-scraping ' + urlx
+			print 'RE-scraping ' + urlx
 		else:
-			print '\nscraping ' + urlx
+			print 'scraping ' + urlx
 
 		# The different sections are often all run together
 		# with the title of written answers in the middle of a page.

@@ -36,6 +36,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         self.conscanonical = {} # constituency aliases --> canonical constituency
         self.constituencies = {} # constituency --> MPs
         self.parties = {} # constituency --> MPs
+        self.officetopersonmap = {} # member ID --> person ID
 
         # "rah" here is a typo in division 64 on 13 Jan 2003 "Ancram, rah Michael"
         self.titles = "Dr |Hon |hon |rah |rh |Mrs |Ms |Mr |Miss |Rt Hon |Reverend |The Rev |The Reverend |Sir |Rev |Prof "
@@ -52,9 +53,11 @@ class MemberList(xml.sax.handler.ContentHandler):
         self.loadconsid = None
         self.loadconscanon = None
         parser.parse("../members/constituencies.xml")
+        self.loadperson = None
+        parser.parse("../members/people.xml")
 
     def startElement(self, name, attr):
-        """ This handler is invoked for each XML element (during loading)"""
+        # all-members.xml loading
         if name == "member":
             if self.members.get(attr["id"]):
                 raise Exception, "Repeated identifier %s in members XML file" % attr["id"]
@@ -90,6 +93,7 @@ class MemberList(xml.sax.handler.ContentHandler):
             cons = attr["party"]
             self.parties.setdefault(cons, []).append(attr)
 
+        # member-aliases.xml loading
         elif name == "alias":
             # search for the canonical name or the constituency name for this alias
             matches = None
@@ -124,6 +128,7 @@ class MemberList(xml.sax.handler.ContentHandler):
                     else:
                         self.lastnames.setdefault(attr["alternate"], []).append(newattr)
 
+        # constituencies.xml loading
         elif name == "constituency":
             self.loadconsid = attr["id"]
             pass
@@ -135,6 +140,17 @@ class MemberList(xml.sax.handler.ContentHandler):
                     raise Exception, "Constituency file has two names the same %s" % attr["text"]
                 self.conscanonical[attr["text"]] = self.loadconscanon
             pass
+
+        # people.xml loading
+        elif name == "person":
+            self.loadperson = attr["id"]
+        elif name == "office":
+            assert self.loadperson, "<office> tag before <person> tag"
+            if attr["id"] in self.officetopersonmap:
+                raise Exception, "Same office id %s appeared twice" % attr["id"]
+            self.officetopersonmap[attr["id"]] = self.loadperson
+
+
             
     def endElement(self, name):
         if name == "constituency":
@@ -423,6 +439,9 @@ class MemberList(xml.sax.handler.ContentHandler):
 
     def getmember(self, id):
         return self.members[id]
+
+    def membertoperson(self, id):
+        return self.officetopersonmap[id]
 
 
 # Construct the global singleton of class which people will actually use

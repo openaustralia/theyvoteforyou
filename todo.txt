@@ -30,6 +30,10 @@ Do a big usability thing - get Tom L to help with his ideas
 Make log file stats daily to see what happens as you subtly change links
 Controversial: Remove cluster map, Remove division attendance
 
+Put debate XML files and regmem XML files up on site
+Update the votematrix CSV files - people are using them!
+Put up raw data for ranking scores for rebel/attend that are only in fawkes
+
 Dream MP
 --------
 
