@@ -3,6 +3,8 @@ Mailing list for developers
 Web site
 --------
 
+Back links to wrans that have referred to this one
+
 Comments system
 
 Java in Opera Win32
