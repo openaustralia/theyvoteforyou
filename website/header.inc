@@ -2,7 +2,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.18 2003/10/13 15:15:15 frabcus Exp $
+# $Id: header.inc,v 1.19 2003/10/13 19:08:50 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -17,6 +17,8 @@ include $toppath . "account/quick.inc";
 
 <head>
 <link href="<?=$toppath?>publicwhip.css" type="text/css" rel="stylesheet">
+<link rel="icon" href="<?=$toppath?>favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="<?=$toppath?>favicon.ico" type="image/x-icon" />
 <title>Public Whip - <? print $title ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script>
