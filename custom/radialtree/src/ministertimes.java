@@ -57,6 +57,26 @@ class ministertimes
 
 	/////////////////////////////////////////////
 	// allocate sectors and positions (in polar coordinates)
+	String NextShuffFrom(String sdate, boolean bFore)
+	{
+		String rdate = "";
+		for (int i = 0; i < personfloats.length; i++)
+		{
+			personfloat personf = personfloats[i];
+			int j = personf.GetMIndex(sdate);
+			if (j != -1)
+			{
+				String ndate = (bFore ? personf.poffices[j].stopdate : personf.poffices[j].startdate);
+				if (rdate.equals("") || (bFore ? (ndate.compareTo(rdate) <= 0) : (ndate.compareTo(rdate) >= 0)))
+					rdate = ndate;
+			}
+		}
+
+		return (rdate.startsWith("9999") || rdate.equals("") ? sdate : rdate);
+	}
+
+	/////////////////////////////////////////////
+	// allocate sectors and positions (in polar coordinates)
 	void AllocateSectors(String sdate)
 	{
 		// find the departments
@@ -110,7 +130,8 @@ class ministertimes
 
 			double ang0 = lsumL / sumL;
 			double ang1 = nsumL / sumL;
-			depts[i].AllocateGo(ang0 + 2, ang1 + 2);
+//			depts[i].AllocateGo(ang0 + 2, ang1 + 2);
+			depts[i].AllocateGo(ang0, ang1);
 
 			lsumL = nsumL;
 		}
@@ -124,7 +145,8 @@ class ministertimes
 
 			double ang0 = lsumR / sumR;
 			double ang1 = nsumR / sumR;
-			depts[i].AllocateGo(ang1, ang0);
+//			depts[i].AllocateGo(ang1, ang0);
+			depts[i].AllocateGo(ang1 + 2, ang0 + 2);
 
 			lsumR = nsumR;
 		}

@@ -27,7 +27,8 @@ class radframe extends JFrame
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(800, 700);
 
-		raddisp = new raddisplay("data/10046.jpg");
+		raddisp = new raddisplay("data/10047.jpg", false);
+		raddisp.radpane.SetDate("1997-05-02", 50);
 		getContentPane().add("Center", raddisp);
 	}
 
@@ -36,24 +37,17 @@ class radframe extends JFrame
     // first parameter - mpcoords.txt file to load in
     // second parameter (optional) - filename of png to save to
 
-//http://www.theyworkforyou.com/images/mps/10186.jpg
-
-	public static void main(String args[])
+	public static void main(String args[]) throws IOException
 	{
-		try
-		{
-			radframe radfram = new radframe();
-			radfram.raddisp.LoadData(new BufferedReader(new FileReader(new File("data/ministers.xml"))));
+		radframe radfram = new radframe();
+		radfram.raddisp.LoadData(new BufferedReader(new FileReader(new File("data/ministers.xml"))));
 
+		// used for making a snapshot of it
 //			if (args.length > 1)
 //				mpf.mpsc.pp.SavePNG(args[1], Integer.parseInt(args[2]), Integer.parseInt(args[3]));
-			radfram.setVisible(true);
-			radfram.raddisp.radpane.start();
-		}
-		catch (IOException e)
-		{
-			System.exit(0);
-		}
+//			else
+		radfram.setVisible(true);
+		radfram.raddisp.radpane.start();
 	}
 }
 

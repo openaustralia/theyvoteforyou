@@ -55,7 +55,7 @@ class personfloat
 		// timg = toolkit.getImage("data/10186.jpg");
 	}
 
-	static String[] prefixes = { "Rt Hon ", "Mr ", "Dr ", "Sir " };
+	static String[] prefixes = { "Rt Hon ", "Mr ", "Dr ", "Sir ", "Miss ", "Mrs ", "Ms ", };
 	void AddPoffice(String lstartdate, String lstopdate, String lposition, String ldept, String lpname)
 	{
 		poffices[npoffices] = new personoffice(lstartdate, lstopdate, lposition, ldept);
@@ -71,6 +71,10 @@ class personfloat
 			if (pname.startsWith(prefixes[i]))
 				pname = pname.substring(prefixes[i].length());
 		}
+
+		// shorten Baroness
+		if (pname.startsWith("Baroness "))
+			pname = "B. " + pname.substring(9);
 	}
 
 
@@ -99,6 +103,7 @@ class personfloat
 
 		return (syear - tyear) * 12 + (smonth - tmonth);
 	}
+
 
 	/////////////////////////////////////////////
 	boolean SetDate(String sdate)
@@ -132,8 +137,8 @@ class personfloat
 	void SetPosition(int cx, int cy, double cr, FontMetrics fm)
 	{
 		double ang = sang * Math.PI / 2 - Math.PI / 4;
-		int x = (int)(cx + Math.cos(ang) * (rad * 1.1 - 0.5) * cr / 3.5);
-		int y = (int)(cy + Math.sin(ang) * (rad + 1.0) * cr / 4);
+		int x = (int)(cx + Math.cos(ang) * (rad * 1.1 - 0.5) * cx / 3.7);
+		int y = (int)(cy + Math.sin(ang) * (rad + 1.0) * cy / 3.1);
 
 		double lsang = sang;
 		if (lsang < 0.0)

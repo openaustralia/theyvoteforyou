@@ -1,4 +1,4 @@
-// $Id: radapplet.java,v 1.1 2004/10/19 22:57:30 goatchurch Exp $
+// $Id: radapplet.java,v 1.2 2004/11/19 22:15:23 goatchurch Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -37,7 +37,8 @@ public class radapplet extends JApplet
 
 		try
 		{
-			raddisp = new raddisplay(blairimg);
+			raddisp = new raddisplay(blairimg, true);
+			raddisp.radpane.SetDate(getParameter("startdate"), Integer.parseInt(getParameter("framemseconds")));
 			getContentPane().add("Center", raddisp);
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(ministers)));

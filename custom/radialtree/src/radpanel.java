@@ -33,6 +33,8 @@ import javax.swing.JLabel;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import java.net.URL;
 
@@ -53,39 +55,51 @@ public class radpanel extends JPanel implements MouseListener, MouseMotionListen
 	boolean bmousedown = false;
 	boolean bdisplaybio = false;
 
-	SimpleDateFormat formatter = new SimpleDateFormat("EEE d MMM yyyy");
+	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat longformatter = new SimpleDateFormat("d MMMM yyyy (EEEE)");
 	Date today = new Date();
+	String stoday;
 
 	JLabel labeldate; // copied from the display panel above
+	String sdate;
+	String sdatelong;
 
 	Thread animthread;
 
 	// the fonts we draw the text in
 	Font fontnormal;
 	Font fontbold;
+	Font fontlarge;
 	FontMetrics fmnormal;
 	FontMetrics fmbold;
+	FontMetrics fmlarge;
 
-	Color[] deptcols = { new Color(170, 0, 50),
-						new Color(0, 30, 110),
-						new Color(60, 130, 0),
+	Color[] deptcols = { new Color(230, 0, 0),
+						new Color(0, 30, 210),
+						new Color(20, 200, 0),
 						new Color(0, 0, 12),
+						new Color(150, 150, 12),
+						new Color(1, 150, 160),
+						new Color(140, 1, 160),
 					 } ;
 
-	Color colseldept = new Color(200, 0, 0);
 
 	/////////////////////////////////////////////
-	radpanel(String lblairimg) throws IOException
+	radpanel(String lblairimg, boolean bisurl) throws IOException
 	{
-System.out.println(formatter.format(today));
+		stoday = formatter.format(today);
 
 		addMouseListener(this);
         addMouseMotionListener(this);
-		//setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+System.out.println(stoday);
 System.out.println(lblairimg);
-		URL blairurl = new URL(lblairimg);
-		//blairimg = getToolkit().getImage("data/10047.jpg");
-		blairimg = getToolkit().getImage(blairurl);
+		if (bisurl)
+		{
+			URL blairurl = new URL(lblairimg);
+			blairimg = getToolkit().getImage(blairurl);
+		}
+		else
+			blairimg = getToolkit().getImage(lblairimg);
 	}
 
 	/////////////////////////////////////////////
@@ -104,8 +118,13 @@ System.out.println(lblairimg);
 
 			fontnormal = g.getFont();
 			fontbold = fontnormal.deriveFont(Font.BOLD);
+			fontlarge = fontnormal.deriveFont(fontnormal.getSize() * 1.5F);
+
 			fmnormal = g.getFontMetrics();
+			g.setFont(fontbold);
 			fmbold = g.getFontMetrics();
+			g.setFont(fontlarge);
+			fmlarge = g.getFontMetrics();
 
 			mintimes.updateofficebioW(fmnormal);
 
@@ -137,15 +156,32 @@ System.out.println(lblairimg);
 	}
 
 	/////////////////////////////////////////////
+	int bljit = 0;
+	boolean bblairjit = false;
+	int blw = -1;
+	int blh = -1;
     public void paintW(Graphics g)
 	{
-		g.setColor(Color.lightGray);
+		g.setColor(Color.white);
 		g.fillRect(0, 0, csize.width, csize.height);
+		g.setColor(Color.black);
+		g.drawRect(0, 0, csize.width - 1, csize.height - 1);
 
-		int lw = blairimg.getWidth(null);
-		int lh = blairimg.getHeight(null);
-		if ((lw != -1) && (lh != -1))
-			g.drawImage(blairimg, (csize.width - lw) / 2, (csize.height - lh) / 2, Color.black, null);
+		blw = blairimg.getWidth(null);
+		blh = blairimg.getHeight(null);
+		if ((blw != -1) && (blh != -1))
+		{
+			int blx = (csize.width - blw) / 2;
+			int bly = (csize.height - blh) / 2;
+
+			if (bblairjit)
+			{
+				blx += ((bljit & 1) == 0 ? 1 : -1);
+				bly += (((bljit + 3) & 2) == 0 ? 1 : -1);
+				bljit++;
+			}
+			g.drawImage(blairimg, blx, bly, Color.black, null);
+		}
 
 		if (bpositionsinvalid)
 		{
@@ -167,89 +203,138 @@ System.out.println(lblairimg);
 		}
     }
 
+	Color biobcol = new Color(0.8F, 0.8F, 1.0F);
+	Color deptbcol = new Color(1.0F, 0.9F, 0.9F);
+	Color colseldept = new Color(0.4F, 0.1F, 0.0F);
+	int biobpoff = 3;
+	int biobpwhoz = 3;
 	/////////////////////////////////////////////
     public void paintWoverlay(Graphics g)
 	{
 		g.setFont(fontbold);
+
 		// now the overlaid stuff
-		for (int i = 0; i < mintimes.personfloats.length; i++)
+		if (bselectdept)
 		{
-			personfloat personf = mintimes.personfloats[i];
-			if (personf.displaycode >= 2)
+			// draw the backgrounds
+			g.setColor(deptbcol);
+			for (int i = 0; i < mintimes.personfloats.length; i++)
 			{
-				g.setColor(personf.displaycode == 2 ? colseldept : Color.black);
-				g.drawString(personf.pname, personf.sx, personf.sy);
+				personfloat personf = mintimes.personfloats[i];
+				if (personf.displaycode == 2)
+					g.fillRect(personf.sx - biobpoff, personf.sy - fmbold.getAscent() - biobpoff, fmbold.stringWidth(personf.pname) + biobpoff * 2, fmbold.getHeight() + biobpoff * 2);
+			}
+
+			// draw the names
+			g.setColor(colseldept);
+			g.setFont(fontbold);
+			for (int i = 0; i < mintimes.personfloats.length; i++)
+			{
+				personfloat personf = mintimes.personfloats[i];
+				if (personf.displaycode == 2)
+					g.drawString(personf.pname, personf.sx, personf.sy);
 			}
 		}
 
 		// write in the department name
 		if (bselectdept && (personfactive != null))
 		{
+			g.setColor(deptbcol);
+			int depwid = fmlarge.stringWidth(personfactive.dept);
+			int depx = (csize.width - depwid) / 2;
+			int depy = fmlarge.getHeight() + 10;
+			g.fillRect(depx - biobpoff, depy - fmlarge.getAscent() - biobpoff, depwid + biobpoff * 2, fmlarge.getHeight() + biobpoff * 2);
+
+			g.setFont(fontlarge);
 			g.setColor(colseldept);
-			g.drawString(personfactive.dept, (csize.width - fmbold.stringWidth(personfactive.dept)) / 2, csize.height - fmbold.getHeight() - 10);
+			g.drawString(personfactive.dept, depx, fmlarge.getHeight() + 10);
 		}
 
 		// write in the bio text
 		else if ((personfactive != null) && bdisplaybio)
 		{
+			g.setColor(biobcol);
+			g.fillRect(personfactive.sx - biobpoff, personfactive.sy - fmbold.getAscent() - biobpoff, fmbold.stringWidth(personfactive.pname) + biobpoff * 2, fmbold.getHeight() + biobpoff * 2);
+			g.setColor(Color.black);
+			g.drawString(personfactive.pname, personfactive.sx, personfactive.sy);
+
 			g.setFont(fontnormal);
-			g.setColor(Color.white);
+			g.setColor(biobcol);
 			int rx = personfactive.sx - personfactive.maxdstringwidth / 2;
 			int ry = personfactive.sy + fmnormal.getHeight() + 3;
 			int rw = personfactive.maxdstringwidth;
 			int rh = fmnormal.getHeight() * personfactive.officebio.length;
 
-			if (rx < 3)
-				rx = 3;
-			if (rx + rw > csize.width - 3)
-				rx = csize.width - 3 - rw;
-			g.fillRect(rx - 3, ry - fmnormal.getAscent() - 3, rw + 6, rh + 6);
+			if (rx < biobpoff + biobpwhoz)
+				rx = biobpoff + biobpwhoz;
+			if (rx + rw > csize.width - (biobpoff + biobpwhoz))
+				rx = csize.width - (biobpoff + biobpwhoz) - rw;
+			g.fillRect(rx - biobpoff, ry - fmnormal.getAscent() - biobpoff, rw + biobpoff * 2, rh + biobpoff * 2);
+			g.setColor(Color.blue);
+			g.drawRect(rx - biobpoff, ry - fmnormal.getAscent() - biobpoff, rw + biobpoff * 2, rh + biobpoff * 2);
 
 			g.setColor(Color.black);
 			for (int i = 0; i < personfactive.officebio.length; i++)
 				g.drawString(personfactive.officebio[i], rx, ry + i * fmnormal.getHeight());
 		}
+
+		// write the date
+		int sdwid = fmlarge.stringWidth(sdatelong);
+		int sdheg = fmlarge.getHeight();
+		int sdx = (csize.width - sdwid) / 2;
+		int sdy = csize.height - sdheg - 10;
+		g.setColor(biobcol);
+		g.fillRect(sdx - biobpoff, sdy - fmlarge.getAscent() - biobpoff, sdwid + biobpoff * 2, sdheg + biobpoff * 2);
+		g.setColor(Color.blue);
+		g.drawRect(sdx - biobpoff, sdy - fmlarge.getAscent() - biobpoff, sdwid + biobpoff * 2, sdheg + biobpoff * 2);
+		g.setFont(fontlarge);
+		g.setColor(Color.black);
+		g.drawString(sdatelong, sdx, sdy);
 	}
 
 
+	int framemseconds = 50;
 
-	static int nyear = 1997;
-	static int nmonth = 6;
-	static int nday = 1;
+	int nyear = 1999;
+	int nmonth = 9;
+	int nday = 3;
+	Calendar ncaldate = new GregorianCalendar();
 
 	/////////////////////////////////////////////
-	void AdvanceTime(boolean bforward, boolean bbyday)
+	public void SetDate(String sdate, int lframemseconds)
 	{
-		if (bforward)
-		{
-			if (bbyday)
-				nday++;
-			if (!bbyday || (nday >= 32))
-			{
-				nmonth++;
-				if (nmonth > 12)
-				{
-					nmonth = 1;
-					nyear++;
-				}
-			}
-		}
-		else
-		{
-			if (bbyday)
-				nday--;
-			if (!bbyday || (nday <= 0))
-			{
-				nmonth--;
-				if (nmonth <= 0)
-				{
-					nmonth = 12;
-					nyear--;
-				}
-			}
-		}
+		if (lframemseconds > 0)
+			framemseconds = lframemseconds;
 
-		String sdate = nyear + "-" + (nmonth < 10 ? "0" : "") + nmonth + "-" + (nday < 10 ? "0" : "") + nday;
+		// 1997-05-02
+		try
+		{
+			nyear = Integer.parseInt(sdate.substring(0, 4));
+			nmonth = Integer.parseInt(sdate.substring(5, 7));
+			nday = Integer.parseInt(sdate.substring(8, 10));
+			ncaldate.set(nyear, nmonth - 1, nday);
+		}
+		catch (Exception e)
+		{
+			System.out.println("date not in yyy-mm-dd form.");
+		}
+	}
+
+
+	/////////////////////////////////////////////
+	// a month means 30 days
+	// a year means 300 days
+	void AdvanceTime(int ndays)
+	{
+		if (Math.abs(ndays) == 1)
+			ncaldate.add(Calendar.DATE, ndays);
+		if (Math.abs(ndays) == 30)
+			ncaldate.add(Calendar.MONTH, ndays / 30);
+		if (Math.abs(ndays) == 300)
+			ncaldate.add(Calendar.YEAR, ndays / 300);
+
+		sdate = formatter.format(ncaldate.getTime());
+		sdatelong = longformatter.format(ncaldate.getTime());
 		labeldate.setText(sdate);
 		mintimes.AllocateSectors(sdate);
 
@@ -283,7 +368,7 @@ System.out.println(lblairimg);
 			}
 		    try
 			{
-				Thread.sleep(50);
+				Thread.sleep(framemseconds);
 		    }
 			catch (InterruptedException e)
 			{
@@ -308,6 +393,9 @@ System.out.println(lblairimg);
 		bmousedown = true;
 		bdisplaybio = ((personfactive != null) && !bselectdept);
 		repaint();
+
+		if ((Math.abs(csize.width / 2 - e.getX()) < 5) && (Math.abs(csize.height / 2 - e.getY()) < 5))
+			bblairjit = !bblairjit; 
 	}
 
     public void mouseReleased(MouseEvent e)

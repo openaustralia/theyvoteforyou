@@ -97,7 +97,13 @@ class personoffice
 		startdate = lstartdate;
 		stopdate = lstopdate;
 		position = lposition;
-		dept = ldept;
+
+		// substitute using old technology without regexps
+		int iamp = ldept.indexOf("&amp;"); 
+		if (iamp != -1)
+			dept = ldept.substring(0, iamp) + "&" + ldept.substring(iamp + 5);
+		else
+			dept = ldept;
 
 		rank = -1;
 		for (int j = 0; j < ranks.length; j++)
