@@ -159,11 +159,11 @@ def WriteXMLChunk(fout, qb, sdate, tagname, body):
 
 	spurl = qb.sstampurl.GetUrl()
 
-	speaker = ''
 
 	# OK, having DIVISION here is a bit of a hack - the qb.speaker variable could
 	# be renamed to qb.attributes, for this new general purpose attribute store
 	# (it contains divnumber= and divdate= for divisions)
+	speaker = ''
 	if tagname == 'speech' or tagname == 'DIVISION':
 		speaker = qb.speaker
 
@@ -218,12 +218,10 @@ def NormalHeadingPart(sht0, stampurl, sdate):
 		stampurl.title = ''
 		qb = qspeech('', stampurl.majorheading, stampurl, sdate)
 		qb.typ = 'debmajor'
-		qb.stext = [ stampurl.majorheading ] 
 
 	else:
 		qb = qspeech('', stampurl.title, stampurl, sdate)
 		qb.typ = 'debminor'
-		qb.stext = [ stampurl.title ] 
 
 	return (divno, qb)	
 
@@ -315,8 +313,11 @@ def FilterDebateSections(fout, text, sdate):
 		for qb in qblock:
 			if qb.typ == 'debdiv':
 				FilterDivision(qb)
-			else:
+			elif qb.typ == 'debspeech':
 				FilterDebateSpeech(qb)
+			# heading type 
+			else:
+				qb.stext = [ qb.text ] 
 		
 
 
