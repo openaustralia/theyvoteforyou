@@ -137,17 +137,18 @@ def GlueByNext(fout, url, urlx):
 
 
 # now we have the difficulty of pulling in the first link out of this silly index page
-def ExtractFirstLink(url, dgf):
+def ExtractFirstLink(url, dgf, forcescrape):
         request = urllib2.Request(url)
-        if os.path.exists(dgf):
+        if not forcescrape and os.path.exists(dgf):
                 mtime = os.path.getmtime(dgf)
                 mtime = time.gmtime(mtime)
                 mtime = time.strftime("%a, %d %b %Y %H:%M:%S GMT", mtime)
                 request.add_header('If-Modified-Since', mtime)
         opener = urllib2.build_opener( DefaultErrorHandler() )
         urx = opener.open(request)
-        if urx.status == 304:
-                return ''
+        if hasattr(urx, 'status'):
+                if urx.status == 304:
+                        return ''
 
 	while 1:
 		xline = urx.readline()
@@ -183,7 +184,7 @@ def getHTMLdiffname(jfout):
         return res
 
 # read through our index list of daydebates
-def GlueAllType(pcmdir, cmindex, nametype, fproto, deleteoutput):
+def GlueAllType(pcmdir, cmindex, nametype, fproto, forcescrape):
 	if not os.path.isdir(pcmdir):
 		os.mkdir(pcmdir)
 
@@ -199,7 +200,7 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto, deleteoutput):
 		urlx = dnu[2]
 
 
-		url0 = ExtractFirstLink(urlx, dgf)
+		url0 = ExtractFirstLink(urlx, dgf, forcescrape)
                 if not url0:
                         continue
 
@@ -227,7 +228,7 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto, deleteoutput):
 ###############
 # main function
 ###############
-def PullGluePages(datefrom, dateto, deleteoutput, folder, typ):
+def PullGluePages(datefrom, dateto, forcescrape, folder, typ):
 	# make the output firectory
 	if not os.path.isdir(pwcmdirs):
 		os.mkdir(pwcmdirs)
@@ -244,6 +245,6 @@ def PullGluePages(datefrom, dateto, deleteoutput, folder, typ):
 	# third parameter is a regexp, fourth is the filename (%s becomes the date).
 	# type is "answers" or "debates"
 	pwcmfolder = os.path.join(pwcmdirs, folder)
-	GlueAllType(pwcmfolder, ccmindex.res, typ + '(?i)', typ + '%s.html', deleteoutput)
+	GlueAllType(pwcmfolder, ccmindex.res, typ + '(?i)', typ + '%s.html', forcescrape)
 
 
