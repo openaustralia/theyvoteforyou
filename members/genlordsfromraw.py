@@ -1,7 +1,7 @@
 import re
 import os
 import sys
-import string 
+import string
 
 import mx.DateTime
 
@@ -68,7 +68,7 @@ class lordrecord:
 
 
 def lrsort(nr1, nr2):
-	return nr1.daltname() < nr2.daltname()
+	return cmp(nr1.daltname(), nr2.daltname())
 
 #	<TR VALIGN=TOP>
 #		<TD WIDTH=222 HEIGHT=16 BGCOLOR="#ffffbf">
@@ -96,10 +96,14 @@ class lordsrecords:
 
 		# these work on blank fields
 
+		# match by title
+		retit = re.compile(ltitle, re.I)
+
         # match by name
+		# and match by title
 		lr1a = [ ]
 		for r in self.lordrec:
-			if lname == r.lordname:
+			if retit.match(r.title) and (lname == r.lordname):
 				lr1a.append(r)
 
 		# match by ofname
@@ -108,25 +112,26 @@ class lordsrecords:
 			if lofname == r.lordofname:
 				lr1.append(r)
 
+		# match by cross-over if no matches here
+		if (not lr1) and (not lofname):
+			for r in self.lordrec:
+				if (not r.lordname) and (lname == r.lordofname) and retit.match(r.title):
+					lr1.append(r)
+		# the other cross-over (maybe should offer a correction)
+		if (not lr1) and (not lname):
+			for r in self.lordrec:
+				if (not r.lordofname) and (lofname == r.lordname) and retit.match(r.title):
+					lr1.append(r)
+
 		# no match cases
 		if not lr1:
 			return None
 
-		# match by title
-		retit = re.compile(ltitle, re.I)
-		lr2 = [ ]
-		for r in lr1:
-			if retit.match(r.title):
-				lr2.append(r)
+		if len(lr1) != 1:
+			print lr1
+		assert len(lr1) == 1
 
-		if not lr2:
-			return None
-
-		if len(lr2) != 1:
-			print lr2
-		assert len(lr2) == 1
-
-		return lr2[0]
+		return lr1[0]
 
 
 
@@ -141,7 +146,12 @@ class lordsrecords:
 		if r:
 			r.frontnames = nr.frontnames
 			r.comments = nr.comments
+			if (not r.lordofname) and (not nr.lordname):
+				print "Correcting %s to %s" % (r, nr)
+				r.lordname = nr.lordname
+				r.lordofname = nr.lordofname
 		else:
+			print nr
 			nr.comments = nr.comments + " -- in extname, missing from mainlists"
 			self.lordrec.append(nr)
 
@@ -188,9 +198,9 @@ def LoadTableWithFromDate(fpath, fname):
 		if not lfn:
 			print lordfname
 		lordrec.title = titleconv[lfn.group(3)]
-		lordrec.lordname = lfn.group(1)
+		lordrec.lordname = string.replace(lfn.group(1), ".", "")
 		if lfn.group(2):
-			lordrec.lordofname = lfn.group(2)
+			lordrec.lordofname = string.replace(lfn.group(2), ".", "")
 
 		# map the bishops into of-names
 		if re.search('bishop(?i)', lordrec.title):
@@ -226,9 +236,9 @@ def LoadExtendedNames(fpath, fname):
 		lordrec.source = fname
 
 		lordrec.title = fnm.group(4)
-		lordrec.lordname = string.capwords(re.sub('&#8217;', "'", fnm.group(1)))
+		lordrec.lordname = string.replace(string.capwords(re.sub('&#8217;', "'", fnm.group(1))), ".", "")
 		if fnm.group(2):
-			lordrec.lordofname = string.capwords(fnm.group(2))
+			lordrec.lordofname = string.replace(string.capwords(fnm.group(2)), ".", "")
 		lordrec.frontnames = string.capwords(fnm.group(3))
 		if fnm.group(5):
 			assert not lordrec.lordofname
@@ -267,6 +277,9 @@ for nr in rr3:
 # get the list sorted
 rr.lordrec.sort(lrsort)
 
+#for i in rr.lordrec:
+#	print i.daltname()
+
 # write out the file
 lordsxml = open('all-lords.xml', "w")
 lordsxml.write("""<?xml version="1.0" encoding="ISO-8859-1"?>
@@ -296,7 +309,7 @@ lordsxml.write("""
 
 <lordalias fullname="The Lord Bishop of Salisbury" alternate="Lord Bishop of Salisbury" />
 <lordalias fullname="The Lord Bishop of London" alternate="Lord Bishop of London" />
-<lordalias fullname="St. Edmundsbury and Ipswich" alternate="Edmundsbury and Ipswich" />
+<lordalias fullname="The Lord Bishop of St Edmundsbury and Ipswich" alternate="The Lord Bishop of Edmundsbury and Ipswich" />
 """)
 
 lordsxml.write("\n</publicwhip>\n")

@@ -61,18 +61,32 @@ class LordsList(xml.sax.handler.ContentHandler):
 		if name == "lordalias":
 			self.aliasfulllordname[attr["alternate"]] = attr["fullname"]
 
+
 	# main matchinf function
-	def MatchLordName(self, ltitle, llordname, llordofname):
+	def GetLordID(self, ltitle, llordname, llordofname):
+		if ltitle == "Lord Bishop":
+			ltitle = "Bishop"
+		llordofname = string.replace(llordofname, ".", "")
+		llordname = string.replace(llordname, ".", "")
 
 		lname = llordname
 		if not lname:
 			lname = llordofname
+		lmatches = self.lordnames.get(lname, [])
 
-		lmatches = self.lordnames.get(lname, None)
-		if lmatches: # any number for now
-			return lmatches[0]["id"]
- 		print "Not found " + lname
-		return "unrecognized"
+		res = [ ]
+		for lm in lmatches:
+			if (lm["title"] == ltitle) and (lm["lordname"] == llordname) and (lm["lordofname"] == llordofname):
+				res.append(lm)
+
+		if len(res) != 1:
+			print (ltitle, llordname, llordofname)
+			print "Not matched in "
+			for lm in lmatches:
+				print "%s [%s] [of %s]" % (lm["title"], lm["lordname"], lm["lordofname"])
+			raise Exception, "no match of name"
+
+		return res[0]["id"]
 
 
 	def MatchRevName(self, fss, stampurl):
@@ -81,20 +95,42 @@ class LordsList(xml.sax.handler.ContentHandler):
 			print fss
 			raise ContextException("No match of format", stamp=stampurl, fragment=fss)
 		ltitle = titleconv[lfn.group(3)]
-		llordname = lfn.group(1)
-		llordofname = None
+		llordname = string.replace(lfn.group(1), ".", "")
+		llordofname = ""
 		if lfn.group(2):
-			llordofname = lfn.group(2)
+			llordofname = string.replace(lfn.group(2), ".", "")
 
-		return self.MatchLordName(ltitle, llordname, llordofname)
+		# inline of the LordID stuff, but with more forgiving matches
+		# the The Bish of X is represented as X, Bp
+		lname = llordname
+		if not lname:
+			lname = llordofname
+		lmatches = self.lordnames.get(lname, [])
 
-# main function
+		res = [ ]
+		for lm in lmatches:
+			if lm["title"] == ltitle:
+				if llordofname or lm["lordname"]:
+					if (lm["lordname"] == llordname) and (lm["lordofname"] == llordofname):
+						res.append(lm)
+				elif lm["lordofname"] == llordname:
+					res.append(lm)
+
+
+		if len(res) != 1:
+			print fss
+			print "Not matched in "
+			for lm in lmatches:
+				print "%s [%s] [of %s]" % (lm["title"], lm["lordname"], lm["lordofname"])
+			raise Exception, "no match of revname"
+
+		return res[0]["id"]
+
+
+# main function getting something from list
 lordlist = LordsList()
 def GetLordSpeakerID(ltitle, llordname, llordofname, loffice, sdate):
-	lid = lordlist.MatchLordName(ltitle, llordname, llordofname)
-	if lid == "unrecognized":
-		print (ltitle, llordname, llordofname)
-		raise Exception, "no matched name"
+	lid = lordlist.GetLordID(ltitle, llordname, llordofname)
 	return lid
 
 
@@ -219,8 +255,10 @@ def LordsFilterSpeakers(fout, text, sdate):
 			ltit = hom.group(2)
 			lname = hom.group(3)
 		else:
-			lname = None   # or "The"
-		lplace = hom.group(4)
+			lname = ""
+		lplace = ""
+		if hom.group(4):
+			lplace = hom.group(4)
 
 		lsid = GetLordSpeakerID(ltit, lname, lplace, loffice, sdate)
 
