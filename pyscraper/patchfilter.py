@@ -29,9 +29,11 @@ def ApplyPatches(filein, fileout):
                 if status == 0:
                         return True
 
-                print "Error running 'patch' on file %s, blanking it out" % fileshort
-                os.rename(patchfile, patchfile + ".old~")
-                blankfile = open(patchfile, "w")
-                blankfile.close()
+                raise Exception, "Error running 'patch' on file %s" % fileshort
+
+                #print "blanking out %s" % fileshort
+                #os.rename(patchfile, patchfile + ".old~")
+                #blankfile = open(patchfile, "w")
+                #blankfile.close()
                 
 
