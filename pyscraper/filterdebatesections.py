@@ -248,8 +248,12 @@ def FilterDebateSections(fout, text, sdate):
                         # so doesn't fit into the scheme.
 
 			# detect if this is a major heading and record it in the correct variable
-			bmajorheading = sht[0] and (not re.search('[a-z]', sht[0])) and not sht[2]
-			if bmajorheading:
+
+                        bmajorheading = None
+
+                        # All upper case headings - these tend to be uniform, so we can check their names
+                        if not re.search('[a-z]', sht[0]):
+                                bmajorheading = sht[0]
 				stampurl.majorheading = None
 				for knhd in parlPhrases.debatemajorheadings:
 					if re.match(knhd, sht[0]):
@@ -257,6 +261,13 @@ def FilterDebateSections(fout, text, sdate):
 						break
 				if not stampurl.majorheading:
 					raise Exception, "unrecognized major heading: %s" % (sht[0])
+				stampurl.title = ''
+
+                        # Other major headings, marked by _head in their anchor tag - doesn't seem
+                        # worth checking their names.
+                        if re.search('_head', stampurl.aname):
+                                bmajorheading = sht[0]
+				stampurl.majorheading = sht[0]
 				stampurl.title = ''
                                 
                         # write out block for headings

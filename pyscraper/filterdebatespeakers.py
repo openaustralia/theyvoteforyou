@@ -41,7 +41,7 @@ fixsubs = 	[
 # <B> Mr. Hutton: </B>
 # 2. <stamp aname="40205-06_para4"/><B> Mr. Colin Breed</B>:
 
-parties = "|".join(map(string.lower, memberList.partylist())) + "|uup"
+parties = "|".join(map(string.lower, memberList.partylist())) + "|uup|ld"
 regspeaker = '(?:\d+\. )?(?:<stamp aname=".*?"/>)?<b>[^<]*</b>(?:\s*\((?:' + parties + ')\))?\s*:?(?i)'
 respeakervals = re.compile('(?:(\d+)\. )?(<stamp aname=".*?"/>)?<b>([^:<(]*?):?\s*(?:\((.*?)\))?\s*:?\s*</b>(?:\s*\((' + parties + ')\))?(?i)')
 
