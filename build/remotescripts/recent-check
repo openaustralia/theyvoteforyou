@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cat /home/francis/www.publicwhip.org.uk_logs/access_log | grep "GET /wrans.php?id=" | cut -d " " -f7 | sort | uniq -c | sort | tac | cut -d "=" -f 2 > ~/pwdata/wrans-recent-popular.txt
+cat /home/francis/www.publicwhip.org.uk_logs/access_log | grep "GET /wrans.php?id=" | cut -d " " -f7 | sort | uniq -c | sort -n | tac | cut -d "=" -f 2 > ~/pwdata/wrans-recent-popular.txt
 
