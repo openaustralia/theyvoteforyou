@@ -117,13 +117,13 @@ TABLE TD.layout
 .footerleft
 {
     FLOAT: left;
-    WIDTH: 33%;
+    WIDTH: 45%;
     TEXT-ALIGN: left
 }
 .footerright
 {
     FLOAT: right;
-    WIDTH: 33%;
+    WIDTH: 45%;
     TEXT-ALIGN: right
 }
 TABLE
