@@ -24,6 +24,8 @@ from miscfuncs import WriteXMLFile
 from filterwransques import FilterQuestion
 from filterwransreply import FilterReply
 
+from contextexception import ContextException
+
 fixsubs = 	[
 	('<intro><date> </intro><dpthd>', '', 1, '2003-10-06'), 
 	('how many crimes have been', '\\1 (1)', 1, '2004-03-04'),
@@ -311,8 +313,8 @@ def FilterWransSections(fout, text, sdate):
 				flatb.append(qb)
 
 		if not bNextStartofQ:
-			print speechestxt
-			raise Exception, "missing answer to question"
+                        # Note - not sure if this should be speechestxt[0][1] here.  Does what I want for now...
+			raise ContextException("missing answer to question", stamp=stampurl, fragment=speechestxt[0][1])
 
 
 	# we now have everything flattened out in a series of speeches,

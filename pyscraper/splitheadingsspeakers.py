@@ -26,6 +26,11 @@ class StampUrl:
 		# last <a name=""> html code, for identifying major headings
 		self.aname = ''
 
+        def __repr__(self):
+                col = re.search('colnum="(.*?)"', self.stamp).group(1)
+                anchor = re.search('aname="(.*?)"', self.aname).group(1)
+                return "<< StampURL date:%s col:%s aname:%s >>" % (self.sdate, col, anchor)
+
 	# extract the stamp codes from the text, and return the glued together text.
 	def UpdateStampUrl(self, text):
 		# remove the stamps from the text, checking for cases where we can glue back together.

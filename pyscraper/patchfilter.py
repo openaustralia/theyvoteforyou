@@ -5,6 +5,8 @@ import os
 import shutil
 
 def ApplyPatches(filein, fileout):
+        return False
+
         # Generate short name such as wrans/answers2003-03-31.html
         (rest, name) = os.path.split(filein)
         (rest, dir) = os.path.split(rest)
