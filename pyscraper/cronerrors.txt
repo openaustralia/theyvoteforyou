@@ -7,6 +7,8 @@ Out of sequence dates are when the rescraper picked up new stuff?
 CRON = cron job on baked
 PWIP = weekly Public Whip update
 
+CRON 2004-05-12 Missing "Robertson:" at end of name, limit to ask the
+CRON 2004-05-17 Missing "to" in "to ask"
 CRON 2004-04-29 Missing bold on name
 CRON 2004-05-04 A couple of missing "to ask the"
 CRON 2004-05-?? Some names needing <B> tags 
