@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: dreamplot.php,v 1.1 2005/03/31 22:58:54 frabcus Exp $
+# $Id: dreamplot.php,v 1.2 2005/03/31 23:14:32 frabcus Exp $
 
 # Print information about all MPs and how they compare to the given
 # Dream MP.
@@ -20,7 +20,8 @@ update_dreammp_person_distance($db, $dreamid); # new method
 // Calculate number of MPs with distance to Dream MP in each of
 // $divisions blocked off ranges (between 0.0 and 1.0).
 $query = "select person, distance_a 
-          from pw_cache_dreamreal_distance where rollie_id = $dreamid";
+          from pw_cache_dreamreal_distance 
+          where rollie_id = $dreamid";
 $db->query($query);
 $divisions = 10;
 $data = array();

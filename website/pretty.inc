@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.20 2005/03/09 19:38:51 goatchurch Exp $
+# $Id: pretty.inc,v 1.21 2005/03/31 23:14:32 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -213,6 +213,28 @@ function trim_characters ($text, $start, $length) {
 	
 	return $text;
 }
+
+// This function from http://uk2.php.net/wordwrap
+/**
+ * soft_hypen() inserts soft hyphens (or user defined) in words that exceed certain length.
+ *
+ * @param $text    Text to hyphenate.
+ * @param $max    Max word size.
+ * @param $char Hyphenate character.  Defaults to HTML soft hyphen �.
+ * @return    The text with inserted soft hyphens.
+ **/
+function soft_hyphen($text, $max, $char = "- <br>")
+{
+   $words = explode(' ', $text);
+   foreach($words as $key => $word)
+   {
+       $length = strlen($word);
+       if($length > $max)
+           $word = chunk_split($word, floor($length/ceil($length/$max)), $char);
+       $words[$key] = $word;
+   }
+   return implode(' ', $words);
+} 
 
 /* Safe tag stripping code from Matthew Somerville, thanks Matthew! */
 

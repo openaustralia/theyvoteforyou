@@ -75,7 +75,7 @@ you like.  For example:
         <td>Name</td>
         <td>Made by</td>
         <td>Description</td>
-        <td>Profile</td>
+        <td>MP Dists</td>
         </tr>";
 
 
@@ -93,7 +93,7 @@ you like.  For example:
 
         print "<td>" . $row['count'] . "</td>\n";
         print "<td>" . percentise($row['motions_percent']) . "</td>";
-        print "<td><a href=\"dreammp.php?id=$dreamid\">" . trim_characters($row['name'],0,20) . "</a></td>";
+        print "<td><a href=\"dreammp.php?id=$dreamid\">" . soft_hyphen($row['name'],25) . "</a></td>";
         print "<td>" . html_scrub($row['user_name']) . "</td>";
         print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 150);
         if ($your_dmp) {
