@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.13 2005/03/18 15:36:27 frabcus Exp $
+-- $Id: create.sql,v 1.14 2005/03/28 10:06:20 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -218,5 +218,27 @@ create table pw_cache_dreamreal_score (
     index(person),
     unique(rollie_id, person),
 );
+
+-- New version of pw_cache_dreamreal_score
+create table pw_cache_dreamreal_distance (
+    rollie_id int not null,
+    person int not null,
+
+    -- number of votes same / different / MP absent
+    nvotessame int,
+    nvotessamestrong int,
+    nvotesdiffer int,
+    nvotesdifferstrong int,
+    nvotesabsent int,
+    nvotesabsentstrong int,
+
+    distance_a float, -- use abstentions
+    distance_b float, -- ignore abstentions
+
+    index(rollie_id),
+    index(person),
+    unique(rollie_id, person)
+);
+
 
 -------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 <?php
 
-include_once "gather.inc";
+include_once "wiki.inc";
 
 # Return score and what it is out of for how much the MP follows the "whip" of
 # the Dream MP.  The "_a" here means this is scoring system A.

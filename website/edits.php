@@ -8,7 +8,7 @@
     # For details see the file LICENSE.html in the top level of the source.
 
     include "db.inc";
-    include "gather.inc";
+    include "wiki.inc";
     include "pretty.inc";
     $db = new DB(); 
 

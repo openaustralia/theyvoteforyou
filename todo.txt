@@ -1,3 +1,10 @@
+Sort out this todo list
+Put up a project help page for motion/dream mp editors.
+Sort out java applets, how to link to them. 
+Rewrite description of formula.
+Easier email signup
+Wiki the title
+
 Wiki
 ----
 
@@ -21,6 +28,10 @@ Forward/back division - show nearby divisions names
 
 General
 -------
+
+Plot graph of number of MPs with < x of score
+
+Search broken completely for titles of things
 
 Search needs to search wiki text and Dream MP text
 

@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.6 2005/02/18 19:43:41 frabcus Exp $
+# $Id: wiki.php,v 1.7 2005/03/28 10:06:21 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -21,6 +21,7 @@ if (user_isloggedin()) # User logged in, show settings screen
 {
     $key = db_scrub($_GET["key"]);
     $newtext = db_scrub($_POST["newtext"]);
+    $submit = db_scrub($_POST["submit"]);
     $r = db_scrub($_GET["r"]);
 
     $title = "Edit Text"; 

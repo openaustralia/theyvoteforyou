@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.59 2005/03/22 00:44:40 goatchurch Exp $
+# $Id: division.php,v 1.60 2005/03/28 10:06:21 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -11,9 +11,9 @@
     $db = new DB();
     $db2 = new DB();
 
-    include "gather.inc";
    	include "decodeids.inc";
 	include "tablepeop.inc";
+	include "tablemake.inc";
 
 
 	# decode the attributes
@@ -177,7 +177,7 @@
 						 sum(vote = 'tellaye' or vote = 'tellno') AS tellers
 				  FROM pw_vote WHERE division_id = $div_id";
 		$row = $db->query_one_row_assoc($query);
-        print "<br>On $prettydate, $turnout MPs voted in division no. $div_no in the House of Commons.
+        print "<br>On ".$divattr['prettydate'].", $turnout MPs voted in division no. $div_no in the House of Commons.
             <br>Subject was '$name'
             <br>Votes were ".$row["ayes"]." aye, ".$row["noes"]." no, ".$row["boths"]." both, ".$row["tellers"]." tellers.
             There were $rebellions rebellions against majority party vote.";
@@ -218,7 +218,7 @@
 	        print "<div class=\"motion\">" . sanitise_wiki_text_for_display($motion_data['text_body']); # TODO: validate this text_body
 	        print "</div>\n";
 
-	    	print "<p><a href=\"account/wiki.php?key=$motion_key&r=" .
+	    	print "<p><a href=\"account/wiki.php?key=".$divattr["motion_key"]."&r=" .
 	         urlencode($_SERVER["REQUEST_URI"]) . "\">Edit and correct this motion</a>";
 	        if ($motion_data['user_id'] != 0) {
 	            $db->query("select * from pw_dyn_user where user_id = " . $motion_data['user_id']);
@@ -279,7 +279,7 @@
 
 
 
-        $partysummary = GetPartyVoteSummary($db, $div_id);
+        $partysummary = GetPartyVoteSummaryH($db, $div_id);
 
         # Make table
         print "<table><tr class=\"headings\"><td>Party</td><td>Ayes</td><td>Noes</td>";
