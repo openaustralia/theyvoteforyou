@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.16 2004/01/20 22:21:04 frabcus Exp $
+# $Id: search.php,v 1.17 2004/01/20 23:37:41 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -115,7 +115,10 @@
         if ($db->rows() > 0)
         {
             $found = true;
-            print "<p>Found these MPs matching '$prettyquery':";
+            print "<p>Found these MPs matching ";
+            if ($postcode)
+                print "postcode ";
+            print "'$prettyquery':";
             print "<table class=\"mps\"><tr
                 class=\"headings\"><td>Date</td><td>Name</td><td>Constituency</td><td>Party</td></tr>\n";
             $prettyrow = 0;
@@ -144,7 +147,7 @@
         if (!$found)
         {
 ?>
-<p>Nothing found matching '<?=$prettyquery?>'.
+<p>Nothing found matching <? if ($postcode) print "postcode "; ?> '<?=$prettyquery?>'.
 <p>Try browsing the list of <a href="mps.php">all MPs</a>
 or <a href="divisions.hphp">all divisions</a>.
 <?php

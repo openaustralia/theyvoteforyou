@@ -5,7 +5,7 @@ include "constituencies.inc";
 
 function is_postcode($postcode)
 {
-    return preg_match("/[A-Z]{1,2}\d[A-Z\d]? ?\d[ABD-HJLNP-UW-Z]{2}/i", $postcode);
+    return preg_match("/^[A-Z]{1,2}\d[A-Z\d]? ?\d[ABD-HJLNP-UW-Z]{2}$/i", $postcode);
 }
 
 function startElement($parser, $name, $attrs) 
