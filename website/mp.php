@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.33 2004/04/24 11:32:07 frabcus Exp $
+    # $Id: mp.php,v 1.34 2004/06/22 01:54:06 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -10,8 +10,6 @@
     include "db.inc";
     include "parliaments.inc";
     include "constituencies.inc";
-	include "xquery.inc";
-	include "protodecode.inc";
     $db = new DB(); 
 
     $first_name = db_scrub($_GET["firstname"]);
@@ -76,7 +74,7 @@
         rebellions, votes_attended, votes_possible,
         entered_house, left_house,
         entered_reason, left_reason,
-        tells from pw_mp,
+        tells, person from pw_mp,
         pw_cache_mpinfo where
         pw_mp.mp_id = pw_cache_mpinfo.mp_id and ";
     $query .= "first_name = '$first_name' and last_name='$last_name' and";
@@ -99,6 +97,7 @@
     $dates = array();
     $enter_reason = array();
     $left_reason = array();
+    $person = 0;
     print "<table><tr class=\"headings\">";
     print "<td>Party</td>
             <td>From</td><td>To</td>
@@ -124,6 +123,7 @@
         array_push($dates, $row[11]);
         array_push($enter_reason, $row[13]);
         array_push($left_reason, $row[14]);
+        $person = $row[16];
     }
     print "</table>";
 ?>
@@ -302,43 +302,10 @@
 
 <?php
 	print "<h2><a name=\"wrans\">Written Answers</a></h2>";
-	print "<p>Parliamentary written questions which this MP has asked or answered.  Data
-		goes back to the start of 2003.";
-	$totalfound = 0;
-	for ($i = 0; $i < count($mp_ids); ++$i)
-	{
-		$searchkey = $mp_ids[$i] . "member";
-		$ids = DecodeWord($searchkey);
-		if (count($ids) > 0)
-		{
-			$totalfound += count($ids);
-
-			$result = "";
-			foreach ($ids as $id)
-				$result .= FetchWrans($id);
-			$result = WrapResult($result);
-			
-			if ($expand)
-				print ApplyXSLT($result, "wrans-full.xslt");
-			else
-				print ApplyXSLT($result, "wrans-table.xslt");
-
-		}
-			
-		# Until we have more historic written answers this makes no sense:
-        #print "<h3>" . pretty_parliament_and_party($dates[$i], $parties[$i], $enter_reason[$i], $left_reason[$i]). "</h3>";
-	}
-	if ($totalfound == 0)
-	{
-		print "<p>None found.";
-	}
-	else
-	{
-		if (!$expand)
-			print "<p><a href=\"$this_anchor&expand=yes#wrans\">Show contents of all these Written Answers on one large page</a></p>";
-		else
-			print "<p><a href=\"$this_anchor&expand=no#wrans\">Collapse all these answers into a summary table</a></p>";
-	}
+    print "<p>Parliamentary written questions which this MP has asked or answered. ";
+	print "<br>These are now available from <a href=\"http://www.theyworkforyou.com/search?pid=".urlencode($person).
+        "&maj=wrans\">TheyWorkForYou.com</a>.";
+    $searchkey = $mp_ids[0];
 ?>
 	
 

@@ -1,5 +1,5 @@
 <?php 
-    # $Id: wrans.php,v 1.16 2004/06/19 09:58:02 frabcus Exp $
+    # $Id: wrans.php,v 1.17 2004/06/22 01:54:06 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -8,7 +8,6 @@
 
     include "db.inc";
     include "parliaments.inc";
-    include "wrans.inc";
     $db = new DB(); 
 
     $prettysearch = html_scrub(trim($_GET["search"]));
@@ -20,84 +19,38 @@
 	if ($prettysearch != "")
 	{
 		// Search query
-		$title = "Written Answers matching '$prettysearch'";
-		include "header.inc";
-		$ids = wrans_search($prettysearch);	
-		if (count($ids) > 1000)
-		{
-			print "<p>More than 1000 matches, showing only first 1000.";
-			$ids = array_slice($ids, 0, 1000);
-		}
-		if (count($ids) > 0)
-		{
-			$result = "";
-			foreach ($ids as $id)
-				$result .= FetchWrans($id);
-			$result = WrapResult($result);
-			print "<p>Found these " . count($ids) . " Written Answers matching '$prettysearch':";
-
-			if ($expand)
-				print ApplyXSLT($result, "wrans-full.xslt");
-			else
-				print ApplyXSLT($result, "wrans-table.xslt");
-
-			$url = "wrans.php?search=" . urlencode($_GET["search"]);
-			if (!$expand)
-				print "<p><a href=\"$url&expand=yes\">Show contents of all these Written Answers on one large page</a></p>";
-			else
-				print "<p><a href=\"$url&expand=no\">Collapse all these answers into a summary table</a></p>";
-
-		}
-		else
-		{
-			print "<p>Not found any Written Answers matching '$prettysearch'.";
-		}
+        header("Location: http://www.theyworkforyou.com/search?s=".urlencode($prettysearch)."&maj=wrans");
+        exit;
 	}
 	else if ($shellid != "")
 	{
-		// ID query
-		$wrans = FetchWrans($shellid);
-		if ($wrans)
-		{
-			$result = WrapResult($wrans);
-
-			$title = "Written Answers";
-			if ($result)
-				$title = ApplyXSLT($result, "wrans-title.xslt");
-			include "header.inc";
-
-			if ($result)
-				print ApplyXSLT($result, "wrans-full.xslt");	
-		}
-		else
-		{
-			$title = "Written Answer not found";
-			include "header.inc";
-			print "<p>Written answer " . $shellid . " not in database.";
-		}
+        $shellid = str_replace("uk.org.publicwhip/wrans/", "", $shellid);
+        $handle = fopen("legacy/wransmap.txt", "r");
+        $urls = array();
+        while (!feof($handle)) {
+            $line = trim(fgets($handle));
+            list($from, $to) = split(" ", $line);
+            if ($from == $shellid) {
+                $tourl = "http://www.theyworkforyou.com/wrans?id=".urlencode($to);
+                header("Location: $tourl");
+                exit;
+            }
+        }
+        fclose($handle);
 	}
-	else
-	{
-		$title = "Written Answers";
-        $onload = "givefocus('search')";
-		include "header.inc";
-		# print "Use the <a href=\"search.php\">general search page</a> to find Written Answers now.";
+    $title = "Written Answers";
+    include "header.inc";
 ?>
-<p>A <i>Written Answer</i> (sometimes <i>wrans</i>) is an exchange between an MP and a minister.  They contain mainly
-factual data researched by a civil servant, and help members scrutinise the workings of government. 
-<a href="search.php">Search for written answers</a> by topic, or <a href="mps.php">look up an MP</a> to
-get a list of all the questions they asked.</p>
+<p>Written Answers are now available from <a href="http://www.theyworkforyou.com/wrans">TheyWorkForYou.com</a> instead of The Public Whip.
 <?
-    print "<h2>Popular Written Answers</h2>
-        <p>Recent questions and answers which have been viewed by many people on this site.";
-    $ids = wrans_recent_popular(20);
-    $result = "";
-    foreach ($ids as $id)
-        $result .= FetchWrans($id);
-    $result = WrapResult($result);
-    print ApplyXSLT($result, "wrans-table.xslt");
-}
+    if ($shellid != "") {
+        print "The Written Answer $shellid is probably misspelt, and could not
+        be found on TheyWorkForYou.com.  You will have to go there and search
+        in order to find it.";
+    }
+?>
+<?
+
 ?>
 
 <?php include "footer.inc" ?>
-

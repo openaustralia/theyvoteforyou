@@ -14,8 +14,6 @@
     include('account/database.inc');
     include "parliaments.inc";
     include "constituencies.inc";
-    include "xquery.inc";
-    include "protodecode.inc";
     include "render.inc";
     include_once "account/user.inc";
     $db = new DB(); 

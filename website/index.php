@@ -1,7 +1,7 @@
 <?php $cache_params = rand(0, 10); include "cache-begin.inc"; ?>
 
 <?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
-# $Id: index.php,v 1.27 2004/06/15 23:46:49 frabcus Exp $
+# $Id: index.php,v 1.28 2004/06/22 01:54:06 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -18,7 +18,6 @@ For more information about the project, <a href="faq.php">read the FAQ</a>.
     include "db.inc";
     include "render.inc";
     include "parliaments.inc";
-    include "wrans.inc";
     $db = new DB(); 
 ?>
 

@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.26 2004/06/19 09:58:02 frabcus Exp $
+# $Id: search.php,v 1.27 2004/06/22 01:54:06 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -18,7 +18,6 @@
     include "render.inc";
     include "parliaments.inc";
     include "postcode.inc";
-    include "wrans.inc";
 
     $db = new DB(); 
 
@@ -48,30 +47,6 @@
                 class=\"headings\"><td>No.</td><td>Date</td><td>Subject</td><td>Rebellions</td><td>Turnout</td></tr>";
                 render_divisions_table($db);
                 print "</table>\n";
-            }
-
-            # Perform query on wrans
-
-            $ids = wrans_search($prettyquery);	
-            if (count($ids) > 1000)
-            {
-                print "<p>More than 1000 matches, showing only first 1000.";
-                $ids = array_slice($ids, 0, 1000);
-            }
-            if (count($ids) > 0)
-            {
-                $found = true;
-
-                $result = "";
-                foreach ($ids as $id)
-                    $result .= FetchWrans($id);
-                $result = WrapResult($result);
-                print "<p>Found these " . count($ids) . " Written Answers matching '$prettyquery':";
-
-                $url = "wrans.php?search=" . urlencode($_GET["query"]);
-
-                print ApplyXSLT($result, "wrans-table.xslt");
-                print "<p><a href=\"$url&expand=yes\">Show contents of all these Written Answers on one large page</a></p>";
             }
         }
 

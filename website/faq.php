@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.24 2004/06/08 23:43:47 frabcus Exp $
+# $Id: faq.php,v 1.25 2004/06/22 01:53:59 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -15,6 +15,7 @@
 <li><a href="#jargon">First, can you explain "division" and other political jargon?</a> <br/>
 <li><a href="#how">How does the Public Whip work?</a> <br/>
 <li><a href="#timeperiod">What time period does it cover?</a> <br/>
+<li><a href="#wrans">Where have the Written Answers gone?</a><br/>
 <li><a href="#clarify">What do the "rebellion" and "attendance" figures mean exactly?</a> <br/>
 <li><a href="#freevotes">Why do you incorrectly say people are rebels in free votes?</a> <br/>
 <li><a href="#spreadsheet">Where is the data in spreadsheet file format or in XML?</a> <br/>
@@ -39,23 +40,20 @@ motion).  Each political party has <i>whips</i> who try to make their
 MPs (Members of Parliament) vote for the party line.  Sometimes an MP
 <i>rebels</i> by voting against the party whip.  
 
-<p>A <i>Written Answer</i> is a Government reply to a question from an MP, 
-usually containing detailed factual information.
-
 <h2><a name="how">How does the Public Whip work?</a></h2>
 <p>All the House of Commons debate transcripts (<a href="http://www.parliament.the-stationery-office.co.uk/pa/cm/cmhansrd.htm">Hansard</a>) back to
 1988 are published electronically on the World Wide Web.  We've written
 a program to read it for you and separate out all the records of
-voting and the written answers.  This information has been added into an online
-database which you can access.
+voting.  This information has been added into an online database which you can
+access.
 
 <h2><a name="timeperiod">What time period does it cover?</a></h2>
 <p>Voting data extends back across two parliaments to the May 1997 General
 Election, although there are a few divisions missing in the 1997
 parliament.  New divisions are added semi-manually, so will not appear
-until a few days after they happen.  Written answers are indexed back
-to the start of 2003.  We give no warranty for the data; there may be factual
-inaccuracies.  <a href="mailto:support@publicwhip.org.uk">Let us know</a> if
+until a few days after they happen.  We give no warranty for the data; there
+may be factual inaccuracies.  <a href="mailto:support@publicwhip.org.uk">Let us
+know</a> if
 you find any.
 
 <?php
@@ -79,7 +77,17 @@ which have been counted.  A mean of <?=$vote_per_div?> MPs voted
 in each division.  In total <?=$vote_count?> votes were cast, of which
 <?=$rebellious_votes?> were against the majority vote for their party.
 That's an overall <?=$attendance?>% attendance rate and <?=$rebelocity?>%
-rebellion rate.  A total of 46878 written answers are indexed.
+rebellion rate.
+
+<h2><a name="wrans">Where have the Written Answers gone?</a></h2>
+<p>A <i>Written Answer</i> is a Government reply to a question from an MP,
+usually containing detailed factual information.  These used to be available
+on The Public Whip site, but are now on our sister site 
+<a href="http://www.theyworkforyou.com">TheyWorkForYou.com</a>.  Your
+old links to Written Answers on The Public Whip are now redirected to
+the same Written Answer on TheyWorkForYou.com.  Let us know if you have
+any trouble with this.
+
 
 <h2><a name="clarify">What do the "rebellion" and "attendance" figures mean exactly?</a></h2>
 <p>The apparent meaning of the data can be misleading, so try not to
