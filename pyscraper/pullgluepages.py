@@ -77,7 +77,7 @@ def GlueByNext(fout, url, urlx):
 
 	# loop which scrapes through all the pages following the nextlinks
 	while 1:
-		print "reading " + url
+		print " reading " + url
 		ur = urllib.urlopen(url)
 		sr = ur.read()
 		ur.close();
@@ -154,11 +154,11 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto):
 				pgx = re.findall('<pagex url="([^"]*)"[^/]*/>', pgx)
 				if pgx:
 					if pgx[0] == urlx:
-						print ' skipping ' + urlx
+						print 'skipping ' + urlx
 						continue
-			print ' RE-scraping ' + urlx
+			print '\nRE-scraping ' + urlx
 		else:
-			print 'scraping ' + urlx
+			print '\nscraping ' + urlx
 
 		url0 = ExtractFirstLink(urlx)
 
