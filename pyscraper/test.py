@@ -2,6 +2,7 @@
 
 from resolvemembernames import memberList
 
+print memberList.matchdebatename("Mr. Mackay", None, "2003-11-21")
 print memberList.matchdebatename("James Marshall", None, "2003-11-21")
 print memberList.matchdebatename("Gareth Thomas", "Clwyd, West", "2003-11-21")
 

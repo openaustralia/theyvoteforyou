@@ -3,132 +3,148 @@
 
 <!-- 
 
-Alternative names for members of parliament.  The canonical name is the
-one listed in all-members.xml.  An alternative might be a name
-contraction (Geoff vs. Geoffrey), a typing mistake.
+Alternative names for members of parliament.  An alternative might be a name
+contraction (Geoff vs.  Geoffrey), or a typing mistake.  Each entry represents
+an alternative.  There are three types of entry:
 
-Middle initials:  Note that missing middle initials aren't included
-in this file, even though some of the canonical names in all-members.xml
-have middle initials.  You should in addition to these aliases match
-to canonical names with the initial (which is on the end of the first
-name) removed.
+1. fullname - The first and last name from all-members.xml together.  The
+alternate text is another form of the full name, or any complete name used
+in sources (such as the office held).
 
-A constituency can be specified instead of a canonical name (used for MPs
-which have the same canonical name as each other, such as Gareth Thomas).
+Middle initials:  Note that missing middle initials aren't included in this
+file, even though some of the names in all-members.xml have middle initials.
+You should in addition to these aliases match to names with the initial (which
+is on the end of the first name) removed.
+
+2. lastname - just the last name (used for Mr. cases).  The alternate text is
+another form of just the last name.
+
+3. constituency - a constituency (used for MPs which have the same fullname
+name as each other, such as Gareth Thomas). The alternate text is another form
+of the fullname.
+
+A date range can also be specified, for which the alias is valid.
 
 -->
 
 <!-- Offices (only those that are needed) -->
 
-<alias canonical="Tony Blair" alternate="The Prime Minister" from="1997-05-01" to="9999-31-01"/>
+<alias fullname="Tony Blair" alternate="The Prime Minister" from="1997-05-01" to="9999-31-01"/>
 
 <!-- Nore sure what date ranges to use - so just conservatively extend for now-->
-<alias canonical="John Prescott" alternate="The Deputy Prime Minister" from="2003-03-20" to="2003-03-20"/>
+<alias fullname="John Prescott" alternate="The Deputy Prime Minister" from="2003-03-20" to="2003-03-20"/>
 
 <!-- note this will be ignored until a John Major is added for a parliament
 before 1997 for which he was PM - date ranges will make the code ignore the
 1997 parliament John Major in all-members.xml in relation to this Prime
 Minister entry -->
-<alias canonical="John Major" alternate="The Prime Minister" from="1990-11-28" to="1997-04-08"/> 
+<alias fullname="John Major" alternate="The Prime Minister" from="1990-11-28" to="1997-04-08"/> 
 
 <!-- From date is from this press release:
 http://www.dfid.gov.uk/News/PressReleases/files/pr_gareththomas_13june03.html 
-To date is a debate that required this disambiguation - it should be moved forward when
+"to" date is a debate that required this disambiguation - it should be moved forward when
 necessary-->
 <alias constituency="Harrow West" 
         alternate="The Parliamentary Under-Secretary of State for International Development" 
         from="2003-06-13" to="2004-01-28" />
 
 <!-- 
-TODO: The Solicitor-General
+The Solicitor-General
 Says current one here: http://www.parliament.uk/directories/hciolists/hmg.cfm
+Harriet Harman started in 2001: http://politics.guardian.co.uk/person/parliament/0,9307,-2223,00.html
+We should find the exact date she started, and move her finish date.
 -->
+<alias fullname="Harriet Harman" alternate="The Solicitor General"
+        from="2001-12-31" to="2004-03-01"/>
+<alias fullname="Harriet Harman" alternate="The Solicitor-General"
+        from="2001-12-31" to="2004-03-01"/>
 
 <!-- First added for 2001 parliament -->
-<alias canonical="Anthony D Wright" alternate="Tony Wright" />
-<alias canonical="Phil Woolas" alternate="Philip Woolas" />
-<alias canonical="Pete Wishart" alternate="Peter Wishart" />
-<alias canonical="Alan Williams" alternate="Alan John Williams" />
-<alias canonical="Desmond Turner" alternate="Des Turner" />
-<alias canonical="Jenny Tonge" alternate="Jennifer Tonge" />
-<alias canonical="Gareth Thomas" alternate="Gareth Richard Thomas" /> <!-- from Guardian - supposedly Harrow West, can check and change this to a constituency= field if needed -->
-<alias canonical="John Taylor" alternate="John M Taylor" />
-<alias canonical="Llew Smith" alternate="Llewellyn Smith" />
-<alias canonical="John Smith" alternate="John P Smith" />
-<alias canonical="Jim Sheridan" alternate="James Sheridan" />
-<alias canonical="Terry Rooney" alternate="Terence Rooney" />
-<alias canonical="Nick Palmer" alternate="Nicholas Palmer" />
-<alias canonical="Eddie McGrady" alternate="Eddie Mcgrady" />
-<alias canonical="Jim Marshall" alternate="James Marshall" />
-<alias canonical="Rob Marris" alternate="Robert Marris" />
-<alias canonical="Andrew MacKay" alternate="Andrew Mackay" />
-<alias canonical="Huw Irranca-Davies" alternate="Huw Irranca-Davis" />
-<alias canonical="Lady Hermon" alternate="Sylvia Hermon" />
-<alias canonical="Mike Hancock" alternate="Michael Hancock" />
-<alias canonical="Michael Foster" alternate="Michael John Foster" /> <!-- maybe dodgy, confusion with the other Michael Foster? -->
-<alias canonical="Jeff Ennis" alternate="Jeffrey Ennis" />
-<alias canonical="Jim Cunningham" alternate="James Cunningham" />
-<alias canonical="Tim Boswell" alternate="Timothy Boswell" />
-<alias canonical="A J Beith" alternate="Alan Beith" />
-<alias canonical="Clare Short" alternate="Claire Short" />
-<alias canonical="Nick Brown" alternate="Nicholas Brown" />
-<alias canonical="Geoff Hoon" alternate="Geoffrey Hoon" />
-<alias canonical="Dave Watts" alternate="David Watts" />
-<alias canonical="Des Browne" alternate="Desmond Brown" />
-<alias canonical="Des Browne" alternate="Desmond Browne" />
-<alias canonical="Lembit Öpik" alternate="Lembit Opik" />
-<alias canonical="Lembit Öpik" alternate="Lembit &amp;#214;pik" />
-<alias canonical="Lembit Öpik" alternate="Lembit Opik" />
-<alias canonical="Siôn Simon" alternate="Siön Simon" />
-<alias canonical="Siôn Simon" alternate="Si&amp;#244;n Simon" />
-<alias canonical="Siôn Simon" alternate="Sio(r)n Simon" />
-<alias canonical="Siôn Simon" alternate="Sion Simon" />
-<alias canonical="Raymond Powell" alternate="Ray Powell" />
-<alias canonical="Helen Clark" alternate="Helen Brinton" /> <!-- marriage -->
-<alias canonical="Gregory Barker" alternate="Greg Barker" />
-<alias canonical="Bob Spink" alternate="Robert Spink" />
-<alias canonical="Jimmy Wray" alternate="James Wray" />
-<alias canonical="Andrew Murrison" alternate="Andrew Morrison" />
-<alias canonical="Annette Brooke" alternate="Annette L Brooke" />
-<alias canonical="Robert Wareing" alternate="Robert N Wareing" />
+<alias lastname="MacKay" alternate="Mackay" />
+<alias fullname="Anthony D Wright" alternate="Tony Wright" />
+<alias fullname="Phil Woolas" alternate="Philip Woolas" />
+<alias fullname="Pete Wishart" alternate="Peter Wishart" />
+<alias fullname="Alan Williams" alternate="Alan John Williams" />
+<alias fullname="Desmond Turner" alternate="Des Turner" />
+<alias fullname="Jenny Tonge" alternate="Jennifer Tonge" />
+<alias fullname="Gareth Thomas" alternate="Gareth Richard Thomas" /> <!-- from Guardian - supposedly Harrow West, can check and change this to a constituency= field if needed -->
+<alias fullname="John Taylor" alternate="John M Taylor" />
+<alias fullname="Llew Smith" alternate="Llewellyn Smith" />
+<alias fullname="John Smith" alternate="John P Smith" />
+<alias fullname="Jim Sheridan" alternate="James Sheridan" />
+<alias fullname="Terry Rooney" alternate="Terence Rooney" />
+<alias fullname="Nick Palmer" alternate="Nicholas Palmer" />
+<alias fullname="Eddie McGrady" alternate="Eddie Mcgrady" />
+<alias fullname="Jim Marshall" alternate="James Marshall" />
+<alias fullname="Rob Marris" alternate="Robert Marris" />
+<alias fullname="Andrew MacKay" alternate="Andrew Mackay" />
+<alias fullname="Huw Irranca-Davies" alternate="Huw Irranca-Davis" />
+<alias fullname="Lady Hermon" alternate="Sylvia Hermon" />
+<alias fullname="Mike Hancock" alternate="Michael Hancock" />
+<alias fullname="Michael Foster" alternate="Michael John Foster" /> <!-- maybe dodgy, confusion with the other Michael Foster? -->
+<alias fullname="Jeff Ennis" alternate="Jeffrey Ennis" />
+<alias fullname="Jim Cunningham" alternate="James Cunningham" />
+<alias fullname="Tim Boswell" alternate="Timothy Boswell" />
+<alias fullname="A J Beith" alternate="Alan Beith" />
+<alias fullname="Clare Short" alternate="Claire Short" />
+<alias fullname="Nick Brown" alternate="Nicholas Brown" />
+<alias fullname="Geoff Hoon" alternate="Geoffrey Hoon" />
+<alias fullname="Dave Watts" alternate="David Watts" />
+<alias fullname="Des Browne" alternate="Desmond Brown" />
+<alias fullname="Des Browne" alternate="Desmond Browne" />
+<alias fullname="Lembit Öpik" alternate="Lembit Opik" />
+<alias fullname="Lembit Öpik" alternate="Lembit &amp;#214;pik" />
+<alias fullname="Lembit Öpik" alternate="Lembit Opik" />
+<alias fullname="Siôn Simon" alternate="Siön Simon" />
+<alias fullname="Siôn Simon" alternate="Si&amp;#244;n Simon" />
+<alias fullname="Siôn Simon" alternate="Sio(r)n Simon" />
+<alias fullname="Siôn Simon" alternate="Sion Simon" />
+<alias fullname="Raymond Powell" alternate="Ray Powell" />
+<alias fullname="Helen Clark" alternate="Helen Brinton" /> <!-- marriage -->
+<alias fullname="Gregory Barker" alternate="Greg Barker" />
+<alias fullname="Bob Spink" alternate="Robert Spink" />
+<alias fullname="Jimmy Wray" alternate="James Wray" />
+<alias fullname="Andrew Murrison" alternate="Andrew Morrison" />
+<alias fullname="Annette Brooke" alternate="Annette L Brooke" />
+<alias fullname="Robert Wareing" alternate="Robert N Wareing" />
 
 <!-- First added for 1997 parliament -->
-<alias canonical="Bob Ainsworth" alternate="Robert Ainsworth" />
-<alias canonical="Gerry Bermingham" alternate="Gerald Bermingham" />
-<alias canonical="Ray Whitney" alternate="Raymond Whitney" />
-<alias canonical="Stephen McCabe" alternate="Steve McCabe" />
-<alias canonical="Jim Wallace" alternate="James Wallace" />
-<alias canonical="Edward O'Hara" alternate="Eddie O'Hara" />
-<alias canonical="Andy Reed" alternate="Andrew Reed" />
-<alias canonical="Mo Mowlam" alternate="Majorie Mowlam" />
-<alias canonical="Bob Blizzard" alternate="Robert Blizzard" />
-<alias canonical="Archie Hamilton" alternate="Archibald Hamilton" />
-<alias canonical="Tom Brake" alternate="Thomas Brake" />
-<alias canonical="Liz Blackman" alternate="Elizabeth Blackman" />
-<alias canonical="Tony Colman" alternate="Anyhony Colman" />
-<alias canonical="Steve Webb" alternate="Professor Steve Webb" />
-<alias canonical="James Plaskitt" alternate="James Plaskit" />
-<alias canonical="Claire Curtis-Thomas" alternate="Clare Curtis-Thomas" />
-<alias canonical="Phil Hope" alternate="Philip Hope" />
-<alias canonical="Steve Webb" alternate="Steven Webb" />
-<alias canonical="Dale Campbell-Savours" alternate="D N Campbell-Savours" />
-<alias canonical="Jenny Jones" alternate="Jennifer Jones" />
-<alias canonical="Joe Ashton" alternate="Joseph Ashton" />
-<alias canonical="Tommy Graham" alternate="Thomas Graham" />
-<alias canonical="David Amess" alternate="D avid Amess" />
-<alias canonical="Christopher Gill" alternate="Christoper Gill" />
-<alias canonical="Tess Kingham" alternate="Tessa Kingham" />
-<alias canonical="Andrew Love" alternate="Andy Love" />
-<alias canonical="Denis Murphy" alternate="Dennis Murphy" />
-<alias canonical="Bill O'Brien" alternate="William O'Brien" />
-<alias canonical="Chris McCafferty" alternate="Christine McCafferty" />
-<alias canonical="Phil Sawford" alternate="Philip Sawford" />
-<alias canonical="Rudi Vis" alternate="Rudolf Vis" />
-<alias canonical="Thomas McAvoy" alternate="Th omas McAvoy" />
-<alias canonical="Michael Ancram" alternate="Mich ael Ancram" />
-<alias canonical="Lorna Fitzsimons" alternate="Lorna Fitzsimmons" />
-<alias canonical="Peter Mandelson" alternate="Peter Mandleson" />
-<alias canonical="Rosie Winterton" alternate="Rose Winterton" />
+<alias fullname="Bob Ainsworth" alternate="Robert Ainsworth" />
+<alias fullname="Gerry Bermingham" alternate="Gerald Bermingham" />
+<alias fullname="Ray Whitney" alternate="Raymond Whitney" />
+<alias fullname="Stephen McCabe" alternate="Steve McCabe" />
+<alias fullname="Jim Wallace" alternate="James Wallace" />
+<alias fullname="Edward O'Hara" alternate="Eddie O'Hara" />
+<alias fullname="Andy Reed" alternate="Andrew Reed" />
+<alias fullname="Mo Mowlam" alternate="Majorie Mowlam" />
+<alias fullname="Bob Blizzard" alternate="Robert Blizzard" />
+<alias fullname="Archie Hamilton" alternate="Archibald Hamilton" />
+<alias fullname="Tom Brake" alternate="Thomas Brake" />
+<alias fullname="Liz Blackman" alternate="Elizabeth Blackman" />
+<alias fullname="Tony Colman" alternate="Anyhony Colman" />
+<alias fullname="Steve Webb" alternate="Professor Steve Webb" />
+<alias fullname="James Plaskitt" alternate="James Plaskit" />
+<alias fullname="Claire Curtis-Thomas" alternate="Clare Curtis-Thomas" />
+<alias fullname="Phil Hope" alternate="Philip Hope" />
+<alias fullname="Steve Webb" alternate="Steven Webb" />
+<alias fullname="Dale Campbell-Savours" alternate="D N Campbell-Savours" />
+<alias fullname="Jenny Jones" alternate="Jennifer Jones" />
+<alias fullname="Joe Ashton" alternate="Joseph Ashton" />
+<alias fullname="Tommy Graham" alternate="Thomas Graham" />
+<alias fullname="David Amess" alternate="D avid Amess" />
+<alias fullname="Christopher Gill" alternate="Christoper Gill" />
+<alias fullname="Tess Kingham" alternate="Tessa Kingham" />
+<alias fullname="Andrew Love" alternate="Andy Love" />
+<alias fullname="Denis Murphy" alternate="Dennis Murphy" />
+<alias fullname="Bill O'Brien" alternate="William O'Brien" />
+<alias fullname="Chris McCafferty" alternate="Christine McCafferty" />
+<alias fullname="Phil Sawford" alternate="Philip Sawford" />
+<alias fullname="Rudi Vis" alternate="Rudolf Vis" />
+<alias fullname="Thomas McAvoy" alternate="Th omas McAvoy" />
+<alias fullname="Michael Ancram" alternate="Mich ael Ancram" />
+<alias fullname="Lorna Fitzsimons" alternate="Lorna Fitzsimmons" />
+<alias fullname="Peter Mandelson" alternate="Peter Mandleson" />
+<alias fullname="Rosie Winterton" alternate="Rose Winterton" />
 
 <!-- Various harder aliases/typos to worry about later
 	 These came up during the old Public Whip division parsing.

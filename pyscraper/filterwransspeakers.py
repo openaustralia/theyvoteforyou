@@ -14,7 +14,7 @@ from miscfuncs import ApplyFixSubstitutions
 # <speaker name="Eric Martlew  (Carlisle)"><p>Eric Martlew  (Carlisle)</p></speaker>
 
 # (these are temporary)
-knownbadmatches = 'prime minister|solicitor-general|nicholas brown|gareth thomas|lembit|' +\
+knownbadmatches = 'prime minister|nicholas brown|gareth thomas|lembit|' +\
 		  'advocate-general|ainsworth|jonathan shaw|gareth r[.] thomas|multiple times(?i)'
 
 fixsubs = 	[

@@ -74,13 +74,16 @@ class MemberList(xml.sax.handler.ContentHandler):
         elif name == "alias":
             # search for the canonical name or the constituency name for this alias
             matches = None
-            if attr.has_key("canonical"):
-                matches = self.fullnames.get(attr["canonical"], None)
+            alternateisfullname = True
+            if attr.has_key("fullname"):
+                matches = self.fullnames.get(attr["fullname"], None)
+            elif attr.has_key("lastname"):
+                matches = self.lastnames.get(attr["lastname"], None)
+                alternateisfullname = False
+            elif attr.has_key("constituency"):
+                matches = self.constituencies.get(attr["constituency"], None)
             if not matches:
-                if attr.has_key("constituency"):
-                    matches = self.constituencies.get(attr["constituency"], None)
-                if not matches:
-                    raise Exception, 'Canonical name not found ' + attr["canonical"]
+                raise Exception, 'Canonical name not found ' + attr["canonical"]
             # append every canonical match to the alternates
             for m in matches:
                 newattr = {}
@@ -93,7 +96,10 @@ class MemberList(xml.sax.handler.ContentHandler):
                 if early <= late:
                     newattr['fromdate'] = early
                     newattr['todate'] = late
-                    self.fullnames.setdefault(attr["alternate"], []).append(newattr)
+                    if alternateisfullname:
+                        self.fullnames.setdefault(attr["alternate"], []).append(newattr)
+                    else:
+                        self.lastnames.setdefault(attr["alternate"], []).append(newattr)
 
         elif name == "constituency":
             self.loadconsid = attr["id"]
