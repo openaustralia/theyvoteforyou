@@ -1,5 +1,9 @@
 #! /bin/bash
 
-sgrep -I -g xml -v -c ~/pwdata/pwscrapedxml/wrans/ixsgrep ~/pwdata/pwscrapedxml/wrans/*.xml
+DIR=~/pwdata/pwscrapedxml/wrans
 
+# Check well formed XML
+xmlwf $DIR/*.xml
+# Create index
+sgrep -I -g xml -v -c $DIR/ixsgrep $DIR/*.xml
 

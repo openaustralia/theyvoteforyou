@@ -9,3 +9,16 @@ def ApplyFixSubstitutions(text, sdate, fixsubs):
 			if (sub[2] != -1) and (n != sub[2]):
 				raise Exception, 'wrong substitutions %d on %s' % (n, sub[0])
 	return text
+
+def FixHTMLEntities(text):
+    text = re.sub('&150;', '-', text)
+    text = re.sub('&151;', ' -- ', text)
+    text = re.sub('&163;', '&pound;', text)
+    text = re.sub('"', '&quot;', text)
+
+    # The regexp pattern (?! ... ) is a "A zero-width negative
+    # look-ahead assertion", which basically means "the ... pattern
+    # is not there".  i.e. This matches all ampersands not followed by
+    # some-letters-and-a-semicolon.
+    text = re.sub("&(?![a-z]+;)", "&amp;", text)
+    

@@ -1,4 +1,5 @@
 #! /usr/bin/python2.3
+# -*- coding: latin-1 -*-
 
 import sys
 import re
@@ -54,8 +55,6 @@ def FilterWransSpeakers(fout, text, sdate):
 	lregexp = '(%s|%s)(?i)' % (ltableregexp, lspeakerregexp)
 
 	# setup for scanning through the file.
-	# we should have a name matching module which gets the unique ids, and
-	# takes the full speaker name and date to find a match.
 	fs = re.split(lregexp, text)
 
 	for i in range(len(fs)):
@@ -89,7 +88,8 @@ def FilterWransSpeakers(fout, text, sdate):
 			continue
 
 		# try to pull in the question number if preceeding
-		# These signify aborted oral questions, and are normally useless and at the start of the page.
+                # These signify aborted oral questions, and are normally
+                # useless and at the start of the page.
 		# 27. <B> Mr. Steen: </B>
 		if i > 0:
 			oqnsep = re.findall('^([\s\S]*?)Q?(\d+\.)\s*?$', fs[i-1])

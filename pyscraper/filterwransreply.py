@@ -9,7 +9,7 @@ import mx.DateTime
 
 from resolvemembernames import memberList
 from parlphrases import parlPhrases
-
+from miscfuncs import FixHTMLEntities
 
 # output to check for undetected member names
 seelines = open('ghgh.txt', "w")
@@ -168,8 +168,8 @@ def ExtractHonMembersRecurse(qs, stex):
 
 		# check if the member is in the list (unreliable code at the moment)
 		if not memberList.matchfullname(mpname, qs.sdate)[1]:
-			pass
-			#print ' MP name not found in honmemrecurse: ' + mpname
+			#pass
+			print ' MP name not found in honmemrecurse: ' + mpname
 			#continue
 
 		mps = '<MP name="%s" constituency="%s" job="%s">%s</MP>' % (mpname, mpconst, mpjob, qhm.group(1))
@@ -177,14 +177,20 @@ def ExtractHonMembersRecurse(qs, stex):
 
 
 	# recursion part
+        print "recursion part"
 	if mps:
 		res = ExtractHonMembersRecurse(qs, stex[:qhm.span(1)[0]])
 		res.append(mps)
 		res.extend(ExtractHonMembersRecurse(qs, stex[qhm.span(1)[1]:]))
 		return res
 	else:
-		stex = re.sub('"', '&quot', stex)
-		stex = re.sub(' & ', ' &amp ', stex)
+                print "stexing"
+                print stex
+                oldstex = stetx
+                stex = FixHTMLEntities(stex)
+                if stex <> oldstex:
+                        print "newstex"
+                        print stex
 		return [ stex ]
 
 

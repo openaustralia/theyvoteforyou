@@ -28,6 +28,12 @@ visually draw guesses further right
 
 FAQ needs to give more of an impression that we would like help
 
+Pyscraper
+---------
+
+Highlight URLs in written answers
+&#163; - is pound sign
+
 Scraper
 -------
 
