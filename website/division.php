@@ -1,5 +1,5 @@
 <?php
-# $Id: division.php,v 1.34 2004/06/15 10:26:56 frabcus Exp $
+# $Id: division.php,v 1.35 2004/06/15 11:59:44 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -25,7 +25,7 @@
     }
 
     include "account/database.inc";
-    include "cache-tools.inc";
+    include_once "cache-tools.inc";
     $db = new DB(); 
 
     $db->query("select pw_division.division_id, division_name,
