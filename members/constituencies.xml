@@ -357,6 +357,7 @@ The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/103">
     <name text="Bury St Edmunds"/>
+    <name text="Bury St. Edmunds"/> <!-- BBC (manual) -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/104">
     <name text="Caernarfon"/>
@@ -1014,6 +1015,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/295">
     <name text="Holborn &amp; St Pancras"/>
     <name text="Holborn and St Pancras"/> <!-- ONS -->
+    <name text="Holborn and St. Pancras"/> <!-- BBC (manual) -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/296">
     <name text="Hornchurch"/>
@@ -1239,6 +1241,7 @@ The Parliament versions are more accurate, so considered canonical.
 </constituency>
 <constituency id="uk.org.publicwhip/cons/362">
     <name text="Manchester Central"/>
+    <name text="Manchester, Central"/> <!-- BBC (manual) -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/363">
     <name text="Manchester, Blackley"/>
@@ -2033,6 +2036,7 @@ The Parliament versions are more accurate, so considered canonical.
 <constituency id="uk.org.publicwhip/cons/586">
     <name text="Truro &amp; St Austell"/>
     <name text="Truro and St Austell"/> <!-- ONS -->
+    <name text="Truro and St. Austell"/> <!-- BBC (manual) -->
 </constituency>
 <constituency id="uk.org.publicwhip/cons/587">
     <name text="Tunbridge Wells"/>

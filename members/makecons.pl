@@ -26,7 +26,7 @@ my %ons;
 open(ONS, '<constituencies2003-ons.txt');
 while (<ONS>) { chomp; $ons{$_} = 1; }
 my %fax;
-open(FAX, '<constituencies2003-faxyourmp.txt');
+open(FAX, '<constituencies2003-faxyourmpix.txt');
 while (<FAX>) { chomp; $fax{$_} = 1; }
 
 # Find matches
