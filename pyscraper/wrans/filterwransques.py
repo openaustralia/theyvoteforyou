@@ -61,8 +61,12 @@ def FilterQuestion(text, sdate, stampurl):
 		# scan through the rest of the numbered paragraphs
 		for i in range(1, len(textp)):
 			gbnum = re.search('^\((\d+)\)', textp[i])
-			if (not gbnum) or (string.atoi(gbnum.group(1)) != i + 1):
+			if not gbnum:
 				raise ContextException('no number match in paragraph', fragment=textp[i], stamp=stampurl)
+                        gbnumseq = string.atoi(gbnum.group(1))
+                        if gbnumseq != i + 1:
+                                print "paragraph numbers not consecutive %d for paragraph %d" % (gbnumseq, i), stampurl
+				#raise ContextException('paragraph numbers not consecutive', fragment=textp[i], stamp=stampurl)
 			eqnum = ExtractQnum(textp[i][gbnum.span(0)[1]:])
 			textn.append(eqnum)
 

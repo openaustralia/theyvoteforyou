@@ -47,6 +47,10 @@ def ConstructHTTPlink(qstrdom, qstrmid, qstrtail):
 	if not qstrtail:
 		qstrtail = ''
 
+        qstrdom = re.sub('\n', '', qstrdom)
+        qstrmid = re.sub('\n', '', qstrmid)
+        qstrtail = re.sub('\n', '', qstrtail)
+
 	if not re.match('[\w\-.]*$', qstrdom):
 		print ' bad domain -- ' + qstrdom
 

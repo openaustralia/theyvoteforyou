@@ -133,7 +133,7 @@ def RunFiltersDir(filterfunction, dname, options, deleteoutput):
                                         RunPatchTool(dname, ce)
                                         again = True
                                 else:
-                                        raise ce
+                                        raise
 
 
 # These text filtering functions filter twice through stringfiles,

@@ -225,6 +225,14 @@ class MemberList(xml.sax.handler.ContentHandler):
         remadecons = self.members[id]["constituency"]
         return id, remadename, remadecons
 
+    # Exclusively for wrans
+    def matchwransname(self, fullname, cons, date):
+        # Have got first instance like this:
+        # The Deputy Prime Minister and First Secretary of State   (Mr. Prescott)
+        # Just turning alwaysmatchcons off for now
+        # Do something fancier if it happens a lot
+        return self.matchfullnamecons(fullname, cons, date, alwaysmatchcons = False)
+
     # Lowercases a surname, getting cases like these right:
     #     CLIFTON-BROWN to Clifton-Brown
     #     MCAVOY to McAvoy

@@ -25,9 +25,6 @@ fixsubs = 	[
 	( '<B> Mr. </B>\s* Shepherd:', '<B> Mr. Shepherd:</B>', 1, '2003-10-23'),
 	( '<B> Margaret Becket </B>', '<B> Margaret Beckett </B>', 1, '2003-11-11'),
 
-	( '<P></UL>\s*<P>\s*\{\*\*con\*\*\}\{\*\*/con\*\*\}<P>\s*<B> Mr. Moss:  \(4\)</B>', \
-							'<p>(4)', 1, '2002-06-10'),
-
 	( '<UL>(Beverley Hughes):', '<B>\\1</B>', 1, '2003-04-10'),
         ( '<UL>(Mr. Morley):', '<B>\\1</B> ', 1, '2003-05-01'),
 
@@ -162,10 +159,11 @@ def FilterWransSpeakers(fout, text, sdate):
 
                         # match the member to a unique identifier
                         try:
-                                (id, remadename, remadecons) = memberList.matchfullnamecons(name, cons, sdate)
+                                (id, remadename, remadecons) = memberList.matchwransname(name, cons, sdate)
                                 if remadename:
                                         remadename = ' speakername="%s"' % (remadename)
                         except MultipleMatchException, mme:
+                                id = 'unknown'
                                 remadename = ' speakername="%s" error="%s"' % (boldnamestring, mme)
                     except Exception, e:
                         # add extra stamp info to the exception

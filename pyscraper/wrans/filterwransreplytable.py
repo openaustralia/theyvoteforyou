@@ -67,8 +67,7 @@ def ParseTable(lstable):
 			if (not srows) and (not stitle):
 				stitle = sprow
 			elif not re.match('(?:</t[dhr]>|</font>|\s)*$(?i)', sprow):
-				print "sprow:" , sprow
-				raise Exception, ' non-row text '
+				raise Exception, ' non-row text %s ' % sprow
 
 
 	# take out tags round the title; they're always out of order

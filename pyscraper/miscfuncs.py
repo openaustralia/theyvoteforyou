@@ -33,6 +33,7 @@ entitymap = {
         # terms of browser support for the proper solutions, info on windows ndash/mdash (150/151)
         '&#150;':'&ndash;',  # convert windows latin-1 extension ndash into a real one
         '&#151;':'&mdash;',  # likewise mdash
+        '&#161;':'&iexcl;',  # inverted exclamation mark
 
         '&#232;':'&egrave;',   # this is e-grave
         '&#233;':'&eacute;',   # this is e-acute
@@ -385,6 +386,7 @@ def WriteXMLHeader(fout):
 
 <!ENTITY ndash   "&#8211;">
 <!ENTITY mdash   "&#8212;">
+<!ENTITY iexcl   "&#161;">
 
 <!ENTITY egrave "&#232;" >
 <!ENTITY eacute "&#233;" >

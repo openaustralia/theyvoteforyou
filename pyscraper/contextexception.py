@@ -1,7 +1,8 @@
-#! $Id: contextexception.py,v 1.2 2004/04/07 18:53:34 frabcus Exp $
+#! $Id: contextexception.py,v 1.3 2004/04/08 16:49:26 frabcus Exp $
 # vim:sw=8:ts=8:et:nowrap
 
 import os
+import sys
 from resolvemembernames import memberList
 
 class ContextException(Exception):
@@ -26,6 +27,8 @@ def RunPatchTool(type, ce):
         if not ce.stamp:
                 raise Exception, "Require a stamp in ContextException for this for now"
 
+        print "\nHit RETURN to launch your editor to make patches "
+        sys.stdin.readline()
         status = os.system("./patchtool %s %s -c /%s" % (type, ce.stamp.sdate, ce.stamp.GetAName()))
 
         memberList.reloadXML()

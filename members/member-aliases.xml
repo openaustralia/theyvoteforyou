@@ -30,7 +30,9 @@ A date range can also be specified, for which the alias is valid.
 <!-- Offices (only those that are needed) -->
 
 <alias fullname="Tony Blair" alternate="The Prime Minister" from="1997-05-01" to="9999-31-01"/>
+
 <alias fullname="John Prescott" alternate="The Deputy Prime Minister" from="1997-05-01" to="9999-31-02"/>
+<alias fullname="John Prescott" alternate="The Deputy Prime Minister and First Secretary of State" from="1997-05-01" to="9999-31-02"/>
 
 <!-- note this will be ignored until a John Major is added for a parliament
 before 1997 for which he was PM - date ranges will make the code ignore the
@@ -55,6 +57,8 @@ We should find the exact date she started, and move her finish date over time.
         from="2001-12-31" to="2004-05-01"/>
 <alias fullname="Harriet Harman" alternate="The Solicitor-General"
         from="2001-12-31" to="2004-05-01"/>
+<alias fullname="Harriet Harman" alternate="Solicitor-General"
+        from="2001-12-31" to="2004-05-01"/>
 
 <alias fullname="Lynda Clark" alternate="The Advocate-General for Scotland"
         from="1999-05-20" to="2004-05-01"/>
@@ -62,10 +66,21 @@ We should find the exact date she started, and move her finish date over time.
         from="1999-05-20" to="2004-05-01"/>
 <alias fullname="Lynda Clark" alternate="Advocate-General"
         from="1999-05-20" to="2004-05-01"/>
+<alias fullname="Lynda Clark" alternate="Advocate General"
+        from="1999-05-20" to="2004-05-01"/>
 
 <!-- First added for 2001 parliament -->
+<alias fullname="Margaret Moran" alternate="Margaret Morgan" />
+<alias fullname="Malcolm Wicks" alternate="Malcom Wicks" />
+<alias fullname="Margaret Hodge" alternate="Maragret Hodge" />
+<alias lastname="Sheerman" alternate="Sheermen" />
+<alias fullname="Beverley Hughes" alternate="Beverly Hughes" />
+<alias lastname="McNamara" alternate="NcNamara" />
+<alias fullname="Jacqui Smith" alternate="Jacqui Simth" />
+<alias lastname="Miliband" alternate="Milliband" />
 <alias fullname="Norman Baker" alternate="Noman Baker" />
 <alias lastname="Wilshire" alternate="Wiltshire" />
+<alias fullname="Annabelle Ewing" alternate="Annabell Ewing" />
 <alias fullname="Annabelle Ewing" alternate="Anabelle Ewing" />
 <alias fullname="Lawrie Quinn" alternate="Laurie Quinn" />
 <alias lastname="Fallon" alternate="Fallen" />

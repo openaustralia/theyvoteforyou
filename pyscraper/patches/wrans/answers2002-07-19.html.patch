@@ -1,0 +1,30 @@
+--- wrans/answers2002-07-19.html	2004-04-06 09:28:44.000000000 +0100
++++ wrans/answers2002-07-19-patchtmp.html	2004-04-08 17:34:04.000000000 +0100
+@@ -734,7 +734,7 @@
+ <P>
+ <P>
+ <P>
+-<a name="20719w03.html_spnew11"><B> Clare Short </B> 
++<a name="20719w03.html_spnew11"><B> Clare Short: </B> 
+  <i>[holding answer 11 July 2002]:</i> There are 44 countries in which CDC has a tax exemption not always available to other companies. Until recently CDC also received tax exemption in Costa Rica under an Operating Conditions Agreement (OCA) which CDC voluntarily gave up due to special circumstances in 2000.
+ <P>
+ 
+@@ -837,6 +837,9 @@
+ <TR valign=top><TD><FONT SIZE=-1>41</FONT></TD><TD><FONT SIZE=-1>Vietnam
+ </FONT></TD></TR>
+ <TR valign=top><TD><FONT SIZE=-1>42</FONT></TD><TD><FONT SIZE=-1>Zambia
++</TD></TR>
++</TABLE>
++
+ <P>
+ <P><I>19 Jul 2002 : Column 578W</I><P>
+ 
+@@ -858,7 +861,7 @@
+ <P>
+ <P>
+ <a name="20719w03.html_spnew13"><B> Clare Short </B> 
+- <i>[holding answer 11 July 2002]:</i> Full details are not available without disproportionate cost. However for a list of significant disposals, I would refer the hon. Member to my reply to his question. [67390]
++ <i>[holding answer 11 July 2002]:</i> Full details are not available without disproportionate cost. However for a list of significant disposals, I would refer the hon. Member to my reply to his question. <ok-extra-qnum>[67390]
+ <P>
+ <P>
+ <a name="20719w03.html_wqn14"><B> Gregory Barker: </B> 

@@ -63,7 +63,6 @@ fixsubs = 	[
 
 
 	( '\((115021)\)', '[\\1]', 1, '2003-06-03'),
-	( '\{\*\*con\*\*\}\{\*\*/con\*\*\}', '', 1, '2003-05-19'),
         ( '(\[142901)', '\\1]', 1, '2003-12-11'),
 
         ( '(&nbsp;a minimum energy)<P>', '\\1 efficiency rating.  [153278]', 1, '2004-02-10'),
@@ -83,8 +82,6 @@ fixsubs = 	[
 
  	( 'Worcestershire</FONT></TD>', 'Worcestershire', 1, '2003-07-15'),
 
-	( '\{\*\*con\*\*\}\{\*\*/con\*\*\}', '', 3, '2002-07-24'),
-	( '\{\*\*con\*\*\}\{\*\*/con\*\*\}', '', 1, '2003-01-13'),
 	( '\n\s*\(1\)\s*To ask', '\n To ask (1) ', 3, '2002-07-24'),
 
 	( 'how the proposed', '(1) how the proposed', 1, '2003-04-28'),
@@ -95,7 +92,6 @@ fixsubs = 	[
  	( ' Asked the Secretary', 'To ask the Secretary', 7, '2003-03-07'),
 	( 'Commonwealth Affairs what assessment', 'Commonwealth Affairs (1) what assessment', 1, '2003-03-07'),
  	( '\n What discussions he', '\nTo ask the Secretary of State for Wales what discussions he', 2, '2003-02-12'),
-	( '\{\*\*con\*\*\}\{\*\*/con\*\*\}', '', 1, '2003-01-30'),
 	( 'Rural Affairs what estimates', 'Rural Affairs (1) what estimates', 1, '2003-01-29'),
         
 
@@ -213,13 +209,15 @@ def FilterWransSections(fout, text, sdate):
                 # the next bit.  Happens a lot in wrans in January 2003.
                 # e.g. In 2003-01-15 we have heading "Birmingham Northern Relief Road "
                 # with extra bit "(Low-noise Tarmac)" to pull in.
-                bhmatch = re.match('(\s*[()A-Za-z\-,\' 0-9]+)([\s\S]*)$', unspoketxt)
+                bhmatch = re.match('(\s*[()A-Za-z\-,\'\" 0-9]+)([\s\S]*)$', unspoketxt)
                 if bhmatch:
                         # Merge the heading part back in
                         headingtxt = headingtxt + bhmatch.group(1)
                         headingtxt = re.sub("\s+", " ", headingtxt)
                         unspoketxt = bhmatch.group(2)
-                        print "Merged into heading: ", headingtxt
+                        if len(headingtxt) > 100:
+                                raise Exception, "Suspiciously long merged heading part - is it OK? %s" % headingtext
+                        #print "Merged into heading: ", headingtxt
                   
 
 		# update the stamps from the pre-spoken text
@@ -304,7 +302,7 @@ def FilterWransSections(fout, text, sdate):
 					nqn = string.atoi(qn)
 					if (not qnums.count(qn)) and (nqn > 100) and ((nqn < 1900) or (nqn > 2010)):
                                                 if qb.text.find("<ok-extra-qnum>") >= 0:
-                                                        qb.text = qb.text.replace("<ok-extra-qnum>", "")
+                                                        qb.text = qb.text.replace("<ok-extra-qnum>", "", 1)
                                                 else:
                                                         raise ContextException('unknown qnum %s present in answer, make it clear' % qn, stamp = qb.sstampurl, fragment = qb.text)
 
