@@ -1,11 +1,14 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.18 2004/02/06 16:45:06 frabcus Exp $
+# $Id: faq.php,v 1.19 2004/02/14 20:31:55 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 ?>
+
+<a href="http://www.newstatesman.com/newmedia">
+<img align=right src="http://www.newstatesman.com/nma/nma2004/Graphics/buttons/nominatedbutton.gif" border="0"></a>
 
 <h2>What is the Public Whip?</h2>
 <p>The Public Whip is a project to watch Members of the United Kingdom
