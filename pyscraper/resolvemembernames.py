@@ -12,6 +12,9 @@ import sys
 
 from parlphrases import parlPhrases
 
+# These we don't necessarily match to a speaker id, deliberately
+regnospeakers = "Hon\.? Members|Deputy Speaker|Members of the House of Commons|Second Deputy Chairman(?i)"
+
 class MemberList(xml.sax.handler.ContentHandler):
     def __init__(self):
         self.members={} # ID --> MPs
@@ -227,17 +230,22 @@ class MemberList(xml.sax.handler.ContentHandler):
         if speakeroffice <> "":
             self.debateofficehistory.setdefault(input, sets.Set()).union_update(ids)
 
+        # Put together original in case we need it
+        rebracket = input
+        if bracket:
+            rebracket += " (" + bracket + ")"
+
         # Return errors
         if len(ids) == 0:
-            if not re.search("Hon\.? Members|Deputy Speaker(?i)", input):
-                print "No matches %s (%s)" % (input, bracket)
-            return 'speakerid="unknown" error="No match" speakername="%s (%s)"' % (input, bracket)
+            if not re.search(regnospeakers, input):
+                print "No matches %s" % (rebracket)
+            return 'speakerid="unknown" error="No match" speakername="%s"' % (rebracket)
         if len(ids) > 1:
             names = ""
             for id in ids:
                 names += self.members[id]["firstname"] + " " + self.members[id]["lastname"] + " (" + self.members[id]["constituency"] + ") "
-            print "Multiple matches %s (%s), possibles are %s" % (input, bracket, names)
-            return 'speakerid="unknown" error="Matched multiple times" speakername="%s (%s)"' % (input, bracket)
+            print "Multiple matches %s, possibles are %s" % (rebracket, names)
+            return 'speakerid="unknown" error="Matched multiple times" speakername="%s"' % (rebracket)
         # Extract one id left
         for id in ids:
             pass
