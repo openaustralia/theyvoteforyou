@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.4 2003/09/18 21:09:23 frabcus Exp $
+# $Id: faq.php,v 1.5 2003/10/02 17:21:54 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -17,7 +17,7 @@ like us) can better influence their voting patterns.
 vote "aye" ("yes", for the motion) and those who vote "noe" ("no",
 against the motion).  Each political party has <i>whips</i> who try to
 make their MPs (Members of Parliament) vote for the party line.
-Sometimes an MP <i>rebels</i> by voting agains the party whip.
+Sometimes an MP <i>rebels</i> by voting against the party whip.
 
 <h2>How does the Public Whip work?</h2>
 <p>All the House of Commons debate transcripts (<a href="http://www.parliament.the-stationery-office.co.uk/pa/cm/cmhansrd.htm">Hansard</a>) back to
