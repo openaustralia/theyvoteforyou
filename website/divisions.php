@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.8 2005/02/24 21:22:17 frabcus Exp $
+# $Id: divisions.php,v 1.9 2005/02/25 07:51:51 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -9,13 +9,26 @@
     include "cache-begin.inc";
 
     include "db.inc";
-    include "parliaments.inc";
+    $db = new DB();
+	$bdebug = 0;
+
+	include "decodeids.inc";
+	include "tablemake.inc";
 
     $sort = db_scrub($_GET["sort"]);
+	if ($sort == "")
+		$sort = "date";
+
+	# this indexes into the array $parliaments
+	# should go into decodeids so can be a general purpose division rendering category
+	$parliament = db_scrub($_GET["parliament"]);
+	if ($parliament == "")
+	    $parliament = "2001";  # prefer to be able to fetch first row from $parliaments
 
     $title = "Divisions - " . parliament_name($parliament) . " Parliament";
     include "header.inc";
 ?>
+
 
 <p>A <i>division</i> is the House of Commons terminology for what would
 normally be called a vote.  The word <i>vote</i> is reserved for the
@@ -26,39 +39,15 @@ the order of the table by selecting the headings.
 
 <?
     include "render.inc";
-    $db = new DB(); 
 
-    if ($sort == "")
-    {
-        $sort = "date";
-    }
-    if ($sort == "date")
-    {
-        $order = "division_date desc, division_number desc";
-    }
-    elseif ($sort == "subject")
-    {
-        $order = "division_name, division_date desc, division_number desc";
-    }
-    elseif ($sort == "rebellions")
-    {
-        $order = "rebellions desc, division_date desc, division_number desc";
-    }
-    elseif ($sort == "turnout")
-    {
-        $order = "turnout desc, division_date desc, division_number desc";
-    }
-
+	# this stuff to be turned into a series of tabbing tyle links
     if ($parliament == "2001")
         print "<p><a href=\"divisions.php?parliament=1997&sort=" .  html_scrub($sort) . "\">View divisions for 1997-2001 parliament</a>";
     if ($parliament == "1997")
         print "<p><a href=\"divisions.php?parliament=2001&sort=" .  html_scrub($sort) . "\">View divisions for 2001-2005 parliament</a>";
- 
-    $db->query("$divisions_query_start and division_date <= '" .
-        parliament_date_to($parliament) . "' and division_date >= '" .
-        parliament_date_from($parliament) . "' order by $order"); 
-
     $url = "divisions.php?parliament=" . urlencode($parliament) . "&";
+
+	# these head cells are tabbing type links
     print "<table class=\"votes\">\n";
     print "<tr class=\"headings\">";
     print "<td>No.</td>";
@@ -67,7 +56,10 @@ the order of the table by selecting the headings.
     head_cell($url, $sort, "Rebellions", "rebellions", "Sort by rebellions");
     head_cell($url, $sort, "Turnout", "turnout", "Sort by turnout");
     print "</tr>";
-    render_divisions_table($db);
+
+	# would like to have the above heading put into the scheme
+	division_table($db, "", "", "", "", "everyvote", "none", $sort, $parliaments[$parliament]);
+
     print "</table>\n";
 
 ?>

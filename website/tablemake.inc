@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablemake.inc,v 1.3 2005/02/21 19:37:46 goatchurch Exp $
+    # $Id: tablemake.inc,v 1.4 2005/02/25 07:51:51 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -208,7 +208,9 @@
 	# showwhich is 'everyvote', 'all1', 'all2', 'either', 'both', 'bothdiff' (tellers appear automatically)
 	# (then we need a signal for order and for expanded display, and for events)
 	# headings is 'none', 'columns', 'fulldesc'(for changing mps)
-	function division_table($db, $voter1type, $voter1, $voter2type, $voter2, $showwhich, $headings)
+	# sortby is 'date', 'subject', 'rebellions', 'turnout'
+	# $parldatelimit is null or a line from $parliaments
+	function division_table($db, $voter1type, $voter1, $voter2type, $voter2, $showwhich, $headings, $sortby, $parldatelimit)
 	{
 		global $bdebug;
 		if ($bdebug == 1)
@@ -224,9 +226,25 @@
 
 		$aquery["qfrom"]   = " FROM pw_division";
 		$aquery["qjoin"]   = " LEFT JOIN pw_cache_divinfo ON pw_cache_divinfo.division_id = pw_division.division_id";
+
+		# where clause with limitation for one parliament, or dummy condition
 		$aquery["qwhere"]  = " WHERE 1=1";
+		if ($parldatelimit)
+			$aquery["qwhere"]  = " WHERE (pw_division.division_date >= \"".$parldatelimit['from']."\"
+								  		  AND pw_division.division_date < \"".$parldatelimit['to']."\")";
+
+		# this handles joins with the wiki motion text
 		$aquery["qgroup"]  = " GROUP BY pw_division.division_id";
-		$aquery["qorder"]  = " ORDER BY divisiondate DESC, divisionnumber DESC";
+
+
+		# accumulate the ordering command
+		$aquery["qorder"]  = " ORDER BY";
+		if ($sortby == "subject")
+			$aquery["qorder"] .= " division_name, ";
+		if ($sortby == "rebellions" or $sortby == "turnout")
+			$aquery["qorder"] .= " $sortby DESC, ";
+		$aquery["qorder"] .= " divisiondate DESC, divisionnumber DESC";
+
 
 		# corrected column (yet another division_id coding!)
 		$aquery["qjoin"]  .= " LEFT JOIN pw_dyn_wiki ON pw_dyn_wiki.object_key =
@@ -239,7 +257,8 @@
 			divmpconds($aquery, $db, $voter1, $bonlyvotes1, false, 1);
 		else if ($voter1type == "dreammp")
 			divdreammpconds($aquery, $db, $voter1, $bonlyvotes1, 1);
-
+		else if ($voter1type == "")  # this case means we are listing all divisions without a driver
+			$aquery["qselect"] .= ", rebellions, turnout";
 
 		# construct the second column of votes (if it exists)
 		if ($voter2type != "")
@@ -333,13 +352,22 @@
         while ($row = $db->fetch_row_assoc())
         {
 			# mark the role column and fix the terminology of the vote
-			$vote1 = $row['vote1'];
-			$vote2 = $row['vote2'];
-			$rolecol = workrolecolumn($voter1type, $vote1, $voter2type, $vote2, $showwhich);
-			if ($rolecol == "")
-				continue;      # final filter bail out
+            $pretrowclass = "";
+			if ($voter1type != "")
+			{
+				$vote1 = $row['vote1'];
+				$vote2 = $row['vote2'];
+				$rolecol = workrolecolumn($voter1type, $vote1, $voter2type, $vote2, $showwhich);
+				if ($rolecol == "")
+					continue;      # final filter bail out
+			}
 
-            $prettyrow = pretty_row_start($prettyrow);
+			# it's ugly if it's all red at the top when sorted
+			else if ($row['rebellions'] >= 10 and $sortby != "rebellions")
+	            $pretrowclass = "rebel";
+
+
+            $prettyrow = pretty_row_start($prettyrow, $pretrowclass);
 			if ($voter2type != "")
 				print $rolecol;
 			print "<td>".$row['divisiondate']."</td>";
@@ -350,16 +378,27 @@
 				$divdesc .= " (<i>uncorrected</i>)";
 			print "<td><a href=\"$divhref\">$divdesc</a></td>\n";
 
-			print "<td>$vote1</td>";
-			if ($voter2type != "")
-				print "<td>$vote2</td>\n";
+			if ($voter1type != "")
+			{
+				print "<td>$vote1</td>";
+				if ($voter2type != "")
+					print "<td>$vote2</td>\n";
+   			}
 
-			$debate_gid = str_replace("uk.org.publicwhip/debate/", "", $row['debate_gid']);
-		    if ($debate_gid != "")
-				$hrefsource = "http://www.theyworkforyou.com/debates/?id=$debate_gid";
+			# alternative columns on division table
 			else
-				$hrefsource = $row['source_url'];
-            print "<td><a href=\"$hrefsource\">speeches</a></td>";
+				print "<td>".$row['rebellions']."</td> <td>".$row['turnout']."</td>\n";
+
+			# no reason not to have a speeches column on the division table, but we don't
+			if ($voter1type != "")
+			{
+				$debate_gid = str_replace("uk.org.publicwhip/debate/", "", $row['debate_gid']);
+			    if ($debate_gid != "")
+					$hrefsource = "http://www.theyworkforyou.com/debates/?id=$debate_gid";
+				else
+					$hrefsource = $row['source_url'];
+	            print "<td><a href=\"$hrefsource\">speeches</a></td>";
+			}
 
             print "</tr>\n";
             $nrows += 1;
