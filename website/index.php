@@ -1,7 +1,7 @@
 <?php $cache_params = rand(0, 10); include "cache-begin.inc"; ?>
 
 <?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
-# $Id: index.php,v 1.31 2004/07/16 14:22:33 frabcus Exp $
+# $Id: index.php,v 1.32 2004/07/20 10:29:19 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -94,15 +94,16 @@ href="account/adddream.php">create</a> an MP who votes how you want</span>
 
 <td colspan=2>
 
-<h2>Interesting Divisions <a href="divisions.php?sort=rebellions"
+<h2>Recent Controversial Divisions <a href="divisions.php?sort=rebellions"
 title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
-<p>Selected at random from divisions with more than 10 rebellions.
+<!-- <p>Selected at random from divisions with more than 10 rebellions.  -->
 
 <?php
     $db->query("$divisions_query_start and " . parliament_query_range_div($parliament) . "
         and rebellions > 10 and
         pw_division.division_id = pw_cache_divinfo.division_id order by
-        rand() limit 5"); 
+        division_date desc limit 5"); 
+#        rand() limit 5"); 
 
     print "<table class=\"votes\">\n";
     print "<tr class=\"headings\">\n";
