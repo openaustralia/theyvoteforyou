@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php
-# $Id: division.php,v 1.13 2003/11/05 12:19:29 frabcus Exp $
+# $Id: division.php,v 1.14 2003/11/05 14:54:04 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -153,7 +153,7 @@
         if ($no == "") { $no = 0; }
         if ($both == "") { $both = 0; }
         $whip = $whips[$party];
-        $total = $aye + $no + $both;
+        $total = $aye + $no + $both + $tellaye + $tellno;
         $classaye = "normal";
         $classno = "normal";
         if ($whip == "aye") { if ($no + $tellno > 0) { $classno = "rebel";} ;} else { $classno = "whip"; }

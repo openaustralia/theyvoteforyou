@@ -9,6 +9,7 @@ And bobby
 
 Find max teller people
 
+
 Scraper
 -------
 
@@ -18,20 +19,16 @@ Check for divisions which don't have quorum of 40
 
 Measure abstentions by parliament rather than global proportions?
 
+Make clustering cope with tellaye/tellno
 Make cluster stuff store NUMBER OF VOTES both voted in for extra possible friends info
 
 Look at majorities
-
-Check for repeated typo'ed constituencies
- - in "check" do a search for solitary ones
-
-Garbage collection in Perl script
 
 remake pw_mp to have left_reason entered_reason - make it error if you
 don't make an entry using the reasons
 
 Make one script I have to run which just does everything (backup logs,
-backup sf cvs repository, get latest divisions, upload to db)
+get latest divisions, upload to db)
 
 Check "Question accordingly..." fits with our counting
 Tally vote numbers in text and check they fit with our counting
