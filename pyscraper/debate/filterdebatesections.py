@@ -67,7 +67,9 @@ def StripDebateHeading(hmatch, ih, headspeak, bopt=False):
 		if bopt:
 			return ih
 		print "headspeak", headspeak[ih]
-		raise Exception, 'non-conforming "%s" heading ' % hmatch
+                if headspeak[ih][2]:
+                        raise ContextException('non-conforming section after "%s" heading. e.g. "in the chair" missing <h4><center> ' % hmatch, fragment=headspeak[ih][2])
+                raise ContextException('non-conforming "%s" heading ' % hmatch, fragment=headspeak[ih][0])
 	return ih + 1
 
 def StripDebateHeadings(headspeak, sdate):

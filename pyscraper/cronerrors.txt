@@ -8,6 +8,7 @@ Dates are quite rough as sometimes I put todays date rather than the error date
 CRON = cron job on baked
 PWIP = weekly Public Whip update
 
+CRON 2004-07-16 Beginning headers, missing center tag
 CRON 2004-07-15 FONT tag in middle of paragraph
 CRON 2004-07-14 Missing (1) in wrans
 CRON 2004-07-13 Terry Davis listed as voting when he had resigned, removed him
