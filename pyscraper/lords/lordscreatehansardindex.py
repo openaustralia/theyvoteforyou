@@ -55,7 +55,7 @@ def LordsIndexFromAll(urlalldays):
     for link in datelinks:
         sdate = mx.DateTime.DateTimeFrom(link[1]).date
         uind = urlparse.urljoin(urlalldays, re.sub('\s', '', link[0]))
-        res.append((sdate, 1, uind))
+        res.append((sdate, '1', uind))
 
     return res
 
@@ -118,7 +118,7 @@ def LordsIndexFromVolMenu(urlbndvols):
 				continue
 			sdate = mx.DateTime.DateTimeFrom(sss[0]).date
 	        uind = urlparse.urljoin(vol[1], re.sub('\s', '', sss[1]))
-	        res.append((sdate, 2, uind))
+	        res.append((sdate, '2', uind))
 
 	return res
 
@@ -132,22 +132,57 @@ def WriteXML(fout, urllist):
 	for i in range(len(urllist)):
 		r = urllist[i]
 		if (i == 0) or (r != urllist[i-1]):
-#			if r[0] >= earliestdate:
-				fout.write('<lordsdaydeb date="%s" type="%d" url="%s"/>\n' % (r[0], r[1], r[2]))
+			fout.write('<lordsdaydeb date="%s" type="%s" url="%s"/>\n' % (r[0], r[1], r[2]))
 
 	fout.write("\n</publicwhip>\n")
+
+
+# gets the old file so we can compare the head values
+class LoadOldLIndex(xml.sax.handler.ContentHandler):
+	def __init__(self, pwlordindex):
+		self.res = []
+		if not os.path.isfile(pwlordindex):
+			return
+		parser = xml.sax.make_parser()
+		parser.setContentHandler(self)
+		parser.parse(pwlordindex)
+
+	def startElement(self, name, attr):
+		if name == "lordsdaydeb":
+			ddr = (attr["date"], attr["type"], attr["url"])
+			self.res.append(ddr)
+
+	def CompareHeading(self, urllisthead):
+		if not self.res:
+			return False
+
+		for i in range(min(20, len(urllisthead))):
+			if (i >= len(self.res)) or (self.res[i] != urllisthead[i]):
+				print "failed match", i
+				if i < len(self.res):
+					print self.res[i], urllisthead[i]
+				return False
+		return True
 
 
 ###############
 # main function
 ###############
-def UpdateLordsHansardIndex():
+def UpdateLordsHansardIndex(bforce):
+	urllisth = LordsIndexFromAll(urlalldays)
+	urllisth.sort()
+	urllisth.reverse()
+
+	oldindex = LoadOldLIndex(pwlordindex)
+	if oldindex.CompareHeading(urllisth) and not bforce:
+		#print "head the same, no new list"
+		return
+
 	# get front page (which we will compare against)
 	urllistv = LordsIndexFromVolMenu(urlbndvols)
-	urllisth = LordsIndexFromAll(urlalldays)
 
-	urlall = urllistv[:]
-	urlall.extend(urllisth)
+	urlall = urllisth[:]
+	urlall.extend(urllistv)
 
 	# compare the above with a loading of the head of the lordindex
 	# if not match, take it, and properly deal with urlbndvols

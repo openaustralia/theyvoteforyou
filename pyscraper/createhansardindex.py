@@ -226,9 +226,9 @@ class LoadOldIndex(xml.sax.handler.ContentHandler):
 # main function
 ###############
 def UpdateHansardIndex(force):
-        global reses
-        reses = {}
-        
+	global reses
+	reses = {}
+
 	# get front page (which we will compare against)
 	CmIndexFromPage(urlcmindex)
         urllisth = map(lambda r: r + (reses[r][0],), reses.keys())

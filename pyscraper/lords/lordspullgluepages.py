@@ -19,7 +19,7 @@ toppath = miscfuncs.toppath
 # index file which is created
 pwlordsindex = os.path.join(toppath, "lordindex.xml")
 
-# output directories (everything of one day in one file).  
+# output directories (everything of one day in one file).
 pwlordspages = os.path.join(toppath, "lordspages")
 
 tempfilename = tempfile.mktemp("", "pw-gluetemp-", toppath)
@@ -72,8 +72,10 @@ def ExtractIndexContents(urlx):
 	# get the links
 	#<p><a href="../text/40129w01.htm#40129w01_sbhd7"><H3><center>Olympic Games 2012: London Bid</center></H3>
 	#</a></p>
-	relkex = re.compile('<p><a href="(\S*?.htm)#\S*"><H3><center>(.*?)</center></H3>\s*</a></p>')
+	relkex = re.compile('<p><a href="([^"]*?\.htm)#[^"]*"><h3><center>(.*?)(?:</center>|</h3>)+\s*</a></p>(?i)')
 	res = relkex.findall(lktex)
+	if not res:
+		print "no links found from day index page"
 	return res
 
 
@@ -166,7 +168,6 @@ def LordsPullGluePages(datefrom, dateto, deleteoutput):
 		if deleteoutput:
 			if os.path.isfile(dgf):
 				os.remove(dgf)
-			continue
 
 		# hansard index page
 		urlx = dnu[1]

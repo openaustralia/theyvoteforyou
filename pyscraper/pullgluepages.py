@@ -141,7 +141,7 @@ def ExtractFirstLink(url):
 	lk = []
 	while xline:
 		# <a HREF =" ../debtext/31106-01.htm#31106-01_writ0">Oral Answers to Questions </a>
-		lk = re.findall('<a\s+href\s*=\s*"(.*?)">.*?</a>(?i)', xline)
+		lk = re.findall('<a\s+href\s*=\s*"(.*?)">.*?\s*</a>(?i)', xline)
 		if lk:
 			break
 		xline = urx.readline()

@@ -145,10 +145,10 @@ if not options.debates and not options.westminhall and not options.wrminstat and
 #
 if options.scrape:
 	# get the indexes
-	if options.wrans or options.debates:
+	if options.wrans or options.debates or options.westminhall:
 		UpdateHansardIndex(options.forceindex)
 	if options.lords:
-		UpdateLordsHansardIndex()
+		UpdateLordsHansardIndex(options.forceindex)
 
 	# get the changing pages
 	if options.chgpages:
