@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.10 2003/10/15 17:15:48 frabcus Exp $
+# $Id: faq.php,v 1.11 2003/10/21 18:16:18 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -28,7 +28,8 @@ you can access.
 
 <h2>What time period does it cover?</h2>
 <p>The data extends back across two parliaments to the May 1997 General
-Election.  New divisions are added semi-manually, so may not appear
+Election, although there are a few divisions missing in the 1997
+parliament.  New divisions are added semi-manually, so may not appear
 until a few days after they happen.  We give no warranty for the data;
 there may be factual inaccuracies.  <a
 href="mailto:support@publicwhip.org.uk">Let us know</a> if you find any.
@@ -55,6 +56,32 @@ in each division.  In total <?=$vote_count?> votes were cast, of which
 <?=$rebellious_votes?> were against the majority vote for their party.
 That's an overall <?=$attendance?>% attendance rate and
 <?=$rebelocity?>% rebellion rate.
+
+<h2><a name="clarify">What do the "rebellion"
+and "attendance" figures mean exactly?</a></h2>
+<p>The apparent meaning of the data can be misleading, so try not to
+jump to conclusions about your MP.
+
+<p>"Attendance" is for voting in divisions. An MP may have a low
+attendance because they have abstained a lot, have ministerial
+or other duties, or they are the speaker.  Perhaps they consider each
+division carefully, and only vote when they know about the subject.  A
+full list of reasons for low attendance can be found in the Divisions
+section on page 11 of <a
+href="http://www.parliament.uk/commons/lib/research/rp2003/rp03-032.pdf">a
+House of Commons library research paper</a>.  Note also that the Public
+Whip does not currently record tellers (partly because Hansard is
+unreliable at doing so), or that a member spoke in the debate but did
+not vote.
+
+<p>"Rebellion" on this website means a vote against the
+majority vote by members of the MP's party.  Unfortunately this will
+indicate that many members have rebelled in a free vote.  Until
+precise data on when and how strongly each party has whipped is made
+available, there is no true way of identifying a "rebellion".  Perhaps
+you might like to ask your party whip's office to post this information
+on their website.  There may be some heuristics we can use to do better
+than we do at the moment, and help would be welcomed to try them out.
 
 <h2><a name="legal">Legal question, what can I use this information for?</a></h2>
 

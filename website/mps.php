@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mps.php,v 1.6 2003/10/15 06:59:00 frabcus Exp $
+    # $Id: mps.php,v 1.7 2003/10/21 18:16:18 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -57,24 +57,13 @@
         parliament_date_to($parliament) . "' and entered_house >= '".
         parliament_date_from($parliament) . "' order by $order");
 
-    if ($sort == "rebellions")
-    {
 ?>
 <p>The Members of Parliament are listed with how often they turn up to
-vote, and a guess at the number of times they have gone against their
-party whip.  They are sorted so that the most rebellious appear first.
-You can change the order of the table by selecting the headings.
+vote, and the number of times they voted against the majority vote
+for their party.  Read a <a href="faq.php#clarify">clear
+explanation</a> of these terms, as they may not have the meanings
+you expect. You can change the order of the table by selecting the headings.
 <?php
-    }
-    else
-    {
-?>
-<p>The Members of Parliament are listed with how often they turn up to
-vote, and a guess at the number of times they have gone against their
-party whip.  You can change the order of the table by selecting the
-headings.
-<?php
-    }
     if ($parliament == "2001")
         print "<p><a href=\"mps.php?parliament=1997&sort=" . html_scrub($sort) . "\">View MPs for 1997 parliament</a>";
     if ($parliament == "1997")

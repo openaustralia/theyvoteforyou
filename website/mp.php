@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.12 2003/10/15 06:59:00 frabcus Exp $
+    # $Id: mp.php,v 1.13 2003/10/21 18:16:18 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -36,7 +36,11 @@
         constituency = '$constituency' 
         order by entered_house desc");
 
-    print "<h2>General Information</h2>";
+    print "<h2>General Information</h2>
+        <p>Periods of continuous office for this MP with their rebellion and
+        division attendance rates.
+        Read a <a href=\"faq.php#clarify\">clear explanation</a> 
+        of these terms, as they may not have the meanings you expect.";
     $prettyrow = 0;
     $mp_ids = array();
     $parties = array();
