@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: dreamquery.xml,v 1.3 2005/01/16 00:21:14 frabcus Exp $
+    # $Id: dreamquery.xml,v 1.4 2005/02/18 12:13:18 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -35,11 +35,10 @@
         print "Error: Postcode not found\n";
     }
      else {
-        $query = "select name, description, pw_dyn_user.user_id, user_name, real_name, email
+        $query = "select name, description, pw_dyn_user.user_id, user_name
             from pw_dyn_rolliemp, pw_dyn_user
             where pw_dyn_rolliemp.user_id = pw_dyn_user.user_id and rollie_id = '$dream_id'";
         $dreaminfo = $db->query_one_row_assoc($query);
-        $dmp_email = preg_replace("/(.+)@(.+)/", "email domain: $2", $dreaminfo['email']);
 
         print " <dreamrealcompare dream_id=\"$dream_id\" mp_id=\"" .  $mpinfo['mp_id'] . "\">\n";
 

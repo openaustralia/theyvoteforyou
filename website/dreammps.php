@@ -51,49 +51,36 @@ you like.  For example:
     print "<tr class=\"headings\">
         <td>Voted</td>
         <td>Name</td>
-        <td>Made by</td><td>Email</td>
+        <td>Made by</td>
         <td>Description</td>
         </tr>";
 
-    $query = "select name, description, pw_dyn_user.user_id, user_name, real_name, 
-                email, rollie_id, count(pw_dyn_rollievote.vote) as count
+    $query = "select name, description, pw_dyn_user.user_id as user_id, user_name,
+                rollie_id, count(pw_dyn_rollievote.vote) as count
         from pw_dyn_rolliemp, pw_dyn_user, pw_dyn_rollievote where 
             pw_dyn_rolliemp.user_id = pw_dyn_user.user_id and
             pw_dyn_rollievote.rolliemp_id = rollie_id group by rollie_id order by count desc";
     $dbo->query($query);
 
     $prettyrow = 0;
-    while ($row = $dbo->fetch_row())
+    while ($row = $dbo->fetch_row_assoc())
     {
         $prettyrow = pretty_row_start($prettyrow);
-
-        $dmp_name = $row[0];
-        $dmp_description = $row[1];
-        $dmp_user_id = $row[2];
-        $dmp_user_name = $row[3];
-        $dmp_real_name = $row[4];
-        $dmp_email = preg_replace("/(.+)@(.+)/", "$2", $row[5]);
-        $dreamid = $row[6];
-        $count = $row[7];
+        $dreamid = $row['rollie_id'];
 
         if (user_isloggedin())
-            $your_dmp = ($dmp_user_id == user_getid());
+            $your_dmp = ($row['user_id'] == user_getid());
         else
             $your_dmp = false;
 
-        print "<td>$count</td>\n";
-        print "<td><a href=\"dreammp.php?id=$dreamid\">" . $dmp_name . "</a></td>";
-
-        print "<td>" . html_scrub($dmp_real_name) . "</td>";
-        print "<td>" . html_scrub($dmp_email) . "</td>";
-
-        print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($dmp_description)), 0, 300); 
+        print "<td>" . $row['count'] . "</td>\n";
+        print "<td><a href=\"dreammp.php?id=$dreamid\">" . $row['name'] . "</a></td>";
+        print "<td>" . html_scrub($row['user_name']) . "</td>";
+        print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 300); 
         if ($your_dmp) {
             print " [<a href=\"account/editdream.php?id=$dreamid\">Edit...</a>]";
         }
-        print "</td>";
-
-        print "</tr>";
+        print "</td></tr>";
     }
     print "</table>\n";
 

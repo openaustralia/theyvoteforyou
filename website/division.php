@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.48 2005/02/18 10:14:03 frabcus Exp $
+# $Id: division.php,v 1.49 2005/02/18 12:13:18 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -262,7 +262,7 @@
     if ($motion_data['user_id'] != 0) {
         $db->query("select * from pw_dyn_user where user_id = " . $motion_data['user_id']);
         $row = $db->fetch_row_assoc();
-        $last_editor = html_scrub($row['real_name']);
+        $last_editor = html_scrub($row['user_name']);
         print " (last edited by $last_editor on " .
             $motion_data['edit_date'] . ")";
     } else {
@@ -537,7 +537,7 @@
 }
 
     # Show Dream MPs who voted in this division and their votes
-    $db->query("select name, rollie_id, vote, real_name, email from pw_dyn_rolliemp, pw_dyn_rollievote, pw_dyn_user
+    $db->query("select name, rollie_id, vote, user_name from pw_dyn_rolliemp, pw_dyn_rollievote, pw_dyn_user
         where pw_dyn_rollievote.rolliemp_id = pw_dyn_rolliemp.rollie_id and
         pw_dyn_user.user_id = pw_dyn_rolliemp.user_id and
         pw_dyn_rollievote.division_date = '$date' and pw_dyn_rollievote.division_number = '$div_no' ");
@@ -548,10 +548,8 @@
         print "<p>The following Dream MPs have voted in this division.  You can use this
            to help you work out the meaning of the vote.";
         print "<table><tr class=\"headings\">";
-        print "<td>Dream MP</td><td>Vote (in this division)</td><td>Made by</td><td>Email</td>";
+        print "<td>Dream MP</td><td>Vote (in this division)</td><td>Made by</td>";
         while ($row = $db->fetch_row_assoc()) {
-            $dmp_real_name = $row["real_name"];
-            $dmp_email = preg_replace("/(.+)@(.+)/", "$2", $row["email"]);
             $prettyrow = pretty_row_start($prettyrow);        
             $vote = $row["vote"];
             if ($vote == "both")
@@ -559,8 +557,7 @@
             print "<td><a href=\"dreammp.php?id=" . $row["rollie_id"] . "\">";
             print $row["name"] . "</a></td>";
             print "<td>" . $vote . "</td>";
-            print "<td>" . html_scrub($dmp_real_name) . "</td>";
-            print "<td>" . html_scrub($dmp_email) . "</td>";
+            print "<td>" . html_scrub($row['user_name']) . "</td>";
             print "</tr>";
         }
         print "</table>";

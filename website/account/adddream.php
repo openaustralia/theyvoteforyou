@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: adddream.php,v 1.11 2005/01/22 14:46:40 frabcus Exp $
+# $Id: adddream.php,v 1.12 2005/02/18 12:13:18 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -84,13 +84,11 @@ if (user_isloggedin()) # User logged in, show settings screen
         misrepresent an organisation.  Do not make it appear that your MP is an
         official representation of, say, Amnesty International's views, unless you have
         the authority from Amnesty International to do so.  Instead put
-        \"Unofficial Amnesty International\".
-        <p>Your name and email address will be displayed alongside your made-up MP, masked
-        to prevent spam.  If you represent an organisation, register with The
-        Public Whip using an email address of that organisation.  Dream MPs which
-        appear to represent an organisation but do not really will be removed.
-        Please contact <a href=\"mailto:team@publicwhip.org.uk\">team@publicwhip.org.uk</a>
-        if you spot any such abuse.
+        \"Unofficial Amnesty International\".  Dream MPs which appear to
+        represent an organisation but do not really will be removed.  Please
+        contact <a
+        href=\"mailto:team@publicwhip.org.uk\">team@publicwhip.org.uk</a> if
+        you spot any such abuse.
         ";
 
     }
@@ -117,18 +115,14 @@ if (user_isloggedin()) # User logged in, show settings screen
         in any other form, such as on a poster, on a CD-ROM or in a newspaper.
 
         <p><span class="ptitle">Privacy Notes:</span>
-        By creating a dream MP you are making your name
-        <b><?=user_getrealname()?></b>, your email address <b><?=user_getemail()?></b> and
-        your made-up MP's voting record public.  If you do not
-        wish to do so, create a free, anonymous email address with a
-        provider such as <a href="http://www.fastmail.fm">FastMail.fm</a> and register here
-        with that account.  Be aware, people viewing the Public Whip website will be able to
-        associate the description, voting record and commentary relating to your
-        dream MP with your email address.
+        By creating a dream MP you are making your user name
+        <b><?=user_getname()?></b> and your made-up MP's voting record public.  
+        Be aware, people viewing the Public Whip website will be able to
+        associate the description, voting record and commentary relating to
+        your dream MP with your user name.
 
         <p><INPUT TYPE="checkbox" NAME="confirmprivacy">Confirm you have read the
-        above privacy notes, and realise in particular that by submitting this
-        form you will make your email address and name public.
+        above privacy notes
         <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Create Dream MP">
         </FORM>
 

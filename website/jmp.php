@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: jmp.php,v 1.7 2005/02/18 10:14:03 frabcus Exp $
+    # $Id: jmp.php,v 1.8 2005/02/18 12:13:18 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -64,7 +64,7 @@
 	if ($dreammpid == "") {
         die("Need a DreamMP id");
     }
-    $query = "select name, description, pw_dyn_user.user_id, user_name, real_name, email
+    $query = "select name, description, pw_dyn_user.user_id, user_name
         from pw_dyn_rolliemp, pw_dyn_user
         where pw_dyn_rolliemp.user_id = pw_dyn_user.user_id and rollie_Id = '$dreammpid'";
     $row = $db1->query_one_row($query);
@@ -72,7 +72,6 @@
     $dmp_description = $row[1];
     $dmp_user_id = $row[2];
     $dmp_user_name = $row[3];
-    $dmp_real_name = $row[4];
 
 	# do the header, which opens a title table
     $title = html_scrub("Comparison - $first_name $last_name MP with '$dmp_name' Dream MP");

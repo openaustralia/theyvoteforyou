@@ -19,7 +19,7 @@
     include_once "account/user.inc";
     $db = new DB(); 
 
-    $query = "select name, description, pw_dyn_user.user_id, user_name, real_name, email
+    $query = "select name, description, pw_dyn_user.user_id, user_name 
         from pw_dyn_rolliemp, pw_dyn_user
         where pw_dyn_rolliemp.user_id = pw_dyn_user.user_id and rollie_Id = '$dreamid'";
     $row = $db->query_one_row($query);
@@ -27,8 +27,6 @@
     $dmp_description = $row[1];
     $dmp_user_id = $row[2];
     $dmp_user_name = $row[3];
-    $dmp_real_name = $row[4];
-    $dmp_email = preg_replace("/(.+)@(.+)/", "email domain: $2", $row[5]);
 
     $title = "'" . html_scrub($dmp_name) . "' - Dream MP";
     include "header.inc";
@@ -44,7 +42,7 @@
 	print '<a href="#comparison">Comparison to Real MPs</a>';
 
     print "<p><b>Description:</b> " . str_replace("\n", "<br>", html_scrub($dmp_description)). "</p>";
-    print "<p><b>Made by:</b> " . html_scrub($dmp_real_name) . " (" . html_scrub($dmp_email) . ")</p>";
+    print "<p><b>Made by:</b> " . html_scrub($dmp_user_name) . "</p>";
     if ($your_dmp)
     {
         print "<p><a href=\"account/editdream.php?id=$dreamid\">Edit name/description of this dream MP</a>";
@@ -58,7 +56,7 @@
     print "<h2><a name=\"divisions\">Divisions Attended</a></h2>
     <p>Divisions in which this dream MP has voted."; 
 
-    print "<table>\n";
+    print "<table class=\"divisions\">\n";
     # Table of votes in each division
     $query = "select pw_division.division_id, pw_division.division_number, pw_division.division_date,
         division_name, source_url, vote from pw_division,

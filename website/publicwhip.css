@@ -13,7 +13,8 @@ A:link, A:active, A:visited
     TEXT-DECORATION: underline
 }
 TABLE.mps A:link, TABLE.mps A:active, TABLE.mps A:visited,
-TABLE.votes A:link, TABLE.votes A:active, TABLE.votes A:visited
+TABLE.votes A:link, TABLE.votes A:active, TABLE.votes A:visited,
+TABLE.divisions A:link, TABLE.divisions A:active, TABLE.divisions A:visited
 {
     TEXT-DECORATION: none
 }
@@ -145,6 +146,10 @@ TABLE.votes
     WIDTH: 100%
 }
 TABLE.mps
+{
+    WIDTH: 100%
+}
+TABLE.divisions
 {
     WIDTH: 100%
 }
