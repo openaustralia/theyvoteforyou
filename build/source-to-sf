@@ -1,0 +1,30 @@
+#!/bin/bash
+set -e
+
+# Makes a source release of the Public Whip
+
+cd ../publicwhip # make sure in sensible place
+
+BUILD=`cat build/source-release.txt`
+let BUILD=BUILD+1
+echo $BUILD >build/source-release.txt
+WHO=`whoami`@`hostname`
+cvs commit -m "Autobuild $BUILD" build/source-release.txt
+
+cvs tag -r HEAD source-release-$BUILD .
+
+cd /tmp
+rm -fr publicwhip-sourceforge-temp
+mkdir publicwhip-sourceforge-temp
+cd publicwhip-sourceforge-temp
+
+export CVSROOT=:ext:frabcus@cvs.sourceforge.net:/cvsroot/publicwhip
+cvs export -r source-release-$BUILD publicwhip
+mv publicwhip publicwhip-source-$BUILD
+
+tar cvfz publicwhip-source-$BUILD.tar.gz publicwhip-source-$BUILD
+
+#ftp-upload --host upload.sourceforge.net --dir /incoming --user anonymous publicwhip-source-$BUILD.tar.gz
+
+
+

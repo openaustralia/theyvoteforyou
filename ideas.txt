@@ -226,6 +226,8 @@ http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030611/debtext/3061
 http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030610/debtext/30610-01.htm
 http://www.publications.parliament.uk/pa/cm200203/cmhansrd/vo021121/debtext/21121-01.htm
 http://www.publications.parliament.uk/pa/cm200001/cmhansrd/vo010316/debtext/10316-01.htm
+Try browsing web server's directory indices:
+http://www.publications.parliament.uk/pa/
 
 Motion being voted on:
 http://www.parliament.the-stationery-office.co.uk/pa/cm/cmagenda.htm
