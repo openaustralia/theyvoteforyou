@@ -3,13 +3,13 @@ use strict;
 use lib "loader/";
 
 my $text = "website/newsletters/dream2.txt";
-#my $test_name = "";
-#my $test_name = "Jo Kibble";
-my $test_name = "Francis Irving";
-#my $test_name = "Julian Todd";
+my $type = "dream"; 
+my $test_name = "";
 
-my $type = "all";
-#my $type = "dream"; 
+#my $type = "all";
+#my $test_name = "Jo Kibble";
+#my $test_name = "Francis Irving";
+#my $test_name = "Julian Todd";
 
 my $amount = 1000000;
 
