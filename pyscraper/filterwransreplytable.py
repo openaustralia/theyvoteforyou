@@ -14,7 +14,7 @@ regtablejunk = '</?font[^>]*>|</?p>|\n(?i)'
 
 
 
-recolsplit = re.compile('(<t[dh][^>]*>[\s\S]*?(?:</t[dh]>|(?=<t[dh]>)))(?i)')
+recolsplit = re.compile('(<t[dh][^>]*>[\s\S]*?(?:</t[dh]>|(?=<t[dh][^>]*>)))(?i)')
 recolmatch = re.compile('<t[dh](?: colspan=(\d+)(?: align=(center))?)?>\s*([\s\S]*?)\s*(?:</t[dh]>)?$(?i)')
 def ParseRow(srow, hdcode):
 	# build up the list of entries for this row
@@ -47,7 +47,7 @@ def ParseTable(stable):
 	stable = re.match('<table[^>]*>\s*([\s\S]*?)\s*</table>(?i)', stable).group(1)
 
 	# break into rows, making sure we can deal with non-closed <tr> symbols
-	sprows = re.split('(<tr[^>]*>[\s\S]*?(?:</tr>|(?=<tr>)))(?i)', stable)
+	sprows = re.split('(<tr[^>]*>[\s\S]*?(?:</tr>|(?=<tr[^>]*>)))(?i)', stable)
 
 	# build the rows
 	stitle = ''

@@ -15,12 +15,13 @@ def ApplyFixSubstitutions(text, sdate, fixsubs):
 # this only accepts <sup> and <i> tags
 def StraightenHTMLrecurse(stex):
 
+
 	# split the text into <i></i> and <sup></sup>
 	qisup = re.search('(<i>(.*?)</i>)(?i)', stex)
 	if qisup:
 		qtag = ('<i>', '</i>')
 	else:
-		qisup = re.search('(<sup>([\s\S]*?)</sup>)(?i)', stex)
+		qisup = re.search('(<sup>(.*?)</sup>)(?i)', stex)
 		if qisup:
 			qtag = ('<sup>', '</sup>')
 
@@ -72,7 +73,7 @@ def StraightenHTMLrecurse(stex):
 			elif sres[i] == '&#95;':    # this is underscore symbol
 				sres[i] = '_'
 			elif sres[i] == '&#183;':   # this is an unknown symbol
-				sres[i] = '&quot'
+				sres[i] = '&quot;'
 			elif sres[i] == '&pound;':
 				sres[i] = 'POUNDS'
 			elif sres[i] == '&nbsp;':
@@ -100,8 +101,9 @@ def StraightenHTMLrecurse(stex):
 			sres[i] = 'CLOSE-i-TAG-OUT-OF-PLACE'
 
 		elif sres[i][0] == '<' or sres[i][0] == '>':
-			print sres[i] + ' tag out'
+			print sres[i] + ' tag out of place '
 			sres[i] = 'TAG-OUT-OF-PLACE'
+			#raise Exception, ' now'
 
 	return sres
 
@@ -222,7 +224,7 @@ def SplitParaIndents(text):
 
 	res =  [ ]
 	resdent = [ ]
-	bIndent = False
+	bIndent = 0
 	for i in range(len(dell)):
 		if (i % 2) == 0:
 			for sp in dell[i]:
@@ -230,17 +232,33 @@ def SplitParaIndents(text):
 					if bIndent:
 						print text
 						raise Exception, ' already indentented '
-					bIndent = True
+					bIndent = 1
 				elif re.match('</ul>(?i)', sp):
-					# no error 
+					# no error
 					#if not bIndent:
 					#	raise Exception, ' already not-indentented '
-					bIndent = False
-		else:
-			resdent.append(bIndent)
-			res.append(dell[i])
+					bIndent = 0
+			continue
+
+		# we have the actual text between the spaces
+		# we might have full italics indent style
+		# (we're ignoring fonts for now)
+
+		# separate out italics type paragraphs
+		tex = dell[i]
+		cindent = bIndent
+
+		qitbod = re.match('<i>([\s\S]*?)</i>[.:]?$', tex)
+		if qitbod:
+			tex = qitbod.group(1)
+			cindent = cindent + 2
+
+		res.append(tex)
+		resdent.append(cindent)
+
 	if bIndent:
 		print text
 		raise ' still indented after last space '
 	return (res, resdent)
+
 

@@ -135,8 +135,8 @@ if __name__ == '__main__':
 	fdirin.reverse()
 	for fin in fdirin:
 		sdate = re.search('\d{4}-\d{2}-\d{2}', fin).group(0)
-		if sdate > '2000-11-07':
-			continue
+		#if sdate > '2000-11-07':
+		#	continue
 		flkpages.write('<html>\n<body>\n')
 		jfin = os.path.join(pwcmdirin, fin)
 		ofin = open(jfin)

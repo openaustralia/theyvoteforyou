@@ -17,6 +17,19 @@ from miscfuncs import SplitParaIndents
 # <P>
 # (3) if she will ... grants.  [138425]<P></UL>
 
+def ExtractQnum(tex):
+	qn = re.match('(.*?)\s*\[?(\d+R?)\]$', tex)
+	if not qn:
+		print tex
+		print 'qnum not at end of line'
+		return (tex, '0')
+
+	if re.search('\[(\d+R?)\]', qn.group(1)):
+		print tex
+		raise Exception, 'qnum in middle of index block'
+	return (qn.group(1), qn.group(2))
+
+
 # we break this into separate paragraphs and discover that the final ones are indentent.
 # the other question form is as a single paragraph
 def FilterQuestion(text):
@@ -26,7 +39,9 @@ def FilterQuestion(text):
 	if not textp:
 		raise Exception, ' no paragraphs in result '
 
-	textn = []
+	#print textp
+
+	textn = [ ]
 
 	# multi-part type
 	if len(textp) > 1:
@@ -35,8 +50,9 @@ def FilterQuestion(text):
 		if not gbone:
 			print text
 			raise Exception, ' no (1) in first multipart para '
-		textn.append(textp[0][:gbone.span(0)[0]])
-		textn.append(textp[0][gbone.span(0)[1]:])
+		textn.append( (textp[0][:gbone.span(0)[0]], '') )
+		eqnum = ExtractQnum(textp[0][gbone.span(0)[1]:])
+		textn.append(eqnum)
 
 		# scan through the rest of the numbered paragraphs
 		for i in range(1, len(textp)):
@@ -45,22 +61,28 @@ def FilterQuestion(text):
 				print text
 				print textp
 				raise Exception, ' no number match in paragraph '
-			textn.append(textp[i][gbnum.span(0)[1]:])
+			eqnum = ExtractQnum(textp[i][gbnum.span(0)[1]:])
+			textn.append(eqnum)
 
 
 	# single paragraph type
 	else:
-		textn.append(textp[0])
+		eqnum = ExtractQnum(textp[0])
+		textn.append(eqnum)
 
 
 	# put the paragraphs back in together, with their numbering
 	# should do some blocking out of this, especially the "to ask" phrase.
-	firstpara = FixHTMLEntities(textn[0])
-	stext = [ '<p>%s</p>' % firstpara ]
+	firstpara = FixHTMLEntities(textn[0][0])
 
-	# should do some blocking out of this
-	for i in range(1, len(textn)):
-		stext.append('<p class="numindent">(%d) %s</p>' % (i, FixHTMLEntities(textn[i])))
+	if len(textn) > 1:
+		stext = [ '<p>%s</p>' % firstpara ]
+		for i in range(1, len(textn)):
+			tpara = FixHTMLEntities(textn[i][0])
+			stext.append('<p class="numindent" qnum="%s">(%d) %s</p>' % (textn[i][1], i, tpara))
+
+	else:
+		stext = [ '<p qnum="%s">%s</p>' % (textn[0][1], firstpara) ]
 
 	return stext
 
