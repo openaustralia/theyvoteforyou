@@ -310,14 +310,11 @@ def SetNameMatch(cp, cpsdates):
 		elif fullname == "Mr Gareth Thomas":
 			print "Warning, unreconized Gareth Thomas at", cp.dept, cpsdates[0]
 
-
-		res0 = memberList.matchfullnamecons(fullname, cons, cpsdates[0])
-		if not res0:
-			res1 = memberList.matchfullnamecons(fullname, cons, cpsdates[1])
-			res0 = res1
-		if not res0:
-			raise Exception, 'No match: ' + fullname + " : " + (cons or "[nocons]")
-		cp.matchid, cp.remadename, cp.remadecons = res0
+		cp.matchid, cp.remadename, cp.remadecons = memberList.matchfullnamecons(fullname, cons, cpsdates[0])
+		if not cp.matchid:
+                        cp.matchid, cp.remadename, cp.remadecons = memberList.matchfullnamecons(fullname, cons, cpsdates[1])
+		if not cp.matchid:
+                        raise Exception, 'No match: ' + fullname + " : " + (cons or "[nocons]") + "\nOrig:" + cp.fullname
 
 	else:
 		cp.remadename = cp.fullname

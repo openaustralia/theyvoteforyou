@@ -35,8 +35,8 @@ def GenPatchFileNames(typ, sdate):
 
         return patchfile, orgfile, tmpfile, tmppatchfile
 
-# windows version of the patchtool shell script
-# this calls the contTEXT editor.
+# Launches editor on copy of file, and makes patch file of changes the user
+# makes interactively
 def RunPatchToolW(typ, sdate, stamp, frag, insertstring):
 	print "insert-string"
 	print insertstring
