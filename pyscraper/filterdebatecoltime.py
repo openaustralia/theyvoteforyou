@@ -37,6 +37,9 @@ fixsubs = 	[
         ( '(<B>)( 8. )(Mr. Alistair Carmichael)', '\\2\\1\\3', 1, '2003-01-07'),
 
         ( '<B>( As a number of Members have said, .*?)</B>', '\\1', 1, '2003-06-20'),
+
+        # Column numbers are totally knackered here
+        ( '<B>16 Jun 2003 : Column 184</B></P>', '', 1, '2003-06-16'),
 ]
 
 
