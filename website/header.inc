@@ -2,18 +2,20 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.11 2003/10/08 00:45:53 frabcus Exp $
+# $Id: header.inc,v 1.12 2003/10/11 00:22:18 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
+$toppath =  str_repeat("../", substr_count(dirname($_SERVER{'REQUEST_URI'}), "/") - 1);
+
 include "pretty.inc";
 ?>
 
 <head>
-<link href="publicwhip.css" type="text/css" rel="stylesheet">
+<link href="<?=$toppath?>publicwhip.css" type="text/css" rel="stylesheet">
 <title>Public Whip - <? print $title ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script>
@@ -30,17 +32,17 @@ function givefocus() { if (document.pw) document.pw.query.focus(); }
 <table align="center" class="container" cellpadding="0" cellspacing="0">
 
 <!-- the site logo -->
-<tr><td class="identity"><a href="index.php"><img src="thepublicwhip.gif" alt="The Public Whip"></a></td></tr>
+<tr><td class="identity"><a href="index.php"><img src="<?=$toppath?>thepublicwhip.gif" alt="The Public Whip"></a></td></tr>
 
 <!-- the main site navigation -->
-<tr class="headers"><td bgcolor="#666666"><a href="index.php">Home</a>
-<a href="news.php">News</a>
-<a href="faq.php">FAQ</a>
-<a href="divisions.php">Divisions</a>
-<a href="mps.php">MPs</a>
-<a href="mpsee.php">VoteMap</a>
-<a href="code.php">Code</a>
-<a href="search.php">Search</a></td></tr>
+<tr class="headers"><td bgcolor="#666666"><a href="<?=$toppath?>index.php">Home</a>
+<a href="<?=$toppath?>news.php">News</a>
+<a href="<?=$toppath?>faq.php">FAQ</a>
+<a href="<?=$toppath?>divisions.php">Divisions</a>
+<a href="<?=$toppath?>mps.php">MPs</a>
+<a href="<?=$toppath?>mpsee.php">VoteMap</a>
+<a href="<?=$toppath?>code.php">Code</a>
+<a href="<?=$toppath?>search.php">Search</a></td></tr>
 
 <!-- the title bar -->
 <tr><td class="pagetitlebar"><h1><? print $title ?></h1></td></tr>

@@ -1,0 +1,2 @@
+Some of the code in this folder is derived from
+http://phpbuilder.com/columns/tim20000505.php3

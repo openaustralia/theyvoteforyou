@@ -219,6 +219,10 @@ UL.newsheadlines
 {
     TEXT-ALIGN: left
 }
+.error
+{
+    BACKGROUND-COLOR: #ffdddd
+}
 TABLE.bars
 {
     PADDING-RIGHT: 0px;

@@ -1,7 +1,7 @@
 <html><head><title>Iraq war divisions</title></head>
 <body>
 <?php
-# $Id: iraq.php,v 1.1 2003/10/08 11:05:54 frabcus Exp $
+# $Id: iraq.php,v 1.2 2003/10/11 00:22:19 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -13,13 +13,13 @@ include "../render.inc";
 $db = new DB(); 
 
 $issues = array(
-# date, div-number, vote-being-marked, alignment-of-voter-who-votes-that-way, weight-for-sorting, colour
+# date, div-number, vote-being-marked, alignment-of-voter-who-votes-that-way, sorting-category, colour
 array('2002-09-24', '319', 'aye', 'good', '0', '0'),
 array('2002-11-25', '6', 'noe', 'bad', '0', '0'),
 array('2003-02-26', '97', 'aye', 'bad', '0', '5'),
 array('2003-02-26', '96', 'noe', 'bad', '0', '0'),
-array('2003-03-18', '118', 'aye', 'bad', '128', '10'),
-array('2003-03-18', '117', 'noe', 'bad', '0', '5'),
+array('2003-03-18', '118', 'aye', 'bad', '1', '10'),
+array('2003-03-18', '117', 'noe', 'bad', '1', '5'),
 array('2003-06-04', '217', 'noe', 'bad', '0', '0'),
 array('2003-07-16', '294', 'noe', 'bad', '0', '0'),
 array('2003-09-10', '307', 'noe', 'bad', '0', '0'));
@@ -38,7 +38,9 @@ $issues = $newissues;
 
 # Get list of all MPs
 $mps = array();
-$db->query("select mp_id, first_name, last_name, party from pw_mp");
+$db->query("select pw_mp.mp_id, first_name, last_name, party from pw_mp,
+        pw_cache_mpinfo where pw_mp.mp_id = pw_cache_mpinfo.mp_id and
+        entered_house >= '2001-06-07' and votes_attended > 0");
 while ($row = $db->fetch_row())
 {
     $mps[$row[0]]['first'] = $row[1];
@@ -55,11 +57,11 @@ while ($row = $db->fetch_row())
     $blobvote = $issues[$row[1]][2];
     if ($row[2] == $blobvote)
     {
-        $votes[$row[0]][$row[1]] = "blob";
+        $votes[$row[0]][$row[1]] = "prowar";
     }
     else
     {
-        $votes[$row[0]][$row[1]] = "--";
+        $votes[$row[0]][$row[1]] = "antiwar";
     }
 #    $votes[$row[0]][$row[1]] = $row[2];
 }
@@ -67,17 +69,22 @@ while ($row = $db->fetch_row())
 # Sort the MPs by priority columns, and then by name
 function vote_cmp($a, $b)
 {
+    # Anyone who voted against war on either of the two
+    # key votes, counts as against war column
     global $issues, $votes, $mps;
     $acount = 0; $bcount = 0;
     foreach ($issues as $key => $issue)
     {
-        if ($votes[$a][$key] == "blob" or $votes[$a][$key] == "")
+        if ($issue[4] == 1)
         {
-            $acount = $acount + $issue[4];
-        }
-        if ($votes[$b][$key] == "blob" or $votes[$b][$key] == "")
-        {
-            $bcount = $bcount + $issue[4];
+            if ($votes[$a][$key] == "antiwar")
+            {
+                $acount = -1;
+            }
+            if ($votes[$b][$key] == "antiwar")
+            {
+                $bcount = -1;
+            }
         }
     }
     if ($acount != $bcount)
@@ -93,7 +100,7 @@ uksort($mps, vote_cmp);
 
 print "<table width=100%><tr><td width=50%>";
 # Print out table
-print "<table align=center><h2 align=center>Allowed war</h2>\n";
+print "<table align=center><h2 align=center>For War</h2>\n";
 # ... header
 print "<th>"; $i = 0; foreach ($issues as $key => $issue) { $i++; print "<td>$i</td>"; } print "</th>\n";
 # ... body
@@ -104,7 +111,7 @@ foreach (array_keys($mps) as $mp)
     $this_initial = substr($mps[$mp]['last'], 0, 1);
     if ($last_initial == "Y" && $this_initial == "A")
     {
-        print "</table></td><td width=50% valign=top><table align=center><h2 align=center>Tried to veto war";
+        print "</table></td><td width=50% valign=top><table align=center><h2 align=center>Against War";
         print "<th>"; $i = 0; foreach ($issues as $key => $issue) { $i++; print "<td>$i</td>"; } print "</th>\n";
     }
     $last_initial = $this_initial;
@@ -115,9 +122,9 @@ foreach (array_keys($mps) as $mp)
     foreach ($issues as $key => $issue)
     {       
         $blobvote = $votes[$mp][$key];
-        if ($blobvote == "blob")
+        if ($blobvote == "prowar")
             $blobvote = "&bull;";
-        else if ($blobvote == "--")
+        else if ($blobvote == "antiwar")
             $blobvote = "o";
         else 
             $blobvote = "-";

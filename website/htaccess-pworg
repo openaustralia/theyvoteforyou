@@ -4,4 +4,8 @@ AddHandler cgi-script .php
 Options ExecCGI
 DirectoryIndex index.php
 
+# make things safe
+php_flag register_globals off
+php_flag magic_quotes on
+
 RedirectPermanent /rebels.php http://www.publicwhip.org.uk/mps.php?sort=rebellions
