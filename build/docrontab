@@ -8,6 +8,6 @@ cd ~/bin
 echo "@reboot       /home/francis/fleafall/lobby" >>crontab-working
 echo "00 8 * * *    /usr/bin/python2.3 /home/francis/fleafall/lobbystats.py >/home/francis/public_html/fleastats.txt" >>crontab-working
 
-echo "48 * * * *    /usr/bin/python2.3 /home/francis/pyblagg/pyblagg.py /home/francis/pyblagg/config.ini" >>crontab-working
+echo "48 * * * *    /home/francis/planetplanet/doplanet" >>crontab-working
 
 crontab crontab-working

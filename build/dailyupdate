@@ -22,7 +22,7 @@ rsync --recursive www.theyworkforyou.com::pwdata/scrapedxml/divisionsonly /home/
 cd ~/publicwhip/
 cvs -Q update -dP
 
-# Load new list of members
+# Load new list of members and ministers
 cd ~/publicwhip/loader
 ./memxml2db.pl
 
