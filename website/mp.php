@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.59 2005/03/06 11:13:17 frabcus Exp $
+    # $Id: mp.php,v 1.60 2005/03/06 11:16:49 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -96,7 +96,7 @@
 	if ($voter2type == "dreammp")
 	{
 		$dismodes["motions"] = array("dtype"	=> "motions",
-								 "description" => "Display Motions",
+								 "description" => "Display motions",
 								 "votelist"	=> "all",
 								 "votedisplay"	=> "fullmotion",
 								 "defaultparl" => "recent");
