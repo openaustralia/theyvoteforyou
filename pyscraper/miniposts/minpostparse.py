@@ -149,6 +149,10 @@ class protooffice:
 		pos = nampos.group(4)
 		dept = nampos.group(5) or "No Department"
 
+		# change of wording in 2004-11
+		if dept == "Leader of the House of Commons":
+			dept = "House of Commons"
+
 		# separate out the departments if more than one
 		if dept not in govdepts:
 			self.depts = None
