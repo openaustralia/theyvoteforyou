@@ -1,15 +1,11 @@
---- /home/fawkes/pwdata/cmpages/wrans/answers2004-06-10.html	Fri Jun 11 08:05:39 2004
-+++ /home/fawkes/pwdata/cmpages/wrans/answers2004-06-10-patchtmp.html	Fri Jun 11 08:40:22 2004
-@@ -131,10 +131,8 @@
- To ask the Chancellor of the Exchequer (1) what the <i>(a)</i>&nbsp;estimated and <i>(b)</i>&nbsp;outturn set-up costs of the Financial Services Authority were, expressed in (i) capital expenditure and (ii) revenue expenditure terms;.  [175267]
- <P>
- <UL>(2) how set-up costs of the Financial Services Authority were accounted for in the public finances;.  [175268]<P></UL>
--<P>
--<P>
--<a name="40610w01.html_wqn5"><B> Mr. Edward Garnier: </B> 
--To ask the Chancellor of the Exchequer (3) what the overall outturn revenue expenditure of the Financial Services Authority was in each year since its establishment;.  [175269]
-+
-+<P>(3) what the overall outturn revenue expenditure of the Financial Services Authority was in each year since its establishment;.  [175269]
- <P>
- <UL>(4) if he will list those bodies whose responsibilities were taken on by the Financial Services Authority as successor; and what the outturn revenue expenditure for each of those bodies was in the final three years of their operation.  [175270]<P></UL>
- <P>
+--- /home/fawkes/pwdata/cmpages/wrans/answers2004-06-10.html	Sun Dec 26 12:52:39 2004
++++ /home/fawkes/pwdata/cmpages/wrans/answers2004-06-10-patchtmp.html	Tue Jan  4 22:31:04 2005
+@@ -5649,7 +5649,7 @@
+ 
+ 
+ 
+-<p>Mr. Flook: To ask the Secretary of State for Health how many abortions among women aged <i>(a)</i> 11, <i>(b)</i> 12, <i>(c)</i> 13, <i>(d)</i> 14, <i>(e)</i> 15, <i>(f)</i> 16, <i>(g)</i> 17, <i>(h)</i> 18 and <i>(i)</i> 19 years there were in the Dorset and Somerset Strategic Health Authority area in each year since 2000.  [175624]</p>
++<p><b>Mr. Flook: </b>To ask the Secretary of State for Health how many abortions among women aged <i>(a)</i> 11, <i>(b)</i> 12, <i>(c)</i> 13, <i>(d)</i> 14, <i>(e)</i> 15, <i>(f)</i> 16, <i>(g)</i> 17, <i>(h)</i> 18 and <i>(i)</i> 19 years there were in the Dorset and Somerset Strategic Health Authority area in each year since 2000.  [175624]</p>
+ 
+ 
+ 

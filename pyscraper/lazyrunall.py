@@ -15,6 +15,7 @@ sys.path.append('wrans')
 sys.path.append('common')
 sys.path.append('lords')
 sys.path.append('miniposts')
+sys.path.append('wrminstat')
 
 from crongrabpages import GrabWatchCopies
 from minpostparse import ParseGovPosts
@@ -24,7 +25,7 @@ from createhansardindex import UpdateHansardIndex
 from lordscreatehansardindex import UpdateLordsHansardIndex
 from pullgluepages import PullGluePages
 from lordspullgluepages import LordsPullGluePages
-from runfilters import RunFiltersDir, RunDebateFilters, RunWransFilters, RunLordsFilters, RunWestminhallFilters
+from runfilters import RunFiltersDir, RunDebateFilters, RunWransFilters, RunLordsFilters, RunWestminhallFilters, RunWrminstatFilters
 from regmemfilter import RunRegmemFilters
 from regmempullgluepages import RegmemPullGluePages
 
@@ -145,7 +146,7 @@ if not options.debates and not options.westminhall and not options.wrminstat and
 #
 if options.scrape:
 	# get the indexes
-	if options.wrans or options.debates or options.westminhall:
+	if options.wrans or options.debates or options.westminhall or options.wrminstat:
 		UpdateHansardIndex(options.forceindex)
 	if options.lords:
 		UpdateLordsHansardIndex(options.forceindex)
@@ -192,6 +193,8 @@ if options.parse:
 		RunFiltersDir(RunDebateFilters, 'debates', options, options.forceparse)
 	if options.westminhall:
 		RunFiltersDir(RunWestminhallFilters, 'westminhall', options, options.forceparse)
+        if options.wrminstat:
+                RunFiltersDir(RunWrminstatFilters, 'wrminstat', options, options.forceparse)
 	if options.lords:
 		RunFiltersDir(RunLordsFilters, 'lordspages', options, options.forceparse)
 	if options.regmem:

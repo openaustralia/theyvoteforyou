@@ -291,6 +291,35 @@ class MemberList(xml.sax.handler.ContentHandler):
         remadecons = self.members[lid]["constituency"]
         return lid, remadename, remadecons
 
+    # Exclusively for WMS
+    def matchwrminstatname(self, office, fullname, date):
+        office = self.basicsubs(office)
+        fullname = self.basicsubs(fullname)
+        brackids = self.fullnametoids(fullname, date)
+        if brackids:
+            speakeroffice = ' speakeroffice="%s"' % office
+            ids = brackids
+
+        rebracket = office
+        rebracket += " (" + fullname + ")"
+        if len(ids) == 0:
+            if not re.search(regnospeakers, office):
+                raise Exception, "No matches %s" % (rebracket)
+            return 'speakerid="unknown" error="No match" speakername="%s"' % (rebracket)
+        if len(ids) > 1:
+            names = ""
+            for id in ids:
+                names += self.members[id]["firstname"] + " " + self.members[id]["lastname"] + " (" + self.members[id]["constituency"] + ") "
+            if not re.search(regnospeakers, office):
+                raise Exception, "Multiple matches %s, possibles are %s" % (rebracket, names)
+            return 'speakerid="unknown" error="Matched multiple times" speakername="%s"' % (rebracket)
+
+        for id in ids:
+            pass
+
+        remadename = self.members[id]["firstname"] + " " + self.members[id]["lastname"]
+        return 'speakerid="%s" speakername="%s"%s' % (id, remadename, speakeroffice)
+    
     # Exclusively for wrans
     def matchwransname(self, fullname, cons, date):
         # Have got first instance like this:

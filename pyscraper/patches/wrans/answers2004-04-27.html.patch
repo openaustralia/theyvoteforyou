@@ -1,59 +1,68 @@
---- wrans/answers2004-04-27.html	Fri Apr 30 08:05:58 2004
-+++ wrans/answers2004-04-27-patchtmp.html	Tue May  4 01:50:31 2004
-@@ -357,7 +357,7 @@
- <a name="40427w02.html_wqn2"><B> Joan Ruddock: </B> 
- To ask the Secretary of State for Environment, Food and Rural Affairs who will represent the UK Government at the meeting of the European Agriculture Council in Luxembourg on 26 and 27&nbsp;April.  [167171]
- <P>
--<UL>Mr. Bradshaw <i>[holding answer 22&nbsp;April 2004]:</i> I will be representing the UK Government.
-+<UL><B>Mr. Bradshaw: </B> <i>[holding answer 22&nbsp;April 2004]:</i> I will be representing the UK Government.
- <P></UL>
- <P>
+--- /home/fawkes/pwdata/cmpages/wrans/answers2004-04-27.html	Thu Dec  2 08:07:39 2004
++++ /home/fawkes/pwdata/cmpages/wrans/answers2004-04-27-patchtmp.html	Tue Jan  4 23:13:16 2005
+@@ -2677,8 +2677,8 @@
  
-@@ -2611,7 +2611,7 @@
  
- <P>
- 25. <a name="40427w10.html_wqn13"><B> Jim Knight: </B> 
-- What plans there are to align court administrative boundaries with Government Office regional boundaries.  [168408]<P>
-+ <wrans-question>What plans there are to align court administrative boundaries with Government Office regional boundaries.  [168408]<P>
- <P>
- <P>
- <a name="40427w10.html_spnew13"><B> Mr. Leslie: </B> 
-@@ -2627,7 +2627,7 @@
  
- <P>
- 27. <a name="40427w11.html_wqn0"><B> Keith Vaz: </B> 
-- What plans the Lord Chancellor has to ensure greater diversity in the judiciary.  [168410]<P>
-+ <wrans-question>What plans the Lord Chancellor has to ensure greater diversity in the judiciary.  [168410]<P>
- <P>
- <P>
- <a name="40427w11.html_spnew0"><B> Mr. Leslie: </B> 
-@@ -2645,7 +2645,7 @@
+-<p><a name="40427w07.html_wqn0"><b>  </b> 
+-12. Rachel Squire: To ask the Secretary of State for Scotland, if he will make a statement on the most recent discussions he has held on future shipbuilding in Scotland.  [167040]</p>
++<p><a name="40427w07.html_wqn0"><b>Rachel Squire </b> 
++To ask the Secretary of State for Scotland, if he will make a statement on the most recent discussions he has held on future shipbuilding in Scotland.  [167040]</p>
  
- <P>
- 29. <a name="40427w11.html_wqn1"><B> Dr. Cable: </B> 
-- When the Lord Chancellor intends to present proposals to continue or replace the system of Queen's Counsel.  [168413]<P>
-+ <wrans-question>When the Lord Chancellor intends to present proposals to continue or replace the system of Queen's Counsel.  [168413]<P>
- <P>
- <P>
- <a name="40427w11.html_spnew1"><B> Mr. Leslie: </B> 
-@@ -2656,7 +2656,7 @@
  
- <P>
- 30. <a name="40427w11.html_wqn2"><B> Mr. Llwyd: </B> 
-- What action the Secretary of State takes to ensure that an appellant who is resident in Wales is able to conduct his case before the Social Security Commissioners through the medium of the Welsh language wherever that tribunal sits.  [168414]<P>
-+ <wrans-question>What action the Secretary of State takes to ensure that an appellant who is resident in Wales is able to conduct his case before the Social Security Commissioners through the medium of the Welsh language wherever that tribunal sits.  [168414]<P>
- <P>
- <P>
- <a name="40427w11.html_spnew2"><B> Mr. Lammy: </B> 
-@@ -7975,10 +7975,8 @@
- <a name="40427w30.html_wqn0"><B> Bob Russell: </B> 
- To ask the Secretary of State for Foreign and Commonwealth Affairs how many UK citizens are in prison in the Dominican Republic.  [167284]
- <P>
--<UL>Date answered 27&nbsp;April 2004<P></UL>
--<P>
--<P>
- <a name="40427w30.html_spnew0"><B> Mr. Mullin: </B> 
-+<UL>Date answered 27&nbsp;April 2004<P></UL>
-  At present, there is one British Citizen and two British Overseas Territories Citizens (both from Bermuda) in prison in the Dominican Republic.
- <P>
- <P>
+ 
+@@ -4947,6 +4947,7 @@
+ 
+ 
+ <p>25. <a name="40427w11.html_wqn5"><b> Jim Knight: </b> 
++<wrans-question>
+  What plans there are to align court administrative boundaries with Government Office regional boundaries.  [168408]</p>
+ 
+ 
+@@ -4972,6 +4973,7 @@
+ 
+ 
+ <p>27. <a name="40427w11.html_wqn6"><b> Keith Vaz: </b> 
++<wrans-question>
+  What plans the Lord Chancellor has to ensure greater diversity in the judiciary.  [168410]</p>
+ 
+ 
+@@ -5002,6 +5004,7 @@
+ 
+ 
+ <p>29. <a name="40427w11.html_wqn7"><b> Dr. Cable: </b> 
++<wrans-question>
+  When the Lord Chancellor intends to present proposals to continue or replace the system of Queen&#039;s Counsel.  [168413]</p>
+ 
+ 
+@@ -5027,6 +5030,7 @@
+ 
+ 
+ <p>30. <a name="40427w11.html_wqn8"><b> Mr. Llwyd: </b> 
++<wrans-question>
+  What action the Secretary of State takes to ensure that an appellant who is resident in Wales is able to conduct his case before the Social Security Commissioners through the medium of the Welsh language wherever that tribunal sits.  [168414]</p>
+ 
+ 
+@@ -14374,20 +14378,11 @@
+ 
+ 
+ 
+-<p>Date answered 27&nbsp;April 2004</p>
+-
+-
+-
+-
+-
+-<p><a name="40427w30.html_wqn3"><b>  </b> 
+-</p>
+-
+-
+ 
+ 
+ <p><a name="40427w30.html_spnew2"><b> Mr. Mullin: </b> 
+- At present, there is one British Citizen and two British Overseas Territories Citizens (both from Bermuda) in prison in the Dominican Republic.
++<p><i>Date answered 27&nbsp;April 2004</i></p>
++<p> At present, there is one British Citizen and two British Overseas Territories Citizens (both from Bermuda) in prison in the Dominican Republic.
+ 
+ 
+ </p>

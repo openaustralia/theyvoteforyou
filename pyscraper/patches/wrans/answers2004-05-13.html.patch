@@ -1,0 +1,68 @@
+--- /home/fawkes/pwdata/cmpages/wrans/answers2004-05-13.html	Thu Dec  2 08:06:48 2004
++++ /home/fawkes/pwdata/cmpages/wrans/answers2004-05-13-patchtmp.html	Tue Jan  4 22:49:45 2005
+@@ -14704,6 +14704,7 @@
+ 
+ 
+ <p><a name="40513w31.html_wqn8"><b> Jim Dobbin: </b> 
++<wrans-question>
+  if he will make a statement on the effect on residents of Heywood and Middleton of the Health Development Agency;  [168494]</p>
+ 
+ 
+@@ -14713,6 +14714,7 @@
+ 
+ 
+ <p><a name="40513w31.html_wqn9"><b> Mr. Benton: </b> 
++<wrans-question>
+  if he will make a statement on the benefits for&nbsp;&nbsp;&nbsp;residents of Bootle of the Health Development Agency;  [170537]</p>
+ 
+ 
+@@ -14722,6 +14724,7 @@
+ 
+ 
+ <p><a name="40513w31.html_wqn10"><b> Tony Cunningham: </b> 
++<wrans-question>
+  if he will make a statement on the effect on residents of Workington constituency of the Health Development Agency;  [170715]</p>
+ 
+ 
+@@ -14731,6 +14734,7 @@
+ 
+ 
+ <p><a name="40513w31.html_wqn11"><b> Mr. Neil Turner: </b> 
++<wrans-question>
+  if he will make a statement on the effect on residents of Wigan of the Health Development Agency;  [169351]</p>
+ 
+ 
+@@ -14740,6 +14744,7 @@
+ 
+ 
+ <p><a name="40513w31.html_wqn12"><b> Mr. Hendrick: </b> 
++<wrans-question>
+  if he will make a statement on the effect on residents of Preston of the Health Development Agency;  [168105]</p>
+ 
+ 
+@@ -14749,6 +14754,7 @@
+ 
+ 
+ <p><a name="40513w31.html_wqn13"><b> Mr. Pike: </b> 
++<wrans-question>
+  what assessment he has made of the effects on residents of Burnley of the Health Development Agency;  [167955]</p>
+ 
+ 
+@@ -14758,6 +14764,7 @@
+ 
+ 
+ <p><a name="40513w31.html_wqn14"><b> Mr. Meacher: </b> 
++<wrans-question>
+  if he will make a statement on the benefits for residents of Oldham, West and Royton of the Health Development Agency;  [170894]</p>
+ 
+ 
+@@ -14766,7 +14773,8 @@
+ 
+ 
+ 
+-<p><a name="40513w31.html_wqn15"><b> Mr. Burrow: </b> 
++<p><a name="40513w31.html_wqn15"><b> Mr. Borrow: </b> 
++<wrans-question>
+  if he will make a statement on the benefits for residents of South Ribble of the Health Development Agency.  [171670]</p>
+ 
+ 

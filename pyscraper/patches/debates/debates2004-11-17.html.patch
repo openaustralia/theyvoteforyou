@@ -1,5 +1,5 @@
---- C:\publicwhip\pwdata\cmpages\debates\debates2004-11-17.html	Thu Nov 18 09:34:58 2004
-+++ C:\publicwhip\pwdata\cmpages\debates\debates2004-11-17-patchtmp.html	Thu Nov 18 09:56:38 2004
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-11-17.html	Thu Nov 18 08:05:50 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-11-17-patchtmp.html	Fri Dec 24 15:48:28 2004
 @@ -107,7 +107,7 @@
  </p>
  
@@ -9,6 +9,15 @@
   The total Government grant allocated to the eight regional chambers in 2003&#150;04 was &#163;14&nbsp;million. They employed some 302 staff at the end of the 2003&#150;04 financial year.
  </p>
  
+@@ -12295,7 +12295,7 @@
+ 
+ 
+ 
+-
++<stamp parsemess-missgid="3"/>
+ 
+ <p><a name="41117-24_spmin2"><b>Madam Deputy Speaker  (Sylvia Heal): </b> 
+  Pursuant to the Order of the House of 8 November, the sitting is suspended. Shortly before the sitting resumes, I shall cause the Division bell to be sounded.
 @@ -12898,7 +12898,7 @@
  
  
@@ -54,3 +63,12 @@
   We are going to win the next election.
  </p>
  
+@@ -14710,7 +14710,7 @@
+ </p>
+ 
+ 
+-
++<stamp parsemess-missgid="2"/>
+ 
+ 
+ <p><a name="41117-30_spnew1"><b> Mr. Sutcliffe: </b> 

@@ -1,5 +1,5 @@
 --- /home/fawkes/pwdata/cmpages/debates/debates2004-11-18.html	Tue Nov 23 19:28:13 2004
-+++ /home/fawkes/pwdata/cmpages/debates/debates2004-11-18-patchtmp.html	Thu Nov 25 08:38:11 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-11-18-patchtmp.html	Fri Dec 24 15:44:32 2004
 @@ -8869,7 +8869,11 @@
  <br>
  
@@ -13,6 +13,15 @@
  
  <br>
  
+@@ -10067,7 +10071,7 @@
+ 
+ 
+ 
+-
++<stamp parsemess-missgid="1"/>
+ 
+ <p><a name="41118-20_spmin0"><b>Madam Deputy Speaker:</b> 
+  Pursuant to the Order of the House of 8 November, the sitting is suspended. Shortly before the sitting resumes, I shall cause the Division bell to be sounded.
 @@ -10494,9 +10498,9 @@
  
  <br>&nbsp;<br>

@@ -26,7 +26,7 @@ reglinkmid = '(?:/(?:(?:[^/:;,?="<()]|&#\d+;)(?!www\.))+)*/'
 
 # this detects the tail section of a url trailing a slash
 #reglinktail = '[^./:;,]*(?:\.\s?(?:s?html?|pdf|xls|(?:asp|php|cfm(?:\?[^\s.]+)?)))|\w*'
-regasptype = '(?:asp|php|cfm)(?:\?\s?\w+=[\w/]+(?:&\w+=[\w/%]+)*)?'
+regasptype = '(?:asp|php|cfm|gif|jpg|jpeg|png)(?:\?\s?\w+=[\w/]+(?:&\w+=[\w/%]+)*)?'
 reglinktail = '(?:[^./:;,?=]|&#\d+;)*(?:\.\s?(?:s?html?|xls|pdf(?:\?Open ?Element)?|%s))|(?:[\w-]|&#\d+;)*' % regasptype
 
 
@@ -94,7 +94,7 @@ def ExtractHTTPlink(stex, qs):
 
 
 	qspan = qlink.span(1)
-	qstr = qlink.group(1)
+	qstr = re.sub(' ', '', qlink.group(1))
 
 
 	qstrlink = ConstructHTTPlink(qlink.group(2), qlink.group(3), qlink.group(4))

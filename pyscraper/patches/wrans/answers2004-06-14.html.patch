@@ -1,21 +1,11 @@
---- /home/fawkes/pwdata/cmpages/wrans/answers2004-06-14.html	Tue Jun 15 08:05:33 2004
-+++ /home/fawkes/pwdata/cmpages/wrans/answers2004-06-14-patchtmp.html	Tue Jun 15 10:12:41 2004
-@@ -857,8 +857,7 @@
- <P>
+--- /home/fawkes/pwdata/cmpages/wrans/answers2004-06-14.html	Sun Dec 26 12:52:34 2004
++++ /home/fawkes/pwdata/cmpages/wrans/answers2004-06-14-patchtmp.html	Tue Jan  4 22:28:10 2005
+@@ -17242,7 +17242,7 @@
  
- <TR>
--  <TD STYLE="padding-left: 4; padding-right: 4; padding-top: 1; padding-bottom: 1">&nbsp;</TD><TD STYLE="padding-left: 4; padding-right: 4; padding-top: 1; padding-bottom: 1">&nbsp;</TD><TD>
--  <P ALIGN="center"><B>&#163; </B> </TD>
-+  <TD>&nbsp;</TD><TD>&nbsp;</TD><TD> <B>&#163; </B> </TD>
- </TR>
  
- <TR valign=top><TH><FONT SIZE=-1></FONT></TH><TH><FONT SIZE=-1>Merseyside</FONT></TH><TH><FONT SIZE=-1>Sefton
-@@ -909,7 +908,7 @@
  
- <TR>
-   <TD>&nbsp;</TD><TD>&nbsp;</TD><TD>
--  <P ALIGN="center"><B>&#163; </B> </TD>
-+  <B>&#163; </B> </TD>
- </TR>
+-<p>Mr. Pike: To ask the Secretary of State for the Home Department what plans his Department has to support the gating of alleys to tackle anti-social behaviour.  [178170]</p>
++<p><b>Mr. Pike: </b>To ask the Secretary of State for the Home Department what plans his Department has to support the gating of alleys to tackle anti-social behaviour.  [178170]</p>
  
- <TR valign=top><TH><FONT SIZE=-1></FONT></TH><TH><FONT SIZE=-1>Merseyside</FONT></TH><TH><FONT SIZE=-1>Sefton
+ 
+ 

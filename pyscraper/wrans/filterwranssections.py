@@ -56,15 +56,12 @@ fixsubs = 	[
 	( '\n Asked the Secretary', '\nTo ask the Secretary', 1, '2003-03-21'),
 	( ' What (measures will be)', 'To ask the Secretary of State for Work and Pensions what \\1', 1, '2003-03-17'),
 
-	( ' What (plans he has to reform)', 'To ask the Chancellor of the Exchequer what \\1', 1, '2004-01-29'),
-	( ' If (he will make a statement)', 'To ask the Chancellor of the Exchequer if \\1', 2, '2004-01-29'),
 	( '( To) (the Secretary of State for Trade and Industry)', '\\1 ask \\2', 1, '2004-01-26'),
 
 
 	( '\((115021)\)', '[\\1]', 1, '2003-06-03'),
         ( '(\[142901)', '\\1]', 1, '2003-12-11'),
 
-#        ( '(&nbsp;a minimum energy)<P>', '\\1 efficiency rating.  [153278]', 1, '2004-02-10'),
         ( '(what the countries of origin were; and if he will make a statement.)', '\\1 [147100]', 1, '2004-01-15'),
         
  	( '\n To as the Secretary', '\n To ask the Secretary', 2, '2003-01-14'),
@@ -72,10 +69,7 @@ fixsubs = 	[
  	( '\n To\s*ask ', '\n To ask ', 9, '2003-03-06'),
  	( '\n To\s*ask ', '\n To ask ', 37, '2003-01-27'),
 
-        ( 'To (the Secretary of State for Environment)', 'To ask \\1', 1, '2004-02-25'),
         ( '(Rural Affairs) (what discussions)', '\\1 (1) \\2', 1, '2004-02-25'),
-        ( '<P align=left>\[Continued from column 536W\]</P>', '', 1, '2004-02-26'),
-
 	( '(column 45W\.)\[(108495)\]', '\\1 reference \\2', 1, '2003-04-28'),
         ( '(To ask the Secretary of State for Health) (for how many former community)', '\\1 (1) \\2', 1, '2004-02-23'),
 
@@ -94,9 +88,6 @@ fixsubs = 	[
 	( 'Rural Affairs what estimates', 'Rural Affairs (1) what estimates', 1, '2003-01-29'),
         
 
-	( '(<UL>) (<i>\(a\)</i>&nbsp;housing associations)', '\\1 (2) \\2', 1, '2004-03-05' ),
-
-	( '2003&#150;11&#150;21', '2003', 1, '2003-11-20'),
 	( '27Ooctober', '27 October', 1, '2003-10-27'),
 
 	( '<TABLE BORDER=1>\s*<P>\s*</FONT></TH></TR>', '<TABLE BORDER=1>', 2, '2002-10-22'),
@@ -131,8 +122,6 @@ fixsubs = 	[
         ( 'defraweb', 'www.defra.gov.uk', 1, '2003-12-18'),
         ( 'sn99&#150;35\(s.htm\);', 'sn99-35s.htm;', 1, '2003-07-16'),
 
-        # special note not end of block - when we have multiple answers
-        ( '(This includes securing the treatment, storage, transportation and disposal of radioactive waste)', '<another-answer-to-follow>\\1', 1, '2004-03-15'),
 ]
 
 

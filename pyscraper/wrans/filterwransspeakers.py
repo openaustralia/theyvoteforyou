@@ -18,10 +18,7 @@ from contextexception import ContextException
 
 # Legacy patch system, use patchfilter.py and patchtool now
 fixsubs = 	[
-	( 'tbLlew', 'Llew', 1, '2004-03-11'), 
-
         ( 'Mr. Jim McNulty', 'Mr. McNulty', 1, '2003-01-07'),
-        ( '(<B> Mr. Tony)(: </B>)', '\\1 Banks\\2', 1, '2004-01-29'),
 
 	( '<UL>(Beverley Hughes):', '<B>\\1</B>', 1, '2003-04-10'),
 
@@ -33,9 +30,7 @@ fixsubs = 	[
 	( '<UL>Paul Goggins:([^<]*)<P></UL>', '<B>Paul Goggins:</B> \\1', 1, '2003-11-19'),
 	( '\): To ask', ' To ask', 1, '2003-05-06'),
 
-	( '\<UL\>\<i\>(Miss Melanie Johnson )\</i\>(\[holding answer 13 January 2004\].*? two to three times a year.\s*)\<P\>\</UL\>', '<B>\\1</B> \\2', 1, '2004-01-14'),
 
-        ( '(Mr\. McNulty:) (We are always happy)', '<B>\\1</B> \\2', 1, '2004-01-06'), 
         ( ' \((141053)\)', '[\\1]', 1, '2004-01-05'),
 
         ( ' \((142642)\)', '[\\1]', 1, '2003-12-18'),
@@ -58,7 +53,6 @@ fixsubs = 	[
 	( 'approved a .4 million', 'approved a 4 million', 1, '2002-11-26'),
 	( '<FONT SIZE=-1>[^\d]0\.3\s*</FONT>', '<FONT SIZE=-1>0.3</FONT>', 2, '2002-10-22'), # note the 2; the problem is a dropped dot
 	( 'Larch 3 .2305', 'Larch 3 ?2305', 1, '2003-06-04'), # as above
-        ( 'Laura0 Moffatt', 'Laura Moffatt', 1, '2004-01-27'),
 
         ( '<B>  Howells: </B>', '<B> Dr. Howells: </B>', 1, '2003-02-24'),
 

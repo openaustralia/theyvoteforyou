@@ -21,9 +21,6 @@ from contextexception import ContextException
 fixsubs = 	[
 	( '<P><I>8 Mar 2004 : Column 1346W</I>', '\\1<P>', 1, '2004-03-08'), 
 
-	# Note the 2!
-	( '\[Continued from column 770W\]', '', 1, '2004-03-23'),
-
         ( '(<TABLE BORDER=1>)(\s*?<a name="30613w06.html_sbhd5">)', '\\2', 1, '2003-06-13'),
         ( '(</FONT>\s*?)<TABLE BORDER=1>(\s*?<P>\s*?<P>)', '\\1\\2', 1, '2003-06-13'),
         ( '(<TABLE BORDER=1>\s*?)<TABLE BORDER=1>', '\\1', 1, '2003-06-13'),
@@ -51,8 +48,7 @@ fixsubs = 	[
         ( '<TABLE BORDER=1>(\s*?The Northern Ireland)', '\\1', 1, '2003-06-11'),
 
         ( '\x01', '', 1, '2003-06-11'),
-
-        ( 'CORRECTION\s*<P>\s*<a name="40223w83.html_wqn2">[\s\S\n]*$', '', 1, '2004-02-23'),
+        ( '\x01', '', 1, '2004-03-08'),
 
 
         # weird fragment
