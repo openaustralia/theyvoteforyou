@@ -40,6 +40,7 @@ fixsubs = 	[
         ( '(Mr. Chaytor:)', '\n<P>\n<B>\\1</B>', 1, '2004-02-24'),
         ( '(Mr. Hall:)', '\n<P>\n<B>\\1</B>', 1, '2004-01-19'),
         ( '(Tony Cunningham:)', '\n<P>\n<B>\\1</B>', 1, '2004-01-15'),
+        ( '(Mr. Dalyell:)', '\n<P>\n<B>\\1</B>', 1, '2004-02-10'),
 
         # Column numbers are totally knackered here
         ( '<B>16 Jun 2003 : Column 184</B></P>', '', 1, '2003-06-16'),
