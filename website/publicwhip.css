@@ -334,10 +334,59 @@ IMG
 {
     BORDER-BOTTOM: #003300 1px solid
 }
+/* Inner HTML paragraph classes from the written answer XML files */
+P.askedtoreply
+{
+	COLOR: #888888;
+}
 P.holdinganswer
+{
+	COLOR: #888888;
+}
+P.letterinlibrary
+{
+	COLOR: #888888;
+}
+P.indent
+{
+	MARGIN-LEFT: 3em;
+}
+P.indentitalic
+{
+	MARGIN-LEFT: 3em;
+    FONT-STYLE: italic
+}
+P.italic
 {
     FONT-STYLE: italic
 }
-
+P.numindent
+{
+	MARGIN-LEFT: 3em;
+}
+P.letterfrom
+{
+    FONT-STYLE: italic
+}
+TABLE.innerhtml
+{
+	empty-cells: show;
+	border-collapse: collapse;
+    border: thin solid #003300;
+}
+TABLE TH.innerhtml
+{
+	/* no top/bottom border as sometimes text is in two cells when should be in one */
+    border-left: thin solid #003300;
+    border-right: thin solid #003300;
+}
+TABLE TD.innerhtml
+{
+    border: thin solid #003300;
+}
+CAPTION.innerhtml
+{
+    FONT-WEIGHT: bold;
+}
 
 

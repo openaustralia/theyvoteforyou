@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: mp.php,v 1.21 2003/12/21 01:05:22 frabcus Exp $
+    # $Id: mp.php,v 1.22 2003/12/21 01:55:35 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -62,8 +62,8 @@
 	print '<p><a href="#divisions">Interesting Divisions</a>';
 	print ' | ';
 	print '<a href="#friends">Possible Friends</a>';
-/*	print ' | ';
-	print '<a href="#wrans">Written Answers</a>'; */
+	print ' | ';
+	print '<a href="#wrans">Written Answers</a>'; 
 	
 	$query = "select first_name, last_name, title, constituency,
         party, pw_mp.mp_id, round(100*rebellions/votes_attended,1),
@@ -294,7 +294,6 @@
 ?>
 
 <?php
-/*
 	print "<h2><a name=\"wrans\">Written Answers</a></h2>";
 	print "<p>Parliamentary written questions which this MP has asked or answered.  Data
 		goes back to the start of 2003.";
@@ -333,7 +332,6 @@
 		else
 			print "<p><a href=\"$this_anchor&expand=no\">Collapse all these answers into a summary table</a></p>";
 	}
-	*/
 ?>
 	
 

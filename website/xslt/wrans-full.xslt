@@ -55,16 +55,22 @@ Scratchpad of maybe useful stuff:
 
 <!-- Stuff to process the XHTML inside the XML fils, that is the actual body text -->
 <xsl:template match="phrase[@class=&quot;offrep&quot;]" mode="innerhtml">
-	<a>
-		<xsl:attribute name="href">wrans.php?id=uk.org.publicwhip/<xsl:value-of select="@id"/></xsl:attribute>
-		<xsl:apply-templates mode="innerhtml"/>
+	<a><xsl:attribute name="href">wrans.php?id=uk.org.publicwhip/<xsl:value-of select="@id"/></xsl:attribute>
+		<xsl:apply-templates select="@*|node()" mode="innerhtml"/>
 	</a>
 </xsl:template>
 
+<xsl:template match="table|tr|td|th|caption|thead" mode="innerhtml">
+	<xsl:copy><xsl:attribute name="class">innerhtml</xsl:attribute>
+		<xsl:apply-templates select="@*|node()" mode="innerhtml"/>
+	</xsl:copy>
+</xsl:template>
+
+
 <!-- This matches and copies all other tags in the inner HTML that we haven't matched above -->
-<xsl:template match="*" mode="innerhtml">
+<xsl:template match="@*|node()" mode="innerhtml">
 	<xsl:copy>
-		<xsl:apply-templates mode="innerhtml"/>
+		<xsl:apply-templates select="@*|node()" mode="innerhtml"/>
 	</xsl:copy>
 </xsl:template>
 
