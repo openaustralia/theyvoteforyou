@@ -170,6 +170,14 @@ TABLE TR.eventeller
 {
     BACKGROUND-COLOR: #77da77
 }
+TABLE TR.oddboth
+{
+    BACKGROUND-COLOR: #77ee77
+}
+TABLE TR.evenboth
+{
+    BACKGROUND-COLOR: #77da77
+}
 TABLE TR.oddrebelteller
 {
     BACKGROUND-COLOR: #eeee77

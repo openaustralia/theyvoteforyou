@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php
-# $Id: division.php,v 1.19 2004/02/04 19:07:13 frabcus Exp $
+# $Id: division.php,v 1.20 2004/02/04 23:42:49 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -50,8 +50,8 @@
     else    
     {
         print '<a href="#voters">Voter List</a>'; 
-//    	print ' | ';
-//      print '<a href="#nonvoters">Non-Voter List</a>'; 
+    	print ' | ';
+        print '<a href="#nonvoters">Non-Voter List</a>'; 
     }
 #	print ' | ';
 #	print '<a href="#similar">Similar Divisions</a>'; 
@@ -221,26 +221,31 @@
     }
     print "</table>";
 
+    $mps = array(); 
+
     function vote_table($div_id, $db, $date, $show_all, $query)
     {
         # Table of MP votes
 #        print $query;
         $db->query($query);
-#        print " ROWS " . $db->rows() . " \n";
+        print " ROWS " . $db->rows() . " \n";
+
+        global $mps;
 
         print "<table class=\"votes\"><tr class=\"headings\"><td>MP</td><td>Constituency</td><td>Party</td><td>Vote</td></tr>";
         $prettyrow = 0;
         while ($row = $db->fetch_row())
         {
+            array_push($mps, $row[5]);
             $class = "";
             if ($row[4] == "")
                 $row[4] = "nonvoter";
             $nt4 = str_replace("tell", "", $row[4]);
             $nt6 = str_replace("tell", "", $row[6]);
             if ($show_all && $nt6 != $nt4 && $nt6 <> "unknown" && $nt4 <> "both" && $nt4 <> "nonvoter")
-            {
                 $class = "rebel";
-            }
+            if ($nt4 == "both")
+                $class = "both";
             $prettyrow = pretty_row_start($prettyrow, $class);
             print "<td><a href=\"mp.php?firstname=" . urlencode($row[0]) .
                 "&lastname=" . urlencode($row[1]) . "&constituency=" .
@@ -281,30 +286,32 @@
     vote_table($div_id, $db, $date, $show_all, $query);
     if (!$show_all)
     {
-        print "<p><a href=\"$this_anchor&showall=yes#voters\">Show all MPs who voted in this division, and all MPs who did not</a>";
+        print "<p><a href=\"$this_anchor&showall=yes#voters\">Show detailed voting records - 
+        all MPs who voted in this division, and all MPs who did not</a>";
     }
     else
     {
         print "<p><a href=\"$this_anchor#rebels\">Show only MPs who rebelled in this division</a>";
     }
 
-/*    if ($show_all)
+    if ($show_all)
     {
+        $mp_not_already = "mp_id<>" . join(" and mp_id<>", $mps);
         $query = "select first_name, last_name, title, pw_mp.party,
-            vote, pw_mp.mp_id, \"\", constituency from pw_mp
-            left join pw_vote on pw_vote.mp_id = pw_mp.mp_id
-            where pw_vote.division_id = $div_id
-                and entered_house <= '$date' and left_house >= '$date' and vote is null ";
+            \"\", pw_mp.mp_id, \"\", constituency from pw_mp where
+                entered_house <= '$date' and left_house >= '$date' and 
+                ($mp_not_already)";
         $query .= "order by party, last_name, first_name desc";
         print "<h2><a name=\"nonvoters\">Non-Voter List</a></h2>
             <p>MPs who did not vote in the division.  There are many
             reasons an MP may not vote - read this
             <a href=\"faq.php#clarify\">clear explanation</a> of
-            attendance to find some reasons.";
+            attendance to find some reasons.  Note that MPs who voted both for
+            and against are listed in the table above, not this table.  Search 
+            for \"both\" to find them.";
         vote_table($div_id, $db, $date, $show_all, $query);
         print "<p><a href=\"$this_anchor#rebels\">Show only MPs who rebelled in this division</a>";
     }
-    */
 
 /*    print "<h2><a name=\"similar\">Similar Divisions</a></h2>";
     print "<p>Shows which divisions had similar rebels to this one.
