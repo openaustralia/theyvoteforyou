@@ -1,5 +1,5 @@
 <?php
-    # $Id: decodeids.inc,v 1.7 2005/03/18 15:36:28 frabcus Exp $
+    # $Id: decodeids.inc,v 1.8 2005/03/18 16:52:10 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -153,7 +153,7 @@
 		$mpconstituency = db_scrub($_GET["mpc$i"]);
 		$mppostcode = db_scrub($_GET["mppc$i"]);
 		if ($bdebug == 1)
-			print "<h1> MPN=".htmlscrub($mpname)." MPC=".htmlscrub($mpconstituency)." MPPC=".htmlscrub($mppostcode)."</h1>";
+			print "<h1> MPN=".html_scrub($mpname)." MPC=".html_scrub($mpconstituency)." MPPC=".html_scrub($mppostcode)."</h1>";
 
         if (is_postcode($mppostcode)) {
             $pccons = postcode_to_constituency($mppostcode);
@@ -253,6 +253,7 @@
 				  	ON pw_cache_divinfo.division_id = pw_division.division_id
 				  WHERE division_date = '$div_date' AND division_number = '$div_no'";
 
+		# warning error shows up from this line if in debug since it comes before the first characters that set the type in head.inc
 		if ($bdebug == 1)
 			print "<h5>$query</h5>";
 	    $row = $db->query_one_row_assoc($query);

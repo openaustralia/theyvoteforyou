@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.55 2005/03/16 11:01:42 frabcus Exp $
+# $Id: division.php,v 1.56 2005/03/18 16:52:10 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -13,6 +13,8 @@
 
     include "gather.inc";
    	include "decodeids.inc";
+	include "tablepeop.inc";
+
 
 	# decode the attributes
 	$divattr = get_division_attr_decode($db, "");
@@ -41,7 +43,7 @@
 	$this_anchor = $divattr["divhref"];
 
     include_once "account/user.inc";
-    if (!user_isloggedin()) 
+    if (!user_isloggedin())
 	{
         $cache_params = "#date=$date#div_no=$div_no#show_all=$show_all#";
         include "cache-begin.inc";
@@ -126,7 +128,7 @@
 
         $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
         $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
-        if ($debate_gid != "") 
+        if ($debate_gid != "")
 		{
             print "<br><a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">Read the full debate</a> leading up to this division";
             print " (on TheyWorkForYou.com)";
@@ -260,111 +262,40 @@
         print "</table>";
 	}
 
-        $mps = array();
 
-        function vote_table($div_id, $db, $date, $show_all, $query)
-        {
-            # Table of MP votes
-            $db->query($query);
+	if ($display == "summary")
+	{
+		print "<h2><a name=\"votes\">Rebel Voters</a></h2>\n";
+		print "<p>MPs for which their vote in this division differed from the majority vote of their party.</p>\n";
+	}
+	elseif ($display == "allvotes")
+	{
+		print "<h2><a name=\"votes\">All Votes Cast</a></h2>\n";
+		print "<p>MPs for which their vote in this division differed
+				from the majority vote of their party are marked in red.
+				Also shows which MPs were ministers at the time of this vote.</p>\n";
+	}
+	else
+	{
+		print "<h2><a name=\"votes\">All MPs eligable to vote</a></h2>\n";
+		print "<p>Includes MPs who were absent (or abstained) 
+				for this vote.</p>\n";
+	}
 
-            global $mps, $db2;
 
-            print "<table class=\"votes\"><tr class=\"headings\"><td>MP::</td><td>Constituency</td><td>Party</td><td>Vote</td></tr>";
-            $prettyrow = 0;
-            while ($row = $db->fetch_row())
-            {
-                // Find out if minister
-                $query2 = "select dept, position, from_date, to_date
-                    from pw_moffice where pw_moffice.person = '" . $row[8] . "'
-                    and from_date <= '$date' and '$date' < to_date";
-                // (<= from day as they're being appointed, < for to date
-                // as they may have resigned to vote the other way, give
-                // benefit of doubt)
-                $result = $db2->query($query2);
-                $is_minister = false;
-                while ($minrow = $db2->fetch_row_assoc()) {
-                    $is_minister = true;
-                    // can look at post titles etc. here
-                }
-                $minpost = $is_minister ? "(Minister)" : "";
+	# sortby is 'turnout', 'rebellions', 'name', 'constituency', 'attendance'
+	# showwhich is 'rebels', 'voters', 'allpossible'
+		print "<table class=\"votes\"><tr class=\"headings\"><td>MP</td><td>Constituency</td><td>Party</td><td>Vote</td></tr>";
+		$mptabattr = array("listtype"	=> "division",
+							"divdate"	=> $divattr["division_date"],
+							"divno"		=> $divattr["division_number"],
+							"divid"		=> $divattr["division_id"],  # redundant, but the above two are not used by all tables
+							"sortby"	=> "party", # name, vote, constituency
+							"showwhich" => $dismode["showwhich"]);
+		mp_table($db, $mptabattr);
+		print "</table>";
 
-                // Print stuff
-                array_push($mps, $row[5]);
-                $class = "";
-                if ($row[4] == "")
-                    $row[4] = "nonvoter";
-                $nt4 = str_replace("tell", "", $row[4]);
-                $nt6 = str_replace("tell", "", $row[6]);
-                if ($show_all && $nt6 != $nt4 && $nt6 <> "unknown" && $nt4 <> "both" && $nt4 <> "nonvoter")
-                    $class = "rebel";
-                if ($nt4 == "both")
-                    $class = "both";
-                $prettyrow = pretty_row_start($prettyrow, $class);
-                print "<td><a href=\"mp.php?firstname=" . urlencode($row[0]) .
-                    "&lastname=" . urlencode($row[1]) . "&constituency=" .
-                    urlencode($row[7]) . "\">$row[2] $row[0] $row[1]</a></td>
-                    <td>$row[7]</td><td>" . pretty_party($row[3]) . " " .  $minpost . " </td><td>$row[4]</td>";
-                print "</tr>";
-            }
-            if ($db->rows() == 0)
-            {
-                $prettyrow = pretty_row_start($prettyrow, "");
-                print "<td colspan=4>no rebellions</td></tr>\n";
-            }
-            print "</table>";
-        }
 
-        $query = "select first_name, last_name, title, pw_mp.party,
-            vote, pw_mp.mp_id, whip_guess, constituency, person from pw_mp, pw_vote, pw_cache_whip
-            where pw_vote.mp_id = pw_mp.mp_id
-                and pw_cache_whip.party = pw_mp.party
-                and pw_vote.division_id = $div_id
-                and pw_cache_whip.division_id = $div_id
-                and entered_house <= '$date' and left_house >= '$date' and vote is not null ";
-        if (!$show_all)
-        {
-            $query .= "and vote is not null and whip_guess <> 'unknown' and vote <>
-                'both' and whip_guess <> replace(vote, 'tell', '')";
-            print "<h2><a name=\"rebels\">Rebel Voters</a></h2>
-            <p>MPs for which their vote in this division differed from
-            the majority vote of their party.";
-        }
-        else
-        {
-            print "<h2><a name=\"voters\">Voter List</a></h2>
-                <p>Vote of each MP. Those where they voted differently from
-                the majority in their party are marked in red.";
-        }
-        $query .= "order by party, last_name, first_name desc";
-        vote_table($div_id, $db, $date, $show_all, $query);
-        if (!$show_all)
-        {
-            print "<p><a href=\"$this_anchor&showall=yes#voters\">Show detailed voting records -
-            all MPs who voted in this division, and all MPs who did not</a>";
-        }
-        else
-        {
-            print "<p><a href=\"$this_anchor#rebels\">Show only MPs who rebelled in this division</a>";
-        }
-
-        if ($show_all)
-        {
-            $mp_not_already = "mp_id<>" . join(" and mp_id<>", $mps);
-            $query = "select first_name, last_name, title, pw_mp.party,
-                \"\", pw_mp.mp_id, \"\", constituency, person from pw_mp where
-                    entered_house <= '$date' and left_house >= '$date' and
-                    ($mp_not_already)";
-            $query .= "order by party, last_name, first_name desc";
-            print "<h2><a name=\"nonvoters\">Non-Voter List</a></h2>
-                <p>MPs who did not vote in the division.  There are many
-                reasons an MP may not vote - read this
-                <a href=\"faq.php#clarify\">clear explanation</a> of
-                attendance to find some reasons.  Note that MPs who voted both for
-                and against are listed in the table above, not this table.  Search
-                for \"both\" to find them.";
-            vote_table($div_id, $db, $date, $show_all, $query);
-            print "<p><a href=\"$this_anchor#rebels\">Show only MPs who rebelled in this division</a>";
-        }
 
         # Show Dream MPs who voted in this division and their votes
         $db->query("select name, rollie_id, vote, user_name from pw_dyn_rolliemp, pw_dyn_rollievote, pw_dyn_user

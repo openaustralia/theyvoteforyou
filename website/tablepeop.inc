@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablepeop.inc,v 1.2 2005/03/14 18:58:16 goatchurch Exp $
+    # $Id: tablepeop.inc,v 1.3 2005/03/18 16:52:10 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -8,18 +8,31 @@
 
 
 
-	function print_mp_row($nrows, $row, $name, $href, $colstyle)
+	function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich)
 	{
-    	print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even")."\">";
+		# row colour
+		if ($colstyle == "division")
+		{
+			if ($row["vote"] == "both")
+				$sclass = "both";
+			elseif ($showwhich != "rebels"
+					and $row["whip_guess"] != "unknown" and $row["vote"] != ""
+					and str_replace("tell", "", $row["vote"]) != $row["whip_guess"])
+        		$sclass = "rebel";
+		}
+    	print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even").$sclass."\">";
 
-		if ($colstyle == "rebellions" or $colstyle == "attendance")
+		# row numbering
+		if ($colstyle == "shortrebellions" or $colstyle == "shortattendance")
 			print "<td>$nrows</td>";
 
+		# name and constituency
 		print "<td><a href=\"$href\">".$row['title']." $name</a></td>";
 
 		# we could mark if there are other MPs in this constituency and make a link to them
 		#print "<td>".$row['constituency']."</td>";
 		print "<td><a href=\"mp.php?mpc=".urlencode($row['constituency'])."\">".$row['constituency']."</a></td>";
+
 
 		# convert and write out the party
 		$party = $row['party'];
@@ -32,9 +45,17 @@
 
 	    if ($row["entered_reason"] == "changed_party" or $row["left_reason"] == "changed_party")
 			$party = "whilst ".$party;
+
+		if ($colstyle == "division" and $row["ministerial"])
+    		$party = $party." (minister)";
+
+
 		print "<td>$party</td>";
 
-		# do the two types of writing out
+
+
+
+		# distance voting table
 		if ($colstyle == "distance")
 		{
 			$distance = $row['distance'];
@@ -45,6 +66,11 @@
 			print "<td>$distance</td>";
 		}
 
+		# division vote
+		elseif ($colstyle == "division")
+			print "<td>".($row["vote"] ? $row["vote"] : "absent")."</td>";
+
+
 		# the remaining columns
 		elseif ($colstyle == "list")
 		{
@@ -52,14 +78,15 @@
         	print "<td class=\"percent\">".percentise_votes_short($row['votes_attended'], $row['votes_possible'])."</td>";
   		}
 
-		else # rebellions or attendance
+		# rebellions or attendance
+		else
 		{
 			print "<td class=\"percent\">";
-			if ($colstyle == "attendance")
+			if ($colstyle == "shortattendance")
 	            print percentise_votes_short($row['votes_attended'], $row['votes_possible']);
 			else
 				print percentise_votes_short($row['rebellions'], $row['votes_attended']);
-			print ($colstyle == "rebellions" ? " rebel" : " attendance");
+			print ($colstyle == "shortrebellions" ? " rebel" : " attendance");
 			$y1 = substr($row["entered_house"], 0, 4);
 			$y2 = substr($row["left_house"], 0, 4);
 			if ($y2 == "9999")
@@ -89,8 +116,11 @@
 	{
 		global $bdebug;
 
+		if ($bdebug == 1)
+			print_r($mptabattr);
+
 		$aquery = array();
-		$aquery["qselect"] = "SELECT first_name, last_name, title, constituency, party,
+		$aquery["qselect"] = "SELECT first_name, last_name, title, constituency, pw_mp.party AS party,
 									 entered_house, left_house,
 									 entered_reason, left_reason,
 									 pw_mp.mp_id AS mpid,
@@ -108,17 +138,35 @@
 		elseif ($mptabattr["sortby"] == "attendance")
 	        $aquery["qorder"] .= " round(votes_attended/votes_possible,10) desc,";
 
-		if ($mptabattr["sortby"] == "constituency")
-	        $aquery["qorder"] .= " constituency, last_name, first_name, party";
-		elseif ($mptabattr["sortby"] == "party")
-	        $aquery["qorder"] .= " party, last_name, first_name, constituency";
+		if ($mptabattr["listtype"] == 'division')
+		{
+			if ($mptabattr["sortby"] == "party")
+		        $aquery["qorder"] .= " party, pw_vote_sortorder.position DESC, last_name, first_name, constituency";
+			elseif ($mptabattr["sortby"] == "vote")
+		        $aquery["qorder"] .= " pw_vote_sortorder.position DESC, last_name, first_name, constituency";
+			elseif ($mptabattr["sortby"] == "constituency")
+		        $aquery["qorder"] .= " constituency, last_name, first_name";
+			else  # by name
+		        $aquery["qorder"] .= " last_name, first_name, constituency, party";
+		}
 
-		# defaults to last name
+		# without a vote column
 		else
-	        $aquery["qorder"] .= " last_name, first_name, constituency, party";
+		{
+			if ($mptabattr["sortby"] == "constituency")
+		        $aquery["qorder"] .= " constituency, last_name, first_name, party";
+			elseif ($mptabattr["sortby"] == "party")
+		        $aquery["qorder"] .= " party, last_name, first_name, constituency";
+			elseif ($mptabattr["sortby"] == "vote")
+		        $aquery["qorder"] .= " vote, party, last_name, first_name, constituency";
 
+			# defaults to last name
+			else
+		        $aquery["qorder"] .= " last_name, first_name, constituency, party";
+		}
 
 		# go through the different list selection cases
+        $showwhich = $mptabattr["showwhich"];
 
 		# range of mps in one parliament
 		if ($mptabattr["listtype"] == 'parliament')
@@ -146,23 +194,59 @@
 			$aquery["qjoin"] .= "  ON ".$mptabattr["dreammpid"];
 			$friendlk = "dreammpid=".$mptabattr["dreammpid"];
 		}
+
+		# list MPs voting in one division
 		elseif ($mptabattr["listtype"] == 'division')
 		{
-			$aquery["qjoin"] .= "  ON ".$mptabattr["dreammpid"];
+			# the division vote (joined)
+			$aquery["qselect"] 	.= ", pw_vote.vote AS vote";
+			$aquery["qjoin"] 	.= " LEFT JOIN pw_vote ON pw_vote.mp_id = pw_mp.mp_id
+										AND pw_vote.division_id = ".$mptabattr["divid"];
+
+			if ($showwhich == 'allpossible')
+	        	$aquery["qwhere"] 	.= " AND entered_house <= '".$mptabattr["divdate"]."'
+	        							 AND left_house > '".$mptabattr["divdate"]."'";
+			else
+				$aquery["qwhere"] 	.= " AND pw_vote.vote IS NOT null";
+
+			# the whip guess
+			$aquery["qselect"]	.= ", whip_guess";
+			$aquery["qjoin"]	.= " LEFT JOIN pw_cache_whip
+										ON pw_cache_whip.division_id = ".$mptabattr["divid"]."
+										AND pw_cache_whip.party = pw_mp.party";
+
+
+			# comparison to the whip
+			if ($showwhich == 'rebels')
+				$aquery["qwhere"]	.= " AND whip_guess <> 'unknown'
+										 AND pw_vote.vote <> 'both'
+										 AND whip_guess <> replace(pw_vote.vote, 'tell', '')";
+
+			# vote table sorting
+			$aquery["qselect"] 	.= ", pw_vote_sortorder.position AS votesort";
+			$aquery["qjoin"] 	.= " LEFT JOIN pw_vote_sortorder
+										ON pw_vote_sortorder.vote = pw_vote.vote";
+
+			# is minister
+			$aquery["qselect"] 	.= ", max(pw_moffice.from_date <= '".$mptabattr["divdate"]."'
+										AND pw_moffice.to_date > '".$mptabattr["divdate"]."')
+										AS ministerial";
+			$aquery["qjoin"] 	.= " LEFT JOIN pw_moffice ON pw_moffice.person = pw_mp.person";
+
+			$aquery["qgroupby"] = " GROUP BY pw_mp.mp_id";  # remove double ministers
 		}
-		elseif ($mptabattr["listtype"] == 'division')
+		elseif ($mptabattr["listtype"] == 'division2')
 		{
 			$aquery["qjoin"] .= "  ON ".$mptabattr["dreammpid"];
 		}
 
 
-		# apply the showwhich cases
-		# showwhich is 'all', 'limit'(limitno=>n), 'rebels', 'attended'
+		# apply the limit
 		if ($mptabattr["limit"])
 			$aquery["qlimit"] = " LIMIT ".$mptabattr["limit"];
 
 
-		$query = $aquery["qselect"].$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"].$aquery["qorder"].$aquery["qlimit"];
+		$query = $aquery["qselect"].$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"].$aquery["qgroupby"].$aquery["qorder"].$aquery["qlimit"];
 		if ($bdebug == 1)
 			print "\n<h3>$query</h3>\n";
 		$db->query($query);
@@ -171,11 +255,16 @@
 		if ($friendlk)
 			$colstyle = "distance";
 		elseif ($mptabattr["limit"])
-			$colstyle = $mptabattr["sortby"]; # short table on the index page
+			$colstyle = "short".$mptabattr["sortby"]; # a short table on the index page
+		elseif ($mptabattr["listtype"] == "division")
+			$colstyle = "division";
 		else
 			$colstyle = "list";
 
 		# now output all the parts of the table
+		if ($showwhich == 'rebels' and $colstyle = "division" and $db->rows() == 0)
+			print "<tr class=\"even\"><td colspan=4>no rebellions</td></tr>\n";
+
 		$nrows = 0;
         while ($row = $db->fetch_row_assoc())
         {
@@ -184,7 +273,7 @@
 			if ($friendlk)
 				$href .= "&$friendlk";
 			$nrows += 1; # number from 1
-			print_mp_row($nrows, $row, $mpname, $href, $colstyle);
+			print_mp_row($nrows, $row, $mpname, $href, $colstyle, $showwhich);
 		}
 
 
@@ -203,5 +292,3 @@
 	}
 
 ?>
-
-
