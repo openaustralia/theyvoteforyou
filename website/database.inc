@@ -1,14 +1,16 @@
 <?php
+// This files used for user login, should be merged with db.inc (patches
+// welcome :)
 //
 // SourceForge: Breaking Down the Barriers to Open Source Development
 // Copyright 1999-2000 (c) The SourceForge Crew
 // http://sourceforge.net
 //
-// $Id: database.inc,v 1.1 2003/10/11 00:22:19 frabcus Exp $
+// $Id: database.inc,v 1.1 2005/01/14 16:07:26 frabcus Exp $
 //
 // /etc/local.inc includes the machine specific database connect info
 
-include "/home/francis/.pwdb.inc";
+include_once "config.inc";
 $sys_dbhost=$host;
 $sys_dbuser=$user;
 $sys_dbpasswd=$password;

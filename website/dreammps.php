@@ -10,7 +10,7 @@
     # For details see the file LICENSE.html in the top level of the source.
 
     include "db.inc";
-    include('account/database.inc');
+    include('database.inc');
     include "parliaments.inc";
     include "constituencies.inc";
     include "render.inc";

@@ -1,10 +1,13 @@
 <?php
-# $Id: cache-tools.inc,v 1.3 2004/06/15 23:46:49 frabcus Exp $
+# $Id: cache-tools.inc,v 1.4 2005/01/14 16:07:26 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
+
+include_once "config.inc";
+include_once 'account/user.inc';
 
 function newsletter_navbar() {
     $ret = "";
@@ -39,7 +42,7 @@ function account_navbar() {
 }
 
 function cache_delete($file_stub, $cache_params) {
-    $cache_dir = "/home/francis/pwcache/" . substr(str_replace("/", "-", $_SERVER["SCRIPT_NAME"]),1);
+    $cache_dir = $cache_top . "/" . substr(str_replace("/", "-", $_SERVER["SCRIPT_NAME"]),1);
     $cache_dir = str_replace("account-", "", $cache_dir);
     $cache_dir = str_replace(strrchr($cache_dir, "-"), "-" . $file_stub, $cache_dir);
 

@@ -1,13 +1,13 @@
 <?  
 
-# $Id: changeemail.php,v 1.7 2004/06/15 10:27:01 frabcus Exp $
+# $Id: changeemail.php,v 1.8 2005/01/14 16:07:27 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-include('database.inc');
+include('../database.inc');
 include_once('user.inc');
 
 $password1=mysql_escape_string($_POST["password1"]);

@@ -1,5 +1,5 @@
 <?php
-# $Id: division.php,v 1.39 2004/12/01 17:09:54 frabcus Exp $
+# $Id: division.php,v 1.40 2005/01/14 16:07:26 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -24,7 +24,7 @@
         include "cache-begin.inc"; 
     }
 
-    include "account/database.inc";
+    include "database.inc";
     include_once "cache-tools.inc";
     $db = new DB(); 
     $db2 = new DB(); 

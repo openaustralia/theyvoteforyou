@@ -1,5 +1,5 @@
 <?php $title = "Source Code"; include "../header.inc" 
-# $Id: code.php,v 1.13 2004/12/13 00:40:50 frabcus Exp $
+# $Id: code.php,v 1.14 2005/01/14 16:07:28 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -195,9 +195,8 @@ When you're done make sure you restart the webserver so it reloads its
 config files. 
 
 <p>Finally you need to tell the PHP scripts about the database.  Copy
-the file pwdb.inc.incvs to pwdb.inc and edit it with your MySQL 
-settings.  You also need to edit db.inc to point to this file (TODO:
-work out a way to remove that need).
+the file config.inc.incvs to config.inc and edit it with your MySQL 
+settings.  
 
 <p>Now browse to <a href="http://localhost/">http://localhost/</a>.
 

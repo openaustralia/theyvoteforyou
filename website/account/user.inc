@@ -2,10 +2,13 @@
 
 $feedback = '';
 
+if (!$hidden_hash_var) {
+    print "ERROR: include config.inc first";
+}
+
 if (!function_exists("user_isloggedin"))
 {
     unset($LOGGED_IN);
-    include "/home/francis/.pwdb.inc";
 
     function user_isloggedin() {
             global $user_name,$id_hash,$hidden_hash_var,$LOGGED_IN;
@@ -17,13 +20,12 @@ if (!function_exists("user_isloggedin"))
             //have we already run the hash checks? 
             //If so, return the pre-set var
             if (isset($LOGGED_IN)) {
-#                print "isset ";
- #               if ($LOGGED_IN)
-  #                  print "logged in";
+                if ($LOGGED_IN)
                 return $LOGGED_IN;
             }
             if ($user_name && $id_hash) {
                     $hash=md5($user_name.$hidden_hash_var);
+                #    print "hash $hash idhash $id_hash";
                     if ($hash == $id_hash) {
                             $LOGGED_IN=true;
                             return true;

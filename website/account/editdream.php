@@ -7,7 +7,7 @@
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-include('database.inc');
+include('../database.inc');
 include_once('user.inc');
 include "../db.inc";
 include "../cache-tools.inc";

@@ -1,4 +1,2 @@
 .htaccess
-newsdate.inc
-headlines.inc
-
+config.inc

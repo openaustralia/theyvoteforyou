@@ -1,5 +1,5 @@
-<? $title = "Old Site News"; include "../header.inc";
-# $Id: old.php,v 1.4 2005/01/14 09:16:45 frabcus Exp $
+<? $title = "Old Site News"; include "../config.inc"; include "../header.inc";
+# $Id: old.php,v 1.5 2005/01/14 16:07:27 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
