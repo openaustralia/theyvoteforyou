@@ -30,16 +30,15 @@ Look at majorities
 Website
 -------
 
-Put news (at least headlines) on front page
-
 Make cluster diagram clearer in "highlights" section on front page
-
-Sort cluster diagram name entries by surname - rather than no order
 
 Consider changing support@ email addr to something less corporate sounding
 
 Trim some opinion waffle out of Cluster text
 
+Display Paul Marsden (Lab) clearer
+
+Put news (at least headlines) on front page
 Newsletter
 Some kind of comments system
 
@@ -52,9 +51,6 @@ Scraper
 -------
 
 Check out tapiR, see if useful
-
-Finish last few divisions that you don't have right
-    Missing division 74
 
 Check nobody existing voted when they were dead!
 Check no constituency had two MPs at once
@@ -75,5 +71,7 @@ Make one script I have to run which just does everything (backup logs,
 backup sf cvs repository, get latest divisions, upload to db)
 
 Improve motion text extraction
+    division.php?date=2003-02-03&number=74 - and div 73, detail missing
+
 
 

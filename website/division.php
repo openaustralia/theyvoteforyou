@@ -1,5 +1,5 @@
 <?php
-# $Id: division.php,v 1.2 2003/09/17 12:01:32 frabcus Exp $
+# $Id: division.php,v 1.3 2003/09/17 15:11:53 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -46,9 +46,10 @@
     print "$notes";
     
     print "<h2>Motion</h2> <p>Procedural text extracted from the debate.
-    This is for guidance only, irrelevant text may be shown.  Check
-    Hansard thoroughly and have knowledge of parliamentary procedure
-    to fully understand the meaning of the division.
+    This is for guidance only, irrelevant text may be shown, crucial
+    text may be missing.  Check Hansard thoroughly and have knowledge of
+    parliamentary procedure to fully understand the meaning of the
+    division.
     </p>";
     print "<div class=\"motion\">$motion";
     print "</div>\n";

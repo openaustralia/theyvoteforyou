@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: scrape.pl,v 1.3 2003/09/09 14:26:07 frabcus Exp $
+# $Id: scrape.pl,v 1.4 2003/09/17 15:11:53 frabcus Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -26,12 +26,14 @@ my $date;
 my $verbose;
 my $chitter;
 my $quiet;
+my $force;
 my $result = GetOptions ("from=s"   => \$from,
                           "to=s" => \$to,
                           "date=s" => \$date,
                           "verbose" => \$verbose,
                           "chitter" => \$chitter,
-                          "quiet" => \$quiet);
+                          "quiet" => \$quiet,
+                          "force" => \$force);
 
 if ($date)
 {
@@ -117,7 +119,7 @@ scrape.pl [OPTION]... [COMMAND]...
 Commands are any or all of these, in order you want them run:
 mps - insert MPs into database from local raw data files
 clean - tidy up bad records in the database from interrupted crawls
-months - scan recent months and find day URLs
+months - scan back through months to get new day URLs
 sessions - scan recent sessions and find day URLs
 content - fetch debate content for all days
 divisions - parse divisions from local content and add them to database
@@ -130,6 +132,7 @@ These options apply to "content" and "divisions" commands only:
 --from=YYYY-MM-DD - process all from this date onwards
 --to=YYYY-MM-DD - process all up to this date
 (you can specify from and to for an inclusive date range)
+--force - delete previous data, and refetch/recalculate
 
 These are general options:
 --quiet - say nothing, except for errors
@@ -205,33 +208,45 @@ sub all_content
 {
     my $agent = WWW::Mechanize->new();
 
+    if ($force)
+    {
+        my $sth = db::query($dbh, "delete from pw_debate_content where
+            1=1 $where_clause", @where_params);
+        clear_divisions_in_range();
+    }
+
+    my $new_where_clause = $where_clause;
+    $new_where_clause =~ s/day_date/pw_hansard_day.day_date/g;
     my $sth = db::query($dbh, "select pw_hansard_day.day_date,
         first_page_url from pw_hansard_day left join pw_debate_content on
         pw_hansard_day.day_date = pw_debate_content.day_date where
-        pw_debate_content.day_date is null $where_clause order by day_date desc", 
+        pw_debate_content.day_date is null $new_where_clause order by day_date desc", 
         @where_params);
     
-    print "Getting content for " . $sth->rows() . " missing days\n\n";
+    print "Getting content for " . $sth->rows() . " missing days\n";
     while (my @data = $sth->fetchrow_array())
     {
         my ($date, $url) = @data;
-        print "Date $date\n";
         $agent->get($url);
         content::fetch_day_content($dbh, $agent, $date);
     }
 }
 
+# Clean out all parsed divisions we already have for date range
+sub clear_divisions_in_range
+{
+    my $sth = db::query($dbh, "update pw_debate_content set divisions_extracted = 0 where 1=1 $where_clause", @where_params);
+    my $new_where_clause = $where_clause;
+    $new_where_clause =~ s/day_date/division_date/g;
+    $sth = db::query($dbh, "update pw_division set valid = 0 where 1=1 $new_where_clause", @where_params);
+    clean();
+}
+
 sub all_divisions
 {
-    if (defined $from && $from eq $to)
+    if ($force)
     {
-        # If we select one day, clean out all parsed divisions so far
-        # for that day and reparse
-        my $sth = db::query($dbh, "update pw_debate_content set divisions_extracted = 0 where 1=1 $where_clause", @where_params);
-        my $new_where_clause = $where_clause;
-        $new_where_clause =~ s/day_date/division_date/g;
-        $sth = db::query($dbh, "update pw_division set valid = 0 where 1=1 $new_where_clause", @where_params);
-        clean();
+        clear_divisions_in_range();
     }
 
     my $sth = db::query($dbh, "select day_date, content from pw_debate_content where divisions_extracted = 0 $where_clause", @where_params);

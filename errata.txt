@@ -5,7 +5,3 @@ Hansard errata
 - it says 240 ayes, but 341 are listed!
 http://www.publications.parliament.uk/pa/cm200203/cmhansrd/vo021127/debtext/21127-30.htm
 
-Why does a division 73 appear twice (identical!) here, and where is division 74? (3 Feb 2003):
-http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030203/debindx/30203-x.htm
-http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030204/debindx/30204-x.htm
-

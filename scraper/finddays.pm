@@ -1,4 +1,4 @@
-# $Id: finddays.pm,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: finddays.pm,v 1.2 2003/09/17 15:11:53 frabcus Exp $
 # Scans various index pages in various ways to hunt down the content
 # for each day in text of Hansard beneath them all.  Stores URLs
 # of the first page of content.
@@ -24,6 +24,8 @@ sub hunt_within_month_or_volume
     error::die("Error getting month/volume index URL " . $agent->response->status_line, $agent->uri()) unless $agent->success;
     my $content = $agent->{content}; # put in local variable to copy it out of the agent, so agent can walk recursively
     my $p = HTML::TokeParser->new(\$content);
+
+    my $already_have = 0;
 
     # Find links to something with Debate in the text
     my $c = 1;
@@ -71,16 +73,32 @@ sub hunt_within_month_or_volume
         }
         die "Couldn't find date" if !defined $date;
 
-        # Add the URL into a table of dates-->URLs, ignoring if we
-        # already have it
-        db::query($dbh, "insert ignore into pw_hansard_day 
-            (day_date, first_page_url) values
-            (FROM_UNIXTIME(?), ?)", $date, $first_page);
+        # See if we already have it
+        my $sth = db::query($dbh, "select first_page_url from pw_hansard_day 
+            where day_date = FROM_UNIXTIME(?)", $date);
+        error::die("Found more than one existing URL", $agent->uri()) if $sth->rows > 1;
+        if ($sth->rows > 0)
+        { 
+            my @data = $sth->fetchrow_array();
+            if ($data[0] ne $first_page)
+            {
+                error::die("Different URL " . $data[0] . " already in database", $agent->uri());
+            }
+            $already_have++;
+        }
+        else
+        {
+            # Add the URL into a table of dates-->URLs
+            db::query($dbh, "insert into pw_hansard_day 
+                (day_date, first_page_url) values
+                (FROM_UNIXTIME(?), ?)", $date, $first_page);
+        }
 
         $agent->back();
         $agent->back();
         $c++;
     }
+    return $already_have;
 }
 
 sub recent_months
@@ -96,6 +114,7 @@ sub recent_months
     # Find links to something with this form (these are the front page months):
     # http://www.publications.parliament.uk/pa/cm/cmhn****.htm
     my $c = 1;
+    my $already_have = 0;
     while ($agent->follow_link(url_regex => qr#cmhn\d\d\d\d.htm#i, n => $c))
     {
         if (defined $skip_forwards && $agent->uri() !~ m/$skip_forwards/)
@@ -107,10 +126,13 @@ sub recent_months
             undef $skip_forwards;
 
             error::log("Month found", $agent->uri(), error::USEFUL);
-            finddays::hunt_within_month_or_volume($dbh, $agent);
+            $already_have += finddays::hunt_within_month_or_volume($dbh, $agent);
         }
         $agent->back();
         $c++;
+
+        # Stop if we have got to what we already have
+        last if $already_have > 0;
     }
 }
 

@@ -1,4 +1,4 @@
-/* $Id: publicwhip.css,v 1.4 2003/09/17 12:01:33 frabcus Exp $
+/* $Id: publicwhip.css,v 1.5 2003/09/17 15:11:53 frabcus Exp $
 
 The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 This is free software, and you are welcome to redistribute it under
@@ -7,7 +7,6 @@ For details see the file LICENSE.html in the top level of the source.  */
 
 body {  background: #ffffff;
         color: #000000;
-        margin-left: 5%; margin-right: 5%;
         margin-top: 0.5em; margin-bottom: 0.5em;
         font-family: arial, sans-serif;
         font-size: 1em;
@@ -41,7 +40,7 @@ hr {
      border-bottom: none; 
      border-right: none; 
      border-left: none; 
-     border-top: none; 
+     border-top: none;
 
      color: #bbbbff;
      background-color: #bbbbff;
@@ -69,6 +68,7 @@ table td.rebel { background-color: #ee7777; }
 table td.whip { font-weight: bold; }
 table td.percent { text-align: right; }
 table td.important { font-style: italic; font-weight: bold; }
+table td.layout { vertical-align: top; padding: 0; padding-right:1em; margin: 0; }
 
 table { margin: 0;
         padding: 0;
@@ -78,6 +78,11 @@ table { margin: 0;
 
 table.votes { width: 100%; }
 table.mps { width: 100%; }
+table.layout { width: 100%;
+            border: 0;
+            padding: 0;
+            margin: 0;
+            }
 
 table tr.headings { font-weight: bold; background-color: #dadada;}
 
