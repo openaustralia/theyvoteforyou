@@ -2,7 +2,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.13 2003/10/11 07:45:17 frabcus Exp $
+# $Id: header.inc,v 1.14 2003/10/11 07:49:58 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -11,7 +11,7 @@
 
 if (strpos($_SERVER{'REQUEST_URI'}, "/account")) $toppath = "../"; else $toppath = "";
 
-include "pretty.inc";
+include $toppath . "pretty.inc";
 ?>
 
 <head>
