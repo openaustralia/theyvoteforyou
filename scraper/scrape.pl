@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: scrape.pl,v 1.12 2004/03/23 14:57:49 frabcus Exp $
+# $Id: scrape.pl,v 1.13 2004/04/28 15:16:17 frabcus Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -205,6 +205,8 @@ sub update_calc
     calc::count_mp_info($dbh);
     print "Counting rebellions/turnout by division...\n";
     calc::count_division_info($dbh);
+    print "Rankings...\n";
+    calc::current_rankings($dbh);
 }
 
 sub check

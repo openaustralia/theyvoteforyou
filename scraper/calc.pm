@@ -1,4 +1,4 @@
-# $Id: calc.pm,v 1.9 2004/01/26 10:04:58 frabcus Exp $
+# $Id: calc.pm,v 1.10 2004/04/28 15:16:17 frabcus Exp $
 # Calculates various data and caches it in the database.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -10,6 +10,8 @@ package calc;
 use strict;
 
 use HTML::TokeParser;
+use parliaments;
+use Data::Dumper;
 
 sub guess_whip_for_all
 {
@@ -224,4 +226,92 @@ sub count_party_stats
     }
 }
 
+sub current_rankings
+{
+    my $dbh = shift;
+
+    # Create tables to store in
+    db::query($dbh, "drop table if exists pw_cache_rebelrank_today");
+    db::query($dbh, 
+    "create table pw_cache_rebelrank_today (
+        mp_id int not null,
+        rebel_rank int not null,
+        rebel_outof int not null,
+        index(mp_id)
+    );");
+    db::query($dbh, "drop table if exists pw_cache_attendrank_today");
+    db::query($dbh, 
+    "create table pw_cache_attendrank_today (
+        mp_id int not null,
+        attend_rank int not null,
+        attend_outof int not null,
+        index(mp_id)
+    );");
+     
+    # Select all MPs in force today, and their attendance/rebellions
+    my $mps_query_start = "select pw_mp.mp_id as mp_id, 
+            round(100*rebellions/votes_attended,2) as rebellions,
+            round(100*votes_attended/votes_possible,2) as attendance
+            from pw_mp, pw_cache_mpinfo where pw_mp.mp_id = pw_cache_mpinfo.mp_id
+            and entered_house <= curdate() and curdate() <= left_house";
+    my $sth = db::query($dbh, $mps_query_start);
+
+    # Store their rebellions and divisions for sorting
+    my @mpsrebel;
+    my %mprebel;
+    my @mpsattend;
+    my %mpattend;
+    while (my @data = $sth->fetchrow_array())
+    {
+        my ($mpid, $rebel, $attend) = @data;
+        if (defined $rebel)
+        {
+            push @mpsrebel, $mpid;
+            $mprebel{$mpid} = $rebel;
+        }
+        if (defined $attend)
+        {
+            push @mpsattend, $mpid;
+            $mpattend{$mpid} = $attend;
+        }
+    }  
+
+    {
+        # Sort, and calculate ranking for rebellions
+        @mpsrebel = sort { $mprebel{$b} <=> $mprebel{$a} } @mpsrebel;
+        my %mprebelrank;
+        my $rank = 0;
+        my $activerank = 0;
+        my $prevvalue = -1;
+        for my $mp (@mpsrebel)
+        {
+            $rank++;
+            $activerank = $rank if ($mprebel{$mp} != $prevvalue);
+            $prevvalue = $mprebel{$mp};
+            error::log($mp . " rebel $activerank of " . $#mpsrebel, "", error::CHITTER);
+            db::query($dbh, "insert into pw_cache_rebelrank_today (mp_id, rebel_rank, rebel_outof)
+                values (?, ?, ?)", $mp, $activerank, $#mpsrebel);
+        }
+    }
+    
+    {
+        # Sort, and calculate ranking for rebellions
+        @mpsattend = sort { $mpattend{$b} <=> $mpattend{$a} } @mpsattend;
+        my %mpattendrank;
+        my $rank = 0;
+        my $activerank = 0;
+        my $prevvalue = -1;
+        for my $mp (@mpsattend)
+        {
+            $rank++;
+            $activerank = $rank if ($mpattend{$mp} != $prevvalue);
+            $prevvalue = $mpattend{$mp};
+            error::log($mp . " attend $activerank of " . $#mpsattend, "", error::CHITTER);
+            db::query($dbh, "insert into pw_cache_attendrank_today (mp_id, attend_rank, attend_outof)
+                values (?, ?, ?)", $mp, $activerank, $#mpsattend);
+        }
+    }
+}
+
 1;
+

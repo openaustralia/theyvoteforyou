@@ -25,7 +25,10 @@ MP wallplanner - show their diary
 Rankings on rebellion/attendance PER PARTY
 "Totally toady" to "Usual suspect"
 Cost in pounds / word of an MP
+
 Do a big usability thing - get Tom L to help with his ideas
+Make log file stats daily to see what happens as you subtly change links
+Controversial: Remove cluster map, Remove division attendance
 
 Dream MP
 --------
