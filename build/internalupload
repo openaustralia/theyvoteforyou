@@ -27,15 +27,16 @@ zip votematrix-1997.csv.zip votematrix-1997.csv
 rm *.csv
 cd ../..
 
-echo "Adding FastCGI header..."
-cd tmpuploadcopy
-for X in *.xml feeds/*.xml *.php account/*.php project/*.php newsletters/*.php
-do
-    echo "#! /software/bin/php4-fcgi" >tmp.php
-    cat $X >> tmp.php
-    mv tmp.php $X
-done
-cd ..
+# No longer needed with new mechanism
+#echo "Adding FastCGI header..."
+#cd tmpuploadcopy
+#for X in *.xml feeds/*.xml *.php account/*.php project/*.php newsletters/*.php
+#do
+#    echo "#! /software/bin/php4-fcgi" >tmp.php
+#    cat $X >> tmp.php
+#    mv tmp.php $X
+#done
+#cd ..
 
 echo "Moving htaccess..."
 cd tmpuploadcopy

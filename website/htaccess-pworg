@@ -1,8 +1,13 @@
 # htaccess file for publicwhip.org.uk
 # Rename it to .htaccess for use
-AddHandler fastcgi-script .php
+
+# ghastly hack to run each PHP script under one persistent PHP fastcgi server.
+# see http://www.mythic-beasts.com/support/topic_php.html#fastcgi
+AddType application/x-httpd-fastphp .php
+Action application/x-httpd-fastphp /fcgi/php
+
 <FilesMatch "^(mp-info.xml|dreamquery.xml)$">
-    AddHandler fastcgi-script .xml
+    AddHandler application/x-httpd-fastphp .xml
 </FilesMatch>
 Options ExecCGI
 DirectoryIndex index.php
@@ -31,5 +36,7 @@ RedirectPermanent /code.php http://www.publicwhip.org.uk/project/code.php
 
 #Alternative way of net striking:
 #RedirectMatch /[^p] http://www.publicwhip.org.uk/patents/patents.php
+
+
 
 
