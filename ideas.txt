@@ -240,7 +240,7 @@ About one MP
 
 Name (title, first, last)
 Photo
-Party
+Party (link to party website)
 Parliamentary terms served 
 Failed candidacy
 Home page
@@ -261,6 +261,8 @@ Bio (journalistic)
 Salary
 Expenses - London stay (£150/night!), motoring
 Pension
+Include pay from members interests
+http://www.parliament.uk/faq/pay_faq_page.cfm
 
 Register of interests
     http://www.parliament.the-stationery-office.co.uk/pa/cm/cmregmem
@@ -299,9 +301,5 @@ As much data historical, as well as current
 Sources:
 http://politics.guardian.co.uk/person/0,9290,-816,00.html
 http://www.epolitix.com
-
-Measure a sudden drop in attendance rate - so you could see that the MP
-used to vote a certain % of the time and now doesn't.  This will 
-detect illness/injury/busy for some other reason.
 
 

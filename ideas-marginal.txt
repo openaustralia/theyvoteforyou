@@ -139,4 +139,8 @@ Value of the vote.  What is the monetary expenditure cost of agreeing
 the motion?  Graph against time spent discussing, and see how silly the
 correlation is.
 
+Measure a sudden drop in attendance rate - so you could see that the MP
+used to vote a certain % of the time and now doesn't.  This will 
+detect illness/injury/busy for some other reason.
+
 
