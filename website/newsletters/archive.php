@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: archive.php,v 1.8 2005/01/15 20:38:11 frabcus Exp $
+# $Id: archive.php,v 1.9 2005/04/05 09:26:50 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -7,6 +7,7 @@
 # For details see the file LICENSE.html in the top level of the source.
 $issue = intval($_GET["issue"]);
 $extra = intval($_GET["extra"]);
+$dream = intval($_GET["dream"]);
 
 function newsletter_title($newsletter)
 {
@@ -52,13 +53,19 @@ else if ($extra != 0)
     $title = newsletter_title("extra" . $extra . ".txt") . " - " .
         date("j M Y", newsletter_date("extra" . $extra . ".txt"));
 }
+else if ($dream != 0)
+{
+    $title = newsletter_title("dream" . $dream . ".txt") . " - " .
+        date("j M Y", newsletter_date("dream" . $dream . ".txt"));
+}
 include "../header.inc";
 
-if ($issue == 0 and $extra == 0)
+if ($issue == 0 and $extra == 0 and $dream == 0)
 {
 ?><p>This is the archive of old issues of the Public Whip newsletter.  At most
-every month we'll email you with news, articles and comment about the
-project.  Occasionally we will send an extra small topical newsletter.
+every month we'll email you with news, articles and comment about the project.
+Occasionally we will send an extra small topical newsletter.  Also in the
+archive are occasional mailings we send to anyone who has made a Dream MP.
 <p>
 <?
     if (!user_isloggedin())  {
@@ -70,7 +77,7 @@ project.  Occasionally we will send an extra small topical newsletter.
     $dh = opendir(".");
     $filenames = array();
     while (false !== ($filename = readdir($dh))) {
-        if (preg_match("/^(issue|extra)(.*)\.txt$/", $filename, $matches))
+        if (preg_match("/^(issue|extra|dream)(.*)\.txt$/", $filename, $matches))
             array_push($filenames, $filename);
     }
     function newslettercompare($a, $b) {
@@ -79,7 +86,7 @@ project.  Occasionally we will send an extra small topical newsletter.
     usort($filenames, "newslettercompare");
     print "<table>";
     foreach ($filenames as $filename) {
-        if (preg_match("/^(issue|extra)(.*)\.txt$/", $filename, $matches))
+        if (preg_match("/^(issue|extra|dream)(.*)\.txt$/", $filename, $matches))
         {
             print "<tr><td>";
             print date("j M Y", newsletter_date($filename));
@@ -108,6 +115,8 @@ else
     print "</p><hr><p>";
     if ($extra != 0)
         render_newsletter("extra" . $extra . ".txt");
+    else if ($dream != 0)
+        render_newsletter("dream" . $dream . ".txt");
     else
         render_newsletter("issue" . $issue . ".txt");
 }
