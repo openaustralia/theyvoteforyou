@@ -13,20 +13,32 @@ have middle initials.  You should in addition to these aliases match
 to canonical names with the initial (which is on the end of the first
 name) removed.
 
-TODO: The Solicitor-General
-Says current one here: http://www.parliament.uk/directories/hciolists/hmg.cfm
-How do we get past ones?
+A constituency can be specified instead of a canonical name (used for MPs
+which have the same canonical name as each other, such as Gareth Thomas).
 
 -->
 
-<!-- Special -->
+<!-- Offices (only those that are needed) -->
 <alias canonical="Tony Blair" alternate="The Prime Minister" from="1997-05-01" to="9999-31-01"/>
 
 <!-- note this will be ignored until a John Major is added for a parliament
 before 1997 for which he was PM - date ranges will make the code ignore the
 1997 parliament John Major in all-members.xml in relation to this Prime
 Minister entry -->
-<alias canonical="John Major" alternate="The Prime Minister" from ="1990-11-28" to="1997-04-08"/> 
+<alias canonical="John Major" alternate="The Prime Minister" from="1990-11-28" to="1997-04-08"/> 
+
+<!-- From date is from this press release:
+http://www.dfid.gov.uk/News/PressReleases/files/pr_gareththomas_13june03.html 
+To date is a debate that required this disambiguation - it should be moved forward when
+necessary-->
+<alias constituency="Harrow West" 
+        alternate="The Parliamentary Under-Secretary of State for International Development" 
+        from="2003-06-13" to="2004-01-28" />
+
+<!-- 
+TODO: The Solicitor-General
+Says current one here: http://www.parliament.uk/directories/hciolists/hmg.cfm
+-->
 
 <!-- First added for 2001 parliament -->
 <alias canonical="Clare Short" alternate="Claire Short" />

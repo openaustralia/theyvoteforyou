@@ -68,9 +68,15 @@ class MemberList(xml.sax.handler.ContentHandler):
             self.parties.setdefault(cons, []).append(attr)
 
         elif name == "alias":
-            matches = self.fullnames.get(attr["canonical"], None)
+            # search for the canonical name or the constituency name for this alias
+            matches = None
+            if attr.has_key("canonical"):
+                matches = self.fullnames.get(attr["canonical"], None)
             if not matches:
-                raise Exception, 'Canonical name not found ' + attr["canonical"]
+                if attr.has_key("constituency"):
+                    matches = self.constituencies.get(attr["constituency"], None)
+                if not matches:
+                    raise Exception, 'Canonical name not found ' + attr["canonical"]
             # append every canonical match to the alternates
             for m in matches:
                 newattr = {}
