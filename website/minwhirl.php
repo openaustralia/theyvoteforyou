@@ -1,7 +1,7 @@
-<?php $title = "Ministerial whirl"; include "header.inc" 
-# $Id: minwhirl.php,v 1.4 2004/12/01 17:09:54 frabcus Exp $
+<?php $title = "Ministerial whirl"; include "header.inc"
+# $Id: minwhirl.php,v 1.5 2004/12/26 23:42:49 goatchurch Exp $
 
-# The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
+# The Public Whip, Copyright (C) 2004 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
@@ -13,15 +13,20 @@ of the Java applet.
 
 <p>The colours are zoned by government department, and the distance from
 the centre signifies seniority, with the cabinet occupying the inner
-layer.  
+layer.
 
-<b>Click on a name</b> once to find the department that person is in.  
+<p><b>Instructions:</b> Position the web page so that the entire animation 
+fits on your screen.  There are two rows of grey buttons at 
+the bottom.  Use these to change the date of display.  For example, 
+to see who is in Tony Blair's government today, click on the 
+button on the right hand side marked "Today".
 
-<b>Click in the same name a second time</b> to review that person's career in
-government.  
+<p>When the names are not in motion, you can also click on one of them
+to see which department they belong to.  Click on the same name a second time 
+to see that person's ministerial career.
 
-<p><span class="ptitle">Not working?</span>  Wait for the applet below
-to load.  If you are able, download <a href="http://www.java.com">Sun's
+<p><span class="ptitle">Not working?</span>  You may need to wait 
+a minute for it to load.  If you are able, download <a href="http://www.java.com">Sun's
 Java software</a>.  On Windows, the old unsupported Microsoft versions
 of Java will not do.</p>
 
@@ -80,7 +85,7 @@ SSun Java 1.4 or above required
 
 <h2><a name="details">Background</a></h2>
 
-<p>This applet is a visualization of the XML file <a
+<p>This applet-animation is a visualization of the XML file <a
 href="/data/ministers.xml">ministers.xml</a>, which the Publicwhip
 central computer updates every twelve hours by scanning the
 Parliamentary webpage
