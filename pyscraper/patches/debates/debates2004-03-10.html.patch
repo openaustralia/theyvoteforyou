@@ -1,0 +1,19 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-03-10.html	Sun Oct  3 04:30:02 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-03-10-patchtmp.html	Wed Oct 20 13:00:19 2004
+@@ -23,7 +23,7 @@
+ <H4><center>[Mr. Speaker in the Chair]</center></H4>
+ 
+ 
+-
++<stamp parsemess-colnum="1505"/>
+ <a name="40310-01_writ0"><H2><center>Oral Answers to Questions</center></H2>
+ 
+ 
+@@ -66,6 +66,7 @@
+ <B>10 Mar 2004 : Column 1504</B></P>
+ Gentleman's party wants to cut housing investment by &#163;400 million and extend the right to buy to housing associations, although they do not want it. His proposals would therefore cut the supply of affordable housing and would not assist in reducing the pressures on the housing market.
+ <P>
++<stamp parsemess-colnum="1505"/>
+ <P>
+ <a name="40310-01_spnew4"><B> Mr. Curry: </B> 
+  So what are the Government going to do about the crisis of affordability that is spreading out from London like a stain and has resulted in fewer first-time buyers than ever before? In the south-west, for example, the average house price for first-time buyers is &#163;123,000, and the problem is compounded by the perversity of stamp duty. Are the Government going to face up to their responsibilities or will they simply ignore the growing crisis?
