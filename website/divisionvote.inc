@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.1 2005/03/14 18:58:15 goatchurch Exp $
+# $Id: divisionvote.inc,v 1.2 2005/03/16 11:01:45 frabcus Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -20,7 +20,7 @@
         }
 
 		# the generated table on the division page
-        function write_dream_vote($divattr)
+        function write_dream_vote($db, $divattr)
         {
 			global $bdebug;
             $submit=mysql_escape_string($_POST["submit"]);
@@ -35,7 +35,7 @@
 							 pw_dyn_rollievote.vote AS vote
 					  FROM pw_dyn_rolliemp
 					  LEFT JOIN pw_dyn_rollievote
-					    ON pw_dyn_rollievote.rolliemp_id = pw_dyn_rolliemp.rolliemp_id
+					    ON pw_dyn_rollievote.rolliemp_id = pw_dyn_rolliemp.rollie_id
 					     AND $qrdiv
 					  WHERE user_id = '".user_getid()."'";
 

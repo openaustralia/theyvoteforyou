@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.54 2005/03/14 18:58:14 goatchurch Exp $
+# $Id: division.php,v 1.55 2005/03/16 11:01:42 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -16,6 +16,17 @@
 
 	# decode the attributes
 	$divattr = get_division_attr_decode($db, "");
+    if ($divattr == "none") {
+        $title = "Division not found";
+        include "header.inc";
+?> <p>Public Whip does not have this division.  Perhaps it
+    doesn't exist, or it hasn't been added to The Public Whip yet.
+    New divisions are added one or two working days after they happen.</p>
+    <p><a href="divisions.php">Browse for a division</a> </p>
+<?
+        include "footer.inc";
+        exit;
+    }
 
 	$div_id = $divattr["division_id"];
 	$name = $divattr["name"];
@@ -95,7 +106,7 @@
 
 	# Dream MP feature
 	if (user_isloggedin())
-		write_dream_vote($divattr);
+		write_dream_vote($db, $divattr);
 
         # Summary
         print "<h2>Summary</h2>";
