@@ -49,6 +49,8 @@ Give help on how to request answers from hcinfo
 Web site
 --------
 
+Postcode search redirect automatically to MP page
+
 Letter index on MP list
 
 Pass W3C validator

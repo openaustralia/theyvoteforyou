@@ -3,8 +3,8 @@ use strict;
 use lib "scraper/";
 
 my $text = "website/newsletters/extra1.txt";
-#my $test_name = "";
-my $test_name = "Francis Irving";
+my $test_name = "";
+#my $test_name = "Francis Irving";
 #my $test_name = "Julian Todd";
 
 use error;
@@ -43,5 +43,7 @@ EOF
     close(SENDMAIL) or warn "sendmail didn't close nicely";
 
     print "done\n";
+
+    sleep 3; # One second probably enough
 }
 
