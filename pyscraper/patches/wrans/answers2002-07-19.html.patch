@@ -1,5 +1,5 @@
---- wrans/answers2002-07-19.html	2004-04-06 09:28:44.000000000 +0100
-+++ wrans/answers2002-07-19-patchtmp.html	2004-04-08 17:34:04.000000000 +0100
+--- /home/fawkes/pwdata/cmpages/wrans/answers2002-07-19.html	Fri Jul 16 13:19:54 2004
++++ /home/fawkes/pwdata/cmpages/wrans/answers2002-07-19-patchtmp.html	Sat Jul 17 00:17:17 2004
 @@ -734,7 +734,7 @@
  <P>
  <P>
@@ -28,3 +28,21 @@
  <P>
  <P>
  <a name="20719w03.html_wqn14"><B> Gregory Barker: </B> 
+@@ -2772,7 +2775,7 @@
+ <P>
+ <P><I>19 Jul 2002 : Column 608W</I><P>
+ 
+-(2) what research his Department has undertaken on open lists, with specific reference to the European Parliamentary Elections Bill <i>[Lords].</i> [71263]
++<p>(2) what research his Department has undertaken on open lists, with specific reference to the European Parliamentary Elections Bill <i>[Lords].</i> [71263]
+ <P>
+ <P>
+ <P>
+@@ -3913,7 +3916,7 @@
+ <P>
+ <P><I>19 Jul 2002 : Column 623W</I><P>
+ 
+-(2) what proportion of heating installations have been completed by <i>(a)</i> Eaga Partnership and <i>(b)</i> TXU Warm Front Ltd. in each (i) local authority and (ii) Government office region in (A) less than a month, (B) one to two months, (C) two to three months, (D) three to four months, (E) four to five months, (F) five to six months, (G) six to seven months and (H) over seven months. [43570]
++<p>(2) what proportion of heating installations have been completed by <i>(a)</i> Eaga Partnership and <i>(b)</i> TXU Warm Front Ltd. in each (i) local authority and (ii) Government office region in (A) less than a month, (B) one to two months, (C) two to three months, (D) three to four months, (E) four to five months, (F) five to six months, (G) six to seven months and (H) over seven months. [43570]
+ <P>
+ <P>
+ <P>

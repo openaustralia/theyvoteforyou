@@ -1,5 +1,5 @@
---- wrans/answers2002-05-24.html	2004-04-06 09:37:03.000000000 +0100
-+++ wrans/answers2002-05-24-patchtmp.html	2004-04-08 17:58:31.000000000 +0100
+--- /home/fawkes/pwdata/cmpages/wrans/answers2002-05-24.html	Fri Jul 16 13:25:34 2004
++++ /home/fawkes/pwdata/cmpages/wrans/answers2002-05-24-patchtmp.html	Sat Jul 17 00:26:35 2004
 @@ -877,11 +877,9 @@
  <a name="20524w05.html_spnew4"><B> Mr. Ingram: </B> 
   No formal proposals have been put forward by airline companies for the development of commercial civilian services from RAF Kinloss and RAF Lossiemouth.
@@ -13,3 +13,12 @@
  <a name="20524w05.html_sbhd4"><H4><center>Rail Franchises</center></H4>
  
  
+@@ -4707,7 +4705,7 @@
+ <P>
+ <P><I>24 May 2002 : Column 677W</I><P>
+ 
+-(2) what the equivalent Civil Service grade is of a special adviser on <i>(a)</i> Band A, <i>(b)</i> Band B and <i>(c)</i> Band C of the special advisers' pay system. [58719]<P>
++<p>(2) what the equivalent Civil Service grade is of a special adviser on <i>(a)</i> Band A, <i>(b)</i> Band B and <i>(c)</i> Band C of the special advisers' pay system. [58719]<P>
+ <P>
+ <P>
+ <a name="20524w21.html_spmin2"><B>The Deputy Prime Minister and First Secretary of State:</B> 

@@ -1,5 +1,5 @@
---- wrans/answers2002-04-26.html	2004-04-06 09:41:15.000000000 +0100
-+++ wrans/answers2002-04-26-patchtmp.html	2004-04-09 10:44:40.000000000 +0100
+--- /home/fawkes/pwdata/cmpages/wrans/answers2002-04-26.html	Fri Jul 16 13:28:13 2004
++++ /home/fawkes/pwdata/cmpages/wrans/answers2002-04-26-patchtmp.html	Sat Jul 17 00:38:13 2004
 @@ -2440,7 +2440,7 @@
  To ask the Chancellor of the Exchequer how much of the additional &#163;1 billion that he is allocating to the NHS and other public services in 2002&#150;03, referred to in the <i>Official Report</i>, 17 April 2002, column 590, will be spent in 2002&#150;03.  [52867]<P>
  <P>
@@ -9,3 +9,12 @@
   Our projections assume that spending within Departmental Expenditure Limits will be fully spent in 2002&#150;03.
  
  <a name="20426w09.html_sbhd5"><H4><center>Cancer Deaths</center></H4>
+@@ -3915,7 +3915,7 @@
+ <P>
+ <P><I>26 Apr 2002 : Column 517W</I><P>
+ 
+-(2) what plans he has to introduce a 65 years and over age recommendation for pneumococcal vaccinations. [51130]<P>
++<p>(2) what plans he has to introduce a 65 years and over age recommendation for pneumococcal vaccinations. [51130]<P>
+ <P>
+ <P>
+ <a name="20426w14.html_spnew7"><B> Yvette Cooper: </B> 

@@ -1,5 +1,5 @@
---- wrans/answers2002-07-24.html	2004-04-06 09:27:32.000000000 +0100
-+++ wrans/answers2002-07-24-patchtmp.html	2004-04-08 17:26:52.000000000 +0100
+--- /home/fawkes/pwdata/cmpages/wrans/answers2002-07-24.html	Fri Jul 16 13:19:08 2004
++++ /home/fawkes/pwdata/cmpages/wrans/answers2002-07-24-patchtmp.html	Sat Jul 17 00:14:33 2004
 @@ -9455,7 +9455,7 @@
  <P>
  <P>
@@ -9,3 +9,12 @@
   Taking account of the constituency interests and other policy responsibilities of Ministers in the Office of the Deputy Prime Minister (ODPM), and in order to ensure that the advice set out in the "Guidance on Propriety Issues in the Handling of Planning Casework" is followed, I have decided that any planning matters arising in respect of the Dome and related developments should be dealt with by Christopher Leslie MP (Parliamentary Under-Secretary of State).
  <P>
  
+@@ -28120,7 +28120,7 @@
+ <P>
+ <P><I>24 Jul 2002 : Column 1473W</I><P>
+ 
+-(2) how many street crimes there were in the Metropolitan Police Force area in <i>(a)</i> April to November 2000 and <i>(b)</i> April to November 2001.  [27646]
++<p>(2) how many street crimes there were in the Metropolitan Police Force area in <i>(a)</i> April to November 2000 and <i>(b)</i> April to November 2001.  [27646]
+ <P>
+ <P>
+ <P>

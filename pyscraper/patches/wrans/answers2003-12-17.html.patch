@@ -1,0 +1,18 @@
+--- /home/fawkes/pwdata/cmpages/wrans/answers2003-12-17.html	Fri Jul 16 12:45:55 2004
++++ /home/fawkes/pwdata/cmpages/wrans/answers2003-12-17-patchtmp.html	Fri Jul 16 19:55:32 2004
+@@ -1367,6 +1367,7 @@
+ <P><I>17 Dec 2003 : Column 919W</I><P>
+ 
+ 
++<stamp parsemess-colnum="918W"/>
+ <a name="31217w06.html_sbhd6"><H3 align=center>Research Strategy</H3>
+ 
+ 
+@@ -2501,6 +2502,7 @@
+ <a name="31217w10.html_spnew6"><B> Beverley Hughes: </B> 
+  The Immigration and Nationality Directorate's (IND) resources cover a wide range of activities including the cost of administering work related to section 55 of the Nationality, Immigration and Asylum Act 2002. This cost is not separately identifiable within the total IND budget.
+ 
++<stamp parsemess-colnum="936W"/>
+ <a name="31217w10.html_sbhd6"><H3 align=center>Criminal Records Bureau</H3>
+ 
+ 
