@@ -53,10 +53,10 @@ Says current one here: http://www.parliament.uk/directories/hciolists/hmg.cfm
 We have them all in Public Whip CVS under rawdata/ministers
 Harriet Harman started on 11th June 2001
 -->
-<alias fullname="Harriet Harman" alternate="The Solicitor General" from="2001-06-11" to="2004-07-01"/>
-<alias fullname="Harriet Harman" alternate="The Solicitor-General" from="2001-06-11" to="2004-07-01"/>
-<alias fullname="Harriet Harman" alternate="Solicitor-General" from="2001-06-11" to="2004-07-01"/>
-<alias fullname="Harriet Harman" alternate="Solicitor General" from="2001-06-11" to="2004-07-01"/>
+<alias fullname="Harriet Harman" alternate="The Solicitor General" from="2001-06-11" to="2004-10-01"/>
+<alias fullname="Harriet Harman" alternate="The Solicitor-General" from="2001-06-11" to="2004-10-01"/>
+<alias fullname="Harriet Harman" alternate="Solicitor-General" from="2001-06-11" to="2004-10-01"/>
+<alias fullname="Harriet Harman" alternate="Solicitor General" from="2001-06-11" to="2004-10-01"/>
 
 <alias fullname="Lynda Clark" alternate="The Advocate-General for Scotland"
         from="1999-05-20" to="2004-07-01"/>
