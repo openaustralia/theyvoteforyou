@@ -15,6 +15,9 @@ from contextexception import ContextException
 # <page url="http://www.publications.parliament.uk/pa/cm200102/cmhansrd/vo020522/text/20522w01.htm">
 # <stamp aname="40205-01_sbhd0"/>
 
+
+restamps = re.compile('(<(?:stamp|page url)[^>]*>)')
+
 # this class contains the running values for place identification as we scan through the file.
 class StampUrl:
 	def __init__(self, lsdate):
@@ -41,20 +44,31 @@ class StampUrl:
 	# extract the stamp codes from the text, and return the glued together text.
 	def UpdateStampUrl(self, text):
 		# remove the stamps from the text, checking for cases where we can glue back together.
-		sp = re.split('(<stamp [^>]*>|<page url[^>]*>)', text)
+		sp = restamps.split(text)
 		for i in range(len(sp)):
 			if re.match('<stamp [^>]*>', sp[i]):
 				if re.match('<stamp time[^>]*>', sp[i]):
 					self.timestamp = sp[i]
 				elif re.match('<stamp aname[^>]*>', sp[i]):
 					self.aname = sp[i]
+
+				# this looks like the standard stamp
 				else:
 					self.stamp = sp[i]
+
 				sp[i] = ''
 
 			elif re.match('<page url[^>]*>', sp[i]):
 				self.pageurl = sp[i]
 				sp[i] = ''
+
+#			else:
+#				gmiscol = re.match('<parsemess-miscolnum set="([^"]*)"/>')
+#				if gmiscol:
+#					regmiscolnumval = gmiscol.group(1)
+#					print regmiscolnumval
+#
+#				sp[i] = ''
 
 		# stick everything back together
 		return string.join(sp, '')
@@ -73,9 +87,9 @@ class StampUrl:
         def GetAName(self):
 		anamem = re.match('<stamp aname="(.*?)"/>', self.aname)
 		if anamem:
-                        return anamem.group(1)
-                else:
-                        return None
+			return anamem.group(1)
+		else:
+			return None
 
 
 
@@ -91,10 +105,11 @@ regsection1 = '<h\d><center>.*?\s*</center></h\d>'
 regsection2 = '<h\d align=center>.*?</h\d>'
 regsection3 = '<center><b>.*?</b></center>'
 regsection4 = '<p>\s*<center>.*?</center><p>'
+regparsermessage = '<parsemess.*?>' #'<parsemess-speech redirect="+-1"/>'
 regspeaker = '<speaker [^>]*>.*?</speaker>'
 regtable = '<table[^>]*>[\s\S]*?</table>'	# these have centres, so must be separated out
 
-recomb = re.compile('(%s|%s|%s|%s|%s|%s)(?i)' % (regtable, regspeaker, regsection1, regsection2, regsection3, regsection4))
+recomb = re.compile('(%s|%s|%s|%s|%s|%s|%s)(?i)' % (regtable, regspeaker, regsection1, regsection2, regsection3, regsection4, regparsermessage))
 
 retableval = re.compile('(%s)(?i)' % regtable)
 respeakerval = re.compile('<speaker ([^>]*)>.*?</speaker>')
@@ -102,6 +117,7 @@ resectiont1val = re.compile('<h\d><center>\s*(.*?)\s*</center></h\d>(?i)')
 resectiont2val = re.compile('<h\d align=center>\s*(.*?)\s*</h\d>(?i)')
 resectiont3val = re.compile('<center><b>(.*?)</b></center>(?i)')
 resectiont4val = re.compile('<p>\s*<center>(.*?)</center><p>(?i)')
+reparsermessage = re.compile('<parsemess-misspeech type="(.*?)" redirect="(up|down|nowhere)"/>')
 
 # These aren't actually headings, even though they are <H4><center>
 renotheading = re.compile('>\s*(The .* was asked\s*(?:&#151;|--))\s*<')
@@ -116,9 +132,7 @@ class SepHeadText:
                         # Specifically "unknown" speakers e.g. "Several hon members rose" don't
                         # have text in their "speech" bit.
 			if re.match('(?:<[^>]*?>|\s)*$', sptext) and not re.match('speakerid="unknown"', self.speaker):
-				print 'Speaker with no text ' + self.speaker
-				#print sptext
-				#print self.unspoketext
+				print 'Warning:: Speaker with no text ' + self.speaker
 				print self.heading
 
 		elif not self.shspeak:
@@ -131,15 +145,18 @@ class SepHeadText:
 
 	def EndHeading(self, nextheading):
 		self.EndSpeech()
+
 		if (self.heading == 'Initial') and self.shspeak:
 			print 'Speeches without heading'
 
+		# lost heading signals are found elswhere?
+
 		# concatenate unspoken text with the title if it's a dangle outside heading
-                # e.g. In 2003-01-15 we have heading "Birmingham Northern Relief Road "
-                # with extra bit "(Low-noise Tarmac)" to pull in.
+		# e.g. In 2003-01-15 we have heading "Birmingham Northern Relief Road "
+		# with extra bit "(Low-noise Tarmac)" to pull in.
 		if not re.match('(?:<[^>]*?>|\s)*$', self.unspoketext):
-                        # We deliberately don't put "." in to avoid matching "19." before paragraph starts
-                        gho = re.match('(\s*[()A-Za-z\-,\'\"/&#; 0-9]+)((?:<[^>]*?>|\s)*)$', self.unspoketext)
+			# We deliberately don't put "." in to avoid matching "19." before paragraph starts
+			gho = re.match('(\s*[()A-Za-z\-,\'\"/&#; 0-9]+)((?:<[^>]*?>|\s)*)$', self.unspoketext)
 			if gho and not renotheadingmarg.search(self.unspoketext):
 				self.heading = self.heading + ' ' + gho.group(1)
 				self.heading = re.sub("\s+", " ", self.heading)
@@ -169,6 +186,7 @@ class SepHeadText:
 		self.textl = [ ]
 
 		for fss in recomb.split(text):
+
 			# stick tables back into the text
 			if retableval.match(fss):
 				self.textl.append(fss)
@@ -179,6 +197,25 @@ class SepHeadText:
 			if gspeaker:
 				self.EndSpeech()
 				self.speaker = gspeaker.group(1)
+				continue
+
+			# recognize parser-message headings
+			# '<parsemess-misspeech type="(.*?)" redirect="(.*?)"/>'
+			gparmess = reparsermessage.match(fss)
+			if gparmess:
+
+				# this is complex due to the heading speech structure we maintain at this point
+				if re.search('heading', gparmess.group(1)):
+					self.EndHeading("LOST HEADING")
+
+				# missing a speech
+				else:
+					assert re.match('speech|ques|reply', gparmess.group(1))
+					self.EndSpeech()
+
+					# this fills in a new speech that will be a placeholder
+					self.speaker = 'nospeaker="True" redirect="%s"' % gparmess.group(2)
+					self.textl = [ "NOTHING" ]
 				continue
 
 			# recognize a heading instance from the four kinds
@@ -192,8 +229,6 @@ class SepHeadText:
 
 			# we have matched a heading thing
 			if gheading:
-                                #print "heading ", fss
-
 				if not gheading.group(1):
 					# print 'ignored heading tag containing no text following: ' + self.heading
 					continue

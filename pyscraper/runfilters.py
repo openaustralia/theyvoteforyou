@@ -97,8 +97,8 @@ def RunFiltersDir(filterfunction, dname, options, forcereparse):
 				patch_modified = os.stat(patchfile).st_mtime
 			if (not forcereparse) and (in_modified < out_modified) and ((not patchfile) or patch_modified < out_modified):
 				continue
-                        if not forcereparse:
-                                print "input modified since output reparsing ", fin
+			if not forcereparse:
+				print "input modified since output reparsing ", fin
 
 		# here we repeat the parsing and run the patchtool editor until this file goes through.
 		again = True
@@ -125,22 +125,23 @@ def RunFiltersDir(filterfunction, dname, options, forcereparse):
 			# call the filter function and copy the temp file into the correct place.
 			# this avoids partially processed files getting into the output when you hit escape.
 			try:
-				fout = open(tempfile, "w")
-				filterfunction(fout, jfout, text, sdate)
-				fout.close()
+				(flatb, gidname) = filterfunction(text, sdate)
+				WriteXMLFile(gidname, tempfile, jfout, flatb, sdate)
+
 				if sys.platform != "win32":
 					# this function leaves the file open which can't be renamed in win32
 					xmlvalidate.parse(tempfile) # validate XML before renaming
+
+				# we will signal that it's safe by doing this in write function
 				if os.path.isfile(jfout):
 					print "Leave for XML match testing: No over-write of file"
-					# we can exit here and have the two files to look at by eye 
-					os.remove(tempfile)
+					# we can exit here and have the two files to look at by eye
+					#os.remove(tempfile)
 				else:
 					os.rename(tempfile, jfout)
 
 			except ContextException, ce:
 				if options.patchtool:
-					fout.close()
 					print ce
 					RunPatchTool(dname, sdate, ce)
 					again = True
@@ -150,7 +151,7 @@ def RunFiltersDir(filterfunction, dname, options, forcereparse):
 
 # These text filtering functions filter twice through stringfiles,
 # before directly filtering to the real file.
-def RunWransFilters(fout, jfout, text, sdate):
+def RunWransFilters(text, sdate):
 	si = cStringIO.StringIO()
 	FilterWransColnum(si, text, sdate)
 	text = si.getvalue()
@@ -162,10 +163,10 @@ def RunWransFilters(fout, jfout, text, sdate):
 	si.close()
 
 	flatb = FilterWransSections(text, sdate)
-	WriteXMLFile("wrans", fout, jfout, flatb, sdate)
+	return (flatb, "wrans")
 
 
-def RunDebateFilters(fout, jfout, text, sdate):
+def RunDebateFilters(text, sdate):
 	memberList.cleardebatehistory()
 
 	si = cStringIO.StringIO()
@@ -179,7 +180,7 @@ def RunDebateFilters(fout, jfout, text, sdate):
 	si.close()
 
 	flatb = FilterDebateSections(text, sdate)
-	WriteXMLFile("debate", fout, jfout, flatb, sdate)
+	return (flatb, "debate")
 
 
 
@@ -187,7 +188,7 @@ def RunDebateFilters(fout, jfout, text, sdate):
 
 # These text filtering functions filter twice through stringfiles,
 # before directly filtering to the real file.
-def RunLordsFilters(fout, jfout, text, sdate):
+def RunLordsFilters(text, sdate):
 	fourstream = SplitLordsText(text, sdate)
 
 	# the debates section (only)
@@ -204,8 +205,11 @@ def RunLordsFilters(fout, jfout, text, sdate):
 
 		flatb = LordsFilterSections(text, sdate)
 		WriteXMLFile("lords", fout, jfout, flatb, sdate)
+		return (flatb, "lords")
 
-	return
+	# error for now
+	assert False
+	return None
 
 
 

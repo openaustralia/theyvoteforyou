@@ -60,12 +60,10 @@ regcolumnum3 = '<p>\s*</ul></font>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n<ul><
 regcolumnum4 = '<p>\s*</font>\s*<b>[^:<]*:\s*column\s*\d+\s*</b></p>\n<font[^>]*>(?i)'
 recolumnumvals = re.compile('(?:<p>|<a name=".*?">|</ul>|</font>|\s)*<b>([^:<]*):\s*column\s*(\d+)\s*</b>(?:</p>|<ul>|<font[^>]*>|\s)*$(?i)')
 
-
 #<i>13 Nov 2003 : Column 431&#151;continued</i>
 # these occur infrequently
 regcolnumcont = '<i>[^:<]*:\s*column\s*\d+&#151;continued</i>(?i)'
 recolnumcontvals = re.compile('<i>([^:<]*):\s*column\s*(\d+)&#151;continued</i>(?i)')
-
 
 
 # <H5>12.31 pm</H5>
@@ -77,7 +75,7 @@ retimevals = re.compile('(?:</?p>\s*|<h\d>|\[|\n)\s*(\d+(?:[:\.]\d+)?\s*[apmnon.
 # <a name="column_1099">
 reaname = '<a name="\S*?">(?i)'
 reanamevals = re.compile('<a name="(\S*?)">(?i)')
-                                               
+
 
 recomb = re.compile('(%s|%s|%s|%s|%s|%s|%s)' % (regcolumnum1, regcolumnum2, regcolumnum3, regcolumnum4, regcolnumcont, regtime, reaname))
 remarginal = re.compile(':\s*column\s*(\d+)|\n(?:\d+[.:])?\d+\s*[ap]\.?m\.?[^,\w](?i)|</?a[\s>]')
@@ -89,7 +87,7 @@ regparsetimeonhour = re.compile("^(\d+)()\s?([\w\.]+)$")
 
 def FilterDebateColTime(fout, text, sdate):
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
-        stamp = StampUrl(sdate) # for error messages
+	stamp = StampUrl(sdate) # for error messages
 
 	colnum = -1
 	time = ''	# need to use a proper timestamp code class
@@ -159,18 +157,19 @@ def FilterDebateColTime(fout, text, sdate):
 			else:
 			    time = "unknown " + time
 			    raise ContextException("Time not matched: " + time, stamp=stamp, fragment=fss)
-			    
+
 			fout.write('<stamp time="%s"/>' % time)
 			continue
-                
+
                 # anchor names from HTML <a name="xxx">
                 anameg = reanamevals.match(fss)
                 if anameg:
                         aname = anameg.group(1)
-                        stamp.aname = '<stamp aname="%s"/>' % aname  
+                        stamp.aname = '<stamp aname="%s"/>' % aname
                         fout.write('<stamp aname="%s"/>' % aname)
                         continue
-                
+
+
 		# nothing detected
 		# check if we've missed anything obvious
 		if recomb.match(fss):
