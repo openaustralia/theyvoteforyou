@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# Makes a source release of the Public Whip
+# Makes a source release of the Public Whip as a tarball and uploads to SourceForge FTP
 
 cd ../publicwhip # make sure in sensible place
 

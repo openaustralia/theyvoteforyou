@@ -3,6 +3,37 @@ set -e
 
 REMOTE_DIR='/web/SERVERS/www.publicwhip.org.uk/docs'
 CACHE_PREFIX=""
-source build/internalupload
+USER=francis@sphinx.mythic-beasts.com
+export CVSROOT=:ext:frabcus@cvs.sourceforge.net:/cvsroot/publicwhip
+TOPDIR=`pwd`
 
+echo "Fetching from CVS..."
+rm -fr tmpuploadcopy
+cvs -Q export -r HEAD -d tmpuploadcopy publicwhip/website
+
+echo "Copying raw data..."
+cd tmpuploadcopy
+cvs export -r HEAD -d data publicwhip/members
+rm -f data/*.pl data/*.py
+cd data
+cp $TOPDIR/custom/lightfoot/*.csv .
+cp $TOPDIR/custom/lightfoot/divnames.txt .
+zip votematrix-2001.csv.zip votematrix-2001.csv
+zip votematrix-1997.csv.zip votematrix-1997.csv
+rm *.csv
+cd ../..
+
+echo "Moving htaccess..."
+cd tmpuploadcopy
+cp htaccess-pworg .htaccess
+cd ..
+
+echo "Uploading web pages..."
+rsync -v --progress -az -e "ssh" tmpuploadcopy/ $USER:$REMOTE_DIR
+ssh $USER "chmod -R 0755 $REMOTE_DIR"
+
+echo "Deleting remote cache files and db tables..."
+ssh $USER "rm -fr /home/francis/pwcache/$CACHE_PREFIX*"
+ssh $USER 'echo "delete from pw_cache_dreaminfo;" | mysql francis'
+ssh $USER 'echo "update pw_dyn_rolliemp set cache_uptodate = 0;" | mysql francis'
 
