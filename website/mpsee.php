@@ -1,5 +1,5 @@
 <?php $title = "Vote map"; include "header.inc" 
-# $Id: mpsee.php,v 1.12 2004/02/12 18:32:27 frabcus Exp $
+# $Id: mpsee.php,v 1.13 2004/07/22 10:27:45 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -12,23 +12,25 @@
     include "db.inc";
 ?>
 
-<p>For your convenience, this is a Java applet for 
+<p>For your convenience, this is a tool for 
 interactively navigating the space of MPs clustered by 
-their voting records.  </p>
+their voting records.  We've taken just the votes of every MP,
+done some maths, and plotted a map.  The axes are made automatically by
+the maths.  <a href="#details">Read more about this below</a>.
+</p>
 
-<p>Click and drag the mouse pointer 
-in the image to drag, zoom, or select from the space.  
+<p><span class="ptitle">Usage instructions:</span> Click and drag the
+mouse pointer in the image to drag, zoom, or select from the space.  
 (Click on the radio buttons at the bottom 
 marked "Drag", "Zoom", or "Select" to determine the mode.)  
-Zooming happens if you drag the mouse pointer right or left.  </p>
-
-<p>The panel on the right shows the list of MPs.  
+Zooming happens if you drag the mouse pointer right or left. 
+The panel on the right shows the list of MPs.  
 Selected names are highlighted in white in the image.  Warning: 
 when you select from the image with the circle pointer, 
 you may get more than one MP, and you will have to scroll 
 through the list to see them all.  </p>  
 
-<p>Not working?  If you are able, download <a href="http://www.java.com">Sun's Java
+<p><span class="ptitle">Not working?</span>  If you are able, download <a href="http://www.java.com">Sun's Java
 software</a>.  On Windows, the old unsupported Microsoft versions of Java will not do.
 Alternatively, get a taste with a static 
 <a href="votemap/mpsee-2001.png">2001 screenshot</a> or
@@ -91,10 +93,7 @@ Sun Java 1.4 or above required
 
 </p>
 
-<hr class="bottomline">
-
-
-<h2>What is cluster analysis?</h2>
+<h2><a name="details">What is cluster analysis?</a></h2>
 
 <p>Cluster analysis is a technique used by scientists who have measured 
 comparable features of a set of similar objects, and need to group them 
