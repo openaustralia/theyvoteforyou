@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.47 2005/02/18 15:43:10 frabcus Exp $
+    # $Id: mp.php,v 1.48 2005/02/18 16:41:20 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -9,21 +9,10 @@
     include "cache-begin.inc";
 
     include "db.inc";
-    include "parliaments.inc";
-    include "constituencies.inc";
     $db = new DB();
 
-    $first_name = db_scrub($_GET["firstname"]);
-    $last_name = db_scrub($_GET["lastname"]);
-    # The consmatch converts constituency to canonical form as it comes in
-    $constituency = $_GET["constituency"];
-    $constituency = $consnames[$consmatch[strtolower(stripslashes(html_entity_decode($constituency)))]];
-    $constituency = db_scrub($constituency);
-    $id = db_scrub($_GET["id"]);
-    if ($constituency == "" and $id == "") {
-        print "Error, constituency " . $_GET["constituency"] . " not found";
-        exit;
-    }
+	# standard decoding functions for the url attributes
+	include "decodeids.inc";
 
     $show_all = false;
     if ($_GET["showall"] == "yes")
@@ -35,37 +24,19 @@
     if ($_GET["expand"] == "yes")
         $expand = true;
 
-	if ($constituency == "")
-	{
-		$id = str_replace("uk.org.publicwhip/member/", "", $id);
-		$query = "select first_name, last_name, constituency
-			from pw_mp where mp_id = '$id'
-			order by entered_house desc limit 1";
-		$row = $db->query_one_row($query);
-		$first_name = db_scrub($row[0]);
-		$last_name = db_scrub($row[1]);
-		$constituency = db_scrub($row[2]);
-	}
-	else
-	{
-		$query = "select first_name, last_name, mp_id
-			from pw_mp where constituency = '$constituency'
-			order by entered_house desc limit 1";
-		$row = $db->query_one_row($query);
-		$first_name = db_scrub($row[0]);
-		$last_name = db_scrub($row[1]);
-		$id = db_scrub($row[2]);
-	}
-	# find the person code for this mp
-	$row = $db->query_one_row("SELECT person, party FROM pw_mp WHERE pw_mp.mp_id = $id");
-	$person = $row[0];
-	$party = $row[1];
 
-    $this_anchor = "mp.php?id=".urlencode($id);
+	$mpid = decode_mpid($db, 0);
+	$mpattr = get_mpid_attr($db, $mpid);
+	$id = $mpid;
+    $this_anchor = "mp.php?".$mpattr["mpanchor"];
 
-    $title = html_scrub("Voting Record - $first_name $last_name MP, $constituency");
+
+	# generate the header of this webpage
+    $title = html_scrub("Voting Record - ".$mpattr['mpname']." MP, ".$mpattr['constituency']);
     include "header.inc";
 
+
+	# internal page links
 	print '<p>';
 	print '<a href="#divisions">Interesting Divisions</a>';
 	print ' | ';
@@ -76,55 +47,53 @@
 ?>
 
 <?
- 	$query = "select dept, position, from_date, to_date
-        from pw_moffice where pw_moffice.person = '$person'
-        order by from_date desc";
+	# generate ministerial events (maybe events for general elections?)
+ 	$query = "SELECT dept, position, from_date, to_date
+        	  FROM pw_moffice
+			  WHERE pw_moffice.person = '".$mpattr["personid"]."'
+        	  ORDER BY from_date DESC";
     $db->query($query);
-    $prettyrow = 0;
+
     $events = array();
-    $now = strftime("%Y-%m-%d");
     $currently_minister = "";
+
+	# it goes in reverse order
     while ($row = $db->fetch_row_assoc())
     {
-        if ($row["from_date"] <= $now && $now <= $row["to_date"]) 
-        {
+        if ($row["to_date"] == "9999-12-31")
             $currently_minister = $row["position"].  ", " .  $row["dept"];
-        }
-        if ($row["to_date"] != "9999-12-31")
-        {
-            array_push($events, array($row["to_date"], "Stopped being " .  $row["position"].  ", " . $row["dept"]));
-        }
-        array_push($events, array($row["from_date"], "Became " .  $row["position"]. ", " . $row["dept"]));
+		else
+            array_push($events, array($row["to_date"],   "Stopped being " .  $row["position"].  ", " . $row["dept"]));
+        array_push($events, 	array($row["from_date"], "Became " .  $row["position"]. ", 		   " . $row["dept"]));
     }
 ?>
 
 <?
 	$query = "select first_name, last_name, title, constituency,
         party, pw_mp.mp_id, round(100*rebellions/votes_attended,1),
-        round(100*votes_attended/votes_possible,1), 
+        round(100*votes_attended/votes_possible,1),
         rebellions, votes_attended, votes_possible,
         entered_house, left_house,
         entered_reason, left_reason,
         tells, person from pw_mp,
         pw_cache_mpinfo where
-        pw_mp.mp_id = pw_cache_mpinfo.mp_id and ";
-    $query .= "first_name = '$first_name' and last_name='$last_name' and";
-    $query .= " constituency = '$constituency' order by entered_house desc";
+        pw_mp.mp_id = pw_cache_mpinfo.mp_id and pw_mp.mp_id = $id
+		order by entered_house desc";
     $db->query($query);
 
     print "<h2><a name=\"general\">General Information</a></h2>";
 
-    if ($currently_minister) 
+    if ($currently_minister)
     {
-        print "<p><b>$first_name $last_name</b> is currently <b>$currently_minister</b>.<br>
-            MP for <b>$constituency</b> during the following periods of time during the last two
+        print "<p><b>".$mpattr['mpname']."</b> is currently <b>$currently_minister</b>.<br>
+            MP for <b>".$mpattr['constituency']."</b> during the following periods of time during the last two
             parliaments:<br>
             Read a <a href=\"faq.php#clarify\">clear explanation</a> of attendance
             and rebellions, as they may not have the meanings you expect.";
     }
     else
     {
-        print "<p><b>$first_name $last_name</b> has been MP for <b>$constituency</b> during
+        print "<p><b>".$mpattr['mpname']."</b> has been MP for <b>".$mpattr['constituency']."</b> during
             the following periods of time during the last two
             parliaments:<br>
             Read a <a href=\"faq.php#clarify\">clear explanation</a> of attendance
@@ -332,7 +301,7 @@
 
         $limit = "";
         if (!$all_friends)
-            $limit .= " limit 0,5"; 
+            $limit .= " limit 0,5";
         $db->query($query . " order by distance $limit");
 
         while ($row = $db->fetch_row())
@@ -379,7 +348,6 @@
 <?php
     function print_selected_dream($db, $id, $dreammpid)
     {
-        global $first_name, $last_name;
 		// should count overlapping votes between dream and mp
 	    $query = "SELECT name, description, rollie_id, user_name, count(pw_dyn_rollievote.vote) as count
 		          FROM pw_dyn_rolliemp, pw_dyn_rollievote, pw_dyn_user
@@ -391,7 +359,7 @@
 		$link = "jmp.php?id=".urlencode($id)."&dreammpid=".urlencode($dreammpid);
         print "<td>$row[4]</td>\n";
         print "<td>".html_scrub($row[3])."</td>\n";
-        print "<td><a href=\"$link\">Compare $first_name $last_name to '".html_scrub($row[0])."'</a></td>\n";
+        print "<td><a href=\"$link\">Compare ".$mpattr['mpname']." to '".html_scrub($row[0])."'</a></td>\n";
         print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row[1])), 0, 50);
         print "</tr>\n";
     }
@@ -399,7 +367,7 @@
 	print "<h2><a name=\"dreammotions\">Dream MP Comparisons</a></h2>";
     print "<p>Votes on motions chosen by a Dream MP.  A selected list which can
         be used to find what an MP stands for. Email us if you think your Dream
-        MP is appropriate to include here."; 
+        MP is appropriate to include here.";
     print "<table class=\"mps\">\n";
     print "<tr class=\"headings\">
         <td>Votes</td>
@@ -418,3 +386,4 @@
 
 <?php include "footer.inc" ?>
 <?php include "cache-end.inc"; ?>
+
