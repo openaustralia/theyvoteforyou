@@ -1,5 +1,6 @@
 Being errors found each day running the scraping cron job
 
+2004-03-11 ---
 2004-03-10 Slightly misspelt wrans major heading INTERNATIONAL DEVEOPMENT
 2004-03-08 Missing "To ask the secretary of...." on wrans
 2004-03-05 <UL><UL><UL> 'all' rule broke, because there is one extra case (also /UL)
@@ -10,4 +11,6 @@ Being errors found each day running the scraping cron job
 2004-02-25 Mangled multi-part question: Missing (1) marker
 2004-02-25 Mangled "to ask": To the Secretary of State for Environment
 2004-02-23 Mangled name: Ms Hazel Blears)
+
+--- = all ok
 
