@@ -59,7 +59,7 @@ def RunRegmemFilters(fout, text, sdate):
                         if needmemberend:
                                 fout.write('</regmem>\n')                                
                                 needmemberend = False
-                        fout.write(('<regmem memberid="%s" membername="%s" date="%s">\n' % (id, remadename, sdate)).encode("latin-1"))
+                        fout.write(('<regmem personid="%s" memberid="%s" membername="%s" date="%s">\n' % (memberList.membertoperson(id), id, remadename, sdate)).encode("latin-1"))
                         memberset.add(id)
                         needmemberend = True
                         category = None

@@ -48,11 +48,11 @@ for yearstr in ['200102', '200203', '200304']:
 			raise Exception, "Failed to find MP %s %s" % (first, last)
 
 		pid = memberList.membertoperson(id)
-		print >>sys.stderr, last, first, money
-		if id in expmembers:
-			print >>sys.stderr, "Ignored repeated entry for " , id
+#		print >>sys.stderr, last, first, money
+		if pid in expmembers:
+			print >>sys.stderr, "Ignored repeated entry for " , pid
 		else:
-			fout.write('<memberinfo id="%s" ' % id)
+			fout.write('<personinfo id="%s" ' % pid)
 			for i in [ 0,1,2,3,4,5,6,7,8,9 ]:
 				if (year=='2004'):
 					if (i==7):
@@ -68,7 +68,7 @@ for yearstr in ['200102', '200203', '200304']:
 						continue
 				fout.write('%s_col%s="%s" ' % (xmlstr, col, money[i].strip()))
 			fout.write('/>\n')
-		expmembers.add(id)
+		expmembers.add(pid)
 
 	sys.stdout.flush()
 
