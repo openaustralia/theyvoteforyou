@@ -1,5 +1,5 @@
 <?php $title = "Source Code"; include "header.inc" 
-# $Id: code.php,v 1.3 2003/08/19 17:49:59 frabcus Exp $
+# $Id: code.php,v 1.4 2003/08/19 17:53:01 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -13,7 +13,7 @@
 Public Whip website works.  All the "source code" which makes the
 website is freely available.  You can download it, run it on your own
 computer, and try out your own anlayses and algorithms.  The code is
-licensed under the <a href="/GPL.html">GPL</a>, a standard open source
+licensed under the <a href="GPL.php">GPL</a>, a standard open source
 software license.  
 
 <p>At the moment I've only run this on Linux. It will certainly work on
