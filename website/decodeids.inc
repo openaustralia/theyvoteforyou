@@ -1,5 +1,5 @@
 <?php
-    # $Id: decodeids.inc,v 1.4 2005/02/21 13:12:21 goatchurch Exp $
+    # $Id: decodeids.inc,v 1.5 2005/03/06 01:22:17 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -35,7 +35,7 @@
 
 		# get the mpids in this class, for the person, or all reps of a constituency
 		if ($bbyconstituency)
-			$qwhere = "constituency = $constituency";
+			$qwhere = "constituency = '$constituency'";
 		else
 			$qwhere = "person = $person";
 		$query = "SELECT pw_mp.mp_id as mpid, title, first_name, last_name, constituency, person, party,
@@ -63,7 +63,7 @@
 							  "person"		=> $row['person'],
 							  "party"		=> $row['party'],
 							  "constituency" => $row['constituency'],
-							  "mpanchor"	=> $mppropanchor, 
+							  "mpanchor"	=> $mppropanchor,
 							  "enteredhouse" => $row['entered_house'],
 							  "lefthouse" 	=> $row['left_house'],
 							  "enteredreason" => $row['entered_reason'],
@@ -93,14 +93,7 @@
 		if ($bdebug == 1)
 			print "<h1>$mpname, $constituency, multiperson:$multiperson</h1>\n";
 
-		return array("mpid" 		=> $mpid,
-					 "mpname" 		=> $mpname,
-					 "constituency" => $constituency,
-					 "personid"		=> $person,
-					 "party"		=> $party,
-					 "mpanchor"		=> $mpanchor,
-					 "mpids"		=> $mpids,
-					 "mpprops"		=> $mpprops,
+		return array("mpprops"		=> $mpprops,
 					 "mpprop"		=> $thismpprop,
 					 "bmultiperson" => $bmultiperson);
 	}
@@ -108,42 +101,43 @@
 	# this is used for getting mpids from links prior to 2005-03
 	function decode_mpid_legacy($db)
 	{
+		global $bdebug;
 		global $consmatch, $consnames;
 
-	    $first_name = db_scrub($_GET["firstname"]);
-	    $last_name = db_scrub($_GET["lastname"]);
-	    # The consmatch converts constituency to canonical form as it comes in
+	    $id = db_scrub($_GET["id"]);
+		if ($id != "")
+		{
+			# value from theyworkforyou
+			if (stristr($id, "uk.org.publicwhip/member/"))
+				return str_replace("uk.org.publicwhip/member/", "", $id);
+			if ($bdebug == 1)
+				print "<h1>unrecognized id=$id";
+			return null;
+		}
+
+		# get the name and constituency
 	    $constituency = $_GET["constituency"];
+	    if ($constituency == "")
+			return null;
+	    # The consmatch converts constituency to canonical form as it comes in
 	    $constituency = strtolower(stripslashes(html_entity_decode($constituency)));
-		$cmatch = $consmatch[$constituency];
-		$cmatch = $consmatch["city of york"];
 	    $constituency = $consnames[$consmatch[$constituency]];
 		$constituency = db_scrub($constituency);
-	    $id = db_scrub($_GET["id"]);
-	    if ($constituency == "" and $id == "")
-			return null;
+	    $first_name = db_scrub($_GET["firstname"]);
+	    $last_name = db_scrub($_GET["lastname"]);
+		if ($bdebug == 1)
+			print "<h1> FN=$first_name LN=$last_name CO=$constituency</h1>";
 
-	   	if ($constituency == "")
-		{
-			$id = str_replace("uk.org.publicwhip/member/", "", $id);
-			$query = "select first_name, last_name, constituency
-				from pw_mp where mp_id = '$id'
-				order by entered_house desc limit 1";
-			$row = $db->query_one_row($query);
-			$first_name = db_scrub($row[0]);
-			$last_name = db_scrub($row[1]);
-			$constituency = db_scrub($row[2]);
-		}
-		else
-		{
-			$query = "select first_name, last_name, mp_id
-				from pw_mp where constituency = '$constituency'
-				order by entered_house desc limit 1";
-			$row = $db->query_one_row($query);
-			$first_name = db_scrub($row[0]);
-			$last_name = db_scrub($row[1]);
-			$id = db_scrub($row[2]);
-		}
+		$qwhere = "WHERE constituency = '$constituency'";
+		if ($first_name != "")
+			$qwhere .= " AND first_name = '$first_name' AND last_name = '$last_name'";
+
+		$query = "SELECT mp_id
+				  FROM pw_mp
+				  $qwhere
+				  ORDER BY entered_house DESC LIMIT 1";
+		$row = $db->query_one_row_assoc($query);
+		$id = db_scrub($row["mp_id"]);
 		return $id;
 	}
 
@@ -151,10 +145,13 @@
 	# returns the ith mpid from the link (0th is blank)
 	function get_mpid_attr_decode($db, $i)
 	{
+		global $bdebug;
 		global $consmatch, $consnames;
 
 		$mpname = db_scrub($_GET["mpn$i"]);
 		$mpconstituency = db_scrub($_GET["mpc$i"]);
+		if ($bdebug == 1)
+			print "<h1> MPN=$mpname MPC=$mpconstituency</h1>";
 		if ($mpname == "" and $mpconstituency == "")
 		{
 			if ($i != "")   # legacy doesn't apply to second and third entries which may be blank
@@ -225,8 +222,8 @@
 					 "userid" 		=> $row['userid'],
 					 "username" 	=> $row['username'],
 					 "anchor"		=> "dmp$i=".urlencode($dreammpid));
-
 	}
+
 ?>
 
 

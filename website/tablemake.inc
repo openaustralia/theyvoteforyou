@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablemake.inc,v 1.6 2005/03/05 11:57:48 goatchurch Exp $
+    # $Id: tablemake.inc,v 1.7 2005/03/06 01:22:17 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -23,7 +23,7 @@
 										pwvote$i.division_id = pw_division.division_id";
 			$aquery["qjoin"]   .= " LEFT JOIN pw_mp as pwmp$i ON
 										pwvote$i.mp_id = pwmp$i.mp_id";
-			$aquery["qwhere"] .= " AND pwmp$i.person = ".$voter['personid'];
+			$aquery["qwhere"] .= " AND pwmp$i.person = ".$voter["mpprop"]['person'];
 
 			# get the fields for this particular person time range
 	        $datecond = "";
@@ -31,12 +31,14 @@
 			{
 				if ($datecond != "")
 					$datecond .= " OR ";
+				if ($bdebug == 1)
+					print_r($mpprop);
 				$datecond .= " (pw_division.division_date >= \"".$mpprop['enteredhouse']."\"
 						  			AND pw_division.division_date < \"".$mpprop['lefthouse']."\")";
 			}
 			if ($datecond != "")
 				$aquery["qwhere"] .= " AND ($datecond)";
-			$aquery["qwhere"] .= " AND pwmp$i.person = ".$voter['personid'];
+			$aquery["qwhere"] .= " AND pwmp$i.person = ".$voter["mpprop"]['person'];
 			if ($bdebug == 1)
 				print "<h1>datecond: $datecond</h1>\n";
 		}
@@ -125,6 +127,16 @@
 				$vote = "abstain";
 				return "";
 			}
+			if ($vote == "aye3")
+			{
+				$vote = "AYE";
+				return "aye";
+			}
+			if ($vote == "no3")
+			{
+				$vote = "NO";
+				return "no";
+			}
 		}
 		else if ($votertype == "party")
 		{
@@ -135,9 +147,8 @@
 	}
 
 	# this makes a comment on the row used to highlight rebels
-	function workrolecolumn($voter1type, &$vote1, $voter2type, &$vote2, $showwhich)
+	function workrolecolumn(&$roleclass, $voter1type, &$vote1, $voter2type, &$vote2, $showwhich)
 	{
-		$class = "";
 		$votedesc = "";
 
 		$dtvote1 = workrolevote($voter1type, $vote1);
@@ -153,12 +164,12 @@
 				$votedesc = "absent";
 			else if ($dtvote1 != $dtvote2 and $vote2 != "unknown")
 			{
-				$class = "rebel";
+				$roleclass = "rebel";
 				$votedesc = "Rebel";
 			}
 			if ($vote1 == "tellaye" || $vote1 == "tellno")
 			{
-				$class .= "teller";
+				$roleclass .= "teller";
 				$votedesc .= " Teller";
 			}
 			if ($votedesc == "")
@@ -172,23 +183,23 @@
 			{
 				if ($dtvote1 == "" or $dtvote1 == "abstain" or $dtvote2 == "" or $dtvote2 == "abstain")
 				{
-					$class = "rebelteller"; # yellow
+					$roleclass = "rebelteller"; # yellow
 					$votedesc = "miss";
 				}
 				else
 				{
-					$class = "rebel";
+					$roleclass = "rebel";
 					$votedesc = "disagree";
 				}
 			}
 			else
 			{
-				$class = "teller";  # green
+				$roleclass = "teller";  # green
 				$votedesc = "agree";
 			}
 		}
 
-		return "<td class=\"$class\">$votedesc</td>";
+		return "<td class=\"$roleclass\">$votedesc</td>";
 	}
 
 
@@ -201,12 +212,178 @@
         print "<td colspan=7>" . $event[1] .  "</td></tr>\n";
     }
 
+	function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter2type, $vote1, $vote2, $row, $divhref, $hrefsource)
+	{
+    	print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even")."$pretrowclass\">";
+		if ($voter2type != "")
+			print $rolecol;
+		print "<td>".$row['divisiondate']."</td>";
+		print "<td>".$row['divisionnumber']."</td>";
+		$divdesc = $row['division_name'];
+		if ($row['motionedited'] == "")
+			$divdesc .= " (<i>uncorrected</i>)";
+		print "<td><a href=\"$divhref\">$divdesc</a></td>\n";
+
+		if ($voter1type != "")
+		{
+			print "<td>$vote1</td>";
+			if ($voter2type != "")
+				print "<td>$vote2</td>\n";
+
+			# no reason not to have a speeches column on the division table, but we don't
+            print "<td><a href=\"$hrefsource\">speeches</a></td>";
+		}
+
+		# alternative columns on division table
+		else
+			print "<td>".$row['rebellions']."</td> <td>".$row['turnout']."</td>\n";
+
+		print "</tr>\n";
+	}
+
+	function GetPartyVoteSummaryH($db, $div_id)
+	{
+		$query = "SELECT pw_mp.party, COUNT(*), vote, whip_guess
+				  FROM pw_vote, pw_mp, pw_cache_whip
+				  WHERE pw_vote.division_id = $div_id
+				  	AND pw_vote.mp_id = pw_mp.mp_id
+					AND pw_cache_whip.division_id = pw_vote.division_id
+					AND pw_cache_whip.party = pw_mp.party
+				  GROUP BY pw_mp.party, vote
+				  ORDER BY party, vote";
+	    $db->query($query);
+
+	    # Precalc values
+	    $ayes = array();
+	    $noes = array();
+	    $boths = array();
+	    $tellayes = array();
+	    $tellnoes = array();
+	    $whips = array();
+		$totalpartyvote = array();
+
+	    while ($row = $db->fetch_row())
+	    {
+	        $party = $row[0];
+	        $count = $row[1];
+	        $vote = $row[2];
+	        $whip = $row[3];
+
+			$totalpartyvote[$party] += $count;
+
+	        if ($vote == "aye")
+	            $ayes[$party] += $count;
+	        else if ($vote == "no")
+	            $noes[$party] += $count;
+	        else if ($vote == "both")
+	            $boths[$party] += $count;
+	        else if ($vote == "tellaye")
+	            $tellayes[$party] += $count;
+	        else if ($vote == "tellno")
+	            $tellnoes[$party] += $count;
+	        else
+	            print "Unknown vote type: " + $vote;
+	        $whips[$party] = $whip;
+	    }
+	    $votes = array_sum(array_values($ayes)) +
+	        		array_sum(array_values($noes)) +
+					array_sum(array_values($boths)) +
+	        		array_sum(array_values($tellayes)) +
+					array_sum(array_values($tellnoes));
+
+		$partysummary = array('ayes' => $ayes,
+							  'noes' => $noes,
+							  'boths' => $boths,
+							  'tellayes' => $tellayes,
+							  'tellnoes' => $tellnoes,
+							  'whips' => $whips,
+							  'votes' => $votes,
+							  'totalpartyvote' => $totalpartyvote);
+		return $partysummary;
+	}
+	function writepersonvote(&$lnrows, $cla, $name, $vote, $ayecla, $nocla)
+	{
+    	print "<tr class=\"".(($lnrows % 2 == 1) ? "odd" : "even")."$cla\">";
+		print "<td>$name</td>";
+		if (($vote == "aye") || ($vote == "AYE"))
+			print "<td$ayecla>Aye</td><td$nocla></td>";
+		else if (($vote == "no") || ($vote == "NO"))
+			print "<td$ayecla></td><td$nocla>No</td>";
+		else
+			print "<td colspan=2 align=center>$vote</td>";
+		print "</tr>\n";
+		$lnrows += 1;
+	}
+	function writenumbervote(&$lnrows, $gname, $sayes, $snoes, $ayecla, $nocla)
+	{
+        if ($sayes == "")
+			$sayes = 0;
+        if ($snoes == "")
+			$snoes = 0;
+    	print "<tr class=\"".(($lnrows % 2 == 1) ? "odd" : "even")."\">";
+   		print "<td>$gname</td><td$ayecla>$sayes</td><td$nocla>$snoes</td></tr>\n";
+		$lnrows += 1;
+	}
+	function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $roleclass, $voter1, $vote1, $vote2, $row, $divhref, $hrefsource)
+	{
+		# title part of the expanded motion text
+		print "<tr class=\"motiontitle$pretrowclass\">";
+
+		#if ($voter2type != "")
+		#	print $rolecol;
+		$divlink = "<a href=\"$divhref\">";
+		print "<td colspan=4 align=left>$divlink".$row['division_name']."</a></td>";
+		print "<td colspan=3>$divlink".$row['divisiondate']." #".$row['divisionnumber']."</a></td>";
+		print "</tr>\n";
+
+		# motion part of the text
+		print "<tr valign=\"top\">";
+		print "<td colspan=4>$motiontext</td>\n";
+
+		# make the table of party in the right hand side
+		print "<td><table class=\"votetab\">";
+		#print "<tr class=\"headings\"><td></td><td>Aye</td><td>No</td></tr>\n";
+
+		$lnrows = 0;
+
+		# get the summary of the rest of the voting from the database
+		$partysummary = GetPartyVoteSummaryH($db, $divisionid);
+
+		# total votes
+		$totalayes = array_sum(array_values($partysummary['ayes'])) + array_sum(array_values($partysummary['tellayes']));
+		$totalnoes = array_sum(array_values($partysummary['noes'])) + array_sum(array_values($partysummary['tellnoes']));
+
+		$ayecla = ($totalayes > $totalnoes ? " class=\"majority\"" : "");
+		$nocla = ($totalnoes > $totalayes ? " class=\"majority\"" : "");
+		writepersonvote($lnrows, "strong", $voter1['name'], $vote1, $ayecla, $nocla);
+
+		# votes of rest of parties (a rather poor way to put it together)
+		$party = $voter1['party'];
+		$partys = array($party);
+		if ($party != "Lab")
+			array_push($partys, "Lab");
+		if ($party != "Con")
+			array_push($partys, "Con");
+		if ($party != "LDem")
+			array_push($partys, "LDem");
+		foreach ($partys as $lparty)
+			writenumbervote($lnrows, $lparty, $partysummary['ayes'][$lparty], $partysummary['noes'][$lparty], $ayecla, $nocla);
+		writenumbervote($lnrows, "Total", $totalayes, $totalnoes, $ayecla, $nocla);
+
+		if ($vote2 != "")
+			writepersonvote($lnrows, $roleclass, "DreamMP", $vote2, $ayecla, $nocla);
+
+		print "</table></td></tr>\n";
+ 	}
+
+
 	# table that shows a selected heap of divisions, and provides a comparison between
 	# one or two independent voting actors.
 	# votertype is 'dreammp', 'mp', 'party'
 	# voter is a mpid, dreammpid, blank-for-self party,
 	# showwhich is 'everyvote', 'rebellions10', 'all1', 'all2', 'either', 'both', 'bothdiff' (tellers appear automatically)
 	# (then we need a signal for order and for expanded display, and for events)
+	# votedisplay is none, 'fullmotion'(for showing the jmp view)
 	# headings is 'none', 'columns', 'fulldesc'(for changing mps)
 	# sortby is 'date', 'subject', 'rebellions', 'turnout'
 	# $parldatelimit is null or a line from $parliaments
@@ -226,7 +403,7 @@
 								pw_division.division_number AS divisionnumber,
 							  	pw_division.division_date 	AS divisiondate,
 							  	division_name, source_url, debate_url, source_gid, debate_gid,
-								object_key as motionedited";
+								object_key AS motionedited";
 
 		$aquery["qfrom"]   = " FROM pw_division";
 		$aquery["qjoin"]   = " LEFT JOIN pw_cache_divinfo ON pw_cache_divinfo.division_id = pw_division.division_id";
@@ -264,6 +441,14 @@
 		$voter2 = $divtabattr["voter2"];
 		$headings = $divtabattr["headings"];
 
+		# full motion text display
+		if ($divtabattr['votedisplay'] == 'fullmotion')
+		{
+			$aquery["qselect"] .= ", text_body AS motiontext, user_id AS motionedituser, edit_date AS motioneditdate";
+			$aquery["qselect"] .= ", pw_division.division_id AS divisionid";
+			$aquery["qorder"] .= ", wiki_id DESC";
+		}
+
 		# construct the first column of votes
 		$bonlyvotes1 = ($showwhich == "all1" or $showwhich == "both" or $showwhich == "bothdiff");
 		if ($divtabattr["voter1type"] == "mp")
@@ -272,6 +457,7 @@
 			divdreammpconds($aquery, $db, $voter1, $bonlyvotes1, 1);
 		else if ($voter1type == "")  # this case means we are listing all divisions without a driver
 			$aquery["qselect"] .= ", rebellions, turnout";
+
 
 		# construct the second column of votes (if it exists)
 		if ($voter2type != "")
@@ -308,7 +494,7 @@
 		if ($bdebug == 1)
 		{
 			if ($divtabattr["limitby"] == "")
-				$query .= " LIMIT 10";
+				$query .= " LIMIT 30";
 			print "<h1>GGGG $voter1type ";
 			print_r($voter1);
 			print" $voter2type $voter2 $showwhich $headings</h1>";
@@ -377,7 +563,13 @@
 			{
 				$vote1 = $row['vote1'];
 				$vote2 = $row['vote2'];
-				$rolecol = workrolecolumn($voter1type, $vote1, $voter2type, $vote2, $showwhich);
+
+				# detect three line whips (in dream mps)
+				if ($vote2 == "aye3" or $vote2 == "no3")
+		            $pretrowclass = "strong";
+
+				$roleclass = "";
+				$rolecol = workrolecolumn($roleclass, $voter1type, $vote1, $voter2type, $vote2, $showwhich);
 				if ($rolecol == "")
 					continue;      # final filter bail out
 			}
@@ -386,42 +578,27 @@
 			else if ($row['rebellions'] >= 10 and $sortby != "rebellions" and $showwhich != "rebellions10")
 	            $pretrowclass = "rebel";
 
-
-            $prettyrow = pretty_row_start($prettyrow, $pretrowclass);
-			if ($voter2type != "")
-				print $rolecol;
-			print "<td>".$row['divisiondate']."</td>";
-			print "<td>".$row['divisionnumber']."</td>";
-			$divhref = "division.php?date=".urlencode($row['divisiondate'])."&number=".urlencode($row['divisionnumber']);
-			$divdesc = $row['division_name'];
-			if ($row['motionedited'] == "")
-				$divdesc .= " (<i>uncorrected</i>)";
-			print "<td><a href=\"$divhref\">$divdesc</a></td>\n";
-
-			if ($voter1type != "")
-			{
-				print "<td>$vote1</td>";
-				if ($voter2type != "")
-					print "<td>$vote2</td>\n";
-   			}
-
-			# alternative columns on division table
+			$debate_gid = str_replace("uk.org.publicwhip/debate/", "", $row['debate_gid']);
+		    if ($debate_gid != "")
+				$hrefsource = "http://www.theyworkforyou.com/debates/?id=$debate_gid";
 			else
-				print "<td>".$row['rebellions']."</td> <td>".$row['turnout']."</td>\n";
+				$hrefsource = $row['source_url'];
 
-			# no reason not to have a speeches column on the division table, but we don't
-			if ($voter1type != "")
+			$divhref = "division.php?date=".urlencode($row['divisiondate'])."&number=".urlencode($row['divisionnumber']);
+
+			# votedisplay is none, 'fullmotion'(for showing the jmp view)
+			if ($divtabattr['votedisplay'] == 'fullmotion' and 	$row['motionedited'] != "")
 			{
-				$debate_gid = str_replace("uk.org.publicwhip/debate/", "", $row['debate_gid']);
-			    if ($debate_gid != "")
-					$hrefsource = "http://www.theyworkforyou.com/debates/?id=$debate_gid";
-				else
-					$hrefsource = $row['source_url'];
-	            print "<td><a href=\"$hrefsource\">speeches</a></td>";
+				# text_body AS motiontext, user_id AS motionedituser, edit_date AS motioneditdate";
+				$motiontext = sanitise_wiki_text_for_display($row['motiontext']);
+				print_motion_row($motiontext, $db, $row['divisionid'], $pretrowclass, $roleclass, $voter1, $vote1, $vote2, $row, $divhref, $hrefsource);
+	            $nrows += 2;
 			}
-
-            print "</tr>\n";
-            $nrows += 1;
+			else
+			{
+				print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter2type, $vote1, $vote2, $row, $divhref, $hrefsource);
+	            $nrows += 1;
+	 		}
         }
 	}
 

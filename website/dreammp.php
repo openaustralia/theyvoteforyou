@@ -68,7 +68,12 @@
     print " <b>$dmp_votes_count</b> votes, of which <b>$dmp_edited_count</b> have edited motion text.";
 
     print "<table class=\"divisions\">\n";
-	division_table($db, "dreammp", $dreamid, "", "", "all1", 'columns');
+	$divtabattr = array(
+			"voter1type" 	=> "dreammp",
+			"voter1"        => $dreamid,
+			"showwhich"		=> "all1",
+			"headings"		=> 'columns');
+	division_table($db, $divtabattr);
     print "</table>\n";
 
     if ($your_dmp)
@@ -97,7 +102,7 @@
         from pw_mp, pw_cache_dreamreal_score
         where pw_mp.person = pw_cache_dreamreal_score.person
         and pw_cache_dreamreal_score.rollie_id = '$dreamid'";
-    $query .= " and rank_outof_a is not null 
+    $query .= " and rank_outof_a is not null
         and left_house > '$now'
         order by rank_a";
     $row = $db->query($query);
@@ -119,7 +124,7 @@
         print "<td>" . set_mp_with_link($row) . "</td></td>
             <td>" . $row['constituency'] . "</td>
             <td>" . set_party($row). "</td>
-            <td>" . $score . "</td> 
+            <td>" . $score . "</td>
             <td class=\"percent\">" . $perc . "</td>";
         print "</tr>\n";
     }
@@ -129,8 +134,9 @@
     $timenow = getmicrotime();
     $timetook = $timenow - $timestart;
 //    print "took $timetook from $timestart $timenow";
-    
+
 ?>
 
 <?php include "footer.inc" ?>
 <?php include "cache-end.inc"; ?>
+

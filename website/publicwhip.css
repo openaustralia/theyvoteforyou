@@ -30,6 +30,12 @@ A:link:hover, A:active:hover, A:visited:hover
     BACKGROUND-REPEAT: repeat;
     BACKGROUND-COLOR: #bbbbbb;
 }
+A:link.current
+{
+    FONT-WEIGHT: bold;
+    BACKGROUND-REPEAT: repeat;
+    BACKGROUND-COLOR: #bbbbbb;
+}
 H1
 {
     MARGIN-TOP: 0.2em;
@@ -165,7 +171,18 @@ TABLE TR.oddrebel
 }
 TABLE TR.evenrebel
 {
+    FONT-WEIGHT: bold;
     BACKGROUND-COLOR: #da7777
+}
+TABLE TR.oddstrong
+{
+    FONT-WEIGHT: bold;
+    BACKGROUND-COLOR: #eeeeee
+}
+TABLE TR.evenstrong
+{
+    FONT-WEIGHT: bold;
+    BACKGROUND-COLOR: #dadada
 }
 TABLE TR.oddteller
 {
@@ -190,6 +207,15 @@ TABLE TR.oddrebelteller
 TABLE TR.evenrebelteller
 {
     BACKGROUND-COLOR: #dada77
+}
+TABLE TR.motiontitle
+{
+    BACKGROUND-COLOR: #ccccee
+}
+TABLE TR.motiontitlestrong
+{
+    FONT-WEIGHT: bold;
+    BACKGROUND-COLOR: #aaaaee
 }
 TABLE TD
 {
@@ -275,6 +301,17 @@ TABLE.bars TD
     PADDING-LEFT: 0px;
     PADDING-BOTTOM: 0px;
     PADDING-TOP: 0px
+}
+TABLE.votetab
+{
+	empty-cells: show;
+	border-collapse: collapse;
+    border: thin solid #660000;
+}
+TABLE.votetab TD.majority
+{
+    FONT-WEIGHT: bold;
+    COLOR: #aa0066;
 }
 .container
 {
@@ -402,7 +439,7 @@ CAPTION.innerhtml
 .minifeedback
 {
     MARGIN-TOP: 0.5em;
-} 
+}
 .minifeedbackcell
 {
     BACKGROUND-COLOR: #003300;

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.56 2005/03/05 11:57:48 goatchurch Exp $
+    # $Id: mp.php,v 1.57 2005/03/06 01:22:17 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -10,7 +10,6 @@
 
     include "db.inc";
     $db = new DB();
-	$bdebug = 0;
 
 	# standard decoding functions for the url attributes
 	include "decodeids.inc";
@@ -18,8 +17,10 @@
 	include "tableoth.inc";
     include "dream.inc";
 
-	# decode the incoming line, getting all the alternatives;
-	# mps take priority, then dreammps (the whips)
+	# decode the parameters.
+	# first is the two voting objects which get compared together.
+	# First is an mp (arranged by person or by constituency)
+	# Second is another mp (by person), a dream mp, or a/the party
 	$voter1attr = get_mpid_attr_decode($db, "");
 	if ($voter1attr == null)
 		die("No mp found that fit parameters");
@@ -43,119 +44,201 @@
 		else
 		{
 			$voter2type = "party";
-			$voter2 = ""; #could fill in party for clarity
+			$voter2 = ""; # this varies for each incarnation, but could remain fixed
 		}
 	}
 
+	# shorthand to get at the designated MP for this class of MP holders
+	# (multiple sets of properties, usually overlapping, hold for each MP if they've had more than one term)
+	$mpprop = $voter1attr["mpprop"];
 
-	# try and construct some settings for what's visible on this page
-	# [showall=yes]  [allfriends=yes]
-	$showwhichfriends = "none";
+	# case now is we know the two voting actors,
+	# (and whether the first is a constituency or a person)
+	# select a mode for what is displayed
+	# code for the 0th mp def, if it is there.
+    $thispagemp = "mp.php?";
+	$thispagemp .= "mpn=".urlencode(str_replace(" ", "_", $mpprop['name']))."&"."mpc=".urlencode($mpprop['constituency']);
+
+	# extend to the comparison type
+	$thispage = $thispagemp;
+	if ($voter2type == "dreammp")
+		$thispage .= "&dmp=".$voter2;
+	else if ($voter2type == "person")
+		$thispage .= "&mpn2=".urlencode(str_replace(" ", "_", $voter2["mpprop"]['name']))."&"."mpc2=".urlencode($voter2["mpprop"]['constituency']);
+
+	# constants
+	$dismodes = array();
 	if ($voter2type == "party")
 	{
-	    if ($_GET["allfriends"] == "yes")
-		{
-			$showwhichvotes = "none";
-			$showwhichfriends = "all";
-		}
-		else if ($_GET["showall"] == "yes")
-			$showwhichvotes = "all1";
-		else if ($_GET["showall"] == "every")
-			$showwhichvotes = "everyvote";
-		else
-		{
-			$showwhichvotes = "bothdiff";
-			$showwhichfriends = "some";
-		}
+		$dismodes["summary"] = array("dtype"	=> "summary",
+								 "description" => "Summary",
+								 "generalinfo" => "yes",
+								 "votelist"	=> "short",
+								 "possfriends"	=> "some",
+								 "dreamcompare"	=> "short");
 	}
-	else
+
+	if ($voter2type == "person")
 	{
-		$showwhichvotes = "both";
-		if ($_GET["showall"] == "yes")
-			$showwhichvotes = "either";
-		else if ($voter2type == "dreammp")
-			$showwhichvotes = "all2";
-		else if ($_GET["showall"] == "every")
-			$showwhichvotes = "everyvote";
+		$dismodes["difference"] = array("dtype"	=> "difference",
+								 "description" => "Differences",
+								 "votelist"	=> "short");
+	}
+
+	$dismodes["allvotes"] = array("dtype"	=> "allvotes",
+							 "description" => "All votes",
+							 "votelist"	=> "all",
+							 "defaultparl" => "recent");
+
+	if ($voter2type == "dreammp")
+	{
+		$dismodes["motions"] = array("dtype"	=> "motions",
+								 "description" => "Display Motions",
+								 "votelist"	=> "all",
+								 "votedisplay"	=> "fullmotion",
+								 "defaultparl" => "recent");
+	}
+
+	if ($voter2type != "dreammp")
+	{
+		$dismodes["everyvote"] = array("dtype"	=> "everyvote",
+								 "description" => "Every division",
+								 "generalinfo" => "yes",
+								 "votelist"	=> "every",
+								 "defaultparl" => "recent");
+	}
+
+	# friendships if not a comparison table
+	if ($voter2type == "party")
+	{
+		$dismodes["allfriends"] = array("dtype"	=> "allfriends",
+								 "description" => "All possible friends",
+								 "possfriends"	=> "all",
+								 "defaultparl" => "recent");
+
+		$dismodes["alldreams"] = array("dtype"	=> "alldreams",
+								 "description" => "All dream comparisons",
+								 "dreamcompare"	=> "all",
+								 "defaultparl" => "all");
 	}
 
 
+	# work out which display mode we are in
+	$display = $_GET["display"];
+	if (!$dismodes[$display])
+	{
+		if ($_GET["showall"] == "yes")
+			$display = "allvotes"; # legacy
+		else if ($_GET["allfriends"] == "yes")
+			$display = "allfriends"; # legacy
+		else if ($voter2type == "dreammp")
+			$display = "allvotes";
+		else if ($voter2type == "person")
+			$display = "difference";
+		else
+			$display = "summary"; # default
+	}
+	$dismode = $dismodes[$display];
 
-	# code for the 0th mp def, if it is there.
-	$mpid = $voter1attr["mpid"];
-    $this_anchor = "mp.php?".$voter1attr["mpanchor"];
 
-	if ($bdebug == 1)
-		print "<h1>which votes: $showwhichvotes whichfriends: $showwhichfriends  mpid: $mpid</h1>\n";
-
-	# generate the header of this webpage
-	if ($showwhichvotes == "none")
-		$title = html_scrub("Friends of ".$voter1attr['mpname']." MP, ".$voter1attr['constituency']);
-    else if ($voter2type == "dreammp")
-		$title = html_scrub($voter1attr['mpname']." MP, ".$voter1attr['constituency']." - Whipped by '".$voter2attr['name']."'");
-    else if ($voter2type == "person")
-		$title = html_scrub($voter1attr['mpname']." MP, ".$voter1attr['constituency']." - Compared to ".$voter2attr['mpname']." MP");
-	else # party
-		$title = html_scrub("Voting Record - ".$voter1attr['mpname']." MP, ".$voter1attr['constituency']);
+	# generate title and header of this webpage
+	if ($voter2type == "dreammp")
+		$title = $mpprop['name']." MP, ".$mpprop['constituency']." - Whipped by '".$voter2attr['name']."'";
+	else if ($voter2type == "person")
+		$title = $mpprop['name']." MP, ".$mpprop['constituency']." - Compared to ".$voter2attr["mpprop"]['name']." MP";
+	else if ($dismode["possfriends"] == "all")
+		$title = "Friends of ".$mpprop['name']." MP, ".$mpprop['constituency'];
+	else if ($voter1attr["bmultiperson"])
+		$title = "Voting Record - Honourable Member for ".$mpprop['constituency'];
+	else
+		$title = "Voting Record - ".$mpprop['name']." MP, ".$mpprop['constituency'];
     include "header.inc";
 
 
-	# internal page links
-	if ($showwhichvotes != "none" and $showwhichfriends != "none")
+	# make list of links to other display modes
+	$leadch = "<p>"; # get those bars between the links working
+    foreach ($dismodes as $ldisplay => $ldismode)
 	{
-		print '<p>';
-		print '<a href="#divisions">Votes</a>';
-		print ' | ';
-		print '<a href="#friends">Possible Friends</a>';
-		print ' | ';
-		print '<a href="#dreammotions">Dream MP Comparisons</a>';
+		print $leadch;
+		$leadch = " | ";
+		$dlink = "href=\"$thispage".($ldisplay != "summary" ? "&display=$ldisplay" : "")."\"";
+		$dcla = ($ldisplay == $display ? " class=\"current\"" : "");
+		print "<a$dcla $dlink>".$ldismode["description"]."$dcla</a>";
 	}
+
+	# secondary links to variations
+	if ($voter2type != "party")
+	{
+		if ($display != "summary" and $voter2type != "dreammp")
+			$dislink = "&display=$display";
+		$dlink = "href=\"$thispagemp$dislink\"";
+		print $leadch;
+		$leadch = " | ";
+		print "<a $dlink>Without comparison</a>";
+	}
+	if ($voter2type == "person")
+	{
+		$dlink = "mp.php?";
+		$dlink .= "mpn=".urlencode(str_replace(" ", "_", $voter2["mpprop"]['name']))."&mpc=".urlencode($voter2["mpprop"]['constituency']);
+		print $leadch;
+		print "<a href=\"$dlink\">Compared MP</a>";
+	}
+	if ($voter2type == "dreammp")
+	{
+		$dlink = "href=\"dreammp.php?id=$voter2\"";
+		print $leadch;
+		print "<a $dlink>Dream MP</a>";
+	}
+	print "</p>\n";
 ?>
 
 <?
 	# extract the events in this mp's life
-	if ($showwhichvotes != "none")
+	$events = "none";
+	if ($dismode["generalinfo"] == "yes")
 	{
 		$mpattr = $voter1attr;
-		# generate ministerial events (maybe events for general elections?)
-	 	$query = "SELECT dept, position, from_date, to_date
-	        	  FROM pw_moffice
-				  WHERE pw_moffice.person = '".$mpattr["personid"]."'
-	        	  ORDER BY from_date DESC";
-		if ($bdebug == 1)
-			print "<h1>query for events: $query</h1>\n";
-	    $db->query($query);
+		# the events that have happened in this MP's career
+   		if (!$mpattr['bmultiperson'])
+		{
+			# generate ministerial events (maybe events for general elections?)
+		 	$query = "SELECT dept, position, from_date, to_date
+		        	  FROM pw_moffice
+					  WHERE pw_moffice.person = '".$mpattr["mpprop"]["person"]."'
+		        	  ORDER BY from_date DESC";
+			if ($bdebug == 1)
+				print "<h1>query for events: $query</h1>\n";
+		    $db->query($query);
 
-
-	    $events = array();
-	    $currently_minister = "";
-
-		# it goes in reverse order
-	    while ($row = $db->fetch_row_assoc())
-	    {
-	        if ($row["to_date"] == "9999-12-31")
-	            $currently_minister = $row["position"].  ", " .  $row["dept"];
-			else
-	            array_push($events, array($row["to_date"],   "Stopped being " .  $row["position"].  ", " . $row["dept"]));
-	        array_push($events, 	array($row["from_date"], "Became " .  $row["position"]. ", 		   " . $row["dept"]));
-	    }
-		if ($mpattr['bmultiperson'])  # remove problem if not going to be the same guy all the way through
 			$events = array();
+			$currently_minister = "";
+			# it goes in reverse order
+		    while ($row = $db->fetch_row_assoc())
+		    {
+		        if ($row["to_date"] == "9999-12-31")
+		            $currently_minister = $row["position"].  ", " .  $row["dept"];
+				else
+		            array_push($events, array($row["to_date"],   "Stopped being " .  $row["position"].  ", " . $row["dept"]));
+		        array_push($events, 	array($row["from_date"], "Became " .  $row["position"]. ", 		   " . $row["dept"]));
+		    }
+		}
 
 	    print "<h2><a name=\"general\">General Information</a></h2>";
 
 	    if ($currently_minister)
-	        print "<p><b>".$mpattr['mpname']."</b> is currently <b>$currently_minister</b>.<br>
-	               MP for <b>".$mpattr['constituency']."</b>";
+	        print "<p><b>".$mpprop['name']."</b> is currently <b>$currently_minister</b>.<br>
+	               MP for <b>".$mpprop['constituency']."</b>";
+	    else if ($mpattr['bmultiperson'])
+	        print "<p>MPs who have represented <b>".$mpprop['constituency']."</b>";
 	    else
-	        print "<p><b>".$mpattr['mpname']."</b> has been MP for <b>".$mpattr['constituency']."</b>";
+	        print "<p><b>".$mpprop['name']."</b> has been MP for <b>".$mpprop['constituency']."</b>";
 		print " during the following periods of time during the last two parliaments:<br>";
 		print "(Check out <a href=\"faq.php#clarify\">our explanation</a> of 'attendance'
 	            and 'rebellions', as they may not have the meanings you expect.)</p>";
 
 		seat_summary_table($mpattr['mpprops'], $mpattr['bmultiperson']);
 
-	    print "<p><a href=\"http://www.theyworkforyou.com/mp/?m=".$voter1attr["mpid"]."\">
+	    print "<p><a href=\"http://www.theyworkforyou.com/mp/?m=".$mpprop["mpid"]."\">
 	    		Performance data, recent speeches, and biographical links</a>
 	    		at TheyWorkForYou.com.<br>
 	    	   <a href=\"http://www.writetothem.com\">Contact your MP</a> for free at
@@ -167,71 +250,82 @@
 
 
 <?php
-    if ($showwhichvotes != "none")
+	if ($dismode["votelist"])
     {
-		if ($voter2type == "person")
-		{
-            print "<h2><a name=\"divisions\">Votes compared to ".$voter2attr['mpname']." MP</a></h2>";
-	        print "<p>You can also see <a href=\"$this_anchor#divisions\">
-				   only the votes".$voter1attr['mpname']." MP rebelled in</a>. ";
-		}
-	    else if ($voter2type == "dreammp")
-	    {
-	        print "<h2><a name=\"divisions\">Votes chosen by '".$voter2attr['name']."' Dream MP</a></h2>
-	        	<p>The first column indicates this MP voted in comparison.
-	        		You can also see <a href=\"$this_anchor&showall=yes#divisions\">all votes this MP attended</a>.";
-	    }
-    	else if ($showwhichvotes == "bothdiff")
-	    {
-	        print "<h2><a name=\"divisions\">Interesting Votes</a></h2>
-	        	<p>Votes in parliament for which this MP's vote differed from the
+		# title for the vote table
+	    if ($voter2type == "dreammp")
+	        $vtitle = "Votes chosen by '".$voter2attr['name']."' Dream MP";
+		else if ($voter2type == "person")
+			$vtitle = "Votes compared to ".$voter2attr["mpprop"]['name']." MP";
+		else if ($dismode["votelist"] == "short")
+			$vtitle = "Interesting Votes";
+		else if ($dismode["votelist"] == "every")
+			$vtitle .= "Every Vote";
+		else
+			$vtitle = "Votes Attended";
+		print "<h2><a name=\"divisions\">$vtitle</a></h2>\n";
+
+		# subtext for the vote table
+		if ($dismode["votelist"] == "short" and $voter2type == "party")
+			print "<p>Votes in parliament for which this MP's vote differed from the
 	        	majority vote of their party (Rebel), or in which this MP was
-	        	a teller (Teller) or both (Rebel Teller).  ";
-	        print "You can also see <a href=\"$this_anchor&showall=yes#divisions\">all votes this MP attended</a> or
-	        		<a href=\"$this_anchor&showall=every#divisions\">every vote</a> that this MP could have attended.</p>\n";
-	    }
-	    else
-	    {
-			if ($showwhichvotes == "everyvote")
-		        print "<h2><a name=\"divisions\">All Votes</a></h2>
-		        	<p>All Votes in which this MP could have voted.";
-			else
-		        print "<h2><a name=\"divisions\">Votes Attended</a></h2>
-		        	<p>Votes in which this MP voted.";
-			print "The first column
-	        	indicates if they voted against the majority vote of
-	        	their party (Rebel), were a teller for that side (Teller)
-	        	or both (Rebel Teller).";
-	    }
-	    print " Also shows when the MP became or stopped being a paid minister. ";
+	        	a teller (Teller) or both (Rebel Teller).  </p>\n";
+		else if ($dismode["votelist"] == "every" and $voter2type == "party")
+			print "<p>All votes this MP could have attended.</p>\n";
+
+		if ($events != "none")
+		    print " <p>Also shows when this MP became or stopped being a paid minister. </p>";
+
+		# convert the view for the table selection depending on who are the voting actors
+		if ($dismode["votelist"] == "every")
+			$showwhichvotes = "everyvote";
+		else if ($voter2type == "party")
+			$showwhichvotes = ($dismode["votelist"] == "all" ? "all1" : "bothdiff");
+		else if ($voter2type == "dreammp")
+			$showwhichvotes = "all2";
+		else if ($dismode["votelist"] == "all")
+			$showwhichvotes = "either";
+		else if ($dismode["votelist"] == "short")
+			$showwhichvotes = "bothdiff";
+		else
+			$showwhichvotes = "both";
+
+
+		# division table attributes used
+		$divtabattr = array(
+				"voter1type" 	=> $voter1type,
+				#"voter1"        => $mpprop,
+				"voter2type"	=> $voter2type,
+				"voter2"		=> $voter2,
+				"showwhich"		=> $showwhichvotes,
+				"votedisplay"	=> $dismode["votedisplay"],
+				"headings"		=> 'columns',
+				"sortby"		=> 'date'	);
+
+		if ($dismode["votedisplay"] == "fullmotion")
+			$divtabattr["headings"] = 'none';
 
 		# make the table over this MP's votes
     	$events_ix = 0;
 	    print "<table class=\"votes\">\n";
     	foreach ($voter1attr['mpprops'] as $mpprop)
 		{
-			$divtabattr = array(
-					"voter1type" 	=> $voter1type,
-					"voter1"        => $mpprop,
-					"voter2type"	=> $voter2type,
-					"voter2"		=> $voter2,
-					"showwhich"		=> $showwhichvotes,
-					"headings"		=> 'columns',
-					"sortby"		=> 'date'	);
+			$divtabattr["voter1"] = $mpprop;
 			division_table($db, $divtabattr);
 		}
 	    print "</table>\n";
-
-		# link back to short case
-	    if ($showwhichvotes != "bothdiff" and $voter2type == "party")
-	        print "<p><a href=\"$this_anchor#divisions\">Show only the votes MP rebelled in.</a>";
 	}
+?>
 
 
+<?php
 	# the friends tables
-	if ($showwhichfriends != "none")
+	if ($dismode["possfriends"])
 	{
-	    print "<h2><a name=\"friends\">Possible Friends</a></h2>";
+	    print "<h2><a name=\"friends\">";
+		if ($dismode["possfriends"] == "all")
+			print "All ";
+		print "Possible Friends</a></h2>";
 	    print "<p>Shows which MPs voted most similarly to this one. The
     		distance is measured from 0 (always voted the same) to 1 (always
 		    voted differently).  Only votes that both MPs attended are
@@ -239,40 +333,43 @@
 		    previously unsuspected.  Or it may be nonsense.";
 
 		# loop and make a table for each
-		if ($showwhichfriends == "some")
+		if ($dismode["possfriends"] == "some")
 		{
 			foreach ($voter1attr['mpprops'] as $mpprop)
-				print_possible_friends($db, $mpprop, $showwhichfriends);
+				print_possible_friends($db, $mpprop, $dismode["possfriends"]);
 		}
 
 		# if it's a show all, then just do it of one sitting mp
 		else
-			print_possible_friends($db, $voter1attr['mpprop'], $showwhichfriends);
+			print_possible_friends($db, $voter1attr['mpprop'], $dismode["possfriends"]);
     }
 ?>
 
 <?php
-	print "<h2><a name=\"dreammotions\">Dream MP Comparisons</a></h2>";
-    print "<p>Votes on motions chosen by a Dream MP.  A selected list which can
-        be used to find what an MP stands for. Email us if you think your Dream
-        MP is appropriate to include here.";
-    print "<table class=\"mps\">\n";
-    print "<tr class=\"headings\">
-        <td>Votes</td>
-        <td>Made by</td>
-        <td>Dream MP</td>
-        <td>Description</td>
-        </tr>";
-
-    $prettyrow = 0;
-    $db->query(get_top_dream_query(8));
-    $dreams = array();
-    while ($row = $db->fetch_row_assoc()) { 
-        $dreamid = $row['rollie_id'];
-        $prettyrow = pretty_row_start($prettyrow);
-        print_selected_dream($db, $voter1attr["mpprop"], $dreamid);
-    }
-    print "</table>\n";
+	if ($dismode["dreamcompare"])
+	{
+		print "<h2><a name=\"dreammotions\">Dream MP Comparisons</a></h2>";
+	    print "<p>Votes on motions chosen by a Dream MP.  A selected list which can
+	        be used to find what an MP stands for. Email us if you think your Dream
+	        MP is appropriate to include here.";
+	    print "<table class=\"mps\">\n";
+	    print "<tr class=\"headings\">
+	        <td>Votes</td>
+	        <td>Made by</td>
+	        <td>Dream MP</td>
+	        <td>Description</td>
+	        </tr>";
+	
+	    $prettyrow = 0;
+	    $db->query(get_top_dream_query(8));
+	    $dreams = array();
+	    while ($row = $db->fetch_row_assoc()) {
+	        $dreamid = $row['rollie_id'];
+	        $prettyrow = pretty_row_start($prettyrow);
+	        print_selected_dream($db, $mpprop, $dreamid);
+	    }
+	    print "</table>\n";
+	}
 ?>
 
 
