@@ -6,6 +6,8 @@
 import sys
 
 sys.path.append('debate')
+sys.path.append('wrans')
+sys.path.append('common')
 
 from optparse import OptionParser
 from createhansardindex import UpdateHansardIndex
