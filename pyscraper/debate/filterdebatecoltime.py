@@ -17,6 +17,7 @@ from miscfuncs import ApplyFixSubstitutions
 
 # this accounts for the cases where the colnum at the very start is left out.
 fixsubs = 	[
+        ( '<B> Ordered, </B>', 'Ordered, ', 2, '2004-03-23'),
         ( '\(Sylvia Heal </B>\s*\)\:', '(Sylvia Heal):</B>', 1, '2003-06-20'),
 
 	( '(<H3 align=center>THE PARLIAMENTARY DEBATES</H3>)', '<P>\n\n<B>14 Oct 2003 : Column 1</B></P>\n\\1', 1, '2003-10-14'),
