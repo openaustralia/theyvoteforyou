@@ -199,6 +199,7 @@ Link to draft of Bill which is being debated
     http://www.parliament.the-stationery-office.co.uk/pa/pabills.htm
     http://bills.ais.co.uk
 
+
 Group votes by department, so you can see areas of interest (Sirius
 Gibson, Oxfam)
 
@@ -215,6 +216,8 @@ Committees, and voting in committee
 
 Usability
 ---------
+
+Java cluster applet change to Flash
 
 Email reports to people when search queries change
 e.g. When your MP has voted.  When he has rebelled.  When an issue is
@@ -259,7 +262,7 @@ Usability (some sort of done - this is just some notes)
 Political toolbar - easy searches.  Popup links automatically on MP's
 names in Internet Explorer.
 
-Physicsl gimmicks
+Physical gimmicks
 -----------------
 
 Actually post a whipping sheet to MPs.  This would arrive every week at
@@ -271,6 +274,22 @@ Make big wall chart of cluster diagram - colour, pretty
 Maybe even sell it to people
 
 Newsletter (may be better than blog that you have)
+
+Broader context
+---------------
+
+Do it for all Hansards in CHEA:
+http://www.hansard-westminster.co.uk/links.asp
+
+Indian parliament.  Give them clustering.
+Form UK equivalents of:
+"Committee for Assurances" - track all promises
+"Committee for Attendance" - see which seats should be declared vacant
+"Spectrum of Interest" - what subjects in career they followed, so can
+tell if would be no use as Minister for Education
+Analyse all task MP does, time spent, and see if they are doing either
+enough or implausibly too much.
+
 
 About one MP
 ------------
@@ -286,27 +305,41 @@ Parliament address / phone / fax
 Email
 Surgery times
 Date of birth
+    http://www.parliament.uk/directories/hciolists/alms.cfm
+    http://www.psr.keele.ac.uk/area/uk/mps97.htm
+    http://www.psr.keele.ac.uk/area/uk/mps.htm
+    http://www.election.demon.co.uk/strengths.html
+
+Bio (journalistic)
+    http://www.politicallinks.co.uk
+    http://www.dodonline.co.uk/politics2/BIOG/MP_BIOGS/bio.asp?id=0163
 
 Salary
 Expenses - London stay (£150/night!), motoring
 Pension
 
 Register of interests
+    http://www.parliament.the-stationery-office.co.uk/pa/cm/cmregmem
 Donations they have made (to political parties?)
+    http://www.cleanpolitix.com
 Entry from Who's who
 Company directorships
 Links to info on companies involved with
 
 Recent speeches (text)
+    http://www.publications.parliament.uk
 Voting record
+    http://www.publications.parliament.uk/pa/cm/cmhansrd.htm
 Committee membership
 Bills placed before parliament
 Video of them in parliament (or elsewhere)
+Written questions asked and answered
 
 Local council positions
 Mayorships
 
-Responsiveness to faxes
+Responsiveness to faxes (also photo?)
+    http://www.faxyourmp.com/stats.php3
 Voting activity
 Number of questions asked
 Time spent in parliament
@@ -317,105 +350,37 @@ Search engine hits
 Links to their home page
 
 Comments/user provided links
-
 As much data historical, as well as current
 
-Sources
--------
-
-Register of members interests
-http://www.parliament.the-stationery-office.co.uk/pa/cm/cmregmem
-
-Recent speeches
-http://www.publications.parliament.uk
-
-POLIS:
-http://www.polis.parliament.uk/
-
-How responsive to contact (available in CSV!)
-Photo
-http://www.faxyourmp.com/stats.php3
-
-Donations to parties
-http://www.cleanpolitix.com
-
-Voting
-Top level:
-http://www.publications.parliament.uk/pa/cm/cmhansrd.htm
-Month:
-http://www.publications.parliament.uk/pa/cm/cmhn0306.htm
-Index of days talk:
-http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030610/debindx/30610-x.htm
-Leaf pages with votes on them:
-http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030604/debtext/30604-25.htm
-http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030611/debtext/30611-01.htm
-http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030610/debtext/30610-01.htm
-http://www.publications.parliament.uk/pa/cm200203/cmhansrd/vo021121/debtext/21121-01.htm
-http://www.publications.parliament.uk/pa/cm200001/cmhansrd/vo010316/debtext/10316-01.htm
-Try browsing web server's directory indices:
-http://www.publications.parliament.uk/pa/
-
-Motion being voted on:
-http://www.parliament.the-stationery-office.co.uk/pa/cm/cmagenda.htm
-
-Voting and question attendence
-http://www.parliament.uk/commons/lib/research/rp2003/rp03-032.pdf
-
-Loads of stuff:
+Sources:
 http://politics.guardian.co.uk/person/0,9290,-816,00.html
 http://www.epolitix.com
 
-Basic info (name, party, constituency, website)
-http://www.parliament.uk/directories/hciolists/alms.cfm
-http://www.psr.keele.ac.uk/area/uk/mps97.htm
-http://www.psr.keele.ac.uk/area/uk/mps.htm
-All byelections etc.
-http://www.election.demon.co.uk/strengths.html
+Links
+-----
 
-Biographical information:
-http://www.politicallinks.co.uk
-http://www.dodonline.co.uk/politics2/BIOG/MP_BIOGS/bio.asp?id=0163
+POLIS (database of written answers, speeches and other things):
+http://www.polis.parliament.uk/
+
+Weekly Information Bulletin
+http://www.parliament.the-stationery-office.co.uk/pa/cm/cmwib.htm
+Motion being voted on:
+http://www.parliament.the-stationery-office.co.uk/pa/cm/cmagenda.htm
+All info from parliament listed in one place:
+http://www.parliament.the-stationery-office.co.uk/pa/cm/cmpubns.htm
+
+Voting and question attendence
+http://www.parliament.uk/commons/lib/research/rp2003/rp03-032.pdf
 
 Internal to MPs:
 Parliamentary Data and Video Network (PDVN) mentioned here:
 http://www.parliament.the-stationery-office.co.uk/pa/cm200102/cmhansrd/vo020130/text/20130w11.htm
 
-All info from parliament listed in one place:
-http://www.parliament.the-stationery-office.co.uk/pa/cm/cmpubns.htm
-
-<< The Official Report (Hansard) is an edited verbatim report of
-proceedings in the Chamber, in Westminster Hall and in Standing
-Committees. MPs' words are reported with repetitions and redundancies
-omitted and with obvious mistakes corrected, but nothing is left out
-which adds to the meaning of the speech or illustrates the argument. 
-
-It is published in printed form at 7.30 am and appears on this website
-at 8.00 am. 
-
-It was first produced by Thomas Curson Hansard  as a private commercial
-venture from the early 1800s, and was first published as an official
-document in 1909.  It has appeared on this web site since 1996. >>
-
+All about Hansard, and how they work:
 http://www.hansard-westminster.co.uk
-
-Guardian article mentions what our project would like to do,
-and Government Information Awareness:
-http://observer.guardian.co.uk/business/story/0,6903,997037,00.html
-
-Do it for all Hansards in CHEA:
-http://www.hansard-westminster.co.uk/links.asp
-
-Hansard society (get them to send on study day)
-http://www.hansard-society.org.uk/
 
 Erskine May - commentary on standing orders
 The Times publish a Parliamentary Companion
-
-Reselect - resource file for Labour members who disagree with their MPs
-over the Iraq issue
-http://www.reselect.org.uk/
-
-http://www.stats.ox.ac.uk/~firth/tapiR/
 
 Story leads
 -----------
@@ -461,6 +426,34 @@ e.g. Student Finance division 23 June 2003, div 244 - 10 Labour MPs voted in reb
 but a further 100 abstained.
 
 Do Co-op members ever vote against Labour as a group?
+
+Indian parliament
+> age stats
+> http://parliamentofindia.nic.in/stat/stat.htm
+> 
+> Committees which make you go WHAT!  
+> http://164.100.24.208/ls/committee/p01.htm
+> http://164.100.24.208/ls/committee/p13.htm
+> http://164.100.24.208/ls/committee/p11.htm
+> http://164.100.24.208/ls/committee/p04.htm
+> 
+> Makes you wonder where did we go wrong?  It's so totally not f***ed-up.  
+> 
+> It adds to the shame on ourselves:  "Even India has built a better 
+> government than ours."  
+> 
+> [still reading...]
+> 
+> Look, this is beautiful.  The questions are all there in a database with 
+> answers.  
+> 
+> Seaching for Iraq: Pay attention to dates.  
+> http://164.100.24.208/lsq/quest.asp?qref=62834
+> http://164.100.24.208/lsq/quest.asp?qref=25638
+> http://164.100.24.208/lsq/quest.asp?qref=64063
+> 
+> http://164.100.24.208/lsq/quest.asp?qref=20640  // the date on this one 
+> looks wrong.  
 
 Questions
 ---------
