@@ -47,6 +47,7 @@ echo "Uploading web pages..."
 rsync -v --progress -az -e "ssh" tmpuploadcopy/ $USER:$REMOTE_DIR
 ssh $USER "chmod -R 0755 $REMOTE_DIR"
 
-echo "Deleting remote cache files..."
+echo "Deleting remote cache files and db tables..."
 ssh $USER "rm -fr /home/francis/pwcache/$CACHE_PREFIX*"
+ssh $USER 'echo "delete from pw_cache_dreaminfo" | mysql francis'
 

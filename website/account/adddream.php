@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: adddream.php,v 1.12 2005/02/18 12:13:18 frabcus Exp $
+# $Id: adddream.php,v 1.13 2005/02/18 19:43:41 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -32,7 +32,6 @@ if (user_isloggedin()) # User logged in, show settings screen
                 $feedback = "Please name your dream MP, and give a description.";
             else
             {
-                cache_delete("dreammps.php", "");
                 $db = new DB(); 
                 $ret = $db->query_errcheck("insert into pw_dyn_rolliemp (name, user_id, description) values
                     ('$name', '" . user_getid() . "', '$description')"); 
@@ -49,6 +48,7 @@ if (user_isloggedin()) # User logged in, show settings screen
                 {
                     $feedback = "Failed to add new MP. " . mysql_error();
                 }
+                notify_dream_list_changed($db);
             }
         }
     }

@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.5 2005/02/18 13:19:35 frabcus Exp $
+# $Id: wiki.php,v 1.6 2005/02/18 19:43:41 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -42,10 +42,10 @@ if (user_isloggedin()) # User logged in, show settings screen
                 (object_key, text_body, user_id, edit_date) values
                 ('$key', '$newtext', '" . user_getid() . "', now())");
             audit_log("Edited wiki text '" . $key . "'");
-            $matches = null;
             if ($division_date) {
-                cache_delete("division.php", "#date=".$division_date."#div_no=".$division_number."#*");
+                notify_motion_updated($db, $division_date, $division_number);
             }
+            $matches = null;
         }
         header("Location: ". $r);
         exit;

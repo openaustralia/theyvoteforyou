@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.8 2005/02/18 10:14:03 frabcus Exp $
+-- $Id: create.sql,v 1.9 2005/02/18 19:43:41 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -119,6 +119,7 @@ create table pw_dyn_rolliemp (
     name varchar(100) not null,
     user_id int not null,
     description blob not null,
+    cache_uptodate bool NOT NULL default 0,
 
     unique(rollie_id, name, user_id)
 );
@@ -168,6 +169,18 @@ create table pw_dyn_newsletters_sent (
     newsletter_name varchar(100) not null,
 
     unique(user_id, newsletter_name)
+);
+
+-------------------------------------------------------------------------------
+-- Cache tables
+--   there are lots more of these made automatically by loader.pl
+--   those written to by the website itself are here
+
+create table pw_cache_dreaminfo (
+    rollie_id int not null primary key,
+
+    votes_count int not null,
+    edited_motions_count int not null
 );
 
 -------------------------------------------------------------------------------

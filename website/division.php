@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.50 2005/02/18 15:43:10 frabcus Exp $
+# $Id: division.php,v 1.51 2005/02/18 19:43:41 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -139,9 +139,8 @@
                 if ($changedvote != $vote)
                 {
                     print "<tr><td colspan=2><div class=\"error\">";
-                    cache_delete("dreammp.php", "id=" . intval($row['rollie_id']));
-                    cache_delete("dreammps.php", "");
-                    cache_delete("division.php", "#date=$date#div_no=$div_no#*");
+                    notify_dream_mp_updated($db, intval($row['rollie_id']));
+                    notify_division_updated($db, $date, $div_no);
 
                     if ($changedvote == "--")
                     {

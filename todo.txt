@@ -13,12 +13,16 @@ Work out good ways to link to the dream MP report pages.
 History of wiki
 Printable jmp page
 
-Just use usernames 
-
 Link to Hansard should be to TWFY on Interesting Divisions table
+
+User names need to link to profile page about that user
+
+Forward/back division - show nearby divisions names
 
 General
 -------
+
+Search needs to search wiki text and Dream MP text
 
 Show which pages are looked at a lot, and encourage poeple to look at least popular.
 

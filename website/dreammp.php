@@ -19,14 +19,20 @@
     include_once "account/user.inc";
     $db = new DB(); 
 
-    $query = "select name, description, pw_dyn_user.user_id, user_name 
-        from pw_dyn_rolliemp, pw_dyn_user
-        where pw_dyn_rolliemp.user_id = pw_dyn_user.user_id and rollie_Id = '$dreamid'";
+    check_table_cache_dream_mp($db, $dreamid);
+    $query = "select name, description, pw_dyn_user.user_id, user_name,
+            votes_count, edited_motions_count
+        from pw_dyn_rolliemp, pw_dyn_user, pw_cache_dreaminfo
+        where pw_dyn_rolliemp.user_id = pw_dyn_user.user_id 
+        and pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id
+        and pw_cache_dreaminfo.rollie_id = '$dreamid'";
     $row = $db->query_one_row($query);
     $dmp_name = $row[0];
     $dmp_description = $row[1];
     $dmp_user_id = $row[2];
     $dmp_user_name = $row[3];
+    $dmp_votes_count = $row[4];
+    $dmp_edited_count = $row[5];
 
     $title = "'" . html_scrub($dmp_name) . "' - Dream MP";
     include "header.inc";
@@ -42,7 +48,8 @@
 	print '<a href="#comparison">Comparison to Real MPs</a>';
 
     print "<p><b>Description:</b> " . str_replace("\n", "<br>", html_scrub($dmp_description)). "</p>";
-    print "<p><b>Made by:</b> " . html_scrub($dmp_user_name) . "</p>";
+    print "<p><b>Made by:</b> " . html_scrub($dmp_user_name) . ". ";
+    print "</p>";
     if ($your_dmp)
     {
         print "<p><a href=\"account/editdream.php?id=$dreamid\">Edit name/description of this dream MP</a>";
@@ -54,23 +61,31 @@
         print '<br><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=1">Discuss dream MP on our forum</a>';
 
     print "<h2><a name=\"divisions\">Divisions Attended</a></h2>
-    <p>Divisions in which this dream MP has voted."; 
+    <p>Divisions in which this dream MP has voted.";
+    print " <b>$dmp_votes_count</b> votes, of which <b>$dmp_edited_count</b> have edited motion text.";
 
     print "<table class=\"divisions\">\n";
     # Table of votes in each division
     $query = "select pw_division.division_id, pw_division.division_number, pw_division.division_date,
-        division_name, source_url, vote from pw_division,
-        pw_dyn_rollievote where pw_dyn_rollievote.rolliemp_id = '$dreamid' and
+        division_name, source_url, vote, object_key
+        from pw_division, pw_dyn_rollievote 
+        left outer join pw_dyn_wiki on pw_dyn_wiki.object_key = 
+            concat('motion-', pw_division.division_date, '-', pw_division.division_number)
+        where pw_dyn_rollievote.rolliemp_id = '$dreamid' and
         pw_division.division_date = pw_dyn_rollievote.division_date and 
-        pw_division.division_number = pw_dyn_rollievote.division_number ";
+        pw_division.division_number = pw_dyn_rollievote.division_number 
+        group by pw_division.division_date, pw_division.division_number
+        ";
 
-    $query .= "order by division_date desc, division_number desc";
+    $query .= "order by pw_division.division_date desc, pw_division.division_number desc";
     $db->query($query);
 
     print "<tr class=\"headings\">
     <td>No.</td><td>Date</td><td>Subject</td>
     <td>Dream Vote</td>
-    <td>Debate</td></tr>";
+    <td>Debate</td>
+    <td>Motion<br>Edited</td>
+    </tr>";
     $prettyrow = 0;
     $rollievote = array();
     while ($row = $db->fetch_row())
@@ -83,7 +98,11 @@
         print "<td>$row[1]</td> <td>$row[2]</td> <td><a
             href=\"division.php?date=" . urlencode($row[2]) . "&number=" . urlencode($row[1]) . "\">$row[3]</a></td>
             <td>$vote</td>
-            <td><a href=\"$row[4]\">Hansard</a></td>"; 
+            <td><a href=\"$row[4]\">Hansard</a></td>";
+        if ($row[6])
+            print "<td>yes</td>";
+        else
+            print "<td>-</td>";
         print "</tr>\n";
     }
 

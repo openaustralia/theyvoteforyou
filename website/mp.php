@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.49 2005/02/18 19:19:39 goatchurch Exp $
+    # $Id: mp.php,v 1.50 2005/02/18 19:43:41 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -109,9 +109,8 @@
     print "<a href=\"http://www.theyworkforyou.com/mp/?m=" .  $mpid. "\">";
     print "Performance data, recent speeches, and biographical links</a> ";
     print "at TheyWorkForYou.com.";
-    print "<br>Contact your MP with
-    <a href=\"http://www.writetothem.com\">WriteToThem</a> for free.  Find
-    the <a
+    print "<br> <a href=\"http://www.writetothem.com\">Contact your MP</a> with
+    WriteToThem for free.  Find the <a
     href=\"http://www.parliament.uk/directories/hciolists/alms.cfm\">email
     address</a> of some MPs.";
 
@@ -351,7 +350,7 @@
     $prettyrow = 0;
 	$prettyrow = pretty_row_start($prettyrow);
     print_selected_dream($db, $mpid, 219);
-    print_selected_dream($db, $mpid, 223);
+    print_selected_dream($db, $mpid, 258);
     print "</table>\n";
 ?>
 

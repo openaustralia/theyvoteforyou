@@ -49,21 +49,8 @@ if (user_isloggedin()) # User logged in, show settings screen
             {
                 $db = new DB(); 
 
-                cache_delete("dreammp.php", "id=" . intval($dreamid));
-                cache_delete("dreammps.php", "");
-                # delete cache pages of divisions which print name of this rolliemp
-                $query = "select pw_division.division_number, pw_division.division_date
-                    from pw_division, pw_dyn_rollievote where
-                    pw_dyn_rollievote.rolliemp_id = '$dreamid' and
-                    pw_division.division_date = pw_dyn_rollievote.division_date and 
-                    pw_division.division_number = pw_dyn_rollievote.division_number group
-                    by division_number, division_date";
-                $ret = $db->query($query);
-                while ($row = $db->fetch_row()) {
-                    cache_delete("division.php", "#date=".$row[1]."#div_no=".$row[0]."#*");
-                }
-
                 $ret = $db->query_errcheck("update pw_dyn_rolliemp set name='$name', description='$description' where rollie_id='$dreamid'");
+                notify_dream_mp_updated($db, intval($dreamid));
 
                 if ($ret)
                 {

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: jmp.php,v 1.8 2005/02/18 12:13:18 frabcus Exp $
+    # $Id: jmp.php,v 1.9 2005/02/18 19:43:41 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -76,12 +76,11 @@
 	# do the header, which opens a title table
     $title = html_scrub("Comparison - $first_name $last_name MP with '$dmp_name' Dream MP");
 	include "header.inc";
-	print "</td></tr><tr><td>\n"; # get rid of colspan
     print "<h2>Selected by '<a href=\"dreammp.php?id=$dreammpid\">$dmp_name</a>' - Dream MP</h2>";
-	print "</td><td align=\"right\">Date: $now</td>\n";
+    print "<table>";
 
-    # close the table
-	print "</table>\n"; # get rid of header
+    # seperator
+	print "<tr><td colspan=2><hr></td></tr>\n";
 
     $query = "select person from pw_mp where ";
     $query .= "first_name = '$first_name' and last_name='$last_name' and";
@@ -155,11 +154,11 @@
 
 <?php
 
+    # events are ministerial position changes etc.
     function print_event($event)
     {
-		print "<p><table class=\"container\">\n";
-		print "<tr><td> $event[0] </td><td> $event[1] </td></tr>\n";
-		print "<table></p>\n";
+		print "<tr><td>$event[1]</td><td>$event[0]</td></tr>";
+        print "<tr><td colspan=2><hr></td></tr>\n";
     }
 	function writepersonvote($cla, $name, $vote)
 	{
@@ -253,7 +252,6 @@
 
 			# now make the full text
 			print "<p>\n";
-			print "<table class=\"container\">\n";
 			$divlink = "<a href=\"division.php?date=$division_date&number=$division_number\">";
 			print "<tr><th align=\"left\">$divlink $division_name </a></th><th>$divlink $division_date #$division_number </a></th></tr>\n";
 			print "<tr valign=\"top\"><td width=\"80%\">$motion</td>\n";
@@ -264,7 +262,7 @@
 
 			writepersonvote("strong", $shortmpname, $vote);
 			if ($dreamvote != "")
-				writepersonvote("", "DreamMP", $dreamvote);
+				writepersonvote("", "DreamMP", $dreamvote == "both" ? "Abstain" : $dreamvote);
 
 			# get the summary of the rest of the voting from the database
 			$partysummary = GetPartyVoteSummary($db, $division_id);
@@ -289,7 +287,7 @@
 			}
 			print "</table></td></tr>\n";
 
-			print "</table>\n";
+            print "<tr><td colspan=2><hr></td></tr>\n";
 			print "</p>\n";
         }
     }
@@ -298,8 +296,8 @@
         print_event($events[$events_ix]);
         $events_ix ++;
     }
-# re-open for the footer
-print "<table align=\"center\" class=\"container\" cellpadding=\"0\" cellspacing=\"0\">\n";
+    print "</table>";
+	print "<p><i>This page created on: $now</i></p>\n";
 ?>
 
 <?php include "footer.inc" ?>
