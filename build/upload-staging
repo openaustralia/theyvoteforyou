@@ -1,11 +1,7 @@
 #! /bin/bash
+set -e
 
-USER=francis@sphinx.mythic-beasts.com
+REMOTE_DIR="/home/francis/public_html/publicwhip"
+source build/internalupload
 
-echo "Uploading web pages..."
-rsync -v --progress --delete --cvs-exclude -az -e "ssh" website/ $USER:./public_html/publicwhip
-ssh $USER "chmod 0755 /home/francis/public_html/publicwhip"
-ssh $USER "chmod 0755 /home/francis/public_html/publicwhip/license"
-ssh $USER "chmod 0644 /home/francis/public_html/publicwhip/license/*"
-ssh $USER "chmod 0755 /home/francis/public_html/publicwhip/*.php"
 

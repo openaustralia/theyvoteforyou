@@ -1,0 +1,18 @@
+#! /bin/bash
+set -e
+
+# Downloads dynamic tables from database on public web server sphinx,
+# and replaces the local database table with them.  Leave the text
+# file about afterwards as backup.
+
+source /home/francis/.sphinxpass
+
+USER=francis@sphinx.mythic-beasts.com
+
+echo "Fetching remote dynamic tables..."
+ssh $USER "mysqldump --password=$DBPASSWORD --add-drop-table francis pw_dyn_user >pw_dyn_tables.sql"
+rsync -v --progress -az -e "ssh" $USER:./pw_dyn_tables.sql pw_dyn_tables.sql
+
+echo "Replacing local dynamic tables..."
+cat pw_dyn_tables.sql | mysql tpw
+

@@ -1,13 +1,7 @@
 #! /bin/bash
 set -e
 
-echo "Extracting headlines..."
-build/extractheadlines
+REMOTE_DIR='/web/SERVERS/www.publicwhip.org.uk/docs'
+source build/internalupload
 
-USER=francis@sphinx.mythic-beasts.com
-
-echo "Uploading web pages..."
-rsync -v --progress --delete --cvs-exclude -az -e "ssh" website/ $USER:./www.publicwhip.org.uk_html
-ssh $USER "chmod 0755 /web/SERVERS/www.publicwhip.org.uk/docs"
-ssh $USER "chmod 0755 /web/SERVERS/www.publicwhip.org.uk/docs/*.php"
 

@@ -14,7 +14,7 @@ email text,
 password text,
 remote_addr text,
 confirm_hash text,
-is_confirmed int not null default 0
+is_confirmed int not null default 0,
 is_newsletter int not null default 1
 );
 
