@@ -1,5 +1,5 @@
---- C:\publicwhip\pwdata\cmpages\wrans\answers2004-09-13.html	Thu Oct 14 11:21:41 2004
-+++ C:\publicwhip\pwdata\cmpages\wrans\answers2004-09-13-patchtmp.html	Wed Oct 20 10:29:36 2004
+--- /home/fawkes/pwdata/cmpages/wrans/answers2004-09-13.html	Tue Sep 14 08:06:19 2004
++++ /home/fawkes/pwdata/cmpages/wrans/answers2004-09-13-patchtmp.html	Fri Oct 22 12:18:24 2004
 @@ -755,7 +755,7 @@
  <P>
  <P>
@@ -46,3 +46,22 @@
  <P>
  <UL>(2) what the <i>(a)</i>&nbsp;average, <i>(b)</i>&nbsp;shortest and <i>(c)</i>&nbsp;longest length of time taken between 1997 and 2004 to complete a building project for a new school was from the start of specifying the project to the opening of the new building.  [187750]<P></UL>
  <P>
+@@ -5783,17 +5783,9 @@
+ <UL>(2) what assessment she has made of how the lessons learned from the CSV Lending Time pilot projects can be transferred to and adopted by other local authorities; [187835]
+ <P>
+ (3) whether she has requested reports on the CSV Lending Time pilot schemes from the local authorities involved;  [187836]
+-<P></UL>
+-<P>
+-
+-<a name="40913w21.html_para6">
+-<a name="40913w21.html_sbhd4"><H3 align=center>CSV Lending Time Project</H3>
+-
+-
+ <P>
+-<P>
+-<a name="40913w21.html_wqn5"><B>  </B> 
+ (4) what plans she has to ensure long-term support for the CSV Lending Time pilot projects.  [187837]<P>
++<P></UL>
+ <P>
+ <P>
+ <a name="40913w21.html_spnew4"><B> Estelle Morris: </B> 
