@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-begin.inc,v 1.2 2003/10/15 06:59:00 frabcus Exp $
+# $Id: cache-begin.inc,v 1.3 2003/10/15 16:55:41 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -7,7 +7,7 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 $cache_dir = "/home/francis/pwcache/" . substr(str_replace("/", "-", $_SERVER["SCRIPT_FILENAME"]),1) . "/";
-$cache_file = $cache_dir . "cache-" . $_SERVER['QUERY_STRING'] . ".html";
+$cache_file = $cache_dir . md5($_SERVER['QUERY_STRING']) . ".html";
 if (file_exists($cache_file))
 {
     readfile($cache_file);
