@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.4 2005/01/22 14:46:40 frabcus Exp $
+# $Id: wiki.php,v 1.5 2005/02/18 13:19:35 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -24,7 +24,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     $r = db_scrub($_GET["r"]);
 
     $title = "Edit Text"; 
-    if (preg_match("/^motion-(\d\d\d\d-\d\d-\d\d)-(\d+)$/",$key, $matches)) {
+    if ($matches = get_motion_from_key($key)) {
         $division_date = $matches[1];
         $division_number = $matches[2];
         $db->query("select * from pw_division where division_date = '$division_date' 

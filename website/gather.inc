@@ -1,5 +1,5 @@
 <?php
-# $Id: gather.inc,v 1.5 2005/01/15 21:37:38 frabcus Exp $
+# $Id: gather.inc,v 1.6 2005/02/18 13:19:35 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Gather information from the database
@@ -11,6 +11,12 @@
 function get_motion_wiki_key($date, $div_no)
 {
     return "motion-$date-$div_no";
+}
+
+# Returns date, number pair or false if key isn't a motion-key
+function get_motion_from_key($key) {
+    preg_match("/^motion-(\d\d\d\d-\d\d-\d\d)-(\d+)$/",$key, $matches);
+    return $matches;
 }
 
 # Returns current value of wiki text based on a key.  Return value
