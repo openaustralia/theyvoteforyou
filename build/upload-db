@@ -1,4 +1,5 @@
 #! /bin/bash
+set -e
 
 # Uploads tables from local database to database on public web server sphinx
 # Use rsync of a textual copy of the table to reduce amount of data

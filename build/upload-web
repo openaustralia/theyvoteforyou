@@ -1,4 +1,5 @@
 #! /bin/bash
+set -e
 
 USER=francis@sphinx.mythic-beasts.com
 

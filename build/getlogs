@@ -1,0 +1,21 @@
+#! /bin/bash
+set -e
+
+# Download logfiles from public server, renaming them by
+# their timestamps so we store all the data forever.
+
+USER=francis@sphinx.mythic-beasts.com
+
+cd logs
+mkdir -p tmpdownload
+cd tmpdownload
+
+rsync -v --progress --delete -az -e "ssh" $USER:./www.publicwhip.org.uk_logs/ .
+
+for X in access_log.*.gz
+do
+    DATE=`stat --terse --format=%y $X | cut -d "." -f 1 | tr " " "-"`
+    cp -a $X ../access_log.$DATE.tar.gz
+done
+cp -a access_log ../
+
