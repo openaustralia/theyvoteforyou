@@ -91,6 +91,12 @@ def StraightenHTMLrecurse(stex):
 	return sres
 
 
+def FixHTMLEntitiesL(stex, signore=''):
+	# will formalize this into the recursion later
+	if signore:
+		stex = re.sub(signore, '', stex)
+	return StraightenHTMLrecurse(stex)
+
 def FixHTMLEntities(stex):
 	return string.join(StraightenHTMLrecurse(stex), '')
 

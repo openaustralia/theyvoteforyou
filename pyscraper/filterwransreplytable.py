@@ -8,103 +8,125 @@ import cStringIO
 import mx.DateTime
 
 from miscfuncs import FixHTMLEntities
+from miscfuncs import FixHTMLEntitiesL
+
+regtablejunk = '</?font[^>]*>|</?p>|\n(?i)'
 
 # replies can have tables
 def ParseTable(stable):
 	# remove the table bracketing
 	stable = re.match('<table[^>]*>\s*([\s\S]*?)\s*</table>(?i)', stable).group(1)
 
-	# take out all the useless font and paragraph junk
-
-
-	# break into rows, making sure we deal with non-closed <tr> symbols
+	# break into rows, making sure we can deal with non-closed <tr> symbols
 	sprows = re.split('(<tr[^>]*>[\s\S]*?(?:</tr>|(?=<tr>)))(?i)', stable)
 
 	# build the rows
 	stitle = ''
 	srows = []
 	for sprow in sprows:
-		trg = re.match('<tr[^>]*>\s*([\s\S]*?)\s*(?:</tr>)?$(?i)', sprow)
+		trg = re.match('<tr[^>]*>([\s\S]*?)(?:</tr>)?$(?i)', sprow)
 		if trg:
 			srows.append(trg.group(1))
 
-		else:
-			if re.search('\S', sprow):
-				if (not srows) and (not stitle):
-					stitle = sprow
-				else:
-     					print ' non-row text ' + sprow
+		elif re.search('\S', sprow):
+			if (not srows) and (not stitle):
+				stitle = sprow
+			else:
+				print sprow
+				raise Exception, ' non-row text '
+
 
 	# take out tags round the title; they're always out of order
-	stitle = string.strip(re.sub('</?font[^>]*>|</?p>|\n(?i)', ' ', stitle))
+	Lstitle = []
+	stitle = string.strip(re.sub(regtablejunk, '', stitle))
 	if stitle:
 		ts = re.match('(?:\s|<b>|<center>)+([\s\S]*?)(?:</b>|</center>)+\s*([\s\S]*?)\s*$(?i)', stitle)
-		if ts:
-			if ts.group(2):
-				stitle = ts.group(1) + ' -- ' + ts.group(2)
-			else:
-				stitle = ts.group(1)
-		else:
-			print ' non-standard table title:' + stitle + ':'
-			sys.exit()
+		if not ts:
+			print stitle
+			raise Exception, ' non-standard table title'
 
-		stitle = FixHTMLEntities(stitle)
+		Lstitle.append('<div class="tabletitle">')
+		Lstitle.extend(FixHTMLEntitiesL(ts.group(1)))
+		if ts.group(2):
+			Lstitle.append(' -- ')
+			Lstitle.extend(FixHTMLEntitiesL(ts.group(2), '</?font[^>]*>|</?p>|\n(?i)'))
+		Lstitle.append('</div>\n')
 
-	# find where the headings stop and the rows begin
+
+	# write out the rows, th type and then td type
+	Lshrows = [ ]
 	for ih in range(len(srows)):
-		if re.search('<td>(?i)', srows[ih]):
+		# move onto standard rows
+		if re.search('<td[^>]*>(?i)', srows[ih]):
 			break
 
-	# break each row down into columns
-	for i in range(len(srows)):
-		colt = 'td'
-		colregexp = '(<td[^>]*>[\s\S]*?(?:</td>|(?=<td>)))(?i)'
-		colexregexp = '<td[^>]*>\s*([\s\S]*?)\s*(?:</td>)?$(?i)'
-		if i < ih:
-			colregexp = '(<th[^>]*>[\s\S]*?(?:</th>|(?=<th>)))(?i)'
-			colexregexp = '<th[^>]*>\s*([\s\S]*?)\s*(?:</th>)?$(?i)'
-			colt = 'th'
-
-		srow = srows[i]
-		spcols = re.split(colregexp, srow)
-
-		scols = [ colt ]
-		for spcol in spcols:
-			col = re.match(colexregexp, spcol)
+		# build up the list of entries for this row
+		Lscols = [ '<tr> ' ]
+		for spcol in re.split('(<th[^>]*>[\s\S]*?(?:</th>|(?=<th>)))(?i)', srows[ih]):
+			col = re.match('<th(?: colspan=(\d+))?>\s*([\s\S]*?)\s*(?:</th>)?$(?i)', spcol)
 			if col:
-				coltext = col.group(1)
-				coltext = re.sub('</?font[^>]*>|</?p>|\n(?i)', ' ', coltext)
-				coltext = FixHTMLEntities(coltext)
-				scols.append(coltext)
-			elif re.search('\S', spcol):
-				col = re.sub('</t[dh]>(?i)', '', spcol)
-				if re.search('\S', col):
-					print ' non column text ' + srows[i]
-					print spcols
-					sys.exit()
+				if col.group(1):
+					Lscols.append('<th colspan="%s">' % col.group(1))
+				else:
+					Lscols.append('<th>')
+				Lscols.extend(FixHTMLEntitiesL(col.group(2), '</?font[^>]*>|</?p>|\n(?i)'))
+				Lscols.append('</th> ')
 
-		# copy the list back into the table
-		srows[i] = scols
+			# check that the outside text contains nothing but bogus close column tags
+			elif re.search('\S', re.sub('</th>(?i)', '', spcol)):
+				print srows[ih]
+				raise Exception, ' non column text '
+		Lscols.append('</tr>')
+		Lshrows.append(Lscols)
+
+
+	Lsdrows = [ ]
+	for i in range(ih, len(srows)):
+		# build up the list of entries for this row
+		Lscols = [ '<tr> ' ]
+		for spcol in re.split('(<td[^>]*>[\s\S]*?(?:</td>|(?=<td>)))(?i)', srows[i]):
+			col = re.match('<td(?: colspan=(\d+))?>\s*([\s\S]*?)\s*(?:</td>)?$(?i)', spcol)
+			if col:
+				if col.group(1):
+					Lscols.append('<td colspan="%s">' % col.group(1))
+				else:
+					Lscols.append('<td>')
+				Lscols.extend(FixHTMLEntitiesL(col.group(2), '</?font[^>]*>|</?p>|\n(?i)'))
+				Lscols.append('</td> ')
+
+			# check that the outside text contains nothing but bogus close column tags
+			elif re.search('\S', re.sub('</td>(?i)', '', spcol)):
+				print spcol
+				print srows[i]
+				raise Exception, ' non column text '
+		Lscols.append('</tr>')
+		Lsdrows.append(Lscols)
+
 
 
 	# construct the text for writing the table
 	sio = cStringIO.StringIO()
 
-	sio.write('<table>\n')
-	if stitle:
-		sio.write('\t\t<div class="tabletitle">')
-		sio.write(stitle)
-		sio.write('</div>\n')
 
-	for i in range(1, len(srows)):
-		colt = srows[i][0]    # td or th
-		sio.write('\t\t\t<tr>')
-		for j in range(1, len(srows[i])):
-			sio.write(' <%s>%s</%s> ' % (colt, srows[i][j], colt))
-		sio.write('</tr>\n')
+	sio.write('<table>\n')
+	if Lstitle:
+		sio.write('\t\t')
+		map(sio.write, Lstitle)
+		sio.write('\n')
+
+	for Lsh in Lshrows:
+		sio.write('\t\t\t')
+		map(sio.write, Lsh)
+		sio.write('\n')
+
+	for Lsd in Lsdrows:
+		sio.write('\t\t\t')
+		map(sio.write, Lsd)
+		sio.write('\n')
 
 	sio.write('\t\t</table>\n')
 
 	res = sio.getvalue()
 	sio.close()
+
 	return res

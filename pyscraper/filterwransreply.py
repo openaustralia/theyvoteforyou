@@ -10,6 +10,7 @@ import mx.DateTime
 from resolvemembernames import memberList
 from parlphrases import parlPhrases
 from miscfuncs import FixHTMLEntities
+from miscfuncs import FixHTMLEntitiesL
 
 from filterwransreplytable import ParseTable
 
@@ -66,6 +67,12 @@ def MergePersonPhrases(qs, sres):
 		i = i+1
 	return sres
 
+
+reglinksite = '(?:http://\s?[^\s./]*|www)[/.]\s?(?:[^\s./]+\.\s?)+(?:org|com|uk|tv|net|gov|int|it|ch|es)'
+reglinkmid = '(?:/[^\s./]*)*/'
+reglinktail = '[^\s./]*(?:\.\s?(?:s?html?|pdf|xls|(?:asp|php|cfm(?:\?[^\s.]+)?))?)?'
+reglink = '((%s)(?:(%s)(?:(%s))?)?)(?i)' % (reglinksite, reglinkmid, reglinktail)
+
 def ExtractPhraseRecurse(qs, stex, depth, rectag):
 	qspan = None
 	depth = depth+1
@@ -119,13 +126,49 @@ def ExtractPhraseRecurse(qs, stex, depth, rectag):
 			qstr = qoffrep.group(2)
 			qspan = qoffrep.span(1)
 
-	# or split at a detectable date
-	if (not qspan) and (rectag != '<datephrase>'):
+	# or split at a detectable date, avoiding
+	if not qspan:
 		qdateph = parlPhrases.redatephrase.search(stex)
 		if qdateph:
 			qtags = ('<datephrase>', '</datephrase>')
 			qstr = qdateph.group(2)
 			qspan = qdateph.span(1)
+
+	# of split at a detectable http link
+	# This is really hard to piece apart!
+	if not qspan:
+		qlink = re.search(reglink, stex)
+
+		if not qlink:
+			if re.search('www|http(?i)', stex):
+				seelines.write(' --failed to find link-- ' + stex + '\n')
+				print ' --failed to find link-- ' + stex
+				#sys.exit()
+
+		if qlink:
+			qstr = qlink.group(1)
+			qtags = ( '<a href="%s">' % qstr, '</a>' )
+			qspan = qlink.span(1)
+
+			# write out debug stuff
+			qplpch = [ ]
+			slo = qspan[0] - 10
+			shi = qspan[1] + 20
+			if slo < 0:
+				slo = 0
+			if shi > len(stex):
+				shi = len(stex)
+			qplpch.append(stex[slo:qspan[0]])
+			qplpch.append('(' + qlink.group(2) + ')')
+			if qlink.group(3):
+				qplpch.append('(' + qlink.group(3) + ')')
+			if qlink.group(4):
+				qplpch.append('(' + qlink.group(4) + ')')
+			qplpch.append(stex[qspan[1]:shi])
+			#print string.join(qplpch)
+			map(seelines.write, qplpch)
+			seelines.write('\n')
+
 
 	# we have a splitting off which we now recursesymbols down both ends and middle
 	if qspan:
@@ -134,14 +177,20 @@ def ExtractPhraseRecurse(qs, stex, depth, rectag):
 		if brecmiddle:
 			res.extend(ExtractPhraseRecurse(qs, qstr, depth+1, qtags[0]))
 		else:
-			res.append(FixHTMLEntities(qstr))
+			res.extend(FixHTMLEntitiesL(qstr))
 
 		res.append(qtags[1])
 		res.extend(ExtractPhraseRecurse(qs, stex[qspan[1]:], depth+1, ''))
 		return res
 
-	# bottom level
-	return [ FixHTMLEntities(stex) ]
+
+	# bottom level which does further recursing
+	return FixHTMLEntitiesL(stex)
+
+
+#stex = 'site: www.dti.gov.uk/coalhealth The information is complied in the middle of the month and shows the figur'
+#print re.findall('(www(?:\.[^\s.]+?)*/[^\s.]*)', stex)
+#sys.exit()
 
 
 # main breaking up function.
@@ -180,8 +229,8 @@ def BreakUpTextSB(i, n, stex, qs):
 		if qlettfrom.group(3):
 			datephr = ' dated <datephrase>%s</datephrase>' % qlettfrom.group(3)
 		# build the entire paragraph
-		sres = [ '<letterfrom>', 'Letter from ', '<perph>', qlettfrom.group(1), '</perph>',
-				perphxto, datephr, '</letterfrom>' ]
+		sres = [ '<div class="letterfrom">', 'Letter from ', '<perph>', qlettfrom.group(1), '</perph>',
+				perphxto, datephr, '</div>' ]
 		return sres
 
 	# failed to detect the letter from case
