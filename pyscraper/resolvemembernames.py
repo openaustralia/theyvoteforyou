@@ -142,7 +142,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         text = text.replace(".", " ")
         text = text.replace("  ", " ")
 
-        # Remove initial titles
+        # Remove initial titles (may be several)
         titlec = 1
         while titlec > 0:
             (text, titlec) = self.retitles.subn("", text)
@@ -155,7 +155,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         # Find unique identifier for member
         ids = sets.Set()
         matches = self.fullnames.get(text, None)
-        if not matches and titlec == 1:
+        if not matches:
             matches = self.lastnames.get(text, None)
 
         # If a speaker, then match agains the secial speaker parties
@@ -245,13 +245,11 @@ class MemberList(xml.sax.handler.ContentHandler):
     def matchdebatename(self, input, bracket, date):
         speakeroffice = ""
 
-        #print input, bracket
-
         # Clear name history if date change
         if self.debatedate != date:
             self.debatedate = date
             self.cleardebatehistory()
-        
+
         # Sometimes no bracketed component: Mr. Prisk
         ids = self.fullnametoids(input, date)
         # Different types of brackets...

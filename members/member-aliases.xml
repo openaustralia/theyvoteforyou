@@ -60,6 +60,7 @@ We should find the exact date she started, and move her finish date.
         from="2001-12-31" to="2004-03-01"/>
 
 <!-- First added for 2001 parliament -->
+<alias fullname="Richard Younger-Ross" alternate="Richard Younger Ross" />
 <alias fullname="Michael Weir" alternate="Mike Weir" />
 <alias fullname="Chris Ruane" alternate="Christopher Ruane" />
 <alias fullname="Calum MacDonald" alternate="Calum A MacDonald" />

@@ -1,11 +1,10 @@
 Being errors found each day running the scraping cron job
 CRON = cron job on baked
 PWIP = weekly Public Whip update
----- = all ok
 
+CRON 2004-03-16 Wrans with two answers (although really a messup and the questions should be separate)
 PWIP 2004-03-04 Missing (1) in wrans which appears otherwise fine
 PWIP 2004-03-08 Marginal colnum case (missing <P> tag after colnum)
-CRON 2004-03-11 ----
 CRON 2004-03-10 Slightly misspelt wrans major heading INTERNATIONAL DEVEOPMENT
 CRON 2004-03-08 Missing "To ask the secretary of...." on wrans
 PWIP 2004-03-05 <UL><UL><UL> 'all' rule broke, because there is one extra case (also /UL)

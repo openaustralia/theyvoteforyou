@@ -1,4 +1,5 @@
 #! /usr/bin/python2.3
+# vim:sw=8:ts=8:et:nowrap
 import sys
 import re
 import os
@@ -144,6 +145,7 @@ fixsubs = 	[
 
         # special note not end of block - when we have multiple answers
         ( '(Decisions on proposed closures of post offices are an operational matter for Post Office Ltd)', '<another-answer-to-follow>\\1', 1, '2004-01-22'),
+        ( '(This includes securing the treatment, storage, transportation and disposal of radioactive waste)', '<another-answer-to-follow>\\1', 1, '2004-03-15'),
 
 ]
 

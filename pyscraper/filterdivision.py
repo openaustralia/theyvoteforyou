@@ -11,8 +11,6 @@ from resolvemembernames import memberList
 from parlphrases import parlPhrases
 from miscfuncs import FixHTMLEntities
 
-# do your conversion from perl to python here!!
-
 # it's possible we want to make this a class, like with speeches.
 # so that it sits in our list easily.
 
