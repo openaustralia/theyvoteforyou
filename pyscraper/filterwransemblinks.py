@@ -17,7 +17,7 @@ reglinkdomf = 'http://(?:(?:www.)?defraweb|nswebcopy|\d+\.\d+\.\d+\.\d+)|www.def
 reglinkdom = '(?:http ?:? ?/{1,3}(?:www)?|www)(?:(?:[^/:;,?=()<>"\'@](?!www\.))*?(?:%s))+|%s' % (reglinkdomt, reglinkdomf)
 
 # this detects the middle section of a url between the slashes.
-reglinkmid = '(?:/(?:(?:[^/:;,?="<]|&#\d+;)(?!www\.))+)*/'
+reglinkmid = '(?:/(?:(?:[^/:;,?="<()]|&#\d+;)(?!www\.))+)*/'
 
 # this detects the tail section of a url trailing a slash
 #reglinktail = '[^./:;,]*(?:\.\s?(?:s?html?|pdf|xls|(?:asp|php|cfm(?:\?[^\s.]+)?)))|\w*'
@@ -30,6 +30,9 @@ reglink = '((%s)(?:(%s)(%s)?)?)(?i)' % (reglinkdom, reglinkmid, reglinktail)
 relink = re.compile(reglink)
 
 rregemail = '\w+@\w+(?:\.\w+)*'
+
+
+rehtlink = re.compile('(%s)(?:(%s)(%s)?)?(?i)' % (reglinkdom, reglinkmid, reglinktail))
 
 
 def ConstructHTTPlink(qstrdom, qstrmid, qstrtail):
@@ -52,7 +55,6 @@ def ConstructHTTPlink(qstrdom, qstrmid, qstrtail):
 	if not re.match('[\w\-/.+;&]*$', qstrmid):
 		print ' bad midd -- ' + qstrmid
 
-	qstrtail = ''
 	if qstrtail:
 		qstrtail = re.sub(' ', '', qstrtail)
 		qstrtail = re.sub('&#15[01];', '-', qstrtail)
@@ -69,7 +71,6 @@ def ConstructHTTPlink(qstrdom, qstrmid, qstrtail):
 
 
 def ExtractHTTPlink(stex, qs):
-
 	qlink = relink.search(stex)
 
 	# no link found.  output if there should be.

@@ -26,7 +26,7 @@ def ExtractQnum(tex):
 
 	if re.search('\[(\d+R?)\]', qn.group(1)):
 		print tex
-		raise Exception, 'qnum in middle of index block'
+		print 'qnum in middle of index block'
 	return (qn.group(1), qn.group(2))
 
 

@@ -72,6 +72,11 @@ fixsubs = 	[
 	( 'available .23 million', 'available 23 million', 1, '2002-11-26'),
 	( 'approved a .4 million', 'approved a 4 million', 1, '2002-11-26'),
 	( '<FONT SIZE=-1>[^\d]0\.3\s*</FONT>', '<FONT SIZE=-1>0.3</FONT>', 2, '2002-10-22'), # note the 2; the problem is a dropped dot
+	( '(Maple 2b,?) .(\d+</FONT>)', '\\1 ?\\2', 4, '2003-06-04'), # not a latin problem, but bogus char is bad xml
+	( 'Larch 3 .2305', 'Larch 3 ?2305', 1, '2003-06-04'), # as above
+	( 'cfm.4', 'cfm 4', 1, '2003-06-03'), # as above.  don't know what char is supposed to be.
+
+
 
 
 

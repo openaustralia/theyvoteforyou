@@ -67,7 +67,7 @@ def ParseTable(stable):
 
 	# take out tags round the title; they're always out of order
 	Lstitle = []
-	stitle = string.strip(re.sub('</?font[^>]*>|</?p>|\s|<br>|&nbsp;(?i)', '', stitle))
+	stitle = string.strip(re.sub('</?font[^>]*>|</?p>|<br>|&nbsp;(?i)', '', stitle))
 	if stitle:
 		ts = re.match('(?:\s|<b>|<center>)+([\s\S]*?)(?:</b>|</center>)+\s*([\s\S]*?)\s*$(?i)', stitle)
 		if not ts:
