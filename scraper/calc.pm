@@ -1,4 +1,4 @@
-# $Id: calc.pm,v 1.6 2003/11/05 12:19:29 frabcus Exp $
+# $Id: calc.pm,v 1.7 2003/11/05 14:34:43 frabcus Exp $
 # Calculates various data and caches it in the database.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -150,10 +150,13 @@ sub count_division_info
 
         my $sth = db::query($dbh, "select count(*) from pw_vote,
             pw_cache_whip, pw_mp where pw_vote.division_id = ? and
-            pw_cache_whip.division_id = ? and pw_vote.vote <> 
-            pw_cache_whip.whip_guess and pw_mp.party = pw_cache_whip.party
-            and pw_vote.mp_id = pw_mp.mp_id and pw_cache_whip.whip_guess
-            <> 'unknown' and pw_vote.vote <> 'both'", $division_id, $division_id);
+            pw_cache_whip.division_id = ? and 
+            pw_mp.party = pw_cache_whip.party and 
+            pw_vote.mp_id = pw_mp.mp_id and 
+            pw_cache_whip.whip_guess <> 'unknown' and 
+            pw_vote.vote <> 'both' and
+            pw_cache_whip.whip_guess <> replace(pw_vote.vote, 'tell', '')
+            ", $division_id, $division_id);
 
         die "Failed to count rebels for div $division_id" if $sth->rows != 1;
         my $rebellions = $sth->fetchrow_arrayref()->[0];

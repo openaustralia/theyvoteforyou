@@ -1,4 +1,4 @@
-# $Id: clean.pm,v 1.5 2003/11/05 12:19:29 frabcus Exp $
+# $Id: clean.pm,v 1.6 2003/11/05 14:34:43 frabcus Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -29,16 +29,23 @@ sub fix_bothway_voters
     my $dbh = shift;
 
     my $sth = db::query($dbh, "select a.mp_id, a.division_id, a.vote, b.vote from pw_vote as a, pw_vote as b where 
-        a.mp_id = b.mp_id and a.division_id = b.division_id and a.vote < b.vote"); # use < so only get the asymmetric half o entries
+        a.mp_id = b.mp_id and a.division_id = b.division_id and a.vote < b.vote"); # use < so only get the asymmetric half of entries
     while (my @data = $sth->fetchrow_array())
     {
-        my ($mp_id, $division_id) = @data;
-        my $sth2 = db::query($dbh, "update pw_vote set vote = 'both' where mp_id = ? and division_id = ? and vote = ?",
-            $mp_id, $division_id, "aye");
-        error::die("Unexpectedly altered " . $sth2->rows . " fixing bothway votes aye", "$division_id $mp_id") if ($sth2->rows != 1);
-        $sth2 = db::query($dbh, "delete from pw_vote where mp_id = ? and division_id = ? and vote = ?",
-            $mp_id, $division_id, "no");
-        error::die("Unexpectedly altered " . $sth2->rows . " fixing bothway votes no", "$division_id $mp_id") if ($sth2->rows != 1);
+        my ($mp_id, $division_id, $a_vote, $b_vote) = @data;
+        if ($a_vote ne "aye" || $b_vote ne "no")
+        {
+            error::warn("Voted twice but not aye/no pair; they are $a_vote/$b_vote", "$division_id $mp_id");
+        }
+        else
+        {
+            my $sth2 = db::query($dbh, "update pw_vote set vote = 'both' where mp_id = ? and division_id = ? and vote = ?",
+                $mp_id, $division_id, "aye");
+            error::die("Unexpectedly altered " . $sth2->rows . " fixing bothway votes aye", "$division_id $mp_id") if ($sth2->rows != 1);
+            $sth2 = db::query($dbh, "delete from pw_vote where mp_id = ? and division_id = ? and vote = ?",
+                $mp_id, $division_id, "no");
+            error::die("Unexpectedly altered " . $sth2->rows . " fixing bothway votes no", "$division_id $mp_id") if ($sth2->rows != 1);
+        }
     }
     error::log("Fixed up " . $sth->rows . " bothway votes", "", error::IMPORTANT) if ($sth->rows > 0);
 }

@@ -7,21 +7,16 @@ Pass W3C validator
 http://validator.w3.org/
 And bobby
 
-Mention Bureaucracy game on Hansard liaison page
-
-Consider calling rebels "dissenters"
+Find max teller people
 
 Scraper
 -------
 
+Resolve all the errors that "scraper.pl check" squirts out
+
 Check for divisions which don't have quorum of 40
 
 Measure abstentions by parliament rather than global proportions?
-
-Record tellers
-Crosscheck lack of tellers with deferred division, should be one to one correspondence.
-Find when tellers were against majority vote of their party
-Find max teller people
 
 Make cluster stuff store NUMBER OF VOTES both voted in for extra possible friends info
 
@@ -30,7 +25,7 @@ Look at majorities
 Check for repeated typo'ed constituencies
  - in "check" do a search for solitary ones
 
-Garbage collection!
+Garbage collection in Perl script
 
 remake pw_mp to have left_reason entered_reason - make it error if you
 don't make an entry using the reasons
