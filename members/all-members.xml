@@ -7535,7 +7535,7 @@ http://www.election.demon.co.uk/strengths.html
     house="commons"
     title="Rt Hon" firstname="Peter" lastname="Mandelson"
     constituency="Hartlepool" party="Lab"
-    fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    fromdate="2001-06-07" todate="2004-09-08" fromwhy="general_election" towhy="resigned"
 />
 <member
     id="uk.org.publicwhip/member/1093"
@@ -9558,6 +9558,13 @@ http://www.election.demon.co.uk/strengths.html
     title="" firstname="Parmjit" lastname="Gill"
     constituency="Leicester South" party="LDem"
     fromdate="2004-07-15" todate="9999-12-31" fromwhy="by_election" towhy="still_in_office"
+/>
+<member
+    id="uk.org.publicwhip/member/1362"
+    house="commons"
+    title="" firstname="Iain" lastname="Wright"
+    constituency="Hartlepool" party="Lab"
+    fromdate="2004-09-30" todate="9999-12-31" fromwhy="by_election" towhy="still_in_office"
 />
 
 
