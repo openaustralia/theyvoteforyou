@@ -62,7 +62,7 @@ def ExtractIndexContents(urlx):
         if not xline:
             print '<hr> not found in %s' % urlx 
             raise Exception, "cannot index"
-	if re.match('<hr>$', xline):
+	if re.match('<hr>\s*$', xline):
             break
         lklins.append(xline)
     
