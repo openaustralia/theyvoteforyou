@@ -1,0 +1,20 @@
+--- /home/fawkes/pwdata/cmpages/regmem/regmem2005-01-28.html	Tue Feb 22 18:24:30 2005
++++ /home/fawkes/pwdata/cmpages/regmem/regmem2005-01-28-patchtmp.html	Tue Feb 22 18:37:16 2005
+@@ -3401,8 +3401,8 @@
+ <TR><TD><B>5.</B></TD><TD COLSPAN=3><B>Gifts, benefits and hospitality (UK)</B></TD></TR>
+ <TR><TD></TD><TD></TD><TD COLSPAN=2>Complimentary membership of Champneys Health Club, London.</TD></TR>
+ <TR><TD><B>6.</B></TD><TD COLSPAN=3><B>Overseas visits</B></TD></TR>
+-<TR><TD></TD><TD></TD><TD COLSPAN=2><b><i>21-29 February 2004, to USA on behalf of and paid for by The English Manner Ltd. (Registered 5 January 2005)</i></b></TD></TR>
+-<TR><TD></TD><TD></TD><TD COLSPAN=2><b><i>24-30 April 2004, to USA on behalf of and paid for by The English Manner Ltd. (Registered 5 January 2005)</i></b>[<A NAME="n1"><A HREF="#note1">1</A>]</TD></TR>
++<TR><TD></TD><TD></TD><TD COLSPAN=2><i>21-29 February 2004, to USA on behalf of and paid for by The English Manner Ltd. (Registered 5 January 2005)</i></TD></TR>
++<TR><TD></TD><TD></TD><TD COLSPAN=2><i>24-30 April 2004, to USA on behalf of and paid for by The English Manner Ltd. (Registered 5 January 2005)</i>[<A NAME="n1"><A HREF="#note1">1</A>]</TD></TR>
+ <TR><TD><B>9.</B></TD><TD COLSPAN=3><B>Registrable shareholdings</B></TD></TR>
+ <TR><TD></TD><TD><B>(a)</B></TD><TD COLSPAN=2>The English Manner Ltd.</TD></TR>
+ <TR><TD COLSPAN=4>&nbsp;</TD></TR>
+@@ -4225,4 +4225,4 @@
+ <TR><TD COLSPAN=4>&nbsp;</TD></TR>
+ <TR><TD COLSPAN=4><B>YOUNGER-ROSS, Richard (Teignbridge)</B></TD></TR>
+ <TR><TD></TD><TD></TD><TD COLSPAN=2>Nil.</TD></TR>
+-</TABLE>
+\ No newline at end of file
++</TABLE>
