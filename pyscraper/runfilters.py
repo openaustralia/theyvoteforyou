@@ -10,6 +10,8 @@ import cStringIO
 import xml.sax
 xmlvalidate = xml.sax.make_parser()
 
+from patchfilter import ApplyPatches
+
 from filterwranscolnum import FilterWransColnum
 from filterwransspeakers import FilterWransSpeakers
 from filterwranssections import FilterWransSections
@@ -33,6 +35,7 @@ pwxmldirs = os.path.join(toppath, "scrapedxml")
 recentnewfile = "recentnew.txt"
 
 tempfile = os.path.join(toppath, "filtertemp")
+patchtempfile = os.path.join(toppath, "applypatchtemp")
 
 # create the output directory
 if not os.path.isdir(pwxmldirs):
@@ -74,6 +77,10 @@ def RunFiltersDir(filterfunction, dname, datefrom, dateto, deleteoutput):
                         # skip already processed files
                         if os.path.isfile(jfout):
                                 continue
+
+                        # apply patch filter
+                        if ApplyPatches(jfin, patchtempfile):
+                                jfin = patchtempfile
 
                         # read the text of the file
                         print "runfilters " + fin

@@ -42,11 +42,10 @@ Minister entry -->
 
 <!-- From date is from this press release:
 http://www.dfid.gov.uk/News/PressReleases/files/pr_gareththomas_13june03.html 
-"to" date is a debate that required this disambiguation - it should be moved forward when
-necessary-->
+"to" date should be moved forward when necessary-->
 <alias constituency="Harrow West" 
         alternate="The Parliamentary Under-Secretary of State for International Development" 
-        from="2003-06-13" to="2004-03-04" />
+        from="2003-06-13" to="2004-05-01" />
 
 <!-- 
 The Solicitor-General

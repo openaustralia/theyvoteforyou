@@ -168,7 +168,7 @@ def NormalHeadingPart(headingtxt, stampurl):
 
 
 	# Oral question are really a major heading
-	if sht0 == 'Oral Answers to Questions':
+	if headingtxt == 'Oral Answers to Questions':
 		bmajorheading = True
 	# Check if there are any other spellings of "Oral Answers to Questions" with a loose match
 	elif re.search('oral(?i)', headingtxt) and re.search('ques(?i)', headingtxt):
@@ -185,7 +185,7 @@ def NormalHeadingPart(headingtxt, stampurl):
 	# we're not writing a block for division headings
 	# write out block for headings
 	headingtxtfx = FixHTMLEntities(headingtxt)
-	qb = qspeech('nospeaker="true"', headingtxtfs, stampurl)
+	qb = qspeech('nospeaker="true"', headingtxtfx, stampurl)
 	if bmajorheading:
 		qb.typ = 'major-heading'
 	else:

@@ -1,0 +1,61 @@
+#!/bin/bash
+set -e # exit upon error
+# set -x # show commands as run for debugging
+
+# This generates files for the patchfilter.py filter.
+
+# They are standard patch files which apply to the glued HTML files which we
+# download from Hansard.  Any special errors in Hansard are fixed by
+# these patches.  
+
+# Run this tool like this:
+#   ./patchtool wrans 2004-03-25
+# This will launch your editor, and upon exit write out a patch of your changes
+# in the patches folder underneath this folder.  The original file is
+# untouched.  We consider the patches permanent data so they are added to CVS.
+
+FOLDER=$1
+STUB=$1
+[ "$1" = "wrans" ] && STUB=answers
+DATE=$2
+
+# Folders to put the patches into
+mkdir -p patches/debates
+mkdir -p patches/wrans
+PATCHDEST=`pwd`
+PATCHFILE=patches/$FOLDER/$STUB$DATE.html.patch
+
+# Where HTML files we're patching are
+ORIGFILE=$FOLDER/$STUB$DATE.html
+TEMPFILE=$FOLDER/$STUB$DATE-patchtmp.html
+cd ~/pwdata/cmpages
+
+# Make copy of original, and launch editor
+rm -f $TEMPFILE
+cp $ORIGFILE $TEMPFILE
+[ -e $PATCHDEST/$PATCHFILE ] && patch $TEMPFILE <$PATCHDEST/$PATCHFILE
+$EDITOR $TEMPFILE
+
+# Create patchfile from changes, or delete patchfile if none
+set +e
+diff -u $ORIGFILE $TEMPFILE > $PATCHDEST/$PATCHFILE.new
+if [ $? == 2 ]; then
+    echo "Error running diff"
+    exit 1
+fi
+set -e
+rm -f $TEMPFILE
+cd $PATCHDEST
+if [ -s $PATCHFILE.new ]
+then
+    mv $PATCHFILE.new $PATCHFILE
+    echo Written patch file $PATCHFILE
+    cvs add $PATCHFILE
+else
+    rm -f $PATCHFILE.new
+    rm -f $PATCHFILE
+    echo No changes from original, deleted patch $PATCHFILE
+    cvs remove $PATCHFILE
+fi
+
+
