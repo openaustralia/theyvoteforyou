@@ -61,9 +61,9 @@ function postcode_to_constituency($postcode)
     $constituency = str_replace("  ", " ", $constituency);
 
     # Convert to canonical name
-    global $consmatch;
+    global $consmatch, $consnames;
 #    print "<pre>$file</pre><br>$constituency<br>";
-    return $consmatch[strtolower($constituency)];
+    return $consnames[$consmatch[strtolower($constituency)]];
 }
 
 ?>
