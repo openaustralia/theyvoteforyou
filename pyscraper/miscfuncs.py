@@ -32,7 +32,7 @@ def StraightenHTMLrecurse(stex):
 		sres.extend(StraightenHTMLrecurse(stex[qisup.span(1)[1]:]))
 		return sres
 
-	sres = re.split('(&\S*?;|"|&|<[^>]*>|<|>)', stex)
+	sres = re.split('(&[a-z]*?;|&#\d+;|"|&|<[^>]*>|<|>)', stex)
 	for i in range(len(sres)):
 		if not sres[i]:
 			pass
@@ -45,6 +45,21 @@ def StraightenHTMLrecurse(stex):
 				sres[i] = 'POUNDS'
 			elif sres[i] == '&#233;':   # this is e-acute
 				sres[i] = 'e'
+			elif sres[i] == '&#232;':   # this is e-grave
+				sres[i] = 'e'
+			elif sres[i] == '&#225;':   # this is a-acute
+				sres[i] = 'a'
+			elif sres[i] == '&#244;':   # this is o-hat
+				sres[i] = 'o'
+			elif sres[i] == '&#177;':   # this is +/- symbol
+				sres[i] = '+/-'
+			elif sres[i] == '&#188;':   # this is one quarter symbol
+				sres[i] = '1/4'
+			elif sres[i] == '&#190;':   # this is three quarter symbol
+				sres[i] = '3/4'
+			elif sres[i] == '&#95;':    # this is underscore symbol
+				sres[i] = '_'
+
 			elif sres[i] == '&nbsp;':
 				sres[i] = ' '
 			elif sres[i] == '&':
