@@ -68,6 +68,7 @@ Harriet Harman started on 11th June 2001
         from="1999-05-20" to="2004-05-01"/>
 
 <!-- First added for 2001 parliament -->
+<alias fullname="Kevin Barron" alternate="Kevin Baron" />
 <alias fullname="Richard Younger-Ross" alternate="Richard Younger-Rose" />
 <alias lastname="Lazarowicz" alternate="Lazarowic" />
 <alias fullname="Alun Michael" alternate="Alun Micheal" />
@@ -206,6 +207,7 @@ Harriet Harman started on 11th June 2001
 <alias fullname="Siôn Simon" alternate="Siön Simon" />
 <alias fullname="Siôn Simon" alternate="Si&amp;ocirc;n Simon" />
 <alias fullname="Siôn Simon" alternate="Si&amp;#244;n Simon" />
+<alias fullname="Siôn Simon" alternate="Si&amp;#246;n Simon" />
 <alias fullname="Siôn Simon" alternate="Sio[circ]n Simon" />
 <alias fullname="Siôn Simon" alternate="Sio(r)n Simon" />
 <alias fullname="Siôn Simon" alternate="Sion Simon" />
