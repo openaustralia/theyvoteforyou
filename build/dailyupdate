@@ -10,8 +10,7 @@ then
 	exit $?
 fi
 
-#FROMDATE=2001-06-01
-FROMDATE=2004-01-01 # until Julian sorts out gid replacing
+FROMDATE=2001-06-01
 export HOME=/home/francis
 export CVS_RSH=/software/bin/ssh
 
@@ -32,8 +31,7 @@ then
 	# echo "There were new divisions, recalculating cached values"
 
 	# There were new divisions, so run checks
-	# DISABLED too much chitter
-	# ./load.pl --from=$FROMDATE check
+	./load.pl --from=$FROMDATE check
 
 	# and update counts of rebels etc.
 	./load.pl --from=$FROMDATE calc
