@@ -444,6 +444,11 @@ class wransblock:
 	def regidcodes(self, minhgid, sdate):
 		# find minimal qnum which will be used as the basis
 		self.qnums.sort()
+		if not self.qnums:
+			print self.headingqb.stext[0]
+			for ques in self.queses:
+				print ques.stext
+			raise ContextException('missing qnums on question')
 		basegidq = 'uk.org.publicwhip/wrans/%s.%s' % (sdate, self.qnums[0])
 		self.headingqb.qGID = basegidq + ".h"  # this is what we link to
 		for rqnum in self.qnums[1:]:   # the mapping for the other qnums

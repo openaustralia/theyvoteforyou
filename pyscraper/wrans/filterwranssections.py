@@ -64,7 +64,7 @@ fixsubs = 	[
 	( '\((115021)\)', '[\\1]', 1, '2003-06-03'),
         ( '(\[142901)', '\\1]', 1, '2003-12-11'),
 
-        ( '(&nbsp;a minimum energy)<P>', '\\1 efficiency rating.  [153278]', 1, '2004-02-10'),
+#        ( '(&nbsp;a minimum energy)<P>', '\\1 efficiency rating.  [153278]', 1, '2004-02-10'),
         ( '(what the countries of origin were; and if he will make a statement.)', '\\1 [147100]', 1, '2004-01-15'),
         
  	( '\n To as the Secretary', '\n To ask the Secretary', 2, '2003-01-14'),
