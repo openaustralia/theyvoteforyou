@@ -15,6 +15,8 @@ class MemberList(xml.sax.handler.ContentHandler):
         # "rah" here is a typo in division 64 on 13 Jan 2003 "Ancram, rah Michael"
         self.titles = "Dr\\ |Hon\\ |hon\\ |rah\\ |rh\\ |Mrs\\ |Ms\\ |Dr\\ |Mr\\ |Miss\\ |Ms\\ |Rt\\ Hon\\ |The\\ Reverend\\ |Sir\\ |Rev\\ ";
 
+	self.honourifics = "\\ CBE|\\ OBE|\\ MBE|\\ QC|\\ BEM|\\ rh|\\ RH|\\ Esq|\\ QPM";
+
         parser = xml.sax.make_parser()
         parser.setContentHandler(self)
         parser.parse("../members/all-members.xml")
@@ -54,14 +56,15 @@ class MemberList(xml.sax.handler.ContentHandler):
             else:
                 self.fullnames[attr["alternate"]] = self.fullnames[attr["canonical"]]
 
-    def matchfullname(self, input, date):
-        text = input
+    def fullnametoids(self, input, date):
+	text = input
 
         # Remove dots, but leave a space between them
         text = text.replace(".", " ")
         text = text.replace("  ", " ")
 
-	# doesn't seem to improve matching, and anyway python doesn't like it, even in a comment
+	# doesn't seem to improve matching, and anyway python doesn't like it,
+	# even in a comment
 	#text = text.replace('&#214;', 'Oe')
 
         # Remove initial titles
@@ -69,53 +72,41 @@ class MemberList(xml.sax.handler.ContentHandler):
         if titlec > 1:
             raise Exception, 'Multiple titles: ' + input
 
-
+        # Remove final honourifics
+        (text, honourc) = re.subn("(" + self.honourifics + ")$", "", text)
+        if honourc > 1:
+            raise Exception, 'Multiple honourifics: ' + input
 
         # Find unique identifier for member
-        id = ""
+        ids = []
         matches = self.fullnames.get(text, None)
         if not matches and titlec == 1:
             matches = self.lastnames.get(text, None)
         if matches:
             for attr in matches:
                 if date >= attr["fromdate"] and date <= attr["todate"]:
-                    if id <> "":
-                        return 'unknown', 'Matched multiple times: ' + input, ''
-                    id = attr["id"]
+                    ids.append(attr["id"])
+	
+	return ids
 
-        if id == "":
+    def matchfullname(self, input, date):
+	ids = self.fullnametoids(input, date)
+
+        if len(ids) == 0:
             return 'unknown', 'No match: ' + input, ''
+	if len(ids) > 1:
+	    return 'unknown', 'Matched multiple times: ' + input, ''
 
+	id = ids[0]
         remadename = self.members[id]["firstname"] + " " + self.members[id]["lastname"]
         return id, '', remadename
 
 
     def mpnameexists(self, input, date):
-        text = input
+	ids = self.fullnametoids(input, date)
 
-        # Remove dots, but leave a space between them
-        text = text.replace(".", " ")
-        text = text.replace("  ", " ")
-	text = text.replace(' (?:esq|qpm)$(?i)', '')
-
-	# doesn't seem to improve matching, and anyway python doesn't like it, even in a comment
-	#text = text.replace('&#214;', 'Oe')
-
-        # Remove initial titles
-        (text, titlec) = re.subn("^(" + self.titles + ")", "", text)
-        if titlec > 1:
-            return 0
-
-
-
-        # Find unique identifier for member
-        matches = self.fullnames.get(text, None)
-        if not matches and titlec == 1:
-            matches = self.lastnames.get(text, None)
-        if matches:
-            for attr in matches:
-                if date >= attr["fromdate"] and date <= attr["todate"]:
-                    return 1
+        if len(ids) > 0:
+	    return 1
 
         if re.match('Mr\. |Mrs\. |Miss |Dr\. ', input):
 		print ' potential missing MP name ' + input
