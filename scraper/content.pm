@@ -1,4 +1,4 @@
-# $Id: content.pm,v 1.2 2004/03/15 12:09:50 frabcus Exp $
+# $Id: content.pm,v 1.3 2004/03/16 15:27:10 frabcus Exp $
 # For each day which we have the start URL for (from finddays.pm),
 # downloads the transcript for the entire day and stores it in the
 # database as one HTML file.
@@ -41,7 +41,6 @@ sub fetch_day_content
         $all_content .= $1;
 
         my @link = $agent->find_link(text => "Next Section");
-        print $link[0][0] . "\n";
     }
     while ($agent->follow_link(text => "Next Section"));
 
