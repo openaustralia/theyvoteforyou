@@ -18,9 +18,10 @@ RedirectPermanent /rebels.php http://www.publicwhip.org.uk/mps.php?sort=rebellio
 RedirectPermanent /news.php http://www.publicwhip.org.uk/newsletters/archive.php
 
 # Net strike
-RewriteEngine On
-RewriteCond %{REQUEST_URI} !^/publicwhip/patents\.php 
-RewriteCond %{REQUEST_URI} !^/publicwhip/thepublicwhip\.gif 
-RewriteCond %{REQUEST_URI} !^/publicwhip/publicwhip\.css
-RewriteRule .*          /publicwhip/patents.php [R=302,L]
+#RewriteEngine On
+#RewriteCond %{REQUEST_URI} !^/publicwhip/patents\.php 
+#RewriteCond %{REQUEST_URI} !^/publicwhip/thepublicwhip\.gif 
+#RewriteCond %{REQUEST_URI} !^/publicwhip/publicwhip\.css
+#RewriteRule .*          /publicwhip/patents.php [R=302,L]
+#RedirectMatch /[^p] http://www.publicwhip.org.uk/patents/patents.php
 
