@@ -2,7 +2,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.16 2003/10/11 20:09:21 frabcus Exp $
+# $Id: header.inc,v 1.17 2003/10/11 20:54:18 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -37,11 +37,11 @@ function givefocus() { if (document.pw) document.pw.query.focus(); }
 
 <!-- the main site navigation -->
 <tr class="headers"><td bgcolor="#666666"><a href="<?=$toppath?>index.php">Home</a>
-<a href="<?=$toppath?>news.php">News</a>
+<a href="<?=$toppath?>news.php">Newsletter</a>
 <a href="<?=$toppath?>faq.php">FAQ</a>
 <a href="<?=$toppath?>divisions.php">Divisions</a>
 <a href="<?=$toppath?>mps.php">MPs</a>
-<a href="<?=$toppath?>mpsee.php">VoteMap</a>
+<a href="<?=$toppath?>mpsee.php">Vote Map</a>
 <a href="<?=$toppath?>code.php">Code</a>
 <?  if (user_isloggedin()) {?>
 <a href="<?=$toppath?>account/settings.php">Account</a>

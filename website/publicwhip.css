@@ -107,20 +107,19 @@ TABLE TD.layout
 .footer
 {
     MARGIN-TOP: 0.5em;
-    COLOR: #ffffff
+    COLOR: #ffffff;
+    text-align: center;
 }
 .footerleft
 {
     FLOAT: left;
-    WIDTH: 50%;
-    COLOR: #ffffff;
+    WIDTH: 33%;
     TEXT-ALIGN: left
 }
 .footerright
 {
     FLOAT: right;
-    WIDTH: 50%;
-    COLOR: #ffffff;
+    WIDTH: 33%;
     TEXT-ALIGN: right
 }
 TABLE
