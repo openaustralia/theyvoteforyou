@@ -1,5 +1,5 @@
 <?php $title = "Source Code"; include "header.inc" 
-# $Id: code.php,v 1.1 2003/08/19 12:10:32 frabcus Exp $
+# $Id: code.php,v 1.2 2003/08/19 17:47:40 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -41,8 +41,22 @@ database.
 src="http://sourceforge.net/sflogo.php?group_id=87640&amp;type=5"
 width="210" height="62" border="0" alt="SourceForge.net Logo" /></A>
 
-<p>At the moment you have to download it using the version control
-system CVS - a file download will be available later.  Go to our <a
+<p>For casual examination of it, you can browse the code online.  In
+order to use it you can either download a snapshot of the code, or get
+the latest version direct from the version control system CVS.
+
+<p><span class="ptitle">Browse</span> - You can
+<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/publicwhip/publicwhip/">browse
+the code online</a>.  Of general interest are the various text files in
+the top level directory - have a look at todo.txt, ideas.txt and
+README.txt.
+
+<p><span class="ptitle">File download</span> - Go to our <a
+href="http://sourceforge.net/projects/publicwhip">SourceForge project
+page</a>, and follow the link to Files.  You want the latest
+publicwhip-source file.
+
+<p><span class="ptitle">From CVS</span> - Go to our <a
 href="http://sourceforge.net/projects/publicwhip">SourceForge project
 page</a>, and follow the link to CVS for instructions.  The module you
 want is called <i>publicwhip</i>.

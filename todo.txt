@@ -1,9 +1,6 @@
 Pre-mass publicity
 ------------------
 
-Supply of code
-
-Upload code to SF
 Log file rotation
 SourceForge backup
 
