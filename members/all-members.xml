@@ -5960,7 +5960,7 @@ http://www.election.demon.co.uk/strengths.html
     house="commons"
     title="Rt Hon" firstname="Terry" lastname="Davis"
     constituency="Birmingham, Hodge Hill" party="Lab"
-    fromdate="2001-06-07" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    fromdate="2001-06-07" todate="2004-06-22" fromwhy="general_election" towhy="resigned"
 />
 <member
     id="uk.org.publicwhip/member/849"
