@@ -7,13 +7,13 @@ Rewrite description of formula.
 
 Show recent changes to Wiki pages
 
-Search broken completely for titles of things
-
 Search needs to search wiki text and Dream MP text
 
 Do a big usability thing - get Tom L to help with his ideas
 Make log file stats daily to see what happens as you subtly change links
 Controversial: Remove cluster map, Remove division attendance
+
+Tidy up patent page, maybe have banner
 
 Update the votematrix CSV files - people are using them!
 Put up raw data for ranking scores for rebel/attend that are only in fawkes
@@ -70,7 +70,7 @@ Measure abstentions by parliament rather than global proportions?
 Check "Question accordingly..." fits with our counting
 Tally vote numbers in text and check they fit with our counting
 
-Search for divisions on days MP joined/left, as these could have
+Find for divisions on days MP joined/left, as these could have
 off-by-one errors for their changed party
 
 Future

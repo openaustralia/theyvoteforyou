@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: liaison.php,v 1.5 2005/01/15 20:38:12 frabcus Exp $
+# $Id: liaison.php,v 1.6 2005/03/28 11:49:10 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -18,7 +18,7 @@ everywhere.
 
 <p>The Hansard Liaison Subproject aims to:
 
-<ul>
+<ol>
 <li>Track errors which cause material problems for the Public Whip
 project.  For example, ambiguous or missing division listings.
 Get these corrected on the Hansard website, or clarified so we can add
@@ -30,28 +30,32 @@ provision of information as XML or other structured data files.
 <li>Persuade the official record to record the party whips at a division,
 if it is clearly visible such as a member waving people into the right
 lobby.
-</ul>
+</ol>
 
 <h2>Current Status</h2>
+<ol>
+<li>Currently, we email the House of Commons Information Office, and they get
+any serious errors fixed.  They respond to material errors fairly quickly by
+either updating parliament.uk, or emailing us with the correction.
+<li>We've visited TSO, talked to people in parliament and to MPs about this.
+But this is going to take some time.  There is currently a project in
+parliament to update their systems to use XML, but the status of the project is
+unknown. 
+<li>No material progress yet.  Our <a href="../faq.php#freevotes">definition of rebellion</a>
+has caused some complaints from MPs, but these so far haven't encouraged either
+the parties or Hansard to publish the official party whip for each party.
+</ol>
+
+<h2>Hansard Bug Tracker</h2>
+
+<p>For a while we used standard bug tracking software to keep track of errors
+in Hansard.  You can browse them using the link below.  Some of the errors are
+"serious" which means there is a gap in the public record.  Others are just
+formatting errors which (sometimes massively) inconvenience us.
 
 <p><a
 href="http://sourceforge.net/tracker/?atid=602722&group_id=87640&func=browse">Hansard
 error tracker on Sourceforge</a>
-
-<p>We are using standard bug tracking software to keep track of errors
-in Hansard.  You can browse them using the link above.  Some of the
-errors are "serious" which means there is a gap in the public record.
-Others are just formatting errors which (sometimes massively) inconvenience us.
-
-<p>We'd like people to help follow up errors with officers in parliament.
-This work involves phoning up and finding the right person to deal with.
-They will either correct the error on the website, or give us a
-clarification.
-
-<p>Dive right in, look at an item in the tracker on
-Sourceforge, and chase it up!  Send me <a
-href="mailto:francis@publicwhip.org.uk">an email</a> with any questions or
-comments.
 
 <h2>Baffled Outsider's Guide to the Parliamentary Bureaucracy</h2>
 
