@@ -60,6 +60,10 @@ class MemberList(xml.sax.handler.ContentHandler):
     def startElement(self, name, attr):
         # all-members.xml loading
         if name == "member":
+
+			# MAKE A COPY.  (The xml documentation warns that the attr object can be reused, so shouldn't be put into your structures if it's not a copy).
+			attr = attr.copy()
+
             if self.members.get(attr["id"]):
                 raise Exception, "Repeated identifier %s in members XML file" % attr["id"]
             self.members[attr["id"]] = attr
@@ -152,7 +156,7 @@ class MemberList(xml.sax.handler.ContentHandler):
             self.officetopersonmap[attr["id"]] = self.loadperson
             self.persontoofficemap.setdefault(self.loadperson, []).append(attr["id"])
 
-            
+
     def endElement(self, name):
         if name == "constituency":
             self.loadconsid = None

@@ -37,7 +37,7 @@ def FilterDebateSpeech(qs):
 
 		# deal with tables
 		if re.match('<table(?i)', textp[i]):
-			qs.stext.extend(ParseTable(textp[i]))
+			qs.stext.extend(ParseTable(textp[i], qs.sstampurl))
 			bBegToMove = False
 
 		# nothing special about this paragraph (except it may be indented)

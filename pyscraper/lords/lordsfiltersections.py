@@ -18,7 +18,6 @@ from clsinglespeech import qspeech
 from parlphrases import parlPhrases
 
 from miscfuncs import FixHTMLEntities
-from miscfuncs import WriteXMLFile
 
 from filterdivision import FilterDivision
 from lordsfilterdivisions import LordsFilterDivision
@@ -210,7 +209,7 @@ def FilterLordsSpeech(qb):
 ################
 # main function
 ################
-def LordsFilterSections(fout, text, sdate):
+def LordsFilterSections(text, sdate):
 	# make the corrections at this level which enables the headings to be resolved.
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
 
@@ -278,7 +277,6 @@ def LordsFilterSections(fout, text, sdate):
 
 
 	# we now have everything flattened out in a series of speeches
+	return flatb
 
-	# output the list of entities
-	WriteXMLFile("lords", fout, flatb, sdate)
 

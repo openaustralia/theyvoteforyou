@@ -118,7 +118,7 @@ def FilterReply(text, stampurl):
 		# deal with tables
 		if re.match('<table(?i)', textp[i]):
 			if re.match('<table[^>]*>[\s\S]*?</table>$(?i)', textp[i]):
-				stext.extend(ParseTable(textp[i]))
+				stext.extend(ParseTable(textp[i], stampurl))
 				i += 1
 				continue
 			else:

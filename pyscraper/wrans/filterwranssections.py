@@ -19,7 +19,7 @@ from clsinglespeech import qspeech
 from parlphrases import parlPhrases
 
 from miscfuncs import FixHTMLEntities
-from miscfuncs import WriteXMLFile
+from xmlfilewrite import WriteXMLFile
 
 from filterwransques import FilterQuestion
 from filterwransreply import FilterReply
@@ -188,7 +188,7 @@ def StripWransHeadings(headspeak, sdate):
 ################
 # main function
 ################
-def FilterWransSections(fout, text, sdate):
+def FilterWransSections(text, sdate):
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
 	headspeak = SplitHeadingsSpeakers(text)
 
@@ -303,7 +303,6 @@ def FilterWransSections(fout, text, sdate):
 
 	# we now have everything flattened out in a series of speeches,
 	# where some of the speeches are headings (inserted and otherwise).
+	return flatb
 
-	# output the list of entities
-	WriteXMLFile("wrans", fout, flatb, sdate)
 

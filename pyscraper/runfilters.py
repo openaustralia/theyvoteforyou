@@ -29,6 +29,8 @@ from lordsfiltersections import LordsFilterSections
 from contextexception import ContextException
 from contextexception import RunPatchTool
 
+from xmlfilewrite import WriteXMLFile
+
 from resolvemembernames import memberList
 
 import miscfuncs
@@ -69,10 +71,10 @@ def RunFiltersDir(filterfunction, dname, options, deleteoutput):
 	fdirin.reverse()
 	for fin in fdirin:
 		jfin = os.path.join(pwcmdirin, fin)
-                if not re.search('\.html$', fin): # avoid vim swap files etc.
-                        continue
-                if re.search('patch', fin): # avoid patch files
-                        continue
+		if not re.search('\.html$', fin): # avoid vim swap files etc.
+			continue
+		if re.search('patch', fin): # avoid patch files
+			continue
 
 		# extract the date from the file name
 		sdate = re.search('\d{4}-\d{2}-\d{2}', fin).group(0)
@@ -84,70 +86,70 @@ def RunFiltersDir(filterfunction, dname, options, deleteoutput):
 		# create the output file name
 		jfout = os.path.join(pwxmldirout, re.sub('\.html$', '.xml', fin))
 
-		if deleteoutput:
-			if os.path.isfile(jfout):
-				os.remove(jfout)
-			continue
-
 		# skip already processed files, if date is earler
                 # (checking output date against input and patchfile, if there is one)
 		if os.path.isfile(jfout):
-                        out_modified = os.stat(jfout).st_mtime
-                        in_modified = os.stat(jfin).st_mtime
-                        patchfile = "patches/%s/%s.patch" % (dname,fin)
-                        patch_modified = None
-                        if os.path.isfile(patchfile):
-                                patch_modified = os.stat(patchfile).st_mtime
-                        if in_modified < out_modified and ((not patchfile) or patch_modified < out_modified):
-                                continue
-                        print "input modified since output reparsing, out: ", out_modified, " in: ", in_modified, " patch: ", repr(patch_modified)
+			out_modified = os.stat(jfout).st_mtime
+			in_modified = os.stat(jfin).st_mtime
+			patchfile = "patches/%s/%s.patch" % (dname,fin)
+			patch_modified = None
+			if os.path.isfile(patchfile):
+				patch_modified = os.stat(patchfile).st_mtime
+			if (not deleteoutput) and (in_modified < out_modified) and ((not patchfile) or patch_modified < out_modified):
+				continue
+			print "input modified since output reparsing, out: ", out_modified, " in: ", in_modified, " patch: ", repr(patch_modified)
 
-                again = True
-                while again:
-                        again = False
+		# here we repeat the parsing and run the patchtool editor until this file goes through.
+		again = True
+		while again:
+			again = False
 
-                        # apply patch filter
-                        kfin = jfin
-                        if ApplyPatches(jfin, patchtempfile):
-                                kfin = patchtempfile
+			# apply patch filter
+			kfin = jfin
+			if ApplyPatches(jfin, patchtempfile):
+				kfin = patchtempfile
 
-                        # read the text of the file
-                        print "runfilters " + fin
-                        ofin = open(kfin)
-                        text = ofin.read()
-                        ofin.close()
+			# read the text of the file
+			print "runfilters " + fin
+			ofin = open(kfin)
+			text = ofin.read()
+			ofin.close()
 
-                        # store
-                        newlistf = os.path.join(pwxmldirout, recentnewfile)
-                        file = open(newlistf,'a+')
-                        file.write(sdate + '\n')
-                        file.close()
+			# store
+			newlistf = os.path.join(pwxmldirout, recentnewfile)
+			fil = open(newlistf,'a+')
+			fil.write(sdate + '\n')
+			fil.close()
 
-                        # call the filter function and copy the temp file into the correct place.
-                        # this avoids partially processed files getting into the output when you hit escape.
-                        try:
-                                fout = open(tempfile, "w")
-                                filterfunction(fout, text, sdate)
-                                fout.close()
-                                if sys.platform != "win32":
-                                        # this function leaves the file open which can't be renamed in win32
-                                        xmlvalidate.parse(tempfile) # validate XML before renaming
-                                if os.path.isfile(jfout):
-                                    os.remove(jfout)
-                                os.rename(tempfile, jfout)
-                        except ContextException, ce:
-                                if options.patchtool:
-                                        fout.close()
-                                        print ce
-                                        RunPatchTool(dname, sdate, ce)
-                                        again = True
-                                else:
-                                        raise
+			# call the filter function and copy the temp file into the correct place.
+			# this avoids partially processed files getting into the output when you hit escape.
+			try:
+				fout = open(tempfile, "w")
+				filterfunction(fout, jfout, text, sdate)
+				fout.close()
+				if sys.platform != "win32":
+					# this function leaves the file open which can't be renamed in win32
+					xmlvalidate.parse(tempfile) # validate XML before renaming
+				if os.path.isfile(jfout):
+					print "Leave for XML match testing: No over-write of file"
+					# we can exit here and have the two files to look at by eye 
+					os.remove(tempfile)
+				else:
+					os.rename(tempfile, jfout)
+
+			except ContextException, ce:
+				if options.patchtool:
+					fout.close()
+					print ce
+					RunPatchTool(dname, sdate, ce)
+					again = True
+				else:
+					raise
 
 
 # These text filtering functions filter twice through stringfiles,
 # before directly filtering to the real file.
-def RunWransFilters(fout, text, sdate):
+def RunWransFilters(fout, jfout, text, sdate):
 	si = cStringIO.StringIO()
 	FilterWransColnum(si, text, sdate)
 	text = si.getvalue()
@@ -158,11 +160,12 @@ def RunWransFilters(fout, text, sdate):
 	text = si.getvalue()
 	si.close()
 
-	FilterWransSections(fout, text, sdate)
+	flatb = FilterWransSections(text, sdate)
+	WriteXMLFile("wrans", fout, jfout, flatb, sdate)
 
 
-def RunDebateFilters(fout, text, sdate):
-        memberList.cleardebatehistory()
+def RunDebateFilters(fout, jfout, text, sdate):
+	memberList.cleardebatehistory()
 
 	si = cStringIO.StringIO()
 	FilterDebateColTime(si, text, sdate)
@@ -174,7 +177,8 @@ def RunDebateFilters(fout, text, sdate):
 	text = si.getvalue()
 	si.close()
 
-	FilterDebateSections(fout, text, sdate)
+	flatb = FilterDebateSections(text, sdate)
+	WriteXMLFile("debate", fout, jfout, flatb, sdate)
 
 
 
@@ -182,7 +186,7 @@ def RunDebateFilters(fout, text, sdate):
 
 # These text filtering functions filter twice through stringfiles,
 # before directly filtering to the real file.
-def RunLordsFilters(fout, text, sdate):
+def RunLordsFilters(fout, jfout, text, sdate):
 	fourstream = SplitLordsText(text, sdate)
 
 	# the debates section (only)
@@ -197,7 +201,8 @@ def RunLordsFilters(fout, text, sdate):
 	   	text = si.getvalue()
 		si.close()
 
-		LordsFilterSections(fout, text, sdate)
+		flatb = LordsFilterSections(text, sdate)
+		WriteXMLFile("lords", fout, jfout, flatb, sdate)
 
 	return
 

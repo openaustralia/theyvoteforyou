@@ -21,7 +21,7 @@ from clsinglespeech import qspeech
 from parlphrases import parlPhrases
 
 from miscfuncs import FixHTMLEntities
-from miscfuncs import WriteXMLFile
+from xmlfilewrite import WriteXMLFile
 
 from filterdivision import FilterDivision
 from filterdebatespeech import FilterDebateSpeech
@@ -208,7 +208,7 @@ def NormalHeadingPart(headingtxt, stampurl):
 ################
 # main function
 ################
-def FilterDebateSections(fout, text, sdate):
+def FilterDebateSections(text, sdate):
 	# make the corrections at this level which enables the headings to be resolved.
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
 
@@ -292,9 +292,8 @@ def FilterDebateSections(fout, text, sdate):
 
 
 	# we now have everything flattened out in a series of speeches
+	return flatb
 
-	# output the list of entities
-	WriteXMLFile("debate", fout, flatb, sdate)
 
 
 

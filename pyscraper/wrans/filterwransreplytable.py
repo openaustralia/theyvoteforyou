@@ -17,7 +17,7 @@ regtablejunk = '</?font[^>]*>|</?p>|\n(?i)'
 
 recolsplit = re.compile('(<t[dh][^>]*>[\s\S]*?(?:</t[dh]>|(?=<t[dh][^>]*>)))(?i)')
 recolmatch = re.compile('<t[dh](?: colspan=\"?(\d+)\"?)?(?: align=(center))?(?: valign=top)?>\s*([\s\S]*?)\s*(?:</t[dh]>)?$(?i)')
-def ParseRow(srow, hdcode):
+def ParseRow(srow, hdcode, stampur):
 	# build up the list of entries for this row
 	Lscols = [ '\t\t<tr> ' ]
 	for spcol in recolsplit.split(srow):
@@ -30,7 +30,7 @@ def ParseRow(srow, hdcode):
 			if col.group(2):
 				talign = ' align="center"'
 			Lscols.append('<%s%s%s>' % (hdcode, tcolspan, talign))
-			Lscols.extend(FixHTMLEntitiesL(col.group(3), '</?font[^>]*>|</?p>|\n|</?center>|</?B>(?i)'))
+			Lscols.extend(FixHTMLEntitiesL(col.group(3), '</?font[^>]*>|</?p>|\n|</?center>|</?B>(?i)', stampurl=stampur))
 			Lscols.append('</%s> ' % hdcode)
 
 		# check that the outside text contains nothing but bogus close column tags
@@ -44,7 +44,7 @@ def ParseRow(srow, hdcode):
 
 
 # replies can have tables
-def ParseTable(lstable):
+def ParseTable(lstable, stampur):
 	# remove the table bracketing
 	stable = re.match('<table[^>]*>\s*([\s\S]*?)\s*</table>$(?i)', lstable).group(1)
 	if re.search('<table[^>]*>|</table>(?i)', stable):
@@ -79,10 +79,10 @@ def ParseTable(lstable):
 		if not ts:
 			raise Exception, ' non-standard table title: %s ' % stitle
 		Lstitle = [ '\t<caption>' ]
-		Lstitle.append(FixHTMLEntities(ts.group(1), '</?font[^>]*>|</?p>|\n(?i)'))
+		Lstitle.append(FixHTMLEntities(ts.group(1), '</?font[^>]*>|</?p>|\n(?i)', stampurl=stampur))
 		if ts.group(2):
 			Lstitle.append(' -- ')
-			Lstitle.append(FixHTMLEntities(ts.group(2), '</?font[^>]*>|</?p>|\n(?i)'))
+			Lstitle.append(FixHTMLEntities(ts.group(2), '</?font[^>]*>|</?p>|\n(?i)', stampurl=stampur))
 		Lstitle.append('</caption>')
 		ctitle = string.join(Lstitle, '')
 
@@ -99,12 +99,12 @@ def ParseTable(lstable):
 	if ih > 0:
 		res.append('\t<thead>')
 		for srow in srows[:ih]:
-			res.append(ParseRow(srow, 'th'))
+			res.append(ParseRow(srow, 'th', stampur))
 		res.append('\t</thead>')
 
 	res.append('\t<tbody>')
 	for srow in srows[ih:]:
-		res.append(ParseRow(srow, 'td'))
+		res.append(ParseRow(srow, 'td', stampur))
 	res.append('\t</tbody>')
 
 	res.append('</table>')

@@ -5,7 +5,7 @@
 
 import sys
 import os
-# change current directory to pyscraper folder script is in 
+# change current directory to pyscraper folder script is in
 os.chdir(os.path.dirname(sys.argv[0]) or '.')
 
 sys.path.append('debate')
@@ -66,7 +66,7 @@ parser.add_option("--to", dest="dateto", metavar="date", default="9999-12-31",
 parser.add_option("--date", dest="date", metavar="date", default=None,
                   help="date to process (overrides --from and --to)")
 
-parser.add_option("--patchtool", 
+parser.add_option("--patchtool",
                   action="store_true", dest="patchtool", default=None,
                   help="launch ./patchtool to fix errors in source HTML")
 
@@ -138,12 +138,12 @@ if options.scrape:
 
 if options.parse:
 	if options.forceparse:
-		if options.wrans:
-			RunFiltersDir(RunWransFilters, 'wrans', options, True)
-		if options.debates:
-			RunFiltersDir(RunDebateFilters, 'debates', options, True)
-		if options.lords:
-			RunFiltersDir(RunLordsFilters, 'lordspages', options, True)
+#		if options.wrans:
+#			RunFiltersDir(RunWransFilters, 'wrans', options, True)
+#		if options.debates:
+#			RunFiltersDir(RunDebateFilters, 'debates', options, True)
+#		if options.lords:
+#			RunFiltersDir(RunLordsFilters, 'lordspages', options, True)
 		if options.regmem:
 			RunFiltersDir(RunRegmemFilters, 'regmem', options, True)
 
@@ -164,12 +164,13 @@ if options.scrape:
 
 if options.parse:
 	if options.wrans:
-		RunFiltersDir(RunWransFilters, 'wrans', options, False)
+		RunFiltersDir(RunWransFilters, 'wrans', options, options.forceparse)
 	if options.debates:
-		RunFiltersDir(RunDebateFilters, 'debates', options, False)
+		RunFiltersDir(RunDebateFilters, 'debates', options, options.forceparse)
 	if options.lords:
-		RunFiltersDir(RunLordsFilters, 'lordspages', options, False)
+		RunFiltersDir(RunLordsFilters, 'lordspages', options, options.forceparse)
 	if options.regmem:
 		# TODO - date ranges when we do index page stuff for regmem
 		RunFiltersDir(RunRegmemFilters, 'regmem', options, False)
+
 
