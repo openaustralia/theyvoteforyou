@@ -11,10 +11,12 @@ def ApplyFixSubstitutions(text, sdate, fixsubs):
 	return text
 
 def FixHTMLEntities(text):
-    text = re.sub('&150;', '-', text)
-    text = re.sub('&151;', ' -- ', text)
-    text = re.sub('&163;', '&pound;', text)
+    text = re.sub('&#150;', '-', text)
+    text = re.sub('&#151;', ' -- ', text)
     text = re.sub('"', '&quot;', text)
+# These wrong - should add entities to top of XML instead:
+#   text = re.sub('&#163;', '&pound;', text)
+    text = re.sub('&nbsp;', ' ', text)
 
     # The regexp pattern (?! ... ) is a "A zero-width negative
     # look-ahead assertion", which basically means "the ... pattern
@@ -25,3 +27,4 @@ def FixHTMLEntities(text):
     # take out ALL tags
     text = re.sub('<[^>]*>', ' ', text)
     return text
+

@@ -19,7 +19,7 @@ cd ..
 
 echo "Adding FastCGI header..."
 cd tmpuploadcopy
-for X in *.php account/*.php project/*.php
+for X in *.php account/*.php project/*.php newsletters/*.php
 do
     echo "#! /software/bin/php4-fcgi" >tmp.php
     cat $X >> tmp.php
@@ -40,6 +40,8 @@ ssh $USER "chmod 0755 $REMOTE_DIR/account"
 ssh $USER "chmod 0755 $REMOTE_DIR/account/*.php"
 ssh $USER "chmod 0755 $REMOTE_DIR/project"
 ssh $USER "chmod 0755 $REMOTE_DIR/project/*.php"
+ssh $USER "chmod 0755 $REMOTE_DIR/newsletters"
+ssh $USER "chmod 0755 $REMOTE_DIR/newsletters/*.php"
 
 echo "Deleting remote cache files..."
 ssh $USER "rm -fr /home/francis/pwcache/$CACHE_PREFIX*"
