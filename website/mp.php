@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.57 2005/03/06 01:22:17 goatchurch Exp $
+    # $Id: mp.php,v 1.58 2005/03/06 09:35:35 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -86,9 +86,12 @@
 	}
 
 	$dismodes["allvotes"] = array("dtype"	=> "allvotes",
+							 "generalinfo" => "eventsonly",
 							 "description" => "All votes",
 							 "votelist"	=> "all",
 							 "defaultparl" => "recent");
+	if ($voter2type == "party")
+		$dismodes["allvotes"]["generalinfo"] = "eventsonly";
 
 	if ($voter2type == "dreammp")
 	{
@@ -106,6 +109,8 @@
 								 "generalinfo" => "yes",
 								 "votelist"	=> "every",
 								 "defaultparl" => "recent");
+		if ($voter2type == "party")
+			$dismodes["everyvote"]["generalinfo"] = "eventsonly";
 	}
 
 	# friendships if not a comparison table
@@ -194,8 +199,8 @@
 
 <?
 	# extract the events in this mp's life
-	$events = "none";
-	if ($dismode["generalinfo"] == "yes")
+	$events = "";
+	if ($dismode["generalinfo"])
 	{
 		$mpattr = $voter1attr;
 		# the events that have happened in this MP's career
@@ -222,7 +227,11 @@
 		        array_push($events, 	array($row["from_date"], "Became " .  $row["position"]. ", 		   " . $row["dept"]));
 		    }
 		}
+	}
 
+	# general information
+	if ($dismode["generalinfo"] == "yes")
+	{
 	    print "<h2><a name=\"general\">General Information</a></h2>";
 
 	    if ($currently_minister)
@@ -273,7 +282,7 @@
 		else if ($dismode["votelist"] == "every" and $voter2type == "party")
 			print "<p>All votes this MP could have attended.</p>\n";
 
-		if ($events != "none")
+		if ($events !== "")
 		    print " <p>Also shows when this MP became or stopped being a paid minister. </p>";
 
 		# convert the view for the table selection depending on who are the voting actors
@@ -302,16 +311,26 @@
 				"headings"		=> 'columns',
 				"sortby"		=> 'date'	);
 
+		# get rid of headings in the full motion case
 		if ($dismode["votedisplay"] == "fullmotion")
+		{
 			$divtabattr["headings"] = 'none';
+			$divtabattr["sortby"] = 'datereversed';
+		}
+
+		# put in the events list
+		if ($events !== "")
+		{
+			if ($divtabattr['sortby'] == 'date')
+				$events = array_reverse($events);
+		}
 
 		# make the table over this MP's votes
-    	$events_ix = 0;
 	    print "<table class=\"votes\">\n";
     	foreach ($voter1attr['mpprops'] as $mpprop)
 		{
 			$divtabattr["voter1"] = $mpprop;
-			division_table($db, $divtabattr);
+			division_table($db, $divtabattr, $events);
 		}
 	    print "</table>\n";
 	}

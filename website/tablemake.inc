@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablemake.inc,v 1.7 2005/03/06 01:22:17 goatchurch Exp $
+    # $Id: tablemake.inc,v 1.8 2005/03/06 09:35:36 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -377,6 +377,16 @@
  	}
 
 
+	function writeevents(&$events, $date, $breversed)
+	{
+		while ($events && (!$date or ($breversed == ($date >= $events[count($events) - 1][0]))))
+		{
+			$event = array_pop($events);
+			print "<tr><td></td><td>$event[0]</td>";
+			print "<td colspan=5 align=center>$event[1]</td></tr>\n";
+		}
+ 	}
+
 	# table that shows a selected heap of divisions, and provides a comparison between
 	# one or two independent voting actors.
 	# votertype is 'dreammp', 'mp', 'party'
@@ -387,7 +397,7 @@
 	# headings is 'none', 'columns', 'fulldesc'(for changing mps)
 	# sortby is 'date', 'subject', 'rebellions', 'turnout'
 	# $parldatelimit is null or a line from $parliaments
-	function division_table($db, $divtabattr)
+	function division_table($db, $divtabattr, &$events)
 	{
 		global $bdebug;
 		if ($bdebug == 1)
@@ -421,11 +431,15 @@
 		# accumulate the ordering command
 		$aquery["qorder"]  = " ORDER BY";
 		$sortby = $divtabattr["sortby"];
+		$breversed = ($sortby == "datereversed");
 		if ($sortby == "subject")
 			$aquery["qorder"] .= " division_name, ";
 		if ($sortby == "rebellions" or $sortby == "turnout")
 			$aquery["qorder"] .= " $sortby DESC, ";
-		$aquery["qorder"] .= " divisiondate DESC, divisionnumber DESC";
+		if ($breversed)
+			$aquery["qorder"] .= " divisiondate, divisionnumber";
+		else # by date (for all other cases)
+			$aquery["qorder"] .= " divisiondate DESC, divisionnumber DESC";
 
 
 		# corrected column (yet another division_id coding!)
@@ -554,7 +568,6 @@
     	    }
 		}
 
-		# now do the actual rows here
         while ($row = $db->fetch_row_assoc())
         {
 			# mark the role column and fix the terminology of the vote
@@ -585,6 +598,9 @@
 				$hrefsource = $row['source_url'];
 
 			$divhref = "division.php?date=".urlencode($row['divisiondate'])."&number=".urlencode($row['divisionnumber']);
+
+			# write out the events
+			writeevents($events, $row['divisiondate'], $breversed);
 
 			# votedisplay is none, 'fullmotion'(for showing the jmp view)
 			if ($divtabattr['votedisplay'] == 'fullmotion' and 	$row['motionedited'] != "")

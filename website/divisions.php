@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.10 2005/03/05 11:57:48 goatchurch Exp $
+# $Id: divisions.php,v 1.11 2005/03/06 09:35:35 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -63,7 +63,7 @@ the order of the table by selecting the headings.
 			"headings"		=> 'none',
 			"sortby"		=> $sort,
 			"parldatelimit"	=> $parliaments[$parliament]	);
-	division_table($db, $divtabattr);
+	division_table($db, $divtabattr, "");
 
     print "</table>\n";
 
