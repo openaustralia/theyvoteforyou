@@ -1,0 +1,23 @@
+--- /home/fawkes/pwdata/cmpages/wrans/answers2004-01-21.html	Sun Aug 15 04:25:19 2004
++++ /home/fawkes/pwdata/cmpages/wrans/answers2004-01-21-patchtmp.html	Sun Aug 15 22:44:46 2004
+@@ -2254,10 +2254,12 @@
+ <P>
+ <P><I>21 Jan 2004 : Column 1264W</I><P>
+ <P>
++<stamp parsemess-colnum="1263W"/>
+ <P>
+ <P>
+ <a name="40121w08.html_spnew6"><B> John Healey: </B> 
+  The Chancellor keeps all tax matters under constant review, and I refer the hon gentleman to the answer I gave to the hon. member for Meirionnydd Nant Conwy (Mr. Llwyd) on 12 June 2003, <i>Official Report</i>, column 823W.
++<stamp parsemess-colnum="1264W"/>
+ 
+ <a name="40121w08.html_sbhd7"><H3 align=center>Trade Union Recognition Ballots</H3>
+ 
+@@ -2328,6 +2330,7 @@
+ <a name="40121w08.html_wqn11"><B> Mrs. Curtis-Thomas: </B> 
+ To ask the Secretary of State for the Home Department what percentage of asylum seekers reached the UK in 2003 <i>(a)</i> as a result of illegal people-smuggling operations conducted by criminal gangs and <i>(b)</i> because they held false documentation.  [148042]<P>
+ <P>
++<stamp parsemess-colnum="1266W"/>
+ <P>
+ <a name="40121w08.html_spnew11"><B> Beverley Hughes: </B> 
+  The nature of illegal entry is such that it is impossible to quantify. Illegal entrants are detected in a wide range of circumstances and time frames, from discovery in the back of a lorry on, or shortly after, arrival, to discovery much later, when found working. Although many of those discovered will 
