@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.1 2004/06/19 08:22:22 frabcus Exp $
+# $Id: memxml2db.pl,v 1.2 2004/10/13 13:47:42 frabcus Exp $
 
 # Convert all-members.xml into the database format for Public Whip website
 
@@ -22,9 +22,11 @@ my $sth = PublicWhip::DB::query($dbh, "delete from pw_mp");
 my %membertoperson;
 
 my $twig = XML::Twig->new(
-    twig_handlers => { 'member' => \&loadmember, 'person' => \&loadperson }, 
+    twig_handlers => { 'member' => \&loadmember, 'person' => \&loadperson, 
+            'moffice' => \&loadmoffice }, 
     output_filter => 'safe');
 $twig->parsefile("../members/people.xml");
+$twig->parsefile("../members/ministers.xml");
 $twig->parsefile("../members/all-members.xml");
 
 sub loadperson
@@ -52,9 +54,6 @@ sub loadmember
 
     # We encode entities as e.g. &Ouml;, as otherwise non-ASCII characters
     # get lost somewhere between Perl, the database and the browser.
-    # Just done for names (not constituency and party) as they are the
-    # only place to have accents, and constituencies have & signs and
-    # the postcode search matching system uses them.
     my $sth = PublicWhip::DB::query($dbh, "insert into pw_mp (first_name, last_name, title, constituency, party, 
         entered_house, left_house, entered_reason, left_reason, mp_id, person) values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
@@ -68,6 +67,38 @@ sub loadmember
         $memb->att('fromwhy'), 
         $memb->att('towhy'), 
         $id,
+        $person,
+        );
+}
+
+sub loadmoffice
+{ 
+	my ($twig, $moff) = @_;
+    print $moff->att('name') . "\n";
+
+    my $mofficeid = $moff->att('id');
+    $mofficeid =~ s#uk.org.publicwhip/moffice/##;
+    my $mpid = $moff->att('matchid');
+    if (!$mpid) {
+        print "No match id\n";
+        return;
+    }
+    $mpid =~ s#uk.org.publicwhip/member/##;
+
+    my $person = $membertoperson{$moff->att('matchid')};
+    die "mp " . $mpid . " " . $moff->att('name') . " has no person" if !defined($person);
+    $person =~ s#uk.org.publicwhip/person/##;
+
+    # We encode entities as e.g. &Ouml;, as otherwise non-ASCII characters
+    # get lost somewhere between Perl, the database and the browser.
+    my $sth = PublicWhip::DB::query($dbh, "insert into pw_moffice (moffice_id, dept, position, 
+        from_date, to_date, person) values
+        (?, ?, ?, ?, ?, ?)", 
+        $mofficeid,
+        encode_entities($moff->att('dept')), 
+        encode_entities($moff->att('position')), 
+        $moff->att('fromdate'), 
+        $moff->att('todate'), 
         $person,
         );
 }

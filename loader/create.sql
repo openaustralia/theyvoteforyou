@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.3 2004/07/20 10:12:14 frabcus Exp $
+-- $Id: create.sql,v 1.4 2004/10/13 13:47:42 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -19,7 +19,11 @@
 --    Or you can load this file into some GUI client and inject it.
 -- 
 
-drop table if exists pw_mp, pw_division, pw_vote;
+-------------------------------------------------------------------------------
+-- Static tables
+--   those based on Hansard data, which get updated, but not altered by scripts
+
+drop table if exists pw_mp, pw_division, pw_vote, pw_moffice;
 
 create table pw_mp (
     mp_id int not null primary key auto_increment,
@@ -29,7 +33,7 @@ create table pw_mp (
     constituency varchar(100) not null,
     party varchar(100) not null,
 
-    -- these are inclusive, and measure days when the MP could vote
+    -- these are inclusive, and measure days when the mp could vote
     entered_house date not null default '1000-01-01',
     left_house date not null default '9999-12-31',
     entered_reason enum('unknown', 'general_election', 'by_election', 'changed_party',
@@ -71,6 +75,26 @@ create table pw_vote (
     index(vote),
     unique(division_id, mp_id, vote)
 );
+
+-- Ministerial offices
+create table pw_moffice (
+    moffice_id int not null primary key auto_increment,
+
+    dept varchar(100) not null,
+    position varchar(100) not null,
+
+    -- these are inclusive, the person became a minister at some time
+    -- on the start date, and finished on the end date
+    from_date date not null default '1000-01-01',
+    to_date date not null default '9999-12-31',
+
+    person int,
+);
+
+-------------------------------------------------------------------------------
+-- Dynamic tables
+--   those which people using the website can alter 
+--   prefixed dyn_ for dynamic
 
 CREATE TABLE pw_dyn_user (
   user_id int(11) NOT NULL auto_increment,
@@ -117,3 +141,4 @@ create table pw_dyn_auditlog (
     remote_addr text
 );
 
+-------------------------------------------------------------------------------
