@@ -1,5 +1,5 @@
 <?php $title = "Frequently Asked Questions"; include "header.inc" 
-# $Id: faq.php,v 1.26 2004/07/16 11:23:07 frabcus Exp $
+# $Id: faq.php,v 1.27 2004/10/13 13:08:14 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -188,7 +188,7 @@ href="patents/patents.php">For more information see here</a>.
 
 <h2><a name="organisation">What organisation is behind the Public Whip?</a></h2>
 <p>None.  Just two guys <a href="http://www.flourish.org">Francis</a>
-and Julian who had an idea and made it happen.  <a
+and <a href="http://www.goatchurch.org.uk">Julian</a> who had an idea and made it happen.  <a
 href="http://www.knownoffender.net/">Giles</a> designed the look of the
 website.  We're hosted by the ever helpful and encouraging
 <a href="http://www.mythic-beasts.com/">Mythic Beasts</a>.
