@@ -1,10 +1,26 @@
 Interesting Divisions link doesn't go to interesting divisions - and people would like to
 http://www.publicwhip.org.uk/mp.php?id=uk.org.publicwhip/member/779&showall=yes#divisions
 
+2003-06-13 - check tables
+2003-06-12 - check euro
+
+MP wallplanner - show their diary
+Rankings on rebellion/attendance PER PARTY
+"Totally toady" to "Usual suspect"
+Cost in pounds / word of an MP
+
+Do a big usability thing - get Tom L to help with his ideas
+Make log file stats daily to see what happens as you subtly change links
+Controversial: Remove cluster map, Remove division attendance
+
+Put debate XML files and regmem XML files up on site
+Update the votematrix CSV files - people are using them!
+Put up raw data for ranking scores for rebel/attend that are only in fawkes
+
+Copy MP loader from fawkes for Public Whip database
 
 
 New division scraper:
-
 --------------------
 
 On this one, the two tellers for the noes have been lost
@@ -22,38 +38,10 @@ Check this one:
 The correct division has an explicit-division-end, which doesn't need to be erased.
 So some unspoken text is being lost.
 
-###################################################
-
-2003-06-13 - check tables
-2003-06-12 - check euro
-
-MP wallplanner - show their diary
-Rankings on rebellion/attendance PER PARTY
-"Totally toady" to "Usual suspect"
-Cost in pounds / word of an MP
-
-Do a big usability thing - get Tom L to help with his ideas
-Make log file stats daily to see what happens as you subtly change links
-Controversial: Remove cluster map, Remove division attendance
-
-Put debate XML files and regmem XML files up on site
-Update the votematrix CSV files - people are using them!
-Put up raw data for ranking scores for rebel/attend that are only in fawkes
-
-More activity
--------------
-
-Make SourceForge mailing list
-Copy MP loader from fawkes for Public Whip database
-
 Dream MP
 --------
 
-Change register.php to say it is registration
-Make newsletter signing more streamlined?
 Change frontpage newsletter advert depending on whether you are logged in
-    and also Newsletter nav bar link
-Performance on sphinx
 
 Web page URL of you
 
@@ -81,40 +69,10 @@ Put dream MP ranking on MP page
 
 Check what Julian thinks of score sorting etc.
 
-Wrans
------
-
-League table of how many didn't questions 
-
-Print department
-Match office (secretary of state...) to department?  Julian does this already
-prob, check how it works and use it in all the tables, as it is useful at-a-glance
-information.
-
-uk.org.publicwhip/wrans/2003-11-06.755W.4 - refers to uk.org.publicwhip/wrans/2003-06-03.214W
-which does actually exist, but crosses over two entire columns, so referencing the one in the middle doesn't pick it up.  Ooops.  Need some kind of ranging?
-uk.org.publicwhip/wrans/2003-11-06.726W.0 - there is a phrase referring to debates, but the
-link is given to wrans ;)
-uk.org.publicwhip/wrans/2003-11-06.725W.2 - has a offrep which isn't there (as well
-as two which we don't have indexed yet)
-uk.org.publicwhip/wrans/2003-10-27.110W.2 - fails to find offrep
-
-Back links to wrans that have referred to this one
-Check all found URL links
-
-Improve all MP name matching so no unknown ids
-Make "unknown" name link a better page (rather than a meaningless error)
-    Fix broken links to mp.php?id=unknown
-
-Stats - count up how many questions/answers each person has done
-Some kind of "most inquisitive" on front page
-
-Search for all questions that are about Hansard that you can now answer, and send off the answers.
-
-Give help on how to request answers from hcinfo
-
 Web site
 --------
+
+Make newsletter signing more streamlined?
 
 On konqueror on division page the "What is Tell?" etc. bar overlaps the Rebel
 voters table in some cases. (On divisions with few voters / parties)
@@ -129,8 +87,6 @@ Link to ideas.txt file
 
 Scraper
 -------
-
-Improve XML parser to be used for divisions.
 
 House of Lords
 

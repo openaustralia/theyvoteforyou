@@ -1,11 +1,20 @@
 <?php
-# $Id: cache-tools.inc,v 1.2 2004/06/15 10:59:41 frabcus Exp $
+# $Id: cache-tools.inc,v 1.3 2004/06/15 23:46:49 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
+function newsletter_navbar() {
+    $ret = "";
+    if (!user_isloggedin()) {
+        $ret .= '<a title="Subscribe to our email newsletter" href="/account/register.php">Newsletter</a>';
+    } else {
+        $ret .= '<a title="Email newsletter archives" href="/newsletters/archive.php">Newsletter</a>';
+    }
+    return $ret;
+}
 
 function account_navbar() {
     $ret = "";
@@ -15,7 +24,7 @@ function account_navbar() {
         $ret .= '<a title="Change account settings, such as whether you get the newsletter" href="/account/settings.php">';
         $ret .= "Settings";
         $ret .= '</a>';
-        $ret .= '<a title="" href="/account/logout.php">';
+        $ret .= '<a title="Make your browser forget that you are logged into The Public Whip as ' . $user_name .'" href="/account/logout.php">';
         $ret .= "Logout";
         $ret .= '</a>';
     } else {

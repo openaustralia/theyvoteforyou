@@ -1,11 +1,12 @@
 <? 
-# $Id: archive.php,v 1.6 2004/01/23 12:26:50 frabcus Exp $
+# $Id: archive.php,v 1.7 2004/06/15 23:46:49 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 $issue = intval($_GET["issue"]);
+$extra = intval($_GET["extra"]);
 
 function newsletter_title($newsletter)
 {
@@ -44,29 +45,52 @@ $title = "Newsletter Archive";
 if ($issue != 0)
 {
     $title = newsletter_title("issue" . $issue . ".txt") . " - " .
-        date("Y-m-d", newsletter_date("issue" . $issue . ".txt"));
+        date("j M Y", newsletter_date("issue" . $issue . ".txt"));
+}
+else if ($extra != 0)
+{
+    $title = newsletter_title("extra" . $extra . ".txt") . " - " .
+        date("j M Y", newsletter_date("extra" . $extra . ".txt"));
 }
 include "../header.inc";
 
-if ($issue == 0)
+if ($issue == 0 and $extra == 0)
 {
 ?><p>This is the archive of old issues of the Public Whip newsletter.  At most
 every month we'll email you with news, articles and comment about the
-project.  <a href="../account/register.php">Sign up now!</a>  It's free!<p><?
+project.  Occasionally we will send an extra small topical newsletter.
+<p>
+<?
+    if (!user_isloggedin())  {
+        ?><a href="../account/register.php">Sign up now!</a>  Get the newsletter by email. It's free!<p><?
+    } else {
+        ?><a href="../account/settings.php">Change your newsletter subscription setting</a>.<p><?
+    }
 
     $dh = opendir(".");
-    while (false !== ($filename = readdir($dh)))
-    {
-        if (preg_match("/^issue(.*)\.txt$/", $filename, $matches))
+    $filenames = array();
+    while (false !== ($filename = readdir($dh))) {
+        if (preg_match("/^(issue|extra)(.*)\.txt$/", $filename, $matches))
+            array_push($filenames, $filename);
+    }
+    function newslettercompare($a, $b) {
+        return newsletter_date($a) < newsletter_date($b);
+    }
+    usort($filenames, "newslettercompare");
+    print "<table>";
+    foreach ($filenames as $filename) {
+        if (preg_match("/^(issue|extra)(.*)\.txt$/", $filename, $matches))
         {
-            print "<a href=\"archive.php?issue=" . $matches[1] . "\">";
-            print date("Y-m-d", newsletter_date($filename));
-            print " - ";
+            print "<tr><td>";
+            print date("j M Y", newsletter_date($filename));
+            print "</td><td>";
+            print "<a href=\"archive.php?" . $matches[1] . "=" . $matches[2] . "\">";
             print newsletter_title($filename);
             print "</a>";
-            print "<br>";
+            print "</td></tr>";
         }
     }
+    print "</table>";
     print "<p><a href=\"old.php\">Older site news</a><?";
    /*3 December 2003
    31 October 2003 */
@@ -75,9 +99,17 @@ project.  <a href="../account/register.php">Sign up now!</a>  It's free!<p><?
 else
 {
     print "<p><a href=\"archive.php\">Full list of old newsletter issues here</a>";
-    print "<br><a href=\"../account/register.php\">Subscribe to the newsletter for free!</a> ";
+    if (!user_isloggedin())  {
+        print "<br><a href=\"../account/register.php\">Subscribe to the newsletter for free!</a> ";
+    } else {
+        print "<br><a href=\"../account/settings.php\">Change your newsletter subscription setting.</a> ";
+    }
+
     print "</p><hr><p>";
-    render_newsletter("issue" . $issue . ".txt");
+    if ($extra != 0)
+        render_newsletter("extra" . $extra . ".txt");
+    else
+        render_newsletter("issue" . $issue . ".txt");
 }
 
 ?>

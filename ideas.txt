@@ -101,6 +101,38 @@ their special interests.  Also link to which debates they spoke in.
 
 Committees, and voting in committee
 
+Written answers
+---------------
+
+Print department
+Match office (secretary of state...) to department?  Julian does this already
+prob, check how it works and use it in all the tables, as it is useful at-a-glance
+information.
+
+uk.org.publicwhip/wrans/2003-11-06.755W.4 - refers to uk.org.publicwhip/wrans/2003-06-03.214W
+which does actually exist, but crosses over two entire columns, so referencing the one in the middle doesn't pick it up.  Ooops.  Need some kind of ranging?
+uk.org.publicwhip/wrans/2003-11-06.726W.0 - there is a phrase referring to debates, but the
+link is given to wrans ;)
+uk.org.publicwhip/wrans/2003-11-06.725W.2 - has a offrep which isn't there (as well
+as two which we don't have indexed yet)
+uk.org.publicwhip/wrans/2003-10-27.110W.2 - fails to find offrep
+
+Back links to wrans that have referred to this one
+Check all found URL links
+
+Improve all MP name matching so no unknown ids
+Make "unknown" name link a better page (rather than a meaningless error)
+    Fix broken links to mp.php?id=unknown
+
+Stats - count up how many questions/answers each person has done
+Some kind of "most inquisitive" on front page
+
+League table of unanswered written questions
+
+Search for all questions that are about Hansard that you can now answer, and send off the answers.
+
+Give help on how to request answers from hcinfo
+
 Usability
 ---------
 

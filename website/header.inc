@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.37 2004/06/15 10:59:41 frabcus Exp $
+# $Id: header.inc,v 1.38 2004/06/15 23:46:49 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -64,7 +64,9 @@ Confused?  Tell us so we can improve!
 <tr class="headers">
 <td bgcolor="#666666">
 <a title="Front page and site highlights" href="<?=$toppath?>index.php">Home</a>
-<a title="Subscribe to our email newsletter" href="<?=$toppath?>account/register.php">Newsletter</a>
+<!--NEWSLETTERBEGIN-->
+<?php print newsletter_navbar(); ?>
+<!--NEWSLETTEREND-->
 <a title="Frequently Asked Questions" href="<?=$toppath?>faq.php">FAQ</a>
 <a title="List of all votes in Parliament" href="<?=$toppath?>divisions.php">Divisions</a>
 <a title="List of all Members of Parliament" href="<?=$toppath?>mps.php">MPs</a>
@@ -75,9 +77,7 @@ Confused?  Tell us so we can improve!
 </td>
 <td bgcolor="#666666" align="right">
 <!--ACCOUNTBEGIN-->
-<?php
-    print account_navbar();
-?>
+<?php print account_navbar(); ?>
 <!--ACCOUNTEND-->
 </td>
 </tr>

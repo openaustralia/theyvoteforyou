@@ -1,7 +1,7 @@
 <?php $cache_params = rand(0, 10); include "cache-begin.inc"; ?>
 
 <?  $title = "Counting votes on your behalf"; $onload = "givefocus()"; include "header.inc";
-# $Id: index.php,v 1.26 2004/06/13 15:51:52 frabcus Exp $
+# $Id: index.php,v 1.27 2004/06/15 23:46:49 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -51,7 +51,36 @@ Enter your postcode, MP name or a topic:
 
 </td></tr></table>
 
-<table class="layout"><tr><td>
+<table class="layout">
+
+<td colspan=2>
+
+<h2>Interesting Divisions <a href="divisions.php?sort=rebellions"
+title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
+<p>Selected at random from divisions with more than 10 rebellions.
+
+<?php
+    $db->query("$divisions_query_start and " . parliament_query_range_div($parliament) . "
+        and rebellions > 10 and
+        pw_division.division_id = pw_cache_divinfo.division_id order by
+        rand() limit 5"); 
+
+    print "<table class=\"votes\">\n";
+    print "<tr class=\"headings\">\n";
+    $prettyrow = 0;
+    while ($row = $db->fetch_row())
+    {
+        $prettyrow = pretty_row_start($prettyrow);
+        print "<td>$row[2]</td> 
+               <td><a href=\"division.php?date=" . urlencode($row[2]) . "&number=" . urlencode($row[1]) . "\">$row[3]</a></td> 
+               <td>$row[5] rebels</td>";
+        print "</tr>\n";
+    }
+    print "</table>\n";
+
+?>
+
+</td></tr><tr><td>
 
 <h2>Top Rebels <a href="mps.php?sort=rebellions" title="Show all MPs ordered by rebellions">(more...)</a></h2>
 <table class="mps">
@@ -101,46 +130,6 @@ Enter your postcode, MP name or a topic:
         print "</tr>\n";
     }
     print "</table>\n";
-?>
-
-</td></tr><td colspan=2>
-
-<h2>Interesting Divisions <a href="divisions.php?sort=rebellions"
-title="Show all divisions ordered by number of rebellions">(more...)</a></h2>
-<p>Selected at random from divisions with more than 10 rebellions.
-
-<?php
-    $db->query("$divisions_query_start and " . parliament_query_range_div($parliament) . "
-        and rebellions > 10 and
-        pw_division.division_id = pw_cache_divinfo.division_id order by
-        rand() limit 3"); 
-
-    print "<table class=\"votes\">\n";
-    print "<tr class=\"headings\">\n";
-    $prettyrow = 0;
-    while ($row = $db->fetch_row())
-    {
-        $prettyrow = pretty_row_start($prettyrow);
-        print "<td>$row[2]</td> 
-               <td><a href=\"division.php?date=" . urlencode($row[2]) . "&number=" . urlencode($row[1]) . "\">$row[3]</a></td> 
-               <td>$row[5] rebels</td>";
-        print "</tr>\n";
-    }
-    print "</table>\n";
-
-?>
-
-</td></tr><tr><td colspan=2>
-
-<h2>Written Answers <a href="wrans.php" title="Show more popular Written Answers">(more...)</a></h2>
-<p>Selected from recent popular pages viewed on this website.</p>
-<?php
-    $ids = wrans_recent_popular(3);
-    $result = "";
-    foreach ($ids as $id)
-        $result .= FetchWrans($id);
-    $result = WrapResult($result);
-    print ApplyXSLT($result, "wrans-frontpage.xslt");
 ?>
 
 </td></tr></table>

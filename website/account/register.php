@@ -1,6 +1,6 @@
 <?  
 
-# $Id: register.php,v 1.13 2004/06/15 10:27:01 frabcus Exp $
+# $Id: register.php,v 1.14 2004/06/15 23:46:49 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -17,20 +17,23 @@ $email=mysql_escape_string($_POST["email"]);
 $real_name=mysql_escape_string($_POST["real_name"]);
 $submit=mysql_escape_string($_POST["submit"]);
 
-if (user_isloggedin()) {
-	user_logout();
-	$user_name='';
-}
-
 $ok = false;
 if ($submit) {
+	user_logout();
+	$user_name='';
 	$ok = user_register($user_name,$password1,$password2,$email,$real_name);
 }
 
-$title = "Sign up for Newsletter"; 
+$title = "Sign up for Newsletter and Dream MP"; 
 include "../header.inc";
 
-if ($feedback) {
+if (user_isloggedin()) {
+    global $user_name;
+    print '<p>You are already logged in as ' . $user_name . '.  Please <a href="logout.php">logout</a> before
+    registering a new account. </a>';
+    $ok = true;
+}
+else if ($feedback) {
     if ($ok)
     {
 	echo "<p>$feedback</p>";
@@ -46,7 +49,11 @@ else
     print "<p>
     Quickly fill in the information below, and we'll send you
     a confirmation email.  You will then receive the Public
-    Whip newsletter, which will be at most once a month.";
+    Whip newsletter, which will be at most once a month.
+    Occasionally we will send an extra small topical newsletter.
+    You will also be able to make your own Dream MPs.  After
+    signing up you can unsubscribe from the newsletter, but still
+    make Dream MPs.";
     print "<p><a href=\"../newsletters/archive.php\">Read archive of previous newsletters</a>";
     print "<br><a href=\"settings.php\">Log in to change settings if you already signed up</a>";
     
@@ -83,7 +90,7 @@ if (!$ok)
     In the future it may give you access to other free services on the Public
     Whip website.  Any changes to this policy will require your explicit
     agreement.
-    <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Sign Up For Newsletter">
+    <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Sign Up For Newsletter and Dream MP">
     </FORM>
 <?php
 }
