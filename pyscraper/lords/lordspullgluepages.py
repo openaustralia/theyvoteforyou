@@ -22,7 +22,7 @@ pwlordsindex = os.path.join(toppath, "lordindex.xml")
 # output directories (everything of one day in one file).
 pwlordspages = os.path.join(toppath, "lordspages")
 
-tempfilename = tempfile.mktemp("", "pw-gluetemp-", toppath)
+tempfilename = tempfile.mktemp("", "pw-gluetemp-", miscfuncs.tmppath)
 
 # this does the main loading and gluing of the initial day debate
 # files from which everything else feeds forward

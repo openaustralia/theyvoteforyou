@@ -49,8 +49,8 @@ pwxmldirs = os.path.join(toppath, "scrapedxml")
 # file to store list of newly done dates
 recentnewfile = "recentnew.txt"
 
-tempfilename = tempfile.mktemp(".xml", "pw-filtertemp-", toppath)
-patchtempfilename = tempfile.mktemp("", "pw-applypatchtemp-", toppath)
+tempfilename = tempfile.mktemp(".xml", "pw-filtertemp-", miscfuncs.tmppath)
+patchtempfilename = tempfile.mktemp("", "pw-applypatchtemp-", miscfuncs.tmppath)
 
 # create the output directory
 if not os.path.isdir(pwxmldirs):

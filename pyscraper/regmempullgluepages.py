@@ -20,7 +20,7 @@ toppath = miscfuncs.toppath
 pwcmdirs = os.path.join(toppath, "cmpages")
 pwcmregmem = os.path.join(pwcmdirs, "regmem")
 
-tempfilename = tempfile.mktemp("", "pw-gluetemp-", toppath)
+tempfilename = tempfile.mktemp("", "pw-gluetemp-", miscfuncs.tmppath)
 
 def GlueByNext(fout, url, regmemdate):
 	# loop which scrapes through all the pages following the nextlinks
