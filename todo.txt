@@ -1,7 +1,9 @@
 Wiki
 ----
 
+Forum
 Improve help text describing what to write
+Work out good ways to link to the dream MP report pages.
 
 General
 -------

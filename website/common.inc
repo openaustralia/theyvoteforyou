@@ -1,6 +1,6 @@
 <?php
 
-# $Id: common.inc,v 1.1 2005/01/15 20:46:22 frabcus Exp $
+# $Id: common.inc,v 1.2 2005/01/15 22:32:14 frabcus Exp $
 
 # Included from all main .php files on the first line
 
@@ -11,8 +11,8 @@
 
 ini_set('log_errors', 'On');
 
-$loc = dirname($_SERVER['REQUEST_URI']);
-if (!is_bool(strpos($loc, "/account")) || !is_bool(strpos($loc, "/project")) || !is_bool(strpos($loc, "/newsletters")) )
+$loc = dirname($_SERVER['REQUEST_URI'] . "dummy"); # Dummy for / is really /index.php
+if (!is_bool(strpos($loc, "/forum")) || !is_bool(strpos($loc, "/account")) || !is_bool(strpos($loc, "/project")) || !is_bool(strpos($loc, "/newsletters")) )
     $toppath = "../"; 
 else 
     $toppath = "";
