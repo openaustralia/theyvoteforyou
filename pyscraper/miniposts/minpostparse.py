@@ -21,7 +21,8 @@ from resolvemembernames import memberList
 from xmlfilewrite import WriteXMLHeader
 
 toppath = miscfuncs.toppath
-chggdir = os.path.join(toppath, "chggpages")
+rawdatapath = miscfuncs.rawdatapath
+chggdir = os.path.join(rawdatapath, "chggpages")
 chgtmp = os.path.join(toppath, "tempchgg.xml")
 
 

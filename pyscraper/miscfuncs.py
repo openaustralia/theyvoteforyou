@@ -22,6 +22,10 @@ if (not os.path.isdir(toppath)):
 if os.path.exists(toppath + "/pwcmpages"):
         raise Exception, 'Folders have changed name, and you need to rescrape everything anyway.  Clear out %s and start again.' % (toppath)
 
+rawdatapath = os.path.join(os.getcwd(), "../rawdata")
+if (not os.path.isdir(toppath)):
+        raise Exception, 'Raw data directory %s does not exist, you\'ve not got a proper checkout from CVS.' % (toppath)
+
 # import lower down so we get the top-path into the contextexception file
 from contextexception import ContextException
 
