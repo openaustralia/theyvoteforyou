@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.5 2004/07/20 10:12:14 frabcus Exp $
+# $Id: DivsXML.pm,v 1.6 2004/07/20 12:14:33 theyworkforyou Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Loads divisions from the XML files made by pyscraper into
@@ -361,7 +361,7 @@ debate_url = ?, source_gid = ?, debate_gid = ? where division_id = ?",
         $dbh, "insert into pw_division 
         (valid, division_date, division_number, division_name,
         source_url, debate_url, source_gid, debate_gid, motion) values
-        (0, ?, ?, ?, ?, ?, ?)", $divdate, $divnumber, $heading, $url,
+        (0, ?, ?, ?, ?, ?, ?, ?, ?)", $divdate, $divnumber, $heading, $url,
         $debate_url, $gid, $debate_gid,           $motion_text
     );
     $sth = PublicWhip::DB::query( $dbh, "select last_insert_id()" );

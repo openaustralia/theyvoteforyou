@@ -27,12 +27,14 @@ cd ~/publicwhip/loader
 ./memxml2db.pl
 
 # Load new divisions
-if ! ./load.pl --from=$FROMDATE divsxml 
+if ! ./load.pl --quiet --from=$FROMDATE divsxml 
 then
-	echo "There were new divisions, recalculating cached values"
+	# echo "There were new divisions, recalculating cached values"
+
 	# There were new divisions, so run checks
 	# DISABLED too much chitter
 	# ./load.pl --from=$FROMDATE check
+
 	# and update counts of rebels etc.
 	./load.pl --from=$FROMDATE calc
 
