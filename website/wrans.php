@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php 
-    # $Id: wrans.php,v 1.1 2003/11/30 16:55:27 frabcus Exp $
+    # $Id: wrans.php,v 1.2 2003/12/05 18:29:39 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -12,6 +12,17 @@
     $db = new DB(); 
 
     $path = "/home/francis/pwdata/pwscrapedxml/wrans/";
+
+	$sgrepout = array();
+	print "<pre>";
+	$command = <<<END
+	sgrep -x /home/francis/pwdata/pwscrapedxml/wrans/ixsgrep -g xml 'stag("wrans") ..  etag("wrans") containing (stag("speech") .. etag("speech") containing (attribute("id") containing attvalue("uk.org.publicwhip/member/1113")))'
+END;
+	exec("sgrep a", $sgrepout);
+	print join("\n", $sgrepout);
+	print "moose $command";
+	print "</pre>";
+
 
 #    $date = db_scrub($_GET["date"]);
 
