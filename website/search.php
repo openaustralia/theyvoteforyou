@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.22 2004/01/28 19:58:16 frabcus Exp $
+# $Id: search.php,v 1.23 2004/01/28 21:32:16 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -22,6 +22,7 @@
     $db = new DB(); 
 
     $postcode = is_postcode($query);
+    $header = false;
 
     if ($query <> "")
     {
@@ -29,6 +30,9 @@
 
         if (!$postcode)
         {
+            $header = true;
+            include "header.inc";
+            
             # Perform query on divisions
             $db->query("$divisions_query_start and (upper(division_name) like '%$query%'
             or upper(motion) like '%$query%')
@@ -120,7 +124,8 @@
             exit;
         }
 
-        include "header.inc";
+        if (!$header)
+            include "header.inc";
 
         if ($db->rows() > 0)
         {
