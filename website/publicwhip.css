@@ -30,12 +30,6 @@ A:link:hover, A:active:hover, A:visited:hover
     BACKGROUND-REPEAT: repeat;
     BACKGROUND-COLOR: #bbbbbb;
 }
-A:link.current
-{
-    FONT-WEIGHT: bold;
-    BACKGROUND-REPEAT: repeat;
-    BACKGROUND-COLOR: #bbbbbb;
-}
 H1
 {
     MARGIN-TOP: 0.2em;

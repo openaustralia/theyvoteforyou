@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.58 2005/03/06 09:35:35 goatchurch Exp $
+    # $Id: mp.php,v 1.59 2005/03/06 11:13:17 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -167,8 +167,10 @@
 		print $leadch;
 		$leadch = " | ";
 		$dlink = "href=\"$thispage".($ldisplay != "summary" ? "&display=$ldisplay" : "")."\"";
-		$dcla = ($ldisplay == $display ? " class=\"current\"" : "");
-		print "<a$dcla $dlink>".$ldismode["description"]."$dcla</a>";
+        if ($ldisplay == $display)
+            print $ldismode["description"];
+        else
+            print "<a $dlink>".$ldismode["description"]."</a>";
 	}
 
 	# secondary links to variations
@@ -278,12 +280,12 @@
 		if ($dismode["votelist"] == "short" and $voter2type == "party")
 			print "<p>Votes in parliament for which this MP's vote differed from the
 	        	majority vote of their party (Rebel), or in which this MP was
-	        	a teller (Teller) or both (Rebel Teller).  </p>\n";
+	        	a teller (Teller) or both (Rebel Teller).  \n";
 		else if ($dismode["votelist"] == "every" and $voter2type == "party")
-			print "<p>All votes this MP could have attended.</p>\n";
+			print "<p>All votes this MP could have attended. \n";
 
 		if ($events !== "")
-		    print " <p>Also shows when this MP became or stopped being a paid minister. </p>";
+		    print " Also shows when this MP became or stopped being a paid minister. </p>";
 
 		# convert the view for the table selection depending on who are the voting actors
 		if ($dismode["votelist"] == "every")
@@ -380,7 +382,10 @@
 	        </tr>";
 	
 	    $prettyrow = 0;
-	    $db->query(get_top_dream_query(8));
+        if ($dismode["dreamcompare"] == "all") 
+            $db->query(get_top_dream_query(null));
+        else
+            $db->query(get_top_dream_query(8));
 	    $dreams = array();
 	    while ($row = $db->fetch_row_assoc()) {
 	        $dreamid = $row['rollie_id'];

@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.3 2005/03/06 01:22:17 goatchurch Exp $
+    # $Id: tableoth.inc,v 1.4 2005/03/06 11:13:31 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -119,8 +119,7 @@
 		$db->query($query);
 
         print "<tr class=\"headings\">
-			   <td>Name</td><td>Constituency</td><td>Party</td><td>Distance</td>
-			   <td>Rebellions</td><td>Attendance</td></tr>";
+			   <td>Name</td><td>Constituency</td><td>Party</td><td>Distance</td> </tr>";
         $prettyrow = 0;
         while ($row = $db->fetch_row_assoc())
         {
@@ -130,17 +129,17 @@
 
 			$distance = $row['distance'];
             if ($distance == "0")
-                $distance = "0 (always vote same)";
+                $distance = "0 - always voted the same";
             if ($distance == "1")
-                $distance = "1 (always vote different)";
+                $distance = "1 - always voted differently";
 
             print "<td><a href=\"mp.php?$friendanchor&$friendcomp\">".
 				$row['title']." $friendmpname</a> (compare)</td>";
 			print "<td>".$row['constituency']."</td>";
 			print "<td>".pretty_party($row['party'], $row['entered_reason'], $row['left_reason']) . "</td>";
 			print "<td>$distance</td>";
-	        print "<td class=\"percent\">".percentise_votes($row['rebellions'], $row['votes_attended'])."</td>\n";
-			print "<td class=\"percent\">".percentise_votes($row['votes_attended'], $row['votes_possible'])."</td>\n";
+#	        print "<td class=\"percent\">".percentise_votes($row['rebellions'], $row['votes_attended'])."</td>\n";
+#			print "<td class=\"percent\">".percentise_votes($row['votes_attended'], $row['votes_possible'])."</td>\n";
             print "</tr>\n";
         }
         print "</table>\n";
@@ -148,8 +147,6 @@
 		# anchor to show all friends
         if ($showwhichfriends == "some")
         {
-			$thisanchor = "mpn=".urlencode(str_replace(" ", "_", $mpprop['name']))."&mpc=".urlencode($mpprop['constituency']);
-            print "<p><a href=\"mp.php?$thisanchor&allfriends=yes#friends\">Show all MPs in order of friendliness to this one</a>";
             if ($same_voters > 4)
                 print " ($same_voters MPs voted exactly the same as this one)";
         }
