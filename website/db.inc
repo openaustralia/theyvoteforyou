@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.20 2005/03/28 19:59:24 frabcus Exp $
+# $Id: db.inc,v 1.21 2005/03/31 20:14:26 theyworkforyou Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -95,7 +95,7 @@ class DB
     {
         $this->query($query);
         if ($this->rows() != 1)
-			die("Single row query didn't get one row, got " . $this->rows() . " on query: ".$query);
+			die("query_one_row: Single row query didn't get one row, got " . $this->rows() . " on query: ".$query);
         $row = $this->fetch_row();
         return $row;
     }
@@ -104,7 +104,7 @@ class DB
     {
         $this->query($query);
         if ($this->rows() != 1)
-			die("Single row query didn't get one row, got " . $this->rows() . " on query: ".$query);
+		die("query_one_row_assoc: Single row query didn't get one row, got " . $this->rows() . " on query: ".$query);
         $row = $this->fetch_row_assoc();
         return $row;
     }
@@ -112,10 +112,12 @@ class DB
     function query_onez_row_assoc($query)
     {
         $this->query($query);
-        if ($this->rows() == 0)
+	$rows = $this->rows();
+        if ($rows == 0) {
         	return null;
-		if ($this->rows() != 1)
-			die("Single row query didn't get one row, got " . $this->rows() . " on query: ".$query);
+	}
+	if ($rows != 1)
+		die("query_onez_row_assoc: Single row query didn't get one row, got ".$rows." on query: ".$query);
         $row = $this->fetch_row_assoc();
         return $row;
     }

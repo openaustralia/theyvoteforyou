@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.21 2005/03/31 15:19:04 theyworkforyou Exp $
+# $Id: dream.inc,v 1.22 2005/03/31 20:14:27 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -133,7 +133,11 @@ function update_dreammp_person_distance($db, $dreamid)
 	$row = $db->query_onez_row_assoc($query); # allows no rows
 	if ($row == null) {
 		update_dreammp_votemeasures($db, $dreamid, 0);
-		$row = $db->query_one_row_assoc($query);
+		$row = $db->query_onez_row_assoc($query);
+		if ($row == null) {
+			// case of no votes yet by Dream MP
+			return;
+		}
 	}
 	else
 		update_dreammp_votemeasures($db, $dreamid, $row["cache_uptodate"]); # forces the sums to add up properly
