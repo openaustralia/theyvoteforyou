@@ -160,6 +160,11 @@ class ParlPhrases:
 		"WORK AND PENSIONS":"WORK AND PENSIONS",
 			}
 
+
+	daysofweek = 'Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday'
+	monthsofyear = 'January|February|March|April|May|June|July|August|September|October|November|December'
+	datephrase = '(?:%s )?(\d+ (?:%s)(?: \d+)?)' % (daysofweek, monthsofyear)
+
 	# make a huge regexp
 	def __init__(self):
 		sio = None

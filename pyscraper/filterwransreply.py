@@ -11,111 +11,19 @@ from resolvemembernames import memberList
 from parlphrases import parlPhrases
 from miscfuncs import FixHTMLEntities
 
+from filterwransreplytable import ParseTable
+
 # output to check for undetected member names
 seelines = open('ghgh.txt', "w")
 
 
-# replies can have tables
-def ParseTable(stable):
-	# take out all the useless font and paragraph junk
-	stable = re.sub('</?font[^>]*>|</?p>|\n(?i)', ' ', stable)
-
-	# take out the bracketing
-	stable = re.findall('<table[^>]*>\s*(.*?)\s*</table>(?i)', stable)[0]
-
-	# break into rows
-	sprows = re.split('(<tr[^>]*>.*?</tr>)(?i)', stable)
-
-	# first row is title
-	srows = []
-	for sprow in sprows:
-		row = re.findall('^<tr[^>]*>\s*(.*?)\s*</tr>$(?i)', sprow)
-		if row:
-			if not srows:
-				srows.append('')
-			srows.append(row[0])
-
-		else:
-			sprow = string.strip(sprow)
-			if not srows:
-				srows.append(sprow)
-			elif sprow:
-				print ' non-row text ' + sprow
-
-	# take out tags round the title; they're always out of order
-	if srows[0]:
-		ts = re.findall('^(?:<b>|<center>)+\s*(.*?)\s*(?:</b>|</center>)+\s*(.*)\s*$(?i)', srows[0])
-		if ts:
-			if ts[0][1]:
-				srows[0] = ts[0][0] + ' - ' + ts[0][1]
-			else:
-				srows[0] = ts[0][0]
-		else:
-			print ' non-standard table title: ' + srows[0]
-
-	# find where the headings stop and the rows begin
-	for ih in range(1, len(srows)):
-		if re.search('<td>(?i)', srows[ih]):
-			break
-
-	# break each row down into columns
-	for i in range(1, len(srows)):
-		colt = 'td'
-		colregexp = '(<td[^>]*>.*?</td>)(?i)'
-		colexregexp = '^<td[^>]*>\s*(.*?)\s*</td>$(?i)'
-		if i < ih:
-			colregexp = '(<th[^>]*>.*?</th>)(?i)'
-			colexregexp = '^<th[^>]*>\s*(.*?)\s*</th>$(?i)'
-			colt = 'th'
-
-		srow = srows[i]
-		srow = re.sub('<td>\s*<td>\s*</td>(?i)', '<td></td><td>', srow)
-
-		spcols = re.split(colregexp, srow)
-		scols = [ colt ]
-		for spcol in spcols:
-			col = re.findall(colexregexp, spcol)
-			if col:
-				coltext = col[0]
-				coltext = re.sub(' & ', ' &amp ', coltext)
-				scols.append(coltext)
-			elif re.search('\S', spcol):
-				print ' non column text ' + srows[i]
-				print spcols
-				#sys.exit()
-
-		# copy the list back into the table
-		srows[i] = scols
-		# if i > 1 and len(srows[i]) != len(srows[1]):  print 'columns not consistent'
 
 
-	# construct the text for writing the table
-	sio = cStringIO.StringIO()
-
-	sio.write('<table>\n')
-	sio.write('\t<title>')
-	sio.write(srows[0])
-	sio.write('</title>\n')
-
-	for i in range(1, len(srows)):
-		colt = srows[i][0]    # td or th
-		sio.write('\t<tr>')
-		for j in range(1, len(srows[i])):
-			sio.write(' <%s> %s </%s> ' % (colt, srows[i][j], colt))
-		sio.write('</tr>\n')
-
-	sio.write('</table>\n')
-
-	res = sio.getvalue()
-	sio.close()
-	return res
-
-
-# A common prefix on answers.
+# A common prefix on answers which needs to be taken out.
 def RemoveHoldingAnswer(qs, line):
 	# <i>[holding answer 17 September 2003]:</i>
 	# the delimeters are in a variety of different orders
-	qha = re.match('((?:\s|</?i>)*\[(?:\s|</?i>)*holding answers? ?(?:on|of |issued)?\s*([\w\s]*?)(?:</i>|:|;|\s)*\](?:</i>|:|;|\s)*)', line)
+	qha = re.match('((?:\s|</?i>)*\[(?:\s|</?i>)*holding answers?\s*(?:on|of|issued|issued on)?\s*([\w\s]*?)(?:</i>|:|;|\s)*\](?:</i>|:|;|\s)*)', line)
 	if qha:
 		line = line[qha.span(1)[1]:]	# take the tail of the string.
 		dt = qha.group(2)
@@ -131,6 +39,7 @@ def RemoveHoldingAnswer(qs, line):
 			qs.holdinganswer.append(holdans)
 		else:
 			print ' not pure date: ' + dt
+			print qha.group(1)
 
 	# successfully cleared this quote from front of line
 	if qs.sdate != '2003-02-28' and qs.sdate != '2003-02-25':
@@ -141,92 +50,107 @@ def RemoveHoldingAnswer(qs, line):
 	return line
 
 
-# codes for getting the hon member strings out and into a normal form
-honmemextrlist = [
-	( '([Mm]y (?:[Rr]ight )?[Hh]on\.? [Ff]riend,? the [Mm]ember for (.*?) \((.*?)\))', (3, 2, -1) ),
-	( '([Tt]he (?:[Rr]ight )?[Hh]on\.? [Mm]ember for (.*?) \((.*?)\))', (3, 2, -1) ),
-	( '([Mm]y (?:[Rr]ight )?[Hh]on\.? [Ff]riend,? <mpjob>([^<]*)</mpjob> \((.*?)\))', (3, -1, 2) ),
-	( '([Mm]y [Hh]on\.? [Ff]riend for (.*?) \((.*?)\))', (3, 2, -1) ),
-		]
-def ExtractHonMembersRecurse(qs, stex):
-	# find a matching string type
-	mps = ''
-	for honmem in honmemextrlist:
-		qhm = re.search(honmem[0], stex)
-		if not qhm:
-			continue
 
-		# extract the fields from this match
-		mpname = qhm.group(honmem[1][0])
-		mpconst = ''
-		if honmem[1][1] != -1:
-			mpconst = qhm.group(honmem[1][1])
-		mpjob = ''
-		if honmem[1][2] != -1:
-			mpjob = qhm.group(honmem[1][2])
+# The following functions are very contorted and recursive, breaking up the paragraph into
+# phrases and putting tags around them.  Can't say that it's reliable yet, but what it
+# calculates should be the marked up grouping that a later parser can scan and use easily.
+# What it is trying to calculate is in the long run correct I believe, although the reliability
+# and scalability to total reliability of this particular algorithm is questionable.
+
+# official report phrases
+# on 4 June 2003, <i>Official Report,</i> column 22WS
+# columns 687&#150;89W
+
+offrepwre = '<i>official(?:</i> <i>| )report,?</i>,?'
+offrepre = '((?:on|of|in|and)? ?%s[.,]? %s c(?:olumns?)?\.? (\d+(?:&#150;\d+)?[WS]*)[,.]?)(?i)' % (parlPhrases.datephrase, offrepwre)
+reoffrep = re.compile(offrepre)
 
 
-		# check if the member is in the list (unreliable code at the moment)
-		if not memberList.matchfullname(mpname, qs.sdate)[1]:
-			#pass
-			print ' MP name not found in honmemrecurse: ' + mpname
-			#continue
+def ExtractOffRepRecurse(qs, stex):
+	# we are now down to a segment of text in which we can look for these official reports
+	qoffrep = reoffrep.search(stex)
+	if qoffrep:
+		res = ExtractOffRepRecurse(qs, string.strip(stex[:qoffrep.span(1)[0]]))
+		offdate = mx.DateTime.DateTimeFrom(qoffrep.group(2)).date
+		offcolnum = re.sub('&#150;', '-', qoffrep.group(3))
 
-		mps = '<MP name="%s" constituency="%s" job="%s">%s</MP>' % (mpname, mpconst, mpjob, qhm.group(1))
-		break
-
-
-	# recursion part
-	if mps:
-		res = ExtractHonMembersRecurse(qs, stex[:qhm.span(1)[0]])
-		res.append(mps)
-		res.extend(ExtractHonMembersRecurse(qs, stex[qhm.span(1)[1]:]))
+		res.append('<offrep date="%s" column="%s">%s</offrep>' % (offdate, offcolnum, qoffrep.group(1)))
+		print offdate + "  " + offcolnum
+		res.extend(ExtractBracketNamesRecurse(qs, string.strip(stex[qoffrep.span(1)[1]:])))
 		return res
-	else:
-                print "stexing"
-                print stex
-                oldstex = stex
-                stex = FixHTMLEntities(stex)
-                if stex <> oldstex:
-                        print "newstex"
-                        print stex
-		return [ stex ]
+
+	if re.search('official report(?i)', stex):
+		seelines.write(stex)
+		seelines.write('\n')
+
+	return [ string.strip(FixHTMLEntities(stex)) ]
 
 
-
-
-
+# the set of known parliamentary offices.
 rejobs = re.compile('((?:[Mm]y (?:rt\. |[Rr]ight )?[Fh]on\.? [Ff]riend )?[Tt]he (?:then |former )?(?:%s))' % parlPhrases.regexpjobs)
-def ExtractJobRecurse(stex):
+
+def ExtractBracketNamesRecurse(qs, stex):
+	# split the remaining chunks at the brackets
+	qbrack = re.search('(\(([^)]*)\))', stex)
+	if qbrack:
+		if memberList.mpnameexists(qbrack.group(2), qs.sdate):
+			res = ExtractBracketNamesRecurse(qs, string.strip(stex[:qbrack.span(1)[0]]))
+			res.append('(<mpname>%s</mpname>)' % qbrack.group(2))
+			res.extend(ExtractBracketNamesRecurse(qs, string.strip(stex[qbrack.span(1)[1]:])))
+			return res
+
+	# we are now down to a segment of text in which we can look for these official reports
+	return ExtractOffRepRecurse(qs, stex)
+
+def ExtractJobRecurse(qs, stex):
+	# split the text into known mpjobs
 	qjobs = rejobs.search(stex)
 	if qjobs:
-		res = ExtractJobRecurse(string.strip(stex[:qjobs.span(1)[0]]))
+		res = ExtractJobRecurse(qs, string.strip(stex[:qjobs.span(1)[0]]))
 		res.append('<mpjob>%s</mpjob>' % qjobs.group(1))
-		res.extend(ExtractJobRecurse(string.strip(stex[qjobs.span(1)[1]:])))
+		res.extend(ExtractJobRecurse(qs, string.strip(stex[qjobs.span(1)[1]:])))
 		return res
+	return ExtractBracketNamesRecurse(qs, stex)
 
-	# break into brackets
-	res = [ ]
-	for qbrack in re.split('(\([^)]*\))', stex):
-		if re.search('\S', qbrack):
-			res.append(string.strip(qbrack))
-	return res
+
+# this should pick out phrases refering to members for constituencies without being tooo greedy
+# and jumping across a long sentence to grab an hon member part of a later phrase where it occurs
+# just before a brackets.
+rememconstit = re.compile('((?:[Mm]y (?:[Rr]ight )?[Hh]on\.? [Ff]riend,?(?: the [Mm]ember)|[Tt]he (?:[Rr]ight )?[Hh]on\.? [Mm]ember) for (.*?(?! [Mm]ember ).*?),?)$')
+def ExtractPersonPhrases(qs, stex):
+	sres = ExtractJobRecurse(qs, stex)
+
+	i = 0
+	while i < len(sres):
+		sr1 = ''
+		if i+1 < len(sres):
+			sr1 = sres[i+1]
+
+		# merge the two if it's the position/name type
+		if re.search('<mpname>', sr1):
+			if re.search('<mpjob>', sres[i]):
+				sres[i] = '<mpphrase>%s %s</mpphrase>' % (sres[i], sr1)
+				sres.pop(i+1)
+				print sres[i]
+
+			else:
+				qconstit = rememconstit.search(sres[i])
+				if qconstit:
+					#seelines.write('\t\t"%s",\n' % qconstit.group(2))
+					sres[i] = string.strip(sres[i][:qconstit.span(1)[0]])
+					sres[i+1] = '<mpphrase>%s %s</mpphrase>' % (qconstit.group(1), sres[i+1])
+		i = i+1
+	return sres
 
 
 def FindHonMembers(i, n, line, qs):
 	# first determin the jobs that are in the text
-	line = string.join(ExtractJobRecurse(line))
+	line = string.join(ExtractPersonPhrases(qs, line))
 	return line
 
-	res = ExtractHonMembersRecurse(qs, line)
-	return string.join(res, '')
-
-	if len(res) == 1:
-		qhb = re.search('(\([A-Z][a-z]+\s+[A-Z][a-z]+\))', line)
-		if qhb:
-			seelines.write('%d/%d\t%s:\t%s\n' % (i, n, qhb.group(1), line))
 
 
+# this is the main function.
 def FilterReply(qs):
 	# break into pieces
 	nfj = re.split('(<table[\s\S]*?</table>|</?p>|</?ul>|<br>|</?font[^>]*>)(?i)', qs.text)
@@ -252,8 +176,9 @@ def FilterReply(qs):
 		spc = ''
 	dell.append(spc)
 
+
 	# we now have the paragraphs interspersed with inter-paragraph symbols
-	# for now ignore these inter-paragraph symbols.
+	# for now ignore these inter-paragraph symbols and parse the paragraphs themselves
 	qs.stext = []
 	n = (len(dell)-1) / 2
 	for i in range(1, len(dell)-1, 2):
@@ -268,5 +193,6 @@ def FilterReply(qs):
 
 	if not qs.stext:
 		print 'empty answer'
+		raise Exception, 'empty answer'
 
 

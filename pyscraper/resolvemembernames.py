@@ -87,6 +87,35 @@ class MemberList(xml.sax.handler.ContentHandler):
         remadename = self.members[id]["firstname"] + " " + self.members[id]["lastname"]
         return id, '', remadename
 
+
+    def mpnameexists(self, input, date):
+        text = input
+
+        # Remove dots, but leave a space between them
+        text = text.replace(".", " ")
+        text = text.replace("  ", " ")
+
+	# doesn't seem to improve matching, and anyway python doesn't like it, even in a comment
+	#text = text.replace('&#214;', 'Oe')
+
+        # Remove initial titles
+        (text, titlec) = re.subn("^(" + self.titles + ")", "", text)
+        if titlec > 1:
+            return 0
+
+
+
+        # Find unique identifier for member
+        matches = self.fullnames.get(text, None)
+        if not matches and titlec == 1:
+            matches = self.lastnames.get(text, None)
+        if matches:
+            for attr in matches:
+                if date >= attr["fromdate"] and date <= attr["todate"]:
+                    return 1
+
+        return 0
+
 # Construct the global singleton of class which people will actually use
 memberList = MemberList()
 
