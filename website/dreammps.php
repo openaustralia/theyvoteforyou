@@ -19,7 +19,6 @@
     $dbo = new DB();
     $db = new DB();
 
-check_table_cache_counts_all_dream_mps($db); # dead
 	update_dreammp_votemeasures($db, null); # for all
 
     $title = "Dream MPs";

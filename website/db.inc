@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.18 2005/03/28 17:06:41 goatchurch Exp $
+# $Id: db.inc,v 1.19 2005/03/28 17:35:59 frabcus Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -9,7 +9,7 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 # debug setting which prints out all the statements in the SQL calls
-$bdebug = 1;
+$bdebug = 0;
 
 
 function db_scrub($text)
@@ -45,14 +45,14 @@ class DB
 
     function query($query)
     {
-#print $query;
+print "<p>$query";
         $this->$result = mysql_query($query, $this->link) 
             or die("Query failed : " .  mysql_error());
     }
 
     function query_errcheck($query)
     {
-#print $query;
+#print "<p>$query";
         $this->$result = mysql_query($query, $this->link);
         return $this->$result;
     }

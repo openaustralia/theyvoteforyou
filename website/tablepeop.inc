@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablepeop.inc,v 1.7 2005/03/28 12:55:44 goatchurch Exp $
+    # $Id: tablepeop.inc,v 1.8 2005/03/28 17:35:59 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -71,7 +71,7 @@
 				$distance = "0 - always vote the same";
 			elseif ($distance == 1)
 				$distance = "1 - always vote the differently";
-			print "<td>$distance</td>";
+			print "<td>".number_format($distance, 3)."</td>";
 		}
 		elseif ($colstyle == "dreamdistance")
 		{
@@ -80,7 +80,7 @@
 				$distance .= " (best)";
 			elseif ($distance > 0.9)
 				$distance .= " (worst)";
-			print "<td>$distance</td>";
+			print "<td>".number_format($distance, 3)."</td>";
 		}
 
 		# division vote

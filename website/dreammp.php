@@ -22,10 +22,6 @@
     include "dream.inc";
 	include "tablepeop.inc";
 
-    #include_once "account/user.inc";
-
-# old code
-check_table_cache_dream_mp($db, $dreamid);
 	update_dreammp_person_distance($db, $dreamid); # new method
 
 	$qselect = "SELECT pw_dyn_rolliemp.name AS name, pw_dyn_rolliemp.description AS description,

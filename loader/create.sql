@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.16 2005/03/28 14:26:33 frabcus Exp $
+-- $Id: create.sql,v 1.17 2005/03/28 17:35:57 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -198,8 +198,7 @@ create table pw_cache_dreaminfo (
     rollie_id int not null primary key,
 
     -- 0 - nothing is up to date
-    -- 1 - quick calculation done
-    -- 2 - slow and quick calculations done
+    -- 1 - calculation has been done
     cache_uptodate int NOT NULL,
 
     votes_count int not null,
@@ -226,7 +225,7 @@ create table pw_cache_dreamreal_score (
     unique(rollie_id, person),
 );
 
--- New version of pw_cache_dreamreal_score
+-- New version of pw_cache_dreamreal_score, which is obsolete soon
 create table pw_cache_dreamreal_distance (
     rollie_id int not null,
     person int not null,
@@ -245,6 +244,25 @@ create table pw_cache_dreamreal_distance (
     index(rollie_id),
     index(person),
     unique(rollie_id, person)
+);
+
+-- Distance between an MP (mp_id) and a set of MPs (person).
+-- This is driven by the MP (mp_id).
+create table pw_cache_realreal_distance (
+    mp_id int not null,
+    person int not null,
+
+    -- number of votes same / different / MP absent
+    nvotessame int,
+    nvotesdiffer int,
+    nvotesabsent int, -- where absent means person is missing
+
+    distance_a float, -- use abstentions
+    distance_b float, -- ignore abstentions
+
+    index(mp_id),
+    index(person),
+    unique(mp_id, person)
 );
 
 

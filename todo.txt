@@ -1,17 +1,15 @@
 Migrate from the cache up to date boolean
 Migrate away from the old dream distance table to new one
-Migrate away from mpdist
+Migrate away from mpdist table to new one
 
 General
 -------
 
 Wiki the title
 
-Rewrite description of formula.
+Rewrite description of formula
 
 Show recent changes to Wiki pages
-
-Search needs to search wiki text and Dream MP text
 
 Do a big usability thing - get Tom L to help with his ideas
 Make log file stats daily to see what happens as you subtly change links
@@ -19,15 +17,11 @@ Controversial: Remove cluster map, Remove division attendance
 
 Tidy up patent page, maybe have banner
 
-Update the votematrix CSV files - people are using them!
-Put up raw data for ranking scores for rebel/attend that are only in fawkes
+Use sams new stuff of data dumps, and get rid of the votematrix CSV files -
+or make sure they are updated.
 
 General Election
     Write letter to new MPs to tell them about the Public Whip
-
-Put up a project help page for motion/dream mp editors.
-
-FAQ needs to give more of an impression that we would like help
 
 Backup dynamic database on cron job (newsletter does this OK for now)
 
@@ -79,6 +73,8 @@ off-by-one errors for their changed party
 
 Future
 ------
+
+Search needs to search wiki text and Dream MP text
 
 Make newsletter signing more streamlined
 
