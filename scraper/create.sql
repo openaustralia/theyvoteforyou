@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.13 2004/03/26 14:09:32 frabcus Exp $
+-- $Id: create.sql,v 1.14 2004/04/27 10:24:20 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -54,6 +54,8 @@ create table pw_debate_content (
 -    left_reason enum('unknown', 'still_in_office', 'general_election',
 -        'changed_party', 'died', 'declared_void', 'resigned',
 -        'disqualified', 'became_peer') not null default 'unknown',
+
+    person int,
 -
 -    unique(first_name, last_name, constituency, entered_house, left_house)
 -);
