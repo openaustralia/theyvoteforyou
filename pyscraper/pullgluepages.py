@@ -3,6 +3,7 @@
 
 import sys
 import urllib
+import urllib2
 import urlparse
 import re
 import os.path
@@ -25,6 +26,13 @@ pwcmdirs = os.path.join(toppath, "cmpages")
 tempfilename = tempfile.mktemp("", "pw-gluetemp-", miscfuncs.tmppath)
 
 # this does the main loading and gluing of the initial day debate files from which everything else feeds forward
+
+class DefaultErrorHandler(urllib2.HTTPDefaultErrorHandler):
+        def http_error_default(self, req, fp, code, msg, headers):
+                result = urllib2.HTTPError(
+                                req.get_full_url(), code, msg, headers, fp)
+                result.status = code
+                return result
 
 # gets the index file which we use to go through the pages
 class LoadCmIndex(xml.sax.handler.ContentHandler):
@@ -129,8 +137,18 @@ def GlueByNext(fout, url, urlx):
 
 
 # now we have the difficulty of pulling in the first link out of this silly index page
-def ExtractFirstLink(url):
-	urx = urllib.urlopen(url)
+def ExtractFirstLink(url, dgf):
+        request = urllib2.Request(url)
+        if os.path.exists(dgf):
+                mtime = os.path.getmtime(dgf)
+                mtime = time.gmtime(mtime)
+                mtime = time.strftime("%a, %d %b %Y %H:%M:%S GMT", mtime)
+                request.add_header('If-Modified-Since', mtime)
+        opener = urllib2.build_opener( DefaultErrorHandler() )
+        urx = opener.open(request)
+        if urx.status == 304:
+                return ''
+
 	while 1:
 		xline = urx.readline()
 		if not xline:
@@ -181,7 +199,9 @@ def GlueAllType(pcmdir, cmindex, nametype, fproto, deleteoutput):
 		urlx = dnu[2]
 
 
-		url0 = ExtractFirstLink(urlx)
+		url0 = ExtractFirstLink(urlx, dgf)
+                if not url0:
+                        continue
 
 		# now we take out the local pointer and start the gluing
 		dtemp = open(tempfilename, "w")
