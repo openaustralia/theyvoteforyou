@@ -11,9 +11,9 @@ if os.name == 'nt':  # the case of julian developing on a university machine.
     if re.search('\.\.', toppath):
         toppath = 'C:\\pwdata'
         
-# print "Data directory (set in miscfuncs.py): %s" % toppath
 if (not os.path.isdir(toppath)):
-    raise Exception, 'Directory does not exist, please create'
+    raise Exception, 'Data directory %s does not exist, please create' % (toppath)
+# print "Data directory (set in miscfuncs.py): %s" % toppath
 
 entitymap = {
         '&nbsp;':' ',
@@ -144,9 +144,9 @@ def StraightenHTMLrecurse(stex):
 			sres[i] = '&quot;'
 
 		elif sres[i] == '<i>':
-			sres[i] = 'OPEN-i-TAG-OUT-OF-PLACE'
+			sres[i] = '' # 'OPEN-i-TAG-OUT-OF-PLACE'
 		elif sres[i] == '</i>':
-			sres[i] = 'CLOSE-i-TAG-OUT-OF-PLACE'
+			sres[i] = '' # 'CLOSE-i-TAG-OUT-OF-PLACE'
 
 		elif sres[i][0] == '<' or sres[i][0] == '>':
 			raise Exception, 'tag ' + sres[i] + ' tag out of place in ' + stex
