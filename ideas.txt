@@ -1,111 +1,31 @@
-Party politics
---------------
-
-Table of most rebellious by party - so see most rebellious Con and LDem.
-At the moment only Labour show up.
-Table of highest attendance by party - similarly.
-
-Compare attendance rates between parties, as they go in and out of
-government over the years  (use raw data "Extra Turnout" uses)
-Compare rebellion rates between parties
-
-Find out must rebellious divisions by party
-    e.g. find out what issues are fracturing the Tories
-
-Statistics by party - e.g. attendence rate. 
-How rebellious a party it is. etc.
-
-Proportion of abstentions within each party, may reveal times when MPs abstain in protest.  
-
-% of completely pliant MPs in each party, who always follow whip.
-
-Amusing tables
---------------
-
-MPs who shouldn't be in their party
-
-Table of members who died, who changed party etc.
-
-Table of all MPs which have never voted - interesting to see
-    what reasons there are (speaker, refuse to take oath, dead, lazy...)
-
-Tables of worst attendance record (after those with an excuse, such as
-ministry posts, speaker, ill, SF...)
-
-"Performance tests" for government - turning excessive monitoring and
-testing back onto them.
-corruptometer, loyaltometer, evilness, sleepometer, waffle-meter
-
-Top day of week for voting.  Distribution for individual MPs.
-- this person is never there on Thursdays!
-
 Data anlaysis (using existing data)
 -------------
-
-Measure a sudden drop in attendance rate - so you could see that the MP
-used to vote a certain % of the time and now doesn't.  This will 
-detect illness/injury/busy for some other reason.
-
-Chris Lighthead:  "I've now written some code to estimate which of the
-eigenvectors are significant. The basic idea is that we generate
-synthetic data using the marginal  distributions for each statements --
-that is, like the data which would have been produced by the same number
-of respondents as have completed the real survey, but  as if their
-answers to any one question were unrelated to all the others; and having
-done that, we perform the principal components analysis on the synthetic
-data. The idea here is that we can compare the eigenvalues from the
-synthetic data to the eigenvalues from the real data. If the real
-eigenvalue is significantly larger than the one from the synthetic data,
-it likely represents real variation in the data; otherwise, random
-variation." - we could do this with MP clustering.
-
-Improve clustering distance algorithm
-    See J Vaughan suggestions
-
-Colour dots in cluster diagram by how many times they have voted.
-Bright colours for more relevant the data - i.e. how many intersections
-with other's votes there are.
-
-Play with stuff in vector search article
-http://www.perl.com/pub/a/2003/02/19/engine.html
-In particular PDL for speeding up octave algebra stuff
-
->    Idea 2.  Darren suggested that the reason Tony Blair is an outlier
->    in the java app is coz he only turns up to votes he thinks are
->    going to be controversial, hence ones that people are probably
->    going to vote against him.
-Find a metric to see if this is the case.
-
-Plot "Extra Turnout" over time - so can see how abstention rates change.
-Use abstention rates to highlight interesting divisions, where lots of
-people didnt turn up.
-Pick divisions with extreme "Extra Turnouts" (for the main parties) -
-these will be interesting
-
-Consider rebellions as % of available divisions, rather than % of
-divisions the MP went to.  This is a different measure, is it useful?
 
 Graph of how many MPs defect in each vote over time
 Watch for loyalty going down after start of term, to lowest at midterm,
 then up again
 
 Rebels who voted against this division, also voted against this division...
-Suspected friends - these MPs also rebelled like this MP
-(fixing existing Possible Friends to use raw metric, rather than 
-the cluster diagram positions)
 
-List in public divisions where the teller/clerk messed up with spelling.
-Why did this happen?
+"Performance tests" for government - turning excessive monitoring and
+testing back onto them.
+corruptometer, loyaltometer, evilness, sleepometer, waffle-meter
+Top day of week for voting.  Distribution for individual MPs.
+- this person is never there on Thursdays!
 
-Find three line whip definition
-Infer no Whip if 10% +- from base?  Or at least +-1
-
-Animated cluster diagram over last 15 years.
-3 month window moving week by week
+Measure a sudden drop in attendance rate - so you could see that the MP
+used to vote a certain % of the time and now doesn't.  This will 
+detect illness/injury/busy for some other reason.
 
 Create classification tree so it offers some division questions for you
 to pick from, and tells you your party.  As does here for EDMs:
 http://www.stats.bris.ac.uk/~magpn/Research/Politics/whovote.htm
+
+Use abstention rates to highlight interesting divisions, where lots of
+people didnt turn up.
+Pick divisions with extreme "Extra Turnouts" (for the main parties) -
+these will be interesting
+Plot "Extra Turnout" over time - so can see how abstention rates change.
 
 Additional numeric data
 -----------------------
@@ -127,20 +47,6 @@ interesting meanings.
 division.php?date=2003-06-10&number=224&showall=yes
 Count how many times MP spoke in a debate, or on the day
 
-Integrate parliamentary majority, and look for correlations with
-rebelliousness?  Majorities here:
-    http://www.psr.keele.ac.uk/area/uk/mps.htm
-(Should be no correlation, as reselection more important?)
-Plot majority as a colour on the cluster diagram
-
-Analyse if MPs who are "sir" vote differently in anyway
-    first check data integrity that title always has "Sir" for knights
-Similarly, get data on gender etc. and analyse against that
-
-Count who tellers are - does this mean anything?
-Note they are often not listed in Hansard, so this might be a fools errand
-Telling is another vote type - aye/no/both/tell
-
 What can we learn from the information that aye/no comes first, and
     from the information as to whether government or not government is
     aye or no?
@@ -148,17 +54,7 @@ What can we learn from the information that aye/no comes first, and
 How many articles do Labour MPs supply to the Times, for example?
 Collate all MPs articles in newspapers
 
-Regional analysis.  Scotland, NI, Wales, North v South.  Urban v.
-Rural.  
-Area of land for constituency.  This gives a "ruralness" measure.
-Population of constituency.
-Distance of constituency from London vs. attendance rate
-
 First term MPs vs. old warhorses.  More rebellious?  Less attentive?
-
-Make cluster diagram for just divisions relating to one issue.  Or
-for one person's interested issues.  Plot point on cluster diagram for
-issues themselves.
 
 Value of the vote.  What is the monetary expenditure cost of agreeing
 the motion?  Graph against time spent discussing, and see how silly the
@@ -167,10 +63,10 @@ correlation is.
 Measure lobbying power behind each issue (expenditure by interested
 parties).  Again, correlate to time spent on it.
 
-> Obviously no group will expose their membership list to us.  However, in 
-> a local program they should be able to parse a list of post-codes and 
-> adjust the table of which MPs are doing the least where they have the 
-> most representation. 
+Provide local program for pressure groups.  Parses their list of
+post-code membership, and creates a table of MPs who are doing the least
+where the group has the most supporters.  Finds good targets for
+lobbying.
 
 Additional text content
 -----------------------
@@ -200,7 +96,6 @@ people to make issues for next general election.
 Do Iraq subselection ourselves
 Do climate change subselection
 
-
 Software to follow all legislation sources:
      - parliamentary bills - which can be introduced into either House
      - white papers - on the parliamentary website I think
@@ -216,21 +111,18 @@ Software to follow all legislation sources:
      - international treaties which apart from major EU treaties are ratified
      under the Ponsonby Rule without a vote in parliament.
 
-Link to draft of Bill which is being debated
+Link from division to draft of Bill which is being debated
     http://www.parliament.uk/what_s_on/what_s_on.cfm
     http://www.parliament.the-stationery-office.co.uk/pa/cm200203/cmstand/cmstand.htm
     http://www.parliament.the-stationery-office.co.uk/pa/pabills.htm
     http://bills.ais.co.uk
 
-
-Group votes by department, so you can see areas of interest (Sirius
-Gibson, Oxfam)
+Group votes by Whitehall department, so you can see areas of interest
+(idea from Sirius at Oxfam)
 
 Put in EDMs, so can see who supports an EDM and follows it through to
-actual vote (Sirius Gibson, Oxfam)
+actual vote (idea from Sirius at Oxfam)
 http://edm.ais.co.uk/
-EDM analysis with MDS
-http://www.stats.bris.ac.uk/~magpn/Research/Politics/
 
 Analyse an MP's interests by their rebellions - work out a summary of
 their special interests.  Also link to which debates they spoke in.
@@ -242,8 +134,6 @@ Usability
 
 Show ... for cut down text, but you can click the dots to open it out
 again.
-
-Java cluster applet change to Flash
 
 Email reports to people when search queries change
 e.g. When your MP has voted.  When he has rebelled.  When an issue is
@@ -347,6 +237,12 @@ enough or implausibly too much.
 Dublin parliament
 http://www.oireachtas-debates.gov.ie/
 
+Letter writing campaign by their constituents to MPs who use procedure
+in an entirely negative way - for example here, when Labour maliciously
+moved the house to sit in private, in order to stop the democratic
+discussion of the role of ministerial advisers
+http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030314/debtext/30314-19.htm
+
 About one MP
 ------------
 
@@ -434,96 +330,5 @@ http://www.parliament.the-stationery-office.co.uk/pa/cm200102/cmhansrd/vo020130/
 
 All about Hansard, and how they work:
 http://www.hansard-westminster.co.uk
-
-Books
------
-
-Revolts & Rebellions
-
-Erskine May - commentary on standing orders
-The Times publish a Parliamentary Companion
-
-Gyles Brandreth has a book about the whips which is revealing
-
-
-Story leads
------------
-
-Mersey Tunnels, the rebellion appears to be local to merseyside, in
-which case you have the national MPs voting and possibly overruling on a
-local issue which maybe many of them don't give a damn, but just want to
-prove their loyalty.
-http://www.publicwhip.org.uk/division.php?date=2003-06-10&number=225
-Note the MPs who were at the debate, but abstained (like Miller)
-Many constituencies have word "Liverpool" in their name, see how they
-behaved with regard to this vote.
-
-Similar constituency, but joined by habit.  Are these all smokers?
-http://www.publicwhip.org.uk/division.php?date=2003-04-14&number=162
-And why were the parties voting on opposite sides at all?  Is this a
-party issue, or just the way the system works?  Do what you're told if
-you can't be bothered to think.  Going through the motions.  Aren't a
-lot of divisions not present because people can't be bothered.  Foregone
-conclusion.  Only will flush out rebels, which doesn't serve anyone's
-interests.
-
-Umm, where are the Tories?
-http://www.publicwhip.org.uk/division.php?date=2003-05-08&number=180
-It's an amusing division, as so many Labour people rebelled, but Her
-Majesty's Opposition didn't give a damn.
-
-I spy strangers
-division.php?date=2003-03-14&number=114
-
-Jo Moore (sept 11 burying email controversy)
-date=2001-10-23&number=39
-
-Count the amount of parliamentary time wasted on hunting!  In hours,
-minutes, words and even monetary cost.
-http://www.publicwhip.org.uk/search.php?query=hunting&button=Search
-
-Look for divisions where Scottish MPs vote on English only issues, and
-see how honourable they are - do they not turn up?  Do they vote with
-the whip?
-
-e.g. Student Finance division 23 June 2003, div 244 - 10 Labour MPs voted in rebellion,
-but a further 100 abstained.
-
-Do Co-op members ever vote against Labour as a group?
-
-Indian parliament
-> age stats
-> http://parliamentofindia.nic.in/stat/stat.htm
-> 
-> Committees which make you go WHAT!  
-> http://164.100.24.208/ls/committee/p01.htm
-> http://164.100.24.208/ls/committee/p13.htm
-> http://164.100.24.208/ls/committee/p11.htm
-> http://164.100.24.208/ls/committee/p04.htm
-> 
-> Makes you wonder where did we go wrong?  It's so totally not f***ed-up.  
-> 
-> It adds to the shame on ourselves:  "Even India has built a better 
-> government than ours."  
-> 
-> [still reading...]
-> 
-> Look, this is beautiful.  The questions are all there in a database with 
-> answers.  
-> 
-> Seaching for Iraq: Pay attention to dates.  
-> http://164.100.24.208/lsq/quest.asp?qref=62834
-> http://164.100.24.208/lsq/quest.asp?qref=25638
-> http://164.100.24.208/lsq/quest.asp?qref=64063
-> 
-> http://164.100.24.208/lsq/quest.asp?qref=20640  // the date on this one 
-> looks wrong.  
-
-Questions
----------
-
-What makes a division just get waved through without a vote?  How is a
-vote caused?
-
 
 

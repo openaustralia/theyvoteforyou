@@ -1,5 +1,9 @@
+Mailing list for developers
+
 Web site
 --------
+
+Comments system
 
 Java in Opera Win32
 
@@ -14,6 +18,8 @@ Pie chart, rectangle graph by area for voting table
 Abstain -> difference from expected
 Expected -> average no. of attendees
 visually draw guesses further right
+
+FAQ needs to give more of an impression that we would like help
 
 Scraper
 -------
@@ -30,9 +36,6 @@ Make clustering cope with tellaye/tellno
 Make cluster stuff store NUMBER OF VOTES both voted in for extra possible friends info
 
 Look at majorities
-
-remake pw_mp to have left_reason entered_reason - make it error if you
-don't make an entry using the reasons
 
 Make one script I have to run which just does everything (backup logs,
 get latest divisions, upload to db)
@@ -58,13 +61,5 @@ Add explanations
     division.php?date=2001-10-25&number=43 - multiple motions clearer,
 also show initial motion in second vote, rather than hardly any text
 
-Campaigns
----------
-
-Letter writing campaign by their constituents to MPs who use procedure
-in an entirely negative way - for example here, when Labour maliciously
-moved the house to sit in private, in order to stop the democratic
-discussion of the role of ministerial advisers
-http://www.publications.parliament.uk/pa/cm200203/cmhansrd/cm030314/debtext/30314-19.htm
 
 
