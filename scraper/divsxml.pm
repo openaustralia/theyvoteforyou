@@ -1,4 +1,4 @@
-# $Id: divsxml.pm,v 1.5 2004/03/26 14:25:52 frabcus Exp $
+# $Id: divsxml.pm,v 1.6 2004/04/15 16:13:21 frabcus Exp $
 # Loads divisions from the XML files made by pyscraper into 
 # the MySQL database for the Public Whip website.
 
@@ -127,25 +127,43 @@ sub storemotion
     }
 }
 
-sub tidyheading
+# Converts all capital parts of a heading to mixed case
+sub fix_case
 {
-    my $heading = shift;
+        $_ = shift;
+#        print "b:" . $_ . "\n";
 
-    # we lowercase if necessary
-    if ($heading !~ m/[a-z]/)
-    {
-        $heading =~ s/^\s+//; # spaces confuse autoformat
-        $heading =~ s/\s+$//;
-        $heading = autoformat $heading, { case => 'highlight' };
-    }
-    # clear up all spaces to be just spaces, not line feeds, and
-    # not be trailing leading (autoformat puts them in)
-    $heading =~ s/^\s+//;
-    $heading =~ s/\s+$//;
-    $heading =~ s/\s+/ /g;
+        # We work on each hyphen (mdash, &#8212;) separated section separately
+        my @parts = split /&#8212;/;
+        my @fixed_parts = map(&fix_case_part, @parts);
+        $_ = join(" &#8212; ", @fixed_parts);
 
-    return $heading;
+        s/Orders of the Day &#8212; //;
+#        print "a:" . $_ . "\n";
+        return $_;
 }
+
+sub fix_case_part
+{
+        # This mainly applies to departmental names for Oral Answers to Questions
+#        print "fix_case_part " . $_ . "\n";
+
+        # if it is all capitals in Hansard
+        # e.g. CABINET OFFICE
+        if (! m/[a-z]/)
+        {
+                s/\s+$//; # these confuse autoformat into thinking it is a heading...
+                s/^\s+//;
+                $_ = autoformat $_, { case => 'highlight' };
+        }
+        # strip trailing/leading spaces (autoformat puts in)
+        s/\s+$//;
+        s/^\s+//;
+        s/\s+/ /g;
+
+        return $_;
+}
+
 
 sub loaddivision
 { 
@@ -154,10 +172,10 @@ sub loaddivision
     my $divdate = $div->att('divdate');
     die "inconsistent date" if $divdate ne $curdate;
     my $divnumber = $div->att('divnumber');
-    my $heading = tidyheading($lastmajor);
+    my $heading = fix_case($lastmajor);
     if ($lastminor)
     {
-        $heading .= " &#8212; " . tidyheading($lastminor);
+        $heading .= " &#8212; " . fix_case($lastminor);
     }
 
     # Should emdashes in headings have spaces round them?  This removes them if they shouldn't.
@@ -246,7 +264,7 @@ sub loaddivision
         if ($amount > 0 )
         {
             print Dumper($missing);
-            error::die("Voter list differs in XML to one in database - $amount in symmetric diff", $curdate) 
+            error::die("Voter list differs in XML to one in database - $amount in symmetric diff\n$url", $divdate . " " . $divnumber) 
         }
 
         foreach my $testid (@voters)
