@@ -1,4 +1,4 @@
-# $Id: mputils.pm,v 1.1 2003/08/14 19:35:48 frabcus Exp $
+# $Id: mputils.pm,v 1.2 2003/09/29 19:36:28 frabcus Exp $
 # Parse names of MPs, search for an MP in the database.  Copes with the
 # various textual varieties you get, such as initials absent or present,
 # name abbreviations, titles/honours present or absent.  Uses a mixture
@@ -25,7 +25,7 @@ sub parse_formal_name
     $_ = shift;
 
     # "rah" here is a typo in division 64 on 13 Jan 2003 "Ancram, rah Michael"
-    my $titles = "Dr\\ |Hon\\ |hon\\ |rah\\ |rh\\ |Mrs\\ |Ms\\ |Dr\\ |Mr\\ |Miss\\ |Ms\\ |Rt\\ Hon\\ |The\\ Reverend\\ |Sir\\ |Rev\\ |Rev\\ ";
+    my $titles = "Dr\\ |Hon\\ |hon\\ |rah\\ |rh\\ |Mrs\\ |Ms\\ |Dr\\ |Mr\\ |Miss\\ |Ms\\ |Rt\\ Hon\\ |The\\ Reverend\\ |Sir\\ |Rev\\ ";
     my $honourifics = "\\ CBE|\\ OBE|\\ MBE|\\ QC|\\ BEM|\\ rh|\\ RH";
 
     # Sometimes get weird hyphens, decimal char 150, hex 96.  Convert to
