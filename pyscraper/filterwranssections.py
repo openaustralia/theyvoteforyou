@@ -124,6 +124,7 @@ fixsubs = 	[
 	( ' \[116654\]', '', 1, '2003-06-10'),
 
 	# broken link fixing material
+	( 'standards.php\*', 'standards.php', 1, '2003-12-08'), 
 	( 'http://www/', 'http://www.', 1, '2003-11-03'),
 	( 'www.mod.ukyissues', 'www.mod.uk/issues', 1, '2003-10-22'),
 	( 'http.V/', 'http://', 1, '2003-09-18'),

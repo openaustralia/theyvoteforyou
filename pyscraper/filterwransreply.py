@@ -16,6 +16,9 @@ from miscfuncs import SplitParaIndents
 from filterwransreplytable import ParseTable
 from filterwransemblinks import ExtractHTTPlink
 
+from filtersentence import FilterSentence
+
+
 # output to check for undetected member names
 seelines = open('ghgh.txt', "w")
 
@@ -179,49 +182,19 @@ def BreakUpText(stex, qs):
 	#MergePersonPhrases(qs, sres)
 	return sres
 
+def BreakUpTextP(ptype, stex, qs):
+	if ptype:
+		sres = [ '<p class="%s">' % ptype ]
+	else:
+		sres = [ '<p>' ]
+	sres.extend(ExtractPhraseRecurse(qs, stex, 1, ''))
+	sres.append('</p>')
+	return string.join(sres, '')
+
+
 
 relettfrom = re.compile('<i>Letter from (.*?)(?: to (.*?))?(?:(?:,? dated| of)?,? %s)?:?</i>[.:]?$' % parlPhrases.datephrase)
 
-
-# main breaking up function.
-def BreakUpTextSB(i, n, stex, qs):
-
-	sres = [ ]
-
-	# recognize the structure of known paragraphs
-
-	# letter from paragraph form
-	# <i>Letter from Ruth Kelly to Mr. Frank Field dated 2 December 2003:</i>
-	# introducing a previous letter from a civil servant to an MP
-	qlettfrom = relettfrom.match(stex)
-	if qlettfrom:
-		perphxto = ''
-		if qlettfrom.group(2):
-			if memberList.mpnameexists(qlettfrom.group(2), qs.sdate):
-				perphxto = ' to <mpname>%s</mpname>' % qlettfrom.group(2)
-			else:
-				perphxto = ' to <perph>%s</perph>' % qlettfrom.group(2)
-				print ' Letter to unknown MP %s' % qlettfrom.group(2)
-				print stex
-
-		datephr = ''
-		if qlettfrom.group(3):
-			datephr = ' dated <datephrase>%s</datephrase>' % qlettfrom.group(3)
-		# build the entire paragraph
-		sres = [ '<p class="letterfrom">', 'Letter from ', '<perph>', qlettfrom.group(1), '</perph>',
-				perphxto, datephr, '</p>' ]
-		return sres
-
-	# failed to detect the letter from case
-	qitpara = re.match('<i>Letter from(?i)', stex)
-	if qitpara:
-		print stex
-		raise Exception, ' failed to detect Letter from '
-
-
-	# otherwise go straight into the recursion
-	sres.extend(BreakUpText(stex, qs))
-	return sres
 
 
 
@@ -263,7 +236,7 @@ reletterinlibrary = re.compile(regletterinlib)
 #sys.exit()
 
 
-reaskedtoreply = re.compile('I have been asked to reply\.?$')
+reaskedtoreply = re.compile('I have been asked to reply\.?\s*')
 
 ###########################
 # this is the main function
@@ -275,66 +248,62 @@ def FilterReply(qs):
 		raise Exception, ' no paragraphs in result '
 
 
-	# deal with holding answer phrase
-	# <i>[holding answer 17 September 2003]:</i>
-	textnholdinganswer = ''
-	qha = resqbrack.match(textp[0])
-	if qha:
-		textnholdinganswer = qha.group(1)
-		textp[0] = textp[0][qha.span(0)[1]:]
-		if not textp[0]:
-			textp.pop(0)
-			textpindent.pop(0)
-
-
-
 	# the resulting list of paragraphs
 	qs.stext = []
 
-	if textnholdinganswer:
-		sres = [ '<p class="holdinganswer">' ]
-		sres.extend(BreakUpText(textnholdinganswer, qs))
-		sres.append('</p>')
-		lstex = string.join(sres, '')
-		qs.stext.append(lstex)
+	# index into the textp array as we consume it.
+	i = 0
+
+	# deal with holding answer phrase at front
+	# <i>[holding answer 17 September 2003]:</i>
+	qholdinganswer = resqbrack.match(textp[0])
+	if qholdinganswer:
+		qs.stext.append(BreakUpTextP('holdinganswer', qholdinganswer.group(1), qs))
+		textp[i] = textp[i][qholdinganswer.span(0)[1]:]
+		if not textp[i]:
+			i = i+1
+
 
 	# asked to reply
-	if reaskedtoreply.match(textp[0]):
-		textp.pop(0)
-		textpindent.pop(0)
-		qs.stext.append('<p class="askedtoreply">I have been asked to reply.</p>')
-	if re.search('have been asked to reply', textp[0]):
-		print textp
-		#sys.exit()
+	qaskedtoreply = reaskedtoreply.match(textp[i])
+	if qaskedtoreply:
+		qs.stext.append(BreakUpTextP('askedtoreply', qaskedtoreply.group(0), qs))
+		textp[i] = textp[i][qaskedtoreply.span(0)[1]:]
+		if not textp[i]:
+			i = i+1
 
 
-	# copy in library type phrase
-	if reletterinlibrary.match(textp[0]) and (len(textp) == 1):
-		qs.stext.append('<p class="letterinlibrary">I will write to my hon. Friend and place a copy of my letter in the Library.</p>')
-		return
-
-	if re.search('I will write.*?library(?i)', textp[len(textp)-1]):
-		print textp
-		#sys.exit()
-
-
-	# we now have the paragraphs interspersed with inter-paragraph symbols
-	# for now ignore these inter-paragraph symbols and parse the paragraphs themselves
-	n = len(textp)
-	for i in range(len(textp)):
-		# this puts a list into the result
-		if re.search('<table(?i)', textp[i]):
+	# go through the rest of the paragraphs
+	while i < len(textp):
+		# deal with tables
+		if re.match('<table(?i)', textp[i]):
 			qs.stext.append(ParseTable(textp[i]))
+			i = i+1
+			continue
+
+		qletterinlibrary = reletterinlibrary.match(textp[i])
+		if qletterinlibrary:
+			qs.stext.append(BreakUpTextP('letterinlibrary', qletterinlibrary.group(0), qs))
+			textp[i] = textp[i][qletterinlibrary.span(0)[1]:]
+			if not textp[i]:
+				i = i+1
+			continue
+
+		# <i>Letter from Ruth Kelly to Mr. Frank Field dated 2 December 2003:</i>
+		# introducing a previous letter from a civil servant to an MP
+		qlettfrom = relettfrom.match(textp[i])
+		if qlettfrom:
+			qs.stext.append(BreakUpTextP('letterfrom', qlettfrom.group(0), qs))
+			i = i+1
+			continue
+
+		# nothing special about this paragraph (except it may be indented)
+		if textpindent[i]:
+			qs.stext.append(BreakUpTextP('indent', textp[i], qs))
 		else:
-			sres = [ '<p>' ]
-			sres.extend(BreakUpTextSB(i, n, textp[i], qs))
-			sres.append('</p>')
-			lstex = string.join(sres, '')
-			if re.search('TAG-OUT', lstex):
-				print textp[i]
-				print lstex
-				#sys.exit()
-			qs.stext.append(lstex)
+			qs.stext.append(BreakUpTextP('', textp[i], qs))
+		i = i+1
+
 
 
 

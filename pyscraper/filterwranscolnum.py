@@ -20,6 +20,7 @@ fixsubs = 	[
 	# Note the 2!
 	( '<H1 align=center></H1>[\s\S]{10,99}?\[Continued from column \d+?W\](?:</H2>)?', '', 2, '2003-11-17' ),
 	( '<H2 align=center> </H2>[\s\S]{10,99}?Monday 13 October 2003', '', 1, '2003-10-14' ),
+	( '<P>\[Continued from column 278W\]', '', 1, '2003-12-08'),
  		]
 
 #<P>

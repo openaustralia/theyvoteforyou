@@ -2,6 +2,7 @@
 
 import sys
 import re
+import os
 import string
 import cStringIO
 
@@ -13,10 +14,10 @@ seelines = open('emblinks.txt', "w")
 # this detects the domain
 reglinkdomt = '(?:\.or[gq]|\.com|[\.\s]uk|\.tv|\.net|\.gov|\.int|\.info|\.it|\.ch|\.es|\.mz|\.lu|\.fr|\.dk|\.mil)(?!\w)'
 reglinkdomf = 'http://(?:(?:www.)?defraweb|nswebcopy|\d+\.\d+\.\d+\.\d+)|www.defraweb'
-reglinkdom = '(?:http ?:? ?/{1,3}(?:www)?|www)(?:(?:[^/:;,?=](?!www\.))*?(?:%s))+|%s' % (reglinkdomt, reglinkdomf)
+reglinkdom = '(?:http ?:? ?/{1,3}(?:www)?|www)(?:(?:[^/:;,?=()<>"\'@](?!www\.))*?(?:%s))+|%s' % (reglinkdomt, reglinkdomf)
 
 # this detects the middle section of a url between the slashes.
-reglinkmid = '(?:/(?:(?:[^/:;,?="]|&#\d+;)(?!www\.))+)*/'
+reglinkmid = '(?:/(?:(?:[^/:;,?="<]|&#\d+;)(?!www\.))+)*/'
 
 # this detects the tail section of a url trailing a slash
 #reglinktail = '[^./:;,]*(?:\.\s?(?:s?html?|pdf|xls|(?:asp|php|cfm(?:\?[^\s.]+)?)))|\w*'
@@ -24,8 +25,47 @@ regasptype = '(?:asp|php|cfm)(?:\?\s?\w+=[\w/]+(?:&\w+=[\w/%]+)*)?'
 reglinktail = '(?:[^./:;,?=]|&#\d+;)*(?:\.\s?(?:s?html?|xls|pdf(?:\?Open ?Element)?|%s))|(?:[\w-]|&#\d+;)*' % regasptype
 
 
-#reglink = '((%s)(?:(%s)(?:(%s))?)?)(?i)' % (reglinkdom, reglinkmid, reglinktail)
-relink = re.compile('((%s)(?:(%s)(%s)?)?)(?i)' % (reglinkdom, reglinkmid, reglinktail))
+rreglink = '(?:(?:%s)(?:(?:%s)(?:%s)?)?)' % (reglinkdom, reglinkmid, reglinktail)
+reglink = '((%s)(?:(%s)(%s)?)?)(?i)' % (reglinkdom, reglinkmid, reglinktail)
+relink = re.compile(reglink)
+
+rregemail = '\w+@\w+(?:\.\w+)*'
+
+
+def ConstructHTTPlink(qstrdom, qstrmid, qstrtail):
+	qstrdom = re.sub('^http|[:/\s]', '', qstrdom)
+	if not qstrmid:
+		qstrmid = ''
+	if not qstrtail:
+		qstrtail = ''
+
+	if not re.match('[\w\-.]*$', qstrdom):
+		print ' bad domain -- ' + qstrdom
+
+	if qstrmid:
+		qstrmid = re.sub(' ', '', qstrmid)
+		qstrmid = re.sub('&#15[01];', '-', qstrmid)
+		qstrmid = re.sub('&#95;', '_', qstrmid)
+		if re.search('&#\d+;', qstrmid):
+			print ' undemangled href symbol ' + qstrmid
+		qstrmid = re.sub('&', '&amp;', qstrmid)
+	if not re.match('[\w\-/.+;&]*$', qstrmid):
+		print ' bad midd -- ' + qstrmid
+
+	qstrtail = ''
+	if qstrtail:
+		qstrtail = re.sub(' ', '', qstrtail)
+		qstrtail = re.sub('&#15[01];', '-', qstrtail)
+		qstrtail = re.sub('&#95;', '_', qstrtail)
+		if re.search('&#\d+;', qstrtail):
+			print ' undemangled href symbol ' + qstrtail
+		qstrtail = re.sub('&', '&amp;', qstrtail)
+	if not re.match('[\w\-./\?&=%;]*$', qstrtail):
+		print ' bad tail -- ' + qstrtail
+
+
+	qstrlink = 'http://%s%s%s' % (qstrdom, qstrmid, qstrtail)
+	return qstrlink
 
 
 def ExtractHTTPlink(stex, qs):
@@ -46,34 +86,7 @@ def ExtractHTTPlink(stex, qs):
 	qstr = qlink.group(1)
 
 
-	qstrdom = re.sub('^http|[:/\s]', '', qlink.group(2))
-	if not re.match('[\w\-.]*$', qstrdom):
-		print ' bad domain -- ' + qstrdom
-
-	qstrmid = ''
-	if qlink.group(3):
-		qstrmid = re.sub(' ', '', qlink.group(3))
-		qstrmid = re.sub('&#15[01];', '-', qstrmid)
-		qstrmid = re.sub('&#95;', '_', qstrmid)
-		if re.search('&#\d+;', qstrmid):
-			print ' undemangled href symbol ' + qstrmid
-		qstrmid = re.sub('&', '&amp;', qstrmid)
-	if not re.match('[\w\-/.+;&]*$', qstrmid):
-		print ' bad midd -- ' + qstrmid
-
-	qstrtail = ''
-	if qlink.group(4):
-		qstrtail = re.sub(' ', '', qlink.group(4))
-		qstrtail = re.sub('&#15[01];', '-', qstrtail)
-		qstrtail = re.sub('&#95;', '_', qstrtail)
-		if re.search('&#\d+;', qstrtail):
-			print ' undemangled href symbol ' + qstrtail
-		qstrtail = re.sub('&', '&amp;', qstrtail)
-	if not re.match('[\w\-./\?&=%;]*$', qstrtail):
-		print ' bad tail -- ' + qstrtail
-
-
-	qstrlink = 'http://%s%s%s' % (qstrdom, qstrmid, qstrtail)
+	qstrlink = ConstructHTTPlink(qlink.group(2), qlink.group(3), qlink.group(4))
 	qtags = ( '<a href="%s">' % qstrlink, '</a>' )
 
 	# write out debug stuff
@@ -101,3 +114,59 @@ def ExtractHTTPlink(stex, qs):
 
 
 	return (qspan,qstr,qtags)
+
+
+#############
+# main type call which generates a file of all the links in the file on disk
+if __name__ == '__main__':
+	toppath = os.path.expanduser('~/pwdata')
+	pwcmdirs = os.path.join(toppath, "pwcmpages")
+	pwcmdirin = os.path.join(pwcmdirs, 'wrans')
+
+	lkpages = os.path.join(toppath, "anslinks.html")
+	flkpages = open(lkpages, "w")
+	flkpages.write('<html>\n<body>\n')
+
+	relinkspl = re.compile('<pagex? url=\"(.*?)"/>|%s' % reglink)
+	nlinks = 0
+
+	fdirin = os.listdir(pwcmdirin)
+	fdirin.sort()
+	fdirin.reverse()
+	for fin in fdirin:
+		sdate = re.search('\d{4}-\d{2}-\d{2}', fin).group(0)
+		if sdate > '2000-11-07':
+			continue
+		flkpages.write('<html>\n<body>\n')
+		jfin = os.path.join(pwcmdirin, fin)
+		ofin = open(jfin)
+		text = ofin.read()
+		ofin.close()
+
+		pageurl = 'nothing'
+		for ref in relinkspl.findall(text):
+			if ref[0]:
+				if not pageurl:
+					flkpages.write('</ul>\n')
+				pageurl = ref[0]
+				continue
+
+			# write out the pageurl
+			if pageurl:
+				pn = re.search('(\d{1,3})\.htm$', pageurl).group(1)
+				flkpages.write('<h2><a href="%s">Written Answers %s page %s</a></h2>\n' % (pageurl, sdate, pn))
+				flkpages.write('<ul>\n')
+				pageurl = ''
+
+				nlinks = nlinks + 1
+				if (nlinks % 20) == 0:
+					print sdate
+
+			qstrlink = ConstructHTTPlink(ref[2], ref[3], ref[4])
+			flkpages.write('\t<li><a href="%s">%s</a></li>\n' % (qstrlink, ref[1]))
+		if not pageurl:
+			flkpages.write('</ul>\n')
+
+	flkpages.write('</body>\n</html>\n')
+	flkpages.close()
+
