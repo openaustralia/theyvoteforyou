@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.8 2004/02/09 17:18:23 frabcus Exp $
+-- $Id: create.sql,v 1.9 2004/02/10 00:18:31 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -119,4 +119,11 @@ create table pw_dyn_rollievote (
     unique(division_date, division_number, rolliemp_id)
 );
 
+create table pw_dyn_auditlog (
+    auditlog_id int not null primary key auto_increment,
+    user_id int not null,
+    event_date datetime,
+    event text,
+    remote_addr text,    
+);
 

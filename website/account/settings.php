@@ -1,5 +1,5 @@
 <?  
-# $Id: settings.php,v 1.6 2004/02/08 04:01:44 frabcus Exp $
+# $Id: settings.php,v 1.7 2004/02/10 00:18:32 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,6 +8,8 @@
 
 include('database.inc');
 include('user.inc');
+include "../db.inc";
+$db = new DB(); 
 
 $just_logged_in = do_login_screen();
 
@@ -51,16 +53,26 @@ if (user_isloggedin()) # User logged in, show settings screen
 	<P><span class="ptitle">User name:</span> ' . $user_name . '
 	<br><span class="ptitle">Real name:</span> ' .  user_getrealname() . '
 	<br><span class="ptitle">Email:</span> ' . user_getemail() . '
-        <p><a href="logout.php">Logout</a>
-        <br><a href="changeemail.php">Change email</a>
-        <br><a href="changepass.php">Change password</a>
 	<P>
+    <a href="logout.php">Logout</a>
+        | <a href="changeemail.php">Change Email</a>
+        | <a href="changepass.php">Change Password</a>
+
 	<FORM ACTION="'. $PHP_SELF .'" METHOD="POST">
 	<INPUT TYPE="checkbox" NAME="newsletter" ' . $newsletter . '>Email newsletter (at most once a month)
-	<P>
-	<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Change">
+	<p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Change">
 	</FORM>
 	<P>';
+
+    print "<h2>Your Dream MPs</h2>";
+    $query = "select rollie_id, name, description from pw_dyn_rolliemp where user_id = '" . user_getid() . "'";
+    $db->query($query);
+    $rowarray = $db->fetch_rows_assoc();
+    foreach ($rowarray as $row)
+    {
+        print '<br><a href="../dreammp.php?id=' . $row['rollie_id'] . '">' . html_scrub($row['name']) . "</a>\n";
+    }
+    print '<p><a href="adddream.php">[Add new dream MP]</a></p>';
 }
 else # User not logged in, show login screen
 {

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: render.inc,v 1.6 2004/01/28 19:31:19 frabcus Exp $
+# $Id: render.inc,v 1.7 2004/02/10 00:18:32 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -47,30 +47,40 @@ function render_divisions_table($db)
 }
 
 $mps_query_start = "select first_name, last_name, title, constituency,
-        party, pw_mp.mp_id, round(100*rebellions/votes_attended,1),
-        round(100*votes_attended/votes_possible,1), entered_reason,
+        party, pw_mp.mp_id as mp_id, round(100*rebellions/votes_attended,1) as rebellions,
+        round(100*votes_attended/votes_possible,1) as attendance, entered_reason,
         left_reason, entered_house, left_house from pw_mp,
         pw_cache_mpinfo where
         pw_mp.mp_id = pw_cache_mpinfo.mp_id";
 
+# This isn't used in as many places as it should be - 
+# TODO: Make it so it is, if you change it
+function set_mp_with_link($row)
+{
+    $anchor = "\"mp.php?firstname=" . urlencode($row['first_name']) .
+        "&lastname=" . urlencode($row['last_name']) . "&constituency=" .
+        urlencode($row['constituency']) . "\"";
+
+    return "<a href=$anchor>" . $row['title'] . " ". $row['first_name'] . " " . $row['last_name'] . "</a>";
+}
+
+function set_party($row)
+{
+    return pretty_party($row['party'], $row['entered_reason'], $row['left_reason']);
+}
+
 function render_mps_table($db)
 {
     $prettyrow = 0;
-    while ($row = $db->fetch_row())
+    while ($row = $db->fetch_row_assoc())
     {
         $prettyrow = pretty_row_start($prettyrow);
-        $anchor = "\"mp.php?firstname=" . urlencode($row[0]) .
-            "&lastname=" . urlencode($row[1]) . "&constituency=" .
-            urlencode($row[3]) . "\"";
 
-        $row[6] = percentise($row[6]);
-        $row[7] = percentise($row[7]);
-
-        print "<td><a href=$anchor>$row[2] $row[0] $row[1]</a></td></td>
-            <td>$row[3]</td>
-            <td>" . pretty_party($row[4], $row[8], $row[9]) . "</td>
-            <td class=\"percent\">$row[6]</td>
-            <td class=\"percent\">$row[7]</td>";
+        print "<td>" . set_mp_with_link($row) . "</td></td>
+            <td>" . $row['constituency'] . "</td>
+            <td>" . set_party($row). "</td>
+            <td class=\"percent\">" . percentise($row['attendance']) . "</td>
+            <td class=\"percent\">" . percentise($row['rebellions']) . "</td>";
         print "</tr>\n";
     }
 }

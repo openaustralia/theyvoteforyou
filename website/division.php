@@ -1,6 +1,6 @@
 <?php include "cache-begin.inc"; ?>
 <?php
-# $Id: division.php,v 1.23 2004/02/09 17:18:23 frabcus Exp $
+# $Id: division.php,v 1.24 2004/02/10 00:18:32 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -60,7 +60,7 @@
     # Roll your own MP feature
     function vote_value($value, $curr)
     {
-        $ret = "value=\"$value\" ";
+        $ret = "value=\"" . html_scrub($value) . "\" ";
         if ($value == $curr)
         {
             $ret .= "selected ";
@@ -68,10 +68,11 @@
         return $ret;
     }
 
-    print "<div class=\"tablerollie\">";
-    print "<span class=\"ptitle\">Roll Your Own MP</span>";
     if (user_isloggedin())
     {
+        print "<div class=\"tablerollie\">";
+        print "<span class=\"ptitle\">Roll Your Own MP</span>";
+
         $submit=mysql_escape_string($_POST["submit"]);
 
         $query = "select rollie_id, name, description from 
@@ -111,10 +112,11 @@
                             "division_date = '$date' and division_number = '$div_no'";
                         $db->query($query);
                         if ($db->rows() == 0)
-                            print "Error changing '" . $row['name'] . "' to non-voter (no change)";
+                            print "Error changing '" . html_scrub($row['name']) . "' to non-voter (no change)";
                         elseif ($db->rows() > 1)
-                            print "Error changing '" . $row['name'] . "' to non-voter (too many rows)";
-                        print "Changed '" . $row['name'] . "' to non-voter";
+                            print "Error changing '" . html_scrub($row['name']) . "' to non-voter (too many rows)";
+                        audit_log("Changed '" . $row['name'] . "' to non-voter for division " . $date . " " . $div_no);
+                        print html_scrub("Changed '" . $row['name'] . "' to non-voter");
                     }
                     else
                     {
@@ -129,10 +131,11 @@
                         }
                         $db->query($query);
                         if ($db->rows() == 0)
-                            print "Error changing '" . $row['name'] . "' to " . $changedvote . " (no change)";
+                            print "Error changing '" . html_scrub($row['name']) . "' to " . $changedvote . " (no change)";
                         elseif ($db->rows() > 1)
-                            print "Error changing '" . $row['name'] . "' to " . $changedvote . " (too many rows)";
-                        print "Changed '" . $row['name'] . "' to " . $changedvote;
+                            print "Error changing '" . html_scrub($row['name']) . "' to " . $changedvote . " (too many rows)";
+                        audit_log("Changed '" . $row['name'] . "' to " . $changedvote . " for division " . $date . " " . $div_no);
+                        print html_scrub("Changed '" . $row['name'] . "' to " . $changedvote);
                     }
                     print "</div></td></tr>";
                     $vote = $changedvote;
@@ -140,7 +143,7 @@
             }
             # display dream MP vote
             print "<tr><td>\n";
-            print '<a href="rolliemp.php?id=' . $row['rollie_id'] . '">' . $row['name'] . "</a>: \n";
+            print '<a href="dreammp.php?id=' . $row['rollie_id'] . '">' . html_scrub($row['name']) . "</a>: \n";
             print "</td><td>\n";
             print ' <select name="vote' . $row['rollie_id'] . '" size="1">
                                 <option ' . vote_value("aye", $vote) . '>Aye</option>
@@ -151,23 +154,25 @@
             print '</td></tr>';
         }
         print "<tr><td>\n";
-        print ' <a href="account/addrollie.php">[Add new dream MP]</a>';
+        print ' <a href="account/adddream.php">[Add new dream MP]</a>';
         print "</td><td>\n";
         if (count ($rowarray) > 0)
             print '<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Update Votes">';
         print '</td></tr>';
         print '</table>';
         print '</FORM>';
+        print "</div>";
     }
     else
     {
-        print "<p>Have a strong view on this division?  <a href=\"account/addrollie.php\">Roll your
+/*       
+        print "<p>Have a strong view on this division?  <a href=\"account/adddream.php\">Roll your
             own dream MP</a>, and have them vote how you would like them to have voted.  Essential
             for any campaigning organisation, parliamentary candidate, or just for fun.";
         print "<p>Already have a dream MP?  <a href=\"account/settings.php\">Login here</a>";
+        */
 
     }
-    print "</div>";
  
     # Summary
 	print "<h2>Summary</h2>";

@@ -1,6 +1,6 @@
 <?  
 
-# $Id: addrollie.php,v 1.2 2004/02/09 17:18:23 frabcus Exp $
+# $Id: adddream.php,v 1.1 2004/02/10 00:18:32 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -42,10 +42,11 @@ if (user_isloggedin()) # User logged in, show settings screen
                 if ($ret)
                 {
                     $ok = true;
-                    $feedback = "Successfully added made-up MP '" . html_scrub($name) . "'.  To 
+                    $feedback = "Successfully added dream MP '" . html_scrub($name) . "'.  To 
                         select votes for your new MP, <a href=\"../search.php\">search</a> or
                         <a href=\"../divisions.php\">browse</a> for divisions.  On the page for
-                        each division you can choose how your made-up MP would have voted.";
+                        each division you can choose how your dream MP would have voted.";
+                    audit_log("Added new dream MP '" . $name . "'");
                 }
                 else
                 {
@@ -65,7 +66,7 @@ if (user_isloggedin()) # User logged in, show settings screen
         }
         else
         {
-            echo "<div class=\"error\"><h2>Creating a new made-up MP not complete, please try again
+            echo "<div class=\"error\"><h2>Creating a new dream MP not complete, please try again
                 </h2><p>$feedback</div>";
         }
     }

@@ -82,17 +82,18 @@ function user_confirm($hash,$email) {
 	$new_hash=md5($email.$hidden_hash_var);
 	if ($new_hash && ($new_hash==$hash)) {
 		//find this record in the db
-		$sql="SELECT * FROM pw_dyn_user WHERE confirm_hash='$hash'";
+		$sql="SELECT * FROM pw_dyn_user WHERE confirm_hash='$hash' order by is_confirmed";
 		$result=db_query($sql);
 		if (!$result || db_numrows($result) < 1) {
-			$feedback .= ' Hash not found. ';
+			$feedback .= ' Hash not found.  Found: ' . db_numrows($result);
 			return false;
 		} else {
 			//confirm the email and set account to active
-			$feedback .= ' New user account confirmed - you are now logged in. ';
+			$feedback .= ' New user account  ' . db_result($result,0,'user_name') . ' confirmed - you are now logged in. ';
 			user_set_tokens(db_result($result,0,'user_name'));
 			$sql="UPDATE pw_dyn_user SET email='$email',is_confirmed='1' WHERE confirm_hash='$hash'";
 			$result=db_query($sql);
+            audit_log("Confirmed account email " . $email . " valid");
 			return true;
 		}
 	} else {
@@ -126,6 +127,7 @@ function user_change_password ($new_password1,$new_password2,$change_user_name,$
 						$feedback .= ' Nothing changed! '.db_error();
 						return false;
 					} else {
+                        audit_log("Changed password");
 						$feedback .= ' Password changed.';
 						return true;
 					}
@@ -170,6 +172,7 @@ function user_lost_password ($email,$user_name) {
                                 "\n\nAfter login you can change your password to something memorable.";
 			mail ($email,'Public Whip Password Reset',$message,'From: auto@publicwhip.org.uk');
 			$feedback .= ' Your new password has been emailed to you. ';
+            audit_log("Reset password, new one emailed to user " . $user_name);
 			return true;
 		}
 	} else {
@@ -195,6 +198,7 @@ function user_change_email ($password1,$new_email,$user_name) {
 		} else {
 			$feedback .= ' Confirmation email sent.  Check your new email address, and follow the link to complete the change.';
 			user_send_confirm_email($new_email,$hash,$user_name);
+            audit_log("Sent confirm new email " . $new_email);
 			return true;
 		}
 	} else {
@@ -213,11 +217,13 @@ function user_send_confirm_email($email,$hash, $user) {
 		"\nSimply follow this link to confirm your registration: ".
 		"\n\nhttp://www.publicwhip.org.uk/account/confirm.php?hash=$hash&email=". urlencode($email).
 		"\n\nOnce you have confirmed, you will in future receive the".
-                "\nat most fortnightly Public Whip newsletter.".
+                "\nat most monthly Public Whip newsletter and be able".
+                "\nto access extra features on the website.".
                 "\n\nYour username is $user, email address $email.".
                 "\nIf you would not like to receive the newsletter, you can".
-                "\njust delete this email.  For more information about".
-                "\nthe project visit www.publicwhip.org.uk.";
+                "\nlog in and stop the newsletter, but still access other".
+                "\nfeatures.  You can do this after confirming." .
+                "\n\nFor more information on the project visit www.publicwhip.org.uk";
 	mail ($email,'Public Whip Registration Confirmation',$message,'From: auto@publicwhip.org.uk');
 }
 
@@ -249,7 +255,7 @@ function user_register($user_name,$password1,$password2,$email,$real_name) {
 		$feedback .=  ' Please fill in a valid email address.';
 		return false;
 	}
-        else {
+    else {
 		//password and name are valid?
 		if (account_namevalid($user_name) && account_pwvalid($password1)) {
 			$user_name=strtolower($user_name);
@@ -266,7 +272,7 @@ function user_register($user_name,$password1,$password2,$email,$real_name) {
 				$hash=md5($email.$hidden_hash_var);
 				$sql="INSERT INTO pw_dyn_user
                                 (user_name,real_name,password,email,remote_addr,confirm_hash,is_confirmed, reg_date) ".
-					"VALUES ('$user_name','$real_name','".  md5($password1) ."','$email','$GLOBALS[REMOTE_ADDR]','$hash','0',NOW())";
+					"VALUES ('$user_name','$real_name','".  md5($password1) ."','$email','" . getenv('REMOTE_ADDR') . "','$hash','0',NOW())";
 				$result=db_query($sql);
 				if (!$result) {
 					$feedback .= ' Trouble with the database. '.db_error();
@@ -275,6 +281,7 @@ function user_register($user_name,$password1,$password2,$email,$real_name) {
 					//send the confirm email
 					user_send_confirm_email($email,$hash,$user_name);
 					$feedback .= ' You have successfully registered.  Check your email for a confirmation message.  Follow the link in the email to confirm your account.';
+                    audit_log("Registered new user " . $user_name . ", real " . $real_name . ", " . $email);
 					return true;
 				}
 			}
@@ -349,6 +356,7 @@ function user_changenewsletter($newsletter) {
         $result=db_query("UPDATE pw_dyn_user SET is_newsletter='" . $newsletter . "' WHERE user_name='" . user_getname() . "'");
 	if ($result) {
                 $feedback .= " Newsletter setting changed. ";
+                audit_log("Changed newsletter to " . $newsletter);
 		return true;
 	} else {
                 $feedback .= " Error writing to database. ". db_error();
@@ -475,4 +483,13 @@ function do_login_screen()
     return false;
 }
 
+function audit_log($text)
+{
+    $sql = "insert into pw_dyn_auditlog (user_id, event_date, event, remote_addr)
+                values ('" . user_getid() . "', NOW(), '" . mysql_escape_string($text) . "', '" . getenv('REMOTE_ADDR') . "')";
+    $result=db_query($sql);
+    if (!$result) 
+        print "Error writing to audit log: " . db_error();
+}
+	
 ?>
