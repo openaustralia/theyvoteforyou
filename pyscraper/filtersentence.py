@@ -18,6 +18,22 @@ from filterwransemblinks import rregemail
 from filterwransemblinks import rehtlink
 from filterwransemblinks import ConstructHTTPlink
 
+# this code fits onto the paragraphs before the fixhtmlentities and 
+# performs difficult regular expression matching that can be 
+# used for embedded links.  
+
+# this code detects square bracket qnums [12345], standing order quotes,
+# official report references (mostly in wranses), and hyperlinks (most of which 
+# are badly typed and full of spaces).  
+
+# the structure of each function is to search for an occurrance of the pattern.
+# it sends the text before the match to the next function, it encodes the
+# pattern itself however it likes, and sends the text after the match back to
+# itself as a kind of recursion.
+
+# in the future it should be possible to pick out direct references to 
+# other members of the house in speeches.
+
 
 redatephraseval = re.compile('(?:(?:%s) )?(\d+ (?:%s)( \d+)?)' % (parlPhrases.daysofweek, parlPhrases.monthsofyear))
 reoffrepw = re.compile('<i>official(?:</i> <i>| )report,?</i>,? c(?:olumns?)?\.? (\d+(?:&#150;\d+)?[WS]*)(?i)')
@@ -72,7 +88,7 @@ class PhraseTokenize:
 		offrepid = 'wrans/%s.%s' % (self.lastdate, qcolcode)
 
 		nextfunc(qs, stex[:qoffrep.span(0)[0]])
-		self.toklist.append( ('phrase', ' class="offrep" id="%s"' % offrepid, '<i>Official Report</i> Column %s' % qoffrep.group(1)) )
+		self.toklist.append( ('phrase', ' class="offrep" id="%s"' % offrepid, '<i>Official Report</i> Column %s' % FixHTMLEntities(qoffrep.group(1))) )
 		self.OffrepTokens2(qs, stex[qoffrep.span(0)[1]:])
 
 
@@ -96,7 +112,7 @@ class PhraseTokenize:
 
 		# don't tokenize dates, but record them for the offrep tokens
 		#self.toklist.append( ('phrase', ' class="date" id="%s"' % ldate, qdateph.group(0)) )
-		self.toklist.append( ('', '', qdateph.group(0)) )
+		self.toklist.append( ('', '', FixHTMLEntities(qdateph.group(0))) )
 
 		self.lastdate = ldate
 		self.DateTokens1(qs, stex[qdateph.span(0)[1]:])
@@ -123,7 +139,7 @@ class PhraseTokenize:
 
 		# output the three pieces
 		nextfunc(qs, stex[:qstandingoph.span(0)[0]])
-		self.toklist.append( ('phrase', ' class="standing-order" code="%s"' % stando, qstandingoph.group(0)) )
+		self.toklist.append( ('phrase', ' class="standing-order" code="%s"' % stando, FixHTMLEntities(qstandingoph.group(0))) )
 		self.StandingOrder1(qs, stex[qstandingoph.span(0)[1]:])
 
 
