@@ -180,7 +180,7 @@ def BreakUpText(stex, qs):
 
 
 resqbrack = re.compile('(\s*(?:\s|</?i>)*\[(?:\s|</?i>)*(.*?)(?:</i>|:|;|\s)*\](?:</i>|:|;|\s)*)')
-relettfrom = re.compile('<i>Letter from (.*?)(?: to (.*?))?(?:(?:,? dated| of)? %s)?:?</i>[.:]?$' % parlPhrases.datephrase)
+relettfrom = re.compile('<i>Letter from (.*?)(?: to (.*?))?(?:(?:,? dated| of)?,? %s)?:?</i>[.:]?$' % parlPhrases.datephrase)
 
 
 # main breaking up function.

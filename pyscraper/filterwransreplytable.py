@@ -29,7 +29,7 @@ def ParseRow(srow, hdcode):
 			if col.group(2):
 				talign = ' align="center"'
 			Lscols.append('<%s%s%s>' % (hdcode, tcolspan, talign))
-			Lscols.extend(FixHTMLEntitiesL(col.group(3), '</?font[^>]*>|</?p>|\n(?i)'))
+			Lscols.extend(FixHTMLEntitiesL(col.group(3), '</?font[^>]*>|</?p>|\n|</?center>|</?B>(?i)'))
 			Lscols.append('</%s> ' % hdcode)
 
 		# check that the outside text contains nothing but bogus close column tags
@@ -67,19 +67,19 @@ def ParseTable(stable):
 
 	# take out tags round the title; they're always out of order
 	Lstitle = []
-	stitle = string.strip(re.sub(regtablejunk, '', stitle))
+	stitle = string.strip(re.sub('</?font[^>]*>|</?p>|\s|<br>|&nbsp;(?i)', '', stitle))
 	if stitle:
 		ts = re.match('(?:\s|<b>|<center>)+([\s\S]*?)(?:</b>|</center>)+\s*([\s\S]*?)\s*$(?i)', stitle)
 		if not ts:
+			print ' non-standard table title '
 			print stitle
-			raise Exception, ' non-standard table 9title'
-
-		Lstitle.append('<caption>')
-		Lstitle.extend(FixHTMLEntitiesL(ts.group(1), '</?font[^>]*>|</?p>|\n(?i)'))
-		if ts.group(2):
-			Lstitle.append(' -- ')
-			Lstitle.extend(FixHTMLEntitiesL(ts.group(2), '</?font[^>]*>|</?p>|\n(?i)'))
-		Lstitle.append('</caption>\n')
+		else:
+			Lstitle.append('<caption>')
+			Lstitle.extend(FixHTMLEntitiesL(ts.group(1), '</?font[^>]*>|</?p>|\n(?i)'))
+			if ts.group(2):
+				Lstitle.append(' -- ')
+				Lstitle.extend(FixHTMLEntitiesL(ts.group(2), '</?font[^>]*>|</?p>|\n(?i)'))
+			Lstitle.append('</caption>\n')
 
 
 	# split into header and body

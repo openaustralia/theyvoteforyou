@@ -11,12 +11,12 @@ import mx.DateTime
 seelines = open('emblinks.txt', "w")
 
 # this detects the domain
-reglinkdomt = '(?:\.or[gq]|\.com|[\.\s]uk|\.tv|\.net|\.gov|\.int|\.info|\.it|\.ch|\.es|\.mz|\.lu|\.fr|\dk)(?!\w)'
+reglinkdomt = '(?:\.or[gq]|\.com|[\.\s]uk|\.tv|\.net|\.gov|\.int|\.info|\.it|\.ch|\.es|\.mz|\.lu|\.fr|\.dk|\.mil)(?!\w)'
 reglinkdomf = 'http://(?:(?:www.)?defraweb|nswebcopy|\d+\.\d+\.\d+\.\d+)|www.defraweb'
 reglinkdom = '(?:http ?:? ?/{1,3}(?:www)?|www)(?:(?:[^/:;,?=](?!www\.))*?(?:%s))+|%s' % (reglinkdomt, reglinkdomf)
 
 # this detects the middle section of a url between the slashes.
-reglinkmid = '(?:/(?:[^/:;,?=]|&#\d+;)+)*/'
+reglinkmid = '(?:/(?:(?:[^/:;,?="]|&#\d+;)(?!www\.))+)*/'
 
 # this detects the tail section of a url trailing a slash
 #reglinktail = '[^./:;,]*(?:\.\s?(?:s?html?|pdf|xls|(?:asp|php|cfm(?:\?[^\s.]+)?)))|\w*'
@@ -58,7 +58,7 @@ def ExtractHTTPlink(stex, qs):
 		if re.search('&#\d+;', qstrmid):
 			print ' undemangled href symbol ' + qstrmid
 		qstrmid = re.sub('&', '&amp;', qstrmid)
-	if not re.match('[\w\-/.+;]*$', qstrmid):
+	if not re.match('[\w\-/.+;&]*$', qstrmid):
 		print ' bad midd -- ' + qstrmid
 
 	qstrtail = ''
@@ -93,7 +93,7 @@ def ExtractHTTPlink(stex, qs):
 		qplpch.append('(' + qlink.group(4) + ')')
 
 	qplpch.append(stex[qspan[1]:shi])
-	#print string.join(qplpch)
+	#print ' **** ' + string.join(qplpch)
 	seelines.write(qs.sdate)
 	seelines.write('\t')
 	map(seelines.write, qplpch)

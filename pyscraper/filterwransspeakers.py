@@ -42,7 +42,21 @@ fixsubs = 	[
 	( '</B>\s*\(Leeds, North-West\):', ' (Leeds, North-West) </B>', 1, '2003-09-15'),
 
 	( '<TR valign=top><TD><FONT SIZE=-1>\s*<P>\s*<page', '</TABLE>\n<page', 1, '2002-07-24'),
-		]
+	( '<i>Mr. Ingram \[holding answer 4 December 2003\]:</i>', '<B>Mr. Ingram:</B> [holding answer 4 December 2003]', 1, '2003-12-08' ),
+	( '</B>\s*ask', '</B> To ask', 1, '2003-12-08'),
+	( '<UL>Paul Goggins:', '<B>Paul Goggins:</B>', 1, '2003-11-19'),
+
+	# this removes a bogus y-dotdot character that the latin-1 encoding can't deal with
+	( '</sup> .38-0030</FONT>', '</sup> 38-0030</FONT>', 1, '2003-09-17'),
+	( 'credit of .45 per', 'credit of 45 per', 1, '2002-12-02'),
+	( 'units of .5,000 or more', 'units of 5,000 or more', 1, '2002-11-26'),
+	( 'available .23 million', 'available 23 million', 1, '2002-11-26'),
+	( 'approved a .4 million', 'approved a 4 million', 1, '2002-11-26'),
+	( '<FONT SIZE=-1>[^\d]0\.3\s*</FONT>', '<FONT SIZE=-1>0.3</FONT>', 2, '2002-10-22'), # note the 2; the problem is a dropped dot
+
+
+
+ 		]
 
 def FilterWransSpeakers(fout, text, sdate):
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
@@ -124,5 +138,13 @@ def FilterWransSpeakers(fout, text, sdate):
 
 	# scan through everything and output it into the file
 	for fss in fs:
-		fout.write(fss.encode("latin-1")) # For accent in "Siôn Simon"
+		try:
+			fout.write(fss.encode("latin-1")) # For accent in "Siôn Simon"
+		except:
+			print ' --- latin-1 encoding failed --- '
 
+			print fss
+			for c in fss:
+				print c,
+				c.encode("latin-1")
+			sys.exit()

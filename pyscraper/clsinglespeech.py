@@ -3,9 +3,28 @@
 import sys
 import re
 import copy
+import string
 
 from filterwransques import FilterQuestion
 from filterwransreply import FilterReply
+
+
+def TestMergeAcrossStamp(s0, s1):
+	# extract the last word of one, and first word of other, and check if they should glue
+	# they always do if we don't end with a dot punctuation, or some html symbol
+	# there may be more gluing conditions
+	gesp = re.match('([\s\S]*?([\w,]+))(?:<p>|\s)*$(?i)', s0)
+	if not gesp:
+		return None
+	gbsp = re.match('(?:<p>|\s)*((\w+)[\s\S]*)$(?i)', s1)
+	if not gbsp:
+		return None
+
+	#if re.search(',$', gesp.group(2)):
+	#	print 'TXMERGE', gesp.group(2), gbsp.group(2)
+	return ( gesp.group(1), gbsp.group(1) )
+
+
 
 class qspeech:
 	# function to shuffle column stamps out of the way to the front, so we can glue paragraphs together
@@ -19,23 +38,19 @@ class qspeech:
 
 				# string ends with a lower case character, and next begins with a lower case char
 				if (i > 0) and (i < len(sp) - 1):
-					esp = re.findall('^([\s\S]*?[a-z])(?:<p>|\s)*$', sp[i-1])
-					if len(esp) != 0:
-						bsp = re.findall('^(?:<p>|\s)*([\s\S]*?)$', sp[i + 1])
-						if len(bsp) != 0:
-							sp[i-1] = esp[0]
-							sp[i+1] = bsp[0]
-							sp[i] = ' '
+					# strip out new paragraph symbols that we don't need
+					ebsp = TestMergeAcrossStamp(sp[i-1], sp[i+1])
+					if ebsp:
+						sp[i-1] = ebsp[0]
+						sp[i] = ' '
+						sp[i+1] = ebsp[1]
 
 			elif re.match('<page url[^>]*>', sp[i]):
 				stampurl.pageurl = sp[i]
 				sp[i] = ''
 
 		# stick everything back together
-		self.text = ''
-		for s in sp:
-			if s:
-				self.text = self.text + s
+		self.text = string.join(sp, '')
 
 	def __init__(self, lspeaker, ltext, stampurl, lsdate):
 		self.speaker = lspeaker
@@ -74,7 +89,7 @@ class qspeech:
 
 		elif self.typ == 'reply':
 			for qn in self.qnums:
-				if not qnums.count(qn):
+				if (not qnums.count(qn)) and (qn > 100):	# sometimes [n] is an enumeration
 					print ' unknown qnum present in answer ' + self.sstampurl.stamp
 					self.stext = [ '<error>qnum present</error>' ]
 					return

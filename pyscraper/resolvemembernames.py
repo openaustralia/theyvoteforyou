@@ -94,6 +94,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         # Remove dots, but leave a space between them
         text = text.replace(".", " ")
         text = text.replace("  ", " ")
+	text = text.replace(' (?:esq|qpm)$(?i)', '')
 
 	# doesn't seem to improve matching, and anyway python doesn't like it, even in a comment
 	#text = text.replace('&#214;', 'Oe')

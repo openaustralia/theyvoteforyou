@@ -59,12 +59,18 @@ fixsubs = 	[
 
 	( 'Asked the Minister', 'To ask the Minister', 1, '2003-05-19'),
 	( 'Asked the Minister', 'To ask the Minister', 1, '2003-05-21'),
+	( '</B>\s*Asked', '</B> To ask', 1, '2003-03-21'),
 
 	( '2003&#150;11&#150;21', '2003', 1, '2003-11-20'),
 	( '27Ooctober', '27 October', 1, '2003-10-27'),
 
 	( '<TD <', '<TD> <', 1, '2003-07-15'),
+	( '<TABLE BORDER=1>\s*<P>\s*</FONT></TH></TR>', '<TABLE BORDER=1>', 2, '2002-10-22'),
 
+
+	#( '<TABLE BORDER=1>\s*<H4>', '<H4>', 6, '2002-10-22'),
+
+	( '"</i>Guidance', '</i>"Guidance', 1, '2003-10-30'),
 
 	# broken link fixing material
 	( 'http://www/', 'http://www.', 1, '2003-11-03'),
@@ -152,6 +158,7 @@ def ScanQBatch(shspeak, stampurl, sdate):
 		if qb.typ == 'reply':
 			if len(qblock) < 2:
 				print ' Reply with no question ' + stampurl.stamp
+				print shs[1]
 			shansblock.append(qblock)
 			qblock = []
 

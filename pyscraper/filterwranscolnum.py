@@ -23,14 +23,15 @@ fixsubs = 	[
  		]
 
 # <I>23 Oct 2003 : Column 637W</I>
-lcolumnregexp = '<i>\s*.*?\s*:\s*column:?\s*\d+w\s*</i>(?i)'
-columnregexp = '<i>\s*(.*?)\s*:\s*column:?\s*(\d+)w\s*</i>(?i)'
+lcolumnregexp = '<i>\s*.*?\s*:\s*column:?\s*\d+w?\s*</i>(?i)'
+columnregexp = '<i>\s*(.*?)\s*:\s*column:?\s*(\d+)w?\s*</i>(?i)'
 
 #<i>23 Oct 2003 : Column 640W&#151;continued</i>
-lcolumncontregexp = '<i>\s*.*?\s*:\s*column\s*\d+w&#151;continued\s*</i>(?i)'
-columncontregexp = '<i>\s*(.*?)\s*:\s*column\s*(\d+)w&#151;continued\s*</i>(?i)'
+lcolumncontregexp = '<i>\s*.*?\s*:\s*column\s*\d+w?&#151;continued\s*</i>(?i)'
+columncontregexp = '<i>\s*(.*?)\s*:\s*column\s*(\d+)w?&#151;continued\s*</i>(?i)'
 
 combiregexp = '(%s|%s)' % (lcolumnregexp, lcolumncontregexp)
+
 
 def FilterWransColnum(fout, text, sdate):
 	text = ApplyFixSubstitutions(text, sdate, fixsubs)
@@ -40,13 +41,14 @@ def FilterWransColnum(fout, text, sdate):
 	colnum = -1
 
 	for fss in fs:
-		columng = re.findall(columnregexp, fss)
+		columng = re.match(columnregexp, fss)
 		if columng:
-			ldate = mx.DateTime.DateTimeFrom(columng[0][0]).date
+
+			ldate = mx.DateTime.DateTimeFrom(columng.group(1)).date
 			if sdate != ldate:
 				raise Exception, "Column date disagrees %s -- %s" % (sdate, fss)
 
-			lcolnum = string.atoi(columng[0][1])
+			lcolnum = string.atoi(columng.group(2))
 			if lcolnum != lcolnum - 1:
 				if (colnum == -1) or (lcolnum == colnum + 1):
 					pass  # good
@@ -61,12 +63,12 @@ def FilterWransColnum(fout, text, sdate):
 
 			continue
 
-		columncontg = re.findall(columncontregexp, fss)
+		columncontg = re.match(columncontregexp, fss)
 		if columncontg:
-			ldate = mx.DateTime.DateTimeFrom(columncontg[0][0]).date
+			ldate = mx.DateTime.DateTimeFrom(columncontg.group(1)).date
 			if sdate != ldate:
 				raise Exception, ("Cont column date disagrees %s -- %s" % (sdate, fss))
-			lcolnum = string.atoi(columncontg[0][1])
+			lcolnum = string.atoi(columncontg.group(2))
 			if colnum != lcolnum:
 				raise Exception, "Cont column number disagrees %d -- %s" % (colnum, fss)
 
