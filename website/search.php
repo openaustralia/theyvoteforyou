@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.21 2004/01/28 19:31:19 frabcus Exp $
+# $Id: search.php,v 1.22 2004/01/28 19:58:16 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -110,14 +110,15 @@
             }
         }
 
-        if ($postcode)
+        $db->query("$mps_query_start and ($score_clause > 0) 
+                    order by $score_clause desc, constituency, entered_house desc, last_name, first_name");
+
+        # Even with postcode, we check the query first, as the search page gives better error message
+        if ($postcode and $db->rows() > 0)
         {
             header("Location: mp.php?constituency=" . urlencode($constituency));
             exit;
         }
-
-        $db->query("$mps_query_start and ($score_clause > 0) 
-                    order by $score_clause desc, constituency, entered_house desc, last_name, first_name");
 
         include "header.inc";
 

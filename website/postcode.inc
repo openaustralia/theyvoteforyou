@@ -41,6 +41,7 @@ function postcode_to_constituency($postcode)
     $file = file_get_contents($filename);
     $file = "<HTML> " . $file;
     $file = str_replace("<BR>", "<BR/>", $file);
+    $file = str_replace("&", "&amp;", $file);
 
     global $tags, $constituency;
     $tags = array();
