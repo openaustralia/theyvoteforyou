@@ -1,0 +1,27 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-12-01.html	Fri Dec  3 08:40:23 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-12-01-patchtmp.html	Fri Dec  3 08:45:38 2004
+@@ -480,12 +480,9 @@
+ <page url="http://www.publications.parliament.uk/pa/cm200405/cmhansrd/cm041201/debtext/41201-03.htm"/>
+ 
+ 
+-<a name="41201-03_sbhd0">
+-<H4 ALIGN="center">
+-PRIME MINISTER</H4>
+-<H4 ALIGN="center">
+-The Prime Minister was asked—</H4>
+-<h4 align=center>Engagements</h4>
++<H4 ALIGN=center>PRIME MINISTER</H4>
++<H4 ALIGN=center>The Prime Minister was asked&#151;</H4>
++<a name="41201-03_sbhd0"><h4 align=center>Engagements</h4>
+ 
+ 
+ <p>1.  [200667]<a name="41201-03_wqn0"><b>  Mr. Crispin Blunt  (Reigate) (Con)</b> 
+@@ -1278,7 +1275,7 @@
+ 
+ 
+ 
+-<p><a name="41201-05_spnew5"><b> Mr. George Foulkes  (Carrick, Cumnock and Doon Valley) (Lab/Co-op) rose&#151;</b> 
++<p><a name="41201-05_spnew5"><b> Mr. George Foulkes  (Carrick, Cumnock and Doon Valley) (Lab/Co-op)</b> rose&#151; 
+ 
+ </p>
+ 

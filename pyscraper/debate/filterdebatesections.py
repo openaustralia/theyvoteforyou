@@ -237,7 +237,7 @@ def NormalHeadingPart(headingtxt, stampurl):
 	else:
 		qb.typ = 'minor-heading'
 
-	# headings become one unmarked paragraph of text
+        # headings become one unmarked paragraph of text
 	qb.stext = [ headingtxtfx ]
 	return qb
 

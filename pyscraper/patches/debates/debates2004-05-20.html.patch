@@ -1,0 +1,18 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-05-20.html	Thu Dec  2 08:08:34 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-05-20-patchtmp.html	Sun Dec  5 23:19:37 2004
+@@ -514,6 +514,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="1083"/>
+ <p><a name="40520-02_spnew13"><b> Alun Michael: </b> 
+  The right hon. and learned Gentleman voices an opinion that is shared by a narrow group of 
+ 
+@@ -3206,7 +3207,6 @@
+ 
+ 
+ </p>
+-
+ 
+ 
+ 

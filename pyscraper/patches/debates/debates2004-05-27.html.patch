@@ -1,0 +1,157 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-05-27.html	Thu Dec  2 08:08:20 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-05-27-patchtmp.html	Sat Dec  4 16:29:25 2004
+@@ -47,7 +47,7 @@
+ 
+ 
+ 
+-<p><a name="40527-01_spmin0"><b>The Secretary of State for Education and Skills  (Mr.&nbsp;Charles Clarke): </b> 
++<p><a name="40527-01_spmin0"><b>The Secretary of State for Education and Skills  (Mr. Charles Clarke): </b> 
+  The Government-funded education mentoring programme in Warwick is helping young people to realise their potential and strengthening voluntary groups and neighbourhoods. The project will receive &#163;55,999 per annum for the years 2004&#150;05 and 2005&#150;06. Last year, 200 students volunteered in over 40 schools. It is an important scheme that shows that we can develop this in many ways. I am grateful for the support that my hon. Friend has given it.
+ </p>
+ 
+@@ -237,6 +237,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="1698"/>
+ <p><a name="40527-01_spnew11"><b> Mr. Miliband: </b> 
+  My hon. Friend raises an important point. In 32 cases, the adjudicators have reduced the 
+ 
+@@ -323,7 +324,7 @@
+ 
+ 
+ 
+-
++<stamp parsemess-colnum="1699"/>
+ <p><a name="40527-02_spnew4"><b> Mr. George Osborne  (Tatton)</b> 
+  (Con): Does the Minister agree that the funding mechanism restricts choice in places such as Cheshire? Each year, I receive many letters from parents who are bitterly disappointed because they cannot get their children&#151;often along with 
+ 
+@@ -424,6 +425,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="1700"/>
+ <p><a name="40527-02_spnew10"><b> Mr. Dennis Skinner  (Bolsover)</b> 
+  (Lab): Can the Minister explain why Derbyshire did not get in on the 
+ 
+@@ -502,6 +504,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="1701"/>
+ <p><a name="40527-02_spnew14"><b> Mr. Allen </b> 
+ : I thank my right hon. Friend for that reply. Does she accept that, in areas of chronic educational 
+ 
+@@ -555,6 +558,7 @@
+ <page url="http://www.publications.parliament.uk/pa/cm200304/cmhansrd/vo040527/debtext/40527-03.htm"/>
+ 
+ 
++<stamp parsemess-colnum="1702"/>
+ <a name="40527-03_sbhd0"><h4 align=center>Special Educational Needs</h4>
+ 
+ 
+@@ -630,6 +634,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="1703"/>
+ <p><a name="40527-03_spnew4"><b> Sir Patrick Cormack  (South Staffordshire)</b> 
+  (Con): Did the Secretary of State see the moving article written by our colleague, my hon. Friend the Member for Witney (Mr. Cameron), in last Saturday&#039;s <i>Telegraph</i>, in which he underlined how crucial it is that certain 
+ 
+@@ -719,6 +724,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="1704"/>
+ <a name="40527-03_sbhd1"><h4 align=center>School Meals</h4>
+ 
+ 
+@@ -799,6 +805,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="1705"/>
+ <p><a name="40527-03_spnew12"><b> Mr. Twigg: </b> 
+  I agree, although the expression &quot;Goodbye Mr. Chips&quot; came from a Conservative Back Bencher rather than anyone on the Labour Benches.
+ </p>
+@@ -884,6 +891,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="1706"/>
+ <p><a name="40527-03_spnew17"><b> Vera Baird  (Redcar)</b> 
+  (Lab): Does my hon. Friend agree that it is critical that nutritious meals reach the poorest children, and that it continues to be a terrible pity that about 200,000 children entitled to free school meals do not claim them? According to research by the Child Poverty Action Group that is, as ever, due to the fear of stigma. Does he have any new plans to deal with that old and seemingly intractable problem?
+ </p>
+@@ -960,6 +968,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="1707"/>
+ <p><a name="40527-04_spnew2"><b> Dr. Vincent Cable  (Twickenham)</b> 
+  (LD): If the Government are to progress the integrated 14 to 19 agenda, will that primarily be done by adding sixth forms to schools that do not have them, or by strengthening the age range of post-16 colleges; if the latter, what steps are the Government taking to remove the discrimination against post-16 colleges in determining staff salaries and funding?
+ </p>
+@@ -1044,6 +1053,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="1708"/>
+ <p><a name="40527-04_spnew7"><b> Mr. Miliband: </b> 
+  I completely agree. When I appeared before the Science and Technology Committee a year or so ago, we spoke about this issue, and I explained that work force reform and the inclusion of a range of adults with expertise from the community could play a major role in schools. I certainly envisage a continuing increase in school support staff, including those vital laboratory technicians to whom my hon. Friend referred.
+ </p>
+@@ -1128,6 +1138,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="1709"/>
+ <p><a name="40527-04_spnew12"><b> Mr. David Rendel  (Newbury)</b> 
+  (LD): Given that asking round the first year sixth-form students in my constituency this year has shown that many of them have been significantly put off the chance of going on a gap year because of the coming change in top-up fees, what investigations have the Government made to see what effect top-up fees will have on those who are deciding whether or not to take a gap year?
+ </p>
+@@ -1202,6 +1213,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="1710"/>
+ <p><a name="40527-04_spnew18"><b> Mr. David Chaytor  (Bury, North)</b> 
+  (Lab): Is not the missing ingredient in this debate the role of the parents? Is it not unquestionably in the interests of the majority of parents to encourage their young people to take a gap year, thereby making themselves &#163;1,175 a year better off? Once parents start to understand that by deferring entry to 2006 they will have an enormous tax cut, attitudes to gap years will change.
+ </p>
+@@ -1267,6 +1279,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="1711"/>
+ <p><a name="40527-05_spnew1"><b> Margaret Hodge: </b> 
+  As the hon. Gentleman knows, I am aware of the situation in Croydon because he has written to me about it two or three times and I have responded. As he also knows from the correspondence in which he and I have been engaged, we are working closely with that authority to find a solution. It may be worth pointing out to the House that there are two authorities out of the 150 local education authorities that are having some difficulty in implementing their statutory requirements. One is Croydon; the other is Tory-controlled Richmond.
+ </p>
+@@ -1348,6 +1361,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="1712"/>
+ <p><a name="40527-05_spmin3"><b>The Solicitor General:</b> 
+  We are always happy to give guidance to small business, and we keep in close contact with the chambers of commerce as well as the Federation of Small Businesses. For the most part, they ask for more police resources to investigate fraud and closer working with prosecutors, but if there is a particular issue with small businesses having difficulty with the important new money-laundering regulations, we will do everything we can to help. Those regulations and the changes in the law are very important to tackle a growing problem.
+ </p>
+@@ -1437,6 +1451,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="1713"/>
+ <p><a name="40527-05_spnew6"><b> Mr. Dominic Grieve  (Beaconsfield)</b> 
+  (Con): The Solicitor-General knows that in many cases human trafficking is for the purpose of prostitution, which is a point that we sought specifically to address in sections 57, 58 and 59 of the Sexual Offences Act 2003. Will she tell the House about progress on prosecutions under that legislation? Perhaps she will also amplify her remarks on international co-operation: are we succeeding in extraditing to this country for trial those who facilitate trafficking, because in many cases the traffickers are not based here?
+ </p>
+@@ -1502,6 +1517,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="1714"/>
+ <p><a name="40527-06_spmin1"><b>The Solicitor General:</b> 
+  In north Yorkshire, the police, prosecutors, courts and other agencies are working together to try to reduce the gap between the number of 
+ 
+@@ -3725,7 +3741,7 @@
+ 
+ 
+ 
+-
++<parsemess-misspeech type="speech" redirect="nowhere"/>
+ 
+ 
+ 

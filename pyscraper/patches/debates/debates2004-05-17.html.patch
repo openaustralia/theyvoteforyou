@@ -1,0 +1,124 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-05-17.html	Thu Dec  2 08:08:44 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-05-17-patchtmp.html	Sun Dec  5 19:58:53 2004
+@@ -869,6 +869,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="667"/>
+ <p><a name="40517-02_spnew34"><b> Mr. Hoon: </b> 
+  Certainly it is important that there is a full and frank exchange of information when such issues arise and I take note of my hon. Friend&#039;s suggestion.
+ </p>
+@@ -960,6 +961,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="668"/>
+ <p><a name="40517-02_spnew39"><b> Mr. Paul Keetch  (Hereford)</b> 
+  (LD): On behalf of my right hon. and hon. Friends, I associate myself with the Secretary of State&#039;s remarks about this morning&#039;s appalling outrage in Iraq.
+ </p>
+@@ -1096,6 +1098,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="670"/>
+ <p><a name="40517-02_spnew46"><b> Mr. Hoon: </b> 
+  My hon. Friend asks a fair question about the situation. We ask officials to exercise their judgment. 
+ 
+@@ -1385,6 +1388,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="674"/>
+ <p><a name="40517-03_spmin3"><b>The Secretary of State for Defence  (Mr. Geoffrey Hoon): </b> 
+  As I was able to set out on my recent visit to Gibraltar, the armed forces are playing a full part in commemorating Gibraltar&#039;s tercentenary this year. Bands of the Royal Marines, the Royal Engineers and the Royal Air Force, the Royal Gibraltar Regiment and other military units from the United Kingdom, Royal 
+ 
+@@ -1893,6 +1897,7 @@
+ 
+ 
+ 
++<stamp parsemess-ignorenamemismatch="yes"/>
+ <p><a name="40517-05_spnew12"><b> Mr. Edward Garnier  (Harborough) (Con):</b> 
+  The one thing that puzzles me about the line of argument that the right hon. and learned Gentleman and his fellow Liberal Democrats advance is that the United Nations&#151;while it may or may not have some moral authority, depending on one&#039;s point of view&#151;has no resources other than those provided by its membership. There is no army or police force belonging to the United Nations. Where are the army and the police force that he wants and needs to enhance the security situation in Iraq, outside the current coalition? There are no volunteers who will simply put on blue berets and come and do the job that he wants them to do.
+ </p>
+@@ -3768,7 +3773,8 @@
+ 
+ 
+ 
+-
++<parsemess-misspeech type="speech" redirect="nowhere"/>
++<parsemess-misspeech type="speech" redirect="nowhere"/>
+ 
+ 
+ 
+@@ -3823,6 +3829,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="708"/>
+ <p><a name="40517-14_spnew6"><b> David Winnick: </b> 
+  The Saddam regime had from 1991 onwards to comply. If Security Council members, including this country, had acted more effectively, we would not have got into the position that we reached. I made it clear at the time that, apart from weapons of mass destruction&#151;Hans Blix was by no means satisfied that there were none, and the hon. Gentleman agrees with that&#151;on the ground of human rights alone, I agreed with my hon. Friend the Member for Hornsey and Wood Green (Mrs. Roche) that we were right in the action that we took.
+ </p>
+@@ -7668,6 +7675,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="751"/>
+ <p><a name="40517-28_spnew0"><b> Mr. Raynsford: </b> 
+  The hon. Gentleman is digging an even deeper hole, and I must counsel him not to pursue that point. I shall come later to some interesting comments taken from his website about the CIPFA report. For now, however, let me tell him that the passage that he has cited in fact highlights one of the problems implicit in his proposals, which is that the regional yield of a local income tax would be much higher in London and the south-east, so disproportionate increases in taxation would be likely there unless the grant distribution was changed. I would be interested to know whether the hon. Gentleman proposes to change that distribution, which would involve a significant change in the distribution of resources.
+ </p>
+@@ -7679,6 +7687,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="752"/>
+ <p><a name="40517-28_spnew1"><b> Mr. David Drew  (Stroud) (Lab/Co-op):</b> 
+  Part of the problem with local income tax, as with the poll tax, is non-payment, and one assumes that people would be very clever in trying to avoid tax. One of the biggest difficulties is that any assumption of tax take must build in losses that might result if people chose not to pay or were able not to pay. Does my right hon. Friend agree?
+ </p>
+@@ -7801,6 +7810,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="754"/>
+ <p><a name="40517-29_spnew0"><b> Matthew Green  (Ludlow) (LD):</b> 
+  The Minister clearly has quotes from the CIPFA report in front of him. Early on, on page 3 I think, CIPFA lists some advantages and disadvantages of the local income tax. Perhaps the Minister would like to read out the four main advantages cited.
+ </p>
+@@ -7812,6 +7822,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="755"/>
+ <p><a name="40517-29_spnew1"><b> Mr. Raynsford: </b> 
+  No, because I should then have to read out the six disadvantages that follow. The hon. Gentleman can no doubt consult the report for himself.
+ </p>
+@@ -7942,6 +7953,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="756"/>
+ <p><a name="40517-29_spnew4"><b> Several hon. Members </b> 
+  <i>rose&#151;</i>
+ </p>
+@@ -7974,6 +7986,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="757"/>
+ <p><a name="40517-29_spnew6"><b> Mr. Parmjit Dhanda  (Gloucester) (Lab):</b> 
+  The Lib Dem proposals would not only involve collecting money through the PAYE system. Part of the saving is meant to come from doing away with the existing property-based tax, but they would still need to take tax on second properties. Therefore, they would not make the savings they predict by reducing that layer of bureaucracy.
+ </p>
+@@ -8017,6 +8030,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="757"/>
+ <p><a name="40517-30_spnew0"><b> David Wright  (Telford) (Lab):</b> 
+  Under that system, what would happen in communities that were reliant on one or two big employers if one went under before the end of a tax year? How would local councils collect their cash?
+ </p>
+@@ -8028,6 +8042,7 @@
+ 
+ 
+ 
++<stamp parsemess-colnum="758"/>
+ <p><a name="40517-30_spnew1"><b> Mr. Raynsford: </b> 
+  My hon. Friend makes a valid point about the unpredictability of depending on a tax that is not predictable&#151;as council tax is&#151;as a main source of revenue. The closure of a major employer in an area would result in a significant reduction in income tax revenue, but it would not affect the council tax yield because those who had lost their jobs would be entitled to council tax benefit.
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

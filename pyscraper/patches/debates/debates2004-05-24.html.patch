@@ -1,0 +1,48 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-05-24.html	Sun Dec  5 12:24:16 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-05-24-patchtmp.html	Sun Dec  5 12:32:41 2004
+@@ -2583,7 +2583,6 @@
+ 
+ 
+ 
+-
+ <a name="40524-11_head0"><h3 align=center>Orders of the Day</h3>
+ 
+ <a name="40524-11_head1"><h3 align=center>Civil Contingencies Bill</h3>
+@@ -2593,25 +2592,14 @@
+ 
+ 
+ 
+-
+ <p><i>As amended in the Standing Committee, considered.</i></p>
+ 
+ 
+ 
+ 
+ 
+-
+-
+-
+-
+-
+-
+-<p>New Clause 11
+-
+-
+-</p>
+-
+-
++<a name="40524-11_subhd0"><br>
++<center>New Clause 11</center><br>
+ 
+ 
+ <br>
+@@ -14422,7 +14410,9 @@
+ 
+ 
+ 
++<parsemess-misspeech type="heading" redirect="nowhere"/>
+ 
++<parsemess-misspeech type="speech" redirect="nowhere"/>
+ 
+ 
+ 

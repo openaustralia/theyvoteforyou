@@ -110,7 +110,7 @@ def FilterDivision(text, sdate):
 	fs = re.split('\s*(?:<br>|<p>|\n)\s*(?i)', text)
 
 	# extract the positions of the key statements
-	statem = [ 'AYES', 'Tellers for the Ayes:', 'NOES', 'Tellers for the Noes:', 'Question accordingly.*|</FONT>' ]
+	statem = [ 'AYES', 'Tellers for the Ayes:', 'NOES', 'Tellers for the Noes:', 'Question accordingly.*|</FONT>|</p>' ]
 	istatem = [ -1, -1, -1, -1, -1 ]
 
 	for i in range(len(fs)):

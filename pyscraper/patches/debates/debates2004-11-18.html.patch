@@ -1,6 +1,19 @@
---- /home/fawkes/pwdata/cmpages/debates/debates2004-11-18.html	Tue Nov 23 18:55:35 2004
-+++ /home/fawkes/pwdata/cmpages/debates/debates2004-11-18-patchtmp.html	Tue Nov 23 19:15:09 2004
-@@ -10494,9 +10494,9 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-11-18.html	Tue Nov 23 19:28:13 2004
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-11-18-patchtmp.html	Thu Nov 25 08:38:11 2004
+@@ -8869,7 +8869,11 @@
+ <br>
+ 
+ <br>
+-Tellers for the Ayes:Mr. Jim Murphy andPaul Clark
++Tellers for the Ayes:
++
++<br>
++
++Mr. Jim Murphy and Paul Clark
+ 
+ <br>
+ 
+@@ -10494,9 +10498,9 @@
  
  <br>&nbsp;<br>
  
@@ -11,7 +24,7 @@
  
  <br>&nbsp;<br><a name="41118-20_spnew6"><b> Members of the House of Commons </b> 
   
-@@ -10507,8 +10507,6 @@
+@@ -10507,8 +10511,6 @@
  
  
  
@@ -20,7 +33,7 @@
  <p>I thank you for the provision you have made for the work and dignity of the Crown and for the public service.
  
  
-@@ -10637,8 +10635,7 @@
+@@ -10637,8 +10639,7 @@
  
  
  
