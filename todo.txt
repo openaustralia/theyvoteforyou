@@ -7,36 +7,16 @@ Look for EDMs on parliament.uk (in daily papers)
 Web site
 --------
 
-> (One comment: obviously all your pages are going to get
-> indexed in, e.g., Google fairly shortly. For some search
-> terms -- names of obscurer MPs and of pieces of
-> legislation -- you'll be quite high up the results. It
-> might be worth putting a one-sentence description of the
-> project at the top of each results page to explain what's
-> going on, since some of the pages might look a touch
-> confusing for the first-time visitor.)
-
-META keywords
-
-Use hotcopy or similar for new db uploading
-http://www.mysql.com/doc/en/mysqlhotcopy.html
-
 <h2> spacing on IE
-
-Put divisions on same day as easy links from division page
-Put similar divisions on links
 
 In possible friends print after parliament the party if it is a "whilst"
 
 Try registration with IE and no ?submit= (press ret)
 
-Share DB connection with registration
-
 Java in Opera Win32
 
 Measure abstentions by parliament rather than global proportions?
 MP page - print parliament in vote lists
-
 
 Scraper
 -------

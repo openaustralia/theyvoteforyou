@@ -17,5 +17,5 @@ rsync -v --progress -az -e "ssh" -T /tmp pw_db.sql.gz $USER:./pw_db.sql.gz
 rm pw_db.sql.gz
 
 ssh $USER "zcat pw_db.sql.gz | mysql francis --password=$DBPASSWORD"
-
+ssh $USER "rm -fr /home/francis/pwcache/*"
 

@@ -1,4 +1,4 @@
-# $Id: divisions.pm,v 1.6 2003/10/07 23:23:46 frabcus Exp $
+# $Id: divisions.pm,v 1.7 2003/10/16 09:50:33 frabcus Exp $
 # Parses the body text of a page of Hansard containing a division.
 # Records the division and votes in a database, matching MP names
 # to an MP already in the database.
@@ -116,6 +116,11 @@ sub parse_all_divisions_on_page
     {
         $content =~ s/\(<i>Aldershot<\/i>\)/<i>(Aldershot)<\/i>/;
         error::log("Italics replaced round brackets", $day_date, error::USEFUL);
+    }
+    if ($day_date eq "2003-10-15")
+    {
+        $content =~ s/item>Mercer, Patrick/Mercer, Patrick/;
+        error::log("Removed spurious text before name", $day_date, error::USEFUL);
     }
 
     #######################################################################

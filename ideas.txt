@@ -243,6 +243,7 @@ Java cluster applet change to Flash
 Email reports to people when search queries change
 e.g. When your MP has voted.  When he has rebelled.  When an issue is
 voted on, and so on.
+RSS feed of your MP's votes
 
 Show majority in division table - sort by which ones majority was least on?
 
@@ -255,8 +256,13 @@ Link from search engine to
 
 Links to other political resource websites
 
-hansard.php - takes links to days and chunks, does a redirect
-reduce bandwidth, and do tracking of where people link through to
+links.php - takes links to days and chunks, does a redirect reduce
+bandwidth, and do tracking of where people link through to
+
+Put divisions on same day as easy links from division page
+Put similar divisions on links
+
+META keywords (for search engine description)
 
 Colour blind people, or indeed blind people, need a better rebel marker
 than redness in MPs division list.  Boldness is one idea.
@@ -265,14 +271,26 @@ Log failed searches so we can improve the search engine
 
 mod_gzip to reduce bandwidth
 Make sure fast CGI keeps db connections somehow
+Share DB connection with main code and registration code
+Use hotcopy or similar for new db uploading
+    http://www.mysql.com/doc/en/mysqlhotcopy.html
 
-Paragraph text needs min width
+Paragraph text needs max-width, so it can be shrunken
 
 - about the authors, so feels personal to people
 - consider breadcrumb trail
 - about section (not all FAQ?)
 - company name/logo at topleft, search at topright
 - print stylesheet media="print" removing menus
+
+> (One comment: obviously all your pages are going to get
+> indexed in, e.g., Google fairly shortly. For some search
+> terms -- names of obscurer MPs and of pieces of
+> legislation -- you'll be quite high up the results. It
+> might be worth putting a one-sentence description of the
+> project at the top of each results page to explain what's
+> going on, since some of the pages might look a touch
+> confusing for the first-time visitor.)
 
 Political toolbar - easy searches.  Popup links automatically on MP's
 names in Internet Explorer.
