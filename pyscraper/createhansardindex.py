@@ -41,7 +41,11 @@ monthnames = 'January|February|March|April|May|June|July|August|September|Octobe
 # and answered on" on http://www.publications.parliament.uk/pa/cm/cmvol390.htm
 redatename = '<b>[A-Za-z<> ]*?\s*(\S+\s+\d+\s+(?:%s)\s+\d+)\s*</b>' % monthnames
 relink = '<a\s+href="([^"]*)">(?:<b>)?([^<]*)(?:</b>)?</a>(?i)'
-redateindexlinks = re.compile('%s|%s' % (redatename, relink))
+
+# we lack the patching system here to overcome these special cases
+respecialdate1 = "<b>Friday 23 July 2004 to(?:<br>|\s*)Friday 27 August(?: 2004)?</b>"
+
+redateindexlinks = re.compile('%s|(%s)|%s' % (redatename, respecialdate1, relink))
 
 # map from (date, type) to (URL-first, URL-index)
 # e.g. ("2003-02-01", "wrans") to ("http://...", "http://...")
@@ -59,18 +63,30 @@ def CmIndexFromPage(urllinkpage):
 	# remove comments because they sometimes contain wrong links
 	srlinkpage = re.sub('<!--[\s\S]*?-->', ' ', srlinkpage)
 
+
 	# <b>Wednesday 5 November 2003</b>
 	#<td colspan=2><font size=+1><b>Wednesday 5 November 2003</b></font></td>
 	# <a href="../cm199900/cmhansrd/vo000309/debindx/00309-x.htm">Oral Questions and Debates</a>
+
+	# this was when I didn't use the match objects, and prefered this more direct detction thing
 	datelinks = redateindexlinks.findall(srlinkpage)
 
 	# read the dates and links in order, and associate last date with each matching link
 	sdate = ''
-	for link in datelinks:
-		if link[0]:
-			odate = re.sub('\s', ' ', link[0])
+	for link1 in datelinks:
+		if link1[0]:
+			odate = re.sub('\s', ' ', link1[0])
 			sdate = mx.DateTime.DateTimeFrom(odate).date
 			continue
+
+		if link1[1]:
+			assert link1[1][0:22] == "<b>Friday 23 July 2004"
+			odate = "1 Sept 2004" # the date quoted on the wrans page
+			sdate = mx.DateTime.DateTimeFrom(odate).date
+			continue
+
+		# move indexes down to keep old code working
+		link = link1[1:]
 
 		# the link types by name
 		if not re.search('debate|westminster|written(?i)', link[2]):
@@ -106,7 +122,7 @@ def CmIndexFromPage(urllinkpage):
 			test1 = uind.replace('cmhansrd/cm', 'cmhansrd/vo')
 			test2 = otheruind.replace('cmhansrd/cm', 'cmhansrd/vo')
 			if test1 != test2:
-				raise Exception, 'Repeated link to %s %s\nurl1: %s\nurl2: %s\nindex1: %s\nindex2: %s' % (sdate, typ, uind, otheruind, urllinkpage, rc[1])
+				raise Exception, 'Repeated link to %s %s differs:\nurl1: %s\nurl2: %s\nfrom index page1: %s\nindex2: %s' % (sdate, typ, uind, otheruind, urllinkpage, rc[1])
 
 			# case of two URLs the same only vo/cm differ like this:
 			# (which is a bug in Hansard, should never happen)
