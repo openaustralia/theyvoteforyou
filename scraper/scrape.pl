@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: scrape.pl,v 1.10 2004/03/15 12:09:50 frabcus Exp $
+# $Id: scrape.pl,v 1.11 2004/03/19 21:22:45 frabcus Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -15,6 +15,7 @@ use Getopt::Long;
 use clean;
 use finddays;
 use content;
+use divsxml;
 use divisions;
 use calc;
 use mplist;
@@ -81,6 +82,10 @@ foreach my $argnum (0 .. $#ARGV)
     {
         all_content();
     }
+    elsif ($_ eq "divsxml")
+    {
+        all_divsxml();        
+    }
     elsif ($_ eq "divisions")
     {
         all_divisions();        
@@ -123,7 +128,8 @@ mps - insert MPs into database from local raw data files
 months - scan back through months to get new day URLs
 sessions - scan recent sessions and find day URLs
 content - fetch debate content for all days
-divisions - parse divisions from local content and add them to database
+divsxml - parse divisions from XML files and add them to database
+divisions - DEPRECATED parse divisions from local content and add them to database
 check - check database consistency
 calc - update cached calculations, do this after every crawl
 
@@ -146,8 +152,9 @@ END
 # Called every time to tidy up database
 sub clean
 {
-    print "Erasing half-parsed divisions...\n";
-    clean::erase_duff_divisions($dbh);
+    print "TODO PUT CLEAN BACK\n\n";
+    #print "Erasing half-parsed divisions...\n";
+    #clean::erase_duff_divisions($dbh);
 }
 
 sub mps
@@ -275,6 +282,11 @@ sub all_divisions
         my ($day_date, $content) = @data;
         divisions::parse_all_divisions_on_page($dbh, $content, $day_date);
     }
+}
+
+sub all_divsxml
+{
+    divsxml::read_xml_files($dbh);
 }
 
 sub test
