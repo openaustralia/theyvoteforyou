@@ -16,7 +16,7 @@ cd ..
 
 echo "Scraping new written answers"
 cd pyscraper
-./lazyrunall.pl --from 2003-01-01 --network --wrans 
+./lazyrunall.py --from 2003-01-01 --network --wrans 
 cd ..
 
 echo "Making wrans indices"
