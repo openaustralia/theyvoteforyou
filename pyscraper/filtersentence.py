@@ -85,7 +85,13 @@ class PhraseTokenize:
 
 		# this gives a link to the date.colnumW type show.
 		qcolcode = qcpart.group(1) + string.upper(qcpart.group(3))
-		offrepid = 'wrans/%s.%s' % (self.lastdate, qcolcode)
+		if (string.upper(qcpart.group(3)) == 'WS'):
+			sectt = 'wms'
+		elif (string.upper(qcpart.group(3)) == 'W'):
+			sectt = 'wrans'
+		else:
+			sectt = 'debates'
+		offrepid = '%s/%s.%s' % (sectt, self.lastdate, qcolcode)
 
 		nextfunc(qs, stex[:qoffrep.span(0)[0]])
 		self.toklist.append( ('phrase', ' class="offrep" id="%s"' % offrepid, '<i>Official Report</i> Column %s' % FixHTMLEntities(qoffrep.group(1))) )
@@ -103,10 +109,12 @@ class PhraseTokenize:
 		if not qdateph.group(2):
 			pass
 		try:
-			ldate = mx.DateTime.DateTimeFrom(ldate).date
+			lldate = mx.DateTime.DateTimeFrom(ldate).date
+			if lldate > mx.DateTime.now().date:
+				lldate = (mx.DateTime.DateTimeFrom(ldate) - mx.DateTime.RelativeDateTime(years=1)).date
+			ldate = lldate
 		except:
 			return self.RawTokensN(qs, stex)
-
 		# output the three pieces
 		nextfunc(qs, stex[:qdateph.span(0)[0]])
 
