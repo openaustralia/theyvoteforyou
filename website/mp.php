@@ -1,5 +1,5 @@
 <?php 
-    # $Id: mp.php,v 1.8 2003/10/11 22:47:18 frabcus Exp $
+    # $Id: mp.php,v 1.9 2003/10/12 20:19:27 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -48,14 +48,15 @@
     while ($row = $db->fetch_row())
     {
         $prettyrow = pretty_row_start($prettyrow);
-        if ($row[6] == "") { $row[6] = "n/a"; } else { $row[6] .= "%"; }
+        $row[6] = percentise($row[6]);
+        $row[7] = percentise($row[7]);
         if ($row[12] == "9999-12-31") { $row[12] = "still in office"; }
         print "
             <td>" . pretty_party($row[4]) . "</td>
             <td>$row[11]</td>
             <td>$row[12]</td>
             <td class=\"percent\">$row[8] out of $row[9], $row[6]</td>
-            <td class=\"percent\">$row[9] out of $row[10], $row[7]%</td>
+            <td class=\"percent\">$row[9] out of $row[10], $row[7]</td>
             ";
         print "</tr>\n";
         array_push($mp_ids, $row[5]);
@@ -186,9 +187,11 @@
                 <td>$row[3]</td>
                 <td>" . pretty_party($row[4], $row[9], $row[10]) . "</td>
                 <td>$row[8]</td>";
-            if ($row[6] == "") { $row[6] = "n/a"; } else { $row[6] .= "%"; }
+
+            $row[6] = percentise($row[6]);
+            $row[7] = percentise($row[7]);
             print "<td class=\"percent\">$row[6]</td>";
-            print "<td class=\"percent\">$row[7]%</td>";
+            print "<td class=\"percent\">$row[7]</td>";
             print "</tr>\n";
         }
         if ($db->rows() == 0)

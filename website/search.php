@@ -1,5 +1,5 @@
 <?php 
-# $Id: search.php,v 1.8 2003/10/08 00:45:53 frabcus Exp $
+# $Id: search.php,v 1.9 2003/10/12 20:19:27 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -82,14 +82,15 @@
                     "&lastname=" . urlencode($row[1]) . "&constituency=" .
                     urlencode($row[3]) . "\"";
 
-                if ($row[6] == "") { $row[6] = "n/a"; } else { $row[6] .= "%"; }
+                $row[6] = percentise($row[6]);
+                $row[7] = percentise($row[7]);
 
                 print "<td>" . year_range($row[10], $row[11]) . "</td>";
                 print "<td><a href=$anchor>$row[2] $row[0] $row[1]</a></td></td>
                     <td>$row[3]</td>
                     <td>" . pretty_party($row[4], $row[8], $row[9]) . "</td>
                     <td class=\"percent\">$row[6]</td>
-                    <td class=\"percent\">$row[7]%</td>";
+                    <td class=\"percent\">$row[7]</td>";
                 print "</tr>\n";
             }
             print "</table>\n";

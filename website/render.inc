@@ -1,6 +1,6 @@
 <?php
 
-# $Id: render.inc,v 1.4 2003/10/02 09:42:03 frabcus Exp $
+# $Id: render.inc,v 1.5 2003/10/12 20:19:27 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -63,13 +63,14 @@ function render_mps_table($db)
             "&lastname=" . urlencode($row[1]) . "&constituency=" .
             urlencode($row[3]) . "\"";
 
-        if ($row[6] == "") { $row[6] = "n/a"; } else { $row[6] .= "%"; }
+        $row[6] = percentise($row[6]);
+        $row[7] = percentise($row[7]);
 
         print "<td><a href=$anchor>$row[2] $row[0] $row[1]</a></td></td>
             <td>$row[3]</td>
             <td>" . pretty_party($row[4], $row[8], $row[9]) . "</td>
             <td class=\"percent\">$row[6]</td>
-            <td class=\"percent\">$row[7]%</td>";
+            <td class=\"percent\">$row[7]</td>";
         print "</tr>\n";
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.5 2003/10/03 21:46:10 frabcus Exp $
+# $Id: pretty.inc,v 1.6 2003/10/12 20:19:27 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -110,6 +110,15 @@ function search_example($db)
 <p class="search"><i>Example: "<?=$random_mp?>", "<?=$random_constituency?>" or "<?=$random_topic?>"</i>
 
 <?php
+}
+
+function percentise($num)
+{
+    if ($num == "") 
+        $num = "n/a";
+    else
+        $num .= "%";
+    return $num;
 }
 
 ?>
