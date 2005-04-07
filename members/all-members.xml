@@ -9453,7 +9453,7 @@ http://www.election.demon.co.uk/strengths.html
     house="commons"
     title="" firstname="Paul" lastname="Marsden"
     constituency="Shrewsbury &amp; Atcham" party="LDem"
-    fromdate="2001-12-10" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
+    fromdate="2001-12-10" todate="2005-04-05" fromwhy="changed_party" towhy="changed_party"
 />
 <member
     id="uk.org.publicwhip/member/1347"
@@ -9593,6 +9593,13 @@ http://www.election.demon.co.uk/strengths.html
     title="" firstname="Howard" lastname="Flight"
     constituency="Arundel &amp; South Downs" party="Ind"
     fromdate="2005-03-25" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
+/>
+<member
+    id="uk.org.publicwhip/member/1367"
+    house="commons"
+    title="" firstname="Paul" lastname="Marsden"
+    constituency="Shrewsbury &amp; Atcham" party="Ind Lab"
+    fromdate="2005-04-06" todate="9999-12-31" fromwhy="changed_party" towhy="still_in_office"
 />
 
 
