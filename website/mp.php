@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.67 2005/04/07 08:44:30 theyworkforyou Exp $
+    # $Id: mp.php,v 1.68 2005/04/07 10:53:55 theyworkforyou Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -290,7 +290,7 @@
 		else if ($dismode["votelist"] == "every" and $voter2type == "party")
 			print "<p>All votes this MP could have attended. \n";
 		else if ($voter2type == "dreammp") {
-			print "<p>Shows all votes on the issue '<a href=\"$voter2link\">".
+			print "<p><b>Explanation:</b> Shows all votes on the issue '<a href=\"$voter2link\">".
 				html_scrub($voter2attr['name']).
 				"</a>', and how <a href=\"$voter1link\">" . $mpprop['name'] . 
 				"</a> voted on them.  The issue is represented by a 'Dream MP',
@@ -300,7 +300,7 @@
 				You can think of the Dream MP as representing a whips' office on
 				behalf of the issue.";
 			print "<p><b>Description of '".html_scrub($voter2attr['name']).
-				"'</b>: " . 
+				"':</b> " . 
 				html_scrub($voter2attr['description']).
 				" Made by <b>".  html_scrub($voter2attr['user_name']) . "</b>. " . 
 				"\n";
