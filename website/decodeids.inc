@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.11 2005/03/28 10:06:21 frabcus Exp $
+# $Id: decodeids.inc,v 1.12 2005/04/07 08:44:30 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -238,7 +238,7 @@ function get_dreammpid_attr_decode($db, $i)
                  "name" 		=> $row['name'],
                  "description" 	=> $row['description'],
                  "userid" 		=> $row['userid'],
-                 "username" 	=> $row['username'],
+                 "user_name" 	=> $row['user_name'],
                  "anchor"		=> "dmp$i=".urlencode($dreammpid));
 }
 

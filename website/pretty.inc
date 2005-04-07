@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.21 2005/03/31 23:14:32 frabcus Exp $
+# $Id: pretty.inc,v 1.22 2005/04/07 08:44:30 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -368,5 +368,17 @@ function guy2html($input) {
 	$input = preg_replace($patterns,$replace,$input);
 	return $input;
 }
+
+/* make_plural NUMBER SINGULAR PLURAL
+ * If NUMBER is 1, return SINGULAR; if NUMBER is not 1, return PLURAL
+ * if it's there, otherwise WORD catenated with "s". */
+function make_plural($number, $singular, $plural='') {
+    if ($number == 1)
+        return $singular;
+    if ($plural)
+        return $plural;
+    return $singular . 's';
+}
+
 
 ?>

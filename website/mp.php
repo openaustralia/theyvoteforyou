@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.66 2005/03/28 21:00:08 goatchurch Exp $
+    # $Id: mp.php,v 1.67 2005/04/07 08:44:30 theyworkforyou Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -289,9 +289,21 @@
 	        	a teller (Teller) or both (Rebel Teller).  \n";
 		else if ($dismode["votelist"] == "every" and $voter2type == "party")
 			print "<p>All votes this MP could have attended. \n";
-	    else if ($voter2type == "dreammp") {
-            print "<p>Shows all votes on this issue, and how <a href=\"$voter1link\">" . $mpprop['name'] . "</a> voted on them.";
-            print "<p><b>'".html_scrub($voter2attr['name'])."' Dream MP Description:</b> ".html_scrub($voter2attr['description'])."\n";
+		else if ($voter2type == "dreammp") {
+			print "<p>Shows all votes on the issue '<a href=\"$voter2link\">".
+				html_scrub($voter2attr['name']).
+				"</a>', and how <a href=\"$voter1link\">" . $mpprop['name'] . 
+				"</a> voted on them.  The issue is represented by a 'Dream MP',
+                                that is to say an imaginary MP who only voted on this issue, and
+                                who voted a certain way on it.  " . html_scrub($mpprop['name']) .
+				"'s voting record is compared to the voting record of the Dream MP.
+				You can think of the Dream MP as representing a whips' office on
+				behalf of the issue.";
+			print "<p><b>Description of '".html_scrub($voter2attr['name']).
+				"'</b>: " . 
+				html_scrub($voter2attr['description']).
+				" Made by <b>".  html_scrub($voter2attr['user_name']) . "</b>. " . 
+				"\n";
 			print "<p>";
         }
 
@@ -353,8 +365,9 @@
 		if ($voter2type == "dreammp")
 		{
 			print "<h3>Similarity equation</h3>\n";
-			print "<p>To help with the understanding of similarity measures, here is
-					how we derive the numbers.</p>\n";
+			print "<p>This MP is scored against the Dream MP,
+coming up with a 'voting distance' between them.  The voting distance is
+between 0.0 and 1.0. Here is how we calculate the score.</p>\n";
 			# sum up the arrays
 			foreach ($voter1attr['mpprops'] as $mpprop)
 			{
@@ -369,9 +382,9 @@
 
 			# outputs an explanation of the votes
 			print_dreammp_person_distance($dismetric["agree"], $dismetric["agree3"],
-									  $dismetric["disagree"], $dismetric["disagree3"],
-									  $dismetric["ab1"], $dismetric["ab1line3"],
-									  $db, $mpprop["person"], $voter2);
+						  $dismetric["disagree"], $dismetric["disagree3"],
+						  $dismetric["ab1"], $dismetric["ab1line3"],
+							  $db, $mpprop["person"], $voter2);
 		}
 
 		if ($voter2type == "person" and $showwhich == "everyvote")

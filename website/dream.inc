@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.22 2005/03/31 20:14:27 theyworkforyou Exp $
+# $Id: dream.inc,v 1.23 2005/04/07 08:44:30 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -27,18 +27,23 @@ function calc_dreammp_person_distance($nvotessame, $nvotessamestrong,
 
 # write out an explanation of the calculation above
 function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
-									  $nvotesdiffer, $nvotesdifferstrong,
-									  $nvotesabsent, $nvotesabsentstrong,
-									  $db, $person, $dreamid)
+					  $nvotesdiffer, $nvotesdifferstrong,
+					  $nvotesabsent, $nvotesabsentstrong,
+					  $db, $person, $dreamid)
 {
 	global $bdebug;
 
 	if ($bdebug == 1)
 		print "<p>$person ddddd   $dreamid</p>";
 
-	print "<p class=\"indent\">Between this MP and the dreamMP there were $nvotessame agreement(s) and $nvotessamestrong strong agreement(s),
-					$nvotesdiffer disagreement(s) and $nvotesdifferstrong strong disagreement(s),
-					and $nvotesabsent missed vote(s) and $nvotesabsentstrong missed votes where there was a strong demand to vote.</p>\n";
+	print "<p class=\"indent\">Between this MP and the Dream MP there were 
+	$nvotessame ".make_plural($nvotessame, "agreement")." and 
+	$nvotessamestrong strong ".make_plural($nvotessamestrong, "agreement").",
+	$nvotesdiffer ".make_plural($nvotesdiffer, "disagreement")." and 
+	$nvotesdifferstrong strong ".make_plural($nvotesdifferstrong, "disagreement").", 
+	$nvotesabsent missed ".make_plural($nvotesabsent, "vote")." and 
+	$nvotesabsentstrong missed ".make_plural($nvotesabsentstrong, "vote")." where 
+	there was a strong demand to vote.</p>\n";
 
 	$tlw = 5.0;
 	$score = $nvotesdiffer + $tlw * $nvotesdifferstrong + 0.1 * $nvotesabsent + ($tlw / 2) * $nvotesabsentstrong;
@@ -50,7 +55,8 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 	print "<p>Normal votes are weighted by 1.0, strong votes by 5.0, ordinary missed votes by 0.2,
 			but missed votes that were strong get 2.5 out of 5.0.</p>\n";
 
-	print "<p class=\"indent\">The distance is therefore ($nvotesdiffer + 5.0 * $nvotesdifferstrong + 0.1 * $nvotesabsent + 2.5 * $nvotesabsentstrong) = $score
+	print "<p class=\"indent\">The distance is therefore 
+		($nvotesdiffer + 5.0 * $nvotesdifferstrong + 0.1 * $nvotesabsent + 2.5 * $nvotesabsentstrong) = $score
 			out of
 			($nvotessame + 5.0 * $nvotessamestrong + $nvotesdiffer + 5.0 * $nvotesdifferstrong +
 			  0.2 * $nvotesabsent + 5.0 * $nvotesabsentstrong) = $weight,

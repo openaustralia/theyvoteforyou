@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.20 2005/04/06 11:31:24 theyworkforyou Exp $
+# $Id: tablemake.inc,v 1.21 2005/04/07 08:44:30 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -373,14 +373,12 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
     $divlink = "<a href=\"$divhref\">";
     $divdesc_edited = extract_title_from_wiki_text($row['text_body']);
     $divdesc = $divdesc_edited ? $divdesc_edited : $row['division_name'];
-    print "<td colspan=4 align=left>$divlink$divdesc</a> </td>";
-    print "<td colspan=3>$divlink".$row['divisiondate']." #".$row['divisionnumber']."</a></td>";
+    print "<td colspan=7 align=left>$divlink$divdesc - " . 
+	    date("j M Y", strtotime($row["divisiondate"])) . 
+	" - Division No. " . $row['divisionnumber'] . "</a> </td>";
     print "</tr>\n";
 
-    # motion part of the text
     print "<tr valign=\"top\">";
-    print "<td colspan=4>$motiontext</td>\n";
-
     print "<td>";
 
     # Coloured box saying whether MP and Dream MP agree/disgagree/miss
@@ -427,7 +425,12 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
         writenumbervote($lnrows, $lparty, $partysummary['ayes'][$lparty], $partysummary['noes'][$lparty], $ayecla, $nocla);
     writenumbervote($lnrows, "Total", $totalayes, $totalnoes, $ayecla, $nocla);
 
-    print "</table></td></tr>\n";
+    print "</table></td>";
+
+    # motion part of the text
+    print "<td colspan=4>$motiontext</td>\n";
+
+    print "</tr>\n";
 }
 
 
