@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.21 2005/04/07 08:44:30 theyworkforyou Exp $
+# $Id: tablemake.inc,v 1.22 2005/04/07 08:48:41 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -214,7 +214,7 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
                     $dismetric["abboth"] += 1;
                 else
                     $dismetric[($vote2line3 ? "ab1line3" : "ab1")] += 1;
-                $votedesclong = "MP abstained";
+                $votedesclong = "MP absent";
             }
             else
             {
