@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.38 2005/03/28 12:07:18 frabcus Exp $
+# $Id: faq.php,v 1.39 2005/04/08 11:02:31 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -127,6 +127,9 @@ party has whipped is made available, there is no true way of identifying a
 perhaps you can think of some and let us know.  See also the next question.
 
 <h2><a name="freevotes">Why do you incorrectly say people are rebels in free votes?</a></h2>
+
+<p>The short answer to this question is <a href="http://www.theyworkforyou.com/debate/?id=2005-02-07.1200.2">succinctly given by the Speaker</a>.  Here is
+the long answer.
 
 <p>There is no official, recorded data about the party whip.  At the moment
 we guess based on the majority vote by MPs for each party.  In order to

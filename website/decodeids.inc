@@ -1,17 +1,17 @@
 <?php
-# $Id: decodeids.inc,v 1.12 2005/04/07 08:44:30 theyworkforyou Exp $
+# $Id: decodeids.inc,v 1.13 2005/04/08 11:02:30 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-include "parliaments.inc";
-include "postcode.inc";
-require_once "wiki.inc";
+include $toppath . "parliaments.inc";
+include $toppath . "postcode.inc";
+require_once  $toppath . "wiki.inc";
 
 # this maps all constituency names to numbers
-include "constituencies.inc";
+include  $toppath . "constituencies.inc";
 
 # get the constituency and names to use from an mpid
 # mpgen says the equivalence class is by constituency or by person

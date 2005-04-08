@@ -1,5 +1,5 @@
-<?php require_once "common.inc";
-    # $Id: dreamquery.xml,v 1.4 2005/02/18 12:13:18 frabcus Exp $
+<?php require_once "../common.inc";
+    # $Id: dreamquery.xml,v 1.5 2005/04/08 11:02:31 theyworkforyou Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -10,20 +10,14 @@
     include "../render.inc";
     include "../dream.inc";
     include "../constituencies.inc";
-    include "../postcode.inc";
+    include "../decodeids.inc";
     $db = new DB(); 
 
     $dream_id = intval($_GET["id"]);
-    $postcode = $_GET["postcode"];
+    $voter1attr = get_mpid_attr_decode($db, "");
+    update_dreammp_person_distance($db, $dream_id); # new method
  
     header("Content-type: text/xml");
-
-    $constituency = postcode_to_constituency($postcode);
-    $query = "select mp_id, first_name, last_name, party
-        from pw_mp
-        where entered_house <= curdate() and curdate() <= left_house
-        and constituency = '$constituency'";
-    $mpinfo = $db->query_one_row_assoc($query);
 
     print "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n";
     print "<publicwhip url=\"http://www.publicwhip.org.uk\">\n";
@@ -35,26 +29,32 @@
         print "Error: Postcode not found\n";
     }
      else {
-        $query = "select name, description, pw_dyn_user.user_id, user_name
-            from pw_dyn_rolliemp, pw_dyn_user
-            where pw_dyn_rolliemp.user_id = pw_dyn_user.user_id and rollie_id = '$dream_id'";
+        $query = "select name, description, pw_dyn_user.user_id, user_name,
+		distance_a,
+	 (nvotessame + nvotessamestrong + nvotesdiffer + nvotesdifferstrong) as both_voted
+            from pw_dyn_rolliemp, pw_dyn_user, pw_cache_dreamreal_distance
+            where pw_dyn_rolliemp.user_id = pw_dyn_user.user_id 
+		and pw_dyn_rolliemp.rollie_id = '$dream_id'
+		and pw_cache_dreamreal_distance.rollie_id = pw_dyn_rolliemp.rollie_id
+		and pw_cache_dreamreal_distance.person = " . $voter1attr['mpprop']['person'];
         $dreaminfo = $db->query_one_row_assoc($query);
 
-        print " <dreamrealcompare dream_id=\"$dream_id\" mp_id=\"" .  $mpinfo['mp_id'] . "\">\n";
+        print " <dreamrealcompare dream_id=\"$dream_id\" person_id=\"" .  $voter1attr['mpprop']['person'] . "\">\n";
 
-        $scores = calc_dream_mp_score($db, $dream_id, $mpinfo['mp_id']);
         print "     <dreammp " .
             "name=\"" . html_scrub($dreaminfo["name"]) .  "\" " . 
             "url=\"http://www.publicwhip.org.uk/dreammp.php?id=$dream_id\" />\n";
 
-        print "     <realmp name=\"" . html_scrub($mpinfo["first_name"]) . 
-                " " .  html_scrub($mpinfo['last_name']) . "\" " .
+        print "     <realmp name=\"" . html_scrub($voter1attr['mpprop']["name"]) . "\" " .
                 "constituency=\"$constituency\" " . 
-                "party=\"" . html_scrub($mpinfo["party"]) .  "\" " . 
+                "party=\"" . html_scrub($voter1attr['mpprop']["party"]) .  "\" " . 
                 "url=\"http://www.publicwhip.org.uk/mp.php?constituency="
-                    . urlencode($constituency) . "\" " . 
+                    . urlencode($voter1attr['mpprop']['constituency']) . "\" " . 
                 "/>\n";
-        print "     <score value=\"$scores[0]\" max=\"$scores[1]\"/>\n";
+        print '     <values' .
+		' distance_a="'.$dreaminfo['distance_a'].'"' .
+		' both_voted="'.$dreaminfo['both_voted'].'"' .
+		'/>' . "\n";
 
         print " </dreamrealcompare>\n";
     }
