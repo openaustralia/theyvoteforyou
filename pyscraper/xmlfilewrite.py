@@ -552,7 +552,7 @@ def WriteXMLFile(gidpart, tempname, jfout, flatb, sdate, bquietc):
 
 		# the regexp on this diff line is limited, but this factors any line that has a changeable url in it, and will
 		# let us see changes in votes and changes in speeches in enough of a context
-		ern = os.system('diff -u --ignore-matching-lines="<.*?url=[^>]*>" %s %s > %s' % (tempname, jfout, jfoutpatch))
+		ern = os.system('diff -u %s %s > %s' % (tempname, jfout, jfoutpatch))
 		if ern == 2:
 			print "Error running diff"
 			raise Exception, "Error running diff"

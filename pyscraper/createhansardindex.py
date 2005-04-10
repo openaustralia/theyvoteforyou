@@ -43,7 +43,7 @@ daynames = '(?:Sun|Mon|Tues|Wednes|Thurs|Fri|Satur)day'
 # and answered on" on http://www.publications.parliament.uk/pa/cm/cmvol390.htm
 redatename = '<b>[A-Za-z<> ]*?\s*(\S+\s+\d+\s+(?:%s)\s+\d+)\s*</b>' % monthnames
 revotelink = '<a\s+href="([^"]*)">(?:<b>)?((?:%s),(?:&nbsp;| )\d+\S*?(?:&nbsp;| )(?:%s)(?:&nbsp;| )\d+)\s*(?:</b>)?</(?:a|td)>(?i)' % (daynames, monthnames)
-relink = '<a\s+href="([^"]*)">(?:<b>)?([^<]*)(?:</b>)?</a>(?i)'
+relink = '<a\s+href="([^"]*)">(?:<b>)?([^<]*)(?:</b>)?</(?:a|font)>(?i)'
 
 # we lack the patching system here to overcome these special cases
 respecialdate1 = "<b>Friday 23 July 2004 to(?:<br>|\s*)Friday 27 August(?: 2004)?</b>"
@@ -258,20 +258,30 @@ def UpdateHansardIndex(force):
 	urllisth.sort()
 	urllisth.reverse()
 
-        # compare this leading term against the old index
-	oldindex = LoadOldIndex(pwcmindex)
-	if oldindex.CompareHeading(urllisth) and not force:
-		#print ' Head appears the same, no new list '
-		return
+        if not force:
+                # compare this leading term against the old index
+        	oldindex = LoadOldIndex(pwcmindex)
+	        if oldindex.CompareHeading(urllisth):
+        		#print ' Head appears the same, no new list '
+        		return
 
-        # extend our list to all the pages
-	cres = CmAllIndexPages(urlcmindex)
-	cres += CmAllIndexPages(urlvotesindex)
-        for cr in cres:
-		CmIndexFromPage(cr)
-        urllisth = map(lambda r: r + (reses[r][0],), reses.keys())
-	urllisth.sort()
-	urllisth.reverse()
+                oindex = oldindex.res
+                oindex.extend(oldindex.resv)
+                for i in urllisth:
+                        if i not in oindex:
+                                oindex.append(i)
+                oindex.sort()
+                oindex.reverse()
+                urllisth = oindex
+        else:
+                # extend our list to all the pages
+        	cres = CmAllIndexPages(urlcmindex)
+        	cres += CmAllIndexPages(urlvotesindex)
+                for cr in cres:
+        		CmIndexFromPage(cr)
+                urllisth = map(lambda r: r + (reses[r][0],), reses.keys())
+        	urllisth.sort()
+        	urllisth.reverse()
 
 	fpwcmindex = open(pwcmindex, "w");
 	WriteXML(fpwcmindex, urllisth)
