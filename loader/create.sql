@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.22 2005/04/11 16:42:34 frabcus Exp $
+-- $Id: create.sql,v 1.23 2005/04/11 16:53:57 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -38,8 +38,11 @@ create table pw_mp (
     left_house date not null default '9999-12-31',
     entered_reason enum('unknown', 'general_election', 'by_election', 'changed_party',
         'reinstated') not null default 'unknown',
+    -- general_election has three types 1) unknown 2) MP didn't try to stand
+    -- again (or was deselected, etc.) 3) MP did try to stand again (if successful
+    -- they will appear in another record)
     left_reason enum('unknown', 'still_in_office', 
-        'general_election_standing', 'general_election_notstanding',
+        'general_election', 'general_election_standing', 'general_election_notstanding',
         'changed_party', 'died', 'declared_void', 'resigned',
         'disqualified', 'became_peer') not null default 'unknown',
 
