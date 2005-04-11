@@ -1,8 +1,16 @@
 Migrate away from mpdist table to new one
 
+Turn caching back on when it works
+
 Clear file cache for:
     divisions.php when a motion text is edited
     (perhaps just clear everything then!)
+
+Database patches:
+    Rename rollie -> dream 
+    Tidy up the id so always dream_id not a mix.
+    pw_dyn_rollievote.vote should be NOT NULL
+    Remove division_id
 
 General
 -------
