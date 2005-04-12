@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.1 2005/04/12 00:36:31 frabcus Exp $
+# $Id: election.php,v 1.2 2005/04/12 00:45:31 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -20,7 +20,8 @@ $ranks = array(
         "moderately for" => 0.75,
         "neutral/mixed on" => 0.50,
         "moderately against" => 0.25,
-        "strongly against" => 0.0
+        "strongly against" => 0.0,
+        "don't know" => 0.50,
     );
 
 $issues = array(
@@ -158,7 +159,7 @@ how your ex-MP and each party voted on them in parliament over the last
 <p><input type="submit" name="submit" value="Submit"></p>
 </form>
 
-<p><a href="/">Intead, go to the main Public Whip website</a>
+<p><a href="/">Instead, go to the main Public Whip website</a>
 <?
     }
 ?>
