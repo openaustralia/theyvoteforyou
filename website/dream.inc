@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.23 2005/04/07 08:44:30 theyworkforyou Exp $
+# $Id: dream.inc,v 1.24 2005/04/12 00:36:31 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -269,10 +269,6 @@ function update_dreammp_person_distance($db, $dreamid)
 				SET cache_uptodate = 1, consistency_with_mps = $dconsistency
 				WHERE rollie_id = $dreamid");
 }
-
-
-
-
 
 # Return score and what it is out of for how much the MP follows the "whip" of
 # the Dream MP.  The "_a" here means this is scoring system A.

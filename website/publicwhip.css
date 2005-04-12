@@ -487,6 +487,21 @@ BODY.patent H1
     text-align: center;
     font-size: 200%;
 }
+/* For election in election.php */
+BODY.election
+{
+    WIDTH: 80%;
+    MARGIN-LEFT: 10%;
+}
+BODY.election P
+{
+    text-align: center;
+}
+BODY.election H1
+{
+    text-align: center;
+    font-size: 200%;
+}
 /* For showing HTML source */
 PRE.htmlsource
 {
