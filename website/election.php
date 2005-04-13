@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.5 2005/04/13 07:00:44 frabcus Exp $
+# $Id: election.php,v 1.6 2005/04/13 18:03:02 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -10,8 +10,8 @@
 # http://publicwhip.owl/election.php?i363=0.75&i367=0.75&i258=0.25&i219=0&i230=0.25&i358=0.5&i371=1&mpn=Anne%20Campbell&mpc=Cambridge&submit=Submit
 
 # TODO:
-# Fix what happens when your MP chosen
 # Special case which parties to show for Wales, Scotland, Northern Ireland, England 
+# What to do when postcode is wrong -- better error
 # Think about dream/person distance, check it works OK
 # 
 # Do redirect stuff, using interstitial and cookies?
@@ -29,7 +29,7 @@ $ranks = array(
         "neutral/mixed on" => 0.50,
         "moderately against" => 0.25,
         "strongly against" => 0.0,
-        "don't know" => 0.50,
+        "don't know about" => 0.50,
     );
 
 $issues = array(
@@ -114,27 +114,36 @@ Your <strong>friend's email</strong>:
     function opinion_value($value, $curr)
     {
         $ret = "value=\"" . html_scrub($value) . "\" ";
-        if ($value === $curr)
-        {
+        if ($value === $curr) {
             $ret .= "selected ";
         }
         return $ret;
     }
 
-
+    $errors = array();
     if ($_GET['submit']) {
         // Display voting records
     	$mpattr = get_mpid_attr_decode($db, "");
         if ($mpattr == null) {
-            $title = "MP not found";
-            print "<p>No MP found. If you entered a postcode, please make
-                sure it is correct.  Or you can <a href=\"/mps.php\">browse
-                all MPs</a>.";
-            exit;
+            $errors[] = "Your MP wasn't found.  Please check you
+                entered the postcode correctly.";
         }
-        $mpattr = $mpattr['mpprop'];
+        foreach ($issues as $issue) {
+            $dreamid = $issue[0];
+            if (!$_GET["i$dreamid"] || $_GET["i$dreamid"] < 0) {
+                $errors[] = "Please select your opinion on " . $issue[1];
+            }
+        }
+    }
+    if ($errors) {
+        print "<p class=\"error\">";
+        print join($errors, "<br>");
+        print "</p>";
+    }
 
+    if ($_GET['submit'] and !$errors) {
         # See if MP is standing again
+        $mpattr = $mpattr['mpprop'];
         $mp_party = $parties[$mpattr['party']];
         $standing_again = false;
         if ($mpattr['leftreason'] == "general_election_standing") {
@@ -370,33 +379,31 @@ END;
 
 <form name="howtovote" method="get" action="election.php">
 
-<p>Choose how you feel about each of these issues.  We'll tell you
-how your ex-MP and each party voted on them in parliament over the last
+<p>Your <strong>postcode</strong>: <input type="text" size="10" name="mppc" value="<?=htmlspecialchars($_GET['mppc'])?>">
+ (so we know who your last MP was)</p>
+
+<p>Choose how you feel about each of these issues.  We'll tell you how your<br>
+ex-MP and each party voted on them in parliament over the last
 4 years.</p>
 
 <!--<input type="hidden" name="newpost" value="2">-->
-<p>
+<p> <center><table border="0">
 <?
-    $firstbr = true;
     foreach ($issues as $issue) {
-        if ($firstbr)
-            $firstbr = false;
-        else
-            print '<br>';
-        print 'I am <select name="i'.$issue[0].'">' . "\n";
+        print "<tr>";
+        print '<td>I am</td><td><select name="i'.$issue[0].'">' . "\n";
         print "<option value=\"-1\" selected>-- please choose --</option>\n";
         foreach ($ranks as $rank_name => $rank_value) {
             print "<option ";
-            print opinion_value($rank_value, "");
+            print opinion_value($rank_value, ($_GET['submit'] ? floatval($_GET['i'.$issue[0]]) : ""));
             print ">$rank_name</option>\n";
         }
-        print "</select> " . $issue[1] .  "\n";
+        print "</select></td><td>" . $issue[1] .  "</td>\n";
+        print "</tr>";
     }
 ?>
+</table></center>
 </p>
-
-<p>Your <strong>postcode</strong>: <input type="text" size="10" name="mppc">
- (so we know who your last MP was)</p>
 
 <p><input type="submit" name="submit" value="Submit"></p>
 </form>
