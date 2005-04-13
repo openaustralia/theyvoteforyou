@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.6 2005/04/13 18:03:02 frabcus Exp $
+# $Id: election.php,v 1.7 2005/04/13 18:14:15 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -11,6 +11,7 @@
 
 # TODO:
 # Special case which parties to show for Wales, Scotland, Northern Ireland, England 
+# Richard Taylor
 # What to do when postcode is wrong -- better error
 # Think about dream/person distance, check it works OK
 # 
@@ -85,7 +86,8 @@ Your <strong>friend's email</strong>:
     <input type="text" size="15" name="yourname" value="<?=htmlspecialchars($_POST['yourname'])?>">
 <strong>Your email</strong>: 
     <input type="text" size="20" name="youremail" value="<?=htmlspecialchars($_POST['youremail'])?>">
-    <input type="submit" name="submitfriend" value="Tell <?=$word?> Friend">
+    <input type="hidden" name="submitfriend" value="1">
+    <input type="submit" name="button" value="Tell <?=$word?> Friend">
 </p>
 </form>
 <?
@@ -130,7 +132,7 @@ Your <strong>friend's email</strong>:
         }
         foreach ($issues as $issue) {
             $dreamid = $issue[0];
-            if (!$_GET["i$dreamid"] || $_GET["i$dreamid"] < 0) {
+            if (!array_key_exists("i$dreamid", $_GET) || $_GET["i$dreamid"] < 0) {
                 $errors[] = "Please select your opinion on " . $issue[1];
             }
         }
@@ -143,13 +145,13 @@ Your <strong>friend's email</strong>:
 
     if ($_GET['submit'] and !$errors) {
         # See if MP is standing again
-        $mpattr = $mpattr['mpprop'];
+        $mpattr = $mpattr['mpprops'][0];
         $mp_party = $parties[$mpattr['party']];
         $standing_again = false;
         if ($mpattr['leftreason'] == "general_election_standing") {
             $standing_again = true;
         }
-        #print "<p>MP party $mp_party standing again $standing_again<p>";
+	#print "<p>MP party $mp_party standing again $standing_again<p>";
 
         # Go through each issue to extract data
         $distances = array();
@@ -165,7 +167,12 @@ Your <strong>friend's email</strong>:
 
             # Find distance from Dream MP to each party
             update_dreammp_person_distance($db, $dreamid);
-            $query = "select avg(distance_a) as dist, party from pw_cache_dreamreal_distance left join pw_mp on pw_mp.person = pw_cache_dreamreal_distance.person where rollie_id = $dreamid group by party";
+            $query = "select avg(distance_a) as dist, party from 
+pw_cache_dreamreal_distance 
+left join pw_mp 
+on pw_mp.person = pw_cache_dreamreal_distance.person 
+   and left_house = '2005-04-11' 
+where rollie_id = $dreamid group by party";
             $db->query($query);
             $party_dist = array();
             while ($row = $db->fetch_row_assoc()) {
@@ -240,8 +247,8 @@ Your <strong>friend's email</strong>:
         } else {
 ?>
         <br>&mdash; based on how MPs of that party voted in parliament over the
-        last 4 years, 
-        compared to your opinion on these issues</p>
+        last 4 years, compared to your opinion on these issues
+	(your ex-MP isn't standing again, so we haven't specifically used their vote)</p>
 <?
         }
         print "</p>";
@@ -405,7 +412,8 @@ ex-MP and each party voted on them in parliament over the last
 </table></center>
 </p>
 
-<p><input type="submit" name="submit" value="Submit"></p>
+<input type="hidden" name="submit" value="1">
+<p><input type="submit" name="button" value="Submit"></p>
 </form>
 
 <p><a href="/">Instead, go to the main Public Whip website</a>
