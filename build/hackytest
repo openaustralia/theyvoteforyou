@@ -54,6 +54,8 @@ check "division.php?date=2004-06-15&number=196"
 check divisions.php
 check dreammps.php
 check email.php
+check election.php
+check "election.php?i363=0.75&i367=0.75&i258=0.25&i219=0&i230=0.25&i358=0.5&i371=1&mpn=Anne%20Campbell&mpc=Cambridge&submit=Submit"
 check faq.php
 check index.php
 check "search.php?query=iraq&button=Search"

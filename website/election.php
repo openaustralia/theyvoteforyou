@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.2 2005/04/12 00:45:31 theyworkforyou Exp $
+# $Id: election.php,v 1.3 2005/04/13 06:27:07 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,6 +8,14 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 # http://publicwhip.owl/election.php?i363=0.75&i367=0.75&i258=0.25&i219=0&i230=0.25&i358=0.5&i371=1&mpn=Anne%20Campbell&mpc=Cambridge&submit=Submit
+
+# TODO:
+# Fix mail a friend
+# Fix what happens when your MP chosen
+# Special case which parties to show for Wales, Scotland, Northern Ireland, England 
+# Think about dream/person distance, check it works OK
+# 
+# Do redirect stuff, using interstitial and cookies?
 
 include "db.inc";
 include "decodeids.inc";
@@ -25,38 +33,56 @@ $ranks = array(
     );
 
 $issues = array(
-		array(363, "introducing <strong>foundation hospitals</strong>", false, "foundation hospital"),
-		array(367, "introducing <strong>student top-up fees</strong>", true, "top-up fees"),
+/*		array(363, "introducing <strong>foundation hospitals</strong>", false, "foundation hospital"),
+		array(367, "introducing <strong>student top-up fees</strong>", true, "top-up fees"),*/
         array(258, "Labour's <strong>anti-terrorism laws</strong>", true, "terrorism"),
         array(219, "the <strong>Iraq war</strong>", true, "iraq"),
         array(230, "introducing <strong>ID cards</strong>", true, "id cards"),
-        array(358, "the <strong>fox hunting ban</strong>", true, "hunting"),
-        array(371, "equal <strong>gay rights</strong>", false, "gay")
+/*        array(358, "the <strong>fox hunting ban</strong>", true, "hunting"),
+        array(371, "equal <strong>gay rights</strong>", false, "gay")*/
     );
 
+// Name in database => display name
 $parties = array(
-    "Lab" => array("Labour"),
-    "Con" => array("Conservative"),
-    "LDem" => array("Liberal Democrat"),
-    "Lab/Co-op" => array("Labour"),
-    "Ind" => array("Independent"),
-    "Ind Con" => array("Independent"),
-    "Ind Lab" => array("Independent"),
-    "Ind UU" => array("Independent"),
-    "SF" => array("Sinn Féin"),
-    "PC" => array("Plaid Cymru"),
-    "DU" => array("DUP"),
-    "SDLP" => array("SDLP"),
-    "SNP" => array("SNP"),
-    "UU" => array("UUP"),
+    "Lab" => "Labour",
+    "Con" => "Conservative",
+    "LDem" => "Liberal Democrat",
+    "Lab/Co-op" => "Labour",
+/*    "Ind" => "Independent",
+    "Ind Con" => "Independent",
+    "Ind Lab" => "Independent",
+    "Ind UU" => "Independent",*/
+/*    "SNP" => "SNP", */
+/*    "PC" => "Plaid Cymru", */
+/*    "SF" => "Sinn Féin",
+      "DU" => "DUP",
+      "SDLP" => "SDLP",
+      "UU" => "UUP", */
 );
+$unique_parties = array_values($parties);
+$unique_parties = array_unique($unique_parties);
 
+function dist_to_desc($dist) {
+    if ($dist < 0.125) 
+        return "Agree<br>(strong)";
+    elseif ($dist < 0.375)
+        return "Agree";
+    elseif ($dist < 0.625)
+        return "Neutral";
+    elseif ($dist < 0.875)
+        return "Disagree";
+    else 
+        return "Disagree<br>(strong)";
+}
+
+    header("Content-Type: text/html; charset=UTF-8");
 ?>
 
 <html>
 <head>
 <title>The Public Whip - How They Voted 2005</title>
 <link href="publicwhip.css" type="text/css" rel="stylesheet">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 </head>
 
@@ -64,6 +90,9 @@ $parties = array(
 
 <p><img src="../thepublicwhip.gif" alt="The Public Whip">
 <br>Counting votes on your behalf</p>
+
+<h1>How They Voted 2005</h1>
+<p>(and so how you should vote)</p>
 
 <?
     function opinion_value($value, $curr)
@@ -78,8 +107,7 @@ $parties = array(
 
 
     if ($_GET['submit']) {
-        print_r($_GET);
-        print "<p>";
+        // Display voting records
     	$mpattr = get_mpid_attr_decode($db, "");
         if ($mpattr == null) {
             $title = "MP not found";
@@ -89,42 +117,180 @@ $parties = array(
             exit;
         }
         $mpattr = $mpattr['mpprop'];
-        print_r($mpattr);
-        print "<table border=1>";
+
+        # See if MP is standing again
+        $mp_party = $parties[$mpattr['party']];
+        $standing_again = false;
+        if ($mpattr['leftreason'] == "general_election_standing") {
+            $standing_again = true;
+        }
+        #print "<p>MP party $mp_party standing again $standing_again<p>";
+
+        # Go through each issue to extract data
+        $distances = array();
+        $distances['Comparision'] = array();
+        $issuecount = 0;
         foreach ($issues as $issue) {
-            print "<tr>";
-            print "<td>" . $issue[1] . "</td>";
-            print "<td>" . $yourscore . "</td>";
             $dreamid = $issue[0];
+            $distances[$dreamid] = array();
+            $issuecount++;
+
+            # Find your score
+            $distances[$dreamid]['You'] = 1.0 - floatval($_GET["i$dreamid"]);
+
+            # Find distance from Dream MP to each party
             update_dreammp_person_distance($db, $dreamid);
-            $yourscore = floatval($_GET["i$dreamid"]);
             $query = "select avg(distance_a) as dist, party from pw_cache_dreamreal_distance left join pw_mp on pw_mp.person = pw_cache_dreamreal_distance.person where rollie_id = $dreamid group by party";
             $db->query($query);
             $party_dist = array();
             while ($row = $db->fetch_row_assoc()) {
                 $dist = $row['dist'];
-                if ($issue[2]) {
+                if ($issue[2])
                     $dist = 1.0 - $dist;
-                }
-                $canonparty = $parties[$row['party']][0];
-                print $row['party'] . " $canonparty <br>";
+                $canonparty = $parties[$row['party']];
                 $party_dist[$canonparty] += $dist;
             } 
-            $temp = array_unique($parties);
-            foreach (array_keys($party_dist) as $party) {
-                if ($party_dist[$party]) {
-                    print "<td>";
-                    print $party ."=" . percentise(round($party_dist[$party] * 100, 0));
+            foreach ($unique_parties as $party) {
+                $distance = $party_dist[$party];
+                if ($distance == null) {
+                    $distance = 0.5;
+                }
+                $distances[$dreamid][$party] = $distance;
+                $distances['Comparison'][$party] += abs($distance - $distances[$dreamid]['You']);
+            }
+
+            # And for your MP
+            $query = "select distance_a as dist from pw_cache_dreamreal_distance
+                where rollie_id = $dreamid and person = " . $mpattr['person'];
+            $row = $db->query_onez_row_assoc($query);
+            $dist = $row ? $row['dist'] : 0.5;
+            if ($issue[2])
+                $dist = 1.0 - $dist;
+            $distances[$dreamid]["Your MP"] = $dist;
+            $distances['Comparison']["Your MP"] += abs($dist - $distances[$dreamid]['You']);
+        }
+
+#$distances['Comparison']["Your MP"] = 0;
+$distances['Comparison']["Labour"] = 0;
+#$standing_again = false;
+
+        # Find who you should vote for
+        $best_party = null;
+        $best_comparison = 1000000;
+        foreach ($distances['Comparison'] as $party => $comparison) {
+            # Remove one out of MP's party and MP
+            if ($standing_again) {
+                if ($party == $mp_party)
+                    continue;
+            } else {
+                if ($party == "Your MP")
+                    continue;
+            }
+            # Test for best
+            if ($comparison < $best_comparison) {
+                $best_party = $party;
+                $best_comparison = $comparison;
+
+            }
+        }
+
+        print "<p class=\"advice\">";
+        if ($best_party == "Your MP") {
+?>
+        We recommend you vote for 
+        <b><?=$mpattr['name']?> (<?=$mp_party?>)</b> your ex-MP
+<?
+        } else {
+?>
+        We recommend you vote <b><?=$best_party?></b> 
+<?
+        }
+        if ($standing_again) {
+?>
+        <br>&mdash; based on how your ex-MP (who is standing again) 
+        and MPs of other parties voted in parliament over the last 4 years, 
+        compared to your opinion on these issues</p>
+<?
+        } else {
+?>
+        <br>&mdash; based on how MPs of that party voted in parliament over the
+        last 4 years, 
+        compared to your opinion on these issues</p>
+<?
+        }
+        print "</p>";
+        //<br>distance $best_comparison
+
+        # Print table
+        print "<table class=\"votes\">";
+        print "<tr class=\"headings\"><td>Issue</td><td>You</td>";
+        foreach ($unique_parties as $party) {
+            if ($party == $mp_party and $standing_again) {
+                print "<td>$party</td><td>".$mpattr['name']. "<br>(your 
+                    $party<br>ex-MP)</td>";
+            } else {
+                print "<td>$party</td>";
+            }
+        }
+        print "</tr>\n";
+        $pretty_row = 0;
+        foreach ($issues as $issue) {
+            $pretty_row = pretty_row_start($pretty_row);
+            $dreamid = $issue[0];
+            print "<td><a href=\"dreammp.php?id=$dreamid\">" . $issue[1] . "</a></td>";
+            print "<td>" . 
+                dist_to_desc($distances[$dreamid]['You']) . " ";
+            #print $distances[$dreamid]['You'];
+            print "</td>";
+
+            foreach ($unique_parties as $party) {
+                print "<td>";
+                $distance = $distances[$dreamid][$party];
+                print dist_to_desc($distance) . " ";
+                #print round($distance,2);
+                if ($party == $mp_party and $standing_again) {
+                    print " <td><a href=\"mp.php?".$mpattr['mpanchor']."&dmp=$dreamid\">" . 
+                        dist_to_desc($distances[$dreamid]['Your MP']) . "</a> ";
+                    #print round($distances[$dreamid]['Your MP'],2);
                     print "</td>";
                 }
+                print "</td>";
             }
             print "</tr>";
         }
+        print "<tr class=\"headings\">";
+        print "<td>Comparison with your opinion:</td>";
+        print "<td>&nbsp;</td>";
+        foreach ($unique_parties as $party) {
+            $comparison = $distances['Comparison'][$party];
+            $comparison /= $issuecount;
+            print "<td>"; 
+            print dist_to_desc($comparison);
+            print "<br>with you";
+            #print round($comparison,2);
+            print "</td>";
+            if ($party == $mp_party and $standing_again) {
+                $comparison = $distances['Comparison']['Your MP'];
+                $comparison /= $issuecount;
+                print "<td>";
+                print dist_to_desc($comparison);
+                print "<br>with you";
+                #print round($comparison,2);
+                print "</td>";
+            }
+        }
         print "</table>";
+?>
+<form name="howtovotefriends" method="get" action="election.php">
+<p>Found this useful?  Tell a friend ----&gt;
+Your <strong>friend's email</strong>: <input type="text" size="20" name="friendsemail">
+<br><strong>Your name</strong>: <input type="text" size="15" name="yourname">
+<strong>Your email</strong>: <input type="text" size="20" name="youremail">
+<input type="submit" name="submitfriend" value="Tell a Friend"></p>
+</form>
+<?
     } else {
 ?>
-<h1>How They Voted 2005</h1>
-<p>(and so how you should vote)</p>
 
 <form name="howtovote" method="get" action="election.php">
 
@@ -159,10 +325,11 @@ how your ex-MP and each party voted on them in parliament over the last
 <p><input type="submit" name="submit" value="Submit"></p>
 </form>
 
-<p><a href="/">Instead, go to the main Public Whip website</a>
 <?
     }
 ?>
+
+<p><a href="/">Instead, go to the main Public Whip website</a>
 
 </body>
 

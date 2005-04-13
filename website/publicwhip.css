@@ -502,6 +502,14 @@ BODY.election H1
     text-align: center;
     font-size: 200%;
 }
+BODY.election .advice
+{
+    text-align: center;
+    font-size: 150%;
+    border: 1px solid;
+    color: #ffffff;
+    background: #003300;
+}
 /* For showing HTML source */
 PRE.htmlsource
 {

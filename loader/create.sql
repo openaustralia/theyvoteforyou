@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.23 2005/04/11 16:53:57 frabcus Exp $
+-- $Id: create.sql,v 1.24 2005/04/13 06:27:00 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -232,25 +232,25 @@ create table pw_cache_dreamreal_distance (
     unique(rollie_id, person)
 );
 
--- Distance between an MP (mp_id) and a set of MPs (person).
--- This is driven by the MP (mp_id).
--- TODO: For consistency with others, should create this table in 
--- the code that users it (in dailyupdate)
-create table pw_cache_realreal_distance (
-    mp_id int not null,
-    person int not null,
+-- like pw_cache_dreamreal_distance but for political parties
+create table pw_cache_dreamparty_distance (
+    rollie_id int not null,
+    party varchar(100) not null,
 
     -- number of votes same / different / MP absent
-    nvotessame int,
-    nvotesdiffer int,
-    nvotesabsent int, -- where absent means person is missing
+    nvotessame float,
+    nvotessamestrong float,
+    nvotesdiffer float,
+    nvotesdifferstrong float,
+    nvotesabsent float,
+    nvotesabsentstrong float,
 
     distance_a float, -- use abstentions
     distance_b float, -- ignore abstentions
 
-    index(mp_id),
-    index(person),
-    unique(mp_id, person)
+    index(rollie_id),
+    index(party),
+    unique(rollie_id, party)
 );
 
 -- Stores the most recent wiki item for this division
