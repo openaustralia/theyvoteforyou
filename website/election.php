@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.4 2005/04/13 06:58:23 frabcus Exp $
+# $Id: election.php,v 1.5 2005/04/13 07:00:44 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -106,8 +106,9 @@ Your <strong>friend's email</strong>:
 <p><img src="../thepublicwhip.gif" alt="The Public Whip">
 <br>Counting votes on your behalf</p>
 
-<h1>How They Voted 2005</h1>
-<p>(and so how you should vote)</p>
+<h1>How They Voted 2005
+<br><small>(and so how you should vote)</small>
+</h1>
 
 <?
     function opinion_value($value, $curr)
@@ -185,8 +186,9 @@ Your <strong>friend's email</strong>:
             $distances['Comparison']["Your MP"] += abs($dist - $distances[$dreamid]['You']);
         }
 
+# For debugging
 #$distances['Comparison']["Your MP"] = 0;
-$distances['Comparison']["Labour"] = 0;
+#$distances['Comparison']["Labour"] = 0;
 #$standing_again = false;
 
         # Find who you should vote for
@@ -361,6 +363,7 @@ END;
 
             $_POST['friendsemail'] = "";
             print_friends_form("another");
+?><p><a href="/">Go to the main Public Whip website</a> <?
         }
     } else {
 ?>
