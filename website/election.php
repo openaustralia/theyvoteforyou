@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.3 2005/04/13 06:27:07 frabcus Exp $
+# $Id: election.php,v 1.4 2005/04/13 06:58:23 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -10,7 +10,6 @@
 # http://publicwhip.owl/election.php?i363=0.75&i367=0.75&i258=0.25&i219=0&i230=0.25&i358=0.5&i371=1&mpn=Anne%20Campbell&mpc=Cambridge&submit=Submit
 
 # TODO:
-# Fix mail a friend
 # Fix what happens when your MP chosen
 # Special case which parties to show for Wales, Scotland, Northern Ireland, England 
 # Think about dream/person distance, check it works OK
@@ -21,6 +20,7 @@ include "db.inc";
 include "decodeids.inc";
 include "dream.inc";
 include "pretty.inc";
+include "account/user.inc";
 $db = new DB();
 
 $ranks = array(
@@ -33,13 +33,13 @@ $ranks = array(
     );
 
 $issues = array(
-/*		array(363, "introducing <strong>foundation hospitals</strong>", false, "foundation hospital"),
-		array(367, "introducing <strong>student top-up fees</strong>", true, "top-up fees"),*/
+		array(363, "introducing <strong>foundation hospitals</strong>", false, "foundation hospital"),
+		array(367, "introducing <strong>student top-up fees</strong>", true, "top-up fees"),
         array(258, "Labour's <strong>anti-terrorism laws</strong>", true, "terrorism"),
         array(219, "the <strong>Iraq war</strong>", true, "iraq"),
         array(230, "introducing <strong>ID cards</strong>", true, "id cards"),
-/*        array(358, "the <strong>fox hunting ban</strong>", true, "hunting"),
-        array(371, "equal <strong>gay rights</strong>", false, "gay")*/
+        array(358, "the <strong>fox hunting ban</strong>", true, "hunting"),
+        array(371, "equal <strong>gay rights</strong>", false, "gay")
     );
 
 // Name in database => display name
@@ -75,6 +75,21 @@ function dist_to_desc($dist) {
         return "Disagree<br>(strong)";
 }
 
+function print_friends_form($word) {
+?>
+<form name="howtovotefriends" method="post" action="election.php">
+<p>Found this useful?  Tell <?=$word?> friend ----&gt;
+Your <strong>friend's email</strong>: 
+    <input type="text" size="20" name="friendsemail" value="<?=htmlspecialchars($_POST['friendsemail'])?>">
+<br><strong>Your name</strong>: 
+    <input type="text" size="15" name="yourname" value="<?=htmlspecialchars($_POST['yourname'])?>">
+<strong>Your email</strong>: 
+    <input type="text" size="20" name="youremail" value="<?=htmlspecialchars($_POST['youremail'])?>">
+    <input type="submit" name="submitfriend" value="Tell <?=$word?> Friend">
+</p>
+</form>
+<?
+}
     header("Content-Type: text/html; charset=UTF-8");
 ?>
 
@@ -220,6 +235,15 @@ $distances['Comparison']["Labour"] = 0;
         }
         print "</p>";
         //<br>distance $best_comparison
+    
+        print_friends_form("a");
+
+?>
+
+<p><a href="/">Go to the main Public Whip website</a>
+<h1>Detailed Breakdown</h1>
+
+<?
 
         # Print table
         print "<table class=\"votes\">";
@@ -280,15 +304,64 @@ $distances['Comparison']["Labour"] = 0;
             }
         }
         print "</table>";
-?>
-<form name="howtovotefriends" method="get" action="election.php">
-<p>Found this useful?  Tell a friend ----&gt;
-Your <strong>friend's email</strong>: <input type="text" size="20" name="friendsemail">
-<br><strong>Your name</strong>: <input type="text" size="15" name="yourname">
-<strong>Your email</strong>: <input type="text" size="20" name="youremail">
-<input type="submit" name="submitfriend" value="Tell a Friend"></p>
-</form>
-<?
+        error_log("ELECTIONCOUNT -- filled in opinions");
+    }
+    elseif ($_POST['submitfriend']) {
+        $error = "";
+        if (!$_POST['friendsemail'] || !$_POST['yourname'] || !$_POST['youremail']) {
+            $error .= "Please enter all details. ";
+        } else {
+            if (!pw_validate_email($_POST['friendsemail']))
+                $error .= "Enter a valid email address for your friend. ";
+            if (!pw_validate_email($_POST['youremail']))
+                $error .= "Enter a valid email address for yourself. ";
+        }
+        if ($error) {
+            print "<div class=\"error\">
+                <h2>Form not complete, please correct and try again</h2>
+                $error
+                </div>";
+            print_friends_form("a");
+        } else {
+            $message = <<<END
+Your friend ${_POST['yourname']} <${_POST['youremail']}> saw this
+'how to vote' website and thought of you.
+
+http://www.publicwhip.org.uk/election.php
+
+The site asks your opinion on key issues (such as the Iraq war,
+Hunting and Foundation Hospitals).  Then it compares your opinion
+with the actual vote in parliament of MPs over the last four
+years, and recommends which party you should vote for.
+
+Unlike the parties, we don't have any marketing budget, so
+please help us out by forwarding this to any of your friends
+who might like it.  We believe that both MPs and parties should
+be held to account for how they voted in parliament.
+
+Enjoy the election!
+
+-- The Public Whip team
+
+The Public Whip ( http://www.publicwhip.org.uk ) is a project to
+data-mine the voting record of Members of the United Kingdom
+Parliament, so that you can hold them to account. 
+END;
+			$success = mail ($_POST['friendsemail'],'How to vote based on how MPs voted in the last 4 years',$message,'From: The Public Whip <team@publicwhip.org.uk>');
+            if ($success) {
+                error_log("ELECTIONCOUNT -- successfully sent friend mail");
+                print "<p><span class=\"ptitle\">Mail successfully sent to " .
+                    htmlspecialchars($_POST['friendsemail']).
+                    "<br>You can send another if you like!</span></p>";
+            }
+            else {
+                error_log("ELECTIONCOUNT -- failed to send friend mail");
+                print "<div class=\"error\">Failed to send mail</div>";
+            }
+
+            $_POST['friendsemail'] = "";
+            print_friends_form("another");
+        }
     } else {
 ?>
 
@@ -325,11 +398,11 @@ how your ex-MP and each party voted on them in parliament over the last
 <p><input type="submit" name="submit" value="Submit"></p>
 </form>
 
+<p><a href="/">Instead, go to the main Public Whip website</a>
+
 <?
     }
 ?>
-
-<p><a href="/">Instead, go to the main Public Whip website</a>
 
 </body>
 
