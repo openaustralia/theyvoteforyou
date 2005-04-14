@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.9 2005/04/14 09:36:06 theyworkforyou Exp $
+# $Id: election.php,v 1.10 2005/04/14 12:46:23 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -107,7 +107,64 @@ Your <strong>friend's email</strong>:
 </form>
 <?
 }
-    header("Content-Type: text/html; charset=UTF-8");
+
+function opinion_value($value, $curr)
+{
+    $ret = "value=\"" . html_scrub($value) . "\" ";
+    if ($value === $curr) {
+        $ret .= "selected ";
+    }
+    return $ret;
+}
+
+// Grab shorter URL if it is one
+$qstring = $_SERVER["QUERY_STRING"];
+$shorter_url = false;
+if (preg_match ("/^(.*);([0-4]{7})$/", $qstring, $matches)) {
+    $_GET = array();
+    $_GET['submit'] = "1";
+    $_GET['mppc'] = $matches[1];
+    $c = 0;
+    foreach ($issues as $issue) {
+        $dreamid = $issue[0];
+        $_GET["i$dreamid"] = floatval(substr($matches[2], $c, 1)) / 4.0;
+        $c++;
+    }
+    $shorter_url = true;
+}
+
+// Validate if a submit
+$errors = array();
+if ($_GET['submit']) {
+    // Display voting records
+    $mpattr = get_mpid_attr_decode($db, "");
+    if ($mpattr == null) {
+        $errors[] = "Your MP wasn't found.  Please check you
+            entered the postcode correctly.";
+    }
+    foreach ($issues as $issue) {
+        $dreamid = $issue[0];
+        if (!array_key_exists("i$dreamid", $_GET) || $_GET["i$dreamid"] < 0) {
+            $errors[] = "Please select your opinion on " . $issue[1] . ".";
+        }
+    }
+}
+
+// Redirect to shorter URL
+if ($_GET['submit'] and !$errors and !$shorter_url) {
+    $qpc = strtoupper(trim($_GET['mppc']));
+    $qpc = str_replace(" ", "", $qpc);
+    $quick = "?$qpc;";
+    foreach ($issues as $issue) {
+        $dreamid = $issue[0];
+        $quick .= intval($_GET["i$dreamid"] * 4);
+    }
+
+    header("Location: /election.php$quick\n");
+    return;
+}
+
+header("Content-Type: text/html; charset=UTF-8");
 ?>
 
 <html>
@@ -120,7 +177,7 @@ Your <strong>friend's email</strong>:
 
 <body class="election">
 
-<p><img src="../thepublicwhip.gif" alt="The Public Whip">
+<p><a href="/"><img src="../thepublicwhip.gif" alt="The Public Whip"></a>
 <br>Counting votes on your behalf</p>
 
 <h1>How They Voted 2005
@@ -128,36 +185,11 @@ Your <strong>friend's email</strong>:
 </h1>
 
 <?
-    function opinion_value($value, $curr)
-    {
-        $ret = "value=\"" . html_scrub($value) . "\" ";
-        if ($value === $curr) {
-            $ret .= "selected ";
-        }
-        return $ret;
-    }
-
-    $errors = array();
-    if ($_GET['submit']) {
-        // Display voting records
-    	$mpattr = get_mpid_attr_decode($db, "");
-        if ($mpattr == null) {
-            $errors[] = "Your MP wasn't found.  Please check you
-                entered the postcode correctly.";
-        }
-        foreach ($issues as $issue) {
-            $dreamid = $issue[0];
-            if (!array_key_exists("i$dreamid", $_GET) || $_GET["i$dreamid"] < 0) {
-                $errors[] = "Please select your opinion on " . $issue[1] . ".";
-            }
-        }
-    }
     if ($errors) {
         print "<p class=\"error\">";
         print join($errors, "<br>");
         print "</p>";
     }
-
     if ($_GET['submit'] and !$errors) {
         # See if MP is standing again
         $mpattr = $mpattr['mpprops'][0];
