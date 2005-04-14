@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.10 2005/04/14 12:46:23 frabcus Exp $
+# $Id: election.php,v 1.11 2005/04/14 13:12:20 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -330,7 +330,8 @@ where rollie_id = $dreamid group by party";
 
 ?>
 
-<p><a href="/">Go to the main Public Whip website</a>
+<p><a href="election.php">Take the quiz again</a>
+<br><a href="/">Go to the main Public Whip website</a>
 <h1>Detailed Breakdown</h1>
 <p>This table shows how members of each parliamentary party voted on each issue
 in parliament between 2001 and 2005.  These are averages for each party.  So,
@@ -465,7 +466,9 @@ END;
 
             $_POST['friendsemail'] = "";
             print_friends_form("another");
-?><p><a href="/">Go to the main Public Whip website</a> <?
+?>
+<p><a href="election.php">Take the quiz again</a>
+<br><a href="/">Go to the main Public Whip website</a> <?
         }
     } else {
 ?>

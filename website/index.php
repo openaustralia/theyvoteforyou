@@ -2,7 +2,7 @@
 
 $cache_params = rand(0, 10); include "cache-begin.inc";
 
-# $Id: index.php,v 1.45 2005/03/28 18:16:28 frabcus Exp $
+# $Id: index.php,v 1.46 2005/04/14 13:12:21 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -40,12 +40,18 @@ For more information about the project, <a href="faq.php">read the FAQ</a>.
 <tr>
 
 <td width="20%" class="layout" bgcolor="#dddddd">
-<h2>Forum</h2>
+<!--<h2>Forum</h2>
 <p><a href="/forum">Chat in our forum</a> to other users.
 <h2>Newsletter</h2>
 <p>Keep up with the Public Whip project.
 An at most monthly briefing.
-<p><a href="account/register.php">Sign up now!</a>
+<p><a href="account/register.php">Sign up now!</a>-->
+<h2>Election 2005 Quiz</h2>
+<p>Find out <a href="election.php">how to vote</a> based
+on how the parties voted in parliament over the last four years.
+<p>It's a <a href="election.php">quick quiz</a>, just
+enter your postcode and answer 7 questions.
+<p><a href="election.php">Take the test!</a>
 </td>
 
 <td class="layout" bgcolor="#eeeeee" colspan="2">
