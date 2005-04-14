@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.8 2005/04/14 09:01:54 frabcus Exp $
+# $Id: election.php,v 1.9 2005/04/14 09:36:06 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -148,7 +148,7 @@ Your <strong>friend's email</strong>:
         foreach ($issues as $issue) {
             $dreamid = $issue[0];
             if (!array_key_exists("i$dreamid", $_GET) || $_GET["i$dreamid"] < 0) {
-                $errors[] = "Please select your opinion on " . $issue[1];
+                $errors[] = "Please select your opinion on " . $issue[1] . ".";
             }
         }
     }
@@ -161,7 +161,6 @@ Your <strong>friend's email</strong>:
     if ($_GET['submit'] and !$errors) {
         # See if MP is standing again
         $mpattr = $mpattr['mpprops'][0];
-        $mp_party = $parties[$mpattr['party']];
         $constituency = str_replace("&amp;", "&", $mpattr['constituency']);
 
         $standing_again = false;
@@ -188,6 +187,7 @@ Your <strong>friend's email</strong>:
         }
         $unique_parties = array_values($parties);
         $unique_parties = array_unique($unique_parties);
+        $mp_party = $parties[$mpattr['party']];
 
 	#print "<p>MP party $mp_party standing again $standing_again<p>";
 
@@ -268,12 +268,14 @@ where rollie_id = $dreamid group by party";
         print "<p class=\"advice\">";
         if ($best_party == "Your MP") {
 ?>
-        We recommend you vote for 
+        We suggest you vote for 
         <b><?=$mpattr['name']?> (<?=$mp_party?>)</b> your ex-MP
+	in <?=$constituency?>
 <?
         } else {
 ?>
-        We recommend you vote <b><?=$best_party?></b> 
+        We suggest you vote <b><?=$best_party?></b> 
+	in <?=$constituency?>
 <?
         }
         if ($standing_again) {
@@ -298,12 +300,19 @@ where rollie_id = $dreamid group by party";
 
 <p><a href="/">Go to the main Public Whip website</a>
 <h1>Detailed Breakdown</h1>
-
+<p>This table shows how members of each parliamentary party voted on each issue
+in parliament between 2001 and 2005.  These are averages for each party.  So,
+Labour comes out as only "agree" on many issues, rather than "agree
+(strong)", because many members rebelled on these controversial issues.
+Follow the link for each issue to find out more about which votes we used
+to do this calculation.  The links in your ex-MP's column (if they are standing
+again) will take you to a detailed breakdown of how they voted on the issue.
 <?
 
         # Print table
         print "<table class=\"votes\">";
-        print "<tr class=\"headings\"><td>Issue</td><td>You</td>";
+        print "<tr class=\"headings\"><td>Issue (numbers are from <br>0.0 agrees
+strongly to <br>1.0 disagrees strongly)</td><td>You</td>";
         foreach ($unique_parties as $party) {
             if ($party == $mp_party and $standing_again) {
                 print "<td>$party</td><td>".$mpattr['name']. "<br>(your 
@@ -320,18 +329,18 @@ where rollie_id = $dreamid group by party";
             print "<td><a href=\"dreammp.php?id=$dreamid\">" . $issue[1] . "</a></td>";
             print "<td>" . 
                 dist_to_desc($distances[$dreamid]['You']) . " ";
-            #print $distances[$dreamid]['You'];
+            print number_format($distances[$dreamid]['You'], 2);
             print "</td>";
 
             foreach ($unique_parties as $party) {
                 print "<td>";
                 $distance = $distances[$dreamid][$party];
                 print dist_to_desc($distance) . " ";
-                #print round($distance,2);
+                print number_format($distance,2);
                 if ($party == $mp_party and $standing_again) {
-                    print " <td><a href=\"mp.php?".$mpattr['mpanchor']."&dmp=$dreamid\">" . 
+                    print " <td><a href=\"mp.php?".$mpattr['mpanchor']."&dmp=$dreamid&display=motions\">" . 
                         dist_to_desc($distances[$dreamid]['Your MP']) . "</a> ";
-                    #print round($distances[$dreamid]['Your MP'],2);
+                    print number_format($distances[$dreamid]['Your MP'],2);
                     print "</td>";
                 }
                 print "</td>";
@@ -339,27 +348,37 @@ where rollie_id = $dreamid group by party";
             print "</tr>";
         }
         print "<tr class=\"headings\">";
-        print "<td>Comparison with your opinion:</td>";
+        print "<td>Comparison with your opinion:
+	 <br>0.0 voted same as your view
+	 <br>1.0 voted opposite to your view</td>";
         print "<td>&nbsp;</td>";
         foreach ($unique_parties as $party) {
             $comparison = $distances['Comparison'][$party];
             $comparison /= $issuecount;
             print "<td>"; 
             print dist_to_desc($comparison);
-            print "<br>with you";
-            #print round($comparison,2);
+            print "<br>with you ";
+            print number_format($comparison,2);
             print "</td>";
             if ($party == $mp_party and $standing_again) {
                 $comparison = $distances['Comparison']['Your MP'];
                 $comparison /= $issuecount;
                 print "<td>";
                 print dist_to_desc($comparison);
-                print "<br>with you";
-                #print round($comparison,2);
+                print "<br>with you ";
+                print number_format($comparison,2);
                 print "</td>";
             }
         }
         print "</table>";
+?>
+<p>The last row shows how each party compares to you.  The difference between
+you and the party on each each is summed up and averaged.  0.00 means you 
+exactly agree with how the party voted, 1.00 means you exactly disagree.
+Each issue is given equal weight, although if you were neutral on an issue
+it will naturally score less.  The party which we suggest you vote for (above)
+has the smallest value in this bottom row.
+<?
     }
     elseif ($_POST['submitfriend']) {
         $error = "";

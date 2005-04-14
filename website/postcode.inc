@@ -6,6 +6,7 @@
 
 function validate_postcode ($postcode) {
     // See http://www.govtalk.gov.uk/gdsc/html/noframes/PostCode-2-1-Release.htm
+    $postcode = trim($postcode);
 
     $in  = 'ABDEFGHJLNPQRSTUWXYZ';
     $fst = 'ABCDEFGHIJKLMNOPRSTUWYZ';
@@ -34,6 +35,7 @@ function validate_postcode ($postcode) {
 // Whether the form of the postcode is one or not
 function is_postcode($postcode)
 {
+	$postcode = trim($postcode);
     //return preg_match("/^[A-Z]{1,2}\d[A-Z\d]? ?\d[ABD-HJLNP-UW-Z]{2}$/i", $postcode);
 	return validate_postcode($postcode);	// in utility.php
 }
@@ -60,6 +62,8 @@ function characterData($parser, $content)
 }
 
 function postcode_to_constituency($postcode) {
+    $postcode = trim($postcode);
+
     global $last_postcode;
     global $last_postcode_value;
 
@@ -80,6 +84,8 @@ function postcode_to_constituency($postcode) {
 
 function postcode_to_constituency_internal($postcode)
 {
+    $postcode = trim($postcode);
+
     # Try and match with regexp to exclude non postcodes quickly
     if (!is_postcode($postcode))
         return '';
