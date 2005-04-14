@@ -510,6 +510,17 @@ BODY.election .advice
     color: #ffffff;
     background: #003300;
 }
+.electionadvert
+{
+    PADDING-RIGHT: 1em;
+    PADDING-LEFT: 1em;
+    PADDING-BOTTOM: 1em;
+    PADDING-TOP: 1em;
+    MARGIN: 0px;
+    BACKGROUND-COLOR: #99ccee;
+    COLOR: #000000;
+    TEXT-ALIGN: CENTER;
+}
 /* For showing HTML source */
 PRE.htmlsource
 {

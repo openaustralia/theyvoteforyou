@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.49 2005/04/07 08:44:30 theyworkforyou Exp $
+# $Id: header.inc,v 1.50 2005/04/14 13:13:04 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -38,6 +38,11 @@ function givefocus(field) { if (document.pw) eval("document.pw." + field + ".foc
 
 <!-- hold the maximum width of the content -->
 <table align="center" class="container" cellpadding="0" cellspacing="0">
+
+<tr><td class="electionadvert" colspan="2">
+<a href="/election.php">How They Voted 2005</a> (and so how you should vote) &mdash;
+<a href="/election.php">take the quick election quiz</a> &mdash; just 7 questions, 1 minute
+</td></tr>
 
 <!-- the site logo -->
 <tr><td class="identity" colspan="2">
