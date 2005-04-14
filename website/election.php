@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.7 2005/04/13 18:14:15 theyworkforyou Exp $
+# $Id: election.php,v 1.8 2005/04/14 09:01:54 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -10,17 +10,15 @@
 # http://publicwhip.owl/election.php?i363=0.75&i367=0.75&i258=0.25&i219=0&i230=0.25&i358=0.5&i371=1&mpn=Anne%20Campbell&mpc=Cambridge&submit=Submit
 
 # TODO:
-# Special case which parties to show for Wales, Scotland, Northern Ireland, England 
-# Richard Taylor
-# What to do when postcode is wrong -- better error
+# Maybe display anyway when postcode wrong
 # Think about dream/person distance, check it works OK
-# 
 # Do redirect stuff, using interstitial and cookies?
 
 include "db.inc";
 include "decodeids.inc";
 include "dream.inc";
 include "pretty.inc";
+include "constituencies.inc";
 include "account/user.inc";
 $db = new DB();
 
@@ -48,20 +46,37 @@ $parties = array(
     "Lab" => "Labour",
     "Con" => "Conservative",
     "LDem" => "Liberal Democrat",
-    "Lab/Co-op" => "Labour",
-/*    "Ind" => "Independent",
-    "Ind Con" => "Independent",
-    "Ind Lab" => "Independent",
-    "Ind UU" => "Independent",*/
-/*    "SNP" => "SNP", */
-/*    "PC" => "Plaid Cymru", */
-/*    "SF" => "Sinn Féin",
+    "Lab/Co-op" => "Labour"
+);
+
+$wales_parties = array(
+    "PC" => "Plaid Cymru"
+);
+
+$scotland_parties = array(
+    "SNP" => "SNP", 
+);
+
+$northern_ireland_parties = array(
+      "SF" => "Sinn Féin",
       "DU" => "DUP",
       "SDLP" => "SDLP",
-      "UU" => "UUP", */
+      "UU" => "UUP", 
 );
-$unique_parties = array_values($parties);
-$unique_parties = array_unique($unique_parties);
+
+$independents = array(
+    "Ind" => "Independent",
+    /* "Ind Con" => "Independent",
+    "Ind Lab" => "Independent",
+    "Ind UU" => "Independent", */
+);
+
+/*print "<pre>";
+print count(array_keys($northern_ireland_constituencies));
+foreach ($northern_ireland_constituencies as $k) {
+    print "\"" . $consmatch[strtolower($k)] . "\" => 1,\n";
+}
+print "</pre>";*/
 
 function dist_to_desc($dist) {
     if ($dist < 0.125) 
@@ -78,7 +93,7 @@ function dist_to_desc($dist) {
 
 function print_friends_form($word) {
 ?>
-<form name="howtovotefriends" method="post" action="election.php">
+<form name="howtovotefriends" method="post" action="election.php?friend">
 <p>Found this useful?  Tell <?=$word?> friend ----&gt;
 Your <strong>friend's email</strong>: 
     <input type="text" size="20" name="friendsemail" value="<?=htmlspecialchars($_POST['friendsemail'])?>">
@@ -147,10 +162,33 @@ Your <strong>friend's email</strong>:
         # See if MP is standing again
         $mpattr = $mpattr['mpprops'][0];
         $mp_party = $parties[$mpattr['party']];
+        $constituency = str_replace("&amp;", "&", $mpattr['constituency']);
+
         $standing_again = false;
         if ($mpattr['leftreason'] == "general_election_standing") {
             $standing_again = true;
         }
+
+        # Regional parties
+        $consid = $consmatch[strtolower($constituency)];
+        if (!$consid) {
+            print "<div class=\"error\">Constituency '$constituency' not found, please <a href=\"team@publicwhip.org.uk\">let us know</a>.</div>";
+        }
+        if (array_key_exists($consid, $wales_constituencies)) {
+            $parties = array_merge($parties, $wales_parties);
+        }
+        if (array_key_exists($consid, $scotland_constituencies)) {
+            $parties = array_merge($parties, $scotland_parties);
+        }
+        if (array_key_exists($consid, $northern_ireland_constituencies)) {
+            $parties = $northern_ireland_parties;
+        }  
+        if ($consid == "uk.org.publicwhip/cons/655") { // Wyre Forest, Richard Taylor (Ind)
+            $parties = array_merge($parties, $independents); 
+        }
+        $unique_parties = array_values($parties);
+        $unique_parties = array_unique($unique_parties);
+
 	#print "<p>MP party $mp_party standing again $standing_again<p>";
 
         # Go through each issue to extract data
@@ -322,7 +360,6 @@ where rollie_id = $dreamid group by party";
             }
         }
         print "</table>";
-        error_log("ELECTIONCOUNT -- filled in opinions");
     }
     elseif ($_POST['submitfriend']) {
         $error = "";
@@ -367,13 +404,11 @@ Parliament, so that you can hold them to account.
 END;
 			$success = mail ($_POST['friendsemail'],'How to vote based on how MPs voted in the last 4 years',$message,'From: The Public Whip <team@publicwhip.org.uk>');
             if ($success) {
-                error_log("ELECTIONCOUNT -- successfully sent friend mail");
                 print "<p><span class=\"ptitle\">Mail successfully sent to " .
                     htmlspecialchars($_POST['friendsemail']).
                     "<br>You can send another if you like!</span></p>";
             }
             else {
-                error_log("ELECTIONCOUNT -- failed to send friend mail");
                 print "<div class=\"error\">Failed to send mail</div>";
             }
 
