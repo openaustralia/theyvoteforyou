@@ -46,14 +46,19 @@ def RunRegmemFilters(fout, text, sdate):
         categoryname = None
         subcategory = None
         for row in rows:
-                #print row
-                if len(row) == 1 and row[0] == "&nbsp;":
+                (striprow, stripcount) = re.subn('</?[^>]+>', '', "".join(row))
+                if striprow.strip() == "":
+                        # There is no text on the row, just tags
+                        pass
+                elif len(row) == 1 and row[0] == "&nbsp;":
                         # <TR><TD COLSPAN=4>&nbsp;</TD></TR>
                         pass
                 elif len(row) == 1:
                         # <TR><TD COLSPAN=4><B>JACKSON, Robert (Wantage)</B></TD></TR>
                         (lastname, firstname, constituency) = re.search("^([^,]*), ([^(]*) \((.*)\)$", row[0]).groups()
                         (id, remadename, remadecons) = memberList.matchfullnamecons(firstname + " " + memberList.lowercaselastname(lastname), constituency, sdate)
+                        if not id:
+                                raise Exception, "Failed to match name %s %s (%s) date %s" % (firstname, lastname, constituency, sdate)
                         if category:
                                 fout.write('\t</category>\n')
                         if needmemberend:

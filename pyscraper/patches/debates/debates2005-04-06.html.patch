@@ -1,0 +1,10 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2005-04-06.html	Fri Apr  8 08:06:45 2005
++++ /home/fawkes/pwdata/cmpages/debates/debates2005-04-06-patchtmp.html	Fri Apr  8 08:41:56 2005
+@@ -6806,6 +6806,7 @@
+ 
+ 
+ 
++<stamp parsemess-ignorenamemismatch="yes"/>
+ <p><a name="50406-24_spnew4"><b> Mr. Francois: </b> 
+  To comply with a self-denying ordinance that I announced a few minutes ago, I shall keep my remarks on the clause extremely brief, but I was attracted by the argument made by my right hon. Friend the Member for Fylde (Mr. Jack). He referred to the fact that the duty differential for liquid petroleum gas has allowed LPG to spread relatively widely over the past few years. Slightly fewer than 1&nbsp;million LPG vehicles or dual-use, petrol or diesel-LPG vehicles are now in use in the United Kingdom. The duty differential has been important in persuading oil companies, for example, to invest in the technology necessary to make that fuel available at petrol stations around the UK. So an example is already extant of how such things can work, and my right hon. Friend is right to raise it.
+ </p>
