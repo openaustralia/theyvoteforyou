@@ -1,4 +1,4 @@
-# $Id: Calc.pm,v 1.4 2005/03/28 19:59:23 frabcus Exp $
+# $Id: Calc.pm,v 1.5 2005/04/16 15:12:03 frabcus Exp $
 # Calculates various data and caches it in the database.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -280,20 +280,29 @@ sub current_rankings {
     PublicWhip::DB::query(
         $dbh,
         "create table pw_cache_attendrank_today (
-        mp_id int not null,
-        attend_rank int not null,
-        attend_outof int not null,
-        index(mp_id)
-    );"
+            mp_id int not null,
+            attend_rank int not null,
+            attend_outof int not null,
+            index(mp_id)
+        );"
     );
 
     # Select all MPs in force today, and their attendance/rebellions
     my $mps_query_start = "select pw_mp.mp_id as mp_id, 
             round(100*rebellions/votes_attended,2) as rebellions,
             round(100*votes_attended/votes_possible,2) as attendance
-            from pw_mp, pw_cache_mpinfo where pw_mp.mp_id = pw_cache_mpinfo.mp_id
-            and entered_house <= curdate() and curdate() <= left_house";
-    my $sth = PublicWhip::DB::query( $dbh, $mps_query_start );
+            from pw_mp, pw_cache_mpinfo 
+            where pw_mp.mp_id = pw_cache_mpinfo.mp_id ";
+    my $sth = PublicWhip::DB::query( $dbh, $mps_query_start .
+            "and entered_house <= curdate() and curdate() <= left_house");
+    if ($sth->rows == 0) {
+        $sth = PublicWhip::DB::query( $dbh, $mps_query_start .
+            "and left_house = '2005-04-11'");
+        if ($sth->rows == 0) {
+            PublicWhip::Error::log( "No MPs currently active have been found, change General Election date in code if you are coming up to one", "", ERR_IMPORTANT );
+            return;
+        }
+    }
 
     # Store their rebellions and divisions for sorting
     my @mpsrebel;
