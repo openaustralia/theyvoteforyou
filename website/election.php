@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.11 2005/04/14 13:12:20 theyworkforyou Exp $
+# $Id: election.php,v 1.12 2005/04/17 23:40:06 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -37,7 +37,7 @@ $issues = array(
         array(258, "Labour's <strong>anti-terrorism laws</strong>", true, "terrorism"),
         array(219, "the <strong>Iraq war</strong>", true, "iraq"),
         array(230, "introducing <strong>ID cards</strong>", true, "id cards"),
-        array(358, "the <strong>fox hunting ban</strong>", true, "hunting"),
+        array(358, "the <strong>ban on fox hunting</strong>", true, "hunting"),
         array(371, "equal <strong>gay rights</strong>", false, "gay")
     );
 
@@ -94,15 +94,15 @@ function dist_to_desc($dist) {
 function print_friends_form($word) {
 ?>
 <form name="howtovotefriends" method="post" action="election.php?friend">
-<p>Found this useful?  Tell <?=$word?> friend ----&gt;
-Your <strong>friend's email</strong>: 
+<p>Found this useful?  <strong>Pass it on</strong> ----&gt;
+<br>Your <strong>friend's email</strong>: 
     <input type="text" size="20" name="friendsemail" value="<?=htmlspecialchars($_POST['friendsemail'])?>">
 <br><strong>Your name</strong>: 
-    <input type="text" size="15" name="yourname" value="<?=htmlspecialchars($_POST['yourname'])?>">
-<strong>Your email</strong>: 
+    <input type="text" size="20" name="yourname" value="<?=htmlspecialchars($_POST['yourname'])?>">
+<br><strong>Your email</strong>: 
     <input type="text" size="20" name="youremail" value="<?=htmlspecialchars($_POST['youremail'])?>">
     <input type="hidden" name="submitfriend" value="1">
-    <input type="submit" name="button" value="Tell <?=$word?> Friend">
+<br>    <input type="submit" name="button" value="Tell <?=$word?> Friend">
 </p>
 </form>
 <?
