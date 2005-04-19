@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.13 2005/04/19 09:13:05 frabcus Exp $
+# $Id: election.php,v 1.14 2005/04/19 10:53:22 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -92,7 +92,7 @@ function dist_to_desc($dist) {
 }
 
 function our_number_format($number) {
-    return round($number * 100) . "%";
+    return round((1.0-$number) * 100) . "%";
 }
 
 function print_friends_form($word) {
@@ -299,13 +299,13 @@ where rollie_id = $dreamid group by party";
         print "<p class=\"advice\">";
         if ($best_party == "Your MP") {
 ?>
-        We suggest you vote for 
+        The Public Whip suggests you vote for 
         <b><?=$mpattr['name']?> (<?=$mp_party?>)</b>, your ex-MP
 	in <?=$constituency?>.
 <?
         } else {
 ?>
-        We suggest you vote <b><?=$best_party?></b> 
+        The Public Whip suggests you vote <b><?=$best_party?></b> 
 	in <?=$constituency?>.
 <?
         }
@@ -313,13 +313,14 @@ where rollie_id = $dreamid group by party";
 ?>
         This is based on how your ex-MP (who is standing again) 
         and MPs of other parties voted in parliament over the last 4 years, 
-        compared to your opinion on these issues</p>
+        compared to your opinion on these issues. </p>
 <?
         } else {
 ?>
         This is based on how MPs of that party voted in parliament over the
-        last 4 years, compared to your opinion on these issues
-	(your ex-MP isn't standing again, so we haven't specifically used their vote)</p>
+        last 4 years, compared to your opinion on these issues.
+	Your ex-MP isn't standing again, so we haven't specifically used their vote.
+    </p>
 <?
         }
         print "</p>";
@@ -330,24 +331,23 @@ where rollie_id = $dreamid group by party";
 ?>
 
 <p class="links">
-<a href="election.php">Take the quiz again</a> <em>or</em>
+You might like to take the <a href="http://www.politicalsurvey2005.com/">Political
+Survey 2005</a> (more detailed and based on opinion poll data)
+</p>
+
+<p class="links">
+<a href="election.php">Take the Public Whip quiz again</a> <em>or</em>
 <a href="/">Go to the main Public Whip website</a>
 </p>
 
 <h5>Detailed Breakdown</h5>
-<p>This table shows how members of each parliamentary party voted on each issue
-in parliament between 2001 and 2005.  These are averages for each party.  So,
-Labour comes out as only "agree" on many issues, rather than "agree
-(strong)", because many members rebelled on these controversial issues.
-Follow the link for each issue to find out more about which votes we used
-to do this calculation.  The links in your ex-MP's column (if they are standing
-again) will take you to a detailed breakdown of how they voted on the issue.
+<p>How we worked out who you should vote for.
 <?
 
         # Print table
         print "<table id=\"tblResult\" class=\"votes\" >";
-        print "<tr class=\"headings\"><th>Issue (numbers are from <br>0.0 agrees
-strongly to <br>1.0 disagrees strongly)</th><th>You</th>";
+        print "<tr class=\"headings\"><th>Issue (numbers are from <br>100% agrees
+strongly to <br>0% disagrees strongly)</th><th>You</th>";
         foreach ($unique_parties as $party) {
             if ($party == $mp_party and $standing_again) {
                 print "<th>$party</th><th>".$mpattr['name']. "<br>(your 
@@ -384,8 +384,8 @@ strongly to <br>1.0 disagrees strongly)</th><th>You</th>";
         }
         print "<tr class=\"last\">";
         print "<td>Comparison with your opinion:
-	 <br>0% voted same as your view
-	 <br>100% voted opposite to your view</td>";
+	 <br>100% voted same as your view
+	 <br>0% voted opposite to your view</td>";
         print "<td>&nbsp;</td>";
         foreach ($unique_parties as $party) {
             $comparison = $distances['Comparison'][$party];
@@ -407,12 +407,21 @@ strongly to <br>1.0 disagrees strongly)</th><th>You</th>";
         }
         print "</table>";
 ?>
+<p>This table shows how members of each parliamentary party voted on each issue
+in parliament between 2001 and 2005.  These are averages for each party.  So,
+Labour comes out as only "agree" on many issues, rather than "agree
+(strong)", because many members rebelled on these controversial issues.
+Follow the link for each issue to find out more about which votes we used
+to do this calculation.  The links in your ex-MP's column (if they are standing
+again) will take you to a detailed breakdown of how they voted on the issue.
+</p>
 <p>The last row shows how each party compares to you.  The difference between
-you and the party on each each is summed up and averaged.  0% means you 
-exactly agree with how the party voted, 100% means you exactly disagree.
+you and the party on each each is summed up and averaged.  100% means you 
+exactly agree with how the party voted, 0% means you exactly disagree.
 Each issue is given equal weight, although if you were neutral on an issue
 it will naturally score less.  The party which we suggest you vote for (above)
-has the smallest value in this bottom row.
+has the largest value in this bottom row.
+</p>
 <?
     }
     elseif ($_POST['submitfriend']) {

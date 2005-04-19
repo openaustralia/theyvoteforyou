@@ -94,9 +94,10 @@ function postcode_to_constituency_internal($postcode)
     # We use fsockopen rather than just fopen or file_get_contents so we can do timeouts
     $filename = POSTCODE_SEARCH_PATH .  urlencode($postcode);
 	$file = ""; // just to be safe. Dunno, if this is really needed
-    $fp = @fsockopen(POSTCODE_SEARCH_DOMAIN, POSTCODE_SEARCH_PORT, $errno, $errstr, 3);
+    $timeout = 5;
+    $fp = @fsockopen(POSTCODE_SEARCH_DOMAIN, POSTCODE_SEARCH_PORT, $errno, $errstr, $timeout);
     if ($fp) {
-        stream_set_timeout($fp, 3);
+        stream_set_timeout($fp, $timeout);
         $sockstart = getmicrotime(); # feof doesn't time out, so we have to measure ourselves also
         $out = "GET $filename HTTP/1.0\r\n";
         $out .= "Host: " . POSTCODE_SEARCH_DOMAIN. "\r\n";
@@ -104,14 +105,14 @@ function postcode_to_constituency_internal($postcode)
 
         fwrite($fp, $out);
         $inbody = false;
-        while (!feof($fp) and (getmicrotime() < $sockstart + 3)) {
+        while (!feof($fp) and (getmicrotime() < $sockstart + $timeout)) {
             $line = fgets($fp, 1024);
             if ($line == "\r\n")
                 $inbody = true;
             if ($inbody)
                 $file .= $line;
         }
-        if (getmicrotime() >= $sockstart + 3) {
+        if (getmicrotime() >= $sockstart + $timeout) {
             trigger_error("Postcode database is not working.  Connection timed out.", E_USER_WARNING);
             return '';
         }
