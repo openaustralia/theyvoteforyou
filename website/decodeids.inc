@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.13 2005/04/08 11:02:30 theyworkforyou Exp $
+# $Id: decodeids.inc,v 1.14 2005/04/19 10:35:21 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -37,7 +37,7 @@ function get_mpid_attr($db, $mpid, $bbyconstituency, $i)
 
     # get the mpids in this class, for the person, or all reps of a constituency
     if ($bbyconstituency)
-        $qwhere = "constituency = '$constituency'";
+        $qwhere = "constituency = '".db_scrub($constituency)."'";
     else
         $qwhere = "person = $person";
     $query = "SELECT pw_mp.mp_id as mpid, title, first_name, last_name, constituency, person, party,
