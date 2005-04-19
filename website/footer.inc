@@ -1,5 +1,5 @@
 <?php
-# $Id: footer.inc,v 1.14 2005/01/14 09:16:44 frabcus Exp $
+# $Id: footer.inc,v 1.15 2005/04/19 09:13:05 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -29,5 +29,13 @@
 </table>
 
 </center>
+<? 
+    // Add in extra space at bottom so # internal links near bottom
+    // of page scroll to top of screen (really, IMHO, this is a browser
+    // bug, but all browsers have it)
+    if ($paddingforanchors) { 
+?>
+<p class="paddingforanchors"></p>
+<? } ?>
 </body>
 </html>

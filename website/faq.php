@@ -1,11 +1,11 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.39 2005/04/08 11:02:31 theyworkforyou Exp $
+# $Id: faq.php,v 1.40 2005/04/19 09:13:05 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
-$title = "Frequently Asked Questions"; include "header.inc" 
+$paddingforanchors = true; $title = "Frequently Asked Questions"; include "header.inc" 
 ?>
 
 <a href="http://www.newstatesman.com/newmedia">
@@ -231,18 +231,12 @@ service to protest about this.  We'd like your help to stop it.  <a
 href="patents/explain.php">For more information see here</a>.
 
 <h2><a name="organisation">What organisation is behind the Public Whip?</a></h2>
-<p>None.  Just two guys <a href="http://www.flourish.org">Francis</a>
-and <a href="http://www.goatchurch.org.uk">Julian</a> who had an idea and made it happen.  <a
-href="http://www.knownoffender.net/">Giles</a> designed the look of the
-website.  We're hosted by the ever helpful and encouraging
-<a href="http://www.mythic-beasts.com/">Mythic Beasts</a>.
-
-<h2><a name="keepup">How can I keep up with what you are doing?</a></h2>
-<p><a href="account/register.php">Subscribe to our newsletter!</a>  It's
-at most once a month, and has interesting news and articles
-relating to the project. You can 
-<a href="http://www.publicwhip.org.uk/forum">chat with other users</a>
-on our forum.
+<p>None.  It was started by just two guys <a href="http://www.flourish.org">Francis</a> and <a
+href="http://www.goatchurch.org.uk">Julian</a> who had an idea and made it
+happen.  <a href="http://www.knownoffender.net/">Giles</a> designed the
+original look of the website.  We're hosted by the ever helpful and encouraging
+<a href="http://www.mythic-beasts.com/">Mythic Beasts</a>.  These days lots
+of other people help out with bits of code, writing and design.
 
 <h2><a name="help">Can I help with the project?</a></h2>
 <p>Sure!  Email <a href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a> to say 
@@ -252,6 +246,13 @@ course!  Read our <a href="project/">project page</a> and see the Public Whip se
 href="http://www.mysociety.org/cgi-bin/moin.cgi/VolunteerTasks">VolunteerTasks</a>
 on the mySociety wiki for some specific things we need doing.  
 </p>
+
+<h2><a name="keepup">How can I keep up with what you are doing?</a></h2>
+<p><a href="account/register.php">Subscribe to our newsletter!</a>  It's
+at most once a month, and has interesting news and articles
+relating to the project. You can 
+<a href="http://www.publicwhip.org.uk/forum">chat with other users</a>
+on our forum.
 
 <h2><a name="email">Where can I email?</a></h2>
 <p>If you have any problems, comments, queries, suggestions or offers of help about this website

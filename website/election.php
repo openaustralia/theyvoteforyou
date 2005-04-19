@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.12 2005/04/17 23:40:06 theyworkforyou Exp $
+# $Id: election.php,v 1.13 2005/04/19 09:13:05 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -32,8 +32,8 @@ $ranks = array(
     );
 
 $issues = array(
-		array(363, "introducing <strong>foundation hospitals</strong>", false, "foundation hospital"),
-		array(367, "introducing <strong>student top-up fees</strong>", true, "top-up fees"),
+		array(363, "<strong>foundation hospitals</strong>", false, "foundation hospital"),
+		array(367, "<strong>student top-up fees</strong>", true, "top-up fees"),
         array(258, "Labour's <strong>anti-terrorism laws</strong>", true, "terrorism"),
         array(219, "the <strong>Iraq war</strong>", true, "iraq"),
         array(230, "introducing <strong>ID cards</strong>", true, "id cards"),
@@ -91,19 +91,24 @@ function dist_to_desc($dist) {
         return "Disagree<br>(strong)";
 }
 
+function our_number_format($number) {
+    return round($number * 100) . "%";
+}
+
 function print_friends_form($word) {
 ?>
-<form name="howtovotefriends" method="post" action="election.php?friend">
-<p>Found this useful?  <strong>Pass it on</strong> ----&gt;
+<form id="howtovotefriends" name="howtovotefriends" method="post" action="election.php?friend">
+<p>Found this useful?  <strong>Pass it on</strong>
 <br>Your <strong>friend's email</strong>: 
     <input type="text" size="20" name="friendsemail" value="<?=htmlspecialchars($_POST['friendsemail'])?>">
-<br><strong>Your name</strong>: 
+<br>Your name: 
     <input type="text" size="20" name="yourname" value="<?=htmlspecialchars($_POST['yourname'])?>">
-<br><strong>Your email</strong>: 
+<br>Your email: 
     <input type="text" size="20" name="youremail" value="<?=htmlspecialchars($_POST['youremail'])?>">
     <input type="hidden" name="submitfriend" value="1">
 <br>    <input type="submit" name="button" value="Tell <?=$word?> Friend">
-</p>
+<br><small>(privacy: we will not store your email or your friend's email, we
+will only use it to send your message to your friend)</small> </p>
 </form>
 <?
 }
@@ -168,28 +173,14 @@ header("Content-Type: text/html; charset=UTF-8");
 ?>
 
 <html>
+
 <head>
 <title>The Public Whip - How They Voted 2005</title>
-<link href="publicwhip.css" type="text/css" rel="stylesheet">
+<link href="quiz/quiz.css" type="text/css" rel="stylesheet"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 </head>
-
-<body class="election">
-
-<p><a href="/"><img src="../thepublicwhip.gif" alt="The Public Whip"></a>
-<br>Counting votes on your behalf</p>
-
-<h1>How They Voted 2005
-<br><small>(and so how you should vote)</small>
-</h1>
-
 <?
-    if ($errors) {
-        print "<p class=\"error\">";
-        print join($errors, "<br>");
-        print "</p>";
-    }
     if ($_GET['submit'] and !$errors) {
         # See if MP is standing again
         $mpattr = $mpattr['mpprops'][0];
@@ -296,29 +287,37 @@ where rollie_id = $dreamid group by party";
 
             }
         }
+?>
+<body>
+<div id="divQuizResults">
+<h1><a href="/"><span class="fir">The Public Whip</span></a></h1>
+<h2>How They Voted 2005</h2>
+<h3>(...and so how you should)</h3>
+<h4>Quick Election Quiz</h4>
+<?
 
         print "<p class=\"advice\">";
         if ($best_party == "Your MP") {
 ?>
         We suggest you vote for 
-        <b><?=$mpattr['name']?> (<?=$mp_party?>)</b> your ex-MP
-	in <?=$constituency?>
+        <b><?=$mpattr['name']?> (<?=$mp_party?>)</b>, your ex-MP
+	in <?=$constituency?>.
 <?
         } else {
 ?>
         We suggest you vote <b><?=$best_party?></b> 
-	in <?=$constituency?>
+	in <?=$constituency?>.
 <?
         }
         if ($standing_again) {
 ?>
-        <br>&mdash; based on how your ex-MP (who is standing again) 
+        This is based on how your ex-MP (who is standing again) 
         and MPs of other parties voted in parliament over the last 4 years, 
         compared to your opinion on these issues</p>
 <?
         } else {
 ?>
-        <br>&mdash; based on how MPs of that party voted in parliament over the
+        This is based on how MPs of that party voted in parliament over the
         last 4 years, compared to your opinion on these issues
 	(your ex-MP isn't standing again, so we haven't specifically used their vote)</p>
 <?
@@ -330,9 +329,12 @@ where rollie_id = $dreamid group by party";
 
 ?>
 
-<p><a href="election.php">Take the quiz again</a>
-<br><a href="/">Go to the main Public Whip website</a>
-<h1>Detailed Breakdown</h1>
+<p class="links">
+<a href="election.php">Take the quiz again</a> <em>or</em>
+<a href="/">Go to the main Public Whip website</a>
+</p>
+
+<h5>Detailed Breakdown</h5>
 <p>This table shows how members of each parliamentary party voted on each issue
 in parliament between 2001 and 2005.  These are averages for each party.  So,
 Labour comes out as only "agree" on many issues, rather than "agree
@@ -343,15 +345,15 @@ again) will take you to a detailed breakdown of how they voted on the issue.
 <?
 
         # Print table
-        print "<table class=\"votes\">";
-        print "<tr class=\"headings\"><td>Issue (numbers are from <br>0.0 agrees
-strongly to <br>1.0 disagrees strongly)</td><td>You</td>";
+        print "<table id=\"tblResult\" class=\"votes\" >";
+        print "<tr class=\"headings\"><th>Issue (numbers are from <br>0.0 agrees
+strongly to <br>1.0 disagrees strongly)</th><th>You</th>";
         foreach ($unique_parties as $party) {
             if ($party == $mp_party and $standing_again) {
-                print "<td>$party</td><td>".$mpattr['name']. "<br>(your 
-                    $party<br>ex-MP)</td>";
+                print "<th>$party</th><th>".$mpattr['name']. "<br>(your 
+                    $party<br>ex-MP)</th>";
             } else {
-                print "<td>$party</td>";
+                print "<th>$party</th>";
             }
         }
         print "</tr>\n";
@@ -362,28 +364,28 @@ strongly to <br>1.0 disagrees strongly)</td><td>You</td>";
             print "<td><a href=\"dreammp.php?id=$dreamid\">" . $issue[1] . "</a></td>";
             print "<td>" . 
                 dist_to_desc($distances[$dreamid]['You']) . " ";
-            print number_format($distances[$dreamid]['You'], 2);
+            print our_number_format($distances[$dreamid]['You']);
             print "</td>";
 
             foreach ($unique_parties as $party) {
                 print "<td>";
                 $distance = $distances[$dreamid][$party];
                 print dist_to_desc($distance) . " ";
-                print number_format($distance,2);
+                print our_number_format($distance);
                 if ($party == $mp_party and $standing_again) {
                     print " <td><a href=\"mp.php?".$mpattr['mpanchor']."&dmp=$dreamid&display=motions\">" . 
                         dist_to_desc($distances[$dreamid]['Your MP']) . "</a> ";
-                    print number_format($distances[$dreamid]['Your MP'],2);
+                    print our_number_format($distances[$dreamid]['Your MP']);
                     print "</td>";
                 }
                 print "</td>";
             }
             print "</tr>";
         }
-        print "<tr class=\"headings\">";
+        print "<tr class=\"last\">";
         print "<td>Comparison with your opinion:
-	 <br>0.0 voted same as your view
-	 <br>1.0 voted opposite to your view</td>";
+	 <br>0% voted same as your view
+	 <br>100% voted opposite to your view</td>";
         print "<td>&nbsp;</td>";
         foreach ($unique_parties as $party) {
             $comparison = $distances['Comparison'][$party];
@@ -391,7 +393,7 @@ strongly to <br>1.0 disagrees strongly)</td><td>You</td>";
             print "<td>"; 
             print dist_to_desc($comparison);
             print "<br>with you ";
-            print number_format($comparison,2);
+            print our_number_format($comparison);
             print "</td>";
             if ($party == $mp_party and $standing_again) {
                 $comparison = $distances['Comparison']['Your MP'];
@@ -399,21 +401,30 @@ strongly to <br>1.0 disagrees strongly)</td><td>You</td>";
                 print "<td>";
                 print dist_to_desc($comparison);
                 print "<br>with you ";
-                print number_format($comparison,2);
+                print our_number_format($comparison);
                 print "</td>";
             }
         }
         print "</table>";
 ?>
 <p>The last row shows how each party compares to you.  The difference between
-you and the party on each each is summed up and averaged.  0.00 means you 
-exactly agree with how the party voted, 1.00 means you exactly disagree.
+you and the party on each each is summed up and averaged.  0% means you 
+exactly agree with how the party voted, 100% means you exactly disagree.
 Each issue is given equal weight, although if you were neutral on an issue
 it will naturally score less.  The party which we suggest you vote for (above)
 has the smallest value in this bottom row.
 <?
     }
     elseif ($_POST['submitfriend']) {
+?>
+<body>
+<div id="divQuizResults">
+<h1><a href="/"><span class="fir">The Public Whip</span></a></h1>
+<h2>How They Voted 2005</h2>
+<h3>(...and so how you should)</h3>
+<h4>Quick Election Quiz</h4>
+
+<?
         $error = "";
         if (!$_POST['friendsemail'] || !$_POST['yourname'] || !$_POST['youremail']) {
             $error .= "Please enter all details. ";
@@ -456,9 +467,9 @@ Parliament, so that you can hold them to account.
 END;
 			$success = mail ($_POST['friendsemail'],'How to vote based on how MPs voted in the last 4 years',$message,'From: The Public Whip <team@publicwhip.org.uk>');
             if ($success) {
-                print "<p><span class=\"ptitle\">Mail successfully sent to " .
+                print "<p class=\"advice\">Mail successfully sent to ".
                     htmlspecialchars($_POST['friendsemail']).
-                    "<br>You can send another if you like!</span></p>";
+                    "</p><p class=\"advice\">You can send another if you like!</p>";
             }
             else {
                 print "<div class=\"error\">Failed to send mail</div>";
@@ -467,50 +478,72 @@ END;
             $_POST['friendsemail'] = "";
             print_friends_form("another");
 ?>
-<p><a href="election.php">Take the quiz again</a>
-<br><a href="/">Go to the main Public Whip website</a> <?
+<p class="links"><a href="election.php">Take the quiz again</a> <em>or</em>
+<a href="/">Go to the main Public Whip website</a> </p>
+</div>
+<?
         }
     } else {
 ?>
-
+<body id="frmHowToVote">
 <form name="howtovote" method="get" action="election.php">
+<h1><a href="/"><span class="fir">The Public Whip</span></a></h1>
+<h2>How They Voted 2005</h2>
+<h3>(...and so how you should)</h3>
+<h4>Quick Election Quiz</h4>
+<?
+    if ($errors) {
+        print "<p class=\"error\">";
+        print join($errors, "<br>");
+        print "</p>";
+    }
+?>
 
-<p>Your <strong>postcode</strong>: <input type="text" size="10" name="mppc" value="<?=htmlspecialchars($_GET['mppc'])?>">
- (so we know who your last MP was)</p>
+<ol id="olQuiz">
+	<li>
+			Enter your UK <strong>postcode</strong>: <input type="text" size="10" name="mppc" value="<?=htmlspecialchars($_GET['mppc'])?>" id="Text1"> <br/>
+			(so we know who your last <abbr title="Member of Parliament">MP</abbr> was)
+	</li>
+	<li>
+		<p>
+			Choose how you feel about each of these issues.  We'll tell you how your ex-<abbr title="Member of Parliament">MP</abbr> and each party voted on them in parliament over the last 4 years.
+		</p>
+		
+		<ul id="ulQuestions">
 
-<p>Choose how you feel about each of these issues.  We'll tell you how your<br>
-ex-MP and each party voted on them in parliament over the last
-4 years.</p>
 
-<!--<input type="hidden" name="newpost" value="2">-->
-<p> <center><table border="0">
 <?
     foreach ($issues as $issue) {
-        print "<tr>";
-        print '<td>I am</td><td><select name="i'.$issue[0].'">' . "\n";
+        print "<li>";
+        print 'I am <select name="i'.$issue[0].'">' . "\n";
         print "<option value=\"-1\" selected>-- please choose --</option>\n";
         foreach ($ranks as $rank_name => $rank_value) {
             print "<option ";
             print opinion_value($rank_value, ($_GET['submit'] ? floatval($_GET['i'.$issue[0]]) : ""));
             print ">$rank_name</option>\n";
         }
-        print "</select></td><td>" . $issue[1] .  "</td>\n";
-        print "</tr>";
+        print "</select>" . $issue[1] .  "\n";
+        print "</li>";
     }
 ?>
-</table></center>
+
+		</ul>
+
+	</li>
+</ol>
+
+<p id="pPoweredBy">
+Powered by <a href="http://www.publicwhip.org.uk" title="Go to the main Public Whip website">The Public Whip</a>
 </p>
 
-<input type="hidden" name="submit" value="1">
-<p><input type="submit" name="button" value="Submit"></p>
+<input id="submit" name="submit" type="hidden"  value="1">
+
+<input type="submit" name="button" value="Submit" id="button">
 </form>
 
-<p><a href="/">Instead, go to the main Public Whip website</a>
-
+</body>
 <?
     }
 ?>
-
-</body>
 
 </html>

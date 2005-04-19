@@ -487,40 +487,14 @@ BODY.patent H1
     text-align: center;
     font-size: 200%;
 }
-/* For election in election.php */
-BODY.election
-{
-    WIDTH: 80%;
-    MARGIN-LEFT: 10%;
-}
-BODY.election P
-{
-    text-align: center;
-}
-BODY.election H1
-{
-    text-align: center;
-    font-size: 200%;
-}
-BODY.election .advice
-{
-    text-align: center;
-    font-size: 150%;
-    border: 1px solid;
-    color: #ffffff;
-    background: #003300;
-}
-.electionadvert
-{
-    PADDING-RIGHT: 1em;
-    PADDING-LEFT: 1em;
-    PADDING-BOTTOM: 1em;
-    PADDING-TOP: 1em;
-    MARGIN: 0px;
-    BACKGROUND-COLOR: #99ccee;
-    COLOR: #000000;
-    TEXT-ALIGN: CENTER;
-}
+/* For election banner */
+.electionadvert {font-family: "Gill Sans MT"  "Trebuchet MS", "Bitstream Vera Sans", Verdana;}
+    .electionadvert td {padding:0;background:white;}
+    .electionadvert {text-align:left;}
+    .electionadvert strong {color:e1b823;font-weight:bold;}
+    .electionadvertright {text-align:right;}
+    .electionadvertright a {color:37a44a;font-weight:bolder;background:transparent;text-decoration:none;font-size:14px;}
+    .electionadvertright a:hover {background:transparent}
 /* For showing HTML source */
 PRE.htmlsource
 {
@@ -529,5 +503,14 @@ PRE.htmlsource
 	height: 15em;
 	overflow: scroll;
 }
-
-
+/* For diffs in wiki */
+.diffchange
+{
+    BACKGROUND: #00aa00;
+    COLOR: #ffffff;
+}
+/* Space so that when going to # links it scrolls to top of screen */
+.paddingforanchors
+{
+    margin-bottom: 40em;
+}
