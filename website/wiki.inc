@@ -1,5 +1,5 @@
 <?php
-# $Id: wiki.inc,v 1.3 2005/03/31 09:20:01 frabcus Exp $
+# $Id: wiki.inc,v 1.4 2005/04/19 00:23:26 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Gather information from the database
@@ -15,10 +15,25 @@ function get_motion_wiki_key($date, $div_no)
     return "motion-$date-$div_no";
 }
 
-# Returns date, number pair or false if key isn't a motion-key
+# Returns key, date, number triple or false if key isn't a motion-key
 function get_motion_from_key($key) {
     preg_match("/^motion-(\d\d\d\d-\d\d-\d\d)-(\d+)$/",$key, $matches);
     return $matches;
+}
+
+# Puts the demarking text MOTION EFFECT etc. round body text
+function add_motion_missing_wrappers($text_body, $division_name) {
+    # Put wrappers on if they are not there
+    if (!preg_match("/--- MOTION EFFECT ---/s", $text_body)) {
+        $text_body = 
+            "--- MOTION EFFECT ---\n\n" . $text_body .
+            "\n--- COMMENTS AND NOTES ---\n\n(put thoughts and notes for other researchers here)\n";
+    }
+    if (!preg_match("/--- DIVISION TITLE ---/s", $text_body)) {
+        $text_body = 
+            "--- DIVISION TITLE ---\n\n" . $division_name . "\n\n" . $text_body;
+    }
+    return $text_body;
 }
 
 # Returns current value of wiki text based on a key.  Return value
@@ -43,16 +58,7 @@ function get_wiki_current_value($key)
                 'user_id' => 0
             );
         }
-        # Put wrappers on if they are not there
-        if (!preg_match("/--- MOTION EFFECT ---/s", $result['text_body'])) {
-            $result['text_body'] = 
-                "--- MOTION EFFECT ---\n\n" . $result['text_body'] .
-                "\n--- COMMENTS AND NOTES ---\n\n(put thoughts and notes for other researchers here)\n";
-        }
-        if (!preg_match("/--- DIVISION TITLE ---/s", $result['text_body'])) {
-            $result['text_body'] = 
-                "--- DIVISION TITLE ---\n\n" . $division_name . "\n\n" . $result['text_body'];
-        }
+        $result['text_body'] = add_motion_missing_wrappers($result['text_body'], $division_name);
     } else {
         die("Unknown wiki key type '" . html_scrub($key). "'");
     }
