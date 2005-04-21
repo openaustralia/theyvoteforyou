@@ -5,7 +5,8 @@ body{text-align:center;}
 #frmHowToVote ,#frmHowToVote input, #frmHowToVote select {color:#003300;font-family: "Gill Sans MT"  "Trebuchet MS", "Bitstream Vera Sans", Verdana;
 															font-size:13px;}
 
-#frmHowToVote h1 {height:42px; width:404px;background:url(/quiz/quizpublicwhip.gif) no-repeat;padding:0; margin:0;}
+#frmHowToVote h1 a {display:block;height:42px; width:404px;background:url(/quiz/quizpublicwhip.gif) no-repeat;padding:0; margin:0;}
+#frmHowToVote h1 {padding:0; margin:0;}
 #frmHowToVote h2 {height:78px;background:url(/quiz/quizformtop.gif) no-repeat 6px 0;
 	color:#37a44a;font-size:30px;text-align:right;padding:0px 10px;margin:0;}
 #frmHowToVote h3 {position:absolute;top:80px;right:14px;margin:0;color:#37a44a} 
