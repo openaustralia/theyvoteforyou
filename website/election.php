@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.15 2005/04/22 15:17:20 frabcus Exp $
+# $Id: election.php,v 1.16 2005/04/22 18:16:35 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -552,13 +552,14 @@ END;
 	</li>
 </ol>
 
+<input id="submit" name="submit" type="hidden"  value="1">
+
+<div id="submit"><input type="submit" name="button" value="Submit" id="button"></div>
+
 <p id="pPoweredBy">
 Powered by <a href="http://www.publicwhip.org.uk" title="Go to the main Public Whip website">The Public Whip</a>
 </p>
 
-<input id="submit" name="submit" type="hidden"  value="1">
-
-<input type="submit" name="button" value="Submit" id="button">
 </form>
 
 </body>

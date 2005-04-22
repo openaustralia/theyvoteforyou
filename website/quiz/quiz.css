@@ -23,7 +23,9 @@ body{text-align:center;}
 #ulQuestions li {padding:1px 0;}
 #ulQuestions li select {margin:0 2px;}
 
-#button {position:absolute; right:12px; bottom:4px; font-size:20px!important;}
+/* #button {position:absolute; right:12px; bottom:4px; font-size:20px!important;} */
+div#submit {text-align: right; margin-right: 12px; margin-bottom: 4px; }
+#button {font-size:20px!important;}
 #pPoweredBy {margin:20px 0 0 0;color:#d0d0d0;}
 #frmHowToVote a {color:#d0d0d0;text-decoration:none;}
 #frmHowToVote a:hover {color:b9b601;}
