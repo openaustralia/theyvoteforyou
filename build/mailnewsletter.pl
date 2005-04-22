@@ -2,8 +2,8 @@
 use strict;
 use lib "loader/";
 
-my $text = "website/newsletters/dream2.txt";
-my $type = "dream"; 
+my $text = "website/newsletters/extra4.txt";
+my $type = "all"; 
 my $test_name = "";
 
 #my $type = "all";
