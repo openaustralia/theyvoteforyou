@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.14 2005/04/19 10:53:22 frabcus Exp $
+# $Id: election.php,v 1.15 2005/04/22 15:17:20 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -331,8 +331,19 @@ where rollie_id = $dreamid group by party";
 ?>
 
 <p class="links">
+<b>Questions?</b> Email <a href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a> 
+<b>Media enquiries?</b>  Ring Francis Irving on 07970 543358.
+</p>
+
+<p class="links">
+We recommend you <b>look at other sources</b> before deciding how to vote.  
 You might like to take the <a href="http://www.politicalsurvey2005.com/">Political
-Survey 2005</a> (more detailed and based on opinion poll data)
+Survey 2005</a> (more detailed and based on opinion poll data), 
+or use <a href="http://www.howtovote.co.uk/">how2vote</a> (which asks you
+which of different manifesto policies you prefer).  For more detail <a
+href="http://www.theywanttobeelected.com/manifestos/">read and annotate the
+manifestos</a>, or get a useful opinion poll trend graph and links from
+<a href="http://election.beasts.org/">election.beasts.org</a>.
 </p>
 
 <p class="links">
