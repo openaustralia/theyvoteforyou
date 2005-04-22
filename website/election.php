@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.16 2005/04/22 18:16:35 theyworkforyou Exp $
+# $Id: election.php,v 1.17 2005/04/22 18:35:53 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -455,10 +455,10 @@ has the largest value in this bottom row.
                 $error .= "Enter a valid email address for yourself. ";
         }
         if ($error) {
-            print "<div class=\"error\">
-                <h2>Form not complete, please correct and try again</h2>
+            print "<p class=\"error\">
+                Form not complete, please correct and try again.  
                 $error
-                </div>";
+                </p>";
             print_friends_form("a");
         } else {
             $message = <<<END
@@ -505,7 +505,8 @@ END;
         }
     } else {
 ?>
-<body id="frmHowToVote">
+<body>
+<div id="frmHowToVote">
 <form name="howtovote" method="get" action="election.php">
 <h1><a href="/"><span class="fir">The Public Whip</span></a></h1>
 <h2>How They Voted 2005</h2>
@@ -562,6 +563,7 @@ Powered by <a href="http://www.publicwhip.org.uk" title="Go to the main Public W
 
 </form>
 
+</div>
 </body>
 <?
     }

@@ -13,7 +13,7 @@ body{text-align:center;}
 #frmHowToVote h4 {position:absolute;top:102px;right:16px;color:#b9b601;margin:0;font-size:20px;text-align:right;}
 
 #frmHowToVote p {padding:5px 24px ;}
-#frmHowToVote p.error {background:#de6a5b;color:White;}
+p.error {background:#de6a5b;color:White;}
 #frmHowToVote strong {color:#b9b601;}
 
 #olQuiz {margin:20px 5px 5px 0;padding-left:35px;}
@@ -47,7 +47,7 @@ div#submit {text-align: right; margin-right: 12px; margin-bottom: 4px; }
 #divQuizResults h3 {position:absolute;top:80px; right:2%;margin:0;color:#37a44a} 
 #divQuizResults h4 {position:absolute;top:100px;right:2%;color:#b9b601;margin:0;font-size:20px;text-align:right;}
 
-#howtovotefriends {float:center;background:#ebf6ed;width:300px;padding:10px;margin: 10px 10px 10px 10px;border:solid 1px #000000} 
+#howtovotefriends {float:center;background:#ebf6ed;width:300px;padding:10px;margin: 10px 10px 10px 10px;border:solid 1px #000000;text-align: left;} 
 #divQuizResults h5 {color:#b9b601;margin:0;font-size:20px;margin:2%;}
 #tblResult {font-size:12px!important;margin:20px;text-align:left; border-collapse:collapse;border-bottom:solid 1px #003300;}
 #tblResult th {border-bottom:solid 1px #003300;border-top:solid 1px #003300;}
