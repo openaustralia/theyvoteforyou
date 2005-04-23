@@ -514,3 +514,13 @@ PRE.htmlsource
 {
     margin-bottom: 40em;
 }
+/* Used in before and after motion text examples in project/research.php */
+TABLE TD.oddcol
+{
+    BACKGROUND-COLOR: #77ee77
+}
+TABLE TD.evencol
+{
+    BACKGROUND-COLOR: #77da77
+}
+

@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: index.php,v 1.6 2005/03/28 12:02:56 frabcus Exp $
+# $Id: index.php,v 1.7 2005/04/23 00:13:46 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -17,7 +17,7 @@ newsletter</a>.
 <li>Join the <a href="https://lists.sourceforge.net/lists/listinfo/publicwhip-playing">publicwhip-playing email list</a> where we chat about all this stuff.
 </ul>
 <ul>
-<li><a href="research.php">Parliamentary research</a> &mdash; work with others to understand divisions
+<li><a href="research.php">Research parliament</a> &mdash; work with others to understand divisions
 <li><a href="data.php">Raw data</a> &mdash; load the votes into your favourite spreadsheet, and more
 <li><a href="code.php">Source code</a> &mdash; instructions on using it for programmers
 <li><a href="liaison.php">Hansard website correcting</a> &mdash; to improve their HTML

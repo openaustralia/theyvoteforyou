@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: research.php,v 1.2 2005/04/19 00:23:55 frabcus Exp $
+# $Id: research.php,v 1.3 2005/04/23 00:13:46 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -20,7 +20,13 @@ contribute your own.  It's also much less lonely this way!
 so far.  <a href="mailto:team@publicwhip.org.uk">Email us</a> if you have 
 questions and comments, or <a href="/forum">chat in the forum</a>.
 
-<h2>Motion Text Editing</h2>
+<h2>Commenting on debates</h2>
+
+<p>Over at <a href="http://www.theyworkforyou.com">TheyWorkForYou.com</a>
+you can add comments to parliamentary debates.    This is a good way to add
+information you have found out about the discussion where anyone can find it.
+
+<h2>Motion text editing</h2>
 
 <p>Above the motion text for every parliamentary division, we currently
 make the following statement:
@@ -50,11 +56,119 @@ them with a Dream MP, and fix the motion text so that other people can
 see the precise measures that were voted upon.  Public Whip is about
 informed choice, and not having to take anyone's word for things.
 
-<h2>Commenting on Debates</h2>
+<h2>Examples of motion text editing</h2>
 
-<p>Over at <a href="http://www.theyworkforyou.com">TheyWorkForYou.com</a>
-you can add comments to parliamentary debates.    This is a good way to add
-information you have found out about the discussion where anyone can find it.
+<p>The first example is <a href="http://www.publicwhip.org.uk/division.php?date=2005-03-02&number=110">Council Tax - 2 Mar 2005 - Division No. 110</a>, which is an opposition motion.  These have a simple
+structure, but even so wording and formatting changes make the effect of the
+motion much clearer.  The crucial thing it that it should be easier to tell
+what Aye and No mean.
+
+<table> <tr class="headings"><th>Before Editing</th><th>After Editing</th></tr>
+<tr><td class="oddcol">
+        <p>I beg to move,</p>
+
+        <p>That this House notes that council tax bills have increased by 70 per
+    cent. under the Labour Government, with further above-inflation rises planned
+    in the forthcoming year and after the general election; expresses concern that
+    pensioners have been hit hardest and calls on the Government to implement the
+    Conservative policy of an automatic council tax discount for those aged 65 and
+    over; notes with alarm the Government's plans in any third term for a
+    revaluation which would lead to greater inequities and new higher council tax
+    bands; rejects Liberal Democrat plans for a local income tax, regional income
+    tax and higher national income tax; and calls for less bureaucracy and
+    interference from Whitehall and regional bureaucrats in local government
+    funding and for greater transparency in the allocation of local funding for
+    councils.</p> <p>I beg to move, To leave out from &quot;House&quot; to the end
+    of the Question and to add instead thereof:</p>
+        <p class="indent">&quot;welcomes the Government's support for local
+    government with its 33 per cent. grant increase in real terms since 1997,
+    compared to a real terms cut of 7 per cent. in the last four years of the
+    previous administration; notes that the increase in council tax this year is
+    set to be the lowest in over a decade at around 4 per cent. and the second
+    lowest since it was introduced and is less than the increase in average
+    earnings; notes CIPFA's view that it will add less than &#163;1 a week to
+    average council tax bills; further notes that the effect of the Opposition's
+    policy to cut grant to councils and abolish capping would allow council tax to
+    rise unchecked; and looks forward to the report of the Lyons inquiry into local
+    government funding which is due by the end of this year.&quot;</p>
+    <p><i>Question put,</i> That the original words stand part of the
+    Question:&#8212;</p>
+
+        <p><i>The House divided:</i> Ayes 140, Noes 322.</p>
+
+</td><td class="evencol">
+
+ <p>The no voters successfully changed the motion text from:</p>     <p
+class="indent">This House notes that council tax bills have increased by 70 per
+cent. under the Labour Government, with further above-inflation rises planned
+in the forthcoming year and after the general election; expresses concern that
+pensioners have been hit hardest and calls on the Government to implement the
+Conservative policy of an automatic council tax discount for those aged 65 and
+over; notes with alarm the Government's plans in any third term for a
+revaluation which would lead to greater inequities and new higher council tax
+bands; rejects Liberal Democrat plans for a local income tax, regional income
+tax and higher national income tax; and calls for less bureaucracy and
+interference from Whitehall and regional bureaucrats in local government
+funding and for greater transparency in the allocation of local funding for
+councils.</p> <p>To:</p>
+    <p class="indent">This House welcomes the Government's support for local
+government with its 33 per cent. grant increase in real terms since 1997,
+compared to a real terms cut of 7 per cent. in the last four years of the
+previous administration; notes that the increase in council tax this year is
+set to be the lowest in over a decade at around 4 per cent. and the second
+lowest since it was introduced and is less than the increase in average
+earnings; notes <a href="http://www.cipfa.org.uk/">CIPFA</a>'s view that it
+will add less than &#163;1 a week to average council tax bills; further notes
+that the effect of the Opposition's policy to cut grant to councils and abolish
+capping would allow council tax to rise unchecked; and looks forward to the
+report of the Lyons inquiry into local government funding which is due by the
+end of this year.</p>
+
+</td></tr>
+</table>
+
+<p>The second example is <a href="http://www.publicwhip.org.uk/division.php?date=2002-10-29&number=335">Ministerial Statements proposals - 29 Oct 2002 - Division No. 335</a>, which is a motion to change parliamentary
+procedures.  This has a textual amendment to a motion, and can be explained in less
+technical language than the original.
+
+<table> <tr class="headings"><th>Before Editing</th><th>After Editing</th></tr>
+<tr><td class="oddcol">
+
+ <p class="italic">Motion made, and Question proposed,</p>    <p
+class="indent">That this House takes note of the Third Report from the
+Procedure Committee, <i>Parliamentary Questions,</i> House of Commons Paper No.
+622, and the Government Response thereto, Cm 5628, and approves the proposals
+in both for a quota on named day questions, a reduction in the daily quota of
+questions per department, the introduction of electronic tabling subject to
+safeguards to ensure the authenticity of questions and the power of the Speaker
+to modify or halt the system if it appears it is being abused, and the timing
+and printing of answers to written questions and written ministerial
+statements. &#8212;<i>[Mr. Woolas.]</i></p>    <p class="italic">Amendment
+proposed: (a), in line 8, leave out 'and written Ministerial
+statements'.&#8212;[Mr. Greg Knight.]</p> <p><i>Question put</i>, That the
+amendment be made:&#8212;</p> <p><i>The House divided:</i> Ayes 144, Noes
+386.</p>
+
+</td><td class="evencol">
+
+<p>The Aye-voters failed to remove the words <i>'and written ministerial
+statements'</i> from the motion:</p> <p class="indent">This House takes note of
+the <a
+href="http://www.publications.parliament.uk/pa/cm200102/cmselect/cmproced/622/62202.htm">Third
+Report from the Procedure Committee, <i>Parliamentary Questions,</i> House of
+Commons Paper No. 622</a>, and the Government Response thereto, <a
+href="http://www.hmso.gov.uk/information/cmpapers/cm_5600.htm">Cm 5628</a>, and
+approves the proposals in both for a quota on named day questions, a reduction
+in the daily quota of questions per department, the introduction of electronic
+tabling subject to safeguards to ensure the authenticity of questions and the
+power of the Speaker to modify or halt the system if it appears it is being
+abused, and the timing and printing of answers to written questions <i>and
+written ministerial statements</i>.</p>
+
+</td></tr>
+</table>
+
+<p>TODO: Give third example of legislative amendment vote.
 
 <h2>Guidelines for editing the text of motions</h2>
 
@@ -163,8 +277,6 @@ into some sort of legal hassle.  We must ensure that it can live on by
 disabling our ability to abolish it.  
 
 </ul>
-
-<p>&mdash; Julian Todd, 10 April 2005
 
 <?php include "../footer.inc" ?>
 

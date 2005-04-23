@@ -1,7 +1,23 @@
+Motion text editing
+-------------------
+
+Say more clearly that things are edited
+    - what has and has not been edited?
+    - work out better name than "motion text editing"
+
+Make wiki edit history much better
+
+Report abuse button
+
+Before + After of motion text edits
+
+General
+-------
+
 Migrate away from mpdist table to new one
 
 Turn caching back on when it works
-
+... or abandon it completely
 Clear file cache for:
     divisions.php when a motion text is edited
     (perhaps just clear everything then!)
@@ -11,9 +27,6 @@ Database patches:
     Tidy up the id so always dream_id not a mix.
     pw_dyn_rollievote.vote should be NOT NULL
     Remove division_id
-
-General
--------
 
 Wiki the title
 
