@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.9 2005/04/02 11:57:46 theyworkforyou Exp $
+# $Id: wiki.php,v 1.10 2005/04/23 00:33:14 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -121,7 +121,8 @@ with other motion researchers on our special forum</a>.
 <?
         if (strstr($key, "motion-")) {
 ?>
-        <p><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=2">Discuss this
+        <p><a href="/edits.php?key=<?=urlencode($key)?>">View edit history of this motion text</a>
+        <br><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=2">Discuss this
 with other motion text editors on our forum</a>.
 
         

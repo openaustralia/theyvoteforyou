@@ -22,21 +22,20 @@
 
     print "<table class=\"edits\">\n";
     print "<tr class=\"headings\">
-        <td>Object</td>
-        <td>Division Title</td>
-        <td>Motion Text</td>
-        <td>Made by</td>
-        <td>Date</td>
+        <td>Event</td>
+        <td>Motion Text Before</td>
+        <td>Motion Text After</td>
         </tr>";
 
     function format_linediff($prev, $next) {
         $df  = new WordLevelDiff(array($prev), array($next));
         $opening = $df->orig();
         $closing = $df->closing();
-        return "<table>".
-               "<tr><td><b>After:</b></td><td> " . join($closing, " ") . "</td></tr>".
-               "<tr><td><b>Before:</b></td><td> " . join($opening, " ") . "</td></tr>".
-               "</table>";
+        print_r($closing);
+        print_r($opening);
+        # TODO: These joins are knackered - every other entry has a
+        # weird bit of whitespace in it which breaks the display.  Odd!
+        return array(join($closing, " "), join($opening, " "));
     }
 
     // Find initial values
@@ -71,25 +70,30 @@
     foreach ($rows as $row)
     {
         $prettyrow = pretty_row_start($prettyrow);
+        print "<td valign=\"top\">";
         if ($matches = get_motion_from_key($row['object_key'])) {
             $division_date = $matches[1];
             $division_number = $matches[2];
-            print "<td><a href=\"division.php?date=" . $division_date . "&number=" . $division_number . "\">" . $division_date . "#" . $division_number . "</a></td>";
+            print "<a href=\"division.php?date=" . $division_date . "&number=" . $division_number . "\">" . $division_date . "#" . $division_number . "</a>";
         } else {
-            print "<td>" . $row['object_key'] . "</td>";
+            print $row['object_key'];
         }
-        print "<td>" .  format_linediff(
-            extract_title_from_wiki_text($row['previous']),
-            extract_title_from_wiki_text($row['text_body'])
-            ) . "</td>\n";
-        print "<td>" . format_linediff(
+        print "<p>Edited by ".html_scrub($row['user_name']);
+        print "<p>" . $row['edit_date'] . "\n";
+        print "</td>";
+        # TODO: Get diff highlighting to work.  For now it is knackered.`
+        list($marked_text_before, $marked_text_after) = array/*format_linediff*/(
             extract_motion_text_from_wiki_text($row['previous']),
-            extract_motion_text_from_wiki_text($row['text_body'])
-            ) . "</td>\n";
-        #print "<td>" . extract_motion_text_from_wiki_text($row['text_body']) . "</td>";
-        #print "<td>" . extract_motion_text_from_wiki_text($row['previous']) . "</td>";
-        print "<td>" . html_scrub($row['user_name']) . "</td>";
-        print "<td>" . $row['edit_date'] . "</td>\n";
+            extract_motion_text_from_wiki_text($row['text_body']));
+        list($marked_title_before, $marked_title_after) = array/*format_linediff*/(
+            extract_title_from_wiki_text($row['previous']),
+            extract_title_from_wiki_text($row['text_body']));
+        print "<td class=\"oddcol\">" . 
+            "<b>" . $marked_title_before. "</b><br>".  $marked_text_before.
+            "</td>";
+        print "<td class=\"evencol\">" . 
+            "<b>" . $marked_title_before. "</b><br>".  $marked_text_after.
+            "</td>";
         print "</td></tr>";
     }
     print "</table>\n";
