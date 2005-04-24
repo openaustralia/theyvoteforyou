@@ -125,6 +125,8 @@ def CmIndexFromPage(urllinkpage):
         		# take out spaces and linefeeds we don't want
         		uind = urlparse.urljoin(urllinkpage, re.sub('\s', '', link1[4]))
         		typ = string.strip(re.sub('\s\s+', ' ', link1[5]))
+                        if typ == 'Recess Written Answers':
+                                typ = 'Written Answers'
 
 		# check for repeats where the URLs differ
 		if (sdate, typ) in reses:
