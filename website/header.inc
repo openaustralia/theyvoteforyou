@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.51 2005/04/19 09:13:05 frabcus Exp $
+# $Id: header.inc,v 1.52 2005/05/06 02:23:42 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -40,7 +40,7 @@ function givefocus(field) { if (document.pw) eval("document.pw." + field + ".foc
 <table align="center" class="container" cellpadding="0" cellspacing="0">
 
 <!-- banner advert for election site -->
-<tr class="electionadvert">
+<!--<tr class="electionadvert">
 <td >
     <a href="/election.php"><img src="/quiz/electionbanner.gif" alt="How they voted 2005"/></a>
 </td>
@@ -49,7 +49,7 @@ function givefocus(field) { if (document.pw) eval("document.pw." + field + ".foc
 
 Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
 </td>
-</tr>
+</tr>-->
 
 <!-- the site logo -->
 <tr><td class="identity" colspan="2">

@@ -1,13 +1,13 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.17 2005/04/22 18:35:53 frabcus Exp $
+# $Id: election.php,v 1.18 2005/05/06 02:23:42 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-# http://publicwhip.owl/election.php?i363=0.75&i367=0.75&i258=0.25&i219=0&i230=0.25&i358=0.5&i371=1&mpn=Anne%20Campbell&mpc=Cambridge&submit=Submit
+# 2005 General Election special
 
 # TODO:
 # Maybe display anyway when postcode wrong

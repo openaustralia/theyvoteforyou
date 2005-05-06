@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.41 2005/04/19 10:27:13 frabcus Exp $
+# $Id: faq.php,v 1.42 2005/05/06 02:23:42 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -31,6 +31,7 @@ $paddingforanchors = true; $title = "Frequently Asked Questions"; include "heade
 <li><a href="#rss">Are there any RSS syndication feeds?</a> <br/>
 <li><a href="#spreadsheet">Where is the data in spreadsheet file format or in XML?</a> <br/>
 <li><a href="#patents">What is the fuss about software patents?</a> <br/>
+<li><a href="#election">What did you do for the 2005 election?</a> <br/>
 
 <br>
 <li><a href="#organisation">What organisation is behind the Public Whip?</a> <br/>
@@ -228,6 +229,10 @@ desription</a> of how to do it.  We provide the following RSS feeds:
 <p>A new European directive on software patents threatens the existence
 of websites like The Public Whip.   We'd like your help to stop it.  <a
 href="patents/index.html">For more information see here</a>.
+
+<h2><a name="election">What did you do for the 2005 election?</a></h2>
+<p>During the 2005 General Election campaign we ran a <a href="election.php">how
+they voted quiz</a>.  You can still take it and link to the results.
 
 <h2><a name="organisation">What organisation is behind the Public Whip?</a></h2>
 <p>None.  It was started by just two guys <a href="http://www.flourish.org">Francis</a> and <a
