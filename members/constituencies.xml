@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <publicwhip>
+  
 
 <!--
 
 Unique identifiers and alternative names for UK parliamentary constituencies.
-Currently as they are in 2003 - will need to update when boundary changes come
-in.
+Currently as they are in 2001 and 2005, with date ranges for validity.
+A constituency is given a new id whenever its boundaries change.
 
 Currently has the name forms from:
 - the list of MPs on the Parliament website
@@ -16,2340 +17,2511 @@ Currently has the name forms from:
 - BBC (from several places)
 - Guardian website (Ask Aristotle)
 
-The list of MPs from the parliament website are considered canonical.
+The first form of the name is considered canonical, and the one you should display.
+
+This file can be updated using consupdated.pl, but also edited by hand as
+that loads in the original file before making modifications.
 
 -->
-
-<constituency id="uk.org.publicwhip/cons/1">
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/1" todate="9999-12-31">
     <name text="Aberavon"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/2">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/2" todate="2005-05-04">
     <name text="Aberdeen Central"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/3">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/3" todate="2005-05-04">
     <name text="Aberdeen North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/4">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/4" todate="2005-05-04">
     <name text="Aberdeen South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/5">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/5" todate="2005-05-04">
     <name text="Airdrie &amp; Shotts"/>
-    <name text="Airdrie and Shotts"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/6">
+    <name text="Airdrie and Shotts"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/6" todate="9999-12-31">
     <name text="Aldershot"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/7">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/7" todate="9999-12-31">
     <name text="Aldridge-Brownhills"/>
     <name text="Aldridge - Brownhills"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/8">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/8" todate="9999-12-31">
     <name text="Altrincham &amp; Sale West"/>
-    <name text="Altrincham and Sale West"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/9">
+    <name text="Altrincham and Sale West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/9" todate="9999-12-31">
     <name text="Alyn &amp; Deeside"/>
-    <name text="Alyn and Deeside"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/10">
+    <name text="Alyn and Deeside"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/10" todate="9999-12-31">
     <name text="Amber Valley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/11">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/11" todate="2005-05-04">
     <name text="Angus"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/12">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/12" todate="2005-05-04">
     <name text="Argyll &amp; Bute"/>
-    <name text="Argyll and Bute"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/13">
+    <name text="Argyll and Bute"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/13" todate="9999-12-31">
     <name text="Arundel &amp; South Downs"/>
-    <name text="Arundel and South Downs"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/14">
+    <name text="Arundel and South Downs"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/14" todate="9999-12-31">
     <name text="Ashfield"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/15">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/15" todate="9999-12-31">
     <name text="Ashford"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/16">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/16" todate="9999-12-31">
     <name text="Ashton-under-Lyne"/>
-    <name text="Ashton under Lyne"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/17">
+    <name text="Ashton under Lyne"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/17" todate="9999-12-31">
     <name text="Aylesbury"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/18">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/18" todate="2005-05-04">
     <name text="Ayr"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/19">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/19" todate="9999-12-31">
     <name text="Banbury"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/20">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/20" todate="2005-05-04">
     <name text="Banff &amp; Buchan"/>
-    <name text="Banff and Buchan"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/21">
+    <name text="Banff and Buchan"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/21" todate="9999-12-31">
     <name text="Barking"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/22">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/22" todate="9999-12-31">
     <name text="Barnsley Central"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/23">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/23" todate="9999-12-31">
     <name text="Barnsley East &amp; Mexborough"/>
-    <name text="Barnsley East and Mexborough"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/24">
+    <name text="Barnsley East and Mexborough"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/24" todate="9999-12-31">
     <name text="Barnsley West &amp; Penistone"/>
-    <name text="Barnsley West and Penistone"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/25">
+    <name text="Barnsley West and Penistone"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/25" todate="9999-12-31">
     <name text="Barrow &amp; Furness"/>
-    <name text="Barrow and Furness"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/26">
+    <name text="Barrow and Furness"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/26" todate="9999-12-31">
     <name text="Basildon"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/27">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/27" todate="9999-12-31">
     <name text="Basingstoke"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/28">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/28" todate="9999-12-31">
     <name text="Bassetlaw"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/29">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/29" todate="9999-12-31">
     <name text="Bath"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/30">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/30" todate="9999-12-31">
     <name text="Batley &amp; Spen"/>
-    <name text="Batley and Spen"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/31">
+    <name text="Batley and Spen"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/31" todate="9999-12-31">
     <name text="Battersea"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/32">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/32" todate="9999-12-31">
     <name text="Beaconsfield"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/33">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/33" todate="9999-12-31">
     <name text="Beckenham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/34">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/34" todate="9999-12-31">
     <name text="Bedford"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/35">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/35" todate="9999-12-31">
     <name text="Belfast East"/>
-    <name text="Belfast, East"/> <!-- regmem -->
-    <name text="East Belfast"/> <!-- New BBC db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/36">
+    <name text="Belfast, East"/>
+    <name text="East Belfast"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/36" todate="9999-12-31">
     <name text="Belfast North"/>
-    <name text="Belfast, North"/> <!-- regmem -->
-    <name text="North Belfast"/> <!-- New BBC db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/37">
+    <name text="Belfast, North"/>
+    <name text="North Belfast"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/37" todate="9999-12-31">
     <name text="Belfast South"/>
-    <name text="Belfast, South"/> <!-- regmem -->
-    <name text="South Belfast"/> <!-- New BBC db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/38">
+    <name text="Belfast, South"/>
+    <name text="South Belfast"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/38" todate="9999-12-31">
     <name text="Belfast West"/>
-    <name text="Belfast, West"/> <!-- regmem -->
-    <name text="West Belfast"/> <!-- New BBC db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/39">
+    <name text="Belfast, West"/>
+    <name text="West Belfast"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/39" todate="9999-12-31">
     <name text="Berwick-upon-Tweed"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/40">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/40" todate="9999-12-31">
     <name text="Bethnal Green &amp; Bow"/>
-    <name text="Bethnal Green and Bow"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/41">
+    <name text="Bethnal Green and Bow"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/41" todate="9999-12-31">
     <name text="Beverley &amp; Holderness"/>
-    <name text="Beverley and Holderness"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/42">
+    <name text="Beverley and Holderness"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/42" todate="9999-12-31">
     <name text="Bexhill &amp; Battle"/>
-    <name text="Bexhill and Battle"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/43">
+    <name text="Bexhill and Battle"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/43" todate="9999-12-31">
     <name text="Bexleyheath &amp; Crayford"/>
-    <name text="Bexleyheath and Crayford"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/44">
+    <name text="Bexleyheath and Crayford"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/44" todate="9999-12-31">
     <name text="Billericay"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/45">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/45" todate="9999-12-31">
     <name text="Birkenhead"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/46">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/46" todate="9999-12-31">
     <name text="Birmingham, Edgbaston"/>
-    <name text="Birmingham Edgbaston"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/47">
+    <name text="Birmingham Edgbaston"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/47" todate="9999-12-31">
     <name text="Birmingham, Erdington"/>
-    <name text="Birmingham Erdington"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/48">
+    <name text="Birmingham Erdington"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/48" todate="9999-12-31">
     <name text="Birmingham, Hall Green"/>
-    <name text="Birmingham Hall Green"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/49">
+    <name text="Birmingham Hall Green"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/49" todate="9999-12-31">
     <name text="Birmingham, Hodge Hill"/>
-    <name text="Birmingham Hodge Hill"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/50">
+    <name text="Birmingham Hodge Hill"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/50" todate="9999-12-31">
     <name text="Birmingham, Ladywood"/>
-    <name text="Birmingham Ladywood"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/51">
+    <name text="Birmingham Ladywood"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/51" todate="9999-12-31">
     <name text="Birmingham, Northfield"/>
-    <name text="Birmingham Northfield"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/52">
+    <name text="Birmingham Northfield"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/52" todate="9999-12-31">
     <name text="Birmingham, Perry Barr"/>
-    <name text="Birmingham Perry Barr"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/53">
+    <name text="Birmingham Perry Barr"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/53" todate="9999-12-31">
     <name text="Birmingham, Selly Oak"/>
-    <name text="Birmingham Selly Oak"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/54">
+    <name text="Birmingham Selly Oak"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/54" todate="9999-12-31">
     <name text="Birmingham, Sparkbrook &amp; Small Heath"/>
-    <name text="Birmingham, Sparkbrook and Small Heath"/> <!-- ONS -->
-    <name text="Birmingham Sparkbrook &amp; Small Heath"/> <!-- BBC politics db -->
-    <name text="Birmingham Sparkbrook and Small Heath"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/55">
+    <name text="Birmingham, Sparkbrook and Small Heath"/>
+    <name text="Birmingham Sparkbrook &amp; Small Heath"/>
+    <name text="Birmingham Sparkbrook and Small Heath"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/55" todate="9999-12-31">
     <name text="Birmingham, Yardley"/>
-    <name text="Birmingham Yardley"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/56">
+    <name text="Birmingham Yardley"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/56" todate="9999-12-31">
     <name text="Bishop Auckland"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/57">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/57" todate="9999-12-31">
     <name text="Blaby"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/58">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/58" todate="9999-12-31">
     <name text="Blackburn"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/59">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/59" todate="9999-12-31">
     <name text="Blackpool North &amp; Fleetwood"/>
-    <name text="Blackpool North and Fleetwood"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/60">
+    <name text="Blackpool North and Fleetwood"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/60" todate="9999-12-31">
     <name text="Blackpool South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/61">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/61" todate="9999-12-31">
     <name text="Blaenau Gwent"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/62">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/62" todate="9999-12-31">
     <name text="Blaydon"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/63">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/63" todate="9999-12-31">
     <name text="Blyth Valley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/64">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/64" todate="9999-12-31">
     <name text="Bognor Regis &amp; Littlehampton"/>
-    <name text="Bognor Regis and Littlehampton"/> <!-- ONS -->
-    <name text="Bognor Regis" /> <!-- Divisions -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/65">
+    <name text="Bognor Regis and Littlehampton"/>
+    <name text="Bognor Regis"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/65" todate="9999-12-31">
     <name text="Bolsover"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/66">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/66" todate="9999-12-31">
     <name text="Bolton North East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/67">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/67" todate="9999-12-31">
     <name text="Bolton South East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/68">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/68" todate="9999-12-31">
     <name text="Bolton West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/69">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/69" todate="9999-12-31">
     <name text="Bootle"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/70">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/70" todate="9999-12-31">
     <name text="Boston &amp; Skegness"/>
-    <name text="Boston and Skegness"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/71">
+    <name text="Boston and Skegness"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/71" todate="9999-12-31">
     <name text="Bosworth"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/72">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/72" todate="9999-12-31">
     <name text="Bournemouth East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/73">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/73" todate="9999-12-31">
     <name text="Bournemouth West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/74">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/74" todate="9999-12-31">
     <name text="Bracknell"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/75">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/75" todate="9999-12-31">
     <name text="Bradford North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/76">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/76" todate="9999-12-31">
     <name text="Bradford South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/77">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/77" todate="9999-12-31">
     <name text="Bradford West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/78">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/78" todate="9999-12-31">
     <name text="Braintree"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/79">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/79" todate="9999-12-31">
     <name text="Brecon &amp; Radnorshire"/>
-    <name text="Brecon and Radnorshire"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/80">
+    <name text="Brecon and Radnorshire"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/80" todate="9999-12-31">
     <name text="Brent East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/81">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/81" todate="9999-12-31">
     <name text="Brent North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/82">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/82" todate="9999-12-31">
     <name text="Brent South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/83">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/83" todate="9999-12-31">
     <name text="Brentford &amp; Isleworth"/>
-    <name text="Brentford and Isleworth"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/84">
+    <name text="Brentford and Isleworth"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/84" todate="9999-12-31">
     <name text="Brentwood &amp; Ongar"/>
-    <name text="Brentwood and Ongar"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/85">
+    <name text="Brentwood and Ongar"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/85" todate="9999-12-31">
     <name text="Bridgend"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/86">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/86" todate="9999-12-31">
     <name text="Bridgwater"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/87">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/87" todate="9999-12-31">
     <name text="Brigg &amp; Goole"/>
-    <name text="Brigg and Goole"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/88">
+    <name text="Brigg and Goole"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/88" todate="9999-12-31">
     <name text="Brighton, Kemptown"/>
-    <name text="Brighton Kemptown"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/89">
+    <name text="Brighton Kemptown"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/89" todate="9999-12-31">
     <name text="Brighton, Pavilion"/>
-    <name text="Brighton Pavilion"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/90">
+    <name text="Brighton Pavilion"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/90" todate="9999-12-31">
     <name text="Bristol East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/91">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/91" todate="9999-12-31">
     <name text="Bristol North West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/92">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/92" todate="9999-12-31">
     <name text="Bristol South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/93">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/93" todate="9999-12-31">
     <name text="Bristol West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/94">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/94" todate="9999-12-31">
     <name text="Bromley &amp; Chislehurst"/>
-    <name text="Bromley and Chislehurst"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/95">
+    <name text="Bromley and Chislehurst"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/95" todate="9999-12-31">
     <name text="Bromsgrove"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/96">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/96" todate="9999-12-31">
     <name text="Broxbourne"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/97">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/97" todate="9999-12-31">
     <name text="Broxtowe"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/98">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/98" todate="9999-12-31">
     <name text="Buckingham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/99">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/99" todate="9999-12-31">
     <name text="Burnley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/100">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/100" todate="9999-12-31">
     <name text="Burton"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/101">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/101" todate="9999-12-31">
     <name text="Bury North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/102">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/102" todate="9999-12-31">
     <name text="Bury South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/103">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/103" todate="9999-12-31">
     <name text="Bury St Edmunds"/>
-    <name text="Bury St. Edmunds"/> <!-- BBC -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/104">
+    <name text="Bury St. Edmunds"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/104" todate="9999-12-31">
     <name text="Caernarfon"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/105">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/105" todate="9999-12-31">
     <name text="Caerphilly"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/106">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/106" todate="2005-05-04">
     <name text="Caithness, Sutherland &amp; Easter Ross"/>
-    <name text="Caithness, Sutherland and Easter Ross"/> <!-- ONS -->
-    <name text="Caithness Sutherland and Easter Ross"/> <!-- edm.ais.co.uk -->
-    <name text="Caithness Sutherland &amp; Easter Ross"/> <!-- New BBC db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/107">
+    <name text="Caithness, Sutherland and Easter Ross"/>
+    <name text="Caithness Sutherland and Easter Ross"/>
+    <name text="Caithness Sutherland &amp; Easter Ross"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/107" todate="9999-12-31">
     <name text="Calder Valley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/108">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/108" todate="9999-12-31">
     <name text="Camberwell &amp; Peckham"/>
-    <name text="Camberwell and Peckham"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/109">
+    <name text="Camberwell and Peckham"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/109" todate="9999-12-31">
     <name text="Cambridge"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/110">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/110" todate="9999-12-31">
     <name text="Cannock Chase"/>
-    <name text="Canock Chase"/> <!-- FaxYourMP index -->
+    <name text="Canock Chase"/>
     <name text="Cannock"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/111">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/111" todate="9999-12-31">
     <name text="Canterbury"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/112">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/112" todate="9999-12-31">
     <name text="Cardiff Central"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/113">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/113" todate="9999-12-31">
     <name text="Cardiff North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/114">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/114" todate="9999-12-31">
     <name text="Cardiff South &amp; Penarth"/>
-    <name text="Cardiff South and Penarth"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/115">
+    <name text="Cardiff South and Penarth"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/115" todate="9999-12-31">
     <name text="Cardiff West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/116">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/116" todate="9999-12-31">
     <name text="Carlisle"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/117">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/117" todate="9999-12-31">
     <name text="Carmarthen East &amp; Dinefwr"/>
-    <name text="Carmarthen East and Dinefwr"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/118">
+    <name text="Carmarthen East and Dinefwr"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/118" todate="9999-12-31">
     <name text="Carmarthen West &amp; South Pembrokeshire"/>
-    <name text="Carmarthen West and South Pembrokeshire"/> <!-- ONS -->
-    <name text="Carmarthen West and Pembrokeshire South"/> <!-- FaxYourMP index -->
-    <name text="Carmarthen West &amp; Pembrokeshire South"/> <!-- BBC politics db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/119">
+    <name text="Carmarthen West and South Pembrokeshire"/>
+    <name text="Carmarthen West and Pembrokeshire South"/>
+    <name text="Carmarthen West &amp; Pembrokeshire South"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/119" todate="2005-05-04">
     <name text="Carrick, Cumnock &amp; Doon Valley"/>
-    <name text="Carrick, Cumnock and Doon Valley"/> <!-- ONS -->
-    <name text="Carrick Cumnock and Doon Valley"/> <!-- edm.ais.co.uk -->
-    <name text="Carrick Cumnock &amp; Doon Valley"/> <!-- New BBC db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/120">
+    <name text="Carrick, Cumnock and Doon Valley"/>
+    <name text="Carrick Cumnock and Doon Valley"/>
+    <name text="Carrick Cumnock &amp; Doon Valley"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/120" todate="9999-12-31">
     <name text="Carshalton &amp; Wallington"/>
-    <name text="Carshalton and Wallington"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/121">
+    <name text="Carshalton and Wallington"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/121" todate="9999-12-31">
     <name text="Castle Point"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/122">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/122" todate="2005-05-04">
     <name text="Central Fife"/>
-    <name text="Fife Central"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/123">
+    <name text="Fife Central"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/123" todate="9999-12-31">
     <name text="Central Suffolk &amp; North Ipswich"/>
-    <name text="Central Suffolk and North Ipswich"/> <!-- ONS -->
-    <name text="Suffolk Central and North Ipswich"/> <!-- FaxYourMP index -->
-    <name text="Suffolk Central &amp; Ipswich North"/> <!-- BBC politics db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/124">
+    <name text="Central Suffolk and North Ipswich"/>
+    <name text="Suffolk Central and North Ipswich"/>
+    <name text="Suffolk Central &amp; Ipswich North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/124" todate="9999-12-31">
     <name text="Ceredigion"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/125">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/125" todate="9999-12-31">
     <name text="Charnwood"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/126">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/126" todate="9999-12-31">
     <name text="Chatham &amp; Aylesford"/>
-    <name text="Chatham and Aylesford"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/127">
+    <name text="Chatham and Aylesford"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/127" todate="9999-12-31">
     <name text="Cheadle"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/128">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/128" todate="9999-12-31">
     <name text="Cheltenham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/129">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/129" todate="9999-12-31">
     <name text="Chesham &amp; Amersham"/>
-    <name text="Chesham and Amersham"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/130">
+    <name text="Chesham and Amersham"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/130" todate="9999-12-31">
     <name text="Chester, City of"/>
-    <name text="City of Chester"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/131">
+    <name text="City of Chester"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/131" todate="9999-12-31">
     <name text="Chesterfield"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/132">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/132" todate="9999-12-31">
     <name text="Chichester"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/133">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/133" todate="9999-12-31">
     <name text="Chingford &amp; Woodford Green"/>
-    <name text="Chingford and Woodford Green"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/134">
+    <name text="Chingford and Woodford Green"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/134" todate="9999-12-31">
     <name text="Chipping Barnet"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/135">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/135" todate="9999-12-31">
     <name text="Chorley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/136">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/136" todate="9999-12-31">
     <name text="Christchurch"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/137">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/137" todate="9999-12-31">
     <name text="Cities of London &amp; Westminster"/>
-    <name text="Cities of London and Westminster"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/138">
+    <name text="Cities of London and Westminster"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/138" todate="9999-12-31">
     <name text="Cleethorpes"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/139">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/139" todate="9999-12-31">
     <name text="Clwyd South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/140">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/140" todate="9999-12-31">
     <name text="Clwyd West"/>
-    <name text="Clwyd, West"/> <!-- Debates -->
-    <name text="Clwyd W"/> <!-- Debates -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/141">
+    <name text="Clwyd, West"/>
+    <name text="Clwyd W"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/141" todate="2005-05-04">
     <name text="Clydebank &amp; Milngavie"/>
-    <name text="Clydebank and Milngavie"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/142">
+    <name text="Clydebank and Milngavie"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/142" todate="2005-05-04">
     <name text="Clydesdale"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/143">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/143" todate="2005-05-04">
     <name text="Coatbridge &amp; Chryston"/>
-    <name text="Coatbridge and Chryston"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/144">
+    <name text="Coatbridge and Chryston"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/144" todate="9999-12-31">
     <name text="Colchester"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/145">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/145" todate="9999-12-31">
     <name text="Colne Valley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/146">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/146" todate="9999-12-31">
     <name text="Congleton"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/147">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/147" todate="9999-12-31">
     <name text="Conwy"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/148">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/148" todate="9999-12-31">
     <name text="Copeland"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/149">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/149" todate="9999-12-31">
     <name text="Corby"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/150">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/150" todate="9999-12-31">
     <name text="Cotswold"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/151">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/151" todate="9999-12-31">
     <name text="Coventry North East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/152">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/152" todate="9999-12-31">
     <name text="Coventry North West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/153">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/153" todate="9999-12-31">
     <name text="Coventry South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/154">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/154" todate="9999-12-31">
     <name text="Crawley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/155">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/155" todate="9999-12-31">
     <name text="Crewe &amp; Nantwich"/>
-    <name text="Crewe and Nantwich"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/156">
+    <name text="Crewe and Nantwich"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/156" todate="9999-12-31">
     <name text="Crosby"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/157">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/157" todate="9999-12-31">
     <name text="Croydon Central"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/158">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/158" todate="9999-12-31">
     <name text="Croydon North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/159">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/159" todate="9999-12-31">
     <name text="Croydon South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/160">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/160" todate="2005-05-04">
     <name text="Cumbernauld &amp; Kilsyth"/>
-    <name text="Cumbernauld and Kilsyth"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/161">
+    <name text="Cumbernauld and Kilsyth"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/161" todate="2005-05-04">
     <name text="Cunninghame North"/>
-    <name text="Cuninghame North"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/162">
+    <name text="Cuninghame North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/162" todate="2005-05-04">
     <name text="Cunninghame South"/>
-    <name text="Cuninghame South"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/163">
+    <name text="Cuninghame South"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/163" todate="9999-12-31">
     <name text="Cynon Valley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/164">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/164" todate="9999-12-31">
     <name text="Dagenham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/165">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/165" todate="9999-12-31">
     <name text="Darlington"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/166">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/166" todate="9999-12-31">
     <name text="Dartford"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/167">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/167" todate="9999-12-31">
     <name text="Daventry"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/168">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/168" todate="9999-12-31">
     <name text="Delyn"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/169">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/169" todate="9999-12-31">
     <name text="Denton &amp; Reddish"/>
-    <name text="Denton and Reddish"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/170">
+    <name text="Denton and Reddish"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/170" todate="9999-12-31">
     <name text="Derby North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/171">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/171" todate="9999-12-31">
     <name text="Derby South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/172">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/172" todate="9999-12-31">
     <name text="Devizes"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/173">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/173" todate="9999-12-31">
     <name text="Dewsbury"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/174">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/174" todate="9999-12-31">
     <name text="Don Valley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/175">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/175" todate="9999-12-31">
     <name text="Doncaster Central"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/176">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/176" todate="9999-12-31">
     <name text="Doncaster North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/177">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/177" todate="9999-12-31">
     <name text="Dover"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/178">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/178" todate="9999-12-31">
     <name text="Dudley North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/179">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/179" todate="9999-12-31">
     <name text="Dudley South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/180">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/180" todate="9999-12-31">
     <name text="Dulwich &amp; West Norwood"/>
-    <name text="Dulwich and West Norwood"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/181">
+    <name text="Dulwich and West Norwood"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/181" todate="2005-05-04">
     <name text="Dumbarton"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/182">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/182" todate="2005-05-04">
     <name text="Dumfries"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/183">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/183" todate="2005-05-04">
     <name text="Dundee East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/184">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/184" todate="2005-05-04">
     <name text="Dundee West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/185">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/185" todate="2005-05-04">
     <name text="Dunfermline East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/186">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/186" todate="2005-05-04">
     <name text="Dunfermline West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/187">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/187" todate="9999-12-31">
     <name text="Durham, City of"/>
-    <name text="City of Durham"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/188">
+    <name text="City of Durham"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/188" todate="9999-12-31">
     <name text="Ealing North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/189">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/189" todate="9999-12-31">
     <name text="Ealing, Acton &amp; Shepherd's Bush"/>
-    <name text="Ealing, Acton and Shepherd's Bush"/> <!-- ONS -->
-    <name text="Ealing Acton and Shepherd's Bush"/> <!-- edm.ais.co.uk -->
-    <name text="Ealing Acton &amp; Shepherd's Bush"/> <!-- BBC politics db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/190">
+    <name text="Ealing, Acton and Shepherd's Bush"/>
+    <name text="Ealing Acton and Shepherd's Bush"/>
+    <name text="Ealing Acton &amp; Shepherd's Bush"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/190" todate="9999-12-31">
     <name text="Ealing, Southall"/>
-    <name text="Ealing Southall"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/191">
+    <name text="Ealing Southall"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/191" todate="9999-12-31">
     <name text="Easington"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/192">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/192" todate="9999-12-31">
     <name text="East Antrim"/>
-    <name text="Antrim East"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/193">
+    <name text="Antrim East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/193" todate="9999-12-31">
     <name text="East Devon"/>
-    <name text="Devon East"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/194">
+    <name text="Devon East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/194" todate="9999-12-31">
     <name text="East Ham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/195">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/195" todate="9999-12-31">
     <name text="East Hampshire"/>
-    <name text="Hampshire East"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/196">
+    <name text="Hampshire East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/196" todate="2005-05-04">
     <name text="East Kilbride"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/197">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/197" todate="9999-12-31">
     <name text="East Londonderry"/>
-    <name text="Londonderry East"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/198">
+    <name text="Londonderry East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/198" todate="2005-05-04">
     <name text="East Lothian"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/199">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/199" todate="9999-12-31">
     <name text="East Surrey"/>
-    <name text="Surrey East"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/200">
+    <name text="Surrey East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/200" todate="9999-12-31">
     <name text="East Worthing &amp; Shoreham"/>
-    <name text="East Worthing and Shoreham"/> <!-- ONS -->
-    <name text="Worthing East and Shoreham"/> <!-- FaxYourMP index -->
-    <name text="Worthing East &amp; Shoreham"/> <!-- BBC politics db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/201">
+    <name text="East Worthing and Shoreham"/>
+    <name text="Worthing East and Shoreham"/>
+    <name text="Worthing East &amp; Shoreham"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/201" todate="9999-12-31">
     <name text="East Yorkshire"/>
-    <name text="Yorkshire East"/> <!-- FaxYourMP index -->
-    <name text="E Yorkshire"/> <!-- Divisions -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/202">
+    <name text="Yorkshire East"/>
+    <name text="E Yorkshire"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/202" todate="9999-12-31">
     <name text="Eastbourne"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/203">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/203" todate="9999-12-31">
     <name text="Eastleigh"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/204">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/204" todate="9999-12-31">
+    <name text="Renfrewshire East"/>
     <name text="Eastwood"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/205">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/205" todate="9999-12-31">
     <name text="Eccles"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/206">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/206" todate="9999-12-31">
     <name text="Eddisbury"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/207">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/207" todate="2005-05-04">
     <name text="Edinburgh Central"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/208">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/208" todate="2005-05-04">
     <name text="Edinburgh East &amp; Musselburgh"/>
-    <name text="Edinburgh East and Musselburgh"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/209">
+    <name text="Edinburgh East and Musselburgh"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/209" todate="2005-05-04">
     <name text="Edinburgh North &amp; Leith"/>
-    <name text="Edinburgh North and Leith"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/210">
+    <name text="Edinburgh North and Leith"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/210" todate="2005-05-04">
     <name text="Edinburgh South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/211">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/211" todate="2005-05-04">
     <name text="Edinburgh West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/212">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/212" todate="2005-05-04">
     <name text="Edinburgh, Pentlands"/>
-    <name text="Edinburgh Pentlands"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/213">
+    <name text="Edinburgh Pentlands"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/213" todate="9999-12-31">
     <name text="Edmonton"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/214">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/214" todate="9999-12-31">
     <name text="Ellesmere Port &amp; Neston"/>
-    <name text="Ellesmere Port and Neston"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/215">
+    <name text="Ellesmere Port and Neston"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/215" todate="9999-12-31">
     <name text="Elmet"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/216">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/216" todate="9999-12-31">
     <name text="Eltham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/217">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/217" todate="9999-12-31">
     <name text="Enfield North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/218">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/218" todate="9999-12-31">
     <name text="Enfield, Southgate"/>
-    <name text="Enfield Southgate"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/219">
+    <name text="Enfield Southgate"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/219" todate="9999-12-31">
     <name text="Epping Forest"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/220">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/220" todate="9999-12-31">
     <name text="Epsom &amp; Ewell"/>
-    <name text="Epson and Ewell"/> <!-- ONS -->
-    <name text="Epsom and Ewell"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/221">
+    <name text="Epson and Ewell"/>
+    <name text="Epsom and Ewell"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/221" todate="9999-12-31">
     <name text="Erewash"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/222">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/222" todate="9999-12-31">
     <name text="Erith &amp; Thamesmead"/>
-    <name text="Erith and Thamesmead"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/223">
+    <name text="Erith and Thamesmead"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/223" todate="9999-12-31">
     <name text="Esher &amp; Walton"/>
-    <name text="Esher and Walton"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/224">
+    <name text="Esher and Walton"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/224" todate="9999-12-31">
     <name text="Exeter"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/225">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/225" todate="2005-05-04">
     <name text="Falkirk East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/226">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/226" todate="2005-05-04">
     <name text="Falkirk West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/227">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/227" todate="9999-12-31">
     <name text="Falmouth &amp; Camborne"/>
-    <name text="Falmouth and Camborne"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/228">
+    <name text="Falmouth and Camborne"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/228" todate="9999-12-31">
     <name text="Fareham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/229">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/229" todate="9999-12-31">
     <name text="Faversham &amp; Mid Kent"/>
-    <name text="Faversham and Mid Kent"/> <!-- ONS -->
-    <name text="Faversham &amp; Kent Mid"/> <!-- BBC politics db -->
-    <name text="Faversham and Mid-Kent"/> <!-- regmem -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/230">
+    <name text="Faversham and Mid Kent"/>
+    <name text="Faversham &amp; Kent Mid"/>
+    <name text="Faversham and Mid-Kent"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/230" todate="9999-12-31">
     <name text="Feltham &amp; Heston"/>
-    <name text="Feltham and Heston"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/231">
+    <name text="Feltham and Heston"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/231" todate="9999-12-31">
     <name text="Fermanagh &amp; South Tyrone"/>
-    <name text="Fermanagh and South Tyrone"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/232">
+    <name text="Fermanagh and South Tyrone"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/232" todate="9999-12-31">
     <name text="Finchley &amp; Golders Green"/>
-    <name text="Finchley and Golders Green"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/233">
+    <name text="Finchley and Golders Green"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/233" todate="9999-12-31">
     <name text="Folkestone &amp; Hythe"/>
-    <name text="Folkestone and Hythe"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/234">
+    <name text="Folkestone and Hythe"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/234" todate="9999-12-31">
     <name text="Forest of Dean"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/235">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/235" todate="9999-12-31">
     <name text="Foyle"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/236">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/236" todate="9999-12-31">
     <name text="Fylde"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/237">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/237" todate="9999-12-31">
     <name text="Gainsborough"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/238">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/238" todate="2005-05-04">
     <name text="Galloway &amp; Upper Nithsdale"/>
-    <name text="Galloway and Upper Nithsdale"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/239">
+    <name text="Galloway and Upper Nithsdale"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/239" todate="9999-12-31">
     <name text="Gateshead East &amp; Washington West"/>
-    <name text="Gateshead East and Washington West"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/240">
+    <name text="Gateshead East and Washington West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/240" todate="9999-12-31">
     <name text="Gedling"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/241">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/241" todate="9999-12-31">
     <name text="Gillingham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/242">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/242" todate="2005-05-04">
     <name text="Glasgow, Anniesland"/>
-    <name text="Glasgow Anniesland"/> <!-- ONS -->
-    <name text="Glasgow Aniesland"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/243">
+    <name text="Glasgow Anniesland"/>
+    <name text="Glasgow Aniesland"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/243" todate="2005-05-04">
     <name text="Glasgow, Baillieston"/>
-    <name text="Glasgow Baillieston"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/244">
+    <name text="Glasgow Baillieston"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/244" todate="2005-05-04">
     <name text="Glasgow, Cathcart"/>
-    <name text="Glasgow Cathcart"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/245">
+    <name text="Glasgow Cathcart"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/245" todate="2005-05-04">
     <name text="Glasgow, Govan"/>
-    <name text="Glasgow Govan"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/246">
+    <name text="Glasgow Govan"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/246" todate="2005-05-04">
     <name text="Glasgow, Kelvin"/>
-    <name text="Glasgow Kelvin"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/247">
+    <name text="Glasgow Kelvin"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/247" todate="2005-05-04">
     <name text="Glasgow, Maryhill"/>
-    <name text="Glasgow Maryhill"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/248">
+    <name text="Glasgow Maryhill"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/248" todate="2005-05-04">
     <name text="Glasgow, Pollok"/>
-    <name text="Glasgow Pollok"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/249">
+    <name text="Glasgow Pollok"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/249" todate="2005-05-04">
     <name text="Glasgow, Rutherglen"/>
-    <name text="Glasgow Rutherglen"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/250">
+    <name text="Glasgow Rutherglen"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/250" todate="2005-05-04">
     <name text="Glasgow, Shettleston"/>
-    <name text="Glasgow Shettleston"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/251">
+    <name text="Glasgow Shettleston"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/251" todate="2005-05-04">
     <name text="Glasgow, Springburn"/>
-    <name text="Glasgow Springburn"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/252">
+    <name text="Glasgow Springburn"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/252" todate="9999-12-31">
     <name text="Gloucester"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/253">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/253" todate="2005-05-04">
     <name text="Gordon"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/254">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/254" todate="9999-12-31">
     <name text="Gosport"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/255">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/255" todate="9999-12-31">
     <name text="Gower"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/256">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/256" todate="9999-12-31">
     <name text="Grantham &amp; Stamford"/>
-    <name text="Grantham and Stamford"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/257">
+    <name text="Grantham and Stamford"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/257" todate="9999-12-31">
     <name text="Gravesham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/258">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/258" todate="9999-12-31">
     <name text="Great Grimsby"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/259">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/259" todate="9999-12-31">
     <name text="Great Yarmouth"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/260">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/260" todate="2005-05-04">
     <name text="Greenock &amp; Inverclyde"/>
-    <name text="Greenock and Inverclyde"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/261">
+    <name text="Greenock and Inverclyde"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/261" todate="9999-12-31">
     <name text="Greenwich &amp; Woolwich"/>
-    <name text="Greenwich and Woolwich"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/262">
+    <name text="Greenwich and Woolwich"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/262" todate="9999-12-31">
     <name text="Guildford"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/263">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/263" todate="9999-12-31">
     <name text="Hackney North &amp; Stoke Newington"/>
-    <name text="Hackney North and Stoke Newington"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/264">
+    <name text="Hackney North and Stoke Newington"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/264" todate="9999-12-31">
     <name text="Hackney South &amp; Shoreditch"/>
-    <name text="Hackney South and Shoreditch"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/265">
+    <name text="Hackney South and Shoreditch"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/265" todate="9999-12-31">
     <name text="Halesowen &amp; Rowley Regis"/>
-    <name text="Halesowen and Rowley Regis"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/266">
+    <name text="Halesowen and Rowley Regis"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/266" todate="9999-12-31">
     <name text="Halifax"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/267">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/267" todate="9999-12-31">
     <name text="Haltemprice &amp; Howden"/>
-    <name text="Haltemprice and Howden"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/268">
+    <name text="Haltemprice and Howden"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/268" todate="9999-12-31">
     <name text="Halton"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/269">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/269" todate="2005-05-04">
     <name text="Hamilton North &amp; Bellshill"/>
-    <name text="Hamilton North and Bellshill"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/270">
+    <name text="Hamilton North and Bellshill"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/270" todate="2005-05-04">
     <name text="Hamilton South"/>
-    <name text="Hamilton, South"/> <!-- regmem -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/271">
+    <name text="Hamilton, South"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/271" todate="9999-12-31">
     <name text="Hammersmith &amp; Fulham"/>
-    <name text="Hammersmith and Fulham"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/272">
+    <name text="Hammersmith and Fulham"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/272" todate="9999-12-31">
     <name text="Hampstead &amp; Highgate"/>
-    <name text="Hampstead and Highgate"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/273">
+    <name text="Hampstead and Highgate"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/273" todate="9999-12-31">
     <name text="Harborough"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/274">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/274" todate="9999-12-31">
     <name text="Harlow"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/275">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/275" todate="9999-12-31">
     <name text="Harrogate &amp; Knaresborough"/>
-    <name text="Harrogate and Knaresborough"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/276">
+    <name text="Harrogate and Knaresborough"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/276" todate="9999-12-31">
     <name text="Harrow East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/277">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/277" todate="9999-12-31">
     <name text="Harrow West"/>
-    <name text="Harrow, West"/> <!-- Debates -->
-    <name text="Harrow W"/> <!-- Debates -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/278">
+    <name text="Harrow, West"/>
+    <name text="Harrow W"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/278" todate="9999-12-31">
     <name text="Hartlepool"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/279">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/279" todate="9999-12-31">
     <name text="Harwich"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/280">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/280" todate="9999-12-31">
     <name text="Hastings &amp; Rye"/>
-    <name text="Hastings and Rye"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/281">
+    <name text="Hastings and Rye"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/281" todate="9999-12-31">
     <name text="Havant"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/282">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/282" todate="9999-12-31">
     <name text="Hayes &amp; Harlington"/>
-    <name text="Hayes and Harlington"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/283">
+    <name text="Hayes and Harlington"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/283" todate="9999-12-31">
     <name text="Hazel Grove"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/284">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/284" todate="9999-12-31">
     <name text="Hemel Hempstead"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/285">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/285" todate="9999-12-31">
     <name text="Hemsworth"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/286">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/286" todate="9999-12-31">
     <name text="Hendon"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/287">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/287" todate="9999-12-31">
     <name text="Henley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/288">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/288" todate="9999-12-31">
     <name text="Hereford"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/289">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/289" todate="9999-12-31">
     <name text="Hertford &amp; Stortford"/>
-    <name text="Hertford and Stortford"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/290">
+    <name text="Hertford and Stortford"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/290" todate="9999-12-31">
     <name text="Hertsmere"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/291">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/291" todate="9999-12-31">
     <name text="Hexham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/292">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/292" todate="9999-12-31">
     <name text="Heywood &amp; Middleton"/>
-    <name text="Heywood and Middleton"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/293">
+    <name text="Heywood and Middleton"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/293" todate="9999-12-31">
     <name text="High Peak"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/294">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/294" todate="9999-12-31">
     <name text="Hitchin &amp; Harpenden"/>
-    <name text="Hitchin and Harpenden"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/295">
+    <name text="Hitchin and Harpenden"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/295" todate="9999-12-31">
     <name text="Holborn &amp; St Pancras"/>
-    <name text="Holborn and St Pancras"/> <!-- ONS -->
-    <name text="Holborn and St. Pancras"/> <!-- BBC -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/296">
+    <name text="Holborn and St Pancras"/>
+    <name text="Holborn and St. Pancras"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/296" todate="9999-12-31">
     <name text="Hornchurch"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/297">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/297" todate="9999-12-31">
     <name text="Hornsey &amp; Wood Green"/>
-    <name text="Hornsey and Wood Green"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/298">
+    <name text="Hornsey and Wood Green"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/298" todate="9999-12-31">
     <name text="Horsham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/299">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/299" todate="9999-12-31">
     <name text="Houghton &amp; Washington East"/>
-    <name text="Houghton and Washington East"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/300">
+    <name text="Houghton and Washington East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/300" todate="9999-12-31">
     <name text="Hove"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/301">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/301" todate="9999-12-31">
     <name text="Huddersfield"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/302">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/302" todate="9999-12-31">
     <name text="Huntingdon"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/303">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/303" todate="9999-12-31">
     <name text="Hyndburn"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/304">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/304" todate="9999-12-31">
     <name text="Ilford North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/305">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/305" todate="9999-12-31">
     <name text="Ilford South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/306">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/306" todate="2005-05-04">
     <name text="Inverness East, Nairn &amp; Lochaber"/>
-    <name text="Inverness East, Nairn and Lochaber"/> <!-- ONS -->
-    <name text="Inverness East Nairn and Lochaber"/> <!-- edm.ais.co.uk -->
-    <name text="Inverness East Nairn &amp; Lochaber"/> <!-- New BBC db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/307">
+    <name text="Inverness East, Nairn and Lochaber"/>
+    <name text="Inverness East Nairn and Lochaber"/>
+    <name text="Inverness East Nairn &amp; Lochaber"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/307" todate="9999-12-31">
     <name text="Ipswich"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/308">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/308" todate="9999-12-31">
     <name text="Isle of Wight"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/309">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/309" todate="9999-12-31">
     <name text="Islington North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/310">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/310" todate="9999-12-31">
     <name text="Islington South &amp; Finsbury"/>
-    <name text="Islington South and Finsbury"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/311">
+    <name text="Islington South and Finsbury"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/311" todate="9999-12-31">
     <name text="Islwyn"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/312">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/312" todate="9999-12-31">
     <name text="Jarrow"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/313">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/313" todate="9999-12-31">
     <name text="Keighley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/314">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/314" todate="9999-12-31">
     <name text="Kensington &amp; Chelsea"/>
-    <name text="Kensington and Chelsea"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/315">
+    <name text="Kensington and Chelsea"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/315" todate="9999-12-31">
     <name text="Kettering"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/316">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/316" todate="2005-05-04">
     <name text="Kilmarnock &amp; Loudoun"/>
-    <name text="Kilmarnock and Loudoun"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/317">
+    <name text="Kilmarnock and Loudoun"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/317" todate="9999-12-31">
     <name text="Kingston &amp; Surbiton"/>
-    <name text="Kingston and Surbiton"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/318">
+    <name text="Kingston and Surbiton"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/318" todate="9999-12-31">
     <name text="Kingston upon Hull East"/>
-    <name text="Hull East"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/319">
+    <name text="Hull East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/319" todate="9999-12-31">
     <name text="Kingston upon Hull North"/>
-    <name text="Hull North"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/320">
+    <name text="Hull North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/320" todate="9999-12-31">
     <name text="Kingston upon Hull West &amp; Hessle"/>
-    <name text="Kingston upon Hull West and Hessle"/> <!-- ONS -->
-    <name text="Hull West and Hessle"/> <!-- FaxYourMP index -->
-    <name text="Hull West &amp; Hessle"/> <!-- BBC politics db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/321">
+    <name text="Kingston upon Hull West and Hessle"/>
+    <name text="Hull West and Hessle"/>
+    <name text="Hull West &amp; Hessle"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/321" todate="9999-12-31">
     <name text="Kingswood"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/322">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/322" todate="2005-05-04">
     <name text="Kirkcaldy"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/323">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/323" todate="9999-12-31">
     <name text="Knowsley North &amp; Sefton East"/>
-    <name text="Knowsley North and Sefton East"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/324">
+    <name text="Knowsley North and Sefton East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/324" todate="9999-12-31">
     <name text="Knowsley South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/325">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/325" todate="9999-12-31">
     <name text="Lagan Valley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/326">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/326" todate="9999-12-31">
     <name text="Lancaster &amp; Wyre"/>
-    <name text="Lancaster and Wyre"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/327">
+    <name text="Lancaster and Wyre"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/327" todate="9999-12-31">
     <name text="Leeds Central"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/328">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/328" todate="9999-12-31">
     <name text="Leeds East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/329">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/329" todate="9999-12-31">
     <name text="Leeds North East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/330">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/330" todate="9999-12-31">
     <name text="Leeds North West"/>
     <name text="Leeds, North-West"/>
-    <name text="North West Leeds"/> <!-- regmem -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/331">
+    <name text="North West Leeds"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/331" todate="9999-12-31">
     <name text="Leeds West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/332">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/332" todate="9999-12-31">
     <name text="Leicester East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/333">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/333" todate="9999-12-31">
     <name text="Leicester South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/334">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/334" todate="9999-12-31">
     <name text="Leicester West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/335">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/335" todate="9999-12-31">
     <name text="Leigh"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/336">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/336" todate="9999-12-31">
     <name text="Leominster"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/337">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/337" todate="9999-12-31">
     <name text="Lewes"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/338">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/338" todate="9999-12-31">
     <name text="Lewisham East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/339">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/339" todate="9999-12-31">
     <name text="Lewisham West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/340">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/340" todate="9999-12-31">
     <name text="Lewisham, Deptford"/>
-    <name text="Lewisham Deptford"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/341">
+    <name text="Lewisham Deptford"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/341" todate="9999-12-31">
     <name text="Leyton &amp; Wanstead"/>
-    <name text="Leyton and Wanstead"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/342">
+    <name text="Leyton and Wanstead"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/342" todate="9999-12-31">
     <name text="Lichfield"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/343">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/343" todate="9999-12-31">
     <name text="Lincoln"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/344">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/344" todate="2005-05-04">
     <name text="Linlithgow"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/345">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/345" todate="9999-12-31">
     <name text="Liverpool, Garston"/>
-    <name text="Liverpool Garston"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/346">
+    <name text="Liverpool Garston"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/346" todate="9999-12-31">
     <name text="Liverpool, Riverside"/>
-    <name text="Liverpool Riverside"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/347">
+    <name text="Liverpool Riverside"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/347" todate="9999-12-31">
     <name text="Liverpool, Walton"/>
-    <name text="Liverpool Walton"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/348">
+    <name text="Liverpool Walton"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/348" todate="9999-12-31">
     <name text="Liverpool, Wavertree"/>
-    <name text="Liverpool Wavertree"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/349">
+    <name text="Liverpool Wavertree"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/349" todate="9999-12-31">
     <name text="Liverpool, West Derby"/>
-    <name text="Liverpool West Derby"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/350">
+    <name text="Liverpool West Derby"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/350" todate="2005-05-04">
     <name text="Livingston"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/351">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/351" todate="9999-12-31">
     <name text="Llanelli"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/352">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/352" todate="9999-12-31">
     <name text="Loughborough"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/353">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/353" todate="9999-12-31">
     <name text="Louth &amp; Horncastle"/>
-    <name text="Louth and Horncastle"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/354">
+    <name text="Louth and Horncastle"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/354" todate="9999-12-31">
     <name text="Ludlow"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/355">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/355" todate="9999-12-31">
     <name text="Luton North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/356">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/356" todate="9999-12-31">
     <name text="Luton South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/357">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/357" todate="9999-12-31">
     <name text="Macclesfield"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/358">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/358" todate="9999-12-31">
     <name text="Maidenhead"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/359">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/359" todate="9999-12-31">
     <name text="Maidstone &amp; The Weald"/>
-    <name text="Maidstone and The Weald"/> <!-- ONS -->
-    <name text="Maidstone and the Weald"/> <!-- edm.ais.co.uk -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/360">
+    <name text="Maidstone and The Weald"/>
+    <name text="Maidstone and the Weald"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/360" todate="9999-12-31">
     <name text="Makerfield"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/361">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/361" todate="9999-12-31">
     <name text="Maldon &amp; East Chelmsford"/>
-    <name text="Maldon and East Chelmsford"/> <!-- ONS -->
-    <name text="Maldon and Chelmsford East"/> <!-- FaxYourMP index -->
-    <name text="Maldon &amp; Chelmsford East"/> <!-- BBC politics db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/362">
+    <name text="Maldon and East Chelmsford"/>
+    <name text="Maldon and Chelmsford East"/>
+    <name text="Maldon &amp; Chelmsford East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/362" todate="9999-12-31">
     <name text="Manchester Central"/>
-    <name text="Manchester, Central"/> <!-- BBC -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/363">
+    <name text="Manchester, Central"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/363" todate="9999-12-31">
     <name text="Manchester, Blackley"/>
-    <name text="Manchester Blackley"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/364">
+    <name text="Manchester Blackley"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/364" todate="9999-12-31">
     <name text="Manchester, Gorton"/>
-    <name text="Manchester Gorton"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/365">
+    <name text="Manchester Gorton"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/365" todate="9999-12-31">
     <name text="Manchester, Withington"/>
-    <name text="Manchester Withington"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/366">
+    <name text="Manchester Withington"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/366" todate="9999-12-31">
     <name text="Mansfield"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/367">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/367" todate="9999-12-31">
     <name text="Medway"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/368">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/368" todate="9999-12-31">
     <name text="Meirionnydd Nant Conwy"/>
-    <name text="Meirionydd Nant Conwy"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/369">
+    <name text="Meirionydd Nant Conwy"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/369" todate="9999-12-31">
     <name text="Meriden"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/370">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/370" todate="9999-12-31">
     <name text="Merthyr Tydfil &amp; Rhymney"/>
-    <name text="Merthyr Tydfil and Rhymney"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/371">
+    <name text="Merthyr Tydfil and Rhymney"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/371" todate="9999-12-31">
     <name text="Mid Bedfordshire"/>
-    <name text="Bedfordshire Mid"/> <!-- FaxYourMP index -->
-    <name text="Mid-Bedfordshire"/> <!-- regmem -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/372">
+    <name text="Bedfordshire Mid"/>
+    <name text="Mid-Bedfordshire"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/372" todate="9999-12-31">
     <name text="Mid Dorset &amp; North Poole"/>
-    <name text="Mid Dorset and North Poole"/> <!-- ONS -->
-    <name text="Dorset Mid and Poole North"/> <!-- FaxYourMP index -->
-    <name text="Mid Dorset and Poole North"/> <!-- Guardian -->
-    <name text="Dorset Mid &amp; Poole North"/> <!-- BBC politics db -->
-    <name text="Mid-Dorset and North Poole"/> <!-- regmem -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/373">
+    <name text="Mid Dorset and North Poole"/>
+    <name text="Dorset Mid and Poole North"/>
+    <name text="Mid Dorset and Poole North"/>
+    <name text="Dorset Mid &amp; Poole North"/>
+    <name text="Mid-Dorset and North Poole"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/373" todate="9999-12-31">
     <name text="Mid Norfolk"/>
-    <name text="Norfolk Mid"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/374">
+    <name text="Norfolk Mid"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/374" todate="9999-12-31">
     <name text="Mid Sussex"/>
-    <name text="Sussex Mid"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/375">
+    <name text="Sussex Mid"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/375" todate="9999-12-31">
     <name text="Mid Ulster"/>
-    <name text="Ulster Mid"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/376">
+    <name text="Ulster Mid"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/376" todate="9999-12-31">
     <name text="Mid Worcestershire"/>
-    <name text="Worcestershire Mid"/> <!-- FaxYourMP index -->
+    <name text="Worcestershire Mid"/>
     <name text="Mid Worcester"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/377">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/377" todate="9999-12-31">
     <name text="Middlesbrough"/>
-    <name text="Middlesborough"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/378">
+    <name text="Middlesborough"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/378" todate="9999-12-31">
     <name text="Middlesbrough South &amp; East Cleveland"/>
-    <name text="Middlesborough South and East Cleveland"/> <!-- ONS -->
-    <name text="Middlesbrough South and East Cleveland"/> <!-- FaxYourMP index -->
-    <name text="Middlesbrough South &amp; Cleveland East"/> <!-- BBC politics db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/379">
+    <name text="Middlesborough South and East Cleveland"/>
+    <name text="Middlesbrough South and East Cleveland"/>
+    <name text="Middlesbrough South &amp; Cleveland East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/379" todate="2005-05-04">
     <name text="Midlothian"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/380">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/380" todate="9999-12-31">
     <name text="Milton Keynes South West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/381">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/381" todate="9999-12-31">
     <name text="Mitcham &amp; Morden"/>
-    <name text="Mitcham and Morden"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/382">
+    <name text="Mitcham and Morden"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/382" todate="9999-12-31">
     <name text="Mole Valley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/383">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/383" todate="9999-12-31">
     <name text="Monmouth"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/384">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/384" todate="9999-12-31">
     <name text="Montgomeryshire"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/385">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/385" todate="2005-05-04">
     <name text="Moray"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/386">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/386" todate="9999-12-31">
     <name text="Morecambe &amp; Lunesdale"/>
-    <name text="Morecambe and Lunesdale"/> <!-- ONS -->
-    <name text="Morecombe and Lunesdale"/> <!-- regmem -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/387">
+    <name text="Morecambe and Lunesdale"/>
+    <name text="Morecombe and Lunesdale"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/387" todate="9999-12-31">
     <name text="Morley &amp; Rothwell"/>
-    <name text="Morley and Rothwell"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/388">
+    <name text="Morley and Rothwell"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/388" todate="2005-05-04">
     <name text="Motherwell &amp; Wishaw"/>
-    <name text="Motherwell and Wishaw"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/389">
+    <name text="Motherwell and Wishaw"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/389" todate="9999-12-31">
     <name text="Neath"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/390">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/390" todate="9999-12-31">
     <name text="New Forest East"/>
-    <name text="New Forest E"/> <!-- Divisions -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/391">
+    <name text="New Forest E"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/391" todate="9999-12-31">
     <name text="New Forest West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/392">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/392" todate="9999-12-31">
     <name text="Newark"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/393">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/393" todate="9999-12-31">
     <name text="Newbury"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/394">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/394" todate="9999-12-31">
     <name text="Newcastle upon Tyne Central"/>
-    <name text="Newcastle-upon-Tyne Central"/> <!-- regmem -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/395">
+    <name text="Newcastle-upon-Tyne Central"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/395" todate="9999-12-31">
     <name text="Newcastle upon Tyne East &amp; Wallsend"/>
-    <name text="Newcastle upon Tyne East and Wallsend"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/396">
+    <name text="Newcastle upon Tyne East and Wallsend"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/396" todate="9999-12-31">
     <name text="Newcastle upon Tyne North"/>
-    <name text="Newcastle-upon-Tyne, North"/> <!-- regmem -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/397">
+    <name text="Newcastle-upon-Tyne, North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/397" todate="9999-12-31">
     <name text="Newcastle-under-Lyme"/>
-    <name text="Newcastle under Lyme"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/398">
+    <name text="Newcastle under Lyme"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/398" todate="9999-12-31">
     <name text="Newport East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/399">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/399" todate="9999-12-31">
     <name text="Newport West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/400">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/400" todate="9999-12-31">
     <name text="Newry &amp; Armagh"/>
-    <name text="Newry and Armagh"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/401">
+    <name text="Newry and Armagh"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/401" todate="9999-12-31">
     <name text="Normanton"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/402">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/402" todate="9999-12-31">
     <name text="North Antrim"/>
-    <name text="Antrim North"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/403">
+    <name text="Antrim North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/403" todate="9999-12-31">
     <name text="North Cornwall"/>
-    <name text="Cornwall North"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/404">
+    <name text="Cornwall North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/404" todate="9999-12-31">
     <name text="North Devon"/>
-    <name text="Devon North"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/405">
+    <name text="Devon North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/405" todate="9999-12-31">
     <name text="North Dorset"/>
-    <name text="Dorset North"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/406">
+    <name text="Dorset North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/406" todate="9999-12-31">
     <name text="North Down"/>
-    <name text="Down North"/> <!-- BBC politics db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/407">
+    <name text="Down North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/407" todate="9999-12-31">
     <name text="North Durham"/>
-    <name text="Durham North"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/408">
+    <name text="Durham North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/408" todate="9999-12-31">
     <name text="North East Bedfordshire"/>
-    <name text="Bedfordshire North East"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/409">
+    <name text="Bedfordshire North East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/409" todate="9999-12-31">
     <name text="North East Cambridgeshire"/>
-    <name text="Cambridgeshire North East"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/410">
+    <name text="Cambridgeshire North East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/410" todate="9999-12-31">
     <name text="North East Derbyshire"/>
-    <name text="Derbyshire North East"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/411">
+    <name text="Derbyshire North East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/411" todate="2005-05-04">
     <name text="North East Fife"/>
-    <name text="Fife North East"/> <!-- FaxYourMP index -->
-    <name text="NE Fife"/> <!-- Division -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/412">
+    <name text="Fife North East"/>
+    <name text="NE Fife"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/412" todate="9999-12-31">
     <name text="North East Hampshire"/>
-    <name text="Hampshire North East"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/413">
+    <name text="Hampshire North East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/413" todate="9999-12-31">
     <name text="North East Hertfordshire"/>
-    <name text="Hertfordshire North East"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/414">
+    <name text="Hertfordshire North East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/414" todate="9999-12-31">
     <name text="North East Milton Keynes"/>
-    <name text="Milton Keynes North East"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/415">
+    <name text="Milton Keynes North East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/415" todate="9999-12-31">
     <name text="North Essex"/>
-    <name text="Essex North"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/416">
+    <name text="Essex North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/416" todate="9999-12-31">
     <name text="North Norfolk"/>
-    <name text="Norfolk North"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/417">
+    <name text="Norfolk North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/417" todate="9999-12-31">
     <name text="North Shropshire"/>
-    <name text="Shropshire North"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/418">
+    <name text="Shropshire North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/418" todate="9999-12-31">
     <name text="North Southwark &amp; Bermondsey"/>
-    <name text="North Southwark and Bermondsey"/> <!-- ONS -->
-    <name text="Southwark North and Bermondsey"/> <!-- FaxYourMP index -->
-    <name text="Southwark North &amp; Bermondsey"/> <!-- BBC politics db -->
-    <name text="Southwark N"/> <!-- Divisions -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/419">
+    <name text="North Southwark and Bermondsey"/>
+    <name text="Southwark North and Bermondsey"/>
+    <name text="Southwark North &amp; Bermondsey"/>
+    <name text="Southwark N"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/419" todate="9999-12-31">
     <name text="North Swindon"/>
-    <name text="Swindon North"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/420">
+    <name text="Swindon North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/420" todate="2005-05-04">
     <name text="North Tayside"/>
-    <name text="Tayside North"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/421">
+    <name text="Tayside North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/421" todate="9999-12-31">
     <name text="North Thanet"/>
     <name text="Thanet North"/>
-    <name text="N Thanet"/> <!-- Divisions -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/422">
+    <name text="N Thanet"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/422" todate="9999-12-31">
     <name text="North Tyneside"/>
-    <name text="Tyneside North"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/423">
+    <name text="Tyneside North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/423" todate="9999-12-31">
     <name text="North Warwickshire"/>
-    <name text="Warwickshire North"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/424">
+    <name text="Warwickshire North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/424" todate="9999-12-31">
     <name text="North West Cambridgeshire"/>
-    <name text="Cambridgeshire North West"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/425">
+    <name text="Cambridgeshire North West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/425" todate="9999-12-31">
     <name text="North West Durham"/>
-    <name text="Durham North West"/> <!-- FaxYourMP index -->
-    <name text="Durham, North West"/> <!-- regmem -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/426">
+    <name text="Durham North West"/>
+    <name text="Durham, North West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/426" todate="9999-12-31">
     <name text="North West Hampshire"/>
-    <name text="Hampshire North West"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/427">
+    <name text="Hampshire North West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/427" todate="9999-12-31">
     <name text="North West Leicestershire"/>
-    <name text="Leicestershire North West"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/428">
+    <name text="Leicestershire North West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/428" todate="9999-12-31">
     <name text="North West Norfolk"/>
-    <name text="Norfolk North West"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/429">
+    <name text="Norfolk North West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/429" todate="9999-12-31">
     <name text="North Wiltshire"/>
-    <name text="Wiltshire North"/> <!-- FaxYourMP index -->
-    <name text="N Wilts"/> <!-- Divisions -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/430">
+    <name text="Wiltshire North"/>
+    <name text="N Wilts"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/430" todate="9999-12-31">
     <name text="Northampton North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/431">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/431" todate="9999-12-31">
     <name text="Northampton South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/432">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/432" todate="9999-12-31">
     <name text="Northavon"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/433">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/433" todate="9999-12-31">
     <name text="Norwich North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/434">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/434" todate="9999-12-31">
     <name text="Norwich South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/435">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/435" todate="9999-12-31">
     <name text="Nottingham East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/436">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/436" todate="9999-12-31">
     <name text="Nottingham North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/437">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/437" todate="9999-12-31">
     <name text="Nottingham South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/438">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/438" todate="9999-12-31">
     <name text="Nuneaton"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/439">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/439" todate="2005-05-04">
     <name text="Ochil"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/440">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/440" todate="9999-12-31">
     <name text="Ogmore"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/441">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/441" todate="9999-12-31">
     <name text="Old Bexley &amp; Sidcup"/>
-    <name text="Old Bexley and Sidcup"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/442">
+    <name text="Old Bexley and Sidcup"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/442" todate="9999-12-31">
     <name text="Oldham East &amp; Saddleworth"/>
-    <name text="Oldham East and Saddleworth"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/443">
+    <name text="Oldham East and Saddleworth"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/443" todate="9999-12-31">
     <name text="Oldham West &amp; Royton"/>
-    <name text="Oldham West and Royton"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/444">
+    <name text="Oldham West and Royton"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/444" todate="9999-12-31">
     <name text="Orkney &amp; Shetland"/>
-    <name text="Orkney and Shetland"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/445">
+    <name text="Orkney and Shetland"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/445" todate="9999-12-31">
     <name text="Orpington"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/446">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/446" todate="9999-12-31">
     <name text="Oxford East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/447">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/447" todate="9999-12-31">
     <name text="Oxford West &amp; Abingdon"/>
-    <name text="Oxford West and Abingdon"/> <!-- ONS -->
-    <name text="Oxford W &amp; Abingdon"/> <!-- Divisions -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/448">
+    <name text="Oxford West and Abingdon"/>
+    <name text="Oxford W &amp; Abingdon"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/448" todate="2005-05-04">
     <name text="Paisley North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/449">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/449" todate="2005-05-04">
     <name text="Paisley South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/450">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/450" todate="9999-12-31">
     <name text="Pendle"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/451">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/451" todate="9999-12-31">
     <name text="Penrith &amp; The Border"/>
-    <name text="Penrith and The Border"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/452">
+    <name text="Penrith and The Border"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/452" todate="2005-05-04">
     <name text="Perth"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/453">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/453" todate="9999-12-31">
     <name text="Peterborough"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/454">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/454" todate="9999-12-31">
     <name text="Plymouth, Devonport"/>
-    <name text="Plymouth Devonport"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/455">
+    <name text="Plymouth Devonport"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/455" todate="9999-12-31">
     <name text="Plymouth, Sutton"/>
-    <name text="Plymouth Sutton"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/456">
+    <name text="Plymouth Sutton"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/456" todate="9999-12-31">
     <name text="Pontefract &amp; Castleford"/>
-    <name text="Pontefract and Castleford"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/457">
+    <name text="Pontefract and Castleford"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/457" todate="9999-12-31">
     <name text="Pontypridd"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/458">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/458" todate="9999-12-31">
     <name text="Poole"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/459">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/459" todate="9999-12-31">
     <name text="Poplar &amp; Canning Town"/>
-    <name text="Poplar and Canning Town"/> <!-- ONS -->
-    <name text="Poplar and Caning Town"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/460">
+    <name text="Poplar and Canning Town"/>
+    <name text="Poplar and Caning Town"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/460" todate="9999-12-31">
     <name text="Portsmouth North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/461">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/461" todate="9999-12-31">
     <name text="Portsmouth South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/462">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/462" todate="9999-12-31">
     <name text="Preseli Pembrokeshire"/>
-    <name text="Preseli, Pembrokeshire"/> <!-- regmem -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/463">
+    <name text="Preseli, Pembrokeshire"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/463" todate="9999-12-31">
     <name text="Preston"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/464">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/464" todate="9999-12-31">
     <name text="Pudsey"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/465">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/465" todate="9999-12-31">
     <name text="Putney"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/466">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/466" todate="9999-12-31">
     <name text="Rayleigh"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/467">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/467" todate="9999-12-31">
     <name text="Reading East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/468">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/468" todate="9999-12-31">
     <name text="Reading West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/469">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/469" todate="9999-12-31">
     <name text="Redcar"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/470">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/470" todate="9999-12-31">
     <name text="Redditch"/>
-    <name text="Reddith"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/471">
+    <name text="Reddith"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/471" todate="9999-12-31">
     <name text="Regent's Park &amp; Kensington North"/>
-    <name text="Regent's Park and Kensington North"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/472">
+    <name text="Regent's Park and Kensington North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/472" todate="9999-12-31">
     <name text="Reigate"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/473">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/473" todate="9999-12-31">
     <name text="Rhondda"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/474">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/474" todate="9999-12-31">
     <name text="Ribble Valley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/475">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/475" todate="9999-12-31">
     <name text="Richmond (Yorks)"/>
-    <name text="Richmond (Yorkshire)"/> <!-- FaxYourMP index -->
-    <name text="Richmond"/> <!-- Guardian -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/476">
+    <name text="Richmond (Yorkshire)"/>
+    <name text="Richmond"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/476" todate="9999-12-31">
     <name text="Richmond Park"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/477">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/477" todate="9999-12-31">
     <name text="Rochdale"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/478">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/478" todate="9999-12-31">
     <name text="Rochford &amp; Southend East"/>
-    <name text="Rochford and Southend East"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/479">
+    <name text="Rochford and Southend East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/479" todate="9999-12-31">
     <name text="Romford"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/480">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/480" todate="9999-12-31">
     <name text="Romsey"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/481">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/481" todate="2005-05-04">
     <name text="Ross, Skye &amp; Inverness West"/>
-    <name text="Ross, Skye and Inverness West"/> <!-- ONS -->
-    <name text="Ross Skye and Inverness West"/> <!-- edm.ais.co.uk -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/482">
+    <name text="Ross, Skye and Inverness West"/>
+    <name text="Ross Skye and Inverness West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/482" todate="9999-12-31">
     <name text="Rossendale &amp; Darwen"/>
-    <name text="Rossendale and Darwen"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/483">
+    <name text="Rossendale and Darwen"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/483" todate="9999-12-31">
     <name text="Rother Valley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/484">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/484" todate="9999-12-31">
     <name text="Rotherham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/485">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/485" todate="2005-05-04">
     <name text="Roxburgh &amp; Berwickshire"/>
-    <name text="Roxburgh and Berwickshire"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/486">
+    <name text="Roxburgh and Berwickshire"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/486" todate="9999-12-31">
     <name text="Rugby &amp; Kenilworth"/>
-    <name text="Rugby and Kenilworth"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/487">
+    <name text="Rugby and Kenilworth"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/487" todate="9999-12-31">
     <name text="Ruislip - Northwood"/>
-    <name text="Ruislip-Northwood"/> <!-- ONS -->
-    <name text="Ruislip Northwood"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/488">
+    <name text="Ruislip-Northwood"/>
+    <name text="Ruislip Northwood"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/488" todate="9999-12-31">
     <name text="Runnymede &amp; Weybridge"/>
-    <name text="Runnymede and Weybridge"/> <!-- ONS -->
-    <name text="Runymede and Weybridge"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/489">
+    <name text="Runnymede and Weybridge"/>
+    <name text="Runymede and Weybridge"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/489" todate="9999-12-31">
     <name text="Rushcliffe"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/490">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/490" todate="9999-12-31">
     <name text="Rutland &amp; Melton"/>
-    <name text="Rutland and Melton"/> <!-- ONS -->
-    <name text="Rutland"/> <!-- Divisions -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/491">
+    <name text="Rutland and Melton"/>
+    <name text="Rutland"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/491" todate="9999-12-31">
     <name text="Ryedale"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/492">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/492" todate="9999-12-31">
     <name text="Saffron Walden"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/493">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/493" todate="9999-12-31">
     <name text="Salford"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/494">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/494" todate="9999-12-31">
     <name text="Salisbury"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/495">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/495" todate="9999-12-31">
     <name text="Scarborough &amp; Whitby"/>
-    <name text="Scarborough and Whitby"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/496">
+    <name text="Scarborough and Whitby"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/496" todate="9999-12-31">
     <name text="Scunthorpe"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/497">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/497" todate="9999-12-31">
     <name text="Sedgefield"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/498">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/498" todate="9999-12-31">
     <name text="Selby"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/499">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/499" todate="9999-12-31">
     <name text="Sevenoaks"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/500">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/500" todate="9999-12-31">
     <name text="Sheffield Central"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/501">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/501" todate="9999-12-31">
     <name text="Sheffield, Attercliffe"/>
-    <name text="Sheffield Attercliffe"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/502">
+    <name text="Sheffield Attercliffe"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/502" todate="9999-12-31">
     <name text="Sheffield, Brightside"/>
-    <name text="Sheffield Brightside"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/503">
+    <name text="Sheffield Brightside"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/503" todate="9999-12-31">
     <name text="Sheffield, Hallam"/>
-    <name text="Sheffield Hallam"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/504">
+    <name text="Sheffield Hallam"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/504" todate="9999-12-31">
     <name text="Sheffield, Heeley"/>
-    <name text="Sheffield Heeley"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/505">
+    <name text="Sheffield Heeley"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/505" todate="9999-12-31">
     <name text="Sheffield, Hillsborough"/>
-    <name text="Sheffield Hillsborough"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/506">
+    <name text="Sheffield Hillsborough"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/506" todate="9999-12-31">
     <name text="Sherwood"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/507">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/507" todate="9999-12-31">
     <name text="Shipley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/508">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/508" todate="9999-12-31">
     <name text="Shrewsbury &amp; Atcham"/>
-    <name text="Shrewsbury and Atcham"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/509">
+    <name text="Shrewsbury and Atcham"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/509" todate="9999-12-31">
     <name text="Sittingbourne &amp; Sheppey"/>
-    <name text="Sittingbourne and Sheppey"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/510">
+    <name text="Sittingbourne and Sheppey"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/510" todate="9999-12-31">
     <name text="Skipton &amp; Ripon"/>
-    <name text="Skipton and Ripon"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/511">
+    <name text="Skipton and Ripon"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/511" todate="9999-12-31">
     <name text="Sleaford &amp; North Hykeham"/>
-    <name text="Sleaford and North Hykeham"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/512">
+    <name text="Sleaford and North Hykeham"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/512" todate="9999-12-31">
     <name text="Slough"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/513">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/513" todate="9999-12-31">
     <name text="Solihull"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/514">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/514" todate="9999-12-31">
     <name text="Somerton &amp; Frome"/>
-    <name text="Somerton and Frome"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/515">
+    <name text="Somerton and Frome"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/515" todate="9999-12-31">
     <name text="South Antrim"/>
-    <name text="Antrim South"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/516">
+    <name text="Antrim South"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/516" todate="9999-12-31">
     <name text="South Cambridgeshire"/>
-    <name text="Cambridgeshire South"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/517">
+    <name text="Cambridgeshire South"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/517" todate="9999-12-31">
     <name text="South Derbyshire"/>
-    <name text="Derbyshire South"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/518">
+    <name text="Derbyshire South"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/518" todate="9999-12-31">
     <name text="South Dorset"/>
-    <name text="Dorset South"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/519">
+    <name text="Dorset South"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/519" todate="9999-12-31">
     <name text="South Down"/>
-    <name text="Down South"/> <!-- BBC politics db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/520">
+    <name text="Down South"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/520" todate="9999-12-31">
     <name text="South East Cambridgeshire"/>
-    <name text="Cambridgeshire South East"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/521">
+    <name text="Cambridgeshire South East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/521" todate="9999-12-31">
     <name text="South East Cornwall"/>
-    <name text="Cornwall South East"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/522">
+    <name text="Cornwall South East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/522" todate="9999-12-31">
     <name text="South Holland &amp; The Deepings"/>
-    <name text="South Holland and The Deepings"/> <!-- ONS -->
-    <name text="South Holland and the Deepings"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/523">
+    <name text="South Holland and The Deepings"/>
+    <name text="South Holland and the Deepings"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/523" todate="9999-12-31">
     <name text="South Norfolk"/>
-    <name text="Norfolk South"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/524">
+    <name text="Norfolk South"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/524" todate="9999-12-31">
     <name text="South Ribble"/>
-    <name text="Ribble South"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/525">
+    <name text="Ribble South"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/525" todate="9999-12-31">
     <name text="South Shields"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/526">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/526" todate="9999-12-31">
     <name text="South Staffordshire"/>
-    <name text="Staffordshire South"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/527">
+    <name text="Staffordshire South"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/527" todate="9999-12-31">
     <name text="South Suffolk"/>
-    <name text="Suffolk South"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/528">
+    <name text="Suffolk South"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/528" todate="9999-12-31">
     <name text="South Swindon"/>
-    <name text="Swindon South"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/529">
+    <name text="Swindon South"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/529" todate="9999-12-31">
     <name text="South Thanet"/>
     <name text="Thanet South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/530">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/530" todate="9999-12-31">
     <name text="South West Bedfordshire"/>
-    <name text="Bedfordshire South West"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/531">
+    <name text="Bedfordshire South West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/531" todate="9999-12-31">
     <name text="South West Devon"/>
-    <name text="Devon South West"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/532">
+    <name text="Devon South West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/532" todate="9999-12-31">
     <name text="South West Hertfordshire"/>
-    <name text="Hertfordshire South West"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/533">
+    <name text="Hertfordshire South West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/533" todate="9999-12-31">
     <name text="South West Norfolk"/>
-    <name text="Norfolk South West"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/534">
+    <name text="Norfolk South West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/534" todate="9999-12-31">
     <name text="South West Surrey"/>
-    <name text="Surrey South West"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/535">
+    <name text="Surrey South West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/535" todate="9999-12-31">
     <name text="Southampton, Itchen"/>
-    <name text="Southampton Itchen"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/536">
+    <name text="Southampton Itchen"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/536" todate="9999-12-31">
     <name text="Southampton, Test"/>
-    <name text="Southampton Test"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/537">
+    <name text="Southampton Test"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/537" todate="9999-12-31">
     <name text="Southend West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/538">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/538" todate="9999-12-31">
     <name text="Southport"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/539">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/539" todate="9999-12-31">
     <name text="Spelthorne"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/540">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/540" todate="9999-12-31">
     <name text="St Albans"/>
-    <name text="St. Albans"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/541">
+    <name text="St. Albans"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/541" todate="9999-12-31">
     <name text="St Helens North"/>
-    <name text="St. Helens North"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/542">
+    <name text="St. Helens North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/542" todate="9999-12-31">
     <name text="St Helens South"/>
-    <name text="St. Helens South"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/543">
+    <name text="St. Helens South"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/543" todate="9999-12-31">
     <name text="St Ives"/>
-    <name text="St. Ives"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/544">
+    <name text="St. Ives"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/544" todate="9999-12-31">
     <name text="Stafford"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/545">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/545" todate="9999-12-31">
     <name text="Staffordshire Moorlands"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/546">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/546" todate="9999-12-31">
     <name text="Stalybridge &amp; Hyde"/>
-    <name text="Stalybridge and Hyde"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/547">
+    <name text="Stalybridge and Hyde"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/547" todate="9999-12-31">
     <name text="Stevenage"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/548">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/548" todate="2005-05-04">
     <name text="Stirling"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/549">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/549" todate="9999-12-31">
     <name text="Stockport"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/550">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/550" todate="9999-12-31">
     <name text="Stockton North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/551">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/551" todate="9999-12-31">
     <name text="Stockton South"/>
-    <name text="Stockport South"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/552">
+    <name text="Stockport South"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/552" todate="9999-12-31">
     <name text="Stoke-on-Trent Central"/>
-    <name text="Stoke on Trent Central"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/553">
+    <name text="Stoke on Trent Central"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/553" todate="9999-12-31">
     <name text="Stoke-on-Trent North"/>
-    <name text="Stoke on Trent North"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/554">
+    <name text="Stoke on Trent North"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/554" todate="9999-12-31">
     <name text="Stoke-on-Trent South"/>
-    <name text="Stoke on Trent South"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/555">
+    <name text="Stoke on Trent South"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/555" todate="9999-12-31">
     <name text="Stone"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/556">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/556" todate="9999-12-31">
     <name text="Stourbridge"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/557">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/557" todate="9999-12-31">
     <name text="Strangford"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/558">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/558" todate="9999-12-31">
     <name text="Stratford-on-Avon"/>
-    <name text="Stratford on Avon"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/559">
+    <name text="Stratford on Avon"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/559" todate="2005-05-04">
     <name text="Strathkelvin &amp; Bearsden"/>
-    <name text="Strathkelvin and Bearsden"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/560">
+    <name text="Strathkelvin and Bearsden"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/560" todate="9999-12-31">
     <name text="Streatham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/561">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/561" todate="9999-12-31">
     <name text="Stretford &amp; Urmston"/>
-    <name text="Stretford and Urmston"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/562">
+    <name text="Stretford and Urmston"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/562" todate="9999-12-31">
     <name text="Stroud"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/563">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/563" todate="9999-12-31">
     <name text="Suffolk Coastal"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/564">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/564" todate="9999-12-31">
     <name text="Sunderland North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/565">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/565" todate="9999-12-31">
     <name text="Sunderland South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/566">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/566" todate="9999-12-31">
     <name text="Surrey Heath"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/567">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/567" todate="9999-12-31">
     <name text="Sutton &amp; Cheam"/>
-    <name text="Sutton and Cheam"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/568">
+    <name text="Sutton and Cheam"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/568" todate="9999-12-31">
     <name text="Sutton Coldfield"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/569">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/569" todate="9999-12-31">
     <name text="Swansea East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/570">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/570" todate="9999-12-31">
     <name text="Swansea West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/571">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/571" todate="9999-12-31">
     <name text="Tamworth"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/572">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/572" todate="9999-12-31">
     <name text="Tatton"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/573">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/573" todate="9999-12-31">
     <name text="Taunton"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/574">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/574" todate="9999-12-31">
     <name text="Teignbridge"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/575">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/575" todate="9999-12-31">
     <name text="Telford"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/576">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/576" todate="9999-12-31">
     <name text="Tewkesbury"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/577">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/577" todate="9999-12-31">
     <name text="Thurrock"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/578">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/578" todate="9999-12-31">
     <name text="Tiverton &amp; Honiton"/>
-    <name text="Tiverton and Honiton"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/579">
+    <name text="Tiverton and Honiton"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/579" todate="9999-12-31">
     <name text="Tonbridge &amp; Malling"/>
-    <name text="Tonbridge and Malling"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/580">
+    <name text="Tonbridge and Malling"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/580" todate="9999-12-31">
     <name text="Tooting"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/581">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/581" todate="9999-12-31">
     <name text="Torbay"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/582">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/582" todate="9999-12-31">
     <name text="Torfaen"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/583">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/583" todate="9999-12-31">
     <name text="Torridge &amp; West Devon"/>
-    <name text="Torridge and West Devon"/> <!-- ONS -->
-    <name text="Devon West and Torridge"/> <!-- FaxYourMP index -->
-    <name text="Devon West &amp; Torridge"/> <!-- BBC politics db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/584">
+    <name text="Torridge and West Devon"/>
+    <name text="Devon West and Torridge"/>
+    <name text="Devon West &amp; Torridge"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/584" todate="9999-12-31">
     <name text="Totnes"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/585">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/585" todate="9999-12-31">
     <name text="Tottenham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/586">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/586" todate="9999-12-31">
     <name text="Truro &amp; St Austell"/>
-    <name text="Truro and St Austell"/> <!-- ONS -->
-    <name text="Truro and St. Austell"/> <!-- BBC -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/587">
+    <name text="Truro and St Austell"/>
+    <name text="Truro and St. Austell"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/587" todate="9999-12-31">
     <name text="Tunbridge Wells"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/588">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/588" todate="2005-05-04">
     <name text="Tweeddale, Ettrick &amp; Lauderdale"/>
-    <name text="Tweeddale, Ettrick and Lauderdale"/> <!-- ONS -->
-    <name text="Tweeddale Ettrick and Lauderdale"/> <!-- edm.ais.co.uk -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/589">
+    <name text="Tweeddale, Ettrick and Lauderdale"/>
+    <name text="Tweeddale Ettrick and Lauderdale"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/589" todate="9999-12-31">
     <name text="Twickenham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/590">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/590" todate="9999-12-31">
     <name text="Tyne Bridge"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/591">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/591" todate="9999-12-31">
     <name text="Tynemouth"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/592">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/592" todate="9999-12-31">
     <name text="Upminster"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/593">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/593" todate="9999-12-31">
     <name text="Upper Bann"/>
-    <name text="Upper Ban"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/594">
+    <name text="Upper Ban"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/594" todate="9999-12-31">
     <name text="Uxbridge"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/595">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/595" todate="9999-12-31">
     <name text="Vale of Clwyd"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/596">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/596" todate="9999-12-31">
     <name text="Vale of Glamorgan"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/597">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/597" todate="9999-12-31">
     <name text="Vale of York"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/598">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/598" todate="9999-12-31">
     <name text="Vauxhall"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/599">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/599" todate="9999-12-31">
     <name text="Wakefield"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/600">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/600" todate="9999-12-31">
     <name text="Wallasey"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/601">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/601" todate="9999-12-31">
     <name text="Walsall North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/602">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/602" todate="9999-12-31">
     <name text="Walsall South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/603">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/603" todate="9999-12-31">
     <name text="Walthamstow"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/604">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/604" todate="9999-12-31">
     <name text="Wansbeck"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/605">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/605" todate="9999-12-31">
     <name text="Wansdyke"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/606">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/606" todate="9999-12-31">
     <name text="Wantage"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/607">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/607" todate="9999-12-31">
     <name text="Warley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/608">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/608" todate="9999-12-31">
     <name text="Warrington North"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/609">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/609" todate="9999-12-31">
     <name text="Warrington South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/610">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/610" todate="9999-12-31">
     <name text="Warwick &amp; Leamington"/>
-    <name text="Warwick and Leamington"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/611">
+    <name text="Warwick and Leamington"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/611" todate="9999-12-31">
     <name text="Watford"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/612">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/612" todate="9999-12-31">
     <name text="Waveney"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/613">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/613" todate="9999-12-31">
     <name text="Wealden"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/614">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/614" todate="9999-12-31">
     <name text="Weaver Vale"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/615">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/615" todate="9999-12-31">
     <name text="Wellingborough"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/616">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/616" todate="9999-12-31">
     <name text="Wells"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/617">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/617" todate="9999-12-31">
     <name text="Welwyn Hatfield"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/618">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/618" todate="9999-12-31">
     <name text="Wentworth"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/619">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/619" todate="2005-05-04">
     <name text="West Aberdeenshire &amp; Kincardine"/>
-    <name text="West Aberdeenshire and Kincardine"/> <!-- ONS -->
-    <name text="Aberdeenshire W &amp; Kincardine"/> <!-- BBC politics db -->
-    <name text="Aberdeenshire West &amp; Kincardine"/> <!-- BBC politics db -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/620">
+    <name text="West Aberdeenshire and Kincardine"/>
+    <name text="Aberdeenshire W &amp; Kincardine"/>
+    <name text="Aberdeenshire West &amp; Kincardine"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/620" todate="9999-12-31">
     <name text="West Bromwich East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/621">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/621" todate="9999-12-31">
     <name text="West Bromwich West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/622">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/622" todate="9999-12-31">
     <name text="West Chelmsford"/>
-    <name text="Chelmsford West"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/623">
+    <name text="Chelmsford West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/623" todate="9999-12-31">
     <name text="West Derbyshire"/>
-    <name text="Derbyshire West"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/624">
+    <name text="Derbyshire West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/624" todate="9999-12-31">
     <name text="West Dorset"/>
-    <name text="Dorset West"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/625">
+    <name text="Dorset West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/625" todate="9999-12-31">
     <name text="West Ham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/626">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/626" todate="9999-12-31">
     <name text="West Lancashire"/>
-    <name text="Lancashire West"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/627">
+    <name text="Lancashire West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/627" todate="2005-05-04">
     <name text="West Renfrewshire"/>
-    <name text="Renfrewshire West"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/628">
+    <name text="Renfrewshire West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/628" todate="9999-12-31">
     <name text="West Suffolk"/>
-    <name text="Suffolk West"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/629">
+    <name text="Suffolk West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/629" todate="9999-12-31">
     <name text="West Tyrone"/>
-    <name text="Tyrone West"/> <!-- edm.ais.co.uk -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/630">
+    <name text="Tyrone West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/630" todate="9999-12-31">
     <name text="West Worcestershire"/>
-    <name text="Worcestershire West"/> <!-- FaxYourMP index -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/631">
+    <name text="Worcestershire West"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/631" todate="9999-12-31">
     <name text="Westbury"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/632">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/632" todate="9999-12-31">
+    <name text="Na h-Eileanan an Iar"/>
     <name text="Western Isles"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/633">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/633" todate="9999-12-31">
     <name text="Westmorland &amp; Lonsdale"/>
-    <name text="Westmorland and Lonsdale"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/634">
+    <name text="Westmorland and Lonsdale"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/634" todate="9999-12-31">
     <name text="Weston-Super-Mare"/>
-    <name text="Weston Super Mare"/> <!-- FaxYourMP index -->
-    <name text="Weston-super-Mare"/> <!-- edm.ais.co.uk -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/635">
+    <name text="Weston Super Mare"/>
+    <name text="Weston-super-Mare"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/635" todate="9999-12-31">
     <name text="Wigan"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/636">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/636" todate="9999-12-31">
     <name text="Wimbledon"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/637">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/637" todate="9999-12-31">
     <name text="Winchester"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/638">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/638" todate="9999-12-31">
     <name text="Windsor"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/639">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/639" todate="9999-12-31">
     <name text="Wirral South"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/640">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/640" todate="9999-12-31">
     <name text="Wirral West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/641">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/641" todate="9999-12-31">
     <name text="Witney"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/642">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/642" todate="9999-12-31">
     <name text="Woking"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/643">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/643" todate="9999-12-31">
     <name text="Wokingham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/644">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/644" todate="9999-12-31">
     <name text="Wolverhampton North East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/645">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/645" todate="9999-12-31">
     <name text="Wolverhampton South East"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/646">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/646" todate="9999-12-31">
     <name text="Wolverhampton South West"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/647">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/647" todate="9999-12-31">
     <name text="Woodspring"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/648">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/648" todate="9999-12-31">
     <name text="Worcester"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/649">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/649" todate="9999-12-31">
     <name text="Workington"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/650">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/650" todate="9999-12-31">
     <name text="Worsley"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/651">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/651" todate="9999-12-31">
     <name text="Worthing West"/>
-    <name text="Worthing W"/> <!-- Division -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/652">
+    <name text="Worthing W"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/652" todate="9999-12-31">
     <name text="Wrekin, The"/>
-    <name text="The Wrekin"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/653">
+    <name text="The Wrekin"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/653" todate="9999-12-31">
     <name text="Wrexham"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/654">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/654" todate="9999-12-31">
     <name text="Wycombe"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/655">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/655" todate="9999-12-31">
     <name text="Wyre Forest"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/656">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/656" todate="9999-12-31">
     <name text="Wythenshawe &amp; Sale East"/>
-    <name text="Wythenshawe and Sale East"/> <!-- ONS -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/657">
+    <name text="Wythenshawe and Sale East"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/657" todate="9999-12-31">
     <name text="Yeovil"/>
-</constituency>
-<constituency id="uk.org.publicwhip/cons/658">
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/658" todate="9999-12-31">
     <name text="Ynys Môn"/>
-    <name text="Ynys Mon"/> <!-- ONS -->
-    <name text="Ynys M&amp;ocirc;n"/> <!-- regmem -->
-</constituency>
-<constituency id="uk.org.publicwhip/cons/659">
+    <name text="Ynys Mon"/>
+    <name text="Ynys M&amp;ocirc;n"/>
+  </constituency>
+  <constituency fromdate="1000-01-01" id="uk.org.publicwhip/cons/659" todate="9999-12-31">
     <name text="York, City of"/>
-    <name text="City of York"/> <!-- ONS -->
-    <name text="York"/> <!-- BBC politics db -->
-</constituency>
-
+    <name text="City of York"/>
+    <name text="York"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/660" todate="9999-12-31">
+    <name text="Aberdeen North"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/661" todate="9999-12-31">
+    <name text="Aberdeen South"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/662" todate="9999-12-31">
+    <name text="Aberdeenshire West &amp; Kincardine"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/663" todate="9999-12-31">
+    <name text="Airdrie &amp; Shotts"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/664" todate="9999-12-31">
+    <name text="Angus"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/665" todate="9999-12-31">
+    <name text="Argyll &amp; Bute"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/666" todate="9999-12-31">
+    <name text="Ayr, Carrick &amp; Cumnock"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/667" todate="9999-12-31">
+    <name text="Ayrshire Central"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/668" todate="9999-12-31">
+    <name text="Ayrshire North &amp; Arran"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/669" todate="9999-12-31">
+    <name text="Banff &amp; Buchan"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/670" todate="9999-12-31">
+    <name text="Berwickshire, Roxburgh &amp; Selkirk"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/671" todate="9999-12-31">
+    <name text="Caithness, Sutherland &amp; Easter Ross"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/672" todate="9999-12-31">
+    <name text="Coatbridge, Chryston &amp; Bellshill"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/673" todate="9999-12-31">
+    <name text="Cumbernauld, Kilsyth &amp; Kirkintilloch East"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/674" todate="9999-12-31">
+    <name text="Dumfries &amp; Galloway"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/675" todate="9999-12-31">
+    <name text="Dumfriesshire, Clydesdale &amp; Tweeddale"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/676" todate="9999-12-31">
+    <name text="Dunbartonshire East"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/677" todate="9999-12-31">
+    <name text="Dunbartonshire West"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/678" todate="9999-12-31">
+    <name text="Dundee East"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/679" todate="9999-12-31">
+    <name text="Dundee West"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/680" todate="9999-12-31">
+    <name text="Dunfermline &amp; Fife West"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/681" todate="9999-12-31">
+    <name text="East Kilbride, Strathaven &amp; Lesmahagow"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/682" todate="9999-12-31">
+    <name text="East Lothian"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/683" todate="9999-12-31">
+    <name text="Edinburgh East"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/684" todate="9999-12-31">
+    <name text="Edinburgh North &amp; Leith"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/685" todate="9999-12-31">
+    <name text="Edinburgh South"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/686" todate="9999-12-31">
+    <name text="Edinburgh South West"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/687" todate="9999-12-31">
+    <name text="Edinburgh West"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/688" todate="9999-12-31">
+    <name text="Falkirk"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/689" todate="9999-12-31">
+    <name text="Fife North East"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/690" todate="9999-12-31">
+    <name text="Glasgow Central"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/691" todate="9999-12-31">
+    <name text="Glasgow East"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/692" todate="9999-12-31">
+    <name text="Glasgow North"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/693" todate="9999-12-31">
+    <name text="Glasgow North East"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/694" todate="9999-12-31">
+    <name text="Glasgow North West"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/695" todate="9999-12-31">
+    <name text="Glasgow South"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/696" todate="9999-12-31">
+    <name text="Glasgow South West"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/697" todate="9999-12-31">
+    <name text="Glenrothes"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/698" todate="9999-12-31">
+    <name text="Gordon"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/699" todate="9999-12-31">
+    <name text="Inverclyde"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/700" todate="9999-12-31">
+    <name text="Inverness, Nairn, Badenoch &amp; Strathspey"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/701" todate="9999-12-31">
+    <name text="Kilmarnock &amp; Loudoun"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/702" todate="9999-12-31">
+    <name text="Kirkcaldy &amp; Cowdenbeath"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/703" todate="9999-12-31">
+    <name text="Lanark &amp; Hamilton East"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/704" todate="9999-12-31">
+    <name text="Linlithgow &amp; Falkirk East"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/705" todate="9999-12-31">
+    <name text="Livingston"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/706" todate="9999-12-31">
+    <name text="Midlothian"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/707" todate="9999-12-31">
+    <name text="Moray"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/708" todate="9999-12-31">
+    <name text="Motherwell &amp; Wishaw"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/709" todate="9999-12-31">
+    <name text="Ochil &amp; Perthshire South"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/710" todate="9999-12-31">
+    <name text="Paisley &amp; Renfrewshire North"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/711" todate="9999-12-31">
+    <name text="Paisley &amp; Renfrewshire South"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/712" todate="9999-12-31">
+    <name text="Perth and Perthshire North"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/713" todate="9999-12-31">
+    <name text="Ross, Skye &amp; Lochaber"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/714" todate="9999-12-31">
+    <name text="Rutherglen &amp; Hamilton West"/>
+  </constituency>
+  <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/715" todate="9999-12-31">
+    <name text="Stirling"/>
+  </constituency>
 </publicwhip>
