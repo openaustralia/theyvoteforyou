@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.5 2005/05/08 22:47:13 frabcus Exp $
+    # $Id: tableoth.inc,v 1.6 2005/05/08 22:50:46 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -7,7 +7,7 @@
     # For details see the file LICENSE.html in the top level of the source.
 
 	# the table which summarises a set of mps, the same one or different ones in the same constituency
-	function seat_summary_table($mpprops, $bmultiperson)
+	function seat_summary_table($mpprops, $bmultiperson, $conscolumn)
 	{
 		global $bdebug;
 		$prettyrow = 0;
@@ -15,7 +15,8 @@
 		print "<tr class=\"headings\">";
 		if ($bmultiperson)
 			print "<td>Name</td>";
-	    print "<td>Constituency</td>";
+        if ($conscolumn)
+            print "<td>Constituency</td>";
 	    print "<td>From</td><td>To</td>";
 	    print "<td>Party</td>";
 	    print "<td>Rebellions (estimate)</td><td>Attendance (votes)</td>";
@@ -28,7 +29,8 @@
 	        $prettyrow = pretty_row_start($prettyrow);
 			if ($bmultiperson)
 				print "<td>".$mpprop['name']."</td>\n";
-	        print "<td>".$mpprop['constituency']."</td>\n";
+            if ($conscolumn)
+                print "<td>".$mpprop['constituency']."</td>\n";
 			print "<td>".$mpprop['enteredhouse']."</td>\n";
 	        $lefthouse = ($mpprop['lefthouse'] == "9999-12-31" ? "still in office" : $mpprop['lefthouse']);
 			print "<td>".$lefthouse."</td>\n";

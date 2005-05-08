@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.70 2005/05/08 22:47:12 frabcus Exp $
+    # $Id: mp.php,v 1.71 2005/05/08 22:50:46 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -264,7 +264,7 @@
 		print "(Check out <a href=\"faq.php#clarify\">our explanation</a> of 'attendance'
 	            and 'rebellions', as they may not have the meanings you expect.)</p>";
 
-		seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson']);
+		seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], $all_same_cons ? false : true);
 
 	    print "<p><a href=\"http://www.theyworkforyou.com/mp/?m=".$mpprop["mpid"]."\">
 	    		Performance data, recent speeches, and biographical links</a>
