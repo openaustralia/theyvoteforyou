@@ -10,24 +10,32 @@ import xml.sax.saxutils
 # Load in our constituency names
 consdoc = NonvalidatingReader.parseUri("file:constituencies.xml")
 cons = {}
-for name in consdoc.xpath('//constituency/name'):
-    id = name.xpath('string(../@id)')
-    name = name.xpath('string(@text)')
-    cons[name] = id
+mainname = {}
+for consnode in consdoc.xpath('//constituency'):
+    fromdate = consnode.xpath('string(@fromdate)')
+    todate = consnode.xpath('string(@todate)')
+    if fromdate <= "2005-05-05" and "2005-05-05" <= todate:
+        done = False
+        for name in consnode.xpath('./name'):
+            id = name.xpath('string(../@id)')
+            strname = name.xpath('string(@text)')
+            cons[strname] = id
+            if not done:
+                mainname[id] = strname
+                done = True
 
 # Load in BBC identifiers and constituency names
 bbc_ids = {}
 consfile = open("../rawdata/bbc-constituencies2005.txt")
 for line in consfile:
+    line = " ".join(line.split()) # replace all contiguous whitespace with one space
     line = line.strip()
     (bbc_id, name) = line.split("|")
     name = name.replace(" (ex Speaker)", "")
-#    win_name = consdoc.xpath('string(//Party[string(Code)="%s"]/CandidateName)' % bbc_win_party)
     if name not in cons:
-        print name
-    bbc_ids[int(bbc_id)] = name
-
-sys.exit()
+        assert False, "Failed to look up cons '%s'" % name
+    id = cons[name]
+    bbc_ids[int(bbc_id)] = mainname[id]
 
 # Map from BBC party identifiers to ones used in all-members.xml
 party_map = {
@@ -52,7 +60,8 @@ party_map = {
 # Read XML files from flash applet
 mp_id = 1367
 items = bbc_ids.iteritems()
-#for i in range(0, 1834-mp_id):
+#Debug loop for skipping
+#for i in range(0, 1951-mp_id):
 #    mp_id = mp_id + 1
 #    items.next() 
 for bbc_id, cons_name in items:
@@ -69,11 +78,11 @@ for bbc_id, cons_name in items:
     # Find winner
     bbc_win_party = doc.xpath('string(//winningParty)')
     # Missing data (bugs in BBC feed)
-    if (cons_name == "Hertfordshire North East"):
+    if (cons_name == "North East Hertfordshire"):
         bbc_win_party = "CON"
     if (cons_name == "Lagan Valley"):
         bbc_win_party = "DUP"
-    if (cons_name == "Staffordshire South"):
+    if (cons_name == "South Staffordshire"):
         continue # not declared yet
     win_party = party_map[bbc_win_party]
     win_name = doc.xpath('string(//Party[string(Code)="%s"]/CandidateName)' % bbc_win_party)
@@ -88,15 +97,17 @@ for bbc_id, cons_name in items:
     else:
         assert "Unknown multi-name '%s'" % win_name
 
+    escaped_cons = xml.sax.saxutils.escape(cons_name)
     # Print out our XML
-    print """<member
+    unicode_out = """<member
         id="uk.org.publicwhip/member/%d"
         house="commons"
         title="" firstname="%s" lastname="%s"
         constituency="%s" party="%s"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
-    """ % (mp_id, first_name, last_name, xml.sax.saxutils.escape(cons_name), win_party)
+    """ % (mp_id, first_name, last_name, escaped_cons, win_party)
+    print unicode_out.encode("latin-1")
 
 
      

@@ -17,7 +17,7 @@ Currently has the name forms from:
 - BBC (from several places)
 - Guardian website (Ask Aristotle)
 
-The first form of the name is considered canonical, and the one you should display.
+The first form of the name is the one you should display.
 
 This file can be updated using consupdated.pl, but also edited by hand as
 that loads in the original file before making modifications.
@@ -2364,15 +2364,18 @@ that loads in the original file before making modifications.
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/662" todate="9999-12-31">
     <name text="Aberdeenshire West &amp; Kincardine"/>
+    <name text="Aberdeenshire West and Kincardine"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/663" todate="9999-12-31">
     <name text="Airdrie &amp; Shotts"/>
+    <name text="Airdrie and Shotts"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/664" todate="9999-12-31">
     <name text="Angus"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/665" todate="9999-12-31">
     <name text="Argyll &amp; Bute"/>
+    <name text="Argyll and Bute"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/666" todate="9999-12-31">
     <name text="Ayr, Carrick &amp; Cumnock"/>
@@ -2382,27 +2385,35 @@ that loads in the original file before making modifications.
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/668" todate="9999-12-31">
     <name text="Ayrshire North &amp; Arran"/>
+    <name text="Ayrshire North and Arran"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/669" todate="9999-12-31">
     <name text="Banff &amp; Buchan"/>
+    <name text="Banff and Buchan"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/670" todate="9999-12-31">
     <name text="Berwickshire, Roxburgh &amp; Selkirk"/>
+    <name text="Berwickshire, Roxburgh and Selkirk"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/671" todate="9999-12-31">
     <name text="Caithness, Sutherland &amp; Easter Ross"/>
+    <name text="Caithness, Sutherland and Easter Ross"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/672" todate="9999-12-31">
     <name text="Coatbridge, Chryston &amp; Bellshill"/>
+    <name text="Coatbridge, Chryston and Bellshill"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/673" todate="9999-12-31">
     <name text="Cumbernauld, Kilsyth &amp; Kirkintilloch East"/>
+    <name text="Cumbernauld, Kilsyth and Kirkintilloch East"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/674" todate="9999-12-31">
     <name text="Dumfries &amp; Galloway"/>
+    <name text="Dumfries and Galloway"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/675" todate="9999-12-31">
     <name text="Dumfriesshire, Clydesdale &amp; Tweeddale"/>
+    <name text="Dumfriesshire, Clydesdale and Tweeddale"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/676" todate="9999-12-31">
     <name text="Dunbartonshire East"/>
@@ -2418,9 +2429,12 @@ that loads in the original file before making modifications.
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/680" todate="9999-12-31">
     <name text="Dunfermline &amp; Fife West"/>
+    <name text="Dunfermline &amp; West Fife"/>
+    <name text="Dunfermline and Fife West"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/681" todate="9999-12-31">
     <name text="East Kilbride, Strathaven &amp; Lesmahagow"/>
+    <name text="East Kilbride, Strathaven and Lesmahagow"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/682" todate="9999-12-31">
     <name text="East Lothian"/>
@@ -2430,6 +2444,7 @@ that loads in the original file before making modifications.
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/684" todate="9999-12-31">
     <name text="Edinburgh North &amp; Leith"/>
+    <name text="Edinburgh North and Leith"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/685" todate="9999-12-31">
     <name text="Edinburgh South"/>
@@ -2478,6 +2493,7 @@ that loads in the original file before making modifications.
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/700" todate="9999-12-31">
     <name text="Inverness, Nairn, Badenoch &amp; Strathspey"/>
+    <name text="Inverness, Nairn, Badenoch and Strathspey"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/701" todate="9999-12-31">
     <name text="Kilmarnock &amp; Loudoun"/>
@@ -2487,9 +2503,11 @@ that loads in the original file before making modifications.
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/703" todate="9999-12-31">
     <name text="Lanark &amp; Hamilton East"/>
+    <name text="Lanark and Hamilton East"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/704" todate="9999-12-31">
     <name text="Linlithgow &amp; Falkirk East"/>
+    <name text="Linlithgow and Falkirk East"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/705" todate="9999-12-31">
     <name text="Livingston"/>
@@ -2505,6 +2523,7 @@ that loads in the original file before making modifications.
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/709" todate="9999-12-31">
     <name text="Ochil &amp; Perthshire South"/>
+    <name text="Ochil and South Perthshire"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/710" todate="9999-12-31">
     <name text="Paisley &amp; Renfrewshire North"/>
@@ -2514,6 +2533,7 @@ that loads in the original file before making modifications.
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/712" todate="9999-12-31">
     <name text="Perth and Perthshire North"/>
+    <name text="Perth and North Perthshire"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/713" todate="9999-12-31">
     <name text="Ross, Skye &amp; Lochaber"/>

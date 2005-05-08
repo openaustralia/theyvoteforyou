@@ -23,6 +23,8 @@ Data comes from here for changes between parliaments:
 http://www.election.demon.co.uk/strengths.html
 
 -->
+
+<!-- 1997 parliament -->
 <member
     id="uk.org.publicwhip/member/1"
     house="commons"
@@ -4826,6 +4828,7 @@ http://www.election.demon.co.uk/strengths.html
     constituency="Bexhill &amp; Battle" party="Ind"
     fromdate="2001-04-12" todate="2001-05-14" fromwhy="changed_party" towhy="general_election"
 />
+<!-- 2001 parliament -->
 <member
     id="uk.org.publicwhip/member/687"
     house="commons"
@@ -9594,6 +9597,5166 @@ http://www.election.demon.co.uk/strengths.html
     constituency="Shrewsbury &amp; Atcham" party="Ind Lab"
     fromdate="2005-04-06" todate="2005-04-11" fromwhy="changed_party" towhy="general_election_not_standing"
 />
-
+<!-- 2005 parliament -->
+<member
+        id="uk.org.publicwhip/member/1368"
+        house="commons"
+        title="" firstname="Hywel" lastname="Francis"
+        constituency="Aberavon" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1369"
+        house="commons"
+        title="" firstname="Gerald" lastname="Howarth"
+        constituency="Aldershot" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1370"
+        house="commons"
+        title="" firstname="Richard" lastname="Shepherd"
+        constituency="Aldridge-Brownhills" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1371"
+        house="commons"
+        title="" firstname="Graham" lastname="Brady"
+        constituency="Altrincham &amp; Sale West" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1372"
+        house="commons"
+        title="" firstname="Mark" lastname="Tami"
+        constituency="Alyn &amp; Deeside" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1373"
+        house="commons"
+        title="" firstname="Judy" lastname="Mallaber"
+        constituency="Amber Valley" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1374"
+        house="commons"
+        title="" firstname="Sammy" lastname="Wilson"
+        constituency="East Antrim" party="DU"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1375"
+        house="commons"
+        title="" firstname="Ian" lastname="Paisley"
+        constituency="North Antrim" party="DU"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1376"
+        house="commons"
+        title="" firstname="William" lastname="McCrea"
+        constituency="South Antrim" party="DU"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1377"
+        house="commons"
+        title="" firstname="Nick" lastname="Herbert"
+        constituency="Arundel &amp; South Downs" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1378"
+        house="commons"
+        title="" firstname="Geoff" lastname="Hoon"
+        constituency="Ashfield" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1379"
+        house="commons"
+        title="" firstname="Damian" lastname="Green"
+        constituency="Ashford" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1380"
+        house="commons"
+        title="" firstname="David" lastname="Heyes"
+        constituency="Ashton-under-Lyne" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1381"
+        house="commons"
+        title="" firstname="David" lastname="Lidington"
+        constituency="Aylesbury" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1382"
+        house="commons"
+        title="" firstname="Tony" lastname="Baldry"
+        constituency="Banbury" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1383"
+        house="commons"
+        title="" firstname="Margaret" lastname="Hodge"
+        constituency="Barking" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1384"
+        house="commons"
+        title="" firstname="Eric" lastname="Illsley"
+        constituency="Barnsley Central" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1385"
+        house="commons"
+        title="" firstname="Jeff" lastname="Ennis"
+        constituency="Barnsley East &amp; Mexborough" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1386"
+        house="commons"
+        title="" firstname="Michael" lastname="Clapham"
+        constituency="Barnsley West &amp; Penistone" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1387"
+        house="commons"
+        title="" firstname="John" lastname="Hutton"
+        constituency="Barrow &amp; Furness" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1388"
+        house="commons"
+        title="" firstname="Angela" lastname="Smith"
+        constituency="Basildon" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1389"
+        house="commons"
+        title="" firstname="Maria" lastname="Miller"
+        constituency="Basingstoke" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1390"
+        house="commons"
+        title="" firstname="John" lastname="Mann"
+        constituency="Bassetlaw" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1391"
+        house="commons"
+        title="" firstname="Don" lastname="Foster"
+        constituency="Bath" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1392"
+        house="commons"
+        title="" firstname="Mike" lastname="Wood"
+        constituency="Batley &amp; Spen" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1393"
+        house="commons"
+        title="" firstname="Martin" lastname="Linton"
+        constituency="Battersea" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1394"
+        house="commons"
+        title="" firstname="Dominic" lastname="Grieve"
+        constituency="Beaconsfield" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1395"
+        house="commons"
+        title="" firstname="Jacqui" lastname="Lait"
+        constituency="Beckenham" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1396"
+        house="commons"
+        title="" firstname="Patrick" lastname="Hall"
+        constituency="Bedford" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1397"
+        house="commons"
+        title="" firstname="Nadine" lastname="Dorries"
+        constituency="Mid Bedfordshire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1398"
+        house="commons"
+        title="" firstname="Alistair" lastname="Burt"
+        constituency="North East Bedfordshire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1399"
+        house="commons"
+        title="" firstname="Andrew" lastname="Selous"
+        constituency="South West Bedfordshire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1400"
+        house="commons"
+        title="" firstname="Peter" lastname="Robinson"
+        constituency="Belfast East" party="DU"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1401"
+        house="commons"
+        title="" firstname="Nigel" lastname="Dodds"
+        constituency="Belfast North" party="DU"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1402"
+        house="commons"
+        title="" firstname="Alasdair" lastname="McDonnell"
+        constituency="Belfast South" party="SDLP"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1403"
+        house="commons"
+        title="" firstname="Gerry" lastname="Adams"
+        constituency="Belfast West" party="SF"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1404"
+        house="commons"
+        title="" firstname="Alan" lastname="Beith"
+        constituency="Berwick-upon-Tweed" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1405"
+        house="commons"
+        title="" firstname="George" lastname="Galloway"
+        constituency="Bethnal Green &amp; Bow" party="Res"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1406"
+        house="commons"
+        title="" firstname="Graham" lastname="Stuart"
+        constituency="Beverley &amp; Holderness" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1407"
+        house="commons"
+        title="" firstname="Gregory" lastname="Barker"
+        constituency="Bexhill &amp; Battle" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1408"
+        house="commons"
+        title="" firstname="David" lastname="Evennett"
+        constituency="Bexleyheath &amp; Crayford" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1409"
+        house="commons"
+        title="" firstname="John" lastname="Baron"
+        constituency="Billericay" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1410"
+        house="commons"
+        title="" firstname="Frank" lastname="Field"
+        constituency="Birkenhead" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1411"
+        house="commons"
+        title="" firstname="Gisela" lastname="Stuart"
+        constituency="Birmingham, Edgbaston" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1412"
+        house="commons"
+        title="" firstname="Sion" lastname="Simon"
+        constituency="Birmingham, Erdington" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1413"
+        house="commons"
+        title="" firstname="Steve" lastname="McCabe"
+        constituency="Birmingham, Hall Green" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1414"
+        house="commons"
+        title="" firstname="Liam" lastname="Byrne"
+        constituency="Birmingham, Hodge Hill" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1415"
+        house="commons"
+        title="" firstname="Clare" lastname="Short"
+        constituency="Birmingham, Ladywood" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1416"
+        house="commons"
+        title="" firstname="Richard" lastname="Burden"
+        constituency="Birmingham, Northfield" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1417"
+        house="commons"
+        title="" firstname="Khalid" lastname="Mahmood"
+        constituency="Birmingham, Perry Barr" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1418"
+        house="commons"
+        title="" firstname="Lynne" lastname="Jones"
+        constituency="Birmingham, Selly Oak" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1419"
+        house="commons"
+        title="" firstname="Roger" lastname="Godsiff"
+        constituency="Birmingham, Sparkbrook &amp; Small Heath" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1420"
+        house="commons"
+        title="" firstname="John" lastname="Hemming"
+        constituency="Birmingham, Yardley" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1421"
+        house="commons"
+        title="" firstname="Helen" lastname="Goodman"
+        constituency="Bishop Auckland" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1422"
+        house="commons"
+        title="" firstname="Andrew" lastname="Robathan"
+        constituency="Blaby" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1423"
+        house="commons"
+        title="" firstname="Jack" lastname="Straw"
+        constituency="Blackburn" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1424"
+        house="commons"
+        title="" firstname="Joan" lastname="Humble"
+        constituency="Blackpool North &amp; Fleetwood" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1425"
+        house="commons"
+        title="" firstname="Gordon" lastname="Marsden"
+        constituency="Blackpool South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1426"
+        house="commons"
+        title="" firstname="Peter" lastname="Law"
+        constituency="Blaenau Gwent" party="Ind"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1427"
+        house="commons"
+        title="" firstname="David" lastname="Anderson"
+        constituency="Blaydon" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1428"
+        house="commons"
+        title="" firstname="Ronnie" lastname="Campbell"
+        constituency="Blyth Valley" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1429"
+        house="commons"
+        title="" firstname="Nick" lastname="Gibb"
+        constituency="Bognor Regis &amp; Littlehampton" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1430"
+        house="commons"
+        title="" firstname="Dennis" lastname="Skinner"
+        constituency="Bolsover" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1431"
+        house="commons"
+        title="" firstname="David" lastname="Crausby"
+        constituency="Bolton North East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1432"
+        house="commons"
+        title="" firstname="Brian" lastname="Iddon"
+        constituency="Bolton South East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1433"
+        house="commons"
+        title="" firstname="Ruth" lastname="Kelly"
+        constituency="Bolton West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1434"
+        house="commons"
+        title="" firstname="Joe" lastname="Benton"
+        constituency="Bootle" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1435"
+        house="commons"
+        title="" firstname="Mark" lastname="Simmonds"
+        constituency="Boston &amp; Skegness" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1436"
+        house="commons"
+        title="" firstname="David" lastname="Tredinnick"
+        constituency="Bosworth" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1437"
+        house="commons"
+        title="" firstname="Tobias" lastname="Ellwood"
+        constituency="Bournemouth East" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1438"
+        house="commons"
+        title="" firstname="John" lastname="Butterfill"
+        constituency="Bournemouth West" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1439"
+        house="commons"
+        title="" firstname="Andrew" lastname="MacKay"
+        constituency="Bracknell" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1440"
+        house="commons"
+        title="" firstname="Terry" lastname="Rooney"
+        constituency="Bradford North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1441"
+        house="commons"
+        title="" firstname="Gerry" lastname="Sutcliffe"
+        constituency="Bradford South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1442"
+        house="commons"
+        title="" firstname="Marsha" lastname="Singh"
+        constituency="Bradford West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1443"
+        house="commons"
+        title="" firstname="Brooks" lastname="Newmark"
+        constituency="Braintree" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1444"
+        house="commons"
+        title="" firstname="Roger" lastname="Williams"
+        constituency="Brecon &amp; Radnorshire" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1445"
+        house="commons"
+        title="" firstname="Sarah" lastname="Teather"
+        constituency="Brent East" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1446"
+        house="commons"
+        title="" firstname="Barry" lastname="Gardiner"
+        constituency="Brent North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1447"
+        house="commons"
+        title="" firstname="Dawn" lastname="Butler"
+        constituency="Brent South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1448"
+        house="commons"
+        title="" firstname="Ann" lastname="Keen"
+        constituency="Brentford &amp; Isleworth" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1449"
+        house="commons"
+        title="" firstname="Eric" lastname="Pickles"
+        constituency="Brentwood &amp; Ongar" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1450"
+        house="commons"
+        title="" firstname="Madeleine" lastname="Moon"
+        constituency="Bridgend" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1451"
+        house="commons"
+        title="" firstname="Ian" lastname="Liddell-Grainger"
+        constituency="Bridgwater" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1452"
+        house="commons"
+        title="" firstname="Ian" lastname="Cawsey"
+        constituency="Brigg &amp; Goole" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1453"
+        house="commons"
+        title="" firstname="Des" lastname="Turner"
+        constituency="Brighton, Kemptown" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1454"
+        house="commons"
+        title="" firstname="David" lastname="Lepper"
+        constituency="Brighton, Pavilion" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1455"
+        house="commons"
+        title="" firstname="Kerry" lastname="McCarthy"
+        constituency="Bristol East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1456"
+        house="commons"
+        title="" firstname="Douglas" lastname="Naysmith"
+        constituency="Bristol North West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1457"
+        house="commons"
+        title="" firstname="Dawn" lastname="Primarolo"
+        constituency="Bristol South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1458"
+        house="commons"
+        title="" firstname="Stephen" lastname="Williams"
+        constituency="Bristol West" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1459"
+        house="commons"
+        title="" firstname="Eric" lastname="Forth"
+        constituency="Bromley &amp; Chislehurst" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1460"
+        house="commons"
+        title="" firstname="Julie" lastname="Kirkbride"
+        constituency="Bromsgrove" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1461"
+        house="commons"
+        title="" firstname="Charles" lastname="Walker"
+        constituency="Broxbourne" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1462"
+        house="commons"
+        title="" firstname="Nick" lastname="Palmer"
+        constituency="Broxtowe" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1463"
+        house="commons"
+        title="" firstname="John" lastname="Bercow"
+        constituency="Buckingham" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1464"
+        house="commons"
+        title="" firstname="Kitty" lastname="Ussher"
+        constituency="Burnley" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1465"
+        house="commons"
+        title="" firstname="Janet" lastname="Dean"
+        constituency="Burton" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1466"
+        house="commons"
+        title="" firstname="David" lastname="Chaytor"
+        constituency="Bury North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1467"
+        house="commons"
+        title="" firstname="Ivan" lastname="Lewis"
+        constituency="Bury South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1468"
+        house="commons"
+        title="" firstname="David" lastname="Ruffley"
+        constituency="Bury St Edmunds" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1469"
+        house="commons"
+        title="" firstname="Hywel" lastname="Williams"
+        constituency="Caernarfon" party="PC"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1470"
+        house="commons"
+        title="" firstname="Wayne" lastname="David"
+        constituency="Caerphilly" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1471"
+        house="commons"
+        title="" firstname="Christine" lastname="McCafferty"
+        constituency="Calder Valley" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1472"
+        house="commons"
+        title="" firstname="Harriet" lastname="Harman"
+        constituency="Camberwell &amp; Peckham" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1473"
+        house="commons"
+        title="" firstname="David" lastname="Howarth"
+        constituency="Cambridge" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1474"
+        house="commons"
+        title="" firstname="Malcolm" lastname="Moss"
+        constituency="North East Cambridgeshire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1475"
+        house="commons"
+        title="" firstname="Shailesh" lastname="Vara"
+        constituency="North West Cambridgeshire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1476"
+        house="commons"
+        title="" firstname="Andrew" lastname="Lansley"
+        constituency="South Cambridgeshire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1477"
+        house="commons"
+        title="" firstname="James" lastname="Paice"
+        constituency="South East Cambridgeshire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1478"
+        house="commons"
+        title="" firstname="Tony" lastname="Wright"
+        constituency="Cannock Chase" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1479"
+        house="commons"
+        title="" firstname="Julian" lastname="Brazier"
+        constituency="Canterbury" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1480"
+        house="commons"
+        title="" firstname="Jenny" lastname="Willott"
+        constituency="Cardiff Central" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1481"
+        house="commons"
+        title="" firstname="Julie" lastname="Morgan"
+        constituency="Cardiff North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1482"
+        house="commons"
+        title="" firstname="Alun" lastname="Michael"
+        constituency="Cardiff South &amp; Penarth" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1483"
+        house="commons"
+        title="" firstname="Kevin" lastname="Brennan"
+        constituency="Cardiff West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1484"
+        house="commons"
+        title="" firstname="Eric" lastname="Martlew"
+        constituency="Carlisle" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1485"
+        house="commons"
+        title="" firstname="Adam" lastname="Price"
+        constituency="Carmarthen East &amp; Dinefwr" party="PC"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1486"
+        house="commons"
+        title="" firstname="Nicholas" lastname="Ainger"
+        constituency="Carmarthen West &amp; South Pembrokeshire" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1487"
+        house="commons"
+        title="" firstname="Tom" lastname="Brake"
+        constituency="Carshalton &amp; Wallington" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1488"
+        house="commons"
+        title="" firstname="Bob" lastname="Spink"
+        constituency="Castle Point" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1489"
+        house="commons"
+        title="" firstname="Mark" lastname="Williams"
+        constituency="Ceredigion" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1490"
+        house="commons"
+        title="" firstname="Stephen" lastname="Dorrell"
+        constituency="Charnwood" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1491"
+        house="commons"
+        title="" firstname="Jonathan" lastname="Shaw"
+        constituency="Chatham &amp; Aylesford" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1492"
+        house="commons"
+        title="" firstname="Patsy" lastname="Calton"
+        constituency="Cheadle" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1493"
+        house="commons"
+        title="" firstname="Simon" lastname="Burns"
+        constituency="West Chelmsford" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1494"
+        house="commons"
+        title="" firstname="Martin" lastname="Horwood"
+        constituency="Cheltenham" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1495"
+        house="commons"
+        title="" firstname="Cheryl" lastname="Gillan"
+        constituency="Chesham &amp; Amersham" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1496"
+        house="commons"
+        title="" firstname="Christine" lastname="Russell"
+        constituency="Chester, City of" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1497"
+        house="commons"
+        title="" firstname="Paul" lastname="Holmes"
+        constituency="Chesterfield" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1498"
+        house="commons"
+        title="" firstname="Andrew" lastname="Tyrie"
+        constituency="Chichester" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1499"
+        house="commons"
+        title="" firstname="Iain" lastname="Duncan Smith"
+        constituency="Chingford &amp; Woodford Green" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1500"
+        house="commons"
+        title="" firstname="Theresa" lastname="Villiers"
+        constituency="Chipping Barnet" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1501"
+        house="commons"
+        title="" firstname="Lindsay" lastname="Hoyle"
+        constituency="Chorley" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1502"
+        house="commons"
+        title="" firstname="Christopher" lastname="Chope"
+        constituency="Christchurch" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1503"
+        house="commons"
+        title="" firstname="Mark" lastname="Field"
+        constituency="Cities of London &amp; Westminster" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1504"
+        house="commons"
+        title="" firstname="Shona" lastname="McIsaac"
+        constituency="Cleethorpes" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1505"
+        house="commons"
+        title="" firstname="Martyn" lastname="Jones"
+        constituency="Clwyd South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1506"
+        house="commons"
+        title="" firstname="David" lastname="Jones"
+        constituency="Clwyd West" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1507"
+        house="commons"
+        title="" firstname="Bob" lastname="Russell"
+        constituency="Colchester" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1508"
+        house="commons"
+        title="" firstname="Kali" lastname="Mountford"
+        constituency="Colne Valley" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1509"
+        house="commons"
+        title="" firstname="Ann" lastname="Winterton"
+        constituency="Congleton" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1510"
+        house="commons"
+        title="" firstname="Betty" lastname="Williams"
+        constituency="Conwy" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1511"
+        house="commons"
+        title="" firstname="Jamie" lastname="Reed"
+        constituency="Copeland" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1512"
+        house="commons"
+        title="" firstname="Phil" lastname="Hope"
+        constituency="Corby" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1513"
+        house="commons"
+        title="" firstname="Dan" lastname="Rogerson"
+        constituency="North Cornwall" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1514"
+        house="commons"
+        title="" firstname="Colin" lastname="Breed"
+        constituency="South East Cornwall" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1515"
+        house="commons"
+        title="" firstname="Geoffrey" lastname="Clifton-Brown"
+        constituency="Cotswold" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1516"
+        house="commons"
+        title="" firstname="Bob" lastname="Ainsworth"
+        constituency="Coventry North East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1517"
+        house="commons"
+        title="" firstname="Geoffrey" lastname="Robinson"
+        constituency="Coventry North West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1518"
+        house="commons"
+        title="" firstname="Jim" lastname="Cunningham"
+        constituency="Coventry South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1519"
+        house="commons"
+        title="" firstname="Laura" lastname="Moffatt"
+        constituency="Crawley" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1520"
+        house="commons"
+        title="" firstname="Gwyneth" lastname="Dunwoody"
+        constituency="Crewe &amp; Nantwich" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1521"
+        house="commons"
+        title="" firstname="Claire" lastname="Curtis-Thomas"
+        constituency="Crosby" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1522"
+        house="commons"
+        title="" firstname="Andrew" lastname="Pelling"
+        constituency="Croydon Central" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1523"
+        house="commons"
+        title="" firstname="Malcolm" lastname="Wicks"
+        constituency="Croydon North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1524"
+        house="commons"
+        title="" firstname="Richard" lastname="Ottaway"
+        constituency="Croydon South" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1525"
+        house="commons"
+        title="" firstname="Ann" lastname="Clwyd"
+        constituency="Cynon Valley" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1526"
+        house="commons"
+        title="" firstname="Jon" lastname="Cruddas"
+        constituency="Dagenham" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1527"
+        house="commons"
+        title="" firstname="Alan" lastname="Milburn"
+        constituency="Darlington" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1528"
+        house="commons"
+        title="" firstname="Howard" lastname="Stoate"
+        constituency="Dartford" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1529"
+        house="commons"
+        title="" firstname="Tim" lastname="Boswell"
+        constituency="Daventry" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1530"
+        house="commons"
+        title="" firstname="David" lastname="Hanson"
+        constituency="Delyn" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1531"
+        house="commons"
+        title="" firstname="Andrew" lastname="Gwynne"
+        constituency="Denton &amp; Reddish" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1532"
+        house="commons"
+        title="" firstname="Bob" lastname="Laxton"
+        constituency="Derby North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1533"
+        house="commons"
+        title="" firstname="Margaret" lastname="Beckett"
+        constituency="Derby South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1534"
+        house="commons"
+        title="" firstname="Natascha" lastname="Engel"
+        constituency="North East Derbyshire" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1535"
+        house="commons"
+        title="" firstname="Mark" lastname="Todd"
+        constituency="South Derbyshire" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1536"
+        house="commons"
+        title="" firstname="Patrick" lastname="McLoughlin"
+        constituency="West Derbyshire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1537"
+        house="commons"
+        title="" firstname="Michael" lastname="Ancram"
+        constituency="Devizes" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1538"
+        house="commons"
+        title="" firstname="Hugo" lastname="Swire"
+        constituency="East Devon" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1539"
+        house="commons"
+        title="" firstname="Nicholas" lastname="Harvey"
+        constituency="North Devon" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1540"
+        house="commons"
+        title="" firstname="Gary" lastname="Streeter"
+        constituency="South West Devon" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1541"
+        house="commons"
+        title="" firstname="Geoffrey" lastname="Cox"
+        constituency="Torridge &amp; West Devon" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1542"
+        house="commons"
+        title="" firstname="Shahid" lastname="Malik"
+        constituency="Dewsbury" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1543"
+        house="commons"
+        title="" firstname="Caroline" lastname="Flint"
+        constituency="Don Valley" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1544"
+        house="commons"
+        title="" firstname="Rosie" lastname="Winterton"
+        constituency="Doncaster Central" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1545"
+        house="commons"
+        title="" firstname="Ed" lastname="Miliband"
+        constituency="Doncaster North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1546"
+        house="commons"
+        title="" firstname="Annette" lastname="Brooke"
+        constituency="Mid Dorset &amp; North Poole" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1547"
+        house="commons"
+        title="" firstname="Robert" lastname="Walter"
+        constituency="North Dorset" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1548"
+        house="commons"
+        title="" firstname="Jim" lastname="Knight"
+        constituency="South Dorset" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1549"
+        house="commons"
+        title="" firstname="Oliver" lastname="Letwin"
+        constituency="West Dorset" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1550"
+        house="commons"
+        title="" firstname="Gwyn" lastname="Prosser"
+        constituency="Dover" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1551"
+        house="commons"
+        title="" firstname="Sylvia" lastname="Hermon"
+        constituency="North Down" party="UU"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1552"
+        house="commons"
+        title="" firstname="Eddie" lastname="McGrady"
+        constituency="South Down" party="SDLP"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1553"
+        house="commons"
+        title="" firstname="Ian" lastname="Austin"
+        constituency="Dudley North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1554"
+        house="commons"
+        title="" firstname="Ian" lastname="Pearson"
+        constituency="Dudley South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1555"
+        house="commons"
+        title="" firstname="Tessa" lastname="Jowell"
+        constituency="Dulwich &amp; West Norwood" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1556"
+        house="commons"
+        title="" firstname="Kevan" lastname="Jones"
+        constituency="North Durham" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1557"
+        house="commons"
+        title="" firstname="Hilary" lastname="Armstrong"
+        constituency="North West Durham" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1558"
+        house="commons"
+        title="" firstname="Roberta" lastname="Blackman-Woods"
+        constituency="Durham, City of" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1559"
+        house="commons"
+        title="" firstname="Andrew" lastname="Slaughter"
+        constituency="Ealing, Acton &amp; Shepherd's Bush" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1560"
+        house="commons"
+        title="" firstname="Stephen" lastname="Pound"
+        constituency="Ealing North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1561"
+        house="commons"
+        title="" firstname="Piara" lastname="Khabra"
+        constituency="Ealing, Southall" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1562"
+        house="commons"
+        title="" firstname="John" lastname="Cummings"
+        constituency="Easington" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1563"
+        house="commons"
+        title="" firstname="Stephen" lastname="Timms"
+        constituency="East Ham" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1564"
+        house="commons"
+        title="" firstname="Nigel" lastname="Waterson"
+        constituency="Eastbourne" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1565"
+        house="commons"
+        title="" firstname="Chris" lastname="Huhne"
+        constituency="Eastleigh" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1566"
+        house="commons"
+        title="" firstname="Ian" lastname="Stewart"
+        constituency="Eccles" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1567"
+        house="commons"
+        title="" firstname="Stephen" lastname="O'Brien"
+        constituency="Eddisbury" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1568"
+        house="commons"
+        title="" firstname="Andy" lastname="Love"
+        constituency="Edmonton" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1569"
+        house="commons"
+        title="" firstname="Andrew" lastname="Miller"
+        constituency="Ellesmere Port &amp; Neston" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1570"
+        house="commons"
+        title="" firstname="Colin" lastname="Burgon"
+        constituency="Elmet" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1571"
+        house="commons"
+        title="" firstname="Clive" lastname="Efford"
+        constituency="Eltham" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1572"
+        house="commons"
+        title="" firstname="Joan" lastname="Ryan"
+        constituency="Enfield North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1573"
+        house="commons"
+        title="" firstname="David" lastname="Burrowes"
+        constituency="Enfield, Southgate" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1574"
+        house="commons"
+        title="" firstname="Eleanor" lastname="Laing"
+        constituency="Epping Forest" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1575"
+        house="commons"
+        title="" firstname="Chris" lastname="Grayling"
+        constituency="Epsom &amp; Ewell" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1576"
+        house="commons"
+        title="" firstname="Liz" lastname="Blackman"
+        constituency="Erewash" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1577"
+        house="commons"
+        title="" firstname="John" lastname="Austin"
+        constituency="Erith &amp; Thamesmead" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1578"
+        house="commons"
+        title="" firstname="Ian" lastname="Taylor"
+        constituency="Esher &amp; Walton" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1579"
+        house="commons"
+        title="" firstname="Bernard" lastname="Jenkin"
+        constituency="North Essex" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1580"
+        house="commons"
+        title="" firstname="Ben" lastname="Bradshaw"
+        constituency="Exeter" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1581"
+        house="commons"
+        title="" firstname="Julia" lastname="Goldsworthy"
+        constituency="Falmouth &amp; Camborne" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1582"
+        house="commons"
+        title="" firstname="Mark" lastname="Hoban"
+        constituency="Fareham" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1583"
+        house="commons"
+        title="" firstname="Hugh" lastname="Robertson"
+        constituency="Faversham &amp; Mid Kent" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1584"
+        house="commons"
+        title="" firstname="Alan" lastname="Keen"
+        constituency="Feltham &amp; Heston" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1585"
+        house="commons"
+        title="" firstname="Michelle" lastname="Gildernew"
+        constituency="Fermanagh &amp; South Tyrone" party="SF"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1586"
+        house="commons"
+        title="" firstname="Rudi" lastname="Vis"
+        constituency="Finchley &amp; Golders Green" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1587"
+        house="commons"
+        title="" firstname="Michael" lastname="Howard"
+        constituency="Folkestone &amp; Hythe" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1588"
+        house="commons"
+        title="" firstname="Mark" lastname="Harper"
+        constituency="Forest of Dean" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1589"
+        house="commons"
+        title="" firstname="Mark" lastname="Durkan"
+        constituency="Foyle" party="SDLP"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1590"
+        house="commons"
+        title="" firstname="Michael" lastname="Jack"
+        constituency="Fylde" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1591"
+        house="commons"
+        title="" firstname="Edward" lastname="Leigh"
+        constituency="Gainsborough" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1592"
+        house="commons"
+        title="" firstname="Sharon" lastname="Hodgson"
+        constituency="Gateshead East &amp; Washington West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1593"
+        house="commons"
+        title="" firstname="Vernon" lastname="Coaker"
+        constituency="Gedling" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1594"
+        house="commons"
+        title="" firstname="Paul" lastname="Clark"
+        constituency="Gillingham" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1595"
+        house="commons"
+        title="" firstname="Parmjit" lastname="Dhanda"
+        constituency="Gloucester" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1596"
+        house="commons"
+        title="" firstname="Peter" lastname="Viggers"
+        constituency="Gosport" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1597"
+        house="commons"
+        title="" firstname="Martin" lastname="Caton"
+        constituency="Gower" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1598"
+        house="commons"
+        title="" firstname="Quentin" lastname="Davies"
+        constituency="Grantham &amp; Stamford" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1599"
+        house="commons"
+        title="" firstname="Adam" lastname="Holloway"
+        constituency="Gravesham" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1600"
+        house="commons"
+        title="" firstname="Austin" lastname="Mitchell"
+        constituency="Great Grimsby" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1601"
+        house="commons"
+        title="" firstname="Tony" lastname="Wright"
+        constituency="Great Yarmouth" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1602"
+        house="commons"
+        title="" firstname="Nick" lastname="Raynsford"
+        constituency="Greenwich &amp; Woolwich" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1603"
+        house="commons"
+        title="" firstname="Anne" lastname="Milton"
+        constituency="Guildford" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1604"
+        house="commons"
+        title="" firstname="Diane" lastname="Abbott"
+        constituency="Hackney North &amp; Stoke Newington" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1605"
+        house="commons"
+        title="" firstname="Meg" lastname="Hillier"
+        constituency="Hackney South &amp; Shoreditch" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1606"
+        house="commons"
+        title="" firstname="Sylvia" lastname="Heal"
+        constituency="Halesowen &amp; Rowley Regis" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1607"
+        house="commons"
+        title="" firstname="Linda" lastname="Riordan"
+        constituency="Halifax" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1608"
+        house="commons"
+        title="" firstname="David" lastname="Davis"
+        constituency="Haltemprice &amp; Howden" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1609"
+        house="commons"
+        title="" firstname="Derek" lastname="Twigg"
+        constituency="Halton" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1610"
+        house="commons"
+        title="" firstname="Greg" lastname="Hands"
+        constituency="Hammersmith &amp; Fulham" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1611"
+        house="commons"
+        title="" firstname="Michael" lastname="Mates"
+        constituency="East Hampshire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1612"
+        house="commons"
+        title="" firstname="James" lastname="Arbuthnot"
+        constituency="North East Hampshire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1613"
+        house="commons"
+        title="" firstname="George" lastname="Young"
+        constituency="North West Hampshire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1614"
+        house="commons"
+        title="" firstname="Glenda" lastname="Jackson"
+        constituency="Hampstead &amp; Highgate" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1615"
+        house="commons"
+        title="" firstname="Edward" lastname="Garnier"
+        constituency="Harborough" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1616"
+        house="commons"
+        title="" firstname="Bill" lastname="Rammell"
+        constituency="Harlow" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1617"
+        house="commons"
+        title="" firstname="Phil" lastname="Willis"
+        constituency="Harrogate &amp; Knaresborough" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1618"
+        house="commons"
+        title="" firstname="Tony" lastname="McNulty"
+        constituency="Harrow East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1619"
+        house="commons"
+        title="" firstname="Gareth" lastname="Thomas"
+        constituency="Harrow West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1620"
+        house="commons"
+        title="" firstname="Iain" lastname="Wright"
+        constituency="Hartlepool" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1621"
+        house="commons"
+        title="" firstname="Douglas" lastname="Carswell"
+        constituency="Harwich" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1622"
+        house="commons"
+        title="" firstname="Michael" lastname="Foster"
+        constituency="Hastings &amp; Rye" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1623"
+        house="commons"
+        title="" firstname="David" lastname="Willetts"
+        constituency="Havant" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1624"
+        house="commons"
+        title="" firstname="John" lastname="McDonnell"
+        constituency="Hayes &amp; Harlington" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1625"
+        house="commons"
+        title="" firstname="Andrew" lastname="Stunell"
+        constituency="Hazel Grove" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1626"
+        house="commons"
+        title="" firstname="Mike" lastname="Penning"
+        constituency="Hemel Hempstead" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1627"
+        house="commons"
+        title="" firstname="Jon" lastname="Trickett"
+        constituency="Hemsworth" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1628"
+        house="commons"
+        title="" firstname="Andrew" lastname="Dismore"
+        constituency="Hendon" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1629"
+        house="commons"
+        title="" firstname="Boris" lastname="Johnson"
+        constituency="Henley" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1630"
+        house="commons"
+        title="" firstname="Paul" lastname="Keetch"
+        constituency="Hereford" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1631"
+        house="commons"
+        title="" firstname="Mark" lastname="Prisk"
+        constituency="Hertford &amp; Stortford" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1632"
+        house="commons"
+        title="" firstname="Oliver" lastname="Heald"
+        constituency="North East Hertfordshire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1633"
+        house="commons"
+        title="" firstname="David" lastname="Gauke"
+        constituency="South West Hertfordshire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1634"
+        house="commons"
+        title="" firstname="James" lastname="Clappison"
+        constituency="Hertsmere" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1635"
+        house="commons"
+        title="" firstname="Peter" lastname="Atkinson"
+        constituency="Hexham" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1636"
+        house="commons"
+        title="" firstname="Jim" lastname="Dobbin"
+        constituency="Heywood &amp; Middleton" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1637"
+        house="commons"
+        title="" firstname="Tom" lastname="Levitt"
+        constituency="High Peak" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1638"
+        house="commons"
+        title="" firstname="Peter" lastname="Lilley"
+        constituency="Hitchin &amp; Harpenden" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1639"
+        house="commons"
+        title="" firstname="Frank" lastname="Dobson"
+        constituency="Holborn &amp; St Pancras" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1640"
+        house="commons"
+        title="" firstname="James" lastname="Brokenshire"
+        constituency="Hornchurch" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1641"
+        house="commons"
+        title="" firstname="Lynne" lastname="Featherstone"
+        constituency="Hornsey &amp; Wood Green" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1642"
+        house="commons"
+        title="" firstname="Francis" lastname="Maude"
+        constituency="Horsham" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1643"
+        house="commons"
+        title="" firstname="Fraser" lastname="Kemp"
+        constituency="Houghton &amp; Washington East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1644"
+        house="commons"
+        title="" firstname="Celia" lastname="Barlow"
+        constituency="Hove" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1645"
+        house="commons"
+        title="" firstname="Barry" lastname="Sheerman"
+        constituency="Huddersfield" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1646"
+        house="commons"
+        title="" firstname="John" lastname="Prescott"
+        constituency="Kingston upon Hull East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1647"
+        house="commons"
+        title="" firstname="Diana" lastname="Johnson"
+        constituency="Kingston upon Hull North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1648"
+        house="commons"
+        title="" firstname="Alan" lastname="Johnson"
+        constituency="Kingston upon Hull West &amp; Hessle" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1649"
+        house="commons"
+        title="" firstname="Jonathan" lastname="Djanogly"
+        constituency="Huntingdon" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1650"
+        house="commons"
+        title="" firstname="Greg" lastname="Pope"
+        constituency="Hyndburn" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1651"
+        house="commons"
+        title="" firstname="Lee" lastname="Scott"
+        constituency="Ilford North" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1652"
+        house="commons"
+        title="" firstname="Mike" lastname="Gapes"
+        constituency="Ilford South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1653"
+        house="commons"
+        title="" firstname="Chris" lastname="Mole"
+        constituency="Ipswich" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1654"
+        house="commons"
+        title="" firstname="Andrew" lastname="Turner"
+        constituency="Isle of Wight" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1655"
+        house="commons"
+        title="" firstname="Jeremy" lastname="Corbyn"
+        constituency="Islington North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1656"
+        house="commons"
+        title="" firstname="Emily" lastname="Thornberry"
+        constituency="Islington South &amp; Finsbury" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1657"
+        house="commons"
+        title="" firstname="Don" lastname="Touhig"
+        constituency="Islwyn" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1658"
+        house="commons"
+        title="" firstname="Stephen" lastname="Hepburn"
+        constituency="Jarrow" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1659"
+        house="commons"
+        title="" firstname="Ann" lastname="Cryer"
+        constituency="Keighley" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1660"
+        house="commons"
+        title="" firstname="Malcolm" lastname="Rifkind"
+        constituency="Kensington &amp; Chelsea" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1661"
+        house="commons"
+        title="" firstname="Philip" lastname="Hollobone"
+        constituency="Kettering" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1662"
+        house="commons"
+        title="" firstname="Edward" lastname="Davey"
+        constituency="Kingston &amp; Surbiton" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1663"
+        house="commons"
+        title="" firstname="Roger" lastname="Berry"
+        constituency="Kingswood" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1664"
+        house="commons"
+        title="" firstname="George" lastname="Howarth"
+        constituency="Knowsley North &amp; Sefton East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1665"
+        house="commons"
+        title="" firstname="Eddie" lastname="O'Hara"
+        constituency="Knowsley South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1666"
+        house="commons"
+        title="" firstname="Jeffrey" lastname="Donaldson"
+        constituency="Lagan Valley" party="DU"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1667"
+        house="commons"
+        title="" firstname="Rosie" lastname="Cooper"
+        constituency="West Lancashire" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1668"
+        house="commons"
+        title="" firstname="Ben" lastname="Wallace"
+        constituency="Lancaster &amp; Wyre" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1669"
+        house="commons"
+        title="" firstname="Ben" lastname="Wallace"
+        constituency="Leeds Central" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1670"
+        house="commons"
+        title="" firstname="George" lastname="Mudie"
+        constituency="Leeds East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1671"
+        house="commons"
+        title="" firstname="Fabian" lastname="Hamilton"
+        constituency="Leeds North East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1672"
+        house="commons"
+        title="" firstname="Greg" lastname="Mulholland"
+        constituency="Leeds North West" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1673"
+        house="commons"
+        title="" firstname="John" lastname="Battle"
+        constituency="Leeds West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1674"
+        house="commons"
+        title="" firstname="Keith" lastname="Vaz"
+        constituency="Leicester East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1675"
+        house="commons"
+        title="" firstname="Peter" lastname="Soulsby"
+        constituency="Leicester South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1676"
+        house="commons"
+        title="" firstname="Patricia" lastname="Hewitt"
+        constituency="Leicester West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1677"
+        house="commons"
+        title="" firstname="David" lastname="Taylor"
+        constituency="North West Leicestershire" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1678"
+        house="commons"
+        title="" firstname="Andrew" lastname="Burnham"
+        constituency="Leigh" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1679"
+        house="commons"
+        title="" firstname="Bill" lastname="Wiggin"
+        constituency="Leominster" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1680"
+        house="commons"
+        title="" firstname="Norman" lastname="Baker"
+        constituency="Lewes" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1681"
+        house="commons"
+        title="" firstname="Joan" lastname="Ruddock"
+        constituency="Lewisham, Deptford" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1682"
+        house="commons"
+        title="" firstname="Bridget" lastname="Prentice"
+        constituency="Lewisham East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1683"
+        house="commons"
+        title="" firstname="Jim" lastname="Dowd"
+        constituency="Lewisham West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1684"
+        house="commons"
+        title="" firstname="Harry" lastname="Cohen"
+        constituency="Leyton &amp; Wanstead" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1685"
+        house="commons"
+        title="" firstname="Michael" lastname="Fabricant"
+        constituency="Lichfield" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1686"
+        house="commons"
+        title="" firstname="Gillian" lastname="Merron"
+        constituency="Lincoln" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1687"
+        house="commons"
+        title="" firstname="Maria" lastname="Eagle"
+        constituency="Liverpool, Garston" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1688"
+        house="commons"
+        title="" firstname="Louise" lastname="Ellman"
+        constituency="Liverpool, Riverside" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1689"
+        house="commons"
+        title="" firstname="Peter" lastname="Kilfoyle"
+        constituency="Liverpool, Walton" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1690"
+        house="commons"
+        title="" firstname="Jane" lastname="Kennedy"
+        constituency="Liverpool, Wavertree" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1691"
+        house="commons"
+        title="" firstname="Bob" lastname="Wareing"
+        constituency="Liverpool, West Derby" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1692"
+        house="commons"
+        title="" firstname="Nia" lastname="Griffith"
+        constituency="Llanelli" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1693"
+        house="commons"
+        title="" firstname="Gregory" lastname="Campbell"
+        constituency="East Londonderry" party="DU"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1694"
+        house="commons"
+        title="" firstname="Andy" lastname="Reed"
+        constituency="Loughborough" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1695"
+        house="commons"
+        title="" firstname="Peter" lastname="Tapsell"
+        constituency="Louth &amp; Horncastle" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1696"
+        house="commons"
+        title="" firstname="Philip" lastname="Dunne"
+        constituency="Ludlow" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1697"
+        house="commons"
+        title="" firstname="Kelvin" lastname="Hopkins"
+        constituency="Luton North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1698"
+        house="commons"
+        title="" firstname="Margaret" lastname="Moran"
+        constituency="Luton South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1699"
+        house="commons"
+        title="" firstname="Nicholas" lastname="Winterton"
+        constituency="Macclesfield" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1700"
+        house="commons"
+        title="" firstname="Theresa" lastname="May"
+        constituency="Maidenhead" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1701"
+        house="commons"
+        title="" firstname="Ann" lastname="Widdecombe"
+        constituency="Maidstone &amp; The Weald" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1702"
+        house="commons"
+        title="" firstname="Ian" lastname="McCartney"
+        constituency="Makerfield" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1703"
+        house="commons"
+        title="" firstname="John" lastname="Whittingdale"
+        constituency="Maldon &amp; East Chelmsford" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1704"
+        house="commons"
+        title="" firstname="Graham" lastname="Stringer"
+        constituency="Manchester, Blackley" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1705"
+        house="commons"
+        title="" firstname="Tony" lastname="Lloyd"
+        constituency="Manchester Central" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1706"
+        house="commons"
+        title="" firstname="Gerald" lastname="Kaufman"
+        constituency="Manchester, Gorton" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1707"
+        house="commons"
+        title="" firstname="John" lastname="Leech"
+        constituency="Manchester, Withington" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1708"
+        house="commons"
+        title="" firstname="Alan" lastname="Meale"
+        constituency="Mansfield" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1709"
+        house="commons"
+        title="" firstname="Bob" lastname="Marshall-Andrews"
+        constituency="Medway" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1710"
+        house="commons"
+        title="" firstname="Elfyn" lastname="Llwyd"
+        constituency="Meirionnydd Nant Conwy" party="PC"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1711"
+        house="commons"
+        title="" firstname="Caroline" lastname="Spelman"
+        constituency="Meriden" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1712"
+        house="commons"
+        title="" firstname="Dai" lastname="Havard"
+        constituency="Merthyr Tydfil &amp; Rhymney" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1713"
+        house="commons"
+        title="" firstname="Stuart" lastname="Bell"
+        constituency="Middlesbrough" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1714"
+        house="commons"
+        title="" firstname="Ashok" lastname="Kumar"
+        constituency="Middlesbrough South &amp; East Cleveland" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1715"
+        house="commons"
+        title="" firstname="Mark" lastname="Lancaster"
+        constituency="North East Milton Keynes" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1716"
+        house="commons"
+        title="" firstname="Phyllis" lastname="Starkey"
+        constituency="Milton Keynes South West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1717"
+        house="commons"
+        title="" firstname="Siobhain" lastname="McDonagh"
+        constituency="Mitcham &amp; Morden" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1718"
+        house="commons"
+        title="" firstname="Paul" lastname="Beresford"
+        constituency="Mole Valley" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1719"
+        house="commons"
+        title="" firstname="David" lastname="Davies"
+        constituency="Monmouth" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1720"
+        house="commons"
+        title="" firstname="Lembit" lastname="Opik"
+        constituency="Montgomeryshire" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1721"
+        house="commons"
+        title="" firstname="Geraldine" lastname="Smith"
+        constituency="Morecambe &amp; Lunesdale" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1722"
+        house="commons"
+        title="" firstname="Colin" lastname="Challen"
+        constituency="Morley &amp; Rothwell" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1723"
+        house="commons"
+        title="" firstname="Peter" lastname="Hain"
+        constituency="Neath" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1724"
+        house="commons"
+        title="" firstname="Julian" lastname="Lewis"
+        constituency="New Forest East" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1725"
+        house="commons"
+        title="" firstname="Desmond" lastname="Swayne"
+        constituency="New Forest West" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1726"
+        house="commons"
+        title="" firstname="Patrick" lastname="Mercer"
+        constituency="Newark" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1727"
+        house="commons"
+        title="" firstname="Richard" lastname="Benyon"
+        constituency="Newbury" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1728"
+        house="commons"
+        title="" firstname="Paul" lastname="Farrelly"
+        constituency="Newcastle-under-Lyme" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1729"
+        house="commons"
+        title="" firstname="Jim" lastname="Cousins"
+        constituency="Newcastle upon Tyne Central" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1730"
+        house="commons"
+        title="" firstname="Nick" lastname="Brown"
+        constituency="Newcastle upon Tyne East &amp; Wallsend" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1731"
+        house="commons"
+        title="" firstname="Douglas" lastname="Henderson"
+        constituency="Newcastle upon Tyne North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1732"
+        house="commons"
+        title="" firstname="Jessica" lastname="Morden"
+        constituency="Newport East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1733"
+        house="commons"
+        title="" firstname="Paul" lastname="Flynn"
+        constituency="Newport West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1734"
+        house="commons"
+        title="" firstname="Conor" lastname="Murphy"
+        constituency="Newry &amp; Armagh" party="SF"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1735"
+        house="commons"
+        title="" firstname="Keith" lastname="Simpson"
+        constituency="Mid Norfolk" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1736"
+        house="commons"
+        title="" firstname="Norman" lastname="Lamb"
+        constituency="North Norfolk" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1737"
+        house="commons"
+        title="" firstname="Henry" lastname="Bellingham"
+        constituency="North West Norfolk" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1738"
+        house="commons"
+        title="" firstname="Richard" lastname="Bacon"
+        constituency="South Norfolk" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1739"
+        house="commons"
+        title="" firstname="Christopher" lastname="Fraser"
+        constituency="South West Norfolk" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1740"
+        house="commons"
+        title="" firstname="Ed" lastname="Balls"
+        constituency="Normanton" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1741"
+        house="commons"
+        title="" firstname="Sally" lastname="Keeble"
+        constituency="Northampton North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1742"
+        house="commons"
+        title="" firstname="Brian" lastname="Binley"
+        constituency="Northampton South" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1743"
+        house="commons"
+        title="" firstname="Steve" lastname="Webb"
+        constituency="Northavon" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1744"
+        house="commons"
+        title="" firstname="Ian" lastname="Gibson"
+        constituency="Norwich North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1745"
+        house="commons"
+        title="" firstname="Charles" lastname="Clarke"
+        constituency="Norwich South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1746"
+        house="commons"
+        title="" firstname="John" lastname="Heppell"
+        constituency="Nottingham East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1747"
+        house="commons"
+        title="" firstname="Graham" lastname="Allen"
+        constituency="Nottingham North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1748"
+        house="commons"
+        title="" firstname="Alan" lastname="Simpson"
+        constituency="Nottingham South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1749"
+        house="commons"
+        title="" firstname="Bill" lastname="Olner"
+        constituency="Nuneaton" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1750"
+        house="commons"
+        title="" firstname="Huw" lastname="Irranca-Davies"
+        constituency="Ogmore" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1751"
+        house="commons"
+        title="" firstname="Derek" lastname="Conway"
+        constituency="Old Bexley &amp; Sidcup" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1752"
+        house="commons"
+        title="" firstname="Phil" lastname="Woolas"
+        constituency="Oldham East &amp; Saddleworth" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1753"
+        house="commons"
+        title="" firstname="Michael" lastname="Meacher"
+        constituency="Oldham West &amp; Royton" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1754"
+        house="commons"
+        title="" firstname="John" lastname="Horam"
+        constituency="Orpington" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1755"
+        house="commons"
+        title="" firstname="Andrew" lastname="Smith"
+        constituency="Oxford East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1756"
+        house="commons"
+        title="" firstname="Evan" lastname="Harris"
+        constituency="Oxford West &amp; Abingdon" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1757"
+        house="commons"
+        title="" firstname="Gordon" lastname="Prentice"
+        constituency="Pendle" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1758"
+        house="commons"
+        title="" firstname="David" lastname="MacLean"
+        constituency="Penrith &amp; The Border" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1759"
+        house="commons"
+        title="" firstname="Stewart" lastname="Jackson"
+        constituency="Peterborough" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1760"
+        house="commons"
+        title="" firstname="Alison" lastname="Seabeck"
+        constituency="Plymouth, Devonport" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1761"
+        house="commons"
+        title="" firstname="Linda" lastname="Gilroy"
+        constituency="Plymouth, Sutton" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1762"
+        house="commons"
+        title="" firstname="Yvette" lastname="Cooper"
+        constituency="Pontefract &amp; Castleford" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1763"
+        house="commons"
+        title="" firstname="Kim" lastname="Howells"
+        constituency="Pontypridd" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1764"
+        house="commons"
+        title="" firstname="Robert" lastname="Syms"
+        constituency="Poole" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1765"
+        house="commons"
+        title="" firstname="Jim" lastname="Fitzpatrick"
+        constituency="Poplar &amp; Canning Town" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1766"
+        house="commons"
+        title="" firstname="Sarah" lastname="McCarthy-Fry"
+        constituency="Portsmouth North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1767"
+        house="commons"
+        title="" firstname="Mike" lastname="Hancock"
+        constituency="Portsmouth South" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1768"
+        house="commons"
+        title="" firstname="Stephen" lastname="Crabb"
+        constituency="Preseli Pembrokeshire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1769"
+        house="commons"
+        title="" firstname="Mark" lastname="Hendrick"
+        constituency="Preston" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1770"
+        house="commons"
+        title="" firstname="Paul" lastname="Truswell"
+        constituency="Pudsey" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1771"
+        house="commons"
+        title="" firstname="Justine" lastname="Greening"
+        constituency="Putney" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1772"
+        house="commons"
+        title="" firstname="Mark" lastname="Francois"
+        constituency="Rayleigh" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1773"
+        house="commons"
+        title="" firstname="Rob" lastname="Wilson"
+        constituency="Reading East" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1774"
+        house="commons"
+        title="" firstname="Martin" lastname="Salter"
+        constituency="Reading West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1775"
+        house="commons"
+        title="" firstname="Vera" lastname="Baird"
+        constituency="Redcar" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1776"
+        house="commons"
+        title="" firstname="Jacqueline" lastname="Smith"
+        constituency="Redditch" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1777"
+        house="commons"
+        title="" firstname="Karen" lastname="Buck"
+        constituency="Regent's Park &amp; Kensington North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1778"
+        house="commons"
+        title="" firstname="Crispin" lastname="Blunt"
+        constituency="Reigate" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1779"
+        house="commons"
+        title="" firstname="Chris" lastname="Bryant"
+        constituency="Rhondda" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1780"
+        house="commons"
+        title="" firstname="David" lastname="Borrow"
+        constituency="South Ribble" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1781"
+        house="commons"
+        title="" firstname="Nigel" lastname="Evans"
+        constituency="Ribble Valley" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1782"
+        house="commons"
+        title="" firstname="William" lastname="Hague"
+        constituency="Richmond (Yorks)" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1783"
+        house="commons"
+        title="" firstname="Susan" lastname="Kramer"
+        constituency="Richmond Park" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1784"
+        house="commons"
+        title="" firstname="Paul" lastname="Rowen"
+        constituency="Rochdale" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1785"
+        house="commons"
+        title="" firstname="James" lastname="Duddridge"
+        constituency="Rochford &amp; Southend East" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1786"
+        house="commons"
+        title="" firstname="Andrew" lastname="Rosindell"
+        constituency="Romford" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1787"
+        house="commons"
+        title="" firstname="Sandra" lastname="Gidley"
+        constituency="Romsey" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1788"
+        house="commons"
+        title="" firstname="Janet" lastname="Anderson"
+        constituency="Rossendale &amp; Darwen" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1789"
+        house="commons"
+        title="" firstname="Kevin" lastname="Barron"
+        constituency="Rother Valley" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1790"
+        house="commons"
+        title="" firstname="Denis" lastname="MacShane"
+        constituency="Rotherham" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1791"
+        house="commons"
+        title="" firstname="Jeremy" lastname="Wright"
+        constituency="Rugby &amp; Kenilworth" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1792"
+        house="commons"
+        title="" firstname="Nick" lastname="Hurd"
+        constituency="Ruislip - Northwood" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1793"
+        house="commons"
+        title="" firstname="Philip" lastname="Hammond"
+        constituency="Runnymede &amp; Weybridge" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1794"
+        house="commons"
+        title="" firstname="Ken" lastname="Clarke"
+        constituency="Rushcliffe" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1795"
+        house="commons"
+        title="" firstname="Alan" lastname="Duncan"
+        constituency="Rutland &amp; Melton" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1796"
+        house="commons"
+        title="" firstname="John" lastname="Greenway"
+        constituency="Ryedale" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1797"
+        house="commons"
+        title="" firstname="Alan" lastname="Haselhurst"
+        constituency="Saffron Walden" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1798"
+        house="commons"
+        title="" firstname="Anne" lastname="Main"
+        constituency="St Albans" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1799"
+        house="commons"
+        title="" firstname="David" lastname="Watts"
+        constituency="St Helens North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1800"
+        house="commons"
+        title="" firstname="Shaun" lastname="Woodward"
+        constituency="St Helens South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1801"
+        house="commons"
+        title="" firstname="Andrew" lastname="George"
+        constituency="St Ives" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1802"
+        house="commons"
+        title="" firstname="Hazel" lastname="Blears"
+        constituency="Salford" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1803"
+        house="commons"
+        title="" firstname="Robert" lastname="Key"
+        constituency="Salisbury" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1804"
+        house="commons"
+        title="" firstname="Robert" lastname="Goodwill"
+        constituency="Scarborough &amp; Whitby" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1805"
+        house="commons"
+        title="" firstname="Elliot" lastname="Morley"
+        constituency="Scunthorpe" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1806"
+        house="commons"
+        title="" firstname="Tony" lastname="Blair"
+        constituency="Sedgefield" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1807"
+        house="commons"
+        title="" firstname="John" lastname="Grogan"
+        constituency="Selby" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1808"
+        house="commons"
+        title="" firstname="Michael" lastname="Fallon"
+        constituency="Sevenoaks" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1809"
+        house="commons"
+        title="" firstname="Clive" lastname="Betts"
+        constituency="Sheffield, Attercliffe" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1810"
+        house="commons"
+        title="" firstname="David" lastname="Blunkett"
+        constituency="Sheffield, Brightside" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1811"
+        house="commons"
+        title="" firstname="Richard" lastname="Caborn"
+        constituency="Sheffield Central" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1812"
+        house="commons"
+        title="" firstname="Nick" lastname="Clegg"
+        constituency="Sheffield, Hallam" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1813"
+        house="commons"
+        title="" firstname="Meg" lastname="Munn"
+        constituency="Sheffield, Heeley" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1814"
+        house="commons"
+        title="" firstname="Angela" lastname="Smith"
+        constituency="Sheffield, Hillsborough" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1815"
+        house="commons"
+        title="" firstname="Paddy" lastname="Tipping"
+        constituency="Sherwood" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1816"
+        house="commons"
+        title="" firstname="Philip" lastname="Davies"
+        constituency="Shipley" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1817"
+        house="commons"
+        title="" firstname="Daniel" lastname="Kawczynski"
+        constituency="Shrewsbury &amp; Atcham" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1818"
+        house="commons"
+        title="" firstname="Owen" lastname="Paterson"
+        constituency="North Shropshire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1819"
+        house="commons"
+        title="" firstname="Derek" lastname="Wyatt"
+        constituency="Sittingbourne &amp; Sheppey" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1820"
+        house="commons"
+        title="" firstname="David" lastname="Curry"
+        constituency="Skipton &amp; Ripon" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1821"
+        house="commons"
+        title="" firstname="Douglas" lastname="Hogg"
+        constituency="Sleaford &amp; North Hykeham" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1822"
+        house="commons"
+        title="" firstname="Fiona" lastname="Mactaggart"
+        constituency="Slough" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1823"
+        house="commons"
+        title="" firstname="Lorely" lastname="Burt"
+        constituency="Solihull" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1824"
+        house="commons"
+        title="" firstname="David" lastname="Heath"
+        constituency="Somerton &amp; Frome" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1825"
+        house="commons"
+        title="" firstname="John" lastname="Hayes"
+        constituency="South Holland &amp; The Deepings" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1826"
+        house="commons"
+        title="" firstname="David" lastname="Miliband"
+        constituency="South Shields" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1827"
+        house="commons"
+        title="" firstname="John" lastname="Denham"
+        constituency="Southampton, Itchen" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1828"
+        house="commons"
+        title="" firstname="Alan" lastname="Whitehead"
+        constituency="Southampton, Test" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1829"
+        house="commons"
+        title="" firstname="David" lastname="Amess"
+        constituency="Southend West" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1830"
+        house="commons"
+        title="" firstname="John" lastname="Pugh"
+        constituency="Southport" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1831"
+        house="commons"
+        title="" firstname="Simon" lastname="Hughes"
+        constituency="North Southwark &amp; Bermondsey" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1832"
+        house="commons"
+        title="" firstname="David" lastname="Wilshire"
+        constituency="Spelthorne" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1833"
+        house="commons"
+        title="" firstname="David" lastname="Kidney"
+        constituency="Stafford" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1834"
+        house="commons"
+        title="" firstname="Charlotte" lastname="Atkins"
+        constituency="Staffordshire Moorlands" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1836"
+        house="commons"
+        title="" firstname="James" lastname="Purnell"
+        constituency="Stalybridge &amp; Hyde" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1837"
+        house="commons"
+        title="" firstname="Barbara" lastname="Follett"
+        constituency="Stevenage" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1838"
+        house="commons"
+        title="" firstname="Ann" lastname="Coffey"
+        constituency="Stockport" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1839"
+        house="commons"
+        title="" firstname="Frank" lastname="Cook"
+        constituency="Stockton North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1840"
+        house="commons"
+        title="" firstname="Dari" lastname="Taylor"
+        constituency="Stockton South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1841"
+        house="commons"
+        title="" firstname="Mark" lastname="Fisher"
+        constituency="Stoke-on-Trent Central" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1842"
+        house="commons"
+        title="" firstname="Joan" lastname="Walley"
+        constituency="Stoke-on-Trent North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1843"
+        house="commons"
+        title="" firstname="Robert" lastname="Flello"
+        constituency="Stoke-on-Trent South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1844"
+        house="commons"
+        title="" firstname="Bill" lastname="Cash"
+        constituency="Stone" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1845"
+        house="commons"
+        title="" firstname="Lynda" lastname="Waltho"
+        constituency="Stourbridge" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1846"
+        house="commons"
+        title="" firstname="Iris" lastname="Robinson"
+        constituency="Strangford" party="DU"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1847"
+        house="commons"
+        title="" firstname="John" lastname="Maples"
+        constituency="Stratford-on-Avon" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1848"
+        house="commons"
+        title="" firstname="Keith" lastname="Hill"
+        constituency="Streatham" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1849"
+        house="commons"
+        title="" firstname="Beverley" lastname="Hughes"
+        constituency="Stretford &amp; Urmston" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1850"
+        house="commons"
+        title="" firstname="David" lastname="Drew"
+        constituency="Stroud" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1851"
+        house="commons"
+        title="" firstname="Michael" lastname="Lord"
+        constituency="Central Suffolk &amp; North Ipswich" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1852"
+        house="commons"
+        title="" firstname="John" lastname="Gummer"
+        constituency="Suffolk Coastal" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1853"
+        house="commons"
+        title="" firstname="Tim" lastname="Yeo"
+        constituency="South Suffolk" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1854"
+        house="commons"
+        title="" firstname="Richard" lastname="Spring"
+        constituency="West Suffolk" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1855"
+        house="commons"
+        title="" firstname="Bill" lastname="Etherington"
+        constituency="Sunderland North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1856"
+        house="commons"
+        title="" firstname="Chris" lastname="Mullin"
+        constituency="Sunderland South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1857"
+        house="commons"
+        title="" firstname="Peter" lastname="Ainsworth"
+        constituency="East Surrey" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1858"
+        house="commons"
+        title="" firstname="Michael" lastname="Gove"
+        constituency="Surrey Heath" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1859"
+        house="commons"
+        title="" firstname="Jeremy" lastname="Hunt"
+        constituency="South West Surrey" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1860"
+        house="commons"
+        title="" firstname="Nicholas" lastname="Soames"
+        constituency="Mid Sussex" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1861"
+        house="commons"
+        title="" firstname="Paul" lastname="Burstow"
+        constituency="Sutton &amp; Cheam" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1862"
+        house="commons"
+        title="" firstname="Andrew" lastname="Mitchell"
+        constituency="Sutton Coldfield" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1863"
+        house="commons"
+        title="" firstname="Sian" lastname="James"
+        constituency="Swansea East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1864"
+        house="commons"
+        title="" firstname="Alan" lastname="Williams"
+        constituency="Swansea West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1865"
+        house="commons"
+        title="" firstname="Michael" lastname="Wills"
+        constituency="North Swindon" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1866"
+        house="commons"
+        title="" firstname="Anne" lastname="Snelgrove"
+        constituency="South Swindon" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1867"
+        house="commons"
+        title="" firstname="Brian" lastname="Jenkins"
+        constituency="Tamworth" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1868"
+        house="commons"
+        title="" firstname="George" lastname="Osborne"
+        constituency="Tatton" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1869"
+        house="commons"
+        title="" firstname="Jeremy" lastname="Browne"
+        constituency="Taunton" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1870"
+        house="commons"
+        title="" firstname="Richard" lastname="Younger-Ross"
+        constituency="Teignbridge" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1871"
+        house="commons"
+        title="" firstname="David" lastname="Wright"
+        constituency="Telford" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1872"
+        house="commons"
+        title="" firstname="Laurence" lastname="Robertson"
+        constituency="Tewkesbury" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1873"
+        house="commons"
+        title="" firstname="Roger" lastname="Gale"
+        constituency="North Thanet" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1874"
+        house="commons"
+        title="" firstname="Stephen" lastname="Ladyman"
+        constituency="South Thanet" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1875"
+        house="commons"
+        title="" firstname="Andrew" lastname="MacKinlay"
+        constituency="Thurrock" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1876"
+        house="commons"
+        title="" firstname="Angela" lastname="Browning"
+        constituency="Tiverton &amp; Honiton" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1877"
+        house="commons"
+        title="" firstname="John" lastname="Stanley"
+        constituency="Tonbridge &amp; Malling" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1878"
+        house="commons"
+        title="" firstname="Sadiq" lastname="Khan"
+        constituency="Tooting" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1879"
+        house="commons"
+        title="" firstname="Adrian" lastname="Sanders"
+        constituency="Torbay" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1880"
+        house="commons"
+        title="" firstname="Paul" lastname="Murphy"
+        constituency="Torfaen" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1881"
+        house="commons"
+        title="" firstname="Anthony" lastname="Steen"
+        constituency="Totnes" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1882"
+        house="commons"
+        title="" firstname="David" lastname="Lammy"
+        constituency="Tottenham" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1883"
+        house="commons"
+        title="" firstname="Matthew" lastname="Taylor"
+        constituency="Truro &amp; St Austell" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1884"
+        house="commons"
+        title="" firstname="Greg" lastname="Clark"
+        constituency="Tunbridge Wells" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1885"
+        house="commons"
+        title="" firstname="Vincent" lastname="Cable"
+        constituency="Twickenham" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1886"
+        house="commons"
+        title="" firstname="David" lastname="Clelland"
+        constituency="Tyne Bridge" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1887"
+        house="commons"
+        title="" firstname="Alan" lastname="Campbell"
+        constituency="Tynemouth" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1888"
+        house="commons"
+        title="" firstname="Stephen" lastname="Byers"
+        constituency="North Tyneside" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1889"
+        house="commons"
+        title="" firstname="Pat" lastname="Doherty"
+        constituency="West Tyrone" party="SF"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1890"
+        house="commons"
+        title="" firstname="Martin" lastname="McGuinness"
+        constituency="Mid Ulster" party="SF"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1891"
+        house="commons"
+        title="" firstname="Angela" lastname="Watkinson"
+        constituency="Upminster" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1892"
+        house="commons"
+        title="" firstname="David" lastname="Simpson"
+        constituency="Upper Bann" party="DU"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1893"
+        house="commons"
+        title="" firstname="John" lastname="Randall"
+        constituency="Uxbridge" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1894"
+        house="commons"
+        title="" firstname="Chris" lastname="Ruane"
+        constituency="Vale of Clwyd" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1895"
+        house="commons"
+        title="" firstname="John" lastname="Smith"
+        constituency="Vale of Glamorgan" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1896"
+        house="commons"
+        title="" firstname="Anne" lastname="McIntosh"
+        constituency="Vale of York" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1897"
+        house="commons"
+        title="" firstname="Kate" lastname="Hoey"
+        constituency="Vauxhall" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1898"
+        house="commons"
+        title="" firstname="Mary" lastname="Creagh"
+        constituency="Wakefield" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1899"
+        house="commons"
+        title="" firstname="Angela" lastname="Eagle"
+        constituency="Wallasey" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1900"
+        house="commons"
+        title="" firstname="David" lastname="Winnick"
+        constituency="Walsall North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1901"
+        house="commons"
+        title="" firstname="Bruce" lastname="George"
+        constituency="Walsall South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1902"
+        house="commons"
+        title="" firstname="Neil" lastname="Gerrard"
+        constituency="Walthamstow" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1903"
+        house="commons"
+        title="" firstname="Denis" lastname="Murphy"
+        constituency="Wansbeck" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1904"
+        house="commons"
+        title="" firstname="Dan" lastname="Norris"
+        constituency="Wansdyke" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1905"
+        house="commons"
+        title="" firstname="Ed" lastname="Vaizey"
+        constituency="Wantage" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1906"
+        house="commons"
+        title="" firstname="John" lastname="Spellar"
+        constituency="Warley" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1907"
+        house="commons"
+        title="" firstname="Helen" lastname="Jones"
+        constituency="Warrington North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1908"
+        house="commons"
+        title="" firstname="Helen" lastname="Southworth"
+        constituency="Warrington South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1909"
+        house="commons"
+        title="" firstname="James" lastname="Plaskitt"
+        constituency="Warwick &amp; Leamington" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1910"
+        house="commons"
+        title="" firstname="Mike" lastname="O'Brien"
+        constituency="North Warwickshire" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1911"
+        house="commons"
+        title="" firstname="Claire" lastname="Ward"
+        constituency="Watford" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1912"
+        house="commons"
+        title="" firstname="Bob" lastname="Blizzard"
+        constituency="Waveney" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1913"
+        house="commons"
+        title="" firstname="Charles" lastname="Hendry"
+        constituency="Wealden" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1914"
+        house="commons"
+        title="" firstname="Mike" lastname="Hall"
+        constituency="Weaver Vale" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1915"
+        house="commons"
+        title="" firstname="Peter" lastname="Bone"
+        constituency="Wellingborough" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1916"
+        house="commons"
+        title="" firstname="David" lastname="Heathcoat-Amory"
+        constituency="Wells" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1917"
+        house="commons"
+        title="" firstname="Grant" lastname="Shapps"
+        constituency="Welwyn Hatfield" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1918"
+        house="commons"
+        title="" firstname="John" lastname="Healey"
+        constituency="Wentworth" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1919"
+        house="commons"
+        title="" firstname="Tom" lastname="Watson"
+        constituency="West Bromwich East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1920"
+        house="commons"
+        title="" firstname="Adrian" lastname="Bailey"
+        constituency="West Bromwich West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1921"
+        house="commons"
+        title="" firstname="Lyn" lastname="Brown"
+        constituency="West Ham" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1922"
+        house="commons"
+        title="" firstname="Andrew" lastname="Murrison"
+        constituency="Westbury" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1923"
+        house="commons"
+        title="" firstname="Tim" lastname="Farron"
+        constituency="Westmorland &amp; Lonsdale" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1924"
+        house="commons"
+        title="" firstname="John" lastname="Penrose"
+        constituency="Weston-Super-Mare" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1925"
+        house="commons"
+        title="" firstname="Neil" lastname="Turner"
+        constituency="Wigan" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1926"
+        house="commons"
+        title="" firstname="James" lastname="Gray"
+        constituency="North Wiltshire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1927"
+        house="commons"
+        title="" firstname="Stephen" lastname="Hammond"
+        constituency="Wimbledon" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1928"
+        house="commons"
+        title="" firstname="Mark" lastname="Oaten"
+        constituency="Winchester" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1929"
+        house="commons"
+        title="" firstname="Adam" lastname="Afriyie"
+        constituency="Windsor" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1930"
+        house="commons"
+        title="" firstname="Ben" lastname="Chapman"
+        constituency="Wirral South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1931"
+        house="commons"
+        title="" firstname="Stephen" lastname="Hesford"
+        constituency="Wirral West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1932"
+        house="commons"
+        title="" firstname="David" lastname="Cameron"
+        constituency="Witney" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1933"
+        house="commons"
+        title="" firstname="Humfrey" lastname="Malins"
+        constituency="Woking" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1934"
+        house="commons"
+        title="" firstname="John" lastname="Redwood"
+        constituency="Wokingham" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1935"
+        house="commons"
+        title="" firstname="Ken" lastname="Purchase"
+        constituency="Wolverhampton North East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1936"
+        house="commons"
+        title="" firstname="Pat" lastname="McFadden"
+        constituency="Wolverhampton South East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1937"
+        house="commons"
+        title="" firstname="Rob" lastname="Marris"
+        constituency="Wolverhampton South West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1938"
+        house="commons"
+        title="" firstname="Liam" lastname="Fox"
+        constituency="Woodspring" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1939"
+        house="commons"
+        title="" firstname="Michael" lastname="Foster"
+        constituency="Worcester" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1940"
+        house="commons"
+        title="" firstname="Peter" lastname="Luff"
+        constituency="Mid Worcestershire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1941"
+        house="commons"
+        title="" firstname="Michael" lastname="Spicer"
+        constituency="West Worcestershire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1942"
+        house="commons"
+        title="" firstname="Tony" lastname="Cunningham"
+        constituency="Workington" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1943"
+        house="commons"
+        title="" firstname="Barbara" lastname="Keeley"
+        constituency="Worsley" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1944"
+        house="commons"
+        title="" firstname="Tim" lastname="Loughton"
+        constituency="East Worthing &amp; Shoreham" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1945"
+        house="commons"
+        title="" firstname="Peter" lastname="Bottomley"
+        constituency="Worthing West" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1946"
+        house="commons"
+        title="" firstname="Mark" lastname="Pritchard"
+        constituency="Wrekin, The" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1947"
+        house="commons"
+        title="" firstname="Ian" lastname="Lucas"
+        constituency="Wrexham" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1948"
+        house="commons"
+        title="" firstname="Paul" lastname="Goodman"
+        constituency="Wycombe" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1949"
+        house="commons"
+        title="" firstname="Richard" lastname="Taylor"
+        constituency="Wyre Forest" party="Ind"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1950"
+        house="commons"
+        title="" firstname="Paul" lastname="Goggins"
+        constituency="Wythenshawe &amp; Sale East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1951"
+        house="commons"
+        title="" firstname="David" lastname="Laws"
+        constituency="Yeovil" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1952"
+        house="commons"
+        title="" firstname="Albert" lastname="Owen"
+        constituency="Ynys Môn" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1953"
+        house="commons"
+        title="" firstname="Hugh" lastname="Bayley"
+        constituency="York, City of" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1954"
+        house="commons"
+        title="" firstname="Greg" lastname="Knight"
+        constituency="East Yorkshire" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1955"
+        house="commons"
+        title="" firstname="Frank" lastname="Doran"
+        constituency="Aberdeen North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1956"
+        house="commons"
+        title="" firstname="Anne" lastname="Begg"
+        constituency="Aberdeen South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1957"
+        house="commons"
+        title="" firstname="Robert" lastname="Smith"
+        constituency="Aberdeenshire West &amp; Kincardine" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1958"
+        house="commons"
+        title="" firstname="John" lastname="Reid"
+        constituency="Airdrie &amp; Shotts" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1959"
+        house="commons"
+        title="" firstname="Mike" lastname="Weir"
+        constituency="Angus" party="SNP"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1960"
+        house="commons"
+        title="" firstname="Alan" lastname="Reid"
+        constituency="Argyll &amp; Bute" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1961"
+        house="commons"
+        title="" firstname="Sandra" lastname="Osborne"
+        constituency="Ayr, Carrick &amp; Cumnock" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1962"
+        house="commons"
+        title="" firstname="Brian" lastname="Donohoe"
+        constituency="Ayrshire Central" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1963"
+        house="commons"
+        title="" firstname="Katy" lastname="Clark"
+        constituency="Ayrshire North &amp; Arran" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1964"
+        house="commons"
+        title="" firstname="Alex" lastname="Salmond"
+        constituency="Banff &amp; Buchan" party="SNP"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1965"
+        house="commons"
+        title="" firstname="Michael" lastname="Moore"
+        constituency="Berwickshire, Roxburgh &amp; Selkirk" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1966"
+        house="commons"
+        title="" firstname="John" lastname="Thurso"
+        constituency="Caithness, Sutherland &amp; Easter Ross" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1967"
+        house="commons"
+        title="" firstname="Tom" lastname="Clarke"
+        constituency="Coatbridge, Chryston &amp; Bellshill" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1968"
+        house="commons"
+        title="" firstname="Rosemary" lastname="McKenna"
+        constituency="Cumbernauld, Kilsyth &amp; Kirkintilloch East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1969"
+        house="commons"
+        title="" firstname="Russell" lastname="Brown"
+        constituency="Dumfries &amp; Galloway" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1970"
+        house="commons"
+        title="" firstname="David" lastname="Mundell"
+        constituency="Dumfriesshire, Clydesdale &amp; Tweeddale" party="Con"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1971"
+        house="commons"
+        title="" firstname="Jo" lastname="Swinson"
+        constituency="Dunbartonshire East" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1972"
+        house="commons"
+        title="" firstname="John" lastname="McFall"
+        constituency="Dunbartonshire West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1973"
+        house="commons"
+        title="" firstname="Stewart" lastname="Hosie"
+        constituency="Dundee East" party="SNP"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1974"
+        house="commons"
+        title="" firstname="Jim" lastname="McGovern"
+        constituency="Dundee West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1975"
+        house="commons"
+        title="" firstname="Rachel" lastname="Squire"
+        constituency="Dunfermline &amp; Fife West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1976"
+        house="commons"
+        title="" firstname="Adam" lastname="Ingram"
+        constituency="East Kilbride, Strathaven &amp; Lesmahagow" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1977"
+        house="commons"
+        title="" firstname="Anne" lastname="Picking"
+        constituency="East Lothian" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1978"
+        house="commons"
+        title="" firstname="Gavin" lastname="Strang"
+        constituency="Edinburgh East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1979"
+        house="commons"
+        title="" firstname="Mark" lastname="Lazarowicz"
+        constituency="Edinburgh North &amp; Leith" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1980"
+        house="commons"
+        title="" firstname="Nigel" lastname="Griffiths"
+        constituency="Edinburgh South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1981"
+        house="commons"
+        title="" firstname="Alistair" lastname="Darling"
+        constituency="Edinburgh South West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1982"
+        house="commons"
+        title="" firstname="John" lastname="Barrett"
+        constituency="Edinburgh West" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1983"
+        house="commons"
+        title="" firstname="Eric" lastname="Joyce"
+        constituency="Falkirk" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1984"
+        house="commons"
+        title="" firstname="Menzies" lastname="Campbell"
+        constituency="Fife North East" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1985"
+        house="commons"
+        title="" firstname="Mohammed" lastname="Sarwar"
+        constituency="Glasgow Central" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1986"
+        house="commons"
+        title="" firstname="David" lastname="Marshall"
+        constituency="Glasgow East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1987"
+        house="commons"
+        title="" firstname="Ann" lastname="McKechin"
+        constituency="Glasgow North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1988"
+        house="commons"
+        title="" firstname="Michael" lastname="Martin"
+        constituency="Glasgow North East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1989"
+        house="commons"
+        title="" firstname="John" lastname="Robertson"
+        constituency="Glasgow North West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1990"
+        house="commons"
+        title="" firstname="Tom" lastname="Harris"
+        constituency="Glasgow South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1991"
+        house="commons"
+        title="" firstname="Ian" lastname="Davidson"
+        constituency="Glasgow South West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1992"
+        house="commons"
+        title="" firstname="John" lastname="MacDougall"
+        constituency="Glenrothes" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1993"
+        house="commons"
+        title="" firstname="Malcolm" lastname="Bruce"
+        constituency="Gordon" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1994"
+        house="commons"
+        title="" firstname="David" lastname="Cairns"
+        constituency="Inverclyde" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1995"
+        house="commons"
+        title="" firstname="Danny" lastname="Alexander"
+        constituency="Inverness, Nairn, Badenoch &amp; Strathspey" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1996"
+        house="commons"
+        title="" firstname="Des" lastname="Browne"
+        constituency="Kilmarnock &amp; Loudoun" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1997"
+        house="commons"
+        title="" firstname="Gordon" lastname="Brown"
+        constituency="Kirkcaldy &amp; Cowdenbeath" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1998"
+        house="commons"
+        title="" firstname="Jimmy" lastname="Hood"
+        constituency="Lanark &amp; Hamilton East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/1999"
+        house="commons"
+        title="" firstname="Michael" lastname="Connarty"
+        constituency="Linlithgow &amp; Falkirk East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/2000"
+        house="commons"
+        title="" firstname="Robin" lastname="Cook"
+        constituency="Livingston" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/2001"
+        house="commons"
+        title="" firstname="David" lastname="Hamilton"
+        constituency="Midlothian" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/2002"
+        house="commons"
+        title="" firstname="Angus" lastname="Robertson"
+        constituency="Moray" party="SNP"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/2003"
+        house="commons"
+        title="" firstname="Frank" lastname="Roy"
+        constituency="Motherwell &amp; Wishaw" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/2004"
+        house="commons"
+        title="" firstname="Angus" lastname="MacNeil"
+        constituency="Na h-Eileanan an Iar" party="SNP"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/2005"
+        house="commons"
+        title="" firstname="Gordon" lastname="Banks"
+        constituency="Ochil &amp; Perthshire South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/2006"
+        house="commons"
+        title="" firstname="Alistair" lastname="Carmichael"
+        constituency="Orkney &amp; Shetland" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/2007"
+        house="commons"
+        title="" firstname="Jim" lastname="Sheridan"
+        constituency="Paisley &amp; Renfrewshire North" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/2008"
+        house="commons"
+        title="" firstname="Douglas" lastname="Alexander"
+        constituency="Paisley &amp; Renfrewshire South" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/2009"
+        house="commons"
+        title="" firstname="Pete" lastname="Wishart"
+        constituency="Perth and Perthshire North" party="SNP"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/2010"
+        house="commons"
+        title="" firstname="Jim" lastname="Murphy"
+        constituency="Renfrewshire East" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/2011"
+        house="commons"
+        title="" firstname="Charles" lastname="Kennedy"
+        constituency="Ross, Skye &amp; Lochaber" party="LDem"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/2012"
+        house="commons"
+        title="" firstname="Tommy" lastname="McAvoy"
+        constituency="Rutherglen &amp; Hamilton West" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
+<member
+        id="uk.org.publicwhip/member/2013"
+        house="commons"
+        title="" firstname="Anne" lastname="McGuire"
+        constituency="Stirling" party="Lab"
+        fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
+    />
+    
 
 </publicwhip>
