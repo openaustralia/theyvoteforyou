@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.69 2005/05/08 22:26:17 frabcus Exp $
+    # $Id: mp.php,v 1.70 2005/05/08 22:47:12 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -241,14 +241,26 @@
 	{
 	    print "<h2><a name=\"general\">General Information</a></h2>";
 
+        // See if MP always in same constituency
+        $con = $mpprop['constituency'];
+        $all_same_cons = true;
+        foreach ($voter1attr['mpprops'] as $p) {
+            if ($p['constituency'] != $con) {
+                $all_same_cons = false;
+            }
+        }
+
 	    if ($currently_minister)
 	        print "<p><b>".$mpprop['name']."</b> is currently <b>$currently_minister</b>.<br>
 	               MP for <b>".$mpprop['constituency']."</b>";
 	    else if ($voter1attr['bmultiperson'])
 	        print "<p>MPs who have represented <b>".$mpprop['constituency']."</b>";
-	    else
-	        print "<p><b>".$mpprop['name']."</b> has been MP for <b>".$mpprop['constituency']."</b>";
-		print " during the following periods of time during the last three parliaments:<br>";
+	    else {
+	        print "<p><b>".$mpprop['name']."</b> has been MP ";
+            if ($all_same_cons) 
+                print " for <b>".$mpprop['constituency']."</b>";
+        }
+		print " during the following periods of time in the last three parliaments:<br>";
 		print "(Check out <a href=\"faq.php#clarify\">our explanation</a> of 'attendance'
 	            and 'rebellions', as they may not have the meanings you expect.)</p>";
 

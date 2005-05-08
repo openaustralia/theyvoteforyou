@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.4 2005/03/06 11:13:31 frabcus Exp $
+    # $Id: tableoth.inc,v 1.5 2005/05/08 22:47:13 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -15,8 +15,9 @@
 		print "<tr class=\"headings\">";
 		if ($bmultiperson)
 			print "<td>Name</td>";
-	    print "<td>Party</td>";
+	    print "<td>Constituency</td>";
 	    print "<td>From</td><td>To</td>";
+	    print "<td>Party</td>";
 	    print "<td>Rebellions (estimate)</td><td>Attendance (votes)</td>";
 		if (!$bmultiperson)
 		    print "<td>Teller</td>";
@@ -27,10 +28,11 @@
 	        $prettyrow = pretty_row_start($prettyrow);
 			if ($bmultiperson)
 				print "<td>".$mpprop['name']."</td>\n";
-	        print "<td>".pretty_party($mpprop['party'])."</td>\n";
+	        print "<td>".$mpprop['constituency']."</td>\n";
 			print "<td>".$mpprop['enteredhouse']."</td>\n";
 	        $lefthouse = ($mpprop['lefthouse'] == "9999-12-31" ? "still in office" : $mpprop['lefthouse']);
 			print "<td>".$lefthouse."</td>\n";
+	        print "<td>".pretty_party($mpprop['party'])."</td>\n";
 	        print "<td class=\"percent\">".percentise_votes($mpprop['rebellions'], $mpprop['votesattended'])."</td>\n";
 			print "<td class=\"percent\">".percentise_votes($mpprop['votesattended'], $mpprop['votespossible'])."</td>\n";
 			if (!$bmultiperson)

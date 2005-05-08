@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.43 2005/05/08 22:26:16 frabcus Exp $
+# $Id: faq.php,v 1.44 2005/05/08 22:47:12 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -215,7 +215,7 @@ would retain all the power but would have slightly better software
 <p> First an explanation.  RSS is a way to let you easily read news from lots
 of different sources.  You need a special program called a newsreader to do
 this.  On the BBC website, there's a <a href="http://news.bbc.co.uk/2/hi/help/3223484.stm">full
-desription</a> of how to do it.  We provide the following RSS feeds:
+description</a> of how to do it.  We provide the following RSS feeds:
 
 <p> 
 <a href="/feeds/interestingdivisions.xml">interestingdivisions.xml</a> &mdash; Find out every time there are more than 10 "rebellions" in a division.
