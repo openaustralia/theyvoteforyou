@@ -13,17 +13,85 @@ import os
 sys.path.append("../pyscraper")
 from resolvemembernames import memberList
 
-today = datetime.date.today().isoformat()
-
-#uk.org.publicwhip/member/651
-#uk.org.publicwhip/member/674
-#uk.org.publicwhip/member/1335
-
 # People who have been in two different constituencies.  The like of Michael
 # Portillo will eventually appear here.
 manualmatches = {
     "Shaun Woodward [St Helens South]" : "Shaun Woodward [St Helens South / Witney]",
     "Shaun Woodward [Witney]" : "Shaun Woodward [St Helens South / Witney]",
+
+    "George Galloway [Bethnal Green & Bow]" : "George Galloway [Bethnal Green & Bow / Glasgow, Kelvin]",
+    "George Galloway [Glasgow, Kelvin]" : "George Galloway [Bethnal Green & Bow / Glasgow, Kelvin]",
+
+    # Scottish boundary changes 2005
+    "Menzies Campbell [North East Fife]" : "Menzies Campbell [North East Fife / Fife North East]",
+    "Menzies Campbell [Fife North East]" : "Menzies Campbell [North East Fife / Fife North East]",
+    "Ann McKechin [Glasgow North]" : "Ann McKechin [Glasgow North / Glasgow, Maryhill]",
+    "Ann McKechin [Glasgow, Maryhill]" : "Ann McKechin [Glasgow North / Glasgow, Maryhill]",
+    "Frank Doran [Aberdeen Central]" : "Frank Doran [Aberdeen Central / Aberdeen North]",
+    "Frank Doran [Aberdeen North]" : "Frank Doran [Aberdeen Central / Aberdeen North]",
+    "Tom Harris [Glasgow, Cathcart]" : "Tom Harris [Glasgow, Cathcart / Glasgow South]",
+    "Tom Harris [Glasgow South]" : "Tom Harris [Glasgow, Cathcart / Glasgow South]",
+    "Mohammed Sarwar [Glasgow Central]" : "Mohammed Sarwar [Glasgow Central / Glasgow, Govan]",
+    "Mohammad Sarwar [Glasgow, Govan]" : "Mohammed Sarwar [Glasgow Central / Glasgow, Govan]",
+    "John McFall [Dumbarton]" : "John McFall [Dumbarton / Dunbartonshire West]",
+    "John McFall [Dunbartonshire West]" : "John McFall [Dumbarton / Dunbartonshire West]",
+    "Jimmy Hood [Clydesdale]" : "Jimmy Hood [Clydesdale / Lanark & Hamilton East]",
+    "Jimmy Hood [Lanark & Hamilton East]" : "Jimmy Hood [Clydesdale / Lanark & Hamilton East]",
+    "Ian Davidson [Glasgow, Pollok]" : "Ian Davidson [Glasgow, Pollok / Glasgow South West]",
+    "Ian Davidson [Glasgow South West]" : "Ian Davidson [Glasgow, Pollok / Glasgow South West]",
+    "Gordon Brown [Kirkcaldy & Cowdenbeath]" : "Gordon Brown [Kirkcaldy & Cowdenbeath / Dunfermline East]",
+    "Gordon Brown [Dunfermline East]" : "Gordon Brown [Kirkcaldy & Cowdenbeath / Dunfermline East]",
+    "Michael Martin [Glasgow, Springburn]" : "Michael Martin [Glasgow, Springburn / Glasgow North East]",
+    "Michael Martin [Glasgow North East]" : "Michael Martin [Glasgow, Springburn / Glasgow North East]",
+    "Sandra Osborne [Ayr, Carrick & Cumnock]" : "Sandra Osborne [Ayr, Carrick & Cumnock / Ayr]",
+    "Sandra Osborne [Ayr]" : "Sandra Osborne [Ayr, Carrick & Cumnock / Ayr]",
+    "Jim Sheridan [West Renfrewshire]" : "Jim Sheridan [West Renfrewshire / Paisley & Renfrewshire North]",
+    "Jim Sheridan [Paisley & Renfrewshire North]" : "Jim Sheridan [West Renfrewshire / Paisley & Renfrewshire North]",
+    "Robert Smith [Aberdeenshire West & Kincardine]" : "Robert Smith [Aberdeenshire West & Kincardine / West Aberdeenshire & Kincardine]",
+    "Robert Smith [West Aberdeenshire & Kincardine]" : "Robert Smith [Aberdeenshire West & Kincardine / West Aberdeenshire & Kincardine]",
+    "Brian Donohoe [Ayrshire Central]" : "Brian Donohoe [Ayrshire Central / Cunninghame South]",
+    "Brian H Donohoe [Cunninghame South]" : "Brian Donohoe [Ayrshire Central / Cunninghame South]",
+    "Charles Kennedy [Ross, Skye & Inverness West]" : "Charles Kennedy [Ross, Skye & Inverness West / Ross, Skye & Lochaber]",
+    "Charles Kennedy [Ross, Skye & Lochaber]" : "Charles Kennedy [Ross, Skye & Inverness West / Ross, Skye & Lochaber]",
+    "Eric Joyce [Falkirk West]" : "Eric Joyce [Falkirk West / Falkirk]",
+    "Eric Joyce [Falkirk]" : "Eric Joyce [Falkirk West / Falkirk]",
+    "David Marshall [Glasgow, Shettleston]" : "David Marshall [Glasgow, Shettleston / Glasgow East]",
+    "David Marshall [Glasgow East]" : "David Marshall [Glasgow, Shettleston / Glasgow East]",
+    "Tommy McAvoy [Rutherglen & Hamilton West]" : "Tommy McAvoy [Rutherglen & Hamilton West / Glasgow, Rutherglen]",
+    "Thomas McAvoy [Glasgow, Rutherglen]" : "Tommy McAvoy [Rutherglen & Hamilton West / Glasgow, Rutherglen]",
+    "Pete Wishart [North Tayside]" : "Pete Wishart [North Tayside / Perth and Perthshire North]",
+    "Pete Wishart [Perth and Perthshire North]" : "Pete Wishart [North Tayside / Perth and Perthshire North]",
+    "David Cairns [Greenock & Inverclyde]" : "David Cairns [Greenock & Inverclyde / Inverclyde]",
+    "David Cairns [Inverclyde]" : "David Cairns [Greenock & Inverclyde / Inverclyde]",
+    "Michael Connarty [Linlithgow & Falkirk East]" : "Michael Connarty [Linlithgow & Falkirk East / Falkirk East]",
+    "Michael Connarty [Falkirk East]" : "Michael Connarty [Linlithgow & Falkirk East / Falkirk East]",
+    "John Robertson [Glasgow North West]" : "John Robertson [Glasgow North West / Glasgow, Anniesland]",
+    "John Robertson [Glasgow, Anniesland]" : "John Robertson [Glasgow North West / Glasgow, Anniesland]",
+    "Douglas Alexander [Paisley & Renfrewshire South]" : "Douglas Alexander [Paisley & Renfrewshire South / Paisley South]",
+    "Douglas Alexander [Paisley South]" : "Douglas Alexander [Paisley & Renfrewshire South / Paisley South]",
+    "Russell Brown [Dumfries & Galloway]" : "Russell Brown [Dumfries & Galloway / Dumfries]",
+    "Russell Brown [Dumfries]" : "Russell Brown [Dumfries & Galloway / Dumfries]",
+    "Alistair Darling [Edinburgh Central]" : "Alistair Darling [Edinburgh Central / Edinburgh South West]",
+    "Alistair Darling [Edinburgh South West]" : "Alistair Darling [Edinburgh Central / Edinburgh South West]",
+    "Rosemary McKenna [Cumbernauld, Kilsyth & Kirkintilloch East]" : "Rosemary McKenna [Cumbernauld, Kilsyth & Kirkintilloch East / Cumbernauld & Kilsyth]",
+    "Rosemary McKenna [Cumbernauld & Kilsyth]" : "Rosemary McKenna [Cumbernauld, Kilsyth & Kirkintilloch East / Cumbernauld & Kilsyth]",
+    "John Reid [Hamilton North & Bellshill]" : "John Reid [Hamilton North & Bellshill / Airdrie & Shotts]",
+    "John Reid [Airdrie & Shotts]" : "John Reid [Hamilton North & Bellshill / Airdrie & Shotts]",
+    "Adam Ingram [East Kilbride, Strathaven & Lesmahagow]" : "Adam Ingram [East Kilbride, Strathaven & Lesmahagow / East Kilbride]",
+    "Adam Ingram [East Kilbride]" : "Adam Ingram [East Kilbride, Strathaven & Lesmahagow / East Kilbride]",
+    "Tom Clarke [Coatbridge, Chryston & Bellshill]" : "Tom Clarke [Coatbridge, Chryston & Bellshill / Coatbridge & Chryston]",
+    "Tom Clarke [Coatbridge & Chryston]" : "Tom Clarke [Coatbridge, Chryston & Bellshill / Coatbridge & Chryston]",
+    "Michael Moore [Tweeddale, Ettrick & Lauderdale]" : "Michael Moore [Tweeddale, Ettrick & Lauderdale / Berwickshire, Roxburgh & Selkirk]",
+    "Michael Moore [Berwickshire, Roxburgh & Selkirk]" : "Michael Moore [Tweeddale, Ettrick & Lauderdale / Berwickshire, Roxburgh & Selkirk]",
+    "Rachel Squire [Dunfermline & Fife West]" : "Rachel Squire [Dunfermline & Fife West / Dunfermline West]",
+    "Rachel Squire [Dunfermline West]" : "Rachel Squire [Dunfermline & Fife West / Dunfermline West]",
+    "Christopher Fraser [Mid Dorset & North Poole]" : "Christopher Fraser [Mid Dorset & North Poole / South West Norfolk]",
+    "Christopher Fraser [South West Norfolk]" : "Christopher Fraser [Mid Dorset & North Poole / South West Norfolk]",
+    "Gavin Strang [Edinburgh East]" : "Gavin Strang [Edinburgh East / Edinburgh East & Musselburgh]",
+    "Gavin Strang [Edinburgh East & Musselburgh]" : "Gavin Strang [Edinburgh East / Edinburgh East & Musselburgh]",
+    "John MacDougall [Glenrothes]" : "John MacDougall [Glenrothes / Central Fife]",
+    "John MacDougall [Central Fife]" : "John MacDougall [Glenrothes / Central Fife]",
+
     }
 
 # Cases we want to specially match - add these in as we need them
@@ -124,10 +192,10 @@ class PersonSets(xml.sax.handler.ContentHandler):
             # (as one person can't hold office twice at once)
             for id1 in range(len(fuzzierids)):
                 attr1 = memberList.getmember(fuzzierids[id1])
-                cancons1 = memberList.canonicalcons(attr1["constituency"])
+                cancons1 = memberList.canonicalcons(attr1["constituency"], attr1["fromdate"])
                 for id2 in range(id1 + 1, len(fuzzierids)):
                     attr2 = memberList.getmember(fuzzierids[id2])
-                    cancons2 = memberList.canonicalcons(attr2["constituency"])
+                    cancons2 = memberList.canonicalcons(attr2["constituency"], attr2["fromdate"])
                     # check constituencies differ
                     if cancons1 != cancons2:
 
@@ -139,7 +207,7 @@ class PersonSets(xml.sax.handler.ContentHandler):
                         match = False
                         for id3 in range(len(fuzzierids)):
                             attr3 = memberList.getmember(fuzzierids[id3])
-                            cancons3 = memberList.canonicalcons(attr3["constituency"])
+                            cancons3 = memberList.canonicalcons(attr3["constituency"], attr3["fromdate"])
 
                             if cancons2 == cancons3 and \
                                 ((attr1["fromdate"] <= attr3["fromdate"] <= attr1["todate"])
@@ -165,13 +233,18 @@ class PersonSets(xml.sax.handler.ContentHandler):
                                 print "these are possibly the same person: "
                                 print " %s %s %s (%s) %s to %s" % (attr1["id"], attr1["firstname"], attr1["lastname"], attr1["constituency"], attr1["fromdate"], attr1["todate"])
                                 print " %s %s %s (%s) %s to %s" % (attr2["id"], attr2["firstname"], attr2["lastname"], attr2["constituency"], attr2["fromdate"], attr2["todate"])
+                                #  print in this form for handiness "Shaun Woodward [St Helens South]" : "Shaun Woodward [St Helens South / Witney]",
+                                print '"%s %s [%s]" : "%s %s [%s / %s]",' % (attr1["firstname"], attr1["lastname"], attr1["constituency"], attr1["firstname"], attr1["lastname"], attr1["constituency"], attr2["constituency"])
+                                print '"%s %s [%s]" : "%s %s [%s / %s]",' % (attr2["firstname"], attr2["lastname"], attr2["constituency"], attr1["firstname"], attr1["lastname"], attr1["constituency"], attr2["constituency"])
 
         return goterror
 
     def startElement(self, name, attr):
         if name == "member":
             # index by "Firstname Lastname Constituency"
-            cancons = memberList.canonicalcons(attr["constituency"])
+            cancons = memberList.canonicalcons(attr["constituency"], attr["fromdate"])
+            cancons2 = memberList.canonicalcons(attr["constituency"], attr["todate"])
+            assert cancons == cancons2
 
 			# MAKE A COPY.  (The xml documentation warns that the attr object can be reused, so shouldn't be put into your structures if it's not a copy).
 			attr = attr.copy()
@@ -191,15 +264,6 @@ class PersonSets(xml.sax.handler.ContentHandler):
 
     def endElement(self, name):
         pass
-
-    def currentmpslist(self):
-        matches = self.members.values()
-        ids = []
-        for attr in matches:
-            if today >= attr["fromdate"] and today <= attr["todate"]:
-                ids.append(attr["id"])
-        return ids
-
 
 # the main code
 personSets = PersonSets()

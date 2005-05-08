@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-    # $Id: dreamquery.xml,v 1.6 2005/04/08 17:14:55 theyworkforyou Exp $
+    # $Id: dreamquery.xml,v 1.7 2005/05/08 22:06:15 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -9,7 +9,7 @@
     include "../db.inc";
     include "../render.inc";
     include "../dream.inc";
-    include "../constituencies.inc";
+    require_once "../constituencies.inc";
     include "../decodeids.inc";
     $db = new DB(); 
 

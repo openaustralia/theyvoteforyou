@@ -12,7 +12,7 @@
 
     include "db.inc";
     include "parliaments.inc";
-    include "constituencies.inc";
+    require_once "constituencies.inc";
     include "dream.inc";
     $db = new DB(); 
 

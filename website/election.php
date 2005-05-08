@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.19 2005/05/08 09:34:16 frabcus Exp $
+# $Id: election.php,v 1.20 2005/05/08 22:06:15 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -18,7 +18,7 @@ include "db.inc";
 include "decodeids.inc";
 include "dream.inc";
 include "pretty.inc";
-include "constituencies.inc";
+require_once "constituencies.inc";
 include "account/user.inc";
 $db = new DB();
 
@@ -214,7 +214,7 @@ $independents = array(
 /*print "<pre>";
 print count(array_keys($northern_ireland_constituencies));
 foreach ($northern_ireland_constituencies as $k) {
-    print "\"" . $consmatch[strtolower($k)] . "\" => 1,\n";
+    print "\"" . normalise_constituency_name(strtolower($k)) . "\" => 1,\n";
 }
 print "</pre>";*/
 
@@ -332,7 +332,7 @@ header("Content-Type: text/html; charset=UTF-8");
         }
 
         # Regional parties
-        $consid = $consmatch[strtolower($constituency)];
+        $consid = normalise_constituency_name(strtolower($constituency));
         if (!$consid) {
             print "<div class=\"error\">Constituency '$constituency' not found, please <a href=\"team@publicwhip.org.uk\">let us know</a>.</div>";
         }

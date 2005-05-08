@@ -61,7 +61,7 @@ function characterData($parser, $content)
         $constituency .= $content;
 }
 
-function postcode_to_constituency($postcode) {
+function postcode_to_constituency($db, $postcode) {
     $postcode = trim($postcode);
 
     global $last_postcode;
@@ -73,7 +73,7 @@ function postcode_to_constituency($postcode) {
     }
 
     $start = getmicrotime();
-    $ret = postcode_to_constituency_internal($postcode);
+    $ret = postcode_to_constituency_internal($db, $postcode);
     $duration = getmicrotime() - $start;
     
     #debug ("TIME", "Postcode $postcode lookup took $duration seconds, returned $ret.");
@@ -82,7 +82,7 @@ function postcode_to_constituency($postcode) {
     return $ret;
 }
 
-function postcode_to_constituency_internal($postcode)
+function postcode_to_constituency_internal($db, $postcode)
 {
     $postcode = trim($postcode);
 
@@ -146,11 +146,11 @@ function postcode_to_constituency_internal($postcode)
     $constituency = str_replace("  ", " ", $constituency);
 
     # Convert to canonical name
-    global $consmatch, $consnames;
 #    print "<pre>$file</pre><br>$constituency<br>";
 #    print $consnames[$consmatch[strtolower($constituency)]];
-    if (array_key_exists(strtolower($constituency), $consmatch))
-        return $consnames[$consmatch[strtolower($constituency)]];
+    $normalised = normalise_constituency_name($db, strtolower($constituency));
+    if ($normalised)
+        return $normalised;
     else
         return '';
 }

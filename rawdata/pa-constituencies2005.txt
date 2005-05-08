@@ -197,7 +197,7 @@
     197 Dover
     198 Down North
     199 Down South
-    200 Dudley North ..............................................................................................................................back to top
+    200 Dudley North 
     201 Dudley South
     202 Dulwich & West Norwood
     203 Dumfries & Galloway
@@ -397,7 +397,7 @@
     397 Mitcham & Morden
     398 Mole Valley
     399 Monmouth
-    400 Montgomeryshire .................................................................................................................back to top
+    400 Montgomeryshire 
     401 Moray
     402 Morecambe & Lunesdale
     403 Morley & Rothwell
@@ -466,7 +466,7 @@
     466 Reigate
     467 Renfrewshire East
     468 Rhondda
-    469 Ribble South (South Ribble)
+    469 Ribble South 
     470 Ribble Valley
     471 Richmond (Yorks)
     472 Richmond Park
@@ -597,7 +597,7 @@
     597 Wantage
     598 Warley
     599 Warrington North
-    600 Warrington South ....................................................................................................................back to top
+    600 Warrington South 
     601 Warwick & Leamington
     602 Warwickshire North
     603 Watford

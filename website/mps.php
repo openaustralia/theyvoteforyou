@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.13 2005/03/09 19:38:51 goatchurch Exp $
+    # $Id: mps.php,v 1.14 2005/05/08 22:06:15 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -35,10 +35,13 @@ explanation</a> of these terms, as they may not have the meanings
 you expect. You can change the order of the table by selecting the headings.
 <?php
 	# this stuff to be tabbed like with the divisions table
-    if ($parliament != "1997" or $parlsession != "")
-        print "<p><a href=\"mps.php?parliament=1997&sort=" . html_scrub($sort) . "\">View MPs for 1997-2001 parliament</a>";
-    if ($parliament != "2001" or $parlsession != "")
-        print "<p><a href=\"mps.php?parliament=2001&sort=" .  html_scrub($sort) . "\">View MPs for 2001-2005 parliament</a>";
+    print "<br>";
+    foreach ($parliaments as $pname => $pdata) {
+        if ($parliament != $pname or $parlsession != "")
+            print "<br><a href=\"mps.php?parliament=". $pname.
+                  "&sort=" . html_scrub($sort) . "\">View MPs for ".
+                  $pdata['name'] . " parliament</a>";
+    }
 
     print "<table class=\"mps\">\n";
 

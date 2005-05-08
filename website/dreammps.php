@@ -12,7 +12,7 @@
     include "db.inc";
     include('database.inc');
     include "parliaments.inc";
-    include "constituencies.inc";
+    require_once "constituencies.inc";
     include "render.inc";
     include "dream.inc";
     include_once "account/user.inc";

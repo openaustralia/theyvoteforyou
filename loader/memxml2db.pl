@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.6 2005/03/04 01:30:17 theyworkforyou Exp $
+# $Id: memxml2db.pl,v 1.7 2005/05/08 22:06:12 frabcus Exp $
 
 # Convert all-members.xml into the database format for Public Whip website
 
@@ -22,12 +22,18 @@ my $dbh = PublicWhip::DB::connect();
 
 my $sth = PublicWhip::DB::query($dbh, "delete from pw_mp");
 $sth = PublicWhip::DB::query($dbh, "delete from pw_moffice");
+$sth = PublicWhip::DB::query($dbh, "delete from pw_constituency");
 my %membertoperson;
 
 my $twig = XML::Twig->new(
-    twig_handlers => { 'member' => \&loadmember, 'person' => \&loadperson, 
-            'moffice' => \&loadmoffice }, 
+    twig_handlers => { 
+            'constituency' => \&loadcons, 
+            'member' => \&loadmember, 
+            'person' => \&loadperson, 
+            'moffice' => \&loadmoffice 
+        }, 
     output_filter => 'safe');
+$twig->parsefile("../members/constituencies.xml");
 $twig->parsefile("../members/people.xml");
 $twig->parsefile("../members/ministers.xml");
 $twig->parsefile("../members/all-members.xml");
@@ -106,5 +112,31 @@ sub loadmoffice
         $moff->att('todate'), 
         $person,
         );
+}
+
+sub loadcons
+{ 
+	my ($twig, $cons) = @_;
+
+    my $consid = $cons->att('id');
+    $consid =~ s#uk.org.publicwhip/cons/##;
+
+    my $main_name = 1;
+    for (my $name = $cons->first_child('name'); $name;
+        $name = $name->next_sibling('name')) {
+
+        # We encode entities as e.g. &Ouml;, as otherwise non-ASCII characters
+        # get lost somewhere between Perl, the database and the browser.
+        my $sth = PublicWhip::DB::query($dbh, "insert into pw_constituency 
+            (cons_id, name, main_name, from_date, to_date) values
+            (?, ?, ?, ?, ?)", 
+            $consid,
+            encode_entities($name->att('text')), 
+            $main_name,
+            $cons->att('fromdate'), 
+            $cons->att('todate'), 
+            );
+        $main_name = 0;
+    }
 }
 

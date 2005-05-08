@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.21 2005/03/31 20:14:26 theyworkforyou Exp $
+# $Id: db.inc,v 1.22 2005/05/08 22:06:14 frabcus Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -112,7 +112,7 @@ class DB
     function query_onez_row_assoc($query)
     {
         $this->query($query);
-	$rows = $this->rows();
+        $rows = $this->rows();
         if ($rows == 0) {
         	return null;
 	}

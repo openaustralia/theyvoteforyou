@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.14 2005/04/19 10:35:21 frabcus Exp $
+# $Id: decodeids.inc,v 1.15 2005/05/08 22:06:15 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,10 +8,10 @@
 
 include $toppath . "parliaments.inc";
 include $toppath . "postcode.inc";
-require_once  $toppath . "wiki.inc";
+require_once $toppath . "wiki.inc";
 
 # this maps all constituency names to numbers
-include  $toppath . "constituencies.inc";
+require_once $toppath . "constituencies.inc";
 
 # get the constituency and names to use from an mpid
 # mpgen says the equivalence class is by constituency or by person
@@ -104,7 +104,6 @@ function get_mpid_attr($db, $mpid, $bbyconstituency, $i)
 function decode_mpid_legacy($db)
 {
     global $bdebug;
-    global $consmatch, $consnames;
 
     $id = db_scrub($_GET["id"]);
     if ($id != "")
@@ -121,9 +120,8 @@ function decode_mpid_legacy($db)
     $constituency = $_GET["constituency"];
     if ($constituency == "")
         return null;
-    # The consmatch converts constituency to canonical form as it comes in
     $constituency = strtolower(stripslashes(html_entity_decode($constituency)));
-    $constituency = $consnames[$consmatch[$constituency]];
+    $constituency = normalise_constituency_name($db, $constituency);
     $constituency = db_scrub($constituency);
     $first_name = db_scrub($_GET["firstname"]);
     $last_name = db_scrub($_GET["lastname"]);
@@ -148,7 +146,6 @@ function decode_mpid_legacy($db)
 function get_mpid_attr_decode($db, $i)
 {
     global $bdebug;
-    global $consmatch, $consnames;
 
     $mpname = db_scrub($_GET["mpn$i"]);
     $mpconstituency = db_scrub($_GET["mpc$i"]);
@@ -158,7 +155,7 @@ function get_mpid_attr_decode($db, $i)
         print "<h1> MPN=".html_scrub($mpname)." MPC=".html_scrub($mpconstituency)." MPPC=".html_scrub($mppostcode)."</h1>";
 
     if (is_postcode($mppostcode)) {
-        $pccons = postcode_to_constituency($mppostcode);
+        $pccons = postcode_to_constituency($db, $mppostcode);
         if (isset($pccons)) {
             $mpconstituency = $pccons; 
         }
@@ -191,7 +188,7 @@ function get_mpid_attr_decode($db, $i)
         {
             $constituency = strtolower(stripslashes(html_entity_decode($mpconstituency)));
             $constituency = str_replace("_", " ", $constituency);
-            $constituency = $consnames[$consmatch[$constituency]];
+            $constituency = normalise_constituency_name($db, $constituency);
             $constituency = db_scrub($constituency);
             if ($constituency == "")
             {

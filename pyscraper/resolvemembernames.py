@@ -35,8 +35,9 @@ class MemberList(xml.sax.handler.ContentHandler):
         self.debatedate=None
         self.debatenamehistory=[] # recent speakers in debate
         self.debateofficehistory={} # recent offices ("The Deputy Prime Minister")
-        self.conscanonical = {} # constituency aliases --> canonical constituency
-        self.constituencies = {} # constituency --> MPs
+        self.constoidmap = {} # constituency name --> cons attributes (with date and ID)
+        self.considtomembermap = {} # cons ID --> MPs
+        self.considtonamemap = {} # cons ID --> name
         self.parties = {} # party --> MPs
         self.officetopersonmap = {} # member ID --> person ID
         self.persontoofficemap = {} # person ID --> office
@@ -51,10 +52,9 @@ class MemberList(xml.sax.handler.ContentHandler):
 
         parser = xml.sax.make_parser()
         parser.setContentHandler(self)
-        parser.parse("../members/all-members.xml")
-        self.loadconsid = None
-        self.loadconscanon = None
+        self.loadconsattr = None
         parser.parse("../members/constituencies.xml")
+        parser.parse("../members/all-members.xml")
         self.loadperson = None
         parser.parse("../members/people.xml")
         parser.parse("../members/ministers.xml")
@@ -90,19 +90,29 @@ class MemberList(xml.sax.handler.ContentHandler):
 
             # ... and by constituency
             cons = attr["constituency"]
+            consids = self.constoidmap[cons]
+            consid = None
+            # find the constituency id for this MP
+            for consattr in consids:
+                if (consattr['fromdate'] <= attr['fromdate'] and
+                    attr['fromdate'] <= attr['todate'] and
+                    attr['todate'] <= consattr['todate']):
+                    if consid:
+                        raise Exception, "Two constituency ids %s %s overlap with MP %s" % (consid, consattr['id'], attr['id'])
+                    consid = consattr['id']
             # check first date ranges don't overlap
-            for curattr in self.constituencies.get(cons, []):
+            for curattr in self.considtomembermap.get(consid, []):
                 if curattr['fromdate'] <= attr['fromdate'] <= curattr['todate'] \
                     or curattr['fromdate'] <= attr['todate'] <= curattr['todate'] \
                     or attr['fromdate'] <= curattr['fromdate'] <= attr['todate'] \
                     or attr['fromdate'] <= curattr['todate'] <= attr['todate']:
-                    raise Exception, "Two entries for constituency %s with overlapping dates" % cons
-             # then add in
-            self.constituencies.setdefault(cons, []).append(attr)
+                    raise Exception, "Two MP entries for constituency %s with overlapping dates" % consid
+            # then add in
+            self.considtomembermap.setdefault(consid, []).append(attr)
 
             # ... and by party
-            cons = attr["party"]
-            self.parties.setdefault(cons, []).append(attr)
+            party = attr["party"]
+            self.parties.setdefault(party, []).append(attr)
 
         # member-aliases.xml loading
         elif name == "alias":
@@ -119,7 +129,15 @@ class MemberList(xml.sax.handler.ContentHandler):
                 if not matches:
                     raise Exception, 'Canonical lastname not found ' + attr["lastname"]
             elif attr.has_key("constituency"):
-                matches = self.constituencies.get(attr["constituency"], None)
+                consids = self.constoidmap.get(attr["constituency"], None)
+                if not consids:
+                    raise Exception, 'Constituency name not found ' + attr["constituency"]
+                matches = []
+                for consattr in consids:
+                    consid = consattr['id']
+                    members = self.considtomembermap.get(consid, None)
+                    if members:
+                        matches.extend(members)
                 if not matches:
                     raise Exception, 'Canonical constituency not found ' + attr["constituency"]
             # append every canonical match to the alternates
@@ -141,15 +159,13 @@ class MemberList(xml.sax.handler.ContentHandler):
 
         # constituencies.xml loading
         elif name == "constituency":
-            self.loadconsid = attr["id"]
+            self.loadconsattr = attr
             pass
         elif name == "name":
-            if self.loadconsid: # name tag within constituency tag
-                if not self.loadconscanon:
-                    self.loadconscanon = attr["text"] # canonical constituency name is first listed
-                if self.conscanonical.get(attr["text"], None):
-                    raise Exception, "Constituency file has two names the same %s" % attr["text"]
-                self.conscanonical[attr["text"]] = self.loadconscanon
+            if self.loadconsattr: # name tag within constituency tag
+                if not self.loadconsattr["id"] in self.considtonamemap:
+                    self.considtonamemap[self.loadconsattr["id"]] = attr["text"] # preferred constituency name is first listed
+                self.constoidmap.setdefault(attr["text"], []).append(self.loadconsattr)
             pass
 
         # people.xml loading
@@ -191,8 +207,7 @@ class MemberList(xml.sax.handler.ContentHandler):
 
     def endElement(self, name):
         if name == "constituency":
-            self.loadconsid = None
-            self.loadconscanon = None
+            self.loadconsattr = None
 
     def partylist(self):
         return self.parties.keys()
@@ -257,7 +272,7 @@ class MemberList(xml.sax.handler.ContentHandler):
         return ids
 
     # Returns id, corrected name, corrected constituency
-    # alwaysmatchcons says it is an error to have an unknown constituency
+    # alwaysmatchcons says it is an error to have an unknown/mismatching constituency
     # (rather than just treating cons as None if the cons is unknown)
     # date or cons can be None
     def matchfullnamecons(self, fullname, cons, date, alwaysmatchcons = True):
@@ -267,17 +282,21 @@ class MemberList(xml.sax.handler.ContentHandler):
             cons = cons.strip()
         ids = self.fullnametoids(fullname, date)
 
-        cancons = self.conscanonical.get(cons, None)
-        if alwaysmatchcons and cons and not cancons:
+        consids = self.constoidmap.get(cons, None)
+        if alwaysmatchcons and cons and not consids:
             raise Exception, "Unknown constituency %s" % cons
 
-        if cancons and len(ids) > 1:
+        if consids and (len(ids) > 1 or alwaysmatchcons):
             newids = sets.Set()
-            matches = self.constituencies[cancons]
-            for attr in matches:
-                if (date == None) or (date >= attr["fromdate"] and date <= attr["todate"]):
-                    if attr["id"] in ids:
-                        newids.add(attr["id"])
+
+            for consattr in consids:
+                if consattr["fromdate"] <= date and date <= consattr["todate"]:
+                    consid = consattr['id']
+                    matches = self.considtomembermap[consid]
+                    for attr in matches:
+                        if (date == None) or (date >= attr["fromdate"] and date <= attr["todate"]):
+                            if attr["id"] in ids:
+                                newids.add(attr["id"])
             ids = newids
 
         if len(ids) == 0:
@@ -399,17 +418,19 @@ class MemberList(xml.sax.handler.ContentHandler):
                     ids = ids.intersection(brackids)
 
             # Sometimes constituency in brackets: Malcolm Bruce (Gordon)
-            # Get constituency in the form used in the MP table
-            cons = self.conscanonical.get(bracket, None)
-            if cons:
+            consids = self.constoidmap.get(bracket, None)
+            if consids:
                 # Search for constituency matches, and intersect results with them
                 newids = sets.Set()
-                matches = self.constituencies.get(cons, None)
-                if matches:
-                    for attr in matches:
-                        if date >= attr["fromdate"] and date <= attr["todate"]:
-                            if attr["id"] in ids:
-                                newids.add(attr["id"])
+                for consattr in consids:
+                    if consattr["fromdate"] <= date and date <= consattr["todate"]:
+                        consid = consattr['id']
+                        matches = self.considtomembermap.get(consid, None)
+                        if matches:
+                            for attr in matches:
+                                if date >= attr["fromdate"] and date <= attr["todate"]:
+                                    if attr["id"] in ids:
+                                        newids.add(attr["id"])
                 ids = newids
 
 
@@ -525,11 +546,19 @@ class MemberList(xml.sax.handler.ContentHandler):
             return True
         return False
 
-    def canonicalcons(self, cons):
-        cancons = self.conscanonical.get(cons, None)
-        if not cancons:
+    def canonicalcons(self, cons, date):
+        consids = self.constoidmap.get(cons, None)
+        if not consids:
             raise Exception, "Unknown constituency %s" % cons
-        return cancons
+        consid = None
+        for consattr in consids:
+            if consattr["fromdate"] <= date and date <= consattr["todate"]:
+                if consid:
+                    raise Exception, "Two like-named constituency ids %s %s overlap with date %s" % (consid, consattr['id'], date)
+                consid = consattr['id']
+        if not consid in self.considtonamemap:
+            raise Exception, "Not known name of consid %s cons %s date %s" % (consid, cons, date)
+        return self.considtonamemap[consid]
 
     def getmember(self, memberid):
         return self.members[memberid]

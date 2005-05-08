@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: search.php,v 1.36 2005/03/28 11:28:39 frabcus Exp $
+# $Id: search.php,v 1.37 2005/05/08 22:06:15 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -16,7 +16,7 @@
     }
     include "render.inc";
     include "parliaments.inc";
-    include "constituencies.inc";
+    require_once "constituencies.inc";
     include "postcode.inc";
 
     $db = new DB(); 
@@ -79,7 +79,7 @@
         {
 #            print "Postcode searching is not available.  Please search for your MP name. If you don't know their name, you can try searching for your town or district name, or use <a href=\"http://www.faxyourmp.com\">FaxYourMP</a> to find your MP name from postcode.";
             $score_clause = "(1=0)";
-            $pccons = postcode_to_constituency($query);
+            $pccons = postcode_to_constituency($db, $query);
             if (isset($pccons))
             {
                 # Overwrite over matches if we have postcode

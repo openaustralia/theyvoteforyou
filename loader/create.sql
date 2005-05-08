@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.24 2005/04/13 06:27:00 frabcus Exp $
+-- $Id: create.sql,v 1.25 2005/05/08 22:06:12 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -52,6 +52,22 @@ create table pw_mp (
     index(left_house),
     index(person),
     unique(first_name, last_name, constituency, entered_house, left_house)
+);
+
+-- Has multiple entries for different spellings of each constituency
+create table pw_constituency (
+    cons_id int not null,
+    name varchar(100) not null,
+    main_name bool not null,
+
+    -- these are inclusive, and measure days when the boundaries were active
+    from_date date not null default '1000-01-01',
+    to_date date not null default '9999-12-31',
+
+    index(from_date),
+    index(to_date),
+    index(name),
+    index(cons_id, name)
 );
 
 create table pw_division (
