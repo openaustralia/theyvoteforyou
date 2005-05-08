@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.68 2005/04/07 10:53:55 theyworkforyou Exp $
+    # $Id: mp.php,v 1.69 2005/05/08 22:26:17 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -248,7 +248,7 @@
 	        print "<p>MPs who have represented <b>".$mpprop['constituency']."</b>";
 	    else
 	        print "<p><b>".$mpprop['name']."</b> has been MP for <b>".$mpprop['constituency']."</b>";
-		print " during the following periods of time during the last two parliaments:<br>";
+		print " during the following periods of time during the last three parliaments:<br>";
 		print "(Check out <a href=\"faq.php#clarify\">our explanation</a> of 'attendance'
 	            and 'rebellions', as they may not have the meanings you expect.)</p>";
 

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.42 2005/05/06 02:23:42 frabcus Exp $
+# $Id: faq.php,v 1.43 2005/05/08 22:26:16 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -65,7 +65,7 @@ voting.  This information has been added into an online database which you can
 access.
 
 <h2><a name="timeperiod">What time period does it cover?</a></h2>
-<p>Voting data extends back across two parliaments to the May 1997 General
+<p>Voting data extends back across three parliaments to the May 1997 General
 Election, although there are a few divisions missing in the 1997
 parliament.  New divisions usually appear in Public Whip the next morning, but
 sometimes take a day or two longer.  We give no warranty for the data; there
