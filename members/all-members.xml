@@ -9953,7 +9953,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1412"
         house="commons"
-        title="" firstname="Sion" lastname="Simon"
+        title="" firstname="Siôn" lastname="Simon"
         constituency="Birmingham, Erdington" party="Lab"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -12417,7 +12417,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1720"
         house="commons"
-        title="" firstname="Lembit" lastname="Opik"
+        title="" firstname="Lembit" lastname="Öpik"
         constituency="Montgomeryshire" party="LDem"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />

@@ -2448,6 +2448,7 @@ Generated exclusively by personsets.py, don't hand edit it just now
 </person>
 <person id="uk.org.publicwhip/person/10465" latestname="Lembit Öpik">
     <office id="uk.org.publicwhip/member/1143"/>
+    <office id="uk.org.publicwhip/member/1720"/>
     <office id="uk.org.publicwhip/member/465"/>
 </person>
 <person id="uk.org.publicwhip/person/10536" latestname="Gillian Shephard">
@@ -3306,6 +3307,7 @@ Generated exclusively by personsets.py, don't hand edit it just now
 </person>
 <person id="uk.org.publicwhip/person/11225" latestname="Siôn Simon">
     <office id="uk.org.publicwhip/member/1225"/>
+    <office id="uk.org.publicwhip/member/1412"/>
 </person>
 <person id="uk.org.publicwhip/person/10961" latestname="David Heyes">
     <office id="uk.org.publicwhip/member/1380"/>
@@ -3441,9 +3443,6 @@ Generated exclusively by personsets.py, don't hand edit it just now
 <person id="uk.org.publicwhip/person/10776" latestname="Patsy Calton">
     <office id="uk.org.publicwhip/member/1492"/>
     <office id="uk.org.publicwhip/member/776"/>
-</person>
-<person id="uk.org.publicwhip/person/11720" latestname="Lembit Opik">
-    <office id="uk.org.publicwhip/member/1720"/>
 </person>
 <person id="uk.org.publicwhip/person/10105" latestname="Michael Clapham">
     <office id="uk.org.publicwhip/member/105"/>
@@ -3770,9 +3769,6 @@ Generated exclusively by personsets.py, don't hand edit it just now
     <office id="uk.org.publicwhip/member/1371"/>
     <office id="uk.org.publicwhip/member/62"/>
     <office id="uk.org.publicwhip/member/749"/>
-</person>
-<person id="uk.org.publicwhip/person/11412" latestname="Sion Simon">
-    <office id="uk.org.publicwhip/member/1412"/>
 </person>
 <person id="uk.org.publicwhip/person/10375" latestname="John McAllion">
     <office id="uk.org.publicwhip/member/375"/>
