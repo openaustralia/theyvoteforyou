@@ -1,5 +1,5 @@
 #! /usr/bin/perl
-# $Id: makecons.pl,v 1.4 2004/02/25 08:37:54 frabcus Exp $
+# $Id: makecons.pl,v 1.5 2005/05/08 09:34:15 frabcus Exp $
 
 # Make the constituency XML file, has heuristics to match same names
 
@@ -163,6 +163,7 @@ foreach $_ (sort(keys(%opairs)))
     if ($f eq $p) { $ff = "" } else { $ff = "\n    <name text=\"$f\"/> <!-- FaxYourMP index -->"; }
     if (($f eq $o) and ($o ne $p)) { $ff = ""; }
     $c++;
+#<constituency id="uk.org.publicwhip/cons/$c" fromdate="1000-01-01" todate="2005-05-04">
 print <<END;
 <constituency id="uk.org.publicwhip/cons/$c">
     <name text="$p"/>$oo$ff
