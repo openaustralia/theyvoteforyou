@@ -12009,7 +12009,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1669"
         house="commons"
-        title="" firstname="Ben" lastname="Wallace"
+        title="" firstname="Hilary" lastname="Benn"
         constituency="Leeds Central" party="Lab"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -12721,7 +12721,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1758"
         house="commons"
-        title="" firstname="David" lastname="MacLean"
+        title="" firstname="David" lastname="Maclean"
         constituency="Penrith &amp; The Border" party="Con"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />

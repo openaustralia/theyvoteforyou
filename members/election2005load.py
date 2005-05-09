@@ -61,9 +61,9 @@ party_map = {
 mp_id = 1367
 items = bbc_ids.iteritems()
 #Debug loop for skipping
-#for i in range(0, 1951-mp_id):
-#    mp_id = mp_id + 1
-#    items.next() 
+for i in range(0, 1668-mp_id):
+    mp_id = mp_id + 1
+    items.next() 
 for bbc_id, cons_name in items:
     mp_id = mp_id + 1
 
@@ -71,6 +71,7 @@ for bbc_id, cons_name in items:
     url = "http://news.bbc.co.uk/1/shared/vote2005/flash_map/resultdata/%d.xml" % bbc_id
     content = urllib.urlopen(url).read()
     #print content
+    #print url
     content = content.replace("skinkers:", "skinkers-") # remove XML namespace shite
     content = " ".join(content.split()) # replace all contiguous whitespace with one space
     doc = NonvalidatingReader.parseString(content, url)
@@ -86,7 +87,8 @@ for bbc_id, cons_name in items:
         continue # not declared yet
     win_party = party_map[bbc_win_party]
     win_name = doc.xpath('string(//Party[string(Code)="%s"]/CandidateName)' % bbc_win_party)
-
+    win_name = win_name.strip()
+    #print win_party, win_name
 
     # Make into first and surname
     names = win_name.split(" ")
