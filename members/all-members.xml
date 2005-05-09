@@ -9889,7 +9889,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1404"
         house="commons"
-        title="" firstname="Alan" lastname="Beith"
+        title="" firstname="A J" lastname="Beith"
         constituency="Berwick-upon-Tweed" party="LDem"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -13009,7 +13009,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1794"
         house="commons"
-        title="" firstname="Ken" lastname="Clarke"
+        title="" firstname="Kenneth" lastname="Clarke"
         constituency="Rushcliffe" party="Con"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />

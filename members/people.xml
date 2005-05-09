@@ -86,9 +86,6 @@ Generated exclusively by personsets.py, don't hand edit it just now
 <person id="uk.org.publicwhip/person/11361" latestname="Parmjit Gill">
     <office id="uk.org.publicwhip/member/1361"/>
 </person>
-<person id="uk.org.publicwhip/person/11404" latestname="Alan Beith">
-    <office id="uk.org.publicwhip/member/1404"/>
-</person>
 <person id="uk.org.publicwhip/person/10597" latestname="Paddy Tipping">
     <office id="uk.org.publicwhip/member/1282"/>
     <office id="uk.org.publicwhip/member/1815"/>
@@ -1421,9 +1418,6 @@ Generated exclusively by personsets.py, don't hand edit it just now
     <office id="uk.org.publicwhip/member/203"/>
     <office id="uk.org.publicwhip/member/891"/>
 </person>
-<person id="uk.org.publicwhip/person/11794" latestname="Ken Clarke">
-    <office id="uk.org.publicwhip/member/1794"/>
-</person>
 <person id="uk.org.publicwhip/person/10384" latestname="John McFall">
     <office id="uk.org.publicwhip/member/1069"/>
     <office id="uk.org.publicwhip/member/1972"/>
@@ -2241,6 +2235,7 @@ Generated exclusively by personsets.py, don't hand edit it just now
 </person>
 <person id="uk.org.publicwhip/person/10115" latestname="Kenneth Clarke">
     <office id="uk.org.publicwhip/member/115"/>
+    <office id="uk.org.publicwhip/member/1794"/>
     <office id="uk.org.publicwhip/member/802"/>
 </person>
 <person id="uk.org.publicwhip/person/10411" latestname="Seamus Mallon">
@@ -2903,6 +2898,7 @@ Generated exclusively by personsets.py, don't hand edit it just now
     <office id="uk.org.publicwhip/member/997"/>
 </person>
 <person id="uk.org.publicwhip/person/10034" latestname="A J Beith">
+    <office id="uk.org.publicwhip/member/1404"/>
     <office id="uk.org.publicwhip/member/34"/>
     <office id="uk.org.publicwhip/member/724"/>
 </person>
