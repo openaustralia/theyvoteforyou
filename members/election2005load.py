@@ -61,9 +61,9 @@ party_map = {
 mp_id = 1367
 items = bbc_ids.iteritems()
 #Debug loop for skipping
-for i in range(0, 1668-mp_id):
-    mp_id = mp_id + 1
-    items.next() 
+#for i in range(0, 1668-mp_id):
+#    mp_id = mp_id + 1
+#    items.next() 
 for bbc_id, cons_name in items:
     mp_id = mp_id + 1
 
