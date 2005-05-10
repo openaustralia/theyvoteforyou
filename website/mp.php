@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.72 2005/05/10 10:58:18 frabcus Exp $
+    # $Id: mp.php,v 1.73 2005/05/10 11:00:44 theyworkforyou Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -294,7 +294,7 @@
         if ($vtitle)
             print "<h2><a name=\"divisions\">$vtitle</a></h2>\n";
 
-        if ($voter1attr['mpprops'][0]['enteredhouse'] = '2005-05-05') {
+        if ($voter1attr['mpprops'][0]['enteredhouse'] == '2005-05-05') {
             print "<p><b>New parliament!</b>  
             We don't have a voting record
             yet, since there haven't been any divisions.  
