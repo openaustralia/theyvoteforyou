@@ -91,6 +91,13 @@ manualmatches = {
     "Gavin Strang [Edinburgh East & Musselburgh]" : "Gavin Strang [Edinburgh East / Edinburgh East & Musselburgh]",
     "John MacDougall [Glenrothes]" : "John MacDougall [Glenrothes / Central Fife]",
     "John MacDougall [Central Fife]" : "John MacDougall [Glenrothes / Central Fife]",
+    "Thomas McAvoy [Glasgow, Rutherglen]" : "Thomas McAvoy [Glasgow, Rutherglen / Rutherglen & Hamilton West]",
+    "Thomas McAvoy [Rutherglen & Hamilton West]" : "Thomas McAvoy [Glasgow, Rutherglen / Rutherglen & Hamilton West]",
+    "Brian H Donohoe [Ayrshire Central]" : "Brian H Donohoe [Ayrshire Central / Cunninghame South]",
+    "Brian H Donohoe [Cunninghame South]" : "Brian H Donohoe [Ayrshire Central / Cunninghame South]",
+    "Mohammad Sarwar [Glasgow, Govan]" : "Mohammad Sarwar [Glasgow, Govan / Glasgow Central]",
+    "Mohammad Sarwar [Glasgow Central]" : "Mohammad Sarwar [Glasgow, Govan / Glasgow Central]",
+
 
     }
 

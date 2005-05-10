@@ -1,6 +1,9 @@
 #! /usr/bin/env python2.4
 # vim:sw=4:ts=4:et:nowrap
 
+# Loads data from BBC election flash applet, and produces XML in the
+# same format as all-members.xml
+
 import sys
 import os
 import urllib
@@ -84,7 +87,7 @@ for bbc_id, cons_name in items:
     if (cons_name == "Lagan Valley"):
         bbc_win_party = "DUP"
     if (cons_name == "South Staffordshire"):
-        continue # not declared yet
+        continue # byelection due to candidate death during election campaign
     win_party = party_map[bbc_win_party]
     win_name = doc.xpath('string(//Party[string(Code)="%s"]/CandidateName)' % bbc_win_party)
     win_name = win_name.strip()

@@ -22,6 +22,10 @@ search the file for people, and look them up at election.demon below.
 Data comes from here for changes between parliaments:
 http://www.election.demon.co.uk/strengths.html
 
+The name form to use should be the on used on the parliament website.
+http://www.parliament.uk/directories/hciolists/alms.cfm
+(although see member-aliases.xml for aliases)
+
 -->
 
 <!-- 1997 parliament -->
@@ -10425,7 +10429,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1471"
         house="commons"
-        title="" firstname="Christine" lastname="McCafferty"
+        title="" firstname="Chris" lastname="McCafferty"
         constituency="Calder Valley" party="Lab"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -10497,7 +10501,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1480"
         house="commons"
-        title="" firstname="Jenny" lastname="Willott"
+        title="" firstname="Jennifer" lastname="Willott"
         constituency="Cardiff Central" party="LDem"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -10761,7 +10765,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1513"
         house="commons"
-        title="" firstname="Dan" lastname="Rogerson"
+        title="" firstname="Daniel" lastname="Rogerson"
         constituency="North Cornwall" party="LDem"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -11017,7 +11021,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1545"
         house="commons"
-        title="" firstname="Ed" lastname="Miliband"
+        title="" firstname="Edward" lastname="Miliband"
         constituency="Doncaster North" party="Lab"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -11177,7 +11181,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1565"
         house="commons"
-        title="" firstname="Chris" lastname="Huhne"
+        title="" firstname="Christopher" lastname="Huhne"
         constituency="Eastleigh" party="LDem"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -11665,7 +11669,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1626"
         house="commons"
-        title="" firstname="Mike" lastname="Penning"
+        title="" firstname="Michael" lastname="Penning"
         constituency="Hemel Hempstead" party="Con"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -11977,7 +11981,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1665"
         house="commons"
-        title="" firstname="Eddie" lastname="O'Hara"
+        title="" firstname="Edward" lastname="O'Hara"
         constituency="Knowsley South" party="Lab"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -12081,7 +12085,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1678"
         house="commons"
-        title="" firstname="Andrew" lastname="Burnham"
+        title="" firstname="Andy" lastname="Burnham"
         constituency="Leigh" party="Lab"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -12577,7 +12581,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1740"
         house="commons"
-        title="" firstname="Ed" lastname="Balls"
+        title="" firstname="Edward" lastname="Balls"
         constituency="Normanton" party="Lab"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -12841,7 +12845,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1773"
         house="commons"
-        title="" firstname="Rob" lastname="Wilson"
+        title="" firstname="Robert" lastname="Wilson"
         constituency="Reading East" party="Con"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -13049,7 +13053,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1799"
         house="commons"
-        title="" firstname="David" lastname="Watts"
+        title="" firstname="Dave" lastname="Watts"
         constituency="St Helens North" party="Lab"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -13153,7 +13157,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1812"
         house="commons"
-        title="" firstname="Nick" lastname="Clegg"
+        title="" firstname="Nicholas" lastname="Clegg"
         constituency="Sheffield, Hallam" party="LDem"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -13889,7 +13893,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1905"
         house="commons"
-        title="" firstname="Ed" lastname="Vaizey"
+        title="" firstname="Edward" lastname="Vaizey"
         constituency="Wantage" party="Con"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -14137,7 +14141,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1936"
         house="commons"
-        title="" firstname="Pat" lastname="McFadden"
+        title="" firstname="Patrick" lastname="McFadden"
         constituency="Wolverhampton South East" party="Lab"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -14321,7 +14325,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1959"
         house="commons"
-        title="" firstname="Mike" lastname="Weir"
+        title="" firstname="Michael" lastname="Weir"
         constituency="Angus" party="SNP"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -14345,7 +14349,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1962"
         house="commons"
-        title="" firstname="Brian" lastname="Donohoe"
+        title="" firstname="Brian H" lastname="Donohoe"
         constituency="Ayrshire Central" party="Lab"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -14441,7 +14445,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1974"
         house="commons"
-        title="" firstname="Jim" lastname="McGovern"
+        title="" firstname="James" lastname="McGovern"
         constituency="Dundee West" party="Lab"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -14529,7 +14533,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/1985"
         house="commons"
-        title="" firstname="Mohammed" lastname="Sarwar"
+        title="" firstname="Mohammad" lastname="Sarwar"
         constituency="Glasgow Central" party="Lab"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
@@ -14745,7 +14749,7 @@ http://www.election.demon.co.uk/strengths.html
 <member
         id="uk.org.publicwhip/member/2012"
         house="commons"
-        title="" firstname="Tommy" lastname="McAvoy"
+        title="" firstname="Thomas" lastname="McAvoy"
         constituency="Rutherglen &amp; Hamilton West" party="Lab"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
