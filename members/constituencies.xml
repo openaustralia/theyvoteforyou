@@ -2552,6 +2552,7 @@ that loads in the original file before making modifications.
     <name text="Paisley and Renfrewshire South"/>
   </constituency>
   <constituency fromdate="2005-05-05" id="uk.org.publicwhip/cons/712" todate="9999-12-31">
+    <name text="Perth &amp; Perthshire North"/>
     <name text="Perth and Perthshire North"/>
     <name text="Perth and North Perthshire"/>
   </constituency>

@@ -14726,7 +14726,7 @@ http://www.parliament.uk/directories/hciolists/alms.cfm
         id="uk.org.publicwhip/member/2009"
         house="commons"
         title="" firstname="Pete" lastname="Wishart"
-        constituency="Perth and Perthshire North" party="SNP"
+        constituency="Perth &amp; Perthshire North" party="SNP"
         fromdate="2005-05-05" todate="9999-12-31" fromwhy="general_election" towhy="still_in_office"
     />
     

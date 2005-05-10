@@ -973,10 +973,6 @@ Generated exclusively by personsets.py, don't hand edit it just now
     <office id="uk.org.publicwhip/member/1252"/>
     <office id="uk.org.publicwhip/member/567"/>
 </person>
-<person id="uk.org.publicwhip/person/11333" latestname="Pete Wishart">
-    <office id="uk.org.publicwhip/member/1333"/>
-    <office id="uk.org.publicwhip/member/2009"/>
-</person>
 <person id="uk.org.publicwhip/person/10344" latestname="Julie Kirkbride">
     <office id="uk.org.publicwhip/member/1024"/>
     <office id="uk.org.publicwhip/member/1460"/>
@@ -3637,6 +3633,10 @@ Generated exclusively by personsets.py, don't hand edit it just now
 </person>
 <person id="uk.org.publicwhip/person/10235" latestname="Eileen Gordon">
     <office id="uk.org.publicwhip/member/235"/>
+</person>
+<person id="uk.org.publicwhip/person/11333" latestname="Pete Wishart">
+    <office id="uk.org.publicwhip/member/1333"/>
+    <office id="uk.org.publicwhip/member/2009"/>
 </person>
 <person id="uk.org.publicwhip/person/10458" latestname="Dan Norris">
     <office id="uk.org.publicwhip/member/1135"/>

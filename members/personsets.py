@@ -97,7 +97,8 @@ manualmatches = {
     "Brian H Donohoe [Cunninghame South]" : "Brian H Donohoe [Ayrshire Central / Cunninghame South]",
     "Mohammad Sarwar [Glasgow, Govan]" : "Mohammad Sarwar [Glasgow, Govan / Glasgow Central]",
     "Mohammad Sarwar [Glasgow Central]" : "Mohammad Sarwar [Glasgow, Govan / Glasgow Central]",
-
+    "Pete Wishart [North Tayside]" : "Pete Wishart [North Tayside / Perth & Perthshire North]",
+    "Pete Wishart [Perth & Perthshire North]" : "Pete Wishart [North Tayside / Perth & Perthshire North]",
 
     }
 
