@@ -3037,6 +3037,7 @@ Generated exclusively by personsets.py, don't hand edit it just now
 <person id="uk.org.publicwhip/person/10420" latestname="Michael Martin">
     <office id="uk.org.publicwhip/member/1101"/>
     <office id="uk.org.publicwhip/member/1988"/>
+    <office id="uk.org.publicwhip/member/2014"/>
     <office id="uk.org.publicwhip/member/420"/>
     <office id="uk.org.publicwhip/member/680"/>
 </person>
