@@ -1,0 +1,43 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-09-09.html	Sun Apr 17 04:25:39 2005
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-09-09-patchtmp.html	Sun Apr 17 22:43:38 2005
+@@ -3539,7 +3539,6 @@
+ 
+ 
+ 
+-
+ <p><a name="40909-14_spnew3"><b> Mr. Straw: </b> 
+  We are going into the referendum campaign in order to win, so our policy is to gain a yes vote, and I very strongly believe that we will gain it. If there is a no vote, it is perfectly obvious what the circumstances will be&#151;and the existing treaties will apply. What the right hon. and learned Gentleman should apply himself to is why the existing ramshackle treaties, which give European nation states less power than the new treaty, will somehow be beneficial for Britain.
+ </p>
+@@ -3553,7 +3552,6 @@
+ <a name="40909-14_para5">
+ Engagement in Europe pays. It was by engaging with our partners that the Government delivered what we set out to do with the new constitution. It was by building alliances and winning the arguments that we got the right choice for the new European Commission President&#151;Jos&#233; Manuel Barroso, who has the stature, drive and global outlook to drive through reform in the EU&#151;and with our former right hon. Friend Peter Mandelson, we have an outstanding British appointment who has now acquired the key trade portfolio. <i>[Interruption.]</i> That will benefit this country and the EU as a whole.
+ 
+-
+ <br>&nbsp;<br>
+ 
+ 
+@@ -3575,9 +3573,13 @@
+ 
+ 
+ 
+-
+-
+-
++<stamp parsemess-colnum="890"/>
++<parsemess-misspeech type="speech" redirect="up"/>
++<parsemess-misspeech type="speech" redirect="up"/>
++<parsemess-misspeech type="speech" redirect="up"/>
++<parsemess-misspeech type="speech" redirect="up"/>
++<parsemess-misspeech type="speech" redirect="up"/>
++<stamp parsemess-colnum="891"/>
+ <p><a name="40909-14_spnew4"><b> Mr. Michael Ancram  (Devizes) (Con):</b> 
+  I think that it was Sir Winston Churchill who once wrote a note alongside the text of his speech saying, &quot;Argument weak; must shout.&quot; The last five minutes of the Foreign Secretary&#039;s speech fits very well into that category. I am delighted and relieved, however, to see him here today after the poisonous briefings against him that we have seen in the newspapers. We were all concerned that there might have been a career move on his part, so we are all pleased that he is in his place today.
+ </p>
+@@ -7848,6 +7850,7 @@
+ 
+ 
+ 
++<stamp parsemess-missgid="4"/>
+ <p><a name="40909-31_spnew4"><b> Mr. Cash: </b> 
+  I am most grateful.
+ </p>

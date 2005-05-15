@@ -1,0 +1,11 @@
+--- /home/fawkes/pwdata/cmpages/westminhall/westminster2004-07-20.html	Sun Apr 17 04:27:23 2005
++++ /home/fawkes/pwdata/cmpages/westminhall/westminster2004-07-20-patchtmp.html	Sun Apr 17 19:52:12 2005
+@@ -2080,6 +2080,8 @@
+ <tr><td class="tabletext">Tyne (at 31 December 2002)</td><td class="tabletext">47.6
+ </td></tr>
+ <tr><td class="tabletext">Harwich Haven (at 31 December 2003)</td><td class="tabletext">33.8&quot;
++</td></tr>
++</table>
+ 
+ </p>
+ 

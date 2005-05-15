@@ -1,13 +1,20 @@
---- C:\publicwhip\pwdata\cmpages\westminhall\westminster2004-09-16.html	Thu Nov 18 12:31:38 2004
-+++ C:\publicwhip\pwdata\cmpages\westminhall\westminster2004-09-16-patchtmp.html	Sun Dec 05 10:47:28 2004
-@@ -196,8 +196,8 @@
- <a name="40916h01_para23">If the process were to be verified because there were individual voter registration or because somebody checked off the declaration and the name on it was of somebody who was known to the town hall or if the town hall could ring that person up and say, "Did you genuinely do it?", that would be all right. However, none of that happens. People sign the declaration and there is no way that anybody in the town hall can check the verification or whether it really was the person. So they are a waste of time. I accept that there is a problem with postal votes in houses in multiple occupation, but what we are doing is even worse.
- <P>
- <P>
--<a name="40916h01_spmin0"><B>The Minister for Local and Regional Government   (Mr. Nick Raynsford </B> 
--) While I agree with a great deal of what my hon. Friend said, it was not the case that there was no attempt after the pilots this June to carry out verification checks on a sample of voters. One of the interesting conclusions in the Electoral Commission's report was that verification exercises were conducted, but none showed that there had been instances of fraud. Obviously, the matter will depend on how widespread those checks were, but I think that we should take that evidence into account. Those post-election verification checks with a sample of electors to see whether they voted the way that they appeared to have done all tended to support the case that it was a fair and proper election.
-+<a name="40916h01_spmin0"><B>The Minister for Local and Regional Government   (Mr. Nick Raynsford) </B>
-+ While I agree with a great deal of what my hon. Friend said, it was not the case that there was no attempt after the pilots this June to carry out verification checks on a sample of voters. One of the interesting conclusions in the Electoral Commission's report was that verification exercises were conducted, but none showed that there had been instances of fraud. Obviously, the matter will depend on how widespread those checks were, but I think that we should take that evidence into account. Those post-election verification checks with a sample of electors to see whether they voted the way that they appeared to have done all tended to support the case that it was a fair and proper election.
- <P>
+--- /home/fawkes/pwdata/cmpages/westminhall/westminster2004-09-16.html	Sun Apr 17 04:27:14 2005
++++ /home/fawkes/pwdata/cmpages/westminhall/westminster2004-09-16-patchtmp.html	Sun Apr 17 19:25:43 2005
+@@ -363,7 +363,7 @@
  
+ 
+ 
+-<p><a name="40916h01_spmin0"><b>The Minister for Local and Regional Government  (Mr.&nbsp;Nick Raynsford </b> ) While I agree with a great deal of what my hon. Friend said, it was not the case that there was no attempt after the pilots this June to carry out verification checks on a sample of voters. One of the interesting conclusions in the Electoral Commission&#039;s report was that verification exercises were conducted, but none showed that there had been instances of fraud. Obviously, the matter will depend on how widespread those checks were, but I think that we should take that evidence into account. Those post-election verification checks with a sample of electors to see whether they voted the way that they appeared to have done all tended to support the case that it was a fair and proper election.
++<p><a name="40916h01_spmin0"><b>The Minister for Local and Regional Government  (Mr.&nbsp;Nick Raynsford) </b> While I agree with a great deal of what my hon. Friend said, it was not the case that there was no attempt after the pilots this June to carry out verification checks on a sample of voters. One of the interesting conclusions in the Electoral Commission&#039;s report was that verification exercises were conducted, but none showed that there had been instances of fraud. Obviously, the matter will depend on how widespread those checks were, but I think that we should take that evidence into account. Those post-election verification checks with a sample of electors to see whether they voted the way that they appeared to have done all tended to support the case that it was a fair and proper election.
+ 
+ <br>
+ &nbsp;<br>
+@@ -2445,7 +2445,7 @@
+ 
+ 
+ 
+-
++<stamp parsemess-colnum="558"/>
+ <p><a name="40916h01_spnew97"><b> Mr. Davey </b> : I actually asked whether the Government would pilot it in the way that they piloted weekend voting, supermarket voting and all the rest. Why have the Government shied away from piloting this idea?
+ </p>
  

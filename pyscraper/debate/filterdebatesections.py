@@ -81,10 +81,10 @@ def StripDebateHeadings(headspeak, sdate):
 	if headspeak[ih][0] == 'THE PARLIAMENTARY DEBATES':
 		ih = StripDebateHeading('THE PARLIAMENTARY DEBATES', ih, headspeak)
 		ih = StripDebateHeading('OFFICIAL REPORT', ih, headspeak)
-		ih = StripDebateHeading('IN THE .*? SESSION OF THE .*? PARLIAMENT OF THE', ih, headspeak)
+		ih = StripDebateHeading('IN THE .*? SESSION OF THE .*? PARLIAMENT OF THE', ih, headspeak, True)
 		ih = StripDebateHeading('UNITED KINGDOM OF GREAT BRITAIN AND NORTHERN IRELAND', ih, headspeak, True)
 		ih = StripDebateHeading('\[WHICH OPENED .*?\]', ih, headspeak, True)
-		ih = StripDebateHeading('.*? YEAR OF THE REIGN OF.*?', ih, headspeak)
+		ih = StripDebateHeading('.*? YEAR OF THE REIGN OF.*?', ih, headspeak, True)
 		ih = StripDebateHeading('HER MAJESTY QUEEN ELIZABETH II', ih, headspeak, True)
                 ih = StripDebateHeading('SI.*? SERIES.*?VOLUME \d+', ih, headspeak, True)
 		ih = StripDebateHeading('SI.*? SERIES', ih, headspeak, True)
@@ -105,13 +105,13 @@ def StripDebateHeadings(headspeak, sdate):
         gstarttime = None
         if sdate != "2001-06-13":
                 #The House met at half-past Ten o'clock
-                gstarttime = re.match('the house (?:being )?met at (.*)(?i)', headspeak[ih][0])
+                gstarttime = re.match('the house (?:being |having )?met at (.*?)(?:, and the Speaker-Elect having taken the Chair;)?$(?i)', headspeak[ih][0])
                 if (not gstarttime) or headspeak[ih][2]:
                         raise ContextException('non-conforming "the house met at" heading %s' % repr(headspeak[ih]), "")
                 ih = ih + 1
 
         # Start of a new parliament is special
-        if sdate != "2001-06-14" and sdate != "2001-06-13":
+        if sdate != "2001-06-14" and sdate != "2001-06-13" and sdate != "2005-05-11" and sdate != "2005-05-12":
 
                 #PRAYERS
                 ih = StripDebateHeading('prayers(?i)', ih, headspeak)
@@ -132,6 +132,8 @@ def StripDebateHeadings(headspeak, sdate):
                         newtime = '09:30:00'
                 elif re.match("^half-past Ten(?i)", time):
                         newtime = '10:30:00'
+                elif re.match("Eleven o&#039;clock(?i)", time):
+                        newtime = '11:00:00'
                 elif re.match("^twenty-five minutes past\s*Eleven(?i)", time):
                         newtime = '11:25:00'
                 elif re.match("^twenty-six minutes past\s*Eleven(?i)", time):

@@ -1,21 +1,10 @@
---- /home/fawkes/pwdata/cmpages/debates/debates2004-09-15.html	Wed Oct 20 10:40:38 2004
-+++ /home/fawkes/pwdata/cmpages/debates/debates2004-09-15-patchtmp.html	Fri Dec 24 16:52:10 2004
-@@ -6626,7 +6626,7 @@
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-09-15.html	Sun Apr 17 04:25:27 2005
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-09-15-patchtmp.html	Sun Apr 17 22:17:42 2005
+@@ -27,6 +27,7 @@
  
  
- <B>15 Sept 2004 : Column 1335</B></P>
--
-+<stamp parsemess-missgid="1"/>
- <P>
- <P>
- <a name="40915-23_spnew8"><B> Mr. Gray: </B> 
-@@ -9979,6 +9979,9 @@
  
- <B>15 Sept 2004 : Column 1400</B></P>
- he was put where the fox happened to be when he went out with the Worcestershire hounds, but I suspect that that happened by pure chance. Foxes are wild creatures that do not necessarily run over the same places. However, a drag hunt requires a trail to be laid over specific land. Many farmers will not allow drag hunts to go over their land because of the damage to land that they can cause. Fox hunts can damage land, but farmers allow them to take place because they control foxes.
-+
-+<stamp parsemess-missgid="0"/>
-+<stamp parsemess-missgid="1"/>
++<stamp parsemess-colnumoffset="-2"/>
+ <a name="40915-01_writ0"><h2 align=center>Oral Answers to Questions</h2>
  
- <p><b>Mr Andrew Robathan (Blaby):</b>  I know that my hon. Friend has a farm, and that he was a farmer before coming to the House. I too have a farm. We heard the hon. Member for Worcester (Mr Foster) talking about the "round Worcester" ride. I want foxes to be kept down, but I do not want my land to be torn up by hundreds of yahoo, tally-ho types riding across it. I do not want my land to be a pleasure ground for people on horses.
  

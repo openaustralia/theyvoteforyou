@@ -1,22 +1,12 @@
---- /home/fawkes/pwdata/cmpages/debates/debates2004-07-19.html	Tue Jul 20 08:06:01 2004
-+++ /home/fawkes/pwdata/cmpages/debates/debates2004-07-19-patchtmp.html	Tue Jul 20 12:39:48 2004
-@@ -1,8 +1,9 @@
- <pagex url="http://www.publications.parliament.uk/pa/cm200304/cmhansrd/cm040719/debindx/40719-x.htm" scrapedate="2004-07-20" scrapetime="07:05:55"/>
- <page url="http://www.publications.parliament.uk/pa/cm200304/cmhansrd/cm040719/debtext/40719-01.htm"/>
+--- /home/fawkes/pwdata/cmpages/debates/debates2004-07-19.html	Sun Apr 17 04:25:58 2005
++++ /home/fawkes/pwdata/cmpages/debates/debates2004-07-19-patchtmp.html	Sun Apr 17 22:36:03 2005
+@@ -7,8 +7,7 @@
  
-+<P>
  
--
-+<B>19 July 2004 : Column 1</B></P>
- 
- <H4><center>THE PARLIAMENTARY DEBATES</center></H4>
- <H4><center>OFFICIAL REPORT</center></H4>
-@@ -531,7 +532,7 @@
- <P>
- <P>
- <P>
--<a name="40719-03_spnew16"><B> Mr. Ivor Caplin): </B> 
-+<a name="40719-03_spnew16"><B> Mr. Ivor Caplin: </B> 
-  The Ministry of Defence maintains an extremely close working relationship with the Department of Trade and Industry on wind energy issues. Both Departments are members of the wind energy, defence and civil aviation interests working group, which also includes representatives from the Civil Aviation Authority, the National Air Traffic Service and the British Wind Energy Association. We also work jointly with the industry on round 2 offshore wind farm developments. Later this week, the Minister for Energy, E-Commerce and Postal Services and I will meet representatives of the wind energy industry.
- <P>
- <P>
+ <h4 align=center></h4>
+-<h4 align=center>THE</h4>
+-<h4 align=center>PARLIAMENTARY&nbsp;&nbsp;&nbsp;DEBATES</h4>
++<h4 align=center>THE PARLIAMENTARY DEBATES</h4>
+ <h4 align=center>OFFICIAL REPORT</h4>
+ <h4 align=center>IN THE THIRD SESSION OF THE FIFTY&#150;THIRD PARLIAMENT OF THE</h4>
+ <h4 align=center>UNITED KINGDOM OF GREAT BRITAIN AND NORTHERN IRELAND</h4>

@@ -61,6 +61,10 @@ different spellings of the offices -->
 <!-- Added for other purposes (e.g. external importing) -->
 <alias fullname="Martin McGuinness" alternate="Martin Mcguinness" />
 
+<!-- First added for 2005 parliament -->
+<alias constituency="Sheffield, Hillsborough" alternate="Angela C Smith" />
+<alias constituency="Basildon" alternate="Angela E Smith" />
+
 <!-- First added for 2001 parliament -->
 <alias fullname="Parmjit Gill" alternate="Parmjit Singh Gill" />
 <alias fullname="Richard Younger-Ross" alternate="R Younger-Ross" />

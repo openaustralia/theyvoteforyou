@@ -1,11 +1,21 @@
---- /home/fawkes/pwdata/cmpages/wrans/answers2004-09-07.html	Sat Sep 11 08:06:20 2004
-+++ /home/fawkes/pwdata/cmpages/wrans/answers2004-09-07-patchtmp.html	Wed Sep 15 09:28:14 2004
-@@ -4772,7 +4772,7 @@
- <P>
- <P>
- <a name="40907w15.html_wqn10"><B> Mr. Oaten: </B> 
--To ask the Secretary of State for Education and Skills what role the regional Learning and Skills Councils will have in the <i>(a)</i>&nbsp;commissioning and <i>(b)</i>&nbsp;delivery of offender education in (i) prisons and (ii) the community;  [187220]
-+To ask the Secretary of State for Education and Skills (1) what role the regional Learning and Skills Councils will have in the <i>(a)</i>&nbsp;commissioning and <i>(b)</i>&nbsp;delivery of offender education in (i) prisons and (ii) the community;  [187220]
- <P>
- <UL>(2) whether the new contracts for prison education will provide funding for <i>(a)</i>&nbsp;staff development, <i>(b)</i>&nbsp;lesson planning, <i>(c)</i>&nbsp;marking of students' work and <i>(d)</i>&nbsp;pastoral education.  [187215]<P></UL>
- <P>
+--- /home/fawkes/pwdata/cmpages/wrans/answers2004-09-07.html	Sun Apr 17 04:24:01 2005
++++ /home/fawkes/pwdata/cmpages/wrans/answers2004-09-07-patchtmp.html	Sun Apr 17 21:13:37 2005
+@@ -4763,8 +4763,7 @@
+ 
+ 
+ 
+-<p><a name="40907w12.html_wqn4"><b> Mr. Woodward: </b> 
+- To ask the Secretary of State for Education and Skills (2) how many local authority nurseries there were in each year since 1997, <i>(a)</i> broken down by region and <i>(b)</i> in St. Helens;  [187364]
++ <p>(2) how many local authority nurseries there were in each year since 1997, <i>(a)</i> broken down by region and <i>(b)</i> in St. Helens;  [187364]
+ 
+ </p>
+ 
+@@ -8622,7 +8621,7 @@
+ 
+ 
+ <p><a name="40907w16.html_wqn10"><b> Mr. Oaten: </b> 
+- To ask the Secretary of State for Education and Skills what role the regional Learning and Skills Councils will have in the <i>(a)</i> commissioning and <i>(b)</i> delivery of offender education in (i) prisons and (ii) the community;  [187220]
++ To ask the Secretary of State for Education and Skills (1) what role the regional Learning and Skills Councils will have in the <i>(a)</i> commissioning and <i>(b)</i> delivery of offender education in (i) prisons and (ii) the community;  [187220]
+ 
+ </p>
+ 

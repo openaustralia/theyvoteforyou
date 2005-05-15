@@ -1,11 +1,20 @@
---- /home/fawkes/pwdata/cmpages/wrans/answers2004-07-22.html	Sun Jan 23 04:31:25 2005
-+++ /home/fawkes/pwdata/cmpages/wrans/answers2004-07-22-patchtmp.html	Sun Jan 23 16:20:03 2005
-@@ -17699,7 +17699,7 @@
- <P>
- <P>
- <a name="40722w62.html_wqn1"><B> Mr. Oaten: </B> 
--To ask the Secretary of State for the Home Department how much <i>(a)</i>&nbsp;his Department and <i>(b)</i>&nbsp;agencies of the Department have spent on water and sewerage services in each year since 1997;  [182218]
-+To ask the Secretary of State for the Home Department (1) how much <i>(a)</i>&nbsp;his Department and <i>(b)</i>&nbsp;agencies of the Department have spent on water and sewerage services in each year since 1997;  [182218]
- <P>
- <UL>(2) what changes there have been in water consumption by his Department between each year since 1997.  [182226]<P></UL>
- <P>
+--- /home/fawkes/pwdata/cmpages/wrans/answers2004-07-22.html	Sun Apr 17 04:24:35 2005
++++ /home/fawkes/pwdata/cmpages/wrans/answers2004-07-22-patchtmp.html	Sun Apr 24 12:13:43 2005
+@@ -13795,7 +13795,7 @@
+ 
+ 
+ 
+-<p>Mr. Wiggin: To ask the Chancellor of the Exchequer (1) what methodology was used to calculate the reduction by 20,000 of jobs in devolved Governments;  [184561]
++<p><b>Mr. Wiggin:</b> To ask the Chancellor of the Exchequer (1) what methodology was used to calculate the reduction by 20,000 of jobs in devolved Governments;  [184561]
+ </p>
+ 
+ 
+@@ -31468,7 +31468,7 @@
+ 
+ 
+ <p><a name="40722w63.html_wqn2"><b> Mr. Oaten: </b> 
+- To ask the Secretary of State for the Home Department how much <i>(a)</i> his Department and <i>(b)</i> agencies of the Department have spent on water and sewerage services in each year since 1997;  [182218]
++ To ask the Secretary of State for the Home Department (1) how much <i>(a)</i> his Department and <i>(b)</i> agencies of the Department have spent on water and sewerage services in each year since 1997;  [182218]
+ 
+ </p>
+ 

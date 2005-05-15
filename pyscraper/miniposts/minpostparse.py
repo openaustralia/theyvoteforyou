@@ -68,74 +68,80 @@ govdepts = ["Department of Health",
 			"Home Office",
 			"Cabinet Office",
 			"Privy Council Office",
-			"Ministry of Defence",
-			"Department for Environment, Food and Rural Affairs",
-			"Department for International Development",
-			"Department for Culture, Media & Sport",
-			"Department for Constitutional Affairs",
-			"Department for Education and Skills",
-			"Office of the Deputy Prime Minister",
-			"Department for Transport",
-			"Department for Work and Pensions",
-			"Northern Ireland Office",
-			"Law Officers' Department",
-			"Department of Trade and Industry",
-			"House of Commons",
-			"Foreign & Commonwealth Office",
-			"No Department",
-			]
+                                "Ministry of Defence",
+                                "Department for Environment, Food and Rural Affairs",
+                                "Department for International Development",
+                                "Department for Culture, Media & Sport",
+                                "Department for Constitutional Affairs",
+                                "Department for Education and Skills",
+                                "Office of the Deputy Prime Minister",
+                                "Department for Transport",
+                                "Department for Work and Pensions",
+                                "Northern Ireland Office",
+                                "Law Officers' Department",
+                                "Department of Trade and Industry",
+                                "House of Commons",
+                                "Foreign & Commonwealth Office",
+
+                                "Office of the Secretary of State for Wales",
+                                "Department for Productivity, Energy and Industry",
+                                "Scotland Office",
+
+                                "No Department",
+                                ]
 
 import newlabministers2003_10_15
 from newlabministers2003_10_15 import opendate
 
 
 renampos = re.compile("""<td><b>
-	([^,]*),	# last name
-	\s*
-	([^<(]*?)	# first name
-	\s*
-	(?:\(([^)]*)\))? # constituency
-	</b></td><td>
-	([^,<]*)	# position
-	(?:,\s*([^<]*))? # department
-	(?:</td>)?\s*$(?i)""",
-	re.X)
+        ([^,]*),	# last name
+        \s*
+        ([^<(]*?)	# first name
+        \s*
+        (?:\(([^)]*)\))? # constituency
+        </b></td><td>
+        ([^,<]*)	# position
+        (?:,\s*([^<]*))? # department
+        (?:</td>)?\s*$(?i)""",
+        re.X)
 
 
 # do the xml thing
 def WriteXML(moffice, fout):
-	fout.write('<moffice id="%s" name="%s"' % (moffice.moffid, moffice.fullname))
-	if moffice.matchid:
-		fout.write(' matchid="%s"' % moffice.matchid)
-	#fout.write("\n")
+        fout.write('<moffice id="%s" name="%s"' % (moffice.moffid, moffice.fullname))
+        if moffice.matchid:
+                fout.write(' matchid="%s"' % moffice.matchid)
+        #fout.write("\n")
 
-	fout.write(' dept="%s" position="%s"' % (re.sub("&", "&amp;", moffice.dept), moffice.pos))
+        fout.write(' dept="%s" position="%s"' % (re.sub("&", "&amp;", moffice.dept), moffice.pos))
 
-	fout.write(' fromdate="%s"' % moffice.sdatestart)
-	if moffice.stimestart:
-		fout.write(' fromtime="%s"' % moffice.stimestart)
-	#fout.write("\n")
+        fout.write(' fromdate="%s"' % moffice.sdatestart)
+        if moffice.stimestart:
+                fout.write(' fromtime="%s"' % moffice.stimestart)
+        #fout.write("\n")
 
-	if moffice.bopen:
-		fout.write(' todate="%s"' % "9999-12-31")
-	else:
-		fout.write(' todate="%s"' % moffice.sdateend)
-		if moffice.stimeend:
-			fout.write(' totime="%s"' % moffice.stimeend)
-	#fout.write("\n")
+        if moffice.bopen:
+                fout.write(' todate="%s"' % "9999-12-31")
+        else:
+                fout.write(' todate="%s"' % moffice.sdateend)
+                if moffice.stimeend:
+                        fout.write(' totime="%s"' % moffice.stimeend)
+        #fout.write("\n")
 
-	fout.write(' source="%s">' % moffice.sourcedoc)
-	fout.write('</moffice>\n')
+        fout.write(' source="%s">' % moffice.sourcedoc)
+        fout.write('</moffice>\n')
 
 
 class protooffice:
-	def __init__(self, lsdatet, e, deptno):  # department number to extract multiple departments
-		self.sdatet = lsdatet
-		self.sourcedoc = "chgpages"
+        def __init__(self, lsdatet, e, deptno):  # department number to extract multiple departments
+                self.sdatet = lsdatet
+                self.sourcedoc = "chgpages"
 
-		nampos = renampos.match(e)
-
-		self.lasname = nampos.group(1)
+                nampos = renampos.match(e)
+                if not nampos:
+                        raise Exception, "renampos didn't match: '%s'" % e
+                self.lasname = nampos.group(1)
 		self.froname = nampos.group(2)
 		self.cons = nampos.group(3)
 
@@ -174,7 +180,7 @@ class protooffice:
 					print "Attempted match on", dept0
 
 			if not self.depts:
-				print "No match with", dept
+                                print "No match for department: ", dept
 
 		else:
 			self.depts = [ (pos, dept) ]
@@ -227,7 +233,7 @@ def ParsePage(fr):
 	frdate = re.search(">Her Majesty's Government at\s+(.*?)\s*<", fr)
 	msdate = mx.DateTime.DateTimeFrom(frdate.group(1)).date
 
-	if msdate != sudate and sudate != "2004-09-20" and sudate != '2005-03-10':   # is it always posted up on the day it is announced?
+	if msdate != sudate and sudate != "2004-09-20" and sudate != '2005-03-10' and sudate != '2005-05-13':   # is it always posted up on the day it is announced?
 		print "Updated date is %s, but date of change %s" % (sudate, msdate)
 
 	sdate = sudate
@@ -320,7 +326,8 @@ def SetNameMatch(cp, cpsdates):
 	cp.matchid = ""
 
 	# don't match names that are in the lords
-	if not re.search("Duke |Lord |Baroness ", cp.fullname):
+        # (or Andrew Adonis, who at least briefly seems to be neither Lord or MP, but minister)
+	if not re.search("Duke |Lord |Baroness |Andrew Adonis", cp.fullname):
 		fullname = cp.fullname
 		cons = cp.cons
 
