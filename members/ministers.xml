@@ -55,6 +55,7 @@
 <chgpageupdates date="2005-03-10" time="10:33"/>
 <chgpageupdates date="2005-05-11" time="17:24"/>
 <chgpageupdates date="2005-05-13" time="13:21"/>
+<chgpageupdates date="2005-05-16" time="11:24"/>
 
 <ministerofficegroup>
 <moffice id="uk.org.publicwhip/moffice/1000" name="Duke of Abercorn" dept="HM Household" position="Lord Steward" fromdate="2000-01-01" todate="9999-12-31" source="newlabministers2003-10-15 chgpages"></moffice>
@@ -66,7 +67,8 @@
 
 <ministerofficegroup>
 <moffice id="uk.org.publicwhip/moffice/1001" name="Mr Nick Ainger" matchid="uk.org.publicwhip/member/690" dept="HM Treasury" position="Lords Commissioner" fromdate="2001-06-12" todate="2005-05-11" totime="17:24" source="newlabministers2003-10-15 chgpages"></moffice>
-<moffice id="uk.org.publicwhip/moffice/1138" name="Mr Nick Ainger" matchid="uk.org.publicwhip/member/1486" dept="Office of the Secretary of State for Wales" position="Parliamentary Under-Secretary" fromdate="2005-05-11" fromtime="17:24" todate="9999-12-31" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1138" name="Mr Nick Ainger" matchid="uk.org.publicwhip/member/1486" dept="Office of the Secretary of State for Wales" position="Parliamentary Under-Secretary" fromdate="2005-05-11" fromtime="17:24" todate="2005-05-16" totime="11:24" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1203" name="Nick Ainger" matchid="uk.org.publicwhip/member/1486" dept="Office of the Secretary of State for Wales" position="Parliamentary Under-Secretary" fromdate="2005-05-16" fromtime="11:24" todate="9999-12-31" source="chgpages"></moffice>
 </ministerofficegroup>
 
 <ministerofficegroup>
@@ -74,6 +76,10 @@
 <moffice id="uk.org.publicwhip/moffice/100" name="Robert Ainsworth" matchid="uk.org.publicwhip/member/5" dept="Department of the Environment, Transport and the Regions" position="Parliamentary Under-Secretary" fromdate="2001-01-26" todate="2001-06-11" source="newlabministers2003-10-15"></moffice>
 <moffice id="uk.org.publicwhip/moffice/175" name="Robert Ainsworth" matchid="uk.org.publicwhip/member/691" dept="Home Office" position="Parliamentary Under-Secretary" fromdate="2001-06-11" todate="2003-06-13" source="newlabministers2003-10-15"></moffice>
 <moffice id="uk.org.publicwhip/moffice/1002" name="Mr Bob Ainsworth" matchid="uk.org.publicwhip/member/691" dept="HM Household" position="Treasurer of Her Majesty's Household" fromdate="2003-06-13" todate="9999-12-31" source="newlabministers2003-10-15 chgpages"></moffice>
+</ministerofficegroup>
+
+<ministerofficegroup>
+<moffice id="uk.org.publicwhip/moffice/1204" name="Mr Douglas Alexander" matchid="uk.org.publicwhip/member/2008" dept="Foreign &amp; Commonwealth Office" position="Minister of State" fromdate="2005-05-16" fromtime="11:24" todate="9999-12-31" source="chgpages"></moffice>
 </ministerofficegroup>
 
 <ministerofficegroup>
@@ -173,7 +179,8 @@
 
 <ministerofficegroup>
 <moffice id="uk.org.publicwhip/moffice/148" name="Hazel Blears" matchid="uk.org.publicwhip/member/737" dept="Department of Health" position="Parliamentary Under-Secretary" fromdate="2001-06-11" todate="2003-06-13" source="newlabministers2003-10-15"></moffice>
-<moffice id="uk.org.publicwhip/moffice/1016" name="Ms Hazel Blears" matchid="uk.org.publicwhip/member/737" dept="Home Office" position="Minister of State" fromdate="2003-06-13" todate="9999-12-31" source="newlabministers2003-10-15 chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1016" name="Ms Hazel Blears" matchid="uk.org.publicwhip/member/737" dept="Home Office" position="Minister of State" fromdate="2003-06-13" todate="2005-05-16" totime="11:24" source="newlabministers2003-10-15 chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1205" name="Hazel Blears" matchid="uk.org.publicwhip/member/1802" dept="Home Office" position="Minister of State" fromdate="2005-05-16" fromtime="11:24" todate="9999-12-31" source="chgpages"></moffice>
 </ministerofficegroup>
 
 <ministerofficegroup>
@@ -225,7 +232,8 @@
 <moffice id="uk.org.publicwhip/moffice/218" name="Desmond Browne" matchid="uk.org.publicwhip/member/758" dept="Northern Ireland Office" position="Parliamentary Under-Secretary" fromdate="2001-06-11" todate="2003-06-13" source="newlabministers2003-10-15"></moffice>
 <moffice id="uk.org.publicwhip/moffice/374" name="Desmond Browne" matchid="uk.org.publicwhip/member/758" dept="Department for Work and Pensions" position="Minister of State" fromdate="2003-06-13" todate="2004-04-01" source="newlabministers2003-10-15"></moffice>
 <moffice id="uk.org.publicwhip/moffice/1021" name="Mr Des Browne" matchid="uk.org.publicwhip/member/758" dept="Home Office" position="Minister of State" fromdate="2004-04-01" todate="2005-05-11" totime="17:24" source="newlabministers2003-10-15 chgpages"></moffice>
-<moffice id="uk.org.publicwhip/moffice/1143" name="Rt Hon Desmond Browne" matchid="uk.org.publicwhip/member/1996" dept="HM Treasury" position="Chief Secretary" fromdate="2005-05-11" fromtime="17:24" todate="9999-12-31" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1143" name="Rt Hon Desmond Browne" matchid="uk.org.publicwhip/member/1996" dept="HM Treasury" position="Chief Secretary" fromdate="2005-05-11" fromtime="17:24" todate="2005-05-16" totime="11:24" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1206" name="Rt Hon Des Browne" matchid="uk.org.publicwhip/member/1996" dept="HM Treasury" position="Chief Secretary" fromdate="2005-05-16" fromtime="11:24" todate="9999-12-31" source="chgpages"></moffice>
 </ministerofficegroup>
 
 <ministerofficegroup>
@@ -258,7 +266,7 @@
 </ministerofficegroup>
 
 <ministerofficegroup>
-<moffice id="uk.org.publicwhip/moffice/1202" name="David Cairns" matchid="uk.org.publicwhip/member/1994" dept="Scotland Office" position="Parliamentary Under-Secretary" fromdate="2005-05-13" fromtime="13:21" todate="9999-12-31" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1202" name="David Cairns" matchid="uk.org.publicwhip/member/1994" dept="Scotland Office" position="Parliamentary Under-Secretary" fromdate="2005-05-13" fromtime="13:21" todate="2005-05-16" totime="11:24" source="chgpages"></moffice>
 </ministerofficegroup>
 
 <ministerofficegroup>
@@ -466,7 +474,8 @@
 
 <ministerofficegroup>
 <moffice id="uk.org.publicwhip/moffice/1039" name="Mr Barry Gardiner" matchid="uk.org.publicwhip/member/905" dept="Northern Ireland Office" position="Parliamentary Under-Secretary" fromdate="2004-04-01" todate="2005-05-11" totime="17:24" source="newlabministers2003-10-15 chgpages"></moffice>
-<moffice id="uk.org.publicwhip/moffice/1154" name="Mr Barry Gardiner" matchid="uk.org.publicwhip/member/1446" dept="Department for Productivity, Energy and Industry" position="Parliamentary Under-Secretary" fromdate="2005-05-11" fromtime="17:24" todate="9999-12-31" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1154" name="Mr Barry Gardiner" matchid="uk.org.publicwhip/member/1446" dept="Department for Productivity, Energy and Industry" position="Parliamentary Under-Secretary" fromdate="2005-05-11" fromtime="17:24" todate="2005-05-16" totime="11:24" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1207" name="Barry Gardiner" matchid="uk.org.publicwhip/member/1446" dept="Department for Productivity, Energy and Industry" position="Parliamentary Under-Secretary" fromdate="2005-05-16" fromtime="11:24" todate="9999-12-31" source="chgpages"></moffice>
 </ministerofficegroup>
 
 <ministerofficegroup>
@@ -607,7 +616,8 @@
 <moffice id="uk.org.publicwhip/moffice/390" name="Geoff Hoon" matchid="uk.org.publicwhip/member/286" dept="Lord Chancellor's Department" position="Minister of State" fromdate="1998-07-28" todate="1999-05-17" source="newlabministers2003-10-15"></moffice>
 <moffice id="uk.org.publicwhip/moffice/114" name="Geoff Hoon" matchid="uk.org.publicwhip/member/286" dept="Foreign &amp; Commonwealth Office" position="Minister of State" fromdate="1999-05-17" todate="1999-10-11" source="newlabministers2003-10-15"></moffice>
 <moffice id="uk.org.publicwhip/moffice/1052" name="Rt Hon Geoff Hoon" matchid="uk.org.publicwhip/member/970" dept="Ministry of Defence" position="Secretary of State" fromdate="1999-10-11" todate="2005-05-11" totime="17:24" source="newlabministers2003-10-15 chgpages"></moffice>
-<moffice id="uk.org.publicwhip/moffice/1162" name="Rt Hon Geoff Hoon" matchid="uk.org.publicwhip/member/1378" dept="House of Commons" position="Lord Privy Seal" fromdate="2005-05-11" fromtime="17:24" todate="9999-12-31" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1162" name="Rt Hon Geoff Hoon" matchid="uk.org.publicwhip/member/1378" dept="House of Commons" position="Lord Privy Seal" fromdate="2005-05-11" fromtime="17:24" todate="2005-05-16" totime="11:24" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1208" name="Rt Hon Geoffrey Hoon" matchid="uk.org.publicwhip/member/1378" dept="House of Commons" position="Lord Privy Seal" fromdate="2005-05-16" fromtime="11:24" todate="9999-12-31" source="chgpages"></moffice>
 </ministerofficegroup>
 
 <ministerofficegroup>
@@ -825,6 +835,7 @@
 <moffice id="uk.org.publicwhip/moffice/410" name="Anne McGuire" matchid="uk.org.publicwhip/member/1072" dept="Scottish Office" position="Parliamentary Secretary" fromdate="2002-05-29" todate="2003-06-13" source="newlabministers2003-10-15"></moffice>
 <moffice id="uk.org.publicwhip/moffice/1073" name="Mrs Anne McGuire" matchid="uk.org.publicwhip/member/1072" dept="Department for Constitutional Affairs" position="Parliamentary Under-Secretary" fromdate="2003-06-13" todate="2005-05-11" totime="17:24" source="newlabministers2003-10-15 chgpages"></moffice>
 <moffice id="uk.org.publicwhip/moffice/1174" name="Mrs Anne McGuire" matchid="uk.org.publicwhip/member/2013" dept="Scotland Office" position="Parliamentary Under-Secretary" fromdate="2005-05-11" fromtime="17:24" todate="2005-05-13" totime="13:21" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1209" name="Mrs Anne McGuire" matchid="uk.org.publicwhip/member/2013" dept="Scotland Office" position="Parliamentary Under-Secretary" fromdate="2005-05-16" fromtime="11:24" todate="9999-12-31" source="chgpages"></moffice>
 </ministerofficegroup>
 
 <ministerofficegroup>
@@ -964,8 +975,10 @@
 <moffice id="uk.org.publicwhip/moffice/324" name="Ian Pearson" matchid="uk.org.publicwhip/member/474" dept="HM Treasury" position="Assistant Whip" fromdate="2001-02-06" todate="2002-05-29" source="newlabministers2003-10-15"></moffice>
 <moffice id="uk.org.publicwhip/moffice/303" name="Ian Pearson" matchid="uk.org.publicwhip/member/1154" dept="HM Treasury" position="Lords Commissioner" fromdate="2002-05-29" todate="2002-10-14" source="newlabministers2003-10-15"></moffice>
 <moffice id="uk.org.publicwhip/moffice/1087" name="Mr Ian Pearson" matchid="uk.org.publicwhip/member/1154" dept="Northern Ireland Office" position="Parliamentary Under-Secretary" fromdate="2002-10-14" todate="2005-05-11" totime="17:24" source="newlabministers2003-10-15 chgpages"></moffice>
-<moffice id="uk.org.publicwhip/moffice/1181" name="Mr Ian Pearson" matchid="uk.org.publicwhip/member/1554" dept="Foreign &amp; Commonwealth Office" position="Minister of State" fromdate="2005-05-11" fromtime="17:24" todate="9999-12-31" source="chgpages"></moffice>
-<moffice id="uk.org.publicwhip/moffice/1180" name="Mr Ian Pearson" matchid="uk.org.publicwhip/member/1554" dept="Department for Productivity, Energy and Industry" position="Minister of State" fromdate="2005-05-11" fromtime="17:24" todate="9999-12-31" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1181" name="Mr Ian Pearson" matchid="uk.org.publicwhip/member/1554" dept="Foreign &amp; Commonwealth Office" position="Minister of State" fromdate="2005-05-11" fromtime="17:24" todate="2005-05-16" totime="11:24" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1180" name="Mr Ian Pearson" matchid="uk.org.publicwhip/member/1554" dept="Department for Productivity, Energy and Industry" position="Minister of State" fromdate="2005-05-11" fromtime="17:24" todate="2005-05-16" totime="11:24" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1210" name="Ian Pearson" matchid="uk.org.publicwhip/member/1554" dept="Foreign &amp; Commonwealth Office" position="Minister of State" fromdate="2005-05-16" fromtime="11:24" todate="9999-12-31" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1211" name="Ian Pearson" matchid="uk.org.publicwhip/member/1554" dept="Department for Productivity, Energy and Industry" position="Minister of State" fromdate="2005-05-16" fromtime="11:24" todate="9999-12-31" source="chgpages"></moffice>
 </ministerofficegroup>
 
 <ministerofficegroup>
@@ -1014,7 +1027,8 @@
 <ministerofficegroup>
 <moffice id="uk.org.publicwhip/moffice/306" name="Bill Rammell" matchid="uk.org.publicwhip/member/1179" dept="HM Treasury" position="Lords Commissioner" fromdate="2002-10-14" todate="2002-10-28" source="newlabministers2003-10-15"></moffice>
 <moffice id="uk.org.publicwhip/moffice/1092" name="Mr Bill Rammell" matchid="uk.org.publicwhip/member/1179" dept="Foreign &amp; Commonwealth Office" position="Parliamentary Under-Secretary" fromdate="2002-10-28" todate="2005-05-11" totime="17:24" source="newlabministers2003-10-15 chgpages"></moffice>
-<moffice id="uk.org.publicwhip/moffice/1185" name="Mr Bill Rammell" matchid="uk.org.publicwhip/member/1616" dept="Department for Education and Skills" position="Minister of State" fromdate="2005-05-11" fromtime="17:24" todate="9999-12-31" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1185" name="Mr Bill Rammell" matchid="uk.org.publicwhip/member/1616" dept="Department for Education and Skills" position="Minister of State" fromdate="2005-05-11" fromtime="17:24" todate="2005-05-16" totime="11:24" source="chgpages"></moffice>
+<moffice id="uk.org.publicwhip/moffice/1212" name="Bill Rammell" matchid="uk.org.publicwhip/member/1616" dept="Department for Education and Skills" position="Minister of State" fromdate="2005-05-16" fromtime="11:24" todate="9999-12-31" source="chgpages"></moffice>
 </ministerofficegroup>
 
 <ministerofficegroup>
