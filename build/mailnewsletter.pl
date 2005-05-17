@@ -2,7 +2,7 @@
 use strict;
 use lib "loader/";
 
-my $text = "website/newsletters/extra4.txt";
+my $text = "website/newsletters/issue8.txt";
 my $type = "all"; 
 my $test_name = "";
 

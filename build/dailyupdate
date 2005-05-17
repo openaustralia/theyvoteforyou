@@ -16,7 +16,7 @@ export HOME=/home/francis
 export CVS_RSH=/software/bin/ssh
 
 # Grab new scraped XML files from TheyWorkForYou
-rsync --recursive www.theyworkforyou.com::pwdata/scrapedxml/divisionsonly /home/francis/pwdata/scrapedxml
+rsync --recursive ukparse.kforge.net::parldata/scrapedxml/divisionsonly /home/francis/pwdata/scrapedxml
 chmod -R a+r /home/francis/pwdata
 
 # Update everything
