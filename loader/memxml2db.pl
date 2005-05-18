@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.7 2005/05/08 22:06:12 frabcus Exp $
+# $Id: memxml2db.pl,v 1.8 2005/05/18 10:45:41 theyworkforyou Exp $
 
 # Convert all-members.xml into the database format for Public Whip website
 
@@ -15,6 +15,8 @@ use XML::Twig;
 use HTML::Entities;
 use Text::Iconv;
 my $iconv = new Text::Iconv('utf-8', 'iso-8859-1');
+
+my $members_location = "/home/francis/members";
 
 use PublicWhip::Error;
 use PublicWhip::DB;
@@ -33,10 +35,10 @@ my $twig = XML::Twig->new(
             'moffice' => \&loadmoffice 
         }, 
     output_filter => 'safe');
-$twig->parsefile("../members/constituencies.xml");
-$twig->parsefile("../members/people.xml");
-$twig->parsefile("../members/ministers.xml");
-$twig->parsefile("../members/all-members.xml");
+$twig->parsefile("$members_location/constituencies.xml");
+$twig->parsefile("$members_location/people.xml");
+$twig->parsefile("$members_location/ministers.xml");
+$twig->parsefile("$members_location/all-members.xml");
 
 sub loadperson
 {
