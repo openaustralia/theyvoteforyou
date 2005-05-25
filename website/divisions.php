@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.15 2005/05/25 11:58:49 frabcus Exp $
+# $Id: divisions.php,v 1.16 2005/05/25 12:03:12 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -125,8 +125,8 @@
 	# these head cells are tabbing type links
     print "<table class=\"votes\">\n";
     print "<tr class=\"headings\">";
+    makeheadcelldivlink($rdisplay, $sort, "Date", "date", "Sort by date");
     print "<td>No.</td>";
-	makeheadcelldivlink($rdisplay, $sort, "Date", "date", "Sort by date");
     makeheadcelldivlink($rdisplay, $sort, "Subject", "subject", "Sort by subject");
     makeheadcelldivlink($rdisplay, $sort, "Rebellions", "rebellions", "Sort by rebellions");
     makeheadcelldivlink($rdisplay, $sort, "Turnout", "turnout", "Sort by turnout");
