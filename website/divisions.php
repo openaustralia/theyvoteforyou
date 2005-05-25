@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.14 2005/03/14 18:58:15 goatchurch Exp $
+# $Id: divisions.php,v 1.15 2005/05/25 11:58:49 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -104,7 +104,7 @@
 			   which says when it is a free vote, we can't tell you which
 			   they are, so have to use your judgement.
 			   By convention, bipartisan matters concerning the running of
-			   Parliament (such as setting the working ours), and matters
+			   Parliament (such as setting the working hours), and matters
 			   of moral conscience (eg the death penalty) are free votes.  </p>";
 
 	if ($sort == "date")
