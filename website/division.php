@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.62 2005/03/28 20:01:59 frabcus Exp $
+# $Id: division.php,v 1.63 2005/05/26 11:44:16 theyworkforyou Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -182,7 +182,7 @@
         print "<br>On ".$divattr['prettydate'].", $turnout MPs voted in division no. $div_no in the House of Commons.
             <br>Subject was '$name'
             <br>Votes were ".$row["ayes"]." aye, ".$row["noes"]." no, ".$row["boths"]." both, ".$row["tellers"]." tellers.
-            There were $rebellions rebellions against majority party vote.";
+            There " . make_plural($rebellions, "was", "were") . " $rebellions " . make_plural($rebellions, "rebellion"). " against majority party vote.";
 
         $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
         $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
