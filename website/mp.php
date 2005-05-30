@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.74 2005/05/26 11:44:16 theyworkforyou Exp $
+    # $Id: mp.php,v 1.75 2005/05/30 20:54:37 theyworkforyou Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -170,7 +170,7 @@
 	else if ($dismode["possfriends"] == "all")
 		$title = "Friends of ".$mpprop['name']." MP, ".$mpprop['constituency'];
 	else if ($voter1attr["bmultiperson"])
-		$title = "Voting Record - Honourable Member for ".$mpprop['constituency'];
+		$title = "Voting Record - MPs for ".$mpprop['constituency'];
 	else
 		$title = "Voting Record - ".$mpprop['name']." MP, ".$mpprop['constituency'];
     include "header.inc";
