@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.44 2005/05/08 22:47:12 frabcus Exp $
+# $Id: faq.php,v 1.45 2005/05/30 20:28:28 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -149,7 +149,7 @@ Whip site, lobby them to do this, then let us know.
 
 <p>Parties can't have it both ways&mdash;complain that we don't know what the whip is,
 and at the same time not tell us.  There is no contradiction in admitting the whip
-exists and recording it officially&mdash;after all some whips <a href="http://www.cabinet-office.gov.uk/civilservice/min-mp-pay/min_sal_tables.htm">are paid a salary by the taxpayer</a> so
+exists and recording it officially&mdash;after all some whips <a href="http://www.civilservice.gov.uk/management_information/parliamentary/parliamentary_pay/pay/payments_on_leaving_office/index.asp#tables">are paid a salary by the taxpayer</a> so
 there is a precedent for admitting they exist.
 
 <h2><a name="abstentions">How do you estimate abstentions?</a></h2>
