@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.52 2005/05/06 02:23:42 frabcus Exp $
+# $Id: header.inc,v 1.53 2005/06/29 08:36:34 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -46,16 +46,19 @@ function givefocus(field) { if (document.pw) eval("document.pw." + field + ".foc
 </td>
 <td class="electionadvertright">
     <a id="aElectionQuiz" class="electionadvert" href="/election.php">Click here to take the <Strong>Quick Election Quiz</strong>
-
 Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
 </td>
 </tr>-->
 
 <!-- the site logo -->
-<tr><td class="identity" colspan="2">
+<tr><td class="identity" colspan="1">
 <a href="<?=$toppath?>index.php"><img src="<?=$toppath?>thepublicwhip.gif" alt="The Public Whip"></a>
-
-</td></tr>
+</td>
+<!-- software patents banner -->
+<td>
+<a href="http://noepatents.eu.org/index.php/NO_Software_Patents"><img src="/patents/swpatbanner.en.png" alt="STOP Software Patents!"/></a>
+</td>
+</tr>
 
 <!-- the main site navigation -->
 <tr class="headers">
