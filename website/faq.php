@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.46 2005/07/05 09:42:42 goatchurch Exp $
+# $Id: faq.php,v 1.47 2005/07/05 15:04:08 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -17,7 +17,6 @@ $paddingforanchors = true; $title = "Frequently Asked Questions"; include "heade
 <li><a href="#jargon">First, can you explain "division" and other political jargon?</a> <br/>
 <li><a href="#how">How does the Public Whip work?</a> <br/>
 <li><a href="#timeperiod">What time period does it cover?</a> <br/>
-<li><a href="#wrans">Where have the Written Answers gone?</a><br/>
 
 <br>
 <li><a href="#clarify">What do the "rebellion" and "attendance" figures mean exactly?</a> <br/>
@@ -28,18 +27,29 @@ $paddingforanchors = true; $title = "Frequently Asked Questions"; include "heade
 <li><a href="#legal">Legal question, what can I use this information for?</a> <br/>
 <li><a href="#playwith">Can I play with the software?</a> <br/>
 <li><a href="#whyfree">Why are you giving everything away for free?</a> <br/>
+
+<br>
+<li><a href="#organisation">What organisation is behind the Public Whip?</a> <br/>
+<li><a href="#theyworkforyou">What's your connection with TheyWorkForYou.com?</a> <br/>
+<li><a href="#interviews">Are you happy to give interviews about Public Whip?</a> <br/>
+<li><a href="#money">Do you make any money out of Public Whip?</a> <br/>
+<li><a href="#living">How do you earn enough to make a living?</a> <br/>
+<li><a href="#millions">I've just got a job at a company that's been contracted by Parliament for millions of pounds ...</a> <br/>
+<li><a href="#officials">Have you had any problems from MPs or other officials with what you are doing?</a> <br/>
+
+<br>
 <li><a href="#rss">Are there any RSS syndication feeds?</a> <br/>
 <li><a href="#spreadsheet">Where is the data in spreadsheet file format or in XML?</a> <br/>
 <li><a href="#patents">What is the fuss about software patents?</a> <br/>
 <li><a href="#election">What did you do for the 2005 election?</a> <br/>
 
 <br>
-<li><a href="#organisation">What organisation is behind the Public Whip?</a> <br/>
-<li><a href="#keepup">How can I keep up with what you are doing?</a> <br/>
 <li><a href="#help">Can I help with the project?</a> <br/>
-<li><a href="#email">Where can I email?</a> <br/>
+<li><a href="#keepup">How can I keep up with what you are doing?</a> <br/>
+<li><a href="#contact">There's something wrong with your webpage / I've found an error / Your wording is dreadfully unclear / Can I make a suggestion?</a> <br/>
 </ul>
 </p>
+
 
 <h2><a name="whatis">What is the Public Whip?</a></h2>
 <p>The Public Whip is a project to watch Members of the United Kingdom
@@ -88,13 +98,13 @@ know</a> if you find any.
 ?>
 
 <p>Some numeric statistics: The database contains <strong><?=$mp_count?></strong>
-MP records from <strong><?=$parties?></strong> parties. There are <strong><?=$div_count?></strong> divisions
-which have been counted.  A mean of <strong><?=$vote_per_div?></strong> MPs voted
-in each division.  In total <strong><?=$vote_count?></strong> votes were cast, of which
-<strong><?=$rebellious_votes?></strong> were against the majority vote for their party.
-That's an overall <strong><?=$attendance?>%</strong> attendance rate and <strong><?=$rebelocity?>%</strong>
-rebellion rate.
-
+MP records from <strong><?=$parties?></strong> parties. There are
+<strong><?=$div_count?></strong> divisions which have been counted.  A mean of
+<strong><?=$vote_per_div?></strong> MPs voted in each division.  In total
+<strong><?=$vote_count?></strong> votes were cast, of which
+<strong><?=$rebellious_votes?></strong> were against the majority vote for
+their party.  That's an overall <strong><?=$attendance?>%</strong> attendance
+rate and <strong><?=$rebelocity?>%</strong> rebellion rate.
 
 <h2><a name="clarify">What do the "rebellion" and "attendance" figures mean exactly?</a></h2>
 
@@ -165,21 +175,20 @@ aye and no</a>.
 
 <p>Anything.  This website is copyrighted by us, and the software is free open source.
 You are free to use them how you like within the terms of the public license.
-The data is
-distributed in the hope that it will be useful, but without any
-warranty; without even the implied warranty of
-merchantability or fitness for a particular purpose.
+The data is distributed in the hope that it will be useful, but without any
+warranty; without even the implied warranty of merchantability or fitness for a
+particular purpose.
 
 <p>Amongst other things, this means that if you use it, you should
 double check the information.  It may be wrong.  If you are going to rely on it,
 at the very least do some random cross-checking to make sure it is valid.
 Whichever way, use it at your own risk.  Of course we'd rather you helped us fix the
-software and correct any errors.  See the answer to <a
-href="#errors">I've found an error</a> for details.
+software and correct any contact.  
+See the answer to <a href="#contact">I've found an error</a> for details.
 
-<p>If you reproduce this information, or derive any interesting
-results from it, we ask you to refer your readers to
-www.publicwhip.org.uk.  This way they can use and contribute themselves.
+<p>If you reproduce this information, or derive any interesting results from
+it, we ask you to refer your readers to www.publicwhip.org.uk.  This way they
+can use and contribute themselves.
 
 <h2><a name="playwith">Can I play with the software?</a></h2>
 
@@ -204,21 +213,28 @@ would happen is that the people who are already organized influentially
 would retain all the power but would have slightly better software
 (which they probably have already).
 
-<h2><a name="error">There's something wrong with your webpage/ I've found an error/
-Your wording is dreadfully unclear/ Can I make a suggestion?</a></h2>
+<h2><a name="organisation">What organisation is behind the Public Whip?</a></h2>
+<p>None.  It was started by just two guys <a href="http://www.flourish.org">Francis</a> and <a
+href="http://www.goatchurch.org.uk">Julian</a> who had an idea and made it
+happen.  <a href="http://www.knownoffender.net/">Giles</a> designed the
+original look of the website.  We're hosted by the ever helpful and encouraging
+<a href="http://www.mythic-beasts.com/">Mythic Beasts</a>.  These days lots
+of other people help out with bits of code, writing and design.
 
-<p>Please post your comments <a href="http://www.publicwhip.org.uk/forum/">in the forum</a> 
-under <b>Bugs and Problems</b> or <b>Suggestions and Ideas</b>
-instead of emailing us.  This will give us an obvious place to post our replies which you can
-look up should you be interested.  </p>
+<h2><a name="theyworkforyou">What's your connection with TheyWorkForYou.com?</a></h2>
 
-<p>Putting it there is likely to be more effective at getting things done
-because if the whole world is able to see just how flaky our system is becoming,
-we're more likely to be embarrassed enough to take action.</p>
+<p>Both of us, Francis and Julian, are members of that project, but PublicWhip
+is not.  These projects use the same underlying code to interpret the online
+Hansard pages, but they make different displays of it.  That code and
+data is in the separate <a href="http://ukparse.kforge.net/parlparse">Parliament
+Parser</a> project.  We are not part of a business and there is no reason for
+any project to have control over any other project, so they don't.  You could
+take our code and derive a new project from it should you wish.  In fact, if
+you have an idea and the time, we will encourage you and give you all the
+support we can.</p>
 
-<p>Email us only if it's something you think should be kept private.</p>
 
-<h2>Are you happy to give interviews about Publicwhip?</h2>
+<h2><a name="interviews">Are you happy to give interviews about Public Whip?</a></h2>
 
 <p>Yes.  Both Francis and Julian have given interviews 
 over the phone in the past and had their pictures taken for newspapers.
@@ -228,71 +244,56 @@ Both travel to London whenever there is something interesting happening there.
 Neither of us has had any working experience inside Parliament,
 and so our opinions are very much formed from the outside.  </p>
 
-<h2>Do you make any money out of Publicwhip?</h2>
+<h2><a name="money">Do you make any money out of Public Whip?</a></h2>
 
-<p>No.  The only money we've seen is from an anonymous donor who 
-contributed 400 pounds towards our internet bill.  
-We have no moral objection to earning money from our work, it's just that we 
-are not willing to compromise with the need for this sort of work to 
-be public and freely available at no cost.  </p>
+<p>No.  The only money we've seen is from someone who contributed 70 pounds
+towards our internet bill.  We have no moral objection to earning money from
+our work, it's just that we are not willing to compromise with the need for
+this sort of work to be public and freely available at no cost.  </p>
 
-<h2>How do you earn enough to make a living?</h2>
+<h2><a name="living">How do you earn enough to make a living?</a></h2>
 
-<p>We don't have expensive lifestyles.  Francis does contract work 
-for the Ravensbrook programmer's cooperative as well as MySociety, and
-Julian is a self-employed programmer of machine tool software.  
-Francis and Julian first met and worked together in 1995 as employees of 
-<a href="www.ncgraphics.co.uk">NC Graphics</a>, a machine tool software company in Cambridge, 
-before they became enlightened enough to abandon such 
-working practices and enjoy life without ever having to answer to a boss.  </p>
+<p>We don't have expensive lifestyles.  Francis does IT contract work 
+for various clients including <a href="http://www.mysociety.org">mySociety</a>,
+and Julian is a self-employed programmer of machine tool software.  Francis and
+Julian first met and worked together in 1997 as employees of <a
+href="http://www.ncgraphics.co.uk">NC Graphics</a>, a machine tool software company in
+Cambridge, before they became enlightened enough to abandon such working
+practices and enjoy life without ever having to answer to a boss.  </p>
 
-<p>Many people have hobbies, like pidgeon breeding or vintage car racing, that are 
-far more costly and time consuming than running a webpage.
-Just because the skills we have used can earn real money in the marketplace 
-doesn't mean it has to be difficult and boring.  </p>
+<p>Many people have hobbies, like pigeon breeding or vintage car racing, that
+are far more costly and time consuming than running a webpage.  Just because
+the skills we have used can earn real money in the marketplace doesn't mean it
+has to be difficult and boring.  </p>
 
-<h2>What's your connection with theyworkforyou.com?  </h2>
+<h2><a name="millions">I've just got a job at a company that's been contracted by Parliament for millions of pounds to improve their website and information handling systems.  I don't understand why you have written your software for free in your spare time when I'm paid to do the same thing.</a></h2>
 
-<p>Both of us, Francis and Julian, are members of that project, but Publicwhip is not.  
-These projects use the same underlying code to interpret the online Hansard pages, 
-but they make different displays of it.  We are not part of a business and 
-there is no reason for any project to have control over any other project, so they don't.  
-You could take our code and derive a new project from it should you wish.
-In fact, if you have an idea and the time, we will encourage you and 
-give you all the support we can.  </p>
+<p>Neither do we.  From what we can tell, the government's system for procuring
+software gives, shall we say, somewhat suboptimal results.  It's one of our
+ambitions to be a notable embarrassment to the business professionals who are
+capable of blowing whole pots of public money on software projects that don't
+work.  To date, we have never been approached by anyone for technical advice on
+how to solve some of the problems we have encountered during the development of
+our software.  We can't understand this, because if we had their job we would
+be the first people we would contact before writing a single line of code.</p>
 
-<h2>I've just got a job at a company that's been contracted by Parliament 
-for millions of pounds to improve their website and information handling systems.  
-I don't understand why you have written your software for free 
-in your spare time when I'm paid to do the same thing.  </h2>
-
-<p>Neither do we.  From what we can tell, the government's system for procuring software gives, 
-shall we say, somewhat suboptimal results.  It's one of our ambitions 
-to be a notable embarrassment to the business professionals who are 
-capable of blowing whole pots of public money on software projects that don't work.  
-To date, we have never been approached by anyone for technical advice on how 
-to solve some of the problems we have encountered during the development of our software.  
-We can't understand this, because if we had their job we would be
-the first people we would contact before writing a single line of code.</p>
-
-<p>Sometimes programmers who work in corporations exist in a state of 
-fear and feel that if they speak to anyone on the outside of the organization
-they will get sacked, then sued for releasing commercial secrets,
-and wind up homeless never able to get another job again.  If you are 
-too afraid, you do not need to speak to us.  We have posted up 
-everything we know on <a href="ukparse.kforge.net/parlparse">parlparse</a>.  
-If there's anything we're missing which you'd like to see there, drop us a 
-line or post onto the forum anonymously.  </p>
+<p>Sometimes programmers who work in corporations exist in a state of fear and
+feel that if they speak to anyone on the outside of the organization they will
+get sacked, then sued for releasing commercial secrets, and wind up homeless
+never able to get another job again.  If you are too afraid, you do not need to
+speak to us.  We have posted up everything we know on <a
+href="http://ukparse.kforge.net/parlparse">Parliament Parse</a>.  If there's
+anything we're missing which you'd like to see there, drop us a line or post
+onto the forum anonymously.</p>
 
 
-<h2>Have you had any problems from MPs or other officials with what you are doing?  </h2>
+<h2><a name="officials">Have you had any problems from MPs or other officials with what you are doing?</a></h2>
 
-<p>Nothing we haven't been able to handle.  Mostly they ignore us.
-If anyone in power has had an objection to what we are doing, they have kept it to themselves.
-As a rule, politicians must contrive to frame their desires into something that 
-relates to the public interest.  We can't rule out that some creative genius 
-will invent a reason which explains why we are doing more harm than good, but 
-it's unlikely.  </p>
+<p>Mostly they ignore us.  If anyone in power has had an objection to what we
+are doing, they have kept it to themselves.  As a rule, politicians must
+contrive to frame their desires into something that relates to the public
+interest.  We can't rule out that some creative genius will invent a reason
+which explains why we are doing more harm than good, but it's unlikely.  </p>
 
 <p>Most of the problems have had to do with the inaccuracies
 in the the <a href="#freevotes">attendence and rebellion rates</a>.
@@ -325,14 +326,6 @@ href="patents/index.html">For more information see here</a>.
 <p>During the 2005 General Election campaign we ran a <a href="election.php">how
 they voted quiz</a>.  You can still take it and link to the results.
 
-<h2><a name="organisation">What organisation is behind the Public Whip?</a></h2>
-<p>None.  It was started by just two guys <a href="http://www.flourish.org">Francis</a> and <a
-href="http://www.goatchurch.org.uk">Julian</a> who had an idea and made it
-happen.  <a href="http://www.knownoffender.net/">Giles</a> designed the
-original look of the website.  We're hosted by the ever helpful and encouraging
-<a href="http://www.mythic-beasts.com/">Mythic Beasts</a>.  These days lots
-of other people help out with bits of code, writing and design.
-
 <h2><a name="help">Can I help with the project?</a></h2>
 <p>Sure!  Email <a href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a> to say
 you would like to help.  We always need help writing newsletters, improving
@@ -349,11 +342,20 @@ relating to the project. You can
 <a href="http://www.publicwhip.org.uk/forum">chat with other users</a>
 on our forum.
 
-<h2><a name="email">Where can I email?</a></h2>
-<p>If you have any problems, comments, queries, suggestions or offers of help about this website
-then email <a
-href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a>.  If you would like
-to contact your MP about something that concerns you, then use <a href="http://www.writetothem.com">WriteToThem</a>.
+<h2><a name="contact">There's something wrong with your webpage / I've found an error / Your wording is dreadfully unclear / Can I make a suggestion?</a></h2>
+
+<p>Please post your comments <a href="http://www.publicwhip.org.uk/forum/">in the forum</a> 
+under <b>Bugs and Problems</b> or <b>Suggestions and Ideas</b> instead of
+emailing us.  This will give us an obvious place to post our replies which you
+can look up should you be interested.  </p>
+
+<p>Putting it there is likely to be more effective at getting things done
+because if the whole world is able to see just how flaky our system is becoming,
+we're more likely to be embarrassed enough to take action.</p>
+
+<p>Email us at <a
+href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a> only if it's
+something you think should be kept private.</p>
 
 <?php include "footer.inc" ?>
 

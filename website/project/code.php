@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: code.php,v 1.16 2005/01/15 20:38:12 frabcus Exp $
+# $Id: code.php,v 1.17 2005/07/05 15:04:09 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -19,11 +19,13 @@ licensed under the <a href="../GPL.php">GPL</a>, a standard open source
 software license.  
 
 <p>At the moment I've only run this on Linux. It will certainly work on
-other Unixes, and it should run on Windows.  You need to install at
-least Python, preferably preferably MySQL, Perl and a web server with PHP also.
-Since so few people have used this code, there are bound to be problems.  Don't
-hesitate to <a href="mailto:team@publicwhip.org.uk">email us</a> for help,
-or even better join the <a href="https://lists.sourceforge.net/lists/listinfo/publicwhip-playing">publicwhip-playing email list</a> and ask us there.
+other Unixes, and it should run on Windows.  You need to install MySQL, Perl
+and a web server with PHP also.  Since so few people have used this code, there
+are bound to be problems.  Don't hesitate to <a
+href="mailto:team@publicwhip.org.uk">email us</a> for help, or even better join
+the <a
+href="https://lists.sourceforge.net/lists/listinfo/publicwhip-playing">publicwhip-playing
+email list</a> and ask us there.
 
 <p>If all this sounds like gobbledygook, then email me and ask for help.
 I can tell you where to go and what to read to learn how to get it up
@@ -31,16 +33,17 @@ and running.  Or if there is a particular good idea that you want to try
 out, I might help more directly by implementing it.
 
 <h2>Roughly how it works</h2>
-<p>Python code downloads data from the UK parliament website, stores it as an
-HTML file for each day, and parses those files into XML files.  A Perl script
-loads that data into a MySQL database.  A combination of Perl and Octave (an
+<p>The separate <a href="http://ukparse.kforge.net/parlparse">Parliament Parser</a>
+project supplies XML files of debates in parliament.  These are downloaded
+to Public Whip by HTTP or using rsync.  A Perl script loads the divisions
+from the XML files into a MySQL database.  A combination of Perl and Octave (an
 open source mathematics package, compatible with Matlab) code perform various
 calculations on the data to form other database tables.  The website is written
 in PHP and makes pages by querying the MySQL database.
 
-<p>You can skip a whole stage by grabbing the database dumps from the
-bottom of the <a href="data.php">raw data</a> page, and loading these
-into MySQL.  Then go straight to "Running the website locally" below.
+<p>You can skip a whole stage by grabbing the database dumps from the bottom of
+the <a href="data.php">raw data</a> page, and loading these into MySQL.  Then
+go straight to "Running the website locally" below.
 
 <h2>Getting the source code</h2>
 <A href="http://sourceforge.net/projects/publicwhip"> <IMG align=right vspace=8 hspace=8
@@ -55,35 +58,19 @@ README.txt.
 
 <p><span class="ptitle">File download</span> - To use the code,
 download a snapshot.  Go to our <a
-href="http://sourceforge.net/projects/publicwhip">SourceForge project
-page</a>, and follow the link to Files.  You want the latest
-publicwhip-source file.
+href="http://sourceforge.net/projects/publicwhip">SourceForge project page</a>,
+and follow the link to Files.  You want the latest publicwhip-source file.
 
-<p><span class="ptitle">From CVS</span> - For the live
-code-as-we-change-it, you can use the version control system CVS.  Go to
-our <a href="http://sourceforge.net/projects/publicwhip">SourceForge
-project page</a>, and follow the link to CVS for instructions.  The
-module you want is called <i>publicwhip</i>.
+<p><span class="ptitle">From CVS</span> - For the live code-as-we-change-it,
+you can use the version control system CVS.  Go to our <a
+href="http://sourceforge.net/projects/publicwhip">SourceForge project page</a>,
+and follow the link to CVS for instructions.  The module you want is called
+<i>publicwhip</i>.
 
-<p>There is README.txt file with the source code, explaining what is in
-each directory, and what the various todo and idea list files are.
+<p>There is README.txt file with the source code, explaining what is in each
+directory, and what the various todo and idea list files are.
 
-<h2>Setting up Python, Unix-utils, Perl and MySQL</h2>
-
-<p><span class="ptitle">Python</span> - Under Windows download <a
-href="http://www.python.org/download/">Python 2.3</a>.  Unix-based operating
-systems probably have Python already installed, but you may need to
-upgrade to Python 2.3.  You also need the <a
-href="http://www.egenix.com/files/python/mxDateTime.html">mxDateTime</a> module
-by eGenix, go to downloads on that page.  Under Debian this is in the package
-python2.3-egenix-mxdatetime.
-
-<p><span class="ptitle">Patch and Diff</span> - 
-The parser has a preprocessor which applies patches to Hansard to fix
-uncommon errors.  This is done using the tools "patch" and "diff",
-which will be installed by default if you are using Unix.  On Windows
-you can download them from 
-<a href="http://unxutils.sourceforge.net/">GNU utilities for win32</a>.
+<h2>Setting up Unix-utils, Perl and MySQL</h2>
 
 <p><span class="ptitle">Perl</span> - Under Windows download <a
 href="http://www.activestate.com/ActivePerl/">ActivePerl</a>.
@@ -118,29 +105,16 @@ You need to set up the database tables, which all begin with <i>pw_</i>.  To do
 this read the instructions at the top of the file
 create.sql.  It contains the SQL commands which create the tables.
 
-<h2>Scraping parliamentary transcripts</h2>
+<h2>Getting the XML files</h2>
 
-<p>Use the command line and change to the <i>pyscraper</i> directory.  The
-script called <i>lazyrunall.py</i> in there does all of the screen scraping
-from Hansard.  Run it with no parameters to find out its syntax.  Then
-do something like this, include a date limit as the parser gives errors
-if you go too far back.
+<p>Download these from the separate <a
+href="http://ukparse.kforge.net/parlparse">Parliament Parse</a> project.  The
+division listings are in the main debate files, but are also available in
+smaller division only files.  To get them do something like this:
 
-<p><tt>./lazyrunall.py --from 2001-06-01 scrape parse
-debates wrans</tt>
+<p><tt>rsync --recursive ukparse.kforge.net::parldata/scrapedxml/divisionsonly /home/francis/pwdata/scrapedxml</tt>
 
-<p>That will screen scrape back to the start of the 2001 parliament, 
-writing the files in pwdata/cmpages.  Then it will parse these
-files into XML files and put them in pwdata/scrapedxml.  On Unix
-the pwdata folder is in your home directory, on Windows it will
-be in the same folder as the publicwhip folder which contains
-the source code.
-
-<p>The command above will gather both debates and written answers (wrans).
-You can run a command again and it will lazily make only those files which
-weren't downloaded/parsed last time.  When you are done, you should have
-lots of XML files in the pwdata/scrapedxml/debates folder.  Take a look
-at them.  These are used by the Perl script in the next phase.
+<h2>Loading data into the database</h2>
 
 <p>Change to the <i>loader</i> directory.    You need
 <i>memxml2db.pl</i>, which will load the information about MPs into
