@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: data.php,v 1.17 2005/07/05 15:04:09 frabcus Exp $
+# $Id: data.php,v 1.18 2005/07/05 15:19:07 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -71,4 +71,4 @@ Text dump of MySQL tables containing Dream MP votes and edited motion text.
 <br><a href="../data/pw_cache_tables.sql.bz2">pw_cache_tables.sql.bz2</a> -
 Text dump of MySQL tables containing cached calculations.
 
-
+<?php include "../footer.inc" ?>
