@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.25 2005/05/08 22:06:12 frabcus Exp $
+-- $Id: create.sql,v 1.26 2005/07/06 14:07:22 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -223,7 +223,7 @@ create table pw_cache_dreaminfo (
 
     votes_count int not null,
     edited_motions_count int not null,
-    consistency_with_mps float,
+    consistency_with_mps float
 );
 
 -- information about a real MP for a particular Dream MP
