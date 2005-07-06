@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.53 2005/06/29 08:36:34 frabcus Exp $
+# $Id: header.inc,v 1.54 2005/07/06 16:40:58 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -55,8 +55,16 @@ Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
 <a href="<?=$toppath?>index.php"><img src="<?=$toppath?>thepublicwhip.gif" alt="The Public Whip"></a>
 </td>
 <!-- software patents banner -->
+<!--
 <td>
 <a href="http://noepatents.eu.org/index.php/NO_Software_Patents"><img src="/patents/swpatbanner.en.png" alt="STOP Software Patents!"/></a>
+</td>
+-->
+<td class="searchtitlebar" align="right" valign="middle">
+<form class="searchtitlebarform" action="search.php" name=pw>
+Search or Postcode:
+<input maxLength=256 size=12 name=query value=""> <input type=submit value="Go" name=button>
+</form>
 </td>
 </tr>
 
@@ -73,7 +81,6 @@ Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
 <a title="MPs who vote the way you want" href="<?=$toppath?>dreammps.php">Dream MPs</a>
 <!-- <a title="Cluster diagram of voting record" href="<?=$toppath?>mpsee.php">Vote Map</a> -->
 <a title="Help run the project" href="<?=$toppath?>project/index.php">Project</a>
-<a title="Find an MP or division" href="<?=$toppath?>search.php">Search</a>
 </td>
 <td class="pagenavlinks" align="right">
 <!--ACCOUNTBEGIN-->

@@ -344,8 +344,23 @@ TABLE.votetab TD.majority
 {
     BACKGROUND-COLOR: #664466;
 }
-.layout
+.searchtitlebar
 {
+    PADDING-RIGHT: 1em;
+    PADDING-LEFT: 0px;
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    PADDING-TOP: 0px;
+    BACKGROUND-COLOR: #003300;
+    COLOR: #FFFFFF;
+    TEXT-ALIGN: RIGHT;
+    VERTICAL-ALIGN: MIDDLE;
+}
+.searchtitlebarform
+{
+    TEXT-ALIGN: RIGHT;
+    VERTICAL-ALIGN: MIDDLE;
+    BACKGROUND-COLOR: #003300;
 }
 IMG
 {
