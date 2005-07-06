@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: data.php,v 1.18 2005/07/05 15:19:07 frabcus Exp $
+# $Id: data.php,v 1.19 2005/07/06 18:10:34 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -29,18 +29,18 @@ data there.
 
 <h2>MP votes for each division</h2>
 
-<p>These are CSV files for loading into a spreadsheet.  They contain a matrix
-of every vote of each MP in each division.  1 for aye, -1 for noe, 0 for both, 
--- if they didn't vote.  Very very occasionally you will see -2 or 2 when
-Hansard recorded that an MP both voted and telled.  The columns are headed by
-the names of the MPs, and the rows begin with the date and number of the
-division.  
+<p>The .dat files are tab-separated text files for loading into a spreadsheet.
+They contain a matrix of every vote of each MP in each division.  The columns
+are headed by the identifiers of the MPs, and the rows begin with the date,
+number and title of the division.   Each .txt file explains what number
+represents aye, no, abstain and so on, and gives a key to the MP
+identifiers.
 
 <p>
-<a href="../data/votematrix-1997.csv.zip">votematrix-1997.csv.zip</a> - 271k
-<br><a href="../data/votematrix-2001.csv.zip">votematrix-2001.csv.zip</a> - 171k
-<br><a href="../data/divnames.txt">divnames.txt</a> - Names of divisions indexed by
-number/date pair
+<a href="../data/votematrix-1997.dat">votematrix-1997.dat</a>
+<br><a href="../data/votematrix-1997.txt">votematrix-1997.txt</a>
+<br><a href="../data/votematrix-2001.dat">votematrix-2001.dat</a>
+<br><a href="../data/votematrix-2001.txt">votematrix-2001.txt</a>
 
 <p>You may have problems using these files because they have more than 256
 columns, and some spreadsheets don't go beyond column IV.  See if your
