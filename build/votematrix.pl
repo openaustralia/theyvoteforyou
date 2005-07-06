@@ -9,7 +9,7 @@
 
 use strict;
 use warnings;
-use lib "../../loader/";
+use lib "../loader/";
 use PublicWhip::Error;
 use PublicWhip::DB;
 use PublicWhip::Parliaments;
@@ -24,7 +24,7 @@ $Output_Values{both}=   '3';
 $Output_Values{no}=     '4';
 $Output_Values{tellno}= '5';
 
-my $path ="~/www.publicwhip.org.uk_html/data";
+my $path = $ENV{'HOME'} ."/www.publicwhip.org.uk_html/data";
 foreach my $parliament (&PublicWhip::Parliaments::getlist())
 {
     my $outfile = "votematrix-" . $$parliament{'name'} ;
