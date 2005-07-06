@@ -47,6 +47,7 @@ then
 	# export dump of database for developers
 	cd ~/publicwhip/build
 	./export-db
+    ./votematrix.pl
 fi
 
 # RSS feeds
