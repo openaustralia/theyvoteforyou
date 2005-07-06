@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.63 2005/05/26 11:44:16 theyworkforyou Exp $
+# $Id: division.php,v 1.64 2005/07/06 14:29:28 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -14,6 +14,7 @@
    	include "decodeids.inc";
 	include "tablepeop.inc";
 	include "tablemake.inc";
+	include "tableoth.inc";
 
 
 	# decode the attributes
@@ -249,95 +250,7 @@
 
 	# Work out proportions for party voting (todo: cache)
 	if ($dismode["partysummary"])
-    {
-        $db->query("select party, total_votes from pw_cache_partyinfo");
-        $alldivs = array();
-        while ($row = $db->fetch_row())
-        {
-            $alldivs[$row[0]] = $row[1];
-        }
-        $alldivs_total = array_sum(array_values($alldivs));
-
-        # Table of votes by party
-        print "<h2><a name=\"summary\">Party Summary</a></h2>";
-        print "<p>Votes by party, red entries are votes against the majority for that party.  ";
-        print "
-        <div class=\"tableexplain\">
-        <span class=\"ptitle\">What is Tell?</span>
-        '+1 tell' means that in addition one member of that party was a
-        <a href=\"faq.php#jargon\">teller</a> for that division lobby.</p>
-        <p>
-        <span class=\"ptitle\">What are Boths?</span> An MP can vote both
-        aye and no in the same division. The <a href=\"boths.php\">boths
-        page</a> explains this.
-        <p>
-        <span class=\"ptitle\">What is Abstain?</span> Abstentions are
-        <a href=\"faq.php#abstentions\">estimated by statistics</a>.
-        They are relative to other parties, so can be negative.</p>
-        </div>";
-
-
-
-        $partysummary = GetPartyVoteSummaryH($db, $div_id);
-
-        # Make table
-        print "<table><tr class=\"headings\"><td>Party</td><td>Ayes</td><td>Noes</td>";
-        print "<td>Both</td>";
-        print "<td>Turnout</td>";
-        print "<td>Expected</td><td>Abstain</td></tr>";
-        $prettyrow = 0;
-        $allparties = array_keys($alldivs);
-        usort($allparties, strcasecmp);
-        if ($partysummary['votes'] <> $turnout)
-        {
-            print "<p>Error $votes <> $turnout\n";
-        }
-        foreach ($allparties as $party)
-        {
-            $aye = $partysummary['ayes'][$party];
-            $no = $partysummary['noes'][$party];
-            $both = $partysummary['boths'][$party];
-            $tellaye = $partysummary['tellayes'][$party];
-            $tellno = $partysummary['tellnoes'][$party];
-            if ($aye == "") { $aye = 0; }
-            if ($no == "") { $no = 0; }
-            if ($both == "") { $both = 0; }
-            $whip = $partysummary['whips'][$party];
-            $total = $aye + $no + $both + $tellaye + $tellno;
-            $classaye = "normal";
-            $classno = "normal";
-            if ($whip == "aye") { if ($no + $tellno > 0) { $classno = "rebel";} ;} else { $classno = "whip"; }
-            if ($whip == "no") { if ($aye + $tellaye> 0) { $classaye = "rebel";} ;} else { $classaye = "whip"; }
-
-            $classboth = "normal";
-            if ($both > 0) { $classboth = "important"; }
-
-            $alldiv = $alldivs[$party];
-            $expected = round($partysummary['votes'] * ($alldiv / $alldivs_total), 0);
-            $abstentions = round($expected - $total, 0);
-            $classabs = "normal";
-            if (abs($abstentions) >= 2) { $classabs = "important"; }
-
-            if ($tellaye > 0 or $tellno > 0 or $aye > 0 or $no > 0 or $both > 0 or $abstentions >= 2)
-            {
-                if ($tellaye > 0)
-                    $aye .= " (+" . $tellaye . " tell)";
-                if ($tellno > 0)
-                    $no .= " (+" . $tellno . " tell)";
-
-                $prettyrow = pretty_row_start($prettyrow);
-                print "<td>" . pretty_party($party) . "</td>";
-                print "<td class=\"$classaye\">$aye</td>";
-                print "<td class=\"$classno\">$no</td>";
-                print "<td class=\"$classboth\">$both</td>";
-                print "<td>$total</td>";
-                print "<td>$expected</td>";
-                print "<td class=\"$classabs\">$abstentions</td>";
-                print "</tr>";
-            }
-        }
-        print "</table>";
-	}
+	    print_party_summary_division($db, $div_id, ""); 
 
 
 	# Division votes table

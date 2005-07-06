@@ -1,4 +1,4 @@
-PULL YOUR RIGHT MARGINS IN A BIT!!!!!!!!  :set tw=70
+PULL YOUR RIGHT MARGINS IN A BIT!!!!!!!!  :set tw 70
 
 Subject: Public Whip Newsletter # - 
  
@@ -6,6 +6,7 @@ Welcome to the XXXth Public Whip newsletter.
 
 Inside this issue:
   * Editorial
+
   * Site Updates: ""
   * Feature Article: ""
   * Project Spotlight: ""
@@ -17,19 +18,19 @@ that you can hold them to account.
 ***********************************************************************
 Editorial
 
+The weather in Cambridge has gone dull again, so I don't mind much
+that Julian has come down from Liverpool and forced me to work on
+Public Whip for a couple of days.
+
+
+
  - Francis, The Public Whip (http://www.publicwhip.org.uk)
 
 ***********************************************************************
-Site Updates 
+Book Review - Revolts and Rebel
 
 ***********************************************************************
-Feature Article 
-
-***********************************************************************
-Project Spotlight
-
-***********************************************************************
-Public Whip and friends in the news
+- Public Whip and friends in the news
 
 ***********************************************************************
 Why not forward this to a friend now?

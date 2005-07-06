@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.23 2005/05/25 12:03:12 theyworkforyou Exp $
+# $Id: tablemake.inc,v 1.24 2005/07/06 14:29:28 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -373,8 +373,8 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
     $divlink = "<a href=\"$divhref\">";
     $divdesc_edited = extract_title_from_wiki_text($row['text_body']);
     $divdesc = $divdesc_edited ? $divdesc_edited : $row['division_name'];
-    print "<td colspan=7 align=left>$divlink$divdesc - " . 
-	    date("j M Y", strtotime($row["divisiondate"])) . 
+    print "<td colspan=7 align=left>$divlink$divdesc - " .
+	    date("j M Y", strtotime($row["divisiondate"])) .
 	" - Division No. " . $row['divisionnumber'] . "</a> </td>";
     print "</tr>\n";
 
@@ -505,7 +505,6 @@ function division_table($db, $divtabattr, $events = "")
     else # by date (for all other cases)
         $aquery["qorder"] .= " divisiondate DESC, divisionnumber DESC";
 
-
     # corrected column (yet another division_id coding!)
     # motionwikistate is nothing or 'listunedited' for the "(unedited)" symbols
     $showmotionwikistate = $divtabattr["motionwikistate"];
@@ -576,7 +575,7 @@ function division_table($db, $divtabattr, $events = "")
         if ($divtabattr["limitby"] == "")
         {
             $query .= " LIMIT 30";
-            print "<h3>Limiting by 30 for shorter table</h3>"; 
+            print "<h3>Limiting by 30 for shorter table</h3>";
         }
         print "<h1>GGGG $voter1type ";
         print_r($voter1);
@@ -683,21 +682,15 @@ function division_table($db, $divtabattr, $events = "")
         writeevents($events, $row['divisiondate'], $breversed);
 
         # votedisplay is none, 'fullmotion'(for showing the jmp view)
-        $printed = false;
         if ($divtabattr['votedisplay'] == 'fullmotion')
         {
             $division_key = get_motion_wiki_key($row['divisiondate'], $row['divisionnumber']);
             $wikiinfo = get_wiki_current_value($division_key);
-            if ($wikiinfo['user_id'] == 0) {
-
-            } else {
-                $printed = true;
-                $motiontext = extract_motion_text_from_wiki_text($wikiinfo['text_body']);
-                print_motion_row($motiontext, $db, $row['divisionid'], $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, $voter1, $vote1, $vote2, $row, $divhref, $hrefsource);
-                $nrows += 2;
-            }
+			$motiontext = extract_motion_text_from_wiki_text($wikiinfo['text_body']);
+			print_motion_row($motiontext, $db, $row['divisionid'], $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, $voter1, $vote1, $vote2, $row, $divhref, $hrefsource);
+			$nrows += 2;
         }
-        if (!$printed)
+        else
         {
             print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter2type, $vote1, $vote2, $row, $showmotionwikistate, $divhref, $hrefsource);
             $nrows += 1;

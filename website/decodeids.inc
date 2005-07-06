@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.15 2005/05/08 22:06:15 frabcus Exp $
+# $Id: decodeids.inc,v 1.16 2005/07/06 14:29:28 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -15,7 +15,7 @@ require_once $toppath . "constituencies.inc";
 
 # get the constituency and names to use from an mpid
 # mpgen says the equivalence class is by constituency or by person
-function get_mpid_attr($db, $mpid, $bbyconstituency, $i)
+function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream)
 {
     global $bdebug;
     # convert the mpid into a person-id
@@ -40,9 +40,11 @@ function get_mpid_attr($db, $mpid, $bbyconstituency, $i)
         $qwhere = "constituency = '".db_scrub($constituency)."'";
     else
         $qwhere = "person = $person";
-    $query = "SELECT pw_mp.mp_id as mpid, title, first_name, last_name, constituency, person, party,
+
+	$qselect = "pw_mp.mp_id as mpid, title, first_name, last_name, constituency, person, party,
                 entered_house, left_house, party, entered_reason, left_reason,
-                rebellions, votes_attended, votes_possible, tells
+                rebellions, votes_attended, votes_possible, tells";
+    $query = "SELECT $qselect
               FROM   pw_mp
               LEFT JOIN pw_cache_mpinfo ON pw_mp.mp_id = pw_cache_mpinfo.mp_id
               WHERE $qwhere
@@ -55,6 +57,7 @@ function get_mpid_attr($db, $mpid, $bbyconstituency, $i)
     $mpids = array();
     $mpprops = array();
     $bmultiperson = false;  # record if this set really does cover more than one person
+	$thismpprop = null;
     while ($row = $db->fetch_row_assoc())
     {
         $mppropname = $row['first_name'].' '.$row['last_name'];
@@ -75,6 +78,20 @@ function get_mpid_attr($db, $mpid, $bbyconstituency, $i)
                           "votespossible" => $row['votes_possible'],
                           "tells" 		=> $row['tells']);
 
+		# check for an over-lap with the dreammp
+		if ($voter2dream)
+		{
+			$query = "SELECT vote FROM pw_dyn_rollievote
+					  WHERE division_date >= \"".$row['entered_house']."\" AND division_date < \"".$row['left_house']."\"
+					  	AND rolliemp_id = ".$voter2dream['dreammpid']."
+						LIMIT 1";
+		    if ($bdebug)
+		    	print "<h1>$query</h1>\n";
+			$row2 = $db2->query_onez_row_assoc($query);
+			if ($row2 == null)
+				continue;
+		}
+
         if ($bdebug == 1)
         {
             print "<h1>prop:";
@@ -83,17 +100,17 @@ function get_mpid_attr($db, $mpid, $bbyconstituency, $i)
         }
 
         array_push($mpprops, $mpprop);
-        if ($row['mpid'] == $mpprop['mpid'])  # recover the original mp
+        if (($mpprop['mpid'] == $mpid) || ($thismpprop == null))  # recover the original mp, or the most recent
             $thismpprop = $mpprop;
 
 
         array_push($mpids, $row['mp_id']);
         if ($person != $row['person'])
-            $bmultiperson = true;
-    }
+			$bmultiperson = true;
+	}
 
     if ($bdebug == 1)
-        print "<h1>$mpname, $constituency, multiperson:$multiperson</h1>\n";
+        print "<h1>$mpname, $constituency, multiperson:".($multiperson ? "yes" : "no")."</h1>\n";
 
     return array("mpprops"		=> $mpprops,
                  "mpprop"		=> $thismpprop,
@@ -143,7 +160,7 @@ function decode_mpid_legacy($db)
 
 
 # returns the ith mpid from the link (0th is blank)
-function get_mpid_attr_decode($db, $i)
+function get_mpid_attr_decode($db, $db2, $i, $voter2dream=null)
 {
     global $bdebug;
 
@@ -157,10 +174,10 @@ function get_mpid_attr_decode($db, $i)
     if (is_postcode($mppostcode)) {
         $pccons = postcode_to_constituency($db, $mppostcode);
         if (isset($pccons)) {
-            $mpconstituency = $pccons; 
+            $mpconstituency = $pccons;
         }
     }
-        
+
     if ($mpname == "" and $mpconstituency == "")
     {
         if ($mpurlid != "") {
@@ -215,7 +232,7 @@ function get_mpid_attr_decode($db, $i)
         $bbyconstituency = ($mpname == "");
     }
 
-    return get_mpid_attr($db, $mpid, $bbyconstituency, $i);
+    return get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream);
 }
 
 # do the attributes for a dream mp
