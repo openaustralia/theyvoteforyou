@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.76 2005/07/06 14:29:28 frabcus Exp $
+    # $Id: mp.php,v 1.77 2005/07/06 14:46:52 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -186,7 +186,7 @@
 	if ($voter2type == "dreammp")
 	{
 		if ($voter1attr["bmultiperson"])
-			$title = "Whipping Report - MPs for '".$mpprop['constituency']."'";
+			$title = "Whipping Report - MPs for ".$mpprop['constituency'];
 		else
 			$title = "Whipping Report - '".$voter2attr['name']."' on " . $mpprop['name']." MP, ".$mpprop['constituency'];
 		$title .= " by '".html_scrub($voter2attr['name'])."'";
@@ -325,25 +325,31 @@
 	        	a teller (Teller) or both (Rebel Teller).  \n";
 		else if ($dismode["votelist"] == "every" and $voter2type == "party")
 			print "<p>All votes this MP could have attended. \n";
-		else if ($voter2type == "dreammp") 
-		{
+		else if ($voter2type == "dreammp") {
 			print "<p><b>Explanation:</b> Shows all votes on the issue '<a href=\"$voter2link\">".
 				html_scrub($voter2attr['name']).
 				"</a>', and how <a href=\"$voter1link\">";
 			if ($voter1attr["bmultiperson"])
-				print "MPs for '".$mpprop['constituency']."'";
+				print "MPs for ".$mpprop['constituency'];
 			else
 				print $mpprop['name'];
-			print "</a> voted on them.  The issue is represented by a 'Dream MP',
+            print "</a> voted on them.  The issue is represented by a 'Dream MP',
                                 that is to say an imaginary MP who only voted on this issue, and
-                                who voted a certain way on it.  " . html_scrub($mpprop['name']) .
-				"'s voting record is compared to the voting record of the Dream MP.
-				You can think of the Dream MP as representing a whips' office on
-				behalf of the issue.";
+                                who voted a certain way on it. ";
+			if ($voter1attr["bmultiperson"])
+                print "The voting record of the real MPs is compared to the
+                voting record of the Dream MP.";
+            else 
+                print html_scrub($mpprop['name']) .
+                    "'s voting record is compared to the voting record of the Dream MP.";
+            print " You can think of the Dream MP
+                as representing a whips' office on behalf of the issue.";
 
             # list of all MPs being displayed
             if ($dismode["multimpterms"]) {
+                print "<p>These MPs for " . $mpprop['constituency'] . " are compared to the Dream MP, according to which held the seat at the time of each vote.";
                 seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], ($all_same_cons ? false : true), false, $thispagesettings);
+            }
 
 			print "<p><b>Description of '".html_scrub($voter2attr['name']).
 				"':</b> " .
@@ -352,8 +358,7 @@
 				"\n";
 			print "<p>";
 
-    }
-     }
+        }
 
 		if ($dismode["eventsinfo"])
 		    print " Also shows when this MP became or stopped being a paid minister. </p>";
