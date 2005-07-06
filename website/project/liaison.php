@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: liaison.php,v 1.6 2005/03/28 11:49:10 frabcus Exp $
+# $Id: liaison.php,v 1.7 2005/07/06 21:34:52 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -67,10 +67,12 @@ it up on a computer with a tape recording.  They produce the Official
 Report each day in some (unknown) file format, and it is electronically
 transferred to TSO (The Stationary Office).
 
-<p>TSO used to also be part of Hansard/Parliament, but were privatised
-in 1996.  They are an independent, private publishing company.  They
-take the electronic Hansard, and from it produce the daily paper copy.
-They also make the bound copies.  More recently, they make the web site.
+<p>TSO originates from the Government office HMSO.  Note, <strong>not</strong>
+an office of Parliament, although they were employed by Parliament.  TSO was
+created by privatising part of HMSO in 1996.  They are an independent, private
+publishing company.  They take the electronic Hansard, and from it produce the
+daily paper copy.  They also make the bound copies.  More recently, they make
+the web site.
 
 <p>(This is clearly a relic of the past, as if web publishing were
 analogous to normal publishing.  You don't need a printing press, and
