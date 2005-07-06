@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.20 2005/05/08 22:06:15 frabcus Exp $
+# $Id: election.php,v 1.21 2005/07/06 17:04:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -21,6 +21,7 @@ include "pretty.inc";
 require_once "constituencies.inc";
 include "account/user.inc";
 $db = new DB();
+$db2 = new DB();
 
 $wales_constituencies = array(
     "uk.org.publicwhip/cons/1" => 1,
@@ -282,7 +283,7 @@ if (preg_match ("/^(.*);([0-4]{7})$/", $qstring, $matches)) {
 $errors = array();
 if ($_GET['submit']) {
     // Display voting records
-    $mpattr = get_mpid_attr_decode($db, "");
+    $mpattr = get_mpid_attr_decode($db, $db2, "");
     if ($mpattr == null) {
         $errors[] = "Your MP wasn't found.  Please check you
             entered the postcode correctly.";
