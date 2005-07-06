@@ -11,6 +11,11 @@ echo "Fetching remote dynamic tables..."
 ssh $USER "mysqldump --add-drop-table francis pw_dyn_user pw_dyn_rolliemp pw_dyn_rollievote pw_dyn_auditlog pw_dyn_wiki >pw_dyn_tables.sql"
 scp $USER:./pw_dyn_tables.sql pw_dyn_tables.sql
 
-echo "Replacing local dynamic tables..."
-cat pw_dyn_tables.sql | mysql tpw
+echo "Fetching remote all tables..."
+ssh $USER "mysqldump --add-drop-table francis | bzip2 -c >pw_all_tables.sql.bz2"
+scp $USER:./pw_all_tables.sql.bz2 pw_all_tables.sql.bz2
+
+echo "Replacing local all tables..."
+bzcat pw_all_tables.sql.bz2 | mysql tpw
+
 
