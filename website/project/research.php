@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: research.php,v 1.3 2005/04/23 00:13:46 frabcus Exp $
+# $Id: research.php,v 1.4 2005/07/06 17:45:40 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -172,7 +172,7 @@ written ministerial statements</i>.</p>
 
 <h2>Guidelines for editing the text of motions</h2>
 
-<ul>
+<ul class="motionguidelines">
 
 <li>Avoid Parliamentary jargon.  Phrases like "Question Put", "I beg to move",
 and "Third Reading" should not be used unless explained.  
