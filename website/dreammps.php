@@ -54,14 +54,14 @@ you like.  For example:
 <?php
 
     $query = "SELECT name, description, pw_dyn_user.user_id AS user_id,
-					 user_name, pw_dyn_rolliemp.rollie_id,
+					 user_name, pw_dyn_dreammp.rollie_id,
 					 votes_count AS count, edited_motions_count,
                 	 round(100 * edited_motions_count / votes_count, 0) AS motions_percent
-        	  FROM pw_dyn_rolliemp
+        	  FROM pw_dyn_dreammp
 			  LEFT JOIN pw_dyn_user
-			  			ON pw_dyn_user.user_id = pw_dyn_rolliemp.user_id
+			  			ON pw_dyn_user.user_id = pw_dyn_dreammp.user_id
 			  LEFT JOIN pw_cache_dreaminfo
-			  			ON pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id
+			  			ON pw_cache_dreaminfo.rollie_id = pw_dyn_dreammp.rollie_id
 			  WHERE votes_count > 0
 			  ORDER BY motions_percent DESC, edited_motions_count DESC, votes_count DESC";
 	if ($bdebug == 1)

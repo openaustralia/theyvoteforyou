@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.3 2005/04/02 11:57:46 theyworkforyou Exp $
+# $Id: divisionvote.inc,v 1.4 2005/07/15 15:56:44 frabcus Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -28,14 +28,14 @@
             print "<div class=\"tabledream\">";
             print "<span class=\"ptitle\">Dream MP</span>";
 
-			$qrdiv = "pw_dyn_rollievote.division_date = '".$divattr["division_date"]."'
-					   AND pw_dyn_rollievote.division_number = '".$divattr["division_number"]."'";
+			$qrdiv = "pw_dyn_dreamvote.division_date = '".$divattr["division_date"]."'
+					   AND pw_dyn_dreamvote.division_number = '".$divattr["division_number"]."'";
 
             $query = "SELECT rollie_id, name, description,
-							 pw_dyn_rollievote.vote AS vote
-					  FROM pw_dyn_rolliemp
-					  LEFT JOIN pw_dyn_rollievote
-					    ON pw_dyn_rollievote.rolliemp_id = pw_dyn_rolliemp.rollie_id
+							 pw_dyn_dreamvote.vote AS vote
+					  FROM pw_dyn_dreammp
+					  LEFT JOIN pw_dyn_dreamvote
+					    ON pw_dyn_dreamvote.rolliemp_id = pw_dyn_dreammp.rollie_id
 					     AND $qrdiv
 					  WHERE user_id = '".user_getid()."'";
 
@@ -66,7 +66,7 @@
 
                         if ($changedvote == "--")
                         {
-                            $query = "DELETE FROM pw_dyn_rollievote
+                            $query = "DELETE FROM pw_dyn_dreamvote
 									  WHERE rolliemp_id='".$row['rollie_id']."'
 									   AND $qrdiv";
 							if ($bdebug == 1)
@@ -83,12 +83,12 @@
                         else
                         {
                             if ($vote == "--")
-                                $query = "INSERT INTO pw_dyn_rollievote
+                                $query = "INSERT INTO pw_dyn_dreamvote
 											(vote, rolliemp_id, division_date, division_number)
 										  VALUES
 										  	('$changedvote', '".$row['rollie_id']."', '".$divattr["division_date"]."', '".$divattr["division_number"]."')";
 							else
-	                            $query = "UPDATE pw_dyn_rollievote
+	                            $query = "UPDATE pw_dyn_dreamvote
 										  SET vote='$changedvote'
 										  WHERE rolliemp_id='".$row['rollie_id']."'
 										   AND $qrdiv";

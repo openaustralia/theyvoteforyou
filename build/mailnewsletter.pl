@@ -34,11 +34,11 @@ if ($type eq "all") {
         $already_clause $where_newsletter $where";
 
 } elsif ($type eq "dream") {
-    $query = "select real_name, email, user_name, pw_dyn_user.user_id, count(pw_dyn_rollievote.vote) as count
-            from pw_dyn_rolliemp, pw_dyn_user, pw_dyn_rollievote 
+    $query = "select real_name, email, user_name, pw_dyn_user.user_id, count(pw_dyn_dreamvote.vote) as count
+            from pw_dyn_dreammp, pw_dyn_user, pw_dyn_dreamvote 
                 $already_clause $where_newsletter and
-                pw_dyn_rolliemp.user_id = pw_dyn_user.user_id and
-                pw_dyn_rollievote.rolliemp_id = rollie_id
+                pw_dyn_dreammp.user_id = pw_dyn_user.user_id and
+                pw_dyn_dreamvote.rolliemp_id = rollie_id
                 $where
                 group by pw_dyn_user.user_id
                 order by count desc";

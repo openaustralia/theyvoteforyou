@@ -24,13 +24,13 @@
 
 	update_dreammp_person_distance($db, $dreamid); # new method
 
-	$qselect = "SELECT pw_dyn_rolliemp.name AS name, pw_dyn_rolliemp.description AS description,
+	$qselect = "SELECT pw_dyn_dreammp.name AS name, pw_dyn_dreammp.description AS description,
 					   pw_dyn_user.user_id AS user_id, user_name,
 					   votes_count, edited_motions_count, consistency_with_mps";
-	$qfrom	 = " FROM pw_dyn_rolliemp";
-	$qjoin 	 = " LEFT JOIN pw_cache_dreaminfo ON pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id";
-	$qjoin 	.= " LEFT JOIN pw_dyn_user ON pw_dyn_user.user_id = pw_dyn_rolliemp.user_id";
-	$qwhere  = " WHERE pw_dyn_rolliemp.rollie_id = $dreamid";
+	$qfrom	 = " FROM pw_dyn_dreammp";
+	$qjoin 	 = " LEFT JOIN pw_cache_dreaminfo ON pw_cache_dreaminfo.rollie_id = pw_dyn_dreammp.rollie_id";
+	$qjoin 	.= " LEFT JOIN pw_dyn_user ON pw_dyn_user.user_id = pw_dyn_dreammp.user_id";
+	$qwhere  = " WHERE pw_dyn_dreammp.rollie_id = $dreamid";
 	$query = $qselect.$qfrom.$qjoin.$qwhere;
 
 

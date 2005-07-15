@@ -26,7 +26,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     $description=db_scrub($_POST["description"]);
     $submit=db_scrub($_POST["submit"]);
 
-    $query = "select name, description, user_id from pw_dyn_rolliemp where rollie_Id = '$dreamid'";
+    $query = "select name, description, user_id from pw_dyn_dreammp where rollie_Id = '$dreamid'";
     $row = $db->query_one_row($query);
     if (!$name)
         $name = $row[0];
@@ -49,7 +49,7 @@ if (user_isloggedin()) # User logged in, show settings screen
             {
                 $db = new DB(); 
 
-                $ret = $db->query_errcheck("update pw_dyn_rolliemp set name='$name', description='$description' where rollie_id='$dreamid'");
+                $ret = $db->query_errcheck("update pw_dyn_dreammp set name='$name', description='$description' where rollie_id='$dreamid'");
                 notify_dream_mp_updated($db, intval($dreamid));
 
                 if ($ret)

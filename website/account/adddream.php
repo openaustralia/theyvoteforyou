@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: adddream.php,v 1.14 2005/04/02 11:57:46 theyworkforyou Exp $
+# $Id: adddream.php,v 1.15 2005/07/15 15:56:45 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -33,7 +33,7 @@ if (user_isloggedin()) # User logged in, show settings screen
             else
             {
                 $db = new DB(); 
-                $ret = $db->query_errcheck("insert into pw_dyn_rolliemp (name, user_id, description) values
+                $ret = $db->query_errcheck("insert into pw_dyn_dreammp (name, user_id, description) values
                     ('$name', '" . user_getid() . "', '$description')"); 
                 if ($ret)
                 {

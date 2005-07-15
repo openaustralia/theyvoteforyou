@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.64 2005/07/06 14:29:28 frabcus Exp $
+# $Id: division.php,v 1.65 2005/07/15 15:56:44 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -367,10 +367,10 @@
 
 
 	# Show Dream MPs who voted in this division and their votes
-        $db->query("select name, rollie_id, vote, user_name from pw_dyn_rolliemp, pw_dyn_rollievote, pw_dyn_user
-            where pw_dyn_rollievote.rolliemp_id = pw_dyn_rolliemp.rollie_id and
-            pw_dyn_user.user_id = pw_dyn_rolliemp.user_id and
-            pw_dyn_rollievote.division_date = '$date' and pw_dyn_rollievote.division_number = '$div_no' ");
+        $db->query("select name, rollie_id, vote, user_name from pw_dyn_dreammp, pw_dyn_dreamvote, pw_dyn_user
+            where pw_dyn_dreamvote.rolliemp_id = pw_dyn_dreammp.rollie_id and
+            pw_dyn_user.user_id = pw_dyn_dreammp.user_id and
+            pw_dyn_dreamvote.division_date = '$date' and pw_dyn_dreamvote.division_number = '$div_no' ");
         if ($db->rows() > 0)
         {
             $prettyrow = 0;

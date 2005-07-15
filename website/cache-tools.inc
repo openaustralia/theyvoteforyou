@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-tools.inc,v 1.13 2005/03/28 19:59:24 frabcus Exp $
+# $Id: cache-tools.inc,v 1.14 2005/07/15 15:56:44 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -72,10 +72,10 @@ function notify_dream_mp_updated($db, $dreamid) {
 
     # delete cache pages of divisions which print stuff about this rolliemp
     $query = "select pw_division.division_number, pw_division.division_date
-        from pw_division, pw_dyn_rollievote where
-        pw_dyn_rollievote.rolliemp_id = '$dreamid' and
-        pw_division.division_date = pw_dyn_rollievote.division_date and
-        pw_division.division_number = pw_dyn_rollievote.division_number group
+        from pw_division, pw_dyn_dreamvote where
+        pw_dyn_dreamvote.rolliemp_id = '$dreamid' and
+        pw_division.division_date = pw_dyn_dreamvote.division_date and
+        pw_division.division_number = pw_dyn_dreamvote.division_number group
         by division_number, division_date";
     $ret = $db->query($query);
     while ($row = $db->fetch_row()) {

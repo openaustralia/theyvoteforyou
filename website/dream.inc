@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.24 2005/04/12 00:36:31 frabcus Exp $
+# $Id: dream.inc,v 1.25 2005/07/15 15:56:44 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -87,14 +87,14 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 
 	global $bdebug;
 
-	$qselect  = "SELECT pw_dyn_rollievote.rolliemp_id, COUNT(*) AS nvotes";
+	$qselect  = "SELECT pw_dyn_dreamvote.rolliemp_id, COUNT(*) AS nvotes";
 	$qselect .= ", SUM(pw_cache_divwiki.wiki_id != -1) AS neditedmotions";
 
 	# (no score from dreamMP absents or abstentions)
 
-	$qfrom  = " FROM pw_dyn_rollievote, pw_cache_divwiki";
+	$qfrom  = " FROM pw_dyn_dreamvote, pw_cache_divwiki";
 	$qjoin .= " LEFT JOIN pw_cache_dreaminfo
-					ON pw_cache_dreaminfo.rollie_id = pw_dyn_rollievote.rolliemp_id";
+					ON pw_cache_dreaminfo.rollie_id = pw_dyn_dreamvote.rolliemp_id";
 
 	# fill in the holes, or do where there is none
 	if ($dreamid == "force")
@@ -102,11 +102,11 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 	elseif ($dreamid == null)
 		$qwhere = " WHERE pw_cache_dreaminfo.cache_uptodate IS null";
 	else
-		$qwhere = " WHERE pw_dyn_rollievote.rolliemp_id = $dreamid";
-	$qwhere .= " AND pw_cache_divwiki.division_date = pw_dyn_rollievote.division_date
-					AND pw_cache_divwiki.division_number = pw_dyn_rollievote.division_number";
+		$qwhere = " WHERE pw_dyn_dreamvote.rolliemp_id = $dreamid";
+	$qwhere .= " AND pw_cache_divwiki.division_date = pw_dyn_dreamvote.division_date
+					AND pw_cache_divwiki.division_number = pw_dyn_dreamvote.division_number";
 
-	$qgroup = " GROUP BY pw_dyn_rollievote.rolliemp_id";
+	$qgroup = " GROUP BY pw_dyn_dreamvote.rolliemp_id";
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
 	if ($bdebug == 1)
 		print "<h3>$query</h3>\n";
@@ -156,22 +156,22 @@ function update_dreammp_person_distance($db, $dreamid)
 
 	$qselect = "SELECT pw_mp.person AS person, ";
 
-	$qselect .= "SUM((pw_dyn_rollievote.vote = 'aye' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye'))
-					 OR (pw_dyn_rollievote.vote = 'no' AND (pw_vote.vote = 'no' OR pw_vote.vote = 'tellno')))
+	$qselect .= "SUM((pw_dyn_dreamvote.vote = 'aye' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye'))
+					 OR (pw_dyn_dreamvote.vote = 'no' AND (pw_vote.vote = 'no' OR pw_vote.vote = 'tellno')))
 					 AS nvotessame, ";
-	$qselect .= "SUM((pw_dyn_rollievote.vote = 'aye3' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye'))
-					 OR (pw_dyn_rollievote.vote = 'no3' AND (pw_vote.vote = 'no' OR pw_vote.vote = 'tellno')))
+	$qselect .= "SUM((pw_dyn_dreamvote.vote = 'aye3' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye'))
+					 OR (pw_dyn_dreamvote.vote = 'no3' AND (pw_vote.vote = 'no' OR pw_vote.vote = 'tellno')))
 					 AS nvotessamestrong, ";
-	$qselect .= "SUM((pw_dyn_rollievote.vote = 'aye' AND (pw_vote.vote = 'no' OR pw_vote.vote = 'tellno'))
-					 OR (pw_dyn_rollievote.vote = 'no' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye')))
+	$qselect .= "SUM((pw_dyn_dreamvote.vote = 'aye' AND (pw_vote.vote = 'no' OR pw_vote.vote = 'tellno'))
+					 OR (pw_dyn_dreamvote.vote = 'no' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye')))
 					 AS nvotesdiffer, ";
-	$qselect .= "SUM((pw_dyn_rollievote.vote = 'aye3' AND (pw_vote.vote = 'no' OR pw_vote.vote = 'tellno'))
-					 OR (pw_dyn_rollievote.vote = 'no3' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye')))
+	$qselect .= "SUM((pw_dyn_dreamvote.vote = 'aye3' AND (pw_vote.vote = 'no' OR pw_vote.vote = 'tellno'))
+					 OR (pw_dyn_dreamvote.vote = 'no3' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye')))
 					 AS nvotesdifferstrong, ";
-	$qselect .= "SUM((pw_dyn_rollievote.vote = 'aye' OR pw_dyn_rollievote.vote = 'no')
+	$qselect .= "SUM((pw_dyn_dreamvote.vote = 'aye' OR pw_dyn_dreamvote.vote = 'no')
 					 AND (pw_vote.vote = 'both' OR pw_vote.vote IS null))
 					 AS nvotesabsent, ";
-	$qselect .= "SUM((pw_dyn_rollievote.vote = 'aye3' OR pw_dyn_rollievote.vote = 'no3')
+	$qselect .= "SUM((pw_dyn_dreamvote.vote = 'aye3' OR pw_dyn_dreamvote.vote = 'no3')
 					 AND (pw_vote.vote = 'both' OR pw_vote.vote IS null))
 					 AS nvotesabsentstrong, ";
 	$qselect .= "SUM(pw_vote.vote IS NOT null)
@@ -179,10 +179,10 @@ function update_dreammp_person_distance($db, $dreamid)
 
 	# (no score from dreamMP absents or abstentions)
 
-	$qfrom  = " FROM pw_dyn_rollievote, pw_mp";
+	$qfrom  = " FROM pw_dyn_dreamvote, pw_mp";
 	$qjoin  = " LEFT JOIN pw_division
-					ON pw_dyn_rollievote.division_date = pw_division.division_date
-					AND pw_dyn_rollievote.division_number = pw_division.division_number";
+					ON pw_dyn_dreamvote.division_date = pw_division.division_date
+					AND pw_dyn_dreamvote.division_number = pw_division.division_number";
 	$qjoin .= " LEFT JOIN pw_cache_divinfo
 					ON pw_cache_divinfo.division_id = pw_division.division_id";
 	$qjoin .= " LEFT JOIN pw_vote
@@ -190,7 +190,7 @@ function update_dreammp_person_distance($db, $dreamid)
 					AND pw_vote.mp_id = pw_mp.mp_id";
 
 	# we do for one dreammp against all the votes they share with each MP
-	$qwhere  = " WHERE pw_dyn_rollievote.rolliemp_id = $dreamid";
+	$qwhere  = " WHERE pw_dyn_dreamvote.rolliemp_id = $dreamid";
 	$qwhere .= "   AND pw_mp.entered_house <= pw_division.division_date
 				   AND pw_mp.left_house > pw_division.division_date";
 	$qgroup = " GROUP BY pw_mp.person";
@@ -273,13 +273,13 @@ function update_dreammp_person_distance($db, $dreamid)
 # Return score and what it is out of for how much the MP follows the "whip" of
 # the Dream MP.  The "_a" here means this is scoring system A.
 function calc_dream_mp_score_a($db, $dreamid, $personid) {
-    $query = "select pw_vote.vote as mpvote, pw_dyn_rollievote.vote as rollievote from
-        pw_vote, pw_dyn_rollievote, pw_division, pw_mp where
+    $query = "select pw_vote.vote as mpvote, pw_dyn_dreamvote.vote as rollievote from
+        pw_vote, pw_dyn_dreamvote, pw_division, pw_mp where
         pw_vote.division_id = pw_division.division_id and
-        pw_dyn_rollievote.division_number = pw_division.division_number and
-            pw_dyn_rollievote.division_date = pw_division.division_date
+        pw_dyn_dreamvote.division_number = pw_division.division_number and
+            pw_dyn_dreamvote.division_date = pw_division.division_date
         and pw_vote.mp_id = pw_mp.mp_id
-        and pw_mp.person = '" . $personid . "' and pw_dyn_rollievote.rolliemp_id = '$dreamid'";
+        and pw_mp.person = '" . $personid . "' and pw_dyn_dreamvote.rolliemp_id = '$dreamid'";
 
     $db->query($query);
     $qrowarray = $db->fetch_rows_assoc();
@@ -308,10 +308,10 @@ function calc_dream_mp_score_a($db, $dreamid, $personid) {
 
 # Query to return top Dream MPs, or all if count is none
 function get_top_dream_query($count) {
-    $query = "select name, pw_dyn_rolliemp.rollie_id, votes_count as count,
+    $query = "select name, pw_dyn_dreammp.rollie_id, votes_count as count,
         round(100 * edited_motions_count / votes_count, 0) as motions_percent
-        from pw_dyn_rolliemp, pw_cache_dreaminfo where
-            pw_cache_dreaminfo.rollie_id = pw_dyn_rolliemp.rollie_id and votes_count > 0
+        from pw_dyn_dreammp, pw_cache_dreaminfo where
+            pw_cache_dreaminfo.rollie_id = pw_dyn_dreammp.rollie_id and votes_count > 0
             order by motions_percent desc, edited_motions_count desc, votes_count desc";
     if ($count)
         $query .= " limit $count";

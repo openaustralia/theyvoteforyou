@@ -25,7 +25,7 @@ Clear file cache for:
 Database patches:
     Rename rollie -> dream 
     Tidy up the id so always dream_id not a mix.
-    pw_dyn_rollievote.vote should be NOT NULL
+    pw_dyn_dreamvote.vote should be NOT NULL
     Remove division_id
 
 Wiki the title

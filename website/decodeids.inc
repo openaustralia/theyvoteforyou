@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.16 2005/07/06 14:29:28 frabcus Exp $
+# $Id: decodeids.inc,v 1.17 2005/07/15 15:56:44 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -81,7 +81,7 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream)
 		# check for an over-lap with the dreammp
 		if ($voter2dream)
 		{
-			$query = "SELECT vote FROM pw_dyn_rollievote
+			$query = "SELECT vote FROM pw_dyn_dreamvote
 					  WHERE division_date >= \"".$row['entered_house']."\" AND division_date < \"".$row['left_house']."\"
 					  	AND rolliemp_id = ".$voter2dream['dreammpid']."
 						LIMIT 1";
@@ -242,8 +242,8 @@ function get_dreammpid_attr_decode($db, $i)
     if ($dreammpid == "")
         return null;
     $query = "SELECT name, description, pw_dyn_user.user_id as userid, user_name, rollie_Id
-              FROM pw_dyn_rolliemp, pw_dyn_user
-              WHERE pw_dyn_rolliemp.user_id = pw_dyn_user.user_id
+              FROM pw_dyn_dreammp, pw_dyn_user
+              WHERE pw_dyn_dreammp.user_id = pw_dyn_user.user_id
                     AND rollie_Id = '$dreammpid'";
     $row = $db->query_one_row_assoc($query);
     $dmp_name = $row[0];
