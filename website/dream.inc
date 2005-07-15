@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.25 2005/07/15 15:56:44 frabcus Exp $
+# $Id: dream.inc,v 1.26 2005/07/15 16:25:00 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -87,14 +87,14 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 
 	global $bdebug;
 
-	$qselect  = "SELECT pw_dyn_dreamvote.rolliemp_id, COUNT(*) AS nvotes";
+	$qselect  = "SELECT pw_dyn_dreamvote.rollie_id, COUNT(*) AS nvotes";
 	$qselect .= ", SUM(pw_cache_divwiki.wiki_id != -1) AS neditedmotions";
 
 	# (no score from dreamMP absents or abstentions)
 
 	$qfrom  = " FROM pw_dyn_dreamvote, pw_cache_divwiki";
 	$qjoin .= " LEFT JOIN pw_cache_dreaminfo
-					ON pw_cache_dreaminfo.rollie_id = pw_dyn_dreamvote.rolliemp_id";
+					ON pw_cache_dreaminfo.rollie_id = pw_dyn_dreamvote.rollie_id";
 
 	# fill in the holes, or do where there is none
 	if ($dreamid == "force")
@@ -102,11 +102,11 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 	elseif ($dreamid == null)
 		$qwhere = " WHERE pw_cache_dreaminfo.cache_uptodate IS null";
 	else
-		$qwhere = " WHERE pw_dyn_dreamvote.rolliemp_id = $dreamid";
+		$qwhere = " WHERE pw_dyn_dreamvote.rollie_id = $dreamid";
 	$qwhere .= " AND pw_cache_divwiki.division_date = pw_dyn_dreamvote.division_date
 					AND pw_cache_divwiki.division_number = pw_dyn_dreamvote.division_number";
 
-	$qgroup = " GROUP BY pw_dyn_dreamvote.rolliemp_id";
+	$qgroup = " GROUP BY pw_dyn_dreamvote.rollie_id";
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
 	if ($bdebug == 1)
 		print "<h3>$query</h3>\n";
@@ -119,7 +119,7 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 		$neditedmotions = $row["neditedmotions"];
 		$query ="REPLACE INTO pw_cache_dreaminfo
 				(rollie_id, cache_uptodate, votes_count, edited_motions_count)
- 				VALUES (".$row['rolliemp_id'].", $cache_uptodate_default, $nvotes, $neditedmotions)";
+ 				VALUES (".$row['rollie_id'].", $cache_uptodate_default, $nvotes, $neditedmotions)";
 		$db->query($query);
 	}
 }
@@ -190,7 +190,7 @@ function update_dreammp_person_distance($db, $dreamid)
 					AND pw_vote.mp_id = pw_mp.mp_id";
 
 	# we do for one dreammp against all the votes they share with each MP
-	$qwhere  = " WHERE pw_dyn_dreamvote.rolliemp_id = $dreamid";
+	$qwhere  = " WHERE pw_dyn_dreamvote.rollie_id = $dreamid";
 	$qwhere .= "   AND pw_mp.entered_house <= pw_division.division_date
 				   AND pw_mp.left_house > pw_division.division_date";
 	$qgroup = " GROUP BY pw_mp.person";
@@ -279,7 +279,7 @@ function calc_dream_mp_score_a($db, $dreamid, $personid) {
         pw_dyn_dreamvote.division_number = pw_division.division_number and
             pw_dyn_dreamvote.division_date = pw_division.division_date
         and pw_vote.mp_id = pw_mp.mp_id
-        and pw_mp.person = '" . $personid . "' and pw_dyn_dreamvote.rolliemp_id = '$dreamid'";
+        and pw_mp.person = '" . $personid . "' and pw_dyn_dreamvote.rollie_id = '$dreamid'";
 
     $db->query($query);
     $qrowarray = $db->fetch_rows_assoc();

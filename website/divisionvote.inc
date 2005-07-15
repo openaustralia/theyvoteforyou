@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.4 2005/07/15 15:56:44 frabcus Exp $
+# $Id: divisionvote.inc,v 1.5 2005/07/15 16:25:00 frabcus Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -35,7 +35,7 @@
 							 pw_dyn_dreamvote.vote AS vote
 					  FROM pw_dyn_dreammp
 					  LEFT JOIN pw_dyn_dreamvote
-					    ON pw_dyn_dreamvote.rolliemp_id = pw_dyn_dreammp.rollie_id
+					    ON pw_dyn_dreamvote.rollie_id = pw_dyn_dreammp.rollie_id
 					     AND $qrdiv
 					  WHERE user_id = '".user_getid()."'";
 
@@ -67,7 +67,7 @@
                         if ($changedvote == "--")
                         {
                             $query = "DELETE FROM pw_dyn_dreamvote
-									  WHERE rolliemp_id='".$row['rollie_id']."'
+									  WHERE rollie_id='".$row['rollie_id']."'
 									   AND $qrdiv";
 							if ($bdebug == 1)
 								print "<h2>$query</h2>";
@@ -84,13 +84,13 @@
                         {
                             if ($vote == "--")
                                 $query = "INSERT INTO pw_dyn_dreamvote
-											(vote, rolliemp_id, division_date, division_number)
+											(vote, rollie_id, division_date, division_number)
 										  VALUES
 										  	('$changedvote', '".$row['rollie_id']."', '".$divattr["division_date"]."', '".$divattr["division_number"]."')";
 							else
 	                            $query = "UPDATE pw_dyn_dreamvote
 										  SET vote='$changedvote'
-										  WHERE rolliemp_id='".$row['rollie_id']."'
+										  WHERE rollie_id='".$row['rollie_id']."'
 										   AND $qrdiv";
 
 							if ($bdebug == 1)

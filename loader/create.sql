@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.27 2005/07/15 15:56:43 frabcus Exp $
+-- $Id: create.sql,v 1.28 2005/07/15 16:24:59 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -148,8 +148,6 @@ CREATE TABLE pw_dyn_user (
   PRIMARY KEY  (user_id)
 ) TYPE=MyISAM;
 
--- rolliemp is as in "roll your own MP", an old name for "Dream MP"
-
 create table pw_dyn_dreammp (
     rollie_id int not null primary key auto_increment,
     name varchar(100) not null,
@@ -163,13 +161,13 @@ create table pw_dyn_dreammp (
 create table pw_dyn_dreamvote (
     division_date date not null,
     division_number int not null,
-    rolliemp_id int not null,
+    rollie_id int not null,
     vote enum("aye", "no", "both", "aye3", "no3") not null,
 
     index(division_date),
     index(division_number),
-    index(rolliemp_id),
-    unique(division_date, division_number, rolliemp_id)
+    index(rollie_id),
+    unique(division_date, division_number, rollie_id)
 );
 
 -- changes people have been making are stored here for debugging

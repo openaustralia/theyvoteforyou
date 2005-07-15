@@ -53,7 +53,7 @@
     # Table of votes in each division
     $query = "select pw_division.division_id, pw_division.division_number, pw_division.division_date,
         division_name, source_url, vote from pw_division,
-        pw_dyn_dreamvote where pw_dyn_dreamvote.rolliemp_id = '$dreamid' and
+        pw_dyn_dreamvote where pw_dyn_dreamvote.rollie_id = '$dreamid' and
         pw_division.division_date = pw_dyn_dreamvote.division_date and 
         pw_division.division_number = pw_dyn_dreamvote.division_number ";
 

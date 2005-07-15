@@ -38,7 +38,7 @@ if ($type eq "all") {
             from pw_dyn_dreammp, pw_dyn_user, pw_dyn_dreamvote 
                 $already_clause $where_newsletter and
                 pw_dyn_dreammp.user_id = pw_dyn_user.user_id and
-                pw_dyn_dreamvote.rolliemp_id = rollie_id
+                pw_dyn_dreamvote.rollie_id = rollie_id
                 $where
                 group by pw_dyn_user.user_id
                 order by count desc";

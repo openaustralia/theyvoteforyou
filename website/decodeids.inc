@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.18 2005/07/15 15:58:19 frabcus Exp $
+# $Id: decodeids.inc,v 1.19 2005/07/15 16:25:00 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -83,7 +83,7 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream)
 		{
 			$query = "SELECT vote FROM pw_dyn_dreamvote
 					  WHERE division_date >= \"".$row['entered_house']."\" AND division_date < \"".$row['left_house']."\"
-					  	AND rolliemp_id = ".$voter2dream['dreammpid']."
+					  	AND rollie_id = ".$voter2dream['dreammpid']."
 						LIMIT 1";
 		    if ($bdebug)
 		    	print "<h1>$query</h1>\n";

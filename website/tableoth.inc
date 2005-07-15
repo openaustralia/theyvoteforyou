@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.8 2005/07/15 15:56:45 frabcus Exp $
+    # $Id: tableoth.inc,v 1.9 2005/07/15 16:25:00 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -70,11 +70,11 @@
 		}
 
 		// should count overlapping votes between dream and mp
-	    $query = "SELECT name, description, rollie_id, user_name, count(pw_dyn_dreamvote.vote) as count
+	    $query = "SELECT name, description, pw_dyn_dreammp.rollie_id, user_name, count(pw_dyn_dreamvote.vote) as count
 		           FROM pw_dyn_dreammp
 				   LEFT JOIN pw_dyn_user ON pw_dyn_user.user_id = pw_dyn_dreammp.user_id
-				   LEFT JOIN pw_dyn_dreamvote ON pw_dyn_dreamvote.rolliemp_id = pw_dyn_dreammp.rollie_id
-				  WHERE pw_dyn_dreamvote.rolliemp_id = $dreammpid
+				   LEFT JOIN pw_dyn_dreamvote ON pw_dyn_dreamvote.rollie_id = pw_dyn_dreammp.rollie_id
+				  WHERE pw_dyn_dreamvote.rollie_id = $dreammpid
 				  GROUP BY rollie_id";
 		if ($bdebug == 1)
 			print "<h1>selected dream: $query</h1>\n";
