@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.17 2005/07/15 15:56:44 frabcus Exp $
+# $Id: decodeids.inc,v 1.18 2005/07/15 15:58:19 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -241,10 +241,10 @@ function get_dreammpid_attr_decode($db, $i)
     $dreammpid = db_scrub($_GET["dmp$i"]);
     if ($dreammpid == "")
         return null;
-    $query = "SELECT name, description, pw_dyn_user.user_id as userid, user_name, rollie_Id
+    $query = "SELECT name, description, pw_dyn_user.user_id as userid, user_name, rollie_id
               FROM pw_dyn_dreammp, pw_dyn_user
               WHERE pw_dyn_dreammp.user_id = pw_dyn_user.user_id
-                    AND rollie_Id = '$dreammpid'";
+                    AND rollie_id = '$dreammpid'";
     $row = $db->query_one_row_assoc($query);
     $dmp_name = $row[0];
 

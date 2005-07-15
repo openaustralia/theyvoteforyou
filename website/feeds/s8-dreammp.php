@@ -18,7 +18,7 @@
 
     $query = "select name, description, pw_dyn_user.user_id, user_name 
         from pw_dyn_dreammp, pw_dyn_user
-        where pw_dyn_dreammp.user_id = pw_dyn_user.user_id and rollie_Id = '$dreamid'";
+        where pw_dyn_dreammp.user_id = pw_dyn_user.user_id and rollie_id = '$dreamid'";
     $row = $db->query_one_row($query);
     $dmp_name = $row[0];
     $dmp_description = $row[1];

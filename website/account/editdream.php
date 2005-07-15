@@ -26,7 +26,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     $description=db_scrub($_POST["description"]);
     $submit=db_scrub($_POST["submit"]);
 
-    $query = "select name, description, user_id from pw_dyn_dreammp where rollie_Id = '$dreamid'";
+    $query = "select name, description, user_id from pw_dyn_dreammp where rollie_id = '$dreamid'";
     $row = $db->query_one_row($query);
     if (!$name)
         $name = $row[0];
