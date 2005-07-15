@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.26 2005/07/15 16:25:00 frabcus Exp $
+# $Id: dream.inc,v 1.27 2005/07/15 16:57:29 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -69,7 +69,7 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 						nvotesabsent, nvotesabsentstrong,
 						distance_a, distance_b
 					FROM pw_cache_dreamreal_distance
-					WHERE rollie_id = $dreamid AND person = $person";
+					WHERE dream_id = $dreamid AND person = $person";
 		$row = $db->query_onez_row_assoc($query);
 		print "<p>values from the pw_cache_dreamreal_distance table:";
 		print_r($row);
@@ -87,14 +87,14 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 
 	global $bdebug;
 
-	$qselect  = "SELECT pw_dyn_dreamvote.rollie_id, COUNT(*) AS nvotes";
+	$qselect  = "SELECT pw_dyn_dreamvote.dream_id, COUNT(*) AS nvotes";
 	$qselect .= ", SUM(pw_cache_divwiki.wiki_id != -1) AS neditedmotions";
 
 	# (no score from dreamMP absents or abstentions)
 
 	$qfrom  = " FROM pw_dyn_dreamvote, pw_cache_divwiki";
 	$qjoin .= " LEFT JOIN pw_cache_dreaminfo
-					ON pw_cache_dreaminfo.rollie_id = pw_dyn_dreamvote.rollie_id";
+					ON pw_cache_dreaminfo.dream_id = pw_dyn_dreamvote.dream_id";
 
 	# fill in the holes, or do where there is none
 	if ($dreamid == "force")
@@ -102,11 +102,11 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 	elseif ($dreamid == null)
 		$qwhere = " WHERE pw_cache_dreaminfo.cache_uptodate IS null";
 	else
-		$qwhere = " WHERE pw_dyn_dreamvote.rollie_id = $dreamid";
+		$qwhere = " WHERE pw_dyn_dreamvote.dream_id = $dreamid";
 	$qwhere .= " AND pw_cache_divwiki.division_date = pw_dyn_dreamvote.division_date
 					AND pw_cache_divwiki.division_number = pw_dyn_dreamvote.division_number";
 
-	$qgroup = " GROUP BY pw_dyn_dreamvote.rollie_id";
+	$qgroup = " GROUP BY pw_dyn_dreamvote.dream_id";
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
 	if ($bdebug == 1)
 		print "<h3>$query</h3>\n";
@@ -118,8 +118,8 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 		$nvotes = $row["nvotes"];
 		$neditedmotions = $row["neditedmotions"];
 		$query ="REPLACE INTO pw_cache_dreaminfo
-				(rollie_id, cache_uptodate, votes_count, edited_motions_count)
- 				VALUES (".$row['rollie_id'].", $cache_uptodate_default, $nvotes, $neditedmotions)";
+				(dream_id, cache_uptodate, votes_count, edited_motions_count)
+ 				VALUES (".$row['dream_id'].", $cache_uptodate_default, $nvotes, $neditedmotions)";
 		$db->query($query);
 	}
 }
@@ -135,7 +135,7 @@ function update_dreammp_person_distance($db, $dreamid)
 	global $bdebug;
 	$query = "SELECT cache_uptodate
 			  FROM pw_cache_dreaminfo
-			  WHERE rollie_id = $dreamid";
+			  WHERE dream_id = $dreamid";
 	$row = $db->query_onez_row_assoc($query); # allows no rows
 	if ($row == null) {
 		update_dreammp_votemeasures($db, $dreamid, 0);
@@ -190,7 +190,7 @@ function update_dreammp_person_distance($db, $dreamid)
 					AND pw_vote.mp_id = pw_mp.mp_id";
 
 	# we do for one dreammp against all the votes they share with each MP
-	$qwhere  = " WHERE pw_dyn_dreamvote.rollie_id = $dreamid";
+	$qwhere  = " WHERE pw_dyn_dreamvote.dream_id = $dreamid";
 	$qwhere .= "   AND pw_mp.entered_house <= pw_division.division_date
 				   AND pw_mp.left_house > pw_division.division_date";
 	$qgroup = " GROUP BY pw_mp.person";
@@ -208,7 +208,7 @@ function update_dreammp_person_distance($db, $dreamid)
 	# lock and clear the table
 	$db->query("LOCK TABLE pw_cache_dreamreal_distance WRITE");
 	$db->query("DELETE FROM pw_cache_dreamreal_distance
-				WHERE rollie_id = '$dreamid'");
+				WHERE dream_id = '$dreamid'");
 
 	# this likes votes that are all one side or other
 	$dconsistencyn = 0.0;
@@ -238,7 +238,7 @@ function update_dreammp_person_distance($db, $dreamid)
 			print "<p>mpnum ".$row['person']." distance $distancea vs $nvotessame</p>\n";
 
 		$query   = "INSERT INTO pw_cache_dreamreal_distance
-                    (rollie_id, person,
+                    (dream_id, person,
 						nvotessame, nvotessamestrong,
 						nvotesdiffer, nvotesdifferstrong,
 						nvotesabsent, nvotesabsentstrong,
@@ -267,7 +267,7 @@ function update_dreammp_person_distance($db, $dreamid)
     # Mark as updated
     $db->query("UPDATE pw_cache_dreaminfo
 				SET cache_uptodate = 1, consistency_with_mps = $dconsistency
-				WHERE rollie_id = $dreamid");
+				WHERE dream_id = $dreamid");
 }
 
 # Return score and what it is out of for how much the MP follows the "whip" of
@@ -279,7 +279,7 @@ function calc_dream_mp_score_a($db, $dreamid, $personid) {
         pw_dyn_dreamvote.division_number = pw_division.division_number and
             pw_dyn_dreamvote.division_date = pw_division.division_date
         and pw_vote.mp_id = pw_mp.mp_id
-        and pw_mp.person = '" . $personid . "' and pw_dyn_dreamvote.rollie_id = '$dreamid'";
+        and pw_mp.person = '" . $personid . "' and pw_dyn_dreamvote.dream_id = '$dreamid'";
 
     $db->query($query);
     $qrowarray = $db->fetch_rows_assoc();
@@ -308,10 +308,10 @@ function calc_dream_mp_score_a($db, $dreamid, $personid) {
 
 # Query to return top Dream MPs, or all if count is none
 function get_top_dream_query($count) {
-    $query = "select name, pw_dyn_dreammp.rollie_id, votes_count as count,
+    $query = "select name, pw_dyn_dreammp.dream_id, votes_count as count,
         round(100 * edited_motions_count / votes_count, 0) as motions_percent
         from pw_dyn_dreammp, pw_cache_dreaminfo where
-            pw_cache_dreaminfo.rollie_id = pw_dyn_dreammp.rollie_id and votes_count > 0
+            pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id and votes_count > 0
             order by motions_percent desc, edited_motions_count desc, votes_count desc";
     if ($count)
         $query .= " limit $count";

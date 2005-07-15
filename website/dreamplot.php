@@ -2,7 +2,7 @@
 header("Content-Type: image/png");
 $dreamid = intval($_GET["id"]);
 $cache_params = "id=$dreamid"; include "cache-begin.inc";
-# $Id: dreamplot.php,v 1.4 2005/03/31 23:29:24 theyworkforyou Exp $
+# $Id: dreamplot.php,v 1.5 2005/07/15 16:57:29 frabcus Exp $
 
 # Draw thumbsketch histogram of how many MPs are each distance away
 # from the Dream MP.
@@ -23,7 +23,7 @@ update_dreammp_person_distance($db, $dreamid); # new method
 // $divisions blocked off ranges (between 0.0 and 1.0).
 $query = "select person, distance_a 
           from pw_cache_dreamreal_distance 
-          where rollie_id = $dreamid";
+          where dream_id = $dreamid";
 $db->query($query);
 $divisions = 10;
 $data = array();

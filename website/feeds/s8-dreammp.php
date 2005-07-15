@@ -18,7 +18,7 @@
 
     $query = "select name, description, pw_dyn_user.user_id, user_name 
         from pw_dyn_dreammp, pw_dyn_user
-        where pw_dyn_dreammp.user_id = pw_dyn_user.user_id and rollie_id = '$dreamid'";
+        where pw_dyn_dreammp.user_id = pw_dyn_user.user_id and dream_id = '$dreamid'";
     $row = $db->query_one_row($query);
     $dmp_name = $row[0];
     $dmp_description = $row[1];
@@ -53,7 +53,7 @@
     # Table of votes in each division
     $query = "select pw_division.division_id, pw_division.division_number, pw_division.division_date,
         division_name, source_url, vote from pw_division,
-        pw_dyn_dreamvote where pw_dyn_dreamvote.rollie_id = '$dreamid' and
+        pw_dyn_dreamvote where pw_dyn_dreamvote.dream_id = '$dreamid' and
         pw_division.division_date = pw_dyn_dreamvote.division_date and 
         pw_division.division_number = pw_dyn_dreamvote.division_number ";
 

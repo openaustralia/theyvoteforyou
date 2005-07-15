@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: mpdream-info.xml,v 1.1 2005/03/31 15:10:05 frabcus Exp $
+# $Id: mpdream-info.xml,v 1.2 2005/07/15 16:57:30 frabcus Exp $
 
 # Print information about all MPs and how they compare to the given
 # Dream MP.
@@ -23,7 +23,7 @@ update_dreammp_person_distance($db, $dreamid); # new method
 
 $query = "select person, distance_a, distance_b,
           (nvotessame + nvotessamestrong + nvotesdiffer + nvotesdifferstrong) as both_voted
-          from pw_cache_dreamreal_distance where rollie_id = $dreamid";
+          from pw_cache_dreamreal_distance where dream_id = $dreamid";
 $db->query($query);
 while ($row = $db->fetch_row_assoc())
 {

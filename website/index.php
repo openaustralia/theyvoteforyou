@@ -2,7 +2,7 @@
 
 $cache_params = rand(0, 10); include "cache-begin.inc";
 
-# $Id: index.php,v 1.47 2005/05/06 02:23:42 frabcus Exp $
+# $Id: index.php,v 1.48 2005/07/15 16:57:29 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -80,7 +80,7 @@ href="account/adddream.php">create</a> an MP who votes how you want</span>
     while ($row = $db->fetch_row_assoc())
     {
         $dmp_name = $row['name'];
-        $dreamid = $row['rollie_id'];
+        $dreamid = $row['dream_id'];
         array_push($dreams, "<a href=\"dreammp.php?id=$dreamid\">" .  $dmp_name . "</a>");
     }
     print join(", ", $dreams);

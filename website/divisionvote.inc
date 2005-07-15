@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.5 2005/07/15 16:25:00 frabcus Exp $
+# $Id: divisionvote.inc,v 1.6 2005/07/15 16:57:29 frabcus Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -31,11 +31,11 @@
 			$qrdiv = "pw_dyn_dreamvote.division_date = '".$divattr["division_date"]."'
 					   AND pw_dyn_dreamvote.division_number = '".$divattr["division_number"]."'";
 
-            $query = "SELECT rollie_id, name, description,
+            $query = "SELECT dream_id, name, description,
 							 pw_dyn_dreamvote.vote AS vote
 					  FROM pw_dyn_dreammp
 					  LEFT JOIN pw_dyn_dreamvote
-					    ON pw_dyn_dreamvote.rollie_id = pw_dyn_dreammp.rollie_id
+					    ON pw_dyn_dreamvote.dream_id = pw_dyn_dreammp.dream_id
 					     AND $qrdiv
 					  WHERE user_id = '".user_getid()."'";
 
@@ -57,17 +57,17 @@
                 # alter dream MP's vote if they submitted form
                 if ($submit)
                 {
-                    $changedvote = mysql_escape_string($_POST["vote" . $row['rollie_id']]);
+                    $changedvote = mysql_escape_string($_POST["vote" . $row['dream_id']]);
                     if ($changedvote != $vote)
                     {
                         print "<tr><td colspan=2><div class=\"error\">";
-                        notify_dream_mp_updated($db, intval($row['rollie_id']));
+                        notify_dream_mp_updated($db, intval($row['dream_id']));
                         notify_division_updated($db, $date, $div_no);
 
                         if ($changedvote == "--")
                         {
                             $query = "DELETE FROM pw_dyn_dreamvote
-									  WHERE rollie_id='".$row['rollie_id']."'
+									  WHERE dream_id='".$row['dream_id']."'
 									   AND $qrdiv";
 							if ($bdebug == 1)
 								print "<h2>$query</h2>";
@@ -84,13 +84,13 @@
                         {
                             if ($vote == "--")
                                 $query = "INSERT INTO pw_dyn_dreamvote
-											(vote, rollie_id, division_date, division_number)
+											(vote, dream_id, division_date, division_number)
 										  VALUES
-										  	('$changedvote', '".$row['rollie_id']."', '".$divattr["division_date"]."', '".$divattr["division_number"]."')";
+										  	('$changedvote', '".$row['dream_id']."', '".$divattr["division_date"]."', '".$divattr["division_number"]."')";
 							else
 	                            $query = "UPDATE pw_dyn_dreamvote
 										  SET vote='$changedvote'
-										  WHERE rollie_id='".$row['rollie_id']."'
+										  WHERE dream_id='".$row['dream_id']."'
 										   AND $qrdiv";
 
 							if ($bdebug == 1)
@@ -109,9 +109,9 @@
                 }
                 # display dream MP vote
                 print "<tr><td>\n";
-                print '<a href="dreammp.php?id=' . $row['rollie_id'] . '">' . html_scrub($row['name']) . "</a>: \n";
+                print '<a href="dreammp.php?id=' . $row['dream_id'] . '">' . html_scrub($row['name']) . "</a>: \n";
                 print "</td><td>\n";
-                print ' <select name="vote' . $row['rollie_id'] . '" size="1">
+                print ' <select name="vote' . $row['dream_id'] . '" size="1">
                                     <option ' . vote_value("--", $vote) . '>Non-voter</option>
                                     <option ' . vote_value("aye3", $vote) . '>Aye 3-Line</option>
                                     <option ' . vote_value("aye", $vote) . '>Aye</option>

@@ -54,14 +54,14 @@ you like.  For example:
 <?php
 
     $query = "SELECT name, description, pw_dyn_user.user_id AS user_id,
-					 user_name, pw_dyn_dreammp.rollie_id,
+					 user_name, pw_dyn_dreammp.dream_id,
 					 votes_count AS count, edited_motions_count,
                 	 round(100 * edited_motions_count / votes_count, 0) AS motions_percent
         	  FROM pw_dyn_dreammp
 			  LEFT JOIN pw_dyn_user
 			  			ON pw_dyn_user.user_id = pw_dyn_dreammp.user_id
 			  LEFT JOIN pw_cache_dreaminfo
-			  			ON pw_cache_dreaminfo.rollie_id = pw_dyn_dreammp.rollie_id
+			  			ON pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id
 			  WHERE votes_count > 0
 			  ORDER BY motions_percent DESC, edited_motions_count DESC, votes_count DESC";
 	if ($bdebug == 1)
@@ -84,7 +84,7 @@ you like.  For example:
     while ($row = $dbo->fetch_row_assoc())
     {
         $prettyrow = pretty_row_start($prettyrow);
-        $dreamid = $row['rollie_id'];
+        $dreamid = $row['dream_id'];
 
         if (user_isloggedin())
             $your_dmp = ($row['user_id'] == user_getid());

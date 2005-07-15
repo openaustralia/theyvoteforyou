@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.66 2005/07/15 16:25:00 frabcus Exp $
+# $Id: division.php,v 1.67 2005/07/15 16:57:28 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -367,8 +367,8 @@
 
 
 	# Show Dream MPs who voted in this division and their votes
-        $db->query("select name, pw_dyn_dreammp.rollie_id, vote, user_name from pw_dyn_dreammp, pw_dyn_dreamvote, pw_dyn_user
-            where pw_dyn_dreamvote.rollie_id = pw_dyn_dreammp.rollie_id and
+        $db->query("select name, pw_dyn_dreammp.dream_id, vote, user_name from pw_dyn_dreammp, pw_dyn_dreamvote, pw_dyn_user
+            where pw_dyn_dreamvote.dream_id = pw_dyn_dreammp.dream_id and
             pw_dyn_user.user_id = pw_dyn_dreammp.user_id and
             pw_dyn_dreamvote.division_date = '$date' and pw_dyn_dreamvote.division_number = '$div_no' ");
         if ($db->rows() > 0)
@@ -384,7 +384,7 @@
                 $vote = $row["vote"];
                 if ($vote == "both")
                     $vote = "abstain";
-                print "<td><a href=\"dreammp.php?id=" . $row["rollie_id"] . "\">";
+                print "<td><a href=\"dreammp.php?id=" . $row["dream_id"] . "\">";
                 print $row["name"] . "</a></td>";
                 print "<td>" . $vote . "</td>";
                 print "<td>" . html_scrub($row['user_name']) . "</td>";

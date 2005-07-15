@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: settings.php,v 1.11 2005/07/15 15:56:45 frabcus Exp $
+# $Id: settings.php,v 1.12 2005/07/15 16:57:30 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -65,12 +65,12 @@ if (user_isloggedin()) # User logged in, show settings screen
 	<P>';
 
     print "<h2>Your Dream MPs</h2>";
-    $query = "select rollie_id, name, description from pw_dyn_dreammp where user_id = '" . user_getid() . "'";
+    $query = "select dream_id, name, description from pw_dyn_dreammp where user_id = '" . user_getid() . "'";
     $db->query($query);
     $rowarray = $db->fetch_rows_assoc();
     foreach ($rowarray as $row)
     {
-        print '<br><a href="../dreammp.php?id=' . $row['rollie_id'] . '">' . html_scrub($row['name']) . "</a>\n";
+        print '<br><a href="../dreammp.php?id=' . $row['dream_id'] . '">' . html_scrub($row['name']) . "</a>\n";
     }
     print '<p><a href="adddream.php">[Add new dream MP]</a></p>';
 }

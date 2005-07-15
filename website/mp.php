@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.77 2005/07/06 14:46:52 frabcus Exp $
+    # $Id: mp.php,v 1.78 2005/07/15 16:57:29 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -529,7 +529,7 @@
             $db->query(get_top_dream_query(8));
 	    $dreams = array();
 	    while ($row = $db->fetch_row_assoc()) {
-	        $dreamid = $row['rollie_id'];
+	        $dreamid = $row['dream_id'];
 	        $prettyrow = pretty_row_start($prettyrow);
 	        print_selected_dream($db, $mpprop, $dreamid);
 	    }

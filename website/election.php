@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.21 2005/07/06 17:04:56 frabcus Exp $
+# $Id: election.php,v 1.22 2005/07/15 16:57:29 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -374,7 +374,7 @@ pw_cache_dreamreal_distance
 left join pw_mp 
 on pw_mp.person = pw_cache_dreamreal_distance.person 
    and left_house = '2005-04-11' 
-where rollie_id = $dreamid group by party";
+where dream_id = $dreamid group by party";
             $db->query($query);
             $party_dist = array();
             while ($row = $db->fetch_row_assoc()) {
@@ -395,7 +395,7 @@ where rollie_id = $dreamid group by party";
 
             # And for your MP
             $query = "select distance_a as dist from pw_cache_dreamreal_distance
-                where rollie_id = $dreamid and person = " . $mpattr['person'];
+                where dream_id = $dreamid and person = " . $mpattr['person'];
             $row = $db->query_onez_row_assoc($query);
             $dist = $row ? $row['dist'] : 0.5;
             if ($issue[2])

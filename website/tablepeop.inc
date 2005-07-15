@@ -1,5 +1,5 @@
 <?php
-    # $Id: tablepeop.inc,v 1.8 2005/03/28 17:35:59 frabcus Exp $
+    # $Id: tablepeop.inc,v 1.9 2005/07/15 16:57:29 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -233,7 +233,7 @@
 			$aquery["qselect"]  .= ", distance_a AS distance";
 			$aquery["qjoin"] 	.= " LEFT JOIN pw_cache_dreamreal_distance
 										ON pw_cache_dreamreal_distance.person = pw_mp.person
-										AND pw_cache_dreamreal_distance.rollie_id = $dreamid";
+										AND pw_cache_dreamreal_distance.dream_id = $dreamid";
 			$aquery["qorder"] = " ORDER BY distance";
 
 			# this should use the left-reason case

@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-tools.inc,v 1.15 2005/07/15 16:24:59 frabcus Exp $
+# $Id: cache-tools.inc,v 1.16 2005/07/15 16:57:28 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -73,7 +73,7 @@ function notify_dream_mp_updated($db, $dreamid) {
     # delete cache pages of divisions which print stuff about this rolliemp
     $query = "select pw_division.division_number, pw_division.division_date
         from pw_division, pw_dyn_dreamvote where
-        pw_dyn_dreamvote.rollie_id = '$dreamid' and
+        pw_dyn_dreamvote.dream_id = '$dreamid' and
         pw_division.division_date = pw_dyn_dreamvote.division_date and
         pw_division.division_number = pw_dyn_dreamvote.division_number group
         by division_number, division_date";
@@ -83,7 +83,7 @@ function notify_dream_mp_updated($db, $dreamid) {
     }
 
     # Mark cache table for updating    
-    $db->query("delete from pw_cache_dreaminfo where rollie_id = '$dreamid'"); 
+    $db->query("delete from pw_cache_dreaminfo where dream_id = '$dreamid'"); 
 }
 # ... when a Dream MP is added or deleted
 function notify_dream_list_changed($db) {

@@ -28,9 +28,9 @@
 					   pw_dyn_user.user_id AS user_id, user_name,
 					   votes_count, edited_motions_count, consistency_with_mps";
 	$qfrom	 = " FROM pw_dyn_dreammp";
-	$qjoin 	 = " LEFT JOIN pw_cache_dreaminfo ON pw_cache_dreaminfo.rollie_id = pw_dyn_dreammp.rollie_id";
+	$qjoin 	 = " LEFT JOIN pw_cache_dreaminfo ON pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id";
 	$qjoin 	.= " LEFT JOIN pw_dyn_user ON pw_dyn_user.user_id = pw_dyn_dreammp.user_id";
-	$qwhere  = " WHERE pw_dyn_dreammp.rollie_id = $dreamid";
+	$qwhere  = " WHERE pw_dyn_dreammp.dream_id = $dreamid";
 	$query = $qselect.$qfrom.$qjoin.$qwhere;
 
 

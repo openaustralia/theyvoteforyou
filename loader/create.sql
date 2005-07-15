@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.28 2005/07/15 16:24:59 frabcus Exp $
+-- $Id: create.sql,v 1.29 2005/07/15 16:57:28 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -149,25 +149,25 @@ CREATE TABLE pw_dyn_user (
 ) TYPE=MyISAM;
 
 create table pw_dyn_dreammp (
-    rollie_id int not null primary key auto_increment,
+    dream_id int not null primary key auto_increment,
     name varchar(100) not null,
     user_id int not null,
     description blob not null,
 
     index(user_id),
-    unique(rollie_id, name, user_id)
+    unique(dream_id, name, user_id)
 );
 
 create table pw_dyn_dreamvote (
     division_date date not null,
     division_number int not null,
-    rollie_id int not null,
+    dream_id int not null,
     vote enum("aye", "no", "both", "aye3", "no3") not null,
 
     index(division_date),
     index(division_number),
-    index(rollie_id),
-    unique(division_date, division_number, rollie_id)
+    index(dream_id),
+    unique(division_date, division_number, dream_id)
 );
 
 -- changes people have been making are stored here for debugging
@@ -213,7 +213,7 @@ create table pw_dyn_newsletters_sent (
 
 -- information about one Dream MP
 create table pw_cache_dreaminfo (
-    rollie_id int not null primary key,
+    dream_id int not null primary key,
 
     -- 0 - nothing is up to date
     -- 1 - calculation has been done
@@ -227,7 +227,7 @@ create table pw_cache_dreaminfo (
 -- information about a real MP for a particular Dream MP
 -- e.g. Scores for how well they follow the Dream MP's whip.
 create table pw_cache_dreamreal_distance (
-    rollie_id int not null,
+    dream_id int not null,
     person int not null,
 
     -- number of votes same / different / MP absent
@@ -241,30 +241,9 @@ create table pw_cache_dreamreal_distance (
     distance_a float, -- use abstentions
     distance_b float, -- ignore abstentions
 
-    index(rollie_id),
+    index(dream_id),
     index(person),
-    unique(rollie_id, person)
-);
-
--- like pw_cache_dreamreal_distance but for political parties
-create table pw_cache_dreamparty_distance (
-    rollie_id int not null,
-    party varchar(100) not null,
-
-    -- number of votes same / different / MP absent
-    nvotessame float,
-    nvotessamestrong float,
-    nvotesdiffer float,
-    nvotesdifferstrong float,
-    nvotesabsent float,
-    nvotesabsentstrong float,
-
-    distance_a float, -- use abstentions
-    distance_b float, -- ignore abstentions
-
-    index(rollie_id),
-    index(party),
-    unique(rollie_id, party)
+    unique(dream_id, person)
 );
 
 -- Stores the most recent wiki item for this division
