@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-tools.inc,v 1.16 2005/07/15 16:57:28 frabcus Exp $
+# $Id: cache-tools.inc,v 1.17 2005/07/15 17:01:31 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -70,7 +70,7 @@ function notify_dream_mp_updated($db, $dreamid) {
     cache_delete("dreammp.php", "id=" . intval($dreamid));
     cache_delete("dreammps.php", "");
 
-    # delete cache pages of divisions which print stuff about this rolliemp
+    # delete cache pages of divisions which print stuff about this dreammp
     $query = "select pw_division.division_number, pw_division.division_date
         from pw_division, pw_dyn_dreamvote where
         pw_dyn_dreamvote.dream_id = '$dreamid' and

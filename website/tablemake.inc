@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.27 2005/07/15 16:57:29 frabcus Exp $
+# $Id: tablemake.inc,v 1.28 2005/07/15 17:01:32 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -75,7 +75,7 @@ function divmpconds(&$aquery, &$db, $voter, $bonlyvotes, $bperson, $i)
 # this joins a dreammp here
 function divdreammpconds(&$aquery, &$db, $dreammpid, $bonlyvotes, $i)
 {
-    # build the selection.  There is no division_id in the rollievote table
+    # build the selection.  There is no division_id in the dreamvote table
     $aquery["qselect"] .= ", pwvote$i.vote as vote$i";
     $aquery["qjoin"]   .= " LEFT JOIN pw_dyn_dreamvote as pwvote$i ON
                                 pwvote$i.dream_id = $dreammpid

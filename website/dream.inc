@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.27 2005/07/15 16:57:29 frabcus Exp $
+# $Id: dream.inc,v 1.28 2005/07/15 17:01:31 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -273,7 +273,7 @@ function update_dreammp_person_distance($db, $dreamid)
 # Return score and what it is out of for how much the MP follows the "whip" of
 # the Dream MP.  The "_a" here means this is scoring system A.
 function calc_dream_mp_score_a($db, $dreamid, $personid) {
-    $query = "select pw_vote.vote as mpvote, pw_dyn_dreamvote.vote as rollievote from
+    $query = "select pw_vote.vote as mpvote, pw_dyn_dreamvote.vote as dreamvote from
         pw_vote, pw_dyn_dreamvote, pw_division, pw_mp where
         pw_vote.division_id = pw_division.division_id and
         pw_dyn_dreamvote.division_number = pw_division.division_number and
@@ -290,16 +290,16 @@ function calc_dream_mp_score_a($db, $dreamid, $personid) {
         $weight = 1;
         $mpvote = $qrow['mpvote'];
         $mpvote = str_replace("tell", "", $mpvote);
-        $rollievote = $qrow['rollievote'];
-        if ($rollievote == "aye3" or $rollievote == "no3") {
-            $rollievote = str_replace("3", "", $rollievote);
+        $dreamvote = $qrow['dreamvote'];
+        if ($dreamvote == "aye3" or $dreamvote == "no3") {
+            $dreamvote = str_replace("3", "", $dreamvote);
             $weight = 3;
         }
         $t += $weight;
 
-        if ($mpvote == $rollievote)
+        if ($mpvote == $dreamvote)
             $c += $weight;
-        elseif ($mpvote == "both" or $rollievote == "both")
+        elseif ($mpvote == "both" or $dreamvote == "both")
             $c = $c + ($weight / 2);
     }
 

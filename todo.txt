@@ -23,8 +23,6 @@ Clear file cache for:
     (perhaps just clear everything then!)
 
 Database patches:
-    Rename rollie -> dream 
-    Tidy up the id so always dream_id not a mix.
     pw_dyn_dreamvote.vote should be NOT NULL
     Remove division_id
 

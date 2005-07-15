@@ -65,10 +65,10 @@
     <td>Dream Vote</td>
     <td>Debate</td></tr>";
     $prettyrow = 0;
-    $rollievote = array();
+    $dreamvote = array();
     while ($row = $db->fetch_row())
     {
-        $rollievote[$row[0]] = $row[5];
+        $dreamvote[$row[0]] = $row[5];
         $prettyrow = pretty_row_start($prettyrow);
         $vote = $row[5];
         if ($vote == "both")
