@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.6 2005/07/15 16:57:29 frabcus Exp $
+# $Id: divisionvote.inc,v 1.7 2005/07/16 11:37:40 frabcus Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -31,7 +31,7 @@
 			$qrdiv = "pw_dyn_dreamvote.division_date = '".$divattr["division_date"]."'
 					   AND pw_dyn_dreamvote.division_number = '".$divattr["division_number"]."'";
 
-            $query = "SELECT dream_id, name, description,
+            $query = "SELECT pw_dyn_dreammp.dream_id, name, description,
 							 pw_dyn_dreamvote.vote AS vote
 					  FROM pw_dyn_dreammp
 					  LEFT JOIN pw_dyn_dreamvote
