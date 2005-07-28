@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: archive.php,v 1.9 2005/04/05 09:26:50 frabcus Exp $
+# $Id: archive.php,v 1.10 2005/07/28 23:00:55 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -22,6 +22,8 @@ function newsletter_date($newsletter)
 	$dummy = fgets($handle);
 	$line = fgets($handle);
     fclose($handle);
+    if (!stristr($line, "Date: "))
+        return false;
     return strtotime(str_replace("Date: ", "", $line));
 }
 
@@ -88,8 +90,10 @@ archive are occasional mailings we send to anyone who has made a Dream MP.
     foreach ($filenames as $filename) {
         if (preg_match("/^(issue|extra|dream)(.*)\.txt$/", $filename, $matches))
         {
+            $date = newsletter_date($filename);
+            if (!$date) continue;
             print "<tr><td>";
-            print date("j M Y", newsletter_date($filename));
+            print date("j M Y", $date);
             print "</td><td>";
             print "<a href=\"archive.php?" . $matches[1] . "=" . $matches[2] . "\">";
             print newsletter_title($filename);
