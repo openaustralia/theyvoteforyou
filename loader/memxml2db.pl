@@ -2,9 +2,10 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.9 2005/07/28 15:33:18 frabcus Exp $
+# $Id: memxml2db.pl,v 1.10 2005/07/28 23:13:13 frabcus Exp $
 
-# Convert all-members.xml into the database format for Public Whip website
+# Convert all-members.xml and all-lords.xml into the database format for Public
+# Whip website
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -34,14 +35,11 @@ while ( my ($mp_id, $gid) = $sth->fetchrow_array() ) {
     $last_mp_id = $mp_id if ($mp_id > $last_mp_id);
 }
 
-$sth = PublicWhip::DB::query($dbh, "drop table if exists pw_mp_new");
-$sth = PublicWhip::DB::query($dbh, "drop table if exists pw_moffice_new");
-$sth = PublicWhip::DB::query($dbh, "drop table if exists pw_constituency_new");
-$sth = PublicWhip::DB::query($dbh, "create table pw_mp_new like pw_mp");
-$sth = PublicWhip::DB::query($dbh, "create table pw_moffice_new like pw_moffice");
-$sth = PublicWhip::DB::query($dbh, "create table pw_constituency_new like pw_constituency");
-my %membertoperson;
+# We completely rebuild these two tables
+$sth = PublicWhip::DB::query($dbh, "delete from pw_moffice");
+$sth = PublicWhip::DB::query($dbh, "delete from pw_constituency");
 
+my %membertoperson;
 my $twig = XML::Twig->new(
     twig_handlers => { 
             'constituency' => \&loadcons, 
@@ -56,12 +54,11 @@ $twig->parsefile("$members_location/people.xml");
 $twig->parsefile("$members_location/ministers.xml");
 $twig->parsefile("$members_location/all-members.xml");
 $twig->parsefile("$members_location/all-lords.xml");
-$sth = PublicWhip::DB::query($dbh, "drop table if exists pw_mp");
-$sth = PublicWhip::DB::query($dbh, "drop table if exists pw_moffice");
-$sth = PublicWhip::DB::query($dbh, "drop table if exists pw_constituency");
-$sth = PublicWhip::DB::query($dbh, "alter table pw_mp_new rename to pw_mp");
-$sth = PublicWhip::DB::query($dbh, "alter table pw_moffice_new rename to pw_moffice");
-$sth = PublicWhip::DB::query($dbh, "alter table pw_constituency_new rename to pw_constituency");
+
+# Delete things left that shouldn't be from this table
+foreach my $gid (keys %$gid_to_internal) {
+    $sth = PublicWhip::DB::query($dbh, "delete from pw_mp where gid = '$gid'");
+}
 
 sub loadperson
 {
@@ -132,7 +129,8 @@ sub loadmember
     # We encode entities as e.g. &Ouml;, as otherwise non-ASCII characters
     # get lost somewhere between Perl, the database and the browser.
 	# Attributes come out as UTF8, manually convert to latin-1.
-    my $sth = PublicWhip::DB::query($dbh, "insert into pw_mp_new
+    my $sth = PublicWhip::DB::query($dbh, "delete from pw_mp where gid = '$gid'");
+    $sth = PublicWhip::DB::query($dbh, "insert into pw_mp
         (first_name, last_name, title, constituency, party, house,
         entered_house, left_house, entered_reason, left_reason, 
         mp_id, person, gid) values
@@ -151,6 +149,9 @@ sub loadmember
             $person,
             $gid,
         );
+
+    # Store deleted
+    delete $gid_to_internal->{$gid};
 }
 
 sub loadmoffice
@@ -171,7 +172,7 @@ sub loadmoffice
 
     # We encode entities as e.g. &Ouml;, as otherwise non-ASCII characters
     # get lost somewhere between Perl, the database and the browser.
-    my $sth = PublicWhip::DB::query($dbh, "insert into pw_moffice_new (moffice_id, dept, position, 
+    my $sth = PublicWhip::DB::query($dbh, "insert into pw_moffice (moffice_id, dept, position, 
         from_date, to_date, person) values
         (?, ?, ?, ?, ?, ?)", 
         $mofficeid,
@@ -196,7 +197,7 @@ sub loadcons
 
         # We encode entities as e.g. &Ouml;, as otherwise non-ASCII characters
         # get lost somewhere between Perl, the database and the browser.
-        my $sth = PublicWhip::DB::query($dbh, "insert into pw_constituency_new
+        my $sth = PublicWhip::DB::query($dbh, "insert into pw_constituency
             (cons_id, name, main_name, from_date, to_date) values
             (?, ?, ?, ?, ?)", 
             $consid,
