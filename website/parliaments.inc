@@ -1,6 +1,6 @@
 <?php
 
-# $Id: parliaments.inc,v 1.15 2005/05/10 10:58:18 frabcus Exp $
+# $Id: parliaments.inc,v 1.16 2005/07/28 15:33:19 frabcus Exp $
 # This data is duplicated in loader/PublicWhip/Parliaments.pm
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -63,21 +63,6 @@ function parliament_date_to($id)
     global $parliaments;
     return $parliaments[$id]['to'];
 }
-
-function parliament_query_range($id)
-{
-    return " entered_house <= '" .
-        parliament_date_to($id) . "' and entered_house >= '".
-        parliament_date_from($id) . "' ";
-}
-
-function parliament_query_range_div($id)
-{
-    return " division_date <= '" .
-        parliament_date_to($id) . "' and division_date >= '".
-        parliament_date_from($id) . "' ";
-}
-
 
 # possibly dead function
 function year_range($from, $to)

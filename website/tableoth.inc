@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.10 2005/07/15 16:57:29 frabcus Exp $
+    # $Id: tableoth.inc,v 1.11 2005/07/28 15:33:19 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -33,7 +33,10 @@
 			if ($bmultiperson)
 			{
 				if ($thispagesettings)
-					print "<td><a href=\"mp.php?mpid=".$mpprop['mpid']."&$thispagesettings\">".$mpprop['name']."</a></td>\n";
+					print "<td>
+                    ".$mpprop['name']."
+                    <a href=\"mp.php?mpn=".$mpprop['name']."&$thispagesettings\">(show only their votes)</a>
+                    </td>\n";
 				else
 					print "<td>".$mpprop['name']."</td>\n";
    			}
@@ -86,84 +89,6 @@
         print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row["description"])), 0, 50);
         print "</tr>\n";
     }
-
-
-    function print_possible_friends($db, $mpprop, $showwhichfriends)
-    {
-		global $bdebug;
-
-		$mpid = $mpprop['mpid'];
-        if ($bdebug == 1)
-			print "<h1>".$mpprop['enteredhouse']."  ".$mpprop['party']."  ".$mpprop['enteredreason']."  ".$mpprop['leftreason']."</h1>\n";
-        print "<h3>" . pretty_parliament_and_party($mpprop['enteredhouse'], $mpprop['party'], $mpprop['enteredreason'], $mpprop['leftreason']). "</h3>";
-        print "<table class=\"mps\">\n";
-
-		$qselect = "SELECT first_name, last_name, title, constituency,
-						party, pw_mp.mp_id as mpid,
-						rebellions, votes_attended, votes_possible,
-						distance, entered_reason, left_reason";
-		$qfrom =  " FROM pw_mp, pw_cache_mpinfo, pw_cache_mpdist";
-		$qwhere = " WHERE pw_mp.mp_id = pw_cache_mpinfo.mp_id
-					 AND pw_mp.mp_id = pw_cache_mpdist.mp_id_1
-					 AND pw_cache_mpdist.mp_id_2 = $mpid
-					 AND pw_cache_mpdist.mp_id_1 <> $mpid";
-
-		# find the number of voters which are the same
-        if ($showwhichfriends == "some")
-		{
-			$query = "SELECT pw_mp.mp_id as mpid".$qfrom.$qwhere." AND distance = 0";
-			if ($bdebug == 1)
-				print "<h1>mpid: $mpid, query for same vote rows: $query</h1>\n";
-			$db->query($query);
-			$same_voters = $db->rows();
-		}
-
-		# comparison anchor
-		$friendcomp = "mpn2=".urlencode(str_replace(" ", "_", $mpprop['name']))."&mpc2=".urlencode($mpprop['constituency']);
-
-		# create the table
-		$qorder = " ORDER BY distance";
-		if ($showwhichfriends == "some")
-			$qorder .= " LIMIT 0,5";
-		$query = $qselect.$qfrom.$qwhere.$qorder;
-		if ($bdebug == 1)
-			print "<h1>query for friends: $query</h1>\n";
-		$db->query($query);
-
-        print "<tr class=\"headings\">
-			   <td>Name</td><td>Constituency</td><td>Party</td><td>Distance</td> </tr>";
-        $prettyrow = 0;
-        while ($row = $db->fetch_row_assoc())
-        {
-            $prettyrow = pretty_row_start($prettyrow);
-			$friendmpname = $row['first_name']." ".$row['last_name'];
-			$friendanchor = "mpn=".urlencode(str_replace(" ", "_", $friendmpname))."&"."mpc$i=".urlencode($row['constituency']);
-
-			$distance = $row['distance'];
-            if ($distance == "0")
-                $distance = "0 - always voted the same";
-            if ($distance == "1")
-                $distance = "1 - always voted differently";
-
-            print "<td><a href=\"mp.php?$friendanchor&$friendcomp\">".
-				$row['title']." $friendmpname</a> (compare)</td>";
-			print "<td>".$row['constituency']."</td>";
-			print "<td>".pretty_party($row['party'], $row['entered_reason'], $row['left_reason']) . "</td>";
-			print "<td>$distance</td>";
-#	        print "<td class=\"percent\">".percentise_votes($row['rebellions'], $row['votes_attended'])."</td>\n";
-#			print "<td class=\"percent\">".percentise_votes($row['votes_attended'], $row['votes_possible'])."</td>\n";
-            print "</tr>\n";
-        }
-        print "</table>\n";
-
-		# anchor to show all friends
-        if ($showwhichfriends == "some")
-        {
-            if ($same_voters > 4)
-                print " ($same_voters MPs voted exactly the same as this one)";
-        }
-    }
-
 
     function print_party_summary_division($db, $div_id, $baseurl)
     {

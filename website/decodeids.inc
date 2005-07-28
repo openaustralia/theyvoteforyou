@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.20 2005/07/15 16:57:28 frabcus Exp $
+# $Id: decodeids.inc,v 1.21 2005/07/28 15:33:19 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -9,6 +9,7 @@
 include $toppath . "parliaments.inc";
 include $toppath . "postcode.inc";
 require_once $toppath . "wiki.inc";
+require_once $toppath . "links.inc";
 
 # this maps all constituency names to numbers
 require_once $toppath . "constituencies.inc";
@@ -19,7 +20,7 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream)
 {
     global $bdebug;
     # convert the mpid into a person-id
-    $query = "SELECT first_name, last_name, constituency, person, party, mp_id
+    $query = "SELECT title, first_name, last_name, constituency, person, party, house, mp_id
               FROM   pw_mp
               WHERE mp_id = $mpid";
 
@@ -28,9 +29,7 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream)
     $row = $db->query_one_row_assoc($query);
 
     # build the anchor tag
-    $mpname = $row['first_name'].' '.$row['last_name'];
-    $mpanchor = "mpn$i=".urlencode(str_replace(" ", "_", $mpname))."&"."mpc$i=".urlencode($row['constituency']);
-
+    $mpname = $row['title'].' '.$row['first_name'].' '.$row['last_name'];
     $constituency = $row['constituency'];
     $person = $row['person'];
     $party = $row['party'];
@@ -41,7 +40,7 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream)
     else
         $qwhere = "person = $person";
 
-	$qselect = "pw_mp.mp_id as mpid, title, first_name, last_name, constituency, person, party,
+	$qselect = "pw_mp.mp_id as mpid, title, first_name, last_name, constituency, person, party, house,
                 entered_house, left_house, party, entered_reason, left_reason,
                 rebellions, votes_attended, votes_possible, tells";
     $query = "SELECT $qselect
@@ -60,8 +59,9 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream)
 	$thismpprop = null;
     while ($row = $db->fetch_row_assoc())
     {
-        $mppropname = $row['first_name'].' '.$row['last_name'];
-        $mppropanchor = "mpn$i=".urlencode(str_replace(" ", "_", $mppropname))."&"."mpc$i=".urlencode($row['constituency']);
+        $mppropname = trim($row['title'].' '.$row['first_name'].' '.$row['last_name']);
+        $mppropanchor = link_to_mp($row, 1);
+        $mppropanchor2 = link_to_mp($row, 2);
         $mpprop = 	array("mpid"		=> $row['mpid'],
                           "title" 		=> $row['title'],
                           "name" 		=> $mppropname,
@@ -69,6 +69,7 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream)
                           "party"		=> $row['party'],
                           "constituency" => $row['constituency'],
                           "mpanchor"	=> $mppropanchor,
+                          "mpanchor2"	=> $mppropanchor2,
                           "enteredhouse" => $row['entered_house'],
                           "lefthouse" 	=> $row['left_house'],
                           "enteredreason" => $row['entered_reason'],
@@ -76,7 +77,11 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream)
                           "rebellions" 	=> $row['rebellions'],
                           "votesattended" => $row['votes_attended'],
                           "votespossible" => $row['votes_possible'],
-                          "tells" 		=> $row['tells']);
+                          "tells" 		=> $row['tells'],
+                          "housenamesuffix"   => $row['house'] == 'commons' ? 'MP' : '',
+                          "housenoun"   => $row['house'] == 'commons' ? 'MP' : 'Peer',
+                          "housenounplural"   => $row['house'] == 'commons' ? 'MPs' : 'Peers'
+                    );
 
 		# check for an over-lap with the dreammp
 		if ($voter2dream)
@@ -133,6 +138,16 @@ function decode_mpid_legacy($db)
         return null;
     }
 
+    # For a while we allowed this style for MPs
+    $mpurlid = db_scrub($_GET["mpid"]);
+    if ($mpurlid) {
+        # By identifier directly
+        $mpid = $mpurlid;
+        $query = "SELECT mp_id FROM pw_mp WHERE gid='uk.org.publicwhip/member/".$mpurlid."'";
+        $row = $db->query_one_row_assoc($query);
+        return db_scrub($row["mp_id"]);
+     }
+
     # get the name and constituency
     $constituency = $_GET["constituency"];
     if ($constituency == "")
@@ -167,7 +182,6 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream=null)
     $mpname = db_scrub($_GET["mpn$i"]);
     $mpconstituency = db_scrub($_GET["mpc$i"]);
     $mppostcode = db_scrub($_GET["mppc$i"]);
-    $mpurlid = db_scrub($_GET["mpid$i"]);
     if ($bdebug == 1)
         print "<h1> MPN=".html_scrub($mpname)." MPC=".html_scrub($mpconstituency)." MPPC=".html_scrub($mppostcode)."</h1>";
 
@@ -180,18 +194,12 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream=null)
 
     if ($mpname == "" and $mpconstituency == "")
     {
-        if ($mpurlid != "") {
-            # By identifier directly
-            $mpid = $mpurlid;
-        }
-        else {
-            if ($i != "")   # legacy doesn't apply to second and third entries which may be blank
-                return null;
-            $mpid = decode_mpid_legacy($db);
-            if ($mpid == null)
-                return null;
-            $bbyconstituency = false;
-        }
+        if ($i != "")   # legacy doesn't apply to second and third entries which may be blank
+            return null;
+        $mpid = decode_mpid_legacy($db);
+        if ($mpid == null)
+            return null;
+        $bbyconstituency = false;
     }
 
     # this is stable for one or both matching labels being present
@@ -201,7 +209,7 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream=null)
     else
     {
         $qwhere = "";
-        if ($mpconstituency != "")
+        if ($mpconstituency != "" && $mpconstituency != "Lords")
         {
             $constituency = strtolower(stripslashes(html_entity_decode($mpconstituency)));
             $constituency = str_replace("_", " ", $constituency);
@@ -212,17 +220,18 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream=null)
                 print "Error, constituency " . $mpconstituency . " not found";
                 exit;
             }
-            $qwhere = "constituency = '$constituency'";
+                $qwhere = "constituency = '$constituency'";
         }
         if ($mpname != "")
         {
             if ($qwhere != "")
                 $qwhere .= " and ";
             $mpname = str_replace("_", " ", $mpname);
-            $qwhere .= "'$mpname' = CONCAT(first_name, ' ', last_name)";
+            $qwhere .= "('$mpname' = CONCAT(first_name, ' ', last_name)";
+            $qwhere .= " OR '$mpname' = CONCAT(title, ' ', first_name, ' ', last_name))";
         }
 
-        $query = "SELECT mp_id, first_name, last_name, entered_house
+        $query = "SELECT mp_id
                   FROM   pw_mp
                   WHERE $qwhere
                   ORDER BY entered_house
@@ -267,7 +276,7 @@ function get_division_attr_decode($db, $i)
     if (!$div_date or !$div_no)
         return none;
 
-    $query = "SELECT division_date, division_number,
+    $query = "SELECT division_date, division_number, house,
                      pw_division.division_id AS division_id,
                      division_name, motion, notes,
                      source_url, debate_url, source_gid, debate_gid,
@@ -285,6 +294,7 @@ function get_division_attr_decode($db, $i)
 
     return array("division_date" 	=> $row["division_date"],
                  "division_number" 	=> $row['division_number'],
+                 "house"            => $row['house'],
                  "division_id" 		=> $row['division_id'],
                  "prettydate"		=> date("j M Y", strtotime($row["division_date"])),
                  "name"				=> $row["division_name"],

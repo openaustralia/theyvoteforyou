@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: mp-info.xml,v 1.1 2005/03/31 15:10:05 frabcus Exp $
+# $Id: mp-info.xml,v 1.2 2005/07/28 15:33:19 frabcus Exp $
 
 # Print information in XML about each MP.  e.g. Rebellion rate.
 
@@ -25,7 +25,7 @@ $row = $db->fetch_row_assoc();
 $last_div_date = $row['division_date'];
 
 $order = "entered_house, last_name, first_name, constituency";
-$query = "$mps_query_start order by $order";
+$query = "$mps_query_start and house = 'commons' order by $order";
 
 $db->query($query);
 while ($row = $db->fetch_row_assoc())

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.14 2005/05/08 22:06:15 frabcus Exp $
+    # $Id: mps.php,v 1.15 2005/07/28 15:33:19 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -59,7 +59,8 @@ you expect. You can change the order of the table by selecting the headings.
 	$mptabattr = array("listtype" 	=> "parliament",
 					   "parliament" => $parliaments[$parliament],
 					   "showwhich" 	=> "all",
-					   "sortby"		=> $sort);
+					   "sortby"		=> $sort,
+                       "house"      => "commons");
 	mp_table($db, $mptabattr);
     print "</table>\n";
 ?>

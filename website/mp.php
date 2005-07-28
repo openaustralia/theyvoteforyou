@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.78 2005/07/15 16:57:29 frabcus Exp $
+    # $Id: mp.php,v 1.79 2005/07/28 15:33:19 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -52,9 +52,9 @@
 	$voter1attr = get_mpid_attr_decode($db, $db2, "", ($voter2type == "dreammp" ? $voter2attr : null));
 	if ($voter1attr == null)
 	{
-        $title = "MP not found";
+        $title = "MP/Peer not found";
         include "header.inc";
-		print "<p>No MP found. If you entered a postcode, please make
+		print "<p>No MP or Peer found. If you entered a postcode, please make
         sure it is correct.  Or you can <a href=\"/mps.php\">browse
         all MPs</a>.";
         include "footer.inc";
@@ -75,9 +75,10 @@
 	# select a mode for what is displayed
 	# code for the 0th mp def, if it is there.
     $voter1link = "mp.php?";
-    if (!$voter1attr["bmultiperson"])
-		$voter1link .= "mpn=".urlencode(str_replace(" ", "_", $mpprop['name']));
-	$voter1link .= "&"."mpc=".urlencode($mpprop['constituency']);
+    if ($voter1attr["bmultiperson"])
+        $voter1link .= "mpc=".urlencode($mpprop['constituency']);
+    else
+		$voter1link .= $mpprop['mpanchor'];
 
 	# extend to the comparison type
 	$thispagesettings = "";
@@ -88,10 +89,8 @@
 	}
 	else if ($voter2type == "person")
 	{
-		$lmpn = urlencode(str_replace(" ", "_", $voter2["mpprop"]['name']));
-		$lmpc = urlencode($voter2["mpprop"]['constituency']);
-		$thispagesettings = "mpn2=$lmpn&"."mpc2=$lmpc";
-	    $voter2link = "mp.php?mpn=$lmpn&"."mpc=$lmpc";
+		$thispagesettings = $voter2["mpprop"]["mpanchor2"];
+	    $voter2link = "mp.php?". $voter2["mpprop"]["mpanchor"];
 	}
 	$thispage = "$voter1link&$thispagesettings";
 
@@ -104,7 +103,7 @@
 								 "generalinfo" => "yes",
 								 "votelist"	=> "short",
 								 "possfriends"	=> "some",
-								 "dreamcompare"	=> "short");
+								 /*"dreamcompare"	=> "short"*/);
 		if (!$voter1attr['bmultiperson'])
 			$dismodes["summary"]["eventsinfo"] = "yes";
 	}
@@ -183,22 +182,29 @@
 	$thispagesettings .= ($thispagesettings ? "&" : "")."display=$display";
 
 	# generate title and header of this webpage
+    if ($mpprop['house'] == 'commons') {
+        $contitlefor = "for".$mpprop['constituency'];
+        $contitlecomma = ", ".$mpprop['constituency'];
+    } else {
+        $contitlefor = "";
+        $contitlecomma = "";
+    }
 	if ($voter2type == "dreammp")
 	{
 		if ($voter1attr["bmultiperson"])
-			$title = "Whipping Report - MPs for ".$mpprop['constituency'];
+			$title = "Whipping Report - ".$mpprop['housenounplural']." ".$contitlefor;
 		else
-			$title = "Whipping Report - '".$voter2attr['name']."' on " . $mpprop['name']." MP, ".$mpprop['constituency'];
+			$title = "Whipping Report - '".$voter2attr['name']."' on " . $mpprop['name']." ".$mpprop['housenamesuffix'].$contitlecomma;
 		$title .= " by '".html_scrub($voter2attr['name'])."'";
 	}
 	else if ($voter2type == "person")
-		$title = "Comparison between " . $mpprop['name']." MP, ".$mpprop['constituency']." and ".$voter2attr["mpprop"]['name']." MP";
+		$title = "Comparison between " . $mpprop['name']." ".$mpprop['housenamesuffix'].$contitlecomma." and ".$voter2attr["mpprop"]['name']." ".$voter2attr["mpprop"]['housenamesuffix'];
 	else if ($dismode["possfriends"] == "all")
-		$title = "Friends of ".$mpprop['name']." MP, ".$mpprop['constituency'];
+		$title = "Friends of ".$mpprop['name']." ".$mpprop['housenamesuffix'].$contitlecomma;
 	else if ($voter1attr["bmultiperson"])
-		$title = "Voting Record - MPs for ".$mpprop['constituency'];
+		$title = "Voting Record - ".$mpprop['housenounplural']." ".$contitlefor;
 	else
-		$title = "Voting Record - ".$mpprop['name']." MP, ".$mpprop['constituency'];
+		$title = "Voting Record - ".$mpprop['name']." ".$mpprop['housenamesuffix'].$contitlecomma;
     include "header.inc";
 
     # make list of links to other display modes
@@ -278,28 +284,32 @@
 	               MP for <b>".$mpprop['constituency']."</b>";
 	    else if ($voter1attr['bmultiperson'])
 	        print "<p>MPs who have represented <b>".$mpprop['constituency']."</b>";
-	    else
-		{
-	        print "<p><b>".$mpprop['name']."</b> has been MP ";
-            if ($all_same_cons)
+	    else {
+	        print "<p><b>".$mpprop['name']."</b> has been " . $mpprop['housenoun']." ";
+            if ($all_same_cons && $mpprop['house'] == 'commons')
                 print " for <b>".$mpprop['constituency']."</b>";
         }
-		print " during the following periods of time in the last three parliaments";
+        if ($mpprop['house'] == 'commons')
+            print " during the following periods of time in the last three parliaments";
+        else
+            print " during the following periods of time since our records began";
         print ":<br>(Check out <a href=\"faq.php#clarify\">our explanation</a> of 'attendance'
 		            and 'rebellions', as they may not have the meanings you expect.)</p>";
 
 		seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], ($all_same_cons ? false : true), true, $thispagesettings);
 
-	    print "<p><a href=\"http://www.theyworkforyou.com/mp/?m=".$mpprop["mpid"]."\">
-	    		Performance data, recent speeches, and biographical links</a>
-	    		at TheyWorkForYou.com.<br>
-	    	   <a href=\"http://www.writetothem.com\">Contact your MP</a> for free at
-	    		WriteToThem.com or look for their
-				<a href=\"http://www.parliament.uk/directories/hciolists/alms.cfm\">
-				email address</a>.";
-            print "<br><b>New parliament!</b> <a href=\"http://www.mysociety.org/ycml/\">Sign up to
-            Your Constituency Mailing List</a> to keep up with and scrutinise your MP.
-            </p>";
+        if ($mpprop['house'] == 'commons') {
+            print "<p><a href=\"http://www.theyworkforyou.com/mp/?m=".$mpprop["mpid"]."\">
+                    Performance data, recent speeches, and biographical links</a>
+                    at TheyWorkForYou.com.<br>
+                   <a href=\"http://www.writetothem.com\">Contact your MP</a> for free at
+                    WriteToThem.com or look for their
+                    <a href=\"http://www.parliament.uk/directories/hciolists/alms.cfm\">
+                    email address</a>.";
+                print "<br><b>New parliament!</b> <a href=\"http://www.mysociety.org/ycml/\">Sign up to
+                Your Constituency Mailing List</a> to keep up with and scrutinise your MP.
+                </p>";
+        }
 	}
 
 	if ($dismode["votelist"])
@@ -320,7 +330,7 @@
 
 		# subtext for the vote table
 		if ($dismode["votelist"] == "short" and $voter2type == "party")
-			print "<p>Votes in parliament for which this MP's vote differed from the
+			print "<p>Votes in parliament for which this ".$mpprop['housenoun']."'s vote differed from the
 	        	majority vote of their party (Rebel), or in which this MP was
 	        	a teller (Teller) or both (Rebel Teller).  \n";
 		else if ($dismode["votelist"] == "every" and $voter2type == "party")
@@ -410,8 +420,9 @@
 
 			# slip in a title in the multiperson case
 			if ($voter1attr['bmultiperson'] && ($divtabattr["votedisplay"] != "fullmotion"))
-				print "<tr><td colspan=7 align=left><b>Votes by <a href=\"mp.php?mpid=".$mpprop['mpid']."&$thispagesettings\">"
-					.$mpprop["name"]." MP</a></b></td></tr>\n";
+				print "<tr><td colspan=7 align=left>
+                    <b>Votes by <a href=\"".$mpprop['mpanchor']."\">" .$mpprop["name"]." MP</a></b>
+                    </td></tr>\n";
 
 			# long asignment for return value because we're lacking foreach as &
 			$voter1attr['mpprops'][$lkey]["dismetric"] = division_table($db, $divtabattr, $events);
@@ -470,10 +481,10 @@
 		if ($dismode["possfriends"] == "all")
 			print "All ";
 		print "Possible Friends</a></h2>";
-	    print "<p>Shows which MPs voted most similarly to this one. The
+	    print "<p>Shows which ".$mpprop['housenounplural']." voted most similarly to this one. The
     		distance is measured from 0 (always voted the same) to 1 (always
-		    voted differently).  Only votes that both MPs attended are
-		    counted.  This may reveal relationships between MPs that were
+		    voted differently).  Only votes that both ".$mpprop['housenounplural']." attended are
+		    counted.  This may reveal relationships between ".$mpprop['housenounplural']." that were
 		    previously unsuspected.  Or it may be nonsense.";
 
 

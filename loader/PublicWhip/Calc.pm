@@ -1,4 +1,4 @@
-# $Id: Calc.pm,v 1.5 2005/04/16 15:12:03 frabcus Exp $
+# $Id: Calc.pm,v 1.6 2005/07/28 15:33:18 frabcus Exp $
 # Calculates various data and caches it in the database.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -89,13 +89,13 @@ sub guess_whip_for_division {
 
 sub count_mp_info {
     my $dbh = shift;
-    count_mp_info_dated( $dbh, "1000-01-01", "9999-12-31", "pw_cache_mpinfo" );
+    count_mp_info_dated( $dbh, "1000-01-01", "9999-12-31", "pw_cache_mpinfo", "commons" );
 }
 
 sub count_mp_info_session2002 {
     my $dbh = shift;
     count_mp_info_dated( $dbh, "2002-11-13", "2003-11-20",
-        "pw_cache_mpinfo_session2002" );
+        "pw_cache_mpinfo_session2002", "commons" );
 }
 
 sub count_mp_info_dated {
@@ -103,6 +103,7 @@ sub count_mp_info_dated {
     my $from  = shift;
     my $to    = shift;
     my $table = shift;
+    my $house = shift;
 
     PublicWhip::DB::query( $dbh, "drop table if exists $table" );
     PublicWhip::DB::query(
@@ -118,27 +119,27 @@ sub count_mp_info_dated {
     );
 
     my $sth = PublicWhip::DB::query(
-        $dbh, "select mp_id, party, entered_house,
-		left_house from pw_mp where 
-		(entered_house >= ? and entered_house <= ?) or
-		(left_house >= ? and left_house <= ?) or
-		(entered_house < ? and left_house > ?)",
-        $from, $to, $from, $to, $from, $to
+        $dbh, "select mp_id, party, entered_house, left_house 
+        from pw_mp where 
+            ((entered_house >= ? and entered_house <= ?) or
+            (left_house >= ? and left_house <= ?) or
+            (entered_house < ? and left_house > ?))
+            and house = ?",
+        $from, $to, $from, $to, $from, $to, $house
     );
 
     while ( my @data = $sth->fetchrow_array() ) {
         my ( $mpid, $party, $entered_house, $left_house ) = @data;
 
         my $sth = PublicWhip::DB::query(
-            $dbh, "select pw_vote.division_id, pw_vote.vote,
-            pw_cache_whip.whip_guess from pw_cache_whip, pw_vote,
-			pw_division where pw_cache_whip.party = ? and
-			pw_cache_whip.division_id = pw_vote.division_id and
-			pw_vote.mp_id = ? and pw_cache_whip.whip_guess <> 'unknown'
-			and pw_vote.vote <> 'both' and pw_cache_whip.whip_guess <>
-			replace(pw_vote.vote, 'tell', '') and
-			pw_division.division_id = pw_vote.division_id and
-			(division_date >= ? and division_date <= ?)
+            $dbh, "select pw_vote.division_id, pw_vote.vote, pw_cache_whip.whip_guess 
+            from pw_cache_whip, pw_vote, pw_division 
+            where pw_cache_whip.party = ? and pw_cache_whip.division_id = pw_vote.division_id 
+                and pw_vote.mp_id = ?  and pw_cache_whip.whip_guess <> 'unknown'
+                and pw_vote.vote <> 'both' 
+                and pw_cache_whip.whip_guess <> replace(pw_vote.vote, 'tell', '') 
+                and pw_division.division_id = pw_vote.division_id 
+                and (division_date >= ? and division_date <= ?)
             ", $party, $mpid, $from, $to
         );
         my $rebel_count = $sth->rows;
@@ -292,7 +293,8 @@ sub current_rankings {
             round(100*rebellions/votes_attended,2) as rebellions,
             round(100*votes_attended/votes_possible,2) as attendance
             from pw_mp, pw_cache_mpinfo 
-            where pw_mp.mp_id = pw_cache_mpinfo.mp_id ";
+            where pw_mp.mp_id = pw_cache_mpinfo.mp_id 
+                  and house = 'commons' ";
     my $sth = PublicWhip::DB::query( $dbh, $mps_query_start .
             "and entered_house <= curdate() and curdate() <= left_house");
     if ($sth->rows == 0) {

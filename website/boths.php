@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: boths.php,v 1.8 2005/02/24 21:22:11 frabcus Exp $
+    # $Id: boths.php,v 1.9 2005/07/28 15:33:18 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -28,12 +28,14 @@
         $order = "order by last_name, first_name, constituency, division_date desc, division_number desc";
     }
 
+    # TODO: remember to add title in when doing this for lords
     $db->query("select first_name, last_name, constituency, party, 
         entered_house, left_house, 
         division_number, division_date, division_name from pw_mp,
         pw_division, pw_vote where pw_mp.mp_id = pw_vote.mp_id and
-        pw_division.division_id = pw_vote.division_id and vote =
-        'both' $order");
+        pw_division.division_id = pw_vote.division_id and vote = 'both' 
+        and pw_mp.house = 'commons'
+        $order");
     $count = $db->rows();
 
 ?>

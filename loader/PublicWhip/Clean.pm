@@ -1,4 +1,4 @@
-# $Id: Clean.pm,v 1.8 2005/01/14 08:25:09 theyworkforyou Exp $
+# $Id: Clean.pm,v 1.9 2005/07/28 15:33:18 frabcus Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -224,11 +224,14 @@ division_date, division_number"
     # Check no two MPs were in the same constituency at the same time
     $sth = PublicWhip::DB::query(
         $dbh, "select a.mp_id, b.mp_id, a.entered_house,
-        a.left_house, b.entered_house, b.left_house, a.constituency from
-        pw_mp as a, pw_mp as b where a.constituency = b.constituency and
-        a.mp_id <> b.mp_id and ( (a.entered_house <= b.left_house and
-        a.left_house >= b.entered_house) or (b.entered_house <=
-        a.left_house and b.left_house >= a.entered_house))"
+            a.left_house, b.entered_house, b.left_house, a.constituency 
+        from pw_mp as a, pw_mp as b 
+        where a.constituency = b.constituency
+            and a.mp_id <> b.mp_id 
+            and ( (a.entered_house <= b.left_house and a.left_house >= b.entered_house) 
+                or (b.entered_house <= a.left_house and b.left_house >= a.entered_house))
+            and house = 'commons'
+        "
     );
     PublicWhip::Error::warn(
         "Database contains "
@@ -247,7 +250,10 @@ division_date, division_number"
 
     # Check nobody voted when they were not in the house (e.g. dead)
     $sth = PublicWhip::DB::query( $dbh,
-"select pw_mp.mp_id from pw_vote, pw_mp,pw_division where pw_vote.mp_id = pw_mp.mp_id and pw_vote.division_id = pw_division.division_id and (division_date < entered_house or division_date > left_house)"
+        "select pw_mp.mp_id from pw_vote, pw_mp,pw_division 
+        where pw_vote.mp_id = pw_mp.mp_id 
+            and pw_vote.division_id = pw_division.division_id and 
+            (division_date < entered_house or division_date > left_house)"
     );
     PublicWhip::Error::warn(
         "Database contains "

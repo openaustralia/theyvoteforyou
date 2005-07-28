@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: search.php,v 1.37 2005/05/08 22:06:15 frabcus Exp $
+# $Id: search.php,v 1.38 2005/07/28 15:33:19 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -17,6 +17,7 @@
     include "render.inc";
     include "parliaments.inc";
     require_once "constituencies.inc";
+    require_once "links.inc";
     include "postcode.inc";
 
     $db = new DB(); 
@@ -110,20 +111,18 @@
             print "<table class=\"mps\"><tr
                 class=\"headings\"><td>Date</td><td>Name</td><td>Constituency</td><td>Party</td></tr>\n";
             $prettyrow = 0;
-            while ($row = $db->fetch_row())
+            while ($row = $db->fetch_row_assoc())
             {
                 $prettyrow = pretty_row_start($prettyrow);
-                $anchor = "\"mp.php?firstname=" . urlencode($row[0]) .
-                    "&lastname=" . urlencode($row[1]) . "&constituency=" .
-                    urlencode($row[3]) . "\"";
+                $anchor = "\"mp.php?". link_to_mp($row) . "\"";
 
-                $row[6] = percentise($row[6]);
-                $row[7] = percentise($row[7]);
-
-                print "<td>" . year_range($row[10], $row[11]) . "</td>";
-                print "<td><a href=$anchor>$row[2] $row[0] $row[1]</a></td></td>
-                    <td>$row[3]</td>
-                    <td>" . pretty_party($row[4], $row[8], $row[9]) .  "</td>";
+                print "<td>" . year_range($row['entered_house'], $row['left_house']) . "</td>";
+                print "<td><a href=$anchor>".$row['title']." ".$row['first_name']." ".$row['last_name']."</a></td></td>";
+                if ($row['house'] == 'commons')
+                    print "<td>".$row['constituency']."</td>";
+                else 
+                    print "<td>n/a</td>";
+                print "<td>" . pretty_party($row['party'], $row['entered_reason'], $row['left_reason']) .  "</td>";
                 print "</tr>\n";
             }
             print "</table>\n";

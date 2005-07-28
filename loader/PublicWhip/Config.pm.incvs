@@ -12,5 +12,6 @@ $dbspec = "DBI:mysql:hansard";
 $pwdata = "/home/username/pwdata/";
 $debatepath = $pwdata . "scrapedxml/debates/";
 $fileprefix = "debates";
+$members_location = "/home/username/parlparse/members/";
 
 1;

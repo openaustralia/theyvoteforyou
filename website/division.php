@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.67 2005/07/15 16:57:28 frabcus Exp $
+# $Id: division.php,v 1.68 2005/07/28 15:33:19 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -348,7 +348,8 @@
 							"divno"		=> $divattr["division_number"],
 							"divid"		=> $divattr["division_id"],  # redundant, but the above two are not used by all tables
 							"sortby"	=> $sort,
-							"showwhich" => $dismode["showwhich"]);
+							"showwhich" => $dismode["showwhich"],
+                            "house"     => $divattr["house"]);
 
 
 		if (!$singlemotionpage)

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps-xml.php,v 1.3 2005/01/15 20:38:11 frabcus Exp $
+    # $Id: mps-xml.php,v 1.4 2005/07/28 15:33:19 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -25,7 +25,7 @@
     $last_div_date = $row['division_date'];
 
     $order = "entered_house, last_name, first_name, constituency";
-    $query = "$mps_query_start order by $order";
+    $query = "$mps_query_start and house = 'commons' order by $order";
 
 	$db->query($query);
     while ($row = $db->fetch_row_assoc())

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.22 2005/04/07 08:44:30 theyworkforyou Exp $
+# $Id: pretty.inc,v 1.23 2005/07/28 15:33:19 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -105,9 +105,9 @@ function random_big_word($phrase)
 
 function searchtip_random_mp($db)
 {
-    $row = $db->query_one_row("select first_name, last_name from pw_mp
+    $row = $db->query_one_row("select title, first_name, last_name from pw_mp
         order by rand() desc limit 1");
-    $random_mp = $row[0] . " " . $row[1];
+    $random_mp = trim($row[0] . " " . $row[1] . " " . $row[2]);
     return $random_mp;
 }
 

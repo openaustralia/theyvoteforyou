@@ -1,4 +1,9 @@
 <?php 
+
+# NOT USED YET - this needs demothballing and including
+echo "TODO";
+exit;
+
     $dreamid = intval($_GET["id"]);
     $cache_params = "id=$dreamid";
     include "cache-begin.inc"; 
@@ -104,7 +109,7 @@
     print "<p>Grades MPs acording to how often they voted the same as the dream
     MP.  If, in divisions where both voted, they always voted the same then
     the score is 100%.  If they always voted differently, the score is 0%.";
-    $query = "select first_name, last_name, title, constituency,
+    $query = "select first_name, last_name, title, constituency, house,
         party, pw_mp.mp_id as mp_id,
         entered_reason, left_reason, entered_house, left_house from pw_mp ";
     $query .= " where " . parliament_query_range($parliament);

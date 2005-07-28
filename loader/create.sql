@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.29 2005/07/15 16:57:28 frabcus Exp $
+-- $Id: create.sql,v 1.30 2005/07/28 15:33:18 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -23,15 +23,23 @@
 -- Static tables
 --   those based on Hansard data, which get updated, but not altered by scripts
 
-drop table if exists pw_mp, pw_division, pw_vote, pw_moffice;
+drop table if exists pw_seat, pw_division, pw_vote, pw_moffice;
 
+-- A seat in parliament for a period of time, also changes if party changes.
+-- MPs and Peers are in this table.  The fields originally just stored data
+-- about MPs; they have been overloaded to also store info about Lords
 create table pw_mp (
-    mp_id int not null primary key auto_increment,
-    first_name varchar(100) not null,
-    last_name varchar(100) not null,
-    title varchar(100) not null,
-    constituency varchar(100) not null,
-    party varchar(100) not null,
+    mp_id int not null primary key, -- internal to Public Whip
+
+    gid text not null, -- uk.org.publicwhip/member/123, uk.org.publicwhip/lord/123
+    source_gid text not null, -- global identifier
+    
+    first_name varchar(100) not null, -- Lords: "$lordname" or empty string for "The" lords
+    last_name varchar(100) not null, -- Lords: "of $lordofname"
+    title varchar(100) not null, -- Lords: (The) Bishop / Lord / Earl / Viscount etc...
+    constituency varchar(100) not null, -- Lords: NOT USED
+    party varchar(100) not null, -- Lords: affiliation
+    house enum('commons', 'lords') not null,
 
     -- these are inclusive, and measure days when the mp could vote
     entered_house date not null default '1000-01-01',
@@ -76,11 +84,14 @@ create table pw_division (
 
     division_date date not null,
     division_number int not null,
+    house enum('commons', 'lords') not null,
+
     division_name text not null,
     source_url blob not null, -- exact source of division
     debate_url blob not null, -- start of subsection
     motion blob not null,
     notes blob not null,
+    clock_time text,
 
     source_gid text not null, -- global identifier
     debate_gid text not null, -- global identifier
@@ -92,7 +103,7 @@ create table pw_division (
 
 create table pw_vote (
     division_id int not null,
-    mp_id int not null,
+    gidmp_id int not null,
     vote enum("aye", "no", "both", "tellaye", "tellno") not null,
 
     index(division_id),
