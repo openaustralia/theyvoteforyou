@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.79 2005/07/28 15:33:19 frabcus Exp $
+    # $Id: mp.php,v 1.80 2005/07/29 14:39:25 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -331,7 +331,7 @@
 		# subtext for the vote table
 		if ($dismode["votelist"] == "short" and $voter2type == "party")
 			print "<p>Votes in parliament for which this ".$mpprop['housenoun']."'s vote differed from the
-	        	majority vote of their party (Rebel), or in which this MP was
+	        	majority vote of their party (Rebel), or in which this ".$mpprop['housenoun']." was
 	        	a teller (Teller) or both (Rebel Teller).  \n";
 		else if ($dismode["votelist"] == "every" and $voter2type == "party")
 			print "<p>All votes this MP could have attended. \n";
@@ -421,7 +421,7 @@
 			# slip in a title in the multiperson case
 			if ($voter1attr['bmultiperson'] && ($divtabattr["votedisplay"] != "fullmotion"))
 				print "<tr><td colspan=7 align=left>
-                    <b>Votes by <a href=\"".$mpprop['mpanchor']."\">" .$mpprop["name"]." MP</a></b>
+                    <b>Votes by <a href=\"mp.php?".$mpprop['mpanchor']."\">" .$mpprop["name"]." MP</a></b>
                     </td></tr>\n";
 
 			# long asignment for return value because we're lacking foreach as &
