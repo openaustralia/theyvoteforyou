@@ -1,4 +1,4 @@
-# $Id: Clean.pm,v 1.9 2005/07/28 15:33:18 frabcus Exp $
+# $Id: Clean.pm,v 1.10 2005/07/29 14:47:13 frabcus Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -230,7 +230,8 @@ division_date, division_number"
             and a.mp_id <> b.mp_id 
             and ( (a.entered_house <= b.left_house and a.left_house >= b.entered_house) 
                 or (b.entered_house <= a.left_house and b.left_house >= a.entered_house))
-            and house = 'commons'
+            and a.house = 'commons'
+            and b.house = 'commons'
         "
     );
     PublicWhip::Error::warn(
