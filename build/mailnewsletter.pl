@@ -6,10 +6,10 @@ my $text = "website/newsletters/issue9.txt";
 my $type = "all"; 
 my $test_name = "";
 
-#my $type = "all";
-#my $test_name = "Jo Kibble";
-#my $test_name = "Francis Irving";
-#my $test_name = "Julian Todd";
+#$type = "all";
+#$test_name = "Jo Kibble";
+#$test_name = "Francis Irving";
+#$test_name = "Julian Todd";
 
 my $amount = 1000000;
 

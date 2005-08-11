@@ -25,7 +25,7 @@ cp htaccess-pworg .htaccess
 echo "Changing permissions..."
 chmod -R 0755 .
 
-echo "Deleting remote cache files and db tables..."
+echo "Deleting cache files and db tables..."
 cd ~/publicwhip/build
 ./clear-caches
 
