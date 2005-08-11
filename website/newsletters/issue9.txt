@@ -1,40 +1,143 @@
-PULL YOUR RIGHT MARGINS IN A BIT!!!!!!!!  :set tw 70
+Subject: Public Whip Newsletter #9
 
-Subject: Public Whip Newsletter # - 
- 
-Welcome to the XXXth Public Whip newsletter.
+Welcome to The Public Whip Newsletter number 9.
 
-Inside this issue:
-  * Editorial
-
-  * Site Updates: ""
-  * Feature Article: ""
-  * Project Spotlight: ""
-
-The Public Whip ( http://www.publicwhip.org.uk ) is a project to
-data-mine the record of Members of the United Kingdom Parliament, so
-that you can hold them to account.
-
-***********************************************************************
-Editorial
-
-The weather in Cambridge has gone dull again, so I don't mind much
-that Julian has come down from Liverpool and forced me to work on
-Public Whip for a couple of days.
+We've been busy:
+   - updating dream MPs,
+   - watching the Election.
+   - preparing for the summer recess by
+   - adding the House of Lords
 
 
+   www.publicwhip.org.uk
 
- - Francis, The Public Whip (http://www.publicwhip.org.uk)
 
-***********************************************************************
-Book Review - Revolts and Rebel
+The Election
+------------
 
-***********************************************************************
-- Public Whip and friends in the news
+Over the Election, our traffic doubled, with many people
+looking at detailed voting records on specific issues for
+Cambridge, Manchester Withington and Bristol West - all
+university area seats that unexpectedly swung from Labour.
 
-***********************************************************************
+In April + May (to 10th) Public Whip has had 55,000 unique
+visitors looking at 0.9 million pages. In April + May (to
+18th) TheyWorkForYou has had 160,000 unique visitors looking
+at 1.2 million pages.
+
+Here are the issues you were most interested in:
+    iraq
+    gay rights
+    top-up fees
+    foundation hospitals
+
+The MPs you were most interested in were
+    Anne Campbell, Cambridge
+    George Galloway
+    Tony Blair, Sedgefield
+    Valerie Davey, Bristol West
+    Karen Buck, Regent Park & Kensington N
+    Keith Bradley, Manchester Withington
+
+Where each vote made the most difference, in Cambridge,
+Manchester Withington and Bristol West, the electorate were
+actively looking for their own factual information. With
+sites such as Public Whip and TheyWorkForYou.com
+
+informing the electorate how their sitting MP voted, it
+becomes much easier to confirm a voting record, possibly
+distorted in election leaflets.
+
+Of those people Oona King lost her seat in a high profile,
+vicious contest with George Galloway, Diane Abbot is an MP
+who used PublicWhip to show her real voting record rather
+than the record fabricated by her opponents. Of the top 16
+MPs visited, all were either party leaders, or involved in
+very strong challenges for their seats. Where the election
+was most actively locally (rather than nationally), voters
+looked harder at the voting record of their sitting MP.
+
+
+Changes to publicwhip.org.uk
+----------------------------
+
+We recently recorded our 1,000,000th vote by an MP in our
+database. We've improved your ability to show comparisons
+MPs and your Dream MPs On each Dream MP page there is a
+postcode lookup box, which compares that Constituency's MP
+to a Dream MP. You can copy the HTML and put it on your own
+pages highlighting your own issues.
+
+        http://www.publicwhip.org.uk/dreammp.php?id=230
+
+"3-line whip" has been added for Dream MPs. The phrase comes from
+weekly whipping sheet from party whips to your MPs. It has an
+agenda for the next week , and they underline divisions
+the MP is expected to attend. They triple underline
+divisions that *must* be attended. You can now do this for
+your own Dream MP, highlighting the important divisions and
+giving them more weight when MPs are compared.
+
+RSS feed of interesting divisions. This feed is really
+useful to keep track of what is happening in parliament.
+For more on RSS, see the FAQ http://www.publicwhip.org.uk/faq/
+
+The wiki for motion text now lets you also change division
+titles, giving an easily understandable summary of what is
+being voted on. e.g
+        http://www.publicwhip.org.uk/division.php?date=2005-02-07&number=70
+
+Because a picture equals a thousand words, we now
+have graphics of MP distances from Dream MP on the
+Dream MP pages. You can visually see how an MP compares to
+what you'd ideally like.
+
+Reading information in
+----------------------
+
+PublicWhip and its sister project, TheyWorkForYou.com have
+had a shared Parliamentary Parser. This is the software
+which watches and reads the Parliament website, and updates
+our databases with the latest changes. We've now made it a
+separate project, so it is much clearer what software does
+what, and how it feeds into both PW and TWFY
+http://ukparse.kforge.net
+
+We've updated the FAQ to have more answers about who we are, and
+   * What's your connection with TheyWorkForYou.com?
+   * Are you happy to give interviews about Public Whip?
+   * Do you make any money out of Public Whip?
+   * Have you had any problems what you are doing?
+http://www.publicwhip.org.uk/faq.php
+
+Don't forget our tea room, the forum. Because of internet
+spam, we've made it so you have to log into post - we hope
+you drop by and say hello anyway!  http://www.publicwhip.org.uk/forum
+
+
+Interesting Reading
+-------------------
+
+MP uses TWFY to get answers to wrans
+http://www.theyworkforyou.com/wrans/?id=2005-05-26.916.h
+
+Tony Blair supports our goals
+http://www.theyworkforyou.com/debates/?id=2005-05-25.699.4&s=%22ensuring+that+when+people+are+speaking+in+Parliament%22#g700.2
+
+
+ID card votes
+http://www.no2id.net/mp_votes.php
+
+PeopleFinder using our data
+http://www.1succeeded0failed0skipped.com/PermaLink.aspx?guid=22bd6d81-791b-4b43-8978-f092e3872b2e
+
+
+Until next time, remember: your MPs remain your servants.
+
+The Public Whip team.
+
+-- 
 Why not forward this to a friend now?
-***********************************************************************
 
 Subscribe a new address to this newsletter? Sign up here.
 http://www.publicwhip.org.uk/account/register.php
