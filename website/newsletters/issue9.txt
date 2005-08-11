@@ -76,7 +76,6 @@ your Dream MPs. On each Dream MP page there is a postcode lookup
 box, which compares that Constituency's MP to a Dream MP. You can
 copy the HTML and put it on your own pages highlighting your own
 issues.
-
         http://www.publicwhip.org.uk/dreammp.php?id=230
 
 "3-line whip" has been added for Dream MPs. The phrase comes from
@@ -90,17 +89,19 @@ giving them more weight when MPs are compared.
 RSS ("Really Simple Syndication") of interesting divisions.  This
 feed is really useful to keep track of what is happening in
 parliament.  For more on RSS, see the FAQ
-http://www.publicwhip.org.uk/faq/
+        http://www.publicwhip.org.uk/faq.php#rss
 
-The wiki for motion text now lets you also change division
-titles, giving an easily understandable summary of what is being
-voted on. e.g
+The "edit this" section for motion text now lets you also change
+division titles, giving an easily understandable summary of what
+is being voted on. e.g
         http://www.publicwhip.org.uk/division.php?date=2005-02-07&number=70
+We're also looking for a new name for this feature, suggestions
+welcome.
 
 Because a picture equals a thousand words, we now have graphics
 of MP distances from Dream MP on the Dream MP pages. You can
 visually see how an MP compares to what you'd ideally like.
-http://publicwhip.org.uk/dreammps.php
+        http://publicwhip.org.uk/dreammps.php
 
 Reading information in
 ----------------------
@@ -111,7 +112,7 @@ software which watches and reads the Parliament website, and
 updates our databases with the latest changes. We've now made it
 a separate project, so it is much clearer what software does
 what, and how it feeds into both PW and TWFY
-http://ukparse.kforge.net
+        http://ukparse.kforge.net
 
 We've updated the FAQ to have more answers about who we are, and
    * What's your connection with TheyWorkForYou.com?
@@ -122,7 +123,8 @@ http://www.publicwhip.org.uk/faq.php
 
 Don't forget our tea room, the forum. Because of internet spam,
 we've made it so you have to log into post - we hope you drop by
-and say hello anyway!  http://www.publicwhip.org.uk/forum
+and say hello anyway!  
+        http://www.publicwhip.org.uk/forum
 
 Interesting Reading
 -------------------
@@ -132,17 +134,17 @@ Rebellions", about rebellions and parliamentary voting in Tony
 Blair's first term.
 http://www.publicwhip.org.uk/forum/viewtopic.php?t=59
 
-Tony Blair supports TheyWorkForYou's goals?
-http://www.theyworkforyou.com/debates/?id=2005-05-25.699.4&s=%22ensuring+that+when+people+are+speaking+in+Parliament%22#g700.2
-
 MP uses TheyWorkForYou to get answers to his own written questions
 http://johnhemming.blogspot.com/2005/05/interesting-answer-about-surestart.html
 
 ID card voting record
 http://www.no2id.net/mp_votes.php
 
-PeopleFinder using our data
+Fancy people graphing using our MP data
 http://www.1succeeded0failed0skipped.com/PermaLink.aspx?guid=22bd6d81-791b-4b43-8978-f092e3872b2e
+
+Tony Blair supports TheyWorkForYou's goals?
+http://www.theyworkforyou.com/debates/?id=2005-05-25.699.4&s=%22ensuring+that+when+people+are+speaking+in+Parliament%22#g700.2
 
 And even the red tops like us...
 http://www.thesun.co.uk/article/0,,2-2005211704,00.html
@@ -151,8 +153,8 @@ Until next time, remember: your MP remains your servant.
 
 The Public Whip team.
 
--- 
-Why not forward this to a friend now?
+----------------------------------------------------------------
+Hit REPLY to tell us any thoughts you've had while reading
 
 Subscribe a new address to this newsletter? Sign up here.
 http://www.publicwhip.org.uk/account/register.php
