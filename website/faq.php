@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.47 2005/07/05 15:04:08 frabcus Exp $
+# $Id: faq.php,v 1.48 2005/08/23 16:15:57 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -255,7 +255,7 @@ this sort of work to be public and freely available at no cost.  </p>
 
 <p>We don't have expensive lifestyles.  Francis does IT contract work 
 for various clients including <a href="http://www.mysociety.org">mySociety</a>,
-and Julian is a self-employed programmer of machine tool software.  Francis and
+and Julian is a self-employed programmer of <a href="http://www.freesteel.co.uk/">machine tool software</a>.  Francis and
 Julian first met and worked together in 1997 as employees of <a
 href="http://www.ncgraphics.co.uk">NC Graphics</a>, a machine tool software company in
 Cambridge, before they became enlightened enough to abandon such working
