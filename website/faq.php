@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.48 2005/08/23 16:15:57 frabcus Exp $
+# $Id: faq.php,v 1.49 2005/09/22 09:12:30 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -266,16 +266,16 @@ are far more costly and time consuming than running a webpage.  Just because
 the skills we have used can earn real money in the marketplace doesn't mean it
 has to be difficult and boring.  </p>
 
-<h2><a name="millions">I've just got a job at a company that's been contracted by Parliament for millions of pounds to improve their website and information handling systems.  I don't understand why you have written your software for free in your spare time when I'm paid to do the same thing.</a></h2>
+<h2><a name="millions">I've just got a job at a company that's been contracted
+by Parliament, or some other organisation, to process Parliamentary data.  I
+don't understand why you have written your software for free in your spare time
+when I'm paid to do the same thing.</a></h2>
 
-<p>Neither do we.  From what we can tell, the government's system for procuring
-software gives, shall we say, somewhat suboptimal results.  It's one of our
-ambitions to be a notable embarrassment to the business professionals who are
-capable of blowing whole pots of public money on software projects that don't
-work.  To date, we have never been approached by anyone for technical advice on
-how to solve some of the problems we have encountered during the development of
-our software.  We can't understand this, because if we had their job we would
-be the first people we would contact before writing a single line of code.</p>
+<p>Neither do we.  Often, systems for procuring software give, shall we say,
+somewhat suboptimal results.  We'd like less public money to be blown on
+software projects that don't work.  If you work for such a company, we'd be
+honoured if you approached us for technical advice on how to solve some of the
+problems we have encountered during the development of our software.  
 
 <p>Sometimes programmers who work in corporations exist in a state of fear and
 feel that if they speak to anyone on the outside of the organization they will
@@ -285,7 +285,6 @@ speak to us.  We have posted up everything we know on <a
 href="http://ukparse.kforge.net/parlparse">Parliament Parse</a>.  If there's
 anything we're missing which you'd like to see there, drop us a line or post
 onto the forum anonymously.</p>
-
 
 <h2><a name="officials">Have you had any problems from MPs or other officials with what you are doing?</a></h2>
 
