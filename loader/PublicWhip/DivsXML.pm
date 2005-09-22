@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.7 2005/07/28 15:49:41 frabcus Exp $
+# $Id: DivsXML.pm,v 1.8 2005/09/22 09:12:35 theyworkforyou Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Loads divisions from the XML files made by pyscraper into
@@ -21,6 +21,7 @@ use Unicode::String qw(utf8 latin1 utf16);
 
 our $toppath    = $ENV{'HOME'} . "/pwdata/";
 
+our $cursuffix;
 our $curdate;
 our $dbh;
 
@@ -32,6 +33,8 @@ our $lastheadinggid;
 
 our $divisions_changed;
 
+our $in_latest_file = 0;
+
 sub read_xml_files {
     $dbh = shift;
     my $from = shift;
@@ -41,6 +44,7 @@ sub read_xml_files {
 
     my $twig = XML::Twig->new(
         twig_handlers => {
+            'publicwhip'    => \&publicwhip,
             'division'      => \&loaddivision,
             'major-heading' => \&storemajor,
             'minor-heading' => \&storeminor,
@@ -51,8 +55,9 @@ sub read_xml_files {
 
     opendir DIR, $PublicWhip::Config::debatepath or die "Cannot open $PublicWhip::Config::debatepath: $!\n";
     while ( my $file = readdir(DIR) ) {
-        if ( $file =~ m/^$PublicWhip::Config::fileprefix(\d\d\d\d-\d\d-\d\d).xml$/ ) {
+        if ( $file =~ m/^$PublicWhip::Config::fileprefix(\d\d\d\d-\d\d-\d\d)([a-z]*).xml$/ ) {
             $curdate = $1;
+            $cursuffix = $2;
             if ( ( $curdate ge $from ) and ( $curdate le $to ) ) {
                 PublicWhip::Error::log( "Processing XML divisions", $curdate, ERR_USEFUL );
                 $lastmajor      = "";
@@ -60,7 +65,7 @@ sub read_xml_files {
                 $lastmotiontext = "";
                 $lastheadingurl = "";
                 $lastheadinggid = "";
-                $twig->parsefile( $PublicWhip::Config::debatepath . "$PublicWhip::Config::fileprefix" . $curdate . ".xml" );
+                $twig->parsefile( $PublicWhip::Config::debatepath . "$PublicWhip::Config::fileprefix" . $curdate . $cursuffix . ".xml" );
             }
         }
     }
@@ -86,8 +91,19 @@ sub array_difference {
     return \@difference;
 }
 
+sub publicwhip {
+    my ( $twig, $publicwhip ) = @_;
+    if ($publicwhip->att('latest') && $publicwhip->att('latest') eq "yes") {
+        $in_latest_file = 1;
+    } else {
+        $in_latest_file = 0;
+    }
+}
+
+
 sub storeminor {
     my ( $twig, $minor ) = @_;
+    return if !$in_latest_file;
 
     my $t = $minor->sprint(1);
 
@@ -99,6 +115,8 @@ sub storeminor {
 
 sub storemajor {
     my ( $twig, $major ) = @_;
+    return if !$in_latest_file;
+
     my $t = $major->sprint(1);
 
     # Ignore capital "DEFERRED DIVISION" headings, as they are
@@ -125,6 +143,7 @@ sub storemajor {
 
 sub storemotion {
     my ( $twig, $p ) = @_;
+    return if !$in_latest_file;
 
     if ( $p->att('pwmotiontext') ) {
         $lastmotiontext .= $p->sprint(0);
@@ -172,6 +191,7 @@ sub fix_case_part {
 
 sub loaddivision {
     my ( $twig, $div ) = @_;
+    return if !$in_latest_file;
 
     # Makes heading
 
