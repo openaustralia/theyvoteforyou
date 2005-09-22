@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.49 2005/09/22 09:12:30 frabcus Exp $
+# $Id: faq.php,v 1.50 2005/09/22 09:23:49 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -34,8 +34,10 @@ $paddingforanchors = true; $title = "Frequently Asked Questions"; include "heade
 <li><a href="#interviews">Are you happy to give interviews about Public Whip?</a> <br/>
 <li><a href="#money">Do you make any money out of Public Whip?</a> <br/>
 <li><a href="#living">How do you earn enough to make a living?</a> <br/>
-<li><a href="#millions">I've just got a job at a company that's been contracted by Parliament for millions of pounds ...</a> <br/>
-<li><a href="#officials">Have you had any problems from MPs or other officials with what you are doing?</a> <br/>
+<li><a href="#millions">I've just got a job at a company that's been contracted
+... to process Parliamentary data ...</a>
+<br/>
+<li><a href="#officials">Have you had any problems from MPs or other politicians with what you are doing?</a> <br/>
 
 <br>
 <li><a href="#rss">Are there any RSS syndication feeds?</a> <br/>
@@ -286,7 +288,7 @@ href="http://ukparse.kforge.net/parlparse">Parliament Parse</a>.  If there's
 anything we're missing which you'd like to see there, drop us a line or post
 onto the forum anonymously.</p>
 
-<h2><a name="officials">Have you had any problems from MPs or other officials with what you are doing?</a></h2>
+<h2><a name="officials">Have you had any problems from MPs or other politicians with what you are doing?</a></h2>
 
 <p>Mostly they ignore us.  If anyone in power has had an objection to what we
 are doing, they have kept it to themselves.  As a rule, politicians must
