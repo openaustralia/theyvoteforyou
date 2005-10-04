@@ -10,31 +10,32 @@ BODY
 }
 A:link, A:active, A:visited
 {
-    TEXT-DECORATION: underline
+    TEXT-DECORATION: underline;
+    COLOR: #990000
+}
+A:link:hover, A:active:hover, A:visited:hover
+{
+    TEXT-DECORATION: underline;
 }
 TABLE.mps A:link, TABLE.mps A:active, TABLE.mps A:visited,
 TABLE.votes A:link, TABLE.votes A:active, TABLE.votes A:visited,
 TABLE.divisions A:link, TABLE.divisions A:active, TABLE.divisions A:visited,
 TABLE.edits A:link, TABLE.edits A:active, TABLE.edits A:visited
 {
-    TEXT-DECORATION: none
+    TEXT-DECORATION: none;
 }
-A:link, A:active, A:visited
+TABLE.mps A:link:hover, TABLE.mps A:active:hover, TABLE.mps A:visited:hover,
+TABLE.votes A:link:hover, TABLE.votes A:active:hover, TABLE.votes A:visited:hover,
+TABLE.divisions A:link:hover, TABLE.divisions A:active:hover, TABLE.divisions A:visited:hover,
+TABLE.edits A:link:hover, TABLE.edits A:active:hover, TABLE.edits A:visited:hover
 {
-    COLOR: #990000
-}
-A:link:hover, A:active:hover, A:visited:hover
-{
-    BACKGROUND-IMAGE: none;
-    COLOR: #990000;
-    BACKGROUND-REPEAT: repeat;
-    BACKGROUND-COLOR: #bbbbbb;
+    TEXT-DECORATION: underline;
 }
 H1
 {
-    MARGIN-TOP: 0.2em;
+    MARGIN-TOP: 0.4em;
     FONT-SIZE: 140%;
-    MARGIN-BOTTOM: 0.2em;
+    MARGIN-BOTTOM: 0.0em;
     COLOR: #003300;
     TEXT-ALIGN: left
 }
@@ -249,32 +250,6 @@ TABLE TD.important
     FONT-WEIGHT: bold;
     FONT-STYLE: italic
 }
-.newsdate
-{
-    FONT-SIZE: 100%;
-    FONT-STYLE: italic
-}
-LI.newsheadlines
-{
-    PADDING-RIGHT: 0px;
-    PADDING-LEFT: 0px;
-    PADDING-BOTTOM: 0px;
-    MARGIN: 0px;
-    PADDING-TOP: 0px
-}
-LI.newsheadlines:hover
-{
-    BACKGROUND: #bbbbbb;
-    COLOR: #990000;
-}
-UL.newsheadlines
-{
-    PADDING-RIGHT: 1em;
-    PADDING-LEFT: 2em;
-    PADDING-BOTTOM: 1em;
-    MARGIN: 0px;
-    PADDING-TOP: 1em
-}
 .motion
 {
     BACKGROUND-COLOR: #eeeeee
@@ -336,7 +311,7 @@ TABLE.votetab TD.majority
     BACKGROUND-COLOR: #003300;
     COLOR: #FFFFFF;
 }
-.pagetitlebar
+.pagesecondnavlinks
 {
     BACKGROUND-COLOR: #cccccc;
 }
@@ -391,6 +366,31 @@ IMG
 .headers TD
 {
     BORDER-BOTTOM: #003300 1px solid
+}
+.secondheaders A
+{
+    PADDING-RIGHT: 6px;
+    PADDING-LEFT: 6px;
+    COLOR: #000000;
+    BACKGROUND-COLOR: transparent
+}
+.secondheaders A:link, .secondheaders A:visited, .secondheaders A:active
+{
+    COLOR: #000000;
+    BACKGROUND-COLOR: transparent;
+    TEXT-DECORATION: none
+}
+.secondheaders A:hover
+{
+    COLOR: #000000;
+    BACKGROUND-COLOR: transparent;
+    TEXT-DECORATION: underline
+}
+.secondheaders TD
+{
+    BORDER-BOTTOM: #003300 1px solid
+}
+.secondheaders A.on {
 }
 /* Inner HTML paragraph classes from the written answer XML files */
 P.askedtoreply

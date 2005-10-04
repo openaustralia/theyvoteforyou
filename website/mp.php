@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.80 2005/07/29 14:39:25 frabcus Exp $
+    # $Id: mp.php,v 1.81 2005/10/04 15:56:59 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -205,22 +205,17 @@
 		$title = "Voting Record - ".$mpprop['housenounplural']." ".$contitlefor;
 	else
 		$title = "Voting Record - ".$mpprop['name']." ".$mpprop['housenamesuffix'].$contitlecomma;
-    include "header.inc";
 
     # make list of links to other display modes
-    $leadch = "<p>"; # get those bars between the links working
+    $second_links = array();
     foreach ($dismodes as $ldisplay => $ldismode)
     {
-        print $leadch;
         $leadch = " | ";
         $dlink = "href=\"$thispage".($ldisplay != "summary" ? "&display=$ldisplay" : "")."\"";
-        if ($ldisplay == $display)
-            print $ldismode["description"];
-        else
-            print "<a $dlink>".$ldismode["description"]."</a>";
+        array_push($second_links, "<a $dlink class=\"".($ldisplay == $display ? "on" : "off")."\">".$ldismode["description"]."</a>");
     }
 
-    print "</p>\n";
+    include "header.inc";
 ?>
 
 <?

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.69 2005/10/04 15:40:33 goatchurch Exp $
+# $Id: division.php,v 1.70 2005/10/04 15:56:59 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -100,8 +100,6 @@
 		if ($div2invert)
 			$title .= " (inverted)";
 	}
-	include "header.inc";
-
 
 	# constants
 	$dismodes = array();
@@ -177,18 +175,15 @@
 	}
 	$tpdisplay = ($display == "summary" ? "" : "&display=$display");
 	$tpsort = ($sort == "party" ? "" : "&sort=$sort");
-	$leadch = "<p>"; # get those bars between the links working
+    $second_links = array();
     foreach ($dismodes as $ldisplay => $ldismode)
 	{
-		print $leadch;
-		$leadch = " | ";
-		$dlink = $thispage.($ldisplay == "summary" ? "" : "&display=$ldisplay").$tpsort;
-        if ($ldisplay == $display)
-			print $ldismode["description"];
-        else
-            print "<a href=\"$dlink\">".$ldismode["description"]."</a>";
+        $dlink = $thispage.($ldisplay == "summary" ? "" : "&display=$ldisplay").$tpsort;
+        array_push($second_links, "<a class=\"".($ldisplay == $display ? "on" : "off")."\" href=\"$dlink\">".$ldismode["description"]."</a>");
 	}
 
+    # Display title and second nav links
+	include "header.inc";
 
 	# Dream MP voting feature
 	if ($divattr2 == "none" and user_isloggedin())
@@ -197,17 +192,13 @@
 	# Summary
 	if ($dismode["summarytext"])
     {
-    	print "<h2>Summary</h2>";
-
         $query = "SELECT sum(vote = 'aye') AS ayes,
 						 sum(vote = 'no')  AS noes,
 						 sum(vote = 'both') AS boths,
 						 sum(vote = 'tellaye' or vote = 'tellno') AS tellers
 				  FROM pw_vote WHERE division_id = $div_id";
 		$row = $db->query_one_row_assoc($query);
-        print "<br>On ".$divattr['prettydate'].", $turnout MPs voted in division no. $div_no in the House of Commons.
-            <br>Subject was '$name'
-            <br>Votes were ".$row["ayes"]." aye, ".$row["noes"]." no, ".$row["boths"]." both, ".$row["tellers"]." tellers.
+        print "<br>$turnout votes were: ".$row["ayes"]." aye, ".$row["noes"]." no, ".$row["boths"]." both, ".$row["tellers"]." tellers.
             There " . make_plural($rebellions, "was", "were") . " $rebellions " . make_plural($rebellions, "rebellion"). " against majority party vote.";
 
         $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
@@ -237,8 +228,7 @@
 	            This is for guidance only, irrelevant text may be shown, crucial text may be missing.
 	            </p>";
 	        } else {
-	            print "<p>Result of the motion in a human readable form, as judged by
-	            our team of self-appointed experts.</p>";
+	            print "<p>Result of the motion in a human readable form, as judged by people like you.</p>";
 	        }
 	        print "<div class=\"motion\">" . extract_motion_text_from_wiki_text($motion_data['text_body']); # TODO: validate this text_body
 	        print "</div>\n";

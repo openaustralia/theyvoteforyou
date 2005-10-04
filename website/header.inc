@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.54 2005/07/06 16:40:58 frabcus Exp $
+# $Id: header.inc,v 1.55 2005/10/04 15:56:59 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -63,7 +63,7 @@ Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
 <td class="searchtitlebar" align="right" valign="middle">
 <form class="searchtitlebarform" action="search.php" name=pw>
 Search or Postcode:
-<input maxLength=256 size=12 name=query value=""> <input type=submit value="Go" name=button>
+<br><input maxLength=256 size=12 name=query value=""> <input type=submit value="Go" name=button>
 </form>
 </td>
 </tr>
@@ -89,10 +89,24 @@ Search or Postcode:
 </td>
 </tr>
 
-<!-- the title bar -->
-<tr><td class="pagetitlebar" colspan="2"><h1><? print $title ?></h1></td></tr>
+<!-- the second tier navigation -->
+<? if ($second_links) { ?>
+<tr class="secondheaders">
+<td class="pagesecondnavlinks" colspan="2">
+<?
+    foreach ($second_links as $this_link) {
+        print " ";
+        if (stristr($this_link, '"on"')) {
+            $this_link = str_replace('">', '"><img src="secondnavarrow.gif" alt="&gt;">', $this_link);
+        }
+        print $this_link;
+    }
+?>
+</td>
+</tr>
+<? } ?>
 
 <!-- the rest of the content -->
 <tr><td colspan="2">
 
-
+<h1><? print $title ?></h1>
