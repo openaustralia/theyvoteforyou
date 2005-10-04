@@ -1,7 +1,7 @@
 BODY
 {
     MARGIN-TOP: 0.5em;
-    FONT-SIZE: 70%;
+    FONT-SIZE: 100%;
     BACKGROUND: #ffffff;
     MARGIN-BOTTOM: 0.5em;
     COLOR: #000000;
@@ -49,7 +49,7 @@ H2
 H3
 {
     MARGIN-TOP: 1em;
-    FONT-SIZE: 100%;
+    FONT-SIZE: 110%;
     MARGIN-BOTTOM: 0em;
     COLOR: #003300;
     TEXT-ALIGN: left
