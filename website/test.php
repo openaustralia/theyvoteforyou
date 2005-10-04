@@ -2,7 +2,7 @@
 #require_once "common.inc";
 #include "account/user.inc";
 
-#phpinfo();
+phpinfo();
 
 include "DifferenceEngine.inc";
 

@@ -25,9 +25,9 @@
     $title = "Policies";
     include "header.inc";
 ?>
-<p>Policies are stated positions on a particular issue. For example "Ban fox
-hunting", or "Don't attack Iraq". Each policy has a definition and a way to
-vote in relevant divisions in parliament.
+<p>Policies are stated positions on a particular issue. For example "Privatise
+the NHS", or "Join the Euro". Each policy has a definition and a way to
+vote in relevant divisions in Parliament.
  
    <p><a href="account/addpolicy.php">Make a new policy
    <br><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=1">Discuss policies on our forum</a>
