@@ -26,7 +26,7 @@
     include "header.inc";
 ?>
 <p>Policies are stated positions on a particular issue. For example "Ban fox
-hunting", or "Don't attack Iraq". Each policy has a description and a way to
+hunting", or "Don't attack Iraq". Each policy has a definition and a way to
 vote in relevant divisions in parliament.
  
    <p><a href="account/addpolicy.php">Make a new policy
@@ -39,10 +39,9 @@ vote in relevant divisions in parliament.
     ?>
     </a>
 
-   <p>This table shows who made each policy, what they stand for, and how many
-   times they have "voted".  Click on their name to get a comparison of a policy
-   to all MPs.  </p>
-   <p><b>You can get a policy to the top by editing and
+   <p>This table summarises all policies, including how many times they have
+   "voted".  Click on their name to get a comparison of a policy to all MPs.
+   <b>You can get a policy to the top by editing and
    correcting motion text for its divisions.</b> </p>
 <?php
 
@@ -66,8 +65,7 @@ vote in relevant divisions in parliament.
         <td>Voted</td>
         <td>Motions Edited</td>
         <td>Name</td>
-        <td>Made by</td>
-        <td>Description</td>
+        <td>Definition</td>
         <!--<td>MP Dists</td>-->
         </tr>";
 
@@ -79,19 +77,10 @@ vote in relevant divisions in parliament.
         $prettyrow = pretty_row_start($prettyrow);
         $dreamid = $row['dream_id'];
 
-        if (user_isloggedin())
-            $your_dmp = ($row['user_id'] == user_getid());
-        else
-            $your_dmp = false;
-
         print "<td>" . $row['count'] . "</td>\n";
         print "<td>" . percentise($row['motions_percent']) . "</td>";
         print "<td><a href=\"policy.php?id=$dreamid\">" . soft_hyphen($row['name'],25) . "</a></td>";
-        print "<td>" . html_scrub($row['user_name']) . "</td>";
         print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 150);
-        if ($your_dmp) {
-            print " [<a href=\"account/editpolicy.php?id=$dreamid\">Edit...</a>]";
-        }
         print "</td>";
         #print "<td>0&nbsp;<img src=\"dreamplot.php?id=$dreamid\">&nbsp;1";
         #print "</td>\n";

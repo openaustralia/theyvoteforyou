@@ -49,7 +49,7 @@
     $title = "'" . html_scrub($dmp_name) . "' - Policy";
     include "header.inc";
 
-    print "<div class=\"tableexplain\">";
+    print "<div class=\"tabledreambox\">";
     print '<h2><a name="compare">Compare to Your MP</a></h2><p>';
     print dream_box($dreamid, $dmp_name);
     print '<p>Why not <a href="#dreambox">add this to your own website?</a>';
@@ -72,7 +72,8 @@
 
     print "<h2><a name=\"divisions\">Divisions Selected</a></h2>
     <p>Divisions which have been selected for this policy.";
-    print " <b>$dmp_votes_count</b> votes, of which <b>$dmp_edited_count</b> have edited motion text.";
+    if ($dmp_votes_count)
+        print " <b>$dmp_votes_count</b> votes, of which <b>$dmp_edited_count</b> have edited motion text.";
 
     print "<table class=\"divisions\">\n";
 	$divtabattr = array(
@@ -84,16 +85,11 @@
 	division_table($db, $divtabattr);
     print "</table>\n";
 
-    if ($your_dmp)
-    {
-        print "You need to select which votes support your policy.
-        To do this <a href=\"search.php\">search</a> or <a
-        href=\"divisions.php\">browse</a> for divisions.  On the page for each
-        division you can choose how someone supporting your policy would have
-        voted.  Only vote on divisions which are relevant to your policy.";
-
-    }
-
+/*    print "You need to select which votes support your policy.
+    To do this <a href=\"search.php\">search</a> or <a
+    href=\"divisions.php\">browse</a> for divisions.  On the page for each
+    division you can choose how someone supporting your policy would have
+    voted.  Only vote on divisions which are relevant to your policy."; */
 
     print "<h2><a name=\"comparison\">Comparison to MPs</a></h2>";
 

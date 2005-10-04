@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.9 2005/10/04 19:43:20 frabcus Exp $
+# $Id: divisionvote.inc,v 1.10 2005/10/04 19:52:04 frabcus Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -26,7 +26,7 @@
             $submit=mysql_escape_string($_POST["submit"]);
 
             print "<div class=\"tabledream\">";
-            print "<span class=\"ptitle\">Policy</span>";
+            print "<span class=\"ptitle\">Policy Votes</span>";
 
 			$qrdiv = "pw_dyn_dreamvote.division_date = '".$divattr["division_date"]."'
 					   AND pw_dyn_dreamvote.division_number = '".$divattr["division_number"]."'";
@@ -40,7 +40,7 @@
 					  WHERE NOT private OR user_id = '".user_getid()."'
                       ORDER BY private";
 
-            print "<p>Vote in this division for your dream MPs.</p>";
+            print "<p>Select this division as relevant to a policy.</p>";
 			if ($bdebug == 1)
 				print "<h2>$query</h2>";
 

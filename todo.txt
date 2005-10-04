@@ -1,5 +1,13 @@
+Log stuff that has been edited
+
+Go through login stuff and make better
+ - go back to where you were after login
+ - highlight form by default
+
 Motion text editing
 -------------------
+
+Use proper joins in wiki text table rather than CONCAT
 
 Say more clearly that things are edited
     - what has and has not been edited?
@@ -26,23 +34,14 @@ Database patches:
     pw_dyn_dreamvote.vote should be NOT NULL
     Remove division_id
 
-Wiki the title
-
 Rewrite description of formula
-
-Show recent changes to Wiki pages
 
 Do a big usability thing - get Tom L to help with his ideas
 Make log file stats daily to see what happens as you subtly change links
 Controversial: Remove cluster map, Remove division attendance
 
-Tidy up patent page, maybe have banner
-
 Use sams new stuff of data dumps, and get rid of the votematrix CSV files -
 or make sure they are updated.
-
-General Election
-    Write letter to new MPs to tell them about the Public Whip
 
 Backup dynamic database on cron job (newsletter does this OK for now)
 
