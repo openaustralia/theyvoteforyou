@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-tools.inc,v 1.18 2005/10/04 19:22:44 frabcus Exp $
+# $Id: cache-tools.inc,v 1.19 2005/10/04 19:43:20 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -30,10 +30,10 @@ function account_navbar() {
         $ret .= '</a> ';
         $ret .= '<a title="Chat with other users" href="/forum">Forum</a> ';
     } else {
-        $ret .= '<a title="Register to get a newsletter or make a Dream MP" href="/account/register.php">';
+        $ret .= '<a title="Register to get a newsletter or make/edit policies" href="/account/register.php">';
         $ret .= "Signup";
         $ret .= '</a> ';
-        $ret .= '<a title="Login to edit your Dream MPs or change your newsletter settings" href="/account/settings.php">';
+        $ret .= '<a title="Login to edit policies or change your newsletter settings" href="/account/settings.php">';
         $ret .= "Login";
         $ret .= '</a> ';
         $ret .= '<a title="Chat with other users" href="/forum">Forum</a>';

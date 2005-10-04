@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.84 2005/10/04 19:22:44 frabcus Exp $
+    # $Id: mp.php,v 1.85 2005/10/04 19:43:20 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -157,8 +157,8 @@
 								 "defaultparl" => "recent");
 
 		$dismodes["alldreams"] = array("dtype"	=> "alldreams",
-								 "description" => "All dream comparisons",
-								 "dreamcompare"	=> "all",
+								 "description" => "Policy comparisons",
+								 "dreamcompare"	=> "public",
 								 "defaultparl" => "all");
 	}
 
@@ -311,7 +311,7 @@
     {
 		# title for the vote table
 	    if ($voter2type == "dreammp")
-	        $vtitle = ""; #Votes chosen by '".$voter2attr['name']."' Dream MP";
+	        $vtitle = ""; #Votes chosen by '".$voter2attr['name']."' Policy";
 		else if ($voter2type == "person")
 			$vtitle = "Votes compared to ".$voter2attr["mpprop"]['name']." MP";
 		else if ($dismode["votelist"] == "short")
@@ -331,28 +331,24 @@
 		else if ($dismode["votelist"] == "every" and $voter2type == "party")
 			print "<p>All votes this MP could have attended. \n";
 		else if ($voter2type == "dreammp") {
-			print "<p><b>Explanation:</b> Shows all votes on the issue '<a href=\"$voter2link\">".
+			print "<p><b>Explanation:</b> Shows all votes on the policy '<a href=\"$voter2link\">".
 				html_scrub($voter2attr['name']).
 				"</a>', and how <a href=\"$voter1link\">";
 			if ($voter1attr["bmultiperson"])
 				print "MPs for ".$mpprop['constituency'];
 			else
 				print $mpprop['name'];
-            print "</a> voted on them.  The issue is represented by a 'Dream MP',
-                                that is to say an imaginary MP who only voted on this issue, and
-                                who voted a certain way on it. ";
+            print "</a> voted on them.";
 			if ($voter1attr["bmultiperson"])
-                print "The voting record of the real MPs is compared to the
-                voting record of the Dream MP.";
+                print "The voting record of the MPs is compared to the
+                votes selected for the policy.";
             else
                 print html_scrub($mpprop['name']) .
-                    "'s voting record is compared to the voting record of the Dream MP.";
-            print " You can think of the Dream MP
-                as representing a whips' office on behalf of the issue.";
+                    "'s voting record is compared to the votes selected for the policy.";
 
             # list of all MPs being displayed
             if ($dismode["multimpterms"]) {
-                print "<p>These MPs for " . $mpprop['constituency'] . " are compared to the Dream MP, according to which held the seat at the time of each vote.";
+                print "<p>These MPs for " . $mpprop['constituency'] . " are compared to the policy, according to which held the seat at the time of each vote.";
                 seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], ($all_same_cons ? false : true), false, $thispagesettings);
             }
 
@@ -439,7 +435,7 @@
             	print "<p>Value is meaningless for a table of more than one MP.</p>";
 			else
 			{
-				print "<p>This MP is scored against the Dream MP,
+				print "<p>This MP is scored against the policy,
 					   coming up with a 'voting distance' between them.  The voting distance is
 					   between 0.0 and 1.0. Here is how we calculate the score.</p>\n";
 				# sum up the arrays
@@ -519,21 +515,20 @@
 <?php
 	if ($dismode["dreamcompare"])
 	{
-		print "<h2><a name=\"dreammotions\">Dream MP Comparisons</a></h2>";
-	    print "<p>Votes on motions chosen by a Dream MP.  A selected list which can
-	        be used to find what an MP stands for. Email us if you think your Dream
-	        MP is appropriate to include here.";
+		print "<h2><a name=\"dreammotions\">Policy Comparisons</a></h2>";
 	    print "<table class=\"mps\">\n";
 	    print "<tr class=\"headings\">
 	        <td>Votes</td>
 	        <td>Made by</td>
-	        <td>Dream MP</td>
+	        <td>Policy</td>
 	        <td>Description</td>
 	        </tr>";
 
 	    $prettyrow = 0;
         if ($dismode["dreamcompare"] == "all")
             $db->query(get_top_dream_query(null));
+        else if ($dismode["dreamcompare"] == "public")
+            $db->query(get_top_dream_query(-1));
         else
             $db->query(get_top_dream_query(8));
 	    $dreams = array();

@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: register.php,v 1.18 2005/02/18 12:21:37 frabcus Exp $
+# $Id: register.php,v 1.19 2005/10/04 19:43:20 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -27,7 +27,7 @@ if ($submit) {
 	$ok = user_register($user_name,$password1,$password2,$email,$real_name);
 }
 
-$title = "Sign up for Newsletter, Forum and Dream MP"; 
+$title = "Sign up for Newsletter, Forum and Policies"; 
 include "../header.inc";
 
 if ($feedback) {
@@ -48,9 +48,9 @@ else
     a confirmation email.  You will then receive the Public
     Whip newsletter, which will be at most once a month.
     Occasionally we will send an extra small topical newsletter.
-    You will also be able to make your own Dream MPs.  After
+    You will also be able to make/edit policies.  After
     signing up you can unsubscribe from the newsletter, but still
-    make Dream MPs.";
+    make/edit policies.";
     print "<p><a href=\"../newsletters/archive.php\">Read archive of previous newsletters</a>";
     print "<br><a href=\"settings.php\">Log in to change settings if you already signed up</a>";
     
@@ -83,12 +83,11 @@ if (!$ok)
     Your email address and info will never be given to or sold to third
     parties.  We will only send you the Public Whip newsletter, or 
     other occasional messages about the Public Whip.  Your login will
-    also give you access to the Dream MP feature, the ability to edit
-    motion text and will display your user name on your postings in the forum.
-    In the future it may give you access to other free services on the Public
-    Whip website.  Any changes to this policy will require your explicit
-    agreement.
-    <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Sign Up For Newsletter and Dream MP">
+    also let you edit policies, motion text and will display your user name on
+    your postings in the forum.  In the future it may give you access to other
+    free services on the Public Whip website.  Any changes to this policy will
+    require your explicit agreement.
+    <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Sign Up For Newsletter and Policies">
     </FORM>
 <?php
 }

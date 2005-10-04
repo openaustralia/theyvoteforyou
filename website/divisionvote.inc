@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.8 2005/10/04 19:22:44 frabcus Exp $
+# $Id: divisionvote.inc,v 1.9 2005/10/04 19:43:20 frabcus Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -26,7 +26,7 @@
             $submit=mysql_escape_string($_POST["submit"]);
 
             print "<div class=\"tabledream\">";
-            print "<span class=\"ptitle\">Dream MP</span>";
+            print "<span class=\"ptitle\">Policy</span>";
 
 			$qrdiv = "pw_dyn_dreamvote.division_date = '".$divattr["division_date"]."'
 					   AND pw_dyn_dreamvote.division_number = '".$divattr["division_number"]."'";

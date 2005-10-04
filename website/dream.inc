@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.29 2005/10/04 19:22:44 frabcus Exp $
+# $Id: dream.inc,v 1.30 2005/10/04 19:43:20 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -311,9 +311,11 @@ function get_top_dream_query($count) {
     $query = "select name, pw_dyn_dreammp.dream_id, votes_count as count,
         round(100 * edited_motions_count / votes_count, 0) as motions_percent
         from pw_dyn_dreammp, pw_cache_dreaminfo where
-            pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id and votes_count > 0
-            order by motions_percent desc, edited_motions_count desc, votes_count desc";
-    if ($count)
+            pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id and votes_count > 0";
+    if ($count == -1)
+        $query .= " and not private";
+    $query .= " order by motions_percent desc, edited_motions_count desc, votes_count desc";
+    if ($count > 0)
         $query .= " limit $count";
     return $query;
 }

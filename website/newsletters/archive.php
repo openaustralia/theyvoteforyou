@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: archive.php,v 1.10 2005/07/28 23:00:55 frabcus Exp $
+# $Id: archive.php,v 1.11 2005/10/04 19:43:20 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -67,7 +67,7 @@ if ($issue == 0 and $extra == 0 and $dream == 0)
 ?><p>This is the archive of old issues of the Public Whip newsletter.  At most
 every month we'll email you with news, articles and comment about the project.
 Occasionally we will send an extra small topical newsletter.  Also in the
-archive are occasional mailings we send to anyone who has made a Dream MP.
+archive are occasional mailings we send to anyone who has made a policy or Dream MP.
 <p>
 <?
     if (!user_isloggedin())  {

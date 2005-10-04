@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.30 2005/10/04 19:22:44 frabcus Exp $
+# $Id: tablemake.inc,v 1.31 2005/10/04 19:43:20 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -221,7 +221,7 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
                 $roleclass = "rebel";
                 $votedesc = "disagree";
                 $dismetric[($vote2line3 ? "disagree3" : "disagree")]++;
-                $votedesclong = "MP rebelled against Dream MP";
+                $votedesclong = "MP rebelled against Policy";
             }
         }
 
@@ -231,7 +231,7 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
             $roleclass = "teller";  # green
             $votedesc = "agree";
             $dismetric[($vote2line3 ? "agree3" : "agree")] += 1;
-            $votedesclong = "MP loyal to Dream MP";
+            $votedesclong = "MP loyal to Policy";
         }
     }
 
@@ -410,7 +410,7 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
 
     # Dream MP's vote
     if ($vote2 != "")
-        writepersonvote($lnrows, "", "DreamMP", $vote2, $ayecla, $nocla);
+        writepersonvote($lnrows, "", "Policy", $vote2, $ayecla, $nocla);
 
     # votes of rest of parties (a rather poor way to put it together)
     $party = $voter1['party'];

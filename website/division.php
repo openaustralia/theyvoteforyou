@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.72 2005/10/04 19:22:44 frabcus Exp $
+# $Id: division.php,v 1.73 2005/10/04 19:43:20 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -433,32 +433,32 @@
 
 
 	# Show Dream MPs who voted in this division and their votes
-        $db->query("select name, pw_dyn_dreammp.dream_id, vote, user_name from pw_dyn_dreammp, pw_dyn_dreamvote, pw_dyn_user
-            where pw_dyn_dreamvote.dream_id = pw_dyn_dreammp.dream_id and
-            pw_dyn_user.user_id = pw_dyn_dreammp.user_id and
-            pw_dyn_dreamvote.division_date = '$date' and pw_dyn_dreamvote.division_number = '$div_no' ");
-        if ($db->rows() > 0)
-        {
-            $prettyrow = 0;
-            print "<h2><a name=\"dreammp\">Dream MP Voters</a></h2>";
-            print "<p>The following Dream MPs have voted in this division.  You can use this
-               to help you work out the meaning of the vote.";
-            print "<table class=\"divisions\"><tr class=\"headings\">";
-            print "<td>Dream MP</td><td>Vote (in this division)</td><td>Made by</td>";
-            while ($row = $db->fetch_row_assoc()) {
-                $prettyrow = pretty_row_start($prettyrow);
-                $vote = $row["vote"];
-                if ($vote == "both")
-                    $vote = "abstain";
-                print "<td><a href=\"policy.php?id=" . $row["dream_id"] . "\">";
-                print $row["name"] . "</a></td>";
-                print "<td>" . $vote . "</td>";
-                print "<td>" . html_scrub($row['user_name']) . "</td>";
-                print "</tr>";
-            }
-            print "</table>";
-            print "<p><a href=\"account/addpolicy.php\">Make a new policy</a>";
-
+    $db->query("select name, pw_dyn_dreammp.dream_id, vote, user_name from pw_dyn_dreammp, pw_dyn_dreamvote, pw_dyn_user
+        where pw_dyn_dreamvote.dream_id = pw_dyn_dreammp.dream_id and
+        pw_dyn_user.user_id = pw_dyn_dreammp.user_id and
+        pw_dyn_dreamvote.division_date = '$date' and pw_dyn_dreamvote.division_number = '$div_no' 
+        and not private");
+    if ($db->rows() > 0)
+    {
+        $prettyrow = 0;
+        print "<h2><a name=\"dreammp\">Policies</a></h2>";
+        print "<p>The following policies have selected this division.  You can use this
+           to help you work out the meaning of the vote.";
+        print "<table class=\"divisions\"><tr class=\"headings\">";
+        print "<td>Policy</td><td>Vote (in this division)</td><td>Made by</td>";
+        while ($row = $db->fetch_row_assoc()) {
+            $prettyrow = pretty_row_start($prettyrow);
+            $vote = $row["vote"];
+            if ($vote == "both")
+                $vote = "abstain";
+            print "<td><a href=\"policy.php?id=" . $row["dream_id"] . "\">";
+            print $row["name"] . "</a></td>";
+            print "<td>" . $vote . "</td>";
+            print "<td>" . html_scrub($row['user_name']) . "</td>";
+            print "</tr>";
+        }
+        print "</table>";
+        print "<p><a href=\"account/addpolicy.php\">Make a new policy</a>";
     }
 
 ?>

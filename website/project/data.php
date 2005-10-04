@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: data.php,v 1.19 2005/07/06 18:10:34 frabcus Exp $
+# $Id: data.php,v 1.20 2005/10/04 19:43:20 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -67,7 +67,7 @@ shows the date it applies up to.  For members who have left the house it says
 <p><a href="../data/pw_static_tables.sql.bz2">pw_static_tables.sql.bz2</a> -
 Text dump of MySQL tables containing raw voting and MP data.
 <br><a href="../data/pw_dynamic_tables.sql.bz2">pw_dynamic_tables.sql.bz2</a> -
-Text dump of MySQL tables containing Dream MP votes and edited motion text.
+Text dump of MySQL tables containing policy (Dream MP) votes and edited motion text.
 <br><a href="../data/pw_cache_tables.sql.bz2">pw_cache_tables.sql.bz2</a> -
 Text dump of MySQL tables containing cached calculations.
 

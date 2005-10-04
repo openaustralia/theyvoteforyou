@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: research.php,v 1.5 2005/10/04 19:22:44 frabcus Exp $
+# $Id: research.php,v 1.6 2005/10/04 19:43:20 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -52,7 +52,7 @@ look at them as examples.
 Parliament that have been subject to frequent, repeated votes by MPs.
 It could be immigration, education, the environment, transport, ID
 cards, international development, and so on.  Find the divisions, mark
-them with a Dream MP, and fix the motion text so that other people can
+them with a policy, and fix the motion text so that other people can
 see the precise measures that were voted upon.  Public Whip is about
 informed choice, and not having to take anyone's word for things.
 
@@ -269,7 +269,7 @@ found out and backfire.
 
 <li>To prevent us (Francis and Julian) from abusing PublicWhip, we have
 released all the code under the General Public License.  We would also like to
-establish a public repository for all the DreamMP and Motion Text information
+establish a public repository for all the Policy and Motion Text information
 so that we can't be accused of owning the information.  The safeguard is that
 anyone with the right skills can download and establish a rival version of
 PublicWhip (under another domain name) in case we get lazy, sell out, or run

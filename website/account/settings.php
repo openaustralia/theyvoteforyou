@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: settings.php,v 1.13 2005/10/04 19:22:44 frabcus Exp $
+# $Id: settings.php,v 1.14 2005/10/04 19:43:20 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -64,7 +64,7 @@ if (user_isloggedin()) # User logged in, show settings screen
 	</FORM>
 	<P>';
 
-    print "<h2>Your Dream MPs</h2>";
+    print "<h2>Policies You Made</h2>";
     $query = "select dream_id, name, description from pw_dyn_dreammp where user_id = '" . user_getid() . "'";
     $db->query($query);
     $rowarray = $db->fetch_rows_assoc();
