@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.70 2005/10/04 15:56:59 frabcus Exp $
+# $Id: division.php,v 1.71 2005/10/04 18:24:32 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -37,30 +37,6 @@
 		$div2invert = ($_GET["div2invert"] == "yes");
 	$singlemotionpage = ($divattr2 == "none");
 
-	# designated voter on this division
-	$votertype = "";
-	$voter = "";
-	$voterattr = get_dreammpid_attr_decode($db, "");
-	if ($voter2attr != null)
-	{
-		$votertype = "dreammp";
-		$voter = $voter2attr['dreammpid'];
-	}
-	else
-	{
-		$voterattr = get_mpid_attr_decode($db, $db2, "", null);
-		if ($voterattr != null)
-		{
-			$votertype = "person";
-			$voter = $voter2attr;
-		}
-		else
-		{
-			$votertype = "";  # could have a designated party if we wanted.
-			$voter = "";
-		}
-	}
-	print "<h1>$votertype</h1>";
 
 	$div_id = $divattr["division_id"];
     # current motion text from the database
@@ -75,6 +51,52 @@
 	$debate_gid = $divattr["debate_gid"];
 	$div_no = html_scrub($divattr["division_number"]);
 	$this_anchor = $divattr["divhref"];
+
+
+	# designated voter on this division
+	$votertype = "";
+	$voter = "";
+	$voterattr = get_dreammpid_attr_decode($db, "");
+	if ($voter2attr != null)
+	{
+		$votertype = "dreammp";
+		$voter = $voter2attr['dreammpid'];
+		$query = "SELECT vote FROM pw_dyn_dreamvote
+					WHERE division_date = ".$divattr["division_date"]." AND division_number = ".$divattr["division_number"]."
+						AND dream_id = $voter";
+		$row = $db->query_one_row_assoc($query);
+		$vote = $row["vote"];
+	}
+	else
+	{
+		$voterattr = get_mpid_attr_decode($db, $db2, "", null);
+		if ($voterattr != null)
+		{
+			$votertype = "mp";
+			$voter = $voterattr['mpprop'];
+
+    		# brutally find which of the set did the vote
+			foreach ($voterattr['mpprops'] as $lkey => $mpprop)
+			{
+				$query = "SELECT vote FROM pw_vote
+							WHERE division_id = ".$divattr["division_id"]."
+								AND mp_id = ".$mpprop['mpid'];
+				$row = $db->query_onez_row_assoc($query);
+				if ($row)
+				{
+					$voter = $mpprop;
+					$vote = $row["vote"];
+					break;
+				}
+			}
+		}
+		else
+		{
+			$votertype = "";  # could have a designated party if we wanted.
+			$voter = "";
+		}
+	}
+
 
     include_once "account/user.inc";
     if (!user_isloggedin())
@@ -198,20 +220,34 @@
 						 sum(vote = 'tellaye' or vote = 'tellno') AS tellers
 				  FROM pw_vote WHERE division_id = $div_id";
 		$row = $db->query_one_row_assoc($query);
-        print "<br>$turnout votes were: ".$row["ayes"]." aye, ".$row["noes"]." no, ".$row["boths"]." both, ".$row["tellers"]." tellers.
-            There " . make_plural($rebellions, "was", "were") . " $rebellions " . make_plural($rebellions, "rebellion"). " against majority party vote.";
 
-        $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
-        $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
-        if ($debate_gid != "")
+		print "<p>";
+		if ($row['ayes'] > $row['noes'])
+	        print "The Aye-voters won by ".$row["ayes"]." to ".$row["noes"];
+		else
+	        print "The No-voters won by ".$row["noes"]." to ".$row["ayes"];
+		print " with ".$row["tellers"]." tellers";
+		if ($row['both'] != 0)
+			print " and ".$row["boths"]." voting both";
+		print ".</p>\n";
+
+		if ($votertype = "mp")
 		{
-            print "<br><a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">Read the full debate</a> leading up to this division";
-            print " (on TheyWorkForYou.com)";
-        }
-        if ($source != "")
-    	{
-    		print "<br><a href=\"$source\">Check original division listing</a>";
-        	print " (on the Parliament website)";
+			print "<p>And <a href=\"mp.php?".$voter['mpanchor']."\">".$voter['name']." MP</a> (".$voter['constituency'].")";
+			if ($vote == 'aye')
+				print " voted Aye.";
+			else if ($vote == 'no')
+				print " voted No.";
+			else if ($vote == 'tellaye')
+				print " was a Teller for the Ayes.";
+			else if ($vote == 'tellno')
+				print " was a Teller for the Noes.";
+			else if ($vote == 'both')
+				print " voted both ways.";
+			else
+				print " did not vote.";
+			print "</p>\n";
+			# state if it is rebellion??
 		}
 	}
 
@@ -221,28 +257,42 @@
 		if ($singlemotionpage)
 		{
 	    	# Show motion text
-	        print "<h2><a name=\"motion\">Motion</a></h2>";
 	        if ($motion_data['user_id'] == 0) {
+		        print "<h2><a name=\"motion\">Motion</a></h2>";
 	            print "<p>Procedural text extracted from the debate,
 	            so you can try to work out what 'aye' (for the motion) and 'no' (against the motion) meant.
 	            This is for guidance only, irrelevant text may be shown, crucial text may be missing.
 	            </p>";
 	        } else {
-	            print "<p>Result of the motion in a human readable form, as judged by people like you.</p>";
+	        	# trial run of printing nothing here before the motion text
+	            print "<p></p>";
 	        }
 	        print "<div class=\"motion\">" . extract_motion_text_from_wiki_text($motion_data['text_body']); # TODO: validate this text_body
 	        print "</div>\n";
 
-	    	print "<p><a href=\"account/wiki.php?key=".$divattr["motion_key"]."&r=" .
-	         urlencode($_SERVER["REQUEST_URI"]) . "\">Edit and correct this motion or the division title</a>";
+			print "<p>"; 
+	        $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
+	        $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
+	        if ($debate_gid != "")
+			{
+	            print "<a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">Full debate</a>";
+	        }
+	        if ($source != "")
+	    	{
+	            print " | ";
+	    		print "<a href=\"$source\">Original Hansard</a>";
+			}
+
+	    	print " | <a href=\"account/wiki.php?key=".$divattr["motion_key"]."&r=" .
+	         urlencode($_SERVER["REQUEST_URI"]) . "\">Edit text</a>";
 	        if ($motion_data['user_id'] != 0) {
 	            $db->query("select * from pw_dyn_user where user_id = " . $motion_data['user_id']);
 	            $row = $db->fetch_row_assoc();
 	            $last_editor = html_scrub($row['user_name']);
-	            print " (last edited by $last_editor on " .
-	                $motion_data['edit_date'] . ")";
+#	            print " (last edited by $last_editor on " .
+#	                $motion_data['edit_date'] . ")";
 	        } else {
-	            print " (be the first to edit this)";
+#	            print " (be the first to edit this)";
 	        }
 	        print "</p>\n";
 		}
@@ -265,7 +315,7 @@
 
 	# Work out proportions for party voting (todo: cache)
 	if ($dismode["partysummary"])
-	    print_party_summary_division($db, $div_id, ""); 
+	    print_party_summary_division($db, $div_id, "");
 
 
 	# Division votes table

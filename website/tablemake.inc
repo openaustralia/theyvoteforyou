@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.28 2005/07/15 17:01:32 frabcus Exp $
+# $Id: tablemake.inc,v 1.29 2005/10/04 18:24:32 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -676,7 +676,7 @@ function division_table($db, $divtabattr, $events = "")
         else
             $hrefsource = $row['source_url'];
 
-        $divhref = "division.php?date=".urlencode($row['divisiondate'])."&number=".urlencode($row['divisionnumber']);
+        $divhref = "division.php?date=".urlencode($row['divisiondate'])."&number=".urlencode($row['divisionnumber']).$divtabattr["divhrefappend"];
 
         # write out the events
         writeevents($events, $row['divisiondate'], $breversed);

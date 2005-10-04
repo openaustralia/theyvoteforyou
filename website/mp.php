@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.82 2005/10/04 16:26:37 frabcus Exp $
+    # $Id: mp.php,v 1.83 2005/10/04 18:24:32 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -344,7 +344,7 @@
 			if ($voter1attr["bmultiperson"])
                 print "The voting record of the real MPs is compared to the
                 voting record of the Dream MP.";
-            else 
+            else
                 print html_scrub($mpprop['name']) .
                     "'s voting record is compared to the voting record of the Dream MP.";
             print " You can think of the Dream MP
@@ -418,6 +418,9 @@
 				print "<tr><td colspan=7 align=left>
                     <b>Votes by <a href=\"mp.php?".$mpprop['mpanchor']."\">" .$mpprop["name"]." MP</a></b>
                     </td></tr>\n";
+
+			# apply a designated voter
+			$divtabattr["divhrefappend"] = "&".$mpprop['mpanchor'];
 
 			# long asignment for return value because we're lacking foreach as &
 			$voter1attr['mpprops'][$lkey]["dismetric"] = division_table($db, $divtabattr, $events);
