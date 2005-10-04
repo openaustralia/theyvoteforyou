@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.68 2005/07/28 15:33:19 frabcus Exp $
+# $Id: division.php,v 1.69 2005/10/04 15:40:33 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -36,6 +36,31 @@
 	if ($divattr2 != "none")
 		$div2invert = ($_GET["div2invert"] == "yes");
 	$singlemotionpage = ($divattr2 == "none");
+
+	# designated voter on this division
+	$votertype = "";
+	$voter = "";
+	$voterattr = get_dreammpid_attr_decode($db, "");
+	if ($voter2attr != null)
+	{
+		$votertype = "dreammp";
+		$voter = $voter2attr['dreammpid'];
+	}
+	else
+	{
+		$voterattr = get_mpid_attr_decode($db, $db2, "", null);
+		if ($voterattr != null)
+		{
+			$votertype = "person";
+			$voter = $voter2attr;
+		}
+		else
+		{
+			$votertype = "";  # could have a designated party if we wanted.
+			$voter = "";
+		}
+	}
+	print "<h1>$votertype</h1>";
 
 	$div_id = $divattr["division_id"];
     # current motion text from the database

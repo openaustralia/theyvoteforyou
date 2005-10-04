@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.21 2005/07/28 15:33:19 frabcus Exp $
+# $Id: decodeids.inc,v 1.22 2005/10/04 15:40:33 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -16,7 +16,7 @@ require_once $toppath . "constituencies.inc";
 
 # get the constituency and names to use from an mpid
 # mpgen says the equivalence class is by constituency or by person
-function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream)
+function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_overlap)
 {
     global $bdebug;
     # convert the mpid into a person-id
@@ -84,11 +84,11 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream)
                     );
 
 		# check for an over-lap with the dreammp
-		if ($voter2dream)
+		if ($voter2dream_overlap)
 		{
 			$query = "SELECT vote FROM pw_dyn_dreamvote
 					  WHERE division_date >= \"".$row['entered_house']."\" AND division_date < \"".$row['left_house']."\"
-					  	AND dream_id = ".$voter2dream['dreammpid']."
+					  	AND dream_id = ".$voter2dream_overlap['dreammpid']."
 						LIMIT 1";
 		    if ($bdebug)
 		    	print "<h1>$query</h1>\n";
@@ -175,7 +175,7 @@ function decode_mpid_legacy($db)
 
 
 # returns the ith mpid from the link (0th is blank)
-function get_mpid_attr_decode($db, $db2, $i, $voter2dream=null)
+function get_mpid_attr_decode($db, $db2, $i, $voter2dream_overlap=null)
 {
     global $bdebug;
 
@@ -241,7 +241,7 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream=null)
         $bbyconstituency = ($mpname == "");
     }
 
-    return get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream);
+    return get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_overlap);
 }
 
 # do the attributes for a dream mp
