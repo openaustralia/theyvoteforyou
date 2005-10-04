@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: addpolicy.php,v 1.1 2005/10/04 19:22:44 frabcus Exp $
+# $Id: addpolicy.php,v 1.2 2005/10/04 19:53:59 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -34,7 +34,7 @@ if (user_isloggedin()) # User logged in, show settings screen
             {
                 $db = new DB(); 
                 $ret = $db->query_errcheck("insert into pw_dyn_dreammp (name, user_id, description, private) values
-                    ('$name', '" . user_getid() . "', '$description', false)"); 
+                    ('$name', '" . user_getid() . "', '$description', 0)"); 
                 if ($ret)
                 {
                     $ok = true;
