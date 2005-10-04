@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.15 2005/07/28 15:33:19 frabcus Exp $
+    # $Id: mps.php,v 1.16 2005/10/04 16:26:37 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -25,6 +25,15 @@
 		$title .= " - " . parlsession_name($parlsession) . " Session";
 	else
 		$title .= " - " . parliament_name($parliament) . " Parliament";
+
+    $second_links = array();
+    foreach ($parliaments as $pname => $pdata) {
+        array_push($second_links, "<a href=\"mps.php?parliament=". $pname.
+              "&sort=" . html_scrub($sort) . "\"
+              class=\"".($parliament == $pname ? "on" : "off")."\"
+              >".
+              $pdata['name'] . " Parliament</a>");
+    }
     include "header.inc";
 
 ?>
@@ -34,14 +43,6 @@ to vote.  Read a <a href="faq.php#clarify">clear
 explanation</a> of these terms, as they may not have the meanings
 you expect. You can change the order of the table by selecting the headings.
 <?php
-	# this stuff to be tabbed like with the divisions table
-    print "<br>";
-    foreach ($parliaments as $pname => $pdata) {
-        if ($parliament != $pname or $parlsession != "")
-            print "<br><a href=\"mps.php?parliament=". $pname.
-                  "&sort=" . html_scrub($sort) . "\">View MPs for ".
-                  $pdata['name'] . " parliament</a>";
-    }
 
     print "<table class=\"mps\">\n";
 

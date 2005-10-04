@@ -391,6 +391,7 @@ IMG
     BORDER-BOTTOM: #003300 1px solid
 }
 .secondheaders A.on {
+    BACKGROUND-COLOR: #FFFFFF;
 }
 /* Inner HTML paragraph classes from the written answer XML files */
 P.askedtoreply

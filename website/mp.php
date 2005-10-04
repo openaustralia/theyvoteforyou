@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.81 2005/10/04 15:56:59 frabcus Exp $
+    # $Id: mp.php,v 1.82 2005/10/04 16:26:37 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -365,8 +365,8 @@
 
         }
 
-		if ($dismode["eventsinfo"])
-		    print " Also shows when this MP became or stopped being a paid minister. </p>";
+		#if ($dismode["eventsinfo"])
+		#    print " Also shows when this MP became or stopped being a paid minister. </p>";
 
 		# convert the view for the table selection depending on who are the voting actors
 		if ($dismode["votelist"] == "every")

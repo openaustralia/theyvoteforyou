@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.16 2005/05/25 12:03:12 theyworkforyou Exp $
+# $Id: divisions.php,v 1.17 2005/10/04 16:26:37 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -58,11 +58,10 @@
 	if ($sort == "")
 		$sort = "date";
 
-	# do the title and header
+	# do the title 
     $title = $rdismode['description'];
 	if ($sort != 'date')
 		$title .= " (sorted by $sort)";
-    include "header.inc";
 
 	# do the tabbing list using a function that leaves out default parameters
 	function makedivlink($rdisplay, $sort)
@@ -79,18 +78,13 @@
 		return "$base?rdisplay=$rdisplay&sort=$sort";
 	}
 
-	$leadch = "<p>"; # get those bars between the links working
+    $second_links = array();
     foreach ($rdismodes as $lrdisplay => $lrdismode)
 	{
-		print $leadch;
-		$leadch = " | ";
 		$dlink = makedivlink($lrdisplay, $sort);
-        if ($lrdisplay == $rdisplay)
-            print $lrdismode["lkdescription"];
-        else
-            print "<a href=\"$dlink\">".$lrdismode["lkdescription"]."</a>";
+        array_push($second_links, "<a href=\"$dlink\" class=\"".($lrdisplay == $rdisplay ? "on" : "off")."\">".$lrdismode["lkdescription"]."</a>");
 	}
-	print "</p>\n";
+    include "header.inc";
 
 	print "<p>A <i>division</i> is the House of Commons terminology for what would
 		   normally be called a vote.  The word <i>vote</i> is reserved for the

@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.55 2005/10/04 15:56:59 frabcus Exp $
+# $Id: header.inc,v 1.56 2005/10/04 16:26:37 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -75,12 +75,12 @@ Search or Postcode:
 <!--NEWSLETTERBEGIN-->
 <?php print newsletter_navbar(); ?>
 <!--NEWSLETTEREND-->
-<a title="Frequently Asked Questions" href="<?=$toppath?>faq.php">FAQ</a>
 <a title="List of all votes in Parliament" href="<?=$toppath?>divisions.php">Divisions</a>
 <a title="List of all Members of Parliament" href="<?=$toppath?>mps.php">MPs</a>
 <a title="MPs who vote the way you want" href="<?=$toppath?>dreammps.php">Dream MPs</a>
 <!-- <a title="Cluster diagram of voting record" href="<?=$toppath?>mpsee.php">Vote Map</a> -->
 <a title="Help run the project" href="<?=$toppath?>project/index.php">Project</a>
+<a title="Frequently Asked Questions" href="<?=$toppath?>faq.php">Help</a>
 </td>
 <td class="pagenavlinks" align="right">
 <!--ACCOUNTBEGIN-->
@@ -97,7 +97,7 @@ Search or Postcode:
     foreach ($second_links as $this_link) {
         print " ";
         if (stristr($this_link, '"on"')) {
-            $this_link = str_replace('">', '"><img src="secondnavarrow.gif" alt="&gt;">', $this_link);
+#            $this_link = str_replace('">', '"><img src="secondnavarrow.gif" alt="&gt;">', $this_link);
         }
         print $this_link;
     }
