@@ -79,6 +79,7 @@ HR
     FLOAT: right;
     PADDING-TOP: 1em;
     PADDING-LEFT: 1em;
+    CLEAR: right;
 }
 .tabledream
 {
@@ -543,4 +544,6 @@ TABLE TD.evencol
 .motionguidelines LI {
     MARGIN-BOTTOM: 1em;
 }
-
+LI {
+    MARGIN-TOP: 0.2em;
+}

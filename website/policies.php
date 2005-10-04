@@ -2,7 +2,7 @@
     $cache_params = "";
     include "cache-begin.inc";
 
-    # $dreamid: dreammp.php,v 1.4 2004/04/16 12:32:42 frabcus Exp $
+    # $id: dreammp.php,v 1.4 2004/04/16 12:32:42 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -22,21 +22,15 @@
 
 	update_dreammp_votemeasures($db, null, 0); # for all
 
-    $title = "Dream MPs";
+    $title = "Policies";
     include "header.inc";
 ?>
-<p>Politicians as you want them to be.  A Dream MP can represent anything
-you like.  For example:
-    <ul>
-    <li>Organisation.  e.g. Greenpeace, Confederation of British Industry.
-    <li>Single issue campaign.  e.g. Pro-Hunting, Anti-Europe, Anti-Iraq war.
-    <li>Political party.  e.g. Labour party whip.
-    <li>Prospective parliamentary candidate.  e.g. Tory candidate for Sedgefield.
-    <li>Your self.  Issues that you personally care about.
-    </ul>
+<p>Policies are stated positions on a particular issue. For example "Ban fox
+hunting", or "Don't attack Iraq". Each policy has a description and a way to
+vote in relevant divisions in parliament.
  
-   <p><a href="account/adddream.php">Make your own dream MP
-   <br><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=1">Discuss dream MPs on our forum</a>
+   <p><a href="account/addpolicy.php">Make a new policy
+   <br><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=1">Discuss policies on our forum</a>
   <?php
         if (!user_isloggedin())
         {
@@ -45,11 +39,10 @@ you like.  For example:
     ?>
     </a>
 
-   <p>These are the Dream MPs people like you have made so far.  This
-   table shows who made each MP, what they stand for, and how many times
-   they have "voted".  Click on their name to get a comparison of
-   a Dream MP to all Real MPs.  </p>
-   <p><b>You can get your Dream MP to the top by editing and
+   <p>This table shows who made each policy, what they stand for, and how many
+   times they have "voted".  Click on their name to get a comparison of a policy
+   to all MPs.  </p>
+   <p><b>You can get a policy to the top by editing and
    correcting motion text for its divisions.</b> </p>
 <?php
 
@@ -62,7 +55,7 @@ you like.  For example:
 			  			ON pw_dyn_user.user_id = pw_dyn_dreammp.user_id
 			  LEFT JOIN pw_cache_dreaminfo
 			  			ON pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id
-			  WHERE votes_count > 0
+			  WHERE votes_count > 0 AND NOT private
 			  ORDER BY motions_percent DESC, edited_motions_count DESC, votes_count DESC";
 	if ($bdebug == 1)
 		print "<h5>$query</h5>\n";
@@ -75,7 +68,7 @@ you like.  For example:
         <td>Name</td>
         <td>Made by</td>
         <td>Description</td>
-        <td>MP Dists</td>
+        <!--<td>MP Dists</td>-->
         </tr>";
 
 
@@ -93,21 +86,21 @@ you like.  For example:
 
         print "<td>" . $row['count'] . "</td>\n";
         print "<td>" . percentise($row['motions_percent']) . "</td>";
-        print "<td><a href=\"dreammp.php?id=$dreamid\">" . soft_hyphen($row['name'],25) . "</a></td>";
+        print "<td><a href=\"policy.php?id=$dreamid\">" . soft_hyphen($row['name'],25) . "</a></td>";
         print "<td>" . html_scrub($row['user_name']) . "</td>";
         print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 150);
         if ($your_dmp) {
-            print " [<a href=\"account/editdream.php?id=$dreamid\">Edit...</a>]";
+            print " [<a href=\"account/editpolicy.php?id=$dreamid\">Edit...</a>]";
         }
         print "</td>";
-        print "<td>0&nbsp;<img src=\"dreamplot.php?id=$dreamid\">&nbsp;1";
-        print "</td>\n";
+        #print "<td>0&nbsp;<img src=\"dreamplot.php?id=$dreamid\">&nbsp;1";
+        #print "</td>\n";
 
         print "</tr>";
         $c++;
     }
     print "</table>\n";
-    print "That makes $c Dream MPs who have voted at least once.";
+    print "That makes $c policies which have voted in at least one division.";
 
 ?>
 

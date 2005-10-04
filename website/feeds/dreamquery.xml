@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-    # $Id: dreamquery.xml,v 1.9 2005/07/15 16:57:30 frabcus Exp $
+    # $Id: dreamquery.xml,v 1.10 2005/10/04 19:22:44 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -43,7 +43,7 @@
 
         print "     <dreammp " .
             "name=\"" . html_scrub($dreaminfo["name"]) .  "\" " . 
-            "url=\"http://www.publicwhip.org.uk/dreammp.php?id=$dream_id\" />\n";
+            "url=\"http://www.publicwhip.org.uk/policy.php?id=$dream_id\" />\n";
 
         print "     <realmp name=\"" . html_scrub($voter1attr['mpprop']["name"]) . "\" " .
                 "constituency=\"$constituency\" " . 

@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: research.php,v 1.4 2005/07/06 17:45:40 frabcus Exp $
+# $Id: research.php,v 1.5 2005/10/04 19:22:44 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -44,8 +44,8 @@ by citing page and line numbers (for example).
 
 <p>Public Whip allows anyone to write a plain english version of the
 motion, with links to explanations and relevant document.  Julian has taken on
-the task of doing <a href="/dreammp.php?id=210">all the Iraq votes</a> and the 
-<a href="/dreammp.php?id=258">counter-terrorism legislation</a>.  Have a
+the task of doing <a href="/policy.php?id=210">all the Iraq votes</a> and the 
+<a href="/policy.php?id=258">counter-terrorism legislation</a>.  Have a
 look at them as examples.
 
 <p>We are calling for anyone who is passionate about other issues in

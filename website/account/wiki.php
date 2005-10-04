@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.10 2005/04/23 00:33:14 frabcus Exp $
+# $Id: wiki.php,v 1.11 2005/10/04 19:22:44 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -112,7 +112,7 @@ with other motion researchers on our special forum</a>.
 ?>
         <P>
         <FORM ACTION="<?=$REQUEST_URI?>" METHOD="POST">
-        <textarea name="newtext" rows="25" cols="60"><?=html_scrub($values['text_body'])?></textarea>
+        <textarea name="newtext" rows="25" cols="45"><?=html_scrub($values['text_body'])?></textarea>
         <p>
         <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Save">
         <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Cancel">
@@ -125,7 +125,6 @@ with other motion researchers on our special forum</a>.
         <br><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=2">Discuss this
 with other motion text editors on our forum</a>.
 
-        
 <?
         }
 

@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-    # $dreamid: dreammp.php,v 1.4 2004/04/16 12:32:42 frabcus Exp $
+    # $id: dreammp.php,v 1.4 2004/04/16 12:32:42 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under

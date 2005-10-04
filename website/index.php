@@ -2,7 +2,7 @@
 
 $cache_params = rand(0, 10); include "cache-begin.inc";
 
-# $Id: index.php,v 1.48 2005/07/15 16:57:29 frabcus Exp $
+# $Id: index.php,v 1.49 2005/10/04 19:22:44 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -70,9 +70,9 @@ An at most monthly briefing.
 </form></p>
 </p>
 
-<li><p><span class="actionsheading">Discover your Dream MP</span>
-<br>Either <a href="dreammps.php">browse</a> or <a
-href="account/adddream.php">create</a> an MP who votes how you want</span>
+<!--<li><p><span class="actionsheading">Discover your Dream MP</span>
+<br>Either <a href="policies.php">browse</a> or <a
+href="account/addpolicy.php">create</a> an MP who votes how you want</span>
 <br>Some examples:
 <?php
     $db->query(get_top_dream_query(5));
@@ -81,11 +81,11 @@ href="account/adddream.php">create</a> an MP who votes how you want</span>
     {
         $dmp_name = $row['name'];
         $dreamid = $row['dream_id'];
-        array_push($dreams, "<a href=\"dreammp.php?id=$dreamid\">" .  $dmp_name . "</a>");
+        array_push($dreams, "<a href=\"policy.php?id=$dreamid\">" .  $dmp_name . "</a>");
     }
     print join(", ", $dreams);
 ?>
-</p>
+</p> -->
 </ol>
 
 <td width="20%" class="layout" bgcolor="#dddddd">

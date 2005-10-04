@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: confirm.php,v 1.7 2005/01/15 20:38:11 frabcus Exp $
+# $Id: confirm.php,v 1.8 2005/10/04 19:22:44 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -26,7 +26,7 @@ if ($feedback) {
     if ($worked)
     {
         print "<p>$feedback</p>";
-        print '<p><a href="adddream.php">Make your own Dream MP</a>';
+        print '<p><a href="addpolicy.php">Make your own policies</a>';
         print "<br><a href=\"settings.php\">Account settings</a>";
     }
     else

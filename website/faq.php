@@ -1,11 +1,11 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.50 2005/09/22 09:23:49 frabcus Exp $
+# $Id: faq.php,v 1.51 2005/10/04 19:22:44 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
-$paddingforanchors = true; $title = "Frequently Asked Questions"; include "header.inc" 
+$paddingforanchors = true; $title = "Help - Frequently Asked Questions"; include "header.inc" 
 ?>
 
 <a href="http://www.newstatesman.com/newmedia">

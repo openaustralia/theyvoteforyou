@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.71 2005/10/04 18:24:32 goatchurch Exp $
+# $Id: division.php,v 1.72 2005/10/04 19:22:44 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -231,7 +231,7 @@
 			print " and ".$row["boths"]." voting both";
 		print ".</p>\n";
 
-		if ($votertype = "mp")
+		if ($votertype == "mp")
 		{
 			print "<p>And <a href=\"mp.php?".$voter['mpanchor']."\">".$voter['name']." MP</a> (".$voter['constituency'].")";
 			if ($vote == 'aye')
@@ -450,14 +450,14 @@
                 $vote = $row["vote"];
                 if ($vote == "both")
                     $vote = "abstain";
-                print "<td><a href=\"dreammp.php?id=" . $row["dream_id"] . "\">";
+                print "<td><a href=\"policy.php?id=" . $row["dream_id"] . "\">";
                 print $row["name"] . "</a></td>";
                 print "<td>" . $vote . "</td>";
                 print "<td>" . html_scrub($row['user_name']) . "</td>";
                 print "</tr>";
             }
             print "</table>";
-            print "<p><a href=\"account/adddream.php\">Make your own dream MP</a>";
+            print "<p><a href=\"account/addpolicy.php\">Make a new policy</a>";
 
     }
 

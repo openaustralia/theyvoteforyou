@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.28 2005/07/15 17:01:31 frabcus Exp $
+# $Id: dream.inc,v 1.29 2005/10/04 19:22:44 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -36,7 +36,7 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 	if ($bdebug == 1)
 		print "<p>$person ddddd   $dreamid</p>";
 
-	print "<p class=\"indent\">Between this MP and the Dream MP there were 
+	print "<p class=\"indent\">Between this MP and the policy there were 
 	$nvotessame ".make_plural($nvotessame, "agreement")." and 
 	$nvotessamestrong strong ".make_plural($nvotessamestrong, "agreement").",
 	$nvotesdiffer ".make_plural($nvotesdiffer, "disagreement")." and 

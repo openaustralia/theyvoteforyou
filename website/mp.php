@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.83 2005/10/04 18:24:32 goatchurch Exp $
+    # $Id: mp.php,v 1.84 2005/10/04 19:22:44 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -85,7 +85,7 @@
 	if ($voter2type == "dreammp")
 	{
 		$thispagesettings = "dmp=$voter2";
-	    $voter2link = "dreammp.php?id=$voter2";
+	    $voter2link = "policy.php?id=$voter2";
 	}
 	else if ($voter2type == "person")
 	{

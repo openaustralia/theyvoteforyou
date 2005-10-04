@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.7 2005/07/16 11:37:40 frabcus Exp $
+# $Id: divisionvote.inc,v 1.8 2005/10/04 19:22:44 frabcus Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -32,12 +32,13 @@
 					   AND pw_dyn_dreamvote.division_number = '".$divattr["division_number"]."'";
 
             $query = "SELECT pw_dyn_dreammp.dream_id, name, description,
-							 pw_dyn_dreamvote.vote AS vote
+							 pw_dyn_dreamvote.vote AS vote, private
 					  FROM pw_dyn_dreammp
 					  LEFT JOIN pw_dyn_dreamvote
 					    ON pw_dyn_dreamvote.dream_id = pw_dyn_dreammp.dream_id
 					     AND $qrdiv
-					  WHERE user_id = '".user_getid()."'";
+					  WHERE NOT private OR user_id = '".user_getid()."'
+                      ORDER BY private";
 
             print "<p>Vote in this division for your dream MPs.</p>";
 			if ($bdebug == 1)
@@ -109,7 +110,10 @@
                 }
                 # display dream MP vote
                 print "<tr><td>\n";
-                print '<a href="dreammp.php?id=' . $row['dream_id'] . '">' . html_scrub($row['name']) . "</a>: \n";
+                print '<a href="policy.php?id=' . $row['dream_id'] . '">' . html_scrub($row['name']) . "</a>: \n";
+                if ($row['private']) {
+                    print " (legacy Dream MP)";
+                }
                 print "</td><td>\n";
                 print ' <select name="vote' . $row['dream_id'] . '" size="1">
                                     <option ' . vote_value("--", $vote) . '>Non-voter</option>
@@ -122,7 +126,7 @@
                 print '</td></tr>';
             }
             print "<tr><td>\n";
-            print ' <a href="account/adddream.php">[Add new dream MP]</a>';
+            print ' <a href="account/addpolicy.php">[Make a new policy]</a>';
             print "</td><td>\n";
             if (count($rowarray) > 0)
                 print '<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Update Votes">';

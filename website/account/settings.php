@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: settings.php,v 1.12 2005/07/15 16:57:30 frabcus Exp $
+# $Id: settings.php,v 1.13 2005/10/04 19:22:44 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -70,9 +70,9 @@ if (user_isloggedin()) # User logged in, show settings screen
     $rowarray = $db->fetch_rows_assoc();
     foreach ($rowarray as $row)
     {
-        print '<br><a href="../dreammp.php?id=' . $row['dream_id'] . '">' . html_scrub($row['name']) . "</a>\n";
+        print '<br><a href="../policy.php?id=' . $row['dream_id'] . '">' . html_scrub($row['name']) . "</a>\n";
     }
-    print '<p><a href="adddream.php">[Add new dream MP]</a></p>';
+    print '<p><a href="addpolicy.php">[Make a new policy]</a></p>';
 }
 else # User not logged in, show login screen
 {
