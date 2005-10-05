@@ -55,19 +55,13 @@
     print '<p>Why not <a href="#dreambox">add this to your own website?</a>';
     print "</div>";
 
-    print '<p><a href="#divisions">Divisions Selected</a>';
-	print ' | ';
-	print '<a href="#comparison">Comparison to MPs</a>';
-
     print "<p><b>Definition:</b> " . str_replace("\n", "<br>", html_scrub($dmp_description)). "</p>";
     if ($dmp_private)
         print "<p><b>Made by:</b> " . html_scrub($dmp_user_name) . " (this is a legacy Dream MP)";
     print "</p>";
 
-    print "<p><a href=\"account/editpolicy.php?id=$dreamid\">Edit name/definition of this policy</a>";
-    print "<br><a href=\"account/addpolicy.php\">Make a new policy</a>";
-    print "<br><a href=\"policies.php\">See all policies</a>";
-    print '<br><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=1">Discuss policies on our forum</a>';
+    print "<p><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a>";
+    print ' | <a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=1">Discuss</a>';
 
 
     print "<h2><a name=\"divisions\">Divisions Selected</a></h2>

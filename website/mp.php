@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.85 2005/10/04 19:43:20 frabcus Exp $
+    # $Id: mp.php,v 1.86 2005/10/05 09:58:15 theyworkforyou Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -338,7 +338,7 @@
 				print "MPs for ".$mpprop['constituency'];
 			else
 				print $mpprop['name'];
-            print "</a> voted on them.";
+            print "</a> voted on them. ";
 			if ($voter1attr["bmultiperson"])
                 print "The voting record of the MPs is compared to the
                 votes selected for the policy.";
@@ -352,10 +352,10 @@
                 seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], ($all_same_cons ? false : true), false, $thispagesettings);
             }
 
-			print "<p><b>Description of '".html_scrub($voter2attr['name']).
+			print "<p><b>Definition of '".html_scrub($voter2attr['name']).
 				"':</b> " .
 				html_scrub($voter2attr['description']).
-				" Made by <b>".  html_scrub($voter2attr['user_name']) . "</b>. " .
+				". " .
 				"\n";
 			print "<p>";
 

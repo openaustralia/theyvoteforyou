@@ -96,7 +96,7 @@ if (user_isloggedin()) # User logged in, show settings screen
             <B>Definition (describe the issue and position on the issue):</B><BR>
             <textarea name="description" rows="6" cols="80"><?=html_scrub($description)?></textarea></p>
 
-            <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Edit Policy">
+            <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Save Changes">
             </FORM>
         <?php
         }
