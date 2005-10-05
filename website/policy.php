@@ -73,6 +73,7 @@
 			"voter1"        => $dreamid,
 			"showwhich"		=> "all1",
 			"headings"		=> 'columns',
+			"divhrefappend"	=> "&dmp=$dreamid", # gives link to crossover page
 			"motionwikistate" => "listunedited");
 	division_table($db, $divtabattr);
     print "</table>\n";
