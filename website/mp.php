@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.86 2005/10/05 09:58:15 theyworkforyou Exp $
+    # $Id: mp.php,v 1.87 2005/10/05 11:22:03 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -112,12 +112,13 @@
 	{
 		$dismodes["difference"] = array("dtype"	=> "difference",
 								 "description" => "Differences",
+								 "generalinfo" => "yes",
 								 "votelist"	=> "short");
 	}
 
 	$dismodes["allvotes"] = array("dtype"	=> "allvotes",
 							 "eventsinfo" => "yes",
-							 "description" => ($voter2type == "dreammp" ? "Short version" : "All votes"),
+							 "description" => ($voter2type == "dreammp" ? "Summary" : "All votes"),
 							 "votelist"	=> "all",
 							 "defaultparl" => "recent");
 	if (!$voter1attr['bmultiperson'])
@@ -128,7 +129,7 @@
 	if ($voter2type == "dreammp")
 	{
 		$dismodes["motions"] = array("dtype"	=> "motions",
-								 "description" => "Display motions",
+								 "description" => "Unabbreviated",
 								 "votelist"	=> "all",
 								 "votedisplay"	=> "fullmotion",
 								 "defaultparl" => "recent");
@@ -183,7 +184,7 @@
 
 	# generate title and header of this webpage
     if ($mpprop['house'] == 'commons') {
-        $contitlefor = "for".$mpprop['constituency'];
+        $contitlefor = "for ".$mpprop['constituency'];
         $contitlecomma = ", ".$mpprop['constituency'];
     } else {
         $contitlefor = "";
@@ -191,20 +192,21 @@
     }
 	if ($voter2type == "dreammp")
 	{
+		$title = "Policy Report - ";
 		if ($voter1attr["bmultiperson"])
-			$title = "Whipping Report - ".$mpprop['housenounplural']." ".$contitlefor;
+			$title .= $mpprop['housenounplural']." ".$contitlefor;
 		else
-			$title = "Whipping Report - '".$voter2attr['name']."' on " . $mpprop['name']." ".$mpprop['housenamesuffix'].$contitlecomma;
-		$title .= " by '".html_scrub($voter2attr['name'])."'";
+			$title .= $mpprop['fullname'];
+		$title .= "<br> on ".html_scrub($voter2attr['name']);
 	}
 	else if ($voter2type == "person")
-		$title = "Comparison between " . $mpprop['name']." ".$mpprop['housenamesuffix'].$contitlecomma." and ".$voter2attr["mpprop"]['name']." ".$voter2attr["mpprop"]['housenamesuffix'];
+		$title = "Voting Comparison - ".$mpprop['fullname']."<br> to ".$voter2attr["mpprop"]['fullname'];
 	else if ($dismode["possfriends"] == "all")
 		$title = "Friends of ".$mpprop['name']." ".$mpprop['housenamesuffix'].$contitlecomma;
 	else if ($voter1attr["bmultiperson"])
 		$title = "Voting Record - ".$mpprop['housenounplural']." ".$contitlefor;
 	else
-		$title = "Voting Record - ".$mpprop['name']." ".$mpprop['housenamesuffix'].$contitlecomma;
+		$title = "Voting Record - ".$mpprop['fullname'];
 
     # make list of links to other display modes
     $second_links = array();
@@ -293,17 +295,20 @@
 
 		seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], ($all_same_cons ? false : true), true, $thispagesettings);
 
-        if ($mpprop['house'] == 'commons') {
-            print "<p><a href=\"http://www.theyworkforyou.com/mp/?m=".$mpprop["mpid"]."\">
-                    Performance data, recent speeches, and biographical links</a>
-                    at TheyWorkForYou.com.<br>
-                   <a href=\"http://www.writetothem.com\">Contact your MP</a> for free at
-                    WriteToThem.com or look for their
-                    <a href=\"http://www.parliament.uk/directories/hciolists/alms.cfm\">
-                    email address</a>.";
-                print "<br><b>New parliament!</b> <a href=\"http://www.mysociety.org/ycml/\">Sign up to
-                Your Constituency Mailing List</a> to keep up with and scrutinise your MP.
-                </p>";
+        if ($mpprop['house'] == 'commons' && $voter2type == "party")
+		{
+		    print "<h2><a name=\"exlinks\">External Links</a></h2>\n";
+            print "<ul>\n";
+
+			print "<li>Read Parliamentary speeches at: ";
+			print "<a href=\"http://www.theyworkforyou.com/mp/?m=".$mpprop["mpid"]."\">TheyWorkForYou.com</a></li>\n";
+
+			# can we link directly?
+			print "<li>Contact your MP for free at: <a href=\"http://www.writetothem.com\">WriteToThem.com</a></li>\n";
+
+			print "<li><b>New!</b> Sign up to your constituency mailing list at: <a href=\"http://www.mysociety.org/ycml/\">MySociety.org</a></li>\n";
+
+            print "</ul>\n";
         }
 	}
 
@@ -312,8 +317,8 @@
 		# title for the vote table
 	    if ($voter2type == "dreammp")
 	        $vtitle = ""; #Votes chosen by '".$voter2attr['name']."' Policy";
-		else if ($voter2type == "person")
-			$vtitle = "Votes compared to ".$voter2attr["mpprop"]['name']." MP";
+		else if ($voter2type == "person" && $dismode["votelist"] == "short")
+			$vtitle = "Voting Differences";
 		else if ($dismode["votelist"] == "short")
 			$vtitle = "Interesting Votes";
 		else if ($dismode["votelist"] == "every")
@@ -327,38 +332,23 @@
 		if ($dismode["votelist"] == "short" and $voter2type == "party")
 			print "<p>Votes in parliament for which this ".$mpprop['housenoun']."'s vote differed from the
 	        	majority vote of their party (Rebel), or in which this ".$mpprop['housenoun']." was
-	        	a teller (Teller) or both (Rebel Teller).  \n";
+	        	a teller (Teller), or both (Rebel Teller).  \n";
 		else if ($dismode["votelist"] == "every" and $voter2type == "party")
 			print "<p>All votes this MP could have attended. \n";
-		else if ($voter2type == "dreammp") {
-			print "<p><b>Explanation:</b> Shows all votes on the policy '<a href=\"$voter2link\">".
-				html_scrub($voter2attr['name']).
-				"</a>', and how <a href=\"$voter1link\">";
-			if ($voter1attr["bmultiperson"])
-				print "MPs for ".$mpprop['constituency'];
-			else
-				print $mpprop['name'];
-            print "</a> voted on them. ";
-			if ($voter1attr["bmultiperson"])
-                print "The voting record of the MPs is compared to the
-                votes selected for the policy.";
-            else
-                print html_scrub($mpprop['name']) .
-                    "'s voting record is compared to the votes selected for the policy.";
-
+		else if ($voter2type == "dreammp")
+		{
             # list of all MPs being displayed
-            if ($dismode["multimpterms"]) {
-                print "<p>These MPs for " . $mpprop['constituency'] . " are compared to the policy, according to which held the seat at the time of each vote.";
+            if ($dismode["multimpterms"])
+			{
+                print "<p>These MPs for ".$mpprop['constituency'];
+				print " are compared to the policy, according to which held the seat at the time of each vote.";
                 seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], ($all_same_cons ? false : true), false, $thispagesettings);
+				print "</p>\n";
             }
 
-			print "<p><b>Definition of '".html_scrub($voter2attr['name']).
-				"':</b> " .
-				html_scrub($voter2attr['description']).
-				". " .
-				"\n";
-			print "<p>";
-
+			print "<p><b>Definition of <a href=\"$voter2link\">".html_scrub($voter2attr['name'])."</a>:</b>\n";
+			print html_scrub($voter2attr['description']);
+			print "</p>\n";
         }
 
 		#if ($dismode["eventsinfo"])
@@ -400,7 +390,8 @@
 			$voter1attr['mpprops'] = array_reverse($voter1attr['mpprops']);
 		}
 
-		print "<p>Table is in".($divtabattr["sortby"] == 'datereversed' ? "" : " reverse")." chronological order.</p>\n";
+		# the full version is in chron order so it can be printed out.  But saying so is sheer clutter.
+		# print "<p>Table is in".($divtabattr["sortby"] == 'datereversed' ? "" : " reverse")." chronological order.</p>\n";
 
 		# make the table over this MP's votes
 	    print "<table class=\"votes\">\n";
@@ -449,7 +440,7 @@
 					else
 						$dismetric = $mpprop["dismetric"];
 				}
-	
+
 				# outputs an explanation of the votes
 				print_dreammp_person_distance($dismetric["agree"], $dismetric["agree3"],
 							  $dismetric["disagree"], $dismetric["disagree3"],

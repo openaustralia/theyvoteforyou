@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.22 2005/10/04 15:40:33 goatchurch Exp $
+# $Id: decodeids.inc,v 1.23 2005/10/05 11:22:03 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -40,7 +40,7 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
     else
         $qwhere = "person = $person";
 
-	$qselect = "pw_mp.mp_id as mpid, title, first_name, last_name, constituency, person, party, house,
+	$qselect = "pw_mp.mp_id AS mpid, title, first_name, last_name, constituency, person, party, house,
                 entered_house, left_house, party, entered_reason, left_reason,
                 rebellions, votes_attended, votes_possible, tells";
     $query = "SELECT $qselect
@@ -68,6 +68,7 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
                           "person"		=> $row['person'],
                           "party"		=> $row['party'],
                           "constituency" => $row['constituency'],
+                          "house" 		=> $row['house'],  # appeared to be missing
                           "mpanchor"	=> $mppropanchor,
                           "mpanchor2"	=> $mppropanchor2,
                           "enteredhouse" => $row['entered_house'],
@@ -77,11 +78,21 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
                           "rebellions" 	=> $row['rebellions'],
                           "votesattended" => $row['votes_attended'],
                           "votespossible" => $row['votes_possible'],
-                          "tells" 		=> $row['tells'],
-                          "housenamesuffix"   => $row['house'] == 'commons' ? 'MP' : '',
-                          "housenoun"   => $row['house'] == 'commons' ? 'MP' : 'Peer',
-                          "housenounplural"   => $row['house'] == 'commons' ? 'MPs' : 'Peers'
-                    );
+                          "tells" 		=> $row['tells']);
+		if ($row['house'] == 'commons')
+		{
+			$mpprop['housenamesuffix'] = 'MP';
+			$mpprop['housenoun'] = 'MP';
+			$mpprop['houseplural'] = 'MPs';
+			$mpprop['fullname'] = "$mppropname MP, ".$row['constituency'];
+		}
+		else
+		{
+			$mpprop['housenamesuffix'] = '';
+			$mpprop['housenoun'] = 'Peer';
+			$mpprop['houseplural'] = 'Peers';
+			$mpprop['fullname'] = $mppropname;
+		}
 
 		# check for an over-lap with the dreammp
 		if ($voter2dream_overlap)

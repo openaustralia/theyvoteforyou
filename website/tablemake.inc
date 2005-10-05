@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.31 2005/10/04 19:43:20 frabcus Exp $
+# $Id: tablemake.inc,v 1.32 2005/10/05 11:22:03 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -621,7 +621,7 @@ function division_table($db, $divtabattr, $events = "")
                 if ($voter2type == "party")
                     print "<td>$voter2 Vote</td>";
                 else if ($voter2type == "dreammp")
-                    writelinkheading("Policy Vote", $divtabattr["voter2link"]);
+	                print "<td>Policy Vote</td>";
                 else
                     print "<td>Vote</td>";
             }
