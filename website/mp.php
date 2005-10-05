@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.89 2005/10/05 14:42:39 frabcus Exp $
+    # $Id: mp.php,v 1.90 2005/10/05 15:33:46 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -157,7 +157,7 @@
 
 		$dismodes["alldreams"] = array("dtype"	=> "alldreams",
 								 "description" => "Policy comparisons",
-								 "dreamcompare"	=> "public",
+								 "dreamcompare"	=> "all",
 								 "defaultparl" => "all");
 	}
 
@@ -516,8 +516,6 @@
 	    $prettyrow = 0;
         if ($dismode["dreamcompare"] == "all")
             $db->query(get_top_dream_query(null));
-        else if ($dismode["dreamcompare"] == "public")
-            $db->query(get_top_dream_query(-1));
         else
             $db->query(get_top_dream_query(8));
 	    $dreams = array();

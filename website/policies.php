@@ -63,7 +63,7 @@ vote in relevant divisions in Parliament.
         <td>Motions Edited</td>
         <td>Name</td>
         <td>Definition</td>
-        <!--<td>MP Dists</td>-->
+        <td>MP Dists</td>
         </tr>";
 
 
@@ -79,8 +79,8 @@ vote in relevant divisions in Parliament.
         print "<td><a href=\"policy.php?id=$dreamid\">" . soft_hyphen($row['name'],25) . "</a></td>";
         print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 150);
         print "</td>";
-        #print "<td>0&nbsp;<img src=\"dreamplot.php?id=$dreamid\">&nbsp;1";
-        #print "</td>\n";
+        print "<td>0&nbsp;<img src=\"dreamplot.php?id=$dreamid\">&nbsp;1";
+        print "</td>\n";
 
         print "</tr>";
         $c++;
