@@ -44,7 +44,7 @@
     $dmp_edited_count = $row["edited_motions_count"];
     $dmp_private = $row["private"];
 
-    $title = "'" . html_scrub($dmp_name) . "' - Policy";
+    $title = "Policy - " . html_scrub($dmp_name);
     include "header.inc";
 
     print "<div class=\"tabledreambox\">";
