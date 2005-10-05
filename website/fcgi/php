@@ -1,2 +1,2 @@
 #!/bin/sh
-PHPRC=/etc/php4/fcgi exec /software/bin/php4 "$@"
+PHPRC=/home/francis/www.publicwhip.org.uk_html/fcgi exec /software/bin/php4 "$@"
