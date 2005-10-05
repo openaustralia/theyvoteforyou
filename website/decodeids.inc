@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.24 2005/10/05 11:47:48 frabcus Exp $
+# $Id: decodeids.inc,v 1.25 2005/10/05 17:25:17 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -258,21 +258,30 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream_overlap=null)
 # do the attributes for a dream mp
 function get_dreammpid_attr_decode($db, $i)
 {
-    $dreammpid = db_scrub($_GET["dmp$i"]);
+    $dreammpid = db_scrub($_GET[($i == "id" ? $i : "dmp$i")]);  # so we can choose to look for id= instead of dmp=
     if ($dreammpid == "")
         return null;
-    $query = "SELECT name, description, pw_dyn_user.user_id as userid, user_name, dream_id
-              FROM pw_dyn_dreammp, pw_dyn_user
-              WHERE pw_dyn_dreammp.user_id = pw_dyn_user.user_id
-                    AND dream_id = '$dreammpid'";
+	$qselect = "SELECT pw_dyn_dreammp.name AS name, pw_dyn_dreammp.description AS description,
+					   pw_dyn_user.user_id AS user_id, user_name,
+					   votes_count, edited_motions_count,
+                       private";
+	$qfrom	 = " FROM pw_dyn_dreammp";
+	$qjoin 	 = " LEFT JOIN pw_cache_dreaminfo ON pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id";
+	$qjoin 	.= " LEFT JOIN pw_dyn_user ON pw_dyn_user.user_id = pw_dyn_dreammp.user_id";
+	$qwhere  = " WHERE pw_dyn_dreammp.dream_id = $dreammpid";
+	$query = $qselect.$qfrom.$qjoin.$qwhere;
+
     $row = $db->query_one_row_assoc($query);
     $dmp_name = $row[0];
 
     return array("dreammpid" 	=> $dreammpid,
                  "name" 		=> $row['name'],
                  "description" 	=> $row['description'],
-                 "userid" 		=> $row['userid'],
+                 "userid" 		=> $row['user_id'],
                  "user_name" 	=> $row['user_name'],
+                 "private" 		=> $row['private'],
+                 "votes_count" 	=> $row['votes_count'],
+                 "edited_count" => $row['edited_motions_count'],
                  "anchor"		=> "dmp$i=".urlencode($dreammpid));
 }
 

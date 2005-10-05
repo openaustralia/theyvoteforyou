@@ -1,5 +1,4 @@
 <?php require_once "common.inc";
-    $dreamid = intval($_GET["id"]);
 
     # $id: dreammp.php,v 1.4 2004/04/16 12:32:42 frabcus Exp $
 
@@ -20,58 +19,77 @@
     include "dream.inc";
 	include "tablepeop.inc";
 
-	update_dreammp_person_distance($db, $dreamid); # new method
+	# this replaces a lot of the work just below
+	$voter = get_dreammpid_attr_decode($db, "id");  # for pulling a dreammpid from id= rather than the more standard dmp=
+    $policyname = html_scrub($voter["name"]);
+	$dreamid = $voter["dreammpid"];
 
-	$qselect = "SELECT pw_dyn_dreammp.name AS name, pw_dyn_dreammp.description AS description,
-					   pw_dyn_user.user_id AS user_id, user_name,
-					   votes_count, edited_motions_count, consistency_with_mps,
-                       private";
-	$qfrom	 = " FROM pw_dyn_dreammp";
-	$qjoin 	 = " LEFT JOIN pw_cache_dreaminfo ON pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id";
-	$qjoin 	.= " LEFT JOIN pw_dyn_user ON pw_dyn_user.user_id = pw_dyn_dreammp.user_id";
-	$qwhere  = " WHERE pw_dyn_dreammp.dream_id = $dreamid";
-	$query = $qselect.$qfrom.$qjoin.$qwhere;
+    $title = "Policy - $policyname";
 
+	# constants
+	$dismodes = array();
+	$dismodes["summary"] = array("dtype"	=> "summary",
+								 "description" => "Votes",
+								 "comparisons" => "yes",
+								 "divisionlist" => "selected",
+								 "policybox" => "yes");
+	$dismodes["everyvote"] = array("dtype"	=> "everyvote",
+								   "divisionlist" => "all",
+							 	   "description" => "Every division");
 
-	if ($bdebug == 1)
-		print "<h3>$query</h3>\n";
-    $row = $db->query_one_row_assoc($query);
-    $dmp_name = $row["name"];
-    $dmp_description = $row["description"];
-    $dmp_user_id = $row["user_id"];
-    $dmp_user_name = $row["user_name"];
-    $dmp_votes_count = $row["votes_count"];
-    $dmp_edited_count = $row["edited_motions_count"];
-    $dmp_private = $row["private"];
+	# work out which display mode we are in
+	$display = $_GET["display"];
+	if (!$dismodes[$display])
+		$display = "summary"; # default
+	$dismode = $dismodes[$display];
 
-    $title = "Policy - " . html_scrub($dmp_name);
+    # make list of links to other display modes
+    $second_links = array();
+    foreach ($dismodes as $ldisplay => $ldismode)
+    {
+        $leadch = " | ";
+        $dlink = "href=\"policy.php?id=".$dreamid.($ldisplay != "summary" ? "&display=$ldisplay" : "")."\"";
+        array_push($second_links, "<a $dlink class=\"".($ldisplay == $display ? "on" : "off")."\">".$ldismode["description"]."</a>");
+    }
+
     include "header.inc";
 
-    print "<div class=\"tabledreambox\">";
-#    print '<h2><a name="compare">Compare to Your MP</a></h2>';
-    print dream_box($dreamid, $dmp_name);
-    print '<p>Why not <a href="#dreambox">add this to your own website?</a></p>';
-    print "</div>";
+	if ($dismode["policybox"])
+	{
+		print "<div class=\"tabledreambox\">";
+	    print dream_box($dreamid, $policyname);
+	    print '<p>Why not <a href="#dreambox">add this to your own website?</a></p>';
+	    print "</div>";
+	}
 
-    print "<p><b>Definition:</b> " . str_replace("\n", "<br>", html_scrub($dmp_description)). "</p>";
-    if ($dmp_private)
-        print "<p><b>Made by:</b> " . html_scrub($dmp_user_name) . " (this is a legacy Dream MP)";
+    print "<p><b>Definition:</b> " . str_replace("\n", "<br>", html_scrub($voter["description"])). "</p>";
+    if ($voter["private"])
+        print "<p><b>Made by:</b> " . html_scrub($voter["user_name"]) . " (this is a legacy Dream MP)";
     print "</p>";
 
     print "<p><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a>";
     print ' | <a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=1">Discuss</a>';
 
-
-    print "<h2><a name=\"divisions\">Divisions Selected</a></h2>
-    <p>Divisions which have been selected for this policy.";
-    if ($dmp_votes_count)
-        print " <b>$dmp_votes_count</b> votes, of which <b>$dmp_edited_count</b> have edited motion text.";
+	if ($dismode["divisionlist"] == "selected")
+	{
+		print "<h2><a name=\"divisions\">Selected Divisions</a></h2>
+	    <p>Divisions which have been selected for this policy.";
+	    if ($voter["votes_count"])
+	        print " <b>".$voter["votes_count"]."</b> votes, of which <b>".$voter["edited_count"]."</b> have edited motion text.";
+		else
+			print 'None so far.  Try clicking on "Every division" above to get to the full list.';
+		print "</p>\n";
+	}
+	else
+	{
+		print "<h2><a name=\"divisions\">Every Division</a></h2>\n";
+	}
 
     print "<table class=\"divisions\">\n";
 	$divtabattr = array(
 			"voter1type" 	=> "dreammp",
 			"voter1"        => $dreamid,
-			"showwhich"		=> "all1",
+			"showwhich"		=> ($dismode["divisionlist"] == "selected" ? "all1" : "everyvote"),
 			"headings"		=> 'columns',
 			"divhrefappend"	=> "&dmp=$dreamid", # gives link to crossover page
 			"motionwikistate" => "listunedited");
@@ -84,33 +102,37 @@
     division you can choose how someone supporting your policy would have
     voted.  Only vote on divisions which are relevant to your policy."; */
 
-    print "<h2><a name=\"comparison\">Comparison to MPs</a></h2>";
+	if ($dismode["comparisons"])
+	{
+	    print "<h2><a name=\"comparison\">Comparison to MPs</a></h2>";
 
-    print "<p>Grades MPs acording to how often they voted with the policy.
-            If, in policy divisions where the MP voted, they
-            always voted the same as the policy then the score is 0.0.  If they always voted
-            differently, the score is 1.0.";
+	    print "<p>Grades MPs acording to how often they voted with the policy.
+	            If, in policy divisions where the MP voted, they
+	            always voted the same as the policy then the score is 0.0.  If they always voted
+	            differently, the score is 1.0.";
 
-	$mptabattr = array("listtype" => 'dreamdistance',
-					   'dreammpid' => $dreamid);
-	print "<table class=\"mps\">\n";
-	print "<tr class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Distance</td></tr>\n";
-	mp_table($db, $mptabattr);
-	print "</table>\n";
+		$mptabattr = array("listtype" => 'dreamdistance',
+						   'dreammpid' => $dreamid);
+		print "<table class=\"mps\">\n";
+		print "<tr class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Distance</td></tr>\n";
+		mp_table($db, $mptabattr);
+		print "</table>\n";
+	}
 
-
-    print '<h2><a name="dreambox">Add Policies to Your Website</a></h2>';
-    print '<p>Get people thinking about your issue, by adding a policy search
-			box to your website.  This lets people compare their own MP to your policy,
-			like this.</p>';
-    print dream_box($dreamid, $dmp_name);
-    print '<p>To do this copy and paste the following HTML into your website.
-			Feel free to fiddle with it to fit the look of your site better.  We only
-			ask that you leave the link to Public Whip in.';
-    print '<pre class="htmlsource">';
-    print htmlspecialchars(dream_box($dreamid, $dmp_name));
-    print '</pre>';
-
+	if ($dismode["policybox"])
+	{
+	    print '<h2><a name="dreambox">Add Policies to Your Website</a></h2>';
+	    print '<p>Get people thinking about your issue, by adding a policy search
+				box to your website.  This lets people compare their own MP to your policy,
+				like this.</p>';
+	    print dream_box($dreamid, $policyname);
+	    print '<p>To do this copy and paste the following HTML into your website.
+				Feel free to fiddle with it to fit the look of your site better.  We only
+				ask that you leave the link to Public Whip in.';
+	    print '<pre class="htmlsource">';
+	    print htmlspecialchars(dream_box($dreamid, $policyname));
+	    print '</pre>';
+	}
 ?>
 
 <?php include "footer.inc" ?>

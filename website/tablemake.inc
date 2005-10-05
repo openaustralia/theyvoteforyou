@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.35 2005/10/05 16:02:42 goatchurch Exp $
+# $Id: tablemake.inc,v 1.36 2005/10/05 17:25:17 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -267,7 +267,7 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter
 
     if ($voter1type != "")
     {
-        print "<td>$vote1</td>";
+        print "<td>".($voter1type == "dreammp" && !$vote1 ? "non-voter" : $vote1)."</td>";
         if ($voter2type != "")
             print "<td>$vote2</td>\n";
 
