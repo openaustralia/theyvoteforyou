@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.11 2005/10/05 13:14:07 goatchurch Exp $
+# $Id: divisionvote.inc,v 1.12 2005/10/05 14:42:39 frabcus Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -63,7 +63,6 @@
                     {
                         print "<tr><td colspan=2><div class=\"error\">";
                         notify_dream_mp_updated($db, intval($row['dream_id']));
-                        notify_division_updated($db, $date, $div_no);
 
                         if ($changedvote == "--")
                         {

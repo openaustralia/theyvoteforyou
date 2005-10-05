@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: addpolicy.php,v 1.2 2005/10/04 19:53:59 frabcus Exp $
+# $Id: addpolicy.php,v 1.3 2005/10/05 14:42:39 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -48,7 +48,6 @@ if (user_isloggedin()) # User logged in, show settings screen
                 {
                     $feedback = "Failed to add new policy. " . mysql_error();
                 }
-                notify_dream_list_changed($db);
             }
         }
     }

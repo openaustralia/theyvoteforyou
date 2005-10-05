@@ -1,7 +1,4 @@
 <?php require_once "common.inc";
-    $cache_params = "";
-    include "cache-begin.inc";
-
     # $id: dreammp.php,v 1.4 2004/04/16 12:32:42 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -94,4 +91,3 @@ vote in relevant divisions in Parliament.
 ?>
 
 <?php include "footer.inc" ?>
-<?php include "cache-end.inc"; ?>

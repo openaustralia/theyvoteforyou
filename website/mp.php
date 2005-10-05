@@ -1,12 +1,10 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.88 2005/10/05 14:21:07 theyworkforyou Exp $
+    # $Id: mp.php,v 1.89 2005/10/05 14:42:39 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
     # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
     # For details see the file LICENSE.html in the top level of the source.
-
-    include "cache-begin.inc";
 
     include "db.inc";
     $db = new DB();
@@ -534,5 +532,4 @@
 
 
 <?php include "footer.inc" ?>
-<?php include "cache-end.inc"; ?>
 

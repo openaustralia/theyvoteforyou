@@ -1,12 +1,11 @@
 <?php require_once "common.inc";
-    # $Id: boths.php,v 1.9 2005/07/28 15:33:18 frabcus Exp $
+    # $Id: boths.php,v 1.10 2005/10/05 14:42:39 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
     # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
     # For details see the file LICENSE.html in the top level of the source.
 
-    include "cache-begin.inc";
     $title = "Voted both aye and no"; 
     include "header.inc";
     include "db.inc";
@@ -94,4 +93,3 @@ headings to sort it by MP name or by division date.
 ?>
 
 <?php include "footer.inc" ?>
-<?php include "cache-end.inc"; ?>

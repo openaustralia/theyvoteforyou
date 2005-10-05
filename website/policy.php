@@ -1,7 +1,5 @@
 <?php require_once "common.inc";
     $dreamid = intval($_GET["id"]);
-    $cache_params = "id=$dreamid";
-    include "cache-begin.inc";
 
     # $id: dreammp.php,v 1.4 2004/04/16 12:32:42 frabcus Exp $
 
@@ -115,5 +113,4 @@
 ?>
 
 <?php include "footer.inc" ?>
-<?php include "cache-end.inc"; ?>
 

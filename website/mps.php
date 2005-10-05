@@ -1,11 +1,10 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.16 2005/10/04 16:26:37 frabcus Exp $
+    # $Id: mps.php,v 1.17 2005/10/05 14:42:39 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
     # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
     # For details see the file LICENSE.html in the top level of the source.
-    include "cache-begin.inc";
 
     include "db.inc";
     include "tablemake.inc";
@@ -67,4 +66,3 @@ you expect. You can change the order of the table by selecting the headings.
 ?>
 
 <?php include "footer.inc" ?>
-<?php include "cache-end.inc"; ?>

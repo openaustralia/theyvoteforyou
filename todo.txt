@@ -1,10 +1,7 @@
-alter table pw_dyn_wiki rename to pw_dyn_wiki_motion;
-alter table pw_dyn_wiki_motion add division_date date not null;
-alter table pw_dyn_wiki_motion add division_number int not null;
-alter table pw_dyn_wiki_motion add house enum('commons', 'lords') not null;
-update pw_dyn_wiki_motion set division_date = substring(object_key,8, 10), division_number = substring(object_key, 19), house = 'commons';
-alter table pw_dyn_wiki_motion drop object_key;
-alter table pw_cache_divwiki add house enum('commons', 'lords') not null;
+cache-begin
+ACCOUNTBEGIN[\s\S]*ACCOUNTEND-->/", account_navbar(), $content);
+NEWSLETTERBEGIN[\s\S]*NEWSLETTEREND-->/", newsletter_navbar(), $content);
+cache_params
 
 edits.php
 
@@ -18,8 +15,6 @@ White background on internet explorer
 
 Motion text editing
 -------------------
-
-Use proper joins in wiki text table rather than CONCAT
 
 Say more clearly that things are edited
     - what has and has not been edited?

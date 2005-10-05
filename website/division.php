@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.74 2005/10/05 11:47:48 frabcus Exp $
+# $Id: division.php,v 1.75 2005/10/05 14:42:39 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -99,14 +99,7 @@
 
 
     include_once "account/user.inc";
-    if (!user_isloggedin())
-	{
-        $cache_params = "#date=$date#div_no=$div_no#show_all=$show_all#";
-        include "cache-begin.inc";
-    }
-
     include "database.inc";
-    include_once "cache-tools.inc";
 
     include "divisionvote.inc";
 
@@ -467,7 +460,3 @@
 ?>
 
 <?php include "footer.inc" ?>
-<?php
-if (!user_isloggedin())
-    include "cache-end.inc";
-?>

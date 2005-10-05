@@ -1,8 +1,7 @@
 <?php require_once "common.inc";
 header("Content-Type: image/png");
 $dreamid = intval($_GET["id"]);
-$cache_params = "id=$dreamid"; include "cache-begin.inc";
-# $Id: dreamplot.php,v 1.5 2005/07/15 16:57:29 frabcus Exp $
+# $Id: dreamplot.php,v 1.6 2005/10/05 14:42:39 frabcus Exp $
 
 # Draw thumbsketch histogram of how many MPs are each distance away
 # from the Dream MP.
@@ -55,7 +54,5 @@ while (list($k, $v) = each($data)) {
 $sparkline->Render(16); // height only for Sparkline_Bar
 
 $sparkline->Output();
-
-include "cache-end.inc";
 
 ?>
