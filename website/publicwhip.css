@@ -531,9 +531,21 @@ PRE.htmlsource
 /* For diffs in wiki */
 .diffchange
 {
-    BACKGROUND: #00aaaa;
-    COLOR: #ffffff;
 }
+TABLE TD.oddcol .diffchange
+{
+    /*BACKGROUND-COLOR: #77ee77 */
+    BACKGROUND: #eeeeee;
+    COLOR: #000000;
+}
+TABLE TD.evencol .diffchange
+{
+    /*BACKGROUND-COLOR: #77da77*/
+    BACKGROUND: #dadada;
+    COLOR: #000000;
+}
+
+
 /* Space so that when going to # links it scrolls to top of screen */
 .paddingforanchors
 {

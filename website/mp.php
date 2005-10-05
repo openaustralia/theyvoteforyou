@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.90 2005/10/05 15:33:46 frabcus Exp $
+    # $Id: mp.php,v 1.91 2005/10/05 17:03:11 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -507,8 +507,7 @@
 		print "<h2><a name=\"dreammotions\">Policy Comparisons</a></h2>";
 	    print "<table class=\"mps\">\n";
 	    print "<tr class=\"headings\">
-	        <td>Votes</td>
-	        <td>Made by</td>
+	        <td>Voted</td>
 	        <td>Policy</td>
 	        <td>Description</td>
 	        </tr>";

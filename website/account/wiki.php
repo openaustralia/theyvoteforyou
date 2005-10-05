@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.13 2005/10/05 13:47:46 frabcus Exp $
+# $Id: wiki.php,v 1.14 2005/10/05 17:03:11 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -28,14 +28,12 @@ if (user_isloggedin()) # User logged in, show settings screen
     $submit = db_scrub($_POST["submit"]);
     $r = db_scrub($_GET["r"]);
 
-    $title = "Edit Text"; 
-    $division_date = $matches[1];
     $division_number = $matches[2];
     $db->query("select * from pw_division where division_date = '$params[0]' 
         and division_number = '$params[1]' and house = '$params[2]'");
     $division_details = $db->fetch_row_assoc();
     $prettydate = date("j M Y", strtotime($params[0]));
-    $title = "Edit Motion Effect - " . $division_details['division_name'] . " - $prettydate - Division No. $division_number";
+    $title = "Edit Division Description - " . $division_details['division_name'] . " - $prettydate - Division No. $division_number";
     $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $division_details['debate_gid']);
     
     if ($submit && (!$just_logged_in))
@@ -106,7 +104,7 @@ with other motion researchers on our special forum</a>.
 
         </div>
 
-        <p><b>Edit division title and motion text:</b>
+        <p><b>Edit division title and description:</b>
 <?
         }
 
@@ -122,9 +120,7 @@ with other motion researchers on our special forum</a>.
 <?
         if ($type == 'motion') {
 ?>
-        <p><a href="<?=get_wiki_history_link($type, $params)?>">View edit history of this motion text</a>
-        <br><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=2">Discuss this
-with other motion text editors on our forum</a>.
+        <p><a href="<?=get_wiki_history_link($type, $params)?>">View change history</a>
 
 <?
         }

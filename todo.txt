@@ -1,8 +1,3 @@
-cache-begin
-ACCOUNTBEGIN[\s\S]*ACCOUNTEND-->/", account_navbar(), $content);
-NEWSLETTERBEGIN[\s\S]*NEWSLETTEREND-->/", newsletter_navbar(), $content);
-cache_params
-
 edits.php
 
 Log stuff that has been edited

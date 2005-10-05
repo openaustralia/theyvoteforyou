@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.76 2005/10/05 16:02:42 goatchurch Exp $
+# $Id: division.php,v 1.77 2005/10/05 17:03:11 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -252,17 +252,17 @@
 		if ($singlemotionpage)
 		{
 	    	# Show motion text
-	        if ($motion_data['user_id'] == 0) {
-		        print "<h2><a name=\"motion\">Motion</a></h2>";
-	            print "<p>Procedural text extracted from the debate,
-	            so you can try to work out what 'aye' (for the motion) and 'no' (against the motion) meant.
-	            This is for guidance only, irrelevant text may be shown, crucial text may be missing.
-	            </p>";
-	        } else {
-	        	# experiment where we print nothing if it's been edited.
-	            print "<p></p>";
-	        }
+            $edit_link = "account/wiki.php?type=motion&date=".$divattr["division_date"].
+                "&number=".$divattr["division_number"]."&house=".$divattr["house"].
+                "&r=".urlencode($_SERVER["REQUEST_URI"]);
+            $history_link = "edits.php?type=motion&date=".$divattr["division_date"].
+                "&number=".$divattr["division_number"]."&house=".$divattr["house"];
+
 	        print "<div class=\"motion\">";
+	        if ($motion_data['user_id'] == 0) {
+                print "<p><strong>Description automatically extracted from the debate, 
+                    please <a href=\"$edit_link\">edit it</a> to make it better.</strong></p>";
+	        }
             print extract_motion_text_from_wiki_text($motion_data['text_body']);
 	        print "</div>\n";
 
@@ -278,10 +278,10 @@
 	            print " | ";
 	    		print "<a href=\"$source\">Original Hansard</a>";
 			}
-
-	    	print " | <a href=\"account/wiki.php?type=motion&date=".$divattr["division_date"].
-                "&number=".$divattr["division_number"]."&house=".$divattr["house"].
-                "&r=".urlencode($_SERVER["REQUEST_URI"]) . "\">Edit text</a>";
+	    	print " | <a href=\"$edit_link\">Edit description</a>";
+	        if ($motion_data['user_id'] != 0) {
+                print " | <a href=\"$history_link\">View changes</a>";
+            }
 
 	        if ($motion_data['user_id'] != 0) {
 	            $db->query("select * from pw_dyn_user where user_id = " . $motion_data['user_id']);

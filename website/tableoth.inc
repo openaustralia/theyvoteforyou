@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.12 2005/10/05 13:14:07 goatchurch Exp $
+    # $Id: tableoth.inc,v 1.13 2005/10/05 17:03:11 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -84,7 +84,6 @@
 	    $row = $db->query_one_row_assoc($query);
 	    $link = "mp.php?".$mpprop["mpanchor"]."&dmp=".urlencode($dreammpid);
         print "<td>".$row["count"]."</td>\n";
-        print "<td>".html_scrub($row["user_name"])."</td>\n";
         print "<td><a href=\"$link\">Compare ".html_scrub($mpprop['name'])." to '".html_scrub($row["name"])."'</a></td>\n";
         print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row["description"])), 0, 50);
         print "</tr>\n";
