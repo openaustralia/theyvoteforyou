@@ -1,9 +1,6 @@
 <?
-#require_once "common.inc";
+require_once "common.inc";
 #include "account/user.inc";
-
-#print $fooble;
-#exit;
 
 #phpinfo();
 
