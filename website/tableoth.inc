@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.11 2005/07/28 15:33:19 frabcus Exp $
+    # $Id: tableoth.inc,v 1.12 2005/10/05 13:14:07 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under

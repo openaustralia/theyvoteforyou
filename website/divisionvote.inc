@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.10 2005/10/04 19:52:04 frabcus Exp $
+# $Id: divisionvote.inc,v 1.11 2005/10/05 13:14:07 goatchurch Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
