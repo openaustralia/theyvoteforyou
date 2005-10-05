@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: settings.php,v 1.14 2005/10/04 19:43:20 frabcus Exp $
+# $Id: settings.php,v 1.15 2005/10/05 18:18:43 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -65,12 +65,14 @@ if (user_isloggedin()) # User logged in, show settings screen
 	<P>';
 
     print "<h2>Policies You Made</h2>";
-    $query = "select dream_id, name, description from pw_dyn_dreammp where user_id = '" . user_getid() . "'";
+    $query = "select dream_id, name, description, private from pw_dyn_dreammp where user_id = '" . user_getid() . "' order by private, name";
     $db->query($query);
     $rowarray = $db->fetch_rows_assoc();
     foreach ($rowarray as $row)
     {
         print '<br><a href="../policy.php?id=' . $row['dream_id'] . '">' . html_scrub($row['name']) . "</a>\n";
+        if ($row['private'])
+            print " (legacy Dream MP)";
     }
     print '<p><a href="addpolicy.php">[Make a new policy]</a></p>';
 }

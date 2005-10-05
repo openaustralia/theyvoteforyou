@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.15 2005/10/05 17:55:43 frabcus Exp $
+# $Id: divisionvote.inc,v 1.16 2005/10/05 18:18:43 frabcus Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -24,13 +24,6 @@ function write_single_policy_vote($db, $divattr, $voter)
 {
     global $bdebug;
 
-    # get the type of dream mp we have here
-    $query = "SELECT name, private, user_id FROM pw_dyn_dreammp WHERE dream_id = $voter";
-    $row = $db->query_one_row_assoc($query);
-    $legacydreammp = $row["private"];
-    $votechangeable = !$legacydreammp or $row["user_id"] == user_getid();
-    $policyname = html_scrub($row["name"]);
-
     $qdivmatch = "division_date = '".$divattr["division_date"]."'
                   AND division_number = ".$divattr["division_number"];
 
@@ -41,11 +34,23 @@ function write_single_policy_vote($db, $divattr, $voter)
     $vote = ($row ? $row["vote"] : "");
     $bvote = (!$vote ? "--" : $vote); # blank space filled
 
+    # get the type of dream mp we have here
+    $query = "SELECT name, private, user_id FROM pw_dyn_dreammp WHERE dream_id = $voter";
+    $row = $db->query_one_row_assoc($query);
+    $legacydreammp = $row["private"];
+    $votechangeable = !$legacydreammp or $row["user_id"] == user_getid();
+    $policyname = html_scrub($row["name"]);
+
+    # See if changeable
+    $legacydreammp = $row["private"];
+    $votechangeable = user_getid() && (!$legacydreammp || ($row["user_id"] == user_getid()));
+
     # a submit was posted on this page
     $voteannouce = "";
-    if (mysql_escape_string($_POST["submit"]))
+    if (mysql_escape_string($_POST["submit"]) && $votechangeable)
     {
         $newbvote = mysql_escape_string($_POST["vote$voter"]);
+        #print "newbvote, bvote: $newbvote $bvote";
         if ($newbvote != $bvote)
         {
             # these are caching notifications
@@ -90,15 +95,14 @@ function write_single_policy_vote($db, $divattr, $voter)
     }
 
     # display dream MP vote
-    $legacydreammp = $row["private"];
-    $votechangeable = !$legacydreammp or $row["user_id"] == user_getid();
     print "<p>";
     if ($votechangeable)
         print "<FORM ACTION=\"".$divattr["divhref"]."&dmp=$voter\" METHOD=\"POST\">";
     print "<a href=\"policy.php?id=$voter\">$policyname</a>";
     if ($legacydreammp)
         print " (legacy Dream MP)";
-    print ": \n";
+    if ($votechangeable)
+        print ": \n";
 
     if ($votechangeable)
         print " <select name=\"vote$voter\" size=\"1\">
