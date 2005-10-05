@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.12 2005/10/05 14:42:39 frabcus Exp $
+# $Id: divisionvote.inc,v 1.13 2005/10/05 16:02:42 goatchurch Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -20,6 +20,135 @@
         }
 
 		# the generated table on the division page
+        function write_single_policy_vote($db, $divattr, $voter)
+        {
+			global $bdebug;
+
+			# get the type of dream mp we have here
+            $query = "SELECT name, private, user_id FROM pw_dyn_dreammp WHERE dream_id = $voter";
+		    $row = $db->query_one_row_assoc($query);
+			$legacydreammp = $row["private"];
+		    $votechangeable = !$legacydreammp or $row["user_id"] == user_getid();
+			$policyname = html_scrub($row["name"]);
+
+			$qdivmatch = "division_date = '".$divattr["division_date"]."'
+					      AND division_number = ".$divattr["division_number"];
+
+			# get the value from the database
+            $query = "SELECT vote FROM pw_dyn_dreamvote
+					  WHERE dream_id = $voter AND $qdivmatch";
+		    $row = $db->query_onez_row_assoc($query);
+			$vote = ($row ? $row["vote"] : "");
+			$bvote = (!$vote ? "--" : $vote); # blank space filled
+
+			# a submit was posted on this page
+            if (mysql_escape_string($_POST["submit"]))
+            {
+                $newbvote = mysql_escape_string($_POST["vote$voter"]);
+                if ($newbvote != $bvote)
+                {
+					# these are caching notifications
+					notify_dream_mp_updated($db, intval($voter));
+                    notify_division_updated($db, $date, $div_no);
+
+					# set the query that deletes, inserts, or changes the vote
+                    if ($newbvote == "--")
+                    {
+                        $query = "DELETE FROM pw_dyn_dreamvote
+								  WHERE dream_id=$voter AND $qdivmatch";
+					}
+					elseif ($bvote == "--")
+					{
+						$query = "INSERT INTO pw_dyn_dreamvote
+									(vote, dream_id, division_date, division_number)
+								  VALUES
+								  	('$newbvote', $voter, '".$divattr["division_date"]."', ".$divattr["division_number"].")";
+					}
+					else
+					{
+	                    $query = "UPDATE pw_dyn_dreamvote
+								  SET vote='$newbvote'
+								  WHERE dream_id=$voter AND $qdivmatch";
+					}
+					$vchange = ($newbvote == "--" ? "non-voter" : $newbvote);
+
+					if ($bdebug == 1)
+						print "<h2>$query</h2>";
+                    $db->query($query);
+
+                    if ($db->rows() == 0)
+                        print "Error changing $policyname to $vchange (no change)";
+                    elseif ($db->rows() > 1)
+                        print "Error changing $policyname to $vchange (too many rows)";
+                    audit_log("Changed '$policyname' to $vchange for division $date $div_no");
+
+                    print "<p class=\"error\">";  # for highlighting(!)
+                    print "Changed '$policyname' to $vchange";
+                    print "</p>";
+
+                    $bvote = $newbvote;
+                }
+			}
+
+            # display dream MP vote
+			$legacydreammp = $row["private"];
+		    $votechangeable = !$legacydreammp or $row["user_id"] == user_getid();
+			print "<p>";
+            if ($votechangeable)
+				print "<FORM ACTION=\"".$divattr["divhref"]."&dmp=$voter\" METHOD=\"POST\">";
+        	print "<a href=\"policy.php?id=$voter\">$policyname</a>";
+            if ($legacydreammp)
+            	print " (legacy Dream MP)";
+			print ": \n";
+
+            if ($votechangeable)
+                print " <select name=\"vote$voter\" size=\"1\">
+                            <option " . vote_value("--", $bvote) . ">Non-voter</option>
+                            <option " . vote_value("aye3", $bvote) . ">Aye 3-Line</option>
+                            <option " . vote_value("aye", $bvote) . ">Aye</option>
+                            <option " . vote_value("both", $bvote) . ">Abstain</option>
+                            <option " . vote_value("no", $bvote) . ">No</option>
+                            <option " . vote_value("no3", $bvote) . ">No 3-Line</option>
+                        </select>";
+			elseif ($bvote == "--")
+				print " did not vote.";
+			else
+				print " voted '$bvote'";
+
+            if ($votechangeable)
+				print '<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Update"></FORM>';
+			print "</p>\n";
+
+			return ($bvote == "--" ? "" : $bvote);
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		# the generated table on the division page
+		# this will be deprecated
         function write_dream_vote($db, $divattr)
         {
 			global $bdebug;

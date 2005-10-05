@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.75 2005/10/05 14:42:39 frabcus Exp $
+# $Id: division.php,v 1.76 2005/10/05 16:02:42 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -56,16 +56,12 @@
 	# designated voter on this division
 	$votertype = "";
 	$voter = "";
-	$voterattr = get_dreammpid_attr_decode($db, "");
+	$voter2attr = get_dreammpid_attr_decode($db, "");
 	if ($voter2attr != null)
 	{
 		$votertype = "dreammp";
 		$voter = $voter2attr['dreammpid'];
-		$query = "SELECT vote FROM pw_dyn_dreamvote
-					WHERE division_date = ".$divattr["division_date"]." AND division_number = ".$divattr["division_number"]."
-						AND dream_id = $voter";
-		$row = $db->query_one_row_assoc($query);
-		$vote = $row["vote"];
+		# $vote is calculated in write_single_policy_vote
 	}
 	else
 	{
@@ -201,6 +197,7 @@
 	include "header.inc";
 
 	# Dream MP voting feature
+# this will be deprecated
 	if ($divattr2 == "none" and user_isloggedin())
 		write_dream_vote($db, $divattr);
 
@@ -224,6 +221,7 @@
 			print " and ".$row["boths"]." voting both";
 		print ".</p>\n";
 
+		# cross-over case listing vote of single MP
 		if ($votertype == "mp")
 		{
 			print "<p>And <a href=\"mp.php?".$voter['mpanchor']."\">".$voter['name']." MP</a> (".$voter['constituency'].")";
@@ -242,6 +240,10 @@
 			print "</p>\n";
 			# state if it is rebellion??
 		}
+
+		# crossover page for updating and changing a policy vote
+		elseif ($votertype == "dreammp")
+	        $vote = write_single_policy_vote($db, $divattr, $voter);
 	}
 
 	# motion text paragraph
@@ -257,7 +259,7 @@
 	            This is for guidance only, irrelevant text may be shown, crucial text may be missing.
 	            </p>";
 	        } else {
-	        	# trial run of printing nothing here before the motion text
+	        	# experiment where we print nothing if it's been edited.
 	            print "<p></p>";
 	        }
 	        print "<div class=\"motion\">";

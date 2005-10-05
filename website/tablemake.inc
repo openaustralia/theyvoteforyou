@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.34 2005/10/05 13:53:21 frabcus Exp $
+# $Id: tablemake.inc,v 1.35 2005/10/05 16:02:42 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -596,7 +596,7 @@ function division_table($db, $divtabattr, $events = "")
     {
         print "<tr class=\"headings\">";
         if ($voter2type != "")
-            print "<td>Comparison</td>";
+            print "<td>R&ocirc;le</td>";
         print "<td>Date</td><td>No.</td>";
         print "<td>Subject</td>";
 
