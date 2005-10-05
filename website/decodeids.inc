@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.23 2005/10/05 11:22:03 goatchurch Exp $
+# $Id: decodeids.inc,v 1.24 2005/10/05 11:47:48 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -301,7 +301,6 @@ function get_division_attr_decode($db, $i)
     if ($bdebug == 1)
         print "<h5>$query</h5>";
     $row = $db->query_one_row_assoc($query);
-    $motion_key = get_motion_wiki_key($row["division_date"], $row['division_number']);
 
     return array("division_date" 	=> $row["division_date"],
                  "division_number" 	=> $row['division_number'],
@@ -316,7 +315,6 @@ function get_division_attr_decode($db, $i)
                  "rebellions"		=> $row["rebellions"],
                  "turnout"			=> $row["turnout"],
                  "divhref"			=> "division.php?date=".urlencode($row["division_date"])."&number=".urlencode($row["division_number"]),
-                 "motion_key"		=> $motion_key,
                  "original_motion"	=> $row["motion"]);
 }
 ?>

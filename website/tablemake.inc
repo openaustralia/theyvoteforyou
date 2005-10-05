@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.32 2005/10/05 11:22:03 goatchurch Exp $
+# $Id: tablemake.inc,v 1.33 2005/10/05 11:47:48 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -480,6 +480,7 @@ function division_table($db, $divtabattr, $events = "")
     $aquery["qselect"] = " SELECT
                             pw_division.division_number AS divisionnumber,
                             pw_division.division_date 	AS divisiondate,
+                            house,
                             division_name, source_url, debate_url, source_gid, debate_gid";
 
     $aquery["qfrom"]   = " FROM pw_division";
@@ -501,17 +502,17 @@ function division_table($db, $divtabattr, $events = "")
     if ($sortby == "rebellions" or $sortby == "turnout")
         $aquery["qorder"] .= " $sortby DESC, ";
     if ($breversed)
-        $aquery["qorder"] .= " divisiondate, divisionnumber";
+        $aquery["qorder"] .= " divisiondate, house, divisionnumber";
     else # by date (for all other cases)
-        $aquery["qorder"] .= " divisiondate DESC, divisionnumber DESC";
+        $aquery["qorder"] .= " divisiondate DESC, house DESC, divisionnumber DESC";
 
     # corrected column (yet another division_id coding!)
     # motionwikistate is nothing or 'listunedited' for the "(unedited)" symbols
     $showmotionwikistate = $divtabattr["motionwikistate"];
-    $aquery["qselect"] .= ", pw_dyn_wiki.wiki_id AS motionedited, pw_dyn_wiki.text_body AS text_body";
+    $aquery["qselect"] .= ", pw_dyn_wiki_motion.wiki_id AS motionedited, pw_dyn_wiki_motion.text_body AS text_body";
     $aquery["qjoin"]  .= "  LEFT JOIN pw_cache_divwiki ON pw_cache_divwiki.division_date = pw_division.division_date
                                     AND pw_cache_divwiki.division_number = pw_division.division_number
-                            LEFT JOIN pw_dyn_wiki ON pw_dyn_wiki.wiki_id = pw_cache_divwiki.wiki_id
+                            LEFT JOIN pw_dyn_wiki_motion ON pw_dyn_wiki_motion.wiki_id = pw_cache_divwiki.wiki_id
                             ";
 
     # full motion text display
@@ -684,8 +685,7 @@ function division_table($db, $divtabattr, $events = "")
         # votedisplay is none, 'fullmotion'(for showing the jmp view)
         if ($divtabattr['votedisplay'] == 'fullmotion')
         {
-            $division_key = get_motion_wiki_key($row['divisiondate'], $row['divisionnumber']);
-            $wikiinfo = get_wiki_current_value($division_key);
+            $wikiinfo = get_wiki_current_value("motion", array($row['divisiondate'], $row['divisionnumber'], $row['house']));
 			$motiontext = extract_motion_text_from_wiki_text($wikiinfo['text_body']);
 			print_motion_row($motiontext, $db, $row['divisionid'], $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, $voter1, $vote1, $vote2, $row, $divhref, $hrefsource);
 			$nrows += 2;

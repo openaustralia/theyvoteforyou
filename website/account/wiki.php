@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.11 2005/10/04 19:22:44 frabcus Exp $
+# $Id: wiki.php,v 1.12 2005/10/05 11:47:48 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -19,34 +19,35 @@ $just_logged_in = do_login_screen();
 
 if (user_isloggedin()) # User logged in, show settings screen
 {
-    $key = db_scrub($_GET["key"]);
+    $type = db_scrub($_GET["type"]);
+    if ($type == 'motion')
+        $params = array(db_scrub($_GET["date"]), db_scrub($_GET["number"]), db_scrub($_GET["house"]));
+    else
+        die("Unknown wiki type " . htmlspecialchars($type));
     $newtext = db_scrub($_POST["newtext"]);
     $submit = db_scrub($_POST["submit"]);
     $r = db_scrub($_GET["r"]);
 
     $title = "Edit Text"; 
-    if ($matches = get_motion_from_key($key)) {
-        $division_date = $matches[1];
-        $division_number = $matches[2];
-        $db->query("select * from pw_division where division_date = '$division_date' 
-            and division_number = '$division_number'");
-        $division_details = $db->fetch_row_assoc();
-        $prettydate = date("j M Y", strtotime($division_date));
-        $title = "Edit Motion Effect - " . $division_details['division_name'] . " - $prettydate - Division No. $division_number";
-        $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $division_details['debate_gid']);
-    }
+    $division_date = $matches[1];
+    $division_number = $matches[2];
+    $db->query("select * from pw_division where division_date = '$params[0]' 
+        and division_number = '$params[1]' and house = '$params[2]'");
+    $division_details = $db->fetch_row_assoc();
+    $prettydate = date("j M Y", strtotime($params[0]));
+    $title = "Edit Motion Effect - " . $division_details['division_name'] . " - $prettydate - Division No. $division_number";
+    $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $division_details['debate_gid']);
     
     if ($submit && (!$just_logged_in))
     {
         if ($submit == "Save") {
-            $db->query_errcheck("insert into pw_dyn_wiki 
-                (object_key, text_body, user_id, edit_date) values
-                ('$key', '$newtext', '" . user_getid() . "', now())");
-            audit_log("Edited wiki text '" . $key . "'");
-            if ($division_date) {
-                notify_motion_updated($db, $division_date, $division_number);
+            $db->query_errcheck("insert into pw_dyn_wiki_motion
+                (division_date, division_number, house, text_body, user_id, edit_date) values
+                ('$params[0]', '$params[1]', '$params[2]', '$newtext', '" . user_getid() . "', now())");
+            audit_log("Edited $type wiki text $params[0] $params[1] $params[2]");
+            if ($type == 'motion') {
+                notify_motion_updated($db, $params[0], $params[1], $params[2]);
             }
-            $matches = null;
         }
         header("Location: ". $r);
         exit;
@@ -55,9 +56,9 @@ if (user_isloggedin()) # User logged in, show settings screen
     {
         include "../header.inc";
 
-        $values = get_wiki_current_value($key);
+        $values = get_wiki_current_value($type, $params);
         
-        if (strstr($key, "motion-")) {
+        if ($type == 'motion') {
 ?>
         <p>Describe the <i>result</i> of this division.  This will require you
         to check through the 
@@ -119,9 +120,9 @@ with other motion researchers on our special forum</a>.
         </FORM>
         </P>
 <?
-        if (strstr($key, "motion-")) {
+        if ($type == 'motion') {
 ?>
-        <p><a href="/edits.php?key=<?=urlencode($key)?>">View edit history of this motion text</a>
+        <p><a href="<?=get_wiki_history_link($type, $params)?>">View edit history of this motion text</a>
         <br><a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=2">Discuss this
 with other motion text editors on our forum</a>.
 

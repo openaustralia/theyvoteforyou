@@ -1,8 +1,20 @@
+alter table pw_dyn_wiki rename to pw_dyn_wiki_motion;
+alter table pw_dyn_wiki_motion add division_date date not null;
+alter table pw_dyn_wiki_motion add division_number int not null;
+alter table pw_dyn_wiki_motion add house enum('commons', 'lords') not null;
+update pw_dyn_wiki_motion set division_date = substring(object_key,8, 10), division_number = substring(object_key, 19), house = 'commons';
+alter table pw_dyn_wiki_motion drop object_key;
+alter table pw_cache_divwiki add house enum('commons', 'lords') not null;
+
+edits.php
+
 Log stuff that has been edited
 
 Go through login stuff and make better
- - go back to where you were after login
+ - go back to where you were after login (for forum)
  - highlight form by default
+
+White background on internet explorer
 
 Motion text editing
 -------------------

@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-tools.inc,v 1.19 2005/10/04 19:43:20 frabcus Exp $
+# $Id: cache-tools.inc,v 1.20 2005/10/05 11:47:48 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -94,10 +94,10 @@ function notify_division_updated($db, $division_date, $division_number) {
     cache_delete("division.php", "#date=".$division_date."#div_no=".$division_number."#*");
 }
 # ... when piece of motion text is edited
-function notify_motion_updated($db, $division_date, $division_number) {
+function notify_motion_updated($db, $division_date, $division_number, $house) {
     cache_delete("division.php", "#date=".$division_date."#div_no=".$division_number."#*");
     # Mark cache table for updating    
     $db->query("delete from pw_cache_divwiki where division_date = '$division_date'
-        and division_number = '$division_number'"); 
+        and division_number = '$division_number' and house = '$house'"); 
 }
 
