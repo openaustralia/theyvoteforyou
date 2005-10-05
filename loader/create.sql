@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.32 2005/10/05 11:47:48 frabcus Exp $
+-- $Id: create.sql,v 1.33 2005/10/05 14:02:10 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -59,6 +59,7 @@ create table pw_mp (
     index(entered_house),
     index(left_house),
     index(person),
+    index(house),
     unique(first_name, last_name, constituency, entered_house, left_house)
 );
 
@@ -98,6 +99,7 @@ create table pw_division (
     
     index(division_date),
     index(division_number),
+    index(house),
     unique(division_date, division_number)
 );
 
@@ -197,7 +199,6 @@ create table pw_dyn_auditlog (
 create table pw_dyn_wiki_motion (
     wiki_id int not null primary key auto_increment,
     -- name/id of object this is an edit of 
-    object_key varchar(100) not null, 
     division_date date not null,
     division_number int not null,
     house enum('commons', 'lords') not null,
@@ -209,7 +210,7 @@ create table pw_dyn_wiki_motion (
     user_id int not null, 
     edit_date datetime,
 
-    index(object_key)
+    index(division_date, division_number, house)
 );
 
 -- who each issue of newsletter has been sent to so far
@@ -267,7 +268,7 @@ create table pw_cache_divwiki (
     division_number int not null,
     house enum('commons', 'lords') not null,
     wiki_id int not null,
-    unique(division_date, division_number)
+    unique(division_date, division_number, house)
 );
 
 -------------------------------------------------------------------------------
