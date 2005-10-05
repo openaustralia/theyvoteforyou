@@ -1,5 +1,3 @@
-edits.php
-
 Log stuff that has been edited
 
 Go through login stuff and make better
@@ -26,14 +24,7 @@ General
 
 Migrate away from mpdist table to new one
 
-Turn caching back on when it works
-... or abandon it completely
-Clear file cache for:
-    divisions.php when a motion text is edited
-    (perhaps just clear everything then!)
-
 Database patches:
-    pw_dyn_dreamvote.vote should be NOT NULL
     Remove division_id
 
 Rewrite description of formula
@@ -45,7 +36,7 @@ Controversial: Remove cluster map, Remove division attendance
 Use sams new stuff of data dumps, and get rid of the votematrix CSV files -
 or make sure they are updated.
 
-Backup dynamic database on cron job (newsletter does this OK for now)
+Backup dynamic database on cron job 
 
 Dream MP
 --------

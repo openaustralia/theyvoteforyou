@@ -1,20 +1,6 @@
 #! /bin/bash
 set -e
 
-#echo "Copying raw data..."
-# TODO: move this lot to cron
-#export CVSROOT=:ext:theyworkforyou@cvs.sourceforge.net:/cvsroot/publicwhip
-#cvs export -r HEAD -d data publicwhip/members
-#rm -f data/*.pl data/*.py
-#cd data
-# TODO: fill in with Sam's stuff in cron
-#cp ../../custom/lightfoot/*.csv .
-#cp ../../custom/lightfoot/divnames.txt .
-#zip votematrix-2001.csv.zip votematrix-2001.csv
-#zip votematrix-1997.csv.zip votematrix-1997.csv
-#rm *.csv
-#cd ..
-
 echo "Updating from CVS..."
 cd /web/SERVERS/www.publicwhip.org.uk/docs
 cvs -q update -dP
