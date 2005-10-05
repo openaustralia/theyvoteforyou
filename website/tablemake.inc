@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.33 2005/10/05 11:47:48 frabcus Exp $
+# $Id: tablemake.inc,v 1.34 2005/10/05 13:53:21 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -480,7 +480,7 @@ function division_table($db, $divtabattr, $events = "")
     $aquery["qselect"] = " SELECT
                             pw_division.division_number AS divisionnumber,
                             pw_division.division_date 	AS divisiondate,
-                            house,
+                            pw_division.house           AS divisionhouse,
                             division_name, source_url, debate_url, source_gid, debate_gid";
 
     $aquery["qfrom"]   = " FROM pw_division";
@@ -502,9 +502,9 @@ function division_table($db, $divtabattr, $events = "")
     if ($sortby == "rebellions" or $sortby == "turnout")
         $aquery["qorder"] .= " $sortby DESC, ";
     if ($breversed)
-        $aquery["qorder"] .= " divisiondate, house, divisionnumber";
+        $aquery["qorder"] .= " divisiondate, divisionhouse, divisionnumber";
     else # by date (for all other cases)
-        $aquery["qorder"] .= " divisiondate DESC, house DESC, divisionnumber DESC";
+        $aquery["qorder"] .= " divisiondate DESC, divisionhouse DESC, divisionnumber DESC";
 
     # corrected column (yet another division_id coding!)
     # motionwikistate is nothing or 'listunedited' for the "(unedited)" symbols
@@ -685,7 +685,7 @@ function division_table($db, $divtabattr, $events = "")
         # votedisplay is none, 'fullmotion'(for showing the jmp view)
         if ($divtabattr['votedisplay'] == 'fullmotion')
         {
-            $wikiinfo = get_wiki_current_value("motion", array($row['divisiondate'], $row['divisionnumber'], $row['house']));
+            $wikiinfo = get_wiki_current_value("motion", array($row['divisiondate'], $row['divisionnumber'], $row['divisionhouse']));
 			$motiontext = extract_motion_text_from_wiki_text($wikiinfo['text_body']);
 			print_motion_row($motiontext, $db, $row['divisionid'], $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, $voter1, $vote1, $vote2, $row, $divhref, $hrefsource);
 			$nrows += 2;

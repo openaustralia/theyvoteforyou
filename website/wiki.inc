@@ -1,5 +1,5 @@
 <?php
-# $Id: wiki.inc,v 1.6 2005/10/05 13:47:46 frabcus Exp $
+# $Id: wiki.inc,v 1.7 2005/10/05 13:53:21 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Editable text with history
@@ -129,9 +129,11 @@ function get_motion_default_values($params)
 # division.
 function update_divisions_wiki_id($db)
 {
-    $result = $db->query("INSERT INTO pw_cache_divwiki
+    $result = $db->query("INSERT INTO pw_cache_divwiki 
+        (division_date, division_number, house, wiki_id)
         SELECT pw_division.division_date AS division_date, 
                pw_division.division_number AS division_number,
+               pw_division.house AS house,
                IFNULL(MAX(pw_dyn_wiki_motion.wiki_id), -1) AS value
         FROM pw_division
         LEFT JOIN pw_cache_divwiki ON pw_division.division_date = pw_cache_divwiki.division_date AND
