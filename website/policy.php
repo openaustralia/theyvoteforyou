@@ -50,9 +50,9 @@
     include "header.inc";
 
     print "<div class=\"tabledreambox\">";
-    print '<h2><a name="compare">Compare to Your MP</a></h2><p>';
+#    print '<h2><a name="compare">Compare to Your MP</a></h2>';
     print dream_box($dreamid, $dmp_name);
-    print '<p>Why not <a href="#dreambox">add this to your own website?</a>';
+    print '<p>Why not <a href="#dreambox">add this to your own website?</a></p>';
     print "</div>";
 
     print "<p><b>Definition:</b> " . str_replace("\n", "<br>", html_scrub($dmp_description)). "</p>";

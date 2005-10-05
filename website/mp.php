@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.87 2005/10/05 11:22:03 goatchurch Exp $
+    # $Id: mp.php,v 1.88 2005/10/05 14:21:07 theyworkforyou Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -129,7 +129,7 @@
 	if ($voter2type == "dreammp")
 	{
 		$dismodes["motions"] = array("dtype"	=> "motions",
-								 "description" => "Unabbreviated",
+								 "description" => "Full",
 								 "votelist"	=> "all",
 								 "votedisplay"	=> "fullmotion",
 								 "defaultparl" => "recent");
@@ -197,7 +197,7 @@
 			$title .= $mpprop['housenounplural']." ".$contitlefor;
 		else
 			$title .= $mpprop['fullname'];
-		$title .= "<br> on ".html_scrub($voter2attr['name']);
+		$title .= " on ".html_scrub($voter2attr['name']);
 	}
 	else if ($voter2type == "person")
 		$title = "Voting Comparison - ".$mpprop['fullname']."<br> to ".$voter2attr["mpprop"]['fullname'];
