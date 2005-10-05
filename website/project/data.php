@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: data.php,v 1.21 2005/10/05 17:21:41 frabcus Exp $
+# $Id: data.php,v 1.22 2005/10/05 17:28:26 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -38,11 +38,11 @@ identifiers.
 
 <p>
 <a href="../data/votematrix-1997.dat">votematrix-1997.dat</a>
-<br><a href="../data/votematrix-1997.txt">votematrix-1997.txt</a>
+<a href="../data/votematrix-1997.txt">votematrix-1997.txt</a>
 <br><a href="../data/votematrix-2001.dat">votematrix-2001.dat</a>
-<br><a href="../data/votematrix-2001.txt">votematrix-2001.txt</a>
+<a href="../data/votematrix-2001.txt">votematrix-2001.txt</a>
 <br><a href="../data/votematrix-2005.dat">votematrix-2005.dat</a>
-<br><a href="../data/votematrix-2005.txt">votematrix-2005.txt</a>
+<a href="../data/votematrix-2005.txt">votematrix-2005.txt</a>
 
 <p>You may have problems using these files because they have more than 256
 columns, and some spreadsheets don't go beyond column IV.  See if your

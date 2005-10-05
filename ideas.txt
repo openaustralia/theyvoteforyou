@@ -140,6 +140,12 @@ Give help on how to request answers from hcinfo
 Usability
 ---------
 
+Policy syndication:
+http://www.livejournal.com/developer/embedding.bml
+Javascript, make .js file with just a "document.write"
+Inline frames, just inline to HTML file
+CGI script / serverside include
+
 List of all divisions and how an MP voted in them, including ones he
 wasn't present at.  So you could see which ones they weren't at easily.
 Kind of makes sense.

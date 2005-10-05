@@ -1,23 +1,15 @@
-Log stuff that has been edited
+Log policy stuff that has been edited
 
 Go through login stuff and make better
  - go back to where you were after login (for forum)
  - highlight form by default
 
-White background on internet explorer
+White background in second tier nav doesn't work on internet explorer
 
 Motion text editing
 -------------------
 
-Say more clearly that things are edited
-    - what has and has not been edited?
-    - work out better name than "motion text editing"
-
-Make wiki edit history much better
-
 Report abuse button
-
-Before + After of motion text edits
 
 General
 -------
@@ -33,26 +25,17 @@ Do a big usability thing - get Tom L to help with his ideas
 Make log file stats daily to see what happens as you subtly change links
 Controversial: Remove cluster map, Remove division attendance
 
-Use sams new stuff of data dumps, and get rid of the votematrix CSV files -
-or make sure they are updated.
-
 Backup dynamic database on cron job 
 
-Dream MP
+Policies
 --------
 
-Syndication
-http://www.livejournal.com/developer/embedding.bml
-Javascript, make .js file with just a "document.write"
-Inline frames, just inline to HTML file
-CGI script / serverside include
-
 Comments (PHP/MySQL website style) on 
+    - policy page
     - individual votes
-    - dream MP page
 
 Party comparison
-Put dream MP ratings on MP page
+Put policy ratings on MP page
 
 Voting accuracy
 ---------------
@@ -87,14 +70,11 @@ off-by-one errors for their changed party
 Future
 ------
 
-Search needs to search wiki text and Dream MP text
+Search needs to search wiki text and policy text
 
 Make newsletter signing more streamlined
 
 Sort out java applets, how to link to them. 
-
-People add their web page URL to their profile and/or their Dream MP
-(perhaps let HTML in Dream MP description)
 
 User names need to link to profile page about that user
 
