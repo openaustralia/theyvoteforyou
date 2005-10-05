@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.77 2005/10/05 17:03:11 frabcus Exp $
+# $Id: division.php,v 1.78 2005/10/05 17:41:51 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -198,8 +198,8 @@
 
 	# Dream MP voting feature
 # this will be deprecated
-	if ($divattr2 == "none" and user_isloggedin())
-		write_dream_vote($db, $divattr);
+#	if ($divattr2 == "none" and user_isloggedin())
+#		write_dream_vote($db, $divattr);
 
 	# Summary
 	if ($dismode["summarytext"])

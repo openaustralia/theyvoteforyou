@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.13 2005/10/05 16:02:42 goatchurch Exp $
+# $Id: divisionvote.inc,v 1.14 2005/10/05 17:41:51 goatchurch Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -42,6 +42,7 @@
 			$bvote = (!$vote ? "--" : $vote); # blank space filled
 
 			# a submit was posted on this page
+			$voteannouce = "";
             if (mysql_escape_string($_POST["submit"]))
             {
                 $newbvote = mysql_escape_string($_POST["vote$voter"]);
@@ -80,12 +81,9 @@
                         print "Error changing $policyname to $vchange (no change)";
                     elseif ($db->rows() > 1)
                         print "Error changing $policyname to $vchange (too many rows)";
-                    audit_log("Changed '$policyname' to $vchange for division $date $div_no");
+                    audit_log("Changed '$policyname' to $vchange for division ".$divattr["division_date"]." ".$divattr["division_no"]);
 
-                    print "<p class=\"error\">";  # for highlighting(!)
-                    print "Changed '$policyname' to $vchange";
-                    print "</p>";
-
+                    $voteannouce = "<span class=\"error\">Changed from ".($bvote == "--" ? "non-voter" : $bvote)."</div>";
                     $bvote = $newbvote;
                 }
 			}
@@ -117,7 +115,7 @@
 
             if ($votechangeable)
 				print '<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Update"></FORM>';
-			print "</p>\n";
+			print "$voteannouce</p>\n";
 
 			return ($bvote == "--" ? "" : $bvote);
 		}
