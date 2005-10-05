@@ -21,7 +21,7 @@
             else
                 $params = null;
         } else {
-            die("Unknown wiki type " . htmlspecialchars($type));
+            fatal_error("Unknown wiki type " . htmlspecialchars($type));
         }
     }
 

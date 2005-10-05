@@ -138,7 +138,7 @@ function postcode_to_constituency_internal($db, $postcode)
     {
         trigger_error("Postcode database is not working. Invalid XML.", E_USER_WARNING);
         return '';
-#        die(sprintf("XML error: %s at line %d",
+#        fatal_error(sprintf("XML error: %s at line %d",
 #            xml_error_string(xml_get_error_code($xml_parser)),
 #            xml_get_current_line_number($xml_parser)));
     }

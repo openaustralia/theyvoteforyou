@@ -1,5 +1,5 @@
 <?php
-# $Id: wiki.inc,v 1.5 2005/10/05 11:47:48 frabcus Exp $
+# $Id: wiki.inc,v 1.6 2005/10/05 13:47:46 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Editable text with history
@@ -33,7 +33,7 @@ function get_wiki_where_fragment($type, $params)
     if ($type == 'motion') {
         return " (division_date = '$params[0]' and division_number = '$params[1]' and house = '$params[2]') ";
     } else {
-        die("Unknown wiki type '" . html_scrub($type). "'");
+        fatal_error("Unknown wiki type '" . html_scrub($type). "'");
     }
 }
 # Give a wiki type, returns table
@@ -42,7 +42,7 @@ function get_wiki_table($type)
     if ($type == 'motion') {
         return "pw_dyn_wiki_motion";
     } else {
-        die("Unknown wiki type '" . html_scrub($type). "'");
+        fatal_error("Unknown wiki type '" . html_scrub($type). "'");
     }
 }
 # Returns link to history view of given wiki item
@@ -50,7 +50,7 @@ function get_wiki_history_link($type, $params) {
     if ($type == 'motion') {
         return "/edits.php?type=$type&date=$params[0]&number=$params[1]&house=$params[2]";
     } else {
-        die("Unknown wiki type '" . html_scrub($type). "'");
+        fatal_error("Unknown wiki type '" . html_scrub($type). "'");
     }
 }
 
@@ -77,7 +77,7 @@ function get_wiki_current_value($type, $params)
         }
         $result['text_body'] = add_motion_missing_wrappers($result['text_body'], $division_name);
     } else {
-        die("Unknown wiki type '" . html_scrub($type). "'");
+        fatal_error("Unknown wiki type '" . html_scrub($type). "'");
     }
     return $result;
 }
@@ -121,7 +121,7 @@ function get_motion_default_values($params)
         return array($motion, $row['division_name']);
     }
 
-    die("Couldn't find motion text for division " . htmlspecialchars($parmas[0]) . " " . htmlspecialchars($params[1]) 
+    fatal_error("Couldn't find motion text for division " . htmlspecialchars($parmas[0]) . " " . htmlspecialchars($params[1]) 
         . " " . htmlspecialchars($params[2]));
 }
 
@@ -130,8 +130,9 @@ function get_motion_default_values($params)
 function update_divisions_wiki_id($db)
 {
     $result = $db->query("INSERT INTO pw_cache_divwiki
-        SELECT pw_division.division_date AS division_date, pw_division.division_number AS division_number,
-                       IFNULL(MAX(pw_dyn_wiki_motion.wiki_id), -1) AS value
+        SELECT pw_division.division_date AS division_date, 
+               pw_division.division_number AS division_number,
+               IFNULL(MAX(pw_dyn_wiki_motion.wiki_id), -1) AS value
         FROM pw_division
         LEFT JOIN pw_cache_divwiki ON pw_division.division_date = pw_cache_divwiki.division_date AND
             pw_division.division_number = pw_cache_divwiki.division_number
