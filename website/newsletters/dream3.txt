@@ -1,5 +1,5 @@
 Subject: Rebranding the Dream MPs
-Date: Tue, 05 Apr 2005 10:38:16 +0100
+Date: Tue, 04 Oct 2005 21:03:45 +0100
 
 Hello Dream MP,
 
@@ -19,14 +19,16 @@ votes.
 We're also learning from the success of Wikipedia by starting
 to relax the need for a log-in.  Anyone should be able to invent
 and describe a new policy and keep its votes up to date and
-usefully consistent.  In the meantime, all your old Dream MPs, which
-are now Policies have become "Private Policies".
+usefully consistent.  This means that any new policies can be
+edited by anybody.  All your old Dream MPs can only be edited by you, 
+as before.
 
 If you find any problems, errors, or spelling mistakes, please
 e-mail us at support@publicwhip.org.uk.  If you experience
 any political disagreements with a vote by a policy, please
 announce it on the Forum.  We like discussions and arguments
-showing up there.  It shows someone cares.
+showing up there.
 
 Francis and Julian
 The Public Whip
+http://www.publicwhip.org.uk

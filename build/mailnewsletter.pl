@@ -2,8 +2,8 @@
 use strict;
 use lib "loader/";
 
-my $text = "website/newsletters/issue9.txt";
-my $type = "all"; 
+my $text = "website/newsletters/dream4.txt";
+my $type = "dream"; 
 my $test_name = "";
 
 #$type = "all";
@@ -38,7 +38,7 @@ if ($type eq "all") {
             from pw_dyn_dreammp, pw_dyn_user, pw_dyn_dreamvote 
                 $already_clause $where_newsletter and
                 pw_dyn_dreammp.user_id = pw_dyn_user.user_id and
-                pw_dyn_dreamvote.dream_id = dream_id
+                pw_dyn_dreamvote.dream_id = pw_dyn_dreammp.dream_id
                 $where
                 group by pw_dyn_user.user_id
                 order by count desc";
