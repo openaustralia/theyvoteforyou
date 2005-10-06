@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.25 2005/10/05 17:25:17 goatchurch Exp $
+# $Id: decodeids.inc,v 1.26 2005/10/06 11:31:38 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -171,7 +171,11 @@ function decode_mpid_legacy($db)
     if ($bdebug == 1)
         print "<h1> FN=$first_name LN=$last_name CO=$constituency</h1>";
 
-    $qwhere = "WHERE constituency = '$constituency'";
+    $qwhere = "WHERE ";
+    if ($constituency)
+	    $qwhere .= "constituency = '$constituency'";
+    else
+	    $qwhere .= "1 = 1";
     if ($first_name != "")
         $qwhere .= " AND first_name = '$first_name' AND last_name = '$last_name'";
 
