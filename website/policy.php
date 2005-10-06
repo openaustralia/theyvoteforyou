@@ -77,8 +77,11 @@
 	    if ($voter["votes_count"])
 	        print " <b>".$voter["votes_count"]."</b> votes, of which <b>".$voter["edited_count"]."</b> have edited motion text.";
 		else
-			print 'None so far.  Try clicking on "Every division" above to get to the full list.';
 		print "</p>\n";
+        if (user_getid()) {
+            $db->query("update pw_dyn_user set active_policy_id = $dreamid where user_id = " . user_getid());
+            print "<p>This is now your active policy; to select other votes for this policy, go to any division page.";
+        }
 	}
 	else
 	{

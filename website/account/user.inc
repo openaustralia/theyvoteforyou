@@ -367,6 +367,19 @@ function user_getemail() {
 	}
 }
 
+function user_getactivepolicy() {
+	global $G_USER_RESULT;
+	//see if we have already fetched this user from the db, if not, fetch it
+	if (!$G_USER_RESULT) {
+		$G_USER_RESULT=db_query("SELECT * FROM pw_dyn_user WHERE user_name='" . user_getname() . "'");
+	}
+	if ($G_USER_RESULT && db_numrows($G_USER_RESULT) > 0) {
+		return db_result($G_USER_RESULT,0,'active_policy_id');
+	} else {
+		return false;
+	}
+}
+
 function user_getnewsletter() {
 	global $G_USER_RESULT;
 	//see if we have already fetched this user from the db, if not, fetch it

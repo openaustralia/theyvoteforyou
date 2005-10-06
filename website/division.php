@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.79 2005/10/05 18:47:30 theyworkforyou Exp $
+# $Id: division.php,v 1.80 2005/10/06 08:53:30 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -7,15 +7,17 @@
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-    include "db.inc";
+    require_once "db.inc";
+   	require_once "decodeids.inc";
+	require_once "tablepeop.inc";
+	require_once "tablemake.inc";
+	require_once "tableoth.inc";
+    require_once "account/user.inc";
+    require_once "database.inc";
+    require_once "divisionvote.inc";
+
     $db = new DB();
     $db2 = new DB();
-
-   	include "decodeids.inc";
-	include "tablepeop.inc";
-	include "tablemake.inc";
-	include "tableoth.inc";
-
 
 	# decode the attributes
 	$divattr = get_division_attr_decode($db, "");
@@ -56,48 +58,42 @@
 	# designated voter on this division
 	$votertype = "";
 	$voter = "";
-	$voter2attr = get_dreammpid_attr_decode($db, "");
-	if ($voter2attr != null)
-	{
-		$votertype = "dreammp";
-		$voter = $voter2attr['dreammpid'];
-		# $vote is calculated in write_single_policy_vote
-	}
-	else
-	{
-		$voterattr = get_mpid_attr_decode($db, $db2, "", null);
-		if ($voterattr != null)
-		{
-			$votertype = "mp";
-			$voter = $voterattr['mpprop'];
 
-    		# brutally find which of the set did the vote
-			foreach ($voterattr['mpprops'] as $lkey => $mpprop)
-			{
-				$query = "SELECT vote FROM pw_vote
-							WHERE division_id = ".$divattr["division_id"]."
-								AND mp_id = ".$mpprop['mpid'];
-				$row = $db->query_onez_row_assoc($query);
-				if ($row)
-				{
-					$voter = $mpprop;
-					$vote = $row["vote"];
-					break;
-				}
-			}
-		}
-		else
-		{
-			$votertype = "";  # could have a designated party if we wanted.
-			$voter = "";
-		}
-	}
+    $voterattr = get_mpid_attr_decode($db, $db2, "", null);
+    if ($voterattr != null)
+    {
+        $votertype = "mp";
+        $voter = $voterattr['mpprop'];
 
-
-    include_once "account/user.inc";
-    include "database.inc";
-
-    include "divisionvote.inc";
+        # brutally find which of the set did the vote
+        foreach ($voterattr['mpprops'] as $lkey => $mpprop)
+        {
+            $query = "SELECT vote FROM pw_vote
+                        WHERE division_id = ".$divattr["division_id"]."
+                            AND mp_id = ".$mpprop['mpid'];
+            $row = $db->query_onez_row_assoc($query);
+            if ($row)
+            {
+                $voter = $mpprop;
+                $vote = $row["vote"];
+                break;
+            }
+        }
+    } else {
+        $voterattr = get_dreammpid_attr_decode($db, "");
+        if ($voterattr != null)
+        {
+            $votertype = "dreammp";
+            $voter = $voterattr['dreammpid'];
+            # $vote is calculated in write_single_policy_vote
+        } else {
+            $active_policy = user_getactivepolicy();
+            if ($active_policy) {
+                $votertype = "dreammp";
+                $voter = $active_policy;
+            }
+        }
+    }
 
 	# make the title
 	$title = "$name - ".$divattr["prettydate"]." - Division No. $div_no";
@@ -193,11 +189,6 @@
 
     # Display title and second nav links
 	include "header.inc";
-
-	# Dream MP voting feature
-# this will be deprecated
-#	if ($divattr2 == "none" and user_isloggedin())
-#		write_dream_vote($db, $divattr);
 
 	# Summary
 	if ($dismode["summarytext"])
