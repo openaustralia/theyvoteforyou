@@ -6,13 +6,10 @@ Go through login stuff and make better
 
 White background in second tier nav doesn't work on internet explorer
 
-Motion text editing
--------------------
+Stuff
+-----
 
-Report abuse button
-
-General
--------
+Report abuse button for motion text editing
 
 Migrate away from mpdist table to new one
 

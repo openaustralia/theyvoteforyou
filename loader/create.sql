@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.33 2005/10/05 14:02:10 frabcus Exp $
+-- $Id: create.sql,v 1.34 2005/10/06 09:18:26 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -158,6 +158,7 @@ CREATE TABLE pw_dyn_user (
   is_confirmed int(11) NOT NULL default '0',
   is_newsletter int(11) NOT NULL default '1',
   reg_date datetime default NULL,
+  active_policy_id int,
   PRIMARY KEY  (user_id)
 ) TYPE=MyISAM;
 

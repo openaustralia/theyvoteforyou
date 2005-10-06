@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: addpolicy.php,v 1.3 2005/10/05 14:42:39 frabcus Exp $
+# $Id: addpolicy.php,v 1.4 2005/10/06 09:18:26 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -37,11 +37,15 @@ if (user_isloggedin()) # User logged in, show settings screen
                     ('$name', '" . user_getid() . "', '$description', 0)"); 
                 if ($ret)
                 {
+                    $new_dreamid = mysql_insert_id();
                     $ok = true;
                     $feedback = "Successfully added policy '" . html_scrub($name) . "'.  To 
                         select votes for your new policy, <a href=\"../search.php\">search</a> or
                         <a href=\"../divisions.php\">browse</a> for divisions.  On the page for
                         each division you can choose how somebody supporting your policy would have voted.";
+                    if (user_getid()) {
+                        $db->query("update pw_dyn_user set active_policy_id = $new_dreamid where user_id = " . user_getid());
+                    }
                     audit_log("Added new policy '" . $name . "'");
                 }
                 else
