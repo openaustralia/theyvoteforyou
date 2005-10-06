@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: login.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: login.php,v 1.2 2005/10/06 12:45:07 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -32,7 +32,8 @@ include($phpbb_root_path . 'extension.inc');
 include($phpbb_root_path . 'common.'.$phpEx);
 
 // Added by FAI
-redirect("../account/settings.php");
+$redirback = str_replace("redirect=", "", $_SERVER['argv'][0]);
+redirect("../account/settings.php?r=".urlencode($_GET['from']));
 
 //
 // Set page ID for session management

@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: logout.php,v 1.6 2005/01/15 20:38:11 frabcus Exp $
+# $Id: logout.php,v 1.7 2005/10/06 12:45:07 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -13,6 +13,11 @@ include_once('user.inc');
 if (user_isloggedin()) {
 	user_logout();
 	$user_name='******'; // invalid but true
+}
+
+if ($_GET["r"]) {
+    header("Location: " . $_GET["r"]);
+    exit;
 }
 
 $title = "Logout"; 

@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: sessions.php,v 1.1 2005/10/06 11:25:08 theyworkforyou Exp $
+ *   $Id: sessions.php,v 1.2 2005/10/06 12:45:07 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -20,9 +20,10 @@
  *
  ***************************************************************************/
 // Added by FAI
-include "/home/francis/www.publicwhip.org.uk_html/config.php";
-include "/home/francis/www.publicwhip.org.uk_html/account/user.inc";
-include "/home/francis/www.publicwhip.org.uk_html/database.inc";
+$thepath = $phpbb_root_path . "../";
+include "$thepath/config.php";
+include "$thepath/account/user.inc";
+include "$thepath/database.inc";
 // End added by FAI
 
 //

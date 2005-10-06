@@ -502,13 +502,16 @@ function login_screen()
         <br>Lost your password? <a href="lostpass.php">Reset your password here</a>.
         <P>
         <FORM ACTION="'. $PHP_SELF .'" METHOD="POST" name=pw>
-        <B>User Name:</B><BR>
+        <B>User name:</B><BR>
         <INPUT TYPE="TEXT" NAME="user_name" VALUE="" SIZE="15" MAXLENGTH="15">
         <P>
         <B>Password:</B><BR>
         <INPUT TYPE="password" NAME="password" VALUE="" SIZE="15" MAXLENGTH="15">
-        <P>
-        <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Login To Public Whip">
+        <P>';
+    if ($_GET['r']) {
+        print '<INPUT TYPE="hidden" NAME="r" VALUE="'.htmlspecialchars($_GET['r']).'" SIZE="15" MAXLENGTH="15">';
+    }
+    print '<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Login To Public Whip">
         </FORM>
         <P>';
 }

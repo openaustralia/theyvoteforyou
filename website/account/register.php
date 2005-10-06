@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: register.php,v 1.19 2005/10/04 19:43:20 frabcus Exp $
+# $Id: register.php,v 1.20 2005/10/06 12:45:07 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -64,10 +64,10 @@ if (!$ok)
 ?>
     <P>
     <FORM ACTION="<?=$PHP_SELF?>" METHOD="POST">
-    <B>Real Name (first and last):</B><BR>
+    <B>Your name (first and last):</B><BR>
     <INPUT TYPE="TEXT" NAME="real_name" VALUE="<?=$real_name?>" SIZE="40" MAXLENGTH="50">
     <P>
-    <B>User Name (real or made up, no spaces):</B><BR>
+    <B>User name (real or made up, no spaces):</B><BR>
     <INPUT TYPE="TEXT" NAME="user_name" VALUE="<?=$user_name?>" SIZE="40" MAXLENGTH="15">
     <P>
     <B>Password:</B><BR>

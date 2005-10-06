@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: functions.php,v 1.1 2005/10/06 11:25:08 theyworkforyou Exp $
+ *   $Id: functions.php,v 1.2 2005/10/06 12:45:07 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -765,6 +765,10 @@ function redirect($url)
 	$script_name = ($script_name == '') ? $script_name : '/' . $script_name;
 	$url = preg_replace('#^\/?(.*?)\/?$#', '/\1', trim($url));
 
+    // FAI: Append where we are now (for use by forum/login.php)
+    $url .= stristr($url, "?") ? "&" : "?";
+    $url .= "from=".urlencode($_SERVER['REQUEST_URI']);
+
 	// Redirect via an HTML form for PITA webservers
 	if (@preg_match('/Microsoft|WebSTAR|Xitami/', getenv('SERVER_SOFTWARE')))
 	{
@@ -774,7 +778,10 @@ function redirect($url)
 	}
 
 	// Behave as per HTTP/1.1 spec for others
-	header('Location: ' . $server_protocol . $server_name . $server_port . $script_name . $url);
+    
+	#header('Location: ' . $server_protocol . $server_name . $server_port . $script_name . $url);
+    # FAI - changed this so it works on my laptop as well as server
+	header('Location: ' . $script_name . $url);
 	exit;
 }
 

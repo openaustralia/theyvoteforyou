@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: changeemail.php,v 1.9 2005/01/15 20:38:11 frabcus Exp $
+# $Id: changeemail.php,v 1.10 2005/10/06 12:45:07 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -40,7 +40,7 @@ echo ' <P>
     an email for you to confirm your new address.
 	<P>
 	<FORM ACTION="'. $PHP_SELF .'" METHOD="POST">
-	<B>User Name:</B><BR>
+	<B>User name:</B><BR>
 	<INPUT TYPE="TEXT" NAME="change_user_name" VALUE="'.  $change_user_name .'" SIZE="15" MAXLENGTH="15">
 	<P>
 	<B>Password:</B><BR>

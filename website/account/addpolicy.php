@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: addpolicy.php,v 1.4 2005/10/06 09:18:26 frabcus Exp $
+# $Id: addpolicy.php,v 1.5 2005/10/06 12:45:07 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -129,7 +129,7 @@ if (user_isloggedin()) # User logged in, show settings screen
         <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Make Policy">
         </FORM>
 
-        <p>If you like you can <a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=1">discuss policies on our forum</a>.
+        <p>If you like you can <a href="/forum/viewforum.php?f=1">discuss policies on our forum</a>.
 
     <?php
     }

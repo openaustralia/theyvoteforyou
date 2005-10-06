@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: settings.php,v 1.15 2005/10/05 18:18:43 frabcus Exp $
+# $Id: settings.php,v 1.16 2005/10/06 12:45:07 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -15,6 +15,11 @@ $just_logged_in = do_login_screen();
 
 if (user_isloggedin()) # User logged in, show settings screen
 {
+    if ($_POST["r"]) {
+        header("Location: " . $_POST["r"]);
+        exit;
+    }
+
     if ($_POST["newsletter"])
         $newsletter = true;
     else

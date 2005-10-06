@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.14 2005/10/05 17:03:11 frabcus Exp $
+# $Id: wiki.php,v 1.15 2005/10/06 12:45:07 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -85,7 +85,7 @@ if (user_isloggedin()) # User logged in, show settings screen
         going on in Parliament.</p>
 
         <p><span class="ptitle">Questions, thoughts?</span>
-        <a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=2">Chat
+        <a href="/forum/viewforum.php?f=2">Chat
 with other motion researchers on our special forum</a>.
 
         <p><span class="ptitle">Seperators</span>. Leave the "DIVISION TITLE", "MOTION EFFECT" and "COMMENTS AND NOTES"

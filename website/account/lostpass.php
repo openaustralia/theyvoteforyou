@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: lostpass.php,v 1.5 2005/02/18 12:21:37 frabcus Exp $
+# $Id: lostpass.php,v 1.6 2005/10/06 12:45:07 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -46,7 +46,7 @@ echo ' <P>
         password will be emailed to you.
 	<P>
 	<FORM ACTION="'. $PHP_SELF .'" METHOD="POST">
-	<B>User Name:</B><BR>
+	<B>User name:</B><BR>
 	<INPUT TYPE="TEXT" NAME="user_name" VALUE="'.$user_name.'" SIZE="40" MAXLENGTH="15">
 	<P>
 	<B>Email Address:</B><BR>

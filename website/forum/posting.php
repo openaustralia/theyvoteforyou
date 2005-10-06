@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: posting.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: posting.php,v 1.2 2005/10/06 12:45:07 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -349,6 +349,7 @@ if ( !$is_auth[$is_auth_type] )
 			$redirect = "mode=quote&" . POST_POST_URL ."=" . $post_id;
 			break;
 	}
+
 
 	redirect(append_sid("login.$phpEx?redirect=posting.$phpEx&" . $redirect, true));
 }
