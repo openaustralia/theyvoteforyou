@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.17 2005/10/06 08:53:30 frabcus Exp $
+# $Id: divisionvote.inc,v 1.18 2005/10/10 23:52:23 goatchurch Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -87,10 +87,10 @@ function write_single_policy_vote($db, $divattr, $voter)
                 print "Error changing $policyname to $vchange (too many rows)";
             audit_log("Changed '$policyname' to $vchange for division ".$divattr["division_date"]." ".$divattr["division_no"]);
 
-            $voteannouce = "<span class=\"error\">Changed from ".($bvote == "--" ? "non-voter" : $bvote)."</div>";
+            $voteannouce = "<span class=\"error\">Changed from ".($bvote == "--" ? "non-voter" : $bvote)."</span>";
             $bvote = $newbvote;
         } else {
-            $voteannouce = "<span class=\"error\">No change made</div>";
+            $voteannouce = "<span class=\"error\">No change made</span>";
         }
     }
 
