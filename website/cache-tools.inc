@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-tools.inc,v 1.22 2005/10/06 12:45:07 frabcus Exp $
+# $Id: cache-tools.inc,v 1.23 2005/10/11 23:17:45 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -33,7 +33,6 @@ function account_navbar() {
                 "?r=".urlencode($this_place).'">';
         $ret .= "Logout";
         $ret .= '</a> ';
-        $ret .= '<a title="Chat with other users" href="/forum">Forum</a> ';
     } else {
         $ret .= '<a title="Register to get a newsletter or make/edit policies" href="/account/register.php">';
         $ret .= "Signup";
@@ -42,7 +41,6 @@ function account_navbar() {
                 "?r=".urlencode($this_place)."\">";
         $ret .= "Login";
         $ret .= '</a> ';
-        $ret .= '<a title="Chat with other users" href="/forum">Forum</a>';
     }
     return $ret;
 }

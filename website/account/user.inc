@@ -486,7 +486,7 @@ function login_screen()
 
     $onload = "givefocus('user_name')";
 
-    $title = "Login to The Public Whip"; 
+    $title = "Login to Public Whip"; 
     include $toppath . "header.inc";
 
     if ($feedback) {
