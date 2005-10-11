@@ -6,6 +6,10 @@ Go through login stuff and make better
 
 White background in second tier nav doesn't work on internet explorer
 
+removing division from policy don't work always
+
+Need to identify who made division, so can start talking to him!
+
 Stuff
 -----
 
