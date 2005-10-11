@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: oracle.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: oracle.php,v 1.2 2005/10/11 22:42:22 frabcus Exp $
  *
  ***************************************************************************/
 
@@ -401,44 +401,6 @@ class sql_db
 			return false;
 		}
 	}
-
-	function sql_nextid($query_id = 0)
-	{
-		if(!$query_id)
-		{
-			$query_id = $this->query_result;
-		}
-		if($query_id && $this->last_query_text[$query_id] != "")
-		{
-			if( eregi("^(INSERT{1}|^INSERT INTO{1})[[:space:]][\"]?([a-zA-Z0-9\_\-]+)[\"]?", $this->last_query_text[$query_id], $tablename))
-			{
-				$query = "SELECT ".$tablename[2]."_id_seq.CURRVAL FROM DUAL";
-				$temp_q_id =  @OCIParse($this->db_connect_id, $query);
-				@OCIExecute($temp_q_id, OCI_DEFAULT);
-				@OCIFetchInto($temp_q_id, $temp_result, OCI_ASSOC+OCI_RETURN_NULLS);
-
-				if($temp_result)
-				{
-					return $temp_result['CURRVAL'];
-				}
-				else
-				{
-					return false;
-				}
-			}
-			else
-			{
-				return false;
-			}
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-
-
 	function sql_freeresult($query_id = 0)
 	{
 		if(!$query_id)
