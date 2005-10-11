@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.12 2005/10/11 00:48:57 goatchurch Exp $
+# $Id: tablepeop.inc,v 1.13 2005/10/11 10:14:48 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -59,7 +59,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich)
     if ($row["entered_reason"] == "changed_party" or $row["left_reason"] == "changed_party")
         $party = "whilst ".$party;
 
-    if (($colstyle == "division" or $colstyle == "division2") and $row["ministerial"])
+    if (($colstyle == "division" or $colstyle == "division2" or $colstyle == "division2invert") and $row["ministerial"])
         $party = $party." (minister)";
 
     print "<td>$party</td>";
@@ -302,13 +302,13 @@ function mp_table($db, $mptabattr)
             $aquery["qwhere"] .= " AND (";
 			if ($mptabattr["div2invert"])
 			{
-            	$aquery["qwhere"] .= "((pw_vote_a.vote = 'tellaye' OR pw_vote_a.vote = 'aye') = (pw_vote_a.vote = 'tellaye' OR pw_vote_a.vote = 'aye')) OR ";
-            	$aquery["qwhere"] .= "((pw_vote_a.vote = 'tellno' OR pw_vote_a.vote = 'no') = (pw_vote_a.vote = 'tellno' OR pw_vote_a.vote = 'no'))";
+            	$aquery["qwhere"] .= "((pw_vote_a.vote = 'tellaye' OR pw_vote_a.vote = 'aye') = (pw_vote_b.vote = 'tellaye' OR pw_vote_b.vote = 'aye')) OR ";
+            	$aquery["qwhere"] .= "((pw_vote_a.vote = 'tellno' OR pw_vote_a.vote = 'no') = (pw_vote_b.vote = 'tellno' OR pw_vote_b.vote = 'no'))";
 			}
 			else
 			{
-            	$aquery["qwhere"] .= "((pw_vote_a.vote = 'tellaye' OR pw_vote_a.vote = 'aye') = (pw_vote_a.vote = 'tellno' OR pw_vote_a.vote = 'no')) OR ";
-            	$aquery["qwhere"] .= "((pw_vote_a.vote = 'tellno' OR pw_vote_a.vote = 'no') = (pw_vote_a.vote = 'tellaye' OR pw_vote_a.vote = 'aye'))";
+            	$aquery["qwhere"] .= "((pw_vote_a.vote = 'tellaye' OR pw_vote_a.vote = 'aye') = (pw_vote_b.vote = 'tellno' OR pw_vote_b.vote = 'no')) OR ";
+            	$aquery["qwhere"] .= "((pw_vote_a.vote = 'tellno' OR pw_vote_a.vote = 'no') = (pw_vote_b.vote = 'tellaye' OR pw_vote_b.vote = 'aye'))";
 			}
             $aquery["qwhere"] .= " OR ((pw_vote_a.vote IS null) <> (pw_vote_b.vote IS null))";
             $aquery["qwhere"] .= " OR ((pw_vote_a.vote = 'both') <> (pw_vote_b.vote = 'both')))";

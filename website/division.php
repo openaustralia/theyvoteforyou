@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.81 2005/10/11 00:48:57 goatchurch Exp $
+# $Id: division.php,v 1.82 2005/10/11 10:14:48 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -35,8 +35,6 @@
 
 	# second division (which we can compare against)
 	$divattr2 = get_division_attr_decode($db, "2");
-	if ($divattr2 != "none")
-		$div2invert = ($_GET["div2invert"] == "yes");
 	$singlemotionpage = ($divattr2 == "none");
 
 
@@ -79,20 +77,49 @@
                 break;
             }
         }
-    } else {
+	}
+	else
+	{
         $voterattr = get_dreammpid_attr_decode($db, "");
         if ($voterattr != null)
         {
             $votertype = "dreammp";
             $voter = $voterattr['dreammpid'];
             # $vote is calculated in write_single_policy_vote
-        } else {
+        }
+		else
+		{
             $active_policy = user_getactivepolicy();
-            if ($active_policy) {
+            if ($active_policy)
+			{
                 $votertype = "dreammp";
                 $voter = $active_policy;
             }
         }
+    }
+
+	# calculate the same/different voting pattern so we can work out if it's better to invert the second set of votes
+	if (!$singlemotionpage)
+    {
+    	$lqselect = "SELECT SUM((pw_vote_a.vote = 'tellaye' OR pw_vote_a.vote = 'aye') = (pw_vote_b.vote = 'tellaye' OR pw_vote_b.vote = 'aye')) AS same, ";
+		$lqselect .= "      SUM((pw_vote_a.vote = 'tellaye' OR pw_vote_a.vote = 'aye') = (pw_vote_b.vote = 'tellno' OR pw_vote_b.vote = 'no')) AS opposite, ";
+    	$lqselect .= "      COUNT(*) AS total";
+    	$lqfrom = " FROM pw_mp";
+        $lqjoin  = " LEFT JOIN pw_vote AS pw_vote_a ON pw_vote_a.mp_id = pw_mp.mp_id
+                        AND pw_vote_a.division_id = ".$divattr["division_id"];
+        $lqjoin .= " LEFT JOIN pw_vote AS pw_vote_b ON pw_vote_b.mp_id = pw_mp.mp_id
+                        AND pw_vote_b.division_id = ".$divattr2["division_id"];
+		$lqwhere = " WHERE pw_vote_a.vote IS NOT null AND pw_vote_b.vote IS NOT null
+                       AND pw_vote_a.vote <> 'both' AND pw_vote_b.vote <> 'both'";
+		$lqgroupby = " GROUP BY pw_vote_a.division_id"; # would prefer a group by all
+
+	    $lquery = $lqselect.$lqfrom.$lqjoin.$lqwhere.$lqgroupby;
+	    if ($bdebug == 1)
+	        print "\n<h3>$lquery</h3>\n";
+	    $row = $db->query_one_row_assoc($lquery);
+		$div2invert = ($row["same"] < $row["opposite"]);
+	    if ($bdebug == 1)
+			print "<h1>same ".$row["same"]." Opposite ".$row["opposite"]." Total ".$row["total"]."  inv$div2invert </h1>"; # total should be sum of other two
     }
 
 	# make the title
@@ -186,9 +213,9 @@
 	$thispage = $divattr["divhref"];
 	if (!$singlemotionpage)
 	{
-		$thispage .= "&date2=".$divattr2["division_date"]."&number2=".$divattr2["division_number"];
-		if ($div2invert)
-            $thispage .= "&div2invert=yes";
+		if ($divattr2["division_date"] <> $divattr["division_date"])
+			$thispage .= "&date2=".$divattr2["division_date"];
+		$thispage .= "&number2=".$divattr2["division_number"];
 	}
 	$tpdisplay = ($display == "summary" ? "" : "&display=$display");
 	$tpsort = ($sort == "party" ? "" : "&sort=$sort");
@@ -280,19 +307,17 @@
 	    		print "<a href=\"$source\">Original Hansard</a>";
 			}
 	    	print " | <a href=\"$edit_link\">Edit description</a>";
-	        if ($motion_data['user_id'] != 0) {
+	        if ($motion_data['user_id'] != 0) 
+			{
                 print " | <a href=\"$history_link\">View changes</a>";
+	            print " (last edited by on ".$motion_data['edit_date'].")";
+	            #$db->query("SELECT * FROM pw_dyn_user WHERE user_id = " . $motion_data['user_id']);
+	            #$row = $db->fetch_row_assoc();
+	            #$last_editor = html_scrub($row['user_name']);
             }
+			else
+	            print " (not yet edited)";
 
-	        if ($motion_data['user_id'] != 0) {
-	            $db->query("select * from pw_dyn_user where user_id = " . $motion_data['user_id']);
-	            $row = $db->fetch_row_assoc();
-	            $last_editor = html_scrub($row['user_name']);
-#	            print " (last edited by $last_editor on " .
-#	                $motion_data['edit_date'] . ")";
-	        } else {
-#	            print " (be the first to edit this)";
-	        }
 	        print "</p>\n";
 		}
 
@@ -356,7 +381,10 @@
 				print "<p>MPs for which their vote on Motion (a) was opposite to their";
 				if ($div2invert)
 					print " <b>inverted</b>";
-				print " vote on Motion (b)</p>\n";
+				print " vote on Motion (b).\n";
+				print " You can also see <a href=\"$thispage&display=differences$tpsort\">all differing votes</a>
+						between these two divisions,
+						or simply <a href=\"$thispage&display=allvotes$tpsort\">all the votes</a>.</p>\n";
 			}
 			elseif ($display == "differences")
 			{
@@ -364,7 +392,10 @@
 				print "<p>MPs for which their vote on Motion (a) differed from their";
 				if ($div2invert)
 					print " <b>inverted</b>";
-				print " vote on Motion (b)</p>\n";
+				print " vote on Motion (b).\n";
+				print " You can also see <a href=\"$thispage&display=opposites$tpsort\">just opposite votes</a>
+						between these two divisions,
+						or simply <a href=\"$thispage&display=allvotes$tpsort\">all the votes</a>.</p>\n";
 			}
 			elseif ($display == "allvotes")
 			{
@@ -439,14 +470,16 @@
 	}
 
 
-	if ($dismode["dreamvoters"]) {
+	if ($dismode["dreamvoters"])
+	{
         # Show Dream MPs who voted in this division and their votes
-        $db->query("select name, pw_dyn_dreammp.dream_id, vote, user_name from pw_dyn_dreammp, pw_dyn_dreamvote, pw_dyn_user
-            where pw_dyn_dreamvote.dream_id = pw_dyn_dreammp.dream_id and
-            pw_dyn_user.user_id = pw_dyn_dreammp.user_id and
-            pw_dyn_dreamvote.division_date = '".$divattr["division_date"]."' and 
-            pw_dyn_dreamvote.division_number = '".$divattr["division_number"]."'
-            and not private");
+        $db->query("SELECT name, pw_dyn_dreammp.dream_id, vote, user_name
+					FROM pw_dyn_dreammp, pw_dyn_dreamvote, pw_dyn_user
+            		WHERE pw_dyn_dreamvote.dream_id = pw_dyn_dreammp.dream_id
+						AND pw_dyn_user.user_id = pw_dyn_dreammp.user_id
+						AND pw_dyn_dreamvote.division_date = '".$divattr["division_date"]."'
+						AND pw_dyn_dreamvote.division_number = '".$divattr["division_number"]."'
+            			AND NOT private");
         if ($db->rows() > 0)
         {
             $prettyrow = 0;
