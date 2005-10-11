@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.80 2005/10/06 08:53:30 frabcus Exp $
+# $Id: division.php,v 1.81 2005/10/11 00:48:57 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -118,37 +118,49 @@
 								 "summarytext"	=> "yes",
 								 "partysummary"	=> "yes",
 								 "showwhich" 	=> "rebels",
+								 "ministerial" 	=> "yes",
 								 "dreamvoters"	=> "all");
 
 		$dismodes["allvotes"] = array("dtype"	=> "allvotes",
 								 "description" 	=> "All voters",
 								 "motiontext" 	=> "yes",
 								 "summarytext"	=> "yes",
+								 "ministerial" 	=> "yes",
 								 "showwhich" 	=> "voters");
 
 		$dismodes["allpossible"] = array("dtype"	=> "allpossible",
 								 "description" 	=> "All possible voters",
 								 "motiontext" 	=> "yes",
 								 "summarytext"	=> "yes",
+								 "ministerial" 	=> "yes",
 								 "showwhich" 	=> "allpossible");
 	}
 
 	# two motion page
 	else
 	{
+		$dismodes["opposites"] = array("dtype"	=> "opposites",
+								 "description" 	=> "Opposites",
+								 "motiontext" 	=> "yes",
+								 "ministerial" 	=> "yes",
+								 "showwhich" 	=> "rebels");
+
 		$dismodes["differences"] = array("dtype"	=> "differences",
 								 "description" 	=> "Differences",
 								 "motiontext" 	=> "yes",
-								 "showwhich" 	=> "rebels");
+								 "ministerial" 	=> "yes",
+								 "showwhich" 	=> "changes");
 
 		$dismodes["allvotes"] = array("dtype"	=> "allvotes",
 								 "description" 	=> "All voters",
 								 "motiontext" 	=> "yes",
+								 "ministerial" 	=> "yes",
 								 "showwhich" 	=> "voters");
 
 		$dismodes["allpossible"] = array("dtype"	=> "allpossible",
 								 "description" 	=> "All possible voters",
 								 "motiontext" 	=> "yes",
+								 "ministerial" 	=> "yes",
 								 "showwhich" 	=> "allpossible");
 	}
 
@@ -160,7 +172,7 @@
 			$display = "allvotes"; # legacy
 		elseif ($singlemotionpage)
 			$display = "summary"; # default
-		else
+		else # two motion page
 			$display = "differences"; # default
 	}
 	$dismode = $dismodes[$display];
@@ -338,9 +350,17 @@
 
 		else
 		{
-			if ($display == "differences")
+			if ($display == "opposites")
 			{
-				print "<h2><a name=\"votes\">Difference in Voter - sorted by $sort</a></h2>\n";
+				print "<h2><a name=\"votes\">Opposite in Votes - sorted by $sort</a></h2>\n";
+				print "<p>MPs for which their vote on Motion (a) was opposite to their";
+				if ($div2invert)
+					print " <b>inverted</b>";
+				print " vote on Motion (b)</p>\n";
+			}
+			elseif ($display == "differences")
+			{
+				print "<h2><a name=\"votes\">Difference in Votes - sorted by $sort</a></h2>\n";
 				print "<p>MPs for which their vote on Motion (a) differed from their";
 				if ($div2invert)
 					print " <b>inverted</b>";
@@ -352,7 +372,7 @@
 				print "<p>All MP who voted in one or other of the two divisions.
 						Also shows which MPs were ministers at the time of the first vote.</p>\n";
 			}
-			else
+			else  # all votes
 			{
 				print "<h2><a name=\"votes\">All MPs Eligible to Vote - sorted by $sort</a></h2>\n";
 				print "<p>Includes MPs who were absent (or abstained)
@@ -401,6 +421,7 @@
 							"divid"		=> $divattr["division_id"],  # redundant, but the above two are not used by all tables
 							"sortby"	=> $sort,
 							"showwhich" => $dismode["showwhich"],
+							"ministerial" => $dismode["ministerial"],
                             "house"     => $divattr["house"]);
 
 

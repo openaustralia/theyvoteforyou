@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.11 2005/10/05 11:31:41 goatchurch Exp $
+# $Id: tablepeop.inc,v 1.12 2005/10/11 00:48:57 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -59,9 +59,8 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich)
     if ($row["entered_reason"] == "changed_party" or $row["left_reason"] == "changed_party")
         $party = "whilst ".$party;
 
-    if ($colstyle == "division" and $row["ministerial"])
+    if (($colstyle == "division" or $colstyle == "division2") and $row["ministerial"])
         $party = $party." (minister)";
-
 
     print "<td>$party</td>";
 
@@ -135,7 +134,8 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich)
 #   'division2, then there's also 'divdate2', 'divno2'
 # limit is nothing or a number
 # sortby is 'turnout', 'rebellions', 'name', 'constituency', 'attendance', 'party', 'vote'
-# showwhich is 'rebels', 'voters', 'allpossible'
+# showwhich is 'rebels', 'changes', 'voters', 'allpossible'
+# ministerial is 'yes' or none.
 function mp_table($db, $mptabattr)
 {
     global $bdebug;
@@ -278,14 +278,6 @@ function mp_table($db, $mptabattr)
         $aquery["qselect"] 	.= ", pw_vote_sortorder.position AS votesort";
         $aquery["qjoin"] 	.= " LEFT JOIN pw_vote_sortorder
                                     ON pw_vote_sortorder.vote = pw_vote.vote";
-
-        # is minister
-        $aquery["qselect"] 	.= ", max(pw_moffice.from_date <= '".$mptabattr["divdate"]."'
-                                    AND pw_moffice.to_date > '".$mptabattr["divdate"]."')
-                                    AS ministerial";
-        $aquery["qjoin"] 	.= " LEFT JOIN pw_moffice ON pw_moffice.person = pw_mp.person";
-
-        $aquery["qgroupby"] = " GROUP BY pw_mp.mp_id";  # remove double ministers
     }
 
     # double division case
@@ -305,14 +297,30 @@ function mp_table($db, $mptabattr)
             $aquery["qwhere"] 	.= ($mptabattr["div2invert"] ? " = " : " <> ");
             $aquery["qwhere"] 	.= "(pw_vote_b.vote = 'tellaye' OR pw_vote_b.vote = 'aye'))";
         }
-        if ($showwhich == 'allpossible')
+        if ($showwhich == "changes")
+        {
+            $aquery["qwhere"] .= " AND (";
+			if ($mptabattr["div2invert"])
+			{
+            	$aquery["qwhere"] .= "((pw_vote_a.vote = 'tellaye' OR pw_vote_a.vote = 'aye') = (pw_vote_a.vote = 'tellaye' OR pw_vote_a.vote = 'aye')) OR ";
+            	$aquery["qwhere"] .= "((pw_vote_a.vote = 'tellno' OR pw_vote_a.vote = 'no') = (pw_vote_a.vote = 'tellno' OR pw_vote_a.vote = 'no'))";
+			}
+			else
+			{
+            	$aquery["qwhere"] .= "((pw_vote_a.vote = 'tellaye' OR pw_vote_a.vote = 'aye') = (pw_vote_a.vote = 'tellno' OR pw_vote_a.vote = 'no')) OR ";
+            	$aquery["qwhere"] .= "((pw_vote_a.vote = 'tellno' OR pw_vote_a.vote = 'no') = (pw_vote_a.vote = 'tellaye' OR pw_vote_a.vote = 'aye'))";
+			}
+            $aquery["qwhere"] .= " OR ((pw_vote_a.vote IS null) <> (pw_vote_b.vote IS null))";
+            $aquery["qwhere"] .= " OR ((pw_vote_a.vote = 'both') <> (pw_vote_b.vote = 'both')))";
+        }
+        if ($showwhich == "allpossible")
         {
             $aquery["qwhere"] 	.= " AND entered_house <= '".$mptabattr["divdate"]."'
                                      AND left_house > '".$mptabattr["divdate"]."'";
             $aquery["qwhere"] 	.= " AND entered_house <= '".$mptabattr["divdate2"]."'
                                      AND left_house > '".$mptabattr["divdate2"]."'";
         }
-        else
+        else  #  "voters"
             $aquery["qwhere"] 	.= " AND (pw_vote_a.vote IS NOT null OR pw_vote_b.vote IS NOT null)";
 
 
@@ -324,9 +332,19 @@ function mp_table($db, $mptabattr)
                                     ON pw_vote_sortorder_b.vote = pw_vote_b.vote";
     }
 
-    if ($mptabattr["house"]) {
-        $aquery["qwhere"]   .= " AND pw_mp.house = '".$mptabattr["house"]."'";
-    }
+   	# is minister
+    if ($mptabattr["ministerial"])
+    {
+        $aquery["qselect"] 	.= ", max(pw_moffice.from_date <= '".$mptabattr["divdate"]."'
+                                    AND pw_moffice.to_date > '".$mptabattr["divdate"]."')
+                                    AS ministerial";
+        $aquery["qjoin"] 	.= " LEFT JOIN pw_moffice ON pw_moffice.person = pw_mp.person";
+
+        $aquery["qgroupby"] = " GROUP BY pw_mp.mp_id";  # remove double ministers
+	}
+
+    if ($mptabattr["house"])
+		$aquery["qwhere"]   .= " AND pw_mp.house = '".$mptabattr["house"]."'";
 
     # apply the limit
     if ($mptabattr["limit"])
@@ -351,9 +369,16 @@ function mp_table($db, $mptabattr)
         $colstyle = "list";
 
 
-    # now output all the parts of the table
-    if ($showwhich == 'rebels' and $colstyle == "division" and $db->rows() == 0)
-        print "<tr class=\"even\"><td colspan=4>no rebellions</td></tr>\n";
+    # now output a sentence when there is an empty table (in cases where that can happen)
+    if ($db->rows() == 0)
+	{
+		if ($colstyle == "division" and $showwhich == "rebels")
+        	print "<tr class=\"even\"><td colspan=4>no rebellions</td></tr>\n";
+		if ($colstyle == "division2" and $showwhich == "rebels")
+        	print "<tr class=\"even\"><td colspan=5>no opposites found</td></tr>\n";
+		if ($colstyle == "division2" and $showwhich == "changes")
+        	print "<tr class=\"even\"><td colspan=5>no differences found</td></tr>\n";
+	}
 
     $nrows = 0;
     while ($row = $db->fetch_row_assoc())
