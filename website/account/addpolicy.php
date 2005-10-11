@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: addpolicy.php,v 1.5 2005/10/06 12:45:07 frabcus Exp $
+# $Id: addpolicy.php,v 1.6 2005/10/11 10:14:17 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -74,7 +74,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     {
 ?><p>Here you have to name and describe
         the policy.  Afterwards, you will be able to select which votes
-        support the policy.  The new policy can represent anything you like.  
+        support the policy.  The new policy can represent anything you like.
         Some examples:
         <ul>
         <li>Equal laws for heterosexuals and homosexuals.
@@ -89,19 +89,41 @@ if (user_isloggedin()) # User logged in, show settings screen
 
         <p> Some other things to note about policies:
         <ul>
-        <li>They can't be broken down into other policies. For example,
-        "Evangelical Christian" is not a policy. Instead, things like "Ban
-        research using embryos" and "Use tax to fund third world development"
-        are policies.  
-        <li>The opposite of a policy is not necessarily a policy, particularly
+
+		<li>Policies should be open to as little interpretation as possible.  For example,
+        "Evangelical Christian" and "Fiscal Responsibility" are not policies
+		since there are differing opinions about what would be implemented.
+		Instead, things like "Ban research using embryos" and
+		"Buy more nuclear weapons"
+        are policies because, even if you don't agree with them, you can still
+		agree on which way they would vote.</li>
+
+        <li>Usually a policy can't be broken down into other policies.  If it can be,
+		maybe you should split it into two sub-policies.  There are
+		exceptions, for example "Pro-vegetarianism" may agree with all the votes for
+		"Conserve North Sea fish stocks" although for quite different reasons.</li>
+
+		<li>The opposite of a policy is not necessarily a policy, particularly
         if it is not one of the extremes. For example, there were three major
         parliamentary policies on the issue of fox hunting in the UK in
         2003/2004.  The obvious two policies were, roughly, to allow it and to
         ban it. The <a
         href="http://en.wikipedia.org/wiki/Fox_hunting#The_Middle_Way_group">Middle Way group</a>,
         which included both Labour and Conservative MPs, had a third policy
-        which was to restrict hunting with a license scheme. 
-        </ul>
+        which was to restrict hunting with a license scheme.  </li>
+
+        <li>All policies must be convertable into votes.  So, for example,
+		"Return Falklands to Argentina" doesn't work because there haven't been any such
+		votes (recently).  But you may have success with a broader policy, such as
+		"Withdraw from overseas territories".</li>
+
+		<li>Don't be shy.  These policies belong to everyone.  If you have a point of
+		view that a policy is wrongly voting, or it's ill-defined, or you can see how it should be broken
+		down, share it on the forum.  We hope to have a page of discussion for each
+		policy in the near future so you can communicate with the other people
+		doing the same thing as you.</li>
+
+		</ul>
 <?
 
     }
