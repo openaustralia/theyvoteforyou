@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.82 2005/10/11 10:14:48 goatchurch Exp $
+# $Id: division.php,v 1.83 2005/10/11 22:42:16 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -310,7 +310,7 @@
 	        if ($motion_data['user_id'] != 0) 
 			{
                 print " | <a href=\"$history_link\">View changes</a>";
-	            print " (last edited by on ".$motion_data['edit_date'].")";
+	            print " (last edited on ".$motion_data['edit_date'].")";
 	            #$db->query("SELECT * FROM pw_dyn_user WHERE user_id = " . $motion_data['user_id']);
 	            #$row = $db->fetch_row_assoc();
 	            #$last_editor = html_scrub($row['user_name']);
