@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.91 2005/10/05 17:03:11 frabcus Exp $
+    # $Id: mp.php,v 1.92 2005/10/12 14:49:39 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -90,7 +90,9 @@
 		$thispagesettings = $voter2["mpprop"]["mpanchor2"];
 	    $voter2link = "mp.php?". $voter2["mpprop"]["mpanchor"];
 	}
-	$thispage = "$voter1link&$thispagesettings";
+	$thispage = $voter1link; 
+	if ($thispagesettings != "")
+		$thispage .= "&$thispagesettings";
 
 	# constants
 	$dismodes = array();
@@ -419,11 +421,13 @@
 		# generate a friendliness table from the data
 		if ($voter2type == "dreammp")
 		{
-			print "<h3>Similarity equation</h3>\n";
-            if ($voter1attr["bmultiperson"])
-            	print "<p>Value is meaningless for a table of more than one MP.</p>";
+			if (count($voter1attr['mpprops']) == 0)
+            	print "<p><b>There is no overlap between this MP's term and the votes in this policy.</b></p>\n";
+            elseif ($voter1attr["bmultiperson"])
+            	print "<p>No similarity measure present for a table composed of more than one person.</p>\n";
 			else
 			{
+				print "<h3>Similarity equation</h3>\n";
 				print "<p>This MP is scored against the policy,
 					   coming up with a 'voting distance' between them.  The voting distance is
 					   between 0.0 and 1.0. Here is how we calculate the score.</p>\n";
@@ -447,6 +451,7 @@
 			}
 		}
 
+		# unfinished business, kind of.
 		if ($voter2type == "person" and $showwhich == "everyvote")
 		{
 			print "<p>[Explanation of distance relationship between MPs and people should be shown here.]</p>\n";
