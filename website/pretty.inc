@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.23 2005/07/28 15:33:19 frabcus Exp $
+# $Id: pretty.inc,v 1.24 2005/10/12 08:51:26 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -265,8 +265,7 @@ function guy_strip_bad($str, $mode='') {
 	$html_allowed_regexp = join('|',$html_allowed);
 	$html_allowed_striptags = '<'.join('><',$html_allowed).'>';
 	$str = strip_tags($str,$html_allowed_striptags);
-	$str = 
-preg_replace_callback("/<($html_allowed_regexp)\b(.*?)>/si",'guy_attrcheck',$str);
+	$str = preg_replace_callback("/<($html_allowed_regexp)\b(.*?)>/si",'guy_attrcheck',$str);
 	$str = preg_replace('/<\/([^ 
 >]+)[^>]*>/si',$guy_c['lt'].'/$1'.$guy_c['gt'],$str);
 	$str = preg_replace('#^\s+$#m','',$str);
