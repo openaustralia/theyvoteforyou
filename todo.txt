@@ -10,6 +10,8 @@ removing division from policy don't work always
 
 Need to identify who made division, so can start talking to him!
 
+*** Make new user, and make policy with that user before ever going to the forum
+
 Stuff
 -----
 

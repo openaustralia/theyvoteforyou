@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.83 2005/10/11 22:42:16 frabcus Exp $
+# $Id: division.php,v 1.84 2005/10/12 01:41:41 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -15,6 +15,7 @@
     require_once "account/user.inc";
     require_once "database.inc";
     require_once "divisionvote.inc";
+    require_once "dream.inc";
 
     $db = new DB();
     $db2 = new DB();

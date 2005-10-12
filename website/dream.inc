@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.31 2005/10/05 15:33:46 frabcus Exp $
+# $Id: dream.inc,v 1.32 2005/10/12 01:41:41 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -7,6 +7,7 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 include_once $toppath . "wiki.inc";
+include_once $toppath . "forummagic.inc";
 
 # the equation that should be reused on the different places
 function calc_dreammp_person_distance($nvotessame, $nvotessamestrong,
@@ -344,5 +345,22 @@ margin: 0 0 0 0; border: 1px solid #003300; padding: 0 0 0 0;">
 </div>
 ';
     return $html;
+}
+
+# Post action made to Dream MP into the forum for record keeping, notification etc.
+function dream_post_forum_action($db, $dreamid, $content) {
+    $forum = "Policies";
+    $topic_match = "Policy #$dreamid";
+	$query = "SELECT name FROM pw_dyn_dreammp WHERE dream_id = $dreamid";
+	list ($name) = $db->query_one_row($query); # allows no rows
+    $topic = $topic_match . " - " . $name;
+    forummagic_post($db, $forum, $topic_match, $topic, $content);
+}
+
+# Get link to forum 
+function dream_post_forum_link($db, $dreamid) {
+    $forum = "Policies";
+    $topic_match = "Policy #$dreamid";
+    return forummagic_getlink($db, $forum, $topic_match);
 }
 

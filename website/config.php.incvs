@@ -2,6 +2,9 @@
 
 # This file is called .php, so you can't display its contents by browsing to it.
 
+# Server domain
+$domain_name = "www.publicwhip.org.uk";
+
 # Public Whip database params, change these
 $pw_host = "localhost";
 $pw_user = "";

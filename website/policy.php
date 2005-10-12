@@ -68,7 +68,19 @@
     print "</p>";
 
     print "<p><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a>";
-    print ' | <a href="http://www.publicwhip.org.uk/forum/viewforum.php?f=1">Discuss</a>';
+    $discuss_url = dream_post_forum_link($db, $dreamid);
+    if (!$discuss_url) {
+        // First time someone logged in comes along, add policy to the forum
+        global $domain_name;
+        if (user_getid()) {
+            dream_post_forum_action($db, $dreamid, "Policy introduced to forum.\n\n[b]Name:[/b] [url=http://$domain_name/policy.php?id=".$dreamid."]".$policyname."[/url]\n[b]Definition:[/b] ".$voter['description']);
+            $discuss_url = dream_post_forum_link($db, $dreamid);
+        } else {
+            print ' | <a href="http://'.$domain_name.'/forum/viewforum.php?f=1">Discuss</a>';
+        }
+    }
+    if ($discuss_url)
+        print ' | <a href="'.htmlspecialchars($discuss_url).'">Discuss changes</a>';
 
 	if ($dismode["divisionlist"] == "selected")
 	{

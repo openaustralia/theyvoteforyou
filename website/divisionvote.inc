@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.18 2005/10/10 23:52:23 goatchurch Exp $
+# $Id: divisionvote.inc,v 1.19 2005/10/12 01:41:41 frabcus Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -56,11 +56,16 @@ function write_single_policy_vote($db, $divattr, $voter)
             # these are caching notifications
             notify_dream_mp_updated($db, intval($voter));
 
+            global $domain_name;
+            $forum_division_link = "division [url=http://$domain_name/division.php?date=".$divattr["division_date"]."&number=".$divattr['division_number']."]".$divattr["name"]."[/url]";
+
             # set the query that deletes, inserts, or changes the vote
             if ($newbvote == "--")
             {
                 $query = "DELETE FROM pw_dyn_dreamvote
                           WHERE dream_id=$voter AND $qdivmatch";
+                dream_post_forum_action($db, $voter, "Stopped voting in $forum_division_link.");
+
             }
             elseif ($bvote == "--")
             {
@@ -68,12 +73,14 @@ function write_single_policy_vote($db, $divattr, $voter)
                             (vote, dream_id, division_date, division_number)
                           VALUES
                             ('$newbvote', $voter, '".$divattr["division_date"]."', ".$divattr["division_number"].")";
+                dream_post_forum_action($db, $voter, "Voted $newbvote in $forum_division_link.");
             }
             else
             {
                 $query = "UPDATE pw_dyn_dreamvote
                           SET vote='$newbvote'
                           WHERE dream_id=$voter AND $qdivmatch";
+                dream_post_forum_action($db, $voter, "Changed vote from $bvote to $newbvote in $forum_division_link.");
             }
             $vchange = ($newbvote == "--" ? "non-voter" : $newbvote);
 
@@ -120,7 +127,7 @@ function write_single_policy_vote($db, $divattr, $voter)
 
     if ($votechangeable)
         print '<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Update"> '.$voteannouce.
-            '<a href="/policies.php">(change active policy)</a></FORM>';
+            ' <a href="/policies.php">(change active policy)</a></FORM>';
     print "</p>\n";
 
     return ($bvote == "--" ? "" : $bvote);

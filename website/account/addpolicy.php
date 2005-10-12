@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: addpolicy.php,v 1.6 2005/10/11 10:14:17 goatchurch Exp $
+# $Id: addpolicy.php,v 1.7 2005/10/12 01:41:41 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -11,6 +11,7 @@ include('../database.inc');
 include_once('user.inc');
 include "../db.inc";
 include "../cache-tools.inc";
+include "../dream.inc";
 
 $just_logged_in = do_login_screen();
 
@@ -39,7 +40,7 @@ if (user_isloggedin()) # User logged in, show settings screen
                 {
                     $new_dreamid = mysql_insert_id();
                     $ok = true;
-                    $feedback = "Successfully added policy '" . html_scrub($name) . "'.  To 
+                    $feedback = "Successfully made new policy <a href=\"/policy.php?id=$new_dreamid\">" . html_scrub($name) . "</a>.  To 
                         select votes for your new policy, <a href=\"../search.php\">search</a> or
                         <a href=\"../divisions.php\">browse</a> for divisions.  On the page for
                         each division you can choose how somebody supporting your policy would have voted.";
@@ -47,6 +48,7 @@ if (user_isloggedin()) # User logged in, show settings screen
                         $db->query("update pw_dyn_user set active_policy_id = $new_dreamid where user_id = " . user_getid());
                     }
                     audit_log("Added new policy '" . $name . "'");
+                    dream_post_forum_action($db, $new_dreamid, "Created brand new policy.\n\n[b]New Policy:[/b] [url=http://www.publicwhip.org.uk/policy.php?id=".$new_dreamid."]".$name."[/url]\n[b]Definition:[/b] $description");
                 }
                 else
                 {
