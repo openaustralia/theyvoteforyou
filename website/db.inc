@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.25 2005/10/11 14:57:54 frabcus Exp $
+# $Id: db.inc,v 1.26 2005/10/12 01:42:11 theyworkforyou Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -106,7 +106,7 @@ class DB
         if ($this->rows() == 0)
         	return null;
         if ($this->rows() != 1)
-			fatal_error("query_one_row: Single row query didn't get one row, got " . $this->rows() . " on query: ".$query);
+		fatal_error("query_one_row: Single row query didn't get one row, got " . $this->rows() . " on query: ".$query);
         $row = $this->fetch_row();
         return $row;
     }
