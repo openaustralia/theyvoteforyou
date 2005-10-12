@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.26 2005/10/06 11:31:38 theyworkforyou Exp $
+# $Id: decodeids.inc,v 1.27 2005/10/12 08:40:10 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -235,7 +235,7 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream_overlap=null)
                 print "Error, constituency " . $mpconstituency . " not found";
                 exit;
             }
-                $qwhere = "constituency = '$constituency'";
+            $qwhere = "constituency = '$constituency'";
         }
         if ($mpname != "")
         {
