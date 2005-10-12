@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.92 2005/10/12 14:49:39 goatchurch Exp $
+    # $Id: mp.php,v 1.93 2005/10/12 16:42:58 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -192,12 +192,11 @@
     }
 	if ($voter2type == "dreammp")
 	{
-		$title = "Policy Report - ";
+		$title = "Policy Report - ".html_scrub($voter2attr['name'])." compared to ";
 		if ($voter1attr["bmultiperson"])
 			$title .= $mpprop['housenounplural']." ".$contitlefor;
 		else
 			$title .= $mpprop['fullname'];
-		$title .= " on ".html_scrub($voter2attr['name']);
 	}
 	else if ($voter2type == "person")
 		$title = "Voting Comparison - ".$mpprop['fullname']."<br> to ".$voter2attr["mpprop"]['fullname'];
