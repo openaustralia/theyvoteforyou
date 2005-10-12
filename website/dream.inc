@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.33 2005/10/12 22:48:44 theyworkforyou Exp $
+# $Id: dream.inc,v 1.34 2005/10/12 22:51:58 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -351,10 +351,11 @@ margin: 0 0 0 0; border: 1px solid #003300; padding: 0 0 0 0;">
 function dream_post_forum_action($db, $dreamid, $content) {
     $forum = "Policy Creation";
     $topic_match = "Policy #$dreamid";
-	$query = "SELECT name FROM pw_dyn_dreammp WHERE dream_id = $dreamid";
-	list ($name) = $db->query_one_row($query); # allows no rows
+	$query = "SELECT name, private FROM pw_dyn_dreammp WHERE dream_id = $dreamid";
+	list ($name, $private) = $db->query_one_row($query); # allows no rows
     $topic = $topic_match . " - " . $name;
-    forummagic_post($db, $forum, $topic_match, $topic, $content);
+    if (!$private)
+        forummagic_post($db, $forum, $topic_match, $topic, $content);
 }
 
 # Get link to forum 
