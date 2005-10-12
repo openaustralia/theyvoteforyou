@@ -1,14 +1,12 @@
 <?php
 
-# $Id: forummagic.inc,v 1.3 2005/10/12 01:41:41 frabcus Exp $
+# $Id: forummagic.inc,v 1.4 2005/10/12 22:48:44 theyworkforyou Exp $
 # Post things to the forum automatically (like log of changes to policies)
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
-
-$forummagic_post_domain = "publicwhip.owl";
 
 # forummagic_post DB FORUM_NAME TOPIC_MATCH TOPIC_TITLE CONTENT
 # Posts a new message to the forum, using the user id of the logged in user.
@@ -17,7 +15,7 @@ $forummagic_post_domain = "publicwhip.owl";
 # made.  It is an error for the forum not to exist. TOPIC_MATCH is the first
 # part of the topic name to use for searching, posting uses TOPIC_TITLE.
 function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content) {
-    global $forummagic_post_domain;
+    global $domain_name;
     list($forum_id, $topic_id) = forummagic_findtopic($db, $forum_name, $topic_match);
     forummagic_make_sure_phpbb_account($db);
 
@@ -27,11 +25,11 @@ function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content)
         // Make topic
         $post_data = "f=$forum_id&mode=newtopic&notify=on&topictype=0&subject=".urlencode($topic_title).
                      "&message=".urlencode($content)."&post=Submit"; 
-        list($response, $head) = forummagic_do_post($forummagic_post_domain, $post_filename, $post_data);
+        list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data);
     } else {
         $post_data = "t=$topic_id&mode=reply&notify=on&subject=".urlencode($topic_title).
                      "&message=".urlencode($content)."&post=Submit"; 
-        list($response, $head) = forummagic_do_post($forummagic_post_domain, $post_filename, $post_data);
+        list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data);
     }
 
     // Check all's well
@@ -58,7 +56,7 @@ function forummagic_findtopic($db, $forum_name, $topic_match) {
 
 // Makes sure the phpbb user account has been made
 function forummagic_make_sure_phpbb_account($db){
-    global $forummagic_post_domain;
+    global $domain_name;
     if (!user_isloggedin())  
         fatal_error("forummagic_make_sure_phpbb_account: Must be logged in");
 
@@ -70,8 +68,8 @@ function forummagic_make_sure_phpbb_account($db){
     if (!$got_users) {
         # Provoke creation of PHPBB account (not sure why have to do this twice - to do
         # with redirects and phpbb and our hacks to its user accounts)
-        list ($response, $head) = forummagic_do_post($forummagic_post_domain, "/forum/", "");
-        list ($response, $head) = forummagic_do_post($forummagic_post_domain, "/forum/", "");
+        list ($response, $head) = forummagic_do_post($domain_name, "/forum/", "");
+        list ($response, $head) = forummagic_do_post($domain_name, "/forum/", "");
         list($got_users) = $db->query_one_row("select count(*) from phpbb_users where username = '$user_name'");
         if ($got_users != 0 && $got_users != 1)
             fatal_error("forummagic_make_sure_phpbb_account: Unexpected strange value for got_users");
