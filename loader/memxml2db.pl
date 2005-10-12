@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.10 2005/07/28 23:13:13 frabcus Exp $
+# $Id: memxml2db.pl,v 1.11 2005/10/12 07:07:01 theyworkforyou Exp $
 
 # Convert all-members.xml and all-lords.xml into the database format for Public
 # Whip website
@@ -192,8 +192,12 @@ sub loadcons
     $consid =~ s#uk.org.publicwhip/cons/##;
 
     my $main_name = 1;
-    for (my $name = $cons->first_child('name'); $name;
-        $name = $name->next_sibling('name')) {
+    for (my $name = $cons->first_child('name'); $name; $name = $name->next_sibling('name')) {
+	my $text = encode_entities($name->att('text'));
+	
+	# No idea why this isn't coming in from XML at unicode on sphinx
+	# (it works on my laptop - Francis, 2005-10-12)
+	$text =~ s/Ynys M&Atilde;&acute;n/Ynys M&ocirc;n/;
 
         # We encode entities as e.g. &Ouml;, as otherwise non-ASCII characters
         # get lost somewhere between Perl, the database and the browser.
@@ -201,7 +205,7 @@ sub loadcons
             (cons_id, name, main_name, from_date, to_date) values
             (?, ?, ?, ?, ?)", 
             $consid,
-            encode_entities($name->att('text')), 
+            $text, 
             $main_name,
             $cons->att('fromdate'), 
             $cons->att('todate'), 
