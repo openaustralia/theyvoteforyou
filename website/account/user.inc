@@ -503,7 +503,7 @@ function login_screen()
         <P>
         <FORM ACTION="'. $PHP_SELF .'" METHOD="POST" name=pw>
         <B>User name:</B><BR>
-        <INPUT TYPE="TEXT" NAME="user_name" VALUE="" SIZE="15" MAXLENGTH="15">
+        <INPUT TYPE="TEXT" NAME="user_name" id="user_name" VALUE="" SIZE="15" MAXLENGTH="15">
         <P>
         <B>Password:</B><BR>
         <INPUT TYPE="password" NAME="password" VALUE="" SIZE="15" MAXLENGTH="15">

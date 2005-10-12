@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: settings.php,v 1.16 2005/10/06 12:45:07 frabcus Exp $
+# $Id: settings.php,v 1.17 2005/10/12 09:25:30 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -32,6 +32,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     }
 
     $title = "Account Settings"; 
+    $onload = "givefocus('user_name')";
     include "../header.inc";
 
     if ($feedback && (!$just_logged_in)) {

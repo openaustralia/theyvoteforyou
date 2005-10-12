@@ -2,14 +2,14 @@
 
 $cache_params = rand(0, 10); include "cache-begin.inc";
 
-# $Id: index.php,v 1.50 2005/10/05 15:33:46 frabcus Exp $
+# $Id: index.php,v 1.51 2005/10/12 09:25:30 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-$title = "Counting votes on your behalf"; $onload = "givefocus('query')"; include "header.inc";
+$title = "Counting votes on your behalf"; include "header.inc";
 ?>
 
 <p>Every week, a dozen or so times, your MP votes in the UK parliament.  This

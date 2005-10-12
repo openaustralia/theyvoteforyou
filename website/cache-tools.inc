@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-tools.inc,v 1.23 2005/10/11 23:17:45 theyworkforyou Exp $
+# $Id: cache-tools.inc,v 1.24 2005/10/12 09:25:30 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -20,7 +20,12 @@ function newsletter_navbar() {
 
 function account_navbar() {
     $this_place = $_SERVER["REQUEST_URI"];
+    # don't go back to confusing/logging out pages after login
     if (stristr($this_place, "logout.php")) 
+        $this_place = "";
+    if (stristr($this_place, "lostpass.php")) 
+        $this_place = "";
+    if (stristr($this_place, "register.php")) 
         $this_place = "";
 
     $ret = "";

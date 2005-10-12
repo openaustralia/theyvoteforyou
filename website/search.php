@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: search.php,v 1.38 2005/07/28 15:33:19 frabcus Exp $
+# $Id: search.php,v 1.39 2005/10/12 09:25:30 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -151,7 +151,7 @@ or <a href="divisions.php">all divisions</a>.
 
 <p class="search">Enter your postcode, MP name, constituency or debate topic:</p>
 <form class="search" action="search.php" name=pw>
-<input maxLength=256 size=25 name=query value=""> <input type="submit" value="Search" name="button">
+<input maxLength=256 size=25 name=query id=query value=""> <input type="submit" value="Search" name="button">
 </form>
 
 <p class="search"><i>Example: "OX1 3DR", "<?=$random_mp?>"<?=$random_constituency?> or "<?=$random_topic?>"</i>
