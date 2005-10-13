@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: settings.php,v 1.17 2005/10/12 09:25:30 frabcus Exp $
+# $Id: settings.php,v 1.18 2005/10/13 01:41:13 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -16,7 +16,10 @@ $just_logged_in = do_login_screen();
 if (user_isloggedin()) # User logged in, show settings screen
 {
     if ($_POST["r"]) {
-        header("Location: " . $_POST["r"]);
+        $r = $_POST["r"];
+        # Remove phpBB session id for redirect back
+        $r = preg_replace("/&sid=[0-9a-f]+/", "", $r);
+        header("Location: " . $r);
         exit;
     }
 

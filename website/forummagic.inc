@@ -1,6 +1,6 @@
 <?php
 
-# $Id: forummagic.inc,v 1.5 2005/10/13 00:39:47 frabcus Exp $
+# $Id: forummagic.inc,v 1.6 2005/10/13 01:41:13 frabcus Exp $
 # Post things to the forum automatically (like log of changes to policies)
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -102,6 +102,7 @@ function forummagic_do_post($post_domain, $post_filename, $post_data, $extra_coo
     }
     fclose($fp);
 
+#    print "<b>forummagic_do_post got</b><pre>$head</pre>";
     return array($response, $head);
 }
 

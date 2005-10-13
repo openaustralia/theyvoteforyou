@@ -316,7 +316,7 @@ function user_register($user_name,$password1,$password2,$email,$real_name) {
 				} else {
 					//send the confirm email
 					user_send_confirm_email($email,$hash,$user_name);
-					$feedback .= ' You have successfully registered.  Check your email for a confirmation message.  Follow the link in the email to confirm your account.';
+					$feedback .= ' You have successfully registered.  <b>Check your email<b> for a confirmation message.  Follow the link in the email to confirm your account.';
                     audit_log("Registered new user " . $user_name . ", real " . $real_name . ", " . $email);
 					return true;
 				}
