@@ -1,12 +1,18 @@
-Go through login stuff and make better
- - go back to where you were after login (for forum)
-
-Need to identify who made division, so can start talking to him!
+Go back to where you were after login (for forum)
 
 *** Make new user, and make policy with that user before ever going to the forum
 
+Escaping fucked up a bit on posting
+Make link to Division page from forum have dmp second anchor in it
+Don't open links in new page from forum
+
+Division forum topics
+
 Stuff
 -----
+
+Go through login stuff and make better
+    - for forum, after registration go back to where you were
 
 Report abuse button for motion text editing
 

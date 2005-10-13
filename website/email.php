@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: email.php,v 1.7 2005/10/12 01:41:41 frabcus Exp $
+# $Id: email.php,v 1.8 2005/10/13 00:39:47 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -32,6 +32,7 @@ start if you would like to take an issue up with central government.
 <h2>Contact the Public Whip volunteers</h2>
 
 <ul>
+<li>First, read the <a href="/faq.php">help page</a>, which answers many questions.
 <li>Please post your comments and questions <a href="/forum/">in the forum</a>.
 <li>
 You can also contact us  with errors, questions, ideas, interviews, talks,

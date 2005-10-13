@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.52 2005/10/12 01:41:41 frabcus Exp $
+# $Id: faq.php,v 1.53 2005/10/13 00:39:47 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -54,9 +54,9 @@ $paddingforanchors = true; $title = "Help - Frequently Asked Questions"; include
 
 
 <h2><a name="whatis">What is the Public Whip?</a></h2>
-<p>The Public Whip is a project to watch Members of the United Kingdom
+<p>Public Whip is a project to watch Members of the United Kingdom
 Parliament, so that the public (people like us) can better understand and influence their
-voting patterns.
+voting patterns.  We're an independent, non-governmental project.
 
 <h2><a name="jargon">First, can you explain "division" and other political jargon?</a></h2>
 <p>The House of Commons <i>divides</i> many times each week into those who
@@ -356,7 +356,7 @@ we're more likely to be embarrassed enough to take action.</p>
 
 <p>Email us at <a
 href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a> only if it's
-something you think should be kept private.</p>
+something you think should be kept private. Or if the forum isn't working for you.</p>
 
 <?php include "footer.inc" ?>
 

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: forummagic.inc,v 1.4 2005/10/12 22:48:44 theyworkforyou Exp $
+# $Id: forummagic.inc,v 1.5 2005/10/13 00:39:47 frabcus Exp $
 # Post things to the forum automatically (like log of changes to policies)
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -17,24 +17,34 @@
 function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content) {
     global $domain_name;
     list($forum_id, $topic_id) = forummagic_findtopic($db, $forum_name, $topic_match);
-    forummagic_make_sure_phpbb_account($db);
 
-    // Post our message
-    $post_filename = "/forum/posting.php";
-    if (!$topic_id) {
-        // Make topic
-        $post_data = "f=$forum_id&mode=newtopic&notify=on&topictype=0&subject=".urlencode($topic_title).
-                     "&message=".urlencode($content)."&post=Submit"; 
-        list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data);
-    } else {
-        $post_data = "t=$topic_id&mode=reply&notify=on&subject=".urlencode($topic_title).
-                     "&message=".urlencode($content)."&post=Submit"; 
-        list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data);
-    }
+    $done = false;
+    $c = 0;
+    while (!$done) {
+        // 3 times lucky :)
+        // (actually, it takes that long for cookies/sessions to be made for PHPBB login
+        // to be made from PublicWhip login for new users)
+        $c++;
+        if ($c > 3 )
+            fatal_error("Failed to post change to forum.");
 
-    // Check all's well
-    if (!stristr($response, "Your message has been entered successfully.")) {
-        fatal_error("Failed to post change to forum.");
+        // Post our message
+        $post_filename = "/forum/posting.php";
+        if (!$topic_id) {
+            // Make topic
+            $post_data = "f=$forum_id&mode=newtopic&notify=on&topictype=0&subject=".urlencode($topic_title).
+                         "&message=".urlencode($content)."&post=Submit"; 
+            list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data);
+        } else {
+            $post_data = "t=$topic_id&mode=reply&notify=on&subject=".urlencode($topic_title).
+                         "&message=".urlencode($content)."&post=Submit"; 
+            list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data);
+        }
+
+        // See if it all worked
+        if (stristr($response, "Your message has been entered successfully.")) {
+            $done = true;
+        }
     }
 }
 
@@ -47,6 +57,7 @@ function forummagic_getlink($db, $forum_name, $topic_match) {
     return "/forum/viewtopic.php?t=$topic_id";
 }
 
+// Internal function to find forum and topic id
 function forummagic_findtopic($db, $forum_name, $topic_match) {
     // Find forum and topic
     list($forum_id) = $db->query_one_row("select forum_id from phpbb_forums where forum_name = '$forum_name'");
@@ -54,33 +65,9 @@ function forummagic_findtopic($db, $forum_name, $topic_match) {
     return array($forum_id, $topic_id);
 }
 
-// Makes sure the phpbb user account has been made
-function forummagic_make_sure_phpbb_account($db){
-    global $domain_name;
-    if (!user_isloggedin())  
-        fatal_error("forummagic_make_sure_phpbb_account: Must be logged in");
-
-    // Make sure PHPBB user account has been made
-    $user_name = user_getname();
-    list($got_users) = $db->query_one_row("select count(*) from phpbb_users where username = '$user_name'");
-    if ($got_users != 0 && $got_users != 1)
-        fatal_error("forummagic_make_sure_phpbb_account: Unexpected strange value for got_users");
-    if (!$got_users) {
-        # Provoke creation of PHPBB account (not sure why have to do this twice - to do
-        # with redirects and phpbb and our hacks to its user accounts)
-        list ($response, $head) = forummagic_do_post($domain_name, "/forum/", "");
-        list ($response, $head) = forummagic_do_post($domain_name, "/forum/", "");
-        list($got_users) = $db->query_one_row("select count(*) from phpbb_users where username = '$user_name'");
-        if ($got_users != 0 && $got_users != 1)
-            fatal_error("forummagic_make_sure_phpbb_account: Unexpected strange value for got_users");
-        if ($got_users == 0) 
-            fatal_error("forummagic_make_sure_phpbb_account: Failed to generated phpbb account '$user_name'");
-    }
-}
-
-// Perform a post request into the forum
+// Internal function, perform a post request into the forum
 // Returns array(body, headers)
-function forummagic_do_post($post_domain, $post_filename, $post_data) {
+function forummagic_do_post($post_domain, $post_filename, $post_data, $extra_cookies = "") {
     $timeout = 5; 
 
     $head = '';
@@ -95,10 +82,10 @@ function forummagic_do_post($post_domain, $post_filename, $post_data) {
     $out .= "Content-Type: application/x-www-form-urlencoded\r\n";
     $out .= "User-Agent: forummagic.inc from Public Whip\r\n";
     $out .= "Content-Length: " . strlen($post_data) . "\r\n";
-    $out .= "Cookie: " . $_SERVER["HTTP_COOKIE"] . "\r\n";
-#    $out .= "Connection: Close\r\n";
+    $out .= "Cookie: $extra_cookies" . $_SERVER["HTTP_COOKIE"] . "\r\n";
     $out .= "\r\n";
     $out .= $post_data;
+#    print "<b>forummagic_do_post sending</b><pre>$out</pre>";
     fwrite($fp, $out);
     $inbody = false;
     while (!feof($fp) and (getmicrotime() < $sockstart + $timeout)) {

@@ -16,6 +16,6 @@ ssh $USER "mysqldump --add-drop-table francis | bzip2 -c >pw_all_tables.sql.bz2"
 scp $USER:./pw_all_tables.sql.bz2 pw_all_tables.sql.bz2
 
 echo "Replacing local all tables..."
-bzcat pw_all_tables.sql.bz2 | mysql tpw
+cwp pw_all_tables.sql.bz2 | bzcat | mysql tpw
 
 

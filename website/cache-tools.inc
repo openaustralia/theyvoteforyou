@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-tools.inc,v 1.24 2005/10/12 09:25:30 frabcus Exp $
+# $Id: cache-tools.inc,v 1.25 2005/10/13 00:39:47 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -40,7 +40,7 @@ function account_navbar() {
         $ret .= '</a> ';
     } else {
         $ret .= '<a title="Register to get a newsletter or make/edit policies" href="/account/register.php">';
-        $ret .= "Signup";
+        $ret .= "Sign Up";
         $ret .= '</a> ';
         $ret .= '<a title="Login to edit policies or change your newsletter settings" href="/account/settings.php'.
                 "?r=".urlencode($this_place)."\">";

@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.60 2005/10/12 09:25:30 frabcus Exp $
+# $Id: header.inc,v 1.61 2005/10/13 00:39:47 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -85,8 +85,8 @@ Search or Postcode:
 <a title="List of all Members of Parliament" href="<?=$toppath?>mps.php">MPs</a>
 <a title="Help to analyze MP's votes" href="<?=$toppath?>policies.php">Policies</a>
 <a title="Chat with other users" href="/forum">Forum</a>
-<a title="Help run the project" href="<?=$toppath?>project/index.php">Join Us</a>
-<a title="Frequently Asked Questions" href="<?=$toppath?>faq.php">Help</a>
+<a title="Help run the Public Whip project" href="<?=$toppath?>project/index.php">Join Us</a>
+<a title="Frequently asked questions" href="<?=$toppath?>faq.php">Help</a>
 </td>
 <td class="pagenavlinks" align="right">
 <!--ACCOUNTBEGIN-->
