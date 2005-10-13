@@ -1,17 +1,12 @@
-Go back to where you were after login (for forum)
-
-*** Make new user, and make policy with that user before ever going to the forum
-
-Escaping fucked up a bit on posting
-Make link to Division page from forum have dmp second anchor in it
-Don't open links in new page from forum
-
 Division forum topics
+
+Carriage return line feed become rnrn in forum post due to stripslashes breakage
 
 Stuff
 -----
 
 Go through login stuff and make better
+    - for forum, go back to where you were after login upon post
     - for forum, after registration go back to where you were
 
 Report abuse button for motion text editing

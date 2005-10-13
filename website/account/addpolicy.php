@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: addpolicy.php,v 1.7 2005/10/12 01:41:41 frabcus Exp $
+# $Id: addpolicy.php,v 1.8 2005/10/13 01:56:53 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -48,7 +48,7 @@ if (user_isloggedin()) # User logged in, show settings screen
                         $db->query("update pw_dyn_user set active_policy_id = $new_dreamid where user_id = " . user_getid());
                     }
                     audit_log("Added new policy '" . $name . "'");
-                    dream_post_forum_action($db, $new_dreamid, "Created brand new policy.\n\n[b]New Policy:[/b] [url=http://www.publicwhip.org.uk/policy.php?id=".$new_dreamid."]".$name."[/url]\n[b]Definition:[/b] $description");
+                    dream_post_forum_action($db, $new_dreamid, "Created brand new policy.\n\n[b]New Policy:[/b] [url=http://www.publicwhip.org.uk/policy.php?id=".$new_dreamid."]".stripslashes($name)."[/url]\n[b]Definition:[/b] ".stripslashes($description));
                 }
                 else
                 {

@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: bbcode.php,v 1.1 2005/10/06 11:25:08 theyworkforyou Exp $
+ *   $Id: bbcode.php,v 1.2 2005/10/13 01:56:53 frabcus Exp $
  *
  ***************************************************************************/
 

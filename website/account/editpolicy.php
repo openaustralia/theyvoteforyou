@@ -51,7 +51,7 @@ if (user_isloggedin()) # User logged in, show settings screen
             {
                 $db = new DB(); 
 
-                dream_post_forum_action($db, $dreamid, "Changed name and/or definition of policy.\n\n[b]Name:[/b] $name\n[b]Definition:[/b] $description");
+                dream_post_forum_action($db, $dreamid, "Changed name and/or definition of policy.\n\n[b]Name:[/b] ".stripslashes($name)."\n[b]Definition:[/b] ".stripslashes($description));
                 $ret = $db->query_errcheck("update pw_dyn_dreammp set name='$name', description='$description' where dream_id='$dreamid'");
                 notify_dream_mp_updated($db, intval($dreamid));
 

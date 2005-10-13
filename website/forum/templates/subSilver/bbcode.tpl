@@ -55,6 +55,6 @@
 
 <!-- BEGIN img --><img src="{URL}" border="0" /><!-- END img -->
 
-<!-- BEGIN url --><a href="{URL}" target="_blank" class="postlink">{DESCRIPTION}</a><!-- END url -->
+<!-- BEGIN url --><a href="{URL}" class="postlink">{DESCRIPTION}</a><!-- END url -->
 
 <!-- BEGIN email --><a href="mailto:{EMAIL}">{EMAIL}</A><!-- END email -->
