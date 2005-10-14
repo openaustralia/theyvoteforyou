@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.53 2005/10/13 00:39:47 frabcus Exp $
+# $Id: faq.php,v 1.54 2005/10/14 08:53:29 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -22,6 +22,7 @@ $paddingforanchors = true; $title = "Help - Frequently Asked Questions"; include
 <li><a href="#clarify">What do the "rebellion" and "attendance" figures mean exactly?</a> <br/>
 <li><a href="#freevotes">Why do you incorrectly say people are rebels in free votes?</a> <br/>
 <li><a href="#abstentions">How do you estimate abstentions?</a> <br/>
+<li><a href="#policies">What are Policies and how do they work?</a> <br/>
 
 <br>
 <li><a href="#legal">Legal question, what can I use this information for?</a> <br/>
@@ -172,6 +173,30 @@ is always relative, so it could be that another party has failed to turn out
 
 <p>Sometimes MPs also indicate abstention by <a href="boths.php">voting both
 aye and no</a>.
+
+<h2><a name="policies">What are Policies and how do they work?</a></h2>
+
+<p>This is a new idea which we derived from the software we wrote for
+the inexplicably popular, but now deprecated, DreamMP feature.  
+On Publicwhip, a Policy is a set of votes that represent a consistent 
+view on a particular issue.  They can be used to automatically
+measure the voting characteristics of a particular MP without the 
+need to examin and compare the votes individually.</p>
+
+<p>You do not have to agree with a Policy to have a valid opinion
+about the clarity of its description or choice of votes.
+This is why we've based their maintenance on a <a href="http://en.wikipedia.org/wiki/Wiki">Wiki</a>
+where everyone who is logged in can edit them.  
+This means that when a Policy gets out of date, 
+for example new votes have appeared that it should be voting on,
+it's up to anyone who sees it to fix it.</p>
+
+<p>Policies are intended be a new tool for checking
+the voting behavoir of an MP, on top of the ability to read their
+individual votes.  They provide nothing more than a flash
+summary of the data, a summary which you can
+drill down through to get to the raw evidence.</p>
+
 
 <h2><a name="legal">Legal question, what can I use this information for?</a></h2>
 
