@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.93 2005/10/12 16:42:58 goatchurch Exp $
+    # $Id: mp.php,v 1.94 2005/10/15 00:07:57 theyworkforyou Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -305,7 +305,7 @@
 			# can we link directly?
 			print "<li>Contact your MP for free at: <a href=\"http://www.writetothem.com\">WriteToThem.com</a></li>\n";
 
-			print "<li><b>New!</b> Sign up to your constituency mailing list at: <a href=\"http://www.mysociety.org/ycml/\">MySociety.org</a></li>\n";
+			print "<li><b>New!</b> Form a long term relationship with your MP: <a href=\"http://www.hearfromyourmp.com\">HearFromYourMP.com</a></li>\n";
 
             print "</ul>\n";
         }
