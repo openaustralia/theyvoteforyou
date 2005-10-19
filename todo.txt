@@ -1,5 +1,7 @@
 Division forum topics
 
+Diffs better
+
 Carriage return line feed become rnrn in forum post due to stripslashes breakage
 
 Stuff

@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.17 2005/10/19 23:15:27 frabcus Exp $
+# $Id: wiki.php,v 1.18 2005/10/19 23:42:24 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -29,12 +29,11 @@ if (user_isloggedin()) # User logged in, show settings screen
     $submit = db_scrub($_POST["submit"]);
     $r = db_scrub($_GET["r"]);
 
-    $division_number = $matches[2];
     $db->query("select * from pw_division where division_date = '$params[0]' 
         and division_number = '$params[1]' and house = '$params[2]'");
     $division_details = $db->fetch_row_assoc();
     $prettydate = date("j M Y", strtotime($params[0]));
-    $title = "Edit Division Description - " . $division_details['division_name'] . " - $prettydate - Division No. $division_number";
+    $title = "Edit Division Description - " . $division_details['division_name'] . " - $prettydate - Division No. $params[1]";
     $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $division_details['debate_gid']);
     
     if ($submit && (!$just_logged_in))
@@ -76,21 +75,52 @@ if (user_isloggedin()) # User logged in, show settings screen
 		<ul>
 <?
         if ($debate_gid != "") {
-            print "<li><a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">The debate</a> leading up to the vote.</li>";
+            print "<li><a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">The debate</a> leading up to the vote</li>";
         } else {
             print "<li>Warning: old division; need to make hyperlink to old Parl data from division details</li>";
         }
 ?>
 		<li><a href="http://www.publications.parliament.uk/pa/pabills.htm">Public Bills before Parliament</a> 
-		(The link gets deleted from here once the next version is printed, though the page remains.)</li>
+		(the link gets deleted from here once the next version is printed, though the page remains.)</li>
 		<li><a href="http://www.publications.parliament.uk/pa/cm/stand.htm">Standing Committees reviewing Bills</a></li>
 		<li><a href="http://www.publications.parliament.uk/pa/cm/cmdeleg.htm">Standing Committees on delegated legislation</a></li>
 		<li><a href="http://www.official-documents.co.uk/menu/browseDocuments.htm">Command Papers</a> Back to 2002, and in pdf</li>
 		</ul>
 
 
+        <!-- use tables here as textarea style width=64% behaves differently on IE vs. Firefox) -->
+        <table border="0" width="100%">
+        <tr>
 
-        <div class="tableexplain">
+        <td width="64%" valign="top">
+        <p><b>Edit division title and description:</b>
+<?
+        }
+
+?>
+        <P>
+        <FORM ACTION="<?=$REQUEST_URI?>" METHOD="POST">
+        <textarea name="newtext" style="width: 100%" rows="25" cols="45"><?=html_scrub($values['text_body'])?></textarea>
+        <p>
+        <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Save">
+        <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Cancel">
+        </FORM>
+        </P>
+<?
+        if ($type == 'motion') {
+?>
+        <p><a href="<?=get_wiki_history_link($type, $params)?>">View change history</a>
+
+<?
+        }
+?>
+        </td>
+
+      <td width="3%">&nbsp;</td>
+        
+      <td width="33%" valign="top">
+
+        <p><b>Editing tips:</b></p>
 
         <p><span class="ptitle">Separators</span>. Leave the "DIVISION TITLE", "MOTION EFFECT" and "COMMENTS AND NOTES"
         in place, so our computer knows how to break it up.
@@ -112,28 +142,12 @@ if (user_isloggedin()) # User logged in, show settings screen
         <li>&lt;a href="http://..."&gt; &lt;/a&gt; - link
         </ul>
 
-        </div>
+        </td>
 
-        <p><b>Edit division title and description:</b>
-<?
-        }
+ 
 
-?>
-        <P>
-        <FORM ACTION="<?=$REQUEST_URI?>" METHOD="POST">
-        <textarea name="newtext" rows="25" cols="45"><?=html_scrub($values['text_body'])?></textarea>
-        <p>
-        <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Save">
-        <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Cancel">
-        </FORM>
-        </P>
+        </tr></table>
 <?
-        if ($type == 'motion') {
-?>
-        <p><a href="<?=get_wiki_history_link($type, $params)?>">View change history</a>
-
-<?
-        }
 
     }
 }
