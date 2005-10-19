@@ -1,6 +1,6 @@
 <?php
 
-# $Id: common.inc,v 1.5 2005/10/05 13:47:46 frabcus Exp $
+# $Id: common.inc,v 1.6 2005/10/19 23:15:26 frabcus Exp $
 
 # Included from all main .php files on the first line
 
@@ -14,12 +14,6 @@ ini_set('log_errors_max_len', '0');
 ini_set('error_log', null);
 ini_set('ignore_repeated_errors', 'Off');
 ini_set('html_errors', 'Off');
-
-// Call this when there is an error
-function fatal_error($message) {
-    trigger_error($message, E_USER_ERROR);
-    exit;
-}
 
 // Display errors better
 function pw_handle_error($num, $message, $file, $line, $context) {

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.26 2005/10/12 01:42:11 theyworkforyou Exp $
+# $Id: db.inc,v 1.27 2005/10/19 23:15:27 frabcus Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -37,17 +37,17 @@ class DB
         global $pw_host, $pw_user, $pw_password, $pw_database;
 
         $this->link = mysql_connect($pw_host, $pw_user, $pw_password)
-            or fatal_error("Could not connect : " . mysql_error());
+            or trigger_error("Could not connect : " . mysql_error(), E_USER_ERROR);
 
         mysql_select_db($pw_database, $this->link) 
-           or fatal_error("Could not select database : " . mysql_error());
+           or trigger_error("Could not select database : " . mysql_error(), E_USER_ERROR);
     }
 
     function query($query)
     {
 #print "<p>$query";
         $this->$result = mysql_query($query, $this->link) 
-            or fatal_error("Query failed : " .  mysql_error());
+            or trigger_error("Query failed : " .  mysql_error(), E_USER_ERROR);
     }
 
     function query_errcheck($query)
@@ -95,7 +95,7 @@ class DB
     {
         $this->query($query);
         if ($this->rows() != 1)
-			fatal_error("query_one_row: Single row query didn't get one row, got " . $this->rows() . " on query: ".$query);
+			trigger_error("query_one_row: Single row query didn't get one row, got " . $this->rows() . " on query: ".$query, E_USER_ERROR);
         $row = $this->fetch_row();
         return $row;
     }
@@ -106,7 +106,7 @@ class DB
         if ($this->rows() == 0)
         	return null;
         if ($this->rows() != 1)
-		fatal_error("query_one_row: Single row query didn't get one row, got " . $this->rows() . " on query: ".$query);
+		trigger_error("query_one_row: Single row query didn't get one row, got " . $this->rows() . " on query: ".$query, E_USER_ERROR);
         $row = $this->fetch_row();
         return $row;
     }
@@ -116,7 +116,7 @@ class DB
     {
         $this->query($query);
         if ($this->rows() != 1)
-            fatal_error("query_one_row_assoc: Single row query didn't get one row, got " . $this->rows() . " on query: ".$query);
+            trigger_error("query_one_row_assoc: Single row query didn't get one row, got " . $this->rows() . " on query: ".$query, E_USER_ERROR);
         $row = $this->fetch_row_assoc();
         return $row;
     }
@@ -128,7 +128,7 @@ class DB
         if ($rows == 0)
         	return null;
         if ($rows != 1)
-            fatal_error("query_onez_row_assoc: Single row query didn't get one row, got ".$rows." on query: ".$query);
+            trigger_error("query_onez_row_assoc: Single row query didn't get one row, got ".$rows." on query: ".$query, E_USER_ERROR);
         $row = $this->fetch_row_assoc();
         return $row;
     }
@@ -137,7 +137,7 @@ class DB
     {
         $row = $this->query_one_row($query);
         if (count(row) != 1)
-			fatal_error("Single value query didn't get one value, got " . count(row) . " on query: ".$query);
+			trigger_error("Single value query didn't get one value, got " . count(row) . " on query: ".$query, E_USER_ERROR);
         return $row[0];
     }
 

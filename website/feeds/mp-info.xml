@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: mp-info.xml,v 1.3 2005/10/05 13:47:46 frabcus Exp $
+# $Id: mp-info.xml,v 1.4 2005/10/19 23:15:27 frabcus Exp $
 
 # Print information in XML about each MP.  e.g. Rebellion rate.
 
@@ -50,7 +50,7 @@ while ($row = $db->fetch_row_assoc())
     $db2->query("select attend_rank, attend_outof from pw_cache_attendrank_today where mp_id=$id");
     if ($db2->rows() > 1)
     {
-        fatal_error("Too many return values for attendrank mp $id");
+        trigger_error("Too many return values for attendrank mp $id", E_USER_ERROR);
     }
     if ($db2->rows() == 1)
     {
@@ -64,7 +64,7 @@ while ($row = $db->fetch_row_assoc())
     $db2->query("select rebel_rank, rebel_outof from pw_cache_rebelrank_today where mp_id=$id");
     if ($db2->rows() > 1)
     {
-        fatal_error("Too many return values for rebelrank mp $id");
+        trigger_error("Too many return values for rebelrank mp $id", E_USER_ERROR);
     }
     if ($db2->rows() == 1)
     {

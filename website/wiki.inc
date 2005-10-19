@@ -1,5 +1,5 @@
 <?php
-# $Id: wiki.inc,v 1.7 2005/10/05 13:53:21 frabcus Exp $
+# $Id: wiki.inc,v 1.8 2005/10/19 23:15:27 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Editable text with history
@@ -33,7 +33,7 @@ function get_wiki_where_fragment($type, $params)
     if ($type == 'motion') {
         return " (division_date = '$params[0]' and division_number = '$params[1]' and house = '$params[2]') ";
     } else {
-        fatal_error("Unknown wiki type '" . html_scrub($type). "'");
+        trigger_error("Unknown wiki type '" . html_scrub($type). "'", E_USER_ERROR);
     }
 }
 # Give a wiki type, returns table
@@ -42,7 +42,7 @@ function get_wiki_table($type)
     if ($type == 'motion') {
         return "pw_dyn_wiki_motion";
     } else {
-        fatal_error("Unknown wiki type '" . html_scrub($type). "'");
+        trigger_error("Unknown wiki type '" . html_scrub($type). "'", E_USER_ERROR);
     }
 }
 # Returns link to history view of given wiki item
@@ -50,7 +50,7 @@ function get_wiki_history_link($type, $params) {
     if ($type == 'motion') {
         return "/edits.php?type=$type&date=$params[0]&number=$params[1]&house=$params[2]";
     } else {
-        fatal_error("Unknown wiki type '" . html_scrub($type). "'");
+        trigger_error("Unknown wiki type '" . html_scrub($type). "'", E_USER_ERROR);
     }
 }
 
@@ -77,7 +77,7 @@ function get_wiki_current_value($type, $params)
         }
         $result['text_body'] = add_motion_missing_wrappers($result['text_body'], $division_name);
     } else {
-        fatal_error("Unknown wiki type '" . html_scrub($type). "'");
+        trigger_error("Unknown wiki type '" . html_scrub($type). "'", E_USER_ERROR);
     }
     return $result;
 }
@@ -121,8 +121,8 @@ function get_motion_default_values($params)
         return array($motion, $row['division_name']);
     }
 
-    fatal_error("Couldn't find motion text for division " . htmlspecialchars($parmas[0]) . " " . htmlspecialchars($params[1]) 
-        . " " . htmlspecialchars($params[2]));
+    trigger_error("Couldn't find motion text for division " . htmlspecialchars($parmas[0]) . " " . htmlspecialchars($params[1]) 
+        . " " . htmlspecialchars($params[2]), E_USER_ERROR);
 }
 
 # Makes sure the wiki_id value is up to date in pw_cache_divwiki for every

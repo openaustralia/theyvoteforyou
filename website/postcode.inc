@@ -138,9 +138,9 @@ function postcode_to_constituency_internal($db, $postcode)
     {
         trigger_error("Postcode database is not working. Invalid XML.", E_USER_WARNING);
         return '';
-#        fatal_error(sprintf("XML error: %s at line %d",
+#        trigger_error(sprintf("XML error: %s at line %d",
 #            xml_error_string(xml_get_error_code($xml_parser)),
-#            xml_get_current_line_number($xml_parser)));
+#            xml_get_current_line_number($xml_parser)), E_USER_ERROR);
     }
     xml_parser_free($xml_parser);
     $constituency = str_replace("  ", " ", $constituency);

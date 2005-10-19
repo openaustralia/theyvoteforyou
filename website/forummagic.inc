@@ -1,6 +1,6 @@
 <?php
 
-# $Id: forummagic.inc,v 1.6 2005/10/13 01:41:13 frabcus Exp $
+# $Id: forummagic.inc,v 1.7 2005/10/19 23:15:27 frabcus Exp $
 # Post things to the forum automatically (like log of changes to policies)
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -26,7 +26,7 @@ function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content)
         // to be made from PublicWhip login for new users)
         $c++;
         if ($c > 3 )
-            fatal_error("Failed to post change to forum.");
+            trigger_error("Failed to post change to forum after several goes.", E_USER_ERROR);
 
         // Post our message
         $post_filename = "/forum/posting.php";
@@ -74,7 +74,7 @@ function forummagic_do_post($post_domain, $post_filename, $post_data, $extra_coo
     $response = '';
     $fp = @fsockopen($post_domain, 80, $errno, $errstr, $timeout);
     if (!$fp) 
-        fatal_error('Failed to open internal HTTP socket for forum post');
+        trigger_error('Failed to open internal HTTP socket for forum post', E_USER_ERROR);
     stream_set_timeout($fp, $timeout);
     $sockstart = getmicrotime(); # feof doesn't time out, so we have to measure ourselves also        
     $out = "POST $post_filename HTTP/1.0\r\n";
@@ -98,7 +98,7 @@ function forummagic_do_post($post_domain, $post_filename, $post_data, $extra_coo
             $head .= $line;
     }
     if (getmicrotime() >= $sockstart + $timeout) {
-        fatal_error('HTTP timed out while doing internal forum post');
+        trigger_error('HTTP timed out while doing internal forum post', E_USER_ERROR);
     }
     fclose($fp);
 

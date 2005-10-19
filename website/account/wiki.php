@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.16 2005/10/19 13:07:39 goatchurch Exp $
+# $Id: wiki.php,v 1.17 2005/10/19 23:15:27 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -23,7 +23,8 @@ if (user_isloggedin()) # User logged in, show settings screen
     if ($type == 'motion')
         $params = array(db_scrub($_GET["date"]), db_scrub($_GET["number"]), db_scrub($_GET["house"]));
     else
-        fatal_error("Unknown wiki type " . htmlspecialchars($type));
+        trigger_error("Unknown wiki type " . htmlspecialchars($type), E_USER_ERROR);
+
     $newtext = db_scrub($_POST["newtext"]);
     $submit = db_scrub($_POST["submit"]);
     $r = db_scrub($_GET["r"]);
