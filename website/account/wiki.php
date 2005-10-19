@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.15 2005/10/06 12:45:07 frabcus Exp $
+# $Id: wiki.php,v 1.16 2005/10/19 13:07:39 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -50,52 +50,61 @@ if (user_isloggedin()) # User logged in, show settings screen
         header("Location: ". $r);
         exit;
     }
-    else 
+    else
     {
         include "../header.inc";
 
         $values = get_wiki_current_value($type, $params);
-        
+
         if ($type == 'motion') {
 ?>
         <p>Describe the <i>result</i> of this division.  This will require you
-        to check through the 
-<?
-        if ($debate_gid != "") {
-            print "<a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">debate leading up to the vote</a>.";
-        } else {
-            print "debate leading up to the vote.";
-        }
-?>
+        to check through the debate leading up to the vote.
         The raw, and frequently
         wrong, motion text is there by default.  Feel free to remove it when
         you've replaced it with something better. </p>
 
-        <p>Please, keep it accurate, authorative, brief, and as jargon-free as
+        <p>Please, keep it accurate, authorative, and as jargon-free as
         possible so that new readers who don't know Parliamentary procedure can
-        gain enlightenment. You are encouraged to include hyperlinks to the
-        statutory legislation, command papers, reports, and committee
+        gain enlightenment. You are urged to include hyperlinks to the
+        legislation, command papers, reports, and committee
         proceedings that are referred to so that readers who want to follow the
         story further will know where to look.</p>
 
+		<p>Links that may be of use: 
+		<ul>
+<?
+        if ($debate_gid != "") {
+            print "<li><a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">The debate</a> leading up to the vote.</li>";
+        } else {
+            print "<li>Warning: old division; need to make hyperlink to old Parl data from division details</li>";
+        }
+?>
+		<li><a href="http://www.publications.parliament.uk/pa/pabills.htm">Public Bills before Parliament</a> 
+		(The link gets deleted from here once the next version is printed, though the page remains.)</li>
+		<li><a href="http://www.publications.parliament.uk/pa/cm/stand.htm">Standing Committees reviewing Bills</a></li>
+		<li><a href="http://www.publications.parliament.uk/pa/cm/cmdeleg.htm">Standing Committees on delegated legislation</a></li>
+		<li><a href="http://www.official-documents.co.uk/menu/browseDocuments.htm">Command Papers</a> Back to 2002, and in pdf</li>
+		</ul>
+
+
+
         <div class="tableexplain">
-        <p><span class="ptitle">You can write comments</span>.  Keep them below the "COMMENTS AND
-        NOTES" line so that they don't interfere with the provision of what we
-        hope could be the most authoratitive and accessible record of what's
-        going on in Parliament.</p>
+
+        <p><span class="ptitle">Separators</span>. Leave the "DIVISION TITLE", "MOTION EFFECT" and "COMMENTS AND NOTES"
+        in place, so our computer knows how to break it up.
+		If you don't want to delete text, move it out of the way below "COMMENTS AND NOTES"
+		where it will be hidden.</p>
 
         <p><span class="ptitle">Questions, thoughts?</span>
-        <a href="/forum/viewforum.php?f=2">Chat
-with other motion researchers on our special forum</a>.
+        <a href="/forum/viewforum.php?f=2">Discuss</a>
+		with other motion researchers on our special forum. (especially when we get the deep link working).
 
-        <p><span class="ptitle">Seperators</span>. Leave the "DIVISION TITLE", "MOTION EFFECT" and "COMMENTS AND NOTES"
-        in place, so our computer can work it out.
-
-        <p><span class="ptitle">HTML tags</span>. You can use the following:
+        <p><span class="ptitle">Allowable HTML tags</span>. You can use the following:
         <ul>
         <li>&lt;p&gt; - begin paragraph
-        <li>&lt;p class="italic"&gt; - begin italic paragraph
-        <li>&lt;p class="indent"&gt; - begin indented paragraph
+        <li>&nbsp;&lt;p class="italic"&gt; - begin italic paragraph
+        <li>&nbsp;&lt;p class="indent"&gt; - begin indented paragraph
         <li>&lt;/p&gt; - end paragraph
         <li>&lt;i&gt; &lt;/i&gt; - italic
         <li>&lt;b&gt; &lt;/b&gt; - bold
