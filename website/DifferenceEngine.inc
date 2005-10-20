@@ -940,6 +940,7 @@ class WordLevelDiff extends MappedDiff
 
 	function inline_diff () {
 		$orig = new _HWLDF_WordAccumulator;
+        #print"<pre>";print_r($this->edits);print"</pre>";exit;
 		
 		foreach ($this->edits as $edit) {
 			if ($edit->type == 'copy')

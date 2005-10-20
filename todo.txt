@@ -1,8 +1,8 @@
 Division forum topics
 
-Diffs better
-
 Carriage return line feed become rnrn in forum post due to stripslashes breakage
+
+Selected divisions table needs clear right
 
 Stuff
 -----
