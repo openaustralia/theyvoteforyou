@@ -52,23 +52,8 @@
     print "<table class=\"edits\">\n";
     print "<tr class=\"headings\">
         <td>Change</td>
-        <td>Division Description Before</td>
-        <td>Division Description After</td>
+        <td>Division Description Changes</td>
         </tr>";
-
-    function format_linediff($prev, $next, $nochange) {
-        $prev = preg_replace('/\s+/', " ", $prev); // remove windows type line feeds
-        $next = preg_replace('/\s+/', " ", $next);
-        if ($prev == $next and $nochange) 
-            return array("...no change...", "...no change...");
-        $df  = new WordLevelDiff(array(htmlspecialchars($prev)), array(htmlspecialchars($next)));
-        $opening = $df->orig();
-        $closing = $df->closing();
-        return array(   
-            join($opening, "<p>"), 
-            join($closing, "<p>"), 
-            );
-    }
 
     // Find initial values
     $query = "select division_date, division_number, house, 
@@ -117,17 +102,14 @@
         print "<p>Edited by ".html_scrub($row['user_name']);
         print "<p>on " . $row['edit_date'] . "\n";
         print "</td>";
-        list($marked_text_before, $marked_text_after) = format_linediff(
+        $marked_text_diff = format_linediff(
             extract_motion_text_from_wiki_text($row['previous']),
             extract_motion_text_from_wiki_text($row['text_body']), true);
-        list($marked_title_before, $marked_title_after) = format_linediff(
+        $marked_title_diff = format_linediff(
             extract_title_from_wiki_text($row['previous']),
             extract_title_from_wiki_text($row['text_body']), false);
-        print "<td class=\"oddcol\" width=\"42%\">" . 
-            "<b>" . $marked_title_before. "</b><br>".  $marked_text_before.
-            "</td>";
-        print "<td class=\"evencol\" width=\"42%\">" . 
-            "<b>" . $marked_title_after. "</b><br>".  $marked_text_after.
+        print "<td>" . 
+            "<b>" . $marked_title_diff. "</b><br>".  $marked_text_diff.
             "</td>";
         print "</td></tr>";
     }

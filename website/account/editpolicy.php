@@ -12,6 +12,7 @@ include_once('user.inc');
 include "../db.inc";
 include "../cache-tools.inc";
 require_once "../dream.inc";
+require_once "../DifferenceEngine.inc";
 
 $db = new DB(); 
 $just_logged_in = do_login_screen();
@@ -21,7 +22,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     $title = "Modify Policy"; 
     include "../header.inc";
 
-    $dreamid=db_scrub($_GET["id"]);
+    $dreamid=intval(db_scrub($_GET["id"]));
     
     $name=db_scrub($_POST["name"]);
     $description=db_scrub($_POST["description"]);
@@ -50,8 +51,12 @@ if (user_isloggedin()) # User logged in, show settings screen
             else
             {
                 $db = new DB(); 
+                list($prev_name, $prev_description) = $db->query_one_row("select name, description from pw_dyn_dreammp where dream_id = '$dreamid'");
 
-                dream_post_forum_action($db, $dreamid, "Changed name and/or definition of policy.\n\n[b]Name:[/b] ".stripslashes($name)."\n[b]Definition:[/b] ".stripslashes($description));
+                $name_diff = format_linediff($prev_name, stripslashes($name), true);
+                $description_diff = format_linediff($prev_description, stripslashes($description), true);
+
+                dream_post_forum_action($db, $dreamid, "Changed name and/or definition of policy.\n\n[b]Name:[/b] ".$name_diff."\n[b]Definition:[/b] ".$description_diff);
                 $ret = $db->query_errcheck("update pw_dyn_dreammp set name='$name', description='$description' where dream_id='$dreamid'");
                 notify_dream_mp_updated($db, intval($dreamid));
 

@@ -4,6 +4,8 @@
  *
  * Additions by Axel Boldt for MediaWiki
  *
+ * Additions by Francis, Public Whip for inline_diff type in word level diff.
+ *
  * @copyright (C) 2000, 2001 Geoffrey T. Dairiki <dairiki@dairiki.org>
  * @license  You may copy this code freely under the conditions of the GPL.
  */
@@ -848,6 +850,10 @@ class _HWLDF_WordAccumulator {
 		if ($this->_group !== '') {
 	  if ($this->_tag == 'mark') 
 			$this->_line .= '<span class="diffchange">'.$this->_group.'</span>';
+	  elseif ($this->_tag == 'mark_old') 
+			$this->_line .= '<span class="diffold">'.$this->_group.'</span>';
+	  elseif ($this->_tag == 'mark_new') 
+			$this->_line .= '<span class="diffnew">'.$this->_group.'</span>';
 	  else
 		$this->_line .= $this->_group;
 	}
@@ -931,6 +937,23 @@ class WordLevelDiff extends MappedDiff
 		}
 		return $closing->getLines();
 	}
+
+	function inline_diff () {
+		$orig = new _HWLDF_WordAccumulator;
+		
+		foreach ($this->edits as $edit) {
+			if ($edit->type == 'copy')
+				$orig->addWords($edit->orig);
+			else {
+                if ($edit->orig)
+                    $orig->addWords($edit->orig, 'mark_old');
+                if ($edit->closing)
+                    $orig->addWords($edit->closing, 'mark_new');
+            }
+		}
+		return $orig->getLines();
+	}
+
 }
 
 /**
@@ -1057,5 +1080,21 @@ class TableDiffFormatter extends DiffFormatter
 		$this->_added( $add ); # If any leftovers
 	}
 }
+
+// format_linediff
+// Public Whip's own function, makes inline struck out diff.
+// nochange - return "...no change..." if there was no change.
+function format_linediff($prev, $next, $nochange) {
+    $prev = preg_replace('/\s+/', " ", $prev); // remove windows type line feeds
+    $next = preg_replace('/\s+/', " ", $next);
+    if ($prev == $next and $nochange) 
+        return "...no change...";
+    $df  = new WordLevelDiff(array(htmlspecialchars($prev)), array(htmlspecialchars($next)));
+    $opening = $df->orig();
+    $closing = $df->closing();
+    $inline_diff = $df->inline_diff();
+    return join($inline_diff, "<p>");
+}
+
 
 ?>
