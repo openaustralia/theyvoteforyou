@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.27 2005/10/12 08:40:10 frabcus Exp $
+# $Id: decodeids.inc,v 1.28 2005/10/20 10:16:15 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -313,7 +313,9 @@ function get_division_attr_decode($db, $i)
     # warning error shows up from this line if in debug since it comes before the first characters that set the type in head.inc
     if ($bdebug == 1)
         print "<h5>$query</h5>";
-    $row = $db->query_one_row_assoc($query);
+    $row = $db->query_onez_row_assoc($query);
+    if (!$row)
+	return "none";
 
     return array("division_date" 	=> $row["division_date"],
                  "division_number" 	=> $row['division_number'],
