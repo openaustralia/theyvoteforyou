@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.61 2005/10/13 00:39:47 frabcus Exp $
+# $Id: header.inc,v 1.62 2005/10/20 00:12:22 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -114,5 +114,7 @@ Search or Postcode:
 
 <!-- the rest of the content -->
 <tr><td colspan="2">
+
+<?=$pretitle ? $pretitle : ""?>
 
 <h1><? print $title ?></h1>

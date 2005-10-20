@@ -52,15 +52,16 @@
         array_push($second_links, "<a $dlink class=\"".($ldisplay == $display ? "on" : "off")."\">".$ldismode["description"]."</a>");
     }
 
-    include "header.inc";
-
 	if ($dismode["policybox"])
 	{
-		print "<div class=\"tabledreambox\">";
-	    print dream_box($dreamid, $policyname);
-	    print '<p>Why not <a href="#dreambox">add this to your own website?</a></p>';
-	    print "</div>";
+        # Use pretitle, so floats right of the title
+		$pretitle = "<div class=\"tabledreambox\">";
+	    $pretitle .= dream_box($dreamid, $policyname);
+	    $pretitle .= '<p>Why not <a href="#dreambox">add this to your own website?</a></p>';
+	    $pretitle .= "</div>";
 	}
+
+    include "header.inc";
 
     print "<p><b>Definition:</b> " . str_replace("\n", "<br>", html_scrub($voter["description"])). "</p>";
     if ($voter["private"])
@@ -84,16 +85,9 @@
 
 	if ($dismode["divisionlist"] == "selected")
 	{
-		print "<h2><a name=\"divisions\">Selected Divisions</a></h2>
-	    <p>Divisions which have been selected for this policy.";
-	    if ($voter["votes_count"])
-	        print " <b>".$voter["votes_count"]."</b> votes, of which <b>".$voter["edited_count"]."</b> have edited motion text.";
-		else
-		print "</p>\n";
-        if (user_getid()) {
-            $db->query("update pw_dyn_user set active_policy_id = $dreamid where user_id = " . user_getid());
-            print "<p>This is now your active policy; to select other votes for this policy, go to any division page.";
-        }
+		print "<h2><a name=\"divisions\">Selected Divisions</a></h2>";
+        if ($voter["votes_count"])
+            print "<p><b>".$voter["votes_count"]."</b> votes, of which <b>".$voter["edited_count"]."</b> have edited motion text.";
 	}
 	else
 	{
@@ -111,11 +105,13 @@
 	division_table($db, $divtabattr);
     print "</table>\n";
 
-/*    print "You need to select which votes support your policy.
-    To do this <a href=\"search.php\">search</a> or <a
-    href=\"divisions.php\">browse</a> for divisions.  On the page for each
-    division you can choose how someone supporting your policy would have
-    voted.  Only vote on divisions which are relevant to your policy."; */
+    print "See something wrong or missing? Anybody can edit and fix the votes and definition of a policy. ";
+    if (user_getid()) {
+        $db->query("update pw_dyn_user set active_policy_id = $dreamid where user_id = " . user_getid());
+        print " This is now your active policy; to change its votes, go to any division page.";
+    } else {
+        print ' <a href="/account/settings.php">Log in </a> to do this.';
+    }
 
 	if ($dismode["comparisons"])
 	{

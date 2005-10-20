@@ -83,7 +83,7 @@ if (user_isloggedin()) # User logged in, show settings screen
         }
         else
         {
-            print "<p>Here you can change the name or definition of the policy.";
+            print "<p>Here you can change the name or definition of the policy. From the description, everyone should be able to agree which way the policy votes in each division.";
 
         }
 
