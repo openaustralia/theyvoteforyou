@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.18 2005/10/19 23:42:24 frabcus Exp $
+# $Id: wiki.php,v 1.19 2005/10/22 11:23:22 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -7,12 +7,16 @@
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-include('../database.inc');
-include_once('user.inc');
+require_once('../database.inc');
+require_once('user.inc');
 
-include "../db.inc";
-include "../cache-tools.inc";
-include "../wiki.inc";
+require_once "../db.inc";
+require_once "../cache-tools.inc";
+require_once "../wiki.inc";
+require_once "../pretty.inc";
+require_once "../DifferenceEngine.inc";
+require_once "../divisionvote.inc";
+require_once "../forummagic.inc";
 $db = new DB(); 
 
 $just_logged_in = do_login_screen();
@@ -25,7 +29,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     else
         trigger_error("Unknown wiki type " . htmlspecialchars($type), E_USER_ERROR);
 
-    $newtext = db_scrub($_POST["newtext"]);
+    $newtext = $_POST["newtext"];
     $submit = db_scrub($_POST["submit"]);
     $r = db_scrub($_GET["r"]);
 
@@ -39,9 +43,30 @@ if (user_isloggedin()) # User logged in, show settings screen
     if ($submit && (!$just_logged_in))
     {
         if ($submit == "Save") {
+            if ($type == "motion") {
+                $motion_data = get_wiki_current_value("motion", array($params[0], $params[1], $params[2]));
+                $prev_name = extract_title_from_wiki_text($motion_data['text_body']);
+                $prev_description = extract_motion_text_from_wiki_text($motion_data['text_body']);
+            }
+
+            if ($type == 'motion') {
+                $curr_name = extract_title_from_wiki_text($newtext);
+                $curr_description = extract_motion_text_from_wiki_text($newtext);
+                $name_diff = format_linediff(trim($prev_name), trim($curr_name), true);
+                $description_diff = format_linediff(trim($prev_description), trim($curr_description), true);
+                # forum escapes <, > already
+                $description_diff = str_replace("&gt;", ">", $description_diff);
+                $description_diff = str_replace("&lt;", "<", $description_diff);
+                $description_diff = str_replace("&amp;", "&", $description_diff);
+                $name_diff = str_replace("&gt;", ">", $name_diff);
+                $name_diff = str_replace("&lt;", "<", $name_diff);
+                $name_diff = str_replace("&amp;", "&", $name_diff);
+                divisionvote_post_forum_action($db, $params[0], $params[1], $params[2], 
+                    "Changed title and/or description of division.\n\n[b]Title:[/b] ".$name_diff."\n[b]Description:[/b] ".$description_diff);
+            }
             $db->query_errcheck("insert into pw_dyn_wiki_motion
                 (division_date, division_number, house, text_body, user_id, edit_date) values
-                ('$params[0]', '$params[1]', '$params[2]', '$newtext', '" . user_getid() . "', now())");
+                ('$params[0]', '$params[1]', '$params[2]', '".mysql_escape_string($newtext)."', '" . user_getid() . "', now())");
             audit_log("Edited $type wiki text $params[0] $params[1] $params[2]");
             if ($type == 'motion') {
                 notify_motion_updated($db, $params[0], $params[1], $params[2]);
@@ -102,7 +127,7 @@ if (user_isloggedin()) # User logged in, show settings screen
         <FORM ACTION="<?=$REQUEST_URI?>" METHOD="POST">
         <textarea name="newtext" style="width: 100%" rows="25" cols="45"><?=html_scrub($values['text_body'])?></textarea>
         <p>
-        <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Save">
+        <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Save" accesskey="S">
         <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Cancel">
         </FORM>
         </P>

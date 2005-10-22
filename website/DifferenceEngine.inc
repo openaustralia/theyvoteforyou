@@ -1088,6 +1088,8 @@ class TableDiffFormatter extends DiffFormatter
 function format_linediff($prev, $next, $nochange) {
     $prev = preg_replace('/\s+/', " ", $prev); // remove windows type line feeds
     $next = preg_replace('/\s+/', " ", $next);
+    $prev = str_replace('&amp;', "&", $prev);
+    $next = str_replace('&amp;', "&", $next);
     if ($prev == $next and $nochange) 
         return "...no change...";
     $df  = new WordLevelDiff(array(htmlspecialchars($prev)), array(htmlspecialchars($next)));

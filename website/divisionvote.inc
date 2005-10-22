@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.21 2005/10/20 00:12:22 frabcus Exp $
+# $Id: divisionvote.inc,v 1.22 2005/10/22 11:23:22 frabcus Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -137,5 +137,21 @@ function write_single_policy_vote($db, $divattr, $voter)
     return ($bvote == "--" ? "" : $bvote);
 }
 
+# Post action made to division into the forum for record keeping, notification etc.
+function divisionvote_post_forum_action($db, $date, $number, $house, $content) {
+    $forum = "Division Researchers";
+    $topic_match = ucfirst($house) . " $date #$number";
+    $motion_data = get_wiki_current_value("motion", array($date, $number, $house));
+	$name = extract_title_from_wiki_text($motion_data['text_body']);
+    $topic = $topic_match . " - " . $name;
+    forummagic_post($db, $forum, $topic_match, $topic, $content);
+}
+
+# Get link to forum 
+function divisionvote_post_forum_link($db, $date, $number, $house) {
+    $forum = "Division Researchers";
+    $topic_match = ucfirst($house) . " $date #$number";
+    return forummagic_getlink($db, $forum, $topic_match);
+}
 
 ?>

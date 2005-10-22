@@ -1,6 +1,6 @@
 <?php
 
-# $Id: common.inc,v 1.6 2005/10/19 23:15:26 frabcus Exp $
+# $Id: common.inc,v 1.7 2005/10/22 11:23:22 frabcus Exp $
 
 # Included from all main .php files on the first line
 
@@ -14,6 +14,13 @@ ini_set('log_errors_max_len', '0');
 ini_set('error_log', null);
 ini_set('ignore_repeated_errors', 'Off');
 ini_set('html_errors', 'Off');
+
+if (get_magic_quotes_gpc()) {
+    trigger_error("Public Whip only works with magic_quotes_gpc off in php.ini", E_USER_ERROR);
+}
+if (ini_get('register_globals')) {
+    trigger_error("Public Whip only works with register_globals off in php.ini", E_USER_ERROR);
+}
 
 // Display errors better
 function pw_handle_error($num, $message, $file, $line, $context) {

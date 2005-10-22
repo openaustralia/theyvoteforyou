@@ -7,6 +7,8 @@ Selected divisions table needs clear right
 Stuff
 -----
 
+User page - link to all of a user's contributions
+
 Go through login stuff and make better
     - for forum, go back to where you were after login upon post
     - for forum, after registration go back to where you were

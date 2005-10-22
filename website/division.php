@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.84 2005/10/12 01:41:41 frabcus Exp $
+# $Id: division.php,v 1.85 2005/10/22 11:23:22 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -292,7 +292,8 @@
                 print "<p><strong>Description automatically extracted from the debate, 
                     please <a href=\"$edit_link\">edit it</a> to make it better.</strong></p>";
 	        }
-            print extract_motion_text_from_wiki_text($motion_data['text_body']);
+            $description = extract_motion_text_from_wiki_text($motion_data['text_body']);
+            print $description;
 	        print "</div>\n";
 
 			print "<p>"; 
@@ -308,9 +309,27 @@
 	    		print "<a href=\"$source\">Original Hansard</a>";
 			}
 	    	print " | <a href=\"$edit_link\">Edit description</a>";
+
+            $discuss_url = divisionvote_post_forum_link($db, $divattr['division_date'], $divattr['division_number'], $divattr['house']);
+            if (!$discuss_url) {
+                // First time someone logged in comes along, add division to the forum
+                global $domain_name;
+                if (user_getid()) {
+                    divisionvote_post_forum_action($db, $divattr['division_date'], $divattr['division_number'], $divattr['house'],
+                        "Division introduced to forum.\n\n[b]Title:[/b] 
+                        [url=http://$domain_name/division.php?date=".$divattr['division_date']."&number=".$divattr['division_number']."&house=".$divattr['house']."]".
+                        $name."[/url]\n[b]Description:[/b] ".$description);
+                    $discuss_url = divisionvote_post_forum_link($db, $divattr['division_date'], $divattr['division_number'], $divattr['house']);
+                } else {
+                    print ' | <a href="http://'.$domain_name.'/forum/viewforum.php?f=2">Discuss</a>';
+                }
+            }
+            if ($discuss_url)
+                print ' | <a href="'.htmlspecialchars($discuss_url).'">Discuss changes</a>';
+
 	        if ($motion_data['user_id'] != 0) 
 			{
-                print " | <a href=\"$history_link\">View changes</a>";
+                #print " | <a href=\"$history_link\">View changes</a>";
 	            print " (last edited on ".$motion_data['edit_date'].")";
 	            #$db->query("SELECT * FROM pw_dyn_user WHERE user_id = " . $motion_data['user_id']);
 	            #$row = $db->fetch_row_assoc();
@@ -318,6 +337,7 @@
             }
 			else
 	            print " (not yet edited)";
+
 
 	        print "</p>\n";
 		}

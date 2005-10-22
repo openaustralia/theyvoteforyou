@@ -25,7 +25,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     $dreamid=intval(db_scrub($_GET["id"]));
     
     $name=db_scrub($_POST["name"]);
-    $description=db_scrub($_POST["description"]);
+    $description=$_POST["description"];
     $submit=db_scrub($_POST["submit"]);
 
     $query = "select name, description, user_id, private from pw_dyn_dreammp where dream_id = '$dreamid'";
@@ -54,10 +54,10 @@ if (user_isloggedin()) # User logged in, show settings screen
                 list($prev_name, $prev_description) = $db->query_one_row("select name, description from pw_dyn_dreammp where dream_id = '$dreamid'");
 
                 $name_diff = format_linediff($prev_name, stripslashes($name), true);
-                $description_diff = format_linediff($prev_description, stripslashes($description), true);
+                $description_diff = format_linediff($prev_description, $description, true);
 
                 dream_post_forum_action($db, $dreamid, "Changed name and/or definition of policy.\n\n[b]Name:[/b] ".$name_diff."\n[b]Definition:[/b] ".$description_diff);
-                $ret = $db->query_errcheck("update pw_dyn_dreammp set name='$name', description='$description' where dream_id='$dreamid'");
+                $ret = $db->query_errcheck("update pw_dyn_dreammp set name='$name', description='".mysql_escape_string($description)."' where dream_id='$dreamid'");
                 notify_dream_mp_updated($db, intval($dreamid));
 
                 if ($ret)
@@ -101,9 +101,9 @@ if (user_isloggedin()) # User logged in, show settings screen
             <INPUT TYPE="TEXT" NAME="name" VALUE="<?=html_scrub($name)?>" SIZE="40" MAXLENGTH="50">
             <P>
             <B>Definition (describe the issue and position on the issue):</B><BR>
-            <textarea name="description" rows="6" cols="80"><?=html_scrub($description)?></textarea></p>
+            <textarea name="description" rows="6" cols="80"><?=htmlspecialchars($description)?></textarea></p>
 
-            <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Save Changes">
+            <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Save Changes" accesskey="S">
             </FORM>
         <?php
         }
