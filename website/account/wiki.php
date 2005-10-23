@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.19 2005/10/22 11:23:22 frabcus Exp $
+# $Id: wiki.php,v 1.20 2005/10/23 07:57:47 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -54,13 +54,9 @@ if (user_isloggedin()) # User logged in, show settings screen
                 $curr_description = extract_motion_text_from_wiki_text($newtext);
                 $name_diff = format_linediff(trim($prev_name), trim($curr_name), true);
                 $description_diff = format_linediff(trim($prev_description), trim($curr_description), true);
-                # forum escapes <, > already
-                $description_diff = str_replace("&gt;", ">", $description_diff);
-                $description_diff = str_replace("&lt;", "<", $description_diff);
-                $description_diff = str_replace("&amp;", "&", $description_diff);
-                $name_diff = str_replace("&gt;", ">", $name_diff);
-                $name_diff = str_replace("&lt;", "<", $name_diff);
-                $name_diff = str_replace("&amp;", "&", $name_diff);
+                # forum escapes <, > and the like already
+                $description_diff = html_entity_decode(html_entity_decode($description_diff, ENT_QUOTES), ENT_QUOTES);
+                $name_diff = html_entity_decode(html_entity_decode($name_diff, ENT_QUOTES), ENT_QUOTES);
                 divisionvote_post_forum_action($db, $params[0], $params[1], $params[2], 
                     "Changed title and/or description of division.\n\n[b]Title:[/b] ".$name_diff."\n[b]Description:[/b] ".$description_diff);
             }

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: forummagic.inc,v 1.8 2005/10/20 00:12:22 frabcus Exp $
+# $Id: forummagic.inc,v 1.9 2005/10/23 07:57:47 frabcus Exp $
 # Post things to the forum automatically (like log of changes to policies)
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -15,6 +15,8 @@
 # made.  It is an error for the forum not to exist. TOPIC_MATCH is the first
 # part of the topic name to use for searching, posting uses TOPIC_TITLE.
 function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content) {
+    $topic_title = forummagic_sanitise_topic($topic_title);
+    
     global $domain_name;
     list($forum_id, $topic_id) = forummagic_findtopic($db, $forum_name, $topic_match);
 
@@ -106,6 +108,12 @@ function forummagic_do_post($post_domain, $post_filename, $post_data, $extra_coo
 
 #    print "<b>forummagic_do_post got</b><pre>$head</pre>";
     return array($response, $head);
+}
+
+# Remove HTML bits, for forum
+function forummagic_sanitise_topic($topic) {
+    $topic = str_replace("&#8212;", "-", $topic);
+    return $topic;
 }
 
 ?>

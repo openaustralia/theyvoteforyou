@@ -4,6 +4,11 @@ Carriage return line feed become rnrn in forum post due to stripslashes breakage
 
 Selected divisions table needs clear right
 
+Hyphens in division title forum postings go crap
+And they are getting truncated as well
+
+Link from users names everywhere to their forum page
+
 Usability
 ---------
 
