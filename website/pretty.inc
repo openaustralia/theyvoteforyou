@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.24 2005/10/12 08:51:26 frabcus Exp $
+# $Id: pretty.inc,v 1.25 2005/10/23 07:02:57 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -377,6 +377,63 @@ function make_plural($number, $singular, $plural='') {
     if ($plural)
         return $plural;
     return $singular . 's';
+}
+
+function relative_time ($datetime) {
+	// Pass it a 'YYYY-MM-DD HH:MM:SS' and it will return something
+	// like "Two hours ago", "Last week", etc.
+	
+	// http://maniacalrage.net/projects/relative/
+	
+	if (!preg_match("/\d\d\d\d-\d\d-\d\d \d\d\:\d\d\:\d\d/", $datetime)) {
+		return '';
+	}
+
+	$in_seconds = strtotime($datetime);
+	$now = mktime();
+
+	$diff 	=  $now - $in_seconds;
+	$months	=  floor($diff/2419200);
+	$diff 	-= $months * 2419200;
+	$weeks 	=  floor($diff/604800);
+	$diff	-= $weeks*604800;
+	$days 	=  floor($diff/86400);
+	$diff 	-= $days * 86400;
+	$hours 	=  floor($diff/3600);
+	$diff 	-= $hours * 3600;
+	$minutes = floor($diff/60);
+	$diff 	-= $minutes * 60;
+	$seconds = $diff;
+    
+	
+	if ($months > 0) {
+		// Over a month old, just show the actual date.
+		$date = substr($datetime, 0, 9);
+		return date("j M Y", strtotime($date));
+
+	} else {
+		$relative_date = '';
+		if ($weeks > 0) {
+			// Weeks 
+			$relative_date .= ($relative_date?', ':'').$weeks.' week'.($weeks>1?'s':'');
+		} elseif ($days > 0) {
+			// days 
+			$relative_date .= ($relative_date?', ':'').$days.' day'.($days>1?'s':'');
+		} elseif ($hours > 0) {
+			// hours 
+			$relative_date .= ($relative_date?', ':'').$hours.' hour'.($hours>1?'s':'');
+		} elseif ($minutes > 0) {
+			// minutes only
+			$relative_date .= ($relative_date?', ':'').$minutes.' minute'.($minutes>1?'s':'');
+		} else {
+			// seconds only
+			$relative_date .= ($relative_date?', ':'').$seconds.' second'.($seconds>1?'s':'');
+		}
+	}
+	
+	// Return relative date and add proper verbiage
+	return $relative_date.' ago';
+	
 }
 
 

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.85 2005/10/22 11:23:22 frabcus Exp $
+# $Id: division.php,v 1.86 2005/10/23 07:02:57 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -286,6 +286,23 @@
                 "&r=".urlencode($_SERVER["REQUEST_URI"]);
             $history_link = "edits.php?type=motion&date=".$divattr["division_date"].
                 "&number=".$divattr["division_number"]."&house=".$divattr["house"];
+            $discuss_url = divisionvote_post_forum_link($db, $divattr['division_date'], $divattr['division_number'], $divattr['house']);
+            if (!$discuss_url) {
+                // First time someone logged in comes along, add division to the forum
+                global $domain_name;
+                if (user_getid()) {
+                    divisionvote_post_forum_action($db, $divattr['division_date'], $divattr['division_number'], $divattr['house'],
+                        "Division introduced to forum.\n\n[b]Title:[/b] 
+                        [url=http://$domain_name/division.php?date=".$divattr['division_date']."&number=".$divattr['division_number']."&house=".$divattr['house']."]".
+                        $name."[/url]\n[b]Description:[/b] ".$description);
+                    $discuss_url = divisionvote_post_forum_link($db, $divattr['division_date'], $divattr['division_number'], $divattr['house']);
+                } else {
+                    $discuss_url = "http://'.$domain_name.'/forum/viewforum.php?f=2";
+                }
+            }
+            $db->query("SELECT * FROM pw_dyn_user WHERE user_id = " . $motion_data['user_id']);
+            $row = $db->fetch_row_assoc();
+            $last_editor = html_scrub($row['user_name']);
 
 	        print "<div class=\"motion\">";
 	        if ($motion_data['user_id'] == 0) {
@@ -294,6 +311,17 @@
 	        }
             $description = extract_motion_text_from_wiki_text($motion_data['text_body']);
             print $description;
+            
+	        if ($motion_data['user_id'] != 0)  {
+                print "<p align=\"right\">";
+	            print " (last edited ".  relative_time($motion_data["edit_date"]) .  " by $last_editor) ";
+                print "<a href=\"$edit_link\">Edit description</a>";
+                if ($discuss_url)
+                    print ' | <a href="'.htmlspecialchars($discuss_url).'">Discuss changes</a>';
+                if ($history_link)
+                    print ' | <a href="'.htmlspecialchars($history_link).'">History</a>';
+            }
+
 	        print "</div>\n";
 
 			print "<p>"; 
@@ -308,36 +336,6 @@
 	            print " | ";
 	    		print "<a href=\"$source\">Original Hansard</a>";
 			}
-	    	print " | <a href=\"$edit_link\">Edit description</a>";
-
-            $discuss_url = divisionvote_post_forum_link($db, $divattr['division_date'], $divattr['division_number'], $divattr['house']);
-            if (!$discuss_url) {
-                // First time someone logged in comes along, add division to the forum
-                global $domain_name;
-                if (user_getid()) {
-                    divisionvote_post_forum_action($db, $divattr['division_date'], $divattr['division_number'], $divattr['house'],
-                        "Division introduced to forum.\n\n[b]Title:[/b] 
-                        [url=http://$domain_name/division.php?date=".$divattr['division_date']."&number=".$divattr['division_number']."&house=".$divattr['house']."]".
-                        $name."[/url]\n[b]Description:[/b] ".$description);
-                    $discuss_url = divisionvote_post_forum_link($db, $divattr['division_date'], $divattr['division_number'], $divattr['house']);
-                } else {
-                    print ' | <a href="http://'.$domain_name.'/forum/viewforum.php?f=2">Discuss</a>';
-                }
-            }
-            if ($discuss_url)
-                print ' | <a href="'.htmlspecialchars($discuss_url).'">Discuss changes</a>';
-
-	        if ($motion_data['user_id'] != 0) 
-			{
-                #print " | <a href=\"$history_link\">View changes</a>";
-	            print " (last edited on ".$motion_data['edit_date'].")";
-	            #$db->query("SELECT * FROM pw_dyn_user WHERE user_id = " . $motion_data['user_id']);
-	            #$row = $db->fetch_row_assoc();
-	            #$last_editor = html_scrub($row['user_name']);
-            }
-			else
-	            print " (not yet edited)";
-
 
 	        print "</p>\n";
 		}

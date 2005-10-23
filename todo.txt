@@ -4,6 +4,18 @@ Carriage return line feed become rnrn in forum post due to stripslashes breakage
 
 Selected divisions table needs clear right
 
+Usability
+---------
+
+Change links to say "compare to" in them. Link should always say what it links
+to, not vary according something random about the page currently on.
+http://www.publicwhip.org.uk/policy.php?id=367
+
+"Compared to for Cambridge"
+http://www.publicwhip.org.uk/mp.php?mppc=cb1+2qp&display=motions&dmp=230&button=Go
+
+Fix up rebellion wording on policy pages, confuses people
+
 Stuff
 -----
 
