@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.94 2005/10/15 00:07:57 theyworkforyou Exp $
+    # $Id: mp.php,v 1.95 2005/10/23 07:36:21 theyworkforyou Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -183,13 +183,13 @@
 	$thispagesettings .= ($thispagesettings ? "&" : "")."display=$display";
 
 	# generate title and header of this webpage
-    if ($mpprop['house'] == 'commons') {
-        $contitlefor = "for ".$mpprop['constituency'];
-        $contitlecomma = ", ".$mpprop['constituency'];
-    } else {
-        $contitlefor = "";
-        $contitlecomma = "";
-    }
+	if ($mpprop['house'] == 'commons') {
+		$contitlefor = "for ".$mpprop['constituency'];
+		$contitlecomma = ", ".$mpprop['constituency'];
+	} else {
+		$contitlefor = "";
+		$contitlecomma = "";
+	}
 	if ($voter2type == "dreammp")
 	{
 		$title = "Policy Report - ".html_scrub($voter2attr['name'])." compared to ";

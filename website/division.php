@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.86 2005/10/23 07:02:57 frabcus Exp $
+# $Id: division.php,v 1.87 2005/10/23 07:36:20 theyworkforyou Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -327,13 +327,12 @@
 			print "<p>"; 
 	        $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
 	        $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
-	        if ($debate_gid != "")
-			{
+	        if ($debate_gid != "") {
 	            print "<a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">Full debate</a>";
 	        }
-	        if ($source != "")
-	    	{
-	            print " | ";
+	        if ($source != "") {
+                if ($debate_gid)
+                    print " | ";
 	    		print "<a href=\"$source\">Original Hansard</a>";
 			}
 
