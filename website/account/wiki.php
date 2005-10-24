@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.20 2005/10/23 07:57:47 frabcus Exp $
+# $Id: wiki.php,v 1.21 2005/10/24 23:49:11 theyworkforyou Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -161,6 +161,8 @@ if (user_isloggedin()) # User logged in, show settings screen
         <li>&lt;i&gt; &lt;/i&gt; - italic
         <li>&lt;b&gt; &lt;/b&gt; - bold
         <li>&lt;a href="http://..."&gt; &lt;/a&gt; - link
+        <li>&lt;ul&gt; &lt;li&gt; item &lt;/li&gt; ... &lt;/ul&gt; - bulleted list
+        <li>&lt;ol&gt; &lt;li&gt; item &lt;/li&gt;  ...&lt;/ol&gt; - numbered list
         </ul>
 
         </td>
