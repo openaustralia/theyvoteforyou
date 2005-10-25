@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: addpolicy.php,v 1.8 2005/10/13 01:56:53 frabcus Exp $
+# $Id: addpolicy.php,v 1.9 2005/10/25 00:52:25 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -15,7 +15,7 @@ include "../dream.inc";
 
 $just_logged_in = do_login_screen();
 
-if (user_isloggedin()) # User logged in, show settings screen
+if (user_isloggedin()) 
 {
 
     $name=db_scrub($_POST["name"]);

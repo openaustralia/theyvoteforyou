@@ -1,13 +1,17 @@
-Division forum topics
-
-Carriage return line feed become rnrn in forum post due to stripslashes breakage
-
 Selected divisions table needs clear right
 
-Hyphens in division title forum postings go crap
-And they are getting truncated as well
+Divisions titles are getting truncated as well
+phpbb.topic_title is too small a table
 
 Link from users names everywhere to their forum page
+
+Make it so it doesn't create new post for divisions just by somebody browsing there.
+
+Make it clearer can discuss individual Policy votes on forum
+
+Make policy vote selection 
+    - thing formatted differently
+    - have drop down
 
 Usability
 ---------

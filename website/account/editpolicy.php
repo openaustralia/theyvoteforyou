@@ -20,7 +20,6 @@ $just_logged_in = do_login_screen();
 if (user_isloggedin()) # User logged in, show settings screen
 {
     $title = "Modify Policy"; 
-    include "../header.inc";
 
     $dreamid=intval(db_scrub($_GET["id"]));
     
@@ -39,12 +38,13 @@ if (user_isloggedin()) # User logged in, show settings screen
 
     if ($private && user_getid() != $user_id)
     {
+        include "../header.inc";
         print "<p>This is not your legacy Dream MP, so you can't edit their name or defintion.";
     }
     else
     {
         $ok = false;
-        if ($submit && (!$just_logged_in)) 
+        if ($submit && (!$just_logged_in) && $submit == 'Save') 
         {
             if ($name == "" or $description == "")
                 $feedback = "Please name the policy, and give a definition.";
@@ -73,18 +73,21 @@ if (user_isloggedin()) # User logged in, show settings screen
                     $feedback = "Failed to edit policy. " . mysql_error();
                 }
             }
+        } elseif ($submit) {
+            $feedback = "Cancelled";
+            $ok = true; # redirect on cancel
         }
 
+        if ($ok)
+        {
+            header("Location: /policy.php?id=$dreamid\n");
+            exit;
+        }
+
+        include "../header.inc";
         if ($feedback && (!$just_logged_in)) {
-            if ($ok)
-            {
-                echo "<p>$feedback</p>";
-            }
-            else
-            {
-                echo "<div class=\"error\"><h2>Modifying the policy not complete, please try again
-                    </h2><p>$feedback</div>";
-            }
+            print "<div class=\"error\"><h2>Modifying the policy not complete, please try again
+                </h2><p>$feedback</div>";
         }
         else
         {
@@ -103,7 +106,9 @@ if (user_isloggedin()) # User logged in, show settings screen
             <B>Definition (describe the issue and position on the issue):</B><BR>
             <textarea name="description" rows="6" cols="80"><?=htmlspecialchars($description)?></textarea></p>
 
-            <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Save Changes" accesskey="S">
+            <p>
+            <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Save" accesskey="S">
+            <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Cancel">
             </FORM>
         <?php
         }
