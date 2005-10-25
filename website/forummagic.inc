@@ -1,6 +1,6 @@
 <?php
 
-# $Id: forummagic.inc,v 1.9 2005/10/23 07:57:47 frabcus Exp $
+# $Id: forummagic.inc,v 1.10 2005/10/25 08:43:56 frabcus Exp $
 # Post things to the forum automatically (like log of changes to policies)
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -46,8 +46,6 @@ function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content)
         // See if it all worked
         if (stristr($response, "Your message has been entered successfully.")) {
             $done = true;
-        } else {
-            print $response;
         }
     }
 }

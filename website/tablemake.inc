@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.36 2005/10/05 17:25:17 goatchurch Exp $
+# $Id: tablemake.inc,v 1.37 2005/10/25 08:43:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -130,12 +130,12 @@ function workrolevote($votertype, &$vote)
         }
         if ($vote == "aye3")
         {
-            $vote = "aye (3 line)";
+            $vote = "aye3";
             return "aye";
         }
         if ($vote == "no3")
         {
-            $vote = "no (3 line)";
+            $vote = "no3";
             return "no";
         }
     }
@@ -194,13 +194,13 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
     # (borrows css colour coding, but should have its own)
     else
     {
-	# abstention by dreammp
+        # abstention by dreammp
         if ($dtvote2 == "" or $dtvote2 == "abstain")
         {
             $roleclass = "rebelteller"; # yellow
             $votedesc = "none";
             $dismetric["ab2"] += 1;
-            $votedesclong = "Dream MP abstained";
+            $votedesclong = "Policy abstained";
         }
 
         # differences
@@ -221,7 +221,7 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
                 $roleclass = "rebel";
                 $votedesc = "disagree";
                 $dismetric[($vote2line3 ? "disagree3" : "disagree")]++;
-                $votedesclong = "MP rebelled against Policy";
+                $votedesclong = "MP opposed Policy ";
             }
         }
 
@@ -231,7 +231,7 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
             $roleclass = "teller";  # green
             $votedesc = "agree";
             $dismetric[($vote2line3 ? "agree3" : "agree")] += 1;
-            $votedesclong = "MP loyal to Policy";
+            $votedesclong = "MP supported Policy";
         }
     }
 
@@ -267,9 +267,9 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter
 
     if ($voter1type != "")
     {
-        print "<td>".($voter1type == "dreammp" && !$vote1 ? "non-voter" : $vote1)."</td>";
+        print "<td>".($voter1type == "dreammp" && !$vote1 ? "non-voter" : (vote_display_in_table($vote1)))."</td>";
         if ($voter2type != "")
-            print "<td>$vote2</td>\n";
+            print "<td>".vote_display_in_table($vote2)."</td>\n";
 
         # no reason not to have a speeches column on the division table, but we don't
         print "<td><a href=\"$hrefsource\">speeches</a></td>";
@@ -348,12 +348,24 @@ function writepersonvote(&$lnrows, $cla, $name, $vote, $ayecla, $nocla)
     print "<td>$name</td>";
     if (($vote == "aye") || ($vote == "AYE"))
         print "<td$ayecla>Aye</td><td$nocla></td>";
+    else if (($vote == "aye3") || ($vote == "AYE3"))
+        print "<td$ayecla>Aye 3-line</td><td$nocla></td>";
     else if (($vote == "no") || ($vote == "NO"))
         print "<td$ayecla></td><td$nocla>No</td>";
+    else if (($vote == "no3") || ($vote == "NO3"))
+        print "<td$ayecla></td><td$nocla>No 3-line</td>";
     else
         print "<td colspan=2 align=center>$vote</td>";
     print "</tr>\n";
     $lnrows += 1;
+}
+function vote_display_in_table($vote) {
+    if ($vote == "aye3") {
+        return "aye (3-line)";
+    } elseif ($vote == 'no3') {
+        return "no (3-line)";
+    }
+    return $vote;
 }
 function writenumbervote(&$lnrows, $gname, $sayes, $snoes, $ayecla, $nocla)
 {
@@ -365,7 +377,7 @@ function writenumbervote(&$lnrows, $gname, $sayes, $snoes, $ayecla, $nocla)
     print "<td>$gname</td><td$ayecla>$sayes</td><td$nocla>$snoes</td></tr>\n";
     $lnrows += 1;
 }
-function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, $voter1, $vote1, $vote2, $row, $divhref, $hrefsource)
+function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, $voter1, $vote1, $voter2attr, $vote2, $row, $divhref, $hrefsource)
 {
     # title part of the expanded motion text
     print "<tr class=\"motiontitle$pretrowclass\">";
@@ -390,7 +402,7 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
     print "</tr>";
     print "</table>";
 
-    # make the table of party in the right hand side
+    # make the table of party in the left hand side
     print "<table class=\"votetab\">";
     #print "<tr class=\"headings\"><td></td><td>Aye</td><td>No</td></tr>\n";
 
@@ -409,8 +421,10 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
     writepersonvote($lnrows, "strong", $voter1['name'], $vote1, $ayecla, $nocla);
 
     # Dream MP's vote
-    if ($vote2 != "")
-        writepersonvote($lnrows, "", "Policy", $vote2, $ayecla, $nocla);
+    if ($vote2 != "") {
+        writepersonvote($lnrows, "", "Policy '" . html_scrub($voter2attr['name']) . "'", 
+            $vote2, $ayecla, $nocla);
+    }
 
     # votes of rest of parties (a rather poor way to put it together)
     $party = $voter1['party'];
@@ -527,6 +541,7 @@ function division_table($db, $divtabattr, $events = "")
     $voter1 = $divtabattr["voter1"];
     $voter2type = $divtabattr["voter2type"];
     $voter2 = $divtabattr["voter2"];
+    $voter2attr = $divtabattr["voter2attr"];
     $headings = $divtabattr["headings"];
 
     # construct the first column of votes
@@ -687,7 +702,7 @@ function division_table($db, $divtabattr, $events = "")
         {
             $wikiinfo = get_wiki_current_value("motion", array($row['divisiondate'], $row['divisionnumber'], $row['divisionhouse']));
 			$motiontext = extract_motion_text_from_wiki_text($wikiinfo['text_body']);
-			print_motion_row($motiontext, $db, $row['divisionid'], $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, $voter1, $vote1, $vote2, $row, $divhref, $hrefsource);
+			print_motion_row($motiontext, $db, $row['divisionid'], $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, $voter1, $vote1, $voter2attr, $vote2, $row, $divhref, $hrefsource);
 			$nrows += 2;
         }
         else

@@ -5,8 +5,6 @@ phpbb.topic_title is too small a table
 
 Link from users names everywhere to their forum page
 
-Make it so it doesn't create new post for divisions just by somebody browsing there.
-
 Make it clearer can discuss individual Policy votes on forum
 
 Make policy vote selection 

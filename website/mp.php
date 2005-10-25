@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.95 2005/10/23 07:36:21 theyworkforyou Exp $
+    # $Id: mp.php,v 1.96 2005/10/25 08:43:56 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -345,7 +345,7 @@
 				print "</p>\n";
             }
 
-			print "<p><b>Definition of <a href=\"$voter2link\">".html_scrub($voter2attr['name'])."</a>:</b>\n";
+			print "<p><b>Definition of <a href=\"$voter2link\">".html_scrub($voter2attr['name'])."</a> policy:</b>\n";
 			print html_scrub($voter2attr['description']);
 			print "</p>\n";
         }
@@ -371,10 +371,11 @@
 		# division table attributes used
 		$divtabattr = array(
 				"voter1type" 	=> $voter1type,
-				#"voter1"        => $mpprop,
+				#"voter1"        => $mpprop, # filled in loop below
 				"voter1link"	=> $voter1link,
 				"voter2type"	=> $voter2type,
 				"voter2"		=> $voter2,
+				"voter2attr"    => $voter2attr,
 				"voter2link"	=> $voter2link,
 				"showwhich"		=> $showwhichvotes,
 				"votedisplay"	=> $dismode["votedisplay"],
