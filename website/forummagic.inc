@@ -1,6 +1,6 @@
 <?php
 
-# $Id: forummagic.inc,v 1.10 2005/10/25 08:43:56 frabcus Exp $
+# $Id: forummagic.inc,v 1.11 2005/10/26 22:59:32 frabcus Exp $
 # Post things to the forum automatically (like log of changes to policies)
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -22,6 +22,7 @@ function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content)
 
     $done = false;
     $c = 0;
+    $extra_cookies = "";
     while (!$done) {
         // 3 times lucky :)
         // (actually, it takes that long for cookies/sessions to be made for PHPBB login
@@ -36,11 +37,18 @@ function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content)
             // Make topic
             $post_data = "f=$forum_id&mode=newtopic&notify=on&topictype=0&subject=".urlencode($topic_title).
                          "&message=".urlencode($content)."&post=Submit"; 
-            list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data);
+            list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data, $extra_cookies);
         } else {
             $post_data = "t=$topic_id&mode=reply&notify=on&subject=".urlencode($topic_title).
                          "&message=".urlencode($content)."&post=Submit"; 
-            list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data);
+            list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data, $extra_cookies);
+        }
+
+        // Find cookies, and send them in next time
+        $matches = array();
+        $cookies = preg_match_all("/^Set-Cookie: (.*?);/m", $head, $matches);
+        foreach ($matches[1] as $cookie) {
+            $extra_cookies .= "$cookie; ";
         }
 
         // See if it all worked
@@ -87,7 +95,7 @@ function forummagic_do_post($post_domain, $post_filename, $post_data, $extra_coo
     $out .= "Cookie: $extra_cookies" . $_SERVER["HTTP_COOKIE"] . "\r\n";
     $out .= "\r\n";
     $out .= $post_data;
-#    print "<b>forummagic_do_post sending</b><pre>$out</pre>";
+    #print "<b>forummagic_do_post sending</b><pre>$out</pre>";
     fwrite($fp, $out);
     $inbody = false;
     while (!feof($fp) and (getmicrotime() < $sockstart + $timeout)) {
@@ -104,7 +112,7 @@ function forummagic_do_post($post_domain, $post_filename, $post_data, $extra_coo
     }
     fclose($fp);
 
-#    print "<b>forummagic_do_post got</b><pre>$head</pre>";
+    #print "<b>forummagic_do_post got</b><pre>$head</pre>";
     return array($response, $head);
 }
 

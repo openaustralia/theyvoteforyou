@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: sessions.php,v 1.2 2005/10/06 12:45:07 frabcus Exp $
+ *   $Id: sessions.php,v 1.3 2005/10/26 22:59:32 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -272,7 +272,7 @@ function session_pagestart($user_ip, $thispage_id)
 		$user_id_for_phpbb = $row['user_id'];
 	}
 
-	$url = ( !empty($HTTP_POST_VARS['redirect']) ) ? str_replace('&amp;', '&', htmlspecialchars($HTTP_POST_VARS['redirect'])) : "index.php";
+	$url = ( !empty($HTTP_POST_VARS['redirect']) ) ? str_replace('&amp;', '&', htmlspecialchars($HTTP_POST_VARS['redirect'])) : str_replace("/forum/", "", $_SERVER['REQUEST_URI']);
 	if ($logged_into_pw) {
 		// If user id is wrong, log into it
 		if ($user_id_for_phpbb && $user_id_for_phpbb != $userdata['user_id']) {
