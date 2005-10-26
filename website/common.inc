@@ -1,6 +1,6 @@
 <?php
 
-# $Id: common.inc,v 1.7 2005/10/22 11:23:22 frabcus Exp $
+# $Id: common.inc,v 1.8 2005/10/26 21:50:24 frabcus Exp $
 
 # Included from all main .php files on the first line
 
@@ -32,8 +32,24 @@ function pw_handle_error($num, $message, $file, $line, $context) {
 
     error_log($message);
 
-    print "<p>Sorry! Something's gone wrong. Please <a href=\"mailto:team@publicwhip.org.uk\">email us</a> to let us know. Copy and paste this message into your email:</p>";
-    print "<p><strong>$message</strong> in $file:$line err level $num";
+    print "<hr>";
+    print "<p>Sorry! Something's gone wrong. Please <a href=\"mailto:team@publicwhip.org.uk\">email us</a> to let us know.</p>";
+    print "<p><strong>Copy and paste this entire page into your email</strong>.";
+    print "<br>To do this press Ctrl+A (select all) then Ctrl+C (copy). Then paste into your email.</p>";
+    print "<hr>";
+    print "<p><strong>Error:</strong> $message";
+
+    print "<p>";
+    print " <strong>Date:</strong> ".date("D M d H:i:s Y");
+    print " <strong>IP:</strong> ".$_SERVER[REMOTE_ADDR];
+    print " <strong>URI:</strong> ".$_SERVER[REQUEST_URI];
+
+    require_once "debug_print_backtrace.inc";
+    print "<p><pre>";
+    debug_print_backtrace();
+    print "</pre>";
+
+    print "<hr>";
     exit;
 }
 set_error_handler('pw_handle_error');

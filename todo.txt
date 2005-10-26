@@ -9,7 +9,10 @@ Make it clearer can discuss individual Policy votes on forum
 
 Make policy vote selection 
     - thing formatted differently
-    - have drop down
+    - have drop down, show most recent 3 at top
+
+No link back to division here
+http://www.publicwhip.org.uk/forum/viewtopic.php?p=497#497
 
 Usability
 ---------
@@ -22,6 +25,10 @@ http://www.publicwhip.org.uk/policy.php?id=367
 http://www.publicwhip.org.uk/mp.php?mppc=cb1+2qp&display=motions&dmp=230&button=Go
 
 Fix up rebellion wording on policy pages, confuses people
+
+Preview on motion editing form, and policy editing
+
+Policy aggregation function - generic version of election.php
 
 Stuff
 -----
