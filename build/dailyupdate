@@ -53,6 +53,8 @@ fi
 
 # Copy across ministers file (used by minwhirl)
 cp ~/members/ministers.xml ~/www.publicwhip.org.uk_html/data/
+cp ~/publicwhip/*.txt ~/www.publicwhip.org.uk_html/data/
+chmod a+r ~/www.publicwhip.org.uk_html/data/*
 
 # RSS feeds
 RSSDEST=~/www.publicwhip.org.uk_html/feeds
