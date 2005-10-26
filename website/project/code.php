@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: code.php,v 1.17 2005/07/05 15:04:09 frabcus Exp $
+# $Id: code.php,v 1.18 2005/10/26 22:10:50 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -32,7 +32,15 @@ I can tell you where to go and what to read to learn how to get it up
 and running.  Or if there is a particular good idea that you want to try
 out, I might help more directly by implementing it.
 
-<h2>Roughly how it works</h2>
+<h2>Ideas and things to do</h2>
+
+<p>You'll find these interesting.
+
+<p><a href="/data/todo.txt">todo.txt</a> - Things we're working on now
+<br><a href="/data/ideas.txt">ideas.txt</a> - Good ideas, that we'd like to do
+<br><a href="/data/ideas-marginal.txt">ideas-marginal.txt</a> - Ideas we think aren't worthwhile
+
+<h2>Roughly how it all works</h2>
 <p>The separate <a href="http://ukparse.kforge.net/parlparse">Parliament Parser</a>
 project supplies XML files of debates in parliament.  These are downloaded
 to Public Whip by HTTP or using rsync.  A Perl script loads the divisions
@@ -52,9 +60,7 @@ width="210" height="62" border="0" alt="SourceForge.net Logo" /></A>
 
 <p><span class="ptitle">Browse</span> - If you're just curious, you can
 <a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/publicwhip/publicwhip/">browse
-the code online</a>.  Of general interest are the various text files in
-the top level directory - have a look at todo.txt, ideas.txt and
-README.txt.
+the code online</a>.  Look at README.txt in the top level for more information.
 
 <p><span class="ptitle">File download</span> - To use the code,
 download a snapshot.  Go to our <a
