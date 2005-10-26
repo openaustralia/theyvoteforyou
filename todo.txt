@@ -57,9 +57,8 @@ Backup dynamic database on cron job
 Policies
 --------
 
-Comments (PHP/MySQL website style) on 
-    - policy page
-    - individual votes
+Show comments actually on the policy page / divisions page?
+Indicate better that discussion can go on?
 
 Party comparison
 Put policy ratings on MP page
@@ -97,11 +96,9 @@ off-by-one errors for their changed party
 Future
 ------
 
-Search needs to search wiki text and policy text
+Search needs to search division text and policy text and forum
 
 Make newsletter signing more streamlined
-
-Sort out java applets, how to link to them. 
 
 User names need to link to profile page about that user
 
@@ -111,7 +108,4 @@ Tour somehow for first time users
 
 Link to ideas.txt file
 
-Change frontpage newsletter advert depending on whether you are logged in
-(i.e. if you are already logged in and subscribed, we should advertise Dream MP
-or something instead of the newsletter)
 

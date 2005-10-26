@@ -14,6 +14,8 @@
     $db = new DB(); 
 
     $type = db_scrub($_GET["type"]);
+    if (!$type)
+        $type = "motion";
     if ($type) {
         if ($type == 'motion') {
             if ($_GET["date"]) 
