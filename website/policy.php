@@ -52,23 +52,15 @@
         array_push($second_links, "<a $dlink class=\"".($ldisplay == $display ? "on" : "off")."\">".$ldismode["description"]."</a>");
     }
 
-	if ($dismode["policybox"])
-	{
-        # Use pretitle, so floats right of the title
-		$pretitle = "<div class=\"tabledreambox\">";
-	    $pretitle .= dream_box($dreamid, $policyname);
-	    $pretitle .= '<p>Why not <a href="#dreambox">add this to your own website?</a></p>';
-	    $pretitle .= "</div>";
-	}
-
     include "header.inc";
 
+    print "<div class=\"policydefinition\">";
     print "<p><b>Definition:</b> " . str_replace("\n", "<br>", html_scrub($voter["description"])). "</p>";
     if ($voter["private"])
         print "<p><b>Made by:</b> " . html_scrub($voter["user_name"]) . " (this is a legacy Dream MP)";
     print "</p>";
 
-    print "<p><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a>";
+    print "<p align=\"right\"><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a>";
     $discuss_url = dream_post_forum_link($db, $dreamid);
     if (!$discuss_url) {
         // First time someone logged in comes along, add policy to the forum
@@ -83,6 +75,8 @@
     if ($discuss_url)
         print ' | <a href="'.htmlspecialchars($discuss_url).'">Discuss changes</a>';
 
+	print "</div>\n";
+
 	if ($dismode["divisionlist"] == "selected")
 	{
 		print "<h2><a name=\"divisions\">Selected Divisions</a></h2>";
@@ -93,6 +87,14 @@
 	{
 		print "<h2><a name=\"divisions\">Every Division</a></h2>\n";
 	}
+
+    print "<p>Spotted a wrong vote, or one that is missing? Anybody can edit and fix the votes and definition of a policy. ";
+    if (user_getid()) {
+        $db->query("update pw_dyn_user set active_policy_id = $dreamid where user_id = " . user_getid());
+        print " This is now your active policy; to change its votes, go to any division page.";
+    } else {
+        print ' <a href="/account/settings.php">Log in </a> to do this.';
+    }
 
     print "<table class=\"divisions\">\n";
 	$divtabattr = array(
@@ -105,17 +107,18 @@
 	division_table($db, $divtabattr);
     print "</table>\n";
 
-    print "See something wrong or missing? Anybody can edit and fix the votes and definition of a policy. ";
-    if (user_getid()) {
-        $db->query("update pw_dyn_user set active_policy_id = $dreamid where user_id = " . user_getid());
-        print " This is now your active policy; to change its votes, go to any division page.";
-    } else {
-        print ' <a href="/account/settings.php">Log in </a> to do this.';
+    if ($dismode["policybox"])
+    {
+	    print "<h2><a name=\"comparison\">Comparison to one MP</a></h2>";
+        print "<div class=\"tabledreambox\">";
+        print dream_box($dreamid, $policyname);
+        print '<p>Why not <a href="#dreambox">add this to your own website?</a></p>';
+        print "</div>";
     }
 
 	if ($dismode["comparisons"])
 	{
-	    print "<h2><a name=\"comparison\">Comparison to MPs</a></h2>";
+	    print "<h2><a name=\"comparison\">Comparison to all MPs</a></h2>";
 
 	    print "<p>Grades MPs acording to how often they voted with the policy.
 	            If, in policy divisions where the MP voted, they

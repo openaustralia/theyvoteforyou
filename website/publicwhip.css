@@ -84,10 +84,8 @@ HR
 .tabledreambox
 {
     WIDTH: 24em;
-    FLOAT: right;
-    PADDING-TOP: 1em;
     PADDING-LEFT: 1em;
-    CLEAR: right;
+    PADDING-TOP: 1em;
 }
 .tabledream
 {
@@ -261,7 +259,7 @@ TABLE TD.important
 }
 .motion
 {
-    BACKGROUND-COLOR: #eeeeee
+    BACKGROUND-COLOR: #eeeeee;
 }
 .search
 {
@@ -532,3 +530,14 @@ TABLE TD.evencol
 LI {
     MARGIN-TOP: 0.2em;
 }
+/* Box for changing a vote of a policy, on division page */
+.policyvote 
+{
+    BACKGROUND-COLOR: #eeffee;
+    padding: 0 0.5em 0 0.5em;
+}
+.policydefinition
+{
+    BACKGROUND-COLOR: #eeeeee;
+}
+
