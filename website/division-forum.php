@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: division-forum.php,v 1.1 2005/10/25 00:52:25 frabcus Exp $
+# $Id: division-forum.php,v 1.2 2005/10/27 00:50:12 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -27,6 +27,9 @@ $name = extract_title_from_wiki_text($motion_data['text_body']);
 $description = extract_motion_text_from_wiki_text($motion_data['text_body']);
 
 $just_logged_in = do_login_screen();
+if ($just_logged_in) {
+    header("Location: ".$_SERVER['REQUEST_URI']."\n");
+}
 
 # Find discuss URL
 $discuss_url = divisionvote_post_forum_link($db, $divattr['division_date'], $divattr['division_number'], $divattr['house']);
