@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.34 2005/10/06 09:18:26 frabcus Exp $
+-- $Id: create.sql,v 1.35 2005/10/27 01:44:09 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -155,6 +155,7 @@ CREATE TABLE pw_dyn_user (
   password text,
   remote_addr text,
   confirm_hash text,
+  confirm_return_url text,
   is_confirmed int(11) NOT NULL default '0',
   is_newsletter int(11) NOT NULL default '1',
   reg_date datetime default NULL,

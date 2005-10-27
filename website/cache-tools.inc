@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-tools.inc,v 1.25 2005/10/13 00:39:47 frabcus Exp $
+# $Id: cache-tools.inc,v 1.26 2005/10/27 01:44:09 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -19,6 +19,7 @@ function newsletter_navbar() {
 }
 
 function account_navbar() {
+    global $this_place;
     $this_place = $_SERVER["REQUEST_URI"];
     # don't go back to confusing/logging out pages after login
     if (stristr($this_place, "logout.php")) 
@@ -39,7 +40,7 @@ function account_navbar() {
         $ret .= "Logout";
         $ret .= '</a> ';
     } else {
-        $ret .= '<a title="Register to get a newsletter or make/edit policies" href="/account/register.php">';
+        $ret .= '<a title="Register to get a newsletter or make/edit policies" href="/account/register.php?r='.  ($_GET['r']?urlencode($_GET['r']):urlencode($this_place)).'">';
         $ret .= "Sign Up";
         $ret .= '</a> ';
         $ret .= '<a title="Login to edit policies or change your newsletter settings" href="/account/settings.php'.

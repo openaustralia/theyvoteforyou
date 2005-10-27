@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: settings.php,v 1.18 2005/10/13 01:41:13 frabcus Exp $
+# $Id: settings.php,v 1.19 2005/10/27 01:44:09 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -84,10 +84,10 @@ if (user_isloggedin()) # User logged in, show settings screen
             print " (legacy Dream MP)";
     }
     print '<p><a href="addpolicy.php">[Make a new policy]</a></p>';
+    include "../footer.inc";
 }
 else # User not logged in, show login screen
 {
     login_screen();
 }
 ?>
-<?php include "../footer.inc" ?>

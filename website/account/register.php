@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: register.php,v 1.21 2005/10/13 00:39:47 frabcus Exp $
+# $Id: register.php,v 1.22 2005/10/27 01:44:09 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -49,9 +49,9 @@ else
     a confirmation email.  You will then receive the Public
     Whip newsletter, which will be at most once a month.
     Occasionally we will send an extra small topical newsletter.
-    You will also be able to make/edit policies.  After
+    You will also be able to edit division descriptions and policies.  After
     signing up you can unsubscribe from the newsletter, but still
-    make/edit policies.";
+    edit divisions and policies.";
     print "<p><a href=\"../newsletters/archive.php\">Read archive of previous newsletters</a>";
     print "<br><a href=\"settings.php\">Log in to change settings if you already signed up</a>";
     
@@ -84,11 +84,15 @@ if (!$ok)
     Your email address and info will never be given to or sold to third
     parties.  We will only send you the Public Whip newsletter, or 
     other occasional messages about the Public Whip.  Your login will
-    also let you edit policies, motion text and will display your user name on
-    your postings in the forum.  In the future it may give you access to other
-    free services on the Public Whip website.  Any changes to this policy will
-    require your explicit agreement.
-    <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Sign Up For Newsletter and Policies">
+    also let you edit policies, division descriptions and will display your
+    user name on your postings in the forum.  In the future it may give you
+    access to other free services on the Public Whip website.  Any changes to
+    this policy will require your explicit agreement.
+<? if ($_GET['r']) { 
+?>
+        <INPUT TYPE="hidden" NAME="r" VALUE="<?=htmlspecialchars($_GET['r'])?>">
+<?    } ?>
+<p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Sign Up">
     </FORM>
 <?php
 }

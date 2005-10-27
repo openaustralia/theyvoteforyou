@@ -113,6 +113,7 @@ if (user_isloggedin()) # User logged in, show settings screen
         <?php
         }
     }
+    include "../footer.inc";
 }
 else
 {
@@ -120,4 +121,3 @@ else
 }
 ?>
 
-<?php include "../footer.inc" ?>

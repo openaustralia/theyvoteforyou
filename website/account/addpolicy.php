@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: addpolicy.php,v 1.9 2005/10/25 00:52:25 frabcus Exp $
+# $Id: addpolicy.php,v 1.10 2005/10/27 01:44:09 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -157,6 +157,7 @@ if (user_isloggedin())
 
     <?php
     }
+    include "../footer.inc";
 }
 else
 {
@@ -164,4 +165,3 @@ else
 }
 ?>
 
-<?php include "../footer.inc" ?>

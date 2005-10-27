@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.21 2005/10/24 23:49:11 theyworkforyou Exp $
+# $Id: wiki.php,v 1.22 2005/10/27 01:44:09 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -173,6 +173,7 @@ if (user_isloggedin()) # User logged in, show settings screen
 <?
 
     }
+    include "../footer.inc";
 }
 else
 {
@@ -180,4 +181,3 @@ else
 }
 
 ?> 
-<?php include "../footer.inc" ?>

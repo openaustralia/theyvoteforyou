@@ -120,6 +120,7 @@ function user_confirm($hash,$email) {
 		//find this record in the db
 		$sql="SELECT * FROM pw_dyn_user WHERE confirm_hash='$hash' order by is_confirmed";
 		$result=db_query($sql);
+        $return_url = db_result($result,0,'confirm_return_url');
 		if (!$result || db_numrows($result) < 1) {
 			$feedback .= ' Hash not found.  Found: ' . db_numrows($result);
 			return false;
@@ -130,7 +131,7 @@ function user_confirm($hash,$email) {
 			$sql="UPDATE pw_dyn_user SET email='$email',is_confirmed='1' WHERE confirm_hash='$hash'";
 			$result=db_query($sql);
             audit_log("Confirmed account email " . $email . " valid");
-			return true;
+			return $return_url;
 		}
 	} else {
 		$feedback .= ' Hash invalid - update failed. ';
@@ -307,8 +308,8 @@ function user_register($user_name,$password1,$password2,$email,$real_name) {
 				//create a new hash to insert into the db and the confirmation email
 				$hash=md5($email.$hidden_hash_var);
 				$sql="INSERT INTO pw_dyn_user
-                                (user_name,real_name,password,email,remote_addr,confirm_hash,is_confirmed, reg_date) ".
-					"VALUES ('$user_name','$real_name','".  md5($password1) ."','$email','" . getenv('REMOTE_ADDR') . "','$hash','0',NOW())";
+                                (user_name,real_name,password,email,remote_addr,confirm_hash,is_confirmed, reg_date, confirm_return_url) ".
+					"VALUES ('$user_name','$real_name','".  md5($password1) ."','$email','" . getenv('REMOTE_ADDR') . "','$hash','0',NOW(),'".mysql_escape_string($_POST['r'])."')";
 				$result=db_query($sql);
 				if (!$result) {
 					$feedback .= ' Trouble with the database. '.db_error();
@@ -494,10 +495,13 @@ function login_screen()
         please try again</h2><p>$feedback</div>";
     }
 
+    global $this_place;
     print '
         <P>
         Enter your user name and password and we\'ll set a cookie so we know you\'re logged in.
-        <p>Not got a login?  <A HREF="register.php">Register a new
+        <p>Not got a login?  <A HREF="register.php?r='.
+            ($_GET['r']?urlencode($_GET['r']):urlencode($this_place)).
+        '">Register a new
         account</A>.  You will also receive a free email newsletter.
         <br>Lost your password? <a href="lostpass.php">Reset your password here</a>.
         <P>
@@ -509,11 +513,12 @@ function login_screen()
         <INPUT TYPE="password" NAME="password" VALUE="" SIZE="15" MAXLENGTH="15">
         <P>';
     if ($_GET['r']) {
-        print '<INPUT TYPE="hidden" NAME="r" VALUE="'.htmlspecialchars($_GET['r']).'" SIZE="15" MAXLENGTH="15">';
+        print '<INPUT TYPE="hidden" NAME="r" VALUE="'.htmlspecialchars($_GET['r']).'">';
     }
     print '<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Login To Public Whip">
         </FORM>
         <P>';
+    include $toppath . "footer.inc";
 }
 
 function do_login_screen()
