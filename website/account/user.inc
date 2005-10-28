@@ -3,7 +3,7 @@
 $feedback = '';
 
 if (!$hidden_hash_var) {
-    print "ERROR: include config.php first";
+    trigger_error("ERROR: include config.php first, and make sure it has values in", E_USER_ERROR);
 }
 
 if (!function_exists("user_isloggedin"))

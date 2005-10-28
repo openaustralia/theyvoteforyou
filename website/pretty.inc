@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.26 2005/10/24 23:49:11 theyworkforyou Exp $
+# $Id: pretty.inc,v 1.27 2005/10/28 17:34:13 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -105,8 +105,11 @@ function random_big_word($phrase)
 
 function searchtip_random_mp($db)
 {
-    $row = $db->query_one_row("select title, first_name, last_name from pw_mp
+    $row = $db->query_onez_row("select title, first_name, last_name from pw_mp
         order by rand() desc limit 1");
+    if (!$row) {
+    	return "*no mps*";
+    }
     $random_mp = trim($row[0] . " " . $row[1] . " " . $row[2]);
     return $random_mp;
 }
@@ -124,8 +127,11 @@ function searchtip_random_constituency($db)
 
 function searchtip_random_topic($db)
 {
-    $row = $db->query_one_row("select division_name from pw_division
+    $row = $db->query_onez_row("select division_name from pw_division
         order by rand() desc limit 1");
+    if (!$row) {
+    	return "*no divisions*";
+    }
     $random_topic = random_big_word($row[0]);
     if ($random_topic == "")
         $random_topic = "Trade";

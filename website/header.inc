@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.62 2005/10/20 00:12:22 frabcus Exp $
+# $Id: header.inc,v 1.63 2005/10/28 17:34:13 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -41,6 +41,11 @@ function givefocus(field) {
 
 <body align="center" onLoad="<?=$onload?>">
 <center>
+
+<? if ($_SERVER["HTTP_HOST"] != 'www.publicwhip.org.uk'
+	and $_SERVER["HTTP_HOST"] != 'publicwhip.org.uk') { ?>
+<strong>This is a test site - the real site is <a href="http://www.publicwhip.org.uk">over here</a>.</strong> Developers are busy making Public Whip better using this page.<p>
+<? } ?>
 
 <!-- hold the maximum width of the content -->
 <table align="center" class="container" cellpadding="0" cellspacing="0">

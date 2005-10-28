@@ -1,4 +1,7 @@
 <?
+phpinfo();
+exit;
+
 require_once "common.inc";
 require_once "forummagic.inc";
 require_once "db.inc";
