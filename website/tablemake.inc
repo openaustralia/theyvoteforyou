@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.37 2005/10/25 08:43:56 frabcus Exp $
+# $Id: tablemake.inc,v 1.38 2005/10/29 15:50:10 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -344,7 +344,7 @@ function GetPartyVoteSummaryH($db, $div_id)
 }
 function writepersonvote(&$lnrows, $cla, $name, $vote, $ayecla, $nocla)
 {
-    print "<tr class=\"".(($lnrows % 2 == 1) ? "odd" : "even")."$cla\">";
+    print "<tr class=\"".($lnrows != -1 ? (($lnrows % 2 == 1) ? "odd" : "even") : "")."$cla\">";
     print "<td>$name</td>";
     if (($vote == "aye") || ($vote == "AYE"))
         print "<td$ayecla>Aye</td><td$nocla></td>";
@@ -395,11 +395,12 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
 
     # Coloured box saying whether MP and Dream MP agree/disgagree/miss
     print "<table class=\"votetab\">";
-    print "<tr>";
-    print "<td class=\"$roleclass\">";
-    print $votedesclong;
-    print "</td>";
-    print "</tr>";
+    //print "<tr>";
+    //print "<td class=\"$roleclass\">";
+    //print $votedesclong;
+    writepersonvote(-1, "", "Policy '" . html_scrub($voter2attr['name']) . "'", $vote2, "", "");
+    //print "</td>";
+    //print "</tr>";
     print "</table>";
 
     # make the table of party in the left hand side
@@ -418,11 +419,13 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
     # MP's vote
     $ayecla = ($totalayes > $totalnoes ? " class=\"majority\"" : "");
     $nocla = ($totalnoes > $totalayes ? " class=\"majority\"" : "");
-    writepersonvote($lnrows, "strong", $voter1['name'], $vote1, $ayecla, $nocla);
+    writepersonvote(-1, $roleclass, $voter1['name'], $vote1, $ayecla, $nocla);
+    //writepersonvote($lnrows, "strong", $voter1['name'], $vote1, $ayecla, $nocla);
+
 
     # Dream MP's vote
     if ($vote2 != "") {
-        writepersonvote($lnrows, "", "Policy '" . html_scrub($voter2attr['name']) . "'", 
+        writepersonvote($lnrows, "", "Policy '" . html_scrub($voter2attr['name']) . "'",
             $vote2, $ayecla, $nocla);
     }
 
