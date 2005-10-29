@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.14 2005/10/29 12:52:11 goatchurch Exp $
+# $Id: tablepeop.inc,v 1.15 2005/10/29 12:53:50 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -77,7 +77,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich)
     elseif ($colstyle == "dreamdistance")
     {
         $distance = $row['distance'];
-        $agreement = (1.0 - (float)($distance)) * 100.0
+        $agreement = (1.0 - (float)($distance)) * 100.0;
         print "<td>".number_format($agreement, 1)."%</td>";
     }
 
