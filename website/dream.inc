@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.34 2005/10/12 22:51:58 frabcus Exp $
+# $Id: dream.inc,v 1.35 2005/10/29 14:48:09 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -37,14 +37,14 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 	if ($bdebug == 1)
 		print "<p>$person ddddd   $dreamid</p>";
 
-	print "<p class=\"indent\">Between this MP and the policy there were 
-	$nvotessame ".make_plural($nvotessame, "agreement")." and 
+	print "<p class=\"indent\">Between this MP and the policy there were
+	$nvotessame ".make_plural($nvotessame, "agreement")." and
 	$nvotessamestrong strong ".make_plural($nvotessamestrong, "agreement").",
-	$nvotesdiffer ".make_plural($nvotesdiffer, "disagreement")." and 
-	$nvotesdifferstrong strong ".make_plural($nvotesdifferstrong, "disagreement").", 
-	$nvotesabsent missed ".make_plural($nvotesabsent, "vote")." and 
-	$nvotesabsentstrong missed ".make_plural($nvotesabsentstrong, "vote")." where 
-	there was a strong demand to vote.</p>\n";
+	$nvotesdiffer ".make_plural($nvotesdiffer, "disagreement")." and
+	$nvotesdifferstrong strong ".make_plural($nvotesdifferstrong, "disagreement").",
+	$nvotesabsent missed ".make_plural($nvotesabsent, "vote")." and
+	$nvotesabsentstrong missed ".make_plural($nvotesabsentstrong, "vote")." where
+	there was a strong policy vote.</p>\n";
 
 	$tlw = 5.0;
 	$score = $nvotesdiffer + $tlw * $nvotesdifferstrong + 0.1 * $nvotesabsent + ($tlw / 2) * $nvotesabsentstrong;
@@ -56,12 +56,30 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 	print "<p>Normal votes are weighted by 1.0, strong votes by 5.0, ordinary missed votes by 0.2,
 			but missed votes that were strong get 2.5 out of 5.0.</p>\n";
 
-	print "<p class=\"indent\">The distance is therefore 
-		($nvotesdiffer + 5.0 * $nvotesdifferstrong + 0.1 * $nvotesabsent + 2.5 * $nvotesabsentstrong) = $score
-			out of
-			($nvotessame + 5.0 * $nvotessamestrong + $nvotesdiffer + 5.0 * $nvotesdifferstrong +
-			  0.2 * $nvotesabsent + 5.0 * $nvotesabsentstrong) = $weight,
-			  or ".number_format($dist, 6)."</p>\n";
+	$ascore = $weight - $score;
+	$agreement = 1.0 - $dist;
+	$agreementpercent = 100 * $agreement;
+	print "<p class=\"indent\">Policy agreement =
+		   <div class=\"fraction\">
+		   		<div class=\"numerator\">[agreements] + 5.0 x [strong agreements] + 0.1 x [missed votes] + 2.5 x [strong missed votes]</div>
+		   		<div class=\"denominator\">([agreements] + [disagreements]) + 5.0 * ([strong agreements] + [strong disagreements]) + 0.2 * [missed votes] + 5.0 * [strong missed votes]</div>
+		   </div>
+			=
+		   <div class=\"fraction\">
+		   		<div class=\"numerator\">$nvotessame + 5.0 x $nvotessamestrong + 0.1 x $nvotesabsent + 2.5 x $nvotesabsentstrong</div>
+		   		<div class=\"denominator\">($nvotessame + $nvotesdiffer) + 5.0 x ($nvotessamestrong + $nvotesdifferstrong) + 0.2 x $nvotesabsent + 5.0 * $nvotesabsentstrong</div>
+		   </div>
+			=
+		   <div class=\"fraction\">
+		   		<div class=\"numerator\">$ascore</div>
+		   		<div class=\"denominator\">$weight</div>
+		   </div>
+			=
+		   $agreement
+		    =
+		   $agreementpercent %.
+		   ";
+
 
 	if ($bdebug == 1)
 	{
@@ -358,7 +376,7 @@ function dream_post_forum_action($db, $dreamid, $content) {
         forummagic_post($db, $forum, $topic_match, $topic, $content);
 }
 
-# Get link to forum 
+# Get link to forum
 function dream_post_forum_link($db, $dreamid) {
     $forum = "Policy Creation";
     $topic_match = "Policy #$dreamid";
