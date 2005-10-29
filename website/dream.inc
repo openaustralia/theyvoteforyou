@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.37 2005/10/29 14:59:40 goatchurch Exp $
+# $Id: dream.inc,v 1.38 2005/10/29 15:06:26 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -65,22 +65,22 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 				   <hr class=\"divider\" />
 		   		<span class=\"denominator\">([agrees] + [disagrees]) + 5x([strong agrees] + [strong disagrees]) + 0.2x[misses] + 5x[strong misses]</span>
 		   </div>
-			<br />=
+			<br clear=\"all\" />=
 		   <div class=\"fraction\">
 		   		<span class=\"numerator\">$nvotessame + 5.0 x $nvotessamestrong + 0.1 x $nvotesabsent + 2.5 x $nvotesabsentstrong</span>
 				   <hr class=\"divider\" />
 		   		<span class=\"denominator\">($nvotessame + $nvotesdiffer) + 5.0 x ($nvotessamestrong + $nvotesdifferstrong) + 0.2 x $nvotesabsent + 5.0 * $nvotesabsentstrong</span>
 		   </div>
-			<br />=
+			<br clear=\"all\" />=
 		   <div class=\"fraction\">
 		   		<span class=\"numerator\">$ascore</span>
  				   <hr class=\"divider\" />
 		   		<span class=\"denominator\">$weight</span>
 		   </div>
-			=
-		   $agreement
-		    =
-		   $agreementpercent %.
+			<br clear=\"all\" />=
+		   ".number_format($agreement, 3)."
+			<br clear=\"all\" />=
+		   ".number_format($agreementpercent, 1)." %.
 		   ";
 
 
