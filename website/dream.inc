@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.35 2005/10/29 14:48:09 goatchurch Exp $
+# $Id: dream.inc,v 1.36 2005/10/29 14:53:02 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -61,18 +61,21 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 	$agreementpercent = 100 * $agreement;
 	print "<p class=\"indent\">Policy agreement =
 		   <div class=\"fraction\">
-		   		<div class=\"numerator\">[agreements] + 5.0 x [strong agreements] + 0.1 x [missed votes] + 2.5 x [strong missed votes]</div>
-		   		<div class=\"denominator\">([agreements] + [disagreements]) + 5.0 * ([strong agreements] + [strong disagreements]) + 0.2 * [missed votes] + 5.0 * [strong missed votes]</div>
+		   		<span class=\"numerator\">[agreements] + 5.0 x [strong agreements] + 0.1 x [missed votes] + 2.5 x [strong missed votes]</span>
+				   <hr class=\"divider\" />
+		   		<span class=\"denominator\">([agreements] + [disagreements]) + 5.0 * ([strong agreements] + [strong disagreements]) + 0.2 * [missed votes] + 5.0 * [strong missed votes]</span>
 		   </div>
 			=
 		   <div class=\"fraction\">
-		   		<div class=\"numerator\">$nvotessame + 5.0 x $nvotessamestrong + 0.1 x $nvotesabsent + 2.5 x $nvotesabsentstrong</div>
-		   		<div class=\"denominator\">($nvotessame + $nvotesdiffer) + 5.0 x ($nvotessamestrong + $nvotesdifferstrong) + 0.2 x $nvotesabsent + 5.0 * $nvotesabsentstrong</div>
+		   		<span class=\"numerator\">$nvotessame + 5.0 x $nvotessamestrong + 0.1 x $nvotesabsent + 2.5 x $nvotesabsentstrong</span>
+				   <hr class=\"divider\" />
+		   		<span class=\"denominator\">($nvotessame + $nvotesdiffer) + 5.0 x ($nvotessamestrong + $nvotesdifferstrong) + 0.2 x $nvotesabsent + 5.0 * $nvotesabsentstrong</span>
 		   </div>
 			=
 		   <div class=\"fraction\">
-		   		<div class=\"numerator\">$ascore</div>
-		   		<div class=\"denominator\">$weight</div>
+		   		<span class=\"numerator\">$ascore</span>
+ 				   <hr class=\"divider\" />
+		   		<span class=\"denominator\">$weight</span>
 		   </div>
 			=
 		   $agreement
