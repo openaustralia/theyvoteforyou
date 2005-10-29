@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.13 2005/10/11 10:14:48 goatchurch Exp $
+# $Id: tablepeop.inc,v 1.14 2005/10/29 12:52:11 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -77,11 +77,8 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich)
     elseif ($colstyle == "dreamdistance")
     {
         $distance = $row['distance'];
-        if ($distance < 0.1)
-            $distance .= " (best)";
-        elseif ($distance > 0.9)
-            $distance .= " (worst)";
-        print "<td>".number_format($distance, 3)."</td>";
+        $agreement = (1.0 - (float)($distance)) * 100.0
+        print "<td>".number_format($agreement, 1)."%</td>";
     }
 
     # division vote

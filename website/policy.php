@@ -121,14 +121,13 @@
 	    print "<h2><a name=\"comparison\">Comparison to all MPs</a></h2>";
 
 	    print "<p>Grades MPs acording to how often they voted with the policy.
-	            If, in policy divisions where the MP voted, they
-	            always voted the same as the policy then the score is 0.0.  If they always voted
-	            differently, the score is 1.0.";
+	            If they always vote the same as the policy then their agreement is 100%, if they
+				always vote the opposite when the policy votes, their agreement is 0%.";
 
 		$mptabattr = array("listtype" => 'dreamdistance',
 						   'dreammpid' => $dreamid);
 		print "<table class=\"mps\">\n";
-		print "<tr class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Distance</td></tr>\n";
+		print "<tr class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Agreement</td></tr>\n";
 		mp_table($db, $mptabattr);
 		print "</table>\n";
 	}
