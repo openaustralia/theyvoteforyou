@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.15 2005/10/29 12:53:50 goatchurch Exp $
+# $Id: tablepeop.inc,v 1.16 2005/10/29 18:25:37 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,7 +8,7 @@
 
 require_once $toppath . "links.inc";
 
-function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich)
+function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $title)
 {
     # row colour
     if ($colstyle == "division")
@@ -40,7 +40,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich)
         print "<td>$nrows</td>";
 
     # name and constituency
-    print "<td><a href=\"$href\">$name</a></td>";
+    print "<td><a href=\"$href\" " . ($title?"title='$title'":"") . ">$name</a></td>";
 
     # we could mark if there are other MPs in this constituency and make a link to them
     #print "<td>".$row['constituency']."</td>";
@@ -385,7 +385,8 @@ function mp_table($db, $mptabattr)
         if ($friendlk)
             $href .= "&$friendlk";
         $nrows += 1; # number from 1
-        print_mp_row($nrows, $row, $mpname, $href, $colstyle, $showwhich);
+	
+        print_mp_row($nrows, $row, $mpname, $href, $colstyle, $showwhich, "Compare $mpname to policy xxx");
     }
 
 
