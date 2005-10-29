@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.96 2005/10/25 08:43:56 frabcus Exp $
+    # $Id: mp.php,v 1.97 2005/10/29 15:22:38 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -382,19 +382,22 @@
 				"headings"		=> 'columns',
 				"sortby"		=> 'date'	);
 
+		# make the table over this MP's votes
+
 		# get rid of headings in the full motion case
 		if ($dismode["votedisplay"] == "fullmotion")
 		{
 			$divtabattr["headings"] = 'none';
 			$divtabattr["sortby"] = 'datereversed';
 			$voter1attr['mpprops'] = array_reverse($voter1attr['mpprops']);
+		    print "<table>\n";  // so we get underlines
 		}
+		else
+		    print "<table class=\"votes\">\n";
 
 		# the full version is in chron order so it can be printed out.  But saying so is sheer clutter.
 		# print "<p>Table is in".($divtabattr["sortby"] == 'datereversed' ? "" : " reverse")." chronological order.</p>\n";
 
-		# make the table over this MP's votes
-	    print "<table class=\"votes\">\n";
     	foreach ($voter1attr['mpprops'] as $lkey => $mpprop)
 		{
 			$divtabattr["voter1"] = $mpprop;
