@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.8 2005/09/22 09:12:35 theyworkforyou Exp $
+# $Id: DivsXML.pm,v 1.9 2005/10/29 14:04:25 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Loads divisions from the XML files made by pyscraper into
@@ -237,6 +237,9 @@ sub loaddivision {
             else { die "unexpected tell value $tell"; }
             my $id = $mpname->att('id');
             $id =~ s:uk.org.publicwhip/member/::;
+            if ($id == 2020) {
+                die "Early Acton bug" 
+            }
             push @{ $votes->{$id} }, "$tell$vote";
         }
     }
@@ -392,6 +395,7 @@ debate_url = ?, source_gid = ?, debate_gid = ? where division_id = ?",
     foreach my $mp_id ( keys %$votes ) {
         my $votelist = $votes->{$mp_id};
         foreach my $vote (@$votelist) {
+            die "Acton bug" if ($mp_id == 2020); 
             PublicWhip::DB::query(
                 $dbh,
                 "insert into pw_vote (division_id, mp_id, vote) values (?,?,?)",

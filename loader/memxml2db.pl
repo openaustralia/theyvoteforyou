@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.11 2005/10/12 07:07:01 theyworkforyou Exp $
+# $Id: memxml2db.pl,v 1.12 2005/10/29 14:04:25 publicwhip Exp $
 
 # Convert all-members.xml and all-lords.xml into the database format for Public
 # Whip website
@@ -53,7 +53,7 @@ $twig->parsefile("$members_location/constituencies.xml");
 $twig->parsefile("$members_location/people.xml");
 $twig->parsefile("$members_location/ministers.xml");
 $twig->parsefile("$members_location/all-members.xml");
-$twig->parsefile("$members_location/all-lords.xml");
+#$twig->parsefile("$members_location/all-lords.xml");
 
 # Delete things left that shouldn't be from this table
 foreach my $gid (keys %$gid_to_internal) {
@@ -74,7 +74,7 @@ sub loadperson
 
 sub loadmember
 { 
-	my ($twig, $memb) = @_;
+    my ($twig, $memb) = @_;
 
     my $house = $memb->att('house');
     my $gid = $memb->att('id');
@@ -85,13 +85,22 @@ sub loadmember
     } else {
         die "unknown gid type $gid";
     }
+
+    die "lords not ready yet" if $house ne 'commons'; # todo
+    my $id = $gid;
+    $id =~ s#uk.org.publicwhip/member/##;
+# TODO: This below breaks absolutelyfuckingeverything. Really bad idea
+# to have gids with different ids from mp_id, as so much code (e.g.
+# in division loader) relies on it.
+# Possible solutions:  Make sure we cross reference to house everywhere.
+# But how do we make sure we do that?
     # Use id we used last time if possible
-    my $id = $gid_to_internal->{$gid};
-    if (!$id) {
-        # Or else allocate new one
-        $last_mp_id++;
-        $id = $last_mp_id;
-    }
+#    my $id = $gid_to_internal->{$gid};
+#    if (!$id) {
+#        # Or else allocate new one
+#        $last_mp_id++;
+#        $id = $last_mp_id;
+#    }
 
     my $person = $membertoperson{$memb->att('id')};
     die "mp " . $id . " " . $memb->att('firstname') . " " . $memb->att('lastname') . " has no person" if !defined($person);
