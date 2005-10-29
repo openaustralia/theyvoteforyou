@@ -540,4 +540,8 @@ LI {
 {
     BACKGROUND-COLOR: #eeeeee;
 }
-
+.fraction
+{
+	FLOAT:LEFT;
+	TEXT-ALIGN:CENTER;
+}

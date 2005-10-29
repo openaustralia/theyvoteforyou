@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.36 2005/10/29 14:53:02 goatchurch Exp $
+# $Id: dream.inc,v 1.37 2005/10/29 14:59:40 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -61,17 +61,17 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 	$agreementpercent = 100 * $agreement;
 	print "<p class=\"indent\">Policy agreement =
 		   <div class=\"fraction\">
-		   		<span class=\"numerator\">[agreements] + 5.0 x [strong agreements] + 0.1 x [missed votes] + 2.5 x [strong missed votes]</span>
+		   		<span class=\"numerator\">[agrees] + 5x[strong agrees] + 0.1x[misses] + 2.5x[strong misses]</span>
 				   <hr class=\"divider\" />
-		   		<span class=\"denominator\">([agreements] + [disagreements]) + 5.0 * ([strong agreements] + [strong disagreements]) + 0.2 * [missed votes] + 5.0 * [strong missed votes]</span>
+		   		<span class=\"denominator\">([agrees] + [disagrees]) + 5x([strong agrees] + [strong disagrees]) + 0.2x[misses] + 5x[strong misses]</span>
 		   </div>
-			=
+			<br />=
 		   <div class=\"fraction\">
 		   		<span class=\"numerator\">$nvotessame + 5.0 x $nvotessamestrong + 0.1 x $nvotesabsent + 2.5 x $nvotesabsentstrong</span>
 				   <hr class=\"divider\" />
 		   		<span class=\"denominator\">($nvotessame + $nvotesdiffer) + 5.0 x ($nvotessamestrong + $nvotesdifferstrong) + 0.2 x $nvotesabsent + 5.0 * $nvotesabsentstrong</span>
 		   </div>
-			=
+			<br />=
 		   <div class=\"fraction\">
 		   		<span class=\"numerator\">$ascore</span>
  				   <hr class=\"divider\" />
