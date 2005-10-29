@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.97 2005/10/29 15:22:38 goatchurch Exp $
+    # $Id: mp.php,v 1.98 2005/10/29 17:14:51 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -427,13 +427,12 @@
 			if (count($voter1attr['mpprops']) == 0)
             	print "<p><b>There is no overlap between this MP's term and the votes in this policy.</b></p>\n";
             elseif ($voter1attr["bmultiperson"])
-            	print "<p>No similarity measure present for a table composed of more than one person.</p>\n";
+            	print "<p>No policy agreement ratio present for more than one person.  Select which MP you want to measure.</p>\n";
 			else
 			{
-				print "<h3>Similarity equation</h3>\n";
-				print "<p>This MP is scored against the policy,
-					   coming up with a 'voting distance' between them.  The voting distance is
-					   between 0.0 and 1.0. Here is how we calculate the score.</p>\n";
+				print "<h3>Policy Agreement Ratio</h3>\n";
+				print "<p>The measure of agreement between this MP and the policy is a calculation
+						based on a comparison of their votes.</p>\n";
 				# sum up the arrays
 				foreach ($voter1attr['mpprops'] as $mpprop)
 				{

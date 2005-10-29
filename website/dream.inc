@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.40 2005/10/29 15:57:29 goatchurch Exp $
+# $Id: dream.inc,v 1.41 2005/10/29 17:14:51 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -54,12 +54,12 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 									  $nvotesdiffer, $nvotesdifferstrong,
 									  $nvotesabsent, $nvotesabsentstrong);
 	print "<p>Normal votes are weighted by 1.0, strong votes by 5.0, ordinary missed votes by 0.2,
-			but missed votes that were strong get 2.5 out of 5.0.</p>\n";
+			but missed votes that were strong get 2.5 out of 5.0.  The equation is as follows:</p>\n";
 
 	$ascore = $weight - $score;
 	$agreement = 1.0 - $dist;
 	$agreementpercent = 100 * $agreement;
-	print "<p class=\"indent\">Policy agreement =
+	print "<p><b>Policy agreement</b> =
 		   <div class=\"fraction\">
 		   		<span class=\"numerator\">[agrees] + 5x[strong agrees] + 0.1x[misses] + 2.5x[strong misses]</span>
 				   <hr class=\"divider\" />
@@ -80,8 +80,11 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 			  <div class=\"equals\">=
 		   ".number_format($agreement, 3)."
 			  =
-		   ".number_format($agreementpercent, 1)." %.</div>
-		   ";
+		   <b>".number_format($agreementpercent, 1)." %</b>.</div>
+		   </p>\n\n";
+
+	print "<p>Please post comments and feedback about this equation in
+			<a href=\"forum/viewtopic.php?p=516\">forum topic: Policy Agreement Ratio</a>.</p>\n";
 
 
 	if ($bdebug == 1)

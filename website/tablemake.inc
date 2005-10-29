@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.40 2005/10/29 15:57:29 goatchurch Exp $
+# $Id: tablemake.inc,v 1.41 2005/10/29 17:14:51 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -397,14 +397,14 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
     //print "<tr>";
     //print "<td class=\"$roleclass\">";
     //print $votedesclong;
-    writepersonvote(0, "", "Policy '" . html_scrub($voter2attr['name']) . "'", $vote2, "", "");
+    writepersonvote(-1, "", "Policy '" . html_scrub($voter2attr['name']) . "'", $vote2, "", "");
     //print "</td>";
     //print "</tr>";
     print "</table>";
 
     # make the table of party in the left hand side
     print "<table class=\"votetab\">";
-    print "<tr class=\"headings\"><td></td><td>Aye</td><td>No</td></tr>\n";
+    //print "<tr class=\"headings\"><td></td><td>Aye</td><td>No</td></tr>\n";
 
     $lnrows = 0;
 
