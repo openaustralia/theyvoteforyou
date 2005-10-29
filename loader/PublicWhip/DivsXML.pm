@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.9 2005/10/29 14:04:25 publicwhip Exp $
+# $Id: DivsXML.pm,v 1.10 2005/10/29 21:42:03 theyworkforyou Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Loads divisions from the XML files made by pyscraper into
@@ -33,8 +33,6 @@ our $lastheadinggid;
 
 our $divisions_changed;
 
-our $in_latest_file = 0;
-
 sub read_xml_files {
     $dbh = shift;
     my $from = shift;
@@ -42,9 +40,11 @@ sub read_xml_files {
 
     $divisions_changed = 0;
 
+    # We have a separate parser to extract attributes from publicwhip header
+    my $twig_header = XML::Twig->new();
+
     my $twig = XML::Twig->new(
         twig_handlers => {
-            'publicwhip'    => \&publicwhip,
             'division'      => \&loaddivision,
             'major-heading' => \&storemajor,
             'minor-heading' => \&storeminor,
@@ -65,7 +65,29 @@ sub read_xml_files {
                 $lastmotiontext = "";
                 $lastheadingurl = "";
                 $lastheadinggid = "";
-                $twig->parsefile( $PublicWhip::Config::debatepath . "$PublicWhip::Config::fileprefix" . $curdate . $cursuffix . ".xml" );
+                my $file_to_parse = $PublicWhip::Config::debatepath . "$PublicWhip::Config::fileprefix" . $curdate . $cursuffix . ".xml";
+                PublicWhip::Error::log( "File: $file_to_parse", $curdate, ERR_USEFUL );
+
+                $twig_header->parsefile($file_to_parse);
+                my $root = $twig_header->root();
+                my $in_latest_file = 0;
+                if ($root->att('latest') && $root->att('latest') eq "yes") {
+                    PublicWhip::Error::log( "File is latest for date", $curdate, ERR_USEFUL );
+                    $in_latest_file = 1;
+                } elsif ($root->att('latest') && $root->att('latest') eq "no") {
+                    PublicWhip::Error::log( "File is old one for date", $curdate, ERR_USEFUL );
+                    $in_latest_file = 0;
+                } elsif (!$root->att('latest')) {
+                    # legacy files
+                    PublicWhip::Error::log( "File is legacy file, so is latest for date", $curdate, ERR_USEFUL );
+                    $in_latest_file = 1;
+                } else {
+                    die "unknown attributes in publicwhip tag";
+                }
+                
+                if ($in_latest_file) {
+                    $twig->parsefile($file_to_parse);
+                }
             }
         }
     }
@@ -91,19 +113,8 @@ sub array_difference {
     return \@difference;
 }
 
-sub publicwhip {
-    my ( $twig, $publicwhip ) = @_;
-    if ($publicwhip->att('latest') && $publicwhip->att('latest') eq "yes") {
-        $in_latest_file = 1;
-    } else {
-        $in_latest_file = 0;
-    }
-}
-
-
 sub storeminor {
     my ( $twig, $minor ) = @_;
-    return if !$in_latest_file;
 
     my $t = $minor->sprint(1);
 
@@ -115,7 +126,6 @@ sub storeminor {
 
 sub storemajor {
     my ( $twig, $major ) = @_;
-    return if !$in_latest_file;
 
     my $t = $major->sprint(1);
 
@@ -143,7 +153,6 @@ sub storemajor {
 
 sub storemotion {
     my ( $twig, $p ) = @_;
-    return if !$in_latest_file;
 
     if ( $p->att('pwmotiontext') ) {
         $lastmotiontext .= $p->sprint(0);
@@ -191,7 +200,6 @@ sub fix_case_part {
 
 sub loaddivision {
     my ( $twig, $div ) = @_;
-    return if !$in_latest_file;
 
     # Makes heading
 
@@ -237,9 +245,7 @@ sub loaddivision {
             else { die "unexpected tell value $tell"; }
             my $id = $mpname->att('id');
             $id =~ s:uk.org.publicwhip/member/::;
-            if ($id == 2020) {
-                die "Early Acton bug" 
-            }
+            die "Not an integer MP identifier: $id" if ($id !~ m/^[1-9][0-9]*$/);
             push @{ $votes->{$id} }, "$tell$vote";
         }
     }
@@ -395,7 +401,6 @@ debate_url = ?, source_gid = ?, debate_gid = ? where division_id = ?",
     foreach my $mp_id ( keys %$votes ) {
         my $votelist = $votes->{$mp_id};
         foreach my $vote (@$votelist) {
-            die "Acton bug" if ($mp_id == 2020); 
             PublicWhip::DB::query(
                 $dbh,
                 "insert into pw_vote (division_id, mp_id, vote) values (?,?,?)",
