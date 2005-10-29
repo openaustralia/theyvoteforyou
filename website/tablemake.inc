@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.38 2005/10/29 15:50:10 goatchurch Exp $
+# $Id: tablemake.inc,v 1.39 2005/10/29 15:52:39 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -342,7 +342,7 @@ function GetPartyVoteSummaryH($db, $div_id)
                           'totalpartyvote' => $totalpartyvote);
     return $partysummary;
 }
-function writepersonvote(&$lnrows, $cla, $name, $vote, $ayecla, $nocla)
+function writepersonvote($lnrows, $cla, $name, $vote, $ayecla, $nocla)
 {
     print "<tr class=\"".($lnrows != -1 ? (($lnrows % 2 == 1) ? "odd" : "even") : "")."$cla\">";
     print "<td>$name</td>";
@@ -357,7 +357,6 @@ function writepersonvote(&$lnrows, $cla, $name, $vote, $ayecla, $nocla)
     else
         print "<td colspan=2 align=center>$vote</td>";
     print "</tr>\n";
-    $lnrows += 1;
 }
 function vote_display_in_table($vote) {
     if ($vote == "aye3") {
@@ -427,6 +426,7 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
     if ($vote2 != "") {
         writepersonvote($lnrows, "", "Policy '" . html_scrub($voter2attr['name']) . "'",
             $vote2, $ayecla, $nocla);
+        $lnrows += 1;
     }
 
     # votes of rest of parties (a rather poor way to put it together)

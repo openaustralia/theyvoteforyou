@@ -531,7 +531,7 @@ LI {
     MARGIN-TOP: 0.2em;
 }
 /* Box for changing a vote of a policy, on division page */
-.policyvote 
+.policyvote
 {
     BACKGROUND-COLOR: #eeffee;
     padding: 0 0.5em 0 0.5em;
@@ -540,9 +540,28 @@ LI {
 {
     BACKGROUND-COLOR: #eeeeee;
 }
-.fraction
-{
-	FLOAT:LEFT;
-	TEXT-ALIGN:CENTER;
-    VERTICAL-ALIGN:CENTER;
+.equation {vertical-align: middle;}
+
+.fraction {
+float: left;
+text-align: center;
 }
+.numerator {
+ display: inline;
+}
+.denominator {
+display: inline;
+}
+
+.equals{ padding-top: .5em;float:left;
+ }
+
+.equation .break {clear: both}
+.divider {
+width: 100%;
+padding: 0;
+margin: 2px 0;
+ border: none; border-bottom: 1px solid black;
+
+}
+

@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.38 2005/10/29 15:06:26 goatchurch Exp $
+# $Id: dream.inc,v 1.39 2005/10/29 15:50:10 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -65,21 +65,21 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 				   <hr class=\"divider\" />
 		   		<span class=\"denominator\">([agrees] + [disagrees]) + 5x([strong agrees] + [strong disagrees]) + 0.2x[misses] + 5x[strong misses]</span>
 		   </div>
-			<br clear=\"all\" />=
+			  <div class=\"equals break\">=</div>
 		   <div class=\"fraction\">
-		   		<span class=\"numerator\">$nvotessame + 5.0 x $nvotessamestrong + 0.1 x $nvotesabsent + 2.5 x $nvotesabsentstrong</span>
+		   		<span class=\"numerator\">$nvotessame + 5x$nvotessamestrong + 0.1x$nvotesabsent + 2.5x$nvotesabsentstrong</span>
 				   <hr class=\"divider\" />
-		   		<span class=\"denominator\">($nvotessame + $nvotesdiffer) + 5.0 x ($nvotessamestrong + $nvotesdifferstrong) + 0.2 x $nvotesabsent + 5.0 * $nvotesabsentstrong</span>
+		   		<span class=\"denominator\">($nvotessame + $nvotesdiffer) + 5x($nvotessamestrong + $nvotesdifferstrong) + 0.2x$nvotesabsent + 5.0 * $nvotesabsentstrong</span>
 		   </div>
-			<br clear=\"all\" />=
+			  <div class=\"equals\">=</div>
 		   <div class=\"fraction\">
 		   		<span class=\"numerator\">$ascore</span>
  				   <hr class=\"divider\" />
 		   		<span class=\"denominator\">$weight</span>
 		   </div>
-			<br clear=\"all\" />=
+			  <div class=\"equals\">=</div>
 		   ".number_format($agreement, 3)."
-			<br clear=\"all\" />=
+			  <div class=\"equals\">=</div>
 		   ".number_format($agreementpercent, 1)." %.
 		   ";
 
