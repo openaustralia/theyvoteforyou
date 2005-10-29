@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.39 2005/10/29 15:50:10 goatchurch Exp $
+# $Id: dream.inc,v 1.40 2005/10/29 15:57:29 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -77,10 +77,10 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
  				   <hr class=\"divider\" />
 		   		<span class=\"denominator\">$weight</span>
 		   </div>
-			  <div class=\"equals\">=</div>
+			  <div class=\"equals\">=
 		   ".number_format($agreement, 3)."
-			  <div class=\"equals\">=</div>
-		   ".number_format($agreementpercent, 1)." %.
+			  =
+		   ".number_format($agreementpercent, 1)." %.</div>
 		   ";
 
 
