@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.29 2005/11/01 00:56:21 frabcus Exp $
+# $Id: decodeids.inc,v 1.30 2005/11/01 02:31:49 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -190,7 +190,8 @@ function decode_mpid_legacy($db)
 
 
 # returns the ith mpid from the link (0th is blank)
-function get_mpid_attr_decode($db, $db2, $i, $voter2dream_overlap=null)
+# pc_parl is parliament to do any postcode lookup in (default = current)
+function get_mpid_attr_decode($db, $db2, $i, $voter2dream_overlap=null, $pc_parl=null)
 {
     global $bdebug;
 
@@ -201,7 +202,7 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream_overlap=null)
         print "<h1> MPN=".html_scrub($mpname)." MPC=".html_scrub($mpconstituency)." MPPC=".html_scrub($mppostcode)."</h1>";
 
     if (is_postcode($mppostcode)) {
-        $pccons = postcode_to_constituency($db, $mppostcode);
+        $pccons = postcode_to_constituency($db, $mppostcode, $pc_parl);
         if (isset($pccons)) {
             $mpconstituency = $pccons;
         }

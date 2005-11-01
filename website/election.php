@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.23 2005/11/01 00:56:21 frabcus Exp $
+# $Id: election.php,v 1.24 2005/11/01 02:31:49 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -266,6 +266,7 @@ function opinion_value($value, $curr)
 // Grab shorter URL if it is one
 $qstring = $_SERVER["QUERY_STRING"];
 $shorter_url = false;
+$mpid = -1;
 if (preg_match ("/^(.*);([0-4]{7})$/", $qstring, $matches)) {
     $_GET = array();
     $_GET['submit'] = "1";
@@ -282,8 +283,12 @@ if (preg_match ("/^(.*);([0-4]{7})$/", $qstring, $matches)) {
 // Validate if a submit
 $errors = array();
 if ($_GET['submit']) {
-    // Display voting records
-    $mpattr = get_mpid_attr_decode($db, $db2, "");
+    $constituency = postcode_to_constituency($db, $_GET['mppc'], "2001");
+    $row = $db->query_onez_row_assoc("select * from pw_mp where constituency = '$constituency' 
+        and entered_house <= '2005-04-11' and '2005-04-11' <= left_house");
+    if ($row)
+        $mpid = $row['mp_id'];
+    $mpattr = get_mpid_attr($db, $db2, $mpid, false, 1, null);
     if ($mpattr == null) {
         $errors[] = "Your MP wasn't found.  Please check you
             entered the postcode correctly.";
@@ -333,7 +338,7 @@ header("Content-Type: text/html; charset=UTF-8");
         }
 
         # Regional parties
-        $consid = normalise_constituency_name(strtolower($constituency));
+        $consid = normalise_constituency_name($db, strtolower($constituency), "2001");
         if (!$consid) {
             print "<div class=\"error\">Constituency '$constituency' not found, please <a href=\"team@publicwhip.org.uk\">let us know</a>.</div>";
         }

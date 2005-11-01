@@ -61,7 +61,7 @@ function characterData($parser, $content)
         $constituency .= $content;
 }
 
-function postcode_to_constituency($db, $postcode) {
+function postcode_to_constituency($db, $postcode, $pc_parl = "2005") {
     $postcode = trim($postcode);
 
     global $last_postcode;
@@ -73,7 +73,7 @@ function postcode_to_constituency($db, $postcode) {
     }
 
     $start = getmicrotime();
-    $ret = postcode_to_constituency_internal($db, $postcode);
+    $ret = postcode_to_constituency_internal($db, $postcode, $pc_parl);
     $duration = getmicrotime() - $start;
     
     #debug ("TIME", "Postcode $postcode lookup took $duration seconds, returned $ret.");
@@ -82,7 +82,7 @@ function postcode_to_constituency($db, $postcode) {
     return $ret;
 }
 
-function postcode_to_constituency_internal($db, $postcode)
+function postcode_to_constituency_internal($db, $postcode, $pc_parl)
 {
     $postcode = trim($postcode);
 
@@ -92,7 +92,14 @@ function postcode_to_constituency_internal($db, $postcode)
 
     # Otherwise hit the server (URL is private)
     # We use fsockopen rather than just fopen or file_get_contents so we can do timeouts
-    $filename = POSTCODE_SEARCH_PATH .  urlencode($postcode);
+    if ($pc_parl == "2005") 
+        $filename = POSTCODE_SEARCH_PATH .  urlencode($postcode);
+    elseif ($pc_parl == "2001")
+        $filename = POSTCODE_SEARCH_PATH_2001_PARLIAMENT .  urlencode($postcode);
+    elseif ($pc_parl)
+        trigger_error("Unknown postcode parliament $pc_parl", E_USER_ERROR);
+    else
+        $filename = POSTCODE_SEARCH_PATH .  urlencode($postcode);
 	$file = ""; // just to be safe. Dunno, if this is really needed
     $timeout = 5;
     $fp = @fsockopen(POSTCODE_SEARCH_DOMAIN, POSTCODE_SEARCH_PORT, $errno, $errstr, $timeout);
@@ -148,7 +155,7 @@ function postcode_to_constituency_internal($db, $postcode)
     # Convert to canonical name
 #    print "<pre>$file</pre><br>$constituency<br>";
 #    print $consnames[$consmatch[strtolower($constituency)]];
-    $normalised = normalise_constituency_name($db, strtolower($constituency));
+    $normalised = normalise_constituency_name($db, strtolower($constituency), $pc_parl);
     if ($normalised)
         return $normalised;
     else
