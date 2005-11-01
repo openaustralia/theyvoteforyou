@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.88 2005/10/25 00:52:25 frabcus Exp $
+# $Id: division.php,v 1.89 2005/11/01 00:42:05 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -283,7 +283,7 @@
 	    	# Show motion text
             $edit_link = "account/wiki.php?type=motion&date=".$divattr["division_date"].
                 "&number=".$divattr["division_number"]."&house=".$divattr["house"].
-                "&r=".urlencode($_SERVER["REQUEST_URI"]);
+                "&rr=".urlencode($_SERVER["REQUEST_URI"]);
             $history_link = "edits.php?type=motion&date=".$divattr["division_date"].
                 "&number=".$divattr["division_number"]."&house=".$divattr["house"];
             $discuss_url = "division-forum.php?date=".$divattr["division_date"].

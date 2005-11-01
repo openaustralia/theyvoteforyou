@@ -1,8 +1,5 @@
 Selected divisions table needs clear right
 
-Divisions titles are getting truncated as well
-phpbb.topic_title is too small a table
-
 Link from users names everywhere to their forum page
 
 Make it clearer can discuss individual Policy votes on forum
@@ -17,6 +14,13 @@ http://www.publicwhip.org.uk/forum/viewtopic.php?p=497#497
 Usability
 ---------
 
+Link more clearly to simple list of aye/no voters - perhaps from word "aye" in
+party summary table, or in first line on division page (the Aye-voters). (FD)
+
+Show if and how many times each person spoke in debate leading up to division, and link to their speeches (FD)
+
+Make newsletter signing more streamlined
+
 Change links to say "compare to" in them. Link should always say what it links
 to, not vary according something random about the page currently on.
 http://www.publicwhip.org.uk/policy.php?id=367
@@ -26,17 +30,10 @@ http://www.publicwhip.org.uk/mp.php?mppc=cb1+2qp&display=motions&dmp=230&button=
 
 Fix up rebellion wording on policy pages, confuses people
 
-Preview on motion editing form, and policy editing
-
-Policy aggregation function - generic version of election.php
-
 Stuff
 -----
 
 User page - link to all of a user's contributions
-
-Go through login stuff and make better
-    - for forum, after registration go back to where you were
 
 Report abuse button for motion text editing
 
@@ -95,16 +92,11 @@ off-by-one errors for their changed party
 Future
 ------
 
+Policy aggregation function - generic version of election.php
+
 Search needs to search division text and policy text and forum
-
-Make newsletter signing more streamlined
-
-User names need to link to profile page about that user
-
-Forward/back division - show nearby divisions names
 
 Tour somehow for first time users
 
-Link to ideas.txt file
-
+Preview on motion editing form, and policy editing
 

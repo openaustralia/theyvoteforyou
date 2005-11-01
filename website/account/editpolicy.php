@@ -53,7 +53,7 @@ if (user_isloggedin()) # User logged in, show settings screen
                 $db = new DB(); 
                 list($prev_name, $prev_description) = $db->query_one_row("select name, description from pw_dyn_dreammp where dream_id = '$dreamid'");
 
-                $name_diff = format_linediff($prev_name, stripslashes($name), true);
+                $name_diff = format_linediff($prev_name, stripslashes($name), false); # always have link
                 $description_diff = format_linediff($prev_description, $description, true);
 
                 dream_post_forum_action($db, $dreamid, "Changed name and/or definition of policy.\n\n[b]Name:[/b] ".$name_diff."\n[b]Definition:[/b] ".$description_diff);

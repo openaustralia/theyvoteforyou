@@ -43,7 +43,7 @@
         print "<p>All changes made to the description and title of this division.";
         $edit_link = "account/wiki.php?type=motion&date=".$params[0].
             "&number=".$params[1]."&house=".$params[2].
-            "&r=".urlencode($_SERVER["REQUEST_URI"]);
+            "&rr=".urlencode($_SERVER["REQUEST_URI"]);
         $division_link = "division.php?date=".$params[0].
             "&number=".$params[1]."&house=".$params[2];
         print "<p><a href=\"$division_link\">View division</a> | <a href=\"$edit_link\">Edit description</a>";

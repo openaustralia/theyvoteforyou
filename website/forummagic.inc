@@ -1,6 +1,6 @@
 <?php
 
-# $Id: forummagic.inc,v 1.11 2005/10/26 22:59:32 frabcus Exp $
+# $Id: forummagic.inc,v 1.12 2005/11/01 00:42:05 frabcus Exp $
 # Post things to the forum automatically (like log of changes to policies)
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -18,7 +18,7 @@ function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content)
     $topic_title = forummagic_sanitise_topic($topic_title);
     
     global $domain_name;
-    list($forum_id, $topic_id) = forummagic_findtopic($db, $forum_name, $topic_match);
+    list($forum_id, $topic_id) = forummagic_findtopic($db, $forum_name, $topic_match, $topic_title);
 
     $done = false;
     $c = 0;
@@ -68,10 +68,14 @@ function forummagic_getlink($db, $forum_name, $topic_match) {
 }
 
 // Internal function to find forum and topic id
-function forummagic_findtopic($db, $forum_name, $topic_match) {
+function forummagic_findtopic($db, $forum_name, $topic_match, $topic_set = null) {
     // Find forum and topic
     list($forum_id) = $db->query_one_row("select forum_id from phpbb_forums where forum_name = '$forum_name'");
-    list($topic_id) = $db->query_onez_row("select topic_id from phpbb_topics where topic_title like '".mysql_escape_string($topic_match)."%' and forum_id = $forum_id order by topic_id desc limit 1");
+    list($topic_id, $current_title) = $db->query_onez_row("select topic_id, topic_title from phpbb_topics where topic_title like '".mysql_escape_string($topic_match)."%' and forum_id = $forum_id order by topic_id desc limit 1");
+    if ($topic_set && ($topic_set != $current_title)) {
+        $db->query("update phpbb_topics set topic_title = '" . mysql_escape_string($topic_set). "'".
+            " where topic_id = " . $topic_id);
+    }
     return array($forum_id, $topic_id);
 }
 
