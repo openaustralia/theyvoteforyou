@@ -1,8 +1,8 @@
 <?php require_once "common.inc";
 
-$cache_params = rand(0, 10); include "cache-begin.inc";
+cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.53 2005/11/01 01:23:17 frabcus Exp $
+# $Id: index.php,v 1.54 2005/11/01 01:30:27 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -151,5 +151,5 @@ title="Show all divisions ordered by most recent">(more...)</a></h2>
 </td></tr></table>
 
 <?php pw_footer(); ?>
-<?php include "cache-end.inc"; ?>
+<?php cache_end(); ?>
 

@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-tools.inc,v 1.27 2005/11/01 00:56:21 frabcus Exp $
+# $Id: cache-tools.inc,v 1.28 2005/11/01 01:30:27 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -7,6 +7,53 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 require_once $toppath . "account/user.inc";
+
+function cache_begin($cache_params) {
+    global $cache_dir, $cache_dir, $cache_file, $pw_cache_top, $pw_cache_enable;
+
+    $cache_dir = $pw_cache_top . "/" . substr(str_replace("/", "-", $_SERVER["SCRIPT_NAME"]),1) . "/";
+    if (!isset($cache_params))
+        $cache_params = md5($_SERVER['QUERY_STRING']);
+    $cache_file = $cache_dir . $cache_params . ".html";
+
+    require_once $toppath . "account/user.inc";
+    require_once $toppath . "cache-tools.inc";
+
+    if (file_exists($cache_file) && $pw_cache_enable)
+    {
+    #    print "using cache\n";
+        $content = file_get_contents($cache_file);
+        $content = preg_replace("/<!--ACCOUNTBEGIN[\s\S]*ACCOUNTEND-->/", account_navbar(), $content);
+        $content = preg_replace("/<!--NEWSLETTERBEGIN[\s\S]*NEWSLETTEREND-->/", newsletter_navbar(), $content);
+        print $content;
+        exit("");
+    }
+    ob_start();    
+}
+
+function cache_end() {
+    global $pw_cache_enable, $cache_dir, $cache_file;
+
+    # See if the user is a robot
+    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    $bot = false;
+    if (stristr($user_agent, "bot")) {
+        $bot = true;
+    }
+
+    # Cache the page if they are not a bot (otherwise we cache loads
+    # of spurious pages as mindless things crawl the site)
+    if (!$bot && $pw_cache_enable) {
+        $page = ob_get_contents();
+        if (!file_exists($cache_dir))
+            mkdir($cache_dir, 0770);
+        $handle = fopen($cache_file, 'w');
+        fwrite($handle, $page);
+        fclose($handle);
+    }
+
+    ob_end_flush();
+}
 
 function newsletter_navbar() {
     $ret = "";

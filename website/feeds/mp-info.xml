@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: mp-info.xml,v 1.4 2005/10/19 23:15:27 frabcus Exp $
+# $Id: mp-info.xml,v 1.5 2005/11/01 01:30:28 frabcus Exp $
 
 # Print information in XML about each MP.  e.g. Rebellion rate.
 
@@ -8,9 +8,9 @@
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-include "../db.inc";
-include "../parliaments.inc";
-include "../render.inc";
+require_once "../db.inc";
+require_once "../parliaments.inc";
+require_once "../render.inc";
 $db = new DB(); 
 $db2 = new DB(); 
 
