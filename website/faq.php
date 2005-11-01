@@ -1,11 +1,11 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.56 2005/11/01 00:56:21 frabcus Exp $
+# $Id: faq.php,v 1.57 2005/11/01 01:23:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
-$paddingforanchors = true; $title = "Help - Frequently Asked Questions"; include "header.inc" 
+$paddingforanchors = true; $title = "Help - Frequently Asked Questions"; pw_header();
 ?>
 
 <a href="http://www.newstatesman.com/newmedia">
@@ -381,5 +381,5 @@ we're more likely to be embarrassed enough to take action.</p>
 href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a> only if it's
 something you think should be kept private. Or if the forum isn't working for you.</p>
 
-<?php include "footer.inc" ?>
+<?php pw_footer() ?>
 

@@ -52,7 +52,7 @@
         array_push($second_links, "<a $dlink class=\"".($ldisplay == $display ? "on" : "off")."\">".$ldismode["description"]."</a>");
     }
 
-    include "header.inc";
+    pw_header();
 
     print "<div class=\"policydefinition\">";
     print "<p><b>Definition:</b> " . str_replace("\n", "<br>", html_scrub($voter["description"])). "</p>";
@@ -148,5 +148,5 @@
 	}
 ?>
 
-<?php include "footer.inc" ?>
+<?php pw_footer() ?>
 

@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.24 2005/11/01 00:56:21 frabcus Exp $
+# $Id: wiki.php,v 1.25 2005/11/01 01:23:17 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -73,7 +73,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     }
     else
     {
-        include "../header.inc";
+        pw_header();
 
         $values = get_wiki_current_value($type, $params);
 
@@ -173,7 +173,7 @@ if (user_isloggedin()) # User logged in, show settings screen
 <?
 
     }
-    include "../footer.inc";
+    pw_footer();
 }
 else
 {

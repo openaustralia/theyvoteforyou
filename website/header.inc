@@ -3,16 +3,12 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.64 2005/11/01 00:56:21 frabcus Exp $
+# $Id: header.inc,v 1.65 2005/11/01 01:23:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
-
-require_once $toppath . "pretty.inc";
-require_once $toppath . "account/user.inc";
-require_once $toppath . "cache-tools.inc";
 
 $pagetitle = "$title - The Public Whip";
 if ($title == "Counting votes on your behalf")

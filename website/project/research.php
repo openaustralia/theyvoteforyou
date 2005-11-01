@@ -1,12 +1,12 @@
 <?php require_once "../common.inc";
-# $Id: research.php,v 1.6 2005/10/04 19:43:20 frabcus Exp $
+# $Id: research.php,v 1.7 2005/11/01 01:23:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-$title = "Parliamentary Research"; include "../header.inc" 
+$title = "Parliamentary Research"; pw_header();
 ?>
 
 <h2>Introduction</h2>
@@ -278,5 +278,5 @@ disabling our ability to abolish it.
 
 </ul>
 
-<?php include "../footer.inc" ?>
+<?php pw_footer() ?>
 

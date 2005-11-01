@@ -38,7 +38,7 @@ if (user_isloggedin()) # User logged in, show settings screen
 
     if ($private && user_getid() != $user_id)
     {
-        include "../header.inc";
+        pw_header();
         print "<p>This is not your legacy Dream MP, so you can't edit their name or defintion.";
     }
     else
@@ -84,7 +84,7 @@ if (user_isloggedin()) # User logged in, show settings screen
             exit;
         }
 
-        include "../header.inc";
+        pw_header();
         if ($feedback && (!$just_logged_in)) {
             print "<div class=\"error\"><h2>Modifying the policy not complete, please try again
                 </h2><p>$feedback</div>";
@@ -113,7 +113,7 @@ if (user_isloggedin()) # User logged in, show settings screen
         <?php
         }
     }
-    include "../footer.inc";
+    pw_footer();
 }
 else
 {

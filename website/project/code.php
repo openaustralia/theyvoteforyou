@@ -1,12 +1,12 @@
 <?php require_once "../common.inc";
-# $Id: code.php,v 1.18 2005/10/26 22:10:50 theyworkforyou Exp $
+# $Id: code.php,v 1.19 2005/11/01 01:23:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-$title = "Source Code"; include "../header.inc" 
+$title = "Source Code"; pw_header()
 ?>
 
 <h2>Introduction</h2>
@@ -213,5 +213,5 @@ suggestions as to how it could be better.  I'd love to hear from you if
 you've got the thing working at all, and what you're using it for if you
 have.
 
-<?php include "../footer.inc" ?>
+<?php pw_footer() ?>
 

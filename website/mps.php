@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.18 2005/11/01 00:56:21 frabcus Exp $
+    # $Id: mps.php,v 1.19 2005/11/01 01:23:17 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -33,7 +33,7 @@
               >".
               $pdata['name'] . " Parliament</a>");
     }
-    include "header.inc";
+    pw_header();
 
 ?>
 <p>The Members of Parliament are listed with the number of times they
@@ -65,4 +65,4 @@ you expect. You can change the order of the table by selecting the headings.
     print "</table>\n";
 ?>
 
-<?php include "footer.inc" ?>
+<?php pw_footer() ?>

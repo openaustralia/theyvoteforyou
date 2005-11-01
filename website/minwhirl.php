@@ -1,12 +1,12 @@
 <?php require_once "common.inc";
-# $Id: minwhirl.php,v 1.7 2005/03/22 00:44:41 goatchurch Exp $
+# $Id: minwhirl.php,v 1.8 2005/11/01 01:23:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2004 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-$title = "Ministerial whirl"; include "header.inc"
+$title = "Ministerial whirl"; pw_header();
 ?>
 
 <p>See how Tony Blair's government has changed from day to day, month to
@@ -112,4 +112,4 @@ page and are much more unrecognizable than names.
 <p>More of the same?  <a href="mpsee.php">Try our map of MP
 votes</a></p>
 
-<?php include "footer.inc" ?>
+<?php pw_footer() ?>

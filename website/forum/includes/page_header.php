@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: page_header.php,v 1.1 2005/10/06 11:25:08 theyworkforyou Exp $
+ *   $Id: page_header.php,v 1.2 2005/11/01 01:23:17 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -482,7 +482,7 @@ $title = $page_title;
 if ($title == "Index") {
 	$title = "Public Whip Forum";
 }
-include('../header.inc');
+pw_header();
 $template->pparse('overall_header');
 
 ?>

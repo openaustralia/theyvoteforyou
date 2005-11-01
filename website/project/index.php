@@ -1,11 +1,11 @@
 <?php require_once "../common.inc";
-# $Id: index.php,v 1.9 2005/10/26 22:11:08 frabcus Exp $
+# $Id: index.php,v 1.10 2005/11/01 01:23:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
-$title = "Join the Project"; include "../header.inc" 
+$title = "Join the Project"; pw_header();
 ?>
 
 <p>Join in with the Public Whip project, or examine and use the source code behind it.
@@ -27,5 +27,5 @@ newsletter</a>.
 in general, don't hesitate to email us <a
 href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a>.
 
-<?php include "../footer.inc" ?>
+<?php pw_footer() ?>
 

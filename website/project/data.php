@@ -1,12 +1,12 @@
 <?php require_once "../common.inc";
-# $Id: data.php,v 1.22 2005/10/05 17:28:26 frabcus Exp $
+# $Id: data.php,v 1.23 2005/11/01 01:23:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-    $title = "Raw Data"; include "../header.inc";
+    $title = "Raw Data"; pw_header();
 ?>
 
 <p>Here you can find raw data compiled by the Public Whip project.
@@ -73,4 +73,4 @@ Text dump of MySQL tables containing policy (Dream MP) votes and edited motion t
 <br><a href="../data/pw_cache_tables.sql.bz2">pw_cache_tables.sql.bz2</a> -
 Text dump of MySQL tables containing cached calculations.
 
-<?php include "../footer.inc" ?>
+<?php pw_footer() ?>

@@ -488,7 +488,7 @@ function login_screen()
     $onload = "givefocus('user_name')";
 
     $title = "Login to Public Whip"; 
-    include $toppath . "header.inc";
+    pw_header();
 
     if ($feedback) {
         print "<div class=\"error\"><h2>Login not correct,
@@ -518,7 +518,7 @@ function login_screen()
     print '<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Login To Public Whip">
         </FORM>
         <P>';
-    include $toppath . "footer.inc";
+    pw_footer();
 }
 
 function do_login_screen()

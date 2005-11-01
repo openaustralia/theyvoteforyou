@@ -1,12 +1,12 @@
 <?php require_once "common.inc";
-# $Id: email.php,v 1.8 2005/10/13 00:39:47 frabcus Exp $
+# $Id: email.php,v 1.9 2005/11/01 01:23:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-$title = "Emailing Public Whip"; include "header.inc" 
+$title = "Emailing Public Whip"; pw_header();
 ?>
 
 <p>Public Whip is an independent, non-governmental project to help the public watch MPs.
@@ -42,5 +42,5 @@ people who run a website, and <b>not part of the government</b>.  Please email
 href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a>.
 </ul>
 
-<?php include "footer.inc" ?>
+<?php pw_footer() ?>
 

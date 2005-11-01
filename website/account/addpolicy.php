@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: addpolicy.php,v 1.11 2005/11/01 00:56:21 frabcus Exp $
+# $Id: addpolicy.php,v 1.12 2005/11/01 01:23:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -59,7 +59,7 @@ if (user_isloggedin())
     }
 
     $title = "Make a New Policy"; 
-    include "../header.inc";
+    pw_header();
 
     if ($feedback && (!$just_logged_in)) {
         if ($ok)
@@ -157,7 +157,7 @@ if (user_isloggedin())
 
     <?php
     }
-    include "../footer.inc";
+    pw_footer();
 }
 else
 {

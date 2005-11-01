@@ -1,11 +1,11 @@
 <?php require_once "../common.inc";
-# $Id: liaison.php,v 1.7 2005/07/06 21:34:52 frabcus Exp $
+# $Id: liaison.php,v 1.8 2005/11/01 01:23:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
-$title = "Hansard Liaison Subproject"; include "../header.inc" 
+$title = "Hansard Liaison Subproject"; pw_header();
 ?>
 
 <p>The Public Whip puts the pages on the parliamentary website through
@@ -113,5 +113,5 @@ is the last remaining non-privatised part of HMSO, the rest is now
 owned by TSO.  They deal with all crown and parliamentary copyright
 issues.  Phone them on 01603 621000.
 
-<?php include "../footer.inc" ?>
+<?php pw_footer() ?>
 

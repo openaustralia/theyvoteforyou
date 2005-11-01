@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: archive.php,v 1.11 2005/10/04 19:43:20 frabcus Exp $
+# $Id: archive.php,v 1.12 2005/11/01 01:23:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -60,7 +60,7 @@ else if ($dream != 0)
     $title = newsletter_title("dream" . $dream . ".txt") . " - " .
         date("j M Y", newsletter_date("dream" . $dream . ".txt"));
 }
-include "../header.inc";
+pw_header();
 
 if ($issue == 0 and $extra == 0 and $dream == 0)
 {
@@ -127,5 +127,5 @@ else
 
 ?>
 
-<?php include "../footer.inc" ?>
+<?php pw_footer() ?>
 

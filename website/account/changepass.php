@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: changepass.php,v 1.7 2005/11/01 00:56:21 frabcus Exp $
+# $Id: changepass.php,v 1.8 2005/11/01 01:23:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -25,7 +25,7 @@ if (user_isloggedin())
 }
 
 $title = "Change Password";
-include "../header.inc";
+pw_header();
 
 if (!user_isloggedin())
 {
@@ -71,4 +71,4 @@ echo '
 }
 
 ?>
-<?php include "../footer.inc" ?>
+<?php pw_footer() ?>

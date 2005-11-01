@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: wrans.php,v 1.19 2005/11/01 00:56:21 frabcus Exp $
+    # $Id: wrans.php,v 1.20 2005/11/01 01:23:17 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -39,7 +39,7 @@
         fclose($handle);
 	}
     $title = "Written Answers";
-    include "header.inc";
+    pw_header();
 ?>
 <p>Written Answers are now available from <a href="http://www.theyworkforyou.com/wrans">TheyWorkForYou.com</a> instead of The Public Whip.
 <?
@@ -53,4 +53,4 @@
 
 ?>
 
-<?php include "footer.inc" ?>
+<?php pw_footer() ?>

@@ -7,7 +7,7 @@ require_once "forummagic.inc";
 require_once "db.inc";
 
 $title = "Test";
-include "header.inc";
+pw_header();
 
 require_once "DifferenceEngine.inc";
 $df = new WordLevelDiff(
@@ -26,7 +26,7 @@ print join($opening, "<p>");
 print "<h1>closing</h1>";
 print join($closing, "<p>");
 
-include "footer.inc";
+pw_footer();
 
 #$db = new DB();
 #forummagic_post($db, "Policies", "Another Topic", "Another Topic Made Auto Post", "This is the content with lots of stuff in it blah blah.\nAnd so it goes on.\n");

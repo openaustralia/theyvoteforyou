@@ -1,12 +1,12 @@
 <?php require_once "common.inc";
-# $Id: mpsee.php,v 1.15 2005/01/15 20:38:11 frabcus Exp $
+# $Id: mpsee.php,v 1.16 2005/11/01 01:23:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-    $title = "Vote map"; include "header.inc" 
+    $title = "Vote map"; pw_header()
 ?>
 
 <p>For your convenience, this is a tool for 
@@ -275,5 +275,5 @@ the axes mean, and draw pictures of how MPs move between the last two parliament
 
 <p>More of the same?  <a href="minwhirl.php">Try our Ministerial Whirl</a></p>
 
-<?php include "footer.inc" ?>
+<?php pw_footer() ?>
 

@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: register.php,v 1.23 2005/11/01 00:56:21 frabcus Exp $
+# $Id: register.php,v 1.24 2005/11/01 01:23:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -29,7 +29,7 @@ if ($submit) {
 
 $title = "Sign up for Newsletter, Forum and Policies"; 
 $onload = "givefocus('real_name')";
-include "../header.inc";
+pw_header();
 
 if ($feedback) {
     if ($ok)
@@ -98,4 +98,4 @@ if (!$ok)
 }
 ?>
 
-<?php include "../footer.inc" ?>
+<?php pw_footer() ?>

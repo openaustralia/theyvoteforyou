@@ -20,7 +20,7 @@
 	update_dreammp_votemeasures($db, null, 0); # for all
 
     $title = "Policies";
-    include "header.inc";
+    pw_header();
 ?>
 <p>Policies are stated positions on a particular issue. For example "Privatise
 the NHS", or "Join the Euro". Each policy has a definition and a way to
@@ -90,4 +90,4 @@ vote in relevant divisions in Parliament.
 
 ?>
 
-<?php include "footer.inc" ?>
+<?php pw_footer() ?>

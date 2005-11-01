@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.89 2005/11/01 00:42:05 frabcus Exp $
+# $Id: division.php,v 1.90 2005/11/01 01:23:17 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -24,13 +24,13 @@
 	$divattr = get_division_attr_decode($db, "");
     if ($divattr == "none") {
         $title = "Division not found";
-        include "header.inc";
+        pw_header();
 ?> <p>Public Whip does not have this division.  Perhaps it
     doesn't exist, or it hasn't been added to The Public Whip yet.
     New divisions are added one or two working days after they happen.</p>
     <p><a href="divisions.php">Browse for a division</a> </p>
 <?
-        include "footer.inc";
+        pw_footer();
         exit;
     }
 
@@ -228,7 +228,7 @@
 	}
 
     # Display title and second nav links
-	include "header.inc";
+	pw_header();
 
 	# Summary
 	if ($dismode["summarytext"])
@@ -512,4 +512,4 @@
 
 ?>
 
-<?php include "footer.inc" ?>
+<?php pw_footer() ?>

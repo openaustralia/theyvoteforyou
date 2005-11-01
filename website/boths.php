@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: boths.php,v 1.11 2005/11/01 00:56:21 frabcus Exp $
+    # $Id: boths.php,v 1.12 2005/11/01 01:23:17 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -7,7 +7,7 @@
     # For details see the file LICENSE.html in the top level of the source.
 
     $title = "Voted both aye and no"; 
-    include "header.inc";
+    pw_header();
     require_once "db.inc";
     require_once "render.inc";
     require_once "parliaments.inc";
@@ -92,4 +92,4 @@ headings to sort it by MP name or by division date.
 
 ?>
 
-<?php include "footer.inc" ?>
+<?php pw_footer() ?>

@@ -1,12 +1,12 @@
 <?php require_once "../common.inc";
-# $Id: old.php,v 1.7 2005/01/15 20:38:11 frabcus Exp $
+# $Id: old.php,v 1.8 2005/11/01 01:23:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-$title = "Old Site News"; include "../header.inc";
+$title = "Old Site News"; pw_header();
 
 ?>
 
@@ -164,5 +164,5 @@ votes</a> on the Water Bill.  I'm doing these updates semi-manually at
 the moment, so new divisions will only be available a few days after
 they happen.</p>
 
-<?php include "../footer.inc" ?>
+<?php pw_footer() ?>
 

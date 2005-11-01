@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.99 2005/11/01 00:56:21 frabcus Exp $
+    # $Id: mp.php,v 1.100 2005/11/01 01:23:17 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -51,11 +51,11 @@
 	if ($voter1attr == null)
 	{
         $title = "MP/Peer not found";
-        include "header.inc";
+        pw_header();
 		print "<p>No MP or Peer found. If you entered a postcode, please make
         sure it is correct.  Or you can <a href=\"/mps.php\">browse
         all MPs</a>.";
-        include "footer.inc";
+        pw_footer();
         exit;
     }
 	$voter1type = "mp";
@@ -216,7 +216,7 @@
         array_push($second_links, "<a $dlink class=\"".($ldisplay == $display ? "on" : "off")."\">".$ldismode["description"]."</a>");
     }
 
-    include "header.inc";
+    pw_header();
 ?>
 
 <?
@@ -535,5 +535,5 @@
 ?>
 
 
-<?php include "footer.inc" ?>
+<?php pw_footer() ?>
 

@@ -1,12 +1,12 @@
 <?php require_once "common.inc";
-# $Id: GPL.php,v 1.3 2005/01/15 20:38:10 frabcus Exp $
+# $Id: GPL.php,v 1.4 2005/11/01 01:23:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-$title = "GNU General Public License"; include "header.inc" 
+$title = "GNU General Public License"; pw_header();
 ?>
 
 <H1>GNU General Public License</H1>
@@ -388,4 +388,4 @@ POSSIBILITY OF SUCH DAMAGES.
 <HR>
 
 <p>Visit the <a href="http://www.gnu.org/home.html">Free Software Foundation</a>.
-<?php include "footer.inc" ?>
+<?php pw_footer() ?>

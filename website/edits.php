@@ -37,7 +37,7 @@
         $title = "All Division Description Edits";
     }
 
-    include "header.inc";
+    pw_header();
     
     if ($params)  {
         print "<p>All changes made to the description and title of this division.";
@@ -119,4 +119,4 @@
 
 ?>
 
-<?php include "footer.inc" ?>
+<?php pw_footer() ?>

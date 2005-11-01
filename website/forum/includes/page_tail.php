@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: page_tail.php,v 1.1 2005/10/06 11:25:08 theyworkforyou Exp $
+ *   $Id: page_tail.php,v 1.2 2005/11/01 01:23:17 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -41,7 +41,7 @@ $template->assign_vars(array(
 );
 
 $template->pparse('overall_footer');
-include('../footer.inc');
+pw_footer();
 
 //
 // Close our DB connection.

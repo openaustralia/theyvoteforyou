@@ -1,6 +1,6 @@
 <?php
 
-# $Id: common.inc,v 1.9 2005/11/01 00:56:21 frabcus Exp $
+# $Id: common.inc,v 1.10 2005/11/01 01:23:17 frabcus Exp $
 
 # Included from all main .php files on the first line
 
@@ -8,6 +8,8 @@
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
+
+require_once $toppath . "config.php";
 
 ini_set('log_errors', 'On');
 ini_set('log_errors_max_len', '0');
@@ -70,6 +72,19 @@ function getmicrotime()
     return ((float)$usec + (float)$sec);
 }
 
-require_once $toppath . "config.php";
+require_once $toppath . "pretty.inc";
+require_once $toppath . "account/user.inc";
+require_once $toppath . "cache-tools.inc";
+function pw_header() 
+{
+    global $title, $onload, $second_links, $toppath, $pretitle;
+    include $toppath . "header.inc";
+}
+
+function pw_footer() 
+{
+    global $toppath, $paddingforanchors;
+    include $toppath . "footer.inc";
+}
 
 ?>
