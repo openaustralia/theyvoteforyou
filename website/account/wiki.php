@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.25 2005/11/01 01:23:17 frabcus Exp $
+# $Id: wiki.php,v 1.26 2005/11/01 15:01:34 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -101,10 +101,11 @@ if (user_isloggedin()) # User logged in, show settings screen
             print "<li>Warning: old division; need to make hyperlink to old Parl data from division details</li>";
         }
 ?>
-		<li><a href="http://www.publications.parliament.uk/pa/pabills.htm">Public Bills before Parliament</a> 
+		<li><a href="http://www.publications.parliament.uk/pa/pabills.htm">Public Bills before Parliament</a>
 		(the link gets deleted from here once the next version is printed, though the page remains.)</li>
 		<li><a href="http://www.publications.parliament.uk/pa/cm/stand.htm">Standing Committees reviewing Bills</a></li>
 		<li><a href="http://www.publications.parliament.uk/pa/cm/cmdeleg.htm">Standing Committees on delegated legislation</a></li>
+		<li><a href="http://www.publications.parliament.uk/pa/cm/cmstords.htm">Standing Orders of Parliament</a> The rules which are often quoted for the running of the house.</li>
 		<li><a href="http://www.official-documents.co.uk/menu/browseDocuments.htm">Command Papers</a> Back to 2002, and in pdf</li>
 		</ul>
 
