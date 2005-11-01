@@ -1,6 +1,6 @@
 <?php
 
-# $Id: common.inc,v 1.8 2005/10/26 21:50:24 frabcus Exp $
+# $Id: common.inc,v 1.9 2005/11/01 00:56:21 frabcus Exp $
 
 # Included from all main .php files on the first line
 
@@ -70,6 +70,6 @@ function getmicrotime()
     return ((float)$usec + (float)$sec);
 }
 
-include_once $toppath . "config.php";
+require_once $toppath . "config.php";
 
 ?>

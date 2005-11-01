@@ -2,7 +2,7 @@
 
 $cache_params = rand(0, 10); include "cache-begin.inc";
 
-# $Id: index.php,v 1.51 2005/10/12 09:25:30 frabcus Exp $
+# $Id: index.php,v 1.52 2005/11/01 00:56:21 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -18,14 +18,14 @@ data-mines their voting record to help you hold them to account.
 For more information about the project, <a href="faq.php">read the FAQ</a>.
 
 <?php
-    include "db.inc";
+    require_once "db.inc";
     $db = new DB();
 
-	include "decodeids.inc";
-	include "tablemake.inc";
-	include "tablepeop.inc";
+	require_once "decodeids.inc";
+	require_once "tablemake.inc";
+	require_once "tablepeop.inc";
 
-    include "dream.inc";
+    require_once "dream.inc";
 
 	update_dreammp_votemeasures($db, null, 0); # for all
 

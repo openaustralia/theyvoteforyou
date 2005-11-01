@@ -1,14 +1,14 @@
 <?php require_once "../common.inc";
 
-# $Id: register.php,v 1.22 2005/10/27 01:44:09 frabcus Exp $
+# $Id: register.php,v 1.23 2005/11/01 00:56:21 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-include('../database.inc');
-include_once('user.inc');
+require_once "../database.inc";
+require_once "user.inc";
 
 $user_name=mysql_escape_string($_POST["user_name"]);
 $password1=mysql_escape_string($_POST["password1"]);

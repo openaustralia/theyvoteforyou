@@ -7,10 +7,10 @@
     # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
     # For details see the file LICENSE.html in the top level of the source.
 
-    include "db.inc";
-    include "wiki.inc";
-    include "pretty.inc";
-    include "DifferenceEngine.inc";
+    require_once "db.inc";
+    require_once "wiki.inc";
+    require_once "pretty.inc";
+    require_once "DifferenceEngine.inc";
     $db = new DB(); 
 
     $type = db_scrub($_GET["type"]);

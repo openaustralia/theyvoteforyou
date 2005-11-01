@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.23 2005/11/01 00:42:05 frabcus Exp $
+# $Id: wiki.php,v 1.24 2005/11/01 00:56:21 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -7,8 +7,8 @@
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-require_once('../database.inc');
-require_once('user.inc');
+require_once "../database.inc";
+require_once "user.inc";
 
 require_once "../db.inc";
 require_once "../cache-tools.inc";

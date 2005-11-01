@@ -7,17 +7,17 @@
     # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
     # For details see the file LICENSE.html in the top level of the source.
 
-    include "db.inc";
-    include('database.inc');
+    require_once "db.inc";
+    require_once('database.inc');
     $db = new DB();
 
 	# standard decoding functions for the url attributes
-	include "decodeids.inc";
-	include "tablemake.inc";
+	require_once "decodeids.inc";
+	require_once "tablemake.inc";
 
-    include "render.inc";
-    include "dream.inc";
-	include "tablepeop.inc";
+    require_once "render.inc";
+    require_once "dream.inc";
+	require_once "tablepeop.inc";
 
 	# this replaces a lot of the work just below
 	$voter = get_dreammpid_attr_decode($db, "id");  # for pulling a dreammpid from id= rather than the more standard dmp=

@@ -1,12 +1,12 @@
 <?php require_once "common.inc";
-# $Id: search.php,v 1.39 2005/10/12 09:25:30 frabcus Exp $
+# $Id: search.php,v 1.40 2005/11/01 00:56:21 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-    include "db.inc";
+    require_once "db.inc";
     $prettyquery = html_scrub(trim($_GET["query"]));
     $query = strtolower(db_scrub(trim($_GET["query"])));
     $title = "Search for '$prettyquery'"; 
@@ -14,11 +14,11 @@
         $onload = "givefocus('query')";
         $title = "Search";
     }
-    include "render.inc";
-    include "parliaments.inc";
+    require_once "render.inc";
+    require_once "parliaments.inc";
     require_once "constituencies.inc";
     require_once "links.inc";
-    include "postcode.inc";
+    require_once "postcode.inc";
 
     $db = new DB(); 
 

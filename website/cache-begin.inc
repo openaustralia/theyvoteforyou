@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-begin.inc,v 1.19 2005/01/18 02:05:59 frabcus Exp $
+# $Id: cache-begin.inc,v 1.20 2005/11/01 00:56:21 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -11,8 +11,8 @@ if (!isset($cache_params))
     $cache_params = md5($_SERVER['QUERY_STRING']);
 $cache_file = $cache_dir . $cache_params . ".html";
 
-include_once $toppath . "account/user.inc";
-include_once $toppath . "cache-tools.inc";
+require_once $toppath . "account/user.inc";
+require_once $toppath . "cache-tools.inc";
 
 if (file_exists($cache_file) && $pw_cache_enable)
 {

@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.22 2005/07/15 16:57:29 frabcus Exp $
+# $Id: election.php,v 1.23 2005/11/01 00:56:21 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -14,12 +14,12 @@
 # Think about dream/person distance, check it works OK
 # Do redirect stuff, using interstitial and cookies?
 
-include "db.inc";
-include "decodeids.inc";
-include "dream.inc";
-include "pretty.inc";
+require_once "db.inc";
+require_once "decodeids.inc";
+require_once "dream.inc";
+require_once "pretty.inc";
 require_once "constituencies.inc";
-include "account/user.inc";
+require_once "account/user.inc";
 $db = new DB();
 $db2 = new DB();
 

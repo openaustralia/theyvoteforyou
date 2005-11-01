@@ -1,7 +1,7 @@
 <?php require_once "common.inc";
 header("Content-Type: image/png");
 $dreamid = intval($_GET["id"]);
-# $Id: dreamplot.php,v 1.6 2005/10/05 14:42:39 frabcus Exp $
+# $Id: dreamplot.php,v 1.7 2005/11/01 00:56:21 frabcus Exp $
 
 # Draw thumbsketch histogram of how many MPs are each distance away
 # from the Dream MP.
@@ -11,9 +11,9 @@ $dreamid = intval($_GET["id"]);
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-include "db.inc";
-include "parliaments.inc";
-include "dream.inc";
+require_once "db.inc";
+require_once "parliaments.inc";
+require_once "dream.inc";
 
 $db = new DB(); 
 update_dreammp_person_distance($db, $dreamid); # new method

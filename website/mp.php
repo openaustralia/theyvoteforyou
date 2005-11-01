@@ -1,21 +1,21 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.98 2005/10/29 17:14:51 goatchurch Exp $
+    # $Id: mp.php,v 1.99 2005/11/01 00:56:21 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
     # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
     # For details see the file LICENSE.html in the top level of the source.
 
-    include "db.inc";
+    require_once "db.inc";
     $db = new DB();
 	$db2 = new DB();
 
 	# standard decoding functions for the url attributes
-	include "decodeids.inc";
-	include "tablemake.inc";
-	include "tableoth.inc";
-    include "dream.inc";
-	include "tablepeop.inc";
+	require_once "decodeids.inc";
+	require_once "tablemake.inc";
+	require_once "tableoth.inc";
+    require_once "dream.inc";
+	require_once "tablepeop.inc";
 
 	# pull in the voter2 type first so if it's a dreammp we can filter
 	# the main mp list

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: boths.php,v 1.10 2005/10/05 14:42:39 frabcus Exp $
+    # $Id: boths.php,v 1.11 2005/11/01 00:56:21 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -8,9 +8,9 @@
 
     $title = "Voted both aye and no"; 
     include "header.inc";
-    include "db.inc";
-    include "render.inc";
-    include "parliaments.inc";
+    require_once "db.inc";
+    require_once "render.inc";
+    require_once "parliaments.inc";
     $db = new DB(); 
 
     $sort = db_scrub($_GET["sort"]);

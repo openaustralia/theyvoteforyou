@@ -1,17 +1,17 @@
 <?php require_once "../common.inc";
 
-# $Id: addpolicy.php,v 1.10 2005/10/27 01:44:09 frabcus Exp $
+# $Id: addpolicy.php,v 1.11 2005/11/01 00:56:21 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-include('../database.inc');
-include_once('user.inc');
-include "../db.inc";
-include "../cache-tools.inc";
-include "../dream.inc";
+require_once "../database.inc";
+require_once "user.inc";
+require_once "../db.inc";
+require_once "../cache-tools.inc";
+require_once "../dream.inc";
 
 $just_logged_in = do_login_screen();
 

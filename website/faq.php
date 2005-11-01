@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.55 2005/10/14 12:02:39 frabcus Exp $
+# $Id: faq.php,v 1.56 2005/11/01 00:56:21 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -86,8 +86,8 @@ may be factual inaccuracies.  <a href="mailto:team@publicwhip.org.uk">Let us
 know</a> if you find any.
 
 <?php
-    include "db.inc";
-    include "parliaments.inc";
+    require_once "db.inc";
+    require_once "parliaments.inc";
     $db = new DB(); 
 
     $div_count = $db->query_one_value("select count(*) from pw_division");

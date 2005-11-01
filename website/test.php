@@ -9,7 +9,7 @@ require_once "db.inc";
 $title = "Test";
 include "header.inc";
 
-include "DifferenceEngine.inc";
+require_once "DifferenceEngine.inc";
 $df = new WordLevelDiff(
 array("Hello, this is some text. It is really quite long and took me ages to type and I got a bit fed up.\n\nIt has some paragraphs."), 
 array("Hello, this is some text. It is really quite short and took me ages to type and I got a bit fed up.\n\nIt has no paragraphs.")

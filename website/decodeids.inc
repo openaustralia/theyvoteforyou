@@ -1,13 +1,13 @@
 <?php
-# $Id: decodeids.inc,v 1.28 2005/10/20 10:16:15 theyworkforyou Exp $
+# $Id: decodeids.inc,v 1.29 2005/11/01 00:56:21 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-include $toppath . "parliaments.inc";
-include $toppath . "postcode.inc";
+require_once $toppath . "parliaments.inc";
+require_once $toppath . "postcode.inc";
 require_once $toppath . "wiki.inc";
 require_once $toppath . "links.inc";
 

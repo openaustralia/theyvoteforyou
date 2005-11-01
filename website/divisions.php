@@ -1,17 +1,18 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.18 2005/10/05 14:42:39 frabcus Exp $
+# $Id: divisions.php,v 1.19 2005/11/01 00:56:21 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-    include "db.inc";
+    require_once "db.inc";
     $db = new DB();
 	$bdebug = 0;
 
-	include "decodeids.inc";
-	include "tablemake.inc";
+	require_once "decodeids.inc";
+	require_once "tablemake.inc";
+    require_once "render.inc";
 
 	# constants
 	$rdismodes = array();
@@ -102,8 +103,6 @@
 	if ($sort == "date")
 		print "<p>You can change the order of the table by selecting
 				the headings.</p>";
-
-    include "render.inc";
 
 	function makeheadcelldivlink($rdisplay, $sort, $hcelltitle, $hcellsort, $hcellalt)
 	{
