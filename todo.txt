@@ -1,3 +1,7 @@
+election.php
+     - email James to say are using postcode
+     - work out what to do with people going on into future...
+
 Selected divisions table needs clear right
 
 Link from users names everywhere to their forum page
@@ -10,6 +14,13 @@ Make policy vote selection
 
 No link back to division here
 http://www.publicwhip.org.uk/forum/viewtopic.php?p=497#497
+
+Caching errors:
+    Policy comparison
+
+Install Octave on new server and run cluster stuff
+Check possible friends then also updates
+
 
 Usability
 ---------
@@ -37,7 +48,8 @@ User page - link to all of a user's contributions
 
 Report abuse button for motion text editing
 
-Migrate away from mpdist table to new one
+Write code to fill in pw_cache_realreal_distance (after model of dreamreal_distance)
+Migrate away from mpdist table to pw_cache_realreal_distance
 
 Database patches:
     Remove division_id

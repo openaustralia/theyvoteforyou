@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.100 2005/11/01 01:23:17 frabcus Exp $
+    # $Id: mp.php,v 1.101 2005/11/03 08:49:27 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -118,7 +118,7 @@
 
 	$dismodes["allvotes"] = array("dtype"	=> "allvotes",
 							 "eventsinfo" => "yes",
-							 "description" => ($voter2type == "dreammp" ? "Summary" : "All votes"),
+							 "description" => ($voter2type == "dreammp" ? "Summary" : "Votes attended"),
 							 "votelist"	=> "all",
 							 "defaultparl" => "recent");
 	if (!$voter1attr['bmultiperson'])
@@ -140,7 +140,7 @@
 	if ($voter2type != "dreammp")
 	{
 		$dismodes["everyvote"] = array("dtype"	=> "everyvote",
-								 "description" => "Every division",
+								 "description" => "All votes",
 								 "votelist"	=> "every",
 								 "defaultparl" => "recent");
 		if (!$voter1attr['bmultiperson'])
@@ -153,7 +153,7 @@
 	if ($voter2type == "party")
 	{
 		$dismodes["allfriends"] = array("dtype"	=> "allfriends",
-								 "description" => "All possible friends",
+								 "description" => "All friends",
 								 "possfriends"	=> "all",
 								 "defaultparl" => "recent");
 
@@ -321,7 +321,7 @@
 		else if ($dismode["votelist"] == "short")
 			$vtitle = "Interesting Votes";
 		else if ($dismode["votelist"] == "every")
-			$vtitle .= "Every Vote";
+			$vtitle .= "All Votes";
 		else
 			$vtitle = "Votes Attended";
         if ($vtitle)
