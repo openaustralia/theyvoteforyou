@@ -1,6 +1,6 @@
 <?php
 
-# $Id: common.inc,v 1.11 2005/11/01 01:30:27 frabcus Exp $
+# $Id: common.inc,v 1.12 2005/11/03 07:56:33 theyworkforyou Exp $
 
 # Included from all main .php files on the first line
 
@@ -9,8 +9,19 @@
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
+$loc = dirname($_SERVER['REQUEST_URI'] . "dummy"); # Dummy for / is really /index.php
+if (!is_bool(strpos($loc, "/forum")) || 
+    !is_bool(strpos($loc, "/account")) || 
+    !is_bool(strpos($loc, "/project")) || 
+    !is_bool(strpos($loc, "/newsletters")) || 
+    !is_bool(strpos($loc, "/feeds")) )
+    $toppath = "../"; 
+else 
+    $toppath = "";
+
 require_once $toppath . "config.php";
 require_once $toppath . "cache-tools.inc";
+require_once $toppath . "debug_print_backtrace.inc";
 
 ini_set('log_errors', 'On');
 ini_set('log_errors_max_len', '0');
@@ -47,7 +58,6 @@ function pw_handle_error($num, $message, $file, $line, $context) {
     print " <strong>IP:</strong> ".$_SERVER[REMOTE_ADDR];
     print " <strong>URI:</strong> ".$_SERVER[REQUEST_URI];
 
-    require_once "debug_print_backtrace.inc";
     print "<p><pre>";
     debug_print_backtrace();
     print "</pre>";
@@ -56,16 +66,6 @@ function pw_handle_error($num, $message, $file, $line, $context) {
     exit;
 }
 set_error_handler('pw_handle_error');
-
-$loc = dirname($_SERVER['REQUEST_URI'] . "dummy"); # Dummy for / is really /index.php
-if (!is_bool(strpos($loc, "/forum")) || 
-    !is_bool(strpos($loc, "/account")) || 
-    !is_bool(strpos($loc, "/project")) || 
-    !is_bool(strpos($loc, "/newsletters")) || 
-    !is_bool(strpos($loc, "/feeds")) )
-    $toppath = "../"; 
-else 
-    $toppath = "";
 
 function getmicrotime()
 {

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: forummagic.inc,v 1.12 2005/11/01 00:42:05 frabcus Exp $
+# $Id: forummagic.inc,v 1.13 2005/11/03 07:56:34 theyworkforyou Exp $
 # Post things to the forum automatically (like log of changes to policies)
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -72,7 +72,7 @@ function forummagic_findtopic($db, $forum_name, $topic_match, $topic_set = null)
     // Find forum and topic
     list($forum_id) = $db->query_one_row("select forum_id from phpbb_forums where forum_name = '$forum_name'");
     list($topic_id, $current_title) = $db->query_onez_row("select topic_id, topic_title from phpbb_topics where topic_title like '".mysql_escape_string($topic_match)."%' and forum_id = $forum_id order by topic_id desc limit 1");
-    if ($topic_set && ($topic_set != $current_title)) {
+    if ($topic_id && $topic_set && ($topic_set != $current_title)) {
         $db->query("update phpbb_topics set topic_title = '" . mysql_escape_string($topic_set). "'".
             " where topic_id = " . $topic_id);
     }
