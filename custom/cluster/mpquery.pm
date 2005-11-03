@@ -1,4 +1,4 @@
-# $Id: mpquery.pm,v 1.1 2005/03/28 14:26:32 frabcus Exp $
+# $Id: mpquery.pm,v 1.2 2005/11/03 09:45:25 theyworkforyou Exp $
 # This extracts a vote distance metric for a set of MPs, and is able to
 # write it out in a format for loading into GNU Ooctave (or MatLab)
 
@@ -16,7 +16,7 @@ sub get_mp_ixs
     my $where = shift;
     my $limit = shift;
 
-    my $sth = db::query($dbh, "select pw_mp.mp_id from pw_mp, pw_cache_mpinfo where
+    my $sth = PublicWhip::DB::query($dbh, "select pw_mp.mp_id from pw_mp, pw_cache_mpinfo where
         pw_mp.mp_id = pw_cache_mpinfo.mp_id and $where 
         order by pw_mp.last_name, pw_mp.first_name, pw_mp.constituency $limit");
     my @mp_ixs;
@@ -34,7 +34,7 @@ sub vote_distance_metric
     my $clause = shift;
 
     # Count divisions
-    my $sth = db::query($dbh, "select division_id from pw_division $clause");
+    my $sth = PublicWhip::DB::query($dbh, "select division_id from pw_division $clause");
     print $sth->rows . " division\n";
     my @div_ixs;
     while (my @data = $sth->fetchrow_array())
@@ -45,15 +45,15 @@ sub vote_distance_metric
     # Read all votes in, and make array of MPs and their vote in each division
     my $limit = " where (mp_id = " . join(" or mp_id = ", @$mp_ixs) . ")";
     $limit .= " and (division_id = " . join(" or division_id = ", @div_ixs) . ")";
-    $sth = db::query($dbh, "select division_id, mp_id, vote from pw_vote $limit");
+    $sth = PublicWhip::DB::query($dbh, "select division_id, mp_id, vote from pw_vote $limit");
     print $sth->rows . " votes\n";
     my @votematrix;
     while (my @data = $sth->fetchrow_array())
     {
         my ($div_dat, $mp_dat, $vote) = @data;
         my $votescore = undef;
-        $votescore = 1 if ($vote eq "aye");
-        $votescore = -1 if ($vote eq "no");
+        $votescore = 1 if ($vote eq "aye" || $vote eq "tellaye");
+        $votescore = -1 if ($vote eq "no" || $vote eq "tellno");
         $votescore = 0 if ($vote eq "both");
         die "Unexpected $vote voted" if (!defined $votescore);
         
@@ -121,7 +121,7 @@ sub octave_writer
     # Print it all out
     for my $mp_1 (@$mp_ixs)
     {
-        my $sthmp = db::query($dbh, "select last_name, first_name, party from pw_mp where mp_id=?", $mp_1);
+        my $sthmp = PublicWhip::DB::query($dbh, "select last_name, first_name, party from pw_mp where mp_id=?", $mp_1);
         die "Wrong number of rows back" if $sthmp->rows != 1;
         my @data = $sthmp->fetchrow_array();
         my ($lastname, $firstname, $party) = @data; 
