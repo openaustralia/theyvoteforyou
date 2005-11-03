@@ -21,7 +21,6 @@ Caching errors:
 Install Octave on new server and run cluster stuff
 Check possible friends then also updates
 
-
 Usability
 ---------
 
@@ -73,6 +72,9 @@ Put policy ratings on MP page
 
 Voting accuracy
 ---------------
+
+When counts mismatch between list of names and Hansard's totals,
+automatically put suspicion text in motion text.
 
 On this one, the two tellers for the noes have been lost
 date=2003-03-14&number=114
