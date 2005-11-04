@@ -16,7 +16,7 @@
 // |          Aidan Lister <aidan@php.net>                                |
 // +----------------------------------------------------------------------+
 //
-// $Id: debug_print_backtrace.inc,v 1.1 2005/10/26 21:53:33 frabcus Exp $
+// $Id: debug_print_backtrace.inc,v 1.2 2005/11/04 09:38:13 frabcus Exp $
 
 
 /**
@@ -27,7 +27,7 @@
  * @link        http://php.net/function.debug_print_backtrace
  * @author      Laurent Laville <pear@laurent-laville.org>
  * @author      Aidan Lister <aidan@php.net>
- * @version     $Revision: 1.1 $
+ * @version     $Revision: 1.2 $
  * @since       PHP 5
  * @require     PHP 4.0.0
  */
@@ -48,7 +48,7 @@ if (!function_exists('debug_print_backtrace')) {
                 $call['class'] . '.' . $call['function'] :
                 $call['function'];
            
-            $params = '';
+            /*$params = '';
             if (isset($call['args'])) {
                 $params = implode(', ', $call['args']);
             }
@@ -57,6 +57,11 @@ if (!function_exists('debug_print_backtrace')) {
                 $i,
                 $function,
                 $params,
+                $location); */
+                
+            $calls[] = sprintf('#%d  %s called at [%s]',
+                $i,
+                $function,
                 $location); 
         }
 
