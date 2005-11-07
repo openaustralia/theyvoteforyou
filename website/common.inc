@@ -1,6 +1,6 @@
 <?php
 
-# $Id: common.inc,v 1.12 2005/11/03 07:56:33 theyworkforyou Exp $
+# $Id: common.inc,v 1.13 2005/11/07 00:04:22 theyworkforyou Exp $
 
 # Included from all main .php files on the first line
 
@@ -9,6 +9,7 @@
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
+global $toppath;
 $loc = dirname($_SERVER['REQUEST_URI'] . "dummy"); # Dummy for / is really /index.php
 if (!is_bool(strpos($loc, "/forum")) || 
     !is_bool(strpos($loc, "/account")) || 
@@ -77,7 +78,7 @@ require_once $toppath . "pretty.inc";
 require_once $toppath . "account/user.inc";
 function pw_header() 
 {
-    global $title, $onload, $second_links, $toppath, $pretitle;
+    global $toppath, $title, $onload, $second_links, $pretitle;
     include $toppath . "header.inc";
 }
 
