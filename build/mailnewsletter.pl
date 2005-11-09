@@ -2,11 +2,12 @@
 use strict;
 use lib "loader/";
 
-my $text = "website/newsletters/dream4.txt";
-my $type = "dream"; 
+my $text = "website/newsletters/extra5.txt";
 my $test_name = "";
 
-#$type = "all";
+#my $type = "dream"; 
+my $type = "all";
+
 #$test_name = "Jo Kibble";
 #$test_name = "Francis Irving";
 #$test_name = "Julian Todd";

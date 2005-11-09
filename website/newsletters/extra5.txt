@@ -1,9 +1,14 @@
 Subject: Public Whip Extra #5 - Terror law voting record in full
 
 As a special treat, we've put up today's divisions in parliament a day
-earlier than usual. You can see the voting record of the government's
+earlier than usual. Here is the the voting record of the government's
 defeat.
     http://www.publicwhip.org.uk/division.php?date=2005-11-09&number=84
+
+You can see there were 49 Labour rebels who voted against the
+government, and one Tory rebel (Peter Tapsell) who voted with the
+government. Click "All possible voters" to find out who was absent 
+(probably deliberately abstaining).
 
 And read the debate here.
     http://www.theyworkforyou.com/debates/?id=2005-11-09a.0.144
