@@ -1,0 +1,34 @@
+Subject: Public Whip Extra #5 - Terror law voting record in full
+
+As a special treat, we've put up today's divisions in parliament a day
+earlier than usual. You can see the voting record of the government's
+defeat.
+    http://www.publicwhip.org.uk/divisions.php
+
+And read the debate here.
+    http://www.theyworkforyou.com/debates/?d=2005-11-09
+
+This is made possible by "Today in the Commons", a new service from
+Hansard. Thanks to the hard working clerks!
+    http://www.publications.parliament.uk/pa/cm/cmtoday/home.htm
+
+Note that all this is provisional. It's new that parliament does this
+at all, and our code for processing it is also new. Hopefully soon
+Public Whip will update automatically with new divisions shortly after
+they happen.
+
+-- Francis Irving, volunteer for The Public Whip team
+ 
+***********************************************************************
+Forward this to your friends!
+***********************************************************************
+
+The Public Whip ( http://www.publicwhip.org.uk ) is a project to
+data-mine the record of Members of the United Kingdom Parliament, so
+that you can hold them to account.
+
+Subscribe a new address to Public Whip mailings? Sign up here.
+http://www.publicwhip.org.uk/account/register.php
+
+Want to stop getting mail from Public Whip? Login here and cancel your
+subscription. http://www.publicwhip.org.uk/account/settings.php
