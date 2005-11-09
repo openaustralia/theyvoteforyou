@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.42 2005/11/01 00:56:21 frabcus Exp $
+# $Id: dream.inc,v 1.43 2005/11/09 00:57:58 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -373,7 +373,7 @@ margin: 0 0 0 0; border: 1px solid #003300; padding: 0 0 0 0;">
 
 # Post action made to Dream MP into the forum for record keeping, notification etc.
 function dream_post_forum_action($db, $dreamid, $content) {
-    $forum = "Policy Creation";
+    $forum = "Policy Forum";
     $topic_match = "Policy #$dreamid";
 	$query = "SELECT name, private FROM pw_dyn_dreammp WHERE dream_id = $dreamid";
 	list ($name, $private) = $db->query_one_row($query); # allows no rows
@@ -384,7 +384,7 @@ function dream_post_forum_action($db, $dreamid, $content) {
 
 # Get link to forum
 function dream_post_forum_link($db, $dreamid) {
-    $forum = "Policy Creation";
+    $forum = "Policy Forum";
     $topic_match = "Policy #$dreamid";
     return forummagic_getlink($db, $forum, $topic_match);
 }
