@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.91 2005/11/10 02:38:55 theyworkforyou Exp $
+# $Id: division.php,v 1.92 2005/11/10 02:39:35 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -245,10 +245,13 @@
 	        print "The Aye-voters won by ".$row["ayes"]." to ".$row["noes"];
 		else
 	        print "The No-voters won by ".$row["noes"]." to ".$row["ayes"];
+        print " (majority " . (abs($row["noes"] - $row["ayes"])) . ") ";
 		print " with ".$row["tellers"]." tellers";
 		if ($row['both'] != 0)
 			print " and ".$row["boths"]." voting both";
-		print ".</p>\n";
+        print ", making a turnout of " . ($row["noes"] + $row["ayes"] + $row["tellers"] + $row["boths"]);
+		print ". ";
+        print "</p>\n";
 
 		# cross-over case listing vote of single MP
 		if ($votertype == "mp")

@@ -535,6 +535,9 @@ LI {
 {
     BACKGROUND-COLOR: #eeffee;
     padding: 0 0.5em 0 0.5em;
+    text-align: right;
+    width: 75%;
+    margin-left: 20%;
 }
 .policydefinition
 {

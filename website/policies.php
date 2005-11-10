@@ -26,7 +26,7 @@
 the NHS", or "Join the Euro". Each policy has a definition and a way to
 vote in relevant divisions in Parliament.
  
-   <p><a href="account/addpolicy.php">Make a new policy
+   <p><a href="account/addpolicy.php">Make a new policy</a>
    <br><a href="/forum/viewforum.php?f=1">Discuss policies on our forum</a>
   <?php
         if (!user_isloggedin())
