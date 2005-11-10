@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.57 2005/11/01 01:23:17 frabcus Exp $
+# $Id: faq.php,v 1.58 2005/11/10 12:46:43 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -320,7 +320,7 @@ interest.  We can't rule out that some creative genius will invent a reason
 which explains why we are doing more harm than good, but it's unlikely.  </p>
 
 <p>Most of the problems have had to do with the inaccuracies
-in the the <a href="#freevotes">attendence and rebellion rates</a>.
+in the <a href="#freevotes">attendance and rebellion rates</a>.
 Once we point out that the data can only be improved 
 if politicians are willing to publish their secret party whip information,
 the criticism generally falls silent.  </p>
