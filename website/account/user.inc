@@ -483,10 +483,9 @@ function pw_validate_email ($address) {
 
 function login_screen()
 {
-    global $feedback, $toppath;
+    global $feedback, $toppath, $onload, $title;
 
     $onload = "givefocus('user_name')";
-
     $title = "Login to Public Whip"; 
     pw_header();
 
