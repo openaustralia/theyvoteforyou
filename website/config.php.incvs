@@ -22,6 +22,7 @@ $hidden_hash_var='';
 $postcode_search_url = "none";
 define ("POSTCODE_SEARCH_DOMAIN", "none");
 define ("POSTCODE_SEARCH_PORT", "none");
+define ("POSTCODE_SEARCH_PATH_2001_PARLIAMENT", "none");
 define ("POSTCODE_SEARCH_PATH", "none");
 
 ?>
