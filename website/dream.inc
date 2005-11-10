@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.43 2005/11/09 00:57:58 theyworkforyou Exp $
+# $Id: dream.inc,v 1.44 2005/11/10 02:12:16 theyworkforyou Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -353,7 +353,7 @@ margin: 0 0 0 0; border: 1px solid #003300; padding: 0 0 0 0;">
     <div style="text-align: center; background-color: #003300">
         <a href="http://www.publicwhip.org.uk" style="color: #ffffff">
             <img src="http://www.publicwhip.org.uk/smallpublicwhip.gif"
-                alt="The Public Whip" border="0">
+                alt="The Public Whip" border="0" style="float:none">
         </a>
     </div>
     <form style="text-align: left" action="http://www.publicwhip.org.uk/mp.php" name="pw">
