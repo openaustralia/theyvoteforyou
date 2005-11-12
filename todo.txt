@@ -1,3 +1,8 @@
+Remove subject from phpbb
+Assume HTML rather than bbcode
+
+Put in the majority and turnout on division page
+
 election.php
      - email James to say are using postcode
      - work out what to do with people going on into future...
@@ -40,18 +45,21 @@ http://www.publicwhip.org.uk/mp.php?mppc=cb1+2qp&display=motions&dmp=230&button=
 
 Fix up rebellion wording on policy pages, confuses people
 
+Check Policies shown OK on division page, MP page etc.
+
+Finish rename of motion text editing (e.g. in project/ pages)
+
 Stuff
 -----
 
 User page - link to all of a user's contributions
-
-Report abuse button for motion text editing
 
 Write code to fill in pw_cache_realreal_distance (after model of dreamreal_distance)
 Migrate away from mpdist table to pw_cache_realreal_distance
 
 Database patches:
     Remove division_id
+remove mps_query_start
 
 Rewrite description of formula
 
