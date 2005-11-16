@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.17 2005/11/16 15:47:06 goatchurch Exp $
+# $Id: tablepeop.inc,v 1.18 2005/11/16 15:51:02 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -60,7 +60,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $title)
         $party = "whilst ".$party;
 
     if (($colstyle == "division" or $colstyle == "division2" or $colstyle == "division2invert") and $row["ministerial"])
-        $party = $party." (minister)";
+        $party = $party.($row["ministerial"] == "PPS" ? " (PPS)" : " (minister)");
 
     print "<td>$party</td>";
 
@@ -334,7 +334,7 @@ function mp_table($db, $mptabattr)
     {
         $aquery["qselect"] 	.= ", pw_moffice.position AS ministerial";
         $aquery["qjoin"] 	.= " LEFT JOIN pw_moffice ON pw_moffice.person = pw_mp.person
-									AND (pw_moffice.from_date <= '".$mptabattr["divdate"].")
+									AND (pw_moffice.from_date <= '".$mptabattr["divdate"]."')
                                     AND (pw_moffice.to_date > '".$mptabattr["divdate"]."')";
 
         $aquery["qgroupby"] = " GROUP BY pw_mp.mp_id";  # remove double ministers
