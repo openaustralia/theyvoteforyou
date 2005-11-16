@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.16 2005/10/29 18:25:37 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.17 2005/11/16 15:47:06 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -332,10 +332,10 @@ function mp_table($db, $mptabattr)
    	# is minister
     if ($mptabattr["ministerial"])
     {
-        $aquery["qselect"] 	.= ", max(pw_moffice.from_date <= '".$mptabattr["divdate"]."'
-                                    AND pw_moffice.to_date > '".$mptabattr["divdate"]."')
-                                    AS ministerial";
-        $aquery["qjoin"] 	.= " LEFT JOIN pw_moffice ON pw_moffice.person = pw_mp.person";
+        $aquery["qselect"] 	.= ", pw_moffice.position AS ministerial";
+        $aquery["qjoin"] 	.= " LEFT JOIN pw_moffice ON pw_moffice.person = pw_mp.person
+									AND (pw_moffice.from_date <= '".$mptabattr["divdate"].")
+                                    AND (pw_moffice.to_date > '".$mptabattr["divdate"]."')";
 
         $aquery["qgroupby"] = " GROUP BY pw_mp.mp_id";  # remove double ministers
 	}
@@ -385,7 +385,7 @@ function mp_table($db, $mptabattr)
         if ($friendlk)
             $href .= "&$friendlk";
         $nrows += 1; # number from 1
-	
+
         print_mp_row($nrows, $row, $mpname, $href, $colstyle, $showwhich, "Compare $mpname to policy xxx");
     }
 
