@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.102 2005/11/16 17:59:57 publicwhip Exp $
+    # $Id: mp.php,v 1.103 2005/11/16 21:09:42 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -103,7 +103,7 @@
 								 "generalinfo" => "yes",
 								 "votelist"	=> "short",
 								 "possfriends"	=> "some",
-								 /*"dreamcompare"	=> "short"*/);
+								 "dreamcompare"	=> "short");
 		if (!$voter1attr['bmultiperson'])
 			$dismodes["summary"]["eventsinfo"] = "yes";
 	}
@@ -520,19 +520,12 @@
 	        <td>Voted</td>
 	        <td>Policy</td>
 	        <td>Description</td>
-	        </tr>";
+	        </tr>\n";
 
-	    $prettyrow = 0;
-        if ($dismode["dreamcompare"] == "all")
-            $db->query(get_top_dream_query(null));
-        else
-            $db->query(get_top_dream_query(8));
-	    $dreams = array();
-	    while ($row = $db->fetch_row_assoc()) {
-	        $dreamid = $row['dream_id'];
-	        $prettyrow = pretty_row_start($prettyrow);
-	        print_selected_dream($db, $mpprop, $dreamid);
-	    }
+		$dreamtabattr = array("listtype" => 'comparelinks',
+						      'mpprop' => $mpprop,
+						      'listlength' => $dismode["dreamcompare"]);
+		print_policy_table($db, $dreamtabattr);
 	    print "</table>\n";
 	}
 ?>

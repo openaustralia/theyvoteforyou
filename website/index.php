@@ -2,14 +2,14 @@
 
 cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.54 2005/11/01 01:30:27 frabcus Exp $
+# $Id: index.php,v 1.55 2005/11/16 21:09:42 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-$title = "Counting votes on your behalf"; 
+$title = "Counting votes on your behalf";
 pw_header();
 ?>
 
@@ -25,7 +25,8 @@ For more information about the project, <a href="faq.php">read the FAQ</a>.
 	require_once "decodeids.inc";
 	require_once "tablemake.inc";
 	require_once "tablepeop.inc";
-
+	require_once "tableoth.inc"; 
+	
     require_once "dream.inc";
 
 	update_dreammp_votemeasures($db, null, 0); # for all
@@ -76,15 +77,23 @@ An at most monthly briefing.
 href="account/addpolicy.php">make</a> a new policy</span>
 <br>Some examples:
 <?php
-    $db->query(get_top_dream_query(5));
-    $dreams = array();
+	// do this inline to free up the fact that it ain't going to be used anywhere else
+	// could even be selected at random
+    $query = "SELECT name, pw_dyn_dreammp.dream_id
+        		FROM pw_dyn_dreammp
+				LEFT JOIN pw_cache_dreaminfo
+					ON pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id
+				WHERE votes_count > 0 AND NOT private
+				ORDER BY RAND()
+				LIMIT 5";
+
+    $delcomma = "";
     while ($row = $db->fetch_row_assoc())
     {
-        $dmp_name = $row['name'];
-        $dreamid = $row['dream_id'];
-        array_push($dreams, "<a href=\"policy.php?id=$dreamid\">" .  $dmp_name . "</a>");
-    }
-    print join(", ", $dreams);
+        print $delcomma."<a href=\"policy.php?id=".$row['dream_id']."\">".$row['name']."</a>";
+		$delcomma = ", ";
+	}
+    print "\n";
 ?>
 </p>
 </ol>

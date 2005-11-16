@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.13 2005/10/05 17:03:11 frabcus Exp $
+    # $Id: tableoth.inc,v 1.14 2005/11/16 21:09:42 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -61,8 +61,21 @@
 	    print "</table>";
 	}
 
+# Query to return top Dream MPs, or all if count is none
+function get_top_dream_query($count)
+{
+    $query = "SELECT name, pw_dyn_dreammp.dream_id, votes_count as count,
+        round(100 * edited_motions_count / votes_count, 0) as motions_percent
+        from pw_dyn_dreammp, pw_cache_dreaminfo where
+            pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id and votes_count > 0
+            and not private";
+    $query .= " order by motions_percent desc, edited_motions_count desc, votes_count desc";
+    if ($count > 0)
+        $query .= " limit $count";
+    return $query;
+}
 
-    function print_selected_dream($db, $mpprop, $dreammpid)
+    function print_selected_dream($db, $mppropprint_selected_dream, $dreammpid)
     {
 		global $bdebug;
 		if ($bdebug == 1)
@@ -88,6 +101,34 @@
         print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row["description"])), 0, 50);
         print "</tr>\n";
     }
+
+
+	# ideally we should be pulling out of the cached table!!!
+
+	# This is used to show a list of policies people who are friends, where
+	# listtype is:
+	#   'comparelinks', then 'mpprop' who we compare to
+	# listlength is 'short' or 'all'
+	function print_policy_table($db, $dreamtabattr)
+	{
+		$dreamtabattr = array("listtype" => 'comparelinks',
+						      'mpprop' => $mpprop,
+						      'listlength' => $dismode["dreamcompare"]);
+		print_policy_table($db, $dreamtabattr);
+	    $prettyrow = 0;
+        if ($dreamtabattr["dreamcompare"] == "all")
+            $db->query(get_top_dream_query(null));
+        else
+            $db->query(get_top_dream_query(8));
+	    $dreams = array();
+	    while ($row = $db->fetch_row_assoc()) {
+	        $dreamid = $row['dream_id'];
+	        $prettyrow = pretty_row_start($prettyrow);
+	        print_selected_dream($db, $mpprop, $dreamid);
+	    }
+ 	}
+
+
 
     function print_party_summary_division($db, $div_id, $baseurl)
     {

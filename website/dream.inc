@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.47 2005/11/16 17:59:57 publicwhip Exp $
+# $Id: dream.inc,v 1.48 2005/11/16 21:09:42 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -332,18 +332,6 @@ function calc_dream_mp_score_a($db, $dreamid, $personid) {
     return array($c, $t);
 }
 
-# Query to return top Dream MPs, or all if count is none
-function get_top_dream_query($count) {
-    $query = "select name, pw_dyn_dreammp.dream_id, votes_count as count,
-        round(100 * edited_motions_count / votes_count, 0) as motions_percent
-        from pw_dyn_dreammp, pw_cache_dreaminfo where
-            pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id and votes_count > 0
-            and not private";
-    $query .= " order by motions_percent desc, edited_motions_count desc, votes_count desc";
-    if ($count > 0)
-        $query .= " limit $count";
-    return $query;
-}
 
 # Returns HTML postcode search box for MP/DreamMP comparison.
 function dream_box($dreamid, $dmp_name) {
