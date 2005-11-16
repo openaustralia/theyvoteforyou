@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.14 2005/11/16 21:09:42 goatchurch Exp $
+    # $Id: tableoth.inc,v 1.15 2005/11/16 21:46:50 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -111,12 +111,8 @@ function get_top_dream_query($count)
 	# listlength is 'short' or 'all'
 	function print_policy_table($db, $dreamtabattr)
 	{
-		$dreamtabattr = array("listtype" => 'comparelinks',
-						      'mpprop' => $mpprop,
-						      'listlength' => $dismode["dreamcompare"]);
-		print_policy_table($db, $dreamtabattr);
 	    $prettyrow = 0;
-        if ($dreamtabattr["dreamcompare"] == "all")
+        if ($dreamtabattr["listlength"] == "all")
             $db->query(get_top_dream_query(null));
         else
             $db->query(get_top_dream_query(8));

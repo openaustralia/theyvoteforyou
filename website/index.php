@@ -2,7 +2,7 @@
 
 cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.55 2005/11/16 21:09:42 goatchurch Exp $
+# $Id: index.php,v 1.56 2005/11/16 21:46:50 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -87,6 +87,7 @@ href="account/addpolicy.php">make</a> a new policy</span>
 				ORDER BY RAND()
 				LIMIT 5";
 
+    $db->query($query); 
     $delcomma = "";
     while ($row = $db->fetch_row_assoc())
     {

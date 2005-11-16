@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.103 2005/11/16 21:09:42 goatchurch Exp $
+    # $Id: mp.php,v 1.104 2005/11/16 21:46:50 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -219,6 +219,7 @@
     pw_header();
 ?>
 
+
 <?
 	# extract the events in this mp's life
 	# the events that have happened in this MP's career
@@ -310,7 +311,8 @@
             print "</ul>\n";
         }
 	}
-
+	
+	
 	if ($dismode["votelist"])
     {
 		# title for the vote table
