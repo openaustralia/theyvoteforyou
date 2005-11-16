@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.45 2005/11/16 16:02:40 goatchurch Exp $
+# $Id: dream.inc,v 1.46 2005/11/16 16:06:37 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -83,8 +83,8 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 		   <b>".number_format($agreementpercent, 1)." %</b>.</div>
 		   </p>\n\n";
 
-	print "<p clear=\"all\">Please post comments and feedback about this equation in
-			<a href=\"forum/viewtopic.php?p=530\">forum topic: Policy Agreement Ratio</a>.</p>\n";
+	print "<p>Please post comments and feedback about this equation in
+			<a href=\"forum/viewtopic.php?p=516\">forum topic: Policy Agreement Ratio</a>.</p>\n";
 
 
 	if ($bdebug == 1)
@@ -388,4 +388,5 @@ function dream_post_forum_link($db, $dreamid) {
     $topic_match = "Policy #$dreamid";
     return forummagic_getlink($db, $forum, $topic_match);
 }
+
 
