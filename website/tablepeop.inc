@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.18 2005/11/16 15:51:02 goatchurch Exp $
+# $Id: tablepeop.inc,v 1.19 2005/11/16 16:02:40 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -202,6 +202,10 @@ function mp_table($db, $mptabattr)
     # go through the different list selection cases
     $showwhich = $mptabattr["showwhich"];
 
+    $friendlk = "";  // added to the end of a link
+    $tooltip = "";   // the alt tooltip thing on the link
+    $namesuffix = ""; // added to the end of the name of the link
+
     # range of mps in one parliament
     if ($mptabattr["listtype"] == 'parliament')
     {
@@ -239,9 +243,9 @@ function mp_table($db, $mptabattr)
         $aquery["qwhere"] 	.= " AND left_house = '9999-12-31'
                                  AND distance_a <> -1";
 
-        #$aquery["qgroupby"] = " GROUP BY pw_mp.person";
-
         $friendlk = "dmp=".$mptabattr["dreammpid"];
+        $tooltip = "Compare to Policy ".$mptabattr["dreamname"];
+		$namesuffix = " (Compare)";
     }
 
     # list MPs voting in one division
@@ -380,13 +384,13 @@ function mp_table($db, $mptabattr)
     $nrows = 0;
     while ($row = $db->fetch_row_assoc())
     {
-        $mpname = $row['title']." ".$row['first_name']." ".$row['last_name'];
+        $mpname = $row['title']." ".$row['first_name']." ".$row['last_name'].$namesuffix;
         $href = "mp.php?" . link_to_mp($row);
         if ($friendlk)
             $href .= "&$friendlk";
         $nrows += 1; # number from 1
 
-        print_mp_row($nrows, $row, $mpname, $href, $colstyle, $showwhich, "Compare $mpname to policy xxx");
+        print_mp_row($nrows, $row, $mpname, $href, $colstyle, $showwhich, $tooltip);
     }
 
 

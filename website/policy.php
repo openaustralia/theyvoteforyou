@@ -125,7 +125,8 @@
 				always vote the opposite when the policy votes, their agreement is 0%.";
 
 		$mptabattr = array("listtype" => 'dreamdistance',
-						   'dreammpid' => $dreamid);
+						   'dreammpid' => $dreamid,
+						   'dreamname' => $policyname);
 		print "<table class=\"mps\">\n";
 		print "<tr class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Agreement</td></tr>\n";
 		mp_table($db, $mptabattr);
