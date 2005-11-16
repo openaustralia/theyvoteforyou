@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.92 2005/11/10 02:39:35 frabcus Exp $
+# $Id: division.php,v 1.93 2005/11/16 23:36:16 theyworkforyou Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -157,7 +157,7 @@
 								 "showwhich" 	=> "voters");
 
 		$dismodes["allpossible"] = array("dtype"	=> "allpossible",
-								 "description" 	=> "All possible voters",
+								 "description" 	=> "All eligible voters",
 								 "motiontext" 	=> "yes",
 								 "summarytext"	=> "yes",
 								 "ministerial" 	=> "yes",
@@ -186,7 +186,7 @@
 								 "showwhich" 	=> "voters");
 
 		$dismodes["allpossible"] = array("dtype"	=> "allpossible",
-								 "description" 	=> "All possible voters",
+								 "description" 	=> "All eligible voters",
 								 "motiontext" 	=> "yes",
 								 "ministerial" 	=> "yes",
 								 "showwhich" 	=> "allpossible");
@@ -365,7 +365,7 @@
 				print "<h2><a name=\"votes\">Rebel Voters - sorted by $sort</a></h2>\n";
 				print "<p>MPs for which their vote in this division differed from the majority vote of their party.
 						You can see <a href=\"$thispage&display=allvotes$tpsort\">all votes</a> in this division,
-						or <a href=\"$thispage&display=everyvote$tpsort\">every eligible MP</a> who could have
+						or <a href=\"$thispage&display=allpossible$tpsort\">every eligible MP</a> who could have
 						voted in this division</p>\n";
 			}
 			elseif ($display == "allvotes")

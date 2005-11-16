@@ -1,6 +1,6 @@
 <?php
 
-# $Id: common.inc,v 1.13 2005/11/07 00:04:22 theyworkforyou Exp $
+# $Id: common.inc,v 1.14 2005/11/16 23:36:16 theyworkforyou Exp $
 
 # Included from all main .php files on the first line
 
@@ -8,6 +8,9 @@
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
+
+#print "Sorry about this, but Public Whip is unavailable for a few minutes due to maintenance. We'll be back up shortly.";
+#exit;
 
 global $toppath;
 $loc = dirname($_SERVER['REQUEST_URI'] . "dummy"); # Dummy for / is really /index.php
