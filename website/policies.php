@@ -26,15 +26,17 @@
 the NHS", or "Join the Euro". Each policy has a definition and a way to
 vote in relevant divisions in Parliament.
  
-   <p><a href="account/addpolicy.php">Make a new policy</a>
-   <br><a href="/forum/viewforum.php?f=1">Discuss policies on our forum</a>
+   <ul>
+      <li><a href="account/addpolicy.php">Make a new policy</a></li>
+      <li><a href="/forum/viewforum.php?f=1">Discuss policies on our forum
   <?php
         if (!user_isloggedin())
         {
             print "(you will need to log in or register)";
         }
     ?>
-    </a>
+        </a></li>
+   </ul>
 
    <p>This table summarises all policies, including how many times they have
    "voted".  Click on their name to get a comparison of a policy to all MPs.

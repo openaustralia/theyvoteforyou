@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.19 2005/11/16 16:02:40 goatchurch Exp $
+# $Id: tablepeop.inc,v 1.20 2005/11/16 17:59:57 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -40,7 +40,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $title)
         print "<td>$nrows</td>";
 
     # name and constituency
-    print "<td><a href=\"$href\" " . ($title?"title='$title'":"") . ">$name</a></td>";
+    print "<td><a href=\"$href\" " . ($title ? "title=\"$title\"":"") . ">$name</a></td>";
 
     # we could mark if there are other MPs in this constituency and make a link to them
     #print "<td>".$row['constituency']."</td>";
@@ -231,6 +231,7 @@ function mp_table($db, $mptabattr)
     elseif ($mptabattr["listtype"] == 'dreamdistance')
     {
         $dreamid = $mptabattr["dreammpid"];
+	update_dreammp_person_distance($db, $dreamid);
 
         # we need to make the proper equation here, to people
         $aquery["qselect"]  .= ", distance_a AS distance";
@@ -240,12 +241,12 @@ function mp_table($db, $mptabattr)
         $aquery["qorder"] = " ORDER BY distance";
 
         # this should use the left-reason case
-        $aquery["qwhere"] 	.= " AND left_house = '9999-12-31'
+	$aquery["qwhere"] 	.= " AND left_house = '9999-12-31'
                                  AND distance_a <> -1";
 
         $friendlk = "dmp=".$mptabattr["dreammpid"];
-        $tooltip = "Compare to Policy ".$mptabattr["dreamname"];
-		$namesuffix = " (Compare)";
+        $tooltip = "Compare to policy: '".$mptabattr["dreamname"]."'";
+	$namesuffix = " (Compare)";
     }
 
     # list MPs voting in one division
@@ -375,10 +376,13 @@ function mp_table($db, $mptabattr)
 	{
 		if ($colstyle == "division" and $showwhich == "rebels")
         	print "<tr class=\"even\"><td colspan=4>no rebellions</td></tr>\n";
-		if ($colstyle == "division2" and $showwhich == "rebels")
+		else if ($colstyle == "division2" and $showwhich == "rebels")
         	print "<tr class=\"even\"><td colspan=5>no opposites found</td></tr>\n";
-		if ($colstyle == "division2" and $showwhich == "changes")
+		else if ($colstyle == "division2" and $showwhich == "changes")
         	print "<tr class=\"even\"><td colspan=5>no differences found</td></tr>\n";
+		else
+		print "<tr class=\"even\"><td>EMPTY TABLE</td></tr>\n"; 
+
 	}
 
     $nrows = 0;
@@ -389,7 +393,6 @@ function mp_table($db, $mptabattr)
         if ($friendlk)
             $href .= "&$friendlk";
         $nrows += 1; # number from 1
-
         print_mp_row($nrows, $row, $mpname, $href, $colstyle, $showwhich, $tooltip);
     }
 

@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.46 2005/11/16 16:06:37 goatchurch Exp $
+# $Id: dream.inc,v 1.47 2005/11/16 17:59:57 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -156,6 +156,7 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 function update_dreammp_person_distance($db, $dreamid)
 {
     # update the number of votes and number of motions edited
+    #print "update_dreammp_person_distance $dreamid<p>";
 
 	global $bdebug;
 	$query = "SELECT cache_uptodate

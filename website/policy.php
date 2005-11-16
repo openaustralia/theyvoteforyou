@@ -80,15 +80,18 @@
 	if ($dismode["divisionlist"] == "selected")
 	{
 		print "<h2><a name=\"divisions\">Selected Divisions</a></h2>";
-        if ($voter["votes_count"])
-            print "<p><b>".$voter["votes_count"]."</b> votes, of which <b>".$voter["edited_count"]."</b> have edited motion text.";
+                if ($voter["votes_count"]) {
+                 print "<p>This policy has voted in <b>".$voter["votes_count"]."</b> divisions.";
+		 if ($voter["votes_count"] != $voter["edited_count"])
+	              print " A total of <b>".(($voter["votes_count"]) - ($voter["edited_count"]))."</b> of these have not had their descriptions edited.";
+		 }
 	}
 	else
 	{
 		print "<h2><a name=\"divisions\">Every Division</a></h2>\n";
 	}
 
-    print "<p>Spotted a wrong vote, or one that is missing? Anybody can edit and fix the votes and definition of a policy. ";
+    print "<p>Have you spotted a wrong vote, or one that is missing?  Please edit and fix the votes and definition of a policy. ";
     if (user_getid()) {
         $db->query("update pw_dyn_user set active_policy_id = $dreamid where user_id = " . user_getid());
         print " This is now your active policy; to change its votes, go to any division page.";

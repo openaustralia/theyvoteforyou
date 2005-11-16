@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.101 2005/11/03 08:49:27 frabcus Exp $
+    # $Id: mp.php,v 1.102 2005/11/16 17:59:57 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -192,7 +192,7 @@
 	}
 	if ($voter2type == "dreammp")
 	{
-		$title = "Policy Report - ".html_scrub($voter2attr['name'])." compared to ";
+		$title = "Policy Report - '".html_scrub($voter2attr['name'])."' compared to ";
 		if ($voter1attr["bmultiperson"])
 			$title .= $mpprop['housenounplural']." ".$contitlefor;
 		else
@@ -348,7 +348,10 @@
 			print "<p><b>Definition of <a href=\"$voter2link\">".html_scrub($voter2attr['name'])."</a> policy:</b>\n";
 			print html_scrub($voter2attr['description']);
 			print "</p>\n";
-        }
+                        if (!$voter1attr['bmultiperson'])
+			        print "<p>(See also full list of votes for <a href=\"".$voter1link."&display=allvotes\">".html_scrub($mpprop['fullname'])."</a>.)</p>\n";
+
+                }
 
 		#if ($dismode["eventsinfo"])
 		#    print " Also shows when this MP became or stopped being a paid minister. </p>";
