@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: research.php,v 1.7 2005/11/01 01:23:17 frabcus Exp $
+# $Id: research.php,v 1.8 2005/11/17 11:58:00 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -26,15 +26,13 @@ questions and comments, or <a href="/forum">chat in the forum</a>.
 you can add comments to parliamentary debates.    This is a good way to add
 information you have found out about the discussion where anyone can find it.
 
-<h2>Motion text editing</h2>
+<h2>Division description editing</h2>
 
-<p>Above the motion text for every parliamentary division, we currently
-make the following statement:
+<p>Above the automatically extracted motion text for new parliamentary
+divisions, we make the following statement:
 
-   <blockquote>"Procedural text extracted from the debate, so you can try to work
-   out what 'aye' (for the motion) and 'no' (against the motion)
-   meant. This is for guidance only, irrelevant text may be shown,
-   crucial text may be missing."</blockquote>
+<blockquote>Description automatically extracted from the debate, please edit it
+to make it better.</blockquote>
 
 <p>While <a href="http://www.theyworkforyou.com">TheyWorkForYou.com</a> helps
 make debates more friendly, it doesn't make the motions more readable, and we
@@ -52,11 +50,11 @@ look at them as examples.
 Parliament that have been subject to frequent, repeated votes by MPs.
 It could be immigration, education, the environment, transport, ID
 cards, international development, and so on.  Find the divisions, mark
-them with a policy, and fix the motion text so that other people can
-see the precise measures that were voted upon.  Public Whip is about
-informed choice, and not having to take anyone's word for things.
+them with a policy, and fix the division description so that other people can
+see the precise measures that were voted upon.  Public Whip is about informed
+choice, and not having to take anyone's word for things.
 
-<h2>Examples of motion text editing</h2>
+<h2>Examples of division description editing</h2>
 
 <p>The first example is <a href="http://www.publicwhip.org.uk/division.php?date=2005-03-02&number=110">Council Tax - 2 Mar 2005 - Division No. 110</a>, which is an opposition motion.  These have a simple
 structure, but even so wording and formatting changes make the effect of the
@@ -170,7 +168,7 @@ written ministerial statements</i>.</p>
 
 <p>TODO: Give third example of legislative amendment vote.
 
-<h2>Guidelines for editing the text of motions</h2>
+<h2>Guidelines for editing the description of divisions</h2>
 
 <ul class="motionguidelines">
 
@@ -179,7 +177,7 @@ and "Third Reading" should not be used unless explained.
 
 <li>Make it clear which side won the vote so people don't need to read the
 numbers to discover the result.  When they do look at the vote chart after
-reading the motion text, they should already know what the Ayes and Noes mean.  
+reading the division description, they should already know what the Ayes and Noes mean.  
 
 <li>Whenever there is an amendment to a motion, both the original motion and
 the amended motion should be listed, never the amendment which is meaningless
@@ -244,20 +242,20 @@ so you don't need to analyze them.  However, it's a good idea to page through
 the full text of a Bill to get a feel for its content.  Once you get to know it
 a little bit you'll be best placed to finish it off, so do so.  
 
-<li>As well as making the motion text as clear, readable and honest as possible
-so that people can decide how they feel about the MPs who voted for or against
-it, leave it in a state that gives those who want to do further research a head
-start.  If you spent an hour working out a motion, think of it as saving an
-hour of someone else's time, which means they will be able to do research that
-would otherwise not have been possible.  For example, newspaper reporters need
-to get to creditable facts quickly.  You may have given them a channel into the
-heart of the process which means they don't have to rely on a self-serving
-Government press notice to track down the news.  
+<li>As well as making the division description as clear, readable and honest as
+possible so that people can decide how they feel about the MPs who voted for or
+against it, leave it in a state that gives those who want to do further
+research a head start.  If you spent an hour working out a motion, think of it
+as saving an hour of someone else's time, which means they will be able to do
+research that would otherwise not have been possible.  For example, newspaper
+reporters need to get to creditable facts quickly.  You may have given them a
+channel into the heart of the process which means they don't have to rely on a
+self-serving Government press notice to track down the news.  
 
-<li>Motion text editors are independent of Parliament, which means we can be
-critical of its process in the way that anyone in the system is unwilling or
-unable to be.  But check up on each other's work whenever you can, and discuss
-it in the forum.  
+<li>Division description editors are independent of Parliament, which means we
+can be critical of its process in the way that anyone in the system is
+unwilling or unable to be.  But check up on each other's work whenever you can,
+and discuss it in the forum.  
 
 <li>We have experienced little use and no actual signs of abuse.  Until we
 experience abuse, we cannot make provisions for it.  In practice, wikis
