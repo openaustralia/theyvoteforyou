@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.16 2005/11/17 09:13:26 goatchurch Exp $
+    # $Id: tableoth.inc,v 1.17 2005/11/17 09:39:44 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -112,16 +112,17 @@ function get_top_dream_query($count)
 	# listlength is 'short' or 'allpublic'
 	function print_policy_table($db, $dreamtabattr)
 	{
-		$qselect = " SELECT name, description, votes_count, private
-						   pw_dyn_dreammp.dream_id AS dream_id
+		$qselect = " SELECT name, description, votes_count, private, 
+					   pw_dyn_dreammp.dream_id AS dream_id, 
 				           round(100 * edited_motions_count / votes_count, 0) AS motions_percent";
 		$qfrom =   " FROM pw_dyn_dreammp";
 		$qjoin =   " LEFT JOIN pw_cache_dreaminfo ON pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id
 					 LEFT JOIN pw_dyn_user ON pw_dyn_user.user_id = pw_dyn_dreammp.user_id";
 		$qwhere =  " WHERE 1=1";
+		$qgroup =  " GROUP BY dream_id"; // not understood where the duplicates were getting in
 		$qorder =  "";
 		$qlimit = "";
-
+print_r($dreamtabattr); 
 		// matching to an MP
 		if ($dreamtabattr['listtype'] == "comparelinks")
 		{
@@ -129,12 +130,16 @@ function get_top_dream_query($count)
         	$qjoin   .= " LEFT JOIN pw_cache_dreamreal_distance
                                     	ON pw_cache_dreamreal_distance.person = ".$dreamtabattr['person'];
 	        $qorder = " ORDER BY distance";
+		$qwhere .= " AND distance_a <> -1"; 
 
-			if ($dreamtabattr['listlength'] != "every")
-				$qwhere .= " AND votes_count > 0";
-			if ($dreamtabattr['listlength'] == "allpublic")
-				$qwhere .= " AND NOT private";
 		}
+
+		if ($dreamtabattr['listlength'] != "every")
+			$qwhere .= " AND votes_count > 0";
+		if ($dreamtabattr['listlength'] == "allpublic" || $dreamtabattr['listlength'] == "short")
+			$qwhere .= " AND NOT private";
+		if ($dreamtabattr['listlength'] == "short")
+			$qlimit = " LIMIT 20";
 
 		// main given list case
 		if ($dreamtabattr['listtype'] == "mainlist")
@@ -142,14 +147,12 @@ function get_top_dream_query($count)
 		    $qorder = " ORDER BY motions_percent DESC, edited_motions_count DESC, votes_count DESC";
 		}
 
-		if ($dreamtabattr['listlength'] == "short")
-			$qlimit = " LIMIT BY 8";
 
-		$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
-		if ($bdebug == 1)
+		$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup.$qorder.$qlimit;
+//		if ($bdebug == 1)
 			print "<h2>$query</h2>\n";
 		$db->query($query);
-		$res = $db->count();
+		$res = $db->rows();
 
 	    while ($row = $db->fetch_row_assoc())
 		{
@@ -158,7 +161,7 @@ function get_top_dream_query($count)
 
 			if ($dreamtabattr['listtype'] == "mainlist")
 	        {
-	        	print "<td>" . $row['count'] . "</td>\n";
+	        	print "<td>" . $row['votes_count'] . "</td>\n";
 		        print "<td>" . percentise($row['motions_percent']) . "</td>";
 	    	    print "<td><a href=\"policy.php?id=$dreamid\">" . soft_hyphen($row['name'],25) . "</a></td>";
 		        print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 150);
@@ -169,7 +172,7 @@ function get_top_dream_query($count)
 			if ($dreamtabattr['listtype'] == "comparelinks")
 			{
 			    $link = "mp.php?".$mpprop["mpanchor"]."&dmp=".urlencode($dreamid);
-		        print "<td>".$row["count"]."</td>\n";
+		        print "<td>".$row["votes_count"]."</td>\n";
 		        print "<td><a href=\"$link\">".html_scrub($row["name"])." (Compare)</a></td>\n";
 		        print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row["description"])), 0, 50)."</td>\n";
 			}
