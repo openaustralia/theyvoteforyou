@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.106 2005/11/17 10:15:42 goatchurch Exp $
+    # $Id: mp.php,v 1.107 2005/11/17 15:55:55 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -525,10 +525,10 @@
 
 	    print "<table class=\"mps\">\n";
 	    print "<tr class=\"headings\">
-	        <td>Votes</td>
+	        <td>Agreement</td>
 	        <td>Policy</td>
 	        <td>Description</td>
-	        <td>Agreement</td>
+	        <td>Vote</td>
 	        </tr>\n";
 
 		$dreamtabattr = array("listtype" => 'comparelinks',

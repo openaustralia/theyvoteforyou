@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.21 2005/11/17 15:38:47 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.22 2005/11/17 15:55:55 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -128,8 +128,10 @@
 				$suffix = "";
 			}
 			if ($dreamtabattr['listtype'] == "comparelinks")
-			{
-		        print "<td>".$row["votes_count"]."</td>\n";
+		    {
+		        $distance = $row['distance'];
+        		$agreement = (1.0 - (float)($distance)) * 100.0;
+        		print "<td>".number_format($agreement, 0)."%</td>\n";
 			    $link = "mp.php?".$dreamtabattr["mpanchor"]."&dmp=$dreamid";
 				$suffix = " (Compare)";
 			}
@@ -138,14 +140,10 @@
 	        print "<td>".trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 150)."</td>\n";
 
 			if ($dreamtabattr['listtype'] == "mainlist")
-		        print "<td>0&nbsp;<img src=\"dreamplot.php?id=$dreamid\">&nbsp;1</td>\n";
+		            print "<td>0&nbsp;<img src=\"dreamplot.php?id=$dreamid\">&nbsp;1</td>\n";
 			if ($dreamtabattr['listtype'] == "comparelinks")
-		    {
-		        $distance = $row['distance'];
-        		$agreement = (1.0 - (float)($distance)) * 100.0;
-        		print "<td>".number_format($agreement, 1)."%</td>\n";
-			}
-
+			    print "<td>".$row["votes_count"]."</td>\n"; 
+			    
 	        print "</tr>\n";
   		}
 
