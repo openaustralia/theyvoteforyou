@@ -7,5 +7,5 @@
 # This is an extra grab - the cgi-bin script twfy-morning-update-done
 # also launches dailyupdate at the more appropriate time (shortly
 # after 8am when Hansard has updated)
-31 2 * * *    /home/publicwhip/www.publicwhip.org.uk/publicwhip/build/dailyupdate
+31 2 * * *    /home/publicwhip/publicwhip/build/dailyupdate
 

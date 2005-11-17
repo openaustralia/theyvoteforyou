@@ -3,7 +3,7 @@
 
 if [ x$LOCKFILE = x ]
 then 
-	 /software/bin/run-with-lockfile -n /home/francis/pwdata/dailyupdate-lockfile $0
+	 /software/bin/run-with-lockfile -n /home/publicwhip/parldata/dailyupdate-lockfile $0
 	if [ $? = 100 ]
 	then
 		echo "Another copy of dailyupdate is already running" 1>&2
@@ -13,17 +13,17 @@ fi
 
 FROMDATE=2001-06-01
 PATH=$PATH:/software/bin
-export HOME=/home/francis
+export HOME=/home/publicwhip
 export CVS_RSH=/software/bin/ssh
 
 # Grab new scraped XML files from TheyWorkForYou
-rsync --recursive ukparse.kforge.net::parldata/scrapedxml/divisionsonly /home/francis/pwdata/scrapedxml
-rsync --recursive ukparse.kforge.net::parldata/scrapedxml/lordsdivisionsonly /home/francis/pwdata/scrapedxml
-chmod -R a+r /home/francis/pwdata
-rsync --recursive ukparse.kforge.net::svn/parlparse/members/ /home/francis/members
-chmod -R a+r /home/francis/members
+rsync --recursive ukparse.kforge.net::parldata/scrapedxml/divisionsonly /home/publicwhip/parldata/scrapedxml
+rsync --recursive ukparse.kforge.net::parldata/scrapedxml/lordsdivisionsonly /home/publicwhip/parldata/scrapedxml
+chmod -R a+r /home/publicwhip/parldata
 
 # Update everything
+cd ~/parlparse
+svn -Q update -dP
 cd ~/publicwhip/
 cvs -Q update -dP
 
@@ -53,8 +53,8 @@ then
 fi
 
 # Copy across ministers file (used by minwhirl)
-cp ~/members/ministers.xml ~/www.publicwhip.org.uk_html/data/
-cp ~/publicwhip/*.txt ~/www.publicwhip.org.uk_html/data/
+cp ~/parlparse/members/ministers.xml ~/www.publicwhip.org.uk/docs/data/
+cp ~/publicwhip/*.txt ~/www.publicwhip.org.uk/docs/data/
 chmod a+r ~/www.publicwhip.org.uk_html/data/*
 
 # RSS feeds
