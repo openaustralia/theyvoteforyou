@@ -29,6 +29,11 @@ Check possible friends then also updates
 Usability
 ---------
 
+Policy status - done vs. provisional
+
+Rethink "Join us" section of site
+- Email with random unedited motion text
+
 Link more clearly to simple list of aye/no voters - perhaps from word "aye" in
 party summary table, or in first line on division page (the Aye-voters). (FD)
 
@@ -49,6 +54,8 @@ Check Policies shown OK on division page, MP page etc.
 
 Finish rename of motion text editing (e.g. in project/ pages)
 
+Print style sheet
+
 Stuff
 -----
 
@@ -56,10 +63,12 @@ User page - link to all of a user's contributions
 
 Write code to fill in pw_cache_realreal_distance (after model of dreamreal_distance)
 Migrate away from mpdist table to pw_cache_realreal_distance
+Also do pw_cache_divisiondivision_distance 
 
 Database patches:
     Remove division_id
 remove mps_query_start
+Add moffice.responsibility field
 
 Rewrite description of formula
 
