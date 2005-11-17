@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-tools.inc,v 1.28 2005/11/01 01:30:27 frabcus Exp $
+# $Id: cache-tools.inc,v 1.29 2005/11/17 19:14:32 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -45,6 +45,7 @@ function cache_end() {
     # of spurious pages as mindless things crawl the site)
     if (!$bot && $pw_cache_enable) {
         $page = ob_get_contents();
+	umask(0007); # So user publicwhip can delete cache files
         if (!file_exists($cache_dir))
             mkdir($cache_dir, 0770);
         $handle = fopen($cache_file, 'w');
