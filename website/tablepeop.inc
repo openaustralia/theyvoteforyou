@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.20 2005/11/16 17:59:57 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.21 2005/11/17 10:15:42 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,7 +8,7 @@
 
 require_once $toppath . "links.inc";
 
-function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $title)
+function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $tooltip)
 {
     # row colour
     if ($colstyle == "division")
@@ -40,7 +40,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $title)
         print "<td>$nrows</td>";
 
     # name and constituency
-    print "<td><a href=\"$href\" " . ($title ? "title=\"$title\"":"") . ">$name</a></td>";
+    print "<td><a href=\"$href\" " . ($tooltip ? "title=\"$tooltip\"":"") . ">$name</a></td>";
 
     # we could mark if there are other MPs in this constituency and make a link to them
     #print "<td>".$row['constituency']."</td>";
@@ -241,12 +241,12 @@ function mp_table($db, $mptabattr)
         $aquery["qorder"] = " ORDER BY distance";
 
         # this should use the left-reason case
-	$aquery["qwhere"] 	.= " AND left_house = '9999-12-31'
+        $aquery["qwhere"] 	.= " AND left_house = '9999-12-31'
                                  AND distance_a <> -1";
 
         $friendlk = "dmp=".$mptabattr["dreammpid"];
         $tooltip = "Compare to policy: '".$mptabattr["dreamname"]."'";
-	$namesuffix = " (Compare)";
+        $namesuffix = " (Compare)";
     }
 
     # list MPs voting in one division
@@ -381,7 +381,7 @@ function mp_table($db, $mptabattr)
 		else if ($colstyle == "division2" and $showwhich == "changes")
         	print "<tr class=\"even\"><td colspan=5>no differences found</td></tr>\n";
 		else
-		print "<tr class=\"even\"><td>EMPTY TABLE</td></tr>\n"; 
+		print "<tr class=\"even\"><td>EMPTY TABLE</td></tr>\n";
 
 	}
 

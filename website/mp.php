@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.105 2005/11/17 09:13:26 goatchurch Exp $
+    # $Id: mp.php,v 1.106 2005/11/17 10:15:42 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -516,16 +516,24 @@
 <?php
 	if ($dismode["dreamcompare"])
 	{
-		print "<h2><a name=\"dreammotions\">Policy Comparisons</a></h2>";
+		print "<h2><a name=\"dreammotions\">Policy Comparisons</a></h2>\n";
+
+		print "<p>This chart shows the percentage agreement between this MP and each of the policies in
+			   the database, according to their voting record.
+			   Click on the policy links below to see precisely how this comparison is made,
+			   and how the number is calculated.  </p>\n";
+
 	    print "<table class=\"mps\">\n";
 	    print "<tr class=\"headings\">
-	        <td>Voted</td>
+	        <td>Votes</td>
 	        <td>Policy</td>
 	        <td>Description</td>
+	        <td>Agreement</td>
 	        </tr>\n";
 
 		$dreamtabattr = array("listtype" => 'comparelinks',
 						      'person' => $mpprop["person"],
+						      'mpanchor' => $mpprop["mpanchor"],
 						      'listlength' => $dismode["dreamcompare"]);
 		print_policy_table($db, $dreamtabattr);
 	    print "</table>\n";

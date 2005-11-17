@@ -50,9 +50,8 @@ vote in relevant divisions in Parliament.
 
     print "<table class=\"mps\">\n";
     print "<tr class=\"headings\">
-        <td>Voted</td>
-        <td>Motions Edited</td>
-        <td>Name</td>
+        <td>Votes (unedited)</td>
+        <td>Policy</td>
         <td>Definition</td>
         <td>MP Dists</td>
         </tr>";
