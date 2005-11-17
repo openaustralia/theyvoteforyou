@@ -1,10 +1,4 @@
-# htaccess file for local testing on my machine
-# Rename it to .htaccess for use
-
-AddType application/x-httpd-php .php
-
-
-
+# .htaccess file 
 
 <FilesMatch "^(mp-info.xml|dreamquery.xml|mpdream-info.xml)$">
     AddType application/x-httpd-php .xml
@@ -25,6 +19,7 @@ RedirectPermanent /rebels.php http://www.publicwhip.org.uk/mps.php?sort=rebellio
 RedirectPermanent /news.php http://www.publicwhip.org.uk/newsletters/archive.php
 RedirectPermanent /code.php http://www.publicwhip.org.uk/project/code.php
 RedirectPermanent /mp-info.xml http://www.publicwhip.org.uk/feeds/mp-info.xml
+RedirectPermanent /dreammp.php http://www.publicwhip.org.uk/policy.php
 
 
 # Net strike
