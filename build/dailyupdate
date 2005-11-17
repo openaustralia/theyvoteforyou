@@ -23,7 +23,7 @@ chmod -R a+r /home/publicwhip/parldata
 
 # Update members files and the like
 cd ~/parlparse
-svn -q update -dP
+svn -q update
 # Update this loader code and similar
 cd ~/publicwhip/
 cvs -Q update -dP
