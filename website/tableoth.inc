@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.20 2005/11/17 15:18:00 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.21 2005/11/17 15:38:47 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -78,9 +78,8 @@
 					   (votes_count - edited_motions_count) AS unedited_motions";
 		$qfrom =   " FROM pw_dyn_dreammp";
 		$qjoin =   " LEFT JOIN pw_cache_dreaminfo ON pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id
-					 LEFT JOIN pw_dyn_user ON pw_dyn_user.user_id = pw_dyn_dreammp.user_id";
+			     LEFT JOIN pw_dyn_user ON pw_dyn_user.user_id = pw_dyn_dreammp.user_id";
 		$qwhere =  " WHERE 1=1";
-		$qgroup =  " GROUP BY dream_id"; // not understood where the duplicates were getting in
 		$qorder =  "";
 		$qlimit = "";
 
@@ -89,7 +88,8 @@
 		{
 	        $qselect .= ", distance_a AS distance";
         	$qjoin   .= " LEFT JOIN pw_cache_dreamreal_distance
-                                    	ON pw_cache_dreamreal_distance.person = ".$dreamtabattr['person'];
+		                        ON pw_cache_dreamreal_distance.dream_id = pw_dyn_dreammp.dream_id
+                                    	AND pw_cache_dreamreal_distance.person = ".$dreamtabattr['person'];
 	        $qorder = " ORDER BY distance";
             $qwhere .= " AND distance_a <> -1";
 
@@ -107,7 +107,7 @@
 		    $qorder = " ORDER BY motions_percent DESC, edited_motions_count DESC, votes_count DESC";
 
 
-		$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup.$qorder.$qlimit;
+		$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
 		if ($bdebug == 1)
 			print "<h2>$query</h2>\n";
 		$db->query($query);
@@ -120,7 +120,10 @@
 
 			if ($dreamtabattr['listtype'] == "mainlist")
 	        {
-	        	print "<td>".$row['votes_count']." (".$row['unedited_motions'].")</td>\n";
+	        	print "<td>".$row['votes_count'];
+			if ($row['unedited_motions'] != 0)
+				print " <i>(".$row['unedited_motions'].")</i>"; 
+			print "</td>\n";
 				$link = "policy.php?id=$dreamid";
 				$suffix = "";
 			}
