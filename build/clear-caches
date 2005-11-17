@@ -2,8 +2,9 @@
 
 set -e
 
-echo "delete from pw_cache_dreaminfo;" | mysql francis
-echo "delete from pw_cache_dreamreal_distance;" | mysql francis
-echo "delete from pw_cache_divwiki;" | mysql francis
-rm -fr /home/francis/pwcache/*
+echo "delete from pw_cache_dreaminfo;" | mysql pw_live
+echo "delete from pw_cache_dreamreal_distance;" | mysql pw_live
+echo "delete from pw_cache_divwiki;" | mysql pw_live
+
+rm -fr /home/publicwhip/pwcache-live/*
 
