@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.18 2005/11/17 10:15:42 goatchurch Exp $
+    # $Id: tableoth.inc,v 1.19 2005/11/17 10:34:16 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -141,7 +141,7 @@
 		        $distance = $row['distance'];
         		$agreement = (1.0 - (float)($distance)) * 100.0;
         		print "<td>".number_format($agreement, 1)."%</td>\n";
-      		}
+			}
 
 	        print "</tr>\n";
   		}
