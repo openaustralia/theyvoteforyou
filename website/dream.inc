@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.49 2005/11/17 10:34:16 publicwhip Exp $
+# $Id: dream.inc,v 1.50 2005/11/17 16:12:46 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -84,7 +84,7 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 		   </p>\n\n<br clear=\"all\">\n";
 
 	print "<p>Please post comments and feedback about this equation in
-			<a href=\"forum/viewtopic.php?p=516\">forum topic: Policy Agreement Ratio</a>.</p>\n";
+			<a href=\"forum/viewtopic.php?t=150\">forum topic: Policy Agreement Ratio</a>.</p>\n";
 
 
 	if ($bdebug == 1)
