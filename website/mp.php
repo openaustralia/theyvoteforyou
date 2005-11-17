@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.104 2005/11/16 21:46:50 publicwhip Exp $
+    # $Id: mp.php,v 1.105 2005/11/17 09:13:26 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -159,7 +159,7 @@
 
 		$dismodes["alldreams"] = array("dtype"	=> "alldreams",
 								 "description" => "Policy comparisons",
-								 "dreamcompare"	=> "all",
+								 "dreamcompare"	=> "allpublic",
 								 "defaultparl" => "all");
 	}
 
@@ -525,7 +525,7 @@
 	        </tr>\n";
 
 		$dreamtabattr = array("listtype" => 'comparelinks',
-						      'mpprop' => $mpprop,
+						      'person' => $mpprop["person"],
 						      'listlength' => $dismode["dreamcompare"]);
 		print_policy_table($db, $dreamtabattr);
 	    print "</table>\n";

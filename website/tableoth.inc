@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.15 2005/11/16 21:46:50 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.16 2005/11/17 09:13:26 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -107,21 +107,76 @@ function get_top_dream_query($count)
 
 	# This is used to show a list of policies people who are friends, where
 	# listtype is:
-	#   'comparelinks', then 'mpprop' who we compare to
-	# listlength is 'short' or 'all'
+	#   'comparelinks', then 'person' who we compare to
+	#	'mainlist'
+	# listlength is 'short' or 'allpublic'
 	function print_policy_table($db, $dreamtabattr)
 	{
-	    $prettyrow = 0;
-        if ($dreamtabattr["listlength"] == "all")
-            $db->query(get_top_dream_query(null));
-        else
-            $db->query(get_top_dream_query(8));
-	    $dreams = array();
-	    while ($row = $db->fetch_row_assoc()) {
-	        $dreamid = $row['dream_id'];
+		$qselect = " SELECT name, description, votes_count, private
+						   pw_dyn_dreammp.dream_id AS dream_id
+				           round(100 * edited_motions_count / votes_count, 0) AS motions_percent";
+		$qfrom =   " FROM pw_dyn_dreammp";
+		$qjoin =   " LEFT JOIN pw_cache_dreaminfo ON pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id
+					 LEFT JOIN pw_dyn_user ON pw_dyn_user.user_id = pw_dyn_dreammp.user_id";
+		$qwhere =  " WHERE 1=1";
+		$qorder =  "";
+		$qlimit = "";
+
+		// matching to an MP
+		if ($dreamtabattr['listtype'] == "comparelinks")
+		{
+	        $qselect .= ", distance_a AS distance";
+        	$qjoin   .= " LEFT JOIN pw_cache_dreamreal_distance
+                                    	ON pw_cache_dreamreal_distance.person = ".$dreamtabattr['person'];
+	        $qorder = " ORDER BY distance";
+
+			if ($dreamtabattr['listlength'] != "every")
+				$qwhere .= " AND votes_count > 0";
+			if ($dreamtabattr['listlength'] == "allpublic")
+				$qwhere .= " AND NOT private";
+		}
+
+		// main given list case
+		if ($dreamtabattr['listtype'] == "mainlist")
+		{
+		    $qorder = " ORDER BY motions_percent DESC, edited_motions_count DESC, votes_count DESC";
+		}
+
+		if ($dreamtabattr['listlength'] == "short")
+			$qlimit = " LIMIT BY 8";
+
+		$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
+		if ($bdebug == 1)
+			print "<h2>$query</h2>\n";
+		$db->query($query);
+		$res = $db->count();
+
+	    while ($row = $db->fetch_row_assoc())
+		{
 	        $prettyrow = pretty_row_start($prettyrow);
-	        print_selected_dream($db, $mpprop, $dreamid);
-	    }
+	        $dreamid = $row['dream_id'];
+
+			if ($dreamtabattr['listtype'] == "mainlist")
+	        {
+	        	print "<td>" . $row['count'] . "</td>\n";
+		        print "<td>" . percentise($row['motions_percent']) . "</td>";
+	    	    print "<td><a href=\"policy.php?id=$dreamid\">" . soft_hyphen($row['name'],25) . "</a></td>";
+		        print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 150);
+	    	    print "</td>";
+		        print "<td>0&nbsp;<img src=\"dreamplot.php?id=$dreamid\">&nbsp;1";
+	    	    print "</td>\n";
+			}
+			if ($dreamtabattr['listtype'] == "comparelinks")
+			{
+			    $link = "mp.php?".$mpprop["mpanchor"]."&dmp=".urlencode($dreamid);
+		        print "<td>".$row["count"]."</td>\n";
+		        print "<td><a href=\"$link\">".html_scrub($row["name"])." (Compare)</a></td>\n";
+		        print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row["description"])), 0, 50)."</td>\n";
+			}
+	        print "</tr>\n";
+  		}
+
+		return $count;
  	}
 
 

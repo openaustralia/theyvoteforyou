@@ -8,6 +8,10 @@
 
     require_once "db.inc";
     require_once "database.inc";
+
+	require_once "tablemake.inc";
+	require_once "tableoth.inc";
+
     require_once "parliaments.inc";
     require_once "constituencies.inc";
     require_once "render.inc";
@@ -25,7 +29,7 @@
 <p>Policies are stated positions on a particular issue. For example "Privatise
 the NHS", or "Join the Euro". Each policy has a definition and a way to
 vote in relevant divisions in Parliament.
- 
+
    <ul>
       <li><a href="account/addpolicy.php">Make a new policy</a></li>
       <li><a href="/forum/viewforum.php?f=1">Discuss policies on our forum
@@ -44,21 +48,6 @@ vote in relevant divisions in Parliament.
    correcting motion text for its divisions.</b> </p>
 <?php
 
-    $query = "SELECT name, description, pw_dyn_user.user_id AS user_id,
-					 user_name, pw_dyn_dreammp.dream_id,
-					 votes_count AS count, edited_motions_count,
-                	 round(100 * edited_motions_count / votes_count, 0) AS motions_percent
-        	  FROM pw_dyn_dreammp
-			  LEFT JOIN pw_dyn_user
-			  			ON pw_dyn_user.user_id = pw_dyn_dreammp.user_id
-			  LEFT JOIN pw_cache_dreaminfo
-			  			ON pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id
-			  WHERE votes_count > 0 AND NOT private
-			  ORDER BY motions_percent DESC, edited_motions_count DESC, votes_count DESC";
-	if ($bdebug == 1)
-		print "<h5>$query</h5>\n";
-    $dbo->query($query);
-
     print "<table class=\"mps\">\n";
     print "<tr class=\"headings\">
         <td>Voted</td>
@@ -69,24 +58,9 @@ vote in relevant divisions in Parliament.
         </tr>";
 
 
-    $prettyrow = 0;
-    $c = 0;
-    while ($row = $dbo->fetch_row_assoc())
-    {
-        $prettyrow = pretty_row_start($prettyrow);
-        $dreamid = $row['dream_id'];
-
-        print "<td>" . $row['count'] . "</td>\n";
-        print "<td>" . percentise($row['motions_percent']) . "</td>";
-        print "<td><a href=\"policy.php?id=$dreamid\">" . soft_hyphen($row['name'],25) . "</a></td>";
-        print "<td>" . trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 150);
-        print "</td>";
-        print "<td>0&nbsp;<img src=\"dreamplot.php?id=$dreamid\">&nbsp;1";
-        print "</td>\n";
-
-        print "</tr>";
-        $c++;
-    }
+	$dreamtabattr = array("listtype" => 'mainlist',
+					      'listlength' => "allpublic");
+	$c = print_policy_table($db, $dreamtabattr);
     print "</table>\n";
     print "That makes $c policies which have voted in at least one division.";
 
