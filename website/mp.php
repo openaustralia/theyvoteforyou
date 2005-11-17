@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.107 2005/11/17 15:55:55 publicwhip Exp $
+    # $Id: mp.php,v 1.108 2005/11/17 16:17:47 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -351,7 +351,7 @@
 			print html_scrub($voter2attr['description']);
 			print "</p>\n";
                         if (!$voter1attr['bmultiperson'])
-			        print "<p>(See also full list of votes for <a href=\"".$voter1link."&display=allvotes\">".html_scrub($mpprop['fullname'])."</a>.)</p>\n";
+			        print "<p>(See rest of votes by <a href=\"".$voter1link."\">".html_scrub($mpprop['fullname'])."</a>.)</p>\n";
 
                 }
 
