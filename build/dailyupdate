@@ -3,7 +3,7 @@
 
 if [ x$LOCKFILE = x ]
 then 
-	 /software/bin/run-with-lockfile -n /home/publicwhip/parldata/dailyupdate-lockfile $0
+	 /home/publicwhip/publicwhip/build/run-with-lockfile -n /home/publicwhip/parldata/dailyupdate-lockfile $0
 	if [ $? = 100 ]
 	then
 		echo "Another copy of dailyupdate is already running" 1>&2
@@ -12,18 +12,19 @@ then
 fi
 
 FROMDATE=2001-06-01
-PATH=$PATH:/software/bin
+PATH=$PATH:/usr/local/bin:/usr/bin:/bin
 export HOME=/home/publicwhip
-export CVS_RSH=/software/bin/ssh
+export CVS_RSH=/usr/bin/ssh
 
 # Grab new scraped XML files from TheyWorkForYou
 rsync --recursive ukparse.kforge.net::parldata/scrapedxml/divisionsonly /home/publicwhip/parldata/scrapedxml
 rsync --recursive ukparse.kforge.net::parldata/scrapedxml/lordsdivisionsonly /home/publicwhip/parldata/scrapedxml
 chmod -R a+r /home/publicwhip/parldata
 
-# Update everything
+# Update members files and the like
 cd ~/parlparse
-svn -Q update -dP
+svn -q update -dP
+# Update this loader code and similar
 cd ~/publicwhip/
 cvs -Q update -dP
 
@@ -55,10 +56,10 @@ fi
 # Copy across ministers file (used by minwhirl)
 cp ~/parlparse/members/ministers.xml ~/www.publicwhip.org.uk/docs/data/
 cp ~/publicwhip/*.txt ~/www.publicwhip.org.uk/docs/data/
-chmod a+r ~/www.publicwhip.org.uk_html/data/*
+chmod a+r ~/www.publicwhip.org.uk/docs/data/*
 
 # RSS feeds
-RSSDEST=~/www.publicwhip.org.uk_html/feeds
+RSSDEST=~/www.publicwhip.org.uk/docs/feeds
 cd ~/publicwhip/loader
 ./interestingdivisions2rss.pl > $RSSDEST/interestingdivisions.xml
 ./alldivisions2rss.pl > $RSSDEST/alldivisions.xml

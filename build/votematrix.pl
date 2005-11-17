@@ -24,7 +24,7 @@ $Output_Values{both}=   '3';
 $Output_Values{no}=     '4';
 $Output_Values{tellno}= '5';
 
-my $path = $ENV{'HOME'} ."/www.publicwhip.org.uk_html/data";
+my $path = $ENV{'HOME'} ."/www.publicwhip.org.uk/docs/data";
 foreach my $parliament (&PublicWhip::Parliaments::getlist())
 {
     my $outfile = "votematrix-" . $$parliament{'name'} ;
