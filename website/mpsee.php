@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: mpsee.php,v 1.16 2005/11/01 01:23:17 frabcus Exp $
+# $Id: mpsee.php,v 1.17 2005/11/18 03:11:15 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -72,7 +72,7 @@ function applet($year)
     <PARAM NAME = ARCHIVE VALUE = "mpscatt.jar" >
     <PARAM NAME="type" VALUE="application/x-java-applet;version=1.4">
     <PARAM NAME="scriptable" VALUE="false">
-    <PARAM NAME = "posfile" VALUE="votemap/mpcoords-<?=$year?>.txt">
+    <PARAM NAME = "posfile" VALUE="mpcoords-<?=$year?>.txt">
 Sun Java 1.4 or above required
 </APPLET>
 </NOEMBED>
@@ -82,6 +82,8 @@ Sun Java 1.4 or above required
 <!--"END_CONVERTED_APPLET"-->
 <?php
     }
+    print "<h2>Vote map 2005 parliament</h2>\n";
+    applet("2005");
     print "<h2>Vote map 2001 parliament</h2>\n";
     applet("2001");
     print "<h2>Vote map 1997 parliament</h2>\n";
