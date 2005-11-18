@@ -1,0 +1,17 @@
+#!/bin/bash
+#set -x # debug print lines
+
+if [ x$LOCKFILE = x ]
+then 
+	 /home/publicwhip/publicwhip/build/run-with-lockfile -n /home/publicwhip/parldata/weeklyupdate-lockfile $0
+	if [ $? = 100 ]
+	then
+		echo "Another copy of weeklyupdate is already running" 1>&2
+	fi
+	exit $?
+fi
+
+cd ~/publicwhip/custom/cluster
+./cluster-parliament-static.pl
+mv mpcoords-*.txt ~/www.publicwhip.org.uk/docs/
+
