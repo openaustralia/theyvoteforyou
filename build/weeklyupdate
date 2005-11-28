@@ -22,6 +22,7 @@ cd ~/www.publicwhip.org.uk/docs/
 # but just using Xvfb is easier)
 killall Xvfb
 Xvfb :55&
+export DISPLAY=:55
 for X in 1997 2001 2005
 do
 	java -classpath mpscatt.jar mpframe mpcoords-$X.txt votemap/mpsee-$X.png 533 400
