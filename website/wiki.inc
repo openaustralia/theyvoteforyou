@@ -1,5 +1,5 @@
 <?php
-# $Id: wiki.inc,v 1.8 2005/10/19 23:15:27 frabcus Exp $
+# $Id: wiki.inc,v 1.9 2005/11/28 15:38:23 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Editable text with history
@@ -24,6 +24,7 @@ function add_motion_missing_wrappers($text_body, $division_name) {
         $text_body = 
             "--- DIVISION TITLE ---\n\n" . $division_name . "\n\n" . $text_body;
     }
+    $text_body = preg_replace("/&#8212;/", "-", $text_body);
     return $text_body;
 }
 
@@ -100,7 +101,7 @@ function extract_title_from_wiki_text($text)
         $title = $matches[1];
     }
     $title = trim(strip_tags($title));
-
+    $title = str_replace(" - ", " &#8212; ", $title);
     return $title;
 }
 

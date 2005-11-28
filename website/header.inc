@@ -3,16 +3,18 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.65 2005/11/01 01:23:17 frabcus Exp $
+# $Id: header.inc,v 1.66 2005/11/28 15:38:23 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-$pagetitle = "$title - The Public Whip";
+$headtitle = "$title - The Public Whip";
 if ($title == "Counting votes on your behalf")
-    $pagetitle = "The Public Whip - $title";
+    $headtitle = "The Public Whip - $title";
+$h1title = str_replace(" - ", " &#8212; ", $title);
+$headtitle = str_replace(" - ", " &#8212; ", $headtitle);
 
 ?>
 
@@ -21,7 +23,7 @@ if ($title == "Counting votes on your behalf")
 <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 <link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.publicwhip.org.uk/feeds/interestingdivisions.xml" />
-<title><? print $pagetitle ?></title>
+<title><? print $headtitle ?></title>
 <script>
 <!--
 function givefocus(field) { 
@@ -118,4 +120,5 @@ Search or Postcode:
 
 <?=$pretitle ? $pretitle : ""?>
 
-<h1><? print $title ?></h1>
+<h1><? print $h1title ?></h1>
+
