@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.108 2005/11/17 16:17:47 publicwhip Exp $
+    # $Id: mp.php,v 1.109 2005/11/28 22:45:16 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -103,7 +103,8 @@
 								 "generalinfo" => "yes",
 								 "votelist"	=> "short",
 								 "possfriends"	=> "some",
-								 "dreamcompare"	=> "short");
+								 "dreamcompare"	=> "short",
+                                 "tooltip" => "Overview of MP");
 		if (!$voter1attr['bmultiperson'])
 			$dismodes["summary"]["eventsinfo"] = "yes";
 	}
@@ -113,14 +114,16 @@
 		$dismodes["difference"] = array("dtype"	=> "difference",
 								 "description" => "Differences",
 								 "generalinfo" => "yes",
-								 "votelist"	=> "short");
+								 "votelist"	=> "short",
+                                 "tooltip" => "Votes where the two MPs votes differed");
 	}
 
 	$dismodes["allvotes"] = array("dtype"	=> "allvotes",
 							 "eventsinfo" => "yes",
 							 "description" => ($voter2type == "dreammp" ? "Summary" : "Votes attended"),
 							 "votelist"	=> "all",
-							 "defaultparl" => "recent");
+							 "defaultparl" => "recent",
+                             "tooltip" => "Show every vote cast by this MP");
 	if (!$voter1attr['bmultiperson'])
 		$dismodes["allvotes"]["eventsinfo"] = "yes";
 	if ($voter2type != "party" and $voter2type != "dreammp")
@@ -132,7 +135,8 @@
 								 "description" => "Full",
 								 "votelist"	=> "all",
 								 "votedisplay"	=> "fullmotion",
-								 "defaultparl" => "recent");
+								 "defaultparl" => "recent",
+                                 "tooltip" => "Also show descriptions of every vote");
 		if ($voter1attr['bmultiperson'])
 			$dismodes["motions"]["multimpterms"] = "yes";
 	}
@@ -142,7 +146,8 @@
 		$dismodes["everyvote"] = array("dtype"	=> "everyvote",
 								 "description" => "All votes",
 								 "votelist"	=> "every",
-								 "defaultparl" => "recent");
+								 "defaultparl" => "recent",
+                                 "tooltip" => "Show even divisions where the MP was absent, but could have voted");
 		if (!$voter1attr['bmultiperson'])
 			$dismodes["everyvote"]["eventsinfo"] = "yes";
 		if ($voter2type != "party")
@@ -155,12 +160,14 @@
 		$dismodes["allfriends"] = array("dtype"	=> "allfriends",
 								 "description" => "All friends",
 								 "possfriends"	=> "all",
-								 "defaultparl" => "recent");
+								 "defaultparl" => "recent",
+                                 "tooltip" => "Show all MPs in order of how similarly to this MP they voted");
 
 		$dismodes["alldreams"] = array("dtype"	=> "alldreams",
 								 "description" => "Policy comparisons",
 								 "dreamcompare"	=> "allpublic",
-								 "defaultparl" => "all");
+								 "defaultparl" => "all",
+                                 "tooltip" => "Show all Policies and how this MP voted on them");
 	}
 
 
@@ -208,13 +215,7 @@
 		$title = "Voting Record - ".$mpprop['fullname'];
 
     # make list of links to other display modes
-    $second_links = array();
-    foreach ($dismodes as $ldisplay => $ldismode)
-    {
-        $leadch = " | ";
-        $dlink = "href=\"$thispage".($ldisplay != "summary" ? "&display=$ldisplay" : "")."\"";
-        array_push($second_links, "<a $dlink class=\"".($ldisplay == $display ? "on" : "off")."\">".$ldismode["description"]."</a>");
-    }
+    $second_links = dismodes_to_second_links($thispage, $dismodes, "", $display);
 
     pw_header();
 ?>
@@ -472,44 +473,38 @@
 	# the friends tables
 	if ($dismode["possfriends"])
 	{
+		# loop and make a table for each
+        $mpprop = $voter1attr['mpprop'];
+        $mptabattr = array("listtype" => 'mpdistance',
+                           'mpfriend' => $mpprop);
+        if ($dismode["possfriends"] == "some")
+            $mptabattr["limit"] = 5;
+
 	    print "<h2><a name=\"friends\">";
 		if ($dismode["possfriends"] == "all")
 			print "All ";
-		print "Possible Friends</a></h2>";
-	    print "<p>Shows which ".$mpprop['housenounplural']." voted most similarly to this one. The
-    		distance is measured from 0 (always voted the same) to 1 (always
+		print "Possible Friends";
+        print " (<a href=\"$thispage&display=allfriends\">more...</a>)";
+
+        print "</a></h2>";
+	    print "<p>Shows which ".$mpprop['housenounplural']." voted most similarly to this one in the ";
+        print pretty_parliament_and_party($mpprop['enteredhouse'], $mpprop['party'], $mpprop['enteredreason'], $mpprop['leftreason']);
+        print ". The distance is measured from 0 (always voted the same) to 1 (always
 		    voted differently).  Only votes that both ".$mpprop['housenounplural']." attended are
 		    counted.  This may reveal relationships between ".$mpprop['housenounplural']." that were
 		    previously unsuspected.  Or it may be nonsense.";
 
+        print "<table class=\"mps\">\n";
+        print "<tr class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Distance</td></tr>\n";
+        $same_voters = mp_table($db, $mptabattr);
+        print "</table>\n";
 
-	# 	'dreamdistance', then 'dreammpid' is what we compare to
-	#   'division', then 'divdate', 'divno' index into that
-	#   'division2, then there's also 'divdate2', 'divno2'
-	# limit is nothing or a number
-	# sortby is 'turnout', 'rebellions', 'name', 'constituency', 'attendance'
+        if ($same_voters)
+            print "<p>($same_voters MPs voted exactly the same as this one)\n";
 
-		# loop and make a table for each
-		foreach ($voter1attr['mpprops'] as $mpprop)
-		{
-			$mptabattr = array("listtype" => 'mpdistance',
-							   'mpfriend' => $mpprop);
-			if ($dismode["possfriends"] == "some")
-				$mptabattr["limit"] = 5;
-
-	        print "<h3>" . pretty_parliament_and_party($mpprop['enteredhouse'], $mpprop['party'], $mpprop['enteredreason'], $mpprop['leftreason']). "</h3>";
-	        print "<table class=\"mps\">\n";
-	        print "<tr class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Distance</td></tr>\n";
-			$same_voters = mp_table($db, $mptabattr);
-	        print "</table>\n";
-
-			if ($same_voters)
-                print "<p>($same_voters MPs voted exactly the same as this one)\n";
-
-			# do only one table if it's a show all case
-			if ($dismode["possfriends"] == "all")
-				break;
-		}
+        # do only one table if it's a show all case
+        # if ($dismode["possfriends"] == "all")
+        #    break;
     }
 ?>
 

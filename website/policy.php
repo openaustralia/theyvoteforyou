@@ -32,10 +32,8 @@
 								 "description" => "Votes",
 								 "comparisons" => "yes",
 								 "divisionlist" => "selected",
-								 "policybox" => "yes");
-	$dismodes["everyvote"] = array("dtype"	=> "everyvote",
-								   "divisionlist" => "all",
-							 	   "description" => "Every division");
+								 "policybox" => "yes",
+                                 "tooltip" => "Overview of the policy");
 
 	# work out which display mode we are in
 	$display = $_GET["display"];
@@ -44,13 +42,7 @@
 	$dismode = $dismodes[$display];
 
     # make list of links to other display modes
-    $second_links = array();
-    foreach ($dismodes as $ldisplay => $ldismode)
-    {
-        $leadch = " | ";
-        $dlink = "href=\"policy.php?id=".$dreamid.($ldisplay != "summary" ? "&display=$ldisplay" : "")."\"";
-        array_push($second_links, "<a $dlink class=\"".($ldisplay == $display ? "on" : "off")."\">".$ldismode["description"]."</a>");
-    }
+    $second_links = dismodes_to_second_links($thispage, $dismodes, $tpsort, $display);
 
     pw_header();
 

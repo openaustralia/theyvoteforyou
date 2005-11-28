@@ -23,9 +23,6 @@ http://www.publicwhip.org.uk/forum/viewtopic.php?p=497#497
 Caching errors:
     Policy comparison
 
-Install Octave on new server and run cluster stuff
-Check possible friends then also updates
-
 Usability
 ---------
 
@@ -55,6 +52,10 @@ Check Policies shown OK on division page, MP page etc.
 Finish rename of motion text editing (e.g. in project/ pages)
 
 Print style sheet
+
+Division
+mp
+policy
 
 Stuff
 -----

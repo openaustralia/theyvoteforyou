@@ -2,7 +2,7 @@
 
 cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.57 2005/11/28 18:21:39 publicwhip Exp $
+# $Id: index.php,v 1.58 2005/11/28 22:45:16 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -116,8 +116,8 @@ href="account/addpolicy.php">make</a> a new policy</span>
 
 <td colspan=2>
 
-<h2>Recent Controversial Divisions <a href="divisions.php"
-title="Show all divisions ordered by most recent">(more...)</a></h2>
+<h2>Recent Controversial Divisions (<a href="divisions.php"
+title="Show all divisions ordered by most recent">more...</a>)</h2>
 
 <?php
 	$divtabattr = array(
@@ -135,7 +135,7 @@ title="Show all divisions ordered by most recent">(more...)</a></h2>
 
 </tr><tr><td>
 
-<h2>Top Rebels <a href="mps.php?sort=rebellions" title="Show all MPs ordered by rebellions">(more...)</a></h2>
+<h2>Top Rebels (<a href="mps.php?sort=rebellions" title="Show all MPs ordered by rebellions">more...</a>)</h2>
 
 <?php
 
@@ -150,7 +150,7 @@ title="Show all divisions ordered by most recent">(more...)</a></h2>
 
 </td><td>
 
-<h2>Best Attendance <a href="mps.php?sort=attendance" title="Show all MPs ordered by attendance">(more...)</a></h2>
+<h2>Best Attendance (<a href="mps.php?sort=attendance" title="Show all MPs ordered by attendance">more...</a>)</h2>
 <?
 	$mptabattr = array("listtype" 	=> "parliament",
 					   "parliament" => $parliaments[$parliament], # current parl I assume

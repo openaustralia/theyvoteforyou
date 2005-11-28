@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.93 2005/11/16 23:36:16 theyworkforyou Exp $
+# $Id: division.php,v 1.94 2005/11/28 22:45:16 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -147,26 +147,30 @@
 								 "partysummary"	=> "yes",
 								 "showwhich" 	=> "rebels",
 								 "ministerial" 	=> "yes",
-								 "dreamvoters"	=> "all");
+								 "dreamvoters"	=> "all",
+                                 "tooltip"      => "Overview of division");
 
 		$dismodes["allvotes"] = array("dtype"	=> "allvotes",
 								 "description" 	=> "All voters",
 								 "motiontext" 	=> "yes",
 								 "summarytext"	=> "yes",
 								 "ministerial" 	=> "yes",
-								 "showwhich" 	=> "voters");
+								 "showwhich" 	=> "voters",
+                                 "tooltip"      => "Every MP who cast a vote in the division");
 
 		$dismodes["allpossible"] = array("dtype"	=> "allpossible",
 								 "description" 	=> "All eligible voters",
 								 "motiontext" 	=> "yes",
 								 "summarytext"	=> "yes",
 								 "ministerial" 	=> "yes",
-								 "showwhich" 	=> "allpossible");
+								 "showwhich" 	=> "allpossible",
+                                 "tooltip"      => "Show even MPs who did not vote but could have" );
 	}
 
 	# two motion page
 	else
 	{
+        # TODO: Add "tooltip" entries to these
 		$dismodes["opposites"] = array("dtype"	=> "opposites",
 								 "description" 	=> "Opposites",
 								 "motiontext" 	=> "yes",
@@ -220,12 +224,7 @@
 	}
 	$tpdisplay = ($display == "summary" ? "" : "&display=$display");
 	$tpsort = ($sort == "party" ? "" : "&sort=$sort");
-    $second_links = array();
-    foreach ($dismodes as $ldisplay => $ldismode)
-	{
-        $dlink = $thispage.($ldisplay == "summary" ? "" : "&display=$ldisplay").$tpsort;
-        array_push($second_links, "<a class=\"".($ldisplay == $display ? "on" : "off")."\" href=\"$dlink\">".$ldismode["description"]."</a>");
-	}
+    $second_links = dismodes_to_second_links($thispage, $dismodes, $tpsort, $display);
 
     # Display title and second nav links
 	pw_header();

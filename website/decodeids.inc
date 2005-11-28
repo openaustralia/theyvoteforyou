@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.31 2005/11/16 17:59:57 publicwhip Exp $
+# $Id: decodeids.inc,v 1.32 2005/11/28 22:45:16 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -333,4 +333,17 @@ function get_division_attr_decode($db, $i)
                  "divhref"			=> "division.php?date=".urlencode($row["division_date"])."&number=".urlencode($row["division_number"]),
                  "original_motion"	=> $row["motion"]);
 }
+
+function dismodes_to_second_links($thispage, $dismodes, $sort, $display) {
+    $second_links = array();
+    foreach ($dismodes as $ldisplay => $ldismode)
+	{
+        $dlink = $thispage.($ldisplay == "summary" ? "" : "&display=$ldisplay").$tpsort;
+        array_push($second_links, "<a title=\"".$ldismode["tooltip"]."\" class=\"".($ldisplay == $display ? "on" : "off")."\" href=\"$dlink\">".$ldismode["description"]."</a>");
+	}
+    if (count($second_links) <= 1)
+        return array();
+    return $second_links;
+}
+
 ?>
