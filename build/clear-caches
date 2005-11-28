@@ -2,9 +2,19 @@
 
 set -e
 
+# Clear file cache (front page only is cached like this -- 2005-11-28)
+rm -fr /home/publicwhip/pwcache-live/*
+
+# Clear database table caches
 echo "delete from pw_cache_dreaminfo;" | mysql pw_live
 echo "delete from pw_cache_dreamreal_distance;" | mysql pw_live
 echo "delete from pw_cache_divwiki;" | mysql pw_live
 
-rm -fr /home/publicwhip/pwcache-live/*
+# Provoke regeneration of policy cached data, so that Policy Comparison
+# table on MP pages appears correctly.
+for X in `snarf -q http://www.publicwhip.org.uk/policies.php - | grep dreamplot | sed "s/<img src=\"/http:\/\/www.publicwhip.org.uk\//;s/\">//;" `
+do 
+	snarf $X - >/dev/null &
+done
+
 
