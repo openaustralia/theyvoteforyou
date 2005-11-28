@@ -10,8 +10,8 @@ $dbspec = "DBI:mysql:hansard";
 
 # this is where the XML files come from:
 $pwdata = "/home/username/pwdata/";
-$debatepath = $pwdata . "scrapedxml/debates/";
-$fileprefix = "debates";
+$debatepath = $pwdata . "scrapedxml/divisionsonly/";
+$fileprefix = "divisions";
 $members_location = "/home/username/parlparse/members/";
 
 1;
