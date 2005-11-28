@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.94 2005/11/28 22:45:16 frabcus Exp $
+# $Id: division.php,v 1.95 2005/11/28 23:22:40 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -303,31 +303,30 @@
             $description = extract_motion_text_from_wiki_text($motion_data['text_body']);
             print $description;
             
-	        if ($motion_data['user_id'] != 0)  {
-                print "<p align=\"right\">";
-	            print " (last edited ".  relative_time($motion_data["edit_date"]) .  " by $last_editor) ";
-                print "<a href=\"$edit_link\">Edit description</a>";
-                if ($discuss_url)
-                    print ' | <a href="'.htmlspecialchars($discuss_url).'">Discuss changes</a>';
-                if ($history_link) {
-                    # commented out, as confusing and deprecated
-                    print '<!-- | <a href="'.htmlspecialchars($history_link).'">History</a>-->';
-                }
+            print "<p>";
+            print "<b><a href=\"$edit_link\">Edit description</a>";
+            if ($discuss_url)
+                print ' | <a href="'.htmlspecialchars($discuss_url).'">Discuss changes</a>';
+            if ($history_link) {
+                # commented out, as confusing and deprecated
+                print '<!-- | <a href="'.htmlspecialchars($history_link).'">History</a>-->';
             }
-
+            if ($motion_data['user_id'] != 0)
+                print " (last edited ".  relative_time($motion_data["edit_date"]) .  " by $last_editor) ";
+            print "</b>";
 	        print "</div>\n";
 
+			print "<h2>External Links</h2><ul>"; 
 			print "<p>"; 
 	        $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
 	        $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
 	        if ($debate_gid != "") {
-	            print "<a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">Full debate</a>";
+	            print "<li>Read Parliamentary debate at: <a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">TheyWorkForYou.com</a></li>";
 	        }
 	        if ($source != "") {
-                if ($debate_gid)
-                    print " | ";
-	    		print "<a href=\"$source\">Original Hansard</a>";
+	    		print "<li>View original Hansard of debate at: <a href=\"$source\">parliament.uk</a></li>";
 			}
+            print "</ul>";
 
 	        print "</p>\n";
 		}
