@@ -11,7 +11,23 @@ then
 	exit $?
 fi
 
+# Do clustering for Java applet
 cd ~/publicwhip/custom/cluster
 ./cluster-parliament-static.pl
 mv mpcoords-*.txt ~/www.publicwhip.org.uk/docs/
+
+# Generating PNG files for people with no Java
+cd ~/www.publicwhip.org.uk/docs/
+# (we could rewrite the applet to not need X in the case it is making a PNG,
+# but just using Xvfb is easier)
+killall Xvfb
+Xvfb :55&
+for X in 1997 2001 2005
+do
+	java -classpath mpscatt.jar mpframe mpcoords-$X.txt votemap/mpsee-$X.png 533 400
+done
+java -classpath mpscatt.jar mpframe mpcoords-2005.txt votemap/mpseethumb.png 150 100
+killall Xvfb
+
+
 
