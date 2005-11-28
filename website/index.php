@@ -2,7 +2,7 @@
 
 cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.56 2005/11/16 21:46:50 publicwhip Exp $
+# $Id: index.php,v 1.57 2005/11/28 18:21:39 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -100,10 +100,13 @@ href="account/addpolicy.php">make</a> a new policy</span>
 </ol>
 
 <td width="20%" class="layout" bgcolor="#dddddd">
-<h2>Ministerial Whirl </h2>
 <p><a href="minwhirl.php">
 <img src="minwhirl/minwhirl.png"></a>
 <p><a href="minwhirl.php">Reshuffle diagram of government posts</p>
+</a>
+<p><a href="mpsee.php">
+<img src="votemap/mpseethumb.png"></a>
+<p><a href="mpsee.php">Where is Blair?</p>
 </a>
 </td>
 

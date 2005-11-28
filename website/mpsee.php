@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: mpsee.php,v 1.17 2005/11/18 03:11:15 publicwhip Exp $
+# $Id: mpsee.php,v 1.18 2005/11/28 18:21:39 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -30,6 +30,7 @@ through the list to see them all.  </p>
 <p><span class="ptitle">Not working?</span>  If you are able, download <a href="http://www.java.com">Sun's Java
 software</a>.  On Windows, the old unsupported Microsoft versions of Java will not do.
 Alternatively, get a taste with a static 
+<a href="votemap/mpsee-2005.png">2005 screenshot</a>,
 <a href="votemap/mpsee-2001.png">2001 screenshot</a> or
 <a href="votemap/mpsee-1997.png">1997 screenshot</a> of the clustered MPs.
 </p>
