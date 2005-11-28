@@ -38,11 +38,11 @@ function check {
 echo -n "Checking via HTTP requests..."
 check index.php
 check account/wiki.php
-check account/adddream.php
+check account/addpolicy.php
 check account/changeemail.php
 check account/changepass.php
 check account/confirm.php
-check account/editdream.php
+check account/editpolicy.php
 check account/logout.php
 check account/lostpass.php
 check account/register.php
@@ -52,7 +52,7 @@ check boths.php
 check division.php
 check "division.php?date=2004-06-15&number=196"
 check divisions.php
-check dreammps.php
+check policies.php
 check email.php
 #check election.php
 #check "election.php?i363=0.75&i367=0.75&i258=0.25&i219=0&i230=0.25&i358=0.5&i371=1&mpn=Anne%20Campbell&mpc=Cambridge&submit=Submit"
@@ -72,7 +72,7 @@ check project/data.php
 check ./project/index.php
 check ./project/liaison.php
 # slow ones last
-check "dreammp.php?id=91"
+check "policy.php?id=91"
 echo
 
 echo "All checks OK"
