@@ -285,12 +285,14 @@ function storeCaret(textEl) {
 		<td class="row2"><span class="genmed"><input type="text"  class="post" name="username" maxlength="25" size="25" tabindex="1" value="{USERNAME}" />&nbsp;<input type="submit" name="usersubmit" value="{L_FIND_USERNAME}" class="liteoption" onClick="window.open('{U_SEARCH_USER}', '_phpbbsearch', 'HEIGHT=250,resizable=yes,WIDTH=400');return false;" /></span></td>
 	</tr>
 	<!-- END switch_privmsg -->
+	<!-- BEGIN switch_subject_select -->
 	<tr> 
 	  <td class="row1" width="22%"><span class="gen"><b>{L_SUBJECT}</b></span></td>
 	  <td class="row2" width="78%"> <span class="gen"> 
 		<input type="text" name="subject" size="45" maxlength="60" style="width:450px" tabindex="2" class="post" value="{SUBJECT}" />
 		</span> </td>
 	</tr>
+	<!-- END switch_subject_select -->
 	<tr> 
 	  <td class="row1" valign="top"> 
 		<table width="100%" border="0" cellspacing="0" cellpadding="1">
@@ -405,20 +407,24 @@ function storeCaret(textEl) {
 	  <td class="row2"><span class="gen"> </span> 
 		<table cellspacing="0" cellpadding="1" border="0">
 		  <!-- BEGIN switch_html_checkbox -->
+          <!--
 		  <tr> 
 			<td> 
 			  <input type="checkbox" name="disable_html" {S_HTML_CHECKED} />
 			</td>
 			<td><span class="gen">{L_DISABLE_HTML}</span></td>
 		  </tr>
+          -->
 		  <!-- END switch_html_checkbox -->
 		  <!-- BEGIN switch_bbcode_checkbox -->
+          <!--
 		  <tr> 
 			<td> 
 			  <input type="checkbox" name="disable_bbcode" {S_BBCODE_CHECKED} />
 			</td>
 			<td><span class="gen">{L_DISABLE_BBCODE}</span></td>
 		  </tr>
+          -->
 		  <!-- END switch_bbcode_checkbox -->
 		  <!-- BEGIN switch_smilies_checkbox -->
 		  <tr> 

@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: posting.php,v 1.2 2005/10/06 12:45:07 frabcus Exp $
+ *   $Id: posting.php,v 1.3 2005/11/29 00:24:35 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -925,6 +925,7 @@ switch( $mode )
 	case 'newtopic':
 		$page_title = $lang['Post_a_new_topic'];
 		$hidden_form_fields .= '<input type="hidden" name="' . POST_FORUM_URL . '" value="' . $forum_id . '" />';
+		$template->assign_block_vars('switch_subject_select', array());
 		break;
 
 	case 'reply':
@@ -935,6 +936,7 @@ switch( $mode )
 	case 'editpost':
 		$page_title = $lang['Edit_Post'];
 		$hidden_form_fields .= '<input type="hidden" name="' . POST_POST_URL . '" value="' . $post_id . '" />';
+		$template->assign_block_vars('switch_subject_select', array());
 		break;
 }
 

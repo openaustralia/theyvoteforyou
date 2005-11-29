@@ -23,6 +23,8 @@ http://www.publicwhip.org.uk/forum/viewtopic.php?p=497#497
 Caching errors:
     Policy comparison
 
+Link from forum page of division back to division
+
 Usability
 ---------
 
@@ -38,24 +40,11 @@ Show if and how many times each person spoke in debate leading up to division, a
 
 Make newsletter signing more streamlined
 
-Change links to say "compare to" in them. Link should always say what it links
-to, not vary according something random about the page currently on.
-http://www.publicwhip.org.uk/policy.php?id=367
-
-"Compared to for Cambridge"
-http://www.publicwhip.org.uk/mp.php?mppc=cb1+2qp&display=motions&dmp=230&button=Go
-
 Fix up rebellion wording on policy pages, confuses people
 
 Check Policies shown OK on division page, MP page etc.
 
 Finish rename of motion text editing (e.g. in project/ pages)
-
-Print style sheet
-
-Division
-mp
-policy
 
 Stuff
 -----
