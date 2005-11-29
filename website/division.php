@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.95 2005/11/28 23:22:40 frabcus Exp $
+# $Id: division.php,v 1.96 2005/11/29 10:01:15 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -312,7 +312,7 @@
                 print '<!-- | <a href="'.htmlspecialchars($history_link).'">History</a>-->';
             }
             if ($motion_data['user_id'] != 0)
-                print " (last edited ".  relative_time($motion_data["edit_date"]) .  " by $last_editor) ";
+                print " (last edited ".  relative_time($motion_data["edit_date"]) .  " by " . pretty_user_name($db2, $last_editor).") ";
             print "</b>";
 	        print "</div>\n";
 

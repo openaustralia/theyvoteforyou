@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.28 2005/11/29 02:02:36 frabcus Exp $
+# $Id: pretty.inc,v 1.29 2005/11/29 10:01:15 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -453,6 +453,14 @@ function pretty_minister($row) {
         return $position." (".$responsibility."), ".$row["dept"];
     else
         return $position.", ".$row["dept"];
+}
+
+function pretty_user_name($db, $name) {
+    $row = $db->query_onez_row_assoc("select user_id from phpbb_users where username = '" . db_scrub($name) . "'");
+    if ($row)
+        return "<a href=\"/forum/profile.php?mode=viewprofile&u=".$row['user_id']."\">$name</a>";
+
+    return $name;
 }
 
 ?>
