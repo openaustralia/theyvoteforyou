@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.36 2005/10/29 01:11:01 publicwhip Exp $
+-- $Id: create.sql,v 1.37 2005/11/29 01:21:09 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -262,6 +262,56 @@ create table pw_cache_dreamreal_distance (
     index(dream_id),
     index(person),
     unique(dream_id, person)
+);
+
+-- New table to replace pw_cache_mpdist eventually
+create table pw_cache_realreal_distance (
+  mp_id int not null,
+  person int not null,
+
+  -- number of votes same / different / MP absent
+  nvotessame int,
+  nvotesdiffer int,
+  nvotesabsent int,
+
+  distance_a float, -- use abstentions
+  distance_b float, -- ignore absentions
+
+  index(mp_id),
+  index(person),
+  unique(mp_id, person)
+);
+
+-- New table to store division comparisons
+create table pw_cache_divdiv_distance (
+  division_date date not null,
+  division_number int not null,
+  house enum('commons', 'lords') not null,
+
+  division_date2 date not null,
+  division_number2 int not null,
+  house2 enum('commons', 'lords') not null,
+
+  -- number MPs could vote in both
+  nvotespossible int, 
+
+  -- number of MPs who voted these ways in 2 divisions
+  nvotesnono int,
+  nvotesnoaye int,
+  nvotesayeno int,
+  nvotesayeaye int,
+
+  nvotesnoabsent int,
+  nvotesayeabsent int,
+  nvotesabsentno int,
+  nvotesabsentaye int,
+
+  distance_a float, 
+  distance_b float, 
+
+  index(division_date, division_number, house),
+  index(division_date2, division_number2, house2),
+  unique(division_date, division_number, house, division_date2, division_number2, house2)
 );
 
 -- Stores the most recent wiki item for this division
