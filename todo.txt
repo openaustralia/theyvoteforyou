@@ -6,6 +6,10 @@ Link from users names everywhere to their forum page
 
 Make it clearer can discuss individual Policy votes on forum
 
+Search on forum page bizarrely goes to forum search box (no /?)
+
+http://www.publicwhip.org.uk/mp.php?mpn=Ian_Pearson&mpc=Dudley+South
+
 Usability
 ---------
 
