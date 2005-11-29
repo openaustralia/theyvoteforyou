@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.26 2005/11/01 15:01:34 goatchurch Exp $
+# $Id: wiki.php,v 1.27 2005/11/29 00:34:19 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -57,8 +57,11 @@ if (user_isloggedin()) # User logged in, show settings screen
                 # forum escapes <, > and the like already
                 $description_diff = html_entity_decode(html_entity_decode($description_diff, ENT_QUOTES), ENT_QUOTES);
                 $name_diff = html_entity_decode(html_entity_decode($name_diff, ENT_QUOTES), ENT_QUOTES);
+                global $domain_name;
                 divisionvote_post_forum_action($db, $params[0], $params[1], $params[2], 
-                    "Changed title and/or description of division.\n\n[b]Title:[/b] ".$name_diff."\n[b]Description:[/b] ".$description_diff);
+                    "Changed title and/or description of division.\n\n[b]Title:[/b] ".
+                    "[url=http://$domain_name/division.php?date=".$division_details['division_date']."&number=".$division_details['division_number']."&house=".$division_details['house']."]".
+                    $name_diff."[/url]\n[b]Description:[/b] ".$description_diff);
             }
             $db->query_errcheck("insert into pw_dyn_wiki_motion
                 (division_date, division_number, house, text_body, user_id, edit_date) values
