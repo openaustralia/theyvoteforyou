@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.12 2005/10/29 14:04:25 publicwhip Exp $
+# $Id: memxml2db.pl,v 1.13 2005/11/29 02:02:36 frabcus Exp $
 
 # Convert all-members.xml and all-lords.xml into the database format for Public
 # Whip website
@@ -181,12 +181,15 @@ sub loadmoffice
 
     # We encode entities as e.g. &Ouml;, as otherwise non-ASCII characters
     # get lost somewhere between Perl, the database and the browser.
-    my $sth = PublicWhip::DB::query($dbh, "insert into pw_moffice (moffice_id, dept, position, 
+    my $responsibility = $moff->att('responsibility') ? $moff->att('responsibility') : '';
+    my $sth = PublicWhip::DB::query($dbh, "insert into pw_moffice 
+        (moffice_id, dept, position, responsibility,
         from_date, to_date, person) values
-        (?, ?, ?, ?, ?, ?)", 
+        (?, ?, ?, ?, ?, ?, ?)", 
         $mofficeid,
         encode_entities($moff->att('dept')), 
         encode_entities($moff->att('position')), 
+        encode_entities($responsibility), 
         $moff->att('fromdate'), 
         $moff->att('todate'), 
         $person,

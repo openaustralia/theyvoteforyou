@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.27 2005/10/28 17:34:13 publicwhip Exp $
+# $Id: pretty.inc,v 1.28 2005/11/29 02:02:36 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -442,5 +442,17 @@ function relative_time ($datetime) {
 	
 }
 
+function pretty_minister($row) {
+    $position = $row["position"];
+    if ($position == "PPS")
+        $position = "Parliamentary Private Secretary";
+    $responsibility = $row["responsibility"];
+    if ($responsibility == "Team PPS")
+        $responsibility = "Team";
+    if ($responsibility)
+        return $position." (".$responsibility."), ".$row["dept"];
+    else
+        return $position.", ".$row["dept"];
+}
 
 ?>

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.109 2005/11/28 22:45:16 frabcus Exp $
+    # $Id: mp.php,v 1.110 2005/11/29 02:02:36 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -227,7 +227,7 @@
 	if ($dismode["eventsinfo"])
 	{
 		# generate ministerial events (maybe events for general elections?)
-	 	$query = "SELECT dept, position, from_date, to_date
+	 	$query = "SELECT dept, position, responsibility, from_date, to_date
 	        	  FROM pw_moffice
 				  WHERE pw_moffice.person = '".$voter1attr["mpprop"]["person"]."'
 	        	  ORDER BY from_date DESC";
@@ -252,10 +252,10 @@
 	    while ($row = $db->fetch_row_assoc())
 	    {
 	        if ($row["to_date"] == "9999-12-31")
-	            $currently_minister = $row["position"].", ".$row["dept"];
+	            $currently_minister = pretty_minister($row);
 			else
-				puteventintompprop($voter1attr["mpprops"], $row["to_date"], "Stopped being ".$row["position"].", ".$row["dept"]);
-			puteventintompprop($voter1attr["mpprops"], $row["from_date"], "Became ".$row["position"].", ".$row["dept"]);
+				puteventintompprop($voter1attr["mpprops"], $row["to_date"], "Stopped being ".pretty_minister($row));
+			puteventintompprop($voter1attr["mpprops"], $row["from_date"], "Became ".pretty_minister($row));
 	    }
 
 		# reverse the arrays that we create (could have done above loop already reversed)

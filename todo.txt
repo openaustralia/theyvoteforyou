@@ -1,50 +1,31 @@
-Remove subject from phpbb
-Assume HTML rather than bbcode
-
-Put in the majority and turnout on division page
-
 election.php
      - email James to say are using postcode
      - work out what to do with people going on into future...
-
-Selected divisions table needs clear right
 
 Link from users names everywhere to their forum page
 
 Make it clearer can discuss individual Policy votes on forum
 
-Make policy vote selection 
-    - thing formatted differently
-    - have drop down, show most recent 3 at top
-
-No link back to division here
-http://www.publicwhip.org.uk/forum/viewtopic.php?p=497#497
-
-Caching errors:
-    Policy comparison
-
-Link from forum page of division back to division
-
 Usability
 ---------
 
-Policy status - done vs. provisional
-
 Rethink "Join us" section of site
 - Email with random unedited motion text
+
+Make newsletter signing more streamlined
 
 Link more clearly to simple list of aye/no voters - perhaps from word "aye" in
 party summary table, or in first line on division page (the Aye-voters). (FD)
 
 Show if and how many times each person spoke in debate leading up to division, and link to their speeches (FD)
 
-Make newsletter signing more streamlined
-
-Fix up rebellion wording on policy pages, confuses people
-
-Check Policies shown OK on division page, MP page etc.
-
 Finish rename of motion text editing (e.g. in project/ pages)
+
+Make policy vote selection have drop down, show most recent 3 at top
+
+Show divisions with the same beginning part of title in sidebar
+
+Policy status - done vs. provisional
 
 Stuff
 -----
@@ -55,8 +36,7 @@ Write code to fill in pw_cache_realreal_distance (after model of dreamreal_dista
 Migrate away from mpdist table to pw_cache_realreal_distance
 Also do pw_cache_divisiondivision_distance 
 
-Database patches:
-    Remove division_id
+Remove division_id from database
 remove mps_query_start
 Add moffice.responsibility field
 
@@ -64,7 +44,6 @@ Rewrite description of formula
 
 Do a big usability thing - get Tom L to help with his ideas
 Make log file stats daily to see what happens as you subtly change links
-Controversial: Remove cluster map, Remove division attendance
 
 Backup dynamic database on cron job 
 
