@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.96 2005/11/29 10:01:15 frabcus Exp $
+# $Id: division.php,v 1.97 2005/12/04 12:49:36 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -69,7 +69,8 @@
         {
             $query = "SELECT vote FROM pw_vote
                         WHERE division_id = ".$divattr["division_id"]."
-                            AND mp_id = ".$mpprop['mpid'];
+                            AND mp_id = ".$mpprop['mpid'].
+                            " LIMIT 1" /* the tellaye+no vote is twice */;
             $row = $db->query_onez_row_assoc($query);
             if ($row)
             {
