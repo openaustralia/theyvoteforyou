@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.99 2005/12/04 17:02:31 publicwhip Exp $
+# $Id: division.php,v 1.100 2005/12/04 17:49:40 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -395,7 +395,8 @@
 		# two motion text
 		else
 		{
-gen_division_distance($db, $divattr["division_date"], $divattr["division_number"], $divattr2["division_date"], $divattr2["division_number"], $divattr["house"]);
+fill_division_distances($db, $db2, $divattr["house"]);
+#gen_division_distance($db, $divattr["division_date"], $divattr["division_number"], $divattr2["division_date"], $divattr2["division_number"], $divattr["house"]);
 
 			if ($display == "opposites")
 			{
