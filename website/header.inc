@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.68 2005/12/04 20:41:35 frabcus Exp $
+# $Id: header.inc,v 1.69 2005/12/04 20:43:51 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -100,6 +100,11 @@ Search or Postcode:
 </tr>
 
 <!-- the second tier navigation -->
+<!-- add hashes to $second_links array, keys are
+     'href' - URL of link
+     'text' - displayed text
+     'tooltip' - text to put in title
+     'current' - 'on' or 'off' for whether this item is currently selected -->
 <? if ($second_links) { ?>
 <tr class="secondheaders">
 <td class="pagesecondnavlinks" colspan="2">
