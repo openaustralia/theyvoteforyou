@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: division-forum.php,v 1.2 2005/10/27 00:50:12 frabcus Exp $
+# $Id: division-forum.php,v 1.3 2005/12/04 00:39:01 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -21,7 +21,7 @@ $db = new DB();
 # decode the attributes
 $divattr = get_division_attr_decode($db, "");
 if ($divattr == "none")
-    err('Division not found');
+    trigger_error('Division not found', E_USER_ERROR);
 $motion_data = get_wiki_current_value("motion", array($divattr["division_date"], $divattr["division_number"], $divattr['house']));
 $name = extract_title_from_wiki_text($motion_data['text_body']);
 $description = extract_motion_text_from_wiki_text($motion_data['text_body']);
