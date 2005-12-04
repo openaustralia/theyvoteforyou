@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.19 2005/11/01 01:23:17 frabcus Exp $
+    # $Id: mps.php,v 1.20 2005/12/04 20:41:35 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -27,11 +27,10 @@
 
     $second_links = array();
     foreach ($parliaments as $pname => $pdata) {
-        array_push($second_links, "<a href=\"mps.php?parliament=". $pname.
-              "&sort=" . html_scrub($sort) . "\"
-              class=\"".($parliament == $pname ? "on" : "off")."\"
-              >".
-              $pdata['name'] . " Parliament</a>");
+        array_push($second_links, array(
+            'href'=>"mps.php?parliament=". $pname.  "&sort=" . html_scrub($sort),
+            'current'=>($parliament == $pname ? "on" : "off"),
+            'text'=> $pdata['name']));
     }
     pw_header();
 

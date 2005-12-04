@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.32 2005/11/28 22:45:16 frabcus Exp $
+# $Id: decodeids.inc,v 1.33 2005/12/04 20:41:34 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -339,7 +339,11 @@ function dismodes_to_second_links($thispage, $dismodes, $sort, $display) {
     foreach ($dismodes as $ldisplay => $ldismode)
 	{
         $dlink = $thispage.($ldisplay == "summary" ? "" : "&display=$ldisplay").$tpsort;
-        array_push($second_links, "<a title=\"".$ldismode["tooltip"]."\" class=\"".($ldisplay == $display ? "on" : "off")."\" href=\"$dlink\">".$ldismode["description"]."</a>");
+        array_push($second_links, array(
+            'tooltip' => $ldismode["tooltip"],
+            'current' => ($ldisplay == $display ? "on" : "off"),
+            'href' => $dlink,
+            'text' => $ldismode["description"]));
 	}
     if (count($second_links) <= 1)
         return array();

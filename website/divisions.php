@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.20 2005/11/01 01:23:17 frabcus Exp $
+# $Id: divisions.php,v 1.21 2005/12/04 20:41:35 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -81,7 +81,9 @@
     foreach ($rdismodes as $lrdisplay => $lrdismode)
 	{
 		$dlink = makedivlink($lrdisplay, $sort);
-        array_push($second_links, "<a href=\"$dlink\" class=\"".($lrdisplay == $rdisplay ? "on" : "off")."\">".$lrdismode["lkdescription"]."</a>");
+        array_push($second_links, array('href'=>$dlink, 
+            'current'=> ($lrdisplay == $rdisplay ? "on" : "off"),
+            'text'=>$lrdismode["lkdescription"]));
 	}
     pw_header();
 

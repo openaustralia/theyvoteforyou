@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.67 2005/11/28 22:01:22 frabcus Exp $
+# $Id: header.inc,v 1.68 2005/12/04 20:41:35 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -106,10 +106,10 @@ Search or Postcode:
 <?
     foreach ($second_links as $this_link) {
         print " ";
-        if (stristr($this_link, '"on"')) {
+        if ($this_link['current']== 'on') {
 #            $this_link = str_replace('">', '"><img src="secondnavarrow.gif" alt="&gt;">', $this_link);
         }
-        print $this_link;
+        print "<a title=\"".$this_link['tooltip']."\" href=\"".$this_link['href']."\" class=\"".$this_link['current']."\">".$this_link['text']."</a>";
     }
 ?>
 </td>
