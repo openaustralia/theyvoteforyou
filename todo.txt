@@ -2,14 +2,13 @@ http://www.publicwhip.org.uk/mp.php?mpn=Ian_Pearson&mpc=Dudley+South
 
 Drop down boxes at the top
 
-election.php
-     - email James to say are using postcode
-     - work out what to do with people going on into future...
-     - clone the Dream MPs as they were then
+election.php - email James to say are using postcode
 
 Make it clearer can discuss individual Policy votes on forum
 
 Search on forum page bizarrely goes to forum search box (no /?)
+
+Backup database on seagrass
 
 Usability
 ---------
