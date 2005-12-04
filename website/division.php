@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.97 2005/12/04 12:49:36 publicwhip Exp $
+# $Id: division.php,v 1.98 2005/12/04 16:08:11 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -16,6 +16,7 @@
     require_once "database.inc";
     require_once "divisionvote.inc";
     require_once "dream.inc";
+    require_once "distances.inc";
 
     $db = new DB();
     $db2 = new DB();
@@ -317,7 +318,7 @@
             print "</b>";
 	        print "</div>\n";
 
-			print "<h2>External Links</h2><ul>"; 
+			print "<h2>External Links</h2><ul>";
 			print "<p>"; 
 	        $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
 	        $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
@@ -384,8 +385,11 @@
 			}
 		}
 
+		# two motion text
 		else
 		{
+gen_division_distance($db, $divattr["division_id"], $divattr["division_number"], $divattr2["division_id"], $divattr2["division_number"], $divattr["house"]);
+
 			if ($display == "opposites")
 			{
 				print "<h2><a name=\"votes\">Opposite in Votes - sorted by $sort</a></h2>\n";
