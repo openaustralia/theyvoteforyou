@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.1 2005/12/04 16:08:11 goatchurch Exp $
+# $Id: distances.inc,v 1.2 2005/12/04 17:02:31 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -9,8 +9,8 @@
 function matchvoteqstr($vote, $votenumber)
 {
 	if ($vote == "absent")
-		return "(pw_vote$votenumber = 'both' OR pw_vote$votenumber IS null)";
-	return "(pw_vote$votenumber = '$vote' OR pw_vote$votenumber = 'tell$vote')";
+		return "(pw_vote$votenumber.vote = 'both' OR pw_vote$votenumber.vote IS null)";
+	return "(pw_vote$votenumber.vote = '$vote' OR pw_vote$votenumber.vote = 'tell$vote')";
 }
 
 function matchvoteqsum($vote1, $vote2)
@@ -24,7 +24,8 @@ function update_divdiv_distance($db, $division_date1, $divid1, $division_date2, 
 	global $bdebug;
 
 	# make the set of voting MPs in the first division
-	$qselect = 	"SELECT 1 AS all, count(*) AS nvotespossible";
+	$qselect = "SELECT 1 AS ssss, sum(1) AS nvotestotal";
+#$qselect .= matchvoteqsum("absent", "no"); 
 	$qselect .= matchvoteqsum("no", "no").matchvoteqsum("no", "aye").matchvoteqsum("aye", "no").matchvoteqsum("aye", "aye");
 	$qselect .= matchvoteqsum("no", "absent").matchvoteqsum("aye", "absent").matchvoteqsum("absent", "no").matchvoteqsum("absent", "aye");
 
@@ -50,14 +51,14 @@ function update_divdiv_distance($db, $division_date1, $divid1, $division_date2, 
 					ON pw_vote2.division_id = $divid2
 					AND pw_vote2.mp_id = pw_mp2.mp_id";
 
-	$qgroup = " GROUP BY all"; # sum all rows
+	$qgroup = " GROUP BY ssss"; # sum all rows
 
 
 
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
-#	if ($bdebug == 1)
-		print "<h2>$query</h2>";
+	if ($bdebug == 1)
+		print "<h4>$query</h4>";
     $row = $db->query_one_row_assoc($query);
 	print_r($row);
 }
@@ -69,12 +70,13 @@ function get_divid($db, $division_date, $division_number, $house)
 			  FROM pw_division
 			  WHERE division_date = '$division_date'
 			    AND division_number = $division_number
-			    AND division_house = '$house'";
+			    AND house = '$house'";
+	print $query; 
 	$row = $db->query_one_row_assoc($query);
 	return $row["division_id"];
 }
 
-function gen_division_distance($division_date1, $division_number1, $division_date2, $division_number2, $house)
+function gen_division_distance($db, $division_date1, $division_number1, $division_date2, $division_number2, $house)
 {
 	$divid1 = get_divid($db, $division_date1, $division_number1, $house);
 	$divid2 = get_divid($db, $division_date2, $division_number2, $house);

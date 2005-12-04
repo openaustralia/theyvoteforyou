@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.98 2005/12/04 16:08:11 goatchurch Exp $
+# $Id: division.php,v 1.99 2005/12/04 17:02:31 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -21,7 +21,8 @@
     $db = new DB();
     $db2 = new DB();
 
-	# decode the attributes
+
+# decode the attributes
 	$divattr = get_division_attr_decode($db, "");
     if ($divattr == "none") {
         $title = "Division not found";
@@ -119,8 +120,14 @@
 	    $lquery = $lqselect.$lqfrom.$lqjoin.$lqwhere.$lqgroupby;
 	    if ($bdebug == 1)
 	        print "\n<h3>$lquery</h3>\n";
-	    $row = $db->query_one_row_assoc($lquery);
-		$div2invert = ($row["same"] < $row["opposite"]);
+	    $row = $db->query_onez_row_assoc($lquery);
+		if (!$row)
+        {
+            pw_header(); 
+            print "<h1>error</h1>"; 
+            exit;
+        }
+        $div2invert = ($row["same"] < $row["opposite"]);
 	    if ($bdebug == 1)
 			print "<h1>same ".$row["same"]." Opposite ".$row["opposite"]." Total ".$row["total"]."  inv$div2invert </h1>"; # total should be sum of other two
     }
@@ -388,7 +395,7 @@
 		# two motion text
 		else
 		{
-gen_division_distance($db, $divattr["division_id"], $divattr["division_number"], $divattr2["division_id"], $divattr2["division_number"], $divattr["house"]);
+gen_division_distance($db, $divattr["division_date"], $divattr["division_number"], $divattr2["division_date"], $divattr2["division_number"], $divattr["house"]);
 
 			if ($display == "opposites")
 			{
