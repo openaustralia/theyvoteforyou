@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.3 2005/12/04 17:50:50 goatchurch Exp $
+# $Id: distances.inc,v 1.4 2005/12/04 18:41:08 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -55,14 +55,14 @@ function update_divdiv_distance($db, $division_date1, $division_number1, $divid1
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
 	if ($bdebug == 1)
 		print "<h4>$query</h4>";
-    $row = $db->query_one_row_assoc($query);
+	$row = $db->query_one_row_assoc($query);
 
 
 	$qattrs = "division_date, division_number, house,
 			   division_date2, division_number2, house2, ";
 
-	$qvalues = "$division_date1, $division_number1, $house,
-			   $division_date2, $division_number2, $house, ";
+	$qvalues = "'$division_date1', $division_number1, '$house',
+			   '$division_date2', $division_number2, '$house', ";
 
 	$qattrs .= "nvotespossible, ";
 	$qvalues .= $row['nvotestotal'].", ";
@@ -87,10 +87,10 @@ function update_divdiv_distance($db, $division_date1, $division_number1, $divid1
 	if ($bdebug == 1)
 		print "<h4>$qattrs</h4>";
 #	if ($bdebug == 1)
-		print "<h4>$values</h4>";
-#	$db->query("INSERT INTO pw_cache_divdiv_distance ($qattrs) VALUES ($qvalues)");
+		print "<h4>$qvalues</h4>";
+	$db->query("INSERT INTO pw_cache_divdiv_distance ($qattrs) VALUES ($qvalues)");
 
-	print_r($row);
+	#print_r($row);
 }
 
 
@@ -129,15 +129,17 @@ function fill_division_distances($db, $db2, $house)
 
 	$qfrom = " FROM pw_division AS pw_division1, pw_division AS pw_division2";
 	$qjoin = " LEFT JOIN pw_cache_divdiv_distance
-					ON pw_cache_divdiv_distance.division_date = pw_division1._division_date
+					ON pw_cache_divdiv_distance.division_date = pw_division1.division_date
 						AND pw_cache_divdiv_distance.division_number = pw_division1.division_number AND pw_cache_divdiv_distance.house = '$house'
-					AND pw_cache_divdiv_distance.division_date2 = pw_division2._division_date
+					AND pw_cache_divdiv_distance.division_date2 = pw_division2.division_date
 						AND pw_cache_divdiv_distance.division_number2 = pw_division2.division_number AND pw_cache_divdiv_distance.house2 = '$house'";
 	$qwhere = " WHERE pw_cache_divdiv_distance.division_date IS null";
 
-	$query = $qselect.$qfrom.$qjoin.$qwhere." LIMIT BY 10";
+	$query = $qselect.$qfrom.$qjoin.$qwhere." ORDER BY LEAST(pw_division1.division_date, pw_division2.division_date) DESC  LIMIT 1000"; 
+	if ($bdebug == 1)
+		print $query; 
 	$db->query($query);
-    while ($row = $db->fetch_row_assoc())
+	while ($row = $db->fetch_row_assoc())
 	{
 		update_divdiv_distance($db2, $row['division_date1'], $row['division_number1'], $row['division_id1'],
 									 $row['division_date2'], $row['division_number2'], $row['division_id2'], $house);
