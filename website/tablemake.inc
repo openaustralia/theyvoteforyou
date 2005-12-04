@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.42 2005/12/04 19:26:25 goatchurch Exp $
+# $Id: tablemake.inc,v 1.43 2005/12/04 21:10:28 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -276,9 +276,10 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter
     }
 
     # alternative columns on division table
-    else {
+    else if ($row['divdistance'] != "")
+    	print "<td>".$row['divdistance']."</td>"; 
+    else
         print "<td>".$row['rebellions']."</td> <td>".$row['turnout']."</td>\n";
-    }
     print "</tr>\n";
 }
 
@@ -342,6 +343,8 @@ function GetPartyVoteSummaryH($db, $div_id)
                           'totalpartyvote' => $totalpartyvote);
     return $partysummary;
 }
+
+
 function writepersonvote($lnrows, $cla, $name, $vote, $ayecla, $nocla)
 {
     print "<tr class=\"".($lnrows != -1 ? (($lnrows % 2 == 1) ? "odd" : "even") : "")."$cla\">";
@@ -512,10 +515,11 @@ function division_table($db, $divtabattr, $events = "")
 	$divclose = $divtabattr["divclose"];
 	if ($divclose)
 	{
-	    $aquery["qjoin"] .= " LEFT JOIN pw_cache_divdiv_distance
-								ON pw_cache_divdiv_distance.division_date1 = ".$divclose['division_date']."
-								AND pw_cache_divdiv_distance.division_number1 = ".$divclose['division_number']."
-								AND pw_cache_divdiv_distance.house1 = ".$divclose['house']."
+		$aquery["qselect"] .= ", pw_cache_divdiv_distance.distance_a AS divdistance"; 
+		$aquery["qjoin"] .= " LEFT JOIN pw_cache_divdiv_distance
+								ON pw_cache_divdiv_distance.division_date = '".$divclose['division_date']."'
+								AND pw_cache_divdiv_distance.division_number = ".$divclose['division_number']."
+								AND pw_cache_divdiv_distance.house = '".$divclose['house']."'
 								AND pw_cache_divdiv_distance.division_date2 = pw_division.division_date
 								AND pw_cache_divdiv_distance.division_number2 = pw_division.division_number
 								AND pw_cache_divdiv_distance.house2 = pw_division.house";

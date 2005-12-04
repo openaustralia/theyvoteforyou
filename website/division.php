@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.101 2005/12/04 19:26:24 goatchurch Exp $
+# $Id: division.php,v 1.102 2005/12/04 21:10:28 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -28,7 +28,7 @@ function no_division_found($plural)
 	print "<p>Public Whip does not have this/these divisions.  Perhaps it
     		  doesn't exist, or it hasn't been added to The Public Whip yet.
 		      New divisions are added one or two working days after they happen.</p>
-		     <p><a href="divisions.php">Browse for a division</a> </p>";
+		     <p><a href=\"divisions.php\">Browse for a division</a> </p>";
 	pw_footer();
 	exit;
 }
@@ -464,7 +464,7 @@ function no_division_found($plural)
 		}
 		print "</tr>\n";
 
-		$mptabattr = array("listtype"	=> "division",
+		$mptabattr = array("listtype"	=> "division", 
 							"divdate"	=> $divattr["division_date"],
 							"divno"		=> $divattr["division_number"],
 							"divid"		=> $divattr["division_id"],  # redundant, but the above two are not used by all tables
@@ -487,25 +487,27 @@ function no_division_found($plural)
 		print "</table>";
 	}
 
-	if ($dismode["closedivisions"])
+#	if ($dismode["closedivisions"])
 	{
 		fill_division_distances($db, $db2, $divattr["house"], $divattr);
 		$divtabattr = array(
 				"showwhich"		=> 'everyvote',
 				"headings"		=> 'none',
 				"sortby"		=> 'closeness',
+                "limitby"       => '30', 
 				"divclose"		=> $divattr);
 
 #		if ($rdismode["parliament"] != "all")
 #			$divtabattr["parldatelimit"] = $parliaments[$rdisplay];
 
-	    print "<table class=\"votes\">\n";
+        print "<h2>Close Divisions</h2>"; 
+
+        print "<table class=\"votes\">\n";
 	    print "<tr class=\"headings\">";
 	    print "<td>Date</td>";
 	    print "<td>No.</td>";
 	    print "<td>Subject</td>";
-	    print "<td>Rebellions</td>";
-	    print "<td>Turnout</td>";
+	    print "<td>Distance</td>"; 
 	    print "</tr>";
 		division_table($db, $divtabattr);
     	print "</table>\n";

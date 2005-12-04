@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.5 2005/12/04 19:26:24 goatchurch Exp $
+# $Id: distances.inc,v 1.6 2005/12/04 21:10:28 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -86,11 +86,10 @@ function update_divdiv_distance($db, $division_date1, $division_number1, $divid1
 
 	if ($bdebug == 1)
 		print "<h4>$qattrs</h4>";
-#	if ($bdebug == 1)
+	if ($bdebug == 1)
 		print "<h4>$qvalues</h4>";
 	$db->query("INSERT INTO pw_cache_divdiv_distance ($qattrs) VALUES ($qvalues)");
 
-	#print_r($row);
 }
 
 
@@ -126,7 +125,7 @@ function fill_division_distances($db, $db2, $house, $divattr)
 	$qwhere = " WHERE pw_cache_divdiv_distance.division_date IS null";
 
 	if ($divattr)
-		$qwhere .= " AND pw_division1.division_id = ".$divattr['division_id'];
+		$qwhere .= " AND pw_division2.division_id = ".$divattr['division_id'];
 
 	$qorder = " ORDER BY LEAST(pw_division1.division_date, pw_division2.division_date) DESC";
 	$qlimit = " LIMIT 1000"; # to stop the calculation running on forever
