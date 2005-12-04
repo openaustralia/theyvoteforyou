@@ -1,17 +1,22 @@
+http://www.publicwhip.org.uk/mp.php?mpn=Ian_Pearson&mpc=Dudley+South
+
+Drop down boxes at the top
+
 election.php
      - email James to say are using postcode
      - work out what to do with people going on into future...
-
-Link from users names everywhere to their forum page
+     - clone the Dream MPs as they were then
 
 Make it clearer can discuss individual Policy votes on forum
 
 Search on forum page bizarrely goes to forum search box (no /?)
 
-http://www.publicwhip.org.uk/mp.php?mpn=Ian_Pearson&mpc=Dudley+South
-
 Usability
 ---------
+
+Electech tour for first time users
+
+Remove terms and conditions tickbox from registration
 
 Rethink "Join us" section of site
 - Email with random unedited motion text
@@ -21,8 +26,6 @@ Make newsletter signing more streamlined
 Link more clearly to simple list of aye/no voters - perhaps from word "aye" in
 party summary table, or in first line on division page (the Aye-voters). (FD)
 
-Show if and how many times each person spoke in debate leading up to division, and link to their speeches (FD)
-
 Finish rename of motion text editing (e.g. in project/ pages)
 
 Make policy vote selection have drop down, show most recent 3 at top
@@ -31,10 +34,21 @@ Show divisions with the same beginning part of title in sidebar
 
 Policy status - done vs. provisional
 
+Policies need reversed name - so can be described negatively and positively
+    - perhaps have box with sentence for/against
+
+Calculate interesting divisions for MP pages using
+    - rebellion
+    - turnout
+    - government majority
+    - is teller
+
 Stuff
 -----
 
-User page - link to all of a user's contributions
+Rebellions and attendance by time range rather than mp id (needed for Lords)
+
+User page on forum - link to all of a user's policies?
 
 Write code to fill in pw_cache_realreal_distance (after model of dreamreal_distance)
 Migrate away from mpdist table to pw_cache_realreal_distance
@@ -42,7 +56,6 @@ Also do pw_cache_divisiondivision_distance
 
 Remove division_id from database
 remove mps_query_start
-Add moffice.responsibility field
 
 Rewrite description of formula
 
@@ -51,14 +64,8 @@ Make log file stats daily to see what happens as you subtly change links
 
 Backup dynamic database on cron job 
 
-Policies
---------
-
 Show comments actually on the policy page / divisions page?
 Indicate better that discussion can go on?
-
-Party comparison
-Put policy ratings on MP page
 
 Voting accuracy
 ---------------
@@ -100,7 +107,10 @@ Policy aggregation function - generic version of election.php
 
 Search needs to search division text and policy text and forum
 
-Tour somehow for first time users
-
 Preview on motion editing form, and policy editing
+
+Show if and how many times each person spoke in debate leading up to division,
+and link to their speeches (FD)
+
+Compare parties to policy 
 

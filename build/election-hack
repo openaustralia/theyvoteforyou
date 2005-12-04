@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# One off script to clone Dream MPs to preserver for election.php
+
+for X in 363 367 258 219 230 358 371
+do
+
+cat <<END
+insert into pw_dyn_dreammp (name, user_id, description, private) select concat("Election 2005 - ", name), user_id, description, 1 from pw_dyn_dreammp where dream_id = $X;
+
+insert into pw_dyn_dreamvote (division_date, division_number, dream_id, vote) select division_date, division_number, last_insert_id(), vote from pw_dyn_dreamvote where dream_id = $X;
+END
+
+done
+

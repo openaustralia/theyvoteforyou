@@ -101,7 +101,7 @@
         } else {
             print "wikiid".$row['wiki_id'];
         }
-        print "<p>Edited by ".pretty_user_name($db, html_scrub(($row['user_name']));
+        print "<p>Edited by ".pretty_user_name($db, html_scrub(($row['user_name'])));
         print "<p>on " . $row['edit_date'] . "\n";
         print "</td>";
         $marked_text_diff = format_linediff(
