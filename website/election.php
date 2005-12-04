@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.24 2005/11/01 02:31:49 frabcus Exp $
+# $Id: election.php,v 1.25 2005/12/04 12:49:46 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -172,14 +172,16 @@ $ranks = array(
         "don't know about" => 0.50,
     );
 
+# Commented out ids are the original Dream MPs now turned into policies.
+# Uncommented out ones are frozen Dream MPs copied from election time.
 $issues = array(
-		array(363, "<strong>foundation hospitals</strong>", false, "foundation hospital"),
-		array(367, "<strong>student top-up fees</strong>", true, "top-up fees"),
-        array(258, "Labour's <strong>anti-terrorism laws</strong>", true, "terrorism"),
-        array(219, "the <strong>Iraq war</strong>", true, "iraq"),
-        array(230, "introducing <strong>ID cards</strong>", true, "id cards"),
-        array(358, "the <strong>ban on fox hunting</strong>", true, "hunting"),
-        array(371, "equal <strong>gay rights</strong>", false, "gay")
+	array(828 /*363*/, "<strong>foundation hospitals</strong>", false, "foundation hospital"),
+	array(829 /*367*/, "<strong>student top-up fees</strong>", true, "top-up fees"),
+        array(830 /*258*/, "Labour's <strong>anti-terrorism laws</strong>", true, "terrorism"),
+        array(831 /*219*/, "the <strong>Iraq war</strong>", true, "iraq"),
+        array(832 /*230*/, "introducing <strong>ID cards</strong>", true, "id cards"),
+        array(833 /*358*/, "the <strong>ban on fox hunting</strong>", true, "hunting"),
+        array(834 /*371*/, "equal <strong>gay rights</strong>", false, "gay")
     );
 
 // Name in database => display name
