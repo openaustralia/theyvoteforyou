@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.41 2005/10/29 17:14:51 goatchurch Exp $
+# $Id: tablemake.inc,v 1.42 2005/12/04 19:26:25 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -467,11 +467,12 @@ function writelinkheading($desc, $link)
 # one or two independent voting actors.
 # votertype is 'dreammp', 'mp', 'party'
 # voter is a mpid, dreammpid, blank-for-self party,
+# divclose is divattr, or null
 # showwhich is 'everyvote', 'rebellions10', 'all1', 'all2', 'either', 'both', 'bothdiff' (tellers appear automatically)
 # (then we need a signal for order and for expanded display, and for events)
 # votedisplay is none, 'fullmotion'(for showing the jmp view)
 # headings is 'none', 'columns', 'fulldesc'(for changing mps)
-# sortby is 'date', 'subject', 'rebellions', 'turnout'
+# sortby is 'date', 'subject', 'rebellions', 'turnout', 'closeness'
 # $parldatelimit is null or a line from $parliaments
 # motionwikistate is nothing or 'listunedited' for the "(unedited)" symbols
 function division_table($db, $divtabattr, $events = "")
@@ -507,11 +508,27 @@ function division_table($db, $divtabattr, $events = "")
     # accumulate the ordering command
     $aquery["qorder"]  = " ORDER BY";
     $sortby = $divtabattr["sortby"];
+
+	$divclose = $divtabattr["divclose"];
+	if ($divclose)
+	{
+	    $aquery["qjoin"] .= " LEFT JOIN pw_cache_divdiv_distance
+								ON pw_cache_divdiv_distance.division_date1 = ".$divclose['division_date']."
+								AND pw_cache_divdiv_distance.division_number1 = ".$divclose['division_number']."
+								AND pw_cache_divdiv_distance.house1 = ".$divclose['house']."
+								AND pw_cache_divdiv_distance.division_date2 = pw_division.division_date
+								AND pw_cache_divdiv_distance.division_number2 = pw_division.division_number
+								AND pw_cache_divdiv_distance.house2 = pw_division.house";
+	}
+
+
     $breversed = ($sortby == "datereversed");
     if ($sortby == "subject")
         $aquery["qorder"] .= " division_name, ";
     if ($sortby == "rebellions" or $sortby == "turnout")
         $aquery["qorder"] .= " $sortby DESC, ";
+	if ($sortby == 'closeness')
+		$aquery["qorder"] .= " pw_cache_divdiv_distance.distance_a, ";
     if ($breversed)
         $aquery["qorder"] .= " divisiondate, divisionhouse, divisionnumber";
     else # by date (for all other cases)

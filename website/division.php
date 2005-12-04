@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.100 2005/12/04 17:49:40 goatchurch Exp $
+# $Id: division.php,v 1.101 2005/12/04 19:26:24 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -21,20 +21,22 @@
     $db = new DB();
     $db2 = new DB();
 
+function no_division_found($plural)
+{
+	$title = "Division$plural not found";
+    pw_header();
+	print "<p>Public Whip does not have this/these divisions.  Perhaps it
+    		  doesn't exist, or it hasn't been added to The Public Whip yet.
+		      New divisions are added one or two working days after they happen.</p>
+		     <p><a href="divisions.php">Browse for a division</a> </p>";
+	pw_footer();
+	exit;
+}
 
 # decode the attributes
 	$divattr = get_division_attr_decode($db, "");
-    if ($divattr == "none") {
-        $title = "Division not found";
-        pw_header();
-?> <p>Public Whip does not have this division.  Perhaps it
-    doesn't exist, or it hasn't been added to The Public Whip yet.
-    New divisions are added one or two working days after they happen.</p>
-    <p><a href="divisions.php">Browse for a division</a> </p>
-<?
-        pw_footer();
-        exit;
-    }
+    if ($divattr == "none")
+		no_division_found("");
 
 	# second division (which we can compare against)
 	$divattr2 = get_division_attr_decode($db, "2");
@@ -122,11 +124,7 @@
 	        print "\n<h3>$lquery</h3>\n";
 	    $row = $db->query_onez_row_assoc($lquery);
 		if (!$row)
-        {
-            pw_header(); 
-            print "<h1>error</h1>"; 
-            exit;
-        }
+			no_division_found("s");
         $div2invert = ($row["same"] < $row["opposite"]);
 	    if ($bdebug == 1)
 			print "<h1>same ".$row["same"]." Opposite ".$row["opposite"]." Total ".$row["total"]."  inv$div2invert </h1>"; # total should be sum of other two
@@ -395,9 +393,6 @@
 		# two motion text
 		else
 		{
-fill_division_distances($db, $db2, $divattr["house"]);
-#gen_division_distance($db, $divattr["division_date"], $divattr["division_number"], $divattr2["division_date"], $divattr2["division_number"], $divattr["house"]);
-
 			if ($display == "opposites")
 			{
 				print "<h2><a name=\"votes\">Opposite in Votes - sorted by $sort</a></h2>\n";
@@ -492,6 +487,29 @@ fill_division_distances($db, $db2, $divattr["house"]);
 		print "</table>";
 	}
 
+	if ($dismode["closedivisions"])
+	{
+		fill_division_distances($db, $db2, $divattr["house"], $divattr);
+		$divtabattr = array(
+				"showwhich"		=> 'everyvote',
+				"headings"		=> 'none',
+				"sortby"		=> 'closeness',
+				"divclose"		=> $divattr);
+
+#		if ($rdismode["parliament"] != "all")
+#			$divtabattr["parldatelimit"] = $parliaments[$rdisplay];
+
+	    print "<table class=\"votes\">\n";
+	    print "<tr class=\"headings\">";
+	    print "<td>Date</td>";
+	    print "<td>No.</td>";
+	    print "<td>Subject</td>";
+	    print "<td>Rebellions</td>";
+	    print "<td>Turnout</td>";
+	    print "</tr>";
+		division_table($db, $divtabattr);
+    	print "</table>\n";
+	}
 
 	if ($dismode["dreamvoters"])
 	{

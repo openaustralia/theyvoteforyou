@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.4 2005/12/04 18:41:08 publicwhip Exp $
+# $Id: distances.inc,v 1.5 2005/12/04 19:26:24 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -105,19 +105,9 @@ function get_divid($db, $division_date, $division_number, $house)
 	return $row["division_id"];
 }
 
-function gen_division_distance($db, $division_date1, $division_number1, $division_date2, $division_number2, $house)
-{
-	$divid1 = get_divid($db, $division_date1, $division_number1, $house);
-	$divid2 = get_divid($db, $division_date2, $division_number2, $house);
-
-	$qattrs = "division_date, division_number, house,
-			   division_date2, division_number2, house2, ";
-
-	update_divdiv_distance($db, $division_date1, $division_number1, $divid1, $division_date2, $division_number2, $divid2, $house);
-}
 
 # then we loop through the missing entries and fill them in
-function fill_division_distances($db, $db2, $house)
+function fill_division_distances($db, $db2, $house, $divattr)
 {
 	# find missing entries in the table
 	$qselect = "SELECT pw_division1.division_date AS division_date1,
@@ -135,9 +125,15 @@ function fill_division_distances($db, $db2, $house)
 						AND pw_cache_divdiv_distance.division_number2 = pw_division2.division_number AND pw_cache_divdiv_distance.house2 = '$house'";
 	$qwhere = " WHERE pw_cache_divdiv_distance.division_date IS null";
 
-	$query = $qselect.$qfrom.$qjoin.$qwhere." ORDER BY LEAST(pw_division1.division_date, pw_division2.division_date) DESC  LIMIT 1000"; 
+	if ($divattr)
+		$qwhere .= " AND pw_division1.division_id = ".$divattr['division_id'];
+
+	$qorder = " ORDER BY LEAST(pw_division1.division_date, pw_division2.division_date) DESC";
+	$qlimit = " LIMIT 1000"; # to stop the calculation running on forever
+
+	$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
 	if ($bdebug == 1)
-		print $query; 
+		print $query;
 	$db->query($query);
 	while ($row = $db->fetch_row_assoc())
 	{
