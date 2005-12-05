@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.43 2005/12/04 21:10:28 publicwhip Exp $
+# $Id: tablemake.inc,v 1.44 2005/12/05 01:02:29 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -276,8 +276,8 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter
     }
 
     # alternative columns on division table
-    else if ($row['divdistance'] != "")
-    	print "<td>".$row['divdistance']."</td>"; 
+    else if ($row['divdistance'] != null)
+    	print "<td>E ".$row['divdistance']."</td>";
     else
         print "<td>".$row['rebellions']."</td> <td>".$row['turnout']."</td>\n";
     print "</tr>\n";
@@ -520,9 +520,11 @@ function division_table($db, $divtabattr, $events = "")
 								ON pw_cache_divdiv_distance.division_date = '".$divclose['division_date']."'
 								AND pw_cache_divdiv_distance.division_number = ".$divclose['division_number']."
 								AND pw_cache_divdiv_distance.house = '".$divclose['house']."'
-								AND pw_cache_divdiv_distance.division_date2 = pw_division.division_date
+								
+								AND pw_cache_divdiv_distance.division_date2 = pw_division.division_date 
 								AND pw_cache_divdiv_distance.division_number2 = pw_division.division_number
 								AND pw_cache_divdiv_distance.house2 = pw_division.house";
+		$aquery["qwhere"] .= " AND pw_cache_divdiv_distance.distance_a IS NOT null"; 
 	}
 
 
@@ -710,7 +712,10 @@ function division_table($db, $divtabattr, $events = "")
         else
             $hrefsource = $row['source_url'];
 
-        $divhref = "division.php?date=".urlencode($row['divisiondate'])."&number=".urlencode($row['divisionnumber']).$divtabattr["divhrefappend"];
+        $divhref = "division.php?date=".urlencode($row['divisiondate'])."&number=".urlencode($row['divisionnumber']);
+	if ($divclose)
+		$divhref .= "&date2=".urlencode($divclose['division_date'])."&number2=".urlencode($divclose['division_number']);
+	$divhref .= $divtabattr["divhrefappend"]; 
 
         # write out the events
         writeevents($events, $row['divisiondate'], $breversed);
