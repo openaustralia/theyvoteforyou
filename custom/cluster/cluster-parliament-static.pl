@@ -2,7 +2,7 @@
 use strict;
 use lib "../../loader/";
 
-# $Id: cluster-parliament-static.pl,v 1.4 2005/11/18 03:12:17 publicwhip Exp $
+# $Id: cluster-parliament-static.pl,v 1.5 2005/12/05 01:44:39 frabcus Exp $
 # Outputs a matrix of distances between pairs of MPs for
 # use by the GNU Octave script mds.m to do clustering.
 
@@ -66,7 +66,7 @@ foreach my $parliament (@PublicWhip::Parliaments::list)
     open(PIPE, ">DN.m");
     mpquery::octave_writer(\*PIPE, $dbh, $mp_ixs, $metricD);
     system("octave --silent mds.m");
-    rename "mpcoords.txt", "mpcoords-" . $$parliament{'id'} . ".txt";
+    rename "out.txt", "mpcoords-" . $$parliament{'id'} . ".txt";
 }
 
 

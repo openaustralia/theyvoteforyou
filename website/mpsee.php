@@ -1,12 +1,12 @@
 <?php require_once "common.inc";
-# $Id: mpsee.php,v 1.18 2005/11/28 18:21:39 publicwhip Exp $
+# $Id: mpsee.php,v 1.19 2005/12/05 01:44:39 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-    $title = "Vote map"; pw_header()
+    $title = "MP vote map"; pw_header()
 ?>
 
 <p>For your convenience, this is a tool for 
@@ -83,11 +83,11 @@ Sun Java 1.4 or above required
 <!--"END_CONVERTED_APPLET"-->
 <?php
     }
-    print "<h2>Vote map 2005 parliament</h2>\n";
+    print "<h2>MP vote map 2005 parliament</h2>\n";
     applet("2005");
-    print "<h2>Vote map 2001 parliament</h2>\n";
+    print "<h2>MP vote map 2001 parliament</h2>\n";
     applet("2001");
-    print "<h2>Vote map 1997 parliament</h2>\n";
+    print "<h2>MP vote map 1997 parliament</h2>\n";
     applet("1997");
 ?>
 

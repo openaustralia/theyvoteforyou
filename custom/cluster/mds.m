@@ -1,4 +1,4 @@
-# $Id: mds.m,v 1.1 2005/03/28 14:26:32 frabcus Exp $
+# $Id: mds.m,v 1.2 2005/12/05 01:44:39 frabcus Exp $
 # Multidimensional scaling on matrix of distances between
 # pairs of MPs, for some distance metric.
 # Octave source file (should be compatible with Matlab)
@@ -22,7 +22,7 @@ B=H*A*H;
 [U, S]=schur(B,"u");
 
 # output data to file
-ff = fopen("mpcoords.txt", "w");
+ff = fopen("out.txt", "w");
 fprintf(ff, "%d %f %f %f\n", mps, S(1,1), S(2,2), S(3,3));
 for i=1:mps
         fprintf(ff, "%d %f %f %f \"%s\" \"%s\"\n", i, U(i,1),U(i,2),U(i,3),ns(i,:),ps(i,:));
