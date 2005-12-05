@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.8 2005/12/05 01:32:03 goatchurch Exp $
+# $Id: distances.inc,v 1.9 2005/12/05 01:47:53 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -19,16 +19,16 @@ function matchvoteqsum($vote1, $vote2)
 }
 
 # calculate the distance between two divisions from their ids
-function update_divdiv_distance($db, $division_date1, $divid1, $division_date2, $divid2)
+function update_divdiv_distance($db, $division_date1, $divid1, $division_date2, $divid2, $house)
 {
 	global $bdebug;
 
 	# make the set of voting MPs in the first division
-	$qselect = "SELECT 1 AS ssss, sum(1) AS nvotestotal";
+	$qselect = "SELECT 1 AS ssss, sum(1) AS nvotestotal, ";
 	$qselect .= " SUM((".matchvoteqstr("no", 1)." AND ".matchvoteqstr("no", 2).") OR
-					  (".matchvoteqstr("aye", 1)." AND ".matchvoteqstr("aye", 2).")) AS nvotessame";
+					  (".matchvoteqstr("aye", 1)." AND ".matchvoteqstr("aye", 2).")) AS nvotessame, ";
 	$qselect .= " SUM((".matchvoteqstr("aye", 1)." AND ".matchvoteqstr("no", 2).") OR
-					  (".matchvoteqstr("no", 1)." AND ".matchvoteqstr("aye", 2).")) AS nvotesdiffer";
+					  (".matchvoteqstr("no", 1)." AND ".matchvoteqstr("aye", 2).")) AS nvotesdiffer, ";
 	$qselect .= " SUM(".matchvoteqstr("absent", 1)." AND ".matchvoteqstr("absent", 2).") AS nabsentabsent";
 
 	$qfrom =  " FROM pw_mp AS pw_mp1";
@@ -61,7 +61,7 @@ function update_divdiv_distance($db, $division_date1, $divid1, $division_date2, 
 	$row = $db->query_one_row_assoc($query);
 
 
-	$qattrs = "division_id, division_id2, house2, ";
+	$qattrs = "division_id, division_id2, ";
 
 	$qvalues = "$divid1, $divid2, ";
 
@@ -102,15 +102,15 @@ function fill_division_distances($db, $db2, $house, $divattr)
 	$qfrom = " FROM pw_division AS pw_division1, pw_division AS pw_division2";
 	$qjoin = " LEFT JOIN pw_cache_divdiv_distance
 					ON pw_cache_divdiv_distance.division_id = pw_division1.division_id
-					AND pw_cache_divdiv_distance.division_date2 = pw_division2.division_id";
+					AND pw_cache_divdiv_distance.division_id2 = pw_division2.division_id";
 	$qwhere = " WHERE pw_division1.house = '$house' AND pw_division2.house = '$house'
-				  AND pw_cache_divdiv_distance.division_date IS null";
+				  AND pw_cache_divdiv_distance.distance IS null";
 
 	if ($divattr)
 		$qwhere .= " AND pw_division1.division_id = '".$divattr['division_id']."'";
 
 	$qorder = " ORDER BY LEAST(pw_division1.division_date, pw_division2.division_date) DESC";
-	$qlimit = " LIMIT 200"; # to stop the calculation running on forever on one run
+	$qlimit = " LIMIT 2000"; # to stop the calculation running on forever on one run
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
 	if ($bdebug == 1)
@@ -118,7 +118,7 @@ function fill_division_distances($db, $db2, $house, $divattr)
 	$db->query($query);
 	while ($row = $db->fetch_row_assoc())
 	{
-		update_divdiv_distance($db2, $row['division_date1'], $row['division_id1'], $row['division_date2'], $row['division_id2']);
+		update_divdiv_distance($db2, $row['division_date1'], $row['division_id1'], $row['division_date2'], $row['division_id2'], $house);
 	}
 }
 

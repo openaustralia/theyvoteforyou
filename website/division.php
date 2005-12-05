@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.102 2005/12/04 21:10:28 publicwhip Exp $
+# $Id: division.php,v 1.103 2005/12/05 01:47:53 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -489,7 +489,7 @@ function no_division_found($plural)
 
 #	if ($dismode["closedivisions"])
 	{
-		fill_division_distances($db, $db2, $divattr["house"], $divattr);
+		fill_division_distances($db, $db2, $divattr["house"], null);#, $divattr);
 		$divtabattr = array(
 				"showwhich"		=> 'everyvote',
 				"headings"		=> 'none',
