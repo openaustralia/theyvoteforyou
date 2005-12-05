@@ -3,7 +3,7 @@ set -e
 
 # Exports database for others to download.
 
-MYSQL_DUMP=/software/bin/mysqldump
+MYSQL_DUMP=/usr/bin/mysqldump
 
 # Main tables with data from Hansard
 $MYSQL_DUMP --add-drop-table pw_live pw_division pw_moffice pw_mp pw_vote | bzip2 - >~/www.publicwhip.org.uk/docs/data/pw_static_tables.sql.bz2
