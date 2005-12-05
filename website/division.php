@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.105 2005/12/05 12:51:56 goatchurch Exp $
+# $Id: division.php,v 1.106 2005/12/05 17:39:20 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -108,47 +108,36 @@ function no_division_found($plural)
 	# calculate the same/different voting pattern so we can work out if it's better to invert the second set of votes
 	if (!$singlemotionpage)
     {
-    	$lqselect = "SELECT SUM((pw_vote_a.vote = 'tellaye' OR pw_vote_a.vote = 'aye') = (pw_vote_b.vote = 'tellaye' OR pw_vote_b.vote = 'aye')) AS same, ";
-		$lqselect .= "      SUM((pw_vote_a.vote = 'tellaye' OR pw_vote_a.vote = 'aye') = (pw_vote_b.vote = 'tellno' OR pw_vote_b.vote = 'no')) AS opposite, ";
-    	$lqselect .= "      COUNT(*) AS total";
-    	$lqfrom = " FROM pw_mp";
-        $lqjoin  = " LEFT JOIN pw_vote AS pw_vote_a ON pw_vote_a.mp_id = pw_mp.mp_id
-                        AND pw_vote_a.division_id = ".$divattr["division_id"];
-        $lqjoin .= " LEFT JOIN pw_vote AS pw_vote_b ON pw_vote_b.mp_id = pw_mp.mp_id
-                        AND pw_vote_b.division_id = ".$divattr2["division_id"];
-		$lqwhere = " WHERE pw_vote_a.vote IS NOT null AND pw_vote_b.vote IS NOT null
-                       AND pw_vote_a.vote <> 'both' AND pw_vote_b.vote <> 'both'";
-		$lqgroupby = " GROUP BY pw_vote_a.division_id"; # would prefer a group by all
-
-	    $lquery = $lqselect.$lqfrom.$lqjoin.$lqwhere.$lqgroupby;
+	    $lquery = "SELECT nvotessame, nvotesdiff 
+                   FROM pw_cache_divdiv_distance
+                   WHERE pw_cache_divdiv_distance.division_id = ".$divattr["division_id"]."
+                     AND pw_cache_divdiv_distance.division_id2 = ".$divattr["division_id"]; 
 	    if ($bdebug == 1)
 	        print "\n<h3>$lquery</h3>\n";
 	    $row = $db->query_onez_row_assoc($lquery);
-		if (!$row)
-			no_division_found("s");
-        $div2invert = ($row["same"] < $row["opposite"]);
-	    if ($bdebug == 1)
-			print "<h1>same ".$row["same"]." Opposite ".$row["opposite"]." Total ".$row["total"]."  inv$div2invert </h1>"; # total should be sum of other two
+		#if (!$row)
+		#	no_division_found("s");
+        $div2invert = $row and ($row["nvotessame"] < $row["nvotesdiff"]);
     }
 
-	# make the title
-	$title = "$name - ".$divattr["prettydate"]." - Division No. $div_no";
-	if (!$singlemotionpage)
-	{
-		$title .= " <br> &nbsp; compared to Division No. ".$divattr2["division_number"];
-		if ($divattr2["prettydate"] == $divattr["prettydate"])
-			$title .= " on the same day";
-		else
-			$title .= " on ".$divattr2["prettydate"];
-		if ($div2invert)
-			$title .= " (inverted)";
-	}
+# make the title
+$title = "$name - ".$divattr["prettydate"]." - Division No. $div_no";
+if (!$singlemotionpage)
+{
+    $title .= " <i>compared to</i> Division No. ".$divattr2["division_number"];
+    if ($divattr2["prettydate"] == $divattr["prettydate"])
+        $title .= " <i>on the same day</i>";
+    else
+        $title .= " on ".$divattr2["prettydate"];
+    #if ($div2invert)
+    #	$title .= " (inverted)";
+}
 
-	# constants
-	$dismodes = array();
-	if ($singlemotionpage)
-	{
-		$dismodes["summary"] = array("dtype"	=> "summary",
+# constants
+$dismodes = array();
+if ($singlemotionpage)
+{
+    $dismodes["summary"] = array("dtype"	=> "summary",
 								 "description" 	=> "Summary",
 								 "motiontext" 	=> "yes",
 								 "summarytext"	=> "yes",
@@ -195,13 +184,13 @@ function no_division_found($plural)
 	{
         # TODO: Add "tooltip" entries to these
 		$dismodes["opposites"] = array("dtype"	=> "opposites",
-								 "description" 	=> "Differences",
+								 "description" 	=> "Opposing votes",
 								 "motiontext" 	=> "yes",
 								 "ministerial" 	=> "yes",
 								 "showwhich" 	=> "rebels");
 
 		$dismodes["differences"] = array("dtype"	=> "differences",
-								 "description" 	=> "Changes",
+								 "description" 	=> "Changed votes",
 								 "motiontext" 	=> "yes",
 								 "ministerial" 	=> "yes",
 								 "showwhich" 	=> "changes");
@@ -462,10 +451,11 @@ function no_division_found($plural)
 			print "<td>Constituency</td>";
 		else
 			print "<td><a href=\"$thispage$tpdisplay&sort=constituency\">Constituency</a></td>";
-		if ($sort == "party")
-			print "<td>Party</td>";
+		$partytext = ($singlemotionpage ? "Party" : "Party at<br>vote (a)"); 
+        if ($sort == "party")
+			print "<td>$partytext</td>";
 		else
-			print "<td><a href=\"$thispage$tpdisplay\">Party</a></td>";
+			print "<td><a href=\"$thispage$tpdisplay\">$partytext</a></td>";
 
 		if ($singlemotionpage)
 		{
@@ -512,8 +502,10 @@ function no_division_found($plural)
 
 	if ($dismode["listsimilardivisions"])
 	{
-		fill_division_distances($db, $db2, $divattr["house"], $divattr);
-		$divtabattr = array(
+		# comment out lazy evaluation that is done to completion in a separate job.  
+        #fill_division_distances($db, $db2, $divattr["house"], $divattr);
+	
+        $divtabattr = array(
 				"showwhich"		=> 'everyvote',
 				"headings"		=> 'none',
 				"sortby"		=> 'closeness',
@@ -543,7 +535,7 @@ function no_division_found($plural)
 # explanation of metric
 	if (!$singlemotionpage and ($display != "opposites"))
 	{
-		print "<h3><a name=\"simexpl"\">Division Similarity Ratio</a></h3>\n";
+		print "<h3><a name=\"simexpl\">Division Similarity Ratio</a></h3>\n";
 		print "<p>The measure of similarity between these two divisions is a calculation
 				based on a comparison of their votes.</p>\n";
 		print_divdiv_distance($db, $divattr, $divattr2, "MP");

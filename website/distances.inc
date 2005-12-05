@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.13 2005/12/05 12:51:56 goatchurch Exp $
+# $Id: distances.inc,v 1.14 2005/12/05 17:39:20 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -110,8 +110,8 @@ function fill_division_distances($db, $db2, $house, $divattr)
 		$qwhere .= " AND pw_division1.division_id = '".$divattr['division_id']."'";
 
 	$qorder = " ORDER BY LEAST(pw_division1.division_id, pw_division2.division_id) DESC";
-	#$qlimit = " LIMIT 2000"; # to stop the calculation running on forever on one run
-	$qlimit = "";
+	$qlimit = " LIMIT 200"; # to stop the calculation running on forever on one run
+	#$qlimit = "";
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
 	if ($bdebug == 1)
@@ -146,27 +146,24 @@ function print_divdiv_distance($db, $divattr1, $divattr2, $housenoun)
 	$nvotesabsent = $row['nvotesabsent'];
 	$nvotesabstainnon = $nvotespossible - ($nvotessame + $nvotesdiff + $nvotesabsent);
 
-	print "<p class=\"indent\">On these two divisions there were
-				$nvotespossible ".make_plural($nvotespossible, $housenoun)." who could have voted in both of them,
-				$nvotessame voting the same way, and $nvotesdiff voting in opposite ways.
+	print "<p class=\"indent\">There were
+				$nvotespossible ".make_plural($nvotespossible, $housenoun)." who could have voted in both of these divisions,
+				and $nvotessame voted the same way, with $nvotesdiff voting in opposite ways.
 				There were $nvotesabsent ".make_plural($nvotesabsent, $housenoun)." who didn't vote in either division,
-				and $nvotesabstainnon who voted in only one.</p>";
+				and $nvotesabstainnon who voted in only one of them.</p>";
 
-	print "<p>We invert the vote on the second division if it makes the distance closer (because the meanings of
-			  Aye and No are usually interchangeable depending on how the question was put).
-			  In this case the line up ".($nsame >= $ndiff ? "the same way" : "on opposit sides").".
-			  Voting in one of the divisions and missing the other contributes to a distancing
-			  by a function of 0.2</p>";
-
-	print "<p>Voting differently Normal votes are weighted by 1.0, strong votes by 5.0, ordinary missed votes by 0.2,
-			but missed votes that were strong get 2.5 out of 5.0.  The equation is as follows:</p>\n";
+	print "<p>We invert the vote on the second division if it makes the distance closer (since the meaning of
+			  'Aye' and 'No' are often interchangeable depending on how the question was put).
+			  In this case, they line up ".($nvotessame >= $nvotesdiff ? "the same way" : "on opposite sides").".
+			  An ".$housenounvote."'s vote in in only one of the divisions contributes a factor of 0.2 to the distance.
+			  The calculation runs as follows:</p>";
 
 
 	#$distance = (1.0 * min($nsame, $ndiff) + 0.2 * $nabstainnon) / ($nsame + $ndiff + 0.2 * $nabstainnon);
 	$samevotes = max($nvotessame, $nvotesdiff);
 	$diffvotes = min($nvotessame, $nvotesdiff);
 	$weight = $samevotes + $diffvotes + 0.2 * $nvotesabstainnon;
-	$agreement = 1.0 - $distance;
+	$agreement = 1.0 - $row['distance'];
 	$agreementpercent = 100 * $agreement;
 	print "<p><div class=\"equals break\"> <b>ratio</b> = </div>
 		   <div class=\"fraction\">
@@ -178,11 +175,11 @@ function print_divdiv_distance($db, $divattr1, $divattr2, $housenoun)
 		   <div class=\"fraction\">
 		   		<span class=\"numerator\">$samevotes</span>
 				   <hr class=\"divider\" />
-		   		<span class=\"denominator\">($samevotes + $diffvotes + 0.2x$nvotesabstainnon</span>
+		   		<span class=\"denominator\">($samevotes + $diffvotes + 0.2x$nvotesabstainnon)</span>
 		   </div>
 			  <div class=\"equals\">=</div>
 		   <div class=\"fraction\">
-		   		<span class=\"numerator\">$ascore</span>
+		   		<span class=\"numerator\">$samevotes</span>
  				   <hr class=\"divider\" />
 		   		<span class=\"denominator\">$weight</span>
 		   </div>
@@ -193,6 +190,6 @@ function print_divdiv_distance($db, $divattr1, $divattr2, $housenoun)
 		   </p>\n\n<br clear=\"all\">\n";
 
 	print "<p>Please post comments and feedback about this equation in
-			<a href=\"forum/viewtopic.php?t=150\">forum topic: Division Similarity Ratio</a>.</p>\n";
+			<a href=\"forum/viewtopic.php?t=825\">forum topic: Division Similarity Ratio</a>.</p>\n";
 }
 
