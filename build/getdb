@@ -5,14 +5,14 @@ set -e
 # and replaces the local database table with them.  Leave the text
 # file about afterwards as backup.
 
-USER=francis@sphinx.mythic-beasts.com
+USER=publicwhip@publicwhip.org.uk
 
 echo "Fetching remote dynamic tables..."
-ssh $USER "mysqldump --add-drop-table francis pw_dyn_user pw_dyn_dreammp pw_dyn_dreamvote pw_dyn_auditlog pw_dyn_wiki_motion >pw_dyn_tables.sql"
+ssh $USER "mysqldump --add-drop-table pw_live pw_dyn_user pw_dyn_dreammp pw_dyn_dreamvote pw_dyn_auditlog pw_dyn_wiki_motion >pw_dyn_tables.sql"
 scp $USER:./pw_dyn_tables.sql pw_dyn_tables.sql
 
 echo "Fetching remote all tables..."
-ssh $USER "mysqldump --add-drop-table francis | bzip2 -c >pw_all_tables.sql.bz2"
+ssh $USER "mysqldump --add-drop-table pw_live | bzip2 -c >pw_all_tables.sql.bz2"
 scp $USER:./pw_all_tables.sql.bz2 pw_all_tables.sql.bz2
 
 echo "Replacing local all tables..."

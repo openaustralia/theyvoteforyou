@@ -1,4 +1,4 @@
-# $Id: divquery.pm,v 1.2 2005/12/05 01:44:39 frabcus Exp $
+# $Id: divquery.pm,v 1.3 2005/12/05 02:30:33 frabcus Exp $
 # This extracts a distance metric for a set of divisions, and is able to write
 # it out in a format for loading into GNU Ooctave (or MatLab)
 
@@ -15,7 +15,7 @@ sub get_div_ixs
     my $dbh = shift; 
     my $where = shift;
 
-    my $sth = PublicWhip::DB::query($dbh, "select division_id from pw_division where 1 = 1 $where order by division_id");
+    my $sth = PublicWhip::DB::query($dbh, "select division_id from pw_division where 1 = 1 $where order by division_date desc");
     my @div_ixs;
     while (my @data = $sth->fetchrow_array())
     {
@@ -39,29 +39,29 @@ sub octave_writer
     # Print it all out
     for my $div_1 (@$div_ixs)
     {
-        my $sthmp = PublicWhip::DB::query($dbh, "select division_name, division_date from pw_division where division_id=?", $div_1);
+        my $sthmp = PublicWhip::DB::query($dbh, "select division_name, division_date, division_number from pw_division where division_id=?", $div_1);
         die "Wrong number of rows back" if $sthmp->rows != 1;
         my @data = $sthmp->fetchrow_array();
-        my ($division_name, $division_date) = @data; 
+        my ($division_name, $division_date, $division_number) = @data; 
         $division_name =~ s/&#8212;/-/g;
         $division_name =~ s/"/'/g;
         $division_date =~ m/^(\d\d\d\d)/;
         my $division_year = $1;
 
         print $fh "na" . $div_1 . " = \"" . $division_name . "\";\n";
-        print $fh "pa" . $div_1 . " = \"" . $division_year. "\";\n";
+        print $fh "pa" . $div_1 . " = \"" . $division_date. " #" . $division_number . "\";\n";
         print $fh "r" . $div_1 . " = [";
         for my $div_2 (@$div_ixs)
         {
             print $fh "," if ($div_2 != $$div_ixs[0]);
             if ($div_1 <= $div_2)
             {
-                $$metricD[$div_1][$div_2] = rand();
+                #$$metricD[$div_1][$div_2] = rand();
                 print $fh $$metricD[$div_1][$div_2];
             }
             else
             {
-                $$metricD[$div_2][$div_1] = rand();
+                #$$metricD[$div_2][$div_1] = rand();
                 print $fh $$metricD[$div_2][$div_1];
             }
         }
