@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.69 2005/12/04 20:43:51 frabcus Exp $
+# $Id: header.inc,v 1.70 2005/12/05 00:09:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -33,6 +33,18 @@ function givefocus(field) {
     f = document.getElementById(field)
     if (f)
         f.focus()
+}
+function secondnav_goto() {
+    if (!document) return
+    if (!document.getElementById) return
+    var el = document.getElementById('r')
+    window.location=el.options[el.selectedIndex].value
+}
+function secondnav_goto2() {
+    if (!document) return
+    if (!document.getElementById) return
+    var el = document.getElementById('r2')
+    window.location=el.options[el.selectedIndex].value
 }
 // -->
 </script>
@@ -108,14 +120,29 @@ Search or Postcode:
 <? if ($second_links) { ?>
 <tr class="secondheaders">
 <td class="pagesecondnavlinks" colspan="2">
-<?
-    foreach ($second_links as $this_link) {
-        print " ";
-        if ($this_link['current']== 'on') {
-#            $this_link = str_replace('">', '"><img src="secondnavarrow.gif" alt="&gt;">', $this_link);
+
+<? 
+    function print_links($links, $offset) {
+        print '<form name="secondnav" action="/redir.php" method="post" style="display: inline">';
+        print '<select id="r'.$offset.'" name="r'.$offset.'">';
+        foreach ($links as $this_link) {
+    #       print "<a title=\"".$this_link['tooltip']."\" href=\"".$this_link['href']."\" class=\"".$this_link['current']."\">".$this_link['text']."</a> ";
+            print "<option title=\"".$this_link['tooltip']."\" value=\"".$this_link['href']."\" ";
+            if ($this_link['current'] == 'on')
+                print "selected ";
+            print 'onclick="secondnav_goto'.$offset.'()" ';
+            print "class=\"".$this_link['current']."\">";
+            print $this_link['text'];
+            print "</option> ";
         }
-        print "<a title=\"".$this_link['tooltip']."\" href=\"".$this_link['href']."\" class=\"".$this_link['current']."\">".$this_link['text']."</a>";
+        print '</select> ';
+        print ' <input type="submit" name="submit" value="Go">';
+        print '</form> ';
     }
+
+    print_links($second_links, "");
+    if ($second_links2) 
+        print_links($second_links2, "2");
 ?>
 </td>
 </tr>

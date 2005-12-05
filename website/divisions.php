@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.21 2005/12/04 20:41:35 frabcus Exp $
+# $Id: divisions.php,v 1.22 2005/12/05 00:09:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -16,30 +16,28 @@
 
 	# constants
 	$rdismodes = array();
+    $rdismodes2 = array();
 
 	$rdefaultdisplay = ""; # I don't know how to grab the front
 	foreach ($parliaments as $lrdisplay => $val)
 	{
-		$rdismodes[$lrdisplay] = array("dtype"	=> $lrdisplay,
-								 "description" => "Divisions - ".$val['name']." Parliament",
+		$rdismodes[$lrdisplay] = array(
+								 "description" => $val['name']." Parliament",
 								 "lkdescription" => $val['name']." Parliament",
-								 "parliament" => $ldisplay,
-								 "showwhich" => 'everyvote');
+								 "parliament" => $ldisplay);
 		if (!$rdefaultdisplay)
 			$rdefaultdisplay = $lrdisplay;
 	}
 
-	$rdismodes["rebelall"] = array("dtype"	=> "rebelall",
-							 "description" => "All Rebellions for all Parliaments since 1997",
-							 "lkdescription" => "All Rebellions",
-							 "parliament" => "all",
-							 "showwhich" => "rebellions10");
-
-	$rdismodes["every"] = array("dtype"	=> "every",
-							 "description" => "All Divisions for all Parliaments since 1997",
+	$rdismodes2["every"] = array(
+							 "description" => "Divisions",
 							 "lkdescription" => "All Divisions",
-							 "parliament" => "all",
 							 "showwhich" => "everyvote");
+	$rdismodes2["rebels"] = array(
+							 "description" => "Rebellions",
+							 "lkdescription" => "Rebellions",
+							 "showwhich" => "rebellions10");
+    $rdefaultdisplay2 = "every";
 
 
 	# find the display mode
@@ -50,7 +48,12 @@
 		if (!$rdismodes[$rdisplay])
 			$rdisplay = $rdefaultdisplay;
 	}
-	$rdismode = $rdismodes[$rdisplay];
+	$rdisplay2 = $_GET["rdisplay2"];
+    if (!$rdismodes2[$rdisplay2])
+        $rdisplay2 = $rdefaultdisplay2;
+	$rdismode = array_merge($rdismodes[$rdisplay], $rdismodes2[$rdisplay2]);
+    $rdismode['description'] = $rdismodes2[$rdisplay2]['description'] . " - " . $rdismodes[$rdisplay]['description'];
+    $rdismode['lkdescription'] = null;
 
 	# the sort field
     $sort = db_scrub($_GET["sort"]);
@@ -63,26 +66,37 @@
 		$title .= " (sorted by $sort)";
 
 	# do the tabbing list using a function that leaves out default parameters
-	function makedivlink($rdisplay, $sort)
+	function makedivlink($rdisplay, $sort, $rdisplay2)
 	{
+        global $rdefaultdisplay, $rdefaultdisplay2;
 		$base = "divisions.php";
-		if ($rdisplay == $rdefaultdisplay)
-		{
-			if ($sort == "date")
-				return $base;
-			return "$base?sort=$sort";
-		}
-		if ($sort == "date")
-			return "$base?rdisplay=$rdisplay";
-		return "$base?rdisplay=$rdisplay&sort=$sort";
+        $rest = "";
+		if ($rdisplay != $rdefaultdisplay)
+			$rest .= "&rdisplay=$rdisplay";
+        if ($sort != "date")
+			$rest .= "&sort=$sort";
+		if ($rdisplay2 != $rdefaultdisplay2)
+			$rest .= "&rdisplay2=$rdisplay2";
+
+        if ($rest && $rest[0] == '&')
+            $rest[0] = '?';
+        return $base . $rest;
 	}
 
-    $second_links = array();
+    $second_links2 = array();
     foreach ($rdismodes as $lrdisplay => $lrdismode)
 	{
-		$dlink = makedivlink($lrdisplay, $sort);
-        array_push($second_links, array('href'=>$dlink, 
+		$dlink = makedivlink($lrdisplay, $sort, $rdisplay2);
+        array_push($second_links2, array('href'=>$dlink, 
             'current'=> ($lrdisplay == $rdisplay ? "on" : "off"),
+            'text'=>$lrdismode["lkdescription"]));
+	}
+    $second_links = array();
+    foreach ($rdismodes2 as $lrdisplay => $lrdismode)
+	{
+		$dlink = makedivlink($rdisplay, $sor, $lrdisplay);
+        array_push($second_links, array('href'=>$dlink, 
+            'current'=> ($lrdisplay == $rdisplay2 ? "on" : "off"),
             'text'=>$lrdismode["lkdescription"]));
 	}
     pw_header();
@@ -90,7 +104,7 @@
 	print "<p>A <i>division</i> is the House of Commons terminology for what would
 		   normally be called a vote.  The word <i>vote</i> is reserved for the
 		   individual choice of each MP within a division.  </p>";
-	if ($sort != "rebellions" and $rdisplay != "rebelall")
+	if ($sort != "rebellions" and $rdisplay2 != "rebels")
 		print "<p>Divisions with a high number of suspected rebellions
 			   (votes different from the majority of the party)
 			   are marked in red.  Often these are
@@ -106,9 +120,9 @@
 		print "<p>You can change the order of the table by selecting
 				the headings.</p>";
 
-	function makeheadcelldivlink($rdisplay, $sort, $hcelltitle, $hcellsort, $hcellalt)
+	function makeheadcelldivlink($rdisplay, $rdisplay2, $sort, $hcelltitle, $hcellsort, $hcellalt)
 	{
-		$dlink = makedivlink($rdisplay, $hcellsort);
+		$dlink = makedivlink($rdisplay, $rdisplay2, $hcellsort);
 		if ($sort == $hcellsort)
 			print "<td>$hcelltitle</td>";
 		else
@@ -118,11 +132,11 @@
 	# these head cells are tabbing type links
     print "<table class=\"votes\">\n";
     print "<tr class=\"headings\">";
-    makeheadcelldivlink($rdisplay, $sort, "Date", "date", "Sort by date");
+    makeheadcelldivlink($rdisplay, $sort, $rdisplay2, "Date", "date", "Sort by date");
     print "<td>No.</td>";
-    makeheadcelldivlink($rdisplay, $sort, "Subject", "subject", "Sort by subject");
-    makeheadcelldivlink($rdisplay, $sort, "Rebellions", "rebellions", "Sort by rebellions");
-    makeheadcelldivlink($rdisplay, $sort, "Turnout", "turnout", "Sort by turnout");
+    makeheadcelldivlink($rdisplay, $sort, $rdisplay2, "Subject", "subject", "Sort by subject");
+    makeheadcelldivlink($rdisplay, $sort, $rdisplay2, "Rebellions", "rebellions", "Sort by rebellions");
+    makeheadcelldivlink($rdisplay, $sort, $rdisplay2, "Turnout", "turnout", "Sort by turnout");
     print "</tr>";
 
 
