@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.45 2005/12/05 01:32:03 goatchurch Exp $
+# $Id: tablemake.inc,v 1.46 2005/12/05 02:36:06 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -256,11 +256,13 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter
     print "<td>".$row['divisiondate']."</td>";
     print "<td>".$row['divisionnumber']."</td>";
     $divdesc_edited = extract_title_from_wiki_text($row['text_body']);
-    $divdesc = $divdesc_edited ? $divdesc_edited : $row['division_name'];
+    $divdesc = ($divdesc_edited ? $divdesc_edited : $row['division_name']);
     print "<td>";
     print "<a href=\"$divhref\">$divdesc";
     if ($showmotionwikistate == "listunedited" and !$row['motionedited'])
         print " <i>(unedited)</i>";
+    if ($showmotionwikistate == "close")
+    	print " <i>(Compare)</i>"; 
     print "</a>";
 
     print "</td>\n";
@@ -277,7 +279,11 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter
 
     # alternative columns on division table
     else if ($row['divdistance'] != null)
-    	print "<td>E ".$row['divdistance']."</td>";
+    {
+    	$similarity = (1.0 - (float)$row['divdistance']) * 100.0; 
+	print "<td>".number_format($similarity, 0)."%</td>";
+	print "<td>".$row['voteoverlap']."</td>"; 
+    }
     else
         print "<td>".$row['rebellions']."</td> <td>".$row['turnout']."</td>\n";
     print "</tr>\n";
@@ -466,6 +472,8 @@ function writelinkheading($desc, $link)
         print "<td>$desc</td>";
 }
 
+
+
 # table that shows a selected heap of divisions, and provides a comparison between
 # one or two independent voting actors.
 # votertype is 'dreammp', 'mp', 'party'
@@ -515,7 +523,8 @@ function division_table($db, $divtabattr, $events = "")
 	$divclose = $divtabattr["divclose"];
 	if ($divclose)
 	{
-		$aquery["qselect"] .= ", pw_cache_divdiv_distance.distance AS divdistance";
+		$aquery["qselect"] .= ", pw_cache_divdiv_distance.distance AS divdistance 
+				       , (pw_cache_divdiv_distance.nvotessame+pw_cache_divdiv_distance.nvotesdiff) AS voteoverlap";
 		$aquery["qjoin"] .= " LEFT JOIN pw_cache_divdiv_distance
 								ON pw_cache_divdiv_distance.division_id = '".$divclose['division_id']."'
 								AND pw_cache_divdiv_distance.division_id2 = pw_division.division_id";
@@ -538,6 +547,9 @@ function division_table($db, $divtabattr, $events = "")
     # corrected column (yet another division_id coding!)
     # motionwikistate is nothing or 'listunedited' for the "(unedited)" symbols
     $showmotionwikistate = $divtabattr["motionwikistate"];
+    if ($divclose)
+    	$showmotionwikistate = 'close'; # hack on this condition for compare to links
+	
     $aquery["qselect"] .= ", pw_dyn_wiki_motion.wiki_id AS motionedited, pw_dyn_wiki_motion.text_body AS text_body";
     $aquery["qjoin"]  .= "  LEFT JOIN pw_cache_divwiki ON pw_cache_divwiki.division_date = pw_division.division_date
                                     AND pw_cache_divwiki.division_number = pw_division.division_number
@@ -698,7 +710,7 @@ function division_table($db, $divtabattr, $events = "")
         }
 
         # colour red if rebellions, except cases where it's ugly or unnecessary
-        else if ($row['rebellions'] >= 10 and $sortby != "rebellions" and $showwhich != "rebellions10")
+        else if (!$divclose and $row['rebellions'] >= 10 and $sortby != "rebellions" and $showwhich != "rebellions10")
             $pretrowclass = "rebel";
 
         $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $row['debate_gid']);

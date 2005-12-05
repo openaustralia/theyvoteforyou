@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.11 2005/12/05 02:34:07 publicwhip Exp $
+# $Id: distances.inc,v 1.12 2005/12/05 02:36:06 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -79,7 +79,7 @@ function update_divdiv_distance($db, $division_date1, $divid1, $division_date2, 
 
 	if ($bdebug == 1)
 		print "<h4>$qattrs</h4>";
-#	if ($bdebug == 1)
+	if ($bdebug == 1)
 		print "<h4>$qvalues</h4>";
 	$db->query("REPLACE INTO pw_cache_divdiv_distance ($qattrs) VALUES ($qvalues)");
 

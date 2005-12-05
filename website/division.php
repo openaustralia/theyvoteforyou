@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.103 2005/12/05 01:47:53 publicwhip Exp $
+# $Id: division.php,v 1.104 2005/12/05 02:36:06 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -489,7 +489,7 @@ function no_division_found($plural)
 
 #	if ($dismode["closedivisions"])
 	{
-		fill_division_distances($db, $db2, $divattr["house"], null);#, $divattr);
+		fill_division_distances($db, $db2, $divattr["house"], $divattr);
 		$divtabattr = array(
 				"showwhich"		=> 'everyvote',
 				"headings"		=> 'none',
@@ -500,14 +500,18 @@ function no_division_found($plural)
 #		if ($rdismode["parliament"] != "all")
 #			$divtabattr["parldatelimit"] = $parliaments[$rdisplay];
 
-        print "<h2>Close Divisions</h2>"; 
+        print "<h2>Similar Divisions</h2>"; 
+        print "<p>This table lists divisions where the MPs voted in a similar way to the 
+                division that is listed on this page.  Click on the link to see a comparison 
+                of the actual votes between the two divisions.</p>"; 
 
         print "<table class=\"votes\">\n";
 	    print "<tr class=\"headings\">";
 	    print "<td>Date</td>";
 	    print "<td>No.</td>";
 	    print "<td>Subject</td>";
-	    print "<td>Distance</td>"; 
+	    print "<td>Similarity</td>"; 
+        print "<td>Overlap</td>"; 
 	    print "</tr>";
 		division_table($db, $divtabattr);
     	print "</table>\n";
