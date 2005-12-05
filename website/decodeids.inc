@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.33 2005/12/04 20:41:34 frabcus Exp $
+# $Id: decodeids.inc,v 1.34 2005/12/05 12:51:56 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -323,6 +323,7 @@ function get_division_attr_decode($db, $i)
                  "house"            => $row['house'],
                  "division_id" 		=> $row['division_id'],
                  "prettydate"		=> date("j M Y", strtotime($row["division_date"])),
+                 "parliament"		=> date_to_parliament($row["division_date"]),
                  "name"				=> $row["division_name"],
                  "debate_url"		=> $row["debate_url"],
                  "source_url"		=> $row["source_url"],

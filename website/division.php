@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.104 2005/12/05 02:36:06 publicwhip Exp $
+# $Id: division.php,v 1.105 2005/12/05 12:51:56 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -17,6 +17,7 @@
     require_once "divisionvote.inc";
     require_once "dream.inc";
     require_once "distances.inc";
+	require_once "parliaments.inc";
 
     $db = new DB();
     $db2 = new DB();
@@ -155,6 +156,7 @@ function no_division_found($plural)
 								 "showwhich" 	=> "rebels",
 								 "ministerial" 	=> "yes",
 								 "dreamvoters"	=> "all",
+								 "listsimilardivisions" => "short",
                                  "tooltip"      => "Overview of division");
 
 		$dismodes["allvotes"] = array("dtype"	=> "allvotes",
@@ -172,6 +174,20 @@ function no_division_found($plural)
 								 "ministerial" 	=> "yes",
 								 "showwhich" 	=> "allpossible",
                                  "tooltip"      => "Show even MPs who did not vote but could have" );
+
+		$dismodes["similardivisionsparl"] = array("dtype"	=> "similardivisionsparl",
+								 "description" 	=> "Similar Divisions In Session",
+								 "motiontext" 	=> "yes",
+								 "summarytext"	=> "yes",
+								 "listsimilardivisions" => "thisparliament",
+                                 "tooltip"      => "Show all divisions in order of similarity of vote in this Parliament" );
+
+		$dismodes["similardivisionsall"] = array("dtype"	=> "similardivisionsall",
+								 "description" 	=> "All Similar Divisions",
+								 "motiontext" 	=> "yes",
+								 "summarytext"	=> "yes",
+								 "listsimilardivisions" => "all",
+                                 "tooltip"      => "Show all divisions in order of similarity of vote in all time" );
 	}
 
 	# two motion page
@@ -179,13 +195,13 @@ function no_division_found($plural)
 	{
         # TODO: Add "tooltip" entries to these
 		$dismodes["opposites"] = array("dtype"	=> "opposites",
-								 "description" 	=> "Opposites",
+								 "description" 	=> "Differences",
 								 "motiontext" 	=> "yes",
 								 "ministerial" 	=> "yes",
 								 "showwhich" 	=> "rebels");
 
 		$dismodes["differences"] = array("dtype"	=> "differences",
-								 "description" 	=> "Differences",
+								 "description" 	=> "Changes",
 								 "motiontext" 	=> "yes",
 								 "ministerial" 	=> "yes",
 								 "showwhich" 	=> "changes");
@@ -225,9 +241,14 @@ function no_division_found($plural)
 	$thispage = $divattr["divhref"];
 	if (!$singlemotionpage)
 	{
+		$thispageswap = $divattr2["divhref"];
 		if ($divattr2["division_date"] <> $divattr["division_date"])
+		{
 			$thispage .= "&date2=".$divattr2["division_date"];
+			$thispageswap .= "&date2=".$divattr["division_date"];
+		}
 		$thispage .= "&number2=".$divattr2["division_number"];
+		$thispageswap .= "&number2=".$divattr["division_number"];
 	}
 	$tpdisplay = ($display == "summary" ? "" : "&display=$display");
 	$tpsort = ($sort == "party" ? "" : "&sort=$sort");
@@ -304,12 +325,12 @@ function no_division_found($plural)
 
 	        print "<div class=\"motion\">";
 	        if ($motion_data['user_id'] == 0) {
-                print "<p><strong>Description automatically extracted from the debate, 
+                print "<p><strong>Description automatically extracted from the debate,
                     please <a href=\"$edit_link\">edit it</a> to make it better.</strong></p>";
 	        }
             $description = extract_motion_text_from_wiki_text($motion_data['text_body']);
             print $description;
-            
+
             print "<p>";
             print "<b><a href=\"$edit_link\">Edit description</a>";
             if ($discuss_url)
@@ -324,7 +345,7 @@ function no_division_found($plural)
 	        print "</div>\n";
 
 			print "<h2>External Links</h2><ul>";
-			print "<p>"; 
+			print "<p>";
 	        $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
 	        $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
 	        if ($debate_gid != "") {
@@ -341,6 +362,8 @@ function no_division_found($plural)
 		# print the two motion type
 		else
 		{
+			print "<p>(<a href=\"$thispageswap\">Swap the two divisions around</a>).</p>";
+
             $motion_data_a = get_wiki_current_value("motion", array($divattr["division_date"], $divattr["division_number"], $divattr['house']));
 			$titlea = "<a href=\"".$divattr["divhref"]."\">".$divattr["name"]." - ".$divattr["prettydate"]." - Division No. ".$divattr["division_number"]."</a>";
 	        print "<h2><a name=\"motion\">Motion (a) ".($motion_data_a['user_id'] == 0 ? " (unedited)" : "")."</a>: $titlea</h2>";
@@ -464,7 +487,7 @@ function no_division_found($plural)
 		}
 		print "</tr>\n";
 
-		$mptabattr = array("listtype"	=> "division", 
+		$mptabattr = array("listtype"	=> "division",
 							"divdate"	=> $divattr["division_date"],
 							"divno"		=> $divattr["division_number"],
 							"divid"		=> $divattr["division_id"],  # redundant, but the above two are not used by all tables
@@ -487,36 +510,46 @@ function no_division_found($plural)
 		print "</table>";
 	}
 
-#	if ($dismode["closedivisions"])
+	if ($dismode["listsimilardivisions"])
 	{
 		fill_division_distances($db, $db2, $divattr["house"], $divattr);
 		$divtabattr = array(
 				"showwhich"		=> 'everyvote',
 				"headings"		=> 'none',
 				"sortby"		=> 'closeness',
-                "limitby"       => '30', 
+                "limitby"       => ($dismode["listsimilardivisions"] == 'short' ? "30" : ""),
 				"divclose"		=> $divattr);
 
-#		if ($rdismode["parliament"] != "all")
-#			$divtabattr["parldatelimit"] = $parliaments[$rdisplay];
+		if ($dismode["listsimilardivisions"] == "thisparliament")
+			$divtabattr["parldatelimit"] = $parliaments[$divattr["parliament"]];
 
-        print "<h2>Similar Divisions</h2>"; 
-        print "<p>This table lists divisions where the MPs voted in a similar way to the 
-                division that is listed on this page.  Click on the link to see a comparison 
-                of the actual votes between the two divisions.</p>"; 
+        print "<h2><a name=\"simdiv\">Similar Divisions</a></h2>";
+        print "<p>This table lists divisions where the MPs voted in a similar way to the
+                division that is listed on this page.  Click on the division link to see a comparison
+                of the actual votes between the two divisions.</p>";
 
         print "<table class=\"votes\">\n";
 	    print "<tr class=\"headings\">";
 	    print "<td>Date</td>";
 	    print "<td>No.</td>";
 	    print "<td>Subject</td>";
-	    print "<td>Similarity</td>"; 
-        print "<td>Overlap</td>"; 
+	    print "<td>Similarity</td>";
+        print "<td>Overlap</td>";
 	    print "</tr>";
 		division_table($db, $divtabattr);
     	print "</table>\n";
 	}
 
+# explanation of metric
+	if (!$singlemotionpage and ($display != "opposites"))
+	{
+		print "<h3><a name=\"simexpl"\">Division Similarity Ratio</a></h3>\n";
+		print "<p>The measure of similarity between these two divisions is a calculation
+				based on a comparison of their votes.</p>\n";
+		print_divdiv_distance($db, $divattr, $divattr2, "MP");
+	}
+
+# policies table which hold votes on this division
 	if ($dismode["dreamvoters"])
 	{
         # Show Dream MPs who voted in this division and their votes

@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.12 2005/12/05 02:36:06 publicwhip Exp $
+# $Id: distances.inc,v 1.13 2005/12/05 12:51:56 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -124,4 +124,75 @@ function fill_division_distances($db, $db2, $house, $divattr)
 }
 
 
+# write out an explanation of the calculation above
+function print_divdiv_distance($db, $divattr1, $divattr2, $housenoun)
+{
+	global $bdebug;
+
+	$query = "SELECT nvotespossible, nvotessame, nvotesdiff, nvotesabsent, distance
+			  FROM pw_cache_divdiv_distance
+			  WHERE division_id = ".$divattr1['division_id']."
+			  	AND division_id2 = ".$divattr2['division_id'];
+	$row = $db->query_onez_row_assoc($query);
+	if (!$row)
+	{
+		print "<p>This particular comparison seems to be missing from our database</p>";
+		return;
+	}
+
+	$nvotespossible = $row['nvotespossible'];
+	$nvotessame = $row['nvotessame'];
+	$nvotesdiff = $row['nvotesdiff'];
+	$nvotesabsent = $row['nvotesabsent'];
+	$nvotesabstainnon = $nvotespossible - ($nvotessame + $nvotesdiff + $nvotesabsent);
+
+	print "<p class=\"indent\">On these two divisions there were
+				$nvotespossible ".make_plural($nvotespossible, $housenoun)." who could have voted in both of them,
+				$nvotessame voting the same way, and $nvotesdiff voting in opposite ways.
+				There were $nvotesabsent ".make_plural($nvotesabsent, $housenoun)." who didn't vote in either division,
+				and $nvotesabstainnon who voted in only one.</p>";
+
+	print "<p>We invert the vote on the second division if it makes the distance closer (because the meanings of
+			  Aye and No are usually interchangeable depending on how the question was put).
+			  In this case the line up ".($nsame >= $ndiff ? "the same way" : "on opposit sides").".
+			  Voting in one of the divisions and missing the other contributes to a distancing
+			  by a function of 0.2</p>";
+
+	print "<p>Voting differently Normal votes are weighted by 1.0, strong votes by 5.0, ordinary missed votes by 0.2,
+			but missed votes that were strong get 2.5 out of 5.0.  The equation is as follows:</p>\n";
+
+
+	#$distance = (1.0 * min($nsame, $ndiff) + 0.2 * $nabstainnon) / ($nsame + $ndiff + 0.2 * $nabstainnon);
+	$samevotes = max($nvotessame, $nvotesdiff);
+	$diffvotes = min($nvotessame, $nvotesdiff);
+	$weight = $samevotes + $diffvotes + 0.2 * $nvotesabstainnon;
+	$agreement = 1.0 - $distance;
+	$agreementpercent = 100 * $agreement;
+	print "<p><div class=\"equals break\"> <b>ratio</b> = </div>
+		   <div class=\"fraction\">
+		   		<span class=\"numerator\">[same-votes]</span>
+				   <hr class=\"divider\" />
+		   		<span class=\"denominator\">([same-votes] + [differing-votes] + 0.2x[abstain-in-one])</span>
+		   </div>
+			  <div class=\"equals break\">=</div>
+		   <div class=\"fraction\">
+		   		<span class=\"numerator\">$samevotes</span>
+				   <hr class=\"divider\" />
+		   		<span class=\"denominator\">($samevotes + $diffvotes + 0.2x$nvotesabstainnon</span>
+		   </div>
+			  <div class=\"equals\">=</div>
+		   <div class=\"fraction\">
+		   		<span class=\"numerator\">$ascore</span>
+ 				   <hr class=\"divider\" />
+		   		<span class=\"denominator\">$weight</span>
+		   </div>
+			  <div class=\"equals\">=
+		   ".number_format($agreement, 3)."
+			  =
+		   <b>".number_format($agreementpercent, 1)." %</b>.</div>
+		   </p>\n\n<br clear=\"all\">\n";
+
+	print "<p>Please post comments and feedback about this equation in
+			<a href=\"forum/viewtopic.php?t=150\">forum topic: Division Similarity Ratio</a>.</p>\n";
+}
 

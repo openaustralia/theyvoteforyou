@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.110 2005/11/29 02:02:36 frabcus Exp $
+    # $Id: mp.php,v 1.111 2005/12/05 12:51:56 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -263,6 +263,7 @@
 			$voter1attr["mpprops"][$i]["mpevents"] = array_reverse($voter1attr["mpprops"][$i]["mpevents"]);
 	}
 
+
 	# general information
 	if ($dismode["generalinfo"])
 	{
@@ -351,10 +352,10 @@
 			print "<p><b>Definition of <a href=\"$voter2link\">".html_scrub($voter2attr['name'])."</a> policy:</b>\n";
 			print html_scrub($voter2attr['description']);
 			print "</p>\n";
-                        if (!$voter1attr['bmultiperson'])
-			        print "<p>(See rest of votes by <a href=\"".$voter1link."\">".html_scrub($mpprop['fullname'])."</a>.)</p>\n";
+			if (!$voter1attr['bmultiperson'])
+				print "<p>(See rest of votes by <a href=\"".$voter1link."\">".html_scrub($mpprop['fullname'])."</a>.)</p>\n";
 
-                }
+		}
 
 		#if ($dismode["eventsinfo"])
 		#    print " Also shows when this MP became or stopped being a paid minister. </p>";
@@ -436,7 +437,7 @@
             	print "<p>No policy agreement ratio present for more than one person.  Select which MP you want to measure.</p>\n";
 			else
 			{
-				print "<h3>Policy Agreement Ratio</h3>\n";
+				print "<h3><a name=\"ratioexpl\">Policy Agreement Ratio</a></h3>\n";
 				print "<p>The measure of agreement between this MP and the policy is a calculation
 						based on a comparison of their votes.</p>\n";
 				# sum up the arrays
