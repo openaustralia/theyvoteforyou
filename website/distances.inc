@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.10 2005/12/05 02:30:33 frabcus Exp $
+# $Id: distances.inc,v 1.11 2005/12/05 02:34:07 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -110,7 +110,8 @@ function fill_division_distances($db, $db2, $house, $divattr)
 		$qwhere .= " AND pw_division1.division_id = '".$divattr['division_id']."'";
 
 	$qorder = " ORDER BY LEAST(pw_division1.division_id, pw_division2.division_id) DESC";
-	$qlimit = " LIMIT 2000"; # to stop the calculation running on forever on one run
+	#$qlimit = " LIMIT 2000"; # to stop the calculation running on forever on one run
+	$qlimit = "";
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
 	if ($bdebug == 1)
