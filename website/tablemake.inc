@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.44 2005/12/05 01:02:29 publicwhip Exp $
+# $Id: tablemake.inc,v 1.45 2005/12/05 01:32:03 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -515,16 +515,11 @@ function division_table($db, $divtabattr, $events = "")
 	$divclose = $divtabattr["divclose"];
 	if ($divclose)
 	{
-		$aquery["qselect"] .= ", pw_cache_divdiv_distance.distance_a AS divdistance"; 
+		$aquery["qselect"] .= ", pw_cache_divdiv_distance.distance AS divdistance";
 		$aquery["qjoin"] .= " LEFT JOIN pw_cache_divdiv_distance
-								ON pw_cache_divdiv_distance.division_date = '".$divclose['division_date']."'
-								AND pw_cache_divdiv_distance.division_number = ".$divclose['division_number']."
-								AND pw_cache_divdiv_distance.house = '".$divclose['house']."'
-								
-								AND pw_cache_divdiv_distance.division_date2 = pw_division.division_date 
-								AND pw_cache_divdiv_distance.division_number2 = pw_division.division_number
-								AND pw_cache_divdiv_distance.house2 = pw_division.house";
-		$aquery["qwhere"] .= " AND pw_cache_divdiv_distance.distance_a IS NOT null"; 
+								ON pw_cache_divdiv_distance.division_id = '".$divclose['division_id']."'
+								AND pw_cache_divdiv_distance.division_id2 = pw_division.division_id";
+		$aquery["qwhere"] .= " AND pw_cache_divdiv_distance.distance IS NOT null";
 	}
 
 
@@ -534,7 +529,7 @@ function division_table($db, $divtabattr, $events = "")
     if ($sortby == "rebellions" or $sortby == "turnout")
         $aquery["qorder"] .= " $sortby DESC, ";
 	if ($sortby == 'closeness')
-		$aquery["qorder"] .= " pw_cache_divdiv_distance.distance_a, ";
+		$aquery["qorder"] .= " pw_cache_divdiv_distance.distance, ";
     if ($breversed)
         $aquery["qorder"] .= " divisiondate, divisionhouse, divisionnumber";
     else # by date (for all other cases)
@@ -715,7 +710,7 @@ function division_table($db, $divtabattr, $events = "")
         $divhref = "division.php?date=".urlencode($row['divisiondate'])."&number=".urlencode($row['divisionnumber']);
 	if ($divclose)
 		$divhref .= "&date2=".urlencode($divclose['division_date'])."&number2=".urlencode($divclose['division_number']);
-	$divhref .= $divtabattr["divhrefappend"]; 
+	$divhref .= $divtabattr["divhrefappend"];
 
         # write out the events
         writeevents($events, $row['divisiondate'], $breversed);
