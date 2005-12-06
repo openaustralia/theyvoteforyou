@@ -48,8 +48,10 @@
 
     print "<div class=\"policydefinition\">";
     print "<p><b>Definition:</b> " . str_replace("\n", "<br>", html_scrub($voter["description"])). "</p>";
-    if ($voter["private"])
+    if ($voter["private"] == 1)
         print "<p><b>Made by:</b> " . pretty_user_name($db, html_scrub($voter["user_name"])) . " (this is a legacy Dream MP)";
+    if ($voter["private"] == 2)
+        print "<strong>This policy is provisional, please help improve it</strong>";
     print "</p>";
 
     print "<p align=\"right\"><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a>";

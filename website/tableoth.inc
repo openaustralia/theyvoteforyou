@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.23 2005/11/28 22:47:37 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.24 2005/12/06 10:03:00 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -97,10 +97,10 @@
 
 		if ($dreamtabattr['listlength'] != "every")
 			$qwhere .= " AND votes_count > 0";
-		if ($dreamtabattr['listlength'] == "allpublic" || $dreamtabattr['listlength'] == "short")
-			$qwhere .= " AND NOT private";
-		if ($dreamtabattr['listlength'] == "short")
-			$qlimit = " LIMIT 20";
+		if ($dreamtabattr['listlength'] == "allpublic")
+			$qwhere .= " AND private <> 1";
+        if ($dreamtabattr['listlength'] == "short")
+			$qwhere .= " AND private = 0";
 
 		// main given list case
 		if ($dreamtabattr['listtype'] == "mainlist")
@@ -136,7 +136,12 @@
 				$suffix = " (Compare)";
 			}
 
-	        print "<td><a href=\"$link\">".soft_hyphen($row['name'], 25)."$suffix</a></td>\n";
+	        print "<td><a href=\"$link\">".soft_hyphen($row['name'], 25)."$suffix</a>";
+            if ($row['private'] == 2)
+                print " <i>(provisional)<i>";
+            if ($row['private'] == 1)
+                print " <i>(legacy Dream MP)<i>";
+            print "</td>\n";
 	        print "<td>".trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 150)."</td>\n";
 
 			if ($dreamtabattr['listtype'] == "mainlist")

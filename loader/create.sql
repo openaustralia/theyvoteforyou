@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.38 2005/12/05 01:02:14 frabcus Exp $
+-- $Id: create.sql,v 1.39 2005/12/06 10:02:59 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -168,7 +168,7 @@ create table pw_dyn_dreammp (
     name varchar(100) not null,
     user_id int not null,
     description blob not null,
-    private bool not null,
+    private tinyint not null, -- 0 public, 1 legacy dream mp, 2 public draft
 
     index(user_id),
     unique(dream_id, name, user_id)

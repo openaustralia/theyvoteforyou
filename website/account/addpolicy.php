@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: addpolicy.php,v 1.12 2005/11/01 01:23:17 frabcus Exp $
+# $Id: addpolicy.php,v 1.13 2005/12/06 10:03:00 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -25,35 +25,30 @@ if (user_isloggedin())
     $ok = false;
     if ($submit && (!$just_logged_in)) 
     {
-        if (!$_POST["confirmprivacy"])
-            $feedback = "Please check the box to confirm you have read the privacy notes.";
+        if ($name == "" or $description == "")
+            $feedback = "Please name your policy, and give a definition.";
         else
         {
-            if ($name == "" or $description == "")
-                $feedback = "Please name your policy, and give a definition.";
+            $db = new DB(); 
+            $ret = $db->query_errcheck("insert into pw_dyn_dreammp (name, user_id, description, private) values
+                ('$name', '" . user_getid() . "', '$description', 2)"); 
+            if ($ret)
+            {
+                $new_dreamid = mysql_insert_id();
+                $ok = true;
+                $feedback = "Successfully made new policy <a href=\"/policy.php?id=$new_dreamid\">" . html_scrub($name) . "</a>.  To 
+                    select votes for your new policy, <a href=\"../search.php\">search</a> or
+                    <a href=\"../divisions.php\">browse</a> for divisions.  On the page for
+                    each division you can choose how somebody supporting your policy would have voted.";
+                if (user_getid()) {
+                    $db->query("update pw_dyn_user set active_policy_id = $new_dreamid where user_id = " . user_getid());
+                }
+                audit_log("Added new policy '" . $name . "'");
+                dream_post_forum_action($db, $new_dreamid, "Created brand new policy.\n\n[b]New Policy:[/b] [url=http://www.publicwhip.org.uk/policy.php?id=".$new_dreamid."]".stripslashes($name)."[/url]\n[b]Definition:[/b] ".stripslashes($description));
+            }
             else
             {
-                $db = new DB(); 
-                $ret = $db->query_errcheck("insert into pw_dyn_dreammp (name, user_id, description, private) values
-                    ('$name', '" . user_getid() . "', '$description', 0)"); 
-                if ($ret)
-                {
-                    $new_dreamid = mysql_insert_id();
-                    $ok = true;
-                    $feedback = "Successfully made new policy <a href=\"/policy.php?id=$new_dreamid\">" . html_scrub($name) . "</a>.  To 
-                        select votes for your new policy, <a href=\"../search.php\">search</a> or
-                        <a href=\"../divisions.php\">browse</a> for divisions.  On the page for
-                        each division you can choose how somebody supporting your policy would have voted.";
-                    if (user_getid()) {
-                        $db->query("update pw_dyn_user set active_policy_id = $new_dreamid where user_id = " . user_getid());
-                    }
-                    audit_log("Added new policy '" . $name . "'");
-                    dream_post_forum_action($db, $new_dreamid, "Created brand new policy.\n\n[b]New Policy:[/b] [url=http://www.publicwhip.org.uk/policy.php?id=".$new_dreamid."]".stripslashes($name)."[/url]\n[b]Definition:[/b] ".stripslashes($description));
-                }
-                else
-                {
-                    $feedback = "Failed to add new policy. " . mysql_error();
-                }
+                $feedback = "Failed to add new policy. " . mysql_error();
             }
         }
     }
@@ -148,8 +143,6 @@ if (user_isloggedin())
         By creating a policy you are making your user name
         <b><?=user_getname()?></b> and the policy's voting record public.  
 
-        <p><INPUT TYPE="checkbox" NAME="confirmprivacy">Confirm you have read the
-        above privacy notes
         <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Make Policy">
         </FORM>
 

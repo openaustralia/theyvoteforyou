@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.25 2005/11/10 02:39:35 frabcus Exp $
+# $Id: divisionvote.inc,v 1.26 2005/12/06 10:02:59 frabcus Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -37,12 +37,10 @@ function write_single_policy_vote($db, $divattr, $voter)
     # get the type of dream mp we have here
     $query = "SELECT name, private, user_id FROM pw_dyn_dreammp WHERE dream_id = $voter";
     $row = $db->query_one_row_assoc($query);
-    $legacydreammp = $row["private"];
-    $votechangeable = !$legacydreammp or $row["user_id"] == user_getid();
     $policyname = html_scrub($row["name"]);
 
     # See if changeable
-    $legacydreammp = $row["private"];
+    $legacydreammp = ($row["private"] == 1);
     $votechangeable = user_getid() && (!$legacydreammp || ($row["user_id"] == user_getid()));
 
     # a submit was posted on this page

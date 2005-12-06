@@ -26,6 +26,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     $name=db_scrub($_POST["name"]);
     $description=$_POST["description"];
     $submit=db_scrub($_POST["submit"]);
+    $form_provisional = $_POST["provisional"];
 
     $query = "select name, description, user_id, private from pw_dyn_dreammp where dream_id = '$dreamid'";
     $row = $db->query_one_row($query);
@@ -35,8 +36,10 @@ if (user_isloggedin()) # User logged in, show settings screen
         $description = $row[1];
     $user_id = $row[2];
     $private = $row[3];
+    $provisional = ($private == 2) ? 1 : 0;
+    $legacy_dream = ($private == 1);
 
-    if ($private && user_getid() != $user_id)
+    if (($private == 1) && user_getid() != $user_id)
     {
         pw_header();
         print "<p>This is not your legacy Dream MP, so you can't edit their name or defintion.";
@@ -50,6 +53,10 @@ if (user_isloggedin()) # User logged in, show settings screen
                 $feedback = "Please name the policy, and give a definition.";
             else
             {
+                if ($legacy_dream)
+                    $new_private = 1;
+                else
+                    $new_private = ($form_provisional ? 2 : 0);
                 $db = new DB(); 
                 list($prev_name, $prev_description) = $db->query_one_row("select name, description from pw_dyn_dreammp where dream_id = '$dreamid'");
 
@@ -57,7 +64,16 @@ if (user_isloggedin()) # User logged in, show settings screen
                 $description_diff = format_linediff($prev_description, $description, true);
 
                 dream_post_forum_action($db, $dreamid, "Changed name and/or definition of policy.\n\n[b]Name:[/b] ".$name_diff."\n[b]Definition:[/b] ".$description_diff);
-                $ret = $db->query_errcheck("update pw_dyn_dreammp set name='$name', description='".mysql_escape_string($description)."' where dream_id='$dreamid'");
+                if ($new_private != $private) {
+                    if ($new_private == 0)
+                        $new_private_name = "public";
+                    elseif ($new_private == 1)
+                        $new_private_name = "legacy Dream MP";
+                    elseif ($new_private == 2)
+                        $new_private_name = "provisional";
+                    dream_post_forum_action($db, $dreamid, "Policy is now [b]".$new_private_name."[/b]");
+                }
+                $ret = $db->query_errcheck("update pw_dyn_dreammp set name='$name', description='".mysql_escape_string($description)."', private='".$new_private."' where dream_id='$dreamid'");
                 notify_dream_mp_updated($db, intval($dreamid));
 
                 if ($ret)
@@ -105,6 +121,16 @@ if (user_isloggedin()) # User logged in, show settings screen
             <P>
             <B>Definition (describe the issue and position on the issue):</B><BR>
             <textarea name="description" rows="6" cols="80"><?=htmlspecialchars($description)?></textarea></p>
+
+            <? if (!$legacy_dream) { ?>
+            <p>
+            <b>
+            <INPUT TYPE="checkbox" NAME="provisional" value="provisional" <?=$provisional?'checked':''?>> Provisional policy
+            </b>
+            ('provisional' means the policy is not yet complete or consistent
+            enough to display on MP pages)
+            </p>
+            <? } ?>
 
             <p>
             <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Save" accesskey="S">

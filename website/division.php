@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.106 2005/12/05 17:39:20 publicwhip Exp $
+# $Id: division.php,v 1.107 2005/12/06 10:02:59 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -551,7 +551,7 @@ if ($singlemotionpage)
 						AND pw_dyn_user.user_id = pw_dyn_dreammp.user_id
 						AND pw_dyn_dreamvote.division_date = '".$divattr["division_date"]."'
 						AND pw_dyn_dreamvote.division_number = '".$divattr["division_number"]."'
-            			AND NOT private");
+            			AND private = 0");
         if ($db->rows() > 0)
         {
             $prettyrow = 0;

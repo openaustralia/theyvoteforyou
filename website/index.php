@@ -2,7 +2,7 @@
 
 cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.58 2005/11/28 22:45:16 frabcus Exp $
+# $Id: index.php,v 1.59 2005/12/06 10:02:59 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -83,7 +83,7 @@ href="account/addpolicy.php">make</a> a new policy</span>
         		FROM pw_dyn_dreammp
 				LEFT JOIN pw_cache_dreaminfo
 					ON pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id
-				WHERE votes_count > 0 AND NOT private
+				WHERE votes_count > 0 AND private = 0
 				ORDER BY RAND()
 				LIMIT 5";
 

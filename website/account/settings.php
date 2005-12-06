@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: settings.php,v 1.21 2005/11/01 01:23:17 frabcus Exp $
+# $Id: settings.php,v 1.22 2005/12/06 10:03:00 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -80,8 +80,12 @@ if (user_isloggedin()) # User logged in, show settings screen
     foreach ($rowarray as $row)
     {
         print '<br><a href="../policy.php?id=' . $row['dream_id'] . '">' . html_scrub($row['name']) . "</a>\n";
-        if ($row['private'])
+        if ($row['private'] == 0)
+            print " (public)";
+        if ($row['private'] == 1)
             print " (legacy Dream MP)";
+        if ($row['private'] == 2)
+            print " (provisional)";
     }
     print '<p><a href="addpolicy.php">[Make a new policy]</a></p>';
     pw_footer();
