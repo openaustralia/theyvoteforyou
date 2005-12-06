@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.46 2005/12/05 02:36:06 publicwhip Exp $
+# $Id: tablemake.inc,v 1.47 2005/12/06 10:45:26 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -358,20 +358,20 @@ function writepersonvote($lnrows, $cla, $name, $vote, $ayecla, $nocla)
     if (($vote == "aye") || ($vote == "AYE"))
         print "<td$ayecla>Aye</td><td$nocla></td>";
     else if (($vote == "aye3") || ($vote == "AYE3"))
-        print "<td$ayecla>Aye 3-line</td><td$nocla></td>";
+        print "<td$ayecla>Aye (strong)</td><td$nocla></td>";
     else if (($vote == "no") || ($vote == "NO"))
         print "<td$ayecla></td><td$nocla>No</td>";
     else if (($vote == "no3") || ($vote == "NO3"))
-        print "<td$ayecla></td><td$nocla>No 3-line</td>";
+        print "<td$ayecla></td><td$nocla>No (strong)</td>";
     else
         print "<td colspan=2 align=center>$vote</td>";
     print "</tr>\n";
 }
 function vote_display_in_table($vote) {
     if ($vote == "aye3") {
-        return "aye (3-line)";
+        return "aye (strong)";
     } elseif ($vote == 'no3') {
-        return "no (3-line)";
+        return "no (strong)";
     }
     return $vote;
 }

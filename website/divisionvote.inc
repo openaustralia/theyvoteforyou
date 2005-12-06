@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.26 2005/12/06 10:02:59 frabcus Exp $
+# $Id: divisionvote.inc,v 1.27 2005/12/06 10:45:26 publicwhip Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -121,11 +121,11 @@ function write_single_policy_vote($db, $divattr, $voter)
     if ($votechangeable)
         print " <select name=\"vote$voter\" size=\"1\">
                     <option " . vote_value("--", $bvote) . ">Non-voter</option>
-                    <option " . vote_value("aye3", $bvote) . ">Aye 3-Line</option>
+                    <option " . vote_value("aye3", $bvote) . ">Aye (strong)</option>
                     <option " . vote_value("aye", $bvote) . ">Aye</option>
                     <option " . vote_value("both", $bvote) . ">Abstain</option>
                     <option " . vote_value("no", $bvote) . ">No</option>
-                    <option " . vote_value("no3", $bvote) . ">No 3-Line</option>
+                    <option " . vote_value("no3", $bvote) . ">No (strong)</option>
                 </select>";
     elseif ($bvote == "--")
         print " did not vote.";
