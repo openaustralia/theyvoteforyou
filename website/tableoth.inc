@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.24 2005/12/06 10:03:00 frabcus Exp $
+    # $Id: tableoth.inc,v 1.25 2005/12/06 10:32:01 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -21,7 +21,7 @@
 	    print "<td>Party</td>";
 		if ($brebelrates)
 		{
-		    print "<td>Rebellions (estimate)</td><td>Attendance (votes)</td>";
+		    print "<td>Rebellions (<a href=\"faq.php#clarify\">explain...</a>)</td><td>Attendance (<a href=\"faq.php#clarify\">explain...</a>)</td>";
 			if (!$bmultiperson)
 			    print "<td>Teller</td>";
 		}

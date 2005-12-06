@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.112 2005/12/06 10:16:40 publicwhip Exp $
+    # $Id: mp.php,v 1.113 2005/12/06 10:32:01 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -267,35 +267,25 @@
 	# general information
 	if ($dismode["generalinfo"])
 	{
-	    print "<h2><a name=\"general\">General Information</a></h2>";
 
         // See if MP always in same constituency
         $con = $mpprop['constituency'];
         $all_same_cons = true;
         foreach ($voter1attr['mpprops'] as $p)
-		{
-            if ($p['constituency'] != $con)
-                $all_same_cons = false;
+	{
+		if ($p['constituency'] != $con)
+			$all_same_cons = false;
         }
 
-	    if ($currently_minister)
-	        print "<p><b>".$mpprop['name']."</b> is currently <b>$currently_minister</b>.<br>
-	               MP for <b>".$mpprop['constituency']."</b>";
-	    else if ($voter1attr['bmultiperson'])
-	        print "<p>MPs who have represented <b>".$mpprop['constituency']."</b>";
-	    else {
-	        print "<p><b>".$mpprop['name']."</b> has been " . $mpprop['housenoun']." ";
-            if ($all_same_cons && $mpprop['house'] == 'commons')
-                print " for <b>".$mpprop['constituency']."</b>";
-        }
+	if ($currently_minister)
+		print "<p><b>".$mpprop['name']."</b> is currently <b>$currently_minister</b>.<br>";
+	else
+		print "<p>";
         if ($mpprop['house'] == 'commons')
-            print " during the following periods of time in the last three parliaments";
+            print "Please note, our records only go back to 1997.";
         else
-            print " during the following periods of time since our records began";
-        print ":<br>(Check out <a href=\"faq.php#clarify\">our explanation</a> of 'attendance'
-		            and 'rebellions', as they may not have the meanings you expect.)</p>";
-
-		seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], ($all_same_cons ? false : true), true, $thispagesettings);
+            print "Please note, our records only go back to 1999.";
+	seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], ($all_same_cons ? false : true), true, $thispagesettings);
 
         if ($mpprop['house'] == 'commons' && $voter2type == "party")
 		{
