@@ -54,7 +54,7 @@
         print "<strong>This policy is provisional, please help improve it</strong>";
     print "</p>";
 
-    print "<p align=\"right\"><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a>";
+    print "<p><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a>";
     $discuss_url = dream_post_forum_link($db, $dreamid);
     if (!$discuss_url) {
         // First time someone logged in comes along, add policy to the forum

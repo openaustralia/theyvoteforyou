@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.107 2005/12/06 10:02:59 frabcus Exp $
+# $Id: division.php,v 1.108 2005/12/06 10:16:40 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -509,7 +509,7 @@ if ($singlemotionpage)
 				"showwhich"		=> 'everyvote',
 				"headings"		=> 'none',
 				"sortby"		=> 'closeness',
-                "limitby"       => ($dismode["listsimilardivisions"] == 'short' ? "30" : ""),
+                "limitby"       => ($dismode["listsimilardivisions"] == 'short' ? "10" : ""),
 				"divclose"		=> $divattr);
 
 		if ($dismode["listsimilardivisions"] == "thisparliament")

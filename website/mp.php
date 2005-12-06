@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.111 2005/12/05 12:51:56 goatchurch Exp $
+    # $Id: mp.php,v 1.112 2005/12/06 10:16:40 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -302,7 +302,7 @@
 		    print "<h2><a name=\"exlinks\">External Links</a></h2>\n";
             print "<ul>\n";
 
-			print "<li>Read Parliamentary speeches at: ";
+			print "<li>See <strong>".$mpprop["name"]."</strong>'s Parliamentary speeches at: ";
 			print "<a href=\"http://www.theyworkforyou.com/mp/?m=".$mpprop["mpid"]."\">TheyWorkForYou.com</a></li>\n";
 
 			# can we link directly?
