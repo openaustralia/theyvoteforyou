@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.114 2005/12/06 13:19:17 frabcus Exp $
+    # $Id: mp.php,v 1.115 2005/12/06 13:26:23 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -484,6 +484,31 @@
 
 
 <?php
+	if ($dismode["dreamcompare"])
+	{
+		print "<h2><a name=\"dreammotions\">Policy Comparisons</a></h2>\n";
+
+		print "<p>This chart shows the percentage agreement between this MP and each of the policies in
+			   the database, according to their voting record.  </p>\n";
+
+	    print "<table class=\"mps\">\n";
+	    print "<tr class=\"headings\">
+	        <td>Agreement</td>
+	        <td>Policy</td>
+	        <td>Description</td>
+	        <td>Vote</td>
+	        </tr>\n";
+
+		$dreamtabattr = array("listtype" => 'comparelinks',
+						      'person' => $mpprop["person"],
+						      'mpanchor' => $mpprop["mpanchor"],
+						      'listlength' => $dismode["dreamcompare"]);
+		print_policy_table($db, $dreamtabattr);
+	    print "</table>\n";
+	}
+?>
+
+<?php
 	# the friends tables
 	if ($dismode["possfriends"])
 	{
@@ -514,39 +539,12 @@
         print "</table>\n";
 
         if ($same_voters)
-            print "<p>($same_voters MPs voted exactly the same as this one)\n";
+            print "($same_voters MPs voted exactly the same as this one)\n";
 
         # do only one table if it's a show all case
         # if ($dismode["possfriends"] == "all")
         #    break;
     }
-?>
-
-<?php
-	if ($dismode["dreamcompare"])
-	{
-		print "<h2><a name=\"dreammotions\">Policy Comparisons</a></h2>\n";
-
-		print "<p>This chart shows the percentage agreement between this MP and each of the policies in
-			   the database, according to their voting record.
-			   Click on the policy links below to see precisely how this comparison is made,
-			   and how the number is calculated.  </p>\n";
-
-	    print "<table class=\"mps\">\n";
-	    print "<tr class=\"headings\">
-	        <td>Agreement</td>
-	        <td>Policy</td>
-	        <td>Description</td>
-	        <td>Vote</td>
-	        </tr>\n";
-
-		$dreamtabattr = array("listtype" => 'comparelinks',
-						      'person' => $mpprop["person"],
-						      'mpanchor' => $mpprop["mpanchor"],
-						      'listlength' => $dismode["dreamcompare"]);
-		print_policy_table($db, $dreamtabattr);
-	    print "</table>\n";
-	}
 ?>
 
 
