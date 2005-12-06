@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.51 2005/12/06 10:02:59 frabcus Exp $
+# $Id: dream.inc,v 1.52 2005/12/06 13:19:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -37,50 +37,39 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 	if ($bdebug == 1)
 		print "<p>$person ddddd   $dreamid</p>";
 
-	print "<p class=\"indent\">Between this MP and the policy there were
-	$nvotessame ".make_plural($nvotessame, "agreement")." and
-	$nvotessamestrong strong ".make_plural($nvotessamestrong, "agreement").",
-	$nvotesdiffer ".make_plural($nvotesdiffer, "disagreement")." and
-	$nvotesdifferstrong strong ".make_plural($nvotesdifferstrong, "disagreement").",
-	$nvotesabsent missed ".make_plural($nvotesabsent, "vote")." and
-	$nvotesabsentstrong missed ".make_plural($nvotesabsentstrong, "vote")." where
-	there was a strong policy vote.</p>\n";
+    print "<table>";
+    print "<tr class=\"headings\"><th>Division circumstance</th></th><th>Quantity</th><th>Points available</th><th>Points awarded</th></tr>";
 
-	$tlw = 5.0;
-	$score = $nvotesdiffer + $tlw * $nvotesdifferstrong + 0.1 * $nvotesabsent + ($tlw / 2) * $nvotesabsentstrong;
-	$weight = $nvotessame + $tlw * $nvotessamestrong + $nvotesdiffer + $tlw * $nvotesdifferstrong +
-			  0.2 * $nvotesabsent + $tlw * $nvotesabsentstrong;
+    print "<tr class=\"odd\"><td>MP voted with policy</td><td class=\"teller\">$nvotessame</td><td>&times;10=".(10*$nvotessame)."</td><td>&times;10=".(10*$nvotessame)."</td></tr>";
+    print "<tr class=\"evenstrong\"><td>MP voted with (strong) policy</td><td class=\"teller\">$nvotessamestrong</td><td>&times;50=".(50*$nvotessamestrong)."</td><td>&times;50=".(50*$nvotessamestrong)."</td></tr>";
+    print "<tr class=\"odd\"><td>MP voted against policy</td><td class=\"rebel\">$nvotesdiffer</td><td>&times;10=".(10*$nvotesdiffer)."</td><td>&times;0=".(0)."</td></tr>";
+    print "<tr class=\"evenstrong\"><td>MP voted against (strong) policy</td><td class=\"rebel\">$nvotesdifferstrong</td><td>&times;50=".(50*$nvotesdifferstrong)."</td><td>&times;0=".(0)."</td></tr>";
+    print "<tr class=\"odd\"><td>MP absent</td><td class=\"rebelteller\">$nvotesabsent</td><td>&times;2=".(2 * $nvotesabsent)."</td><td>&times;1=".(1 * $nvotesabsent)."</td></tr>";
+    print "<tr class=\"evenstrong\"><td>MP absent (strong policy)</td><td class=\"rebelteller\">$nvotesabsentstrong</td><td>&times;50=".(50 * $nvotesabsentstrong)."</td><td>&times;25=".(25 * $nvotesabsentstrong)."</td></tr>";
+
+    $points_total = 10*$nvotessame + 50*$nvotessamestrong + 10*$nvotesdiffer + 50*$nvotesdifferstrong +  2*$nvotesabsent + 50 * $nvotesabsentstrong;
+    $values_total = 10*$nvotessame + 50*$nvotessamestrong + 0*$nvotesdiffer + 0*$nvotesdifferstrong +  1*$nvotesabsent + 25*$nvotesabsentstrong;
+    print "<tr class=\"jobevent\"><td colspan=\"2\">Total:</td><td>$points_total</td><td>$values_total</td></tr>";
+
+     print "</table>";
+
 	$dist = calc_dreammp_person_distance($nvotessame, $nvotessamestrong,
 									  $nvotesdiffer, $nvotesdifferstrong,
 									  $nvotesabsent, $nvotesabsentstrong);
-	print "<p>Normal votes are weighted by 1.0, strong votes by 5.0, ordinary missed votes by 0.2,
-			but missed votes that were strong get 2.5 out of 5.0.  The equation is as follows:</p>\n";
 
-	$ascore = $weight - $score;
-	$agreement = 1.0 - $dist;
-	$agreementpercent = 100 * $agreement;
-	print "<p><div class=\"equals break\"> <b>ratio</b> = </div>
+	print "<p><div class=\"equals break\"> <b>ratio</b> =&nbsp;</div>
 		   <div class=\"fraction\">
-		   		<span class=\"numerator\">[agrees] + 5x[strong agrees] + 0.1x[misses] + 2.5x[strong misses]</span>
-				   <hr class=\"divider\" />
-		   		<span class=\"denominator\">([agrees] + [disagrees]) + 5x([strong agrees] + [strong disagrees]) + 0.2x[misses] + 5x[strong misses]</span>
-		   </div>
-			  <div class=\"equals break\">=</div>
-		   <div class=\"fraction\">
-		   		<span class=\"numerator\">$nvotessame + 5x$nvotessamestrong + 0.1x$nvotesabsent + 2.5x$nvotesabsentstrong</span>
-				   <hr class=\"divider\" />
-		   		<span class=\"denominator\">($nvotessame + $nvotesdiffer) + 5x($nvotessamestrong + $nvotesdifferstrong) + 0.2x$nvotesabsent + 5.0x$nvotesabsentstrong</span>
-		   </div>
-			  <div class=\"equals\">=</div>
-		   <div class=\"fraction\">
-		   		<span class=\"numerator\">$ascore</span>
+		   		<span class=\"numerator\">total agreement value</span>
  				   <hr class=\"divider\" />
-		   		<span class=\"denominator\">$weight</span>
+		   		<span class=\"denominator\">total points</span>
 		   </div>
-			  <div class=\"equals\">=
-		   ".number_format($agreement, 3)."
-			  =
-		   <b>".number_format($agreementpercent, 1)." %</b>.</div>
+		   <div class=\"equals break\"> = </div>
+		   <div class=\"fraction\">
+		   		<span class=\"numerator\">$values_total</span>
+ 				   <hr class=\"divider\" />
+		   		<span class=\"denominator\">$points_total</span>
+		   </div>
+		   <div class=\"equals break\">&nbsp;= <b>".number_format(100.0 * $values_total / $points_total, 1)." %</b>.</div>
 		   </p>\n\n<br clear=\"all\">\n";
 
 	print "<p>Please post comments and feedback about this equation in
@@ -350,7 +339,6 @@ margin: 0 0 0 0; border: 1px solid #003300; padding: 0 0 0 0;">
             <b>'.html_scrub($dmp_name).'<br>How did your MP vote?</b>
             <br>Your postcode:
             <input maxLength="256" size="10" name="mppc" value="">
-            <input type="hidden" name="display" value="motions">
             <input type="hidden" name="dmp" value="'.html_scrub($dreamid).'">
             <input type="submit" value="Go" name="button">
         </p>

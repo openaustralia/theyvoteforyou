@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.25 2005/12/06 10:32:01 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.26 2005/12/06 13:19:17 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -118,25 +118,25 @@
 	        $prettyrow = pretty_row_start($prettyrow);
 	        $dreamid = $row['dream_id'];
 
+            $link = "policy.php?id=$dreamid";
 			if ($dreamtabattr['listtype'] == "mainlist")
 	        {
-	        	print "<td>".$row['votes_count'];
-			if ($row['unedited_motions'] != 0)
-				print " <i>(".$row['unedited_motions'].")</i>"; 
-			print "</td>\n";
-				$link = "policy.php?id=$dreamid";
-				$suffix = "";
+                print "<td>".$row['votes_count'];
+                if ($row['unedited_motions'] != 0)
+                    print " <i>(".$row['unedited_motions'].")</i>"; 
+                print "</td>\n";
 			}
 			if ($dreamtabattr['listtype'] == "comparelinks")
 		    {
 		        $distance = $row['distance'];
         		$agreement = (1.0 - (float)($distance)) * 100.0;
-        		print "<td>".number_format($agreement, 0)."%</td>\n";
-			    $link = "mp.php?".$dreamtabattr["mpanchor"]."&dmp=$dreamid";
-				$suffix = " (Compare)";
+			    $compare_link = "mp.php?".$dreamtabattr["mpanchor"]."&dmp=$dreamid";
+        		print "<td>".number_format($agreement, 0)."%";
+                print "<br>(<a href=\"$compare_link\"><b>details...</b></a>)";
+                print "</td>\n";
 			}
 
-	        print "<td><a href=\"$link\">".soft_hyphen($row['name'], 25)."$suffix</a>";
+	        print "<td><a href=\"$link\">".soft_hyphen($row['name'], 25)."</a>";
             if ($row['private'] == 2)
                 print " <i>(provisional)<i>";
             if ($row['private'] == 1)

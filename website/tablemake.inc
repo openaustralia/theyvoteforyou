@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.47 2005/12/06 10:45:26 publicwhip Exp $
+# $Id: tablemake.inc,v 1.48 2005/12/06 13:19:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -251,8 +251,6 @@ function print_event($event)
 function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter2type, $vote1, $vote2, $row, $showmotionwikistate, $divhref, $hrefsource)
 {
     print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even")."$pretrowclass\">";
-    if ($voter2type != "")
-        print $rolecol;
     print "<td>".$row['divisiondate']."</td>";
     print "<td>".$row['divisionnumber']."</td>";
     $divdesc_edited = extract_title_from_wiki_text($row['text_body']);
@@ -273,6 +271,9 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter
         if ($voter2type != "")
             print "<td>".vote_display_in_table($vote2)."</td>\n";
 
+        if ($voter2type != "")
+            print $rolecol;
+
         # no reason not to have a speeches column on the division table, but we don't
         print "<td><a href=\"$hrefsource\">speeches</a></td>";
     }
@@ -281,8 +282,8 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter
     else if ($row['divdistance'] != null)
     {
     	$similarity = (1.0 - (float)$row['divdistance']) * 100.0; 
-	print "<td>".number_format($similarity, 0)."%</td>";
-	print "<td>".$row['voteoverlap']."</td>"; 
+        print "<td>".number_format($similarity, 0)."%</td>";
+        print "<td>".$row['voteoverlap']."</td>"; 
     }
     else
         print "<td>".$row['rebellions']."</td> <td>".$row['turnout']."</td>\n";
@@ -637,8 +638,6 @@ function division_table($db, $divtabattr, $events = "")
     if ($headings == "columns" or $headings == "fulldesc")
     {
         print "<tr class=\"headings\">";
-        if ($voter2type != "")
-            print "<td>R&ocirc;le</td>";
         print "<td>Date</td><td>No.</td>";
         print "<td>Subject</td>";
 
@@ -657,7 +656,7 @@ function division_table($db, $divtabattr, $events = "")
             else if ($voter1type == "dreammp")
                 print "<td>Policy Vote</td>";
             else
-                print "<td>Vote</td>";
+                print "<td>MP Vote</td>";
 
             if ($voter2type != "")
             {
@@ -666,9 +665,14 @@ function division_table($db, $divtabattr, $events = "")
                 else if ($voter2type == "dreammp")
 	                print "<td>Policy Vote</td>";
                 else
-                    print "<td>Vote</td>";
+                    print "<td>MP Vote</td>";
             }
         }
+        if ($voter2type != "")
+            if ($voter2type == "dreammp") 
+                print "<td>Compare</td>";
+            else
+                print "<td>R&ocirc;le</td>";
         print "<td>Debate</td></tr>\n";
 
 

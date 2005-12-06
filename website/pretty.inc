@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.29 2005/11/29 10:01:15 frabcus Exp $
+# $Id: pretty.inc,v 1.30 2005/12/06 13:19:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -461,6 +461,11 @@ function pretty_user_name($db, $name) {
         return "<a href=\"/forum/profile.php?mode=viewprofile&u=".$row['user_id']."\">$name</a>";
 
     return $name;
+}
+
+function pretty_distance_to_agreement($distance) {
+    $agreement = (1.0 - (float)($distance)) * 100.0;
+    return number_format($agreement, 1)."%";
 }
 
 ?>

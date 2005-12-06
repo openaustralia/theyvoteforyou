@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.21 2005/11/17 10:15:42 goatchurch Exp $
+# $Id: tablepeop.inc,v 1.22 2005/12/06 13:19:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -8,7 +8,7 @@
 
 require_once $toppath . "links.inc";
 
-function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $tooltip)
+function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friendlk)
 {
     # row colour
     if ($colstyle == "division")
@@ -35,12 +35,22 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $toolti
 
     print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even").$sclass."\">";
 
+    # distance voting table
+    if ($colstyle == "dreamdistance" || $colstyle == "mpdistance")
+    {
+        $distance = $row['distance'];
+        print "<td>".pretty_distance_to_agreement($distance);
+        if ($friendlk)
+            print "<br>(<a href=\"$href&$friendlk\"><b>details...</b></a>)";
+        print "</td>";
+    }
+
     # row numbering
     if ($colstyle == "shortrebellions" or $colstyle == "shortattendance")
         print "<td>$nrows</td>";
 
     # name and constituency
-    print "<td><a href=\"$href\" " . ($tooltip ? "title=\"$tooltip\"":"") . ">$name</a></td>";
+    print "<td><a href=\"$href\">$name</a></td>";
 
     # we could mark if there are other MPs in this constituency and make a link to them
     #print "<td>".$row['constituency']."</td>";
@@ -64,25 +74,8 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $toolti
 
     print "<td>$party</td>";
 
-    # distance voting table
-    if ($colstyle == "mpdistance")
-    {
-        $distance = $row['distance'];
-        if ($distance == 0)
-            $distance = "0 - always vote the same";
-        elseif ($distance == 1)
-            $distance = "1 - always vote the differently";
-        print "<td>".number_format($distance, 3)."</td>";
-    }
-    elseif ($colstyle == "dreamdistance")
-    {
-        $distance = $row['distance'];
-        $agreement = (1.0 - (float)($distance)) * 100.0;
-        print "<td>".number_format($agreement, 1)."%</td>";
-    }
-
     # division vote
-    elseif ($colstyle == "division")
+    if ($colstyle == "division")
         print "<td>".($row["vote"] ? $row["vote"] : "absent")."</td>";
     # double division list
     elseif ($colstyle == "division2" or $colstyle == "division2invert")
@@ -99,7 +92,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $toolti
     }
 
     # rebellions or attendance
-    else
+    elseif ($colstyle == 'shortattendance' || $colstyle == 'shortrebellions')
     {
         print "<td class=\"percent\">";
         if ($colstyle == "shortattendance")
@@ -203,8 +196,6 @@ function mp_table($db, $mptabattr)
     $showwhich = $mptabattr["showwhich"];
 
     $friendlk = "";  // added to the end of a link
-    $tooltip = "";   // the alt tooltip thing on the link
-    $namesuffix = ""; // added to the end of the name of the link
 
     # range of mps in one parliament
     if ($mptabattr["listtype"] == 'parliament')
@@ -231,7 +222,7 @@ function mp_table($db, $mptabattr)
     elseif ($mptabattr["listtype"] == 'dreamdistance')
     {
         $dreamid = $mptabattr["dreammpid"];
-	update_dreammp_person_distance($db, $dreamid);
+        update_dreammp_person_distance($db, $dreamid);
 
         # we need to make the proper equation here, to people
         $aquery["qselect"]  .= ", distance_a AS distance";
@@ -245,8 +236,6 @@ function mp_table($db, $mptabattr)
                                  AND distance_a <> -1";
 
         $friendlk = "dmp=".$mptabattr["dreammpid"];
-        $tooltip = "Compare to policy: '".$mptabattr["dreamname"]."'";
-        $namesuffix = " (Compare)";
     }
 
     # list MPs voting in one division
@@ -388,12 +377,10 @@ function mp_table($db, $mptabattr)
     $nrows = 0;
     while ($row = $db->fetch_row_assoc())
     {
-        $mpname = $row['title']." ".$row['first_name']." ".$row['last_name'].$namesuffix;
+        $mpname = $row['title']." ".$row['first_name']." ".$row['last_name'];
         $href = "mp.php?" . link_to_mp($row);
-        if ($friendlk)
-            $href .= "&$friendlk";
         $nrows += 1; # number from 1
-        print_mp_row($nrows, $row, $mpname, $href, $colstyle, $showwhich, $tooltip);
+        print_mp_row($nrows, $row, $mpname, $href, $colstyle, $showwhich, $friendlk);
     }
 
 

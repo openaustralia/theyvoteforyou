@@ -125,7 +125,7 @@
 						   'dreammpid' => $dreamid,
 						   'dreamname' => $policyname);
 		print "<table class=\"mps\">\n";
-		print "<tr class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Agreement</td></tr>\n";
+		print "<tr class=\"headings\"><td>Agreement</td><td>Name</td><td>Constituency</td><td>Party</td></tr>\n";
 		mp_table($db, $mptabattr);
 		print "</table>\n";
 	}

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.113 2005/12/06 10:32:01 publicwhip Exp $
+    # $Id: mp.php,v 1.114 2005/12/06 13:19:17 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -339,12 +339,35 @@
 				print "</p>\n";
             }
 
-			print "<p><b>Definition of <a href=\"$voter2link\">".html_scrub($voter2attr['name'])."</a> policy:</b>\n";
+            print "<p>";
+            $previous_person = -1;
+            foreach ($voter1attr['mpprops'] as $pp) {
+                if ($pevious_person == $pp["person"])
+                    continue;
+                $query   = "SELECT nvotessame, nvotessamestrong,
+                                nvotesdiffer, nvotesdifferstrong,
+                                nvotesabsent, nvotesabsentstrong,
+                                distance_a, distance_b
+                            FROM pw_cache_dreamreal_distance
+                            WHERE dream_id = $voter2 AND person = ".$pp["person"];
+                $row = $db->query_onez_row_assoc($query);
+                print "<a href=\"".$voter1link."\">".html_scrub($pp['fullname'])."</a>";
+                print " agrees ";
+                print " <b>";
+                print pretty_distance_to_agreement($row['distance_a']);
+                print "</b>";
+                print " (<a href=\"#ratioexpl\">explain...</a>)";
+                print " with ";
+                print "<a href=\"$voter2link\">".html_scrub($voter2attr['name'])."</a> ";
+                print "<br>";
+                $pevious_person = $pp["person"];
+            }
+                
+			print "<p class=\"policydefinition\"><b>Definition of <a href=\"$voter2link\">".html_scrub($voter2attr['name'])."</a> policy:</b>\n";
 			print html_scrub($voter2attr['description']);
 			print "</p>\n";
-			if (!$voter1attr['bmultiperson'])
-				print "<p>(See rest of votes by <a href=\"".$voter1link."\">".html_scrub($mpprop['fullname'])."</a>.)</p>\n";
 
+            print "<h2>Vote Details</h2>";
 		}
 
 		#if ($dismode["eventsinfo"])
@@ -421,33 +444,33 @@
 		# generate a friendliness table from the data
 		if ($voter2type == "dreammp")
 		{
-			if (count($voter1attr['mpprops']) == 0)
-            	print "<p><b>There is no overlap between this MP's term and the votes in this policy.</b></p>\n";
-            elseif ($voter1attr["bmultiperson"])
-            	print "<p>No policy agreement ratio present for more than one person.  Select which MP you want to measure.</p>\n";
-			else
-			{
-				print "<h3><a name=\"ratioexpl\">Policy Agreement Ratio</a></h3>\n";
-				print "<p>The measure of agreement between this MP and the policy is a calculation
-						based on a comparison of their votes.</p>\n";
-				# sum up the arrays
-				foreach ($voter1attr['mpprops'] as $mpprop)
-				{
-					if ($dismetric)
-					{
-						foreach($mpprop["dismetric"] as $lkey => $lvalue)
-							$dismetric[$lkey] += $lvalue;
-					}
-					else
-						$dismetric = $mpprop["dismetric"];
-				}
+            print "<h2><a name=\"ratioexpl\">Agreement Score Explanation</a></h2>\n";
+            if (count($voter1attr['mpprops']) == 0)
+                print "<p><b>There is no overlap between this MPs term and the votes in this policy.</b></p>\n";
+            elseif ($voter1attr['bmultiperson'])
+                print "<p><b>Calculation only available for single MPs.</b></p>\n";
+            else
+            {
+                print "<p>The measure of agreement between this MP and the policy is a calculation
+                        based on a comparison of their votes.</p>\n";
+                # sum up the arrays
+                foreach ($voter1attr['mpprops'] as $mpprop)
+                {
+                    if ($dismetric)
+                    {
+                        foreach($mpprop["dismetric"] as $lkey => $lvalue)
+                            $dismetric[$lkey] += $lvalue;
+                    }
+                    else
+                        $dismetric = $mpprop["dismetric"];
+                }
 
-				# outputs an explanation of the votes
-				print_dreammp_person_distance($dismetric["agree"], $dismetric["agree3"],
-							  $dismetric["disagree"], $dismetric["disagree3"],
-							  $dismetric["ab1"], $dismetric["ab1line3"],
-								  $db, $mpprop["person"], $voter2);
-			}
+                # outputs an explanation of the votes
+                print_dreammp_person_distance($dismetric["agree"], $dismetric["agree3"],
+                              $dismetric["disagree"], $dismetric["disagree3"],
+                              $dismetric["ab1"], $dismetric["ab1line3"],
+                                  $db, $mpprop["person"], $voter2);
+            }
 		}
 
 		# unfinished business, kind of.
@@ -486,7 +509,7 @@
 		    previously unsuspected.  Or it may be nonsense.";
 
         print "<table class=\"mps\">\n";
-        print "<tr class=\"headings\"><td>Name</td><td>Constituency</td><td>Party</td><td>Distance</td></tr>\n";
+        print "<tr class=\"headings\"><td>Agreement</td><td>Name</td><td>Constituency</td><td>Party</td></tr>\n";
         $same_voters = mp_table($db, $mptabattr);
         print "</table>\n";
 
