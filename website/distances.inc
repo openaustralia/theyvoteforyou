@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.14 2005/12/05 17:39:20 publicwhip Exp $
+# $Id: distances.inc,v 1.15 2005/12/06 00:35:05 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -60,17 +60,16 @@ function update_divdiv_distance($db, $division_date1, $divid1, $division_date2, 
 		print "<h4>$query</h4>";
 	$row = $db->query_one_row_assoc($query);
 
+	$nsame = $row['nvotessame'] ? $row['nvotessame'] : 0;
+	$ndiff = $row['nvotesdiffer'] ? $row['nvotesdiffer'] : 0;
 
 	$qattrs = "division_id, division_id2, ";
-
 	$qvalues = "$divid1, $divid2, ";
 
 	$qattrs .= "nvotespossible, nvotessame, nvotesdiff, nvotesabsent, ";
-	$qvalues .= $row['nvotestotal'].", ".$row['nvotessame'].", ".$row['nvotesdiffer'].", ".$row['nabsentabsent'].", ";
+	$qvalues .= $row['nvotestotal'].", ".$nsame.", ".$ndiff.", ".$row['nabsentabsent'].", ";
 
 	# calculate the distances
-	$nsame = $row['nvotessame'];
-	$ndiff = $row['nvotesdiffer'];
 	$nabstainnon = $row['nvotestotal'] - ($row['nabsentabsent'] + $nsame + $ndiff);
 	$distance = (1.0 * min($nsame, $ndiff) + 0.2 * $nabstainnon) / ($nsame + $ndiff + 0.2 * $nabstainnon);
 
@@ -85,11 +84,17 @@ function update_divdiv_distance($db, $division_date1, $divid1, $division_date2, 
 
 }
 
-
-
+# Fill in missing entries in chunks until all done
+function fill_division_distances($db, $db2, $house, $divattr) {
+	$some_done = 1;
+	while($some_done) {
+		$some_done = fill_division_distances_internal($db, $db2, $house, $divattr);
+		print "done...";
+	}
+}
 
 # then we loop through the missing entries and fill them in
-function fill_division_distances($db, $db2, $house, $divattr)
+function fill_division_distances_internal($db, $db2, $house, $divattr)
 {
 	# find missing entries in the table
 	$qselect = "SELECT pw_division1.division_date AS division_date1,
@@ -110,17 +115,19 @@ function fill_division_distances($db, $db2, $house, $divattr)
 		$qwhere .= " AND pw_division1.division_id = '".$divattr['division_id']."'";
 
 	$qorder = " ORDER BY LEAST(pw_division1.division_id, pw_division2.division_id) DESC";
-	$qlimit = " LIMIT 200"; # to stop the calculation running on forever on one run
-	#$qlimit = "";
+	$qlimit = " LIMIT 5000"; # to stop the calculation running on forever on one run
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
 	if ($bdebug == 1)
 		print $query;
 	$db->query($query);
+	$some_done = 0;
 	while ($row = $db->fetch_row_assoc())
 	{
+		$some_done = 1;
 		update_divdiv_distance($db2, $row['division_date1'], $row['division_id1'], $row['division_date2'], $row['division_id2'], $house);
 	}
+	return $some_done;
 }
 
 
