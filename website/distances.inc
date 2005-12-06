@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.15 2005/12/06 00:35:05 publicwhip Exp $
+# $Id: distances.inc,v 1.16 2005/12/06 09:53:12 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -84,17 +84,40 @@ function update_divdiv_distance($db, $division_date1, $divid1, $division_date2, 
 
 }
 
+
+# remove distances to divisions that are no longer in our table
+# due to a messup with the corrections not matching in vote list and being 
+# merged later, such divisions get removed 
+# and reloaded into the database every time it updates
+function remove_dead_division_distances($db)
+{
+	$qselect = "SELECT pw_cache_divdiv_distance.division_id, pw_cache_divdiv_distance.division_id2"; 
+	$qdelete = "DELETE pw_cache_divdiv_distance"; 
+	$qfrom = " FROM pw_cache_divdiv_distance
+		  LEFT JOIN pw_division AS pw_division1 
+		   ON pw_division1.division_id = pw_cache_divdiv_distance.division_id
+		  LEFT JOIN pw_division AS pw_division2
+		   ON pw_division2.division_id = pw_cache_divdiv_distance.division_id2
+		  WHERE pw_division1.division_id IS null 
+		     OR pw_division2.division_id IS null"; 
+
+#we need to change the qselect to qdelete in this line. and make sure it works
+$db->query($qselect.$qfrom);
+	print "<h4>Selecting for deletion rows ".$db->rows()."</h4>"; 
+}
+
 # Fill in missing entries in chunks until all done
 function fill_division_distances($db, $db2, $house, $divattr) {
+	remove_dead_division_distances($db); # not yet actually doing it 
 	$some_done = 1;
 	while($some_done) {
-		$some_done = fill_division_distances_internal($db, $db2, $house, $divattr);
+		$some_done = fill_division_distances_internal($db, $db2, $house, $divattr, 5000);
 		print "done...";
 	}
 }
 
 # then we loop through the missing entries and fill them in
-function fill_division_distances_internal($db, $db2, $house, $divattr)
+function fill_division_distances_internal($db, $db2, $house, $divattr, $batchnumber)
 {
 	# find missing entries in the table
 	$qselect = "SELECT pw_division1.division_date AS division_date1,
@@ -115,7 +138,8 @@ function fill_division_distances_internal($db, $db2, $house, $divattr)
 		$qwhere .= " AND pw_division1.division_id = '".$divattr['division_id']."'";
 
 	$qorder = " ORDER BY LEAST(pw_division1.division_id, pw_division2.division_id) DESC";
-	$qlimit = " LIMIT 5000"; # to stop the calculation running on forever on one run
+	if ($batchnumber)
+		$qlimit = " LIMIT $batchnumber"; # to stop the calculation running on forever on one run
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
 	if ($bdebug == 1)
