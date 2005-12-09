@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.58 2005/11/10 12:46:43 theyworkforyou Exp $
+# $Id: faq.php,v 1.59 2005/12/09 13:59:13 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -13,43 +13,44 @@ $paddingforanchors = true; $title = "Help - Frequently Asked Questions"; pw_head
 
 <p>
 <ul>
-<li><a href="#whatis">What is the Public Whip?</a> <br/>
-<li><a href="#jargon">First, can you explain "division" and other political jargon?</a> <br/>
-<li><a href="#how">How does the Public Whip work?</a> <br/>
-<li><a href="#timeperiod">What time period does it cover?</a> <br/>
+<li><a href="#whatis">What is the Public Whip?</a> </li>
+<li><a href="#jargon">First, can you explain "division" and other political jargon?</a> </li>
+<li><a href="#how">How does the Public Whip work?</a> </li>
+<li><a href="#timeperiod">What time period does it cover?</a> </li>
 
 <br>
-<li><a href="#clarify">What do the "rebellion" and "attendance" figures mean exactly?</a> <br/>
-<li><a href="#freevotes">Why do you incorrectly say people are rebels in free votes?</a> <br/>
-<li><a href="#abstentions">How do you estimate abstentions?</a> <br/>
-<li><a href="#policies">What are Policies and how do they work?</a> <br/>
+<li><a href="#clarify">What do the "rebellion" and "attendance" figures mean exactly?</a> </li>
+<li><a href="#freevotes">Why do you incorrectly say people are rebels in free votes?</a> </li>
+<li><a href="#abstentions">How do you estimate abstentions?</a> </li>
+<li><a href="#policies">What are Policies and how do they work?</a> </li>
 
 <br>
-<li><a href="#legal">Legal question, what can I use this information for?</a> <br/>
-<li><a href="#playwith">Can I play with the software?</a> <br/>
-<li><a href="#whyfree">Why are you giving everything away for free?</a> <br/>
+<li><a href="#legal">Legal question, what can I use this information for?</a> </li>
+<li><a href="#playwith">Can I play with the software?</a> </li>
+<li><a href="#whyfree">Why are you giving everything away for free?</a> </li>
 
 <br>
-<li><a href="#organisation">What organisation is behind the Public Whip?</a> <br/>
-<li><a href="#theyworkforyou">What's your connection with TheyWorkForYou.com?</a> <br/>
-<li><a href="#interviews">Are you happy to give interviews about Public Whip?</a> <br/>
-<li><a href="#money">Do you make any money out of Public Whip?</a> <br/>
-<li><a href="#living">How do you earn enough to make a living?</a> <br/>
+<li><a href="#organisation">What organisation is behind the Public Whip?</a> </li>
+<li><a href="#theyworkforyou">What's your connection with TheyWorkForYou.com?</a> </li>
+<li><a href="#interviews">Are you happy to give interviews about Public Whip?</a> </li>
+<li><a href="#money">Do you make any money out of Public Whip?</a> </li>
+<li><a href="#living">How do you earn enough to make a living?</a> </li>
 <li><a href="#millions">I've just got a job at a company that's been contracted
 ... to process Parliamentary data ...</a>
-<br/>
-<li><a href="#officials">Have you had any problems from MPs or other politicians with what you are doing?</a> <br/>
+</li>
+<li><a href="#officials">Have you had any problems from MPs or other politicians with what you are doing?</a> </li>
 
 <br>
-<li><a href="#rss">Are there any RSS syndication feeds?</a> <br/>
-<li><a href="#spreadsheet">Where is the data in spreadsheet file format or in XML?</a> <br/>
-<li><a href="#patents">What is the fuss about software patents?</a> <br/>
-<li><a href="#election">What did you do for the 2005 election?</a> <br/>
+<li><a href="#rss">Are there any RSS syndication feeds?</a> </li>
+<li><a href="#spreadsheet">Where is the data in spreadsheet file format or in XML?</a> </li>
+<li><a href="#patents">What is the fuss about software patents?</a> </li>
+<li><a href="#election">What did you do for the 2005 election?</a> </li>
 
 <br>
-<li><a href="#help">Can I help with the project?</a> <br/>
-<li><a href="#keepup">How can I keep up with what you are doing?</a> <br/>
-<li><a href="#contact">There's something wrong with your webpage / I've found an error / Your wording is dreadfully unclear / Can I make a suggestion?</a> <br/>
+<li><a href="#help">Can I help with the project?</a> </li>
+<li><a href="#motionedit">What do you mean by editing the motion description?</a> </li>
+<li><a href="#keepup">How can I keep up with what you are doing?</a> </li>
+<li><a href="#contact">There's something wrong with your webpage / I've found an error / Your wording is dreadfully unclear / Can I make a suggestion?</a> </li>
 </ul>
 </p>
 
@@ -351,13 +352,98 @@ href="patents/index.html">For more information see here</a>.
 they voted quiz</a>.  You can still take it and link to the results.
 
 <h2><a name="help">Can I help with the project?</a></h2>
-<p>Sure!  Email <a href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a> to say
-you would like to help.  We always need help writing newsletters, improving
-site usability, and with publicity and media.  As well as programmers, of
-course!  Read our <a href="project/">project page</a> and see the Public Whip section of <a
-href="http://www.mysociety.org/cgi-bin/moin.cgi/VolunteerTasks">VolunteerTasks</a>
-on the mySociety wiki for some specific things we need doing.
-</p>
+<p>Sure!  There's lots to do.  You're first task would be to get to know 
+the structure of the project and think about how better to explain it to
+people who don't know much about it, such as yourself.  Improvements 
+in accessibility are the top priority.
+
+<p>The next thing to look at is editing the motion descriptions on some of 
+the divisions.  We desperately need more people involved in this, and 
+it is the quickest way to get tangible results.  
+See the <a href="#motionedit">following answer</a> for details.
+
+<p>If you are more technically minded, please glance at the
+<a href="http://ukparse.kforge.net/parlparse">Parliament Parser</a> 
+project, to check if that is your cup of tea.  This is the core 
+business which enables all our projects to follow and where a 
+real difference can be made.
+
+<p>Finally, if that's not enough, there is a wider list of
+<a href="http://www.mysociety.org/moin.cgi/VolunteerTasks">
+Volunteer Tasks</a> at MySociety.
+
+<p>Hopefully, between all that, you kind find something that 
+fits your mood.  Email us <a href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a> 
+if you need to know more.
+
+
+<h2><a name="motionedit">What do you mean by editing the motion description?</a></h2>
+
+<p>When there is a division in Parliament, it is not usually easy to
+see what it means.  Quite often you have to scan through
+all of the debate in which the division takes place (looking for the
+phrase "I beg to move"), and have a good knowledge of the the jargon
+to work it out.  Also, many votes are about making changes in other
+documents (eg "to leave out line 5 on page 13 of the Ordinary Persons Pensions Bill")
+which needs to be found and made available through a link.
+
+<p>The Publicwhip software is nowhere near sophisticated enough to do this
+automatically, and it requires help from a person like you.
+You can find out more about it on our <a href="project/research.php"> Research page</a>,
+where there is a current list of suggestions for how to do it.  Please
+feel free to discuss things in the
+<a href="forum/viewforum.php?f=2"> division forum</a>.
+
+<p>In the longer term, it would be better if Parliament told us the
+meanings of their votes in plain english from the beginning, rather than hiding
+what they are doing behind layers of unnecessary technicalities so
+that people didn't have to invent sites like Publicwhip to make it
+possible to work out what is going on.  If enough of us got involved
+we would be able to tell the MPs in detail exactly what we expect
+from the record that Parliament provides.
+
+<h2><a name="motionedit">What other projects are similar to yours?</a></h2>
+
+<p>We rely on the <a href="http://ukparse.kforge.net/parlparse">Parliament
+Parser project</a> (as well as much other generic open source software), 
+and are closely associated with <a href="http://www.theyworkforyou.com/"> www.theyworkforyou.com</a>, 
+<a href="http://www.writetothem.com/"> www.writetothem.com</a>,
+<a href="http://www.hearfromyourmp.com/"> www.hearfromyourmp.com</a>, 
+and <a href="http://downingstreetsays.com/"> downingstreetsays.com</a>, 
+partly on account of the fact that we have contributed code to them.  
+We support anyone who is keen to keen to adapt our systems to 
+other Parliaments, but can't announce any successes yet.
+
+<p>Outside of the Open Source community, some academics have worked in this
+area.  However usually after going to the expense of gathering their
+data, and writing their academic books and papers and giving their
+interviews, they throw it all
+away and don't get round to building a live website.
+The most active person in this field at the moment is
+<a href="http://revolts.co.uk/">Philip Cowley</a> who 
+makes much of his research available in PDF form, and has written 
+two books which are relevant to our work.  Julian has 
+reviewed both of them, and posted them into the forum at 
+<a href="http://www.publicwhip.org.uk/forum/viewtopic.php?t=59"> Review of
+"Revolts and Rebellions" (Blair's Parliament 1997-2001)</a> and
+<a href="http://www.publicwhip.org.uk/forum/viewtopic.php?t=202"> Review of
+"The Rebels" (Blair's Parliament 2001-2005)</a>.  
+You are free to make comments and start a discussion.
+
+<p>Many news organizations publish Parliamentary data, and so therefore
+must be doing some of the same work we are doing, without
+necessarily knowing that we are encouraging them to
+take everything we have done for free.
+Examples include <a href="http://politics.guardian.co.uk/aristotle/">The Guardian</a>
+and <a href="http://news.bbc.co.uk/1/hi/uk_politics/2160988.stm"> The BBC</a>.
+
+<p>Beyond even this, we are aware that political parties and lobbying
+groups research and derive information such as this, but don't
+make any of it public.  It's worth people asking themselves why
+this is the case, and being prepared to make a distinction between
+the claim that "they have a right to do so", and whether
+it's "right".
+
 
 <h2><a name="keepup">How can I keep up with what you are doing?</a></h2>
 <p><a href="account/register.php">Subscribe to our newsletter!</a>  It's

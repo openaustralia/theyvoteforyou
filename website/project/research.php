@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: research.php,v 1.8 2005/11/17 11:58:00 publicwhip Exp $
+# $Id: research.php,v 1.9 2005/12/09 13:59:13 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -11,48 +11,50 @@ $title = "Parliamentary Research"; pw_header();
 
 <h2>Introduction</h2>
 
-<p>Lots of people use Public Whip to understand what parliament is doing,
-and to research their area of special interest.  We'd like to share this
-workload, so you get other peoples research and clarifications, and 
-contribute your own.  It's also much less lonely this way!
-
-<p>There are lots of ways of doing this, here are some tools we provide
-so far.  <a href="mailto:team@publicwhip.org.uk">Email us</a> if you have 
-questions and comments, or <a href="/forum">chat in the forum</a>.
+<p>Many people use Public Whip to research their area of special interest 
+and understand what Parliament is doing.  We want to make it possible for 
+everyone to share the workload of decoding the jargon and summarising 
+the documents.  Just being able to help one another to find necessary 
+information will be a major step forward.  
+Please look for <a href="/forum">discussions in the forum</a>.
 
 <h2>Commenting on debates</h2>
 
 <p>Over at <a href="http://www.theyworkforyou.com">TheyWorkForYou.com</a>
-you can add comments to parliamentary debates.    This is a good way to add
-information you have found out about the discussion where anyone can find it.
+(there is a direct link from every division page)
+you can post your comments against speeches in the Parliamentary debates.    
+This is a good way to highlight important facts or
+add information that may have been left out of the official discussion.
 
 <h2>Division description editing</h2>
 
-<p>Above the automatically extracted motion text for new parliamentary
-divisions, we make the following statement:
+<p>When the system uploads a new Parliamentary division, it prints the following statement 
+above the words:
 
 <blockquote>Description automatically extracted from the debate, please edit it
 to make it better.</blockquote>
 
 <p>While <a href="http://www.theyworkforyou.com">TheyWorkForYou.com</a> helps
-make debates more friendly, it doesn't make the motions more readable, and we
-still often guess it wrong. Not only that, even when we get it right, the
+to make the debates more friendly, it doesn't make the motions more readable, and our computer
+program often guesses it wrong. Not only that, even when it gets it right, the
 accurate text uses too much Parliamentary jargon and refers to other documents
-by citing page and line numbers (for example).
+by page and line number where it would better be served by a
+hyperlink.  This is particularly true for legislation.
 
 <p>Public Whip allows anyone to write a plain english version of the
 motion, with links to explanations and relevant document.  Julian has taken on
-the task of doing <a href="/policy.php?id=210">all the Iraq votes</a> and the 
+the task of doing <a href="/policy.php?id=210">all the Iraq votes</a> and the
 <a href="/policy.php?id=258">counter-terrorism legislation</a>.  Have a
-look at them as examples.
+look to them for examples.
 
-<p>We are calling for anyone who is passionate about other issues in
+<p>We are looking for people who are passionate about other issues in
 Parliament that have been subject to frequent, repeated votes by MPs.
 It could be immigration, education, the environment, transport, ID
-cards, international development, and so on.  Find the divisions, mark
-them with a policy, and fix the division description so that other people can
-see the precise measures that were voted upon.  Public Whip is about informed
-choice, and not having to take anyone's word for things.
+cards, international development, and so on.  Find these divisions, mark
+them with a Policy, and fix the division descriptions so that other people can
+see the precise meaning of what was voted upon.  Public Whip is about
+making an informed choice based on the definitive record,
+and not having to take anyone's word for things.
 
 <h2>Examples of division description editing</h2>
 

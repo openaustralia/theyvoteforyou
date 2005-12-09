@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.108 2005/12/06 10:16:40 publicwhip Exp $
+# $Id: division.php,v 1.109 2005/12/09 13:59:13 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -321,16 +321,16 @@ if ($singlemotionpage)
             print $description;
 
             print "<p>";
-            print "<b><a href=\"$edit_link\">Edit description</a>";
+            print "<b><a href=\"$edit_link\">Edit description</a></b>";
+            print "<b><a href=\"faq.php#motionedit\">explain...</a>)</b>";
             if ($discuss_url)
-                print ' | <a href="'.htmlspecialchars($discuss_url).'">Discuss changes</a>';
+                print ' | <b><a href="'.htmlspecialchars($discuss_url).'">Discuss changes</a></b>';
             if ($history_link) {
                 # commented out, as confusing and deprecated
                 print '<!-- | <a href="'.htmlspecialchars($history_link).'">History</a>-->';
             }
             if ($motion_data['user_id'] != 0)
                 print " (last edited ".  relative_time($motion_data["edit_date"]) .  " by " . pretty_user_name($db2, $last_editor).") ";
-            print "</b>";
 	        print "</div>\n";
 
 			print "<h2>External Links</h2><ul>";
@@ -338,10 +338,10 @@ if ($singlemotionpage)
 	        $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
 	        $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
 	        if ($debate_gid != "") {
-	            print "<li>Read Parliamentary debate at: <a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">TheyWorkForYou.com</a></li>";
+	            print "<li>Read or comment on the <a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">debate in Parliament</a> at <u>TheyWorkForYou.com</u></li>";
 	        }
 	        if ($source != "") {
-	    		print "<li>View original Hansard of debate at: <a href=\"$source\">parliament.uk</a></li>";
+	    		print "<li>Check the <a href=\"$source\">original Hansard document</a> for this division on <u>parliament.uk</u></a></li>";
 			}
             print "</ul>";
 
