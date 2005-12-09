@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.61 2005/12/09 14:27:17 goatchurch Exp $
+# $Id: faq.php,v 1.62 2005/12/09 16:04:53 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -56,14 +56,14 @@ $paddingforanchors = true; $title = "Help - Frequently Asked Questions"; pw_head
 </p>
 
 
-<p>&nbsp;<p>
-<h2><a name="whatis">What is the Public Whip?</a></h2>
+
+<h2 class="faq"><a name="whatis">What is the Public Whip?</a></h2>
 <p>Public Whip is a project to watch Members of the United Kingdom
 Parliament, so that the public (people like us) can better understand and influence their
 voting patterns.  We're an independent, non-governmental project.
 
-<p>&nbsp;<p>
-<h2><a name="jargon">First, can you explain "division" and other political jargon?</a></h2>
+
+<h2 class="faq"><a name="jargon">First, can you explain "division" and other political jargon?</a></h2>
 <p>The House of Commons <i>divides</i> many times each week into those who
 vote "aye" ("yes", for the motion) and those who vote "no" (against the
 motion).  Each political party has <i>whips</i> who try to make their
@@ -74,16 +74,16 @@ terms, see the
 <a href="http://www.parliament.uk/parliamentary_publications_and_archives/factsheets/p09.cfm">
 Parliament factsheet on divisions</a>.
 
-<p>&nbsp;<p>
-<h2><a name="how">How does the Public Whip work?</a></h2>
+
+<h2 class="faq"><a name="how">How does the Public Whip work?</a></h2>
 <p>All the House of Commons debate transcripts (<a href="http://www.parliament.the-stationery-office.co.uk/pa/cm/cmhansrd.htm">Hansard</a>) back to
 1988 are published electronically on the World Wide Web.  We've written
 a program to read it for you and separate out all the records of
 voting.  This information has been added into an online database which you can
 access.
 
-<p>&nbsp;<p>
-<h2><a name="timeperiod">What time period does it cover?</a></h2>
+
+<h2 class="faq"><a name="timeperiod">What time period does it cover?</a></h2>
 <p>Voting data extends back across three parliaments to the May 1997 General
 Election, although there are a few divisions missing in the 1997
 parliament.  New divisions usually appear in Public Whip the next morning, but
@@ -116,8 +116,8 @@ their party.  That's an overall <strong><?=$attendance?>%</strong> attendance
 rate and <strong><?=$rebelocity?>%</strong> rebellion rate.
 
 
-<p>&nbsp;<p>
-<h2><a name="clarify">What do the "rebellion" and "attendance" figures mean exactly?</a></h2>
+
+<h2 class="faq"><a name="clarify">What do the "rebellion" and "attendance" figures mean exactly?</a></h2>
 
 <p>The apparent meaning of the data can be misleading, so do not to
 jump to conclusions about your MP until you have understood it.
@@ -140,8 +140,8 @@ party has whipped is made available, there is no true way of identifying a
 "rebellion".  We know of no heuristics which can reliably detect free votes.
 See also the <a href="#freevotes">next question</a>.
 
-<p>&nbsp;<p>
-<h2><a name="freevotes">Why do you incorrectly say people are rebels in free votes?</a></h2>
+
+<h2 class="faq"><a name="freevotes">Why do you incorrectly say people are rebels in free votes?</a></h2>
 
 <p>The short answer to this question is <a href="http://www.theyworkforyou.com/debate/?id=2005-02-07.1200.2">succinctly given by the Speaker</a>.  Here is
 the long answer.
@@ -168,8 +168,8 @@ exists and recording it officially&mdash;after all some whips
 are paid a salary by the taxpayer</a> so
 there is a precedent for admitting they exist.
 
-<p>&nbsp;<p>
-<h2><a name="abstentions">How do you estimate abstentions?</a></h2>
+
+<h2 class="faq"><a name="abstentions">How do you estimate abstentions?</a></h2>
 
 <p>It isn't possible for an MP to abstain in the UK parliament.  They can
 however not vote at all.  We try to detect massive low turnouts on the division
@@ -184,8 +184,8 @@ is always relative, so it could be that another party has failed to turn out
 <p>Sometimes MPs also indicate abstention by <a href="boths.php">voting both
 aye and no</a>.
 
-<p>&nbsp;<p>
-<h2><a name="policies">What are Policies and how do they work?</a></h2>
+
+<h2 class="faq"><a name="policies">What are Policies and how do they work?</a></h2>
 
 <p>This is a new idea which we derived from the software we wrote for the
 inexplicably popular, but now deprecated, Dream MP feature.
@@ -207,8 +207,8 @@ more than a flash summary of the data, a summary which you can drill down
 through to get to the raw evidence.</p>
 
 
-<p>&nbsp;<p>
-<h2><a name="legal">Legal question, what can I use this information for?</a></h2>
+
+<h2 class="faq"><a name="legal">Legal question, what can I use this information for?</a></h2>
 
 <p>Anything.  This website is copyrighted by us, and the software is free open source.
 You are free to use them how you like within the terms of the public license.
@@ -227,8 +227,8 @@ See the answer to <a href="#contact">I've found an error</a> for details.
 it, we ask you to refer your readers to www.publicwhip.org.uk.  This way they
 can use and contribute themselves.
 
-<p>&nbsp;<p>
-<h2><a name="playwith">Can I play with the software?</a></h2>
+
+<h2 class="faq"><a name="playwith">Can I play with the software?</a></h2>
 
 <p> Sure.  All the software we've written is free (libre and gratuit), protected by the <a href="GPL.php">GNU General Public License</a>.  It's not complicated,
 anyone can have a go running them.  But there's only a point in doing
@@ -236,8 +236,8 @@ this if you are going to change it as otherwise you will see the same
 results.  For more details go to the special <a
 href="project/code.php">coding section</a> of this website.
 
-<p>&nbsp;<p>
-<h2><a name="whyfree">Why are you giving everything away for free?</a></h2>
+
+<h2 class="faq"><a name="whyfree">Why are you giving everything away for free?</a></h2>
 
 <p>We're not; we're letting you take copies.  Whatever you do, we still
 have our computers, all the programs, and our domain name.  The more
@@ -251,8 +251,8 @@ would happen is that the people who are already organized influentially
 would retain all the power but would have slightly better software
 (which they probably have already).
 
-<p>&nbsp;<p>
-<h2><a name="organisation">What organisation is behind the Public Whip?</a></h2>
+
+<h2 class="faq"><a name="organisation">What organisation is behind the Public Whip?</a></h2>
 <p>None.  It was started by just two guys <a href="http://www.flourish.org">Francis</a> and <a
 href="http://www.goatchurch.org.uk">Julian</a> who had an idea and made it
 happen.  <a href="http://www.knownoffender.net/">Giles</a> designed the
@@ -260,8 +260,8 @@ original look of the website.  We're hosted by the ever helpful and encouraging
 <a href="http://www.mythic-beasts.com/">Mythic Beasts</a>.  These days lots
 of other people help out with bits of code, writing and design.
 
-<p>&nbsp;<p>
-<h2><a name="theyworkforyou">What's your connection with TheyWorkForYou.com?</a></h2>
+
+<h2 class="faq"><a name="theyworkforyou">What's your connection with TheyWorkForYou.com?</a></h2>
 
 <p>Both of us, Francis and Julian, are members of that project, but PublicWhip
 is not.  These projects use the same underlying code to interpret the online
@@ -274,8 +274,8 @@ you have an idea and the time, we will encourage you and give you all the
 support we can.</p>
 
 
-<p>&nbsp;<p>
-<h2><a name="interviews">Are you happy to give interviews about Public Whip?</a></h2>
+
+<h2 class="faq"><a name="interviews">Are you happy to give interviews about Public Whip?</a></h2>
 
 <p>Yes.  Both Francis and Julian have given interviews
 over the phone in the past and had their pictures taken for newspapers.
@@ -285,16 +285,16 @@ Both travel to London whenever there is something interesting happening there.
 Neither of us has had any working experience inside Parliament,
 and so our opinions are very much formed from the outside.  </p>
 
-<p>&nbsp;<p>
-<h2><a name="money">Do you make any money out of Public Whip?</a></h2>
+
+<h2 class="faq"><a name="money">Do you make any money out of Public Whip?</a></h2>
 
 <p>No.  The only money we've seen is from someone who contributed 70 pounds
 towards our internet bill.  We have no moral objection to earning money from
 our work, it's just that we are not willing to compromise with the need for
 this sort of work to be public and freely available at no cost.  </p>
 
-<p>&nbsp;<p>
-<h2><a name="living">How do you earn enough to make a living?</a></h2>
+
+<h2 class="faq"><a name="living">How do you earn enough to make a living?</a></h2>
 
 <p>We don't have expensive lifestyles.  Francis does IT contract work
 for various clients including <a href="http://www.mysociety.org">mySociety</a>,
@@ -309,7 +309,7 @@ are far more costly and time consuming than running a webpage.  Just because
 the skills we have used can earn real money in the marketplace doesn't mean it
 has to be difficult and boring.  </p>
 
-<h2><a name="millions">I've just got a job at a company that's been contracted
+<h2 class="faq"><a name="millions">I've just got a job at a company that's been contracted
 by Parliament, or some other organisation, to process Parliamentary data.  I
 don't understand why you have written your software for free in your spare time
 when I'm paid to do the same thing.</a></h2>
@@ -329,8 +329,8 @@ href="http://ukparse.kforge.net/parlparse">Parliament Parse</a>.  If there's
 anything we're missing which you'd like to see there, drop us a line or post
 onto the forum anonymously.</p>
 
-<p>&nbsp;<p>
-<h2><a name="officials">Have you had any problems from MPs or other politicians with what you are doing?</a></h2>
+
+<h2 class="faq"><a name="officials">Have you had any problems from MPs or other politicians with what you are doing?</a></h2>
 
 <p>Mostly they ignore us.  If anyone in power has had an objection to what we
 are doing, they have kept it to themselves.  As a rule, politicians must
@@ -346,8 +346,8 @@ only when the politicians are willing to publish their secret party whip informa
 the criticism generally falls silent.  </p>
 
 
-<p>&nbsp;<p>
-<h2><a name="rss">Are there any RSS syndication feeds?</a></h2>
+
+<h2 class="faq"><a name="rss">Are there any RSS syndication feeds?</a></h2>
 
 <p> First an explanation.  RSS is a way to let you easily read news from lots
 of different sources.  You need a special program called a newsreader to do
@@ -358,21 +358,21 @@ description</a> of how to do it.  We provide the following RSS feeds:
 <a href="/feeds/interestingdivisions.xml">interestingdivisions.xml</a> &mdash; Find out every time there are more than 10 "rebellions" in a division.
 <br><a href="/feeds/alldivisions.xml">alldivisions.xml</a> &mdash; Keep on top of every division in Parliament, after it happens.
 
-<h2><a name="spreadsheet">Where is the data in spreadsheet file format or in XML?</a></h2>
+<h2 class="faq"><a name="spreadsheet">Where is the data in spreadsheet file format or in XML?</a></h2>
 
 <p> Take a look at our <a href="project/data.php">Raw Data</a> page.
 
-<h2><a name="patents">What is the fuss about software patents?</a></h2>
+<h2 class="faq"><a name="patents">What is the fuss about software patents?</a></h2>
 <p>A new European directive on software patents threatens the existence
 of websites like The Public Whip.   We'd like your help to stop it.  <a
 href="patents/index.html">For more information see here</a>.
 
-<h2><a name="election">What did you do for the 2005 election?</a></h2>
+<h2 class="faq"><a name="election">What did you do for the 2005 election?</a></h2>
 <p>During the 2005 General Election campaign we ran a <a href="election.php">how
 they voted quiz</a>.  You can still take it and link to the results.
 
-<p>&nbsp;<p>
-<h2><a name="help">Can I help with the project?</a></h2>
+
+<h2 class="faq"><a name="help">Can I help with the project?</a></h2>
 <p>Sure!  There's lots to be done.  Your first task is to get to know
 the structure of the project and think about how better to explain it to
 people who don't know much about it, like yourself.  Improvements
@@ -387,19 +387,19 @@ See the <a href="#motionedit">following question</a> for details.
 <a href="http://ukparse.kforge.net/parlparse">Parliament Parser</a>
 project, to see if that is your cup of tea.  This is the core
 system which enables all our projects to function and where a
-differences can be made.
+difference can be made.
 
 <p>Finally, if that's not enough, there is a wider list of
 <a href="http://www.mysociety.org/moin.cgi/VolunteerTasks">
-Volunteer Tasks</a> at MySociety.
+Volunteer Tasks</a> at mySociety.
 
 <p>Hopefully, between all that, you kind find something that
 fits your mood.  Email us <a href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a>
 if you need to know more.
 
 
-<p>&nbsp;<p>
-<h2><a name="motionedit">What do you mean by editing the motion description?</a></h2>
+
+<h2 class="faq"><a name="motionedit">What do you mean by editing the motion description?</a></h2>
 
 <p>When there is a division in Parliament, it is not always easy to
 see what it means.  Quite often you have to scan through
@@ -424,8 +424,8 @@ possible to work out what was going on.  If enough of us got involved
 we would be able to tell the MPs in exact detail everything we expect
 their record to be, and get something close to what we want.
 
-<p>&nbsp;<p>
-<h2><a name="simproj">What other projects are similar to Publicwhip?</a></h2>
+
+<h2 class="faq"><a name="simproj">What other projects are similar to Publicwhip?</a></h2>
 
 <p>We rely on the <a href="http://ukparse.kforge.net/parlparse">Parliament
 Parser project</a>
@@ -455,10 +455,10 @@ You are free to make comments and start a discussion.
 
 <p>Many news organizations publish Parliamentary data, and so therefore
 must be doing some of the same work we are doing, without
-necessarily knowing that they can
-use everything we have done for free as a basis.
-Examples include <a href="http://politics.guardian.co.uk/aristotle/">The Guardian</a>
-and <a href="http://news.bbc.co.uk/1/hi/uk_politics/2160988.stm"> The BBC</a>.
+necessarily knowing that they can use everything we have done for free as a
+basis.  Examples include <a
+href="http://politics.guardian.co.uk/aristotle/">The Guardian</a> and <a
+href="http://news.bbc.co.uk/1/hi/uk_politics/2160988.stm"> The BBC</a>.
 
 <p>Beyond even this, we are aware that political parties and lobbying
 groups research and derive information such as this, but don't
@@ -468,16 +468,16 @@ the claim that "they have a right to do so", and whether
 it is "right".
 
 
-<p>&nbsp;<p>
-<h2><a name="keepup">How can I keep up with what you are doing?</a></h2>
+
+<h2 class="faq"><a name="keepup">How can I keep up with what you are doing?</a></h2>
 <p><a href="account/register.php">Subscribe to our newsletter!</a>  It's
 at most once a month, and has interesting news and articles
 relating to the project. You can
 <a href="/forum/">chat with other users</a>
 on our forum.
 
-<p>&nbsp;<p>
-<h2><a name="contact">There's something wrong with your webpage / I've found an error / Your wording is dreadfully unclear / Can I make a suggestion?</a></h2>
+
+<h2 class="faq"><a name="contact">There's something wrong with your webpage / I've found an error / Your wording is dreadfully unclear / Can I make a suggestion?</a></h2>
 
 <p>Please post your comments <a href="/forum/">in the forum</a>
 under <b>Bugs and Problems</b> or <b>Suggestions and Ideas</b> instead of
