@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.59 2005/12/09 13:59:13 goatchurch Exp $
+# $Id: faq.php,v 1.60 2005/12/09 14:19:49 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -218,8 +218,7 @@ can use and contribute themselves.
 
 <h2><a name="playwith">Can I play with the software?</a></h2>
 
-<p> Sure.  All the software we've written is free (libre and gratuit), protected by the
-<a href="GPL.php">GNU General Public License</a>.  It's not complicated,
+<p> Sure.  All the software we've written is free (libre and gratuit), protected by the <a href="GPL.php">GNU General Public License</a>.  It's not complicated,
 anyone can have a go running them.  But there's only a point in doing
 this if you are going to change it as otherwise you will see the same
 results.  For more details go to the special <a
@@ -351,22 +350,24 @@ href="patents/index.html">For more information see here</a>.
 <p>During the 2005 General Election campaign we ran a <a href="election.php">how
 they voted quiz</a>.  You can still take it and link to the results.
 
+<p>&nbsp;<p>
+
 <h2><a name="help">Can I help with the project?</a></h2>
-<p>Sure!  There's lots to do.  You're first task would be to get to know 
+<p>Sure!  There's lots to be done.  Your first task is to get to know 
 the structure of the project and think about how better to explain it to
-people who don't know much about it, such as yourself.  Improvements 
+people who don't know much about it, like yourself.  Improvements 
 in accessibility are the top priority.
 
 <p>The next thing to look at is editing the motion descriptions on some of 
 the divisions.  We desperately need more people involved in this, and 
 it is the quickest way to get tangible results.  
-See the <a href="#motionedit">following answer</a> for details.
+See the <a href="#motionedit">following question</a> for details.
 
 <p>If you are more technically minded, please glance at the
 <a href="http://ukparse.kforge.net/parlparse">Parliament Parser</a> 
-project, to check if that is your cup of tea.  This is the core 
-business which enables all our projects to follow and where a 
-real difference can be made.
+project, to see if that is your cup of tea.  This is the core 
+system which enables all our projects to function and where a 
+differences can be made.
 
 <p>Finally, if that's not enough, there is a wider list of
 <a href="http://www.mysociety.org/moin.cgi/VolunteerTasks">
@@ -379,9 +380,9 @@ if you need to know more.
 
 <h2><a name="motionedit">What do you mean by editing the motion description?</a></h2>
 
-<p>When there is a division in Parliament, it is not usually easy to
+<p>When there is a division in Parliament, it is not always easy to
 see what it means.  Quite often you have to scan through
-all of the debate in which the division takes place (looking for the
+all of the debate in which the division took place (looking for the
 phrase "I beg to move"), and have a good knowledge of the the jargon
 to work it out.  Also, many votes are about making changes in other
 documents (eg "to leave out line 5 on page 13 of the Ordinary Persons Pensions Bill")
@@ -390,32 +391,32 @@ which needs to be found and made available through a link.
 <p>The Publicwhip software is nowhere near sophisticated enough to do this
 automatically, and it requires help from a person like you.
 You can find out more about it on our <a href="project/research.php"> Research page</a>,
-where there is a current list of suggestions for how to do it.  Please
+where there is a page of ideas on how to do it.  Please
 feel free to discuss things in the
 <a href="forum/viewforum.php?f=2"> division forum</a>.
 
 <p>In the longer term, it would be better if Parliament told us the
 meanings of their votes in plain english from the beginning, rather than hiding
-what they are doing behind layers of unnecessary technicalities so
+what they were doing behind layers of unnecessary technicalities so
 that people didn't have to invent sites like Publicwhip to make it
-possible to work out what is going on.  If enough of us got involved
-we would be able to tell the MPs in detail exactly what we expect
-from the record that Parliament provides.
+possible to work out what was going on.  If enough of us got involved
+we would be able to tell the MPs in exact detail everything we expect
+their record to be, and get something close to what we want.
 
 <h2><a name="motionedit">What other projects are similar to yours?</a></h2>
 
 <p>We rely on the <a href="http://ukparse.kforge.net/parlparse">Parliament
-Parser project</a> (as well as much other generic open source software), 
+Parser project</a>  
 and are closely associated with <a href="http://www.theyworkforyou.com/"> www.theyworkforyou.com</a>, 
 <a href="http://www.writetothem.com/"> www.writetothem.com</a>,
 <a href="http://www.hearfromyourmp.com/"> www.hearfromyourmp.com</a>, 
 and <a href="http://downingstreetsays.com/"> downingstreetsays.com</a>, 
 partly on account of the fact that we have contributed code to them.  
 We support anyone who is keen to keen to adapt our systems to 
-other Parliaments, but can't announce any successes yet.
+other Parliaments, but cannot announce any big successes to date.
 
 <p>Outside of the Open Source community, some academics have worked in this
-area.  However usually after going to the expense of gathering their
+area.  Usually, however, after going through the expense of gathering their
 data, and writing their academic books and papers and giving their
 interviews, they throw it all
 away and don't get round to building a live website.
@@ -423,7 +424,7 @@ The most active person in this field at the moment is
 <a href="http://revolts.co.uk/">Philip Cowley</a> who 
 makes much of his research available in PDF form, and has written 
 two books which are relevant to our work.  Julian has 
-reviewed both of them, and posted them into the forum at 
+reviewed both and has posted them into the forum at 
 <a href="http://www.publicwhip.org.uk/forum/viewtopic.php?t=59"> Review of
 "Revolts and Rebellions" (Blair's Parliament 1997-2001)</a> and
 <a href="http://www.publicwhip.org.uk/forum/viewtopic.php?t=202"> Review of
@@ -432,8 +433,8 @@ You are free to make comments and start a discussion.
 
 <p>Many news organizations publish Parliamentary data, and so therefore
 must be doing some of the same work we are doing, without
-necessarily knowing that we are encouraging them to
-take everything we have done for free.
+necessarily knowing that they can 
+use everything we have done for free as a basis.
 Examples include <a href="http://politics.guardian.co.uk/aristotle/">The Guardian</a>
 and <a href="http://news.bbc.co.uk/1/hi/uk_politics/2160988.stm"> The BBC</a>.
 
@@ -442,7 +443,7 @@ groups research and derive information such as this, but don't
 make any of it public.  It's worth people asking themselves why
 this is the case, and being prepared to make a distinction between
 the claim that "they have a right to do so", and whether
-it's "right".
+it is "right".
 
 
 <h2><a name="keepup">How can I keep up with what you are doing?</a></h2>
