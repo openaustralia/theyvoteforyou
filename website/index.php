@@ -2,7 +2,7 @@
 
 cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.59 2005/12/06 10:02:59 frabcus Exp $
+# $Id: index.php,v 1.60 2005/12/15 10:40:39 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -58,7 +58,7 @@ An at most monthly briefing.
 <form class="search" action="search.php" name=pw>
 <p><span class="actionsheading">Find out how any MP votes</span>
 <br>Enter your postcode or MP name:
-<input maxLength=256 size=10 name=query value=""> <input type=submit value="Go" name=button>
+<input maxLength=256 size=8 name=query value=""> <input type=submit value="Go" name=button>
 <br><i>Example: "OX1 3DR", "<?=$random_mp?>"</i>
 </form>
 </p>
@@ -72,7 +72,7 @@ An at most monthly briefing.
 </form></p>
 </p>
 
-<li><p><span class="actionsheading">Make policies and check your MP against them</span>
+<li><p><span class="actionsheading">Test your MP against policies you care about</span>
 <br>Either <a href="policies.php">browse</a> existing policies or <a
 href="account/addpolicy.php">make</a> a new policy</span>
 <br>Some examples:
