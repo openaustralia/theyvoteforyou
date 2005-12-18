@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.52 2005/12/06 13:19:17 frabcus Exp $
+# $Id: dream.inc,v 1.53 2005/12/18 01:39:45 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -38,32 +38,48 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 		print "<p>$person ddddd   $dreamid</p>";
 
     print "<table>";
-    print "<tr class=\"headings\"><th>Division circumstance</th></th><th>Quantity</th><th>Points available</th><th>Points awarded</th></tr>";
+    print "<tr class=\"headings\"><th></th></th><th>No of votes</th><th>Points</th><th>Out of</th></tr>";
 
-    print "<tr class=\"odd\"><td>MP voted with policy</td><td class=\"teller\">$nvotessame</td><td>&times;10=".(10*$nvotessame)."</td><td>&times;10=".(10*$nvotessame)."</td></tr>";
+    print "<tr class=\"jobevent\"><td>Strongly relevant votes (50 points)</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+    print "<tr class=\"evenstrong\"><td>MP voted with policy</td><td class=\"teller\">$nvotessamestrong</td><td>".(50*$nvotessamestrong)."</td><td>".(50*$nvotessamestrong)."</td></tr>";
+    print "<tr class=\"evenstrong\"><td>MP voted against policy</td><td class=\"rebel\">$nvotesdifferstrong</td><td>".(0)."</td><td>".(50*$nvotesdifferstrong)."</td></tr>";
+    print "<tr class=\"evenstrong\"><td>MP absent</td><td class=\"rebelteller\">$nvotesabsentstrong</td><td>".(25 * $nvotesabsentstrong)."</td><td>".(50 * $nvotesabsentstrong)."</td></tr>";
+
+    print "<tr class=\"jobevent\"><td>Weakly relevant votes (10 points)</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+    print "<tr class=\"odd\"><td>MP voted with policy</td><td class=\"teller\">$nvotessame</td><td>".(10*$nvotessame)."</td><td>".(10*$nvotessame)."</td></tr>";
+    print "<tr class=\"odd\"><td>MP voted against policy</td><td class=\"rebel\">$nvotesdiffer</td><td>".(0)."</td><td>".(10*$nvotesdiffer)."</td></tr>";
+    print "<tr class=\"odd\"><td>MP absent</td><td class=\"rebelteller\">$nvotesabsent</td><td>".(1 * $nvotesabsent)."</td><td>".(2 * $nvotesabsent)."*</td></tr>";
+
+/*    print "<tr class=\"odd\"><td>MP voted with policy</td><td class=\"teller\">$nvotessame</td><td>&times;10=".(10*$nvotessame)."</td><td>&times;10=".(10*$nvotessame)."</td></tr>";
     print "<tr class=\"evenstrong\"><td>MP voted with (strong) policy</td><td class=\"teller\">$nvotessamestrong</td><td>&times;50=".(50*$nvotessamestrong)."</td><td>&times;50=".(50*$nvotessamestrong)."</td></tr>";
-    print "<tr class=\"odd\"><td>MP voted against policy</td><td class=\"rebel\">$nvotesdiffer</td><td>&times;10=".(10*$nvotesdiffer)."</td><td>&times;0=".(0)."</td></tr>";
-    print "<tr class=\"evenstrong\"><td>MP voted against (strong) policy</td><td class=\"rebel\">$nvotesdifferstrong</td><td>&times;50=".(50*$nvotesdifferstrong)."</td><td>&times;0=".(0)."</td></tr>";
-    print "<tr class=\"odd\"><td>MP absent</td><td class=\"rebelteller\">$nvotesabsent</td><td>&times;2=".(2 * $nvotesabsent)."</td><td>&times;1=".(1 * $nvotesabsent)."</td></tr>";
-    print "<tr class=\"evenstrong\"><td>MP absent (strong policy)</td><td class=\"rebelteller\">$nvotesabsentstrong</td><td>&times;50=".(50 * $nvotesabsentstrong)."</td><td>&times;25=".(25 * $nvotesabsentstrong)."</td></tr>";
-
+    print "<tr class=\"odd\"><td>MP voted against policy</td><td class=\"rebel\">$nvotesdiffer</td><td>&times;0=".(0)."</td><td>&times;10=".(10*$nvotesdiffer)."</td></tr>";
+    print "<tr class=\"evenstrong\"><td>MP voted against (strong) policy</td><td class=\"rebel\">$nvotesdifferstrong</td><td>&times;0=".(0)."</td><td>&times;50=".(50*$nvotesdifferstrong)."</td></tr>";
+    print "<tr class=\"odd\"><td>MP absent</td><td class=\"rebelteller\">$nvotesabsent</td><td>&times;1=".(1 * $nvotesabsent)."</td><td>&times;2=".(2 * $nvotesabsent)."</td></tr>";
+    print "<tr class=\"evenstrong\"><td>MP absent (strong policy)</td><td class=\"rebelteller\">$nvotesabsentstrong</td><td>&times;25=".(25 * $nvotesabsentstrong)."</td><td>&times;50=".(50 * $nvotesabsentstrong)."</td></tr>";
+*/
     $points_total = 10*$nvotessame + 50*$nvotessamestrong + 10*$nvotesdiffer + 50*$nvotesdifferstrong +  2*$nvotesabsent + 50 * $nvotesabsentstrong;
     $values_total = 10*$nvotessame + 50*$nvotessamestrong + 0*$nvotesdiffer + 0*$nvotesdifferstrong +  1*$nvotesabsent + 25*$nvotesabsentstrong;
-    print "<tr class=\"jobevent\"><td colspan=\"2\">Total:</td><td>$points_total</td><td>$values_total</td></tr>";
+    print "<tr class=\"jobevent\"><td colspan=\"2\">Total:</td><td>$values_total</td><td>$points_total</td></tr>";
 
-     print "</table>";
+    print "<tr><td colspan=\"4\"><p style=\"width: 35em;\"><small>*Pressure of
+    other work means MPs are often not present at votes &ndash; it does not
+    necessarily indicate they are indifferent. \"Weakly relevant\" votes where
+    the MP was absent are therefore counted less strongly when determining the
+    MP's position.</small></td></tr>";
+
+ print "</table>";
 
 	$dist = calc_dreammp_person_distance($nvotessame, $nvotessamestrong,
 									  $nvotesdiffer, $nvotesdifferstrong,
 									  $nvotesabsent, $nvotesabsentstrong);
 
-	print "<p><div class=\"equals break\"> <b>ratio</b> =&nbsp;</div>
+	print "<p><div class=\"equals break\"> <b>agreement score</b> =&nbsp;</div>
 		   <div class=\"fraction\">
-		   		<span class=\"numerator\">total agreement value</span>
+		   		<span class=\"numerator\">MP's points</span>
  				   <hr class=\"divider\" />
 		   		<span class=\"denominator\">total points</span>
 		   </div>
-		   <div class=\"equals break\"> = </div>
+		   <div class=\"equals break\">&nbsp;=&nbsp;</div>
 		   <div class=\"fraction\">
 		   		<span class=\"numerator\">$values_total</span>
  				   <hr class=\"divider\" />
@@ -73,7 +89,7 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 		   </p>\n\n<br clear=\"all\">\n";
 
 	print "<p>Please post comments and feedback about this equation in
-			<a href=\"forum/viewtopic.php?t=150\">forum topic: Policy Agreement Ratio</a>.</p>\n";
+			<a href=\"forum/viewtopic.php?t=150\">our forum</a>.</p>\n";
 
 
 	if ($bdebug == 1)

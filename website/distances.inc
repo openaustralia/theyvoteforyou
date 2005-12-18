@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.16 2005/12/06 09:53:12 publicwhip Exp $
+# $Id: distances.inc,v 1.17 2005/12/18 01:39:45 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -221,6 +221,6 @@ function print_divdiv_distance($db, $divattr1, $divattr2, $housenoun)
 		   </p>\n\n<br clear=\"all\">\n";
 
 	print "<p>Please post comments and feedback about this equation in
-			<a href=\"forum/viewtopic.php?t=825\">forum topic: Division Similarity Ratio</a>.</p>\n";
+			<a href=\"forum/viewtopic.php?t=825\">our forum</a>.</p>\n";
 }
 
