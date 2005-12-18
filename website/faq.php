@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.63 2005/12/18 00:06:56 publicwhip Exp $
+# $Id: faq.php,v 1.64 2005/12/18 02:13:02 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -124,10 +124,13 @@ jump to conclusions about your MP until you have understood it.
 
 <p>"Attendance" is for voting or telling in divisions. An MP may have a
 low attendance because they have abstained, have ministerial or
-other duties, or they are the speaker.  Perhaps they consider each
-division carefully, and only vote when they know about the subject.  A
-full list of reasons for low attendance can be found in the Divisions
-section on page 11 of <a
+other duties or they are the speaker.  Perhaps they consider each division
+carefully, and only vote when they know about the subject.  
+Sinn Féin 
+members, because they haven't taken taken the
+oath of allegiance, are unable to vote.
+A full list of reasons for low attendance can be found in the Divisions section
+on page 11 of <a
 href="http://www.parliament.uk/commons/lib/research/rp2003/rp03-032.pdf">a
 House of Commons library research paper</a>.  Note also that the Public
 Whip does not currently record if a member spoke in the debate but did
