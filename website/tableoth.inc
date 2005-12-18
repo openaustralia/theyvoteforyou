@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.26 2005/12/06 13:19:17 frabcus Exp $
+    # $Id: tableoth.inc,v 1.27 2005/12/18 01:40:12 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -145,7 +145,7 @@
 	        print "<td>".trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 150)."</td>\n";
 
 			if ($dreamtabattr['listtype'] == "mainlist")
-		            print "<td>0&nbsp;\n<img src=\"dreamplot.php?id=$dreamid\">\n&nbsp;1</td>\n";
+		            print "<td>0&nbsp;<img src=\"dreamplot.php?id=$dreamid\">&nbsp;1</td>\n";
 			if ($dreamtabattr['listtype'] == "comparelinks")
 			    print "<td>".$row["votes_count"]."</td>\n"; 
 			    
