@@ -12,7 +12,7 @@ echo "delete from pw_cache_divwiki;" | mysql pw_live
 
 # Provoke regeneration of policy cached data, so that Policy Comparison
 # table on MP pages appears correctly.
-for X in `snarf -q http://www.publicwhip.org.uk/policies.php - | grep dreamplot | sed "s/<img src=\"/http:\/\/www.publicwhip.org.uk\//;s/\">//;" `
+for X in `snarf -q http://www.publicwhip.org.uk/policies.php - | grep dreamplot | sed "s/^.*<img src=\"/http:\/\/www.publicwhip.org.uk\//;s/\">//; s/\&nbsp;.*$//;" `
 do 
 	snarf $X - >/dev/null &
 done
