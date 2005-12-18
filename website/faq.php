@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.62 2005/12/09 16:04:53 frabcus Exp $
+# $Id: faq.php,v 1.63 2005/12/18 00:06:56 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -49,7 +49,7 @@ $paddingforanchors = true; $title = "Help - Frequently Asked Questions"; pw_head
 <br>
 <li><a href="#help">Can I help with the project?</a> </li>
 <li><a href="#motionedit">What do you mean by editing the motion description?</a> </li>
-<li><a href="#simproj">What other projects are similar to Publicwhip?</a></li>
+<li><a href="#simproj">What other projects are similar to Public Whip?</a></li>
 <li><a href="#keepup">How can I keep up with what you are doing?</a> </li>
 <li><a href="#contact">There's something wrong with your webpage / I've found an error / Your wording is dreadfully unclear / Can I make a suggestion?</a> </li>
 </ul>
@@ -409,7 +409,7 @@ to work it out.  Also, many votes are about making changes in other
 documents (eg "to leave out line 5 on page 13 of the Ordinary Persons Pensions Bill")
 which needs to be found and made available through a link.
 
-<p>The Publicwhip software is nowhere near sophisticated enough to do this
+<p>The Public Whip software is nowhere near sophisticated enough to do this
 automatically, and it requires help from a person like you.
 You can find out more about it on our <a href="project/research.php"> Research page</a>,
 where there is a page of ideas on how to do it.  Please
@@ -419,13 +419,13 @@ feel free to discuss things in the
 <p>In the longer term, it would be better if Parliament told us the
 meanings of their votes in plain english from the beginning, rather than hiding
 what they were doing behind layers of unnecessary technicalities so
-that people didn't have to invent sites like Publicwhip to make it
+that people didn't have to invent sites like Public Whip to make it
 possible to work out what was going on.  If enough of us got involved
 we would be able to tell the MPs in exact detail everything we expect
 their record to be, and get something close to what we want.
 
 
-<h2 class="faq"><a name="simproj">What other projects are similar to Publicwhip?</a></h2>
+<h2 class="faq"><a name="simproj">What other projects are similar to Public Whip?</a></h2>
 
 <p>We rely on the <a href="http://ukparse.kforge.net/parlparse">Parliament
 Parser project</a>
