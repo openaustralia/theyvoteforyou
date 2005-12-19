@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.110 2005/12/09 14:19:49 publicwhip Exp $
+# $Id: division.php,v 1.111 2005/12/19 00:20:14 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -322,7 +322,7 @@ if ($singlemotionpage)
 
             print "<p>";
             print "<b><a href=\"$edit_link\">Edit description</a></b>";
-            print " <i>(<a href=\"faq.php#motionedit\">why?...</a>)</i>";
+            print " (<a href=\"faq.php#motionedit\">learn more</a>)";
             if ($discuss_url)
                 print ' | <b><a href="'.htmlspecialchars($discuss_url).'">Discuss changes</a></b>';
             if ($history_link) {
@@ -338,10 +338,10 @@ if ($singlemotionpage)
 	        $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
 	        $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
 	        if ($debate_gid != "") {
-	            print "<li>Read or comment on the <a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">debate in Parliament</a> at <u>TheyWorkForYou.com</u></li>";
+	            print "<li>Read or comment on the <a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">debate in Parliament</a> at TheyWorkForYou.com</li>";
 	        }
 	        if ($source != "") {
-	    		print "<li>Check the <a href=\"$source\">original Hansard document</a> for this division on <u>parliament.uk</u></a></li>";
+	    		print "<li>Check the <a href=\"$source\">original Hansard document</a> for this division on parliament.uk</a></li>";
 			}
             print "</ul>";
 
