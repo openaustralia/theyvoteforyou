@@ -3,7 +3,7 @@
 
 if [ x$LOCKFILE = x ]
 then 
-	 /home/publicwhip/publicwhip/build/run-with-lockfile -n /home/publicwhip/parldata/dailyupdate-lockfile $0
+	 /home/publicwhip/publicwhip-live/build/run-with-lockfile -n /home/publicwhip/parldata/dailyupdate-lockfile $0
 	if [ $? = 100 ]
 	then
 		echo "Another copy of dailyupdate is already running" 1>&2
