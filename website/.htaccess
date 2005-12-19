@@ -20,7 +20,7 @@ RedirectPermanent /news.php http://www.publicwhip.org.uk/newsletters/archive.php
 RedirectPermanent /code.php http://www.publicwhip.org.uk/project/code.php
 RedirectPermanent /mp-info.xml http://www.publicwhip.org.uk/feeds/mp-info.xml
 RedirectPermanent /dreammp.php http://www.publicwhip.org.uk/policy.php
-
+RedirectPermanent /awstats http://seagrass.goatchurch.org.uk/cgi-bin/awstats.pl?config=publicwhip
 
 # Net strike
 #Options +FollowSymLinks
