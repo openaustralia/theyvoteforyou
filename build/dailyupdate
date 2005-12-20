@@ -25,11 +25,11 @@ chmod -R a+r /home/publicwhip/parldata
 cd ~/parlparse
 svn -q update
 # Update this loader code and similar
-cd ~/publicwhip/
+cd ~/publicwhip-live/
 cvs -Q update -dP
 
 # Load new list of members and ministers
-cd ~/publicwhip/loader
+cd ~/publicwhip-live/loader
 ./memxml2db.pl
 
 # Load new divisions
@@ -44,23 +44,23 @@ then
 	./load.pl --quiet --from=$FROMDATE calc
 
 	# clear page cache
-	cd ~/publicwhip/build
+	cd ~/publicwhip-live/build
 	./clear-caches
 
 	# export dumps of data
-	cd ~/publicwhip/build
+	cd ~/publicwhip-live/build
 	./export-db
 	./votematrix.pl
 fi
 
 # Copy across ministers file (used by minwhirl)
 cp ~/parlparse/members/ministers.xml ~/www.publicwhip.org.uk/docs/data/
-cp ~/publicwhip/*.txt ~/www.publicwhip.org.uk/docs/data/
+cp ~/publicwhip-live/*.txt ~/www.publicwhip.org.uk/docs/data/
 chmod a+r ~/www.publicwhip.org.uk/docs/data/*
 
 # RSS feeds
 RSSDEST=~/www.publicwhip.org.uk/docs/feeds
-cd ~/publicwhip/loader
+cd ~/publicwhip-live/loader
 ./interestingdivisions2rss.pl > $RSSDEST/interestingdivisions.xml
 ./alldivisions2rss.pl > $RSSDEST/alldivisions.xml
 
