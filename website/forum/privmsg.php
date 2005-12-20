@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: privmsg.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: privmsg.php,v 1.2 2005/12/20 10:28:41 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -1495,6 +1495,8 @@ else if ( $submit || $refresh || $mode != '' )
 			}
 		}
 	}
+
+    $template->assign_block_vars('switch_subject_select', array());
 
 	//
 	// Has admin prevented user from sending PM's?
