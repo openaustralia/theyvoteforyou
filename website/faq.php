@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.64 2005/12/18 02:13:02 publicwhip Exp $
+# $Id: faq.php,v 1.65 2005/12/20 10:15:41 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -190,25 +190,23 @@ aye and no</a>.
 
 <h2 class="faq"><a name="policies">What are Policies and how do they work?</a></h2>
 
-<p>This is a new idea which we derived from the software we wrote for the
-inexplicably popular, but now deprecated, Dream MP feature.
-On Public Whip, a Policy is a set of votes that represent a
-view on a particular issue.  They can be used to automatically
-measure the voting characteristics of a particular MP without the
-need to examine and compare the votes individually.</p>
+<p>On Public Whip, a Policy is a set of votes that represent a view on a
+particular issue.  They can be used to automatically measure the voting
+characteristics of a particular MP without the need to examine and compare the
+votes individually.</p>
 
 <p>You do not have to agree with a Policy to have a valid opinion
 about the clarity of its description or choice of votes.
 This is why we've based their maintenance on a <a href="http://en.wikipedia.org/wiki/Wiki">Wiki</a>
 where everyone who is logged in can edit them.  This means that when a Policy
 gets out of date, for example new votes have appeared that it should be voting
-on, it's up to anyone who sees it to fix it.</p>
+on, it's up to anyone who sees it to fix it.  It also means you can make
+a new policy yourself. </p>
 
 <p>Policies are intended be a new tool for checking the voting behavoir of an
 MP, on top of the ability to read their individual votes.  They provide nothing
 more than a flash summary of the data, a summary which you can drill down
 through to get to the raw evidence.</p>
-
 
 
 <h2 class="faq"><a name="legal">Legal question, what can I use this information for?</a></h2>

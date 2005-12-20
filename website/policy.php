@@ -71,6 +71,15 @@
 
 	print "</div>\n";
 
+    if ($dismode["policybox"])
+    {
+	    print "<h2><a name=\"comparison\">Compare Against one MP</a></h2>";
+        print "<div class=\"tabledreambox\">";
+        print dream_box($dreamid, $policyname);
+        print '<p>Why not <a href="#dreambox">add this to your own website?</a></p>';
+        print "</div>";
+    }
+
 	if ($dismode["divisionlist"] == "selected")
 	{
 		print "<h2><a name=\"divisions\">Selected Divisions</a></h2>";
@@ -103,15 +112,6 @@
 			"motionwikistate" => "listunedited");
 	division_table($db, $divtabattr);
     print "</table>\n";
-
-    if ($dismode["policybox"])
-    {
-	    print "<h2><a name=\"comparison\">Comparison to one MP</a></h2>";
-        print "<div class=\"tabledreambox\">";
-        print dream_box($dreamid, $policyname);
-        print '<p>Why not <a href="#dreambox">add this to your own website?</a></p>';
-        print "</div>";
-    }
 
 	if ($dismode["comparisons"])
 	{
