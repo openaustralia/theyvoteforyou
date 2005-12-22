@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.27 2005/12/18 01:40:12 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.28 2005/12/22 18:22:28 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -157,9 +157,11 @@
 
 
 
-    function print_party_summary_division($db, $div_id, $baseurl)
+    function print_party_summary_division($db, $div_id, $baseurl, $house)
     {
-        $db->query("SELECT party, total_votes FROM pw_cache_partyinfo");
+        if ($house != "commons" && $house != "lords")
+            die;
+        $db->query("SELECT party, total_votes FROM pw_cache_partyinfo where house = '$house'");
         $alldivs = array();
         while ($row = $db->fetch_row())
             $alldivs[$row[0]] = $row[1];

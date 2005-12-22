@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.22 2005/12/05 00:09:56 frabcus Exp $
+# $Id: divisions.php,v 1.23 2005/12/22 18:22:28 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -133,6 +133,7 @@
     print "<table class=\"votes\">\n";
     print "<tr class=\"headings\">";
     makeheadcelldivlink($rdisplay, $sort, $rdisplay2, "Date", "date", "Sort by date");
+    makeheadcelldivlink($rdisplay, $sort, $rdisplay2, "House", "house", "Sort by house");
     print "<td>No.</td>";
     makeheadcelldivlink($rdisplay, $sort, $rdisplay2, "Subject", "subject", "Sort by subject");
     makeheadcelldivlink($rdisplay, $sort, $rdisplay2, "Rebellions", "rebellions", "Sort by rebellions");

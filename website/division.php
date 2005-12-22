@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.111 2005/12/19 00:20:14 publicwhip Exp $
+# $Id: division.php,v 1.112 2005/12/22 18:22:28 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -368,7 +368,7 @@ if ($singlemotionpage)
 
 	# Work out proportions for party voting (todo: cache)
 	if ($dismode["partysummary"])
-	    print_party_summary_division($db, $div_id, "");
+	    print_party_summary_division($db, $div_id, "", $divattr['house']);
 
 
 	# Division votes table

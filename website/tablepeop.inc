@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.22 2005/12/06 13:19:17 frabcus Exp $
+# $Id: tablepeop.inc,v 1.23 2005/12/22 18:22:28 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -54,7 +54,8 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
 
     # we could mark if there are other MPs in this constituency and make a link to them
     #print "<td>".$row['constituency']."</td>";
-    print "<td><a href=\"mp.php?mpc=".urlencode($row['constituency'])."\">".$row['constituency']."</a></td>";
+    if ($row['house'] != 'lords')
+        print "<td><a href=\"mp.php?mpc=".urlencode($row['constituency'])."\">".$row['constituency']."</a></td>";
 
 
     # convert and write out the party

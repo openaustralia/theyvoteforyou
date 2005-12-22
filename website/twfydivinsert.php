@@ -2,7 +2,7 @@
 <html>
 
 <?php require_once "common.inc";
-# $Id: twfydivinsert.php,v 1.2 2005/11/01 00:56:21 frabcus Exp $
+# $Id: twfydivinsert.php,v 1.3 2005/12/22 18:22:28 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -23,7 +23,7 @@
 	$divattr = get_division_attr_decode($db, "");
 	$div_id = $divattr["division_id"];
 
-	print_party_summary_division($db, $div_id, "www.publicwhip.org.uk/");
+	print_party_summary_division($db, $div_id, "www.publicwhip.org.uk/", $divattr["house"]);
 ?>
 </html>
 

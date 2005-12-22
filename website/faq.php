@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.65 2005/12/20 10:15:41 publicwhip Exp $
+# $Id: faq.php,v 1.66 2005/12/22 18:22:28 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -107,9 +107,9 @@ know</a> if you find any.
 ?>
 
 <p>Some numeric statistics: The database contains <strong><?=$mp_count?></strong>
-MP records from <strong><?=$parties?></strong> parties. There are
+MP and Lord records from <strong><?=$parties?></strong> parties. There are
 <strong><?=$div_count?></strong> divisions which have been counted.  A mean of
-<strong><?=$vote_per_div?></strong> MPs voted in each division.  In total
+<strong><?=$vote_per_div?></strong> MPs/Lords voted in each division.  In total
 <strong><?=$vote_count?></strong> votes were cast, of which
 <strong><?=$rebellious_votes?></strong> were against the majority vote for
 their party.  That's an overall <strong><?=$attendance?>%</strong> attendance

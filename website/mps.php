@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.20 2005/12/04 20:41:35 frabcus Exp $
+    # $Id: mps.php,v 1.21 2005/12/22 18:22:28 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -13,11 +13,16 @@
     require_once "render.inc";
     $db = new DB();
 
+    $house = db_scrub($_GET["house"]);
+    if ($house != "lords" && $house != "commons") {
+        $house = "commons";
+    }
+
     $sort = db_scrub($_GET["sort"]);
     if ($sort != "rebellions")
-        $title = "MPs";
+        $title = ($house == "lords") ? "Lords" : "MPs";
     else
-        $title = "Rebels";
+        $title = ($house == "lords") ? "Rebel Lords" : "Rebel MPs";
 
     require_once "parliaments.inc";
 	if ($parlsession != "")
@@ -47,7 +52,8 @@ you expect. You can change the order of the table by selecting the headings.
     $url = "mps.php?parliament=" . urlencode($parliament) . "&";
     print "<tr class=\"headings\">";
     head_cell($url, $sort, "Name", "lastname", "Sort by surname");
-    head_cell($url, $sort, "Constituency", "constituency", "Sort by constituency");
+    if ($house != 'lords')
+        head_cell($url, $sort, "Constituency", "constituency", "Sort by constituency");
     head_cell($url, $sort, "Party", "party", "Sort by party");
     head_cell($url, $sort, "Rebellions<br>(estimate)", "rebellions", "Sort by rebels");
     head_cell($url, $sort, "Attendance<br>(divisions)", "attendance", "Sort by attendance");
@@ -59,7 +65,7 @@ you expect. You can change the order of the table by selecting the headings.
 					   "parliament" => $parliaments[$parliament],
 					   "showwhich" 	=> "all",
 					   "sortby"		=> $sort,
-                       "house"      => "commons");
+                       "house"      => $house);
 	mp_table($db, $mptabattr);
     print "</table>\n";
 ?>
