@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.24 2005/12/22 19:21:19 goatchurch Exp $
+# $Id: divisions.php,v 1.25 2005/12/22 19:55:14 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -29,6 +29,10 @@
 		if (!$rdefaultdisplay)
 			$rdefaultdisplay = $lrdisplay;
 	}
+	$rdismodes["all"] = array(
+							 "description" => "All divisions on record",
+							 "lkdescription" => "All Parliaments",
+							 "parliament" => "all");
 
 	$rdismodes2["every"] = array(
 							 "description" => "Divisions",
@@ -87,7 +91,7 @@
 		$title .= " (sorted by $sort)";
 
 	# do the tabbing list using a function that leaves out default parameters
-	function makedivlink($rdisplay, $sort, $rdisplay2, $rdisplay_house)
+	function makedivlink($rdisplay, $rdisplay2, $rdisplay_house, $sort)
 	{
         global $rdefaultdisplay, $rdefaultdisplay2, $rdefaultdisplay_house;
 		$base = "divisions.php";
@@ -109,7 +113,7 @@
     $second_links2 = array();
     foreach ($rdismodes as $lrdisplay => $lrdismode)
 	{
-		$dlink = makedivlink($lrdisplay, $sort, $rdisplay2, $rdisplay_house);
+		$dlink = makedivlink($lrdisplay, $rdisplay2, $rdisplay_house, $sort);
         array_push($second_links2, array('href'=>$dlink,
             'current'=> ($lrdisplay == $rdisplay ? "on" : "off"),
             'text'=>$lrdismode["lkdescription"]));
@@ -117,7 +121,7 @@
     $second_links = array();
     foreach ($rdismodes2 as $lrdisplay => $lrdismode)
 	{
-		$dlink = makedivlink($rdisplay, $sort, $lrdisplay, $rdisplay_house);
+		$dlink = makedivlink($rdisplay, $lrdisplay, $rdisplay_house, $sort);
         array_push($second_links, array('href'=>$dlink,
             'current'=> ($lrdisplay == $rdisplay2 ? "on" : "off"),
             'text'=>$lrdismode["lkdescription"]));
@@ -125,7 +129,7 @@
 	$third_links = array();
     foreach ($rdismodes_house as $lrdisplay_house => $lrdismode)
 	{
-		$dlink = makedivlink($rdisplay, $sort, $lrdisplay, $lrdisplay_house);
+		$dlink = makedivlink($rdisplay, $lrdisplay, $lrdisplay_house, $sort);
         array_push($third_links, array('href'=>$dlink,
             'current'=> ($lrdisplay_house == $rdisplay_house ? "on" : "off"),
             'text'=>$lrdismode["lkdescription"]));
@@ -157,9 +161,9 @@
 		print "<p>You can change the order of the table by selecting
 				the headings.</p>";
 
-	function makeheadcelldivlink($rdisplay, $rdisplay2, $sort, $hcelltitle, $hcellsort, $hcellalt)
+	function makeheadcelldivlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, $hcelltitle, $hcellsort, $hcellalt)
 	{
-		$dlink = makedivlink($rdisplay, $rdisplay2, $hcellsort);
+		$dlink = makedivlink($rdisplay, $rdisplay2, $rdisplay_house, $hcellsort);
 		if ($sort == $hcellsort)
 			print "<td>$hcelltitle</td>";
 		else
@@ -169,12 +173,13 @@
 	# these head cells are tabbing type links
     print "<table class=\"votes\">\n";
     print "<tr class=\"headings\">";
-    makeheadcelldivlink($rdisplay, $sort, $rdisplay2, "Date", "date", "Sort by date");
-    makeheadcelldivlink($rdisplay, $sort, $rdisplay2, "House", "house", "Sort by house");
+    makeheadcelldivlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Date", "date", "Sort by date");
+	if ($rdisplay_house == "both")
+	    makeheadcelldivlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "House", "house", "Sort by house");
     print "<td>No.</td>";
-    makeheadcelldivlink($rdisplay, $sort, $rdisplay2, "Subject", "subject", "Sort by subject");
-    makeheadcelldivlink($rdisplay, $sort, $rdisplay2, "Rebellions", "rebellions", "Sort by rebellions");
-    makeheadcelldivlink($rdisplay, $sort, $rdisplay2, "Turnout", "turnout", "Sort by turnout");
+    makeheadcelldivlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Subject", "subject", "Sort by subject");
+    makeheadcelldivlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Rebellions", "rebellions", "Sort by rebellions");
+    makeheadcelldivlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Turnout", "turnout", "Sort by turnout");
     print "</tr>";
 
 
@@ -182,12 +187,13 @@
 	$divtabattr = array(
 			"showwhich"		=> $rdismode["showwhich"],
 			"headings"		=> 'none',
-			"sortby"		=> $sort);
+			"sortby"		=> $sort
+			"display_house" => $rdisplay_house);
 
 	if ($rdismode["parliament"] != "all")
 		$divtabattr["parldatelimit"] = $parliaments[$rdisplay];
 	else
-		$divtabattr["motionwikistate"] = "listunedited"; 
+		$divtabattr["motionwikistate"] = "listunedited";
 
 	division_table($db, $divtabattr);
     print "</table>\n";
