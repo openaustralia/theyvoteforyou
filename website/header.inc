@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.70 2005/12/05 00:09:56 frabcus Exp $
+# $Id: header.inc,v 1.71 2005/12/22 19:21:19 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -27,8 +27,8 @@ $headtitle = str_replace(" - ", " &#8212; ", $headtitle);
 <title><? print $headtitle ?></title>
 <script>
 <!--
-function givefocus(field) { 
-    if (!document || !document.getElementById) 
+function givefocus(field) {
+    if (!document || !document.getElementById)
         return
     f = document.getElementById(field)
     if (f)
@@ -121,7 +121,7 @@ Search or Postcode:
 <tr class="secondheaders">
 <td class="pagesecondnavlinks" colspan="2">
 
-<? 
+<?
     function print_links($links, $offset) {
         print '<form name="secondnav" action="/redir.php" method="post" style="display: inline">';
         print '<select id="r'.$offset.'" name="r'.$offset.'">';
@@ -141,8 +141,12 @@ Search or Postcode:
     }
 
     print_links($second_links, "");
-    if ($second_links2) 
-        print_links($second_links2, "2");
+    if ($second_links2)
+    {
+    	print_links($second_links2, "2");
+        if ($third_links)
+	    	print_links($third_links, "3");
+    }
 ?>
 </td>
 </tr>
