@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.113 2005/12/22 22:31:22 goatchurch Exp $
+# $Id: division.php,v 1.114 2005/12/22 23:07:29 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -272,7 +272,7 @@ if ($singlemotionpage)
 		# cross-over case listing vote of single MP
 		if ($votertype == "mp")
 		{
-			print "<p>And <a href=\"mp.php?".$voter['mpanchor']."\">".$voter['name']." MP</a> (".$voter['constituency'].")";
+			print "<p>And <a href=\"mp.php?".$voter['mpanchor']."\">".$voter['name'].($house == "lords" ? "</a>" : " MP</a> (".$voter['constituency'].")");
 			if ($vote == 'aye')
 				print " voted Aye.";
 			else if ($vote == 'no')
@@ -334,7 +334,7 @@ if ($singlemotionpage)
 	        print "</div>\n";
 
 			print "<p>&nbsp;</p>";
-			print "<h2>External Links</h2><ul>";
+			print "<h2>External Links</h2>";
 			print "<ul>";
 	        if ($debate_gid != "")
 			{

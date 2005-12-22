@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.24 2005/12/22 22:31:22 goatchurch Exp $
+# $Id: tablepeop.inc,v 1.25 2005/12/22 23:07:29 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -182,13 +182,13 @@ function mp_table($db, $mptabattr)
 	    if ($mptabattr["sortby"] == "constituency")
 	        $aquery["qorder"] .= " constituency, last_name, first_name";
 		# by name primarily
-	    elseif ($mptabattr["house"] != "lords")
-	    	$aquery["qorder"] .= " concat(first_name, substring(last_name, 3))";  # a hack to strip the of-s and make the names comparable
+	    elseif ($mptabattr["house"] == "lords")
+	    	$aquery["qorder"] .= " concat(first_name, substring(last_name, 4))";  # a hack to strip the of-s and make the names comparable
 	    else
 	    	$aquery["qorder"] .= " last_name, first_name, constituency";
 	    if ($mptabattr["sortby"] != "party" and !(($mptabattr["sortby"] == "vote") and ($mptabattr["listtype"] != 'division') and ($mptabattr["listtype"] != 'division2')))
 	        $aquery["qorder"] .= ", party";
-	#    if ($bdebug == 1)
+	    if ($bdebug == 1)
 	        print "\n<h3>".$aquery["qorder"]."</h3>\n";
 	}
 
