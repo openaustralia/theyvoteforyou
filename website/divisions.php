@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.27 2005/12/22 20:21:52 goatchurch Exp $
+# $Id: divisions.php,v 1.28 2005/12/22 20:54:46 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -88,7 +88,7 @@
 	if ($rdisplay_house != "both")
 		$title .= " - ".($rdisplay_house == "lords" ? "Lords" : "Commons")." only";
 	if ($sort != 'date')
-		$title .= " (sorted by $sort)";
+		$title .= " (sorted by <i>$sort</i>)";
 
 	# do the tabbing list using a function that leaves out default parameters
 	function makedivlink($rdisplay, $rdisplay2, $rdisplay_house, $sort)
@@ -156,6 +156,8 @@
 
 			   <p>For more information, please <a href=\"faq.php#freevotes\">
 			   see the FAQ</a>.</p>";
+    else if ($rdisplay2 == "rebels")
+        print "<p>This is a table showing only the divisions where there were at least ten <a href=\"faq.php#clarify\">rebels</a>.</p>"; 
 
 	if ($sort == "date")
 		print "<p>You can change the order of the table by selecting

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.50 2005/12/22 20:21:52 goatchurch Exp $
+# $Id: tablemake.inc,v 1.51 2005/12/22 20:54:46 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -253,10 +253,9 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter
     print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even")."$pretrowclass\">";
     print "<td>".$row['divisiondate']."</td>";
 	if ($outputhousecolumn)
-	    print "<td>".$row['divisionhouse']."</td>";
+	    print "<td>".($row['divisionhouse'] == "lords" ? "Lords" : "Commons")."</td>";
 
-#    print "<td>".$row['divisionnumber']."</td>";
-print "<td>".$row['divisiontime']."</td>";
+    print "<td>".$row['divisionnumber']."</td>";
 
     $divdesc_edited = extract_title_from_wiki_text($row['text_body']);
     $divdesc = ($divdesc_edited ? $divdesc_edited : $row['division_name']);
@@ -511,7 +510,6 @@ function division_table($db, $divtabattr, $events = "")
                             pw_division.division_number AS divisionnumber,
                             pw_division.division_date 	AS divisiondate,
                             pw_division.house           AS divisionhouse,
-                            pw_division.clock_time		AS divisiontime,
                             division_name, source_url, debate_url, source_gid, debate_gid";
 
     $aquery["qfrom"]   = " FROM pw_division";
@@ -524,7 +522,7 @@ function division_table($db, $divtabattr, $events = "")
                                       AND pw_division.division_date < \"".$divtabattr["parldatelimit"]['to']."\")";
 	$outputhousecolumn = "";
 	if (($divtabattr["display_house"] == "lords") or ($divtabattr["display_house"] == "commons"))
-		$aquery["qwhere"] .= " AND divisionhouse = ".$divtabattr["display_house"];
+		$aquery["qwhere"] .= " AND pw_division.house = \"".$divtabattr["display_house"]."\"";
 	else
 		$outputhousecolumn = "yes";
 
@@ -735,9 +733,11 @@ function division_table($db, $divtabattr, $events = "")
             $hrefsource = $row['source_url'];
 
         $divhref = "division.php?date=".urlencode($row['divisiondate'])."&number=".urlencode($row['divisionnumber']);
-	if ($divclose)
-		$divhref .= "&date2=".urlencode($divclose['division_date'])."&number2=".urlencode($divclose['division_number']);
-	$divhref .= $divtabattr["divhrefappend"];
+        if ($divclose)
+            $divhref .= "&date2=".urlencode($divclose['division_date'])."&number2=".urlencode($divclose['division_number']);
+        $divhref .= $divtabattr["divhrefappend"];
+        if ($row["divisionhouse"] == "lords")
+            $divhref .= "&house=lords"; 
 
         # write out the events
         writeevents($events, $row['divisiondate'], $breversed);
