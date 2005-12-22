@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: load.pl,v 1.9 2005/04/16 15:13:10 frabcus Exp $
+# $Id: load.pl,v 1.10 2005/12/22 12:37:38 publicwhip Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -102,6 +102,10 @@ sub clean {
     PublicWhip::Clean::erase_duff_divisions($dbh);
 }
 
+sub all_divsxml {
+    PublicWhip::DivsXML::read_xml_files( $dbh, $from, $to );
+}
+
 sub update_calc {
     PublicWhip::Error::log("Counting party statistics...", "", ERR_USEFUL);
     PublicWhip::Calc::count_party_stats($dbh);
@@ -122,10 +126,6 @@ sub check {
     PublicWhip::Clean::fix_bothway_voters($dbh);
     PublicWhip::Error::log("Checking integrity...", "", ERR_USEFUL);
     PublicWhip::Clean::check_integrity($dbh, $from, $to);
-}
-
-sub all_divsxml {
-    PublicWhip::DivsXML::read_xml_files( $dbh, $from, $to );
 }
 
 sub test {
