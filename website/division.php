@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.112 2005/12/22 18:22:28 publicwhip Exp $
+# $Id: division.php,v 1.113 2005/12/22 22:31:22 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -57,7 +57,7 @@ function no_division_found($plural)
 	$debate_gid = $divattr["debate_gid"];
 	$div_no = html_scrub($divattr["division_number"]);
 	$this_anchor = $divattr["divhref"];
-
+	$house = $divattr["house"];
 
 	# designated voter on this division
 	$votertype = "";
@@ -108,10 +108,10 @@ function no_division_found($plural)
 	# calculate the same/different voting pattern so we can work out if it's better to invert the second set of votes
 	if (!$singlemotionpage)
     {
-	    $lquery = "SELECT nvotessame, nvotesdiff 
+	    $lquery = "SELECT nvotessame, nvotesdiff
                    FROM pw_cache_divdiv_distance
                    WHERE pw_cache_divdiv_distance.division_id = ".$divattr["division_id"]."
-                     AND pw_cache_divdiv_distance.division_id2 = ".$divattr["division_id"]; 
+                     AND pw_cache_divdiv_distance.division_id2 = ".$divattr["division_id"];
 	    if ($bdebug == 1)
 	        print "\n<h3>$lquery</h3>\n";
 	    $row = $db->query_onez_row_assoc($lquery);
@@ -333,15 +333,21 @@ if ($singlemotionpage)
                 print " (last edited ".  relative_time($motion_data["edit_date"]) .  " by " . pretty_user_name($db2, $last_editor).") ";
 	        print "</div>\n";
 
+			print "<p>&nbsp;</p>";
 			print "<h2>External Links</h2><ul>";
-			print "<p>";
-	        $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
-	        $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
-	        if ($debate_gid != "") {
-	            print "<li>Read or comment on the <a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">debate in Parliament</a> at TheyWorkForYou.com</li>";
+			print "<ul>";
+	        if ($debate_gid != "")
+			{
+				if ($divattr["house"] == "lords")
+		        	$debate_gid = "lords/?id=".str_replace("uk.org.publicwhip/lords/", "", $debate_gid);
+		        else
+					$debate_gid = "debates/?id=".str_replace("uk.org.publicwhip/debates/", "", $debate_gid);
+	            print "<li>Read or comment on the <a href=\"http://www.theyworkforyou.com/$debate_gid\">debate in Parliament</a> at www.TheyWorkForYou.com</li>";
 	        }
+
+	        $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
 	        if ($source != "") {
-	    		print "<li>Check the <a href=\"$source\">original Hansard document</a> for this division on parliament.uk</a></li>";
+	    		print "<li>Check the <a href=\"$source\">original Hansard document</a> for this division on www.parliament.uk</a></li>";
 			}
             print "</ul>";
 
@@ -380,24 +386,27 @@ if ($singlemotionpage)
 			if ($display == "summary")
 			{
 				print "<h2><a name=\"votes\">Rebel Voters - sorted by $sort</a></h2>\n";
-				print "<p>MPs for which their vote in this division differed from the majority vote of their party.
+				print "<p>".($house == "lords" ? "Peers" : "MPs")."
+						for which their vote in this division differed from the majority vote of their party.
 						You can see <a href=\"$thispage&display=allvotes$tpsort\">all votes</a> in this division,
-						or <a href=\"$thispage&display=allpossible$tpsort\">every eligible MP</a> who could have
+						or <a href=\"$thispage&display=allpossible$tpsort\">every eligible ".($house == "lords" ? "peer" : "MP")."</a> who could have
 						voted in this division</p>\n";
 			}
 			elseif ($display == "allvotes")
 			{
 				print "<h2><a name=\"votes\">All Votes Cast - sorted by $sort</a></h2>\n";
-				print "<p>MPs for which their vote in this division differed
+				print "<p>".($house == "lords" ? "Peers" : "MPs")."
+						for which their vote in this division differed
 						from the majority vote of their party are marked in red.
-						Also shows which MPs were ministers at the time of this vote.
-						You can also see <a href=\"$thispage&display=allpossible$tpsort\">every eligible MP</a>
+						Also shows which ".($house == "lords" ? "peers" : "MPs")."
+						were ministers at the time of this vote.
+						You can also see <a href=\"$thispage&display=allpossible$tpsort\">every eligible ".($house == "lords" ? "peer" : "MP")."</a>
 						including those who did not vote in this division.</p>\n";
 			}
 			else
 			{
-				print "<h2><a name=\"votes\">All MPs Eligible to Vote - sorted by $sort</a></h2>\n";
-				print "<p>Includes MPs who were absent (or abstained)
+				print "<h2><a name=\"votes\">All ".($house == "lords" ? "peers" : "MPs")." Eligible to Vote - sorted by $sort</a></h2>\n";
+				print "<p>Includes ".($house == "lords" ? "peers" : "MPs")." who were absent (or abstained)
 						from this vote.</p>\n";
 			}
 		}
@@ -408,7 +417,7 @@ if ($singlemotionpage)
 			if ($display == "opposites")
 			{
 				print "<h2><a name=\"votes\">Opposite in Votes - sorted by $sort</a></h2>\n";
-				print "<p>MPs for which their vote on Motion (a) was opposite to their";
+				print "<p>".($house == "lords" ? "Peers" : "MPs")." for which their vote on Motion (a) was opposite to their";
 				if ($div2invert)
 					print " <b>inverted</b>";
 				print " vote on Motion (b).\n";
@@ -419,7 +428,7 @@ if ($singlemotionpage)
 			elseif ($display == "differences")
 			{
 				print "<h2><a name=\"votes\">Difference in Votes - sorted by $sort</a></h2>\n";
-				print "<p>MPs for which their vote on Motion (a) differed from their";
+				print "<p>".($house == "lords" ? "Peers" : "MPs")." for which their vote on Motion (a) differed from their";
 				if ($div2invert)
 					print " <b>inverted</b>";
 				print " vote on Motion (b).\n";
@@ -430,13 +439,13 @@ if ($singlemotionpage)
 			elseif ($display == "allvotes")
 			{
 				print "<h2><a name=\"votes\">All Votes Cast - sorted by $sort</a></h2>\n";
-				print "<p>All MP who voted in one or other of the two divisions.
-						Also shows which MPs were ministers at the time of the first vote.</p>\n";
+				print "<p>All ".($house == "lords" ? "peers" : "MPs")." who voted in one or other of the two divisions.
+						Also shows which ".($house == "lords" ? "peers" : "MPs")." were ministers at the time of the first vote.</p>\n";
 			}
 			else  # all votes
 			{
-				print "<h2><a name=\"votes\">All MPs Eligible to Vote - sorted by $sort</a></h2>\n";
-				print "<p>Includes MPs who were absent (or abstained)
+				print "<h2><a name=\"votes\">All ".($house == "lords" ? "Peers" : "MPs")." Eligible to Vote - sorted by $sort</a></h2>\n";
+				print "<p>Includes ".($house == "lords" ? "peers" : "MPs")." who were absent (or abstained)
 						from the first vote vote.</p>\n";
 			}
 		}
@@ -444,14 +453,17 @@ if ($singlemotionpage)
 		# the sort by cases
 		print "<table class=\"votes\"><tr class=\"headings\">";
 		if ($sort == "name")
-			print "<td>MP</td>";
+			print "<td>".($house == "lords" ? "Peer" : "MP")."</td>";
 		else
-			print "<td><a href=\"$thispage$tpdisplay&sort=name\">MP</a></td>";
-		if ($sort == "constituency")
-			print "<td>Constituency</td>";
-		else
-			print "<td><a href=\"$thispage$tpdisplay&sort=constituency\">Constituency</a></td>";
-		$partytext = ($singlemotionpage ? "Party" : "Party at<br>vote (a)"); 
+			print "<td><a href=\"$thispage$tpdisplay&sort=name\">".($house == "lords" ? "Peer" : "MP")."</a></td>";
+		if ($house != "lords")
+		{
+			if ($sort == "constituency")
+				print "<td>Constituency</td>";
+			else
+				print "<td><a href=\"$thispage$tpdisplay&sort=constituency\">Constituency</a></td>";
+		}
+		$partytext = ($singlemotionpage ? "Party" : "Party at<br>vote (a)");
         if ($sort == "party")
 			print "<td>$partytext</td>";
 		else
@@ -480,6 +492,7 @@ if ($singlemotionpage)
 		$mptabattr = array("listtype"	=> "division",
 							"divdate"	=> $divattr["division_date"],
 							"divno"		=> $divattr["division_number"],
+							"divhouse"	=> $divattr["house"],
 							"divid"		=> $divattr["division_id"],  # redundant, but the above two are not used by all tables
 							"sortby"	=> $sort,
 							"showwhich" => $dismode["showwhich"],
@@ -502,19 +515,21 @@ if ($singlemotionpage)
 
 	if ($dismode["listsimilardivisions"])
 	{
-		# comment out lazy evaluation that is done to completion in a separate job.  
+		# comment out lazy evaluation that is done to completion in a separate job.
         #fill_division_distances($db, $db2, $divattr["house"], $divattr);
-	
+
         $divtabattr = array(
 				"showwhich"		=> 'everyvote',
 				"headings"		=> 'none',
 				"sortby"		=> 'closeness',
                 "limitby"       => ($dismode["listsimilardivisions"] == 'short' ? "10" : ""),
-				"divclose"		=> $divattr);
+				"divclose"		=> $divattr,
+				"display_house" => $divattr["house"]);
 
 		if ($dismode["listsimilardivisions"] == "thisparliament")
 			$divtabattr["parldatelimit"] = $parliaments[$divattr["parliament"]];
 
+        print "<p>&nbsp;</p>";
         print "<h2><a name=\"simdiv\">Similar Divisions</a></h2>";
         print "<p>This table lists divisions where the MPs voted in a similar way to the
                 division that is listed on this page.  Click on the division link to see a comparison

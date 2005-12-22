@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.30 2005/12/06 13:19:17 frabcus Exp $
+# $Id: pretty.inc,v 1.31 2005/12/22 22:31:22 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -43,6 +43,10 @@ function pretty_party_raw($party)
         return "Deputy Speaker";
     else if ($party == "DCWM") # Deputy Chariman of Ways and Means
         return "Deputy Speaker";
+    else if ($party == "Bp")
+        return "Bishop";
+    else if ($party == "XB")
+        return "Cross-bench";
 
     return $party;
 }

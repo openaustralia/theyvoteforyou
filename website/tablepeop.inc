@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.23 2005/12/22 18:22:28 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.24 2005/12/22 22:31:22 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -59,13 +59,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
 
 
     # convert and write out the party
-    $party = $row['party'];
-    if ($party == "SPK")
-        $party = "Speaker";
-    elseif ($party == "CWM") # Chairman of Ways and Means (Deputy Speaker)
-        $party = "Deputy Speaker";
-    elseif ($party == "DCWM") # Deputy Chariman of Ways and Means
-        $party = "Deputy Speaker";
+    $party = pretty_party_raw($row['party']);
 
     if ($row["entered_reason"] == "changed_party" or $row["left_reason"] == "changed_party")
         $party = "whilst ".$party;
@@ -78,6 +72,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
     # division vote
     if ($colstyle == "division")
         print "<td>".($row["vote"] ? $row["vote"] : "absent")."</td>";
+
     # double division list
     elseif ($colstyle == "division2" or $colstyle == "division2invert")
     {
@@ -121,8 +116,8 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
 #   'parliament', then 'parliament' is a value from $parliaments,
 #   'mpdistance', then 'mpfriend' is an mpprop for distance from
 # 	'dreamdistance', then 'dreammpid' is what we compare to
-#   'division', then 'divdate', 'divno' index into that
-#   'division2, then there's also 'divdate2', 'divno2'
+#   'division', then 'divdate', 'divno', 'divhouse' index into that
+#    'division2, then there's also 'divdate2', 'divno2'
 # limit is nothing or a number
 # sortby is 'turnout', 'rebellions', 'name', 'constituency', 'attendance', 'party', 'vote'
 # showwhich is 'rebels', 'changes', 'voters', 'allpossible'
@@ -144,54 +139,58 @@ function mp_table($db, $mptabattr)
     $aquery["qjoin"] =  " LEFT JOIN pw_cache_mpinfo ON pw_cache_mpinfo.mp_id = pw_mp.mp_id";
     $aquery["qwhere"] = " WHERE 1=1";
 
-    $aquery["qorder"]  = " ORDER BY";
 
-    # concatenates to the default case
-    if ($mptabattr["sortby"] == "rebellions")
-        $aquery["qorder"] .= " round(rebellions/votes_attended,10) desc,";
-    elseif ($mptabattr["sortby"] == "attendance")
-        $aquery["qorder"] .= " round(votes_attended/votes_possible,10) desc,";
-
-    if ($mptabattr["listtype"] == 'division')
+	# main ordering functionality
+    if ($mptabattr["listtype"] != 'dreamdistance')
     {
-        if ($mptabattr["sortby"] == "party")
-            $aquery["qorder"] .= " party, pw_vote_sortorder.position DESC, last_name, first_name, constituency";
-        elseif ($mptabattr["sortby"] == "vote")
-            $aquery["qorder"] .= " pw_vote_sortorder.position DESC, last_name, first_name, constituency";
-        elseif ($mptabattr["sortby"] == "constituency")
-            $aquery["qorder"] .= " constituency, last_name, first_name";
-        else  # by name
-            $aquery["qorder"] .= " last_name, first_name, constituency, party";
-    }
+    	$aquery["qorder"]  = " ORDER BY";
+	    if ($mptabattr["sortby"] == "rebellions")
+	        $aquery["qorder"] .= " round(rebellions/votes_attended,10) desc,";
+	    elseif ($mptabattr["sortby"] == "attendance")
+	        $aquery["qorder"] .= " round(votes_attended/votes_possible,10) desc,";
 
-    elseif ($mptabattr["listtype"] == 'division2')
-    {
-        if ($mptabattr["sortby"] == "party")
-            $aquery["qorder"] .= " party, pw_vote_sortorder_a.position DESC, pw_vote_sortorder_b.position DESC, last_name, first_name, constituency";
-        elseif ($mptabattr["sortby"] == "vote")
-            $aquery["qorder"] .= " pw_vote_sortorder_a.position DESC, pw_vote_sortorder_b.position DESC, last_name, first_name, constituency";
-        elseif ($mptabattr["sortby"] == "vote2")
-            $aquery["qorder"] .= " pw_vote_sortorder_b.position DESC, pw_vote_sortorder_a.position DESC, last_name, first_name, constituency";
-        elseif ($mptabattr["sortby"] == "constituency")
-            $aquery["qorder"] .= " constituency, last_name, first_name";
-        else  # by name
-            $aquery["qorder"] .= " last_name, first_name, constituency, party";
-    }
+	    if ($mptabattr["listtype"] == 'division')
+	    {
+	        if ($mptabattr["sortby"] == "party")
+	            $aquery["qorder"] .= " party, pw_vote_sortorder.position DESC, ";
+	        elseif ($mptabattr["sortby"] == "vote")
+	            $aquery["qorder"] .= " pw_vote_sortorder.position DESC, ";
+	    }
 
-    # without a vote column
-    else
-    {
-        if ($mptabattr["sortby"] == "constituency")
-            $aquery["qorder"] .= " constituency, last_name, first_name, party";
-        elseif ($mptabattr["sortby"] == "party")
-            $aquery["qorder"] .= " party, last_name, first_name, constituency";
-        elseif ($mptabattr["sortby"] == "vote")
-            $aquery["qorder"] .= " vote, party, last_name, first_name, constituency";
+	    elseif ($mptabattr["listtype"] == 'division2')
+	    {
+	        if ($mptabattr["sortby"] == "party")
+	            $aquery["qorder"] .= " party, pw_vote_sortorder_a.position DESC, pw_vote_sortorder_b.position DESC, ";
+	        elseif ($mptabattr["sortby"] == "vote")
+	            $aquery["qorder"] .= " pw_vote_sortorder_a.position DESC, pw_vote_sortorder_b.position DESC, ";
+	        elseif ($mptabattr["sortby"] == "vote2")
+	            $aquery["qorder"] .= " pw_vote_sortorder_b.position DESC, pw_vote_sortorder_a.position DESC, ";
+	    }
 
-        # defaults to last name
-        else
-            $aquery["qorder"] .= " last_name, first_name, constituency, party";
-    }
+	    # without a vote column (just a list of MPs)
+	    else
+	    {
+	        if ($mptabattr["sortby"] == "constituency")
+	            $aquery["qorder"] .= " constituency, ";
+	        elseif ($mptabattr["sortby"] == "party")
+	            $aquery["qorder"] .= " party, ";
+	        elseif ($mptabattr["sortby"] == "vote")
+	            $aquery["qorder"] .= " vote, party, ";
+	    }
+
+		# trail off by name
+	    if ($mptabattr["sortby"] == "constituency")
+	        $aquery["qorder"] .= " constituency, last_name, first_name";
+		# by name primarily
+	    elseif ($mptabattr["house"] != "lords")
+	    	$aquery["qorder"] .= " concat(first_name, substring(last_name, 3))";  # a hack to strip the of-s and make the names comparable
+	    else
+	    	$aquery["qorder"] .= " last_name, first_name, constituency";
+	    if ($mptabattr["sortby"] != "party" and !(($mptabattr["sortby"] == "vote") and ($mptabattr["listtype"] != 'division') and ($mptabattr["listtype"] != 'division2')))
+	        $aquery["qorder"] .= ", party";
+	#    if ($bdebug == 1)
+	        print "\n<h3>".$aquery["qorder"]."</h3>\n";
+	}
 
     # go through the different list selection cases
     $showwhich = $mptabattr["showwhich"];
@@ -323,6 +322,8 @@ function mp_table($db, $mptabattr)
                                  LEFT JOIN pw_vote_sortorder AS pw_vote_sortorder_b
                                     ON pw_vote_sortorder_b.vote = pw_vote_b.vote";
     }
+
+# end list type considerations
 
    	# is minister
     if ($mptabattr["ministerial"])

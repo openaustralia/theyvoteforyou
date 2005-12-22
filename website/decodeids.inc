@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.34 2005/12/05 12:51:56 goatchurch Exp $
+# $Id: decodeids.inc,v 1.35 2005/12/22 22:31:22 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -290,12 +290,15 @@ function get_dreammpid_attr_decode($db, $i)
                  "anchor"		=> "dmp$i=".urlencode($dreammpid));
 }
 
-# do the attributes for a division listing
+# do the attributes for a division listing, use defaults when $i is set
 function get_division_attr_decode($db, $i)
 {
     global $bdebug;
     $div_date = db_scrub($_GET["date$i"]);
     $div_no = db_scrub($_GET["number$i"]);
+    $div_house = db_scrub($_GET["house"]);
+	if (!$div_house)
+		$div_house = "commons";
     if (!$div_date and $i != "")
         $div_date = db_scrub($_GET["date"]);
     if (!$div_date or !$div_no)
@@ -309,7 +312,7 @@ function get_division_attr_decode($db, $i)
               FROM pw_division
               LEFT JOIN pw_cache_divinfo
                 ON pw_cache_divinfo.division_id = pw_division.division_id
-              WHERE division_date = '$div_date' AND division_number = '$div_no'";
+              WHERE division_date = '$div_date' AND division_number = '$div_no' AND house = '$div_house'";
 
     # warning error shows up from this line if in debug since it comes before the first characters that set the type in head.inc
     if ($bdebug == 1)
@@ -331,7 +334,7 @@ function get_division_attr_decode($db, $i)
                  "source_gid"		=> $row["source_gid"],
                  "rebellions"		=> $row["rebellions"],
                  "turnout"			=> $row["turnout"],
-                 "divhref"			=> "division.php?date=".urlencode($row["division_date"])."&number=".urlencode($row["division_number"]),
+                 "divhref"			=> "division.php?date=".urlencode($row["division_date"])."&number=".urlencode($row["division_number"]).($row['house'] == "lords" ? "&house=lords" : ""),
                  "original_motion"	=> $row["motion"]);
 }
 
