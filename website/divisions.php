@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.25 2005/12/22 19:55:14 goatchurch Exp $
+# $Id: divisions.php,v 1.26 2005/12/22 20:06:14 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -126,11 +126,11 @@
             'current'=> ($lrdisplay == $rdisplay2 ? "on" : "off"),
             'text'=>$lrdismode["lkdescription"]));
 	}
-	$third_links = array();
+	$second_links3 = array();
     foreach ($rdismodes_house as $lrdisplay_house => $lrdismode)
 	{
 		$dlink = makedivlink($rdisplay, $lrdisplay, $lrdisplay_house, $sort);
-        array_push($third_links, array('href'=>$dlink,
+        array_push($second_links3, array('href'=>$dlink,
             'current'=> ($lrdisplay_house == $rdisplay_house ? "on" : "off"),
             'text'=>$lrdismode["lkdescription"]));
 	}
@@ -187,7 +187,7 @@
 	$divtabattr = array(
 			"showwhich"		=> $rdismode["showwhich"],
 			"headings"		=> 'none',
-			"sortby"		=> $sort
+			"sortby"		=> $sort,
 			"display_house" => $rdisplay_house);
 
 	if ($rdismode["parliament"] != "all")

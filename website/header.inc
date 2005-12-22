@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.71 2005/12/22 19:21:19 goatchurch Exp $
+# $Id: header.inc,v 1.72 2005/12/22 20:06:14 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -144,8 +144,8 @@ Search or Postcode:
     if ($second_links2)
     {
     	print_links($second_links2, "2");
-        if ($third_links)
-	    	print_links($third_links, "3");
+        if ($second_links3)
+	    	print_links($second_links3, "3");
     }
 ?>
 </td>
