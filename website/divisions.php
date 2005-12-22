@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.26 2005/12/22 20:06:14 publicwhip Exp $
+# $Id: divisions.php,v 1.27 2005/12/22 20:21:52 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -86,7 +86,7 @@
 	# do the title
     $title = $rdismodes2[$rdisplay2]['description'] . " - " . $rdismodes[$rdisplay]['description'];
 	if ($rdisplay_house != "both")
-		$title .= " Just the ".($rdisplay_house == "lords" ? "Lords" : "Commons");
+		$title .= " - ".($rdisplay_house == "lords" ? "Lords" : "Commons")." only";
 	if ($sort != 'date')
 		$title .= " (sorted by $sort)";
 
@@ -146,7 +146,7 @@
 			   (votes different from the majority of the party)
 			   are marked in red.  Often these are
 			   not real rebellions against the party whip because it's a
-			   free vote and the party was divided.  
+			   free vote and the party was divided.
 			   Unfortunately, there is no published information
 			   to say when there was a free vote, so you will have to guess
 			   them yourself.

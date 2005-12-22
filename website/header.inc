@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.72 2005/12/22 20:06:14 publicwhip Exp $
+# $Id: header.inc,v 1.73 2005/12/22 20:21:52 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -44,6 +44,12 @@ function secondnav_goto2() {
     if (!document) return
     if (!document.getElementById) return
     var el = document.getElementById('r2')
+    window.location=el.options[el.selectedIndex].value
+}
+function secondnav_goto3() {
+    if (!document) return
+    if (!document.getElementById) return
+    var el = document.getElementById('r3')
     window.location=el.options[el.selectedIndex].value
 }
 // -->

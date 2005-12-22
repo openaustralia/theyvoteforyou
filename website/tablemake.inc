@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.49 2005/12/22 18:22:28 publicwhip Exp $
+# $Id: tablemake.inc,v 1.50 2005/12/22 20:21:52 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -248,12 +248,16 @@ function print_event($event)
     print "<td colspan=7>" . $event[1] .  "</td></tr>\n";
 }
 
-function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter2type, $vote1, $vote2, $row, $showmotionwikistate, $divhref, $hrefsource)
+function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter2type, $vote1, $vote2, $row, $showmotionwikistate, $divhref, $hrefsource, $outputhousecolumn)
 {
     print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even")."$pretrowclass\">";
     print "<td>".$row['divisiondate']."</td>";
-    print "<td>".$row['divisionhouse']."</td>";
-    print "<td>".$row['divisionnumber']."</td>";
+	if ($outputhousecolumn)
+	    print "<td>".$row['divisionhouse']."</td>";
+
+#    print "<td>".$row['divisionnumber']."</td>";
+print "<td>".$row['divisiontime']."</td>";
+
     $divdesc_edited = extract_title_from_wiki_text($row['text_body']);
     $divdesc = ($divdesc_edited ? $divdesc_edited : $row['division_name']);
     print "<td>";
@@ -261,7 +265,7 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter
     if ($showmotionwikistate == "listunedited" and !$row['motionedited'])
         print " <i>(unedited)</i>";
     if ($showmotionwikistate == "close")
-    	print " <i>(Compare)</i>"; 
+    	print " <i>(Compare)</i>";
     print "</a>";
 
     print "</td>\n";
@@ -282,9 +286,9 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter
     # alternative columns on division table
     else if ($row['divdistance'] != null)
     {
-    	$similarity = (1.0 - (float)$row['divdistance']) * 100.0; 
+    	$similarity = (1.0 - (float)$row['divdistance']) * 100.0;
         print "<td>".number_format($similarity, 0)."%</td>";
-        print "<td>".$row['voteoverlap']."</td>"; 
+        print "<td>".$row['voteoverlap']."</td>";
     }
     else
         print "<td>".$row['rebellions']."</td> <td>".$row['turnout']."</td>\n";
@@ -486,8 +490,9 @@ function writelinkheading($desc, $link)
 # votedisplay is none, 'fullmotion'(for showing the jmp view)
 # headings is 'none', 'columns', 'fulldesc'(for changing mps)
 # sortby is 'date', 'subject', 'rebellions', 'turnout', 'closeness'
-# $parldatelimit is null or a line from $parliaments
+# parldatelimit is null or a line from $parliaments
 # motionwikistate is nothing or 'listunedited' for the "(unedited)" symbols
+# display_house is nothing/'both', or 'commons', or 'lords'
 function division_table($db, $divtabattr, $events = "")
 {
     update_divisions_wiki_id($db);
@@ -506,6 +511,7 @@ function division_table($db, $divtabattr, $events = "")
                             pw_division.division_number AS divisionnumber,
                             pw_division.division_date 	AS divisiondate,
                             pw_division.house           AS divisionhouse,
+                            pw_division.clock_time		AS divisiontime,
                             division_name, source_url, debate_url, source_gid, debate_gid";
 
     $aquery["qfrom"]   = " FROM pw_division";
@@ -514,9 +520,13 @@ function division_table($db, $divtabattr, $events = "")
     # where clause with limitation for one parliament, or dummy condition
     $aquery["qwhere"]  = " WHERE 1=1";
     if ($divtabattr["parldatelimit"])
-        $aquery["qwhere"]  = " WHERE (pw_division.division_date >= \"".$divtabattr["parldatelimit"]['from']."\"
+        $aquery["qwhere"] .= " AND (pw_division.division_date >= \"".$divtabattr["parldatelimit"]['from']."\"
                                       AND pw_division.division_date < \"".$divtabattr["parldatelimit"]['to']."\")";
-
+	$outputhousecolumn = "";
+	if (($divtabattr["display_house"] == "lords") or ($divtabattr["display_house"] == "commons"))
+		$aquery["qwhere"] .= " AND divisionhouse = ".$divtabattr["display_house"];
+	else
+		$outputhousecolumn = "yes";
 
     # accumulate the ordering command
     $aquery["qorder"]  = " ORDER BY";
@@ -525,7 +535,7 @@ function division_table($db, $divtabattr, $events = "")
 	$divclose = $divtabattr["divclose"];
 	if ($divclose)
 	{
-		$aquery["qselect"] .= ", pw_cache_divdiv_distance.distance AS divdistance 
+		$aquery["qselect"] .= ", pw_cache_divdiv_distance.distance AS divdistance
 				       , (pw_cache_divdiv_distance.nvotessame+pw_cache_divdiv_distance.nvotesdiff) AS voteoverlap";
 		$aquery["qjoin"] .= " LEFT JOIN pw_cache_divdiv_distance
 								ON pw_cache_divdiv_distance.division_id = '".$divclose['division_id']."'
@@ -551,7 +561,7 @@ function division_table($db, $divtabattr, $events = "")
     $showmotionwikistate = $divtabattr["motionwikistate"];
     if ($divclose)
     	$showmotionwikistate = 'close'; # hack on this condition for compare to links
-	
+
     $aquery["qselect"] .= ", pw_dyn_wiki_motion.wiki_id AS motionedited, pw_dyn_wiki_motion.text_body AS text_body";
     $aquery["qjoin"]  .= "  LEFT JOIN pw_cache_divwiki ON pw_cache_divwiki.division_date = pw_division.division_date
                                     AND pw_cache_divwiki.division_number = pw_division.division_number
@@ -670,7 +680,7 @@ function division_table($db, $divtabattr, $events = "")
             }
         }
         if ($voter2type != "")
-            if ($voter2type == "dreammp") 
+            if ($voter2type == "dreammp")
                 print "<td>Compare</td>";
             else
                 print "<td>R&ocirc;le</td>";
@@ -742,7 +752,7 @@ function division_table($db, $divtabattr, $events = "")
         }
         else
         {
-            print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter2type, $vote1, $vote2, $row, $showmotionwikistate, $divhref, $hrefsource);
+            print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter2type, $vote1, $vote2, $row, $showmotionwikistate, $divhref, $hrefsource, $outputhousecolumn);
             $nrows += 1;
         }
     }
