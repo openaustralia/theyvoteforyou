@@ -7,8 +7,8 @@
 # This is an extra grab - the cgi-bin script twfy-morning-update-done
 # also launches dailyupdate at the more appropriate time (shortly
 # after 8am when Hansard has updated)
-31 2 * * *    /home/publicwhip/publicwhip-live/build/dailyupdate
+31 2 * * *    $HOME/publicwhip-live/build/dailyupdate
 
 # Long calculations like clustering
-03 4 * * Sun $HOME/publicwhip/build/weeklyupdate
+03 4 * * Sun $HOME/publicwhip-live/build/weeklyupdate
 
