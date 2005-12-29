@@ -14,7 +14,7 @@ fi
 JAVA=/usr/local/bin/java
 
 # Do clustering for Java applet
-cd ~/publicwhip/custom/cluster
+cd ~/publicwhip-live/custom/cluster
 ./cluster-parliament-static.pl
 mv mpcoords-*.txt ~/www.publicwhip.org.uk/docs/
 
