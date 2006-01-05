@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.73 2005/12/22 20:21:52 goatchurch Exp $
+# $Id: header.inc,v 1.74 2006/01/05 16:29:55 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -104,7 +104,8 @@ Search or Postcode:
 <?php print newsletter_navbar(); ?>
 <!--NEWSLETTEREND-->
 <a title="List of all votes in Parliament" href="<?=$toppath?>divisions.php">Divisions</a>
-<a title="List of all Members of Parliament" href="<?=$toppath?>mps.php">MPs</a>
+<a title="List of all Members of House of Commons" href="<?=$toppath?>mps.php">MPs</a>
+<a title="List of all Members of House of Lords" href="<?=$toppath?>mps.php?house=lords">Lords</a>
 <a title="Help to analyze MP's votes" href="<?=$toppath?>policies.php">Policies</a>
 <a title="Chat with other users" href="/forum">Forum</a>
 <a title="Help run the Public Whip project" href="<?=$toppath?>project/index.php">Join Us</a>

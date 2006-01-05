@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.25 2005/12/22 23:07:29 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.26 2006/01/05 16:29:55 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -184,8 +184,13 @@ function mp_table($db, $mptabattr)
 		# by name primarily
 	    elseif ($mptabattr["house"] == "lords")
 	    	$aquery["qorder"] .= " concat(first_name, substring(last_name, 4))";  # a hack to strip the of-s and make the names comparable
-	    else
+	    elseif ($mptabattr["house"] == "commons")
 	    	$aquery["qorder"] .= " last_name, first_name, constituency";
+
+		# we're stuffed for lords sorting, till we make it much more elaborate
+		else
+	    	$aquery["qorder"] .= " last_name, first_name, constituency";
+
 	    if ($mptabattr["sortby"] != "party" and !(($mptabattr["sortby"] == "vote") and ($mptabattr["listtype"] != 'division') and ($mptabattr["listtype"] != 'division2')))
 	        $aquery["qorder"] .= ", party";
 	    if ($bdebug == 1)
@@ -201,8 +206,14 @@ function mp_table($db, $mptabattr)
     if ($mptabattr["listtype"] == 'parliament')
     {
         $parliament = $mptabattr["parliament"];
-        $aquery["qwhere"] .= " AND left_house > '".$parliament['from']."'
-                               AND entered_house <= '".$parliament['to']."'";
+		if ($parliament == "now")
+			$aquery["qwhere"] .= " AND left_house = '9999-12-31'";
+		else if ($parliament != "all")
+		{
+	        $parliament_entry = $parliaments[$parliament]
+			$aquery["qwhere"] .= " AND left_house > '".$parliament_entry['from']."'
+	                               AND entered_house <= '".$parliament_entry['to']."'";
+		}
     }
 
     # list of possible friends of an mp
@@ -336,7 +347,7 @@ function mp_table($db, $mptabattr)
         $aquery["qgroupby"] = " GROUP BY pw_mp.mp_id";  # remove double ministers
 	}
 
-    if ($mptabattr["house"])
+    if ($mptabattr["house"] != "both")
 		$aquery["qwhere"]   .= " AND pw_mp.house = '".$mptabattr["house"]."'";
 
     # apply the limit

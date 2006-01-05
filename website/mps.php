@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.23 2006/01/05 16:19:44 publicwhip Exp $
+    # $Id: mps.php,v 1.24 2006/01/05 16:29:55 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -135,7 +135,7 @@
 
 	# a function which generates any table of mps for printing,
 	$mptabattr = array("listtype" 	=> "parliament",
-					   "parliament" => $parliaments[$parliament],
+					   "parliament" => $parliament,
 					   "showwhich" 	=> "all",
 					   "sortby"		=> $sort,
                        "house"      => $rdisplay_house);

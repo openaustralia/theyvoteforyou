@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.53 2006/01/05 16:19:45 publicwhip Exp $
+# $Id: tablemake.inc,v 1.54 2006/01/05 16:29:55 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -250,13 +250,10 @@ function print_event($event)
 
 function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter2type, $vote1, $vote2, $row, $showmotionwikistate, $divhref, $hrefsource, $outputhousecolumn)
 {
-	if ($outputhousecolumn and !$pretrowclass)  # try colouring rows very slightly between commons and lords
-		$pretrowclass = $row['divisionhouse'];
-
     print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even")."$pretrowclass\">";
     print "<td>".$row['divisiondate']."</td>";
 	if ($outputhousecolumn)
-	    print "<td>".($row['divisionhouse'] == "lords" ? "Lords" : "Commons")."</td>";
+	    print "<td class=\"".$row['divisionhouse']."\">".($row['divisionhouse'] == "lords" ? "Lords" : "Commons")."</td>";
 
     print "<td>".$row['divisionnumber']."</td>";
 

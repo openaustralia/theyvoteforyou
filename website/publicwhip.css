@@ -173,22 +173,6 @@ TABLE TR.even
     BACKGROUND-COLOR: #dadada
 }
 
-TABLE TR.oddcommons
-{
-    BACKGROUND-COLOR: #eefeee
-}
-TABLE TR.evencommons
-{
-    BACKGROUND-COLOR: #daeada
-}
-TABLE TR.oddlords
-{
-    BACKGROUND-COLOR: #feeefe
-}
-TABLE TR.evenlords
-{
-    BACKGROUND-COLOR: #eadaea
-}
 
 TABLE TR.oddrebel
 {
@@ -266,6 +250,15 @@ TABLE TD.rebelteller
 {
     BACKGROUND-COLOR: #eeee77
 }
+TABLE TD.commons
+{
+    BACKGROUND-COLOR: #99ee99
+}
+TABLE TD.lords
+{
+    BACKGROUND-COLOR: #ee99ee
+}
+
 TABLE TD.whip
 {
     FONT-WEIGHT: bold
