@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.28 2005/12/22 20:54:46 publicwhip Exp $
+# $Id: divisions.php,v 1.29 2006/01/05 14:40:58 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -29,11 +29,12 @@
 		if (!$rdefaultdisplay)
 			$rdefaultdisplay = $lrdisplay;
 	}
-	$rdismodes["all"] = array(
+	$rdismodes["all"] = array(     # still the first selector
 							 "description" => "All divisions on record",
 							 "lkdescription" => "All Parliaments",
 							 "parliament" => "all");
 
+	# move onto the secont selector
 	$rdismodes2["every"] = array(
 							 "description" => "Divisions",
 							 "lkdescription" => "All Divisions",
@@ -58,14 +59,14 @@
     $rdefaultdisplay_house = "both";
 
 	# find the display mode
-	$rdisplay = $_GET["rdisplay"];
+	$rdisplay = db_scrub($_GET["rdisplay"]);
 	if (!$rdismodes[$rdisplay])
 	{
-		$rdisplay = $_GET["parliament"]; # legacy
+		$rdisplay = db_scrub($_GET["parliament"]); # legacy
 		if (!$rdismodes[$rdisplay])
 			$rdisplay = $rdefaultdisplay;
 	}
-	$rdisplay2 = $_GET["rdisplay2"];
+	$rdisplay2 = db_scrub($_GET["rdisplay2"]);
     if (!$rdismodes2[$rdisplay2])
         $rdisplay2 = $rdefaultdisplay2;
 
@@ -74,7 +75,7 @@
     $rdismode['lkdescription'] = null;
 	$rdismode['display_house'] = $rdisplay_house;
 
-	$rdisplay_house = $_GET["house"];
+	$rdisplay_house = db_scrub($_GET["house"]);
 	if (!$rdisplay_house)
 		$rdisplay_house = $rdefaultdisplay_house;
 
@@ -98,12 +99,12 @@
         $rest = "";
 		if ($rdisplay != $rdefaultdisplay)
 			$rest .= "&rdisplay=$rdisplay";
-        if ($sort != "date")
-			$rest .= "&sort=$sort";
 		if ($rdisplay2 != $rdefaultdisplay2)
 			$rest .= "&rdisplay2=$rdisplay2";
 		if ($rdisplay_house != $rdefaultdisplay_house)
 			$rest .= "&house=$rdisplay_house";
+        if ($sort != "date")
+			$rest .= "&sort=$sort";
 
         if ($rest && $rest[0] == '&')
             $rest[0] = '?';
@@ -157,7 +158,7 @@
 			   <p>For more information, please <a href=\"faq.php#freevotes\">
 			   see the FAQ</a>.</p>";
     else if ($rdisplay2 == "rebels")
-        print "<p>This is a table showing only the divisions where there were at least ten <a href=\"faq.php#clarify\">rebels</a>.</p>"; 
+        print "<p>This is a table showing only the divisions where there were at least ten <a href=\"faq.php#clarify\">rebels</a>.</p>";
 
 	if ($sort == "date")
 		print "<p>You can change the order of the table by selecting

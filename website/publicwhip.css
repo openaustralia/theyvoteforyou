@@ -172,6 +172,24 @@ TABLE TR.even
 {
     BACKGROUND-COLOR: #dadada
 }
+
+TABLE TR.oddcommons
+{
+    BACKGROUND-COLOR: #eefeee
+}
+TABLE TR.evencommons
+{
+    BACKGROUND-COLOR: #daeada
+}
+TABLE TR.oddlords
+{
+    BACKGROUND-COLOR: #feeefe
+}
+TABLE TR.evenlords
+{
+    BACKGROUND-COLOR: #eadaea
+}
+
 TABLE TR.oddrebel
 {
     BACKGROUND-COLOR: #ee7777
