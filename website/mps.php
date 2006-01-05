@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.22 2006/01/05 14:40:58 goatchurch Exp $
+    # $Id: mps.php,v 1.23 2006/01/05 16:19:44 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -58,6 +58,9 @@
 		$rdisplay_house = $rdefaultdisplay_house;
 
     $sort = db_scrub($_GET["sort"]);
+    if (!$sort)
+        $sort = "lastname"; 
+
     $title = ($sort == "rebellions" ? "Rebel " : "").($rdisplay_house == "lords" ? "Lords" : "MPs").
 				" - ".parliament_name($parliament)." Parliament";
 
@@ -83,17 +86,17 @@
     $second_links = array();
     foreach ($rdismodes as $lrdisplay => $lrdismode)
 	{
-		$dlink = makempslink($lrdisplay, $rdisplay_parliament, $sort);
+		$dlink = makempslink($lrdisplay, $rdisplay_house, $sort);
         array_push($second_links, array('href'=>$dlink,
-            'current'=> ($lrdisplay == $rdisplay ? "on" : "off"),
+            'current'=> ($lrdisplay == $rdisplay_parliament ? "on" : "off"),
             'text'=>$lrdismode["lkdescription"]));
 	}
 
 	$second_links2 = array();
     foreach ($rdismodes_house as $lrdisplay_house => $lrdismode)
 	{
-		$dlink = makempslink($lrdisplay, $lrdisplay_house, $sort);
-        array_push($second_links3, array('href'=>$dlink,
+		$dlink = makempslink($rdisplay_parliament, $lrdisplay_house, $sort);
+        array_push($second_links2, array('href'=>$dlink,
             'current'=> ($lrdisplay_house == $rdisplay_house ? "on" : "off"),
             'text'=>$lrdismode["lkdescription"]));
 	}
@@ -105,7 +108,7 @@
 			to vote.  Read a <a href="faq.php#clarify">clear
 			explanation</a> of these terms, as they may not have the meanings
 			you expect. You can change the order of the table by selecting the headings.
-		  '
+		  ';
 
 	function makeheadcellmpslink($rdisplay_parliament, $rdisplay_house, $sort, $hcelltitle, $hcellsort, $hcellalt)
 	{
