@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.24 2006/01/05 16:29:55 goatchurch Exp $
+    # $Id: mps.php,v 1.25 2006/01/08 16:02:45 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -18,7 +18,7 @@
 	$rdismodes = array();
 	$rdismodes_house = array();
 
-	$rdefault_parliament = 'now';
+	$rdefaultdisplay_parliament = 'now';
 	$rdismodes['now'] = array(
 							 "description" => "Show only current members",
 							 "lkdescription" => "Currently sitting",
@@ -62,7 +62,7 @@
         $sort = "lastname"; 
 
     $title = ($sort == "rebellions" ? "Rebel " : "").($rdisplay_house == "lords" ? "Lords" : "MPs").
-				" - ".parliament_name($parliament)." Parliament";
+				" - ".parliament_name($rdisplay_parliament)." Parliament";
 
 	# do the tabbing list using a function that leaves out default parameters
 	function makempslink($rdisplay_parliament, $rdisplay_house, $sort)

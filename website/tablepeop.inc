@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.26 2006/01/05 16:29:55 goatchurch Exp $
+# $Id: tablepeop.inc,v 1.27 2006/01/08 16:02:45 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -7,9 +7,11 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 require_once $toppath . "links.inc";
+require_once $toppath . "parliaments.inc"; 
 
-function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friendlk)
+function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friendlk, $house)
 {
+
     # row colour
     if ($colstyle == "division")
     {
@@ -56,7 +58,8 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
     #print "<td>".$row['constituency']."</td>";
     if ($row['house'] != 'lords')
         print "<td><a href=\"mp.php?mpc=".urlencode($row['constituency'])."\">".$row['constituency']."</a></td>";
-
+    elseif ($house == "both")
+        print "<td><i>(Lords)</i></td>"; 
 
     # convert and write out the party
     $party = pretty_party_raw($row['party']);
@@ -125,6 +128,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
 function mp_table($db, $mptabattr)
 {
     global $bdebug;
+    global $parliaments;
 
     if ($bdebug == 1)
         print_r($mptabattr);
@@ -208,9 +212,9 @@ function mp_table($db, $mptabattr)
         $parliament = $mptabattr["parliament"];
 		if ($parliament == "now")
 			$aquery["qwhere"] .= " AND left_house = '9999-12-31'";
-		else if ($parliament != "all")
+		elseif ($parliament != "all")
 		{
-	        $parliament_entry = $parliaments[$parliament]
+	        $parliament_entry = $parliaments[$parliament];
 			$aquery["qwhere"] .= " AND left_house > '".$parliament_entry['from']."'
 	                               AND entered_house <= '".$parliament_entry['to']."'";
 		}
@@ -347,6 +351,7 @@ function mp_table($db, $mptabattr)
         $aquery["qgroupby"] = " GROUP BY pw_mp.mp_id";  # remove double ministers
 	}
 
+    $house = $mptabattr["house"];
     if ($mptabattr["house"] != "both")
 		$aquery["qwhere"]   .= " AND pw_mp.house = '".$mptabattr["house"]."'";
 
@@ -370,6 +375,7 @@ function mp_table($db, $mptabattr)
     elseif ($mptabattr["listtype"] == "division2")
         $colstyle = "division2".($mptabattr["div2invert"] ? "invert" : "");
     else
+            print "<h3>hshshshs</h3>\n"; 
         $colstyle = "list";
 
 
@@ -393,7 +399,7 @@ function mp_table($db, $mptabattr)
         $mpname = $row['title']." ".$row['first_name']." ".$row['last_name'];
         $href = "mp.php?" . link_to_mp($row);
         $nrows += 1; # number from 1
-        print_mp_row($nrows, $row, $mpname, $href, $colstyle, $showwhich, $friendlk);
+        print_mp_row($nrows, $row, $mpname, $href, $colstyle, $showwhich, $friendlk, $house);
     }
 
 
