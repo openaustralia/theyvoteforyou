@@ -92,22 +92,25 @@ function postcode_to_constituency_internal($db, $postcode, $pc_parl)
 
     # Otherwise hit the server (URL is private)
     # We use fsockopen rather than just fopen or file_get_contents so we can do timeouts
-    if ($pc_parl == "2005") 
+    if ($pc_parl == "2005") {
         $filename = POSTCODE_SEARCH_PATH .  urlencode($postcode);
-    elseif ($pc_parl == "2001")
+        $domain = POSTCODE_SEARCH_DOMAIN;
+    } elseif ($pc_parl == "2001") {
         $filename = POSTCODE_SEARCH_PATH_2001_PARLIAMENT .  urlencode($postcode);
+        $domain = POSTCODE_SEARCH_DOMAIN_2001_PARLIAMENT;
+    }
     elseif ($pc_parl)
         trigger_error("Unknown postcode parliament $pc_parl", E_USER_ERROR);
     else
         $filename = POSTCODE_SEARCH_PATH .  urlencode($postcode);
 	$file = ""; // just to be safe. Dunno, if this is really needed
     $timeout = 5;
-    $fp = @fsockopen(POSTCODE_SEARCH_DOMAIN, POSTCODE_SEARCH_PORT, $errno, $errstr, $timeout);
+    $fp = @fsockopen($domain, POSTCODE_SEARCH_PORT, $errno, $errstr, $timeout);
     if ($fp) {
         stream_set_timeout($fp, $timeout);
         $sockstart = getmicrotime(); # feof doesn't time out, so we have to measure ourselves also
         $out = "GET $filename HTTP/1.0\r\n";
-        $out .= "Host: " . POSTCODE_SEARCH_DOMAIN. "\r\n";
+        $out .= "Host: " . $domain. "\r\n";
         $out .= "Connection: Close\r\n\r\n";
 
         fwrite($fp, $out);
