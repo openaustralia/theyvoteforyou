@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.28 2006/01/27 11:49:15 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.29 2006/01/27 15:35:54 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -7,9 +7,10 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 require_once $toppath . "links.inc";
-require_once $toppath . "parliaments.inc"; 
+require_once $toppath . "parliaments.inc";
 
-function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friendlk, $house)
+
+function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friendlk, $columnforms)
 {
 
     # row colour
@@ -38,7 +39,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
     print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even").$sclass."\">";
 
     # distance voting table
-    if ($colstyle == "dreamdistance" || $colstyle == "mpdistance")
+	if ($columnforms["distancetoagreement"])
     {
         $distance = $row['distance'];
         print "<td>".pretty_distance_to_agreement($distance);
@@ -48,64 +49,52 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
     }
 
     # row numbering
-    if ($colstyle == "shortrebellions" or $colstyle == "shortattendance")
+	if ($columnforms["rownumbering"])
         print "<td>$nrows</td>";
 
     # name and constituency
-    print "<td><a href=\"$href\">$name</a></td>";
+	if ($columnforms["name"])
+	    print "<td><a href=\"$href\">$name</a></td>";
 
     # we could mark if there are other MPs in this constituency and make a link to them
     #print "<td>".$row['constituency']."</td>";
-    if ($row['house'] != 'lords')
-        print "<td><a href=\"mp.php?mpc=".urlencode($row['constituency'])."\">".$row['constituency']."</a></td>";
-    elseif ($house == "both")
-        print "<td><i>(Lords)</i></td>"; 
+	if ($columnforms["place"])
+	{
+    	print "<td>";
+		if ($row['house'] != 'lords')
+        	print "<a href=\"mp.php?mpc=".urlencode($row['constituency'])."\">".$row['constituency']."</a>";
+    	else
+        	print "<i>(Lords)</i>"
+		print "</td>";
+	}
 
-    # convert and write out the party
-    $party = pretty_party_raw($row['party']);
+	if ($columnforms["party"])
+	{
+		$party = pretty_party_raw($row['party']);
+	    if ($row["entered_reason"] == "changed_party" or $row["left_reason"] == "changed_party")
+	        $party = "whilst ".$party;
+	    if (($columnforms["party"] == "ministerial") and $row["ministerial"])
+	        $party = $party.($row["ministerial"] == "PPS" ? " (PPS)" : " (minister)");
+	    print "<td>$party</td>";
+	}
 
-    if ($row["entered_reason"] == "changed_party" or $row["left_reason"] == "changed_party")
-        $party = "whilst ".$party;
-
-    if (($colstyle == "division" or $colstyle == "division2" or $colstyle == "division2invert") and $row["ministerial"])
-        $party = $party.($row["ministerial"] == "PPS" ? " (PPS)" : " (minister)");
-
-    print "<td>$party</td>";
-
-    # division vote
-    if ($colstyle == "division")
+	if ($columnforms["vote"])
         print "<td>".($row["vote"] ? $row["vote"] : "absent")."</td>";
-
-    # double division list
-    elseif ($colstyle == "division2" or $colstyle == "division2invert")
-    {
-        print "<td>".($row["vote_a"] ? $row["vote_a"] : "absent")."</td>\n";
+	if ($columnforms["vote_a"])
+		print "<td>".($row["vote_a"] ? $row["vote_a"] : "absent")."</td>\n";
+	if ($columnforms["vote_b"])
         print "<td class=\"$sclassd\">".($row["vote_b"] ? $row["vote_b"] : "absent")."</td>\n";
-    }
 
-    # the remaining columns
-    elseif ($colstyle == "list")
-    {
+	$y1 = substr($row["entered_house"], 0, 4);
+	$y2 = substr($row["left_house"], 0, 4);
+	if ($y2 == "9999")
+		$y2 = date("Y");
+    $yearrange = "($y1-$y2)";  # could be included in the percentise_votes as an extra bit
+
+	if ($columnforms["rebellions"])
         print "<td class=\"percent\">".percentise_votes_short($row['rebellions'], $row['votes_attended'])."</td>";
+	if ($columnforms["attendance"])
         print "<td class=\"percent\">".percentise_votes_short($row['votes_attended'], $row['votes_possible'])."</td>";
-    }
-
-    # rebellions or attendance
-    elseif ($colstyle == 'shortattendance' || $colstyle == 'shortrebellions')
-    {
-        print "<td class=\"percent\">";
-        if ($colstyle == "shortattendance")
-            print percentise_votes_short($row['votes_attended'], $row['votes_possible']);
-        else
-            print percentise_votes_short($row['rebellions'], $row['votes_attended']);
-        print ($colstyle == "shortrebellions" ? " rebel" : " attendance");
-        $y1 = substr($row["entered_house"], 0, 4);
-        $y2 = substr($row["left_house"], 0, 4);
-        if ($y2 == "9999")
-            $y2 = date("Y");
-        print " ($y1-$y2)";
-        print "</td>\n";
-    }
 
     print "</tr>\n";
 }
@@ -120,7 +109,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
 #   'mpdistance', then 'mpfriend' is an mpprop for distance from
 # 	'dreamdistance', then 'dreammpid' is what we compare to
 #   'division', then 'divdate', 'divno', 'divhouse' index into that
-#    'division2, then there's also 'divdate2', 'divno2'
+#     'division2, then there's also 'divdate2', 'divno2'
 # limit is nothing or a number
 # sortby is 'turnout', 'rebellions', 'name', 'constituency', 'attendance', 'party', 'vote'
 # showwhich is 'rebels', 'changes', 'voters', 'allpossible'
@@ -143,6 +132,7 @@ function mp_table($db, $mptabattr)
     $aquery["qjoin"] =  " LEFT JOIN pw_cache_mpinfo ON pw_cache_mpinfo.mp_id = pw_mp.mp_id";
     $aquery["qwhere"] = " WHERE 1=1";
 
+	$columnforms = array();
 
 	# main ordering functionality
     if ($mptabattr["listtype"] != 'dreamdistance')
@@ -210,7 +200,7 @@ function mp_table($db, $mptabattr)
     if ($mptabattr["listtype"] == 'parliament')
     {
         $parliament = $mptabattr["parliament"];
-        print "<h4>$parliament</h4>"; 
+        print "<h4>$parliament</h4>";
         if ($parliament == "now")
 			$aquery["qwhere"] .= " AND left_house = '9999-12-31'";
 		elseif ($parliament != "all")
@@ -219,6 +209,9 @@ function mp_table($db, $mptabattr)
 			$aquery["qwhere"] .= " AND left_house > '".$parliament_entry['from']."'
 	                               AND entered_house <= '".$parliament_entry['to']."'";
 		}
+
+		$columnforms["rebellions"] = "yes";
+		$columnforms["attendance"] = "yes";
     }
 
     # list of possible friends of an mp
@@ -233,6 +226,7 @@ function mp_table($db, $mptabattr)
         $aquery["qwhere"] .= " AND distance IS NOT null";
         $aquery["qorder"] = " ORDER BY distance";
         $friendlk = $mpprop['mpanchor2'];
+		$columnforms["distancetoagreement"] = "yes";
     }
 
     elseif ($mptabattr["listtype"] == 'dreamdistance')
@@ -252,6 +246,7 @@ function mp_table($db, $mptabattr)
                                  AND distance_a <> -1";
 
         $friendlk = "dmp=".$mptabattr["dreammpid"];
+		$columnforms["distancetoagreement"] = "yes";
     }
 
     # list MPs voting in one division
@@ -285,6 +280,8 @@ function mp_table($db, $mptabattr)
         $aquery["qselect"] 	.= ", pw_vote_sortorder.position AS votesort";
         $aquery["qjoin"] 	.= " LEFT JOIN pw_vote_sortorder
                                     ON pw_vote_sortorder.vote = pw_vote.vote";
+
+        $columnforms["vote"] = "yes";
     }
 
     # double division case
@@ -337,6 +334,9 @@ function mp_table($db, $mptabattr)
                                     ON pw_vote_sortorder_a.vote = pw_vote_a.vote
                                  LEFT JOIN pw_vote_sortorder AS pw_vote_sortorder_b
                                     ON pw_vote_sortorder_b.vote = pw_vote_b.vote";
+
+        $columnforms["vote_a"] = "yes";
+        $columnforms["vote_b"] = "yes";
     }
 
 # end list type considerations
@@ -350,10 +350,12 @@ function mp_table($db, $mptabattr)
                                     AND (pw_moffice.to_date > '".$mptabattr["divdate"]."')";
 
         $aquery["qgroupby"] = " GROUP BY pw_mp.mp_id";  # remove double ministers
+		$columnforms["party"] == "ministerial"
 	}
+	else
+		$columnforms["party"] = "yes";
 
     $house = $mptabattr["house"];
-    print_r($mptabattr);
     if ($mptabattr["house"] != "both")
 		$aquery["qwhere"]   .= " AND pw_mp.house = '".$mptabattr["house"]."'";
 
@@ -363,11 +365,12 @@ function mp_table($db, $mptabattr)
 
 
     $query = $aquery["qselect"].$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"].$aquery["qgroupby"].$aquery["qorder"].$aquery["qlimit"];
-    #if ($bdebug == 1)
+    if ($bdebug == 1)
         print "\n<h3>$query</h3>\n";
     $db->query($query);
 
     # determine the column type
+//  this $colstyle will be totally replaced by columnforms
     if ($friendlk)
         $colstyle = $mptabattr["listtype"];
     elseif ($mptabattr["limit"])
@@ -377,9 +380,26 @@ function mp_table($db, $mptabattr)
     elseif ($mptabattr["listtype"] == "division2")
         $colstyle = "division2".($mptabattr["div2invert"] ? "invert" : "");
     else
-            print "<h3>hshshshs</h3>\n"; 
         $colstyle = "list";
 
+	if ($mptabattr["limit"])
+	{
+		if ($mptabattr["sortby"] == "rebellions")
+		{
+			$columnforms["rownumbering"] = "yes";
+			$columnforms["rebellions"] = "yes";
+		}
+		if ($mptabattr["sortby"] == "attendance")))
+		{
+			$columnforms["rownumbering"] = "yes";
+			$columnforms["attendance"] = "yes";
+		}
+	}
+
+
+	$columnforms["name"] = "yes";
+	if ($house != "lords")
+		$columnforms["place"] = "yes";
 
     # now output a sentence when there is an empty table (in cases where that can happen)
     if ($db->rows() == 0)
@@ -391,8 +411,7 @@ function mp_table($db, $mptabattr)
 		else if ($colstyle == "division2" and $showwhich == "changes")
         	print "<tr class=\"even\"><td colspan=5>no differences found</td></tr>\n";
 		else
-		print "<tr class=\"even\"><td>EMPTY TABLE</td></tr>\n";
-
+			print "<tr class=\"even\"><td>EMPTY TABLE</td></tr>\n";
 	}
 
     $nrows = 0;
@@ -401,7 +420,7 @@ function mp_table($db, $mptabattr)
         $mpname = $row['title']." ".$row['first_name']." ".$row['last_name'];
         $href = "mp.php?" . link_to_mp($row);
         $nrows += 1; # number from 1
-        print_mp_row($nrows, $row, $mpname, $href, $colstyle, $showwhich, $friendlk, $house);
+        print_mp_row($nrows, $row, $mpname, $href, $colstyle, $showwhich, $friendlk, $columnforms);
     }
 
 

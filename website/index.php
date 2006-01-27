@@ -2,7 +2,7 @@
 
 cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.62 2006/01/27 11:49:15 publicwhip Exp $
+# $Id: index.php,v 1.63 2006/01/27 15:35:54 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -123,7 +123,7 @@ title="Show all divisions ordered by most recent">more...</a>)</h2>
 <?php
 	$divtabattr = array(
 			"showwhich"		=> 'rebellions10',
-			"headings"		=> 'none',
+			"headings"		=> 'frontpageshort',
 			"limitby"		=> 5	);
 
     print "<table class=\"votes\">\n";

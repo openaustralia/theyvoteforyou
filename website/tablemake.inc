@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.56 2006/01/27 13:12:46 publicwhip Exp $
+# $Id: tablemake.inc,v 1.57 2006/01/27 15:35:54 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -268,15 +268,15 @@ function print_column_headings($vote1, $vote2, $columnforms)
 //            writelinkheading($voter1["name"], $divtabattr["voter1link"]);
 //            writelinkheading($voter2["mpprop"]["name"], $divtabattr["voter2link"]);
 
-	if ($columnforms["voter1type"] = "party")
-		print "<td>$voter1 Vote</td>";
-	if ($columnforms["voter1type"] = "dreammp")
+	if ($columnforms["voter1type"] == "party")
+		print "<td>$vote1 Vote</td>";
+	if ($columnforms["voter1type"] == "dreammp")
 		print "<td>Policy Vote</td>";
-	if ($columnforms["voter1type"] = "mp")
+	if ($columnforms["voter1type"] == "mp")
 		print "<td>MP Vote</td>";
 
 	if ($columnforms["voter2type"] == "party")
-		print "<td>$voter2 Vote</td>";
+		print "<td>$vote2 Vote</td>";
 	if ($columnforms["voter2type"] == "dreammp")
 		print "<td>Policy Vote</td>";
 	if ($columnforms["voter2type"] == "person")
@@ -498,7 +498,6 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
     //writepersonvote($lnrows, "strong", $voter1['name'], $vote1, $ayecla, $nocla);
 
 
-
     # votes of rest of parties (a rather poor way to put it together)
     $party = $voter1['party'];
     $partys = array($party);
@@ -562,7 +561,8 @@ function division_table($db, $divtabattr, $events = "")
 	# the list list and forms of the columns we are going to output
 	$columnforms = array();
     $columnforms["divisiondate"] = "yes";
-    $columnforms["divisionnumber"] = "yes";
+    if ($divtabattr["headings"] != "frontpageshort")
+	    $columnforms["divisionnumber"] = "yes";
 
     # the underlying division list
     $aquery = array();
@@ -646,10 +646,10 @@ function division_table($db, $divtabattr, $events = "")
     $voter2attr = $divtabattr["voter2attr"];
     $headings = $divtabattr["headings"];
 
-    $columnforms["voter1type"] = $voter1type; 
+    $columnforms["voter1type"] = $voter1type;
     $columnforms["voter2type"] = $voter2type;
 	if ($voter2type)
-		$columnforms["role"] = "yes"; 
+		$columnforms["role"] = "yes";
 
     # construct the first column of votes
     $bonlyvotes1 = ($showwhich == "all1" or $showwhich == "both" or $showwhich == "bothdiff");
@@ -661,8 +661,11 @@ function division_table($db, $divtabattr, $events = "")
     if ($voter1type == "")  # this case means we are listing all divisions without a driver
 	{
 		$aquery["qselect"] .= ", rebellions, turnout";
-	    $columnforms["rebellions"] = 'yes';
-	    $columnforms["turnout"] = 'yes';
+	    if ($divtabattr["headings"] != "frontpageshort")
+		{
+			$columnforms["rebellions"] = 'yes';
+	    	$columnforms["turnout"] = 'yes';
+		}
 	}
 
     # construct the second column of votes (if it exists)
@@ -696,14 +699,6 @@ function division_table($db, $divtabattr, $events = "")
     if ($divtabattr["limitby"] != "")
         $aquery["qlimit"] = " LIMIT ".$divtabattr["limitby"];
 
-    if ($divtabattr["limitby"] == 5)
-    {
-        $columnforms["rebellions"] = ""; 
-        $columnforms["turnout"] = "";
-        $columnforms["divisionnumber"] = ""; 
-    }
-
-    
     # main set that grabs all the divisions and makes a coarse subsampling
     $query = $aquery["qselect"].$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"].$aquery["qgroup"].$aquery["qorder"].$aquery["qlimit"];
     if ($bdebug == 1)
