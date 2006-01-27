@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.29 2006/01/27 15:35:54 goatchurch Exp $
+# $Id: tablepeop.inc,v 1.30 2006/01/27 15:41:20 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -64,7 +64,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
 		if ($row['house'] != 'lords')
         	print "<a href=\"mp.php?mpc=".urlencode($row['constituency'])."\">".$row['constituency']."</a>";
     	else
-        	print "<i>(Lords)</i>"
+        	print "<i>(Lords)</i>";
 		print "</td>";
 	}
 
@@ -350,7 +350,7 @@ function mp_table($db, $mptabattr)
                                     AND (pw_moffice.to_date > '".$mptabattr["divdate"]."')";
 
         $aquery["qgroupby"] = " GROUP BY pw_mp.mp_id";  # remove double ministers
-		$columnforms["party"] == "ministerial"
+		$columnforms["party"] = "ministerial";
 	}
 	else
 		$columnforms["party"] = "yes";
@@ -387,12 +387,14 @@ function mp_table($db, $mptabattr)
 		if ($mptabattr["sortby"] == "rebellions")
 		{
 			$columnforms["rownumbering"] = "yes";
+            $columnforms["attendance"] = ""; 
 			$columnforms["rebellions"] = "yes";
 		}
-		if ($mptabattr["sortby"] == "attendance")))
+		if ($mptabattr["sortby"] == "attendance")
 		{
 			$columnforms["rownumbering"] = "yes";
 			$columnforms["attendance"] = "yes";
+            $columnforms["rebellions"] = "";
 		}
 	}
 
