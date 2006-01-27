@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.54 2006/01/05 16:29:55 goatchurch Exp $
+# $Id: tablemake.inc,v 1.55 2006/01/27 13:05:04 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -248,49 +248,111 @@ function print_event($event)
     print "<td colspan=7>" . $event[1] .  "</td></tr>\n";
 }
 
-function print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter2type, $vote1, $vote2, $row, $showmotionwikistate, $divhref, $hrefsource, $outputhousecolumn)
+
+function print_column_headings($vote1, $vote2, $columnforms)
+{
+	print "<tr class=\"headings\">";
+
+	if ($columnforms["divisiondate"])
+		print "<td>Date</td>";
+	if ($columnforms["divisionnumber"])
+		print "<td>No.</td>";
+	if ($columnforms["house"])
+		print "<td>House</td>";
+	if ($columnforms["divisiontitle"])
+		print "<td>Subject</td>";
+
+// some of these are going to require links put into them (sorting, or going to a particular person)
+
+//function writelinkheading($desc, $link)  print $link ? "<td><a href=\"$link\">$desc</a></td>" : "<td>$desc</td>";
+//            writelinkheading($voter1["name"], $divtabattr["voter1link"]);
+//            writelinkheading($voter2["mpprop"]["name"], $divtabattr["voter2link"]);
+
+	if ($columnforms["voter1type"] = "party")
+		print "<td>$voter1 Vote</td>";
+	if ($columnforms["voter1type"] = "dreammp")
+		print "<td>Policy Vote</td>";
+	if ($columnforms["voter1type"] = "mp")
+		print "<td>MP Vote</td>";
+
+	if ($columnforms["voter2type"] == "party")
+		print "<td>$voter2 Vote</td>";
+	if ($columnforms["voter2type"] == "dreammp")
+		print "<td>Policy Vote</td>";
+	if ($columnforms["voter2type"] == "person")
+		print "<td>Person Vote</td>";
+
+	if ($columnforms["role"])
+		print "<td>R&ocirc;le</td>";
+
+    if ($columnforms["similarity"])
+        print "<td>Similarity</td>";
+	if ($columnforms["voteoverlap"])
+       print "<td>Overlap</td>";
+	if ($columnforms["rebellions"])
+        print "<td>Rebellions</td>";
+	if ($columnforms["turnout"])
+		print "<td>Turnout</td>\n";
+
+    if ($columnforms["speeches"])
+        print "<td>Debate</td>";
+	print "</tr>\n";
+}
+
+
+// prints one row of the table according to format in $columnforms
+// this makes it easier to generating the heading and shuffle the columns
+function print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $row, $divhref, $hrefsource, $columnforms)
 {
     print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even")."$pretrowclass\">";
-    print "<td>".$row['divisiondate']."</td>";
-	if ($outputhousecolumn)
+
+	if ($columnforms["divisiondate"])
+	    print "<td>".$row['divisiondate']."</td>";
+	if ($columnforms["divisionnumber"])
+	    print "<td>".$row['divisionnumber']."</td>";
+	if ($columnforms["house"])
 	    print "<td class=\"".$row['divisionhouse']."\">".($row['divisionhouse'] == "lords" ? "Lords" : "Commons")."</td>";
 
-    print "<td>".$row['divisionnumber']."</td>";
+	if ($columnforms["divisiontitle"])
+	{
+	    $divdesc_edited = extract_title_from_wiki_text($row['text_body']);
+	    $divdesc = ($divdesc_edited ? $divdesc_edited : $row['division_name']);
+	    print "<td>";
+	    if ($divhref)
+			print "<a href=\"$divhref\">";
+		print "$divdesc";
+	    if ($columnforms["divisiontitle"] == "close")
+	    	print " <i>(Compare)</i>";
+	    else if ($columnforms["divisiontitle"] == "listunedited" and !$row['motionedited'])
+	        print " <i>(unedited)</i>";
+	    if ($divhref)
+		    print "</a>";
+	    print "</td>\n";
+	}
 
-    $divdesc_edited = extract_title_from_wiki_text($row['text_body']);
-    $divdesc = ($divdesc_edited ? $divdesc_edited : $row['division_name']);
-    print "<td>";
-    print "<a href=\"$divhref\">$divdesc";
-    if ($showmotionwikistate == "listunedited" and !$row['motionedited'])
-        print " <i>(unedited)</i>";
-    if ($showmotionwikistate == "close")
-    	print " <i>(Compare)</i>";
-    print "</a>";
+    if ($columnforms["voter1type"])
+        print "<td>".($columnforms["voter1type"] == "dreammp" && !$vote1 ? "non-voter" : (vote_display_in_table($vote1)))."</td>";
+    if ($columnforms["voter2type"])
+		print "<td>".vote_display_in_table($vote2)."</td>\n";
+    if ($columnforms["role"])
+		print $rolecol;
 
-    print "</td>\n";
-
-    if ($voter1type != "")
-    {
-        print "<td>".($voter1type == "dreammp" && !$vote1 ? "non-voter" : (vote_display_in_table($vote1)))."</td>";
-        if ($voter2type != "")
-            print "<td>".vote_display_in_table($vote2)."</td>\n";
-
-        if ($voter2type != "")
-            print $rolecol;
-
-        # no reason not to have a speeches column on the division table, but we don't
-        print "<td><a href=\"$hrefsource\">speeches</a></td>";
-    }
-
-    # alternative columns on division table
-    else if ($row['divdistance'] != null)
+    if ($columnforms["similarity"])
     {
     	$similarity = (1.0 - (float)$row['divdistance']) * 100.0;
         print "<td>".number_format($similarity, 0)."%</td>";
-        print "<td>".$row['voteoverlap']."</td>";
-    }
-    else
-        print "<td>".$row['rebellions']."</td> <td>".$row['turnout']."</td>\n";
+	}
+	if ($columnforms["voteoverlap"])
+       print "<td>".$row['voteoverlap']."</td>";
+
+	if ($columnforms["rebellions"])
+        print "<td>".$row['rebellions']."</td>";
+	if ($columnforms["turnout"])
+		print "<td>".$row['turnout']."</td>\n";
+
+    if ($columnforms["speeches"])
+        print "<td><a href=\"$hrefsource\">speeches</a></td>";
+
     print "</tr>\n";
 }
 
@@ -469,13 +531,6 @@ function writeevents(&$events, $date, $breversed)
     }
 }
 
-function writelinkheading($desc, $link)
-{
-    if ($link)
-        print "<td><a href=\"$link\">$desc</a></td>";
-    else
-        print "<td>$desc</td>";
-}
 
 
 
@@ -504,6 +559,11 @@ function division_table($db, $divtabattr, $events = "")
         print "</h1>";
     }
 
+	# the list list and forms of the columns we are going to output
+	$columnforms = array();
+    $columnforms["divisiondate"] = "yes";
+    $columnforms["divisionnumber"] = "yes";
+
     # the underlying division list
     $aquery = array();
     $aquery["qselect"] = " SELECT
@@ -520,11 +580,10 @@ function division_table($db, $divtabattr, $events = "")
     if ($divtabattr["parldatelimit"])
         $aquery["qwhere"] .= " AND (pw_division.division_date >= \"".$divtabattr["parldatelimit"]['from']."\"
                                       AND pw_division.division_date < \"".$divtabattr["parldatelimit"]['to']."\")";
-	$outputhousecolumn = "";
 	if (($divtabattr["display_house"] == "lords") or ($divtabattr["display_house"] == "commons"))
 		$aquery["qwhere"] .= " AND pw_division.house = \"".$divtabattr["display_house"]."\"";
 	else
-		$outputhousecolumn = "yes";
+		$columnforms["house"] = "yes";  # a mixed list needs to state the house
 
     # accumulate the ordering command
     $aquery["qorder"]  = " ORDER BY";
@@ -539,6 +598,9 @@ function division_table($db, $divtabattr, $events = "")
 								ON pw_cache_divdiv_distance.division_id = '".$divclose['division_id']."'
 								AND pw_cache_divdiv_distance.division_id2 = pw_division.division_id";
 		$aquery["qwhere"] .= " AND pw_cache_divdiv_distance.distance IS NOT null";
+
+		$columnforms['similarity'] = "yes";
+		$columnforms['voteoverlap'] = "yes";
 	}
 
 
@@ -556,9 +618,13 @@ function division_table($db, $divtabattr, $events = "")
 
     # corrected column (yet another division_id coding!)
     # motionwikistate is nothing or 'listunedited' for the "(unedited)" symbols
-    $showmotionwikistate = $divtabattr["motionwikistate"];
     if ($divclose)
-    	$showmotionwikistate = 'close'; # hack on this condition for compare to links
+	    $columnforms["divisiontitle"] = 'close';
+	else if ($divtabattr["motionwikistate"])
+	    $columnforms["divisiontitle"] = 'unedited';
+	else
+	    $columnforms["divisiontitle"] = 'yes';
+
 
     $aquery["qselect"] .= ", pw_dyn_wiki_motion.wiki_id AS motionedited, pw_dyn_wiki_motion.text_body AS text_body";
     $aquery["qjoin"]  .= "  LEFT JOIN pw_cache_divwiki ON pw_cache_divwiki.division_date = pw_division.division_date
@@ -568,9 +634,8 @@ function division_table($db, $divtabattr, $events = "")
 
     # full motion text display
     if ($divtabattr['votedisplay'] == 'fullmotion')
-    {
         $aquery["qselect"] .= ", pw_division.division_id AS divisionid";
-    }
+
 
     # extract attibutes
     $showwhich = $divtabattr["showwhich"];
@@ -581,15 +646,24 @@ function division_table($db, $divtabattr, $events = "")
     $voter2attr = $divtabattr["voter2attr"];
     $headings = $divtabattr["headings"];
 
+    $columnforms["voter1type"] = $voter1type; 
+    $columnforms["voter2type"] = $voter2type;
+	if ($voter2type)
+		$columnforms["role"] = "yes"; 
+
     # construct the first column of votes
     $bonlyvotes1 = ($showwhich == "all1" or $showwhich == "both" or $showwhich == "bothdiff");
-    if ($divtabattr["voter1type"] == "mp")
+    if ($voter1type == "mp")
         divmpconds($aquery, $db, $voter1, $bonlyvotes1, false, 1);
-    else if ($voter1type == "dreammp")
+    if ($voter1type == "dreammp")
         divdreammpconds($aquery, $db, $voter1, $bonlyvotes1, 1);
-    else if ($voter1type == "")  # this case means we are listing all divisions without a driver
-        $aquery["qselect"] .= ", rebellions, turnout";
 
+    if ($voter1type == "")  # this case means we are listing all divisions without a driver
+	{
+		$aquery["qselect"] .= ", rebellions, turnout";
+	    $columnforms["rebellions"] = 'yes';
+	    $columnforms["turnout"] = 'yes';
+	}
 
     # construct the second column of votes (if it exists)
     if ($voter2type != "")
@@ -612,6 +686,7 @@ function division_table($db, $divtabattr, $events = "")
         else if ($showwhich == "either")
             $aquery["qwhere"]  .= " AND (".$aquery["vote1"]." IS NOT NULL OR ".$aquery["vote2"]." IS NOT NULL)";
     }
+
 
     # apply a selection for "controversial" divisions
     if ($showwhich == "rebellions10")
@@ -646,44 +721,7 @@ function division_table($db, $divtabattr, $events = "")
     # write the headings if wanted
     if ($headings == "columns" or $headings == "fulldesc")
     {
-        print "<tr class=\"headings\">";
-        print "<td>Date</td><td>No.</td>";
-        print "<td>Subject</td>";
-
-        # comparison type
-        if ($voter1type == "mp" and $voter2type == "person")
-        {
-            writelinkheading($voter1["name"], $divtabattr["voter1link"]);
-            writelinkheading($voter2["mpprop"]["name"], $divtabattr["voter2link"]);
-        }
-
-        # mp to dream or party type
-        else
-        {
-            if ($voter1type == "party")
-                print "<td>$voter1 Vote</td>";
-            else if ($voter1type == "dreammp")
-                print "<td>Policy Vote</td>";
-            else
-                print "<td>MP Vote</td>";
-
-            if ($voter2type != "")
-            {
-                if ($voter2type == "party")
-                    print "<td>$voter2 Vote</td>";
-                else if ($voter2type == "dreammp")
-	                print "<td>Policy Vote</td>";
-                else
-                    print "<td>MP Vote</td>";
-            }
-        }
-        if ($voter2type != "")
-            if ($voter2type == "dreammp")
-                print "<td>Compare</td>";
-            else
-                print "<td>R&ocirc;le</td>";
-        print "<td>Debate</td></tr>\n";
-
+		print_column_headings($vote1, $vote2, $columnforms);
 
         # blank case table; must say something
         if ($db->rows() == 0)
@@ -692,7 +730,7 @@ function division_table($db, $divtabattr, $events = "")
             $mess = "no votes listed";
             if ($showwhich == "bothdiff" and $voter1type == "mp" and $voter2type == "party")
                 $mess = "no rebellions, never teller";
-            $cspan = ($voter2type != "" ? 7 : 5);
+            $cspan = count($columnforms);
             print "<td colspan=$cspan>$mess</td></tr>\n";
         }
     }
@@ -752,7 +790,7 @@ function division_table($db, $divtabattr, $events = "")
         }
         else
         {
-            print_division_row($nrows, $pretrowclass, $rolecol, $voter1type, $voter2type, $vote1, $vote2, $row, $showmotionwikistate, $divhref, $hrefsource, $outputhousecolumn);
+            print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $row, $divhref, $hrefsource, $columnforms);
             $nrows += 1;
         }
     }
