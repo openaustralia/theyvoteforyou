@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.55 2006/01/27 13:05:04 goatchurch Exp $
+# $Id: tablemake.inc,v 1.56 2006/01/27 13:12:46 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -696,6 +696,14 @@ function division_table($db, $divtabattr, $events = "")
     if ($divtabattr["limitby"] != "")
         $aquery["qlimit"] = " LIMIT ".$divtabattr["limitby"];
 
+    if ($divtabattr["limitby"] == 5)
+    {
+        $columnforms["rebellions"] = ""; 
+        $columnforms["turnout"] = "";
+        $columnforms["divisionnumber"] = ""; 
+    }
+
+    
     # main set that grabs all the divisions and makes a coarse subsampling
     $query = $aquery["qselect"].$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"].$aquery["qgroup"].$aquery["qorder"].$aquery["qlimit"];
     if ($bdebug == 1)
