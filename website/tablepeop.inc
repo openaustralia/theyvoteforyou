@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.27 2006/01/08 16:02:45 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.28 2006/01/27 11:49:15 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -210,7 +210,8 @@ function mp_table($db, $mptabattr)
     if ($mptabattr["listtype"] == 'parliament')
     {
         $parliament = $mptabattr["parliament"];
-		if ($parliament == "now")
+        print "<h4>$parliament</h4>"; 
+        if ($parliament == "now")
 			$aquery["qwhere"] .= " AND left_house = '9999-12-31'";
 		elseif ($parliament != "all")
 		{
@@ -352,6 +353,7 @@ function mp_table($db, $mptabattr)
 	}
 
     $house = $mptabattr["house"];
+    print_r($mptabattr);
     if ($mptabattr["house"] != "both")
 		$aquery["qwhere"]   .= " AND pw_mp.house = '".$mptabattr["house"]."'";
 
@@ -361,7 +363,7 @@ function mp_table($db, $mptabattr)
 
 
     $query = $aquery["qselect"].$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"].$aquery["qgroupby"].$aquery["qorder"].$aquery["qlimit"];
-    if ($bdebug == 1)
+    #if ($bdebug == 1)
         print "\n<h3>$query</h3>\n";
     $db->query($query);
 

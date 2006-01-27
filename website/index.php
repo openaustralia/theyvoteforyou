@@ -2,7 +2,7 @@
 
 cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.61 2006/01/26 19:07:17 goatchurch Exp $
+# $Id: index.php,v 1.62 2006/01/27 11:49:15 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -14,10 +14,10 @@ pw_header();
 ?>
 
 <p>Every week, a dozen or so times, your MP votes in the UK Parliament.  This
-is their final, definitive exercise of power.  The Public Whip
+is their definitive exercise of power.  The Public Whip
 extracts their voting record from the pages of the Parliamentary transcript
 so that you can see it and hold them to account.
-For more information about the project, <a href="faq.php">read the FAQ</a>.
+For more information about the project <a href="faq.php">see the FAQ</a>.
 
 <?php
     require_once "db.inc";
@@ -141,9 +141,10 @@ title="Show all divisions ordered by most recent">more...</a>)</h2>
 <?php
 
 	$mptabattr = array("listtype" 	=> "parliament",
-					   "parliament" => $parliaments[$parliament], # current parl I assume
+					   "parliament" => "now", 
 					   "limit"	=> 3,
-					   "sortby"		=> "rebellions");
+					   "house" => "commons", 
+                       "sortby"		=> "rebellions");
 	print "<table class=\"mps\">\n";
 	mp_table($db, $mptabattr);
 	print "</table>\n";
@@ -154,8 +155,9 @@ title="Show all divisions ordered by most recent">more...</a>)</h2>
 <h2>Best Attendance (<a href="mps.php?sort=attendance" title="Show all MPs ordered by attendance">more...</a>)</h2>
 <?
 	$mptabattr = array("listtype" 	=> "parliament",
-					   "parliament" => $parliaments[$parliament], # current parl I assume
+					   "parliament" => "now", 
 					   "limit"	=> 3,
+                       "house"  => "commons", 
 					   "sortby"		=> "attendance");
 	print "<table class=\"mps\">\n";
 	mp_table($db, $mptabattr);
