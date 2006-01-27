@@ -1,6 +1,6 @@
 <?php
 
-# $Id: parliaments.inc,v 1.16 2005/07/28 15:33:19 frabcus Exp $
+# $Id: parliaments.inc,v 1.17 2006/01/27 19:28:37 goatchurch Exp $
 # This data is duplicated in loader/PublicWhip/Parliaments.pm
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -17,9 +17,6 @@ $parliaments = array(
     '2001' => array('from' => '2001-06-07', 'to' => '2005-04-11', 'name' => '2001-2005'),
     '1997' => array('from' => '1997-05-01', 'to' => '2001-05-14', 'name' => '1997-2001'),
 );
-$parliament = db_scrub($_GET["parliament"]);
-if ($parliament == "")
-    $parliament = 2005;
 
 # These are parliamentary sessions (i.e. years) - nothing to do with
 # PHP or web sessions or anything like that.

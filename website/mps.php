@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.25 2006/01/08 16:02:45 publicwhip Exp $
+    # $Id: mps.php,v 1.26 2006/01/27 19:28:37 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -22,30 +22,36 @@
 	$rdismodes['now'] = array(
 							 "description" => "Show only current members",
 							 "lkdescription" => "Currently sitting",
-							 "parliament" => 'now');
+							 "parliament" => 'now', 
+							 "titdescription" => "Currently sitting members");
 	foreach ($parliaments as $lrdisplay => $val)
 	{
 		$rdismodes[$lrdisplay] = array(
 								 "description" => $val['name']." Parliament",
 								 "lkdescription" => $val['name']." Parliament",
-								 "parliament" => $ldisplay);
+								 "parliament" => $ldisplay,
+								 "titdescription" => $val['name']." Parliament");
 	}
 	$rdismodes["all"] = array(     # still the first selector
 							 "description" => "All members on record",
 							 "lkdescription" => "All Parliaments",
+							 "titdescription" => "All on record",
 							 "parliament" => "all");
 
 
 	# the alternative modes
 	$rdismodes_house["commons"] = array(
 							 "description" => "Show only MPs in the Commons",
-							 "lkdescription" => "Commons only");
+							 "lkdescription" => "Commons only",
+							 "titdescription" => "MPs");
 	$rdismodes_house["lords"] = array(
 							 "description" => "Show only Lords in the House",
-							 "lkdescription" => "Lords only");
+							 "lkdescription" => "Lords only",
+							 "titdescription" => "Lords");
 	$rdismodes_house["both"] = array(
 							 "description" => "Show all people in Parliament",
-							 "lkdescription" => "Both Houses");
+							 "lkdescription" => "Both Houses",
+							 "titdescription" => "MPs and Lords");
     $rdefaultdisplay_house = "commons";
 
 
@@ -59,10 +65,14 @@
 
     $sort = db_scrub($_GET["sort"]);
     if (!$sort)
-        $sort = "lastname"; 
+        $sort = "lastname";
 
-    $title = ($sort == "rebellions" ? "Rebel " : "").($rdisplay_house == "lords" ? "Lords" : "MPs").
-				" - ".parliament_name($rdisplay_parliament)." Parliament";
+    $title = "";
+	if ($sort == "rebellions")
+		$title .= "Rebel ";
+	$title .= $rdismodes_house[$rdisplay_house]["titdescription"];
+	$title .= " - ".$rdismodes_house[$rdisplay_parliament]["titdescription"];
+
 
 	# do the tabbing list using a function that leaves out default parameters
 	function makempslink($rdisplay_parliament, $rdisplay_house, $sort)
@@ -105,10 +115,13 @@
 
 	print '<p>The Members of Parliament are listed with the number of times they
 			voted against the majority vote for their party and how often they turn up
-			to vote.  Read a <a href="faq.php#clarify">clear
-			explanation</a> of these terms, as they may not have the meanings
-			you expect. You can change the order of the table by selecting the headings.
-		  ';
+			to vote.  Refer to <a href="faq.php#clarify">this clear
+			explanation</a> of the "rebellion" and "attendance" rates, 
+			as they may not mean what you think they do. </p>
+
+			<p>You can change the order of the table by selecting the headings.</p>
+			
+			';
 
 	function makeheadcellmpslink($rdisplay_parliament, $rdisplay_house, $sort, $hcelltitle, $hcellsort, $hcellalt)
 	{
