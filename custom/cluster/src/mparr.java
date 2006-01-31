@@ -1,4 +1,4 @@
-// $Id: mparr.java,v 1.1 2005/03/28 14:26:33 frabcus Exp $
+// $Id: mparr.java,v 1.2 2006/01/31 08:42:49 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -33,7 +33,7 @@ class mparr
   		stoken.quoteChar('"'); 
 		
 		// get the number of MPs (and check it's within bounds).  
-		if ((stoken.nextToken() != StreamTokenizer.TT_NUMBER) || (stoken.nval > 1000) || (stoken.nval < 1)) 
+		if ((stoken.nextToken() != StreamTokenizer.TT_NUMBER) || (stoken.nval < 1)) 
 			throw new IOException(); 
 		int nmpa = (int)stoken.nval; 
 		mpa = new mppos[nmpa]; 
