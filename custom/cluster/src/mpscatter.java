@@ -1,4 +1,4 @@
-// $Id: mpscatter.java,v 1.2 2005/11/18 02:59:11 frabcus Exp $
+// $Id: mpscatter.java,v 1.3 2006/02/06 23:48:33 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -83,6 +83,7 @@ class mpscatter extends JPanel
 		lm = new listmps(); 
 		pp.lm = lm; 
 		ma.mpactive = new boolean[ma.mpa.length]; 
+System.out.println("maseq l " + maseq.length); 
 		for (int i = 0; i < maseq.length; i++) 
 			maseq[i].mpactive = ma.mpactive; 
 	
@@ -144,9 +145,9 @@ brow.add(buttNEXT);
 	/////////////////////////////////////////////
 	void LoadData(BufferedReader br) throws IOException  
 	{
-		mparr[] maseql = new mparr[1]; 
-		maseql[0] = new mparr(br, ranfac);  
-		ma = maseql[0]; 
+		maseq = new mparr[1]; 
+		maseq[0] = new mparr(br, ranfac);  
+		ma = maseq[0]; 
 		Construct(); 
 		
 		pp.ma = ma; 

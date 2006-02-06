@@ -1,4 +1,23 @@
-http://www.publicwhip.org.uk/mp.php?mpn=Ian_Pearson&mpc=Dudley+South
+Lords
+-----
+
+Add clock time so sorting is right
+
+Check Rebellions/Attendance are over the correct time period that they say they are
+http://staging.publicwhip.org.uk/division.php?date=2005-03-21&number=2&mpn=Lord_Wedderburn_of_Charlton&mpc=Lords has crap title
+
+check against numbers page
+    http://www.parliament.uk/directories/house_of_lords_information_office/analysis_by_composition.cfm
+Division alerts
+personsets.py - first file connecting Lords and MPs (see ex_MP field in UCL data)
+
+More
+----
+
+Oops! - check state of division comparison stuff, and put in cron
+properly
+
+On front page "Recent Controversial Divisions" has columns without headings
 
 Drop down boxes at the top
 
@@ -8,8 +27,13 @@ Search on forum page bizarrely goes to forum search box (no /?)
 
 Backup database on seagrass
 
+http://www.parliament.uk/directories/house_of_lords_information_office/analysis_by_composition.cfm
+
 Usability
 ---------
+
+Policy / MP comparison box should let you enter name of MP
+or constituency as well as postcode
 
 Electech tour for first time users
 
