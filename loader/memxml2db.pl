@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.13 2005/11/29 02:02:36 frabcus Exp $
+# $Id: memxml2db.pl,v 1.14 2006/02/15 00:45:14 publicwhip Exp $
 
 # Convert all-members.xml and all-lords.xml into the database format for Public
 # Whip website
@@ -53,7 +53,7 @@ $twig->parsefile("$members_location/constituencies.xml");
 $twig->parsefile("$members_location/people.xml");
 $twig->parsefile("$members_location/ministers.xml");
 $twig->parsefile("$members_location/all-members.xml");
-#$twig->parsefile("$members_location/all-lords.xml");
+$twig->parsefile("$members_location/peers-ucl.xml");
 
 # Delete things left that shouldn't be from this table
 foreach my $gid (keys %$gid_to_internal) {
@@ -86,24 +86,17 @@ sub loadmember
         die "unknown gid type $gid";
     }
 
-    die "lords not ready yet" if $house ne 'commons'; # todo
     my $id = $gid;
+    # /member and /lord ids are from same numberspace
     $id =~ s#uk.org.publicwhip/member/##;
-# TODO: This below breaks absolutelyfuckingeverything. Really bad idea
-# to have gids with different ids from mp_id, as so much code (e.g.
-# in division loader) relies on it.
-# Possible solutions:  Make sure we cross reference to house everywhere.
-# But how do we make sure we do that?
-    # Use id we used last time if possible
-#    my $id = $gid_to_internal->{$gid};
-#    if (!$id) {
-#        # Or else allocate new one
-#        $last_mp_id++;
-#        $id = $last_mp_id;
-#    }
+    $id =~ s#uk.org.publicwhip/lord/##;
 
     my $person = $membertoperson{$memb->att('id')};
-    die "mp " . $id . " " . $memb->att('firstname') . " " . $memb->att('lastname') . " has no person" if !defined($person);
+    if (!defined($person)) {
+	    die "mp " . $id . " " . $memb->att('firstname') . " " . $memb->att('lastname') . " has no person" if $house eq 'commons';
+	    die "lord " . $id . " " . $memb->att('lordofname') . " has no person" if $house eq 'lords';
+	    die "unknown $id has no person";
+    }
     $person =~ s#uk.org.publicwhip/person/##;
 
     my $party = $memb->att('party');
@@ -127,6 +120,7 @@ sub loadmember
         }
         $constituency = "";
         $party = $memb->att('affiliation');
+        $party = 'LDem' if ($party eq 'Dem');
         $fromwhy = 'unknown'; # TODO
         $towhy = 'unknown';
         if (!$todate) {

@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.39 2005/12/06 10:02:59 frabcus Exp $
+-- $Id: create.sql,v 1.40 2006/02/15 00:45:14 publicwhip Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -120,6 +120,7 @@ create table pw_moffice (
 
     dept varchar(100) not null,
     position varchar(100) not null,
+    responsibility varchar(100) not null,
 
     -- these are inclusive, the person became a minister at some time
     -- on the start date, and finished on the end date

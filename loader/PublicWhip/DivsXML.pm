@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.10 2005/10/29 21:42:03 theyworkforyou Exp $
+# $Id: DivsXML.pm,v 1.11 2006/02/15 00:45:14 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Loads divisions from the XML files made by pyscraper into
@@ -33,10 +33,16 @@ our $lastheadinggid;
 
 our $divisions_changed;
 
+our $house;
+
 sub read_xml_files {
     $dbh = shift;
     my $from = shift;
     my $to   = shift;
+    my $debatepath = shift;
+    my $fileprefix  = shift;
+    $house  = shift; # global
+    die if $house ne "lords" && $house ne "commons";
 
     $divisions_changed = 0;
 
@@ -53,9 +59,9 @@ sub read_xml_files {
         output_filter => 'safe'
     );
 
-    opendir DIR, $PublicWhip::Config::debatepath or die "Cannot open $PublicWhip::Config::debatepath: $!\n";
+    opendir DIR, $debatepath or die "Cannot open $debatepath: $!\n";
     while ( my $file = readdir(DIR) ) {
-        if ( $file =~ m/^$PublicWhip::Config::fileprefix(\d\d\d\d-\d\d-\d\d)([a-z]*).xml$/ ) {
+        if ( $file =~ m/^$fileprefix(\d\d\d\d-\d\d-\d\d)([a-z]*).xml$/ ) {
             $curdate = $1;
             $cursuffix = $2;
             if ( ( $curdate ge $from ) and ( $curdate le $to ) ) {
@@ -65,7 +71,7 @@ sub read_xml_files {
                 $lastmotiontext = "";
                 $lastheadingurl = "";
                 $lastheadinggid = "";
-                my $file_to_parse = $PublicWhip::Config::debatepath . "$PublicWhip::Config::fileprefix" . $curdate . $cursuffix . ".xml";
+                my $file_to_parse = $debatepath . "$fileprefix" . $curdate . $cursuffix . ".xml";
                 PublicWhip::Error::log( "File: $file_to_parse", $curdate, ERR_USEFUL );
 
                 $twig_header->parsefile($file_to_parse);
@@ -158,6 +164,9 @@ sub storemotion {
         $lastmotiontext .= $p->sprint(0);
         $lastmotiontext .= "\n\n";
     }
+    if ( $p->att('pwmotionwithdrawn') ) {
+        $lastmotiontext = "";
+    }
 }
 
 # Converts all capital parts of a heading to mixed case
@@ -206,9 +215,15 @@ sub loaddivision {
     my $divdate = $div->att('divdate');
     die "inconsistent date" if $divdate ne $curdate;
     my $divnumber = $div->att('divnumber');
-    my $heading   = fix_case($lastmajor);
+    my $heading   = "";
+    if ($lastmajor) {
+        $heading .= fix_case($lastmajor);
+    }
+    if ($lastmajor && $lastminor) {
+        $heading .= " &#8212; ";
+    }
     if ($lastminor) {
-        $heading .= " &#8212; " . fix_case($lastminor);
+        $heading .= fix_case($lastminor);
     }
 
 # Should emdashes in headings have spaces round them?  This removes them if they shouldn't.
@@ -227,15 +242,15 @@ sub loaddivision {
     # Find votes of MPs
     my $votes;
     for (
-        my $mplist = $div->first_child('mplist') ;
+        my $mplist = $div->first_child($house eq 'lords' ? 'lordlist' : 'mplist') ;
         $mplist ;
-        $mplist = $mplist->next_sibling('mplist')
+        $mplist = $mplist->next_sibling($house eq 'lords' ? 'lordlist' : 'mplist')
       )
     {
         for (
-            my $mpname = $mplist->first_child('mpname') ;
+            my $mpname = $mplist->first_child($house eq 'lords' ? 'lord' : 'mpname') ;
             $mpname ;
-            $mpname = $mpname->next_sibling('mpname')
+            $mpname = $mpname->next_sibling($house eq 'lords' ? 'lord' : 'mpname')
           )
         {
             my $vote = $mpname->att('vote');
@@ -244,8 +259,16 @@ sub loaddivision {
             elsif ( $tell eq "yes" ) { $tell = "tell"; }
             else { die "unexpected tell value $tell"; }
             my $id = $mpname->att('id');
-            $id =~ s:uk.org.publicwhip/member/::;
+            if ($house eq 'commons') {
+                $id =~ s:uk.org.publicwhip/member/::;
+            } else {
+                $id =~ s:uk.org.publicwhip/lord/::;
+            }
             die "Not an integer MP identifier: $id" if ($id !~ m/^[1-9][0-9]*$/);
+            if ($house eq 'lords') {
+                $vote = 'aye' if $vote eq 'content';
+                $vote = 'no' if $vote eq 'not-content';
+            }
             push @{ $votes->{$id} }, "$tell$vote";
         }
     }
@@ -255,10 +278,9 @@ sub loaddivision {
         $dbh,
 "select division_id, valid, division_name, motion, source_url,
 debate_url, source_gid, debate_gid from pw_division where
-        division_number = ? and division_date = ?", $divnumber, $divdate
+        division_number = ? and division_date = ? and house = ?", $divnumber, $divdate, $house
     );
-    die "Division $divnumber on $divdate already in database more than once"
-      if ( $sth->rows > 1 );
+    die "Division $divnumber on $divdate house $house already in database more than once" if ( $sth->rows > 1 );
 
     if ( $sth->rows > 0 ) {
 
@@ -284,25 +306,26 @@ debate_url, source_gid, debate_gid from pw_division where
             my $sth = PublicWhip::DB::query(
                 $dbh,
 "update pw_division set division_name = ?, motion = ?, source_url = ?,
-debate_url = ?, source_gid = ?, debate_gid = ? where division_id = ?",
+debate_url = ?, source_gid = ?, debate_gid = ? where division_id = ? and house = ?",
                 $heading,
                 $motion_text,
                 $url,
                 $debate_url,
                 $gid,
                 $debate_gid,
-                $existing_divid
+                $existing_divid,
+                $house
             );
 
             die "Failed to fix division name/motion/URLs" if $sth->rows != 1;
             PublicWhip::Error::log(
-"Existing division $divnumber, $divdate, id $existing_divid name $existing_heading has had its name/motion/URLs/gids corrected with the one from XML called $heading",
+"Existing division $house, $divnumber, $divdate, id $existing_divid name $existing_heading has had its name/motion/URLs/gids corrected with the one from XML called $heading",
                 $divdate, ERR_IMPORTANT);
             $PublicWhip::DivsXML::divisions_changed = 1;
         }
         else {
             PublicWhip::Error::log(
-"Division already in DB for division $divnumber on date $divdate",
+"Division already in DB for $house division $divnumber on date $divdate",
                 $divdate, ERR_USEFUL
             );
         }
@@ -368,11 +391,11 @@ debate_url = ?, source_gid = ?, debate_gid = ? where division_id = ?",
             # Remove existing division we're correcting
             my $sth = PublicWhip::DB::query(
                 $dbh, "delete from pw_division where
-                division_number = ? and division_date = ?", $divnumber, $divdate
+                division_number = ? and division_date = ? and house = ?", $divnumber, $divdate, $house
             );
             die "Deleted not one old version of division but "
               . $sth->rows
-              . " for $divnumber on $divdate"
+              . " for $house $divnumber on $divdate"
               if ( $sth->rows != 1 );
             PublicWhip::Clean::erase_duff_divisions($dbh);
         }
@@ -383,14 +406,14 @@ debate_url = ?, source_gid = ?, debate_gid = ? where division_id = ?",
         }
     }
 
-    #print "new division $divdate $divnumber $heading\n";
+    #print "new division $house $divdate $divnumber $heading\n";
 
     # Add division to tables
     PublicWhip::DB::query(
         $dbh, "insert into pw_division 
         (valid, division_date, division_number, house, division_name,
         source_url, debate_url, source_gid, debate_gid, motion) values
-        (0, ?, ?, ?, ?, ?, ?, ?, ?, ?)", $divdate, $divnumber, "commons", $heading, $url,
+        (0, ?, ?, ?, ?, ?, ?, ?, ?, ?)", $divdate, $divnumber, $house, $heading, $url,
         $debate_url, $gid, $debate_gid,           $motion_text
     );
     $sth = PublicWhip::DB::query( $dbh, "select last_insert_id()" );
@@ -417,7 +440,7 @@ debate_url = ?, source_gid = ?, debate_gid = ? where division_id = ?",
     PublicWhip::DB::query( $dbh,
         "update pw_division set valid = 1 where division_id = ?",
         $division_id );
-    PublicWhip::Error::log( "Added new division $divnumber $heading from XML",
+    PublicWhip::Error::log( "Added new division $house $divnumber $heading from XML",
         $divdate, ERR_IMPORTANT );
     $PublicWhip::DivsXML::divisions_changed = 1;
 }

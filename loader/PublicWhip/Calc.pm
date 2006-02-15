@@ -1,4 +1,4 @@
-# $Id: Calc.pm,v 1.6 2005/07/28 15:33:18 frabcus Exp $
+# $Id: Calc.pm,v 1.7 2006/02/15 00:45:14 publicwhip Exp $
 # Calculates various data and caches it in the database.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -89,7 +89,7 @@ sub guess_whip_for_division {
 
 sub count_mp_info {
     my $dbh = shift;
-    count_mp_info_dated( $dbh, "1000-01-01", "9999-12-31", "pw_cache_mpinfo", "commons" );
+    count_mp_info_dated( $dbh, "1000-01-01", "9999-12-31", "pw_cache_mpinfo", undef );
 }
 
 sub count_mp_info_session2002 {
@@ -118,14 +118,16 @@ sub count_mp_info_dated {
     );"
     );
 
+    my @params = ($from, $to, $from, $to, $from, $to);
+    push @params, $house if $house;
     my $sth = PublicWhip::DB::query(
         $dbh, "select mp_id, party, entered_house, left_house 
         from pw_mp where 
             ((entered_house >= ? and entered_house <= ?) or
             (left_house >= ? and left_house <= ?) or
-            (entered_house < ? and left_house > ?))
-            and house = ?",
-        $from, $to, $from, $to, $from, $to, $house
+            (entered_house < ? and left_house > ?))".
+            ($house ? " and house = ?" : ""),
+        @params
     );
 
     while ( my @data = $sth->fetchrow_array() ) {
@@ -242,21 +244,22 @@ sub count_party_stats {
         $dbh,
         "create table pw_cache_partyinfo (
         party varchar(100) not null,
+        house enum('commons', 'lords') not null,
         total_votes int not null
     )"
     );
 
     my $sth = PublicWhip::DB::query(
         $dbh,
-        "select party, count(vote) from pw_vote, pw_mp where pw_vote.mp_id =
-                pw_mp.mp_id group by party"
+        "select party, house, count(vote) from pw_vote, pw_mp where pw_vote.mp_id =
+                pw_mp.mp_id group by party, house"
     );
     while ( my @data = $sth->fetchrow_array() ) {
-        my ( $party, $count ) = @data;
+        my ( $party, $house, $count ) = @data;
 
         PublicWhip::DB::query(
-            $dbh, "insert into pw_cache_partyinfo (party, total_votes)
-            values (?, ?)", $party, $count
+            $dbh, "insert into pw_cache_partyinfo (party, house, total_votes)
+            values (?, ?, ?)", $party, $house, $count
         );
     }
 }
