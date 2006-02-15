@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.26 2006/01/27 19:28:37 goatchurch Exp $
+    # $Id: mps.php,v 1.27 2006/02/15 00:44:19 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -71,7 +71,7 @@
 	if ($sort == "rebellions")
 		$title .= "Rebel ";
 	$title .= $rdismodes_house[$rdisplay_house]["titdescription"];
-	$title .= " - ".$rdismodes_house[$rdisplay_parliament]["titdescription"];
+	$title .= " - ".$rdismodes[$rdisplay_parliament]["titdescription"];
 
 
 	# do the tabbing list using a function that leaves out default parameters
@@ -141,6 +141,8 @@
     if ($rdisplay_house != 'lords')
         makeheadcellmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Constituency", "constituency", "Sort by constituency");
     makeheadcellmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Party", "party", "Sort by party");
+    if ($rdisplay_parliament == "all")
+        print "<td>Dates</td>"; 
     makeheadcellmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Rebellions<br>(estimate)", "rebellions", "Sort by rebels");
     makeheadcellmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Attendance<br>(divisions)", "attendance", "Sort by attendance");
     print "</tr>";
@@ -148,7 +150,7 @@
 
 	# a function which generates any table of mps for printing,
 	$mptabattr = array("listtype" 	=> "parliament",
-					   "parliament" => $parliament,
+					   "parliament" => $rdisplay_parliament,
 					   "showwhich" 	=> "all",
 					   "sortby"		=> $sort,
                        "house"      => $rdisplay_house);

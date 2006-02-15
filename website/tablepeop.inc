@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.30 2006/01/27 15:41:20 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.31 2006/02/15 00:44:19 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -85,12 +85,16 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
 	if ($columnforms["vote_b"])
         print "<td class=\"$sclassd\">".($row["vote_b"] ? $row["vote_b"] : "absent")."</td>\n";
 
-	$y1 = substr($row["entered_house"], 0, 4);
-	$y2 = substr($row["left_house"], 0, 4);
-	if ($y2 == "9999")
-		$y2 = date("Y");
-    $yearrange = "($y1-$y2)";  # could be included in the percentise_votes as an extra bit
-
+	if ($columnforms["dates"])
+    {
+        $y1 = substr($row["entered_house"], 0, 4);
+	    $y2 = substr($row["left_house"], 0, 4);
+	    if ($y2 == "9999")
+		    $y2 = date("Y");
+        $yearrange = "($y1-$y2)";  # could be included in the percentise_votes as an extra bit
+        print "<td>$yearrange</td>"; 
+    }
+    
 	if ($columnforms["rebellions"])
         print "<td class=\"percent\">".percentise_votes_short($row['rebellions'], $row['votes_attended'])."</td>";
 	if ($columnforms["attendance"])
@@ -183,7 +187,7 @@ function mp_table($db, $mptabattr)
 
 		# we're stuffed for lords sorting, till we make it much more elaborate
 		else
-	    	$aquery["qorder"] .= " last_name, first_name, constituency";
+	    	$aquery["qorder"] .= " concat(substring(last_name, (house='commons')), first_name, substring(last_name, (house='lords')*4)), constituency"; 
 
 	    if ($mptabattr["sortby"] != "party" and !(($mptabattr["sortby"] == "vote") and ($mptabattr["listtype"] != 'division') and ($mptabattr["listtype"] != 'division2')))
 	        $aquery["qorder"] .= ", party";
@@ -200,10 +204,11 @@ function mp_table($db, $mptabattr)
     if ($mptabattr["listtype"] == 'parliament')
     {
         $parliament = $mptabattr["parliament"];
-        print "<h4>$parliament</h4>";
         if ($parliament == "now")
 			$aquery["qwhere"] .= " AND left_house = '9999-12-31'";
-		elseif ($parliament != "all")
+		elseif ($parliament == "all")
+            $columnforms["dates"] = "yes"; 
+        else
 		{
 	        $parliament_entry = $parliaments[$parliament];
 			$aquery["qwhere"] .= " AND left_house > '".$parliament_entry['from']."'
