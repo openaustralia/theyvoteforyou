@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.11 2006/02/15 00:45:14 publicwhip Exp $
+# $Id: DivsXML.pm,v 1.12 2006/02/16 10:54:17 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Loads divisions from the XML files made by pyscraper into
@@ -161,11 +161,12 @@ sub storemotion {
     my ( $twig, $p ) = @_;
 
     if ( $p->att('pwmotiontext') ) {
-        $lastmotiontext .= $p->sprint(0);
-        $lastmotiontext .= "\n\n";
-    }
-    if ( $p->att('pwmotionwithdrawn') ) {
-        $lastmotiontext = "";
+        if ( $p->att('pwmotiontext') eq "withdrawn" || $p->att('pwmotiontext') eq "agreedto") {
+            $lastmotiontext = "";
+        } else {
+            $lastmotiontext .= $p->sprint(0);
+            $lastmotiontext .= "\n\n";
+        }
     }
 }
 
