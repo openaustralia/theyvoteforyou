@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: calc_caches.php,v 1.2 2006/02/16 11:59:32 goatchurch Exp $
+# $Id: calc_caches.php,v 1.3 2006/02/16 12:58:19 publicwhip Exp $
 
 # Calculate lots of cache tables, run after update.
 
@@ -16,6 +16,9 @@ require_once "../website/distances.inc";
 $db = new DB();
 $db2 = new DB();
 
+count_party_stats($db, $db2);
+guess_whip_for_all($db, $db2);
+
 # then we loop through the missing entries and fill them in
 function count_party_stats($db, $db2)
 {
@@ -23,22 +26,24 @@ function count_party_stats($db, $db2)
 	$db->query("CREATE TABLE pw_cache_partyinfo (
 						party varchar(100) not null,
 						house enum('commons', 'lords') not null,
-						total_votes int not null,
-
-											    )");
+						total_votes int not null
+                        )");
 
 	$query = "SELECT party, house, COUNT(vote) AS total_votes
-			  FROM pw_vote, pw_mp
-			  WHERE pw_vote.mp_id = pw_mp.mp_id
+			  FROM pw_vote
+			  LEFT JOIN pw_mp ON pw_vote.mp_id = pw_mp.mp_id
+              WHERE party IS NOT NULL
 			  GROUP BY party, house";
 
+    #print $query;
 	$db->query($query);
 
 	while ($row = $db->fetch_row_assoc())
 	{
+        #print_r($row);
 		$qattrs = "party, house, total_votes";
-		$qvalues = $row['party'].", ".$row['house'].", ".$row['total_votes'];
-		$db2->query("INSERT INTO pw_cache_divdiv_distance ($qattrs) VALUES ($qvalues)");
+		$qvalues = "'".$row['party']."', '".$row['house']."', '".$row['total_votes']."'";
+		$db2->query("INSERT INTO pw_cache_partyinfo ($qattrs) VALUES ($qvalues)");
     };
 }
 
@@ -55,11 +60,11 @@ function guess_whip_for_all($db, $db2)
 					unique(division_id, party)
 			    )");
 
-	$qselect = "SELECT count(pw_vote.vote = 'aye' or pw_vote.vote = 'tellaye') AS ayes,
-					   count(pw_vote.vote = 'no' or pw_vote.vote = 'tellno') AS noes,
+	$qselect = "SELECT sum(pw_vote.vote = 'aye' or pw_vote.vote = 'tellaye') AS ayes,
+					   sum(pw_vote.vote = 'no' or pw_vote.vote = 'tellno') AS noes,
 					   count(*) AS party_count,
 					   pw_division.division_id AS division_id, party,
-					   division_date, division_number, house";
+					   division_date, division_number, pw_division.house as house";
 	$qfrom =  " FROM pw_division";
 	$qjoin =  " LEFT JOIN pw_vote
 					ON pw_vote.division_id = pw_division.division_id";
@@ -68,14 +73,15 @@ function guess_whip_for_all($db, $db2)
 	$qgroup = " GROUP BY pw_division.division_id, pw_mp.party, pw_division.house";
 	$query = $qselect.$qfrom.$qjoin.$qgroup;
 
+    #print $query;
 	$db->query($query);
 
 	while ($row = $db->fetch_row_assoc())
 	{
 		$party = $row['party'];
-		$ayes = int($row['ayes']);
-		$noes = int($row['noes']);
-		$total = int($row['party_count']);
+		$ayes = intval($row['ayes']);
+		$noes = intval($row['noes']);
+		$total = intval($row['party_count']);
 
 
 		# this would be the point where we add in some if statements accounting for the exceptions
@@ -84,9 +90,9 @@ function guess_whip_for_all($db, $db2)
 
 		# to detect abstentions we'd need an accurate partyinfo that worked per parliament
 		$whip_guess = "unknown";
-		if ($party == "Cross-bench" or $party == "Ind")
+		if ($party == "XB" or substr($party, 0, 3) == "Ind")
 			$whip_guess = "none";
-		else if ($party == "Speaker" or $party == "Deputy Speaker")
+		else if ($party == "CWM" or $party == "DCWM")
 			$whip_guess = "abstain";
 
 		# keep it very simple so it doesn't change and we can easily keep the set of exceptions constant.
@@ -103,8 +109,11 @@ function guess_whip_for_all($db, $db2)
 
 
 		$qattrs = "division_id, party, whip_guess";
-		$qvalues = $row['division_id'].", ".$row['party'].", ".$row['total_votes'];
-		$db2->query("INSERT INTO pw_cache_divdiv_distance ($qattrs) VALUES ($qvalues)");
+		$qvalues = $row['division_id'].", '".$row['party']."', '".$whip_guess."'";
+        $query = "INSERT INTO pw_cache_whip ($qattrs) VALUES ($qvalues)";
+        #print_r($row);
+        #print $query;
+		$db2->query($query);
 	}
 }
 

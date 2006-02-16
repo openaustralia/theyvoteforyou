@@ -1,4 +1,4 @@
-# $Id: Calc.pm,v 1.8 2006/02/16 10:24:14 publicwhip Exp $
+# $Id: Calc.pm,v 1.9 2006/02/16 12:58:19 publicwhip Exp $
 # Calculates various data and caches it in the database.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -13,79 +13,6 @@ use HTML::TokeParser;
 use PublicWhip::Parliaments;
 use PublicWhip::Error;
 use Data::Dumper;
-
-sub guess_whip_for_all {
-    my $dbh = shift;
-
-    PublicWhip::DB::query( $dbh, "drop table if exists pw_cache_whip" );
-    PublicWhip::DB::query(
-        $dbh,
-        "create table pw_cache_whip (
-        division_id int not null,
-        party varchar(200) not null,
-        whip_guess enum(\"aye\", \"no\", \"unknown\") not null,
-        unique(division_id, party)
-    );"
-    );
-
-    my $sth =
-      PublicWhip::DB::query( $dbh, "select division_id from pw_division" );
-    while ( my @data = $sth->fetchrow_array() ) {
-        my ($divid) = @data;
-
-        #        print "Division $divid\n";
-        guess_whip_for_division( $dbh, $divid );
-    }
-}
-
-sub guess_whip_for_division {
-    my $dbh   = shift;
-    my $divid = shift;
-
-    # Work out the mode vote for each party, by counting ayes as
-    # positive and noes as negative and adding up into a hash (%partycount)
-    my $lastparty;
-    my %partycount;
-    my $sth = PublicWhip::DB::query(
-        $dbh,
-"select count(*), vote, party from pw_vote,pw_mp where division_id=? and pw_vote.mp_id = pw_mp.mp_id group by vote, party order by party;",
-        $divid
-    );
-    while ( my @data = $sth->fetchrow_array() ) {
-        my ( $count, $vote, $party ) = @data;
-
-        # Tellers tell for the side they would have voted for
-        if ( $vote eq "aye" or $vote eq "tellaye" ) {
-            $partycount{$party} += $count;
-        }
-        elsif ( $vote eq "no" or $vote eq "tellno" ) {
-            $partycount{$party} -= $count;
-        }
-        elsif ( $vote eq "both" ) {
-
-            # just ensure key is there
-            $partycount{$party} += 0;
-        }
-        else {
-            die "Vote neither aye, no nor both - party $party division $divid";
-        }
-    }
-    foreach ( keys %partycount ) {
-
-        #        print " $_ total $partycount{$_}\n";
-        my $c    = $partycount{$_};
-        my $vote = "unknown";
-        $vote = "aye" if ( $c > 0 );
-        $vote = "no"  if ( $c < 0 );
-        my $sth = PublicWhip::DB::query(
-            $dbh,
-"insert into pw_cache_whip (division_id, party, whip_guess) values (?, ?, ?)",
-            $divid,
-            $_,
-            $vote
-        );
-    }
-}
 
 sub count_mp_info {
     my $dbh = shift;
