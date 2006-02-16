@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.31 2006/02/16 12:14:09 publicwhip Exp $
+# $Id: divisions.php,v 1.32 2006/02/16 19:24:36 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -111,14 +111,6 @@
         return $base . $rest;
 	}
 
-    $second_links2 = array();
-    foreach ($rdismodes as $lrdisplay => $lrdismode)
-	{
-		$dlink = makedivlink($lrdisplay, $rdisplay2, $rdisplay_house, $sort);
-        array_push($second_links2, array('href'=>$dlink,
-            'current'=> ($lrdisplay == $rdisplay ? "on" : "off"),
-            'text'=>$lrdismode["lkdescription"]));
-	}
     $second_links = array();
     foreach ($rdismodes2 as $lrdisplay => $lrdismode)
 	{
@@ -127,10 +119,18 @@
             'current'=> ($lrdisplay == $rdisplay2 ? "on" : "off"),
             'text'=>$lrdismode["lkdescription"]));
 	}
+    $second_links2 = array();
+    foreach ($rdismodes as $lrdisplay => $lrdismode)
+	{
+		$dlink = makedivlink($lrdisplay, $rdisplay2, $rdisplay_house, $sort);
+        array_push($second_links2, array('href'=>$dlink,
+            'current'=> ($lrdisplay == $rdisplay ? "on" : "off"),
+            'text'=>$lrdismode["lkdescription"]));
+	}
 	$second_links3 = array();
     foreach ($rdismodes_house as $lrdisplay_house => $lrdismode)
 	{
-		$dlink = makedivlink($rdisplay, $lrdisplay, $lrdisplay_house, $sort);
+		$dlink = makedivlink($rdisplay, $rdisplay2, $lrdisplay_house, $sort);
         array_push($second_links3, array('href'=>$dlink,
             'current'=> ($lrdisplay_house == $rdisplay_house ? "on" : "off"),
             'text'=>$lrdismode["lkdescription"]));

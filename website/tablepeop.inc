@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.31 2006/02/15 00:44:19 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.32 2006/02/16 19:24:36 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -19,7 +19,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
         if ($row["vote"] == "both")
             $sclass = "both";
         elseif ($showwhich != "rebels"
-                and $row["whip_guess"] != "unknown" and $row["vote"] != ""
+                and $row["whip_guess"] != "unknown" and $row["vote"] != "none" and $row["vote"] != ""
                 and str_replace("tell", "", $row["vote"]) != $row["whip_guess"])
             $sclass = "rebel";
     }

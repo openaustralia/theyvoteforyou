@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.58 2006/02/16 12:14:10 publicwhip Exp $
+# $Id: tablemake.inc,v 1.59 2006/02/16 19:24:36 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -141,7 +141,7 @@ function workrolevote($votertype, &$vote)
     }
     else if ($votertype == "party")
     {
-        if ($vote == "unknown")
+        if ($vote == "unknown" || $vote == "none")
             return "";
     }
     return $vote;
@@ -169,8 +169,10 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
             $votedesc = "absent";
             $dismetric["ab1"] += 1;
         }
-        elseif ($vote2 == "unknown")
+        elseif ($vote2 == "unknown" || $vote2 == "none") {
+            $votedesc = "Free";
             $dismetric["ab2"] += 1;
+        }
         elseif ($dtvote1 == $dtvote2)
             $dismetric["agree"] += 1;
         else
@@ -273,8 +275,7 @@ function print_column_headings($vote1, $vote2, $columnforms)
 	if ($columnforms["voter1type"] == "dreammp")
 		print "<td>Policy Vote</td>";
 	if ($columnforms["voter1type"] == "mp")
-		print "<td>MP Vote</td>";
-
+		print $columnforms["voter1house"]=="lords" ? "<td>Lord Vote</td>":"<td>MP Vote</td>";
 	if ($columnforms["voter2type"] == "party")
 		print "<td>$vote2 Vote</td>";
 	if ($columnforms["voter2type"] == "dreammp")
@@ -650,6 +651,10 @@ function division_table($db, $divtabattr, $events = "")
     $columnforms["voter2type"] = $voter2type;
 	if ($voter2type)
 		$columnforms["role"] = "yes";
+    if ($voter1type == 'mp')
+        $columnforms["voter1house"] = $voter1["house"];
+    if ($voter2type == 'mp')
+        $columnforms["voter2house"] = $voter2["house"];
 
     # construct the first column of votes
     $bonlyvotes1 = ($showwhich == "all1" or $showwhich == "both" or $showwhich == "bothdiff");
@@ -724,7 +729,7 @@ function division_table($db, $divtabattr, $events = "")
     # write the headings if wanted
     if ($headings == "columns" or $headings == "fulldesc")
     {
-		print_column_headings($vote1, $vote2, $columnforms);
+		print_column_headings($voter1, $voter2, $columnforms);
 
         # blank case table; must say something
         if ($db->rows() == 0)
