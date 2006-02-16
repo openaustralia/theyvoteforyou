@@ -2,7 +2,7 @@
 
 cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.64 2006/02/16 22:36:18 frabcus Exp $
+# $Id: index.php,v 1.65 2006/02/16 23:36:44 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -59,7 +59,7 @@ An at most monthly briefing.
 <li>
 <form class="search" action="search.php" name=pw>
 <p><span class="actionsheading">Find out how any MP or Lord votes</span>
-<br>Enter your postcode or MP name:
+<br>Enter your postcode or their name:
 <input maxLength=256 size=8 name=query value=""> <input type=submit value="Go" name=button>
 <br><i>Example: "OX1 3DR", "<?=$random_mp?>", "<?=$random_lord?>"</i>
 </form>
@@ -74,7 +74,7 @@ An at most monthly briefing.
 </form></p>
 </p>
 
-<li><p><span class="actionsheading">Test your MP against policies you care about</span>
+<li><p><span class="actionsheading">Test your MP or Lord against policies you care about</span>
 <br>Either <a href="policies.php">browse</a> existing policies or <a
 href="account/addpolicy.php">make</a> a new policy</span>
 <br>Some examples:
@@ -144,7 +144,7 @@ title="Show all divisions ordered by most recent">more...</a>)</h2>
 	$mptabattr = array("listtype" 	=> "parliament",
 					   "parliament" => "now", 
 					   "limit"	=> 3,
-					   "house" => "commons", 
+					   "house" => "both", 
                        "sortby"		=> "rebellions");
 	print "<table class=\"mps\">\n";
 	mp_table($db, $mptabattr);
@@ -158,7 +158,7 @@ title="Show all divisions ordered by most recent">more...</a>)</h2>
 	$mptabattr = array("listtype" 	=> "parliament",
 					   "parliament" => "now", 
 					   "limit"	=> 3,
-                       "house"  => "commons", 
+                       "house"  => "both", 
 					   "sortby"		=> "attendance");
 	print "<table class=\"mps\">\n";
 	mp_table($db, $mptabattr);

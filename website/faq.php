@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.68 2006/02/16 22:54:50 frabcus Exp $
+# $Id: faq.php,v 1.69 2006/02/16 23:36:44 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -66,34 +66,41 @@ project.
 
 <h2 class="faq"><a name="jargon">First, can you explain "division" and other political jargon?</a></h2>
 <p>The House of Commons <i>divides</i> many times each week into those who
-vote "aye" ("yes", for the motion) and those who vote "no" (against the
+vote <i>aye</i> (yes, for the motion) and those who vote <i>no</i> (against the
 motion).  Each political party has <i>whips</i> who try to make their
-MPs (Members of Parliament) vote for the party line.  Sometimes an MP
+<i>MPs</i> (Members of Parliament) vote for the party line.  Sometimes an MP
 <i>rebels</i> by voting against the party whip.  A <i>teller</i> is
 an MP involved in the counting of the vote.  For more information on all these
 terms, see the
 <a href="http://www.parliament.uk/parliamentary_publications_and_archives/factsheets/p09.cfm">
 Parliament factsheet on divisions</a>.
-<p>The House of Lords is the second chamber of the Parliament. Proposed
-legislation must be approved by both Houses before it becomes law. Lords become
-members by a complex mixture of appointment, hereditary and election, which
-frankly we can't work out.
+<p>The <i>House of Lords</i> is the second chamber of the Parliament. Proposed
+legislation must be approved by both Houses before it becomes law. <i>Lords</i> become
+members by a complex mixture of appointment, religion, appelation, hereditary
+entitlement and self election, which frankly we can't work out. They still
+divide, just like the commons. But being "ayes" and "noes" is a bit too, ummm,
+common for them. Instead they are said to be either <i>content</i> or
+<i>not-content</i> with the motion.
 
 <h2 class="faq"><a name="how">How does the Public Whip work?</a></h2>
-<p>All the House of Commons debate transcripts (<a href="http://www.parliament.the-stationery-office.co.uk/pa/cm/cmhansrd.htm">Hansard</a>) back to
-1988 are published electronically on the World Wide Web.  We've written
-a program to read it for you and separate out all the records of
-voting.  This information has been added into an online database which you can
+<p>All the 
+<a href="http://www.parliament.the-stationery-office.co.uk/pa/cm/cmhansrd.htm">House of Commons</a>  and
+<a href="http://www.parliament.the-stationery-office.co.uk/pa/ld/ldhansrd.htm">House of Lords</a>
+debate transcripts (collectively, Hansard)
+back to 1988 are published electronically on the World Wide Web.  We've written
+a program to read them for you and separate out all the records of voting.  This
+information has been added into an online database which you can
 access.
 
 
 <h2 class="faq"><a name="timeperiod">What time period does it cover?</a></h2>
-<p>Voting data extends back across three parliaments to the May 1997 General
-Election, although there are a few divisions missing in the 1997
-parliament.  New divisions usually appear in Public Whip the next morning, but
-sometimes take a day or two longer.  We give no warranty for the data; there
-may be factual inaccuracies.  <a href="mailto:team@publicwhip.org.uk">Let us
-know</a> if you find any.
+<p>Voting data for MPs extends back across three parliaments to the May 1997
+General Election, although there are a few divisions missing in the 1997
+parliament.  Lords data extends back to the big reform in 1999, because nobody
+can remember who the members were before then.  New divisions usually appear in
+Public Whip the next morning, but sometimes take a day or two longer.  We give
+no warranty for the data; there may be factual inaccuracies.  <a
+href="mailto:team@publicwhip.org.uk">Let us know</a> if you find any.
 
 <?php
     require_once "db.inc";
@@ -103,19 +110,19 @@ know</a> if you find any.
     $div_count = $db->query_one_value("select count(*) from pw_division");
     $mp_count = $db->query_one_value("select count(*) from pw_mp");
     $vote_count = $db->query_one_value("select count(*) from pw_vote");
-    $vote_per_div = round($vote_count / $div_count, 2);
+    $vote_per_div = round($vote_count / $div_count, 1);
     $db->query("select count(*) from pw_mp group by party"); $parties = $db->rows();
     $rebellious_votes = $db->query_one_value("select sum(rebellions) from pw_cache_mpinfo");
     $rebelocity = round(100 * $rebellious_votes / $vote_count, 2);
     $attendance = round(100 * $vote_count / $div_count / ($mp_count / parliament_count()), 2);
 ?>
 
-<p>Some numeric statistics: The database contains <strong><?=$mp_count?></strong>
-MP and Lord records from <strong><?=$parties?></strong> parties. There are
-<strong><?=$div_count?></strong> divisions which have been counted.  A mean of
+<p>Some numeric statistics: The database contains <strong><?=number_format($mp_count)?></strong>
+MP and Lord records from <strong><?=$parties?></strong> parties. We've counted
+<strong><?=number_format($div_count)?></strong> divisions.  A mean of
 <strong><?=$vote_per_div?></strong> MPs/Lords voted in each division.  In total
-<strong><?=$vote_count?></strong> votes were cast, of which
-<strong><?=$rebellious_votes?></strong> were against the majority vote for
+<strong><?=number_format($vote_count)?></strong> votes were cast, of which
+<strong><?=number_format($rebellious_votes)?></strong> were against the majority vote for
 their party.  That's an overall <strong><?=$attendance?>%</strong> attendance
 rate and <strong><?=$rebelocity?>%</strong> rebellion rate.
 
@@ -124,13 +131,14 @@ rate and <strong><?=$rebelocity?>%</strong> rebellion rate.
 <h2 class="faq"><a name="clarify">What do the "rebellion" and "attendance" figures mean exactly?</a></h2>
 
 <p>The apparent meaning of the data can be misleading, so do not to
-jump to conclusions about your MP until you have understood it.
+jump to conclusions about MPs or Lords until you have understood it.
 
 <p>"Attendance" is for voting or telling in divisions. An MP may have a
 low attendance because they have abstained, have ministerial or
 other duties or they are the speaker.  Perhaps they consider each division
-carefully, and only vote when they know about the subject.  
-Sinn F&eacute;in members, because they haven't taken taken the
+carefully, and only vote when they know about the subject. Lords are 
+appointed for life, so they may have decided to retire.
+Sinn F&eacute;in MPs, because they haven't taken taken the
 oath of allegiance, are unable to vote.
 A full list of reasons for low attendance can be found in the Divisions section
 on page 11 of <a
@@ -153,7 +161,7 @@ See also the <a href="#freevotes">next question</a>.
 the long answer.
 
 <p>There is no official, public data about the party whip.  At the moment
-we guess based on the majority vote by MPs for each party.  In order to
+we guess based on the majority vote by MPs or Lords for each party.  In order to
 correctly identify rebels, we need to know each party's whip in each division.
 There are two ways this could be officially recorded.
 
@@ -177,7 +185,7 @@ there is a precedent for admitting they exist.
 
 <h2 class="faq"><a name="abstentions">How do you estimate abstentions?</a></h2>
 
-<p>It isn't possible for an MP to abstain in the UK parliament.  They can
+<p>It isn't possible for an MP or a Lord to abstain in the UK parliament.  They can
 however not vote at all.  We try to detect massive low turnouts on the division
 page by estimating abstentions for each party.
 
@@ -188,15 +196,16 @@ is always relative, so it could be that another party has failed to turn out
 <i>en masse</i>.</p>
 
 <p>Sometimes MPs also indicate abstention by <a href="boths.php">voting both
-aye and no</a>.
+aye and no</a>. Lords aren't allowed to do this, the clerks delete them 
+completely from the roll call.
 
 
 <h2 class="faq"><a name="policies">What are Policies and how do they work?</a></h2>
 
 <p>On Public Whip, a Policy is a set of votes that represent a view on a
 particular issue.  They can be used to automatically measure the voting
-characteristics of a particular MP without the need to examine and compare the
-votes individually.</p>
+characteristics of a particular MP or Lord (or someone who has been both)
+without the need to examine and compare the votes individually.</p>
 
 <p>You do not have to agree with a Policy to have a valid opinion
 about the clarity of its description or choice of votes.
@@ -206,10 +215,10 @@ gets out of date, for example new votes have appeared that it should be voting
 on, it's up to anyone who sees it to fix it.  It also means you can make
 a new policy yourself. </p>
 
-<p>Policies are intended be a new tool for checking the voting behavoir of an
-MP, on top of the ability to read their individual votes.  They provide nothing
-more than a flash summary of the data, a summary which you can drill down
-through to get to the raw evidence.</p>
+<p>Policies are intended be a new tool for checking the voting behaviour of an
+MP or a Lord, on top of the ability to read their individual votes.  They
+provide nothing more than a flash summary of the data, a summary which you can
+drill down through to get to the raw evidence.</p>
 
 
 <h2 class="faq"><a name="legal">Legal question, what can I use this information for?</a></h2>
@@ -267,7 +276,7 @@ of other people help out with bits of code, writing and design.
 
 <h2 class="faq"><a name="theyworkforyou">What's your connection with TheyWorkForYou.com?</a></h2>
 
-<p>Both of us, Francis and Julian, are members of that project, but PublicWhip
+<p>Both of us, Francis and Julian, are members of that project, but Public Whip
 is not.  These projects use the same underlying code to interpret the online
 Hansard pages, but they make different displays of it.  That code and
 data is in the separate <a href="http://ukparse.kforge.net/parlparse">Parliament
@@ -281,13 +290,13 @@ support we can.</p>
 
 <h2 class="faq"><a name="interviews">Are you happy to give interviews about Public Whip?</a></h2>
 
-<p>Yes.  Both Francis and Julian have given interviews
-over the phone in the past and had their pictures taken for newspapers.
-We would be happy to do more of this.  Francis has even featured on the radio in "Yesterday in Parliament".
-Julian lives in Liverpool, and Francis resides in Cambridge.
-Both travel to London whenever there is something interesting happening there.
-Neither of us has had any working experience inside Parliament,
-and so our opinions are very much formed from the outside.  </p>
+<p>Yes.  Both Francis and Julian have given interviews over the phone 
+(ring 07970 543358) in the past and had their pictures taken for newspapers.
+We would be happy to do more of this.  Francis has even featured on the radio
+in "Yesterday in Parliament".  Julian lives in Liverpool, and Francis resides
+in Cambridge.  Both travel to London whenever there is something interesting
+happening there.  Neither of us has had any working experience inside
+Parliament, and so our opinions are very much formed from the outside.  </p>
 
 
 <h2 class="faq"><a name="money">Do you make any money out of Public Whip?</a></h2>
@@ -425,7 +434,7 @@ meanings of their votes in plain english from the beginning, rather than hiding
 what they were doing behind layers of unnecessary technicalities so
 that people didn't have to invent sites like Public Whip to make it
 possible to work out what was going on.  If enough of us got involved
-we would be able to tell the MPs in exact detail everything we expect
+we would be able to tell MPs in exact detail everything we expect
 their record to be, and get something close to what we want.
 
 
@@ -433,13 +442,13 @@ their record to be, and get something close to what we want.
 
 <p>We rely on the <a href="http://ukparse.kforge.net/parlparse">Parliament
 Parser project</a>
-and are closely associated with <a href="http://www.theyworkforyou.com/"> www.theyworkforyou.com</a>,
-<a href="http://www.writetothem.com/"> www.writetothem.com</a>,
-<a href="http://www.hearfromyourmp.com/"> www.hearfromyourmp.com</a>,
-and <a href="http://downingstreetsays.com/"> downingstreetsays.com</a>,
+and are closely associated with <a href="http://www.theyworkforyou.com/">theyworkforyou.com</a>,
+<a href="http://www.writetothem.com/">writetothem.com</a>,
+<a href="http://www.hearfromyourmp.com/">hearfromyourmp.com</a>,
+and <a href="http://downingstreetsays.com/">downingstreetsays.com</a>,
 partly on account of the fact that we have contributed code to them.
 We support anyone who is keen to keen to adapt our systems to
-other Parliaments, but cannot announce any big successes to date.
+other Parliaments. 
 
 <p>Outside of the Open Source community, some academics have worked in this
 area.  Usually, however, after going through the expense of gathering their
@@ -471,14 +480,16 @@ this is the case, and being prepared to make a distinction between
 the claim that "they have a right to do so", and whether
 it is "right".
 
+<p>You can read more about this subject in the 
+<a href="http://en.wikipedia.org/wiki/Parliamentary_informatics">Parliamentary
+Informatics</a> Wikipedia article.
 
 
 <h2 class="faq"><a name="keepup">How can I keep up with what you are doing?</a></h2>
 <p><a href="account/register.php">Subscribe to our newsletter!</a>  It's
 at most once a month, and has interesting news and articles
-relating to the project. You can
-<a href="/forum/">chat with other users</a>
-on our forum.
+relating to the project. You can <a href="/forum/">chat with other users</a> on
+our forum.
 
 
 <h2 class="faq"><a name="contact">There's something wrong with your webpage / I've found an error / Your wording is dreadfully unclear / Can I make a suggestion?</a></h2>
