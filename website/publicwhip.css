@@ -312,16 +312,13 @@ TABLE.votetab TD.majority
 }
 .container
 {
-    BORDER-RIGHT: #003300 1px solid;
     PADDING-RIGHT: 0px;
-    BORDER-TOP: #003300 1px solid;
+    BORDER: #003300 1px solid;
     PADDING-LEFT: 0px;
     PADDING-BOTTOM: 0px;
     MARGIN: 0px;
-    BORDER-LEFT: #003300 1px solid;
     WIDTH: 100%; /* change this to add margins */
     PADDING-TOP: 0px;
-    BORDER-BOTTOM: #003300 1px solid
 }
 .identity
 {

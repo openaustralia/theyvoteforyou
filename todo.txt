@@ -1,7 +1,24 @@
+Colours:
+
+official green: 176e00
+official red:   b40017
+our green:      003300
+
+search 
+
+pw_cache_realreal_distance - finish
+pw_cache_mpdist
+motion text rule new - need to roll out
+check clock time sorting works
+
+make sure build/division_distance is running
+
+Check 664 votes out of 1246, 53.3% votes in 2001-2005 period (not 1250). corrected divs.
+http://www.publicwhip.org.uk/mp.php?mpn=Diane_Abbott&mpc=Hackney+North+%26amp%3B+Stoke+Newington
+
 Lords
 -----
 
-Add clock time so sorting is right
 
 Check Rebellions/Attendance are over the correct time period that they say they are
 http://staging.publicwhip.org.uk/division.php?date=2005-03-21&number=2&mpn=Lord_Wedderburn_of_Charlton&mpc=Lords has crap title
@@ -10,6 +27,8 @@ check against numbers page
     http://www.parliament.uk/directories/house_of_lords_information_office/analysis_by_composition.cfm
 Division alerts
 personsets.py - first file connecting Lords and MPs (see ex_MP field in UCL data)
+
+division distance.php for lords
 
 More
 ----

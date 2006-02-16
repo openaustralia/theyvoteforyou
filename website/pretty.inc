@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.31 2005/12/22 22:31:22 goatchurch Exp $
+# $Id: pretty.inc,v 1.32 2006/02/16 22:36:18 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -107,12 +107,13 @@ function random_big_word($phrase)
     return $lesswords[array_rand($lesswords)];
 }
 
-function searchtip_random_mp($db)
+function searchtip_random_mp($db, $house = "commons")
 {
     $row = $db->query_onez_row("select title, first_name, last_name from pw_mp
+        where house = '$house'
         order by rand() desc limit 1");
     if (!$row) {
-    	return "*no mps*";
+    	return "*no members of $house*";
     }
     $random_mp = trim($row[0] . " " . $row[1] . " " . $row[2]);
     return $random_mp;

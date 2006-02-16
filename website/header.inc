@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.75 2006/02/16 10:59:35 publicwhip Exp $
+# $Id: header.inc,v 1.76 2006/02/16 22:36:18 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -20,6 +20,9 @@ $headtitle = str_replace(" - ", " &#8212; ", $headtitle);
 
 <head>
 <link href="<?=$toppath?>publicwhip.css" type="text/css" rel="stylesheet" media="all">
+<? if ($colour_scheme == "lords") { ?>
+<link href="<?=$toppath?>red.css" type="text/css" rel="stylesheet" media="all">
+<? } ?>
 <link href="<?=$toppath?>publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
 <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
@@ -80,7 +83,7 @@ Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
 
 <!-- the site logo -->
 <tr><td class="identity" colspan="1">
-<a href="<?=$toppath?>index.php"><img src="<?=$toppath?>thepublicwhip.gif" alt="The Public Whip"></a>
+<a href="<?=$toppath?>index.php"><img src="<?=$toppath?><?=$colour_scheme=="lords"?'thepublicwhipred.gif':'thepublicwhip.gif'?>" alt="The Public Whip"></a>
 </td>
 <!-- software patents banner -->
 <!--

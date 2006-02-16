@@ -1,6 +1,6 @@
 <?php
 
-# $Id: common.inc,v 1.16 2005/12/22 20:06:14 publicwhip Exp $
+# $Id: common.inc,v 1.17 2006/02/16 22:36:18 frabcus Exp $
 
 # Included from all main .php files on the first line
 
@@ -81,13 +81,13 @@ require_once $toppath . "pretty.inc";
 require_once $toppath . "account/user.inc";
 function pw_header() 
 {
-    global $toppath, $title, $onload, $second_links, $second_links2, $second_links3, $pretitle;
+    global $toppath, $title, $onload, $second_links, $second_links2, $second_links3, $pretitle, $colour_scheme;
     include $toppath . "header.inc";
 }
 
 function pw_footer() 
 {
-    global $toppath, $paddingforanchors;
+    global $toppath, $paddingforanchors, $colour_scheme;
     include $toppath . "footer.inc";
 }
 

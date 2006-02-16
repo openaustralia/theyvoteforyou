@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.32 2006/02/16 19:24:36 publicwhip Exp $
+# $Id: divisions.php,v 1.33 2006/02/16 22:36:18 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -86,8 +86,10 @@
 
 	# do the title
     $title = $rdismodes2[$rdisplay2]['description'] . " - " . $rdismodes[$rdisplay]['description'];
-	if ($rdisplay_house != "both")
+	if ($rdisplay_house != "both") {
 		$title .= " - ".($rdisplay_house == "lords" ? "Lords" : "Commons")." only";
+        $colour_scheme = $rdisplay_house;
+    }
 	if ($sort != 'date')
 		$title .= " (sorted by $sort)";
 

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.117 2006/02/16 20:30:42 publicwhip Exp $
+    # $Id: mp.php,v 1.118 2006/02/16 22:36:18 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -196,6 +196,7 @@
 		$contitlefor = "";
 		$contitlecomma = "";
 	}
+    $colour_scheme = $mpprop['house'];
 	if ($voter2type == "dreammp")
 	{
 		$title = "Policy Report - '".html_scrub($voter2attr['name'])."' compared to ";

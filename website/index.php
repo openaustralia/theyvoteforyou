@@ -2,7 +2,7 @@
 
 cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.63 2006/01/27 15:35:54 goatchurch Exp $
+# $Id: index.php,v 1.64 2006/02/16 22:36:18 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -32,7 +32,8 @@ For more information about the project <a href="faq.php">see the FAQ</a>.
 
 	update_dreammp_votemeasures($db, null, 0); # for all
 
-    $random_mp = searchtip_random_mp($db);
+    $random_mp = searchtip_random_mp($db, "commons");
+    $random_lord = searchtip_random_mp($db, "lords");
     $random_topic = searchtip_random_topic($db);
     $random_topic2 = searchtip_random_topic($db);
     $random_topic3 = searchtip_random_topic($db);
@@ -57,10 +58,10 @@ An at most monthly briefing.
 
 <li>
 <form class="search" action="search.php" name=pw>
-<p><span class="actionsheading">Find out how any MP votes</span>
+<p><span class="actionsheading">Find out how any MP or Lord votes</span>
 <br>Enter your postcode or MP name:
 <input maxLength=256 size=8 name=query value=""> <input type=submit value="Go" name=button>
-<br><i>Example: "OX1 3DR", "<?=$random_mp?>"</i>
+<br><i>Example: "OX1 3DR", "<?=$random_mp?>", "<?=$random_lord?>"</i>
 </form>
 </p>
 

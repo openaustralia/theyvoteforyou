@@ -1,5 +1,5 @@
 <?php
-# $Id: footer.inc,v 1.16 2005/10/13 00:39:47 frabcus Exp $
+# $Id: footer.inc,v 1.17 2006/02/16 22:36:18 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -12,7 +12,7 @@
 </td></tr>
 
 <!-- the footer section -->
-<tr class="headers"><td bgcolor="#003300" colspan="2"><p class="footer">
+<tr class="headers"><td bgcolor="<?=$colour_scheme=='lords'?'#340900':'#003300'?>" colspan="2"><p class="footer">
 <span class="footerleft">
 <a title="Frequently asked questions" href="<?=$toppath?>faq.php#whatis">About us</a>
 <a title="Send comments, problems or suggestions" href="/email.php">Contact us</a>
