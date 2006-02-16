@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.67 2006/02/16 11:29:56 publicwhip Exp $
+# $Id: faq.php,v 1.68 2006/02/16 22:54:50 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -59,8 +59,9 @@ $paddingforanchors = true; $title = "Help - Frequently Asked Questions"; pw_head
 
 <h2 class="faq"><a name="whatis">What is the Public Whip?</a></h2>
 <p>Public Whip is a project to watch Members of the United Kingdom
-Parliament, so that the public (people like us) can better understand and influence their
-voting patterns.  We're an independent, non-governmental project.
+Parliament, so that the public (people like us) can better understand and
+influence their voting patterns.  We're an independent, non-governmental
+project.
 
 
 <h2 class="faq"><a name="jargon">First, can you explain "division" and other political jargon?</a></h2>
@@ -73,7 +74,10 @@ an MP involved in the counting of the vote.  For more information on all these
 terms, see the
 <a href="http://www.parliament.uk/parliamentary_publications_and_archives/factsheets/p09.cfm">
 Parliament factsheet on divisions</a>.
-
+<p>The House of Lords is the second chamber of the Parliament. Proposed
+legislation must be approved by both Houses before it becomes law. Lords become
+members by a complex mixture of appointment, hereditary and election, which
+frankly we can't work out.
 
 <h2 class="faq"><a name="how">How does the Public Whip work?</a></h2>
 <p>All the House of Commons debate transcripts (<a href="http://www.parliament.the-stationery-office.co.uk/pa/cm/cmhansrd.htm">Hansard</a>) back to
