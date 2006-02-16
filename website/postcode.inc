@@ -92,17 +92,17 @@ function postcode_to_constituency_internal($db, $postcode, $pc_parl)
 
     # Otherwise hit the server (URL is private)
     # We use fsockopen rather than just fopen or file_get_contents so we can do timeouts
-    if ($pc_parl == "2005") {
+    if ($pc_parl == "2005" || !$pc_parl) {
         $filename = POSTCODE_SEARCH_PATH .  urlencode($postcode);
         $domain = POSTCODE_SEARCH_DOMAIN;
     } elseif ($pc_parl == "2001") {
         $filename = POSTCODE_SEARCH_PATH_2001_PARLIAMENT .  urlencode($postcode);
         $domain = POSTCODE_SEARCH_DOMAIN_2001_PARLIAMENT;
-    }
-    elseif ($pc_parl)
+    } elseif ($pc_parl) {
         trigger_error("Unknown postcode parliament $pc_parl", E_USER_ERROR);
-    else
-        $filename = POSTCODE_SEARCH_PATH .  urlencode($postcode);
+    } else {
+        trigger_error("Internal postcode_to_constituency_internal error", E_USER_ERROR);
+    }
 	$file = ""; // just to be safe. Dunno, if this is really needed
     $timeout = 5;
     $fp = @fsockopen($domain, POSTCODE_SEARCH_PORT, $errno, $errstr, $timeout);
