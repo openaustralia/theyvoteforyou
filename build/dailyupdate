@@ -41,6 +41,7 @@ then
 	./load.pl --quiet --from=$FROMDATE check
 
 	# and update counts of rebels etc.
+    ./calc_caches.php
 	./load.pl --quiet --from=$FROMDATE calc
 
 	# clear page cache

@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: load.pl,v 1.14 2006/02/16 12:58:19 publicwhip Exp $
+# $Id: load.pl,v 1.15 2006/02/16 16:02:05 publicwhip Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -108,11 +108,6 @@ sub all_divsxml {
 }
 
 sub update_calc {
-    PublicWhip::Error::log("Counting rebellions/attendence by MP...", "", ERR_USEFUL);
-    PublicWhip::Calc::count_mp_info($dbh);
-    PublicWhip::Error::log("Counting rebellions/turnout by division...", "", ERR_USEFUL);
-    PublicWhip::Calc::count_division_info($dbh);
-    die "TODO: Rankings, which needs lots of changes";
     PublicWhip::Error::log("Rankings...", "", ERR_USEFUL);
     PublicWhip::Calc::current_rankings($dbh);
 }

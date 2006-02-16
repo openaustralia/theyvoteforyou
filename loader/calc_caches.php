@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: calc_caches.php,v 1.3 2006/02/16 12:58:19 publicwhip Exp $
+# $Id: calc_caches.php,v 1.4 2006/02/16 16:02:05 publicwhip Exp $
 
 # Calculate lots of cache tables, run after update.
 
@@ -18,10 +18,13 @@ $db2 = new DB();
 
 count_party_stats($db, $db2);
 guess_whip_for_all($db, $db2);
+count_mp_info($db);
+count_div_info($db);
 
 # then we loop through the missing entries and fill them in
 function count_party_stats($db, $db2)
 {
+    # TODO: redo this per parliament
 	$db->query("DROP TABLE IF EXISTS pw_cache_partyinfo");
 	$db->query("CREATE TABLE pw_cache_partyinfo (
 						party varchar(100) not null,
@@ -52,8 +55,8 @@ function count_party_stats($db, $db2)
 function guess_whip_for_all($db, $db2)
 {
 	# this table runs parallel to the table of divisions
-	$db->query("DROP TABLE IF EXISTS pw_cache_whip");
-	$db->query("CREATE TABLE pw_cache_whip (
+	$db->query("DROP TABLE IF EXISTS pw_cache_whip_tmp");
+	$db->query("CREATE TABLE pw_cache_whip_tmp (
 					division_id int not null,
 					party varchar(200) not null,
 					whip_guess enum('aye', 'no', 'abstain', 'unknown', 'none') not null,
@@ -110,11 +113,135 @@ function guess_whip_for_all($db, $db2)
 
 		$qattrs = "division_id, party, whip_guess";
 		$qvalues = $row['division_id'].", '".$row['party']."', '".$whip_guess."'";
-        $query = "INSERT INTO pw_cache_whip ($qattrs) VALUES ($qvalues)";
+        $query = "INSERT INTO pw_cache_whip_tmp ($qattrs) VALUES ($qvalues)";
         #print_r($row);
         #print $query;
 		$db2->query($query);
 	}
+
+	$db->query("DROP TABLE IF EXISTS pw_cache_whip");
+	$db->query("RENAME TABLE pw_cache_whip_tmp TO pw_cache_whip");
+}
+
+function count_mp_info($db) {
+    count_4d_info($db, "pw_cache_mpinfo", "pw_mp.mp_id", "mp_id", "votes_attended", "votes_possible");
+}
+
+function count_div_info($db) {
+    count_4d_info($db, "pw_cache_divinfo", "pw_division.division_id", "division_id", "turnout", "possible_turnout");
+}
+
+function count_4d_info($db, $table, $group_by, $id, $votes_attended, $votes_possible) {
+    $db->query( "DROP TABLE IF EXISTS ${table}_tmp" );
+    $db->query(
+        "CREATE TABLE ${table}_tmp (
+        $id int not null,
+        rebellions int not null,
+        tells int not null,
+        $votes_attended int not null,
+        $votes_possible int not null,
+        index($id)
+    )");
+
+    $query = "
+        INSERT INTO ${table}_tmp
+            ($id, rebellions, tells, $votes_attended, $votes_possible)
+        SELECT 
+            $group_by,
+            SUM((whip_guess = 'aye' AND (vote = 'no' or vote = 'tellno')) OR
+                (whip_guess = 'no' AND (vote = 'aye' or vote = 'tellaye'))) AS rebellions,
+            SUM(vote = 'tellaye' OR vote = 'tellno') AS tells,
+            SUM(vote IS NOT NULL) as $votes_attended,
+            SUM(pw_division.division_id IS NOT NULL) AS $votes_possible
+
+        FROM pw_division 
+
+        LEFT JOIN pw_mp ON 
+            pw_division.house = pw_mp.house AND
+            pw_mp.entered_house <= pw_division.division_date AND
+            pw_division.division_date < pw_mp.left_house
+
+        LEFT JOIN pw_vote ON 
+            pw_vote.mp_id = pw_mp.mp_id AND
+            pw_vote.division_id = pw_division.division_id
+
+        LEFT JOIN pw_cache_whip ON
+            pw_cache_whip.party = pw_mp.party AND
+            pw_cache_whip.division_id = pw_division.division_id
+    
+        GROUP BY $group_by
+    ";
+
+    #print $query;
+    $db->query($query);
+
+	$db->query("DROP TABLE IF EXISTS $table");
+	$db->query("RENAME TABLE ${table}_tmp TO $table");
+}
+
+function old_count_division_info($db) {
+    $db->query( "DROP TABLE IF EXISTS pw_cache_divinfo_tmp" );
+    $query = "INSERT INTO pw_cache_divinfo_tmp (division_id, rebellions, turnout, possible_turnout)
+        SELECT 
+
+        FROM pw_division
+
+        LEFT JOIN pw_mp ON
+            pw_division.house = pw_mp.house AND
+            pw_mp.entered_house <= pw_division.division_date AND
+            pw_division.division_date < pw_mp.left_house
+        
+        LEFT JOIN pw_vote ON 
+            pw_vote.mp_id = pw_mp.mp_id AND
+            pw_vote.division_id = pw_division.division_id
+
+        LEFT JOIN pw_cache_whip ON
+            pw_cache_whip.party = pw_mp.party AND
+            pw_cache_whip.division_id = pw_division.division_id
+
+        GROUP BY pw_division.division_id
+    ";
+
+    $db->query($query);
+
+	$db->query("DROP TABLE IF EXISTS pw_cache_divinfo");
+	$db->query("RENAME TABLE pw_cache_divinfo_tmp TO pw_cache_divinfo");
+/*
+    my $sth =
+      PublicWhip::DB::query( $dbh, "select division_id from pw_division" );
+    while ( my @data = $sth->fetchrow_array() ) {
+        my ($division_id) = @data;
+
+        my $sth = PublicWhip::DB::query(
+            $dbh, "select count(*) from pw_vote,
+            pw_cache_whip, pw_mp where pw_vote.division_id = ? and
+            pw_cache_whip.division_id = ? and 
+            pw_mp.party = pw_cache_whip.party and 
+            pw_vote.mp_id = pw_mp.mp_id and 
+            pw_cache_whip.whip_guess <> 'unknown' and 
+            pw_vote.vote <> 'both' and
+            pw_cache_whip.whip_guess <> replace(pw_vote.vote, 'tell', '')
+            ", $division_id, $division_id
+        );
+
+        die "Failed to count rebels for div $division_id" if $sth->rows != 1;
+        my $rebellions = $sth->fetchrow_arrayref()->[0];
+
+        $sth = PublicWhip::DB::query(
+            $dbh, "select count(*) from pw_vote
+            where pw_vote.division_id = ?", $division_id
+        );
+        my $turnout = $sth->fetchrow_arrayref()->[0];
+
+        #        print "division $division_id $rebellions\n";
+
+        PublicWhip::DB::query(
+            $dbh,
+            "insert into pw_cache_divinfo (division_id, rebellions, turnout)
+            values (?, ?, ?)", $division_id, $rebellions, $turnout
+        );
+    }
+    */
 }
 
 
