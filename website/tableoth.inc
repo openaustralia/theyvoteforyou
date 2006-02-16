@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.29 2006/02/16 17:56:05 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.30 2006/02/16 20:30:42 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -40,8 +40,12 @@
 				else
 					print "<td>".$mpprop['name']."</td>\n";
    			}
-			if ($conscolumn)
-                print "<td>".$mpprop['constituency']."</td>\n";
+			if ($conscolumn) {
+                if ($mpprop["house"] == "lords") 
+                    print "<td>House of Lords</td>\n";
+                else
+                    print "<td>".$mpprop['constituency']."</td>\n";
+            }
 			print "<td>".($mpprop['enteredhouse'] == "0000-00-00" ? "unknown" : $mpprop['enteredhouse'] )."</td>\n";
 	        $lefthouse = ($mpprop['lefthouse'] == "9999-12-31" ? "still in office" : $mpprop['lefthouse']);
 			print "<td>".$lefthouse."</td>\n";
@@ -112,6 +116,11 @@
 			print "<h2>$query</h2>\n";
 		$db->query($query);
 		$res = $db->rows();
+        if ($res == 0) {
+	        $prettyrow = pretty_row_start($prettyrow);
+            print "<td colspan=\"4\">No policies match this person's votes.
+                You can <a href=\"/policies.php\">edit or make a policy</a> that will appear here.</td></tr>";
+        }
 
 	    while ($row = $db->fetch_row_assoc())
 		{
@@ -152,7 +161,7 @@
 	        print "</tr>\n";
   		}
 
-		return $count;
+		return $res;
  	}
 
 

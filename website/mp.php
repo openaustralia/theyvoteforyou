@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.116 2006/02/16 17:56:05 publicwhip Exp $
+    # $Id: mp.php,v 1.117 2006/02/16 20:30:42 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -48,13 +48,12 @@
 	# First is an mp (arranged by person or by constituency)
 	# Second is another mp (by person), a dream mp, or a/the party
 	$voter1attr = get_mpid_attr_decode($db, $db2, "", ($voter2type == "dreammp" ? $voter2attr : null));
-	if ($voter1attr == null)
-	{
+	if ($voter1attr == null) {
         $title = "MP/Lord not found";
         pw_header();
 		print "<p>No MP or Lord found. If you entered a postcode, please make
         sure it is correct.  Or you can <a href=\"/mps.php\">browse
-        all MPs</a>.";
+        all MPs</a> or <a href=\"/mps.php?house=lords\">browse all Lords</a>.";
         pw_footer();
         exit;
     }
@@ -418,19 +417,19 @@
 		# the full version is in chron order so it can be printed out.  But saying so is sheer clutter.
 		# print "<p>Table is in".($divtabattr["sortby"] == 'datereversed' ? "" : " reverse")." chronological order.</p>\n";
 
-    	foreach ($voter1attr['mpprops'] as $lkey => $mpprop)
+    	foreach ($voter1attr['mpprops'] as $lkey => $mppropt)
 		{
-			$divtabattr["voter1"] = $mpprop;
-			$events = $mpprop["mpevents"];  # a bit confused, but a complete list of events per mpid makes the code simple
+			$divtabattr["voter1"] = $mppropt;
+			$events = $mppropt["mpevents"];  # a bit confused, but a complete list of events per mpid makes the code simple
 
 			# slip in a title in the multiperson case
 			if ($voter1attr['bmultiperson'] && ($divtabattr["votedisplay"] != "fullmotion"))
 				print "<tr><td colspan=7 align=left>
-                    <b>Votes by <a href=\"mp.php?".$mpprop['mpanchor']."\">" .$mpprop["name"]." MP</a></b>
+                    <b>Votes by <a href=\"mp.php?".$mppropt['mpanchor']."\">" .$mppropt["name"]." MP</a></b>
                     </td></tr>\n";
 
 			# apply a designated voter
-			$divtabattr["divhrefappend"] = "&".$mpprop['mpanchor'];
+			$divtabattr["divhrefappend"] = "&".$mppropt['mpanchor'];
 
 			# long asignment for return value because we're lacking foreach as &
 			$voter1attr['mpprops'][$lkey]["dismetric"] = division_table($db, $divtabattr, $events);
@@ -454,22 +453,22 @@
                 print "<p>The measure of agreement between this MP and the policy is a calculation
                         based on a comparison of their votes.</p>\n";
                 # sum up the arrays
-                foreach ($voter1attr['mpprops'] as $mpprop)
+                foreach ($voter1attr['mpprops'] as $mppropt)
                 {
                     if ($dismetric)
                     {
-                        foreach($mpprop["dismetric"] as $lkey => $lvalue)
+                        foreach($mppropt["dismetric"] as $lkey => $lvalue)
                             $dismetric[$lkey] += $lvalue;
                     }
                     else
-                        $dismetric = $mpprop["dismetric"];
+                        $dismetric = $mppropt["dismetric"];
                 }
 
                 # outputs an explanation of the votes
                 print_dreammp_person_distance($dismetric["agree"], $dismetric["agree3"],
                               $dismetric["disagree"], $dismetric["disagree3"],
                               $dismetric["ab1"], $dismetric["ab1line3"],
-                                  $db, $mpprop["person"], $voter2);
+                                  $db, $mppropt["person"], $voter2);
             }
 		}
 
@@ -488,8 +487,10 @@
 	{
 		print "<h2><a name=\"dreammotions\">Policy Comparisons</a></h2>\n";
 
-		print "<p>This chart shows the percentage agreement between this MP and each of the policies in
-			   the database, according to their voting record.  </p>\n";
+		print "<p>This chart shows the percentage agreement between this " . 
+        ($voter1attr['bmultihouse'] ? "person" : $mpprop['housenoun'])
+         . " and each of the policies in the database, according to their
+        voting record.  </p>\n";
 
 	    print "<table class=\"mps\">\n";
 	    print "<tr class=\"headings\">

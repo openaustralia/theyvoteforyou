@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.37 2006/02/16 17:56:05 publicwhip Exp $
+# $Id: decodeids.inc,v 1.38 2006/02/16 20:30:42 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -33,6 +33,7 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
     $constituency = $row['constituency'];
     $person = $row['person'];
     $party = $row['party'];
+    $house = $row['house'];
 
     # get the mpids in this class, for the person, or all reps of a constituency
     if ($bbyconstituency)
@@ -56,7 +57,8 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
     $mpids = array();
     $mpprops = array();
     $bmultiperson = false;  # record if this set really does cover more than one person
-	$thismpprop = null;
+    $bmulithouse = false; 
+    $thismpprop = null;
     while ($row = $db->fetch_row_assoc())
     {
         $mppropname = trim($row['title'].' '.$row['first_name'].' '.$row['last_name']);
@@ -89,7 +91,7 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
 		else
 		{
 			$mpprop['housenamesuffix'] = '';
-			$mpprop['housenoun'] = 'Lords';
+			$mpprop['housenoun'] = 'Lord';
 			$mpprop['housenounplural'] = 'Lords';
 			$mpprop['fullname'] = $mppropname;
 		}
@@ -110,9 +112,9 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
 
         if ($bdebug == 1)
         {
-            print "<h1>prop:";
+            print "<h4>prop:";
             print_r($mpprop);
-            print "</h1>\n";
+            print "</h4>\n";
         }
 
         array_push($mpprops, $mpprop);
@@ -123,6 +125,8 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
         array_push($mpids, $row['mp_id']);
         if ($person != $row['person'])
 			$bmultiperson = true;
+        if ($house != $row['house'])
+            $bmultihouse = true; 
 	}
 
     if ($bdebug == 1)
@@ -130,7 +134,8 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
 
     return array("mpprops"		=> $mpprops,
                  "mpprop"		=> $thismpprop,
-                 "bmultiperson" => $bmultiperson);
+                 "bmultiperson" => $bmultiperson,
+                 "bmultihouse"  => $bmultihouse);
 }
 
 # this is used for getting mpids from links prior to 2005-03

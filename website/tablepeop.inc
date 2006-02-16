@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.32 2006/02/16 19:24:36 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.33 2006/02/16 20:30:43 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -418,7 +418,7 @@ function mp_table($db, $mptabattr)
 		else if ($colstyle == "division2" and $showwhich == "changes")
         	print "<tr class=\"even\"><td colspan=5>no differences found</td></tr>\n";
 		else
-			print "<tr class=\"even\"><td>EMPTY TABLE</td></tr>\n";
+			print "<tr class=\"even\"><td colspan=4>INTERNAL ERROR - friends list needs updating</td></tr>\n";
 	}
 
     $nrows = 0;

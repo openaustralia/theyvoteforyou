@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.116 2006/02/16 17:56:05 publicwhip Exp $
+# $Id: division.php,v 1.117 2006/02/16 20:30:42 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -339,7 +339,6 @@ if ($singlemotionpage)
                 print " (last edited ".  relative_time($motion_data["edit_date"]) .  " by " . pretty_user_name($db2, $last_editor).") ";
 	        print "</div>\n";
 
-			print "<p>&nbsp;</p>";
 			print "<h2>External Links</h2>";
 			print "<ul>";
 	        if ($debate_gid != "")
@@ -348,7 +347,8 @@ if ($singlemotionpage)
 		        	$debate_gid = "lords/?id=".str_replace("uk.org.publicwhip/lords/", "", $debate_gid);
 		        else
 					$debate_gid = "debates/?id=".str_replace("uk.org.publicwhip/debates/", "", $debate_gid);
-	            print "<li>Read or comment on the <a href=\"http://www.theyworkforyou.com/$debate_gid\">debate in Parliament</a> at www.TheyWorkForYou.com</li>";
+				if ($divattr["house"] == "commons") # remove this if when TWFY has lords
+                    print "<li>Read or comment on the <a href=\"http://www.theyworkforyou.com/$debate_gid\">debate in Parliament</a> at www.TheyWorkForYou.com</li>";
 	        }
 
 	        $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
@@ -535,7 +535,6 @@ if ($singlemotionpage)
 		if ($dismode["listsimilardivisions"] == "thisparliament")
 			$divtabattr["parldatelimit"] = $parliaments[$divattr["parliament"]];
 
-        print "<p>&nbsp;</p>";
         print "<h2><a name=\"simdiv\">Similar Divisions</a></h2>";
         print "<p>This table lists divisions where the MPs voted in a similar way to the
                 division that is listed on this page.  Click on the division link to see a comparison
