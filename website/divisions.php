@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.30 2006/02/16 11:29:56 publicwhip Exp $
+# $Id: divisions.php,v 1.31 2006/02/16 12:14:09 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -169,9 +169,9 @@
     print "<table class=\"votes\">\n";
     print "<tr class=\"headings\">";
     print "<td>Date</td>";
+    print "<td>No.</td>";
 	if ($rdisplay_house == "both")
         print "<td>House</td>";
-    print "<td>No.</td>";
     print "<td>Subject</td>";
     print "<td>Rebellions<br>(<a href=\"/faq.php#clarify\">explain...</a>)</td>";
     print "<td>Turnout</td>";

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.114 2005/12/22 23:07:29 publicwhip Exp $
+# $Id: division.php,v 1.115 2006/02/16 12:14:09 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -58,6 +58,9 @@ function no_division_found($plural)
 	$div_no = html_scrub($divattr["division_number"]);
 	$this_anchor = $divattr["divhref"];
 	$house = $divattr["house"];
+    $clock_time = $divattr["clock_time"];
+    $clock_time = preg_replace("/:00$/","",$clock_time);
+    $clock_time = preg_replace("/^0/","",$clock_time);
 
 	# designated voter on this division
 	$votertype = "";
@@ -121,7 +124,10 @@ function no_division_found($plural)
     }
 
 # make the title
-$title = "$name - ".$divattr["prettydate"]." - Division No. $div_no";
+$title = "$name - ".$divattr["prettydate"]." ";
+if ($clock_time)
+    $title .= " at $clock_time";
+$title .= " - Division No. $div_no";
 if (!$singlemotionpage)
 {
     $title .= " <i>compared to</i> Division No. ".$divattr2["division_number"];

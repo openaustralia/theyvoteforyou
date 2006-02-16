@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.57 2006/01/27 15:35:54 goatchurch Exp $
+# $Id: tablemake.inc,v 1.58 2006/02/16 12:14:10 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -614,7 +614,7 @@ function division_table($db, $divtabattr, $events = "")
     if ($breversed)
         $aquery["qorder"] .= " divisiondate, divisionhouse, divisionnumber";
     else # by date (for all other cases)
-        $aquery["qorder"] .= " divisiondate DESC, divisionhouse DESC, divisionnumber DESC";
+        $aquery["qorder"] .= " divisiondate DESC, clock_time DESC, divisionnumber DESC";
 
     # corrected column (yet another division_id coding!)
     # motionwikistate is nothing or 'listunedited' for the "(unedited)" symbols

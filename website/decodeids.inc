@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.35 2005/12/22 22:31:22 goatchurch Exp $
+# $Id: decodeids.inc,v 1.36 2006/02/16 12:14:09 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -308,7 +308,7 @@ function get_division_attr_decode($db, $i)
                      pw_division.division_id AS division_id,
                      division_name, motion, notes,
                      source_url, debate_url, source_gid, debate_gid,
-                     rebellions, turnout
+                     rebellions, turnout, clock_time
               FROM pw_division
               LEFT JOIN pw_cache_divinfo
                 ON pw_cache_divinfo.division_id = pw_division.division_id
@@ -319,7 +319,7 @@ function get_division_attr_decode($db, $i)
         print "<h5>$query</h5>";
     $row = $db->query_onez_row_assoc($query);
     if (!$row)
-	return "none";
+        return "none";
 
     return array("division_date" 	=> $row["division_date"],
                  "division_number" 	=> $row['division_number'],
@@ -334,6 +334,7 @@ function get_division_attr_decode($db, $i)
                  "source_gid"		=> $row["source_gid"],
                  "rebellions"		=> $row["rebellions"],
                  "turnout"			=> $row["turnout"],
+                 "clock_time"       => $row["clock_time"],
                  "divhref"			=> "division.php?date=".urlencode($row["division_date"])."&number=".urlencode($row["division_number"]).($row['house'] == "lords" ? "&house=lords" : ""),
                  "original_motion"	=> $row["motion"]);
 }
