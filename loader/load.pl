@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: load.pl,v 1.12 2006/02/16 10:24:14 publicwhip Exp $
+# $Id: load.pl,v 1.13 2006/02/16 12:01:36 publicwhip Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -103,8 +103,8 @@ sub clean {
 }
 
 sub all_divsxml {
-#    PublicWhip::DivsXML::read_xml_files( $dbh, $from, $to, $PublicWhip::Config::lordsdebatepath, $PublicWhip::Config::lordsfileprefix, "lords");
     PublicWhip::DivsXML::read_xml_files( $dbh, $from, $to, $PublicWhip::Config::debatepath, $PublicWhip::Config::fileprefix, "commons");
+    PublicWhip::DivsXML::read_xml_files( $dbh, $from, $to, $PublicWhip::Config::lordsdebatepath, $PublicWhip::Config::lordsfileprefix, "lords");
 }
 
 sub update_calc {

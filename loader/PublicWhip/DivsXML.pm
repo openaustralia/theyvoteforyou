@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.12 2006/02/16 10:54:17 publicwhip Exp $
+# $Id: DivsXML.pm,v 1.13 2006/02/16 12:01:36 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Loads divisions from the XML files made by pyscraper into
@@ -235,9 +235,19 @@ sub loaddivision {
     my $debate_url  = $lastheadingurl;
     my $debate_gid  = $lastheadinggid;
     my $motion_text = $lastmotiontext;
+    my $clock_time = $div->att('time');
     $lastmotiontext = "";
     if ( $motion_text eq "" ) {
         $motion_text = "No motion text available";
+    }
+
+    $clock_time = "" if !$clock_time;
+    if ($clock_time =~ m/^\d\d:\d\d:\d\d$/) {
+        $clock_time = "0" . $clock_time; # 3 digit hours due to >24 hour days that parliament sometimes has
+    }
+    if ($clock_time !~ m/^\d\d\d:\d\d:\d\d$/) {
+        PublicWhip::Error::warn("clock time '$clock_time' not in right format");
+        $clock_time = '';
     }
 
     # Find votes of MPs
@@ -278,7 +288,7 @@ sub loaddivision {
     my $sth = PublicWhip::DB::query(
         $dbh,
 "select division_id, valid, division_name, motion, source_url,
-debate_url, source_gid, debate_gid from pw_division where
+debate_url, source_gid, debate_gid, clock_time from pw_division where
         division_number = ? and division_date = ? and house = ?", $divnumber, $divdate, $house
     );
     die "Division $divnumber on $divdate house $house already in database more than once" if ( $sth->rows > 1 );
@@ -297,28 +307,32 @@ debate_url, source_gid, debate_gid from pw_division where
         my $existing_debate_url = $data[5];
         my $existing_source_gid = $data[6];
         my $existing_debate_gid = $data[7];
+        my $existing_clock_time = $data[8];
+        $existing_clock_time = "" if !$existing_clock_time;
         if (   ( $existing_heading ne $heading )
             or ( $existing_motion     ne $motion_text )
             or ( $existing_source_url ne $url )
             or ( $existing_debate_url ne $debate_url )
             or ( $existing_source_gid ne $gid )
-            or ( $existing_debate_gid ne $debate_gid ) )
+            or ( $existing_debate_gid ne $debate_gid ) 
+            or ( $existing_clock_time ne $clock_time) )
         {
             my $sth = PublicWhip::DB::query(
                 $dbh,
 "update pw_division set division_name = ?, motion = ?, source_url = ?,
-debate_url = ?, source_gid = ?, debate_gid = ? where division_id = ? and house = ?",
+debate_url = ?, source_gid = ?, debate_gid = ?, clock_time = ? where division_id = ? and house = ?",
                 $heading,
                 $motion_text,
                 $url,
                 $debate_url,
                 $gid,
                 $debate_gid,
+                $clock_time,
                 $existing_divid,
                 $house
             );
 
-            die "Failed to fix division name/motion/URLs" if $sth->rows != 1;
+            die "Failed to fix division name/motion/URLs/clock" if $sth->rows != 1;
             PublicWhip::Error::log(
 "Existing division $house, $divnumber, $divdate, id $existing_divid name $existing_heading has had its name/motion/URLs/gids corrected with the one from XML called $heading",
                 $divdate, ERR_IMPORTANT);
@@ -413,9 +427,9 @@ debate_url = ?, source_gid = ?, debate_gid = ? where division_id = ? and house =
     PublicWhip::DB::query(
         $dbh, "insert into pw_division 
         (valid, division_date, division_number, house, division_name,
-        source_url, debate_url, source_gid, debate_gid, motion) values
-        (0, ?, ?, ?, ?, ?, ?, ?, ?, ?)", $divdate, $divnumber, $house, $heading, $url,
-        $debate_url, $gid, $debate_gid,           $motion_text
+        source_url, debate_url, source_gid, debate_gid, motion, clock_time) values
+        (0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", $divdate, $divnumber, $house, $heading, $url,
+        $debate_url, $gid, $debate_gid, $motion_text, $clock_time
     );
     $sth = PublicWhip::DB::query( $dbh, "select last_insert_id()" );
     die "Failed to get last insert id for new division" if $sth->rows != 1;
