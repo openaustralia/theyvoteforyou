@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.18 2006/02/16 22:29:43 publicwhip Exp $
+# $Id: distances.inc,v 1.19 2006/02/16 23:30:58 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -226,7 +226,7 @@ function print_divdiv_distance($db, $divattr1, $divattr2, $housenoun)
 
 function fill_mp_distances($db, $db2) {
     $bdebug = 1;
-	$qselect = "SELECT mp_mp.mp_id AS mp_id, mp_person.person AS person ";
+	$qselect = "SELECT pw_vote.mp_id AS mp_id";#, mp_person.person AS person ";
 
 /*	$qselect .= "SUM(((person_vote.vote = 'aye' OR person_vote.vote = 'tellaye') AND 
                             (mp_vote.vote = 'aye' OR mp_vote.vote = 'tellaye'))
@@ -246,27 +246,30 @@ function fill_mp_distances($db, $db2) {
 */
 	# (no score from dreamMP absents or abstentions)
 
-	$qfrom  = " FROM pw_mp AS mp_mp\n";
-	$qjoin = " LEFT JOIN pw_vote AS mp_vote
-					ON mp_vote.mp_id = mp_mp.mp_id\n";
-	$qjoin .= " LEFT JOIN pw_division
-        			ON mp_vote.division_id = pw_division.division_id\n";
+	$qfrom  = " FROM pw_vote \n";
+	$qjoin = " LEFT JOIN pw_mp 
+					ON pw_mp.mp_id = pw_vote.mp_id\n";
+    $qjoin .= " LEFT JOIN pw_division
+        			ON pw_division.division_id = pw_vote.division_id\n";
 	$qjoin .= " LEFT JOIN pw_mp AS mp_person
-                    ON pw_division.house = mp_person.house AND
+                    ON mp_person.house = pw_division.house AND
                     mp_person.entered_house <= pw_division.division_date AND
                     pw_division.division_date < mp_person.left_house\n";
-	$qjoin .= " LEFT JOIN pw_vote AS person_vote
-					ON person_vote.mp_id = mp_person.mp_id\n";
+#	$qjoin .= " LEFT JOIN pw_vote AS person_vote
+#					ON person_vote.mp_id = mp_person.mp_id\n";
 
-	$qgroup = " GROUP BY mp_mp.mp_id";
-#mp_person.person, 
+	$qgroup = " GROUP BY pw_vote.mp_id, mp_person.person";  
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup." LIMIT 10";
 	if ($bdebug == 1)
 		print "$query\n";
+#$query = " SELECT pw_vote.mp_id FROM pw_vote 
+#                left join pw_division on pw_division.division_id = pw_vote.division_id
+#                left join pw_mp on pw_mp.mp_id = pw_vote.mp_id
+#                group By pw_vote.mp_id LIMIT 10"; 
 
 	# do the database/scoring thing
-    print "DOING QUERY\n";
+    print "DddOING QUERY\n";
 	$db->query($query);
     print "DNE QUERY\n"; exit;
 	$rowarray = $db->fetch_rows_assoc();
