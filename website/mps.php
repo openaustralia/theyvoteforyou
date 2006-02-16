@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.27 2006/02/15 00:44:19 publicwhip Exp $
+    # $Id: mps.php,v 1.28 2006/02/16 11:29:56 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -50,7 +50,7 @@
 							 "titdescription" => "Lords");
 	$rdismodes_house["both"] = array(
 							 "description" => "Show all people in Parliament",
-							 "lkdescription" => "Both Houses",
+							 "lkdescription" => "Both houses",
 							 "titdescription" => "MPs and Lords");
     $rdefaultdisplay_house = "commons";
 
@@ -113,38 +113,46 @@
 
     pw_header();
 
-	print '<p>The Members of Parliament are listed with the number of times they
-			voted against the majority vote for their party and how often they turn up
-			to vote.  Refer to <a href="faq.php#clarify">this clear
-			explanation</a> of the "rebellion" and "attendance" rates, 
-			as they may not mean what you think they do. </p>
-
-			<p>You can change the order of the table by selecting the headings.</p>
-			
+    print '<p>Members of the UK Parliament are listed below.
+         Refer to <a href="faq.php#clarify">this explanation</a> of the
+         "rebellion" and "attendance" rates, as they may not mean what you
+         think they do. </p>
 			';
 
-	function makeheadcellmpslink($rdisplay_parliament, $rdisplay_house, $sort, $hcelltitle, $hcellsort, $hcellalt)
+	function makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, $hcelltitle, $hcellsort, $hcellalt)
 	{
+        static $donebar = 0;
 		$dlink = makempslink($rdisplay_parliament, $rdisplay_house, $hcellsort);
+        if ($donebar)  
+            print " | ";
+        $donebar = 1;
 		if ($sort == $hcellsort)
-			print "<td>$hcelltitle</td>";
+			print "<b>$hcelltitle</b>";
 		else
-			print "<td><a href=\"$dlink\" alt=\"$hcellalt\">$hcelltitle</a></td>";
+			print "<a href=\"$dlink\" alt=\"$hcellalt\">$hcelltitle</a>";
 	}
-
+    print "<p style=\"font-size: 89%\" align=\"center\">Sort by: ";
+    makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Name", "lastname", "Sort by surname");
+    if ($rdisplay_house != 'lords')
+        makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Constituency", "constituency", "Sort by constituency");
+    makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Party", "party", "Sort by party");
+    if ($rdisplay_parliament == "all")
+        print "<td>Dates</td>"; 
+    makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Rebellions", "rebellions", "Sort by rebels");
+    makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Attendance", "attendance", "Sort by attendance");
 
     print "<table class=\"mps\">\n";
 
     $url = "mps.php?parliament=" . urlencode($parliament) . "&";
     print "<tr class=\"headings\">";
-    makeheadcellmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Name", "lastname", "Sort by surname");
+    print "<td>Name</td>";
     if ($rdisplay_house != 'lords')
-        makeheadcellmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Constituency", "constituency", "Sort by constituency");
-    makeheadcellmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Party", "party", "Sort by party");
+        print "<td>Constituency</td>";
+    print "<td>Party</td>";
     if ($rdisplay_parliament == "all")
-        print "<td>Dates</td>"; 
-    makeheadcellmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Rebellions<br>(estimate)", "rebellions", "Sort by rebels");
-    makeheadcellmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Attendance<br>(divisions)", "attendance", "Sort by attendance");
+        print "<td>Dates</td>";
+    print "<td>Rebellions<br>(<a href=\"/faq.php#clarify\">explain...</a>)</td>";
+    print "<td>Attendance<br>(<a href=\"/faq.php#clarify\">explain...</a>)</td>";
     print "</tr>";
 
 

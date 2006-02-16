@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.29 2006/01/05 14:40:58 goatchurch Exp $
+# $Id: divisions.php,v 1.30 2006/02/16 11:29:56 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -49,7 +49,7 @@
 	$rdismodes_house = array();
 	$rdismodes_house["both"] = array(
 							 "description" => "Show divisions of both Houses",
-							 "lkdescription" => "Both Houses");
+							 "lkdescription" => "Both houses");
 	$rdismodes_house["commons"] = array(
 							 "description" => "Show only Commons divisions",
 							 "lkdescription" => "Commons only");
@@ -89,7 +89,7 @@
 	if ($rdisplay_house != "both")
 		$title .= " - ".($rdisplay_house == "lords" ? "Lords" : "Commons")." only";
 	if ($sort != 'date')
-		$title .= " (sorted by <i>$sort</i>)";
+		$title .= " (sorted by $sort)";
 
 	# do the tabbing list using a function that leaves out default parameters
 	function makedivlink($rdisplay, $rdisplay2, $rdisplay_house, $sort)
@@ -139,50 +139,42 @@
 
     pw_header();
 
-	print "<p>A <i>division</i> is the Parliamentary terminology for what would
-		   normally be called a vote.  The word <i>vote</i> is reserved for the
-		   individual choice of each MP within a division.  </p>";
-	if ($sort != "rebellions" and $rdisplay2 != "rebels")
-		print "<p>Divisions with a high number of suspected rebellions
-			   (votes different from the majority of the party)
-			   are marked in red.  Often these are
-			   not real rebellions against the party whip because it's a
-			   free vote and the party was divided.
-			   Unfortunately, there is no published information
-			   to say when there was a free vote, so you will have to guess
-			   them yourself.
-			   By convention, bipartisan matters concerning the running of
-			   Parliament (such as pay rises and the working conditions), and matters
-			   of moral conscience (such as the death penalty) are free votes.  </p>
+	print "<p>A 'division' is parliamentary terminology for a 'vote' (<a href=\"/faq.php#jargon\">read more...</a>).
+         This page shows divisions in the UK parliament. Make sure you <a href=\"/faq.php#clarify\">read the
+         explanation</a> about rebellions, as they may not be what you expect.
+		 </p>";
 
-			   <p>For more information, please <a href=\"faq.php#freevotes\">
-			   see the FAQ</a>.</p>";
-    else if ($rdisplay2 == "rebels")
+    if ($rdisplay2 == "rebels")
         print "<p>This is a table showing only the divisions where there were at least ten <a href=\"faq.php#clarify\">rebels</a>.</p>";
 
-	if ($sort == "date")
-		print "<p>You can change the order of the table by selecting
-				the headings.</p>";
-
-	function makeheadcelldivlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, $hcelltitle, $hcellsort, $hcellalt)
+	function makesortlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, $hcelltitle, $hcellsort, $hcellalt)
 	{
+        static $donebar = 0;
 		$dlink = makedivlink($rdisplay, $rdisplay2, $rdisplay_house, $hcellsort);
+        if ($donebar)  
+            print " | ";
+        $donebar = 1;
 		if ($sort == $hcellsort)
-			print "<td>$hcelltitle</td>";
+			print "<b>$hcelltitle</b>";
 		else
-			print "<td><a href=\"$dlink\" alt=\"$hcellalt\">$hcelltitle</a></td>";
+			print "<a href=\"$dlink\" alt=\"$hcellalt\">$hcelltitle</a>";
 	}
+    print "<p style=\"font-size: 89%\" align=\"center\">Sort by: ";
+    makesortlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Date", "date", "Sort by date");
+    makesortlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Subject", "subject", "Sort by subject");
+    makesortlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Rebellions", "rebellions", "Sort by rebellions");
+    makesortlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Turnout", "turnout", "Sort by turnout");
 
 	# these head cells are tabbing type links
     print "<table class=\"votes\">\n";
     print "<tr class=\"headings\">";
-    makeheadcelldivlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Date", "date", "Sort by date");
+    print "<td>Date</td>";
 	if ($rdisplay_house == "both")
-	    makeheadcelldivlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "House", "house", "Sort by house");
+        print "<td>House</td>";
     print "<td>No.</td>";
-    makeheadcelldivlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Subject", "subject", "Sort by subject");
-    makeheadcelldivlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Rebellions", "rebellions", "Sort by rebellions");
-    makeheadcelldivlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Turnout", "turnout", "Sort by turnout");
+    print "<td>Subject</td>";
+    print "<td>Rebellions<br>(<a href=\"/faq.php#clarify\">explain...</a>)</td>";
+    print "<td>Turnout</td>";
     print "</tr>";
 
 

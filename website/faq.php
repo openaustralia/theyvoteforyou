@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.66 2005/12/22 18:22:28 publicwhip Exp $
+# $Id: faq.php,v 1.67 2006/02/16 11:29:56 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -126,8 +126,7 @@ jump to conclusions about your MP until you have understood it.
 low attendance because they have abstained, have ministerial or
 other duties or they are the speaker.  Perhaps they consider each division
 carefully, and only vote when they know about the subject.  
-Sinn Féin 
-members, because they haven't taken taken the
+Sinn F&eacute;in members, because they haven't taken taken the
 oath of allegiance, are unable to vote.
 A full list of reasons for low attendance can be found in the Divisions section
 on page 11 of <a
