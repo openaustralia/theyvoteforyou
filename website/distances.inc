@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.17 2005/12/18 01:39:45 frabcus Exp $
+# $Id: distances.inc,v 1.18 2006/02/16 22:29:43 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -224,3 +224,117 @@ function print_divdiv_distance($db, $divattr1, $divattr2, $housenoun)
 			<a href=\"forum/viewtopic.php?t=825\">our forum</a>.</p>\n";
 }
 
+function fill_mp_distances($db, $db2) {
+    $bdebug = 1;
+	$qselect = "SELECT mp_mp.mp_id AS mp_id, mp_person.person AS person ";
+
+/*	$qselect .= "SUM(((person_vote.vote = 'aye' OR person_vote.vote = 'tellaye') AND 
+                            (mp_vote.vote = 'aye' OR mp_vote.vote = 'tellaye'))
+					 OR ((person_vote.vote = 'no' OR person_vote.vote = 'tellno') AND 
+                            (mp_vote.vote = 'no' OR mp_vote.vote = 'tellno')))
+					 AS nvotessame, ";
+	$qselect .= "SUM(((person_vote.vote = 'aye' OR person_vote.vote = 'tellaye') AND 
+                            (mp_vote.vote = 'no' OR mp_vote.vote = 'tellno'))
+					 OR ((person_vote.vote = 'no' OR person_vote.vote = 'tellno') AND 
+                            (mp_vote.vote = 'aye' OR mp_vote.vote = 'tellaye')))
+					 AS nvotesdiffer, ";
+	$qselect .= "SUM(mp_vote.vote <> 'both'
+					 AND (person_vote.vote = 'both' OR person_vote.vote IS null))
+					 AS nvotesabsent, ";
+	$qselect .= "SUM(person_vote.vote IS NOT null)
+					 AS nvotesoverlap ";
+*/
+	# (no score from dreamMP absents or abstentions)
+
+	$qfrom  = " FROM pw_mp AS mp_mp\n";
+	$qjoin = " LEFT JOIN pw_vote AS mp_vote
+					ON mp_vote.mp_id = mp_mp.mp_id\n";
+	$qjoin .= " LEFT JOIN pw_division
+        			ON mp_vote.division_id = pw_division.division_id\n";
+	$qjoin .= " LEFT JOIN pw_mp AS mp_person
+                    ON pw_division.house = mp_person.house AND
+                    mp_person.entered_house <= pw_division.division_date AND
+                    pw_division.division_date < mp_person.left_house\n";
+	$qjoin .= " LEFT JOIN pw_vote AS person_vote
+					ON person_vote.mp_id = mp_person.mp_id\n";
+
+	$qgroup = " GROUP BY mp_mp.mp_id";
+#mp_person.person, 
+
+	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup." LIMIT 10";
+	if ($bdebug == 1)
+		print "$query\n";
+
+	# do the database/scoring thing
+    print "DOING QUERY\n";
+	$db->query($query);
+    print "DNE QUERY\n"; exit;
+	$rowarray = $db->fetch_rows_assoc();
+	if ($bdebug == 1)
+		print "DONE\n";
+
+	# lock and clear the table
+	$db->query("LOCK TABLE pw_cache_realreal_distance WRITE");
+	$db->query("DELETE FROM pw_cache_realreal_distance ");
+
+	# this likes votes that are all one side or other
+	foreach ($rowarray as $row)
+	{
+		if (!$row['nvotesoverlap']) # can't quite see how to filter these out in the query
+			continue;
+		$nvotessame = $row['nvotessame'];
+		$nvotesdiffer = $row['nvotesdiffer'];
+		$nvotesabsent = $row['nvotesabsent'];
+		$person = $row['person'];
+		$mp_id = $row['mp_id'];
+
+		$distancea = calc_dreammp_person_distance($nvotessame, 0,
+											   	  $nvotesdiffer, 0,
+											   	  $nvotesabsent, 0);
+
+		# score without absentions
+		$distanceb = calc_dreammp_person_distance($nvotessame, 0,
+											   	  $nvotesdiffer, 0, 
+                                                  0, 0);
+
+		if ($bdebug == 1)
+			print "<p>mpmpdist $person $mp_id distance $distancea vs $nvotessame</p>\n";
+
+		$query   = "INSERT INTO pw_cache_realreal_distance
+                    (mp_id, person,
+						nvotessame, 
+						nvotesdiffer, 
+						nvotesabsent,
+						distance_a, distance_b)
+                	VALUES ($mp_id, $person,
+						$nvotessame, 
+						$nvotesdiffer,
+						$nvotesabsent,
+						$distancea, $distanceb)";
+		#if ($bdebug == 1)
+		#	print "<h5>$query</h5>\n";
+		$db->query($query);
+	}
+	$db->query("UNLOCK TABLES");
+}
+/*
+"create table pw_cache_mpdist (
+    mp_id_1 int not null,
+    mp_id_2 int not null,
+    distance float not null,
+    unique(mp_id_1, mp_id_2)
+i
+CREATE TABLE `pw_cache_realreal_distance` (
+  `mp_id` int(11) NOT NULL default '0',
+  `person` int(11) NOT NULL default '0',
+  `nvotessame` int(11) default NULL,
+  `nvotesdiffer` int(11) default NULL,
+  `nvotesabsent` int(11) default NULL,
+  `distance_a` float default NULL,
+  `distance_b` float default NULL,
+  UNIQUE KEY `mp_id_2` (`mp_id`,`person`),
+  KEY `mp_id` (`mp_id`),
+  KEY `person` (`person`)
+)
+
+*/

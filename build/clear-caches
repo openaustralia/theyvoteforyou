@@ -1,18 +1,29 @@
 #!/bin/bash
 
 set -e
+#set -x # debugging
+
+DB=pw_live
+SITE=www.publicwhip.org.uk
+CACHE=pwcache-live
+if [ $1 == "staging" ]
+then
+    DB=pw_staging
+    SITE=staging.publicwhip.org.uk
+    CACHE=pwcache-staging
+fi
 
 # Clear file cache (front page only is cached like this -- 2005-11-28)
-rm -fr /home/publicwhip/pwcache-live/*
+rm -fr /home/publicwhip/$CACHE/*
 
 # Clear database table caches
-echo "delete from pw_cache_dreaminfo;" | mysql pw_live
-echo "delete from pw_cache_dreamreal_distance;" | mysql pw_live
-echo "delete from pw_cache_divwiki;" | mysql pw_live
+echo "delete from pw_cache_dreaminfo;" | mysql $DB
+echo "delete from pw_cache_dreamreal_distance;" | mysql $DB
+echo "delete from pw_cache_divwiki;" | mysql $DB
 
 # Provoke regeneration of policy cached data, so that Policy Comparison
 # table on MP pages appears correctly.
-for X in `snarf -q http://www.publicwhip.org.uk/policies.php - | grep dreamplot | sed "s/^.*<img src=\"/http:\/\/www.publicwhip.org.uk\//;s/\">//; s/\&nbsp;.*$//;" `
+for X in `snarf -q http://$SITE/policies.php - | grep dreamplot | sed "s/^.*<img src=\"/http:\/\/$SITE\//;s/\">//; s/\&nbsp;.*$//;" `
 do 
 	snarf $X - >/dev/null &
 done

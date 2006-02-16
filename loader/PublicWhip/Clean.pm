@@ -1,4 +1,4 @@
-# $Id: Clean.pm,v 1.10 2005/07/29 14:47:13 frabcus Exp $
+# $Id: Clean.pm,v 1.11 2006/02/16 22:29:43 publicwhip Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -41,9 +41,9 @@ sub fix_bothway_voters {
         if ( $a_vote ne "aye" || $b_vote ne "no" ) {
 # TODO: Reenable this warning, and work out what to do with them (I think they
 # may need merging together, and so be slightly preturbing attendance figures)
-#            PublicWhip::Error::warn(
-#                "Voted twice but not aye/no pair; they are $a_vote/$b_vote",
-#                "$division_id $mp_id" );
+            PublicWhip::Error::warn(
+                "Voted twice but not aye/no pair; they are $a_vote/$b_vote",
+                "$division_id $mp_id" );
         }
         else {
             my $sth2 = PublicWhip::DB::query(
