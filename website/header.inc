@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.74 2006/01/05 16:29:55 goatchurch Exp $
+# $Id: header.inc,v 1.75 2006/02/16 10:59:35 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -131,7 +131,7 @@ Search or Postcode:
 <?
     function print_links($links, $offset) {
         print '<form name="secondnav" action="/redir.php" method="post" style="display: inline">';
-        print '<select id="r'.$offset.'" name="r'.$offset.'">';
+        print '<select id="r'.$offset.'" name="r'.$offset.'" onchange="secondnav_goto'.$offset.'()">';
         foreach ($links as $this_link) {
     #       print "<a title=\"".$this_link['tooltip']."\" href=\"".$this_link['href']."\" class=\"".$this_link['current']."\">".$this_link['text']."</a> ";
             print "<option title=\"".$this_link['tooltip']."\" value=\"".$this_link['href']."\" ";
