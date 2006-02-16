@@ -1,12 +1,12 @@
 <?php
-# $Id: links.inc,v 1.1 2005/07/28 15:33:19 frabcus Exp $
+# $Id: links.inc,v 1.2 2006/02/16 17:56:05 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-# Create MP/Peer URL parameters from row of database table pw_mp about them. 
+# Create MP/Lord URL parameters from row of database table pw_mp about them. 
 # $i can be set to 2 to create the mpn2/mpc2 link parts.  The default is
 # to create mpn/mpc.
 function link_to_mp($row, $i = 1)

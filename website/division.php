@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.115 2006/02/16 12:14:09 publicwhip Exp $
+# $Id: division.php,v 1.116 2006/02/16 17:56:05 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -127,7 +127,7 @@ function no_division_found($plural)
 $title = "$name - ".$divattr["prettydate"]." ";
 if ($clock_time)
     $title .= " at $clock_time";
-$title .= " - Division No. $div_no";
+$title .= " - ".ucfirst($house). " Division No. $div_no";
 if (!$singlemotionpage)
 {
     $title .= " <i>compared to</i> Division No. ".$divattr2["division_number"];
@@ -264,9 +264,9 @@ if ($singlemotionpage)
 
 		print "<p>";
 		if ($row['ayes'] > $row['noes'])
-	        print "The Aye-voters won by ".$row["ayes"]." to ".$row["noes"];
+	        print "The ".($house=="lords"?"Contents":"Ayes")." won by ".$row["ayes"]." to ".$row["noes"];
 		else
-	        print "The No-voters won by ".$row["noes"]." to ".$row["ayes"];
+	        print "The ".($house=="lords"?"Not-Contents":"Noes")." won by ".$row["noes"]." to ".$row["ayes"];
         print " (majority " . (abs($row["noes"] - $row["ayes"])) . ") ";
 		print " with ".$row["tellers"]." tellers";
 		if ($row['both'] != 0)
@@ -280,17 +280,17 @@ if ($singlemotionpage)
 		{
 			print "<p>And <a href=\"mp.php?".$voter['mpanchor']."\">".$voter['name'].($house == "lords" ? "</a>" : " MP</a> (".$voter['constituency'].")");
 			if ($vote == 'aye')
-				print " voted Aye.";
+				print ($house=="lords")?" was Content.":" voted Aye.";
 			else if ($vote == 'no')
-				print " voted No.";
+				print ($house=="lords")?" was Not-Content.":" voted No.";
 			else if ($vote == 'tellaye')
-				print " was a Teller for the Ayes.";
+				print ($house=="lords")?"was a Teller for the Contents":" was a Teller for the Ayes.";
 			else if ($vote == 'tellno')
-				print " was a Teller for the Noes.";
+				print ($house=="lords")?"was a Teller for the Not-Contents":" was a Teller for the Noes.";
 			else if ($vote == 'both')
 				print " voted both ways.";
 			else
-				print " did not vote.";
+				print ($house=="lords") ? " was absent" : " did not vote.";
 			print "</p>\n";
 			# state if it is rebellion??
 		}
@@ -392,27 +392,27 @@ if ($singlemotionpage)
 			if ($display == "summary")
 			{
 				print "<h2><a name=\"votes\">Rebel Voters - sorted by $sort</a></h2>\n";
-				print "<p>".($house == "lords" ? "Peers" : "MPs")."
+				print "<p>".($house == "lords" ? "Lords" : "MPs")."
 						for which their vote in this division differed from the majority vote of their party.
 						You can see <a href=\"$thispage&display=allvotes$tpsort\">all votes</a> in this division,
-						or <a href=\"$thispage&display=allpossible$tpsort\">every eligible ".($house == "lords" ? "peer" : "MP")."</a> who could have
+						or <a href=\"$thispage&display=allpossible$tpsort\">every eligible ".($house == "lords" ? "lord" : "MP")."</a> who could have
 						voted in this division</p>\n";
 			}
 			elseif ($display == "allvotes")
 			{
 				print "<h2><a name=\"votes\">All Votes Cast - sorted by $sort</a></h2>\n";
-				print "<p>".($house == "lords" ? "Peers" : "MPs")."
+				print "<p>".($house == "lords" ? "Lords" : "MPs")."
 						for which their vote in this division differed
 						from the majority vote of their party are marked in red.
-						Also shows which ".($house == "lords" ? "peers" : "MPs")."
+						Also shows which ".($house == "lords" ? "lords" : "MPs")."
 						were ministers at the time of this vote.
-						You can also see <a href=\"$thispage&display=allpossible$tpsort\">every eligible ".($house == "lords" ? "peer" : "MP")."</a>
+						You can also see <a href=\"$thispage&display=allpossible$tpsort\">every eligible ".($house == "lords" ? "lord" : "MP")."</a>
 						including those who did not vote in this division.</p>\n";
 			}
 			else
 			{
-				print "<h2><a name=\"votes\">All ".($house == "lords" ? "peers" : "MPs")." Eligible to Vote - sorted by $sort</a></h2>\n";
-				print "<p>Includes ".($house == "lords" ? "peers" : "MPs")." who were absent (or abstained)
+				print "<h2><a name=\"votes\">All ".($house == "lords" ? "lords" : "MPs")." Eligible to Vote - sorted by $sort</a></h2>\n";
+				print "<p>Includes ".($house == "lords" ? "lords" : "MPs")." who were absent (or abstained)
 						from this vote.</p>\n";
 			}
 		}
@@ -423,7 +423,7 @@ if ($singlemotionpage)
 			if ($display == "opposites")
 			{
 				print "<h2><a name=\"votes\">Opposite in Votes - sorted by $sort</a></h2>\n";
-				print "<p>".($house == "lords" ? "Peers" : "MPs")." for which their vote on Motion (a) was opposite to their";
+				print "<p>".($house == "lords" ? "Lords" : "MPs")." for which their vote on Motion (a) was opposite to their";
 				if ($div2invert)
 					print " <b>inverted</b>";
 				print " vote on Motion (b).\n";
@@ -434,7 +434,7 @@ if ($singlemotionpage)
 			elseif ($display == "differences")
 			{
 				print "<h2><a name=\"votes\">Difference in Votes - sorted by $sort</a></h2>\n";
-				print "<p>".($house == "lords" ? "Peers" : "MPs")." for which their vote on Motion (a) differed from their";
+				print "<p>".($house == "lords" ? "Lords" : "MPs")." for which their vote on Motion (a) differed from their";
 				if ($div2invert)
 					print " <b>inverted</b>";
 				print " vote on Motion (b).\n";
@@ -445,13 +445,13 @@ if ($singlemotionpage)
 			elseif ($display == "allvotes")
 			{
 				print "<h2><a name=\"votes\">All Votes Cast - sorted by $sort</a></h2>\n";
-				print "<p>All ".($house == "lords" ? "peers" : "MPs")." who voted in one or other of the two divisions.
-						Also shows which ".($house == "lords" ? "peers" : "MPs")." were ministers at the time of the first vote.</p>\n";
+				print "<p>All ".($house == "lords" ? "lords" : "MPs")." who voted in one or other of the two divisions.
+						Also shows which ".($house == "lords" ? "lords" : "MPs")." were ministers at the time of the first vote.</p>\n";
 			}
 			else  # all votes
 			{
-				print "<h2><a name=\"votes\">All ".($house == "lords" ? "Peers" : "MPs")." Eligible to Vote - sorted by $sort</a></h2>\n";
-				print "<p>Includes ".($house == "lords" ? "peers" : "MPs")." who were absent (or abstained)
+				print "<h2><a name=\"votes\">All ".($house == "lords" ? "Lords" : "MPs")." Eligible to Vote - sorted by $sort</a></h2>\n";
+				print "<p>Includes ".($house == "lords" ? "lords" : "MPs")." who were absent (or abstained)
 						from the first vote vote.</p>\n";
 			}
 		}
@@ -459,9 +459,9 @@ if ($singlemotionpage)
 		# the sort by cases
 		print "<table class=\"votes\"><tr class=\"headings\">";
 		if ($sort == "name")
-			print "<td>".($house == "lords" ? "Peer" : "MP")."</td>";
+			print "<td>".($house == "lords" ? "Lord" : "MP")."</td>";
 		else
-			print "<td><a href=\"$thispage$tpdisplay&sort=name\">".($house == "lords" ? "Peer" : "MP")."</a></td>";
+			print "<td><a href=\"$thispage$tpdisplay&sort=name\">".($house == "lords" ? "Lord" : "MP")."</a></td>";
 		if ($house != "lords")
 		{
 			if ($sort == "constituency")

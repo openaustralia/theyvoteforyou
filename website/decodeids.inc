@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.36 2006/02/16 12:14:09 publicwhip Exp $
+# $Id: decodeids.inc,v 1.37 2006/02/16 17:56:05 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -89,8 +89,8 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
 		else
 		{
 			$mpprop['housenamesuffix'] = '';
-			$mpprop['housenoun'] = 'Peer';
-			$mpprop['housenounplural'] = 'Peers';
+			$mpprop['housenoun'] = 'Lords';
+			$mpprop['housenounplural'] = 'Lords';
 			$mpprop['fullname'] = $mppropname;
 		}
 

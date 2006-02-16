@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.28 2005/12/22 18:22:28 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.29 2006/02/16 17:56:05 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -42,7 +42,7 @@
    			}
 			if ($conscolumn)
                 print "<td>".$mpprop['constituency']."</td>\n";
-			print "<td>".$mpprop['enteredhouse']."</td>\n";
+			print "<td>".($mpprop['enteredhouse'] == "0000-00-00" ? "unknown" : $mpprop['enteredhouse'] )."</td>\n";
 	        $lefthouse = ($mpprop['lefthouse'] == "9999-12-31" ? "still in office" : $mpprop['lefthouse']);
 			print "<td>".$lefthouse."</td>\n";
 	        print "<td>".pretty_party($mpprop['party'])."</td>\n";
@@ -176,12 +176,14 @@
         <span class=\"ptitle\">What is Tell?</span>
         '+1 tell' means that in addition one member of that party was a
         <a href=\"".$baseurl."faq.php#jargon\">teller</a> for that division lobby.</p>
-        <p>
-        <span class=\"ptitle\">What are Boths?</span> An MP can vote both
-        aye and no in the same division. The <a href=\"".$baseurl."boths.php\">boths
-        page</a> explains this.
-        <p>
-        <span class=\"ptitle\">What is Abstain?</span> Abstentions are
+        <p>";
+        if ($house != "lords")
+            print "
+            <span class=\"ptitle\">What are Boths?</span> An MP can vote both
+            aye and no in the same division. The <a href=\"".$baseurl."boths.php\">boths
+            page</a> explains this.
+            <p>";
+        print "<span class=\"ptitle\">What is Abstain?</span> Abstentions are
         <a href=\"".$baseurl."faq.php#abstentions\">estimated by statistics</a>.
         They are relative to other parties, so can be negative.</p>
         </div>";
@@ -189,8 +191,10 @@
         $partysummary = GetPartyVoteSummaryH($db, $div_id);
 
         # Make table
-        print "<table><tr class=\"headings\"><td>Party</td><td>Ayes</td><td>Noes</td>";
-        print "<td>Both</td>";
+        print "<table><tr class=\"headings\"><td>Party</td>";
+        print ($house == "lords" ? "<td>Contents</td><td>Not-Contents</td>":"<td>Ayes</td><td>Noes</td>");
+        if ($house != "lords")
+            print "<td>Both</td>";
         print "<td>Turnout</td>";
         print "<td>Expected</td><td>Abstain</td></tr>";
         $prettyrow = 0;
@@ -236,7 +240,10 @@
                 print "<td>" . pretty_party($party) . "</td>";
                 print "<td class=\"$classaye\">$aye</td>";
                 print "<td class=\"$classno\">$no</td>";
-                print "<td class=\"$classboth\">$both</td>";
+                if ($house == "lords" && $both > 0)
+                    print "ERROR - both for lords";
+                if ($house != "lords")
+                    print "<td class=\"$classboth\">$both</td>";
                 print "<td>$total</td>";
                 print "<td>$expected</td>";
                 print "<td class=\"$classabs\">$abstentions</td>";

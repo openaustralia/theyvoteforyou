@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.115 2005/12/06 13:26:23 publicwhip Exp $
+    # $Id: mp.php,v 1.116 2006/02/16 17:56:05 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -50,9 +50,9 @@
 	$voter1attr = get_mpid_attr_decode($db, $db2, "", ($voter2type == "dreammp" ? $voter2attr : null));
 	if ($voter1attr == null)
 	{
-        $title = "MP/Peer not found";
+        $title = "MP/Lord not found";
         pw_header();
-		print "<p>No MP or Peer found. If you entered a postcode, please make
+		print "<p>No MP or Lord found. If you entered a postcode, please make
         sure it is correct.  Or you can <a href=\"/mps.php\">browse
         all MPs</a>.";
         pw_footer();
