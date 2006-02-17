@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.77 2006/02/17 11:39:46 frabcus Exp $
+# $Id: header.inc,v 1.78 2006/02/17 12:15:07 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -24,7 +24,7 @@ $headtitle = str_replace(" - ", " &#8212; ", $headtitle);
 <link href="<?=$toppath?>red.css" type="text/css" rel="stylesheet" media="all">
 <? } ?>
 <link href="<?=$toppath?>publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
-<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="/<?=($colour_scheme=="lords")?'faviconred.ico':'favicon.ico'?>" type="image/x-icon" />
 <link rel="shortcut icon" href="/<?=($colour_scheme=="lords")?'faviconred.ico':'favicon.ico'?>" type="image/x-icon" />
 <link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.publicwhip.org.uk/feeds/interestingdivisions.xml" />
 <title><? print $headtitle ?></title>
