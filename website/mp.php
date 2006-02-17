@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.118 2006/02/16 22:36:18 frabcus Exp $
+    # $Id: mp.php,v 1.119 2006/02/17 18:54:52 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -120,12 +120,12 @@
 	$dismodes["allvotes"] = array("dtype"	=> "allvotes",
 							 "eventsinfo" => "yes",
 							 "description" => ($voter2type == "dreammp" ? "Summary" : "Votes attended"),
-							 "votelist"	=> "all",
+                             "votelist"	=> "all",
 							 "defaultparl" => "recent",
                              "tooltip" => "Show every vote cast by this MP");
 	if (!$voter1attr['bmultiperson'])
 		$dismodes["allvotes"]["eventsinfo"] = "yes";
-	if ($voter2type != "party" and $voter2type != "dreammp")
+	if (/*$voter2type != "party" and */$voter2type != "dreammp")
 		$dismodes["allvotes"]["generalinfo"] = "yes";
 
 	if ($voter2type == "dreammp")
@@ -149,7 +149,7 @@
                                  "tooltip" => "Show even divisions where the MP was absent, but could have voted");
 		if (!$voter1attr['bmultiperson'])
 			$dismodes["everyvote"]["eventsinfo"] = "yes";
-		if ($voter2type != "party")
+		//if ($voter2type != "party")
 			$dismodes["everyvote"]["generalinfo"] = "yes";
 	}
 
@@ -284,7 +284,7 @@
         if ($mpprop['house'] == 'commons')
             print "Please note, our records only go back to 1997.";
         else
-            print "Please note, our records only go back to 1999.";
+            print "Please note, our records only go back to May 2005.";
 	seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], ($all_same_cons ? false : true), true, $thispagesettings);
 
         if ($mpprop['house'] == 'commons' && $voter2type == "party")
@@ -323,9 +323,12 @@
 
 		# subtext for the vote table
 		if ($dismode["votelist"] == "short" and $voter2type == "party")
-			print "<p>Votes in parliament for which this ".$mpprop['housenoun']."'s vote differed from the
+		{
+            print "<p>Votes in parliament for which this ".$mpprop['housenoun']."'s vote differed from the
 	        	majority vote of their party (Rebel), or in which this ".$mpprop['housenoun']." was
 	        	a teller (Teller), or both (Rebel Teller).  \n";
+            print "<a href=\"$thispage&display=allvotes\">Click here to see all votes this person attended.</a>";
+        }
 		else if ($dismode["votelist"] == "every" and $voter2type == "party")
 			print "<p>All votes this MP could have attended. \n";
 		else if ($voter2type == "dreammp")
@@ -517,7 +520,8 @@
 		# loop and make a table for each
         $mpprop = $voter1attr['mpprop'];
         $mptabattr = array("listtype" => 'mpdistance',
-                           'mpfriend' => $mpprop);
+                           'mpfriend' => $mpprop,
+                           'house' => $mpprop['house']);
         if ($dismode["possfriends"] == "some")
             $mptabattr["limit"] = 5;
 
@@ -536,7 +540,10 @@
 		    previously unsuspected.  Or it may be nonsense.";
 
         print "<table class=\"mps\">\n";
-        print "<tr class=\"headings\"><td>Agreement</td><td>Name</td><td>Constituency</td><td>Party</td></tr>\n";
+        print "<tr class=\"headings\"><td>Agreement</td><td>Name</td>";
+        if ($mpprop['house'] != "lords")
+            print "<td>Constituency</td>";
+        print "<td>Party</td></tr>\n";
         $same_voters = mp_table($db, $mptabattr);
         print "</table>\n";
 

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.59 2006/02/16 19:24:36 publicwhip Exp $
+# $Id: tablemake.inc,v 1.60 2006/02/17 18:54:52 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -35,7 +35,8 @@ function divmpconds(&$aquery, &$db, $voter, $bonlyvotes, $bperson, $i)
             if ($bdebug == 1)
                 print_r($mpprop);
             $datecond .= " (pw_division.division_date >= \"".$mpprop['enteredhouse']."\"
-                                AND pw_division.division_date < \"".$mpprop['lefthouse']."\")";
+                                AND pw_division.division_date < \"".$mpprop['lefthouse']."\"
+                                AND pw_division.house = \"".$mpprop['house']."\")";
         }
         if ($datecond != "")
             $aquery["qwhere"] .= " AND ($datecond)";
@@ -59,7 +60,8 @@ function divmpconds(&$aquery, &$db, $voter, $bonlyvotes, $bperson, $i)
 
         # limit down the time range if not a full-join
         $datecond = " (pw_division.division_date >= \"".$voter['enteredhouse']."\"
-                            AND pw_division.division_date < \"".$voter['lefthouse']."\")";
+                            AND pw_division.division_date < \"".$voter['lefthouse']."\"
+                            AND pw_division.house = \"".$voter['house']."\")";
         $aquery["qwhere"] .= " AND $datecond";
 
         $aquery["name$i"] = $voter["name"];
