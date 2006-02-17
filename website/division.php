@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.117 2006/02/16 20:30:42 publicwhip Exp $
+# $Id: division.php,v 1.118 2006/02/17 00:39:58 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -61,6 +61,8 @@ function no_division_found($plural)
     $clock_time = $divattr["clock_time"];
     $clock_time = preg_replace("/:00$/","",$clock_time);
     $clock_time = preg_replace("/^0/","",$clock_time);
+
+    $colour_scheme = $house;
 
 	# designated voter on this division
 	$votertype = "";
