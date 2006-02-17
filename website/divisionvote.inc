@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.27 2005/12/06 10:45:26 publicwhip Exp $
+# $Id: divisionvote.inc,v 1.28 2006/02/17 11:55:04 frabcus Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -55,10 +55,10 @@ function write_single_policy_vote($db, $divattr, $voter)
             notify_dream_mp_updated($db, intval($voter));
 
             global $domain_name;
-            $forum_division_link = "division " .
+            $forum_division_link = $divattr["house"] . " division " .
                 $divattr['division_date'] . " #".$divattr['division_number'] . ", " .
                 " [url=http://$domain_name/division.php?date=".
-                $divattr["division_date"]."&number=".$divattr['division_number'].
+                $divattr["division_date"]."&number=".$divattr['division_number']."&house=".$divattr["house"].
                 "&dmp=".$voter."]".$divattr["name"]."[/url]";
 
             # set the query that deletes, inserts, or changes the vote
