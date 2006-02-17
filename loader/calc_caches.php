@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: calc_caches.php,v 1.5 2006/02/16 22:29:43 publicwhip Exp $
+# $Id: calc_caches.php,v 1.6 2006/02/17 15:51:21 publicwhip Exp $
 
 # Calculate lots of cache tables, run after update.
 
@@ -12,6 +12,7 @@
 require_once "../website/config.php";
 require_once "../website/db.inc";
 require_once "../website/distances.inc";
+require_once "../website/dream.inc"; 
 
 $db = new DB();
 $db2 = new DB();
