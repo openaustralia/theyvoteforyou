@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.69 2006/02/16 23:36:44 publicwhip Exp $
+# $Id: faq.php,v 1.70 2006/02/17 17:20:12 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -96,10 +96,11 @@ access.
 <h2 class="faq"><a name="timeperiod">What time period does it cover?</a></h2>
 <p>Voting data for MPs extends back across three parliaments to the May 1997
 General Election, although there are a few divisions missing in the 1997
-parliament.  Lords data extends back to the big reform in 1999, because nobody
-can remember who the members were before then.  New divisions usually appear in
-Public Whip the next morning, but sometimes take a day or two longer.  We give
-no warranty for the data; there may be factual inaccuracies.  <a
+parliament.  Lords membership data extends back to the big reform in 1999,
+because nobody can remember who the members were before then.  Lords divisions
+currently go back to just May 2005. New divisions usually appear in Public Whip
+the next morning, but sometimes take a day or two longer.  We give no warranty
+for the data; there may be factual inaccuracies.  <a
 href="mailto:team@publicwhip.org.uk">Let us know</a> if you find any.
 
 <?php
