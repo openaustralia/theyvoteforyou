@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.21 2006/02/17 15:51:22 publicwhip Exp $
+# $Id: distances.inc,v 1.22 2006/02/17 16:57:38 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -56,7 +56,7 @@ function update_divdiv_distance($db, $division_date1, $divid1, $division_date2, 
 	$qgroup = " GROUP BY ssss"; # sum all rows
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
-	if ($bdebug == 1)
+#	if ($bdebug == 1)
 		print "<h4>$query</h4>";
 	$row = $db->query_one_row_assoc($query);
 
@@ -91,24 +91,33 @@ function update_divdiv_distance($db, $division_date1, $divid1, $division_date2, 
 # and reloaded into the database every time it updates
 function remove_dead_division_distances($db)
 {
-	$qselect = "SELECT pw_cache_divdiv_distance.division_id, pw_cache_divdiv_distance.division_id2"; 
-	$qdelete = "DELETE pw_cache_divdiv_distance";
-	$qfrom = " FROM pw_cache_divdiv_distance
-		  LEFT JOIN pw_division AS pw_division1
-		   ON pw_division1.division_id = pw_cache_divdiv_distance.division_id
-		  LEFT JOIN pw_division AS pw_division2
-		   ON pw_division2.division_id = pw_cache_divdiv_distance.division_id2
-		  WHERE pw_division1.division_id IS null 
-		     OR pw_division2.division_id IS null"; 
+    for ($i = 0; $i < 2; ++$i) {
+        $delme = array();
+        $suffix = $i ? "2" : "";
+        $qselect = "SELECT pw_cache_divdiv_distance.division_id$suffix"; 
+        $qfrom = " FROM pw_cache_divdiv_distance
+              LEFT JOIN pw_division 
+               ON pw_division.division_id = pw_cache_divdiv_distance.division_id$suffix
+              WHERE pw_division.division_id IS null GROUP BY pw_cache_divdiv_distance.division_id$suffix
+              "; 
+        print "$qselect $qfrom\n";
+        $db->query($qselect.$qfrom);
+        while ($row = $db->fetch_row()) {
+            $delme[] = $row[0];
+        }
 
-#we need to change the qselect to qdelete in this line. and make sure it works
-$db->query($qselect.$qfrom);
-	print "<h4>Selecting for deletion rows ".$db->rows()."</h4>"; 
+        print "selected ".count($delme)." rows for deletion"; 
+        if (count($delme) > 0) {
+            $query = "delete from pw_cache_divdiv_distance where 
+                division_id$suffix in (" . join(",", $delme).")";
+            $db->query($query);
+        }
+    }
 }
 
 # Fill in missing entries in chunks until all done
 function fill_division_distances($db, $db2, $house, $divattr) {
-	remove_dead_division_distances($db); # not yet actually doing it 
+	remove_dead_division_distances($db);
 	$some_done = 1;
 	while($some_done) {
 		$some_done = fill_division_distances_internal($db, $db2, $house, $divattr, 5000);
@@ -142,7 +151,7 @@ function fill_division_distances_internal($db, $db2, $house, $divattr, $batchnum
 		$qlimit = " LIMIT $batchnumber"; # to stop the calculation running on forever on one run
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
-	if ($bdebug == 1)
+	#if ($bdebug == 1)
 		print $query;
 	$db->query($query);
 	$some_done = 0;
@@ -233,9 +242,9 @@ function delete_mpid_outofdate_distances($db, $lastupdatedate, $house)
 	$qdelete = "DELETE pw_cache_realreal_distance";
 	$qfrom =  " FROM pw_cache_realreal_distance";
 	$qjoin =  " LEFT JOIN pw_mp AS pw_mp1
-					ON pw_mp1.mp_id = pw_cache_realreal_distance.mp_id";
+					ON pw_mp1.mp_id = pw_cache_realreal_distance.mp_id1";
 	$qjoin .= " LEFT JOIN pw_mp AS pw_mp2
-					ON pw_mp2.mp_id = pw_cache_realreal_distance.person";
+					ON pw_mp2.mp_id = pw_cache_realreal_distance.mp_id2";
 	$qwhere = " WHERE pw_mp1.left_house >= '$lastupdatedate'
 					AND pw_mp2.left_house >= '$lastupdatedate'";
 	$query = $qdelete.$qfrom.$qjoin.$qwhere;
@@ -253,8 +262,8 @@ function fill_mpid_distances_internal($db, $db2, $house, $batchnumber)
 
 	$qfrom = " FROM pw_mp AS pw_mp1, pw_mp AS pw_mp2";
 	$qjoin = " LEFT JOIN pw_cache_realreal_distance
-					ON pw_cache_realreal_distance.mp_id = pw_mp1.mp_id
-					AND pw_cache_realreal_distance.person = pw_mp2.mp_id";
+					ON pw_cache_realreal_distance.mp_id1 = pw_mp1.mp_id
+					AND pw_cache_realreal_distance.mp_id2 = pw_mp2.mp_id";
 
 	// we only do the lower diagonal
 	$qwhere = " WHERE pw_mp1.house = pw_mp2.house
@@ -264,7 +273,7 @@ function fill_mpid_distances_internal($db, $db2, $house, $batchnumber)
 					AND pw_cache_realreal_distance.distance_a IS null";
 	if ($house)
 		$qwhere .= " AND pw_mp1.house = '$house'";
-$qwhere .= " AND pw_mp1.mp_id > 1200"; 
+# $qwhere .= " AND pw_mp1.mp_id > 1200"; 
 
 #	$qorder = " ORDER BY pw_mp1.mp_id, pw_mp2.mp_id DESC";
 	if ($batchnumber)
@@ -331,7 +340,7 @@ function update_realreal_distance($db, $mp_id1, $mp_id2, $max_entered_house, $mi
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
 	if ($bdebug == 1)
 		print "\n\n<h4>$query</h4>";
-	$row = $db->query_one_row_assoc($query);
+	$row = $db->query_onez_row_assoc($query); # can get zero if no divisions in overlap
 
 	$nvotessame = ($row['nvotessame'] ? $row['nvotessame'] : 0);
 	$nvotesdiff = ($row['nvotesdiffer'] ? $row['nvotesdiffer'] : 0);
@@ -349,7 +358,7 @@ function update_realreal_distance($db, $mp_id1, $mp_id2, $max_entered_house, $mi
                                                   0, 0);
 
 
-	$qattrs = "mp_id, person, nvotessame, nvotesdiffer, nvotesabsent, distance_a, distance_b";
+	$qattrs = "mp_id1, mp_id2, nvotessame, nvotesdiffer, nvotesabsent, distance_a, distance_b";
 	$qvalues = "$mp_id1, $mp_id2, $nvotessame, $nvotesdiff, $nvotesabsent, $distancea, $distanceb";
 print $qvalues."\n"; 
     
@@ -358,31 +367,11 @@ print $qvalues."\n";
 }
 
 
-
-function fill_mp_distances($db, $db2) {
-	fill_mpid_distances_internal($db, $db2, "commons", 10000); 
-	return;
-    $bdebug = 1;
-	$qselect = "SELECT sum(1) AS totalvotes, mp_person.person AS person, ";
+function fill_mp_distances($db, $db2, $house) {
+	$some_done = 1;
+	while($some_done) {
+	    $some_done = fill_mpid_distances_internal($db, $db2, $house, 5000); 
+		print "done...";
+	}
 }
-/*
-"create table pw_cache_mpdist (
-    mp_id_1 int not null,
-    mp_id_2 int not null,
-    distance float not null,
-    unique(mp_id_1, mp_id_2)
-i
-CREATE TABLE `pw_cache_realreal_distance` (
-  `mp_id` int(11) NOT NULL default '0',
-  `person` int(11) NOT NULL default '0',
-  `nvotessame` int(11) default NULL,
-  `nvotesdiffer` int(11) default NULL,
-  `nvotesabsent` int(11) default NULL,
-  `distance_a` float default NULL,
-  `distance_b` float default NULL,
-  UNIQUE KEY `mp_id_2` (`mp_id`,`person`),
-  KEY `mp_id` (`mp_id`),
-  KEY `person` (`person`)
-)
 
-*/

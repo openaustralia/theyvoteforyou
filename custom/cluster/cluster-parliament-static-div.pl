@@ -2,7 +2,7 @@
 use strict;
 use lib "../../loader/";
 
-# $Id: cluster-parliament-static-div.pl,v 1.3 2005/12/05 02:30:33 frabcus Exp $
+# $Id: cluster-parliament-static-div.pl,v 1.4 2006/02/17 16:57:37 publicwhip Exp $
 # Outputs a matrix of distances between pairs of divisions for
 # use by the GNU Octave script mds.m to do clustering.
 
@@ -21,8 +21,8 @@ use divquery;
 
 # Load data of distance between divisions
 my $metricD;
-my $where = " and division_id > 19379 ";
-my $where2 = " and division_id2 > 19379 ";
+my $where = "";#" and division_id > 19379 ";
+my $where2 = "";#" and division_id2 > 19379 ";
 my $sth = PublicWhip::DB::query($dbh, "select division_id, division_id2, distance from pw_cache_divdiv_distance where division_id <= division_id2 $where $where2");
 while ( my @data = $sth->fetchrow_array() ) {
     my ( $division_id, $division_id2, $distance ) = @data;

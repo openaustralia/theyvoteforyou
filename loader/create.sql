@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.41 2006/02/16 22:36:18 frabcus Exp $
+-- $Id: create.sql,v 1.42 2006/02/17 16:57:37 publicwhip Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -268,8 +268,8 @@ create table pw_cache_dreamreal_distance (
 
 -- New table to replace pw_cache_mpdist eventually
 create table pw_cache_realreal_distance (
-  mp_id int not null,
-  person int not null,
+  mp_id1 int not null,
+  mp_id2 int not null,
 
   -- number of votes same / different / MP absent
   nvotessame int,
@@ -279,9 +279,9 @@ create table pw_cache_realreal_distance (
   distance_a float, -- use abstentions
   distance_b float, -- ignore absentions
 
-  index(mp_id),
-  index(person),
-  unique(mp_id, person)
+  index(mp_id1),
+  index(mp_id2),
+  unique(mp_id1, mp_id2)
 );
 
 -- New table to store division comparisons

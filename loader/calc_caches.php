@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: calc_caches.php,v 1.6 2006/02/17 15:51:21 publicwhip Exp $
+# $Id: calc_caches.php,v 1.7 2006/02/17 16:57:37 publicwhip Exp $
 
 # Calculate lots of cache tables, run after update.
 
@@ -11,15 +11,9 @@
 
 require_once "../website/config.php";
 require_once "../website/db.inc";
-require_once "../website/distances.inc";
-require_once "../website/dream.inc"; 
 
 $db = new DB();
 $db2 = new DB();
-
-
-fill_mp_distances($db, $db2);
-exit;
 
 count_party_stats($db, $db2);
 guess_whip_for_all($db, $db2);
@@ -182,71 +176,6 @@ function count_4d_info($db, $table, $group_by, $id, $votes_attended, $votes_poss
 
 	$db->query("DROP TABLE IF EXISTS $table");
 	$db->query("RENAME TABLE ${table}_tmp TO $table");
-}
-
-function old_count_division_info($db) {
-    $db->query( "DROP TABLE IF EXISTS pw_cache_divinfo_tmp" );
-    $query = "INSERT INTO pw_cache_divinfo_tmp (division_id, rebellions, turnout, possible_turnout)
-        SELECT 
-
-        FROM pw_division
-
-        LEFT JOIN pw_mp ON
-            pw_division.house = pw_mp.house AND
-            pw_mp.entered_house <= pw_division.division_date AND
-            pw_division.division_date < pw_mp.left_house
-        
-        LEFT JOIN pw_vote ON 
-            pw_vote.mp_id = pw_mp.mp_id AND
-            pw_vote.division_id = pw_division.division_id
-
-        LEFT JOIN pw_cache_whip ON
-            pw_cache_whip.party = pw_mp.party AND
-            pw_cache_whip.division_id = pw_division.division_id
-
-        GROUP BY pw_division.division_id
-    ";
-
-    $db->query($query);
-
-	$db->query("DROP TABLE IF EXISTS pw_cache_divinfo");
-	$db->query("RENAME TABLE pw_cache_divinfo_tmp TO pw_cache_divinfo");
-/*
-    my $sth =
-      PublicWhip::DB::query( $dbh, "select division_id from pw_division" );
-    while ( my @data = $sth->fetchrow_array() ) {
-        my ($division_id) = @data;
-
-        my $sth = PublicWhip::DB::query(
-            $dbh, "select count(*) from pw_vote,
-            pw_cache_whip, pw_mp where pw_vote.division_id = ? and
-            pw_cache_whip.division_id = ? and 
-            pw_mp.party = pw_cache_whip.party and 
-            pw_vote.mp_id = pw_mp.mp_id and 
-            pw_cache_whip.whip_guess <> 'unknown' and 
-            pw_vote.vote <> 'both' and
-            pw_cache_whip.whip_guess <> replace(pw_vote.vote, 'tell', '')
-            ", $division_id, $division_id
-        );
-
-        die "Failed to count rebels for div $division_id" if $sth->rows != 1;
-        my $rebellions = $sth->fetchrow_arrayref()->[0];
-
-        $sth = PublicWhip::DB::query(
-            $dbh, "select count(*) from pw_vote
-            where pw_vote.division_id = ?", $division_id
-        );
-        my $turnout = $sth->fetchrow_arrayref()->[0];
-
-        #        print "division $division_id $rebellions\n";
-
-        PublicWhip::DB::query(
-            $dbh,
-            "insert into pw_cache_divinfo (division_id, rebellions, turnout)
-            values (?, ?, ?)", $division_id, $rebellions, $turnout
-        );
-    }
-    */
 }
 
 
