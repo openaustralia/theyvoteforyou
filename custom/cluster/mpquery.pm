@@ -1,4 +1,4 @@
-# $Id: mpquery.pm,v 1.2 2005/11/03 09:45:25 theyworkforyou Exp $
+# $Id: mpquery.pm,v 1.3 2006/02/17 18:42:55 publicwhip Exp $
 # This extracts a vote distance metric for a set of MPs, and is able to
 # write it out in a format for loading into GNU Ooctave (or MatLab)
 
@@ -27,6 +27,7 @@ sub get_mp_ixs
     return \@mp_ixs;
 }
 
+# old, TODO: remove
 sub vote_distance_metric
 {
     my $dbh = shift;
@@ -101,6 +102,42 @@ sub vote_distance_metric
             {
                 $metricD[$mp_1][$mp_2] = 1;
             }
+        }
+    }
+
+    return \@metricD;
+}
+
+sub vote_metric_from_db
+{
+    my $dbh = shift;
+    my $mp_ixs = shift;
+
+    my $limit1 = " (mp_id1 = " . join(" or mp_id1 = ", @$mp_ixs) . ")";
+    my $limit2 = " (mp_id2 = " . join(" or mp_id2 = ", @$mp_ixs) . ")";
+    my $sth = PublicWhip::DB::query($dbh, "select mp_id1, mp_id2, distance_a from pw_cache_realreal_distance
+        where $limit1 and $limit2 and mp_id1 <= mp_id2");
+
+    my @metricD;
+    while (my @data = $sth->fetchrow_array())
+    {
+        my ($mp_1, $mp_2, $distance) = @data;
+        
+        die "half triangle only should be coming out" if $mp_1 > $mp_2;
+
+        # -1 is case where there is no vote overlap
+        if ($distance != -1)
+        {
+            die "distance out of range 0 to 1" if $distance < 0.0 or $distance > 1.0;
+            $metricD[$mp_1][$mp_2] = $distance;
+        }
+        elsif ($mp_1 == $mp_2)
+        {
+            $metricD[$mp_1][$mp_2] = 0; # No-voters, like Gerry Adams need this clause
+        }
+        else
+        {
+            $metricD[$mp_1][$mp_2] = 1;
         }
     }
 
