@@ -1,20 +1,11 @@
-Colours:
+lords cluster:
+    - make names sort round better
+    - screenshots
+    
+distance stuff - call delete function and update weekly
+pw_cache_mpdist - remove completely
 
-official green: 176e00
-official red:   b40017
-our green:      003300
-
-search 
-
-pw_cache_realreal_distance - finish
-pw_cache_mpdist
-motion text rule new - need to roll out
-check clock time sorting works
-
-make sure build/division_distance is running
-
-Check 664 votes out of 1246, 53.3% votes in 2001-2005 period (not 1250). corrected divs.
-http://www.publicwhip.org.uk/mp.php?mpn=Diane_Abbott&mpc=Hackney+North+%26amp%3B+Stoke+Newington
+check viscount cranbourne not rebel (other rating) on Top Rebels on front page
 
 Lords
 -----

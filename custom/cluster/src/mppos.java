@@ -1,4 +1,4 @@
-// $Id: mppos.java,v 1.1 2005/03/28 14:26:33 frabcus Exp $
+// $Id: mppos.java,v 1.2 2006/02/17 19:32:06 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -60,6 +60,8 @@ class mppos
 			partyid = 1; 
 		else if (party.equals("LDem"))
 			partyid = 2; 
+		else if (party.equals("Bp"))
+			partyid = 4; 
 		else 
 			partyid = 3; 
 								

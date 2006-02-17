@@ -1,4 +1,4 @@
-// $Id: mparr.java,v 1.2 2006/01/31 08:42:49 frabcus Exp $
+// $Id: mparr.java,v 1.3 2006/02/17 19:32:06 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -49,9 +49,9 @@ class mparr
 			throw new IOException(); 
 		zeig = stoken.nval; 
 		
-		xeig = (xeig > 0.0 ? Math.sqrt(xeig) : 0.0); 
-		yeig = (yeig > 0.0 ? Math.sqrt(yeig) : 0.0); 
-		zeig = (zeig > 0.0 ? Math.sqrt(zeig) : 0.0); 
+		xeig = (xeig != 0.0 ? Math.sqrt(Math.abs(xeig)) : 0.0); 
+		yeig = (yeig != 0.0 ? Math.sqrt(Math.abs(yeig)) : 0.0); 
+		zeig = (zeig != 0.0 ? Math.sqrt(Math.abs(zeig)) : 0.0); 
 
 		// measure the c of g of the parties.  
 		double[] ptyx = new double[5]; 

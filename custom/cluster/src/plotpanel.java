@@ -1,4 +1,4 @@
-// $Id: plotpanel.java,v 1.1 2005/03/28 14:26:33 frabcus Exp $
+// $Id: plotpanel.java,v 1.2 2006/02/17 19:32:06 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -59,7 +59,7 @@ class plotpanel extends JPanel implements MouseListener, MouseMotionListener
 	JRadioButton cbzoom = new JRadioButton("Zoom", false); 
 	JRadioButton cbsel = new JRadioButton("Select", false); 
 
-	Color[] partycols = { Color.red, Color.blue, Color.yellow, Color.green }; 
+	Color[] partycols = { Color.red, Color.blue, Color.yellow, Color.green, Color.white }; 
 	Color backgnd = new Color(99, 99, 99); 
 
 
