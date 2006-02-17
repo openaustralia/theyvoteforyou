@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divsee.php,v 1.1 2005/12/05 01:44:39 frabcus Exp $
+# $Id: divsee.php,v 1.2 2006/02/17 19:56:13 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -27,7 +27,7 @@ through the list to see them all.  </p>
 <p><span class="ptitle">Not working?</span>  If you are able, download <a href="http://www.java.com">Sun's Java
 software</a>.  On Windows, the old unsupported Microsoft versions of Java will
 not do.  Alternatively, get a taste with a static <a
-href="votemap/divisionsee.png">screenshot</a>,
+href="votemap/divsee.png">screenshot</a>,
 </p>
 
 <?php

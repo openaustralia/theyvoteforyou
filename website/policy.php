@@ -115,11 +115,12 @@
 
 	if ($dismode["comparisons"])
 	{
-	    print "<h2><a name=\"comparison\">Comparison to all MPs</a></h2>";
+	    print "<h2><a name=\"comparison\">Comparison to all MPs and Lords</a></h2>";
 
-	    print "<p>Grades MPs acording to how often they voted with the policy.
+	    print "<p>Grades MPs and Lords acording to how often they voted with the policy.
 	            If they always vote the same as the policy then their agreement is 100%, if they
-				always vote the opposite when the policy votes, their agreement is 0%.";
+				always vote the opposite when the policy votes, their agreement is 0%.
+                If they never voted at the same time as the policy they don't appear.";
 
 		$mptabattr = array("listtype" => 'dreamdistance',
 						   'dreammpid' => $dreamid,

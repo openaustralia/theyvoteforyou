@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.34 2006/02/17 18:54:52 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.35 2006/02/17 19:56:13 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -365,8 +365,8 @@ function mp_table($db, $mptabattr)
 		$columnforms["party"] = "yes";
 
     $house = $mptabattr["house"];
-    if ($mptabattr["house"] != "both")
-		$aquery["qwhere"]   .= " AND pw_mp.house = '".$mptabattr["house"]."'";
+    if ($house == "both" and $house)
+		$aquery["qwhere"]   .= " AND pw_mp.house = '$house'";
 
     # apply the limit
     if ($mptabattr["limit"])
@@ -422,7 +422,7 @@ function mp_table($db, $mptabattr)
 		else if ($colstyle == "division2" and $showwhich == "changes")
         	print "<tr class=\"even\"><td colspan=5>no differences found</td></tr>\n";
 		else
-			print "<tr class=\"even\"><td colspan=4>INTERNAL ERROR - friends list needs updating</td></tr>\n";
+			print "<tr class=\"even\"><td colspan=4>No results found</td></tr>\n";
 	}
 
     $nrows = 0;
