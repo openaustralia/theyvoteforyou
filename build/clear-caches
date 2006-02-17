@@ -6,7 +6,7 @@ set -e
 DB=pw_live
 SITE=www.publicwhip.org.uk
 CACHE=pwcache-live
-if [ $1 == "staging" ]
+if [ "$1" == "staging" ]
 then
     DB=pw_staging
     SITE=staging.publicwhip.org.uk
