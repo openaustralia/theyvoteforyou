@@ -1,4 +1,4 @@
-# $Id: mpquery.pm,v 1.3 2006/02/17 18:42:55 publicwhip Exp $
+# $Id: mpquery.pm,v 1.4 2006/02/17 19:43:14 publicwhip Exp $
 # This extracts a vote distance metric for a set of MPs, and is able to
 # write it out in a format for loading into GNU Ooctave (or MatLab)
 
@@ -158,12 +158,16 @@ sub octave_writer
     # Print it all out
     for my $mp_1 (@$mp_ixs)
     {
-        my $sthmp = PublicWhip::DB::query($dbh, "select last_name, first_name, party from pw_mp where mp_id=?", $mp_1);
+        my $sthmp = PublicWhip::DB::query($dbh, "select last_name, first_name, party, house, title from pw_mp where mp_id=?", $mp_1);
         die "Wrong number of rows back" if $sthmp->rows != 1;
         my @data = $sthmp->fetchrow_array();
-        my ($lastname, $firstname, $party) = @data; 
+        my ($lastname, $firstname, $party, $house, $title) = @data; 
 
-        print $fh "na" . $mp_1 . " = \"" . $lastname . ", " . $firstname . "\";\n";
+        if ($house eq "commons") {
+            print $fh "na" . $mp_1 . " = \"" . $lastname . ", " . $firstname . "\";\n";
+        } else {
+            print $fh "na" . $mp_1 . " = \"" . $title . " " . $firstname . " " . $lastname . "\";\n";
+        }
         print $fh "pa" . $mp_1 . " = \"" . $party . "\";\n";
         print $fh "r" . $mp_1 . " = [";
         for my $mp_2 (@$mp_ixs)

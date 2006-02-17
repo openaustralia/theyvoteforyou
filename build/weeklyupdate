@@ -16,7 +16,7 @@ JAVA=/usr/local/bin/java
 # Do clustering for Java applet
 cd ~/publicwhip-live/custom/cluster
 ./cluster-parliament-static.pl
-mv mpcoords-*.txt ~/www.publicwhip.org.uk/docs/
+mv mpcoords-*.txt divcoords.txt lordcoords.txt ~/www.publicwhip.org.uk/docs/
 
 # Generating PNG files for people with no Java
 cd ~/www.publicwhip.org.uk/docs/
@@ -25,10 +25,16 @@ cd ~/www.publicwhip.org.uk/docs/
 killall Xvfb
 /usr/bin/X11/Xvfb :55&
 export DISPLAY=:55
+# full screen shots
+$JAVA -classpath mpscatt.jar mpframe lordcoords.txt votemap/lordsee.png 533 400
+$JAVA -classpath mpscatt.jar mpframe divcoords.txt votemap/divsee.png 533 400
 for X in 1997 2001 2005
 do
 	$JAVA -classpath mpscatt.jar mpframe mpcoords-$X.txt votemap/mpsee-$X.png 533 400
 done
+# thumbs
+$JAVA -classpath mpscatt.jar mpframe lordcoords.txt votemap/lordseethumb.png 150 100
+$JAVA -classpath mpscatt.jar mpframe divcoords.txt votemap/divseethumb.png 150 100
 $JAVA -classpath mpscatt.jar mpframe mpcoords-2005.txt votemap/mpseethumb.png 150 100
 killall Xvfb
 
