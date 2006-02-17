@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.19 2006/02/16 23:30:58 publicwhip Exp $
+# $Id: distances.inc,v 1.20 2006/02/17 11:48:44 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -86,15 +86,15 @@ function update_divdiv_distance($db, $division_date1, $divid1, $division_date2, 
 
 
 # remove distances to divisions that are no longer in our table
-# due to a messup with the corrections not matching in vote list and being 
-# merged later, such divisions get removed 
+# due to a messup with the corrections not matching in vote list and being
+# merged later, such divisions get removed
 # and reloaded into the database every time it updates
 function remove_dead_division_distances($db)
 {
 	$qselect = "SELECT pw_cache_divdiv_distance.division_id, pw_cache_divdiv_distance.division_id2"; 
-	$qdelete = "DELETE pw_cache_divdiv_distance"; 
+	$qdelete = "DELETE pw_cache_divdiv_distance";
 	$qfrom = " FROM pw_cache_divdiv_distance
-		  LEFT JOIN pw_division AS pw_division1 
+		  LEFT JOIN pw_division AS pw_division1
 		   ON pw_division1.division_id = pw_cache_divdiv_distance.division_id
 		  LEFT JOIN pw_division AS pw_division2
 		   ON pw_division2.division_id = pw_cache_divdiv_distance.division_id2
@@ -224,18 +224,154 @@ function print_divdiv_distance($db, $divattr1, $divattr2, $housenoun)
 			<a href=\"forum/viewtopic.php?t=825\">our forum</a>.</p>\n";
 }
 
+
+
+// delete old entries by removing ones whose left_house comes >= last update time
+function delete_mpid_outofdate_distances($db, $lastupdatedate, $house)
+{
+	$lastupdatedate = "2005-01-01"
+	$qdelete = "DELETE pw_cache_realreal_distance";
+	$qfrom =  " FROM pw_cache_realreal_distance";
+	$qjoin =  " LEFT JOIN pw_mp AS pw_mp1
+					ON pw_mp1.mp_id = pw_cache_realreal_distance.mp_id";
+	$qjoin .= " LEFT JOIN pw_mp AS pw_mp2
+					ON pw_mp2.mp_id = pw_cache_realreal_distance.person";
+	$qwhere = " WHERE pw_mp1.left_house >= '$lastupdatedate'
+					AND pw_mp2.left_house >= '$lastupdatedate'";
+	$query = $qdelete.$qfrom.$qjoin.$qwhere;
+	$db->query($query);
+}
+
+# then we loop through the missing entries and fill them in
+function fill_mpid_distances_internal($db, $db2, $house, $batchnumber)
+{
+
+	# find missing entries in the table
+	$qselect = "SELECT pw_mp1.mp_id AS mp_id1,
+					   max(pw_mp1.entered_house, pw_mp2.entered_house) AS max_entered_house,
+					   min(pw_mp1.left_house, pw_mp2.left_house) AS min_left_house";
+
+	$qfrom = " FROM pw_mp AS pw_mp1, pw_mp AS pw_mp2";
+	$qjoin = " LEFT JOIN pw_cache_realreal_distance
+					ON pw_cache_realreal_distance.mp_id = pw_mp1.mp_id
+					AND pw_cache_realreal_distance.person = pw_mp2.mp_id";
+
+	// we only do the lower diagonal
+	$qwhere = " WHERE pw_mp1.house = pw_mp2.house
+					AND pw_mp1.mp_id <= p1_mp2.mp_id
+					AND pw_mp1.entered_house < pw_mp2.left_house
+					AND pw_mp1.left_house > pw_mp2.entered_house
+					AND pw_cache_divdiv_distance.distance IS null";
+	if ($house)
+		$qwhere .= " AND pw_mp1.house = '$house'";
+
+	$qorder = " ORDER BY LEAST(pw_division1.mp_id1, pw_division2.mp_id2) DESC";
+	if ($batchnumber)
+		$qlimit = " LIMIT $batchnumber"; # to stop the calculation running on forever on one run
+
+	$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
+	if ($bdebug == 1)
+		print $query;
+	$db->query($query);
+	$some_done = 0;
+	while ($row = $db->fetch_row_assoc())
+	{
+		$some_done = 1;
+		update_realreal_distance($db2, $row['mp_id1'], $row['mp_id2'], $row['max_entered_house'], $row['min_left_house'], $house);
+	}
+	return $some_done;
+}
+
+
+
+# then we loop through the missing entries and fill them in
+function update_realreal_distance($db, $mp_id1, $mp_id2, $max_entered_house, $min_left_house, $house)
+{
+	# make the set of voting MPs in the first division
+	$qselect = "SELECT 1 AS ssss, sum(1) AS nvotestotal, ";
+
+	$qselect .= "SUM(((pw_vote1.vote = 'aye' OR pw_vote1.vote = 'tellaye') AND
+                            (pw_vote2.vote = 'aye' OR pw_vote2.vote = 'tellaye'))
+					 OR ((pw_vote1.vote = 'no' OR pw_vote1.vote = 'tellno') AND
+                            (pw_vote2.vote = 'no' OR pw_vote2.vote = 'tellno')))
+					 AS nvotessame, ";
+	$qselect .= "SUM(((pw_vote1.vote = 'aye' OR pw_vote1.vote = 'tellaye') AND
+                            (pw_vote2.vote = 'no' OR pw_vote2.vote = 'tellno'))
+					 OR ((pw_vote1.vote = 'no' OR pw_vote1.vote = 'tellno') AND
+                            (pw_vote2.vote = 'aye' OR pw_vote2.vote = 'tellaye')))
+					 AS nvotesdiffer, ";
+	$qselect .= "SUM((pw_vote1.vote = 'both' OR pw_vote1.vote IS null)
+					 AND (pw_vote2.vote = 'both' OR pw_vote2.vote IS null)
+					 AS nvotesabsentboth, ";
+	$qselect .= "SUM((pw_vote1.vote = 'both' OR pw_vote1.vote IS null)
+					 AND not (pw_vote2.vote = 'both' OR pw_vote2.vote IS null)
+					 AS nvotesabsentfirst, ";
+	$qselect .= "SUM(not (pw_vote1.vote = 'both' OR pw_vote1.vote IS null)
+					 AND (pw_vote2.vote = 'both' OR pw_vote2.vote IS null)
+					 AS nvotesabsentsecond ";
+
+
+	$qfrom =  " FROM pw_division";
+	$qwhere = " WHERE pw_division.division_date >= '$max_entered_house'
+				   AND pw_division.division_date < '$min_entered_house'
+				   AND pw_division.house = '$house'";
+
+	# now line up the votes (including the missing ones)
+	$qjoin =  " LEFT JOIN pw_vote AS pw_vote1
+					ON pw_vote1.division_id = pw_division.division_id
+					AND pw_vote1.mp_id = $mp_id1";
+
+	# now line up the mps who could have voted on the second division
+	$qjoin .= " LEFT JOIN pw_vote AS pw_vote2
+					ON pw_vote2.division_id = pw_division.division_id
+					AND pw_vote2.mp_id = $mp_id1";
+
+	$qgroup = " GROUP BY ssss"; # sum all rows
+
+	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
+	if ($bdebug == 1)
+		print "<h4>$query</h4>";
+	$row = $db->query_one_row_assoc($query);
+
+	$nvotessame = ($row['nvotessame'] ? $row['nvotessame'] : 0);
+	$nvotesdiff = ($row['nvotesdiffer'] ? $row['nvotesdiffer'] : 0);
+	$nabsentboth = ($row['nvotesabsentboth'] ? $row['nvotesabsentboth'] : 0);
+	$nabsentfirst = ($row['nvotesabsentfirst'] ? $row['nvotesabsentfirst'] : 0);
+	$nabsentsecond = ($row['nvotesabsentfirst'] ? $row['nvotesabsentfirst'] : 0);
+
+	$nvotesabsent = $nabsentfirst + $nabsentsecond;
+	$distancea = calc_dreammp_person_distance($nvotessame, 0,
+										   	  $nvotesdiffer, 0,
+										   	  $nvotesabsent, 0);
+	# score without absentions
+	$distanceb = calc_dreammp_person_distance($nvotessame, 0,
+										   	  $nvotesdiffer, 0,
+                                                  0, 0);
+
+
+	$qattrs = "mp_id, person, nvotessame, nvotesdiffer, nvotesabsent, distance_a, distance_b";
+	$qvalues = "$mp_id1, $mp_id2, $nsame, $ndiff, $nvotesabsent, $distancea, $distanceb";
+
+	$query  = "INSERT INTO pw_cache_realreal_distance ($qattrs) VALUES ($qvalues)";
+	$db->query($query);
+}
+
+
+
 function fill_mp_distances($db, $db2) {
+	fill_mpid_distances_internal($db, $db2, "commons", 1000); 
+	return;
     $bdebug = 1;
 	$qselect = "SELECT pw_vote.mp_id AS mp_id";#, mp_person.person AS person ";
 
-/*	$qselect .= "SUM(((person_vote.vote = 'aye' OR person_vote.vote = 'tellaye') AND 
+/*	$qselect .= "SUM(((person_vote.vote = 'aye' OR person_vote.vote = 'tellaye') AND
                             (mp_vote.vote = 'aye' OR mp_vote.vote = 'tellaye'))
-					 OR ((person_vote.vote = 'no' OR person_vote.vote = 'tellno') AND 
+					 OR ((person_vote.vote = 'no' OR person_vote.vote = 'tellno') AND
                             (mp_vote.vote = 'no' OR mp_vote.vote = 'tellno')))
 					 AS nvotessame, ";
-	$qselect .= "SUM(((person_vote.vote = 'aye' OR person_vote.vote = 'tellaye') AND 
+	$qselect .= "SUM(((person_vote.vote = 'aye' OR person_vote.vote = 'tellaye') AND
                             (mp_vote.vote = 'no' OR mp_vote.vote = 'tellno'))
-					 OR ((person_vote.vote = 'no' OR person_vote.vote = 'tellno') AND 
+					 OR ((person_vote.vote = 'no' OR person_vote.vote = 'tellno') AND
                             (mp_vote.vote = 'aye' OR mp_vote.vote = 'tellaye')))
 					 AS nvotesdiffer, ";
 	$qselect .= "SUM(mp_vote.vote <> 'both'
@@ -247,7 +383,7 @@ function fill_mp_distances($db, $db2) {
 	# (no score from dreamMP absents or abstentions)
 
 	$qfrom  = " FROM pw_vote \n";
-	$qjoin = " LEFT JOIN pw_mp 
+	$qjoin = " LEFT JOIN pw_mp
 					ON pw_mp.mp_id = pw_vote.mp_id\n";
     $qjoin .= " LEFT JOIN pw_division
         			ON pw_division.division_id = pw_vote.division_id\n";
@@ -258,15 +394,15 @@ function fill_mp_distances($db, $db2) {
 #	$qjoin .= " LEFT JOIN pw_vote AS person_vote
 #					ON person_vote.mp_id = mp_person.mp_id\n";
 
-	$qgroup = " GROUP BY pw_vote.mp_id, mp_person.person";  
+	$qgroup = " GROUP BY pw_vote.mp_id, mp_person.person";
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup." LIMIT 10";
 	if ($bdebug == 1)
 		print "$query\n";
-#$query = " SELECT pw_vote.mp_id FROM pw_vote 
+#$query = " SELECT pw_vote.mp_id FROM pw_vote
 #                left join pw_division on pw_division.division_id = pw_vote.division_id
 #                left join pw_mp on pw_mp.mp_id = pw_vote.mp_id
-#                group By pw_vote.mp_id LIMIT 10"; 
+#                group By pw_vote.mp_id LIMIT 10";
 
 	# do the database/scoring thing
     print "DddOING QUERY\n";
@@ -297,7 +433,7 @@ function fill_mp_distances($db, $db2) {
 
 		# score without absentions
 		$distanceb = calc_dreammp_person_distance($nvotessame, 0,
-											   	  $nvotesdiffer, 0, 
+											   	  $nvotesdiffer, 0,
                                                   0, 0);
 
 		if ($bdebug == 1)
@@ -305,12 +441,12 @@ function fill_mp_distances($db, $db2) {
 
 		$query   = "INSERT INTO pw_cache_realreal_distance
                     (mp_id, person,
-						nvotessame, 
-						nvotesdiffer, 
+						nvotessame,
+						nvotesdiffer,
 						nvotesabsent,
 						distance_a, distance_b)
                 	VALUES ($mp_id, $person,
-						$nvotessame, 
+						$nvotessame,
 						$nvotesdiffer,
 						$nvotesabsent,
 						$distancea, $distanceb)";
