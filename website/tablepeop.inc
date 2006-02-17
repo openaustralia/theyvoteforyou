@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.35 2006/02/17 19:56:13 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.36 2006/02/17 20:16:26 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -268,7 +268,8 @@ function mp_table($db, $mptabattr)
 
         if ($showwhich == 'allpossible')
             $aquery["qwhere"] 	.= " AND entered_house <= '".$mptabattr["divdate"]."'
-                                     AND left_house > '".$mptabattr["divdate"]."'";
+                                     AND left_house > '".$mptabattr["divdate"]."'
+                                     AND house = '".$mptabattr["house"]."'";
         else
             $aquery["qwhere"] 	.= " AND pw_vote.vote IS NOT null";
 
@@ -331,7 +332,8 @@ function mp_table($db, $mptabattr)
             $aquery["qwhere"] 	.= " AND entered_house <= '".$mptabattr["divdate"]."'
                                      AND left_house > '".$mptabattr["divdate"]."'";
             $aquery["qwhere"] 	.= " AND entered_house <= '".$mptabattr["divdate2"]."'
-                                     AND left_house > '".$mptabattr["divdate2"]."'";
+                                     AND left_house > '".$mptabattr["divdate2"]."'
+                                     AND house = '".$mptabattr["house"]."'";
         }
         else  #  "voters"
             $aquery["qwhere"] 	.= " AND (pw_vote_a.vote IS NOT null OR pw_vote_b.vote IS NOT null)";
