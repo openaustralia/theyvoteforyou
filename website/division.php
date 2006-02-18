@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.119 2006/02/18 11:03:07 publicwhip Exp $
+# $Id: division.php,v 1.120 2006/02/18 11:47:20 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -135,6 +135,12 @@ if (!$singlemotionpage)
         $title .= " <i>on the same day</i>";
     else
         $title .= " on ".$divattr2["prettydate"];
+    $clock_time2 = $divattr2["clock_time"];
+    $clock_time2 = preg_replace("/:00$/","",$clock_time2);
+    $clock_time2 = preg_replace("/^0/","",$clock_time2);
+    $title .= " at $clock_time2"; 
+                
+    
     #if ($div2invert)
     #	$title .= " (inverted)";
 }
@@ -366,12 +372,12 @@ if ($singlemotionpage)
 			print "<p>(<a href=\"$thispageswap\">Swap the two divisions around</a>).</p>";
 
             $motion_data_a = get_wiki_current_value("motion", array($divattr["division_date"], $divattr["division_number"], $divattr['house']));
-			$titlea = "<a href=\"".$divattr["divhref"]."\">".$divattr["name"]." - ".$divattr["prettydate"]." - Division No. ".$divattr["division_number"]."</a>";
+			$titlea = "<a href=\"".$divattr["divhref"]."\">".$divattr["name"]." - ".$divattr["prettydate"]." at $clock_time - Division No. ".$divattr["division_number"]."</a>";
 	        print "<h2><a name=\"motion\">Motion (a) ".($motion_data_a['user_id'] == 0 ? " (unedited)" : "")."</a>: $titlea</h2>";
 	        print "<div class=\"motion\">".extract_motion_text_from_wiki_text($motion_data_a['text_body'])."</div>\n";
 
             $motion_data_b = get_wiki_current_value("motion", array($divattr2["division_date"], $divattr2["division_number"], $divattr2['house']));
-			$titleb = "<a href=\"".$divattr2["divhref"]."\">".$divattr2["name"]." - ".$divattr2["prettydate"]." - Division No. ".$divattr2["division_number"]."</a>";
+			$titleb = "<a href=\"".$divattr2["divhref"]."\">".$divattr2["name"]." - ".$divattr2["prettydate"]." at $clock_time2 - Division No. ".$divattr2["division_number"]."</a>";
 	        print "<h2>Motion (b) ".($motion_data_b['user_id'] == 0 ? " (unedited)" : "").": $titleb</h2>";
 	        print "<div class=\"motion\">".extract_motion_text_from_wiki_text($motion_data_b['text_body'])."</div>\n";
 		}
@@ -469,7 +475,7 @@ if ($singlemotionpage)
 			else
 				print "<td><a href=\"$thispage$tpdisplay&sort=constituency\">Constituency</a></td>";
 		}
-		$partytext = ($singlemotionpage ? "Party" : "Party at<br>vote (a)");
+		$partytext = ($singlemotionpage ? "Party" : "Party");
         if ($sort == "party")
 			print "<td>$partytext</td>";
 		else
@@ -526,7 +532,7 @@ if ($singlemotionpage)
 
         $divtabattr = array(
 				"showwhich"		=> 'everyvote',
-				"headings"		=> 'none',
+				"headings"		=> 'columns',
 				"sortby"		=> 'closeness',
                 "limitby"       => ($dismode["listsimilardivisions"] == 'short' ? "10" : ""),
 				"divclose"		=> $divattr,
@@ -541,12 +547,6 @@ if ($singlemotionpage)
                 of the actual votes between the two divisions.</p>";
 
         print "<table class=\"votes\">\n";
-	    print "<tr class=\"headings\">";
-	    print "<td>Date</td>";
-	    print "<td>No.</td>";
-	    print "<td>Subject</td>";
-	    print "<td>Similarity</td>";
-        print "<td>Overlap</td>";
 	    print "</tr>";
 		division_table($db, $divtabattr);
     	print "</table>\n";

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.60 2006/02/17 18:54:52 publicwhip Exp $
+# $Id: tablemake.inc,v 1.61 2006/02/18 11:47:21 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -305,7 +305,7 @@ function print_column_headings($vote1, $vote2, $columnforms)
 
 // prints one row of the table according to format in $columnforms
 // this makes it easier to generating the heading and shuffle the columns
-function print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $row, $divhref, $hrefsource, $columnforms)
+function print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $row, $divhref, $divhrefcloseappend, $hrefsource, $columnforms)
 {
     print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even")."$pretrowclass\">";
 
@@ -324,9 +324,7 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $ro
 	    if ($divhref)
 			print "<a href=\"$divhref\">";
 		print "$divdesc";
-	    if ($columnforms["divisiontitle"] == "close")
-	    	print " <i>(Compare)</i>";
-	    else if ($columnforms["divisiontitle"] == "listunedited" and !$row['motionedited'])
+	    if ($columnforms["divisiontitle"] == "listunedited" and !$row['motionedited'])
 	        print " <i>(unedited)</i>";
 	    if ($divhref)
 		    print "</a>";
@@ -343,7 +341,9 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $ro
     if ($columnforms["similarity"])
     {
     	$similarity = (1.0 - (float)$row['divdistance']) * 100.0;
-        print "<td>".number_format($similarity, 0)."%</td>";
+        print "<td>".number_format($similarity, 0)."%";
+        print "<br>(<a href=\"$divhref$divhrefcloseappend\"><b>details...</b></a>)"; 
+        print "</td>";
 	}
 	if ($columnforms["voteoverlap"])
        print "<td>".$row['voteoverlap']."</td>";
@@ -665,7 +665,7 @@ function division_table($db, $divtabattr, $events = "")
     if ($voter1type == "dreammp")
         divdreammpconds($aquery, $db, $voter1, $bonlyvotes1, 1);
 
-    if ($voter1type == "")  # this case means we are listing all divisions without a driver
+    if (!$voter1type && !$divclose)  # this case means we are listing all divisions without a driver
 	{
 		$aquery["qselect"] .= ", rebellions, turnout";
 	    if ($divtabattr["headings"] != "frontpageshort")
@@ -731,7 +731,7 @@ function division_table($db, $divtabattr, $events = "")
     # write the headings if wanted
     if ($headings == "columns" or $headings == "fulldesc")
     {
-		print_column_headings($voter1, $voter2, $columnforms);
+        print_column_headings($voter1, $voter2, $columnforms);
 
         # blank case table; must say something
         if ($db->rows() == 0)
@@ -748,7 +748,6 @@ function division_table($db, $divtabattr, $events = "")
     # sums for the distance metric (the second voter controls the 3-line quality
     $dismetric = array("agree"=>0, "disagree"=>0, "agree3"=>0, "disagree3"=>0,
                        "ab1"=>0, "ab1line3"=>0, "ab2"=>0, "abboth"=>0);
-
     while ($row = $db->fetch_row_assoc())
     {
         # mark the role column and fix the terminology of the vote
@@ -774,7 +773,7 @@ function division_table($db, $divtabattr, $events = "")
         else if (!$divclose and $row['rebellions'] >= 10 and $sortby != "rebellions" and $showwhich != "rebellions10")
             $pretrowclass = "rebel";
 
-        $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $row['debate_gid']);
+        $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $row['debate_gid']); # this entry in the database should tell us if it is a lords type.  
         if ($debate_gid != "")
             $hrefsource = "http://www.theyworkforyou.com/debates/?id=$debate_gid";
         else
@@ -782,7 +781,7 @@ function division_table($db, $divtabattr, $events = "")
 
         $divhref = "division.php?date=".urlencode($row['divisiondate'])."&number=".urlencode($row['divisionnumber']);
         if ($divclose)
-            $divhref .= "&date2=".urlencode($divclose['division_date'])."&number2=".urlencode($divclose['division_number']);
+            $divhrefcloseappend = "&date2=".urlencode($divclose['division_date'])."&number2=".urlencode($divclose['division_number']);
         $divhref .= $divtabattr["divhrefappend"];
         if ($row["divisionhouse"] == "lords")
             $divhref .= "&house=lords";
@@ -800,7 +799,7 @@ function division_table($db, $divtabattr, $events = "")
         }
         else
         {
-            print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $row, $divhref, $hrefsource, $columnforms);
+            print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $row, $divhref, $divhrefcloseappend, $hrefsource, $columnforms);
             $nrows += 1;
         }
     }
