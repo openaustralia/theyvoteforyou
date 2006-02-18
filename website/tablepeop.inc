@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.36 2006/02/17 20:16:26 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.37 2006/02/18 11:03:08 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -367,7 +367,7 @@ function mp_table($db, $mptabattr)
 		$columnforms["party"] = "yes";
 
     $house = $mptabattr["house"];
-    if ($house == "both" and $house)
+    if ($house != "both" and $house)
 		$aquery["qwhere"]   .= " AND pw_mp.house = '$house'";
 
     # apply the limit

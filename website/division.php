@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.118 2006/02/17 00:39:58 publicwhip Exp $
+# $Id: division.php,v 1.119 2006/02/18 11:03:07 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -116,13 +116,11 @@ function no_division_found($plural)
 	    $lquery = "SELECT nvotessame, nvotesdiff
                    FROM pw_cache_divdiv_distance
                    WHERE pw_cache_divdiv_distance.division_id = ".$divattr["division_id"]."
-                     AND pw_cache_divdiv_distance.division_id2 = ".$divattr["division_id"];
+                     AND pw_cache_divdiv_distance.division_id2 = ".$divattr2["division_id"];
 	    if ($bdebug == 1)
 	        print "\n<h3>$lquery</h3>\n";
 	    $row = $db->query_onez_row_assoc($lquery);
-		#if (!$row)
-		#	no_division_found("s");
-        $div2invert = $row and ($row["nvotessame"] < $row["nvotesdiff"]);
+        $div2invert = (($row != null) && ($row["nvotessame"] < $row["nvotesdiff"]));
     }
 
 # make the title
