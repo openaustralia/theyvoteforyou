@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.119 2006/02/17 18:54:52 publicwhip Exp $
+    # $Id: mp.php,v 1.120 2006/02/20 10:29:31 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -308,18 +308,21 @@
 	if ($dismode["votelist"])
     {
 		# title for the vote table
+        $vextra = "";
 	    if ($voter2type == "dreammp")
 	        $vtitle = ""; #Votes chosen by '".$voter2attr['name']."' Policy";
 		else if ($voter2type == "person" && $dismode["votelist"] == "short")
 			$vtitle = "Voting Differences";
-		else if ($dismode["votelist"] == "short")
+		else if ($dismode["votelist"] == "short") {
 			$vtitle = "Interesting Votes";
-		else if ($dismode["votelist"] == "every")
+            # TODO: should have a "more..." or "all..." link here but not sure how
+            #$vextra = " (<a href=\"$thispage&display=allvotes\">more...</a>)";
+        } else if ($dismode["votelist"] == "every")
 			$vtitle .= "All Votes";
 		else
 			$vtitle = "Votes Attended";
         if ($vtitle)
-            print "<h2><a name=\"divisions\">$vtitle</a></h2>\n";
+            print "<h2><a name=\"divisions\">$vtitle</a>$vextra</h2>\n";
 
 		# subtext for the vote table
 		if ($dismode["votelist"] == "short" and $voter2type == "party")
@@ -489,7 +492,8 @@
 <?php
 	if ($dismode["dreamcompare"])
 	{
-		print "<h2><a name=\"dreammotions\">Policy Comparisons</a></h2>\n";
+		print "<h2><a name=\"dreammotions\">Policy Comparisons</a>\n";
+        print "</h2>\n";
 
 		print "<p>This chart shows the percentage agreement between this " . 
         ($voter1attr['bmultihouse'] ? "person" : $mpprop['housenoun'])
@@ -529,13 +533,14 @@
 		if ($dismode["possfriends"] == "all")
 			print "All ";
 		print "Possible Friends";
-        print " (<a href=\"$thispage&display=allfriends\">more...</a>)";
+		if ($dismode["possfriends"] != "all")
+            print " (<a href=\"$thispage&display=allfriends\">more...</a>)";
 
         print "</a></h2>";
 	    print "<p>Shows which ".$mpprop['housenounplural']." voted most similarly to this one in the ";
         print pretty_parliament_and_party($mpprop['enteredhouse'], $mpprop['party'], $mpprop['enteredreason'], $mpprop['leftreason']);
-        print ". The distance is measured from 0 (always voted the same) to 1 (always
-		    voted differently).  Only votes that both ".$mpprop['housenounplural']." attended are
+        print ". This is measured from 0% agreement (never voted the same) to 100% (always
+		    voted the same).  Only votes that both ".$mpprop['housenounplural']." attended are
 		    counted.  This may reveal relationships between ".$mpprop['housenounplural']." that were
 		    previously unsuspected.  Or it may be nonsense.";
 
