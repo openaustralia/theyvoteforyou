@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.29 2006/02/16 22:36:18 frabcus Exp $
+    # $Id: mps.php,v 1.30 2006/02/21 00:50:24 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -114,8 +114,14 @@
 
     pw_header();
 
-    print '<p>Members of the UK Parliament are listed below.
-         Refer to <a href="faq.php#clarify">this explanation</a> of the
+    print '<p>';
+    if ($rdisplay_house == 'commons') 
+        print 'Members of the House of Commons (part of the UK Parliament) are listed below.';
+    elseif ($rdisplay_house == 'lords') 
+        print 'Members of the House of Lords (part of the UK Parliament) are listed below.';
+    else
+        print 'Members of both Houses of the UK Parliament are listed below.';
+    print ' Refer to <a href="faq.php#clarify">this explanation</a> of the
          "rebellion" and "attendance" rates, as they may not mean what you
          think they do. </p>
 			';

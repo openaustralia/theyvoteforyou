@@ -1,12 +1,14 @@
 <?php require_once "common.inc";
-# $Id: lordsee.php,v 1.1 2006/02/17 18:54:52 publicwhip Exp $
+# $Id: lordsee.php,v 1.2 2006/02/21 00:50:24 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-    $title = "Lords vote map"; pw_header()
+    $colour_scheme = "lords"; 
+    $title = "Lords vote map"; 
+    pw_header()
 ?>
 
 <p>For your convenience, this is a tool for 
