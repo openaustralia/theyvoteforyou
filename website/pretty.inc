@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.32 2006/02/16 22:36:18 frabcus Exp $
+# $Id: pretty.inc,v 1.33 2006/02/22 19:57:46 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -156,7 +156,7 @@ function percentise_votes($num, $outof)
 {
 	$pcent = "";
 	if ($outof != 0)
-		$pcent = ", ".round(100 * $num / $outof, 1)."%";
+		$pcent = ", <b>".round(100 * $num / $outof, 1)."%</b>";
 	$strout = ($num != 1 ? ' votes out of ' : ' vote out of ');
 	return $num.$strout.$outof.$pcent;
 }
