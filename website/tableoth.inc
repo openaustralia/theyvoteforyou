@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.31 2006/02/17 18:54:52 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.32 2006/02/23 03:39:40 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -46,8 +46,9 @@
                 else
                     print "<td>".$mpprop['constituency']."</td>\n";
             }
-			print "<td>".($mpprop['enteredhouse'] == "0000-00-00" ? "before 1999" : $mpprop['enteredhouse'] )."</td>\n";
-	        $lefthouse = ($mpprop['lefthouse'] == "9999-12-31" ? "still in office" : $mpprop['lefthouse']);
+            $enteredhouse = ($mpprop['enteredhouse'] == "0000-00-00" ? "before 1999" : pretty_date($mpprop['enteredhouse']));
+			print "<td>".$enteredhouse."</td>\n";
+	        $lefthouse = ($mpprop['lefthouse'] == "9999-12-31" ? "still in office" : pretty_date($mpprop['lefthouse']));
 			print "<td>".$lefthouse."</td>\n";
 	        print "<td>".pretty_party($mpprop['party'])."</td>\n";
 			if ($brebelrates)

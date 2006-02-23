@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.61 2006/02/18 11:47:21 publicwhip Exp $
+# $Id: tablemake.inc,v 1.62 2006/02/23 03:39:40 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -310,7 +310,7 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $ro
     print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even")."$pretrowclass\">";
 
 	if ($columnforms["divisiondate"])
-	    print "<td>".$row['divisiondate']."</td>";
+	    print "<td>".pretty_date($row['divisiondate'])."</td>";
 	if ($columnforms["divisionnumber"])
 	    print "<td>".$row['divisionnumber']."</td>";
 	if ($columnforms["house"])

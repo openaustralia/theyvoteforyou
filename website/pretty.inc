@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.33 2006/02/22 19:57:46 publicwhip Exp $
+# $Id: pretty.inc,v 1.34 2006/02/23 03:39:40 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -471,6 +471,10 @@ function pretty_user_name($db, $name) {
 function pretty_distance_to_agreement($distance) {
     $agreement = (1.0 - (float)($distance)) * 100.0;
     return number_format($agreement, 1)."%";
+}
+
+function pretty_date($date) {
+    return str_replace(" ", "&nbsp;", date("j M Y", strtotime($date)));
 }
 
 ?>

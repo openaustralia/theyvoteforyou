@@ -1,6 +1,6 @@
 <?php
 
-# $Id: render.inc,v 1.13 2005/07/28 15:33:19 frabcus Exp $
+# $Id: render.inc,v 1.14 2006/02/23 03:39:40 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -40,7 +40,7 @@ function render_divisions_table($db)
             $class = "rebel";
         }
         $prettyrow = pretty_row_start($prettyrow, $class);
-        print "<td>$row[1]</td> <td>$row[2]</td> <td><a
+        print "<td>$row[1]</td> <td>".pretty_date($row[2])."</td> <td><a
             href=\"division.php?date=" . urlencode($row[2]) . "&number="
             . urlencode($row[1]) . "\">$row[3]</a></td>
             <td>$row[5]</td>

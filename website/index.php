@@ -2,7 +2,7 @@
 
 cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.66 2006/02/21 01:01:07 publicwhip Exp $
+# $Id: index.php,v 1.67 2006/02/23 03:39:40 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -118,7 +118,7 @@ href="account/addpolicy.php">make</a> a new policy</span>
 
 <td colspan=2>
 
-<h2>Recent Controversial Divisions (<a href="divisions.php"
+<h2>Recent controversial divisions (<a href="divisions.php"
 title="Show all divisions ordered by most recent">more...</a>)</h2>
 
 <?php
@@ -137,7 +137,7 @@ title="Show all divisions ordered by most recent">more...</a>)</h2>
 
 </tr><tr><td>
 
-<h2>Top MP Rebels (<a href="mps.php?sort=rebellions" title="Show all MPs ordered by rebellions">more...</a>)</h2>
+<h2>Top rebel MPs (<a href="mps.php?sort=rebellions" title="Show all MPs ordered by rebellions">more...</a>)</h2>
 
 <?php
 
@@ -153,7 +153,7 @@ title="Show all divisions ordered by most recent">more...</a>)</h2>
 
 </td><td>
 
-<h2>Best MP and Lords Attendance (<a href="mps.php?sort=attendance&house=both" title="Show all MPs ordered by attendance">more...</a>)</h2>
+<h2>Best attending MPs and Lords (<a href="mps.php?sort=attendance&house=both" title="Show all MPs ordered by attendance">more...</a>)</h2>
 <?
 	$mptabattr = array("listtype" 	=> "parliament",
 					   "parliament" => "now", 
