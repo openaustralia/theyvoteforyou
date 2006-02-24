@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.121 2006/02/20 10:29:31 publicwhip Exp $
+# $Id: division.php,v 1.122 2006/02/24 00:51:30 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -587,7 +587,7 @@ if ($singlemotionpage)
                     $vote = "abstain";
                 print "<td><a href=\"policy.php?id=" . $row["dream_id"] . "\">";
                 print $row["name"] . "</a></td>";
-                print "<td>" . $vote . "</td>";
+                print "<td>" . vote_display_in_table($vote) . "</td>";
                 print "</tr>";
             }
             print "</table>";
