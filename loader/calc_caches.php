@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: calc_caches.php,v 1.7 2006/02/17 16:57:37 publicwhip Exp $
+# $Id: calc_caches.php,v 1.8 2006/02/24 00:51:12 publicwhip Exp $
 
 # Calculate lots of cache tables, run after update.
 
@@ -92,7 +92,7 @@ function guess_whip_for_all($db, $db2)
 
 		# to detect abstentions we'd need an accurate partyinfo that worked per parliament
 		$whip_guess = "unknown";
-		if ($party == "XB" or $party == "Other" or substr($party, 0, 3) == "Ind")
+		if ($party == "XB" or $party == "Other" or substr($party, 0, 3) == "Ind" or $party == "Bp")
 			$whip_guess = "none";
 		else if ($party == "CWM" or $party == "DCWM")
 			$whip_guess = "abstain";
