@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.37 2006/02/25 20:47:42 goatchurch Exp $
+# $Id: divisions.php,v 1.38 2006/02/25 22:32:16 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -25,7 +25,7 @@
 		$rdismodes[$lrdisplay] = array(
 								 "description" => $val['name']." Parliament",
 								 "lkdescription" => $val['name']." Parliament",
-								 "parliament" => $ldisplay);
+								 "parliament" => $lrdisplay);
 		if (!$rdefaultdisplay)
 			$rdefaultdisplay = $lrdisplay;
 	}
@@ -34,7 +34,9 @@
 							 "lkdescription" => "All Parliaments",
 							 "parliament" => "all");
 
-	# move onto the secont selector
+
+    
+    # move onto the secont selector
 	$rdismodes2["every"] = array(
 							 "description" => "Divisions",
 							 "lkdescription" => "All Divisions",
@@ -209,7 +211,10 @@
 			"sortby"		=> $sort,
 			"display_house" => $rdisplay_house);
 
-	if ($rdismode["parliament"] != "all")
+	if ($rdismode["showwhich"] == "party")
+        $divtabattr["party"] = $rdismode["party"]; 
+    
+    if ($rdismode["parliament"] != "all")
 		$divtabattr["parldatelimit"] = $parliaments[$rdismode["parliament"]];
 	else
 		$divtabattr["motionwikistate"] = "listunedited";  # this extra bit of information only shows up for advanced users who are looking at all parliaments
