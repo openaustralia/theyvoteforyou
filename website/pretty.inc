@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.35 2006/02/25 23:13:23 publicwhip Exp $
+# $Id: pretty.inc,v 1.36 2006/02/25 23:53:00 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -197,7 +197,7 @@ function percentise_votes($num, $outof)
 
 function percentise_votes_short($num, $outof)
 {
-	if ($outof == 0 or $num == "")
+	if ($outof == 0 or $num === "")
 		return "n/a";
 	return round(100 * $num / $outof, 1)."%";
 }

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.64 2006/02/25 22:32:16 publicwhip Exp $
+# $Id: tablemake.inc,v 1.65 2006/02/25 23:53:00 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -374,7 +374,7 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $ro
 	if ($columnforms["turnout"])
 		print "<td>".$row['turnout']."</td>\n";
     if ($columnforms["majority"])
-        print "<td>".$row['majority']."</td>"; 
+        print "<td>".abs($row['aye_majority'])."</td>"; 
 
     if ($columnforms["party_turnout"])
     {
@@ -729,9 +729,12 @@ function division_table($db, $divtabattr, $events = "")
             $columnforms["divisiontime"] = "yes"; 
             if ($showwhich != "party")
     		{
-	    		$columnforms["rebellions"] = 'yes';
+	    		$aquery["qselect"] .= ", aye_majority"; 
+                
+                $columnforms["rebellions"] = 'yes';
 	        	$columnforms["turnout"] = 'yes';
-	    	}
+                $columnforms["majority"] = 'yes'; 
+            }
         }
 	}
 
