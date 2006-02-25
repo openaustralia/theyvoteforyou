@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.36 2006/02/25 16:47:03 publicwhip Exp $
+# $Id: divisions.php,v 1.37 2006/02/25 20:47:42 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -67,10 +67,6 @@
 		if (!$rdismodes[$rdisplay])
 			$rdisplay = $rdefaultdisplay;
 	}
-	$rdisplay2 = db_scrub($_GET["rdisplay2"]);
-    if (!$rdismodes2[$rdisplay2])
-        $rdisplay2 = $rdefaultdisplay2;
-
 	$rdisplay_house = db_scrub($_GET["house"]);
 	if (!$rdisplay_house)
 		$rdisplay_house = $rdefaultdisplay_house;
@@ -96,14 +92,18 @@
 			$party = $row["party"];
             if ($party != "CWM" && $party != "DCWM" && substr($party, 0, 3) != "Ind" && $party != "Other" && $party != "None")
 			    $rdismodes2["${party}_party"] = array(
-									 "description" => "$party only",
-									 "lkdescription" => "$party only",
+									 "description" => pretty_party_raw($party)." party",
+									 "lkdescription" => pretty_party_raw($party)." only",
 									 "showwhich" => "party",
 									 "party" => $party);
 		}
-        #print_r($rdismodes2); 
+        #print_r($rdismodes2);
 	}
 
+	# now get this display of this subtype
+	$rdisplay2 = db_scrub($_GET["rdisplay2"]);
+    if (!$rdismodes2[$rdisplay2])
+        $rdisplay2 = $rdefaultdisplay2;
 
 	$rdismode = array_merge($rdismodes[$rdisplay], $rdismodes2[$rdisplay2]);
     $rdismode['description'] = $rdismodes2[$rdisplay2]['description'] . " - " . $rdismodes[$rdisplay]['description'];
@@ -185,7 +185,7 @@
 	{
         static $donebar = 0;
 		$dlink = makedivlink($rdisplay, $rdisplay2, $rdisplay_house, $hcellsort);
-        if ($donebar)  
+        if ($donebar)
             print " | ";
         $donebar = 1;
 		if ($sort == $hcellsort)
@@ -201,21 +201,11 @@
 
 	# these head cells are tabbing type links (not any more)
     print "<table class=\"votes\">\n";
-    print "<tr class=\"headings\">";
-    print "<td>Date</td>";
-    print "<td>No.</td>";
-	if ($rdisplay_house == "both")
-        print "<td>House</td>";
-    print "<td>Subject</td>";
-    print "<td>Rebellions<br>(<a href=\"/faq.php#clarify\">explain...</a>)</td>";
-    print "<td>Turnout</td>";
-    print "</tr>";
-
 
 	# would like to have the above heading put into the scheme
 	$divtabattr = array(
 			"showwhich"		=> $rdismode["showwhich"],
-			"headings"		=> 'none',
+			"headings"		=> 'columns',
 			"sortby"		=> $sort,
 			"display_house" => $rdisplay_house);
 

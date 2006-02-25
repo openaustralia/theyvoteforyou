@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.62 2006/02/23 03:39:40 publicwhip Exp $
+# $Id: tablemake.inc,v 1.63 2006/02/25 20:47:43 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -293,12 +293,24 @@ function print_column_headings($vote1, $vote2, $columnforms)
 	if ($columnforms["voteoverlap"])
        print "<td>Overlap</td>";
 	if ($columnforms["rebellions"])
-        print "<td>Rebellions</td>";
+        print "<td>Rebellions<br>(<a href=\"/faq.php#clarify\">explain...</a>)</td>";
 	if ($columnforms["turnout"])
 		print "<td>Turnout</td>\n";
 
+    if ($columnforms["party_total"])
+        print "<td>Party Size</td>";
+    if ($columnforms["ayes"])
+        print "<td>Ayes</td>";
+    if ($columnforms["noes"])
+        print "<td>Noes</td>";
+    if ($columnforms["boths"])
+        print "<td>Boths</td>";
+    if ($columnforms["whip_guess"])
+        print "<td>Whip Guess</td>";
+
     if ($columnforms["speeches"])
         print "<td>Debate</td>";
+
 	print "</tr>\n";
 }
 
@@ -342,7 +354,7 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $ro
     {
     	$similarity = (1.0 - (float)$row['divdistance']) * 100.0;
         print "<td>".number_format($similarity, 0)."%";
-        print "<br>(<a href=\"$divhref$divhrefcloseappend\"><b>details...</b></a>)"; 
+        print "<br>(<a href=\"$divhref$divhrefcloseappend\"><b>details...</b></a>)";
         print "</td>";
 	}
 	if ($columnforms["voteoverlap"])
@@ -352,6 +364,17 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $ro
         print "<td>".$row['rebellions']."</td>";
 	if ($columnforms["turnout"])
 		print "<td>".$row['turnout']."</td>\n";
+
+    if ($columnforms["party_total"])
+        print "<td>".$row['possible_votes']."</td>";
+    if ($columnforms["ayes"])
+        print "<td>".$row['ayes']."</td>";
+    if ($columnforms["noes"])
+        print "<td>".$row['noes']."</td>";
+    if ($columnforms["boths"])
+        print "<td>".$row['boths']."</td>";
+    if ($columnforms["whip_guess"])
+        print "<td>".$row['whip_guess']."</td>";
 
     if ($columnforms["speeches"])
         print "<td><a href=\"$hrefsource\">speeches</a></td>";
@@ -541,7 +564,8 @@ function writeevents(&$events, $date, $breversed)
 # votertype is 'dreammp', 'mp', 'party'
 # voter is a mpid, dreammpid, blank-for-self party,
 # divclose is divattr, or null
-# showwhich is 'everyvote', 'rebellions10', 'all1', 'all2', 'either', 'both', 'bothdiff' (tellers appear automatically)
+# showwhich is 'everyvote', 'rebellions10', 'party', 'all1', 'all2', 'either', 'both', 'bothdiff' (tellers appear automatically)
+#   if 'party' then party says which one
 # (then we need a signal for order and for expanded display, and for events)
 # votedisplay is none, 'fullmotion'(for showing the jmp view)
 # headings is 'none', 'columns', 'fulldesc'(for changing mps)
@@ -702,6 +726,20 @@ function division_table($db, $divtabattr, $events = "")
     if ($showwhich == "rebellions10")
         $aquery["qwhere"]  .= " AND rebellions > 10";
 
+	# link in the party info
+	if ($showwhich == "party")
+	{
+		$aquery["qselect"] .= ", pw_cache_whip.aye_votes AS ayes, pw_cache_whip.no_votes AS noes, pw_cache_whip.both_votes AS boths, pw_cache_whip.possible_votes AS possible_votes, pw_cache_whip.whip_guess AS whip_guess";
+		$aquery["qjoin"] .= " LEFT JOIN pw_cache_whip
+								ON pw_cache_whip.division_id = pw_division.division_id AND pw_cache_whip.party = '".$divtabattr["party"]."'";
+	    $columnforms["ayes"] = "yes";
+	    $columnforms["noes"] = "yes";
+	    $columnforms["boths"] = "yes";
+	    $columnforms["whip_guess"] = "yes";
+	    $columnforms["party_total"] = "yes";
+	}
+
+
     # apply the limit
     if ($divtabattr["limitby"] != "")
         $aquery["qlimit"] = " LIMIT ".$divtabattr["limitby"];
@@ -773,7 +811,7 @@ function division_table($db, $divtabattr, $events = "")
         else if (!$divclose and $row['rebellions'] >= 10 and $sortby != "rebellions" and $showwhich != "rebellions10")
             $pretrowclass = "rebel";
 
-        $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $row['debate_gid']); # this entry in the database should tell us if it is a lords type.  
+        $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $row['debate_gid']); # this entry in the database should tell us if it is a lords type.
         if ($debate_gid != "")
             $hrefsource = "http://www.theyworkforyou.com/debates/?id=$debate_gid";
         else
