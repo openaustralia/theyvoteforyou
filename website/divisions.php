@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.34 2006/02/25 15:34:30 publicwhip Exp $
+# $Id: divisions.php,v 1.35 2006/02/25 16:16:12 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -15,9 +15,9 @@
     require_once "render.inc";
 
 	# constants
-	$rdismodes = array();
-    $rdismodes2 = array();
-	$rdismodes_house = array();
+	$rdismodes = array();  # this refers to the parliament (time range)
+	$rdismodes_house = array();  # this controls the house (second type)
+    $rdismodes2 = array(); # this has everyvote or rebel, or parties if we are within one house
 
 	$rdefaultdisplay = ""; # we grab the front entry from array
 	foreach ($parliaments as $lrdisplay => $val)
@@ -58,6 +58,7 @@
 							 "lkdescription" => "Lords only");
     $rdefaultdisplay_house = "both";
 
+
 	# find the display mode
 	$rdisplay = db_scrub($_GET["rdisplay"]);
 	if (!$rdismodes[$rdisplay])
@@ -70,14 +71,43 @@
     if (!$rdismodes2[$rdisplay2])
         $rdisplay2 = $rdefaultdisplay2;
 
+	$rdisplay_house = db_scrub($_GET["house"]);
+	if (!$rdisplay_house)
+		$rdisplay_house = $rdefaultdisplay_house;
+
+	# now try to construct all the parties present in a house that we could see the whip of
+	if ($rdisplay_house != "both")
+	{
+		$qselect = "SELECT party";
+		$qfrom .= " FROM pw_cache_whip";
+		$qjoin .= " LEFT JOIN pw_division
+						ON pw_division.division_id = pw_cache_whip.division_id";
+		$qwhere .= " WHERE house = $rdisplay_house";
+		if ($rdisplay != "all")
+			$qwhere .= " AND division_date >= '".$parliaments[$rdisplay]["from"]."'
+						 AND division_date < '".$parliaments[$rdisplay]["from"]."'";
+		$qgroup = " GROUP BY party";
+		$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
+		if ($debug)
+			print $query;
+		$db->query($query);
+		while ($row = $db->fetch_row_assoc())
+		{
+			$party = $row["party"];
+			$rdismodes2["${party}_party"] = array(
+									 "description" => "$party only",
+									 "lkdescription" => "$party only",
+									 "showwhich" => "party"
+									 "party" => $party);
+		}
+	}
+
+
 	$rdismode = array_merge($rdismodes[$rdisplay], $rdismodes2[$rdisplay2]);
     $rdismode['description'] = $rdismodes2[$rdisplay2]['description'] . " - " . $rdismodes[$rdisplay]['description'];
     $rdismode['lkdescription'] = null;
 	$rdismode['display_house'] = $rdisplay_house;
 
-	$rdisplay_house = db_scrub($_GET["house"]);
-	if (!$rdisplay_house)
-		$rdisplay_house = $rdefaultdisplay_house;
 
 	# the sort field
     $sort = db_scrub($_GET["sort"]);
@@ -167,7 +197,7 @@
     makesortlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Rebellions", "rebellions", "Sort by rebellions");
     makesortlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Turnout", "turnout", "Sort by turnout");
 
-	# these head cells are tabbing type links
+	# these head cells are tabbing type links (not any more)
     print "<table class=\"votes\">\n";
     print "<tr class=\"headings\">";
     print "<td>Date</td>";
@@ -188,9 +218,9 @@
 			"display_house" => $rdisplay_house);
 
 	if ($rdismode["parliament"] != "all")
-		$divtabattr["parldatelimit"] = $parliaments[$rdisplay];
+		$divtabattr["parldatelimit"] = $parliaments[$rdismode["parliament"]];
 	else
-		$divtabattr["motionwikistate"] = "listunedited";
+		$divtabattr["motionwikistate"] = "listunedited";  # this extra bit of information only shows up for advanced users who are looking at all parliaments
 
 	division_table($db, $divtabattr);
     print "</table>\n";

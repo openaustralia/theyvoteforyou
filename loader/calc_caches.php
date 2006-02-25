@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: calc_caches.php,v 1.9 2006/02/24 12:11:41 publicwhip Exp $
+# $Id: calc_caches.php,v 1.10 2006/02/25 16:16:12 goatchurch Exp $
 
 # Calculate lots of cache tables, run after update.
 
@@ -58,20 +58,30 @@ function guess_whip_for_all($db, $db2)
 	$db->query("CREATE TABLE pw_cache_whip_tmp (
 					division_id int not null,
 					party varchar(200) not null,
+					aye_votes int not null,
+					no_votes int not null,
+					both_votes int not null,
+					possible_votes int not null,
 					whip_guess enum('aye', 'no', 'abstain', 'unknown', 'none') not null,
 					unique(division_id, party)
 			    )");
 
 	$qselect = "SELECT sum(pw_vote.vote = 'aye' or pw_vote.vote = 'tellaye') AS ayes,
 					   sum(pw_vote.vote = 'no' or pw_vote.vote = 'tellno') AS noes,
-					   count(*) AS party_count,
+					   sum(pw_vote.vote = 'both') AS boths,
+					   count(*) AS possible_votes,
 					   pw_division.division_id AS division_id, party,
 					   division_date, division_number, pw_division.house as house";
 	$qfrom =  " FROM pw_division";
-	$qjoin =  " LEFT JOIN pw_vote
-					ON pw_vote.division_id = pw_division.division_id";
-	$qjoin .= " LEFT JOIN pw_mp
-					ON pw_mp.mp_id = pw_vote.mp_id";
+
+	$qjoin .= " LEFT JOIN pw_mp ON
+            		pw_division.house = pw_mp.house AND
+            		pw_mp.entered_house <= pw_division.division_date AND
+            		pw_division.division_date < pw_mp.left_house";
+    $qjoin .= " LEFT JOIN pw_vote ON
+		            pw_vote.mp_id = pw_mp.mp_id AND
+        		    pw_vote.division_id = pw_division.division_id";
+
 	$qgroup = " GROUP BY pw_division.division_id, pw_mp.party, pw_division.house";
 	$query = $qselect.$qfrom.$qjoin.$qgroup;
 
@@ -83,8 +93,8 @@ function guess_whip_for_all($db, $db2)
 		$party = $row['party'];
 		$ayes = intval($row['ayes']);
 		$noes = intval($row['noes']);
-		$total = intval($row['party_count']);
-
+		$boths = intval($row['boths']);
+		$possibles = intval($row['possible_votes']);
 
 		# this would be the point where we add in some if statements accounting for the exceptions
 		# where the algorithm doesn't work.  Or we do it against another special table.
@@ -109,9 +119,8 @@ function guess_whip_for_all($db, $db2)
 				$whip_guess = "unknown";
 		}
 
-
-		$qattrs = "division_id, party, whip_guess";
-		$qvalues = $row['division_id'].", '".$row['party']."', '".$whip_guess."'";
+		$qattrs = "division_id, party, aye_votes, no_votes, both_votes, possible_votes, whip_guess";
+		$qvalues = $row['division_id'].", '".$row['party']."', $ayes, $noes, $boths, $possibles, '".$whip_guess."'";
         $query = "INSERT INTO pw_cache_whip_tmp ($qattrs) VALUES ($qvalues)";
         #print_r($row);
         #print $query;
@@ -145,7 +154,7 @@ function count_4d_info($db, $table, $group_by, $id, $votes_attended, $votes_poss
     $query = "
         INSERT INTO ${table}_tmp
             ($id, rebellions, tells, $votes_attended, $votes_possible)
-        SELECT 
+        SELECT
             $group_by,
             SUM((whip_guess = 'aye' AND (vote = 'no' or vote = 'tellno')) OR
                 (whip_guess = 'no' AND (vote = 'aye' or vote = 'tellaye'))) AS rebellions,
@@ -153,21 +162,21 @@ function count_4d_info($db, $table, $group_by, $id, $votes_attended, $votes_poss
             SUM(vote IS NOT NULL) as $votes_attended,
             SUM(pw_division.division_id IS NOT NULL) AS $votes_possible
 
-        FROM pw_division 
+        FROM pw_division
 
-        LEFT JOIN pw_mp ON 
+        LEFT JOIN pw_mp ON
             pw_division.house = pw_mp.house AND
             pw_mp.entered_house <= pw_division.division_date AND
             pw_division.division_date < pw_mp.left_house
 
-        LEFT JOIN pw_vote ON 
+        LEFT JOIN pw_vote ON
             pw_vote.mp_id = pw_mp.mp_id AND
             pw_vote.division_id = pw_division.division_id
 
         LEFT JOIN pw_cache_whip ON
             pw_cache_whip.party = pw_mp.party AND
             pw_cache_whip.division_id = pw_division.division_id
-    
+
         GROUP BY $group_by
     ";
 
