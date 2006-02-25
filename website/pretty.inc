@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.34 2006/02/23 03:39:40 publicwhip Exp $
+# $Id: pretty.inc,v 1.35 2006/02/25 23:13:23 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -50,6 +50,40 @@ function pretty_party_raw($party)
 
     return $party;
 }
+
+function pretty_party_long($party, $house)
+{
+    $tail = ($house == "commons" ? " MPs" : ($house == "lords" ? " Lords" : "")); 
+    if ($party == "Con")
+        return "Conservative Party$tail"; 
+    if ($party == "Lab")
+        return "Labour Party$tail";
+    if ($party == "LDem")
+        return ($house ? "Liberal Democrat Party$tail" : "Libdem Party");
+    if ($party == "Bp")
+        return "Anglican Bishops"; 
+    if ($party == "XB")
+        return "Cross-benchers";
+    if ($party == "DU")
+        return "Democratic Unionist".($house ? $tail : "s"); 
+    if ($party == "PC")
+        return "Plaid Cymru$tail"; 
+    if ($party == "UU")
+        return "Ulseter Unionist".($house ? $tail : "s"); 
+    if ($party == "Ind")
+        return "Independent$tail"; 
+    if ($party == "Res")
+        return "Respect$tail"; 
+    if ($party == "SDLP")
+        return "SDLP$tail"; 
+    if ($party == "SF")
+        return "Sinn Fein$tail"; 
+    if ($party == "SNP")
+        return "Scottish National Party$tail"; 
+    return pretty_party_raw($party); 
+}
+    
+
 
 function pretty_party($party, $entered_reason="", $left_reason="")
 {

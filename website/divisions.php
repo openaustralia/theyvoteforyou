@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.38 2006/02/25 22:32:16 publicwhip Exp $
+# $Id: divisions.php,v 1.39 2006/02/25 23:13:22 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -92,10 +92,10 @@
 		while ($row = $db->fetch_row_assoc())
 		{
 			$party = $row["party"];
-            if ($party != "CWM" && $party != "DCWM" && substr($party, 0, 3) != "Ind" && $party != "Other" && $party != "None")
+            if ($party != "CWM" && $party != "DCWM" && substr($party, 0, 3) != "Ind" && $party != "Other" && $party != "None" && $party != "SPK")
 			    $rdismodes2["${party}_party"] = array(
-									 "description" => pretty_party_raw($party)." party",
-									 "lkdescription" => pretty_party_raw($party)." only",
+									 "description" => pretty_party_long($party, $rdisplay_house),
+									 "lkdescription" => pretty_party_long($party, ""),
 									 "showwhich" => "party",
 									 "party" => $party);
 		}
@@ -121,7 +121,7 @@
 	# do the title
     $title = $rdismodes2[$rdisplay2]['description'] . " - " . $rdismodes[$rdisplay]['description'];
 	if ($rdisplay_house != "both") {
-		$title .= " - ".($rdisplay_house == "lords" ? "Lords" : "Commons")." only";
+		#$title .= " - ".($rdisplay_house == "lords" ? "Lords" : "Commons")." only";
         $colour_scheme = $rdisplay_house;
     }
 	if ($sort != 'date')
