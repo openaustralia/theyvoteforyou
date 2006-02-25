@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: calc_caches.php,v 1.10 2006/02/25 16:16:12 goatchurch Exp $
+# $Id: calc_caches.php,v 1.11 2006/02/25 23:40:12 publicwhip Exp $
 
 # Calculate lots of cache tables, run after update.
 
@@ -69,7 +69,7 @@ function guess_whip_for_all($db, $db2)
 	$qselect = "SELECT sum(pw_vote.vote = 'aye' or pw_vote.vote = 'tellaye') AS ayes,
 					   sum(pw_vote.vote = 'no' or pw_vote.vote = 'tellno') AS noes,
 					   sum(pw_vote.vote = 'both') AS boths,
-					   count(*) AS possible_votes,
+					   sum(1) AS possible_votes,
 					   pw_division.division_id AS division_id, party,
 					   division_date, division_number, pw_division.house as house";
 	$qfrom =  " FROM pw_division";
@@ -125,7 +125,7 @@ function guess_whip_for_all($db, $db2)
         #print_r($row);
         #print $query;
 		$db2->query($query);
-	}
+    }
 
 	$db->query("DROP TABLE IF EXISTS pw_cache_whip");
 	$db->query("RENAME TABLE pw_cache_whip_tmp TO pw_cache_whip");
@@ -148,20 +148,24 @@ function count_4d_info($db, $table, $group_by, $id, $votes_attended, $votes_poss
         tells int not null,
         $votes_attended int not null,
         $votes_possible int not null,
+        aye_majority int not null, 
         index($id)
     )");
-
+    // majority is meaningless in the case of the mp_info -- just how many more ayes than noes in the lifetime of the MP
+    
     $query = "
         INSERT INTO ${table}_tmp
-            ($id, rebellions, tells, $votes_attended, $votes_possible)
+            ($id, rebellions, tells, $votes_attended, $votes_possible, aye_majority)
         SELECT
             $group_by,
             SUM((whip_guess = 'aye' AND (vote = 'no' or vote = 'tellno')) OR
-                (whip_guess = 'no' AND (vote = 'aye' or vote = 'tellaye'))) AS rebellions,
+                (whip_guess = 'no' AND (vote = 'aye' or vote = 'tellaye')) OR
+                (whip_guess = 'abstain' AND (vote IS NOT NULL))) AS rebellions,
             SUM(vote = 'tellaye' OR vote = 'tellno') AS tells,
             SUM(vote IS NOT NULL) as $votes_attended,
-            SUM(pw_division.division_id IS NOT NULL) AS $votes_possible
-
+            SUM(pw_division.division_id IS NOT NULL) AS $votes_possible,
+            SUM((vote = 'aye' or vote = 'tellaye') - (vote = 'no' or vote = 'tellno')) AS aye_majority
+            
         FROM pw_division
 
         LEFT JOIN pw_mp ON
