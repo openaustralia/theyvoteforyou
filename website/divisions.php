@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.35 2006/02/25 16:16:12 goatchurch Exp $
+# $Id: divisions.php,v 1.36 2006/02/25 16:47:03 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -78,28 +78,30 @@
 	# now try to construct all the parties present in a house that we could see the whip of
 	if ($rdisplay_house != "both")
 	{
-		$qselect = "SELECT party";
+        $qselect = "SELECT party";
 		$qfrom .= " FROM pw_cache_whip";
 		$qjoin .= " LEFT JOIN pw_division
 						ON pw_division.division_id = pw_cache_whip.division_id";
-		$qwhere .= " WHERE house = $rdisplay_house";
+		$qwhere .= " WHERE house = '$rdisplay_house'";
 		if ($rdisplay != "all")
 			$qwhere .= " AND division_date >= '".$parliaments[$rdisplay]["from"]."'
-						 AND division_date < '".$parliaments[$rdisplay]["from"]."'";
+						 AND division_date < '".$parliaments[$rdisplay]["to"]."'";
 		$qgroup = " GROUP BY party";
 		$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
 		if ($debug)
-			print $query;
+			print "<h2>$query</h2>\n";
 		$db->query($query);
 		while ($row = $db->fetch_row_assoc())
 		{
 			$party = $row["party"];
-			$rdismodes2["${party}_party"] = array(
+            if ($party != "CWM" && $party != "DCWM" && substr($party, 0, 3) != "Ind" && $party != "Other" && $party != "None")
+			    $rdismodes2["${party}_party"] = array(
 									 "description" => "$party only",
 									 "lkdescription" => "$party only",
-									 "showwhich" => "party"
+									 "showwhich" => "party",
 									 "party" => $party);
 		}
+        #print_r($rdismodes2); 
 	}
 
 
