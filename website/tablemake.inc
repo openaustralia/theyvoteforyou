@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.66 2006/02/26 12:52:59 goatchurch Exp $
+# $Id: tablemake.inc,v 1.67 2006/02/26 13:30:39 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -172,7 +172,7 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
             $dismetric["ab1"] += 1;
         }
         elseif ($vote2 == "unknown" || $vote2 == "none") {
-            $votedesc = "Free";
+            $votedesc = ($vote2 == "none" ? "Free" : "Unknown");
             $dismetric["ab2"] += 1;
         }
         elseif ($dtvote1 == $dtvote2)
