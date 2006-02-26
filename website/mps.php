@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.30 2006/02/21 00:50:24 publicwhip Exp $
+    # $Id: mps.php,v 1.31 2006/02/26 16:03:34 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -22,7 +22,7 @@
 	$rdismodes['now'] = array(
 							 "description" => "Show only current members",
 							 "lkdescription" => "Current members",
-							 "parliament" => 'now', 
+							 "parliament" => 'now',
 							 "titdescription" => "Current members");
 	foreach ($parliaments as $lrdisplay => $val)
 	{
@@ -115,9 +115,9 @@
     pw_header();
 
     print '<p>';
-    if ($rdisplay_house == 'commons') 
+    if ($rdisplay_house == 'commons')
         print 'Members of the House of Commons (part of the UK Parliament) are listed below.';
-    elseif ($rdisplay_house == 'lords') 
+    elseif ($rdisplay_house == 'lords')
         print 'Members of the House of Lords (part of the UK Parliament) are listed below.';
     else
         print 'Members of both Houses of the UK Parliament are listed below.';
@@ -130,7 +130,7 @@
 	{
         static $donebar = 0;
 		$dlink = makempslink($rdisplay_parliament, $rdisplay_house, $hcellsort);
-        if ($donebar)  
+        if ($donebar)
             print " | ";
         $donebar = 1;
 		if ($sort == $hcellsort)
@@ -144,23 +144,11 @@
         makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Constituency", "constituency", "Sort by constituency");
     makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Party", "party", "Sort by party");
     if ($rdisplay_parliament == "all")
-        print "<td>Dates</td>"; 
+        print "<td>Dates</td>";
     makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Rebellions", "rebellions", "Sort by rebels");
     makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Attendance", "attendance", "Sort by attendance");
 
     print "<table class=\"mps\">\n";
-
-    $url = "mps.php?parliament=" . urlencode($parliament) . "&";
-    print "<tr class=\"headings\">";
-    print "<td>Name</td>";
-    if ($rdisplay_house != 'lords')
-        print "<td>Constituency</td>";
-    print "<td>Party</td>";
-    if ($rdisplay_parliament == "all")
-        print "<td>Dates</td>";
-    print "<td>Rebellions<br>(<a href=\"/faq.php#clarify\">explain...</a>)</td>";
-    print "<td>Attendance<br>(<a href=\"/faq.php#clarify\">explain...</a>)</td>";
-    print "</tr>";
 
 
 	# a function which generates any table of mps for printing,
@@ -168,7 +156,11 @@
 					   "parliament" => $rdisplay_parliament,
 					   "showwhich" 	=> "all",
 					   "sortby"		=> $sort,
-                       "house"      => $rdisplay_house);
+                       "house"      => $rdisplay_house, 
+					   "headings"	=> "yes");
+	if ($rdisplay_parliament == "now")
+		$mptabattr["ministerial"] = "yes";
+
 	mp_table($db, $mptabattr);
     print "</table>\n";
 ?>

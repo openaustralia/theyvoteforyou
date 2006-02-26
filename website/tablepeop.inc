@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.38 2006/02/26 12:52:59 goatchurch Exp $
+# $Id: tablepeop.inc,v 1.39 2006/02/26 16:03:34 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -9,6 +9,30 @@
 require_once $toppath . "links.inc";
 require_once $toppath . "parliaments.inc";
 
+
+function print_column_headings($columnforms)
+{
+    print "<tr class=\"headings\">";
+	if ($columnforms["name"])
+	    print "<td>Name</td>";
+	if ($columnforms["place"])
+        print "<td>Constituency</td>";
+	if ($columnforms["party"])
+	    print "<td>Party</td>";
+
+	if ($columnforms["vote"])
+        print "<td>Vote</td>";
+	if ($columnforms["vote_a"])
+        print "<td>Vote (a)</td>";
+	if ($columnforms["vote_b"])
+        print "<td>Vote (b)</td>";
+
+	if ($columnforms["rebellions"])
+	    print "<td>Rebellions<br>(<a href=\"/faq.php#clarify\">explain...</a>)</td>";
+	if ($columnforms["attendance"])
+	    print "<td>Attendance<br>(<a href=\"/faq.php#clarify\">explain...</a>)</td>";
+    print "</tr>";
+}
 
 function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friendlk, $columnforms)
 {
@@ -400,7 +424,7 @@ function mp_table($db, $mptabattr)
 		if ($mptabattr["sortby"] == "rebellions")
 		{
 			$columnforms["rownumbering"] = "yes";
-            $columnforms["attendance"] = ""; 
+            $columnforms["attendance"] = "";
 			$columnforms["rebellions"] = "yes";
 		}
 		if ($mptabattr["sortby"] == "attendance")
@@ -416,17 +440,22 @@ function mp_table($db, $mptabattr)
 	if ($house != "lords")
 		$columnforms["place"] = "yes";
 
+	if ($mptabattr["headings"])
+		print_column_headings($columnforms);
+
     # now output a sentence when there is an empty table (in cases where that can happen)
     if ($db->rows() == 0)
 	{
+		print "<tr class=\"even\"><td colspan=\"".count($columnforms)."\">";
 		if ($colstyle == "division" and $showwhich == "rebels")
-        	print "<tr class=\"even\"><td colspan=4>no rebellions</td></tr>\n";
+        	print "no rebellions";
 		else if ($colstyle == "division2" and $showwhich == "rebels")
-        	print "<tr class=\"even\"><td colspan=5>no opposites found</td></tr>\n";
+        	print "no opposites found";
 		else if ($colstyle == "division2" and $showwhich == "changes")
-        	print "<tr class=\"even\"><td colspan=5>no differences found</td></tr>\n";
+        	print "no differences found";
 		else
-			print "<tr class=\"even\"><td colspan=4>No results found</td></tr>\n";
+			print "No results found";
+		print "</td></tr>\n";
 	}
 
     $nrows = 0;

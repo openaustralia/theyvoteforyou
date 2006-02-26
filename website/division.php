@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.123 2006/02/26 12:52:59 goatchurch Exp $
+# $Id: division.php,v 1.124 2006/02/26 16:03:34 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -464,43 +464,26 @@ if ($singlemotionpage)
 		}
 
 		# the sort by cases
-		print "<table class=\"votes\"><tr class=\"headings\">";
-		if ($sort == "name")
-			print "<td>".($house == "lords" ? "Lord" : "MP")."</td>";
-		else
-			print "<td><a href=\"$thispage$tpdisplay&sort=name\">".($house == "lords" ? "Lord" : "MP")."</a></td>";
+	    print "<p style=\"font-size: 89%\" align=\"center\">Sort by: ";
+		print ($sort == "name" ? "<b>Name</b>" : "<a href=\"$thispage$tpdisplay&sort=name\">Name</a>");
 		if ($house != "lords")
 		{
-			if ($sort == "constituency")
-				print "<td>Constituency</td>";
-			else
-				print "<td><a href=\"$thispage$tpdisplay&sort=constituency\">Constituency</a></td>";
+			print " | ";
+			print ($sort == "constituency" ? "<b>Name</b>" : "<a href=\"$thispage$tpdisplay&sort=constituency\">Constituency</a>");
 		}
-		$partytext = ($singlemotionpage ? "Party" : "Party");
-        if ($sort == "party")
-			print "<td>$partytext</td>";
-		else
-			print "<td><a href=\"$thispage$tpdisplay\">$partytext</a></td>";
-
+		print " | ";
+		print ($sort == "party" ? "<b>Party</b>" : "<a href=\"$thispage$tpdisplay&sort=party\">Party</a>");
+		print " | ";
 		if ($singlemotionpage)
-		{
-			if ($sort == "vote")
-				print "<td>Vote</td>";
-			else
-				print "<td><a href=\"$thispage$tpdisplay&sort=vote\">Vote</a></td>";
-		}
+			print ($sort == "vote" ? "<b>Vote</b>" : "<a href=\"$thispage$tpdisplay&sort=vote\">Vote</a>");
 		else
 		{
-			if ($sort == "vote")
-				print "<td>Vote (a)</td>";
-			else
-				print "<td><a href=\"$thispage$tpdisplay&sort=vote\">Vote (a)</a></td>";
-			if ($sort == "vote2")
-				print "<td>Vote (b)</td>";
-			else
-				print "<td><a href=\"$thispage$tpdisplay&sort=vote2\">Vote (b)</a></td>";
+			print ($sort == "vote" ? "<b>Vote (a)</b>" : "<a href=\"$thispage$tpdisplay&sort=vote\">Vote (a)</a>");
+			print " | ";
+			print ($sort == "vote2" ? "<b>Vote (b)</b>" : "<a href=\"$thispage$tpdisplay&sort=vote2\">Vote (b)</a>");
 		}
-		print "</tr>\n";
+		print "</p>\n";
+
 
 		$mptabattr = array("listtype"	=> "division",
 							"divdate"	=> $divattr["division_date"],
@@ -510,7 +493,8 @@ if ($singlemotionpage)
 							"sortby"	=> $sort,
 							"showwhich" => $dismode["showwhich"],
 							"ministerial" => $dismode["ministerial"],
-                            "house"     => $divattr["house"]);
+                            "house"     => $divattr["house"],
+							"headings"  => "yes");
 
 
 		if (!$singlemotionpage)

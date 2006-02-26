@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.67 2006/02/26 13:30:39 publicwhip Exp $
+# $Id: tablemake.inc,v 1.68 2006/02/26 16:03:34 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -730,7 +730,7 @@ function division_table($db, $divtabattr, $events = "")
             if ($showwhich != "party")
     		{
 	    		$aquery["qselect"] .= ", aye_majority";
-                
+
                 $columnforms["rebellions"] = 'yes';
 	        	$columnforms["turnout"] = 'yes';
                 $columnforms["majority"] = 'yes'; 

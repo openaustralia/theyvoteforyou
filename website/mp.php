@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.120 2006/02/20 10:29:31 publicwhip Exp $
+    # $Id: mp.php,v 1.121 2006/02/26 16:03:34 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -188,6 +188,29 @@
 	$dismode = $dismodes[$display];
 	$thispagesettings .= ($thispagesettings ? "&" : "")."display=$display";
 
+	if ($voter2type != "dreammp")
+	{
+		$rdismodes_parl = Array();
+		foreach ($parliaments as $lrdisplay => $val)
+		{
+			// limit by date ranges
+			$rdismodes_parl[$lrdisplay] = array(
+									 "description" => $val['name']." Parliament",
+									 "lkdescription" => $val['name']." Parliament",
+									 "parliament" => $ldisplay,
+									 "titdescription" => $val['name']." Parliament");
+		}
+		$rdismodes_parl["all"] = array(
+								 "description" => "All votes on record",
+								 "lkdescription" => "All Parliaments",
+								 "titdescription" => "All on record",
+								 "parliament" => "all");
+		$rdisplay_parliament = db_scrub($_GET["parliament"]);
+	}
+	if (!$rdisplay_parliament)
+		$rdisplay_parliament = "all";
+
+
 	# generate title and header of this webpage
 	if ($mpprop['house'] == 'commons') {
 		$contitlefor = "for ".$mpprop['constituency'];
@@ -214,9 +237,23 @@
 	else
 		$title = "Voting Record - ".$mpprop['fullname'];
 
+	// now build up the links
     # make list of links to other display modes
     $second_links = dismodes_to_second_links($thispage, $dismodes, "", $display);
+	if ($rdismodes_parl)
+	{
+		$second_links2 = $second_links;
+		$second_links = array();
+	    foreach ($rdismodes_parl as $lrdisplay => $val)
+		{
+			$dlink = $thispage."&parliament=".$val["parliament"];
+	        array_push($second_links, array('href'=>$dlink,
+	            'current'=> ($rdisplay_parliament == $val["parliament"] ? "on" : "off"),
+	            'text'=>$val["lkdescription"]));
+		}
+	}
 
+	// we apply a date range to the
     pw_header();
 ?>
 
@@ -277,14 +314,15 @@
 			$all_same_cons = false;
         }
 
+	print "<p>";
 	if ($currently_minister)
-		print "<p><b>".$mpprop['name']."</b> is currently <b>$currently_minister</b>.<br>";
-	else
-		print "<p>";
-        if ($mpprop['house'] == 'commons')
-            print "Please note, our records only go back to 1997.";
-        else
-            print "Please note, our records only go back to May 2005.";
+		print "<b>".$mpprop['name']."</b> is currently <b>$currently_minister</b>.<br>";
+
+    if ($mpprop['house'] == 'commons')
+        print "Please note, our records only go back to 1997.";
+    else
+        print "Please note, our records only go back to May 2005.";
+
 	seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], ($all_same_cons ? false : true), true, $thispagesettings);
 
         if ($mpprop['house'] == 'commons' && $voter2type == "party")
@@ -368,7 +406,7 @@
                 print "<br>";
                 $pevious_person = $pp["person"];
             }
-                
+
 			print "<p class=\"policydefinition\"><b>Definition of <a href=\"$voter2link\">".html_scrub($voter2attr['name'])."</a> policy:</b>\n";
 			print html_scrub($voter2attr['description']);
 			print "</p>\n";
@@ -438,6 +476,8 @@
 			# apply a designated voter
 			$divtabattr["divhrefappend"] = "&".$mppropt['mpanchor'];
 
+			# apply a date range to the current MP in this list, and roll up the year range.  
+
 			# long asignment for return value because we're lacking foreach as &
 			$voter1attr['mpprops'][$lkey]["dismetric"] = division_table($db, $divtabattr, $events);
 
@@ -495,7 +535,7 @@
 		print "<h2><a name=\"dreammotions\">Policy Comparisons</a>\n";
         print "</h2>\n";
 
-		print "<p>This chart shows the percentage agreement between this " . 
+		print "<p>This chart shows the percentage agreement between this " .
         ($voter1attr['bmultihouse'] ? "person" : $mpprop['housenoun'])
          . " and each of the policies in the database, according to their
         voting record.  </p>\n";
