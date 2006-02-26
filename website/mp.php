@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.121 2006/02/26 16:03:34 goatchurch Exp $
+    # $Id: mp.php,v 1.122 2006/02/26 16:16:19 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -246,9 +246,9 @@
 		$second_links = array();
 	    foreach ($rdismodes_parl as $lrdisplay => $val)
 		{
-			$dlink = $thispage."&parliament=".$val["parliament"];
+			$dlink = $thispage."&parliament=$lrdisplay&display=$display";
 	        array_push($second_links, array('href'=>$dlink,
-	            'current'=> ($rdisplay_parliament == $val["parliament"] ? "on" : "off"),
+	            'current'=> ($rdisplay_parliament == $lrdisplay ? "on" : "off"),
 	            'text'=>$val["lkdescription"]));
 		}
 	}

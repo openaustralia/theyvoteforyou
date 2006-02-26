@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.39 2006/02/26 16:03:34 goatchurch Exp $
+# $Id: tablepeop.inc,v 1.40 2006/02/26 16:16:19 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -10,7 +10,7 @@ require_once $toppath . "links.inc";
 require_once $toppath . "parliaments.inc";
 
 
-function print_column_headings($columnforms)
+function print_mpcolumn_headings($columnforms)
 {
     print "<tr class=\"headings\">";
 	if ($columnforms["name"])
@@ -441,7 +441,7 @@ function mp_table($db, $mptabattr)
 		$columnforms["place"] = "yes";
 
 	if ($mptabattr["headings"])
-		print_column_headings($columnforms);
+		print_mpcolumn_headings($columnforms);
 
     # now output a sentence when there is an empty table (in cases where that can happen)
     if ($db->rows() == 0)

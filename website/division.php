@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.124 2006/02/26 16:03:34 goatchurch Exp $
+# $Id: division.php,v 1.125 2006/02/26 16:16:18 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -506,7 +506,8 @@ if ($singlemotionpage)
 			$mptabattr["div2invert"] = $div2invert;
 		}
 
-		mp_table($db, $mptabattr);
+		print "<table class=\"votes\">"; 
+        mp_table($db, $mptabattr);
 		print "</table>";
 	}
 
