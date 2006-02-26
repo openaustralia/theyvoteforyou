@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.32 2006/02/23 03:39:40 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.33 2006/02/26 12:52:59 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -198,7 +198,11 @@
         They are relative to other parties, so can be negative.</p>
         </div>";
 
-        $partysummary = GetPartyVoteSummaryH($db, $div_id);
+		$query = "SELECT party, aye_votes, aye_tells, no_votes, no_tells, both_votes, possible_votes, whip_guess
+					FROM pw_cache_whip
+					WHERE division_id = $div_id
+					ORDER BY party";
+		$db->query($query);
 
         # Make table
         print "<table><tr class=\"headings\"><td>Party</td>";
@@ -206,60 +210,69 @@
         if ($house != "lords")
             print "<td>Both</td>";
         print "<td>Turnout</td>";
-        print "<td>Expected</td><td>Abstain</td></tr>";
+        print "<td>Out of</td></tr>";
         $prettyrow = 0;
-        $allparties = array_keys($alldivs);
-        usort($allparties, strcasecmp);
-        #if ($partysummary['votes'] != $turnout)
-        #    print "<p>Error $votes != $turnout\n";
 
-        foreach ($allparties as $party)
-        {
-            $aye = $partysummary['ayes'][$party];
-            $no = $partysummary['noes'][$party];
-            $both = $partysummary['boths'][$party];
-            $tellaye = $partysummary['tellayes'][$party];
-            $tellno = $partysummary['tellnoes'][$party];
-            if ($aye == "") { $aye = 0; }
-            if ($no == "") { $no = 0; }
-            if ($both == "") { $both = 0; }
-            $whip = $partysummary['whips'][$party];
+		$totalayes = 0;
+		$totalnoes = 0;
+		$totalboths = 0;
+		$totalturnout = 0;
+		$totalpossible = 0;
+	    while ($row = $db->fetch_row())
+		{
+            $party = $row["party"];
+			$aye = $row["aye_votes"];
+			$tellaye = $row["aye_tells"];
+			$no = $row["no_votes"];
+			$tellno = $row["no_tells"];
+			$both = $row["both_votes"];
+
             $total = $aye + $no + $both + $tellaye + $tellno;
-            $classaye = "normal";
-            $classno = "normal";
-            if ($whip == "aye") { if ($no + $tellno > 0) { $classno = "rebel";} ;} else { $classno = "whip"; }
-            if ($whip == "no") { if ($aye + $tellaye> 0) { $classaye = "rebel";} ;} else { $classaye = "whip"; }
 
-            $classboth = "normal";
-            if ($both > 0) { $classboth = "important"; }
+			$totalayes += $aye;
+			$totaltellayes += $tellaye;
+			$totalnoes += $no;
+			$totaltellnoes += $tellno;
+			$totalboths += $both;
+			$totalturnout += $total;
+			$totalpossible += $row["possible_votes"];
 
-            $alldiv = $alldivs[$party];
-            $expected = round($partysummary['votes'] * ($alldiv / $alldivs_total), 0);
-            $abstentions = round($expected - $total, 0);
-            $classabs = "normal";
-            if (abs($abstentions) >= 2) { $classabs = "important"; }
+            $whip = $row["whip_guess"];
+            $classaye = ($whip == "no" ? ($aye + $tellaye > 0 ? "rebel" : "whip") : "normal");
+            $classno = ($whip == "aye" ? ($no + $tellno > 0 ? "rebel" : "whip") : "normal");
+            $classboth = ($both > 0 ? "important" : "normal");
 
-            if ($tellaye > 0 or $tellno > 0 or $aye > 0 or $no > 0 or $both > 0 or $abstentions >= 2)
-            {
-                if ($tellaye > 0)
-                    $aye .= " (+" . $tellaye . " tell)";
-                if ($tellno > 0)
-                    $no .= " (+" . $tellno . " tell)";
+            if ($tellaye > 0)
+                $aye .= " (+" . $tellaye . " tell)";
+            if ($tellno > 0)
+                $no .= " (+" . $tellno . " tell)";
 
-                $prettyrow = pretty_row_start($prettyrow);
-                print "<td>" . pretty_party($party) . "</td>";
-                print "<td class=\"$classaye\">$aye</td>";
-                print "<td class=\"$classno\">$no</td>";
-                if ($house == "lords" && $both > 0)
-                    print "ERROR - both for lords";
-                if ($house != "lords")
-                    print "<td class=\"$classboth\">$both</td>";
-                print "<td>$total</td>";
-                print "<td>$expected</td>";
-                print "<td class=\"$classabs\">$abstentions</td>";
-                print "</tr>";
-            }
+            $prettyrow = pretty_row_start($prettyrow);
+            print "<td>" . pretty_party($party) . "</td>";
+            print "<td class=\"$classaye\">$aye</td>";
+            print "<td class=\"$classno\">$no</td>";
+            if ($house == "lords" && $both > 0)
+                print "ERROR - both for lords";
+            if ($house != "lords")
+                print "<td class=\"$classboth\">$both</td>";
+            print "<td>$total</td>";
+            print "<td>".$row["possible_votes"]."</td>";
+            print "</tr>";
         }
-        print "</table>";
+
+		// the setting for the final line of totals
+        $prettyrow = pretty_row_start($prettyrow);
+        print "<td class=\"important\">" . "Total:" . "</td>";
+        print "<td class=\"normal\">$totalayes</td>";
+        print "<td class=\"normal\">$totalnoes</td>";
+        if ($house != "lords")
+            print "<td class=\"$classboth\">$both</td>";
+        else if ($totalboths > 0)
+            print "ERROR - both for lords";
+        print "<td>$totalturnout</td>";
+        print "<td>$totalpossible</td>";
+        print "</tr>";
+
+		print "</table>";
 	}
 ?>

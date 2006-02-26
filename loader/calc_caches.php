@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: calc_caches.php,v 1.11 2006/02/25 23:40:12 publicwhip Exp $
+# $Id: calc_caches.php,v 1.12 2006/02/26 12:52:58 goatchurch Exp $
 
 # Calculate lots of cache tables, run after update.
 
@@ -59,15 +59,19 @@ function guess_whip_for_all($db, $db2)
 					division_id int not null,
 					party varchar(200) not null,
 					aye_votes int not null,
+					aye_tells int not null,
 					no_votes int not null,
+					no_tells int not null,
 					both_votes int not null,
 					possible_votes int not null,
 					whip_guess enum('aye', 'no', 'abstain', 'unknown', 'none') not null,
 					unique(division_id, party)
 			    )");
 
-	$qselect = "SELECT sum(pw_vote.vote = 'aye' or pw_vote.vote = 'tellaye') AS ayes,
-					   sum(pw_vote.vote = 'no' or pw_vote.vote = 'tellno') AS noes,
+	$qselect = "SELECT sum(pw_vote.vote = 'aye') AS ayevotes,
+					   sum(pw_vote.vote = 'tellaye') AS ayetells,
+					   sum(pw_vote.vote = 'no') AS novotes,
+					   sum(pw_vote.vote = 'tellno') AS notells,
 					   sum(pw_vote.vote = 'both') AS boths,
 					   sum(1) AS possible_votes,
 					   pw_division.division_id AS division_id, party,
@@ -91,10 +95,15 @@ function guess_whip_for_all($db, $db2)
 	while ($row = $db->fetch_row_assoc())
 	{
 		$party = $row['party'];
-		$ayes = intval($row['ayes']);
-		$noes = intval($row['noes']);
+		$ayevotes = intval($row['ayevotes']);
+		$ayetells = intval($row['ayetells']);
+		$novotes = intval($row['novotes']);
+		$notells = intval($row['notells']);
 		$boths = intval($row['boths']);
 		$possibles = intval($row['possible_votes']);
+
+		$ayes = $ayevotes + $ayetells;
+		$noes = $novotes + $notells;
 
 		# this would be the point where we add in some if statements accounting for the exceptions
 		# where the algorithm doesn't work.  Or we do it against another special table.
@@ -119,8 +128,8 @@ function guess_whip_for_all($db, $db2)
 				$whip_guess = "unknown";
 		}
 
-		$qattrs = "division_id, party, aye_votes, no_votes, both_votes, possible_votes, whip_guess";
-		$qvalues = $row['division_id'].", '".$row['party']."', $ayes, $noes, $boths, $possibles, '".$whip_guess."'";
+		$qattrs = "division_id, party, aye_votes, aye_tells, no_votes, no_tells, both_votes, possible_votes, whip_guess";
+		$qvalues = $row['division_id'].", '".$row['party']."', $ayevotes, $ayetells, $novotes, $notells, $boths, $possibles, '".$whip_guess."'";
         $query = "INSERT INTO pw_cache_whip_tmp ($qattrs) VALUES ($qvalues)";
         #print_r($row);
         #print $query;
@@ -148,11 +157,11 @@ function count_4d_info($db, $table, $group_by, $id, $votes_attended, $votes_poss
         tells int not null,
         $votes_attended int not null,
         $votes_possible int not null,
-        aye_majority int not null, 
+        aye_majority int not null,
         index($id)
     )");
     // majority is meaningless in the case of the mp_info -- just how many more ayes than noes in the lifetime of the MP
-    
+
     $query = "
         INSERT INTO ${table}_tmp
             ($id, rebellions, tells, $votes_attended, $votes_possible, aye_majority)
@@ -165,7 +174,7 @@ function count_4d_info($db, $table, $group_by, $id, $votes_attended, $votes_poss
             SUM(vote IS NOT NULL) as $votes_attended,
             SUM(pw_division.division_id IS NOT NULL) AS $votes_possible,
             SUM((vote = 'aye' or vote = 'tellaye') - (vote = 'no' or vote = 'tellno')) AS aye_majority
-            
+
         FROM pw_division
 
         LEFT JOIN pw_mp ON

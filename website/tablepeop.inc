@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.37 2006/02/18 11:03:08 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.38 2006/02/26 12:52:59 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -12,15 +12,16 @@ require_once $toppath . "parliaments.inc";
 
 function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friendlk, $columnforms)
 {
-
     # row colour
+    $sclass = "";
     if ($colstyle == "division")
     {
-        if ($row["vote"] == "both")
+		$vote = str_replace("tell", "", $row["vote"]);
+        if ($vote == "both")
             $sclass = "both";
-        elseif ($showwhich != "rebels"
-                and $row["whip_guess"] != "unknown" and $row["vote"] != "none" and $row["vote"] != ""
-                and str_replace("tell", "", $row["vote"]) != $row["whip_guess"])
+        elseif (($showwhich != "rebels")
+                && ($row["whip_guess"] != "unknown") && ($row["whip_guess"] != "none")
+				&& ($vote != "") && ($vote != $row["whip_guess"]))
             $sclass = "rebel";
     }
     elseif ($colstyle == "division2" or $colstyle == "division2invert")
@@ -92,9 +93,9 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
 	    if ($y2 == "9999")
 		    $y2 = date("Y");
         $yearrange = "($y1-$y2)";  # could be included in the percentise_votes as an extra bit
-        print "<td>$yearrange</td>"; 
+        print "<td>$yearrange</td>";
     }
-    
+
 	if ($columnforms["rebellions"])
         print "<td class=\"percent\">".percentise_votes_short($row['rebellions'], $row['votes_attended'])."</td>";
 	if ($columnforms["attendance"])
@@ -283,6 +284,7 @@ function mp_table($db, $mptabattr)
         # comparison to the whip
         if ($showwhich == 'rebels')
             $aquery["qwhere"]	.= " AND whip_guess <> 'unknown'
+            						 AND whip_guess <> 'none'
                                      AND whip_guess <> replace(pw_vote.vote, 'tell', '')";
                                      #AND pw_vote.vote <> 'both'
 

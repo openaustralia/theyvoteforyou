@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.122 2006/02/24 00:51:30 publicwhip Exp $
+# $Id: division.php,v 1.123 2006/02/26 12:52:59 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -261,6 +261,7 @@ if ($singlemotionpage)
 	# Summary
 	if ($dismode["summarytext"])
     {
+		// alternatively this could sum from pw_whip_cache
         $query = "SELECT sum(vote = 'aye') AS ayes,
 						 sum(vote = 'no')  AS noes,
 						 sum(vote = 'both') AS boths,
