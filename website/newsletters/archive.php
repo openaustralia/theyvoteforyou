@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: archive.php,v 1.12 2005/11/01 01:23:17 frabcus Exp $
+# $Id: archive.php,v 1.13 2006/02/27 06:29:48 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -44,7 +44,7 @@ function render_newsletter($newsletter)
 	fclose($handle);
 }
 
-$title = "Newsletter Archive"; 
+$title = "Newsletter archive"; 
 if ($issue != 0)
 {
     $title = newsletter_title("issue" . $issue . ".txt") . " - " .
