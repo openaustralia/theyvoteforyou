@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: settings.php,v 1.22 2005/12/06 10:03:00 frabcus Exp $
+# $Id: settings.php,v 1.23 2006/02/27 06:25:19 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -34,7 +34,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     	$ok = user_changenewsletter($newsletter);
     }
 
-    $title = "Account Settings"; 
+    $title = "Account settings"; 
     $onload = "givefocus('user_name')";
     pw_header();
 
@@ -55,25 +55,23 @@ if (user_isloggedin()) # User logged in, show settings screen
     else
         $newsletter = "";
 
-    print '<p>These are the settings for your Public Whip account.  If
-    you would like to stop receiving the newsletter, uncheck the box and
-    choose "Change".  You can also alter your email address, or logout
-    from here.
-	<P><span class="ptitle">User name:</span> ' . $user_name . '
+    print '<P><span class="ptitle">User name:</span> ' . $user_name . '
 	<br><span class="ptitle">Real name:</span> ' .  user_getrealname() . '
-	<br><span class="ptitle">Email:</span> ' . user_getemail() . '
-	<P>
-    <a href="logout.php">Logout</a>
-        | <a href="changeemail.php">Change Email</a>
-        | <a href="changepass.php">Change Password</a>
+	<br><span class="ptitle">Email:</span> ' . user_getemail() . ' (<a href="changeemail.php">change email</a>)
+    <br><span class="ptitle">Password:</span> (<a href="changepass.php">change password</a>)
 
 	<FORM ACTION="'. $PHP_SELF .'" METHOD="POST">
+    <h2>Newsletter subscription</h2>
 	<INPUT TYPE="checkbox" NAME="newsletter" ' . $newsletter . '>Email newsletter (at most once a month)
-	<p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Change">
+	<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Update">
 	</FORM>
 	<P>';
 
-    print "<h2>Policies You Made</h2>";
+    print '<h2>Forum profile</h2>';
+    print '<p>';
+    print pretty_user_name($db, $user_name, 'View your forum profile, including posts you\'ve made');
+
+    print "<h2>Policies which you made</h2>";
     $query = "select dream_id, name, description, private from pw_dyn_dreammp where user_id = '" . user_getid() . "' order by private, name";
     $db->query($query);
     $rowarray = $db->fetch_rows_assoc();
@@ -87,7 +85,7 @@ if (user_isloggedin()) # User logged in, show settings screen
         if ($row['private'] == 2)
             print " (provisional)";
     }
-    print '<p><a href="addpolicy.php">[Make a new policy]</a></p>';
+    print '<p>(<a href="addpolicy.php">make a new policy</a>)</p>';
     pw_footer();
 }
 else # User not logged in, show login screen
