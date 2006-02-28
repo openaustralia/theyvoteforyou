@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.68 2006/02/26 16:03:34 goatchurch Exp $
+# $Id: tablemake.inc,v 1.69 2006/02/28 18:37:21 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -243,14 +243,6 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
 }
 
 
-function print_event($event)
-{
-    global $prettyrow;
-    $prettyrow = pretty_row_start($prettyrow);
-    print "<td>&nbsp;</td><td>&nbsp;</td>";
-    print "<td>" . $event[0] . "</td>";
-    print "<td colspan=7>" . $event[1] .  "</td></tr>\n";
-}
 
 
 function print_column_headings($vote1, $vote2, $columnforms, $party)
@@ -569,8 +561,8 @@ function writeevents(&$events, $date, $breversed)
     while ($events && (!$date or ($breversed == ($date >= $events[count($events) - 1][0]))))
     {
         $event = array_pop($events);
-        print "<tr class=\"jobevent\"><td></td><td>$event[0]</td>";
-        print "<td colspan=2 align=center>$event[1]</td><td colspan=3></td></tr>\n";
+        print "<tr class=\"jobevent\"><td>".pretty_date($event[0])."</td>";
+        print "<td colspan=\"5\" align=center>$event[1]</td><td colspan=1></td></tr>\n";
     }
 }
 
