@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.69 2006/02/28 18:37:21 publicwhip Exp $
+# $Id: tablemake.inc,v 1.70 2006/03/06 16:02:46 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -249,14 +249,14 @@ function print_column_headings($vote1, $vote2, $columnforms, $party)
 {
 	print "<tr class=\"headings\">";
 
+	if ($columnforms["house"])
+		print "<td>House</td>";
+	if ($columnforms["divisionnumber"])
+		print "<td>No.</td>";
 	if ($columnforms["divisiondate"])
 		print "<td>Date</td>";
     if ($columnforms["divisiontime"])
         print "<td>Time</td>"; 
-	if ($columnforms["divisionnumber"])
-		print "<td>No.</td>";
-	if ($columnforms["house"])
-		print "<td>House</td>";
 	if ($columnforms["divisiontitle"])
 		print "<td>Subject</td>";
 
@@ -320,14 +320,14 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $ro
 {
     print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even")."$pretrowclass\">";
 
+	if ($columnforms["house"])
+	    print "<td class=\"".$row['divisionhouse']."\">".($row['divisionhouse'] == "lords" ? "Lords" : "Commons")."</td>";
+    if ($columnforms["divisionnumber"])
+        print "<td>".$row['divisionnumber']."</td>";
 	if ($columnforms["divisiondate"])
 	    print "<td>".pretty_date($row['divisiondate'])."</td>";
     if ($columnforms["divisiontime"])
         print "<td>".substr($row['divisiontime'], 1, 5)."</td>";
-    if ($columnforms["divisionnumber"])
-        print "<td>".$row['divisionnumber']."</td>";
-	if ($columnforms["house"])
-	    print "<td class=\"".$row['divisionhouse']."\">".($row['divisionhouse'] == "lords" ? "Lords" : "Commons")."</td>";
 
 	if ($columnforms["divisiontitle"])
 	{

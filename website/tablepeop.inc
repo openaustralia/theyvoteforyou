@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.40 2006/02/26 16:16:19 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.41 2006/03/06 16:02:46 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -121,7 +121,10 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
     }
 
 	if ($columnforms["rebellions"])
-        print "<td class=\"percent\">".percentise_votes_short($row['rebellions'], $row['votes_attended'])."</td>";
+        if (whipless_party($row["party"]))
+            print "<td class=\"percent\">n/a</td>";
+        else
+            print "<td class=\"percent\">".percentise_votes_short($row['rebellions'], $row['votes_attended'])."</td>";
 	if ($columnforms["attendance"])
         print "<td class=\"percent\">".percentise_votes_short($row['votes_attended'], $row['votes_possible'])."</td>";
 

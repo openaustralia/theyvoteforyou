@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.34 2006/02/26 13:30:39 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.35 2006/03/06 16:02:46 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -53,7 +53,10 @@
 	        print "<td>".pretty_party($mpprop['party'])."</td>\n";
 			if ($brebelrates)
 			{
-		        print "<td class=\"percent\">".percentise_votes($mpprop['rebellions'], $mpprop['votesattended'])."</td>\n";
+                if (whipless_party($mpprop["party"]))
+                    print "<td class=\"percent\">no whip</td>\n";
+                else
+                    print "<td class=\"percent\">".percentise_votes($mpprop['rebellions'], $mpprop['votesattended'])."</td>\n";
 				print "<td class=\"percent\">".percentise_votes($mpprop['votesattended'], $mpprop['votespossible'])."</td>\n";
 				if (!$bmultiperson)
 				{

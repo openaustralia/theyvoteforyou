@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.27 2005/11/29 00:34:19 frabcus Exp $
+# $Id: wiki.php,v 1.28 2006/03/06 16:02:47 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -109,7 +109,7 @@ if (user_isloggedin()) # User logged in, show settings screen
 		<li><a href="http://www.publications.parliament.uk/pa/cm/stand.htm">Standing Committees reviewing Bills</a></li>
 		<li><a href="http://www.publications.parliament.uk/pa/cm/cmdeleg.htm">Standing Committees on delegated legislation</a></li>
 		<li><a href="http://www.publications.parliament.uk/pa/cm/cmstords.htm">Standing Orders of Parliament</a> The rules which are often quoted for the running of the house.</li>
-		<li><a href="http://www.official-documents.co.uk/menu/browseDocuments.htm">Command Papers</a> Back to 2002, and in pdf</li>
+		<li><a href="http://www.official-documents.co.uk/menu/browseDocuments.htm">Command Papers</a> Back to 2002, and in PDF</li>
 		</ul>
 
 
