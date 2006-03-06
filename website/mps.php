@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.32 2006/03/06 16:39:02 publicwhip Exp $
+    # $Id: mps.php,v 1.33 2006/03/06 17:30:54 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -147,7 +147,7 @@
         makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Constituency", "constituency", "Sort by constituency");
     makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Party", "party", "Sort by party");
     if ($rdisplay_parliament == "all")
-        print "<td>Dates</td>";
+        makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Dates", "date", "Sort by Date"); 
     makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Rebellions", "rebellions", "Sort by rebels");
     makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Attendance", "attendance", "Sort by attendance");
 

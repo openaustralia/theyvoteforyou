@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.42 2006/03/06 16:23:57 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.43 2006/03/06 17:30:54 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -27,7 +27,9 @@ function print_mpcolumn_headings($columnforms)
 	if ($columnforms["vote_b"])
         print "<td>Vote (b)</td>";
 
-	if ($columnforms["rebellions"])
+	if ($columnforms["dates"])
+        print "<td>Dates</td>"; 
+    if ($columnforms["rebellions"])
 	    print "<td>Rebellions<br>(<a href=\"/faq.php#clarify\">explain...</a>)</td>";
 	if ($columnforms["attendance"])
 	    print "<td>Attendance<br>(<a href=\"/faq.php#clarify\">explain...</a>)</td>";
@@ -114,8 +116,10 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
     {
         $y1 = substr($row["entered_house"], 0, 4);
 	    $y2 = substr($row["left_house"], 0, 4);
+        if ($y1 == "0000")
+            $y1 = "<i>1999</i>"; // only the case if this is the lords
 	    if ($y2 == "9999")
-		    $y2 = date("Y");
+		    $y2 = "<i>present</i>";//date("Y");
         $yearrange = "($y1-$y2)";  # could be included in the percentise_votes as an extra bit
         print "<td>$yearrange</td>";
     }
@@ -202,6 +206,8 @@ function mp_table($db, $mptabattr)
 	            $aquery["qorder"] .= " party, ";
 	        elseif ($mptabattr["sortby"] == "vote")
 	            $aquery["qorder"] .= " vote, party, ";
+            elseif ($mptabattr["sortby"] == "date")
+                $aquery["qorder"] .= " left_house,"; 
 	    }
 
 		# trail off by name
