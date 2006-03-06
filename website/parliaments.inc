@@ -1,6 +1,6 @@
 <?php
 
-# $Id: parliaments.inc,v 1.17 2006/01/27 19:28:37 goatchurch Exp $
+# $Id: parliaments.inc,v 1.18 2006/03/06 15:56:24 publicwhip Exp $
 # This data is duplicated in loader/PublicWhip/Parliaments.pm
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -94,6 +94,14 @@ function parlsession_date_to($id)
 {
     global $parlsessions;
     return $parlsessions[$id]['to'];
+}
+
+function whipless_party($party) {
+    return $party == "XB" || 
+            $party == "Other" || 
+            substr($party, 0, 3) == "Ind" || 
+            $party == "CWM" || 
+            $party == "DCWM";
 }
 
 ?>

@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: calc_caches.php,v 1.12 2006/02/26 12:52:58 goatchurch Exp $
+# $Id: calc_caches.php,v 1.13 2006/03/06 15:56:22 publicwhip Exp $
 
 # Calculate lots of cache tables, run after update.
 
@@ -11,6 +11,7 @@
 
 require_once "../website/config.php";
 require_once "../website/db.inc";
+require_once "../website/parliaments.inc";
 
 $db = new DB();
 $db2 = new DB();
@@ -108,13 +109,13 @@ function guess_whip_for_all($db, $db2)
 		# this would be the point where we add in some if statements accounting for the exceptions
 		# where the algorithm doesn't work.  Or we do it against another special table.
 
-
 		# to detect abstentions we'd need an accurate partyinfo that worked per parliament
 		$whip_guess = "unknown";
-		if ($party == "XB" or $party == "Other" or substr($party, 0, 3) == "Ind")
+        if (whipless_party($party)) {
 			$whip_guess = "none";
-		else if ($party == "CWM" or $party == "DCWM")
-			$whip_guess = "abstain";
+		    if ($party == "CWM" or $party == "DCWM")
+                $whip_guess = "abstain";
+        }
 
 		# keep it very simple so it doesn't change and we can easily keep the set of exceptions constant.
 		# if it can be tuned then there will be a maintenance issue whenever the algorithm got changed

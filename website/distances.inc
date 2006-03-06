@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.22 2006/02/17 16:57:38 publicwhip Exp $
+# $Id: distances.inc,v 1.23 2006/03/06 15:56:24 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -151,7 +151,7 @@ function fill_division_distances_internal($db, $db2, $house, $divattr, $batchnum
 		$qlimit = " LIMIT $batchnumber"; # to stop the calculation running on forever on one run
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
-	#if ($bdebug == 1)
+	if ($bdebug == 1)
 		print $query;
 	$db->query($query);
 	$some_done = 0;
@@ -280,7 +280,7 @@ function fill_mpid_distances_internal($db, $db2, $house, $batchnumber)
 		$qlimit = " LIMIT $batchnumber"; # to stop the calculation running on forever on one run
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
-#	if ($bdebug == 1)
+	if ($bdebug == 1)
 		print $query;
 	$db->query($query);
 	$some_done = 0;
