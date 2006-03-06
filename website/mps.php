@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.31 2006/02/26 16:03:34 goatchurch Exp $
+    # $Id: mps.php,v 1.32 2006/03/06 16:39:02 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -14,24 +14,41 @@
     require_once "render.inc";
     require_once "parliaments.inc";
 
+    $rdefaultdisplay_house = "commons";
+	$rdefaultdisplay_parliament = 'now';
+
+	$rdisplay_parliament = db_scrub($_GET["parliament"]);
+	if (!$rdisplay_parliament)
+		$rdisplay_parliament = $rdefaultdisplay_parliament;
+
+	$rdisplay_house = db_scrub($_GET["house"]);
+	if (!$rdisplay_house)
+		$rdisplay_house = $rdefaultdisplay_house;
+
+    $sort = db_scrub($_GET["sort"]);
+    if (!$sort)
+        $sort = "lastname";
+
+
 	# constants
 	$rdismodes = array();
 	$rdismodes_house = array();
 
-	$rdefaultdisplay_parliament = 'now';
 	$rdismodes['now'] = array(
 							 "description" => "Show only current members",
 							 "lkdescription" => "Current members",
 							 "parliament" => 'now',
 							 "titdescription" => "Current members");
-	foreach ($parliaments as $lrdisplay => $val)
-	{
-		$rdismodes[$lrdisplay] = array(
-								 "description" => $val['name']." Parliament",
-								 "lkdescription" => $val['name']." Parliament",
-								 "parliament" => $ldisplay,
-								 "titdescription" => $val['name']." Parliament");
-	}
+    if ($rdisplay_house == 'commons') {
+        foreach ($parliaments as $lrdisplay => $val)
+        {
+            $rdismodes[$lrdisplay] = array(
+                                     "description" => $val['name']." Parliament",
+                                     "lkdescription" => $val['name']." Parliament",
+                                     "parliament" => $ldisplay,
+                                     "titdescription" => $val['name']." Parliament");
+        }
+    }
 	$rdismodes["all"] = array(     # still the first selector
 							 "description" => "All members on record",
 							 "lkdescription" => "All Parliaments",
@@ -52,20 +69,6 @@
 							 "description" => "Show all people in Parliament",
 							 "lkdescription" => "Both houses",
 							 "titdescription" => "MPs and Lords");
-    $rdefaultdisplay_house = "commons";
-
-
-	$rdisplay_parliament = db_scrub($_GET["parliament"]);
-	if (!$rdisplay_parliament)
-		$rdisplay_parliament = $rdefaultdisplay_parliament;
-
-	$rdisplay_house = db_scrub($_GET["house"]);
-	if (!$rdisplay_house)
-		$rdisplay_house = $rdefaultdisplay_house;
-
-    $sort = db_scrub($_GET["sort"]);
-    if (!$sort)
-        $sort = "lastname";
 
     $title = "";
 	if ($sort == "rebellions")
