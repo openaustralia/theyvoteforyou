@@ -22,16 +22,20 @@ RedirectPermanent /mp-info.xml http://www.publicwhip.org.uk/feeds/mp-info.xml
 RedirectPermanent /dreammp.php http://www.publicwhip.org.uk/policy.php
 RedirectPermanent /awstats http://seagrass.goatchurch.org.uk/cgi-bin/awstats.pl?config=publicwhip
 
+Options +FollowSymLinks
+RewriteEngine On
+RewriteRule ^testrewrite$ /index.php [PT]
+RewriteRule ^[Nn]/([^;]+)$                      /token.php?token=$1
+
+
 # Net strike
-#Options +FollowSymLinks
-#RewriteEngine On
 #RewriteCond %{REQUEST_URI} !^/patents/patents\.php
 #RewriteCond %{REQUEST_URI} !^/thepublicwhip\.gif
 #RewriteCond %{REQUEST_URI} !^/publicwhip\.css
 #RewriteCond %{REQUEST_URI} !^/mp-info.xml
 #RewriteRule .*          http://www.publicwhip.org.uk/patents/patents.php [R=302,L]
 
-#Alternative way of net striking:
+# Alternative way of net striking:
 #RedirectMatch /[^p] http://www.publicwhip.org.uk/patents/patents.php
 
 
