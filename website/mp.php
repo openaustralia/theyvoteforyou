@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.122 2006/02/26 16:16:19 publicwhip Exp $
+    # $Id: mp.php,v 1.123 2006/03/06 17:13:20 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -222,7 +222,7 @@
     $colour_scheme = $mpprop['house'];
 	if ($voter2type == "dreammp")
 	{
-		$title = "Policy Report - '".html_scrub($voter2attr['name'])."' compared to ";
+		$title = "Policy report - '".html_scrub($voter2attr['name'])."' compared to ";
 		if ($voter1attr["bmultiperson"])
 			$title .= $mpprop['housenounplural']." ".$contitlefor;
 		else
@@ -411,7 +411,7 @@
 			print html_scrub($voter2attr['description']);
 			print "</p>\n";
 
-            print "<h2>Vote Details</h2>";
+            print "<h2>Vote details</h2>";
 		}
 
 		#if ($dismode["eventsinfo"])
@@ -490,7 +490,7 @@
 		# generate a friendliness table from the data
 		if ($voter2type == "dreammp")
 		{
-            print "<h2><a name=\"ratioexpl\">Agreement Score Explanation</a></h2>\n";
+            print "<h2><a name=\"ratioexpl\">Agreement score explanation</a></h2>\n";
             if (count($voter1attr['mpprops']) == 0)
                 print "<p><b>There is no overlap between this MPs term and the votes in this policy.</b></p>\n";
             elseif ($voter1attr['bmultiperson'])
