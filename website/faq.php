@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.70 2006/02/17 17:20:12 publicwhip Exp $
+# $Id: faq.php,v 1.71 2006/03/06 12:28:08 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -74,13 +74,13 @@ an MP involved in the counting of the vote.  For more information on all these
 terms, see the
 <a href="http://www.parliament.uk/parliamentary_publications_and_archives/factsheets/p09.cfm">
 Parliament factsheet on divisions</a>.
-<p>The <i>House of Lords</i> is the second chamber of the Parliament. Proposed
-legislation must be approved by both Houses before it becomes law. <i>Lords</i> become
-members by a complex mixture of appointment, religion, appelation, hereditary
-entitlement and self election, which frankly we can't work out. They still
-divide, just like the commons. But being "ayes" and "noes" is a bit too, ummm,
-common for them. Instead they are said to be either <i>content</i> or
-<i>not-content</i> with the motion.
+<p>The <i>House of Lords</i> is the second chamber of the Parliament. 
+Proposed legislation passes through both Houses before it becomes law.
+<i>Lords</i> become members by a complex mixture of appointment, religion,
+appelation, hereditary entitlement and self election, which frankly we can't
+work out. They still divide, just like the commons. But being "ayes" and "noes"
+is a bit too, ummm, common for them. Instead they are said to be either
+<i>content</i> or <i>not-content</i> with the motion.
 
 <h2 class="faq"><a name="how">How does the Public Whip work?</a></h2>
 <p>All the 
