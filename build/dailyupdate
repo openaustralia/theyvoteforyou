@@ -48,6 +48,11 @@ then
 	cd ~/publicwhip-live/build
 	./clear-caches
 
+    # update 
+    cd ~/publicwhip-live/loader
+    ./mp_distance.php
+    ./division_distance.php
+
 	# export dumps of data
 	cd ~/publicwhip-live/build
 	./export-db
