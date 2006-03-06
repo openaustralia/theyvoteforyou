@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.125 2006/02/26 16:16:18 publicwhip Exp $
+# $Id: division.php,v 1.126 2006/03/06 16:50:08 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -528,7 +528,9 @@ if ($singlemotionpage)
 			$divtabattr["parldatelimit"] = $parliaments[$divattr["parliament"]];
 
         print "<h2><a name=\"simdiv\">Similar Divisions</a></h2>";
-        print "<p>This table lists divisions where the MPs voted in a similar way to the
+        print "<p>This table lists divisions where the ".
+            ($divattr["house"] == "lords" ? "Lords" : "MPs") . "
+                voted in a similar way to the
                 division that is listed on this page.  Click on the division link to see a comparison
                 of the actual votes between the two divisions.</p>";
 
