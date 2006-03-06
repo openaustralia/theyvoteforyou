@@ -1,4 +1,4 @@
-# $Id: Clean.pm,v 1.11 2006/02/16 22:29:43 publicwhip Exp $
+# $Id: Clean.pm,v 1.12 2006/03/06 12:30:39 publicwhip Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -79,85 +79,6 @@ sub fix_bothway_voters {
     PublicWhip::Error::log( "Fixed up " . $sth->rows . " bothway votes",
         "", ERR_USEFUL )
       if ( $sth->rows > 0 );
-}
-
-sub fix_division_corrections {
-    my $dbh = shift;
-    fix_division_correction( $dbh, 16,  "2003-12-17", "2003-12-18" );
-    fix_division_correction( $dbh, 309, "2003-09-15", "2003-09-16" );
-    fix_division_correction( $dbh, 99,  "2003-03-04", "2003-03-06" );
-    fix_division_correction( $dbh, 329, "2002-10-23", "2002-10-28" );
-
-    # Check for other divisions called correction
-    my $sth = PublicWhip::DB::query(
-        $dbh,
-"select division_date, division_number from pw_division where lower(division_name)
-like '\%correction\%'"
-    );
-    if ($sth->rows != 0) {
-        print "Suspect need to add correction to fix_division_corrections";
-    }
- 
-}
-
-sub fix_division_correction {
-    my $dbh             = shift;
-    my $num             = shift;
-    my $date_orig       = shift;
-    my $date_correction = shift;
-
-    # Read useful data from correction
-    my $sth = PublicWhip::DB::query(
-        $dbh,
-"select division_id, source_url from pw_division where division_number = ?
-        and division_date = ?", $num, $date_correction
-    );
-    return if $sth->rows == 0;    # must have already done
-    PublicWhip::Error::die( "More than one division $num", $date_correction )
-      if $sth->rows > 1;
-    my ( $id_correction, $source_url ) = @{ $sth->fetchrow_arrayref() };
-
-    # Read useful data from division
-    $sth = PublicWhip::DB::query(
-        $dbh, "select division_id from pw_division where division_number = ?
-        and division_date = ?", $num, $date_orig
-    );
-    return if $sth->rows == 0;    # must have already done
-    PublicWhip::Error::die( "More than one division $num", $date_orig )
-      if $sth->rows > 1;
-    my ($id_orig) = $sth->fetchrow_arrayref()->[0];
-
-    # Copy URL of correction into original, to leave audit trail
-    my $corrected_text = "<p>Note:  This division was
-        corrected on $date_correction, <a href=\"$source_url\">see the
-        correction in Hansard</a>.";
-
-    # notes = concat(notes, ?) # for now this is only use, so we wipe over
-    PublicWhip::DB::query(
-        $dbh, "update pw_division set notes = ? where division_number = ?
-        and division_date = ?", $corrected_text, $num, $date_orig
-    );
-    PublicWhip::Error::die(
-        "Wrong number of rows applying division correction " . $sth->rows,
-        $date_orig )
-      if $sth->rows != 1;
-
-    # Rename voting record
-    PublicWhip::DB::query( $dbh,
-        "delete from pw_vote where division_id = ?", $id_orig );
-    PublicWhip::DB::query( $dbh,
-        "update pw_vote set division_id = ? where division_id = ?",
-        $id_orig, $id_correction );
-
-    # Delete correction
-    PublicWhip::DB::query( $dbh,
-        "delete from pw_division where division_id = ?",
-        $id_correction );
-
-    PublicWhip::Error::log(
-        "Corrected division $num $date_orig with data from
-    $date_correction", "", ERR_USEFUL
-    );
 }
 
 sub check_integrity {

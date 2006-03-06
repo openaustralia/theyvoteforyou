@@ -1,4 +1,4 @@
-# $Id: mpquery.pm,v 1.4 2006/02/17 19:43:14 publicwhip Exp $
+# $Id: mpquery.pm,v 1.5 2006/03/06 12:30:39 publicwhip Exp $
 # This extracts a vote distance metric for a set of MPs, and is able to
 # write it out in a format for loading into GNU Ooctave (or MatLab)
 
@@ -15,10 +15,11 @@ sub get_mp_ixs
     my $dbh = shift; 
     my $where = shift;
     my $limit = shift;
+    my $order = shift;
 
     my $sth = PublicWhip::DB::query($dbh, "select pw_mp.mp_id from pw_mp, pw_cache_mpinfo where
         pw_mp.mp_id = pw_cache_mpinfo.mp_id and $where 
-        order by pw_mp.last_name, pw_mp.first_name, pw_mp.constituency $limit");
+        order by $order $limit");
     my @mp_ixs;
     while (my @data = $sth->fetchrow_array())
     {

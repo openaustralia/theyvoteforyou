@@ -2,7 +2,7 @@
 use strict;
 use lib "../../loader/";
 
-# $Id: cluster-parliament-static.pl,v 1.6 2006/02/17 18:42:55 publicwhip Exp $
+# $Id: cluster-parliament-static.pl,v 1.7 2006/03/06 12:30:39 publicwhip Exp $
 # Outputs a matrix of distances between pairs of MPs/Lords for
 # use by the GNU Octave script mds.m to do clustering.
 
@@ -33,7 +33,8 @@ my $dbh = PublicWhip::DB::connect();
     print "clustering lords\n";
     # Count Lords (which have voted at least once)
     use mpquery;
-    my $mp_ixs = mpquery::get_mp_ixs($dbh, "votes_attended > 0 and house = 'lords'", "");
+    my $mp_ixs = mpquery::get_mp_ixs($dbh, "votes_attended > 0 and house = 'lords'", "",
+        "concat(pw_mp.first_name, substring(pw_mp.last_name, 4))"); # substring to remove "of "
 
     # Work out distance metric (for all divisions)
     my $metricD = mpquery::vote_metric_from_db($dbh, $mp_ixs);
@@ -56,7 +57,7 @@ foreach my $parliament (@PublicWhip::Parliaments::list)
     my $mp_ixs = mpquery::get_mp_ixs($dbh, "votes_attended > 0 and " .
         "entered_house >= '" . $$parliament{'from'} . "' and entered_house <= '" . $$parliament{'to'} . "'
         and house = 'commons'",
-        "");
+        "", "pw_mp.last_name, pw_mp.first_name, pw_mp.constituency");
 
     # Work out distance metric (for all divisions)
     my $metricD = mpquery::vote_metric_from_db($dbh, $mp_ixs);
