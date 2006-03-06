@@ -51,7 +51,6 @@ password text,
 remote_addr text,
 confirm_hash text,
 is_confirmed int not null default 0,
-is_newsletter int not null default 1,
 reg_date datetime
 );
 
@@ -130,7 +129,12 @@ function user_confirm($hash,$email) {
 			user_set_tokens(db_result($result,0,'user_name'));
 			$sql="UPDATE pw_dyn_user SET email='$email',is_confirmed='1' WHERE confirm_hash='$hash'";
 			$result=db_query($sql);
-            audit_log("Confirmed account email " . $email . " valid");
+            if ($result)
+                $result=db_query("DELETE FROM pw_dyn_newsletter WHERE email='" . $email . "'");
+            if ($result)  
+                $result=db_query("INSERT INTO pw_dyn_newsletter (email, confirm) values('" . $email . "', 1)");
+	
+         audit_log("Confirmed account email " . $email . " valid");
 			return $return_url;
 		}
 	} else {
@@ -261,7 +265,7 @@ function user_send_confirm_email($email,$hash, $user) {
                 "\nlog in and stop the newsletter, but still access other".
                 "\nfeatures.  You can do this after confirming." .
                 "\n\nFor more information on the project visit www.publicwhip.org.uk";
-	mail ($email,'Public Whip Registration Confirmation',$message,'From: auto@publicwhip.org.uk');
+	mail ($email,'Public Whip registration confirmation',$message,'From: auto@publicwhip.org.uk');
 }
 
 function user_register($user_name,$password1,$password2,$email,$real_name) {
@@ -382,28 +386,27 @@ function user_getactivepolicy() {
 }
 
 function user_getnewsletter() {
-	global $G_USER_RESULT;
+	global $G_NEWSL_RESULT;
 	//see if we have already fetched this user from the db, if not, fetch it
-	if (!$G_USER_RESULT) {
-		$G_USER_RESULT=db_query("SELECT * FROM pw_dyn_user WHERE user_name='" . user_getname() . "'");
+	if (!$G_NEWSL_RESULT) {
+        $G_NEWSL_RESULT=db_query("SELECT * FROM pw_dyn_newsletter WHERE confirm AND email='" . user_getemail() . "'");
 	}
-	if ($G_USER_RESULT && db_numrows($G_USER_RESULT) > 0) {
-		if (db_result($G_USER_RESULT,0,'is_newsletter'))
-                    return true;
-                else
-                    return false;
+	if ($G_NEWSL_RESULT && db_numrows($G_NEWSL_RESULT) > 0) {
+        return true;
 	} else {
 		return false;
 	}
 }
 
 function user_changenewsletter($newsletter) {
-        global $feedback;
-        if ($newsletter)
-            $newsletter = 1;
-        else
-            $newsletter = 0;
-        $result=db_query("UPDATE pw_dyn_user SET is_newsletter='" . $newsletter . "' WHERE user_name='" . user_getname() . "'");
+    global $feedback;
+    if ($newsletter)
+        $newsletter = 1;
+    else
+        $newsletter = 0;
+    $result=db_query("DELETE FROM pw_dyn_newsletter WHERE email='" . user_getemail() . "'");
+    if ($result && $newsletter)  
+        $result=db_query("INSERT INTO pw_dyn_newsletter (email, confirm) values('" . user_getemail() . "', 1)");
 	if ($result) {
                 $feedback .= " Newsletter setting changed. ";
                 audit_log("Changed newsletter to " . $newsletter);
@@ -514,7 +517,7 @@ function login_screen()
     if ($_GET['r']) {
         print '<INPUT TYPE="hidden" NAME="r" VALUE="'.htmlspecialchars($_GET['r']).'">';
     }
-    print '<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Login To Public Whip">
+    print '<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Login to Public Whip">
         </FORM>
         <P>';
     pw_footer();

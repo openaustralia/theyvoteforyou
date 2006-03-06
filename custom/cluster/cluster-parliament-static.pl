@@ -2,7 +2,7 @@
 use strict;
 use lib "../../loader/";
 
-# $Id: cluster-parliament-static.pl,v 1.7 2006/03/06 12:30:39 publicwhip Exp $
+# $Id: cluster-parliament-static.pl,v 1.8 2006/03/06 19:09:56 frabcus Exp $
 # Outputs a matrix of distances between pairs of MPs/Lords for
 # use by the GNU Octave script mds.m to do clustering.
 
@@ -17,16 +17,6 @@ use PublicWhip::Parliaments;
 my $dbh = PublicWhip::DB::connect();
 
 # error::setverbosity(error::CHITTER);
-
-# Wipe metric database
-#PublicWhip::DB::query($dbh, "drop table if exists pw_cache_mpdist");
-#PublicWhip::DB::query($dbh, 
-#"create table pw_cache_mpdist (
-#    mp_id_1 int not null,
-#    mp_id_2 int not null,
-#    distance float not null,
-#    unique(mp_id_1, mp_id_2)
-#);");
 
 # Lords, do in one clump
 {
@@ -61,31 +51,6 @@ foreach my $parliament (@PublicWhip::Parliaments::list)
 
     # Work out distance metric (for all divisions)
     my $metricD = mpquery::vote_metric_from_db($dbh, $mp_ixs);
-
-    # Work out distance metric (for all divisions)
-#    my $metricD = mpquery::vote_distance_metric($dbh, $mp_ixs, "where division_date >= '" . $$parliament{'from'}
-#     . "' and division_date <= '" . $$parliament{'to'} . "'");
-
-    # Store in database, for use by website (friends list)
-#    for my $mp_1 (@$mp_ixs)
-#    {
-#        for my $mp_2 (@$mp_ixs)
-#        {
-#            # Only do half triangle
-#            next if $mp_1 > $mp_2;
-#            
-#            my $distance = $$metricD[$mp_1][$mp_2];
-#            PublicWhip::DB::query($dbh, "insert into pw_cache_mpdist (mp_id_1, mp_id_2, distance) values (?, ?, ?)",
-#                $mp_1, $mp_2, $distance);
-#
-#            # Add both halves of triangle to database, as then a lot quicker to do queries
-#            if ($mp_1 != $mp_2)
-#            {
-#                PublicWhip::DB::query($dbh, "insert into pw_cache_mpdist (mp_id_1, mp_id_2, distance) values (?, ?, ?)",
-#                    $mp_2, $mp_1, $distance);
-#            }
-#        }
-#    }
 
     # Feed to octave
     open(PIPE, ">DN.m");

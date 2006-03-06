@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: changeemail.php,v 1.12 2005/11/01 01:23:17 frabcus Exp $
+# $Id: changeemail.php,v 1.13 2006/03/06 19:09:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -19,7 +19,7 @@ if ($submit) {
 	$ok = user_change_email ($password1,$new_email,$change_user_name);
 }
 
-$title = "Change Email Address"; 
+$title = "Change email address"; 
 pw_header();
 
 if ($feedback) {
@@ -36,8 +36,9 @@ if ($feedback) {
 if (!$ok)
 {
 echo ' <P>
-    Quickly fill in the information below, and we\'ll send you
-    an email for you to confirm your new address.
+    Fill in the information below, and we\'ll send you
+    an email for you to confirm your new address. You will be signed
+    up for the newsletter at your new address.
 	<P>
 	<FORM ACTION="'. $PHP_SELF .'" METHOD="POST">
 	<B>User name:</B><BR>

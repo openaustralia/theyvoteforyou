@@ -1,53 +1,72 @@
-lords cluster:
-    - make names sort round better
-    - screenshots
-    
-distance stuff - call delete function and update weekly
-pw_cache_mpdist - remove completely
+Newsletter:
+- Test new full login case
+- Test change email case
 
-check viscount cranbourne not rebel (other rating) on Top Rebels on front page
+insert into pw_dyn_newsletter (email, confirm) select email, 1 from pw_dyn_user where is_confirmed and is_newsletter;
+alter table pw_dyn_user drop is_newsletter;
+drop table pw_dyn_newsletters_sent;
+create table pw_dyn_newsletters_sent (
+    newsletter_id int not null,
+    newsletter_name varchar(100) not null,
 
-Lords
------
+    unique(newsletter_id, newsletter_name)
+);
 
 
-Check Rebellions/Attendance are over the correct time period that they say they are
-http://staging.publicwhip.org.uk/division.php?date=2005-03-21&number=2&mpn=Lord_Wedderburn_of_Charlton&mpc=Lords has crap title
+Remove abstain column from summary table, replace with % turnout for party
+http://www.publicwhip.org.uk/division.php?date=1999-05-04&number=164&dmp=811
+
+search: render_divisions_table should use new stuff so has lords
+
+Agreement score is knackered - policy page % differes from % when you click
+through to details.
+
+mp and division distance stuff - call delete function and update weekly
 
 check against numbers page
     http://www.parliament.uk/directories/house_of_lords_information_office/analysis_by_composition.cfm
 Division alerts
-personsets.py - first file connecting Lords and MPs (see ex_MP field in UCL data)
-
-division distance.php for lords
-
-More
-----
-
-Oops! - check state of division comparison stuff, and put in cron
-properly
-
-On front page "Recent Controversial Divisions" has columns without headings
-
-Drop down boxes at the top
 
 Make it clearer can discuss individual Policy votes on forum
+*** Show comments actually on the policy page / divisions page 
+Indicate better that discussion can go on?
 
 Search on forum page bizarrely goes to forum search box (no /?)
 
+Make search search wiki text
+esp. div titles
+
 Backup database on seagrass
 
-http://www.parliament.uk/directories/house_of_lords_information_office/analysis_by_composition.cfm
+Seagrass:
+(17:37:02) chris:   no
+(17:37:32) chris:   i'd grab tw_cli from 3ware (may be in debian nonfree) and just diff its output against known-good output
+(17:37:39) chris:   the card will log stuff to syslog if anything breaks
+
+
+Your views / My policies
+----------
+
+Record when you last looked, and tell you how you voted since due to your aggregates
+
+- Make everyone check out changes
+- Make sure people can easily comment/discuss them
 
 Usability
 ---------
+
+Edit division text 
+- split into separate boxes for title and text
+- put Edit/Discuss links on division page in right hand column
+- try showing part of the discussion inline in that column
+- Discuss changes ---> See and discuss changes
+- fckeditor
 
 Policy / MP comparison box should let you enter name of MP
 or constituency as well as postcode
 
 Electech tour for first time users
-
-Remove terms and conditions tickbox from registration
+Do a big usability thing - get Tom L / Tom S / Electech to help with his ideas
 
 Rethink "Join us" section of site
 - Email with random unedited motion text
@@ -62,8 +81,7 @@ Finish rename of motion text editing (e.g. in project/ pages)
 Make policy vote selection have drop down, show most recent 3 at top
 
 Show divisions with the same beginning part of title in sidebar
-
-Policy status - done vs. provisional
+    - or nearby in clocktime?
 
 Policies need reversed name - so can be described negatively and positively
     - perhaps have box with sentence for/against
@@ -74,35 +92,18 @@ Calculate interesting divisions for MP pages using
     - government majority
     - is teller
 
-Stuff
------
-
-Rebellions and attendance by time range rather than mp id (needed for Lords)
-
 User page on forum - link to all of a user's policies?
-
-Write code to fill in pw_cache_realreal_distance (after model of dreamreal_distance)
-Migrate away from mpdist table to pw_cache_realreal_distance
-Also do pw_cache_divisiondivision_distance 
-
-Remove division_id from database
-remove mps_query_start
-
-Rewrite description of formula
-
-Do a big usability thing - get Tom L to help with his ideas
-Make log file stats daily to see what happens as you subtly change links
 
 Backup dynamic database on cron job 
 
-Show comments actually on the policy page / divisions page?
-Indicate better that discussion can go on?
+Fix bad table thing on 
+http://staging.publicwhip.org.uk/mps.php?parliament=all&sort=lastname
 
 Voting accuracy
 ---------------
 
 When counts mismatch between list of names and Hansard's totals,
-automatically put suspicion text in motion text.
+automatically say it is suspicious
 
 On this one, the two tellers for the noes have been lost
 date=2003-03-14&number=114
@@ -121,8 +122,6 @@ So some unspoken text is being lost.
 
 Resolve all the errors that "scraper.pl check" squirts out
 
-Check for divisions which don't have quorum of 40
-
 Measure abstentions by parliament rather than global proportions?
 
 Check "Question accordingly..." fits with our counting
@@ -133,6 +132,9 @@ off-by-one errors for their changed party
 
 Future
 ------
+
+Show on division listing page where Lib Dem voted with Tory, where with Labour
+Mark completely uncontentious divisions (nobody opposed) in some special way.
 
 Policy aggregation function - generic version of election.php
 

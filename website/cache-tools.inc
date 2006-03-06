@@ -1,5 +1,5 @@
 <?php
-# $Id: cache-tools.inc,v 1.29 2005/11/17 19:14:32 publicwhip Exp $
+# $Id: cache-tools.inc,v 1.30 2006/03/06 19:09:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -59,7 +59,7 @@ function cache_end() {
 function newsletter_navbar() {
     $ret = "";
     if (!user_isloggedin()) {
-        $ret .= '<a title="Subscribe to our email newsletter" href="/account/register.php">News</a>';
+        $ret .= '<a title="Subscribe to our email newsletter" href="/newsletters/signup.php">News</a>';
     } else {
         $ret .= '<a title="Email newsletter archives" href="/newsletters/archive.php">News</a>';
     }
@@ -88,7 +88,7 @@ function account_navbar() {
         $ret .= "Logout";
         $ret .= '</a> ';
     } else {
-        $ret .= '<a title="Register to get a newsletter or make/edit policies" href="/account/register.php?r='.  ($_GET['r']?urlencode($_GET['r']):urlencode($this_place)).'">';
+        $ret .= '<a title="Register to chat on the forum or make/edit policies" href="/account/register.php?r='.  ($_GET['r']?urlencode($_GET['r']):urlencode($this_place)).'">';
         $ret .= "Sign Up";
         $ret .= '</a> ';
         $ret .= '<a title="Login to edit policies or change your newsletter settings" href="/account/settings.php'.

@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.42 2006/02/17 16:57:37 publicwhip Exp $
+-- $Id: create.sql,v 1.43 2006/03/06 19:09:56 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -159,11 +159,26 @@ CREATE TABLE pw_dyn_user (
   confirm_hash text,
   confirm_return_url text,
   is_confirmed int(11) NOT NULL default '0',
-  is_newsletter int(11) NOT NULL default '1',
   reg_date datetime default NULL,
   active_policy_id int,
   PRIMARY KEY  (user_id)
 ) TYPE=MyISAM;
+
+create table pw_dyn_newsletter (
+  newsletter_id int not null primary key auto_increment,
+  email text,
+  token text,
+  confirm tinyint
+)
+
+-- who each issue of newsletter has been sent to so far
+create table pw_dyn_newsletters_sent (
+    newsletter_id int not null,
+    newsletter_name varchar(100) not null,
+
+    unique(newsletter_id, newsletter_name)
+);
+
 
 create table pw_dyn_dreammp (
     dream_id int not null primary key auto_increment,
@@ -217,14 +232,6 @@ create table pw_dyn_wiki_motion (
     index(division_date, division_number, house)
 );
 
--- who each issue of newsletter has been sent to so far
-create table pw_dyn_newsletters_sent (
-    user_id int not null,
-    newsletter_name varchar(100) not null,
-
-    unique(user_id, newsletter_name)
-);
-
 -------------------------------------------------------------------------------
 -- Cache tables
 --   Those written to by the website itself during PHP requests are here.
@@ -266,7 +273,7 @@ create table pw_cache_dreamreal_distance (
     unique(dream_id, person)
 );
 
--- New table to replace pw_cache_mpdist eventually
+-- distance metric between MPs
 create table pw_cache_realreal_distance (
   mp_id1 int not null,
   mp_id2 int not null,

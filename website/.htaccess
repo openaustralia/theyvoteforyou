@@ -25,7 +25,7 @@ RedirectPermanent /awstats http://seagrass.goatchurch.org.uk/cgi-bin/awstats.pl?
 Options +FollowSymLinks
 RewriteEngine On
 RewriteRule ^testrewrite$ /index.php [PT]
-RewriteRule ^[Nn]/([^;]+)$                      /token.php?token=$1
+RewriteRule ^[Nn]/([^;]+)$                      /newsletters/signup.php?token=$1
 
 
 # Net strike

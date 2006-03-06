@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: register.php,v 1.24 2005/11/01 01:23:17 frabcus Exp $
+# $Id: register.php,v 1.25 2006/03/06 19:09:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -80,7 +80,7 @@ if (!$ok)
     <B>Email (must be accurate to confirm):</B><BR>
     <INPUT TYPE="TEXT" NAME="email" VALUE="<?=$email?>" SIZE="40" MAXLENGTH="50">
     <P>
-    <p><span class="ptitle">Privacy Policy:</span>
+    <p><span class="ptitle">Privacy policy:</span>
     Your email address and info will never be given to or sold to third
     parties.  We will only send you the Public Whip newsletter, or 
     other occasional messages about the Public Whip.  Your login will
@@ -92,7 +92,7 @@ if (!$ok)
 ?>
         <INPUT TYPE="hidden" NAME="r" VALUE="<?=htmlspecialchars($_GET['r'])?>">
 <?    } ?>
-<p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Sign Up">
+<p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Sign up">
     </FORM>
 <?php
 }

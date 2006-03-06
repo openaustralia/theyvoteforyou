@@ -1,6 +1,6 @@
 <?php
 
-# $Id: common.inc,v 1.17 2006/02/16 22:36:18 frabcus Exp $
+# $Id: common.inc,v 1.18 2006/03/06 19:09:56 frabcus Exp $
 
 # Included from all main .php files on the first line
 
@@ -18,6 +18,7 @@ if (!is_bool(strpos($loc, "/forum")) ||
     !is_bool(strpos($loc, "/account")) || 
     !is_bool(strpos($loc, "/project")) || 
     !is_bool(strpos($loc, "/newsletters")) || 
+    !is_bool(strpos($loc, "/N")) || 
     !is_bool(strpos($loc, "/feeds")) )
     $toppath = "../"; 
 else 

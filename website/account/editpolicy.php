@@ -19,7 +19,7 @@ $just_logged_in = do_login_screen();
 
 if (user_isloggedin()) # User logged in, show settings screen
 {
-    $title = "Modify Policy"; 
+    $title = "Modify policy"; 
 
     $dreamid=intval(db_scrub($_GET["id"]));
     

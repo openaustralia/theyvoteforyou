@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: archive.php,v 1.13 2006/02/27 06:29:48 publicwhip Exp $
+# $Id: archive.php,v 1.14 2006/03/06 19:09:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -71,7 +71,7 @@ archive are occasional mailings we send to anyone who has made a policy or Dream
 <p>
 <?
     if (!user_isloggedin())  {
-        ?><a href="../account/register.php">Sign up now!</a>  Get the newsletter by email. It's free!<p><?
+        ?><a href="signup.php">Sign up now!</a>  Get the newsletter by email. It's free!<p><?
     } else {
         ?><a href="../account/settings.php">Change your newsletter subscription setting</a>.<p><?
     }
@@ -111,7 +111,7 @@ else
 {
     print "<p><a href=\"archive.php\">Full list of old newsletter issues here</a>";
     if (!user_isloggedin())  {
-        print "<br><a href=\"../account/register.php\">Subscribe to the newsletter for free!</a> ";
+        print "<br><a href=\"signup.php\">Subscribe to the newsletter for free!</a> ";
     } else {
         print "<br><a href=\"../account/settings.php\">Change your newsletter subscription setting.</a> ";
     }

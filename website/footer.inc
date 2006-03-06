@@ -1,5 +1,5 @@
 <?php
-# $Id: footer.inc,v 1.17 2006/02/16 22:36:18 frabcus Exp $
+# $Id: footer.inc,v 1.18 2006/03/06 19:09:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -24,7 +24,7 @@
 <a title="Details on the free license for this data" href="/faq.php#legal">Legal information</a>
 </span>
 <!-- this stuff appears centred
-<a href="/account/register.php">Newsletter sign-up</a>
+<a href="/newsletters/signup.php">Newsletter</a>
 -->
 </p></td></tr>
 

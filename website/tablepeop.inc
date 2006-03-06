@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.43 2006/03/06 17:30:54 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.44 2006/03/06 19:09:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -258,10 +258,6 @@ function mp_table($db, $mptabattr)
     {
         $mpprop = $mptabattr["mpfriend"];
         $aquery["qselect"] .= ", distance_a as distance";
-#        $aquery["qjoin"] .= " LEFT JOIN pw_cache_mpdist
-#                                ON pw_cache_mpdist.mp_id_1 = pw_mp.mp_id
-#                                 AND pw_cache_mpdist.mp_id_1 <> ".$mpprop["mpid"]."
-#                                 AND pw_cache_mpdist.mp_id_2 = ".$mpprop["mpid"];
         $aquery["qjoin"] .= " LEFT JOIN pw_cache_realreal_distance
                                 ON pw_cache_realreal_distance.mp_id1 = pw_mp.mp_id
                                  AND pw_cache_realreal_distance.mp_id1 <> ".$mpprop["mpid"]."

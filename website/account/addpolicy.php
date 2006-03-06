@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: addpolicy.php,v 1.13 2005/12/06 10:03:00 frabcus Exp $
+# $Id: addpolicy.php,v 1.14 2006/03/06 19:09:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -53,7 +53,7 @@ if (user_isloggedin())
         }
     }
 
-    $title = "Make a New Policy"; 
+    $title = "Make a new policy"; 
     pw_header();
 
     if ($feedback && (!$just_logged_in)) {
@@ -133,13 +133,13 @@ if (user_isloggedin())
     ?>
         <P>
         <FORM ACTION="<?=$PHP_SELF?>" METHOD="POST">
-        <B>Policy Name:</B><BR>
+        <B>Policy name:</B><BR>
         <INPUT TYPE="TEXT" NAME="name" VALUE="<?=html_scrub($name)?>" SIZE="40" MAXLENGTH="50">
         <P>
         <B>Definition (describe the issue and position on the issue):</B><BR>
         <textarea name="description" rows="6" cols="80"><?=html_scrub($description)?></textarea></p>
 
-        <p><span class="ptitle">Privacy Notes:</span>
+        <p><span class="ptitle">Privacy notes:</span>
         By creating a policy you are making your user name
         <b><?=user_getname()?></b> and the policy's voting record public.  
 

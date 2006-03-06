@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: lostpass.php,v 1.8 2005/11/01 01:23:17 frabcus Exp $
+# $Id: lostpass.php,v 1.9 2006/03/06 19:09:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -24,7 +24,7 @@ if ($submit) {
 	$ok = user_lost_password($email,$user_name);
 }
 
-$title = "Reset Password";
+$title = "Reset password";
 pw_header();
 
 if ($feedback) {
@@ -42,17 +42,17 @@ if (!$ok)
 {
 
 echo ' <P>
-	Lost your password?  Quickly fill in this info and a new
+	Lost your password?  Fill in this info and a new
         password will be emailed to you.
 	<P>
 	<FORM ACTION="'. $PHP_SELF .'" METHOD="POST">
 	<B>User name:</B><BR>
 	<INPUT TYPE="TEXT" NAME="user_name" VALUE="'.$user_name.'" SIZE="40" MAXLENGTH="15">
 	<P>
-	<B>Email Address:</B><BR>
+	<B>Email address:</B><BR>
 	<INPUT TYPE="TEXT" NAME="email" VALUE="" SIZE="40" MAXLENGTH="50">
 	<P>
-	<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Reset My Password">
+	<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Reset my password">
 	</FORM>';
 }
 

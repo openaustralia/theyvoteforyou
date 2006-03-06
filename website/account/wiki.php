@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.28 2006/03/06 16:02:47 publicwhip Exp $
+# $Id: wiki.php,v 1.29 2006/03/06 19:09:56 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -37,7 +37,7 @@ if (user_isloggedin()) # User logged in, show settings screen
         and division_number = '$params[1]' and house = '$params[2]'");
     $division_details = $db->fetch_row_assoc();
     $prettydate = date("j M Y", strtotime($params[0]));
-    $title = "Edit Division Description - " . $division_details['division_name'] . " - $prettydate - Division No. $params[1]";
+    $title = "Edit division description - " . $division_details['division_name'] . " - $prettydate - Division No. $params[1]";
     $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $division_details['debate_gid']);
     
     if ($submit && (!$just_logged_in))

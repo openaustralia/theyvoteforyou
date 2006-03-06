@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.71 2006/03/06 12:28:08 publicwhip Exp $
+# $Id: faq.php,v 1.72 2006/03/06 19:09:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -487,7 +487,7 @@ Informatics</a> Wikipedia article.
 
 
 <h2 class="faq"><a name="keepup">How can I keep up with what you are doing?</a></h2>
-<p><a href="account/register.php">Subscribe to our newsletter!</a>  It's
+<p><a href="newsletters/signup.php">Subscribe to our newsletter!</a>  It's
 at most once a month, and has interesting news and articles
 relating to the project. You can <a href="/forum/">chat with other users</a> on
 our forum.

@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: confirm.php,v 1.11 2005/11/01 01:23:17 frabcus Exp $
+# $Id: confirm.php,v 1.12 2006/03/06 19:09:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -20,7 +20,7 @@ if ($hash && $email) {
 	$feedback = 'Missing params';
 }
 
-$title = "Registration Confirmation"; 
+$title = "Registration confirmation"; 
 pw_header();
 
 if ($feedback) {
@@ -42,8 +42,8 @@ if ($feedback) {
 
 if (!$worked){
 	echo '<h2>Having trouble confirming?</h2>
-        <p>Try the <a href="changeemail.php">Change Your Email
-        Address</a> page to receive a new confirmation email';
+        <p>Try the <a href="changeemail.php">Change your email
+        address</a> page to receive a new confirmation email';
 }
 
 ?>

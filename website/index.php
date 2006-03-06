@@ -2,7 +2,7 @@
 
 cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.67 2006/02/23 03:39:40 publicwhip Exp $
+# $Id: index.php,v 1.68 2006/03/06 19:09:56 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -49,7 +49,7 @@ For more information about the project <a href="faq.php">see the FAQ</a>.
 <h2>Newsletter</h2>
 <p>Keep up with the Public Whip project.
 An at most monthly briefing.
-<p><a href="account/register.php">Sign up now!</a>
+<p><a href="newsletters/signup.php">Sign up now!</a>
 </td>
 
 <td class="layout" bgcolor="#eeeeee" colspan="2">

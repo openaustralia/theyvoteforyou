@@ -8,7 +8,7 @@ set -e
 USER=publicwhip@publicwhip.org.uk
 
 echo "Fetching remote dynamic tables..."
-ssh $USER "mysqldump --add-drop-table pw_live pw_dyn_user pw_dyn_dreammp pw_dyn_dreamvote pw_dyn_auditlog pw_dyn_wiki_motion >pw_dyn_tables.sql"
+ssh $USER "mysqldump --add-drop-table pw_live pw_dyn_user pw_dyn_dreammp pw_dyn_dreamvote pw_dyn_auditlog pw_dyn_wiki_motion pw_dyn_newsletter >pw_dyn_tables.sql"
 scp $USER:./pw_dyn_tables.sql pw_dyn_tables.sql
 
 echo "Fetching remote all tables..."
