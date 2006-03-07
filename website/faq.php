@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.72 2006/03/06 19:09:56 frabcus Exp $
+# $Id: faq.php,v 1.73 2006/03/07 12:58:01 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -21,7 +21,7 @@ $paddingforanchors = true; $title = "Help - Frequently Asked Questions"; pw_head
 <br>
 <li><a href="#clarify">What do the "rebellion" and "attendance" figures mean exactly?</a> </li>
 <li><a href="#freevotes">Why do you incorrectly say people are rebels in free votes?</a> </li>
-<li><a href="#abstentions">How do you estimate abstentions?</a> </li>
+<li><a href="#divno">Why is the division numbering different between the Commons and the Lords?</a> </li>
 <li><a href="#policies">What are Policies and how do they work?</a> </li>
 
 <br>
@@ -43,6 +43,7 @@ $paddingforanchors = true; $title = "Help - Frequently Asked Questions"; pw_head
 <br>
 <li><a href="#rss">Are there any RSS syndication feeds?</a> </li>
 <li><a href="#spreadsheet">Where is the data in spreadsheet file format or in XML?</a> </li>
+<li><a href="#datamodel">How does this XML nonsense all work?</a> </li>
 <li><a href="#patents">What is the fuss about software patents?</a> </li>
 <li><a href="#election">What did you do for the 2005 election?</a> </li>
 
@@ -184,21 +185,25 @@ are paid a salary by the taxpayer</a> so
 there is a precedent for admitting they exist.
 
 
-<h2 class="faq"><a name="abstentions">How do you estimate abstentions?</a></h2>
+<h2 class="faq"><a name="divno">Why is the division number different between the Commons and the Lords?</a></h2>
 
-<p>It isn't possible for an MP or a Lord to abstain in the UK parliament.  They can
-however not vote at all.  We try to detect massive low turnouts on the division
-page by estimating abstentions for each party.
+<p>Good question.  In the Commons, Division No. 1 is the first vote of the Parliamentary 
+session or year, but in the Lords it is the first vote of the day.  
+It would appear that, although both Houses are in the same building and operate 
+the same procedure, they are run on completely different sets of paperwork 
+that may have been the same at one point in the past, but has 
+since evolved apart.  
 
-<p>They are calculated from the expected turnout, which is statistical based on
-the average proportionate turnout for that party in all divisions. A negative
-abstention indicates that more members of that party than expected voted; this
-is always relative, so it could be that another party has failed to turn out
-<i>en masse</i>.</p>
+<p>We would be grateful to someone with access to some very old volumes of 
+Hansard if they could check out when these different numbering systems became 
+established and let us know.  
 
-<p>Sometimes MPs also indicate abstention by <a href="boths.php">voting both
-aye and no</a>. Lords aren't allowed to do this, the clerks delete them 
-completely from the roll call.
+<p>With great difficulty, we have generalized the software that supports 
+Public Whip to run both houses after it was initially designed only to run 
+the Commons.  We therefore have learnt more about the syntactic incompatibilities 
+between the two houses than we care to know.  The process is frought with 
+possible errors.  Please email us if 
+you see any mistakes where we have said that the MPs were 'Content'. 
 
 
 <h2 class="faq"><a name="policies">What are Policies and how do they work?</a></h2>
@@ -296,17 +301,28 @@ support we can.</p>
 We would be happy to do more of this.  Francis has even featured on the radio
 in "Yesterday in Parliament".  Julian lives in Liverpool, and Francis resides
 in Cambridge.  Both travel to London whenever there is something interesting
-happening there.  Neither of us has had any working experience inside
-Parliament, and so our opinions are very much formed from the outside.  </p>
+happening there.  Neither of us has any working experience inside
+Parliament or with a political party, so our observations are very much 
+from outside the system and its assumed conventions.  We have not 
+had much practice making them sound consistent with 'conventional wisdom'.</p>
 
 
 <h2 class="faq"><a name="money">Do you make any money out of Public Whip?</a></h2>
 
-<p>No.  The only money we've seen is from someone who contributed 70 pounds
-towards our internet bill.  We have no moral objection to earning money from
+<p>No.  The only direct financial contribution to Public Whip from someone who contributed 70 pounds
+towards our internet bill in 2004.  We have no moral objection to earning money from
 our work, it's just that we are not willing to compromise with the need for
-this sort of work to be public and freely available at no cost.  </p>
+this information to be public and freely available at no cost.  </p>
 
+<p>Our main running costs are a few hundred pounds in train fares to 
+meet and program together in Cambridge or Liverpool, and the couple of 
+thousand pounds Julian spent on a decent <a href="http://seagrass.goatchurch.org.uk">server</a>
+for hardware and bandwidth for the purpose of supporting a 
+number of other projects as well as this.</p>
+
+<p>As a result of Public Whip, Francis has got paid by mySociety for related work 
+that has used the data from <a
+href="http://ukparse.kforge.net/parlparse">Parliament Parse</a>. 
 
 <h2 class="faq"><a name="living">How do you earn enough to make a living?</a></h2>
 
@@ -375,6 +391,40 @@ description</a> of how to do it.  We provide the following RSS feeds:
 <h2 class="faq"><a name="spreadsheet">Where is the data in spreadsheet file format or in XML?</a></h2>
 
 <p> Take a look at our <a href="project/data.php">Raw Data</a> page.
+
+<h2 class="faq"><a name="datamodel">How does this XML nonsense all work?</a> </h2>
+
+<p>To us XML is nothing more than a standard text file for structured information, 
+so any highfalutin' claims you may have heard about it do not apply in our case.  
+
+<p>When the Hansard debates go online on the parliament.uk website, our 
+parsing software starts to work on it.  Step one is to download all the 
+pages and 'de-pagenate' them.  This turns each day into one page, which you 
+can see a directory of <a href="http://ukparse.kforge.net/parldata/cmpages/debates/"> here</a>.  
+
+<p>You can browse through our full list of archived original data 
+in <a href="http://ukparse.kforge.net/parldata/"> this directory</a>, 
+including a daily copy of frequently updated pages such as 
+<a href="http://ukparse.kforge.net/parldata/cmpages/chgpages/govposts/"> lists of ministerial positions</a>, 
+which is how we keep track of this data when it becomes history and 
+is nowhere else recorded.  
+
+<p>After downloading, or 'scraping', the pages are parsed into a fairly self-explanatory 
+XML format, examples of which can be seen <a href="http://ukparse.kforge.net/parldata/scrapedxml/debates/"> 
+in this directory</a>.  For further information, please see the <a href="http://ukparse.kforge.net/parlparse/"> 
+Parliament Parser homepage</a>.  
+
+<p>Often there are typos, mistakes, or unusual unusual formatting that the parser can't cope with, in 
+which case they need to get patched up before the process can complete.  This usually 
+accounts for the delay in the morning.  Some examples of patch files can be 
+found in <a href="http://ukparse.kforge.net/parldata/patches/debates/"> this directory</a>.  
+Later in the day some sharp-eyed MP or clerk might spot them independently 
+and ask for a correction in the text which they could have found out about 
+by checking these diff files.  When there are corrections, we keep both versions 
+and mark up the differences.  Look for XML files where there is both an 'a' and 'b' 
+version on the same date.  
+
+
 
 <h2 class="faq"><a name="patents">What is the fuss about software patents?</a></h2>
 <p>A new European directive on software patents threatens the existence
