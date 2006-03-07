@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: signup.php,v 1.2 2006/03/07 07:18:07 frabcus Exp $
+# $Id: signup.php,v 1.3 2006/03/07 18:47:51 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -55,7 +55,8 @@ if ($submit) {
     if (!pw_validate_email($email)) {
         $feedback = 'Please enter a valid email address'; 
     } else {
-		$query   = "INSERT INTO pw_dyn_newsletter
+        $db->query("DELETE FROM pw_dyn_newsletter WHERE email='$email'");
+		$query = "INSERT INTO pw_dyn_newsletter
                     (email, token, confirm, subscribed) VALUES ('$email', '$token', 0, now())";
 		$db->query($query);
         $message = "Follow this link to confirm your subscription: ".

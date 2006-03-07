@@ -129,12 +129,10 @@ function user_confirm($hash,$email) {
 			user_set_tokens(db_result($result,0,'user_name'));
 			$sql="UPDATE pw_dyn_user SET email='$email',is_confirmed='1' WHERE confirm_hash='$hash'";
 			$result=db_query($sql);
-            if ($result)
-                $result=db_query("DELETE FROM pw_dyn_newsletter WHERE email='" . $email . "'");
-            if ($result)  
-                $result=db_query("INSERT INTO pw_dyn_newsletter (email, confirm, subscribed) values('" . $email . "', 1, now())");
+            $result=db_query("DELETE FROM pw_dyn_newsletter WHERE email='" . $email . "'");
+            $result=db_query("INSERT INTO pw_dyn_newsletter (email, confirm, subscribed) values('" . $email . "', 1, now())");
 	
-         audit_log("Confirmed account email " . $email . " valid");
+            audit_log("Confirmed account email " . $email . " valid");
 			return $return_url;
 		}
 	} else {
@@ -412,7 +410,7 @@ function user_changenewsletter($newsletter) {
                 audit_log("Changed newsletter to " . $newsletter);
 		return true;
 	} else {
-                $feedback .= " Error writing to database. ". db_error();
+        $feedback .= " Error writing to database. ". db_error();
 		return false;
 	}
 }
