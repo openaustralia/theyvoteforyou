@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.38 2006/02/16 20:30:42 publicwhip Exp $
+# $Id: decodeids.inc,v 1.39 2006/03/07 13:11:14 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -159,7 +159,8 @@ function decode_mpid_legacy($db)
     if ($mpurlid) {
         # By identifier directly
         $mpid = $mpurlid;
-        $query = "SELECT mp_id FROM pw_mp WHERE gid='uk.org.publicwhip/member/".$mpurlid."'";
+        $query = "SELECT mp_id FROM pw_mp WHERE gid='uk.org.publicwhip/member/".$mpurlid."'
+            or gid='uk.org.publicwhip/lord/".$mpurlid."'";
         $row = $db->query_one_row_assoc($query);
         return db_scrub($row["mp_id"]);
      }
