@@ -1,5 +1,7 @@
 <?php
 
+require_once '../auth.inc';
+
 $feedback = '';
 
 if (!$hidden_hash_var) {
@@ -404,7 +406,7 @@ function user_changenewsletter($newsletter) {
         $newsletter = 0;
     $result=db_query("DELETE FROM pw_dyn_newsletter WHERE email='" . user_getemail() . "'");
     if ($result && $newsletter)  
-        $result=db_query("INSERT INTO pw_dyn_newsletter (email, confirm, subscribed) values('" . user_getemail() . "', 1, now())");
+        $result=db_query("INSERT INTO pw_dyn_newsletter (email, confirm, subscribed, token) values('" . user_getemail() . "', 1, now(), '".auth_random_token()."')");
 	if ($result) {
                 $feedback .= " Newsletter setting changed. ";
                 audit_log("Changed newsletter to " . $newsletter);
