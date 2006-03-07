@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.80 2006/03/06 19:09:56 frabcus Exp $
+# $Id: header.inc,v 1.81 2006/03/07 14:28:29 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -93,7 +93,7 @@ Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
 </td>
 -->
 <td class="searchtitlebar" align="right" valign="middle">
-<form class="searchtitlebarform" action="search.php" name=pw>
+<form class="searchtitlebarform" action="/search.php" name=pw>
 Search or Postcode:
 <br><input maxLength=256 size=12 name=query value=""> <input type=submit value="Go" name=button>
 </form>
