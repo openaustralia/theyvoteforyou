@@ -1,0 +1,88 @@
+Subject: Public Whip Newsletter #6 - Guest written by a corny journalist
+Date: Sun, 17 Oct 2004 01:32:54 +0100
+
+Welcome to the seventh Public Whip newsletter.
+
+Inside this issue:
+
+
+data-mine the record of Members of the United Kingdom Parliament, so
+that you can hold them to account.
+
+***********************************************************************
+Editorial - 
+
+Recently, due to a combination of accident and laziness, all our new 
+work went up onto the main website instead of the staging area.  
+
+This ruined our plans of having a proper launch party in an expensive room 
+in the Palace of Westminster with free drinks, canape's, small-talk 
+and all that useful networking when we put online the table of Lords' votes 
+for the public to see for the first time.  
+
+Oh well.  We couldn't have afforded it anyway.  I guess that's 
+because we haven't got any adverts.  
+
+
+***********************************************************************
+House of Lords
+
+Yes, it's up there.  All the votes in the second chamber back to the 
+general election of May 2005, interleaved with the votes in the Commons.  
+There's a drop-down box in the banner of the 'division' page should you 
+wish to see the votes of only one chamber at a time.  Everything is 
+seamlessly integrated(tm) across all features.  That means we track 
+the record right across the boundary when an MP gets elevated 
+into the upper chamber
+
+http://www.publicwhip.org.uk/mp.php?mpn=Baroness_Tonge&mpc=Lords&display=allvotes
+
+Some brave people have even filled in the Policy votes across the two houses, 
+so the whipping doesn't stop just because the member has changed seat: 
+
+http://www.publicwhip.org.uk/mp.php?mpn=Baroness_Tonge&mpc=Lords&dmp=230
+
+We'll push the data back in time as far as it goes once we finish 
+correcting all the typos.  
+
+***********************************************************************
+Division information
+
+The division page has grown an extra column, the 'majority' on each vote.  
+But that's not all.  Now you can break the voting down per party in 
+each House.  Simply select the Parliamentary term, the house, and the party, 
+and see the numbers that are ordinary hidden behind other numbers.  
+
+We put this in because we noticed that the Conservative party often 
+had suspiciously low turn-outs in their votes, and wondered whether 
+there was such a thing as whipping for an abstention.  See the 
+bottom of the table at: 
+
+http://www.publicwhip.org.uk/divisions.php?rdisplay2=Con_party&house=commons&sort=turnout
+
+Those looking for clues what the actress said should look no further than: 
+
+http://www.publicwhip.org.uk/divisions.php?rdisplay2=Bp_party&house=lords
+
+
+
+***********************************************************************
+The forum
+
+As always, the forum is open to all who come.  Parts of it are most 
+log-in-able.  The FAQ has been lightly overhauled, and we're ready 
+to embark on another round of tweaks when we work our what we're 
+doing.  We'll continue as before, unless the Legislative Reform 
+Act renders all this work pointless.  In the meantime, enjoy it 
+while you can.  
+
+
+***********************************************************************
+Like it?  Why not forward this newsletter to a friend now!
+***********************************************************************
+
+Subscribe a new address to this newsletter? Sign up here.
+http://www.publicwhip.org.uk/account/register.php
+
+Want to stop getting this newsletter? Login here and cancel your
+subscription. http://www.publicwhip.org.uk/account/settings.php
