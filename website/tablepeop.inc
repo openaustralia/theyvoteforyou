@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.47 2006/03/07 14:17:45 frabcus Exp $
+# $Id: tablepeop.inc,v 1.48 2006/03/07 14:23:41 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -496,6 +496,8 @@ function mp_table($db, $mptabattr)
         	print "no opposites found";
 		else if ($colstyle == "division2" and $showwhich == "changes")
         	print "no differences found";
+        else if ($mptabattr["listtype"] == "search")
+			print "no members found";
 		else
 			print "No results found";
 		print "</td></tr>\n";
