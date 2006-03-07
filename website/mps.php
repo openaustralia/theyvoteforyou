@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.33 2006/03/06 17:30:54 publicwhip Exp $
+    # $Id: mps.php,v 1.34 2006/03/07 14:17:45 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -11,7 +11,6 @@
 
     require_once "tablemake.inc";
     require_once "tablepeop.inc";
-    require_once "render.inc";
     require_once "parliaments.inc";
 
     $rdefaultdisplay_house = "commons";

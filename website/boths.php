@@ -1,15 +1,38 @@
 <?php require_once "common.inc";
-    # $Id: boths.php,v 1.12 2005/11/01 01:23:17 frabcus Exp $
+    # $Id: boths.php,v 1.13 2006/03/07 14:17:45 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
     # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
     # For details see the file LICENSE.html in the top level of the source.
 
+    function head_cell($url, $current_sort, $heading, $heading_sort, $title)
+    {
+        print "<td>";
+        if ($current_sort != $heading_sort)
+        {
+            print "<a href=\"" . $url . "sort=$heading_sort\" title=\"$title\">$heading</a>";
+        }
+        else
+        {
+            print $heading;
+        }
+        print "</td>";
+    }
+
+    $mps_query_start = "select first_name, last_name, title, constituency,
+            party, pw_mp.mp_id as mp_id, 
+            round(100*rebellions/votes_attended,0) as rebellions,
+            round(100*votes_attended/votes_possible,0) as attendance, 
+            entered_reason, left_reason, entered_house, left_house,
+            house
+            from pw_mp,
+            pw_cache_mpinfo where
+            pw_mp.mp_id = pw_cache_mpinfo.mp_id";
+
     $title = "Voted both aye and no"; 
     pw_header();
     require_once "db.inc";
-    require_once "render.inc";
     require_once "parliaments.inc";
     $db = new DB(); 
 
@@ -78,7 +101,7 @@ headings to sort it by MP name or by division date.
         $lastparl = $thisparl;
 
         $prettyrow = pretty_row_start($prettyrow);
-        print "<td>$row[6]</td><td>$row[7]</td><td><a href=\"division.php?date=" . urlencode($row[7]) .
+        print "<td>$row[6]</td><td>".pretty_date($row[7])."</td><td><a href=\"division.php?date=" . urlencode($row[7]) .
         "&number=" . urlencode($row[6]) . "\">$row[8]</a></td>";
         print "<td><a href=\"mp.php?firstname=" . urlencode($row[0]) .
             "&lastname=" . urlencode($row[1]) . "&constituency=" .

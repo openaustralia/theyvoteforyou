@@ -14,7 +14,6 @@
 
     require_once "parliaments.inc";
     require_once "constituencies.inc";
-    require_once "render.inc";
     require_once "dream.inc";
     require_once "account/user.inc";
     $dbo = new DB();

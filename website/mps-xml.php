@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps-xml.php,v 1.6 2005/11/01 00:56:21 frabcus Exp $
+    # $Id: mps-xml.php,v 1.7 2006/03/07 14:17:45 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -7,7 +7,6 @@
     # For details see the file LICENSE.html in the top level of the source.
 
     require_once "db.inc";
-    require_once "render.inc";
     $db = new DB(); 
 
     header("Content-type: text/xml");

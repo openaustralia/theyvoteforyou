@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.39 2006/02/25 23:13:22 publicwhip Exp $
+# $Id: divisions.php,v 1.40 2006/03/07 14:17:45 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -12,7 +12,6 @@
 
 	require_once "decodeids.inc";
 	require_once "tablemake.inc";
-    require_once "render.inc";
 
 	# constants
 	$rdismodes = array();  # this refers to the parliament (time range)

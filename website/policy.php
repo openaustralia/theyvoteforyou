@@ -15,7 +15,6 @@
 	require_once "decodeids.inc";
 	require_once "tablemake.inc";
 
-    require_once "render.inc";
     require_once "dream.inc";
 	require_once "tablepeop.inc";
 

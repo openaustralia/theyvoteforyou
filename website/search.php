@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: search.php,v 1.42 2006/03/07 13:52:39 frabcus Exp $
+# $Id: search.php,v 1.43 2006/03/07 14:17:45 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -14,18 +14,32 @@
         $onload = "givefocus('query')";
         $title = "Search";
     }
-    require_once "render.inc";
     require_once "parliaments.inc";
     require_once "constituencies.inc";
     require_once "links.inc";
     require_once "postcode.inc";
     require_once "wiki.inc";
     require_once "tablemake.inc";
+    require_once "tablepeop.inc";
 
     $db = new DB(); 
 
     $postcode = is_postcode($query);
     $header = false;
+
+    if ($postcode)
+    {
+        $score_clause = "(1=0)";
+        $pccons = postcode_to_constituency($db, $query);
+        if (isset($pccons))
+        {
+            # Overwrite over matches if we have postcode
+            $score_clause = "(constituency = '" . db_scrub($pccons) . "')";
+            header("Location: mp.php?constituency=" . urlencode($pccons));
+            exit;
+        }
+    }
+
 
     if ($query <> "")
     {
@@ -36,94 +50,36 @@
             $header = true;
             pw_header();
 
+            # Perform query on divisions
+            # TODO: only show this if something was found
             print "<p>Found these " /*. $db->rows()*/ . " divisions matching '$prettyquery':";
             print "<table class=\"votes\">\n";
-            # would like to have the above heading put into the scheme
             $divtabattr = array(
                     "showwhich"		=> 'search',
                     "search"        => $query,
                     "headings"		=> 'columns',
                     "sortby"		=> 'date',
                     "display_house" => 'both');
-            //$divtabattr["motionwikistate"] = "listunedited";  
             division_table($db, $divtabattr);
+            # TODO: set $found correctly
+            $found = true;
             print "</table>\n";
-            $found = true;
-        }
 
-        # Perform query on MPs
-        $score_clause = "(";
-        $score_clause .= "(lower(concat(first_name, ' ', last_name)) = '$query') * 10";
-        $querybits = explode(" ", $query);
-        foreach ($querybits as $querybit)
-        {
-            $querybits = trim($querybits);
-            if ($querybits != "")
-            {
-                $score_clause .= "+ (lower(constituency) = '$querybit') * 10 + 
-                (soundex(concat(first_name, ' ', last_name)) = soundex('$querybit')) * 8 + 
-                (soundex(constituency) = soundex('$querybit')) * 8 + 
-                (soundex(last_name) = soundex('$querybit')) * 6 + 
-                (lower(constituency) like '%$querybit%') * 4 + 
-                (lower(last_name) like '%$querybit%') * 4 + 
-                (soundex(first_name) = soundex('$querybit')) * 2 + 
-                (lower(first_name) like '%$querybit%') + 
-                (soundex(constituency) like concat('%',soundex('$querybit'),'%'))";
-            }
-        }
-        $score_clause .= ")";
-
-        if ($postcode)
-        {
-#            print "Postcode searching is not available.  Please search for your MP name. If you don't know their name, you can try searching for your town or district name, or use <a href=\"http://www.faxyourmp.com\">FaxYourMP</a> to find your MP name from postcode.";
-            $score_clause = "(1=0)";
-            $pccons = postcode_to_constituency($db, $query);
-            if (isset($pccons))
-            {
-                # Overwrite over matches if we have postcode
-                $score_clause = "(constituency = '" . db_scrub($pccons) . "')";
-            }
-        }
-
-        $db->query("$mps_query_start and ($score_clause > 0) 
-                    order by $score_clause desc, constituency, entered_house desc, last_name, first_name");
-
-        # Even with postcode, we check the query first, as the search page gives better error message
-        if ($postcode and $db->rows() > 0)
-        {
-            header("Location: mp.php?constituency=" . urlencode($pccons));
-            exit;
-        }
-
-        if (!$header)
-            pw_header();
-
-        if ($db->rows() > 0)
-        {
-            $found = true;
+            # Perform query on MPs
+            # TODO: only show this if something was found
             print "<p>Found these MPs whose names sound like ";
-            if ($postcode)
-                print "postcode ";
-            print "'$prettyquery':";
-            print "<table class=\"mps\"><tr
-                class=\"headings\"><td>Date</td><td>Name</td><td>Constituency</td><td>Party</td></tr>\n";
-            $prettyrow = 0;
-            while ($row = $db->fetch_row_assoc())
-            {
-                $prettyrow = pretty_row_start($prettyrow);
-                $anchor = "\"mp.php?". link_to_mp($row) . "\"";
-
-                print "<td>" . year_range($row['entered_house'], $row['left_house']) . "</td>";
-                print "<td><a href=$anchor>".$row['title']." ".$row['first_name']." ".$row['last_name']."</a></td></td>";
-                if ($row['house'] == 'commons')
-                    print "<td>".$row['constituency']."</td>";
-                else 
-                    print "<td>n/a</td>";
-                print "<td>" . pretty_party($row['party'], $row['entered_reason'], $row['left_reason']) .  "</td>";
-                print "</tr>\n";
-            }
+            print "<table class=\"mps\">\n";
+            $mptabattr = array("listtype" 	=> "search",
+                               "search" => $query,
+                               "showwhich" 	=> "all",
+                               "sortby"		=> "score",
+                               "house"      => "both", 
+                               "headings"	=> "yes");
+            mp_table($db, $mptabattr);
+            # TODO: set $found correctly
+            $found = true;
             print "</table>\n";
-        } 
+        }
 
         # Nothing?
         if (!$found)

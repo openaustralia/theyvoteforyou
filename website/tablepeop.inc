@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.46 2006/03/07 11:46:51 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.47 2006/03/07 14:17:45 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -147,7 +147,8 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
 #   'mpdistance', then 'mpfriend' is an mpprop for distance from
 # 	'dreamdistance', then 'dreammpid' is what we compare to
 #   'division', then 'divdate', 'divno', 'divhouse' index into that
-#     'division2, then there's also 'divdate2', 'divno2'
+#     'division2', then there's also 'divdate2', 'divno2'
+#   'search', then 'search' is a query string to search for
 # limit is nothing or a number
 # sortby is 'turnout', 'rebellions', 'name', 'constituency', 'attendance', 'party', 'vote'
 # showwhich is 'rebels', 'changes', 'voters', 'allpossible'
@@ -328,6 +329,38 @@ function mp_table($db, $mptabattr)
                                     ON pw_vote_sortorder.vote = pw_vote.vote";
 
         $columnforms["vote"] = "yes";
+    }
+    # search names of MPs
+    elseif ($mptabattr["listtype"] == 'search')
+    {
+        $search = $mptabattr["search"];
+        $score_clause = "(";
+        $score_clause .= "(lower(concat(first_name, ' ', last_name)) = '$search') * 10";
+        $querybits = explode(" ", $search);
+        foreach ($querybits as $querybit)
+        {
+            $querybits = trim($querybits);
+            if ($querybits != "")
+            {
+                $score_clause .= "+ (lower(constituency) = '$querybit') * 10 + 
+                (soundex(concat(first_name, ' ', last_name)) = soundex('$querybit')) * 8 + 
+                (soundex(constituency) = soundex('$querybit')) * 8 + 
+                (soundex(last_name) = soundex('$querybit')) * 6 + 
+                (lower(constituency) like '%$querybit%') * 4 + 
+                (lower(last_name) like '%$querybit%') * 4 + 
+                (soundex(first_name) = soundex('$querybit')) * 2 + 
+                (lower(first_name) like '%$querybit%') + 
+                (soundex(constituency) like concat('%',soundex('$querybit'),'%'))";
+            }
+        }
+        $score_clause .= ")";
+        $aquery["qwhere"] 	.= " AND ($score_clause > 0) ";
+        $aquery["qgroupby"] = " GROUP BY concat(first_name, ' ', last_name, ' ', constituency)"; 
+        if ($mptabattr["sortby"] == "score") 
+        {
+            $aquery["qorder"]  = " ORDER BY";
+	    	$aquery["qorder"] .= " $score_clause DESC";
+        }
     }
 
     # double division case
