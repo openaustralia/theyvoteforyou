@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.45 2006/03/07 11:19:50 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.46 2006/03/07 11:46:51 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -268,7 +268,7 @@ function mp_table($db, $mptabattr)
                                  AND pw_cache_realreal_distance.mp_id1 <> ".$mpprop["mpid"]."
                                  AND pw_cache_realreal_distance.mp_id2 = ".$mpprop["mpid"];
         $aquery["qwhere"] .= " AND distance_a IS NOT null AND distance_a != -1";
-        $aquery["qorder"] = " ORDER BY distance_ai, $tailorder";
+        $aquery["qorder"] = " ORDER BY distance_a, $tailorder";
         $friendlk = $mpprop['mpanchor2'];
 		$columnforms["distancetoagreement"] = "yes";
     }

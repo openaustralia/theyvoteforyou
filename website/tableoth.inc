@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.36 2006/03/07 11:19:50 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.37 2006/03/07 11:46:51 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -274,7 +274,7 @@
             print "<td class=\"$classboth\">$both</td>";
         else if ($totalboths > 0)
             print "ERROR - both for lords";
-        print "<td class=\"percent\">".percentise_votes_short($totalturnout, $totalpossibl)."</td>"; 
+        print "<td class=\"percent\">".percentise_votes_short($totalturnout, $totalpossible)."</td>"; 
         print "</tr>";
 
 		print "</table>";
