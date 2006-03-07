@@ -12,16 +12,16 @@ create table pw_dyn_newsletters_sent (
     unique(newsletter_id, newsletter_name)
 );
 
+Division by Zero
+http://www.publicwhip.org.uk//mp.php?mpn=Christopher_Chope&mpc=Christchurch&dmp=797&display=motions
 
 Remove abstain column from summary table, replace with % turnout for party
 http://www.publicwhip.org.uk/division.php?date=1999-05-04&number=164&dmp=811
 
-search: render_divisions_table should use new stuff so has lords
-
 Agreement score is knackered - policy page % differes from % when you click
 through to details.
 
-mp and division distance stuff - call delete function and update weekly
+search: render_divisions_table should use new stuff so has lords
 
 check against numbers page
     http://www.parliament.uk/directories/house_of_lords_information_office/analysis_by_composition.cfm
@@ -43,6 +43,7 @@ Seagrass:
 (17:37:32) chris:   i'd grab tw_cli from 3ware (may be in debian nonfree) and just diff its output against known-good output
 (17:37:39) chris:   the card will log stuff to syslog if anything breaks
 
+check mp and division distance stuff is updating
 
 Your views / My policies
 ----------

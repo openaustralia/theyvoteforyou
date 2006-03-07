@@ -132,7 +132,7 @@ function user_confirm($hash,$email) {
             if ($result)
                 $result=db_query("DELETE FROM pw_dyn_newsletter WHERE email='" . $email . "'");
             if ($result)  
-                $result=db_query("INSERT INTO pw_dyn_newsletter (email, confirm) values('" . $email . "', 1)");
+                $result=db_query("INSERT INTO pw_dyn_newsletter (email, confirm, subscribed) values('" . $email . "', 1, now())");
 	
          audit_log("Confirmed account email " . $email . " valid");
 			return $return_url;
@@ -406,7 +406,7 @@ function user_changenewsletter($newsletter) {
         $newsletter = 0;
     $result=db_query("DELETE FROM pw_dyn_newsletter WHERE email='" . user_getemail() . "'");
     if ($result && $newsletter)  
-        $result=db_query("INSERT INTO pw_dyn_newsletter (email, confirm) values('" . user_getemail() . "', 1)");
+        $result=db_query("INSERT INTO pw_dyn_newsletter (email, confirm, subscribed) values('" . user_getemail() . "', 1, now())");
 	if ($result) {
                 $feedback .= " Newsletter setting changed. ";
                 audit_log("Changed newsletter to " . $newsletter);
