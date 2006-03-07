@@ -23,21 +23,22 @@ my $where = "";
 if ($test_name ne "") {
     $where = "and real_name = '$test_name'";
 }
-my $where_newsletter = "and is_confirmed = 1 and is_newsletter=1 ";
-my $already_clause = "left join pw_dyn_newsletters_sent on 
-    pw_dyn_newsletters_sent.user_id = pw_dyn_user.user_id and
-    newsletter_name = ? where newsletter_name is null";
+my $already_clause = "
+    left join pw_dyn_newsletters_sent on pw_dyn_newsletters_sent.newsletter_id = pw_dyn_newsletter.newsletter_id 
+        and newsletter_name = ?
+    left join pw_dyn_user on pw_dyn_newsletter.email = pw_dyn_user.email
+    where newsletter_name is null and confirm";
 
 # Create query string
 my $query;
 if ($type eq "all") {
-    $query = "select real_name, email, user_name, pw_dyn_user.user_id from pw_dyn_user 
-        $already_clause $where_newsletter $where";
+    $query = "select real_name, pw_dyn_newsletter.email, user_name, pw_dyn_user.user_id from pw_dyn_newsletter
+        $already_clause $where";
 
 } elsif ($type eq "dream") {
     $query = "select real_name, email, user_name, pw_dyn_user.user_id, count(pw_dyn_dreamvote.vote) as count
-            from pw_dyn_dreammp, pw_dyn_user, pw_dyn_dreamvote 
-                $already_clause $where_newsletter and
+            from pw_dyn_dreammp, pw_dyn_newsletter, pw_dyn_dreamvote 
+                $already_clause and
                 pw_dyn_dreammp.user_id = pw_dyn_user.user_id and
                 pw_dyn_dreamvote.dream_id = pw_dyn_dreammp.dream_id
                 $where
@@ -48,10 +49,13 @@ if ($type eq "all") {
 }
 $query .= " limit $amount";
 
+print $query;
+
 # Send mailshot
 my $sth = PublicWhip::DB::query($dbh, $query, $text);
 my $all = $sth->fetchall_hashref('user_id');
 print "Sending to " . $sth->rows . " people\n";
+exit;
 foreach my $k (keys %$all)
 {
     my $data = $all->{$k};

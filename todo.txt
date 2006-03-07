@@ -1,28 +1,3 @@
-Newsletter:
-- Test new full login case
-- Test change email case
-
-insert into pw_dyn_newsletter (email, confirm) select email, 1 from pw_dyn_user where is_confirmed and is_newsletter;
-alter table pw_dyn_user drop is_newsletter;
-drop table pw_dyn_newsletters_sent;
-create table pw_dyn_newsletters_sent (
-    newsletter_id int not null,
-    newsletter_name varchar(100) not null,
-
-    unique(newsletter_id, newsletter_name)
-);
-
-Division by Zero
-http://www.publicwhip.org.uk//mp.php?mpn=Christopher_Chope&mpc=Christchurch&dmp=797&display=motions
-
-Remove abstain column from summary table, replace with % turnout for party
-http://www.publicwhip.org.uk/division.php?date=1999-05-04&number=164&dmp=811
-
-Agreement score is knackered - policy page % differes from % when you click
-through to details.
-
-search: render_divisions_table should use new stuff so has lords
-
 check against numbers page
     http://www.parliament.uk/directories/house_of_lords_information_office/analysis_by_composition.cfm
 Division alerts
@@ -32,6 +7,11 @@ Make it clearer can discuss individual Policy votes on forum
 Indicate better that discussion can go on?
 
 Search on forum page bizarrely goes to forum search box (no /?)
+
+search: render_divisions_table should use new stuff so has lords
+
+delete render.inc
+remove blank table from search
 
 Make search search wiki text
 esp. div titles
@@ -44,6 +24,9 @@ Seagrass:
 (17:37:39) chris:   the card will log stuff to syslog if anything breaks
 
 check mp and division distance stuff is updating
+
+Change "Policy vote" title to name of Policy
+http://www.publicwhip.org.uk/mp.php?mpid=1755&dmp=367
 
 Your views / My policies
 ----------
@@ -100,6 +83,8 @@ Backup dynamic database on cron job
 Fix bad table thing on 
 http://staging.publicwhip.org.uk/mps.php?parliament=all&sort=lastname
 
+200% http://www.publicwhip.org.uk//mp.php?mpn=Christopher_Chope&mpc=Christchurch&dmp=797&display=motions
+
 Voting accuracy
 ---------------
 
@@ -122,8 +107,6 @@ The correct division has an explicit-division-end, which doesn't need to be eras
 So some unspoken text is being lost.
 
 Resolve all the errors that "scraper.pl check" squirts out
-
-Measure abstentions by parliament rather than global proportions?
 
 Check "Question accordingly..." fits with our counting
 Tally vote numbers in text and check they fit with our counting

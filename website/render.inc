@@ -1,6 +1,6 @@
 <?php
 
-# $Id: render.inc,v 1.14 2006/02/23 03:39:40 publicwhip Exp $
+# $Id: render.inc,v 1.15 2006/03/07 13:52:39 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -21,34 +21,6 @@ function head_cell($url, $current_sort, $heading, $heading_sort, $title)
     }
     print "</td>";
 }
-
-
-# this function is probably dead
-$divisions_query_start = "select pw_division.division_id,
-    division_number, division_date, division_name, source_url,
-    rebellions, turnout from pw_division, pw_cache_divinfo where
-    pw_division.division_id = pw_cache_divinfo.division_id";
-
-function render_divisions_table($db)
-{
-    $prettyrow = 0;
-    while ($row = $db->fetch_row())
-    {
-        $class = "";
-        if ($row[5] >= 10)
-        {
-            $class = "rebel";
-        }
-        $prettyrow = pretty_row_start($prettyrow, $class);
-        print "<td>$row[1]</td> <td>".pretty_date($row[2])."</td> <td><a
-            href=\"division.php?date=" . urlencode($row[2]) . "&number="
-            . urlencode($row[1]) . "\">$row[3]</a></td>
-            <td>$row[5]</td>
-            <td>$row[6]</td>";
-        print "</tr>\n";
-    }
-}
-
 
 # these functions should hopefully disappear soon
 $mps_query_start = "select first_name, last_name, title, constituency,

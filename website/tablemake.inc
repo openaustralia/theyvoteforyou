@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.70 2006/03/06 16:02:46 publicwhip Exp $
+# $Id: tablemake.inc,v 1.71 2006/03/07 13:52:39 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -569,20 +569,24 @@ function writeevents(&$events, $date, $breversed)
 
 
 
-# table that shows a selected heap of divisions, and provides a comparison between
+# Table that shows a selected heap of divisions, and provides a comparison between
 # one or two independent voting actors.
+#
 # votertype is 'dreammp', 'mp', 'party'
 # voter is a mpid, dreammpid, blank-for-self party,
 # divclose is divattr, or null
-# showwhich is 'everyvote', 'rebellions10', 'party', 'all1', 'all2', 'either', 'both', 'bothdiff' (tellers appear automatically)
-#   if 'party' then party records which one
-# (then we need a signal for order and for expanded display, and for events)
+# showwhich is 'everyvote', 'rebellions10', 'party', 'search', 'all1',
+#    'all2', 'either', 'both', 'bothdiff' (tellers appear automatically)
+#    if showwhich is 'party' then party records which one
+#    (then we need a signal for order and for expanded display, and for events)
+#    if 'search' then search is the search string
 # votedisplay is none, 'fullmotion'(for showing the jmp view)
 # headings is 'none', 'columns', 'fulldesc'(for changing mps)
 # sortby is 'date', 'subject', 'rebellions', 'turnout', 'closeness'
 # parldatelimit is null or a line from $parliaments
 # motionwikistate is nothing or 'listunedited' for the "(unedited)" symbols
 # display_house is nothing/'both', or 'commons', or 'lords'
+#
 function division_table($db, $divtabattr, $events = "")
 {
     update_divisions_wiki_id($db);
@@ -713,7 +717,7 @@ function division_table($db, $divtabattr, $events = "")
     if ($voter1type == "dreammp")
         divdreammpconds($aquery, $db, $voter1, $bonlyvotes1, 1);
 
-    if (!$voter1type && !$divclose)  # this case means we are listing all divisions without a driver
+    if (!$voter1type && !$divclose && $divtabattr["showwhich"] != "search")  # this case means we are listing all divisions without a driver
 	{
 		$aquery["qselect"] .= ", rebellions, turnout";
 	    if ($divtabattr["headings"] != "frontpageshort")
@@ -777,6 +781,15 @@ function division_table($db, $divtabattr, $events = "")
 	    $columnforms["party_turnout"] = "yes";
 	}
 
+    # search
+    if ($showwhich == "search") 
+    {
+        $aquery["qwhere"]  .= " AND (
+                LOWER(division_name) LIKE '%".$divtabattr["search"]."%'
+                OR LOWER(motion) LIKE '%".$divtabattr["search"]."%'
+                OR LOWER(text_body) LIKE '%".$divtabattr["search"]."%'".
+                ")";
+    }
 
     # apply the limit
     if ($divtabattr["limitby"] != "")
@@ -816,6 +829,8 @@ function division_table($db, $divtabattr, $events = "")
             $mess = "no votes listed";
             if ($showwhich == "bothdiff" and $voter1type == "mp" and $voter2type == "party")
                 $mess = "no rebellions, never teller";
+            elseif ($showwhich == "search") 
+                $mess = "no divisions found";
             $cspan = count($columnforms);
             print "<td colspan=$cspan>$mess</td></tr>\n";
         }

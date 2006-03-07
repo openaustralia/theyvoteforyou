@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: search.php,v 1.41 2005/11/01 01:23:17 frabcus Exp $
+# $Id: search.php,v 1.42 2006/03/07 13:52:39 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -19,6 +19,8 @@
     require_once "constituencies.inc";
     require_once "links.inc";
     require_once "postcode.inc";
+    require_once "wiki.inc";
+    require_once "tablemake.inc";
 
     $db = new DB(); 
 
@@ -33,31 +35,26 @@
         {
             $header = true;
             pw_header();
-            
-            # Perform query on divisions
-            $db->query("$divisions_query_start and (lower(division_name) like '%$query%'
-                or lower(motion) like '%$query%')
-                order by division_date desc, division_number desc");
 
-            if ($db->rows() > 0)
-            {
-                $found = true;
-                print "<p>Found these " . $db->rows() . " divisions matching '$prettyquery':";
-                print "<table class=\"votes\">\n";
-                print "<tr
-                class=\"headings\"><td>No.</td><td>Date</td><td>Subject</td><td>Rebellions</td><td>Turnout</td></tr>";
-                render_divisions_table($db);
-                print "</table>\n";
-            }
+            print "<p>Found these " /*. $db->rows()*/ . " divisions matching '$prettyquery':";
+            print "<table class=\"votes\">\n";
+            # would like to have the above heading put into the scheme
+            $divtabattr = array(
+                    "showwhich"		=> 'search',
+                    "search"        => $query,
+                    "headings"		=> 'columns',
+                    "sortby"		=> 'date',
+                    "display_house" => 'both');
+            //$divtabattr["motionwikistate"] = "listunedited";  
+            division_table($db, $divtabattr);
+            print "</table>\n";
+            $found = true;
         }
 
         # Perform query on MPs
         $score_clause = "(";
         $score_clause .= "(lower(concat(first_name, ' ', last_name)) = '$query') * 10";
-
-
         $querybits = explode(" ", $query);
-
         foreach ($querybits as $querybit)
         {
             $querybits = trim($querybits);
