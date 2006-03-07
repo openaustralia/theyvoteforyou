@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.54 2006/02/26 13:30:39 publicwhip Exp $
+# $Id: dream.inc,v 1.55 2006/03/07 11:19:50 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -85,7 +85,7 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
  				   <hr class=\"divider\" />
 		   		<span class=\"denominator\">$points_total</span>
 		   </div>
-		   <div class=\"equals break\">&nbsp;= <b>".number_format(100.0 * $values_total / $points_total, 1)." %</b>.</div>
+		   <div class=\"equals break\">&nbsp;= <b>".number_format(100.0 * $values_total / ($points_total == 0 ? 1 : $points_total), 1)." %</b>.</div>
 		   </p>\n\n<br clear=\"all\">\n";
 
 	print "<p>Please post comments and feedback about this equation in
@@ -223,7 +223,8 @@ function update_dreammp_person_distance($db, $dreamid)
 	# we do for one dreammp against all the votes they share with each MP
 	$qwhere  = " WHERE pw_dyn_dreamvote.dream_id = $dreamid";
 	$qwhere .= "   AND pw_mp.entered_house <= pw_division.division_date
-				   AND pw_mp.left_house > pw_division.division_date";
+				   AND pw_mp.left_house > pw_division.division_date
+                   AND pw_mp.house = pw_division.house";
 	$qgroup = " GROUP BY pw_mp.person";
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;

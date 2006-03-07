@@ -124,9 +124,9 @@
 
 		$mptabattr = array("listtype" => 'dreamdistance',
 						   'dreammpid' => $dreamid,
-						   'dreamname' => $policyname);
+						   'dreamname' => $policyname, 
+                           'headings' => 'yes');
 		print "<table class=\"mps\">\n";
-		print "<tr class=\"headings\"><td>Agreement</td><td>Name</td><td>Constituency</td><td>Party</td></tr>\n";
 		mp_table($db, $mptabattr);
 		print "</table>\n";
 	}

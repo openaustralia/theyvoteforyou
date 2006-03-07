@@ -2,7 +2,7 @@
 
 cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.69 2006/03/07 09:55:05 frabcus Exp $
+# $Id: index.php,v 1.70 2006/03/07 11:19:50 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -53,7 +53,7 @@ An at most monthly briefing.
      <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Subscribe">
     </FORM>
 
-<p><a href="newsletters/signup.php">More details</a>
+<p><a href="newsletters/signup.php">Privacy policy</a>
 <!--<h2>Forum</h2>
 <p><a href="/forum">Chat in our forum</a> to other users.-->
 </td>

@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.44 2006/03/06 19:09:56 frabcus Exp $
+# $Id: tablepeop.inc,v 1.45 2006/03/07 11:19:50 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -13,7 +13,9 @@ require_once $toppath . "parliaments.inc";
 function print_mpcolumn_headings($columnforms)
 {
     print "<tr class=\"headings\">";
-	if ($columnforms["name"])
+	if ($columnforms["distancetoagreement"])
+        print "<td>Agreement</td>"; 
+    if ($columnforms["name"])
 	    print "<td>Name</td>";
 	if ($columnforms["place"])
         print "<td>Constituency</td>";
@@ -170,6 +172,24 @@ function mp_table($db, $mptabattr)
 
 	$columnforms = array();
 
+
+	$tailorder = ""; 
+	if ($mptabattr["sortby"] == "constituency")
+	    $tailorder = " constituency, last_name, first_name";
+	# by name primarily
+	elseif ($mptabattr["house"] == "lords")
+	    $tailorder = " concat(first_name, substring(last_name, 4))";  # a hack to strip the of-s and make the names comparable
+	elseif ($mptabattr["house"] == "commons")
+	    $tailorder = " replace(last_name, '&Ouml;', 'O'), first_name, constituency";
+
+	# we're stuffed for lords sorting, till we make it much more elaborate
+	else
+	    $tailorder = " concat(substring(replace(last_name, '&Ouml;', 'O'), (house='commons')), first_name, substring(last_name, (house='lords')*4)), constituency"; 
+
+	if ($mptabattr["sortby"] != "party" and !(($mptabattr["sortby"] == "vote") and ($mptabattr["listtype"] != 'division') and ($mptabattr["listtype"] != 'division2')))
+	    $tailorder .= ", party";
+
+        
 	# main ordering functionality
     if ($mptabattr["listtype"] != 'dreamdistance')
     {
@@ -200,9 +220,7 @@ function mp_table($db, $mptabattr)
 	    # without a vote column (just a list of MPs)
 	    else
 	    {
-	        if ($mptabattr["sortby"] == "constituency")
-	            $aquery["qorder"] .= " constituency, ";
-	        elseif ($mptabattr["sortby"] == "party")
+	        if ($mptabattr["sortby"] == "party")
 	            $aquery["qorder"] .= " party, ";
 	        elseif ($mptabattr["sortby"] == "vote")
 	            $aquery["qorder"] .= " vote, party, ";
@@ -211,20 +229,7 @@ function mp_table($db, $mptabattr)
 	    }
 
 		# trail off by name
-	    if ($mptabattr["sortby"] == "constituency")
-	        $aquery["qorder"] .= " constituency, last_name, first_name";
-		# by name primarily
-	    elseif ($mptabattr["house"] == "lords")
-	    	$aquery["qorder"] .= " concat(first_name, substring(last_name, 4))";  # a hack to strip the of-s and make the names comparable
-	    elseif ($mptabattr["house"] == "commons")
-	    	$aquery["qorder"] .= " replace(last_name, '&Ouml;', 'O'), first_name, constituency";
-
-		# we're stuffed for lords sorting, till we make it much more elaborate
-		else
-	    	$aquery["qorder"] .= " concat(substring(last_name, (house='commons')), first_name, substring(last_name, (house='lords')*4)), constituency"; 
-
-	    if ($mptabattr["sortby"] != "party" and !(($mptabattr["sortby"] == "vote") and ($mptabattr["listtype"] != 'division') and ($mptabattr["listtype"] != 'division2')))
-	        $aquery["qorder"] .= ", party";
+	    $aquery["qorder"] .= $tailorder;
 	    if ($bdebug == 1)
 	        print "\n<h3>".$aquery["qorder"]."</h3>\n";
 	}
@@ -263,7 +268,7 @@ function mp_table($db, $mptabattr)
                                  AND pw_cache_realreal_distance.mp_id1 <> ".$mpprop["mpid"]."
                                  AND pw_cache_realreal_distance.mp_id2 = ".$mpprop["mpid"];
         $aquery["qwhere"] .= " AND distance_a IS NOT null AND distance_a != -1";
-        $aquery["qorder"] = " ORDER BY distance_a";
+        $aquery["qorder"] = " ORDER BY distance_ai, $tailorder";
         $friendlk = $mpprop['mpanchor2'];
 		$columnforms["distancetoagreement"] = "yes";
     }
@@ -278,7 +283,7 @@ function mp_table($db, $mptabattr)
         $aquery["qjoin"] 	.= " LEFT JOIN pw_cache_dreamreal_distance
                                     ON pw_cache_dreamreal_distance.person = pw_mp.person
                                     AND pw_cache_dreamreal_distance.dream_id = $dreamid";
-        $aquery["qorder"] = " ORDER BY distance";
+        $aquery["qorder"] = " ORDER BY distance, $tailorder";
 
         # this should use the left-reason case
         $aquery["qwhere"] 	.= " AND left_house = '9999-12-31'

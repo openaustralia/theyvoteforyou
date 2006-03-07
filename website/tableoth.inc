@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.35 2006/03/06 16:02:46 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.36 2006/03/07 11:19:50 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -196,7 +196,7 @@
             aye and no in the same division. The <a href=\"".$baseurl."boths.php\">boths
             page</a> explains this.
             <p>";
-        print "<span class=\"ptitle\">What is Possible?</span> Possible votes are 
+        print "<span class=\"ptitle\">What is Turnout?</span> This is measured against 
         the total membership of the party at the time of the vote.
         </p>
         </div>";
@@ -213,7 +213,6 @@
         if ($house != "lords")
             print "<td>Both</td>";
         print "<td>Turnout</td>";
-        print "<td>Possible</td></tr>";
         $prettyrow = 0;
 
 		$totalayes = 0;
@@ -231,7 +230,7 @@
 			$both = $row["both_votes"];
 
             $total = $aye + $no + $both + $tellaye + $tellno;
-            if ($total == 0)
+            if (($total == 0) && ($party != "Con" && $party != "Lab" && $party != "LDem"))
                 continue; 
 
 			$totalayes += $aye;
@@ -260,8 +259,7 @@
                 print "ERROR - both for lords";
             if ($house != "lords")
                 print "<td class=\"$classboth\">$both</td>";
-            print "<td>$total</td>";
-            print "<td>".$row["possible_votes"]."</td>";
+            print "<td class=\"percent\">".percentise_votes_short($total, $row['possible_votes'])."</td>"; 
             print "</tr>";
         }
 
@@ -276,8 +274,7 @@
             print "<td class=\"$classboth\">$both</td>";
         else if ($totalboths > 0)
             print "ERROR - both for lords";
-        print "<td>$totalturnout</td>";
-        print "<td>$totalpossible</td>";
+        print "<td class=\"percent\">".percentise_votes_short($totalturnout, $totalpossibl)."</td>"; 
         print "</tr>";
 
 		print "</table>";
