@@ -9,7 +9,7 @@ my $test_name = "";
 my $type = "all";
 
 #$test_name = "Jo Kibble";
-#$test_name = "Francis Irving";
+$test_name = "Francis Irving";
 #$test_name = "Julian Todd";
 
 my $amount = 1000000;
@@ -32,10 +32,12 @@ my $already_clause = "
 # Create query string
 my $query;
 if ($type eq "all") {
-    $query = "select real_name, pw_dyn_newsletter.email, user_name, pw_dyn_user.user_id from pw_dyn_newsletter
-        $already_clause $where";
+    $query = "select real_name, pw_dyn_newsletter.email, user_name, pw_dyn_user.user_id, pw_dyn_newsletter.token 
+        from pw_dyn_newsletter
+        $already_clause $where group by pw_dyn_newsletter.email";
 
 } elsif ($type eq "dream") {
+    die "todo with new newsletter system";
     $query = "select real_name, email, user_name, pw_dyn_user.user_id, count(pw_dyn_dreamvote.vote) as count
             from pw_dyn_dreammp, pw_dyn_newsletter, pw_dyn_dreamvote 
                 $already_clause and
@@ -49,8 +51,6 @@ if ($type eq "all") {
 }
 $query .= " limit $amount";
 
-print $query;
-
 # Send mailshot
 my $sth = PublicWhip::DB::query($dbh, $query, $text);
 my $all = $sth->fetchall_hashref('user_id');
@@ -61,6 +61,7 @@ foreach my $k (keys %$all)
     my $data = $all->{$k};
 
     my $email = $data->{'email'};
+    my $newsletter_id = $data->{'newsletter_id'};
     my $username = $data->{'user_name'};
     my $realname = $data->{'real_name'};
     my $userid = $data->{'user_id'};
@@ -88,8 +89,8 @@ EOF
 
     close(SENDMAIL) or die "sendmail didn't close nicely";
 
-    PublicWhip::DB::query($dbh, "insert into pw_dyn_newsletters_sent (user_id, newsletter_name)
-            values (?, ?)", $userid, $text);
+    PublicWhip::DB::query($dbh, "insert into pw_dyn_newsletters_sent (newsletter_id, newsletter_name)
+            values (?, ?)", $newsletter_id, $text);
 
     print "done\n";
 

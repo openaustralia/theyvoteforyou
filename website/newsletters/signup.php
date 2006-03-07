@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: signup.php,v 1.3 2006/03/07 18:47:51 frabcus Exp $
+# $Id: signup.php,v 1.4 2006/03/07 21:18:10 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -15,6 +15,7 @@ $db = new DB();
 $email=mysql_escape_string($_POST["email"]);
 $submit=mysql_escape_string($_POST["submit"]);
 $token=mysql_escape_string($_GET["token"]);
+$unsub=mysql_escape_string($_GET["unsub"]);
 
 if ($token) {
     $query = "SELECT COUNT(*) from pw_dyn_newsletter where token = '$token'";
@@ -26,10 +27,17 @@ if ($token) {
         it in your email again. If that doesn't work, try using 'copy' to get
         the link from your email, and 'paste' it into your browser.</p>";
     } else {
-        $title = "Newsletter confirmed";
-        pw_header();
-        $db->query("update pw_dyn_newsletter set confirm = 1 where token = '$token'");
-        print "<p>Thanks! You will now receive the Public Whip newsletter.</p>";
+        if ($unsub) {
+            $title = "Unsubscribed from newsletter";
+            pw_header();
+            $db->query("update pw_dyn_newsletter set confirm = 0 where token = '$token'");
+            print "<p>You will no longer receive the Public Whip newsletter.</p>";
+            print "<p>To sign up again, with the same or a different address, <a href=\"/newsletters/signup.php\">click here</a>.</p>";
+        } else {
+            $title = "Newsletter confirmed";
+            pw_header();
+            $db->query("update pw_dyn_newsletter set confirm = 1 where token = '$token'");
+            print "<p>Thanks! You will now receive the Public Whip newsletter.</p>";
 ?>
 <form class="search" action="/search.php" name=pw>
 <p>Enter your postcode to find out how your MP voted:
@@ -37,6 +45,7 @@ if ($token) {
 <i>Example: "OX1 3DR"
 </form>
 <?
+        }
     }
     pw_footer();
     exit;

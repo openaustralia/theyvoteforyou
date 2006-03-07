@@ -1,6 +1,6 @@
 <?php
 
-require_once '../auth.inc';
+require_once $toppath . 'auth.inc';
 
 $feedback = '';
 

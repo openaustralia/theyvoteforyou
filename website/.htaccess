@@ -26,6 +26,7 @@ Options +FollowSymLinks
 RewriteEngine On
 RewriteRule ^testrewrite$ /index.php [PT]
 RewriteRule ^[Nn]/([^;]+)$                      /newsletters/signup.php?token=$1
+RewriteRule ^[Uu]/([^;]+)$                      /newsletters/signup.php?token=$1&unsub=1
 
 
 # Net strike
