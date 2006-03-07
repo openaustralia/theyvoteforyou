@@ -130,7 +130,7 @@ function user_confirm($hash,$email) {
 			$sql="UPDATE pw_dyn_user SET email='$email',is_confirmed='1' WHERE confirm_hash='$hash'";
 			$result=db_query($sql);
             $result=db_query("DELETE FROM pw_dyn_newsletter WHERE email='" . $email . "'");
-            $result=db_query("INSERT INTO pw_dyn_newsletter (email, confirm, subscribed) values('" . $email . "', 1, now())");
+            $result=db_query("INSERT INTO pw_dyn_newsletter (email, confirm, subscribed, token) values('" . $email . "', 1, now(), '".auth_random_token()."')");
 	
             audit_log("Confirmed account email " . $email . " valid");
 			return $return_url;
