@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.71 2006/03/07 13:52:39 frabcus Exp $
+# $Id: tablemake.inc,v 1.72 2006/03/07 14:19:17 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -271,13 +271,14 @@ function print_column_headings($vote1, $vote2, $columnforms, $party)
 	if ($columnforms["voter1type"] == "dreammp")
 		print "<td>Policy Vote</td>";
 	if ($columnforms["voter1type"] == "mp")
-		print $columnforms["voter1house"]=="lords" ? "<td>Lord Vote</td>":"<td>MP Vote</td>";
+		print "<td>".$vote1['name']."</td>";
 	if ($columnforms["voter2type"] == "party")
 		print "<td>$vote2 Vote</td>";
 	if ($columnforms["voter2type"] == "dreammp")
 		print "<td>Policy Vote</td>";
-	if ($columnforms["voter2type"] == "person")
-		print "<td>Person Vote</td>";
+	if ($columnforms["voter2type"] == "person") {
+		print "<td>".$vote2['mpprop']['name']."</td>";
+    }
 
 	if ($columnforms["role"])
 		print "<td>R&ocirc;le</td>";
@@ -738,10 +739,9 @@ function division_table($db, $divtabattr, $events = "")
     if ($voter2type != "")
     {
         $bonlyvotes2 = ($showwhich == "all2" or $showwhich == "both" or $showwhich == "bothdiff");
-        if ($voter2type == "dreammp")
+        if ($voter2type == "dreammp") {
             divdreammpconds($aquery, $db, $voter2, $bonlyvotes2, 2);
-        else if ($voter2type == "party")
-        {
+        } else if ($voter2type == "party") {
             if ($voter2 == "")
                 $voter2 = $aquery["party1"];
             divpartyconds($aquery, $db, $voter2, 2);
