@@ -11,7 +11,7 @@ BODY
 A:link, A:active, A:visited
 {
     TEXT-DECORATION: underline;
-    COLOR: #990000
+    COLOR: #000099;
 }
 A:link:hover, A:active:hover, A:visited:hover
 {
@@ -22,7 +22,8 @@ TABLE.votes A:link, TABLE.votes A:active, TABLE.votes A:visited,
 TABLE.divisions A:link, TABLE.divisions A:active, TABLE.divisions A:visited,
 TABLE.edits A:link, TABLE.edits A:active, TABLE.edits A:visited
 {
-    TEXT-DECORATION: none;
+/* Uncomment to hide link underlines inside large tables: */
+/*    TEXT-DECORATION: none; */
 }
 TABLE.mps A:link:hover, TABLE.mps A:active:hover, TABLE.mps A:visited:hover,
 TABLE.votes A:link:hover, TABLE.votes A:active:hover, TABLE.votes A:visited:hover,
