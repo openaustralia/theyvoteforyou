@@ -1,4 +1,4 @@
-// $Id: plotpanel.java,v 1.2 2006/02/17 19:32:06 frabcus Exp $
+// $Id: plotpanel.java,v 1.3 2006/03/10 16:49:06 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -30,7 +30,6 @@ import java.awt.Cursor;
 import java.awt.FontMetrics; 
 
 import java.io.File;
-import javax.imageio.ImageIO;
 
 //
 //
@@ -41,8 +40,8 @@ import javax.imageio.ImageIO;
 class plotpanel extends JPanel implements MouseListener, MouseMotionListener 
 {
 	Image offscreen;
-    Dimension csize = new Dimension(1,1);
-    Graphics offgraphics;
+	Dimension csize = new Dimension(1,1);
+	Graphics offgraphics;
 
 	mparr ma = null; 
 	listmps lm = null; 
@@ -81,7 +80,7 @@ class plotpanel extends JPanel implements MouseListener, MouseMotionListener
 	plotpanel() 
 	{
 		addMouseListener(this); 
-        addMouseMotionListener(this);
+        	addMouseMotionListener(this);
 		setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR)); 
 	}
 
@@ -154,25 +153,6 @@ class plotpanel extends JPanel implements MouseListener, MouseMotionListener
 			}
 	    }
 	}
-
-        public void SavePNG(String filename, int w, int h)
-        {
-            // Draw image
-            csize = new Dimension(w,h);
-            BufferedImage img = new BufferedImage(csize.width, csize.height, BufferedImage.TYPE_INT_RGB);
-            Graphics gfx = img.getGraphics();
-            InitScale(); 
-            paintGraph(gfx); 
-
-            // Save to disk
-            try
-            {
-                ImageIO.write(img, "png", new File(filename));
-            } catch(IOException ioe) {
-                System.err.println("Error saving PNG");
-                System.exit(1);
-            }
-        }
 
 	/////////////////////////////////////////////
     public void paintGraph(Graphics g) 

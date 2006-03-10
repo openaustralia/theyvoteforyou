@@ -43,6 +43,8 @@ Record when you last looked, and tell you how you voted since due to your aggreg
 Usability
 ---------
 
+People think "policy" means "government policy". Sigh.
+
 Edit division text 
 - split into separate boxes for title and text
 - put Edit/Discuss links on division page in right hand column

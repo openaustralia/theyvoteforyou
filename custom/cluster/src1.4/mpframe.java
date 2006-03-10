@@ -1,4 +1,4 @@
-// $Id: mpframe.java,v 1.1 2005/03/28 14:26:33 frabcus Exp $
+// $Id: mpframe.java,v 1.1 2006/03/10 16:49:06 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -18,6 +18,11 @@ import java.io.BufferedReader;
 
 import java.util.Arrays; 
 
+import java.awt.*;
+import java.awt.image.*;
+import javax.imageio.ImageIO; // Java 1.4 only.
+
+
 /////////////////////////////////////////////
 class mpframe extends JFrame
 {
@@ -32,6 +37,27 @@ class mpframe extends JFrame
 		mpsc = new mpscatter(); 
 		getContentPane().add("Center", mpsc); 
 	}
+	
+	/** Uses 'pp' to construct an image and save it as a PNG file.
+	 * Uses javax.imageio, so only works on Java 1.4. */
+       public static void SavePNG(plotpanel pp, String filename, int w, int h)
+        {
+            // Draw image
+            pp.csize = new Dimension(w,h);
+            BufferedImage img = new BufferedImage(pp.csize.width, pp.csize.height, BufferedImage.TYPE_INT_RGB);
+            Graphics gfx = img.getGraphics();
+            pp.InitScale(); 
+            pp.paintGraph(gfx); 
+
+            // Save to disk
+            try
+            {
+                ImageIO.write(img, "png", new File(filename));
+            } catch(IOException ioe) {
+                System.err.println("Error saving PNG");
+                System.exit(1);
+            }
+        }
 
 	/////////////////////////////////////////////
 	// startup the program
@@ -63,9 +89,9 @@ class mpframe extends JFrame
 			mpf.mpsc.LoadData(coordfiles); 
 			
 			if (args.length > 1)
-				mpf.mpsc.pp.SavePNG(args[1], Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+				SavePNG(mpf.mpsc.pp, args[1], Integer.parseInt(args[2]), Integer.parseInt(args[3]));
 			else
-				mpf.show(); 
+				mpf.setVisible(true); 
 		}
 		catch (IOException e)
 		{
