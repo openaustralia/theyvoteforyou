@@ -1,3 +1,13 @@
+
+- when succeeded in signing up for newsletter, should advertise full login
+- instead of screen name AND real name just have "name". let people change it.
+- allow letters (including accents), spaces, apostrophese, hyphens in that name
+- use email address for logging in
+- call it an account more explicitly
+
+- if you have link in newsletter, and they aren't fully registered and they
+  then register, it doesn't need to reconfirm their email
+
 alerts on chggpages
 
 check against numbers page

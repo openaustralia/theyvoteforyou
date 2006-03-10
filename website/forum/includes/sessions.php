@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: sessions.php,v 1.4 2005/11/29 00:24:35 frabcus Exp $
+ *   $Id: sessions.php,v 1.5 2006/03/10 01:38:20 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -21,9 +21,10 @@
  ***************************************************************************/
 // Added by FAI
 $thepath = $phpbb_root_path . "../";
-include "$thepath/config.php";
-include "$thepath/account/user.inc";
-include "$thepath/database.inc";
+require_once "$thepath/common.inc";
+require_once "$thepath/config.php";
+require_once "$thepath/account/user.inc";
+require_once "$thepath/database.inc";
 // End added by FAI
 
 //

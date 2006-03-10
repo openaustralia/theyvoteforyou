@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: page_header.php,v 1.3 2006/02/27 06:29:47 publicwhip Exp $
+ *   $Id: page_header.php,v 1.4 2006/03/10 01:38:20 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -477,7 +477,7 @@ else
 header ('Expires: 0');
 header ('Pragma: no-cache');
 
-include('../common.inc');
+require_once('../common.inc');
 $title = $page_title;
 if ($title == "Index") {
 	$title = "Public Whip discussion forum";

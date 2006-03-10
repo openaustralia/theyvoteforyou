@@ -1,6 +1,6 @@
 <?php
 
-# $Id: forummagic.inc,v 1.14 2005/12/04 00:39:01 publicwhip Exp $
+# $Id: forummagic.inc,v 1.15 2006/03/10 01:38:19 frabcus Exp $
 # Post things to the forum automatically (like log of changes to policies)
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -32,7 +32,7 @@ function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content)
         if ($c > 3 ) {
             error_log($last_response);
             trigger_error("Failed to post change to forum after several goes.", E_USER_ERROR);
-	}
+        }
 
         // Post our message
         $post_filename = "/forum/posting.php";
@@ -46,7 +46,7 @@ function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content)
                          "&message=".urlencode($content)."&post=Submit"; 
             list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data, $extra_cookies);
         }
-	$last_response = $response;
+        $last_response = $response;
 
         // Find cookies, and send them in next time
         $matches = array();
