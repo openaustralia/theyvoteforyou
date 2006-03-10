@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: data.php,v 1.23 2005/11/01 01:23:17 frabcus Exp $
+# $Id: data.php,v 1.24 2006/03/10 17:24:43 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -30,10 +30,10 @@ data there.
 <h2>MP votes for each division</h2>
 
 <p>The .dat files are tab-separated text files for loading into a spreadsheet.
-They contain a matrix of every vote of each MP in each division.  The columns
-are headed by the identifiers of the MPs, and the rows begin with the date,
-number and title of the division.   Each .txt file explains what number
-represents aye, no, abstain and so on, and gives a key to the MP
+They contain a matrix of every vote of each MP/Lord in each division.  The columns
+are headed by the identifiers of the MPs/Lords, and the rows begin with the date,
+number and title of the division.  Each .txt file explains what number
+represents aye, no, abstain and so on, and gives a key to the MP/Lord
 identifiers.
 
 <p>
@@ -43,6 +43,8 @@ identifiers.
 <a href="../data/votematrix-2001.txt">votematrix-2001.txt</a>
 <br><a href="../data/votematrix-2005.dat">votematrix-2005.dat</a>
 <a href="../data/votematrix-2005.txt">votematrix-2005.txt</a>
+<br><a href="../data/votematrix-lords.dat">votematrix-lords.dat</a>
+<a href="../data/votematrix-lords.txt">votematrix-lords.txt</a>
 
 <p>You may have problems using these files because they have more than 256
 columns, and some spreadsheets don't go beyond column IV.  See if your
