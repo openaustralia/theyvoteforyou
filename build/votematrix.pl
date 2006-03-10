@@ -25,17 +25,33 @@ $Output_Values{no}=     '4';
 $Output_Values{tellno}= '5';
 
 my $path = $ENV{'HOME'} ."/www.publicwhip.org.uk/docs/data";
-foreach my $parliament (&PublicWhip::Parliaments::getlist())
-{
-    my $outfile = "votematrix-" . $$parliament{'name'} ;
+
+# Lords
+my $outfile = "votematrix-lords";
+my $where = "house = 'lords' and votes_attended > 0 ";
+my $clause = "where house = 'lords'";
+do_one_file($outfile, $where, $clause, "lords");
+# Commons
+foreach my $parliament (&PublicWhip::Parliaments::getlist()) {
+    my $outfile = "votematrix-" . $$parliament{'name'};
+    # MP clause:
+    my $where = "house = 'commons' and votes_attended > 0 and " .
+        "entered_house >= '" . $$parliament{'from'} . "' and entered_house <= '" . $$parliament{'to'} . "'";
+    # Division clause:
+    my $clause = "where house = 'commons' and
+        division_date >= '" . $$parliament{'from'} . "' and 
+        division_date <= '" . $$parliament{'to'} . "'";
+    do_one_file($outfile, $where, $clause, "commons parliament " . $$parliament{'name'});
+}
+
+sub do_one_file {
+    my ($outfile, $where, $clause, $parl_name) = @_;
 
     open(OUT , "> $path/$outfile.dat") || die "can't open $outfile.dat:$!";
     open(METADATA, "> $path/$outfile.txt") || die "can't open $outfile.txt:$!";
-    print METADATA "file: $outfile.csv covering $$parliament{'name'}\n";
+    print METADATA "file: $outfile.csv covering $parl_name\n";
     print METADATA "file created: " . scalar localtime() . "by http://www.publicwhip.org.uk/\n";
     # Get ids of MPs
-    my $where = "votes_attended > 0 and " .
-        "entered_house >= '" . $$parliament{'from'} . "' and entered_house <= '" . $$parliament{'to'} . "'";
     my $limit = "";
 
     my $mp_query = PublicWhip::DB::query($dbh, "select pw_mp.mp_id, pw_mp.first_name, pw_mp.last_name, pw_mp.party from pw_mp, pw_cache_mpinfo where
@@ -45,8 +61,8 @@ foreach my $parliament (&PublicWhip::Parliaments::getlist())
     my @mp_ixs;
     my %mp_name;
     # Get ids of divisions
-    my $clause = "where division_date >= '" . $$parliament{'from'} . "' and division_date <= '" . $$parliament{'to'} . "'";
-    my $vote_query= PublicWhip::DB::query($dbh, "select division_id, division_date, division_number, division_name from pw_division $clause" .
+    my $vote_query= PublicWhip::DB::query($dbh, 
+            "select division_id, division_date, division_number, division_name from pw_division $clause" .
             " order by division_date desc, division_number desc");
 
     print METADATA $vote_query->rows . " divisions\n";
@@ -78,7 +94,6 @@ foreach my $parliament (&PublicWhip::Parliaments::getlist())
     }
 
     $limit=""; # reset limit from use above
-    my @data;
     my ($div_dat, $mp_dat, $vote);
     my @votematrix;
     foreach my $division (@div_ixs) { #iterate over divisions, and select each one individually

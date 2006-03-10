@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: news-tokens.php,v 1.1 2006/03/07 19:11:23 frabcus Exp $
+# $Id: news-tokens.php,v 1.2 2006/03/10 17:24:44 publicwhip Exp $
 
 # Script to fill in missing tokens in newsletter table.
 
@@ -21,6 +21,7 @@ while(true) {
     if (!$row)
         exit;
     $email = $row[0];
+    print "$email\n";
     $query = "update pw_dyn_newsletter set token = '$token' where email = '$email'";
     $db->query($query);
 }
