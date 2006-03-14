@@ -3,7 +3,7 @@
 # Clean out the cache as it gets very full
 #39 * * * *    /usr/sbin/tmpwatch 12 /home/francis/pwcache
 
-# Grab division XML files from TheyWorkForYou and load into database
+# Grab division XML files from parlparse and load into database
 # This is an extra grab - the cgi-bin script twfy-morning-update-done
 # also launches dailyupdate at the more appropriate time (shortly
 # after 8am when Hansard has updated)

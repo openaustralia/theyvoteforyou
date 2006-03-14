@@ -1,4 +1,4 @@
-# $Id: Clean.pm,v 1.12 2006/03/06 12:30:39 publicwhip Exp $
+# $Id: Clean.pm,v 1.13 2006/03/14 11:29:21 publicwhip Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -123,9 +123,9 @@ sub check_integrity {
         }
     }
 
-    # Check all divisions are present in sequence
+    # Check all divisions are present in sequence for Commons
     $sth = PublicWhip::DB::query( $dbh,
-"select division_date, division_number from pw_division where $where order by
+"select division_date, division_number from pw_division where $where and house = 'commons' order by
 division_date, division_number"
     );
     my $prev_number = 0;
@@ -180,7 +180,7 @@ division_date, division_number"
     PublicWhip::Error::warn(
         "Database contains "
           . $sth->rows
-          . " MP(s) who voted when they were not in the house!",
+          . " member(s) who voted when they were not in the house!",
         ""
       ) if $sth->rows;
 }

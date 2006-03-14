@@ -9,8 +9,8 @@ my $test_email = "";
 my $type = "all";
 
 #$test_email = 'frabcus@fastmail.fm';
-$test_email = 'francis@flourish.org';
-#$test_email = 'julian@goatchurch.org.uk';
+#$test_email = 'francis@flourish.org';
+#$test_email = 'julian@publicwhip.org.uk';
 
 my $amount = 1000000;
 
@@ -55,7 +55,7 @@ $query .= " limit $amount";
 
 # Send mailshot
 my $sth = PublicWhip::DB::query($dbh, $query, $text);
-my $all = $sth->fetchall_hashref('user_id');
+my $all = $sth->fetchall_hashref('email');
 print "Sending to " . $sth->rows . " people\n";
 foreach my $k (keys %$all)
 {
@@ -69,15 +69,17 @@ foreach my $k (keys %$all)
     my $dreamcount = $data->{'count'};
     my $token = $data->{'token'};
 
-    $realname =~ s/@/(at)/;
     my $to;
     if ($realname) {
+        $realname =~ s/@/(at)/;
+        $realname =~ s/,/ /;
         $to = $realname . " <" . $email . ">";
     } else {
         $to = $email;
     }
 
-    print "Sending to $to who is $username";
+    print "Sending to $to";
+    print " who is $username" if ($username);
     print " (dream count $dreamcount)" if ($type eq "dream");
     print "...";
 

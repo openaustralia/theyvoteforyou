@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.23 2006/03/06 15:56:24 publicwhip Exp $
+# $Id: distances.inc,v 1.24 2006/03/14 11:29:21 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -56,7 +56,7 @@ function update_divdiv_distance($db, $division_date1, $divid1, $division_date2, 
 	$qgroup = " GROUP BY ssss"; # sum all rows
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
-#	if ($bdebug == 1)
+	if ($bdebug == 1)
 		print "<h4>$query</h4>";
 	$row = $db->query_one_row_assoc($query);
 
@@ -100,7 +100,7 @@ function remove_dead_division_distances($db)
                ON pw_division.division_id = pw_cache_divdiv_distance.division_id$suffix
               WHERE pw_division.division_id IS null GROUP BY pw_cache_divdiv_distance.division_id$suffix
               "; 
-        print "$qselect $qfrom\n";
+        #print "$qselect $qfrom\n";
         $db->query($qselect.$qfrom);
         while ($row = $db->fetch_row()) {
             $delme[] = $row[0];

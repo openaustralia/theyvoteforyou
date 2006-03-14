@@ -33,8 +33,8 @@ cd ~/publicwhip-live/loader
 ./memxml2db.pl
 
 # Load new divisions
-if ! ./load.pl --quiet --from=$FROMDATE divsxml 
-then
+#if ! ./load.pl --quiet --from=$FROMDATE divsxml 
+#then
 	# echo "There were new divisions, recalculating cached values"
 
 	# There were new divisions, so run checks
@@ -57,7 +57,7 @@ then
 	cd ~/publicwhip-live/build
 	./export-db
 	./votematrix.pl
-fi
+#fi
 
 # Copy across ministers file (used by minwhirl)
 cp ~/parlparse/members/ministers.xml ~/www.publicwhip.org.uk/docs/data/
