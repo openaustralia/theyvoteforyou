@@ -2,15 +2,15 @@
 use strict;
 use lib "loader/";
 
-my $text = "website/newsletters/extra6.txt";
-my $test_name = "";
+my $text = "website/newsletters/issue10.txt";
+my $test_email = "";
 
 #my $type = "dream"; 
 my $type = "all";
 
-#$test_name = "Jo Kibble";
-$test_name = "Francis Irving";
-#$test_name = "Julian Todd";
+#$test_email = 'frabcus@fastmail.fm';
+$test_email = 'francis@flourish.org';
+#$test_email = 'julian@goatchurch.org.uk';
 
 my $amount = 1000000;
 
@@ -20,11 +20,12 @@ my $dbh = PublicWhip::DB::connect();
 
 # Extra where clause
 my $where = "";
-if ($test_name ne "") {
-    $where = "and real_name = '$test_name'";
+if ($test_email ne "") {
+    $where = "and pw_dyn_newsletter.email = '$test_email'";
 }
 my $already_clause = "
-    left join pw_dyn_newsletters_sent on pw_dyn_newsletters_sent.newsletter_id = pw_dyn_newsletter.newsletter_id 
+    left join pw_dyn_newsletters_sent on 
+        pw_dyn_newsletters_sent.newsletter_id = pw_dyn_newsletter.newsletter_id 
         and newsletter_name = ?
     left join pw_dyn_user on pw_dyn_newsletter.email = pw_dyn_user.email
     where newsletter_name is null and confirm";
@@ -32,7 +33,8 @@ my $already_clause = "
 # Create query string
 my $query;
 if ($type eq "all") {
-    $query = "select real_name, pw_dyn_newsletter.email, user_name, pw_dyn_user.user_id, pw_dyn_newsletter.token 
+    $query = "select real_name, pw_dyn_newsletter.email, user_name, pw_dyn_user.user_id, 
+        pw_dyn_newsletter.token as token, pw_dyn_newsletter.newsletter_id as newsletter_id
         from pw_dyn_newsletter
         $already_clause $where group by pw_dyn_newsletter.email";
 
@@ -55,7 +57,6 @@ $query .= " limit $amount";
 my $sth = PublicWhip::DB::query($dbh, $query, $text);
 my $all = $sth->fetchall_hashref('user_id');
 print "Sending to " . $sth->rows . " people\n";
-exit;
 foreach my $k (keys %$all)
 {
     my $data = $all->{$k};
@@ -66,26 +67,36 @@ foreach my $k (keys %$all)
     my $realname = $data->{'real_name'};
     my $userid = $data->{'user_id'};
     my $dreamcount = $data->{'count'};
+    my $token = $data->{'token'};
 
     $realname =~ s/@/(at)/;
-    my $to = $realname . " <" . $email . ">";
+    my $to;
+    if ($realname) {
+        $to = $realname . " <" . $email . ">";
+    } else {
+        $to = $email;
+    }
 
     print "Sending to $to who is $username";
     print " (dream count $dreamcount)" if ($type eq "dream");
     print "...";
 
     open(SENDMAIL, "|/usr/lib/sendmail -oi -t") or die "Can't fork for sendmail: $!\n";
+
     print SENDMAIL <<"EOF";
 From: Public Whip Team <team\@publicwhip.org.uk>
 To: $to
 EOF
 
-    open (TEXT, $text) || die "Can't open newsletter $text : $!";
+    open (TEXT, $text) or die "Can't open newsletter $text : $!";
     while (<TEXT>) {
+            s/\$TOKEN/$token/g;
             print SENDMAIL $_;
     }
 
-    print SENDMAIL "\nYou are subscribed as user $username with email $email\n";
+    if ($username) {
+        print SENDMAIL "\nYour user name is $username\n";
+    }
 
     close(SENDMAIL) or die "sendmail didn't close nicely";
 

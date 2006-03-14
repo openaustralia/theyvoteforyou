@@ -20,7 +20,7 @@ new work went up onto the main website instead of the staging area.
 
 This ruined our plans of having a proper launch party in an
 expensive room in the Palace of Westminster with free drinks,
-canape's, small-talk and all that useful networking when we put
+canapes, small-talk and all that useful networking when we put
 online the table of Lords' votes for the public to see for the
 first time. 
 
@@ -35,7 +35,7 @@ renders all this work pointless.
 
 In the meantime, enjoy it while you can!
 
- - Julian and Francis, The Public Whip ( http://www.publicwhip.org.uk )
+ - Julian, The Public Whip ( http://www.publicwhip.org.uk )
 
 ***********************************************************************
 House of Lords
@@ -96,10 +96,6 @@ whips, a policy Public Whip supports. Well, unless they start
 paying us as well!
 http://www.timesonline.co.uk/newspaper/0,,173-1865686,00.html
 http://telegraph.co.uk/opinion/main.jhtml?xml=/opinion/2006/02/19/do1903.xml&sSheet=/portal/2006/02/19/ixportal.html
-Meanwhile, the Power Inquiry reported this week, on amongst other
-things, the power of whips (see page 143), with some
-recommendations to get them under control.
-http://www.powerinquiry.org/report/documents/PowertothePeople_001.pdf#page=70
 
 Meanwhile, signs of the number of people using Public Whip bubble
 up into the media. Here it's used by a Guardian journalist to
@@ -129,4 +125,4 @@ Subscribe a new address to this newsletter? Sign up here.
 http://www.publicwhip.org.uk/newsletters/signup.php
 
 Want to stop getting this newsletter?
-http://www.publicwhip.org.uk/account/settings.php
+http://www.publicwhip.org.uk/U/$TOKEN
