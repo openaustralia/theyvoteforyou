@@ -1,4 +1,4 @@
-# $Id: Calc.pm,v 1.10 2006/02/16 16:02:05 publicwhip Exp $
+# $Id: Calc.pm,v 1.11 2006/03/15 17:57:32 frabcus Exp $
 # Calculates various data and caches it in the database.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -88,11 +88,11 @@ sub current_rankings {
             $rank++;
             $activerank = $rank if ( $mprebel{$mp} != $prevvalue );
             $prevvalue = $mprebel{$mp};
-            PublicWhip::Error::log( $mp . " rebel $activerank of " . $#mpsrebel, "", ERR_CHITTER );
+            PublicWhip::Error::log( $mp . " rebel $activerank of " . scalar(@mpsrebel), "", ERR_CHITTER );
             PublicWhip::DB::query(
                 $dbh,
 "insert into pw_cache_rebelrank_today (mp_id, rebel_rank, rebel_outof)
-                values (?, ?, ?)", $mp, $activerank, $#mpsrebel
+                values (?, ?, ?)", $mp, $activerank, scalar(@mpsrebel)
             );
         }
     }
@@ -110,12 +110,12 @@ sub current_rankings {
             $activerank = $rank if ( $mpattend{$mp} != $prevvalue );
             $prevvalue = $mpattend{$mp};
             PublicWhip::Error::log(
-                $mp . " attend $activerank of " . $#mpsattend,
+                $mp . " attend $activerank of " . scalar(@mpsattend),
                 "", ERR_CHITTER );
             PublicWhip::DB::query(
                 $dbh,
 "insert into pw_cache_attendrank_today (mp_id, attend_rank, attend_outof)
-                values (?, ?, ?)", $mp, $activerank, $#mpsattend
+                values (?, ?, ?)", $mp, $activerank, scalar(@mpsattend)
             );
         }
     }
