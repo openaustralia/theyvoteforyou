@@ -9,7 +9,7 @@ MYSQL_DUMP=/usr/bin/mysqldump
 $MYSQL_DUMP --add-drop-table pw_live pw_division pw_moffice pw_mp pw_vote | bzip2 - >~/www.publicwhip.org.uk/docs/data/pw_static_tables.sql.bz2
 
 # User edited tables
-# DO NOT include pw_dyn_user or pw_dyn_auditlog as they have emails etc. in them
+# DO NOT include pw_dyn_user, pw_dyn_newsletter or pw_dyn_auditlog as they have emails etc. in them
 $MYSQL_DUMP --add-drop-table pw_live pw_dyn_dreammp pw_dyn_dreamvote pw_dyn_wiki_motion | bzip2 - >~/www.publicwhip.org.uk/docs/data/pw_dynamic_tables.sql.bz2
 
 # Cache tables.

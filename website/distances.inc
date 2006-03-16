@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.24 2006/03/14 11:29:21 publicwhip Exp $
+# $Id: distances.inc,v 1.25 2006/03/16 05:16:00 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -106,7 +106,7 @@ function remove_dead_division_distances($db)
             $delme[] = $row[0];
         }
 
-        print "selected ".count($delme)." rows for deletion"; 
+        #print "selected ".count($delme)." rows for deletion"; 
         if (count($delme) > 0) {
             $query = "delete from pw_cache_divdiv_distance where 
                 division_id$suffix in (" . join(",", $delme).")";
@@ -121,7 +121,7 @@ function fill_division_distances($db, $db2, $house, $divattr) {
 	$some_done = 1;
 	while($some_done) {
 		$some_done = fill_division_distances_internal($db, $db2, $house, $divattr, 5000);
-		print "done...";
+		#print "done...";
 	}
 }
 
@@ -371,7 +371,7 @@ function fill_mp_distances($db, $db2, $house) {
 	$some_done = 1;
 	while($some_done) {
 	    $some_done = fill_mpid_distances_internal($db, $db2, $house, 5000); 
-		print "done...";
+		#print "done...";
 	}
 }
 
