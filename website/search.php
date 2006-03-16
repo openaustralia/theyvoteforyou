@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: search.php,v 1.44 2006/03/07 14:23:41 publicwhip Exp $
+# $Id: search.php,v 1.45 2006/03/16 01:24:50 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -9,6 +9,10 @@
     require_once "db.inc";
     $prettyquery = html_scrub(trim($_GET["query"]));
     $query = strtolower(db_scrub(trim($_GET["query"])));
+    if ($prettyquery == "word/postcode") {
+        $prettyquery = "";
+        $query = "";
+    }
     $title = "Search for '$prettyquery'"; 
     if ($prettyquery == "") {
         $onload = "givefocus('query')";

@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: signup.php,v 1.4 2006/03/07 21:18:10 frabcus Exp $
+# $Id: signup.php,v 1.5 2006/03/16 01:24:52 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -16,6 +16,9 @@ $email=mysql_escape_string($_POST["email"]);
 $submit=mysql_escape_string($_POST["submit"]);
 $token=mysql_escape_string($_GET["token"]);
 $unsub=mysql_escape_string($_GET["unsub"]);
+
+if ($email = "your email")
+    $email = "";
 
 if ($token) {
     $query = "SELECT COUNT(*) from pw_dyn_newsletter where token = '$token'";
