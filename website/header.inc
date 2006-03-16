@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.81 2006/03/07 14:28:29 frabcus Exp $
+# $Id: header.inc,v 1.82 2006/03/16 00:25:18 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -28,6 +28,7 @@ $headtitle = str_replace("<br>", "", $headtitle);
 <link rel="icon" href="/<?=($colour_scheme=="lords")?'faviconred.ico':'favicon.ico'?>" type="image/x-icon" />
 <link rel="shortcut icon" href="/<?=($colour_scheme=="lords")?'faviconred.ico':'favicon.ico'?>" type="image/x-icon" />
 <link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.publicwhip.org.uk/feeds/interestingdivisions.xml" />
+<script type="text/javascript" src="/publicwhip.js"></script>
 <title><? print $headtitle ?></title>
 <script>
 <!--
@@ -69,7 +70,7 @@ function secondnav_goto3() {
 <? } ?>
 
 <!-- hold the maximum width of the content -->
-<table align="center" class="container" cellpadding="0" cellspacing="0">
+<table align="center" class="container" cellpadding="0" cellspacing="0" border="0">
 
 <!-- banner advert for election site -->
 <!--<tr class="electionadvert">
@@ -92,17 +93,21 @@ Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
 <a href="http://noepatents.eu.org/index.php/NO_Software_Patents"><img src="/patents/swpatbanner.en.png" alt="STOP Software Patents!"/></a>
 </td>
 -->
-<td class="searchtitlebar" align="right" valign="middle">
+<td class="searchtitlebar" align="right" valign="middle" colspan="2">
 <form class="searchtitlebarform" action="/search.php" name=pw>
-Search or Postcode:
-<br><input maxLength=256 size=12 name=query value=""> <input type=submit value="Go" name=button>
+Search: <input maxLength=256 size=12 id=query name=query onblur="fadeout(this)" onfocus="fadein(this)" value=""> <input type=submit value="Go" name=button>
 </form>
+<FORM ACTION="/newsletters/signup.php" METHOD="POST">
+Newsletter (<a href="/newsletters/signup.php">info</a>): <INPUT TYPE="TEXT" NAME="email" id="email" onblur="fadeout(this)" onfocus="fadein(this)" VALUE="" SIZE="12" MAXLENGTH="50">
+<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Go">
+</FORM>
+
 </td>
 </tr>
 
 <!-- the main site navigation -->
 <tr class="headers">
-<td class="pagenavlinks" >
+<td class="pagenavlinks" colspan="2">
 <a title="Front page and site highlights" href="<?=$toppath?>index.php">Home</a>
 <!--NEWSLETTERBEGIN-->
 <?php print newsletter_navbar(); ?>
@@ -130,7 +135,7 @@ Search or Postcode:
      'current' - 'on' or 'off' for whether this item is currently selected -->
 <? if ($second_links) { ?>
 <tr class="secondheaders">
-<td class="pagesecondnavlinks" colspan="2">
+<td class="pagesecondnavlinks" colspan="3">
 
 <?
     function print_links($links, $offset) {
@@ -164,7 +169,7 @@ Search or Postcode:
 <? } ?>
 
 <!-- the rest of the content -->
-<tr><td colspan="2">
+<tr><td colspan="3">
 
 <?=$pretitle ? $pretitle : ""?>
 

@@ -8,6 +8,8 @@
 - if you have link in newsletter, and they aren't fully registered and they
   then register, it doesn't need to reconfirm their email
 
+work on newsletter text for when you are signed in (e.g. top right box)
+
 alerts on chggpages
 
 check against numbers page

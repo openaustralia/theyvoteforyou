@@ -351,6 +351,15 @@ TABLE.votetab TD.majority
     TEXT-ALIGN: RIGHT;
     VERTICAL-ALIGN: MIDDLE;
 }
+.searchtitlebar form 
+{
+    MARGIN: 0px;
+}
+.searchtitlebar form a
+{
+    COLOR: #ffffff;
+    MARGIN: 0px;
+}
 .searchtitlebarform
 {
     TEXT-ALIGN: RIGHT;
