@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.73 2006/03/07 12:58:01 publicwhip Exp $
+# $Id: faq.php,v 1.74 2006/03/18 02:09:13 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -320,9 +320,10 @@ thousand pounds Julian spent on a decent <a href="http://seagrass.goatchurch.org
 for hardware and bandwidth for the purpose of supporting a 
 number of other projects as well as this.</p>
 
-<p>As a result of Public Whip, Francis has got paid by mySociety for related work 
-that has used the data from <a
-href="http://ukparse.kforge.net/parlparse">Parliament Parse</a>. 
+<p>Francis has made money indirectly from Public Whip, because making it has
+been a good way of meeting lots of people.  For example, he gets paid by <a
+href="http://www.mysociety.org">mySociety</a> to build other socially useful
+websites.
 
 <h2 class="faq"><a name="living">How do you earn enough to make a living?</a></h2>
 
