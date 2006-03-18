@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: search.php,v 1.45 2006/03/16 01:24:50 publicwhip Exp $
+# $Id: search.php,v 1.46 2006/03/18 11:08:52 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -71,7 +71,7 @@
 
             # Perform query on MPs
             # TODO: only show this if something was found
-            print "<p>Found these MPs and Lords whose names sound like ";
+            print "<p>Found these MPs and Lords whose names sound like '$prettyquery':";
             print "<table class=\"mps\">\n";
             $mptabattr = array("listtype" 	=> "search",
                                "search" => $query,
