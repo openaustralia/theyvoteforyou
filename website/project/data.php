@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: data.php,v 1.24 2006/03/10 17:24:43 publicwhip Exp $
+# $Id: data.php,v 1.25 2006/03/20 19:04:23 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -65,6 +65,10 @@ and rebelliousness for MPs in the all-members.xml file.  This is a live file,
 correct to the latest division in the Public Whip database.  The field data_date
 shows the date it applies up to.  For members who have left the house it says
 "complete".
+
+<p><a href="../mp-info.xml?house=lords">mp-info.xml?house=lords</a> - 
+likewise for the House of Lords.
+
 
 <h2>Database dumps</h2>
 
