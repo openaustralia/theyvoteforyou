@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: mp-info.xml,v 1.8 2006/03/20 19:08:28 publicwhip Exp $
+# $Id: mp-info.xml,v 1.9 2006/03/21 01:13:31 publicwhip Exp $
 
 # Print information in XML about each MP.  e.g. Rebellion rate.
 
@@ -56,6 +56,8 @@ while ($row = $db->fetch_row_assoc())
     $att = $row['attendance'];
     if ($att == "") { $att="n/a"; } else { $att.="%"; }
     $reb = $row['rebellions'];
+    if (whipless_party($row['party']))
+        $reb = "";
     if ($reb == "") { $reb="n/a"; } else { $reb.="%"; }
     print " public_whip_division_attendance=\"$att\"\n";
     print " public_whip_rebellions=\"$reb\"\n";
