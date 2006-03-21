@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: calc_caches.php,v 1.14 2006/03/21 01:05:57 publicwhip Exp $
+# $Id: calc_caches.php,v 1.15 2006/03/21 01:08:21 publicwhip Exp $
 
 # Calculate lots of cache tables, run after update.
 
@@ -240,7 +240,8 @@ function do_house_ranking($db, $house) {
     # Select all MPs in force today, and their attendance/rebellions
     $mps_query_start = "select pw_mp.mp_id as mp_id, 
             round(100*rebellions/votes_attended,2) as rebellions,
-            round(100*votes_attended/votes_possible,2) as attendance
+            round(100*votes_attended/votes_possible,2) as attendance,
+            party
             from pw_mp, pw_cache_mpinfo 
             where pw_mp.mp_id = pw_cache_mpinfo.mp_id 
                   and house = '$house' ";
@@ -261,10 +262,12 @@ function do_house_ranking($db, $house) {
     $mpsattend = array();
     $mpattend = array();
 	while ($row = $db->fetch_row()) {
-        list( $mpid, $rebel, $attend ) = $row;
+        list( $mpid, $rebel, $attend, $party ) = $row;
         if ( $rebel ) {
-            $mpsrebel[] = $mpid;
-            $mprebel[$mpid] = $rebel;
+            if (!whipless_party($party)) {
+                $mpsrebel[] = $mpid;
+                $mprebel[$mpid] = $rebel;
+            }
         }
         if ( $attend ) {
             $mpsattend[] = $mpid;
