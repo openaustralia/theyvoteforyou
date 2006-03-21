@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: calc_caches.php,v 1.13 2006/03/06 15:56:22 publicwhip Exp $
+# $Id: calc_caches.php,v 1.14 2006/03/21 01:05:57 publicwhip Exp $
 
 # Calculate lots of cache tables, run after update.
 
@@ -16,6 +16,7 @@ require_once "../website/parliaments.inc";
 $db = new DB();
 $db2 = new DB();
 
+current_rankings($db);
 count_party_stats($db, $db2);
 guess_whip_for_all($db, $db2);
 count_mp_info($db);
@@ -200,5 +201,109 @@ function count_4d_info($db, $table, $group_by, $id, $votes_attended, $votes_poss
 	$db->query("DROP TABLE IF EXISTS $table");
 	$db->query("RENAME TABLE ${table}_tmp TO $table");
 }
+
+function current_rankings($db) {
+    # Create tables to store in
+    $db->query("drop table if exists pw_cache_rebelrank_today" );
+    $db->query("create table pw_cache_rebelrank_today (
+        mp_id int not null,
+        rebel_rank int not null,
+        rebel_outof int not null,
+        index(mp_id)
+        )"
+    );
+    $db->query("drop table if exists pw_cache_attendrank_today" );
+    $db->query("create table pw_cache_attendrank_today (
+            mp_id int not null,
+            attend_rank int not null,
+            attend_outof int not null,
+            index(mp_id)
+        )"
+    );
+
+    do_house_ranking($db, "commons");
+    do_house_ranking($db, "lords");
+}
+
+function rebelcomp($a, $b) {
+    global $mprebel;
+    if ($mprebel[$a] == $mprebel[$b]) return 0;
+    return ($mprebel[$a] > $mprebel[$b]) ? -1 : 1;
+}
+function attendcomp($a, $b) {
+    global $mpattend;
+    if ($mpattend[$a] == $mpattend[$b]) return 0;
+    return ($mpattend[$a] > $mpattend[$b]) ? -1 : 1;
+}
+
+function do_house_ranking($db, $house) {
+    # Select all MPs in force today, and their attendance/rebellions
+    $mps_query_start = "select pw_mp.mp_id as mp_id, 
+            round(100*rebellions/votes_attended,2) as rebellions,
+            round(100*votes_attended/votes_possible,2) as attendance
+            from pw_mp, pw_cache_mpinfo 
+            where pw_mp.mp_id = pw_cache_mpinfo.mp_id 
+                  and house = '$house' ";
+    $db->query($mps_query_start . "and entered_house <= curdate() and curdate() <= left_house");
+    if ($db->rows() == 0) {
+        $db->query($mps_query_start .  "and left_house = '2005-04-11'");
+        if ($db->rows() == 0) {
+            die("No MPs/Lords currently active have been found, change General Election date in code if you are coming up to one");
+            return;
+        }
+    }
+
+    # Store their rebellions and divisions for sorting
+    global $mprebel;
+    global $mpattend;
+    $mpsrebel = array();
+    $mprebel = array();
+    $mpsattend = array();
+    $mpattend = array();
+	while ($row = $db->fetch_row()) {
+        list( $mpid, $rebel, $attend ) = $row;
+        if ( $rebel ) {
+            $mpsrebel[] = $mpid;
+            $mprebel[$mpid] = $rebel;
+        }
+        if ( $attend ) {
+            $mpsattend[] = $mpid;
+            $mpattend[$mpid] = $attend;
+        }
+    }
+
+    # Sort, and calculate ranking for rebellions
+    usort($mpsrebel, "rebelcomp");
+    $mprebelrank = array();
+    $rank       = 0;
+    $activerank = 0;
+    $prevvalue  = -1;
+    foreach ($mpsrebel as $mp) {
+        $rank++;
+        if ( $mprebel[$mp] != $prevvalue )
+            $activerank = $rank;
+        $prevvalue = $mprebel{$mp};
+        $db->query("insert into pw_cache_rebelrank_today (mp_id, rebel_rank, rebel_outof)
+            values ($mp, $activerank, ".count($mpsrebel).")"
+        );
+    }
+
+    # Sort, and calculate ranking for attendance
+    usort($mpsattend, "attendcomp");
+    $mpattendrank = array();
+    $rank       = 0;
+    $activerank = 0;
+    $prevvalue  = -1;
+    foreach ($mpsattend as $mp) {
+        $rank++;
+        if ( $mpattend{$mp} != $prevvalue )
+            $activerank = $rank;
+        $prevvalue = $mpattend{$mp};
+        $db->query("insert into pw_cache_attendrank_today (mp_id, attend_rank, attend_outof)
+            values ($mp, $activerank, ".count($mpsattend).")"
+        );
+    }
+}
+
 
 

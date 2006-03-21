@@ -43,7 +43,6 @@ cd ~/publicwhip-live/loader
 
 	# and update counts of rebels etc.
     ./calc_caches.php
-	./load.pl --quiet --from=$FROMDATE calc
 
 	# clear page cache
 	cd ~/publicwhip-live/build

@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w 
 use strict;
 
-# $Id: load.pl,v 1.16 2006/03/06 12:30:39 publicwhip Exp $
+# $Id: load.pl,v 1.17 2006/03/21 01:05:57 publicwhip Exp $
 # The script you actually run to do screen scraping from Hansard.  Run
 # with no arguments for usage information.
 
@@ -13,7 +13,6 @@ use strict;
 use Getopt::Long;
 use PublicWhip::Clean;
 use PublicWhip::DivsXML;
-use PublicWhip::Calc;
 use PublicWhip::DB;
 use PublicWhip::Error;
 
@@ -56,7 +55,6 @@ for (@ARGV) {
     clean();
 
     if    ( $_ eq "divsxml" )   { all_divsxml(); }
-    elsif ( $_ eq "calc" )      { update_calc(); }
     elsif ( $_ eq "check" )     { check(); }
     elsif ( $_ eq "test" )      { test(); }
     else { help(); exit; }
@@ -72,14 +70,13 @@ sub help {
     print <<END;
 
 Loads voting lists from XML files into MySQL database for the Public Whip
-website.  Peforms various statistical calculations and consistency checks.
+website.  Peforms various consistency checks.
 
 scrape.pl [OPTION]... [COMMAND]...
 
 Commands are any or all of these, in order you want them run:
 divsxml - parse divisions from XML files and add them to database
 check - check database consistency
-calc - update cached calculations, do this after every crawl
 
 These options apply to 'divsxml' command only:
 --date=YYYY-MM-DD - date to apply to
@@ -105,11 +102,6 @@ sub clean {
 sub all_divsxml {
     PublicWhip::DivsXML::read_xml_files( $dbh, $from, $to, $PublicWhip::Config::debatepath, $PublicWhip::Config::fileprefix, "commons");
     PublicWhip::DivsXML::read_xml_files( $dbh, $from, $to, $PublicWhip::Config::lordsdebatepath, $PublicWhip::Config::lordsfileprefix, "lords");
-}
-
-sub update_calc {
-    PublicWhip::Error::log("Rankings...", "", ERR_USEFUL);
-    PublicWhip::Calc::current_rankings($dbh);
 }
 
 sub check {
