@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.82 2006/03/16 00:25:18 frabcus Exp $
+# $Id: header.inc,v 1.83 2006/03/21 15:33:45 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -82,6 +82,14 @@ function secondnav_goto3() {
 Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
 </td>
 </tr>-->
+
+<!-- banner advert for save parliament -->
+<tr class="">
+<td colspan="2">
+<? $saveparliament_banner = rand(1,2); ?>
+    <a href="http://www.saveparliament.org.uk/?pw=<?=$saveparliament_banner?>"><img src="/saveparliament/banner<?=$saveparliament_banner?>.png" alt="Save Parliament"/></a>
+</td>
+</tr>
 
 <!-- the site logo -->
 <tr><td class="identity" colspan="1">
