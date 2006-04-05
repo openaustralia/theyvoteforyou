@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.126 2006/03/06 16:50:08 publicwhip Exp $
+# $Id: division.php,v 1.127 2006/04/05 09:34:35 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -354,8 +354,7 @@ if ($singlemotionpage)
 		        	$debate_gid = "lords/?id=".str_replace("uk.org.publicwhip/lords/", "", $debate_gid);
 		        else
 					$debate_gid = "debates/?id=".str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
-				if ($divattr["house"] == "commons") # remove this if when TWFY has lords
-                    print "<li>Read or comment on the <a href=\"http://www.theyworkforyou.com/$debate_gid\">debate in Parliament</a> at www.TheyWorkForYou.com</li>";
+                print "<li>Read or comment on the <a href=\"http://www.theyworkforyou.com/$debate_gid\">debate in Parliament</a> at www.TheyWorkForYou.com</li>";
 	        }
 
 	        $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);

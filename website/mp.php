@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.123 2006/03/06 17:13:20 publicwhip Exp $
+    # $Id: mp.php,v 1.124 2006/04/05 09:34:35 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -325,7 +325,7 @@
 
 	seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], ($all_same_cons ? false : true), true, $thispagesettings);
 
-        if ($mpprop['house'] == 'commons' && $voter2type == "party")
+        if ($voter2type == "party")
 		{
 		    print "<h2><a name=\"exlinks\">External Links</a></h2>\n";
             print "<ul>\n";
@@ -333,10 +333,12 @@
 			print "<li>See <strong>".$mpprop["name"]."</strong>'s Parliamentary speeches at: ";
 			print "<a href=\"http://www.theyworkforyou.com/mp/?m=".$mpprop["mpid"]."\">TheyWorkForYou.com</a></li>\n";
 
-			# can we link directly?
-			print "<li>Contact your MP for free at: <a href=\"http://www.writetothem.com\">WriteToThem.com</a></li>\n";
+            if ($mpprop['house'] == 'commons') {
+                # can we link directly? no - you need postcode
+                print "<li>Contact your MP for free at: <a href=\"http://www.writetothem.com\">WriteToThem.com</a></li>\n";
 
-			print "<li><b>New!</b> Form a long term relationship with your MP: <a href=\"http://www.hearfromyourmp.com\">HearFromYourMP.com</a></li>\n";
+                print "<li><b>New!</b> Form a long term relationship with your MP: <a href=\"http://www.hearfromyourmp.com\">HearFromYourMP.com</a></li>\n";
+            }
 
             print "</ul>\n";
         }
