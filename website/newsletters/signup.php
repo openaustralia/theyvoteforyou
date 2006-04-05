@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: signup.php,v 1.5 2006/03/16 01:24:52 publicwhip Exp $
+# $Id: signup.php,v 1.6 2006/04/05 05:05:50 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -17,7 +17,7 @@ $submit=mysql_escape_string($_POST["submit"]);
 $token=mysql_escape_string($_GET["token"]);
 $unsub=mysql_escape_string($_GET["unsub"]);
 
-if ($email = "your email")
+if ($email == "your email")
     $email = "";
 
 if ($token) {

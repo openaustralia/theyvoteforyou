@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.83 2006/03/21 15:33:45 frabcus Exp $
+# $Id: header.inc,v 1.84 2006/04/05 05:05:50 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -85,9 +85,11 @@ Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
 
 <!-- banner advert for save parliament -->
 <tr class="">
-<td colspan="2">
-<? $saveparliament_banner = rand(1,2); ?>
-    <a href="http://www.saveparliament.org.uk/?pw=<?=$saveparliament_banner?>"><img src="/saveparliament/banner<?=$saveparliament_banner?>.png" alt="Save Parliament"/></a>
+<td colspan="4" style="padding: 0; border-bottom: medium solid #F83812;">
+<? $saveparliament_banner = 3; ?>
+    <a href="http://www.saveparliament.org.uk/?pw=<?=$saveparliament_banner?>">
+    <img style="margin-top: 0; float: left;" src="/saveparliament/left.png" alt="Save Parliament"/><img style="margin-top: 0; float: right;" src="/saveparliament/right.png" alt="Save Parliament"/>
+    </a>
 </td>
 </tr>
 

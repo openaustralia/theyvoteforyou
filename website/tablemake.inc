@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.72 2006/03/07 14:19:17 publicwhip Exp $
+# $Id: tablemake.inc,v 1.73 2006/04/05 05:05:50 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -718,7 +718,7 @@ function division_table($db, $divtabattr, $events = "")
     if ($voter1type == "dreammp")
         divdreammpconds($aquery, $db, $voter1, $bonlyvotes1, 1);
 
-    if (!$voter1type && !$divclose && $divtabattr["showwhich"] != "search")  # this case means we are listing all divisions without a driver
+    if (!$voter1type && !$divclose)  # this case means we are listing all divisions without a driver
 	{
 		$aquery["qselect"] .= ", rebellions, turnout";
 	    if ($divtabattr["headings"] != "frontpageshort")
