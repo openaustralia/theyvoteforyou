@@ -1,3 +1,7 @@
+1999 -- put date lords goes back to now
+check all appear in div listing page
+
+Sign up to email list from top of page form while logged in and doesn't work
 
 - when succeeded in signing up for newsletter, should advertise full login
 - instead of screen name AND real name just have "name". let people change it.
@@ -91,8 +95,15 @@ Backup dynamic database on cron job
 When counts mismatch between list of names and Hansard's totals,
 automatically say it is suspicious
 
+Make pretty table instead of equation for division comparison
+http://www.publicwhip.org.uk/division.php?date=2005-12-02&number=114&date2=2004-07-16&number2=229
+
+& isn't escaped to &amp; in URLs
+
 Future
 ------
+
+"Publish the whip" campaign - get people to sign up to it
 
 Show on division listing page where Lib Dem voted with Tory, where with Labour
 Mark completely uncontentious divisions (nobody opposed) in some special way.

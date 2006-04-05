@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.29 2006/03/06 19:09:56 frabcus Exp $
+# $Id: wiki.php,v 1.30 2006/04/05 05:08:49 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -30,6 +30,8 @@ if (user_isloggedin()) # User logged in, show settings screen
         trigger_error("Unknown wiki type " . htmlspecialchars($type), E_USER_ERROR);
 
     $newtext = $_POST["newtext"];
+    $newtitle = $_POST["newtitle"];
+    $newdescription = $_POST["newdescription"];
     $submit = db_scrub($_POST["submit"]);
     $rr = db_scrub($_GET["rr"]);
 
@@ -39,17 +41,19 @@ if (user_isloggedin()) # User logged in, show settings screen
     $prettydate = date("j M Y", strtotime($params[0]));
     $title = "Edit division description - " . $division_details['division_name'] . " - $prettydate - Division No. $params[1]";
     $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $division_details['debate_gid']);
+
+    if ($type == "motion") {
+        $motion_data = get_wiki_current_value("motion", array($params[0], $params[1], $params[2]));
+        $prev_name = extract_title_from_wiki_text($motion_data['text_body']);
+        $prev_description = extract_motion_text_from_wiki_text($motion_data['text_body']);
+    }
     
     if ($submit && (!$just_logged_in))
     {
         if ($submit == "Save") {
-            if ($type == "motion") {
-                $motion_data = get_wiki_current_value("motion", array($params[0], $params[1], $params[2]));
-                $prev_name = extract_title_from_wiki_text($motion_data['text_body']);
-                $prev_description = extract_motion_text_from_wiki_text($motion_data['text_body']);
-            }
-
             if ($type == 'motion') {
+                $newtext = add_motion_missing_wrappers($newdescription, $newtitle);
+            
                 $curr_name = extract_title_from_wiki_text($newtext);
                 $curr_description = extract_motion_text_from_wiki_text($newtext);
                 $name_diff = format_linediff(trim($prev_name), trim($curr_name), false); # always have link
@@ -118,25 +122,20 @@ if (user_isloggedin()) # User logged in, show settings screen
         <tr>
 
         <td width="64%" valign="top">
-        <p><b>Edit division title and description:</b>
-<?
-        }
 
-?>
         <P>
         <FORM ACTION="<?=$REQUEST_URI?>" METHOD="POST">
-        <textarea name="newtext" style="width: 100%" rows="25" cols="45"><?=html_scrub($values['text_body'])?></textarea>
+        <B>Division title:</b> <BR><INPUT TYPE="TEXT" NAME="newtitle" VALUE="<?=html_scrub($prev_name)?>" SIZE="40" MAXLENGTH="50">
+        <P><B>Division description:</b> <textarea name="newdescription" style="width: 100%" rows="25" cols="45"><?=html_scrub($prev_description)?></textarea>
         <p>
         <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Save" accesskey="S">
         <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Cancel">
         </FORM>
         </P>
-<?
-        if ($type == 'motion') {
-?>
         <p><a href="<?=get_wiki_history_link($type, $params)?>">View change history</a>
-
 <?
+        } else {
+            trigger_error("Unknown type for wiki", E_USER_ERROR);
         }
 ?>
         </td>
@@ -145,13 +144,6 @@ if (user_isloggedin()) # User logged in, show settings screen
         
       <td width="33%" valign="top">
 
-        <p><b>Editing tips:</b></p>
-
-        <p><span class="ptitle">Separators</span>. Leave the "DIVISION TITLE", "MOTION EFFECT" and "COMMENTS AND NOTES"
-        in place, so our computer knows how to break it up.
-		If you don't want to delete text, move it out of the way below "COMMENTS AND NOTES"
-		where it will be hidden.</p>
-
         <p><span class="ptitle">Questions, thoughts?</span>
         <a href="/forum/viewforum.php?f=2">Discuss</a>
 		with other motion researchers on our special forum. (especially when we get the deep link working).
@@ -159,9 +151,8 @@ if (user_isloggedin()) # User logged in, show settings screen
         <p><span class="ptitle">Allowable HTML tags</span>. You can use the following:
         <ul>
         <li>&lt;p&gt; - begin paragraph
-        <li>&nbsp;&lt;p class="italic"&gt; - begin italic paragraph
-        <li>&nbsp;&lt;p class="indent"&gt; - begin indented paragraph
         <li>&lt;/p&gt; - end paragraph
+        <li>&lt;blockquote&gt;, &lt;/blockquote&gt; - quoted paragraph
         <li>&lt;i&gt; &lt;/i&gt; - italic
         <li>&lt;b&gt; &lt;/b&gt; - bold
         <li>&lt;a href="http://..."&gt; &lt;/a&gt; - link

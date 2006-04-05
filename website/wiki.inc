@@ -1,5 +1,5 @@
 <?php
-# $Id: wiki.inc,v 1.9 2005/11/28 15:38:23 frabcus Exp $
+# $Id: wiki.inc,v 1.10 2006/04/05 05:08:48 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Editable text with history
@@ -89,6 +89,8 @@ function extract_motion_text_from_wiki_text($text)
     if (preg_match("/--- MOTION EFFECT ---(.*)--- COMMENT/s", $text, $matches)) {
         $motion = $matches[1];
     }
+	$motion = preg_replace("/<p\b.*?class=\"italic\".*?>(.*)<\/p>/",'<p><i>\\1</i></p>',$motion);
+	$motion = preg_replace("/<p\b.*?class=\"indent\".*?>(.*)<\/p>/",'<blockquote>\\1</blockquote>',$motion);
     $motion = guy2html(guy_strip_bad($motion));
 
     return $motion;
