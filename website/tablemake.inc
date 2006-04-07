@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.76 2006/04/07 20:17:23 goatchurch Exp $
+# $Id: tablemake.inc,v 1.77 2006/04/07 20:23:36 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -403,9 +403,13 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $roleclass, $vote1,
     if ($columnforms["voter1type"])
         print "<td>".($columnforms["voter1type"] == "dreammp" && !$vote1 ? "non-voter" : (vote_display_in_table($vote1)))."</td>";
     if ($columnforms["voter2type"])
-		print "<td>".vote_display_in_table($vote2)."</td>\n";
-	if ($columnforms["aggregate_vote"])
-		print "<td class=\"$roleclass\">".vote_display_in_table($vote2)."</td>\n";
+    {
+	    if ($columnforms["aggregate_vote"])
+		    print "<td class=\"$roleclass\">";
+        else
+            print "<td>"; 
+        print vote_display_in_table($vote2)."</td>\n";
+    }
 
     if ($columnforms["role"])
 		print $rolecol;

@@ -184,11 +184,12 @@
 	        print '<a href="policy.php?id='.$row['dream_id'].'">'.$row["name"].'</a>';
 		}
 		print ".</p>\n";
-
+    }
+    
 		// should this be a button
-		if ($bAggregateEditable)
-			print '<p><a href="policy.php?id='.$dreamid.'&display='.$display.'&savevotes=yes">CLICK HERE TO SAVE YOUR VOTES</a></p>';
-	}
+	if ($bAggregateEditable)
+		print '<p><a href="policy.php?id='.$dreamid.'&display='.$display.'&savevotes=yes">CLICK HERE TO SAVE YOUR VOTES</a></p>';
+	
 
 
     if ($dismode["policybox"])
