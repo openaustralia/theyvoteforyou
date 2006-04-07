@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.73 2006/04/05 05:05:50 publicwhip Exp $
+# $Id: tablemake.inc,v 1.74 2006/04/07 19:27:23 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -103,11 +103,27 @@ function divpartyconds(&$aquery, &$db, $party, $i)
     $aquery["vote$i"] = "pwvote$i.whip_guess";  # used because whipping has a special column
 }
 
+# this joins a party vote here
+function divaggregateconds(&$aquery, &$db, $dreamid, $i)
+{
+    # parties always vote everywhere, so safe to join to one
+    #vote enum("aye", "no", "both", "aye3", "no3") not null,
+    $aquery["qselect"] .= ", pw_dyn_dreamvote_agg.vote AS vote$i";
+    $aquery["qselect"] .= ", max(CASE pw_dyn_dreamvote_agg.vote WHEN 'aye' THEN 1 WHEN 'aye3' THEN 3 ELSE 0) AS vote2aye";
+    $aquery["qselect"] .= ", max(CASE pw_dyn_dreamvote_agg.vote WHEN 'no' THEN 1 WHEN 'no3' THEN 3 ELSE 0) AS vote2no";
+    $aquery["qselect"] .= ", max(CASE pw_dyn_dreamvote_agg.vote WHEN 'both' THEN 1 ELSE 0) AS vote2abstain";
+    $aquery["qselect"] .= ", pw_dyn_dreamvote_agg.dream_id AS dream_id_agg";  // somehow concatenate these together, or join onto the name to make a from column
+    $aquery["qjoin"]   .= " LEFT JOIN pw_dyn_aggregate_dreammp, pw_dyn_dreamvote AS pw_dyn_dreamvote_agg
+								ON pw_dyn_aggregate_dreammp.dream_id_sel = pw_dyn_dreamvote_agg.dream_id
+								AND pw_dyn_aggregate_dreammp.dream_id_agg = $dreamid
+								AND pw_dyn_dreamvote_agg.division_id = pw_division.division_id";
+	$aquery["qgroup"] = " GROUP BY pw_division.division_id";  # this is all designed to capture aggregate votes that go both ways
+}
 
 
 
 # the votes
-function workrolevote($votertype, &$vote)
+function workrolevote($votertype, &$vote, $row)
 {
     if ($votertype == "mp" or $votertype == "person")
     {
@@ -124,8 +140,8 @@ function workrolevote($votertype, &$vote)
         }
     }
     else if ($votertype == "dreammp")
-    {
-        if ($vote == "both")
+	{
+		if ($vote == "both")
         {
             $vote = "abstain";
             return "";
@@ -146,11 +162,33 @@ function workrolevote($votertype, &$vote)
         if ($vote == "unknown" || $vote == "none")
             return "";
     }
+    else if ($votertype == "aggregate")
+	{
+	    //max(CASE pw_dyn_dreamvote_agg.vote WHEN 'aye' THEN 1 WHEN 'aye3' THEN 3 ELSE 0) AS vote2aye
+    	//max(CASE pw_dyn_dreamvote_agg.vote WHEN 'no' THEN 1 WHEN 'no3' THEN 3 ELSE 0) AS vote2no
+		if (($row["vote2aye"] != 0) && ($row["vote2no"] != 0))
+		{
+			$vote = "clash";
+			return "";
+		}
+		if ($row["vote2aye"] != 0)
+        {
+        	$vote = ($row["vote2aye"] == 3 ? "aye3" : "aye");
+            return "aye";
+        }
+		if ($row["vote2no"] != 0)
+        {
+        	$vote = ($row["vote2no"] == 3 ? "no3" : "no");
+            return "no";
+        }
+		$vote = ($row["vote2abstain"] != 0 ? "abstain" : "");
+		return "";
+    }
     return $vote;
 }
 
 # this makes a comment on the row used to highlight rebels
-function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$vote1, $voter2type, &$vote2, $showwhich, &$dismetric)
+function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$vote1, $voter2type, &$vote2, $showwhich, &$dismetric, $row)
 {
     $votedesc = "";
     $votedesclong = "";
@@ -164,7 +202,7 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
     $dtvote2 = workrolevote($voter2type, $vote2);
 
     # mp to party terminology
-    if ($voter1type == "mp" and $voter2type == "party")
+    if ($voter1type == "mp" && $voter2type == "party")
     {
         if ($vote1 == "absent")
         {
@@ -196,6 +234,14 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
 
     # other cross comparisons
     # (borrows css colour coding, but should have its own)
+    else if ($voter2type == "aggregate")
+    {
+        if ($vote2 == "clash")
+            $roleclass = "rebel"; # red
+        else if ($dtvote1 != $dtvote2)
+            $roleclass = "rebelteller"; # yellow
+	}
+
     else
     {
         # abstention by dreammp
@@ -244,7 +290,6 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
 
 
 
-
 function print_column_headings($vote1, $vote2, $columnforms, $party)
 {
 	print "<tr class=\"headings\">";
@@ -256,7 +301,7 @@ function print_column_headings($vote1, $vote2, $columnforms, $party)
 	if ($columnforms["divisiondate"])
 		print "<td>Date</td>";
     if ($columnforms["divisiontime"])
-        print "<td>Time</td>"; 
+        print "<td>Time</td>";
 	if ($columnforms["divisiontitle"])
 		print "<td>Subject</td>";
 
@@ -275,10 +320,16 @@ function print_column_headings($vote1, $vote2, $columnforms, $party)
 	if ($columnforms["voter2type"] == "party")
 		print "<td>$vote2 Vote</td>";
 	if ($columnforms["voter2type"] == "dreammp")
-		print "<td>Policy Vote</td>";
-	if ($columnforms["voter2type"] == "person") {
+	{
+		if ($columnforms["isdreammp"])
+			print "<td>Dream Vote</td>";
+		else
+			print "<td>Policy Vote</td>";
+	}
+	if ($columnforms["voter2type"] == "person")
 		print "<td>".$vote2['mpprop']['name']."</td>";
-    }
+	if ($columnforms["aggregate_vote"])
+		print "<td>Policies Vote</td>";
 
 	if ($columnforms["role"])
 		print "<td>R&ocirc;le</td>";
@@ -349,6 +400,9 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $ro
         print "<td>".($columnforms["voter1type"] == "dreammp" && !$vote1 ? "non-voter" : (vote_display_in_table($vote1)))."</td>";
     if ($columnforms["voter2type"])
 		print "<td>".vote_display_in_table($vote2)."</td>\n";
+	if ($columnforms["aggregate_vote"])
+		print "<td>".vote_display_in_table($vote2)."</td>\n";
+
     if ($columnforms["role"])
 		print $rolecol;
 
@@ -573,7 +627,7 @@ function writeevents(&$events, $date, $breversed)
 # Table that shows a selected heap of divisions, and provides a comparison between
 # one or two independent voting actors.
 #
-# votertype is 'dreammp', 'mp', 'party'
+# votertype is 'dreammp', 'mp', 'party', 'aggregate'
 # voter is a mpid, dreammpid, blank-for-self party,
 # divclose is divattr, or null
 # showwhich is 'everyvote', 'rebellions10', 'party', 'search', 'all1',
@@ -710,6 +764,11 @@ function division_table($db, $divtabattr, $events = "")
         $columnforms["voter1house"] = $voter1["house"];
     if ($voter2type == 'mp')
         $columnforms["voter2house"] = $voter2["house"];
+	if ($voter2type == 'aggregate')
+	{
+		$columnforms["isdreammp"] = "yes";  // we can call the column a dream vote without the aggregate column
+		$columnforms["aggregate_vote"] = ($showwhich == "either");
+	}
 
     # construct the first column of votes
     $bonlyvotes1 = ($showwhich == "all1" or $showwhich == "both" or $showwhich == "bothdiff");
@@ -730,7 +789,7 @@ function division_table($db, $divtabattr, $events = "")
 
                 $columnforms["rebellions"] = 'yes';
 	        	$columnforms["turnout"] = 'yes';
-                $columnforms["majority"] = 'yes'; 
+                $columnforms["majority"] = 'yes';
             }
         }
 	}
@@ -748,6 +807,8 @@ function division_table($db, $divtabattr, $events = "")
         }
         else if ($voter2type == "person")
             divmpconds($aquery, $db, $voter2, $bonlyvotes2, true, 2);
+		else if ($voter2type == "aggregate")
+			divaggregateconds($aquery, $db, $voter2, 2);
 
         # put in the selection mechanism of diffs into this
         if ($showwhich == "bothdiff")
@@ -764,8 +825,8 @@ function division_table($db, $divtabattr, $events = "")
 	# link in the party info
 	if ($showwhich == "party")
 	{
-		$aquery["qselect"] .= ", (pw_cache_whip.aye_votes + pw_cache_whip.aye_tells) AS ayes, 
-								 (pw_cache_whip.no_votes + pw_cache_whip.no_tells) AS noes, 
+		$aquery["qselect"] .= ", (pw_cache_whip.aye_votes + pw_cache_whip.aye_tells) AS ayes,
+								 (pw_cache_whip.no_votes + pw_cache_whip.no_tells) AS noes,
 								 pw_cache_whip.both_votes AS boths,
 								 pw_cache_whip.possible_votes AS possible_votes,
 								 pw_cache_whip.whip_guess AS whip_guess";
@@ -829,7 +890,7 @@ function division_table($db, $divtabattr, $events = "")
             $mess = "no votes listed";
             if ($showwhich == "bothdiff" and $voter1type == "mp" and $voter2type == "party")
                 $mess = "no rebellions, never teller";
-            elseif ($showwhich == "search") 
+            elseif ($showwhich == "search")
                 $mess = "no divisions found";
             $cspan = count($columnforms);
             print "<td colspan=$cspan>$mess</td></tr>\n";
@@ -855,7 +916,7 @@ function division_table($db, $divtabattr, $events = "")
             $roleclass = "";
             $votedesc = "";
             $votedesclong = "";
-            $rolecol = workrolecolumn($roleclass, $votedesc, $votedesclong, $voter1type, $vote1, $voter2type, $vote2, $showwhich, $dismetric);
+            $rolecol = workrolecolumn($roleclass, $votedesc, $votedesclong, $voter1type, $vote1, $voter2type, $vote2, $showwhich, $dismetric, $row);
             if ($rolecol == "")
                 continue;      # final filter bail out
         }

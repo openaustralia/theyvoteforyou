@@ -39,7 +39,10 @@
 
 	// all private dreams will be aggregate
     $bAggregate = ($voter["private"] == 1);
-	$bAggregateEditable = true;  // will for now always be.  but should apply to owner
+
+	// should be available only to the owner
+	$bAggregateEditable = true; //(($_GET["editable"] == "yes") || ($_POST["submit"] != ""));
+
 
     $title = "Policy - $policyname";
 
@@ -49,12 +52,20 @@
 								 "description" => "Votes",
 								 "comparisons" => "yes",
 								 "divisionlist" => "selected",
-								 "policybox" => ($bAggregate ? "yes" : ""),
+								 "policybox" => (!$bAggregate ? "yes" : ""),
+								 "aggregate" => ($bAggregate ? "shown" : ""),
                                  "tooltip" => "Overview of the policy");
+
+	$dismodes["extended"] = array("dtype"	=> "extended",
+								 "description" => "Aggregates",
+								 "divisionlist" => "selected",
+								 "aggregate" => "fulltable",
+                                 "tooltip" => "Overview of the policy");
+
 
 	# work out which display mode we are in
 	$display = $_GET["display"];
-	if (!$dismodes[$display])
+	if (!$bAggregateEditable || !$bAggregate || !$dismodes[$display])
 		$display = "summary"; # default
 	$dismode = $dismodes[$display];
 
@@ -62,7 +73,12 @@
     $second_links = dismodes_to_second_links($thispage, $dismodes, $tpsort, $display);
 
     pw_header();
-print "<h1>ID ID ".$_POST["seldreamid"]."</h1>\n"; 
+
+	// this is where we save the votes
+	if ($_GET["savevotes"] && $bAggregateEditable && $bAggregate)
+	{ 
+		print '<h2>THIS IS WHERE WE SAVE THE VOTES INTO THE POLICY</h2>.\n';
+	}
 
     print "<div class=\"policydefinition\">";
     print "<p><b>Definition:</b> " . str_replace("\n", "<br>", html_scrub($voter["description"])). "</p>";
@@ -89,23 +105,88 @@ print "<h1>ID ID ".$_POST["seldreamid"]."</h1>\n";
 
 	print "</div>\n";
 
-	if ($bAggregate)
+    if ($dismode["aggregate"] == "fulltable")
 	{
-	    if (mysql_escape_string($_POST["submit"]) && $bAggregateEditable)
+		// changed vote
+		if (mysql_escape_string($_POST["submit"]))
         {
         	$newseldreamid = mysql_escape_string($_POST["seldreamid"]);
-			print "<h1>$newseldreamid</h1>\n";
+			$icomma = strpos($newseldreamid, ',');
+			$seldreamid = substr($newseldreamid, 0, $icomma);
+			$seldreamidvote = substr($newseldreamid, $icomma + 1);
+			print "<h1>$seldreamid = $seldreamidvote</h1>\n";
+
+			// find current vote
+		    $query = "SELECT vote_strength
+					  FROM pw_dyn_aggregate_dreammp
+					  WHERE pw_dyn_aggregate_dreammp.dream_id_agg = $dreamid
+					  	AND pw_dyn_aggregate_dreammp.dream_id_sel = $seldreamid";
+			$row = $db->query_onez_row_assoc($query);
+			$bpolselectedcurrent = ($row != null);
+			$bpolselectednew = ($seldreamidvote == "yes");
+
+			if ($bpolselectedcurrent != $bpolselectednew)
+			{
+				if (!$bpolselectednew)
+	                $query = "DELETE FROM pw_dyn_aggregate_dreammp
+							  WHERE pw_dyn_aggregate_dreammp.dream_id_agg = $dreamid
+							  	AND pw_dyn_aggregate_dreammp.dream_id_sel = $seldreamid";
+				else
+	                $query = "INSERT INTO pw_dyn_aggregate_dreammp
+							  	(dream_id_agg, dream_id_sel, vote_strength)
+							  VALUES
+							    ($dreamid, $seldreamid, 'strong')";
+	            $db->query($query);
+			}
+			else
+				print "<h2>DDDD  No Vote Changed</h2>\n";
         }
 
 	    print "<table class=\"mps\">\n";
 		$dreamtabattr = array("listtype" => 'aggregatevotes',
 						      'dreamid' => $dreamid,
 						      'listlength' => "allpublic",
-							  'headings' => "yes");
-		if ($bAggregateEditable)
-			$dreamtabattr['editable'] = "yes";
+							  'headings' => "yes",
+							  'editable' => "yes");
 		$c = print_policy_table($db, $dreamtabattr);
 	    print "</table>\n";
+	}
+
+	// short list
+    if ($dismode["aggregate"] == "shown")
+	{
+		print "<p>This Dream MP supports the following policies: ";
+		$query = "SELECT name, pw_dyn_dreammp.dream_id AS dream_id
+				  FROM pw_dyn_aggregate_dreammp
+				  LEFT JOIN pw_dyn_dreammp
+				  		ON pw_dyn_dreammp.dream_id = pw_dyn_aggregate_dreammp.dream_id_sel
+        					AND pw_dyn_aggregate_dreammp.dream_id_agg = $dreamid
+				  ORDER BY name";
+		$db->query($query);
+		$npols = $db->rows();
+		if ($npols == 0)
+			print "<p>This Dream MP supports no policies";
+		else if ($npols == 1)
+			print "<p>This Dream MP supports the following policy: ";
+		else
+			print "<p>This Dream MP supports the following policies: ";
+		$count = 0;
+	    while ($row = $db->fetch_row_assoc())
+		{
+			$count++;
+			if ($count == 1)
+				;
+			else if ($count == $npols)
+				print ", and ";
+			else
+				print ", ";
+	        print '<a href="policy.php?id='.$row['dream_id'].'">'.$row["name"].'</a>';
+		}
+		print ".</p>\n";
+
+		// should this be a button
+		if ($bAggregateEditable)
+			print '<p><a href="policy.php?id='.$dreamid.'&display='.$display.'&savevotes=yes">CLICK HERE TO SAVE YOUR VOTES</a></p>.\n';
 	}
 
 
@@ -148,6 +229,12 @@ print "<h1>ID ID ".$_POST["seldreamid"]."</h1>\n";
 			"headings"		=> 'columns',
 			"divhrefappend"	=> "&dmp=$dreamid", # gives link to crossover page
 			"motionwikistate" => "listunedited");
+	if ($dismode["aggregate"])
+	{
+		$divtabattr["voter2type"] = "aggregate";
+		$divtabattr["voter2"] = $dreamid;
+		$divtabattr["showwhich"] = "either";
+	}
 	division_table($db, $divtabattr);
     print "</table>\n";
 
