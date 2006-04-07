@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.38 2006/04/07 15:13:54 goatchurch Exp $
+    # $Id: tableoth.inc,v 1.39 2006/04/07 16:35:45 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -116,7 +116,7 @@
 
 		if ($dreamtabattr['listtype'] == "aggregatevotes")
         {
-        	$qselect .= " pw_dyn_aggregate_dreammp.vote_strength AS vote_strength";
+        	$qselect .= ", pw_dyn_aggregate_dreammp.vote_strength AS vote_strength";
 			$qjoin .= " LEFT JOIN pw_dyn_aggregate_dreammp
         					ON pw_dyn_aggregate_dreammp.dream_id_sel = pw_dyn_dreammp.dream_id
         					AND pw_dyn_aggregate_dreammp.dream_id_agg = ".$dreamtabattr['dreamid'];
@@ -140,9 +140,9 @@
 			$columnforms["votes"] = "yes";
 		if ($dreamtabattr['listtype'] == "comparelinks")
 			$columnforms["agreement"] = "yes";
-		if ($dreamtabattr['listtype'] == "mainlist")
-			$columnforms["vote"] = "yes";
 		if ($dreamtabattr['listtype'] == "comparelinks")
+			$columnforms["vote"] = "yes";
+		if ($dreamtabattr['listtype'] == "mainlist")
 			$columnforms["dists"] = "yes";
 		if ($dreamtabattr['listtype'] == "aggregatevotes")
 			$columnforms["selected"] = "yes";
@@ -203,7 +203,7 @@
 		        print "<td>".trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 150)."</td>\n";
 			if ($columnforms["vote"])
 			    print "<td>".$row["votes_count"]."</td>\n";
-			if ($dreamtabattr['dists'])
+			if ($columnforms['dists'])
 	            print "<td>0&nbsp;<img src=\"dreamplot.php?id=$dreamid\">&nbsp;1</td>\n";
 			if ($columnforms["selected"])
 		    {
@@ -215,7 +215,7 @@
 	            			<option value="'.$dreamid.',no" '.($row['vote_strength'] ? "" : "selected").'>No</option>
 	            			<option value="'.$dreamid.',yes" '.($row['vote_strength'] ? "selected" : "").'>Yes</option>
 			                </select>';
-					print ' <input type="hidden" name="id" value='.$dreamtabattr["dreamid"].'>';
+					print ' <input type="hidden" name="id" value="'.$dreamtabattr["dreamid"].'">';
 			        print ' <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Update"></FORM>';
 					print "</FORM>";
 				}

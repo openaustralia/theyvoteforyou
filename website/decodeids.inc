@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.39 2006/03/07 13:11:14 publicwhip Exp $
+# $Id: decodeids.inc,v 1.40 2006/04/07 16:35:45 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -270,6 +270,8 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream_overlap=null, $pc_parl
 function get_dreammpid_attr_decode($db, $i)
 {
     $dreammpid = db_scrub($_GET[($i == "id" ? $i : "dmp$i")]);  # so we can choose to look for id= instead of dmp=
+    if ($dreammpid == "" && $i == "id")
+        $dreammpid = db_scrub($_POST[$i]); 
     if ($dreammpid == "")
         return null;
 	$qselect = "SELECT pw_dyn_dreammp.name AS name, pw_dyn_dreammp.description AS description,

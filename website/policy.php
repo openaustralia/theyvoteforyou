@@ -8,23 +8,26 @@
     # For details see the file LICENSE.html in the top level of the source.
 
     require_once "db.inc";
-    require_once('database.inc');
+    require_once "database.inc";
+
+    
     $db = new DB();
 
 // create the table (once) so we can use it.
-$db->query("create table pw_dyn_aggregate_dreammp (
+/*$db->query("create table pw_dyn_aggregate_dreammp (
 	dream_id_agg int not null,
 	dream_id_sel int not null,
-    vote_strength enum("strong", "weak") not null,
+    vote_strength enum(\"strong\", \"weak\") not null,
 	index(dream_id_agg),
 	index(dream_id_sel),
     unique(dream_id_agg, dream_id_sel)
 );");
-
+*/
 
 	# standard decoding functions for the url attributes
 	require_once "decodeids.inc";
 	require_once "tablemake.inc";
+    require_once "tableoth.inc";
 
     require_once "dream.inc";
 	require_once "tablepeop.inc";
@@ -59,6 +62,7 @@ $db->query("create table pw_dyn_aggregate_dreammp (
     $second_links = dismodes_to_second_links($thispage, $dismodes, $tpsort, $display);
 
     pw_header();
+print "<h1>ID ID ".$_POST["seldreamid"]."</h1>\n"; 
 
     print "<div class=\"policydefinition\">";
     print "<p><b>Definition:</b> " . str_replace("\n", "<br>", html_scrub($voter["description"])). "</p>";
