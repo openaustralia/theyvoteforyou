@@ -65,7 +65,9 @@
 
 	# work out which display mode we are in
 	$display = $_GET["display"];
-	if (!$bAggregateEditable || !$bAggregate || !$dismodes[$display])
+    if ($_POST["seldreamid"])
+        $display = "extended"; 
+    if (!$bAggregateEditable || !$bAggregate || !$dismodes[$display])
 		$display = "summary"; # default
 	$dismode = $dismodes[$display];
 
@@ -155,7 +157,6 @@
 	// short list
     if ($dismode["aggregate"] == "shown")
 	{
-		print "<p>This Dream MP supports the following policies: ";
 		$query = "SELECT name, pw_dyn_dreammp.dream_id AS dream_id
 				  FROM pw_dyn_aggregate_dreammp
 				  LEFT JOIN pw_dyn_dreammp
@@ -186,7 +187,7 @@
 
 		// should this be a button
 		if ($bAggregateEditable)
-			print '<p><a href="policy.php?id='.$dreamid.'&display='.$display.'&savevotes=yes">CLICK HERE TO SAVE YOUR VOTES</a></p>.\n';
+			print '<p><a href="policy.php?id='.$dreamid.'&display='.$display.'&savevotes=yes">CLICK HERE TO SAVE YOUR VOTES</a></p>';
 	}
 
 

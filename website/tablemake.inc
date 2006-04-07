@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.74 2006/04/07 19:27:23 goatchurch Exp $
+# $Id: tablemake.inc,v 1.75 2006/04/07 19:53:45 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -108,16 +108,20 @@ function divaggregateconds(&$aquery, &$db, $dreamid, $i)
 {
     # parties always vote everywhere, so safe to join to one
     #vote enum("aye", "no", "both", "aye3", "no3") not null,
-    $aquery["qselect"] .= ", pw_dyn_dreamvote_agg.vote AS vote$i";
-    $aquery["qselect"] .= ", max(CASE pw_dyn_dreamvote_agg.vote WHEN 'aye' THEN 1 WHEN 'aye3' THEN 3 ELSE 0) AS vote2aye";
-    $aquery["qselect"] .= ", max(CASE pw_dyn_dreamvote_agg.vote WHEN 'no' THEN 1 WHEN 'no3' THEN 3 ELSE 0) AS vote2no";
-    $aquery["qselect"] .= ", max(CASE pw_dyn_dreamvote_agg.vote WHEN 'both' THEN 1 ELSE 0) AS vote2abstain";
+    $aquery["qselect"] .= ", MAX(pw_dyn_dreamvote_agg.vote) AS vote$i";
+    $aquery["qselect"] .= ", MAX(CASE pw_dyn_dreamvote_agg.vote WHEN 'aye' THEN 1 WHEN 'aye3' THEN 3 ELSE 0 END) AS vote2aye";
+    $aquery["qselect"] .= ", MAX(CASE pw_dyn_dreamvote_agg.vote WHEN 'no' THEN 1 WHEN 'no3' THEN 3 ELSE 0 END) AS vote2no";
+    $aquery["qselect"] .= ", MAX(CASE pw_dyn_dreamvote_agg.vote WHEN 'both' THEN 1 ELSE 0 END) AS vote2abstain";
     $aquery["qselect"] .= ", pw_dyn_dreamvote_agg.dream_id AS dream_id_agg";  // somehow concatenate these together, or join onto the name to make a from column
     $aquery["qjoin"]   .= " LEFT JOIN pw_dyn_aggregate_dreammp, pw_dyn_dreamvote AS pw_dyn_dreamvote_agg
 								ON pw_dyn_aggregate_dreammp.dream_id_sel = pw_dyn_dreamvote_agg.dream_id
-								AND pw_dyn_aggregate_dreammp.dream_id_agg = $dreamid
-								AND pw_dyn_dreamvote_agg.division_id = pw_division.division_id";
+								AND pw_dyn_aggregate_dreammp.dream_id_agg = $dreamid"; 
+								#AND pw_dyn_dreamvote_agg.division_id = pw_division.division_id";i
+    $aquery["qjoin"]    .=   "  AND pw_dyn_dreamvote_agg.division_date = pw_division.division_date 
+                                AND pw_dyn_dreamvote_agg.division_number = pw_division.division_number"; # AND HOUSE!!!
+
 	$aquery["qgroup"] = " GROUP BY pw_division.division_id";  # this is all designed to capture aggregate votes that go both ways
+    $aquery["vote$i"] = "pw_dyn_dreamvote_agg.vote"; 
 }
 
 
@@ -194,12 +198,12 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
     $votedesclong = "";
 
     # no comparison vote
-    $dtvote1 = workrolevote($voter1type, $vote1);
+    $dtvote1 = workrolevote($voter1type, $vote1, $row);
     if ($voter2type == "")
         return "<td></td>";
 
     $vote2line3 = ($vote2 == "aye3" or $vote2 == "no3");
-    $dtvote2 = workrolevote($voter2type, $vote2);
+    $dtvote2 = workrolevote($voter2type, $vote2, $row);
 
     # mp to party terminology
     if ($voter1type == "mp" && $voter2type == "party")
@@ -858,7 +862,7 @@ function division_table($db, $divtabattr, $events = "")
 
     # main set that grabs all the divisions and makes a coarse subsampling
     $query = $aquery["qselect"].$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"].$aquery["qgroup"].$aquery["qorder"].$aquery["qlimit"];
-    if ($bdebug == 1)
+    #if ($bdebug == 1)
     {
         if ($divtabattr["limitby"] == "")
         {
