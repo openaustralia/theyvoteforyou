@@ -48,16 +48,9 @@ vote in relevant divisions in Parliament.
 <?php
 
     print "<table class=\"mps\">\n";
-    print "<tr class=\"headings\">
-        <td>Votes (unedited)</td>
-        <td>Policy</td>
-        <td>Definition</td>
-        <td>MP Dists</td>
-        </tr>";
-
-
 	$dreamtabattr = array("listtype" => 'mainlist',
-					      'listlength' => "allpublic");
+					      'listlength' => "allpublic", 
+						  'headings' => "yes");
 	$c = print_policy_table($db, $dreamtabattr);
     print "</table>\n";
     print "That makes $c policies which have voted in at least one division.";

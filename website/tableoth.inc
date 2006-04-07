@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.37 2006/03/07 11:46:51 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.38 2006/04/07 15:13:54 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -77,16 +77,17 @@
 	# listtype is:
 	#   'comparelinks', then 'person' who we compare to
 	#	'mainlist'
+	#   'aggregatevotes', then 'dreamid' is the aggregate dreammp
 	# listlength is 'short' or 'allpublic'
 	function print_policy_table($db, $dreamtabattr)
 	{
 		$qselect = " SELECT name, description, votes_count, private,
-					   pw_dyn_dreammp.dream_id AS dream_id,
-				       round(100 * edited_motions_count / votes_count, 0) AS motions_percent,
-					   (votes_count - edited_motions_count) AS unedited_motions";
+						pw_dyn_dreammp.dream_id AS dream_id,
+						round(100 * edited_motions_count / votes_count, 0) AS motions_percent,
+						(votes_count - edited_motions_count) AS unedited_motions";
 		$qfrom =   " FROM pw_dyn_dreammp";
 		$qjoin =   " LEFT JOIN pw_cache_dreaminfo ON pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id
-			     LEFT JOIN pw_dyn_user ON pw_dyn_user.user_id = pw_dyn_dreammp.user_id";
+					 LEFT JOIN pw_dyn_user ON pw_dyn_user.user_id = pw_dyn_dreammp.user_id";
 		$qwhere =  " WHERE 1=1";
 		$qorder =  "";
 		$qlimit = "";
@@ -100,7 +101,6 @@
                                     	AND pw_cache_dreamreal_distance.person = ".$dreamtabattr['person'];
 	        $qorder = " ORDER BY distance";
             $qwhere .= " AND distance_a <> -1";
-
 		}
 
 		if ($dreamtabattr['listlength'] != "every")
@@ -114,17 +114,58 @@
 		if ($dreamtabattr['listtype'] == "mainlist")
 		    $qorder = " ORDER BY motions_percent DESC, edited_motions_count DESC, votes_count DESC";
 
+		if ($dreamtabattr['listtype'] == "aggregatevotes")
+        {
+        	$qselect .= " pw_dyn_aggregate_dreammp.vote_strength AS vote_strength";
+			$qjoin .= " LEFT JOIN pw_dyn_aggregate_dreammp
+        					ON pw_dyn_aggregate_dreammp.dream_id_sel = pw_dyn_dreammp.dream_id
+        					AND pw_dyn_aggregate_dreammp.dream_id_agg = ".$dreamtabattr['dreamid'];
+		}
 
 		$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
-		if ($bdebug == 1)
+#		if ($bdebug == 1)
 			print "<h2>$query</h2>\n";
 		$db->query($query);
 		$res = $db->rows();
-        if ($res == 0) {
+		if ($res == 0)
+		{
 	        $prettyrow = pretty_row_start($prettyrow);
             print "<td colspan=\"4\">No policies match this person's votes.
                 You can <a href=\"/policies.php\">edit or make a policy</a> that will appear here.</td></tr>";
         }
+
+		$columnforms = array("policy" => "yes",
+							 "description" => "yes");
+		if ($dreamtabattr['listtype'] == "mainlist")
+			$columnforms["votes"] = "yes";
+		if ($dreamtabattr['listtype'] == "comparelinks")
+			$columnforms["agreement"] = "yes";
+		if ($dreamtabattr['listtype'] == "mainlist")
+			$columnforms["vote"] = "yes";
+		if ($dreamtabattr['listtype'] == "comparelinks")
+			$columnforms["dists"] = "yes";
+		if ($dreamtabattr['listtype'] == "aggregatevotes")
+			$columnforms["selected"] = "yes";
+
+		if ($dreamtabattr['headings'])
+		{
+			print "<tr class=\"headings\">";
+			if ($columnforms["votes"])
+				print "<td>Votes (unedited)</td>";
+			if ($columnforms["agreement"])
+				print "<td>Agreement</td>";
+			if ($columnforms["policy"])
+		        print "<td>Policy</td>";
+			if ($columnforms["description"])
+		        print "<td>Description</td>";
+			if ($columnforms["vote"])
+				print "<td>Vote</td>";
+			if ($columnforms['dists'])
+		        print "<td>MP Dists</td>";
+			if ($columnforms["selected"])
+		        print "<td>Selected</td>";
+	        print "</tr>\n";
+		}
 
 	    while ($row = $db->fetch_row_assoc())
 		{
@@ -132,14 +173,14 @@
 	        $dreamid = $row['dream_id'];
 
             $link = "policy.php?id=$dreamid";
-			if ($dreamtabattr['listtype'] == "mainlist")
+			if ($columnforms["votes"])
 	        {
                 print "<td>".$row['votes_count'];
                 if ($row['unedited_motions'] != 0)
-                    print " <i>(".$row['unedited_motions'].")</i>"; 
+                    print " <i>(".$row['unedited_motions'].")</i>";
                 print "</td>\n";
 			}
-			if ($dreamtabattr['listtype'] == "comparelinks")
+			if ($columnforms["agreement"])
 		    {
 		        $distance = $row['distance'];
         		$agreement = (1.0 - (float)($distance)) * 100.0;
@@ -149,19 +190,40 @@
                 print "</td>\n";
 			}
 
-	        print "<td><a href=\"$link\">".soft_hyphen($row['name'], 25)."</a>";
-            if ($row['private'] == 2)
-                print " <i>(provisional)<i>";
-            if ($row['private'] == 1)
-                print " <i>(legacy Dream MP)<i>";
-            print "</td>\n";
-	        print "<td>".trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 150)."</td>\n";
+			if ($columnforms["policy"])
+	        {
+	        	print "<td><a href=\"$link\">".soft_hyphen($row['name'], 25)."</a>";
+	            if ($row['private'] == 2)
+	                print " <i>(provisional)<i>";
+	            if ($row['private'] == 1)
+	                print " <i>(legacy Dream MP)<i>";
+	            print "</td>\n";
+			}
+			if ($columnforms["description"])
+		        print "<td>".trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 150)."</td>\n";
+			if ($columnforms["vote"])
+			    print "<td>".$row["votes_count"]."</td>\n";
+			if ($dreamtabattr['dists'])
+	            print "<td>0&nbsp;<img src=\"dreamplot.php?id=$dreamid\">&nbsp;1</td>\n";
+			if ($columnforms["selected"])
+		    {
+				print "<td>";
+				if ($dreamtabattr["editable"])
+				{
+			        print '<FORM CLASS="policyvote" ACTION="policy.php" METHOD="POST"> ';
+			        print ' <select name="seldreamid" size="1">
+	            			<option value="'.$dreamid.',no" '.($row['vote_strength'] ? "" : "selected").'>No</option>
+	            			<option value="'.$dreamid.',yes" '.($row['vote_strength'] ? "selected" : "").'>Yes</option>
+			                </select>';
+					print ' <input type="hidden" name="id" value='.$dreamtabattr["dreamid"].'>';
+			        print ' <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Update"></FORM>';
+					print "</FORM>";
+				}
+				else
+					print ($row['vote_strength'] ? "Yes" : "No");
+				print "</td>";
+		    }
 
-			if ($dreamtabattr['listtype'] == "mainlist")
-		            print "<td>0&nbsp;<img src=\"dreamplot.php?id=$dreamid\">&nbsp;1</td>\n";
-			if ($dreamtabattr['listtype'] == "comparelinks")
-			    print "<td>".$row["votes_count"]."</td>\n"; 
-			    
 	        print "</tr>\n";
   		}
 

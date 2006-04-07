@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.127 2006/04/05 09:34:35 publicwhip Exp $
+# $Id: division.php,v 1.128 2006/04/07 15:13:54 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -164,6 +164,7 @@ if ($singlemotionpage)
 								 "description" 	=> "All voters",
 								 "motiontext" 	=> "yes",
 								 "summarytext"	=> "yes",
+								 "partysummary"	=> "yes",
 								 "ministerial" 	=> "yes",
 								 "showwhich" 	=> "voters",
                                  "tooltip"      => "Every MP who cast a vote in the division");
@@ -172,6 +173,7 @@ if ($singlemotionpage)
 								 "description" 	=> "All eligible voters",
 								 "motiontext" 	=> "yes",
 								 "summarytext"	=> "yes",
+								 "partysummary"	=> "yes",
 								 "ministerial" 	=> "yes",
 								 "showwhich" 	=> "allpossible",
                                  "tooltip"      => "Show even MPs who did not vote but could have" );

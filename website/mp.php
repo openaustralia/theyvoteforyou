@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.124 2006/04/05 09:34:35 publicwhip Exp $
+    # $Id: mp.php,v 1.125 2006/04/07 15:13:54 goatchurch Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -543,17 +543,11 @@
         voting record.  </p>\n";
 
 	    print "<table class=\"mps\">\n";
-	    print "<tr class=\"headings\">
-	        <td>Agreement</td>
-	        <td>Policy</td>
-	        <td>Description</td>
-	        <td>Vote</td>
-	        </tr>\n";
-
 		$dreamtabattr = array("listtype" => 'comparelinks',
 						      'person' => $mpprop["person"],
 						      'mpanchor' => $mpprop["mpanchor"],
-						      'listlength' => $dismode["dreamcompare"]);
+						      'listlength' => $dismode["dreamcompare"]
+						      'headings' => 'yes');
 		print_policy_table($db, $dreamtabattr);
 	    print "</table>\n";
 	}

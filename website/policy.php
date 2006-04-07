@@ -11,6 +11,17 @@
     require_once('database.inc');
     $db = new DB();
 
+// create the table (once) so we can use it.
+$db->query("create table pw_dyn_aggregate_dreammp (
+	dream_id_agg int not null,
+	dream_id_sel int not null,
+    vote_strength enum("strong", "weak") not null,
+	index(dream_id_agg),
+	index(dream_id_sel),
+    unique(dream_id_agg, dream_id_sel)
+);");
+
+
 	# standard decoding functions for the url attributes
 	require_once "decodeids.inc";
 	require_once "tablemake.inc";
@@ -23,6 +34,10 @@
     $policyname = html_scrub($voter["name"]);
 	$dreamid = $voter["dreammpid"];
 
+	// all private dreams will be aggregate
+    $bAggregate = ($voter["private"] == 1);
+	$bAggregateEditable = true;  // will for now always be.  but should apply to owner
+
     $title = "Policy - $policyname";
 
 	# constants
@@ -31,7 +46,7 @@
 								 "description" => "Votes",
 								 "comparisons" => "yes",
 								 "divisionlist" => "selected",
-								 "policybox" => "yes",
+								 "policybox" => ($bAggregate ? "yes" : ""),
                                  "tooltip" => "Overview of the policy");
 
 	# work out which display mode we are in
@@ -69,6 +84,26 @@
         print ' | <a href="'.htmlspecialchars($discuss_url).'">Discuss changes</a>';
 
 	print "</div>\n";
+
+	if ($bAggregate)
+	{
+	    if (mysql_escape_string($_POST["submit"]) && $bAggregateEditable)
+        {
+        	$newseldreamid = mysql_escape_string($_POST["seldreamid"]);
+			print "<h1>$newseldreamid</h1>\n";
+        }
+
+	    print "<table class=\"mps\">\n";
+		$dreamtabattr = array("listtype" => 'aggregatevotes',
+						      'dreamid' => $dreamid,
+						      'listlength' => "allpublic",
+							  'headings' => "yes");
+		if ($bAggregateEditable)
+			$dreamtabattr['editable'] = "yes";
+		$c = print_policy_table($db, $dreamtabattr);
+	    print "</table>\n";
+	}
+
 
     if ($dismode["policybox"])
     {
