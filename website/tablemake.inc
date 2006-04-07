@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.75 2006/04/07 19:53:45 publicwhip Exp $
+# $Id: tablemake.inc,v 1.76 2006/04/07 20:17:23 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -318,18 +318,18 @@ function print_column_headings($vote1, $vote2, $columnforms, $party)
 	if ($columnforms["voter1type"] == "party")
 		print "<td>$vote1 Vote</td>";
 	if ($columnforms["voter1type"] == "dreammp")
-		print "<td>Policy Vote</td>";
-	if ($columnforms["voter1type"] == "mp")
-		print "<td>".$vote1['name']."</td>";
-	if ($columnforms["voter2type"] == "party")
-		print "<td>$vote2 Vote</td>";
-	if ($columnforms["voter2type"] == "dreammp")
 	{
 		if ($columnforms["isdreammp"])
 			print "<td>Dream Vote</td>";
 		else
 			print "<td>Policy Vote</td>";
 	}
+	if ($columnforms["voter1type"] == "mp")
+		print "<td>".$vote1['name']."</td>";
+	if ($columnforms["voter2type"] == "party")
+		print "<td>$vote2 Vote</td>";
+	if ($columnforms["voter2type"] == "dreammp")
+		print "<td>Policy Vote</td>";
 	if ($columnforms["voter2type"] == "person")
 		print "<td>".$vote2['mpprop']['name']."</td>";
 	if ($columnforms["aggregate_vote"])
@@ -372,7 +372,7 @@ function print_column_headings($vote1, $vote2, $columnforms, $party)
 
 // prints one row of the table according to format in $columnforms
 // this makes it easier to generating the heading and shuffle the columns
-function print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $row, $divhref, $divhrefcloseappend, $hrefsource, $columnforms)
+function print_division_row($nrows, $pretrowclass, $rolecol, $roleclass, $vote1, $vote2, $row, $divhref, $divhrefcloseappend, $hrefsource, $columnforms)
 {
     print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even")."$pretrowclass\">";
 
@@ -405,7 +405,7 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $ro
     if ($columnforms["voter2type"])
 		print "<td>".vote_display_in_table($vote2)."</td>\n";
 	if ($columnforms["aggregate_vote"])
-		print "<td>".vote_display_in_table($vote2)."</td>\n";
+		print "<td class=\"$roleclass\">".vote_display_in_table($vote2)."</td>\n";
 
     if ($columnforms["role"])
 		print $rolecol;
@@ -426,17 +426,17 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $ro
 	if ($columnforms["turnout"])
 		print "<td>".$row['turnout']."</td>\n";
     if ($columnforms["majority"])
-        print "<td>".abs($row['aye_majority'])."</td>"; 
+        print "<td>".abs($row['aye_majority'])."</td>";
 
     if ($columnforms["party_turnout"])
     {
-        $turnout = $row['ayes'] + $row['noes'] + $row['boths']; 
+        $turnout = $row['ayes'] + $row['noes'] + $row['boths'];
         print "<td>".percentise_votes_short($turnout, $row['possible_votes'])."</td>";
     }
     if ($columnforms["loyal"])
     {
         if ($row["whip_guess"] == "no")
-            print "<td>".$row['noes']."</td>"."<td>".$row['ayes']."</td>"; 
+            print "<td>".$row['noes']."</td>"."<td>".$row['ayes']."</td>";
         else
             print "<td>".$row['ayes']."</td>"."<td>".$row['noes']."</td>";
     }
@@ -529,12 +529,14 @@ function writepersonvote($lnrows, $cla, $name, $vote, $ayecla, $nocla)
         print "<td colspan=2 align=center>$vote</td>";
     print "</tr>\n";
 }
-function vote_display_in_table($vote) {
-    if ($vote == "aye3") {
+function vote_display_in_table($vote) 
+{
+    if ($vote == "aye3")
         return "aye (strong)";
-    } elseif ($vote == 'no3') {
+    if ($vote == 'no3')
         return "no (strong)";
-    }
+	if ($vote == '')
+		return "non-voter";
     return $vote;
 }
 function writenumbervote(&$lnrows, $gname, $sayes, $snoes, $ayecla, $nocla)
@@ -762,7 +764,7 @@ function division_table($db, $divtabattr, $events = "")
 
     $columnforms["voter1type"] = $voter1type;
     $columnforms["voter2type"] = $voter2type;
-	if ($voter2type)
+	if ($voter2type && ($voter2type != 'aggregate'))
 		$columnforms["role"] = "yes";
     if ($voter1type == 'mp')
         $columnforms["voter1house"] = $voter1["house"];
@@ -966,7 +968,7 @@ function division_table($db, $divtabattr, $events = "")
         }
         else
         {
-            print_division_row($nrows, $pretrowclass, $rolecol, $vote1, $vote2, $row, $divhref, $divhrefcloseappend, $hrefsource, $columnforms);
+            print_division_row($nrows, $pretrowclass, $rolecol, $roleclass, $vote1, $vote2, $row, $divhref, $divhrefcloseappend, $hrefsource, $columnforms);
             $nrows += 1;
         }
     }
