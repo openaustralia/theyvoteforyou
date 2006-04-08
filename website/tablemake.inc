@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.78 2006/04/08 08:59:29 goatchurch Exp $
+# $Id: tablemake.inc,v 1.79 2006/04/08 09:44:15 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -125,9 +125,10 @@ function divaggregateconds(&$aquery, &$db, $dreamid, $baggnames, $i)
 	{
 		$aquery["qjoin"]   .= " LEFT JOIN pw_dyn_dreammp AS pw_dyn_dreammp_agg
 									ON pw_dyn_dreammp_agg.dream_id = pw_dyn_dreamvote_agg.dream_id";
-	    $aquery["qselect"] .= ", GROUP_CONCAT(DISTINCT pw_dyn_dreammp_agg.name
-											  ORDER BY pw_dyn_dreammp_agg.name DESC SEPARATOR ', ') AS vote2names";
-	}
+	    #$aquery["qselect"] .= ", GROUP_CONCAT(DISTINCT pw_dyn_dreammp_agg.name
+		#									  ORDER BY pw_dyn_dreammp_agg.name DESC SEPARATOR ', ') AS vote2names";
+        $aquery["qselect"] .= ", MAX(pw_dyn_dreammp_agg.name) AS vote2names"; // we lack the above function here
+    }
 
 	$aquery["qgroup"] = " GROUP BY pw_division.division_id";  # this is all designed to capture aggregate votes that go both ways
     $aquery["vote$i"] = "pw_dyn_dreamvote_agg.vote";
@@ -798,7 +799,7 @@ function division_table($db, $divtabattr, $events = "")
 	{
 		$columnforms["isdreammp"] = "yes";  // we can call the column a dream vote without the aggregate column
 		$columnforms["aggregate_vote"] = ($showwhich == "either");
-$dismode["aggregate_names"] = "yes";
+$columnforms["aggregate_names"] = "yes";
 	}
 
     # construct the first column of votes
@@ -889,7 +890,7 @@ $dismode["aggregate_names"] = "yes";
 
     # main set that grabs all the divisions and makes a coarse subsampling
     $query = $aquery["qselect"].$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"].$aquery["qgroup"].$aquery["qorder"].$aquery["qlimit"];
-    #if ($bdebug == 1)
+    if ($bdebug == 1)
     {
         if ($divtabattr["limitby"] == "")
         {

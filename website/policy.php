@@ -61,7 +61,7 @@
 	{
 		// just show differences to
 		$dismodes["summary"]["aggregate"] = "shown";
-		$dismoves["summary"]["divisionlist"] = "bothdiff", # those which are seen out of the total
+		$dismoves["summary"]["divisionlist"] = "bothdiff"; # those which are seen out of the total
 		$dismodes["summary"]["description"] = "Changes";
 
 		$dismodes["allvotes"] = array("dtype"	=> "allvotes",
@@ -72,7 +72,7 @@
 
 		if ($bAggregateEditable)
 			$dismodes["extended"] = array("dtype"	=> "extended",
-										 "description" => "All Votes",
+										 "description" => "Extended",
 										 "divisionlist" => "selected",
 										 "aggregate" => "fulltable",
 		                                 "tooltip" => "Editable list of policies");
@@ -88,6 +88,7 @@
 	$dismode = $dismodes[$display];
 
     # make list of links to other display modes
+    $thispage = "policy.php?id=$dreamid"; 
     $second_links = dismodes_to_second_links($thispage, $dismodes, $tpsort, $display);
 
     pw_header();
@@ -96,10 +97,10 @@
 	$clashesonsave = -1; // signifies no saving done
 	if ($_GET["savevotes"] && $bAggregateEditable && $bAggregate)
 	{
-		print '<h2>THIS IS WHERE WE SAVE THE VOTES INTO THE POLICY</h2>.\n';
+		print "<h2>THIS IS WHERE WE SAVE THE VOTES INTO THE POLICY</h2>.\n";
 
 		// remove superfluous entries
-		$qdelete = "DELETE FROM pw_dyn_dreamvote";
+		$qdelete = "DELETE pw_dyn_dreamvote FROM pw_dyn_dreamvote";
 		$qjoind  = " LEFT JOIN pw_dyn_aggregate_dreammp, pw_dyn_dreamvote AS pw_dyn_dreamvote_agg
 								ON pw_dyn_aggregate_dreammp.dream_id_sel = pw_dyn_dreamvote_agg.dream_id
 								AND pw_dyn_aggregate_dreammp.dream_id_agg = $dreamid";
@@ -109,7 +110,7 @@
 		$qwhered = " WHERE pw_dyn_dreamvote.dream_id = $dreamid AND pw_dyn_dreamvote_agg.vote IS NULL";
 
 		$queryd = $qdelete.$qjoind.$qwhered;
-        print "<h3>$queryd</h3><hr>\n";
+        #print "<h3>$queryd</h3><hr>\n";
 		$db->query($queryd);
 
 		// too difficult to design direct queries to add them in
@@ -124,12 +125,14 @@
 		$qjoinr  = " LEFT JOIN pw_dyn_aggregate_dreammp
 								ON pw_dyn_aggregate_dreammp.dream_id_sel = pw_dyn_dreamvote.dream_id
 								AND pw_dyn_aggregate_dreammp.dream_id_agg = $dreamid";
-		$qwherer = " WHERE pw_dyn_dreamvote.dream_id = $dreamid";
+		$qwherer = " WHERE pw_dyn_aggregate_dreammp.dream_id_agg IS NOT NULL";
 		$qgroup = " GROUP BY pw_dyn_dreamvote.division_date, pw_dyn_dreamvote.division_number";
         $queryr = $qselect.$qfrom.$qjoinr.$qwherer.$qgroup;
+        #print "<h4>$queryr</h4>\n"; 
+        $db->query($queryr); 
 
 		$clashesonsave = 0;
-	    while ($row = $db->fetch_row())
+	    while ($row = $db->fetch_row_assoc())
 		{
 			if (($row["maye"] != 0) && ($row["mno"] != 0))
 			{
@@ -148,8 +151,9 @@
 			$query = "REPLACE INTO pw_dyn_dreamvote
 						(vote, dream_id, division_date, division_number)
 					  VALUES
-					    ('$vote', $dreamid, ".$row["division_date"].", ".$row["division_number"].")";
-			$db2->query($query);
+					    ('$vote', $dreamid, '".$row["division_date"]."', ".$row["division_number"].")";
+            #print "<h5>$query</h5>\n"; 
+            $db2->query($query);
 		}
 
 		# reset where there are disagreed value (not sure how this works)
@@ -190,7 +194,7 @@
 			$icomma = strpos($newseldreamid, ',');
 			$seldreamid = substr($newseldreamid, 0, $icomma);
 			$seldreamidvote = substr($newseldreamid, $icomma + 1);
-			print "<h1>$seldreamid = $seldreamidvote</h1>\n";
+			print "<h1>DDDchch  $seldreamid = $seldreamidvote</h1>\n";
 
 			// find current vote
 		    $query = "SELECT vote_strength
@@ -311,12 +315,12 @@
     print "</table>\n";
 
 	// should this be a button
-	if ($bAggregateEditable && (($dismetric["updates"] != 0) || ($dismetric["clashes"] != 0))
+	if ($bAggregateEditable && (($dismetric["updates"] != 0) || ($dismetric["clashes"] != 0)))
 	{
 		if ($dismetric["clashes"] != 0)
 			print "<p>There are <strong>".$dismetric["clashes"]."</strong> divisions where your policy choices clash.</p>\n";
 		if ($dismetric["updates"] != 0)
-			print '<p>There are <strong>'.$dismetric["clashes"].'</strong>
+			print '<p>There are <strong>'.$dismetric["updates"].'</strong>
 					changed votes which need saving into your Dream MP.
 					<a href="policy.php?id='.$dreamid.'&display='.$display.'&savevotes=yes">CLICK HERE TO SAVE THEM</a></p>';
 		if ($clashesonsave != -1)

@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.39 2006/04/07 16:35:45 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.40 2006/04/08 09:44:15 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -123,7 +123,7 @@
 		}
 
 		$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
-#		if ($bdebug == 1)
+		if ($bdebug == 1)
 			print "<h2>$query</h2>\n";
 		$db->query($query);
 		$res = $db->rows();
