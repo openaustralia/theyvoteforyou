@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.77 2006/04/07 20:23:36 publicwhip Exp $
+# $Id: tablemake.inc,v 1.78 2006/04/08 08:59:29 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -104,7 +104,7 @@ function divpartyconds(&$aquery, &$db, $party, $i)
 }
 
 # this joins a party vote here
-function divaggregateconds(&$aquery, &$db, $dreamid, $i)
+function divaggregateconds(&$aquery, &$db, $dreamid, $baggnames, $i)
 {
     # parties always vote everywhere, so safe to join to one
     #vote enum("aye", "no", "both", "aye3", "no3") not null,
@@ -112,16 +112,25 @@ function divaggregateconds(&$aquery, &$db, $dreamid, $i)
     $aquery["qselect"] .= ", MAX(CASE pw_dyn_dreamvote_agg.vote WHEN 'aye' THEN 1 WHEN 'aye3' THEN 3 ELSE 0 END) AS vote2aye";
     $aquery["qselect"] .= ", MAX(CASE pw_dyn_dreamvote_agg.vote WHEN 'no' THEN 1 WHEN 'no3' THEN 3 ELSE 0 END) AS vote2no";
     $aquery["qselect"] .= ", MAX(CASE pw_dyn_dreamvote_agg.vote WHEN 'both' THEN 1 ELSE 0 END) AS vote2abstain";
-    $aquery["qselect"] .= ", pw_dyn_dreamvote_agg.dream_id AS dream_id_agg";  // somehow concatenate these together, or join onto the name to make a from column
+
     $aquery["qjoin"]   .= " LEFT JOIN pw_dyn_aggregate_dreammp, pw_dyn_dreamvote AS pw_dyn_dreamvote_agg
 								ON pw_dyn_aggregate_dreammp.dream_id_sel = pw_dyn_dreamvote_agg.dream_id
-								AND pw_dyn_aggregate_dreammp.dream_id_agg = $dreamid"; 
+								AND pw_dyn_aggregate_dreammp.dream_id_agg = $dreamid";
 								#AND pw_dyn_dreamvote_agg.division_id = pw_division.division_id";i
-    $aquery["qjoin"]    .=   "  AND pw_dyn_dreamvote_agg.division_date = pw_division.division_date 
+    $aquery["qjoin"]    .=   "  AND pw_dyn_dreamvote_agg.division_date = pw_division.division_date
                                 AND pw_dyn_dreamvote_agg.division_number = pw_division.division_number"; # AND HOUSE!!!
 
+	// apply a list of names as well.  (will be more involved to make these hyperlinks, probably by concatting ids and using a php mapping)
+	if ($baggnames)
+	{
+		$aquery["qjoin"]   .= " LEFT JOIN pw_dyn_dreammp AS pw_dyn_dreammp_agg
+									ON pw_dyn_dreammp_agg.dream_id = pw_dyn_dreamvote_agg.dream_id";
+	    $aquery["qselect"] .= ", GROUP_CONCAT(DISTINCT pw_dyn_dreammp_agg.name
+											  ORDER BY pw_dyn_dreammp_agg.name DESC SEPARATOR ', ') AS vote2names";
+	}
+
 	$aquery["qgroup"] = " GROUP BY pw_division.division_id";  # this is all designed to capture aggregate votes that go both ways
-    $aquery["vote$i"] = "pw_dyn_dreamvote_agg.vote"; 
+    $aquery["vote$i"] = "pw_dyn_dreamvote_agg.vote";
 }
 
 
@@ -196,6 +205,7 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
 {
     $votedesc = "";
     $votedesclong = "";
+	$dismetric["total"] += 1;
 
     # no comparison vote
     $dtvote1 = workrolevote($voter1type, $vote1, $row);
@@ -241,9 +251,15 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
     else if ($voter2type == "aggregate")
     {
         if ($vote2 == "clash")
-            $roleclass = "rebel"; # red
+        {
+        	$roleclass = "rebel"; # red
+			$dismetric["clashes"] += 1; 
+		}
         else if ($dtvote1 != $dtvote2)
-            $roleclass = "rebelteller"; # yellow
+        {
+        	$roleclass = "rebelteller"; # yellow
+			$dismetric["updates"] += 1;
+		}
 	}
 
     else
@@ -334,6 +350,8 @@ function print_column_headings($vote1, $vote2, $columnforms, $party)
 		print "<td>".$vote2['mpprop']['name']."</td>";
 	if ($columnforms["aggregate_vote"])
 		print "<td>Policies Vote</td>";
+	if ($columnforms["aggregate_names"])
+		print "<td>Policies</td>";
 
 	if ($columnforms["role"])
 		print "<td>R&ocirc;le</td>";
@@ -407,9 +425,11 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $roleclass, $vote1,
 	    if ($columnforms["aggregate_vote"])
 		    print "<td class=\"$roleclass\">";
         else
-            print "<td>"; 
+            print "<td>";
         print vote_display_in_table($vote2)."</td>\n";
     }
+	if ($columnforms["aggregate_names"])
+		print "<td>".$row["vote2names"]."</td>";
 
     if ($columnforms["role"])
 		print $rolecol;
@@ -778,6 +798,7 @@ function division_table($db, $divtabattr, $events = "")
 	{
 		$columnforms["isdreammp"] = "yes";  // we can call the column a dream vote without the aggregate column
 		$columnforms["aggregate_vote"] = ($showwhich == "either");
+$dismode["aggregate_names"] = "yes";
 	}
 
     # construct the first column of votes
@@ -818,7 +839,7 @@ function division_table($db, $divtabattr, $events = "")
         else if ($voter2type == "person")
             divmpconds($aquery, $db, $voter2, $bonlyvotes2, true, 2);
 		else if ($voter2type == "aggregate")
-			divaggregateconds($aquery, $db, $voter2, 2);
+			divaggregateconds($aquery, $db, $voter2, $columnforms["aggregate_names"], 2);
 
         # put in the selection mechanism of diffs into this
         if ($showwhich == "bothdiff")
@@ -909,7 +930,8 @@ function division_table($db, $divtabattr, $events = "")
 
     # sums for the distance metric (the second voter controls the 3-line quality
     $dismetric = array("agree"=>0, "disagree"=>0, "agree3"=>0, "disagree3"=>0,
-                       "ab1"=>0, "ab1line3"=>0, "ab2"=>0, "abboth"=>0);
+                       "ab1"=>0, "ab1line3"=>0, "ab2"=>0, "abboth"=>0,
+					   "clashes"=>0, "updates"=>0, "total"=>0);
     while ($row = $db->fetch_row_assoc())
     {
         # mark the role column and fix the terminology of the vote

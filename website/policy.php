@@ -10,8 +10,9 @@
     require_once "db.inc";
     require_once "database.inc";
 
-    
+
     $db = new DB();
+    $db2 = new DB();
 
 // create the table (once) so we can use it.
 /*$db->query("create table pw_dyn_aggregate_dreammp (
@@ -51,22 +52,37 @@
 	$dismodes["summary"] = array("dtype"	=> "summary",
 								 "description" => "Votes",
 								 "comparisons" => "yes",
-								 "divisionlist" => "selected",
-								 "policybox" => (!$bAggregate ? "yes" : ""),
-								 "aggregate" => ($bAggregate ? "shown" : ""),
+								 "divisionlist" => "selected", # those which are seen out of the total
+								 "policybox" => "yes",
                                  "tooltip" => "Overview of the policy");
 
-	$dismodes["extended"] = array("dtype"	=> "extended",
-								 "description" => "Aggregates",
-								 "divisionlist" => "selected",
-								 "aggregate" => "fulltable",
-                                 "tooltip" => "Overview of the policy");
+	// aggregate types get more options
+	if ($bAggregate)
+	{
+		// just show differences to
+		$dismodes["summary"]["aggregate"] = "shown";
+		$dismoves["summary"]["divisionlist"] = "bothdiff", # those which are seen out of the total
+		$dismodes["summary"]["description"] = "Changes";
+
+		$dismodes["allvotes"] = array("dtype"	=> "allvotes",
+									 "description" => "All Votes",
+									 "divisionlist" => "selected",
+									 "aggregate" => "shown",
+	                                 "tooltip" => "Source of the policy");
+
+		if ($bAggregateEditable)
+			$dismodes["extended"] = array("dtype"	=> "extended",
+										 "description" => "All Votes",
+										 "divisionlist" => "selected",
+										 "aggregate" => "fulltable",
+		                                 "tooltip" => "Editable list of policies");
+	}
 
 
-	# work out which display mode we are in
+	# work out which display mode we are in (in case we arrive from a post)
 	$display = $_GET["display"];
     if ($_POST["seldreamid"])
-        $display = "extended"; 
+        $display = "extended";
     if (!$bAggregateEditable || !$bAggregate || !$dismodes[$display])
 		$display = "summary"; # default
 	$dismode = $dismodes[$display];
@@ -77,9 +93,67 @@
     pw_header();
 
 	// this is where we save the votes
+	$clashesonsave = -1; // signifies no saving done
 	if ($_GET["savevotes"] && $bAggregateEditable && $bAggregate)
-	{ 
+	{
 		print '<h2>THIS IS WHERE WE SAVE THE VOTES INTO THE POLICY</h2>.\n';
+
+		// remove superfluous entries
+		$qdelete = "DELETE FROM pw_dyn_dreamvote";
+		$qjoind  = " LEFT JOIN pw_dyn_aggregate_dreammp, pw_dyn_dreamvote AS pw_dyn_dreamvote_agg
+								ON pw_dyn_aggregate_dreammp.dream_id_sel = pw_dyn_dreamvote_agg.dream_id
+								AND pw_dyn_aggregate_dreammp.dream_id_agg = $dreamid";
+	    $qjoind .=  "  			AND pw_dyn_dreamvote_agg.division_date = pw_dyn_dreamvote.division_date
+                                AND pw_dyn_dreamvote_agg.division_number = pw_dyn_dreamvote.division_number"; # AND HOUSE!!!
+								#AND pw_dyn_dreamvote_agg.division_id = pw_dyn_dreamvote.division_id";
+		$qwhered = " WHERE pw_dyn_dreamvote.dream_id = $dreamid AND pw_dyn_dreamvote_agg.vote IS NULL";
+
+		$queryd = $qdelete.$qjoind.$qwhered;
+        print "<h3>$queryd</h3><hr>\n";
+		$db->query($queryd);
+
+		// too difficult to design direct queries to add them in
+		// because of a lack of an aggregation function that sticks together aye3,no into both
+		// so we apply as a loop
+		$qselect = " SELECT pw_dyn_dreamvote.division_date, pw_dyn_dreamvote.division_number";
+		$qselect .= ", MAX(CASE pw_dyn_dreamvote.vote WHEN 'aye' THEN 1 WHEN 'aye3' THEN 3 ELSE 0 END) AS maye";
+		$qselect .= ", MAX(CASE pw_dyn_dreamvote.vote WHEN 'no' THEN 1 WHEN 'no3' THEN 3 ELSE 0 END) AS mno";
+	    $qselect .= ", MAX(CASE pw_dyn_dreamvote.vote WHEN 'both' THEN 1 ELSE 0 END) AS mabstain";
+
+		$qfrom = " FROM pw_dyn_dreamvote";  # this is from transpose side of the one above
+		$qjoinr  = " LEFT JOIN pw_dyn_aggregate_dreammp
+								ON pw_dyn_aggregate_dreammp.dream_id_sel = pw_dyn_dreamvote.dream_id
+								AND pw_dyn_aggregate_dreammp.dream_id_agg = $dreamid";
+		$qwherer = " WHERE pw_dyn_dreamvote.dream_id = $dreamid";
+		$qgroup = " GROUP BY pw_dyn_dreamvote.division_date, pw_dyn_dreamvote.division_number";
+        $queryr = $qselect.$qfrom.$qjoinr.$qwherer.$qgroup;
+
+		$clashesonsave = 0;
+	    while ($row = $db->fetch_row())
+		{
+			if (($row["maye"] != 0) && ($row["mno"] != 0))
+			{
+				$vote = "both";
+				$clashesonsave += 1;
+			}
+			else if ($row["maye"])
+				$vote = ($row["maye"] == 3 ? "aye3" : "aye");
+			else if ($row["mno"])
+				$vote = ($row["mno"] == 3 ? "no3" : "no");
+			else if ($row["mabstain"])
+				$vote = "both";
+			else
+				$vote = "cant happen"; // illegal value
+			# vote enum("aye", "no", "both", "aye3", "no3") not null,
+			$query = "REPLACE INTO pw_dyn_dreamvote
+						(vote, dream_id, division_date, division_number)
+					  VALUES
+					    ('$vote', $dreamid, ".$row["division_date"].", ".$row["division_number"].")";
+			$db2->query($query);
+		}
+
+		# reset where there are disagreed value (not sure how this works)
+		update_dreammp_votemeasures($db, $dreamid, 0);
 	}
 
     print "<div class=\"policydefinition\">";
@@ -185,11 +259,6 @@
 		}
 		print ".</p>\n";
     }
-    
-		// should this be a button
-	if ($bAggregateEditable)
-		print '<p><a href="policy.php?id='.$dreamid.'&display='.$display.'&savevotes=yes">CLICK HERE TO SAVE YOUR VOTES</a></p>';
-	
 
 
     if ($dismode["policybox"])
@@ -210,10 +279,11 @@
 	              print " A total of <b>".(($voter["votes_count"]) - ($voter["edited_count"]))."</b> of these have not had their descriptions edited.";
 		 }
 	}
+
+	else if ($dismode["divisionlist"] == "bothdiff")
+		print "<h2><a name=\"divisions\">Changed votes and new divisions</a></h2>\n";
 	else
-	{
 		print "<h2><a name=\"divisions\">Every Division</a></h2>\n";
-	}
 
     print "<p>Have you spotted a wrong vote, or one that is missing?  Please edit and fix the votes and definition of a policy. ";
     if (user_getid()) {
@@ -231,14 +301,27 @@
 			"headings"		=> 'columns',
 			"divhrefappend"	=> "&dmp=$dreamid", # gives link to crossover page
 			"motionwikistate" => "listunedited");
-	if ($dismode["aggregate"])
+	if ($bAggregate)
 	{
 		$divtabattr["voter2type"] = "aggregate";
 		$divtabattr["voter2"] = $dreamid;
-		$divtabattr["showwhich"] = "either";
+		$divtabattr["showwhich"] = ($dismode["divisionlist"] == "bothdiff" ? "bothdiff" : "either");
 	}
-	division_table($db, $divtabattr);
+	$dismetric = division_table($db, $divtabattr);
     print "</table>\n";
+
+	// should this be a button
+	if ($bAggregateEditable && (($dismetric["updates"] != 0) || ($dismetric["clashes"] != 0))
+	{
+		if ($dismetric["clashes"] != 0)
+			print "<p>There are <strong>".$dismetric["clashes"]."</strong> divisions where your policy choices clash.</p>\n";
+		if ($dismetric["updates"] != 0)
+			print '<p>There are <strong>'.$dismetric["clashes"].'</strong>
+					changed votes which need saving into your Dream MP.
+					<a href="policy.php?id='.$dreamid.'&display='.$display.'&savevotes=yes">CLICK HERE TO SAVE THEM</a></p>';
+		if ($clashesonsave != -1)
+			print "<h2>Error: After saving, none to update and $clashesonsave clashes found</h2>\n";
+	}
 
 	if ($dismode["comparisons"])
 	{
@@ -251,7 +334,7 @@
 
 		$mptabattr = array("listtype" => 'dreamdistance',
 						   'dreammpid' => $dreamid,
-						   'dreamname' => $policyname, 
+						   'dreamname' => $policyname,
                            'headings' => 'yes');
 		print "<table class=\"mps\">\n";
 		mp_table($db, $mptabattr);
