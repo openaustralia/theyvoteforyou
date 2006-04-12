@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.74 2006/03/18 02:09:13 publicwhip Exp $
+# $Id: faq.php,v 1.75 2006/04/12 08:17:35 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -77,7 +77,8 @@ terms, see the
 Parliament factsheet on divisions</a>.
 <p>The <i>House of Lords</i> is the second chamber of the Parliament. 
 Proposed legislation passes through both Houses before it becomes law.
-<i>Lords</i> become members by a complex mixture of appointment, religion,
+<i>Lords</i> become members by a complex mixture of 
+<a href="http://website.lineone.net/~david.beamish/index.htm">appointment</a>, religion,
 appelation, hereditary entitlement and self election, which frankly we can't
 work out. They still divide, just like the commons. But being "ayes" and "noes"
 is a bit too, ummm, common for them. Instead they are said to be either
