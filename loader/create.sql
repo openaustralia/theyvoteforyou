@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.48 2006/04/12 08:46:29 goatchurch Exp $
+-- $Id: create.sql,v 1.49 2006/04/12 22:46:58 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -203,10 +203,10 @@ create table pw_dyn_aggregate_dreammp (
     unique(dream_id_agg, dream_id_sel)
 );
 
-*** should this one use division_id *** ??
 create table pw_dyn_dreamvote (
     division_date date not null,
     division_number int not null,
+    house enum('commons', 'lords') not null,
     dream_id int not null,
     vote enum("aye", "no", "both", "aye3", "no3") not null,
 
