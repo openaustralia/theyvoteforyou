@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.47 2006/03/14 09:30:10 frabcus Exp $
+-- $Id: create.sql,v 1.48 2006/04/12 08:46:29 goatchurch Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -146,7 +146,7 @@ insert into pw_vote_sortorder(vote, position) values('tellno', 5);
 
 -------------------------------------------------------------------------------
 -- Dynamic tables
---   those which people using the website can alter 
+--   those which people using the website can alter
 --   prefixed dyn_ for dynamic
 
 CREATE TABLE pw_dyn_user (
@@ -194,6 +194,16 @@ create table pw_dyn_dreammp (
     unique(dream_id, name, user_id)
 );
 
+create table pw_dyn_aggregate_dreammp (
+	dream_id_agg int not null,
+	dream_id_sel int not null,
+    vote_strength enum("strong", "weak") not null,
+	index(dream_id_agg),
+	index(dream_id_sel),
+    unique(dream_id_agg, dream_id_sel)
+);
+
+*** should this one use division_id *** ??
 create table pw_dyn_dreamvote (
     division_date date not null,
     division_number int not null,
