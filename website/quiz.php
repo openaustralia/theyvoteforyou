@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: quiz.php,v 1.1 2006/04/13 19:59:20 frabcus Exp $
+# $Id: quiz.php,v 1.2 2006/04/13 21:44:39 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2006 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -93,7 +93,9 @@ function quiz_form() {
             print " checked";
         print '>';
         print '<label title="'.htmlspecialchars($policy['description']).'" for="p'.$policy['dream_id'].'">'.$policy["name"].'</label>';
-        print " (".number_format((1.0-$policy['distance_a']) * 100, 0). "%)";
+        if ($policy['distance_a'] != null) {
+            print " (".number_format((1.0-$policy['distance_a']) * 100, 0). "%)";
+        }
         print " (<a href=\"policy.php?id=" . $policy['dream_id'] . "\">details";
         print "</a>)";
         print "<br>";
