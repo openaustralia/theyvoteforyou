@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: quiz.php,v 1.2 2006/04/13 21:44:39 publicwhip Exp $
+# $Id: quiz.php,v 1.3 2006/04/13 22:05:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2006 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -13,25 +13,10 @@ $db = new DB();
 $db2 = new DB();
 
 // Which MP are we comparing against?
-$views = array();
 if (get_http_var('submit')) {
-    foreach ($_GET as $key => $value) {
-        if (preg_match ("/^p([0-9]+)$/", $key, $matches)) {
-            $policy = $matches[1];
-            $views[$policy] = 1;
-        }
-    }
     $voterattr = get_mpid_attr_decode($db, $db2, "");
     #print "<pre>";print_r($voterattr['mpprop']);print"</pre>";
 }
-
-// Header
-if ($voterattr)
-    $title = "Your views compared to ".$voterattr["mpprop"]["name"].
-        " " . $voterattr["mpprop"]["housenamesuffix"];
-else
-    $title = "Tick all policies that you agree with";
-pw_header();
 
 // Get list of all public policies, which have at least one vote
 $policies = array();
@@ -56,6 +41,43 @@ while ($row = $db->fetch_row_assoc()) {
     $policies[] = $row;
 }    
 
+// Grab shorter URL if it is one
+$qstring = $_SERVER["QUERY_STRING"];
+$shorter_url = false;
+if (preg_match ("/^([^;]*);((?:\d+;)+(?:\d+))$/", $qstring, $matches)) {
+    $_GET = array();
+    $_GET['submit'] = "1";
+    $_GET['mppc'] = $matches[1];
+    $shortviews = split(";",$matches[2]);
+    foreach ($shortviews as $shortview) {
+        $_GET["p$shortview"] = "on";
+    }
+    $shorter_url = true;
+}
+
+// Validate if a submit
+// TODO
+$errors = array();
+
+// Read in views
+$views = array();
+foreach ($_GET as $key => $value) {
+    if (preg_match ("/^p([0-9]+)$/", $key, $matches)) {
+        $policy = $matches[1];
+        $views[$policy] = 1;
+    }
+}
+
+// Redirect to shorter URL
+if ($_GET['submit'] and !$errors and !$shorter_url) {
+    $qpc = strtoupper(trim($_GET['mppc']));
+    $qpc = str_replace(" ", "", $qpc);
+    $quick = "?$qpc;";
+    $quick .= join(";", array_keys($views));
+    header("Location: /quiz.php$quick\n");
+    exit;
+}
+
 // Calculate distance from MP to user's view
 if ($voterattr) {
     $distance_from_mp = 0.0;
@@ -75,6 +97,14 @@ if ($voterattr) {
     }
     $agreement_with_mp = (1.0 - (float)($distance_from_mp)) * 100.0;
 }
+
+// Header
+if ($voterattr)
+    $title = "Your views compared to ".$voterattr["mpprop"]["name"].
+        " " . $voterattr["mpprop"]["housenamesuffix"];
+else
+    $title = "Tick all policies that you agree with";
+pw_header();
 
 function quiz_form() {
     global $policies, $views, $voterattr, $distance_from_mp, $agreement_with_mp;
