@@ -1,6 +1,6 @@
 <?php
 
-# $Id: common.inc,v 1.19 2006/03/07 21:18:09 frabcus Exp $
+# $Id: common.inc,v 1.20 2006/04/13 19:59:20 frabcus Exp $
 
 # Included from all main .php files on the first line
 
@@ -92,5 +92,39 @@ function pw_footer()
     global $toppath, $paddingforanchors, $colour_scheme;
     include $toppath . "footer.inc";
 }
+
+/* get_http_var NAME [DEFAULTorALLOW]
+ * Return the value of the GET or POST parameter with the given NAME; or, if no
+ * such parameter is present, DEFAULT; or, if DEFAULT is not specified or is a
+ * boolean, the empty string ("").
+ * If DEFAULT is a boolean, allow the input to be changed (currently, only
+ * for Esperanto input to take .x to various accented characters). It's thus
+ * currently impossible to have a default and have changed input, but nowhere
+ * on the PledgeBank site requires a default anyway.
+ */
+function get_http_var($name, $default='') {
+    global $lang;
+
+    if (is_bool($default)) {
+        $allow_changes = true;
+        $default = '';
+    } else {
+        $allow_changes = false;
+    }
+
+    if (array_key_exists($name, $_GET)) {
+        $var = $_GET[$name];
+        if (!is_array($var)) $var = trim($var);
+    } elseif (array_key_exists($name, $_POST)) {
+        $var = $_POST[$name];
+        if (!is_array($var)) $var = trim($var);
+    } else { 
+        $var = $default;
+    }
+    if ($allow_changes && $lang == 'eo')
+        $var = input_esperanto($var);
+    return $var;
+}
+
 
 ?>

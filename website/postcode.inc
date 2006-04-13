@@ -84,6 +84,10 @@ function postcode_to_constituency($db, $postcode, $pc_parl = "2005") {
 
 function postcode_to_constituency_internal($db, $postcode, $pc_parl)
 {
+    if (!POSTCODE_SEARCH_DOMAIN) {
+        return "Liverpool Riverside";
+    }
+
     $postcode = trim($postcode);
 
     # Try and match with regexp to exclude non postcodes quickly

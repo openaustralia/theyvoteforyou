@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.40 2006/04/08 09:44:15 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.41 2006/04/13 19:59:20 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -134,8 +134,9 @@
                 You can <a href=\"/policies.php\">edit or make a policy</a> that will appear here.</td></tr>";
         }
 
-		$columnforms = array("policy" => "yes",
-							 "description" => "yes");
+		$columnforms = array("policy" => "yes");
+        if ($dreamtabattr['listtype'] != "aggregatevotes")
+            $columnforms["description"] = "yes";
 		if ($dreamtabattr['listtype'] == "mainlist")
 			$columnforms["votes"] = "yes";
 		if ($dreamtabattr['listtype'] == "comparelinks")
@@ -210,7 +211,7 @@
 				print "<td>";
 				if ($dreamtabattr["editable"])
 				{
-			        print '<FORM CLASS="policyvote" ACTION="policy.php" METHOD="POST"> ';
+			        print '<FORM ACTION="policy.php" METHOD="POST"> ';
 			        print ' <select name="seldreamid" size="1">
 	            			<option value="'.$dreamid.',no" '.($row['vote_strength'] ? "" : "selected").'>No</option>
 	            			<option value="'.$dreamid.',yes" '.($row['vote_strength'] ? "selected" : "").'>Yes</option>
