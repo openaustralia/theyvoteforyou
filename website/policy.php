@@ -265,14 +265,14 @@
     }
 
 
-    if ($dismode["policybox"])
+/*    if ($dismode["policybox"])
     {
 	    print "<h2><a name=\"comparison\">Compare Against one MP</a></h2>";
         print "<div class=\"tabledreambox\">";
         print dream_box($dreamid, $policyname);
         print '<p>Why not <a href="#dreambox">add this to your own website?</a></p>';
         print "</div>";
-    }
+    } */
 
 	if ($dismode["divisionlist"] == "selected")
 	{
@@ -289,7 +289,7 @@
 	else
 		print "<h2><a name=\"divisions\">Every Division</a></h2>\n";
 
-    print "<p>Have you spotted a wrong vote, or one that is missing?  Please edit and fix the votes and definition of a policy. ";
+    print "<p>Have you spotted a wrong vote, or one that is missing?  Please <strong>edit and fix</strong> the votes and definition of a policy. ";
     if (user_getid()) {
         $db->query("update pw_dyn_user set active_policy_id = $dreamid where user_id = " . user_getid());
         print " This is now your active policy; to change its votes, go to any division page.";

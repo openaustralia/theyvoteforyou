@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.41 2006/04/13 19:59:20 frabcus Exp $
+    # $Id: tableoth.inc,v 1.42 2006/04/13 23:20:48 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -112,7 +112,7 @@
 
 		// main given list case
 		if ($dreamtabattr['listtype'] == "mainlist")
-		    $qorder = " ORDER BY motions_percent DESC, edited_motions_count DESC, votes_count DESC";
+		    $qorder = " ORDER BY private, name";
 
 		if ($dreamtabattr['listtype'] == "aggregatevotes")
         {
@@ -162,7 +162,7 @@
 			if ($columnforms["vote"])
 				print "<td>Vote</td>";
 			if ($columnforms['dists'])
-		        print "<td>MP Dists</td>";
+		        print "<td>MP Dists<br>0--&gt;1</td>";
 			if ($columnforms["selected"])
 		        print "<td>Selected</td>";
 	        print "</tr>\n";
@@ -201,11 +201,11 @@
 	            print "</td>\n";
 			}
 			if ($columnforms["description"])
-		        print "<td>".trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 150)."</td>\n";
+		        print "<td>".trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 100)."</td>\n";
 			if ($columnforms["vote"])
 			    print "<td>".$row["votes_count"]."</td>\n";
 			if ($columnforms['dists'])
-	            print "<td>0&nbsp;<img src=\"dreamplot.php?id=$dreamid\">&nbsp;1</td>\n";
+	            print "<td>&nbsp;<img src=\"dreamplot.php?id=$dreamid\">&nbsp;</td>\n";
 			if ($columnforms["selected"])
 		    {
 				print "<td>";

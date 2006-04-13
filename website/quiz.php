@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: quiz.php,v 1.4 2006/04/13 22:09:45 frabcus Exp $
+# $Id: quiz.php,v 1.5 2006/04/13 23:20:48 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2006 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -110,9 +110,10 @@ pw_header();
 function quiz_form() {
     global $policies, $views, $voterattr, $distance_from_mp, $agreement_with_mp;
 
-    // Display form
-    print "<p>Agreement with MP: ";
-    print number_format($agreement_with_mp, 0)."%";
+    if ($voterattr) {
+        print "<p>Agreement with MP: ";
+        print number_format($agreement_with_mp, 0)."%";
+    }
 
     print '<form name="howtovote" method="get" action="quiz.php">';
     print '<table>';
