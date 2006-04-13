@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: quiz.php,v 1.3 2006/04/13 22:05:17 frabcus Exp $
+# $Id: quiz.php,v 1.4 2006/04/13 22:09:45 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2006 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -26,6 +26,7 @@ $qjoin = "";
 $qwhere = " where private = 0
     and (select count(*) from pw_dyn_dreamvote where pw_dyn_dreamvote.dream_id
          = pw_dyn_dreammp.dream_id) > 0";
+$qorder = " order by name";
 
 // Look up views of MP
 if ($voterattr) {
@@ -36,7 +37,7 @@ if ($voterattr) {
 }
 
 // Look up data about all the policies
-$row = $db->query($qselect.$qfrom.$qjoin.$qwhere);
+$row = $db->query($qselect.$qfrom.$qjoin.$qwhere.$qorder);
 while ($row = $db->fetch_row_assoc()) {
     $policies[] = $row;
 }    
