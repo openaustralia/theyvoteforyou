@@ -168,7 +168,8 @@
         print "<strong>This policy is provisional, please help improve it</strong>";
     print "</p>";
 
-    print "<p><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a>";
+    print "<p><b><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a></b>";
+    print " (<a href=\"faq.php#policies\">learn more</a>)";
     $discuss_url = dream_post_forum_link($db, $dreamid);
     if (!$discuss_url) {
         // First time someone logged in comes along, add policy to the forum
@@ -177,11 +178,11 @@
             dream_post_forum_action($db, $dreamid, "Policy introduced to forum.\n\n[b]Name:[/b] [url=http://$domain_name/policy.php?id=".$dreamid."]".$policyname."[/url]\n[b]Definition:[/b] ".$voter['description']);
             $discuss_url = dream_post_forum_link($db, $dreamid);
         } else {
-            print ' | <a href="http://'.$domain_name.'/forum/viewforum.php?f=1">Discuss</a>';
+            print ' | <b><a href="http://'.$domain_name.'/forum/viewforum.php?f=1">Discuss</a></b>';
         }
     }
     if ($discuss_url)
-        print ' | <a href="'.htmlspecialchars($discuss_url).'">Discuss changes</a>';
+        print ' | <b><a href="'.htmlspecialchars($discuss_url).'">Discussion</a></b>';
 
 	print "</div>\n";
 
@@ -277,11 +278,12 @@
 	if ($dismode["divisionlist"] == "selected")
 	{
 		print "<h2><a name=\"divisions\">Selected Divisions</a></h2>";
-                if ($voter["votes_count"]) {
-                 print "<p>This policy has voted in <b>".$voter["votes_count"]."</b> divisions.";
-		 if ($voter["votes_count"] != $voter["edited_count"])
-	              print " A total of <b>".(($voter["votes_count"]) - ($voter["edited_count"]))."</b> of these have not had their descriptions edited.";
+        /*if ($voter["votes_count"]) {
+             print "<p>This policy has voted in <b>".$voter["votes_count"]."</b> divisions.";
+             if ($voter["votes_count"] != $voter["edited_count"])
+                print " A total of <b>".(($voter["votes_count"]) - ($voter["edited_count"]))."</b> of these have not had their descriptions edited.";
 		 }
+         */
 	}
 
 	else if ($dismode["divisionlist"] == "bothdiff")
@@ -289,13 +291,15 @@
 	else
 		print "<h2><a name=\"divisions\">Every Division</a></h2>\n";
 
-    print "<p>Have you spotted a wrong vote, or one that is missing?  Please <strong>edit and fix</strong> the votes and definition of a policy. ";
+    print "<p>Please <strong>edit and fix</strong> (<a href=\"faq.php#policies\">learn more</a>) the votes below and the definition above, if they are not consistent with each other, or something is missing. ";
     if (user_getid()) {
         $db->query("update pw_dyn_user set active_policy_id = $dreamid where user_id = " . user_getid());
-        print " This is now your active policy; to change its votes, go to any division page.";
+        print " This is currently your active policy; <b>to change its votes, go to any division page</b>.";
     } else {
-        print ' <a href="/account/settings.php">Log in </a> to do this.';
+        print ' <a href="/account/settings.php">Log in</a> to do this.';
     }
+    if ($discuss_url)
+        print ' <b><a href="'.htmlspecialchars($discuss_url).'">Discussion</a></b>.';
 
     print "<table class=\"divisions\">\n";
 	$divtabattr = array(

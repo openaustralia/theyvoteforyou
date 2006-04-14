@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: quiz.php,v 1.5 2006/04/13 23:20:48 publicwhip Exp $
+# $Id: quiz.php,v 1.6 2006/04/14 00:19:54 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2006 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -12,11 +12,23 @@ require_once "decodeids.inc";
 $db = new DB();
 $db2 = new DB();
 
-// Which MP are we comparing against?
-if (get_http_var('submit')) {
-    $voterattr = get_mpid_attr_decode($db, $db2, "");
-    #print "<pre>";print_r($voterattr['mpprop']);print"</pre>";
+// Grab shorter URL if it is one
+$qstring = $_SERVER["QUERY_STRING"];
+$shorter_url = false;
+if (preg_match ("/^([^;]*);((?:\d+;)+(?:\d+))$/", $qstring, $matches)) {
+    $_GET = array();
+    $_GET['submit'] = "1";
+    $_GET['mppc'] = $matches[1];
+    $shortviews = split(";",$matches[2]);
+    foreach ($shortviews as $shortview) {
+        $_GET["p$shortview"] = "on";
+    }
+    $shorter_url = true;
 }
+
+// Which MP are we comparing against?
+$voterattr = get_mpid_attr_decode($db, $db2, "");
+#print "<pre>";print_r($voterattr['mpprop']);print"</pre>";
 
 // Get list of all public policies, which have at least one vote
 $policies = array();
@@ -41,20 +53,6 @@ $row = $db->query($qselect.$qfrom.$qjoin.$qwhere.$qorder);
 while ($row = $db->fetch_row_assoc()) {
     $policies[] = $row;
 }    
-
-// Grab shorter URL if it is one
-$qstring = $_SERVER["QUERY_STRING"];
-$shorter_url = false;
-if (preg_match ("/^([^;]*);((?:\d+;)+(?:\d+))$/", $qstring, $matches)) {
-    $_GET = array();
-    $_GET['submit'] = "1";
-    $_GET['mppc'] = $matches[1];
-    $shortviews = split(";",$matches[2]);
-    foreach ($shortviews as $shortview) {
-        $_GET["p$shortview"] = "on";
-    }
-    $shorter_url = true;
-}
 
 // Validate if a submit
 // TODO
@@ -114,6 +112,9 @@ function quiz_form() {
         print "<p>Agreement with MP: ";
         print number_format($agreement_with_mp, 0)."%";
     }
+
+    print '<p>If one of the policies doesn\'t makes sense to you, then
+    click \'details\'.';
 
     print '<form name="howtovote" method="get" action="quiz.php">';
     print '<table>';

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.129 2006/04/13 20:00:09 publicwhip Exp $
+# $Id: division.php,v 1.130 2006/04/14 00:19:54 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -339,7 +339,7 @@ if ($singlemotionpage)
             print "<b><a href=\"$edit_link\">Edit description</a></b>";
             print " (<a href=\"faq.php#motionedit\">learn more</a>)";
             if ($discuss_url)
-                print ' | <b><a href="'.htmlspecialchars($discuss_url).'">Discuss changes</a></b>';
+                print ' | <b><a href="'.htmlspecialchars($discuss_url).'">Discussion</a></b>';
             if ($history_link) {
                 # commented out, as confusing and deprecated
                 print '<!-- | <a href="'.htmlspecialchars($history_link).'">History</a>-->';
