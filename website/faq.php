@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.75 2006/04/12 08:17:35 publicwhip Exp $
+# $Id: faq.php,v 1.76 2006/04/15 20:33:36 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -141,7 +141,7 @@ low attendance because they have abstained, have ministerial or
 other duties or they are the speaker.  Perhaps they consider each division
 carefully, and only vote when they know about the subject. Lords are 
 appointed for life, so they may have decided to retire.
-Sinn F&eacute;in MPs, because they haven't taken taken the
+Sinn F&eacute;in MPs, because they haven't taken the
 oath of allegiance, are unable to vote.
 A full list of reasons for low attendance can be found in the Divisions section
 on page 11 of <a
