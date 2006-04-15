@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.125 2006/04/07 15:13:54 goatchurch Exp $
+    # $Id: mp.php,v 1.126 2006/04/15 19:46:24 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -546,7 +546,7 @@
 		$dreamtabattr = array("listtype" => 'comparelinks',
 						      'person' => $mpprop["person"],
 						      'mpanchor' => $mpprop["mpanchor"],
-						      'listlength' => $dismode["dreamcompare"]
+						      'listlength' => $dismode["dreamcompare"],
 						      'headings' => 'yes');
 		print_policy_table($db, $dreamtabattr);
 	    print "</table>\n";
