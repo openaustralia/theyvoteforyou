@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.76 2006/04/15 20:33:36 publicwhip Exp $
+# $Id: faq.php,v 1.77 2006/04/17 22:22:56 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -456,7 +456,7 @@ system which enables all our projects to function and where a
 difference can be made.
 
 <p>Finally, if that's not enough, there is a wider list of
-<a href="http://www.mysociety.org/moin.cgi/VolunteerTasks">
+<a href="http://www.mysociety.org/volunteertasks.cgi">
 Volunteer Tasks</a> at mySociety.
 
 <p>Hopefully, between all that, you kind find something that
