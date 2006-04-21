@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.39 2006/04/05 05:08:48 frabcus Exp $
+# $Id: pretty.inc,v 1.40 2006/04/21 16:34:19 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -46,7 +46,7 @@ function pretty_party_raw($party)
     else if ($party == "Bp")
         return "Bishop";
     else if ($party == "XB")
-        return "Cross-bench";
+        return "Crossbench";
 
     return $party;
 }
@@ -63,7 +63,7 @@ function pretty_party_long($party, $house)
     if ($party == "Bp")
         return "Anglican Bishops"; 
     if ($party == "XB")
-        return "Cross-benchers";
+        return "Crossbench$tail";
     if ($party == "DU")
         return "Democratic Unionist".($house ? $tail : "s"); 
     if ($party == "PC")
