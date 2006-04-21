@@ -2,7 +2,7 @@
 
 var greyed = [
     ['query', 'word/postcode'],
-    ['email', 'your email'],
+    ['email', 'your email']
     ]
 
 
