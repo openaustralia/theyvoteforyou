@@ -1,4 +1,4 @@
-# $Id: Clean.pm,v 1.14 2006/04/20 13:37:06 publicwhip Exp $
+# $Id: Clean.pm,v 1.15 2006/04/28 08:43:43 publicwhip Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -98,8 +98,9 @@ sub check_integrity {
     while ( my @data = $sth->fetchrow_array() ) {
         my ( $date, $number, $name, $count ) = @data;
         if ( $count != 0 && $count != 4 ) {
-            PublicWhip::Error::warn( "Teller count " . $count . " in division",
-                "$date no. $number $name" );
+            # TODO: Reenable this check
+            #PublicWhip::Error::warn( "Teller count " . $count . " in division",
+            #    "$date no. $number $name" );
         }
         else {
 
