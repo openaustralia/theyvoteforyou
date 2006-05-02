@@ -1,6 +1,6 @@
 <?php
 
-# $Id: common.inc,v 1.20 2006/04/13 19:59:20 frabcus Exp $
+# $Id: common.inc,v 1.21 2006/05/02 10:36:25 publicwhip Exp $
 
 # Included from all main .php files on the first line
 
@@ -14,7 +14,9 @@
 
 global $toppath;
 $loc = dirname($_SERVER['REQUEST_URI'] . "dummy"); # Dummy for / is really /index.php
-if (!is_bool(strpos($loc, "/forum")) || 
+if (!is_bool(strpos($loc, "/forum/admin")))
+    $toppath = "../../"; 
+else if (!is_bool(strpos($loc, "/forum")) || 
     !is_bool(strpos($loc, "/account")) || 
     !is_bool(strpos($loc, "/project")) || 
     !is_bool(strpos($loc, "/newsletters")) || 
