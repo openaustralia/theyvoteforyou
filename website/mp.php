@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.126 2006/04/15 19:46:24 publicwhip Exp $
+    # $Id: mp.php,v 1.127 2006/06/14 09:45:59 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -118,12 +118,11 @@
 	}
 
 	$dismodes["allvotes"] = array("dtype"	=> "allvotes",
-							 "eventsinfo" => "yes",
 							 "description" => ($voter2type == "dreammp" ? "Summary" : "Votes attended"),
                              "votelist"	=> "all",
 							 "defaultparl" => "recent",
                              "tooltip" => "Show every vote cast by this MP");
-	if (!$voter1attr['bmultiperson'])
+	if (!$voter1attr['bmultiperson'] && ($voter2type != "dreammp"))
 		$dismodes["allvotes"]["eventsinfo"] = "yes";
 	if (/*$voter2type != "party" and */$voter2type != "dreammp")
 		$dismodes["allvotes"]["generalinfo"] = "yes";
@@ -455,11 +454,18 @@
 		{
 			$divtabattr["headings"] = 'none';
 			$divtabattr["sortby"] = 'datereversed';
-			$voter1attr['mpprops'] = array_reverse($voter1attr['mpprops']);
 		    print "<table>\n";  // so we get underlines
 		}
 		else
+        {
+            if ($voter2type == "dreammp")
+                $divtabattr["sortby"] = 'datereversed';
 		    print "<table class=\"votes\">\n";
+        }
+
+        if ($divtabattr["sortby"] == 'datereversed')
+            $voter1attr['mpprops'] = array_reverse($voter1attr['mpprops']); 
+
 
 		# the full version is in chron order so it can be printed out.  But saying so is sheer clutter.
 		# print "<p>Table is in".($divtabattr["sortby"] == 'datereversed' ? "" : " reverse")." chronological order.</p>\n";
@@ -468,6 +474,8 @@
 		{
 			$divtabattr["voter1"] = $mppropt;
 			$events = $mppropt["mpevents"];  # a bit confused, but a complete list of events per mpid makes the code simple
+            if ($events && $divtabattr["sortby"] == 'datereversed')
+                $events = array_reverse($events); 
 
 			# slip in a title in the multiperson case
 			if ($voter1attr['bmultiperson'] && ($divtabattr["votedisplay"] != "fullmotion"))

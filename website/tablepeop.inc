@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.48 2006/03/07 14:23:41 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.49 2006/06/14 09:45:59 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -73,7 +73,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
         $distance = $row['distance'];
         print "<td>".pretty_distance_to_agreement($distance);
         if ($friendlk)
-            print "<br>(<a href=\"$href&$friendlk\"><b>details...</b></a>)";
+            print "&nbsp;(<a href=\"$href&$friendlk\"><b>comparison...</b></a>)";
         print "</td>";
     }
 

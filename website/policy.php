@@ -315,6 +315,7 @@
 		$divtabattr["voter2"] = $dreamid;
 		$divtabattr["showwhich"] = ($dismode["divisionlist"] == "bothdiff" ? "bothdiff" : "either");
 	}
+        $divtabattr["sortby"] = "datereversed"; 
 	$dismetric = division_table($db, $divtabattr);
     print "</table>\n";
 

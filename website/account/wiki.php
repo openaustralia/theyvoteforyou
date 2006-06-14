@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.30 2006/04/05 05:08:49 frabcus Exp $
+# $Id: wiki.php,v 1.31 2006/06/14 09:45:59 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -103,7 +103,7 @@ if (user_isloggedin()) # User logged in, show settings screen
 		<ul>
 <?
         if ($debate_gid != "") {
-            print "<li><a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">The debate</a> leading up to the vote</li>";
+            print "<li><b><a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">The debate leading up to the vote</a> on theyworkforyou.com</b></li>";
         } else {
             print "<li>Warning: old division; need to make hyperlink to old Parl data from division details</li>";
         }
@@ -125,7 +125,7 @@ if (user_isloggedin()) # User logged in, show settings screen
 
         <P>
         <FORM ACTION="<?=$REQUEST_URI?>" METHOD="POST">
-        <B>Division title:</b> <BR><INPUT TYPE="TEXT" NAME="newtitle" VALUE="<?=html_scrub($prev_name)?>" SIZE="40" MAXLENGTH="50">
+        <B>Division title:</b> <BR><INPUT TYPE="TEXT" NAME="newtitle" style="width: 100%" VALUE="<?=html_scrub(str_replace("&#8212;", "-", $prev_name))?>" SIZE="50" MAXLENGTH="250">
         <P><B>Division description:</b> <textarea name="newdescription" style="width: 100%" rows="25" cols="45"><?=html_scrub($prev_description)?></textarea>
         <p>
         <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Save" accesskey="S">

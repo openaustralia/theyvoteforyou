@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.84 2006/04/05 05:05:50 publicwhip Exp $
+# $Id: header.inc,v 1.85 2006/06/14 09:45:59 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -72,8 +72,9 @@ function secondnav_goto3() {
 <!-- hold the maximum width of the content -->
 <table align="center" class="container" cellpadding="0" cellspacing="0" border="0">
 
+<? /*
 <!-- banner advert for election site -->
-<!--<tr class="electionadvert">
+<tr class="electionadvert">
 <td >
     <a href="/election.php"><img src="/quiz/electionbanner.gif" alt="How they voted 2005"/></a>
 </td>
@@ -81,7 +82,8 @@ function secondnav_goto3() {
     <a id="aElectionQuiz" class="electionadvert" href="/election.php">Click here to take the <Strong>Quick Election Quiz</strong>
 Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
 </td>
-</tr>-->
+</tr>
+*/?>
 
 <!-- banner advert for save parliament -->
 <tr class="">
@@ -92,6 +94,7 @@ Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
     </a>
 </td>
 </tr>
+
 
 <!-- the site logo -->
 <tr><td class="identity" colspan="1">
@@ -137,6 +140,15 @@ Newsletter (<a href="/newsletters/signup.php">info</a>): <INPUT TYPE="TEXT" NAME
 </td>
 </tr>
 
+<!-- add title in before nav experimentally -->
+<?
+print '<tr class="'.($second_links ? 'secondheaders' : '').'"><td colspan="3">'; // secondheaders is to get the dividing line below
+if ($pretitle)
+    print $pretitle; 
+print "<h1> $h1title </h1>"; 
+print '</td></tr>'; 
+?>
+
 <!-- the second tier navigation -->
 <!-- add hashes to $second_links array, keys are
      'href' - URL of link
@@ -181,7 +193,7 @@ Newsletter (<a href="/newsletters/signup.php">info</a>): <INPUT TYPE="TEXT" NAME
 <!-- the rest of the content -->
 <tr><td colspan="3">
 
-<?=$pretitle ? $pretitle : ""?>
-
-<h1><? print $h1title ?></h1>
+<? 
+//print ($pretitle ? $pretitle : "")."<h1> $h1title </h1>"; 
+?>
 
