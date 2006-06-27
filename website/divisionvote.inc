@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.28 2006/02/17 11:55:04 frabcus Exp $
+# $Id: divisionvote.inc,v 1.29 2006/06/27 22:01:18 frabcus Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -60,6 +60,7 @@ function write_single_policy_vote($db, $divattr, $voter)
                 " [url=http://$domain_name/division.php?date=".
                 $divattr["division_date"]."&number=".$divattr['division_number']."&house=".$divattr["house"].
                 "&dmp=".$voter."]".$divattr["name"]."[/url]";
+            $forum_policy_link = "[url=http://$domain_name/policy.php?id=$voter]".$policyname."[/url]";
 
             # set the query that deletes, inserts, or changes the vote
             if ($newbvote == "--")
@@ -67,7 +68,8 @@ function write_single_policy_vote($db, $divattr, $voter)
                 $query = "DELETE FROM pw_dyn_dreamvote
                           WHERE dream_id=$voter AND $qdivmatch";
                 dream_post_forum_action($db, $voter, "Stopped voting in $forum_division_link.");
-
+                divisionvote_post_forum_action($db, $divattr['division_date'], $divattr['division_number'], 
+                    $divattr['house'], "$forum_policy_link policy stopped voting in this division.");
             }
             elseif ($bvote == "--")
             {
@@ -76,6 +78,8 @@ function write_single_policy_vote($db, $divattr, $voter)
                           VALUES
                             ('$newbvote', $voter, '".$divattr["division_date"]."', ".$divattr["division_number"].")";
                 dream_post_forum_action($db, $voter, "Voted $newbvote in $forum_division_link.");
+                divisionvote_post_forum_action($db, $divattr['division_date'], $divattr['division_number'], 
+                    $divattr['house'], "$forum_policy_link policy voted $newbvote in this division.");
             }
             else
             {
@@ -83,6 +87,8 @@ function write_single_policy_vote($db, $divattr, $voter)
                           SET vote='$newbvote'
                           WHERE dream_id=$voter AND $qdivmatch";
                 dream_post_forum_action($db, $voter, "Changed vote from $bvote to $newbvote in $forum_division_link.");
+                divisionvote_post_forum_action($db, $divattr['division_date'], $divattr['division_number'], 
+                    $divattr['house'], "$forum_policy_link policy changed vote from $bvote to $newbvote in this division.");
             }
             $vchange = ($newbvote == "--" ? "non-voter" : $newbvote);
 
