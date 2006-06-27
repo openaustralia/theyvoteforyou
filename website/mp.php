@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.127 2006/06/14 09:45:59 publicwhip Exp $
+    # $Id: mp.php,v 1.128 2006/06/27 22:08:31 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -283,12 +283,12 @@
             array_push($mpprops[$i]["mpevents"], array($eventdate, $eventdesc));
 		}
 
-		$currently_minister = "";
+		$currently_minister = array();
 		# it goes in reverse order
 	    while ($row = $db->fetch_row_assoc())
 	    {
 	        if ($row["to_date"] == "9999-12-31")
-	            $currently_minister = pretty_minister($row);
+	            $currently_minister[] = pretty_minister($row);
 			else
 				puteventintompprop($voter1attr["mpprops"], $row["to_date"], "Stopped being ".pretty_minister($row));
 			puteventintompprop($voter1attr["mpprops"], $row["from_date"], "Became ".pretty_minister($row));
@@ -315,7 +315,7 @@
 
 	print "<p>";
 	if ($currently_minister)
-		print "<b>".$mpprop['name']."</b> is currently <b>$currently_minister</b>.<br>";
+		print "<b>".$mpprop['name']."</b> is currently <b>".join(", ",$currently_minister)."</b>.<br>";
 
     if ($mpprop['house'] == 'commons')
         print "Please note, our records only go back to 1997.";
