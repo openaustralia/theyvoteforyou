@@ -1,6 +1,6 @@
 <?php
 
-# $Id: forummagic.inc,v 1.15 2006/03/10 01:38:19 frabcus Exp $
+# $Id: forummagic.inc,v 1.16 2006/06/27 21:50:47 frabcus Exp $
 # Post things to the forum automatically (like log of changes to policies)
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -23,14 +23,22 @@ function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content)
     $done = false;
     $c = 0;
     $extra_cookies = "";
-    $last_response = "";
+    $last_full_response = "";
     while (!$done) {
         // 3 times lucky :)
         // (actually, it takes that long for cookies/sessions to be made for PHPBB login
         // to be made from PublicWhip login for new users)
+        // Sod it, 5 times -- FAI 2006-06-27
         $c++;
-        if ($c > 3 ) {
-            error_log($last_response);
+        if ($c > 5 ) {
+            error_log("--- Begin dump of forummagic_post error ---");
+            error_log("logged in as: " . user_getname());
+            error_log("forum_name: $forum_name");
+            error_log("topic_match: $topic_match");
+            error_log("topic_title: $topic_title");
+            error_log("content: $content");
+            error_log($last_full_response);
+            error_log("--- End dump of forummagic_post error ---");
             trigger_error("Failed to post change to forum after several goes.", E_USER_ERROR);
         }
 
@@ -46,7 +54,7 @@ function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content)
                          "&message=".urlencode($content)."&post=Submit"; 
             list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data, $extra_cookies);
         }
-        $last_response = $response;
+        $last_full_response = $head . $response;
 
         // Find cookies, and send them in next time
         $matches = array();

@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.31 2006/06/14 09:45:59 publicwhip Exp $
+# $Id: wiki.php,v 1.32 2006/06/27 21:50:49 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -99,23 +99,15 @@ if (user_isloggedin()) # User logged in, show settings screen
         proceedings that are referred to so that readers who want to follow the
         story further will know where to look.</p>
 
-		<p>Links that may be of use: 
-		<ul>
+        <p>
 <?
         if ($debate_gid != "") {
-            print "<li><b><a href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">The debate leading up to the vote</a> on theyworkforyou.com</b></li>";
+            print "<b>Read the <a target=\"_blank\" href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">debate leading up to the vote</a> (new window) on TheyWorkForYou.com</b>";
         } else {
-            print "<li>Warning: old division; need to make hyperlink to old Parl data from division details</li>";
+            print "Warning: old division; need to make hyperlink to old Parl data from division details.";
         }
 ?>
-		<li><a href="http://www.publications.parliament.uk/pa/pabills.htm">Public Bills before Parliament</a>
-		(the link gets deleted from here once the next version is printed, though the page remains.)</li>
-		<li><a href="http://www.publications.parliament.uk/pa/cm/stand.htm">Standing Committees reviewing Bills</a></li>
-		<li><a href="http://www.publications.parliament.uk/pa/cm/cmdeleg.htm">Standing Committees on delegated legislation</a></li>
-		<li><a href="http://www.publications.parliament.uk/pa/cm/cmstords.htm">Standing Orders of Parliament</a> The rules which are often quoted for the running of the house.</li>
-		<li><a href="http://www.official-documents.co.uk/menu/browseDocuments.htm">Command Papers</a> Back to 2002, and in PDF</li>
-		</ul>
-
+        </p>
 
         <!-- use tables here as textarea style width=64% behaves differently on IE vs. Firefox) -->
         <table border="0" width="100%">
@@ -144,11 +136,27 @@ if (user_isloggedin()) # User logged in, show settings screen
         
       <td width="33%" valign="top">
 
-        <p><span class="ptitle">Questions, thoughts?</span>
-        <a href="/forum/viewforum.php?f=2">Discuss</a>
-		with other motion researchers on our special forum. (especially when we get the deep link working).
+<?
+        $discuss_url = "/division-forum.php?date=".$division_details["division_date"].
+            "&number=".$division_details["division_number"]."&house=".$division_details["house"];
+?>
 
-        <p><span class="ptitle">Allowable HTML tags</span>. You can use the following:
+        <p><span class="ptitle">Questions, thoughts?</span>
+        <a href="<?=htmlspecialchars($discuss_url)?>">Discuss this division</a>
+		with other researchers on our forum. 
+
+        <p><span class="ptitle">Useful links for you to research</span>
+		<ul>
+		<li><a href="http://www.publications.parliament.uk/pa/pabills.htm">Public Bills before Parliament</a>
+		(the link gets deleted from here once the next version is printed, though the page remains.)</li>
+		<li><a href="http://www.publications.parliament.uk/pa/cm/stand.htm">Standing Committees reviewing Bills</a></li>
+		<li><a href="http://www.publications.parliament.uk/pa/cm/cmdeleg.htm">Standing Committees on delegated legislation</a></li>
+		<li><a href="http://www.publications.parliament.uk/pa/cm/cmstords.htm">Standing Orders of Parliament</a> The rules which are often quoted for the running of the house.</li>
+		<li><a href="http://www.official-documents.co.uk/menu/browseDocuments.htm">Command Papers</a> Back to 2002, and in PDF</li>
+		</ul>
+
+        <p><span class="ptitle">Formatting codes</span>. You can use the following
+        to mark paragraphs, lists and so on.
         <ul>
         <li>&lt;p&gt; - begin paragraph
         <li>&lt;/p&gt; - end paragraph
