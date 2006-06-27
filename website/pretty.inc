@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.40 2006/04/21 16:34:19 publicwhip Exp $
+# $Id: pretty.inc,v 1.41 2006/06/27 22:06:16 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -490,8 +490,10 @@ function pretty_minister($row) {
         $responsibility = "Team";
     if ($responsibility)
         return $position." (".$responsibility."), ".$row["dept"];
-    else
+    elseif ($position)
         return $position.", ".$row["dept"];
+    else
+        return "a member of the " . $row["dept"]; // committee membership uses this
 }
 
 function pretty_user_name($db, $name, $text = null) {
