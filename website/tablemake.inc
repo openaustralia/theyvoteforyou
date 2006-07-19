@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.79 2006/04/08 09:44:15 publicwhip Exp $
+# $Id: tablemake.inc,v 1.80 2006/07/19 10:31:12 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -878,9 +878,9 @@ $columnforms["aggregate_names"] = "yes";
     if ($showwhich == "search") 
     {
         $aquery["qwhere"]  .= " AND (
-                LOWER(division_name) LIKE '%".$divtabattr["search"]."%'
-                OR LOWER(motion) LIKE '%".$divtabattr["search"]."%'
-                OR LOWER(text_body) LIKE '%".$divtabattr["search"]."%'".
+                LOWER(convert(division_name using latin1)) LIKE '%".$divtabattr["search"]."%'
+                OR LOWER(convert(motion using latin1)) LIKE '%".$divtabattr["search"]."%'
+                OR LOWER(convert(text_body using latin1)) LIKE '%".$divtabattr["search"]."%'".
                 ")";
     }
 
