@@ -40,6 +40,7 @@
 
 	// all private dreams will be aggregate
     $bAggregate = ($voter["private"] == 1);
+    $bAggregate = false; // disabled for now
 
 	// should be available only to the owner
 	$bAggregateEditable = true; //(($_GET["editable"] == "yes") || ($_POST["submit"] != ""));
