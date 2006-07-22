@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.80 2006/07/19 10:31:12 publicwhip Exp $
+# $Id: tablemake.inc,v 1.81 2006/07/22 13:02:28 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -870,7 +870,7 @@ $columnforms["aggregate_names"] = "yes";
 	    $columnforms["rebels"] = "yes";
 		if ($divtabattr["display_house"] != "lords")
 		    $columnforms["boths"] = "yes";
-	    $columnforms["whip_guess"] = "yes";
+	    #$columnforms["whip_guess"] = "yes";
 	    $columnforms["party_turnout"] = "yes";
 	}
 
