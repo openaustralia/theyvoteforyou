@@ -2,7 +2,7 @@
 use strict;
 use lib "../../loader/";
 
-# $Id: cluster-parliament-static.pl,v 1.8 2006/03/06 19:09:56 frabcus Exp $
+# $Id: cluster-parliament-static.pl,v 1.9 2006/07/22 12:38:20 publicwhip Exp $
 # Outputs a matrix of distances between pairs of MPs/Lords for
 # use by the GNU Octave script mds.m to do clustering.
 
@@ -35,8 +35,6 @@ my $dbh = PublicWhip::DB::connect();
     system("octave --silent mds.m");
     rename "out.txt", "lordcoords.txt";
 }
-print "stopped before commons\n";
-exit;
 
 # Commons, do per parliament
 foreach my $parliament (@PublicWhip::Parliaments::list)

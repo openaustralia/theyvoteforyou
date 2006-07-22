@@ -1,4 +1,4 @@
-# $Id: mpquery.pm,v 1.5 2006/03/06 12:30:39 publicwhip Exp $
+# $Id: mpquery.pm,v 1.6 2006/07/22 12:38:20 publicwhip Exp $
 # This extracts a vote distance metric for a set of MPs, and is able to
 # write it out in a format for loading into GNU Ooctave (or MatLab)
 
@@ -176,11 +176,19 @@ sub octave_writer
             print $fh "," if ($mp_2 != $$mp_ixs[0]);
             if ($mp_1 <= $mp_2)
             {
-                print $fh $$metricD[$mp_1][$mp_2];
+                if (!defined($$metricD[$mp_1][$mp_2])) {
+                    print $fh "-1"; # case where members don't overlap in time
+                } else {
+                    print $fh $$metricD[$mp_1][$mp_2];
+                }
             }
             else
             {
-                print $fh $$metricD[$mp_2][$mp_1];
+                if (!defined($$metricD[$mp_2][$mp_1])) {
+                    print $fh "-1"; # case where members don't overlap in time
+                } else {
+                    print $fh $$metricD[$mp_2][$mp_1];
+                }
             }
         }
         print $fh "];\n";
