@@ -1,4 +1,4 @@
-// $Id: mparr.java,v 1.3 2006/02/17 19:32:06 frabcus Exp $
+// $Id: mparr.java,v 1.4 2006/07/31 23:27:51 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -110,7 +110,7 @@ class mparr
 			vg += xd * xd + yd * yd; 
 		}
 		vg /= nmpa; 
-System.out.println("Variance " + vg); 
+        // System.out.println("Variance " + vg); 
 		
 		// normalize the points 
 		for (int i = 0; i < nmpa; i++) 

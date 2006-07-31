@@ -1,4 +1,4 @@
-// $Id: mpscatter.java,v 1.3 2006/02/06 23:48:33 frabcus Exp $
+// $Id: mpscatter.java,v 1.4 2006/07/31 23:27:51 frabcus Exp $
 
 // The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 // This is free software, and you are welcome to redistribute it under
@@ -83,7 +83,7 @@ class mpscatter extends JPanel
 		lm = new listmps(); 
 		pp.lm = lm; 
 		ma.mpactive = new boolean[ma.mpa.length]; 
-System.out.println("maseq l " + maseq.length); 
+        //System.out.println("maseq l " + maseq.length); 
 		for (int i = 0; i < maseq.length; i++) 
 			maseq[i].mpactive = ma.mpactive; 
 	
