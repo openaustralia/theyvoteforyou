@@ -1,4 +1,4 @@
-# $Id: divquery.pm,v 1.3 2005/12/05 02:30:33 frabcus Exp $
+# $Id: divquery.pm,v 1.4 2006/07/31 23:48:53 publicwhip Exp $
 # This extracts a distance metric for a set of divisions, and is able to write
 # it out in a format for loading into GNU Ooctave (or MatLab)
 
@@ -56,13 +56,19 @@ sub octave_writer
             print $fh "," if ($div_2 != $$div_ixs[0]);
             if ($div_1 <= $div_2)
             {
-                #$$metricD[$div_1][$div_2] = rand();
-                print $fh $$metricD[$div_1][$div_2];
+                if (!defined($$metricD[$div_1][$div_2])) {
+                    print $fh "-1"; # case where divisions don't overlap in time
+                } else {
+                    print $fh $$metricD[$div_1][$div_2];
+                }
             }
             else
             {
-                #$$metricD[$div_2][$div_1] = rand();
-                print $fh $$metricD[$div_2][$div_1];
+                if (!defined($$metricD[$div_2][$div_1])) {
+                    print $fh "-1"; # case where divisions don't overlap in time
+                } else {
+                    print $fh $$metricD[$div_2][$div_1];
+                }
             }
         }
         print $fh "];\n";
