@@ -2,7 +2,7 @@
 use strict;
 use lib "../../loader/";
 
-# $Id: cluster-parliament-static.pl,v 1.9 2006/07/22 12:38:20 publicwhip Exp $
+# $Id: cluster-parliament-static.pl,v 1.10 2006/07/31 23:35:14 publicwhip Exp $
 # Outputs a matrix of distances between pairs of MPs/Lords for
 # use by the GNU Octave script mds.m to do clustering.
 
@@ -20,7 +20,8 @@ my $dbh = PublicWhip::DB::connect();
 
 # Lords, do in one clump
 {
-    print "clustering lords\n";
+    #print "clustering lords\n";
+
     # Count Lords (which have voted at least once)
     use mpquery;
     my $mp_ixs = mpquery::get_mp_ixs($dbh, "votes_attended > 0 and house = 'lords'", "",
@@ -39,7 +40,8 @@ my $dbh = PublicWhip::DB::connect();
 # Commons, do per parliament
 foreach my $parliament (@PublicWhip::Parliaments::list)
 {
-    print "clustering commons parliament ".$$parliament{'name'}."\n";
+    #print "clustering commons parliament ".$$parliament{'name'}."\n";
+
     # Count MPs (which have voted at least once)
     use mpquery;
     my $mp_ixs = mpquery::get_mp_ixs($dbh, "votes_attended > 0 and " .

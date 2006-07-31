@@ -1,4 +1,4 @@
-# $Id: mds.m,v 1.2 2005/12/05 01:44:39 frabcus Exp $
+# $Id: mds.m,v 1.3 2006/07/31 23:35:14 publicwhip Exp $
 # Multidimensional scaling on matrix of distances between
 # pairs of MPs, for some distance metric.
 # Octave source file (should be compatible with Matlab)
@@ -11,7 +11,7 @@
 # read in the matrix of distances between pairs of MPs
 source "DN.m";
 s=size(D);
-mps=s(1)
+mps=s(1);
 
 # perform the MDS decomposition 
 A=-0.5*D.*D;
@@ -22,10 +22,10 @@ B=H*A*H;
 [U, S]=schur(B,"u");
 
 # output data to file
-ff = fopen("out.txt", "w");
+ff = fopen("out.txt", "wt");
 fprintf(ff, "%d %f %f %f\n", mps, S(1,1), S(2,2), S(3,3));
 for i=1:mps
         fprintf(ff, "%d %f %f %f \"%s\" \"%s\"\n", i, U(i,1),U(i,2),U(i,3),ns(i,:),ps(i,:));
 endfor
-fclose(ff)
+fclose(ff);
 

@@ -16,13 +16,14 @@ JAVA=/usr/local/bin/java
 # Do clustering for Java applet
 cd ~/publicwhip-live/custom/cluster
 ./cluster-parliament-static.pl
+./cluster-parliament-static-div.pl
 mv mpcoords-*.txt divcoords.txt lordcoords.txt ~/www.publicwhip.org.uk/docs/
 
 # Generating PNG files for people with no Java
 cd ~/www.publicwhip.org.uk/docs/
 # (we could rewrite the applet to not need X in the case it is making a PNG,
 # but just using Xvfb is easier)
-killall Xvfb
+killall -q Xvfb
 /usr/bin/X11/Xvfb :55&
 export DISPLAY=:55
 # full screen shots

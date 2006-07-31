@@ -1,4 +1,4 @@
-# $Id: mpquery.pm,v 1.6 2006/07/22 12:38:20 publicwhip Exp $
+# $Id: mpquery.pm,v 1.7 2006/07/31 23:35:14 publicwhip Exp $
 # This extracts a vote distance metric for a set of MPs, and is able to
 # write it out in a format for loading into GNU Ooctave (or MatLab)
 
@@ -26,87 +26,6 @@ sub get_mp_ixs
         push @mp_ixs, $data[0];
     }
     return \@mp_ixs;
-}
-
-# old, TODO: remove
-sub vote_distance_metric
-{
-    my $dbh = shift;
-    my $mp_ixs = shift;
-    my $clause = shift;
-
-    # Count divisions
-    my $sth = PublicWhip::DB::query($dbh, "select division_id from pw_division $clause");
-    print $sth->rows . " division\n";
-    my @div_ixs;
-    while (my @data = $sth->fetchrow_array())
-    {
-        push @div_ixs, $data[0];
-    }
-
-    # Read all votes in, and make array of MPs and their vote in each division
-    my $limit = " where (mp_id = " . join(" or mp_id = ", @$mp_ixs) . ")";
-    $limit .= " and (division_id = " . join(" or division_id = ", @div_ixs) . ")";
-    $sth = PublicWhip::DB::query($dbh, "select division_id, mp_id, vote from pw_vote $limit");
-    print $sth->rows . " votes\n";
-    my @votematrix;
-    while (my @data = $sth->fetchrow_array())
-    {
-        my ($div_dat, $mp_dat, $vote) = @data;
-        my $votescore = undef;
-        $votescore = 1 if ($vote eq "aye" || $vote eq "tellaye");
-        $votescore = -1 if ($vote eq "no" || $vote eq "tellno");
-        $votescore = 0 if ($vote eq "both");
-        die "Unexpected $vote voted" if (!defined $votescore);
-        
-        $votematrix[$mp_dat][$div_dat] += $votescore;
-    }
-
-    # Create matrix of "distances" between MPs
-    my @metricD;
-    for my $mp_1 (@$mp_ixs)
-    {
-        for my $mp_2 (@$mp_ixs)
-        {
-            # Only do half triangle
-            next if $mp_1 > $mp_2;
-
-            # For the pair of MPs, tot up which divisions they voted the same in
-            my $divs_both_at = 0;
-            my $divs_voted_same = 0;
-            for my $div_ix (@div_ixs)
-            {
-                my $vote1 = $votematrix[$mp_1][$div_ix];
-                my $vote2 = $votematrix[$mp_2][$div_ix];
-                $vote1 = 0 if (!defined $vote1);
-                $vote2 = 0 if (!defined $vote2);
-                if ($vote1 != 0 and $vote2 != 0)
-                {
-                    $divs_both_at++;
-                    if ($vote1 == $vote2)
-                    {
-                        $divs_voted_same++;
-                    }
-                }
-            } 
-
-            # Create score based on this
-            if ($divs_both_at != 0)
-            {
-                $metricD[$mp_1][$mp_2] = ($divs_both_at - $divs_voted_same) / $divs_both_at;
-            }
-            elsif ($mp_1 == $mp_2)
-            {
-                $metricD[$mp_1][$mp_2] = 0; # No-voters, like Gerry Adams need this clause
-            }
-            else
-            {
-                $metricD[$mp_1][$mp_2] = 1;
-            }
-        }
-    }
-
-    return \@metricD;
 }
 
 sub vote_metric_from_db
