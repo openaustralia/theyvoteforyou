@@ -2,7 +2,7 @@
 use strict;
 use lib "../../loader/";
 
-# $Id: cluster-parliament-static-div.pl,v 1.4 2006/02/17 16:57:37 publicwhip Exp $
+# $Id: cluster-parliament-static-div.pl,v 1.5 2006/08/01 06:21:00 publicwhip Exp $
 # Outputs a matrix of distances between pairs of divisions for
 # use by the GNU Octave script mds.m to do clustering.
 
@@ -34,8 +34,8 @@ my $div_ixs = divquery::get_div_ixs($dbh, $where);
 open(PIPE, ">DN.m");
 divquery::octave_writer(\*PIPE, $dbh, $div_ixs, $metricD);
 undef $metricD;
-system("octave mds.m");
-#system("octave --silent mds.m");
+#system("octave mds.m");
+system("octave --silent mds.m");
 rename "out.txt", "divcoords.txt";
 
 
