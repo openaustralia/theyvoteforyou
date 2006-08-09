@@ -24,7 +24,7 @@ cd ~/www.publicwhip.org.uk/docs/
 # (we could rewrite the applet to not need X in the case it is making a PNG,
 # but just using Xvfb is easier)
 killall -q Xvfb
-/usr/bin/X11/Xvfb :55&
+/usr/bin/X11/Xvfb :55 2>&1 | grep -v "fonts/CID" &
 export DISPLAY=:55
 # full screen shots
 $JAVA -classpath mpframe.jar mpframe lordcoords.txt votemap/lordsee.png 533 400
