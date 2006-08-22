@@ -3,6 +3,9 @@ I don't intend to do any of them, as they don't fit my goals - but they
 might give you useful suggestions.  There are probably a few political
 science papers in here.
 
+Some similar things done with US voting data:
+http://stat.columbia.edu/~jakulin/Politics/index.htm
+
 Party politics
 --------------
 
