@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.77 2006/04/17 22:22:56 publicwhip Exp $
+# $Id: faq.php,v 1.78 2006/09/18 11:05:01 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -275,7 +275,7 @@ would retain all the power but would have slightly better software
 <h2 class="faq"><a name="organisation">What organisation is behind the Public Whip?</a></h2>
 <p>None.  It was started by just two guys <a href="http://www.flourish.org">Francis</a> and <a
 href="http://www.goatchurch.org.uk">Julian</a> who had an idea and made it
-happen.  <a href="http://www.knownoffender.net/">Giles</a> designed the
+happen.  <a href="http://www.exploreandcreate.com">Giles</a> designed the
 original look of the website.  We're hosted by the ever helpful and encouraging
 <a href="http://www.mythic-beasts.com/">Mythic Beasts</a>.  These days lots
 of other people help out with bits of code, writing and design.
