@@ -28,7 +28,6 @@ import java.awt.FontMetrics;
 import java.awt.Font;
 
 import java.io.File;
-import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 
 import java.text.SimpleDateFormat;
