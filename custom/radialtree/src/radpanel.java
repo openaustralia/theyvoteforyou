@@ -151,7 +151,7 @@ System.out.println(stoday);
 
 	/////////////////////////////////////////////
 	int bljit = 0;
-	boolean bblairjit = false;
+	boolean bblairjit = true;
 	int blw = -1;
 	int blh = -1;
     public void paintW(Graphics g)

@@ -17,7 +17,7 @@ class personfloat
 	Image timg;
 	String pname;
 
-	personoffice[] poffices = new personoffice[10];
+	personoffice[] poffices = new personoffice[99];
 	int npoffices = 0;
 
 	String[] officebio;
