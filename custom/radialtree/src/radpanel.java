@@ -45,7 +45,8 @@ public class radpanel extends JPanel implements MouseListener, MouseMotionListen
     Dimension csize = new Dimension(1,1);
     Graphics offgraphics;
 
-	Image blairimg;
+	String[] PMnames = { "Tony Blair", "Gordon Brown", };
+	Image[] PMimgs = new Image[2];
 
 	boolean bpositionsinvalid = true;
 	ministertimes mintimes;
@@ -56,11 +57,12 @@ public class radpanel extends JPanel implements MouseListener, MouseMotionListen
 
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	SimpleDateFormat longformatter = new SimpleDateFormat("d MMMM yyyy (EEEE)");
-	Date today = new Date();
+
+	String sstartdate = "1997-05-02";
 	String stoday;
 
 	JLabel labeldate; // copied from the display panel above
-	String sdate;
+	String sdate;   	// displayed date
 	String sdatelong;
 
 	Thread animthread;
@@ -84,15 +86,16 @@ public class radpanel extends JPanel implements MouseListener, MouseMotionListen
 
 
 	/////////////////////////////////////////////
-	radpanel(Image lblairimg) throws IOException
+	radpanel(String lstoday, Image lblairimg, Image lbrownimg) throws IOException
 	{
-		stoday = formatter.format(today);
+		stoday = lstoday;
 
 		addMouseListener(this);
         addMouseMotionListener(this);
-System.out.println(stoday);
+		//System.out.println(stoday);
 
-		blairimg = lblairimg;
+		PMimgs[0] = lblairimg;
+		PMimgs[1] = lbrownimg;
 	}
 
 	/////////////////////////////////////////////
@@ -150,7 +153,7 @@ System.out.println(stoday);
 
 	/////////////////////////////////////////////
 	int bljit = 0;
-	boolean bblairjit = true;
+	boolean bPMjit = true;
 	int blw = -1;
 	int blh = -1;
     public void paintW(Graphics g)
@@ -160,20 +163,33 @@ System.out.println(stoday);
 		g.setColor(Color.black);
 		g.drawRect(0, 0, csize.width - 1, csize.height - 1);
 
-		blw = blairimg.getWidth(null);
-		blh = blairimg.getHeight(null);
-		if ((blw != -1) && (blh != -1))
+
+		// draw any pictures
+		for (int i = 0; i < mintimes.personfloats.length; i++)
 		{
+			personfloat personf = mintimes.personfloats[i];
+			if (personf.rad != 0.0)
+				continue;
+			Image img = null;
+			for (int j = 0; j < PMnames.length; j++)
+				if (personf.pname.equals(PMnames[j]))
+					img = PMimgs[j];
+			if (img == null)
+				continue;
+			blw = img.getWidth(null);
+			blh = img.getHeight(null);
+			if ((blw == -1) || (blh == -1))
+				continue;
 			int blx = (csize.width - blw) / 2;
 			int bly = (csize.height - blh) / 2;
-
-			if (bblairjit)
+			if (bPMjit)
 			{
 				blx += ((bljit & 1) == 0 ? 1 : -1);
 				bly += (((bljit + 3) & 2) == 0 ? 1 : -1);
 				bljit++;
 			}
-			g.drawImage(blairimg, blx, bly, Color.black, null);
+			g.drawImage(img, blx, bly, Color.black, null);
+			personf.displaycode = 0;
 		}
 
 		if (bpositionsinvalid)
@@ -286,7 +302,7 @@ System.out.println(stoday);
 	}
 
 
-	int framemseconds = 50;
+	public int framemseconds = 50;
 
 	int nyear = 1999;
 	int nmonth = 9;
@@ -294,12 +310,9 @@ System.out.println(stoday);
 	Calendar ncaldate = new GregorianCalendar();
 
 	/////////////////////////////////////////////
-	public void SetDate(String sdate, int lframemseconds)
+	public void SetDate(String lsdate)
 	{
-		if (lframemseconds > 0)
-			framemseconds = lframemseconds;
-
-		// 1997-05-02
+		sdate = lsdate; 
 		try
 		{
 			nyear = Integer.parseInt(sdate.substring(0, 4));
@@ -327,11 +340,20 @@ System.out.println(stoday);
 			ncaldate.add(Calendar.YEAR, ndays / 300);
 
 		sdate = formatter.format(ncaldate.getTime());
+		if (sdate.compareTo(stoday) > 0)
+			SetDate(stoday);
+		if (sdate.compareTo(sstartdate) < 0)
+			SetDate(sstartdate);
+
 		sdatelong = longformatter.format(ncaldate.getTime());
 		labeldate.setText(sdate);
 		mintimes.AllocateSectors(sdate);
 
-		bdisplaybio = false;
+		if (bdisplaybio)
+		{
+			 bdisplaybio = false;
+			 bselectdept = true;
+		}
 		repaint();
 	}
 
@@ -388,7 +410,7 @@ System.out.println(stoday);
 		repaint();
 
 		if ((Math.abs(csize.width / 2 - e.getX()) < 10) && (Math.abs(csize.height / 2 - e.getY()) < 10))
-			bblairjit = !bblairjit;
+			bPMjit = !bPMjit;
 	}
 
     public void mouseReleased(MouseEvent e)

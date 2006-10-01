@@ -15,7 +15,7 @@ class personoffice
 	String stopdate;
 	String position;
 	String dept;
-	int rank = 1;
+	int rank = -1;
 
 	static String[][] ranks = { { "Prime Minister" },
 
@@ -129,8 +129,15 @@ class personoffice
 		if ((rank == -1) && position.startsWith("Treasurer of"))
 			rank = 3;
 
+		// positions not displayed
+		if (position.equals("PPS"))
+			rank = 4;
+		if (dept.indexOf("Committee") != -1)
+			rank = 5;
+
+		// check the missing types
 		if (rank == -1)
-			System.out.println(position);
+			System.out.println(position + "::" + dept);
 	}
 };
 

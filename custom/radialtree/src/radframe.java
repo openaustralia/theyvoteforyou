@@ -14,6 +14,9 @@ import javax.swing.JPanel;
 import java.io.FileReader;
 import java.io.BufferedReader;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import java.awt.Image;
 
 
@@ -29,8 +32,11 @@ class radframe extends JFrame
 		setSize(800, 700);
 
 		Image lblairimg = getToolkit().getImage("data/10047.jpg");
-		raddisp = new raddisplay(lblairimg);
-		raddisp.radpane.SetDate("1997-05-02", 50);
+		Image lbrownimg = getToolkit().getImage("data/10186.jpg");
+
+		String lsdate = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
+		raddisp = new raddisplay(lsdate, lblairimg, lbrownimg);
+		raddisp.radpane.SetDate("1997-05-02");
 		getContentPane().add("Center", raddisp);
 	}
 
@@ -38,6 +44,8 @@ class radframe extends JFrame
 	// startup the program
     // first parameter - mpcoords.txt file to load in
     // second parameter (optional) - filename of png to save to
+//   	public static void main(String args[])
+  // 	{System.out.println("hiho"); }
 
 	public static void main(String args[]) throws IOException
 	{

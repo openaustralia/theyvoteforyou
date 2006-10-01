@@ -67,7 +67,7 @@ class deptsector
 		sang0 = lang0;
 		sang1 = lang1;
 
-		for (int rank = 1; rank < vranks.length; rank++)
+		for (int rank = 0; rank < vranks.length; rank++)
 		{
 			double rad = rank;
 			for (int p = 0; p < vranks[rank].size(); p++)
@@ -76,7 +76,9 @@ class deptsector
 				double al = (p + 0.5) / vranks[rank].size();
 				personf.gosang = sang0 * (1.0 - al) + sang1 * al;
 				personf.gorad = rad;
-				personf.nontrivdeptfromend = nontrivfromend; 
+				if (rad == 0) // prime minister
+					personf.gosang = 1.5; // the bottom of the U-shape
+				personf.nontrivdeptfromend = nontrivfromend;
 			}
 		}
 	}

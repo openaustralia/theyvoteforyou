@@ -43,7 +43,7 @@ class personfloat
 	double gorad = outerrad;
 	double gosang = 0.0;
 
-	int mind; 
+	int mind;
 	int rank;
 	String dept;
 
@@ -71,7 +71,11 @@ class personfloat
 			if (pname.startsWith(prefixes[i]))
 				pname = pname.substring(prefixes[i].length());
 		}
-
+		if (pname.equals("Tony Blair"))
+		{
+			sang = 1.5; // the bottom of the U-shape
+			rad = 2.0;
+		}
 		// shorten Baroness
 		if (pname.startsWith("Baroness "))
 			pname = "B. " + pname.substring(9);
@@ -86,7 +90,7 @@ class personfloat
 		for (int i = 0; i < npoffices; i++)
 		{
 			String lstopdate = (poffices[i].stopdate.startsWith("9999") ? "  -----             " : poffices[i].stopdate);
-			officebio[i] = poffices[i].startdate + "  " + lstopdate + "  " + poffices[i].position + ", " + poffices[i].dept;
+			officebio[i] = poffices[i].startdate + "  " + lstopdate + "  " + poffices[i].position + (poffices[i].position.equals("") ? "" : ", ") + poffices[i].dept;
 			maxdstringwidth = Math.max(maxdstringwidth, fm.stringWidth(officebio[i]));
 		}
 		dstringheight = fm.getHeight();
@@ -127,7 +131,10 @@ class personfloat
 		for (int i = 0; i < npoffices; i++)
 		{
 			if ((poffices[i].startdate.compareTo(sdate) <= 0) && (poffices[i].stopdate.compareTo(sdate) >= 0))
-				res = i;
+			{
+				if ((res == -1) || (poffices[i].rank <= poffices[res].rank))
+					res = i;
+			}
 		}
 		return res;
 	}
@@ -138,7 +145,7 @@ class personfloat
 	{
 		double ang = sang * Math.PI / 2 - Math.PI / 4;
 		int x = (int)(cx + Math.cos(ang) * (rad * 1.1 - 0.5) * cx / 3.7);
-		int y = (int)(cy + Math.sin(ang) * (rad + 1.0) * cy / 3.1);
+		int y = (int)(cy + Math.sin(ang) * (rad >= 1.0 ? rad + 1.0 : rad * 1.5 + 0.5) * cy / 3.1);
 
 		double lsang = sang;
 		if (lsang < 0.0)

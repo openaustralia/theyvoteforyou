@@ -43,10 +43,10 @@ public class raddisplay extends JPanel
 	JButton blatershuff = new JButton(">> Reshuffle");
 	JButton bgotoday = new JButton("Today");
 
-	public raddisplay(Image lblairimg) throws IOException
+	public raddisplay(String lstoday, Image lblairimg, Image lbrownimage) throws IOException
 	{
 		super(new BorderLayout());
-		radpane = new radpanel(lblairimg);
+		radpane = new radpanel(lstoday, lblairimg, lbrownimage);
 		radpane.labeldate = labeldate;
 		add("Center", radpane);
 
@@ -54,12 +54,17 @@ public class raddisplay extends JPanel
 
 		// year zero
 		bgozero.addActionListener(new ActionListener()
-			{ public void actionPerformed(ActionEvent event) { radpane.SetDate("1997-05-02", 0); radpane.AdvanceTime(0); } } );
+			{ public void actionPerformed(ActionEvent event) { radpane.SetDate("1997-05-02"); radpane.AdvanceTime(0); } } );
 		lower.add(bgozero);
 
 		// earlier reshuffle
 		bearliershuff.addActionListener(new ActionListener()
-			{ public void actionPerformed(ActionEvent event) { radpane.SetDate(radpane.mintimes.NextShuffFrom(radpane.sdate, false), 0); radpane.AdvanceTime(-1); } } );
+			{ public void actionPerformed(ActionEvent event)
+				{ String snextreshuff = radpane.mintimes.NextShuffFrom(radpane.sdate, false);
+				  /*if (!snextreshuff.equals(radpane.sdate))*/
+				  { radpane.SetDate(snextreshuff); radpane.AdvanceTime(-1); }
+				}
+			} );
 		lower.add(bearliershuff);
 
 		// middle spacing
@@ -68,12 +73,17 @@ public class raddisplay extends JPanel
 
 		// later reshuffle
 		blatershuff.addActionListener(new ActionListener()
-			{ public void actionPerformed(ActionEvent event) { radpane.SetDate(radpane.mintimes.NextShuffFrom(radpane.sdate, true), 0); radpane.AdvanceTime(1); } } );
+			{ public void actionPerformed(ActionEvent event)
+				{ String snextreshuff = radpane.mintimes.NextShuffFrom(radpane.sdate, true);
+				  /*if (!snextreshuff.equals(radpane.sdate))*/
+				  { radpane.SetDate(snextreshuff); radpane.AdvanceTime(1); }
+				}
+			} );
 		lower.add(blatershuff);
 
 		// go today
 		bgotoday.addActionListener(new ActionListener()
-			{ public void actionPerformed(ActionEvent event) { radpane.SetDate(radpane.stoday, 0);  radpane.AdvanceTime(0); } } );
+			{ public void actionPerformed(ActionEvent event) { radpane.SetDate(radpane.stoday);  radpane.AdvanceTime(0); } } );
 		lower.add(bgotoday);
 
 		// second row

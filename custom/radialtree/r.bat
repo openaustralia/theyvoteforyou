@@ -1,2 +1,2 @@
-java radialtree.radframe
+java -cp . radialtree.radframe
 

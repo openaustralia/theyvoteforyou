@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: minwhirl.php,v 1.8 2005/11/01 01:23:17 frabcus Exp $
+# $Id: minwhirl.php,v 1.9 2006/10/01 18:10:07 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2004 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -63,6 +63,7 @@ of Java will not do.</p>
             HEIGHT = "550" \
             ministers = "/data/ministers.xml" \
             blairimg = "minwhirl/blair.jpg" \
+            brownimg = "minwhirl/brown.jpg" \
             startdate = "1997-05-02" \
             framemseconds = "50" \
 	    scriptable=false \
@@ -75,6 +76,7 @@ of Java will not do.</p>
     <PARAM NAME="scriptable" VALUE="false">
     <PARAM NAME = "ministers" VALUE="/data/ministers.xml">
     <PARAM NAME = "blairimg" VALUE="minwhirl/blair.jpg">
+    <PARAM NAME = "brownimg" VALUE="minwhirl/brown.jpg">
     <PARAM NAME = "startdate" VALUE="1997-05-02">
     <PARAM NAME = "framemseconds" VALUE="50">
 SSun Java 1.4 or above required

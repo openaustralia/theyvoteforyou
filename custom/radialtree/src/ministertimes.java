@@ -64,6 +64,8 @@ class ministertimes
 			personfloat personf = personfloats[i];
 			for (int j = 0; j < personf.npoffices; j++)
 			{
+				if ((personf.poffices[j].rank == -1) || (personf.poffices[j].rank > 3))
+					continue; 
 				// j = personf.GetMIndex(sdate)
 				if (bFore)
 				{
@@ -108,7 +110,7 @@ class ministertimes
 					if (personf.dept.equals(depts[d].dept))
 						break;
 				}
-				if (personf.rank != -1)
+				if ((personf.rank != -1) && (personf.rank <= 3))
 					depts[d].vranks[personf.rank].addElement(personf);
 			}
 		}
