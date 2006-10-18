@@ -1,4 +1,4 @@
-# $Id: Clean.pm,v 1.16 2006/10/18 12:45:50 publicwhip Exp $
+# $Id: Clean.pm,v 1.17 2006/10/18 14:29:37 publicwhip Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -172,12 +172,12 @@ division_date, division_number"
       if $sth->rows;
 
     # Check nobody voted when they were not in the house (e.g. dead)
-    $nobody_query = "select pw_mp.mp_id, pw_mp.house, pw_mp.first_name, pw_mp.last_name, 
+    my $nobody_query = "select pw_mp.mp_id, pw_mp.house, pw_mp.first_name, pw_mp.last_name, 
                 pw_division.division_date, pw_division.division_number
         from pw_vote, pw_mp,pw_division 
         where pw_vote.mp_id = pw_mp.mp_id 
             and pw_vote.division_id = pw_division.division_id and 
-            (division_date < entered_house or division_date > left_house)"
+            (division_date < entered_house or division_date > left_house)";
     $sth = PublicWhip::DB::query($dbh, $nobody_query);
     PublicWhip::Error::warn(
         "Database contains "
