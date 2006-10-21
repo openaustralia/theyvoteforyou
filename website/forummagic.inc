@@ -1,6 +1,6 @@
 <?php
 
-# $Id: forummagic.inc,v 1.16 2006/06/27 21:50:47 frabcus Exp $
+# $Id: forummagic.inc,v 1.17 2006/10/21 18:17:27 frabcus Exp $
 # Post things to the forum automatically (like log of changes to policies)
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -23,7 +23,7 @@ function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content)
     $done = false;
     $c = 0;
     $extra_cookies = "";
-    $last_full_response = "";
+    $all_full_responses = "";
     while (!$done) {
         // 3 times lucky :)
         // (actually, it takes that long for cookies/sessions to be made for PHPBB login
@@ -31,15 +31,20 @@ function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content)
         // Sod it, 5 times -- FAI 2006-06-27
         $c++;
         if ($c > 5 ) {
-            error_log("--- Begin dump of forummagic_post error ---");
-            error_log("logged in as: " . user_getname());
-            error_log("forum_name: $forum_name");
-            error_log("topic_match: $topic_match");
-            error_log("topic_title: $topic_title");
-            error_log("content: $content");
-            error_log($last_full_response);
-            error_log("--- End dump of forummagic_post error ---");
-            trigger_error("Failed to post change to forum after several goes.", E_USER_ERROR);
+            $mail_error = "";
+            $mail_error .= "--- Begin dump of forummagic_post error ---\n";
+            $mail_error .= "logged in as: " . user_getname() . "\n";
+            $mail_error .= "forum_name: $forum_name\n";
+            $mail_error .= "topic_match: $topic_match\n";
+            $mail_error .= "topic_title: $topic_title\n";
+            $mail_error .= "content: $content\n";
+            $mail_error .= "user agent: " . $_SERVER['HTTP_USER_AGENT'] . "\n";
+            $mail_error .= "ip address: " . $_SERVER['REMOTE_ADDR'] . "\n";
+            $mail_error .= $all_full_responses;
+            $mail_error .= "--- End dump of forummagic_post error ---";
+            // Mail the diagnostics to us -- FAI 2006-10-21
+            mail("team@publicwhip.org.uk", "Forum magic post failure diagnostics", $mail_error);
+            trigger_error("Failed to post change to forum after several goes, mailed error to team@publicwhip.org.uk", E_USER_ERROR);
         }
 
         // Post our message
@@ -48,13 +53,13 @@ function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content)
             // Make topic
             $post_data = "f=$forum_id&mode=newtopic&notify=on&topictype=0&subject=".urlencode($topic_title).
                          "&message=".urlencode($content)."&post=Submit"; 
-            list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data, $extra_cookies);
         } else {
             $post_data = "t=$topic_id&mode=reply&notify=on&subject=".urlencode($topic_title).
                          "&message=".urlencode($content)."&post=Submit"; 
-            list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data, $extra_cookies);
         }
-        $last_full_response = $head . $response;
+        $all_full_responses .= "\n\n=============================\ndomain_name:" . $domain_name . "\npost_filename:" . $post_filename . "\npost_data:" . $post_data . "\nextra_cookies:" . $extra_cookies;
+        list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data, $extra_cookies);
+        $all_full_responses .= "\n----------------------------\n" . $head . $response;
 
         // Find cookies, and send them in next time
         $matches = array();
