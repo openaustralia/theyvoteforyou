@@ -46,7 +46,7 @@
 	$bAggregateEditable = true; //(($_GET["editable"] == "yes") || ($_POST["submit"] != ""));
 
 
-    $title = "Policy - $policyname";
+    $title = "Someone who believes that..."; // $policyname
 
 	# constants
 	$dismodes = array();
@@ -162,14 +162,13 @@
 	}
 
     print "<div class=\"policydefinition\">";
-    print "<p><b>Definition:</b> " . str_replace("\n", "<br>", html_scrub($voter["description"])). "</p>";
+    print "<p>" . str_replace("\n", "<br>", html_scrub($voter["description"]));
     if ($voter["private"] == 1)
         print "<p><b>Made by:</b> " . pretty_user_name($db, html_scrub($voter["user_name"])) . " (this is a legacy Dream MP)";
     if ($voter["private"] == 2)
         print "<strong>This policy is provisional, please help improve it</strong>";
-    print "</p>";
 
-    print "<p><b><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a></b>";
+    print " <b><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a></b>";
     print " (<a href=\"faq.php#policies\">learn more</a>)";
     $discuss_url = dream_post_forum_link($db, $dreamid);
     if (!$discuss_url) {
@@ -184,6 +183,8 @@
     }
     if ($discuss_url)
         print ' | <b><a href="'.htmlspecialchars($discuss_url).'">Discussion</a></b>';
+
+    print "</p>";
 
 	print "</div>\n";
 
@@ -278,7 +279,7 @@
 
 	if ($dismode["divisionlist"] == "selected")
 	{
-		print "<h2><a name=\"divisions\">Selected Divisions</a></h2>";
+		print "<h2><a name=\"divisions\">... would have voted like this</a></h2>";
         /*if ($voter["votes_count"]) {
              print "<p>This policy has voted in <b>".$voter["votes_count"]."</b> divisions.";
              if ($voter["votes_count"] != $voter["edited_count"])
@@ -291,16 +292,6 @@
 		print "<h2><a name=\"divisions\">Changed votes and new divisions</a></h2>\n";
 	else
 		print "<h2><a name=\"divisions\">Every Division</a></h2>\n";
-
-    print "<p>Please <strong>edit and fix</strong> (<a href=\"faq.php#policies\">learn more</a>) the votes below and the definition above, if they are not consistent with each other, or something is missing. ";
-    if (user_getid()) {
-        $db->query("update pw_dyn_user set active_policy_id = $dreamid where user_id = " . user_getid());
-        print " This is currently your active policy; <b>to change its votes, go to any division page</b>.";
-    } else {
-        print ' <a href="/account/settings.php">Log in</a> to do this.';
-    }
-    if ($discuss_url)
-        print ' <b><a href="'.htmlspecialchars($discuss_url).'">Discussion</a></b>.';
 
     print "<table class=\"divisions\">\n";
 	$divtabattr = array(
@@ -319,6 +310,17 @@
         $divtabattr["sortby"] = "datereversed"; 
 	$dismetric = division_table($db, $divtabattr);
     print "</table>\n";
+
+    print "<p>Please <strong>edit and fix</strong> (<a href=\"faq.php#policies\">learn more</a>) the votes and the definition above, if they are not consistent with each other, or something is missing. ";
+    if (user_getid()) {
+        $db->query("update pw_dyn_user set active_policy_id = $dreamid where user_id = " . user_getid());
+        print " This is currently your active policy; <b>to change its votes, go to any division page</b>.";
+    } else {
+        print ' <a href="/account/settings.php">Log in</a> to do this.';
+    }
+    if ($discuss_url)
+        print ' <b><a href="'.htmlspecialchars($discuss_url).'">Discussion</a></b>.';
+
 
 	// should this be a button
 	if ($bAggregateEditable && (($dismetric["updates"] != 0) || ($dismetric["clashes"] != 0)))

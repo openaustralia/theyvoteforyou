@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.40 2006/04/07 16:35:45 publicwhip Exp $
+# $Id: decodeids.inc,v 1.41 2006/10/23 17:16:37 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -73,6 +73,7 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
                           "house" 		=> $row['house'],  # appeared to be missing
                           "mpanchor"	=> $mppropanchor,
                           "mpanchor2"	=> $mppropanchor2,
+                          "parliament"  => date_to_parliament($row["entered_house"]),
                           "enteredhouse" => $row['entered_house'],
                           "lefthouse" 	=> $row['left_house'],
                           "enteredreason" => $row['entered_reason'],

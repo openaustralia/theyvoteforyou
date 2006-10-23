@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.128 2006/06/27 22:08:31 publicwhip Exp $
+    # $Id: mp.php,v 1.129 2006/10/23 17:16:37 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -296,7 +296,10 @@
 
 		# reverse the arrays that we create (could have done above loop already reversed)
 		for ($i = 0; $i < count($voter1attr["mpprops"]); $i++)
-			$voter1attr["mpprops"][$i]["mpevents"] = array_reverse($voter1attr["mpprops"][$i]["mpevents"]);
+        {
+            asort($voter1attr["mpprops"][$i]["mpevents"]);
+			#$voter1attr["mpprops"][$i]["mpevents"] = array_reverse($voter1attr["mpprops"][$i]["mpevents"]);
+        }
 	}
 
 
@@ -368,9 +371,11 @@
 		{
             print "<p>Votes in parliament for which this ".$mpprop['housenoun']."'s vote differed from the
 	        	majority vote of their party (Rebel), or in which this ".$mpprop['housenoun']." was
-	        	a teller (Teller), or both (Rebel Teller).  \n";
-            print "<a href=\"$thispage&display=allvotes\">Click here to see all votes this person attended.</a>";
+	        	a teller (Teller), or both (Rebel Teller).</p>  \n";
+            print "<p style=\"font-size: 89%\" align=\"center\">See also all votes... <a href=\"$thispage&display=allvotes#divisions\">attended</a> | <a href=\"$thispage%display=everyvote#divisions\">possible</a></p>\n";
         }
+        else if ($dismode["votelist"] == "all" and $voter2type == "party")
+            print "<p style=\"font-size: 89%\">See also <a href=\"$thispage&display=everyvote#divisions\">all votes possible</a></p>\n";
 		else if ($dismode["votelist"] == "every" and $voter2type == "party")
 			print "<p>All votes this MP could have attended. \n";
 		else if ($voter2type == "dreammp")
@@ -472,12 +477,15 @@
 
     	foreach ($voter1attr['mpprops'] as $lkey => $mppropt)
 		{
-			$divtabattr["voter1"] = $mppropt;
+			if (($rdisplay_parliament != "all") && ($rdisplay_parliament != $mppropt["parliament"]))
+                continue; 
+
+            $divtabattr["voter1"] = $mppropt;
 			$events = $mppropt["mpevents"];  # a bit confused, but a complete list of events per mpid makes the code simple
             if ($events && $divtabattr["sortby"] == 'datereversed')
                 $events = array_reverse($events); 
 
-			# slip in a title in the multiperson case
+            # slip in a title in the multiperson case
 			if ($voter1attr['bmultiperson'] && ($divtabattr["votedisplay"] != "fullmotion"))
 				print "<tr><td colspan=7 align=left>
                     <b>Votes by <a href=\"mp.php?".$mppropt['mpanchor']."\">" .$mppropt["name"]." MP</a></b>
@@ -567,6 +575,15 @@
 	{
 		# loop and make a table for each
         $mpprop = $voter1attr['mpprop'];
+        if (($rdisplay_parliament != "all") && ($mpprop["parliament"] != $rdisplay_parliament))
+        {
+            foreach ($voter1attr['mpprops'] as $lkey => $lmpprop)
+            {
+                if ($lmpprop["parliament"] == $rdisplay_parliament)
+                    $mpprop = $lmpprop;
+            }
+        }
+        
         $mptabattr = array("listtype" => 'mpdistance',
                            'mpfriend' => $mpprop,
                            'house' => $mpprop['house']);

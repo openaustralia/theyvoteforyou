@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: addpolicy.php,v 1.14 2006/03/06 19:09:56 frabcus Exp $
+# $Id: addpolicy.php,v 1.15 2006/10/23 17:16:38 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -133,10 +133,10 @@ if (user_isloggedin())
     ?>
         <P>
         <FORM ACTION="<?=$PHP_SELF?>" METHOD="POST">
-        <B>Policy name:</B><BR>
+        <B>Title of policy</B><BR>
         <INPUT TYPE="TEXT" NAME="name" VALUE="<?=html_scrub($name)?>" SIZE="40" MAXLENGTH="50">
         <P>
-        <B>Definition (describe the issue and position on the issue):</B><BR>
+        <B>Someone who believes that...</B><BR>
         <textarea name="description" rows="6" cols="80"><?=html_scrub($description)?></textarea></p>
 
         <p><span class="ptitle">Privacy notes:</span>

@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.49 2006/06/14 09:45:59 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.50 2006/10/23 17:16:38 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -427,7 +427,9 @@ function mp_table($db, $mptabattr)
         $aquery["qselect"] 	.= ", pw_moffice.position AS ministerial";
         $aquery["qjoin"] 	.= " LEFT JOIN pw_moffice ON pw_moffice.person = pw_mp.person
 									AND (pw_moffice.from_date <= '".$mptabattr["divdate"]."')
-                                    AND (pw_moffice.to_date > '".$mptabattr["divdate"]."')";
+                                    AND (pw_moffice.to_date > '".$mptabattr["divdate"]."')
+                                    AND (pw_moffice.position <> 'Chairman')
+                                    AND (pw_moffice.position <> '')";  # the last two refer to select committee positions
 
         $aquery["qgroupby"] = " GROUP BY pw_mp.mp_id";  # remove double ministers
 		$columnforms["party"] = "ministerial";

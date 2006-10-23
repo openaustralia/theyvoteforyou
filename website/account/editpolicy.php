@@ -116,10 +116,10 @@ if (user_isloggedin()) # User logged in, show settings screen
         ?>
             <P>
             <FORM ACTION="editpolicy.php?id=<?=$dreamid?>" METHOD="POST">
-            <B>Name:</B><BR>
+            <B>Title of policy</B><BR>
             <INPUT TYPE="TEXT" NAME="name" VALUE="<?=html_scrub($name)?>" SIZE="40" MAXLENGTH="50">
             <P>
-            <B>Definition (describe the issue and position on the issue):</B><BR>
+            <B>Someone who believes that...</B><BR>
             <textarea name="description" rows="6" cols="80"><?=htmlspecialchars($description)?></textarea></p>
 
             <? if (!$legacy_dream) { ?>
