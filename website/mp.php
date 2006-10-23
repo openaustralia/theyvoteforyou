@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.129 2006/10/23 17:16:37 publicwhip Exp $
+    # $Id: mp.php,v 1.130 2006/10/23 23:28:24 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -275,12 +275,13 @@
 		for ($i = 0; $i < count($voter1attr["mpprops"]); $i++)
 			$voter1attr["mpprops"][$i]["mpevents"] = array();
 
-		function puteventintompprop(&$mpprops, $eventdate, $eventdesc)
+		function puteventintompprop(&$mpprops, $eventdate, $eventBE, $row)
 		{
 			for ($i = 0; $i < count($mpprops) - 1; $i++)
-				if ($eventdate >= $mpprops[$i + 1]["lefthouse"])
+				if ($eventdate > $mpprops[$i + 1]["lefthouse"])
 					break;
-            array_push($mpprops[$i]["mpevents"], array($eventdate, $eventdesc));
+            $eventdesc = ($eventBE == "B" ? "Became " : "Stopped being ").pretty_minister($row);
+            array_push($mpprops[$i]["mpevents"], array($eventdate, $row['dept'], $eventBE, $row['position'], $eventdesc));
 		}
 
 		$currently_minister = array();
@@ -290,15 +291,25 @@
 	        if ($row["to_date"] == "9999-12-31")
 	            $currently_minister[] = pretty_minister($row);
 			else
-				puteventintompprop($voter1attr["mpprops"], $row["to_date"], "Stopped being ".pretty_minister($row));
-			puteventintompprop($voter1attr["mpprops"], $row["from_date"], "Became ".pretty_minister($row));
+				puteventintompprop($voter1attr["mpprops"], $row["to_date"], "A", $row); 
+			puteventintompprop($voter1attr["mpprops"], $row["from_date"], "B", $row);
 	    }
 
 		# reverse the arrays that we create (could have done above loop already reversed)
 		for ($i = 0; $i < count($voter1attr["mpprops"]); $i++)
         {
-            asort($voter1attr["mpprops"][$i]["mpevents"]);
-			#$voter1attr["mpprops"][$i]["mpevents"] = array_reverse($voter1attr["mpprops"][$i]["mpevents"]);
+            $mpevents = &$voter1attr["mpprops"][$i]["mpevents"];
+            sort($mpevents); 
+			for ($j = 0; $j < count($mpevents); $j++)
+            {
+                # Chairmen of committees are automatically part of this committee
+                #if ($mpevents[$j][1] == "Liaison Committee")
+                #    $mpevents[$j][2] = "Ignoreevent";
+                # Promotion of member of committee to chairman of same committee
+                if (($j > 0) && ($mpevents[$j][1] == $mpevents[$j - 1][1]) && ($mpevents[$j][2] == "B") && ($mpevents[$j - 1][2] == "A") && ($mpevents[$j][3] == "Chairman") && ($mpevents[$j - 1][3] == ""))
+                    $mpevents[$j - 1][2] = "Ignoreevent"; 
+            }
+            #$voter1attr["mpprops"][$i]["mpevents"] = array_reverse($voter1attr["mpprops"][$i]["mpevents"]);
         }
 	}
 

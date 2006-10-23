@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.81 2006/07/22 13:02:28 publicwhip Exp $
+# $Id: tablemake.inc,v 1.82 2006/10/23 23:28:24 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -647,8 +647,11 @@ function writeevents(&$events, $date, $breversed)
     while ($events && (!$date or ($breversed == ($date >= $events[count($events) - 1][0]))))
     {
         $event = array_pop($events);
-        print "<tr class=\"jobevent\"><td>".pretty_date($event[0])."</td>";
-        print "<td colspan=\"5\" align=center>$event[1]</td><td colspan=1></td></tr>\n";
+        if ($event[2] != "Ignoreevent")
+        {
+            print "<tr class=\"jobevent\"><td>".pretty_date($event[0])."</td>";
+            print "<td colspan=\"5\" align=center>".$event[4]."</td><td colspan=1></td></tr>\n";
+        }
     }
 }
 
