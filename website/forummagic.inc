@@ -1,6 +1,6 @@
 <?php
 
-# $Id: forummagic.inc,v 1.17 2006/10/21 18:17:27 frabcus Exp $
+# $Id: forummagic.inc,v 1.18 2006/10/24 01:30:54 publicwhip Exp $
 # Post things to the forum automatically (like log of changes to policies)
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -22,15 +22,15 @@ function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content)
 
     $done = false;
     $c = 0;
-    $extra_cookies = "";
+    $cookie_jar = cookie_splitter($_SERVER['HTTP_COOKIE']);
     $all_full_responses = "";
     while (!$done) {
         // 3 times lucky :)
-        // (actually, it takes that long for cookies/sessions to be made for PHPBB login
-        // to be made from PublicWhip login for new users)
-        // Sod it, 5 times -- FAI 2006-06-27
+        // (actually, it takes that long for cookies/sessions to be made for
+        // PHPBB login to be made from PublicWhip login for new users -- maybe
+        // not now cookie stuff done right, dunno)
         $c++;
-        if ($c > 5 ) {
+        if ($c > 3 ) {
             $mail_error = "";
             $mail_error .= "--- Begin dump of forummagic_post error ---\n";
             $mail_error .= "logged in as: " . user_getname() . "\n";
@@ -57,15 +57,15 @@ function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content)
             $post_data = "t=$topic_id&mode=reply&notify=on&subject=".urlencode($topic_title).
                          "&message=".urlencode($content)."&post=Submit"; 
         }
-        $all_full_responses .= "\n\n=============================\ndomain_name:" . $domain_name . "\npost_filename:" . $post_filename . "\npost_data:" . $post_data . "\nextra_cookies:" . $extra_cookies;
-        list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data, $extra_cookies);
+        $all_full_responses .= "\n\n=============================\ndomain_name:" . $domain_name . "\npost_filename:" . $post_filename . "\npost_data:" . $post_data . "\nmain cookies:" . $_SERVER["HTTP_COOKIE"];
+        list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data, $cookie_jar);
         $all_full_responses .= "\n----------------------------\n" . $head . $response;
 
         // Find cookies, and send them in next time
         $matches = array();
-        $cookies = preg_match_all("/^Set-Cookie: (.*?);/m", $head, $matches);
-        foreach ($matches[1] as $cookie) {
-            $extra_cookies .= "$cookie; ";
+        preg_match_all("/^Set-Cookie: ([^;]*);/m", $head, $matches);
+        foreach ($matches[1] as $match) {
+            $cookie_jar = array_merge($cookie_jar, cookie_splitter($match));
         }
 
         // See if it all worked
@@ -96,9 +96,21 @@ function forummagic_findtopic($db, $forum_name, $topic_match, $topic_set = null)
     return array($forum_id, $topic_id);
 }
 
+// Internal function, splits a cookie into an array
+function cookie_splitter($cookie_string) {
+    $jar = array();
+    $parts = preg_split("/;/", $cookie_string, -1, PREG_SPLIT_NO_EMPTY);
+    foreach ($parts as $part) {
+        $part = trim($part);
+        list($key, $value) = preg_split("/=/", $part, -1, PREG_SPLIT_NO_EMPTY);
+        $jar[$key] = $value;
+    }
+    return $jar;
+}
+
 // Internal function, perform a post request into the forum
 // Returns array(body, headers)
-function forummagic_do_post($post_domain, $post_filename, $post_data, $extra_cookies = "") {
+function forummagic_do_post($post_domain, $post_filename, $post_data, $cookie_jar) {
     $timeout = 5; 
 
     $head = '';
@@ -113,7 +125,11 @@ function forummagic_do_post($post_domain, $post_filename, $post_data, $extra_coo
     $out .= "Content-Type: application/x-www-form-urlencoded\r\n";
     $out .= "User-Agent: forummagic.inc from Public Whip\r\n";
     $out .= "Content-Length: " . strlen($post_data) . "\r\n";
-    $out .= "Cookie: $extra_cookies" . $_SERVER["HTTP_COOKIE"] . "\r\n";
+    $cookie_string = "";
+    foreach ($cookie_jar as $key => $value) {
+        $cookie_string .= "$key=$value; ";
+    }
+    $out .= "Cookie: $cookie_string\r\n";
     $out .= "\r\n";
     $out .= $post_data;
     #print "<b>forummagic_do_post sending</b><pre>$out</pre>";
