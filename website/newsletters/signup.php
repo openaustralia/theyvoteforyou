@@ -1,6 +1,6 @@
 <?php require_once "../common.inc";
 
-# $Id: signup.php,v 1.6 2006/04/05 05:05:50 publicwhip Exp $
+# $Id: signup.php,v 1.7 2006/10/25 00:40:57 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -75,7 +75,7 @@ if ($submit) {
                "\n\nhttp://www.publicwhip.org.uk/N/". urlencode($token).
                "\n\nYou will then receive the Public Whip newsletter,".
                  "\nwhich is at most monthly.";
-        mail ($email,'Confirm your subscripton to the Public Whip newsletter',$message,'From: auto@publicwhip.org.uk');
+        mail ($email,'Confirm your subscripton to the Public Whip newsletter',$message,'From: Public Whip <auto@publicwhip.org.uk>');
         $ok = true;
         $title = "Now check your email!";
         $feedback = 'Please click on the link in the email
