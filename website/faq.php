@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.78 2006/09/18 11:05:01 publicwhip Exp $
+# $Id: faq.php,v 1.79 2006/10/26 17:40:04 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -100,7 +100,7 @@ access.
 General Election, although there are a few divisions missing in the 1997
 parliament.  Lords membership data extends back to the big reform in 1999,
 because nobody can remember who the members were before then.  Lords divisions
-currently go back to just May 2005. New divisions usually appear in Public Whip
+currently go back to July 2001. New divisions usually appear in Public Whip
 the next morning, but sometimes take a day or two longer.  We give no warranty
 for the data; there may be factual inaccuracies.  <a
 href="mailto:team@publicwhip.org.uk">Let us know</a> if you find any.
@@ -179,7 +179,7 @@ Whip site, lobby them to do this, then let us know.
 </ol>
 
 <p>Parties can't have it both ways&mdash;complain that we don't take account of what the whip is,
-and at the same time not tell us.  There is no contradiction in admitting the whip
+and at the same time not tell us what it is.  There is no contradiction in admitting the whip
 exists and recording it officially&mdash;after all some whips
 <a href="http://www.civilservice.gov.uk/management_information/parliamentary/parliamentary_pay/pay/payments_on_leaving_office/index.asp#tables">
 are paid a salary by the taxpayer</a> so
