@@ -2,7 +2,7 @@
 
 cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.70 2006/03/07 11:19:50 publicwhip Exp $
+# $Id: index.php,v 1.71 2006/11/10 16:32:39 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -93,16 +93,15 @@ href="account/addpolicy.php">make</a> a new policy</span>
 					ON pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id
 				WHERE votes_count > 0 AND private = 0
 				ORDER BY RAND()
-				LIMIT 5";
+				LIMIT 3";
 
     $db->query($query); 
-    $delcomma = "";
+    print "<ul style=\"font-size:80%\">";
     while ($row = $db->fetch_row_assoc())
     {
-        print $delcomma."<a href=\"policy.php?id=".$row['dream_id']."\">".$row['name']."</a>";
-		$delcomma = ", ";
+        print "<li><a href=\"policy.php?id=".$row['dream_id']."\">".$row['name']."</a></li>";
 	}
-    print "\n";
+    print "</ul>\n";
 ?>
 </p>
 </ol>

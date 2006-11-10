@@ -42,10 +42,11 @@ H1
 }
 H2
 {
+    padding-top:5px;
     MARGIN-TOP: 1em;
     FONT-SIZE: 120%;
     MARGIN-BOTTOM: 0em;
-    COLOR: #003300;
+    COLOR: #406900;
     TEXT-ALIGN: left
 }
 H2.faq
@@ -563,7 +564,26 @@ LI {
 }
 .policydefinition
 {
-    BACKGROUND-COLOR: #eeeeee;
+    BACKGROUND-COLOR: #cefeff;
+    margin-left:2em;
+    margin-right:2em;
+    margin-top:1em;
+    margin-bottom:1em;
+    padding: 5px; 
+    border-style: dashed;
+    border-width: thin; 
+}
+.policyvotehead
+{
+    border-style: dashed; 
+    border-width: thin; 
+}
+.policybelieve
+{
+    margin-left:1em; 
+    font-size: 120%; 
+    font-style: italic; 
+    color: #450075;
 }
 .equation {vertical-align: middle;}
 

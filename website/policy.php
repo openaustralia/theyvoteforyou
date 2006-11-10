@@ -46,7 +46,7 @@
 	$bAggregateEditable = true; //(($_GET["editable"] == "yes") || ($_POST["submit"] != ""));
 
 
-    $title = "Someone who believes that..."; // $policyname
+    $title = "$policyname";
 
 	# constants
 	$dismodes = array();
@@ -78,13 +78,18 @@
 										 "aggregate" => "fulltable",
 		                                 "tooltip" => "Editable list of policies");
 	}
+    else
+        $dismodes["motions"] = array("dtype"     => "motions", 
+                                     "description" => "Full", 
+                                     "divisionlist" => "selected", 
+                                     "tooltip" => "Also shows description of every vote"); 
 
 
 	# work out which display mode we are in (in case we arrive from a post)
 	$display = $_GET["display"];
     if ($_POST["seldreamid"])
         $display = "extended";
-    if (!$bAggregateEditable || !$bAggregate || !$dismodes[$display])
+    if (!$dismodes[$display])
 		$display = "summary"; # default
 	$dismode = $dismodes[$display];
 
@@ -161,6 +166,7 @@
 		update_dreammp_votemeasures($db, $dreamid, 0);
 	}
 
+    print "<div class=\"policybelieve\">Someone who believes...</div>"; 
     print "<div class=\"policydefinition\">";
     print "<p>" . str_replace("\n", "<br>", html_scrub($voter["description"]));
     if ($voter["private"] == 1)
@@ -169,7 +175,7 @@
         print "<strong>This policy is provisional, please help improve it</strong>";
 
     print " <b><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a></b>";
-    print " (<a href=\"faq.php#policies\">learn more</a>)";
+    print " <i>(<a href=\"faq.php#policies\">learn more</a>)</i>";
     $discuss_url = dream_post_forum_link($db, $dreamid);
     if (!$discuss_url) {
         // First time someone logged in comes along, add policy to the forum
@@ -279,7 +285,7 @@
 
 	if ($dismode["divisionlist"] == "selected")
 	{
-		print "<h2><a name=\"divisions\">... would have voted like this</a></h2>";
+		print "<div class=\"policybelieve\"><a name=\"divisions\">would have voted like this:</a></div>";
         /*if ($voter["votes_count"]) {
              print "<p>This policy has voted in <b>".$voter["votes_count"]."</b> divisions.";
              if ($voter["votes_count"] != $voter["edited_count"])
@@ -293,12 +299,12 @@
 	else
 		print "<h2><a name=\"divisions\">Every Division</a></h2>\n";
 
-    print "<table class=\"divisions\">\n";
 	$divtabattr = array(
 			"voter1type" 	=> "dreammp",
 			"voter1"        => $dreamid,
+            "voter1name"    => $policyname,
 			"showwhich"		=> ($dismode["divisionlist"] == "selected" ? "all1" : "everyvote"),
-			"headings"		=> 'columns',
+			"headings"		=> ($dismode["dtype"] == "motions" ? 'none' : 'columns'),
 			"divhrefappend"	=> "&dmp=$dreamid", # gives link to crossover page
 			"motionwikistate" => "listunedited");
 	if ($bAggregate)
@@ -307,11 +313,21 @@
 		$divtabattr["voter2"] = $dreamid;
 		$divtabattr["showwhich"] = ($dismode["divisionlist"] == "bothdiff" ? "bothdiff" : "either");
 	}
-        $divtabattr["sortby"] = "datereversed"; 
-	$dismetric = division_table($db, $divtabattr);
+    
+    $divtabattr["sortby"] = "datereversed"; 
+	if ($dismode["dtype"] == "motions")
+    {
+        $divtabattr["votedisplay"] = "fullmotion"; 
+        print "<table>";
+    }
+    else
+        print "<table class=\"votes\">";
+        
+    
+    $dismetric = division_table($db, $divtabattr);
     print "</table>\n";
 
-    print "<p>Please <strong>edit and fix</strong> (<a href=\"faq.php#policies\">learn more</a>) the votes and the definition above, if they are not consistent with each other, or something is missing. ";
+    print "<p>Please <strong>edit and fix</strong> <i>(<a href=\"faq.php#policies\">learn more</a>)</i> the votes and the definition above, if they are not consistent with each other, or something is missing. ";
     if (user_getid()) {
         $db->query("update pw_dyn_user set active_policy_id = $dreamid where user_id = " . user_getid());
         print " This is currently your active policy; <b>to change its votes, go to any division page</b>.";
@@ -337,12 +353,17 @@
 
 	if ($dismode["comparisons"])
 	{
-	    print "<h2><a name=\"comparison\">Comparison to all MPs and Lords</a></h2>";
+        print "<h2><a name=\"comparison\">Comparison to all MPs and Lords</a></h2>\n"; 
+        print "<table ALIGN=\"RIGHT\">
+            <tr><td colspan=\"3\" style=\"border: solid\"><IMG SRC=\"dreamplot.php?id=$dreamid&display=reverse\" ALIGN=RIGHT width=\"130\" height=\"60\" title=\"Histogram of scores\"></td></tr>
+            <tr style=\"font-size:80%\"><td>100%</td><td></td><td style=\"text-align:right\">0%</td></tr>
+            </table>"; 
 
-	    print "<p>Grades MPs and Lords acording to how often they voted with the policy.
-	            If they always vote the same as the policy then their agreement is 100%, if they
-				always vote the opposite when the policy votes, their agreement is 0%.
-                If they never voted at the same time as the policy they don't appear.";
+        print "<p>MPs and Lords are graded according to their agreement with the policy in terms of their votes.
+	            If they always vote the same as the policy then their agreement is 100%; if they
+				always vote opposite to the policy votes, their agreement is 0%.
+                If they could never have voted at the same time as the policy, they are not listed.";
+        print "<br clear=\"all\">"; 
 
 		$mptabattr = array("listtype" => 'dreamdistance',
 						   'dreammpid' => $dreamid,

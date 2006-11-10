@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.43 2006/07/21 23:41:59 frabcus Exp $
+    # $Id: tableoth.inc,v 1.44 2006/11/10 16:32:39 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -136,8 +136,8 @@
         }
 
 		$columnforms = array("policy" => "yes");
-        if ($dreamtabattr['listtype'] != "aggregatevotes")
-            $columnforms["description"] = "yes";
+        #if ($dreamtabattr['listtype'] != "aggregatevotes")
+        #    $columnforms["description"] = "yes";
 		if ($dreamtabattr['listtype'] == "mainlist")
 			$columnforms["votes"] = "yes";
 		if ($dreamtabattr['listtype'] == "comparelinks")
@@ -153,7 +153,7 @@
 		{
 			print "<tr class=\"headings\">";
 			if ($columnforms["votes"])
-				print "<td>Votes (unedited)</td>";
+				print "<td>Votes <i>(unedited)</i></td>";
 			if ($columnforms["agreement"])
 				print "<td>Agreement</td>";
 			if ($columnforms["policy"])

@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.50 2006/10/23 17:16:38 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.51 2006/11/10 16:32:39 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -13,10 +13,10 @@ require_once $toppath . "parliaments.inc";
 function print_mpcolumn_headings($columnforms)
 {
     print "<tr class=\"headings\">";
-	if ($columnforms["distancetoagreement"])
-        print "<td>Agreement</td>"; 
     if ($columnforms["name"])
 	    print "<td>Name</td>";
+    if ($columnforms["distancetoagreement"])
+        print "<td>Agreement</td>"; 
 	if ($columnforms["place"])
         print "<td>Constituency</td>";
 	if ($columnforms["party"])
@@ -67,15 +67,6 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
 
     print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even").$sclass."\">";
 
-    # distance voting table
-	if ($columnforms["distancetoagreement"])
-    {
-        $distance = $row['distance'];
-        print "<td>".pretty_distance_to_agreement($distance);
-        if ($friendlk)
-            print "&nbsp;(<a href=\"$href&$friendlk\"><b>comparison...</b></a>)";
-        print "</td>";
-    }
 
     # row numbering
 	if ($columnforms["rownumbering"])
@@ -84,6 +75,20 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
     # name and constituency
 	if ($columnforms["name"])
 	    print "<td><a href=\"$href\">$name</a></td>";
+
+    #distance voting table
+    if ($columnforms["distancetoagreement"])
+    {
+        $distance = $row['distance']; 
+        print "<td>"; 
+        if ($friendlk)
+            print "<a href=\"$href&$friendlk\"><b>"; 
+        print pretty_distance_to_agreement($distance); 
+        if ($friendlk)
+            print "</b></a>"; 
+        print "</td>"; 
+    }
+
 
     # we could mark if there are other MPs in this constituency and make a link to them
     #print "<td>".$row['constituency']."</td>";

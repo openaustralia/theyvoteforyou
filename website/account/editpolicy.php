@@ -119,8 +119,9 @@ if (user_isloggedin()) # User logged in, show settings screen
             <B>Title of policy</B><BR>
             <INPUT TYPE="TEXT" NAME="name" VALUE="<?=html_scrub($name)?>" SIZE="40" MAXLENGTH="50">
             <P>
-            <B>Someone who believes that...</B><BR>
-            <textarea name="description" rows="6" cols="80"><?=htmlspecialchars($description)?></textarea></p>
+            <B><i>&nbsp;&nbsp;Someone who believes...</i></B><BR>
+            <textarea name="description" rows="6" cols="80"><?=htmlspecialchars($description)?></textarea><br>
+            <b><i>&nbsp;&nbsp;would vote as it is listed in the table.</i></b>
 
             <? if (!$legacy_dream) { ?>
             <p>

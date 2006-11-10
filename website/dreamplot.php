@@ -1,7 +1,8 @@
 <?php require_once "common.inc";
 header("Content-Type: image/png");
 $dreamid = intval($_GET["id"]);
-# $Id: dreamplot.php,v 1.7 2005/11/01 00:56:21 frabcus Exp $
+$display = $_GET["display"];
+# $Id: dreamplot.php,v 1.8 2006/11/10 16:32:39 publicwhip Exp $
 
 # Draw thumbsketch histogram of how many MPs are each distance away
 # from the Dream MP.
@@ -38,6 +39,8 @@ while ($row = $db->fetch_row_assoc())
     $data[$division]++;
 }
 #print_r($data);
+if ($display != 'reverse')
+    $data = array_reverse($data); 
 
 // Draw bar
 require_once('sparkline/lib/Sparkline_Bar.php');

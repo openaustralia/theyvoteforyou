@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.82 2006/10/23 23:28:24 publicwhip Exp $
+# $Id: tablemake.inc,v 1.83 2006/11/10 16:32:39 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -339,14 +339,14 @@ function print_column_headings($vote1, $vote2, $columnforms, $party)
 		if ($columnforms["isdreammp"])
 			print "<td>Dream Vote</td>";
 		else
-			print "<td>Policy Vote</td>";
+			print "<td class=\"policyvotehead\">Policy Vote</td>";
 	}
 	if ($columnforms["voter1type"] == "mp")
 		print "<td>".$vote1['name']."</td>";
 	if ($columnforms["voter2type"] == "party")
 		print "<td>$vote2 Vote</td>";
 	if ($columnforms["voter2type"] == "dreammp")
-		print "<td>Policy Vote</td>";
+		print "<td class=\"policyvotehead\">Policy Vote</td>";
 	if ($columnforms["voter2type"] == "person")
 		print "<td>".$vote2['mpprop']['name']."</td>";
 	if ($columnforms["aggregate_vote"])
@@ -591,13 +591,12 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
     print "<td>";
 
     # Coloured box saying whether MP and Dream MP agree/disgagree/miss
-    print "<table class=\"votetab\">";
-    //print "<tr>";
-    //print "<td class=\"$roleclass\">";
-    //print $votedesclong;
-    writepersonvote(-1, "", "Policy '" . html_scrub($voter2attr['name']) . "'", $vote2, "", "");
-    //print "</td>";
-    //print "</tr>";
+    # null means we are dealing with a dreammp
+    print "<table class=\"policyvotehead\" style=\"background-color:#eeeeee\">";
+    if ($voter2attr)
+        writepersonvote(-1, "", "Policy '" . html_scrub($voter2attr['name']) . "'", $vote2, "", "");
+    else
+        writepersonvote(-1, "", "Policy '" . html_scrub($voter1) . "'", $vote1, "", ""); 
     print "</table>";
 
     # make the table of party in the left hand side
@@ -616,13 +615,16 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
     # MP's vote
     $ayecla = ($totalayes > $totalnoes ? " class=\"majority\"" : "");
     $nocla = ($totalnoes > $totalayes ? " class=\"majority\"" : "");
-    writepersonvote(0, $roleclass, $voter1['name'], $vote1, $ayecla, $nocla);
+    if ($voter2attr)
+        writepersonvote(0, $roleclass, $voter1['name'], $vote1, $ayecla, $nocla);
     //writepersonvote($lnrows, "strong", $voter1['name'], $vote1, $ayecla, $nocla);
 
 
     # votes of rest of parties (a rather poor way to put it together)
     $party = $voter1['party'];
-    $partys = array($party);
+    $partys = array();
+    if ($voter2attr)
+        array_push($partys, $party);
     if ($party != "Lab")
         array_push($partys, "Lab");
     if ($party != "Con")
@@ -993,7 +995,7 @@ $columnforms["aggregate_names"] = "yes";
         {
             $wikiinfo = get_wiki_current_value("motion", array($row['divisiondate'], $row['divisionnumber'], $row['divisionhouse']));
 			$motiontext = extract_motion_text_from_wiki_text($wikiinfo['text_body']);
-			print_motion_row($motiontext, $db, $row['divisionid'], $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, $voter1, $vote1, $voter2attr, $vote2, $row, $divhref, $hrefsource);
+			print_motion_row($motiontext, $db, $row['divisionid'], $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, ($voter2attr? $voter1 : $divtabattr['voter1name']), $vote1, $voter2attr, $vote2, $row, $divhref, $hrefsource);
 			$nrows += 2;
         }
         else

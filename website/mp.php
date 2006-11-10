@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.130 2006/10/23 23:28:24 publicwhip Exp $
+    # $Id: mp.php,v 1.131 2006/11/10 16:32:39 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -327,14 +327,22 @@
 			$all_same_cons = false;
         }
 
-	print "<p>";
 	if ($currently_minister)
-		print "<b>".$mpprop['name']."</b> is currently <b>".join(", ",$currently_minister)."</b>.<br>";
+    {
+		print "<p><b>".$mpprop['name']."</b> is currently ";
+        for ($i = 0; $i < count($currently_minister); $i++)
+        {
+            if ($i != 0)
+                print ($i != count($currently_minister) - 1 ? ", " : " and "); 
+            print "<b>".$currently_minister[$i]."</b>"; 
+        }
+        print "</p>"; 
+    }
 
     if ($mpprop['house'] == 'commons')
-        print "Please note, our records only go back to 1997.";
+        print "<p>Please note, our records only go back to 1997.";
     else
-        print "Please note, our records only go back to May 2005.";
+        print "<p>Please note, our records only go back to May 1999.";
 
 	seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], ($all_same_cons ? false : true), true, $thispagesettings);
 
@@ -383,7 +391,7 @@
             print "<p>Votes in parliament for which this ".$mpprop['housenoun']."'s vote differed from the
 	        	majority vote of their party (Rebel), or in which this ".$mpprop['housenoun']." was
 	        	a teller (Teller), or both (Rebel Teller).</p>  \n";
-            print "<p style=\"font-size: 89%\" align=\"center\">See also all votes... <a href=\"$thispage&display=allvotes#divisions\">attended</a> | <a href=\"$thispage%display=everyvote#divisions\">possible</a></p>\n";
+            print "<p style=\"font-size: 89%\" align=\"center\">See also all votes... <a href=\"$thispage&display=allvotes#divisions\">attended</a> | <a href=\"$thispage&display=everyvote#divisions\">possible</a></p>\n";
         }
         else if ($dismode["votelist"] == "all" and $voter2type == "party")
             print "<p style=\"font-size: 89%\">See also <a href=\"$thispage&display=everyvote#divisions\">all votes possible</a></p>\n";
@@ -417,19 +425,23 @@
                 print " <b>";
                 print pretty_distance_to_agreement($row['distance_a']);
                 print "</b>";
-                print " (<a href=\"#ratioexpl\">explain...</a>)";
-                print " with ";
-                print "<a href=\"$voter2link\">".html_scrub($voter2attr['name'])."</a> ";
+                print " (<a href=\"#ratioexpl\"><i>explain...</i></a>)";
+                print " with the policy, ";
+                print "<a href=\"$voter2link\"><i><b>".html_scrub($voter2attr['name'])."</b></i></a>. ";
                 print "<br>";
                 $pevious_person = $pp["person"];
             }
 
-			print "<p class=\"policydefinition\"><b>Definition of <a href=\"$voter2link\">".html_scrub($voter2attr['name'])."</a> policy:</b>\n";
+            print "<div class=\"policybelieve\">Someone who believes...</div>\n"; 
+			print "<p class=\"policydefinition\">\n";
 			print html_scrub($voter2attr['description']);
 			print "</p>\n";
 
-            print "<h2>Vote details</h2>";
-		}
+            if ($dismode["votedisplay"] != "fullmotion")
+                print "<div class=\"policybelieve\">would cast votes as in the 'Policy Vote' column.</div>";
+            else
+                print "<div class=\"policybelieve\">would cast votes described by the policy.</div><p>"; 
+        }
 
 		#if ($dismode["eventsinfo"])
 		#    print " Also shows when this MP became or stopped being a paid minister. </p>";
