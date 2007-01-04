@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.131 2006/11/10 16:32:39 publicwhip Exp $
+    # $Id: mp.php,v 1.132 2007/01/04 15:45:34 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -339,10 +339,7 @@
         print "</p>"; 
     }
 
-    if ($mpprop['house'] == 'commons')
-        print "<p>Please note, our records only go back to 1997.";
-    else
-        print "<p>Please note, our records only go back to May 1999.";
+    print "<p>Please note, our records only go back to 1997, 1999 or 2001 (<a href=\"/faq.php#timeperiod\">more details</a>).";
 
 	seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], ($all_same_cons ? false : true), true, $thispagesettings);
 
@@ -420,7 +417,7 @@
                             FROM pw_cache_dreamreal_distance
                             WHERE dream_id = $voter2 AND person = ".$pp["person"];
                 $row = $db->query_onez_row_assoc($query);
-                print "<a href=\"".$voter1link."\">".html_scrub($pp['fullname'])."</a>";
+                print "<b><a href=\"".$voter1link."\">".html_scrub($pp['fullname'])."</a></b>";
                 print " agrees ";
                 print " <b>";
                 print pretty_distance_to_agreement($row['distance_a']);

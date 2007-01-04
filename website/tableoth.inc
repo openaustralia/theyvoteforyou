@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.44 2006/11/10 16:32:39 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.45 2007/01/04 15:45:34 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -154,14 +154,14 @@
 			print "<tr class=\"headings\">";
 			if ($columnforms["votes"])
 				print "<td>Votes <i>(unedited)</i></td>";
-			if ($columnforms["agreement"])
-				print "<td>Agreement</td>";
 			if ($columnforms["policy"])
 		        print "<td>Policy</td>";
-			if ($columnforms["description"])
+			if ($columnforms["agreement"])
+                print "<td>Agreement</td>"; 
+            if ($columnforms["description"])
 		        print "<td>Description</td>";
 			if ($columnforms["vote"])
-				print "<td>Vote</td>";
+				print "<td>Vote count</td>";
 			if ($columnforms['dists'])
 		        print "<td>MP Dists<br>0--&gt;1</td>";
 			if ($columnforms["selected"])
@@ -182,15 +182,6 @@
                     print " <i>(".$row['unedited_motions'].")</i>";
                 print "</td>\n";
 			}
-			if ($columnforms["agreement"])
-		    {
-		        $distance = $row['distance'];
-        		$agreement = (1.0 - (float)($distance)) * 100.0;
-			    $compare_link = "mp.php?".$dreamtabattr["mpanchor"]."&dmp=$dreamid";
-        		print "<td>".number_format($agreement, 0)."%";
-                print "<br>(<a href=\"$compare_link\"><b>details...</b></a>)";
-                print "</td>\n";
-			}
 
 			if ($columnforms["policy"])
 	        {
@@ -201,6 +192,14 @@
 	                print " <i>(legacy Dream MP)<i>";
 	            print "</td>\n";
 			}
+            if ($columnforms["agreement"])
+            {
+                $distance = $row['distance'];
+                $agreement = (1.0 - (float)($distance)) * 100.0;
+                $compare_link = "mp.php?".$dreamtabattr["mpanchor"]."&dmp=$dreamid"; 
+                print "<td><b><a href=\"$compare_link\">".number_format($agreement, 0)."%</a></b></td>\n"; 
+            }
+            
 			if ($columnforms["description"])
 		        print "<td>".trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 100)."</td>\n";
 			if ($columnforms["vote"])
