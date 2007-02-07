@@ -2,7 +2,7 @@
 
 cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.71 2006/11/10 16:32:39 publicwhip Exp $
+# $Id: index.php,v 1.72 2007/02/07 23:26:35 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -13,11 +13,10 @@ $title = "Counting votes on your behalf";
 pw_header();
 ?>
 
-<p>Every week, a dozen or so times, your MP votes in the UK Parliament.  This
-is their definitive exercise of power.  The Public Whip
-extracts their voting record from the pages of the Parliamentary transcript
-so that you can see it and hold them to account.
-For more information about the project <a href="faq.php">see the FAQ</a>.
+<p>Every week, a dozen or so times, your MP votes on changes to British
+law. This is their definitive exercise of power on your behalf. The
+Public Whip lets you see all their votes so you can hold them to account
+(<a href="faq.php">more information</a>).
 
 <?php
     require_once "db.inc";
