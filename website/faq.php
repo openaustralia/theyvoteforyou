@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.80 2007/01/04 15:45:34 publicwhip Exp $
+# $Id: faq.php,v 1.81 2007/02/07 22:07:25 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -246,6 +246,14 @@ See the answer to <a href="#contact">I've found an error</a> for details.
 <p>If you reproduce this information, or derive any interesting results from
 it, we ask you to refer your readers to www.publicwhip.org.uk.  This way they
 can use and contribute themselves.
+
+<p>Public Whip's data meets with the 
+<a href="http://okd.okfn.org/">Open Knowledge Definition</a>.
+ <!-- Open Knowledge Link -->
+<a href="http://okd.okfn.org/">
+<img valign="top" alt="This material is Open Knowledge" border="0"
+src="/images/ok_80x23_red_green.png" /></a>
+<!-- /Open Knowledge Link -->
 
 
 <h2 class="faq"><a name="playwith">Can I play with the software?</a></h2>

@@ -1,5 +1,5 @@
 <?php
-# $Id: footer.inc,v 1.19 2006/03/16 00:25:18 frabcus Exp $
+# $Id: footer.inc,v 1.20 2007/02/07 22:07:26 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -16,8 +16,13 @@
 <span class="footerleft">
 <a title="Frequently asked questions" href="<?=$toppath?>faq.php#whatis">About us</a>
 <a title="Send comments, problems or suggestions" href="/email.php">Contact us</a>
-<a title="Fodder for your spreadsheet" href="/project/data.php">Raw data</a>
+<a title="Fodder for your spreadsheet" href="/project/data.php">Data feeds</a>
 <a title="Public Whip is open source software" href="/project/code.php">Source code</a>
+ <!-- Open Knowledge Link -->
+<a href="http://okd.okfn.org/">
+<img valign="top" alt="This material is Open Knowledge" border="0"
+src="/images/ok_80x23_red_green.png" /></a>
+<!-- /Open Knowledge Link -->
 </span>
 <span class="footerright">
 <a title="Divisions in your news reader" href="/faq.php#rss">RSS</a>
