@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.132 2007/01/04 15:45:34 publicwhip Exp $
+    # $Id: mp.php,v 1.133 2007/02/07 23:53:18 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -626,7 +626,7 @@
 		    previously unsuspected.  Or it may be nonsense.";
 
         print "<table class=\"mps\">\n";
-        print "<tr class=\"headings\"><td>Agreement</td><td>Name</td>";
+        print "<tr class=\"headings\"><td>Name</td><td>Agreement</td>";
         if ($mpprop['house'] != "lords")
             print "<td>Constituency</td>";
         print "<td>Party</td></tr>\n";
