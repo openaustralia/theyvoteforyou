@@ -7,7 +7,7 @@ $dreamid = intval($_GET["id"]);
 $display = $_GET["display"];
 $rdisplay_house = db_scrub($_GET["house"]);
 
-# $Id: dreamplot.php,v 1.13 2007/02/08 18:33:21 publicwhip Exp $
+# $Id: dreamplot.php,v 1.14 2007/02/08 18:36:11 goatchurch Exp $
 
 # Draw thumbsketch histogram of how many MPs are each distance away
 # from the Dream MP.
@@ -31,25 +31,25 @@ $im    = imagecreate($width, $height);
 $orange = imagecolorallocate($im, 220, 210, 60);
 
 $partycols = array(
-    "UKU:commons"	=> imagecolorallocate($im, 145, 224, 255),
-    "DU:commons"	=> imagecolorallocate($im, 224, 102, 102),
-    "UU:commons"	=> imagecolorallocate($im, 0, 54, 102),
-	"Con:commons" 	=> imagecolorallocate($im, 51, 51, 153),
-	"Con:lords" 	=> imagecolorallocate($im, 71, 71, 173),
-	"Ind:commons"	=> imagecolorallocate($im, 238, 238, 238),
-	"Ind Con:commons"=> imagecolorallocate($im, 221, 221, 238),
-	"Ind Lab:commons"=> imagecolorallocate($im, 238, 221, 221),
-    "LDem:commons"	=> imagecolorallocate($im, 241, 204, 10),
-    "LDem:lords"	=> imagecolorallocate($im, 251, 224, 30),
-    "PC:commons"	=> imagecolorallocate($im, 51, 204, 51),
-    "SDLP:commons"	=> imagecolorallocate($im, 141, 144, 51),
-    "SNP:commons"	=> imagecolorallocate($im, 255, 224, 0),
-    "Ind UU:commons"=> imagecolorallocate($im, 0, 54, 102),
-	"Res:commons"	=> imagecolorallocate($im, 20, 200, 20),
-	"Lab:commons"	=> imagecolorallocate($im, 204, 0, 0),
-	"Lab:lords"		=> imagecolorallocate($im, 224, 20, 20),
-	"XB:lords"		=> imagecolorallocate($im, 180, 212, 190),
-	"Bp:lords"		=> imagecolorallocate($im, 0, 0, 0),
+    "UKU:commons"	=> array(145, 224, 255),
+    "DU:commons"	=> array(224, 102, 102),
+    "UU:commons"	=> array(0, 54, 102),
+	"Con:commons" 	=> array(51, 51, 153),
+	"Con:lords" 	=> array(71, 71, 173),
+	"Ind:commons"	=> array(238, 238, 238),
+	"Ind Con:commons"=> array(221, 221, 238),
+	"Ind Lab:commons"=> array(238, 221, 221),
+    "LDem:commons"	=> array(241, 204, 10),
+    "LDem:lords"	=> array(251, 224, 30),
+    "PC:commons"	=> array(51, 204, 51),
+    "SDLP:commons"	=> array(141, 144, 51),
+    "SNP:commons"	=> array(255, 224, 0),
+    "Ind UU:commons"=> array(0, 54, 102),
+	"Res:commons"	=> array(20, 200, 20),
+	"Lab:commons"	=> array(204, 0, 0),
+	"Lab:lords"		=> array(224, 20, 20),
+	"XB:lords"		=> array(180, 212, 190),
+	"Bp:lords"		=> array(0, 0, 0),
 );
 
 
@@ -94,8 +94,7 @@ $memberheight = $height / floatval($maxmembers);
 
 $im    = imagecreate($width, $height);
 $white = imagecolorallocate($im, 255, 255, 255);
-//$jjred = imagecolorallocate($im, 200, 90, 190);
-//$jjjred = imagecolorallocate($im, 90, 100, 200); 
+$jjred = imagecolorallocate($im, 200, 90, 190);
 $px    = (imagesx($im) - 7.5 * strlen($string)) / 2;
 
 foreach ($pdata as $i => $pd)
@@ -104,19 +103,19 @@ foreach ($pdata as $i => $pd)
 	$xhi = ($i + 1) * $width / $bars - 1;
 	$bh = 2.0;
 
-//print "<p>$xlo  $xhi</p>\n";
-//print_r($pdata);
-	foreach ($partycols as $partyhouse => $icol)
+	foreach ($partycols as $partyhouse => $acol)
 	{
-		$bhN = $bh + $pd[$partyhouse] * $memberheight; 
-		$ibh = $height - floor($bh); 
+		$bhN = $bh + $pd[$partyhouse] * $memberheight;
+		$ibh = $height - floor($bh);
 		$ibhN = $height - floor($bhN);
-        $xhi -= 1;
+        //$xhi -= 1;
 		if ($ibh != $ibhN)
+		{
+			$icol = imagecolorallocate($im, $acol[0], $acol[1], $acol[2]);
 			ImageFilledRectangle($im, $xlo, $ibhN, $xhi, $ibh, $icol);
-//print "<p>$ibh, $ibhN</p>";
-$bh = $bhN; 
-}
+		}
+		$bh = $bhN;
+	}
 }
 
 
