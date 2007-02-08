@@ -1,3 +1,8 @@
+When you alter a policy vote, it prints division name in the text on the forum.
+But that division name doesn't account for wiki edits.
+
+Email you when your MP rebels
+
 1999 -- put date lords goes back to now
 check all appear in div listing page
 
