@@ -1,8 +1,9 @@
 <?php require_once "common.inc";
-header("Content-Type: image/png");
+header("Content-Type: text/html");
+//header("Content-Type: image/png");
 $dreamid = intval($_GET["id"]);
 $display = $_GET["display"];
-# $Id: dreamplot.php,v 1.10 2007/02/08 17:01:49 goatchurch Exp $
+# $Id: dreamplot.php,v 1.11 2007/02/08 17:16:37 publicwhip Exp $
 
 # Draw thumbsketch histogram of how many MPs are each distance away
 # from the Dream MP.
@@ -21,12 +22,12 @@ update_dreammp_person_distance($db, $dreamid); # new method
 
 // Calculate number of MPs with distance to Dream MP in each of
 // $divisions blocked off ranges (between 0.0 and 1.0).
-$query = "SELECT party, distance_a AS distance,
+$query = "SELECT party, distance_a AS distance, house
           FROM pw_mp
 		  LEFT JOIN pw_cache_dreamreal_distance
             ON pw_cache_dreamreal_distance.person = pw_mp.person
             AND pw_cache_dreamreal_distance.dream_id = $dreamid
-          ORDER BY party";
+          ORDER BY party, house";
 
 $db->query($query);
 $bars = 10;
@@ -36,14 +37,14 @@ for ($i = 0; $i < $bars; $i++)
 
 while ($row = $db->fetch_row_assoc())
 {
-    $party = $row['party'];
+    $party = $row['party'].":".$row['house'];
     $distance = $row['distance'];
-    $i = min(intval($distance * floatval($bars), $bars - 1);
+    $i = min(intval($distance * floatval($bars)), $bars - 1);
     $pdata[$i][$party] = $pdata[$i][$party] + 1;
 }
 print_r($pdata);
 if ($display != 'reverse')
-    $data = array_reverse($data);
+    $pdata = array_reverse($pdata);
 die; 
 
 $string = "Oogabooga";
