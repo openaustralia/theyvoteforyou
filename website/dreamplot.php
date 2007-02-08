@@ -1,11 +1,13 @@
 <?php require_once "common.inc";
+require_once "db.inc"; 
+
 //header("Content-Type: text/html");
 header("Content-Type: image/png");
 $dreamid = intval($_GET["id"]);
 $display = $_GET["display"];
 $rdisplay_house = db_scrub($_GET["house"]);
 
-# $Id: dreamplot.php,v 1.12 2007/02/08 18:00:57 goatchurch Exp $
+# $Id: dreamplot.php,v 1.13 2007/02/08 18:33:21 publicwhip Exp $
 
 # Draw thumbsketch histogram of how many MPs are each distance away
 # from the Dream MP.
@@ -15,7 +17,6 @@ $rdisplay_house = db_scrub($_GET["house"]);
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-require_once "db.inc";
 require_once "parliaments.inc";
 require_once "dream.inc";
 
@@ -81,7 +82,7 @@ while ($row = $db->fetch_row_assoc())
     $i = min(intval($distance * floatval($bars)), $bars - 1);
     $pdata[$i][$party] = $pdata[$i][$party] + 1;
 }
-print_r($pdata);
+//print_r($pdata);
 if ($display != 'reverse')
     $pdata = array_reverse($pdata);
 
@@ -92,34 +93,34 @@ $height = 100;
 $memberheight = $height / floatval($maxmembers);
 
 $im    = imagecreate($width, $height);
-$orange = imagecolorallocate($im, 220, 210, 60);
-$red = imagecolorallocate($im, 255, 0, 0);
-$blue = imagecolorallocate($im, 0, 0, 255);
 $white = imagecolorallocate($im, 255, 255, 255);
+//$jjred = imagecolorallocate($im, 200, 90, 190);
+//$jjjred = imagecolorallocate($im, 90, 100, 200); 
 $px    = (imagesx($im) - 7.5 * strlen($string)) / 2;
 
 foreach ($pdata as $i => $pd)
 {
 	$xlo = $i * $width / $bars + 1;
 	$xhi = ($i + 1) * $width / $bars - 1;
+	$bh = 2.0;
 
-	$bh = 1.0;
-
-	$memberheight
-
+//print "<p>$xlo  $xhi</p>\n";
+//print_r($pdata);
 	foreach ($partycols as $partyhouse => $icol)
 	{
 		$bhN = $bh + $pd[$partyhouse] * $memberheight; 
-		$ibh = intval($bh); 
-		$ibhN = intval($bhN);
+		$ibh = $height - floor($bh); 
+		$ibhN = $height - floor($bhN);
+        $xhi -= 1;
 		if ($ibh != $ibhN)
-			imagefilledrectangle($im, $xlo, $ibh, $xhi, $ibhN, $icol);
-		$bh = $bhN; 
-	}
+			ImageFilledRectangle($im, $xlo, $ibhN, $xhi, $ibh, $icol);
+//print "<p>$ibh, $ibhN</p>";
+$bh = $bhN; 
+}
 }
 
 
-imagestring($im, 3, $px, 9, $string, $red);
+imagestring($im, 3, $px, 9, $string, $jjred);
 imageline ($im, 0, 0, 50, 50, $white);
 
 imagepng($im);
