@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.87 2007/02/08 17:38:28 frabcus Exp $
+# $Id: header.inc,v 1.88 2007/02/08 19:17:36 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -191,7 +191,7 @@ print '</td></tr>';
 <? } ?>
 
 <!-- the rest of the content -->
-<tr><td colspan="3">
+<tr><td colspan="3" class="content">
 
 <? 
 print ($pretitle ? $pretitle : "")."<h1> $h1title </h1>"; 

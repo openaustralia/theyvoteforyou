@@ -17,6 +17,13 @@ A:link:hover, A:active:hover, A:visited:hover
 {
     TEXT-DECORATION: underline;
 }
+.content
+{
+    padding-left: 3em;
+    padding-right: 3em;
+    padding-top: 2em;
+    padding-bottom: 4em;
+}
 TABLE.mps A:link, TABLE.mps A:active, TABLE.mps A:visited,
 TABLE.votes A:link, TABLE.votes A:active, TABLE.votes A:visited,
 TABLE.divisions A:link, TABLE.divisions A:active, TABLE.divisions A:visited,
@@ -558,16 +565,22 @@ LI {
     width: 75%;
     margin-left: 20%;
 }
-.policydefinition, .motion
+.policytext
 {
-    BACKGROUND-COLOR: #cefeff;
+    FONT-WEIGHT: bold;
+    COLOR: #00CC00;
+}
+.motion, .whatisflash
+{
+    BACKGROUND-COLOR: #eeeeee;
+   /* BACKGROUND-COLOR: #cefeff;
     margin-left:2em;
     margin-right:2em;
     margin-top:1em;
     margin-bottom:1em;
     padding: 5px; 
     border-style: dashed;
-    border-width: thin; 
+    border-width: thin; */
 }
 .policyvotehead
 {

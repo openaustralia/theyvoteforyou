@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.83 2006/11/10 16:32:39 publicwhip Exp $
+# $Id: tablemake.inc,v 1.84 2007/02/08 19:17:36 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -339,14 +339,14 @@ function print_column_headings($vote1, $vote2, $columnforms, $party)
 		if ($columnforms["isdreammp"])
 			print "<td>Dream Vote</td>";
 		else
-			print "<td class=\"policyvotehead\">Policy Vote</td>";
+			print "<td class=\"policyvotehead\">Policy vote</td>";
 	}
 	if ($columnforms["voter1type"] == "mp")
 		print "<td>".$vote1['name']."</td>";
 	if ($columnforms["voter2type"] == "party")
 		print "<td>$vote2 Vote</td>";
 	if ($columnforms["voter2type"] == "dreammp")
-		print "<td class=\"policyvotehead\">Policy Vote</td>";
+		print "<td class=\"policyvotehead\">Policy vote</td>";
 	if ($columnforms["voter2type"] == "person")
 		print "<td>".$vote2['mpprop']['name']."</td>";
 	if ($columnforms["aggregate_vote"])

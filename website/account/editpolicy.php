@@ -19,7 +19,7 @@ $just_logged_in = do_login_screen();
 
 if (user_isloggedin()) # User logged in, show settings screen
 {
-    $title = "Modify policy"; 
+    $title = "Edit policy definition"; 
 
     $dreamid=intval(db_scrub($_GET["id"]));
     
@@ -107,8 +107,11 @@ if (user_isloggedin()) # User logged in, show settings screen
         }
         else
         {
-            print "<p>Here you can change the name or definition of the policy. From the description, everyone should be able to agree which way the policy votes in each division.";
-
+            print "<p>Here you can change the name or definition of the policy.
+            If you haven't done this before please 
+            <a href=\"faq.php#policies\">read about how policies work</a>.
+            From the description, everyone should be able to agree which way
+            the policy votes in each division.";
         }
 
         if (!$ok)
@@ -119,9 +122,9 @@ if (user_isloggedin()) # User logged in, show settings screen
             <B>Title of policy</B><BR>
             <INPUT TYPE="TEXT" NAME="name" VALUE="<?=html_scrub($name)?>" SIZE="40" MAXLENGTH="50">
             <P>
-            <B><i>&nbsp;&nbsp;Someone who believes...</i></B><BR>
-            <textarea name="description" rows="6" cols="80"><?=htmlspecialchars($description)?></textarea><br>
-            <b><i>&nbsp;&nbsp;would vote as it is listed in the table.</i></b>
+            <B><i>&nbsp;&nbsp;Someone who believes that...</i></B><BR>
+            <textarea name="description" rows="2" cols="80"><?=htmlspecialchars($description)?></textarea><br>
+            <b><i>&nbsp;&nbsp;would vote according to this policy.</i></b>
 
             <? if (!$legacy_dream) { ?>
             <p>

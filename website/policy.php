@@ -36,7 +36,7 @@
 	# this replaces a lot of the work just below
 	$voter = get_dreammpid_attr_decode($db, "id");  # for pulling a dreammpid from id= rather than the more standard dmp=
     $policyname = html_scrub($voter["name"]);
-	$dreamid = $voter["dreammpid"];
+	$dreamid = intval($voter["dreammpid"]);
 
 	// all private dreams will be aggregate
     $bAggregate = ($voter["private"] == 1);
@@ -46,7 +46,7 @@
 	$bAggregateEditable = true; //(($_GET["editable"] == "yes") || ($_POST["submit"] != ""));
 
 
-    $title = "$policyname";
+    $title = "Policy #$dreamid: \"$policyname\"";
 
 	# constants
 	$dismodes = array();
@@ -84,7 +84,7 @@
 	}
     else
         $dismodes["motions"] = array("dtype"     => "motions", 
-                                     "description" => "Detailed comparison", 
+                                     "description" => "Detailed policy votes", 
                                      "divisionlist" => "selected", 
                                      "tooltip" => "Also shows description of every vote"); 
 
@@ -178,10 +178,16 @@
 
 	if ($dismode["definition"]) 
     {
-        print "<p>Someone who believes that</p>";
-        print "<div class=\"policydefinition\">";
-        print "<p>";
-        print str_replace("\n", "<br>", html_scrub($voter["description"]));
+        print "<p class=\"whatisflash\">This is the votes by vote definition of Public Whip ";
+        print "policy #$dreamid: \"$policyname\".";
+        print " You may want to <a href=\"/faq.php#policies\">read an introduction to policies</a>, ";
+        print "or <a href=\"/faq.php\">read more about Public Whip</a>.";
+        print "</p>";
+
+        print "<p>Someone who believes that ";
+        print "<span class=\"policytext\">".str_replace("\n", "<br>", html_scrub($voter["description"])) . "</span>";
+        if ($dismode["divisionlist"] == "selected")
+            print " would have voted like this...";
 
         print "<br>";
         print "<div align=\"right\">";
@@ -191,7 +197,6 @@
         if ($voter["private"] == 2)
             print "<strong>This policy is provisional, please help improve it</strong>";
         print " <b><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a></b>";
-        print " <i>(<a href=\"faq.php#policies\">learn more</a>)</i>";
         $discuss_url = dream_post_forum_link($db, $dreamid);
         if (!$discuss_url) {
             // First time someone logged in comes along, add policy to the forum
@@ -207,11 +212,6 @@
             print ' | <b><a href="'.htmlspecialchars($discuss_url).'">Discussion</a></b>';
         print "</div>";
         print "</p>";
-
-        print "</div>\n";
-
-        if ($dismode["divisionlist"] == "selected")
-            print "<p>would have voted like this...</p>";
     }
 
     // XXX this is not really used
@@ -333,6 +333,7 @@
         }
         if ($discuss_url)
             print ' <b><a href="'.htmlspecialchars($discuss_url).'">Discussion</a></b>.';
+        print "</p>";
 
         // should this be a button
         if ($bAggregateEditable && (($dismetric["updates"] != 0) || ($dismetric["clashes"] != 0)))
@@ -353,7 +354,7 @@
         print "<h2><a name=\"comparison\">Comparison to all MPs and Lords</a></h2>\n"; 
         print "<table ALIGN=\"RIGHT\">
             <tr><td colspan=\"3\" style=\"border: solid\"><IMG SRC=\"dreamplot.php?id=$dreamid&display=reverse&size=large\" ALIGN=RIGHT title=\"Histogram of scores\"></td></tr>
-            <tr style=\"font-size:80%\"><td>100%</td><td></td><td style=\"text-align:right\">0%</td></tr>
+<!--            <tr style=\"font-size:80%\"><td>100%</td><td></td><td style=\"text-align:right\">0%</td></tr>-->
             </table>"; 
 
         print "<p>MPs and Lords are graded according to their agreement with the policy in terms of their votes.

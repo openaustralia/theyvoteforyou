@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.133 2007/02/07 23:53:18 publicwhip Exp $
+    # $Id: mp.php,v 1.134 2007/02/08 19:17:36 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -435,7 +435,7 @@
 			print "</p>\n";
 
             if ($dismode["votedisplay"] != "fullmotion")
-                print "<div class=\"policybelieve\">would cast votes as in the 'Policy Vote' column.</div>";
+                print "<div class=\"policybelieve\">would cast votes as in the 'Policy vote' column.</div>";
             else
                 print "<div class=\"policybelieve\">would cast votes described by the policy.</div><p>"; 
         }
