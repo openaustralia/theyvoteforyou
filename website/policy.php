@@ -166,14 +166,19 @@
 		update_dreammp_votemeasures($db, $dreamid, 0);
 	}
 
-    print "<div class=\"policybelieve\">Someone who believes...</div>"; 
     print "<div class=\"policydefinition\">";
-    print "<p>" . str_replace("\n", "<br>", html_scrub($voter["description"]));
+    print "<p>";
+    print "Someone who believes ";
+    print str_replace("\n", "<br>", html_scrub($voter["description"]));
+	if ($dismode["divisionlist"] == "selected")
+        print " would have voted like this...";
+    print "</p>";
+
+    print "<p>";
     if ($voter["private"] == 1)
         print "<p><b>Made by:</b> " . pretty_user_name($db, html_scrub($voter["user_name"])) . " (this is a legacy Dream MP)";
     if ($voter["private"] == 2)
         print "<strong>This policy is provisional, please help improve it</strong>";
-
     print " <b><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a></b>";
     print " <i>(<a href=\"faq.php#policies\">learn more</a>)</i>";
     $discuss_url = dream_post_forum_link($db, $dreamid);
@@ -189,7 +194,6 @@
     }
     if ($discuss_url)
         print ' | <b><a href="'.htmlspecialchars($discuss_url).'">Discussion</a></b>';
-
     print "</p>";
 
 	print "</div>\n";
@@ -273,7 +277,6 @@
 		print ".</p>\n";
     }
 
-
 /*    if ($dismode["policybox"])
     {
 	    print "<h2><a name=\"comparison\">Compare Against one MP</a></h2>";
@@ -283,21 +286,8 @@
         print "</div>";
     } */
 
-	if ($dismode["divisionlist"] == "selected")
-	{
-		print "<div class=\"policybelieve\"><a name=\"divisions\">would have voted like this:</a></div>";
-        /*if ($voter["votes_count"]) {
-             print "<p>This policy has voted in <b>".$voter["votes_count"]."</b> divisions.";
-             if ($voter["votes_count"] != $voter["edited_count"])
-                print " A total of <b>".(($voter["votes_count"]) - ($voter["edited_count"]))."</b> of these have not had their descriptions edited.";
-		 }
-         */
-	}
-
 	else if ($dismode["divisionlist"] == "bothdiff")
 		print "<h2><a name=\"divisions\">Changed votes and new divisions</a></h2>\n";
-	else
-		print "<h2><a name=\"divisions\">Every Division</a></h2>\n";
 
 	$divtabattr = array(
 			"voter1type" 	=> "dreammp",

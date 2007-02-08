@@ -578,13 +578,6 @@ LI {
     border-style: dashed; 
     border-width: thin; 
 }
-.policybelieve
-{
-    margin-left:1em; 
-    font-size: 120%; 
-    font-style: italic; 
-    color: #450075;
-}
 .equation {vertical-align: middle;}
 
 .fraction {
