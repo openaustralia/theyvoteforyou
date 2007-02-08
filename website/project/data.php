@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: data.php,v 1.26 2007/02/07 22:07:26 publicwhip Exp $
+# $Id: data.php,v 1.27 2007/02/08 16:43:07 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -23,7 +23,7 @@ email list</a>.
 
 <!-- Open Knowledge Link -->
 <a href="http://okd.okfn.org/">
-<img valign="top" alt="This material is Open Knowledge" border="0"
+<img style="vertical-align: bottom" alt="This material is Open Knowledge" border="0"
 src="/images/ok_80x23_red_green.png" /></a>
 <!-- /Open Knowledge Link -->
 

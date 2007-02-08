@@ -1,5 +1,5 @@
 <?php
-# $Id: footer.inc,v 1.20 2007/02/07 22:07:26 publicwhip Exp $
+# $Id: footer.inc,v 1.21 2007/02/08 16:43:07 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -20,11 +20,12 @@
 <a title="Public Whip is open source software" href="/project/code.php">Source code</a>
  <!-- Open Knowledge Link -->
 <a href="http://okd.okfn.org/">
-<img valign="top" alt="This material is Open Knowledge" border="0"
+<img style="vertical-align: bottom" alt="This material is Open Knowledge" border="0"
 src="/images/ok_80x23_red_green.png" /></a>
 <!-- /Open Knowledge Link -->
 </span>
 <span class="footerright">
+<img width="0" height="23" style="vertical-align: bottom"> <!-- nasty fake image to get vspacing same as footerleft -->
 <a title="Divisions in your news reader" href="/faq.php#rss">RSS</a>
 <a title="Details on the free license for this data" href="/faq.php#legal">Legal information</a>
 </span>

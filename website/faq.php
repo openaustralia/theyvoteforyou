@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.81 2007/02/07 22:07:25 publicwhip Exp $
+# $Id: faq.php,v 1.82 2007/02/08 16:43:07 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -251,7 +251,7 @@ can use and contribute themselves.
 <a href="http://okd.okfn.org/">Open Knowledge Definition</a>.
  <!-- Open Knowledge Link -->
 <a href="http://okd.okfn.org/">
-<img valign="top" alt="This material is Open Knowledge" border="0"
+<img style="vertical-align: bottom" alt="This material is Open Knowledge" border="0"
 src="/images/ok_80x23_red_green.png" /></a>
 <!-- /Open Knowledge Link -->
 
