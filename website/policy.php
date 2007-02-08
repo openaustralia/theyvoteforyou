@@ -51,11 +51,15 @@
 	# constants
 	$dismodes = array();
 	$dismodes["summary"] = array("dtype"	=> "summary",
-								 "description" => "Votes",
+								 "description" => "Definition of policy",
+                                 "definition" => "yes", 
+								 "divisionlist" => "selected", # those which are seen out of the total
+                                 "tooltip" => "Overview of the policy");
+
+	$dismodes["comparison"] = array("description" => "Compare policy to MPs",
 								 "comparisons" => "yes",
 								 "divisionlist" => "selected", # those which are seen out of the total
-								 "policybox" => "yes",
-                                 "tooltip" => "Overview of the policy");
+                                 "tooltip" => "Comparison to MPs");
 
 	// aggregate types get more options
 	if ($bAggregate)
@@ -66,7 +70,7 @@
 		$dismodes["summary"]["description"] = "Changes";
 
 		$dismodes["allvotes"] = array("dtype"	=> "allvotes",
-									 "description" => "All Votes",
+									 "description" => "All votes",
 									 "divisionlist" => "selected",
 									 "aggregate" => "shown",
 	                                 "tooltip" => "Source of the policy");
@@ -80,9 +84,14 @@
 	}
     else
         $dismodes["motions"] = array("dtype"     => "motions", 
-                                     "description" => "Full", 
+                                     "description" => "Detailed comparison", 
                                      "divisionlist" => "selected", 
                                      "tooltip" => "Also shows description of every vote"); 
+
+	$dismodes["linktopolicy"] = array("description" => "Link to policy",
+								 "divisionlist" => "selected", # those which are seen out of the total
+								 "policybox" => "yes",
+                                 "tooltip" => "Link to a policy");
 
 
 	# work out which display mode we are in (in case we arrive from a post)
@@ -100,6 +109,7 @@
     pw_header();
 
 	// this is where we save the votes
+    // XXX this is not really used
 	$clashesonsave = -1; // signifies no saving done
 	if ($_GET["savevotes"] && $bAggregateEditable && $bAggregate)
 	{
@@ -166,38 +176,45 @@
 		update_dreammp_votemeasures($db, $dreamid, 0);
 	}
 
-    print "<div class=\"policydefinition\">";
-    print "<p>";
-    print "Someone who believes ";
-    print str_replace("\n", "<br>", html_scrub($voter["description"]));
-	if ($dismode["divisionlist"] == "selected")
-        print " would have voted like this...";
-    print "</p>";
+	if ($dismode["definition"]) 
+    {
+        print "<p>Someone who believes that</p>";
+        print "<div class=\"policydefinition\">";
+        print "<p>";
+        print str_replace("\n", "<br>", html_scrub($voter["description"]));
 
-    print "<p>";
-    if ($voter["private"] == 1)
-        print "<p><b>Made by:</b> " . pretty_user_name($db, html_scrub($voter["user_name"])) . " (this is a legacy Dream MP)";
-    if ($voter["private"] == 2)
-        print "<strong>This policy is provisional, please help improve it</strong>";
-    print " <b><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a></b>";
-    print " <i>(<a href=\"faq.php#policies\">learn more</a>)</i>";
-    $discuss_url = dream_post_forum_link($db, $dreamid);
-    if (!$discuss_url) {
-        // First time someone logged in comes along, add policy to the forum
-        global $domain_name;
-        if (user_getid()) {
-            dream_post_forum_action($db, $dreamid, "Policy introduced to forum.\n\n[b]Name:[/b] [url=http://$domain_name/policy.php?id=".$dreamid."]".$policyname."[/url]\n[b]Definition:[/b] ".$voter['description']);
-            $discuss_url = dream_post_forum_link($db, $dreamid);
-        } else {
-            print ' | <b><a href="http://'.$domain_name.'/forum/viewforum.php?f=1">Discuss</a></b>';
+        print "<br>";
+        print "<div align=\"right\">";
+
+        if ($voter["private"] == 1)
+            print "<b>Made by:</b> " . pretty_user_name($db, html_scrub($voter["user_name"])) . " (this is a legacy Dream MP)";
+        if ($voter["private"] == 2)
+            print "<strong>This policy is provisional, please help improve it</strong>";
+        print " <b><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a></b>";
+        print " <i>(<a href=\"faq.php#policies\">learn more</a>)</i>";
+        $discuss_url = dream_post_forum_link($db, $dreamid);
+        if (!$discuss_url) {
+            // First time someone logged in comes along, add policy to the forum
+            global $domain_name;
+            if (user_getid()) {
+                dream_post_forum_action($db, $dreamid, "Policy introduced to forum.\n\n[b]Name:[/b] [url=http://$domain_name/policy.php?id=".$dreamid."]".$policyname."[/url]\n[b]Definition:[/b] ".$voter['description']);
+                $discuss_url = dream_post_forum_link($db, $dreamid);
+            } else {
+                print ' | <b><a href="http://'.$domain_name.'/forum/viewforum.php?f=1">Discuss</a></b>';
+            }
         }
+        if ($discuss_url)
+            print ' | <b><a href="'.htmlspecialchars($discuss_url).'">Discussion</a></b>';
+        print "</div>";
+        print "</p>";
+
+        print "</div>\n";
+
+        if ($dismode["divisionlist"] == "selected")
+            print "<p>would have voted like this...</p>";
     }
-    if ($discuss_url)
-        print ' | <b><a href="'.htmlspecialchars($discuss_url).'">Discussion</a></b>';
-    print "</p>";
 
-	print "</div>\n";
-
+    // XXX this is not really used
     if ($dismode["aggregate"] == "fulltable")
 	{
 		// changed vote
@@ -276,70 +293,60 @@
 		}
 		print ".</p>\n";
     }
-
-/*    if ($dismode["policybox"])
-    {
-	    print "<h2><a name=\"comparison\">Compare Against one MP</a></h2>";
-        print "<div class=\"tabledreambox\">";
-        print dream_box($dreamid, $policyname);
-        print '<p>Why not <a href="#dreambox">add this to your own website?</a></p>';
-        print "</div>";
-    } */
-
-	else if ($dismode["divisionlist"] == "bothdiff")
+	else if ($dismode["divisionlist"] == "bothdiff" && $dismode["dtype"])
 		print "<h2><a name=\"divisions\">Changed votes and new divisions</a></h2>\n";
 
-	$divtabattr = array(
-			"voter1type" 	=> "dreammp",
-			"voter1"        => $dreamid,
-            "voter1name"    => $policyname,
-			"showwhich"		=> ($dismode["divisionlist"] == "selected" ? "all1" : "everyvote"),
-			"headings"		=> ($dismode["dtype"] == "motions" ? 'none' : 'columns'),
-			"divhrefappend"	=> "&dmp=$dreamid", # gives link to crossover page
-			"motionwikistate" => "listunedited");
-	if ($bAggregate)
-	{
-		$divtabattr["voter2type"] = "aggregate";
-		$divtabattr["voter2"] = $dreamid;
-		$divtabattr["showwhich"] = ($dismode["divisionlist"] == "bothdiff" ? "bothdiff" : "either");
-	}
-    
-    $divtabattr["sortby"] = "datereversed"; 
-	if ($dismode["dtype"] == "motions")
-    {
-        $divtabattr["votedisplay"] = "fullmotion"; 
-        print "<table>";
-    }
-    else
-        print "<table class=\"votes\">";
+    if ($dismode["dtype"]) {
+        $divtabattr = array(
+                "voter1type" 	=> "dreammp",
+                "voter1"        => $dreamid,
+                "voter1name"    => $policyname,
+                "showwhich"		=> ($dismode["divisionlist"] == "selected" ? "all1" : "everyvote"),
+                "headings"		=> ($dismode["dtype"] == "motions" ? 'none' : 'columns'),
+                "divhrefappend"	=> "&dmp=$dreamid", # gives link to crossover page
+                "motionwikistate" => "listunedited");
+        if ($bAggregate)
+        {
+            $divtabattr["voter2type"] = "aggregate";
+            $divtabattr["voter2"] = $dreamid;
+            $divtabattr["showwhich"] = ($dismode["divisionlist"] == "bothdiff" ? "bothdiff" : "either");
+        }
         
-    
-    $dismetric = division_table($db, $divtabattr);
-    print "</table>\n";
+        $divtabattr["sortby"] = "datereversed"; 
+        if ($dismode["dtype"] == "motions")
+        {
+            $divtabattr["votedisplay"] = "fullmotion"; 
+            print "<table>";
+        }
+        else
+            print "<table class=\"votes\">";
+        
+        $dismetric = division_table($db, $divtabattr);
+        print "</table>\n";
 
-    print "<p>Please <strong>edit and fix</strong> <i>(<a href=\"faq.php#policies\">learn more</a>)</i> the votes and the definition above, if they are not consistent with each other, or something is missing. ";
-    if (user_getid()) {
-        $db->query("update pw_dyn_user set active_policy_id = $dreamid where user_id = " . user_getid());
-        print " This is currently your active policy; <b>to change its votes, go to any division page</b>.";
-    } else {
-        print ' <a href="/account/settings.php">Log in</a> to do this.';
+        print "<p>Please <strong>edit and fix</strong> <i>(<a href=\"faq.php#policies\">learn more</a>)</i> the votes and the definition above, if they are not consistent with each other, or something is missing. ";
+        if (user_getid()) {
+            $db->query("update pw_dyn_user set active_policy_id = $dreamid where user_id = " . user_getid());
+            print " This is currently your active policy; <b>to change its votes, go to any division page</b>.";
+        } else {
+            print ' <a href="/account/settings.php">Log in</a> to do this.';
+        }
+        if ($discuss_url)
+            print ' <b><a href="'.htmlspecialchars($discuss_url).'">Discussion</a></b>.';
+
+        // should this be a button
+        if ($bAggregateEditable && (($dismetric["updates"] != 0) || ($dismetric["clashes"] != 0)))
+        {
+            if ($dismetric["clashes"] != 0)
+                print "<p>There are <strong>".$dismetric["clashes"]."</strong> divisions where your policy choices clash.</p>\n";
+            if ($dismetric["updates"] != 0)
+                print '<p>There are <strong>'.$dismetric["updates"].'</strong>
+                        changed votes which need saving into your Dream MP.
+                        <a href="policy.php?id='.$dreamid.'&display='.$display.'&savevotes=yes">CLICK HERE TO SAVE THEM</a></p>';
+            if ($clashesonsave != -1)
+                print "<h2>Error: After saving, none to update and $clashesonsave clashes found</h2>\n";
+        }
     }
-    if ($discuss_url)
-        print ' <b><a href="'.htmlspecialchars($discuss_url).'">Discussion</a></b>.';
-
-
-	// should this be a button
-	if ($bAggregateEditable && (($dismetric["updates"] != 0) || ($dismetric["clashes"] != 0)))
-	{
-		if ($dismetric["clashes"] != 0)
-			print "<p>There are <strong>".$dismetric["clashes"]."</strong> divisions where your policy choices clash.</p>\n";
-		if ($dismetric["updates"] != 0)
-			print '<p>There are <strong>'.$dismetric["updates"].'</strong>
-					changed votes which need saving into your Dream MP.
-					<a href="policy.php?id='.$dreamid.'&display='.$display.'&savevotes=yes">CLICK HERE TO SAVE THEM</a></p>';
-		if ($clashesonsave != -1)
-			print "<h2>Error: After saving, none to update and $clashesonsave clashes found</h2>\n";
-	}
 
 	if ($dismode["comparisons"])
 	{

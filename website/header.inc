@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.86 2006/10/20 20:25:04 publicwhip Exp $
+# $Id: header.inc,v 1.87 2007/02/08 17:38:28 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -141,13 +141,13 @@ Newsletter (<a href="/newsletters/signup.php">info</a>): <INPUT TYPE="TEXT" NAME
 </tr>
 
 <!-- add title in before nav experimentally -->
-<?
+<? /*
 print '<tr class="'.($second_links ? 'secondheaders' : '').'"><td colspan="3">'; // secondheaders is to get the dividing line below
 if ($pretitle)
     print $pretitle; 
 print "<h1> $h1title </h1>"; 
 print '</td></tr>'; 
-?>
+*/ ?>
 
 <!-- the second tier navigation -->
 <!-- add hashes to $second_links array, keys are
@@ -194,6 +194,6 @@ print '</td></tr>';
 <tr><td colspan="3">
 
 <? 
-//print ($pretitle ? $pretitle : "")."<h1> $h1title </h1>"; 
+print ($pretitle ? $pretitle : "")."<h1> $h1title </h1>"; 
 ?>
 

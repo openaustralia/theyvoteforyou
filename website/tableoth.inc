@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.45 2007/01/04 15:45:34 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.46 2007/02/08 17:38:28 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -99,7 +99,7 @@
         	$qjoin   .= " LEFT JOIN pw_cache_dreamreal_distance
 		                        ON pw_cache_dreamreal_distance.dream_id = pw_dyn_dreammp.dream_id
                                     	AND pw_cache_dreamreal_distance.person = ".$dreamtabattr['person'];
-	        $qorder = " ORDER BY distance";
+	        $qorder = " ORDER BY name";
             $qwhere .= " AND distance_a <> -1";
 		}
 
@@ -142,8 +142,6 @@
 			$columnforms["votes"] = "yes";
 		if ($dreamtabattr['listtype'] == "comparelinks")
 			$columnforms["agreement"] = "yes";
-		if ($dreamtabattr['listtype'] == "comparelinks")
-			$columnforms["vote"] = "yes";
 		if ($dreamtabattr['listtype'] == "mainlist")
 			$columnforms["dists"] = "yes";
 		if ($dreamtabattr['listtype'] == "aggregatevotes")
