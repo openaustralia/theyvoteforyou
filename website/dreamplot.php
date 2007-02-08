@@ -6,8 +6,9 @@ header("Content-Type: image/png");
 $dreamid = intval($_GET["id"]);
 $display = $_GET["display"];
 $rdisplay_house = db_scrub($_GET["house"]);
+$bsmall = ($_GET["size"] != 'large'); 
 
-# $Id: dreamplot.php,v 1.14 2007/02/08 18:36:11 goatchurch Exp $
+# $Id: dreamplot.php,v 1.15 2007/02/08 18:57:01 publicwhip Exp $
 
 # Draw thumbsketch histogram of how many MPs are each distance away
 # from the Dream MP.
@@ -26,9 +27,12 @@ update_dreammp_person_distance($db, $dreamid); # new method
 $bars = 10;
 $width = 200;
 $height = 100;
+if ($bsmall)
+{
+    $width = 90; 
+    $height = 50; 
+}
 
-$im    = imagecreate($width, $height);
-$orange = imagecolorallocate($im, 220, 210, 60);
 
 $partycols = array(
     "UKU:commons"	=> array(145, 224, 255),
@@ -66,7 +70,10 @@ $maxmembers = 700;
 if ($rdisplay_house == "lords" || $rdisplay_house == "commons")
 	$qwhere = " WHERE house = '$rdisplay_house'";
 else
+{
 	$maxmembers = 1400;
+    $rdisplay_house = ""; 
+}
 
 $qorder = " ORDER BY party, house";
 $db->query($qsel.$qwhere.$qorder);
@@ -86,16 +93,13 @@ while ($row = $db->fetch_row_assoc())
 if ($display != 'reverse')
     $pdata = array_reverse($pdata);
 
-$string = "Oogabooga";
-$width = 200;
-$height = 100;
 
 $memberheight = $height / floatval($maxmembers);
 
 $im    = imagecreate($width, $height);
 $white = imagecolorallocate($im, 255, 255, 255);
 $jjred = imagecolorallocate($im, 200, 90, 190);
-$px    = (imagesx($im) - 7.5 * strlen($string)) / 2;
+$px    = ($width - 7.5 * strlen($rdisplay_house)) / 2;
 
 foreach ($pdata as $i => $pd)
 {
@@ -118,9 +122,22 @@ foreach ($pdata as $i => $pd)
 	}
 }
 
-
-imagestring($im, 3, $px, 9, $string, $jjred);
-imageline ($im, 0, 0, 50, 50, $white);
+if (!$bsmall)
+{
+$tcol = imagecolorallocate($im, 20, 20, 20); 
+if ($display == 'reverse')
+{
+    imagestring($im, 3, 1, 2, "0%", $tcol);
+    imagestring($im, 3, $width - 30, 2, "100%", $tcol);  
+}
+else
+{
+    imagestring($im, 3, 1, 2, "100%", $tcol);
+    imagestring($im, 3, $width - 15, 2, "0%", $tcol); 
+}
+if ($rdisplay_house)
+    imagestring($im, 3, $px, 2, $rdisplay_house, $tcol); 
+}
 
 imagepng($im);
 imagedestroy($im);
