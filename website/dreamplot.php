@@ -2,7 +2,7 @@
 header("Content-Type: image/png");
 $dreamid = intval($_GET["id"]);
 $display = $_GET["display"];
-# $Id: dreamplot.php,v 1.8 2006/11/10 16:32:39 publicwhip Exp $
+# $Id: dreamplot.php,v 1.9 2007/02/08 16:28:44 goatchurch Exp $
 
 # Draw thumbsketch histogram of how many MPs are each distance away
 # from the Dream MP.
@@ -16,13 +16,13 @@ require_once "db.inc";
 require_once "parliaments.inc";
 require_once "dream.inc";
 
-$db = new DB(); 
+$db = new DB();
 update_dreammp_person_distance($db, $dreamid); # new method
 
 // Calculate number of MPs with distance to Dream MP in each of
 // $divisions blocked off ranges (between 0.0 and 1.0).
-$query = "select person, distance_a 
-          from pw_cache_dreamreal_distance 
+$query = "select person, distance_a
+          from pw_cache_dreamreal_distance
           where dream_id = $dreamid";
 $db->query($query);
 $divisions = 10;
@@ -40,7 +40,7 @@ while ($row = $db->fetch_row_assoc())
 }
 #print_r($data);
 if ($display != 'reverse')
-    $data = array_reverse($data); 
+    $data = array_reverse($data);
 
 // Draw bar
 require_once('sparkline/lib/Sparkline_Bar.php');
@@ -51,11 +51,31 @@ $sparkline->SetDebugLevel(DEBUG_NONE);
 $sparkline->SetBarWidth(2);
 $sparkline->SetBarSpacing(1);
 
+$string = "Oogabooga";
+$width = 200;
+$height = 100;
+$im    = imagecreate($width, $height);
+$orange = imagecolorallocate($im, 220, 210, 60);
+$red = imagecolorallocate($im, 255, 0, 0);
+$blue = imagecolorallocate($im, 0, 0, 255);
+$white = imagecolorallocate($im, 255, 255, 255);
+$px    = (imagesx($im) - 7.5 * strlen($string)) / 2;
+
 while (list($k, $v) = each($data)) {
   $sparkline->SetData($k, $v, 'black');
+  imagefilledrectangle($im, $k * 5, 0, $k * 5 + 5, $v * 5, $blue);
 }
-$sparkline->Render(16); // height only for Sparkline_Bar
+#$sparkline->Render(16); // height only for Sparkline_Bar
 
-$sparkline->Output();
+#$sparkline->Output();
+
+
+
+imagestring($im, 3, $px, 9, $string, $red);
+imageline ($im, 0, 0, 50, 50, $white);
+
+
+imagepng($im);
+imagedestroy($im);
 
 ?>
