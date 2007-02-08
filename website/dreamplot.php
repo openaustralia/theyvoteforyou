@@ -2,7 +2,7 @@
 header("Content-Type: image/png");
 $dreamid = intval($_GET["id"]);
 $display = $_GET["display"];
-# $Id: dreamplot.php,v 1.9 2007/02/08 16:28:44 goatchurch Exp $
+# $Id: dreamplot.php,v 1.10 2007/02/08 17:01:49 goatchurch Exp $
 
 # Draw thumbsketch histogram of how many MPs are each distance away
 # from the Dream MP.
@@ -21,35 +21,30 @@ update_dreammp_person_distance($db, $dreamid); # new method
 
 // Calculate number of MPs with distance to Dream MP in each of
 // $divisions blocked off ranges (between 0.0 and 1.0).
-$query = "select person, distance_a
-          from pw_cache_dreamreal_distance
-          where dream_id = $dreamid";
+$query = "SELECT party, distance_a AS distance,
+          FROM pw_mp
+		  LEFT JOIN pw_cache_dreamreal_distance
+            ON pw_cache_dreamreal_distance.person = pw_mp.person
+            AND pw_cache_dreamreal_distance.dream_id = $dreamid
+          ORDER BY party";
+
 $db->query($query);
-$divisions = 10;
-$data = array();
-for ($i = 0; $i < $divisions; $i++) {
-    $data[$i] = 0;
-}
+$bars = 10;
+$pdata = array();
+for ($i = 0; $i < $bars; $i++)
+    $pdata[$i] = array();
+
 while ($row = $db->fetch_row_assoc())
 {
-    $personid = $row['person'];
-    $division = intval($row['distance_a'] * floatval($divisions));
-    if ($division == $divisions)
-        $division--;
-    $data[$division]++;
+    $party = $row['party'];
+    $distance = $row['distance'];
+    $i = min(intval($distance * floatval($bars), $bars - 1);
+    $pdata[$i][$party] = $pdata[$i][$party] + 1;
 }
-#print_r($data);
+print_r($pdata);
 if ($display != 'reverse')
     $data = array_reverse($data);
-
-// Draw bar
-require_once('sparkline/lib/Sparkline_Bar.php');
-
-$sparkline = new Sparkline_Bar();
-$sparkline->SetDebugLevel(DEBUG_NONE);
-//$sparkline->SetDebugLevel(DEBUG_ERROR | DEBUG_WARNING | DEBUG_STATS | DEBUG_CALLS, '../log.txt');
-$sparkline->SetBarWidth(2);
-$sparkline->SetBarSpacing(1);
+die; 
 
 $string = "Oogabooga";
 $width = 200;
