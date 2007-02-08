@@ -8,7 +8,7 @@ $display = $_GET["display"];
 $rdisplay_house = db_scrub($_GET["house"]);
 $bsmall = ($_GET["size"] != 'large'); 
 
-# $Id: dreamplot.php,v 1.15 2007/02/08 18:57:01 publicwhip Exp $
+# $Id: dreamplot.php,v 1.16 2007/02/08 19:01:57 publicwhip Exp $
 
 # Draw thumbsketch histogram of how many MPs are each distance away
 # from the Dream MP.
@@ -125,7 +125,7 @@ foreach ($pdata as $i => $pd)
 if (!$bsmall)
 {
 $tcol = imagecolorallocate($im, 20, 20, 20); 
-if ($display == 'reverse')
+if ($display != 'reverse')
 {
     imagestring($im, 3, 1, 2, "0%", $tcol);
     imagestring($im, 3, $width - 30, 2, "100%", $tcol);  

@@ -352,7 +352,7 @@
 	{
         print "<h2><a name=\"comparison\">Comparison to all MPs and Lords</a></h2>\n"; 
         print "<table ALIGN=\"RIGHT\">
-            <tr><td colspan=\"3\" style=\"border: solid\"><IMG SRC=\"dreamplot.php?id=$dreamid&display=reverse\" ALIGN=RIGHT width=\"130\" height=\"60\" title=\"Histogram of scores\"></td></tr>
+            <tr><td colspan=\"3\" style=\"border: solid\"><IMG SRC=\"dreamplot.php?id=$dreamid&display=reverse&size=large\" ALIGN=RIGHT title=\"Histogram of scores\"></td></tr>
             <tr style=\"font-size:80%\"><td>100%</td><td></td><td style=\"text-align:right\">0%</td></tr>
             </table>"; 
 

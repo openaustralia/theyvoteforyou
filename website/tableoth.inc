@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.46 2007/02/08 17:38:28 frabcus Exp $
+    # $Id: tableoth.inc,v 1.47 2007/02/08 19:01:57 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -203,7 +203,7 @@
 			if ($columnforms["vote"])
 			    print "<td>".$row["votes_count"]."</td>\n";
 			if ($columnforms['dists'])
-	            print "<td>&nbsp;<img src=\"dreamplot.php?id=$dreamid\">&nbsp;</td>\n";
+	            print "<td>&nbsp;<img src=\"dreamplot.php?id=$dreamid&display=reverse\">&nbsp;</td>\n";
 			if ($columnforms["selected"])
 		    {
 				print "<td>";
