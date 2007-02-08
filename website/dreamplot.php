@@ -1,9 +1,11 @@
 <?php require_once "common.inc";
-header("Content-Type: text/html");
-//header("Content-Type: image/png");
+//header("Content-Type: text/html");
+header("Content-Type: image/png");
 $dreamid = intval($_GET["id"]);
 $display = $_GET["display"];
-# $Id: dreamplot.php,v 1.11 2007/02/08 17:16:37 publicwhip Exp $
+$rdisplay_house = db_scrub($_GET["house"]);
+
+# $Id: dreamplot.php,v 1.12 2007/02/08 18:00:57 goatchurch Exp $
 
 # Draw thumbsketch histogram of how many MPs are each distance away
 # from the Dream MP.
@@ -20,17 +22,54 @@ require_once "dream.inc";
 $db = new DB();
 update_dreammp_person_distance($db, $dreamid); # new method
 
+$bars = 10;
+$width = 200;
+$height = 100;
+
+$im    = imagecreate($width, $height);
+$orange = imagecolorallocate($im, 220, 210, 60);
+
+$partycols = array(
+    "UKU:commons"	=> imagecolorallocate($im, 145, 224, 255),
+    "DU:commons"	=> imagecolorallocate($im, 224, 102, 102),
+    "UU:commons"	=> imagecolorallocate($im, 0, 54, 102),
+	"Con:commons" 	=> imagecolorallocate($im, 51, 51, 153),
+	"Con:lords" 	=> imagecolorallocate($im, 71, 71, 173),
+	"Ind:commons"	=> imagecolorallocate($im, 238, 238, 238),
+	"Ind Con:commons"=> imagecolorallocate($im, 221, 221, 238),
+	"Ind Lab:commons"=> imagecolorallocate($im, 238, 221, 221),
+    "LDem:commons"	=> imagecolorallocate($im, 241, 204, 10),
+    "LDem:lords"	=> imagecolorallocate($im, 251, 224, 30),
+    "PC:commons"	=> imagecolorallocate($im, 51, 204, 51),
+    "SDLP:commons"	=> imagecolorallocate($im, 141, 144, 51),
+    "SNP:commons"	=> imagecolorallocate($im, 255, 224, 0),
+    "Ind UU:commons"=> imagecolorallocate($im, 0, 54, 102),
+	"Res:commons"	=> imagecolorallocate($im, 20, 200, 20),
+	"Lab:commons"	=> imagecolorallocate($im, 204, 0, 0),
+	"Lab:lords"		=> imagecolorallocate($im, 224, 20, 20),
+	"XB:lords"		=> imagecolorallocate($im, 180, 212, 190),
+	"Bp:lords"		=> imagecolorallocate($im, 0, 0, 0),
+);
+
+
+
 // Calculate number of MPs with distance to Dream MP in each of
 // $divisions blocked off ranges (between 0.0 and 1.0).
-$query = "SELECT party, distance_a AS distance, house
+$qsel = "SELECT party, distance_a AS distance, house
           FROM pw_mp
 		  LEFT JOIN pw_cache_dreamreal_distance
             ON pw_cache_dreamreal_distance.person = pw_mp.person
-            AND pw_cache_dreamreal_distance.dream_id = $dreamid
-          ORDER BY party, house";
+            AND pw_cache_dreamreal_distance.dream_id = $dreamid";
 
-$db->query($query);
-$bars = 10;
+$maxmembers = 700;
+if ($rdisplay_house == "lords" || $rdisplay_house == "commons")
+	$qwhere = " WHERE house = '$rdisplay_house'";
+else
+	$maxmembers = 1400;
+
+$qorder = " ORDER BY party, house";
+$db->query($qsel.$qwhere.$qorder);
+
 $pdata = array();
 for ($i = 0; $i < $bars; $i++)
     $pdata[$i] = array();
@@ -45,11 +84,13 @@ while ($row = $db->fetch_row_assoc())
 print_r($pdata);
 if ($display != 'reverse')
     $pdata = array_reverse($pdata);
-die; 
 
 $string = "Oogabooga";
 $width = 200;
 $height = 100;
+
+$memberheight = $height / floatval($maxmembers);
+
 $im    = imagecreate($width, $height);
 $orange = imagecolorallocate($im, 220, 210, 60);
 $red = imagecolorallocate($im, 255, 0, 0);
@@ -57,19 +98,29 @@ $blue = imagecolorallocate($im, 0, 0, 255);
 $white = imagecolorallocate($im, 255, 255, 255);
 $px    = (imagesx($im) - 7.5 * strlen($string)) / 2;
 
-while (list($k, $v) = each($data)) {
-  $sparkline->SetData($k, $v, 'black');
-  imagefilledrectangle($im, $k * 5, 0, $k * 5 + 5, $v * 5, $blue);
+foreach ($pdata as $i => $pd)
+{
+	$xlo = $i * $width / $bars + 1;
+	$xhi = ($i + 1) * $width / $bars - 1;
+
+	$bh = 1.0;
+
+	$memberheight
+
+	foreach ($partycols as $partyhouse => $icol)
+	{
+		$bhN = $bh + $pd[$partyhouse] * $memberheight; 
+		$ibh = intval($bh); 
+		$ibhN = intval($bhN);
+		if ($ibh != $ibhN)
+			imagefilledrectangle($im, $xlo, $ibh, $xhi, $ibhN, $icol);
+		$bh = $bhN; 
+	}
 }
-#$sparkline->Render(16); // height only for Sparkline_Bar
-
-#$sparkline->Output();
-
 
 
 imagestring($im, 3, $px, 9, $string, $red);
 imageline ($im, 0, 0, 50, 50, $white);
-
 
 imagepng($im);
 imagedestroy($im);
