@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.88 2007/02/08 19:17:36 frabcus Exp $
+# $Id: header.inc,v 1.89 2007/02/10 14:00:08 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -140,27 +140,18 @@ Newsletter (<a href="/newsletters/signup.php">info</a>): <INPUT TYPE="TEXT" NAME
 </td>
 </tr>
 
-<!-- add title in before nav experimentally -->
-<? /*
-print '<tr class="'.($second_links ? 'secondheaders' : '').'"><td colspan="3">'; // secondheaders is to get the dividing line below
-if ($pretitle)
-    print $pretitle; 
-print "<h1> $h1title </h1>"; 
-print '</td></tr>'; 
-*/ ?>
-
-<!-- the second tier navigation -->
+<? if ($second_links && $second_type == "default") { ?>
+<!-- the second tier navigation as dropdowns -->
 <!-- add hashes to $second_links array, keys are
      'href' - URL of link
      'text' - displayed text
      'tooltip' - text to put in title
      'current' - 'on' or 'off' for whether this item is currently selected -->
-<? if ($second_links) { ?>
 <tr class="secondheaders">
 <td class="pagesecondnavlinks" colspan="3">
 
 <?
-    function print_links($links, $offset) {
+    function print_links_default($links, $offset) {
         print '<form name="secondnav" action="/redir.php" method="post" style="display: inline">';
         print '<select id="r'.$offset.'" name="r'.$offset.'" onchange="secondnav_goto'.$offset.'()">';
         foreach ($links as $this_link) {
@@ -178,16 +169,17 @@ print '</td></tr>';
         print '</form> ';
     }
 
-    print_links($second_links, "");
+    print_links_default($second_links, "");
     if ($second_links2)
     {
-    	print_links($second_links2, "2");
+    	print_links_default($second_links2, "2");
         if ($second_links3)
-	    	print_links($second_links3, "3");
+	    	print_links_default($second_links3, "3");
     }
 ?>
 </td>
 </tr>
+<!-- the second tier navigation as dropdowns end-->
 <? } ?>
 
 <!-- the rest of the content -->
@@ -196,4 +188,36 @@ print '</td></tr>';
 <? 
 print ($pretitle ? $pretitle : "")."<h1> $h1title </h1>"; 
 ?>
+
+<? if ($second_links && $second_type == "tabs") { ?>
+<!-- the second tier navigation as tabs -->
+<!-- add hashes to $second_links array, keys are
+     'href' - URL of link
+     'text' - displayed text
+     'tooltip' - text to put in title
+     'current' - 'on' or 'off' for whether this item is currently selected -->
+<div class="secondnavtabs">
+
+<?
+    function print_links_tabs($links, $offset) {
+        print '<ul>';
+        foreach ($links as $this_link) {
+            print "<li class=\"".$this_link['current']."\">";
+            if ($this_link['current'] != 'on')
+                print "<a title=\"".$this_link['tooltip']."\" href=\"".$this_link['href']."\" class=\"".$this_link['current']."\">";
+            print $this_link['text'];
+            if ($this_link['current'] != 'on')
+                print "</a>";
+            print " ";
+            print "</li>";
+        }
+        print '</ul>';
+    }
+
+    print_links_tabs($second_links, "");
+?>
+</div>
+<!-- the second tier navigation as dropdowns end-->
+<? } ?>
+
 

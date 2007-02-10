@@ -32,6 +32,7 @@
 
     require_once "dream.inc";
 	require_once "tablepeop.inc";
+    require_once "DifferenceEngine.inc";
 
 	# this replaces a lot of the work just below
 	$voter = get_dreammpid_attr_decode($db, "id");  # for pulling a dreammpid from id= rather than the more standard dmp=
@@ -51,12 +52,21 @@
 	# constants
 	$dismodes = array();
 	$dismodes["summary"] = array("dtype"	=> "summary",
-								 "description" => "Definition of policy",
+								 "description" => "Policy",
                                  "definition" => "yes", 
 								 "divisionlist" => "selected", # those which are seen out of the total
                                  "tooltip" => "Overview of the policy");
 
-	$dismodes["comparison"] = array("description" => "Compare policy to MPs",
+	$dismodes["editdefinition"] = array("description" => "Edit policy",
+								 "editdefinition" => "yes",
+                                 "tooltip" => "Change title and definition of policy");
+
+	$dismodes["discussion"] = array("description" => "Discussion",
+								 "discussion" => "yes",
+                                 "tooltip" => "Change title and definition of policy");
+
+
+	$dismodes["comparison"] = array("description" => "Compare with MPs",
 								 "comparisons" => "yes",
 								 "divisionlist" => "selected", # those which are seen out of the total
                                  "tooltip" => "Comparison to MPs");
@@ -84,12 +94,11 @@
 	}
     else
         $dismodes["motions"] = array("dtype"     => "motions", 
-                                     "description" => "Detailed policy votes", 
+                                     "description" => "Details of votes", 
                                      "divisionlist" => "selected", 
                                      "tooltip" => "Also shows description of every vote"); 
 
-	$dismodes["linktopolicy"] = array("description" => "Link to policy",
-								 "divisionlist" => "selected", # those which are seen out of the total
+	$dismodes["linktopolicy"] = array("description" => "Link to this",
 								 "policybox" => "yes",
                                  "tooltip" => "Link to a policy");
 
@@ -102,9 +111,91 @@
 		$display = "summary"; # default
 	$dismode = $dismodes[$display];
 
+    # edit definition needs to check login
+	if ($dismode["editdefinition"]) {
+        $just_logged_in = do_login_screen();
+        if (!user_isloggedin()) {
+            login_screen();
+            exit;
+        }
+        $name=db_scrub($_POST["name"]);
+        $description=$_POST["description"];
+        $submiteditpolicy=db_scrub($_POST["submiteditpolicy"]);
+        $form_provisional = $_POST["provisional"];
+
+        $query = "select name, description, user_id, private from pw_dyn_dreammp where dream_id = '$dreamid'";
+        $row = $db->query_one_row($query);
+        if (!$name)
+            $name = $row[0];
+        if (!$description)
+            $description = $row[1];
+        $user_id = $row[2];
+        $private = $row[3];
+        $provisional = ($private == 2) ? 1 : 0;
+        $legacy_dream = ($private == 1);
+
+        $ok = false;
+        if (($private == 1) && user_getid() != $user_id)
+        {
+            $feedback = "<p>This is not your legacy Dream MP, so you can't edit their name or defintion.";
+        }
+        elseif ($submiteditpolicy && (!$just_logged_in) && $submiteditpolicy == 'Save') 
+        {
+            if ($name == "" or $description == "")
+                $feedback = "Please name the policy, and give a definition.";
+            else
+            {
+                if ($legacy_dream)
+                    $new_private = 1;
+                else
+                    $new_private = ($form_provisional ? 2 : 0);
+                $db = new DB(); 
+                list($prev_name, $prev_description) = $db->query_one_row("select name, description from pw_dyn_dreammp where dream_id = '$dreamid'");
+
+                $name_diff = format_linediff($prev_name, stripslashes($name), false); # always have link
+                $description_diff = format_linediff($prev_description, $description, true);
+
+                dream_post_forum_action($db, $dreamid, "Changed name and/or definition of policy.\n\n[b]Name:[/b] ".$name_diff."\n[b]Definition:[/b] ".$description_diff);
+                if ($new_private != $private) {
+                    if ($new_private == 0)
+                        $new_private_name = "public";
+                    elseif ($new_private == 1)
+                        $new_private_name = "legacy Dream MP";
+                    elseif ($new_private == 2)
+                        $new_private_name = "provisional";
+                    dream_post_forum_action($db, $dreamid, "Policy is now [b]".$new_private_name."[/b]");
+                }
+                $ret = $db->query_errcheck("update pw_dyn_dreammp set name='$name', description='".mysql_escape_string($description)."', private='".$new_private."' where dream_id='$dreamid'");
+                notify_dream_mp_updated($db, intval($dreamid));
+
+                if ($ret)
+                {
+                    $ok = true;
+                    $feedback = "Successfully edited policy '" . html_scrub($name) . "'.  
+                     To see the changes, go to <a href=\"../policy.php?id=$dreamid\">the
+                     policy's page</a>.";
+                    audit_log("Edited definition policy '" . $name . "'");
+                }
+                else
+                {
+                    $feedback = "Failed to edit policy. " . mysql_error();
+                }
+            }
+        } elseif ($submiteditpolicy) {
+            $feedback = "Cancelled";
+            $ok = true; # redirect on cancel
+        }
+        if ($ok)
+        {
+            header("Location: /policy.php?id=$dreamid\n");
+            exit;
+        }
+    }
+
     # make list of links to other display modes
     $thispage = "policy.php?id=$dreamid"; 
     $second_links = dismodes_to_second_links($thispage, $dismodes, $tpsort, $display);
+    $second_type = "tabs";
 
     pw_header();
 
@@ -196,7 +287,11 @@
             print "<b>Made by:</b> " . pretty_user_name($db, html_scrub($voter["user_name"])) . " (this is a legacy Dream MP)";
         if ($voter["private"] == 2)
             print "<strong>This policy is provisional, please help improve it</strong>";
-        print " <b><a href=\"account/editpolicy.php?id=$dreamid\">Edit definition</a></b>";
+        print "</div>";
+        print "</p>";
+    }
+
+	if ($dismode["discussion"]) {
         $discuss_url = dream_post_forum_link($db, $dreamid);
         if (!$discuss_url) {
             // First time someone logged in comes along, add policy to the forum
@@ -205,20 +300,74 @@
                 dream_post_forum_action($db, $dreamid, "Policy introduced to forum.\n\n[b]Name:[/b] [url=http://$domain_name/policy.php?id=".$dreamid."]".$policyname."[/url]\n[b]Definition:[/b] ".$voter['description']);
                 $discuss_url = dream_post_forum_link($db, $dreamid);
             } else {
-                print ' | <b><a href="http://'.$domain_name.'/forum/viewforum.php?f=1">Discuss</a></b>';
+                $discuss_url = 'http://'.$domain_name.'/forum/viewforum.php?f=1';
             }
         }
-        if ($discuss_url)
-            print ' | <b><a href="'.htmlspecialchars($discuss_url).'">Discussion</a></b>';
-        print "</div>";
+        if ($discuss_url) {
+            print '<iframe src="'.htmlspecialchars($discuss_url).'" width="100%" height="10000" scrolling="no">';
+            print '<a href="'.htmlspecialchars($discuss_url).'">Click here for discussion</a>';
+            print '</iframe>';
+        }
+    }
+
+	if ($dismode["editdefinition"]) {
+        if (!user_getid()) {
+            print "Error, expected to be logged in.";
+            exit;
+        }
+        $db->query("update pw_dyn_user set active_policy_id = $dreamid where user_id = " . user_getid());
+
+        print "<h2>How the policy votes</h2>";
+        print "<p>This is currently your active policy; <b>to change its votes,
+            go to an appropriate <a href=\"/divisions.php\">division page</a></b>.
+            You can use the <a href=\"search.php\">search facility</a> to find divisions.";
+
+        print " If you haven't edited a policy before please 
+        <a href=\"faq.php#policies\">read about how policies work</a>.";
         print "</p>";
+
+        print "<h2>Policy title and text</h2>";
+
+        if ($feedback && (!$just_logged_in)) {
+            print "<div class=\"error\"><h2>Modifying the policy not complete, please try again
+                </h2><p>$feedback</div>";
+        }
+
+        if (!$ok)
+        {
+        ?>
+            <P>
+            <FORM ACTION="policy.php?id=<?=$dreamid?>&display=editdefinition" METHOD="POST">
+            <p><span class="ptitle">Title:</span> <INPUT TYPE="TEXT" NAME="name" VALUE="<?=html_scrub($name)?>" SIZE="40" MAXLENGTH="50">
+            <P>
+            <span class="ptitle">Text:</span> Someone who believes that<BR>
+            <textarea class="policytext" name="description" rows="2" cols="80"><?=htmlspecialchars($description)?></textarea>
+            <br>
+            would vote according to this policy. (<em>From the text, everyone should 
+            be able to agree which way the policy votes in each division</em>.)
+
+            <? if (!$legacy_dream) { ?>
+            <p>
+            <INPUT TYPE="checkbox" NAME="provisional" value="provisional" id="provisional" <?=$provisional?'checked':''?>> 
+            <label for="provisional" class="ptitle">Provisional policy</label>
+            ('provisional' means the policy is not yet complete or consistent
+            enough to display on MP pages)
+            </p>
+            <? } ?>
+
+            <p>
+            <INPUT TYPE="SUBMIT" NAME="submiteditpolicy" VALUE="Save title and text" accesskey="S">
+            </FORM>
+        <?
+        }
+        pw_footer();
     }
 
     // XXX this is not really used
     if ($dismode["aggregate"] == "fulltable")
 	{
 		// changed vote
-		if (mysql_escape_string($_POST["submit"]))
+		if (mysql_escape_string($_POST["submiteditpolicy"]))
         {
         	$newseldreamid = mysql_escape_string($_POST["seldreamid"]);
 			$icomma = strpos($newseldreamid, ',');
@@ -323,17 +472,6 @@
         
         $dismetric = division_table($db, $divtabattr);
         print "</table>\n";
-
-        print "<p>Please <strong>edit and fix</strong> <i>(<a href=\"faq.php#policies\">learn more</a>)</i> the votes and the definition above, if they are not consistent with each other, or something is missing. ";
-        if (user_getid()) {
-            $db->query("update pw_dyn_user set active_policy_id = $dreamid where user_id = " . user_getid());
-            print " This is currently your active policy; <b>to change its votes, go to any division page</b>.";
-        } else {
-            print ' <a href="/account/settings.php">Log in</a> to do this.';
-        }
-        if ($discuss_url)
-            print ' <b><a href="'.htmlspecialchars($discuss_url).'">Discussion</a></b>.';
-        print "</p>";
 
         // should this be a button
         if ($bAggregateEditable && (($dismetric["updates"] != 0) || ($dismetric["clashes"] != 0)))

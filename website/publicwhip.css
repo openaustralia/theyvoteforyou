@@ -339,6 +339,31 @@ TABLE.votetab TD.majority
 {
     BACKGROUND-COLOR: #cccccc;
 }
+.secondnavtabs
+{
+/*    border-bottom: #003300 1px solid;*/
+}
+.secondnavtabs ul
+{
+    padding-left: 0;
+}
+.secondnavtabs li
+{
+    display: inline;
+    margin-right: 0.5em;
+    padding: 0.2em;
+}
+.secondnavtabs li.on
+{
+    border-left: #003300 1px solid;
+    border-right: #003300 1px solid;
+    border-top: #003300 1px solid;
+}
+.secondnavtabs li.off
+{
+    BACKGROUND-COLOR: #999999;
+    BORDER: #003300 1px solid
+}
 .pagenavlinks
 {
     BACKGROUND-COLOR: #664466;
