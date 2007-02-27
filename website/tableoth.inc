@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.47 2007/02/08 19:01:57 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.48 2007/02/27 15:25:13 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -161,7 +161,7 @@
 			if ($columnforms["vote"])
 				print "<td>Vote count</td>";
 			if ($columnforms['dists'])
-		        print "<td>MP Dists<br>0--&gt;1</td>";
+		        print "<td>Party agree<br>/ disagree</td>";
 			if ($columnforms["selected"])
 		        print "<td>Selected</td>";
 	        print "</tr>\n";

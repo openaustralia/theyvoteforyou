@@ -490,10 +490,12 @@
 	if ($dismode["comparisons"])
 	{
         print "<h2><a name=\"comparison\">Comparison to all MPs and Lords</a></h2>\n"; 
-        print "<table ALIGN=\"RIGHT\">
-            <tr><td colspan=\"3\" style=\"border: solid\"><IMG SRC=\"dreamplot.php?id=$dreamid&display=reverse&size=large\" ALIGN=RIGHT title=\"Histogram of scores\"></td></tr>
-<!--            <tr style=\"font-size:80%\"><td>100%</td><td></td><td style=\"text-align:right\">0%</td></tr>-->
-            </table>"; 
+
+        print "<p>Colours represent political parties. If MPs or Lords of a
+        party vote the same way as the policy, then that party's colour appears
+        by 'agree'. If they vote the opposite way, then it appears by 'disagree'.</p>";
+        print "<p><img class=\"histoimg\" src=\"dreamplot.php?id=$dreamid&display=reverse&size=large&house=commons\" title=\"Histogram of MP agreement to policy by party\">"; 
+        print "&nbsp;&nbsp;&nbsp;<img class=\"histoimg\" src=\"dreamplot.php?id=$dreamid&display=reverse&size=large&house=lords\" title=\"Histogram of Lord agreement to policy by party\"></p>"; 
 
         print "<p>MPs and Lords are graded according to their agreement with the policy in terms of their votes.
 	            If they always vote the same as the policy then their agreement is 100%; if they

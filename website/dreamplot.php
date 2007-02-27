@@ -8,7 +8,10 @@ $display = $_GET["display"];
 $rdisplay_house = db_scrub($_GET["house"]);
 $bsmall = ($_GET["size"] != 'large'); 
 
-# $Id: dreamplot.php,v 1.16 2007/02/08 19:01:57 publicwhip Exp $
+$fontfile = "/usr/share/fonts/truetype/ttf-bitstream-vera/Vera.ttf";
+$fontsize = 10;
+
+# $Id: dreamplot.php,v 1.17 2007/02/27 15:25:13 frabcus Exp $
 
 # Draw thumbsketch histogram of how many MPs are each distance away
 # from the Dream MP.
@@ -96,10 +99,10 @@ if ($display != 'reverse')
 
 $memberheight = $height / floatval($maxmembers);
 
-$im    = imagecreate($width, $height);
+$im    = imagecreate($width, $height + ($bsmall ? 0 : $fontsize + 8));
 $white = imagecolorallocate($im, 255, 255, 255);
 $jjred = imagecolorallocate($im, 200, 90, 190);
-$px    = ($width - 7.5 * strlen($rdisplay_house)) / 2;
+$px    = ($width - $fontsize * strlen($rdisplay_house)) / 2;
 
 foreach ($pdata as $i => $pd)
 {
@@ -124,19 +127,20 @@ foreach ($pdata as $i => $pd)
 
 if (!$bsmall)
 {
-$tcol = imagecolorallocate($im, 20, 20, 20); 
-if ($display != 'reverse')
-{
-    imagestring($im, 3, 1, 2, "0%", $tcol);
-    imagestring($im, 3, $width - 30, 2, "100%", $tcol);  
-}
-else
-{
-    imagestring($im, 3, 1, 2, "100%", $tcol);
-    imagestring($im, 3, $width - 15, 2, "0%", $tcol); 
-}
-if ($rdisplay_house)
-    imagestring($im, 3, $px, 2, $rdisplay_house, $tcol); 
+    $tcol = imagecolorallocate($im, 20, 20, 20); 
+    $belowhist = $height + $fontsize + 4;
+    if ($display != 'reverse')
+    {
+        imagettftext($im, $fontsize, 0, 5, $belowhist, $tcol, $fontfile, "disagree");
+        imagettftext($im, $fontsize, 0, $width - 10 * 4, $belowhist, $tcol, $fontfile, "agree"); 
+    }
+    else
+    {
+        imagettftext($im, $fontsize, 0, 5, $belowhist, $tcol, $fontfile, "agree");
+        imagettftext($im, $fontsize, 0, $width - 10 * 6, $belowhist, $tcol, $fontfile, "disagree"); 
+    }
+    if ($rdisplay_house)
+        imagettftext($im, $fontsize, 0, $px, 12, $tcol, $fontfile, $rdisplay_house); 
 }
 
 imagepng($im);

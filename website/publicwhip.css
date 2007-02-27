@@ -595,6 +595,10 @@ LI {
     FONT-WEIGHT: bold;
     COLOR: #00CC00;
 }
+.histoimg {
+    border: 1px solid black;
+    padding: 1em;
+}
 .motion, .whatisflash
 {
     BACKGROUND-COLOR: #eeeeee;
