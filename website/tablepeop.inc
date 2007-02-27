@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.51 2006/11/10 16:32:39 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.52 2007/02/27 16:41:44 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -13,10 +13,10 @@ require_once $toppath . "parliaments.inc";
 function print_mpcolumn_headings($columnforms)
 {
     print "<tr class=\"headings\">";
-    if ($columnforms["name"])
-	    print "<td>Name</td>";
     if ($columnforms["distancetoagreement"])
         print "<td>Agreement</td>"; 
+    if ($columnforms["name"])
+	    print "<td>Name</td>";
 	if ($columnforms["place"])
         print "<td>Constituency</td>";
 	if ($columnforms["party"])
@@ -72,10 +72,6 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
 	if ($columnforms["rownumbering"])
         print "<td>$nrows</td>";
 
-    # name and constituency
-	if ($columnforms["name"])
-	    print "<td><a href=\"$href\">$name</a></td>";
-
     #distance voting table
     if ($columnforms["distancetoagreement"])
     {
@@ -89,6 +85,10 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
         print "</td>"; 
     }
 
+
+    # name and constituency
+	if ($columnforms["name"])
+	    print "<td><a href=\"$href\">$name</a></td>";
 
     # we could mark if there are other MPs in this constituency and make a link to them
     #print "<td>".$row['constituency']."</td>";

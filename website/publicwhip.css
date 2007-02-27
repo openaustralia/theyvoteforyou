@@ -613,8 +613,8 @@ LI {
 }
 .policyvotehead
 {
-    border-style: dashed; 
-    border-width: thin; 
+ /*   border-style: dashed; 
+    border-width: thin;  */
 }
 .equation {vertical-align: middle;}
 

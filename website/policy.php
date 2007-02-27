@@ -514,7 +514,7 @@
 
 	if ($dismode["policybox"])
 	{
-	    print '<h2><a name="dreambox">Add Policies to Your Website</a></h2>';
+	    print '<h2><a name="dreambox">Add policy to your website</a></h2>';
 	    print '<p>Get people thinking about your issue, by adding a policy search
 				box to your website.  This lets people compare their own MP to your policy,
 				like this.</p>';

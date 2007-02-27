@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.134 2007/02/08 19:17:36 frabcus Exp $
+    # $Id: mp.php,v 1.135 2007/02/27 16:41:44 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -429,15 +429,15 @@
                 $pevious_person = $pp["person"];
             }
 
-            print "<div class=\"policybelieve\">Someone who believes...</div>\n"; 
-			print "<p class=\"policydefinition\">\n";
-			print html_scrub($voter2attr['description']);
-			print "</p>\n";
-
-            if ($dismode["votedisplay"] != "fullmotion")
-                print "<div class=\"policybelieve\">would cast votes as in the 'Policy vote' column.</div>";
-            else
-                print "<div class=\"policybelieve\">would cast votes described by the policy.</div><p>"; 
+            if ($dismode["votedisplay"] == "fullmotion") {
+                print "<p>Someone who believes that ";
+                print "<span class=\"policytext\">".str_replace("\n", "<br>", html_scrub($voter2attr["description"])) . "</span> ";
+                if ($dismode["votedisplay"] != "fullmotion")
+                    print "would cast votes as in the 'Policy vote' column.";
+                else
+                    print "would cast votes described by the policy."; 
+                print "</p>\n"; 
+            }
         }
 
 		#if ($dismode["eventsinfo"])

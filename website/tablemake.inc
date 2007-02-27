@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.84 2007/02/08 19:17:36 frabcus Exp $
+# $Id: tablemake.inc,v 1.85 2007/02/27 16:41:44 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -86,7 +86,11 @@ function divdreammpconds(&$aquery, &$db, $dreammpid, $bonlyvotes, $i)
 
     # limit down the time range if not a full-join
     if ($bonlyvotes)
+    {
+        if ($i == 2) # don't show when policy abstains
+            $aquery["qjoin"] .= " AND pwvote$i.vote <> 'both'";
         $aquery["qwhere"] .= " AND pwvote$i.vote IS NOT NULL";
+    }
 
     $aquery["vote$i"] = "pwvote$i.vote";  # used because whipping has a special column
 }
@@ -280,7 +284,7 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
             if ($dtvote1 == "" or $dtvote1 == "abstain")
             {
                 $roleclass = "rebelteller"; # yellow
-                $votedesc = "none";
+                $votedesc = "absent";
                 if ($dtvote2 == "" or $dtvote2 == "abstain")
                     $dismetric["abboth"] += 1;
                 else
@@ -354,8 +358,9 @@ function print_column_headings($vote1, $vote2, $columnforms, $party)
 	if ($columnforms["aggregate_names"])
 		print "<td>Policies</td>";
 
-	if ($columnforms["role"])
-		print "<td>R&ocirc;le</td>";
+	if ($columnforms["role"]) {
+        print "<td>".$columnforms["role"]."</td>";
+    }
 
     if ($columnforms["similarity"])
         print "<td>Similarity</td>";
@@ -704,7 +709,7 @@ function division_table($db, $divtabattr, $events = "")
 	$columnforms = array();
     $columnforms["divisiondate"] = "yes";
     if ($divtabattr["headings"] != "frontpageshort")
-	    $columnforms["divisionnumber"] = "yes";
+	    $columnforms["divisiontime"] = "yes";
 
     # the underlying division list
     $aquery = array();
@@ -795,7 +800,7 @@ function division_table($db, $divtabattr, $events = "")
     $columnforms["voter1type"] = $voter1type;
     $columnforms["voter2type"] = $voter2type;
 	if ($voter2type && ($voter2type != 'aggregate'))
-		$columnforms["role"] = "yes";
+		$columnforms["role"] = "R&ocirc;le";
     if ($voter1type == 'mp')
         $columnforms["voter1house"] = $voter1["house"];
     if ($voter2type == 'mp')
@@ -804,7 +809,7 @@ function division_table($db, $divtabattr, $events = "")
 	{
 		$columnforms["isdreammp"] = "yes";  // we can call the column a dream vote without the aggregate column
 		$columnforms["aggregate_vote"] = ($showwhich == "either");
-$columnforms["aggregate_names"] = "yes";
+        $columnforms["aggregate_names"] = "yes";
 	}
 
     # construct the first column of votes
@@ -836,6 +841,9 @@ $columnforms["aggregate_names"] = "yes";
     {
         $bonlyvotes2 = ($showwhich == "all2" or $showwhich == "both" or $showwhich == "bothdiff");
         if ($voter2type == "dreammp") {
+            $columnforms["voter1type"] = null;
+            $columnforms["voter2type"] = null;
+            $columnforms["role"] = "Agreement";
             divdreammpconds($aquery, $db, $voter2, $bonlyvotes2, 2);
         } else if ($voter2type == "party") {
             if ($voter2 == "")
