@@ -356,7 +356,8 @@
             <? } ?>
 
             <p>
-            <INPUT TYPE="SUBMIT" NAME="submiteditpolicy" VALUE="Save title and text" accesskey="S">
+            <input type="hidden" name="submiteditpolicy" value="Save">
+            <INPUT TYPE="SUBMIT" NAME="submitbutton" VALUE="Save title and text" accesskey="S">
             </FORM>
         <?
         }
