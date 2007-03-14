@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.135 2007/02/27 16:41:44 frabcus Exp $
+    # $Id: mp.php,v 1.136 2007/03/14 10:28:57 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -606,7 +606,8 @@
         
         $mptabattr = array("listtype" => 'mpdistance',
                            'mpfriend' => $mpprop,
-                           'house' => $mpprop['house']);
+                           'house' => $mpprop['house'], 
+                           'headings' => 'yes');
         if ($dismode["possfriends"] == "some")
             $mptabattr["limit"] = 5;
 
@@ -626,10 +627,6 @@
 		    previously unsuspected.  Or it may be nonsense.";
 
         print "<table class=\"mps\">\n";
-        print "<tr class=\"headings\"><td>Name</td><td>Agreement</td>";
-        if ($mpprop['house'] != "lords")
-            print "<td>Constituency</td>";
-        print "<td>Party</td></tr>\n";
         $same_voters = mp_table($db, $mptabattr);
         print "</table>\n";
 
