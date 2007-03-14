@@ -11,7 +11,7 @@ $bsmall = ($_GET["size"] != 'large');
 $fontfile = "/usr/share/fonts/truetype/ttf-bitstream-vera/Vera.ttf";
 $fontsize = 10;
 
-# $Id: dreamplot.php,v 1.17 2007/02/27 15:25:13 frabcus Exp $
+# $Id: dreamplot.php,v 1.18 2007/03/14 11:39:49 publicwhip Exp $
 
 # Draw thumbsketch histogram of how many MPs are each distance away
 # from the Dream MP.
@@ -60,18 +60,18 @@ $partycols = array(
 );
 
 
-
 // Calculate number of MPs with distance to Dream MP in each of
 // $divisions blocked off ranges (between 0.0 and 1.0).
-$qsel = "SELECT party, distance_a AS distance, house
+$qsel = "SELECT party, distance_a AS distance, house, left_house
           FROM pw_mp
 		  LEFT JOIN pw_cache_dreamreal_distance
             ON pw_cache_dreamreal_distance.person = pw_mp.person
             AND pw_cache_dreamreal_distance.dream_id = $dreamid";
 
+$qwhere = " WHERE distance_a <> -1 AND left_house = '9999-12-31'"; 
 $maxmembers = 700;
 if ($rdisplay_house == "lords" || $rdisplay_house == "commons")
-	$qwhere = " WHERE house = '$rdisplay_house'";
+	$qwhere .= " AND house = '$rdisplay_house'";
 else
 {
 	$maxmembers = 1400;
@@ -80,28 +80,42 @@ else
 
 $qorder = " ORDER BY party, house";
 $db->query($qsel.$qwhere.$qorder);
-
 $pdata = array();
+$pdatacol = array();
 for ($i = 0; $i < $bars; $i++)
+{
     $pdata[$i] = array();
+    $pdatacol[$i] = 0; 
+}    
 
+$countrows = 0; 
+$maxcol = 0; 
 while ($row = $db->fetch_row_assoc())
 {
     $party = $row['party'].":".$row['house'];
     $distance = $row['distance'];
     $i = min(intval($distance * floatval($bars)), $bars - 1);
     $pdata[$i][$party] = $pdata[$i][$party] + 1;
+    $countrows = $countrows + 1; 
+    $pdatacol[$i] = $pdatacol[$i] + 1; 
+    if ($pdatacol[$i] > $maxcol)
+        $maxcol = $pdatacol[$i]; 
 }
 //print_r($pdata);
 if ($display != 'reverse')
     $pdata = array_reverse($pdata);
 
+// revalue the scale up a bit
+if ($maxmembers - 200 > $maxcol)
+    $maxmembers = $maxmembers - 200; 
+//$maxmembers = $maxcol + 1; 
 
 $memberheight = $height / floatval($maxmembers);
 
+
 $im    = imagecreate($width, $height + ($bsmall ? 0 : $fontsize + 8));
-$white = imagecolorallocate($im, 255, 255, 255);
-$jjred = imagecolorallocate($im, 200, 90, 190);
+imagecolorallocate($im, 255, 255, 255); // has the effect of filling the colour 
+
 $px    = ($width - $fontsize * strlen($rdisplay_house)) / 2;
 
 foreach ($pdata as $i => $pd)
@@ -113,16 +127,21 @@ foreach ($pdata as $i => $pd)
 	foreach ($partycols as $partyhouse => $acol)
 	{
 		$bhN = $bh + $pd[$partyhouse] * $memberheight;
-		$ibh = $height - floor($bh);
-		$ibhN = $height - floor($bhN);
+		$ibh = $height - floor($bh + 0.9);
+		$ibhN = $height - floor($bhN + 0.9);
         //$xhi -= 1;
 		if ($ibh != $ibhN)
 		{
 			$icol = imagecolorallocate($im, $acol[0], $acol[1], $acol[2]);
 			ImageFilledRectangle($im, $xlo, $ibhN, $xhi, $ibh, $icol);
-		}
+        }
 		$bh = $bhN;
 	}
+    if (!$bsmall)
+    {
+        $icol = imagecolorallocate($im, 200, 200, 200); 
+        ImageFilledRectangle($im, $xlo, $height, $xhi, $height, $icol);
+    }
 }
 
 if (!$bsmall)
@@ -139,6 +158,8 @@ if (!$bsmall)
         imagettftext($im, $fontsize, 0, 5, $belowhist, $tcol, $fontfile, "agree");
         imagettftext($im, $fontsize, 0, $width - 10 * 6, $belowhist, $tcol, $fontfile, "disagree"); 
     }
+    //$rdisplay_house = $countrows;
+    //$rdisplay_house = $maxcol; 
     if ($rdisplay_house)
         imagettftext($im, $fontsize, 0, $px, 12, $tcol, $fontfile, $rdisplay_house); 
 }
