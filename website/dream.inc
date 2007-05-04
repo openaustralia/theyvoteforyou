@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.55 2006/03/07 11:19:50 publicwhip Exp $
+# $Id: dream.inc,v 1.56 2007/05/04 12:23:13 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -62,8 +62,8 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
     print "<tr class=\"jobevent\"><td colspan=\"2\">Total:</td><td>$values_total</td><td>$points_total</td></tr>";
 
     print "<tr><td colspan=\"4\"><p style=\"width: 35em;\"><small>*Pressure of
-    other work means MPs or Lords are often not present at votes &ndash; it does not
-    always indicate they are indifferent. \"Weakly relevant\" votes where
+    other work means MPs or Lords are not always available to votes &ndash; it does not
+    always indicate they have abstained. \"Weakly relevant\" votes where
     the MP or Lord was absent are therefore counted less strongly when determining 
     their position.</small></td></tr>";
 
@@ -122,7 +122,7 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 
 	# (no score from dreamMP absents or abstentions)
 
-	$qfrom  = " FROM pw_dyn_dreamvote, pw_cache_divwiki";
+	$qfrom  = " FROM pw_cache_divwiki, pw_dyn_dreamvote";
 	$qjoin .= " LEFT JOIN pw_cache_dreaminfo
 					ON pw_cache_dreaminfo.dream_id = pw_dyn_dreamvote.dream_id";
 
