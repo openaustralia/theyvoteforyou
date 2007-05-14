@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.56 2007/05/04 12:23:13 publicwhip Exp $
+# $Id: dream.inc,v 1.57 2007/05/14 18:16:23 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -210,10 +210,11 @@ function update_dreammp_person_distance($db, $dreamid)
 
 	# (no score from dreamMP absents or abstentions)
 
-	$qfrom  = " FROM pw_dyn_dreamvote, pw_mp";
-	$qjoin  = " LEFT JOIN pw_division
-					ON pw_dyn_dreamvote.division_date = pw_division.division_date
-					AND pw_dyn_dreamvote.division_number = pw_division.division_number";
+	$qfrom  = " FROM pw_mp";
+	$qjoin = " LEFT JOIN pw_dyn_dreamvote ON pw_dyn_dreamvote.dream_id = $dreamid";
+	$qjoin .= " LEFT JOIN pw_division
+					ON pw_division.division_date = pw_dyn_dreamvote.division_date
+					AND pw_division.division_number = pw_dyn_dreamvote.division_number";
 	$qjoin .= " LEFT JOIN pw_cache_divinfo
 					ON pw_cache_divinfo.division_id = pw_division.division_id";
 	$qjoin .= " LEFT JOIN pw_vote
@@ -221,15 +222,14 @@ function update_dreammp_person_distance($db, $dreamid)
 					AND pw_vote.mp_id = pw_mp.mp_id";
 
 	# we do for one dreammp against all the votes they share with each MP
-	$qwhere  = " WHERE pw_dyn_dreamvote.dream_id = $dreamid";
-	$qwhere .= "   AND pw_mp.entered_house <= pw_division.division_date
+	$qwhere = " WHERE pw_mp.entered_house <= pw_division.division_date
 				   AND pw_mp.left_house > pw_division.division_date
                    AND pw_mp.house = pw_division.house";
 	$qgroup = " GROUP BY pw_mp.person";
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
-	if ($bdebug == 1)
-		print "<h2>$query</h2>";
+#	if ($bdebug == 1)
+#		print "<h2>$query</h2>";
 
 	# do the database/scoring thing
 	$db->query($query);
