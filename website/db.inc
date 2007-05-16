@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.27 2005/10/19 23:15:27 frabcus Exp $
+# $Id: db.inc,v 1.28 2007/05/16 11:48:09 publicwhip Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -46,37 +46,38 @@ class DB
     function query($query)
     {
 #print "<p>$query";
-        $this->$result = mysql_query($query, $this->link) 
+        $x = mysql_query($query, $this->link) 
             or trigger_error("Query failed : " .  mysql_error(), E_USER_ERROR);
+        $this->result = $x;
     }
 
     function query_errcheck($query)
     {
 #print "<p>$query";
-        $this->$result = mysql_query($query, $this->link);
-        return $this->$result;
+        $this->result = mysql_query($query, $this->link);
+        return $this->result;
     }
 
 
     function fetch_row()
     {
-        return mysql_fetch_row($this->$result);
+        return mysql_fetch_row($this->result);
     }
 
     function fetch_row_assoc()
     {
-        return mysql_fetch_assoc($this->$result);
+        return mysql_fetch_assoc($this->result);
     }
 
 	function fetch_row_both()
     {
-        return mysql_fetch_array($this->$result, MYSQL_BOTH);
+        return mysql_fetch_array($this->result, MYSQL_BOTH);
     }
 
     function fetch_rows_assoc()
     {
         $ret = array();
-        while ($row = mysql_fetch_assoc($this->$result))
+        while ($row = mysql_fetch_assoc($this->result))
         {
             array_push($ret, $row);
         }
@@ -86,9 +87,9 @@ class DB
 
     function rows()
     {
-        if (gettype($this->$result) == "boolean")
-            return $this->$result;
-        return mysql_num_rows($this->$result);
+        if (gettype($this->result) == "boolean")
+            return $this->result;
+        return mysql_num_rows($this->result);
     }
 
     function query_one_row($query)
