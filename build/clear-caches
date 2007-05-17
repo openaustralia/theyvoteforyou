@@ -20,6 +20,7 @@ rm -fr /home/publicwhip/$CACHE/*
 echo "delete from pw_cache_dreaminfo;" | mysql $DB
 echo "delete from pw_cache_dreamreal_distance;" | mysql $DB
 echo "delete from pw_cache_divwiki;" | mysql $DB
+echo "update pw_cache_dreaminfo set cache_uptodate = 0; " | mysql $DB
 
 # Provoke regeneration of policy cached data, so that Policy Comparison
 # table on MP pages appears correctly.
