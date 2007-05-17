@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.58 2007/05/17 09:51:19 publicwhip Exp $
+# $Id: dream.inc,v 1.59 2007/05/17 10:36:55 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -161,7 +161,7 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 function update_dreammp_person_distance($db, $dreamid)
 {
     # update the number of votes and number of motions edited
-    #print "update_dreammp_person_distance $dreamid<p>";
+    print "update_dreammp_person_distance $dreamid<p>\n";
 
 	global $bdebug;
 	$query = "SELECT cache_uptodate
@@ -248,8 +248,22 @@ function update_dreammp_person_distance($db, $dreamid)
 
 	foreach ($rowarray as $row)
 	{
-		if (!$row['nvotesoverlap']) # can't quite see how to filter these out in the query
-			continue;
+		if (!$row['nvotesoverlap']) { # can't quite see how to filter these out in the query
+            #print "nvotesoverlap ".$row['person']."\n";
+            #print_r($row);
+
+            # Actually, don't bother filtering it! We want to know when somebody didn't
+            # attend all the votes on one subject, and need that recording in table. Can
+            # check for their being no common attendance elsewhere.
+            #continue
+
+            if (!$row['nvotessame']) {
+                $row['nvotessame']= 0;
+            }
+            if (!$row['nvotesdiffer']) {
+                $row['nvotesdiffer']= 0;
+            }
+        }
 		$nvotessame = $row['nvotessame'];
 		$nvotessamestrong = $row['nvotessamestrong'];
 		$nvotesdiffer = $row['nvotesdiffer'];
