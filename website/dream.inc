@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.57 2007/05/14 18:16:23 publicwhip Exp $
+# $Id: dream.inc,v 1.58 2007/05/17 09:51:19 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -62,7 +62,7 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
     print "<tr class=\"jobevent\"><td colspan=\"2\">Total:</td><td>$values_total</td><td>$points_total</td></tr>";
 
     print "<tr><td colspan=\"4\"><p style=\"width: 35em;\"><small>*Pressure of
-    other work means MPs or Lords are not always available to votes &ndash; it does not
+    other work means MPs or Lords are not always available to vote &ndash; it does not
     always indicate they have abstained. \"Weakly relevant\" votes where
     the MP or Lord was absent are therefore counted less strongly when determining 
     their position.</small></td></tr>";
