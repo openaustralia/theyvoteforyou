@@ -1,6 +1,6 @@
 <?php
 
-# $Id: forummagic.inc,v 1.18 2006/10/24 01:30:54 publicwhip Exp $
+# $Id: forummagic.inc,v 1.19 2007/05/20 16:30:07 frabcus Exp $
 # Post things to the forum automatically (like log of changes to policies)
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -44,20 +44,24 @@ function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content)
             $mail_error .= "--- End dump of forummagic_post error ---";
             // Mail the diagnostics to us -- FAI 2006-10-21
             mail("team@publicwhip.org.uk", "Forum magic post failure diagnostics", $mail_error);
+            print "<pre>" . $mail_error . "</pre>";
             trigger_error("Failed to post change to forum after several goes, mailed error to team@publicwhip.org.uk", E_USER_ERROR);
         }
 
         // Post our message
         $post_filename = "/forum/posting.php";
+
+        $sid = $cookie_jar['phpbb2mysql_sid'];
         if (!$topic_id) {
             // Make topic
             $post_data = "f=$forum_id&mode=newtopic&notify=on&topictype=0&subject=".urlencode($topic_title).
-                         "&message=".urlencode($content)."&post=Submit"; 
+                         "&message=".urlencode($content)."&post=Submit&sid=".urlencode($sid); 
         } else {
             $post_data = "t=$topic_id&mode=reply&notify=on&subject=".urlencode($topic_title).
-                         "&message=".urlencode($content)."&post=Submit"; 
+                         "&message=".urlencode($content)."&post=Submit&sid=".urlencode($sid); 
         }
         $all_full_responses .= "\n\n=============================\ndomain_name:" . $domain_name . "\npost_filename:" . $post_filename . "\npost_data:" . $post_data . "\nmain cookies:" . $_SERVER["HTTP_COOKIE"];
+        $all_full_responses .= "\nOur cookie jar:\n" . print_r($cookie_jar, true);
         list($response, $head) = forummagic_do_post($domain_name, $post_filename, $post_data, $cookie_jar);
         $all_full_responses .= "\n----------------------------\n" . $head . $response;
 
