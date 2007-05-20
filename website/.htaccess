@@ -7,7 +7,7 @@ Options ExecCGI
 DirectoryIndex index.php
 
 # make things safe
-php_flag register_globals off
+#php_flag register_globals off # doesn't work / not needed for PHP5
 <Files ~ "\.inc$">
     Order allow,deny
     Deny from all

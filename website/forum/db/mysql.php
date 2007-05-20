@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: mysql.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: mysql.php,v 1.2 2007/05/20 04:49:32 publicwhip Exp $
  *
  ***************************************************************************/
 
@@ -205,8 +205,8 @@ class sql_db
 		}
 		if($query_id)
 		{
-			$this->row[$query_id] = @mysql_fetch_array($query_id);
-			return $this->row[$query_id];
+			$this->row[intval($query_id)] = @mysql_fetch_array($query_id);
+			return $this->row[intval($query_id)];
 		}
 		else
 		{
@@ -221,11 +221,11 @@ class sql_db
 		}
 		if($query_id)
 		{
-			unset($this->rowset[$query_id]);
-			unset($this->row[$query_id]);
-			while($this->rowset[$query_id] = @mysql_fetch_array($query_id))
+			unset($this->rowset[intval($query_id)]);
+			unset($this->row[intval($query_id)]);
+			while($this->rowset[intval($query_id)] = @mysql_fetch_array($query_id))
 			{
-				$result[] = $this->rowset[$query_id];
+				$result[] = $this->rowset[intval($query_id)];
 			}
 			return $result;
 		}
@@ -248,22 +248,22 @@ class sql_db
 			}
 			else
 			{
-				if(empty($this->row[$query_id]) && empty($this->rowset[$query_id]))
+				if(empty($this->row[intval($query_id)]) && empty($this->rowset[intval($query_id)]))
 				{
 					if($this->sql_fetchrow())
 					{
-						$result = $this->row[$query_id][$field];
+						$result = $this->row[intval($query_id)][$field];
 					}
 				}
 				else
 				{
-					if($this->rowset[$query_id])
+					if($this->rowset[intval($query_id)])
 					{
-						$result = $this->rowset[$query_id][$field];
+						$result = $this->rowset[intval($query_id)][$field];
 					}
-					else if($this->row[$query_id])
+					else if($this->row[intval($query_id)])
 					{
-						$result = $this->row[$query_id][$field];
+						$result = $this->row[intval($query_id)][$field];
 					}
 				}
 			}
@@ -308,8 +308,8 @@ class sql_db
 
 		if ( $query_id )
 		{
-			unset($this->row[$query_id]);
-			unset($this->rowset[$query_id]);
+			unset($this->row[intval($query_id)]);
+			unset($this->rowset[intval($query_id)]);
 
 			@mysql_free_result($query_id);
 

@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: mpdream-info.xml,v 1.3 2005/11/01 01:30:28 frabcus Exp $
+# $Id: mpdream-info.xml,v 1.4 2007/05/20 04:49:32 publicwhip Exp $
 
 # Print information about all MPs and how they compare to the given
 # Dream MP.
@@ -22,7 +22,8 @@ $dreamid = intval($_GET["id"]);
 update_dreammp_person_distance($db, $dreamid); # new method
 
 $query = "select person, distance_a, distance_b,
-          (nvotessame + nvotessamestrong + nvotesdiffer + nvotesdifferstrong) as both_voted
+          (nvotessame + nvotessamestrong + nvotesdiffer + nvotesdifferstrong) as both_voted,
+          (nvotesabsent + nvotesabsentstrong) as absent
           from pw_cache_dreamreal_distance where dream_id = $dreamid";
 $db->query($query);
 while ($row = $db->fetch_row_assoc())
@@ -33,6 +34,7 @@ while ($row = $db->fetch_row_assoc())
     print "<personinfo id=\"uk.org.publicwhip/person/" . $personid . "\" \n";
     print " public_whip_dreammp" . $dreamid . "_distance=\"". $row['distance_a'] ."\"\n";
     print " public_whip_dreammp" . $dreamid . "_both_voted=\"". $row['both_voted'] ."\"\n";
+    print " public_whip_dreammp" . $dreamid . "_absent=\"". $row['absent'] ."\"\n";
     # print " public_whip_distance_ignoreabstain_dreammp_" . $dreamid . "=\"". $row['distance_b'] ."\"\n";
 
     print "/>\n";

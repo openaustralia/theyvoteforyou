@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.42 2007/02/08 13:31:27 frabcus Exp $
+# $Id: pretty.inc,v 1.43 2007/05/20 04:49:31 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -435,7 +435,7 @@ function relative_time ($datetime) {
 	}
 
 	$in_seconds = strtotime($datetime);
-	$now = mktime();
+	$now = time();
 
 	$diff 	=  $now - $in_seconds;
 	$months	=  floor($diff/2419200);

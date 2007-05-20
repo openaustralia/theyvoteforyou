@@ -1,6 +1,6 @@
 <?php
 
-# $Id: common.inc,v 1.22 2007/02/10 14:00:08 frabcus Exp $
+# $Id: common.inc,v 1.23 2007/05/20 04:49:29 publicwhip Exp $
 
 # Included from all main .php files on the first line
 
@@ -36,6 +36,7 @@ ini_set('log_errors_max_len', '0');
 ini_set('error_log', null);
 ini_set('ignore_repeated_errors', 'Off');
 ini_set('html_errors', 'Off');
+date_default_timezone_set("Europe/London");
 
 if (get_magic_quotes_gpc()) {
     trigger_error("Public Whip only works with magic_quotes_gpc off in php.ini", E_USER_ERROR);
