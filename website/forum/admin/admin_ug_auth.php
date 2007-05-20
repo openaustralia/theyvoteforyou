@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: admin_ug_auth.php,v 1.3 2007/05/20 07:21:34 frabcus Exp $
+ *   $Id: admin_ug_auth.php,v 1.4 2007/05/20 08:08:42 publicwhip Exp $
  *
  *
  ***************************************************************************/
@@ -361,7 +361,10 @@ if ( isset($HTTP_POST_VARS['submit']) && ( ( $mode == 'user' && $user_id ) || ( 
 					{
 						$sql_field = '';
 						$sql_value = '';
-						while ( list($auth_type, $value) = @each($update_acl_status[$forum_id]) )
+                        $lookup = $update_acl_status[$forum_id];
+                        if (!$lookup)
+                            $lookup = array(); # FAI HACK
+						while ( list($auth_type, $value) = @each($lookup) )
 						{
 							$sql_field .= ( ( $sql_field != '' ) ? ', ' : '' ) . $auth_type;
 							$sql_value .= ( ( $sql_value != '' ) ? ', ' : '' ) . $value;
