@@ -1,5 +1,5 @@
 #!/bin/bash
-#set -x # debug print lines
+set -x # debug print lines
 
 if [ x$LOCKFILE = x ]
 then 

@@ -1,18 +1,19 @@
 #! /bin/bash
 set -e
+#set -x # debug
 
 cd website
 cvs -q update -dP
 ALLFILES=`find . -name "*.php" -or -name "*.inc"`
-WEBROOT=http://publicwhip.owl
-WEBERRORLOG=/var/log/apache/error.log
+WEBROOT=http://www.publicwhip.org.uk
+WEBERRORLOG=/data/vhost/www.publicwhip.org.uk/logs/error_log
 
 # Check syntax of all PHP files
 echo -n "Checking for syntax errors..."
 for X in $ALLFILES
 do
     echo -n "."
-    if php4 -l $X | grep -v "No syntax errors detected"
+    if php5 -l $X | grep -v "No syntax errors detected"
     then
         exit 1
     fi
@@ -42,7 +43,6 @@ check account/addpolicy.php
 check account/changeemail.php
 check account/changepass.php
 check account/confirm.php
-check account/editpolicy.php
 check account/logout.php
 check account/lostpass.php
 check account/register.php
