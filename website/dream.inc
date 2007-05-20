@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.60 2007/05/17 10:37:30 publicwhip Exp $
+# $Id: dream.inc,v 1.61 2007/05/20 06:24:39 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -260,8 +260,20 @@ function update_dreammp_person_distance($db, $dreamid)
             if (!$row['nvotessame']) {
                 $row['nvotessame']= 0;
             }
+            if (!$row['nvotessamestrong']) {
+                $row['nvotessamestrong']= 0;
+            }
             if (!$row['nvotesdiffer']) {
                 $row['nvotesdiffer']= 0;
+            }
+            if (!$row['nvotesdifferstrong']) {
+                $row['nvotesdifferstrong']= 0;
+            }
+            if (!$row['nvotesabsent']) {
+                $row['nvotesabsent']= 0;
+            }
+            if (!$row['nvotesabsentstrong']) {
+                $row['nvotesabsentstrong']= 0;
             }
         }
 		$nvotessame = $row['nvotessame'];
