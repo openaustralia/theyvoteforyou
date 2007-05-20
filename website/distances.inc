@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.25 2006/03/16 05:16:00 publicwhip Exp $
+# $Id: distances.inc,v 1.26 2007/05/20 06:12:49 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -254,23 +254,23 @@ function delete_mpid_outofdate_distances($db, $lastupdatedate, $house)
 # then we loop through the missing entries and fill them in
 function fill_mpid_distances_internal($db, $db2, $house, $batchnumber)
 {
-
 	# find missing entries in the table
 	$qselect = "SELECT pw_mp1.mp_id AS mp_id1, pw_mp2.mp_id AS mp_id2, 
 					   GREATEST(pw_mp1.entered_house, pw_mp2.entered_house) AS max_entered_house, 
                        LEAST(pw_mp1.left_house, pw_mp2.left_house) AS min_left_house"; 
 
-	$qfrom = " FROM pw_mp AS pw_mp1, pw_mp AS pw_mp2";
-	$qjoin = " LEFT JOIN pw_cache_realreal_distance
+	$qfrom = " FROM pw_mp AS pw_mp1";
+    $qjoin = " LEFT JOIN pw_mp AS pw_mp2 ON pw_mp1.house = pw_mp2.house
+                            AND pw_mp1.mp_id <= pw_mp2.mp_id
+                            AND pw_mp1.entered_house < pw_mp2.left_house
+                            AND pw_mp1.left_house > pw_mp2.entered_house";
+
+	$qjoin .= " LEFT JOIN pw_cache_realreal_distance
 					ON pw_cache_realreal_distance.mp_id1 = pw_mp1.mp_id
 					AND pw_cache_realreal_distance.mp_id2 = pw_mp2.mp_id";
 
 	// we only do the lower diagonal
-	$qwhere = " WHERE pw_mp1.house = pw_mp2.house
-					AND pw_mp1.mp_id <= pw_mp2.mp_id
-					AND pw_mp1.entered_house < pw_mp2.left_house
-					AND pw_mp1.left_house > pw_mp2.entered_house
-					AND pw_cache_realreal_distance.distance_a IS null";
+	$qwhere = " WHERE pw_cache_realreal_distance.distance_a IS null";
 	if ($house)
 		$qwhere .= " AND pw_mp1.house = '$house'";
 # $qwhere .= " AND pw_mp1.mp_id > 1200"; 
@@ -360,7 +360,7 @@ function update_realreal_distance($db, $mp_id1, $mp_id2, $max_entered_house, $mi
 
 	$qattrs = "mp_id1, mp_id2, nvotessame, nvotesdiffer, nvotesabsent, distance_a, distance_b";
 	$qvalues = "$mp_id1, $mp_id2, $nvotessame, $nvotesdiff, $nvotesabsent, $distancea, $distanceb";
-print $qvalues."\n"; 
+    #print $qvalues."\n"; 
     
 	$query  = "INSERT INTO pw_cache_realreal_distance ($qattrs) VALUES ($qvalues)";
 	$db->query($query);
