@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: index.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
+ *   $Id: index.php,v 1.3 2007/05/20 07:49:40 frabcus Exp $
  *
  *
  ***************************************************************************/
