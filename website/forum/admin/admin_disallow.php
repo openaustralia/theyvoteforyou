@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: admin_disallow.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: admin_disallow.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -25,7 +25,7 @@ define('IN_PHPBB', 1);
 if( !empty($setmodules) )
 {
 	$filename = basename(__FILE__);
-	$module['Users']['Disallow'] = append_sid($filename);
+	$module['Users']['Disallow'] = $filename;
 
 	return;
 }
@@ -45,7 +45,7 @@ if( isset($HTTP_POST_VARS['add_name']) )
 
 	if ($disallowed_user == '')
 	{
-		message_die(MESSAGE, $lang['Fields_empty']);
+		message_die(GENERAL_MESSAGE, $lang['Fields_empty']);
 	}
 	if( !validate_username($disallowed_user) )
 	{

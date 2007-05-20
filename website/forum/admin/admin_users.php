@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: admin_users.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: admin_users.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -71,7 +71,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 			message_die(GENERAL_MESSAGE, $lang['No_user_id_specified'] );
 		}
 
-		if( $HTTP_POST_VARS['deleteuser'] )
+		if( $HTTP_POST_VARS['deleteuser'] && ( $userdata['user_id'] != $user_id ) )
 		{
 			$sql = "SELECT g.group_id 
 				FROM " . USER_GROUP_TABLE . " ug, " . GROUPS_TABLE . " g  
@@ -86,7 +86,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 			$row = $db->sql_fetchrow($result);
 			
 			$sql = "UPDATE " . POSTS_TABLE . "
-				SET poster_id = " . DELETED . ", post_username = '$username' 
+				SET poster_id = " . DELETED . ", post_username = '" . str_replace("\\'", "''", addslashes($this_userdata['username'])) . "' 
 				WHERE poster_id = $user_id";
 			if( !$db->sql_query($sql) )
 			{
@@ -177,6 +177,20 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 				message_die(GENERAL_ERROR, 'Could not delete user from banlist table', '', __LINE__, __FILE__, $sql);
 			}
 
+			$sql = "DELETE FROM " . SESSIONS_TABLE . "
+				WHERE session_user_id = $user_id";
+			if ( !$db->sql_query($sql) )
+			{
+				message_die(GENERAL_ERROR, 'Could not delete sessions for this user', '', __LINE__, __FILE__, $sql);
+			}
+			
+			$sql = "DELETE FROM " . SESSIONS_KEYS_TABLE . "
+				WHERE user_id = $user_id";
+			if ( !$db->sql_query($sql) )
+			{
+				message_die(GENERAL_ERROR, 'Could not delete auto-login keys for this user', '', __LINE__, __FILE__, $sql);
+			}
+
 			$sql = "SELECT privmsgs_id
 				FROM " . PRIVMSGS_TABLE . "
 				WHERE privmsgs_from_userid = $user_id 
@@ -217,7 +231,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 			message_die(GENERAL_MESSAGE, $message);
 		}
 
-		$username = ( !empty($HTTP_POST_VARS['username']) ) ? trim(strip_tags(htmlspecialchars($HTTP_POST_VARS['username']))) : '';
+		$username = ( !empty($HTTP_POST_VARS['username']) ) ? phpbb_clean_username($HTTP_POST_VARS['username']) : '';
 		$email = ( !empty($HTTP_POST_VARS['email']) ) ? trim(strip_tags(htmlspecialchars( $HTTP_POST_VARS['email'] ) )) : '';
 
 		$password = ( !empty($HTTP_POST_VARS['password']) ) ? trim(strip_tags(htmlspecialchars( $HTTP_POST_VARS['password'] ) )) : '';
@@ -247,13 +261,13 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 		$allowbbcode = ( isset( $HTTP_POST_VARS['allowbbcode']) ) ? intval( $HTTP_POST_VARS['allowbbcode'] ) : $board_config['allow_bbcode'];
 		$allowsmilies = ( isset( $HTTP_POST_VARS['allowsmilies']) ) ? intval( $HTTP_POST_VARS['allowsmilies'] ) : $board_config['allow_smilies'];
 
-		$user_style = ( $HTTP_POST_VARS['style'] ) ? intval( $HTTP_POST_VARS['style'] ) : $board_config['default_style'];
+		$user_style = ( isset( $HTTP_POST_VARS['style'] ) ) ? intval( $HTTP_POST_VARS['style'] ) : $board_config['default_style'];
 		$user_lang = ( $HTTP_POST_VARS['language'] ) ? $HTTP_POST_VARS['language'] : $board_config['default_lang'];
 		$user_timezone = ( isset( $HTTP_POST_VARS['timezone']) ) ? doubleval( $HTTP_POST_VARS['timezone'] ) : $board_config['board_timezone'];
-		$user_template = ( $HTTP_POST_VARS['template'] ) ? $HTTP_POST_VARS['template'] : $board_config['board_template'];
 		$user_dateformat = ( $HTTP_POST_VARS['dateformat'] ) ? trim( $HTTP_POST_VARS['dateformat'] ) : $board_config['default_dateformat'];
 
 		$user_avatar_local = ( isset( $HTTP_POST_VARS['avatarselect'] ) && !empty($HTTP_POST_VARS['submitavatar'] ) && $board_config['allow_avatar_local'] ) ? $HTTP_POST_VARS['avatarselect'] : ( ( isset( $HTTP_POST_VARS['avatarlocal'] )  ) ? $HTTP_POST_VARS['avatarlocal'] : '' );
+		$user_avatar_category = ( isset($HTTP_POST_VARS['avatarcatname']) && $board_config['allow_avatar_local'] ) ? htmlspecialchars($HTTP_POST_VARS['avatarcatname']) : '' ;
 
 		$user_avatar_remoteurl = ( !empty($HTTP_POST_VARS['avatarremoteurl']) ) ? trim( $HTTP_POST_VARS['avatarremoteurl'] ) : '';
 		$user_avatar_url = ( !empty($HTTP_POST_VARS['avatarurl']) ) ? trim( $HTTP_POST_VARS['avatarurl'] ) : '';
@@ -293,7 +307,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
 			if ( !isset($HTTP_POST_VARS['cancelavatar'])) 
 			{
-				$user_avatar = $user_avatar_local;
+				$user_avatar = $user_avatar_category . '/' . $user_avatar_local;
 				$user_avatar_type = USER_AVATAR_GALLERY;
 			}
 		}
@@ -389,9 +403,9 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 		{
 			if( $this_userdata['user_avatar_type'] == USER_AVATAR_UPLOAD && $this_userdata['user_avatar'] != "" )
 			{
-				if( @file_exists(@phpbb_realpath("./" . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar'])) )
+				if( @file_exists(@phpbb_realpath('./../' . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar'])) )
 				{
-					@unlink("./" . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar']);
+					@unlink('./../' . $board_config['avatar_path'] . "/" . $this_userdata['user_avatar']);
 				}
 			}
 			$avatar_sql = ", user_avatar = '', user_avatar_type = " . USER_AVATAR_NONE;
@@ -645,7 +659,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 		}
 		else if( $user_avatar_local != "" && $avatar_sql == "" && !$error )
 		{
-			$avatar_sql = ", user_avatar = '" . str_replace("\'", "''", $user_avatar_local) . "', user_avatar_type = " . USER_AVATAR_GALLERY;
+			$avatar_sql = ", user_avatar = '" . str_replace("\'", "''", phpbb_ltrim(basename($user_avatar_category), "'") . '/' . phpbb_ltrim(basename($user_avatar_local), "'")) . "', user_avatar_type = " . USER_AVATAR_GALLERY;
 		}
 	
 		//
@@ -681,13 +695,19 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 						message_die(GENERAL_ERROR, 'Error removing user session', '', __LINE__, __FILE__, $sql);
 					}
 				}
+
+				// We remove all stored login keys since the password has been updated
+				// and change the current one (if applicable)
+				if ( !empty($passwd_sql) )
+				{
+					session_reset_keys($user_id, $user_ip);
+				}
 				
 				$message .= $lang['Admin_user_updated'];
 			}
 			else
 			{
-				$error = TRUE;
-				$error_msg .= ( ( isset($error_msg) ) ? '<br />' : '' ) . $lang['Admin_user_fail'];
+				message_die(GENERAL_ERROR, 'Admin_user_fail', '', __LINE__, __FILE__, $sql);
 			}
 
 			$message .= '<br /><br />' . sprintf($lang['Click_return_useradmin'], '<a href="' . append_sid("admin_users.$phpEx") . '">', '</a>') . '<br /><br />' . sprintf($lang['Click_return_admin_index'], '<a href="' . append_sid("index.$phpEx?pane=right") . '">', '</a>');
@@ -822,7 +842,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 					{
 						if( preg_match("/(\.gif$|\.png$|\.jpg)$/is", $sub_file) )
 						{
-							$avatar_images[$file][$avatar_row_count][$avatar_col_count] = $file . "/" . $sub_file;
+							$avatar_images[$file][$avatar_row_count][$avatar_col_count] = $sub_file;
 
 							$avatar_col_count++;
 							if( $avatar_col_count == 5 )
@@ -867,7 +887,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 				for($j = 0; $j < count($avatar_images[$category][$i]); $j++)
 				{
 					$template->assign_block_vars("avatar_row.avatar_column", array(
-						"AVATAR_IMAGE" => "../" . $board_config['avatar_gallery_path'] . "/" . $avatar_images[$category][$i][$j])
+						"AVATAR_IMAGE" => "../" . $board_config['avatar_gallery_path'] . '/' . $category . '/' . $avatar_images[$category][$i][$j])
 					);
 
 					$template->assign_block_vars("avatar_row.avatar_option_column", array(
@@ -878,7 +898,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
 			$coppa = ( ( !$HTTP_POST_VARS['coppa'] && !$HTTP_GET_VARS['coppa'] ) || $mode == "register") ? 0 : TRUE;
 
-			$s_hidden_fields = '<input type="hidden" name="mode" value="edit" /><input type="hidden" name="agreed" value="true" /><input type="hidden" name="coppa" value="' . $coppa . '" />';
+			$s_hidden_fields = '<input type="hidden" name="mode" value="edit" /><input type="hidden" name="agreed" value="true" /><input type="hidden" name="coppa" value="' . $coppa . '" /><input type="hidden" name="avatarcatname" value="' . $category . '" />';
 			$s_hidden_fields .= '<input type="hidden" name="id" value="' . $user_id . '" />';
 
 			$s_hidden_fields .= '<input type="hidden" name="username" value="' . str_replace("\"", "&quot;", $username) . '" />';
@@ -934,7 +954,7 @@ if ( $mode == 'edit' || $mode == 'save' && ( isset($HTTP_POST_VARS['username']) 
 
 		if( !empty($user_avatar_local) )
 		{
-			$s_hidden_fields .= '<input type="hidden" name="avatarlocal" value="' . $user_avatar_local . '" />';
+			$s_hidden_fields .= '<input type="hidden" name="avatarlocal" value="' . $user_avatar_local . '" /><input type="hidden" name="avatarcatname" value="' . $user_avatar_category . '" />';
 		}
 
 		if( $user_avatar_type )

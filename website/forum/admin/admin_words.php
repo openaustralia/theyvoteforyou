@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: admin_words.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: admin_words.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -20,25 +20,34 @@
  *
  ***************************************************************************/
 
-define('IN_PHPBB', 1);
-
 if( !empty($setmodules) )
 {
 	$file = basename(__FILE__);
-	$module['General']['Word_Censor'] = "$file";
+	$module['General']['Word_Censor'] = $file;
 	return;
 }
+
+define('IN_PHPBB', 1);
 
 //
 // Load default header
 //
 $phpbb_root_path = "./../";
 require($phpbb_root_path . 'extension.inc');
+
+$cancel = ( isset($HTTP_POST_VARS['cancel']) ) ? true : false;
+$no_page_header = $cancel;
+
 require('./pagestart.' . $phpEx);
+
+if ($cancel)
+{
+	redirect('admin/' . append_sid("admin_words.$phpEx", true));
+}
 
 if( isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
 {
-	$mode = ($HTTP_GET_VARS['mode']) ? $HTTP_GET_VARS['mode'] : $HTTP_POST_VARS['mode'];
+	$mode = (isset($HTTP_GET_VARS['mode'])) ? $HTTP_GET_VARS['mode'] : $HTTP_POST_VARS['mode'];
 	$mode = htmlspecialchars($mode);
 }
 else 
@@ -60,6 +69,9 @@ else
 	}
 }
 
+// Restrict mode input to valid options
+$mode = ( in_array($mode, array('add', 'edit', 'save', 'delete')) ) ? $mode : '';
+
 if( $mode != "" )
 {
 	if( $mode == "edit" || $mode == "add" )
@@ -70,6 +82,7 @@ if( $mode != "" )
 			"body" => "admin/words_edit_body.tpl")
 		);
 
+		$word_info = array('word' => '', 'replacement' => '');
 		$s_hidden_fields = '';
 
 		if( $mode == "edit" )
@@ -158,7 +171,9 @@ if( $mode != "" )
 			$word_id = 0;
 		}
 
-		if( $word_id )
+		$confirm = isset($HTTP_POST_VARS['confirm']);
+
+		if( $word_id && $confirm )
 		{
 			$sql = "DELETE FROM " . WORDS_TABLE . " 
 				WHERE word_id = $word_id";
@@ -171,6 +186,26 @@ if( $mode != "" )
 			$message = $lang['Word_removed'] . "<br /><br />" . sprintf($lang['Click_return_wordadmin'], "<a href=\"" . append_sid("admin_words.$phpEx") . "\">", "</a>") . "<br /><br />" . sprintf($lang['Click_return_admin_index'], "<a href=\"" . append_sid("index.$phpEx?pane=right") . "\">", "</a>");
 
 			message_die(GENERAL_MESSAGE, $message);
+		}
+		elseif( $word_id && !$confirm)
+		{
+			// Present the confirmation screen to the user
+			$template->set_filenames(array(
+				'body' => 'admin/confirm_body.tpl')
+			);
+
+			$hidden_fields = '<input type="hidden" name="mode" value="delete" /><input type="hidden" name="id" value="' . $word_id . '" />';
+
+			$template->assign_vars(array(
+				'MESSAGE_TITLE' => $lang['Confirm'],
+				'MESSAGE_TEXT' => $lang['Confirm_delete_word'],
+
+				'L_YES' => $lang['Yes'],
+				'L_NO' => $lang['No'],
+
+				'S_CONFIRM_ACTION' => append_sid("admin_words.$phpEx"),
+				'S_HIDDEN_FIELDS' => $hidden_fields)
+			);
 		}
 		else
 		{
@@ -193,6 +228,7 @@ else
 	}
 
 	$word_rows = $db->sql_fetchrowset($result);
+	$db->sql_freeresult($result);
 	$word_count = count($word_rows);
 
 	$template->assign_vars(array(

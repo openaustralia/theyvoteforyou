@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: functions_validate.php,v 1.1 2005/10/06 11:25:08 theyworkforyou Exp $
+ *   $Id: functions_validate.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -30,17 +30,15 @@ function validate_username($username)
 	global $db, $lang, $userdata;
 
 	// Remove doubled up spaces
-	$username = preg_replace('#\s+#', ' ', $username); 
-	// Limit username length
-	$username = substr(str_replace("\'", "'", $username), 0, 25);
-	$username = str_replace("'", "''", $username);
+	$username = preg_replace('#\s+#', ' ', trim($username)); 
+	$username = phpbb_clean_username($username);
 
 	$sql = "SELECT username 
-		FROM " . USERS_TABLE . " 
+		FROM " . USERS_TABLE . "
 		WHERE LOWER(username) = '" . strtolower($username) . "'";
 	if ($result = $db->sql_query($sql))
 	{
-		if ($row = $db->sql_fetchrow($result))
+		while ($row = $db->sql_fetchrow($result))
 		{
 			if (($userdata['session_logged_in'] && $row['username'] != $userdata['username']) || !$userdata['session_logged_in'])
 			{
@@ -72,7 +70,7 @@ function validate_username($username)
 		{
 			do
 			{
-				if (preg_match("#\b(" . str_replace("\*", ".*?", phpbb_preg_quote($row['disallow_username'], '#')) . ")\b#i", $username))
+				if (preg_match("#\b(" . str_replace("\*", ".*?", preg_quote($row['disallow_username'], '#')) . ")\b#i", $username))
 				{
 					$db->sql_freeresult($result);
 					return array('error' => true, 'error_msg' => $lang['Username_disallowed']);
@@ -91,7 +89,7 @@ function validate_username($username)
 		{
 			do
 			{
-				if (preg_match("#\b(" . str_replace("\*", ".*?", phpbb_preg_quote($row['word'], '#')) . ")\b#i", $username))
+				if (preg_match("#\b(" . str_replace("\*", ".*?", preg_quote($row['word'], '#')) . ")\b#i", $username))
 				{
 					$db->sql_freeresult($result);
 					return array('error' => true, 'error_msg' => $lang['Username_disallowed']);

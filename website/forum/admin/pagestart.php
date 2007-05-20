@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: pagestart.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: pagestart.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -40,7 +40,7 @@ init_userprefs($userdata);
 
 if (!$userdata['session_logged_in'])
 {
-	redirect(append_sid("login.$phpEx?redirect=admin/", true));
+	redirect(append_sid("login.$phpEx?redirect=admin/index.$phpEx", true));
 }
 else if ($userdata['user_level'] != ADMIN)
 {
@@ -49,14 +49,12 @@ else if ($userdata['user_level'] != ADMIN)
 
 if ($HTTP_GET_VARS['sid'] != $userdata['session_id'])
 {
-	$url = str_replace(preg_replace('#^\/?(.*?)\/?$#', '\1', trim($board_config['server_name'])), '', $HTTP_SERVER_VARS['REQUEST_URI']);
-	$url = str_replace(preg_replace('#^\/?(.*?)\/?$#', '\1', trim($board_config['script_path'])), '', $url);
-	$url = str_replace('//', '/', $url);
-	$url = preg_replace('/sid=([^&]*)(&?)/i', '', $url);
-	$url = preg_replace('/\?$/', '', $url);
-	$url .= ((strpos($url, '?')) ? '&' : '?') . 'sid=' . $userdata['session_id'];
-
 	redirect("index.$phpEx?sid=" . $userdata['session_id']);
+}
+
+if (!$userdata['session_admin'])
+{
+	redirect(append_sid("login.$phpEx?redirect=admin/index.$phpEx&admin=1", true));
 }
 
 if (empty($no_page_header))

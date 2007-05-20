@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: index.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: index.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -60,7 +60,7 @@ if( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'left' )
 	{
 		if( preg_match("/^admin_.*?\." . $phpEx . "$/", $file) )
 		{
-			include($file);
+			include('./' . $file);
 		}
 	}
 
@@ -234,9 +234,9 @@ elseif( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'right' )
 			$row = $db->sql_fetchrow($result);
 			$version = $row['mysql_version'];
 
-			if( preg_match("/^(3\.23|4\.)/", $version) )
+			if( preg_match("/^(3\.23|4\.|5\.)/", $version) )
 			{
-				$db_name = ( preg_match("/^(3\.23\.[6-9])|(3\.23\.[1-9][1-9])|(4\.)/", $version) ) ? "`$dbname`" : $dbname;
+				$db_name = ( preg_match("/^(3\.23\.[6-9])|(3\.23\.[1-9][1-9])|(4\.)|(5\.)/", $version) ) ? "`$dbname`" : $dbname;
 
 				$sql = "SHOW TABLE STATUS 
 					FROM " . $db_name;
@@ -559,6 +559,71 @@ elseif( isset($HTTP_GET_VARS['pane']) && $HTTP_GET_VARS['pane'] == 'right' )
 			"L_NO_GUESTS_BROWSING" => $lang['No_users_browsing'])
 		);
 	}
+
+	// Check for new version
+	$current_version = explode('.', '2' . $board_config['version']);
+	$minor_revision = (int) $current_version[2];
+
+	$errno = 0;
+	$errstr = $version_info = '';
+
+	if ($fsock = @fsockopen('www.phpbb.com', 80, $errno, $errstr, 10))
+	{
+		@fputs($fsock, "GET /updatecheck/20x.txt HTTP/1.1\r\n");
+		@fputs($fsock, "HOST: www.phpbb.com\r\n");
+		@fputs($fsock, "Connection: close\r\n\r\n");
+
+		$get_info = false;
+		while (!@feof($fsock))
+		{
+			if ($get_info)
+			{
+				$version_info .= @fread($fsock, 1024);
+			}
+			else
+			{
+				if (@fgets($fsock, 1024) == "\r\n")
+				{
+					$get_info = true;
+				}
+			}
+		}
+		@fclose($fsock);
+
+		$version_info = explode("\n", $version_info);
+		$latest_head_revision = (int) $version_info[0];
+		$latest_minor_revision = (int) $version_info[2];
+		$latest_version = (int) $version_info[0] . '.' . (int) $version_info[1] . '.' . (int) $version_info[2];
+
+		if ($latest_head_revision == 2 && $minor_revision == $latest_minor_revision)
+		{
+			$version_info = '<p style="color:green">' . $lang['Version_up_to_date'] . '</p>';
+		}
+		else
+		{
+			$version_info = '<p style="color:red">' . $lang['Version_not_up_to_date'];
+			$version_info .= '<br />' . sprintf($lang['Latest_version_info'], $latest_version) . ' ' . sprintf($lang['Current_version_info'], '2' . $board_config['version']) . '</p>';
+		}
+	}
+	else
+	{
+		if ($errstr)
+		{
+			$version_info = '<p style="color:red">' . sprintf($lang['Connect_socket_error'], $errstr) . '</p>';
+		}
+		else
+		{
+			$version_info = '<p>' . $lang['Socket_functions_disabled'] . '</p>';
+		}
+	}
+	
+	$version_info .= '<p>' . $lang['Mailing_list_subscribe_reminder'] . '</p>';
+	
+
+	$template->assign_vars(array(
+		'VERSION_INFO'	=> $version_info,
+		'L_VERSION_INFORMATION'	=> $lang['Version_information'])
+	);
 
 	$template->pparse("body");
 

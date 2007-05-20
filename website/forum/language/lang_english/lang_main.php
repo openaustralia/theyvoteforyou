@@ -6,7 +6,7 @@
  *     copyright            : (C) 2001 The phpBB Group
  *     email                : support@phpbb.com
  *
- *     $Id: lang_main.php,v 1.1 2005/10/06 11:25:11 theyworkforyou Exp $
+ *     $Id: lang_main.php,v 1.2 2007/05/20 07:21:35 frabcus Exp $
  *
  ****************************************************************************/
 
@@ -274,7 +274,6 @@ $lang['Oldest_First'] = 'Oldest First';
 $lang['Back_to_top'] = 'Back to top';
 
 $lang['Read_profile'] = 'View user\'s profile'; 
-$lang['Send_email'] = 'Send e-mail to user';
 $lang['Visit_website'] = 'Visit poster\'s website';
 $lang['ICQ_status'] = 'ICQ Status';
 $lang['Edit_delete_post'] = 'Edit/Delete this post';
@@ -367,7 +366,6 @@ $lang['Smilies_are_OFF'] = 'Smilies are <u>OFF</u>';
 
 $lang['Attach_signature'] = 'Attach signature (signatures can be changed in profile)';
 $lang['Notify'] = 'Notify me when a reply is posted';
-$lang['Delete_post'] = 'Delete this post';
 
 $lang['Stored'] = 'Your message has been entered successfully.';
 $lang['Deleted'] = 'Your message has been deleted successfully.';
@@ -527,10 +525,8 @@ $lang['Website'] = 'Website';
 $lang['Location'] = 'Location';
 $lang['Contact'] = 'Contact';
 $lang['Email_address'] = 'E-mail address';
-$lang['Email'] = 'E-mail';
 $lang['Send_private_message'] = 'Send private message';
 $lang['Hidden_email'] = '[ Hidden ]';
-$lang['Search_user_posts'] = 'Search for posts by this user';
 $lang['Interests'] = 'Interests';
 $lang['Occupation'] = 'Occupation'; 
 $lang['Poster_rank'] = 'Poster rank';
@@ -604,7 +600,6 @@ $lang['Profile_updated_inactive'] = 'Your profile has been updated. However, you
 $lang['Password_mismatch'] = 'The passwords you entered did not match.';
 $lang['Current_password_mismatch'] = 'The current password you supplied does not match that stored in the database.';
 $lang['Password_long'] = 'Your password must be no more than 32 characters.';
-$lang['Too_many_registers'] = 'You have made too many registration attempts. Please try again later.';
 $lang['Username_taken'] = 'Sorry, but this username has already been taken.';
 $lang['Username_invalid'] = 'Sorry, but this username contains an invalid character such as \'.';
 $lang['Username_disallowed'] = 'Sorry, but this username has been disallowed.';
@@ -789,6 +784,7 @@ $lang['No_searchable_forums'] = 'You do not have permissions to search any forum
 $lang['No_search_match'] = 'No topics or posts met your search criteria';
 $lang['Found_search_match'] = 'Search found %d match'; // eg. Search found 1 match
 $lang['Found_search_matches'] = 'Search found %d matches'; // eg. Search found 24 matches
+$lang['Search_Flood_Error'] = 'You cannot make another search so soon after your last; please try again in a short while.';
 
 $lang['Close_window'] = 'Close Window';
 
@@ -1017,6 +1013,12 @@ $lang['General_Error'] = 'General Error';
 $lang['Critical_Error'] = 'Critical Error';
 $lang['An_error_occured'] = 'An Error Occurred';
 $lang['A_critical_error'] = 'A Critical Error Occurred';
+
+$lang['Admin_reauthenticate'] = 'To administer the board you must re-authenticate yourself.';
+$lang['Login_attempts_exceeded'] = 'The maximum number of %s login attempts has been exceeded. You are not allowed to login for the next %s minutes.';
+$lang['Please_remove_install_contrib'] = 'Please ensure both the install/ and contrib/ directories are deleted';
+
+$lang['Session_invalid'] = 'Invalid Session. Please resubmit the form.';
 
 //
 // That's all, Folks!

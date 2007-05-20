@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: functions.php,v 1.2 2005/10/06 12:45:07 frabcus Exp $
+ *   $Id: functions.php,v 1.3 2007/05/20 07:21:34 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -77,13 +77,99 @@ function get_db_stat($mode)
 // added at phpBB 2.0.11 to properly format the username
 function phpbb_clean_username($username)
 {
-	$username = htmlspecialchars(rtrim(trim($username), "\\"));
-	$username = substr(str_replace("\\'", "'", $username), 0, 25);
-	$username = str_replace("'", "\\'", $username);
+	$username = substr(htmlspecialchars(str_replace("\'", "'", trim($username))), 0, 25);
+	$username = phpbb_rtrim($username, "\\");
+	$username = str_replace("'", "\'", $username);
 
 	return $username;
 }
 
+/**
+* This function is a wrapper for ltrim, as charlist is only supported in php >= 4.1.0
+* Added in phpBB 2.0.18
+*/
+function phpbb_ltrim($str, $charlist = false)
+{
+	if ($charlist === false)
+	{
+		return ltrim($str);
+	}
+	
+	$php_version = explode('.', PHP_VERSION);
+
+	// php version < 4.1.0
+	if ((int) $php_version[0] < 4 || ((int) $php_version[0] == 4 && (int) $php_version[1] < 1))
+	{
+		while ($str{0} == $charlist)
+		{
+			$str = substr($str, 1);
+		}
+	}
+	else
+	{
+		$str = ltrim($str, $charlist);
+	}
+
+	return $str;
+}
+
+// added at phpBB 2.0.12 to fix a bug in PHP 4.3.10 (only supporting charlist in php >= 4.1.0)
+function phpbb_rtrim($str, $charlist = false)
+{
+	if ($charlist === false)
+	{
+		return rtrim($str);
+	}
+	
+	$php_version = explode('.', PHP_VERSION);
+
+	// php version < 4.1.0
+	if ((int) $php_version[0] < 4 || ((int) $php_version[0] == 4 && (int) $php_version[1] < 1))
+	{
+		while ($str{strlen($str)-1} == $charlist)
+		{
+			$str = substr($str, 0, strlen($str)-1);
+		}
+	}
+	else
+	{
+		$str = rtrim($str, $charlist);
+	}
+
+	return $str;
+}
+
+/**
+* Our own generator of random values
+* This uses a constantly changing value as the base for generating the values
+* The board wide setting is updated once per page if this code is called
+* With thanks to Anthrax101 for the inspiration on this one
+* Added in phpBB 2.0.20
+*/
+function dss_rand()
+{
+	global $db, $board_config, $dss_seeded;
+
+	$val = $board_config['rand_seed'] . microtime();
+	$val = md5($val);
+	$board_config['rand_seed'] = md5($board_config['rand_seed'] . $val . 'a');
+   
+	if($dss_seeded !== true)
+	{
+		$sql = "UPDATE " . CONFIG_TABLE . " SET
+			config_value = '" . $board_config['rand_seed'] . "'
+			WHERE config_name = 'rand_seed'";
+		
+		if( !$db->sql_query($sql) )
+		{
+			message_die(GENERAL_ERROR, "Unable to reseed PRNG", "", __LINE__, __FILE__, $sql);
+		}
+
+		$dss_seeded = true;
+	}
+
+	return substr($val, 4, 16);
+}
 //
 // Get Userdata, $user can be username or user_id. If force_str is true, the username will be forced.
 //
@@ -91,7 +177,7 @@ function get_userdata($user, $force_str = false)
 {
 	global $db;
 
-	if (intval($user) == 0 || $force_str)
+	if (!is_numeric($user) || $force_str)
 	{
 		$user = phpbb_clean_username($user);
 	}
@@ -103,7 +189,7 @@ function get_userdata($user, $force_str = false)
 	$sql = "SELECT *
 		FROM " . USERS_TABLE . " 
 		WHERE ";
-	$sql .= ( ( is_integer($user) ) ? "user_id = $user" : "username = '" .  $user . "'" ) . " AND user_id <> " . ANONYMOUS;
+	$sql .= ( ( is_integer($user) ) ? "user_id = $user" : "username = '" .  str_replace("\'", "''", $user) . "'" ) . " AND user_id <> " . ANONYMOUS;
 	if ( !($result = $db->sql_query($sql)) )
 	{
 		message_die(GENERAL_ERROR, 'Tried obtaining data for a non-existent user', '', __LINE__, __FILE__, $sql);
@@ -223,14 +309,14 @@ function make_jumpbox($action, $match_forum_id = 0)
 function init_userprefs($userdata)
 {
 	global $board_config, $theme, $images;
-	global $template, $lang, $phpEx, $phpbb_root_path;
+	global $template, $lang, $phpEx, $phpbb_root_path, $db;
 	global $nav_links;
 
 	if ( $userdata['user_id'] != ANONYMOUS )
 	{
 		if ( !empty($userdata['user_lang']))
 		{
-			$board_config['default_lang'] = $userdata['user_lang'];
+			$default_lang = phpbb_ltrim(basename(phpbb_rtrim($userdata['user_lang'])), "'");
 		}
 
 		if ( !empty($userdata['user_dateformat']) )
@@ -243,11 +329,60 @@ function init_userprefs($userdata)
 			$board_config['board_timezone'] = $userdata['user_timezone'];
 		}
 	}
-
-	if ( !file_exists(@phpbb_realpath($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_main.'.$phpEx)) )
+	else
 	{
-		$board_config['default_lang'] = 'english';
+		$default_lang = phpbb_ltrim(basename(phpbb_rtrim($board_config['default_lang'])), "'");
 	}
+
+	if ( !file_exists(@phpbb_realpath($phpbb_root_path . 'language/lang_' . $default_lang . '/lang_main.'.$phpEx)) )
+	{
+		if ( $userdata['user_id'] != ANONYMOUS )
+		{
+			// For logged in users, try the board default language next
+			$default_lang = phpbb_ltrim(basename(phpbb_rtrim($board_config['default_lang'])), "'");
+		}
+		else
+		{
+			// For guests it means the default language is not present, try english
+			// This is a long shot since it means serious errors in the setup to reach here,
+			// but english is part of a new install so it's worth us trying
+			$default_lang = 'english';
+		}
+
+		if ( !file_exists(@phpbb_realpath($phpbb_root_path . 'language/lang_' . $default_lang . '/lang_main.'.$phpEx)) )
+		{
+			message_die(CRITICAL_ERROR, 'Could not locate valid language pack');
+		}
+	}
+
+	// If we've had to change the value in any way then let's write it back to the database
+	// before we go any further since it means there is something wrong with it
+	if ( $userdata['user_id'] != ANONYMOUS && $userdata['user_lang'] !== $default_lang )
+	{
+		$sql = 'UPDATE ' . USERS_TABLE . "
+			SET user_lang = '" . $default_lang . "'
+			WHERE user_lang = '" . $userdata['user_lang'] . "'";
+
+		if ( !($result = $db->sql_query($sql)) )
+		{
+			message_die(CRITICAL_ERROR, 'Could not update user language info');
+		}
+
+		$userdata['user_lang'] = $default_lang;
+	}
+	elseif ( $userdata['user_id'] === ANONYMOUS && $board_config['default_lang'] !== $default_lang )
+	{
+		$sql = 'UPDATE ' . CONFIG_TABLE . "
+			SET config_value = '" . $default_lang . "'
+			WHERE config_name = 'default_lang'";
+
+		if ( !($result = $db->sql_query($sql)) )
+		{
+			message_die(CRITICAL_ERROR, 'Could not update user language info');
+		}
+	}
+
+	$board_config['default_lang'] = $default_lang;
 
 	include($phpbb_root_path . 'language/lang_' . $board_config['default_lang'] . '/lang_main.' . $phpEx);
 
@@ -307,9 +442,9 @@ function setup_style($style)
 {
 	global $db, $board_config, $template, $images, $phpbb_root_path;
 
-	$sql = "SELECT *
-		FROM " . THEMES_TABLE . "
-		WHERE themes_id = $style";
+	$sql = 'SELECT *
+		FROM ' . THEMES_TABLE . '
+		WHERE themes_id = ' . (int) $style;
 	if ( !($result = $db->sql_query($sql)) )
 	{
 		message_die(CRITICAL_ERROR, 'Could not query database for theme info');
@@ -317,7 +452,40 @@ function setup_style($style)
 
 	if ( !($row = $db->sql_fetchrow($result)) )
 	{
-		message_die(CRITICAL_ERROR, "Could not get theme data for themes_id [$style]");
+		// We are trying to setup a style which does not exist in the database
+		// Try to fallback to the board default (if the user had a custom style)
+		// and then any users using this style to the default if it succeeds
+		if ( $style != $board_config['default_style'])
+		{
+			$sql = 'SELECT *
+				FROM ' . THEMES_TABLE . '
+				WHERE themes_id = ' . (int) $board_config['default_style'];
+			if ( !($result = $db->sql_query($sql)) )
+			{
+				message_die(CRITICAL_ERROR, 'Could not query database for theme info');
+			}
+
+			if ( $row = $db->sql_fetchrow($result) )
+			{
+				$db->sql_freeresult($result);
+
+				$sql = 'UPDATE ' . USERS_TABLE . '
+					SET user_style = ' . (int) $board_config['default_style'] . "
+					WHERE user_style = $style";
+				if ( !($result = $db->sql_query($sql)) )
+				{
+					message_die(CRITICAL_ERROR, 'Could not update user theme info');
+				}
+			}
+			else
+			{
+				message_die(CRITICAL_ERROR, "Could not get theme data for themes_id [$style]");
+			}
+		}
+		else
+		{
+			message_die(CRITICAL_ERROR, "Could not get theme data for themes_id [$style]");
+		}
 	}
 
 	$template_path = 'templates/' ;
@@ -513,7 +681,7 @@ function obtain_word_list(&$orig_word, &$replacement_word)
 	{
 		do 
 		{
-			$orig_word[] = '#\b(' . str_replace('\*', '\w*?', phpbb_preg_quote($row['word'], '#')) . ')\b#i';
+			$orig_word[] = '#\b(' . str_replace('\*', '\w*?', preg_quote($row['word'], '#')) . ')\b#i';
 			$replacement_word[] = $row['replacement'];
 		}
 		while ( $row = $db->sql_fetchrow($result) );
@@ -552,7 +720,7 @@ function message_die($msg_code, $msg_text = '', $msg_title = '', $err_line = '',
 		die("message_die() was called multiple times. This isn't supposed to happen. Was message_die() used in page_tail.php?");
 	}
 	
-	define(HAS_DIED, 1);
+	define('HAS_DIED', 1);
 	
 
 	$sql_store = $sql;
@@ -579,7 +747,7 @@ function message_die($msg_code, $msg_text = '', $msg_title = '', $err_line = '',
 
 		if ( $err_line != '' && $err_file != '' )
 		{
-			$debug_text .= '</br /><br />Line : ' . $err_line . '<br />File : ' . $err_file;
+			$debug_text .= '<br /><br />Line : ' . $err_line . '<br />File : ' . basename($err_file);
 		}
 	}
 
@@ -606,11 +774,7 @@ function message_die($msg_code, $msg_text = '', $msg_title = '', $err_line = '',
 			}
 		}
 
-		if ( empty($template) )
-		{
-			$template = new Template($phpbb_root_path . 'templates/' . $board_config['board_template']);
-		}
-		if ( empty($theme) )
+		if ( empty($template) || empty($theme) )
 		{
 			$theme = setup_style($board_config['default_style']);
 		}
@@ -753,7 +917,7 @@ function redirect($url)
 		$db->sql_close();
 	}
 
-	if (strstr(urldecode($url), "\n") || strstr(urldecode($url), "\r"))
+	if (strstr(urldecode($url), "\n") || strstr(urldecode($url), "\r") || strstr(urldecode($url), ';url'))
 	{
 		message_die(GENERAL_ERROR, 'Tried to redirect to potentially insecure url.');
 	}

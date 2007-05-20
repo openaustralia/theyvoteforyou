@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: smtp.php,v 1.1 2005/10/06 11:25:08 theyworkforyou Exp $
+ *   $Id: smtp.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
  *
  ***************************************************************************/
 
@@ -27,7 +27,8 @@ define('SMTP_INCLUDED', 1);
 // using SMTP Extensions
 //
 function server_parse($socket, $response, $line = __LINE__) 
-{ 
+{
+	$server_response = '';
 	while (substr($server_response, 3, 1) != ' ') 
 	{
 		if (!($server_response = fgets($socket, 256))) 
@@ -106,7 +107,7 @@ function smtpmail($mail_to, $subject, $message, $headers = '')
 
 	// Ok we have error checked as much as we can to this point let's get on
 	// it already.
-	if( !$socket = fsockopen($board_config['smtp_host'], 25, $errno, $errstr, 20) )
+	if( !$socket = @fsockopen($board_config['smtp_host'], 25, $errno, $errstr, 20) )
 	{
 		message_die(GENERAL_ERROR, "Could not connect to smtp host : $errno : $errstr", "", __LINE__, __FILE__);
 	}

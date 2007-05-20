@@ -6,7 +6,7 @@
 *     copyright            : (C) 2001 The phpBB Group
 *     email                : support@phpbb.com
 *
-*     $Id: admin_db_utilities.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+*     $Id: admin_db_utilities.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
 *
 ****************************************************************************/
 
@@ -499,9 +499,9 @@ function get_table_content_postgresql($table, $handler)
 
 	while($row = $db->sql_fetchrow($result))
 	{
-		unset($schema_vals);
-		unset($schema_fields);
-		unset($schema_insert);
+		$schema_vals = '';
+		$schema_fields = '';
+		$schema_insert = '';
 		//
 		// Build the SQL statement to recreate the data.
 		//
@@ -516,7 +516,7 @@ function get_table_content_postgresql($table, $handler)
 			}
 			elseif (eregi("date|timestamp", $aryType[$i]))
 			{
-				if ($empty($strVal))
+				if (empty($strVal))
 				{
 					$strQuote = "";
 				}
@@ -693,7 +693,7 @@ if( isset($HTTP_GET_VARS['perform']) || isset($HTTP_POST_VARS['perform']) )
 				include('./page_footer_admin.'.$phpEx);
 			}
 
-			$tables = array('auth_access', 'banlist', 'categories', 'config', 'disallow', 'forums', 'forum_prune', 'groups', 'posts', 'posts_text', 'privmsgs', 'privmsgs_text', 'ranks', 'search_results', 'search_wordlist', 'search_wordmatch', 'sessions', 'smilies', 'themes', 'themes_name', 'topics', 'topics_watch', 'user_group', 'users', 'vote_desc', 'vote_results', 'vote_voters', 'words');
+			$tables = array('auth_access', 'banlist', 'categories', 'config', 'disallow', 'forums', 'forum_prune', 'groups', 'posts', 'posts_text', 'privmsgs', 'privmsgs_text', 'ranks', 'search_results', 'search_wordlist', 'search_wordmatch', 'sessions', 'smilies', 'themes', 'themes_name', 'topics', 'topics_watch', 'user_group', 'users', 'vote_desc', 'vote_results', 'vote_voters', 'words', 'confirm', 'sessions_keys');
 
 			$additional_tables = (isset($HTTP_POST_VARS['additional_tables'])) ? $HTTP_POST_VARS['additional_tables'] : ( (isset($HTTP_GET_VARS['additional_tables'])) ? $HTTP_GET_VARS['additional_tables'] : "" );
 

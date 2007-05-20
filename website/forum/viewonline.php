@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: viewonline.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: viewonline.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
  *
  *
  ***************************************************************************/

@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: memberlist.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: memberlist.php,v 1.2 2007/05/20 07:21:33 frabcus Exp $
  *
  ***************************************************************************/
 
@@ -34,6 +34,7 @@ init_userprefs($userdata);
 //
 
 $start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
+$start = ($start < 0) ? 0 : $start;
 
 if ( isset($HTTP_GET_VARS['mode']) || isset($HTTP_POST_VARS['mode']) )
 {
@@ -61,7 +62,7 @@ else
 // Memberlist sorting
 //
 $mode_types_text = array($lang['Sort_Joined'], $lang['Sort_Username'], $lang['Sort_Location'], $lang['Sort_Posts'], $lang['Sort_Email'],  $lang['Sort_Website'], $lang['Sort_Top_Ten']);
-$mode_types = array('joindate', 'username', 'location', 'posts', 'email', 'website', 'topten');
+$mode_types = array('joined', 'username', 'location', 'posts', 'email', 'website', 'topten');
 
 $select_sort_mode = '<select name="mode">';
 for($i = 0; $i < count($mode_types_text); $i++)
@@ -228,8 +229,8 @@ if ( $row = $db->sql_fetchrow($result) )
 		$yim = ( $row['user_yim'] ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target=' . $row['user_yim'] . '&amp;.src=pg">' . $lang['YIM'] . '</a>' : '';
 
 		$temp_url = append_sid("search.$phpEx?search_author=" . urlencode($username) . "&amp;showresults=posts");
-		$search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . $lang['Search_user_posts'] . '" title="' . $lang['Search_user_posts'] . '" border="0" /></a>';
-		$search = '<a href="' . $temp_url . '">' . $lang['Search_user_posts'] . '</a>';
+		$search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . sprintf($lang['Search_user_posts'], $username) . '" title="' . sprintf($lang['Search_user_posts'], $username) . '" border="0" /></a>';
+		$search = '<a href="' . $temp_url . '">' . sprintf($lang['Search_user_posts'], $username) . '</a>';
 
 		$row_color = ( !($i % 2) ) ? $theme['td_color1'] : $theme['td_color2'];
 		$row_class = ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2'];

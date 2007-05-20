@@ -7,7 +7,7 @@
  *     copyright            : (C) 2001 The phpBB Group
  *     email                : support@phpbb.com
  *
- *     $Id: lang_admin.php,v 1.1 2005/10/06 11:25:11 theyworkforyou Exp $
+ *     $Id: lang_admin.php,v 1.2 2007/05/20 07:21:35 frabcus Exp $
  *
  ****************************************************************************/
 
@@ -335,6 +335,16 @@ $lang['Session_length'] = 'Session length [ seconds ]';
 $lang['Visual_confirm'] = 'Enable Visual Confirmation';
 $lang['Visual_confirm_explain'] = 'Requires users enter a code defined by an image when registering.';
 
+// Autologin Keys - added 2.0.18
+$lang['Allow_autologin'] = 'Allow automatic logins';
+$lang['Allow_autologin_explain'] = 'Determines whether users are allowed to select to be automatically logged in when visiting the forum';
+$lang['Autologin_time'] = 'Automatic login key expiry';
+$lang['Autologin_time_explain'] = 'How long a autologin key is valid for in days if the user does not visit the board. Set to zero to disable expiry.';
+
+// Search Flood Control - added 2.0.20
+$lang['Search_Flood_Interval'] = 'Search Flood Interval';
+$lang['Search_Flood_Interval_explain'] = 'Number of seconds a user must wait between search requests'; 
+
 //
 // Forum Management
 //
@@ -419,6 +429,7 @@ $lang['smiley_import_success'] = 'The Smiley Pack was imported successfully!';
 $lang['smiley_del_success'] = 'The Smiley was successfully removed';
 $lang['Click_return_smileadmin'] = 'Click %sHere%s to return to Smiley Administration';
 
+$lang['Confirm_delete_smiley'] = 'Are you sure you want to delete this Smiley?';
 
 //
 // User Management
@@ -512,6 +523,8 @@ $lang['Word_removed'] = 'The selected word censor has been successfully removed'
 
 $lang['Click_return_wordadmin'] = 'Click %sHere%s to return to Word Censor Administration';
 
+$lang['Confirm_delete_word'] = 'Are you sure you want to delete this word censor?';
+
 
 //
 // Mass Email
@@ -551,6 +564,7 @@ $lang['No_update_ranks'] = 'The rank was successfully deleted. However, user acc
 
 $lang['Click_return_rankadmin'] = 'Click %sHere%s to return to Rank Administration';
 
+$lang['Confirm_delete_rank'] = 'Are you sure you want to delete this rank?';
 
 //
 // Disallow Username Admin
@@ -621,6 +635,7 @@ $lang['Value'] = 'Value';
 $lang['Save_Settings'] = 'Save Settings';
 
 $lang['Stylesheet'] = 'CSS Stylesheet';
+$lang['Stylesheet_explain'] = 'Filename for CSS stylesheet to use for this theme.';
 $lang['Background_image'] = 'Background Image';
 $lang['Background_color'] = 'Background Colour';
 $lang['Theme_name'] = 'Theme Name';
@@ -723,6 +738,26 @@ $lang['Install_Method'] = 'Choose your installation method';
 $lang['Install_No_Ext'] = 'The PHP configuration on your server doesn\'t support the database type that you chose';
 
 $lang['Install_No_PCRE'] = 'phpBB2 Requires the Perl-Compatible Regular Expressions Module for PHP which your PHP configuration doesn\'t appear to support!';
+
+//
+// Version Check
+//
+$lang['Version_up_to_date'] = 'Your installation is up to date, no updates are available for your version of phpBB.';
+$lang['Version_not_up_to_date'] = 'Your installation does <b>not</b> seem to be up to date. Updates are available for your version of phpBB, please visit <a href="http://www.phpbb.com/downloads.php" target="_new">http://www.phpbb.com/downloads.php</a> to obtain the latest version.';
+$lang['Latest_version_info'] = 'The latest available version is <b>phpBB %s</b>.';
+$lang['Current_version_info'] = 'You are running <b>phpBB %s</b>.';
+$lang['Connect_socket_error'] = 'Unable to open connection to phpBB Server, reported error is:<br />%s';
+$lang['Socket_functions_disabled'] = 'Unable to use socket functions.';
+$lang['Mailing_list_subscribe_reminder'] = 'For the latest information on updates to phpBB, why not <a href="http://www.phpbb.com/support/" target="_new">subscribe to our mailing list</a>.';
+$lang['Version_information'] = 'Version Information';
+
+//
+// Login attempts configuration
+//
+$lang['Max_login_attempts'] = 'Allowed login attempts';
+$lang['Max_login_attempts_explain'] = 'The number of allowed board login attempts.';
+$lang['Login_reset_time'] = 'Login lock time';
+$lang['Login_reset_time_explain'] = 'Time in minutes the user have to wait until he is allowed to login again after exceeding the number of allowed login attempts.';
 
 //
 // That's all Folks!

@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: groupcp.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: groupcp.php,v 1.2 2007/05/20 07:21:33 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -99,9 +99,9 @@ function generate_user_info(&$row, $date_format, $group_mod, &$from, &$posts, &$
 	$yim_img = ( $row['user_yim'] ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target=' . $row['user_yim'] . '&amp;.src=pg"><img src="' . $images['icon_yim'] . '" alt="' . $lang['YIM'] . '" title="' . $lang['YIM'] . '" border="0" /></a>' : '';
 	$yim = ( $row['user_yim'] ) ? '<a href="http://edit.yahoo.com/config/send_webmesg?.target=' . $row['user_yim'] . '&amp;.src=pg">' . $lang['YIM'] . '</a>' : '';
 
-	$temp_url = append_sid("search.$phpEx?search_author=" . urlencode($username) . "&amp;showresults=posts");
-	$search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . $lang['Search_user_posts'] . '" title="' . $lang['Search_user_posts'] . '" border="0" /></a>';
-	$search = '<a href="' . $temp_url . '">' . $lang['Search_user_posts'] . '</a>';
+	$temp_url = append_sid("search.$phpEx?search_author=" . urlencode($row['username']) . "&amp;showresults=posts");
+	$search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . sprintf($lang['Search_user_posts'], $row['username']) . '" title="' . sprintf($lang['Search_user_posts'], $row['username']) . '" border="0" /></a>';
+	$search = '<a href="' . $temp_url . '">' . sprintf($lang['Search_user_posts'], $row['username']) . '</a>';
 
 	return;
 }
@@ -148,6 +148,7 @@ $confirm = ( isset($HTTP_POST_VARS['confirm']) ) ? TRUE : 0;
 $cancel = ( isset($HTTP_POST_VARS['cancel']) ) ? TRUE : 0;
 
 $start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
+$start = ($start < 0) ? 0 : $start;
 
 //
 // Default var values
@@ -337,7 +338,7 @@ else if ( isset($HTTP_POST_VARS['unsub']) || isset($HTTP_POST_VARS['unsubpending
 				message_die(GENERAL_ERROR, 'Could not obtain moderator status', '', __LINE__, __FILE__, $sql);
 			}
 
-			if ( !($row = $db->sql_fetchrow($result)) )
+			if ( !($row = $db->sql_fetchrow($result)) || $row['is_auth_mod'] == 0 )
 			{
 				$sql = "UPDATE " . USERS_TABLE . " 
 					SET user_level = " . USER . " 
@@ -418,21 +419,24 @@ else if ( $group_id )
 							FROM " . AUTH_ACCESS_TABLE . " aa 
 							WHERE aa.group_id = g.group_id  
 						)
-					)";
+					)
+				ORDER BY aa.auth_mod DESC";
 			break;
 
 		case 'oracle':
 			$sql = "SELECT g.group_moderator, g.group_type, aa.auth_mod 
 				FROM " . GROUPS_TABLE . " g, " . AUTH_ACCESS_TABLE . " aa 
 				WHERE g.group_id = $group_id
-					AND aa.group_id (+) = g.group_id";
+					AND aa.group_id (+) = g.group_id
+				ORDER BY aa.auth_mod DESC";
 			break;
 
 		default:
 			$sql = "SELECT g.group_moderator, g.group_type, aa.auth_mod 
 				FROM ( " . GROUPS_TABLE . " g 
 				LEFT JOIN " . AUTH_ACCESS_TABLE . " aa ON aa.group_id = g.group_id )
-				WHERE g.group_id = $group_id";
+				WHERE g.group_id = $group_id
+				ORDER BY aa.auth_mod DESC";
 			break;
 	}
 	if ( !($result = $db->sql_query($sql)) )
@@ -1218,6 +1222,7 @@ else
 		//
 		// Load and process templates
 		//
+		$page_title = $lang['Group_Control_Panel'];
 		include($phpbb_root_path . 'includes/page_header.'.$phpEx);
 
 		$template->set_filenames(array(

@@ -6,7 +6,7 @@
 *     copyright            : (C) 2002 The phpBB Group
 *     email                : support@phpbb.com
 *
-*     $Id: functions_search.php,v 1.1 2005/10/06 11:25:08 theyworkforyou Exp $
+*     $Id: functions_search.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
 *
 ****************************************************************************/
 
@@ -89,7 +89,7 @@ function clean_words($mode, &$entry, &$stopword_list, &$synonym_list)
 	return $entry;
 }
 
-function split_words(&$entry, $mode = 'post')
+function split_words($entry, $mode = 'post')
 {
 	// If you experience problems with the new method, uncomment this block.
 /*	

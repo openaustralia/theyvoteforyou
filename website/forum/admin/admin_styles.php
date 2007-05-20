@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: admin_styles.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: admin_styles.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -27,7 +27,7 @@ if( !empty($setmodules) )
 	$file = basename(__FILE__);
 	$module['Styles']['Add_new'] = "$file?mode=addnew";
 	$module['Styles']['Create_new'] = "$file?mode=create";
-	$module['Styles']['Manage'] = "$file";
+	$module['Styles']['Manage'] = $file;
 	$module['Styles']['Export'] = "$file?mode=export";
 	return;
 }
@@ -75,7 +75,7 @@ switch( $mode )
 		if( isset($install_to) )
 		{
 
-			include($phpbb_root_path. "templates/" . $install_to . "/theme_info.cfg");
+			include($phpbb_root_path. "templates/" . basename($install_to) . "/theme_info.cfg");
 
 			$template_name = $$install_to;
 			$found = FALSE; 
@@ -582,6 +582,7 @@ switch( $mode )
 				"L_SIMPLE_NAME" => $lang['Simple_name'],
 				"L_VALUE" => $lang['Value'],
 				"L_STYLESHEET" => $lang['Stylesheet'],
+				"L_STYLESHEET_EXPLAIN" => $lang['Stylesheet_explain'],
 				"L_BACKGROUND_IMAGE" => $lang['Background_image'],
 				"L_BACKGROUND_COLOR" => $lang['Background_color'],
 				"L_BODY_TEXT_COLOR" => $lang['Text_color'],
@@ -739,7 +740,7 @@ switch( $mode )
 			
 			@umask(0111);
 
-			$fp = @fopen($phpbb_root_path . 'templates/' . $template_name . '/theme_info.cfg', 'w');
+			$fp = @fopen($phpbb_root_path . 'templates/' . basename($template_name) . '/theme_info.cfg', 'w');
 
 			if( !$fp )
 			{
@@ -835,7 +836,7 @@ switch( $mode )
 			// Set template files
 			//
 			$template->set_filenames(array(
-				"confirm" => "confirm_body.tpl")
+				"confirm" => "admin/confirm_body.tpl")
 			);
 
 			$template->assign_vars(array(

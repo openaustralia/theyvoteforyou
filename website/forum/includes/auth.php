@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group        
  *   email                : support@phpbb.com                           
  *                                                          
- *   $Id: auth.php,v 1.1 2005/10/06 11:25:08 theyworkforyou Exp $                                                           
+ *   $Id: auth.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $                                                           
  *                                                            
  * 
  ***************************************************************************/ 
@@ -234,6 +234,7 @@ function auth($type, $forum_id, $userdata, $f_access = '')
 			{
 				$value = $f_access[$k][$key];
 				$f_forum_id = $f_access[$k]['forum_id'];
+				$u_access[$f_forum_id] = isset($u_access[$f_forum_id]) ? $u_access[$f_forum_id] : array();
 
 				switch( $value )
 				{
@@ -282,6 +283,7 @@ function auth($type, $forum_id, $userdata, $f_access = '')
 		for($k = 0; $k < count($f_access); $k++)
 		{
 			$f_forum_id = $f_access[$k]['forum_id'];
+			$u_access[$f_forum_id] = isset($u_access[$f_forum_id]) ? $u_access[$f_forum_id] : array();
 
 			$auth_user[$f_forum_id]['auth_mod'] = ( $userdata['session_logged_in'] ) ? auth_check_user(AUTH_MOD, 'auth_mod', $u_access[$f_forum_id], $is_admin) : 0;
 		}

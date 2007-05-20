@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: common.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: common.php,v 1.2 2007/05/20 07:21:33 frabcus Exp $
  *
  ***************************************************************************/
 
@@ -28,10 +28,11 @@ if ( !defined('IN_PHPBB') )
 error_reporting  (E_ERROR | E_WARNING | E_PARSE); // This will NOT report uninitialized variables
 set_magic_quotes_runtime(0); // Disable magic_quotes_runtime
 
-// The following code (unsetting globals) was contributed by Matt Kavanagh
+// The following code (unsetting globals)
+// Thanks to Matt Kavanagh and Stefan Esser for providing feedback as well as patch files
 
 // PHP5 with register_long_arrays off?
-if (!isset($HTTP_POST_VARS) && isset($_POST))
+if (@phpversion() >= '5.0.0' && (!@ini_get('register_long_arrays') || @ini_get('register_long_arrays') == '0' || strtolower(@ini_get('register_long_arrays')) == 'off'))
 {
 	$HTTP_POST_VARS = $_POST;
 	$HTTP_GET_VARS = $_GET;
@@ -47,36 +48,27 @@ if (!isset($HTTP_POST_VARS) && isset($_POST))
 	}
 }
 
-if (@phpversion() < '4.0.0')
+// Protect against GLOBALS tricks
+if (isset($HTTP_POST_VARS['GLOBALS']) || isset($HTTP_POST_FILES['GLOBALS']) || isset($HTTP_GET_VARS['GLOBALS']) || isset($HTTP_COOKIE_VARS['GLOBALS']))
 {
-	// PHP3 path; in PHP3, globals are _always_ registered
-	
-	// We 'flip' the array of variables to test like this so that
-	// we can validate later with isset($test[$var]) (no in_array())
-	$test = array('HTTP_GET_VARS' => NULL, 'HTTP_POST_VARS' => NULL, 'HTTP_COOKIE_VARS' => NULL, 'HTTP_SERVER_VARS' => NULL, 'HTTP_ENV_VARS' => NULL, 'HTTP_POST_FILES' => NULL);
-
-	// Loop through each input array
-	@reset($test);
-	while (list($input,) = @each($test))
-	{
-		while (list($var,) = @each($$input))
-		{
-			// Validate the variable to be unset
-			if (!isset($test[$var]) && $var != 'test' && $var != 'input')
-			{
-				unset($$var);
-			}
-		}
-	}
+	die("Hacking attempt");
 }
-else if (@ini_get('register_globals') == '1' || strtolower(@ini_get('register_globals')) == 'on')
+
+// Protect against HTTP_SESSION_VARS tricks
+if (isset($HTTP_SESSION_VARS) && !is_array($HTTP_SESSION_VARS))
+{
+	die("Hacking attempt");
+}
+
+if (@ini_get('register_globals') == '1' || strtolower(@ini_get('register_globals')) == 'on')
 {
 	// PHP4+ path
-	
+	$not_unset = array('HTTP_GET_VARS', 'HTTP_POST_VARS', 'HTTP_COOKIE_VARS', 'HTTP_SERVER_VARS', 'HTTP_SESSION_VARS', 'HTTP_ENV_VARS', 'HTTP_POST_FILES', 'phpEx', 'phpbb_root_path');
+
 	// Not only will array_merge give a warning if a parameter
 	// is not an array, it will actually fail. So we check if
 	// HTTP_SESSION_VARS has been initialised.
-	if (!isset($HTTP_SESSION_VARS))
+	if (!isset($HTTP_SESSION_VARS) || !is_array($HTTP_SESSION_VARS))
 	{
 		$HTTP_SESSION_VARS = array();
 	}
@@ -86,12 +78,17 @@ else if (@ini_get('register_globals') == '1' || strtolower(@ini_get('register_gl
 	$input = array_merge($HTTP_GET_VARS, $HTTP_POST_VARS, $HTTP_COOKIE_VARS, $HTTP_SERVER_VARS, $HTTP_SESSION_VARS, $HTTP_ENV_VARS, $HTTP_POST_FILES);
 
 	unset($input['input']);
-	
+	unset($input['not_unset']);
+
 	while (list($var,) = @each($input))
 	{
+		if (in_array($var, $not_unset))
+		{
+			die('Hacking attempt!');
+		}
 		unset($$var);
 	}
-   
+
 	unset($input);
 }
 
@@ -174,13 +171,14 @@ $theme = array();
 $images = array();
 $lang = array();
 $nav_links = array();
+$dss_seeded = false;
 $gen_simple_header = FALSE;
 
 include($phpbb_root_path . 'config.'.$phpEx);
 
 if( !defined("PHPBB_INSTALLED") )
 {
-	header("Location: install/install.$phpEx");
+	header('Location: ' . $phpbb_root_path . 'install/install.' . $phpEx);
 	exit;
 }
 
@@ -191,6 +189,9 @@ include($phpbb_root_path . 'includes/auth.'.$phpEx);
 include($phpbb_root_path . 'includes/functions.'.$phpEx);
 include($phpbb_root_path . 'includes/db.'.$phpEx);
 
+// We do not need this any longer, unset for safety purposes
+unset($dbpasswd);
+
 //
 // Obtain and encode users IP
 //
@@ -199,7 +200,7 @@ include($phpbb_root_path . 'includes/db.'.$phpEx);
 // even bother complaining ... go scream and shout at the idiots out there who feel
 // "clever" is doing harm rather than good ... karma is a great thing ... :)
 //
-$client_ip = ( !empty($HTTP_SERVER_VARS['REMOTE_ADDR']) ) ? $HTTP_SERVER_VARS['REMOTE_ADDR'] : ( ( !empty($HTTP_ENV_VARS['REMOTE_ADDR']) ) ? $HTTP_ENV_VARS['REMOTE_ADDR'] : $REMOTE_ADDR );
+$client_ip = ( !empty($HTTP_SERVER_VARS['REMOTE_ADDR']) ) ? $HTTP_SERVER_VARS['REMOTE_ADDR'] : ( ( !empty($HTTP_ENV_VARS['REMOTE_ADDR']) ) ? $HTTP_ENV_VARS['REMOTE_ADDR'] : getenv('REMOTE_ADDR') );
 $user_ip = encode_ip($client_ip);
 
 //
@@ -221,7 +222,7 @@ while ( $row = $db->sql_fetchrow($result) )
 
 if (file_exists('install') || file_exists('contrib'))
 {
-	message_die(GENERAL_MESSAGE, 'Please ensure both the install/ and contrib/ directories are deleted');
+	message_die(GENERAL_MESSAGE, 'Please_remove_install_contrib');
 }
 
 //

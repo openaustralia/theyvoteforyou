@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: modcp.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: modcp.php,v 1.2 2007/05/20 07:21:33 frabcus Exp $
  *
  ***************************************************************************/
 
@@ -71,6 +71,7 @@ $confirm = ( $HTTP_POST_VARS['confirm'] ) ? TRUE : 0;
 // Continue var definitions
 //
 $start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
+$start = ($start < 0) ? 0 : $start;
 
 $delete = ( isset($HTTP_POST_VARS['delete']) ) ? TRUE : FALSE;
 $move = ( isset($HTTP_POST_VARS['move']) ) ? TRUE : FALSE;
@@ -131,6 +132,11 @@ if ( !empty($topic_id) )
 	}
 	$topic_row = $db->sql_fetchrow($result);
 
+	if (!$topic_row)
+	{
+		message_die(GENERAL_MESSAGE, 'Topic_post_not_exist');
+	}
+
 	$forum_topics = ( $topic_row['forum_topics'] == 0 ) ? 1 : $topic_row['forum_topics'];
 	$forum_id = $topic_row['forum_id'];
 	$forum_name = $topic_row['forum_name'];
@@ -145,6 +151,11 @@ else if ( !empty($forum_id) )
 		message_die(GENERAL_MESSAGE, 'Forum_not_exist');
 	}
 	$topic_row = $db->sql_fetchrow($result);
+
+	if (!$topic_row)
+	{
+		message_die(GENERAL_MESSAGE, 'Forum_not_exist');
+	}
 
 	$forum_topics = ( $topic_row['forum_topics'] == 0 ) ? 1 : $topic_row['forum_topics'];
 	$forum_name = $topic_row['forum_name'];
@@ -212,7 +223,7 @@ switch( $mode )
 	case 'delete':
 		if (!$is_auth['auth_delete'])
 		{
-			message_die(MESSAGE, sprintf($lang['Sorry_auth_delete'], $is_auth['auth_delete_type']));
+			message_die(GENERAL_MESSAGE, sprintf($lang['Sorry_auth_delete'], $is_auth['auth_delete_type']));
 		}
 
 		$page_title = $lang['Mod_CP'];
@@ -220,6 +231,11 @@ switch( $mode )
 
 		if ( $confirm )
 		{
+  			if ( empty($HTTP_POST_VARS['topic_id_list']) && empty($topic_id) )
+			{
+				message_die(GENERAL_MESSAGE, $lang['None_selected']);
+			}
+
 			include($phpbb_root_path . 'includes/functions_search.'.$phpEx);
 
 			$topics = ( isset($HTTP_POST_VARS['topic_id_list']) ) ? $HTTP_POST_VARS['topic_id_list'] : array($topic_id);
@@ -245,6 +261,11 @@ switch( $mode )
 				$topic_id_sql .= (($topic_id_sql != '') ? ', ' : '') . intval($row['topic_id']);
 			}
 			$db->sql_freeresult($result);
+
+			if ( $topic_id_sql == '')
+			{
+				message_die(GENERAL_MESSAGE, $lang['None_selected']);
+			}
 
 			$sql = "SELECT poster_id, COUNT(post_id) AS posts 
 				FROM " . POSTS_TABLE . " 
@@ -452,6 +473,20 @@ switch( $mode )
 
 			$new_forum_id = intval($HTTP_POST_VARS['new_forum']);
 			$old_forum_id = $forum_id;
+
+			$sql = 'SELECT forum_id FROM ' . FORUMS_TABLE . '
+				WHERE forum_id = ' . $new_forum_id;
+			if ( !($result = $db->sql_query($sql)) )
+			{
+				message_die(GENERAL_ERROR, 'Could not select from forums table', '', __LINE__, __FILE__, $sql);
+			}
+			
+			if (!$db->sql_fetchrow($result))
+			{
+				message_die(GENERAL_MESSAGE, 'New forum does not exist');
+			}
+
+			$db->sql_freeresult($result);
 
 			if ( $new_forum_id != $old_forum_id )
 			{
@@ -713,6 +748,11 @@ switch( $mode )
 			}
 			$db->sql_freeresult($result);
 
+			if ($post_id_sql == '')
+			{
+				message_die(GENERAL_MESSAGE, $lang['None_selected']);
+			}
+
 			$sql = "SELECT post_id, poster_id, topic_id, post_time
 				FROM " . POSTS_TABLE . "
 				WHERE post_id IN ($post_id_sql) 
@@ -746,6 +786,20 @@ switch( $mode )
 				$new_forum_id = intval($HTTP_POST_VARS['new_forum_id']);
 				$topic_time = time();
 				
+				$sql = 'SELECT forum_id FROM ' . FORUMS_TABLE . '
+					WHERE forum_id = ' . $new_forum_id;
+				if ( !($result = $db->sql_query($sql)) )
+				{
+					message_die(GENERAL_ERROR, 'Could not select from forums table', '', __LINE__, __FILE__, $sql);
+				}
+			
+				if (!$db->sql_fetchrow($result))
+				{
+					message_die(GENERAL_MESSAGE, 'New forum does not exist');
+				}
+
+				$db->sql_freeresult($result);
+
 				$sql  = "INSERT INTO " . TOPICS_TABLE . " (topic_title, topic_poster, topic_time, forum_id, topic_status, topic_type)
 					VALUES ('" . str_replace("\'", "''", $post_subject) . "', $first_poster, " . $topic_time . ", $new_forum_id, " . TOPIC_UNLOCKED . ", " . POST_NORMAL . ")";
 				if (!($db->sql_query($sql, BEGIN_TRANSACTION)))
@@ -949,7 +1003,7 @@ switch( $mode )
 		}
 
 		$ip_this_post = decode_ip($post_row['poster_ip']);
-		$ip_this_post = ( $rdns_ip_num == $ip_this_post ) ? gethostbyaddr($ip_this_post) : $ip_this_post;
+		$ip_this_post = ( $rdns_ip_num == $ip_this_post ) ? htmlspecialchars(gethostbyaddr($ip_this_post)) : $ip_this_post;
 
 		$poster_id = $post_row['poster_id'];
 
@@ -995,7 +1049,7 @@ switch( $mode )
 				}
 
 				$ip = decode_ip($row['poster_ip']);
-				$ip = ( $rdns_ip_num == $row['poster_ip'] || $rdns_ip_num == 'all') ? gethostbyaddr($ip) : $ip;
+				$ip = ( $rdns_ip_num == $row['poster_ip'] || $rdns_ip_num == 'all') ? htmlspecialchars(gethostbyaddr($ip)) : $ip;
 
 				$row_color = ( !($i % 2) ) ? $theme['td_color1'] : $theme['td_color2'];
 				$row_class = ( !($i % 2) ) ? $theme['td_class1'] : $theme['td_class2'];
@@ -1047,7 +1101,7 @@ switch( $mode )
 					'L_SEARCH_POSTS' => sprintf($lang['Search_user_posts'], $username), 
 
 					'U_PROFILE' => ($id == ANONYMOUS) ? "modcp.$phpEx?mode=ip&amp;" . POST_POST_URL . "=" . $post_id . "&amp;" . POST_TOPIC_URL . "=" . $topic_id . "&amp;sid=" . $userdata['session_id'] : append_sid("profile.$phpEx?mode=viewprofile&amp;" . POST_USERS_URL . "=$id"),
-					'U_SEARCHPOSTS' => append_sid("search.$phpEx?search_author=" . urlencode($username) . "&amp;showresults=topics"))
+					'U_SEARCHPOSTS' => append_sid("search.$phpEx?search_author=" . (($id == ANONYMOUS) ? 'Anonymous' : urlencode($username)) . "&amp;showresults=topics"))
 				);
 
 				$i++; 

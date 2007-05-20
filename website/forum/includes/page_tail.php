@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: page_tail.php,v 1.2 2005/11/01 01:23:17 frabcus Exp $
+ *   $Id: page_tail.php,v 1.3 2007/05/20 07:21:34 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -25,6 +25,8 @@ if ( !defined('IN_PHPBB') )
 	die('Hacking attempt');
 }
 
+global $do_gzip_compress;
+
 //
 // Show the overall footer.
 //
@@ -35,8 +37,7 @@ $template->set_filenames(array(
 );
 
 $template->assign_vars(array(
-	'PHPBB_VERSION' => '2' . $board_config['version'],
-	'TRANSLATION_INFO' => ( isset($lang['TRANSLATION_INFO']) ) ? $lang['TRANSLATION_INFO'] : '', 
+	'TRANSLATION_INFO' => (isset($lang['TRANSLATION_INFO'])) ? $lang['TRANSLATION_INFO'] : ((isset($lang['TRANSLATION'])) ? $lang['TRANSLATION'] : ''),
 	'ADMIN_LINK' => $admin_link)
 );
 

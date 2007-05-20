@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: viewforum.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: viewforum.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -42,6 +42,7 @@ else
 }
 
 $start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
+$start = ($start < 0) ? 0 : $start;
 
 if ( isset($HTTP_GET_VARS['mark']) || isset($HTTP_POST_VARS['mark']) )
 {

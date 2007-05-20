@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: admin_forums.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: admin_forums.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
  *
  ***************************************************************************/
 
@@ -39,8 +39,8 @@ include($phpbb_root_path . 'includes/functions_admin.'.$phpEx);
 $forum_auth_ary = array(
 	"auth_view" => AUTH_ALL, 
 	"auth_read" => AUTH_ALL, 
-	"auth_post" => AUTH_ALL, 
-	"auth_reply" => AUTH_ALL, 
+	"auth_post" => AUTH_REG, 
+	"auth_reply" => AUTH_REG, 
 	"auth_edit" => AUTH_REG, 
 	"auth_delete" => AUTH_REG, 
 	"auth_sticky" => AUTH_MOD, 
@@ -233,6 +233,7 @@ if( isset($HTTP_POST_VARS['addforum']) || isset($HTTP_POST_VARS['addcategory']) 
 	if( $mode == "addforum" )
 	{
 		list($cat_id) = each($HTTP_POST_VARS['addforum']);
+		$cat_id = intval($cat_id);
 		// 
 		// stripslashes needs to be run on this because slashes are added when the forum name is posted
 		//

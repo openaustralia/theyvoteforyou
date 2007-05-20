@@ -6,7 +6,7 @@
     copyright            : (C) 2001 The phpBB Group
     email                : support@phpbb.com
 
-    $Id: emailer.php,v 1.1 2005/10/06 11:25:08 theyworkforyou Exp $
+    $Id: emailer.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
 
 ***************************************************************************/
 
@@ -164,7 +164,7 @@ class emailer
 		if (preg_match('#^(Subject:(.*?))$#m', $this->msg, $match))
 		{
 			$this->subject = (trim($match[2]) != '') ? trim($match[2]) : (($this->subject != '') ? $this->subject : 'No Subject');
-			$drop_header .= '[\r\n]*?' . phpbb_preg_quote($match[1], '#');
+			$drop_header .= '[\r\n]*?' . preg_quote($match[1], '#');
 		}
 		else
 		{
@@ -174,7 +174,7 @@ class emailer
 		if (preg_match('#^(Charset:(.*?))$#m', $this->msg, $match))
 		{
 			$this->encoding = (trim($match[2]) != '') ? trim($match[2]) : trim($lang['ENCODING']);
-			$drop_header .= '[\r\n]*?' . phpbb_preg_quote($match[1], '#');
+			$drop_header .= '[\r\n]*?' . preg_quote($match[1], '#');
 		}
 		else
 		{
@@ -261,7 +261,7 @@ class emailer
 		$str = chunk_split(base64_encode($str), $length, $spacer);
 
 		// remove trailing spacer and add start and end delimiters
-		$str = preg_replace('#' . phpbb_preg_quote($spacer, '#') . '$#', '', $str);
+		$str = preg_replace('#' . preg_quote($spacer, '#') . '$#', '', $str);
 
 		return $start . $str . $end;
 	}

@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: page_header_admin.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: page_header_admin.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -35,7 +35,7 @@ if ( $board_config['gzip_compress'] )
 {
 	$phpver = phpversion();
 
-	$useragent = (isset($_SERVER["HTTP_USER_AGENT"]) ) ? $_SERVER["HTTP_USER_AGENT"] : $HTTP_USER_AGENT;
+	$useragent = (isset($HTTP_SERVER_VARS['HTTP_USER_AGENT'])) ? $HTTP_SERVER_VARS['HTTP_USER_AGENT'] : getenv('HTTP_USER_AGENT');
 
 	if ( $phpver >= '4.0.4pl1' && ( strstr($useragent,'compatible') || strstr($useragent,'Gecko') ) )
 	{
@@ -132,6 +132,18 @@ $template->assign_vars(array(
 	'T_SPAN_CLASS3' => $theme['span_class3'])
 );
 
+// Work around for "current" Apache 2 + PHP module which seems to not
+// cope with private cache control setting
+if (!empty($HTTP_SERVER_VARS['SERVER_SOFTWARE']) && strstr($HTTP_SERVER_VARS['SERVER_SOFTWARE'], 'Apache/2'))
+{
+	header ('Cache-Control: no-cache, pre-check=0, post-check=0');
+}
+else
+{
+	header ('Cache-Control: private, pre-check=0, post-check=0, max-age=0');
+}
+header ('Expires: 0');
+header ('Pragma: no-cache');
 
 $template->pparse('header');
 

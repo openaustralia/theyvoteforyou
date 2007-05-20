@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: functions_selects.php,v 1.1 2005/10/06 11:25:08 theyworkforyou Exp $
+ *   $Id: functions_selects.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
  *
  *
  ***************************************************************************/

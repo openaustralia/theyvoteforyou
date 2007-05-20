@@ -6,7 +6,7 @@
  *   copyright            : ('C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: constants.php,v 1.1 2005/10/06 11:25:08 theyworkforyou Exp $
+ *   $Id: constants.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -167,6 +167,7 @@ define('SEARCH_TABLE', $table_prefix.'search_results');
 define('SEARCH_WORD_TABLE', $table_prefix.'search_wordlist');
 define('SEARCH_MATCH_TABLE', $table_prefix.'search_wordmatch');
 define('SESSIONS_TABLE', $table_prefix.'sessions');
+define('SESSIONS_KEYS_TABLE', $table_prefix.'sessions_keys');
 define('SMILIES_TABLE', $table_prefix.'smilies');
 define('THEMES_TABLE', $table_prefix.'themes');
 define('THEMES_NAME_TABLE', $table_prefix.'themes_name');

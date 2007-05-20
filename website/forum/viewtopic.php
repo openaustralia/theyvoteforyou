@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: viewtopic.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+ *   $Id: viewtopic.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -46,8 +46,9 @@ if ( isset($HTTP_GET_VARS[POST_POST_URL]))
 
 
 $start = ( isset($HTTP_GET_VARS['start']) ) ? intval($HTTP_GET_VARS['start']) : 0;
+$start = ($start < 0) ? 0 : $start;
 
-if ( !isset($topic_id) && !isset($post_id) )
+if (!$topic_id && !$post_id)
 {
 	message_die(GENERAL_MESSAGE, 'Topic_post_not_exist');
 }
@@ -114,6 +115,7 @@ if ( isset($HTTP_GET_VARS['view']) && empty($HTTP_GET_VARS[POST_POST_URL]) )
 			WHERE
 				t2.topic_id = $topic_id
 				AND t.forum_id = t2.forum_id
+				AND t.topic_moved_id = 0
 				AND t.topic_last_post_id $sql_condition t2.topic_last_post_id
 			ORDER BY t.topic_last_post_id $sql_ordering
 			LIMIT 1";
@@ -139,11 +141,11 @@ if ( isset($HTTP_GET_VARS['view']) && empty($HTTP_GET_VARS[POST_POST_URL]) )
 // also allows for direct linking to a post (and the calculation of which
 // page the post is on and the correct display of viewtopic)
 //
-$join_sql_table = ( empty($post_id) ) ? '' : ", " . POSTS_TABLE . " p, " . POSTS_TABLE . " p2 ";
-$join_sql = ( empty($post_id) ) ? "t.topic_id = $topic_id" : "p.post_id = $post_id AND t.topic_id = p.topic_id AND p2.topic_id = p.topic_id AND p2.post_id <= $post_id";
-$count_sql = ( empty($post_id) ) ? '' : ", COUNT(p2.post_id) AS prev_posts";
+$join_sql_table = (!$post_id) ? '' : ", " . POSTS_TABLE . " p, " . POSTS_TABLE . " p2 ";
+$join_sql = (!$post_id) ? "t.topic_id = $topic_id" : "p.post_id = $post_id AND t.topic_id = p.topic_id AND p2.topic_id = p.topic_id AND p2.post_id <= $post_id";
+$count_sql = (!$post_id) ? '' : ", COUNT(p2.post_id) AS prev_posts";
 
-$order_sql = ( empty($post_id) ) ? '' : "GROUP BY p.post_id, t.topic_id, t.topic_title, t.topic_status, t.topic_replies, t.topic_time, t.topic_type, t.topic_vote, t.topic_last_post_id, f.forum_name, f.forum_status, f.forum_id, f.auth_view, f.auth_read, f.auth_post, f.auth_reply, f.auth_edit, f.auth_delete, f.auth_sticky, f.auth_announce, f.auth_pollcreate, f.auth_vote, f.auth_attachments ORDER BY p.post_id ASC";
+$order_sql = (!$post_id) ? '' : "GROUP BY p.post_id, t.topic_id, t.topic_title, t.topic_status, t.topic_replies, t.topic_time, t.topic_type, t.topic_vote, t.topic_last_post_id, f.forum_name, f.forum_status, f.forum_id, f.auth_view, f.auth_read, f.auth_post, f.auth_reply, f.auth_edit, f.auth_delete, f.auth_sticky, f.auth_announce, f.auth_pollcreate, f.auth_vote, f.auth_attachments ORDER BY p.post_id ASC";
 
 $sql = "SELECT t.topic_id, t.topic_title, t.topic_status, t.topic_replies, t.topic_time, t.topic_type, t.topic_vote, t.topic_last_post_id, f.forum_name, f.forum_status, f.forum_id, f.auth_view, f.auth_read, f.auth_post, f.auth_reply, f.auth_edit, f.auth_delete, f.auth_sticky, f.auth_announce, f.auth_pollcreate, f.auth_vote, f.auth_attachments" . $count_sql . "
 	FROM " . TOPICS_TABLE . " t, " . FORUMS_TABLE . " f" . $join_sql_table . "
@@ -181,8 +183,8 @@ if( !$is_auth['auth_view'] || !$is_auth['auth_read'] )
 {
 	if ( !$userdata['session_logged_in'] )
 	{
-		$redirect = ( isset($post_id) ) ? POST_POST_URL . "=$post_id" : POST_TOPIC_URL . "=$topic_id";
-		$redirect .= ( isset($start) ) ? "&start=$start" : '';
+		$redirect = ($post_id) ? POST_POST_URL . "=$post_id" : POST_TOPIC_URL . "=$topic_id";
+		$redirect .= ($start) ? "&start=$start" : '';
 		redirect(append_sid("login.$phpEx?redirect=viewtopic.$phpEx&$redirect", true));
 	}
 
@@ -199,7 +201,7 @@ $topic_title = $forum_topic_data['topic_title'];
 $topic_id = intval($forum_topic_data['topic_id']);
 $topic_time = $forum_topic_data['topic_time'];
 
-if ( !empty($post_id) )
+if ($post_id)
 {
 	$start = floor(($forum_topic_data['prev_posts'] - 1) / intval($board_config['posts_per_page'])) * intval($board_config['posts_per_page']);
 }
@@ -489,12 +491,13 @@ if (isset($HTTP_GET_VARS['highlight']))
 	{
 		if (trim($words[$i]) != '')
 		{
-			$highlight_match .= (($highlight_match != '') ? '|' : '') . str_replace('*', '\w*', phpbb_preg_quote($words[$i], '#'));
+			$highlight_match .= (($highlight_match != '') ? '|' : '') . str_replace('*', '\w*', preg_quote($words[$i], '#'));
 		}
 	}
 	unset($words);
 
 	$highlight = urlencode($HTTP_GET_VARS['highlight']);
+	$highlight_match = phpbb_rtrim($highlight_match, "\\");
 }
 
 //
@@ -988,8 +991,8 @@ for($i = 0; $i < $total_posts; $i++)
 	$quote = '<a href="' . $temp_url . '">' . $lang['Reply_with_quote'] . '</a>';
 
 	$temp_url = append_sid("search.$phpEx?search_author=" . urlencode($postrow[$i]['username']) . "&amp;showresults=posts");
-	$search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . $lang['Search_user_posts'] . '" title="' . $lang['Search_user_posts'] . '" border="0" /></a>';
-	$search = '<a href="' . $temp_url . '">' . $lang['Search_user_posts'] . '</a>';
+	$search_img = '<a href="' . $temp_url . '"><img src="' . $images['icon_search'] . '" alt="' . sprintf($lang['Search_user_posts'], $postrow[$i]['username']) . '" title="' . sprintf($lang['Search_user_posts'], $postrow[$i]['username']) . '" border="0" /></a>';
+	$search = '<a href="' . $temp_url . '">' . sprintf($lang['Search_user_posts'], $postrow[$i]['username']) . '</a>';
 
 	if ( ( $userdata['user_id'] == $poster_id && $is_auth['auth_edit'] ) || $is_auth['auth_mod'] )
 	{
@@ -1048,9 +1051,9 @@ for($i = 0; $i < $total_posts; $i++)
 	// If the board has HTML off but the post has HTML
 	// on then we process it, else leave it alone
 	//
-	if ( !$board_config['allow_html'] )
+	if ( !$board_config['allow_html'] || !$userdata['user_allowhtml'])
 	{
-		if ( $user_sig != '' && $userdata['user_allowhtml'] )
+		if ( $user_sig != '' )
 		{
 			$user_sig = preg_replace('#(<)([\/]?.*?)(>)#is', "&lt;\\2&gt;", $user_sig);
 		}
@@ -1064,17 +1067,14 @@ for($i = 0; $i < $total_posts; $i++)
 	//
 	// Parse message and/or sig for BBCode if reqd
 	//
-	if ( $board_config['allow_bbcode'] )
+	if ($user_sig != '' && $user_sig_bbcode_uid != '')
 	{
-		if ( $user_sig != '' && $user_sig_bbcode_uid != '' )
-		{
-			$user_sig = ( $board_config['allow_bbcode'] ) ? bbencode_second_pass($user_sig, $user_sig_bbcode_uid) : preg_replace('/\:[0-9a-z\:]+\]/si', ']', $user_sig);
-		}
+		$user_sig = ($board_config['allow_bbcode']) ? bbencode_second_pass($user_sig, $user_sig_bbcode_uid) : preg_replace("/\:$user_sig_bbcode_uid/si", '', $user_sig);
+	}
 
-		if ( $bbcode_uid != '' )
-		{
-			$message = ( $board_config['allow_bbcode'] ) ? bbencode_second_pass($message, $bbcode_uid) : preg_replace('/\:[0-9a-z\:]+\]/si', ']', $message);
-		}
+	if ($bbcode_uid != '')
+	{
+		$message = ($board_config['allow_bbcode']) ? bbencode_second_pass($message, $bbcode_uid) : preg_replace("/\:$bbcode_uid/si", '', $message);
 	}
 
 	if ( $user_sig != '' )
@@ -1104,9 +1104,8 @@ for($i = 0; $i < $total_posts; $i++)
 	//
 	if ($highlight_match)
 	{
-		// This was shamelessly 'borrowed' from volker at multiartstudio dot de
-		// via php.net's annotated manual
-		$message = str_replace('\"', '"', substr(preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "preg_replace('#\b(" . $highlight_match . ")\b#i', '<span style=\"color:#" . $theme['fontcolor3'] . "\"><b>\\\\1</b></span>', '\\0')", '>' . $message . '<'), 1, -1));
+		// This has been back-ported from 3.0 CVS
+		$message = preg_replace('#(?!<.*)(?<!\w)(' . $highlight_match . ')(?!\w|[^<>]*>)#i', '<b style="color:#'.$theme['fontcolor3'].'">\1</b>', $message);
 	}
 
 	//
@@ -1118,10 +1117,10 @@ for($i = 0; $i < $total_posts; $i++)
 
 		if ($user_sig != '')
 		{
-			$user_sig = str_replace('\"', '"', substr(preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "preg_replace(\$orig_word, \$replacement_word, '\\0')", '>' . $user_sig . '<'), 1, -1));
+			$user_sig = str_replace('\"', '"', substr(@preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "@preg_replace(\$orig_word, \$replacement_word, '\\0')", '>' . $user_sig . '<'), 1, -1));
 		}
 
-		$message = str_replace('\"', '"', substr(preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "preg_replace(\$orig_word, \$replacement_word, '\\0')", '>' . $message . '<'), 1, -1));
+		$message = str_replace('\"', '"', substr(@preg_replace('#(\>(((?>([^><]+|(?R)))*)\<))#se', "@preg_replace(\$orig_word, \$replacement_word, '\\0')", '>' . $message . '<'), 1, -1));
 	}
 
 	//

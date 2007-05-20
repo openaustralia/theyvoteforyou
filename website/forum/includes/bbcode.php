@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: bbcode.php,v 1.2 2005/10/13 01:56:53 frabcus Exp $
+ *   $Id: bbcode.php,v 1.3 2007/05/20 07:21:34 frabcus Exp $
  *
  ***************************************************************************/
 
@@ -124,6 +124,8 @@ function bbencode_second_pass($text, $uid)
 {
 	global $lang, $bbcode_tpl;
 
+	$text = preg_replace('#(script|about|applet|activex|chrome):#is', "\\1&#058;", $text);
+
 	// pad it with a space so we can distinguish between FALSE and matching the 1st char (index 0).
 	// This is important; bbencode_quote(), bbencode_list(), and bbencode_code() all depend on it.
 	$text = " " . $text;
@@ -194,23 +196,23 @@ function bbencode_second_pass($text, $uid)
 
 	// [img]image_url_here[/img] code..
 	// This one gets first-passed..
-	$patterns[] = "#\[img:$uid\](.*?)\[/img:$uid\]#si";
+	$patterns[] = "#\[img:$uid\]([^?](?:[^\[]+|\[(?!url))*?)\[/img:$uid\]#i";
 	$replacements[] = $bbcode_tpl['img'];
 
 	// matches a [url]xxxx://www.phpbb.com[/url] code..
-	$patterns[] = "#\[url\]([\w]+?://[^ \"\n\r\t<]*?)\[/url\]#is";
+	$patterns[] = "#\[url\]([\w]+?://([\w\#$%&~/.\-;:=,?@\]+]+|\[(?!url=))*?)\[/url\]#is";
 	$replacements[] = $bbcode_tpl['url1'];
 
 	// [url]www.phpbb.com[/url] code.. (no xxxx:// prefix).
-	$patterns[] = "#\[url\]((www|ftp)\.[^ \"\n\r\t<]*?)\[/url\]#is";
+	$patterns[] = "#\[url\]((www|ftp)\.([\w\#$%&~/.\-;:=,?@\]+]+|\[(?!url=))*?)\[/url\]#is";
 	$replacements[] = $bbcode_tpl['url2'];
 
 	// [url=xxxx://www.phpbb.com]phpBB[/url] code..
-	$patterns[] = "#\[url=([\w]+?://[^ \"\n\r\t<]*?)\](.*?)\[/url\]#is";
+	$patterns[] = "#\[url=([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*?)\]([^?\n\r\t].*?)\[/url\]#is";
 	$replacements[] = $bbcode_tpl['url3'];
 
 	// [url=www.phpbb.com]phpBB[/url] code.. (no xxxx:// prefix).
-	$patterns[] = "#\[url=((www|ftp)\.[^ \"\n\r\t<]*?)\](.*?)\[/url\]#is";
+	$patterns[] = "#\[url=((www|ftp)\.[\w\#$%&~/.\-;:=,?@\[\]+]*?)\]([^?\n\r\t].*?)\[/url\]#is";
 	$replacements[] = $bbcode_tpl['url4'];
 
 	// [email]user@domain.tld[/email] code..
@@ -233,7 +235,7 @@ function make_bbcode_uid()
 {
 	// Unique ID for this message..
 
-	$uid = md5(mt_rand());
+	$uid = dss_rand();
 	$uid = substr($uid, 0, BBCODE_UID_LEN);
 
 	return $uid;
@@ -250,7 +252,7 @@ function bbencode_first_pass($text, $uid)
 
 	// [QUOTE] and [/QUOTE] for posting replies with quote, or just for quoting stuff.
 	$text = bbencode_first_pass_pda($text, $uid, '[quote]', '[/quote]', '', false, '');
-	$text = bbencode_first_pass_pda($text, $uid, '/\[quote=(\\\".*?\\\")\]/is', '[/quote]', '', false, '', "[quote:$uid=\\1]");
+	$text = bbencode_first_pass_pda($text, $uid, '/\[quote=\\\\&quot;(.*?)\\\\&quot;\]/is', '[/quote]', '', false, '', "[quote:$uid=\\\"\\1\\\"]");
 
 	// [list] and [list=x] for (un)ordered lists.
 	$open_tag = array();
@@ -387,15 +389,15 @@ function bbencode_first_pass_pda($text, $uid, $open_tag, $close_tag, $close_tag_
 				//
 				// We're going to try and catch usernames with "[' characters.
 				//
-				if( preg_match('#\[quote=\\\"#si', $possible_start, $match) && !preg_match('#\[quote=\\\"(.*?)\\\"\]#si', $possible_start) )
+				if( preg_match('#\[quote=\\\&quot;#si', $possible_start, $match) && !preg_match('#\[quote=\\\&quot;(.*?)\\\&quot;\]#si', $possible_start) )
 				{
 					// OK we are in a quote tag that probably contains a ] bracket.
 					// Grab a bit more of the string to hopefully get all of it..
-					if ($close_pos = strpos($text, '"]', $curr_pos + 9))
+					if ($close_pos = strpos($text, '&quot;]', $curr_pos + 14))
 					{
-						if (strpos(substr($text, $curr_pos + 9, $close_pos - ($curr_pos + 9)), '[quote') === false)
+						if (strpos(substr($text, $curr_pos + 14, $close_pos - ($curr_pos + 14)), '[quote') === false)
 						{
-							$possible_start = substr($text, $curr_pos, $close_pos - $curr_pos + 2);
+							$possible_start = substr($text, $curr_pos, $close_pos - $curr_pos + 7);
 						}
 					}
 				}
@@ -430,7 +432,7 @@ function bbencode_first_pass_pda($text, $uid, $open_tag, $close_tag, $close_tag_
 				// We have an opening tag.
 				// Push its position, the text we matched, and its index in the open_tag array on to the stack, and then keep going to the right.
 				$match = array("pos" => $curr_pos, "tag" => $which_start_tag, "index" => $start_tag_index);
-				bbcode_array_push($stack, $match);
+				array_push($stack, $match);
 				//
 				// Rather than just increment $curr_pos
 				// Set it to the ending of the tag we just found
@@ -452,7 +454,7 @@ function bbencode_first_pass_pda($text, $uid, $open_tag, $close_tag, $close_tag_
 						// There exists a starting tag.
 						$curr_nesting_depth = sizeof($stack);
 						// We need to do 2 replacements now.
-						$match = bbcode_array_pop($stack);
+						$match = array_pop($stack);
 						$start_index = $match['pos'];
 						$start_tag = $match['tag'];
 						$start_length = strlen($start_tag);
@@ -518,7 +520,7 @@ function bbencode_first_pass_pda($text, $uid, $open_tag, $close_tag, $close_tag_
 						// otherwise, we go back to the start.
 						if (sizeof($stack) > 0)
 						{
-							$match = bbcode_array_pop($stack);
+							$match = array_pop($stack);
 							$curr_pos = $match['pos'];
 //							bbcode_array_push($stack, $match);
 //							++$curr_pos;
@@ -614,6 +616,7 @@ function bbencode_second_pass_code($text, $uid, $bbcode_tpl)
  */
 function make_clickable($text)
 {
+	$text = preg_replace('#(script|about|applet|activex|chrome):#is', "\\1&#058;", $text);
 
 	// pad it with a space so we can match things at the start of the 1st line.
 	$ret = ' ' . $text;
@@ -621,13 +624,13 @@ function make_clickable($text)
 	// matches an "xxxx://yyyy" URL at the start of a line, or after a space.
 	// xxxx can only be alpha characters.
 	// yyyy is anything up to the first space, newline, comma, double quote or <
-	$ret = preg_replace("#(^|[\n ])([\w]+?://[^ \"\n\r\t<]*)#is", "\\1<a href=\"\\2\" target=\"_blank\">\\2</a>", $ret);
+	$ret = preg_replace("#(^|[\n ])([\w]+?://[\w\#$%&~/.\-;:=,?@\[\]+]*)#is", "\\1<a href=\"\\2\" target=\"_blank\">\\2</a>", $ret);
 
 	// matches a "www|ftp.xxxx.yyyy[/zzzz]" kinda lazy URL thing
 	// Must contain at least 2 dots. xxxx contains either alphanum, or "-"
 	// zzzz is optional.. will contain everything up to the first space, newline, 
 	// comma, double quote or <.
-	$ret = preg_replace("#(^|[\n ])((www|ftp)\.[^ \"\t\n\r<]*)#is", "\\1<a href=\"http://\\2\" target=\"_blank\">\\2</a>", $ret);
+	$ret = preg_replace("#(^|[\n ])((www|ftp)\.[\w\#$%&~/.\-;:=,?@\[\]+]*)#is", "\\1<a href=\"http://\\2\" target=\"_blank\">\\2</a>", $ret);
 
 	// matches an email@domain type address at the start of a line, or after a space.
 	// Note: Only the followed chars are valid; alphanums, "-", "_" and or ".".
@@ -697,6 +700,7 @@ function escape_slashes($input)
  * This function does exactly what the PHP4 function array_push() does
  * however, to keep phpBB compatable with PHP 3 we had to come up with our own
  * method of doing it.
+ * This function was deprecated in phpBB 2.0.18
  */
 function bbcode_array_push(&$stack, $value)
 {
@@ -708,6 +712,7 @@ function bbcode_array_push(&$stack, $value)
  * This function does exactly what the PHP4 function array_pop() does
  * however, to keep phpBB compatable with PHP 3 we had to come up with our own
  * method of doing it.
+ * This function was deprecated in phpBB 2.0.18
  */
 function bbcode_array_pop(&$stack)
 {
@@ -758,7 +763,7 @@ function smilies_pass($message)
 
 		for ($i = 0; $i < count($smilies); $i++)
 		{
-			$orig[] = "/(?<=.\W|\W.|^\W)" . phpbb_preg_quote($smilies[$i]['code'], "/") . "(?=.\W|\W.|\W$)/";
+			$orig[] = "/(?<=.\W|\W.|^\W)" . preg_quote($smilies[$i]['code'], "/") . "(?=.\W|\W.|\W$)/";
 			$repl[] = '<img src="'. $board_config['smilies_path'] . '/' . $smilies[$i]['smile_url'] . '" alt="' . $smilies[$i]['emoticon'] . '" border="0" />';
 		}
 	}
