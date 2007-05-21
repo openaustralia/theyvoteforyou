@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.82 2007/02/08 16:43:07 frabcus Exp $
+# $Id: faq.php,v 1.83 2007/05/21 18:07:38 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -20,6 +20,7 @@ $paddingforanchors = true; $title = "Help - Frequently Asked Questions"; pw_head
 
 <br>
 <li><a href="#clarify">What do the "rebellion" and "attendance" figures mean exactly?</a> </li>
+<li><a href="#sitinprivate">What is a motion to sit in private?</a></li>
 <li><a href="#freevotes">Why do you incorrectly say people are rebels in free votes?</a> </li>
 <li><a href="#divno">Why is the division numbering different between the Commons and the Lords?</a> </li>
 <li><a href="#policies">What are Policies and how do they work?</a> </li>
@@ -157,6 +158,54 @@ party has whipped is made available, there is no true way of identifying a
 "rebellion".  We know of no heuristics which can reliably detect free votes.
 See also the <a href="#freevotes">next question</a>.
 
+
+<h2 class="faq"><a name="sitinprivate">What is a motion to sit in private?</a></h2>
+
+<p>There are a number of arcane procedures involved in the running of Parliament which 
+have been carried over for hundreds of years and are listed in the 
+<a href="http://www.publications.parliament.uk/pa/cm/cmstords.htm">Standing Orders</a>.  
+These change from year to year and get renumbered.  All recent versions are listed there.  
+
+<p>The <a href="http://www.publications.parliament.uk/pa/cm200607/cmstords/405/40527.htm#a184">2007 Standing Order 163 (Motions to sit in Private)</a>
+says:</p>
+
+<blockquote>If any MP moves 
+<i>'That the House sit in private'</i> the Speaker shall put the
+question to a division.  Such a Motion may be made no more than once 
+per day.</blockquote>
+  		
+<p>The <a href="http://www.publications.parliament.uk/pa/cm200607/cmstords/405/40509.htm#a44">2007 Standing Order 41 (Quorum)</a>
+says:</p>
+
+<blockquote>If it should appear that fewer than forty Members
+have taken part in a division, the business under consideration shall 
+be suspended.</blockquote>
+
+<p>These two rules combine into the gambit used most by 
+<a href="http://www.theyworkforyou.com/debates/?id=2003-03-14.594.0#g596.4">Andrew Dismore MP in March 2003</a>
+to end discussion of the <a href="http://www.publications.parliament.uk/pa/cm200203/cmbills/029/03029.i.html">Government Powers (Limitation) Bill</a> 
+when only 23 MPs presented themselves to vote -- 
+there may have been many more in the building who were ordered to stay away 
+for the game to work.</p>
+
+<p>The counter-measure to this gambit, often exercised by the late Eric Forth MP, 
+was to <a href="http://www.publicwhip.org.uk/division.php?date=2005-10-28&number=72">call 
+for the motion to sit in private at the start of the sitting</a>, which then rules 
+it out for the rest of the day.</p>
+
+<p>The Speaker has ruled that Motion to sit in private can be moved at 
+any time no matter how nonsensical it is, <a href="http://www.theyworkforyou.com/debates/?id=2007-05-18a.875.1#g875.2">as 
+she did just before Andrew Dismore MP called for it to head off an 
+attempted filibuster on the matter of 
+<a href="http://www.publicwhip.org.uk/policy.php?id=996">whether all 
+of Parliament and all correspondence by MPs should be off limits 
+to the Freedom of Information Act.</a>
+
+<p>If you don't like the way Parliamentary procedures get written and used
+in order to obscure the divide between what you have reason to believe is an overwhelming 
+public position and their personal power play, then learn more about it, 
+<a href="http://www.pledgebank.com">organize</a>, and 
+<a href="http://www.writetothem.com">write to them</a>.</p>
 
 <h2 class="faq"><a name="freevotes">Why do you incorrectly say people are rebels in free votes?</a></h2>
 
