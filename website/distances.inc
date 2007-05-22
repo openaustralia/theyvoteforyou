@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.26 2007/05/20 06:12:49 publicwhip Exp $
+# $Id: distances.inc,v 1.27 2007/05/22 12:29:38 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -136,12 +136,14 @@ function fill_division_distances_internal($db, $db2, $house, $divattr, $batchnum
 					   pw_division2.division_number AS division_number2,
 					   pw_division2.division_id AS division_id2";
 
-	$qfrom = " FROM pw_division AS pw_division1, pw_division AS pw_division2";
-	$qjoin = " LEFT JOIN pw_cache_divdiv_distance
+	$qfrom = " FROM pw_division AS pw_division1 ";
+    $qjoin = " LEFT JOIN pw_division AS pw_division2 
+                    ON pw_division1.house = pw_division2.house ";
+	$qjoin .= " LEFT JOIN pw_cache_divdiv_distance
 					ON pw_cache_divdiv_distance.division_id = pw_division1.division_id
 					AND pw_cache_divdiv_distance.division_id2 = pw_division2.division_id";
-	$qwhere = " WHERE pw_division1.house = '$house' AND pw_division2.house = '$house'
-				  AND pw_cache_divdiv_distance.distance IS null";
+	$qwhere = " WHERE pw_cache_divdiv_distance.distance IS null
+                    AND pw_division1.house = '$house'";
 
 	if ($divattr)
 		$qwhere .= " AND pw_division1.division_id = '".$divattr['division_id']."'";
@@ -158,7 +160,12 @@ function fill_division_distances_internal($db, $db2, $house, $divattr, $batchnum
 	while ($row = $db->fetch_row_assoc())
 	{
 		$some_done = 1;
-		update_divdiv_distance($db2, $row['division_date1'], $row['division_id1'], $row['division_date2'], $row['division_id2'], $house);
+        #print_r($row);
+        if (!$row['division_id1'] || !$row['division_id2']) {
+            print "divdiv query missing id";
+        } else {
+            update_divdiv_distance($db2, $row['division_date1'], $row['division_id1'], $row['division_date2'], $row['division_id2'], $house);
+        }
 	}
 	return $some_done;
 }
