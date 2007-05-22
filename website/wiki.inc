@@ -1,5 +1,5 @@
 <?php
-# $Id: wiki.inc,v 1.10 2006/04/05 05:08:48 frabcus Exp $
+# $Id: wiki.inc,v 1.11 2007/05/22 10:44:27 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Editable text with history
@@ -86,15 +86,24 @@ function get_wiki_current_value($type, $params)
 # Call this to get motion from wiki text for display
 function extract_motion_text_from_wiki_text($text)
 {
+    $motion = extract_motion_text_from_wiki_text_for_edit($text);
+    $motion = guy2html(guy_strip_bad($motion));
+
+    return $motion;
+}
+
+# Call this to get motion from wiki text for edit
+function extract_motion_text_from_wiki_text_for_edit($text)
+{
     if (preg_match("/--- MOTION EFFECT ---(.*)--- COMMENT/s", $text, $matches)) {
         $motion = $matches[1];
     }
 	$motion = preg_replace("/<p\b.*?class=\"italic\".*?>(.*)<\/p>/",'<p><i>\\1</i></p>',$motion);
 	$motion = preg_replace("/<p\b.*?class=\"indent\".*?>(.*)<\/p>/",'<blockquote>\\1</blockquote>',$motion);
-    $motion = guy2html(guy_strip_bad($motion));
 
     return $motion;
 }
+
 
 # Call this to get title from wiki text for display
 function extract_title_from_wiki_text($text)

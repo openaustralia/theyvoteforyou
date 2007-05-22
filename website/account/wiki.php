@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.32 2006/06/27 21:50:49 frabcus Exp $
+# $Id: wiki.php,v 1.33 2007/05/22 10:44:27 frabcus Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -46,6 +46,7 @@ if (user_isloggedin()) # User logged in, show settings screen
         $motion_data = get_wiki_current_value("motion", array($params[0], $params[1], $params[2]));
         $prev_name = extract_title_from_wiki_text($motion_data['text_body']);
         $prev_description = extract_motion_text_from_wiki_text($motion_data['text_body']);
+        $prev_description_editable = extract_motion_text_from_wiki_text_for_edit($motion_data['text_body']);
     }
     
     if ($submit && (!$just_logged_in))
@@ -118,7 +119,7 @@ if (user_isloggedin()) # User logged in, show settings screen
         <P>
         <FORM ACTION="<?=$REQUEST_URI?>" METHOD="POST">
         <B>Division title:</b> <BR><INPUT TYPE="TEXT" NAME="newtitle" style="width: 100%" VALUE="<?=html_scrub(str_replace("&#8212;", "-", $prev_name))?>" SIZE="50" MAXLENGTH="250">
-        <P><B>Division description:</b> <textarea name="newdescription" style="width: 100%" rows="25" cols="45"><?=html_scrub($prev_description)?></textarea>
+        <P><B>Division description:</b> <textarea name="newdescription" style="width: 100%" rows="25" cols="45"><?=html_scrub($prev_description_editable)?></textarea>
         <p>
         <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Save" accesskey="S">
         <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Cancel">
