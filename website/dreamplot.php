@@ -11,7 +11,7 @@ $bsmall = ($_GET["size"] != 'large');
 $fontfile = "/usr/share/fonts/truetype/ttf-bitstream-vera/Vera.ttf";
 $fontsize = 10;
 
-# $Id: dreamplot.php,v 1.18 2007/03/14 11:39:49 publicwhip Exp $
+# $Id: dreamplot.php,v 1.19 2007/05/22 11:57:45 publicwhip Exp $
 
 # Draw thumbsketch histogram of how many MPs are each distance away
 # from the Dream MP.
@@ -27,7 +27,7 @@ require_once "dream.inc";
 $db = new DB();
 update_dreammp_person_distance($db, $dreamid); # new method
 
-$bars = 10;
+$bars = 9;
 $width = 200;
 $height = 100;
 if ($bsmall)

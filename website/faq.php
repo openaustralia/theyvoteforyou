@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.83 2007/05/21 18:07:38 goatchurch Exp $
+# $Id: faq.php,v 1.84 2007/05/22 11:57:45 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -161,10 +161,11 @@ See also the <a href="#freevotes">next question</a>.
 
 <h2 class="faq"><a name="sitinprivate">What is a motion to sit in private?</a></h2>
 
-<p>There are a number of arcane procedures involved in the running of Parliament which 
-have been carried over for hundreds of years and are listed in the 
-<a href="http://www.publications.parliament.uk/pa/cm/cmstords.htm">Standing Orders</a>.  
-These change from year to year and get renumbered.  All recent versions are listed there.  
+<p>There are a number of arcane procedures 
+listed in the 
+<a href="http://www.publications.parliament.uk/pa/cm/cmstords.htm">Standing Orders</a> 
+which have been carried over for hundreds of years.  
+All recent versions and their renumberings are listed there.</p>  
 
 <p>The <a href="http://www.publications.parliament.uk/pa/cm200607/cmstords/405/40527.htm#a184">2007 Standing Order 163 (Motions to sit in Private)</a>
 says:</p>
@@ -181,12 +182,19 @@ says:</p>
 have taken part in a division, the business under consideration shall 
 be suspended.</blockquote>
 
-<p>These two rules combine into the gambit used most by 
+<p>(As an aside, the Quorum rule has a second part which says: <i>"The House shall 
+not be counted at any time."</i> which prevents anyone from putting on 
+record how badly the debate is attended in relation to the number 
+of MPs who lend their weight to the vote when the division bell sounds. 
+It is also made explicit by <a href="http://www.publications.parliament.uk/pa/cm200607/cmstords/405/40508.htm#a42">2007 Standing Order 39</a> that 
+<i>"A Member may vote in a division although he did not hear the question put"</i>.)</p>
+
+<p>These two rules combine into the gambit used by 
 <a href="http://www.theyworkforyou.com/debates/?id=2003-03-14.594.0#g596.4">Andrew Dismore MP in March 2003</a>
 to end discussion of the <a href="http://www.publications.parliament.uk/pa/cm200203/cmbills/029/03029.i.html">Government Powers (Limitation) Bill</a> 
 when only 23 MPs presented themselves to vote -- 
 there may have been many more in the building who were ordered to stay away 
-for the game to work.</p>
+to ensure lack of quorum.</p>
 
 <p>The counter-measure to this gambit, often exercised by the late Eric Forth MP, 
 was to <a href="http://www.publicwhip.org.uk/division.php?date=2005-10-28&number=72">call 
@@ -195,14 +203,15 @@ it out for the rest of the day.</p>
 
 <p>The Speaker has ruled that Motion to sit in private can be moved at 
 any time no matter how nonsensical it is, <a href="http://www.theyworkforyou.com/debates/?id=2007-05-18a.875.1#g875.2">as 
-she did just before Andrew Dismore MP called for it to head off an 
-attempted filibuster on the matter of 
-<a href="http://www.publicwhip.org.uk/policy.php?id=996">whether all 
-of Parliament and all correspondence by MPs should be off limits 
+she did just before Andrew Dismore MP called for it in May 2007</a> to head off an 
+attempted filibuster on the matter of whether Parliament and MPs' 
+correspondence should be 
+<a href="http://www.publicwhip.org.uk/policy.php?id=996">
+off limits 
 to the Freedom of Information Act.</a>
 
 <p>If you don't like the way Parliamentary procedures get written and used
-in order to obscure the divide between what you have reason to believe is an overwhelming 
+in order to obscure the divide between what you believe is an overwhelming 
 public position and their personal power play, then learn more about it, 
 <a href="http://www.pledgebank.com">organize</a>, and 
 <a href="http://www.writetothem.com">write to them</a>.</p>
