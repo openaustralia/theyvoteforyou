@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.136 2007/03/14 10:28:57 publicwhip Exp $
+    # $Id: mp.php,v 1.137 2007/05/23 09:24:25 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -405,6 +405,8 @@
 				print "</p>\n";
             }
 
+            update_dreammp_person_distance($db, $voter2);
+
             print "<p>";
             $previous_person = -1;
             foreach ($voter1attr['mpprops'] as $pp) {
@@ -420,7 +422,11 @@
                 print "<b><a href=\"".$voter1link."\">".html_scrub($pp['fullname'])."</a></b>";
                 print " agrees ";
                 print " <b>";
-                print pretty_distance_to_agreement($row['distance_a']);
+                if ($row['distance_a']) 
+                    print pretty_distance_to_agreement($row['distance_a']);
+                else {
+                    print "internal error";
+                }
                 print "</b>";
                 print " (<a href=\"#ratioexpl\"><i>explain...</i></a>)";
                 print " with the policy, ";
