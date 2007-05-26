@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.130 2006/04/14 00:19:54 publicwhip Exp $
+# $Id: division.php,v 1.131 2007/05/26 11:43:08 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -127,10 +127,10 @@ function no_division_found($plural)
 $title = "$name - ".$divattr["prettydate"]." ";
 if ($clock_time)
     $title .= " at $clock_time";
-$title .= " - ".ucfirst($house). " Division No. $div_no";
 if (!$singlemotionpage)
 {
-    $title .= " <i>compared to</i> Division No. ".$divattr2["division_number"];
+    $title = "Comparison of Divisions: " . $title;
+    $title .= " <i>with</i> Division No. ".$divattr2["division_number"];
     if ($divattr2["prettydate"] == $divattr["prettydate"])
         $title .= " <i>on the same day</i>";
     else
@@ -139,10 +139,8 @@ if (!$singlemotionpage)
     $clock_time2 = preg_replace("/:00$/","",$clock_time2);
     $clock_time2 = preg_replace("/^0/","",$clock_time2);
     $title .= " at $clock_time2"; 
-                
-    
-    #if ($div2invert)
-    #	$title .= " (inverted)";
+} else {
+    $title .= " - ".ucfirst($house). " Division No. $div_no";
 }
 
 # constants
@@ -374,13 +372,13 @@ if ($singlemotionpage)
 			print "<p>(<a href=\"$thispageswap\">Swap the two divisions around</a>).</p>";
 
             $motion_data_a = get_wiki_current_value("motion", array($divattr["division_date"], $divattr["division_number"], $divattr['house']));
-			$titlea = "<a href=\"".$divattr["divhref"]."\">".$divattr["name"]." - ".$divattr["prettydate"]." at $clock_time - Division No. ".$divattr["division_number"]."</a>";
-	        print "<h2><a name=\"motion\">Motion (a) ".($motion_data_a['user_id'] == 0 ? " (unedited)" : "")."</a>: $titlea</h2>";
+			$titlea = "<a href=\"".$divattr["divhref"]."\">".extract_title_from_wiki_text($motion_data_a["text_body"])." - ".$divattr["prettydate"]." at $clock_time - Division No. ".$divattr["division_number"]."</a>";
+	        print "<h2><a name=\"motion\">Vote (a) ".($motion_data_a['user_id'] == 0 ? " (unedited)" : "")."</a>: $titlea</h2>";
 	        print "<div class=\"motion\">".extract_motion_text_from_wiki_text($motion_data_a['text_body'])."</div>\n";
 
             $motion_data_b = get_wiki_current_value("motion", array($divattr2["division_date"], $divattr2["division_number"], $divattr2['house']));
-			$titleb = "<a href=\"".$divattr2["divhref"]."\">".$divattr2["name"]." - ".$divattr2["prettydate"]." at $clock_time2 - Division No. ".$divattr2["division_number"]."</a>";
-	        print "<h2>Motion (b) ".($motion_data_b['user_id'] == 0 ? " (unedited)" : "").": $titleb</h2>";
+			$titleb = "<a href=\"".$divattr2["divhref"]."\">".extract_title_from_wiki_text($motion_data_b["text_body"])." - ".$divattr2["prettydate"]." at $clock_time2 - Division No. ".$divattr2["division_number"]."</a>";
+	        print "<h2>Vote (b) ".($motion_data_b['user_id'] == 0 ? " (unedited)" : "").": $titleb</h2>";
 	        print "<div class=\"motion\">".extract_motion_text_from_wiki_text($motion_data_b['text_body'])."</div>\n";
 		}
 	}

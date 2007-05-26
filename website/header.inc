@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.89 2007/02/10 14:00:08 frabcus Exp $
+# $Id: header.inc,v 1.90 2007/05/26 11:43:08 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -16,6 +16,8 @@ if ($title == "Counting votes on your behalf")
 $h1title = str_replace(" - ", " &#8212; ", $title);
 $headtitle = str_replace(" - ", " &#8212; ", $headtitle);
 $headtitle = str_replace("<br>", "", $headtitle);
+$headtitle = str_replace("<i>", "", $headtitle);
+$headtitle = str_replace("</i>", "", $headtitle);
 
 ?>
 
