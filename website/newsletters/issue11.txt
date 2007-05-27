@@ -20,15 +20,15 @@ Below, we explain the clever tricks that the Government used to pass
 the law with as few MPs as possible visibly responsible, and shows you
 which MPs are REALLY to blame.
 
-If you've missed the news the last week, here is a quick summary of the Bill
+If you've missed the the Bill in the news, here is a quick summary:
 http://foia.blogspot.com/2007/05/maclean-bill-returns-to-commons-on.html
-And here is the full history of the Bill on Parliament's funky new Bill pages.
+The full history of the Bill on Parliament's funky new Bill pages:
 http://www.publications.parliament.uk/pa/pabills/200607/freedom_of_information_amendment.htm
 
  - Francis, volunteer for Public Whip
 
 P.S. If you want to stop the Bill, then the only way is via the House
-of Lords.  Please go to http://www.writetothem.com/lords click "Random
+of Lords. Please go to http://www.writetothem.com/lords click "Random
 Lord", and write them a letter to tell them how you feel about the
 Bill.
 
@@ -37,16 +37,15 @@ Third Reading - 18 MPs who tried to hide that they supported the Bill, exposed
 
 Because they have little Parliamentary time, it's particularly easy to
 stop Private Members Bills by filibustering. That is, by "talking the
-Bill out".  Many members tried to stop the FOI(A) Bill by
+Bill out". Many members tried to stop the FOI(A) Bill by
 filibustering.
 
-At the end of the day on 18th May there were two votes one right after
+Right at the end of the 18th May there were two votes one just after
 the other. 
 
 The first was a closure motion which would stop the bill from being
-talked out.  Anyone supporting the closure motion was supporting the
-passage of the bill.  Closure motions are very unusual for private
-members bills.
+talked out. Anyone supporting the closure motion was supporting the
+passage of the bill.
     http://www.publicwhip.org.uk/division.php?date=2007-05-18&number=122
 
 The second vote was the crucial Third Reading, which actually passed
@@ -54,20 +53,18 @@ the Bill.
     http://www.publicwhip.org.uk/division.php?date=2007-05-18&number=123
 
 Many news outlets have published lists of those who voted against
-Parliamentary transparency in that final vote. For example.
+Parliamentary transparency in that final vote. For example the BBC:
     http://news.bbc.co.uk/2/hi/uk_news/politics/6670749.stm
+Using Public Whip, you can find out more.
 
-Using Public Whip, you can also find those MPs who voted for the
-closure motion, but then didn't vote in the final division. These MPs
-are also responsible for passing the Bill, but were trying to evade
-having it publicly recorded that they were doing so.
+The following MPs voted for the closure motion, but then didn't vote
+in the Third Reading. Just 16 minutes later. 
 
-The following MPs voted for the closure motion, and then didn't vote
-in the Third Reading. This means they supported the Bill (or else they
-would have joined in the attempt to filibuster) but were not confident
-enough of their opinions to put on record that they supported it in
-the Third Reading division itself. Well, that or they had to rush home
-in the vital 16 minutes to feed their dog.
+This means they supported the Bill, as they did not join in the
+attempt to filibuster. But they were not confident enough of their
+opinions to put on record that they supported it in the Third Reading
+division itself. Well, that or they had to rush home in the vital
+minutes to feed their dog:
 
     Christopher Chope, Christchurch (Con)
     Jonathan Djanogly, Huntingdon (Con)
@@ -99,7 +96,7 @@ pages, please ask on the forum and we'll give a little tutorial.
     http://www.publicwhip.org.uk/forum/viewforum.php?f=3
 
 ***********************************************************************
-Report Stage
+What did your MP do - Every MPs voting record on the Bill summarised
 
 There were three other divisions on FOI(A) a week ago on Friday. One
 was a filibuster division.
@@ -112,8 +109,9 @@ http://www.publicwhip.org.uk/division.php?date=2007-05-18&number=120&dmp=996
 http://www.publicwhip.org.uk/division.php?date=2007-05-18&number=121&dmp=996
 
 You can use those to make more lists of MPs who really supported the
-Bill.  But that gets a bit complicated, so instead here is a complete
-list summarising every MPs overall voting record on the Bill.
+Bill, but tried to hide that they did so. But that gets a bit
+complicated, so instead here is a complete list summarising every MPs
+overall voting record on the Bill.
 
 http://www.publicwhip.org.uk/policy.php?id=996&display=comparison
 
@@ -123,9 +121,10 @@ point. Those at the bottom of the list (such as Tom Watson and John
 Randall) have the imperfect record of having supported the Bill at
 every possible point.
 
-You can also find a quick summary on every MP's TheyWorkForYou page.
-It is in the Voting Record section. For example, for my MP it says
-"Very strongly for a transparent Parliament."
+You can also find a quick summary of the Public Whip data on every
+MP's TheyWorkForYou page.  It is in the Voting Record section. For
+example, for my MP it says "Very strongly for a transparent
+Parliament."
 http://www.theyworkforyou.com/mp/david_howarth/cambridge
 
 ***********************************************************************
