@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: code.php,v 1.19 2005/11/01 01:23:17 frabcus Exp $
+# $Id: code.php,v 1.20 2007/05/27 13:52:38 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -59,7 +59,7 @@ src="http://sourceforge.net/sflogo.php?group_id=87640&amp;type=5"
 width="210" height="62" border="0" alt="SourceForge.net Logo" /></A>
 
 <p><span class="ptitle">Browse</span> - If you're just curious, you can
-<a href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/publicwhip/publicwhip/">browse
+<a href="http://publicwhip.cvs.sourceforge.net/publicwhip/publicwhip/">browse
 the code online</a>.  Look at README.txt in the top level for more information.
 
 <p><span class="ptitle">File download</span> - To use the code,

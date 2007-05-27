@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.131 2007/05/26 11:43:08 publicwhip Exp $
+# $Id: division.php,v 1.132 2007/05/27 13:52:38 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -468,7 +468,7 @@ if ($singlemotionpage)
 		if ($house != "lords")
 		{
 			print " | ";
-			print ($sort == "constituency" ? "<b>Name</b>" : "<a href=\"$thispage$tpdisplay&sort=constituency\">Constituency</a>");
+			print ($sort == "constituency" ? "<b>Constituency</b>" : "<a href=\"$thispage$tpdisplay&sort=constituency\">Constituency</a>");
 		}
 		print " | ";
 		print ($sort == "party" ? "<b>Party</b>" : "<a href=\"$thispage$tpdisplay&sort=party\">Party</a>");
