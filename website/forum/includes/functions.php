@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: functions.php,v 1.3 2007/05/20 07:21:34 frabcus Exp $
+ *   $Id: functions.php,v 1.4 2007/05/28 11:17:50 publicwhip Exp $
  *
  *
  ***************************************************************************/
@@ -717,7 +717,7 @@ function message_die($msg_code, $msg_text = '', $msg_title = '', $err_line = '',
 
 	if(defined('HAS_DIED'))
 	{
-		die("message_die() was called multiple times. This isn't supposed to happen. Was message_die() used in page_tail.php?");
+		die("message_die() was called multiple times. This isn't supposed to happen. Was message_die() used in page_tail.php? Second message was title: $msg_title text: $msg_text line/file: $err_line $err_file");
 	}
 	
 	define('HAS_DIED', 1);
