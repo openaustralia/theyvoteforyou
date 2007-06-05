@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: sessions.php,v 1.6 2007/05/20 07:21:34 frabcus Exp $
+ *   $Id: sessions.php,v 1.7 2007/06/05 00:28:37 frabcus Exp $
  *
  *
  ***************************************************************************/
@@ -371,7 +371,7 @@ function session_pagestart($user_ip, $thispage_id)
 			$user_id = $row['total'] + 1;
 			$notifyreply = 1;
 			$sql = "INSERT INTO " . USERS_TABLE . "	 
-VALUES ('" . mysql_escape_string($user_id) . "',1,'" . mysql_escape_string($user_name) . "','NEVER***',0,0,0," . time() . ",0,0,0.00,1,'english','D M d, Y g:i a',0,0,0,NULL,0,1,1,1,1,1,1,1,1,1,1,0,'',0,'" . mysql_escape_string(user_getemail()). "','','','','','','','','','','','',NULL)";
+VALUES ('" . mysql_escape_string($user_id) . "',1,'" . mysql_escape_string($user_name) . "','NEVER***',0,0,0," . time() . ",0,0,0.00,1,'english','D M d, Y g:i a',0,0,0,NULL,0,1,1,1,1,1,1,1,1,1,1,0,'',0,'" . mysql_escape_string(user_getemail()). "','','','','','','','','','','','',NULL,0,0)";
 
 /*				VALUES ($user_id, '" . str_replace("\'", "''", $user_name) . "', " . time() . ", '" . str_replace("\'", "''", "NOT VALID ***") . "', '" . str_replace("\'", "''", user_getemail()) . "', '" . str_replace("\'", "''", $icq) . "', '" . str_replace("\'", "''", $website) . "', '" . str_replace("\'", "''", $occupation) . "', '" . str_replace("\'", "''", $location) . "', '" . str_replace("\'", "''", $interests) . "', '" . str_replace("\'", "''", $signature) . "', '$signature_bbcode_uid', $avatar_sql, $viewemail, '" . str_replace("\'", "''", str_replace(' ', '+', $aim)) . "', '" . str_replace("\'", "''", $yim) . "', '" . str_replace("\'", "''", $msn) . "', $attachsig, $allowsmilies, $allowhtml, $allowbbcode, $allowviewonline, $notifyreply, $notifypm, $popup_pm, $user_timezone, '" . str_replace("\'", "''", $user_dateformat) . "', '" . str_replace("\'", "''", $user_lang) . "', $user_style, 0, 1, ";
 */
