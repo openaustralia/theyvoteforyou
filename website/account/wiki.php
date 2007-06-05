@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.33 2007/05/22 10:44:27 frabcus Exp $
+# $Id: wiki.php,v 1.34 2007/06/05 11:22:53 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -41,6 +41,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     $prettydate = date("j M Y", strtotime($params[0]));
     $title = "Edit division description - " . $division_details['division_name'] . " - $prettydate - Division No. $params[1]";
     $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $division_details['debate_gid']);
+    $debate_gid = str_replace("uk.org.publicwhip/lords/", "", $debate_gid);
 
     if ($type == "motion") {
         $motion_data = get_wiki_current_value("motion", array($params[0], $params[1], $params[2]));
@@ -103,7 +104,11 @@ if (user_isloggedin()) # User logged in, show settings screen
         <p>
 <?
         if ($debate_gid != "") {
-            print "<b>Read the <a target=\"_blank\" href=\"http://www.theyworkforyou.com/debates/?id=$debate_gid\">debate leading up to the vote</a> (new window) on TheyWorkForYou.com</b>";
+            if ($division_details['house'] == 'lords')
+                $link_url = "http://www.theyworkforyou.com/lords/?id=$debate_gid";
+            else
+                $link_url = "http://www.theyworkforyou.com/debates/?id=$debate_gid";
+            print "<b>Read the <a target=\"_blank\" href=\"$link_url\">debate leading up to the vote</a> (new window) on TheyWorkForYou.com</b>";
         } else {
             print "Warning: old division; need to make hyperlink to old Parl data from division details.";
         }
