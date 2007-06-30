@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.137 2007/05/23 09:24:25 publicwhip Exp $
+    # $Id: mp.php,v 1.138 2007/06/30 17:31:10 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -422,7 +422,7 @@
                 print "<b><a href=\"".$voter1link."\">".html_scrub($pp['fullname'])."</a></b>";
                 print " agrees ";
                 print " <b>";
-                if ($row['distance_a']) 
+                if (is_numeric($row['distance_a']))
                     print pretty_distance_to_agreement($row['distance_a']);
                 else {
                     print "internal error";
