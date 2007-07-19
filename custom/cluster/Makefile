@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.3 2006/03/10 16:49:06 frabcus Exp $
+# $Id: Makefile,v 1.4 2007/07/19 20:47:26 frabcus Exp $
 # Used to run the votemaping calculation, build the Java applet etc.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -23,8 +23,12 @@ mpcoords:
 
 # Make Java applet
 mpscatt.jar: src/*.java
-	/usr/local/jdk1.3.1_17/bin/javac -d src/ src/*.java
-	cd src;	/usr/local/jdk1.3.1_17/bin/jar cvf ../mpscatt.jar *.class
+	# Use target of JDK 1.1 for compatibility with old applet viewers
+	javac -target 1.1 -source 1.3 -d src/ src/*.java
+	cd src;	jar cvf ../mpscatt.jar *.class
+
+	#/usr/local/jdk1.3.1_17/bin/javac -d src/ src/*.java
+	#cd src;	/usr/local/jdk1.3.1_17/bin/jar cvf ../mpscatt.jar *.class
 
 # And version with PNG writing in it
 mpframe.jar: src/*.java mpscatt.jar
