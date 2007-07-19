@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.85 2007/02/27 16:41:44 frabcus Exp $
+# $Id: tablemake.inc,v 1.86 2007/07/19 20:58:04 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -997,12 +997,12 @@ function division_table($db, $divtabattr, $events = "")
 
         # write out the events
         writeevents($events, $row['divisiondate'], $breversed);
-
         # votedisplay is none, 'fullmotion'(for showing the jmp view)
         if ($divtabattr['votedisplay'] == 'fullmotion')
         {
+            // I suspect this is using the same instance of $db and destroying the current position
             $wikiinfo = get_wiki_current_value("motion", array($row['divisiondate'], $row['divisionnumber'], $row['divisionhouse']));
-			$motiontext = extract_motion_text_from_wiki_text($wikiinfo['text_body']);
+            $motiontext = extract_motion_text_from_wiki_text($wikiinfo['text_body']);
 			print_motion_row($motiontext, $db, $row['divisionid'], $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, ($voter2attr? $voter1 : $divtabattr['voter1name']), $vote1, $voter2attr, $vote2, $row, $divhref, $hrefsource);
 			$nrows += 2;
         }
