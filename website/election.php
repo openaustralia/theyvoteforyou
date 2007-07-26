@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election.php,v 1.25 2005/12/04 12:49:46 publicwhip Exp $
+# $Id: election.php,v 1.26 2007/07/26 16:10:35 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -343,6 +343,7 @@ header("Content-Type: text/html; charset=UTF-8");
         $consid = normalise_constituency_name($db, strtolower($constituency), "2001");
         if (!$consid) {
             print "<div class=\"error\">Constituency '$constituency' not found, please <a href=\"team@publicwhip.org.uk\">let us know</a>.</div>";
+            exit;
         }
         if (array_key_exists($consid, $wales_constituencies)) {
             $parties = array_merge($parties, $wales_parties);

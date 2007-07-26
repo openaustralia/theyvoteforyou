@@ -1,5 +1,5 @@
 <?php
-# $Id: wiki.inc,v 1.11 2007/05/22 10:44:27 frabcus Exp $
+# $Id: wiki.inc,v 1.12 2007/07/26 16:10:36 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Editable text with history
@@ -57,6 +57,8 @@ function get_wiki_history_link($type, $params) {
 
 # Returns current value of wiki text based on type and params.  Return value is
 # a hash with text_body, user_id, edit_date.
+
+# !!! this should take the $db as a parameter so that it can't be reused when it's in other loops
 function get_wiki_current_value($type, $params) 
 {
     # See if page has been altered
