@@ -1,5 +1,5 @@
 <?php
-# $Id: constituencies.inc,v 1.11 2005/11/01 02:31:49 frabcus Exp $
+# $Id: constituencies.inc,v 1.12 2007/08/28 15:11:10 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -10,6 +10,7 @@ function normalise_constituency_name($db, $name, $parl = null) {
     // Use &amp; everywhere, as in DB
     $name = str_replace("&amp;", "&", $name);
     $name = str_replace("&", "&amp;", $name);
+    $name = str_replace("&amp;#39;", "&#39;", $name);
 
     if (!$parl) {
         $query = "select cons_id from pw_constituency where name like '" . db_scrub($name) . "' 
