@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.7 2007/10/02 16:44:20 publicwhip Exp $
+# $Id: election2007.php,v 1.8 2007/10/02 19:51:14 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -11,14 +11,15 @@
 
 # TODO:
 # Update wales_constituencies etc.
-# Sort out postcode lookup
+# Sort out postcode lookup for new boundaries
+# Error handling of failed postcode lookup don't work
 # Update links to other quizes
 # Get standing again data, and remove XXX remove me
-# Colours matching parties
 # Independents - north wales, and george galloway
-
-# Old TODO:
+# Fix shorter URL redirecting
 # Maybe display anyway when postcode wrong
+
+# TODO old:
 # Think about dream/person distance, check it works OK
 # Do redirect stuff, using interstitial and cookies?
 
@@ -224,57 +225,6 @@ $independents = array(
     "Ind UU" => "Independent", */
 );
 
-/*print "<pre>";
-print count(array_keys($northern_ireland_constituencies));
-foreach ($northern_ireland_constituencies as $k) {
-    print "\"" . normalise_constituency_name(strtolower($k)) . "\" => 1,\n";
-}
-print "</pre>";*/
-
-function dist_to_desc($dist) {
-    if ($dist < 0.125) 
-        return "Agree<br>(strong)";
-    elseif ($dist < 0.375)
-        return "Agree";
-    elseif ($dist < 0.625)
-        return "Neutral";
-    elseif ($dist < 0.875)
-        return "Disagree";
-    else 
-        return "Disagree<br>(strong)";
-}
-
-function our_number_format($number) {
-    return round((1.0-$number) * 100) . "%";
-}
-
-function print_friends_form($word) {
-?>
-<form id="howtovotefriends" name="howtovotefriends" method="post" action="election2007.php?friend">
-<p>Found this useful?  <strong>Pass it on</strong>
-<br>Your <strong>friend's email</strong>: 
-    <input type="text" size="20" name="friendsemail" value="<?=htmlspecialchars($_POST['friendsemail'])?>">
-<br>Your name: 
-    <input type="text" size="20" name="yourname" value="<?=htmlspecialchars($_POST['yourname'])?>">
-<br>Your email: 
-    <input type="text" size="20" name="youremail" value="<?=htmlspecialchars($_POST['youremail'])?>">
-    <input type="hidden" name="submitfriend" value="1">
-<br>    <input type="submit" name="button" value="Tell <?=$word?> Friend">
-<br><small>(privacy: we will not store your email or your friend's email, we
-will only use it to send your message to your friend)</small> </p>
-</form>
-<?
-}
-
-function opinion_value($value, $curr)
-{
-    $ret = "value=\"" . html_scrub($value) . "\" ";
-    if ($value === $curr) {
-        $ret .= "selected ";
-    }
-    return $ret;
-}
-
 // Grab shorter URL if it is one
 $qstring = $_SERVER["QUERY_STRING"];
 $shorter_url = false;
@@ -304,12 +254,6 @@ if ($_GET['submit']) {
     if ($mpattr == null) {
         $errors[] = "Your MP wasn't found.  Please check you
             entered the postcode correctly.";
-    }
-    foreach ($issues as $issue) {
-        $dreamid = $issue[0];
-        if (!array_key_exists("i$dreamid", $_GET) || $_GET["i$dreamid"] < 0) {
-            $errors[] = "Please select your opinion on " . $issue[1] . ".";
-        }
     }
 }
 
@@ -556,6 +500,7 @@ function selpol()
 
 </head>
 <?
+    // Display the main page
     if ($_GET['submit'] /*and !$errors*/) {
 ?>
 <body>
@@ -568,7 +513,6 @@ function selpol()
 
         //print "<p class=\"advice\">";
         //print "</p>";
-        // print_friends_form("a");
 ?>
         <div>
           <form action="" method="post">
@@ -625,7 +569,6 @@ function selpol()
                 print "</tr>";
             }
         ?>
-<!--        <td></td> -->
         </table>
         </div>
 
