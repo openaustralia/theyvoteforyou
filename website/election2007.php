@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.4 2007/10/02 14:48:55 publicwhip Exp $
+# $Id: election2007.php,v 1.5 2007/10/02 15:13:57 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -658,6 +658,7 @@ function selpol()
 <b>Media enquiries?</b>  Ring Francis Irving on 07970 543358.
 </p>
 
+<p class="links">
 <a href="election2007.php">Change postcode</a> <em>or</em>
 <a href="/">Go to the main Public Whip website</a>
 </p>

@@ -39,7 +39,7 @@ div#submit {text-align: right; margin-right: 12px; margin-bottom: 4px; }
 
 #divQuizResults p {padding:0 2%;margin:0;}
 #divQuizResults p.advice {font-size:25px;margin-top:16px}
-#divQuizResults p.links {padding-top:4px;}
+#divQuizResults p.links {padding-top:4px;text-align:center;}
 #divQuizResults label {width:120px;padding-left:8px;display:block;float:left;}
 #divQuizResults h1 {height:42px; background: #003300  url(/quiz/quizpublicwhip.gif) no-repeat;padding:0; margin:0;}
 #divQuizResults h2 {height:78px;background:url(/quiz/quizformtop.gif) no-repeat 6px 0;
