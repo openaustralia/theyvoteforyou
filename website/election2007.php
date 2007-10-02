@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.6 2007/10/02 15:38:59 publicwhip Exp $
+# $Id: election2007.php,v 1.7 2007/10/02 16:44:20 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -189,8 +189,8 @@ $issues = array(
         array(999, "<strong>investigating</strong> the <strong>Iraq war</strong>", false),
         array(996, "<strong>Freedom of Information</strong> applying to <strong>MPs</strong>", false), # XXX not 2007 specific
         array(863, "<strong>Government</strong> altering the law <strong>without Parliament</strong>", true), # XXX not 2007 specific
-        array(1000, "<strong>banning smoking</strong> in public places", false),
-        array(984, "replacing the <strong>Trident</strong> nuclear weapons", false), # XXX not 2007 specific
+        array(1000, "the <strong>smoking ban</strong>", false),
+        array(984, "replacing the <strong>Trident nuclear weapons</strong>", false), # XXX not 2007 specific
         # XXX terrorism - there are loads of votes
         # XXX ID cards - there are loads of votes
     );
@@ -566,25 +566,8 @@ function selpol()
 <h4>Quick Election Quiz</h4>
 <?
 
-        print "<p class=\"advice\">";
-
-/*        if ($standing_again) {
-?>
-        This is based on how your ex-MP (who is standing again) 
-        and MPs of other parties voted in parliament over the last 2 years, 
-        compared to your opinion on these issues. </p>
-<?
-        } else {
-?>
-        This is based on how MPs of that party voted in parliament over the
-        last 2 years, compared to your opinion on these issues.
-	Your ex-MP isn't standing again, so we haven't specifically used their vote.
-    </p>
-<?
-        }
-        */
-        print "</p>";
-    
+        //print "<p class=\"advice\">";
+        //print "</p>";
         // print_friends_form("a");
 ?>
         <div>
@@ -606,6 +589,7 @@ function selpol()
 ?>
         </table>
 
+        <div class="partytableholder">
         <table class="partytable">
         <tr>
         <td>
@@ -637,12 +621,13 @@ function selpol()
                     $col = party_to_colour($mpattr['party']);
                 else
                     $col = party_to_colour($party);
-                print '<td><div id="party'.$c.'" style="width:0px; height:40px; background:'.$col.'; "></div></td>';
+                print '<td><div id="party'.$c.'" style="width:0px; height:40px; ; background: '.$col.'; "></div></td>';
                 print "</tr>";
             }
         ?>
 <!--        <td></td> -->
         </table>
+        </div>
 
 <!--        <tr style="height:110px; vertical-align:bottom;"> -->
 
@@ -654,11 +639,11 @@ function selpol()
         <!--Your second choice
         <span id="partychoicesecond">YYY</span> matches you by
         <span id="partychoicesecondpercent">ZZ%</span>.-->
-        <p>The worst matching policy is: <span id="policyworst">PPP</span></p>
         </td>
         </tr>
         </table>
         </div>
+        <p id="worstmatching">The worst matching policy is: <span id="policyworst">PPP</span></p>
         </form>
 
         </div>
@@ -691,12 +676,12 @@ function selpol()
     } else {
 ?>
 <body>
-<div id="frmHowToVote">
-<form name="howtovote" method="get" action="election2007.php">
+<div id="divQuizResults">
 <h1><a href="/"><span class="fir">The Public Whip</span></a></h1>
 <h2>How They Voted 2007</h2>
 <h3>(...and so how you should)</h3>
 <h4>Quick Election Quiz</h4>
+<form id="frmHowToVote" name="howtovote" method="get" action="election2007.php">
 <?
 /*    if ($errors) {
         print "<p class=\"error\">";
@@ -705,41 +690,8 @@ function selpol()
     } */
 ?>
 
-<ol id="olQuiz">
-	<li>
-			Enter your UK <strong>postcode</strong>: <input type="text" size="10" name="mppc" value="<?=htmlspecialchars($_GET['mppc'])?>" id="Text1"> <br/>
-			(so we know who your last <abbr title="Member of Parliament">MP</abbr> was)
-	</li>
-<? /* ?>
-	<li>
-		<p>
-			Choose how you feel about each of these issues.  We'll tell you how your ex-<abbr title="Member of Parliament">MP</abbr> and each party voted on them in parliament over the last 2 years.
-		</p>
-		
-		<ul id="ulQuestions">
-
-
-<?
-    foreach ($issues as $issue) {
-        print "<li>";
-        print 'I am <select name="i'.$issue[0].'">' . "\n";
-        print "<option value=\"-1\" selected>-- please choose --</option>\n";
-        foreach ($ranks as $rank_name => $rank_value) {
-            print "<option ";
-            print opinion_value($rank_value, ($_GET['submit'] ? floatval($_GET['i'.$issue[0]]) : ""));
-            print ">$rank_name</option>\n";
-        }
-        print "</select>" . $issue[1] .  "\n";
-        print "</li>";
-    }
-?>
-
-		</ul>
-
-	</li>
-<? */ ?>
-
-</ol>
+Enter your UK <strong>postcode</strong>: <input type="text" size="10" name="mppc" value="<?=htmlspecialchars($_GET['mppc'])?>" id="Text1"> <br/>
+(so we know who your last <abbr title="Member of Parliament">MP</abbr> was)
 
 <input id="submit" name="submit" type="hidden"  value="1">
 
