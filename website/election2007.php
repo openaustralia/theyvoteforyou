@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.2 2007/10/02 11:51:58 publicwhip Exp $
+# $Id: election2007.php,v 1.3 2007/10/02 14:47:51 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -14,6 +14,8 @@
 # Sort out postcode lookup
 # Update links to other quizes
 # Get standing again data, and remove XXX remove me
+# Colours matching parties
+# Independents - north wales, and george galloway
 
 # Old TODO:
 # Maybe display anyway when postcode wrong
@@ -198,7 +200,6 @@ $parties = array(
     "Lab" => "Labour",
     "Con" => "Conservative",
     "LDem" => "Liberal Democrat",
-    "Lab/Co-op" => "Labour"
 );
 
 $wales_parties = array(
@@ -368,8 +369,11 @@ $standing_again = true; # XXX remove me
         if ($consid == "uk.org.publicwhip/cons/655") { // Wyre Forest, Richard Taylor (Ind)
             $parties = array_merge($parties, $independents); 
         }
-        $unique_parties = array_values($parties);
-        $unique_parties = array_unique($unique_parties);
+        if ($standing_again) {
+            $parties["Your MP"] = "Your MP";
+            unset($parties[$mpattr["party"]]);
+        }
+        $unique_parties = array_keys($parties);
         $mp_party = $parties[$mpattr['party']];
 
 	#print "<p>MP party $mp_party standing again $standing_again<p>";
@@ -400,8 +404,7 @@ where dream_id = $dreamid group by party";
                 $dist = $row['dist'];
                 if ($issue[2])
                     $dist = 1.0 - $dist;
-                $canonparty = $parties[$row['party']];
-                $party_dist[$canonparty] += $dist;
+                $party_dist[$row['party']] += $dist;
             } 
             foreach ($unique_parties as $party) {
                 $distance = $party_dist[$party];
@@ -423,30 +426,6 @@ where dream_id = $dreamid group by party";
             $distances['Comparison']["Your MP"] += abs($dist - $distances[$dreamid]['You']);
         }
 
-# For debugging
-#$distances['Comparison']["Your MP"] = 0;
-#$distances['Comparison']["Labour"] = 0;
-#$standing_again = false;
-
-        # Find who you should vote for
-        $best_party = null;
-        $best_comparison = 1000000;
-        foreach ($distances['Comparison'] as $party => $comparison) {
-            # Remove one out of MP's party and MP
-            if ($standing_again) {
-                if ($party == $mp_party)
-                    continue;
-            } else {
-                if ($party == "Your MP")
-                    continue;
-            }
-            # Test for best
-            if ($comparison < $best_comparison) {
-                $best_party = $party;
-                $best_comparison = $comparison;
-
-            }
-        }
 ?>
 <script type="text/javascript">
 
@@ -559,8 +538,8 @@ function selpol()
     document.getElementById('partychoice').innerHTML = document.getElementById('partyname' + partyfirstnumber).innerHTML;
     document.getElementById('partychoicepercent').innerHTML = partyfirstpercent + "%";
 
-    document.getElementById('partychoicesecond').innerHTML = document.getElementById('partyname' + partysecondnumber).innerHTML;
-    document.getElementById('partychoicesecondpercent').innerHTML = partysecondpercent + "%";
+    // document.getElementById('partychoicesecond').innerHTML = document.getElementById('partyname' + partysecondnumber).innerHTML;
+    // document.getElementById('partychoicesecondpercent').innerHTML = partysecondpercent + "%";
 
     polworst = polgreatestdiff(partyfirstnumber);
     document.getElementById('policyworst').innerHTML = document.getElementById('polname' + polworst).innerHTML;
@@ -586,11 +565,7 @@ function selpol()
 <?
 
         print "<p class=\"advice\">";
-        if ($best_party == "Your MP") {
-        // $mpattr['name'] $mp_party $constituency
-        } else {
-        // $best_party $constituency
-        }
+
 /*        if ($standing_again) {
 ?>
         This is based on how your ex-MP (who is standing again) 
@@ -607,77 +582,8 @@ function selpol()
         }
         */
         print "</p>";
-        //<br>distance $best_comparison
     
         // print_friends_form("a");
-
-?>
-
-<?
-/*
-        # Print table
-        print "<table id=\"tblResult\" class=\"votes\" >";
-        print "<tr class=\"headings\"><th>Issue (numbers are from <br>100% agrees
-strongly to <br>0% disagrees strongly)</th><th>You</th>";
-        foreach ($unique_parties as $party) {
-            if ($party == $mp_party and $standing_again) {
-                print "<th>$party</th><th>".$mpattr['name']. "<br>(your 
-                    $party<br>ex-MP)</th>";
-            } else {
-                print "<th>$party</th>";
-            }
-        }
-        print "</tr>\n";
-        $pretty_row = 0;
-        foreach ($issues as $issue) {
-            $pretty_row = pretty_row_start($pretty_row);
-            $dreamid = $issue[0];
-            print "<td><a href=\"dreammp.php?id=$dreamid\">" . $issue[1] . "</a></td>";
-            print "<td>" . 
-                dist_to_desc($distances[$dreamid]['You']) . " ";
-            print our_number_format($distances[$dreamid]['You']);
-            print "</td>";
-
-            foreach ($unique_parties as $party) {
-                print "<td>";
-                $distance = $distances[$dreamid][$party];
-                print dist_to_desc($distance) . " ";
-                print our_number_format($distance);
-                if ($party == $mp_party and $standing_again) {
-                    print " <td><a href=\"mp.php?".$mpattr['mpanchor']."&dmp=$dreamid&display=motions\">" . 
-                        dist_to_desc($distances[$dreamid]['Your MP']) . "</a> ";
-                    print our_number_format($distances[$dreamid]['Your MP']);
-                    print "</td>";
-                }
-                print "</td>";
-            }
-            print "</tr>";
-        }
-        print "<tr class=\"last\">";
-        print "<td>Comparison with your opinion:
-	 <br>100% voted same as your view
-	 <br>0% voted opposite to your view</td>";
-        print "<td>&nbsp;</td>";
-        foreach ($unique_parties as $party) {
-            $comparison = $distances['Comparison'][$party];
-            $comparison /= $issuecount;
-            print "<td>"; 
-            print dist_to_desc($comparison);
-            print "<br>with you ";
-            print our_number_format($comparison);
-            print "</td>";
-            if ($party == $mp_party and $standing_again) {
-                $comparison = $distances['Comparison']['Your MP'];
-                $comparison /= $issuecount;
-                print "<td>";
-                print dist_to_desc($comparison);
-                print "<br>with you ";
-                print our_number_format($comparison);
-                print "</td>";
-            }
-        }
-        print "</table>";
-*/
 ?>
         <div>
           <form action="" method="post">
@@ -705,7 +611,11 @@ strongly to <br>0% disagrees strongly)</th><th>You</th>";
             $c = -1;
             foreach ($unique_parties as $party) {
                 $c++;
-                print '<th id="partyname'.$c.'">'.$party.'</th>';
+                if ($party == "Your MP") 
+                    $display_party = $mpattr['name'] . " ex-MP<br>(" . $parties[$mpattr['party']] . ")";
+                else
+                    $display_party = $parties[$party];
+                print '<th id="partyname'.$c.'">'.$display_party.'</th>';
             }
         ?>
         <td></td>
@@ -717,19 +627,23 @@ strongly to <br>0% disagrees strongly)</th><th>You</th>";
             $c = -1;
             foreach ($unique_parties as $party) {
                 $c++;
-                print '<td><div id="party'.$c.'" style="width:60px; height:20px;">s</div></td>';
+                if ($party == "Your MP") 
+                    $col = party_to_colour($mpattr['party']);
+                else
+                    $col = party_to_colour($party);
+                print '<td><div id="party'.$c.'" style="width:60px; height:20px; background:'.$col.'; "></div></td>';
             }
         ?>
 
-        <td id="recview">Publicwhip recommends you vote
+        <td id="recview">Public Whip recommends you vote
         <center><span id="partychoice">YYY</span></center>
         as it matches your political opinion by
         <span id="partychoicepercent">ZZ%</span>.
-        <br>The worst matching policy is
+        <br><br>The worst matching policy is
         <center><span id="policyworst">PPP</span></center>
-        Your second choice
+        <!--Your second choice
         <span id="partychoicesecond">YYY</span> matches you by
-        <span id="partychoicesecondpercent">ZZ%</span>.
+        <span id="partychoicesecondpercent">ZZ%</span>.-->
         </td>
         </tr>
         </table>

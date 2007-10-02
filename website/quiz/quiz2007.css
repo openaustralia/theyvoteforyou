@@ -62,25 +62,6 @@ div.polslider
         float:left;
         }
 
-div#party0
-{
-        background:#f00;
-        width:20px;
-        height:10px;
-}
-div#party1
-{
-        background:#00f;
-        width:20px;
-        height:10px;
-}
-div#party2
-{
-        background:#080;
-        width:20px;
-        height:10px;
-}
-
 td.sliderposword
 {
     width:8em;
