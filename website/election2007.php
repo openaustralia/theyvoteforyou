@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.3 2007/10/02 14:47:51 publicwhip Exp $
+# $Id: election2007.php,v 1.4 2007/10/02 14:48:55 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -369,11 +369,12 @@ $standing_again = true; # XXX remove me
         if ($consid == "uk.org.publicwhip/cons/655") { // Wyre Forest, Richard Taylor (Ind)
             $parties = array_merge($parties, $independents); 
         }
+        $lookup_parties = $parties;
         if ($standing_again) {
-            $parties["Your MP"] = "Your MP";
-            unset($parties[$mpattr["party"]]);
+            $lookup_parties["Your MP"] = "Your MP";
+            unset($lookup_parties[$mpattr["party"]]);
         }
-        $unique_parties = array_keys($parties);
+        $unique_parties = array_keys($lookup_parties);
         $mp_party = $parties[$mpattr['party']];
 
 	#print "<p>MP party $mp_party standing again $standing_again<p>";
