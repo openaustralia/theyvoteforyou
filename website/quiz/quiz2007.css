@@ -53,3 +53,49 @@ div#submit {text-align: right; margin-right: 12px; margin-bottom: 4px; }
 #tblResult th {border-bottom:solid 1px #003300;border-top:solid 1px #003300;}
 #tblResult tr.even td {background-color:#ebf6ed;}
 #tblResult tr.last td {font-weight:bold;}
+
+/* Slider stuff */
+
+div.polslider
+        {
+        width:12em;
+        float:left;
+        }
+
+div#party0
+{
+        background:#f00;
+        width:20px;
+        height:10px;
+}
+div#party1
+{
+        background:#00f;
+        width:20px;
+        height:10px;
+}
+div#party2
+{
+        background:#080;
+        width:20px;
+        height:10px;
+}
+
+td.sliderposword
+{
+    width:8em;
+    text-align:right;
+}
+
+table.partytable th
+{
+    text-align:center;
+    width:70px;
+}
+
+span#partychoice, span#partychoicepercent
+{
+    background-color:lightGreen;
+}
+
+

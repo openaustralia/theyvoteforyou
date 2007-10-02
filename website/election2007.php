@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.1 2007/10/02 01:11:00 publicwhip Exp $
+# $Id: election2007.php,v 1.2 2007/10/02 11:51:58 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -334,11 +334,12 @@ header("Content-Type: text/html; charset=UTF-8");
 <head>
 <title>The Public Whip - How They Voted 2007</title>
 <link href="quiz/quiz2007.css" type="text/css" rel="stylesheet"/>
+<link href="quiz/slider.css" type="text/css" rel="stylesheet"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-</head>
-<?
-    if ($_GET['submit'] and !$errors) {
+<script type="text/javascript" src="./quiz/slider.js"></script>
+
+<?    if ($_GET['submit'] /*and !$errors*/) {
         # See if MP is standing again
         $mpattr = $mpattr['mpprops'][0];
         $constituency = str_replace("&amp;", "&", $mpattr['constituency']);
@@ -447,28 +448,150 @@ where dream_id = $dreamid group by party";
             }
         }
 ?>
+<script type="text/javascript">
+
+
+poswords = ["Extremely against","Strongly against","Moderately against","Slightly against",
+                  "Indifferent about",
+                  "Slightly for", "Moderately for", "Strongly for", "Extremely for"];
+
+var npolicies = <?=count($issues)?>;
+
+weights = [ 0, 1, 3, 6, 10 ];  // from indifferent to extremely
+
+partyvotes = [
+<?    
+     $c = -1;
+     foreach ($issues as $issue) {
+        $c++;
+        print "[";
+        foreach ($unique_parties as $party) {
+            $distance = $party_dist[$party];
+            if ($distance == null) {
+                $distance = 0.5;
+            }
+            print 1.0 - $distances[$issue[0]][$party]; # convert distance to agreement score
+            print ", ";
+        }
+        print "], \n";
+    }
+?>
+]
+
+partyscores = [ 
+<? foreach ($unique_parties as $party) {
+    print "0.0, ";
+   }
+?>
+];
+
+function polgreatestdiff(partychoice)
+{
+    var policyworst = 0;
+    var policyworstdiff = 0;
+    for (var i = 0; i < npolicies; i++)
+    {
+        r = parseInt(document.getElementById('slider-pol' + i).value, 10) || 0;
+        rs = (r + 4) * 1.0 / 8;
+        var poldiff = Math.abs(partyvotes[i][partychoice] - rs);
+        if (poldiff >= policyworstdiff)
+        {
+            policyworst = i;
+            policyworstdiff = poldiff;
+        }
+    }
+    return policyworst;
+}
+
+function selpol()
+{
+    for (var j = 0; j < partyscores.length; j++)
+        partyscores[j] = 0.0;
+
+    var r;
+    var wsum = 0.0;
+    for (var i = 0; i < npolicies; i++)
+    {
+        r = parseInt(document.getElementById('slider-pol' + i).value, 10) || 0;
+        document.getElementById('spanpol' + i).innerHTML = poswords[r + 4];
+        if (r == 0)
+            continue; // no contribution
+        partyvote = partyvotes[i];
+        tw = weights[(r < 0 ? -r : r)];
+        for (var j = 0; j < partyscores.length; j++)  // loop through the parties
+        {
+            var pr = (partyvote[j] >= 0.5 ? partyvote[j] - 0.5 : 0.5 - partyvote[j]) * 2;
+            if ((partyvote[j] > 0.5) == (r > 0))
+                partyscores[j] += (pr + 1) * tw;
+            else
+                partyscores[j] += (1 - pr) * tw;
+        }
+        wsum += tw * 2;
+    }
+
+    var partyfirstnumber = 0, partyfirstpercent = 0;
+    var partysecondnumber = 0, partysecondpercent = 0;
+    for (var j = 0; j < partyscores.length; j++)
+    {
+        s = (wsum != 0.0 ? partyscores[j] / wsum : 0.5);
+        sp = Math.round(s * 100);
+        document.getElementById('party' + j).style["paddingTop"] = sp + "px";
+        pp = Math.round(partyscores[j] * 100);
+        wsp = Math.round(wsum * 100);
+        //document.getElementById('party' + j).innerHTML = pp + " / " + wsp;
+
+        if (sp >= partyfirstpercent)
+        {
+            partysecondnumber = partyfirstnumber;
+            partysecondpercent = partyfirstpercent;
+
+            partyfirstnumber = j;
+            partyfirstpercent = sp;
+        }
+
+        else if (sp >= partysecondpercent)
+        {
+            partysecondnumber = j;
+            partysecondpercent = sp;
+        }
+    }
+
+    document.getElementById('partychoice').innerHTML = document.getElementById('partyname' + partyfirstnumber).innerHTML;
+    document.getElementById('partychoicepercent').innerHTML = partyfirstpercent + "%";
+
+    document.getElementById('partychoicesecond').innerHTML = document.getElementById('partyname' + partysecondnumber).innerHTML;
+    document.getElementById('partychoicesecondpercent').innerHTML = partysecondpercent + "%";
+
+    polworst = polgreatestdiff(partyfirstnumber);
+    document.getElementById('policyworst').innerHTML = document.getElementById('polname' + polworst).innerHTML;
+}
+
+// Demo specific onload event (uses the addEvent method bundled with the slider)
+//fdSliderController.addEvent(window, 'load', createColorBox);
+
+//]]>
+</script>
+<? } ?>
+
+</head>
+<?
+    if ($_GET['submit'] /*and !$errors*/) {
+?>
 <body>
 <div id="divQuizResults">
 <h1><a href="/"><span class="fir">The Public Whip</span></a></h1>
-<h2>How They Voted 2005</h2>
+<h2>How They Voted 2007</h2>
 <h3>(...and so how you should)</h3>
 <h4>Quick Election Quiz</h4>
 <?
 
         print "<p class=\"advice\">";
         if ($best_party == "Your MP") {
-?>
-        The Public Whip suggests you vote for 
-        <b><?=$mpattr['name']?> (<?=$mp_party?>)</b>, your ex-MP
-	in <?=$constituency?>.
-<?
+        // $mpattr['name'] $mp_party $constituency
         } else {
-?>
-        The Public Whip suggests you vote <b><?=$best_party?></b> 
-	in <?=$constituency?>.
-<?
+        // $best_party $constituency
         }
-        if ($standing_again) {
+/*        if ($standing_again) {
 ?>
         This is based on how your ex-MP (who is standing again) 
         and MPs of other parties voted in parliament over the last 2 years, 
@@ -482,38 +605,16 @@ where dream_id = $dreamid group by party";
     </p>
 <?
         }
+        */
         print "</p>";
         //<br>distance $best_comparison
     
-        print_friends_form("a");
+        // print_friends_form("a");
 
 ?>
 
-<p class="links">
-<b>Questions?</b> Email <a href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a> 
-<b>Media enquiries?</b>  Ring Francis Irving on 07970 543358.
-</p>
-
-<p class="links">
-We recommend you <b>look at other sources</b> before deciding how to vote.  
-You might like to take the <a href="http://www.politicalsurvey2005.com/">Political
-Survey 2005</a> (more detailed and based on opinion poll data), 
-or use <a href="http://www.howtovote.co.uk/">how2vote</a> (which asks you
-which of different manifesto policies you prefer).  For more detail <a
-href="http://www.theywanttobeelected.com/manifestos/">read and annotate the
-manifestos</a>, or get a useful opinion poll trend graph and links from
-<a href="http://election.beasts.org/">election.beasts.org</a>.
-</p>
-
-<p class="links">
-<a href="election2007.php">Take the Public Whip quiz again</a> <em>or</em>
-<a href="/">Go to the main Public Whip website</a>
-</p>
-
-<h5>Detailed Breakdown</h5>
-<p>How we worked out who you should vote for.
 <?
-
+/*
         # Print table
         print "<table id=\"tblResult\" class=\"votes\" >";
         print "<tr class=\"headings\"><th>Issue (numbers are from <br>100% agrees
@@ -576,107 +677,106 @@ strongly to <br>0% disagrees strongly)</th><th>You</th>";
             }
         }
         print "</table>";
+*/
 ?>
-<p>This table shows how members of each parliamentary party voted on each issue
-in parliament between 2001 and 2005.  These are averages for each party.  So,
-Labour comes out as only "agree" on many issues, rather than "agree
-(strong)", because many members rebelled on these controversial issues.
-Follow the link for each issue to find out more about which votes we used
-to do this calculation.  The links in your ex-MP's column (if they are standing
-again) will take you to a detailed breakdown of how they voted on the issue.
-</p>
-<p>The last row shows how each party compares to you.  The difference between
-you and the party on each each is summed up and averaged.  100% means you 
-exactly agree with how the party voted, 0% means you exactly disagree.
-Each issue is given equal weight, although if you were neutral on an issue
-it will naturally score less.  The party which we suggest you vote for (above)
-has the largest value in this bottom row.
-</p>
+        <div>
+          <form action="" method="post">
+        <div class="policypanel" style="width:60em">
+        <table>
+  
+<?    
+     $c = -1;
+     foreach ($issues as $issue) {
+        $c++;
+?>
+        <tr><td><input name="sliderpol<?=$c?>" id="slider-pol<?=$c?>" type="text" title="silly title" class="fd_range_-4_4 fd_classname_polslider fd_hide_input fd_callback_selpol" value="0" /></td>
+            <td id="spanpol<?=$c?>" class="sliderposword">XXX</td>
+            <td id="polname<?=$c?>"><?=$issue[1]?></td>
+        </tr>
 <?
     }
-    elseif ($_POST['submitfriend']) {
 ?>
-<body>
-<div id="divQuizResults">
-<h1><a href="/"><span class="fir">The Public Whip</span></a></h1>
-<h2>How They Voted 2005</h2>
-<h3>(...and so how you should)</h3>
-<h4>Quick Election Quiz</h4>
+        </table>
 
-<?
-        $error = "";
-        if (!$_POST['friendsemail'] || !$_POST['yourname'] || !$_POST['youremail']) {
-            $error .= "Please enter all details. ";
-        } else {
-            if (!pw_validate_email($_POST['friendsemail']))
-                $error .= "Enter a valid email address for your friend. ";
-            if (!pw_validate_email($_POST['youremail']))
-                $error .= "Enter a valid email address for yourself. ";
-        }
-        if ($error) {
-            print "<p class=\"error\">
-                Form not complete, please correct and try again.  
-                $error
-                </p>";
-            print_friends_form("a");
-        } else {
-            $message = <<<END
-Your friend ${_POST['yourname']} <${_POST['youremail']}> saw this
-'how to vote' website and thought of you.
+        <table class="partytable">
 
-http://www.publicwhip.org.uk/election2007.php
-
-The site asks your opinion on key issues (such as the Iraq war,
-Hunting and Foundation Hospitals).  Then it compares your opinion
-with the actual vote in parliament of MPs over the last four
-years, and recommends which party you should vote for.
-
-Unlike the parties, we don't have any marketing budget, so
-please help us out by forwarding this to any of your friends
-who might like it.  We believe that both MPs and parties should
-be held to account for how they voted in parliament.
-
-Enjoy the election!
-
--- The Public Whip team
-
-The Public Whip ( http://www.publicwhip.org.uk ) is a project to
-data-mine the voting record of Members of the United Kingdom
-Parliament, so that you can hold them to account. 
-END;
-			$success = mail ($_POST['friendsemail'],'How to vote based on how MPs voted in the last 2 years',$message,'From: The Public Whip <team@publicwhip.org.uk>');
-            if ($success) {
-                print "<p class=\"advice\">Mail successfully sent to ".
-                    htmlspecialchars($_POST['friendsemail']).
-                    "</p><p class=\"advice\">You can send another if you like!</p>";
+        <tr>
+        <? 
+            $c = -1;
+            foreach ($unique_parties as $party) {
+                $c++;
+                print '<th id="partyname'.$c.'">'.$party.'</th>';
             }
-            else {
-                print "<div class=\"error\">Failed to send mail</div>";
-            }
+        ?>
+        <td></td>
+        </tr>
 
-            $_POST['friendsemail'] = "";
-            print_friends_form("another");
-?>
-<p class="links"><a href="election2007.php">Take the quiz again</a> <em>or</em>
-<a href="/">Go to the main Public Whip website</a> </p>
-</div>
+        <tr style="height:110px; vertical-align:bottom;">
+
+        <? 
+            $c = -1;
+            foreach ($unique_parties as $party) {
+                $c++;
+                print '<td><div id="party'.$c.'" style="width:60px; height:20px;">s</div></td>';
+            }
+        ?>
+
+        <td id="recview">Publicwhip recommends you vote
+        <center><span id="partychoice">YYY</span></center>
+        as it matches your political opinion by
+        <span id="partychoicepercent">ZZ%</span>.
+        <br>The worst matching policy is
+        <center><span id="policyworst">PPP</span></center>
+        Your second choice
+        <span id="partychoicesecond">YYY</span> matches you by
+        <span id="partychoicesecondpercent">ZZ%</span>.
+        </td>
+        </tr>
+        </table>
+        </div>
+        </form>
+
+        </div>
+
+<p class="links">
+<b>Questions?</b> Email <a href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a> 
+<b>Media enquiries?</b>  Ring Francis Irving on 07970 543358.
+</p>
+
+<a href="election2007.php">Change postcode</a> <em>or</em>
+<a href="/">Go to the main Public Whip website</a>
+</p>
+
+
+        <script type="text/javascript">
+        //<![CDATA[
+
+        // Calling the construct() method here as were using an object method as a callback and I want to be sure that
+        // the slider object exists when the onload event fires (for Internet Explorers benefit as usual)
+        // You dont have to call the construct in this way if your using plain-jane functions as a callback
+        // You can always use your preferred onDOMContentLoaded function e.g. jQuery's $(document).ready or YAHOO's onDocumentReady event
+        fdSliderController.construct();
+        selpol();
+
+        //]]>
+        </script>
 <?
-        }
+
     } else {
 ?>
 <body>
 <div id="frmHowToVote">
 <form name="howtovote" method="get" action="election2007.php">
 <h1><a href="/"><span class="fir">The Public Whip</span></a></h1>
-<h2>How They Voted 2005</h2>
+<h2>How They Voted 2007</h2>
 <h3>(...and so how you should)</h3>
 <h4>Quick Election Quiz</h4>
 <?
-    if ($errors) {
+/*    if ($errors) {
         print "<p class=\"error\">";
         print join($errors, "<br>");
         print "</p>";
-    }
+    } */
 ?>
 
 <ol id="olQuiz">
@@ -684,6 +784,7 @@ END;
 			Enter your UK <strong>postcode</strong>: <input type="text" size="10" name="mppc" value="<?=htmlspecialchars($_GET['mppc'])?>" id="Text1"> <br/>
 			(so we know who your last <abbr title="Member of Parliament">MP</abbr> was)
 	</li>
+<? /* ?>
 	<li>
 		<p>
 			Choose how you feel about each of these issues.  We'll tell you how your ex-<abbr title="Member of Parliament">MP</abbr> and each party voted on them in parliament over the last 2 years.
@@ -710,6 +811,8 @@ END;
 		</ul>
 
 	</li>
+<? */ ?>
+
 </ol>
 
 <input id="submit" name="submit" type="hidden"  value="1">
@@ -723,6 +826,7 @@ Powered by <a href="http://www.publicwhip.org.uk" title="Go to the main Public W
 </form>
 
 </div>
+
 </body>
 <?
     }
