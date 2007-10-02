@@ -79,4 +79,8 @@ span#partychoice, span#partychoicepercent
     background-color:lightGreen;
 }
 
+.partyheadings {
+    text-align: right;
+    font-weight: bold;
+}
 

@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.5 2007/10/02 15:13:57 publicwhip Exp $
+# $Id: election2007.php,v 1.6 2007/10/02 15:38:59 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -188,7 +188,7 @@ $ranks = array(
 $issues = array(
         array(999, "<strong>investigating</strong> the <strong>Iraq war</strong>", false),
         array(996, "<strong>Freedom of Information</strong> applying to <strong>MPs</strong>", false), # XXX not 2007 specific
-        array(863, "<strong>Parliament</strong> having a <strong>vote on new laws</strong>", false), # XXX not 2007 specific
+        array(863, "<strong>Government</strong> altering the law <strong>without Parliament</strong>", true), # XXX not 2007 specific
         array(1000, "<strong>banning smoking</strong> in public places", false),
         array(984, "replacing the <strong>Trident</strong> nuclear weapons", false), # XXX not 2007 specific
         # XXX terrorism - there are loads of votes
@@ -514,8 +514,9 @@ function selpol()
     for (var j = 0; j < partyscores.length; j++)
     {
         s = (wsum != 0.0 ? partyscores[j] / wsum : 0.5);
-        sp = Math.round(s * 100);
-        document.getElementById('party' + j).style["paddingTop"] = sp + "px";
+        sp = Math.round(s * 200);
+        document.getElementById('party' + j).style["width"] = sp + "px";
+        // document.getElementById('howtheyvoted').innerHTML = j + " " + sp;
         pp = Math.round(partyscores[j] * 100);
         wsp = Math.round(wsum * 100);
         //document.getElementById('party' + j).innerHTML = pp + " / " + wsp;
@@ -536,8 +537,8 @@ function selpol()
         }
     }
 
-    document.getElementById('partychoice').innerHTML = document.getElementById('partyname' + partyfirstnumber).innerHTML;
-    document.getElementById('partychoicepercent').innerHTML = partyfirstpercent + "%";
+    // document.getElementById('partychoice').innerHTML = document.getElementById('partyname' + partyfirstnumber).innerHTML;
+    // document.getElementById('partychoicepercent').innerHTML = partyfirstpercent + "%";
 
     // document.getElementById('partychoicesecond').innerHTML = document.getElementById('partyname' + partysecondnumber).innerHTML;
     // document.getElementById('partychoicesecondpercent').innerHTML = partysecondpercent + "%";
@@ -560,7 +561,7 @@ function selpol()
 <body>
 <div id="divQuizResults">
 <h1><a href="/"><span class="fir">The Public Whip</span></a></h1>
-<h2>How They Voted 2007</h2>
+<h2 id="howtheyvoted">How They Voted 2007</h2>
 <h3>(...and so how you should)</h3>
 <h4>Quick Election Quiz</h4>
 <?
@@ -606,45 +607,54 @@ function selpol()
         </table>
 
         <table class="partytable">
-
         <tr>
+        <td>
+        </td>
+        <td>
+        <div style="width: 200px">
+        <span style="float: left">
+        0%
+        </span>
+        <span style="float: right">
+        100%
+        </span>
+        </div>
+        </td>
+        </tr>
+
         <? 
             $c = -1;
             foreach ($unique_parties as $party) {
+                print "<tr>";
                 $c++;
                 if ($party == "Your MP") 
                     $display_party = $mpattr['name'] . " ex-MP<br>(" . $parties[$mpattr['party']] . ")";
                 else
                     $display_party = $parties[$party];
-                print '<th id="partyname'.$c.'">'.$display_party.'</th>';
-            }
-        ?>
-        <td></td>
-        </tr>
+                print '<td class="partyheadings" id="partyname'.$c.'">'.$display_party.'</td>';
 
-        <tr style="height:110px; vertical-align:bottom;">
-
-        <? 
-            $c = -1;
-            foreach ($unique_parties as $party) {
-                $c++;
                 if ($party == "Your MP") 
                     $col = party_to_colour($mpattr['party']);
                 else
                     $col = party_to_colour($party);
-                print '<td><div id="party'.$c.'" style="width:60px; height:20px; background:'.$col.'; "></div></td>';
+                print '<td><div id="party'.$c.'" style="width:0px; height:40px; background:'.$col.'; "></div></td>';
+                print "</tr>";
             }
         ?>
+<!--        <td></td> -->
+        </table>
 
-        <td id="recview">Public Whip recommends you vote
+<!--        <tr style="height:110px; vertical-align:bottom;"> -->
+
+        <!-- <td id="recview">Public Whip recommends you vote
         <center><span id="partychoice">YYY</span></center>
         as it matches your political opinion by
         <span id="partychoicepercent">ZZ%</span>.
-        <br><br>The worst matching policy is
-        <center><span id="policyworst">PPP</span></center>
+        -->
         <!--Your second choice
         <span id="partychoicesecond">YYY</span> matches you by
         <span id="partychoicesecondpercent">ZZ%</span>.-->
+        <p>The worst matching policy is: <span id="policyworst">PPP</span></p>
         </td>
         </tr>
         </table>
