@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.8 2007/10/02 19:51:14 publicwhip Exp $
+# $Id: election2007.php,v 1.9 2007/10/03 00:27:29 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -195,6 +195,7 @@ $issues = array(
         # XXX terrorism - there are loads of votes
         # XXX ID cards - there are loads of votes
     );
+$polyicystrnum = array("iraq"=>0, "foia"=>1, "lrrb"=>2, "smoking"=>3, "trident"=>4);
 
 // Name in database => display name
 $parties = array(
@@ -224,6 +225,114 @@ $independents = array(
     "Ind Lab" => "Independent",
     "Ind UU" => "Independent", */
 );
+
+
+// "Question from hell" - Public Whip edition
+$questlist = array();
+$questlist_raw = array();
+
+$swapXvoteP = array("policy-for"=>"policy-against", "no"=>"aye", "aye"=>"no", "vote against"=>"vote for", "vote for"=>"vote against");
+$swapXabst = array("policy-for"=>"policy-for", "no"=>"absent", "aye"=>"absent", "vote against"=>"not turn up to vote for", "vote for"=>"not vote against");
+$swapXabstP = array("policy-for"=>"policy-against", "no"=>"absent", "aye"=>"absent", "vote against"=>"not turn up to vote against", "vote for"=>"not vote for");
+function swapvals($pp, $ss)
+{
+    return array($pp[0], $ss[$pp[1]], $pp[2], $ss[$pp[3]], $ss[$pp[4]], $pp[5]);
+}
+
+/// ... Iraq
+$questlistraw[] = array("iraq", "policy-for", "2007-06-11#135", "no", "vote against", "Why did XXXX VVVV
+                the principle of an independent inquiry
+                to review the way in which the responsibilities of Government
+                were discharged in relation to Iraq?");
+
+$questlistraw[] = array("iraq", "policy-for", "2007-10-31#330", "no", "vote against", "Why did XXXX VVVV
+                there being a select committee
+                to review the way in which the responsibilities of Government
+                were discharged in relation to Iraq?");
+
+$questlistraw[] = array("iraq", "policy-for", "2007-06-11#136", "aye", "vote for", "Why did XXXX VVVV
+                the recognition that for a further inquiry into Iraq would
+                would divert attention
+                whilst the whole effort of the effort of the Government
+                and the armed forces was directed towards improving the condition of Iraq?");
+
+$questlistraw[] = array("iraq", "policy-for", "2007-10-31#331", "aye", "vote for", "Why did XXXX VVVV
+                the recognition that for a further inquiry into Iraq would
+                would divert attention
+                whilst the whole effort of the effort of the Government
+                and the armed forces was directed towards improving the condition of Iraq?");
+
+
+// ... Legislative and Regulatory Reform Bill
+$questlistraw[] = array("lrrb", "policy-for", "2006-05-15#232", "no", "vote against", "Why did XXXX VVVV
+                requiring the Government to act \"reasonably\" when altering the
+                law to reduce regulatory burdens?");
+
+$questlistraw[] = array("lrrb", "policy-for", "2006-05-16#237", "no", "vote against", "Why did XXXX VVVV
+                the ability of a minority of MPs to decide that a proposed change in
+                the law was not uncontroversial enough to bypass the usual procedures of
+                Parliament?");
+
+$questlistraw[] = array("lrrb", "policy-for", "2006-05-16#235", "no", "vote against", "Why did XXXX VVVV
+                requiring the Government to produce an annual report
+                on the benefits of the changes it had made to to the law outside the usual procedures of Parliament
+                on DDDD?");
+
+$questlistraw[] = array("lrrb", "policy-for", "2006-05-16#240", "no", "vote against", "Why did XXXX VVVV
+                requiring the Government to take notice of the of the view of a
+                select committee when it decided that a proposed change to the law
+                was not proportional, balanced and consistent with policy objectives on DDDD?");
+
+$questlistraw[] = array("lrrb", "policy-for", "2006-05-16#238", "no", "vote for", "Why did XXXX VVVV
+                a Government Minister to be able to confer his law rewriting powers to
+                people who were not accountable to Parliament?");
+
+
+// ... Trident
+$questlistraw[] = array("trident", "policy-for", "2007-03-14#77", "aye", "vote for", "Why did XXXX VVVV
+                extending the life of Trident while remaining unconvinced of the need for an early
+                decision to find a replacement?");
+
+$questlistraw[] = array("trident", "policy-for", "2007-03-14#78", "no", "vote against", "Why did XXXX VVVV
+                authorizing the Government to replace the Trident nuclear weapons system?");
+
+// ... Smoking ban
+$questlistraw[] = array("smoking", "policy-for", "2006-02-14#166", "no", "vote against", "Why did XXXX VVVV
+                the third reading of the Act banning smoking in all indoor public places?");
+
+$questlistraw[] = array("smoking", "policy-for", "2006-02-14#164", "no", "vote for", "Why did XXXX VVVV
+                allowing private clubs to apply to the Local Authority
+                for an exemption to the ban on smoking in all indoor public places?");
+
+// ... FOI Amendment
+$questlistraw[] = array("foia", "policy-for", "2007-05-18#121", "no", "vote against", "Why did XXXX VVVV
+                limiting the proposed exemption from the Freedom of Information Act
+                to matters relating to the personal affairs of a constituent?");
+
+$questlistraw[] = array("foia", "policy-for", "2007-05-18#123", "aye", "vote for", "Why did XXXX VVVV
+                the Law which would have exempted Parliament and all MPs from
+                the Freedom of Information Act?");
+
+$questlistraw[] = array("foia", "policy-for", "2007-05-18#120", "no", "vote for", "Why did XXXX VVVV
+                preventing the Freedom of Information Act from applying to
+                correspondence between an MP and any Government department?");
+
+$questlistraw[] = array("foia", "policy-for", "2007-05-18#122", "aye", "vote for", "Why did XXXX VVVV
+                closing the debate on the Law which would have exempted MPs from
+                the Freedom of Information Act knowing that the next vote on it would pass?");
+
+foreach ($questlistraw as $q)
+{
+    $questlist[] = $q;
+    $questlist[] = swapvals($q, $swapXvoteP);
+}
+foreach ($questlistraw as $q)
+{
+    $questlist[] = swapvals($q, $swapXabst);
+    $questlist[] = swapvals($q, $swapXabstP);
+};
+#print "<pre>";print_r($questlist); exit;
+
 
 // Grab shorter URL if it is one
 $qstring = $_SERVER["QUERY_STRING"];
@@ -369,7 +478,33 @@ where dream_id = $dreamid group by party";
                 $dist = 1.0 - $dist;
             $distances[$dreamid]["Your MP"] = $dist;
             $distances['Comparison']["Your MP"] += abs($dist - $distances[$dreamid]['You']);
+
         }
+
+        // Work out the questions from hell
+        $polfill = array();
+        foreach ($questlist as $quest)
+        {
+            $polval = $quest[1] . $polyicystrnum[$quest[0]];
+            if (!$polfill[$polval])
+            {
+                # XXX should be only when MP is standing again
+                list($divdate, $divnum) = split("#", $quest[2]);
+                $query = "select vote from pw_vote 
+                            left join pw_mp on pw_mp.mp_id = pw_vote.mp_id
+                            left join pw_division on pw_division.division_id = pw_vote.division_id
+                            where pw_mp.person = " . $mpattr['person'] . "
+                            and pw_division.division_date = '" . $divdate . "' and pw_division.division_number = " . $divnum . "
+                            ";
+                list ($mpvote) = $db->query_onez_row($query);
+                if (!$mpvote)
+                    $mpvote = "absent";
+                #print $mpvote . " --> " . $quest[3] . "<br>";
+                if ($mpvote == $quest[3])
+                    $polfill[$polval] = str_replace("VVVV", $quest[4], $quest[5]);
+            }
+        }
+        #print "<pre>"; print_r($polfill); print "</pre>";
 
 ?>
 <script type="text/javascript">
@@ -394,7 +529,9 @@ partyvotes = [
             if ($distance == null) {
                 $distance = 0.5;
             }
-            print 1.0 - $distances[$issue[0]][$party]; # convert distance to agreement score
+            // Javascript wants 0 to mean slider on left, 1 to mean slider on right
+            print 1.0 - $distances[$issue[0]][$party];
+
             print ", ";
         }
         print "], \n";
@@ -417,7 +554,9 @@ function polgreatestdiff(partychoice)
     {
         r = parseInt(document.getElementById('slider-pol' + i).value, 10) || 0;
         rs = (r + 4) * 1.0 / 8;
-        var poldiff = Math.abs(partyvotes[i][partychoice] - rs);
+        var poldiff = Math.abs(partyvotes[i][partychoice] - rs) * Math.abs(r / 4.0);
+//        if (i == 2) 
+//            alert("i = " + i + " poldiff = " + poldiff + " r = " + r + " rs = " + rs + " pv[i][pc] = " + partyvotes[i][partychoice]);
         if (poldiff >= policyworstdiff)
         {
             policyworst = i;
@@ -459,6 +598,8 @@ function selpol()
     {
         s = (wsum != 0.0 ? partyscores[j] / wsum : 0.5);
         sp = Math.round(s * 200);
+        if (sp < 1)
+            sp = 1;
         document.getElementById('party' + j).style["width"] = sp + "px";
         // document.getElementById('howtheyvoted').innerHTML = j + " " + sp;
         pp = Math.round(partyscores[j] * 100);
@@ -487,8 +628,27 @@ function selpol()
     // document.getElementById('partychoicesecond').innerHTML = document.getElementById('partyname' + partysecondnumber).innerHTML;
     // document.getElementById('partychoicesecondpercent').innerHTML = partysecondpercent + "%";
 
-    polworst = polgreatestdiff(partyfirstnumber);
+//    polworst = polgreatestdiff(partyfirstnumber);
+    polworst = polgreatestdiff(partyscores.length - 1);
+// polworst = 1; // hack to choose policy type
     document.getElementById('policyworst').innerHTML = document.getElementById('polname' + polworst).innerHTML;
+
+    for (var i = 0; i < npolicies; i++) {
+        d1 = document.getElementById('policy' + '-against' + i);
+        d2 = document.getElementById('policy' + '-for' + i);
+        if (i == polworst) {
+            r = parseInt(document.getElementById('slider-pol' + i).value, 10) || 0;
+            if (d1) 
+                d1.style.visibility = (r < 0 ? "visible" : "hidden");
+            if (d2)
+                d2.style.visibility = (r > 0 ? "visible" : "hidden");
+        } else {
+            if (d1) 
+                d1.style.visibility = "hidden";
+            if (d2)
+                d2.style.visibility = "hidden";
+        }
+    }
 }
 
 // Demo specific onload event (uses the addEvent method bundled with the slider)
@@ -515,7 +675,6 @@ function selpol()
         //print "</p>";
 ?>
         <div>
-          <form action="" method="post">
         <div class="policypanel" style="width:60em">
         <table>
   
@@ -587,17 +746,31 @@ function selpol()
         </table>
         </div>
         <p id="worstmatching">The worst matching policy is: <span id="policyworst">PPP</span></p>
-        </form>
+
+        <div class="question_from_hell">
+<?
+#        print "<pre>"; print_r($polfill); print "</pre>";
+        foreach ($polfill as $code => $text) {
+            print '<div class="floating_question" id="'.$code.'" style="position:absolute">';
+            print "<h5>Question from Hell</h5>";
+            $text = str_replace("XXXX", "<strong>".$mpattr["name"]."</strong>", $text);
+            print $text;
+            print "</div>";
+        }
+?>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
 
         </div>
 
 <p class="links">
 <b>Questions?</b> Email <a href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a> 
 <b>Media enquiries?</b>  Ring Francis Irving on 07970 543358.
-</p>
-
-<p class="links">
-<a href="election2007.php">Change postcode</a> <em>or</em>
+<br><a href="election2007.php">Change postcode</a> <em>or</em>
 <a href="/">Go to the main Public Whip website</a>
 </p>
 
