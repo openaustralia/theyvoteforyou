@@ -30,7 +30,7 @@ div#submit { margin-bottom: 10px; margin-top: 10px }
 
 #divQuizResults p {padding:0 2%;margin:0;}
 #divQuizResults p.advice {font-size:25px;margin-top:16px}
-#divQuizResults p.links {padding-top:5em;text-align:center; clear: both; }
+#divQuizResults p.links {padding-top:10em;text-align:center; clear: both; } /* 10em here is hack due to abs on Question from Hell */
 #divQuizResults label {width:120px;padding-left:8px;display:block;float:left;}
 #divQuizResults h1 {height:42px; background: #003300  url(/quiz/quizpublicwhip.gif) no-repeat;padding:0; margin:0;}
 #divQuizResults h2 {height:78px;background:url(/quiz/quizformtop.gif) no-repeat 6px 0;

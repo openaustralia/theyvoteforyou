@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.9 2007/10/03 00:27:29 publicwhip Exp $
+# $Id: election2007.php,v 1.10 2007/10/03 00:47:37 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -18,6 +18,8 @@
 # Independents - north wales, and george galloway
 # Fix shorter URL redirecting
 # Maybe display anyway when postcode wrong
+# At least say you need javascript
+# Question from hell backwards for LRRB
 
 # TODO old:
 # Think about dream/person distance, check it works OK
@@ -631,7 +633,7 @@ function selpol()
 //    polworst = polgreatestdiff(partyfirstnumber);
     polworst = polgreatestdiff(partyscores.length - 1);
 // polworst = 1; // hack to choose policy type
-    document.getElementById('policyworst').innerHTML = document.getElementById('polname' + polworst).innerHTML;
+// document.getElementById('policyworst').innerHTML = document.getElementById('polname' + polworst).innerHTML;
 
     for (var i = 0; i < npolicies; i++) {
         d1 = document.getElementById('policy' + '-against' + i);
@@ -676,6 +678,7 @@ function selpol()
 ?>
         <div>
         <div class="policypanel" style="width:60em">
+        <h5>Your views</h5>
         <table>
   
 <?    
@@ -692,6 +695,7 @@ function selpol()
 ?>
         </table>
 
+        <h5>Did they vote in Parliament how you wanted?</h5>
         <div class="partytableholder">
         <table class="partytable">
         <tr>
@@ -745,7 +749,7 @@ function selpol()
         </tr>
         </table>
         </div>
-        <p id="worstmatching">The worst matching policy is: <span id="policyworst">PPP</span></p>
+        <!--<p id="worstmatching">The worst matching policy is: <span id="policyworst">PPP</span></p>-->
 
         <div class="question_from_hell">
 <?
@@ -755,6 +759,7 @@ function selpol()
             print "<h5>Question from Hell</h5>";
             $text = str_replace("XXXX", "<strong>".$mpattr["name"]."</strong>", $text);
             print $text;
+            print "<p><em>Ask this when irksome ".$parties[$mpattr["party"]]." people knock on your door, or to your former MP at a local hustings.</em>";
             print "</div>";
         }
 ?>
