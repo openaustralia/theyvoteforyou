@@ -1,5 +1,5 @@
 <?php
-# $Id: election2007questions.inc,v 1.1 2007/10/04 13:34:05 goatchurch Exp $
+# $Id: election2007questions.inc,v 1.2 2007/10/04 13:35:13 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -13,7 +13,7 @@ $questlistmaps = array(
 // ... Legislative and Regulatory Reform Bill
 array("issue"=>"lrrb",
       "policydir"=>"policy-for",
-      "date"=>"2006-05-15"
+      "date"=>"2006-05-15",
       "divisionno"=>"232",
       "mpvote"=>"no",
       "mpposition"=>"vote against",
@@ -22,7 +22,7 @@ array("issue"=>"lrrb",
 
 array("issue"=>"lrrb",
       "policydir"=>"policy-for",
-      "date"=>"2006-05-16"
+      "date"=>"2006-05-16",
       "divisionno"=>"237",
       "mpvote"=>"no",
       "mpposition"=>"vote against",
@@ -32,7 +32,7 @@ array("issue"=>"lrrb",
 
 array("issue"=>"lrrb",
       "policydir"=>"policy-for",
-      "date"=>"2006-05-16"
+      "date"=>"2006-05-16",
       "divisionno"=>"235",
       "mpvote"=>"no",
       "mpposition"=>"vote against",
@@ -41,7 +41,7 @@ array("issue"=>"lrrb",
 
 array("issue"=>"lrrb",
       "policydir"=>"policy-for",
-      "date"=>"2006-05-16"
+      "date"=>"2006-05-16",
       "divisionno"=>"240",
       "mpvote"=>"no",
       "mpposition"=>"vote against",
@@ -51,13 +51,13 @@ array("issue"=>"lrrb",
 
 array("issue"=>"lrrb",
       "policydir"=>"policy-for",
-      "date"=>"2006-05-16"
+      "date"=>"2006-05-16",
       "divisionno"=>"238",
       "mpvote"=>"no",
       "mpposition"=>"vote against",
       "question"=>"Government Ministers being able to confer law-making powers to
                 people who were not accountable to Parliament"),
-);
+);                         
 
 $questlistraw = array();
 
