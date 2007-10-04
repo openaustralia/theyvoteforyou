@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.13 2007/10/04 13:43:01 goatchurch Exp $
+# $Id: election2007.php,v 1.14 2007/10/04 14:15:35 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -95,30 +95,6 @@ $independents = array(
 );
 
 
-// "Question from hell" - Public Whip edition
-$questlist = array();
-
-$swapXvoteP = array("policy-for"=>"policy-against", "no"=>"aye", "aye"=>"no", "vote against"=>"vote for", "vote for"=>"vote against");
-$swapXabst = array("policy-for"=>"policy-for", "no"=>"absent", "aye"=>"absent", "vote against"=>"not turn up to vote for", "vote for"=>"not vote against");
-$swapXabstP = array("policy-for"=>"policy-against", "no"=>"absent", "aye"=>"absent", "vote against"=>"not turn up to vote against", "vote for"=>"not vote for");
-function swapvals($pp, $ss)
-{
-    return array($pp[0], $ss[$pp[1]], $pp[2], $ss[$pp[3]], $ss[$pp[4]], $pp[5]);
-}
-
-
-foreach ($questlistraw as $q)
-{
-    $questlist[] = $q;
-    $questlist[] = swapvals($q, $swapXvoteP);
-}
-foreach ($questlistraw as $q)
-{
-    $questlist[] = swapvals($q, $swapXabst);
-    $questlist[] = swapvals($q, $swapXabstP);
-};
-#print "<pre>";print_r($questlist); exit;
-
 
 // Grab shorter URL if it is one
 $qstring = $_SERVER["QUERY_STRING"];
@@ -141,7 +117,7 @@ if (preg_match ("/^(.*);([0-4]+)$/", $qstring, $matches)) {
 $errors = array();
 if ($_GET['submit']) {
     $constituency = postcode_to_constituency($db, $_GET['mppc'], $postcode_year);
-    $row = $db->query_onez_row_assoc("select * from pw_mp where constituency = '$constituency' 
+    $row = $db->query_onez_row_assoc("select * from pw_mp where constituency = '$constituency'
         and ($date_clause)");
     if ($row)
         $mpid = $row['mp_id'];

@@ -1,5 +1,5 @@
 <?php
-# $Id: election2007articles.inc,v 1.4 2007/10/04 13:55:02 goatchurch Exp $
+# $Id: election2007articles.inc,v 1.5 2007/10/04 14:15:35 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -96,37 +96,37 @@ $newsarticles = array(
         "url"=>"http://news.bbc.co.uk/2/hi/uk_news/politics/5058832.stm"),
 
 
-"foimp2007bbc" =>
+"foi2007bbc" =>
   array("publisher"=>"BBC News",
         "title"=>"Brown will not block secrecy bid",
         "date"=>"18 May 2007",
         "url"=>"http://news.bbc.co.uk/2/hi/uk_news/politics/6667431.stm"),
 
-"foimp2007times" =>
+"foi2007times" =>
   array("publisher"=>"The Times",
         "title"=>"MPs vote to be exempt from law on freedom of information",
         "date"=>"19 May 2007",
         "url"=>"http://www.timesonline.co.uk/tol/news/politics/article1811271.ece"),
 
-"foimp2007guardian" =>
+"foi2007guardian" =>
   array("publisher"=>"The Guardian",
         "title"=>"MP delays FoI exemption bill",
         "date"=>"27 April 2007",
         "url"=>"http://politics.guardian.co.uk/foi/story/0,,2067084,00.html"),
 
-"foimp2007mail" =>
+"foi2007mail" =>
   array("publisher"=>"Daily Mail",
         "title"=>"Labour MP's warning on freedom of information",
         "date"=>"10 May 2007",
         "url"=>"http://www.dailymail.co.uk/pages/live/articles/news/news.html?in_article_id=454006&in_page_id=1770&ito=newsnow"),
 
-"foimp2007telegraph" =>
+"foi2007telegraph" =>
   array("publisher"=>"The Telegraph",
         "title"=>"Freedom of Information vote 'places MPs above law'",
         "date"=>"19 May 2007",
         "url"=>"http://www.telegraph.co.uk/news/main.jhtml?xml=/news/2007/05/19/nfoi19.xml"),
 
-"foimp2007sun" =>
+"foi2007sun" =>
   array("publisher"=>"The Sun",
         "title"=>"MPs back 'squalid' secrecy bill",
         "date"=>"18 May 2007",
