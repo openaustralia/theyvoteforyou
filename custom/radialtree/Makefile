@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.1 2006/09/28 12:42:32 frabcus Exp $
+# $Id: Makefile,v 1.2 2007/10/04 14:50:49 frabcus Exp $
 # Compile the minwhirl Java applet
 
 # The Public Whip, Copyright (C) 2006 Francis Irving and Julian Todd
@@ -8,7 +8,8 @@
 
 # Make Java applet
 radcls.jar: src/*.java
-	/usr/local/jdk1.3.1_17/bin/javac -d src/ src/*.java
-	cd src;	/usr/local/jdk1.3.1_17/bin/jar cvf ../radcls.jar radialtree/*.class *.class
+	# Use target of JDK 1.1 for compatibility with old applet viewers
+	javac -target 1.1 -source 1.3 -d src/ src/*.java
+	cd src;	jar cvf ../radcls.jar radialtree/*.class *.class
 
 
