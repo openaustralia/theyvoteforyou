@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.18 2007/10/04 23:11:28 publicwhip Exp $
+# $Id: election2007.php,v 1.19 2007/10/04 23:13:51 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -546,8 +546,10 @@ function selpol()
             print $text;
             print "<p><em>Ask this when irksome ".$parties[$mpattr["party"]]." people knock on your door, or to your former MP at a local hustings.</em>";
             $issue = str_replace("policy-against", "", str_replace("policy-for", "", $code));
-            foreach ($newsarticles[$policynumstr[intval($issue)]] as $id => $newsarticle)
-                print '<p>'.StrArticle($newsarticle).'</p>';
+            if ($newsarticles[$policynumstr[intval($issue)]]) {
+                foreach ($newsarticles[$policynumstr[intval($issue)]] as $id => $newsarticle)
+                    print '<p>'.StrArticle($newsarticle).'</p>';
+            }
 
             print "</div>";
         }
