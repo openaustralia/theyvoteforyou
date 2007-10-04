@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.10 2007/10/03 00:47:37 publicwhip Exp $
+# $Id: election2007.php,v 1.11 2007/10/04 12:07:13 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -34,6 +34,9 @@ require_once "dream.inc";
 require_once "pretty.inc";
 require_once "constituencies.inc";
 require_once "account/user.inc";
+
+require_once "election2007articles.inc";
+
 $db = new DB();
 $db2 = new DB();
 
@@ -778,6 +781,13 @@ function selpol()
 <br><a href="election2007.php">Change postcode</a> <em>or</em>
 <a href="/">Go to the main Public Whip website</a>
 </p>
+
+<br><br><br><br>
+<?
+foreach ($newsarticles as $id => $newsarticle)
+    print '<p>'.StrArticle($newsarticle).'</p>';
+?>
+<br><br><br><br>
 
 
         <script type="text/javascript">
