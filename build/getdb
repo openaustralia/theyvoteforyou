@@ -1,6 +1,8 @@
 #! /bin/bash
 set -e
 
+cd ~/devel/publicwhip/
+
 # Downloads dynamic tables from database on public web server sphinx,
 # and replaces the local database table with them.  Leave the text
 # file about afterwards as backup.
@@ -9,13 +11,14 @@ USER=publicwhip@publicwhip.org.uk
 
 echo "Fetching remote dynamic tables..."
 ssh $USER "mysqldump --add-drop-table pw_live pw_dyn_user pw_dyn_dreammp pw_dyn_dreamvote pw_dyn_auditlog pw_dyn_wiki_motion pw_dyn_newsletter >pw_dyn_tables.sql"
-scp $USER:./pw_dyn_tables.sql pw_dyn_tables.sql
+scp -q $USER:./pw_dyn_tables.sql pw_dyn_tables.sql
 
 echo "Fetching remote all tables..."
 ssh $USER "mysqldump --add-drop-table pw_live | bzip2 -c >pw_all_tables.sql.bz2"
-scp $USER:./pw_all_tables.sql.bz2 pw_all_tables.sql.bz2
+scp -q $USER:./pw_all_tables.sql.bz2 pw_all_tables.sql.bz2
 
-echo "Replacing local all tables..."
-cwp pw_all_tables.sql.bz2 | bzcat | mysql tpw
+# this is too much to do automatically, would keep making computer slow
+# echo "Replacing local all tables..."
+# cwp pw_all_tables.sql.bz2 | bzcat | mysql tpw
 
 
