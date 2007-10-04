@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.14 2007/10/04 14:15:35 goatchurch Exp $
+# $Id: election2007.php,v 1.15 2007/10/04 14:26:27 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -245,14 +245,15 @@ where dream_id = $dreamid group by party";
 
         // Work out the questions from hell
         $polfill = array();
-        foreach ($questlist as $quest)
+        foreach ($questlistmaps as $questmap)
         {
-            $polval = $quest[1] . $polyicystrnum[$quest[0]];
+            $polval = $questmap["issue"] . $polyicystrnum[$questmap["policydir"]];
             if (!$polfill[$polval])
             {
                 # XXX should be only when MP is standing again
-                list($divdate, $divnum) = split("#", $quest[2]);
-                $query = "select vote from pw_vote 
+                $divdate = $questmap["date"];
+                $divnum = $questmap["divisionno"];
+                $query = "select vote from pw_vote
                             left join pw_mp on pw_mp.mp_id = pw_vote.mp_id
                             left join pw_division on pw_division.division_id = pw_vote.division_id
                             where pw_mp.person = " . $mpattr['person'] . "
@@ -262,8 +263,8 @@ where dream_id = $dreamid group by party";
                 if (!$mpvote)
                     $mpvote = "absent";
                 #print $mpvote . " --> " . $quest[3] . "<br>";
-                if ($mpvote == $quest[3])
-                    $polfill[$polval] = str_replace("VVVV", $quest[4], $quest[5]);
+                if ($mpvote == $questmap["mpvote"])
+                    $polfill[$polval] = 'Why did XXXX '.$questmap["mpposition"]." ".$mpposition["question"]."?";
             }
         }
         #print "<pre>"; print_r($polfill); print "</pre>";
@@ -281,7 +282,7 @@ var npolicies = <?=count($issues)?>;
 weights = [ 0, 1, 3, 6, 10 ];  // from indifferent to extremely
 
 partyvotes = [
-<?    
+<?
      $c = -1;
      foreach ($issues as $issue) {
         $c++;
