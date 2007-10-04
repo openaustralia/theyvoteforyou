@@ -1,5 +1,5 @@
 <?php
-# $Id: election2007articles.inc,v 1.2 2007/10/04 12:41:37 goatchurch Exp $
+# $Id: election2007articles.inc,v 1.3 2007/10/04 12:47:33 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -46,6 +46,110 @@ $newsarticles = array(
         "date"=>"12 June 2007",
         "url"=>"http://www.thesun.co.uk/article/0,,2-2007270137,00.html"),
 
+"trident2007guardian" =>
+  array("publisher"=>"The Guardian",
+        "title"=>"MPs vote to renew Trident",
+        "date"=>"14 March 2007",
+        "url"=>"http://politics.guardian.co.uk/homeaffairs/story/0,,2033579,00.html"),
+
+"trident2007telegraph" =>
+  array("publisher"=>"The Telegraph",
+        "title"=>"Blair: Trident vote 'not last say' on deterrent",
+        "date"=>"15 March 2007",
+        "url"=>"http://www.telegraph.co.uk/news/main.jhtml?xml=/news/2007/03/14/ntrident414.xml"),
+
+"trident2007bbc" =>
+  array("publisher"=>"BBC News",
+        "title"=>"Trident plan wins Commons support",
+        "date"=>"15 March 2007",
+        "url"=>"http://news.bbc.co.uk/2/hi/uk_news/politics/6448173.stm"),
+
+"trident2007sun" =>
+  array("publisher"=>"The Sun",
+        "title"=>"Why I saved PM &amp; Gord's bacon",
+        "date"=>"16 March 2007",
+        "url"=>"http://www.thesun.co.uk/article/0,,2-2007120494,00.html"),
+
+
+"legreg2007wikipedia" =>
+  array("publisher"=>"Wikipedia",
+        "title"=>"Wikipedia: Legislative and Regulatory Reform Bill",
+        "date"=>"",
+        "url"=>"http://en.wikipedia.org/wiki/Legislative_and_Regulatory_Reform_Bill"),
+
+"legreg2007bbc1" =>
+  array("publisher"=>"BBC News",
+        "title"=>"Government amends law change bill",
+        "date"=>"4 May 2007",
+        "url"=>"http://news.bbc.co.uk/2/hi/uk_news/politics/4971234.stm"),
+
+"legreg2007guardian" =>
+  array("publisher"=>"The Guardian",
+        "title"=>"Reform bill could 'sweep away parliamentary debate'",
+        "date"=>"22 February 2006",
+        "url"=>"http://politics.guardian.co.uk/constitution/story/0,,1715467,00.html"),
+
+"legreg2007bbc2" =>
+  array("publisher"=>"BBC News",
+        "title"=>"Ministers slammed on red tape law",
+        "date"=>"8 June 2007",
+        "url"=>"http://news.bbc.co.uk/2/hi/uk_news/politics/5058832.stm"),
+
+
+"foimp2007bbc" =>
+  array("publisher"=>"BBC News",
+        "title"=>"Brown will not block secrecy bid",
+        "date"=>"18 May 2007",
+        "url"=>"http://news.bbc.co.uk/2/hi/uk_news/politics/6667431.stm"),
+
+"foimp2007times" =>
+  array("publisher"=>"The Times",
+        "title"=>"MPs vote to be exempt from law on freedom of information",
+        "date"=>"19 May 2007",
+        "url"=>"http://www.timesonline.co.uk/tol/news/politics/article1811271.ece"),
+
+"foimp2007guardian" =>
+  array("publisher"=>"The Guardian",
+        "title"=>"MP delays FoI exemption bill",
+        "date"=>"27 April 2007",
+        "url"=>"http://politics.guardian.co.uk/foi/story/0,,2067084,00.html"),
+
+"foimp2007mail" =>
+  array("publisher"=>"Daily Mail",
+        "title"=>"Labour MP's warning on freedom of information",
+        "date"=>"10 May 2007",
+        "url"=>"http://www.dailymail.co.uk/pages/live/articles/news/news.html?in_article_id=454006&in_page_id=1770&ito=newsnow"),
+
+"foimp2007telegraph" =>
+  array("publisher"=>"The Telegraph",
+        "title"=>"Freedom of Information vote 'places MPs above law'",
+        "date"=>"19 May 2007",
+        "url"=>"http://www.telegraph.co.uk/news/main.jhtml?xml=/news/2007/05/19/nfoi19.xml"),
+
+"foimp2007sun" =>
+  array("publisher"=>"The Sun",
+        "title"=>"MPs back 'squalid' secrecy bill",
+        "date"=>"18 May 2007",
+        "url"=>"http://www.thesun.co.uk/article/0,,2-2007230065,00.html"),
+
+
+"smoking2006mail" =>
+  array("publisher"=>"Daily Mail",
+        "title"=>"Stubbed out! Smoking ban from next summer",
+        "date"=>"16 February 2006",
+        "url"=>"http://www.dailymail.co.uk/pages/live/articles/news/news.html?in_article_id=377204&in_page_id=1770"),
+
+"smoking2006sun" =>
+  array("publisher"=>"The Sun",
+        "title"=>"Pubs face total smoke ban",
+        "date"=>"12 January 2006",
+        "url"=>"http://www.thesun.co.uk/article/0,,2-2006010758,00.html"),
+
+"smoking2006guardian" =>
+  array("publisher"=>"The Guardian",
+        "title"=>"MPs vote for blanket smoking ban next year",
+        "date"=>"15 February 2006",
+        "url"=>"http://www.guardian.co.uk/smoking/Story/0,,1709946,00.html"),
 );
 
 
