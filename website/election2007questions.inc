@@ -1,5 +1,5 @@
 <?php
-# $Id: election2007questions.inc,v 1.2 2007/10/04 13:35:13 goatchurch Exp $
+# $Id: election2007questions.inc,v 1.3 2007/10/04 13:36:47 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -57,7 +57,7 @@ array("issue"=>"lrrb",
       "mpposition"=>"vote against",
       "question"=>"Government Ministers being able to confer law-making powers to
                 people who were not accountable to Parliament"),
-);                         
+);
 
 $questlistraw = array();
 
@@ -124,7 +124,5 @@ $questlistraw[] = array("foia", "policy-for", "2007-05-18#120", "no", "vote for"
 $questlistraw[] = array("foia", "policy-for", "2007-05-18#122", "aye", "vote for", "Why did XXXX VVVV
                 closing the debate on the Law which would have exempted MPs from
                 the Freedom of Information Act knowing that the next vote on it would pass?");
-
-);
 
 
