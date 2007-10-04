@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.17 2007/10/04 23:05:43 frabcus Exp $
+# $Id: election2007.php,v 1.18 2007/10/04 23:11:28 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -56,14 +56,17 @@ $ranks = array(
 # Uncommented out ones are frozen Dream MPs copied from election time.
 $issues = array(
         array(999, "<strong>investigating</strong> the <strong>Iraq war</strong>", false),
-        array(996, "<strong>Freedom of Information</strong> applying to <strong>MPs</strong>", false), # XXX not 2007 specific
-        array(863, "<strong>Government</strong> altering the law <strong>without Parliament</strong>", true), # XXX not 2007 specific
+        array(1001, "<strong>Freedom of Information</strong> applying to <strong>MPs</strong>", false),
+        array(1002, "<strong>Government</strong> altering the law <strong>without Parliament</strong>",
+true),
         array(1000, "the <strong>smoking ban</strong>", false),
-        array(984, "replacing the <strong>Trident nuclear weapons</strong>", false), # XXX not 2007 specific
-        # XXX terrorism - there are loads of votes
-        # XXX ID cards - there are loads of votes
+        array(1003, "replacing the <strong>Trident nuclear weapons</strong>", false),
+        array(1004, "Labour's <strong>anti-terrorism laws</strong>", true),
+        array(1005, "introducing <strong>ID cards</strong>", true),
     );
-$policystrnum = array("iraq"=>0, "foia"=>1, "lrrb"=>2, "smoking"=>3, "trident"=>4);
+
+$policystrnum = array("iraq"=>0, "foia"=>1, "lrrb"=>2, "smoking"=>3, "trident"=>4,
+    "terrorism"=>5, "idcards"=>6);
 $policynumstr = array_flip($policystrnum);
 
 // Name in database => display name
