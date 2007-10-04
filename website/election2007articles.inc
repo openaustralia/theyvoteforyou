@@ -1,5 +1,5 @@
 <?php
-# $Id: election2007articles.inc,v 1.3 2007/10/04 12:47:33 goatchurch Exp $
+# $Id: election2007articles.inc,v 1.4 2007/10/04 13:55:02 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -71,25 +71,25 @@ $newsarticles = array(
         "url"=>"http://www.thesun.co.uk/article/0,,2-2007120494,00.html"),
 
 
-"legreg2007wikipedia" =>
+"lrrb2007wikipedia" =>
   array("publisher"=>"Wikipedia",
         "title"=>"Wikipedia: Legislative and Regulatory Reform Bill",
         "date"=>"",
         "url"=>"http://en.wikipedia.org/wiki/Legislative_and_Regulatory_Reform_Bill"),
 
-"legreg2007bbc1" =>
+"lrrb2007bbc1" =>
   array("publisher"=>"BBC News",
         "title"=>"Government amends law change bill",
         "date"=>"4 May 2007",
         "url"=>"http://news.bbc.co.uk/2/hi/uk_news/politics/4971234.stm"),
 
-"legreg2007guardian" =>
+"lrrb2007guardian" =>
   array("publisher"=>"The Guardian",
         "title"=>"Reform bill could 'sweep away parliamentary debate'",
         "date"=>"22 February 2006",
         "url"=>"http://politics.guardian.co.uk/constitution/story/0,,1715467,00.html"),
 
-"legreg2007bbc2" =>
+"lrrb2007bbc2" =>
   array("publisher"=>"BBC News",
         "title"=>"Ministers slammed on red tape law",
         "date"=>"8 June 2007",

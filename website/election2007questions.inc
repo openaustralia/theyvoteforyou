@@ -1,5 +1,5 @@
 <?php
-# $Id: election2007questions.inc,v 1.3 2007/10/04 13:36:47 goatchurch Exp $
+# $Id: election2007questions.inc,v 1.5 2007/10/04 13:56:51 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -57,6 +57,88 @@ array("issue"=>"lrrb",
       "mpposition"=>"vote against",
       "question"=>"Government Ministers being able to confer law-making powers to
                 people who were not accountable to Parliament"),
+
+
+array("issue"=>"iraq",
+      "policydir"=>"policy-for",
+      "date"=>"2007-06-11",
+      "divisionno"=>"135",
+      "mpvote"=>"no",
+      "mpposition"=>"vote against",
+      "question"=>"the principle of an independent inquiry
+                to review the way in which the responsibilities of Government
+                were discharged in relation to Iraq"),
+
+array("issue"=>"iraq",
+      "policydir"=>"policy-for",
+      "date"=>"2006-10-31",
+      "divisionno"=>"330",
+      "mpvote"=>"no",
+      "mpposition"=>"vote against",
+      "question"=>"there being a select committee
+                to review the way in which the responsibilities of Government
+                were discharged in relation to Iraq?"),
+
+array("issue"=>"iraq",
+      "policydir"=>"policy-for",
+      "date"=>"2007-06-11",
+      "divisionno"=>"136",
+      "mpvote"=>"aye",
+      "mpposition"=>"vote for",
+      "question"=>"recogizing that for a further inquiry into Iraq would
+                would divert attention
+                whilst the whole effort of the effort of the Government
+                and the armed forces was directed towards improving the condition of Iraq"),
+
+array("issue"=>"iraq",
+      "policydir"=>"policy-for",
+      "date"=>"2006-10-31",
+      "divisionno"=>"331",
+      "mpvote"=>"aye",
+      "mpposition"=>"vote for",
+      "question"=>"recognizing that for a further inquiry into Iraq would
+                would divert attention
+                whilst the whole effort of the effort of the Government
+                and the armed forces was directed towards improving the condition of Iraq"),
+
+
+
+// ... Trident
+array("issue"=>"trident",
+      "policydir"=>"policy-for",
+      "date"=>"2007-03-14",
+      "divisionno"=>"77",
+      "mpvote"=>"aye",
+      "mpposition"=>"vote for",
+      "question"=>"extending the life of Trident while remaining unconvinced of the need for an early
+                decision to find a replacement"),
+
+array("issue"=>"trident",
+      "policydir"=>"policy-for",
+      "date"=>"2007-03-14",
+      "divisionno"=>"78",
+      "mpvote"=>"no",
+      "mpposition"=>"vote against",
+      "question"=>"authorizing the Government to replace the Trident nuclear weapons system"),
+
+// ... Smoking ban
+array("issue"=>"smoking",
+      "policydir"=>"policy-for",
+      "date"=>"2006-02-14",
+      "divisionno"=>"166",
+      "mpvote"=>"no",
+      "mpposition"=>"vote against",
+      "question"=>"the Third Reading of the Act banning smoking in all indoor public places"),
+
+array("issue"=>"smoking",
+      "policydir"=>"policy-for",
+      "date"=>"2006-02-14",
+      "divisionno"=>"164",
+      "mpvote"=>"no",
+      "mpposition"=>"vote for",
+      "question"=>"allowing private clubs to apply to the Local Authority
+                for an exemption to the ban on smoking in all indoor public places"),
+
 );
 
 $questlistraw = array();
@@ -68,45 +150,7 @@ foreach ($questlistmaps as $questlistmap)
                             "Why did XXXX VVVV ".$questlistmap["question"]."?");
 
 
-/// ... Iraq
-$questlistraw[] = array("iraq", "policy-for", "2007-06-11#135", "no", "vote against", "Why did XXXX VVVV
-                the principle of an independent inquiry
-                to review the way in which the responsibilities of Government
-                were discharged in relation to Iraq?");
 
-$questlistraw[] = array("iraq", "policy-for", "2007-10-31#330", "no", "vote against", "Why did XXXX VVVV
-                there being a select committee
-                to review the way in which the responsibilities of Government
-                were discharged in relation to Iraq?");
-
-$questlistraw[] = array("iraq", "policy-for", "2007-06-11#136", "aye", "vote for", "Why did XXXX VVVV
-                the recognition that for a further inquiry into Iraq would
-                would divert attention
-                whilst the whole effort of the effort of the Government
-                and the armed forces was directed towards improving the condition of Iraq?");
-
-$questlistraw[] = array("iraq", "policy-for", "2007-10-31#331", "aye", "vote for", "Why did XXXX VVVV
-                the recognition that for a further inquiry into Iraq would
-                would divert attention
-                whilst the whole effort of the effort of the Government
-                and the armed forces was directed towards improving the condition of Iraq?");
-
-
-// ... Trident
-$questlistraw[] = array("trident", "policy-for", "2007-03-14#77", "aye", "vote for", "Why did XXXX VVVV
-                extending the life of Trident while remaining unconvinced of the need for an early
-                decision to find a replacement?");
-
-$questlistraw[] = array("trident", "policy-for", "2007-03-14#78", "no", "vote against", "Why did XXXX VVVV
-                authorizing the Government to replace the Trident nuclear weapons system?");
-
-// ... Smoking ban
-$questlistraw[] = array("smoking", "policy-for", "2006-02-14#166", "no", "vote against", "Why did XXXX VVVV
-                the third reading of the Act banning smoking in all indoor public places?");
-
-$questlistraw[] = array("smoking", "policy-for", "2006-02-14#164", "no", "vote for", "Why did XXXX VVVV
-                allowing private clubs to apply to the Local Authority
-                for an exemption to the ban on smoking in all indoor public places?");
 
 // ... FOI Amendment
 $questlistraw[] = array("foia", "policy-for", "2007-05-18#121", "no", "vote against", "Why did XXXX VVVV
