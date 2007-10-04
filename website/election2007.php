@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.16 2007/10/04 14:46:55 publicwhip Exp $
+# $Id: election2007.php,v 1.17 2007/10/04 23:05:43 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -63,7 +63,8 @@ $issues = array(
         # XXX terrorism - there are loads of votes
         # XXX ID cards - there are loads of votes
     );
-$polyicystrnum = array("iraq"=>0, "foia"=>1, "lrrb"=>2, "smoking"=>3, "trident"=>4);
+$policystrnum = array("iraq"=>0, "foia"=>1, "lrrb"=>2, "smoking"=>3, "trident"=>4);
+$policynumstr = array_flip($policystrnum);
 
 // Name in database => display name
 $parties = array(
@@ -95,7 +96,7 @@ $independents = array(
 );
 
 
-
+/*
 // Grab shorter URL if it is one
 $qstring = $_SERVER["QUERY_STRING"];
 $shorter_url = false;
@@ -112,24 +113,29 @@ if (preg_match ("/^(.*);([0-4]+)$/", $qstring, $matches)) {
     }
     $shorter_url = true;
 }
+*/
 
 // Validate if a submit
 $errors = array();
 if ($_GET['submit']) {
+    $mpattr = null;
     $constituency = postcode_to_constituency($db, $_GET['mppc'], $postcode_year);
-    $row = $db->query_onez_row_assoc("select * from pw_mp where constituency = '$constituency'
-        and ($date_clause)");
-    if ($row)
-        $mpid = $row['mp_id'];
-    $mpattr = get_mpid_attr($db, $db2, $mpid, false, 1, null);
-    if ($mpattr == null) {
-        $errors[] = "Your MP wasn't found.  Please check you
-            entered the postcode correctly.";
+$constituency = "Kirkcaldy &amp; Cowdenbeath"; // XXX temp
+    if ($constituency) {
+        $row = $db->query_onez_row_assoc("select * from pw_mp where constituency = '$constituency'
+            and ($date_clause)");
+        if ($row)
+            $mpid = $row['mp_id'];
+        $mpattr = get_mpid_attr($db, $db2, $mpid, false, 1, null);
+        if ($mpattr == null) {
+            $errors[] = "Your MP wasn't found.  Please check you
+                entered the postcode correctly.";
+        }
     }
 }
 
 // Redirect to shorter URL
-if ($_GET['submit'] and !$errors and !$shorter_url) {
+/*if ($_GET['submit'] and !$errors and !$shorter_url) {
     $qpc = strtoupper(trim($_GET['mppc']));
     $qpc = str_replace(" ", "", $qpc);
     $quick = "?$qpc;";
@@ -140,7 +146,7 @@ if ($_GET['submit'] and !$errors and !$shorter_url) {
 
     header("Location: /election2007.php$quick\n");
     return;
-}
+}*/
 
 header("Content-Type: text/html; charset=UTF-8");
 ?>
@@ -156,6 +162,7 @@ header("Content-Type: text/html; charset=UTF-8");
 <script type="text/javascript" src="./quiz/slider.js"></script>
 
 <?    if ($_GET['submit'] /*and !$errors*/) {
+
         # See if MP is standing again
         $mpattr = $mpattr['mpprops'][0];
         $constituency = str_replace("&amp;", "&", $mpattr['constituency']);
@@ -170,19 +177,20 @@ $standing_again = true; # XXX remove me
         $consid = normalise_constituency_name($db, strtolower($constituency), "2001");
         if (!$consid) {
             print "<div class=\"error\">Constituency '$constituency' not found, please <a href=\"team@publicwhip.org.uk\">let us know</a>.</div>";
-            exit;
-        }
-        if (array_key_exists($consid, $wales_constituencies)) {
-            $parties = array_merge($parties, $wales_parties);
-        }
-        if (array_key_exists($consid, $scotland_constituencies)) {
-            $parties = array_merge($parties, $scotland_parties);
-        }
-        if (array_key_exists($consid, $northern_ireland_constituencies)) {
-            $parties = $northern_ireland_parties;
-        }  
-        if ($consid == "uk.org.publicwhip/cons/655") { // Wyre Forest, Richard Taylor (Ind)
-            $parties = array_merge($parties, $independents); 
+#            exit;
+        } else {
+            if (array_key_exists($consid, $wales_constituencies)) {
+                $parties = array_merge($parties, $wales_parties);
+            }
+            if (array_key_exists($consid, $scotland_constituencies)) {
+                $parties = array_merge($parties, $scotland_parties);
+            }
+            if (array_key_exists($consid, $northern_ireland_constituencies)) {
+                $parties = $northern_ireland_parties;
+            }  
+            if ($consid == "uk.org.publicwhip/cons/655") { // Wyre Forest, Richard Taylor (Ind)
+                $parties = array_merge($parties, $independents); 
+            }
         }
         $lookup_parties = $parties;
         if ($standing_again) {
@@ -231,45 +239,50 @@ where dream_id = $dreamid group by party";
                 $distances['Comparison'][$party] += abs($distance - $distances[$dreamid]['You']);
             }
 
-            # And for your MP
-            $query = "select distance_a as dist from pw_cache_dreamreal_distance
-                where dream_id = $dreamid and person = " . $mpattr['person'];
-            $row = $db->query_onez_row_assoc($query);
-            $dist = $row ? $row['dist'] : 0.5;
-            if ($issue[2])
-                $dist = 1.0 - $dist;
-            $distances[$dreamid]["Your MP"] = $dist;
-            $distances['Comparison']["Your MP"] += abs($dist - $distances[$dreamid]['You']);
-
+            # And for your MP, if you have one
+            if ($mpattr) {
+                $query = "select distance_a as dist from pw_cache_dreamreal_distance
+                    where dream_id = $dreamid and person = " . $mpattr['person'];
+                $row = $db->query_onez_row_assoc($query);
+                $dist = $row ? $row['dist'] : 0.5;
+                if ($issue[2])
+                    $dist = 1.0 - $dist;
+                $distances[$dreamid]["Your MP"] = $dist;
+                $distances['Comparison']["Your MP"] += abs($dist - $distances[$dreamid]['You']);
+            }
         }
 
         // Work out the questions from hell
-        $polfill = array();
-        foreach ($questlistmaps as $questmap)
-        {
-            $polval = $questmap["policydir"] . $polyicystrnum[$questmap["issue"]];
-            #print "<pre>"; print_r($questmap); print "</pre>";
-            if (!$polfill[$polval])
+        if ($mpattr) {
+            $polfill = array();
+            foreach ($questlistmaps as $questmap)
             {
-                print "<pre>"; print_r($questmap); print "</pre>";
-                # XXX should be only when MP is standing again
-                $divdate = $questmap["date"];
-                $divnum = $questmap["divisionno"];
-                $query = "select vote from pw_vote
-                            left join pw_mp on pw_mp.mp_id = pw_vote.mp_id
-                            left join pw_division on pw_division.division_id = pw_vote.division_id
-                            where pw_mp.person = " . $mpattr['person'] . "
-                            and pw_division.division_date = '" . $divdate . "' and pw_division.division_number = " . $divnum . "
-                            ";
-                list ($mpvote) = $db->query_onez_row($query);
-                if (!$mpvote)
-                    $mpvote = "absent";
-                print $mpvote . " --> " . $questmap["mpvote"] . "<br>";
-                if ($mpvote == $questmap["mpvote"])
-                    $polfill[$polval] = 'Why did XXXX '.$questmap["mpposition"]." ".$questmap["question"]."?";
+                $polval = $questmap["policydir"] . $policystrnum[$questmap["issue"]];
+                #print "<pre>"; print_r($questmap); print "</pre>";
+                if (!$polfill[$polval])
+                {
+                    #print "<pre>"; print_r($questmap); print "</pre>";
+                    # XXX should be only when MP is standing again
+                    $divdate = $questmap["date"];
+                    $divnum = $questmap["divisionno"];
+                    $query = "select vote from pw_vote
+                                left join pw_mp on pw_mp.mp_id = pw_vote.mp_id
+                                left join pw_division on pw_division.division_id = pw_vote.division_id
+                                where pw_mp.person = " . $mpattr['person'] . "
+                                and pw_division.division_date = '" . $divdate . "' and pw_division.division_number = " . $divnum . "
+                                ";
+                    list ($mpvote) = $db->query_onez_row($query);
+                    if (!$mpvote)
+                        $mpvote = "absent";
+                    #print $mpvote . " --> " . $questmap["mpvote"] . "<br>";
+                    if ($mpvote == $questmap["mpvote"]) {
+                        $polfill[$polval] = 'Why did XXXX '.$questmap["mpposition"]." ".$questmap["question"]."?";
+
+                        $polfill[$polval] .= " This division was on " . date("j M Y");
+                    }
+                }
             }
         }
-        print "<pre>"; print_r($polfill); print "</pre>";
 
 ?>
 <script type="text/javascript">
@@ -435,6 +448,13 @@ function selpol()
 <h3>(...and so how you should)</h3>
 <h4>Quick Election Quiz</h4>
 <?
+    if ($errors) {
+        print "<p class=\"error\">";
+        print join($errors, "<br>");
+        print "</p>";
+    }
+?>
+<?
 
         //print "<p class=\"advice\">";
         //print "</p>";
@@ -516,13 +536,16 @@ function selpol()
 
         <div class="question_from_hell">
 <?
-#        print "<pre>"; print_r($polfill); print "</pre>";
         foreach ($polfill as $code => $text) {
             print '<div class="floating_question" id="'.$code.'" style="position:absolute">';
             print "<h5>Question from Hell</h5>";
             $text = str_replace("XXXX", "<strong>".$mpattr["name"]."</strong>", $text);
             print $text;
             print "<p><em>Ask this when irksome ".$parties[$mpattr["party"]]." people knock on your door, or to your former MP at a local hustings.</em>";
+            $issue = str_replace("policy-against", "", str_replace("policy-for", "", $code));
+            foreach ($newsarticles[$policynumstr[intval($issue)]] as $id => $newsarticle)
+                print '<p>'.StrArticle($newsarticle).'</p>';
+
             print "</div>";
         }
 ?>
@@ -541,14 +564,6 @@ function selpol()
 <br><a href="election2007.php">Change postcode</a> <em>or</em>
 <a href="/">Go to the main Public Whip website</a>
 </p>
-
-<br><br><br><br>
-<?
-foreach ($newsarticles as $id => $newsarticle)
-    print '<p>'.StrArticle($newsarticle).'</p>';
-?>
-<br><br><br><br>
-
 
         <script type="text/javascript">
         //<![CDATA[
@@ -573,13 +588,6 @@ foreach ($newsarticles as $id => $newsarticle)
 <h3>(...and so how you should)</h3>
 <h4>Quick Election Quiz</h4>
 <form id="frmHowToVote" name="howtovote" method="get" action="election2007.php">
-<?
-/*    if ($errors) {
-        print "<p class=\"error\">";
-        print join($errors, "<br>");
-        print "</p>";
-    } */
-?>
 
 Enter your UK <strong>postcode</strong>: <input type="text" size="10" name="mppc" value="<?=htmlspecialchars($_GET['mppc'])?>" id="Text1"> <br/>
 (so we know who your last <abbr title="Member of Parliament">MP</abbr> was)

@@ -51,14 +51,14 @@ td.sliderposword { width:9em; text-align:right; }
 table.partytable th { text-align:center; width:70px; }
 span#partychoice, span#partychoicepercent { background-color:lightGreen; }
 
-.partytableholder { width: 55%; margin-left: 0%; margin-top: 1em; margin-bottom: 2em; float: left;}
+.partytableholder { width: 55%; margin-left: 0%; margin-top: 1em; margin-bottom: 2em; }
 .partyheadings { text-align: right; font-weight: bold; } 
 .policypanel { margin-left: 5%; margin-top: 2em; margin-bottom: 2em; }
 
 #worstmatching { text-align: center; }
 
-.question_from_hell { margin-top: 2em; margin-bottom: 2em; width: 33%; float: right }
-.floating_question { padding: 1em; border: thin black solid; }
+.question_from_hell { margin-top: 2em; margin-bottom: 2em; }
+.floating_question { padding: 1em; background: #dddddd; width: 75%; margin-left: 12%; }
 
 
 
