@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: subset_policies.php,v 1.1 2007/10/04 14:45:52 publicwhip Exp $
+# $Id: subset_policies.php,v 1.2 2007/10/04 23:11:43 publicwhip Exp $
 
 # Make policies that are subsets of other policies.
 
@@ -51,17 +51,4 @@ make_private($db, 1002);
 make_private($db, 1003);
 make_private($db, 1004);
 make_private($db, 1005);
-
-$issues = array(
-        array(999, "<strong>investigating</strong> the <strong>Iraq war</strong>", false),
-        array(1001, "<strong>Freedom of Information</strong> applying to <strong>MPs</strong>", false),
-        array(1002, "<strong>Government</strong> altering the law <strong>without Parliament</strong>", 
-true),
-        array(1000, "the <strong>smoking ban</strong>", false),
-        array(1003, "replacing the <strong>Trident nuclear weapons</strong>", false),
-        array(1004, "Labour's <strong>anti-terrorism laws</strong>", true),
-        array(1005, "introducing <strong>ID cards</strong>", true),
-    );
-
-
 
