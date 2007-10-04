@@ -1,5 +1,5 @@
 <?php
-# $Id: election2007questions.inc,v 1.5 2007/10/04 13:56:51 goatchurch Exp $
+# $Id: election2007questions.inc,v 1.4 2007/10/04 13:55:03 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -75,7 +75,7 @@ array("issue"=>"iraq",
       "divisionno"=>"330",
       "mpvote"=>"no",
       "mpposition"=>"vote against",
-      "question"=>"there being a select committee
+      "question"=>array("there being a select committee
                 to review the way in which the responsibilities of Government
                 were discharged in relation to Iraq?"),
 
@@ -85,7 +85,7 @@ array("issue"=>"iraq",
       "divisionno"=>"136",
       "mpvote"=>"aye",
       "mpposition"=>"vote for",
-      "question"=>"recogizing that for a further inquiry into Iraq would
+      "question"=>array("recogizing that for a further inquiry into Iraq would
                 would divert attention
                 whilst the whole effort of the effort of the Government
                 and the armed forces was directed towards improving the condition of Iraq"),
@@ -96,7 +96,7 @@ array("issue"=>"iraq",
       "divisionno"=>"331",
       "mpvote"=>"aye",
       "mpposition"=>"vote for",
-      "question"=>"recognizing that for a further inquiry into Iraq would
+      "question"=>array("recognizing that for a further inquiry into Iraq would
                 would divert attention
                 whilst the whole effort of the effort of the Government
                 and the armed forces was directed towards improving the condition of Iraq"),
@@ -110,7 +110,7 @@ array("issue"=>"trident",
       "divisionno"=>"77",
       "mpvote"=>"aye",
       "mpposition"=>"vote for",
-      "question"=>"extending the life of Trident while remaining unconvinced of the need for an early
+      "question"=>array("extending the life of Trident while remaining unconvinced of the need for an early
                 decision to find a replacement"),
 
 array("issue"=>"trident",
@@ -119,7 +119,7 @@ array("issue"=>"trident",
       "divisionno"=>"78",
       "mpvote"=>"no",
       "mpposition"=>"vote against",
-      "question"=>"authorizing the Government to replace the Trident nuclear weapons system"),
+      "question"=>array("authorizing the Government to replace the Trident nuclear weapons system"),
 
 // ... Smoking ban
 array("issue"=>"smoking",
@@ -128,7 +128,7 @@ array("issue"=>"smoking",
       "divisionno"=>"166",
       "mpvote"=>"no",
       "mpposition"=>"vote against",
-      "question"=>"the Third Reading of the Act banning smoking in all indoor public places"),
+      "question"=>array("the Third Reading of the Act banning smoking in all indoor public places"),
 
 array("issue"=>"smoking",
       "policydir"=>"policy-for",
@@ -136,7 +136,7 @@ array("issue"=>"smoking",
       "divisionno"=>"164",
       "mpvote"=>"no",
       "mpposition"=>"vote for",
-      "question"=>"allowing private clubs to apply to the Local Authority
+      "question"=>array("allowing private clubs to apply to the Local Authority
                 for an exemption to the ban on smoking in all indoor public places"),
 
 );
