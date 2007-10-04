@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.15 2007/10/04 14:26:27 goatchurch Exp $
+# $Id: election2007.php,v 1.16 2007/10/04 14:46:55 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -247,9 +247,11 @@ where dream_id = $dreamid group by party";
         $polfill = array();
         foreach ($questlistmaps as $questmap)
         {
-            $polval = $questmap["issue"] . $polyicystrnum[$questmap["policydir"]];
+            $polval = $questmap["policydir"] . $polyicystrnum[$questmap["issue"]];
+            #print "<pre>"; print_r($questmap); print "</pre>";
             if (!$polfill[$polval])
             {
+                print "<pre>"; print_r($questmap); print "</pre>";
                 # XXX should be only when MP is standing again
                 $divdate = $questmap["date"];
                 $divnum = $questmap["divisionno"];
@@ -262,12 +264,12 @@ where dream_id = $dreamid group by party";
                 list ($mpvote) = $db->query_onez_row($query);
                 if (!$mpvote)
                     $mpvote = "absent";
-                #print $mpvote . " --> " . $quest[3] . "<br>";
+                print $mpvote . " --> " . $questmap["mpvote"] . "<br>";
                 if ($mpvote == $questmap["mpvote"])
-                    $polfill[$polval] = 'Why did XXXX '.$questmap["mpposition"]." ".$mpposition["question"]."?";
+                    $polfill[$polval] = 'Why did XXXX '.$questmap["mpposition"]." ".$questmap["question"]."?";
             }
         }
-        #print "<pre>"; print_r($polfill); print "</pre>";
+        print "<pre>"; print_r($polfill); print "</pre>";
 
 ?>
 <script type="text/javascript">

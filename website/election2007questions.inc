@@ -1,5 +1,5 @@
 <?php
-# $Id: election2007questions.inc,v 1.7 2007/10/04 14:19:50 publicwhip Exp $
+# $Id: election2007questions.inc,v 1.8 2007/10/04 14:46:55 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -189,7 +189,7 @@ function swapvals($questlistmap, $ss)
                  "policydir"=>$ss[$questlistmap["policydir"]],
                  "date"=>$questlistmap["date"],
                  "divisionno"=>$questlistmap["divisionno"],
-                 "mpvote"=>$questlistmap["mpvote"],
+                 "mpvote"=>$ss[$questlistmap["mpvote"]],
                  "mpposition"=>$ss[$questlistmap["mpposition"]],
                  "question"=>$questlistmap["question"]);
 }
