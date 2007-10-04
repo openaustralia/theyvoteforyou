@@ -1,5 +1,5 @@
 <?php
-# $Id: election2007questions.inc,v 1.6 2007/10/04 14:15:35 goatchurch Exp $
+# $Id: election2007questions.inc,v 1.7 2007/10/04 14:19:50 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -196,7 +196,7 @@ function swapvals($questlistmap, $ss)
 
 $swapXvoteP = array("policy-for"=>"policy-against", "no"=>"aye", "aye"=>"no", "vote against"=>"vote for", "vote for"=>"vote against");
 $swapXabst = array("policy-for"=>"policy-for", "no"=>"absent", "aye"=>"absent", "vote against"=>"not turn up to vote for", "vote for"=>"not vote against");
-$swapXabstP = array("policy-for"=>"policy-against", "no"=>"absent", "aye"=>"absent", "vote against"=>"not turn up to vote against", "vote for"=>"not vote for");
+$swapXabstP = array("policy-for"=>"policy-against", "no"=>"absent", "aye"=>"absent", "vote against"=>"not turn up to vote against", "vote for"=>"not turn up to vote for");
 
 foreach ($questlistmapsraw as $questlistmap)
 {
@@ -205,8 +205,8 @@ foreach ($questlistmapsraw as $questlistmap)
 }
 foreach ($questlistmapsraw as $questlistmap)
 {
-    $questlistmaps[] = swapvals($q, $swapXabst);
-    $questlistmaps[] = swapvals($q, $swapXabstP);
+    $questlistmaps[] = swapvals($questlistmap, $swapXabst);
+    $questlistmaps[] = swapvals($questlistmap, $swapXabstP);
 };
 
 $questlist = array();
