@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007constituencies.php,v 1.1 2007/10/04 13:43:01 goatchurch Exp $
+# $Id: election2007constituencies.inc,v 1.1 2007/10/04 13:44:37 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
