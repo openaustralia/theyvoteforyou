@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.11 2007/10/04 12:07:13 publicwhip Exp $
+# $Id: election2007.php,v 1.12 2007/10/04 13:34:05 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -36,6 +36,7 @@ require_once "constituencies.inc";
 require_once "account/user.inc";
 
 require_once "election2007articles.inc";
+require_once "election2007questions.inc";
 
 $db = new DB();
 $db2 = new DB();
@@ -214,14 +215,14 @@ $wales_parties = array(
 );
 
 $scotland_parties = array(
-    "SNP" => "SNP", 
+    "SNP" => "SNP",
 );
 
 $northern_ireland_parties = array(
       "SF" => "Sinn Féin",
       "DU" => "DUP",
       "SDLP" => "SDLP",
-      "UU" => "UUP", 
+      "UU" => "UUP",
 );
 
 $independents = array(
@@ -233,7 +234,6 @@ $independents = array(
 
 
 // "Question from hell" - Public Whip edition
-$questlist = array();
 $questlist_raw = array();
 
 $swapXvoteP = array("policy-for"=>"policy-against", "no"=>"aye", "aye"=>"no", "vote against"=>"vote for", "vote for"=>"vote against");
@@ -244,87 +244,6 @@ function swapvals($pp, $ss)
     return array($pp[0], $ss[$pp[1]], $pp[2], $ss[$pp[3]], $ss[$pp[4]], $pp[5]);
 }
 
-/// ... Iraq
-$questlistraw[] = array("iraq", "policy-for", "2007-06-11#135", "no", "vote against", "Why did XXXX VVVV
-                the principle of an independent inquiry
-                to review the way in which the responsibilities of Government
-                were discharged in relation to Iraq?");
-
-$questlistraw[] = array("iraq", "policy-for", "2007-10-31#330", "no", "vote against", "Why did XXXX VVVV
-                there being a select committee
-                to review the way in which the responsibilities of Government
-                were discharged in relation to Iraq?");
-
-$questlistraw[] = array("iraq", "policy-for", "2007-06-11#136", "aye", "vote for", "Why did XXXX VVVV
-                the recognition that for a further inquiry into Iraq would
-                would divert attention
-                whilst the whole effort of the effort of the Government
-                and the armed forces was directed towards improving the condition of Iraq?");
-
-$questlistraw[] = array("iraq", "policy-for", "2007-10-31#331", "aye", "vote for", "Why did XXXX VVVV
-                the recognition that for a further inquiry into Iraq would
-                would divert attention
-                whilst the whole effort of the effort of the Government
-                and the armed forces was directed towards improving the condition of Iraq?");
-
-
-// ... Legislative and Regulatory Reform Bill
-$questlistraw[] = array("lrrb", "policy-for", "2006-05-15#232", "no", "vote against", "Why did XXXX VVVV
-                requiring the Government to act \"reasonably\" when altering the
-                law to reduce regulatory burdens?");
-
-$questlistraw[] = array("lrrb", "policy-for", "2006-05-16#237", "no", "vote against", "Why did XXXX VVVV
-                the ability of a minority of MPs to decide that a proposed change in
-                the law was not uncontroversial enough to bypass the usual procedures of
-                Parliament?");
-
-$questlistraw[] = array("lrrb", "policy-for", "2006-05-16#235", "no", "vote against", "Why did XXXX VVVV
-                requiring the Government to produce an annual report
-                on the benefits of the changes it had made to to the law outside the usual procedures of Parliament
-                on DDDD?");
-
-$questlistraw[] = array("lrrb", "policy-for", "2006-05-16#240", "no", "vote against", "Why did XXXX VVVV
-                requiring the Government to take notice of the of the view of a
-                select committee when it decided that a proposed change to the law
-                was not proportional, balanced and consistent with policy objectives on DDDD?");
-
-$questlistraw[] = array("lrrb", "policy-for", "2006-05-16#238", "no", "vote for", "Why did XXXX VVVV
-                a Government Minister to be able to confer his law rewriting powers to
-                people who were not accountable to Parliament?");
-
-
-// ... Trident
-$questlistraw[] = array("trident", "policy-for", "2007-03-14#77", "aye", "vote for", "Why did XXXX VVVV
-                extending the life of Trident while remaining unconvinced of the need for an early
-                decision to find a replacement?");
-
-$questlistraw[] = array("trident", "policy-for", "2007-03-14#78", "no", "vote against", "Why did XXXX VVVV
-                authorizing the Government to replace the Trident nuclear weapons system?");
-
-// ... Smoking ban
-$questlistraw[] = array("smoking", "policy-for", "2006-02-14#166", "no", "vote against", "Why did XXXX VVVV
-                the third reading of the Act banning smoking in all indoor public places?");
-
-$questlistraw[] = array("smoking", "policy-for", "2006-02-14#164", "no", "vote for", "Why did XXXX VVVV
-                allowing private clubs to apply to the Local Authority
-                for an exemption to the ban on smoking in all indoor public places?");
-
-// ... FOI Amendment
-$questlistraw[] = array("foia", "policy-for", "2007-05-18#121", "no", "vote against", "Why did XXXX VVVV
-                limiting the proposed exemption from the Freedom of Information Act
-                to matters relating to the personal affairs of a constituent?");
-
-$questlistraw[] = array("foia", "policy-for", "2007-05-18#123", "aye", "vote for", "Why did XXXX VVVV
-                the Law which would have exempted Parliament and all MPs from
-                the Freedom of Information Act?");
-
-$questlistraw[] = array("foia", "policy-for", "2007-05-18#120", "no", "vote for", "Why did XXXX VVVV
-                preventing the Freedom of Information Act from applying to
-                correspondence between an MP and any Government department?");
-
-$questlistraw[] = array("foia", "policy-for", "2007-05-18#122", "aye", "vote for", "Why did XXXX VVVV
-                closing the debate on the Law which would have exempted MPs from
-                the Freedom of Information Act knowing that the next vote on it would pass?");
 
 foreach ($questlistraw as $q)
 {
