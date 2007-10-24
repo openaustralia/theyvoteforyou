@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.84 2007/05/22 11:57:45 publicwhip Exp $
+# $Id: faq.php,v 1.85 2007/10/24 13:53:37 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -280,7 +280,7 @@ gets out of date, for example new votes have appeared that it should be voting
 on, it's up to anyone who sees it to fix it.  It also means you can make
 a new policy yourself. </p>
 
-<p>Policies are intended be a new tool for checking the voting behaviour of an
+<p>Policies are intended be a tool for checking the voting behaviour of an
 MP or a Lord, on top of the ability to read their individual votes.  They
 provide nothing more than a flash summary of the data, a summary which you can
 drill down through to get to the raw evidence.</p>
