@@ -319,7 +319,7 @@
 
         print "<h2>How the policy votes</h2>";
         print "<p>This is currently your active policy; <b>to change its votes,
-            go to an appropriate <a href=\"/divisions.php\">division page</a></b>.
+            go to the <a href=\"/divisions.php\">division page</a> you want to change</b>.
             You can use the <a href=\"search.php\">search facility</a> to find divisions.";
 
         print " If you haven't edited a policy before please 
