@@ -641,3 +641,117 @@ margin: 2px 0;
 
 }
 
+
+table.rvotes
+{
+    padding:0px;
+    font-size:6pt;
+    border-collapse:separate;
+    border-spacing:0px;
+    white-space:nowrap;
+}
+table.rvotes a
+{
+    text-decoration:none;
+    color:inherit;
+}
+
+table.rvotes tr
+{
+    background-color:#eeeeee;
+    margin:0;
+}
+table.rvotes td
+{
+    width:10%;
+    padding: 0;
+    border: 0 #cccccc solid;
+    border-left-width: 2px;
+}
+table.rvotes a:hover
+{
+    background-color:yellow;
+}
+
+table.rvotes td.spp
+{
+}
+
+table.rvotes td.favour
+{
+    zcolor:#ff0000;
+    background-color: #d0ffd0;
+}
+table.rvotes td.against
+{
+    zcolor:#009900;
+    background-color: #9fbbdf;
+}
+table.rvotes td.absent
+{
+    zcolor:#555555;
+    background-color: gray;
+    xborder-left:2px gray solid;
+}
+
+table.rvotes td.Con
+{
+    zbackground-color: #ddddff;
+    border: 0 blue solid;
+    border-left-width: 2px;
+}
+table.rvotes td.Lab
+{
+    zbackground-color: #ffe4e4;
+    border:0 red solid;
+    border-left-width: 2px;
+}
+table.rvotes td.LDem
+{
+    zbackground-color: #ffffbb;
+    border: 0 yellow solid;
+    border-left-width: 2px
+}
+table.rvotes td.PC, table.rvotes td.SNP
+{
+    border: 0 green solid;
+    border-left-width: 2px;
+}
+table.rvotes td.DU, table.rvotes td.UU, table.rvotes td.SDLP
+{
+    border: 0 purple solid;
+    border-left-width: 2px;
+}
+table.rvotes td.partytype
+{
+    border-top-width:2px;
+    text-align: center;
+    background-color: #66ff88;
+    font-weight: bold;
+}
+table.rvotes td.topborder
+{
+    border-top-width: 2px;
+}
+table.rvotes td.bottomborder
+{
+    border-bottom-width: 2px;
+}
+table.rvotes td.rightborder
+{
+    border-right-width: 2px;
+}
+table.rvotes td.minister
+{
+    zfont-weight: bold;
+    font-style: italic;
+    text-decoration: underline;
+}
+table.rvotes td.PPS
+{
+    font-style: italic;
+}
+table.rvotes td.teller
+{
+    text-align: right;
+}
