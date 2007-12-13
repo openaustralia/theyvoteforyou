@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.52 2007/02/27 16:41:44 frabcus Exp $
+# $Id: tablepeop.inc,v 1.53 2007/12/13 13:57:18 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -142,6 +142,90 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
     print "</tr>\n";
 }
 
+function print_mp_slab($db, $bnofavour, $numcolumns, $tooltips)
+{
+    $nrows = 0;
+    $rows = array();
+    $ipp = -1;
+    while ($row = $db->fetch_row_assoc())
+    {
+        $party = $row["party"];
+        if (($ipp == -1) or ($rows[$ipp]["party"] == $party))
+        {
+            $ipp = count($rows);
+            $rows[] = array("type"=> "party", "party"=>$party, "favour"=>0, "against"=>0, "both"=>0, "absent"=>0);
+        }
+        $vote = $row["vote"];
+        if ($vote == "aye" or $vote == "tellaye")
+            $dvote = ($bnofavour ? "against" : "favour");
+        else if ($vote == "no" or $vote == "tellno")
+            $dvote = ($bnofavour ? "favour" : "against");
+        else if ($vote == "both")
+            $dvote = "both";
+        else
+            $dvote = "absent";
+		$row["dvote"] = $dvote;
+        $rows[$iprevpartytype][$dvote] += 1;
+        $rows[] = $row;
+    }
+
+    $drows = (int)(count($rows) / $ncols);
+    for ($ci = 0; $ci < $drows; $ci++)
+    {
+        print "<tr>";
+        for ($cc = 0; $cc < $ncols; $cc++)
+        {
+            $i = $cc  * $drows + $ci;
+            if ($i > count($rows))
+                break;
+            $row = $rows[$i];
+            if ($row["type"] == "party")
+            {
+                print "<td class=\"".$row["party"]." partytype\">".$row["party"].":&nbsp;+".$row["favour"]."&nbsp;-".$row["against"]."&nbsp;(".$row["absent"].")</td>\n";
+                continue;
+            }
+
+            $mpname = $row['first_name']." ".$row['last_name'];
+            $href = "mp.php?" . link_to_mp($row);
+            if (strlen($mpname) > 22)
+                $mpname = $row['first_name'][0]." ".$row['last_name'];
+            if (strlen($mpname) > 18)
+                $mpname = $row['first_name'][0]." ".substr($row['last_name'], 0, 14)."..";
+			$mpname = str_replace(" ", "&nbsp;", $mpname); // also needs to subst the -
+
+            print "<td class=\"";
+			print $row["dvote"];
+            if ($row["vote"] == "tellaye" or $row["vote"] == "tellno")
+				print " teller";
+			print " ";
+			print strtolower(str_replace(" ", "", $row["party"]));
+            if (($ci == 0) or ($rows[$i - 1]["party"] != $row["party"]))
+                print " topborder";
+            if ($ci == $drows - 1)
+                print " bottomborder";
+            if ($cc == $ncols - 1)
+                print " rightborder";
+            if ($row['ministerial'])
+                print ($row['ministerial'] == "PPS" ? " pps" : " minister");
+
+            print "\">"; // end class part
+
+            $toolt = $row['first_name']." ".$row['last_name']." (".$row['constituency'].")";
+            if ($row['ministerial'])
+                $toolt .= ", ".$row['ministerial'];
+            else
+                $toolt .= ", ".$row["party"];
+            $toolt .= " : ".$row["dvote"];
+
+			print "<a href=\"$href\"";
+			if ($tooltips)  // alt make the zorn type
+				print " title=\"$toolt\"";
+			print ">$mpname</a></td>";
+        }
+        print "</tr>\n";
+    }
+}
+
 
 # a function which generates any table of mps for printing,
 # and marks their votes or distance rankings, or second votes
@@ -179,7 +263,7 @@ function mp_table($db, $mptabattr)
 	$columnforms = array();
 
 
-	$tailorder = ""; 
+	$tailorder = "";
 	if ($mptabattr["sortby"] == "constituency")
 	    $tailorder = " constituency, last_name, first_name";
 	# by name primarily
@@ -195,7 +279,7 @@ function mp_table($db, $mptabattr)
 	if ($mptabattr["sortby"] != "party" and !(($mptabattr["sortby"] == "vote") and ($mptabattr["listtype"] != 'division') and ($mptabattr["listtype"] != 'division2')))
 	    $tailorder .= ", party";
 
-        
+
 	# main ordering functionality
     if ($mptabattr["listtype"] != 'dreamdistance')
     {
@@ -354,7 +438,7 @@ function mp_table($db, $mptabattr)
                 (lower(constituency) like '%$querybit%') * 4 + 
                 (lower(last_name) like '%$querybit%') * 4 + 
                 (soundex(first_name) = soundex('$querybit')) * 2 + 
-                (lower(first_name) like '%$querybit%') + 
+                (lower(first_name) like '%$querybit%') +
                 (soundex(constituency) like concat('%',soundex('$querybit'),'%'))";
             }
         }
@@ -444,7 +528,7 @@ function mp_table($db, $mptabattr)
 
     $house = $mptabattr["house"];
     if ($house != "both" and $house)
-		$aquery["qwhere"]   .= " AND pw_mp.house = '$house'";
+		$aquery["qwhere"] .= " AND pw_mp.house = '$house'";
 
     # apply the limit
     if ($mptabattr["limit"])
@@ -510,15 +594,20 @@ function mp_table($db, $mptabattr)
 		print "</td></tr>\n";
 	}
 
-    $nrows = 0;
-    while ($row = $db->fetch_row_assoc())
-    {
-        $mpname = $row['title']." ".$row['first_name']." ".$row['last_name'];
-        $href = "mp.php?" . link_to_mp($row);
-        $nrows += 1; # number from 1
-        print_mp_row($nrows, $row, $mpname, $href, $colstyle, $showwhich, $friendlk, $columnforms);
-    }
-
+	# actually produce the table
+	if ($mptabattr["slabtable"])
+		print_mp_slab($db, ($mptabattr["favourvote"] == "no"), $mptabattr["numcolumns"], $mptabattr["tooltips"]);
+	else
+	{
+	    $nrows = 0;
+	    while ($row = $db->fetch_row_assoc())
+	    {
+	        $mpname = $row['title']." ".$row['first_name']." ".$row['last_name'];
+	        $href = "mp.php?" . link_to_mp($row);
+	        $nrows += 1; # number from 1
+	        print_mp_row($nrows, $row, $mpname, $href, $colstyle, $showwhich, $friendlk, $columnforms);
+	    }
+	}
 
     # return value
     # find the number of voters which are the same

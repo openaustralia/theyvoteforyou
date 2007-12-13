@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.132 2007/05/27 13:52:38 publicwhip Exp $
+# $Id: division.php,v 1.133 2007/12/13 13:57:18 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -505,7 +505,17 @@ if ($singlemotionpage)
 			$mptabattr["div2invert"] = $div2invert;
 		}
 
-		print "<table class=\"votes\">"; 
+		if (False)
+		{
+			$mptabattr["slabtable"] = "yes";
+			$mptabattr["showwhich"] = "allpossible";
+			$mptabattr["sortby"] = "partyspread";
+			$mptabattr["favourvote"] = "aye"; // or no
+			$mptabattr["numcolumns"] = 11;
+			$mptabattr["tooltips"] = "yes";
+		}
+
+		print "<table class=\"votes\">";
         mp_table($db, $mptabattr);
 		print "</table>";
 	}
