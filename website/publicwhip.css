@@ -645,6 +645,7 @@ margin: 2px 0;
 table.rvotes
 {
     padding:0px;
+    FONT-FAMILY: "xTimes New Roman", xVerdana, Arial, xHelvetica, sans-serif;
     font-size:6pt;
     border-collapse:separate;
     border-spacing:0px;
@@ -654,6 +655,8 @@ table.rvotes a
 {
     text-decoration:none;
     color:inherit;
+    float:right;
+    width:100%;
 }
 
 table.rvotes tr
@@ -666,7 +669,7 @@ table.rvotes td
     width:10%;
     padding: 0;
     border: 0 #cccccc solid;
-    border-left-width: 2px;
+    border-left-width: 3px;
 }
 table.rvotes a:hover
 {
@@ -677,58 +680,61 @@ table.rvotes td.spp
 {
 }
 
-table.rvotes td.favour
+table.rvotes td.favour, p.votekey span.favour
 {
     zcolor:#ff0000;
     background-color: #d0ffd0;
 }
-table.rvotes td.against
+table.rvotes td.against, p.votekey span.against
 {
     zcolor:#009900;
     background-color: #9fbbdf;
 }
-table.rvotes td.absent
+table.rvotes td.absent, p.votekey span.absent
 {
     zcolor:#555555;
     background-color: gray;
-    xborder-left:2px gray solid;
+}
+table.rvotes td.both, p.votekey span.both
+{
+    background-color:#eeeebb;
 }
 
 table.rvotes td.Con
 {
     zbackground-color: #ddddff;
-    border: 0 blue solid;
-    border-left-width: 2px;
+    border-color:  blue;
+    zborder-left-width: 3px;
 }
 table.rvotes td.Lab
 {
     zbackground-color: #ffe4e4;
-    border:0 red solid;
-    border-left-width: 2px;
+    border-color: red;
 }
 table.rvotes td.LDem
 {
     zbackground-color: #ffffbb;
-    border: 0 yellow solid;
-    border-left-width: 2px
+    border-color: yellow;
 }
 table.rvotes td.PC, table.rvotes td.SNP
 {
-    border: 0 green solid;
-    border-left-width: 2px;
+    border-color: green;
 }
-table.rvotes td.DU, table.rvotes td.UU, table.rvotes td.SDLP
+table.rvotes td.DU, table.rvotes td.UU, table.rvotes td.SDLP, table.rvotes td.Bp
 {
-    border: 0 purple solid;
-    border-left-width: 2px;
+    border-color: purple;
 }
-table.rvotes td.partytype
+table.rvotes td.partytype, table.rvotes td.partytype2
 {
-    border-top-width:2px;
     text-align: center;
     background-color: #66ff88;
     font-weight: bold;
 }
+table.rvotes td.partytype
+{
+    border-top-width:2px;
+}
+
 table.rvotes td.topborder
 {
     border-top-width: 2px;
@@ -741,15 +747,16 @@ table.rvotes td.rightborder
 {
     border-right-width: 2px;
 }
-table.rvotes td.minister
+table.rvotes td.minister, p.votekey span.minister
 {
     zfont-weight: bold;
-    font-style: italic;
+    zfont-style: italic;
     text-decoration: underline;
 }
-table.rvotes td.PPS
+table.rvotes td.PPS, p.votekey span.pps
 {
     font-style: italic;
+    text-decoration: underline;
 }
 table.rvotes td.teller
 {

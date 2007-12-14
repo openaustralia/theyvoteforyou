@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.133 2007/12/13 13:57:18 goatchurch Exp $
+# $Id: division.php,v 1.134 2007/12/14 19:53:23 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -123,73 +123,86 @@ function no_division_found($plural)
         $div2invert = (($row != null) && ($row["nvotessame"] < $row["nvotesdiff"]));
     }
 
-# make the title
-$title = "$name - ".$divattr["prettydate"]." ";
-if ($clock_time)
-    $title .= " at $clock_time";
-if (!$singlemotionpage)
-{
-    $title = "Comparison of Divisions: " . $title;
-    $title .= " <i>with</i> Division No. ".$divattr2["division_number"];
-    if ($divattr2["prettydate"] == $divattr["prettydate"])
-        $title .= " <i>on the same day</i>";
-    else
-        $title .= " on ".$divattr2["prettydate"];
-    $clock_time2 = $divattr2["clock_time"];
-    $clock_time2 = preg_replace("/:00$/","",$clock_time2);
-    $clock_time2 = preg_replace("/^0/","",$clock_time2);
-    $title .= " at $clock_time2"; 
-} else {
-    $title .= " - ".ucfirst($house). " Division No. $div_no";
-}
+    # make the title
+    $title = "$name - ".$divattr["prettydate"]." ";
+    if ($clock_time)
+        $title .= " at $clock_time";
+    if (!$singlemotionpage)
+    {
+        $title = "Comparison of Divisions: " . $title;
+        $title .= " <i>with</i> Division No. ".$divattr2["division_number"];
+        if ($divattr2["prettydate"] == $divattr["prettydate"])
+            $title .= " <i>on the same day</i>";
+        else
+            $title .= " on ".$divattr2["prettydate"];
+        $clock_time2 = $divattr2["clock_time"];
+        $clock_time2 = preg_replace("/:00$/","",$clock_time2);
+        $clock_time2 = preg_replace("/^0/","",$clock_time2);
+        $title .= " at $clock_time2"; 
+    } 
+    else 
+        ;#$title .= " - ".ucfirst($house). " Division No. $div_no";
 
-# constants
-$dismodes = array();
-if ($singlemotionpage)
-{
-    $dismodes["summary"] = array("dtype"	=> "summary",
+    # constants
+    $dismodes = array();
+    if ($singlemotionpage)
+    {
+        $dismodes["summary"] = array("dtype"	=> "summary",
 								 "description" 	=> "Summary",
 								 "motiontext" 	=> "yes",
 								 "summarytext"	=> "yes",
 								 "partysummary"	=> "yes",
-								 "showwhich" 	=> "rebels",
+								 "showwhich" 	=> "",#rebels
 								 "ministerial" 	=> "yes",
-								 "dreamvoters"	=> "all",
-								 "listsimilardivisions" => "short",
+								 "listsimilardivisions" => "", #short
                                  "tooltip"      => "Overview of division");
 
 		$dismodes["allvotes"] = array("dtype"	=> "allvotes",
 								 "description" 	=> "All voters",
-								 "motiontext" 	=> "yes",
-								 "summarytext"	=> "yes",
-								 "partysummary"	=> "yes",
+								 "motiontext" 	=> "",
+								 "summarytext"	=> "",
+								 "partysummary"	=> "",
 								 "ministerial" 	=> "yes",
 								 "showwhich" 	=> "voters",
                                  "tooltip"      => "Every MP who cast a vote in the division");
 
-		$dismodes["allpossible"] = array("dtype"	=> "allpossible",
-								 "description" 	=> "All eligible voters",
-								 "motiontext" 	=> "yes",
-								 "summarytext"	=> "yes",
-								 "partysummary"	=> "yes",
-								 "ministerial" 	=> "yes",
-								 "showwhich" 	=> "allpossible",
-                                 "tooltip"      => "Show even MPs who did not vote but could have" );
+		#$dismodes["allpossible"] = array("dtype"	=> "allpossible",
+		#						 "description" 	=> "All eligible voters",
+		#						 "motiontext" 	=> "yes",
+		#						 "summarytext"	=> "yes",
+		#						 "partysummary"	=> "yes",
+		#						 "ministerial" 	=> "yes",
+		#						 "showwhich" 	=> "allpossible",
+        #                        "tooltip"      => "Show even MPs who did not vote but could have" );
 
 		$dismodes["similardivisionsparl"] = array("dtype"	=> "similardivisionsparl",
-								 "description" 	=> "Similar Divisions In Session",
-								 "motiontext" 	=> "yes",
-								 "summarytext"	=> "yes",
+								 "description" 	=> "Similar Divisions",
+								 "motiontext" 	=> "",
+								 "summarytext"	=> "",
 								 "listsimilardivisions" => "thisparliament",
                                  "tooltip"      => "Show all divisions in order of similarity of vote in this Parliament" );
 
-		$dismodes["similardivisionsall"] = array("dtype"	=> "similardivisionsall",
-								 "description" 	=> "All Similar Divisions",
-								 "motiontext" 	=> "yes",
-								 "summarytext"	=> "yes",
-								 "listsimilardivisions" => "all",
-                                 "tooltip"      => "Show all divisions in order of similarity of vote in all time" );
-	}
+		#$dismodes["similardivisionsall"] = array("dtype"	=> "similardivisionsall",
+		#						 "description" 	=> "All Similar Divisions",
+		#						 "motiontext" 	=> "yes",
+		#						 "summarytext"	=> "yes",
+		#						 "listsimilardivisions" => "all",
+        #                        "tooltip"      => "Show all divisions in order of similarity of vote in all time" );
+        $dismodes["slab"] = array("dtype"           => "slab",
+                                 "description"  => "One view",
+                                 "motiontext"   => "",
+                                 "showwhich"    => "slab",
+                                 "ministerial"  => "yes",
+                                 "tooltip"      => "Show all votes as one compressed table" );
+
+        $dismodes["policies"] = array("dtype"       => "policies",
+                                 "description"  => "Policies",
+                                 "policydata"   => "yes",
+                                 "motiontext"   => "yes",
+								 "dreamvoters"	=> "all",
+                                 "tooltip"      => "Show or change the polices which vote on this division" );
+
+    }
 
 	# two motion page
 	else
@@ -256,7 +269,8 @@ if ($singlemotionpage)
     $second_links = dismodes_to_second_links($thispage, $dismodes, $tpsort, $display);
 
     # Display title and second nav links
-	pw_header();
+    $second_type = "tabs";
+    pw_header();
 
 	# Summary
 	if ($dismode["summarytext"])
@@ -301,9 +315,12 @@ if ($singlemotionpage)
 			print "</p>\n";
 			# state if it is rebellion??
 		}
+    }
 
 		# crossover page for updating and changing a policy vote
-		elseif ($votertype == "dreammp")
+	if ($dismode["policydata"])
+    {
+        if ($votertype == "dreammp")
 	        $vote = write_single_policy_vote($db, $divattr, $voter);
 	}
 
@@ -334,36 +351,28 @@ if ($singlemotionpage)
             print $description;
 
             print "<p>";
-            print "<b><a href=\"$edit_link\">Edit description</a></b>";
-            print " (<a href=\"faq.php#motionedit\">learn more</a>)";
-            if ($discuss_url)
-                print ' | <b><a href="'.htmlspecialchars($discuss_url).'">Discussion</a></b>';
-            if ($history_link) {
-                # commented out, as confusing and deprecated
-                print '<!-- | <a href="'.htmlspecialchars($history_link).'">History</a>-->';
-            }
-            if ($motion_data['user_id'] != 0)
-                print " (last edited ".  relative_time($motion_data["edit_date"]) .  " by " . pretty_user_name($db2, $last_editor).") ";
-	        print "</div>\n";
-
-			print "<h2>External Links</h2>";
-			print "<ul>";
 	        if ($debate_gid != "")
 			{
 				if ($divattr["house"] == "lords")
 		        	$debate_gid = "lords/?id=".str_replace("uk.org.publicwhip/lords/", "", $debate_gid);
 		        else
 					$debate_gid = "debates/?id=".str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
-                print "<li>Read or comment on the <a href=\"http://www.theyworkforyou.com/$debate_gid\">debate in Parliament</a> at www.TheyWorkForYou.com</li>";
+                print "<b><a href=\"http://www.theyworkforyou.com/$debate_gid\" title=\"Links to debate shown at www.theyworkforyou.com\">Debate</a></b> | ";
 	        }
-
 	        $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
-	        if ($source != "") {
-	    		print "<li>Check the <a href=\"$source\">original Hansard document</a> for this division on www.parliament.uk</a></li>";
-			}
-            print "</ul>";
+	        if ($source != "") 
+	    		print "<b><a href=\"$source\" title=\"The original record of vote as reported by Hansard\">Original</a> | </b>";
+			
 
-	        print "</p>\n";
+            print "<b><a href=\"$edit_link\" title=\"Edit and improve this description\">Edit</a></b>";
+            print " (<a href=\"faq.php#motionedit\">learn more</a>)";
+            if ($discuss_url)
+                print ' | <b><a href="'.htmlspecialchars($discuss_url).'" title="Forum page for this vote, including record of changes">Discussion</a></b>';
+            #if ($history_link)  # commented out, as confusing and deprecated
+            #    print '<a href="'.htmlspecialchars($history_link).'">History</a>';
+            if ($motion_data['user_id'] != 0)
+                print " (last edited ".  relative_time($motion_data["edit_date"]) .  " by " . pretty_user_name($db2, $last_editor).") ";
+            print "</div>\n";
 		}
 
 		# print the two motion type
@@ -415,7 +424,13 @@ if ($singlemotionpage)
 						You can also see <a href=\"$thispage&display=allpossible$tpsort\">every eligible ".($house == "lords" ? "lord" : "MP")."</a>
 						including those who did not vote in this division.</p>\n";
 			}
-			else
+			elseif ($display == "slab")
+            {
+				#print "<h2><a name=\"votes\">All ".($house == "lords" ? "lords" : "MPs")." eligible to vote in this division</a></h2>\n";
+                print '<p class="votekey">Key: <span class="favour">Vote in favour</span> | <span class="against">Vote against</span> | <span class="absent">Absent from vote</span>';
+                print '| <span class="minister both">Minister</span> | <span class="pps both">PPS</span>.</p>';
+            }
+            else # all possible
 			{
 				print "<h2><a name=\"votes\">All ".($house == "lords" ? "lords" : "MPs")." Eligible to Vote - sorted by $sort</a></h2>\n";
 				print "<p>Includes ".($house == "lords" ? "lords" : "MPs")." who were absent (or abstained)
@@ -463,26 +478,28 @@ if ($singlemotionpage)
 		}
 
 		# the sort by cases
-	    print "<p style=\"font-size: 89%\" align=\"center\">Sort by: ";
-		print ($sort == "name" ? "<b>Name</b>" : "<a href=\"$thispage$tpdisplay&sort=name\">Name</a>");
-		if ($house != "lords")
-		{
-			print " | ";
-			print ($sort == "constituency" ? "<b>Constituency</b>" : "<a href=\"$thispage$tpdisplay&sort=constituency\">Constituency</a>");
-		}
-		print " | ";
-		print ($sort == "party" ? "<b>Party</b>" : "<a href=\"$thispage$tpdisplay&sort=party\">Party</a>");
-		print " | ";
-		if ($singlemotionpage)
-			print ($sort == "vote" ? "<b>Vote</b>" : "<a href=\"$thispage$tpdisplay&sort=vote\">Vote</a>");
-		else
-		{
-			print ($sort == "vote" ? "<b>Vote (a)</b>" : "<a href=\"$thispage$tpdisplay&sort=vote\">Vote (a)</a>");
-			print " | ";
-			print ($sort == "vote2" ? "<b>Vote (b)</b>" : "<a href=\"$thispage$tpdisplay&sort=vote2\">Vote (b)</a>");
-		}
-		print "</p>\n";
-
+	    if ($display != "slab")
+        {
+            print "<p style=\"font-size: 89%\" align=\"center\">Sort by: ";
+	    	print ($sort == "name" ? "<b>Name</b>" : "<a href=\"$thispage$tpdisplay&sort=name\">Name</a>");
+		    if ($house != "lords")
+    		{
+	    		print " | ";
+		    	print ($sort == "constituency" ? "<b>Constituency</b>" : "<a href=\"$thispage$tpdisplay&sort=constituency\">Constituency</a>");
+    		}
+	    	print " | ";
+		    print ($sort == "party" ? "<b>Party</b>" : "<a href=\"$thispage$tpdisplay&sort=party\">Party</a>");
+    		print " | ";
+	    	if ($singlemotionpage)
+		    	print ($sort == "vote" ? "<b>Vote</b>" : "<a href=\"$thispage$tpdisplay&sort=vote\">Vote</a>");
+    		else
+	    	{
+		    	print ($sort == "vote" ? "<b>Vote (a)</b>" : "<a href=\"$thispage$tpdisplay&sort=vote\">Vote (a)</a>");
+    			print " | ";
+	    		print ($sort == "vote2" ? "<b>Vote (b)</b>" : "<a href=\"$thispage$tpdisplay&sort=vote2\">Vote (b)</a>");
+		    }
+    		print "</p>\n";
+        }
 
 		$mptabattr = array("listtype"	=> "division",
 							"divdate"	=> $divattr["division_date"],
@@ -505,19 +522,23 @@ if ($singlemotionpage)
 			$mptabattr["div2invert"] = $div2invert;
 		}
 
-		if (False)
+        if ($display == "slab")
 		{
 			$mptabattr["slabtable"] = "yes";
 			$mptabattr["showwhich"] = "allpossible";
-			$mptabattr["sortby"] = "partyspread";
-			$mptabattr["favourvote"] = "aye"; // or no
+			$mptabattr["sortby"] = "party_slab";
+			$mptabattr["favourvote"] = "no"; // or no
 			$mptabattr["numcolumns"] = 11;
-			$mptabattr["tooltips"] = "yes";
-		}
-
-		print "<table class=\"votes\">";
+			$mptabattr["tooltips"] = "walterzorn";
+            $mptabattr["headings"] = "";
+		    $tableclass = "rvotes";
+        }
+        else
+    		$tableclass = "votes";
+        
+        print "<table class=\"$tableclass\" id=\"votetable\">\n";
         mp_table($db, $mptabattr);
-		print "</table>";
+		print "</table>\n";
 	}
 
 	if ($dismode["listsimilardivisions"])
@@ -536,7 +557,7 @@ if ($singlemotionpage)
 		if ($dismode["listsimilardivisions"] == "thisparliament")
 			$divtabattr["parldatelimit"] = $parliaments[$divattr["parliament"]];
 
-        print "<h2><a name=\"simdiv\">Similar Divisions</a></h2>";
+        #print "<h2><a name=\"simdiv\">Similar Divisions</a></h2>";
         print "<p>Divisions where the ".
             ($divattr["house"] == "lords" ? "Lords" : "MPs") . "
                 voted in a similar way to the
@@ -562,34 +583,40 @@ if ($singlemotionpage)
 	if ($dismode["dreamvoters"])
 	{
         # Show Dream MPs who voted in this division and their votes
-        $db->query("SELECT name, pw_dyn_dreammp.dream_id, vote, user_name
+        $db->query("SELECT name, pw_dyn_dreammp.dream_id, vote, user_name, private
 					FROM pw_dyn_dreammp, pw_dyn_dreamvote, pw_dyn_user
             		WHERE pw_dyn_dreamvote.dream_id = pw_dyn_dreammp.dream_id
 						AND pw_dyn_user.user_id = pw_dyn_dreammp.user_id
 						AND pw_dyn_dreamvote.division_date = '".$divattr["division_date"]."'
 						AND pw_dyn_dreamvote.division_number = '".$divattr["division_number"]."'
-            			AND private = 0");
-        if ($db->rows() > 0)
-        {
+            			AND private <> 1");
             $prettyrow = 0;
             print "<h2><a name=\"dreammp\">Policies</a></h2>";
             print "<p>The following policies have selected this division.  You can use this
                to help you work out the meaning of the vote.";
             print "<table class=\"divisions\"><tr class=\"headings\">";
             print "<td>Policy</td><td>Vote (in this division)</td>";
-            while ($row = $db->fetch_row_assoc()) {
+            if ($db->rows() == 0)
+            {
+                pretty_row_start($prettyrow);
+                print "<td colspan=\"2\">No policies voted in this division</td></tr>\n";
+            }
+            while ($row = $db->fetch_row_assoc()) 
+            {
                 $prettyrow = pretty_row_start($prettyrow);
                 $vote = $row["vote"];
                 if ($vote == "both")
                     $vote = "abstain";
                 print "<td><a href=\"policy.php?id=" . $row["dream_id"] . "\">";
-                print $row["name"] . "</a></td>";
+                print $row["name"] . "</a>";
+                if ($row["private"] == 2)
+                    print " <i>(provisional)</i>";
+                print "</td>";
                 print "<td>" . vote_display_in_table($vote) . "</td>";
-                print "</tr>";
+                print "</tr>\n";
             }
             print "</table>";
             print "<p><a href=\"account/addpolicy.php\">Make a new policy</a>";
-        }
     }
 
 ?>

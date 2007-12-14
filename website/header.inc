@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.91 2007/07/26 16:10:36 publicwhip Exp $
+# $Id: header.inc,v 1.92 2007/12/14 19:53:23 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -64,6 +64,7 @@ function secondnav_goto3() {
 </head>
 
 <body align="center" onLoad="<?=$onload?>">
+<script type="text/javascript" src="walterzorn/wz_tooltip.js"></script>
 <center>
 
 <? if ($_SERVER["HTTP_HOST"] != 'www.publicwhip.org.uk'

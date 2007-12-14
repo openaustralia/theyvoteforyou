@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.53 2007/12/13 13:57:18 goatchurch Exp $
+# $Id: tablepeop.inc,v 1.54 2007/12/14 19:53:23 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -150,10 +150,11 @@ function print_mp_slab($db, $bnofavour, $numcolumns, $tooltips)
     while ($row = $db->fetch_row_assoc())
     {
         $party = $row["party"];
-        if (($ipp == -1) or ($rows[$ipp]["party"] == $party))
+        if (($ipp == -1) or ($rows[$ipp]["party"] != $party))
         {
+            $rows[] = array("type"=> "party1", "party"=>$party, "favour"=>0, "against"=>0, "both"=>0, "absent"=>0);
             $ipp = count($rows);
-            $rows[] = array("type"=> "party", "party"=>$party, "favour"=>0, "against"=>0, "both"=>0, "absent"=>0);
+            $rows[] = array("type"=> "party2", "party"=>$party, "favour"=>0, "against"=>0, "both"=>0, "absent"=>0);
         }
         $vote = $row["vote"];
         if ($vote == "aye" or $vote == "tellaye")
@@ -165,34 +166,73 @@ function print_mp_slab($db, $bnofavour, $numcolumns, $tooltips)
         else
             $dvote = "absent";
 		$row["dvote"] = $dvote;
-        $rows[$iprevpartytype][$dvote] += 1;
+        $rows[$ipp][$dvote] += 1;
+        $rows[$ipp - 1][$dvote] += 1; # count it in twice to save working out how the heck to reuse the same object, which anyway should be done as a two cell tall heading
         $rows[] = $row;
     }
 
-    $drows = (int)(count($rows) / $ncols);
+    $drows = (int)(count($rows) / $numcolumns);
     for ($ci = 0; $ci < $drows; $ci++)
     {
         print "<tr>";
-        for ($cc = 0; $cc < $ncols; $cc++)
+        for ($cc = 0; $cc < $numcolumns; $cc++)
         {
-            $i = $cc  * $drows + $ci;
+            $i = $cc * $drows + $ci;
             if ($i > count($rows))
                 break;
             $row = $rows[$i];
-            if ($row["type"] == "party")
+            if ($row["type"] == "party1" or $row["type"] == "party2")
             {
-                print "<td class=\"".$row["party"]." partytype\">".$row["party"].":&nbsp;+".$row["favour"]."&nbsp;-".$row["against"]."&nbsp;(".$row["absent"].")</td>\n";
+                $wztoolt = $row["favour"]." members of the ".$row["party"]." party voted in favour, ".$row["against"]." against, and ".$row["absent"]." were absent"; 
+                print "<td class=\"";
+                print $row["party"];
+                print $row["type"] == "party1" ? " partytype" : " partytype2";
+                if ($cc == $numcolumns - 1)
+                    print " rightborder";
+                print "\">";
+                print "<a title=\"$wztoolt\"";
+                if ($tooltip == "walterzorn")
+                    print " onmouseover=\"Tip('$wztoolt')\"";
+                print ">";
+                if ($row["type"] == "party1")
+                    print $row["party"];
+                else
+                    print "+".$row["favour"]."&nbsp;-".$row["against"]."&nbsp;(".$row["absent"].")";
+                print "</a>";
+                print "</td>\n";
                 continue;
             }
 
-            $mpname = $row['first_name']." ".$row['last_name'];
-            $href = "mp.php?" . link_to_mp($row);
-            if (strlen($mpname) > 22)
-                $mpname = $row['first_name'][0]." ".$row['last_name'];
-            if (strlen($mpname) > 18)
-                $mpname = $row['first_name'][0]." ".substr($row['last_name'], 0, 14)."..";
-			$mpname = str_replace(" ", "&nbsp;", $mpname); // also needs to subst the -
-
+            if ($row['house'] == "lords")
+            {
+                $mpname = $row['title']." ".$row['first_name']." ".$row['last_name'];
+                $href = "mp.php?" . link_to_mp($row);
+                if (strlen($mpname) > 22)
+                    $mpname = $row['title'][0]." ".$row['first_name']." ".$row['last_name'];
+                if (strlen($mpname) > 18)
+                {
+                    if (!$row['last_name'])
+                        $mpname = $row['title'][0]." ".substr($row['first_name'], 0, 14).".";
+                    elseif (!$row['first_name'])
+                    {
+                        $mpname = substr($row['title'], 0, 5)." ".substr($row['last_name'], 0, 12).".";
+                    }
+                    elseif (substr($row['last_name'], 0, 3) == "of ")
+                        $mpname = $row['title'][0]." ".substr($row['first_name'], 0, 10)." ".substr($row['last_name'], 0, 4);
+                    else
+                        $mpname = $row['title'][0]." ".$row['first_name'][0]." ".substr($row['last_name'], 0, 14)."..";
+                }
+            }
+            else
+            {
+                $mpname = $row['title']." ".$row['first_name']." ".$row['last_name'];
+                $href = "mp.php?" . link_to_mp($row);
+                if (strlen($mpname) > 22)
+                    $mpname = $row['first_name'][0]." ".$row['last_name'];
+                if (strlen($mpname) > 18)
+                    $mpname = $row['first_name'][0]." ".substr($row['last_name'], 0, 14).".";
+		    }
+            $mpname = str_replace(" ", "&nbsp;", $mpname); // also needs to subst the -
             print "<td class=\"";
 			print $row["dvote"];
             if ($row["vote"] == "tellaye" or $row["vote"] == "tellno")
@@ -203,24 +243,43 @@ function print_mp_slab($db, $bnofavour, $numcolumns, $tooltips)
                 print " topborder";
             if ($ci == $drows - 1)
                 print " bottomborder";
-            if ($cc == $ncols - 1)
+            if ($cc == $numcolumns - 1)
                 print " rightborder";
             if ($row['ministerial'])
                 print ($row['ministerial'] == "PPS" ? " pps" : " minister");
 
             print "\">"; // end class part
 
-            $toolt = $row['first_name']." ".$row['last_name']." (".$row['constituency'].")";
-            if ($row['ministerial'])
-                $toolt .= ", ".$row['ministerial'];
-            else
-                $toolt .= ", ".$row["party"];
-            $toolt .= " : ".$row["dvote"];
-
 			print "<a href=\"$href\"";
 			if ($tooltips)  // alt make the zorn type
-				print " title=\"$toolt\"";
-			print ">$mpname</a></td>";
+            {
+                $toolt = trim($row['title']." ".$row['first_name']." ".$row['last_name']);
+                $wztoolt = $toolt;
+                if ($row['constituency'])
+                {
+                    $toolt .= " (".$row['constituency'].")";
+                    $wztoolt .= "<br/>".$row['constituency'];
+                }
+                if ($row['ministerial'])
+                {
+                    $toolt .= ", ".$row['ministerial'];
+                    $wztoolt .= "<br/>".$row['ministerial'];
+                }
+                else
+                    $toolt .= ", ".$row["party"];
+                
+                $toolt .= " : ".$row["dvote"];
+                if ($row["dvote"] == "absent")
+                    $wztoolt .= "<br/>absent from vote";
+                else
+                    $wztoolt .= "<br/>Voted ".$row["vote"]." (".$row["dvote"].")";
+				
+                print " title=\"$toolt\"";
+                if ($tooltips == "walterzorn")
+                    #print " title=\"jjjjjj\"";
+                    print " onmouseover=\"Tip('".str_replace('\'', "", $wztoolt)."')\")"; # this replacing of ' doesn't work
+			}
+            print ">$mpname</a></td>";
         }
         print "</tr>\n";
     }
@@ -239,7 +298,7 @@ function print_mp_slab($db, $bnofavour, $numcolumns, $tooltips)
 #     'division2', then there's also 'divdate2', 'divno2'
 #   'search', then 'search' is a query string to search for
 # limit is nothing or a number
-# sortby is 'turnout', 'rebellions', 'name', 'constituency', 'attendance', 'party', 'vote'
+# sortby is 'turnout', 'rebellions', 'name', 'constituency', 'attendance', 'party', 'vote', 'partyslab'
 # showwhich is 'rebels', 'changes', 'voters', 'allpossible'
 # ministerial is 'yes' or none.
 function mp_table($db, $mptabattr)
@@ -276,7 +335,8 @@ function mp_table($db, $mptabattr)
 	else
 	    $tailorder = " concat(substring(replace(last_name, '&Ouml;', 'O'), (house='commons')), first_name, substring(last_name, (house='lords')*4)), constituency"; 
 
-	if ($mptabattr["sortby"] != "party" and !(($mptabattr["sortby"] == "vote") and ($mptabattr["listtype"] != 'division') and ($mptabattr["listtype"] != 'division2')))
+	if ($mptabattr["sortby"] != "party" and $mptabattr["sortby"] != "party_slab" and 
+        !(($mptabattr["sortby"] == "vote") and ($mptabattr["listtype"] != 'division') and ($mptabattr["listtype"] != 'division2')))
 	    $tailorder .= ", party";
 
 
@@ -293,7 +353,9 @@ function mp_table($db, $mptabattr)
 	    {
 	        if ($mptabattr["sortby"] == "party")
 	            $aquery["qorder"] .= " party, pw_vote_sortorder.position DESC, ";
-	        elseif ($mptabattr["sortby"] == "vote")
+	        elseif ($mptabattr["sortby"] == "party_slab")
+                $aquery["qorder"] .= " replace(pw_mp.party, 'Lab', 'ZZZ') DESC, ";
+            elseif ($mptabattr["sortby"] == "vote")
 	            $aquery["qorder"] .= " pw_vote_sortorder.position DESC, ";
 	    }
 
