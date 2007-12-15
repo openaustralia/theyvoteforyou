@@ -1,5 +1,5 @@
 <?php
-# $Id: wiki.inc,v 1.12 2007/07/26 16:10:36 publicwhip Exp $
+# $Id: wiki.inc,v 1.13 2007/12/15 00:00:46 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Editable text with history
@@ -59,10 +59,9 @@ function get_wiki_history_link($type, $params) {
 # a hash with text_body, user_id, edit_date.
 
 # !!! this should take the $db as a parameter so that it can't be reused when it's in other loops
-function get_wiki_current_value($type, $params) 
+function get_wiki_current_value($db, $type, $params) 
 {
     # See if page has been altered
-    global $db;
     $db->query("select text_body, user_id, edit_date from 
         ".get_wiki_table($type)." where ".get_wiki_where_fragment($type, $params)." order by wiki_id desc limit 1");
     if ($db->rows() >= 1) {
@@ -70,7 +69,7 @@ function get_wiki_current_value($type, $params)
     }
 
     if ($type == 'motion') {
-        list($motion, $division_name) = get_motion_default_values($params);
+        list($motion, $division_name) = get_motion_default_values($db, $params);
         if (!$result) {
             $result = array(
                 'text_body' => $motion,
@@ -122,9 +121,8 @@ function extract_title_from_wiki_text($text)
 #  the default text for a motion, 
 #  the default title of the motion. 
 # In both cases, that is what was screen scraped originally.  
-function get_motion_default_values($params)
+function get_motion_default_values($db, $params)
 {
-    global $db;
     $db->query("select motion, division_name from pw_division 
         where " . get_wiki_where_fragment("motion", $params));
     if ($db->rows() >= 1) {

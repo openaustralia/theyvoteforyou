@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.92 2007/12/14 19:53:23 publicwhip Exp $
+# $Id: header.inc,v 1.93 2007/12/15 00:00:46 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -123,7 +123,12 @@ Newsletter (<a href="/newsletters/signup.php">info</a>): <INPUT TYPE="TEXT" NAME
 
 <!-- the main site navigation -->
 <tr class="headers">
-<td class="pagenavlinks" colspan="2">
+<td class="pagenavlinks" colspan="3">
+<div class="pagenavlinks" style="float:right">
+<!--ACCOUNTBEGIN-->
+<?php print account_navbar(); ?>
+<!--ACCOUNTEND-->
+</div>
 <a title="Front page and site highlights" href="<?=$toppath?>index.php">Home</a>
 <!--NEWSLETTERBEGIN-->
 <?php print newsletter_navbar(); ?>
@@ -135,11 +140,6 @@ Newsletter (<a href="/newsletters/signup.php">info</a>): <INPUT TYPE="TEXT" NAME
 <a title="Chat with other users" href="/forum"><strong>Forum</strong></a>
 <a title="Help run the Public Whip project" href="<?=$toppath?>project/index.php">Join Us</a>
 <a title="Frequently asked questions" href="<?=$toppath?>faq.php">Help / FAQ</a>
-</td>
-<td class="pagenavlinks" align="right">
-<!--ACCOUNTBEGIN-->
-<?php print account_navbar(); ?>
-<!--ACCOUNTEND-->
 </td>
 </tr>
 

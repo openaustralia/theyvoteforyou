@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.29 2006/06/27 22:01:18 frabcus Exp $
+# $Id: divisionvote.inc,v 1.30 2007/12/15 00:00:46 publicwhip Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -150,7 +150,7 @@ function write_single_policy_vote($db, $divattr, $voter)
 function divisionvote_post_forum_action($db, $date, $number, $house, $content) {
     $forum = "Division Forum";
     $topic_match = ucfirst($house) . " $date #$number";
-    $motion_data = get_wiki_current_value("motion", array($date, $number, $house));
+    $motion_data = get_wiki_current_value($db, "motion", array($date, $number, $house));
 	$name = extract_title_from_wiki_text($motion_data['text_body']);
     $topic = $topic_match . " - " . $name;
     forummagic_post($db, $forum, $topic_match, $topic, $content);

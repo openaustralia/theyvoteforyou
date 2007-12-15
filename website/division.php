@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.134 2007/12/14 19:53:23 publicwhip Exp $
+# $Id: division.php,v 1.135 2007/12/15 00:00:46 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -46,7 +46,7 @@ function no_division_found($plural)
 
 	$div_id = $divattr["division_id"];
     # current motion text from the database
-    $motion_data = get_wiki_current_value("motion", array($divattr["division_date"], $divattr["division_number"], $divattr['house']));
+    $motion_data = get_wiki_current_value($db, "motion", array($divattr["division_date"], $divattr["division_number"], $divattr['house']));
 	$name = extract_title_from_wiki_text($motion_data['text_body']);
 	$source = $divattr["source_url"];
 	$rebellions = $divattr["rebellions"];
@@ -152,7 +152,7 @@ function no_division_found($plural)
 								 "motiontext" 	=> "yes",
 								 "summarytext"	=> "yes",
 								 "partysummary"	=> "yes",
-								 "showwhich" 	=> "",#rebels
+								 "showwhich" 	=> "rebels",
 								 "ministerial" 	=> "yes",
 								 "listsimilardivisions" => "", #short
                                  "tooltip"      => "Overview of division");
@@ -188,7 +188,8 @@ function no_division_found($plural)
 		#						 "summarytext"	=> "yes",
 		#						 "listsimilardivisions" => "all",
         #                        "tooltip"      => "Show all divisions in order of similarity of vote in all time" );
-        $dismodes["slab"] = array("dtype"           => "slab",
+        $dismodes["slab"] = array("dtype"       => "slab",
+                                 "summarytext"  => "yes",
                                  "description"  => "One view",
                                  "motiontext"   => "",
                                  "showwhich"    => "slab",
@@ -266,6 +267,8 @@ function no_division_found($plural)
 	}
 	$tpdisplay = ($display == "summary" ? "" : "&display=$display");
 	$tpsort = ($sort == "party" ? "" : "&sort=$sort");
+    if ($votertype == "dreammp")
+        $tpsort .= "&dmp=$voter";
     $second_links = dismodes_to_second_links($thispage, $dismodes, $tpsort, $display);
 
     # Display title and second nav links
@@ -294,6 +297,7 @@ function no_division_found($plural)
 			print " and ".$row["boths"]." voting both";
         print ", making a turnout of " . ($row["noes"] + $row["ayes"] + $row["tellers"] + $row["boths"]);
 		print ". ";
+        print "  Aye majority=".$divattr["aye_majority"].".";
         print "</p>\n";
 
 		# cross-over case listing vote of single MP
@@ -323,6 +327,47 @@ function no_division_found($plural)
         if ($votertype == "dreammp")
 	        $vote = write_single_policy_vote($db, $divattr, $voter);
 	}
+
+    # policies table which hold votes on this division
+	if ($dismode["dreamvoters"])
+	{
+        # Show Dream MPs who voted in this division and their votes
+        $db->query("SELECT name, pw_dyn_dreammp.dream_id, vote, user_name, private
+					FROM pw_dyn_dreammp, pw_dyn_dreamvote, pw_dyn_user
+            		WHERE pw_dyn_dreamvote.dream_id = pw_dyn_dreammp.dream_id
+						AND pw_dyn_user.user_id = pw_dyn_dreammp.user_id
+						AND pw_dyn_dreamvote.division_date = '".$divattr["division_date"]."'
+						AND pw_dyn_dreamvote.division_number = '".$divattr["division_number"]."'
+            			AND private <> 1");
+            $prettyrow = 0;
+            print "<h2><a name=\"dreammp\">Policies</a></h2>";
+            print "<p>The following policies have selected this division.  You can use this
+               to help you work out the meaning of the vote.  Or <a href=\"/policies.php\">list all policies</a>.";
+            print "<table class=\"divisions\"><tr class=\"headings\">";
+            print "<td>Policy</td><td>Vote (in this division)</td>";
+            if ($db->rows() == 0)
+            {
+                pretty_row_start($prettyrow);
+                print "<td colspan=\"2\">No policies voted in this division</td></tr>\n";
+            }
+            while ($row = $db->fetch_row_assoc()) 
+            {
+                $prettyrow = pretty_row_start($prettyrow);
+                $vote = $row["vote"];
+                if ($vote == "both")
+                    $vote = "abstain";
+                print "<td><a href=\"policy.php?id=" . $row["dream_id"] . "\">";
+                print $row["name"] . "</a>";
+                if ($row["private"] == 2)
+                    print " <i>(provisional)</i>";
+                print "</td>";
+                print "<td>" . vote_display_in_table($vote) . "</td>";
+                print "</tr>\n";
+            }
+            print "</table>";
+            print "<p><a href=\"account/addpolicy.php\">Make a new policy</a>";
+    }
+
 
 	# motion text paragraph
 	if ($dismode["motiontext"])
@@ -380,12 +425,12 @@ function no_division_found($plural)
 		{
 			print "<p>(<a href=\"$thispageswap\">Swap the two divisions around</a>).</p>";
 
-            $motion_data_a = get_wiki_current_value("motion", array($divattr["division_date"], $divattr["division_number"], $divattr['house']));
+            $motion_data_a = get_wiki_current_value($db, "motion", array($divattr["division_date"], $divattr["division_number"], $divattr['house']));
 			$titlea = "<a href=\"".$divattr["divhref"]."\">".extract_title_from_wiki_text($motion_data_a["text_body"])." - ".$divattr["prettydate"]." at $clock_time - Division No. ".$divattr["division_number"]."</a>";
 	        print "<h2><a name=\"motion\">Vote (a) ".($motion_data_a['user_id'] == 0 ? " (unedited)" : "")."</a>: $titlea</h2>";
 	        print "<div class=\"motion\">".extract_motion_text_from_wiki_text($motion_data_a['text_body'])."</div>\n";
 
-            $motion_data_b = get_wiki_current_value("motion", array($divattr2["division_date"], $divattr2["division_number"], $divattr2['house']));
+            $motion_data_b = get_wiki_current_value($db, "motion", array($divattr2["division_date"], $divattr2["division_number"], $divattr2['house']));
 			$titleb = "<a href=\"".$divattr2["divhref"]."\">".extract_title_from_wiki_text($motion_data_b["text_body"])." - ".$divattr2["prettydate"]." at $clock_time2 - Division No. ".$divattr2["division_number"]."</a>";
 	        print "<h2>Vote (b) ".($motion_data_b['user_id'] == 0 ? " (unedited)" : "").": $titleb</h2>";
 	        print "<div class=\"motion\">".extract_motion_text_from_wiki_text($motion_data_b['text_body'])."</div>\n";
@@ -427,8 +472,9 @@ function no_division_found($plural)
 			elseif ($display == "slab")
             {
 				#print "<h2><a name=\"votes\">All ".($house == "lords" ? "lords" : "MPs")." eligible to vote in this division</a></h2>\n";
-                print '<p class="votekey">Key: <span class="favour">Vote in favour</span> | <span class="against">Vote against</span> | <span class="absent">Absent from vote</span>';
-                print '| <span class="minister both">Minister</span> | <span class="pps both">PPS</span>.</p>';
+                print '<p class="votekey">Key: <span class="favour">Vote in majority</span> | <span class="against">Vote against majority</span> | <span class="absent">Absent from vote</span>';
+                print '| <span class="minister both">Minister</span> | <span class="pps both"><a title="Parliamentary Private Secretary (an assistant to a Minister)">PPS</a></span>.';
+                print '<a href="#votetable">top</a> </p>';
             }
             else # all possible
 			{
@@ -527,7 +573,7 @@ function no_division_found($plural)
 			$mptabattr["slabtable"] = "yes";
 			$mptabattr["showwhich"] = "allpossible";
 			$mptabattr["sortby"] = "party_slab";
-			$mptabattr["favourvote"] = "no"; // or no
+			$mptabattr["favourvote"] = ($divattr["aye_majority"] >= 0 ? "aye" : "no"); // or no
 			$mptabattr["numcolumns"] = 11;
 			$mptabattr["tooltips"] = "walterzorn";
             $mptabattr["headings"] = "";
@@ -578,46 +624,6 @@ function no_division_found($plural)
 				based on a comparison of their votes.</p>\n";
 		print_divdiv_distance($db, $divattr, $divattr2, "MP");
 	}
-
-# policies table which hold votes on this division
-	if ($dismode["dreamvoters"])
-	{
-        # Show Dream MPs who voted in this division and their votes
-        $db->query("SELECT name, pw_dyn_dreammp.dream_id, vote, user_name, private
-					FROM pw_dyn_dreammp, pw_dyn_dreamvote, pw_dyn_user
-            		WHERE pw_dyn_dreamvote.dream_id = pw_dyn_dreammp.dream_id
-						AND pw_dyn_user.user_id = pw_dyn_dreammp.user_id
-						AND pw_dyn_dreamvote.division_date = '".$divattr["division_date"]."'
-						AND pw_dyn_dreamvote.division_number = '".$divattr["division_number"]."'
-            			AND private <> 1");
-            $prettyrow = 0;
-            print "<h2><a name=\"dreammp\">Policies</a></h2>";
-            print "<p>The following policies have selected this division.  You can use this
-               to help you work out the meaning of the vote.";
-            print "<table class=\"divisions\"><tr class=\"headings\">";
-            print "<td>Policy</td><td>Vote (in this division)</td>";
-            if ($db->rows() == 0)
-            {
-                pretty_row_start($prettyrow);
-                print "<td colspan=\"2\">No policies voted in this division</td></tr>\n";
-            }
-            while ($row = $db->fetch_row_assoc()) 
-            {
-                $prettyrow = pretty_row_start($prettyrow);
-                $vote = $row["vote"];
-                if ($vote == "both")
-                    $vote = "abstain";
-                print "<td><a href=\"policy.php?id=" . $row["dream_id"] . "\">";
-                print $row["name"] . "</a>";
-                if ($row["private"] == 2)
-                    print " <i>(provisional)</i>";
-                print "</td>";
-                print "<td>" . vote_display_in_table($vote) . "</td>";
-                print "</tr>\n";
-            }
-            print "</table>";
-            print "<p><a href=\"account/addpolicy.php\">Make a new policy</a>";
-    }
 
 ?>
 

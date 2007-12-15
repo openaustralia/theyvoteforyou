@@ -52,12 +52,12 @@
 	# constants
 	$dismodes = array();
 	$dismodes["summary"] = array("dtype"	=> "summary",
-								 "description" => "Policy",
+								 "description" => "Selected votes",
                                  "definition" => "yes", 
 								 "divisionlist" => "selected", # those which are seen out of the total
                                  "tooltip" => "Overview of the policy");
 
-	$dismodes["editdefinition"] = array("description" => "Edit policy",
+	$dismodes["editdefinition"] = array("description" => "Edit",
 								 "editdefinition" => "yes",
                                  "tooltip" => "Change title and definition of policy");
 
@@ -67,7 +67,7 @@
 
 
 	$dismodes["comparison"] = array("description" => "Compare with MPs",
-								 "comparisons" => "yes",
+								 "comparisons" => "slab",
 								 "divisionlist" => "selected", # those which are seen out of the total
                                  "tooltip" => "Comparison to MPs");
 
@@ -471,7 +471,7 @@
         else
             print "<table class=\"votes\">";
         
-        $dismetric = division_table($db, $divtabattr);
+        $dismetric = division_table($db, $divtabattr, $db2);
         print "</table>\n";
 
         // should this be a button
@@ -504,11 +504,29 @@
                 If they could never have voted at the same time as the policy, they are not listed.";
         print "<br clear=\"all\">"; 
 
-		$mptabattr = array("listtype" => 'dreamdistance',
+		if ($dismode["comparisons"] == "slab")
+        {
+            $mptabattr = array("listtype" => "dreamdistance",
+                               "dreammpid" => $dreamid,
+                               "dreamname" => $policyname,
+                               "headings" => "",
+                               "slabtable" => "yes",
+                               "sortby" => "party_slab",
+                               "numcolumns" => 11,
+                               "house" => "commons",
+                               "tooltips" => "walterzorn" );
+            $tableclass = "rvotes";
+        }
+        else
+        {
+            $mptabattr = array("listtype" => 'dreamdistance',
 						   'dreammpid' => $dreamid,
 						   'dreamname' => $policyname,
                            'headings' => 'yes');
-		print "<table class=\"mps\">\n";
+		    $tableclass = "mps";
+        }
+        
+        print "<table class=\"$tableclass\">\n";
 		mp_table($db, $mptabattr);
 		print "</table>\n";
 	}

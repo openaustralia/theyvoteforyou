@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.138 2007/06/30 17:31:10 publicwhip Exp $
+    # $Id: mp.php,v 1.139 2007/12/15 00:00:46 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -523,7 +523,7 @@
 			# apply a date range to the current MP in this list, and roll up the year range.  
 
 			# long asignment for return value because we're lacking foreach as &
-			$voter1attr['mpprops'][$lkey]["dismetric"] = division_table($db, $divtabattr, $events);
+			$voter1attr['mpprops'][$lkey]["dismetric"] = division_table($db, $divtabattr, $db2, $events);
 
 			# remove repeated listing of headings
 			#if ($divtabattr["headings"] == 'columns')

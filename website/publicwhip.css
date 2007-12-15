@@ -19,10 +19,10 @@ A:link:hover, A:active:hover, A:visited:hover
 }
 .content
 {
-    padding-left: 3em;
-    padding-right: 3em;
-    padding-top: 2em;
-    padding-bottom: 4em;
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-top: 1em;
+    padding-bottom: 2em;
 }
 TABLE.mps A:link, TABLE.mps A:active, TABLE.mps A:visited,
 TABLE.votes A:link, TABLE.votes A:active, TABLE.votes A:visited,
@@ -41,7 +41,8 @@ TABLE.edits A:link:hover, TABLE.edits A:active:hover, TABLE.edits A:visited:hove
 }
 H1
 {
-    MARGIN-TOP: 0.4em;
+    MARGIN-TOP: 0;
+    padding-top: 0;
     FONT-SIZE: 140%;
     MARGIN-BOTTOM: 0.0em;
     COLOR: #003300;
@@ -762,3 +763,25 @@ table.rvotes td.teller
 {
     text-align: right;
 }
+
+table.rvotes td.dist1
+    { background-color: #f0fff0; }
+table.rvotes td.dist2
+    { background-color: #d0e0d0; }
+table.rvotes td.dist3
+    { background-color: #c8d0c8; }
+table.rvotes td.dist4
+    { background-color: #c0c0d0; }
+table.rvotes td.dist5
+    { background-color: #b8c0d8; }
+table.rvotes td.dist6
+    { background-color: #b0a0d0; }
+table.rvotes td.dist7
+    { background-color: #a8b8c8; }
+table.rvotes td.dist8
+    { background-color: #98b0c0; }
+table.rvotes td.dist9
+    { background-color: #90a0a0; }
+
+
+

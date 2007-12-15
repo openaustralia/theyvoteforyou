@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.34 2007/06/05 11:22:53 publicwhip Exp $
+# $Id: wiki.php,v 1.35 2007/12/15 00:00:46 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -44,7 +44,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     $debate_gid = str_replace("uk.org.publicwhip/lords/", "", $debate_gid);
 
     if ($type == "motion") {
-        $motion_data = get_wiki_current_value("motion", array($params[0], $params[1], $params[2]));
+        $motion_data = get_wiki_current_value($db, "motion", array($params[0], $params[1], $params[2]));
         $prev_name = extract_title_from_wiki_text($motion_data['text_body']);
         $prev_description = extract_motion_text_from_wiki_text($motion_data['text_body']);
         $prev_description_editable = extract_motion_text_from_wiki_text_for_edit($motion_data['text_body']);
@@ -84,7 +84,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     {
         pw_header();
 
-        $values = get_wiki_current_value($type, $params);
+        $values = get_wiki_current_value($db, $type, $params);
 
         if ($type == 'motion') {
 ?>

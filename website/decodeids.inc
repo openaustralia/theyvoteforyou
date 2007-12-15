@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.41 2006/10/23 17:16:37 publicwhip Exp $
+# $Id: decodeids.inc,v 1.42 2007/12/15 00:00:46 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -317,7 +317,7 @@ function get_division_attr_decode($db, $i)
                      pw_division.division_id AS division_id,
                      division_name, motion, notes,
                      source_url, debate_url, source_gid, debate_gid,
-                     rebellions, turnout, clock_time
+                     rebellions, turnout, aye_majority, clock_time
               FROM pw_division
               LEFT JOIN pw_cache_divinfo
                 ON pw_cache_divinfo.division_id = pw_division.division_id
@@ -343,12 +343,14 @@ function get_division_attr_decode($db, $i)
                  "source_gid"		=> $row["source_gid"],
                  "rebellions"		=> $row["rebellions"],
                  "turnout"			=> $row["turnout"],
+                 "aye_majority"     => $row["aye_majority"],
                  "clock_time"       => $row["clock_time"],
                  "divhref"			=> "division.php?date=".urlencode($row["division_date"])."&number=".urlencode($row["division_number"]).($row['house'] == "lords" ? "&house=lords" : ""),
                  "original_motion"	=> $row["motion"]);
 }
 
-function dismodes_to_second_links($thispage, $dismodes, $sort, $display) {
+function dismodes_to_second_links($thispage, $dismodes, $tpsort, $display) 
+{
     $second_links = array();
     foreach ($dismodes as $ldisplay => $ldismode)
 	{

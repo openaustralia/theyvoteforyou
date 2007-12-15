@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.54 2007/12/14 19:53:23 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.55 2007/12/15 00:00:46 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -142,11 +142,13 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
     print "</tr>\n";
 }
 
-function print_mp_slab($db, $bnofavour, $numcolumns, $tooltips)
+			
+function print_mp_slab($db, $listtype, $bnofavour, $numcolumns, $tooltips, $friendlk)
 {
     $nrows = 0;
     $rows = array();
     $ipp = -1;
+    $afriendlk = ($friendlk ? "&".$friendlk : "");
     while ($row = $db->fetch_row_assoc())
     {
         $party = $row["party"];
@@ -156,18 +158,22 @@ function print_mp_slab($db, $bnofavour, $numcolumns, $tooltips)
             $ipp = count($rows);
             $rows[] = array("type"=> "party2", "party"=>$party, "favour"=>0, "against"=>0, "both"=>0, "absent"=>0);
         }
-        $vote = $row["vote"];
-        if ($vote == "aye" or $vote == "tellaye")
-            $dvote = ($bnofavour ? "against" : "favour");
-        else if ($vote == "no" or $vote == "tellno")
-            $dvote = ($bnofavour ? "favour" : "against");
-        else if ($vote == "both")
-            $dvote = "both";
-        else
-            $dvote = "absent";
-		$row["dvote"] = $dvote;
-        $rows[$ipp][$dvote] += 1;
-        $rows[$ipp - 1][$dvote] += 1; # count it in twice to save working out how the heck to reuse the same object, which anyway should be done as a two cell tall heading
+        if ($listtype == "division")
+        {
+            $vote = $row["vote"];
+            if ($vote == "aye" or $vote == "tellaye")
+                $dvote = ($bnofavour ? "against" : "favour");
+            else if ($vote == "no" or $vote == "tellno")
+                $dvote = ($bnofavour ? "favour" : "against");
+            else if ($vote == "both")
+                $dvote = "both";
+            else
+                $dvote = "absent";
+		    $row["dvote"] = $dvote;
+            $rows[$ipp][$dvote] += 1;
+            $rows[$ipp - 1][$dvote] += 1; 
+                # count it in twice to save working out how the heck to reuse the same object, which anyway should be done as a two cell tall heading
+        }
         $rows[] = $row;
     }
 
@@ -181,9 +187,12 @@ function print_mp_slab($db, $bnofavour, $numcolumns, $tooltips)
             if ($i > count($rows))
                 break;
             $row = $rows[$i];
-            if ($row["type"] == "party1" or $row["type"] == "party2")
+            if (($row["type"] == "party1" or $row["type"] == "party2"))
             {
-                $wztoolt = $row["favour"]." members of the ".$row["party"]." party voted in favour, ".$row["against"]." against, and ".$row["absent"]." were absent"; 
+                if ($listtype == "division")
+                    $wztoolt = $row["favour"]." members of the ".$row["party"]." party voted in favour, ".$row["against"]." against, and ".$row["absent"]." were absent"; 
+                elseif ($listtype == "dreamdistance")
+                    $wztoolt = $row["party"]." party.";
                 print "<td class=\"";
                 print $row["party"];
                 print $row["type"] == "party1" ? " partytype" : " partytype2";
@@ -196,8 +205,10 @@ function print_mp_slab($db, $bnofavour, $numcolumns, $tooltips)
                 print ">";
                 if ($row["type"] == "party1")
                     print $row["party"];
-                else
+                elseif ($listtype == "division")
                     print "+".$row["favour"]."&nbsp;-".$row["against"]."&nbsp;(".$row["absent"].")";
+                elseif ($listtype == "dreamdistance")
+                    print "&nbsp;";
                 print "</a>";
                 print "</td>\n";
                 continue;
@@ -234,23 +245,31 @@ function print_mp_slab($db, $bnofavour, $numcolumns, $tooltips)
 		    }
             $mpname = str_replace(" ", "&nbsp;", $mpname); // also needs to subst the -
             print "<td class=\"";
-			print $row["dvote"];
-            if ($row["vote"] == "tellaye" or $row["vote"] == "tellno")
-				print " teller";
-			print " ";
-			print strtolower(str_replace(" ", "", $row["party"]));
+			if ($listtype == "division")
+            {
+                print $row["dvote"];
+                if ($row["vote"] == "tellaye" or $row["vote"] == "tellno")
+				    print " teller";
+			    print " ";
+                if ($row['ministerial'])
+                    print ($row['ministerial'] == "PPS" ? " pps" : " minister");
+			}
+            elseif ($listtype == "dreamdistance")
+            {
+                print "dist".min(9, (int)($row["distance"] * 9 + 1));
+            }
+            print " ";
+            print strtolower(str_replace(" ", "", $row["party"]));
             if (($ci == 0) or ($rows[$i - 1]["party"] != $row["party"]))
                 print " topborder";
             if ($ci == $drows - 1)
                 print " bottomborder";
             if ($cc == $numcolumns - 1)
                 print " rightborder";
-            if ($row['ministerial'])
-                print ($row['ministerial'] == "PPS" ? " pps" : " minister");
 
             print "\">"; // end class part
 
-			print "<a href=\"$href\"";
+            print "<a href=\"$href$afriendlk\"";
 			if ($tooltips)  // alt make the zorn type
             {
                 $toolt = trim($row['title']." ".$row['first_name']." ".$row['last_name']);
@@ -260,26 +279,32 @@ function print_mp_slab($db, $bnofavour, $numcolumns, $tooltips)
                     $toolt .= " (".$row['constituency'].")";
                     $wztoolt .= "<br/>".$row['constituency'];
                 }
-                if ($row['ministerial'])
+                if ($listtype == "division")
                 {
-                    $toolt .= ", ".$row['ministerial'];
-                    $wztoolt .= "<br/>".$row['ministerial'];
-                }
-                else
-                    $toolt .= ", ".$row["party"];
+                    if ($row['ministerial'])
+                    {
+                        $toolt .= ", ".$row['ministerial'];
+                        $wztoolt .= "<br/>".$row['ministerial'];
+                    }
+                    else
+                        $toolt .= ", ".$row["party"];
                 
-                $toolt .= " : ".$row["dvote"];
-                if ($row["dvote"] == "absent")
-                    $wztoolt .= "<br/>absent from vote";
-                else
-                    $wztoolt .= "<br/>Voted ".$row["vote"]." (".$row["dvote"].")";
-				
+                    $toolt .= " : ".$row["dvote"];
+                    if ($row["dvote"] == "absent")
+                        $wztoolt .= "<br/>absent from vote";
+                    else
+                        $wztoolt .= "<br/>Voted ".$row["vote"]." (".$row["dvote"].")";
+				}
+                elseif ($listtype == "dreamdistance")
+                {
+                    $wztoolt .= "<br/>Agreement: ".pretty_distance_to_agreement($row["distance"]); 
+                }
                 print " title=\"$toolt\"";
                 if ($tooltips == "walterzorn")
                     #print " title=\"jjjjjj\"";
-                    print " onmouseover=\"Tip('".str_replace('\'', "", $wztoolt)."')\")"; # this replacing of ' doesn't work
+                    print " onmouseover=\"Tip('".str_replace('&#39;', "\&#39;", $wztoolt)."')\""; # this escapes '
 			}
-            print ">$mpname</a></td>";
+            print ">$mpname</a></td>\n";
         }
         print "</tr>\n";
     }
@@ -341,7 +366,7 @@ function mp_table($db, $mptabattr)
 
 
 	# main ordering functionality
-    if ($mptabattr["listtype"] != 'dreamdistance')
+    if ($mptabattr["sortby"])
     {
     	$aquery["qorder"]  = " ORDER BY";
 	    if ($mptabattr["sortby"] == "rebellions")
@@ -349,12 +374,13 @@ function mp_table($db, $mptabattr)
 	    elseif ($mptabattr["sortby"] == "attendance")
 	        $aquery["qorder"] .= " round(votes_attended/votes_possible,10) desc,";
 
-	    if ($mptabattr["listtype"] == 'division')
+	    if ($mptabattr["sortby"] == "party_slab")
+            $aquery["qorder"] .= " replace(pw_mp.party, 'Lab', 'ZZZ') DESC, ";
+	    
+        elseif ($mptabattr["listtype"] == 'division')
 	    {
 	        if ($mptabattr["sortby"] == "party")
 	            $aquery["qorder"] .= " party, pw_vote_sortorder.position DESC, ";
-	        elseif ($mptabattr["sortby"] == "party_slab")
-                $aquery["qorder"] .= " replace(pw_mp.party, 'Lab', 'ZZZ') DESC, ";
             elseif ($mptabattr["sortby"] == "vote")
 	            $aquery["qorder"] .= " pw_vote_sortorder.position DESC, ";
 	    }
@@ -385,6 +411,8 @@ function mp_table($db, $mptabattr)
 	    if ($bdebug == 1)
 	        print "\n<h3>".$aquery["qorder"]."</h3>\n";
 	}
+    elseif ($mptabattr["listtype"] == 'dreamdistance')
+        $aquery["qorder"] = " ORDER BY distance, $tailorder";
 
     # go through the different list selection cases
     $showwhich = $mptabattr["showwhich"];
@@ -435,7 +463,6 @@ function mp_table($db, $mptabattr)
         $aquery["qjoin"] 	.= " LEFT JOIN pw_cache_dreamreal_distance
                                     ON pw_cache_dreamreal_distance.person = pw_mp.person
                                     AND pw_cache_dreamreal_distance.dream_id = $dreamid";
-        $aquery["qorder"] = " ORDER BY distance, $tailorder";
 
         # this should use the left-reason case
         $aquery["qwhere"] 	.= " AND left_house = '9999-12-31'
@@ -657,8 +684,8 @@ function mp_table($db, $mptabattr)
 	}
 
 	# actually produce the table
-	if ($mptabattr["slabtable"])
-		print_mp_slab($db, ($mptabattr["favourvote"] == "no"), $mptabattr["numcolumns"], $mptabattr["tooltips"]);
+	if ($mptabattr["slabtable"]) # $afriendlk
+		print_mp_slab($db, $mptabattr["listtype"], ($mptabattr["favourvote"] == "no"), $mptabattr["numcolumns"], $mptabattr["tooltips"], $friendlk);
 	else
 	{
 	    $nrows = 0;

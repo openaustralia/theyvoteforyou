@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.86 2007/07/19 20:58:04 publicwhip Exp $
+# $Id: tablemake.inc,v 1.87 2007/12/15 00:00:46 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -683,7 +683,7 @@ function writeevents(&$events, $date, $breversed)
 # motionwikistate is nothing or 'listunedited' for the "(unedited)" symbols
 # display_house is nothing/'both', or 'commons', or 'lords'
 #
-function division_table($db, $divtabattr, $events = "")
+function division_table($db, $divtabattr, $db2="", $events = "")
 {
     update_divisions_wiki_id($db);
 
@@ -1001,9 +1001,9 @@ function division_table($db, $divtabattr, $events = "")
         if ($divtabattr['votedisplay'] == 'fullmotion')
         {
             // I suspect this is using the same instance of $db and destroying the current position
-            $wikiinfo = get_wiki_current_value("motion", array($row['divisiondate'], $row['divisionnumber'], $row['divisionhouse']));
+            $wikiinfo = get_wiki_current_value($db2, "motion", array($row['divisiondate'], $row['divisionnumber'], $row['divisionhouse']));
             $motiontext = extract_motion_text_from_wiki_text($wikiinfo['text_body']);
-			print_motion_row($motiontext, $db, $row['divisionid'], $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, ($voter2attr? $voter1 : $divtabattr['voter1name']), $vote1, $voter2attr, $vote2, $row, $divhref, $hrefsource);
+			print_motion_row($motiontext, $db2, $row['divisionid'], $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, ($voter2attr? $voter1 : $divtabattr['voter1name']), $vote1, $voter2attr, $vote2, $row, $divhref, $hrefsource);
 			$nrows += 2;
         }
         else
@@ -1012,7 +1012,6 @@ function division_table($db, $divtabattr, $events = "")
             $nrows += 1;
         }
     }
-
     # finish the remainder of the events
     writeevents($events, "", $breversed);
 
