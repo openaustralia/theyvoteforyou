@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.93 2007/12/15 00:00:46 publicwhip Exp $
+# $Id: header.inc,v 1.94 2008/01/09 17:16:02 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -203,7 +203,6 @@ print ($pretitle ? $pretitle : "")."<h1> $h1title </h1>";
 
 <?
     function print_links_tabs($links, $offset) {
-        print '<ul>';
         foreach ($links as $this_link) {
             print "<li class=\"".$this_link['current']."\">";
             if ($this_link['current'] != 'on')
@@ -214,10 +213,13 @@ print ($pretitle ? $pretitle : "")."<h1> $h1title </h1>";
             print " ";
             print "</li>";
         }
-        print '</ul>';
     }
 
+    print '<ul>';  # we could ad in secondary colours for the second row of table (in the same row)
     print_links_tabs($second_links, "");
+    if ($second_links2)
+        print_links_tabs($second_links2, "");
+    print '</ul>';
 ?>
 </div>
 <!-- the second tier navigation as dropdowns end-->

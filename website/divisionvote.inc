@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.30 2007/12/15 00:00:46 publicwhip Exp $
+# $Id: divisionvote.inc,v 1.31 2008/01/09 17:16:02 publicwhip Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -112,7 +112,7 @@ function write_single_policy_vote($db, $divattr, $voter)
     # display dream MP vote
     print "<p>";
     if ($votechangeable)
-        print "<FORM CLASS=\"policyvote\" ACTION=\"".$divattr["divhref"]."&dmp=$voter\" METHOD=\"POST\"> ";
+        print "<FORM CLASS=\"policyvote\" ACTION=\"".$divattr["divhref"]."&display=policies&dmp=$voter\" METHOD=\"POST\"> ";
     if ($votechangeable)
         print ' <strong>Please read policy definition and division description before altering vote</strong> <br>';
     print "And policy ";

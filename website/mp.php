@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.139 2007/12/15 00:00:46 publicwhip Exp $
+    # $Id: mp.php,v 1.140 2008/01/09 17:16:02 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -234,7 +234,7 @@
 	else if ($voter1attr["bmultiperson"])
 		$title = "Voting Record - ".$mpprop['housenounplural']." ".$contitlefor;
 	else
-		$title = "Voting Record - ".$mpprop['fullname'];
+		$title = "Voting Record - ".$mpprop['fullname']." (".$mpprop["person"].")";
 
 	// now build up the links
     # make list of links to other display modes
@@ -253,6 +253,7 @@
 	}
 
 	// we apply a date range to the
+    $second_type = "tabs";
     pw_header();
 ?>
 

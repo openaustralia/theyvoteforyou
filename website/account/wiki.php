@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: wiki.php,v 1.35 2007/12/15 00:00:46 publicwhip Exp $
+# $Id: wiki.php,v 1.36 2008/01/09 17:16:03 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -159,7 +159,9 @@ if (user_isloggedin()) # User logged in, show settings screen
 		<li><a href="http://www.publications.parliament.uk/pa/cm/cmdeleg.htm">Standing Committees on delegated legislation</a></li>
 		<li><a href="http://www.publications.parliament.uk/pa/cm/cmstords.htm">Standing Orders of Parliament</a> The rules which are often quoted for the running of the house.</li>
 		<li><a href="http://www.official-documents.co.uk/menu/browseDocuments.htm">Command Papers</a> Back to 2002, and in PDF</li>
-		</ul>
+		<li><a href="http://www.publications.parliament.uk/pa/cm/cmvote/cmvote.htm">Votes and Proceedings</a> the official minutes</li>
+        <li><a href="http://www.publications.parliament.uk/pa/ld/ldminar.htm">Lords minutes and Orders/</a> minutes of Lords debates</li>
+        </ul>
 
         <p><span class="ptitle">Formatting codes</span>. You can use the following
         to mark paragraphs, lists and so on.

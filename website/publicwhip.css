@@ -648,7 +648,7 @@ table.rvotes
     padding:0px;
     FONT-FAMILY: "xTimes New Roman", xVerdana, Arial, xHelvetica, sans-serif;
     font-size:6pt;
-    border-collapse:separate;
+    border-collapse:collapse;
     border-spacing:0px;
     white-space:nowrap;
 }
@@ -667,7 +667,7 @@ table.rvotes tr
 }
 table.rvotes td
 {
-    width:10%;
+    width:8%;
     padding: 0;
     border: 0 #cccccc solid;
     border-left-width: 3px;
@@ -782,6 +782,5 @@ table.rvotes td.dist8
     { background-color: #98b0c0; }
 table.rvotes td.dist9
     { background-color: #90a0a0; }
-
 
 

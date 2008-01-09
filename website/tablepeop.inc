@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.55 2007/12/15 00:00:46 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.56 2008/01/09 17:16:02 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -273,7 +273,7 @@ function print_mp_slab($db, $listtype, $bnofavour, $numcolumns, $tooltips, $frie
 			if ($tooltips)  // alt make the zorn type
             {
                 $toolt = trim($row['title']." ".$row['first_name']." ".$row['last_name']);
-                $wztoolt = $toolt;
+                $wztoolt = $toolt." (".$row['party'].")";
                 if ($row['constituency'])
                 {
                     $toolt .= " (".$row['constituency'].")";

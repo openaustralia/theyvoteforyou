@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.135 2007/12/15 00:00:46 publicwhip Exp $
+# $Id: division.php,v 1.136 2008/01/09 17:16:02 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -199,6 +199,7 @@ function no_division_found($plural)
         $dismodes["policies"] = array("dtype"       => "policies",
                                  "description"  => "Policies",
                                  "policydata"   => "yes",
+                                 "summarytext"  => "yes",
                                  "motiontext"   => "yes",
 								 "dreamvoters"	=> "all",
                                  "tooltip"      => "Show or change the polices which vote on this division" );
@@ -287,17 +288,21 @@ function no_division_found($plural)
 		$row = $db->query_one_row_assoc($query);
 
 		print "<p>";
-		if ($row['ayes'] > $row['noes'])
-	        print "The ".($house=="lords"?"Contents":"Ayes")." won by ".$row["ayes"]." to ".$row["noes"];
-		else
-	        print "The ".($house=="lords"?"Not-Contents":"Noes")." won by ".$row["noes"]." to ".$row["ayes"];
-        print " (majority " . (abs($row["noes"] - $row["ayes"])) . ") ";
+		$ayenodiff = $row["ayes"] - $row["noes"];
+        if ($ayenodiff > 0)
+	        print "The <b>".($house=="lords"?"Contents":"Ayes")."</b> had a Majority of ".($ayenodiff)." (".$row["ayes"]." to ".$row["noes"].")";
+		elseif ($row['ayes'] < $row['noes'])
+	        print "The <b>".($house=="lords"?"Not-Contents":"Noes")."</b> had a Majority of ".(-$ayenodiff)." (".$row["noes"]." to ".$row["ayes"].")";
+        else
+            print "The vote was a <b>tie</b> (".$row["ayes"]." to ".$row["noes"].")";
 		print " with ".$row["tellers"]." tellers";
 		if ($row['both'] != 0)
 			print " and ".$row["boths"]." voting both";
         print ", making a turnout of " . ($row["noes"] + $row["ayes"] + $row["tellers"] + $row["boths"]);
 		print ". ";
-        print "  Aye majority=".$divattr["aye_majority"].".";
+        if ($ayenodiff == 0)
+            print " <b>This means the Speaker will cast his vote in favour of the Government.</b>";
+        #print "  Aye majority=".$divattr["aye_majority"].".";
         print "</p>\n";
 
 		# cross-over case listing vote of single MP
@@ -402,11 +407,11 @@ function no_division_found($plural)
 		        	$debate_gid = "lords/?id=".str_replace("uk.org.publicwhip/lords/", "", $debate_gid);
 		        else
 					$debate_gid = "debates/?id=".str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
-                print "<b><a href=\"http://www.theyworkforyou.com/$debate_gid\" title=\"Links to debate shown at www.theyworkforyou.com\">Debate</a></b> | ";
+                print "<b><a href=\"http://www.theyworkforyou.com/$debate_gid\" title=\"Links to debate shown at www.theyworkforyou.com\">Debate in Parliament</a></b> | ";
 	        }
 	        $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
 	        if ($source != "") 
-	    		print "<b><a href=\"$source\" title=\"The original record of vote as reported by Hansard\">Original</a> | </b>";
+	    		print "<b><a href=\"$source\" title=\"The original record of vote as reported by Hansard\">".($debate_gid ? "Source" : "Hansard")."</a> | </b>";
 			
 
             print "<b><a href=\"$edit_link\" title=\"Edit and improve this description\">Edit</a></b>";
@@ -474,7 +479,10 @@ function no_division_found($plural)
 				#print "<h2><a name=\"votes\">All ".($house == "lords" ? "lords" : "MPs")." eligible to vote in this division</a></h2>\n";
                 print '<p class="votekey">Key: <span class="favour">Vote in majority</span> | <span class="against">Vote against majority</span> | <span class="absent">Absent from vote</span>';
                 print '| <span class="minister both">Minister</span> | <span class="pps both"><a title="Parliamentary Private Secretary (an assistant to a Minister)">PPS</a></span>.';
-                print '<a href="#votetable">top</a> </p>';
+                print '<a href="#votetable">top</a> </p>'."\n";
+                print '<p>This is an experimental slab view.  Tell us what you think. ';
+                print 'Email: <a href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a> ';
+                print ' or <a href="http://www.publicwhip.org.uk/forum/viewtopic.php?t=1239">leave a comment on the forum</a>.'."\n";
             }
             else # all possible
 			{

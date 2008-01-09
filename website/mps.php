@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.34 2006/03/07 14:17:45 frabcus Exp $
+    # $Id: mps.php,v 1.35 2008/01/09 17:16:02 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -33,7 +33,7 @@
 	$rdismodes = array();
 	$rdismodes_house = array();
 
-	$rdismodes['now'] = array(
+    $rdismodes['now'] = array(
 							 "description" => "Show only current members",
 							 "lkdescription" => "Current members",
 							 "parliament" => 'now',
@@ -43,7 +43,7 @@
         {
             $rdismodes[$lrdisplay] = array(
                                      "description" => $val['name']." Parliament",
-                                     "lkdescription" => $val['name']." Parliament",
+                                     "lkdescription" => $val['name'],#." Parliament",
                                      "parliament" => $ldisplay,
                                      "titdescription" => $val['name']." Parliament");
         }
@@ -58,11 +58,11 @@
 	# the alternative modes
 	$rdismodes_house["commons"] = array(
 							 "description" => "Show only MPs in the Commons",
-							 "lkdescription" => "Commons only",
+							 "lkdescription" => "Commons",
 							 "titdescription" => "MPs");
 	$rdismodes_house["lords"] = array(
 							 "description" => "Show only Lords in the House",
-							 "lkdescription" => "Lords only",
+							 "lkdescription" => "Lords",
 							 "titdescription" => "Lords");
 	$rdismodes_house["both"] = array(
 							 "description" => "Show all people in Parliament",
@@ -102,7 +102,8 @@
 		$dlink = makempslink($lrdisplay, $rdisplay_house, $sort);
         array_push($second_links, array('href'=>$dlink,
             'current'=> ($lrdisplay == $rdisplay_parliament ? "on" : "off"),
-            'text'=>$lrdismode["lkdescription"]));
+            'text'=>$lrdismode["lkdescription"],
+            'tooltip'=>$lrdismode["description"]));
 	}
 
 	$second_links2 = array();
@@ -111,9 +112,11 @@
 		$dlink = makempslink($rdisplay_parliament, $lrdisplay_house, $sort);
         array_push($second_links2, array('href'=>$dlink,
             'current'=> ($lrdisplay_house == $rdisplay_house ? "on" : "off"),
-            'text'=>$lrdismode["lkdescription"]));
+            'text'=>$lrdismode["lkdescription"],
+            'tooltip'=>$lrdismode["description"]));
 	}
 
+    $second_type = "tabs";
     pw_header();
 
     print '<p>';
