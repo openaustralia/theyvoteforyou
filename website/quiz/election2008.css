@@ -1,0 +1,130 @@
+#divQuizResults 
+{
+    position:relative;
+    width:780px;
+    margin:0 auto;
+    border:solid 1px #003300;
+    padding:0;
+    background: white url(/quiz/quizcross.gif) no-repeat 0 33px;
+    font-family: "Gill Sans MT"  "Trebuchet MS", "Bitstream Vera Sans", Verdana;
+    text-align:left;
+    font-size:13px; 
+    text-align:justify;
+}
+#divQuizResults h1#th1 {height:42px; background: #003300  url(/quiz/quizpublicwhip.gif) no-repeat;padding:0; margin:0;}
+#divQuizResults h2#howtheyvoted {height:78px;background:url(/quiz/quizformtop.gif) no-repeat 6px 0;
+    color:#37a44a;font-size:30px;text-align:right;padding:0 2% 0 0;margin:0;}
+#divQuizResults h3#th3 {position:absolute;top:80px; right:2%;margin:0;color:#37a44a}
+#divQuizResults h4#th4 {position:absolute;top:100px;right:2%;color:#b9b601;margin:0;font-size:20px;text-align:right;}
+
+table.elecalc
+{
+    border-collapse: collapse;
+    background-color: #e9e9e9;
+    border
+}
+table.elecalc a
+{
+    color: black;
+}
+table.elecalc a:hover
+{
+    background-color:yellow;
+}
+
+ztd
+{
+    padding: 0;
+    border: 0 #bbbbbb solid;
+}
+
+table.elecalc td
+{
+    border-left: thin black solid;
+    border-bottom: thin green solid;
+}
+
+table.elecalc td.mpcol
+{
+    Zborder-top: 2px red solid;
+    zborder-bottom: 2px red solid;
+}
+
+tr.issuerow
+{
+    background-color: #f6c0c0;
+}
+tr.issuerow td
+{
+    Zborder-bottom-color: red;
+    Zborder-bottom-width: 5px;
+    padding:2px;
+}
+
+tr.candidaterow td
+{
+    Zborder-right-color: gray;
+    padding: 1px;
+    border-right-width: 5px;
+}
+
+
+tr.candidaterow div.myrankcol
+{
+    background-color: #f9f986;
+    width:100%;
+    height:100%;
+    border: 5px;
+    padding: 5px;
+}
+
+a.seliss:hover
+{
+    background-color:yellow;
+}
+
+div.sissues
+{
+    border: thick red solid;
+}
+div.sissuecol1
+{
+    position:absolute;
+    width:50%;
+}
+div.sissuecol2
+{
+    width:50%;
+    padding-left:50%;
+}
+div.sissue
+{
+    background-color: #e0e0ff;
+    border: thin #a0a0ff solid;
+    padding: 2px;
+    margin: 3px;
+}
+div.sissues td
+{
+    vertical-align:top;
+}
+
+ul.newsart
+{
+    font-size:8pt;
+    padding-left:16px;
+    list-style-image:none;
+}
+li
+{
+}
+
+a.shownews
+{
+    border-bottom: thin blue dotted;
+    padding-bottom: 0px;
+    color: blue;
+    font-style: italic;
+    cursor:hand;
+}
+
