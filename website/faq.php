@@ -1,11 +1,26 @@
 <?php require_once "common.inc";
-# $Id: faq.php,v 1.85 2007/10/24 13:53:37 frabcus Exp $
+require_once "db.inc";
+
+# $Id: faq.php,v 1.86 2008/05/03 11:54:03 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 $paddingforanchors = true; $title = "Help - Frequently Asked Questions"; pw_header();
+
+$db = new DB(); 
+$referrer = $_SERVER["HTTP_REFERER"];
+$querystring = $_SERVER["QUERY_STRING"];
+$ipnumber = $_SERVER["REMOTE_ADDR"];
+if (!$referrer)
+    $referrer = $_SERVER["HTTP_USER_AGENT"];
+if (!isrobot())
+    $db->query("INSERT INTO pw_logincoming
+            (referrer, ltime, ipnumber, page, subject, url, thing_id)
+    VALUES ('$referrer', NOW(), '$ipnumber', 'faq', '', '$querystring', '')");
+
+
 ?>
 
 <a href="http://www.newstatesman.com/newmedia">
@@ -20,6 +35,7 @@ $paddingforanchors = true; $title = "Help - Frequently Asked Questions"; pw_head
 
 <br>
 <li><a href="#clarify">What do the "rebellion" and "attendance" figures mean exactly?</a> </li>
+<li><a href="#ayemajority">Why do you refer to Majority and Minority instead of Aye and No?</a> </li>
 <li><a href="#sitinprivate">What is a motion to sit in private?</a></li>
 <li><a href="#freevotes">Why do you incorrectly say people are rebels in free votes?</a> </li>
 <li><a href="#divno">Why is the division numbering different between the Commons and the Lords?</a> </li>
@@ -243,6 +259,29 @@ exists and recording it officially&mdash;after all some whips
 are paid a salary by the taxpayer</a> so
 there is a precedent for admitting they exist.
 
+<h2 class="faq"><a name="ayemajority">Why do you refer to Majority and Minority instead of Aye and No?</a> </h2>
+<p>Whether a vote is an Aye or a No is less informative than it seems, because it depends 
+exactly on the words of the question put (for example: "Motion that the amendment be made" 
+versus "Motion that the original words shall stand"), as well as the meaning of the amendment 
+which itself carries the possibility of a further negation by its use of words 
+("insert the clause" versus "delete the clause").</p>
+
+<p>In truth it would be less confusing if the votes were between "Option (a)" and "Option (b)"
+with their meanings clearly expressed.  Indeed, this form of words in the motion text 
+has been tried out, as in "Those voting No wanted this, and the Ayes wanted that", 
+but then you have to know which side won in order to determin what happened.</p>
+
+<p>But we don't need to express it like that, because all the votes are in the past and 
+we always know which side won, and it's the winning side that determins what happens, 
+as opposed to what could have happened.  (What could have happened does matter, because if 
+it was an alternative version of the law that turned out to be better in the long run 
+than what was chosen, then it ought to reflect on the quality of the judgment of the MPs
+who were in the minority.)</p>
+
+<p>Accordingly, in many of the explanations and lists we say Majority and Minority because it 
+gives a clearer picture of what happened (as well as which side was which in the case of 
+the absolute majority for the Government that is in the House of Commons), even 
+though the words are less easy to understand than the often misleading "Aye" and "No".</p>
 
 <h2 class="faq"><a name="divno">Why is the division number different between the Commons and the Lords?</a></h2>
 

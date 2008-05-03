@@ -3,21 +3,23 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.94 2008/01/09 17:16:02 publicwhip Exp $
+# $Id: header.inc,v 1.95 2008/05/03 11:54:03 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-$headtitle = "$title - The Public Whip";
-if ($title == "Counting votes on your behalf")
-    $headtitle = "The Public Whip - $title";
-$h1title = str_replace(" - ", " &#8212; ", $title);
-$headtitle = str_replace(" - ", " &#8212; ", $headtitle);
-$headtitle = str_replace("<br>", "", $headtitle);
-$headtitle = str_replace("<i>", "", $headtitle);
-$headtitle = str_replace("</i>", "", $headtitle);
+# title bar if not set
+if (!$headtitle)
+{
+    $headtitle = preg_replace("/<[^>]*>/", "", $title);
+    $headtitle = preg_replace("/ - /", " &#8212; ", $headtitle." - The Public Whip");
+    if (!$title || ($title == "Counting votes on your behalf"))
+        $headtitle = "The Public Whip &#8212; ".$title;
+}
+if (!$h1title)
+    $h1title = "<h1> ".str_replace(" - ", " &#8212; ", $title)." </h1>";
 
 ?>
 
@@ -189,7 +191,7 @@ Newsletter (<a href="/newsletters/signup.php">info</a>): <INPUT TYPE="TEXT" NAME
 <tr><td colspan="3" class="content">
 
 <? 
-print ($pretitle ? $pretitle : "")."<h1> $h1title </h1>"; 
+print $h1title;  # the actual heading
 ?>
 
 <? if ($second_links && $second_type == "tabs") { ?>
@@ -217,9 +219,13 @@ print ($pretitle ? $pretitle : "")."<h1> $h1title </h1>";
 
     print '<ul>';  # we could ad in secondary colours for the second row of table (in the same row)
     print_links_tabs($second_links, "");
-    if ($second_links2)
-        print_links_tabs($second_links2, "");
     print '</ul>';
+    if ($second_links2)
+    {
+        print '<ul>';
+        print_links_tabs($second_links2, "");
+        print '</ul>';
+    }
 ?>
 </div>
 <!-- the second tier navigation as dropdowns end-->

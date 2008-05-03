@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.140 2008/01/09 17:16:02 publicwhip Exp $
+    # $Id: mp.php,v 1.141 2008/05/03 11:54:03 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -93,7 +93,21 @@
 	if ($thispagesettings != "")
 		$thispage .= "&$thispagesettings";
 
-	# constants
+	$referrer = $_SERVER["HTTP_REFERER"];
+    $querystring = $_SERVER["QUERY_STRING"];
+    $ipnumber = $_SERVER["REMOTE_ADDR"];
+    if (!$referrer)
+        $referrer = $_SERVER["HTTP_USER_AGENT"];
+    $mpid = $mpprop["mpid"];
+    $page_logged = ($voter2type == "dreammp" ? "mppolicy" : "mp");
+    $subject_logged = ($voter2type == "dreammp" ? $voter2 : "");
+    if (!isrobot())
+        $db->query("INSERT INTO pw_logincoming
+                   (referrer, ltime, ipnumber, page, subject, url, thing_id)
+            VALUES ('$referrer', NOW(), '$ipnumber', '$page_logged', '$subject_logged', '$querystring', '$mpid')");
+
+    
+    # constants
 	$dismodes = array();
 	if ($voter2type == "party")
 	{
@@ -130,13 +144,14 @@
 	if ($voter2type == "dreammp")
 	{
 		$dismodes["motions"] = array("dtype"	=> "motions",
-								 "description" => "Full",
+								 "description" => "Full description",
 								 "votelist"	=> "all",
 								 "votedisplay"	=> "fullmotion",
 								 "defaultparl" => "recent",
                                  "tooltip" => "Also show descriptions of every vote");
 		if ($voter1attr['bmultiperson'])
 			$dismodes["motions"]["multimpterms"] = "yes";
+
 	}
 
 	if ($voter2type != "dreammp")
@@ -160,7 +175,9 @@
 								 "possfriends"	=> "all",
 								 "defaultparl" => "recent",
                                  "tooltip" => "Show all MPs in order of how similarly to this MP they voted");
-
+	}
+    if (($voter2type == "party") || ($voter2type == "dreammp"))
+    {
 		$dismodes["alldreams"] = array("dtype"	=> "alldreams",
 								 "description" => "Policy comparisons",
 								 "dreamcompare"	=> "allpublic",
@@ -219,15 +236,41 @@
 		$contitlecomma = "";
 	}
     $colour_scheme = $mpprop['house'];
-	if ($voter2type == "dreammp")
+
+    if ($voter2type == "dreammp")
 	{
-		$title = "Policy report - '".html_scrub($voter2attr['name'])."' compared to ";
-		if ($voter1attr["bmultiperson"])
-			$title .= $mpprop['housenounplural']." ".$contitlefor;
-		else
-			$title .= $mpprop['fullname'];
+        update_dreammp_person_distance($db, $voter2);
+        $query   = "SELECT nvotessame+nvotessamestrong+nvotesdiffer+nvotesdifferstrong AS nvotes, distance_a
+                            FROM pw_cache_dreamreal_distance
+                            WHERE dream_id = $voter2 AND person = ".$mpprop["person"];
+        $row = $db->query_onez_row_assoc($query);
+        $h1title = "<div class=\"h1mppolicy\">";
+        $h1title .= "<p class=\"mp\"><a href=\"".$voter1link."\">".html_scrub($mpprop['fullname'])."</a></p>";
+        $agreement_a = 1.0 - ($row["distance_a"]);
+        $h1title .= "<p class=\"voteexpl\">";
+        if ($row["nvotes"] == 0)
+            $h1title .= "has <em>never voted</em> on";
+        else if ($agreement_a >= 0.80)
+            $h1title .= "voted <em>strongly for</em>";
+        else if ($agreement_a >= 0.60)
+            $h1title .= "voted <em>moderately for</em>";
+        else if ($agreement_a <= 0.20)
+            $h1title .= "voted <em>strongly against</em>";
+        else if ($agreement_a <= 0.40)
+            $h1title .= "voted <em>moderately against</em>";
+        else 
+            $h1title .= "voted <em>ambiguously</em> on";
+        $h1title .= " the policy</p>";
+        $h1title .= "<p class=\"policy\"><a href=\"$voter2link\"><i><b>".html_scrub($voter2attr['name'])."</b></i></a></p> ";
+        $h1title .= "<p>by <a href=\"#ratioexpl\">scoring</a> ";
+        $h1title .= "<em class=\"percent\">".pretty_distance_to_agreement($row['distance_a'])."</em> ";
+        $h1title .= "compared to the votes below</p>";
+        $h1title .= "</div>";
+
+        $headtitle = $mpprop["name"]." compared to '".$voter2attr['name']."'";
 	}
-	else if ($voter2type == "person")
+	
+    else if ($voter2type == "person")
 		$title = "Voting Comparison - ".$mpprop['fullname']."<br> to ".$voter2attr["mpprop"]['fullname'];
 	else if ($dismode["possfriends"] == "all")
 		$title = "Friends of ".$mpprop['name']." ".$mpprop['housenamesuffix'].$contitlecomma;
@@ -406,37 +449,9 @@
 				print "</p>\n";
             }
 
-            update_dreammp_person_distance($db, $voter2);
 
-            print "<p>";
-            $previous_person = -1;
-            foreach ($voter1attr['mpprops'] as $pp) {
-                if ($pevious_person == $pp["person"])
-                    continue;
-                $query   = "SELECT nvotessame, nvotessamestrong,
-                                nvotesdiffer, nvotesdifferstrong,
-                                nvotesabsent, nvotesabsentstrong,
-                                distance_a, distance_b
-                            FROM pw_cache_dreamreal_distance
-                            WHERE dream_id = $voter2 AND person = ".$pp["person"];
-                $row = $db->query_onez_row_assoc($query);
-                print "<b><a href=\"".$voter1link."\">".html_scrub($pp['fullname'])."</a></b>";
-                print " agrees ";
-                print " <b>";
-                if (is_numeric($row['distance_a']))
-                    print pretty_distance_to_agreement($row['distance_a']);
-                else {
-                    print "internal error";
-                }
-                print "</b>";
-                print " (<a href=\"#ratioexpl\"><i>explain...</i></a>)";
-                print " with the policy, ";
-                print "<a href=\"$voter2link\"><i><b>".html_scrub($voter2attr['name'])."</b></i></a>. ";
-                print "<br>";
-                $pevious_person = $pp["person"];
-            }
-
-            if ($dismode["votedisplay"] == "fullmotion") {
+            if ($dismode["votedisplay"] == "fullmotion") 
+            {
                 print "<p>Someone who believes that ";
                 print "<span class=\"policytext\">".str_replace("\n", "<br>", html_scrub($voter2attr["description"])) . "</span> ";
                 if ($dismode["votedisplay"] != "fullmotion")
@@ -535,15 +550,22 @@
 		# generate a friendliness table from the data
 		if ($voter2type == "dreammp")
 		{
-            print "<h2><a name=\"ratioexpl\">Agreement score explanation</a></h2>\n";
+            print "<h2><a name=\"ratioexpl\">How the number is calculated</a></h2>\n";
             if (count($voter1attr['mpprops']) == 0)
                 print "<p><b>There is no overlap between this MPs term and the votes in this policy.</b></p>\n";
             elseif ($voter1attr['bmultiperson'])
                 print "<p><b>Calculation only available for single MPs.</b></p>\n";
             else
             {
-                print "<p>The measure of agreement between this MP and the policy is a calculation
-                        based on a comparison of their votes.</p>\n";
+                print "<p>The MP's votes count towards a weighted average where the most important votes
+                          get 50 points, less important votes get 10 points, and less important votes for which the 
+                          MP was absent get 2 points.  
+                          In important votes the MP gets awarded the full 50 points for voting the same as the policy, 
+                          no points for voting against the policy, and 25 points for not voting.
+                          In less important votes, the MP gets 10 points for voting with the policy, 
+                          no points for voting against, and 1 (out of 2) if absent.</p>\n";
+                print "<p>Questions about this formula can be discussed on <a href=\"http://www.publicwhip.org.uk/forum/viewtopic.php?t=150\">the forum</a>.</p>\n"; 
+
                 # sum up the arrays
                 foreach ($voter1attr['mpprops'] as $mppropt)
                 {

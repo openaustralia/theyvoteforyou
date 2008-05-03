@@ -1,5 +1,5 @@
 <?php
-# $Id: wiki.inc,v 1.13 2007/12/15 00:00:46 publicwhip Exp $
+# $Id: wiki.inc,v 1.14 2008/05/03 11:54:04 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Editable text with history
@@ -88,6 +88,50 @@ function get_wiki_current_value($db, $type, $params)
 function extract_motion_text_from_wiki_text($text)
 {
     $motion = extract_motion_text_from_wiki_text_for_edit($text);
+    if (!preg_match("/.*<\/.*?>/", $motion))
+    {
+        $motionlines = explode("\n", $motion);
+        $binUL = 0;
+        $res = array();
+        foreach ($motionlines as $motionline)
+        {
+            $ml = preg_replace("/''(.*?)''/", "<em>\\1</em>", $motionline);
+            $ml = preg_replace("/\[(http:\S*)\s+(.*?)\]/", "<a href=\"\\1\">\\2</a>", $ml);
+            if (preg_match("/^(\*|:)/", $ml))
+            {
+                if (!$binUL)
+                    $res[] = "<ul>";
+                $binUL = (preg_match("/^\*\*/", $ml) ? 2 : 1);
+                if (preg_match("/^:/", $ml))
+                    $binUL = 3;
+                $ml = preg_replace("/^(\*\*|\*|:)\s*/", "", $ml);
+            }
+            else if ($binUL != 0)
+            {
+                $binUL = 0;
+                $res[] = "</ul>";
+            }
+
+            
+            if ($binUL == 0)
+                $res[] = "<p>";
+            else if ($binUL == 2)
+                $res[] = "<li class=\"house\">";
+            else if ($binUL == 3)
+                $res[] = "<li class=\"block\">";
+            else
+                $res[] = "<li>";
+            $res[] = $ml;
+            if ($binUL == 0)
+                $res[] = "</p>";
+            else
+                $res[] = "</li>";
+        }
+        if ($binUL)
+            $res[] = "</ul>";
+        $motion = implode("\n", $res);
+    #$motion = preg_replace("/\*/", "HIHI", $motion);
+    }
     $motion = guy2html(guy_strip_bad($motion));
 
     return $motion;

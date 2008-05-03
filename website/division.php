@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.136 2008/01/09 17:16:02 publicwhip Exp $
+# $Id: division.php,v 1.137 2008/05/03 11:54:02 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -63,6 +63,19 @@ function no_division_found($plural)
     $clock_time = preg_replace("/^0/","",$clock_time);
 
     $colour_scheme = $house;
+
+    $referrer = $_SERVER["HTTP_REFERER"];
+    $querystring = $_SERVER["QUERY_STRING"];
+    $useragent = $_SERVER["HTTP_USER_AGENT"];
+    $ipnumber = $_SERVER["REMOTE_ADDR"];
+    $showhits = preg_match("/.*?house=z/", $referrer);
+    if (!$referrer)
+        $referrer = $useragent;
+    if (!isrobot() && !$showhits)
+        $db->query("INSERT INTO pw_logincoming 
+                (referrer, ltime, ipnumber, page, subject, url, thing_id) 
+        VALUES  ('$referrer', NOW(), '$ipnumber', 'division', '', '$querystring', $div_id)");
+
 
 	# designated voter on this division
 	$votertype = "";
@@ -289,7 +302,7 @@ function no_division_found($plural)
 
 		print "<p>";
 		$ayenodiff = $row["ayes"] - $row["noes"];
-        if ($ayenodiff > 0)
+        /*if ($ayenodiff > 0)
 	        print "The <b>".($house=="lords"?"Contents":"Ayes")."</b> had a Majority of ".($ayenodiff)." (".$row["ayes"]." to ".$row["noes"].")";
 		elseif ($row['ayes'] < $row['noes'])
 	        print "The <b>".($house=="lords"?"Not-Contents":"Noes")."</b> had a Majority of ".(-$ayenodiff)." (".$row["noes"]." to ".$row["ayes"].")";
@@ -304,24 +317,43 @@ function no_division_found($plural)
             print " <b>This means the Speaker will cast his vote in favour of the Government.</b>";
         #print "  Aye majority=".$divattr["aye_majority"].".";
         print "</p>\n";
+        */
 
 		# cross-over case listing vote of single MP
 		if ($votertype == "mp")
 		{
-			print "<p>And <a href=\"mp.php?".$voter['mpanchor']."\">".$voter['name'].($house == "lords" ? "</a>" : " MP</a> (".$voter['constituency'].")");
-			if ($vote == 'aye')
-				print ($house=="lords")?" was Content.":" voted Aye.";
-			else if ($vote == 'no')
-				print ($house=="lords")?" was Not-Content.":" voted No.";
-			else if ($vote == 'tellaye')
-				print ($house=="lords")?"was a Teller for the Contents":" was a Teller for the Ayes.";
-			else if ($vote == 'tellno')
-				print ($house=="lords")?"was a Teller for the Not-Contents":" was a Teller for the Noes.";
-			else if ($vote == 'both')
-				print " voted both ways.";
-			else
-				print ($house=="lords") ? " was absent" : " did not vote.";
-			print "</p>\n";
+			print "<p class=\"mpondivision\"><a href=\"mp.php?".$voter['mpanchor']."\">".$voter['name'].($house == "lords" ? "</a>" : " MP, ".$voter['constituency']."</a>");
+			if (($vote == 'aye' || $vote == 'tellaye' || $vote == 'no' || $vote == 'tellno') && ($ayenodiff != 0))
+            {
+                if (($vote == 'aye' || $vote == 'tellaye') == ($ayenodiff >= 0))
+                    print " voted <em>with the majority</em>";
+                else
+                    print " voted <em>in the minority</em>";
+                if ($vote == 'aye')
+				    print ($house=="lords")?" (Content).":" (Aye).";
+    			else if ($vote == 'no')
+	    			print ($house=="lords")?" (Not-Content).":" (No).";
+		    	else if ($vote == 'tellaye')
+			    	print ($house=="lords")?" (Teller for the Contents).":" (Teller for the Ayes).";
+    			else if ($vote == 'tellno')
+	    			print ($house=="lords")?" (Teller for the Not-Contents).":" (Teller for the Noes).";
+            }
+            else
+            {
+                if ($vote == 'aye')
+				    print ($house=="lords")?" was Content.":" voted Aye.";
+    			else if ($vote == 'no')
+	    			print ($house=="lords")?" was Not-Content.":" voted No.";
+		    	else if ($vote == 'tellaye')
+			    	print ($house=="lords")?"was a Teller for the Contents":" was a Teller for the Ayes.";
+    			else if ($vote == 'tellno')
+	    			print ($house=="lords")?"was a Teller for the Not-Contents":" was a Teller for the Noes.";
+		    	else if ($vote == 'both')
+			    	print " voted <em>both ways</em>.";
+    			else
+	    			print ($house=="lords") ? " was absent" : " did not vote.";
+			}
+            print "</p>\n";
 			# state if it is rebellion??
 		}
     }
@@ -366,7 +398,7 @@ function no_division_found($plural)
                 if ($row["private"] == 2)
                     print " <i>(provisional)</i>";
                 print "</td>";
-                print "<td>" . vote_display_in_table($vote) . "</td>";
+                print "<td>" . vote_display_in_table($vote, 0) . "</td>";
                 print "</tr>\n";
             }
             print "</table>";
@@ -441,6 +473,24 @@ function no_division_found($plural)
 	        print "<div class=\"motion\">".extract_motion_text_from_wiki_text($motion_data_b['text_body'])."</div>\n";
 		}
 	}
+
+    if ($showhits)
+    {
+        print "<h2>Backlinks</h2>\n";
+        $db->query("SELECT referrer, ltime, ipnumber FROM pw_logincoming WHERE page = 'division' AND thing_id = $div_id ORDER BY ltime DESC");
+        print "<table id=\"backlinks\">\n";
+        while ($row = $db->fetch_row_assoc()) 
+        {
+            print "<tr><td width=\"20%\">".preg_replace("/ /", "&nbsp;", $row["ltime"])."</td><td width=\"10%\">".$row["ipnumber"]."</td>";
+            print "<td width=\"70%\">";
+            if (preg_match("/http:\/\//", $row["referrer"]))
+                print "<a href=\"".$row["referrer"]."\">".$row["referrer"]."</a></td>"; 
+            else
+                print $row["referrer"]."</td>"; 
+            print "</tr>\n"; 
+        }
+        print "</table>\n";
+    }
 
 
 	# Work out proportions for party voting (todo: cache)

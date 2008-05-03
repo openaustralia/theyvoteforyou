@@ -612,6 +612,22 @@ LI {
     border-style: dashed;
     border-width: thin; */
 }
+.motion em
+{
+    font-weight: bold;
+}
+.motion li.house
+{
+    list-style-type: none;
+    font-style:italic;
+    margin-left: -1em;
+}
+.motion li.block
+{
+    list-style-type: none;
+    mergin-left: -1em;
+}
+
 .policyvotehead
 {
  /*   border-style: dashed; 
@@ -641,7 +657,6 @@ margin: 2px 0;
  border: none; border-bottom: 1px solid black;
 
 }
-
 
 table.rvotes
 {
@@ -783,4 +798,51 @@ table.rvotes td.dist8
 table.rvotes td.dist9
     { background-color: #90a0a0; }
 
+div.h1mppolicy
+{
+    text-align:center;
+    margin-top: 0.7em;
+    margin-bottom: 2em;
+}
+div.h1mppolicy p
+{
+    margin:0.2em;
+}
 
+div.h1mppolicy p.mp
+{
+    FONT-SIZE: 140%;
+}
+div.h1mppolicy p.policy
+{
+    font-size: 100%;
+    FONT-STYLE: italic;
+    FONT-WEIGHT: bold;
+}
+div.h1mppolicy p.voteexpl
+{
+    margin: 0.2em;
+}
+div.h1mppolicy p.voteexpl em
+{
+    font-weight: bold;
+}
+div.h1mppolicy em.percent
+{
+    font-size:160%;
+    FONT-STYLE: normal;
+}
+p.mpondivision
+{
+    font-size:140%;
+}
+p.mpondivision em
+{
+    font-style: italic;
+    font-weight: bold;
+}
+
+table#backlinks
+{
+    font-size:60%;
+}

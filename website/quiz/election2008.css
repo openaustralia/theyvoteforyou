@@ -17,6 +17,11 @@
 #divQuizResults h3#th3 {position:absolute;top:80px; right:2%;margin:0;color:#37a44a}
 #divQuizResults h4#th4 {position:absolute;top:100px;right:2%;color:#b9b601;margin:0;font-size:20px;text-align:right;}
 
+a.start
+{
+    color: #0000d0;
+    text-decoration:underline;
+}
 table.elecalc
 {
     border-collapse: collapse;
@@ -25,18 +30,13 @@ table.elecalc
 }
 table.elecalc a
 {
-    color: black;
+    color: #000090;
 }
-table.elecalc a:hover
+table.elecalc a:hover, a.start:hover
 {
     background-color:yellow;
 }
 
-ztd
-{
-    padding: 0;
-    border: 0 #bbbbbb solid;
-}
 
 table.elecalc td
 {
@@ -50,9 +50,18 @@ table.elecalc td.mpcol
     zborder-bottom: 2px red solid;
 }
 
-tr.issuerow
+table.elecalc th.issue
 {
-    background-color: #f6c0c0;
+    background-color: #b9b601;
+}
+td.selerowc
+{
+    border-top: 3px #050565 solid;
+    padding:0;
+    margin:0;
+    Zpadding-left: 20px;
+    Zbackground-color: red;
+    Zvertical-align:top;
 }
 tr.issuerow td
 {
@@ -64,10 +73,20 @@ tr.issuerow td
 tr.candidaterow td
 {
     Zborder-right-color: gray;
-    padding: 1px;
+    Zpadding: 4px #b9b601 solid;
     border-right-width: 5px;
+    border-top: 2px black solid;
 }
 
+tr.agreementrow2 td
+{
+    border-top: 6px blue solid;
+    background-color: #b9b601;
+}
+tr.candidaterow td, tr.agreementrow td
+{
+    background-color: #b9b601;
+}
 
 tr.candidaterow div.myrankcol
 {
@@ -99,9 +118,9 @@ div.sissuecol2
 }
 div.sissue
 {
-    background-color: #e0e0ff;
-    border: thin #a0a0ff solid;
-    padding: 2px;
+    Zbackground-color: #e0e0ff;
+    Zborder: thin #a0a0ff solid;
+    Zpadding: 2px;
     margin: 3px;
 }
 div.sissues td
@@ -111,7 +130,7 @@ div.sissues td
 
 ul.newsart
 {
-    font-size:8pt;
+    font-size:10pt;
     padding-left:16px;
     list-style-image:none;
 }

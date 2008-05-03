@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.43 2007/05/20 04:49:31 publicwhip Exp $
+# $Id: pretty.inc,v 1.44 2008/05/03 11:54:04 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -306,7 +306,7 @@ $guy_c['quot']),array('&lt;','&gt;','&quot;'),$str);
 /* Used upon submission; only keeps allowed HTML (see array below) */
 function guy_strip_bad($str, $mode='') {
     global $guy_c;
-    $html_allowed = array('a', 'b', 'i', 'p', 'ol', 'ul', 'li', 'blockquote');
+    $html_allowed = array('a', 'b', 'i', 'p', 'ol', 'ul', 'li', 'blockquote', 'br', 'em');
 	$html_allowed_regexp = join('|',$html_allowed);
 	$html_allowed_striptags = '<'.join('><',$html_allowed).'>';
 	$str = strip_tags($str,$html_allowed_striptags);

@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.56 2008/01/09 17:16:02 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.57 2008/05/03 11:54:04 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -13,6 +13,8 @@ require_once $toppath . "parliaments.inc";
 function print_mpcolumn_headings($columnforms)
 {
     print "<tr class=\"headings\">";
+    if ($columnforms["hitcounter"])
+        print "<td>Hits</td>";
     if ($columnforms["distancetoagreement"])
         print "<td>Agreement</td>"; 
     if ($columnforms["name"])
@@ -67,6 +69,8 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
 
     print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even").$sclass."\">";
 
+    if ($columnforms["hitcounter"])
+        print "<td>".$row["hits"]."</td>"; 
 
     # row numbering
 	if ($columnforms["rownumbering"])
@@ -345,7 +349,8 @@ function mp_table($db, $mptabattr)
     $aquery["qwhere"] = " WHERE 1=1";
 
 	$columnforms = array();
-
+    if ($mptabattr["hitcounter"])
+        $columnforms["hitcounter"] = "yes"; 
 
 	$tailorder = "";
 	if ($mptabattr["sortby"] == "constituency")
@@ -616,13 +621,21 @@ function mp_table($db, $mptabattr)
 		$columnforms["party"] = "yes";
 
     $house = $mptabattr["house"];
-    if ($house != "both" and $house)
+    if (($house == "commons") or ($house == "lords"))
 		$aquery["qwhere"] .= " AND pw_mp.house = '$house'";
 
     # apply the limit
     if ($mptabattr["limit"])
         $aquery["qlimit"] = " LIMIT ".$mptabattr["limit"];
 
+    if ($columnforms["hitcounter"])
+    {
+        $aquery["qselect"] .= ", COUNT(*)-1 AS hits"; # can;t avoid the overcounting on an 
+        $aquery["qjoin"] .= " LEFT JOIN pw_logincoming ON pw_logincoming.page = 'mp'
+                                 AND pw_logincoming.thing_id = pw_mp.mp_id";
+        if (!$aquery["qgroupby"])
+            $aquery["qgroupby"] = " GROUP BY pw_mp.mp_id";  # remove double ministers
+    }
 
     $query = $aquery["qselect"].$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"].$aquery["qgroupby"].$aquery["qorder"].$aquery["qlimit"];
     if ($bdebug == 1)

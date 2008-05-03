@@ -14,171 +14,70 @@ require_once "dream.inc";
 require_once "pretty.inc";
 require_once "constituencies.inc";
 require_once "account/user.inc";
-require_once "election2008articles.inc";
 
+require_once "election2008articles.inc";
+require_once "election2008issues.inc";
 
 $db = new DB();
 $db2 = new DB();
 
-# here is the data that will have to be loaded from the database
-$constituency = "Brighton, Kemptown"; # mpc=urlencode()
-$candidates = array();
-$candidates[] = array("candidate_id" => 1, "name" => "Mr Desmond Turner", 
-                      "url"=>"http://www.labouronline.org/wibs/165220/home",
-                      "party" => "Lab", "votetype"=>"incumbent", "personid" => 10608,
-                      "matchid" => "mpn=Desmond_Turner&mpc=Brighton%2C+Kemptown");
-$candidates[] = array("candidate_id" => 2, "name" => "Mr Simon Kirby", 
-                      "url"=>"http://www.kirbyforkemptown.org/",
-                      "party" => "Con", "votetype"=>"party", "matchid" => "mpn=Michael_Fabricant");
-$candidates[] = array("candidate_id" => 3, "name" => "Mr Ben Duncan",
-                      "url"=>"http://www.brightonandhovegreenparty.org.uk/h/n/YOUR_REPS/queenspark/ALL///",
-                      "party" => "Green", "votetype"=>"dream", "matchid" => "");
-$candidates[] = array("candidate_id" => 4, "name" => "Mr Ben Herbert",
-                      "url"=>"http://www.brightonandhove.libdems.org.uk/news/000332/lib_dems_select_new_chairperson.html",
-                      "party" => "LDem", "votetype"=>"party", "matchid" => "mpn=Norman_Baker");
 
-$candidates[] = array("candidate_id" => 5, "name" => "Mr Average Labour",
-                      "url"=>"http://www.labour.org.uk",
-                      "party" => "Lab", "votetype"=>"party", "matchid" => "mpn=Gordon_Brown");
-
-# the issues to be compared against
-$issues = array();
-$issues[] = array("dream_id" => 963,  "name" => "Invade Iraq", 
-                    "action" => "the 2003 invasion of Iraq");
-$issues[] = array("dream_id" => 999,  "name" => "Investigate Iraq", 
-                    "action" => "investigating the Iraq war");
-$issues[] = array("dream_id" => 1001, "name" => "Public MPs", 
-                    "action" => "the Freedom of Information Act applying to Parliament and MPs");
-$issues[] = array("dream_id" => 1003, "name" => "Replace Trident", 
-                    "action" => "replacing the Trident nuclear weapons system");
-$issues[] = array("dream_id" => 1000, "name" => "Ban smoking", 
-                    "action" => "the smoking ban in all public places");
-$issues[] = array("dream_id" => 981,  "name" => "Control orders", 
-                    "action" => "Control Orders for terrorist suspects");
-$issues[] = array("dream_id" => 1009, "name" => "ID Cards", 
-                    "action" => "compulsory biometric ID Cards and identity register for all citizens");
-$issues[] = array("dream_id" => 852,  "name" => "Nuclear power", 
-                    "action" => "new fissile nuclear power plants");
-$issues[] = array("dream_id" => 856,  "name" => "Abolish Parliament",
-                    "action" => "giving the government the power to summarily change any law");
-$issues[] = array("dream_id" => 629,  "name" => "Parliament protest",
-                    "action" => "allowing protests to take place around Parliament");
-$issues[] = array("dream_id" => 358,  "name" => "Allow foxhunting",
-                    "action" => "fox hunting should not be banned");
-$issues[] = array("dream_id" => 367,  "name" => "Free universities",
-                    "action" => "no university tuition fees");
-
-function WriteEleSelectIssue($dreamid)
+function WriteEleSelectIssue($dreamid, $prevote)
 {
+    $selaye = (($prevote == "a") || ($prevote == "b"));
+    $selnoe = (($prevote == "d") || ($prevote == "e"));
+    $selind = (!$selaye && !$selnoe);
     print "<select id=\"issue-$dreamid\" onchange=\"UpdateCItable()\">\n";
-    print "\t<option value=\"0\">indifferent about</option>\n";
-    print "\t<option value=\"1\">in favour of</option>\n";
-    print "\t<option value=\"3\">strongly in favour of</option>\n";
-    print "\t<option value=\"-1\">against</option>\n";
-    print "\t<option value=\"-3\">strongly against</option>\n";
+    print "\t<option value=\"0\"".($selind ? " SELECTED" : "").">indifferent about</option>\n";
+    print "\t<option value=\"1\"".($selaye ? " SELECTED" : "").">in favour of</option>\n";
+    #print "\t<option value=\"3\">strongly in favour of</option>\n";
+    print "\t<option value=\"-1\"".($selnoe ? " SELECTED" : "").">against</option>\n";
+    #print "\t<option value=\"-3\">strongly against</option>\n";
     print "</select>\n";
 }
 
-function WriteEleIssueSection($issue)  # may replace function below
+function WriteEleIssueSection($issue, $prevote, $person)  # may replace function below
 {
-    print "\n\n<div class=\"sissue\">\n";
-    print "I am ";
-    WriteEleSelectIssue($issue["dream_id"]);
+    //print "\n\n<div class=\"sissue\">\n";
+    if (!$person || ($person == "I"))
+        print "I am ";
+    else
+        print "$person is ";
+
+    WriteEleSelectIssue($issue["dream_id"], $prevote);
     print $issue["action"];
-    $newsid = "news".$issue["dream_id"];
-    print " <a onclick=\"shownews('$newsid', this)\" class=\"shownews\">show news</a>\n";
-    WriteLongListNews($issue["name"], $newsid);
-    print "</div>\n";
+    $issuestrengthid = "issue-strength-".$issue["dream_id"];
+    $checked = (($prevote == "a") || ($prevode == "e") ? " checked" : "");
+    $inputtype = "type=\"checkbox\" id=\"$issuestrengthid\" value=\"strong\" onchange=\"UpdateCItable()\"$checked";
+    print "<br/> (<input $inputtype> Very important</input>)\n";
+    //print "</div>\n";
 }
 
 function WriteEleCalcIssueRow($issues)
 {
     print "<tr class=\"issuerow\">\n";
     print "<td><a onmouseover=\"TagToTip('tagth', STICKY, true, DURATION, 8000, ABOVE, true)\">The Candidates</a></td>\n";
-    print "<td>My views ---&gt;</td>\n";
-    foreach ($issues as $issue)
-        print "<td>".$issue["name"]."</td>\n";
-    print "</tr>\n";
-return;
-
-    print "<tr class=\"issuerow2\">\n";
-    print "<td class=\"mpcol\">Candidates</td>\n";
-    print "<td class=\"myrankcol\">My score</td>\n";
-    foreach ($issues as $issue)
-    {
-        print "<td>";
-        WriteEleSelectIssue($issue["dream_id"]);
-        print "</td>\n";
-    }
-    print "</tr>";
 }
 
-function GetPartyDistances($db, $dream_id)
-{
-    update_dreammp_person_distance($db, $dream_id);
-    $qselect = "SELECT AVG(distance_a) as distance, party";
-    $qfrom =   " FROM pw_cache_dreamreal_distance";
-    $qjoin =   " LEFT JOIN pw_mp ON pw_mp.person = pw_cache_dreamreal_distance.person";
-    $qwhere =  " WHERE house = 'commons' AND dream_id = '$dream_id'";
-    $qgroup =  " GROUP BY party";
-
-    $db->query($qselect.$qfrom.$qjoin.$qwhere.$qgroup);
-    $partydistances = array();
-    while ($row = $db->fetch_row_assoc())
-        $partydistances[$row['party']] = ($row["distance"]);
-    return $partydistances;
-}
-
-function GetIncumbentIssueDistances($db, $candidate, $dream_id)
-{
-    update_dreammp_person_distance($db, $dream_id);
-    $person_id = $candidate["personid"];
-    $qselect = "SELECT distance_a AS distance";
-    $qfrom =   " FROM pw_cache_dreamreal_distance";
-    $qwhere =  " WHERE pw_cache_dreamreal_distance.person = '$person_id' AND dream_id = '$dream_id'";
-    $row = $db->query_onez_row_assoc($qselect.$qfrom.$qwhere);
-    if (($row == null) || ($row["distance"] === null))
-        return null;
-    return strval($row["distance"] + 0.0);
-}
-
-function SetCandidateIssueDistances($db, &$candidates, $issues)
-{
-    foreach ($issues as $issue)
-        $issuepartydistances[$issue["name"]] = GetPartyDistances($db, $issue["dream_id"]);
-
-    foreach ($candidates as &$candidate)  # & required so we can set its value
-    {
-        foreach ($issues as $issue)
-        {
-            $partydistance = $issuepartydistances[$issue["name"]][$candidate["party"]];
-            if ($candidate["votetype"] == "incumbent")
-                $distance = GetIncumbentIssueDistances($db, $candidate, $issue["dream_id"]);
-            else  # this is where we do the dreammp case
-                $distance = $partydistance;
-            $candidate["issuedistances"][$issue["name"]] = ($distance === null ? -1 : (float)$distance);
-        }
-    }
-}
 
 function DistanceToWord($distance)
 {
     if ($distance == -1)
         return "Not<br/>present";
     if ($distance <= 0.2)
-        return "strongly<br/>for";
+        return "strongly<br/>for this";
     if ($distance <= 0.4)
-        return "moderately<br/>for";
+        return "moderately<br/>for this";
     if ($distance >= 0.8)
-        return "strongly<br/>against";
+        return "strongly<br/>against this";
     if ($distance >= 0.6)
-        return "moderately<br/>against";
+        return "moderately<br/>against this";
     return "mixed";
 }
 
-function CandidateTdEntry($candidate)
+function CandidateTdEntry($candidate, $suff)
 {
-    $cid = $candidate["candidate_id"]."-name";
+    $cid = $candidate["candidate_id"].$suff;
     $name = $candidate["name"];
     $party = $candidate["party"];
     $url = $candidate["url"];   # default to party if not existing
@@ -192,93 +91,95 @@ function WriteCandidateIssueTd($candidate, $issue)
     print "\t<td id=\"".$candidate["candidate_id"].'-'.$issue["dream_id"].'">';
     if ($candidate["matchid"])
     {
-        print "<a href=\"http://www.publicwhip.org.uk/mp.php?dmp=".$issue["dream_id"];
-        print '&amp;'.$candidate["matchid"].'"';#.'&display=motions"';
-        print " onmouseover=\"Tip('Show comparison with MP or party')\">";
+        $acont = "href=\"http://www.publicwhip.org.uk/mp.php?dmp=".$issue["dream_id"].
+              '&amp;'.$candidate["matchid"].'"'.#.'&display=motions"'
+              " onmouseover=\"Tip('Show comparison with MP or party')\"";
     }
     else
-        print "<a href=\"http://www.publicwhip.org.uk/policy.php?id=".$issue["dream_id"].'&display=motions">';
+        $acont = "href=\"http://www.publicwhip.org.uk/policy.php?id=".$issue["dream_id"].'&display=motions"';
+    
+    
     if ($candidate["votetype"] == "incumbent")
-        print "MP voted ";
+        $vsubject = "Your MP";
     else if ($candidate["votetype"] == "party")
-        print "Party voted ";
+        $vsubject = $candidate["party"]." MPs";
     else if (($candidate["votetype"] == "dream") && ($distance != -1))
-        print "Party would have voted ";
-    print DistanceToWord($distance)."</a></td>\n";
+        $vsubject = "Party would have";
+    else
+        $vsubject = Null;
+    if ($vsubject)
+        print "$vsubject <a $acont target=\"_blank\">voted</a> ";
+    print DistanceToWord($distance)."</td>\n";
 }
 
-function WriteCandidateRow($candidate, $issues)
-{
-    $candidate_id = $candidate["candidate_id"];
-    print "<tr class=\"candidaterow\">\n";
-    print CandidateTdEntry($candidate);
-
-    print "\t<td><div class=\"myrankcol\" id=\"$candidate_id-rank\">RK</div></td>\n";
-    foreach ($issues as $issue)
-        WriteCandidateIssueTd($candidate, $issue);
-    print "</tr>";
-}
 
 function WriteIssueRow($issue, $candidates)
 {
-    print "<tr class=\"issuerow\" id=\"".$issue["dream_id"]."-row\">\n";
+    print "\n<tr class=\"issuerow\" id=\"".$issue["dream_id"]."-row\">\n";
     #print "<th>".$issue["name"]."</th>\n";
-    print "<th><a href=\"http://www.publicwhip.org.uk/policy.php?id=".$issue["dream_id"]."\">".$issue["name"]."</a></th>\n";
+
+    $issuelink = "http://www.publicwhip.org.uk/policy.php?id=".$issue["dream_id"];
+    #print "<th class=\"issue\"><a href=\"$issuelink\">".$issue["name"]."</a></th>\n";
+    #print "<th> </th>\n";
     foreach ($candidates as $candidate)
         WriteCandidateIssueTd($candidate, $issue);
     print "</tr>\n";
 }
 
-function WriteEleCalcTable($candidates, $issues)
-{
-    WriteEleCalcIssueRow($issues);
-    foreach ($candidates as $candidate)
-        WriteCandidateRow($candidate, $issues);
-}
 
-function WriteEleCalcTableTrans($issues, $candidates)
+function WriteEleCalcTableTrans($issues, $candidates, $vkey, $person, $bthreadopinionrows)
 {
+    global $constituency;
+
     print "<tr class=\"candidaterow\">\n";
-    print "<td>Candidates:</td>\n";
+    print "<td>Candidates for <b>$constituency</b> contituency:</td>\n";
     foreach ($candidates as $candidate)
-        print CandidateTdEntry($candidate);
+        print CandidateTdEntry($candidate, "-name");
     print "</tr>\n";
     
-    print "<tr><td>Agreement rating:</td>\n";
+    print "<tr class=\"agreementrow\"><td>Agreement rating:</td>\n";
     foreach ($candidates as $candidate)
         print "\t<td><div class=\"myrankcol\" id=\"".$candidate['candidate_id']."-rank\">RK</div></td>\n";
     print "</tr>\n";
     
-    foreach ($issues as $issue)
-        WriteIssueRow($issue, $candidates);
-}
-
-function WriteJavascriptElecTable($candidates, $issues)
-{
-    print "// issue user-opinion map\n";
-    print "var issues = ";
     for ($i = 0; $i < count($issues); $i++)
-        print ($i == 0 ? "[" : ", ").$issues[$i]["dream_id"];
-    print "];\n";
-    print "var candidates = ";
-    for ($j = 0; $j < count($candidates); $j++)
-        print ($j == 0 ? "[" : ", ").$candidates[$j]["candidate_id"];
-    print "];\n\n";
-
-    print "// candidate-issue distance table\n";
-    print "var citable = [ \n";
-    foreach ($candidates as $candidate)
     {
-        print "  [";
-        foreach ($issues as $issue)
+        $issue = $issues[$i];
+        $dreamid = $issue['dream_id'];
+        print "\n\n<tr class=\"selerow\">";
+        print "<td id=\"selerowc-$dreamid\" class=\"selerowc\" rowspan=\"2\">"; 
+        $prevote = ($vkey && ($i < strlen($vkey)) ? $vkey[$i] : "");
+        print "<div style=\"height:50%\">";
+        WriteEleIssueSection($issue, $prevote, $person);
+        print "</div>";
+        if ($i < count($issues) - 1)
         {
-            $distance = $candidate["issuedistances"][$issue["name"]];
-            print "$distance, ";
+            $dreamidnext = $issues[$i + 1]["dream_id"];
+            print "<div style=\"float:right\"><a onclick=\"NextClick('$dreamidnext')\">next</a></div>";
         }
-        print "],\n";
+        else
+            print "<div style=\"float:right\"><a onclick=\"NextClick('')\">finish</a></div>";
+        print "</td></tr>\n";
+
+        print "<tr id=\"newsart-$dreamid\"><td colspan=\"".count($candidates)."\">";
+        WriteLongListNews($issue["name"]);
+        print "</td></tr>\n";
+
+        WriteIssueRow($issue, $candidates);
     }
-    print "     ];\n";
+    
+    print "<tr class=\"agreementrow2\"><td>Agreement rating:</td>\n";
+    foreach ($candidates as $candidate)
+        print "\t<td><div class=\"myrankcol\" id=\"".$candidate['candidate_id']."-rankl\">RK</div></td>\n";
+    print "</tr>\n";
+    
+    print "<tr class=\"candidaterow\">\n";
+    print "<td>Candidates for <b>$constituency</b> contituency:</td>\n";
+    foreach ($candidates as $candidate)
+        print CandidateTdEntry($candidate, "-namel");
+    print "</tr>\n";
 }
+
 
 
 header("Content-Type: text/html; charset=UTF-8");
@@ -296,57 +197,77 @@ print "<script type=\"text/javascript\" src=\"walterzorn/wz_tooltip.js\"></scrip
 print "<script type=\"text/javascript\" src=\"quiz/election2008.js\"></script>\n";
 
 print "<div id=\"divQuizResults\">\n";
-print "<h1 id=\"th1\"><a href=\"/\"><span class=\"fir\">The Public Whip</span></a></h1>\n";
+#print "<h1 id=\"th1\"><a href=\"/\"><span class=\"fir\">The Public Whip</span></a></h1>\n";
 print "<h2 id=\"howtheyvoted\">How They Voted 2008</h2>\n";
 print "<h3 id=\"th3\">(...and so should you)</h3>\n";
 print "<h4 id=\"th4\">The candidate calculator for <i>$constituency</i></h4>\n";
 print "<p></p>\n\n";
 
+$vkey = $_GET["vkey"];  # a string of letters (each a-e for strong favour to against) in order of the policies
+$person = $_GET["vname"]; # name of person who expressing these opinions
+
+if ($person == "I")
+    $person = "";
 SetCandidateIssueDistances($db, $candidates, $issues);
 
 print "<script type=\"text/javascript\">\n";
 WriteJavascriptElecTable($candidates, $issues);
 print "</script>\n";
 
-print "<h2>My opinions</h2>\n";
-print "<p><b>Instructions:</b> Select some or all of your opinions, and see how they compare to the candidate's 
-       voting record, if they are the incumbent, or the party's voting record in Parliament. 
-       For parties which have no representation in Parliament (eg the Green party), a hypothetical voting record 
-       can be supplied by ticking off the way an MP of that party would have voted from the 
-       <a href=\"http://www.publicwhip.org.uk/divisions.php\">list of all votes</a> 
-       using a policy object such as <a href=\"http://www.publicwhip.org.uk/policy.php?id=1013\">this</a>.";
+if (!$person)
+{
+    print "<h2>Instructions</h2>\n";
+    print "<p>Choose some or all of your political opinions from the options below 
+           to see how they compare against your MP's voting record, versus the voting record 
+           of an average MP for each of the parties whose candidates are standing against them.</p>
+           
+           <p>For candidates whose parties have no representation in Parliament (eg the Green party), 
+           a hypothetical voting record 
+           will need to be supplied on behalf of the candidate by ticking off from the 
+           <a href=\"http://www.publicwhip.org.uk/divisions.php\">list of all votes</a> 
+           using a policy object such as <a href=\"http://www.publicwhip.org.uk/policy.php?id=1013\">this</a>.
+           The party can arrange to do the on behalf of their candidates, but the sooner it is started the better because 
+           there won't be any time once the election is called.</p>";
+}
+else
+    print "<h2>Voting expression for $person</h2>";
 
 
-print "<div class=\"sissues\">\n";
-$nic = (int)(count($issues) / 2);
-print "<table><tr><td>\n";
-#print "<div class=\"sissuecol2\">\n";
-for ($i = $nic; $i < count($issues); $i++)
-    WriteEleIssueSection($issues[$i]);
-print "</td><td>\n";
-#print "</div>\n<div class=\"sissuecol1\">\n";
-for ($i = 0; $i < $nic; $i++)
-    WriteEleIssueSection($issues[$i]);
-print "</td></tr></table>\n";
-#print "</div>\n";
-print "</div>\n\n";
+            
+        
+print "<h2><a class=\"start\" onclick=\"NextClick('".$issues[0]["dream_id"]."')\">start</a></h2>";
 
-print "<h2>How my opinions compare to the candidates' voting record</h2>\n";
-print "<p>This rating depends <b>only</b> on their voting record in Parliament (if they are an incumbent), 
-       or the average voting record of all MPs of the same party if they are a challenger,
-       or the hypothetical voting pattern if they belong to a party that has had no MPs in Parliament.</p>
-       <p>Click on the name of the candidate to go to their campaign website for further details.</p>
-       ";
 
 print "<table class=\"elecalc\">\n";
-#WriteEleCalcTable($candidates, $issues);
-WriteEleCalcTableTrans($issues, $candidates);
+WriteEleCalcTableTrans($issues, $candidates, $vkey, $person, $bthreadopinionrows);
 print "</table>\n";
 
+if (!$person)
+{
+    print "<form action=\"http://www.publicwhip.org.uk/election2008.php\" method=\"get\">\n";
+    print "Your name: <input type=\"text\" name=\"vname\" id=\"vname\"> </input>\n";
+    print "<input type=\"text\" name=\"vkey\" id=\"vkey\" value=\"ccccccccccc\">\n";
+    print "<input type=\"submit\" value=\"Record my opinions\">\n";
+    print "</form>\n";
+}
+
 print "<h2>What to do next</h2>";
-print "<p>No candidate can agree with you on all the issues you believe in.";
-print " Please use this webpage to find those votes in Parliament in the name of the candidate you support";
-print " that you most disagree with, and ask them about it during the campaign.";
+print "<p>No candidate or party will agree with you on all the issues. 
+       Because the election requires you to select a single person rather than declare the policies 
+       you support, your choice will necessarily be a compromise.  
+       You can use this webpage to discover which candidates agree with you on most of the issues,
+       and isolate the subjects that are of most concern.  
+       Hopefully this will help you be better informed when you cast your ballot at the General Election.</p> 
+       
+       <p>If you are in a constituency with a sitting MP who is seeking re-election, this website helps you identify the 
+       specific votes in Parliament where you believe they acted against the overwhelming opinion 
+       of the people whom they represented.  The days leading up to the election is best time to 
+       raise inconvenient questions about these specific votes, because this is the one moment when 
+       the public's opinion really matters and the MP can be forced to defend his or her record.
+       If no one checks the record, the MP cannot be held accountable to it, 
+       either for voting with the party whip and against public opinion, or with public opinion and against the 
+       party whip (hence sacrificing any possibility of a ministerial career), or 
+       with their \"conscience\" and thus having an opinion of their own.</p>";
 
 #print "<span id=\"tagth\"><a href=\"/\">Memory Hole</a><br/><select><option title=\"one\">OOOO</option></select></span>\n";
 #print '<script type="text/javascript">Hithere();</script>';

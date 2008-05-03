@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.35 2008/01/09 17:16:02 publicwhip Exp $
+    # $Id: mps.php,v 1.36 2008/05/03 11:54:04 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -27,6 +27,18 @@
     $sort = db_scrub($_GET["sort"]);
     if (!$sort)
         $sort = "lastname";
+
+    $referrer = $_SERVER["HTTP_REFERER"];
+    $querystring = $_SERVER["QUERY_STRING"];
+    $ipnumber = $_SERVER["REMOTE_ADDR"];
+    if (!$referrer)
+        $referrer = $_SERVER["HTTP_USER_AGENT"];
+    if (!isrobot())
+        $db->query("INSERT INTO pw_logincoming
+                (referrer, ltime, ipnumber, page, subject, url, thing_id)
+        VALUES ('$referrer', NOW(), '$ipnumber', 'mps', '', '$querystring', '')");
+
+
 
 
 	# constants
@@ -165,6 +177,7 @@
 					   "headings"	=> "yes");
 	if ($rdisplay_parliament == "now")
 		$mptabattr["ministerial"] = "yes";
+    $mptabattr["hitcounter"] = ($rdisplay_house == "z"); 
 
 	mp_table($db, $mptabattr);
     print "</table>\n";

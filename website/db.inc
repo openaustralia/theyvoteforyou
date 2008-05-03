@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.28 2007/05/16 11:48:09 publicwhip Exp $
+# $Id: db.inc,v 1.29 2008/05/03 11:54:00 publicwhip Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -21,6 +21,13 @@ function html_scrub($text)
 {
     return htmlentities(html_entity_decode(stripslashes($text)));
 }
+
+function isrobot()
+{
+    $useragent = $_SERVER["HTTP_USER_AGENT"];
+    return ereg("Google|Slurp|msnbot|robot|Gigabot|Teoma|VoilaBot|searchme|ia_archiver|Crawler|MSNBOT|MLBot|Wget", $useragent);
+}
+
 
 class DB
 {

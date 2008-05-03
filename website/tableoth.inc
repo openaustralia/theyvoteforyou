@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.49 2007/05/22 11:57:45 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.50 2008/05/03 11:54:04 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -42,9 +42,9 @@
    			}
 			if ($conscolumn) {
                 if ($mpprop["house"] == "lords") 
-                    print "<td>House of Lords</td>\n";
+                    print "<td class=\"lords\">House of Lords</td>\n";
                 else
-                    print "<td>".$mpprop['constituency']."</td>\n";
+                    print "<td class=\"commons\">".$mpprop['constituency']."</td>\n";
             }
             $enteredhouse = ($mpprop['enteredhouse'] == "0000-00-00" ? "before 1999" : pretty_date($mpprop['enteredhouse']));
 			print "<td>".$enteredhouse."</td>\n";
@@ -152,10 +152,10 @@
 			print "<tr class=\"headings\">";
 			if ($columnforms["votes"])
 				print "<td>Votes <i>(unedited)</i></td>";
-			if ($columnforms["policy"])
-		        print "<td>Policy</td>";
 			if ($columnforms["agreement"])
                 print "<td>Agreement</td>"; 
+			if ($columnforms["policy"])
+		        print "<td>Policy</td>";
             if ($columnforms["description"])
 		        print "<td>Description</td>";
 			if ($columnforms["vote"])
@@ -181,6 +181,13 @@
                 print "</td>\n";
 			}
 
+            if ($columnforms["agreement"])
+            {
+                $distance = $row['distance'];
+                $agreement = (1.0 - (float)($distance)) * 100.0;
+                $compare_link = "mp.php?".$dreamtabattr["mpanchor"]."&dmp=$dreamid"; 
+                print "<td><b><a href=\"$compare_link\">".number_format($agreement, 0)."%</a></b></td>\n"; 
+            }
 			if ($columnforms["policy"])
 	        {
 	        	print "<td><a href=\"$link\">".soft_hyphen($row['name'], 25)."</a>";
@@ -190,13 +197,6 @@
 	                print " <i>(legacy Dream MP)<i>";
 	            print "</td>\n";
 			}
-            if ($columnforms["agreement"])
-            {
-                $distance = $row['distance'];
-                $agreement = (1.0 - (float)($distance)) * 100.0;
-                $compare_link = "mp.php?".$dreamtabattr["mpanchor"]."&dmp=$dreamid"; 
-                print "<td><b><a href=\"$compare_link\">".number_format($agreement, 0)."%</a></b></td>\n"; 
-            }
             
 			if ($columnforms["description"])
 		        print "<td>".trim_characters(str_replace("\n", "<br>", html_scrub($row['description'])), 0, 100)."</td>\n";
@@ -242,6 +242,10 @@
 
         $alldivs_total = array_sum(array_values($alldivs));
 
+        $db->query("SELECT aye_majority FROM pw_cache_divinfo WHERE division_id=$div_id");
+        $row = $db->fetch_row_assoc(); 
+        $aye_majority = $row["aye_majority"];
+
         # Table of votes by party
         print "<h2><a name=\"summary\">Party Summary</a></h2>";
         print "<p>Votes by party, red entries are votes against the majority for that party.  ";
@@ -267,10 +271,16 @@
 					WHERE division_id = $div_id
 					ORDER BY party";
 		$db->query($query);
-    
+
+        $noesfirst = ($aye_majority < 0); 
         # Make table
         print "<table><tr class=\"headings\"><td>Party</td>";
-        print ($house == "lords" ? "<td>Contents</td><td>Not-Contents</td>":"<td>Ayes</td><td>Noes</td>");
+        if ($aye_majority == 0)
+            print ($house == "lords" ? "<td>Contents</td><td>Not-Contents</td>":"<td>Ayes</td><td>Noes</td>");
+        else if ($noesfirst)
+            print ($house == "lords" ? "<td>Majority (Not-Content)</td><td>Minority (Content)</td>":"<td>Majority (No)</td><td>Minority (Aye)</td>");
+        else
+            print ($house == "lords" ? "<td>Majority (Content)</td><td>Minority (Not-Content)</td>":"<td>Majority (Aye)</td><td>Minority (No)</td>");
         if ($house != "lords")
             print "<td>Both</td>";
         print "<td>Turnout</td>";
@@ -281,7 +291,8 @@
 		$totalboths = 0;
 		$totalturnout = 0;
 		$totalpossible = 0;
-	    while ($row = $db->fetch_row_assoc())
+	    
+        while ($row = $db->fetch_row_assoc())
 		{
             $party = $row["party"];
 			$aye = $row["aye_votes"];
@@ -314,8 +325,12 @@
 
             $prettyrow = pretty_row_start($prettyrow);
             print "<td>" . pretty_party($party) . "</td>";
-            print "<td class=\"$classaye\">$aye</td>";
-            print "<td class=\"$classno\">$no</td>";
+            
+            if ($noesfirst)
+                print "<td class=\"$classno\">$no</td> <td class=\"$classaye\">$aye</td>";
+            else
+                print "<td class=\"$classaye\">$aye</td> <td class=\"$classno\">$no</td>";
+            
             if ($house == "lords" && $both > 0)
                 print "ERROR - both for lords";
             if ($house != "lords")
@@ -329,8 +344,11 @@
         $classayes = ($totalayes >= $totalnoes ? "whip" : "normal"); 
         $classnoes = ($totalayes <= $totalnoes ? "whip" : "normal");
         print "<td class=\"whip\">" . "Total:" . "</td>";
-        print "<td class=\"$classayes\">$totalayes</td>";
-        print "<td class=\"$classnoes\">$totalnoes</td>";
+        if ($noesfirst)
+            print "<td class=\"$classnoes\">$totalnoes</td> <td class=\"$classayes\">$totalayes</td>";
+        else
+            print "<td class=\"$classayes\">$totalayes</td> <td class=\"$classnoes\">$totalnoes</td>";
+        
         if ($house != "lords")
             print "<td class=\"$classboth\">$both</td>";
         else if ($totalboths > 0)

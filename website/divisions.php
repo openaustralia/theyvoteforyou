@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.41 2006/06/14 09:45:59 publicwhip Exp $
+# $Id: divisions.php,v 1.42 2008/05/03 11:54:03 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -71,6 +71,18 @@
 	$rdisplay_house = db_scrub($_GET["house"]);
 	if (!$rdisplay_house)
 		$rdisplay_house = $rdefaultdisplay_house;
+
+    $referrer = $_SERVER["HTTP_REFERER"];
+    $querystring = $_SERVER["QUERY_STRING"];
+    $ipnumber = $_SERVER["REMOTE_ADDR"];
+    if (!$referrer)
+        $referrer = $_SERVER["HTTP_USER_AGENT"];
+
+    if (!isrobot())
+        $db->query("INSERT INTO pw_logincoming
+            (referrer, ltime, ipnumber, page, subject, url, thing_id)
+        VALUES ('$referrer', NOW(), '$ipnumber', 'divisions', '$rdisplay_house', '$querystring', '$rdisplay')");
+
 
 	# now try to construct all the parties present in a house that we could see the whip of
 	if ($rdisplay_house != "both")
@@ -219,6 +231,7 @@
 		$divtabattr["parldatelimit"] = $parliaments[$rdismode["parliament"]];
 	else
 		$divtabattr["motionwikistate"] = "listunedited";  # this extra bit of information only shows up for advanced users who are looking at all parliaments
+    $divtabattr["hitcounter"] = ($rdisplay_house == "z");  
 
 	division_table($db, $divtabattr);
     print "</table>\n";

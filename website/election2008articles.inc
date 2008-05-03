@@ -1,5 +1,5 @@
 <?php
-# $Id: election2008articles.inc,v 1.1 2008/01/09 17:17:15 publicwhip Exp $
+# $Id: election2008articles.inc,v 1.2 2008/05/03 11:54:03 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -85,7 +85,7 @@ $newsarticleissues = array(
         "url"=>"http://news.bbc.co.uk/2/hi/uk_news/politics/5058832.stm"),
 ),
 
-"Secret MPs" => array(
+"Public MPs" => array(
   array("publisher"=>"BBC News",
         "title"=>"Brown will not block secrecy bid",
         "date"=>"18 May 2007",
@@ -147,7 +147,8 @@ $newsarticleissues = array(
 function StrArticle($newsarticle)
 {
     # we have the option to mark up date as pretty date
-    return '<a href="'.$newsarticle["url"].'" class="newslink">'.$newsarticle["title"].'</a> <b>'.$newsarticle["publisher"].'</b> ('.$newsarticle["date"].')';
+    return '<a href="'.$newsarticle["url"].'" class="newslink" target="_blank">'.
+           $newsarticle["title"].'</a> <b>'.$newsarticle["publisher"].'</b> ('.$newsarticle["date"].')';
 }
 
 function WriteShortListNews($issuename)
@@ -166,13 +167,13 @@ function WriteShortListNews($issuename)
     }
 }
 
-function WriteLongListNews($issuename, $newsid)
+function WriteLongListNews($issuename)
 {
     global $newsarticleissues;
     $newsarticles = $newsarticleissues[$issuename];
     #print "<a onclick=\"shownews('$newsid', this)\" class=\"shownews\">show news</a>\n";
-    print "<div id=\"$newsid\" style=\"display:none\">\n";
-    print "<ul class=\"newsart\" id=\"ul$newsid\">\n";
+    #print "<div id=\"$newsid\" style=\"display:none\">\n";
+    print "<ul class=\"newsart\">\n";
     if (!$newsarticles)
         print "<li>No news articles yet.</li>\n";
     else
@@ -185,7 +186,7 @@ function WriteLongListNews($issuename, $newsid)
     }
     }
     print "</ul>\n";
-    print "</div>\n";
+    #print "</div>\n";
 }
 
 

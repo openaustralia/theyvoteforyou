@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.87 2007/12/15 00:00:46 publicwhip Exp $
+# $Id: tablemake.inc,v 1.88 2008/05/03 11:54:04 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -319,6 +319,8 @@ function print_column_headings($vote1, $vote2, $columnforms, $party)
 {
 	print "<tr class=\"headings\">";
 
+    if ($columnforms["hitcounter"])
+        print "<td>Hits</td>";
 	if ($columnforms["house"])
 		print "<td>House</td>";
 	if ($columnforms["divisionnumber"])
@@ -400,6 +402,8 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $roleclass, $vote1,
 {
     print "<tr class=\"".(($nrows % 2 == 1) ? "odd" : "even")."$pretrowclass\">";
 
+    if ($columnforms["hitcounter"])
+        print "<td>".$row["hits"]."</td>";
 	if ($columnforms["house"])
 	    print "<td class=\"".$row['divisionhouse']."\">".($row['divisionhouse'] == "lords" ? "Lords" : "Commons")."</td>";
     if ($columnforms["divisionnumber"])
@@ -425,14 +429,23 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $roleclass, $vote1,
 	}
 
     if ($columnforms["voter1type"])
-        print "<td>".($columnforms["voter1type"] == "dreammp" && !$vote1 ? "non-voter" : (vote_display_in_table($vote1)))."</td>";
+    {
+        print "<td>";
+        if ($columnforms["voter1type"] == "dreammp" && !$vote1)
+            print "non-voter";
+        else if ($columnforms["voter1type"] == "dreammp") 
+            print vote_display_in_table($vote1, $row["aye_majority"]);
+        else
+            print vote_display_in_table($vote1, $row["aye_majority"]);
+        print "</td>";
+    }
     if ($columnforms["voter2type"])
     {
 	    if ($columnforms["aggregate_vote"])
 		    print "<td class=\"$roleclass\">";
         else
             print "<td>";
-        print vote_display_in_table($vote2)."</td>\n";
+        print vote_display_in_table($vote2, 0/*$row["aye_majority"]*/)."</td>\n";
     }
 	if ($columnforms["aggregate_names"])
 		print "<td>".$row["vote2names"]."</td>";
@@ -559,8 +572,19 @@ function writepersonvote($lnrows, $cla, $name, $vote, $ayecla, $nocla)
         print "<td colspan=2 align=center>$vote</td>";
     print "</tr>\n";
 }
-function vote_display_in_table($vote) 
+function vote_display_in_table($vote, $aye_majority) 
 {
+    if ($aye_majority && ($vote == "aye" || $vote == "aye3" || $vote == "no" || $vote == "no3"))
+    {
+        if (($aye_majority >= 0) == ($vote == "aye" || $vote == "aye3"))
+            $res = "Majority";
+        else
+            $res = "<i>minority</i>";
+        if ($vote == "aye3" || $vote == "no3")
+            $res .= " (strong)";
+        return $res;
+    }
+
     if ($vote == "aye3")
         return "aye (strong)";
     if ($vote == 'no3')
@@ -651,8 +675,7 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
 
 function writeevents(&$events, $date, $breversed)
 {
-    while ($events && (!$date or ($breversed == ($date >= $events[count($events) - 1][0]))))
-    {
+    while ($events && (!$date or ($breversed == ($date >= $events[count($events) - 1][0])))){
         $event = array_pop($events);
         if ($event[2] != "Ignoreevent")
         {
@@ -708,8 +731,8 @@ function division_table($db, $divtabattr, $db2="", $events = "")
     # the list list and forms of the columns we are going to output
 	$columnforms = array();
     $columnforms["divisiondate"] = "yes";
-    if ($divtabattr["headings"] != "frontpageshort")
-	    $columnforms["divisiontime"] = "yes";
+    if ($divtabattr["hitcounter"]) 
+        $columnforms["hitcounter"] = "yes";
 
     # the underlying division list
     $aquery = array();
@@ -718,7 +741,7 @@ function division_table($db, $divtabattr, $db2="", $events = "")
                             pw_division.division_date 	AS divisiondate,
                             pw_division.clock_time      AS divisiontime,
                             pw_division.house           AS divisionhouse,
-                            division_name, source_url, debate_url, source_gid, debate_gid";
+                            division_name, source_url, debate_url, source_gid, debate_gid, aye_majority";
 
     $aquery["qfrom"]   = " FROM pw_division";
     $aquery["qjoin"]   = " LEFT JOIN pw_cache_divinfo ON pw_cache_divinfo.division_id = pw_division.division_id";
@@ -827,7 +850,6 @@ function division_table($db, $divtabattr, $db2="", $events = "")
             $columnforms["divisiontime"] = "yes";
             if ($showwhich != "party")
     		{
-	    		$aquery["qselect"] .= ", aye_majority";
 
                 $columnforms["rebellions"] = 'yes';
 	        	$columnforms["turnout"] = 'yes';
@@ -900,6 +922,16 @@ function division_table($db, $divtabattr, $db2="", $events = "")
     # apply the limit
     if ($divtabattr["limitby"] != "")
         $aquery["qlimit"] = " LIMIT ".$divtabattr["limitby"];
+
+    if ($columnforms["hitcounter"])
+    {
+        $aquery["qselect"] .= ", COUNT(*)-1 AS hits"; # can't avoid the overcounting on the first
+	    $aquery["qgroup"] = " GROUP BY pw_division.division_id"; # if set, it's this anyway
+        $aquery["qjoin"] .= " LEFT JOIN pw_logincoming 
+                              ON pw_logincoming.page = 'division' 
+                              AND pw_logincoming.thing_id = pw_division.division_id";
+    }
+
 
     # main set that grabs all the divisions and makes a coarse subsampling
     $query = $aquery["qselect"].$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"].$aquery["qgroup"].$aquery["qorder"].$aquery["qlimit"];

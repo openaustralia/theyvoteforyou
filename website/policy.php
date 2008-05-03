@@ -39,6 +39,18 @@
     $policyname = html_scrub($voter["name"]);
 	$dreamid = intval($voter["dreammpid"]);
 
+    $referrer = $_SERVER["HTTP_REFERER"];
+    $querystring = $_SERVER["QUERY_STRING"];
+    $ipnumber = $_SERVER["REMOTE_ADDR"];
+    if (!$referrer)
+        $referrer = $_SERVER["HTTP_USER_AGENT"];
+    if (!isrobot())
+        $db->query("INSERT INTO pw_logincoming
+                    (referrer, ltime, ipnumber, page, subject, url, thing_id)
+        VALUES ('$referrer', NOW(), '$ipnumber', 'policy', '', '$querystring', '$dreamid')");
+
+
+
 	// all private dreams will be aggregate
     $bAggregate = ($voter["private"] == 1);
     $bAggregate = false; // disabled for now
@@ -56,6 +68,17 @@
                                  "definition" => "yes", 
 								 "divisionlist" => "selected", # those which are seen out of the total
                                  "tooltip" => "Overview of the policy");
+	
+    $dismodes["comparison"] = array("description" => "Compare with MPs",
+								 "comparisons" => "slab",
+								 "divisionlist" => "selected", # those which are seen out of the total
+                                 "tooltip" => "Comparison to MPs");
+    
+    if (!$bAggregate)
+        $dismodes["motions"] = array("dtype"     => "motions", 
+                                     "description" => "Details of votes", 
+                                     "divisionlist" => "selected", 
+                                     "tooltip" => "Also shows description of every vote"); 
 
 	$dismodes["editdefinition"] = array("description" => "Edit",
 								 "editdefinition" => "yes",
@@ -66,10 +89,6 @@
                                  "tooltip" => "Change title and definition of policy");
 
 
-	$dismodes["comparison"] = array("description" => "Compare with MPs",
-								 "comparisons" => "slab",
-								 "divisionlist" => "selected", # those which are seen out of the total
-                                 "tooltip" => "Comparison to MPs");
 
 	// aggregate types get more options
 	if ($bAggregate)
@@ -92,11 +111,6 @@
 										 "aggregate" => "fulltable",
 		                                 "tooltip" => "Editable list of policies");
 	}
-    else
-        $dismodes["motions"] = array("dtype"     => "motions", 
-                                     "description" => "Details of votes", 
-                                     "divisionlist" => "selected", 
-                                     "tooltip" => "Also shows description of every vote"); 
 
 	$dismodes["linktopolicy"] = array("description" => "Link to this",
 								 "policybox" => "yes",

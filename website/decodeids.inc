@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.42 2007/12/15 00:00:46 publicwhip Exp $
+# $Id: decodeids.inc,v 1.43 2008/05/03 11:54:00 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -354,6 +354,10 @@ function dismodes_to_second_links($thispage, $dismodes, $tpsort, $display)
     $second_links = array();
     foreach ($dismodes as $ldisplay => $ldismode)
 	{
+        # hack to avoid dangling dmps
+        if ($ldisplay == "alldreams")
+            $thispage = preg_replace("/&dmp=\d+/", "", $thispage);
+
         $dlink = $thispage.($ldisplay == "summary" ? "" : "&display=$ldisplay").$tpsort;
         array_push($second_links, array(
             'tooltip' => $ldismode["tooltip"],
