@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.141 2008/05/03 11:54:03 publicwhip Exp $
+    # $Id: mp.php,v 1.142 2008/05/09 19:46:27 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -96,12 +96,13 @@
 	$referrer = $_SERVER["HTTP_REFERER"];
     $querystring = $_SERVER["QUERY_STRING"];
     $ipnumber = $_SERVER["REMOTE_ADDR"];
+    $showhits = preg_match("/.*?house=z/", $referrer);
     if (!$referrer)
         $referrer = $_SERVER["HTTP_USER_AGENT"];
     $mpid = $mpprop["mpid"];
     $page_logged = ($voter2type == "dreammp" ? "mppolicy" : "mp");
     $subject_logged = ($voter2type == "dreammp" ? $voter2 : "");
-    if (!isrobot())
+    if (!isrobot() and !$showhits)
         $db->query("INSERT INTO pw_logincoming
                    (referrer, ltime, ipnumber, page, subject, url, thing_id)
             VALUES ('$referrer', NOW(), '$ipnumber', '$page_logged', '$subject_logged', '$querystring', '$mpid')");
@@ -366,36 +367,66 @@
         $con = $mpprop['constituency'];
         $all_same_cons = true;
         foreach ($voter1attr['mpprops'] as $p)
-	{
-		if ($p['constituency'] != $con)
-			$all_same_cons = false;
+	    {
+		    if ($p['constituency'] != $con)
+			    $all_same_cons = false;
         }
 
-	if ($currently_minister)
-    {
-		print "<p><b>".$mpprop['name']."</b> is currently ";
-        for ($i = 0; $i < count($currently_minister); $i++)
+	    if ($currently_minister)
         {
-            if ($i != 0)
-                print ($i != count($currently_minister) - 1 ? ", " : " and "); 
-            print "<b>".$currently_minister[$i]."</b>"; 
+		    print "<p><b>".$mpprop['name']."</b> is currently ";
+            for ($i = 0; $i < count($currently_minister); $i++)
+            {
+                if ($i != 0)
+                    print ($i != count($currently_minister) - 1 ? ", " : " and "); 
+                print "<b>".$currently_minister[$i]."</b>"; 
+            }
+            print "</p>"; 
         }
-        print "</p>"; 
-    }
 
-    print "<p>Please note, our records only go back to 1997, 1999 or 2001 (<a href=\"/faq.php#timeperiod\">more details</a>).";
+        print "<p><em>Note:</em> our records only go back to 1997 for the Commons and 2001 for the Lords (<a href=\"/faq.php#timeperiod\">more details</a>).";
 
-	seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], ($all_same_cons ? false : true), true, $thispagesettings);
+	    seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], ($all_same_cons ? false : true), true, $thispagesettings);
+
+        if ($showhits)
+        {
+            print "<h2>Backlinks</h2>\n";
+            $qorarr = array();
+            foreach ($voter1attr['mpprops'] as $p)
+	            $qorarr[] = "thing_id = ".$p["mpid"];
+            $qselect = "SELECT referrer, ltime, ipnumber, subject";
+            $qfrom = " FROM pw_logincoming"; 
+            $qwhere = " WHERE (page = 'mp' OR page = 'mppolicy') AND (".implode(" OR ", $qorarr).")";
+            $query = $qselect.$qfrom.$qwhere." ORDER BY ltime DESC LIMIT 1000";
+            $db->query($query);
+            print "<table id=\"backlinks\">\n";
+            while ($row = $db->fetch_row_assoc())
+            {
+                print "<tr><td width=\"20%\">".preg_replace("/ /", "&nbsp;", $row["ltime"])."</td>";
+                print "<td width=\"10%\">".guy_mangle_ip($row["ipnumber"])."</td>";
+                print "<td>".$row["subject"]."</td>";
+                print "<td width=\"70%\">";
+                if (preg_match("/http:\/\//", $row["referrer"]))
+                    print "<a href=\"".$row["referrer"]."\">".$row["referrer"]."</a></td>";
+                else
+                    print $row["referrer"]."</td>";
+
+                print "</tr>\n"; 
+            }
+            print "</table>";
+        }
+
 
         if ($voter2type == "party")
-		{
+	    {
 		    print "<h2><a name=\"exlinks\">External Links</a></h2>\n";
             print "<ul>\n";
 
 			print "<li>See <strong>".$mpprop["name"]."</strong>'s Parliamentary speeches at: ";
 			print "<a href=\"http://www.theyworkforyou.com/mp/?m=".$mpprop["mpid"]."\">TheyWorkForYou.com</a></li>\n";
 
-            if ($mpprop['house'] == 'commons') {
+            if ($mpprop['house'] == 'commons') 
+            {
                 # can we link directly? no - you need postcode
                 print "<li>Contact your MP for free at: <a href=\"http://www.writetothem.com\">WriteToThem.com</a></li>\n";
 

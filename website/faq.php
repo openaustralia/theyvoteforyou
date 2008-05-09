@@ -1,7 +1,7 @@
 <?php require_once "common.inc";
 require_once "db.inc";
 
-# $Id: faq.php,v 1.86 2008/05/03 11:54:03 publicwhip Exp $
+# $Id: faq.php,v 1.87 2008/05/09 19:46:27 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -83,23 +83,38 @@ project.
 
 
 <h2 class="faq"><a name="jargon">First, can you explain "division" and other political jargon?</a></h2>
-<p>The House of Commons <i>divides</i> many times each week into those who
-vote <i>aye</i> (yes, for the motion) and those who vote <i>no</i> (against the
-motion).  Each political party has <i>whips</i> who try to make their
-<i>MPs</i> (Members of Parliament) vote for the party line.  Sometimes an MP
-<i>rebels</i> by voting against the party whip.  A <i>teller</i> is
-an MP involved in the counting of the vote.  For more information on all these
-terms, see the
+<p>The House of Commons <b>divides</b> several times each week into <b>MPs</b> (Members of Parliament) 
+who vote <b>Aye</b> (yes, for the motion) and those who vote <b>No</b> (against the
+motion).</p>
+
+<p>Each political party has <b>whips</b> who try to persuade their
+members to vote for the party line.  In return for loyalty, the party promotes 
+them into desirable jobs and supports their re-election campaigns at the General Election.
+The <b>whip</b> sometimes refers to the letter sent to each MP by their party 
+at the start of the week informing them of the divisions they are expected to attend.
+The word <b>whip</b> can also refer to the membership of the party -- 
+so that removing the whip from a member is considered the ultimate sanction.</p>
+
+<p>An MP <b>rebels</b> by voting against the party whip.</b></p>
+
+<p>A <b>teller</b> is an MP involved in the counting of the vote.  There are 
+two tellers for the Ayes and two for the Noes, unless it is a <b>deferred division</b> 
+in which case voting takes place by signing a sheet of paper rather than walking through 
+the division lobbies.  Although the tellers technically don't vote, 
+it is conventional to assume that they do; an exception being when the vote would 
+have been unanimous, but for the two MPs who are required to report on the lack of votes 
+for the other side.</p>
+
+<p>For more information on all these terms, see the
 <a href="http://www.parliament.uk/parliamentary_publications_and_archives/factsheets/p09.cfm">
 Parliament factsheet on divisions</a>.
 <p>The <i>House of Lords</i> is the second chamber of the Parliament. 
 Proposed legislation passes through both Houses before it becomes law.
 <i>Lords</i> become members by a complex mixture of 
 <a href="http://website.lineone.net/~david.beamish/index.htm">appointment</a>, religion,
-appelation, hereditary entitlement and self election, which frankly we can't
-work out. They still divide, just like the commons. But being "ayes" and "noes"
-is a bit too, ummm, common for them. Instead they are said to be either
-<i>content</i> or <i>not-content</i> with the motion.
+appelation, hereditary entitlement and self election.
+They still divide, as in the House of Commons, but instead of Aye and No
+they are <b>Content</b> and <b>Not-Content</b>.
 
 <h2 class="faq"><a name="how">How does the Public Whip work?</a></h2>
 <p>All the 
@@ -108,7 +123,7 @@ is a bit too, ummm, common for them. Instead they are said to be either
 debate transcripts (collectively, Hansard)
 back to 1988 are published electronically on the World Wide Web.  We've written
 a program to read them for you and separate out all the records of voting.  This
-information has been added into an online database which you can
+information has been web-scraped into an online database which you can
 access.
 
 
@@ -128,7 +143,7 @@ href="mailto:team@publicwhip.org.uk">Let us know</a> if you find any.
     $db = new DB();
 
     $div_count = $db->query_one_value("select count(*) from pw_division");
-    $mp_count = $db->query_one_value("select count(*) from pw_mp");
+    $mp_count = $db->query_one_value("select count(distinct pw_mp.person) from pw_mp");
     $vote_count = $db->query_one_value("select count(*) from pw_vote");
     $vote_per_div = round($vote_count / $div_count, 1);
     $db->query("select count(*) from pw_mp group by party"); $parties = $db->rows();
@@ -137,15 +152,13 @@ href="mailto:team@publicwhip.org.uk">Let us know</a> if you find any.
     $attendance = round(100 * $vote_count / $div_count / ($mp_count / parliament_count()), 2);
 ?>
 
-<p>Some numeric statistics: The database contains <strong><?=number_format($mp_count)?></strong>
-MP and Lord records from <strong><?=$parties?></strong> parties. We've counted
-<strong><?=number_format($div_count)?></strong> divisions.  A mean of
-<strong><?=$vote_per_div?></strong> MPs/Lords voted in each division.  In total
-<strong><?=number_format($vote_count)?></strong> votes were cast, of which
-<strong><?=number_format($rebellious_votes)?></strong> were against the majority vote for
-their party.  That's an overall <strong><?=$attendance?>%</strong> attendance
-rate and <strong><?=$rebelocity?>%</strong> rebellion rate.
-
+<p><b>Numerics:</b> The database contains <strong><?=number_format($mp_count)?></strong>
+distinct MPs and Lords from <strong><?=$parties?></strong> parties who have voted across
+<strong><?=number_format($div_count)?></strong> divisions.  
+In total <strong><?=number_format($vote_count)?></strong> votes were cast 
+giving an average of <strong><?=$vote_per_div?></strong> per division.  
+Of these <strong><?=number_format($rebellious_votes)?></strong> were against the majority vote for
+their party giving an average rebellion rate of <strong><?=$rebelocity?>%</strong>.
 
 
 <h2 class="faq"><a name="clarify">What do the "rebellion" and "attendance" figures mean exactly?</a></h2>

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.44 2008/05/03 11:54:04 publicwhip Exp $
+# $Id: pretty.inc,v 1.45 2008/05/09 19:46:27 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -306,7 +306,7 @@ $guy_c['quot']),array('&lt;','&gt;','&quot;'),$str);
 /* Used upon submission; only keeps allowed HTML (see array below) */
 function guy_strip_bad($str, $mode='') {
     global $guy_c;
-    $html_allowed = array('a', 'b', 'i', 'p', 'ol', 'ul', 'li', 'blockquote', 'br', 'em');
+    $html_allowed = array('a', 'b', 'i', 'p', 'ol', 'ul', 'li', 'blockquote', 'br', 'em', 'sup', 'sub');
 	$html_allowed_regexp = join('|',$html_allowed);
 	$html_allowed_striptags = '<'.join('><',$html_allowed).'>';
 	$str = strip_tags($str,$html_allowed_striptags);
@@ -316,6 +316,12 @@ function guy_strip_bad($str, $mode='') {
 	$str = preg_replace('#^\s+$#m','',$str);
 	$str = safehtml($str);
 	return $str;
+}
+
+function guy_mangle_ip($ipnum)
+{
+    $ipm = preg_replace("/\./", "", $ipnum);
+    return (int)((int)($ipm)/3);
 }
 
 /* PRIVATE; only keeps allowed attributes of allowed HTML */

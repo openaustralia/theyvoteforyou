@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.57 2008/05/03 11:54:04 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.58 2008/05/09 19:46:27 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -631,7 +631,7 @@ function mp_table($db, $mptabattr)
     if ($columnforms["hitcounter"])
     {
         $aquery["qselect"] .= ", COUNT(*)-1 AS hits"; # can;t avoid the overcounting on an 
-        $aquery["qjoin"] .= " LEFT JOIN pw_logincoming ON pw_logincoming.page = 'mp'
+        $aquery["qjoin"]   .= " LEFT JOIN pw_logincoming ON (pw_logincoming.page = 'mp' OR pw_logincoming.page = 'mppolicy')
                                  AND pw_logincoming.thing_id = pw_mp.mp_id";
         if (!$aquery["qgroupby"])
             $aquery["qgroupby"] = " GROUP BY pw_mp.mp_id";  # remove double ministers

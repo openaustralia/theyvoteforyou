@@ -51,7 +51,9 @@ vote in relevant divisions in Parliament.
 	$dreamtabattr = array("listtype" => 'mainlist',
 					      'listlength' => "allpublic", 
 						  'headings' => "yes");
-	$c = print_policy_table($db, $dreamtabattr);
+	if ($_GET["house"] == "z")
+        $dreamtabattr["hitcounter"] = "yes"; 
+    $c = print_policy_table($db, $dreamtabattr);
     print "</table>\n";
     print "That makes $c policies which have voted in at least one division.";
 

@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.137 2008/05/03 11:54:02 publicwhip Exp $
+# $Id: division.php,v 1.138 2008/05/09 19:46:26 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -179,14 +179,21 @@ function no_division_found($plural)
 								 "showwhich" 	=> "voters",
                                  "tooltip"      => "Every MP who cast a vote in the division");
 
-		#$dismodes["allpossible"] = array("dtype"	=> "allpossible",
-		#						 "description" 	=> "All eligible voters",
-		#						 "motiontext" 	=> "yes",
-		#						 "summarytext"	=> "yes",
-		#						 "partysummary"	=> "yes",
-		#						 "ministerial" 	=> "yes",
-		#						 "showwhich" 	=> "allpossible",
-        #                        "tooltip"      => "Show even MPs who did not vote but could have" );
+        $dismodes["slab"] = array("dtype"       => "slab",
+                                 "summarytext"  => "yes",
+                                 "description"  => "One view",
+                                 "motiontext"   => "",
+                                 "showwhich"    => "slab",
+                                 "ministerial"  => "yes",
+                                 "tooltip"      => "Show all votes as one compressed table" );
+		$dismodes["allpossible"] = array("dtype"	=> "allpossible",
+								 "description" 	=> "All eligible voters",
+								 "motiontext" 	=> "yes",
+								 "summarytext"	=> "yes",
+								 "partysummary"	=> "yes",
+								 "ministerial" 	=> "yes",
+								 "showwhich" 	=> "allpossible",
+                                "tooltip"      => "Show even MPs who did not vote but could have" );
 
 		$dismodes["similardivisionsparl"] = array("dtype"	=> "similardivisionsparl",
 								 "description" 	=> "Similar Divisions",
@@ -201,13 +208,6 @@ function no_division_found($plural)
 		#						 "summarytext"	=> "yes",
 		#						 "listsimilardivisions" => "all",
         #                        "tooltip"      => "Show all divisions in order of similarity of vote in all time" );
-        $dismodes["slab"] = array("dtype"       => "slab",
-                                 "summarytext"  => "yes",
-                                 "description"  => "One view",
-                                 "motiontext"   => "",
-                                 "showwhich"    => "slab",
-                                 "ministerial"  => "yes",
-                                 "tooltip"      => "Show all votes as one compressed table" );
 
         $dismodes["policies"] = array("dtype"       => "policies",
                                  "description"  => "Policies",
@@ -481,7 +481,8 @@ function no_division_found($plural)
         print "<table id=\"backlinks\">\n";
         while ($row = $db->fetch_row_assoc()) 
         {
-            print "<tr><td width=\"20%\">".preg_replace("/ /", "&nbsp;", $row["ltime"])."</td><td width=\"10%\">".$row["ipnumber"]."</td>";
+            print "<tr><td width=\"20%\">".preg_replace("/ /", "&nbsp;", $row["ltime"])."</td>";
+            print "<td width=\"10%\">".guy_mangle_ip($row["ipnumber"])."</td>";
             print "<td width=\"70%\">";
             if (preg_match("/http:\/\//", $row["referrer"]))
                 print "<a href=\"".$row["referrer"]."\">".$row["referrer"]."</a></td>"; 

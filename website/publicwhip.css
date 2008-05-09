@@ -627,6 +627,9 @@ LI {
     list-style-type: none;
     mergin-left: -1em;
 }
+.motion sup
+{
+}
 
 .policyvotehead
 {

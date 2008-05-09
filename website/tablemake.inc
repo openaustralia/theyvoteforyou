@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.88 2008/05/03 11:54:04 publicwhip Exp $
+# $Id: tablemake.inc,v 1.89 2008/05/09 19:46:27 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -384,6 +384,16 @@ function print_column_headings($vote1, $vote2, $columnforms, $party)
         else
             print "<td>Loyal</td><td>Rebels</td>";
     }
+    
+    if ($columnforms["ayes"] and $columnforms["noes"])
+        print "<td>$party with Majority</td> <td>$party with minority</td>";
+    else
+    {
+        if ($columnforms["ayes"])
+            print "<td>$party Ayes</td>";
+        if ($columnforms["noes"])
+            print "<td>$party Noes</td>";
+    }
     if ($columnforms["boths"])
         print "<td>Boths</td>";
     if ($columnforms["whip_guess"])
@@ -482,6 +492,20 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $roleclass, $vote1,
             print "<td>".$row['noes']."</td>"."<td>".$row['ayes']."</td>";
         else
             print "<td>".$row['ayes']."</td>"."<td>".$row['noes']."</td>";
+    }
+    if ($columnforms["ayes"] and $columnforms["noes"])
+    {
+        if ($row['aye_majority'] >= 0)
+            print "<td>".$row['ayes']."</td> <td>".$row['noes']."</td>";
+        else
+            print "<td>".$row['noes']."</td> <td>".$row['ayes']."</td>";
+    }
+    else
+    {
+        if ($columnforms["ayes"])
+            print "<td>".$row['ayes']."</td>";
+        if ($columnforms["noes"])
+            print "<td>".$row['noes']."</td>";
     }
     if ($columnforms["boths"])
         print "<td>".$row['boths']."</td>";
@@ -582,6 +606,11 @@ function vote_display_in_table($vote, $aye_majority)
             $res = "<i>minority</i>";
         if ($vote == "aye3" || $vote == "no3")
             $res .= " (strong)";
+
+        #if ($vote == "aye3" or $vote == "aye")
+        #    $res .= " <sup>aye</sup>";
+        #if ($vote == "no3" or $vote == "no")
+        #    $res .= " <sup>no</sup>";
         return $res;
     }
 
@@ -836,7 +865,7 @@ function division_table($db, $divtabattr, $db2="", $events = "")
 	}
 
     # construct the first column of votes
-    $bonlyvotes1 = ($showwhich == "all1" or $showwhich == "both" or $showwhich == "bothdiff");
+    $bonlyvotes1 = ($showwhich == "all1" or $showwhich == "both" or $showwhich == "bothdiff" or $voter1type == "dreammp");
     if ($voter1type == "mp")
         divmpconds($aquery, $db, $voter1, $bonlyvotes1, false, 1);
     if ($voter1type == "dreammp")
@@ -862,12 +891,16 @@ function division_table($db, $divtabattr, $db2="", $events = "")
     if ($voter2type != "")
     {
         $bonlyvotes2 = ($showwhich == "all2" or $showwhich == "both" or $showwhich == "bothdiff");
-        if ($voter2type == "dreammp") {
+        if ($voter2type == "dreammp") 
+        {
+
             $columnforms["voter1type"] = null;
             $columnforms["voter2type"] = null;
             $columnforms["role"] = "Agreement";
             divdreammpconds($aquery, $db, $voter2, $bonlyvotes2, 2);
-        } else if ($voter2type == "party") {
+        } 
+        else if ($voter2type == "party") 
+        {
             if ($voter2 == "")
                 $voter2 = $aquery["party1"];
             divpartyconds($aquery, $db, $voter2, 2);
@@ -901,12 +934,20 @@ function division_table($db, $divtabattr, $db2="", $events = "")
 		$aquery["qjoin"] .= " LEFT JOIN pw_cache_whip
 								ON pw_cache_whip.division_id = pw_division.division_id AND pw_cache_whip.party = '".$divtabattr["party"]."'";
 
-	    $columnforms["loyal"] = "yes";
-	    $columnforms["rebels"] = "yes";
+	    if ($voter1type == "dreammp")
+        {
+            $columnforms["ayes"] = "yes";
+            $columnforms["noes"] = "yes"; 
+        }
+        else
+        {
+            $columnforms["loyal"] = "yes";
+	        $columnforms["rebels"] = "yes";
+    	    #$columnforms["whip_guess"] = "yes";
+	        $columnforms["party_turnout"] = "yes";
+        }
 		if ($divtabattr["display_house"] != "lords")
-		    $columnforms["boths"] = "yes";
-	    #$columnforms["whip_guess"] = "yes";
-	    $columnforms["party_turnout"] = "yes";
+	       $columnforms["boths"] = "yes";
 	}
 
     # search
@@ -931,8 +972,7 @@ function division_table($db, $divtabattr, $db2="", $events = "")
                               ON pw_logincoming.page = 'division' 
                               AND pw_logincoming.thing_id = pw_division.division_id";
     }
-
-
+    
     # main set that grabs all the divisions and makes a coarse subsampling
     $query = $aquery["qselect"].$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"].$aquery["qgroup"].$aquery["qorder"].$aquery["qlimit"];
     if ($bdebug == 1)

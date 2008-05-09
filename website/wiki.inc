@@ -1,5 +1,5 @@
 <?php
-# $Id: wiki.inc,v 1.14 2008/05/03 11:54:04 publicwhip Exp $
+# $Id: wiki.inc,v 1.15 2008/05/09 19:46:27 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Editable text with history
@@ -97,6 +97,10 @@ function extract_motion_text_from_wiki_text($text)
         {
             $ml = preg_replace("/''(.*?)''/", "<em>\\1</em>", $motionline);
             $ml = preg_replace("/\[(http:\S*)\s+(.*?)\]/", "<a href=\"\\1\">\\2</a>", $ml);
+            $ml = preg_replace("/(?<![\s*])(\[\d+\])/", "<sup>\\1</sup>", $ml);
+            #$ml = preg_replace("/(\[\d+])/", "<sup>\\1</sup>", $ml);
+            if (preg_match("/^\s\s*$/", $ml))
+                continue;
             if (preg_match("/^(\*|:)/", $ml))
             {
                 if (!$binUL)

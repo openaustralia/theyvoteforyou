@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.50 2008/05/03 11:54:04 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.51 2008/05/09 19:46:27 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -123,7 +123,21 @@
         					AND pw_dyn_aggregate_dreammp.dream_id_agg = ".$dreamtabattr['dreamid'];
 		}
 
-		$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
+        $qgroup = "";
+        if ($dreamtabattr['hitcounter'])
+        {
+            $qselect .= ", SUM(pw_logincoming.page = 'policy') AS hits"; 
+            $qselect .= ", SUM(pw_logincoming.page = 'mppolicy') AS mhits"; 
+            $qgroup = " GROUP BY pw_dyn_dreammp.dream_id"; 
+            $qjoin .= " LEFT JOIN pw_logincoming
+                            ON (pw_logincoming.page = 'policy'
+                                AND pw_logincoming.thing_id = pw_dyn_dreammp.dream_id)
+                            OR (pw_logincoming.page = 'mppolicy'
+                                AND pw_logincoming.subject = pw_dyn_dreammp.dream_id)";
+        }
+
+
+		$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup.$qorder.$qlimit;
 		if ($bdebug == 1)
 			print "<h2>$query</h2>\n";
 		$db->query($query);
@@ -138,7 +152,9 @@
 		$columnforms = array("policy" => "yes");
         #if ($dreamtabattr['listtype'] != "aggregatevotes")
         #    $columnforms["description"] = "yes";
-		if ($dreamtabattr['listtype'] == "mainlist")
+        if ($dreamtabattr['hitcounter'])
+	        $columnforms["hitcounter"] = "yes";	
+        if ($dreamtabattr['listtype'] == "mainlist")
 			$columnforms["votes"] = "yes";
 		if ($dreamtabattr['listtype'] == "comparelinks")
 			$columnforms["agreement"] = "yes";
@@ -150,6 +166,8 @@
 		if ($dreamtabattr['headings'])
 		{
 			print "<tr class=\"headings\">";
+            if ($columnforms["hitcounter"])
+                print "<td>Hits</td><td>Compare-hits</td>";
 			if ($columnforms["votes"])
 				print "<td>Votes <i>(unedited)</i></td>";
 			if ($columnforms["agreement"])
@@ -173,7 +191,9 @@
 	        $dreamid = $row['dream_id'];
 
             $link = "policy.php?id=$dreamid";
-			if ($columnforms["votes"])
+		    if ($columnforms["hitcounter"])
+                print "<td>".$row["hits"]."</td><td>".$row["mhits"]."</td>"; 
+            if ($columnforms["votes"])
 	        {
                 print "<td>".$row['votes_count'];
                 if ($row['unedited_motions'] != 0)

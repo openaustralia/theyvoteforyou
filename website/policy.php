@@ -37,17 +37,19 @@
 	# this replaces a lot of the work just below
 	$voter = get_dreammpid_attr_decode($db, "id");  # for pulling a dreammpid from id= rather than the more standard dmp=
     $policyname = html_scrub($voter["name"]);
-	$dreamid = intval($voter["dreammpid"]);
+    $party_comp = db_scrub($_GET["party"]);
+    $dreamid = intval($voter["dreammpid"]);
 
     $referrer = $_SERVER["HTTP_REFERER"];
     $querystring = $_SERVER["QUERY_STRING"];
     $ipnumber = $_SERVER["REMOTE_ADDR"];
+    $showhits = preg_match("/.*?house=z/", $referrer);
     if (!$referrer)
         $referrer = $_SERVER["HTTP_USER_AGENT"];
-    if (!isrobot())
+    if (!isrobot() && !$showhits)
         $db->query("INSERT INTO pw_logincoming
                     (referrer, ltime, ipnumber, page, subject, url, thing_id)
-        VALUES ('$referrer', NOW(), '$ipnumber', 'policy', '', '$querystring', '$dreamid')");
+        VALUES ('$referrer', NOW(), '$ipnumber', 'policy', '$party_comp', '$querystring', '$dreamid')");
 
 
 
@@ -60,6 +62,8 @@
 
 
     $title = "Policy #$dreamid: \"$policyname\"";
+    if ($party_comp)
+        $title .= " - Compared to $party_comp Party";
 
 	# constants
 	$dismodes = array();
@@ -285,6 +289,7 @@
     {
         print "<p class=\"whatisflash\">This is the votes by vote definition of Public Whip ";
         print "policy #$dreamid: \"$policyname\".";
+        
         print " You may want to <a href=\"/faq.php#policies\">read an introduction to policies</a>, ";
         print "or <a href=\"/faq.php\">read more about Public Whip</a>.";
         print "</p>";
@@ -303,6 +308,32 @@
             print "<strong>This policy is provisional, please help improve it</strong>";
         print "</div>";
         print "</p>";
+    }
+
+    if ($showhits)
+    {
+        print "<h2>Backlinks</h2>\n";
+        $db->query("SELECT referrer, ltime, ipnumber, page, thing_id FROM pw_logincoming 
+                    WHERE (page = 'policy' AND thing_id = $dreamid)
+                       OR (page = 'mppolicy' and subject = $dreamid)
+                    ORDER BY ltime DESC");
+        print "<table id=\"backlinks\">\n";
+        while ($row = $db->fetch_row_assoc())
+        {
+            print "<tr><td width=\"20%\">".preg_replace("/ /", "&nbsp;", $row["ltime"])."</td>";
+            print "<td width=\"10%\">".guy_mangle_ip($row["ipnumber"])."</td>";
+            if ($row["page"] == 'mppolicy')
+                print "<td>".$row["thing_id"]."</td>";
+            else
+                print "<td></td>";
+            print "<td width=\"70%\">";
+            if (preg_match("/http:\/\//", $row["referrer"]))
+                print "<a href=\"".$row["referrer"]."\">".$row["referrer"]."</a></td>";
+            else
+                print $row["referrer"]."</td>";
+            print "</tr>";
+        }
+        print "</table>";
     }
 
 	if ($dismode["discussion"]) {
@@ -476,6 +507,15 @@
             $divtabattr["showwhich"] = ($dismode["divisionlist"] == "bothdiff" ? "bothdiff" : "either");
         }
         
+        if ($party_comp)
+            print "<p>The <b>$party_comp</b> votes are listed along side.</p>\n";
+        
+        if ($party_comp)
+        {
+            $divtabattr["showwhich"] = "party";
+            $divtabattr["party"] = $party_comp;
+        }
+
         $divtabattr["sortby"] = "datereversed"; 
         if ($dismode["dtype"] == "motions")
         {
@@ -543,7 +583,7 @@
         print "<table class=\"$tableclass\">\n";
 		mp_table($db, $mptabattr);
 		print "</table>\n";
-	}
+    }
 
 	if ($dismode["policybox"])
 	{
