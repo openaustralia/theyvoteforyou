@@ -1,4 +1,5 @@
 Subject: Public Whip - Press Release - the By-election
+Date: Wed, 14 May 2008 19:17:10 +0100
 
 Welcome to the twelfth Public Whip newsletter.
 
@@ -18,7 +19,7 @@ to help people make up their minds about who to vote for. The webpage:
 
 http://www.publicwhip.org.uk/byelection
 
-... compares people’s opinions to the way each party has voted in
+... compares people's opinions to the way each party has voted in
 Parliament on a selection of important issues that have been in the
 news in the last five years. It uses the web-site
 www.theyworkforyou.com as a source of data.
