@@ -21,13 +21,14 @@ RedirectPermanent /code.php http://www.publicwhip.org.uk/project/code.php
 RedirectPermanent /mp-info.xml http://www.publicwhip.org.uk/feeds/mp-info.xml
 RedirectPermanent /dreammp.php http://www.publicwhip.org.uk/policy.php
 RedirectPermanent /awstats http://seagrass.goatchurch.org.uk/cgi-bin/awstats.pl?config=publicwhip
-RedirectPermanent /byelection http://www.publicwhip.org.uk/election_crewe_and_nantwich_2008.php
 
 Options +FollowSymLinks
 RewriteEngine On
 RewriteRule ^testrewrite$ /index.php [PT]
 RewriteRule ^[Nn]/([^;]+)$                      /newsletters/signup.php?token=$1
 RewriteRule ^[Uu]/([^;]+)$                      /newsletters/signup.php?token=$1&unsub=1
+RewriteRule ^byelection$ /election_crewe_and_nantwich_2008.php [PT]
+RewriteRule ^by-election$ /election_crewe_and_nantwich_2008.php?dash=yes [PT]
 
 
 # Net strike
