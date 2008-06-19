@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.58 2008/05/09 19:46:27 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.59 2008/06/19 22:32:17 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -100,7 +100,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
 	{
     	print "<td>";
 		if ($row['house'] != 'lords')
-        	print "<a href=\"mp.php?mpc=".urlencode($row['constituency'])."\">".$row['constituency']."</a>";
+        	print "<a href=\"mp.php?mpc=".urlencode(str_replace(" ", "_", $row['constituency']))."\">".$row['constituency']."</a>";
     	else
         	print "<i>(Lords)</i>";
 		print "</td>";
@@ -112,7 +112,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
 	    if ($row["entered_reason"] == "changed_party" or $row["left_reason"] == "changed_party")
 	        $party = "whilst ".$party;
 	    if (($columnforms["party"] == "ministerial") and $row["ministerial"])
-	        $party = $party.($row["ministerial"] == "PPS" ? " (PPS)" : " (minister)");
+	        $party = $party.($row["ministerial"] == "PPS" ? " (PPS)" : ($party == "Lab" ? " (minister)": " (front bench)"));
 	    print "<td>$party</td>";
 	}
 

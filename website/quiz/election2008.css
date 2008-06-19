@@ -29,7 +29,8 @@
     font-family: "Gill Sans MT"  "Trebuchet MS", "Bitstream Vera Sans", Verdana;
     text-align:left;
     font-size:12pt; 
-    text-align:justify;
+    margin-left:5px;
+    margin-right:5px;
 }
 #divcrewebyelection h1#th1 { background: #003300;padding:0; margin:0;}
 #divcrewebyelection h2#howtheyvoted {height:78px;background:url(/quiz/quizformtop.gif) no-repeat 6px 0;
@@ -142,6 +143,12 @@ tr.candidaterow td
 {
     background-color: #eeffee;
 }
+
+div.usecpol
+{
+    margin-top:5em;
+}
+
 div#uploadop
 {
     background-color: #dfbccc;
@@ -185,10 +192,11 @@ div.sissuecol2
 }
 div.sissue
 {
-    Zbackground-color: #e0e0ff;
+    Zbackground-color: red;
     Zborder: thin #a0a0ff solid;
-    Zpadding: 2px;
+    padding: 0px;
     margin: 3px;
+    width:100%;
 }
 div.sissues td
 {
@@ -207,8 +215,34 @@ ul.newsart
 }
 ul.newsart li
 {
-    list-style:none;
+    Zlist-style:none;
 }
+div.newsart
+{
+    font-size:14pt;
+    font-family: "Times New Roman";
+    background-color:#d9f9e9;
+    clear:both;
+    height:14em;
+    Zmax-height:15em;
+    overflow:scroll;
+    border: thin #c9e9e9 solid;
+}
+div.newsart ul
+{
+    Zpadding:0px;
+    margin:0px;;
+}
+div.newsart li
+{
+    Zlist-style:none;
+}
+div.newsart p.summ
+{
+    padding-left:20px;
+}
+
+
 
 a.shownews
 {
@@ -256,9 +290,9 @@ p.seclinks
 {
     font-size:20pt;
     text-align:left;
-    margin-top:15px;
+    margin-top:5px;
     margin-left:15px;
-    clear:both;
+    Zclear:both;
 }
 p.seclinks a.ss
 {
@@ -266,11 +300,18 @@ p.seclinks a.ss
     margin-left:20px;
     vertical-align:bottom;
 }
+p.seclinks a.st
+{
+    border: thin yellow solid;
+    Zbackground-color:#ffffa8;
+}
+
 p
 {
     margin-bottom:5px;
     margin-top:0;
 }
+
 div.secpol
 {
     height:40em;
@@ -278,8 +319,10 @@ div.secpol
 }
 div.secpol h2
 {
-    padding-top:1em;
+    padding-top:5px;
+    margin-bottom:0px;
 }
+
 td.elerowtd
 {
     width:25%;
@@ -293,7 +336,6 @@ table.elecalc-single
 }
 div.sissue
 {
-    width:48%;
     text-align:left;
 }
 div.sissue p.sel
@@ -302,7 +344,14 @@ div.sissue p.sel
     border: thin #b0b0f0 solid;
     font-size:14pt;
 }
-
+div.sissue select
+{
+    font-size:16pt;
+}
+div#sec-upload input
+{
+    font-size:16pt;
+}
 h2#frant
 {
     padding-top:5em;

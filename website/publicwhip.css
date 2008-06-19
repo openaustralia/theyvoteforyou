@@ -625,10 +625,31 @@ LI {
 .motion li.block
 {
     list-style-type: none;
-    mergin-left: -1em;
+    Zmargin-left: -1em;
+}
+.motion li.footnote
+{
+    font-size: 80%;
+}
+.motion li.footnote a
+{
+    font-weight: bold;
+}
+
+.motion sup
+{
 }
 .motion sup
 {
+    COLOR: #000099;
+    font-size:60%;
+    vertical-align:top;
+    padding:0;
+}
+.motion a.sup:hover
+{
+    TEXT-DECORATION: underline;
+    cursor:pointer;
 }
 
 .policyvotehead

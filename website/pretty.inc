@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.45 2008/05/09 19:46:27 publicwhip Exp $
+# $Id: pretty.inc,v 1.46 2008/06/19 22:32:17 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -328,7 +328,7 @@ function guy_mangle_ip($ipnum)
 function guy_attrcheck($arr) {
 	global $guy_c;
 	$element = strtolower($arr[1]); $attributes = $arr[2];
-	$nosp = ''; $sp = 'title|class'; $dims = '';
+	$nosp = ''; $sp = 'title|class|id|onclick'; $dims = '';
 	$ok = array();
 
 	if ($element == 'a') {

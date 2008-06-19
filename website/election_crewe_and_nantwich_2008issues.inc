@@ -10,6 +10,11 @@
 $constituency = "Crewe and Nantwich"; # mpc=urlencode()
 $candidatesA = array();
 
+$candidatesA[] = array("name" => "The Flying Brick", 
+                      "url"=>"http://www.omrlp.com/",
+                      "party" => "Official Monster Raving Loony", 
+                      "party_code" => "OMRL");
+
 $candidatesA[] = array("name" => "Tamsin Dunwoody",
                       "url"=>"http://www.creweandnantwichlabour.org.uk/",
                       "party" => "Labour", 
@@ -26,9 +31,9 @@ $candidatesA[] = array("name" => "Gemma Garrett",
                        "party" => "Independent");
 
 $candidatesA[] = array("name" => "Mike Nattrass",
-                      "url"=>"http://www.ukip.org/ukip/index.php?option=com_content&task=view&id=616&Itemid=57",
+                      "url"=>"http://www.votenattrass.info/",
                       "party_code" => "UKIP",
-                      "party" => "United Kingdom Independence Party",
+                      "party" => "UKIP",
                       "party_url" => "http://www.electoralcommission.org.uk/regulatory-issues/regpoliticalparties.cfm?frmGB=1&frmPartyID=60&frmType=partydetail");
 
 $candidatesA[] = array("name" => "David Roberts",
@@ -85,6 +90,8 @@ $issues[] = array("dream_id" => 963,  "name" => "Invade Iraq",
                     "action" => "the 2003 invasion of Iraq");
 $issues[] = array("dream_id" => 975,  "name" => "Investigate Iraq", 
                     "action" => "investigating the Iraq war");
+$issues[] = array("dream_id" => 1037, "name" => "Income tax",
+                    "action" => "abolishing the 10% income tax bracket");
 $issues[] = array("dream_id" => 1001, "name" => "Public MPs", 
                     "action" => "the Freedom of Information Act continuing to apply to MPs and Parliament");
 $issues[] = array("dream_id" => 1003, "name" => "Replace Trident", 

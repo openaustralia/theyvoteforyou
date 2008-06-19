@@ -1,5 +1,5 @@
 <?php
-# $Id: wiki.inc,v 1.15 2008/05/09 19:46:27 publicwhip Exp $
+# $Id: wiki.inc,v 1.16 2008/06/19 22:32:17 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Editable text with history
@@ -93,11 +93,12 @@ function extract_motion_text_from_wiki_text($text)
         $motionlines = explode("\n", $motion);
         $binUL = 0;
         $res = array();
+        $matches = array();
         foreach ($motionlines as $motionline)
         {
             $ml = preg_replace("/''(.*?)''/", "<em>\\1</em>", $motionline);
             $ml = preg_replace("/\[(http:\S*)\s+(.*?)\]/", "<a href=\"\\1\">\\2</a>", $ml);
-            $ml = preg_replace("/(?<![\s*])(\[\d+\])/", "<sup>\\1</sup>", $ml);
+            $ml = preg_replace("/(?<![*\s])(\[(\d+)\])/", "<sup class=\"sup-\\2\"><a class=\"sup\" onclick=\"ClickSup(\\2)\">\\1</a></sup>", $ml);
             #$ml = preg_replace("/(\[\d+])/", "<sup>\\1</sup>", $ml);
             if (preg_match("/^\s\s*$/", $ml))
                 continue;
@@ -108,6 +109,11 @@ function extract_motion_text_from_wiki_text($text)
                 $binUL = (preg_match("/^\*\*/", $ml) ? 2 : 1);
                 if (preg_match("/^:/", $ml))
                     $binUL = 3;
+                else if (preg_match("/^\s*\*\s*\[\d+\]/", $ml, $matches))
+                {
+                    $binUL = 4; 
+                    $footnum = preg_replace("/[\s\*\[\]]+/", "", $matches[0]);  // awful stuff because I can't pull out bits like in python
+                }
                 $ml = preg_replace("/^(\*\*|\*|:)\s*/", "", $ml);
             }
             else if ($binUL != 0)
@@ -123,9 +129,13 @@ function extract_motion_text_from_wiki_text($text)
                 $res[] = "<li class=\"house\">";
             else if ($binUL == 3)
                 $res[] = "<li class=\"block\">";
+            else if ($binUL == 4)
+                $res[] = "<li class=\"footnote\" id=\"footnote-$footnum\">";
             else
                 $res[] = "<li>";
+            
             $res[] = $ml;
+            
             if ($binUL == 0)
                 $res[] = "</p>";
             else

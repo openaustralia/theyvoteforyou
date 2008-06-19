@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.95 2008/05/03 11:54:03 publicwhip Exp $
+# $Id: header.inc,v 1.96 2008/06/19 22:32:17 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -60,6 +60,14 @@ function secondnav_goto3() {
     if (!document.getElementById) return
     var el = document.getElementById('r3')
     window.location=el.options[el.selectedIndex].value
+}
+function ClickSup(nsup) {
+    var el = document.getElementById('footnote-' + nsup);
+    el.style.backgroundColor = (el.style.backgroundColor ? "" : "#ffff77");
+    var sups = document.getElementsByTagName("sup");
+    for (var i = 0; i < sups.length; i++)
+        if (sups[i].className == "sup-" + nsup)
+            sups[i].style.backgroundColor = el.style.backgroundColor;
 }
 // -->
 </script>

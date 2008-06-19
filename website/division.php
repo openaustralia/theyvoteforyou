@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.138 2008/05/09 19:46:26 publicwhip Exp $
+# $Id: division.php,v 1.139 2008/06/19 22:32:16 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -172,7 +172,7 @@ function no_division_found($plural)
 
 		$dismodes["allvotes"] = array("dtype"	=> "allvotes",
 								 "description" 	=> "All voters",
-								 "motiontext" 	=> "",
+								 "motiontext" 	=> "yes",
 								 "summarytext"	=> "",
 								 "partysummary"	=> "",
 								 "ministerial" 	=> "yes",

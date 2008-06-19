@@ -1,5 +1,5 @@
 <?php
-# $Id: constituencies.inc,v 1.12 2007/08/28 15:11:10 publicwhip Exp $
+# $Id: constituencies.inc,v 1.13 2008/06/19 22:32:14 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -11,24 +11,27 @@ function normalise_constituency_name($db, $name, $parl = null) {
     $name = str_replace("&amp;", "&", $name);
     $name = str_replace("&", "&amp;", $name);
     $name = str_replace("&amp;#39;", "&#39;", $name);
+    $name = trim($name);
+    $name = db_scrub($name);
 
-    if (!$parl) {
-        $query = "select cons_id from pw_constituency where name like '" . db_scrub($name) . "' 
-            order by to_date desc limit 1";
-    } else {
-        $query = "select cons_id from pw_constituency where name like '" . db_scrub($name) . "' 
-            order by to_date desc limit 1";
-    }
-    $sth1 = $db->query_onez_row_assoc($query);
-    if (!$sth1)
-        return false;
+    $qsel = "SELECT name, cons_id FROM pw_constituency"; 
+    $qwhere = " WHERE main_name".($parl ? " AND to_date < '$parl'" : "");
+    $qwhere2 = " AND name LIKE '$name'"; 
+    $qorder = " ORDER BY to_date DESC LIMIT 1"; 
+    $sth1 = $db->query_onez_row_assoc($qsel.$qwhere.$qwhere2.$qorder);
+    if ($sth1)
+        return $sth1["name"];
+    $qwhere2 = " AND name LIKE '%$name%'";    
+    $sth1 = $db->query_onez_row_assoc($qsel.$qwhere.$qwhere2.$qorder);
+    if ($sth1)
+        return $sth1["name"];
+    
+    return false;
 
-    $query = "select name from pw_constituency where main_name and cons_id = '".$sth1['cons_id']."'";
-    $sth2 = $db->query_onez_row_assoc($query);
-    if (!$sth2)
-        return false;
-
-    return $sth2["name"];
+    #$query = "SELECT name FROM pw_constituency  main_name and cons_id = '".$sth1['cons_id']."'";
+    #$sth2 = $db->query_onez_row_assoc($query);
+    #if ($sth2)
+    #    return $sth2["name"];
 }
 
 ?>

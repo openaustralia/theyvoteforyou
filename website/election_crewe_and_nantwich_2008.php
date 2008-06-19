@@ -26,12 +26,15 @@ function WriteEleSelectIssue($dreamid, $prevote)
 {
     $selaye = (($prevote == "a") || ($prevote == "b"));
     $selnoe = (($prevote == "d") || ($prevote == "e"));
-    $selind = (!$selaye && !$selnoe);
-    print "<select id=\"issue-$dreamid\" onchange=\"UpdateCItable()\">\n";
-    print "\t<option value=\"0\"".($selind ? " SELECTED" : "").">indifferent about</option>\n";
+    $selind = ($prevote && !$selaye && !$selnoe);
+    $selund = False;
+    print "<select title=\"Change this to fit your opinion, or skip to next question\" id=\"issue-$dreamid\" onchange=\"UpdateCItable()\">\n";
+    print "\t<option value=\"0\"".(!$prevote ? " SELECTED" : "")." style=\"color:gray\">select your opinion</option>\n";
     print "\t<option value=\"1\"".($selaye ? " SELECTED" : "").">in favour of</option>\n";
-    #print "\t<option value=\"3\">strongly in favour of</option>\n";
     print "\t<option value=\"-1\"".($selnoe ? " SELECTED" : "").">against</option>\n";
+    print "\t<option value=\"0\"".($selind ? " SELECTED" : "").">indifferent about</option>\n";
+    print "\t<option value=\"0\"".($selund ? " SELECTED" : "").">undecided about</option>\n";
+    #print "\t<option value=\"3\">strongly in favour of</option>\n";
     #print "\t<option value=\"-3\">strongly against</option>\n";
     print "</select>\n";
 }
@@ -246,11 +249,17 @@ print "<h4 id=\"th4a\">The party candidate calculator</h4>\n";
 print "<h4 id=\"th4b\">$constituency</h4>\n";
 print "<h4 id=\"th4c\">by-election: 22 May 2008</h4>\n";
 
+$vdash = mysql_escape_string(db_scrub($_GET["dash"])); # used to tell if /by-election or /byelection was used
 $vpostcode = db_scrub($_POST["vpostcode"]);  # a string of letters (each a-e for strong favour to against) in order of the policies
-$vvote = db_scrub($_POST["vvote"]);
-$vkey = db_scrub($_POST["vkey"]);
-$vcomment = db_scrub($_POST["vcomment"]);
-$vinitials = db_scrub($_POST["vinitials"]);
+$vvote = mysql_escape_string(db_scrub($_POST["vvote"]));
+$vkey = mysql_escape_string(db_scrub($_POST["vkey"]));
+$vcomment = mysql_escape_string(db_scrub($_POST["vcomment"]));
+$vinitials = mysql_escape_string(db_scrub($_POST["vinitials"]));
+$vrand = $_POST["vrand"];
+if ($vrand)
+    $vrand = (int)$vrand;
+else
+    $vrand = rand(10, 10000000);
 $person = db_scrub($_POST["vname"]); # name of person who expressing these opinions
 
 if ($person == "I")
@@ -261,11 +270,13 @@ print "<script type=\"text/javascript\">\n";
 WriteJavascriptElecTable($candidates, $issues);
 print "</script>\n";
 
+print "<p style=\"background-color:#ffbbbb; margin:22px\"><b>The by-election was <a href=\"http://news.bbc.co.uk/2/hi/uk_news/politics/7415362.stm\">won</a> by Edward Timpson (Con).  Sign up for email alerts about his speeches (which will include his maiden speech) <a href=\"http://www.theyworkforyou.com/mp/edward_timpson/crewe_and_nantwich\">here</a> on theyworkforyou.com.  Thank you for your attention.</b></p>\n";
+
 print "<div class=\"secpol\" id=\"sec-top\">\n";
 print "<table class=\"candidatetable\" style=\"float:right\">\n"; 
-print "<caption>Latest list of candidates
-       <a href=\"http://en.wikipedia.org/wiki/Crewe_and_Nantwich_by-election,_2008\">(from wikipedia)</a></caption>\n";
-print "<tr><th>Candidate</th><th>Party (electoral-commission)</th></tr>\n";
+print "<caption>List of candidates
+       <a href=\"http://en.wikipedia.org/wiki/Crewe_and_Nantwich_by-election,_2008\" target=\"_blank\">(from wikipedia)</a></caption>\n";
+//print "<tr><th>Candidate</th><th>Party (electoral-commission)</th></tr>\n";
 for ($i = 0; $i < count($candidatesA); $i++)
 {
     $candidate = $candidatesA[$i];
@@ -273,17 +284,28 @@ for ($i = 0; $i < count($candidatesA); $i++)
         continue; 
     print "<tr><td>";
     if ($candidate["url"])
-        print "<a href=\"".$candidate["url"]."\" target=\"_blank\">".$candidate["name"]."</a>"; 
+//        print "<a href=\"".$candidate["url"]."\" target=\"_blank\">".$candidate["name"]." - ".$candidate["party"]."</a>"; 
+        print "<a href=\"".$candidate["url"]."\" target=\"_blank\"><b>".$candidate["party"]."</b> - ".$candidate["name"]."</a>"; 
     else
         print $candidate["name"];
-    print "</td><td>";
-    if ($candidate["party_url"])
-        print "<a href=\"".$candidate["party_url"]."\" target=\"_blank\">".$candidate["party"]."</a>";
-    else
-        print $candidate["party"];
+    //print "</td><td>";
+    //if ($candidate["party_url"])
+    //    print "<a href=\"".$candidate["party_url"]."\" target=\"_blank\">".$candidate["party"]."</a>";
+    //else
+    //    print $candidate["party"];
     print "</td></tr>\n";
 }
 print "</table>\n"; 
+
+$referrer = $_SERVER["HTTP_REFERER"];
+$querystring = $_SERVER["QUERY_STRING"];
+$ipnumber = $_SERVER["REMOTE_ADDR"];
+if (!$referrer)
+    $referrer = $_SERVER["HTTP_USER_AGENT"];
+if (!isrobot() and !$vkey and !preg_match("/.*?house=z/", $querystring))
+    $db->query("INSERT INTO pw_logincoming
+            (referrer, ltime, ipnumber, page, subject, url, thing_id)
+            VALUES ('$referrer', NOW(), '$ipnumber', 'crewe_election', '$vkey', '$vdash', $vrand)");
 
 # we've had a posting
 if ($vkey)
@@ -292,10 +314,33 @@ if ($vkey)
     print "Thanks for your information";
     if ($vinitials)
         print ", $vinitials"; 
-    if ($vcomments)
-        print ", and thanks for the comments";
+    if ($vcomment)
+        print ", and thanks for the comment";
     print ".</p>\n";
-    
+
+    if (preg_match("/.*?house=z/", $referrer))
+    {
+        $db->query("SELECT vkey, vvote, url, referrer, pw_logincoming.ltime AS ltime0, pw_dyn_crewe_comments.ltime AS ltime1, vinitials, vpostcode, vcomment 
+                    FROM pw_logincoming 
+                    LEFT JOIN pw_dyn_crewe_comments 
+                    ON thing_id = vrand
+                    WHERE page = 'crewe_election' 
+                    AND vpostcode <> ''
+                    ORDER BY ltime0 DESC
+                    LIMIT 9150");
+        print "<table style=\"clear:both\">\n";
+        $i = 0; 
+        while ($row = $db->fetch_row_assoc())
+        {
+            $i++;
+            #print "<tr><td>$i</td><td>".$row["ltime0"]."</td><td>".$row["ltime1"]."</td><td>".$row["url"]."</td><td style=\"font-size:60%\">".$row["referrer"]."</td><td>".$row["vpostcode"]."</td><td style=\"width:40%\">".$row["vcomment"]."</td></tr>\n";
+            print "<tr><td>$i</td><td>".$row["ltime0"]."</td><td>".$row["vdash"]."</td><td>".$row["url"]."</td><td style=\"font-size:60%\">".$row["referrer"]."</td><td>".$row["vpostcode"]."</td><td style=\"width:40%\">".$row["vcomment"]."</td></tr>\n";
+        }
+        print "</table>\n";
+    }
+
+// we've got to do something constructive with the comments...
+
     print "<p>If you like, you can sign up for a (very infrequent) newsletter on the front page of 
            <a href=\"http://www.publicwhip.org.uk\">Public Whip</a>, 
            or see if you can make any sense of another little 
@@ -309,28 +354,40 @@ if ($vkey)
        </div>\n";
 
     print "</div>\n";
+
+    //$db->query("drop table if exists pw_dyn_crewe_comments");
+    //$db->query("create table pw_dyn_crewe_comments (vkey varchar(20), ltime timestamp, vrand int, vvote varchar(20), vinitials varchar(20), vpostcode varchar(20), vcomment text)");
+
+    
+    $db->query("INSERT INTO pw_dyn_crewe_comments (vkey, ltime, vvote, vinitials, vpostcode, vrand, vcomment)
+                VALUES ('$vkey', NOW(), '$vvote', '$vinitials', '$vpostcode', $vrand, '$vcomment')");
+    
     print "</body>\n";
     print "</html>\n";
     exit;
 }
 
-print "<p>This website helps you choose which candidate's party 
-        most closely represents your views in Parliament 
-        on a selection of issues.</p>
-        
-        <p>It uses the same numbers as 
-        <a href=\"http://www.theyworkforyou.com\">theyworkforyou.com</a>, 
-        but in a more dynamic form.</p>
+print "<p>This website helps you pick which party  
+        votes in Parliament according to your views
+        on a selection of issues. These are based on the numbers in 
+        <a href=\"http://www.theyworkforyou.com\">theyworkforyou.com</a>. 
+        </p>
 
-        <p>Only the Labour, LibDem and Conservative Parties 
-        are shown, because the other parties standing for election have 
-        had no MPs in Parliament over the last five years.</p>
+        <p>If you already know who you are going to vote for, this website helps you 
+        see which issues you probably disagree with them about.</p>
+
+        <p>Only the <b>Labour</b>, <b>LibDem</b> and <b>Conservative</b> Parties 
+        are shown, because the others in the election have 
+        had no MPs in Parliament.</p>
 
         <p>Gwyneth Dunwoody is included for reference because she sometimes 
-        differed from the majority of the Labour Party.</p>";
+        voted differently from the majority of the Labour Party.</p>";
+
+        //<p>Your answers are not sent to any computer, unless 
+        //you choose to submit them at the end.</p>
 
         
-print "<p class=\"seclinks\"><a href=\"#sec-".$issues[0]["dream_id"]."\">start &gt;&gt;</a></p>";
+print "<p class=\"seclinks\"><a href=\"#sec-".$issues[0]["dream_id"]."\" class=\"st\" title=\"Click here for the first question\">start &gt;&gt;</a></p>";
 print "</div>";
 
 #print "<table class=\"elecalc\">\n";
@@ -338,49 +395,55 @@ print "</div>";
 #print "</table>\n";
 
 
-    for ($i = 0; $i < count($issues); $i++)
+    $n = count($issues);
+    for ($i = 0; $i < $n; $i++)
     {
         $issue = $issues[$i];
         $dreamid = $issue['dream_id'];
         print "<div class=\"secpol\" id=\"sec-".$issue["dream_id"]."\">";
         print "<h2>".$issue["name"]."</h2>\n";
-        
+
         print "<table class=\"elecalc elecalc-single\">\n"; 
         WriteIssueRow($issue, $candidates);
         print "</table>\n";
-
+        
+        //print "<table border=1><tr><td style=\"width:50%\">\n";
         print "\n\n<div class=\"sissue\">\n";
-        print "<p>Compare your opinion to the parties in Parliament.</p>";
+        print "<p>Use the drop-down box to state your opinion to complete the sentence.";
+        print " (<i>".($i + 1)." of $n</i>)</p>\n";
         $prevote = ($vkey && ($i < strlen($vkey)) ? $vkey[$i] : "");
         WriteEleIssueSection($issue, $prevote, $person);
-        print "<p>Read selected newspaper articles for the background story.</p>\n";
         print "</div>\n";
 
-        WriteLongListNews($issue["name"]);
+        //print "</td><td style=\"width:50%\">\n";
+        //print "</td></tr></table>\n";
         $acont = "http://www.publicwhip.org.uk/policy.php?id=".$issue["dream_id"];
-        print "<p>Click <a href=\"$acont\" target=\"_blank\">here</a> to see the votes in Parliament this was based on.</p>";
+        print "<p>Click <a href=\"$acont\" target=\"_blank\" title=\"List of relevant votes in Parliament\">here</a> to see the votes in Parliament this was based on.</p>";
+
+        WriteLongListNews($issue["name"]);
 
         
         print "<p class=\"seclinks\">";
         if ($i == count($issues) - 1)
-            print "<a href=\"#sec-summs\">finish &gt;&gt;</a>\n";
+            print "<a href=\"#sec-summs\" class=\"st\">next &gt;&gt;</a>\n";
         else
-            print "<a href=\"#sec-".$issues[$i + 1]["dream_id"]."\">next &gt;&gt;</a>\n";
+            print "<a href=\"#sec-".$issues[$i + 1]["dream_id"]."\" class=\"st\" title=\"Go to next question\">next &gt;&gt;</a>\n";
         if ($i != 0)
-            print "<a class=\"ss\" href=\"#sec-".$issues[$i - 1]["dream_id"]."\">previous &lt;&lt;</a>\n";
-        print "<a class=\"ss\" href=\"#\">top</a>\n";
+            print "<a class=\"ss\" href=\"#sec-".$issues[$i - 1]["dream_id"]."\" title=\"Go to previous question\">previous &lt;&lt;</a>\n";
+        print "<a class=\"ss\" href=\"#\" title=\"Go back to top of questionaire\">top</a>\n";
         print "</p>\n";
         print "</div>\n\n";
     }
     
-    print "<div class=\"Zsecpol\" id=\"sec-summs\">";
+    print "<div class=\"secpol\" id=\"sec-summs\">";
     print "<h2>Summary of results</h2>\n\n";
     print "<p>This table lists the issues on which you have expressed a preference.
            Use the tick-boxes to say which are the most important to you.
-           The scores are added up accordingly to work out the party that votes closest to 
+           The scores are added up to give the party that votes closest to you 
            in Parliament.</p>";
-    print "<p>Click on the word \"FOR\" or \"AGAINST\" to see the individual votes 
-           that make up the policy.</p>\n";
+    print "<p>If a box is red it's in the row of an issue 
+           you disagree with that party on.  Click on the word \"FOR\" or \"AGAINST\" to see how the individual votes 
+           for that policy break down.</p>\n";
     print "<table class=\"elecalc\">\n"; 
     print "<tr class=\"candidaterow\">\n";
     print "<td colspan=\"2\">Parliamentary parties for <b>$constituency</b> contituency:</td>\n";
@@ -422,10 +485,13 @@ print "</div>";
         print "</tr>\n";
     }
     print "</table>\n";
+    print "<p class=\"seclinks\"><a href=\"#sec-upload\" class=\"st\">next &gt;&gt;</a>\n";
+    print "</div>\n";
 
 
-if (!$person)
-{
+    print "<div class=\"usecpol\" id=\"sec-upload\">\n";
+    print "<h2>Give us your views</h2>\n\n";
+     
     print "<div id=\"uploadop\">\n";
     print "<form action=\"http://www.publicwhip.org.uk/election_crewe_and_nantwich_2008.php\" method=\"post\">\n";
     
@@ -433,14 +499,14 @@ if (!$person)
     print "<caption>Upload your opinions if you dare</caption>\n";
     print "<tr><td>Your postcode:</td> <td><input type=\"text\" name=\"vpostcode\" id=\"vpostcode\"> </input></td></tr>\n";
     print "<tr><td>Your initials:</td> <td><input type=\"text\" name=\"vinitials\" id=\"vinitials\"> </input></td></tr>\n";
-    print "<tr><td>Opinion code:</td><td><input type=\"text\" name=\"vkey\" id=\"vkey\" value=\"ccccccccccc\" readonly></td></tr>\n";
-    
+    print "<tr style=\"display:none\"><td>Opinion code:</td><td><input type=\"text\" name=\"vkey\" id=\"vkey\" value=\"ccccccccccc\" readonly></td></tr>\n";
+    print "<tr style=\"display:none\"><td>Random number:</td><td><input type=\"text\" name=\"vrand\" id=\"vrand\" value=\"$vrand\" readonly></td></tr>\n";
     print "<tr><td colspan=\"2\">Your intended vote:</td><tr>\n";
     print "<tr><td colspan=\"2\"><select id=\"vvote\" name=\"vvote\">\n";
     print "\t<option value=\"undecided\" SELECTED>undecided</option>\n";
     print "\t<option value=\"notvote\">not voting</option>\n";
     print "\t<option value=\"notvote\">can't vote</option>\n";
-    print "\t<option value=\"nobusiness\">none of your business</option>\n";
+    print "\t<option value=\"nobusiness\">prefer not to say</option>\n";
     for ($i = 0; $i < count($candidatesA); $i++)
     {
         $candidate = $candidatesA[$i];
@@ -452,32 +518,75 @@ if (!$person)
     } 
     print "</select></td></tr>\n";
     print "<tr><td colspan=\"2\">Comments:</td><tr>\n";
-    print "<tr><td colspan=\"2\"><textarea id=\"vcomments\" name=\"vcomments\" rows=\"5\" cols=\"40\"></textarea></td></tr>\n";
+    print "<tr><td colspan=\"2\"><textarea id=\"vcomment\" name=\"vcomment\" rows=\"5\" cols=\"40\"></textarea></td></tr>\n";
     
-    print "<tr><td> </td><td><input type=\"submit\" value=\"Register my opinions\"></input></td></tr>\n";
+    print "<tr><td colspan=\"2\"><input type=\"submit\" value=\"Upload my comments\" title=\"Don't forget to click here\"></input></td></tr>\n";
     print "</table>\n";
     print "</form>\n";
     print "</div>\n";
 
-    print "<p>If you want more form filling, try the
-           <a href=\"http://www.creweandnantwichlabour.org.uk/puttingyoufirst\" target=\"_blank\">Labour website</a> 
-           or the 
-           <a href=\"http://www.creweandnantwichconservatives.com/survey.php?surveyid=7\" target=\"_blank\">Conservative website</a>.</p>\n";
-    print "<p>As you can see, I'm not making a database.  This is for a mash-up if I get enough responses.</p>\n";
+    print "<p>If you have decided on the party you support,  
+           make sure you vote.
+           You can contact <a href=\"http://www.creweandnantwichlabour.org.uk/contact_us\" target=\"_blank\">Labour</a>, 
+           <a href=\"http://www.creweandnantwichconservatives.com/survey.php?surveyid=7\" target=\"_blank\">Conservative</a>, 
+           <a href=\"http://www.elizabethshenton.com/contact-elizabeth-shenton/\" target=\"_blank\">LibDem</a>, or one 
+           of the smaller parties listed at the top of this page and leave them your name and 
+           address and they'll make sure they chase you up on the day in case you forget to vote.</p>
+
+           <p>Please leave your post-code and make a comment to help improve this website for future elections.
+           <i>Don't forget to click on the <b>\"Upload my comments\"</b> button</i>!</p>";
+    
+    print "<p>One last thing.  About those hospital car parking charges which <a href=\"http://www.elizabethshenton.com/leighton-hospital-53/\">have featured</a> 
+           during the campaign: try 
+            <a href=\"http://www.whatdotheyknow.com/body/mid_cheshire_hospitals_nhs_foundation_trust\">asking 
+           the hospital about them</a> using the Freedom of Information laws.  
+           These laws were 
+           <a href=\"http://www.publicwhip.org.uk/policy.php?id=1008\">created by the MPs</a> back in the year 2000, 
+           and are very useful for helping us help ourselves.</p>\n";
+    
+    /*print "<h2 style=\"clear:both\">Frequently Asked Questions</h2>\n";
+    print "<p><b>Why is this site biased against Labour?</b></p>\n";
+    print "<p>The bias that is present is entirely due to the selection of votes and policies.
+           There has been limited time and resources for completing the research for all of the Parliamentary votes.</p>
+
+           <p>Supporters of the Labour Party who want to improve its standing 
+           in relation to this type of analysis are strongly invited to help find the popular votes that their 
+           favourite party has cast in Parliament and 
+           <a href=\"http://www.publicwhip.org.uk/faq.php#help\">explain them accurately</a> 
+           in words that are easy to understand.  Get in touch if you need advice on how to do it.</p>\n";
+
+    print "<p style=\"margin-top:1em\"><b>Why don't you mention important issues like the minimum wage?</b></p>\n"; 
+    print "<p>The <a href=\"http://en.wikipedia.org/wiki/National_Minimum_Wage_Act_1998\">National 
+           Minimum Wage Act 1998</a> was passed ten years ago. 
+           Like the <a href=\"http://en.wikipedia.org/wiki/Human_Rights_Act_1998\">Human Rights Act 1998</a>
+           and the <a href=\"http://en.wikipedia.org/wiki/Freedom_of_Information_Act_2000\">Freedom of Information Act 2000</a>, 
+           it was a step forward.  However there needs to be evidence that the policy is still in place.  
+           After all, the Labour Party used to stand for nuclear disarmament, and doesn't any more.</p>\n";
 
     
-}
-    print "<p>Oh, and about <a href=\"http://www.elizabethshenton.com/leighton-hospital-53/\">those hospital car parking charges</a>.  What you do is 
-           <a href=\"http://www.whatdotheyknow.com/body/mid_cheshire_hospitals_nhs_foundation_trust\">ask 
-           the hospital about them</a> using the Freedom of Information laws.</p>\n";
-    print "<p>Whether the Freedom of Information laws are strong enough to force the hospital to provide 
-           any answers, and whether the Information Commissioner's Office is given enough  
-           money to get through his <a href=\"http://www.pressgazette.co.uk/story.asp?sectioncode=1&storycode=39999&c=\">two year back-log</a>, is precisely the kind of thing that MPs can really deal with.
-           Their job is passing laws concerning our rights, setting all the tax rates, 
-           and controlling where the money is spent.  Everything else we do ourselves.</p>\n";
+    print "<p style=\"margin-top:1em\"><b>What about things like continued investment in education and the health service which the Labour Party stands for?  Where are they?</b></p>\n";
+    print "<p>If these are subject to a vote in Parliament, we can easily put them in once someone finds them.
+           If not, then it's tricky and shows a limitation of using Parliamentary votes 
+           as the sole basis for determining the right party for you to support.</p>
+           <p>Public spending and accountability is a sticky issue.  
+           The main problem is that the numbers don't make any sense unless they are put into context. And even then it's difficult 
+           to tell the difference between actual increased investment in public services, and the same  
+           services simply costing a lot more money than they used to.
+           As a result, we are generally left with interpreting the numbers according to our prejudices.</p>
+           <p>There was a  
+           <a href=\"http://www.publicwhip.org.uk/division.php?date=2007-06-29&number=169\">vote in Parliament 
+           on 29 June 2007</a> about establishing a public website containing a break-down of all the Government 
+           expenditure across the country, to which only 18 MPs turned up.</p>
+           <p>In general, the advantage belongs to those who pay attention to the details.  
+           Currently, only businesses take the time to scrutinize the flow of public expenditures.
+           Unless there are active citizen's groups investigating it on the public's behalf, 
+           there's no saying what is going on.</p>
+           
 
 
-
+           <p>JT</p>\n";
+   */
+   print "</div>\n";
     #print "<p class=\"seclinks\"><a href=\"#frant\">finally &gt;&gt;</a>\n";
     #print "<a class=\"ss\" href=\"#sec-".$issues[count($issues) - 1]["dream_id"]."\">previous &lt;&lt;</a>\n";
     #print "<a class=\"ss\" href=\"#\">top</a>\n";

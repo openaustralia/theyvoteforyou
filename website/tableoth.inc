@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.51 2008/05/09 19:46:27 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.52 2008/06/19 22:32:17 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -303,7 +303,7 @@
             print ($house == "lords" ? "<td>Majority (Content)</td><td>Minority (Not-Content)</td>":"<td>Majority (Aye)</td><td>Minority (No)</td>");
         if ($house != "lords")
             print "<td>Both</td>";
-        print "<td>Turnout</td>";
+        print "<td>Turnout</td></tr>\n";
         $prettyrow = 0;
 
 		$totalayes = 0;
