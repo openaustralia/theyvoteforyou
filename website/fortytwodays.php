@@ -19,9 +19,9 @@ require_once "postcode.inc";
 
 function GetVotes($db, $person, $dreamid)
 {
-    $qselect = "SELECT pw_division.division_date AS date, pw_division.division_number AS number, pw_vote.vote AS vote"; 
+    $qselect = "SELECT pw_division.division_date AS date, pw_division.division_number AS number, pw_vote.vote AS vote, pw_vote.party AS party";
     $qfrom = " FROM pw_dyn_dreamvote";
-    $qjoin = " LEFT JOIN pw_division ON pw_division.division_date = pw_dyn_dreamvote.division_date 
+    $qjoin = " LEFT JOIN pw_division ON pw_division.division_date = pw_dyn_dreamvote.division_date
                                     AND pw_division.division_number = pw_dyn_dreamvote.division_number
                                     AND pw_division.house = pw_dyn_dreamvote.house";
     $qjoin .= " LEFT JOIN pw_mp ON pw_mp.person = $person";
@@ -68,7 +68,7 @@ div.quessec { border: thin black solid; padding: 10px; margin-top:10px; }
 div.oprad { margin-top:10px; padding:5px; background-color:#e0e0d0; font-size:120%;}
 div#checkmpbutton { font-size: 200%; text-align:center; margin:10px;}
 div#footer { background-color:black; color:white;  border: thin black solid; }
-      "; 
+      ";
 
 print "</style>\n";
 
@@ -87,17 +87,123 @@ $vpubem = $_GET["vpubem"];
 
 if ($mpval)
 {
-    print_r($mpval["mpprop"]);
-    $votes = GetVotes($db, $mpval["mpprop"]["person"], 1039);
-    print_r($rows);
+    $mpprop = $mpval["mpprop"];
+    $party = $mpprop["party"];
+    $fullname = $mpprop["fullname"];
+    $constituency = $mpprop["constituency"];
+    $minentered_house = $mpval["minentered_house"];
 
-    print "<h1>".GetVote($votes, "2001-11-21", 75)."</h1>\n";
-    $d90days = GetVote($votes, "2001-11-21", 75);
+    #print_r($mpval);
+    $votes = GetVotes($db, $mpprop["person"], 1039);
+    #print_r($rows);
+
+    $part4_terroristcertification = GetVote($votes, "2001-11-21", 75);
+    $part4_indefinitedetention = GetVote($votes, "2001-11-21", 76);
+    $part4_siac = GetVote($votes, "2001-11-21", 77);
+    $part4_privy = GetVote($votes, "2004-02-25", 59);
+    $part4_renewal = GetVote($votes, "2004-03-03", 71);
+
+    $d90days = GetVote($votes, "2005-11-09", 84);
+    $d28days = GetVote($votes, "2005-11-09", 85);
+
+    $d42days_enable = GetVote($votes, "2008-06-11", 219);
+    $d42days_procedure = GetVote($votes, "2008-06-11", 220);
+
+    print "<p>Your MP, <b>$fullname</b>,
+           currently representing the constituency of <b>$constituency</b>,
+           entered Parliament\n";
+    if ($minentered_house == "1997-05-01")
+        print " on or before the May 1997 General Election,\n";
+    else
+        print " on ".pretty_date($minentered_house).",\n";
+    print " and was able to vote on matters of detention of terrorist suspects without charge ";
+    print " for up to 42 days";
+    if ($d90days <> "notmp")
+        print " and 90 days.";
+    else
+        print " but not 90 days.";
+    print "</p>\n";
+
+    print "<p>\n";
+    if ($minentered_house <= "2001-11-21")
+        print " They were also around to vote to establish detention without charge or trial of
+                foreign nationals who were terrorist suspects."
+    else if ($minentered_house <= "2004-03-03")
+        print " They were not around for the vote to establish detention without charge of
+                foreign nationals who were terrorist suspects, but were in Parliament
+                when these powers were renewed.";
+    else
+        print " They were not in Parliament at the time when MPs established detention without charge of
+                foreign nationals who were terrorist suspects.";
+    print "</p>\n";
+
+    print "<p>The votes by your MP on this issue are as follows:</p>\n";
+    print "<table>\n";
+    if ($part4_terroristcertification <> "notmp")
+        print "<tr><td>Power of Home Secretary to certify individuals as terrorists</td><td>$part4_terroristcertification</td></tr>\n";
+    if ($d42days_enable <> "notmp")
+        print "<tr><td>Circumstances which enable detention up to 42 days</td><td>$d42days_enable</td></tr>\n";
+    print "</table>\n";
+
+    if ($vterdet == "ind")
+    {
+        print "<p>You are in favour of indefinite detention without charge of
+                foreign nationals who are terrorist suspects.  This law came into
+                force in December 2001, and approximately 20 people were held
+                without charge in Belmarsh Prison.</p>
+               <p>Unfortunately it didn't last because the law was overturned by
+                the Law Lords in December 2004 as it violated the
+                European Convention on Human Rights -- the right to be brought to trial
+                after arrest -- and the fact that it discriminated against foreigners
+                who were no more likely to commit terrorist acts than UK citizens.</p>";
+    }
+    else if ($vterdet == "90")
+    {
+        print "<p>You are in favour of detaining terrorist suspects for up to 90 days
+                without telling them of the crime they have committed.
+                This was proposed by Tony Blair's government in November 2005,
+                but MPs voted against it by a majority of 31.";
+        if ($d90days == "no")
+            print "Your MP was among those voting against it.";
+        print "</p>\n";
+    }
+    else if ($vterdet == "42")
+    {
+        print "<p>You are in favour of detaining terrorist suspects for up to 42 days
+                without telling them of the crime they have committed.
+                This was voted through by MPs on 11 June this year.</p>\n";
+    }
+    else if ($vterdet == "28")
+    {
+        print "<p>You are in favour of detaining terrorist suspects for up to 28 days
+                without telling them of the crime they have committed.
+                This was the state of the law between March 2006 and now,
+                when the time limit is in the process of being revised upwards to 42 days.</p>\n";
+    }
+    else if ($vterdet == "14")
+    {
+        print "<p>You are in favour of detaining terrorist suspects for up to 14 days
+               without telling them of the crime they have committed.
+               This was the state of the law between November 2003 and March 2006.</p>\n";
+    }
+    else if ($vterdet == "7")
+    {
+        print "<p>You are in favour of detaining terrorist suspects for up to 7 days
+               without telling them of the crime they have committed.
+               This is five days beyond the maximum period for other types of crime,
+               and was the state of the law between 2000 and November 2003.</p>\n";
+    }
+    else if ($vterdet == "7i")
+        print "<p>something</p>";
+    else
+        print "<p>else $vterdet</p>";
+
+
     #print_r($mpval);
     print "<p>Your selection was <b>$vterdet</b></p>\n";
-    print "<p>We need some thoughts on how we are going to design this page to respond to the four options.  Also, 
+    print "<p>We need some thoughts on how we are going to design this page to respond to the four options.  Also,
            the answers for David Davis and Boris Johnson's constituencies will be different.
-           We can also add -- in special cases -- a: 'BTW, your MP also voted to exempt himself and Parliament from 
+           We can also add -- in special cases -- a: 'BTW, your MP also voted to exempt himself and Parliament from
            the Freedom of Information Act'.</p>\n";
     print "<p>The material we have to work with can be seen by <b>clicking <a href=\"/mp.php?".$mpval["mpprop"]["mpanchor"]."&dmp=1039\">here</a> to compare ";
     print $mpval["mpprop"]["fullname"]." to 'No detention without charge'.</b></p>\n";
@@ -109,18 +215,18 @@ if ($mpval)
 
 else
 {
-    print "<p>Fill in this form to find out if your MP 
+    print "<p>Fill in this form to find out if your MP
            agrees with you, according to their votes in Parliament.
            </p>";
-           
+
     print "<div id=\"opform\">\n";
     print "<form action=\"http://www.publicwhip.org.uk/fortytwodays.php\" method=\"get\">\n";
-    
+
     print "<div class=\"quessec\">Your postcode: <input type=\"text\" name=\"mppc\" id=\"mppc\" size=\"8\"> </input>
            or Parliamentary Constituency: <input type=\"text\" name=\"mpc\" id=\"mpc\"> </input> </div>\n";
 
     print "<div class=\"quessec\">\n";
-    print "<div>How long should the police be allowed to detain someone as a suspected terrorist 
+    print "<div>How long should the police be allowed to detain someone as a suspected terrorist
                    without telling them what crime they may have committed?</div>\n";
     print "<div class=\"oprad\">\n";
     print "<div><input type=\"radio\" name=\"vterdet\" value=\"ind\">indefinitely (applies only to foreigners)</input></div>\n";
@@ -135,7 +241,7 @@ else
     print "</div>\n";
 
     print "<div class=\"quessec\">\n";
-    print "<div>Did you know that the Home Secretary declared a 
+    print "<div>Did you know that the Home Secretary declared a
            <em><b>'public emergency threatening the life of the nation'</b></em> between November 2001 and April 2005,
            within the meaning of <a href=\"http://www.hri.org/docs/ECHR50.html#C.Art15\">Article 15(1)</a>
            of the European Convention of Human Rights?\n";

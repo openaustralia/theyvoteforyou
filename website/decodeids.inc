@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.43 2008/05/03 11:54:00 publicwhip Exp $
+# $Id: decodeids.inc,v 1.44 2008/06/20 00:51:48 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -57,8 +57,9 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
     $mpids = array();
     $mpprops = array();
     $bmultiperson = false;  # record if this set really does cover more than one person
-    $bmulithouse = false; 
+    $bmulithouse = false;
     $thismpprop = null;
+    $minentered_house = "9999-12-31";
     while ($row = $db->fetch_row_assoc())
     {
         $mppropname = trim($row['title'].' '.$row['first_name'].' '.$row['last_name']);
@@ -121,13 +122,13 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
         array_push($mpprops, $mpprop);
         if (($mpprop['mpid'] == $mpid) || ($thismpprop == null))  # recover the original mp, or the most recent
             $thismpprop = $mpprop;
-
+        $minentered_house = mpprop['entered_house'];
 
         array_push($mpids, $row['mp_id']);
         if ($person != $row['person'])
 			$bmultiperson = true;
         if ($house != $row['house'])
-            $bmultihouse = true; 
+            $bmultihouse = true;
 	}
 
     if ($bdebug == 1)
@@ -135,6 +136,7 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
 
     return array("mpprops"		=> $mpprops,
                  "mpprop"		=> $thismpprop,
+                 "minentered_house" => $minentered_house,
                  "bmultiperson" => $bmultiperson,
                  "bmultihouse"  => $bmultihouse);
 }
