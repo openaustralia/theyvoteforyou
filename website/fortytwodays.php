@@ -19,7 +19,7 @@ require_once "postcode.inc";
 
 function GetVotes($db, $person, $dreamid)
 {
-    $qselect = "SELECT pw_division.division_date AS date, pw_division.division_number AS number, pw_vote.vote AS vote, pw_vote.party AS party";
+    $qselect = "SELECT pw_division.division_date AS date, pw_division.division_number AS number, pw_vote.vote AS vote";
     $qfrom = " FROM pw_dyn_dreamvote";
     $qjoin = " LEFT JOIN pw_division ON pw_division.division_date = pw_dyn_dreamvote.division_date
                                     AND pw_division.division_number = pw_dyn_dreamvote.division_number
@@ -68,7 +68,9 @@ div.quessec { border: thin black solid; padding: 10px; margin-top:10px; }
 div.oprad { margin-top:10px; padding:5px; background-color:#e0e0d0; font-size:120%;}
 div#checkmpbutton { font-size: 200%; text-align:center; margin:10px;}
 div#footer { background-color:black; color:white;  border: thin black solid; }
-      ";
+table.votetab td { border: thin black solid; }
+div#yourfav { background-color:#fed9d8; }
+    ";
 
 print "</style>\n";
 
@@ -89,7 +91,7 @@ if ($mpval)
 {
     $mpprop = $mpval["mpprop"];
     $party = $mpprop["party"];
-    $fullname = $mpprop["fullname"];
+    $name = $mpprop["name"];
     $constituency = $mpprop["constituency"];
     $minentered_house = $mpval["minentered_house"];
 
@@ -109,14 +111,14 @@ if ($mpval)
     $d42days_enable = GetVote($votes, "2008-06-11", 219);
     $d42days_procedure = GetVote($votes, "2008-06-11", 220);
 
-    print "<p>Your MP, <b>$fullname</b>,
+    print "<p>Your MP, <b>$name</b>,
            currently representing the constituency of <b>$constituency</b>,
            entered Parliament\n";
     if ($minentered_house == "1997-05-01")
         print " on or before the May 1997 General Election,\n";
     else
         print " on ".pretty_date($minentered_house).",\n";
-    print " and was able to vote on matters of detention of terrorist suspects without charge ";
+    print " and was able to vote on the detention of terrorist suspects without charge ";
     print " for up to 42 days";
     if ($d90days <> "notmp")
         print " and 90 days.";
@@ -126,25 +128,42 @@ if ($mpval)
 
     print "<p>\n";
     if ($minentered_house <= "2001-11-21")
-        print " They were also around to vote to establish detention without charge or trial of
-                foreign nationals who were terrorist suspects."
+        print " $name was also in Parliament for the votes which established detention without charge or trial of
+                foreign nationals whom the Home Secretary believed were terrorists.";
     else if ($minentered_house <= "2004-03-03")
-        print " They were not around for the vote to establish detention without charge of
-                foreign nationals who were terrorist suspects, but were in Parliament
-                when these powers were renewed.";
+        print " $name was not in Parliament for the vote which established detention without charge of
+                foreign nationals whom the Home Secretary believed were terrorists, but was there 
+                when MPs voted to renew these powers were renewed.";
     else
-        print " They were not in Parliament at the time when MPs established detention without charge of
-                foreign nationals who were terrorist suspects.";
+        print " $name was not in Parliament at the time when MPs established detention without charge of
+                foreign nationals whom the Home Secretary believed were terrorists.";
     print "</p>\n";
 
-    print "<p>The votes by your MP on this issue are as follows:</p>\n";
-    print "<table>\n";
+    print "<p>The votes on these issues were as follows:</p>\n";
+    print "<table class=\"votetab\">\n";
     if ($part4_terroristcertification <> "notmp")
-        print "<tr><td>Power of Home Secretary to certify individuals as terrorists</td><td>$part4_terroristcertification</td></tr>\n";
+    {
+        print "<tr><td>21&nbsp;November&nbsp;2001</td><td>Power of Home Secretary to certify people as terrorists</td><td>$part4_terroristcertification</td></tr>\n";
+        print "<tr><td>21&nbsp;November&nbsp;2001</td><td>Ability to detain certified terrorists indefinitely if they are foreign</td><td>$part4_terroristcertification</td></tr>\n";
+    }
+    if ($part4_renewal <> "notmp")
+    {
+        print "<tr><td>3&nbsp;March&nbsp;2004</td><td>Renewal of the regime to detain foreign terrorists indefinitely</td><td>$part4_renewal</td></tr>\n";
+    }
+    if ($d90days <> "notmp")
+    {
+        print "<tr><td>9&nbsp;November&nbsp;2005</td><td>Extention of period of detention to 90 days</td><td>$d90days</td></tr>\n";
+        print "<tr><td>9&nbsp;November&nbsp;2005</td><td>Extention of period of detention to 28 days (avoiding 60 days)</td><td>$d28days</td></tr>\n";
+    }
+
     if ($d42days_enable <> "notmp")
-        print "<tr><td>Circumstances which enable detention up to 42 days</td><td>$d42days_enable</td></tr>\n";
+    {
+        print "<tr><td>11 June 2008</td><td>Define the conditions for detention up to 42 days</td><td>$d42days_enable</td></tr>\n";
+        print "<tr><td>11 June 2008</td><td>Create the power to detain terrorist suspects up to 42 days</td><td>$d42days_procedure</td></tr>\n";
+    }
     print "</table>\n";
 
+    print "<div id=\"yourfav\">\n";
     if ($vterdet == "ind")
     {
         print "<p>You are in favour of indefinite detention without charge of
@@ -160,7 +179,7 @@ if ($mpval)
     else if ($vterdet == "90")
     {
         print "<p>You are in favour of detaining terrorist suspects for up to 90 days
-                without telling them of the crime they have committed.
+                before telling them of the crime they have committed.
                 This was proposed by Tony Blair's government in November 2005,
                 but MPs voted against it by a majority of 31.";
         if ($d90days == "no")
@@ -170,34 +189,44 @@ if ($mpval)
     else if ($vterdet == "42")
     {
         print "<p>You are in favour of detaining terrorist suspects for up to 42 days
-                without telling them of the crime they have committed.
+                before telling them of the crime they have committed.
                 This was voted through by MPs on 11 June this year.</p>\n";
     }
     else if ($vterdet == "28")
     {
         print "<p>You are in favour of detaining terrorist suspects for up to 28 days
-                without telling them of the crime they have committed.
+                before telling them of the crime they have committed.
                 This was the state of the law between March 2006 and now,
                 when the time limit is in the process of being revised upwards to 42 days.</p>\n";
     }
     else if ($vterdet == "14")
     {
         print "<p>You are in favour of detaining terrorist suspects for up to 14 days
-               without telling them of the crime they have committed.
+               before telling them of the crime they have committed.
                This was the state of the law between November 2003 and March 2006.</p>\n";
     }
     else if ($vterdet == "7")
     {
         print "<p>You are in favour of detaining terrorist suspects for up to 7 days
-               without telling them of the crime they have committed.
+               before telling them of the crime they have committed.
                This is five days beyond the maximum period for other types of crime,
                and was the state of the law between 2000 and November 2003.</p>\n";
     }
     else if ($vterdet == "7i")
-        print "<p>something</p>";
+        print "<p>You are in favour of detaining terrorist suspects in connection to 
+               the affairs of Northern Ireland for up to 7 days before charging 
+               them with a crime.  
+               This was the state of the law from 1974 until 2000 when the powers 
+               of detention were widened to all terrorism-related acts.</p>";
     else
-        print "<p>else $vterdet</p>";
-
+        print "<p>You are in favour of treating terrorism on the level of any other 
+               crime, like murder, kidnapping, or rape, where the police have 
+               no more than 48 hours to decide whether to charge someone they 
+               have arrested, or let them go.  
+               This was the state of the law until 1974 when a special case 
+               was made for terrorism relating to Northern Ireland, but 
+               it was not until 2000 when it was extended to all other sources of terrorism.</p>";
+    print "</div>\n"; 
 
     #print_r($mpval);
     print "<p>Your selection was <b>$vterdet</b></p>\n";
