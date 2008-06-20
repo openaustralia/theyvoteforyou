@@ -120,28 +120,41 @@ function WriteYourSummary($vterdet)
 }
 
 
-function WriteMPvoterow($mpanchor, $vnvote)
+function WriteMPvoterow($mpanchor, $a, $vnvote)
 {
     if ($vnvote[3] == "notmp")
         return;
-    print "<tr><td>".pretty_date($vnvote[0])."</td>";
+    $vv = $vnvote[3]; 
+    if ((($a == "aye") && ($vv == "aye")) || (($a == "no") && ($vv == "no")))
+        print "<tr class=\"agree\">\n"; 
+    else if ((($a == "aye") && ($vv == "no")) || (($a == "no") && ($vv == "aye")))
+        print "<tr class=\"disagree\">\n"; 
+    else 
+        print "<tr>\n"; 
+
+    print "<td>".pretty_date($vnvote[0])."</td>";
     print "<td><a href=\"http://www.publicwhip.org.uk/division.php?date=".$vnvote[0]."&number=".$vnvote[1]."&$mpanchor\">";
     print $vnvote[2];
     print "</a></td>";
-    print "<td>".$vnvote[3]."</td>";
+    print "<td>$vv</td>";
     print "</tr>\n";
 }
 
 function WriteMPvotetable($vnvotes, $vterdet, $vpubem, $mpanchor)
 {
     # could also add a colour in to the aye column according to vterdet
-    WriteMPvoterow($mpanchor, $vnvotes["part4_terroristcertification"]);
-    WriteMPvoterow($mpanchor, $vnvotes["part4_indefinitedetention"]);
-    WriteMPvoterow($mpanchor, $vnvotes["public_emergency"]);
-    WriteMPvoterow($mpanchor, $vnvotes["part4_renewal"]);
-    WriteMPvoterow($mpanchor, $vnvotes["d90days"]);
-    WriteMPvoterow($mpanchor, $vnvotes["d28days"]);
-    WriteMPvoterow($mpanchor, $vnvotes["d42days_procedure"]);
+    $aind = ($vterdet == "ind" ? "aye" : "no"); 
+    $apubem = ((($vpubem == "no-agree") || ($vpubem == "yes-agree")) ? "aye" : "no"); 
+    $a90 = ((($vterdet == "90") || ($vterdet == "ind")) ? "aye" : "no"); 
+    $a42 = ((($vterdet == "90") || ($vterdet == "42") || ($vterdet == "ind")) ? "aye" : "no"); 
+    WriteMPvoterow($mpanchor, $aind, $vnvotes["part4_terroristcertification"]);
+    WriteMPvoterow($mpanchor, $aind, $vnvotes["part4_indefinitedetention"]);
+    WriteMPvoterow($mpanchor, $apubem, $vnvotes["public_emergency"]);
+    WriteMPvoterow($mpanchor, $aind, $vnvotes["part4_renewal"]);
+    WriteMPvoterow($mpanchor, $a90, $vnvotes["d90days"]);
+    WriteMPvoterow($mpanchor, "", $vnvotes["d28days"]);
+    WriteMPvoterow($mpanchor, $a42, $vnvotes["d42days_enable"]);
+    WriteMPvoterow($mpanchor, $a42, $vnvotes["d42days_procedure"]);
 }
 
 function WriteTimeline()
@@ -160,21 +173,30 @@ function WriteTimeline()
           ";
 }
 
-function WritePubemChart($vpubem)
+function WritePubemChart($db, $vpubem)
 {
+    # don't know how to make these ignore repeated loads of the page on the same vrand key
     $query = "SELECT SUM(vpubem = 'no-disagree') AS no_disagree,
                      SUM(vpubem = 'no-agree') AS no_agree,
                      SUM(vpubem = 'yes-agree') AS yes_agree,
                      SUM(vpubem = 'yes-disagree') AS yes_disagree,
-                     COUNT(vpubem is not NULL) AS total
-              FROM pw_logincoming
-              LEFT JOIN pw_dyn_fortytwoday_comments ON pw_dyn_fortytwoday_comments.vrand = pw_logincoming.thing_id
+                     SUM(vpubem is not NULL) AS total
+              FROM pw_dyn_fortytwoday_comments
+              LEFT JOIN pw_logincoming ON pw_dyn_fortytwoday_comments.vrand = pw_logincoming.thing_id
              ";
-	$row = $db2->query_one_row_assoc($query);
-    print "<table><tr><th>Didn't know<br/>don't agree</th><th>Didn't know<br/>but agree</th>
-                      <th>Knew<br/>and agree</th><th>Knew<br/>but disagreed</th></tr>";
-    print "<tr><td>".$row["no_disagree"]."</td><td>".$row["no_agree"]."</td>
-               <td>".$row["yes_agree"]."</td><td>".$row["yes_disagree"]."</td></tr>";
+	$row = $db->query_one_row_assoc($query);
+    $tdno_disagree = ($vpubem == "no-disagree" ? " class=\"agpe\"" : ""); 
+    $tdno_agree = ($vpubem == "no-agree" ? " class=\"agpe\"" : ""); 
+    $tdyes_disagree = ($vpubem == "yes-disagree" ? " class=\"agpe\"" : ""); 
+    $tdyes_agree = ($vpubem == "yes-agree" ? " class=\"agpe\"" : ""); 
+    print "<table><tr><th$tdno_disagree>Didn't know<br/>don't agree</th>
+                      <th$tdno_agree>Didn't know<br/>but agree</th>
+                      <th$tdyes_agree>Knew<br/>and agree</th>
+                      <th$tdyes_disagree>Knew<br/>but disagreed</th></tr>";
+    print "<tr><td$tdno_disagree>".$row["no_disagree"]."</td>
+               <td$tdno_agree>".$row["no_agree"]."</td>
+               <td$tdyes_agree>".$row["yes_agree"]."</td>
+               <td$tdyes_disagree>".$row["yes_disagree"]."</td></tr>";
     print "</table>\n";
 }
 
@@ -201,6 +223,9 @@ div#checkmpbutton { font-size: 200%; text-align:center; margin:10px;}
 div#footer { background-color:black; color:white;  border: thin black solid; }
 table.votetab td { border: thin black solid; }
 div#yourfav { background-color:#fed9d8; }
+tr.agree td { background-color:#90ff90; }
+tr.disagree td { background-color:#ff9090; }
+.agpe { background-color:#b0ffb0; }
     ";
 
 print "</style>\n";
@@ -245,16 +270,16 @@ if ($mpval)
         "public_emergency" => array("2001-11-21", 70, "Declaration of public emergency threatening the life of the nation"),
         "part4_siac" => array("2001-11-21", 77),
         "part4_privy" => array("2004-02-25", 59),
-        "part4_renewal" => array("2004-03-03", 71, "Renewal of law for detaining certified international terrorists indefinitely"),
+        "part4_renewal" => array("2004-03-03", 71, "Renewal of law for detaining certified terrorists indefinitely"),
         "d90days" => array("2005-11-09", 84, "Extention of period of detention without charge to 90 days"),
         "d28days" => array("2005-11-09", 85, "Extention of period of detention without charge to 28 days"),
-        "d42days_enable" => = array("2008-06-11", 219, "Conditions to enable detention without charge up to 42 days"),
+        "d42days_enable" => array("2008-06-11", 219, "Conditions to enable detention without charge up to 42 days"),
         "d42days_procedure" => array("2008-06-11", 220, "Power to detain suspects without charge for up to 42 days"),
-                    )
+                    );
 
     # book the values into a database
-    $db->query("drop table if exists pw_dyn_fortytwoday_comments");
-    $db->query("create table pw_dyn_fortytwoday_comments (vterdet varchar(10), vpubem varchar(10), ltime timestamp, vrand int, vpostcode varchar(20), constituency varchar(80))");
+    #$db->query("drop table if exists pw_dyn_fortytwoday_comments");
+    #$db->query("create table pw_dyn_fortytwoday_comments (vterdet varchar(10), vpubem varchar(20), ltime timestamp, vrand int, vpostcode varchar(20), constituency varchar(80))");
     $db->query("INSERT INTO pw_dyn_fortytwoday_comments (vterdet, vpubem, ltime, vrand, vpostcode, constituency)
                 VALUES ('$vterdet', '$vpubem', NOW(), $vrand, '$vpostcode', '".mysql_escape_string($constituency)."')");
 
@@ -263,8 +288,8 @@ if ($mpval)
     foreach ($vnvotes as $vname => &$vnvote)
         $vnvote[] = GetVote($votes, $vnvote[0], $vnvote[1]);
 
-    print "<p><b>$name</b>,
-           represents the constituency of <b>$constituency</b> and
+    print "<p><b><a href=\"http://www.publicwhip.org.uk/mp.php?".$mpprop["mpanchor"]."\">$name MP</a></b>,
+           representing the constituency of <b>$constituency</b>,
            entered Parliament\n";
     if ($minentered_house == "1997-05-01")
         print " on or before the May 1997 General Election,\n";
@@ -291,14 +316,17 @@ if ($mpval)
                 foreign nationals whom the Home Secretary believed were terrorists.";
     print "</p>\n";
 
-    print "<p>The votes on these issues were as follows:</p>\n";
-    print "<table class=\"votetab\">\n";
-    WriteMPvotetable($vnvotes, $vterdet, $vpubem, $mpprop["mpanchor"]);
-    print "</table>\n";
-
     print "<div id=\"yourfav\">\n";
     WriteYourSummary($vterdet);
     print "</div>\n";
+
+    print "<p>The votes by $name MP are listed in the table below.  
+           Those you disagree with are coloured red, the ones you agree with are green, 
+           and the rest are harder to work out.</p>\n";
+
+    print "<table class=\"votetab\">\n";
+    WriteMPvotetable($vnvotes, $vterdet, $vpubem, $mpprop["mpanchor"]);
+    print "</table>\n";
 
     print "<div id=\"lawsummary\">\n";
     WriteTimeline();
@@ -306,8 +334,18 @@ if ($mpval)
 
     print "<div id=\"pubemchart\">\n";
     print "<h2>Responses to public emergency question</h2>";
-    WritePubemChart($vpubem);
+    print "<p>We might want to make this an attractive bar chart.</p>\n"; 
+    WritePubemChart($db, $vpubem);
     print "</div>\n";
+
+    print "<p>Include here things like: email this to a friend.</p>";
+    print "<h3><i>Also must look up this MP's position on FOI amendment.</i></h3>"; 
+    print "<p>Where else can we sent people?</p>";
+    print "<h3><i>You can send a letter to your MP about this issue, including anything 
+            that you have learnt here.  For example, you can tell them if 
+            you feel they broke your trust by declaring that there was 
+            public emergency in the country, when there patently wasn't.
+            </i></h3>";
 }
 
 
@@ -365,7 +403,6 @@ else
 
     print "</form>\n";
 
-    print "<div id=\"footer\">Produced by the Public Whip</div>\n";
 
     print "</div>\n";
 }
@@ -373,6 +410,7 @@ else
 
 #print "<span id=\"tagth\"><a href=\"/\">Memory Hole</a><br/><select><option title=\"one\">OOOO</option></select></span>\n";
 #print '<script type="text/javascript">Hithere();</script>';
+print "<div id=\"footer\">Produced by the Public Whip</div>\n";
 
 print "</body>\n";
 print "</html>\n";

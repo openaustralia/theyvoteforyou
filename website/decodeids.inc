@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.45 2008/06/20 01:46:30 publicwhip Exp $
+# $Id: decodeids.inc,v 1.46 2008/06/20 17:10:47 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -122,7 +122,7 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
         array_push($mpprops, $mpprop);
         if (($mpprop['mpid'] == $mpid) || ($thismpprop == null))  # recover the original mp, or the most recent
             $thismpprop = $mpprop;
-        if ($mpprop['mpid'] == $mpid)
+        if (($mpprop['person'] == $thismpprop["person"])) # && ($minentered_house == "9999-12-31"))
             $minentered_house = $mpprop['enteredhouse'];
 
         array_push($mpids, $row['mp_id']);
