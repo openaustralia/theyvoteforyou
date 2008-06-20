@@ -1,5 +1,5 @@
 <?php
-# $Id: wiki.inc,v 1.16 2008/06/19 22:32:17 publicwhip Exp $
+# $Id: wiki.inc,v 1.17 2008/06/20 13:57:21 goatchurch Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Editable text with history
@@ -97,7 +97,7 @@ function extract_motion_text_from_wiki_text($text)
         foreach ($motionlines as $motionline)
         {
             $ml = preg_replace("/''(.*?)''/", "<em>\\1</em>", $motionline);
-            $ml = preg_replace("/\[(http:\S*)\s+(.*?)\]/", "<a href=\"\\1\">\\2</a>", $ml);
+            $ml = preg_replace("/\[(https?:\S*)\s+(.*?)\]/", "<a href=\"\\1\">\\2</a>", $ml);
             $ml = preg_replace("/(?<![*\s])(\[(\d+)\])/", "<sup class=\"sup-\\2\"><a class=\"sup\" onclick=\"ClickSup(\\2)\">\\1</a></sup>", $ml);
             #$ml = preg_replace("/(\[\d+])/", "<sup>\\1</sup>", $ml);
             if (preg_match("/^\s\s*$/", $ml))
