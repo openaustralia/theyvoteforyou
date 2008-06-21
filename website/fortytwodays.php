@@ -159,16 +159,46 @@ function WriteMPvotetable($vnvotes, $vterdet, $vpubem, $mpanchor)
 
 function WriteTimeline()
 {
+    print "<h2>Recent history of extended detention without charge</h2>\n";
     print "<ul>
-           <li>1974 1986 1989 Temporary Provisions (up to seven days)</li>
-           <li>2000 7 days Terrorism Act</li>
-           <li>2001 indefinitely for foreign nationals - Anti-Terrorism Act</li>
-           <li>2001 public emergency declared</li>
-           <li>2003 14 days Criminal Justice Act</li>
-           <li>2004 (indefinite detention struck down due to violation of ECHR)</li>
-           <li>2005 public emergency lifted</li>
-           <li>2006 28 days Terrorism Act</li>
-           <li>2008 42 days Counter-Terrorism Act</li>
+           <li>1974 - The <a href=\"http://en.wikipedia.org/wiki/Prevention_of_Terrorism_Acts\">Prevention of Terrorism Acts</a>,
+                passed in response to the bombing campaign by the IRA, allowed for people suspected of
+                involvement to be held for an additional <b>5 days</b> beyond the initial period of 48 hours.
+                These measures were controversial and labelled \"Temporary Provisions\" and needed to be renewed every year.</li>
+           <li>1998 - <a href=\"http://www.opsi.gov.uk/acts/acts1998/ukpga_19980042_en_1\">The Human Rights Act 1998</a> was passed, finally making the
+                <a href=\"http://www.hri.org/docs/ECHR50.html\">European Convention on Human Rights</a>
+                part of UK law 5 decades after it had been originally drafted.
+                It contained a <a href=\"http://www.opsi.gov.uk/acts/acts1998/ukpga_19980042_en_5#sch3\">special section</a>
+                discussing the situation.</li>
+           <li>2000 - The <a href=\"http://www.opsi.gov.uk/acts/acts2000/ukpga_20000011_en_1\">Terrorism Act 2000</a> was passed and made the <b>7 day</b>
+                police detention of terrorist
+                suspects permanent, although there was <a href=\"http://www.publications.parliament.uk/pa/cm199900/cmhansrd/vo000315/debtext/00315-41.htm\">advice</a>
+                that it should be revised down to 4 days.</li>
+           <li>2001, September 11 - A terrorist attack against the United States (not the United Kingdom)
+                which \"changed everything\".</li>
+           <li>2001, November 13 - A public emergency threatening the life of the nation is <a href=\"http://www.opsi.gov.uk/si/si2001/20013644.htm\">declared</a>
+                by the Home Secretary for the purpose of implementing the Anti-Terrorism, Crime and Security Act.</li>
+           <li>2001, December 14 - The <a href=\"http://www.opsi.gov.uk/acts/acts2001/ukpga_20010024_en_1\">Anti-Terrorism, Crime and Security Act 2001</a>
+                passes into law, which includes the
+                <a href=\"http://en.wikipedia.org/wiki/Anti-terrorism,_Crime_and_Security_Act_2001#Part_4\">part 4 powers</a>
+                which enables the indefinite detention of foreign nationals who the Home Secretary believes,
+                but can't or is unwilling to prove, are international terrorists.</li>
+           <li>2003 - A section of the Criminal Justic Act 2003 was passed, which included extending
+                the period to <b>14 days</b> without a vote, although there was
+                <a href=\"http://www.theyworkforyou.com/debates/?id=2003-05-20.940.2#g941.2\">some discussion</a>.</li>
+           <li>2004 - The Law Lords ruled that Part 4 of the Anti-Terrorism, Crime and Security Act
+                violated the Human Rights Act (indefinite detention struck down due to violation of ECHR)</li>
+           <li>2005, April - The state of public emergency was finally lifted</li>
+           <li>2005, 7 July - Suicide terrorist attacks in London perpetrated by four UK citizens.</li>
+           <li>2005 - Tony Blair presses Parliament to revise the maximum period for detention of suspects
+                without telling them of the crime they have committed to 90 days,
+                citing the case that the evidence for the crime could be
+                on encrypted computer hard drives.  He loses his first whipped vote since
+                1997 (although 293 MPs <a href=\"http://www.publicwhip.org.uk/division.php?date=2005-11-09&number=84\">vote for it</a>)
+                and the MPs compromise on <b>28 days</b>.</li>
+           <li>2008, June - Gordon Brown forces Parliament to
+                <a href=\"http://www.publicwhip.org.uk/division.php?date=2008-06-11&number=219&mpn=David_Davis&mpc=Haltemprice_%26amp%3B_Howden\">vote</a>
+                to revise this period up to <b>42 days</b>.</li>
            </ul>
           ";
 }
