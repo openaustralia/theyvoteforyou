@@ -29,6 +29,7 @@ RewriteRule ^[Nn]/([^;]+)$                      /newsletters/signup.php?token=$1
 RewriteRule ^[Uu]/([^;]+)$                      /newsletters/signup.php?token=$1&unsub=1
 RewriteRule ^byelection$ /election_crewe_and_nantwich_2008.php [PT]
 RewriteRule ^by-election$ /election_crewe_and_nantwich_2008.php?dash=yes [PT]
+RewriteRule ^fortytwodays$ /fortytwodays.php [PT]
 
 
 # Net strike
