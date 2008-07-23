@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.96 2008/06/19 22:32:17 publicwhip Exp $
+# $Id: header.inc,v 1.97 2008/07/23 11:13:12 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -150,8 +150,9 @@ Newsletter (<a href="/newsletters/signup.php">info</a>): <INPUT TYPE="TEXT" NAME
 <a title="Chat with other users" href="/forum"><strong>Forum</strong></a>
 <a title="Help run the Public Whip project" href="<?=$toppath?>project/index.php">Join Us</a>
 <a title="Frequently asked questions" href="<?=$toppath?>faq.php">Help / FAQ</a>
-</td>
-</tr>
+</td></tr>
+
+<!--<tr><td colspan="3" style="background-color: #90ff60; font-size: 30px; text-align:center; border:5px white solid;"><a href="/fortytwodays.php">Click here for the Forty-two days question</a></td></tr>-->
 
 <? if ($second_links && $second_type == "default") { ?>
 <!-- the second tier navigation as dropdowns -->
