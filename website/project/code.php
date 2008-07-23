@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: code.php,v 1.20 2007/05/27 13:52:38 publicwhip Exp $
+# $Id: code.php,v 1.21 2008/07/23 11:14:21 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -15,8 +15,8 @@ $title = "Source Code"; pw_header()
 Public Whip website works.  All the "source code" which makes the
 website is freely available.  You can download it, run it on your own
 computer, and try out your own anlayses and algorithms.  The code is
-licensed under the <a href="../GPL.php">GPL</a>, a standard open source
-software license.  
+licensed under the <a href="http://www.fsf.org/licensing/licenses/agpl-3.0.html">GNU Affero GPL</a>, 
+a standard open source software license.  
 
 <p>At the moment I've only run this on Linux. It will certainly work on
 other Unixes, and it should run on Windows.  You need to install MySQL, Perl
