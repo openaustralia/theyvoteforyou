@@ -1,7 +1,7 @@
 <?php require_once "common.inc";
 require_once "db.inc";
 
-# $Id: faq.php,v 1.87 2008/05/09 19:46:27 publicwhip Exp $
+# $Id: faq.php,v 1.88 2008/07/23 11:10:09 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -368,7 +368,7 @@ src="/images/ok_80x23_red_green.png" /></a>
 
 <h2 class="faq"><a name="playwith">Can I play with the software?</a></h2>
 
-<p> Sure.  All the software we've written is free (libre and gratuit), protected by the <a href="GPL.php">GNU General Public License</a>.  It's not complicated,
+<p> Sure.  All the software we've written is free (libre and gratuit), protected by the <a href="http://www.fsf.org/licensing/licenses/agpl-3.0.html">GNU Affero General Public License</a>.  It's not complicated,
 anyone can have a go running them.  But there's only a point in doing
 this if you are going to change it as otherwise you will see the same
 results.  For more details go to the special <a
