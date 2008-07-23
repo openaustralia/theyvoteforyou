@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.49 2006/04/12 22:46:58 frabcus Exp $
+-- $Id: create.sql,v 1.50 2008/07/23 10:54:50 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -143,6 +143,30 @@ insert into pw_vote_sortorder(vote, position) values('no', 5);
 insert into pw_vote_sortorder(vote, position) values('both', 1);
 insert into pw_vote_sortorder(vote, position) values('tellaye', 10);
 insert into pw_vote_sortorder(vote, position) values('tellno', 5);
+
+create table pw_candidate (
+    candidate_id int not null primary key, -- allocated by Public Whip
+
+    first_name varchar(100) not null, -- Lords: "$lordname" or empty string for "The" lords
+    last_name varchar(100) not null, -- Lords: "of $lordofname"
+
+    constituency varchar(100) not null, -- Lords: NOT USED
+    party varchar(100) not null, -- Lords: affiliation
+    house enum('commons', 'lords') not null,
+
+    became_candidate date not null default '1000-01-01',
+    left_candidate date not null default '9999-12-31',
+
+    url text not null,
+
+    index(house),
+    index(party),
+    index(became_candidate),
+    index(left_candidate),
+    index(constituency),
+    unique(first_name, last_name, constituency, became_candidate, left_candidate)
+);
+
 
 -------------------------------------------------------------------------------
 -- Dynamic tables
