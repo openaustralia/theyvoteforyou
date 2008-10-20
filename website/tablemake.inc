@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.89 2008/05/09 19:46:27 publicwhip Exp $
+# $Id: tablemake.inc,v 1.90 2008/10/20 14:35:19 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -374,9 +374,11 @@ function print_column_headings($vote1, $vote2, $columnforms, $party)
 		print "<td>Turnout</td>\n";
     if ($columnforms["majority"])
         print "<td>Majority</td>";
-
+    
+    if ($columnforms["party_agreement"])
+        print "<td>$party Policy Agreement</td>";
     if ($columnforms["party_turnout"])
-        print "<td>Party Turnout</td>";
+        print "<td>$party Turnout</td>";
     if ($columnforms["loyal"])
     {
         if ($party == "XB")
@@ -481,6 +483,16 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $roleclass, $vote1,
     if ($columnforms["majority"])
         print "<td>".abs($row['aye_majority'])."</td>";
 
+    $turnout = $row['ayes'] + $row['noes'] + $row['boths'];
+    if ($columnforms["party_agreement"])
+    {
+        if ($vote1 == "aye" || $vote1 == "aye3")
+            print "<td>".percentise_votes_short($row['ayes'], $turnout)."</td>";
+        else if ($vote1 == "no" || $vote1 == "no3")
+            print "<td>".percentise_votes_short($row['noes'], $turnout)."</td>";
+        else 
+            print "<td> n / a </td>";
+    }
     if ($columnforms["party_turnout"])
     {
         $turnout = $row['ayes'] + $row['noes'] + $row['boths'];
@@ -936,8 +948,12 @@ function division_table($db, $divtabattr, $db2="", $events = "")
 
 	    if ($voter1type == "dreammp")
         {
-            $columnforms["ayes"] = "yes";
-            $columnforms["noes"] = "yes"; 
+            #$columnforms["ayes"] = "yes";
+            #$columnforms["noes"] = "yes"; 
+            $columnforms["party_turnout"] = "yes";
+            $columnforms["party_agreement"] = "yes"; 
+            $columnforms["voter1type"] = null;  # kill this column
+
         }
         else
         {
@@ -945,9 +961,9 @@ function division_table($db, $divtabattr, $db2="", $events = "")
 	        $columnforms["rebels"] = "yes";
     	    #$columnforms["whip_guess"] = "yes";
 	        $columnforms["party_turnout"] = "yes";
+		    if ($divtabattr["display_house"] != "lords")
+	            $columnforms["boths"] = "yes";
         }
-		if ($divtabattr["display_house"] != "lords")
-	       $columnforms["boths"] = "yes";
 	}
 
     # search
