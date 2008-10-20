@@ -14,7 +14,14 @@ function UpdateCItable()
         var issue = issues[j]; 
         var option = document.getElementById("issue-" + issue);
         var strength = document.getElementById("issue-strength-" + issue);
+        
         imap[j] = parseInt(option.value) * (strength.checked ? 3 : 1); 
+        if (option.value == 0)
+            alert("ususu " + issue); //option.style.color = "red";
+        
+        //if (j == 0)
+            alert("ususu " + option.value); //option.style.color = "red";
+        
         var rowid = issue + "-row";
         
         // this is the bit that shows-hides

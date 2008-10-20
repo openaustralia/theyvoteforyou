@@ -93,7 +93,7 @@ table.elecalc a:hover, a.start:hover, div#divcrewebyelection a:hover
 table.elecalc td
 {
     border-left: thin black solid;
-    border-bottom: thin green solid;
+    Zborder-bottom: thin green solid;
 }
 
 table.elecalc td.mpcol
@@ -115,12 +115,24 @@ td.selerowc
     Zbackground-color: red;
     Zvertical-align:top;
 }
-tr.issuerow td
+
+tr.issuerow-top td
 {
-    Zborder-bottom-color: red;
-    Zborder-bottom-width: 5px;
+    border-bottom: none;
     padding:2px;
 }
+tr.issuerow-middle td
+{
+    border-bottom-color: none;
+    border-bottom-color: none;
+    padding:2px;
+}
+tr.issuerow-bottom td
+{
+    border-top-color: none;
+    padding:2px;
+}
+
 
 tr.candidaterow td
 {
@@ -226,7 +238,8 @@ div.newsart
     height:14em;
     Zmax-height:15em;
     overflow:scroll;
-    border: thin #c9e9e9 solid;
+    border: thin #a9d9d9 solid;
+    margin-left:20px; 
 }
 div.newsart ul
 {
@@ -274,7 +287,7 @@ table.candidatetable th
 
 table.candidatetable caption
 {
-    margin-left: 10px;
+    Dmargin-left: 10px;
     font-style: italic;
     background-color:#335533;
     color:white;
@@ -290,8 +303,8 @@ p.seclinks
 {
     font-size:20pt;
     text-align:left;
-    margin-top:5px;
-    margin-left:15px;
+    margin-top:10px;
+    margin-left:0px;
     Zclear:both;
 }
 p.seclinks a.ss
@@ -320,12 +333,15 @@ div.secpol
 div.secpol h2
 {
     padding-top:5px;
-    margin-bottom:0px;
+    color: #005600;
+    margin-bottom:5px;
 }
 
 td.elerowtd
 {
     width:25%;
+    background-repeat:no-repeat;
+    background-position: top right;
 }
 table.elecalc-single
 {
@@ -343,11 +359,21 @@ div.sissue p.sel
     background-color:#e0e0e0;
     border: thin #b0b0f0 solid;
     font-size:14pt;
+    margin-left:20px; 
 }
 div.sissue select
 {
     font-size:16pt;
+    font-family: "Courier";
+    Dfont-style:italic; 
+    font-weight:bold;
 }
+div.sissue option
+{
+    color: black; 
+}
+
+
 div#sec-upload input
 {
     font-size:16pt;
@@ -371,5 +397,24 @@ div.footq a
 td.tds
 {
     text-align:center;
+    background-repeat:no-repeat;
 }
+
+td.LDem
+{
+    background-color:yellow;
+}
+td.Lab
+{
+    background-color:red;
+}
+td.Con
+{
+    background-color:blue; 
+}
+td.SNP
+{
+    background-color:#ffff60; 
+}
+
 

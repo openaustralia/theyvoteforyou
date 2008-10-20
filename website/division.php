@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.139 2008/06/19 22:32:16 publicwhip Exp $
+# $Id: division.php,v 1.140 2008/10/20 11:35:19 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -441,11 +441,17 @@ function no_division_found($plural)
 					$debate_gid = "debates/?id=".str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
                 print "<b><a href=\"http://www.theyworkforyou.com/$debate_gid\" title=\"Links to debate shown at www.theyworkforyou.com\">Debate in Parliament</a></b> | ";
 	        }
+
+            if ($divattr["division_date"] <= '2005-03-17')
+            {
+                $millbankurl = $divattr["house"]."/".substr($divattr["division_date"], 0, 4)."/".substr($divattr["division_date"], 5, 2)."/".substr($divattr["division_date"], 8, 2)."/division_".$divattr["division_number"];
+                print "<b><a href=\"http://hansard.millbanksystems.com/$millbankurl\" title=\"Debate hosted by millbank systems\">Historical Hansard</a></b> | "; 
+            }
+
 	        $source_gid = str_replace("uk.org.publicwhip/debate/", "", $source_gid);
 	        if ($source != "") 
-	    		print "<b><a href=\"$source\" title=\"The original record of vote as reported by Hansard\">".($debate_gid ? "Source" : "Hansard")."</a> | </b>";
-			
-
+	    		print "<b><a href=\"$source\" title=\"The original record of vote as reported by Hansard\">".($debate_gid ? "Source" : "Online Hansard")."</a></b> | ";
+		
             print "<b><a href=\"$edit_link\" title=\"Edit and improve this description\">Edit</a></b>";
             print " (<a href=\"faq.php#motionedit\">learn more</a>)";
             if ($discuss_url)

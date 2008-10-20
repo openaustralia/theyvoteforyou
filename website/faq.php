@@ -1,7 +1,7 @@
 <?php require_once "common.inc";
 require_once "db.inc";
 
-# $Id: faq.php,v 1.89 2008/07/23 11:12:43 publicwhip Exp $
+# $Id: faq.php,v 1.90 2008/10/20 11:35:19 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -179,6 +179,12 @@ href="http://www.parliament.uk/commons/lib/research/rp2003/rp03-032.pdf">a
 House of Commons library research paper</a>.  Note also that the Public
 Whip does not currently record if a member spoke in the debate but did
 not vote.
+
+<p><strong>Extra note, October 2008:</strong> We have found that people
+take the attendance in divisions too seriously, when it is really pretty
+meaningless. At Public Whip, we'd rather an MP actually scrutinised law
+and made it better, and voted well on it, rather than voted more often.
+Therefore we have removed attendance from the main MP table.
 
 <p>"Rebellion" on this website means a vote against the majority vote by
 members of the MP's party.  Unfortunately this will indicate that many members

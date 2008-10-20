@@ -7,7 +7,10 @@
 
 
 # here is the data that will have to be loaded from the database
-$constituency = "Crewe and Nantwich"; # mpc=urlencode()
+
+//$constituency = "Crewe and Nantwich"; # mpc=urlencode()
+$constituency = "Glenrothes"; # mpc=urlencode()
+
 $candidatesA = array();
 
 $candidatesA[] = array("name" => "The Flying Brick", 

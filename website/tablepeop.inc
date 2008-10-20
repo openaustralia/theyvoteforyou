@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.59 2008/06/19 22:32:17 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.60 2008/10/20 11:35:19 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -675,6 +675,9 @@ function mp_table($db, $mptabattr)
 	$columnforms["name"] = "yes";
 	if ($house != "lords")
 		$columnforms["place"] = "yes";
+
+    # Disabled 2008-10-01 by FAI, as people care about attendance when it is meaningless.
+    $columnforms["attendance"] = null;
 
 	if ($mptabattr["headings"])
 		print_mpcolumn_headings($columnforms);

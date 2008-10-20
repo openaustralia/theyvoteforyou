@@ -1,8 +1,8 @@
 <?php require_once "common.inc";
 
-cache_begin(rand(0, 10));
+//cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.73 2007/05/11 10:56:30 publicwhip Exp $
+# $Id: index.php,v 1.74 2008/10/20 11:35:19 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -16,7 +16,8 @@ pw_header();
 <p>Every week, a dozen or so times, your MP votes on changes to British
 law. This is their definitive exercise of power on your behalf. The
 Public Whip lets you see all their votes so you can hold them to account
-(<a href="faq.php">more information</a>).
+(<a href="faq.php">more information</a>).</p>
+
 
 <?php
     require_once "db.inc";
@@ -114,6 +115,8 @@ href="account/addpolicy.php">make</a> a new policy</span>
 <img src="votemap/mpseethumb.png"></a>
 <p><a href="mpsee.php">Where is Brown?</p>
 </a>
+<div style=" text-align:center; background-color:blue; color:white; border:thick black dashed; float:right">A proud member of the 
+<a href="http://en.wikipedia.org/wiki/Parliamentary_informatics" style="background-color:#cdffff">Parliamentary Informatics</a> web-ring</div>
 </td>
 
 </td></tr></table>
@@ -172,5 +175,5 @@ title="Show all divisions ordered by most recent">more...</a>)</h2>
 </td></tr></table>
 
 <?php pw_footer(); ?>
-<?php cache_end(); ?>
+<?php //cache_end(); ?>
 

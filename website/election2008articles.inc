@@ -1,5 +1,5 @@
 <?php
-# $Id: election2008articles.inc,v 1.4 2008/06/19 22:32:17 publicwhip Exp $
+# $Id: election2008articles.inc,v 1.5 2008/10/20 11:35:19 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -404,7 +404,7 @@ function WriteLongListNews($issuename)
     #print "<a onclick=\"shownews('$newsid', this)\" class=\"shownews\">show news</a>\n";
     #print "<div id=\"$newsid\" style=\"display:none\">\n";
     print "<div class=\"newsart\">\n";
-    print "<p>Some newspaper stories from the day...</p>";
+    print "<p><b>Some newspaper stories from the day...</b></p>";
 
     print "<ul>\n";
     if ($newsarticles)

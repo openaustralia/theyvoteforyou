@@ -16,7 +16,7 @@ require_once "constituencies.inc";
 require_once "account/user.inc";
 
 require_once "election2008articles.inc";
-require_once "election_crewe_and_nantwich_2008issues.inc";
+require_once "election_glenrothes_2008issues.inc";
 
 $db = new DB();
 $db2 = new DB();
@@ -29,7 +29,7 @@ function WriteEleSelectIssue($dreamid, $prevote)
     $selind = ($prevote && !$selaye && !$selnoe);
     $selund = False;
     print "<select title=\"Change this to fit your opinion, or skip to next question\" id=\"issue-$dreamid\" onchange=\"UpdateCItable()\">\n";
-    print "\t<option value=\"0\"".(!$prevote ? " SELECTED" : "")." style=\"color:gray\">select your opinion</option>\n";
+    print "\t<option value=\"00\"".(!$prevote ? " SELECTED" : "")." style=\"color:gray\">select your opinion</option>\n";
     print "\t<option value=\"1\"".($selaye ? " SELECTED" : "").">in favour of</option>\n";
     print "\t<option value=\"-1\"".($selnoe ? " SELECTED" : "").">against</option>\n";
     print "\t<option value=\"0\"".($selind ? " SELECTED" : "").">indifferent about</option>\n";
@@ -65,13 +65,13 @@ function DistanceToWord($distance)
     if ($distance == -1)
         return "Not<br/>present";
     if ($distance <= 0.2)
-        return "strongly<br/>for this";
+        return "strongly<br/><b>for</b> this";
     if ($distance <= 0.4)
-        return "moderately<br/>for this";
+        return "moderately<br/><b>for</b> this";
     if ($distance >= 0.8)
-        return "strongly<br/>against this";
+        return "strongly<br/><b>against</b> this";
     if ($distance >= 0.6)
-        return "moderately<br/>against this";
+        return "moderately<br/><b>against</b> this";
     return "mixed";
 }
 
@@ -129,9 +129,9 @@ function WriteCandidateIssueTd($candidate, $issue)
     else
         $vsubject = Null;
     if ($vsubject and !$bshort)
-        print "$vsubject <a $acont target=\"_blank\">voted</a> ";
-    print DistanceToWord($distance);
-    #print "  ".(int)($distance * 10 + 0.5);
+        print " <a $acont target=\"_blank\">voted</a> "; // $vsubject was at front of print before moved to a different row
+    //print DistanceToWord($distance);
+    //print "  ".(int)($distance * 10 + 0.5);
     print "</td>\n";
 }
 
@@ -160,70 +160,44 @@ function WriteCandidateIssueTdShort($candidate, $issue)
 
 function WriteIssueRow($issue, $candidates)
 {
-    print "\n<tr class=\"issuerow\" id=\"".$issue["dream_id"]."-row\">\n";
     #print "<th>".$issue["name"]."</th>\n";
 
     $issuelink = "http://www.publicwhip.org.uk/policy.php?id=".$issue["dream_id"];
     #print "<th class=\"issue\"><a href=\"$issuelink\">".$issue["name"]."</a></th>\n";
     #print "<th> </th>\n";
+    
+    print "\n<tr class=\"issuerow-top\" >\n";
+    foreach ($candidates as $candidate)
+    {
+        if ($candidate["votetype"] == "incumbent")
+            $vsubject = "Your MP";
+        else if ($candidate["votetype"] == "party")
+        {
+            $vsubject = $candidate["party"];
+            if ($candidate["party_short"])
+                $vsubject = $candidate["party_short"]; 
+        }
+        else if (($candidate["votetype"] == "dream") && ($distance != -1))
+            $vsubject = "Party would have";
+        else if ($candidate["votetype"] == "leftoffice")
+            $vsubject = $candidate["name"];
+        else
+            $vsubject = Null;
+        print "<td class=\"".$candidate["party_code"]."\">$vsubject</td>"; //WriteCandidateIssueTd($candidate, $issue);
+    }
+    print "</tr>\n"; 
+    
+    print "\n<tr class=\"issuerow-middle\" id=\"".$issue["dream_id"]."-row\">\n";
     foreach ($candidates as $candidate)
         WriteCandidateIssueTd($candidate, $issue);
     print "</tr>\n";
-}
 
-
-function WriteEleCalcTableTrans($issues, $candidates, $vkey, $person, $bthreadopinionrows)
-{
-    global $constituency;
-
-    print "<tr class=\"candidaterow\">\n";
-    print "<td>Candidates for <b>$constituency</b> contituency:</td>\n";
+    print "\n<tr class=\"issuerow-bottom\">\n";
     foreach ($candidates as $candidate)
-        print CandidateTdEntry($candidate, "-name");
-    print "</tr>\n";
-    
-    print "<tr class=\"agreementrow\"><td class=\"tdright\">Agreement rating:</td>\n";
-    foreach ($candidates as $candidate)
-        print "\t<td><div class=\"myrankcol\" id=\"".$candidate['candidate_id']."-rank\">RK</div></td>\n";
-    print "</tr>\n";
-    
-    for ($i = 0; $i < count($issues); $i++)
-    {
-        $issue = $issues[$i];
-        $dreamid = $issue['dream_id'];
-        print "\n\n<tr class=\"selerow\">";
-        print "<td id=\"selerowc-$dreamid\" class=\"selerowc\" rowspan=\"2\">"; 
-        $prevote = ($vkey && ($i < strlen($vkey)) ? $vkey[$i] : "");
-        print "<div style=\"height:50%\">";
-        WriteEleIssueSection($issue, $prevote, $person);
-        print "</div>";
-        if ($i < count($issues) - 1)
-        {
-            $dreamidnext = $issues[$i + 1]["dream_id"];
-            print "<div style=\"float:right\"><a onclick=\"NextClick('$dreamidnext')\">next</a></div>";
-        }
-        else
-            print "<div style=\"float:right\"><a onclick=\"NextClick('')\">finish</a></div>";
-        print "</td></tr>\n";
-
-        print "<tr id=\"newsart-$dreamid\"><td colspan=\"".count($candidates)."\">";
-        WriteLongListNews($issue["name"]);
-        print "</td></tr>\n";
-
-        WriteIssueRow($issue, $candidates);
-    }
-    
-    print "<tr class=\"agreementrow2\"><td>Agreement rating:</td>\n";
-    foreach ($candidates as $candidate)
-        print "\t<td><div class=\"myrankcol\" id=\"".$candidate['candidate_id']."-rankl\">RK</div></td>\n";
-    print "</tr>\n";
-    
-    print "<tr class=\"candidaterow\">\n";
-    print "<td>Candidates for <b>$constituency</b> contituency:</td>\n";
-    foreach ($candidates as $candidate)
-        print CandidateTdEntry($candidate, "-namel");
+        print "<td>".DistanceToWord($candidate["issuedistances"][$issue["name"]])."</td>\n";
     print "</tr>\n";
 }
+
 
 
 
@@ -239,15 +213,15 @@ print "</head>\n";
 print "<body onload=\"UpdateCItable()\">\n";
 //print "<body>\n";
 print "<script type=\"text/javascript\" src=\"walterzorn/wz_tooltip.js\"></script>\n";
-print "<script type=\"text/javascript\" src=\"quiz/election_crewe_and_nantwich2008.js\"></script>\n";
+print "<script type=\"text/javascript\" src=\"quiz/election_glenrothes2008.js\"></script>\n";
 
 print "<div id=\"divcrewebyelection\">\n";
 print "<a href=\"/\"><h1 id=\"th1\"><a href=\"/\"><img src=\"/thepublicwhip.gif\" ></h1></a>\n";
 #print "<h2 id=\"howtheyvoted\">How They Voted 2008</h2>\n";
 #print "<h3 id=\"th3\">(...and so should you)</h3>\n";
 print "<h4 id=\"th4a\">The party candidate calculator</h4>\n";
-print "<h4 id=\"th4b\">$constituency</h4>\n";
-print "<h4 id=\"th4c\">by-election: 22 May 2008</h4>\n";
+print "<h4 id=\"th4b\"><strike>Crewe and Nantwich</strike>$constituency</h4>\n";
+print "<h4 id=\"th4c\">by-election: 6 November 2008</h4>\n";
 
 $vdash = mysql_escape_string(db_scrub($_GET["dash"])); # used to tell if /by-election or /byelection was used
 $vpostcode = db_scrub($_POST["vpostcode"]);  # a string of letters (each a-e for strong favour to against) in order of the policies
@@ -270,12 +244,11 @@ print "<script type=\"text/javascript\">\n";
 WriteJavascriptElecTable($candidates, $issues);
 print "</script>\n";
 
-print "<p style=\"background-color:#ffbbbb; margin:22px\"><b>The by-election was <a href=\"http://news.bbc.co.uk/2/hi/uk_news/politics/7415362.stm\">won</a> by Edward Timpson (Con).  Sign up for email alerts about his speeches (which will include his maiden speech) <a href=\"http://www.theyworkforyou.com/mp/edward_timpson/crewe_and_nantwich\">here</a> on theyworkforyou.com.  Thank you for your attention.</b></p>\n";
 
 print "<div class=\"secpol\" id=\"sec-top\">\n";
 print "<table class=\"candidatetable\" style=\"float:right\">\n"; 
 print "<caption>List of candidates
-       <a href=\"http://en.wikipedia.org/wiki/Crewe_and_Nantwich_by-election,_2008\" target=\"_blank\">(from wikipedia)</a></caption>\n";
+       <a href=\"http://www.glenrothesbyelection.com/\" target=\"_blank\">(glenrothesbyelection.com)</a></caption>\n";
 //print "<tr><th>Candidate</th><th>Party (electoral-commission)</th></tr>\n";
 for ($i = 0; $i < count($candidatesA); $i++)
 {
@@ -367,24 +340,21 @@ if ($vkey)
     exit;
 }
 
-print "<p>This website helps you pick which party  
-        votes in Parliament according to your views
-        on a selection of issues. These are based on the numbers in 
-        <a href=\"http://www.theyworkforyou.com\">theyworkforyou.com</a>. 
+print "<p>This website helps you see which party  
+        best represents your views in the Westminster Parliament 
+        on a range of issues. 
         </p>
 
-        <p>If you already know who you are going to vote for, this website helps you 
-        see which issues you probably disagree with them about.</p>
+        <p>It also highlights which issues the by-election candidates
+        probably disagree with you about -- according to the votes of other party members in Parliament --
+        so you can ask them to make sure.  Your MP doesn't have to vote the way their party 
+        tells them to.  
+        Sometimes, instead, they vote the way you want them to.</p>
 
-        <p>Only the <b>Labour</b>, <b>LibDem</b> and <b>Conservative</b> Parties 
+        <p>Only the <b>Labour</b>, <b>LibDem</b>, <b>SNP</b> and <b>Conservative</b> Parties 
         are shown, because the others in the election have 
         had no MPs in Parliament.</p>
-
-        <p>Gwyneth Dunwoody is included for reference because she sometimes 
-        voted differently from the majority of the Labour Party.</p>";
-
-        //<p>Your answers are not sent to any computer, unless 
-        //you choose to submit them at the end.</p>
+       ";
 
         
 print "<p class=\"seclinks\"><a href=\"#sec-".$issues[0]["dream_id"]."\" class=\"st\" title=\"Click here for the first question\">start &gt;&gt;</a></p>";
@@ -400,8 +370,11 @@ print "</div>";
     {
         $issue = $issues[$i];
         $dreamid = $issue['dream_id'];
+        $ofnumber = "(<i>".($i + 1)." of $n</i>)";
         print "<div class=\"secpol\" id=\"sec-".$issue["dream_id"]."\">";
-        print "<h2>".$issue["name"]."</h2>\n";
+        print "<h2>".$issue["name"]." <small>$ofnumber</small></h2>\n";
+        
+        WriteLongListNews($issue["name"]);
 
         print "<table class=\"elecalc elecalc-single\">\n"; 
         WriteIssueRow($issue, $candidates);
@@ -409,8 +382,7 @@ print "</div>";
         
         //print "<table border=1><tr><td style=\"width:50%\">\n";
         print "\n\n<div class=\"sissue\">\n";
-        print "<p>Use the drop-down box to state your opinion to complete the sentence.";
-        print " (<i>".($i + 1)." of $n</i>)</p>\n";
+        //print "<p>Use the drop-down box to state your opinion to complete the sentence. $ofnumber</p>\n";
         $prevote = ($vkey && ($i < strlen($vkey)) ? $vkey[$i] : "");
         WriteEleIssueSection($issue, $prevote, $person);
         print "</div>\n";
@@ -418,9 +390,9 @@ print "</div>";
         //print "</td><td style=\"width:50%\">\n";
         //print "</td></tr></table>\n";
         $acont = "http://www.publicwhip.org.uk/policy.php?id=".$issue["dream_id"];
-        print "<p>Click <a href=\"$acont\" target=\"_blank\" title=\"List of relevant votes in Parliament\">here</a> to see the votes in Parliament this was based on.</p>";
+        //print "<p>Click <a href=\"$acont\" target=\"_blank\" title=\"List of relevant votes in Parliament\">here</a> to see the votes in Parliament this was based on.</p>";
 
-        WriteLongListNews($issue["name"]);
+        //WriteLongListNews($issue["name"]);
 
         
         print "<p class=\"seclinks\">";

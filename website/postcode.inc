@@ -89,7 +89,7 @@ function postcode_to_constituency_internal($db, $postcode, $pc_parl)
     }
 
     $postcode = trim($postcode);
-
+    
     # Try and match with regexp to exclude non postcodes quickly
     if (!is_postcode($postcode))
         return '';
@@ -135,7 +135,7 @@ function postcode_to_constituency_internal($db, $postcode, $pc_parl)
         trigger_error("Postcode database is not working.  $errstr.", E_USER_WARNING);
         return '';
     }
-	
+
 	// Back to the original code.
     $file = str_replace("&", "&amp;", $file);
     $file = str_replace("&amp;amp;", "&amp;", $file);
@@ -144,19 +144,39 @@ function postcode_to_constituency_internal($db, $postcode, $pc_parl)
     $tags = array();
     $constituency = null;
 
-    $xml_parser = xml_parser_create();
-    xml_set_element_handler($xml_parser, "startElement", "endElement");
-    xml_set_character_data_handler($xml_parser, "characterData");
-     
-    if (!xml_parse($xml_parser, $file, true))
+    # we now don't decode using xml parser (which was stupid).  Although php regexp support isn't that great to use.
+    if (false)
     {
-        trigger_error("Postcode database is not working. Invalid XML.", E_USER_WARNING);
-        return '';
-#        trigger_error(sprintf("XML error: %s at line %d",
-#            xml_error_string(xml_get_error_code($xml_parser)),
-#            xml_get_current_line_number($xml_parser)), E_USER_ERROR);
+        $xml_parser = xml_parser_create();
+        xml_set_element_handler($xml_parser, "startElement", "endElement");
+        xml_set_character_data_handler($xml_parser, "characterData");
+         
+        if (!xml_parse($xml_parser, $file, true))
+        {
+            trigger_error("Postcode database is not working. Invalid XML.", E_USER_WARNING);
+            return '';
+    #        trigger_error(sprintf("XML error: %s at line %d",
+    #            xml_error_string(xml_get_error_code($xml_parser)),
+    #            xml_get_current_line_number($xml_parser)), E_USER_ERROR);
+        }
+        xml_parser_free($xml_parser);
     }
-    xml_parser_free($xml_parser);
+    else
+    {
+        $res = array();
+        preg_match("/name\>([^<]*)/i", $file, $res);
+    #    print "iii" . preg_match("/name\>([^<]*)/i", $file, $res);
+    #    preg_match("/ell/", "Hello World!", $res);
+    #    print_r($res);
+        if (!$res)
+        {
+            trigger_error("Postcode not recognized."); 
+            return '';
+        }
+        $constituency = $res[1]; 
+    #print_r($res); 
+    #print "<h1>$file</h1>";
+    }
     $constituency = str_replace("  ", " ", $constituency);
 
     # Convert to canonical name
