@@ -17,8 +17,7 @@
 #divQuizResults h3#th3 {position:absolute;top:80px; right:2%;margin:0;color:#37a44a}
 #divQuizResults h4#th4 {position:absolute;top:100px;right:2%;color:#b9b601;margin:0;font-size:20px;text-align:right;}
 
-
-#divcrewebyelection 
+#divmain
 {
     position:relative;
     width:780px;
@@ -31,6 +30,12 @@
     font-size:12pt; 
     margin-left:5px;
     margin-right:5px;
+}
+
+
+#divcrewebyelection 
+{
+    height:40em;
 }
 #divcrewebyelection h1#th1 { background: #003300;padding:0; margin:0;}
 #divcrewebyelection h2#howtheyvoted {height:78px;background:url(/quiz/quizformtop.gif) no-repeat 6px 0;
@@ -62,6 +67,27 @@
         text-align:center;
 }
 
+div.frontpostcodesec 
+{ 
+    text-align: left; 
+    border: thin black solid; 
+    width: 600px; 
+    margin-left: auto; 
+    margin-right: auto; 
+    padding: 10px; 
+    margin-top:10px; 
+    background-color: #beffbe;
+    font-size:20px;
+}
+div#checkmpbutton 
+{ 
+    font-size: 200%; 
+    text-align:center; 
+    margin:20px;
+}
+
+
+
 a img
 {
     border:none;
@@ -84,7 +110,7 @@ table.elecalc a
 {
     color: #000090;
 }
-table.elecalc a:hover, a.start:hover, div#divcrewebyelection a:hover
+table.elecalc a:hover, a.start:hover, div#divcrewebyelection a:hover, a.ss:hover, a.st:hover
 {
     background-color:yellow;
 }
@@ -161,6 +187,21 @@ div.usecpol
     margin-top:5em;
 }
 
+div.partyscores
+{
+    clear:both; 
+    margin-top: 5em; 
+    text-align: center; 
+}
+div.partyscores table
+{
+    border: thick blue dashed; 
+    text-align: center; 
+    width:80%; 
+    margin-left:auto; 
+    margin-right:auto; 
+}
+
 div#uploadop
 {
     background-color: #dfbccc;
@@ -207,7 +248,7 @@ div.sissue
     Zbackground-color: red;
     Zborder: thin #a0a0ff solid;
     padding: 0px;
-    margin: 3px;
+    margin-top: 3px;
     width:100%;
 }
 div.sissues td
@@ -310,7 +351,7 @@ p.seclinks
 p.seclinks a.ss
 {
     font-size:14pt;
-    margin-left:20px;
+    margin-left:15px;
     vertical-align:bottom;
 }
 p.seclinks a.st
@@ -329,6 +370,10 @@ div.secpol
 {
     height:40em;
     clear:both;
+}
+div.secpolprint
+{
+    clear:both; 
 }
 div.secpol h2
 {
@@ -350,6 +395,14 @@ table.elecalc-single
     border: thin black solid;
     padding-left:10px;
 }
+table.elecalc-print
+{
+    width:70%;
+    float:right;
+    border: thin black solid;
+    padding-left:10px;
+}
+
 div.sissue
 {
     text-align:left;
@@ -359,7 +412,8 @@ div.sissue p.sel
     background-color:#e0e0e0;
     border: thin #b0b0f0 solid;
     font-size:14pt;
-    margin-left:20px; 
+    margin-left:20px;
+    padding-left:5px;
 }
 div.sissue select
 {
@@ -372,7 +426,20 @@ div.sissue option
 {
     color: black; 
 }
+div.sissue em
+{
+    font-style:normal;
+}
 
+div.sissueprint
+{
+    font-size:12pt; 
+}
+div.sissueprint em
+{
+    font-weight:bold;
+    font-style: normal; 
+}
 
 div#sec-upload input
 {
@@ -394,6 +461,23 @@ div.footq a
     color:white;
     margin-left:2em;
 }
+
+div.usecpol li
+{
+    background-color:#aaffaa; 
+    border: thin black solid; 
+    margin:10px; 
+    padding:3px;
+    font-size:120%;
+}
+p.empara
+{
+    font-size:120%;
+    font-style: italic;
+    color:red;
+    Zbackground-color:#ffbbcc; 
+}
+
 td.tds
 {
     text-align:center;
@@ -415,6 +499,10 @@ td.Con
 td.SNP
 {
     background-color:#ffff60; 
+}
+td.incumbant
+{
+    background-color:white; 
 }
 
 

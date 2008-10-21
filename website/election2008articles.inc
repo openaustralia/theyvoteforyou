@@ -1,5 +1,5 @@
 <?php
-# $Id: election2008articles.inc,v 1.5 2008/10/20 11:35:19 publicwhip Exp $
+# $Id: election2008articles.inc,v 1.6 2008/10/21 18:48:29 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -154,6 +154,60 @@ $newsarticleissues = array(
 //        "title"=>"Freedom of Information vote 'places MPs above law'",
 //        "date"=>"19 May 2007",
 //        "url"=>"http://www.telegraph.co.uk/news/main.jhtml?xml=/news/2007/05/19/nfoi19.xml"),
+),
+
+"Abortion" => array(
+  array("publisher"=>"BBC",
+        "title"=>"MPs reject cut in abortion limit", 
+        "summary"=>"The upper time limit for abortions will remain at 24 weeks after MPs voted against proposals to reduce it.",
+        "date"=>"21 May 2008",
+        "url"=>"http://news.bbc.co.uk/1/hi/uk_politics/7412118.stm"),
+  array("publisher"=>"The Times",
+        "title"=>"Widespread disappointment at vote on abortion, says Cardinal", 
+        "summary"=>"MPs are out of touch with public on abortion say Cardinal Murphy-O'Connor and Christian groups",
+        "date"=>"21 May 2008",
+        "url"=>"http://www.timesonline.co.uk/tol/comment/faith/article3980682.ece"),
+  array("publisher"=>"Daily Mail",
+        "title"=>"Britain is 'becoming the abortion capital of the world' claims Tory MP fighting to lower legal limit", 
+        "summary"=>"Nadine Dorries MP is leading calls for a cut in the upper time limit for so-called \"social\" abortions from 24 weeks to 20.",
+        "date"=>"6 May 2008",
+        "url"=>"http://www.dailymail.co.uk/news/article-564225/Britain-abortion-capital-world-claims-Tory-MP-fighting-lower-legal-limit.html"),
+),
+
+"Planning reform" => array(
+  array("publisher"=>"BBC",
+        "title"=>"Ministers defeat planning rebels", 
+        "summary"=>"The government has survived a Labour rebellion over plans to speed up the planning process for big projects such as airports and nuclear power stations.",
+        "date"=>"25 June 2008", 
+        "url"=>"http://news.bbc.co.uk/1/hi/uk_politics/7470846.stm"),
+  array("publisher"=>"The Times", 
+        "title"=>"The Planning Bill: a bulldozer through democracy",
+        "summary"=>"Whatever happened to accountability? Decisions on big projects will be made by an unelected superquango", 
+        "date"=>"26 June 2008",
+        "url"=>"http://www.timesonline.co.uk/tol/comment/columnists/camilla_cavendish/article4214738.ece"),
+  array("publisher"=>"The Independent",
+        "title"=>"'Lights will go out' by 2015 if Lords rejects Planning Bill",
+        "summary"=>"The CBI has urged the House of Lords to pass the Planning Bill, under consideration tomorrow, to help secure the nation's energy and infrastructure needs.",
+        "date"=>"14 July 2008",
+        "url"=>"http://www.independent.co.uk/news/business/news/lights-will-go-out-by-2015-if-lords-rejects-planning-bill-866957.html"),
+),
+
+"MPs' pay" => array(
+  array("publisher"=>"BBC",
+        "title"=>"MPs vote to keep homes expenses",
+        "summary"=>"MPs have voted to keep their £24,000 second home allowances, but have decided not to award themselves above-inflation pay rises.",
+        "date"=>"4 July 2008", 
+        "url"=>"http://news.bbc.co.uk/1/hi/uk_politics/7486612.stm"),
+  array("publisher"=>"The Sun",
+        "title"=>"MPs vote against 4.4% pay rise",
+        "summary"=>"MPs bowed to Government demands for restraint today and awarded themselves a 2.25 per cent pay rise for this year.",
+        "date"=>"3 July 2008",
+        "url"=>"http://www.thesun.co.uk/sol/homepage/news/article1375952.ece"),
+  array("publisher"=>"The Independent",
+        "title"=>"MPs swap 'John Lewis list' for 'Ikea list'",
+        "summary"=>"MPs finally agreed to ditch the controversial \"John Lewis list\" today - but still clung to the right to kit out their second homes at the taxpayers' expense. ",
+        "date"=>"16 July 2008",
+        "url"=>"http://www.independent.co.uk/news/uk/politics/mps-swap-john-lewis-list-for-ikea-list-869084.html"),
 ),
 
 "Ban smoking" => array(
