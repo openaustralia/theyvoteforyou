@@ -2,7 +2,7 @@
 use strict;
 use lib "loader/";
 
-my $text = "website/newsletters/issue11.txt";
+my $text = "website/newsletters/issue15.txt";
 my $test_email = "";
 
 #my $type = "dream"; 
@@ -86,7 +86,7 @@ foreach my $k (keys %$all)
     open(SENDMAIL, "|/usr/lib/sendmail -oi -t") or die "Can't fork for sendmail: $!\n";
 
     print SENDMAIL <<"EOF";
-From: Public Whip Team <team\@publicwhip.org.uk>
+From: Public Whip <team\@publicwhip.org.uk>
 To: $to
 EOF
 
@@ -107,6 +107,6 @@ EOF
 
     print "done\n";
 
-    sleep 2; # One second probably enough
+    sleep 0.1; # probably enough :)
 }
 
