@@ -346,7 +346,7 @@ p.seclinks
     text-align:left;
     margin-top:10px;
     margin-left:0px;
-    Zclear:both;
+    clear:both;
 }
 p.seclinks a.ss
 {
@@ -391,9 +391,10 @@ td.elerowtd
 table.elecalc-single
 {
     width:50%;
-    float:right;
+    float:left;
     border: thin black solid;
     padding-left:10px;
+    margin-right:10px; 
 }
 table.elecalc-print
 {
@@ -462,14 +463,19 @@ div.footq a
     margin-left:2em;
 }
 
-div.usecpol li
+div.usecpol p
+{
+    margin-left:20px; 
+}
+div.usecpol p.usecprint
 {
     background-color:#aaffaa; 
     border: thin black solid; 
-    margin:10px; 
+    Zmargin:10px; 
     padding:3px;
     font-size:120%;
 }
+
 p.empara
 {
     font-size:120%;
@@ -487,22 +493,40 @@ td.tds
 td.LDem
 {
     background-color:yellow;
+    Zbackground-image: url(/images/libdemico.png);
+    Zbackground-position: top right; 
+    Zbackground-repeat: no-repeat; 
 }
 td.Lab
 {
     background-color:red;
+    Zbackground-image: url(/images/labico.png);
+    Zbackground-position: top right; 
+    Zbackground-repeat: no-repeat; 
 }
 td.Con
 {
     background-color:blue; 
+    Zbackground-image: url(/images/conico.png);
+    Zbackground-position: top right; 
+    Zbackground-repeat: no-repeat; 
 }
 td.SNP
 {
     background-color:#ffff60; 
+    Zbackground-image: url(/images/snpico.png);
+    Zbackground-position: top right; 
+    Zbackground-repeat: no-repeat; 
 }
 td.incumbant
 {
     background-color:white; 
 }
 
+p#ypartychoice
+{
+    font-size:120%; 
+    margin-left:20px; 
+    background-color:#ccffcc; 
+}
 

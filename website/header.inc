@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.97 2008/07/23 11:13:12 publicwhip Exp $
+# $Id: header.inc,v 1.98 2008/11/16 22:56:24 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -198,6 +198,10 @@ Newsletter (<a href="/newsletters/signup.php">info</a>): <INPUT TYPE="TEXT" NAME
 
 <!-- the rest of the content -->
 <tr><td colspan="3" class="content">
+
+<?
+//<div style="margin-left:80px; margin-right:80px; margin-top:30px; margin-bottom:30px; background-color:#eeeedd; font-size:200%; text-align:center; color: #886611; padding:20px; border:thick blue dashed;\"><a style="color:#886611" href="/byelection">Try the Glenrothes Byelection Quiz</a></div>
+?>
 
 <? 
 print $h1title;  # the actual heading

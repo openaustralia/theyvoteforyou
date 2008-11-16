@@ -123,6 +123,7 @@ function UpdateCItable(vevent)
     
     // now mark the best by colour
     bestlist.reverse();
+    var summarycell = document.getElementById("yourpartychoice");
     for (var i = 0; i < candidates.length; i++)
     {
         var bbest = ((bestlist.length != 0) && (bestlist[bestlist.length - 1] == i))
@@ -137,7 +138,10 @@ function UpdateCItable(vevent)
         var rkcell = document.getElementById(rkcellid);
         rkcell.style.backgroundColor = (bbest ? "#eeffee" : "#9999ee");
         if (bbest)
+        {
             rkcell.innerHTML += " (best)";
+            summarycell.innerHTML = mpcell.innerHTML;
+        }
 
         // copy best selections into lower duplicate row
         //var mpcelll = document.getElementById(mpcellid + "l");

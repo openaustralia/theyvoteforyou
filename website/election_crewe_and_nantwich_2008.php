@@ -287,7 +287,7 @@ function WriteFrontPage()
 
     print "<div id=\"opform\">";
     print "<form action=\"\" method=\"get\">";
-    print "<div class=\"frontpostcodesec\">Type in <em>either</em>:\n";
+    print "<div class=\"frontpostcodesec\">To find out how your views compare to the main political parties, type in <em>either</em>:\n";
     print "<ul>\n";
     print "<li>Your postcode: <input type=\"text\" name=\"mppc\" id=\"mppc\" size=\"8\" onKeyDown=\"if(event.keyCode==13)event.keyCode=0\"> </input>, <em>or</em> </li>
            <li>Your parliamentary constituency: <input type=\"text\" name=\"mpc\" id=\"mpc\"> </input> </li>
@@ -668,6 +668,7 @@ if (!isrobot() and !$vkey and !preg_match("/.*?house=z/", $querystring))
             print "</tr>\n";
         }
         print "</table>\n";
+        print "<p id=\"ypartychoice\">Your answers are most similar to <span id=\"yourpartychoice\">unknown</span>.  You should strongly consider voting for them.</p>\n"; 
         print "<p class=\"seclinks\"><a href=\"#sec-upload\" class=\"st\">next &gt;&gt;</a>\n";
         print "</div>\n";
     }

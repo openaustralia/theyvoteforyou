@@ -1,5 +1,5 @@
 <?php
-# $Id: election2008articles.inc,v 1.6 2008/10/21 18:48:29 publicwhip Exp $
+# $Id: election2008articles.inc,v 1.7 2008/11/16 22:56:24 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -473,7 +473,7 @@ function WriteLongListNews($issuename)
                 print "<b>".$newsarticle["title"]."</b> ";
                 print "(".$newsarticle["publisher"].") ";
                 print "<p class=\"summ\"><i>".$newsarticle["summary"]."</i>";
-                print " (<a href=\"".$newsarticle["url"]."\" target=\"_blank\" title=\"Read rest of article\">more...</a>)</p>\n";
+                print " (<a href=\"".$newsarticle["url"]."\" target=\"_blank\" onclick=\"NotifyEvent('news-$issuename')\" title=\"Read rest of article\">more...</a>)</p>\n";
             }
             else
             {
