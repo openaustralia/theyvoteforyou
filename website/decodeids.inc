@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.46 2008/06/20 17:10:47 publicwhip Exp $
+# $Id: decodeids.inc,v 1.47 2008/11/16 23:00:44 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -278,6 +278,7 @@ function get_dreammpid_attr_decode($db, $i)
         $dreammpid = db_scrub($_POST[$i]); 
     if ($dreammpid == "")
         return null;
+    $dreammpid = intval($dreammpid);
 	$qselect = "SELECT pw_dyn_dreammp.name AS name, pw_dyn_dreammp.description AS description,
 					   pw_dyn_user.user_id AS user_id, user_name,
 					   votes_count, edited_motions_count,
