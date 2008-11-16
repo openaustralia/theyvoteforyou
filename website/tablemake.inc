@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.90 2008/10/20 14:35:19 publicwhip Exp $
+# $Id: tablemake.inc,v 1.91 2008/11/16 23:15:04 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -908,7 +908,7 @@ function division_table($db, $divtabattr, $db2="", $events = "")
 
             $columnforms["voter1type"] = null;
             $columnforms["voter2type"] = null;
-            $columnforms["role"] = "Agreement";
+            $columnforms["role"] = "Agreement with policy above";
             divdreammpconds($aquery, $db, $voter2, $bonlyvotes2, 2);
         } 
         else if ($voter2type == "party") 
