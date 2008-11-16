@@ -501,7 +501,7 @@ function login_screen()
     print '
         <P>
         Enter your user name and password and we\'ll set a cookie so we know you\'re logged in.
-        <p>Not got a login?  <A HREF="register.php?r='.
+        <p>Not got a login?  <A HREF="/account/register.php?r='.
             ($_GET['r']?urlencode($_GET['r']):urlencode($this_place)).
         '">Register a new
         account</A>.  You will also receive a free email newsletter.
