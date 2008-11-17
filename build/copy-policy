@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Script to hack to copy a policy and reverse it
+
+for X in 258
+do
+
+cat <<END
+insert into pw_dyn_dreammp (name, user_id, description, private) select concat("REVERSED ", name), user_id, description, private from pw_dyn_dreammp where dream_id = $X;
+
+insert into pw_dyn_dreamvote (division_date, division_number, dream_id, vote) select division_date, division_number, last_insert_id(),  case vote when 'no' then 'aye' when 'aye' then 'no' when 'no3' then 'aye3' when 'aye3' then 'no3' else vote end from pw_dyn_dreamvote where dream_id = $X;
+
+END
+
+done
+
+echo "-- THIS DOESN'T RUN THE ABOVE SQL, YOU HAVE TO COPY AND PASTE IT OR PIPE IT TO MYSQL"
+
+
