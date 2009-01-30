@@ -1,4 +1,4 @@
-# $Id: Clean.pm,v 1.17 2006/10/18 14:29:37 publicwhip Exp $
+# $Id: Clean.pm,v 1.18 2009/01/30 19:37:43 publicwhip Exp $
 # Integrety checking and tidying of database.  Lots of this wouldn't be
 # needed with transactions.
 
@@ -111,12 +111,14 @@ sub check_integrity {
             my $deferred =
               (       $name =~ m/Deferred Division/
                   and $name ne "Deferred Divisions" );
-            if ( $deferred && $count != 0 ) {
-                PublicWhip::Error::warn(
-                    "Tellers in deferred division!",
-                    "$date no. $number $name"
-                );
-            }
+            # XXX This isn't interesting enough, even though it should be. Fails
+            # to often because of bad title matching which motion text editing will fix
+            #if ( $deferred && $count != 0 ) {
+            #    PublicWhip::Error::warn(
+            #        "Tellers in deferred division!",
+            #        "$date no. $number $name"
+            #    );
+            #}
             if ( !$deferred && $count != 4 ) {
                 PublicWhip::Error::warn( "No tellers in non-deferred division",
                     "$date no. $number $name" );
