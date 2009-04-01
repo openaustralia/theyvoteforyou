@@ -1,4 +1,4 @@
-#! /usr/bin/perl -w 
+#! /usr/bin/env perl -w
 use strict;
 
 # $Id: load.pl,v 1.19 2009/05/19 14:53:59 marklon Exp $
