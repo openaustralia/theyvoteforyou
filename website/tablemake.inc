@@ -414,14 +414,8 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $roleclass, $vote1,
 
     if ($columnforms["hitcounter"])
         print "<td>".$row["hits"]."</td>";
-	if ($columnforms["house"]) {
-        $house_name = "Commons";
-        if( $row['divisionhouse'] == "lords" )
-            $house_name = "Lords";
-        if( $row['divisionhouse'] == "scotland" )
-            $house_name = "Scotland";
-	    print "<td class=\"".$row['divisionhouse']."\">".$house_name."</td>";
-    }
+	if ($columnforms["house"])
+	    print "<td class=\"".$row['divisionhouse']."\">".($row['divisionhouse'] == "lords" ? "Senate" : "Representatives")."</td>";
     if ($columnforms["divisionnumber"])
         print "<td>".$row['divisionnumber']."</td>";
 	if ($columnforms["divisiondate"])

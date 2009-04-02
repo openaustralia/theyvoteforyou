@@ -70,21 +70,17 @@
 
 	# the alternative modes
 	$rdismodes_house["commons"] = array(
-							 "description" => "Show only MPs in the Commons",
-							 "lkdescription" => "Commons",
-							 "titdescription" => "MPs");
+							 "description" => "Show only members of the House of Representatives",
+							 "lkdescription" => "Representatives",
+							 "titdescription" => "Representatives");
 	$rdismodes_house["lords"] = array(
-							 "description" => "Show only Lords in the House",
-							 "lkdescription" => "Lords",
-							 "titdescription" => "Lords");
-	$rdismodes_house["scotland"] = array(
-							 "description" => "Show only MSPs",
-							 "lkdescription" => "Scottish Parliament",
-							 "titdescription" => "MSPs");
+							 "description" => "Show only Senators",
+							 "lkdescription" => "Senators",
+							 "titdescription" => "Senators");
 	$rdismodes_house["all"] = array(
-							 "description" => "Show all people",
-							 "lkdescription" => "All houses",
-							 "titdescription" => "MPs, MSPs and Lords");
+							 "description" => "Show all people in Parliament",
+							 "lkdescription" => "Both houses",
+							 "titdescription" => "Representatives and Senators");
 
     $title = "";
 	if ($sort == "rebellions") {

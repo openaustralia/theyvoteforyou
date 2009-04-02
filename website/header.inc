@@ -133,9 +133,8 @@ Search: <input maxLength=256 size=12 id="query_head" name="query" onblur="fadeou
 <div id="nav_main">
 <a title="Front page and site highlights" href="<?php echo $toppath?>index.php">Home</a>
 <a title="List of all votes in Parliament" href="<?php echo $toppath?>divisions.php">Divisions</a>
-<a title="List of all Members of House of Commons" href="<?php echo $toppath?>mps.php">MPs</a>
-<a title="List of all Members of House of Lords" href="<?php echo $toppath?>mps.php?house=lords">Lords</a>
-<a title="List of all Members of the Scottish Parliament" href="<?php echo $toppath?>mps.php?house=scotland">MSPs</a>
+<a title="List of all Members of House of Representatives" href="<?php echo $toppath?>mps.php">MPs</a>
+<a title="List of all Members of Senate" href="<?php echo $toppath?>mps.php?house=lords">Lords</a>
 <a title="Help to analyze MP's votes" href="<?php echo $toppath?>policies.php">Policies</a>
 <!-- <a title="Chat with other users" href="/forum">Forum</a> -->
 <a title="Blog" href="http://blog.publicwhip.org.uk">Blog</a>

@@ -52,14 +52,11 @@
 							 "description" => "Show divisions from the Commons, Lords and Scottish Parliament",
 							 "lkdescription" => "All houses");
 	$rdismodes_house["commons"] = array(
-							 "description" => "Show only Commons divisions",
-							 "lkdescription" => "Commons only");
+							 "description" => "Show only Representatives divisions",
+							 "lkdescription" => "Representatives only");
 	$rdismodes_house["lords"] = array(
-							 "description" => "Show only Lords divisions",
-							 "lkdescription" => "Lords only");
-	$rdismodes_house["scotland"] = array(
-							 "description" => "Show only Scottish Parliament divisions",
-							 "lkdescription" => "Scottish Parliament only");
+							 "description" => "Show only Senate divisions",
+							 "lkdescription" => "Senate only");
     $rdefaultdisplay_house = "all";
 
 
@@ -126,6 +123,7 @@
     $title = $rdismodes2[$rdisplay2]['description'] . " - " . $rdismodes[$rdisplay]['description'];
 	if ($rdisplay_house != "all")
     {
+<<<<<<< HEAD
 		if (($rdisplay2 == "every") || ($rdisplay2 == "rebels")) {
             if ($rdisplay_house == "scotland")
                 $house_name = "Scottish Parliament";
@@ -135,6 +133,10 @@
                 $house_name = "Commons";
             $title .= " - " . $house_name . " only";
         }
+=======
+		if (($rdisplay2 == "every") || ($rdisplay2 == "rebels"))
+            $title .= " - ".($rdisplay_house == "lords" ? "Senate" : "Representatives")." only";
+>>>>>>> Changing a few mentions of Commons -> Representatives and Lords -> Senate
         $colour_scheme = $rdisplay_house;
     }
 	if ($sort != 'date')
