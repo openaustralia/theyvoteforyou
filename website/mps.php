@@ -135,11 +135,11 @@
 
     print '<p>';
     if ($rdisplay_house == 'commons')
-        print 'Members of the House of Commons (part of the UK Parliament) are listed below.';
+        print 'Members of the House of Representatives are listed below.';
     elseif ($rdisplay_house == 'lords')
-        print 'Members of the House of Lords (part of the UK Parliament) are listed below.';
+        print 'Members of the Senate are listed below.';
     else
-        print 'Members of both Houses of the UK Parliament are listed below.';
+        print 'Members of both Houses of the Federal Parliament are listed below.';
     print ' Refer to <a href="faq.php#clarify">this explanation</a> of the
          "rebellion" and "attendance" rates, as they may not mean what you
          think they do. </p>
