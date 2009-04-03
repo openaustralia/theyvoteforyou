@@ -441,12 +441,10 @@ function no_division_found($plural)
 	        if ($debate_gid != "")
 			{
 				if ($divattr["house"] == "lords")
-		        	$debate_gid = "lords/?id=".str_replace("uk.org.publicwhip/lords/", "", $debate_gid);
-                else if ($divattr["house"] == "scotland")
-					$debate_gid = "sp/?id=".str_replace("uk.org.publicwhip/spor/", "", $debate_gid);
+				$debate_gid = "senate/?id=".str_replace("uk.org.publicwhip/lords/", "", $debate_gid);
 		        else
 					$debate_gid = "debates/?id=".str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
-                print "<b><a href=\"http://www.theyworkforyou.com/$debate_gid\" title=\"Links to debate shown at www.theyworkforyou.com\">Debate in Parliament</a></b> | ";
+                print "<b><a href=\"http://www.openaustralia.org/$debate_gid\" title=\"Links to debate shown at www.openaustralia.org\">Debate in Parliament</a></b> | ";
 	        }
 
             if ($divattr["division_date"] <= '2005-03-17')
