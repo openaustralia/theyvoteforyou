@@ -151,23 +151,10 @@ sub loadmember
     my $fromwhy = $memb->att('fromwhy');
     my $towhy = $memb->att('towhy');
     if ($house eq 'lords') {
-        if (!$memb->att('lordname')) {
-            $title = "The " . $title;
-        }
-        $firstname = $memb->att('lordname');
-        if ($memb->att('lordofname')) {
-            $lastname = "of " . $memb->att('lordofname');
-        } else {
-            $lastname = "";
-        }
-        $constituency = "";
+		$firstname = $memb->att('forenames');
+        $lastname = $memb->att('lordname');
+		$constituency = $memb->att('lordofname');
         $party = $memb->att('affiliation');
-        $party = 'LDem' if ($party eq 'Dem');
-        $fromwhy = 'unknown'; # TODO
-        $towhy = 'unknown';
-        if (!$todate) {
-            $todate = "9999-12-31"; # TODO
-        }
     }
     $party = 'Lab' if ($party eq 'Lab/Co-op');
 
