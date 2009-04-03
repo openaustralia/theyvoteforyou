@@ -34,7 +34,7 @@ pw_header_notitle();
 <div class="homeintro">
 <h1>Find out how <span class="emph">your</span> MP votes on the issues <span class="emph">you</span> care about.</h1></div>
 <div class="homevideo">
-<p>Your MP votes on changes to British law on your behalf. When parliament is in session, they may do this a dozen times a week.</p>
+<p>Every week, a dozen or so times, your MP votes on changes to Australian law. This is their definitive exercise of power on your behalf.</p>
 
 <p>In order to know whether your MP is representing your views on the issues, you need to know how they’ve voted.</p>
 
