@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.140 2008/10/20 11:35:19 publicwhip Exp $
+# $Id: division.php,v 1.141 2009/04/10 14:46:11 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -424,7 +424,17 @@ function no_division_found($plural)
             $row = $db->fetch_row_assoc();
             $last_editor = html_scrub($row['user_name']);
 
-	        print "<div class=\"motion\">";
+	        if (($divattr["house"] == "lords") and ($divattr["division_date"] >= "2009-01-21"))
+            {
+                $ldasess = "2008_09";
+                $ldadate = str_replace("-", "", $divattr["division_date"]);
+                $ldanum = "/number/".$divattr["division_number"];
+                $ldalink = "http://services.parliament.uk/LordsDivisionsAnalysis/session/$ldasess/division/$ldadate$ldanum";
+                print "<p style=\"background-color:#ffcdff; border:thin red solid; text-align:center\">
+                       <b>New:</b> This division listed under <a href=\"$ldalink\">Lords Division Analysis</a></p>\n";
+            }
+
+            print "<div class=\"motion\">";
 	        if ($motion_data['user_id'] == 0) {
                 print "<p><strong>Description automatically extracted from the debate,
                     please <a href=\"$edit_link\">edit it</a> to make it better.</strong></p>";

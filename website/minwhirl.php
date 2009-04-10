@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: minwhirl.php,v 1.9 2006/10/01 18:10:07 goatchurch Exp $
+# $Id: minwhirl.php,v 1.10 2009/04/10 14:46:11 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2004 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -9,7 +9,7 @@
 $title = "Ministerial whirl"; pw_header();
 ?>
 
-<p>See how Tony Blair's government has changed from day to day, month to
+<p>See how the New Labour government has changed from day to day, month to
 month, reshuffled to reshuffle by clicking on the buttons at the bottom
 of the Java applet.  
 
