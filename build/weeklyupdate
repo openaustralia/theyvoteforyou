@@ -11,7 +11,7 @@ then
 	exit $?
 fi
 
-JAVA=/usr/local/bin/java
+JAVA=/usr/bin/java
 
 # Do clustering for Java applet
 cd ~/publicwhip-live/custom/cluster
