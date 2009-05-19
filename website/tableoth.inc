@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.52 2008/06/19 22:32:17 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.53 2009/05/19 15:02:37 marklon Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -61,7 +61,10 @@
 				if (!$bmultiperson)
 				{
 			        $tells = $mpprop['tells'];
-					print "<td> $tells ".($tells != 1 ? "times" : "time")."</td>\n";
+					if( $mpprop['house'] == 'scotland' )
+						print "<td> n/a </td>\n";
+					else
+						print "<td> $tells ".($tells != 1 ? "times" : "time")."</td>\n";
 				}
 			}
 	        print "</tr>\n";
@@ -253,7 +256,7 @@
 
     function print_party_summary_division($db, $div_id, $baseurl, $house)
     {
-        if ($house != "commons" && $house != "lords")
+        if ($house != "commons" && $house != "lords" && $house != "scotland")
             die;
         $db->query("SELECT party, total_votes FROM pw_cache_partyinfo where house = '$house'");
         $alldivs = array();
@@ -268,15 +271,15 @@
 
         # Table of votes by party
         print "<h2><a name=\"summary\">Party Summary</a></h2>";
-        print "<p>Votes by party, red entries are votes against the majority for that party.  ";
-        print "
-        <div class=\"tableexplain\">
-        <span class=\"ptitle\">What is Tell?</span>
+        print "<p>Votes by party, red entries are votes against the majority for that party.</p>";
+        print "<div class=\"tableexplain\">";
+        if ($house != "scotland") {
+	  print "<p><span class=\"ptitle\">What is Tell?</span>
         '+1 tell' means that in addition one member of that party was a
-        <a href=\"".$baseurl."faq.php#jargon\">teller</a> for that division lobby.</p>
-        <p>";
-        if ($house != "lords")
-            print "
+        <a href=\"".$baseurl."faq.php#jargon\">teller</a> for that division lobby.</p>";
+        }
+        if ($house != "lords" and $house != "scotland")
+            print "<p>
             <span class=\"ptitle\">What are Boths?</span> An MP can vote both
             aye and no in the same division. The <a href=\"".$baseurl."boths.php\">boths
             page</a> explains this.
@@ -286,7 +289,7 @@
         </p>
         </div>";
 
-		$query = "SELECT party, aye_votes, aye_tells, no_votes, no_tells, both_votes, possible_votes, whip_guess
+		$query = "SELECT party, aye_votes, aye_tells, no_votes, no_tells, both_votes, abstention_votes, possible_votes, whip_guess
 					FROM pw_cache_whip
 					WHERE division_id = $div_id
 					ORDER BY party";
@@ -301,8 +304,12 @@
             print ($house == "lords" ? "<td>Majority (Not-Content)</td><td>Minority (Content)</td>":"<td>Majority (No)</td><td>Minority (Aye)</td>");
         else
             print ($house == "lords" ? "<td>Majority (Content)</td><td>Minority (Not-Content)</td>":"<td>Majority (Aye)</td><td>Minority (No)</td>");
-        if ($house != "lords")
+        if ($house != "lords") {
+	  if ($house == "scotland")
+	    print "<td>Abstentions</td>";
+	  else
             print "<td>Both</td>";
+	}
         print "<td>Turnout</td></tr>\n";
         $prettyrow = 0;
 
@@ -311,6 +318,7 @@
 		$totalboths = 0;
 		$totalturnout = 0;
 		$totalpossible = 0;
+		$totalabstentions = 0;
 	    
         while ($row = $db->fetch_row_assoc())
 		{
@@ -320,8 +328,9 @@
 			$no = $row["no_votes"];
 			$tellno = $row["no_tells"];
 			$both = $row["both_votes"];
+			$abstentions = $row["abstention_votes"];
 
-            $total = $aye + $no + $both + $tellaye + $tellno;
+            $total = $aye + $no + $both + $abstentions + $tellaye + $tellno;
             if (($total == 0) && ($party != "Con" && $party != "Lab" && $party != "LDem"))
                 continue; 
 
@@ -330,6 +339,7 @@
 			$totalnoes += $no;
 			$totaltellnoes += $tellno;
 			$totalboths += $both;
+			$totalabstentions += $abstentions;
 			$totalturnout += $total;
 			$totalpossible += $row["possible_votes"];
 
@@ -337,6 +347,11 @@
             $classaye = ($aye + $tellaye > 0 ? ($whip == "no" ? "rebel" : "whip") : "normal");
             $classno = ($no + $tellno > 0 ? ($whip == "aye" ? "rebel" : "whip") : "normal");
             $classboth = ($both > 0 ? "important" : "normal");
+	    if( $house == $scotland ) {
+	      $classaye = (($aye > 0) ? (($whip == "no" || $whip == "abstention") ? "rebel" : "whip") : "normal");
+	      $classno = (($no > 0) ? (($whip == "aye" || $whip == "abstention") ? "rebel" : "whip") : "normal");
+	      $classabstentions = (($abstentions > 0) ? (($whip == "aye" || $whip == "no") ? "rebel" : "whip") : "normal");
+	    }
 
             if ($tellaye > 0)
                 $aye .= " (+" . $tellaye . " tell)";
@@ -353,8 +368,12 @@
             
             if ($house == "lords" && $both > 0)
                 print "ERROR - both for lords";
-            if ($house != "lords")
+            if ($house != "lords") {
+	      if ($house == "scotland")
+		print "<td class=\"$classabstentions\">$abstentions</td>";
+	      else
                 print "<td class=\"$classboth\">$both</td>";
+	    }
             print "<td class=\"percent\">".percentise_votes_short($total, $row['possible_votes'])."</td>"; 
             print "</tr>";
         }
