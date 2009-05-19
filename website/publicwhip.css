@@ -363,6 +363,7 @@ TABLE.votetab TD.majority
     border-left: #003300 1px solid;
     border-right: #003300 1px solid;
     border-top: #003300 1px solid;
+    background-color: #FFFFFF;
 }
 .secondnavtabs li.off
 {
