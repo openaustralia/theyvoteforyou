@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.14 2006/02/15 00:45:14 publicwhip Exp $
+# $Id: memxml2db.pl,v 1.15 2009/05/19 14:42:10 marklon Exp $
 
 # Convert all-members.xml and all-lords.xml into the database format for Public
 # Whip website
@@ -45,15 +45,18 @@ my $twig = XML::Twig->new(
             'constituency' => \&loadcons, 
             'member' => \&loadmember, 
             'lord' => \&loadmember, 
+            'member_sp' => \&loadmember,
             'person' => \&loadperson, 
             'moffice' => \&loadmoffice 
         }, 
     output_filter => 'safe');
 $twig->parsefile("$members_location/constituencies.xml");
+$twig->parsefile("$members_location/sp-constituencies.xml");
 $twig->parsefile("$members_location/people.xml");
 $twig->parsefile("$members_location/ministers.xml");
 $twig->parsefile("$members_location/all-members.xml");
 $twig->parsefile("$members_location/peers-ucl.xml");
+$twig->parsefile("$members_location/sp-members.xml");
 
 # Delete things left that shouldn't be from this table
 foreach my $gid (keys %$gid_to_internal) {
@@ -77,9 +80,11 @@ sub loadmember
     my ($twig, $memb) = @_;
 
     my $house = $memb->att('house');
+    $house = 'scotland' if not $house;
+    print "house: " . $house . "\n";
     my $gid = $memb->att('id');
     if ($gid =~ m#uk.org.publicwhip/member/#) {
-        die if $house ne 'commons';
+        die unless ($house eq 'commons' || $house eq 'scotland');
     } elsif ($gid =~ m#uk.org.publicwhip/lord/#) {
         die if $house ne 'lords';
     } else {
@@ -197,6 +202,14 @@ sub loadcons
     my $consid = $cons->att('id');
     $consid =~ s#uk.org.publicwhip/cons/##;
 
+    my $parliament = $cons->att('parliament');
+    my $house;
+    if (defined($parliament) && ($parliament eq 'edinburgh')) {
+        $house = 'scotland';
+    } else {
+        $house = 'commons';
+    }
+
     my $main_name = 1;
     for (my $name = $cons->first_child('name'); $name; $name = $name->next_sibling('name')) {
 	my $text = encode_entities($name->att('text'));
@@ -208,13 +221,14 @@ sub loadcons
         # We encode entities as e.g. &Ouml;, as otherwise non-ASCII characters
         # get lost somewhere between Perl, the database and the browser.
         my $sth = PublicWhip::DB::query($dbh, "insert into pw_constituency
-            (cons_id, name, main_name, from_date, to_date) values
-            (?, ?, ?, ?, ?)", 
+            (cons_id, name, main_name, from_date, to_date, house) values
+            (?, ?, ?, ?, ?, ?)",
             $consid,
             $text, 
             $main_name,
             $cons->att('fromdate'), 
             $cons->att('todate'), 
+            $house
             );
         $main_name = 0;
     }

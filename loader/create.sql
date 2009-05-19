@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.51 2008/11/17 06:30:38 publicwhip Exp $
+-- $Id: create.sql,v 1.52 2009/05/19 14:42:10 marklon Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -39,7 +39,7 @@ create table pw_mp (
     title varchar(100) not null, -- Lords: (The) Bishop / Lord / Earl / Viscount etc...
     constituency varchar(100) not null, -- Lords: NOT USED
     party varchar(100) not null, -- Lords: affiliation
-    house enum('commons', 'lords') not null,
+    house enum('commons', 'lords', 'scotland') not null,
 
     -- these are inclusive, and measure days when the mp could vote
     entered_house date not null default '1000-01-01',
@@ -61,7 +61,7 @@ create table pw_mp (
     index(person),
     index(house),
     index(party),
-    unique(first_name, last_name, constituency, entered_house, left_house)
+    unique(first_name, last_name, constituency, entered_house, left_house, house)
 );
 
 -- Has multiple entries for different spellings of each constituency
@@ -73,6 +73,10 @@ create table pw_constituency (
     -- these are inclusive, and measure days when the boundaries were active
     from_date date not null default '1000-01-01',
     to_date date not null default '9999-12-31',
+
+    -- need this to distinguish between Scottish constituencies and
+    -- identically named ones in Westminster
+    house enum('commons', 'scotland') not null default 'commons',
 
     index(from_date),
     index(to_date),
@@ -86,7 +90,7 @@ create table pw_division (
 
     division_date date not null,
     division_number int not null,
-    house enum('commons', 'lords') not null,
+    house enum('commons', 'lords', 'scotland') not null,
 
     division_name text not null,
     source_url blob not null, -- exact source of division
@@ -101,13 +105,13 @@ create table pw_division (
     index(division_date),
     index(division_number),
     index(house),
-    unique(division_date, division_number)
+    unique(division_date, division_number, house)
 );
 
-create table pw_vote (
+create table if not exists pw_vote (
     division_id int not null,
     mp_id int not null,
-    vote enum("aye", "no", "both", "tellaye", "tellno") not null,
+    vote enum("aye", "no", "both", "tellaye", "tellno", "abstention", "spoiled") not null,
 
     index(division_id),
     index(mp_id),
@@ -133,9 +137,13 @@ create table pw_moffice (
     index(person)
 );
 
+-- True abstentions ("abstention") and ("spoiled") are innovations of
+-- the Scottish Parliament.  There is only a single instance of a
+-- spoiled vote, but I'm including this for them moment anyway.
+
 -- Define a sort order for displaying votes
-create table pw_vote_sortorder (
-    vote enum("aye", "no", "both", "tellaye", "tellno") not null,
+create table if not exists pw_vote_sortorder (
+    vote enum("aye", "no", "both", "tellaye", "tellno", "abstention", "spoiled") not null,
     position int not null
 );
 insert into pw_vote_sortorder(vote, position) values('aye', 10);
@@ -143,6 +151,8 @@ insert into pw_vote_sortorder(vote, position) values('no', 5);
 insert into pw_vote_sortorder(vote, position) values('both', 1);
 insert into pw_vote_sortorder(vote, position) values('tellaye', 10);
 insert into pw_vote_sortorder(vote, position) values('tellno', 5);
+insert into pw_vote_sortorder(vote, position) values('abstention', -5);
+insert into pw_vote_sortorder(vote, position) values('spoiled', -10);
 
 create table pw_candidate (
     candidate_id int not null primary key, -- allocated by Public Whip
@@ -230,9 +240,9 @@ create table pw_dyn_aggregate_dreammp (
 create table pw_dyn_dreamvote (
     division_date date not null,
     division_number int not null,
-    house enum('commons', 'lords') not null,
+    house enum('commons', 'lords', 'scotland') not null,
     dream_id int not null,
-    vote enum("aye", "no", "both", "aye3", "no3") not null,
+    vote enum("aye", "no", "both", "aye3", "no3", "abstention", "spoiled") not null,
 
     index(division_date),
     index(division_number),
@@ -257,7 +267,7 @@ create table pw_dyn_wiki_motion (
     -- name/id of object this is an edit of 
     division_date date not null,
     division_number int not null,
-    house enum('commons', 'lords') not null,
+    house enum('commons', 'lords', 'scotland') not null,
 
     -- the new text that has change
     text_body text not null,
@@ -355,7 +365,7 @@ create table pw_cache_divdiv_distance (
 create table pw_cache_divwiki (
     division_date date not null,
     division_number int not null,
-    house enum('commons', 'lords') not null,
+    house enum('commons', 'lords', 'scotland') not null,
     wiki_id int not null,
     unique(division_date, division_number, house)
 );

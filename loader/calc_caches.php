@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: calc_caches.php,v 1.15 2006/03/21 01:08:21 publicwhip Exp $
+# $Id: calc_caches.php,v 1.16 2009/05/19 14:42:10 marklon Exp $
 
 # Calculate lots of cache tables, run after update.
 
@@ -29,7 +29,7 @@ function count_party_stats($db, $db2)
 	$db->query("DROP TABLE IF EXISTS pw_cache_partyinfo");
 	$db->query("CREATE TABLE pw_cache_partyinfo (
 						party varchar(100) not null,
-						house enum('commons', 'lords') not null,
+						house enum('commons', 'lords', 'scotland') not null,
 						total_votes int not null
                         )");
 
@@ -222,6 +222,7 @@ function current_rankings($db) {
     );
 
     do_house_ranking($db, "commons");
+    do_house_ranking($db, "scotland");
     do_house_ranking($db, "lords");
 }
 
@@ -249,7 +250,7 @@ function do_house_ranking($db, $house) {
     if ($db->rows() == 0) {
         $db->query($mps_query_start .  "and left_house = '2005-04-11'");
         if ($db->rows() == 0) {
-            die("No MPs/Lords currently active have been found, change General Election date in code if you are coming up to one");
+            die("No MPs/MSPs/Lords currently active have been found (house: '$house'), change General Election date in code if you are coming up to one");
             return;
         }
     }
