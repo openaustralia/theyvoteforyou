@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.47 2008/11/16 23:00:44 publicwhip Exp $
+# $Id: decodeids.inc,v 1.48 2009/05/19 14:47:21 marklon Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -89,6 +89,13 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
 			$mpprop['housenoun'] = 'MP';
 			$mpprop['housenounplural'] = 'MPs';
 			$mpprop['fullname'] = "$mppropname MP, ".$row['constituency'];
+		}
+		elseif ($row['house'] == 'scotland')
+		{
+			$mpprop['housenamesuffix'] = 'MSP';
+			$mpprop['housenoun'] = 'MSP';
+			$mpprop['housenounplural'] = 'MSPs';
+			$mpprop['fullname'] = "$mppropname MSP, ".$row['constituency'];
 		}
 		else
 		{
@@ -207,12 +214,13 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream_overlap=null, $pc_parl
 
     $mpname = db_scrub($_GET["mpn$i"]);
     $mpconstituency = db_scrub($_GET["mpc$i"]);
+    $mphouse = db_scrub($_GET["house$i"]);
     $mppostcode = db_scrub($_GET["mppc$i"]);
     if ($bdebug == 1)
-        print "<h1> MPN=".html_scrub($mpname)." MPC=".html_scrub($mpconstituency)." MPPC=".html_scrub($mppostcode)."</h1>";
+        print "<h1> MPN=".html_scrub($mpname)." MPC=".html_scrub($mpconstituency)." MPPC=".html_scrub($mppostcode)." HOUSE=".html_scrub($mphouse)."</h1>";
 
     if (is_postcode($mppostcode)) {
-        $pccons = postcode_to_constituency($db, $mppostcode, $pc_parl);
+        $pccons = postcode_to_constituency($db, $mppostcode, $pc_parl, $mphouse);
         if (isset($pccons)) {
             $mpconstituency = $pccons;
         }
@@ -247,6 +255,11 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream_overlap=null, $pc_parl
                 exit;
             }
             $qwhere = "constituency = '$constituency'";
+            if ($mphouse=='scotland') {
+                $qwhere .= " and house = 'scotland'";
+            } elseif ($mphouse=='commons') {
+                $qwhere .= " and house = 'commons'";
+            }
         }
         if ($mpname != "")
         {
@@ -309,12 +322,12 @@ function get_division_attr_decode($db, $i)
     global $bdebug;
     $div_date = db_scrub($_GET["date$i"]);
     $div_no = db_scrub($_GET["number$i"]);
-    $div_house = db_scrub($_GET["house"]);
+    $div_house = db_scrub($_GET["house$i"]);
 	if (!$div_house)
 		$div_house = "commons";
     if (!$div_date and $i != "")
         $div_date = db_scrub($_GET["date"]);
-    if (!$div_date or !$div_no)
+    if (!$div_date or ($div_no != 0 && !$div_no))
         return none;
 
     $query = "SELECT division_date, division_number, house,
@@ -334,6 +347,13 @@ function get_division_attr_decode($db, $i)
     if (!$row)
         return "none";
 
+    $house_paramter = "";
+    if ($row['house'] == "lords") {
+        $house_parameter = "&house=lords";
+    } elseif ($row['house'] == "scotland") {
+        $house_parameter = "&house=scotland";
+    }
+
     return array("division_date" 	=> $row["division_date"],
                  "division_number" 	=> $row['division_number'],
                  "house"            => $row['house'],
@@ -349,7 +369,7 @@ function get_division_attr_decode($db, $i)
                  "turnout"			=> $row["turnout"],
                  "aye_majority"     => $row["aye_majority"],
                  "clock_time"       => $row["clock_time"],
-                 "divhref"			=> "division.php?date=".urlencode($row["division_date"])."&number=".urlencode($row["division_number"]).($row['house'] == "lords" ? "&house=lords" : ""),
+                 "divhref"			=> "division.php?date=".urlencode($row["division_date"])."&number=".urlencode($row["division_number"]).$house_parameter,
                  "original_motion"	=> $row["motion"]);
 }
 

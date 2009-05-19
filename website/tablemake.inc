@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.91 2008/11/16 23:15:04 publicwhip Exp $
+# $Id: tablemake.inc,v 1.92 2009/05/19 14:47:21 marklon Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -416,8 +416,14 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $roleclass, $vote1,
 
     if ($columnforms["hitcounter"])
         print "<td>".$row["hits"]."</td>";
-	if ($columnforms["house"])
-	    print "<td class=\"".$row['divisionhouse']."\">".($row['divisionhouse'] == "lords" ? "Lords" : "Commons")."</td>";
+	if ($columnforms["house"]) {
+        $house_name = "Commons";
+        if( $row['divisionhouse'] == "lords" )
+            $house_name = "Commons";
+        if( $row['divisionhouse'] == "scotland" )
+            $house_name = "Scotland";
+	    print "<td class=\"".$row['divisionhouse']."\">".$house_name."</td>";
+    }
     if ($columnforms["divisionnumber"])
         print "<td>".$row['divisionnumber']."</td>";
 	if ($columnforms["divisiondate"])
@@ -792,7 +798,7 @@ function division_table($db, $divtabattr, $db2="", $events = "")
     if ($divtabattr["parldatelimit"])
         $aquery["qwhere"] .= " AND (pw_division.division_date >= \"".$divtabattr["parldatelimit"]['from']."\"
                                       AND pw_division.division_date < \"".$divtabattr["parldatelimit"]['to']."\")";
-	if (($divtabattr["display_house"] == "lords") or ($divtabattr["display_house"] == "commons"))
+	if (($divtabattr["display_house"] == "lords") or ($divtabattr["display_house"] == "commons") or ($divtabattr["display_house"] == "scotland"))
 		$aquery["qwhere"] .= " AND pw_division.house = \"".$divtabattr["display_house"]."\"";
 	else
 		$columnforms["house"] = "yes";  # a mixed list needs to state the house
@@ -1081,6 +1087,8 @@ function division_table($db, $divtabattr, $db2="", $events = "")
 			$divhref .= $divtabattr["divhrefappend"];
 	        if ($row["divisionhouse"] == "lords")
 	            $divhref .= "&house=lords";
+            elseif ($row["divisionhouse"] == "scotland")
+	            $divhref .= "&house=scotland";
 		}
 
         # write out the events

@@ -1,5 +1,5 @@
 <?php
-# $Id: links.inc,v 1.3 2008/06/19 22:32:17 publicwhip Exp $
+# $Id: links.inc,v 1.4 2009/05/19 14:47:21 marklon Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -25,7 +25,7 @@ function link_to_mp($row, $i = 1)
     else 
         $mpc = $row['constituency'];
 
-    return "mpn$i=".urlencode(str_replace(" ", "_", $mpn))."&"."mpc$i=".urlencode(str_replace(" ", "_", $mpc));
+    return "mpn$i=".urlencode(str_replace(" ", "_", $mpn))."&"."mpc$i=".urlencode(str_replace(" ", "_", $mpc))."&"."house$i=".urlencode($row['house']);
 }
 
 

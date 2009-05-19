@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.142 2008/05/09 19:46:27 publicwhip Exp $
+    # $Id: mp.php,v 1.143 2009/05/19 14:47:21 marklon Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -72,8 +72,10 @@
 	# select a mode for what is displayed
 	# code for the 0th mp def, if it is there.
     $voter1link = "mp.php?";
-    if ($voter1attr["bmultiperson"])
+    if ($voter1attr["bmultiperson"]) {
         $voter1link .= "mpc=".urlencode($mpprop['constituency']);
+        $voter1link .= "house=".urlencode($mpprop['house']);
+    }
     else
 		$voter1link .= $mpprop['mpanchor'];
 

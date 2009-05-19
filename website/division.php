@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.141 2009/04/10 14:46:11 publicwhip Exp $
+# $Id: division.php,v 1.142 2009/05/19 14:47:21 marklon Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -447,6 +447,8 @@ function no_division_found($plural)
 			{
 				if ($divattr["house"] == "lords")
 		        	$debate_gid = "lords/?id=".str_replace("uk.org.publicwhip/lords/", "", $debate_gid);
+                else if ($divattr["house"] == "scotland")
+					$debate_gid = "sp/?id=".str_replace("uk.org.publicwhip/spor/", "", $debate_gid);
 		        else
 					$debate_gid = "debates/?id=".str_replace("uk.org.publicwhip/debate/", "", $debate_gid);
                 print "<b><a href=\"http://www.theyworkforyou.com/$debate_gid\" title=\"Links to debate shown at www.theyworkforyou.com\">Debate in Parliament</a></b> | ";

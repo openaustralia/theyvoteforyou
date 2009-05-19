@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: divisions.php,v 1.42 2008/05/03 11:54:03 publicwhip Exp $
+# $Id: divisions.php,v 1.43 2009/05/19 14:47:21 marklon Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -22,8 +22,8 @@
 	foreach ($parliaments as $lrdisplay => $val)
 	{
 		$rdismodes[$lrdisplay] = array(
-								 "description" => $val['name']." Parliament",
-								 "lkdescription" => $val['name']." Parliament",
+								 "description" => $val['name'],
+								 "lkdescription" => $val['name'],
 								 "parliament" => $lrdisplay);
 		if (!$rdefaultdisplay)
 			$rdefaultdisplay = $lrdisplay;
@@ -48,16 +48,19 @@
 
 
 	$rdismodes_house = array();
-	$rdismodes_house["both"] = array(
-							 "description" => "Show divisions of both Houses",
-							 "lkdescription" => "Both houses");
+	$rdismodes_house["all"] = array(
+							 "description" => "Show divisions from the Commons, Lords and Scottish Parliament",
+							 "lkdescription" => "All houses");
 	$rdismodes_house["commons"] = array(
 							 "description" => "Show only Commons divisions",
 							 "lkdescription" => "Commons only");
 	$rdismodes_house["lords"] = array(
 							 "description" => "Show only Lords divisions",
 							 "lkdescription" => "Lords only");
-    $rdefaultdisplay_house = "both";
+	$rdismodes_house["scotland"] = array(
+							 "description" => "Show only Scottish Parliament divisions",
+							 "lkdescription" => "Scottish Parliament only");
+    $rdefaultdisplay_house = "all";
 
 
 	# find the display mode
@@ -83,9 +86,8 @@
             (referrer, ltime, ipnumber, page, subject, url, thing_id)
         VALUES ('$referrer', NOW(), '$ipnumber', 'divisions', '$rdisplay_house', '$querystring', '$rdisplay')");
 
-
 	# now try to construct all the parties present in a house that we could see the whip of
-	if ($rdisplay_house != "both")
+	if ($rdisplay_house != "all")
 	{
         $qselect = "SELECT party";
 		$qfrom .= " FROM pw_cache_whip";
@@ -131,10 +133,17 @@
 
 	# do the title
     $title = $rdismodes2[$rdisplay2]['description'] . " - " . $rdismodes[$rdisplay]['description'];
-	if ($rdisplay_house != "both") 
+	if ($rdisplay_house != "all")
     {
-		if (($rdisplay2 == "every") || ($rdisplay2 == "rebels"))
-            $title .= " - ".($rdisplay_house == "lords" ? "Lords" : "Commons")." only";
+		if (($rdisplay2 == "every") || ($rdisplay2 == "rebels")) {
+            if ($rdisplay_house == "scotland")
+                $house_name = "Scottish Parliament";
+            else if ($rdisplay_house == "lords")
+                $house_name = "Lords";
+            else
+                $house_name = "Commons";
+            $title .= " - " . $house_name . " only";
+        }
         $colour_scheme = $rdisplay_house;
     }
 	if ($sort != 'date')

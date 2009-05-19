@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.37 2008/10/20 11:35:19 publicwhip Exp $
+    # $Id: mps.php,v 1.38 2009/05/19 14:47:21 marklon Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -76,10 +76,14 @@
 							 "description" => "Show only Lords in the House",
 							 "lkdescription" => "Lords",
 							 "titdescription" => "Lords");
-	$rdismodes_house["both"] = array(
-							 "description" => "Show all people in Parliament",
-							 "lkdescription" => "Both houses",
-							 "titdescription" => "MPs and Lords");
+	$rdismodes_house["scotland"] = array(
+							 "description" => "Show only MSPs",
+							 "lkdescription" => "Scottish Parliament",
+							 "titdescription" => "MSPs");
+	$rdismodes_house["all"] = array(
+							 "description" => "Show all people",
+							 "lkdescription" => "All houses",
+							 "titdescription" => "MPs, MSPs and Lords");
 
     $title = "";
 	if ($sort == "rebellions")

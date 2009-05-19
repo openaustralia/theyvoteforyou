@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.60 2008/10/20 11:35:19 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.61 2009/05/19 14:47:21 marklon Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -100,7 +100,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
 	{
     	print "<td>";
 		if ($row['house'] != 'lords')
-        	print "<a href=\"mp.php?mpc=".urlencode(str_replace(" ", "_", $row['constituency']))."\">".$row['constituency']."</a>";
+		print "<a href=\"mp.php?mpc=".urlencode($row['constituency'])."&house=".urlencode($row['house'])."\">".$row['constituency']."</a>";
     	else
         	print "<i>(Lords)</i>";
 		print "</td>";
@@ -621,7 +621,7 @@ function mp_table($db, $mptabattr)
 		$columnforms["party"] = "yes";
 
     $house = $mptabattr["house"];
-    if (($house == "commons") or ($house == "lords"))
+    if ($house != "both" and $house)
 		$aquery["qwhere"] .= " AND pw_mp.house = '$house'";
 
     # apply the limit

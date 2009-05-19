@@ -1,5 +1,5 @@
 <?php
-# $Id: rtablepeop.inc,v 1.1 2007/12/13 11:08:34 publicwhip Exp $
+# $Id: rtablepeop.inc,v 1.2 2009/05/19 14:47:21 marklon Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -96,7 +96,7 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
 	{
     	print "<td>";
 		if ($row['house'] != 'lords')
-        	print "<a href=\"mp.php?mpc=".urlencode($row['constituency'])."\">".$row['constituency']."</a>";
+		print "<a href=\"mp.php?mpc=".urlencode($row['constituency'])."&house=".urlencode($row['house'])."\">".$row['constituency']."</a>";
     	else
         	print "<i>(Lords)</i>";
 		print "</td>";

@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.98 2008/11/16 22:56:24 publicwhip Exp $
+# $Id: header.inc,v 1.99 2009/05/19 14:47:21 marklon Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -21,16 +21,31 @@ if (!$headtitle)
 if (!$h1title)
     $h1title = "<h1> ".str_replace(" - ", " &#8212; ", $title)." </h1>";
 
+$colour_hex = '#003300';
+$favicon = 'favicon.ico';
+$gificon = 'thepublicwhip.gif';
+if ($colour_scheme=='lords') {
+    $colour_hex = '#340900';
+    $favicon = 'faviconred.ico';
+    $css = 'red.css';
+    $gificon = 'thepublicwhipred.gif';
+} elseif ($colour_scheme=='scotland') {
+    $colour_hex = '#000433';
+    $favicon = 'faviconblue.ico';
+    $css = 'blue.css';
+    $gificon = 'thepublicwhipblue.gif';
+}
+
 ?>
 
 <head>
 <link href="<?=$toppath?>publicwhip.css" type="text/css" rel="stylesheet" media="all">
-<? if ($colour_scheme == "lords") { ?>
-<link href="<?=$toppath?>red.css" type="text/css" rel="stylesheet" media="all">
+<? if ($colour_scheme == "lords" || $colour_scheme == "scotland") { ?>
+<link href="<?=$toppath.$css?>" type="text/css" rel="stylesheet" media="all">
 <? } ?>
 <link href="<?=$toppath?>publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
-<link rel="icon" href="/<?=($colour_scheme=="lords")?'faviconred.ico':'favicon.ico'?>" type="image/x-icon" />
-<link rel="shortcut icon" href="/<?=($colour_scheme=="lords")?'faviconred.ico':'favicon.ico'?>" type="image/x-icon" />
+<link rel="icon" href="/<?=$favicon?>" type="image/x-icon" />
+<link rel="shortcut icon" href="/<?=$favicon?>" type="image/x-icon" />
 <link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.publicwhip.org.uk/feeds/interestingdivisions.xml" />
 <script type="text/javascript" src="/publicwhip.js"></script>
 <title><? print $headtitle ?></title>
@@ -111,7 +126,7 @@ Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
 
 <!-- the site logo -->
 <tr><td class="identity" colspan="1">
-<a href="<?=$toppath?>index.php"><img src="<?=$toppath?><?=$colour_scheme=="lords"?'thepublicwhipred.gif':'thepublicwhip.gif'?>" alt="The Public Whip"></a>
+<a href="<?=$toppath?>index.php"><img src="<?=$toppath?><?=$gificon?>" alt="The Public Whip"></a>
 </td>
 <!-- software patents banner -->
 <!--
@@ -145,6 +160,7 @@ Newsletter (<a href="/newsletters/signup.php">info</a>): <INPUT TYPE="TEXT" NAME
 <!--NEWSLETTEREND-->
 <a title="List of all votes in Parliament" href="<?=$toppath?>divisions.php">Divisions</a>
 <a title="List of all Members of House of Commons" href="<?=$toppath?>mps.php">MPs</a>
+<a title="List of all Members of the Scottish Parliament" href="<?=$toppath?>mps.php?house=scotland">MSPs</a>
 <a title="List of all Members of House of Lords" href="<?=$toppath?>mps.php?house=lords">Lords</a>
 <a title="Help to analyze MP's votes" href="<?=$toppath?>policies.php">Policies</a>
 <a title="Chat with other users" href="/forum"><strong>Forum</strong></a>
