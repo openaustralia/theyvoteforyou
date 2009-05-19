@@ -1,0 +1,45 @@
+/*A:link, A:active, A:visited
+{
+    COLOR: #009900;
+}*/
+H1
+{
+    COLOR: #000433;
+}
+H2
+{
+    COLOR: #000433;
+}
+H3
+{
+    COLOR: #000433;
+}
+HR
+{
+    COLOR: #000433;
+    BACKGROUND-COLOR: #000433
+}
+.container
+{
+    BORDER: #000433 1px solid;
+}
+.identity
+{
+    BACKGROUND-COLOR: #000433;
+}
+.searchtitlebar
+{
+    BACKGROUND-COLOR: #000433;
+}
+.searchtitlebarform
+{
+    BACKGROUND-COLOR: #000433;
+}
+.headers TD
+{
+    BORDER-BOTTOM: #000433 1px solid
+}
+.secondheaders TD
+{
+    BORDER-BOTTOM: #000433 1px solid
+}
