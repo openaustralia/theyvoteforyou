@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.143 2009/05/19 15:00:31 marklon Exp $
+# $Id: division.php,v 1.144 2009/05/19 15:07:18 marklon Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -548,8 +548,13 @@ function no_division_found($plural)
 			elseif ($display == "slab")
             {
 				#print "<h2><a name=\"votes\">All ".($house == "lords" ? "lords" : "MPs")." eligible to vote in this division</a></h2>\n";
-                print '<p class="votekey">Key: <span class="favour">Vote in majority</span> | <span class="against">Vote against majority</span> | <span class="absent">Absent from vote</span>';
-                print '| <span class="minister both">Minister</span> | <span class="pps both"><a title="Parliamentary Private Secretary (an assistant to a Minister)">PPS</a></span>.';
+                print '<p class="votekey">Key: <span class="favour">Vote in majority</span> | <span class="against">Vote against majority</span> | ';
+                if ($house == "scotland")
+                    print '<span class="spabstention">Absentention</span> | <span class="spmissing">Not in Attendance</span> ';
+                else {
+                    print '<span class="absent">Absent from vote</span> ';
+                    print '| <span class="minister both">Minister</span> | <span class="pps both"><a title="Parliamentary Private Secretary (an assistant to a Minister)">PPS</a></span>.';
+                }
                 print '<a href="#votetable">top</a> </p>'."\n";
                 print '<p>This is an experimental slab view.  Tell us what you think. ';
                 print 'Email: <a href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a> ';

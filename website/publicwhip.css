@@ -735,12 +735,12 @@ table.rvotes td.against, p.votekey span.against
     zcolor:#009900;
     background-color: #9fbbdf;
 }
-table.rvotes td.absent, p.votekey span.absent
+table.rvotes td.absent, p.votekey span.absent, p.votekey span.spmissing, table.rvotes td.spmissing
 {
     zcolor:#555555;
     background-color: gray;
 }
-table.rvotes td.both, p.votekey span.both
+table.rvotes td.both, p.votekey span.both, p.votekey span.spabstention, table.rvotes td.spabstention
 {
     background-color:#eeeebb;
 }

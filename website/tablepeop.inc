@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.62 2009/05/19 14:58:01 marklon Exp $
+# $Id: tablepeop.inc,v 1.63 2009/05/19 15:07:18 marklon Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -171,8 +171,14 @@ function print_mp_slab($db, $listtype, $bnofavour, $numcolumns, $tooltips, $frie
                 $dvote = ($bnofavour ? "favour" : "against");
             else if ($vote == "both")
                 $dvote = "both";
-            else
-                $dvote = "absent";
+			else if ($row['house'] == "scotland" and $vote == 'abstention')
+				$dvote = "spabstention";
+            else {
+				if ($row['house'] == "scotland")
+					$dvote = "spmissing";
+				else
+					$dvote = "absent";
+			}
 		    $row["dvote"] = $dvote;
             $rows[$ipp][$dvote] += 1;
             $rows[$ipp - 1][$dvote] += 1; 
@@ -294,8 +300,11 @@ function print_mp_slab($db, $listtype, $bnofavour, $numcolumns, $tooltips, $frie
                         $toolt .= ", ".$row["party"];
                 
                     $toolt .= " : ".$row["dvote"];
-                    if ($row["dvote"] == "absent")
+                    if ($row["dvote"] == "absent" || $row["dvote"] == "spmissing")
                         $wztoolt .= "<br/>absent from vote";
+					else if ($row["dvote"] == "spabstention") {
+						$wztoolt .= "<br/>Abstained";
+					}
                     else
                         $wztoolt .= "<br/>Voted ".$row["vote"]." (".$row["dvote"].")";
 				}
