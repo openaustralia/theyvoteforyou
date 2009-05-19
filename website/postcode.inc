@@ -182,7 +182,7 @@ function postcode_to_constituency_internal($db, $postcode, $pc_parl)
     # Convert to canonical name
 #    print "<pre>$file</pre><br>$constituency<br>";
 #    print $consnames[$consmatch[strtolower($constituency)]];
-    $normalised = normalise_constituency_name($db, strtolower($constituency), $pc_parl);
+    $normalised = normalise_constituency_name($db, strtolower($constituency), 'commons', $pc_parl);
     if ($normalised)
         return $normalised;
     else

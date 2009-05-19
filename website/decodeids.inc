@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.48 2009/05/19 14:47:21 marklon Exp $
+# $Id: decodeids.inc,v 1.49 2009/05/19 14:56:08 marklon Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -37,7 +37,7 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
 
     # get the mpids in this class, for the person, or all reps of a constituency
     if ($bbyconstituency)
-        $qwhere = "constituency = '".db_scrub($constituency)."'";
+        $qwhere = "constituency = '".db_scrub($constituency)."' AND house = '".db_scrub($house)."'";
     else
         $qwhere = "person = $person";
 
@@ -247,7 +247,7 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream_overlap=null, $pc_parl
         {
             $constituency = strtolower(stripslashes(html_entity_decode($mpconstituency)));
             $constituency = str_replace("_", " ", $constituency);
-            $constituency = normalise_constituency_name($db, $constituency);
+            $constituency = normalise_constituency_name($db, $constituency, $mphouse);
             $constituency = db_scrub($constituency);
             if ($constituency == "")
             {

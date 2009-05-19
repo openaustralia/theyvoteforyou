@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: election2007.php,v 1.19 2007/10/04 23:13:51 publicwhip Exp $
+# $Id: election2007.php,v 1.20 2009/05/19 14:56:08 marklon Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -169,6 +169,7 @@ header("Content-Type: text/html; charset=UTF-8");
         # See if MP is standing again
         $mpattr = $mpattr['mpprops'][0];
         $constituency = str_replace("&amp;", "&", $mpattr['constituency']);
+        $house = $mpattr['house'];
 
         $standing_again = false;
         if ($mpattr['leftreason'] == "general_election_notstanding") {
@@ -177,7 +178,7 @@ header("Content-Type: text/html; charset=UTF-8");
 $standing_again = true; # XXX remove me
 
         # Regional parties
-        $consid = normalise_constituency_name($db, strtolower($constituency), "2001");
+        $consid = normalise_constituency_name($db, strtolower($constituency), $house, "2001");
         if (!$consid) {
             print "<div class=\"error\">Constituency '$constituency' not found, please <a href=\"team@publicwhip.org.uk\">let us know</a>.</div>";
 #            exit;
