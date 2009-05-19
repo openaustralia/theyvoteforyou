@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.52 2009/05/19 14:42:10 marklon Exp $
+-- $Id: create.sql,v 1.53 2009/05/19 14:43:48 marklon Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -206,7 +206,7 @@ create table pw_dyn_newsletter (
   confirm tinyint,
   subscribed datetime,
   unique(email)
-)
+);
 
 -- who each issue of newsletter has been sent to so far
 create table pw_dyn_newsletters_sent (
