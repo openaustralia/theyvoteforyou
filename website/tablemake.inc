@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.92 2009/05/19 14:47:21 marklon Exp $
+# $Id: tablemake.inc,v 1.93 2009/05/19 15:01:47 marklon Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -419,7 +419,7 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $roleclass, $vote1,
 	if ($columnforms["house"]) {
         $house_name = "Commons";
         if( $row['divisionhouse'] == "lords" )
-            $house_name = "Commons";
+            $house_name = "Lords";
         if( $row['divisionhouse'] == "scotland" )
             $house_name = "Scotland";
 	    print "<td class=\"".$row['divisionhouse']."\">".$house_name."</td>";
