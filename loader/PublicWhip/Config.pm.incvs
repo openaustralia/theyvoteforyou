@@ -14,6 +14,9 @@ $debatepath = $pwdata . "scrapedxml/divisionsonly/";
 $fileprefix = "divisions";
 $lordsdebatepath = $pwdata . "scrapedxml/lordsdivisionsonly/";
 $lordsfileprefix = "lordsdivisions";
+$scotlanddebatepath = $pwdata . "scrapedxml/sp/";
+$scotlandmotionspath = $pwdata . "scrapedxml/sp-motions/";
+$scotlandfileprefix = "sp";
 $members_location = "/home/username/parlparse/members/";
 
 1;
