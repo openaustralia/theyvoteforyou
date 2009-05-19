@@ -544,15 +544,16 @@
 
 	if ($dismode["comparisons"])
 	{
-        print "<h2><a name=\"comparison\">Comparison to all MPs and Lords</a></h2>\n"; 
+        print "<h2><a name=\"comparison\">Comparison to all MPs, Lords and MSPs</a></h2>\n";
 
-        print "<p>Colours represent political parties. If MPs or Lords of a
+        print "<p>Colours represent political parties. If MPs, Lords or MSPs of a
         party vote the same way as the policy, then that party's colour appears
         by 'agree'. If they vote the opposite way, then it appears by 'disagree'.</p>";
-        print "<p><img class=\"histoimg\" src=\"dreamplot.php?id=$dreamid&display=reverse&size=large&house=commons\" title=\"Histogram of MP agreement to policy by party\">"; 
-        print "&nbsp;&nbsp;&nbsp;<img class=\"histoimg\" src=\"dreamplot.php?id=$dreamid&display=reverse&size=large&house=lords\" title=\"Histogram of Lord agreement to policy by party\"></p>"; 
+        print "<p><img class=\"histoimg\" src=\"dreamplot.php?id=$dreamid&display=reverse&size=large&house=commons\" title=\"Histogram of MP agreement to policy by party\">";
+        print "&nbsp;&nbsp;&nbsp;<img class=\"histoimg\" src=\"dreamplot.php?id=$dreamid&display=reverse&size=large&house=lords\" title=\"Histogram of Lord agreement to policy by party\">";
+        print "&nbsp;&nbsp;&nbsp;<img class=\"histoimg\" src=\"dreamplot.php?id=$dreamid&display=reverse&size=large&house=scotland\" title=\"Histogram of MSP agreement to policy by party\"></p>";
 
-        print "<p>MPs and Lords are graded according to their agreement with the policy in terms of their votes.
+        print "<p>MPs, Lords and MSPs are graded according to their agreement with the policy in terms of their votes.
 	            If they always vote the same as the policy then their agreement is 100%; if they
 				always vote opposite to the policy votes, their agreement is 0%.
                 If they could never have voted at the same time as the policy, they are not listed.";
@@ -567,7 +568,7 @@
                                "slabtable" => "yes",
                                "sortby" => "party_slab",
                                "numcolumns" => 11,
-                               "house" => "commons",
+                               "house" => "all",
                                "tooltips" => "walterzorn" );
             $tableclass = "rvotes";
         }

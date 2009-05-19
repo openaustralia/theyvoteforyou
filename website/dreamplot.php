@@ -11,7 +11,7 @@ $bsmall = ($_GET["size"] != 'large');
 $fontfile = "/usr/share/fonts/truetype/ttf-bitstream-vera/Vera.ttf";
 $fontsize = 10;
 
-# $Id: dreamplot.php,v 1.19 2007/05/22 11:57:45 publicwhip Exp $
+# $Id: dreamplot.php,v 1.20 2009/05/19 15:03:43 marklon Exp $
 
 # Draw thumbsketch histogram of how many MPs are each distance away
 # from the Dream MP.
@@ -42,18 +42,25 @@ $partycols = array(
     "DU:commons"	=> array(224, 102, 102),
     "UU:commons"	=> array(0, 54, 102),
 	"Con:commons" 	=> array(51, 51, 153),
+	"Con:scotland" 	=> array(51, 51, 153),
 	"Con:lords" 	=> array(71, 71, 173),
 	"Ind:commons"	=> array(238, 238, 238),
+	"Ind:scotland"	=> array(238, 238, 238),
+	"Independent:scotland"	=> array(238, 238, 238),
 	"Ind Con:commons"=> array(221, 221, 238),
 	"Ind Lab:commons"=> array(238, 221, 221),
     "LDem:commons"	=> array(241, 204, 10),
+    "LDem:scotland"	=> array(241, 204, 10),
     "LDem:lords"	=> array(251, 224, 30),
     "PC:commons"	=> array(51, 204, 51),
     "SDLP:commons"	=> array(141, 144, 51),
     "SNP:commons"	=> array(255, 224, 0),
+    "SNP:scotland"	=> array(255, 224, 0),
+    "Green:scotland"	=> array(0, 255, 0),
     "Ind UU:commons"=> array(0, 54, 102),
 	"Res:commons"	=> array(20, 200, 20),
 	"Lab:commons"	=> array(204, 0, 0),
+	"Lab:scotland"	=> array(204, 0, 0),
 	"Lab:lords"		=> array(224, 20, 20),
 	"XB:lords"		=> array(180, 212, 190),
 	"Bp:lords"		=> array(0, 0, 0),
@@ -70,7 +77,7 @@ $qsel = "SELECT party, distance_a AS distance, house, left_house
 
 $qwhere = " WHERE distance_a <> -1 AND left_house = '9999-12-31'"; 
 $maxmembers = 700;
-if ($rdisplay_house == "lords" || $rdisplay_house == "commons")
+if ($rdisplay_house == "lords" || $rdisplay_house == "commons" || $rdisplay_house == "scotland")
 	$qwhere .= " AND house = '$rdisplay_house'";
 else
 {
