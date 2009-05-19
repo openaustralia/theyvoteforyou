@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: calc_caches.php,v 1.16 2009/05/19 14:42:10 marklon Exp $
+# $Id: calc_caches.php,v 1.17 2009/05/19 15:00:31 marklon Exp $
 
 # Calculate lots of cache tables, run after update.
 
@@ -65,8 +65,9 @@ function guess_whip_for_all($db, $db2)
 					no_votes int not null,
 					no_tells int not null,
 					both_votes int not null,
+					abstention_votes int not null,
 					possible_votes int not null,
-					whip_guess enum('aye', 'no', 'abstain', 'unknown', 'none') not null,
+					whip_guess enum('aye', 'no', 'abstention', 'unknown', 'none') not null,
 					unique(division_id, party)
 			    )");
 
@@ -75,6 +76,7 @@ function guess_whip_for_all($db, $db2)
 					   sum(pw_vote.vote = 'no') AS novotes,
 					   sum(pw_vote.vote = 'tellno') AS notells,
 					   sum(pw_vote.vote = 'both') AS boths,
+					   sum(pw_vote.vote = 'abstention') AS abstentions,
 					   sum(1) AS possible_votes,
 					   pw_division.division_id AS division_id, party,
 					   division_date, division_number, pw_division.house as house";
@@ -102,7 +104,9 @@ function guess_whip_for_all($db, $db2)
 		$novotes = intval($row['novotes']);
 		$notells = intval($row['notells']);
 		$boths = intval($row['boths']);
+		$abstentions = intval($row['abstentions']);
 		$possibles = intval($row['possible_votes']);
+		$house = $row['house'];
 
 		$ayes = $ayevotes + $ayetells;
 		$noes = $novotes + $notells;
@@ -112,26 +116,38 @@ function guess_whip_for_all($db, $db2)
 
 		# to detect abstentions we'd need an accurate partyinfo that worked per parliament
 		$whip_guess = "unknown";
-        if (whipless_party($party)) {
+		if (whipless_party($party)) {
 			$whip_guess = "none";
-		    if ($party == "CWM" or $party == "DCWM")
-                $whip_guess = "abstain";
-        }
+			if ($party == "CWM" or $party == "DCWM")
+				$whip_guess = "abstention";
+		}
 
 		# keep it very simple so it doesn't change and we can easily keep the set of exceptions constant.
 		# if it can be tuned then there will be a maintenance issue whenever the algorithm got changed
 		else
 		{
-			if ($ayes > $noes)
-				$whip_guess = "aye";
-			else if ($ayes < $noes)
-				$whip_guess = "no";
-			else
-				$whip_guess = "unknown";
+
+			if ($house == 'scotland') {
+				if( ($ayes > $noes) and ($ayes > $abstentions) )
+					$whip_guess = "aye";
+				else if( ($noes > $ayes) and ($noes > $abstentions) )
+					$whip_guess = "no";
+				else if( ($abstentions > $ayes) and ($abstentions > $noes) )
+					$whip_guess = "abstention";
+				else
+					$whip_guess = "unknown";
+			} else {
+				if ($ayes > $noes)
+					$whip_guess = "aye";
+				else if ($ayes < $noes)
+					$whip_guess = "no";
+				else
+					$whip_guess = "unknown";
+			}
 		}
 
-		$qattrs = "division_id, party, aye_votes, aye_tells, no_votes, no_tells, both_votes, possible_votes, whip_guess";
-		$qvalues = $row['division_id'].", '".$row['party']."', $ayevotes, $ayetells, $novotes, $notells, $boths, $possibles, '".$whip_guess."'";
+		$qattrs = "division_id, party, aye_votes, aye_tells, no_votes, no_tells, both_votes, abstention_votes, possible_votes, whip_guess";
+		$qvalues = $row['division_id'].", '".$row['party']."', $ayevotes, $ayetells, $novotes, $notells, $boths, $abstentions, $possibles, '".$whip_guess."'";
         $query = "INSERT INTO pw_cache_whip_tmp ($qattrs) VALUES ($qvalues)";
         #print_r($row);
         #print $query;
@@ -151,6 +167,7 @@ function count_div_info($db) {
 }
 
 function count_4d_info($db, $table, $group_by, $id, $votes_attended, $votes_possible) {
+    print "Creating table $table\n";
     $db->query( "DROP TABLE IF EXISTS ${table}_tmp" );
     $db->query(
         "CREATE TABLE ${table}_tmp (
@@ -164,14 +181,22 @@ function count_4d_info($db, $table, $group_by, $id, $votes_attended, $votes_poss
     )");
     // majority is meaningless in the case of the mp_info -- just how many more ayes than noes in the lifetime of the MP
 
+    $scottish_rebellion_condition = "( (pw_division.house = 'scotland') and
+                ((whip_guess = 'aye' AND (vote = 'no' or vote = 'abstention')) OR
+                 (whip_guess = 'no' AND (vote = 'aye' or vote = 'abstention')) OR
+                 (whip_guess = 'abstention' AND (vote = 'aye' or vote = 'no'))) )";
+
+    $other_rebellion_condition = "( (pw_division.house != 'scotland') and
+                ((whip_guess = 'aye' AND (vote = 'no' or vote = 'tellno')) OR
+                 (whip_guess = 'no' AND (vote = 'aye' or vote = 'tellaye')) OR
+                 (whip_guess = 'abstention' AND (vote IS NOT NULL))) )";
+
     $query = "
         INSERT INTO ${table}_tmp
             ($id, rebellions, tells, $votes_attended, $votes_possible, aye_majority)
         SELECT
             $group_by,
-            SUM((whip_guess = 'aye' AND (vote = 'no' or vote = 'tellno')) OR
-                (whip_guess = 'no' AND (vote = 'aye' or vote = 'tellaye')) OR
-                (whip_guess = 'abstain' AND (vote IS NOT NULL))) AS rebellions,
+            SUM($scottish_rebellion_condition or $other_rebellion_condition) AS rebellions,
             SUM(vote = 'tellaye' OR vote = 'tellno') AS tells,
             SUM(vote IS NOT NULL) as $votes_attended,
             SUM(pw_division.division_id IS NOT NULL) AS $votes_possible,

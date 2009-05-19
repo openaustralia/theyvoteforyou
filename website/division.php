@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.142 2009/05/19 14:47:21 marklon Exp $
+# $Id: division.php,v 1.143 2009/05/19 15:00:31 marklon Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -350,6 +350,8 @@ function no_division_found($plural)
 	    			print ($house=="lords")?"was a Teller for the Not-Contents":" was a Teller for the Noes.";
 		    	else if ($vote == 'both')
 			    	print " voted <em>both ways</em>.";
+			else if (($vote == 'abstention') and ($house == 'scotland'))
+				print " abstained";
     			else
 	    			print ($house=="lords") ? " was absent" : " did not vote.";
 			}
