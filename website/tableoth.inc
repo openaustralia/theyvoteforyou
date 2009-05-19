@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.53 2009/05/19 15:02:37 marklon Exp $
+    # $Id: tableoth.inc,v 1.54 2009/05/19 15:06:48 marklon Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -388,8 +388,13 @@
         else
             print "<td class=\"$classayes\">$totalayes</td> <td class=\"$classnoes\">$totalnoes</td>";
         
-        if ($house != "lords")
+        if ($house != "lords") {
+	  if ($house == "scotland") {
+            print "<td class=\"$classabstentions\">$totalabstentions</td>";
+	  } else {
             print "<td class=\"$classboth\">$both</td>";
+	  }
+	}
         else if ($totalboths > 0)
             print "ERROR - both for lords";
         print "<td class=\"percent\">".percentise_votes_short($totalturnout, $totalpossible)."</td>"; 
