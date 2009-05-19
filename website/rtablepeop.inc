@@ -1,5 +1,5 @@
 <?php
-# $Id: rtablepeop.inc,v 1.2 2009/05/19 14:47:21 marklon Exp $
+# $Id: rtablepeop.inc,v 1.3 2009/05/19 14:58:01 marklon Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -403,11 +403,14 @@ function mp_table($db, $mptabattr)
         }
         if ($showwhich == "allpossible")
         {
+            $house_condition = "";
+            if( $mptabattr["house"] and ($mptabattr["house"] != 'both' and $mptabattr["house"] != 'all') )
+                $house_condition = " AND house = '".$mptabattr["house"]."'";
             $aquery["qwhere"] 	.= " AND entered_house <= '".$mptabattr["divdate"]."'
                                      AND left_house > '".$mptabattr["divdate"]."'";
             $aquery["qwhere"] 	.= " AND entered_house <= '".$mptabattr["divdate2"]."'
-                                     AND left_house > '".$mptabattr["divdate2"]."'
-                                     AND house = '".$mptabattr["house"]."'";
+                                     AND left_house > '".$mptabattr["divdate2"]."'".
+                                     $house_condition;
         }
         else  #  "voters"
             $aquery["qwhere"] 	.= " AND (pw_vote_a.vote IS NOT null OR pw_vote_b.vote IS NOT null)";
@@ -443,7 +446,7 @@ function mp_table($db, $mptabattr)
 		$columnforms["party"] = "yes";
 
     $house = $mptabattr["house"];
-    if ($house != "both" and $house)
+    if ($house and ($house != "both" and $house != "all"))
 		$aquery["qwhere"]   .= " AND pw_mp.house = '$house'";
 
     # apply the limit
