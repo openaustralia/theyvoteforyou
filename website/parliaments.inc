@@ -1,6 +1,6 @@
 <?php
 
-# $Id: parliaments.inc,v 1.19 2009/05/19 14:47:21 marklon Exp $
+# $Id: parliaments.inc,v 1.20 2009/05/19 15:01:18 marklon Exp $
 # This data is duplicated in loader/PublicWhip/Parliaments.pm
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -103,6 +103,7 @@ function whipless_party($party) {
     return $party == "XB" || 
             $party == "Other" || 
             substr($party, 0, 3) == "Ind" || 
+            $party == "None" ||
             $party == "CWM" || 
             $party == "DCWM";
 }
