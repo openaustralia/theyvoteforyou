@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.15 2009/05/21 08:02:58 marklon Exp $
+# $Id: DivsXML.pm,v 1.16 2009/05/21 08:04:19 marklon Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Loads divisions from the XML files made by pyscraper into
@@ -30,6 +30,7 @@ our $lastminor;
 our $lastmotiontext;
 our $lastheadingurl;
 our $lastheadinggid;
+our @speechesbefore;
 
 our $divisions_changed;
 
@@ -54,6 +55,7 @@ sub read_xml_files {
 
     %spmotions = ();
     if ($house eq "scotland") {
+	print "Loading SP motions...\n";
 	# If this for the Scottish Parliament, parse all the motions
 	# with SPIDs:
 	my $twig_sp_motions = XML::Twig->new( twig_handlers => {
@@ -63,6 +65,7 @@ sub read_xml_files {
 	foreach( @motionsfiles ) {
 	    $twig_sp_motions->parsefile($_);
 	}
+	print "done.\n";
     }
 
     $divisions_changed = 0;
@@ -90,6 +93,7 @@ sub read_xml_files {
                 $lastmajor      = "";
                 $lastminor      = "";
                 $lastmotiontext = "";
+                @speechesbefore = ();
                 $lastheadingurl = "";
                 $lastheadinggid = "";
                 my $file_to_parse = $debatepath . "$fileprefix" . $curdate . $cursuffix . ".xml";
@@ -146,6 +150,7 @@ sub storeminor {
 
     $lastminor      = $t;
     $lastmotiontext = "";
+    @speechesbefore = ();
     $lastheadingurl = $minor->att('url');
     $lastheadinggid = $minor->att('id');
     $lastlongestspid = "";
@@ -175,6 +180,7 @@ sub storemajor {
     $lastmajor      = $t;
     $lastminor      = "";
     $lastmotiontext = "";
+    @speechesbefore = ();
     $lastheadingurl = $major->att('url');
     $lastheadinggid = $major->att('id');
     $lastlongestspid = "";
@@ -203,7 +209,7 @@ sub storemotion {
 	# referred to, since descriptions of amendments include both,
 	# and the amendment IDs are formed by adding .1, .2, etc. to
 	# the ID.
-	my $ptext = $p->text();
+	my $ptext = $p->sprint(0);
 	my @matches = $ptext =~ /S[0-9]M-[0-9\.]+/g;
 	my $longestinthis = "";
 	foreach my $match (@matches) {
@@ -214,8 +220,7 @@ sub storemotion {
 	if ($longestinthis) {
 	    $lastlongestspid = $longestinthis;
 	}
-	$lastmotiontext .= $ptext;
-	$lastmotiontext .= "\n\n";
+	push @speechesbefore, $ptext;
     }
 }
 
@@ -297,26 +302,29 @@ sub loaddivision {
     my $motion_text = $lastmotiontext;
     my $clock_time = $div->att('time');
     $lastmotiontext = "";
-    if( ($house eq 'scotland') && $lastlongestspid ) {
-	my $prefix_with = "<p>This looks like the vote on $lastlongestspid</p>";
-	if (exists $spmotions{$lastlongestspid}) {
-	    my $motionsref = $spmotions{$lastlongestspid};
-	    my @motions = @{$motionsref};
-	    foreach (@motions) {
-		my %motion = %{$_};
-		$prefix_with .= "<p>The description in the <a href=\"$motion{'url'}\">bulletin on $motion{'date'}</a> is:</p>";
-		$prefix_with .= "<p class=\"bulletin-quote\">$motion{'text'}</p>";
+    if ($house eq 'scotland') {
+	$motion_text = join("\n\n",@speechesbefore[-3..-1]);
+	if ($lastlongestspid) {
+	    my $prefix_with = "<p>This looks like the vote on $lastlongestspid</p>";
+	    if (exists $spmotions{$lastlongestspid}) {
+		my $motionsref = $spmotions{$lastlongestspid};
+		my @motions = @{$motionsref};
+		foreach (@motions) {
+		    my %motion = %{$_};
+		    $prefix_with .= "<p>The description in the <a href=\"$motion{'url'}\">bulletin on $motion{'date'}</a> is:</p>";
+		    $prefix_with .= "<p class=\"bulletin-quote\">$motion{'text'}</p>";
+		}
 	    }
-	}
-	$prefix_with .= "<p>You can <a href=\"http://www.theyworkforyou.com/search/?s=&phrase=";
-	$prefix_with .= $lastlongestspid;
-	$prefix_with .= "&exclude=&from=$divdate&to=$divdate\">search for this motion (";
-	$prefix_with .= $lastlongestspid.") on TheyWorkForYou</a></p>";
-	$prefix_with .= "<p><strong>Text Introducing Division:</strong></p>";
-	if ($motion_text eq "") {
-	    $motion_text = $prefix_with . "<p>No text found</p>";
-	} else {
-	    $motion_text = $prefix_with . "<p>$motion_text</p>";
+	    $prefix_with .= "<p>You can <a href=\"http://www.theyworkforyou.com/search/?s=&phrase=";
+	    $prefix_with .= $lastlongestspid;
+	    $prefix_with .= "&exclude=&from=$divdate&to=$divdate\">search for this motion (";
+	    $prefix_with .= $lastlongestspid.") on TheyWorkForYou</a></p>";
+	    $prefix_with .= "<p><b>Text Introducing Division:</b></p>";
+	    if ($motion_text eq "") {
+		$motion_text = $prefix_with . "<p>No text found</p>";
+	    } else {
+		$motion_text = $prefix_with . "<p>$motion_text</p>";
+	    }
 	}
     }
     if ($motion_text eq "") {
