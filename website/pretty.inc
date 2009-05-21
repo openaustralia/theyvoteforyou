@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.46 2008/06/19 22:32:17 publicwhip Exp $
+# $Id: pretty.inc,v 1.47 2009/05/21 08:01:30 marklon Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -289,7 +289,7 @@ $guy_cq = array('lt'=>'\[\[\[', 'gt'=>'\]\]\]', 'quot'=>'\{\|\}');
 
 /* Removes all non-ISO characters, escapes all HTML entities */
 function safehtml($in) {
-    return htmlentities(preg_replace("/[\x80-\x9f]/","",$in));
+    return htmlentities($in,ENT_COMPAT,'UTF-8');
 }
 
 /* Removes all HTML and escapes HTML entities */

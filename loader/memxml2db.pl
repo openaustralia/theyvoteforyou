@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.15 2009/05/19 14:42:10 marklon Exp $
+# $Id: memxml2db.pl,v 1.16 2009/05/21 08:01:29 marklon Exp $
 
 # Convert all-members.xml and all-lords.xml into the database format for Public
 # Whip website
@@ -14,9 +14,7 @@ use lib "PublicWhip";
 
 use XML::Twig;
 use HTML::Entities;
-use Text::Iconv;
 use Data::Dumper;
-my $iconv = new Text::Iconv('utf-8', 'iso-8859-1');
 
 use PublicWhip::Config;
 my $members_location = $PublicWhip::Config::members_location;
@@ -136,24 +134,23 @@ sub loadmember
 
     # We encode entities as e.g. &Ouml;, as otherwise non-ASCII characters
     # get lost somewhere between Perl, the database and the browser.
-	# Attributes come out as UTF8, manually convert to latin-1.
     my $sth = PublicWhip::DB::query($dbh, "delete from pw_mp where gid = '$gid'");
     $sth = PublicWhip::DB::query($dbh, "insert into pw_mp
         (first_name, last_name, title, constituency, party, house,
         entered_house, left_house, entered_reason, left_reason, 
         mp_id, person, gid) values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-        encode_entities($iconv->convert($firstname)), 
-            encode_entities($iconv->convert($lastname)), 
+            $firstname,
+            $lastname,
             $title,
-            encode_entities($iconv->convert($constituency)), 
+            $constituency,
             $party,
             $house,
-        $fromdate, 
+            $fromdate, 
             $todate, 
             $fromwhy, 
             $towhy, 
-        $id,
+            $id,
             $person,
             $gid,
         );

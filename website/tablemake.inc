@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.93 2009/05/19 15:01:47 marklon Exp $
+# $Id: tablemake.inc,v 1.94 2009/05/21 08:01:30 marklon Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -976,9 +976,9 @@ function division_table($db, $divtabattr, $db2="", $events = "")
     if ($showwhich == "search") 
     {
         $aquery["qwhere"]  .= " AND (
-                LOWER(convert(division_name using latin1)) LIKE '%".$divtabattr["search"]."%'
-                OR LOWER(convert(motion using latin1)) LIKE '%".$divtabattr["search"]."%'
-                OR LOWER(convert(text_body using latin1)) LIKE '%".$divtabattr["search"]."%'".
+                LOWER(convert(division_name using utf8)) LIKE '%".$divtabattr["search"]."%'
+                OR LOWER(convert(motion using utf8)) LIKE '%".$divtabattr["search"]."%'
+                OR LOWER(convert(text_body using utf8)) LIKE '%".$divtabattr["search"]."%'".
                 ")";
     }
 

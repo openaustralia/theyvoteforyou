@@ -1,9 +1,9 @@
-<?php header("Content-Type: text/html; charset=latin-1");?>
+<?php header("Content-Type: text/html; charset=utf-8");?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 
 <?php
-# $Id: header.inc,v 1.99 2009/05/19 14:47:21 marklon Exp $
+# $Id: header.inc,v 1.100 2009/05/21 08:01:30 marklon Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under

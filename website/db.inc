@@ -1,6 +1,6 @@
 <?php
 
-# $Id: db.inc,v 1.30 2008/10/20 11:35:19 publicwhip Exp $
+# $Id: db.inc,v 1.31 2009/05/21 08:01:30 marklon Exp $
 # Database access wrapper.  Calls mysql.
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -19,7 +19,7 @@ function db_scrub($text)
 
 function html_scrub($text)
 {
-    return htmlentities(html_entity_decode(stripslashes($text)));
+    return htmlentities(html_entity_decode(stripslashes($text),ENT_COMPAT,'UTF-8'),ENT_COMPAT,'UTF-8');
 }
 
 function isrobot()
@@ -45,6 +45,8 @@ class DB
 
         $this->link = mysql_connect($pw_host, $pw_user, $pw_password)
             or trigger_error("Could not connect : " . mysql_error(), E_USER_ERROR);
+
+	$this->query("SET NAMES 'utf8'");
 
         mysql_select_db($pw_database, $this->link) 
            or trigger_error("Could not select database : " . mysql_error(), E_USER_ERROR);
