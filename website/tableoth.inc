@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.54 2009/05/19 15:06:48 marklon Exp $
+    # $Id: tableoth.inc,v 1.55 2009/05/21 08:02:28 marklon Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -347,7 +347,7 @@
             $classaye = ($aye + $tellaye > 0 ? ($whip == "no" ? "rebel" : "whip") : "normal");
             $classno = ($no + $tellno > 0 ? ($whip == "aye" ? "rebel" : "whip") : "normal");
             $classboth = ($both > 0 ? "important" : "normal");
-	    if( $house == $scotland ) {
+	    if( $house == "scotland" ) {
 	      $classaye = (($aye > 0) ? (($whip == "no" || $whip == "abstention") ? "rebel" : "whip") : "normal");
 	      $classno = (($no > 0) ? (($whip == "aye" || $whip == "abstention") ? "rebel" : "whip") : "normal");
 	      $classabstentions = (($abstentions > 0) ? (($whip == "aye" || $whip == "no") ? "rebel" : "whip") : "normal");
