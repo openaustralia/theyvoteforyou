@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.14 2009/05/19 14:54:00 marklon Exp $
+# $Id: DivsXML.pm,v 1.15 2009/05/21 08:02:58 marklon Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Loads divisions from the XML files made by pyscraper into
@@ -214,6 +214,8 @@ sub storemotion {
 	if ($longestinthis) {
 	    $lastlongestspid = $longestinthis;
 	}
+	$lastmotiontext .= $ptext;
+	$lastmotiontext .= "\n\n";
     }
 }
 
@@ -310,7 +312,7 @@ sub loaddivision {
 	$prefix_with .= $lastlongestspid;
 	$prefix_with .= "&exclude=&from=$divdate&to=$divdate\">search for this motion (";
 	$prefix_with .= $lastlongestspid.") on TheyWorkForYou</a></p>";
-	$prefix_with .= "<p>Text Introducing Division:</p>";
+	$prefix_with .= "<p><strong>Text Introducing Division:</strong></p>";
 	if ($motion_text eq "") {
 	    $motion_text = $prefix_with . "<p>No text found</p>";
 	} else {
