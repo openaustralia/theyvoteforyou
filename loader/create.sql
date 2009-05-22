@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.55 2009/05/22 16:20:58 frabcus Exp $
+-- $Id: create.sql,v 1.56 2009/05/22 17:25:58 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -36,7 +36,7 @@ create table pw_mp (
     
     first_name varchar(100) not null, -- Lords: "$lordname" or empty string for "The" lords
     last_name varchar(100) not null, -- Lords: "of $lordofname"
-    title varchar(100) not null, -- Lords: (The) Bishop / Lord / Earl / Viscount etc...
+    title varchar(50) not null, -- Lords: (The) Bishop / Lord / Earl / Viscount etc...
     constituency varchar(100) not null, -- Lords: NOT USED
     party varchar(100) not null, -- Lords: affiliation
     house enum('commons', 'lords', 'scotland') not null,
