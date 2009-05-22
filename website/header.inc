@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.100 2009/05/21 08:01:30 marklon Exp $
+# $Id: header.inc,v 1.101 2009/05/22 23:28:54 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -160,8 +160,8 @@ Newsletter (<a href="/newsletters/signup.php">info</a>): <INPUT TYPE="TEXT" NAME
 <!--NEWSLETTEREND-->
 <a title="List of all votes in Parliament" href="<?=$toppath?>divisions.php">Divisions</a>
 <a title="List of all Members of House of Commons" href="<?=$toppath?>mps.php">MPs</a>
-<a title="List of all Members of the Scottish Parliament" href="<?=$toppath?>mps.php?house=scotland">MSPs</a>
 <a title="List of all Members of House of Lords" href="<?=$toppath?>mps.php?house=lords">Lords</a>
+<a title="List of all Members of the Scottish Parliament" href="<?=$toppath?>mps.php?house=scotland">MSPs</a>
 <a title="Help to analyze MP's votes" href="<?=$toppath?>policies.php">Policies</a>
 <a title="Chat with other users" href="/forum"><strong>Forum</strong></a>
 <a title="Help run the Public Whip project" href="<?=$toppath?>project/index.php">Join Us</a>
