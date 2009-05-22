@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.18 2009/05/22 16:23:31 publicwhip Exp $
+# $Id: memxml2db.pl,v 1.19 2009/05/22 23:31:29 publicwhip Exp $
 
 # Convert all-members.xml and all-lords.xml into the database format for Public
 # Whip website
@@ -144,10 +144,10 @@ sub loadmember
         entered_house, left_house, entered_reason, left_reason, 
         mp_id, person, gid) values
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-            $firstname,
-            $lastname,
+            encode_entities($firstname),
+            encode_entities($lastname),
             $title,
-            $constituency,
+            encode_entities($constituency),
             $party,
             $house,
             $fromdate, 
