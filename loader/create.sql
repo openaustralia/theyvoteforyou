@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.56 2009/05/22 17:25:58 frabcus Exp $
+-- $Id: create.sql,v 1.57 2009/05/22 17:34:58 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -66,7 +66,7 @@ create table pw_mp (
     -- Blennerhassetts who were simultaneously both MPs for Kerry constituency
     -- between 1880 and 1885
     unique(title, first_name, last_name, constituency, entered_house, left_house, house)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Has multiple entries for different spellings of each constituency
 create table pw_constituency (
@@ -86,7 +86,7 @@ create table pw_constituency (
     index(to_date),
     index(name),
     index(cons_id, name)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 create table pw_division (
     division_id int not null primary key auto_increment,
@@ -110,7 +110,7 @@ create table pw_division (
     index(division_number),
     index(house),
     unique(division_date, division_number, house)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 create table if not exists pw_vote (
     division_id int not null,
@@ -121,7 +121,7 @@ create table if not exists pw_vote (
     index(mp_id),
     index(vote),
     unique(division_id, mp_id, vote)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Ministerial offices
 create table pw_moffice (
@@ -139,7 +139,7 @@ create table pw_moffice (
     person int,
 
     index(person)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- True abstentions ("abstention") and ("spoiled") are innovations of
 -- the Scottish Parliament.  There is only a single instance of a
@@ -149,7 +149,7 @@ create table pw_moffice (
 create table if not exists pw_vote_sortorder (
     vote enum("aye", "no", "both", "tellaye", "tellno", "abstention", "spoiled") not null,
     position int not null
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 insert into pw_vote_sortorder(vote, position) values('aye', 10);
 insert into pw_vote_sortorder(vote, position) values('no', 5);
 insert into pw_vote_sortorder(vote, position) values('both', 1);
@@ -179,7 +179,7 @@ create table pw_candidate (
     index(left_candidate),
     index(constituency),
     unique(first_name, last_name, constituency, became_candidate, left_candidate)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 -------------------------------------------------------------------------------
@@ -210,7 +210,7 @@ create table pw_dyn_newsletter (
   confirm tinyint,
   subscribed datetime,
   unique(email)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- who each issue of newsletter has been sent to so far
 create table pw_dyn_newsletters_sent (
@@ -218,7 +218,7 @@ create table pw_dyn_newsletters_sent (
     newsletter_name varchar(100) not null,
 
     unique(newsletter_id, newsletter_name)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 create table pw_dyn_dreammp (
@@ -230,7 +230,7 @@ create table pw_dyn_dreammp (
 
     index(user_id),
     unique(dream_id, name, user_id)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 create table pw_dyn_aggregate_dreammp (
 	dream_id_agg int not null,
@@ -239,7 +239,7 @@ create table pw_dyn_aggregate_dreammp (
 	index(dream_id_agg),
 	index(dream_id_sel),
     unique(dream_id_agg, dream_id_sel)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 create table pw_dyn_dreamvote (
     division_date date not null,
@@ -252,7 +252,7 @@ create table pw_dyn_dreamvote (
     index(division_number),
     index(dream_id),
     unique(division_date, division_number, dream_id)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- changes people have been making are stored here for debugging
 create table pw_dyn_auditlog (
@@ -261,7 +261,7 @@ create table pw_dyn_auditlog (
     event_date datetime,
     event text,
     remote_addr text
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- for wiki text objects.  this is a transaction table, we only
 -- insert rows into it, so we can show history.  when reading
@@ -281,7 +281,7 @@ create table pw_dyn_wiki_motion (
     edit_date datetime,
 
     index(division_date, division_number, house)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -------------------------------------------------------------------------------
 -- Cache tables
@@ -300,7 +300,7 @@ create table pw_cache_dreaminfo (
     votes_count int not null,
     edited_motions_count int not null,
     consistency_with_mps float
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- information about a real MP for a particular Dream MP
 -- e.g. Scores for how well they follow the Dream MP's whip.
@@ -322,7 +322,7 @@ create table pw_cache_dreamreal_distance (
     index(dream_id),
     index(person),
     unique(dream_id, person)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- distance metric between MPs
 create table pw_cache_realreal_distance (
@@ -340,7 +340,7 @@ create table pw_cache_realreal_distance (
   index(mp_id1),
   index(mp_id2),
   unique(mp_id1, mp_id2)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- New table to store division comparisons
 create table pw_cache_divdiv_distance (
@@ -363,7 +363,7 @@ create table pw_cache_divdiv_distance (
   index(division_id),
   index(division_id2),
   unique(division_id, division_id2)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Stores the most recent wiki item for this division
 create table pw_cache_divwiki (
@@ -372,7 +372,7 @@ create table pw_cache_divwiki (
     house enum('commons', 'lords', 'scotland') not null,
     wiki_id int not null,
     unique(division_date, division_number, house)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 create table pw_logincoming (
     referrer varchar(120),
@@ -384,6 +384,6 @@ create table pw_logincoming (
     thing_id int,
     index(ltime),
     index(thing_id)
-);
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -------------------------------------------------------------------------------
