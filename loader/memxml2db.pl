@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.16 2009/05/21 08:01:29 marklon Exp $
+# $Id: memxml2db.pl,v 1.17 2009/05/22 14:37:32 marklon Exp $
 
 # Convert all-members.xml and all-lords.xml into the database format for Public
 # Whip website
@@ -79,7 +79,7 @@ sub loadmember
 
     my $house = $memb->att('house');
     $house = 'scotland' if not $house;
-    print "house: " . $house . "\n";
+    # print "house: " . $house . "\n";
     my $gid = $memb->att('id');
     if ($gid =~ m#uk.org.publicwhip/member/#) {
         die unless ($house eq 'commons' || $house eq 'scotland');
