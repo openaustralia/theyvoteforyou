@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.17 2009/05/22 14:37:32 marklon Exp $
+# $Id: memxml2db.pl,v 1.18 2009/05/22 16:23:31 publicwhip Exp $
 
 # Convert all-members.xml and all-lords.xml into the database format for Public
 # Whip website
@@ -109,6 +109,10 @@ sub loadmember
     my $constituency = $memb->att('constituency');
     my $fromdate = $memb->att('fromdate');
     my $todate = $memb->att('todate');
+    if ($fromdate !~ m/\d\d\d\d-\d\d-\d\d/ && $todate !~ m/\d\d\d\d-\d\d-\d\d/) {
+        print "Ignoring entry with doubly incomplete date for $firstname $lastname $fromdate $todate\n";
+        return;
+    }
     my $fromwhy = $memb->att('fromwhy');
     my $towhy = $memb->att('towhy');
     if ($house eq 'lords') {
@@ -157,6 +161,8 @@ sub loadmember
 
     # Store deleted
     delete $gid_to_internal->{$gid};
+
+    $twig->purge;
 }
 
 sub loadmoffice
