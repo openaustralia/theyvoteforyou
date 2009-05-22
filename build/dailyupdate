@@ -19,6 +19,8 @@ export CVS_RSH=/usr/bin/ssh
 # Grab new scraped XML files from TheyWorkForYou
 rsync --recursive ukparse.kforge.net::parldata/scrapedxml/divisionsonly /home/publicwhip/parldata/scrapedxml
 rsync --recursive ukparse.kforge.net::parldata/scrapedxml/lordsdivisionsonly /home/publicwhip/parldata/scrapedxml
+rsync --recursive ukparse.kforge.net::parldata/scrapedxml/sp /home/publicwhip/parldata/scrapedxml
+rsync --recursive ukparse.kforge.net::parldata/scrapedxml/sp-motions /home/publicwhip/parldata/scrapedxml
 chmod -R a+r /home/publicwhip/parldata
 
 # Update members files and the like
