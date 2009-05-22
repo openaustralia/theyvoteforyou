@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.54 2009/05/22 14:43:26 frabcus Exp $
+-- $Id: create.sql,v 1.55 2009/05/22 16:20:58 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -31,7 +31,7 @@ drop table if exists pw_seat, pw_division, pw_vote, pw_moffice;
 create table pw_mp (
     mp_id int not null primary key, -- internal to Public Whip
 
-    gid text not null, -- uk.org.publicwhip/member/123, uk.org.publicwhip/lord/123
+    gid varchar(100) not null, -- uk.org.publicwhip/member/123, uk.org.publicwhip/lord/123
     source_gid text not null, -- global identifier
     
     first_name varchar(100) not null, -- Lords: "$lordname" or empty string for "The" lords
@@ -61,6 +61,7 @@ create table pw_mp (
     index(person),
     index(house),
     index(party),
+    index(gid),
     -- Need title in the unique key here, to distinguish the Mr and Sir Rowland
     -- Blennerhassetts who were simultaneously both MPs for Kerry constituency
     -- between 1880 and 1885
