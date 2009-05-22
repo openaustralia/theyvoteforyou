@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.53 2009/05/19 14:43:48 marklon Exp $
+-- $Id: create.sql,v 1.54 2009/05/22 14:43:26 frabcus Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -61,7 +61,10 @@ create table pw_mp (
     index(person),
     index(house),
     index(party),
-    unique(first_name, last_name, constituency, entered_house, left_house, house)
+    -- Need title in the unique key here, to distinguish the Mr and Sir Rowland
+    -- Blennerhassetts who were simultaneously both MPs for Kerry constituency
+    -- between 1880 and 1885
+    unique(title, first_name, last_name, constituency, entered_house, left_house, house)
 );
 
 -- Has multiple entries for different spellings of each constituency
