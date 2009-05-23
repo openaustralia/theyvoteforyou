@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.57 2009/05/22 17:34:58 frabcus Exp $
+-- $Id: create.sql,v 1.58 2009/05/23 10:15:59 marklon Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -15,7 +15,7 @@
 --    it from the host you will be running the client on.  Try using
 --    mysql_setpermission to do this with.
 -- 
--- 3. Type something like "cat create.sql | mysql --database=yourdb -u username -p"
+-- 3. Type something like "mysql --database=yourdb -u username -p < create.sql"
 --    Or you can load this file into a GUI client and inject it.
 -- 
 
