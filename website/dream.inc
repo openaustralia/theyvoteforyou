@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.62 2008/05/03 11:54:03 publicwhip Exp $
+# $Id: dream.inc,v 1.63 2009/05/23 10:42:21 marklon Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -214,7 +214,8 @@ function update_dreammp_person_distance($db, $dreamid)
 	$qjoin = " LEFT JOIN pw_dyn_dreamvote ON pw_dyn_dreamvote.dream_id = $dreamid";
 	$qjoin .= " LEFT JOIN pw_division
 					ON pw_division.division_date = pw_dyn_dreamvote.division_date
-					AND pw_division.division_number = pw_dyn_dreamvote.division_number";
+					AND pw_division.division_number = pw_dyn_dreamvote.division_number
+					AND pw_division.house = pw_dyn_dreamvote.house";
 	$qjoin .= " LEFT JOIN pw_cache_divinfo
 					ON pw_cache_divinfo.division_id = pw_division.division_id";
 	$qjoin .= " LEFT JOIN pw_vote
