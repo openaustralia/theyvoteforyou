@@ -24,9 +24,10 @@ echo "update pw_cache_dreaminfo set cache_uptodate = 0; " | mysql $DB
 
 # Provoke regeneration of policy cached data, so that Policy Comparison
 # table on MP pages appears correctly.
-for X in `snarf -q http://$SITE/policies.php - | grep dreamplot | sed "s/^.*<img src=\"/http:\/\/$SITE\//;s/\">//; s/\&nbsp;.*$//;" `
-do 
-	snarf $X - >/dev/null &
+for i in `snarf -q http://$SITE/policies.php - | egrep 'href="policy.php' | sed 's/^.*\?\(id=[0-9][0-9]*\)".*/\1/'`
+do
+    for house in commons lords scotland
+    do
+        snarf "http://${SITE}/dreamplot.php?${i}&display=reverse&size=large&house=${house}" - > /dev/null &
+    done
 done
-
-
