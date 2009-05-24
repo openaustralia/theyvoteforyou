@@ -28,6 +28,6 @@ for i in `snarf -q http://$SITE/policies.php - | egrep 'href="policy.php' | sed 
 do
     for house in commons lords scotland
     do
-        snarf "http://${SITE}/dreamplot.php?${i}&display=reverse&size=large&house=${house}" - > /dev/null &
+        snarf "http://${SITE}/dreamplot.php?${i}&display=reverse&size=large&house=${house}" - > /dev/null
     done
 done
