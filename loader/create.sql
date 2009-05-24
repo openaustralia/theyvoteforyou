@@ -1,4 +1,4 @@
--- $Id: create.sql,v 1.58 2009/05/23 10:15:59 marklon Exp $
+-- $Id: create.sql,v 1.59 2009/05/24 13:05:35 marklon Exp $
 -- SQL script to create the empty database tables for publicwhip.
 --
 -- The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -251,7 +251,7 @@ create table pw_dyn_dreamvote (
     index(division_date),
     index(division_number),
     index(dream_id),
-    unique(division_date, division_number, dream_id)
+    unique(division_date, division_number, house, dream_id)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- changes people have been making are stored here for debugging

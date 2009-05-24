@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.31 2008/01/09 17:16:02 publicwhip Exp $
+# $Id: divisionvote.inc,v 1.32 2009/05/24 13:05:35 marklon Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -74,9 +74,9 @@ function write_single_policy_vote($db, $divattr, $voter)
             elseif ($bvote == "--")
             {
                 $query = "INSERT INTO pw_dyn_dreamvote
-                            (vote, dream_id, division_date, division_number)
+                            (vote, dream_id, division_date, division_number, house)
                           VALUES
-                            ('$newbvote', $voter, '".$divattr["division_date"]."', ".$divattr["division_number"].")";
+                            ('$newbvote', $voter, '".$divattr["division_date"]."', ".$divattr["division_number"].", '".$divattr["house"]."')";
                 dream_post_forum_action($db, $voter, "Voted $newbvote in $forum_division_link.");
                 divisionvote_post_forum_action($db, $divattr['division_date'], $divattr['division_number'], 
                     $divattr['house'], "$forum_policy_link policy voted $newbvote in this division.");
