@@ -1,5 +1,5 @@
 <?php
-# $Id: rtablepeop.inc,v 1.3 2009/05/19 14:58:01 marklon Exp $
+# $Id: rtablepeop.inc,v 1.4 2009/05/25 10:48:26 marklon Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -187,6 +187,8 @@ function mp_table($db, $mptabattr)
 	    $tailorder = " concat(first_name, substring(last_name, 4))";  # a hack to strip the of-s and make the names comparable
 	elseif ($mptabattr["house"] == "commons")
 	    $tailorder = " replace(last_name, '&Ouml;', 'O'), first_name, constituency";
+    elseif ($mptabattr["house"] == "scotland")
+        $tailorder = " last_name, first_name, constituency";
 
 	# we're stuffed for lords sorting, till we make it much more elaborate
 	else
