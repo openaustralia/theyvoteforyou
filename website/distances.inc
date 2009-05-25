@@ -1,5 +1,5 @@
 <?php
-# $Id: distances.inc,v 1.28 2009/05/25 10:50:39 marklon Exp $
+# $Id: distances.inc,v 1.29 2009/05/25 13:57:19 marklon Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -292,6 +292,14 @@ function fill_mpid_distances_internal($db, $db2, $house, $batchnumber)
 
 	// we only do the lower diagonal
 	$qwhere = " WHERE pw_cache_realreal_distance.distance_a IS null";
+	// Some of these are NULL now; ignore those cases:
+	$qwhere .= " AND pw_mp1.entered_house IS NOT NULL";
+	$qwhere .= " AND pw_mp2.entered_house IS NOT NULL";
+	$qwhere .= " AND pw_mp1.left_house IS NOT NULL";
+	$qwhere .= " AND pw_mp2.left_house IS NOT NULL";
+	// Ignore any MP who left parliament before the 1997 general election:
+	$qwhere .= " AND pw_mp1.left_house > date '1997-05-01'";
+	$qwhere .= " AND pw_mp2.left_house > date '1997-05-01'";
 	if ($house)
 		$qwhere .= " AND pw_mp1.house = '$house'";
 # $qwhere .= " AND pw_mp1.mp_id > 1200"; 
