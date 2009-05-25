@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.94 2009/05/21 08:01:30 marklon Exp $
+# $Id: tablemake.inc,v 1.95 2009/05/25 10:49:25 marklon Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -788,7 +788,7 @@ function division_table($db, $divtabattr, $db2="", $events = "")
                             pw_division.division_date 	AS divisiondate,
                             pw_division.clock_time      AS divisiontime,
                             pw_division.house           AS divisionhouse,
-                            division_name, source_url, debate_url, source_gid, debate_gid, aye_majority";
+                            division_name, source_url, debate_url, pw_division.source_gid AS source_gid, debate_gid, aye_majority";
 
     $aquery["qfrom"]   = " FROM pw_division";
     $aquery["qjoin"]   = " LEFT JOIN pw_cache_divinfo ON pw_cache_divinfo.division_id = pw_division.division_id";
