@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: division_distance.php,v 1.1 2006/02/17 16:57:37 publicwhip Exp $
+# $Id: division_distance.php,v 1.2 2009/05/25 10:54:35 marklon Exp $
 
 # Run from the CLI to populate all of the division distance cache table.
 
@@ -18,4 +18,5 @@ $db2 = new DB();
 
 fill_division_distances($db, $db2, 'commons', null);
 fill_division_distances($db, $db2, 'lords', null);
+fill_division_distances($db, $db2, 'scotland', null);
 

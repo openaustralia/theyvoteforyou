@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: mp_distance.php,v 1.1 2006/02/17 16:57:37 publicwhip Exp $
+# $Id: mp_distance.php,v 1.2 2009/05/25 10:54:35 marklon Exp $
 
 # Run from the CLI to populate all of the MP distance cache table.
 
@@ -19,4 +19,5 @@ $db2 = new DB();
 
 fill_mp_distances($db, $db2, 'commons');
 fill_mp_distances($db, $db2, 'lords');
+fill_mp_distances($db, $db2, 'scotland');
 
