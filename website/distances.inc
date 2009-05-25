@@ -1,18 +1,30 @@
 <?php
-# $Id: distances.inc,v 1.27 2007/05/22 12:29:38 publicwhip Exp $
+# $Id: distances.inc,v 1.28 2009/05/25 10:50:39 marklon Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
+# FIXME: in adding cases for explicit abstentions (where vote = 'abstention')
+# for the Scottish Parliament, I've just added the abstention case to whether
+# votes agree or disagree.  Probably there should be more careful changes, so
+# that "both" in Westminster and "abstention" in Edinburgh are both treated
+# as being first class abstentions - treating "both" and absences the same is
+# a bit odd.  However, my first priority is to not break the existing code
+# (which is a little brittle by this stage) so I'm just making the simpler
+# changes...
+
 function matchvoteqstr($vote, $votenumber)
 {
 	if ($vote == "absent")
 		return "(pw_vote$votenumber.vote = 'both' OR pw_vote$votenumber.vote IS null)";
+	elseif ($vote == "abstention")
+		return "(pw_vote$votenumber.vote = 'abstention')";
 	return "(pw_vote$votenumber.vote = '$vote' OR pw_vote$votenumber.vote = 'tell$vote')";
 }
 
+# FIXME: Appears not to be used anywhere any more:
 function matchvoteqsum($vote1, $vote2)
 {
 	return "sum(".matchvoteqstr($vote1, 1)." AND ".matchvoteqstr($vote2, 2).") AS nvotes$vote1$vote2";
@@ -26,9 +38,11 @@ function update_divdiv_distance($db, $division_date1, $divid1, $division_date2, 
 	# make the set of voting MPs in the first division
 	$qselect = "SELECT 1 AS ssss, sum(1) AS nvotestotal, ";
 	$qselect .= " SUM((".matchvoteqstr("no", 1)." AND ".matchvoteqstr("no", 2).") OR
+                      (".matchvoteqstr("abstention", 1)." AND ".matchvoteqstr("abstention",2).") OR
 					  (".matchvoteqstr("aye", 1)." AND ".matchvoteqstr("aye", 2).")) AS nvotessame, ";
-	$qselect .= " SUM((".matchvoteqstr("aye", 1)." AND ".matchvoteqstr("no", 2).") OR
-					  (".matchvoteqstr("no", 1)." AND ".matchvoteqstr("aye", 2).")) AS nvotesdiffer, ";
+	$qselect .= " SUM((".matchvoteqstr("aye", 1)." AND (".matchvoteqstr("no", 2)." OR ".matchvoteqstr("abstention",2).")) OR
+					  (".matchvoteqstr("no", 1)." AND (".matchvoteqstr("aye", 2)." OR ".matchvoteqstr("abstention",2).")) OR
+                      (".matchvoteqstr("abstention",1)." AND (".matchvoteqstr("aye",2)." OR ".matchvoteqstr("no",2)."))) AS nvotesdiffer, ";
 	$qselect .= " SUM(".matchvoteqstr("absent", 1)." AND ".matchvoteqstr("absent", 2).") AS nabsentabsent";
 
 	$qfrom =  " FROM pw_mp AS pw_mp1";
@@ -310,12 +324,15 @@ function update_realreal_distance($db, $mp_id1, $mp_id2, $max_entered_house, $mi
 	$qselect .= "SUM(((pw_vote1.vote = 'aye' OR pw_vote1.vote = 'tellaye') AND
                             (pw_vote2.vote = 'aye' OR pw_vote2.vote = 'tellaye'))
 					 OR ((pw_vote1.vote = 'no' OR pw_vote1.vote = 'tellno') AND
-                            (pw_vote2.vote = 'no' OR pw_vote2.vote = 'tellno')))
+                            (pw_vote2.vote = 'no' OR pw_vote2.vote = 'tellno'))
+                     OR ((pw_vote1.vote = 'abstention') AND (pw_vote2.vote = 'abstention')))
 					 AS nvotessame, ";
 	$qselect .= "SUM(((pw_vote1.vote = 'aye' OR pw_vote1.vote = 'tellaye') AND
-                            (pw_vote2.vote = 'no' OR pw_vote2.vote = 'tellno'))
+                            (pw_vote2.vote = 'no' OR pw_vote2.vote = 'tellno' OR pw_vote2.vote = 'abstention'))
 					 OR ((pw_vote1.vote = 'no' OR pw_vote1.vote = 'tellno') AND
-                            (pw_vote2.vote = 'aye' OR pw_vote2.vote = 'tellaye')))
+                            (pw_vote2.vote = 'aye' OR pw_vote2.vote = 'tellaye' OR pw_vote2.vote = 'abstention'))
+					 OR ((pw_vote1.vote = 'abstention') AND
+                            (pw_vote2.vote = 'aye' OR pw_vote2.vote = 'tellaye' OR pw_vote2.vote = 'no' OR pw_vote2.vote = 'tellno')))
 					 AS nvotesdiffer, ";
 	$qselect .= "SUM((pw_vote1.vote = 'both' OR pw_vote1.vote IS null)
 					 AND (pw_vote2.vote = 'both' OR pw_vote2.vote IS null))
