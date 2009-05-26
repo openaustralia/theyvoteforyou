@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.64 2009/05/25 10:48:26 marklon Exp $
+# $Id: tablepeop.inc,v 1.65 2009/05/26 13:22:56 marklon Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -460,9 +460,12 @@ function mp_table($db, $mptabattr)
         $mpprop = $mptabattr["mpfriend"];
         $aquery["qselect"] .= ", distance_a as distance";
         $aquery["qjoin"] .= " LEFT JOIN pw_cache_realreal_distance
-                                ON pw_cache_realreal_distance.mp_id1 = pw_mp.mp_id
-                                 AND pw_cache_realreal_distance.mp_id1 <> ".$mpprop["mpid"]."
-                                 AND pw_cache_realreal_distance.mp_id2 = ".$mpprop["mpid"];
+                                ON ((pw_cache_realreal_distance.mp_id1 = pw_mp.mp_id AND
+                                     (pw_cache_realreal_distance.mp_id1 <> ".$mpprop["mpid"]."
+                                      AND pw_cache_realreal_distance.mp_id2 = ".$mpprop["mpid"].")) OR
+                                    (pw_cache_realreal_distance.mp_id2 = pw_mp.mp_id AND
+                                     (pw_cache_realreal_distance.mp_id2 <> ".$mpprop["mpid"]."
+                                      AND pw_cache_realreal_distance.mp_id1 = ".$mpprop["mpid"].")))";
         $aquery["qwhere"] .= " AND distance_a IS NOT null AND distance_a != -1";
         $aquery["qorder"] = " ORDER BY distance_a, $tailorder";
         $friendlk = $mpprop['mpanchor2'];
