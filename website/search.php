@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: search.php,v 1.46 2006/03/18 11:08:52 publicwhip Exp $
+# $Id: search.php,v 1.47 2009/05/26 11:11:42 marklon Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -33,17 +33,68 @@
 
     if ($postcode)
     {
-        $score_clause = "(1=0)";
-        $pccons = postcode_to_constituency($db, $query);
-        if (isset($pccons))
-        {
-            # Overwrite over matches if we have postcode
-            $score_clause = "(constituency = '" . db_scrub($pccons) . "')";
-            header("Location: mp.php?constituency=" . urlencode($pccons));
+        $escaped_postcode = htmlentities(strtoupper($query));
+        $postcode_matches = postcode_to_constituencies($db,$query);
+        if( (!$postcode_matches) or $postcode_matches['ERROR'] ) {
+            $title = "Postcode Error";
+            pw_header();
+            print "<p>There was an error trying to look up the postcode \"$escaped_postcode\"";
+            if ($postcode_matches)
+                print ": ".htmlentities($postcode_matches['ERROR'])."</p>";
+            pw_footer();
+            exit;
+        }
+        $number_of_matches = count($postcode_matches);
+        if ($number_of_matches == 1) {
+            # If there's only one match for a postcode, that means
+            # there's just a Westminster constituency, so redirect
+            # straight to that page:
+            header("Location: mp.php?constituency=".urlencode($postcode_matches["WMC"])."&house=commons");
+            exit;
+        } else {
+            # There must be more than one match.  Produce a table with links
+            # to all possible representatives:
+            $title = "Representatives for postcode $escaped_postcode";
+            pw_header();
+            print "<table class=\"mps\">\n";
+            $key_to_house = array( "WMC" => "commons",
+                                   "SPC" => "scotland",
+                                   "SPE" => "scotland" );
+            $pretty_house = array( "commons" => "Commons",
+                                   "scotland" => "Scotland");
+            $odd = FALSE;
+            foreach( $postcode_matches as $k => $constituency ) {
+                $house = $key_to_house[$k];
+                if (!$house) {
+                    print "<p>Error: An unknown key ".htmlentities($k)." was found.</p>";
+                    pw_footer();
+                    exit;
+                }
+                $scrubbed_constituency = db_scrub($constituency);
+                # FIXME: should probably do this with mp_table instead:
+                $db->query("SELECT * FROM pw_mp WHERE
+                            house = '$house' AND
+                            constituency = '$scrubbed_constituency' AND
+                            CURDATE() >= entered_house and CURDATE() <= left_house
+                            ORDER BY house, last_name");
+                while ($row = $db->fetch_row_assoc()) {
+                    $mp_url = "mp.php?".link_to_mp($row);
+                    $constituency_url = "mp.php?mpc=".urlencode(str_replace(" ", "_", $constituency))."&"."house=".urlencode($row['house']);
+                    print "<tr class=\"".($odd?'odd':'even')."\">\n";
+                    # Print out house, full name, constituency
+                    print "<td class=\"$house\">".$pretty_house[$house]."</td>\n";
+                    print "<td><a href=\"$mp_url\">".$row['first_name']." ".$row['last_name']."</a></td>\n";
+                    print "<td>".html_scrub($row['party'])."</td>";
+                    print "<td><a href=\"$constituency_url\">".$constituency."</a></td>\n";
+                    print "</tr>\n";
+                    $odd = ! $odd;
+                }
+            }
+            print "</table>";
+            pw_footer();
             exit;
         }
     }
-
 
     if ($query <> "")
     {
