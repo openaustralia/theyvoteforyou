@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mps.php,v 1.38 2009/05/19 14:47:21 marklon Exp $
+    # $Id: mps.php,v 1.39 2009/05/26 11:10:43 marklon Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -54,10 +54,10 @@
         foreach ($parliaments as $lrdisplay => $val)
         {
             $rdismodes[$lrdisplay] = array(
-                                     "description" => $val['name']." Parliament",
+                                     "description" => $val['name']."&nbsp;Parliament",
                                      "lkdescription" => $val['name'],#." Parliament",
                                      "parliament" => $ldisplay,
-                                     "titdescription" => $val['name']." Parliament");
+                                     "titdescription" => $val['name']."&nbsp;Parliament");
         }
     }
 	$rdismodes["all"] = array(     # still the first selector

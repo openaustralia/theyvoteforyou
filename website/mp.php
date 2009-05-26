@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.143 2009/05/19 14:47:21 marklon Exp $
+    # $Id: mp.php,v 1.144 2009/05/26 11:10:43 marklon Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -214,10 +214,10 @@
 		{
 			// limit by date ranges
 			$rdismodes_parl[$lrdisplay] = array(
-									 "description" => $val['name']." Parliament",
-									 "lkdescription" => $val['name']." Parliament",
+									 "description" => $val['name']."&nbsp;Parliament",
+									 "lkdescription" => $val['name']."&nbsp;Parliament",
 									 "parliament" => $ldisplay,
-									 "titdescription" => $val['name']." Parliament");
+									 "titdescription" => $val['name']."&nbsp;Parliament");
 		}
 		$rdismodes_parl["all"] = array(
 								 "description" => "All votes on record",
