@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: search.php,v 1.47 2009/05/26 11:11:42 marklon Exp $
+# $Id: search.php,v 1.48 2009/05/27 06:09:02 marklon Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -63,7 +63,11 @@
             $pretty_house = array( "commons" => "Commons",
                                    "scotland" => "Scotland");
             $odd = FALSE;
-            foreach( $postcode_matches as $k => $constituency ) {
+            # Make sure that the results are listed in the order "WMC", "SPC", "SPE":
+            foreach( array("WMC", "SPC", "SPE") as $k ) {
+                $constituency = $postcode_matches[$k];
+                if (!$constituency)
+                    continue;
                 $house = $key_to_house[$k];
                 if (!$house) {
                     print "<p>Error: An unknown key ".htmlentities($k)." was found.</p>";
