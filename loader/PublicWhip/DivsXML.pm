@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.16 2009/05/21 08:04:19 marklon Exp $
+# $Id: DivsXML.pm,v 1.17 2009/06/01 23:31:50 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Loads divisions from the XML files made by pyscraper into
@@ -269,7 +269,7 @@ sub loaddivision {
 
     my $divdate = $div->att('divdate');
     die "inconsistent date" if $divdate ne $curdate;
-    print "---- $divdate --- $house --------------------------\n";
+    #print "---- $divdate --- $house --------------------------\n";
     my $divnumber = $div->att('divnumber');
     my $heading   = "";
     if ($lastmajor) {
