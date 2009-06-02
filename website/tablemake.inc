@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.95 2009/05/25 10:49:25 marklon Exp $
+# $Id: tablemake.inc,v 1.96 2009/06/02 14:44:54 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -858,7 +858,7 @@ function division_table($db, $divtabattr, $db2="", $events = "")
 
     $aquery["qselect"] .= ", pw_dyn_wiki_motion.wiki_id AS motionedited, pw_dyn_wiki_motion.text_body AS text_body";
     $aquery["qjoin"]  .= "  LEFT JOIN pw_cache_divwiki ON pw_cache_divwiki.division_date = pw_division.division_date
-                                    AND pw_cache_divwiki.division_number = pw_division.division_number
+                                    AND pw_cache_divwiki.division_number = pw_division.division_number AND pw_cache_divwiki.house = pw_division.house
                             LEFT JOIN pw_dyn_wiki_motion ON pw_dyn_wiki_motion.wiki_id = pw_cache_divwiki.wiki_id
                             ";
 
