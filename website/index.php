@@ -2,7 +2,7 @@
 
 //cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.74 2008/10/20 11:35:19 publicwhip Exp $
+# $Id: index.php,v 1.75 2009/06/08 00:56:50 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -115,8 +115,6 @@ href="account/addpolicy.php">make</a> a new policy</span>
 <img src="votemap/mpseethumb.png"></a>
 <p><a href="mpsee.php">Where is Brown?</p>
 </a>
-<div style=" text-align:center; background-color:blue; color:white; border:thick black dashed; float:right">A proud member of the 
-<a href="http://en.wikipedia.org/wiki/Parliamentary_informatics" style="background-color:#cdffff">Parliamentary Informatics</a> web-ring</div>
 </td>
 
 </td></tr></table>
