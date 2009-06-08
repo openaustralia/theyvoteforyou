@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: data.php,v 1.27 2007/02/08 16:43:07 frabcus Exp $
+# $Id: data.php,v 1.28 2009/06/08 00:56:09 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -16,10 +16,7 @@ For example, if you want to load a voting record into a spreadsheet.
 and copyright information, see <a href="../faq.php#legal">our FAQ</a>. However,
 we ask that if you do anything fun or important with this data, you let us
 know!  Any problems using the data, or requests for a different format?  Email
-<a href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a> or ask on
-the <a
-href="https://lists.sourceforge.net/lists/listinfo/publicwhip-playing">publicwhip-playing
-email list</a>.
+<a href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a>.
 
 <!-- Open Knowledge Link -->
 <a href="http://okd.okfn.org/">

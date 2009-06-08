@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: code.php,v 1.21 2008/07/23 11:14:21 publicwhip Exp $
+# $Id: code.php,v 1.22 2009/06/08 00:56:09 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -22,10 +22,7 @@ a standard open source software license.
 other Unixes, and it should run on Windows.  You need to install MySQL, Perl
 and a web server with PHP also.  Since so few people have used this code, there
 are bound to be problems.  Don't hesitate to <a
-href="mailto:team@publicwhip.org.uk">email us</a> for help, or even better join
-the <a
-href="https://lists.sourceforge.net/lists/listinfo/publicwhip-playing">publicwhip-playing
-email list</a> and ask us there.
+href="mailto:team@publicwhip.org.uk">email us</a> for help.
 
 <p>If all this sounds like gobbledygook, then email me and ask for help.
 I can tell you where to go and what to read to learn how to get it up

@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: index.php,v 1.10 2005/11/01 01:23:17 frabcus Exp $
+# $Id: index.php,v 1.11 2009/06/08 00:56:09 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -14,7 +14,6 @@ $title = "Join the Project"; pw_header();
 <ul> 
 <li>Make sure you are <a href="../account/register.php">signed up to our
 newsletter</a>.
-<li>Join the <a href="https://lists.sourceforge.net/lists/listinfo/publicwhip-playing">publicwhip-playing email list</a> where we chat about all this stuff.
 </ul>
 <ul>
 <li><a href="research.php">Research parliament</a> &mdash; work with others to understand divisions
