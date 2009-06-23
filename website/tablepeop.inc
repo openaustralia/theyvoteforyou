@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.66 2009/05/27 06:45:28 marklon Exp $
+# $Id: tablepeop.inc,v 1.67 2009/06/23 07:29:05 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -688,7 +688,8 @@ function mp_table($db, $mptabattr)
 		$columnforms["place"] = "yes";
 
     # Disabled 2008-10-01 by FAI, as people care about attendance when it is meaningless.
-    $columnforms["attendance"] = null;
+    if ($mptabattr["sortby"] != "glenowen")
+        $columnforms["attendance"] = null;
 
 	if ($mptabattr["headings"])
 		print_mpcolumn_headings($columnforms);

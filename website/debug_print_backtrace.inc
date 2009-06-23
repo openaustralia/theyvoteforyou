@@ -16,7 +16,7 @@
 // |          Aidan Lister <aidan@php.net>                                |
 // +----------------------------------------------------------------------+
 //
-// $Id: debug_print_backtrace.inc,v 1.2 2005/11/04 09:38:13 frabcus Exp $
+// $Id: debug_print_backtrace.inc,v 1.3 2009/06/23 07:29:04 publicwhip Exp $
 
 
 /**
@@ -27,7 +27,7 @@
  * @link        http://php.net/function.debug_print_backtrace
  * @author      Laurent Laville <pear@laurent-laville.org>
  * @author      Aidan Lister <aidan@php.net>
- * @version     $Revision: 1.2 $
+ * @version     $Revision: 1.3 $
  * @since       PHP 5
  * @require     PHP 4.0.0
  */
@@ -63,6 +63,7 @@ if (!function_exists('debug_print_backtrace')) {
                 $i,
                 $function,
                 $location); 
+            print "moo";
         }
 
         echo implode("\n", $calls);

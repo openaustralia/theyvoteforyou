@@ -1,6 +1,9 @@
 <?php
 
-# $Id: common.inc,v 1.25 2008/05/03 11:54:00 publicwhip Exp $
+#print "Public Whip is down for maintenance. When it is back up it will have some new things for you though :)";
+#exit;
+
+# $Id: common.inc,v 1.26 2009/06/23 07:29:04 publicwhip Exp $
 
 # Included from all main .php files on the first line
 
