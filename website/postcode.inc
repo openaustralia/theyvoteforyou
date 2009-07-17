@@ -5,29 +5,14 @@
 // are in utility.php there, so we add them at the start.
 
 function validate_postcode ($postcode) {
-    // See http://www.govtalk.gov.uk/gdsc/html/noframes/PostCode-2-1-Release.htm
-    $postcode = trim($postcode);
+	$postcode = trim($postcode);
 
-    $in  = 'ABDEFGHJLNPQRSTUWXYZ';
-    $fst = 'ABCDEFGHIJKLMNOPRSTUWYZ';
-    $sec = 'ABCDEFGHJKLMNOPQRSTUVWXY';
-    $thd = 'ABCDEFGHJKSTUW';
-    $fth = 'ABEHMNPRVWXY';
-    $num = '0123456789';
-    $nom = '0123456789';
-    $gap = '\s\.';
-
-    if (    preg_match("/^[$fst][$num][$gap]*[$nom][$in][$in]$/i", $postcode) ||
-            preg_match("/^[$fst][$num][$num][$gap]*[$nom][$in][$in]$/i", $postcode) ||
-            preg_match("/^[$fst][$sec][$num][$gap]*[$nom][$in][$in]$/i", $postcode) ||
-            preg_match("/^[$fst][$sec][$num][$num][$gap]*[$nom][$in][$in]$/i", $postcode) ||
-            preg_match("/^[$fst][$num][$thd][$gap]*[$nom][$in][$in]$/i", $postcode) ||
-            preg_match("/^[$fst][$sec][$num][$fth][$gap]*[$nom][$in][$in]$/i", $postcode)
-        ) {
-        return true;
-    } else {
-        return false;
-    }
+	$num = '0123456789';
+	if (preg_match("/^[$num][$num][$num][$num]/", $postcode)) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////
