@@ -75,10 +75,10 @@ advertisement('homepage');
 <p><a href="mps.php?sort=rebellions" title="Show all MPs ordered by rebellions">Show all MPs ordered by rebellions</a></p>
 </div>
 
-<div class="col2"><h2>MPs and Lords who attend parliament most often</h2>
+<div class="col2"><h2>Representatives and Senators who attend parliament most often</h2>
 <p><a href="mps.php?sort=attendance&amp;house=both" title="Show all MPs ordered by attendance">Show all MPs ordered by attendance</a></p>
 </div>
-<div class="col3"><h2>Test an MP or Lord against policies you care about</h2>
+<div class="col3"><h2>Test a Representative or Senator against policies you care about</h2>
 <p><a href="policies.php">Browse</a> existing policies </p>
 
 </div>
