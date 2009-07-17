@@ -27,7 +27,7 @@ if ($submit) {
 	$ok = user_register($user_name,$password1,$password2,$email,$real_name);
 }
 
-$title = "Sign up for Newsletter, Forum and Policies"; 
+$title = "Sign up for Forum and Policies";
 $onload = "givefocus('real_name')";
 pw_header();
 
@@ -46,13 +46,7 @@ else
 {
     print "<p>
     Quickly fill in the information below, and we'll send you
-    a confirmation email.  You will then receive the Public
-    Whip newsletter, which will be at most once a month.
-    Occasionally we will send an extra small topical newsletter.
-    You will also be able to edit division descriptions and policies.  After
-    signing up you can unsubscribe from the newsletter, but still
-    edit divisions and policies.";
-    print "<p><a href=\"../newsletters/archive.php\">Read archive of previous newsletters</a>";
+    a confirmation email.  You will then be able to edit division descriptions and policies.";
     print "<br><a href=\"settings.php\">Log in to change settings if you already signed up</a>";
     
 }
@@ -82,11 +76,9 @@ if (!$ok)
     <P>
     <p><span class="ptitle">Privacy policy:</span>
     Your email address and info will never be given to or sold to third
-    parties.  We will only send you the Public Whip newsletter, or 
-    other occasional messages about the Public Whip.  Your login will
-    also let you edit policies, division descriptions and will display your
-    user name on your postings in the forum.  In the future it may give you
-    access to other free services on the Public Whip website.  Any changes to
+    parties.  Your login will
+    let you edit policies, division descriptions and will display your
+    user name on your postings in the forum.  Any changes to
     this policy will require your explicit agreement.
 <?php if ($_GET['r']) {
 ?>
