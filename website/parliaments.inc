@@ -13,14 +13,8 @@
 # give the scond an id with the month in as well.  The name can change
 # (as it is not in URLs), so can be any clarifying pretty description.
 $parliaments = array(
-    '2010' => array('from' => '2010-05-06', 'to' => '9999-12-31', 'name' => '2010-present,&nbsp;Westminster'),
-    '2005' => array('from' => '2005-05-05', 'to' => '2010-04-12', 'name' => '2005-2010,&nbsp;Westminster'),
-    '2001' => array('from' => '2001-06-07', 'to' => '2005-04-11', 'name' => '2001-2005,&nbsp;Westminster'),
-    '1997' => array('from' => '1997-05-01', 'to' => '2001-05-14', 'name' => '1997-2001,&nbsp;Westminster'),
-    'S1' => array('from' => '1999-05-12', 'to' => '2003-03-31', 'name' => 'Scottish&nbsp;Parliament&nbsp;Session&nbsp;1&nbsp;(1999-2003)'),
-    'S2' => array('from' => '2003-05-07', 'to' => '2007-04-02', 'name' => 'Scottish&nbsp;Parliament&nbsp;Session&nbsp;2&nbsp;(2003-2007)'),
-    'S3' => array('from' => '2007-05-09', 'to' => '2011-03-23', 'name' => 'Scottish&nbsp;Parliament&nbsp;Session&nbsp;3&nbsp;(2007-present)'),
-    'S4' => array('from' => '2011-03-24', 'to' => '9999-12-31', 'name' => 'Scottish&nbsp;Parliament&nbsp;Session&nbsp;3&nbsp;(2011-present)')
+    '2008' => array('from' => '2008-02-12', 'to' => '9999-12-31', 'name' => '2008 (current)'),
+    '2004' => array('from' => '2004-11-16', 'to' => '2007-10-17', 'name' => '2004-2007'),
 );
 
 # These are parliamentary sessions (i.e. years) - nothing to do with
