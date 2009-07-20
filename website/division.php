@@ -319,30 +319,30 @@ function no_division_found($plural)
                 else
                     print " voted <em>in the minority</em>";
                 if ($vote == 'aye')
-				    print ($house=="lords")?" (Content).":" (Aye).";
+				    print " (Aye).";
     			else if ($vote == 'no')
-	    			print ($house=="lords")?" (Not-Content).":" (No).";
+				print " (No).";
 		    	else if ($vote == 'tellaye')
-			    	print ($house=="lords")?" (Teller for the Contents).":" (Teller for the Ayes).";
+				print " (Teller for the Ayes).";
     			else if ($vote == 'tellno')
-	    			print ($house=="lords")?" (Teller for the Not-Contents).":" (Teller for the Noes).";
+				print " (Teller for the Noes).";
             }
             else
             {
                 if ($vote == 'aye')
-				    print ($house=="lords")?" was Content.":" voted Aye.";
+				    print " voted Aye.";
     			else if ($vote == 'no')
-	    			print ($house=="lords")?" was Not-Content.":" voted No.";
+				print " voted No.";
 		    	else if ($vote == 'tellaye')
-			    	print ($house=="lords")?"was a Teller for the Contents":" was a Teller for the Ayes.";
+				print " was a Teller for the Ayes.";
     			else if ($vote == 'tellno')
-	    			print ($house=="lords")?"was a Teller for the Not-Contents":" was a Teller for the Noes.";
+				print " was a Teller for the Noes.";
 		    	else if ($vote == 'both')
 			    	print " voted <em>both ways</em>.";
     			else if (($vote == 'abstention') and ($house == 'scotland'))
 	    			print " abstained";
     			else
-	    			print ($house=="lords") ? " was absent" : " did not vote.";
+				print " did not vote.";
 			}
             print "</p>\n";
 			# state if it is rebellion??

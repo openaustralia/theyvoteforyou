@@ -307,15 +307,12 @@
         # Make table
         print "<table><tr class=\"headings\"><td>Party</td>";
         if ($aye_majority == 0)
-            print ($house == "lords" ? "<td>Contents</td><td>Not-Contents</td>":"<td>Ayes</td><td>Noes</td>");
+            print "<td>Ayes</td><td>Noes</td>";
         else if ($noesfirst)
-            print ($house == "lords" ? "<td>Majority (Not-Content)</td><td>Minority (Content)</td>":"<td>Majority (No)</td><td>Minority (Aye)</td>");
+            print "<td>Majority (No)</td><td>Minority (Aye)</td>";
         else
-            print ($house == "lords" ? "<td>Majority (Content)</td><td>Minority (Not-Content)</td>":"<td>Majority (Aye)</td><td>Minority (No)</td>");
-        if ($house != "lords") {
-	  if ($house == "scotland")
-	    print "<td>Abstentions</td>";
-	  else
+            print "<td>Majority (Aye)</td><td>Minority (No)</td>";
+        if ($house != "lords")
             print "<td>Both</td>";
 	}
         print "<td>Turnout</td></tr>\n";
