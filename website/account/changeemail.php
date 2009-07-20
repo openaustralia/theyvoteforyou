@@ -37,8 +37,7 @@ if (!$ok)
 {
 echo ' <P>
     Fill in the information below, and we\'ll send you
-    an email for you to confirm your new address. You will be signed
-    up for the newsletter at your new address.
+    an email for you to confirm your new address.
 	<P>
 	<FORM ACTION="'. $PHP_SELF .'" METHOD="POST">
 	<B>User name:</B><BR>

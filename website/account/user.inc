@@ -244,13 +244,9 @@ function user_send_confirm_email($email,$hash, $user) {
 	$message = "Thank you for registering with the Public Whip!".
 		"\nSimply follow this link to confirm your registration: ".
 		"\n\nhttp://www.publicwhip.org.uk/account/confirm.php?hash=$hash&email=". urlencode($email).
-		"\n\nOnce you have confirmed, you will in future receive the".
-                "\nat most monthly Public Whip newsletter and be able".
+		"\n\nOnce you have confirmed, you will be able".
                 "\nto access extra features on the website.".
                 "\n\nYour username is $user, email address $email.".
-                "\nIf you would not like to receive the newsletter, you can".
-                "\nlog in and stop the newsletter, but still access other".
-                "\nfeatures.  You can do this after confirming." .
                 "\n\nFor more information on the project visit www.publicwhip.org.uk";
 	mail ($email,'Public Whip registration confirmation',$message,'From: auto@publicwhip.org.uk');
 }
@@ -492,7 +488,7 @@ function login_screen()
         <p>Not got a login?  <A HREF="/account/register.php?r='.
             ($_GET['r']?urlencode($_GET['r']):urlencode($this_place)).
         '">Register a new
-        account</A>.  You will also receive a free email newsletter.
+        account</A>.
         <br>Lost your password? <a href="lostpass.php">Reset your password here</a>.
         <P>
         <FORM ACTION="'. $PHP_SELF .'" METHOD="POST" name=pw>

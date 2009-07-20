@@ -80,7 +80,7 @@ function account_navbar() {
     $ret = "";
     if (user_isloggedin()) {
         global $user_name;
-        $ret .= '<a title="Change account settings, such as whether you get the newsletter" href="/account/settings.php">';
+        $ret .= '<a title="Change account settings" href="/account/settings.php">';
         $ret .= "You are: $user_name";
         $ret .= '</a> ';
         $ret .= '<a title="Make your browser forget that you are logged into The Public Whip as ' . $user_name .'" href="/account/logout.php'.
@@ -91,7 +91,7 @@ function account_navbar() {
         $ret .= '<a title="Register to chat on the forum or make/edit policies" href="/account/register.php?r='.  ($_GET['r']?urlencode($_GET['r']):urlencode($this_place)).'">';
         $ret .= "Sign Up";
         $ret .= '</a> ';
-        $ret .= '<a title="Login to edit policies or change your newsletter settings" href="/account/settings.php'.
+        $ret .= '<a title="Login to edit policies" href="/account/settings.php'.
                 "?r=".urlencode($this_place)."\">";
         $ret .= "Login";
         $ret .= '</a> ';

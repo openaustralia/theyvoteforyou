@@ -58,14 +58,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     print '<P><span class="ptitle">User name:</span> ' . $user_name . '
 	<br><span class="ptitle">Real name:</span> ' .  user_getrealname() . '
 	<br><span class="ptitle">Email:</span> ' . user_getemail() . ' (<a href="changeemail.php">change email</a>)
-    <br><span class="ptitle">Password:</span> (<a href="changepass.php">change password</a>)
-
-	<FORM ACTION="'. $PHP_SELF .'" METHOD="POST">
-    <h2>Newsletter subscription</h2>
-	<INPUT TYPE="checkbox" NAME="newsletter" ' . $newsletter . '>Email newsletter (at most once a month)
-	<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Update">
-	</FORM>
-	<P>';
+    <br><span class="ptitle">Password:</span> (<a href="changepass.php">change password</a>)';
 
     print '<h2>Forum profile</h2>';
     print '<p>';
