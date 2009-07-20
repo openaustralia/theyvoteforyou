@@ -47,6 +47,10 @@ function pretty_party_raw($party)
         return "Bishop";
     else if ($party == "XB")
         return "Crossbench";
+    else if ($party == "DPRES")
+        return "Deputy President";
+    else if ($party == "PRES")
+        return "President";
 
     return $party;
 }
