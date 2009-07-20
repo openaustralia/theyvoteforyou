@@ -380,17 +380,7 @@
             print "<ul>\n";
 
 			print "<li>See <strong>".$mpprop["name"]."</strong>'s Parliamentary speeches at: ";
-			print "<a href=\"http://www.theyworkforyou.com/mp/?m=".$mpprop["mpid"]."\">TheyWorkForYou.com</a></li>\n";
-
-            if ($mpprop['house'] == 'commons') 
-            {
-                # can we link directly? no - you need postcode
-                print "<li>Contact your MP for free at: <a href=\"http://www.writetothem.com\">WriteToThem.com</a></li>\n";
-
-                print "<li>Form a long term relationship with your MP: <a href=\"http://www.hearfromyourmp.com\">HearFromYourMP.com</a></li>\n";
-
-                include $toppath . "ecdonations.inc";
-            }
+			print "<a href=\"http://www.openaustralia.org/mp/?m=".$mpprop["mpid"]."\">OpenAustralia.org</a></li>\n";
 
             print "</ul>\n";
         }
