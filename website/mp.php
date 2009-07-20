@@ -370,7 +370,7 @@
             print "</p>"; 
         }
 
-        print "<p><em>Note:</em> our records only go back to 1997 for the Commons and 2001 for the Lords (<a href=\"/faq.php#timeperiod\">more details</a>).";
+        print "<p><em>Note:</em> our voting records currently only go back to the beginning of 2006 for the House of Representatives and the Senate (<a href=\"/faq.php#timeperiod\">more details</a>).";
 
 	    seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], ($all_same_cons ? false : true), true, $thispagesettings);
 
