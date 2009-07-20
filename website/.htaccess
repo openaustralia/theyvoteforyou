@@ -15,11 +15,11 @@ AddHandler cgi-script .cgi
 
 # all links on publicwhip.org.uk are permalinks
 # this lets us move pages without breaking them
-RedirectPermanent /rebels.php http://www.publicwhip.org.uk/mps.php?sort=rebellions
-RedirectPermanent /news.php http://www.publicwhip.org.uk/newsletters/archive.php
-RedirectPermanent /code.php http://www.publicwhip.org.uk/project/code.php
-RedirectPermanent /mp-info.xml http://www.publicwhip.org.uk/feeds/mp-info.xml
-RedirectPermanent /dreammp.php http://www.publicwhip.org.uk/policy.php
+RedirectPermanent /rebels.php /mps.php?sort=rebellions
+RedirectPermanent /news.php /newsletters/archive.php
+RedirectPermanent /code.php /project/code.php
+RedirectPermanent /mp-info.xml /feeds/mp-info.xml
+RedirectPermanent /dreammp.php /policy.php
 
 RewriteCond %{HTTP_HOST} !^(www\.publicwhip\.org\.uk|pw\.live|publicwhip-v1.localdomain)$
 RewriteRule (.*) http://www.publicwhip.org.uk/$1 [R=301,L]
