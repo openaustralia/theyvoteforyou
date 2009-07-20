@@ -353,13 +353,6 @@ See the answer to <a href="#contact">I've found an error</a> for details.</p>
 it, you must refer your readers to www.publicwhip.org.uk.  This way they
 can use and contribute themselves.</p>
 
-<p>Public Whip's data meets with the 
-<a href="http://okd.okfn.org/">Open Knowledge Definition</a>.
- <!-- Open Knowledge Link -->
-<a href="http://okd.okfn.org/">
-<img style="vertical-align: bottom" alt="This material is Open Knowledge" border="0"
-src="/images/ok_80x23_red_green.png" /></a>
-<!-- /Open Knowledge Link -->
 
 <h2 class="faq"><a name="playwith">Can I play with the software?</a></h2>
 
