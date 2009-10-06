@@ -391,7 +391,8 @@ td.elerowtd
 table.elecalc-single
 {
     width:50%;
-    float:left;
+    Zfloat:left;
+    float:right;
     border: thin black solid;
     padding-left:10px;
     margin-right:10px; 

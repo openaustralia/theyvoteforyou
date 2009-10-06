@@ -429,7 +429,7 @@ function WriteHitcounters($db)
             $vevent = $row[5];
             $vrand = $row[6];
             $vdash = $row[8];
-            print "<tr><td".($vdash ? 'style="background-color:red"' : '').">$ii-$vrand</td><td>$vpostcode.($vconstituency)</td><td>$vmin</td><td>$vmax</td><td>$vcount</td><td>$vevent</td><td>$referrer</td></tr>\n"; 
+            print "<tr><td".($vdash ? ' style="background-color:red"' : '').">$ii-$vrand</td><td>$vpostcode.($vconstituency)</td><td>$vmin</td><td>$vmax</td><td>$vcount</td><td>$vevent</td><td>$referrer</td></tr>\n"; 
             $ii++;
         }
     print "</table>\n";
@@ -654,8 +654,9 @@ if ($bisbyelection && !$vprintview)
         print "<div class=\"$secpol\" id=\"sec-".$issue["dream_id"]."\">";
         if (!$vprintview)
             print "<h2>".$issue["name"]." $ofnumber</h2>\n";
-        if (!$vprintview)
-            WriteLongListNews($issue["name"]);
+        print "\n\n<div class=\"".($vprintview ? "sissueprint" : "sissue")."\">\n";
+        WriteEleIssueSection($issue, $vpresel, $person, $vprintview);
+        print "</div>\n";
 
         if ($vprintview)
         {
@@ -671,9 +672,9 @@ if ($bisbyelection && !$vprintview)
         }
         print "</table>\n";
         
-        print "\n\n<div class=\"".($vprintview ? "sissueprint" : "sissue")."\">\n";
-        WriteEleIssueSection($issue, $vpresel, $person, $vprintview);
-        print "</div>\n";
+        
+        if (!$vprintview)
+            WriteLongListNews($issue["name"]);
 
         $acont = "http://www.publicwhip.org.uk/policy.php?id=".$issue["dream_id"];
         

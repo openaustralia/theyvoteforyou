@@ -1,5 +1,5 @@
 <?php
-# $Id: tablepeop.inc,v 1.67 2009/06/23 07:29:05 publicwhip Exp $
+# $Id: tablepeop.inc,v 1.68 2009/10/06 13:37:20 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -187,7 +187,7 @@ function print_mp_slab($db, $listtype, $bnofavour, $numcolumns, $tooltips, $frie
         $rows[] = $row;
     }
 
-    $drows = (int)(count($rows) / $numcolumns);
+    $drows = (int)((count($rows) + $numcolumns - 1) / $numcolumns);
     for ($ci = 0; $ci < $drows; $ci++)
     {
         print "<tr>";

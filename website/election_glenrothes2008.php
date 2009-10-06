@@ -654,8 +654,7 @@ if ($bisbyelection && !$vprintview)
         print "<div class=\"$secpol\" id=\"sec-".$issue["dream_id"]."\">";
         if (!$vprintview)
             print "<h2>".$issue["name"]." $ofnumber</h2>\n";
-        if (!$vprintview)
-            WriteLongListNews($issue["name"]);
+        
 
         if ($vprintview)
         {
@@ -674,6 +673,10 @@ if ($bisbyelection && !$vprintview)
         print "\n\n<div class=\"".($vprintview ? "sissueprint" : "sissue")."\">\n";
         WriteEleIssueSection($issue, $vpresel, $person, $vprintview);
         print "</div>\n";
+        
+        
+        if (!$vprintview)
+            WriteLongListNews($issue["name"]);
 
         $acont = "http://www.publicwhip.org.uk/policy.php?id=".$issue["dream_id"];
         

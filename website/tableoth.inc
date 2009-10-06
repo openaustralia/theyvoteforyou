@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.55 2009/05/21 08:02:28 marklon Exp $
+    # $Id: tableoth.inc,v 1.56 2009/10/06 13:37:20 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -392,7 +392,7 @@
 	  if ($house == "scotland") {
             print "<td class=\"$classabstentions\">$totalabstentions</td>";
 	  } else {
-            print "<td class=\"$classboth\">$both</td>";
+            print "<td class=\"$classboth\">$totalboths</td>";
 	  }
 	}
         else if ($totalboths > 0)
