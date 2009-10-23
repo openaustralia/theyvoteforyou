@@ -1,5 +1,5 @@
 <?php
-# $Id: wiki.inc,v 1.17 2008/06/20 13:57:21 goatchurch Exp $
+# $Id: wiki.inc,v 1.18 2009/10/23 11:18:26 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Editable text with history
@@ -84,6 +84,22 @@ function get_wiki_current_value($db, $type, $params)
     return $result;
 }
 
+
+# Call this to get motion from wiki text for display
+function extract_action_text_from_wiki_text($text)
+{
+    $motion = extract_motion_text_from_wiki_text_for_edit($text);
+    $motionlines = explode("\n", $motion);
+    $res = array();
+    $matches = array();
+    foreach ($motionlines as $motionline)
+    {
+        if (preg_match("/^@\s*MP voted (aye|no) (.*)$/i", $motionline, $matches))
+            $res[$matches[1]] = $matches[2]; 
+    }
+    return $res; 
+}
+
 # Call this to get motion from wiki text for display
 function extract_motion_text_from_wiki_text($text)
 {
@@ -101,6 +117,8 @@ function extract_motion_text_from_wiki_text($text)
             $ml = preg_replace("/(?<![*\s])(\[(\d+)\])/", "<sup class=\"sup-\\2\"><a class=\"sup\" onclick=\"ClickSup(\\2)\">\\1</a></sup>", $ml);
             #$ml = preg_replace("/(\[\d+])/", "<sup>\\1</sup>", $ml);
             if (preg_match("/^\s\s*$/", $ml))
+                continue;
+            if (preg_match("/^@/", $ml))  // skip comment lines we lift up for the short sentences
                 continue;
             if (preg_match("/^(\*|:)/", $ml))
             {

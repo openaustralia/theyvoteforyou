@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.144 2009/05/19 15:07:18 marklon Exp $
+# $Id: division.php,v 1.145 2009/10/23 11:18:26 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -322,8 +322,17 @@ function no_division_found($plural)
 		# cross-over case listing vote of single MP
 		if ($votertype == "mp")
 		{
-			print "<p class=\"mpondivision\"><a href=\"mp.php?".$voter['mpanchor']."\">".$voter['name'].($house == "lords" ? "</a>" : " MP, ".$voter['constituency']."</a>");
-			if (($vote == 'aye' || $vote == 'tellaye' || $vote == 'no' || $vote == 'tellno') && ($ayenodiff != 0))
+            $actiontext = extract_action_text_from_wiki_text($motion_data['text_body']);
+            //print "<pre>";
+            //print_r($actiontext);
+            //print "</pre>";
+			
+            print "<p class=\"mpondivision\"><a href=\"mp.php?".$voter['mpanchor']."\">".$voter['name'].($house == "lords" ? "</a>" : " MP, ".$voter['constituency']."</a>");
+			if ($actiontext[$vote])
+            {
+                print " voted <em>".$actiontext[$vote]."</em>";
+            }
+            else if (($vote == 'aye' || $vote == 'tellaye' || $vote == 'no' || $vote == 'tellno') && ($ayenodiff != 0))
             {
                 if (($vote == 'aye' || $vote == 'tellaye') == ($ayenodiff >= 0))
                     print " voted <em>with the majority</em>";
@@ -350,8 +359,8 @@ function no_division_found($plural)
 	    			print ($house=="lords")?"was a Teller for the Not-Contents":" was a Teller for the Noes.";
 		    	else if ($vote == 'both')
 			    	print " voted <em>both ways</em>.";
-			else if (($vote == 'abstention') and ($house == 'scotland'))
-				print " abstained";
+    			else if (($vote == 'abstention') and ($house == 'scotland'))
+	    			print " abstained";
     			else
 	    			print ($house=="lords") ? " was absent" : " did not vote.";
 			}
