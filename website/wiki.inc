@@ -1,5 +1,5 @@
 <?php
-# $Id: wiki.inc,v 1.18 2009/10/23 11:18:26 publicwhip Exp $
+# $Id: wiki.inc,v 1.19 2009/11/27 23:23:39 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Editable text with history
@@ -90,11 +90,11 @@ function extract_action_text_from_wiki_text($text)
 {
     $motion = extract_motion_text_from_wiki_text_for_edit($text);
     $motionlines = explode("\n", $motion);
-    $res = array();
+    $res = array("title" => extract_title_from_wiki_text($text)); 
     $matches = array();
     foreach ($motionlines as $motionline)
     {
-        if (preg_match("/^@\s*MP voted (aye|no) (.*)$/i", $motionline, $matches))
+        if (preg_match("/^@\s*MP voted (aye|no)(.*)$/i", $motionline, $matches))
             $res[$matches[1]] = $matches[2]; 
     }
     return $res; 
