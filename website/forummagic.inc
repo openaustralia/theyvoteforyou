@@ -1,6 +1,6 @@
 <?php
 
-# $Id: forummagic.inc,v 1.19 2007/05/20 16:30:07 frabcus Exp $
+# $Id: forummagic.inc,v 1.20 2009/11/30 19:26:30 publicwhip Exp $
 # Post things to the forum automatically (like log of changes to policies)
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -115,7 +115,7 @@ function cookie_splitter($cookie_string) {
 // Internal function, perform a post request into the forum
 // Returns array(body, headers)
 function forummagic_do_post($post_domain, $post_filename, $post_data, $cookie_jar) {
-    $timeout = 5; 
+    $timeout = 15; 
 
     $head = '';
     $response = '';
