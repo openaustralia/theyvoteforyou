@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.96 2009/06/02 14:44:54 publicwhip Exp $
+# $Id: tablemake.inc,v 1.97 2010/01/28 17:17:12 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -294,7 +294,7 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
             else
             {
                 $roleclass = "rebel";
-                $votedesc = "disagree";
+                $votedesc = "disagrees with policy";
                 $dismetric[($vote2line3 ? "disagree3" : "disagree")]++;
                 $votedesclong = "MP opposed Policy ";
             }
@@ -304,7 +304,7 @@ function workrolecolumn(&$roleclass, &$votedesc, &$votedesclong, $voter1type, &$
         else
         {
             $roleclass = "teller";  # green
-            $votedesc = "agree";
+            $votedesc = "agrees with policy";
             $dismetric[($vote2line3 ? "agree3" : "agree")] += 1;
             $votedesclong = "MP supported Policy";
         }
