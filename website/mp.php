@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.144 2009/05/26 11:10:43 marklon Exp $
+    # $Id: mp.php,v 1.145 2010/02/24 18:38:47 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -432,7 +432,9 @@
                 # can we link directly? no - you need postcode
                 print "<li>Contact your MP for free at: <a href=\"http://www.writetothem.com\">WriteToThem.com</a></li>\n";
 
-                print "<li><b>New!</b> Form a long term relationship with your MP: <a href=\"http://www.hearfromyourmp.com\">HearFromYourMP.com</a></li>\n";
+                print "<li>Form a long term relationship with your MP: <a href=\"http://www.hearfromyourmp.com\">HearFromYourMP.com</a></li>\n";
+
+                include $toppath . "ecdonations.inc";
             }
 
             print "</ul>\n";

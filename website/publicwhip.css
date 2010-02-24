@@ -875,3 +875,26 @@ table#backlinks
 {
     font-size:60%;
 }
+
+select.eclong 
+{
+    display: none; 
+}
+input.eclong 
+{
+    display: none; 
+}
+input.ecbranch
+{
+    background:#c0f0c8;
+}
+input.ecsubmit
+{
+    border:thin black solid;
+    padding:0px 0px 0px 0px;
+    margin:0px 0px 0px 0px;
+    color: blue; 
+    TEXT-DECORATION: underline;
+}
+
+

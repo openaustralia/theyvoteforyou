@@ -1,5 +1,5 @@
 <?php
-    # $Id: tableoth.inc,v 1.56 2009/10/06 13:37:20 publicwhip Exp $
+    # $Id: tableoth.inc,v 1.57 2010/02/24 18:38:48 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -29,7 +29,11 @@
 
 	    foreach ($mpprops as $mpprop)
 	    {
-	        $prettyrow = pretty_row_start($prettyrow);
+            // suppress all the MPs that are too early
+            if ($mpprop['enteredhouse'] < '1997')
+                continue; 
+
+            $prettyrow = pretty_row_start($prettyrow);
 			if ($bmultiperson)
 			{
 				if ($thispagesettings)
