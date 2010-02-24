@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.97 2010/01/28 17:17:12 publicwhip Exp $
+# $Id: tablemake.inc,v 1.98 2010/02/24 16:55:28 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -800,7 +800,9 @@ function division_table($db, $divtabattr, $db2="", $events = "")
                                       AND pw_division.division_date < \"".$divtabattr["parldatelimit"]['to']."\")";
 	if (($divtabattr["display_house"] == "lords") or ($divtabattr["display_house"] == "commons") or ($divtabattr["display_house"] == "scotland"))
 		$aquery["qwhere"] .= " AND pw_division.house = \"".$divtabattr["display_house"]."\"";
-	else
+    else if ($divtabattr["display_house"] == "z") 
+		$aquery["qwhere"] .= " AND pw_division.house = \"commons\" AND pw_division.division_date >= \"2009-06\"";
+    else
 		$columnforms["house"] = "yes";  # a mixed list needs to state the house
 
     # accumulate the ordering command
@@ -991,7 +993,8 @@ function division_table($db, $divtabattr, $db2="", $events = "")
         $aquery["qselect"] .= ", COUNT(*)-1 AS hits"; # can't avoid the overcounting on the first
 	    $aquery["qgroup"] = " GROUP BY pw_division.division_id"; # if set, it's this anyway
         $aquery["qjoin"] .= " LEFT JOIN pw_logincoming 
-                              ON pw_logincoming.page = 'division' 
+                              ON pw_logincoming.page = 'division'
+                              AND pw_logincoming.ltime > '2009'
                               AND pw_logincoming.thing_id = pw_division.division_id";
     }
     
