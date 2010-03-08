@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.17 2009/06/01 23:31:50 publicwhip Exp $
+# $Id: DivsXML.pm,v 1.18 2010/03/08 19:47:17 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Loads divisions from the XML files made by pyscraper into
@@ -49,23 +49,23 @@ sub read_xml_files {
     $house  = shift; # global
     my $motionspath;
     if( $house eq "scotland" ) {
-	$motionspath = shift;
+        $motionspath = shift;
     }
     die if $house ne "lords" && $house ne "commons" and $house ne "scotland";
 
     %spmotions = ();
     if ($house eq "scotland") {
-	print "Loading SP motions...\n";
-	# If this for the Scottish Parliament, parse all the motions
-	# with SPIDs:
-	my $twig_sp_motions = XML::Twig->new( twig_handlers => {
-	    'spmotion'  => \&loadspmotion },
-					      output_filter => 'safe' );
-	my @motionsfiles = glob($motionspath . "*.xml");
-	foreach( @motionsfiles ) {
-	    $twig_sp_motions->parsefile($_);
-	}
-	print "done.\n";
+        print "Loading SP motions...\n";
+        # If this for the Scottish Parliament, parse all the motions
+        # with SPIDs:
+        my $twig_sp_motions = XML::Twig->new( twig_handlers => {
+            'spmotion'  => \&loadspmotion },
+                              output_filter => 'safe' );
+        my @motionsfiles = glob($motionspath . "*.xml");
+        foreach( @motionsfiles ) {
+            $twig_sp_motions->parsefile($_);
+        }
+        print "done.\n";
     }
 
     $divisions_changed = 0;
@@ -404,9 +404,7 @@ debate_url, source_gid, debate_gid, clock_time from pw_division where
 
         # We already have - update it
         my @data = $sth->fetchrow_array();
-        die
-"Incomplete division $divnumber, $divdate already exists, clean the database"
-          if ( $data[1] != 1 );
+        die "Incomplete division $divnumber, $divdate already exists, clean the database" if ( $data[1] != 1 );
         my $existing_divid      = $data[0];
         my $existing_heading    = $data[2];
         my $existing_motion     = $data[3];
@@ -417,29 +415,29 @@ debate_url, source_gid, debate_gid, clock_time from pw_division where
         my $existing_clock_time = $data[8];
         $existing_clock_time = "" if !$existing_clock_time;
 
-	# Extra debugging, since I'm not sure why these differ:
+        # Extra debugging, since I'm not sure why these differ:
 
-	if ($existing_heading ne $heading) {
-	    print "####! Difference between\n == $existing_heading\n == $heading\n";
-	}
-	if ($existing_motion ne $motion_text) {
-	    print "####! Difference between\n == $existing_motion\n == $motion_text\n";
-	}
-	if ($existing_source_url ne $url) {
-	    print "####! Difference between\n == $existing_source_url\n == $url\n";
-	}
-	if ($existing_debate_url ne $debate_url) {
-	    print "####! Difference between\n == $existing_debate_url\n == $debate_url\n";
-	}
-	if ($existing_source_gid ne $gid) {
-	    print "####! Difference between\n == $existing_source_gid\n == $gid\n";
-	}
-	if ($existing_debate_gid ne $debate_gid) {
-	    print "####! Difference between\n == $existing_debate_gid\n == $debate_gid\n";
-	}
-	if ($existing_clock_time ne $clock_time) {
-	    print "####! Difference between\n == $existing_clock_time\n == $clock_time\n";
-	}
+        #if ($existing_heading ne $heading) {
+        #    print "####! Difference heading between\n == $existing_heading\n == $heading\n";
+        #}
+        #if ($existing_motion ne $motion_text) {
+        #    print "####! Difference motion between\n == $existing_motion\n == $motion_text\n";
+        #}
+        #if ($existing_source_url ne $url) {
+        #    print "####! Difference url between\n == $existing_source_url\n == $url\n";
+        #}
+        #if ($existing_debate_url ne $debate_url) {
+        #    print "####! Difference debate between\n == $existing_debate_url\n == $debate_url\n";
+        #}
+        #if ($existing_source_gid ne $gid) {
+        #    print "####! Difference gid between\n == $existing_source_gid\n == $gid\n";
+        #}
+        #if ($existing_debate_gid ne $debate_gid) {
+        #    print "####! Difference debate_gid between\n == $existing_debate_gid\n == $debate_gid\n";
+        #}
+        #if ($existing_clock_time ne $clock_time) {
+        #    print "####! Difference clock time between\n == $existing_clock_time\n == $clock_time\n";
+        #}
 
         if (   ( $existing_heading ne $heading )
             or ( $existing_motion     ne $motion_text )
