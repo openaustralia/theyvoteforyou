@@ -1,5 +1,5 @@
 #!/bin/bash
-#set -x # debug print lines
+set -x # debug print lines
 
 if [ x$LOCKFILE = x ]
 then 
@@ -52,8 +52,15 @@ cd ~/publicwhip-live/loader
 
     # update 
     cd ~/publicwhip-live/loader
-    ./mp_distance.php
-    ./division_distance.php
+
+    # FIXME: just commenting out these two commands since the
+    # next run will take *days* - don't want it to be restarted
+    # a second time.  If there are no instances of mp_distance.php
+    # or division_distance.php running then you can revert this
+    # file to the CVS version.
+
+    #./mp_distance.php
+    #./division_distance.php
 
 	# export dumps of data
 	cd ~/publicwhip-live/build

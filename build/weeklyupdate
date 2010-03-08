@@ -14,10 +14,11 @@ fi
 JAVA=/usr/bin/java
 
 # Do clustering for Java applet
-cd ~/publicwhip-live/custom/cluster
-./cluster-parliament-static.pl
-./cluster-parliament-static-div.pl
-mv mpcoords-*.txt divcoords.txt lordcoords.txt ~/www.publicwhip.org.uk/docs/
+# This calculation is taking too long.  disabled by JGT 2009-08-30
+#cd ~/publicwhip-live/custom/cluster
+#./cluster-parliament-static.pl
+#./cluster-parliament-static-div.pl
+#mv mpcoords-*.txt divcoords.txt lordcoords.txt ~/www.publicwhip.org.uk/docs/
 
 # Generating PNG files for people with no Java
 cd ~/www.publicwhip.org.uk/docs/
