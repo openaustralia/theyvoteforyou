@@ -827,11 +827,17 @@ table.rvotes td.dist8
 table.rvotes td.dist9
     { background-color: #90a0a0; }
 
+
 div.h1mppolicy
 {
     text-align:center;
     margin-top: 0.7em;
     margin-bottom: 2em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    background-color: #f0f080;
+    margin-left: 5em;
+    margin-right: 5em;
 }
 div.h1mppolicy p
 {
@@ -864,6 +870,7 @@ div.h1mppolicy em.percent
 p.mpondivision
 {
     font-size:140%;
+    background-color: #f0f080;
 }
 p.mpondivision em
 {
@@ -895,6 +902,14 @@ input.ecsubmit
     margin:0px 0px 0px 0px;
     color: blue; 
     TEXT-DECORATION: underline;
+}
+
+table.votes caption
+{
+    text-align:right; 
+    caption-side:bottom;
+    font-size:60%;
+    font-style: italic;
 }
 
 

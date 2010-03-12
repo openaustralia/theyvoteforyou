@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: mp.php,v 1.145 2010/02/24 18:38:47 publicwhip Exp $
+    # $Id: mp.php,v 1.146 2010/03/12 12:26:46 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -543,6 +543,8 @@
             if ($voter2type == "dreammp")
                 $divtabattr["sortby"] = 'datereversed';
 		    print "<table class=\"votes\">\n";
+            if ($voter2type == "dreammp")
+                print '<caption><a href="http://www.publicwhip.org.uk/faq.php#ayemajority">Why Majority/minority instead of Aye/No?</a></caption>';
         }
 
         if ($divtabattr["sortby"] == 'datereversed')

@@ -1,6 +1,6 @@
 <?php
 
-# $Id: tablemake.inc,v 1.98 2010/02/24 16:55:28 publicwhip Exp $
+# $Id: tablemake.inc,v 1.99 2010/03/12 12:26:46 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -448,7 +448,10 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $roleclass, $vote1,
 
     if ($columnforms["voter1type"])
     {
-        print "<td>";
+	    if ($columnforms["voter2type"] == "dreammp")
+		    print "<td class=\"$roleclass\">";
+        else
+            print "<td>";
         if ($columnforms["voter1type"] == "dreammp" && !$vote1)
             print "non-voter";
         else if ($columnforms["voter1type"] == "dreammp") 
@@ -463,7 +466,8 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $roleclass, $vote1,
 		    print "<td class=\"$roleclass\">";
         else
             print "<td>";
-        print vote_display_in_table($vote2, 0/*$row["aye_majority"]*/)."</td>\n";
+        #print vote_display_in_table($vote2, 0/*$row["aye_majority"]*/)."</td>\n";
+        print vote_display_in_table($vote2, ($columnforms["voter2type"] != "dreammp" ? 0 : $row["aye_majority"]))."</td>\n";
     }
 	if ($columnforms["aggregate_names"])
 		print "<td>".$row["vote2names"]."</td>";
@@ -914,9 +918,10 @@ function division_table($db, $divtabattr, $db2="", $events = "")
         if ($voter2type == "dreammp") 
         {
 
-            $columnforms["voter1type"] = null;
-            $columnforms["voter2type"] = null;
-            $columnforms["role"] = "Agreement with policy above";
+            #$columnforms["voter1type"] = null;
+            #$columnforms["voter2type"] = null;
+            #$columnforms["role"] = "Agreement with policy above";
+            $columnforms["role"] = null;
             divdreammpconds($aquery, $db, $voter2, $bonlyvotes2, 2);
         } 
         else if ($voter2type == "party") 
@@ -961,7 +966,6 @@ function division_table($db, $divtabattr, $db2="", $events = "")
             $columnforms["party_turnout"] = "yes";
             $columnforms["party_agreement"] = "yes"; 
             $columnforms["voter1type"] = null;  # kill this column
-
         }
         else
         {

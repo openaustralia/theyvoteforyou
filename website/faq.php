@@ -1,7 +1,7 @@
 <?php require_once "common.inc";
 require_once "db.inc";
 
-# $Id: faq.php,v 1.90 2008/10/20 11:35:19 publicwhip Exp $
+# $Id: faq.php,v 1.91 2010/03/12 12:26:46 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -288,7 +288,7 @@ which itself carries the possibility of a further negation by its use of words
 <p>In truth it would be less confusing if the votes were between "Option (a)" and "Option (b)"
 with their meanings clearly expressed.  Indeed, this form of words in the motion text 
 has been tried out, as in "Those voting No wanted this, and the Ayes wanted that", 
-but then you have to know which side won in order to determin what happened.</p>
+but then you have to know which side won in order to determine what happened.</p>
 
 <p>But we don't need to express it like that, because all the votes are in the past and 
 we always know which side won, and it's the winning side that determins what happens, 
