@@ -157,6 +157,10 @@
         {
             $feedback = "<p>This is not your legacy Dream MP, so you can't edit their name or defintion.";
         }
+        elseif (policy_totally_frozen($dreamid))
+        {
+            $feedback = "<p>This policy is being used on TheyWorkForYou during the Election campaign. Please contact us if you think it needs editing."; 
+        }
         elseif ($submiteditpolicy && (!$just_logged_in) && $submiteditpolicy == 'Save') 
         {
             if ($name == "" or $description == "")

@@ -1,5 +1,5 @@
 <?php
-# $Id: dream.inc,v 1.63 2009/05/23 10:42:21 marklon Exp $
+# $Id: dream.inc,v 1.64 2010/04/07 17:55:41 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -408,6 +408,12 @@ function dream_post_forum_link($db, $dreamid) {
     $forum = "Policy Forum";
     $topic_match = "Policy #$dreamid";
     return forummagic_getlink($db, $forum, $topic_match);
+}
+
+# Used to freeze a policy entirely (e.g. during an Election campaign)
+function policy_totally_frozen($dreamid) {
+    return in_array($dreamid, array(1049, 1053, 1050, 363, 826, 1051, 1052, 856, 811, 975, 996, 984, 1030,
+                    837, 1071, 1074, 1077, 1079, 1080));
 }
 
 

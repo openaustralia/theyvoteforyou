@@ -1,6 +1,6 @@
 <?php
 
-# $Id: divisionvote.inc,v 1.32 2009/05/24 13:05:35 marklon Exp $
+# $Id: divisionvote.inc,v 1.33 2010/04/07 17:55:42 publicwhip Exp $
 # Handles the dreammp vote on the divisions page
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
@@ -42,6 +42,12 @@ function write_single_policy_vote($db, $divattr, $voter)
     # See if changeable
     $legacydreammp = ($row["private"] == 1);
     $votechangeable = user_getid() && (!$legacydreammp || ($row["user_id"] == user_getid()));
+
+
+    # Election? 
+    if (policy_totally_frozen($voter)) {
+        $votechangeable = false;
+    }
 
     # a submit was posted on this page
     $voteannouce = "";
