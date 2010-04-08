@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.20 2010/04/07 18:00:35 publicwhip Exp $
+# $Id: memxml2db.pl,v 1.21 2010/04/08 10:55:01 publicwhip Exp $
 
 # Convert all-members.xml and all-lords.xml into the database format for Public
 # Whip website
@@ -113,7 +113,7 @@ sub loadmember
         print "Ignoring entry with doubly incomplete date for $firstname $lastname $fromdate $todate\n";
         return;
     }
-    if ($todate < '1900-01-01') {
+    if ($todate lt '1900-01-01') {
         print "Ignoring entry older than 1900 for $firstname $lastname $fromdate $todate\n";
         return;
     }
