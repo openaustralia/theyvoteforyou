@@ -1,5 +1,5 @@
 <?php
-# $Id: constituencies.inc,v 1.16 2009/11/27 23:23:46 publicwhip Exp $
+# $Id: constituencies.inc,v 1.17 2010/05/05 22:32:34 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -31,12 +31,18 @@ function normalise_constituency_name($db, $name, $house = null, $parl = null) {
     $qwhere = " WHERE main_name".($parl ? " AND from_date < '$parl' and '$parl' < to_date" : "");
     $qwhere2 = " AND name LIKE '$name'";
     if( $house )
-      $qwhere2 .= " AND house = '$house'";
+      $qwhere3 = " AND house = '$house'";
     $qorder = " ORDER BY to_date DESC LIMIT 1"; 
-    $sth1 = $db->query_onez_row_assoc($qsel.$qwhere.$qwhere2.$qorder);
-
+    $sth1 = $db->query_onez_row_assoc($qsel.$qwhere.$qwhere2.$qwhere3.$qorder);
     if ($sth1)
         return $sth1["name"];
+
+    $and_name = str_replace(" &amp; ", " and ", $name);
+    $qwhere2alt = " AND name LIKE '$and_name'";
+    $sth1 = $db->query_onez_row_assoc($qsel.$qwhere.$qwhere2alt.$qwhere3.$qorder);
+    if ($sth1)
+        return $sth1["name"];
+
     $qwhere2 = " AND name LIKE '%$name%'";    
     $sth1 = $db->query_onez_row_assoc($qsel.$qwhere.$qwhere2.$qorder);
     if ($sth1)
