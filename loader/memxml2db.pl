@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.21 2010/04/08 10:55:01 publicwhip Exp $
+# $Id: memxml2db.pl,v 1.22 2010/05/10 06:48:47 publicwhip Exp $
 
 # Convert all-members.xml and all-lords.xml into the database format for Public
 # Whip website
@@ -53,6 +53,7 @@ $twig->parsefile("$members_location/sp-constituencies.xml");
 $twig->parsefile("$members_location/people.xml");
 $twig->parsefile("$members_location/ministers.xml");
 $twig->parsefile("$members_location/all-members.xml");
+$twig->parsefile("$members_location/all-members-2010.xml");
 $twig->parsefile("$members_location/peers-ucl.xml");
 $twig->parsefile("$members_location/sp-members.xml");
 
