@@ -61,6 +61,23 @@ function characterData($parser, $content)
         $constituency .= $content;
 }
 
+
+function postcode_to_candidates($db, $postcode) {
+	$postcode = trim($postcode);
+    if (!is_postcode($postcode))
+        return array('ERROR' => "The postcode was malformed.");
+    $useful_keys = array("WMC" => TRUE,
+                         "SPC" => TRUE,
+                         "SPE" => TRUE);
+
+    $response = get_text_from_http( "http://www.yournextmp.com",
+                                    80,
+                                    "search?query=".urlencode($postcode) );
+    return $response;
+}
+
+
+
 # This function returns a map of constituency type to
 # name of constituency.  For example, a Cambridge postcode
 # might return:
@@ -153,7 +170,7 @@ function get_text_from_http( $domain, $port, $path ) {
     return $file;
 }
 
-function postcode_to_constituency($db, $postcode, $pc_parl = "2005") {
+function postcode_to_constituency($db, $postcode, $pc_parl = "2010") {
     $postcode = trim($postcode);
 
     global $last_postcode;
@@ -188,7 +205,7 @@ function postcode_to_constituency_internal($db, $postcode, $pc_parl)
 
     # Otherwise hit the server (URL is private)
     # We use fsockopen rather than just fopen or file_get_contents so we can do timeouts
-    if ($pc_parl == "2005" || !$pc_parl) {
+    if ($pc_parl == "2010" || !$pc_parl) {
         $filename = POSTCODE_SEARCH_PATH .  urlencode($postcode);
         $domain = POSTCODE_SEARCH_DOMAIN;
     } elseif ($pc_parl == "2001") {
@@ -222,9 +239,6 @@ function postcode_to_constituency_internal($db, $postcode, $pc_parl)
         {
             trigger_error("Postcode database is not working. Invalid XML.", E_USER_WARNING);
             return '';
-    #        trigger_error(sprintf("XML error: %s at line %d",
-    #            xml_error_string(xml_get_error_code($xml_parser)),
-    #            xml_get_current_line_number($xml_parser)), E_USER_ERROR);
         }
         xml_parser_free($xml_parser);
     }
@@ -232,24 +246,16 @@ function postcode_to_constituency_internal($db, $postcode, $pc_parl)
     {
         $res = array();
         preg_match("/name\>([^<]*)/i", $file, $res);
-    #    print "iii" . preg_match("/name\>([^<]*)/i", $file, $res);
-    #    preg_match("/ell/", "Hello World!", $res);
-    #    print_r($res);
         if (!$res)
         {
             trigger_error("Postcode not recognized."); 
             return '';
         }
         $constituency = $res[1]; 
-    #print_r($res); 
-    #print "<h1>$file</h1>";
     }
     $constituency = str_replace("  ", " ", $constituency);
 
     # Convert to canonical name
-#    print "<pre>$file</pre><br>$constituency<br>";
-#    print $consnames[$consmatch[strtolower($constituency)]];
-    $normalised = normalise_constituency_name($db, strtolower($constituency), 'commons', $pc_parl);
     if ($normalised)
         return $normalised;
     else

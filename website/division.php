@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: division.php,v 1.145 2009/10/23 11:18:26 publicwhip Exp $
+# $Id: division.php,v 1.146 2010/05/10 06:47:28 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -441,8 +441,10 @@ function no_division_found($plural)
                 $ldadate = str_replace("-", "", $divattr["division_date"]);
                 $ldanum = "/number/".$divattr["division_number"];
                 $ldalink = "http://services.parliament.uk/LordsDivisionsAnalysis/session/$ldasess/division/$ldadate$ldanum";
-                print "<p style=\"background-color:#ffcdff; border:thin red solid; text-align:center\">
-                       <b>New:</b> This division listed under <a href=\"$ldalink\">Lords Division Analysis</a></p>\n";
+                
+                # annoying waste of space, these links
+                #print "<p style=\"background-color:#ffcdff; border:thin red solid; text-align:center\">
+                #       <b>New:</b> This division listed under <a href=\"$ldalink\">Lords Division Analysis</a></p>\n";
             }
 
             print "<div class=\"motion\">";
