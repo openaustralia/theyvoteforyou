@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.22 2010/05/10 06:48:47 publicwhip Exp $
+# $Id: memxml2db.pl,v 1.23 2010/05/11 10:36:59 publicwhip Exp $
 
 # Convert all-members.xml and all-lords.xml into the database format for Public
 # Whip website
@@ -115,7 +115,7 @@ sub loadmember
         return;
     }
     if ($todate lt '1900-01-01') {
-        print "Ignoring entry older than 1900 for $firstname $lastname $fromdate $todate\n";
+        #print "Ignoring entry older than 1900 for $firstname $lastname $fromdate $todate\n";
         return;
     }
     my $fromwhy = $memb->att('fromwhy');
