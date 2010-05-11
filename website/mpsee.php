@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-# $Id: mpsee.php,v 1.19 2005/12/05 01:44:39 frabcus Exp $
+# $Id: mpsee.php,v 1.20 2010/05/11 06:43:24 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -30,6 +30,7 @@ through the list to see them all.  </p>
 <p><span class="ptitle">Not working?</span>  If you are able, download <a href="http://www.java.com">Sun's Java
 software</a>.  On Windows, the old unsupported Microsoft versions of Java will not do.
 Alternatively, get a taste with a static 
+<a href="votemap/mpsee-2010.png">2010 screenshot</a>,
 <a href="votemap/mpsee-2005.png">2005 screenshot</a>,
 <a href="votemap/mpsee-2001.png">2001 screenshot</a> or
 <a href="votemap/mpsee-1997.png">1997 screenshot</a> of the clustered MPs.
@@ -83,6 +84,8 @@ Sun Java 1.4 or above required
 <!--"END_CONVERTED_APPLET"-->
 <?php
     }
+    print "<h2>MP vote map 2010 parliament</h2>\n";
+    applet("2010");
     print "<h2>MP vote map 2005 parliament</h2>\n";
     applet("2005");
     print "<h2>MP vote map 2001 parliament</h2>\n";
