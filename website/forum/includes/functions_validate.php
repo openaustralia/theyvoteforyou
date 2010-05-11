@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: functions_validate.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
+ *   $Id: functions_validate.php,v 1.3 2010/05/11 06:26:25 publicwhip Exp $
  *
  *
  ***************************************************************************/
@@ -101,7 +101,7 @@ function validate_username($username)
 	$db->sql_freeresult($result);
 
 	// Don't allow " and ALT-255 in username.
-	if (strstr($username, '"') || strstr($username, '&quot;') || strstr($username, chr(160)))
+	if (strstr($username, '"') || strstr($username, '&quot;') || strstr($username, chr(160)) || strstr($username, chr(173)))
 	{
 		return array('error' => true, 'error_msg' => $lang['Username_invalid']);
 	}

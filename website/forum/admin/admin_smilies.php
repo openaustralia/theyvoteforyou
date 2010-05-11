@@ -6,7 +6,7 @@
 *     copyright            : (C) 2001 The phpBB Group
 *     email                : support@phpbb.com
 *
-*     $Id: admin_smilies.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
+*     $Id: admin_smilies.php,v 1.3 2010/05/11 06:26:24 publicwhip Exp $
 *
 ****************************************************************************/
 
@@ -36,22 +36,19 @@ if( !empty($setmodules) )
 	return;
 }
 
-//
-// Load default header
-//
-if( isset($HTTP_GET_VARS['export_pack']) )
-{
-	if ( $HTTP_GET_VARS['export_pack'] == "send" )
-	{	
-		$no_page_header = true;
-	}
-}
-
 $phpbb_root_path = "./../";
 require($phpbb_root_path . 'extension.inc');
 
-$cancel = ( isset($HTTP_POST_VARS['cancel']) ) ? true : false;
+$cancel = ( isset($HTTP_POST_VARS['cancel']) || isset($_POST['cancel']) ) ? true : false;
 $no_page_header = $cancel;
+
+//
+// Load default header
+//
+if ((!empty($HTTP_GET_VARS['export_pack']) && $HTTP_GET_VARS['export_pack'] == 'send') || (!empty($_GET['export_pack']) && $_GET['export_pack'] == 'send'))
+{
+	$no_page_header = true;
+}
 
 require('./pagestart.' . $phpEx);
 

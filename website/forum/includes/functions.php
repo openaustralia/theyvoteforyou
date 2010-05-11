@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: functions.php,v 1.4 2007/05/28 11:17:50 publicwhip Exp $
+ *   $Id: functions.php,v 1.5 2010/05/11 06:26:25 publicwhip Exp $
  *
  *
  ***************************************************************************/
@@ -370,7 +370,7 @@ function init_userprefs($userdata)
 
 		$userdata['user_lang'] = $default_lang;
 	}
-	elseif ( $userdata['user_id'] === ANONYMOUS && $board_config['default_lang'] !== $default_lang )
+	elseif ( $userdata['user_id'] == ANONYMOUS && $board_config['default_lang'] !== $default_lang )
 	{
 		$sql = 'UPDATE ' . CONFIG_TABLE . "
 			SET config_value = '" . $default_lang . "'

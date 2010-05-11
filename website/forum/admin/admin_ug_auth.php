@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: admin_ug_auth.php,v 1.4 2007/05/20 08:08:42 publicwhip Exp $
+ *   $Id: admin_ug_auth.php,v 1.5 2010/05/11 06:26:24 publicwhip Exp $
  *
  *
  ***************************************************************************/
@@ -231,11 +231,46 @@ if ( isset($HTTP_POST_VARS['submit']) && ( ( $mode == 'user' && $user_id ) || ( 
 		else
 		{
 	
-			$change_mod_list = ( isset($HTTP_POST_VARS['moderator']) ) ? $HTTP_POST_VARS['moderator'] : false;
+			$change_mod_list = ( isset($HTTP_POST_VARS['moderator']) ) ? $HTTP_POST_VARS['moderator'] : array();
 
 			if ( empty($adv) )
 			{
-				$change_acl_list = ( isset($HTTP_POST_VARS['private']) ) ? $HTTP_POST_VARS['private'] : false;
+				$sql = "SELECT f.* 
+					FROM " . FORUMS_TABLE . " f, " . CATEGORIES_TABLE . " c
+					WHERE f.cat_id = c.cat_id
+					ORDER BY c.cat_order, f.forum_order ASC";
+				if ( !($result = $db->sql_query($sql)) )
+				{
+					message_die(GENERAL_ERROR, "Couldn't obtain forum information", "", __LINE__, __FILE__, $sql);
+				}
+
+				$forum_access = $forum_auth_level_fields = array();
+				while( $row = $db->sql_fetchrow($result) )
+				{
+					$forum_access[] = $row;
+				}
+				$db->sql_freeresult($result);
+
+				for($i = 0; $i < count($forum_access); $i++)
+				{
+					$forum_id = $forum_access[$i]['forum_id'];
+
+					for($j = 0; $j < count($forum_auth_fields); $j++)
+					{
+						$forum_auth_level_fields[$forum_id][$forum_auth_fields[$j]] = $forum_access[$i][$forum_auth_fields[$j]] == AUTH_ACL;
+					}
+				}
+
+				while( list($forum_id, $value) = @each($HTTP_POST_VARS['private']) )
+				{
+					while( list($auth_field, $exists) = @each($forum_auth_level_fields[$forum_id]) )
+					{
+						if ($exists)
+						{
+							$change_acl_list[$forum_id][$auth_field] = $value;
+						}
+					}
+				}
 			}
 			else
 			{
@@ -289,11 +324,11 @@ if ( isset($HTTP_POST_VARS['submit']) && ( ( $mode == 'user' && $user_id ) || ( 
 				$forum_id = $forum_access[$i]['forum_id'];
 
 				if ( 
-					( isset($auth_access[$forum_id]['auth_mod']) && $change_mod_list[$forum_id]['auth_mod'] != $auth_access[$forum_id]['auth_mod'] ) || 
-					( !isset($auth_access[$forum_id]['auth_mod']) && !empty($change_mod_list[$forum_id]['auth_mod']) ) 
+					( isset($auth_access[$forum_id]['auth_mod']) && $change_mod_list[$forum_id] != $auth_access[$forum_id]['auth_mod'] ) || 
+					( !isset($auth_access[$forum_id]['auth_mod']) && !empty($change_mod_list[$forum_id]) ) 
 				)
 				{
-					$update_mod_status[$forum_id] = $change_mod_list[$forum_id]['auth_mod'];
+					$update_mod_status[$forum_id] = $change_mod_list[$forum_id];
 
 					if ( !$update_mod_status[$forum_id] )
 					{

@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: admin_forums.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
+ *   $Id: admin_forums.php,v 1.3 2010/05/11 06:26:24 publicwhip Exp $
  *
  ***************************************************************************/
 
@@ -626,7 +626,7 @@ if( !empty($mode) )
 					$vote_ids = '';
 					do
 					{
-						$vote_ids = (($vote_ids != '') ? ', ' : '') . $row['vote_id'];
+						$vote_ids .= (($vote_ids != '') ? ', ' : '') . $row['vote_id'];
 					}
 					while ($row = $db->sql_fetchrow($result));
 

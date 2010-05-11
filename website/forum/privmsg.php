@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: privmsg.php,v 1.3 2007/05/20 07:21:34 frabcus Exp $
+ *   $Id: privmsg.php,v 1.4 2010/05/11 06:26:24 publicwhip Exp $
  *
  *
  ***************************************************************************/
@@ -668,6 +668,7 @@ else if ( ( $delete && $mark_list ) || $delete_all )
 	{
 		$s_hidden_fields = '<input type="hidden" name="mode" value="' . $mode . '" />';
 		$s_hidden_fields .= ( isset($HTTP_POST_VARS['delete']) ) ? '<input type="hidden" name="delete" value="true" />' : '<input type="hidden" name="deleteall" value="true" />';
+		$s_hidden_fields .= '<input type="hidden" name="sid" value="' . $userdata['session_id'] . '" />';
 
 		for($i = 0; $i < count($mark_list); $i++)
 		{
@@ -698,7 +699,7 @@ else if ( ( $delete && $mark_list ) || $delete_all )
 		include($phpbb_root_path . 'includes/page_tail.'.$phpEx);
 
 	}
-	else if ( $confirm )
+	else if ($confirm && $sid === $userdata['session_id'])
 	{
 		$delete_sql_id = '';
 
