@@ -2,7 +2,7 @@
 
 //cache_begin(rand(0, 10));
 
-# $Id: index.php,v 1.75 2009/06/08 00:56:50 publicwhip Exp $
+# $Id: index.php,v 1.76 2010/05/11 06:42:35 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -113,7 +113,7 @@ href="account/addpolicy.php">make</a> a new policy</span>
 </a>
 <p><a href="mpsee.php">
 <img src="votemap/mpseethumb.png"></a>
-<p><a href="mpsee.php">Where is Brown?</p>
+<p><a href="mpsee.php">Where are Clegg, Cameron and Brown?</p>
 </a>
 </td>
 
