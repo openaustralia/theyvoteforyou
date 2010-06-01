@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.102 2010/03/12 12:26:46 publicwhip Exp $
+# $Id: header.inc,v 1.103 2010/06/01 11:27:03 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -127,7 +127,7 @@ Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
 
 
 <!-- banner advert for thestraightchoice -->
-<tr class="electionadvert">
+<!--<tr class="electionadvert">
 <td style="font-size:140%; padding-left:2em; font-style:italic;color:#980808">
     Have you received any election leaflets?  <b>Go to:</b>
 </td>
@@ -135,6 +135,7 @@ Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
     <a href="http://www.thestraightchoice.org/"><img src="/images/straightchoicelogosmall.png" alt="Election leaflet project"/></a>
 </td>
 </tr>
+-->
 
 <!-- the site logo -->
 <tr><td class="identity" colspan="1">
