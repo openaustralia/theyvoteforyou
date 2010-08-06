@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.18 2010/03/08 19:47:17 publicwhip Exp $
+# $Id: DivsXML.pm,v 1.19 2010/08/06 16:25:59 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Loads divisions from the XML files made by pyscraper into
@@ -303,29 +303,29 @@ sub loaddivision {
     my $clock_time = $div->att('time');
     $lastmotiontext = "";
     if ($house eq 'scotland') {
-	$motion_text = join("\n\n",@speechesbefore[-3..-1]);
-	if ($lastlongestspid) {
-	    my $prefix_with = "<p>This looks like the vote on $lastlongestspid</p>";
-	    if (exists $spmotions{$lastlongestspid}) {
-		my $motionsref = $spmotions{$lastlongestspid};
-		my @motions = @{$motionsref};
-		foreach (@motions) {
-		    my %motion = %{$_};
-		    $prefix_with .= "<p>The description in the <a href=\"$motion{'url'}\">bulletin on $motion{'date'}</a> is:</p>";
-		    $prefix_with .= "<p class=\"bulletin-quote\">$motion{'text'}</p>";
-		}
-	    }
-	    $prefix_with .= "<p>You can <a href=\"http://www.theyworkforyou.com/search/?s=&phrase=";
-	    $prefix_with .= $lastlongestspid;
-	    $prefix_with .= "&exclude=&from=$divdate&to=$divdate\">search for this motion (";
-	    $prefix_with .= $lastlongestspid.") on TheyWorkForYou</a></p>";
-	    $prefix_with .= "<p><b>Text Introducing Division:</b></p>";
-	    if ($motion_text eq "") {
-		$motion_text = $prefix_with . "<p>No text found</p>";
-	    } else {
-		$motion_text = $prefix_with . "<p>$motion_text</p>";
-	    }
-	}
+        $motion_text = join("\n\n",@speechesbefore[-3..-1]);
+        if ($lastlongestspid) {
+            my $prefix_with = "<p>This looks like the vote on $lastlongestspid</p>";
+            if (exists $spmotions{$lastlongestspid}) {
+            my $motionsref = $spmotions{$lastlongestspid};
+            my @motions = @{$motionsref};
+            foreach (@motions) {
+                my %motion = %{$_};
+                $prefix_with .= "<p>The description in the <a href=\"$motion{'url'}\">bulletin on $motion{'date'}</a> is:</p>";
+                $prefix_with .= "<p class=\"bulletin-quote\">$motion{'text'}</p>";
+            }
+            }
+            $prefix_with .= "<p>You can <a href=\"http://www.theyworkforyou.com/search/?s=&phrase=";
+            $prefix_with .= $lastlongestspid;
+            $prefix_with .= "&exclude=&from=$divdate&to=$divdate\">search for this motion (";
+            $prefix_with .= $lastlongestspid.") on TheyWorkForYou</a></p>";
+            $prefix_with .= "<p><b>Text Introducing Division:</b></p>";
+            if ($motion_text eq "") {
+            $motion_text = $prefix_with . "<p>No text found</p>";
+            } else {
+            $motion_text = $prefix_with . "<p>$motion_text</p>";
+            }
+        }
     }
     if ($motion_text eq "") {
         $motion_text = "<p>No motion text available</p>";
