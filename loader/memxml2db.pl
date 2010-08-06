@@ -2,7 +2,7 @@
 use strict;
 use lib "PublicWhip";
 
-# $Id: memxml2db.pl,v 1.24 2010/08/06 16:24:41 publicwhip Exp $
+# $Id: memxml2db.pl,v 1.25 2010/08/06 16:25:19 publicwhip Exp $
 
 # Convert all-members.xml and all-lords.xml into the database format for Public
 # Whip website
@@ -110,12 +110,12 @@ sub loadmember
     my $constituency = $memb->att('constituency');
     my $fromdate = $memb->att('fromdate');
     my $todate = $memb->att('todate');
-    if ($fromdate !~ m/\d\d\d\d-\d\d-\d\d/ && $todate !~ m/\d\d\d\d-\d\d-\d\d/) {
-        print "Ignoring entry with doubly incomplete date for $firstname $lastname $fromdate $todate\n";
-        return;
-    }
     if ($todate le '1997-04-08') {
         #print "Ignoring entry older than 1997 election for $firstname $lastname $fromdate $todate\n";
+        return;
+    }
+    if ($fromdate !~ m/\d\d\d\d-\d\d-\d\d/ && $todate !~ m/\d\d\d\d-\d\d-\d\d/) {
+        print "Ignoring entry with doubly incomplete date for $firstname $lastname $fromdate $todate\n";
         return;
     }
     my $fromwhy = $memb->att('fromwhy');
