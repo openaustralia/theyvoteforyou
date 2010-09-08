@@ -1,7 +1,7 @@
 <?php require_once "common.inc";
 require_once "db.inc";
 
-# $Id: faq.php,v 1.92 2010/05/10 06:47:28 publicwhip Exp $
+# $Id: faq.php,v 1.93 2010/09/08 16:54:02 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -424,12 +424,12 @@ support we can.</p>
 <p>Yes.  Both Francis and Julian have given interviews over the phone 
 (ring 07970 543358) in the past and had their pictures taken for newspapers.
 We would be happy to do more of this.  Francis has even featured on the radio
-in "Yesterday in Parliament".  Julian lives in Liverpool, and Francis resides
-in Cambridge.  Both travel to London whenever there is something interesting
-happening there.  Neither of us has any working experience inside
-Parliament or with a political party, so our observations are very much 
-from outside the system and its assumed conventions.  We have not 
-had much practice making them sound consistent with 'conventional wisdom'.</p>
+in "Yesterday in Parliament".  Julian and Francis live in Liverpool. Both
+travel to London whenever there is something interesting happening there.
+Neither of us has any working experience inside Parliament or with a political
+party, so our observations are very much from outside the system and its
+assumed conventions.  We have not had much practice making them sound
+consistent with 'conventional wisdom'.</p>
 
 
 <h2 class="faq"><a name="money">Do you make any money out of Public Whip?</a></h2>
@@ -439,11 +439,11 @@ towards our internet bill in 2004.  We have no moral objection to earning money 
 our work, it's just that we are not willing to compromise with the need for
 this information to be public and freely available at no cost.  </p>
 
-<p>Our main running costs are a few hundred pounds in train fares to 
-meet and program together in Cambridge or Liverpool, and the couple of 
-thousand pounds Julian spent on a decent <a href="http://seagrass.goatchurch.org.uk">server</a>
-for hardware and bandwidth for the purpose of supporting a 
-number of other projects as well as this.</p>
+<p>Our main running costs were a few hundred pounds in train fares to 
+meet and program together, and the couple of thousand pounds Julian spent on a
+decent <a href="http://seagrass.goatchurch.org.uk">server</a> for hardware and
+bandwidth for the purpose of supporting a number of other projects as well as
+this.</p>
 
 <p>Francis has made money indirectly from Public Whip, because making it has
 been a good way of meeting lots of people.  For example, he gets paid by <a
