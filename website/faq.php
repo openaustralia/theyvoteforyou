@@ -1,7 +1,7 @@
 <?php require_once "common.inc";
 require_once "db.inc";
 
-# $Id: faq.php,v 1.93 2010/09/08 16:54:02 publicwhip Exp $
+# $Id: faq.php,v 1.94 2010/09/12 00:09:24 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -346,22 +346,20 @@ drill down through to get to the raw evidence.</p>
 
 <h2 class="faq"><a name="legal">Legal question, what can I use this information for?</a></h2>
 
-<p>Anything.  This website is copyrighted by us, and the software is free open source.
-You are free to use them how you like within the terms of the public license.
-The data is distributed in the hope that it will be useful, but without any
-warranty; without even the implied warranty of merchantability or fitness for a
-particular purpose.
+<p>Anything, as long as you share it.  This website is copyrighted by us, and 
+the software is free open source. The data is licensed under an open data license.  
+See the next two questions for details. </p>
 
 <p>Amongst other things, this means that if you use it, you should
 double check the information.  It may be wrong.  If you are going to rely on it,
 at the very least do some random cross-checking to make sure it is valid.
 Whichever way, use it at your own risk.  Of course we'd rather you helped us fix the
 software and correct any contact.
-See the answer to <a href="#contact">I've found an error</a> for details.
+See the answer to <a href="#contact">I've found an error</a> for details.</p>
 
 <p>If you reproduce this information, or derive any interesting results from
-it, we ask you to refer your readers to www.publicwhip.org.uk.  This way they
-can use and contribute themselves.
+it, you must refer your readers to www.publicwhip.org.uk.  This way they
+can use and contribute themselves.</p>
 
 <p>Public Whip's data meets with the 
 <a href="http://okd.okfn.org/">Open Knowledge Definition</a>.
@@ -371,7 +369,6 @@ can use and contribute themselves.
 src="/images/ok_80x23_red_green.png" /></a>
 <!-- /Open Knowledge Link -->
 
-
 <h2 class="faq"><a name="playwith">Can I play with the software?</a></h2>
 
 <p> Sure.  All the software we've written is free (libre and gratuit), protected by the <a href="http://www.fsf.org/licensing/licenses/agpl-3.0.html">GNU Affero General Public License</a> (which means you can use it and change it, but you have to release any changes you make).  It's not complicated,
@@ -380,6 +377,15 @@ this if you are going to change it as otherwise you will see the same
 results.  For more details go to the special <a
 href="project/code.php">coding section</a> of this website.
 
+<h2 class="faq"><a name="datalicense">What license is the data under?</a></h2>
+
+<p> To the extent which we have rights to this database of MPs voting records 
+and related information, it is licensed under the 
+<a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.
+This is an attribution, share-alike license. That means that you must credit the Public
+Whip, for example via a link, if you use the data. It also means that if you build
+on this data, you must also share the result under a compatible open data license.
+</p>
 
 <h2 class="faq"><a name="whyfree">Why are you giving everything away for free?</a></h2>
 
