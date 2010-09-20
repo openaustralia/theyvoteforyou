@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-# $Id: calc_caches.php,v 1.17 2009/05/19 15:00:31 marklon Exp $
+# $Id: calc_caches.php,v 1.18 2010/09/20 15:26:40 publicwhip Exp $
 
 # Calculate lots of cache tables, run after update.
 
@@ -167,7 +167,7 @@ function count_div_info($db) {
 }
 
 function count_4d_info($db, $table, $group_by, $id, $votes_attended, $votes_possible) {
-    print "Creating table $table\n";
+    #print "Creating table $table\n";
     $db->query( "DROP TABLE IF EXISTS ${table}_tmp" );
     $db->query(
         "CREATE TABLE ${table}_tmp (
