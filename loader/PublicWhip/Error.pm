@@ -1,4 +1,4 @@
-# $Id: Error.pm,v 1.1 2004/06/08 11:56:54 frabcus Exp $
+# $Id: Error.pm,v 1.2 2010/09/20 15:26:48 publicwhip Exp $
 # Error handling.  We often find divisions with slightly different
 # date that requires updating of the parser, or new special case code.
 # This module centrally handles parsing errors for ease.
@@ -31,7 +31,7 @@ sub printout {
     my $msg      = shift;
     my $location = shift;
 
-    print $stubid . " $msg";
+    print $stubid, " $msg";
     print " - " . $location if $location ne "";
     print "\n";
 }
