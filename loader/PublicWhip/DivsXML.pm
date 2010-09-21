@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.20 2010/08/06 16:27:14 publicwhip Exp $
+# $Id: DivsXML.pm,v 1.21 2010/09/21 09:36:53 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Loads divisions from the XML files made by pyscraper into
@@ -303,7 +303,10 @@ sub loaddivision {
     my $clock_time = $div->att('time');
     $lastmotiontext = "";
     if ($house eq 'scotland') {
-        $motion_text = join("\n\n",@speechesbefore[-3..-1]);
+        my @last_three = @speechesbefore[-3..-1];
+        @last_three = grep { defined $_ } @last_three;
+        #print "@last_three ", Dumper(\@last_three);
+        $motion_text = join("\n\n",@last_three);
         if ($lastlongestspid) {
             my $prefix_with = "<p>This looks like the vote on $lastlongestspid</p>";
             if (exists $spmotions{$lastlongestspid}) {
