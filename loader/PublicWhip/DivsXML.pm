@@ -1,4 +1,4 @@
-# $Id: DivsXML.pm,v 1.21 2010/09/21 09:36:53 publicwhip Exp $
+# $Id: DivsXML.pm,v 1.22 2010/09/21 14:51:40 publicwhip Exp $
 # vim:sw=4:ts=4:et:nowrap
 
 # Loads divisions from the XML files made by pyscraper into
@@ -55,7 +55,7 @@ sub read_xml_files {
 
     %spmotions = ();
     if ($house eq "scotland") {
-        print "Loading SP motions...\n";
+        #print "Loading SP motions...\n";
         # If this for the Scottish Parliament, parse all the motions
         # with SPIDs:
         my $twig_sp_motions = XML::Twig->new( twig_handlers => {
@@ -65,7 +65,7 @@ sub read_xml_files {
         foreach( @motionsfiles ) {
             $twig_sp_motions->parsefile($_);
         }
-        print "done.\n";
+        #print "done.\n";
     }
 
     $divisions_changed = 0;
