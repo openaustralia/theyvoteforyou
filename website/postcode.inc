@@ -40,28 +40,6 @@ function is_postcode($postcode)
 	return validate_postcode($postcode);	// in utility.php
 }
 
-function startElement($parser, $name, $attrs) 
-{
-    global $tags, $constituency;
-    array_push($tags, $name);
-    if ($tags[count($tags) - 1] == "CONSTITUENCY_NAME" && $tags[count($tags) - 2] == "FAXYOURMP")
-        $constituency = "";
-}
- 
-function endElement($parser, $name) 
-{
-    global $tags;
-    array_pop($tags);
-}
-
-function characterData($parser, $content) 
-{
-    global $tags, $constituency;
-    if ($tags[count($tags) - 1] == "CONSTITUENCY_NAME" && $tags[count($tags) - 2] == "FAXYOURMP")
-        $constituency .= $content;
-}
-
-
 function postcode_to_candidates($db, $postcode) {
 	$postcode = trim($postcode);
     if (!is_postcode($postcode))
@@ -92,46 +70,27 @@ function postcode_to_constituencies($db, $postcode) {
 	$postcode = trim($postcode);
     if (!is_postcode($postcode))
         return array('ERROR' => "The postcode was malformed.");
-    $useful_keys = array("WMC" => TRUE,
-                         "SPC" => TRUE,
-                         "SPE" => TRUE);
+    $useful_types = array("WMC", "SPC", "SPE");
 
-    $response = get_text_from_http( POSTCODE_SEARCH_REPRESENTATIVES_DOMAIN,
-                                    POSTCODE_SEARCH_REPRESENTATIVES_PORT,
-                                    POSTCODE_SEARCH_REPRESENTATIVES_PATH."?pc=".urlencode($postcode) );
-
-    # Parsing this XML response with regular expressions is pretty
-    # horrible - I'm not sure why it's done like this below, but I'll
-    # assume there's a good reason for it...
-
+    $response = get_text_from_http( 'mapit.mysociety.org', 80, '/postcode/' . rawurlencode($postcode) );
     if (!$response)
         return array('ERROR' => "There was an error looking up that postcode.");
-    # Now check whether the response was an error:
-    preg_match("/error>([^<]*)/ims", $response, $result);
-    if( $result ) {
-        $error_text = $result[1];
+
+    $response = json_decode($response, true);
+    if ($response['error']) {
         return array ("ERROR" => "The postcode server returned an error.");
     }
-    # Otherwise it was probably a real response:
-    $re = "/name type=\"([^\"]*)\">([^<]*)/ims";
-    $n = preg_match_all( $re, $response, $results, PREG_SET_ORDER );
-    if (!$n) {
-        return array ("ERROR" => "There were no matches for the postcode.");
-    }
+
     $final_result = array();
-    foreach ($results as $match) {
-        $key = $match[1];
-        $value = $match[2];
-        if ($useful_keys[$key]) {
-           $house = 'commons';
-           if ($key == "SPE" or $key == "SPC") {
-               $house = 'scotland';
-           }
-           $constituency = normalise_constituency_name($db, strtolower($value), $house);
-           if (!$constituency)
-               $constituency = "[Unknown $house constituency: '$value']";
-           $final_result[$key] = $constituency;
-        }
+    foreach ($response['areas'] as $match) {
+        $type = $match['type'];
+        $name = $match['name'];
+        if (!in_array($type, $useful_types)) continue;
+        $house = ($type == 'WMC' ? 'commons' : 'scotland');
+        $constituency = normalise_constituency_name($db, strtolower($name), $house);
+        if (!$constituency)
+            $constituency = "[Unknown $house constituency: '$name']";
+        $final_result[$type] = $constituency;
     }
     if (!$final_result)
         return array ("ERROR" => "There was an unexpected response when looking up the postcode.");
@@ -181,85 +140,21 @@ function postcode_to_constituency($db, $postcode, $pc_parl = "2010") {
         return $last_postcode_value;
     }
 
-    $start = getmicrotime();
-    $ret = postcode_to_constituency_internal($db, $postcode, $pc_parl);
-    $duration = getmicrotime() - $start;
-    
+    #$start = getmicrotime();
+
+    if ($pc_parl && $pc_parl != 2010)
+        trigger_error("Unknown postcode parliament $pc_parl", E_USER_ERROR);
+
+    $areas = postcode_to_constituencies($db, $postcode);
+    if ($areas['ERROR']) return '';
+
+    $ret = $areas['WMC'];
+
+    #$duration = getmicrotime() - $start;
     #debug ("TIME", "Postcode $postcode lookup took $duration seconds, returned $ret.");
+
     $last_postcode = $postcode;
     $last_postcode_value = $ret;
     return $ret;
 }
 
-function postcode_to_constituency_internal($db, $postcode, $pc_parl)
-{
-    if (!POSTCODE_SEARCH_DOMAIN) {
-        return "Liverpool Riverside";
-    }
-
-    $postcode = trim($postcode);
-    
-    # Try and match with regexp to exclude non postcodes quickly
-    if (!is_postcode($postcode))
-        return '';
-
-    # Otherwise hit the server (URL is private)
-    # We use fsockopen rather than just fopen or file_get_contents so we can do timeouts
-    if ($pc_parl == "2010" || !$pc_parl) {
-        $filename = POSTCODE_SEARCH_PATH .  urlencode($postcode);
-        $domain = POSTCODE_SEARCH_DOMAIN;
-    } elseif ($pc_parl == "2001") {
-        $filename = POSTCODE_SEARCH_PATH_2001_PARLIAMENT .  urlencode($postcode);
-        $domain = POSTCODE_SEARCH_DOMAIN_2001_PARLIAMENT;
-    } elseif ($pc_parl) {
-        trigger_error("Unknown postcode parliament $pc_parl", E_USER_ERROR);
-    } else {
-        trigger_error("Internal postcode_to_constituency_internal error", E_USER_ERROR);
-    }
-    $file = get_text_from_http( $domain, POSTCODE_SEARCH_PORT, $filename );
-    if (!$file)
-        return '';
-
-	// Back to the original code.
-    $file = str_replace("&", "&amp;", $file);
-    $file = str_replace("&amp;amp;", "&amp;", $file);
-
-    global $tags, $constituency;
-    $tags = array();
-    $constituency = null;
-
-    # we now don't decode using xml parser (which was stupid).  Although php regexp support isn't that great to use.
-    if (false)
-    {
-        $xml_parser = xml_parser_create();
-        xml_set_element_handler($xml_parser, "startElement", "endElement");
-        xml_set_character_data_handler($xml_parser, "characterData");
-         
-        if (!xml_parse($xml_parser, $file, true))
-        {
-            trigger_error("Postcode database is not working. Invalid XML.", E_USER_WARNING);
-            return '';
-        }
-        xml_parser_free($xml_parser);
-    }
-    else
-    {
-        $res = array();
-        preg_match("/name\>([^<]*)/i", $file, $res);
-        if (!$res)
-        {
-            trigger_error("Postcode not recognized."); 
-            return '';
-        }
-        $constituency = $res[1]; 
-    }
-    $constituency = str_replace("  ", " ", $constituency);
-
-    # Convert to canonical name
-    if ($normalised)
-        return $normalised;
-    else
-        return '';
-}
-
-?>
