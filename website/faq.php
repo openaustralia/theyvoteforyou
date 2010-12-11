@@ -1,7 +1,7 @@
 <?php require_once "common.inc";
 require_once "db.inc";
 
-# $Id: faq.php,v 1.94 2010/09/12 00:09:24 frabcus Exp $
+# $Id: faq.php,v 1.95 2010/12/11 15:05:01 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -318,7 +318,7 @@ established and let us know.
 <p>With great difficulty, we have generalized the software that supports 
 Public Whip to run both houses after it was initially designed only to run 
 the Commons.  We therefore have learnt more about the syntactic incompatibilities 
-between the two houses than we care to know.  The process is frought with 
+between the two houses than we care to know.  The process is fraught with 
 possible errors.  Please email us if 
 you see any mistakes where we have said that the MPs were 'Content'. 
 
