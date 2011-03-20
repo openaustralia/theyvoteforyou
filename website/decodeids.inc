@@ -1,5 +1,5 @@
 <?php
-# $Id: decodeids.inc,v 1.49 2009/05/19 14:56:08 marklon Exp $
+# $Id: decodeids.inc,v 1.50 2011/03/20 14:43:34 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -225,6 +225,10 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream_overlap=null, $pc_parl
             $mpconstituency = $pccons;
         }
     }
+
+    # fix incoming broken link
+    if ($mpname == "Robert_Wilson")
+        $mpname = "Rob_Wilson"; 
 
     if ($mpname == "" and $mpconstituency == "")
     {
