@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: mp-info.xml,v 1.9 2006/03/21 01:13:31 publicwhip Exp $
+# $Id: mp-info.xml,v 1.10 2011/03/22 14:25:48 publicwhip Exp $
 
 # Print information in XML about each MP.  e.g. Rebellion rate.
 
@@ -30,8 +30,8 @@ $last_div_date = $row['division_date'];
 
 $mps_query_start = "select first_name, last_name, title, constituency,
         party, pw_mp.mp_id as mp_id,
-        round(100*rebellions/votes_attended,0) as rebellions,
-        round(100*votes_attended/votes_possible,0) as attendance,
+        round(100*rebellions/votes_attended,2) as rebellions,
+        round(100*votes_attended/votes_possible,2) as attendance,
         entered_reason, left_reason, entered_house, left_house,
         house
         from pw_mp,
