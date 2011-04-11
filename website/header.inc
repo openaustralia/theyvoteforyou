@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.104 2011/04/11 13:20:43 publicwhip Exp $
+# $Id: header.inc,v 1.105 2011/04/11 13:25:23 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -138,9 +138,17 @@ Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
 -->
 
 <!-- banner advert for shutdown -->
+<?
+    $cdate = mktime(0, 0, 0, 7, 27, 2011);
+    $today = time();
+    $difference = $cdate - $today;
+    if ($difference < 0 )
+        $difference = 0;
+    $difference /= 60 * 60 * 24;
+?>
 <tr>
 <td colspan="2" style="font-size:140%; padding:1em; background-color: #d0ffd0; color:#00000">
-    Deadline! Find Public Whip a good institutional home, or it'll shut down.
+    Deadline! <?=round($difference) ?> days to go. Find Public Whip a good institutional home, or it'll shut down.
     <a href="http://www.publicwhip.org.uk/openletter.php">Read our open letter</a>.
 </td>
 </tr>
