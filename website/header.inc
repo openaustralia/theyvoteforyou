@@ -3,7 +3,7 @@
 <html>
 
 <?php
-# $Id: header.inc,v 1.103 2010/06/01 11:27:03 publicwhip Exp $
+# $Id: header.inc,v 1.104 2011/04/11 13:20:43 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -136,6 +136,14 @@ Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
 </td>
 </tr>
 -->
+
+<!-- banner advert for shutdown -->
+<tr>
+<td colspan="2" style="font-size:140%; padding:1em; background-color: #d0ffd0; color:#00000">
+    Deadline! Find Public Whip a good institutional home, or it'll shut down.
+    <a href="http://www.publicwhip.org.uk/openletter.php">Read our open letter</a>.
+</td>
+</tr>
 
 <!-- the site logo -->
 <tr><td class="identity" colspan="1">

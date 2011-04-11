@@ -3,7 +3,7 @@
 #print "Public Whip is down for maintenance. When it is back up it will have some new things for you though :)";
 #exit;
 
-# $Id: common.inc,v 1.26 2009/06/23 07:29:04 publicwhip Exp $
+# $Id: common.inc,v 1.27 2011/04/11 13:20:43 publicwhip Exp $
 
 # Included from all main .php files on the first line
 
@@ -138,5 +138,3 @@ function get_http_var($name, $default='') {
     return $var;
 }
 
-
-?>
