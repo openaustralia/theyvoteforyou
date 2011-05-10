@@ -1,6 +1,6 @@
 <?php
 
-# $Id: pretty.inc,v 1.47 2009/05/21 08:01:30 marklon Exp $
+# $Id: pretty.inc,v 1.48 2011/05/10 17:17:27 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -134,7 +134,7 @@ function interesting_word($word)
 function random_big_word($phrase)
 {
     $phrase = preg_replace("/[()\[\]0-9.,]/", "", $phrase);
-    $words = split(" ", $phrase);
+    $words = explode(" ", $phrase);
 #    print "<p>words: "; foreach ($words as $word) { print "'$word';"; }
     $lesswords = array_filter($words, "interesting_word");
 #    print "<p>lesswords: "; foreach ($lesswords as $word) { print "'$word';"; }

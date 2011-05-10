@@ -1,5 +1,5 @@
 <?php require_once "common.inc";
-    # $Id: wrans.php,v 1.20 2005/11/01 01:23:17 frabcus Exp $
+    # $Id: wrans.php,v 1.21 2011/05/10 17:17:27 publicwhip Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
@@ -29,7 +29,7 @@
         $urls = array();
         while (!feof($handle)) {
             $line = trim(fgets($handle));
-            list($from, $to) = split(" ", $line);
+            list($from, $to) = explode(" ", $line);
             if ($from == $shellid) {
                 $tourl = "http://www.theyworkforyou.com/wrans?id=".urlencode($to);
                 header("Location: $tourl");

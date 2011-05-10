@@ -1,6 +1,6 @@
 <?php require_once "common.inc";
 
-# $Id: quiz.php,v 1.6 2006/04/14 00:19:54 publicwhip Exp $
+# $Id: quiz.php,v 1.7 2011/05/10 17:17:27 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2006 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -19,7 +19,7 @@ if (preg_match ("/^([^;]*);((?:\d+;)+(?:\d+))$/", $qstring, $matches)) {
     $_GET = array();
     $_GET['submit'] = "1";
     $_GET['mppc'] = $matches[1];
-    $shortviews = split(";",$matches[2]);
+    $shortviews = explode(";",$matches[2]);
     foreach ($shortviews as $shortview) {
         $_GET["p$shortview"] = "on";
     }
