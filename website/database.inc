@@ -6,7 +6,7 @@
 // Copyright 1999-2000 (c) The SourceForge Crew
 // http://sourceforge.net
 //
-// $Id: database.inc,v 1.4 2005/01/18 02:05:59 frabcus Exp $
+// $Id: database.inc,v 1.5 2011/05/10 22:54:03 publicwhip Exp $
 //
 // /etc/local.inc includes the machine specific database connect info
 
@@ -21,7 +21,8 @@ function db_connect() {
 
 function db_query($qstring,$print=0) {
 	global $pw_database;
-	return @mysql($pw_database,$qstring);
+    @mysql_select_db($pw_database);
+	return @mysql_query($qstring);
 }
 
 function db_numrows($qhandle) {
