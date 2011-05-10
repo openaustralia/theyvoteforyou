@@ -1,5 +1,5 @@
 <?php require_once "../common.inc";
-# $Id: code.php,v 1.22 2009/06/08 00:56:09 publicwhip Exp $
+# $Id: code.php,v 1.23 2011/05/10 14:26:12 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -122,7 +122,7 @@ smaller division only files.  To get them do something like this:
 <p>Change to the <i>loader</i> directory.    You need
 <i>memxml2db.pl</i>, which will load the information about MPs into
 database tables.  First you have to tell Perl your MySQL username and
-password.  Copy the file config.pm.incvs to config.pm and edit it.  Now
+password.  Copy the file PublicWhip/Config.pm.incvs to PublicWhip/Config.pm and edit it.  Now
 run:
 
 <p><tt>./memxml2db.pl</tt>
