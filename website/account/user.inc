@@ -466,13 +466,13 @@ function account_namevalid($name) {
 	}
 
 	// illegal names
-	if (eregi("^((root)|(bin)|(daemon)|(adm)|(lp)|(sync)|(shutdown)|(halt)|(mail)|(news)"
+	if (preg_match("/^((root)|(bin)|(daemon)|(adm)|(lp)|(sync)|(shutdown)|(halt)|(mail)|(news)"
 		. "|(uucp)|(operator)|(games)|(mysql)|(httpd)|(nobody)|(dummy)"
-		. "|(www)|(cvs)|(shell)|(ftp)|(irc)|(debian)|(ns)|(download))$",$name)) {
+		. "|(www)|(cvs)|(shell)|(ftp)|(irc)|(debian)|(ns)|(download))$/i",$name)) {
 		$feedback .= "Name is reserved.";
 		return 0;
 	}
-	if (eregi("^(anoncvs_)",$name)) {
+	if (preg_match("/^(anoncvs_)/i",$name)) {
 		$feedback .= "Name is reserved for CVS.";
 		return false;
 	}
@@ -481,7 +481,8 @@ function account_namevalid($name) {
 }
 
 function pw_validate_email ($address) {
-	return (ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'. '@'. '[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.' . '[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $address));
+    // using > as delimiter as not in string http://uk2.php.net/manual/en/regexp.reference.delimiters.php
+	return (preg_match('>^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'. '@'. '[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.' . '[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$>', $address));
 }
 
 function login_screen()
