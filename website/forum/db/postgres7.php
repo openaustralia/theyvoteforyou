@@ -6,7 +6,7 @@
    *   copyright            : (C) 2001 The phpBB Group
    *   email                : supportphpbb.com
    *
-   *   $Id: postgres7.php,v 1.1 2005/10/06 11:25:07 theyworkforyou Exp $
+   *   $Id: postgres7.php,v 1.2 2011/06/12 22:53:58 publicwhip Exp $
    *
    ***************************************************************************/
 
@@ -56,7 +56,7 @@ class sql_db
 		{
 			if( ereg(":", $sqlserver) )
 			{
-				list($sqlserver, $sqlport) = split(":", $sqlserver);
+				list($sqlserver, $sqlport) = explode(":", $sqlserver);
 				$this->connect_string .= "host=$sqlserver port=$sqlport ";
 			}
 			else

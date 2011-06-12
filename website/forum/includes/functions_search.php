@@ -6,7 +6,7 @@
 *     copyright            : (C) 2002 The phpBB Group
 *     email                : support@phpbb.com
 *
-*     $Id: functions_search.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
+*     $Id: functions_search.php,v 1.3 2011/06/12 22:53:58 publicwhip Exp $
 *
 ****************************************************************************/
 
@@ -78,7 +78,7 @@ function clean_words($mode, &$entry, &$stopword_list, &$synonym_list)
 	{
 		for ($j = 0; $j < count($synonym_list); $j++)
 		{
-			list($replace_synonym, $match_synonym) = split(' ', trim(strtolower($synonym_list[$j])));
+			list($replace_synonym, $match_synonym) = explode(' ', trim(strtolower($synonym_list[$j])));
 			if ( $mode == 'post' || ( $match_synonym != 'not' && $match_synonym != 'and' && $match_synonym != 'or' ) )
 			{
 				$entry =  str_replace(' ' . trim($match_synonym) . ' ', ' ' . trim($replace_synonym) . ' ', $entry);

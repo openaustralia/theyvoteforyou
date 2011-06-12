@@ -6,7 +6,7 @@
 *     copyright            : (C) 2001 The phpBB Group
 *     email                : support@phpbb.com
 *
-*     $Id: admin_db_utilities.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
+*     $Id: admin_db_utilities.php,v 1.3 2011/06/12 22:53:58 publicwhip Exp $
 *
 ****************************************************************************/
 
@@ -707,7 +707,7 @@ if( isset($HTTP_GET_VARS['perform']) || isset($HTTP_POST_VARS['perform']) )
 			{
 				if(ereg(",", $additional_tables))
 				{
-					$additional_tables = split(",", $additional_tables);
+					$additional_tables = explode(",", $additional_tables);
 
 					for($i = 0; $i < count($additional_tables); $i++)
 					{

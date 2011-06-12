@@ -6,7 +6,7 @@
  *   copyright            : (C) 2001 The phpBB Group
  *   email                : support@phpbb.com
  *
- *   $Id: search.php,v 1.2 2007/05/20 07:21:34 frabcus Exp $
+ *   $Id: search.php,v 1.3 2011/06/12 22:53:57 publicwhip Exp $
  *
  *
  ***************************************************************************/
@@ -278,7 +278,7 @@ else if ( $search_keywords != '' || $search_author != '' || $search_id )
 
 			$split_search = array();
 			$stripped_keywords = stripslashes($search_keywords);
-			$split_search = ( !strstr($multibyte_charset, $lang['ENCODING']) ) ?  split_words(clean_words('search', $stripped_keywords, $stopword_array, $synonym_array), 'search') : split(' ', $search_keywords);	
+			$split_search = ( !strstr($multibyte_charset, $lang['ENCODING']) ) ?  split_words(clean_words('search', $stripped_keywords, $stopword_array, $synonym_array), 'search') : explode(' ', $search_keywords);	
 			unset($stripped_keywords);
 
 			$search_msg_only = ( !$search_fields ) ? "AND m.title_match = 0" : ( ( strstr($multibyte_charset, $lang['ENCODING']) ) ? '' : '' );
@@ -843,7 +843,7 @@ else if ( $search_keywords != '' || $search_author != '' || $search_id )
 
 				for ($k = 0; $k < count($synonym_array); $k++)
 				{ 
-					list($replace_synonym, $match_synonym) = split(' ', trim(strtolower($synonym_array[$k]))); 
+					list($replace_synonym, $match_synonym) = explode(' ', trim(strtolower($synonym_array[$k]))); 
 
 					if ( $replace_synonym == $split_word )
 					{
