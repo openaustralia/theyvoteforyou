@@ -1,7 +1,7 @@
 <?php require_once "common.inc";
 require_once "db.inc";
 
-# $Id: openletter.php,v 1.2 2011/04/11 18:05:23 publicwhip Exp $
+# $Id: openletter.php,v 1.3 2011/06/13 07:36:58 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
 # This is free software, and you are welcome to redistribute it under
@@ -67,12 +67,18 @@ Conference</a>, <a href="http://scraperwiki.com/">run your startup</a>, or
 <p>Francis
 <br>Spring, 2011
 
-<p><strong>Update:</strong> Enough people find it day to day useful,
-that we're leaving it running until 
-<a href="http://www.parliament.uk/about/faqs/house-of-commons-faqs/business-faq-page/recess-dates/">27th July 2011</a>, to give
-people time to migrate. Please <a
-href="http://www.publicwhip.org.uk/forum/viewtopic.php?t=2520">discuss and
-suggest solutions here</a>.</p>
+<div style="background-color:#eee;padding-left: 1em;padding-top: 0.3em;padding-bottom: 0.3em;">
+<h2>Update</h2>
+<p>
+We're leaving the site running until
+<a href="http://www.parliament.uk/about/faqs/house-of-commons-faqs/business-faq-page/recess-dates/">27th July 2011</a>. 
+This will give time to find new people who want to run it. 
+If you're an interested organisation, or a volunteer individual, then please <a href="/email.php">contact us</a>.
+Discuss on our forum, by replying to the
+<a href="http://www.publicwhip.org.uk/forum/viewtopic.php?t=2547">latest update on progress</a>
+(earlier discussion <a href="http://www.publicwhip.org.uk/forum/viewtopic.php?t=2520&postdays=0&postorder=asc&start=0">here</a>).
+</p>
+</div>
 
 <?php pw_footer() ?>
 
