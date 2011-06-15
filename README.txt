@@ -23,4 +23,4 @@ build     - Scripts I use for admin, such as to upload to www.publicwhip.org.uk
 custom    - Various one off scripts and graphics made for special purposes
 artwork   - High resolution graphics relating to Public Whip
 
-If you need any help, please email me francis@flourish.org.
+If you need any help, please email team@publicwhip.org.uk.
