@@ -126,3 +126,18 @@ and link to their speeches (FD)
 
 Compare parties to policy 
 
+Code rewrite (pwaring)
+----------------------
+
+Fix all instances where code throws E_NOTICE errors or uses features
+which are deprecated in PHP 5.3.x.
+
+Move global variables into constants where possible - e.g. database
+connection information.
+
+Switch to a database abstraction library such as ADODB, and rewrite
+all SQL queries to use bound parameters (e.g. SELECT * FROM table WHERE id = ?)
+
+Change to a templating system, two options are:
+Smarty - http://www.smarty.net
+Twig - http://www.twig-project.org/ 
