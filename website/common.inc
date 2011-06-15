@@ -68,8 +68,8 @@ function pw_handle_error($num, $message, $file, $line, $context) {
 
     print "<p>";
     print " <strong>Date:</strong> ".date("D M d H:i:s Y");
-    print " <strong>IP:</strong> ".$_SERVER[REMOTE_ADDR];
-    print " <strong>URI:</strong> ".$_SERVER[REQUEST_URI];
+    print " <strong>IP:</strong> ".$_SERVER['REMOTE_ADDR'];
+    print " <strong>URI:</strong> ".$_SERVER['REQUEST_URI'];
 
     print "<p><pre>";
     debug_print_backtrace();
