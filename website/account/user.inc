@@ -15,15 +15,18 @@ if (!function_exists("user_isloggedin"))
     function user_isloggedin() {
             global $user_name,$id_hash,$LOGGED_IN;
 
-            if (!$user_name)
+            if (!$user_name) {
                 $user_name=mysql_escape_string($_COOKIE["user_name"]);
+            }
+            
             $id_hash=mysql_escape_string($_COOKIE["id_hash"]);
 
             //have we already run the hash checks? 
             //If so, return the pre-set var
             if (isset($LOGGED_IN)) {
-                if ($LOGGED_IN)
-                return $LOGGED_IN;
+                if ($LOGGED_IN) {
+                  return $LOGGED_IN;
+                }
             }
             if ($user_name && $id_hash) {
                     $hash=md5($user_name.HIDDEN_HASH_VAR);
