@@ -45,22 +45,6 @@ if (!function_exists("user_isloggedin"))
     }
 }
 
-/*
-
-create table pw_dyn_user (
-user_id int not null auto_increment primary key,
-user_name text,
-real_name text,
-email text,
-password text,
-remote_addr text,
-confirm_hash text,
-is_confirmed int not null default 0,
-reg_date datetime
-);
-
-*/
-
 function user_login($user_name,$password) {
 	global $feedback, $LOGGED_IN;
 
