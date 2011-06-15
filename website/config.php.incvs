@@ -18,4 +18,6 @@ $pw_cache_top = "/blah/pwcache";
 # Authentication value - only needed for publicwhip.org.uk itself
 $hidden_hash_var=''; 
 
+define('HIDDEN_HASH_VAR', $hidden_hash_var);
+
 ?>

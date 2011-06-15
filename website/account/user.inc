@@ -4,7 +4,7 @@ require_once $toppath . 'auth.inc';
 
 $feedback = '';
 
-if (!$hidden_hash_var) {
+if (!defined('HIDDEN_HASH_VAR')) {
     trigger_error("ERROR: include config.php first, and make sure it has values in", E_USER_ERROR);
 }
 
@@ -13,7 +13,7 @@ if (!function_exists("user_isloggedin"))
     unset($LOGGED_IN);
 
     function user_isloggedin() {
-            global $user_name,$id_hash,$hidden_hash_var,$LOGGED_IN;
+            global $user_name,$id_hash,$LOGGED_IN;
 
             if (!$user_name)
                 $user_name=mysql_escape_string($_COOKIE["user_name"]);
@@ -26,7 +26,7 @@ if (!function_exists("user_isloggedin"))
                 return $LOGGED_IN;
             }
             if ($user_name && $id_hash) {
-                    $hash=md5($user_name.$hidden_hash_var);
+                    $hash=md5($user_name.HIDDEN_HASH_VAR);
                 #    print "hash $hash idhash $id_hash";
                     if ($hash == $id_hash) {
                             $LOGGED_IN=true;
@@ -94,13 +94,13 @@ function user_logout() {
 }
 
 function user_set_tokens($user_name_in) {
-	global $hidden_hash_var,$user_name,$id_hash;
+	global $user_name,$id_hash;
 	if (!$user_name_in) {
 		$feedback .=  ' User name missing when setting tokens. ';
 		return false;
 	}
 	$user_name=strtolower($user_name_in);
-	$id_hash= md5($user_name.$hidden_hash_var);
+	$id_hash= md5($user_name.HIDDEN_HASH_VAR);
 
 	setcookie('user_name',$user_name,(time()+2592000),'/','',0);
 	setcookie('id_hash',$id_hash,(time()+2592000),'/','',0);
@@ -113,10 +113,10 @@ function user_confirm($hash,$email) {
 		account confirmation email
 	*/
 
-	global $feedback,$hidden_hash_var;
+	global $feedback;
 
 	//verify that they didn't tamper with the email address
-	$new_hash=md5($email.$hidden_hash_var);
+	$new_hash=md5($email.HIDDEN_HASH_VAR);
 	if ($new_hash && ($new_hash==$hash)) {
 		//find this record in the db
 		$sql="SELECT * FROM pw_dyn_user WHERE confirm_hash='$hash' order by is_confirmed";
@@ -188,7 +188,7 @@ function user_change_password ($new_password1,$new_password2,$change_user_name,$
 }
 
 function user_lost_password ($email,$user_name) {
-	global $feedback,$hidden_hash_var;
+	global $feedback;
 	if ($email && $user_name) {
 		$user_name=strtolower($user_name);
 		$sql="SELECT * FROM pw_dyn_user WHERE user_name='$user_name' AND email='$email'";
@@ -199,7 +199,7 @@ function user_lost_password ($email,$user_name) {
 			return false;
 		} else {
 			//create a secure, new password
-			$new_pass=strtolower(substr(md5(time().$user_name.$hidden_hash_var),1,14));
+			$new_pass=strtolower(substr(md5(time().$user_name.HIDDEN_HASH_VAR),1,14));
 
 			//update the database to include the new password
 			$sql="UPDATE pw_dyn_user SET password='". md5($new_pass) ."' WHERE user_name='$user_name'";
@@ -223,9 +223,9 @@ function user_lost_password ($email,$user_name) {
 }
 
 function user_change_email ($password1,$new_email,$user_name) {
-	global $feedback,$hidden_hash_var;
+	global $feedback;
 	if (pw_validate_email($new_email)) {
-		$hash=md5($new_email.$hidden_hash_var);
+		$hash=md5($new_email.HIDDEN_HASH_VAR);
 		//change the confirm hash in the db but not the email - 
 		//send out a new confirm email with a new hash
 		$user_name=strtolower($user_name);
@@ -269,7 +269,7 @@ function user_send_confirm_email($email,$hash, $user) {
 }
 
 function user_register($user_name,$password1,$password2,$email,$real_name) {
-	global $feedback,$hidden_hash_var;
+	global $feedback;
 	//all vars present and passwords match?
 	if (!$user_name )
         {
@@ -310,7 +310,7 @@ function user_register($user_name,$password1,$password2,$email,$real_name) {
 				return false;
 			} else {
 				//create a new hash to insert into the db and the confirmation email
-				$hash=md5($email.$hidden_hash_var);
+				$hash=md5($email.HIDDEN_HASH_VAR);
 				$sql="INSERT INTO pw_dyn_user
                                 (user_name,real_name,password,email,remote_addr,confirm_hash,is_confirmed, reg_date, confirm_return_url) ".
 					"VALUES ('$user_name','$real_name','".  md5($password1) ."','$email','" . getenv('REMOTE_ADDR') . "','$hash','0',NOW(),'".mysql_escape_string($_POST['r'])."')";
