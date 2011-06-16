@@ -140,4 +140,8 @@ all SQL queries to use bound parameters (e.g. SELECT * FROM table WHERE id = ?)
 
 Change to a templating system, two options are:
 Smarty - http://www.smarty.net
-Twig - http://www.twig-project.org/ 
+Twig - http://www.twig-project.org/
+
+Change passwords to use something more secure than MD5, probably using
+this library which uses salts and variable interactions:
+http://www.openwall.com/phpass/
