@@ -39,6 +39,7 @@ if ($colour_scheme=='lords') {
 ?>
 
 <head>
+<!-- Deployed from github with new script -->
 <link href="<?=$toppath?>publicwhip.css" type="text/css" rel="stylesheet" media="all">
 <? if ($colour_scheme == "lords" || $colour_scheme == "scotland") { ?>
 <link href="<?=$toppath.$css?>" type="text/css" rel="stylesheet" media="all">
