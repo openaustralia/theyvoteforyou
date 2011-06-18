@@ -51,27 +51,23 @@ the <a href="data.php">raw data</a> page, and loading these into MySQL.  Then
 go straight to "Running the website locally" below.
 
 <h2>Getting the source code</h2>
-<A href="http://sourceforge.net/projects/publicwhip"> <IMG align=right vspace=8 hspace=8
-src="http://sourceforge.net/sflogo.php?group_id=87640&amp;type=5"
-width="210" height="62" border="0" alt="SourceForge.net Logo" /></A>
 
 <p><span class="ptitle">Browse</span> - If you're just curious, you can
-<a href="http://publicwhip.cvs.sourceforge.net/publicwhip/publicwhip/">browse
-the code online</a>.  Look at README.txt in the top level for more information.
+<a href="https://github.com/publicwhip/publicwhip">browse
+the code online</a>.  Look at README.txt in the top level for more information.</p>
 
 <p><span class="ptitle">File download</span> - To use the code,
 download a snapshot.  Go to our <a
-href="http://sourceforge.net/projects/publicwhip">SourceForge project page</a>,
-and follow the link to Files.  You want the latest publicwhip-source file.
+href="https://github.com/publicwhip/publicwhip">GitHub project page</a>,
+and click the Downloads link.</p>
 
 <p><span class="ptitle">From CVS</span> - For the live code-as-we-change-it,
-you can use the version control system CVS.  Go to our <a
-href="http://sourceforge.net/projects/publicwhip">SourceForge project page</a>,
-and follow the link to CVS for instructions.  The module you want is called
-<i>publicwhip</i>.
+you can use the version control system Git.  Go to our <a
+href="https://github.com/publicwhip/publicwhip">GitHub project page</a> where you
+will find the appropriate links to clone the repository.</p>
 
 <p>There is README.txt file with the source code, explaining what is in each
-directory, and what the various todo and idea list files are.
+directory, and what the various todo and idea list files are.</p>
 
 <h2>Setting up Unix-utils, Perl and MySQL</h2>
 
