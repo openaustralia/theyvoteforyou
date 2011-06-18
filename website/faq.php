@@ -291,7 +291,7 @@ has been tried out, as in "Those voting No wanted this, and the Ayes wanted that
 but then you have to know which side won in order to determine what happened.</p>
 
 <p>But we don't need to express it like that, because all the votes are in the past and 
-we always know which side won, and it's the winning side that determins what happens, 
+we always know which side won, and it's the winning side that determines what happens, 
 as opposed to what could have happened.  (What could have happened does matter, because if 
 it was an alternative version of the law that turned out to be better in the long run 
 than what was chosen, then it ought to reflect on the quality of the judgment of the MPs
