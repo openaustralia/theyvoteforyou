@@ -533,8 +533,8 @@ function mp_table($db, $mptabattr)
         $querybits = explode(" ", $search);
         foreach ($querybits as $querybit)
         {
-            $querybits = trim($querybits);
-            if ($querybits != "")
+            $querybit = trim($querybit);
+            if ($querybit != "")
             {
                 $score_clause .= "+ (lower(constituency) = '$querybit') * 10 + 
                 (soundex(concat(first_name, ' ', last_name)) = soundex('$querybit')) * 8 + 
