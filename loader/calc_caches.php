@@ -273,7 +273,7 @@ function do_house_ranking($db, $house) {
                   and house = '$house' ";
     $db->query($mps_query_start . "and entered_house <= curdate() and curdate() <= left_house");
     if ($db->rows() == 0) {
-        $db->query($mps_query_start .  "and left_house = '2005-04-11'");
+        $db->query($mps_query_start .  "and left_house = '2011-03-23'");
         if ($db->rows() == 0) {
             die("No MPs/MSPs/Lords currently active have been found (house: '$house'), change General Election date in code if you are coming up to one");
             return;
