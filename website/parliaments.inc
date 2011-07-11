@@ -19,7 +19,8 @@ $parliaments = array(
     '1997' => array('from' => '1997-05-01', 'to' => '2001-05-14', 'name' => '1997-2001,&nbsp;Westminster'),
     'S1' => array('from' => '1999-05-12', 'to' => '2003-03-31', 'name' => 'Scottish&nbsp;Parliament&nbsp;Session&nbsp;1&nbsp;(1999-2003)'),
     'S2' => array('from' => '2003-05-07', 'to' => '2007-04-02', 'name' => 'Scottish&nbsp;Parliament&nbsp;Session&nbsp;2&nbsp;(2003-2007)'),
-    'S3' => array('from' => '2007-05-09', 'to' => '9999-12-31', 'name' => 'Scottish&nbsp;Parliament&nbsp;Session&nbsp;3&nbsp;(2007-present)')
+    'S3' => array('from' => '2007-05-09', 'to' => '2011-03-23', 'name' => 'Scottish&nbsp;Parliament&nbsp;Session&nbsp;3&nbsp;(2007-present)')
+    'S4' => array('from' => '2011-03-24', 'to' => '9999-12-31', 'name' => 'Scottish&nbsp;Parliament&nbsp;Session&nbsp;3&nbsp;(2011-present)')
 );
 
 # These are parliamentary sessions (i.e. years) - nothing to do with
