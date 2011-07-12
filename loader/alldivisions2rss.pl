@@ -6,6 +6,7 @@ use PublicWhip::DB;
 use PublicWhip::Parliaments;
 use PublicWhip::SQLfragments;
 use XML::RSS;
+use HTML::Entities;
 
 my $dbh = PublicWhip::DB::connect();
 my $this_parliament=PublicWhip::Parliaments::getcurrent();
@@ -38,12 +39,15 @@ my $results=  PublicWhip::DB::query($dbh,
    },
  );
 
-   while (my $result= $results->fetchrow_hashref) {
-            $rss->add_item(
-	          title => "Division: $result->{division_name}",
-                  link => "http://www.publicwhip.org.uk/division.php?date=$result->{division_date}&number=$result->{division_number}&house=$result->{house}",
-		  description=> "Vote on $result->{division_name} on $result->{division_date} ($result->{rebellions} rebellions; $result->{turnout} voters)"
-                );
+while (my $result= $results->fetchrow_hashref) {
+    my $division_name = decode_entities($result->{'division_name'});
+    $division_name =~ s{< /? i >}{_}xmsg;
+    $division_name =~ s{< /? b >}{*}xmsg;
+    $rss->add_item(
+        title       => "Division: $division_name",
+        link        => "http://www.publicwhip.org.uk/division.php?date=$result->{division_date}&number=$result->{division_number}&house=$result->{house}",
+        description => "Vote on $result->{division_name} on $result->{division_date} ($result->{rebellions} rebellions; $result->{turnout} voters)"
+    );
 
 }
    print $rss->as_string;
