@@ -149,8 +149,8 @@ Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
 ?>
 <tr>
 <td colspan="2" style="font-size:140%; padding:1em; background-color: #d0ffd0; color:#00000">
-    Deadline! <?=round($difference) ?> days to go. Find Public Whip a good institutional home, or it'll shut down.
-    <a href="http://www.publicwhip.org.uk/openletter.php">Read our open letter</a>.
+    Hurrah! Public Whip has new people to run it. It's going to stay free and
+    open - more news to follow.
 </td>
 </tr>
 
