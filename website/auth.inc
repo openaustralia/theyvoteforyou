@@ -31,9 +31,9 @@ function random_bytes($num) {
  * TODO: Change this to proper base62_encode :) */
 function auth_ab64_encode($i) {
     $t = base64_encode($i);
-    $t = str_replace("+", "a", &$t);
-    $t = str_replace("/", "b", &$t);
-    $t = str_replace("=", "c", &$t);
+    $t = str_replace("+", "a", $t);
+    $t = str_replace("/", "b", $t);
+    $t = str_replace("=", "c", $t);
     return $t;
 }
 
