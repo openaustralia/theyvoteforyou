@@ -10,14 +10,8 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 $title = "Counting votes on your behalf";
-pw_header();
+pw_header_notitle();
 ?>
-
-<p>Every week, a dozen or so times, your MP votes on changes to British
-law. This is their definitive exercise of power on your behalf. The
-Public Whip lets you see all their votes so you can hold them to account
-(<a href="faq.php">more information</a>).</p>
-
 
 <?php
     require_once "db.inc";
@@ -39,92 +33,32 @@ Public Whip lets you see all their votes so you can hold them to account
     $random_topic3 = searchtip_random_topic($db);
 ?>
 
-<table class="layout"><tr>
+<div class="homeintro">
+<h1>Find out how <span class="emph">your</span> MP votes on the issues <span class="emph">you</span> care about.</h1></div>
+<div class="homevideo">
+<p>Your MP votes on changes to British law on your behalf. When parliament is in session, they may do this a dozen times a week.</p>
 
-<tr>
+<p>In order to know whether your MP is representing your views on the issues, you need to know how they’ve voted.</p>
 
-<td width="20%" class="layout" bgcolor="#dddddd">
-<h2>Newsletter</h2>
-<p>Keep up with the Public Whip project.
-An at most monthly briefing.
-<p>
-    <FORM ACTION="/newsletters/signup.php" METHOD="POST">
-    <B>Your email: </B><INPUT TYPE="TEXT" NAME="email" id="email" VALUE="<?=$email?>" SIZE="15" MAXLENGTH="50">
-     <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Subscribe">
-    </FORM>
+<p>The Public Whip lets you see all their votes so you can hold them to account.</p>
+</div>
 
-<p><a href="newsletters/signup.php">Privacy policy</a>
-<!--<h2>Forum</h2>
-<p><a href="/forum">Chat in our forum</a> to other users.-->
-</td>
-
-<td class="layout" bgcolor="#eeeeee" colspan="2">
-<h2>At the Public Whip you can:</i></h2>
-<ol class="actions" type="1">
-
-<li>
-<form class="search" action="search.php" name=pw>
-<p><span class="actionsheading">Find out how any MP or Lord votes</span>
-<br>Enter your postcode or their name:
-<input maxLength=256 size=8 name=query value=""> <input type=submit value="Go" name=button>
-<br><i>Example: "OX1 3DR", "<?=$random_mp?>", "<?=$random_lord?>"</i>
+<div class="homesearch">
+<h2>Search the Whip</h2>
+<p>Enter your <strong>postcode</strong>, an <strong>MP</strong> or <strong>Lord’s name</strong>, or a particular <strong>topic</strong> of interest</p>
+<form class="searchtitlebarform" action="/search.php" name="pw">
+<input maxLength=256 size=12 id="query" onblur="fadeout(this)" onfocus="fadein(this)"> <button type="submit" value="Submit">Submit</button>
 </form>
-</p>
+</div>
+<div class="homesponsor">
+<h3>Want to reach a politically engaged audience?</h3>
+<p>We have a limited number of sponsorship and advertising packages available. Email publicwhip@raraunga.com for details</p>
+</div>
 
-<li>
-<form class="search" action="search.php" name=second>
-<p><span class="actionsheading">Search for votes in parliament on your subject</span>
-<br>Enter the topic to search for:
-<input maxLength=256 size=10 name=query value=""> <input type=submit value="Search" name=button>
-<br><i>Examples: "<?=$random_topic?>", "<?=$random_topic2?>", "<?=$random_topic3?>"</i>
-</form></p>
-</p>
-
-<li><p><span class="actionsheading">Test your MP or Lord against policies you care about</span>
-<br>Either <a href="policies.php">browse</a> existing policies or <a
-href="account/addpolicy.php">make</a> a new policy</span>
-<br>Some examples:
-<?php
-	// do this inline to free up the fact that it ain't going to be used anywhere else
-	// could even be selected at random
-    $query = "SELECT name, pw_dyn_dreammp.dream_id
-        		FROM pw_dyn_dreammp
-				LEFT JOIN pw_cache_dreaminfo
-					ON pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id
-				WHERE votes_count > 0 AND private = 0
-				ORDER BY RAND()
-				LIMIT 3";
-
-    $db->query($query); 
-    print "<ul style=\"font-size:80%\">";
-    while ($row = $db->fetch_row_assoc())
-    {
-        print "<li><a href=\"policy.php?id=".$row['dream_id']."\">".$row['name']."</a></li>";
-	}
-    print "</ul>\n";
-?>
-</p>
-</ol>
-
-<td width="20%" class="layout" bgcolor="#dddddd">
-<p><a href="minwhirl.php">
-<img src="minwhirl/minwhirl.png"></a>
-<p><a href="minwhirl.php">Reshuffle diagram of government posts</p>
-</a>
-<p><a href="mpsee.php">
-<img src="votemap/mpseethumb.png"></a>
-<p><a href="mpsee.php">Where are Cameron and Clegg?</p>
-</a>
-</td>
-
-</td></tr></table>
-
-<table class="layout">
-
-<td colspan=2>
-
-<h2>Recent controversial divisions (<a href="divisions.php"
-title="Show all divisions ordered by most recent">more...</a>)</h2>
+<div class="homerecents">
+<div class="narrowwidth">
+<h2>Recent controversial divisions</h2>
+<p><a href="divisions.php" title="Show all divisions ordered by most recent">Show all divisions ordered by most recent</a></p>
 
 <?php
 	$divtabattr = array(
@@ -137,41 +71,21 @@ title="Show all divisions ordered by most recent">more...</a>)</h2>
     print "</table>\n";
 
 ?>
+</div>
 
-</td>
+<div class="col1"><h2>Top rebel MPs</h2>
+<p><a href="mps.php?sort=rebellions" title="Show all MPs ordered by rebellions">Show all MPs ordered by rebellions</a></p>
+</div>
 
-</tr><tr><td>
+<div class="col2"><h2>MPs and Lords who attend parliament most often</h2>
+<p><a href="mps.php?sort=attendance&amp;house=both" title="Show all MPs ordered by attendance">Show all MPs ordered by attendance</a></p>
+</div>
+<div class="col3"><h2>Test an MP or Lord against policies you care about</h2>
+<p>Either <a href="policies.php">browse</a> existing policies or <a
+href="account/addpolicy.php">make</a> a new policy</p>
 
-<h2>Top rebel MPs (<a href="mps.php?sort=rebellions" title="Show all MPs ordered by rebellions">more...</a>)</h2>
-
-<?php
-
-	$mptabattr = array("listtype" 	=> "parliament",
-					   "parliament" => "now", 
-					   "limit"	=> 3,
-					   "house" => "commons", 
-                       "sortby"		=> "rebellions");
-	print "<table class=\"mps\">\n";
-	mp_table($db, $mptabattr);
-	print "</table>\n";
-?>
-
-</td><td>
-
-<h2>Best attending MPs and Lords (<a href="mps.php?sort=attendance&house=both" title="Show all MPs ordered by attendance">more...</a>)</h2>
-<?
-	$mptabattr = array("listtype" 	=> "parliament",
-					   "parliament" => "now", 
-					   "limit"	=> 3,
-                       "house"  => "both", 
-					   "sortby"		=> "attendance");
-	print "<table class=\"mps\">\n";
-	mp_table($db, $mptabattr);
-	print "</table>\n";
-?>
-
-</td></tr></table>
-
+</div>
+<div class="clear"></div>
+</div>
 <?php pw_footer(); ?>
 <?php //cache_end(); ?>
-

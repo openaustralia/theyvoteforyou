@@ -47,7 +47,7 @@ foreach my $parliament (&PublicWhip::Parliaments::getlist()) {
 sub do_one_file {
     my ($outfile, $where, $clause, $parl_name) = @_;
 
-    open(OUT , "> $path/$outfile.dat") || die "can't open $outfile.dat:$!";
+    open(OUT , "> $path/$outfile.dat") || die "can't open $outfile.dat in $path:$!";
     open(METADATA, "> $path/$outfile.txt") || die "can't open $outfile.txt:$!";
     print METADATA "file: $outfile.csv covering $parl_name\n";
     print METADATA "file created: " . scalar localtime() . "by http://www.publicwhip.org.uk/\n";
