@@ -1,0 +1,96 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+/* Globals */
+body {padding:0;margin:0;background:#494C4C;font:normal 93.8% "Lucida Sans Unicode", "Lucida Grande", sans-serif; color: #666;text-align:center;}
+
+h1, h2, h3 { 
+	font-family: Museo-700; 
+	font-weight: normal; 
+	font-style: normal;
+        margin:0px;
+}
+
+h1 {font-size:2.3em;}
+h2 {font-size: 1.4em;}
+
+h4, h5, h6 {
+	font-family: Museo-300; 
+	font-weight: normal; 
+	font-style: normal; 
+        margin:0px;
+}
+
+a img {border:0;}
+a {color:#8BAC35;text-decoration:none;}
+
+#main a {border-bottom:1px dotted #8BAC35;}
+
+.clear {clear:both;}
+
+/* Colour Blocks */
+#whitebox {background:#fff;clear:both;padding-bottom:40px;}
+#bluebox {background:#CFE8EB url(images/bluebox_bg.jpg) top left repeat-x;border-top:1px solid #B7CCD5;clear:both;padding-top:61px;position:relative;padding-bottom:400px;}
+
+/* Structure */
+
+.widewidth {width:951px;margin:0 auto;text-align:left;position:relative;z-index:30;}
+.narrowwidth {width:913px;margin:30px auto;}
+#header {border-bottom:1px solid #C6CED0;padding:27px 0px;position:relative;height:72px;margin-bottom:34px;}
+.logo {position:absolute;top:27px; left:0px;height:70px;}
+.logo a {border:0;}
+
+.col1 {width:280px; float:left;margin-left:19px;}
+.col1-2 {width:626px; float:left;margin-left:19px;}
+.col2 {width:301px; float:left;margin-left:26px;}
+.col3 {width:280px;float:left;margin-left:26px;}
+
+.social {list-style:none;margin:20px 0 0 0;padding:0;}
+.social li {line-height:24px;margin-bottom:10px;}
+.wp {background:url(images/wordpress-2.png) bottom left no-repeat;padding-left:30px;}
+.tw {background:url(images/twitter-2.png) bottom left no-repeat;padding-left:30px;}
+.fb {background:url(images/facebook.png) bottom left no-repeat;padding-left:30px;}
+.social a {color:#666;border-bottom:1px dotted #666;}
+.social a:hover {border-bottom:1px solid #666;}
+
+#bluebox .tweet {height:443px; width: 976px; position:absolute;bottom:0px; left:50%;margin-left:-488px;background:url(images/tweet_bg.png) bottom left no-repeat;z-index:10;}
+#bluebox .tweet h3 {position:absolute;top:298px; left:34px;color:#F53181;font-size:1.4em;}
+#bluebox .tweet #twitter_div {position:absolute;top:360px;left:35px;color:#fff;width:904px;}
+#twitter {position:relative;z-index:10;}
+#twitter_div ul {list-style:none;padding:0;margin:0;}
+#twitter_div li {text-align:right;}
+#twitter_div li span {display:block;text-align:center;}
+#footer {clear:both;padding:26px 0px;}
+#footer .legal {width:800px;float:left;font-size:0.8em;color:#fff;margin-top:12px}
+#footer .poweredby {width:137px;float:right;}
+
+/* Navigation */
+#nav_main {width:628px;text-align:right;position:absolute;top:60px; right:0px;font:normal 1.13em museo-700;height:2.3em;z-index:50;}
+#nav_main a {color:#797D7F;padding-bottom:17px;margin-left:0.44em;text-decoration:none;}
+#nav_main a:hover {background:url(images/nav_arrow.png) center 17px no-repeat;color:#F53181;}
+
+/* Homepage */
+.homesearch {width:262px;height:173px;background: #35B4CA url(images/homesearch_bg.jpg) top left repeat-x;border:1px solid #2C93A3;color:#fff;padding:19px;margin-top:0px;}
+.homesearch input {width:262px;margin-bottom:0px;}
+.homesearch button {float:right;margin-top:15px;}
+.homesponsor {width:910px;background: #C0DD7E url(images/homesponsor_bg.jpg) top left repeat-x;border:1px solid #8BAC35; color:#fff;padding:19px; margin-top:11px;clear:both;}
+
+.homeintro {width:626px; height: 73px;float:right;margin-bottom:0px;}
+.homeintro h1 {line-height:0.9em;color:#7D8484;}
+.homeintro h1 .emph {color:#F3317F;}
+
+.homevideo {width:626px;float:right;}
+
+.homerecents h2 {border-top:1px solid #C6CED0;padding-top:25px;}
+
+/* Alerts & Notices */
+
+.hellobar {display:none;}
+
+/* Tables - the Meaty bit! */
+
+table {border-collapse:collapse;}
+tr.alt td {background:#E7F4F5;}
+td {padding:4px 7px;}
+tr.over, tr.over td {background:#CFE8EB;}

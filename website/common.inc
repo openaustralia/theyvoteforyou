@@ -98,6 +98,17 @@ function pw_header()
     }
     include $toppath . "header.inc";
 }
+/*  pw_header_notitle - Added by katy to allow homepage redesign */
+function pw_header_notitle() 
+{
+    global $toppath, $headtitle, $h1title, $onload, $second_links, $second_links2, $second_links3, $colour_scheme, $second_type;
+    if (!$second_type) {
+        $second_type = "";
+        if ($second_links)
+            $second_type = "default";
+    }
+    include $toppath . "header.inc";
+}
 
 function pw_footer() 
 {

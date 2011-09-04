@@ -26,14 +26,18 @@ chmod -R a+r /home/publicwhip/parldata
 # Update members files and the like
 cd ~/parlparse
 svn -q update
+
+
 # Update this loader code and similar
 cd ~/publicwhip-live/
-cvs -Q update -dP
+# cvs -Q update -dP
 
+echo "Loading list of members"
 # Load new list of members and ministers
 cd ~/publicwhip-live/loader
 ./memxml2db.pl
 
+echo "Loading new divisions"
 # Load new divisions
 #if ! 
 ./load.pl --quiet --from=$FROMDATE divsxml 
@@ -42,7 +46,7 @@ cd ~/publicwhip-live/loader
 
 	# There were new divisions, so run checks
 	./load.pl --quiet --from=$FROMDATE check
-
+echo "Calculating cache"
 	# and update counts of rebels etc.
     ./calc_caches.php
 
@@ -64,19 +68,25 @@ cd ~/publicwhip-live/loader
 
 	# export dumps of data
 	cd ~/publicwhip-live/build
+echo "Export db"
 	./export-db
+echo "Votematrix"
 	./votematrix.pl
 #fi
 
+echo "Copying across ministers"
 # Copy across ministers file (used by minwhirl)
 cp ~/parlparse/members/ministers.xml ~/www.publicwhip.org.uk/docs/data/
 cp ~/publicwhip-live/*.txt ~/www.publicwhip.org.uk/docs/data/
 chmod a+r ~/www.publicwhip.org.uk/docs/data/*
 
+echo "Starting rss feeds"
 # RSS feeds
 RSSDEST=~/www.publicwhip.org.uk/docs/feeds
 cd ~/publicwhip-live/loader
+echo "Interesting divisions"
 ./interestingdivisions2rss.pl > $RSSDEST/interestingdivisions.xml
+echo "All divisions"
 ./alldivisions2rss.pl > $RSSDEST/alldivisions.xml
 
 

@@ -1,6 +1,6 @@
-<?php header("Content-Type: text/html; charset=utf-8");?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML>
 <html>
+
 
 <?php
 # $Id: header.inc,v 1.105 2011/04/11 13:25:23 publicwhip Exp $
@@ -21,35 +21,61 @@ if (!$headtitle)
 if (!$h1title)
     $h1title = "<h1> ".str_replace(" - ", " &#8212; ", $title)." </h1>";
 
-$colour_hex = '#003300';
-$favicon = 'favicon.ico';
-$gificon = 'thepublicwhip.gif';
-if ($colour_scheme=='lords') {
-    $colour_hex = '#340900';
-    $favicon = 'faviconred.ico';
-    $css = 'red.css';
-    $gificon = 'thepublicwhipred.gif';
-} elseif ($colour_scheme=='scotland') {
-    $colour_hex = '#000433';
-    $favicon = 'faviconblue.ico';
-    $css = 'blue.css';
-    $gificon = 'thepublicwhipblue.gif';
-}
-
 ?>
 
 <head>
-<!-- Deployed from github with new script -->
-<link href="<?=$toppath?>publicwhip.css" type="text/css" rel="stylesheet" media="all">
-<? if ($colour_scheme == "lords" || $colour_scheme == "scotland") { ?>
-<link href="<?=$toppath.$css?>" type="text/css" rel="stylesheet" media="all">
-<? } ?>
+<meta charset="UTF-8">
+
+<link href="/style.css" type="text/css" rel="stylesheet" media="all">
+<!--[if IE 7]>
+<link href="/ie7.css" type="text/css" rel="stylesheet" media="all">
+
+<![endif]-->
+<!--
+/*
+ * @license
+ * MyFonts Webfont Build ID 981839, 2011-08-21T11:30:45-0400
+ * 
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are 
+ * explicitly restricted from using the Licensed Webfonts(s).
+ * 
+ * You may obtain a valid license at the URLs below.
+ * 
+ * Webfont: Museo 700 by exljbris
+ * URL: http://new.myfonts.com/fonts/exljbris/museo/700/
+ * 
+ * Webfont: Museo 300 by exljbris
+ * URL: http://new.myfonts.com/fonts/exljbris/museo/300/
+ * 
+ * 
+ * License: http://www.myfonts.com/viewlicense?1056
+ * Licensed pageviews: unlimited
+ * Webfonts copyright: Copyright (c) 2008 by Jos Buivenga/exljbris. All rights reserved.
+ * 
+ * © 2011 Bitstream Inc
+*/
+
+-->
+<link rel="stylesheet" type="text/css" href="/publicwhip.css">
 <link href="<?=$toppath?>publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
 <link rel="icon" href="/<?=$favicon?>" type="image/x-icon" />
 <link rel="shortcut icon" href="/<?=$favicon?>" type="image/x-icon" />
 <link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.publicwhip.org.uk/feeds/interestingdivisions.xml" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('tr').mouseover(function() {
+		$(this).addClass('over');})
+		.mouseout(function() {
+		$(this).removeClass('over');
+	});
+	$('tr:even').addClass('alt');
+});
+</script>
 <script type="text/javascript" src="/publicwhip.js"></script>
 <title><? print $headtitle ?></title>
+<?php if( extension_loaded('newrelic') ) { echo newrelic_get_browser_timing_header(); } ?>
 <script>
 <!--
 function givefocus(field) {
@@ -89,116 +115,44 @@ function ClickSup(nsup) {
 </script>
 </head>
 
-<body align="center" onLoad="<?=$onload?>">
+<body onLoad="<?=$onload?>">
+<div id="whitebox">
 <script type="text/javascript" src="walterzorn/wz_tooltip.js"></script>
-<center>
+
 
 <? if ($_SERVER["HTTP_HOST"] != 'www.publicwhip.org.uk'
 	and $_SERVER["HTTP_HOST"] != 'publicwhip.org.uk') { ?>
-<strong>This is a test site - the real site is <a href="http://www.publicwhip.org.uk">over here</a>.</strong> Developers are busy making Public Whip better using this page.<p>
+<div class="hellobar">This is a test site - the real site is <a href="http://www.publicwhip.org.uk">over here</a>. Developers are busy making Public Whip better using this page.</div>
 <? } ?>
 
-<!-- hold the maximum width of the content -->
-<table align="center" class="container" cellpadding="0" cellspacing="0" border="0">
-
-<? /*
-<!-- banner advert for election site -->
-<tr class="electionadvert">
-<td >
-    <a href="/election.php"><img src="/quiz/electionbanner.gif" alt="How they voted 2005"/></a>
-</td>
-<td class="electionadvertright">
-    <a id="aElectionQuiz" class="electionadvert" href="/election.php">Click here to take the <Strong>Quick Election Quiz</strong>
-Just&nbsp;7&nbsp;Questions, 1&nbsp;minute</a>
-</td>
-</tr>
-*/?>
-
-<!-- banner advert for save parliament -->
-<!--<tr class="">
-<td colspan="4" style="padding: 0; border-bottom: medium solid #F83812;">
-<? $saveparliament_banner = 3; ?>
-    <a href="http://www.saveparliament.org.uk/?pw=<?=$saveparliament_banner?>">
-    <img style="margin-top: 0; float: left;" src="/saveparliament/left.png" alt="Save Parliament"/><img style="margin-top: 0; float: right;" src="/saveparliament/right.png" alt="Save Parliament"/>
-    </a>
-</td>
-</tr>
--->
-
-
-
-<!-- banner advert for thestraightchoice -->
-<!--<tr class="electionadvert">
-<td style="font-size:140%; padding-left:2em; font-style:italic;color:#980808">
-    Have you received any election leaflets?  <b>Go to:</b>
-</td>
-<td class="electionadvert">
-    <a href="http://www.thestraightchoice.org/"><img src="/images/straightchoicelogosmall.png" alt="Election leaflet project"/></a>
-</td>
-</tr>
--->
-
-<!-- banner advert for shutdown -->
-<?
-    $cdate = mktime(0, 0, 0, 7, 27, 2011);
-    $today = time();
-    $difference = $cdate - $today;
-    if ($difference < 0 )
-        $difference = 0;
-    $difference /= 60 * 60 * 24;
-?>
-<tr>
-<td colspan="2" style="font-size:140%; padding:1em; background-color: #d0ffd0; color:#00000">
-    Hurrah! Public Whip has new people to run it. It's going to stay free and
-    open - more news to follow.
-</td>
-</tr>
-
-<!-- the site logo -->
-<tr><td class="identity" colspan="1">
-<a href="<?=$toppath?>index.php"><img src="<?=$toppath?><?=$gificon?>" alt="The Public Whip"></a>
-</td>
-<!-- software patents banner -->
-<!--
-<td>
-<a href="http://noepatents.eu.org/index.php/NO_Software_Patents"><img src="/patents/swpatbanner.en.png" alt="STOP Software Patents!"/></a>
-</td>
--->
-<td class="searchtitlebar" align="right" valign="middle" colspan="2">
-<form class="searchtitlebarform" action="/search.php" name=pw>
-Search: <input maxLength=256 size=12 id=query name=query onblur="fadeout(this)" onfocus="fadein(this)" value=""> <input type=submit value="Go" name=button>
-</form>
-<FORM ACTION="/newsletters/signup.php" METHOD="POST">
-Newsletter (<a href="/newsletters/signup.php">info</a>): <INPUT TYPE="TEXT" NAME="email" id="email" onblur="fadeout(this)" onfocus="fadein(this)" VALUE="" SIZE="12" MAXLENGTH="50">
-<INPUT TYPE="SUBMIT" NAME="submit" VALUE="Go">
-</FORM>
-
-</td>
-</tr>
+<div id="header" class="widewidth">
+<div class="logo"><a href="#"><img src="/images/logo.jpg" alt="the Public Whip" /></a></div>
+<div class="search"><form class="searchtitlebarform" action="/search.php" name=pw>
+Search: <input maxLength=256 size=12 id="query_head" name="query" onblur="fadeout(this)" onfocus="fadein(this)" value="" /> <input type="submit" value="Go" name="button" />
+</form></div>
+<div class="login_drop"><!--ACCOUNTBEGIN-->
+<?php print account_navbar(); ?>
+<!--ACCOUNTEND--></div>
 
 <!-- the main site navigation -->
-<tr class="headers">
-<td class="pagenavlinks" colspan="3">
-<div class="pagenavlinks" style="float:right">
-<!--ACCOUNTBEGIN-->
-<?php print account_navbar(); ?>
-<!--ACCOUNTEND-->
-</div>
+<div id="nav_main">
 <a title="Front page and site highlights" href="<?=$toppath?>index.php">Home</a>
-<!--NEWSLETTERBEGIN-->
-<?php print newsletter_navbar(); ?>
-<!--NEWSLETTEREND-->
 <a title="List of all votes in Parliament" href="<?=$toppath?>divisions.php">Divisions</a>
 <a title="List of all Members of House of Commons" href="<?=$toppath?>mps.php">MPs</a>
 <a title="List of all Members of House of Lords" href="<?=$toppath?>mps.php?house=lords">Lords</a>
 <a title="List of all Members of the Scottish Parliament" href="<?=$toppath?>mps.php?house=scotland">MSPs</a>
 <a title="Help to analyze MP's votes" href="<?=$toppath?>policies.php">Policies</a>
-<a title="Chat with other users" href="/forum"><strong>Forum</strong></a>
+<a title="Chat with other users" href="/forum">Forum</a>
 <a title="Help run the Public Whip project" href="<?=$toppath?>project/index.php">Join Us</a>
 <a title="Frequently asked questions" href="<?=$toppath?>faq.php">Help / FAQ</a>
-</td></tr>
 
-<!--<tr><td colspan="3" style="background-color: #90ff60; font-size: 30px; text-align:center; border:5px white solid;"><a href="/fortytwodays.php">Click here for the Forty-two days question</a></td></tr>-->
+
+</div>
+</div><!-- end header-->
+<div id="main" class="widewidth"><!-- main content -->
+<? 
+print $h1title;  # the actual heading
+?>
 
 <? if ($second_links && $second_type == "default") { ?>
 <!-- the second tier navigation as dropdowns -->
@@ -207,8 +161,6 @@ Newsletter (<a href="/newsletters/signup.php">info</a>): <INPUT TYPE="TEXT" NAME
      'text' - displayed text
      'tooltip' - text to put in title
      'current' - 'on' or 'off' for whether this item is currently selected -->
-<tr class="secondheaders">
-<td class="pagesecondnavlinks" colspan="3">
 
 <?
     function print_links_default($links, $offset) {
@@ -237,56 +189,6 @@ Newsletter (<a href="/newsletters/signup.php">info</a>): <INPUT TYPE="TEXT" NAME
 	    	print_links_default($second_links3, "3");
     }
 ?>
-</td>
-</tr>
-<!-- the second tier navigation as dropdowns end-->
-<? } ?>
-
-<!-- the rest of the content -->
-<tr><td colspan="3" class="content">
-
-<?
-//<div style="margin-left:80px; margin-right:80px; margin-top:30px; margin-bottom:30px; background-color:#eeeedd; font-size:200%; text-align:center; color: #886611; padding:20px; border:thick blue dashed;\"><a style="color:#886611" href="/byelection">Try the Glenrothes Byelection Quiz</a></div>
-?>
-
-<? 
-print $h1title;  # the actual heading
-?>
-
-<? if ($second_links && $second_type == "tabs") { ?>
-<!-- the second tier navigation as tabs -->
-<!-- add hashes to $second_links array, keys are
-     'href' - URL of link
-     'text' - displayed text
-     'tooltip' - text to put in title
-     'current' - 'on' or 'off' for whether this item is currently selected -->
-<div class="secondnavtabs">
-
-<?
-    function print_links_tabs($links, $offset) {
-        foreach ($links as $this_link) {
-            print "<li class=\"".$this_link['current']."\">";
-            if ($this_link['current'] != 'on')
-                print "<a title=\"".$this_link['tooltip']."\" href=\"".$this_link['href']."\" class=\"".$this_link['current']."\">";
-            print $this_link['text'];
-            if ($this_link['current'] != 'on')
-                print "</a>";
-            print " ";
-            print "</li>";
-        }
-    }
-
-    print '<ul>';  # we could ad in secondary colours for the second row of table (in the same row)
-    print_links_tabs($second_links, "");
-    print '</ul>';
-    if ($second_links2)
-    {
-        print '<ul>';
-        print_links_tabs($second_links2, "");
-        print '</ul>';
-    }
-?>
-</div>
 <!-- the second tier navigation as dropdowns end-->
 <? } ?>
 
