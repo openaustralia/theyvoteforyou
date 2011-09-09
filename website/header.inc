@@ -126,7 +126,7 @@ function ClickSup(nsup) {
 <? } ?>
 
 <div id="header" class="widewidth">
-<div class="logo"><a href="#"><img src="/images/logo.jpg" alt="the Public Whip" /></a></div>
+<div class="logo"><a href="/"><img src="/images/logo.jpg" alt="the Public Whip" /></a></div>
 <div class="search"><form class="searchtitlebarform" action="/search.php" name=pw>
 Search: <input maxLength=256 size=12 id="query_head" name="query" onblur="fadeout(this)" onfocus="fadein(this)" value="" /> <input type="submit" value="Go" name="button" />
 </form></div>
