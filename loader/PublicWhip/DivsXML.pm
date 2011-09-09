@@ -84,7 +84,12 @@ sub read_xml_files {
     );
 
     opendir DIR, $debatepath or die "Cannot open $debatepath: $!\n";
-    while ( my $file = readdir(DIR) ) {
+    my @files;
+    while (my $file = readdir(DIR)) {
+	push(@files,$file);
+    }
+    @files=sort { $a cmp $b} @files;
+    foreach my $file (@files) {
         if ( $file =~ m/^$fileprefix(\d\d\d\d-\d\d-\d\d)([a-z]*).xml$/ ) {
             $curdate = $1;
             $cursuffix = $2;

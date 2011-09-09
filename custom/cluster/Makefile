@@ -18,7 +18,7 @@ all: mpscatt.jar mpcoords mpsee-1997.png mpsee-2001.png mpseethumb.png
 # to octave itself.  It also writes the raw distance metric
 # to the database for use.
 mpcoords:
-	cluster-parliament-static.pl
+	perl cluster-parliament-static.pl
 .PHONY: mpcoords
 
 # Make Java applet

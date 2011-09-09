@@ -167,7 +167,7 @@ or <a href="divisions.php">all divisions</a>.
 
 <p class="search">Enter your postcode, MP name, constituency or debate topic:</p>
 <form class="search" action="search.php" name=pw>
-<input maxLength=256 size=25 name=query id=query value=""> <input type="submit" value="Search" name="button">
+<input maxLength=256 size=25 name="query" id="query" value=""> <input type="submit" value="Search" name="button">
 </form>
 
 <p class="search"><i>Example: "OX1 3DR", "<?=$random_mp?>"<?=$random_constituency?> or "<?=$random_topic?>"</i>

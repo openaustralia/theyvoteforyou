@@ -82,7 +82,7 @@ function guess_whip_for_all($db, $db2)
 					   division_date, division_number, pw_division.house as house";
 	$qfrom =  " FROM pw_division";
 
-	$qjoin .= " LEFT JOIN pw_mp ON
+	$qjoin = " LEFT JOIN pw_mp ON
             		pw_division.house = pw_mp.house AND
             		pw_mp.entered_house <= pw_division.division_date AND
             		pw_division.division_date < pw_mp.left_house";

@@ -28,7 +28,11 @@ $parliaments = array(
 $parlsessions = array(
 	'2002' => array('from' => '2002-11-13', 'to' => '2003-11-20', 'name' => '2002/2003'),
 );
-$parlsession = db_scrub($_GET["session"]);
+$session=NULL;
+if (isset($_GET['session'])) {
+	$session=$_GET['session'];
+}
+$parlsession = db_scrub($session);
 
 function parliament_count()
 {
