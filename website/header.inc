@@ -142,8 +142,10 @@ Search: <input maxLength=256 size=12 id="query_head" name="query" onblur="fadeou
 <a title="List of all Members of House of Lords" href="<?=$toppath?>mps.php?house=lords">Lords</a>
 <a title="List of all Members of the Scottish Parliament" href="<?=$toppath?>mps.php?house=scotland">MSPs</a>
 <a title="Help to analyze MP's votes" href="<?=$toppath?>policies.php">Policies</a>
-<a title="Chat with other users" href="/forum">Forum</a>
-<a title="Help run the Public Whip project" href="<?=$toppath?>project/index.php">Join Us</a>
+<!-- <a title="Chat with other users" href="/forum">Forum</a> -->
+<a title="Blog" href="http://blog.publicwhip.org.uk">Blog</a>
+<a title="Twitter" href="http://twitter.com/publicwhip">Twitter</a>
+<!-- <a title="Help run the Public Whip project" href="<?=$toppath?>project/index.php">Join Us</a> -->
 <a title="Frequently asked questions" href="<?=$toppath?>faq.php">Help / FAQ</a>
 
 

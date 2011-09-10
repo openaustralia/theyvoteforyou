@@ -31,6 +31,7 @@ RewriteRule ^byelection$ /election_glenrothes2008.php [PT]
 RewriteRule ^by-election$ /election_glenrothes2008.php?dash=yes [PT]
 RewriteRule ^fortytwodays$ /fortytwodays.php [PT]
 
+RewriteRule ^forum.*$ /outageforums.php [R=302,L]
 
 # Net strike
 #RewriteCond %{REQUEST_URI} !^/patents/patents\.php

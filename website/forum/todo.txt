@@ -1,7 +1,0 @@
-
-rename all the config.php vars for PW
-rename validate_email for PW
-get it to look up PW user name in sessions, and log in as that user in phpbb
-if that user doesn't exist in phpbb call:
-	insert into user
-	sort out groups stuff
