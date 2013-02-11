@@ -66,6 +66,7 @@ $partycols = array(
 	"Bp:lords"		=> array(0, 0, 0),
 );
 
+$placeholders=array();
 
 // Calculate number of MPs with distance to Dream MP in each of
 // $divisions blocked off ranges (between 0.0 and 1.0).
@@ -73,20 +74,23 @@ $qsel = "SELECT party, distance_a AS distance, house, left_house
           FROM pw_mp
 		  LEFT JOIN pw_cache_dreamreal_distance
             ON pw_cache_dreamreal_distance.person = pw_mp.person
-            AND pw_cache_dreamreal_distance.dream_id = $dreamid";
-
+            AND pw_cache_dreamreal_distance.dream_id = :dream_id";
+$placeholders[':dream_id']=$dreamid;
 $qwhere = " WHERE distance_a <> -1 AND left_house = '9999-12-31'"; 
 $maxmembers = 700;
-if ($rdisplay_house == "lords" || $rdisplay_house == "commons" || $rdisplay_house == "scotland")
-	$qwhere .= " AND house = '$rdisplay_house'";
-else
+if ($rdisplay_house == "lords" || $rdisplay_house == "commons" || $rdisplay_house == "scotland") {
+	$qwhere .= " AND house = :house";
+    $placeholders[':house']=$rdisplay_house;
+} else
 {
 	$maxmembers = 1400;
     $rdisplay_house = ""; 
 }
 
 $qorder = " ORDER BY party, house";
-$db->query($qsel.$qwhere.$qorder);
+
+$pwpdo->query($qsel.$qwhere.$qorder,$placeholders);
+
 $pdata = array();
 $pdatacol = array();
 for ($i = 0; $i < $bars; $i++)
@@ -97,7 +101,7 @@ for ($i = 0; $i < $bars; $i++)
 
 $countrows = 0; 
 $maxcol = 0; 
-while ($row = $db->fetch_row_assoc())
+while ($row = $pwpdo->fetch_row())
 {
     $party = $row['party'].":".$row['house'];
     $distance = $row['distance'];
@@ -173,5 +177,3 @@ if (!$bsmall)
 
 imagepng($im);
 imagedestroy($im);
-
-?>

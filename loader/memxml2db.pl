@@ -22,6 +22,14 @@ my $members_location = $PublicWhip::Config::members_location;
 use PublicWhip::Error;
 use PublicWhip::DB;
 my $dbh = PublicWhip::DB::connect();
+my $sec;
+my $min;
+my $hour;
+my $mday;
+my $mon;
+my $year;
+($sec,$min,$hour,$mday,$mon,$year)=localtime(time);
+printf "[%4d-%02d-%02d %02d:%02d:%02d] %s: %s\n",$year+1900,$mon+1,$mday,$hour,$min,$sec,"memxml2db","Mapping gid to internal mp_ids";
 
 # Map from gid to the pw_mp.mp_id internal Public Whip ids, so we reload
 # table with same new ids
@@ -33,11 +41,15 @@ while ( my ($mp_id, $gid) = $sth->fetchrow_array() ) {
     $last_mp_id = $mp_id if ($mp_id > $last_mp_id);
 }
 
+($sec,$min,$hour,$mday,$mon,$year)=localtime(time);
+printf "[%4d-%02d-%02d %02d:%02d:%02d] %s: %s\n",$year+1900,$mon+1,$mday,$hour,$min,$sec,"memxml2db","Deleting tables";
 # We completely rebuild these two tables
 $sth = PublicWhip::DB::query($dbh, "delete from pw_moffice");
 $sth = PublicWhip::DB::query($dbh, "delete from pw_constituency");
 
 my %membertoperson;
+($sec,$min,$hour,$mday,$mon,$year)=localtime(time);
+printf "[%4d-%02d-%02d %02d:%02d:%02d] %s: %s\n",$year+1900,$mon+1,$mday,$hour,$min,$sec,"memxml2db","Setting up twig";
 my $twig = XML::Twig->new(
     twig_handlers => { 
             'constituency' => \&loadcons, 
@@ -48,15 +60,33 @@ my $twig = XML::Twig->new(
             'moffice' => \&loadmoffice 
         }, 
     output_filter => 'safe');
+($sec,$min,$hour,$mday,$mon,$year)=localtime(time);
+printf "[%4d-%02d-%02d %02d:%02d:%02d] %s: %s\n",$year+1900,$mon+1,$mday,$hour,$min,$sec,"memxml2db","Parsing constituencies.xml";
 $twig->parsefile("$members_location/constituencies.xml");
+($sec,$min,$hour,$mday,$mon,$year)=localtime(time);
+printf "[%4d-%02d-%02d %02d:%02d:%02d] %s: %s\n",$year+1900,$mon+1,$mday,$hour,$min,$sec,"memxml2db","Parsing sp-constituencies.xml";
 $twig->parsefile("$members_location/sp-constituencies.xml");
+($sec,$min,$hour,$mday,$mon,$year)=localtime(time);
+printf "[%4d-%02d-%02d %02d:%02d:%02d] %s: %s\n",$year+1900,$mon+1,$mday,$hour,$min,$sec,"memxml2db","Parsing people.xml";
 $twig->parsefile("$members_location/people.xml");
+($sec,$min,$hour,$mday,$mon,$year)=localtime(time);
+printf "[%4d-%02d-%02d %02d:%02d:%02d] %s: %s\n",$year+1900,$mon+1,$mday,$hour,$min,$sec,"memxml2db","Parsing ministers.xml";
 $twig->parsefile("$members_location/ministers.xml");
+($sec,$min,$hour,$mday,$mon,$year)=localtime(time);
+printf "[%4d-%02d-%02d %02d:%02d:%02d] %s: %s\n",$year+1900,$mon+1,$mday,$hour,$min,$sec,"memxml2db","Parsing all-members.xml";
 $twig->parsefile("$members_location/all-members.xml");
+($sec,$min,$hour,$mday,$mon,$year)=localtime(time);
+printf "[%4d-%02d-%02d %02d:%02d:%02d] %s: %s\n",$year+1900,$mon+1,$mday,$hour,$min,$sec,"memxml2db","Parsing all-members-2010.xml";
 $twig->parsefile("$members_location/all-members-2010.xml");
+($sec,$min,$hour,$mday,$mon,$year)=localtime(time);
+printf "[%4d-%02d-%02d %02d:%02d:%02d] %s: %s\n",$year+1900,$mon+1,$mday,$hour,$min,$sec,"memxml2db","Parsing peers-ucl.xml";
 $twig->parsefile("$members_location/peers-ucl.xml");
+($sec,$min,$hour,$mday,$mon,$year)=localtime(time);
+printf "[%4d-%02d-%02d %02d:%02d:%02d] %s: %s\n",$year+1900,$mon+1,$mday,$hour,$min,$sec,"memxml2db","Parsing sp-members.xml";
 $twig->parsefile("$members_location/sp-members.xml");
 
+($sec,$min,$hour,$mday,$mon,$year)=localtime(time);
+printf "[%4d-%02d-%02d %02d:%02d:%02d] %s: %s\n",$year+1900,$mon+1,$mday,$hour,$min,$sec,"memxml2db","Deleting cached";
 # Delete things left that shouldn't be from this table
 foreach my $gid (keys %$gid_to_internal) {
     $sth = PublicWhip::DB::query($dbh, "delete from pw_mp where gid = '$gid'");

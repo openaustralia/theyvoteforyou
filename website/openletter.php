@@ -10,15 +10,7 @@ require_once "db.inc";
 $paddingforanchors = true; $title = "Open letter to people who want to know how their MP votes"; pw_header();
 
 $db = new DB(); 
-$referrer = $_SERVER["HTTP_REFERER"];
-$querystring = $_SERVER["QUERY_STRING"];
-$ipnumber = $_SERVER["REMOTE_ADDR"];
-if (!$referrer)
-    $referrer = $_SERVER["HTTP_USER_AGENT"];
-if (!isrobot())
-    $db->query("INSERT INTO pw_logincoming
-            (referrer, ltime, ipnumber, page, subject, url, thing_id)
-    VALUES ('$referrer', NOW(), '$ipnumber', 'faq', '', '$querystring', '')");
+
 
 
 ?>

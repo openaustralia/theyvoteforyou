@@ -12,11 +12,11 @@ require_once "user.inc";
 
 if (user_isloggedin())
 {
-    $new_password1=mysql_escape_string($_POST["new_password1"]);
-    $new_password2=mysql_escape_string($_POST["new_password2"]);
+    $new_password1=mysql_real_escape_string($_POST["new_password1"]);
+    $new_password2=mysql_real_escape_string($_POST["new_password2"]);
     $change_user_name=$user_name;
-    $old_password=mysql_escape_string($_POST["old_password"]);
-    $submit=mysql_escape_string($_POST["submit"]);
+    $old_password=mysql_real_escape_string($_POST["old_password"]);
+    $submit=mysql_real_escape_string($_POST["submit"]);
 
     $ok = false;
     if ($submit) {

@@ -7,7 +7,7 @@
 # For details see the file LICENSE.html in the top level of the source.
 
     require_once "db.inc";
-    $db = new DB();
+
 	$bdebug = 0;
 
 	require_once "decodeids.inc";
@@ -75,17 +75,6 @@
 	if (!$rdisplay_house)
 		$rdisplay_house = $rdefaultdisplay_house;
 
-    $referrer = $_SERVER["HTTP_REFERER"];
-    $querystring = $_SERVER["QUERY_STRING"];
-    $ipnumber = $_SERVER["REMOTE_ADDR"];
-    if (!$referrer)
-        $referrer = $_SERVER["HTTP_USER_AGENT"];
-
-    if (!isrobot())
-        $db->query("INSERT INTO pw_logincoming
-            (referrer, ltime, ipnumber, page, subject, url, thing_id)
-        VALUES ('$referrer', NOW(), '$ipnumber', 'divisions', '$rdisplay_house', '$querystring', '$rdisplay')");
-
 	# now try to construct all the parties present in a house that we could see the whip of
 	if ($rdisplay_house != "all")
 	{
@@ -93,16 +82,18 @@
 		$qfrom .= " FROM pw_cache_whip";
 		$qjoin .= " LEFT JOIN pw_division
 						ON pw_division.division_id = pw_cache_whip.division_id";
-		$qwhere .= " WHERE house = '$rdisplay_house'";
+		$qwhere .= " WHERE house = :house";
 		if ($rdisplay != "all")
-			$qwhere .= " AND division_date >= '".$parliaments[$rdisplay]["from"]."'
-						 AND division_date < '".$parliaments[$rdisplay]["to"]."'";
+			$qwhere .= " AND division_date >= :fromdate AND division_date < :todate";
 		$qgroup = " GROUP BY party";
 		$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
-		if ($debug)
-			print "<h2>$query</h2>\n";
-		$db->query($query);
-		while ($row = $db->fetch_row_assoc())
+        $placeholders=array(
+            ':house'=>  $rdisplay_house,
+            ':fromdate'=>$parliaments[$rdisplay]["from"],
+            ':todate'=>$parliaments[$rdisplay]["to"]
+        );
+		$pwpdo->query($query,$placeholders);
+		while ($row = $pwpdo->fetch_row())
 		{
 			$party = $row["party"];
             if ($party != "CWM" && $party != "DCWM" && substr($party, 0, 3) != "Ind" && $party != "Other" && $party != "None" && $party != "SPK")
@@ -244,6 +235,5 @@
 
 	division_table($db, $divtabattr);
     print "</table>\n";
-?>
 
-<?php pw_footer() ?>
+ pw_footer();

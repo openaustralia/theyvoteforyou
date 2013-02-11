@@ -1,4 +1,8 @@
 <?php require_once "common.inc";
+pw_header();
+print '<h1>Sorry, the 2005 "how they voted" election quiz is no longer available (basically, we can no longer lookup 2005 postcodes to constituency boundaries to find who your MP was: plus the election happened quite some time ago).</h1>';
+pw_footer();
+exit();
 
 # $Id: election.php,v 1.27 2009/05/19 14:56:08 marklon Exp $
 
@@ -243,13 +247,13 @@ function print_friends_form($word) {
 <form id="howtovotefriends" name="howtovotefriends" method="post" action="election.php?friend">
 <p>Found this useful?  <strong>Pass it on</strong>
 <br>Your <strong>friend's email</strong>: 
-    <input type="text" size="20" name="friendsemail" value="<?=htmlspecialchars($_POST['friendsemail'])?>">
+    <input type="text" size="20" name="friendsemail" value="<?php echo htmlspecialchars($_POST['friendsemail'])?>">
 <br>Your name: 
-    <input type="text" size="20" name="yourname" value="<?=htmlspecialchars($_POST['yourname'])?>">
+    <input type="text" size="20" name="yourname" value="<?php echo htmlspecialchars($_POST['yourname'])?>">
 <br>Your email: 
-    <input type="text" size="20" name="youremail" value="<?=htmlspecialchars($_POST['youremail'])?>">
+    <input type="text" size="20" name="youremail" value="<?php echo htmlspecialchars($_POST['youremail'])?>">
     <input type="hidden" name="submitfriend" value="1">
-<br>    <input type="submit" name="button" value="Tell <?=$word?> Friend">
+<br>    <input type="submit" name="button" value="Tell <?php echo $word?> Friend">
 <br><small>(privacy: we will not store your email or your friend's email, we
 will only use it to send your message to your friend)</small> </p>
 </form>
@@ -290,7 +294,7 @@ if ($_GET['submit']) {
         and entered_house <= '2005-04-11' and '2005-04-11' <= left_house");
     if ($row)
         $mpid = $row['mp_id'];
-    $mpattr = get_mpid_attr($db, $db2, $mpid, false, 1, null);
+    $mpattr = get_mpid_attr($mpid, false, 1, null);
     if ($mpattr == null) {
         $errors[] = "Your MP wasn't found.  Please check you
             entered the postcode correctly.";
@@ -341,7 +345,7 @@ header("Content-Type: text/html; charset=UTF-8");
         }
 
         # Regional parties
-        $consid = normalise_constituency_name($db, strtolower($constituency), $house, "2001");
+        $consid = normalise_constituency_name(strtolower($constituency), $house, "2001");
         if (!$consid) {
             print "<div class=\"error\">Constituency '$constituency' not found, please <a href=\"team@publicwhip.org.uk\">let us know</a>.</div>";
             exit;
@@ -450,13 +454,13 @@ where dream_id = $dreamid group by party";
         if ($best_party == "Your MP") {
 ?>
         The Public Whip suggests you vote for 
-        <b><?=$mpattr['name']?> (<?=$mp_party?>)</b>, your ex-MP
-	in <?=$constituency?>.
+        <b><?php echo $mpattr['name']?> (<?php echo $mp_party?>)</b>, your ex-MP
+	in <?php echo $constituency?>.
 <?
         } else {
 ?>
-        The Public Whip suggests you vote <b><?=$best_party?></b> 
-	in <?=$constituency?>.
+        The Public Whip suggests you vote <b><?php echo $best_party?></b>
+	in <?php echo $constituency?>.
 <?
         }
         if ($standing_again) {
@@ -672,7 +676,7 @@ END;
 
 <ol id="olQuiz">
 	<li>
-			Enter your UK <strong>postcode</strong>: <input type="text" size="10" name="mppc" value="<?=htmlspecialchars($_GET['mppc'])?>" id="Text1"> <br/>
+			Enter your UK <strong>postcode</strong>: <input type="text" size="10" name="mppc" value="<?php echo htmlspecialchars($_GET['mppc'])?>" id="Text1"> <br/>
 			(so we know who your last <abbr title="Member of Parliament">MP</abbr> was)
 	</li>
 	<li>

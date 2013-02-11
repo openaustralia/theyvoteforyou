@@ -71,7 +71,7 @@ if (user_isloggedin()) # User logged in, show settings screen
             }
             $db->query_errcheck("insert into pw_dyn_wiki_motion
                 (division_date, division_number, house, text_body, user_id, edit_date) values
-                ('$params[0]', '$params[1]', '$params[2]', '".mysql_escape_string($newtext)."', '" . user_getid() . "', now())");
+                ('$params[0]', '$params[1]', '$params[2]', '".mysql_real_escape_string($newtext)."', '" . user_getid() . "', now())");
             audit_log("Edited $type wiki text $params[0] $params[1] $params[2]");
             if ($type == 'motion') {
                 notify_motion_updated($db, $params[0], $params[1], $params[2]);
@@ -122,15 +122,15 @@ if (user_isloggedin()) # User logged in, show settings screen
         <td width="64%" valign="top">
 
         <P>
-        <FORM ACTION="<?=$REQUEST_URI?>" METHOD="POST">
-        <B>Division title:</b> <BR><INPUT TYPE="TEXT" NAME="newtitle" style="width: 100%" VALUE="<?=html_scrub(str_replace("&#8212;", "-", $prev_name))?>" SIZE="50" MAXLENGTH="250">
-        <P><B>Division description:</b> <textarea name="newdescription" style="width: 100%" rows="25" cols="45"><?=html_scrub($prev_description_editable)?></textarea>
+        <FORM ACTION="<?php echo $REQUEST_URI?>" METHOD="POST">
+        <B>Division title:</b> <BR><INPUT TYPE="TEXT" NAME="newtitle" style="width: 100%" VALUE="<?php echo html_scrub(str_replace("&#8212;", "-", $prev_name))?>" SIZE="50" MAXLENGTH="250">
+        <P><B>Division description:</b> <textarea name="newdescription" style="width: 100%" rows="25" cols="45"><?php echo html_scrub($prev_description_editable)?></textarea>
         <p>
         <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Save" accesskey="S">
         <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Cancel">
         </FORM>
         </P>
-        <p><a href="<?=get_wiki_history_link($type, $params)?>">View change history</a>
+        <p><a href="<?php echo get_wiki_history_link($type, $params)?>">View change history</a>
 <?
         } else {
             trigger_error("Unknown type for wiki", E_USER_ERROR);
@@ -148,7 +148,7 @@ if (user_isloggedin()) # User logged in, show settings screen
 ?>
 
         <p><span class="ptitle">Questions, thoughts?</span>
-        <a href="<?=htmlspecialchars($discuss_url)?>">Discuss this division</a>
+        <a href="<?php echo htmlspecialchars($discuss_url)?>">Discuss this division</a>
 		with other researchers on our forum. 
 
         <p><span class="ptitle">Useful links for you to research</span>

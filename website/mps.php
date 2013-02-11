@@ -20,27 +20,28 @@
 	if (!$rdisplay_parliament)
 		$rdisplay_parliament = $rdefaultdisplay_parliament;
 
-	$rdisplay_house = db_scrub($_GET["house"]);
+	$rdisplay_house = strtolower(trim($_GET["house"]));
+    if ($rdisplay_house!=='' && false===in_array($rdisplay_house,array('lords','commons','scotland','both','all'))) {
+        pw_header();
+        print '<h1>Invalid house entered</h1>';
+        possiblexss('house = '.$rdisplay_house);
+        pw_footer();
+        exit();
+    }
 	if (!$rdisplay_house)
 		$rdisplay_house = $rdefaultdisplay_house;
 
-    $sort = db_scrub($_GET["sort"]);
-    if (!$sort)
-        $sort = "lastname";
-
-    $referrer = $_SERVER["HTTP_REFERER"];
-    $querystring = $_SERVER["QUERY_STRING"];
-    $ipnumber = $_SERVER["REMOTE_ADDR"];
-    if (!$referrer)
-        $referrer = $_SERVER["HTTP_USER_AGENT"];
-    if (!isrobot())
-        $db->query("INSERT INTO pw_logincoming
-                (referrer, ltime, ipnumber, page, subject, url, thing_id)
-        VALUES ('$referrer', NOW(), '$ipnumber', 'mps', '', '$querystring', '')");
-
-
-
-
+    $sort = strtolower(trim($_GET["sort"]));
+    if (''===$sort) {
+        $sort = 'lastname';
+    }
+    if (false===in_array($sort,array('lastname','rebellions','party','constituency','attendance'))) {
+        pw_header();
+        print '<h1>Invalid sort entered</h1>';
+        possiblexss('sort = '.$sort);
+        pw_footer();
+        exit();
+    }
 	# constants
 	$rdismodes = array();
 	$rdismodes_house = array();
@@ -86,8 +87,9 @@
 							 "titdescription" => "MPs, MSPs and Lords");
 
     $title = "";
-	if ($sort == "rebellions")
+	if ($sort == "rebellions") {
 		$title .= "Rebel ";
+    }
 	$title .= $rdismodes_house[$rdisplay_house]["titdescription"];
 	$title .= " - ".$rdismodes[$rdisplay_parliament]["titdescription"];
 
@@ -183,8 +185,6 @@
 		$mptabattr["ministerial"] = "yes";
     $mptabattr["hitcounter"] = ($rdisplay_house == "z"); 
 
-	mp_table($db, $mptabattr);
+	mp_table($mptabattr);
     print "</table>\n";
-?>
-
-<?php pw_footer() ?>
+pw_footer();

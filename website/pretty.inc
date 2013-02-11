@@ -143,20 +143,22 @@ function random_big_word($phrase)
 
 function searchtip_random_mp($db, $house = "commons")
 {
-    $row = $db->query_onez_row("select title, first_name, last_name from pw_mp
-        where house = '$house'
-        order by rand() desc limit 1");
+   global $pwpdo;
+    $row = $pwpdo->get_single_row("select title, first_name, last_name from pw_mp
+        where house = ?
+        order by rand() desc limit 1",array($house));
     if (!$row) {
     	return "*no members of $house*";
     }
-    $random_mp = trim($row[0] . " " . $row[1] . " " . $row[2]);
+    $random_mp = trim($row['title'] . " " . $row['first_name'] . " " . $row['last_name']);
     return $random_mp;
 }
 
 function searchtip_random_constituency($db)
 {
-    $row = $db->query_one_row("select constituency from pw_mp
-        order by rand() desc limit 1");
+   global $pwpdo;
+    $row = $pwpdo->get_single_row("select constituency from pw_mp
+        order by rand() desc limit 1",array());
     $random_constituency = random_big_word($row[0]);
     if ($random_constituency == "")
         $random_constituency = "Liverpool";
@@ -166,8 +168,9 @@ function searchtip_random_constituency($db)
 
 function searchtip_random_topic($db)
 {
-    $row = $db->query_onez_row("select division_name from pw_division
-        order by rand() desc limit 1");
+    global $pwpdo;
+    $row = $pwpdo->get_single_row("select division_name from pw_division
+        order by rand() desc limit 1",array());
     if (!$row) {
     	return "*no divisions*";
     }
@@ -503,9 +506,10 @@ function pretty_minister($row) {
 }
 
 function pretty_user_name($db, $name, $text = null) {
+    global $pwpdo;
     if (!$text)
         $text = $name;
-    $row = $db->query_onez_row_assoc("select user_id from phpbb_users where username = '" . db_scrub($name) . "'");
+    $row = $pwpdo->get_single_row("select user_id from phpbb_users where username = ?",db_scrub($name));
     if ($row)
         return "<a href=\"/forum/profile.php?mode=viewprofile&u=".$row['user_id']."\">$text</a>";
 
@@ -556,6 +560,3 @@ function party_to_colour($party)     {
     }
 }
 
-
-
-?>

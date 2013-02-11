@@ -72,7 +72,7 @@ sub help {
 Loads voting lists from XML files into MySQL database for the Public Whip
 website.  Peforms various consistency checks.
 
-scrape.pl [OPTION]... [COMMAND]...
+build.pl [OPTION]... [COMMAND]...
 
 Commands are any or all of these, in order you want them run:
 divsxml - parse divisions from XML files and add them to database

@@ -51,9 +51,9 @@ function write_single_policy_vote($db, $divattr, $voter)
 
     # a submit was posted on this page
     $voteannouce = "";
-    if (mysql_escape_string($_POST["submit"]) && $votechangeable)
+    if (mysql_real_escape_string($_POST["submit"]) && $votechangeable)
     {
-        $newbvote = mysql_escape_string($_POST["vote$voter"]);
+        $newbvote = mysql_real_escape_string($_POST["vote$voter"]);
         #print "newbvote, bvote: $newbvote $bvote";
         if ($newbvote != $bvote)
         {
@@ -156,7 +156,7 @@ function write_single_policy_vote($db, $divattr, $voter)
 function divisionvote_post_forum_action($db, $date, $number, $house, $content) {
     $forum = "Division Forum";
     $topic_match = ucfirst($house) . " $date #$number";
-    $motion_data = get_wiki_current_value($db, "motion", array($date, $number, $house));
+    $motion_data = get_wiki_current_value("motion", array($date, $number, $house));
 	$name = extract_title_from_wiki_text($motion_data['text_body']);
     $topic = $topic_match . " - " . $name;
     forummagic_post($db, $forum, $topic_match, $topic, $content);

@@ -57,7 +57,8 @@ function pw_handle_error($num, $message, $file, $line, $context) {
         return;
     }
 
-    error_log($message);
+    $requesturi = (isset($_SERVER['REQUEST_URI']) === true ? $_SERVER['REQUEST_URI'] : '[no url]');
+    error_log($requesturi.': '.$message);
 
     print "<hr>";
     print "<p>Sorry! Something's gone wrong. Please <a href=\"mailto:team@publicwhip.org.uk\">email us</a> to let us know.</p>";

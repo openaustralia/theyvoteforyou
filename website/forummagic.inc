@@ -15,6 +15,7 @@
 # made.  It is an error for the forum not to exist. TOPIC_MATCH is the first
 # part of the topic name to use for searching, posting uses TOPIC_TITLE.
 function forummagic_post($db, $forum_name, $topic_match, $topic_title, $content) {
+	return;
     $topic_title = forummagic_sanitise_topic($topic_title);
     
     global $domain_name;
@@ -92,9 +93,9 @@ function forummagic_getlink($db, $forum_name, $topic_match) {
 function forummagic_findtopic($db, $forum_name, $topic_match, $topic_set = null) {
     // Find forum and topic
     list($forum_id) = $db->query_one_row("select forum_id from phpbb_forums where forum_name = '$forum_name'");
-    list($topic_id, $current_title) = $db->query_onez_row("select topic_id, topic_title from phpbb_topics where topic_title like '".mysql_escape_string($topic_match)."%' and forum_id = $forum_id order by topic_id desc limit 1");
+    list($topic_id, $current_title) = $db->query_onez_row("select topic_id, topic_title from phpbb_topics where topic_title like '".mysql_real_escape_string($topic_match)."%' and forum_id = $forum_id order by topic_id desc limit 1");
     if ($topic_id && $topic_set && ($topic_set != $current_title)) {
-        $db->query("update phpbb_topics set topic_title = '" . mysql_escape_string($topic_set). "'".
+        $db->query("update phpbb_topics set topic_title = '" . mysql_real_escape_string($topic_set). "'".
             " where topic_id = " . $topic_id);
     }
     return array($forum_id, $topic_id);

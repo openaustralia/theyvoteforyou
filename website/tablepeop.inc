@@ -147,13 +147,14 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
 }
 
 			
-function print_mp_slab($db, $listtype, $bnofavour, $numcolumns, $tooltips, $friendlk)
+function print_mp_slab( $allRows,$listtype, $bnofavour, $numcolumns, $tooltips, $friendlk)
 {
+    global $pwpdo;
     $nrows = 0;
     $rows = array();
     $ipp = -1;
     $afriendlk = ($friendlk ? "&".$friendlk : "");
-    while ($row = $db->fetch_row_assoc())
+    foreach ($allRows as $row)
     {
         $party = $row["party"];
         if (($ipp == -1) or ($rows[$ipp]["party"] != $party))
@@ -339,13 +340,12 @@ function print_mp_slab($db, $listtype, $bnofavour, $numcolumns, $tooltips, $frie
 # sortby is 'turnout', 'rebellions', 'name', 'constituency', 'attendance', 'party', 'vote', 'partyslab'
 # showwhich is 'rebels', 'changes', 'voters', 'allpossible'
 # ministerial is 'yes' or none.
-function mp_table($db, $mptabattr)
+function mp_table( $mptabattr)
 {
     global $bdebug;
     global $parliaments;
-
-    if ($bdebug == 1)
-        print_r($mptabattr);
+    global $pwpdo;
+    $placeholders=array();
 
     $aquery = array();
     $aquery["qselect"] = "SELECT first_name, last_name, title, constituency, pw_mp.party AS party, pw_mp.house as house,
@@ -358,24 +358,24 @@ function mp_table($db, $mptabattr)
     $aquery["qwhere"] = " WHERE 1=1";
 
 	$columnforms = array();
-    if ($mptabattr["hitcounter"])
+    if ($mptabattr["hitcounter"]) {
         $columnforms["hitcounter"] = "yes"; 
-
+    }
 	$tailorder = "";
-	if ($mptabattr["sortby"] == "constituency")
+	if ($mptabattr["sortby"] == "constituency") {
 	    $tailorder = " constituency, last_name, first_name";
 	# by name primarily
-	elseif ($mptabattr["house"] == "lords")
+    } elseif ($mptabattr["house"] == "lords") {
 	    $tailorder = " concat(first_name, substring(last_name, 4))";  # a hack to strip the of-s and make the names comparable
-	elseif ($mptabattr["house"] == "commons")
+    } elseif ($mptabattr["house"] == "commons") {
 	    $tailorder = " replace(last_name, '&Ouml;', 'O'), first_name, constituency";
-    elseif ($mptabattr["house"] == "scotland")
+    } elseif ($mptabattr["house"] == "scotland") {
         $tailorder = " last_name, first_name, constituency";
 
 	# we're stuffed for lords sorting, till we make it much more elaborate
-	else
+    } else {
 	    $tailorder = " concat(substring(replace(last_name, '&Ouml;', 'O'), (house='commons')), first_name, substring(last_name, (house='lords')*4)), constituency"; 
-
+    }
 	if ($mptabattr["sortby"] != "party" and $mptabattr["sortby"] != "party_slab" and 
         !(($mptabattr["sortby"] == "vote") and ($mptabattr["listtype"] != 'division') and ($mptabattr["listtype"] != 'division2')))
 	    $tailorder .= ", party";
@@ -424,12 +424,10 @@ function mp_table($db, $mptabattr)
 
 		# trail off by name
 	    $aquery["qorder"] .= $tailorder;
-	    if ($bdebug == 1)
-	        print "\n<h3>".$aquery["qorder"]."</h3>\n";
 	}
-    elseif ($mptabattr["listtype"] == 'dreamdistance')
+    elseif ($mptabattr["listtype"] == 'dreamdistance') {
         $aquery["qorder"] = " ORDER BY distance, $tailorder";
-
+    }
     # go through the different list selection cases
     $showwhich = $mptabattr["showwhich"];
 
@@ -446,8 +444,9 @@ function mp_table($db, $mptabattr)
         else
 		{
 	        $parliament_entry = $parliaments[$parliament];
-			$aquery["qwhere"] .= " AND left_house > '".$parliament_entry['from']."'
-	                               AND entered_house <= '".$parliament_entry['to']."'";
+			$aquery["qwhere"] .= " AND left_house > :qwhere_left_house  AND entered_house <= :qwhere_entered_house";
+            $placeholders[':qwhere_left_house']=$parliament_entry['from'];
+            $placeholders[':qwhere_entered_house']=$parliament_entry['to'];
 		}
 
 		$columnforms["rebellions"] = "yes";
@@ -461,8 +460,9 @@ function mp_table($db, $mptabattr)
         $aquery["qselect"] .= ", distance_a as distance";
         $aquery["qjoin"] .= " LEFT JOIN pw_cache_realreal_distance
                                 ON pw_cache_realreal_distance.mp_id2 = pw_mp.mp_id
-                                 AND pw_cache_realreal_distance.mp_id2 <> ".$mpprop["mpid"]."
-                                 AND pw_cache_realreal_distance.mp_id1 = ".$mpprop["mpid"];
+                                 AND pw_cache_realreal_distance.mp_id2 <>:qjoin_mp_id
+                                 AND pw_cache_realreal_distance.mp_id1 =:qjoin_mp_id";
+        $placeholders[':qjoin_mp_id']=$mpprop["mpid"];
         $aquery["qwhere"] .= " AND distance_a IS NOT null AND distance_a != -1";
         $aquery["qorder"] = " ORDER BY distance_a, $tailorder";
         $friendlk = $mpprop['mpanchor2'];
@@ -478,8 +478,8 @@ function mp_table($db, $mptabattr)
         $aquery["qselect"]  .= ", distance_a AS distance";
         $aquery["qjoin"] 	.= " LEFT JOIN pw_cache_dreamreal_distance
                                     ON pw_cache_dreamreal_distance.person = pw_mp.person
-                                    AND pw_cache_dreamreal_distance.dream_id = $dreamid";
-
+                                    AND pw_cache_dreamreal_distance.dream_id = :qjoin_dreamid";
+        $placeholders[':qjoin_dreamid']=$dreamid;
         # this should use the left-reason case
         $aquery["qwhere"] 	.= " AND left_house = '9999-12-31'
                                  AND distance_a <> -1";
@@ -494,21 +494,24 @@ function mp_table($db, $mptabattr)
         # the division vote (joined)
         $aquery["qselect"] 	.= ", pw_vote.vote AS vote";
         $aquery["qjoin"] 	.= " LEFT JOIN pw_vote ON pw_vote.mp_id = pw_mp.mp_id
-                                    AND pw_vote.division_id = ".$mptabattr["divid"];
-
-        if ($showwhich == 'allpossible')
-            $aquery["qwhere"] 	.= " AND entered_house <= '".$mptabattr["divdate"]."'
-                                     AND left_house > '".$mptabattr["divdate"]."'
-                                     AND house = '".$mptabattr["house"]."'";
-        else
+                                    AND pw_vote.division_id = :pwvote_divid";
+        $placeholders[':pwvote_divid']=$mptabattr["divid"];
+        if ($showwhich == 'allpossible') {
+            $aquery["qwhere"] 	.= " AND entered_house <= :qwhere_all_entered_house
+                                     AND left_house >:qwhere_all_left_house
+                                     AND house = :qwhere_all_house";
+            $placeholders[':qwhere_all_left_house']=$mptabattr["divdate"];
+            $placeholders[':qwhere_all_entered_house']=$mptabattr["divdate"];
+            $placeholders[':qwhere_all_house']=$mptabattr["house"];
+        } else {
             $aquery["qwhere"] 	.= " AND pw_vote.vote IS NOT null";
-
+        }
         # the whip guess
         $aquery["qselect"]	.= ", whip_guess";
         $aquery["qjoin"]	.= " LEFT JOIN pw_cache_whip
-                                    ON pw_cache_whip.division_id = ".$mptabattr["divid"]."
+                                    ON pw_cache_whip.division_id =:pw_cache_whip_divisionid
                                     AND pw_cache_whip.party = pw_mp.party";
-
+        $placeholders[':pw_cache_whip_divisionid']=$mptabattr["divid"];
 
         # comparison to the whip
         if ($showwhich == 'rebels')
@@ -531,21 +534,25 @@ function mp_table($db, $mptabattr)
         $score_clause = "(";
         $score_clause .= "(lower(concat(first_name, ' ', last_name)) = '$search') * 10";
         $querybits = explode(" ", $search);
+        $bitcount=0;
         foreach ($querybits as $querybit)
         {
+            $placeholders[':querybit_'.$bitcount]=trim($querybit);
+            $placeholders[':querybit_wild_'.$bitcount]='%'.trim($querybit).'%';
             $querybit = trim($querybit);
             if ($querybit != "")
             {
-                $score_clause .= "+ (lower(constituency) = '$querybit') * 10 + 
-                (soundex(concat(first_name, ' ', last_name)) = soundex('$querybit')) * 8 + 
-                (soundex(constituency) = soundex('$querybit')) * 8 + 
-                (soundex(last_name) = soundex('$querybit')) * 6 + 
-                (lower(constituency) like '%$querybit%') * 4 + 
-                (lower(last_name) like '%$querybit%') * 4 + 
-                (soundex(first_name) = soundex('$querybit')) * 2 + 
-                (lower(first_name) like '%$querybit%') +
-                (soundex(constituency) like concat('%',soundex('$querybit'),'%'))";
+                $score_clause .= '+ (lower(constituency) =:querybit_'.$bitcount.') * 10 +
+                (soundex(concat(first_name, \' \', last_name)) = soundex(:querybit_'.$bitcount.')) * 8 +
+                (soundex(constituency) = soundex(:querybit_'.$bitcount.')) * 8 +
+                (soundex(last_name) = soundex(:querybit_'.$bitcount.')) * 6 +
+                (lower(constituency) like :querybit_wild_'.$bitcount.') * 4 +';
+                $score_clause.='(lower(last_name) like :querybit_wild_'.$bitcount.') * 4 +
+                (soundex(first_name) = soundex(:querybit_'.$bitcount.')) * 2 +
+                (lower(first_name) like :querybit_wild_'.$bitcount.') +';
+                $score_clause.='(soundex(constituency) like concat(\'%\',soundex(:querybit_'.$bitcount.'),\'%\'))';
             }
+            $bitcount++;
         }
         $score_clause .= ")";
         $aquery["qwhere"] 	.= " AND ($score_clause > 0) ";
@@ -562,10 +569,11 @@ function mp_table($db, $mptabattr)
     {
         $aquery["qselect"] 	.= ", pw_vote_a.vote AS vote_a, pw_vote_b.vote AS vote_b";
         $aquery["qjoin"] 	.= " LEFT JOIN pw_vote AS pw_vote_a ON pw_vote_a.mp_id = pw_mp.mp_id
-                                    AND pw_vote_a.division_id = ".$mptabattr["divid"];
+                                    AND pw_vote_a.division_id = :div2_votea_divid";
         $aquery["qjoin"] 	.= " LEFT JOIN pw_vote AS pw_vote_b ON pw_vote_b.mp_id = pw_mp.mp_id
-                                    AND pw_vote_b.division_id = ".$mptabattr["divid2"];
-
+                                    AND pw_vote_b.division_id = :div2_voteb_divid2";
+        $placeholders[':div2_votea_divid']=$mptabattr["divid"];
+        $placeholders[':div2_voteb_divid2']=$mptabattr["divid2"];
         if ($showwhich == "rebels")
         {
             $aquery["qwhere"] 	.= " AND pw_vote_a.vote IS NOT null AND pw_vote_b.vote IS NOT null
@@ -592,11 +600,11 @@ function mp_table($db, $mptabattr)
         }
         if ($showwhich == "allpossible")
         {
-            $aquery["qwhere"] 	.= " AND entered_house <= '".$mptabattr["divdate"]."'
-                                     AND left_house > '".$mptabattr["divdate"]."'";
-            $aquery["qwhere"] 	.= " AND entered_house <= '".$mptabattr["divdate2"]."'
-                                     AND left_house > '".$mptabattr["divdate2"]."'
-                                     AND house = '".$mptabattr["house"]."'";
+            $aquery["qwhere"] 	.= " AND entered_house <= :all_qwhere_mpt_divdate AND left_house > :all_qwhere_mpt_divdate";
+            $placeholders[':all_qwhere_mpt_divdate']=$mptabattr["divdate"];
+            $aquery["qwhere"] 	.= " AND entered_house <= :all_qwhere_mpt_divdate2 AND left_house > :all_qwhere_mpt_divdate2 AND house = :all_qwhere_mpt_house";
+            $placeholders[':all_qwhere_mpt_divdate2']=$mptabattr["divdate2"];
+            $placeholders[':all_qwhere_mpt_house']=$mptabattr["house"];
         }
         else  #  "voters"
             $aquery["qwhere"] 	.= " AND (pw_vote_a.vote IS NOT null OR pw_vote_b.vote IS NOT null)";
@@ -620,11 +628,11 @@ function mp_table($db, $mptabattr)
     {
         $aquery["qselect"] 	.= ", pw_moffice.position AS ministerial";
         $aquery["qjoin"] 	.= " LEFT JOIN pw_moffice ON pw_moffice.person = pw_mp.person
-									AND (pw_moffice.from_date <= '".$mptabattr["divdate"]."')
-                                    AND (pw_moffice.to_date > '".$mptabattr["divdate"]."')
+									AND (pw_moffice.from_date <= :moffice_date)
+                                    AND (pw_moffice.to_date > :moffice_date)
                                     AND (pw_moffice.position <> 'Chairman')
                                     AND (pw_moffice.position <> '')";  # the last two refer to select committee positions
-
+        $placeholders['moffice_date']=$mptabattr["divdate"];
         $aquery["qgroupby"] = " GROUP BY pw_mp.mp_id";  # remove double ministers
 		$columnforms["party"] = "ministerial";
 	}
@@ -642,16 +650,15 @@ function mp_table($db, $mptabattr)
     if ($columnforms["hitcounter"])
     {
         $aquery["qselect"] .= ", COUNT(*)-1 AS hits"; # can;t avoid the overcounting on an 
-        $aquery["qjoin"]   .= " LEFT JOIN pw_logincoming ON (pw_logincoming.page = 'mp' OR pw_logincoming.page = 'mppolicy')
-                                 AND pw_logincoming.thing_id = pw_mp.mp_id";
+        //$aquery["qjoin"]   .= " LEFT JOIN pw_logincoming ON (pw_logincoming.page = 'mp' OR pw_logincoming.page = 'mppolicy')
+        //                         AND pw_logincoming.thing_id = pw_mp.mp_id";
         if (!$aquery["qgroupby"])
             $aquery["qgroupby"] = " GROUP BY pw_mp.mp_id";  # remove double ministers
     }
 
     $query = $aquery["qselect"].$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"].$aquery["qgroupby"].$aquery["qorder"].$aquery["qlimit"];
-    if ($bdebug == 1)
-        print "\n<h3>$query</h3>\n";
-    $db->query($query);
+
+    $allRows=$pwpdo->fetch_all_rows($query,$placeholders);
 
     # determine the column type
 //  this $colstyle will be totally replaced by columnforms
@@ -695,7 +702,7 @@ function mp_table($db, $mptabattr)
 		print_mpcolumn_headings($columnforms);
 
     # now output a sentence when there is an empty table (in cases where that can happen)
-    if ($db->rows() == 0)
+    if (count($allRows) == 0)
 	{
 		print "<tr class=\"even\"><td colspan=\"".count($columnforms)."\">";
 		if ($colstyle == "division" and $showwhich == "rebels")
@@ -713,11 +720,11 @@ function mp_table($db, $mptabattr)
 
 	# actually produce the table
 	if ($mptabattr["slabtable"]) # $afriendlk
-		print_mp_slab($db, $mptabattr["listtype"], ($mptabattr["favourvote"] == "no"), $mptabattr["numcolumns"], $mptabattr["tooltips"], $friendlk);
+		print_mp_slab($allRows, $mptabattr["listtype"], ($mptabattr["favourvote"] == "no"), $mptabattr["numcolumns"], $mptabattr["tooltips"], $friendlk);
 	else
 	{
 	    $nrows = 0;
-	    while ($row = $db->fetch_row_assoc())
+	    foreach ($allRows as $row)
 	    {
 	        $mpname = $row['title']." ".$row['first_name']." ".$row['last_name'];
 	        $href = "mp.php?" . link_to_mp($row);
@@ -731,12 +738,10 @@ function mp_table($db, $mptabattr)
     if ($mptabattr["listtype"] == 'mpdistance' and $mptabattr["limit"])
     {
         $query = "SELECT pw_mp.mp_id as mpid".$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"]." AND distance_a = 0";
-        if ($bdebug == 1)
-            print "\n<h3>$query</h3>\n";
-        $db->query($query);
-        $same_voters = $db->rows();
+
+        $allRows=$pwpdo->fetch_all_rows($query,$placeholders);
+        $same_voters = count($allRows);
         if ($same_voters >= $mptabattr["limit"])
             return $same_voters;
     }
 }
-?>

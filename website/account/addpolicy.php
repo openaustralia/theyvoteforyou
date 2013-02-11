@@ -132,16 +132,16 @@ if (user_isloggedin())
         }
     ?>
         <P>
-        <FORM ACTION="<?=$PHP_SELF?>" METHOD="POST">
+        <FORM ACTION="<?php echo $PHP_SELF?>" METHOD="POST">
         <B>Title of policy</B><BR>
-        <INPUT TYPE="TEXT" NAME="name" VALUE="<?=html_scrub($name)?>" SIZE="40" MAXLENGTH="50">
+        <INPUT TYPE="TEXT" NAME="name" VALUE="<?php echo html_scrub($name)?>" SIZE="40" MAXLENGTH="50">
         <P>
         <B>Someone who believes that...</B><BR>
-        <textarea name="description" rows="6" cols="80"><?=html_scrub($description)?></textarea></p>
+        <textarea name="description" rows="6" cols="80"><?php echo html_scrub($description)?></textarea></p>
 
         <p><span class="ptitle">Privacy notes:</span>
         By creating a policy you are making your user name
-        <b><?=user_getname()?></b> and the policy's voting record public.  
+        <b><?php echo user_getname()?></b> and the policy's voting record public.
 
         <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Make Policy">
         </FORM>

@@ -5,7 +5,7 @@
 </FilesMatch>
 Options ExecCGI
 DirectoryIndex index.php
-
+AddHandler cgi-script .cgi
 # make things safe
 #php_flag register_globals off # doesn't work / not needed for PHP5
 <Files ~ "\.inc$">
@@ -20,10 +20,14 @@ RedirectPermanent /news.php http://www.publicwhip.org.uk/newsletters/archive.php
 RedirectPermanent /code.php http://www.publicwhip.org.uk/project/code.php
 RedirectPermanent /mp-info.xml http://www.publicwhip.org.uk/feeds/mp-info.xml
 RedirectPermanent /dreammp.php http://www.publicwhip.org.uk/policy.php
-RedirectPermanent /awstats http://seagrass.goatchurch.org.uk/cgi-bin/awstats.pl?config=publicwhip
 
+RewriteCond %{HTTP_HOST} !^(www\.publicwhip\.org\.uk|pw\.live|publicwhip-v1.localdomain)$
+RewriteRule (.*) http://www.publicwhip.org.uk/$1 [R=301,L]
 Options +FollowSymLinks
 RewriteEngine On
+RewriteCond %{QUERY_STRING} (.*)Louise_Bagshawe(.*)
+RewriteRule ^ %{REQUEST_URI}?%1Louise_Mensch%2 [R=302,L]
+
 RewriteRule ^testrewrite$ /index.php [PT]
 RewriteRule ^[Nn]/([^;]+)$                      /newsletters/signup.php?token=$1
 RewriteRule ^[Uu]/([^;]+)$                      /newsletters/signup.php?token=$1&unsub=1
@@ -32,6 +36,7 @@ RewriteRule ^by-election$ /election_glenrothes2008.php?dash=yes [PT]
 RewriteRule ^fortytwodays$ /fortytwodays.php [PT]
 
 RewriteRule ^forum.*$ /outageforums.php [R=302,L]
+RewriteRule ^account.*$ /outageforums.php [R=302,L]
 
 # Net strike
 #RewriteCond %{REQUEST_URI} !^/patents/patents\.php

@@ -87,7 +87,7 @@ function postcode_to_constituencies($db, $postcode) {
         $name = $match['name'];
         if (!in_array($type, $useful_types)) continue;
         $house = ($type == 'WMC' ? 'commons' : 'scotland');
-        $constituency = normalise_constituency_name($db, strtolower($name), $house);
+        $constituency = normalise_constituency_name( strtolower($name), $house);
         if (!$constituency)
             $constituency = "[Unknown $house constituency: '$name']";
         $final_result[$type] = $constituency;
@@ -142,9 +142,9 @@ function postcode_to_constituency($db, $postcode, $pc_parl = "2010") {
 
     #$start = getmicrotime();
 
-    if ($pc_parl && $pc_parl != 2010)
+    if ($pc_parl && $pc_parl != 2010) {
         trigger_error("Unknown postcode parliament $pc_parl", E_USER_ERROR);
-
+    }
     $areas = postcode_to_constituencies($db, $postcode);
     if ($areas['ERROR']) return '';
 

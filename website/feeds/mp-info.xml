@@ -24,8 +24,8 @@ print "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n";
 print "<publicwhip>\n";
 
 $query = "select division_date from pw_division order by division_date desc limit 1";
-$db->query($query);
-$row = $db->fetch_row_assoc();
+
+$row=$pwpdo->get_single_row($query,array());
 $last_div_date = $row['division_date'];
 
 $mps_query_start = "select first_name, last_name, title, constituency,
@@ -39,10 +39,11 @@ $mps_query_start = "select first_name, last_name, title, constituency,
         pw_mp.mp_id = pw_cache_mpinfo.mp_id";
 
 $order = "entered_house, last_name, first_name, constituency";
-$query = "$mps_query_start and house = '$house' order by $order";
+$query = "$mps_query_start and house = :house order by $order";
 
-$db->query($query);
-while ($row = $db->fetch_row_assoc())
+$pwpdo->query($query,array(':house'=>$house));
+
+while ($row = $pwpdo->fetch_row())
 {
     $id = $row['mp_id'];
     
@@ -63,30 +64,32 @@ while ($row = $db->fetch_row_assoc())
     print " public_whip_rebellions=\"$reb\"\n";
 
     # Attendance rank
-    $db2->query("select attend_rank, attend_outof from pw_cache_attendrank_today where mp_id=$id");
-    if ($db2->rows() > 1)
+    $allRows=$pwpdo2->fetch_all_rows('select attend_rank, attend_outof from pw_cache_attendrank_today where mp_id=?',array($id));
+    $count=count($allRows);
+    if ($count > 1)
     {
         trigger_error("Too many return values for attendrank mp $id", E_USER_ERROR);
     }
-    if ($db2->rows() == 1)
+    if ($count == 1)
     {
-        $row = $db2->fetch_row();
-        $attendrank = $row[0];
-        $outof = $row[1];
+        $row = $allRows[0];
+        $attendrank = $row['attend_rank'];
+        $outof = $row['attend_outof'];
         print " public_whip_attendrank=\"$attendrank\" public_whip_attendrank_outof=\"$outof\"\n";
     }
 
     # Rebellion rank
-    $db2->query("select rebel_rank, rebel_outof from pw_cache_rebelrank_today where mp_id=$id");
-    if ($db2->rows() > 1)
+     $allRows=$pwpdo2->fetch_all_rows('select rebel_rank, rebel_outof from pw_cache_rebelrank_today where mp_id=?',array($id));
+    $count=count($allRows);
+    if ($count > 1)
     {
         trigger_error("Too many return values for rebelrank mp $id", E_USER_ERROR);
     }
-    if ($db2->rows() == 1)
+    if ($count == 1)
     {
-        $row = $db2->fetch_row();
-        $rebelrank = $row[0];
-        $outof = $row[1];
+        $row = $allRows[0];
+        $rebelrank = $row['rebel_rank'];
+        $outof = $row['rebel_outof'];
         print " public_whip_rebelrank=\"$rebelrank\" public_whip_rebelrank_outof=\"$outof\"\n";
     }
 
@@ -95,5 +98,3 @@ while ($row = $db->fetch_row_assoc())
 }
 
 print "\n</publicwhip>\n";
-
-?>

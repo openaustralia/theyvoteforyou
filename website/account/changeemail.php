@@ -10,10 +10,10 @@
 require_once "../database.inc";
 require_once "user.inc";
 
-$password1=mysql_escape_string($_POST["password1"]);
-$new_email=mysql_escape_string($_POST["new_email"]);
-$change_user_name=mysql_escape_string($_POST["change_user_name"]);
-$submit=mysql_escape_string($_POST["submit"]);
+$password1=mysql_real_escape_string($_POST["password1"]);
+$new_email=mysql_real_escape_string($_POST["new_email"]);
+$change_user_name=mysql_real_escape_string($_POST["change_user_name"]);
+$submit=mysql_real_escape_string($_POST["submit"]);
 $ok = false;
 if ($submit) {
 	$ok = user_change_email ($password1,$new_email,$change_user_name);

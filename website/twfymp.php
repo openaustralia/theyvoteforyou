@@ -58,10 +58,6 @@
     $mpid = $mpprop["mpid"];
     $page_logged = "twfymp"; 
     $subject_logged = ($voter2type == "dreammp" ? $voter2 : "");
-    if (!isrobot() and !$showhits)
-        $db->query("INSERT INTO pw_logincoming
-                   (referrer, ltime, ipnumber, page, subject, url, thing_id)
-            VALUES ('$referrer', NOW(), '$ipnumber', '$page_logged', '$subject_logged', '$querystring', '$mpid')");
 
     
 

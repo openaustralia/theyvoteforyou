@@ -402,7 +402,7 @@ function WritePartyScores($candidates)
 #
 # start of direct printing
 #
-$vdash = mysql_escape_string(db_scrub($_GET["dash"])); # used to tell if /by-election or /byelection was used
+$vdash = mysql_real_escape_string(db_scrub($_GET["dash"])); # used to tell if /by-election or /byelection was used
 $vpostcode = db_scrub($_POST["vpostcode"]);  # a string of letters (each a-e for strong favour to against) in order of the policies
 $vrand = db_scrub($_GET["vrand"]);
 $vevent = db_scrub($_GET["vevent"]);
@@ -547,19 +547,6 @@ if ($bisbyelection && !$vprintview)
     }
     print "</table>\n"; 
 }
-
-$referrer = $_SERVER["HTTP_REFERER"];
-$querystring = $_SERVER["QUERY_STRING"];
-$ipnumber = $_SERVER["REMOTE_ADDR"];
-if (!$referrer)
-    $referrer = $_SERVER["HTTP_USER_AGENT"];
-if (!isrobot() and !$vkey and !preg_match("/.*?house=z/", $querystring))
-    $db->query("INSERT INTO pw_logincoming
-            (referrer, ltime, ipnumber, page, subject, url, thing_id)
-            VALUES ('$referrer', NOW(), '$ipnumber', 'crewe_election', '$vkey', '$vdash', $vrand)");
-
-
-    
 
     if (!$vprintview)
         WriteIntro($isbyelection, $issues);

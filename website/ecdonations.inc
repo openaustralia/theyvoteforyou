@@ -30,7 +30,7 @@
     <input id="id_dateacceptedreturned" class="eclong" type="text" name="frmDate" maxlength="11" size="12">
     
     <b>New!</b> Local party donations declared to the Electoral Commission: 
-    <input id="id_received" class="ecbranch" type="text" name="frmReceived" size="16" value="<?=$ecconstituency?>">
+    <input id="id_received" class="ecbranch" type="text" name="frmReceived" size="16" value="<?php echo $ecconstituency?>">
     <input id="id_submit" class="ecsubmit" type="submit" name="submitButtonName" value="Search">
 </form>
 </li>

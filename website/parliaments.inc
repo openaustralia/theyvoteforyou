@@ -28,12 +28,6 @@ $parliaments = array(
 $parlsessions = array(
 	'2002' => array('from' => '2002-11-13', 'to' => '2003-11-20', 'name' => '2002/2003'),
 );
-$session=NULL;
-if (isset($_GET['session'])) {
-	$session=$_GET['session'];
-}
-$parlsession = db_scrub($session);
-
 function parliament_count()
 {
     global $parliaments;
@@ -113,5 +107,3 @@ function whipless_party($party) {
             $party == "CWM" || 
             $party == "DCWM";
 }
-
-?>

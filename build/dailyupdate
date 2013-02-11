@@ -11,18 +11,29 @@ then
 	exit $?
 fi
 
-FROMDATE=2001-06-01
+#FROMDATE=1999-11-17
+FROMDATE=2012-02-01
 PATH=$PATH:/usr/local/bin:/usr/bin:/bin
 export HOME=/home/publicwhip
 export CVS_RSH=/usr/bin/ssh
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] dailyupdate: Starting with from date of $FROMDATE"
 
 # Grab new scraped XML files from TheyWorkForYou
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] dailyupdate: Fetching divisions"
 rsync --recursive ukparse.kforge.net::parldata/scrapedxml/divisionsonly /home/publicwhip/parldata/scrapedxml
+
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] dailyupdate: Fetching lords"
 rsync --recursive ukparse.kforge.net::parldata/scrapedxml/lordsdivisionsonly /home/publicwhip/parldata/scrapedxml
+
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] dailyupdate: Fetching sp"
 rsync --recursive ukparse.kforge.net::parldata/scrapedxml/sp /home/publicwhip/parldata/scrapedxml
+
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] dailyupdate: Fetching sp-motions"
 rsync --recursive ukparse.kforge.net::parldata/scrapedxml/sp-motions /home/publicwhip/parldata/scrapedxml
+
 chmod -R a+r /home/publicwhip/parldata
 
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] dailyupdate: Updating parlimentary parser"
 # Update members files and the like
 cd ~/parlparse
 svn -q update
@@ -32,24 +43,25 @@ svn -q update
 cd ~/publicwhip-live/
 # cvs -Q update -dP
 
-echo "Loading list of members"
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] dailyupdate: Loading list of members"
 # Load new list of members and ministers
 cd ~/publicwhip-live/loader
 ./memxml2db.pl
 
-echo "Loading new divisions"
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] dailyupdate: Loading new divisions"
 # Load new divisions
-#if ! 
-./load.pl --quiet --from=$FROMDATE divsxml 
+#if !
+./load.pl --quiet --from=$FROMDATE divsxml
 #then
-	# echo "There were new divisions, recalculating cached values"
+	echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] dailyupdate: There were new divisions, recalculating cached values"
 
 	# There were new divisions, so run checks
 	./load.pl --quiet --from=$FROMDATE check
-echo "Calculating cache"
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] dailyupdate: Calculating cache"
 	# and update counts of rebels etc.
     ./calc_caches.php
 
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] dailyupdate: Clearing page cache"
 	# clear page cache
 	cd ~/publicwhip-live/build
 	./clear-caches
@@ -68,26 +80,27 @@ echo "Calculating cache"
 
 	# export dumps of data
 	cd ~/publicwhip-live/build
-echo "Export db"
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] dailyupdate: Export db"
 	./export-db
-echo "Votematrix"
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] dailyupdate: Votematrix"
 	./votematrix.pl
 #fi
 
-echo "Copying across ministers"
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] dailyupdate: Copying across ministers"
 # Copy across ministers file (used by minwhirl)
 cp ~/parlparse/members/ministers.xml ~/www.publicwhip.org.uk/docs/data/
 cp ~/publicwhip-live/*.txt ~/www.publicwhip.org.uk/docs/data/
 chmod a+r ~/www.publicwhip.org.uk/docs/data/*
 
-echo "Starting rss feeds"
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] dailyupdate: Starting rss feeds"
 # RSS feeds
 RSSDEST=~/www.publicwhip.org.uk/docs/feeds
 cd ~/publicwhip-live/loader
-echo "Interesting divisions"
+
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] dailyupdate: Interesting divisions"
 ./interestingdivisions2rss.pl > $RSSDEST/interestingdivisions.xml
-echo "All divisions"
+
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] dailyupdate: All divisions"
 ./alldivisions2rss.pl > $RSSDEST/alldivisions.xml
 
-
-
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S) dailyupdate: Complete"

@@ -10,8 +10,8 @@
 require_once "../database.inc";
 require_once "user.inc";
 
-$email=mysql_escape_string($_GET["email"]);
-$hash=mysql_escape_string($_GET["hash"]);
+$email=mysql_real_escape_string($_GET["email"]);
+$hash=mysql_real_escape_string($_GET["hash"]);
 
 if ($hash && $email) {
     $return_url = user_confirm($hash,$email);

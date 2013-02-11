@@ -53,10 +53,11 @@ sub do_one_file {
     print METADATA "file created: " . scalar localtime() . "by http://www.publicwhip.org.uk/\n";
     # Get ids of MPs
     my $limit = "";
-
-    my $mp_query = PublicWhip::DB::query($dbh, "select pw_mp.mp_id, pw_mp.first_name, pw_mp.last_name, pw_mp.party from pw_mp, pw_cache_mpinfo where
+    printf "[%4d-%02d-%02d %02d:%02d:%02d] %s: %s\n",$year+1900,$mon+1,$mday,$hour,$min,$sec,"votematrix","Processing $outfile\n";
+    my $sql="select pw_mp.mp_id, pw_mp.first_name, pw_mp.last_name, pw_mp.party from pw_mp, pw_cache_mpinfo where
         pw_mp.mp_id = pw_cache_mpinfo.mp_id and $where 
-        order by pw_mp.last_name, pw_mp.first_name, pw_mp.constituency $limit");
+        order by pw_mp.last_name, pw_mp.first_name, pw_mp.constituency $limit";
+    my $mp_query = PublicWhip::DB::query($dbh, $sql);
     print METADATA $mp_query->rows . " mps\n";
     my @mp_ixs;
     my %mp_name;

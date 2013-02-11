@@ -13,25 +13,29 @@ require_once "../website/config.php";
 require_once "../website/db.inc";
 require_once "../website/parliaments.inc";
 
-$db = new DB();
-$db2 = new DB();
-
-current_rankings($db);
-count_party_stats($db, $db2);
-guess_whip_for_all($db, $db2);
-count_mp_info($db);
-count_div_info($db);
+print '['.date('Y-m-d H:i:s').'] calc_caches: current rankings'.PHP_EOL;
+current_rankings();
+print '['.date('Y-m-d H:i:s').'] calc_caches: counting party stats'.PHP_EOL;
+count_party_stats();
+print '['.date('Y-m-d H:i:s').'] calc_caches: guessing whip for all'.PHP_EOL;
+guess_whip_for_all();
+print '['.date('Y-m-d H:i:s').'] calc_caches: counting mp info'.PHP_EOL;
+count_mp_info();
+print '['.date('Y-m-d H:i:s').'] calc_caches: counting division info'.PHP_EOL;
+count_div_info();
 
 # then we loop through the missing entries and fill them in
-function count_party_stats($db, $db2)
+function count_party_stats()
 {
+    global $pwpdo;
+    global $pwpdo2;
     # TODO: redo this per parliament
-	$db->query("DROP TABLE IF EXISTS pw_cache_partyinfo");
-	$db->query("CREATE TABLE pw_cache_partyinfo (
+    $pwpdo->query("DROP TABLE IF EXISTS pw_cache_partyinfo",array());
+    $pwpdo->query("CREATE TABLE pw_cache_partyinfo (
 						party varchar(100) not null,
 						house enum('commons', 'lords', 'scotland') not null,
 						total_votes int not null
-                        )");
+                        )",array());
 
 	$query = "SELECT party, house, COUNT(vote) AS total_votes
 			  FROM pw_vote
@@ -40,24 +44,23 @@ function count_party_stats($db, $db2)
 			  GROUP BY party, house";
 
     #print $query;
-	$db->query($query);
+	$rows=$pwpdo->fetch_all_rows($query,array());
 
-	while ($row = $db->fetch_row_assoc())
+	foreach ($rows as $row)
 	{
-        #print_r($row);
-		$qattrs = "party, house, total_votes";
-		$qvalues = "'".$row['party']."', '".$row['house']."', '".$row['total_votes']."'";
-		$db2->query("INSERT INTO pw_cache_partyinfo ($qattrs) VALUES ($qvalues)");
+		$pwpdo->query("INSERT INTO pw_cache_partyinfo (party, house, total_votes) VALUES (?,?,?)",array($row['party'],$row['house'],$row['total_votes']));
     };
 }
 
 
 # party whip calc everything
-function guess_whip_for_all($db, $db2)
+function guess_whip_for_all()
 {
+    global $pwpdo;
+    global $pwpdo2;
 	# this table runs parallel to the table of divisions
-	$db->query("DROP TABLE IF EXISTS pw_cache_whip_tmp");
-	$db->query("CREATE TABLE pw_cache_whip_tmp (
+    $pwpdo->query("DROP TABLE IF EXISTS pw_cache_whip_tmp",array());
+	$pwpdo->query("CREATE TABLE pw_cache_whip_tmp (
 					division_id int not null,
 					party varchar(200) not null,
 					aye_votes int not null,
@@ -69,7 +72,7 @@ function guess_whip_for_all($db, $db2)
 					possible_votes int not null,
 					whip_guess enum('aye', 'no', 'abstention', 'unknown', 'none') not null,
 					unique(division_id, party)
-			    )");
+			    )",array());
 
 	$qselect = "SELECT sum(pw_vote.vote = 'aye') AS ayevotes,
 					   sum(pw_vote.vote = 'tellaye') AS ayetells,
@@ -94,9 +97,9 @@ function guess_whip_for_all($db, $db2)
 	$query = $qselect.$qfrom.$qjoin.$qgroup;
 
     #print $query;
-	$db->query($query);
+    $pwpdo->query($query,array());
 
-	while ($row = $db->fetch_row_assoc())
+	while ($row = $pwpdo->fetch_row())
 	{
 		$party = $row['party'];
 		$ayevotes = intval($row['ayevotes']);
@@ -147,29 +150,28 @@ function guess_whip_for_all($db, $db2)
 		}
 
 		$qattrs = "division_id, party, aye_votes, aye_tells, no_votes, no_tells, both_votes, abstention_votes, possible_votes, whip_guess";
-		$qvalues = $row['division_id'].", '".$row['party']."', $ayevotes, $ayetells, $novotes, $notells, $boths, $abstentions, $possibles, '".$whip_guess."'";
-        $query = "INSERT INTO pw_cache_whip_tmp ($qattrs) VALUES ($qvalues)";
-        #print_r($row);
-        #print $query;
-		$db2->query($query);
+        $placeheld=array($row['division_id'],$row['party'],$ayevotes,$ayetells,$novotes,$notells,$boths,$abstentions,$possibles,$whip_guess);
+        $query='INSERT INTO pw_cache_whip_tmp ('.$qattrs.') VALUES (?'.str_repeat(',?',count($placeheld)-1).')';
+        $pwpdo2->query($query,$placeheld);
     }
 
-	$db->query("DROP TABLE IF EXISTS pw_cache_whip");
-	$db->query("RENAME TABLE pw_cache_whip_tmp TO pw_cache_whip");
+	$pwpdo->query("DROP TABLE IF EXISTS pw_cache_whip",array());
+	$pwpdo->query("RENAME TABLE pw_cache_whip_tmp TO pw_cache_whip",array());
 }
 
-function count_mp_info($db) {
-    count_4d_info($db, "pw_cache_mpinfo", "pw_mp.mp_id", "mp_id", "votes_attended", "votes_possible");
+function count_mp_info() {
+    count_4d_info("pw_cache_mpinfo", "pw_mp.mp_id", "mp_id", "votes_attended", "votes_possible");
 }
 
-function count_div_info($db) {
-    count_4d_info($db, "pw_cache_divinfo", "pw_division.division_id", "division_id", "turnout", "possible_turnout");
+function count_div_info() {
+    count_4d_info( "pw_cache_divinfo", "pw_division.division_id", "division_id", "turnout", "possible_turnout");
 }
 
-function count_4d_info($db, $table, $group_by, $id, $votes_attended, $votes_possible) {
+function count_4d_info( $table, $group_by, $id, $votes_attended, $votes_possible) {
     #print "Creating table $table\n";
-    $db->query( "DROP TABLE IF EXISTS ${table}_tmp" );
-    $db->query(
+    global $pwpdo;
+    $pwpdo->query( "DROP TABLE IF EXISTS ${table}_tmp",array() );
+    $pwpdo->query(
         "CREATE TABLE ${table}_tmp (
         $id int not null,
         rebellions int not null,
@@ -178,7 +180,7 @@ function count_4d_info($db, $table, $group_by, $id, $votes_attended, $votes_poss
         $votes_possible int not null,
         aye_majority int not null,
         index($id)
-    )");
+    )",array());
     // majority is meaningless in the case of the mp_info -- just how many more ayes than noes in the lifetime of the MP
 
     $scottish_rebellion_condition = "( (pw_division.house = 'scotland') and
@@ -210,45 +212,46 @@ function count_4d_info($db, $table, $group_by, $id, $votes_attended, $votes_poss
             pw_division.division_date < pw_mp.left_house
 
         LEFT JOIN pw_vote ON
-            pw_vote.mp_id = pw_mp.mp_id AND
-            pw_vote.division_id = pw_division.division_id
+            pw_vote.division_id = pw_division.division_id AND
+            pw_vote.mp_id = pw_mp.mp_id
 
         LEFT JOIN pw_cache_whip ON
-            pw_cache_whip.party = pw_mp.party AND
-            pw_cache_whip.division_id = pw_division.division_id
+            pw_cache_whip.division_id = pw_division.division_id AND
+            pw_cache_whip.party = pw_mp.party
 
         GROUP BY $group_by
     ";
 
     #print $query;
-    $db->query($query);
+    $pwpdo->query($query,array());
 
-	$db->query("DROP TABLE IF EXISTS $table");
-	$db->query("RENAME TABLE ${table}_tmp TO $table");
+	$pwpdo->query("DROP TABLE IF EXISTS $table",array());
+	$pwpdo->query("RENAME TABLE ${table}_tmp TO $table",array());
 }
 
-function current_rankings($db) {
+function current_rankings() {
     # Create tables to store in
-    $db->query("drop table if exists pw_cache_rebelrank_today" );
-    $db->query("create table pw_cache_rebelrank_today (
+    global $pwpdo;
+    $pwpdo->query("drop table if exists pw_cache_rebelrank_today",array() );
+    $pwpdo->query("create table pw_cache_rebelrank_today (
         mp_id int not null,
         rebel_rank int not null,
         rebel_outof int not null,
         index(mp_id)
         )"
-    );
-    $db->query("drop table if exists pw_cache_attendrank_today" );
-    $db->query("create table pw_cache_attendrank_today (
+        ,array());
+    $pwpdo->query("drop table if exists pw_cache_attendrank_today" ,array());
+    $pwpdo->query("create table pw_cache_attendrank_today (
             mp_id int not null,
             attend_rank int not null,
             attend_outof int not null,
             index(mp_id)
         )"
-    );
+        ,array());
 
-    do_house_ranking($db, "commons");
-    do_house_ranking($db, "scotland");
-    do_house_ranking($db, "lords");
+    do_house_ranking( "commons");
+    do_house_ranking("scotland");
+    do_house_ranking("lords");
 }
 
 function rebelcomp($a, $b) {
@@ -262,7 +265,8 @@ function attendcomp($a, $b) {
     return ($mpattend[$a] > $mpattend[$b]) ? -1 : 1;
 }
 
-function do_house_ranking($db, $house) {
+function do_house_ranking($house) {
+    global $pwpdo;
     # Select all MPs in force today, and their attendance/rebellions
     $mps_query_start = "select pw_mp.mp_id as mp_id, 
             round(100*rebellions/votes_attended,2) as rebellions,
@@ -270,11 +274,11 @@ function do_house_ranking($db, $house) {
             party
             from pw_mp, pw_cache_mpinfo 
             where pw_mp.mp_id = pw_cache_mpinfo.mp_id 
-                  and house = '$house' ";
-    $db->query($mps_query_start . "and entered_house <= curdate() and curdate() <= left_house");
-    if ($db->rows() == 0) {
-        $db->query($mps_query_start .  "and left_house = '2011-03-23'");
-        if ($db->rows() == 0) {
+                  and house = ? ";
+    $rows=$pwpdo->fetch_all_rows($mps_query_start . "and entered_house <= curdate() and curdate() <= left_house",array($house));
+    if (count($rows) == 0) {
+        $rows=$pwpdo->fetch_all_rows($mps_query_start .  "and left_house = '2011-03-23'",array($house));
+        if (count($rows) == 0) {
             die("No MPs/MSPs/Lords currently active have been found (house: '$house'), change General Election date in code if you are coming up to one");
             return;
         }
@@ -287,8 +291,11 @@ function do_house_ranking($db, $house) {
     $mprebel = array();
     $mpsattend = array();
     $mpattend = array();
-	while ($row = $db->fetch_row()) {
-        list( $mpid, $rebel, $attend, $party ) = $row;
+	foreach ($rows as $row) {
+        $mpid=$row['mp_id'];
+        $rebel=$row['rebellions'];
+        $attend=$row['attendance'];
+        $party=$row['party'];
         if ( $rebel ) {
             if (!whipless_party($party)) {
                 $mpsrebel[] = $mpid;
@@ -312,9 +319,7 @@ function do_house_ranking($db, $house) {
         if ( $mprebel[$mp] != $prevvalue )
             $activerank = $rank;
         $prevvalue = $mprebel{$mp};
-        $db->query("insert into pw_cache_rebelrank_today (mp_id, rebel_rank, rebel_outof)
-            values ($mp, $activerank, ".count($mpsrebel).")"
-        );
+        $pwpdo->query('INSERT INTO pw_cache_rebelrank_today (mp_id, rebel_rank, rebel_outof) VALUES (?,?,?)',array($mp,$activerank,count($mpsrebel)));
     }
 
     # Sort, and calculate ranking for attendance
@@ -328,9 +333,7 @@ function do_house_ranking($db, $house) {
         if ( $mpattend{$mp} != $prevvalue )
             $activerank = $rank;
         $prevvalue = $mpattend{$mp};
-        $db->query("insert into pw_cache_attendrank_today (mp_id, attend_rank, attend_outof)
-            values ($mp, $activerank, ".count($mpsattend).")"
-        );
+        $pwpdo->query('insert into pw_cache_attendrank_today (mp_id, attend_rank, attend_outof) values (?,?,?)',array($mp,$activerank,count($mpsattend)));
     }
 }
 

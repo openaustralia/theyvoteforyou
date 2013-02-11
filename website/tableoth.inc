@@ -88,6 +88,8 @@
 	# listlength is 'short' or 'allpublic'
 	function print_policy_table($db, $dreamtabattr)
 	{
+        global $pwpdo;
+        $placeholders=array();
 		$qselect = " SELECT name, description, votes_count, private,
 						pw_dyn_dreammp.dream_id AS dream_id,
 						round(100 * edited_motions_count / votes_count, 0) AS motions_percent,
@@ -105,7 +107,8 @@
 	        $qselect .= ", distance_a AS distance";
         	$qjoin   .= " LEFT JOIN pw_cache_dreamreal_distance
 		                        ON pw_cache_dreamreal_distance.dream_id = pw_dyn_dreammp.dream_id
-                                    	AND pw_cache_dreamreal_distance.person = ".$dreamtabattr['person'];
+                                    	AND pw_cache_dreamreal_distance.person = :pwc_distance_person";
+            $placeholders[':pwc_distance_person']=$dreamtabattr['person'];
 	        $qorder = " ORDER BY name";
             $qwhere .= " AND distance_a <> -1";
 		}
@@ -127,7 +130,8 @@
         	$qselect .= ", pw_dyn_aggregate_dreammp.vote_strength AS vote_strength";
 			$qjoin .= " LEFT JOIN pw_dyn_aggregate_dreammp
         					ON pw_dyn_aggregate_dreammp.dream_id_sel = pw_dyn_dreammp.dream_id
-        					AND pw_dyn_aggregate_dreammp.dream_id_agg = ".$dreamtabattr['dreamid'];
+        					AND pw_dyn_aggregate_dreammp.dream_id_agg = :pwd_dream_ud_agg";
+            $placeholders[':pwd_dream_id_agg']=$dreamtabattr['dreamid'];
 		}
 
         $qgroup = "";
@@ -145,10 +149,9 @@
 
 
 		$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup.$qorder.$qlimit;
-		if ($bdebug == 1)
-			print "<h2>$query</h2>\n";
-		$db->query($query);
-		$res = $db->rows();
+
+		$allRows=$pwpdo->fetch_all_rows($query,$placeholders);
+		$res = count($allRows);
 		if ($res == 0)
 		{
 	        $prettyrow = pretty_row_start($prettyrow);
@@ -192,8 +195,7 @@
 	        print "</tr>\n";
 		}
 
-	    while ($row = $db->fetch_row_assoc())
-		{
+        foreach ($allRows as $row) {
 	        $prettyrow = pretty_row_start($prettyrow);
 	        $dreamid = $row['dream_id'];
 
@@ -258,19 +260,21 @@
 
 
 
-    function print_party_summary_division($db, $div_id, $baseurl, $house)
+    function print_party_summary_division( $div_id, $baseurl, $house)
     {
-        if ($house != "commons" && $house != "lords" && $house != "scotland")
+        global $pwpdo;
+        if ($house != "commons" && $house != "lords" && $house != "scotland") {
             die;
-        $db->query("SELECT party, total_votes FROM pw_cache_partyinfo where house = '$house'");
+        }
+        $pwpdo->query("SELECT party, total_votes FROM pw_cache_partyinfo where house = ?",array($house));
         $alldivs = array();
-        while ($row = $db->fetch_row())
-            $alldivs[$row[0]] = $row[1];
-
+        while ($row = $pwpdo->fetch_row()) {
+            $alldivs[$row[0]] = $row['total_votes'];
+        }
         $alldivs_total = array_sum(array_values($alldivs));
 
-        $db->query("SELECT aye_majority FROM pw_cache_divinfo WHERE division_id=$div_id");
-        $row = $db->fetch_row_assoc(); 
+        $pwpdo->query("SELECT aye_majority FROM pw_cache_divinfo WHERE division_id=?",array($div_id));
+        $row = $pwpdo->fetch_row();
         $aye_majority = $row["aye_majority"];
 
         # Table of votes by party
@@ -295,9 +299,9 @@
 
 		$query = "SELECT party, aye_votes, aye_tells, no_votes, no_tells, both_votes, abstention_votes, possible_votes, whip_guess
 					FROM pw_cache_whip
-					WHERE division_id = $div_id
+					WHERE division_id = ?
 					ORDER BY party";
-		$db->query($query);
+		$pwpdo->query($query,array($div_id));
 
         $noesfirst = ($aye_majority < 0); 
         # Make table
@@ -324,7 +328,7 @@
 		$totalpossible = 0;
 		$totalabstentions = 0;
 	    
-        while ($row = $db->fetch_row_assoc())
+        while ($row = $pwpdo->fetch_row())
 		{
             $party = $row["party"];
 			$aye = $row["aye_votes"];
@@ -406,4 +410,3 @@
 
 		print "</table>";
 	}
-?>

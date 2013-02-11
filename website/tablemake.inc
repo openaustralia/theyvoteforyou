@@ -10,7 +10,7 @@
 
 
 # this assigns an mp here and returns the MP's party
-function divmpconds(&$aquery, &$db, $voter, $bonlyvotes, $bperson, $i)
+function divmpconds(&$aquery, &$placeholders, $voter, $bonlyvotes, $bperson, $i)
 {
     global $bdebug;
 
@@ -24,66 +24,63 @@ function divmpconds(&$aquery, &$db, $voter, $bonlyvotes, $bperson, $i)
                                     pwvote$i.division_id = pw_division.division_id";
         $aquery["qjoin"]   .= " LEFT JOIN pw_mp as pwmp$i ON
                                     pwvote$i.mp_id = pwmp$i.mp_id";
-        $aquery["qwhere"]  .= " AND pwmp$i.person = ".$voter["mpprop"]['person'];
+        $aquery["qwhere"]  .= " AND pwmp$i.person = :pwh_pwmp".$i."_person";
+        $placeholders[':pwh_pwmp'.$i.'_person']=$voter["mpprop"]['person'];
 
         # get the fields for this particular person time range
         $datecond = "";
         foreach ($voter['mpprops'] as $mpprop)
         {
-            if ($datecond != "")
+            if ($datecond != "") {
                 $datecond .= " OR ";
-            if ($bdebug == 1)
-                print_r($mpprop);
-            $datecond .= " (pw_division.division_date >= \"".$mpprop['enteredhouse']."\"
-                                AND pw_division.division_date < \"".$mpprop['lefthouse']."\"
-                                AND pw_division.house = \"".$mpprop['house']."\")";
+            }
+            $datecond .= ' (pw_division.division_date >= :pwh_pwdiv'.$i.'_entered AND pw_division.division_date < :pwh_pwdiv'.$i.'_left '.
+                                ' AND pw_division.house = :pwh_pwdiv'.$i.'_house)';
+            $placeholders[':pwh_pwdiv'.$i.'_entered']=$mpprop['enteredhouse'];
+            $placeholders[':pwh_pwdiv'.$i.'_left']=$mpprop['lefthouse'];
+            $placeholders[':pwh_pwdiv'.$i.'_house']=$mpprop['house'];
         }
-        if ($datecond != "")
+        if ($datecond != "") {
             $aquery["qwhere"] .= " AND ($datecond)";
-        $aquery["qwhere"] .= " AND pwmp$i.person = ".$voter["mpprop"]['person'];
-        if ($bdebug == 1)
-            print "<h1>datecond: $datecond</h1>\n";
+        }
+        $aquery["qwhere"] .= " AND pwmp$i.person = :pwh_pwmp".$i."_person";
     }
 
     # searching against an mp
     else
     {
-        if ($bdebug == 1)
-        {
-            print "<h1>";
-            print_r($voter);
-            print "</h1>\n";
-        }
         $aquery["qjoin"]   .= " LEFT JOIN pw_vote as pwvote$i ON
                                     pwvote$i.division_id = pw_division.division_id
-                                    AND pwvote$i.mp_id = ".$voter['mpid'];
-
+                                    AND pwvote$i.mp_id = :pwh_pwvote".$i."_mpid";
+        $placeholders[':pwh_pwvote'.$i.'_mpid']=$voter['mpid'];
         # limit down the time range if not a full-join
-        $datecond = " (pw_division.division_date >= \"".$voter['enteredhouse']."\"
-                            AND pw_division.division_date < \"".$voter['lefthouse']."\"
-                            AND pw_division.house = \"".$voter['house']."\")";
+        $datecond .= ' (pw_division.division_date >= :pwh_pwdiv'.$i.'_entered AND pw_division.division_date < :pwh_pwdiv'.$i.'_left '.
+            ' AND pw_division.house = :pwh_pwdiv'.$i.'_house)';
+        $placeholders[':pwh_pwdiv'.$i.'_entered']=$voter['enteredhouse'];
+        $placeholders[':pwh_pwdiv'.$i.'_left']=$voter['lefthouse'];
+        $placeholders[':pwh_pwdiv'.$i.'_house']=$voter['house'];
         $aquery["qwhere"] .= " AND $datecond";
 
         $aquery["name$i"] = $voter["name"];
         $aquery["party$i"] = $voter["party"];
     }
 
-    if ($bonlyvotes)
+    if ($bonlyvotes) {
         $aquery["qwhere"] .= " AND pwvote$i.vote IS NOT NULL";
-
+    }
     $aquery["vote$i"] = "pwvote$i.vote";  # used because whipping has a special column
 }
 
 # this joins a dreammp here
-function divdreammpconds(&$aquery, &$db, $dreammpid, $bonlyvotes, $i)
+function divdreammpconds(&$aquery, &$placeholders, $dreammpid, $bonlyvotes, $i)
 {
     # build the selection.  There is no division_id in the dreamvote table
     $aquery["qselect"] .= ", pwvote$i.vote as vote$i";
     $aquery["qjoin"]   .= " LEFT JOIN pw_dyn_dreamvote as pwvote$i ON
-                                pwvote$i.dream_id = $dreammpid
+                                pwvote$i.dream_id = :pwh_ddmpc_".$i."_dreamid
                                  AND pwvote$i.division_date = pw_division.division_date
                                  AND pwvote$i.division_number = pw_division.division_number";
-
+    $placeholders[':pwh_ddmpc_'.$i.'_dreamid']=$dreammpid;
     # limit down the time range if not a full-join
     if ($bonlyvotes)
     {
@@ -96,19 +93,19 @@ function divdreammpconds(&$aquery, &$db, $dreammpid, $bonlyvotes, $i)
 }
 
 # this joins a party vote here
-function divpartyconds(&$aquery, &$db, $party, $i)
+function divpartyconds(&$aquery, &$placeholders, $party, $i)
 {
     # parties always vote everywhere, so safe to join to one
     $aquery["qselect"] .= ", pwvote$i.whip_guess as vote$i";
     $aquery["qjoin"]   .= " LEFT JOIN pw_cache_whip as pwvote$i ON
                                 pwvote$i.division_id = pw_division.division_id
-                                AND pwvote$i.party = \"$party\"";
-
+                                AND pwvote$i.party = :pwh_divpartyconds_".$i."_party";
+    $placeholders[':pwh_divpartyconds_'.$i.'_party']=$party;
     $aquery["vote$i"] = "pwvote$i.whip_guess";  # used because whipping has a special column
 }
 
 # this joins a party vote here
-function divaggregateconds(&$aquery, &$db, $dreamid, $baggnames, $i)
+function divaggregateconds(&$aquery, &$placeholders, $dreamid, $baggnames, $i)
 {
     # parties always vote everywhere, so safe to join to one
     #vote enum("aye", "no", "both", "aye3", "no3") not null,
@@ -119,8 +116,9 @@ function divaggregateconds(&$aquery, &$db, $dreamid, $baggnames, $i)
 
     $aquery["qjoin"]   .= " LEFT JOIN pw_dyn_aggregate_dreammp, pw_dyn_dreamvote AS pw_dyn_dreamvote_agg
 								ON pw_dyn_aggregate_dreammp.dream_id_sel = pw_dyn_dreamvote_agg.dream_id
-								AND pw_dyn_aggregate_dreammp.dream_id_agg = $dreamid";
+								AND pw_dyn_aggregate_dreammp.dream_id_agg = :pwh_divaggregateconds_".$i."_dreamid";
 								#AND pw_dyn_dreamvote_agg.division_id = pw_division.division_id";i
+    $placeholders[':pwh_divaggregateconds_'.$i.'_dreamid']=$dreamid;
     $aquery["qjoin"]    .=   "  AND pw_dyn_dreamvote_agg.division_date = pw_division.division_date
                                 AND pw_dyn_dreamvote_agg.division_number = pw_division.division_number"; # AND HOUSE!!!
 
@@ -542,15 +540,16 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $roleclass, $vote1,
 
 function GetPartyVoteSummaryH($db, $div_id)
 {
-    $query = "SELECT pw_mp.party, COUNT(*), vote, whip_guess
+    global $pwpdo;
+    $query = "SELECT pw_mp.party, COUNT(*) AS counter, vote, whip_guess
               FROM pw_vote, pw_mp, pw_cache_whip
-              WHERE pw_vote.division_id = $div_id
+              WHERE pw_vote.division_id = ?
                 AND pw_vote.mp_id = pw_mp.mp_id
                 AND pw_cache_whip.division_id = pw_vote.division_id
                 AND pw_cache_whip.party = pw_mp.party
               GROUP BY pw_mp.party, vote
               ORDER BY party, vote";
-    $db->query($query);
+    $pwpdo->query($query,array($div_id));
 
     # Precalc values
     $ayes = array();
@@ -561,12 +560,12 @@ function GetPartyVoteSummaryH($db, $div_id)
     $whips = array();
     $totalpartyvote = array();
 
-    while ($row = $db->fetch_row())
+    while ($row = $pwpdo->fetch_row())
     {
-        $party = $row[0];
-        $count = $row[1];
-        $vote = $row[2];
-        $whip = $row[3];
+        $party = $row['party'];
+        $count = $row['counter'];
+        $vote = $row['vote'];
+        $whip = $row['whip_guess'];
 
         $totalpartyvote[$party] += $count;
 
@@ -695,22 +694,30 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
     # MP's vote
     $ayecla = ($totalayes > $totalnoes ? " class=\"majority\"" : "");
     $nocla = ($totalnoes > $totalayes ? " class=\"majority\"" : "");
-    if ($voter2attr)
+    if ($voter2attr) {
         writepersonvote(0, $roleclass, $voter1['name'], $vote1, $ayecla, $nocla);
+    }
     //writepersonvote($lnrows, "strong", $voter1['name'], $vote1, $ayecla, $nocla);
 
-
+    if (false===isset($voter1['party'])) {
+        $party='';
+    } else {
     # votes of rest of parties (a rather poor way to put it together)
     $party = $voter1['party'];
+    }
     $partys = array();
-    if ($voter2attr)
+    if ($voter2attr) {
         array_push($partys, $party);
-    if ($party != "Lab")
+    }
+    if ($party != "Lab") {
         array_push($partys, "Lab");
-    if ($party != "Con")
+    }
+    if ($party != "Con") {
         array_push($partys, "Con");
-    if ($party != "LDem")
+    }
+    if ($party != "LDem") {
         array_push($partys, "LDem");
+    }
     foreach ($partys as $lparty)
         writenumbervote($lnrows, $lparty, $partysummary['ayes'][$lparty], $partysummary['noes'][$lparty], $ayecla, $nocla);
     writenumbervote($lnrows, "Total", $totalayes, $totalnoes, $ayecla, $nocla);
@@ -762,13 +769,8 @@ function division_table($db, $divtabattr, $db2="", $events = "")
     update_divisions_wiki_id($db);
 
     global $bdebug;
-    if ($bdebug == 1)
-    {
-        print "<h1>";
-        print_r($divtabattr);
-        print "</h1>";
-    }
-
+    global $pwpdo;
+    $placeholders=array();
     # extract attibutes
     $showwhich = $divtabattr["showwhich"];
     $voter1type = $divtabattr["voter1type"];
@@ -782,9 +784,9 @@ function division_table($db, $divtabattr, $db2="", $events = "")
     # the list list and forms of the columns we are going to output
 	$columnforms = array();
     $columnforms["divisiondate"] = "yes";
-    if ($divtabattr["hitcounter"]) 
+    if ($divtabattr["hitcounter"])  {
         $columnforms["hitcounter"] = "yes";
-
+    }
     # the underlying division list
     $aquery = array();
     $aquery["qselect"] = " SELECT
@@ -793,22 +795,24 @@ function division_table($db, $divtabattr, $db2="", $events = "")
                             pw_division.clock_time      AS divisiontime,
                             pw_division.house           AS divisionhouse,
                             division_name, source_url, debate_url, pw_division.source_gid AS source_gid, debate_gid, aye_majority";
-
     $aquery["qfrom"]   = " FROM pw_division";
     $aquery["qjoin"]   = " LEFT JOIN pw_cache_divinfo ON pw_cache_divinfo.division_id = pw_division.division_id";
 
     # where clause with limitation for one parliament, or dummy condition
     $aquery["qwhere"]  = " WHERE 1=1";
-    if ($divtabattr["parldatelimit"])
-        $aquery["qwhere"] .= " AND (pw_division.division_date >= \"".$divtabattr["parldatelimit"]['from']."\"
-                                      AND pw_division.division_date < \"".$divtabattr["parldatelimit"]['to']."\")";
-	if (($divtabattr["display_house"] == "lords") or ($divtabattr["display_house"] == "commons") or ($divtabattr["display_house"] == "scotland"))
-		$aquery["qwhere"] .= " AND pw_division.house = \"".$divtabattr["display_house"]."\"";
-    else if ($divtabattr["display_house"] == "z") 
+    if ($divtabattr["parldatelimit"]) {
+        $aquery["qwhere"] .= " AND (pw_division.division_date >= :pwd_parldatefrom AND pw_division.division_date < :pwd_parldatelimit)";
+        $placeholders[':pwd_parldatefrom']=$divtabattr["parldatelimit"]['from'];
+        $placeholders[':pwd_parldatelimit']=$divtabattr["parldatelimit"]['to'];
+    }
+	if (($divtabattr["display_house"] == "lords") or ($divtabattr["display_house"] == "commons") or ($divtabattr["display_house"] == "scotland")) {
+		$aquery["qwhere"] .= " AND pw_division.house = :pwd_display_house";
+        $placeholders[':pwd_display_house']=$divtabattr["display_house"];
+    } else if ($divtabattr["display_house"] == "z") {
 		$aquery["qwhere"] .= " AND pw_division.house = \"commons\" AND pw_division.division_date >= \"2009-06\"";
-    else
+} else {
 		$columnforms["house"] = "yes";  # a mixed list needs to state the house
-
+    }
     # accumulate the ordering command
     $aquery["qorder"]  = " ORDER BY";
     $sortby = $divtabattr["sortby"];
@@ -819,8 +823,9 @@ function division_table($db, $divtabattr, $db2="", $events = "")
 		$aquery["qselect"] .= ", pw_cache_divdiv_distance.distance AS divdistance
 				       , (pw_cache_divdiv_distance.nvotessame+pw_cache_divdiv_distance.nvotesdiff) AS voteoverlap";
 		$aquery["qjoin"] .= " LEFT JOIN pw_cache_divdiv_distance
-								ON pw_cache_divdiv_distance.division_id = '".$divclose['division_id']."'
+								ON pw_cache_divdiv_distance.division_id = :pwd_divdiv_distance_divid
 								AND pw_cache_divdiv_distance.division_id2 = pw_division.division_id";
+        $placeholders[':pwd_divdiv_distance_divid']=$divclose['division_id'];
 		$aquery["qwhere"] .= " AND pw_cache_divdiv_distance.distance IS NOT null";
 
 		$columnforms['similarity'] = "yes";
@@ -854,13 +859,13 @@ function division_table($db, $divtabattr, $db2="", $events = "")
 
     # corrected column (yet another division_id coding!)
     # motionwikistate is nothing or 'listunedited' for the "(unedited)" symbols
-    if ($divclose)
+    if ($divclose) {
 	    $columnforms["divisiontitle"] = 'close';
-	else if ($divtabattr["motionwikistate"])
+    } else if ($divtabattr["motionwikistate"]) {
 	    $columnforms["divisiontitle"] = 'unedited';
-	else
+    } else {
 	    $columnforms["divisiontitle"] = 'yes';
-
+    }
 
     $aquery["qselect"] .= ", pw_dyn_wiki_motion.wiki_id AS motionedited, pw_dyn_wiki_motion.text_body AS text_body";
     $aquery["qjoin"]  .= "  LEFT JOIN pw_cache_divwiki ON pw_cache_divwiki.division_date = pw_division.division_date
@@ -891,9 +896,9 @@ function division_table($db, $divtabattr, $db2="", $events = "")
     # construct the first column of votes
     $bonlyvotes1 = ($showwhich == "all1" or $showwhich == "both" or $showwhich == "bothdiff" or $voter1type == "dreammp");
     if ($voter1type == "mp")
-        divmpconds($aquery, $db, $voter1, $bonlyvotes1, false, 1);
+        divmpconds($aquery, $placeholders, $voter1, $bonlyvotes1, false, 1);
     if ($voter1type == "dreammp")
-        divdreammpconds($aquery, $db, $voter1, $bonlyvotes1, 1);
+        divdreammpconds($aquery, $placeholders, $voter1, $bonlyvotes1, 1);
 
     if (!$voter1type && !$divclose)  # this case means we are listing all divisions without a driver
 	{
@@ -922,18 +927,18 @@ function division_table($db, $divtabattr, $db2="", $events = "")
             #$columnforms["voter2type"] = null;
             #$columnforms["role"] = "Agreement with policy above";
             $columnforms["role"] = null;
-            divdreammpconds($aquery, $db, $voter2, $bonlyvotes2, 2);
+            divdreammpconds($aquery, $placeholders, $voter2, $bonlyvotes2, 2);
         } 
         else if ($voter2type == "party") 
         {
             if ($voter2 == "")
                 $voter2 = $aquery["party1"];
-            divpartyconds($aquery, $db, $voter2, 2);
+            divpartyconds($aquery, $placeholders, $voter2, 2);
         }
         else if ($voter2type == "person")
-            divmpconds($aquery, $db, $voter2, $bonlyvotes2, true, 2);
+            divmpconds($aquery, $placeholders, $voter2, $bonlyvotes2, true, 2);
 		else if ($voter2type == "aggregate")
-			divaggregateconds($aquery, $db, $voter2, $columnforms["aggregate_names"], 2);
+			divaggregateconds($aquery, $placeholders, $voter2, $columnforms["aggregate_names"], 2);
 
         # put in the selection mechanism of diffs into this
         if ($showwhich == "bothdiff")
@@ -957,8 +962,8 @@ function division_table($db, $divtabattr, $db2="", $events = "")
 								 pw_cache_whip.whip_guess AS whip_guess";
 
 		$aquery["qjoin"] .= " LEFT JOIN pw_cache_whip
-								ON pw_cache_whip.division_id = pw_division.division_id AND pw_cache_whip.party = '".$divtabattr["party"]."'";
-
+								ON pw_cache_whip.division_id = pw_division.division_id AND pw_cache_whip.party = :pwd_party_whip_join";
+        $placeholders[':pwd_party_whip_join']=$divtabattr['party'];
 	    if ($voter1type == "dreammp")
         {
             #$columnforms["ayes"] = "yes";
@@ -982,16 +987,17 @@ function division_table($db, $divtabattr, $db2="", $events = "")
     if ($showwhich == "search") 
     {
         $aquery["qwhere"]  .= " AND (
-                LOWER(convert(division_name using utf8)) LIKE '%".$divtabattr["search"]."%'
-                OR LOWER(convert(motion using utf8)) LIKE '%".$divtabattr["search"]."%'
-                OR LOWER(convert(text_body using utf8)) LIKE '%".$divtabattr["search"]."%'".
-                ")";
+                LOWER(convert(division_name using utf8)) LIKE :pwd_namesearch
+                OR LOWER(convert(motion using utf8)) LIKE :pwd_namesearch
+                OR LOWER(convert(text_body using utf8)) LIKE :pwd_namesearch
+                )";
+        $placeholders[':pwd_namesearch']='%'.$divtabattr['search'].'%';
     }
 
     # apply the limit
-    if ($divtabattr["limitby"] != "")
-        $aquery["qlimit"] = " LIMIT ".$divtabattr["limitby"];
-
+    if ($divtabattr["limitby"] != "") {
+        $aquery["qlimit"] = " LIMIT ".(int)$divtabattr["limitby"];
+    }
     if ($columnforms["hitcounter"])
     {
         $aquery["qselect"] .= ", COUNT(*)-1 AS hits"; # can't avoid the overcounting on the first
@@ -1004,19 +1010,8 @@ function division_table($db, $divtabattr, $db2="", $events = "")
     
     # main set that grabs all the divisions and makes a coarse subsampling
     $query = $aquery["qselect"].$aquery["qfrom"].$aquery["qjoin"].$aquery["qwhere"].$aquery["qgroup"].$aquery["qorder"].$aquery["qlimit"];
-    if ($bdebug == 1)
-    {
-        if ($divtabattr["limitby"] == "")
-        {
-            $query .= " LIMIT 30";
-            print "<h3>Limiting by 30 for shorter table</h3>";
-        }
-        print "<h1>GGGG $voter1type ";
-        print_r($voter1);
-        print " $voter2type $voter2 $showwhich $headings</h1>";
-        print "<h1>query: $query</h1>\n";
-    }
-    $db->query($query);
+
+    $allRows=$pwpdo->fetch_all_rows($query,$placeholders);
 
 
     # make the printing
@@ -1030,7 +1025,7 @@ function division_table($db, $divtabattr, $db2="", $events = "")
         print_column_headings($voter1, $voter2, $columnforms, $divtabattr["party"]);
 
         # blank case table; must say something
-        if ($db->rows() == 0)
+        if (count($allRows)===0)
         {
             $prettyrow = pretty_row_start($prettyrow, "");
             $mess = "no votes listed";
@@ -1047,8 +1042,7 @@ function division_table($db, $divtabattr, $db2="", $events = "")
     $dismetric = array("agree"=>0, "disagree"=>0, "agree3"=>0, "disagree3"=>0,
                        "ab1"=>0, "ab1line3"=>0, "ab2"=>0, "abboth"=>0,
 					   "clashes"=>0, "updates"=>0, "total"=>0);
-    while ($row = $db->fetch_row_assoc())
-    {
+    foreach ($allRows as $row) {
         # mark the role column and fix the terminology of the vote
         $pretrowclass = "";
         if ($voter1type != "")
@@ -1104,7 +1098,7 @@ function division_table($db, $divtabattr, $db2="", $events = "")
         if ($divtabattr['votedisplay'] == 'fullmotion')
         {
             // I suspect this is using the same instance of $db and destroying the current position
-            $wikiinfo = get_wiki_current_value($db2, "motion", array($row['divisiondate'], $row['divisionnumber'], $row['divisionhouse']));
+            $wikiinfo = get_wiki_current_value("motion", array($row['divisiondate'], $row['divisionnumber'], $row['divisionhouse']));
             $motiontext = extract_motion_text_from_wiki_text($wikiinfo['text_body']);
 			print_motion_row($motiontext, $db2, $row['divisionid'], $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, ($voter2attr? $voter1 : $divtabattr['voter1name']), $vote1, $voter2attr, $vote2, $row, $divhref, $hrefsource);
 			$nrows += 2;

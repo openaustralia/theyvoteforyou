@@ -50,7 +50,7 @@ pw_header_notitle();
 </div>
 <div class="homesponsor">
 <h3>Want to reach a politically engaged audience?</h3>
-<p>We have a limited number of sponsorship and advertising packages available. Email publicwhip@raraunga.com for details</p>
+<p>We have a limited number of sponsorship and advertising packages available. Email team@publicwhip.org.uk for details</p>
 </div>
 
 <div class="homerecents">

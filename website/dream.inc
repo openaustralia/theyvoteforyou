@@ -87,23 +87,6 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
 		   </div>
 		   <div class=\"equals break\">&nbsp;= <b>".number_format(100.0 * $values_total / ($points_total == 0 ? 1 : $points_total), 1)." %</b>.</div>
 		   </p>\n\n<br clear=\"all\">\n";
-
-	#print "<p>Please post comments and feedback about this equation in
-	#		<a href=\"forum/viewtopic.php?t=150\">our forum</a>.</p>\n";
-
-
-	if ($bdebug == 1)
-	{
-		$query   = "SELECT nvotessame, nvotessamestrong,
-						nvotesdiffer, nvotesdifferstrong,
-						nvotesabsent, nvotesabsentstrong,
-						distance_a, distance_b
-					FROM pw_cache_dreamreal_distance
-					WHERE dream_id = $dreamid AND person = $person";
-		$row = $db->query_onez_row_assoc($query);
-		print "<p>values from the pw_cache_dreamreal_distance table:";
-		print_r($row);
-	}
 }
 
 
@@ -116,6 +99,7 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
     update_divisions_wiki_id($db);
 
 	global $bdebug;
+	global $pwpdo;
 
 	$qselect  = "SELECT pw_dyn_dreamvote.dream_id, COUNT(*) AS nvotes";
 	$qselect .= ", SUM(pw_cache_divwiki.wiki_id != -1) AS neditedmotions";
@@ -125,32 +109,31 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 	$qfrom  = " FROM pw_cache_divwiki, pw_dyn_dreamvote";
 	$qjoin .= " LEFT JOIN pw_cache_dreaminfo
 					ON pw_cache_dreaminfo.dream_id = pw_dyn_dreamvote.dream_id";
-
+	$placeheld=array();
 	# fill in the holes, or do where there is none
-	if ($dreamid == "force")
-		$qwhere = " WHERE 1=1";
-	elseif ($dreamid == null)
+	if ($dreamid == "force") {
+  		$qwhere = " WHERE 1=1";
+	} elseif ($dreamid == null) {
 		$qwhere = " WHERE pw_cache_dreaminfo.cache_uptodate IS null";
-	else
+	} else {
 		$qwhere = " WHERE pw_dyn_dreamvote.dream_id = $dreamid";
+		$placeheld[]=$dreamid;
+	}
 	$qwhere .= " AND pw_cache_divwiki.division_date = pw_dyn_dreamvote.division_date
 					AND pw_cache_divwiki.division_number = pw_dyn_dreamvote.division_number";
 
 	$qgroup = " GROUP BY pw_dyn_dreamvote.dream_id";
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
-	if ($bdebug == 1)
-		print "<h3>$query</h3>\n";
-    $db->query($query);
 
-	$rowarray = $db->fetch_rows_assoc();
+	$rowarray = $pwpdo->fetch_all_rows($query,$placeheld);
     foreach ($rowarray as $row)
 	{
 		$nvotes = $row["nvotes"];
 		$neditedmotions = $row["neditedmotions"];
 		$query ="REPLACE INTO pw_cache_dreaminfo
 				(dream_id, cache_uptodate, votes_count, edited_motions_count)
- 				VALUES (".$row['dream_id'].", $cache_uptodate_default, $nvotes, $neditedmotions)";
-		$db->query($query);
+ 				VALUES (?,?,?,?)";
+		$pwpdo->query($query,array($row['dream_id'],$cache_uptodate_default,$nvotes,$neditedmotions));
 	}
 }
 
@@ -163,14 +146,15 @@ function update_dreammp_person_distance($db, $dreamid)
     # update the number of votes and number of motions edited
 #    print "update_dreammp_person_distance $dreamid<p>\n";
 
+    global $pwpdo;
 	global $bdebug;
 	$query = "SELECT cache_uptodate
 			  FROM pw_cache_dreaminfo
-			  WHERE dream_id = $dreamid";
-	$row = $db->query_onez_row_assoc($query); # allows no rows
+			  WHERE dream_id = ?";
+    $row=$pwpdo->get_single_row($query,array($dreamid));
 	if ($row == null) {
 		update_dreammp_votemeasures($db, $dreamid, 0);
-		$row = $db->query_onez_row_assoc($query);
+        $row=$pwpdo->get_single_row($query,array($dreamid));
 		if ($row == null) {
 			// case of no votes yet by Dream MP
 			return;
@@ -180,8 +164,6 @@ function update_dreammp_person_distance($db, $dreamid)
 		update_dreammp_votemeasures($db, $dreamid, $row["cache_uptodate"]); # forces the sums to add up properly
 	if ($row["cache_uptodate"] == 1)
 		return;
-    if ($bdebug)
-        print "<p>cache_uptodate: ".$row["cache_uptodate"]."</p>\n";
 
 	# now go and rebuild all the distances
 
@@ -211,7 +193,7 @@ function update_dreammp_person_distance($db, $dreamid)
 	# (no score from dreamMP absents or abstentions)
 
 	$qfrom  = " FROM pw_mp";
-	$qjoin = " LEFT JOIN pw_dyn_dreamvote ON pw_dyn_dreamvote.dream_id = $dreamid";
+	$qjoin = " LEFT JOIN pw_dyn_dreamvote ON pw_dyn_dreamvote.dream_id = ?";
 	$qjoin .= " LEFT JOIN pw_division
 					ON pw_division.division_date = pw_dyn_dreamvote.division_date
 					AND pw_division.division_number = pw_dyn_dreamvote.division_number
@@ -229,19 +211,13 @@ function update_dreammp_person_distance($db, $dreamid)
 	$qgroup = " GROUP BY pw_mp.person";
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
-#	if ($bdebug == 1)
-#		print "<h2>$query</h2>";
 
 	# do the database/scoring thing
-	$db->query($query);
-	$rowarray = $db->fetch_rows_assoc();
-	if ($bdebug == 1)
-		print "<h2>DONE</h2>";
+    $rowarray=$pwpdo->fetch_all_rows($query,array($dreamid));
 
 	# lock and clear the table
-	$db->query("LOCK TABLE pw_cache_dreamreal_distance WRITE");
-	$db->query("DELETE FROM pw_cache_dreamreal_distance
-				WHERE dream_id = '$dreamid'");
+    $pwpdo->query('LOCK TABLE pw_cache_dreamreal_distance WRITE',array());
+    $pwpdo->query('DELETE FROM pw_cache_dreamreal_distance WHERE dream_id = ?',array($dreamid));
 
 	# this likes votes that are all one side or other
 	$dconsistencyn = 0.0;
@@ -293,8 +269,6 @@ function update_dreammp_person_distance($db, $dreamid)
 		$distanceb = calc_dreammp_person_distance($nvotessame, $nvotessamestrong,
 											   	  $nvotesdiffer, $nvotesdifferstrong, 0, 0);
 
-		if ($bdebug == 1)
-			print "<p>mpnum ".$row['person']." distance $distancea vs $nvotessame</p>\n";
 
 		$query   = "INSERT INTO pw_cache_dreamreal_distance
                     (dream_id, person,
@@ -302,14 +276,14 @@ function update_dreammp_person_distance($db, $dreamid)
 						nvotesdiffer, nvotesdifferstrong,
 						nvotesabsent, nvotesabsentstrong,
 						distance_a, distance_b)
-                	VALUES ($dreamid, $person,
-						$nvotessame, $nvotessamestrong,
-						$nvotesdiffer, $nvotesdifferstrong,
-						$nvotesabsent, $nvotesabsentstrong,
-						$distancea, $distanceb)";
-		#if ($bdebug == 1)
-		#	print "<h5>$query</h5>\n";
-		$db->query($query);
+                	VALUES (?,?,?,?,
+                	?,?,?,?,
+					?,?)";
+		$placeholders=array($dreamid,$person,$nvotessame, $nvotessamestrong,
+            $nvotesdiffer, $nvotesdifferstrong,$nvotesabsent, $nvotesabsentstrong,
+            $distancea, $distanceb);
+
+        $pwpdo->query($query,$placeholders);
 
 		# quick hack until better formulae are found
 		if ($distancea < 0.1 or $distancea > 0.9)
@@ -318,30 +292,30 @@ function update_dreammp_person_distance($db, $dreamid)
 	}
 
 	# unlock, then post update(?)
-	$db->query("UNLOCK TABLES");
+	$pwpdo->query("UNLOCK TABLES",array());
 
 
 	$dconsistency = ($dconsistencyc != 0.0 ? $dconsistencyn / $dconsistencyc : 0.0);
 
     # Mark as updated
-    $db->query("UPDATE pw_cache_dreaminfo
-				SET cache_uptodate = 1, consistency_with_mps = $dconsistency
-				WHERE dream_id = $dreamid");
+    $pwpdo->query('UPDATE pw_cache_dreaminfo
+				SET cache_uptodate = 1, consistency_with_mps = ?
+				WHERE dream_id =?',array($dconsistency,$dreamid));
 }
 
 # Return score and what it is out of for how much the MP follows the "whip" of
 # the Dream MP.  The "_a" here means this is scoring system A.
 function calc_dream_mp_score_a($db, $dreamid, $personid) {
+    global $pwpdo;
     $query = "select pw_vote.vote as mpvote, pw_dyn_dreamvote.vote as dreamvote from
         pw_vote, pw_dyn_dreamvote, pw_division, pw_mp where
         pw_vote.division_id = pw_division.division_id and
         pw_dyn_dreamvote.division_number = pw_division.division_number and
             pw_dyn_dreamvote.division_date = pw_division.division_date
         and pw_vote.mp_id = pw_mp.mp_id
-        and pw_mp.person = '" . $personid . "' and pw_dyn_dreamvote.dream_id = '$dreamid'";
+        and pw_mp.person = ? and pw_dyn_dreamvote.dream_id = ?";
 
-    $db->query($query);
-    $qrowarray = $db->fetch_rows_assoc();
+    $qrowarray=$pwpdo->fetch_all_rows($query,array($personid,$dreamid));
     $t = 0.0;
     $c = 0.0;
     foreach ($qrowarray as $qrow)
@@ -394,10 +368,11 @@ margin: 0 0 0 0; border: 1px solid #003300; padding: 0 0 0 0;">
 
 # Post action made to Dream MP into the forum for record keeping, notification etc.
 function dream_post_forum_action($db, $dreamid, $content) {
+    global $pwpdo;
     $forum = "Policy Forum";
     $topic_match = "Policy #$dreamid";
-	$query = "SELECT name, private FROM pw_dyn_dreammp WHERE dream_id = $dreamid";
-	list ($name, $private) = $db->query_one_row($query); # allows no rows
+	$query = "SELECT name, private FROM pw_dyn_dreammp WHERE dream_id = ?";
+	list ($name, $private) =$pwpdo->get_single_row($query,array($dreamid)); # allows no rows
     $topic = $topic_match . " - " . $name;
     if ($private != 1)
         forummagic_post($db, $forum, $topic_match, $topic, $content);

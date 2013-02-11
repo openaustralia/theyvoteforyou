@@ -19,9 +19,6 @@
     require_once "distances.inc";
 	require_once "parliaments.inc";
 
-    $db = new DB();
-    $db2 = new DB();
-
 function no_division_found($plural)
 {
 	$title = "Division$plural not found";
@@ -35,18 +32,18 @@ function no_division_found($plural)
 }
 
 # decode the attributes
-	$divattr = get_division_attr_decode($db, "");
+	$divattr = get_division_attr_decode( "");
     if ($divattr == "none")
 		no_division_found("");
 
 	# second division (which we can compare against)
-	$divattr2 = get_division_attr_decode($db, "2");
+	$divattr2 = get_division_attr_decode( "2");
 	$singlemotionpage = ($divattr2 == "none");
 
 
 	$div_id = $divattr["division_id"];
     # current motion text from the database
-    $motion_data = get_wiki_current_value($db, "motion", array($divattr["division_date"], $divattr["division_number"], $divattr['house']));
+    $motion_data = get_wiki_current_value("motion", array($divattr["division_date"], $divattr["division_number"], $divattr['house']));
 	$name = extract_title_from_wiki_text($motion_data['text_body']);
 	$source = $divattr["source_url"];
 	$rebellions = $divattr["rebellions"];
@@ -64,17 +61,7 @@ function no_division_found($plural)
 
     $colour_scheme = $house;
 
-    $referrer = $_SERVER["HTTP_REFERER"];
-    $querystring = $_SERVER["QUERY_STRING"];
-    $useragent = $_SERVER["HTTP_USER_AGENT"];
-    $ipnumber = $_SERVER["REMOTE_ADDR"];
     $showhits = preg_match("/.*?house=z/", $referrer);
-    if (!$referrer)
-        $referrer = $useragent;
-    if (!isrobot() && !$showhits)
-        $db->query("INSERT INTO pw_logincoming 
-                (referrer, ltime, ipnumber, page, subject, url, thing_id) 
-        VALUES  ('$referrer', NOW(), '$ipnumber', 'division', '', '$querystring', $div_id)");
 
 
 	# designated voter on this division
@@ -90,11 +77,9 @@ function no_division_found($plural)
         # brutally find which of the set did the vote
         foreach ($voterattr['mpprops'] as $lkey => $mpprop)
         {
-            $query = "SELECT vote FROM pw_vote
-                        WHERE division_id = ".$divattr["division_id"]."
-                            AND mp_id = ".$mpprop['mpid'].
-                            " LIMIT 1" /* the tellaye+no vote is twice */;
-            $row = $db->query_onez_row_assoc($query);
+
+            $query = "SELECT vote FROM pw_vote WHERE division_id = ? AND mp_id = ? LIMIT 1" /* the tellaye+no vote is twice */;
+            $row=$pwpdo->get_single_row($query,array($divattr["division_id"],$mpprop['mpid']));
             if ($row)
             {
                 $voter = $mpprop;
@@ -126,13 +111,8 @@ function no_division_found($plural)
 	# calculate the same/different voting pattern so we can work out if it's better to invert the second set of votes
 	if (!$singlemotionpage)
     {
-	    $lquery = "SELECT nvotessame, nvotesdiff
-                   FROM pw_cache_divdiv_distance
-                   WHERE pw_cache_divdiv_distance.division_id = ".$divattr["division_id"]."
-                     AND pw_cache_divdiv_distance.division_id2 = ".$divattr2["division_id"];
-	    if ($bdebug == 1)
-	        print "\n<h3>$lquery</h3>\n";
-	    $row = $db->query_onez_row_assoc($lquery);
+	    $query = 'SELECT nvotessame, nvotesdiff FROM pw_cache_divdiv_distance WHERE pw_cache_divdiv_distance.division_id = ? AND pw_cache_divdiv_distance.division_id2 = ?';
+        $row=$pwpdo->get_single_row($query,array($divattr["division_id"],$divattr2["division_id"]));
         $div2invert = (($row != null) && ($row["nvotessame"] < $row["nvotesdiff"]));
     }
 
@@ -297,8 +277,8 @@ function no_division_found($plural)
 						 sum(vote = 'no')  AS noes,
 						 sum(vote = 'both') AS boths,
 						 sum(vote = 'tellaye' or vote = 'tellno') AS tellers
-				  FROM pw_vote WHERE division_id = $div_id";
-		$row = $db->query_one_row_assoc($query);
+				  FROM pw_vote WHERE division_id = ?";
+        $row=$pwpdo->get_single_row($query,array($div_id));
 
 		print "<p>";
 		$ayenodiff = $row["ayes"] - $row["noes"];
@@ -380,25 +360,27 @@ function no_division_found($plural)
 	if ($dismode["dreamvoters"])
 	{
         # Show Dream MPs who voted in this division and their votes
-        $db->query("SELECT name, pw_dyn_dreammp.dream_id, vote, user_name, private
+        $query=("SELECT name, pw_dyn_dreammp.dream_id, vote, user_name, private
 					FROM pw_dyn_dreammp, pw_dyn_dreamvote, pw_dyn_user
             		WHERE pw_dyn_dreamvote.dream_id = pw_dyn_dreammp.dream_id
 						AND pw_dyn_user.user_id = pw_dyn_dreammp.user_id
-						AND pw_dyn_dreamvote.division_date = '".$divattr["division_date"]."'
-						AND pw_dyn_dreamvote.division_number = '".$divattr["division_number"]."'
+						AND pw_dyn_dreamvote.division_date = ?
+						AND pw_dyn_dreamvote.division_number = ?
             			AND private <> 1");
+        $allRows=$pwpdo->fetch_all_rows($query,array($divattr["division_date"],$divattr["division_number"]));
             $prettyrow = 0;
             print "<h2><a name=\"dreammp\">Policies</a></h2>";
             print "<p>The following policies have selected this division.  You can use this
                to help you work out the meaning of the vote.  Or <a href=\"/policies.php\">list all policies</a>.";
             print "<table class=\"divisions\"><tr class=\"headings\">";
             print "<td>Policy</td><td>Vote (in this division)</td>";
-            if ($db->rows() == 0)
+
+            if (count($allRows) == 0)
             {
                 pretty_row_start($prettyrow);
                 print "<td colspan=\"2\">No policies voted in this division</td></tr>\n";
             }
-            while ($row = $db->fetch_row_assoc()) 
+            foreach ($allRows as $row)
             {
                 $prettyrow = pretty_row_start($prettyrow);
                 $vote = $row["vote"];
@@ -423,7 +405,7 @@ function no_division_found($plural)
 		if ($singlemotionpage)
 		{
 	    	# Show motion text
-            $edit_link = "account/wiki.php?type=motion&date=".$divattr["division_date"].
+            /**$edit_link = "account/wiki.php?type=motion&date=".$divattr["division_date"].
                 "&number=".$divattr["division_number"]."&house=".$divattr["house"].
                 "&rr=".urlencode($_SERVER["REQUEST_URI"]);
             $history_link = "edits.php?type=motion&date=".$divattr["division_date"].
@@ -434,7 +416,7 @@ function no_division_found($plural)
             $db->query("SELECT * FROM pw_dyn_user WHERE user_id = " . $motion_data['user_id']);
             $row = $db->fetch_row_assoc();
             $last_editor = html_scrub($row['user_name']);
-
+            **/
 	        if (($divattr["house"] == "lords") and ($divattr["division_date"] >= "2009-01-21"))
             {
                 $ldasess = "2008_09";
@@ -448,10 +430,10 @@ function no_division_found($plural)
             }
 
             print "<div class=\"motion\">";
-	        if ($motion_data['user_id'] == 0) {
-                print "<p><strong>Description automatically extracted from the debate,
-                    please <a href=\"$edit_link\">edit it</a> to make it better.</strong></p>";
-	        }
+	        //if ($motion_data['user_id'] == 0) {
+            //    print "<p><strong>Description automatically extracted from the debate,
+            //        please <a href=\"$edit_link\">edit it</a> to make it better.</strong></p>";
+	        //}
             $description = extract_motion_text_from_wiki_text($motion_data['text_body']);
             print $description;
 
@@ -477,14 +459,14 @@ function no_division_found($plural)
 	        if ($source != "") 
 	    		print "<b><a href=\"$source\" title=\"The original record of vote as reported by Hansard\">".($debate_gid ? "Source" : "Online Hansard")."</a></b> | ";
 		
-            print "<b><a href=\"$edit_link\" title=\"Edit and improve this description\">Edit</a></b>";
-            print " (<a href=\"faq.php#motionedit\">learn more</a>)";
-            if ($discuss_url)
-                print ' | <b><a href="'.htmlspecialchars($discuss_url).'" title="Forum page for this vote, including record of changes">Discussion</a></b>';
+           // print "<b><a href=\"$edit_link\" title=\"Edit and improve this description\">Edit</a></b>";
+            //print " (<a href=\"faq.php#motionedit\">learn more</a>)";
+           // if ($discuss_url)
+           //     print ' | <b><a href="'.htmlspecialchars($discuss_url).'" title="Forum page for this vote, including record of changes">Discussion</a></b>';
             #if ($history_link)  # commented out, as confusing and deprecated
             #    print '<a href="'.htmlspecialchars($history_link).'">History</a>';
-            if ($motion_data['user_id'] != 0)
-                print " (last edited ".  relative_time($motion_data["edit_date"]) .  " by " . pretty_user_name($db2, $last_editor).") ";
+            //if ($motion_data['user_id'] != 0)
+            //    print " (last edited ".  relative_time($motion_data["edit_date"]) .  " by " . pretty_user_name($db2, $last_editor).") ";
             print "</div>\n";
 		}
 
@@ -493,42 +475,26 @@ function no_division_found($plural)
 		{
 			print "<p>(<a href=\"$thispageswap\">Swap the two divisions around</a>).</p>";
 
-            $motion_data_a = get_wiki_current_value($db, "motion", array($divattr["division_date"], $divattr["division_number"], $divattr['house']));
+            $motion_data_a = get_wiki_current_value("motion", array($divattr["division_date"], $divattr["division_number"], $divattr['house']));
 			$titlea = "<a href=\"".$divattr["divhref"]."\">".extract_title_from_wiki_text($motion_data_a["text_body"])." - ".$divattr["prettydate"]." at $clock_time - Division No. ".$divattr["division_number"]."</a>";
 	        print "<h2><a name=\"motion\">Vote (a) ".($motion_data_a['user_id'] == 0 ? " (unedited)" : "")."</a>: $titlea</h2>";
 	        print "<div class=\"motion\">".extract_motion_text_from_wiki_text($motion_data_a['text_body'])."</div>\n";
 
-            $motion_data_b = get_wiki_current_value($db, "motion", array($divattr2["division_date"], $divattr2["division_number"], $divattr2['house']));
+            $motion_data_b = get_wiki_current_value("motion", array($divattr2["division_date"], $divattr2["division_number"], $divattr2['house']));
 			$titleb = "<a href=\"".$divattr2["divhref"]."\">".extract_title_from_wiki_text($motion_data_b["text_body"])." - ".$divattr2["prettydate"]." at $clock_time2 - Division No. ".$divattr2["division_number"]."</a>";
 	        print "<h2>Vote (b) ".($motion_data_b['user_id'] == 0 ? " (unedited)" : "").": $titleb</h2>";
 	        print "<div class=\"motion\">".extract_motion_text_from_wiki_text($motion_data_b['text_body'])."</div>\n";
 		}
 	}
 
-    if ($showhits)
-    {
-        print "<h2>Backlinks</h2>\n";
-        $db->query("SELECT referrer, ltime, ipnumber FROM pw_logincoming WHERE page = 'division' AND thing_id = $div_id ORDER BY ltime DESC");
-        print "<table id=\"backlinks\">\n";
-        while ($row = $db->fetch_row_assoc()) 
-        {
-            print "<tr><td width=\"20%\">".preg_replace("/ /", "&nbsp;", $row["ltime"])."</td>";
-            print "<td width=\"10%\">".guy_mangle_ip($row["ipnumber"])."</td>";
-            print "<td width=\"70%\">";
-            if (preg_match("/http:\/\//", $row["referrer"]))
-                print "<a href=\"".$row["referrer"]."\">".$row["referrer"]."</a></td>"; 
-            else
-                print $row["referrer"]."</td>"; 
-            print "</tr>\n"; 
-        }
-        print "</table>\n";
-    }
-
+if (true===function_exists('advertisement')) {
+    advertisement('division');
+}
 
 	# Work out proportions for party voting (todo: cache)
-	if ($dismode["partysummary"])
-	    print_party_summary_division($db, $div_id, "", $divattr['house']);
-
+	if ($dismode["partysummary"]) {
+	    print_party_summary_division( $div_id, "", $divattr['house']);
+    }
 
 	# Division votes table
 	if ($dismode["showwhich"])
@@ -678,7 +644,7 @@ function no_division_found($plural)
     		$tableclass = "votes";
         
         print "<table class=\"$tableclass\" id=\"votetable\">\n";
-        mp_table($db, $mptabattr);
+        mp_table( $mptabattr);
 		print "</table>\n";
 	}
 
@@ -717,9 +683,7 @@ function no_division_found($plural)
 		print "<h3><a name=\"simexpl\">Division Similarity Ratio</a></h3>\n";
 		print "<p>The measure of similarity between these two divisions is a calculation
 				based on a comparison of their votes.</p>\n";
-		print_divdiv_distance($db, $divattr, $divattr2, "MP");
+		print_divdiv_distance($divattr, $divattr2, "MP");
 	}
 
-?>
-
-<?php pw_footer() ?>
+ pw_footer();

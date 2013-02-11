@@ -12,10 +12,10 @@ require_once "../account/user.inc";
 require_once "../db.inc";
 $db = new DB();
 
-$email=mysql_escape_string($_POST["email"]);
-$submit=mysql_escape_string($_POST["submit"]);
-$token=mysql_escape_string($_GET["token"]);
-$unsub=mysql_escape_string($_GET["unsub"]);
+$email=mysql_real_escape_string($_POST["email"]);
+$submit=mysql_real_escape_string($_POST["submit"]);
+$token=mysql_real_escape_string($_GET["token"]);
+$unsub=mysql_real_escape_string($_GET["unsub"]);
 
 if ($email == "your email")
     $email = "";
@@ -102,8 +102,8 @@ if ($feedback) {
 if (!$ok) {
 ?>
     <P>
-    <FORM ACTION="<?=$PHP_SELF?>" METHOD="POST">
-    <B>Email: </B><INPUT TYPE="TEXT" NAME="email" id="email" VALUE="<?=$email?>" SIZE="20" MAXLENGTH="50">
+    <FORM ACTION="<?php echo $PHP_SELF?>" METHOD="POST">
+    <B>Email: </B><INPUT TYPE="TEXT" NAME="email" id="email" VALUE="<?php echo $email?>" SIZE="20" MAXLENGTH="50">
      <INPUT TYPE="SUBMIT" NAME="submit" VALUE="Subscribe">
     </FORM>
 
@@ -114,6 +114,6 @@ if (!$ok) {
     <p>The Public Whip newsletter is at most once a month.  Occasionally
     we send an extra small topical newsletter.
     <p><a href="archive.php">Read archive of previous newsletters</a>
-<? } ?>
+<?php } ?>
 
 <?php pw_footer() ?>

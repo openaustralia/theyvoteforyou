@@ -11,9 +11,7 @@
 
 $title = "Counting votes on your behalf";
 pw_header_notitle();
-?>
 
-<?php
     require_once "db.inc";
     $db = new DB();
 
@@ -50,10 +48,10 @@ pw_header_notitle();
 <input maxLength=256 size=12 name="query" id="query" onblur="fadeout(this)" onfocus="fadein(this)"> <button type="submit" value="Submit" name="button">Submit</button>
 </form>
 </div>
-<div class="homesponsor">
-<h3>Want to reach a politically engaged audience?</h3>
-<p>We have a limited number of sponsorship and advertising packages available. Email publicwhip@raraunga.com for details</p>
-</div>
+    <?php
+if (true===function_exists('advertisement')) {
+advertisement('homepage');
+}?>
 
 <div class="homerecents">
 <div class="narrowwidth">
@@ -81,8 +79,7 @@ pw_header_notitle();
 <p><a href="mps.php?sort=attendance&amp;house=both" title="Show all MPs ordered by attendance">Show all MPs ordered by attendance</a></p>
 </div>
 <div class="col3"><h2>Test an MP or Lord against policies you care about</h2>
-<p>Either <a href="policies.php">browse</a> existing policies or <a
-href="account/addpolicy.php">make</a> a new policy</p>
+<p><a href="policies.php">Browse</a> existing policies </p>
 
 </div>
 <div class="clear"></div>

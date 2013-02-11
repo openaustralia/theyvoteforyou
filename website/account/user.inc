@@ -16,10 +16,10 @@ if (!function_exists("user_isloggedin"))
             global $user_name,$id_hash,$LOGGED_IN;
 
             if (!$user_name) {
-                $user_name=mysql_escape_string($_COOKIE["user_name"]);
+                $user_name=mysql_real_escape_string($_COOKIE["user_name"]);
             }
             
-            $id_hash=mysql_escape_string($_COOKIE["id_hash"]);
+            $id_hash=mysql_real_escape_string($_COOKIE["id_hash"]);
 
             //have we already run the hash checks? 
             //If so, return the pre-set var
@@ -300,7 +300,7 @@ function user_register($user_name,$password1,$password2,$email,$real_name) {
 				$hash=md5($email.HIDDEN_HASH_VAR);
 				$sql="INSERT INTO pw_dyn_user
                                 (user_name,real_name,password,email,remote_addr,confirm_hash,is_confirmed, reg_date, confirm_return_url) ".
-					"VALUES ('$user_name','$real_name','".  md5($password1) ."','$email','" . getenv('REMOTE_ADDR') . "','$hash','0',NOW(),'".mysql_escape_string($_POST['r'])."')";
+					"VALUES ('$user_name','$real_name','".  md5($password1) ."','$email','" . getenv('REMOTE_ADDR') . "','$hash','0',NOW(),'".mysql_real_escape_string($_POST['r'])."')";
 				$result=db_query($sql);
 				if (!$result) {
 					$feedback .= ' Trouble with the database. '.db_error();
@@ -405,7 +405,7 @@ function user_changenewsletter($newsletter) {
 }
 function user_getname() {
 	if (user_isloggedin()) {
-		return mysql_escape_string($GLOBALS['user_name']);
+		return mysql_real_escape_string($GLOBALS['user_name']);
 	} else {
 		//look up the user some day when we need it
 		return ' Not logged in. ';
@@ -515,9 +515,9 @@ function do_login_screen()
 {
     if (!user_isloggedin())
     {
-        $user_name=mysql_escape_string($_POST["user_name"]);
-        $password=mysql_escape_string($_POST["password"]);
-        $submit=mysql_escape_string($_POST["submit"]);
+        $user_name=mysql_real_escape_string($_POST["user_name"]);
+        $password=mysql_real_escape_string($_POST["password"]);
+        $submit=mysql_real_escape_string($_POST["submit"]);
 
         if ($submit) {
             if (user_login($user_name,$password))
@@ -533,7 +533,7 @@ function do_login_screen()
 function audit_log($text)
 {
     $sql = "insert into pw_dyn_auditlog (user_id, event_date, event, remote_addr)
-                values ('" . user_getid() . "', NOW(), '" . mysql_escape_string($text) . "', '" . getenv('REMOTE_ADDR') . "')";
+                values ('" . user_getid() . "', NOW(), '" . mysql_real_escape_string($text) . "', '" . getenv('REMOTE_ADDR') . "')";
     $result=db_query($sql);
     if (!$result) 
         print "Error writing to audit log: " . db_error();

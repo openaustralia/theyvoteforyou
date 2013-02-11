@@ -3,31 +3,31 @@
 set -e
 #set -x # debugging
 
-DB=pw_live
+DB='publicwhip'
+echo $DB
 SITE=www.publicwhip.org.uk
 CACHE=pwcache-live
-if [ "$1" == "staging" ]
-then
-    DB=pw_staging
-    SITE=staging.publicwhip.org.uk
-    CACHE=pwcache-staging
-fi
-
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] clear-cache: Clearing file cache"
 # Clear file cache (front page only is cached like this -- 2005-11-28)
 rm -fr /home/publicwhip/$CACHE/*
 
 # Clear database table caches
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] clear-cache: Clearing database table caches: dreaminfo"
 echo "delete from pw_cache_dreaminfo;" | mysql $DB
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] clear-cache: Clearing database table caches: dreamreal_distance"
 echo "delete from pw_cache_dreamreal_distance;" | mysql $DB
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] clear-cache: Clearing database table caches: divwiki"
 echo "delete from pw_cache_divwiki;" | mysql $DB
 echo "update pw_cache_dreaminfo set cache_uptodate = 0; " | mysql $DB
-
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] clear-cache: Regenerating cached data"
 # Provoke regeneration of policy cached data, so that Policy Comparison
 # table on MP pages appears correctly.
-for i in `snarf -q http://$SITE/policies.php - | egrep 'href="policy.php' | sed 's/^.*\?\(id=[0-9][0-9]*\)".*/\1/'`
+for house in commons lords scotland
 do
-    for house in commons lords scotland
+    echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] clear-cache: Regenerating cached data for house ${house}"
+    for i in `snarf -q http://$SITE/policies.php - | egrep 'href="policy.php' | sed 's/^.*\?\(id=[0-9][0-9]*\)".*/\1/'`
     do
         snarf "http://${SITE}/dreamplot.php?${i}&display=reverse&size=large&house=${house}" - > /dev/null
     done
 done
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] clear-cache: Completed"

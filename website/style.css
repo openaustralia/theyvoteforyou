@@ -23,7 +23,7 @@ h4, h5, h6 {
 }
 
 a img {border:0;}
-a {color:#336600;text-decoration:none;}
+a {color:#8BAC35;text-decoration:none;}
 
 #main a {border-bottom:1px dotted #8BAC35;}
 
@@ -64,7 +64,6 @@ a {color:#336600;text-decoration:none;}
 #footer {clear:both;padding:26px 0px;}
 #footer .legal {width:800px;float:left;font-size:0.8em;color:#fff;margin-top:12px}
 #footer .poweredby {width:137px;float:right;}
-#footer a {color:#fff;border-bottom:1px dotted #fff;}
 
 /* Navigation */
 #nav_main {width:628px;text-align:right;position:absolute;top:60px; right:0px;font:normal 1.13em museo-700;height:2.3em;z-index:50;}

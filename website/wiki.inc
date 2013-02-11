@@ -59,13 +59,19 @@ function get_wiki_history_link($type, $params) {
 # a hash with text_body, user_id, edit_date.
 
 # !!! this should take the $db as a parameter so that it can't be reused when it's in other loops
-function get_wiki_current_value($db, $type, $params) 
+function get_wiki_current_value($type, $params)
 {
+    global $pwpdo;
     # See if page has been altered
-    $db->query("select text_body, user_id, edit_date from 
-        ".get_wiki_table($type)." where ".get_wiki_where_fragment($type, $params)." order by wiki_id desc limit 1");
-    if ($db->rows() >= 1) {
-        $result = $db->fetch_row_assoc();
+    if ($type!=='motion') {
+        trigger_error('Unknown wiki type');
+        die();
+    }
+    $query='select text_body, user_id, edit_date FROM pw_dyn_wiki_motion WHERE division_date=? AND division_number=? AND house=? order by wiki_id desc limit 1';
+    $placeheld=array($params[0],$params[1],$params[2]);
+    $allRows=$pwpdo->fetch_all_rows($query,$placeheld);
+    if (count($allRows) >= 1) {
+        $result = $allRows[0];
     }
 
     if ($type == 'motion') {
@@ -199,10 +205,11 @@ function extract_title_from_wiki_text($text)
 # In both cases, that is what was screen scraped originally.  
 function get_motion_default_values($db, $params)
 {
-    $db->query("select motion, division_name from pw_division 
-        where " . get_wiki_where_fragment("motion", $params));
-    if ($db->rows() >= 1) {
-        $row = $db->fetch_row_assoc();
+    global $pwpdo;
+    $query='select motion, division_name from pw_division  where division_date=? AND division_number=? AND house=?';
+    $allRows=$pwpdo->fetch_all_rows($query,array($params[0],$params[1],$params[2]));
+    if (count($allRows) >= 1) {
+        $row = $allRows[0];
         $motion = $row['motion'];
         $motion = str_replace(' class=""', '', $motion);
         $motion = str_replace(' pwmotiontext="yes"', '', $motion);
@@ -217,7 +224,8 @@ function get_motion_default_values($db, $params)
 # division.
 function update_divisions_wiki_id($db)
 {
-    $result = $db->query("INSERT INTO pw_cache_divwiki 
+    global $pwpdo;
+    $result = $pwpdo->query("INSERT INTO pw_cache_divwiki 
         (division_date, division_number, house, wiki_id)
         SELECT pw_division.division_date AS division_date, 
                pw_division.division_number AS division_number,
@@ -231,7 +239,7 @@ function update_divisions_wiki_id($db)
             AND pw_dyn_wiki_motion.house = pw_division.house
         WHERE pw_cache_divwiki.wiki_id IS NULL
         GROUP BY pw_division.division_id
-    ");
+    ",array());
 }
 
 ?>

@@ -19,28 +19,31 @@ require_once "postcode.inc";
 
 function GetVotes($db, $person, $dreamid)
 {
+    global $pwpdo;
     $qselect = "SELECT pw_division.division_date AS date, pw_division.division_number AS number, pw_vote.vote AS vote";
     $qfrom = " FROM pw_dyn_dreamvote";
     $qjoin = " LEFT JOIN pw_division ON pw_division.division_date = pw_dyn_dreamvote.division_date
                                     AND pw_division.division_number = pw_dyn_dreamvote.division_number
                                     AND pw_division.house = pw_dyn_dreamvote.house";
-    $qjoin .= " LEFT JOIN pw_mp ON pw_mp.person = $person";
+    $qjoin .= " LEFT JOIN pw_mp ON pw_mp.person = ?";
     $qjoin .= " LEFT JOIN pw_vote ON pw_vote.mp_id = pw_mp.mp_id
                                  AND pw_vote.division_id = pw_division.division_id";
-    $qwhere = " WHERE pw_dyn_dreamvote.dream_id = $dreamid";
+    $qwhere = " WHERE pw_dyn_dreamvote.dream_id = ?";
     $qwhere .= " AND (pw_division.division_date >= pw_mp.entered_house AND pw_division.division_date < pw_mp.left_house)";
 
-    $db->query($qselect.$qfrom.$qjoin.$qwhere);
+    $query=$qselect.$qfrom.$qjoin.$qwhere;
+    $pwpdo->query($query,array($person,$dreamid));
     $res = array();
-    while ($row = $db->fetch_row_assoc())
+    while ($row = $pwpdo->fetch_row())
         $res[] = $row;
     return $res;
 }
 
 function GetDreamDistance($db, $person, $dreamid)
 {
-    $query = "SELECT distance_a AS distance FROM pw_cache_dreamreal_distance WHERE dream_id=$dreamid AND person=$person"; 
-    $row = $db->query_onez_row_assoc($query); 
+    global $pwpdo;
+    $query = "SELECT distance_a AS distance FROM pw_cache_dreamreal_distance WHERE dream_id=? AND person=?";
+    $row=$pwpdo->get_single_row($query,array($dreamid,$person));
     return ($row ? $row["distance"] : 0.5); 
 }
 
@@ -240,6 +243,7 @@ function WriteTimeline()
 
 function WritePubemChart($db, $vpubem)
 {
+    global $pwpdo;
     # don't know how to make these ignore repeated loads of the page on the same vrand key
     $query = "SELECT SUM(vpubem = 'no-disagree') AS no_disagree,
                      SUM(vpubem = 'no-agree') AS no_agree,
@@ -247,9 +251,8 @@ function WritePubemChart($db, $vpubem)
                      SUM(vpubem = 'yes-disagree') AS yes_disagree,
                      SUM(vpubem is not NULL) AS total
               FROM pw_dyn_fortytwoday_comments
-              LEFT JOIN pw_logincoming ON pw_dyn_fortytwoday_comments.vrand = pw_logincoming.thing_id
              ";
-	$row = $db->query_one_row_assoc($query);
+	$row = $pwpdo->get_single_row($query,array());
     $tdno_disagree = ($vpubem == "no-disagree" ? " class=\"agpe\"" : ""); 
     $tdno_agree = ($vpubem == "no-agree" ? " class=\"agpe\"" : ""); 
     $tdyes_disagree = ($vpubem == "yes-disagree" ? " class=\"agpe\"" : ""); 
@@ -346,52 +349,18 @@ if ($vrand)
 else
     $vrand = rand(10, 10000000);
 
-$vdash = mysql_escape_string(db_scrub($_GET["dash"])); # used to tell if /by-election or /byelection was used
+$vdash = mysql_real_escape_string(db_scrub($_GET["dash"])); # used to tell if /by-election or /byelection was used
 $vformfilled = ($vterdet and $vpubemknow and $vpubemagg);
 
 $referrer = $_SERVER["HTTP_REFERER"];
 $querystring = $_SERVER["QUERY_STRING"];
 $ipnumber = $_SERVER["REMOTE_ADDR"];
-if (!$referrer)
+if (!$referrer) {
     $referrer = $_SERVER["HTTP_USER_AGENT"];
-$showhits = ($referrer and preg_match("/.*?house=z/", $referrer)); 
-
-if ($showhits)
-{
-    print "<h1>Show hits</h1>\n"; 
-    $db->query("SELECT referrer, pw_logincoming.ltime AS ltime0, pw_dyn_fortytwoday_comments.ltime AS ltime1, 
-                ipnumber, url AS vdash, vpostcode, constituency 
-                FROM pw_logincoming
-                LEFT JOIN pw_dyn_fortytwoday_comments ON vrand = thing_id 
-                WHERE page = 'fortytwodays'
-                ORDER BY ltime0 DESC");
-    print "<table style=\"font-size:60%\">";
-    $i = 1; 
-    while ($row = $db->fetch_row_assoc())
-    {
-        print "<tr><td>$i</td>"; 
-        $i++; 
-        print "<td>".preg_replace("/ /", "&nbsp;", $row["ltime0"])."</td>"; 
-        print "<td>".guy_mangle_ip($row["ipnumber"])."</td>"; 
-        print "<td>".$row["constituency"]." ".$row["vpostcode"]."</td>"; 
-        print "<td style=\"width:70%; Zfont-size: 60%\">"; 
-        if (preg_match("/^http/", $row["referrer"]))
-            print "<a href=\"".$row["referrer"]."\">".$row["referrer"]."</a></td>\n"; 
-        else
-            print $row["referrer"]."</td>\n"; 
-        print "</tr>\n"; 
-    }
-    print "</table>\n"; 
-
-    #            (referrer, ltime, ipnumber, page, subject, url, thing_id)
-    #            VALUES ('$referrer', NOW(), '$ipnumber', 'fortytwodays', '', '$vdash', $vrand)");
-    #$db->query("INSERT INTO pw_dyn_fortytwoday_comments (vterdet, vpubem, ltime, vrand, vpostcode, constituency)
-    #            VALUES ('$vterdet', '$vpubem', NOW(), $vrand, '$vpostcode', '".mysql_escape_string($constituency)."')");
-
 }
+$showhits = ($referrer and preg_match("/.*?house=z/", $referrer));
 
-
-else if ($mpval and $vformfilled)
+if ($mpval and $vformfilled)
 {
     $mpprop = $mpval["mpprop"];
     $party = $mpprop["party"];
@@ -415,8 +384,8 @@ else if ($mpval and $vformfilled)
     # book the values into a database
     #$db->query("drop table if exists pw_dyn_fortytwoday_comments");
     #$db->query("create table pw_dyn_fortytwoday_comments (vterdet varchar(10), vpubem varchar(20), ltime timestamp, vrand int, vpostcode varchar(20), constituency varchar(80))");
-    $db->query("INSERT INTO pw_dyn_fortytwoday_comments (vterdet, vpubem, ltime, vrand, vpostcode, constituency)
-                VALUES ('$vterdet', '$vpubem', NOW(), $vrand, '$vpostcode', '".mysql_escape_string($constituency)."')");
+    #$db->query("INSERT INTO pw_dyn_fortytwoday_comments (vterdet, vpubem, ltime, vrand, vpostcode, constituency)
+    #            VALUES ('$vterdet', '$vpubem', NOW(), $vrand, '$vpostcode', '".mysql_real_escape_string($constituency)."')");
 
     # looks up as a batch.  Or we could look up individually for easier coding
     $votes = GetVotes($db, $mpprop["person"], 1039);
@@ -537,19 +506,13 @@ else if ($mpval and $vformfilled)
 
 else
 {
-    if (!isrobot() and !preg_match("/.*?house=z/", $querystring))
-    {
-        $db->query("INSERT INTO pw_logincoming
-                (referrer, ltime, ipnumber, page, subject, url, thing_id)
-                VALUES ('$referrer', NOW(), '$ipnumber', 'fortytwodays', '', '$vdash', $vrand)");
-    }
 
     $allents = ($mpval ? " <span style=\"color:red; background-color:#ffb0b0; \"><b>all of</b></span>" : ""); 
     print "<h4 id=\"th4b\">Fill in$allents this form to see if your MP
            agrees with you, according to their votes in Parliament.</h4>";
 
     print "<div id=\"opform\">\n";
-    print "<form action=\"http://www.publicwhip.org.uk/fortytwodays.php\" method=\"get\">\n";
+    print "<form action=\"/fortytwodays.php\" method=\"get\">\n";
 
     print "<div class=\"quessec\">Type in <em>either</em>:
            <ul>

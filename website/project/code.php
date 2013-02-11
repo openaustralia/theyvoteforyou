@@ -53,17 +53,17 @@ go straight to "Running the website locally" below.
 <h2>Getting the source code</h2>
 
 <p><span class="ptitle">Browse</span> - If you're just curious, you can
-<a href="https://github.com/publicwhip/publicwhip">browse
+<a href="https://bitbucket.org/publicwhip/publicwhip-v1/">browse
 the code online</a>.  Look at README.txt in the top level for more information.</p>
 
 <p><span class="ptitle">File download</span> - To use the code,
 download a snapshot.  Go to our <a
-href="https://github.com/publicwhip/publicwhip">GitHub project page</a>,
+href="https://bitbucket.org/publicwhip/publicwhip-v1/">BitBucket project page</a>,
 and click the Downloads link.</p>
 
 <p><span class="ptitle">From CVS</span> - For the live code-as-we-change-it,
 you can use the version control system Git.  Go to our <a
-href="https://github.com/publicwhip/publicwhip">GitHub project page</a> where you
+href="https://bitbucket.org/publicwhip/publicwhip-v1/">BitBucket project page</a> where you
 will find the appropriate links to clone the repository.</p>
 
 <p>There is README.txt file with the source code, explaining what is in each
@@ -96,6 +96,8 @@ Tell me if this list is wrong.
 
 <p>
 
+    <p>You will also need the "ttf-bitstream-vera" package for producting graphs.</p>
+    
 <p><span class="ptitle">MySQL</span> - Get this database server from <a
 href="http://www.mysql.com">MySQL.com</a>.  You need version 4.0 or above.  After
 installing it you need to set up the instructions to create a database and a

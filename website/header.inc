@@ -58,9 +58,9 @@ if (!$h1title)
 
 -->
 <link rel="stylesheet" type="text/css" href="/publicwhip.css">
-<link href="<?=$toppath?>publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
-<link rel="icon" href="/<?=$favicon?>" type="image/x-icon" />
-<link rel="shortcut icon" href="/<?=$favicon?>" type="image/x-icon" />
+<link href="<?php echo $toppath?>publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
+<link rel="icon" href="/<?php echo $favicon?>" type="image/x-icon" />
+<link rel="shortcut icon" href="/<?php echo $favicon?>" type="image/x-icon" />
 <link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.publicwhip.org.uk/feeds/interestingdivisions.xml" />
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <script type="text/javascript">
@@ -74,10 +74,9 @@ $(document).ready(function() {
 });
 </script>
 <script type="text/javascript" src="/publicwhip.js"></script>
-<title><? print $headtitle ?></title>
+<title><?php print $headtitle ?></title>
 <?php if( extension_loaded('newrelic') ) { echo newrelic_get_browser_timing_header(); } ?>
-<script>
-<!--
+<script type="text/javascript">
 function givefocus(field) {
     if (!document || !document.getElementById)
         return
@@ -111,52 +110,48 @@ function ClickSup(nsup) {
         if (sups[i].className == "sup-" + nsup)
             sups[i].style.backgroundColor = el.style.backgroundColor;
 }
-// -->
 </script>
+    <?php
+    if (function_exists('remote_analytics')) {
+        remote_analytics();
+    }
+?>
 </head>
 
-<body onLoad="<?=$onload?>">
+<body onLoad="<?php echo $onload?>">
 <div id="whitebox">
 <script type="text/javascript" src="walterzorn/wz_tooltip.js"></script>
-
-
-<? if ($_SERVER["HTTP_HOST"] != 'www.publicwhip.org.uk'
-	and $_SERVER["HTTP_HOST"] != 'publicwhip.org.uk') { ?>
-<div class="hellobar">This is a test site - the real site is <a href="http://www.publicwhip.org.uk">over here</a>. Developers are busy making Public Whip better using this page.</div>
-<? } ?>
 
 <div id="header" class="widewidth">
 <div class="logo"><a href="/"><img src="/images/logo.jpg" alt="the Public Whip" /></a></div>
 <div class="search"><form class="searchtitlebarform" action="/search.php" name=pw>
 Search: <input maxLength=256 size=12 id="query_head" name="query" onblur="fadeout(this)" onfocus="fadein(this)" value="" /> <input type="submit" value="Go" name="button" />
 </form></div>
-<div class="login_drop"><!--ACCOUNTBEGIN-->
-<?php print account_navbar(); ?>
-<!--ACCOUNTEND--></div>
+
 
 <!-- the main site navigation -->
 <div id="nav_main">
-<a title="Front page and site highlights" href="<?=$toppath?>index.php">Home</a>
-<a title="List of all votes in Parliament" href="<?=$toppath?>divisions.php">Divisions</a>
-<a title="List of all Members of House of Commons" href="<?=$toppath?>mps.php">MPs</a>
-<a title="List of all Members of House of Lords" href="<?=$toppath?>mps.php?house=lords">Lords</a>
-<a title="List of all Members of the Scottish Parliament" href="<?=$toppath?>mps.php?house=scotland">MSPs</a>
-<a title="Help to analyze MP's votes" href="<?=$toppath?>policies.php">Policies</a>
+<a title="Front page and site highlights" href="<?php echo $toppath?>index.php">Home</a>
+<a title="List of all votes in Parliament" href="<?php echo $toppath?>divisions.php">Divisions</a>
+<a title="List of all Members of House of Commons" href="<?php echo $toppath?>mps.php">MPs</a>
+<a title="List of all Members of House of Lords" href="<?php echo $toppath?>mps.php?house=lords">Lords</a>
+<a title="List of all Members of the Scottish Parliament" href="<?php echo $toppath?>mps.php?house=scotland">MSPs</a>
+<a title="Help to analyze MP's votes" href="<?php echo $toppath?>policies.php">Policies</a>
 <!-- <a title="Chat with other users" href="/forum">Forum</a> -->
 <a title="Blog" href="http://blog.publicwhip.org.uk">Blog</a>
 <a title="Twitter" href="http://twitter.com/publicwhip">Twitter</a>
-<!-- <a title="Help run the Public Whip project" href="<?=$toppath?>project/index.php">Join Us</a> -->
-<a title="Frequently asked questions" href="<?=$toppath?>faq.php">Help / FAQ</a>
+<!-- <a title="Help run the Public Whip project" href="<?php echo $toppath?>project/index.php">Join Us</a> -->
+<a title="Frequently asked questions" href="<?php echo $toppath?>faq.php">Help / FAQ</a>
 
 
 </div>
 </div><!-- end header-->
 <div id="main" class="widewidth"><!-- main content -->
-<? 
+<?
 print $h1title;  # the actual heading
 ?>
 
-<? if ($second_links && $second_type == "default") { ?>
+<?php if ($second_links && $second_type == "default") { ?>
 <!-- the second tier navigation as dropdowns -->
 <!-- add hashes to $second_links array, keys are
      'href' - URL of link
@@ -192,6 +187,5 @@ print $h1title;  # the actual heading
     }
 ?>
 <!-- the second tier navigation as dropdowns end-->
-<? } ?>
-
+<?php } ?>
 

@@ -20,10 +20,10 @@
 	require_once "pretty.inc";
 
 	# decode the attributes
-	$divattr = get_division_attr_decode($db, "");
+	$divattr = get_division_attr_decode( "");
 	$div_id = $divattr["division_id"];
 
-	print_party_summary_division($db, $div_id, "www.publicwhip.org.uk/", $divattr["house"]);
+	print_party_summary_division( $div_id, "www.publicwhip.org.uk/", $divattr["house"]);
 ?>
 </html>
 

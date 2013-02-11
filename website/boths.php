@@ -34,9 +34,7 @@
     pw_header();
     require_once "db.inc";
     require_once "parliaments.inc";
-    $db = new DB(); 
-
-    $sort = db_scrub($_GET["sort"]);
+    $sort = trim($_GET["sort"]);
     if ($sort == "")
     {
         $sort = "date";
@@ -51,17 +49,17 @@
     }
 
     # TODO: remember to add title in when doing this for lords
-    $db->query("select first_name, last_name, constituency, party, 
+    $rows=$pwpdo->fetch_all_rows("select first_name, last_name, constituency, party,
         entered_house, left_house, 
         division_number, division_date, division_name from pw_mp,
         pw_division, pw_vote where pw_mp.mp_id = pw_vote.mp_id and
         pw_division.division_id = pw_vote.division_id and vote = 'both' 
         and pw_mp.house = 'commons'
-        $order");
-    $count = $db->rows();
+        $order",array());
+    $count = count($rows);
 
 ?>
-<p>Amazingly, on <? print $count; ?> occasions in these parliaments,
+<p>Amazingly, on <?php print $count; ?> occasions in these parliaments,
 an MP has voted twice in the same division.  It's a little known fact that this is perfectly
 allowable, provided one vote is aye and the other is no.  For details see under the
 heading "abstention" in the <a href="http://www.parliament.uk/documents/upload/p09.pdf">division factsheet</a> from the House of Commons Information Office.  
@@ -80,7 +78,7 @@ headings to sort it by MP name or by division date.
 
     $prettyrow = 0;
     $lastparl = "";
-    while ($row = $db->fetch_row())
+    foreach ($rows as $row)
     {
         $thisparl = date_to_parliament($row[7]);
         if ($lastparl == "" or ($thisparl != $lastparl and $sort == "date"))
@@ -101,18 +99,16 @@ headings to sort it by MP name or by division date.
         $lastparl = $thisparl;
 
         $prettyrow = pretty_row_start($prettyrow);
-        print "<td>$row[6]</td><td>".pretty_date($row[7])."</td><td><a href=\"division.php?date=" . urlencode($row[7]) .
-        "&number=" . urlencode($row[6]) . "\">$row[8]</a></td>";
-        print "<td><a href=\"mp.php?firstname=" . urlencode($row[0]) .
-            "&lastname=" . urlencode($row[1]) . "&constituency=" .
-            urlencode($row[2]) . "\">
-            $row[0] $row[1]</a></td> <td>$row[2]</td>
-            <td>" . pretty_party($row[3], $row[4], $row[5]) . "</td>";
+        print '<td>'.$row['division_number'].'</td><td>'.pretty_date($row['division_date']).'</td><td><a href="division.php?date=' . urlencode($row['division_date']) .
+        '&number=' . urlencode($row['division_number']) . '">'.$row['division_name'].'</a></td>';
+        print '<td><a href="mp.php?firstname=' . urlencode($row['first_name']) .
+            '&lastname=' . urlencode($row['last_name']) . '&constituency=' .
+            urlencode($row['constituency']) . '">'.
+            $row['first_name'].' '.$row['last_name'].'</a></td> <td>'.$row['constituency'].'</td>
+            <td>' . pretty_party($row['party'], $row['entered_house'], $row['left_house']) . '</td>';
         print "</tr>\n";
     }
 
     print "</table>\n";
 
-?>
-
-<?php pw_footer() ?>
+    pw_footer();

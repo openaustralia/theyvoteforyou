@@ -65,7 +65,7 @@ function applet($year)
             ARCHIVE = "mpscatt.jar" \
             WIDTH = "700" \
             HEIGHT = "400" \
-            posfile ="mpcoords-<?=$year?>.txt" \
+            posfile ="mpcoords-<?php echo $year?>.txt" \
 	    scriptable=false \
 	    pluginspage="http://java.sun.com/products/plugin/index.html#download"><NOEMBED><XMP>');
 //--></SCRIPT>
@@ -74,7 +74,7 @@ function applet($year)
     <PARAM NAME = ARCHIVE VALUE = "mpscatt.jar" >
     <PARAM NAME="type" VALUE="application/x-java-applet;version=1.4">
     <PARAM NAME="scriptable" VALUE="false">
-    <PARAM NAME = "posfile" VALUE="mpcoords-<?=$year?>.txt">
+    <PARAM NAME = "posfile" VALUE="mpcoords-<?php echo $year?>.txt">
 Sun Java 1.4 or above required
 </APPLET>
 </NOEMBED>

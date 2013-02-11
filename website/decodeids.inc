@@ -16,31 +16,33 @@ require_once $toppath . "constituencies.inc";
 
 # get the constituency and names to use from an mpid
 # mpgen says the equivalence class is by constituency or by person
-function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_overlap)
+function get_mpid_attr( $mpid, $bbyconstituency, $i, $voter2dream_overlap)
 {
     global $bdebug;
+    global $pwpdo;
+    global $pwpdo2;
     # convert the mpid into a person-id
     $query = "SELECT title, first_name, last_name, constituency, person, party, house, mp_id
               FROM   pw_mp
-              WHERE mp_id = $mpid";
+              WHERE mp_id = ?";
 
-    if ($bdebug == 1)
-        print "<h1>getmpattr: $query</h1>\n";
-    $row = $db->query_one_row_assoc($query);
-
+    $row=$pwpdo->get_single_row($query,array($mpid));
     # build the anchor tag
     $mpname = $row['title'].' '.$row['first_name'].' '.$row['last_name'];
     $constituency = $row['constituency'];
     $person = $row['person'];
     $party = $row['party'];
     $house = $row['house'];
-
+    $placeheld=array();
     # get the mpids in this class, for the person, or all reps of a constituency
-    if ($bbyconstituency)
-        $qwhere = "constituency = '".db_scrub($constituency)."' AND house = '".db_scrub($house)."'";
-    else
-        $qwhere = "person = $person";
-
+    if ($bbyconstituency) {
+        $qwhere = "constituency = ? AND house = ?";
+	$placeheld[]=db_scrub($constituency);
+	$placeheld[]=db_scrub($house);
+    } else {
+        $qwhere = "person = ?";
+	$placeheld[]=$person;
+    }
 	$qselect = "pw_mp.mp_id AS mpid, title, first_name, last_name, constituency, person, party, house,
                 entered_house, left_house, party, entered_reason, left_reason,
                 rebellions, votes_attended, votes_possible, tells";
@@ -49,9 +51,7 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
               LEFT JOIN pw_cache_mpinfo ON pw_mp.mp_id = pw_cache_mpinfo.mp_id
               WHERE $qwhere
               ORDER BY entered_house DESC";
-    if ($bdebug == 1)
-        print "<h1>decode person: $query</h1>\n";
-    $row = $db->query($query);
+    $row = $pwpdo->query($query,$placeheld);
 
     # build a set of data for each mpid in this group
     $mpids = array();
@@ -60,7 +60,7 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
     $bmulithouse = false;
     $thismpprop = null;
     $minentered_house = "9999-12-31";
-    while ($row = $db->fetch_row_assoc())
+    while ($row = $pwpdo->fetch_row())
     {
         $mppropname = trim($row['title'].' '.$row['first_name'].' '.$row['last_name']);
         $mppropanchor = link_to_mp($row, 1);
@@ -109,22 +109,13 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
 		if ($voter2dream_overlap)
 		{
 			$query = "SELECT vote FROM pw_dyn_dreamvote
-					  WHERE division_date >= \"".$row['entered_house']."\" AND division_date < \"".$row['left_house']."\"
-					  	AND dream_id = ".$voter2dream_overlap['dreammpid']."
+					  WHERE division_date >= ? AND division_date < ?
+					  	AND dream_id = ?
 						LIMIT 1";
-		    if ($bdebug)
-		    	print "<h1>$query</h1>\n";
-			$row2 = $db2->query_onez_row_assoc($query);
+			$row2=$pwpdo2->get_single_row($query,array($row['entered_house'],$row['left_house'],$voter2dream_overlap['dreammpid']));
 			if ($row2 == null)
 				continue;
 		}
-
-        if ($bdebug == 1)
-        {
-            print "<h4>prop:";
-            print_r($mpprop);
-            print "</h4>\n";
-        }
 
         array_push($mpprops, $mpprop);
         if (($mpprop['mpid'] == $mpid) || ($thismpprop == null))  # recover the original mp, or the most recent
@@ -150,8 +141,9 @@ function get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_over
 }
 
 # this is used for getting mpids from links prior to 2005-03
-function decode_mpid_legacy($db)
+function decode_mpid_legacy()
 {
+    global $pwpdo;
     global $bdebug;
 
     $id = db_scrub($_GET["id"]);
@@ -166,13 +158,14 @@ function decode_mpid_legacy($db)
     }
 
     # For a while we allowed this style for MPs
-    $mpurlid = db_scrub($_GET["mpid"]);
+    $mpurlid = (int)db_scrub($_GET["mpid"]);
     if ($mpurlid) {
         # By identifier directly
         $mpid = $mpurlid;
         $query = "SELECT mp_id FROM pw_mp WHERE gid='uk.org.publicwhip/member/".$mpurlid."'
             or gid='uk.org.publicwhip/lord/".$mpurlid."'";
-        $row = $db->query_one_row_assoc($query);
+        $row=$pwpdo->get_single_row('SELECT mp_id FROM pw_mp WHERE gid=:member OR gid=:lord',
+        array(':member'=>'uk.org.publicwhip/member/'.$mpurlid,':lord'=>'uk.org.publicwhip/lord/'.$mpurlid));
         return db_scrub($row["mp_id"]);
      }
 
@@ -181,26 +174,29 @@ function decode_mpid_legacy($db)
     if ($constituency == "")
         return null;
     $constituency = strtolower(stripslashes(html_entity_decode($constituency)));
-    $constituency = normalise_constituency_name($db, $constituency);
+    $constituency = normalise_constituency_name( $constituency);
     $constituency = db_scrub($constituency);
     $first_name = db_scrub($_GET["firstname"]);
     $last_name = db_scrub($_GET["lastname"]);
-    if ($bdebug == 1)
-        print "<h1> FN=$first_name LN=$last_name CO=$constituency</h1>";
 
+    $placeholders=array();
     $qwhere = "WHERE ";
-    if ($constituency)
-	    $qwhere .= "constituency = '$constituency'";
-    else
+    if ($constituency) {
+	    $qwhere .= "constituency = :const";
+        $placeholders[':const']=$constituency;
+    } else {
 	    $qwhere .= "1 = 1";
-    if ($first_name != "")
-        $qwhere .= " AND first_name = '$first_name' AND last_name = '$last_name'";
-
+    }
+    if ($first_name != "") {
+        $qwhere .= " AND first_name = :first AND last_name = :last";
+        $placeholders[':first']=$first_name;
+        $placeholders[':last']=$last_name;
+    }
     $query = "SELECT mp_id
               FROM pw_mp
               $qwhere
               ORDER BY entered_house DESC LIMIT 1";
-    $row = $db->query_one_row_assoc($query);
+    $row = $pwpdo->get_single_row($query,$placeholders);
     $id = db_scrub($row["mp_id"]);
     return $id;
 }
@@ -211,13 +207,13 @@ function decode_mpid_legacy($db)
 function get_mpid_attr_decode($db, $db2, $i, $voter2dream_overlap=null, $pc_parl=null)
 {
     global $bdebug;
+	global $pwpdo;
+    global $pwpdo2;
 
-    $mpname = db_scrub($_GET["mpn$i"]);
-    $mpconstituency = db_scrub($_GET["mpc$i"]);
-    $mphouse = db_scrub($_GET["house$i"]);
-    $mppostcode = db_scrub($_GET["mppc$i"]);
-    if ($bdebug == 1)
-        print "<h1> MPN=".html_scrub($mpname)." MPC=".html_scrub($mpconstituency)." MPPC=".html_scrub($mppostcode)." HOUSE=".html_scrub($mphouse)."</h1>";
+    $mpname = $_GET["mpn$i"];
+    $mpconstituency = $_GET["mpc$i"];
+    $mphouse = $_GET["house$i"];
+    $mppostcode = $_GET["mppc$i"];
 
     if (is_postcode($mppostcode)) {
         $pccons = postcode_to_constituency($db, $mppostcode, $pc_parl, $mphouse);
@@ -228,13 +224,14 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream_overlap=null, $pc_parl
 
     # fix incoming broken link
     if ($mpname == "Robert_Wilson")
-        $mpname = "Rob_Wilson"; 
+        $mpname = "Rob_Wilson";
 
+    $placeheld=array();
     if ($mpname == "" and $mpconstituency == "")
     {
         if ($i != "")   # legacy doesn't apply to second and third entries which may be blank
             return null;
-        $mpid = decode_mpid_legacy($db);
+        $mpid = decode_mpid_legacy();
         if ($mpid == null)
             return null;
         $bbyconstituency = false;
@@ -251,18 +248,20 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream_overlap=null, $pc_parl
         {
             $constituency = strtolower(stripslashes(html_entity_decode($mpconstituency)));
             $constituency = str_replace("_", " ", $constituency);
-            $constituency = normalise_constituency_name($db, $constituency, $mphouse);
-            $constituency = db_scrub($constituency);
+            $constituency = normalise_constituency_name($constituency, $mphouse);
             if ($constituency == "")
             {
-                print "Error, constituency " . $mpconstituency . " not found";
+                print "Error, constituency not found";
                 exit;
             }
-            $qwhere = "constituency = '$constituency'";
+            $qwhere = "constituency = ?";
+	    $placeheld[]=$constituency;
             if ($mphouse=='scotland') {
-                $qwhere .= " and house = 'scotland'";
+                $qwhere .= " and house = ?";
+	        $placeheld[]='scotland';
             } elseif ($mphouse=='commons') {
-                $qwhere .= " and house = 'commons'";
+                $qwhere .= " and house = ?";
+		$placeheld[]='commons';
             }
         }
         if ($mpname != "")
@@ -270,8 +269,10 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream_overlap=null, $pc_parl
             if ($qwhere != "")
                 $qwhere .= " and ";
             $mpname = str_replace("_", " ", $mpname);
-            $qwhere .= "('$mpname' = CONCAT(first_name, ' ', last_name)";
-            $qwhere .= " OR '$mpname' = CONCAT(title, ' ', first_name, ' ', last_name))";
+            $qwhere .= "(? = CONCAT(first_name, ' ', last_name)";
+	    $placeheld[]=$mpname;
+            $qwhere .= " OR ? = CONCAT(title, ' ', first_name, ' ', last_name))";
+	    $placeheld[]=$mpname;
         }
 
         $query = "SELECT mp_id
@@ -279,20 +280,21 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream_overlap=null, $pc_parl
                   WHERE $qwhere
                   ORDER BY entered_house
                   DESC LIMIT 1";
-        $row = $db->query_one_row($query);
-        $mpid = db_scrub($row[0]);
+	$row=$pwpdo->get_single_row($query,$placeheld);
+        $mpid = db_scrub($row['mp_id']);
         $bbyconstituency = ($mpname == "");
     }
 
-    return get_mpid_attr($db, $db2, $mpid, $bbyconstituency, $i, $voter2dream_overlap);
+    return get_mpid_attr($mpid, $bbyconstituency, $i, $voter2dream_overlap);
 }
 
 # do the attributes for a dream mp
 function get_dreammpid_attr_decode($db, $i)
 {
+	global $pwpdo;
     $dreammpid = db_scrub($_GET[($i == "id" ? $i : "dmp$i")]);  # so we can choose to look for id= instead of dmp=
     if ($dreammpid == "" && $i == "id")
-        $dreammpid = db_scrub($_POST[$i]); 
+        $dreammpid = db_scrub($_POST[$i]);
     if ($dreammpid == "")
         return null;
     $dreammpid = intval($dreammpid);
@@ -303,10 +305,10 @@ function get_dreammpid_attr_decode($db, $i)
 	$qfrom	 = " FROM pw_dyn_dreammp";
 	$qjoin 	 = " LEFT JOIN pw_cache_dreaminfo ON pw_cache_dreaminfo.dream_id = pw_dyn_dreammp.dream_id";
 	$qjoin 	.= " LEFT JOIN pw_dyn_user ON pw_dyn_user.user_id = pw_dyn_dreammp.user_id";
-	$qwhere  = " WHERE pw_dyn_dreammp.dream_id = $dreammpid";
+	$qwhere  = " WHERE pw_dyn_dreammp.dream_id = ?";
 	$query = $qselect.$qfrom.$qjoin.$qwhere;
 
-    $row = $db->query_one_row_assoc($query);
+	$row=$pwpdo->get_single_row($query,array($dreammpid));
     $dmp_name = $row[0];
 
     return array("dreammpid" 	=> $dreammpid,
@@ -321,9 +323,10 @@ function get_dreammpid_attr_decode($db, $i)
 }
 
 # do the attributes for a division listing, use defaults when $i is set
-function get_division_attr_decode($db, $i)
+function get_division_attr_decode($i)
 {
     global $bdebug;
+    global $pwpdo;
     $div_date = db_scrub($_GET["date$i"]);
     $div_no = db_scrub($_GET["number$i"]);
     $div_house = db_scrub($_GET["house$i"]);
@@ -332,7 +335,7 @@ function get_division_attr_decode($db, $i)
     if (!$div_date and $i != "")
         $div_date = db_scrub($_GET["date"]);
     if (!$div_date or ($div_no != 0 && !$div_no))
-        return none;
+        return NULL;
 
     $query = "SELECT division_date, division_number, house,
                      pw_division.division_id AS division_id,
@@ -342,12 +345,9 @@ function get_division_attr_decode($db, $i)
               FROM pw_division
               LEFT JOIN pw_cache_divinfo
                 ON pw_cache_divinfo.division_id = pw_division.division_id
-              WHERE division_date = '$div_date' AND division_number = '$div_no' AND house = '$div_house'";
+              WHERE division_date =? AND division_number = ? AND house = ?";
 
-    # warning error shows up from this line if in debug since it comes before the first characters that set the type in head.inc
-    if ($bdebug == 1)
-        print "<h5>$query</h5>";
-    $row = $db->query_onez_row_assoc($query);
+    $row=$pwpdo->get_single_row($query,array($div_date,$div_no,$div_house));
     if (!$row)
         return "none";
 
@@ -377,7 +377,7 @@ function get_division_attr_decode($db, $i)
                  "original_motion"	=> $row["motion"]);
 }
 
-function dismodes_to_second_links($thispage, $dismodes, $tpsort, $display) 
+function dismodes_to_second_links($thispage, $dismodes, $tpsort, $display)
 {
     $second_links = array();
     foreach ($dismodes as $ldisplay => $ldismode)

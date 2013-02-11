@@ -3,17 +3,17 @@ set -e
 
 # Exports database for others to download.
 
-MYSQL_DUMP=/usr/bin/mysqldump
-
+MYSQL_DUMP="/usr/bin/mysqldump publicwhip --add-drop-table --tables "
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] export-db: Main tables"
 # Main tables with data from Hansard
-$MYSQL_DUMP --add-drop-table pw_live pw_division pw_moffice pw_mp pw_vote | bzip2 - >~/www.publicwhip.org.uk/docs/data/pw_static_tables.sql.bz2
-
+$MYSQL_DUMP pw_division pw_moffice pw_mp pw_vote | bzip2 - >~/www.publicwhip.org.uk/docs/data/pw_static_tables.sql.bz2
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] export-db: User edited tables"
 # User edited tables
 # DO NOT include pw_dyn_user, pw_dyn_newsletter or pw_dyn_auditlog as they have emails etc. in them
-$MYSQL_DUMP --add-drop-table pw_live pw_dyn_dreammp pw_dyn_dreamvote pw_dyn_wiki_motion | bzip2 - >~/www.publicwhip.org.uk/docs/data/pw_dynamic_tables.sql.bz2
-
+$MYSQL_DUMP pw_dyn_dreammp pw_dyn_dreamvote pw_dyn_wiki_motion | bzip2 - >~/www.publicwhip.org.uk/docs/data/pw_dynamic_tables.sql.bz2
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] export-db: Cache tables"
 # Cache tables.
-$MYSQL_DUMP --add-drop-table pw_live pw_cache_attendrank_today pw_cache_divdiv_distance pw_cache_divinfo pw_cache_divwiki pw_cache_dreaminfo pw_cache_dreamreal_distance pw_cache_mpinfo pw_cache_mpinfo_session2002 pw_cache_partyinfo pw_cache_realreal_distance pw_cache_rebelrank_today pw_cache_whip | bzip2 - >~/www.publicwhip.org.uk/docs/data/pw_cache_tables.sql.bz2
-
+$MYSQL_DUMP pw_cache_attendrank_today pw_cache_divdiv_distance pw_cache_divinfo pw_cache_divwiki pw_cache_dreaminfo pw_cache_dreamreal_distance pw_cache_mpinfo pw_cache_mpinfo_session2002 pw_cache_partyinfo pw_cache_realreal_distance pw_cache_rebelrank_today pw_cache_whip | bzip2 - >~/www.publicwhip.org.uk/docs/data/pw_cache_tables.sql.bz2
+echo "[$(date +\%Y-\%m-\%d\ %H:%M:%S)] export-db: Completed"
 
 

@@ -10,47 +10,27 @@
     require_once "db.inc";
     require_once "database.inc";
 
+# standard decoding functions for the url attributes
+require_once "decodeids.inc";
+require_once "tablemake.inc";
+require_once "tableoth.inc";
+
+require_once "dream.inc";
+require_once "tablepeop.inc";
+require_once "DifferenceEngine.inc";
 
     $db = new DB();
     $db2 = new DB();
 
-// create the table (once) so we can use it.
-/*$db->query("create table pw_dyn_aggregate_dreammp (
-	dream_id_agg int not null,
-	dream_id_sel int not null,
-    vote_strength enum(\"strong\", \"weak\") not null,
-	index(dream_id_agg),
-	index(dream_id_sel),
-    unique(dream_id_agg, dream_id_sel)
-);");
-*/
-
-	# standard decoding functions for the url attributes
-	require_once "decodeids.inc";
-	require_once "tablemake.inc";
-    require_once "tableoth.inc";
-
-    require_once "dream.inc";
-	require_once "tablepeop.inc";
-    require_once "DifferenceEngine.inc";
-
 	# this replaces a lot of the work just below
 	$voter = get_dreammpid_attr_decode($db, "id");  # for pulling a dreammpid from id= rather than the more standard dmp=
     $policyname = html_scrub($voter["name"]);
+    if (isset($_GET['party'])) {
     $party_comp = db_scrub($_GET["party"]);
+    } else {
+        $party_comp='';
+    }
     $dreamid = intval($voter["dreammpid"]);
-
-    $referrer = $_SERVER["HTTP_REFERER"];
-    $querystring = $_SERVER["QUERY_STRING"];
-    $ipnumber = $_SERVER["REMOTE_ADDR"];
-    $showhits = preg_match("/.*?house=z/", $referrer);
-    if (!$referrer)
-        $referrer = $_SERVER["HTTP_USER_AGENT"];
-    if (!isrobot() && !$showhits)
-        $db->query("INSERT INTO pw_logincoming
-                    (referrer, ltime, ipnumber, page, subject, url, thing_id)
-        VALUES ('$referrer', NOW(), '$ipnumber', 'policy', '$party_comp', '$querystring', '$dreamid')");
-
 
 
 	// all private dreams will be aggregate
@@ -58,7 +38,7 @@
     $bAggregate = false; // disabled for now
 
 	// should be available only to the owner
-	$bAggregateEditable = true; //(($_GET["editable"] == "yes") || ($_POST["submit"] != ""));
+	$bAggregateEditable = false; //(($_GET["editable"] == "yes") || ($_POST["submit"] != ""));
 
 
     $title = "Policy #$dreamid: \"$policyname\"";
@@ -78,12 +58,12 @@
 								 "divisionlist" => "selected", # those which are seen out of the total
                                  "tooltip" => "Comparison to MPs");
     
-    if (!$bAggregate)
+    if (!$bAggregate) {
         $dismodes["motions"] = array("dtype"     => "motions", 
                                      "description" => "Details of votes", 
                                      "divisionlist" => "selected", 
                                      "tooltip" => "Also shows description of every vote"); 
-
+    }
 	$dismodes["editdefinition"] = array("description" => "Edit",
 								 "editdefinition" => "yes",
                                  "tooltip" => "Change title and definition of policy");
@@ -123,14 +103,22 @@
 
 	# work out which display mode we are in (in case we arrive from a post)
 	$display = $_GET["display"];
-    if ($_POST["seldreamid"])
+    if ($_POST["seldreamid"]) {
         $display = "extended";
-    if (!$dismodes[$display])
+    }
+    if (!$dismodes[$display]) {
 		$display = "summary"; # default
+    }
 	$dismode = $dismodes[$display];
 
-    # edit definition needs to check login
-	if ($dismode["editdefinition"]) {
+
+# edit definition needs to check login
+if ($dismode["editdefinition"]) {
+    pw_header();
+    print '<h1>Sorry, edit definitions are currently disabled</h1>';
+    pw_footer();
+    disabled('policy.php editdefinition');
+    die();
         $just_logged_in = do_login_screen();
         if (!user_isloggedin()) {
             login_screen();
@@ -187,7 +175,7 @@
                         $new_private_name = "provisional";
                     dream_post_forum_action($db, $dreamid, "Policy is now [b]".$new_private_name."[/b]");
                 }
-                $ret = $db->query_errcheck("update pw_dyn_dreammp set name='$name', description='".mysql_escape_string($description)."', private='".$new_private."' where dream_id='$dreamid'");
+                $ret = $db->query_errcheck("update pw_dyn_dreammp set name='$name', description='".mysql_real_escape_string($description)."', private='".$new_private."' where dream_id='$dreamid'");
                 notify_dream_mp_updated($db, intval($dreamid));
 
                 if ($ret)
@@ -221,11 +209,17 @@
 
     pw_header();
 
+
 	// this is where we save the votes
     // XXX this is not really used
 	$clashesonsave = -1; // signifies no saving done
 	if ($_GET["savevotes"] && $bAggregateEditable && $bAggregate)
 	{
+        pw_header();
+        print '<h1>Sorry, saving votes are currently disabled</h1>';
+        pw_footer();
+        disabled('policy.php savevotes');
+        exit();
 		print "<h2>THIS IS WHERE WE SAVE THE VOTES INTO THE POLICY</h2>.\n";
 
 		// remove superfluous entries
@@ -306,41 +300,22 @@
         print "<br>";
         print "<div align=\"right\">";
 
-        if ($voter["private"] == 1)
-            print "<b>Made by:</b> " . pretty_user_name($db, html_scrub($voter["user_name"])) . " (this is a legacy Dream MP)";
-        if ($voter["private"] == 2)
-            print "<strong>This policy is provisional, please help improve it</strong>";
+        //if ($voter["private"] == 1) {
+        //    print "<b>Made by:</b> " . pretty_user_name($db, html_scrub($voter["user_name"])) . " (this is a legacy Dream MP)";
+        //}
+        //if ($voter["private"] == 2) {
+        //    print "<strong>This policy is provisional, please help improve it</strong>";
+        //}
         print "</div>";
         print "</p>";
     }
 
-    if ($showhits)
-    {
-        print "<h2>Backlinks</h2>\n";
-        $db->query("SELECT referrer, ltime, ipnumber, page, thing_id FROM pw_logincoming 
-                    WHERE (page = 'policy' AND thing_id = $dreamid)
-                       OR (page = 'mppolicy' and subject = $dreamid)
-                    ORDER BY ltime DESC");
-        print "<table id=\"backlinks\">\n";
-        while ($row = $db->fetch_row_assoc())
-        {
-            print "<tr><td width=\"20%\">".preg_replace("/ /", "&nbsp;", $row["ltime"])."</td>";
-            print "<td width=\"10%\">".guy_mangle_ip($row["ipnumber"])."</td>";
-            if ($row["page"] == 'mppolicy')
-                print "<td>".$row["thing_id"]."</td>";
-            else
-                print "<td></td>";
-            print "<td width=\"70%\">";
-            if (preg_match("/http:\/\//", $row["referrer"]))
-                print "<a href=\"".$row["referrer"]."\">".$row["referrer"]."</a></td>";
-            else
-                print $row["referrer"]."</td>";
-            print "</tr>";
-        }
-        print "</table>";
-    }
-
 	if ($dismode["discussion"]) {
+        pw_header();
+        print '<h1>Sorry, discussions currently disabled</h1>';
+        pw_footer();
+        disabled('policy.php discussion');
+        exit();
         $discuss_url = dream_post_forum_link($db, $dreamid);
         if (!$discuss_url) {
             // First time someone logged in comes along, add policy to the forum
@@ -360,6 +335,11 @@
     }
 
 	if ($dismode["editdefinition"]) {
+        pw_header();
+        print '<h1>Sorry, edit definition currently disabled</h1>';
+        pw_footer();
+        disabled('policy.php editdefinition');
+        exit();
         if (!user_getid()) {
             print "Error, expected to be logged in.";
             exit;
@@ -386,23 +366,23 @@
         {
         ?>
             <P>
-            <FORM ACTION="policy.php?id=<?=$dreamid?>&display=editdefinition" METHOD="POST">
-            <p><span class="ptitle">Title:</span> <INPUT TYPE="TEXT" NAME="name" VALUE="<?=html_scrub($name)?>" SIZE="40" MAXLENGTH="50">
+            <FORM ACTION="policy.php?id=<?php echo $dreamid?>&display=editdefinition" METHOD="POST">
+            <p><span class="ptitle">Title:</span> <INPUT TYPE="TEXT" NAME="name" VALUE="<?php echo html_scrub($name)?>" SIZE="40" MAXLENGTH="50">
             <P>
             <span class="ptitle">Text:</span> Someone who believes that<BR>
-            <textarea class="policytext" name="description" rows="2" cols="80"><?=htmlspecialchars($description)?></textarea>
+            <textarea class="policytext" name="description" rows="2" cols="80"><?php echo htmlspecialchars($description)?></textarea>
             <br>
             would vote according to this policy. (<em>From the text, everyone should 
             be able to agree which way the policy votes in each division</em>.)
 
-            <? if (!$legacy_dream) { ?>
+            <?php if (!$legacy_dream) { ?>
             <p>
-            <INPUT TYPE="checkbox" NAME="provisional" value="provisional" id="provisional" <?=$provisional?'checked':''?>> 
+            <INPUT TYPE="checkbox" NAME="provisional" value="provisional" id="provisional" <?php echo $provisional?'checked':''?>>
             <label for="provisional" class="ptitle">Provisional policy</label>
             ('provisional' means the policy is not yet complete or consistent
             enough to display on MP pages)
             </p>
-            <? } ?>
+            <?php } ?>
 
             <p>
             <input type="hidden" name="submiteditpolicy" value="Save">
@@ -412,14 +392,18 @@
         }
         pw_footer();
     }
-
     // XXX this is not really used
     if ($dismode["aggregate"] == "fulltable")
 	{
+        pw_header();
+        print '<h1>Sorry, full table aggregate stats currently disabled</h1>';
+        pw_footer();
+        disabled('policy.php full table aggregate stats');
+        exit();
 		// changed vote
-		if (mysql_escape_string($_POST["submiteditpolicy"]))
+		if (mysql_real_escape_string($_POST["submiteditpolicy"]))
         {
-        	$newseldreamid = mysql_escape_string($_POST["seldreamid"]);
+        	$newseldreamid = mysql_real_escape_string($_POST["seldreamid"]);
 			$icomma = strpos($newseldreamid, ',');
 			$seldreamid = substr($newseldreamid, 0, $icomma);
 			$seldreamidvote = substr($newseldreamid, $icomma + 1);
@@ -586,7 +570,7 @@
         }
         
         print "<table class=\"$tableclass\">\n";
-		mp_table($db, $mptabattr);
+		mp_table($mptabattr);
 		print "</table>\n";
     }
 
@@ -604,7 +588,6 @@
 	    print htmlspecialchars(dream_box($dreamid, $policyname));
 	    print '</pre>';
 	}
-?>
 
-<?php pw_footer() ?>
+pw_footer() ?>
 

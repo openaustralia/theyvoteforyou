@@ -15,7 +15,7 @@ $db = new DB();
 
 header("Content-type: text/html");
 
-$divattr = get_division_attr_decode($db, "");
+$divattr = get_division_attr_decode( "");
 
 //print "<h1>Hi there</h1>";
 $div_id = $divattr["division_id"];

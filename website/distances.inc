@@ -70,8 +70,7 @@ function update_divdiv_distance($db, $division_date1, $divid1, $division_date2, 
 	$qgroup = " GROUP BY ssss"; # sum all rows
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
-	if ($bdebug == 1)
-		print "<h4>$query</h4>";
+
 	$row = $db->query_one_row_assoc($query);
 
 	$nsame = $row['nvotessame'] ? $row['nvotessame'] : 0;
@@ -108,12 +107,12 @@ function remove_dead_division_distances($db)
     for ($i = 0; $i < 2; ++$i) {
         $delme = array();
         $suffix = $i ? "2" : "";
-        $qselect = "SELECT pw_cache_divdiv_distance.division_id$suffix"; 
+        $qselect = "SELECT pw_cache_divdiv_distance.division_id$suffix";
         $qfrom = " FROM pw_cache_divdiv_distance
               LEFT JOIN pw_division 
                ON pw_division.division_id = pw_cache_divdiv_distance.division_id$suffix
               WHERE pw_division.division_id IS null GROUP BY pw_cache_divdiv_distance.division_id$suffix
-              "; 
+              ";
         #print "$qselect $qfrom\n";
         $db->query($qselect.$qfrom);
         while ($row = $db->fetch_row()) {
@@ -167,8 +166,7 @@ function fill_division_distances_internal($db, $db2, $house, $divattr, $batchnum
 		$qlimit = " LIMIT $batchnumber"; # to stop the calculation running on forever on one run
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
-	if ($bdebug == 1)
-		print $query;
+
 	$db->query($query);
 	$some_done = 0;
 	while ($row = $db->fetch_row_assoc())
@@ -186,15 +184,16 @@ function fill_division_distances_internal($db, $db2, $house, $divattr, $batchnum
 
 
 # write out an explanation of the calculation above
-function print_divdiv_distance($db, $divattr1, $divattr2, $housenoun)
+function print_divdiv_distance( $divattr1, $divattr2, $housenoun)
 {
 	global $bdebug;
+    global $pwpdo;
 
 	$query = "SELECT nvotespossible, nvotessame, nvotesdiff, nvotesabsent, distance
 			  FROM pw_cache_divdiv_distance
-			  WHERE division_id = ".$divattr1['division_id']."
-			  	AND division_id2 = ".$divattr2['division_id'];
-	$row = $db->query_onez_row_assoc($query);
+			  WHERE division_id = ?	AND division_id2 = ?";
+
+    $row=$pwpdo->get_single_row($query,array($divattr1['division_id'],$divattr2['division_id']));
 	if (!$row)
 	{
 		print "<p>This particular comparison seems to be missing from our database</p>";
@@ -250,8 +249,6 @@ function print_divdiv_distance($db, $divattr1, $divattr2, $housenoun)
 		   <b>".number_format($agreementpercent, 1)." %</b>.</div>
 		   </p>\n\n<br clear=\"all\">\n";
 
-	print "<p>Please post comments and feedback about this equation in
-			<a href=\"forum/viewtopic.php?t=825\">our forum</a>.</p>\n";
 }
 
 
@@ -276,9 +273,9 @@ function delete_mpid_outofdate_distances($db, $lastupdatedate, $house)
 function fill_mpid_distances_internal($db, $db2, $house, $batchnumber)
 {
 	# find missing entries in the table
-	$qselect = "SELECT pw_mp1.mp_id AS mp_id1, pw_mp2.mp_id AS mp_id2, 
+	$qselect = "SELECT pw_mp1.mp_id AS mp_id1, pw_mp2.mp_id AS mp_id2,
 					   GREATEST(pw_mp1.entered_house, pw_mp2.entered_house) AS max_entered_house, 
-                       LEAST(pw_mp1.left_house, pw_mp2.left_house) AS min_left_house"; 
+                       LEAST(pw_mp1.left_house, pw_mp2.left_house) AS min_left_house";
 
 	$qfrom = " FROM pw_mp AS pw_mp1";
     $qjoin = " LEFT JOIN pw_mp AS pw_mp2 ON pw_mp1.house = pw_mp2.house
@@ -370,8 +367,7 @@ function update_realreal_distance($db, $mp_id1, $mp_id2, $max_entered_house, $mi
 	$qgroup = " GROUP BY ssss"; # sum all rows
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
-	if ($bdebug == 1)
-		print "\n\n<h4>$query</h4>";
+
 	$row = $db->query_onez_row_assoc($query); # can get zero if no divisions in overlap
 
 	$nvotessame = ($row['nvotessame'] ? $row['nvotessame'] : 0);
@@ -393,7 +389,7 @@ function update_realreal_distance($db, $mp_id1, $mp_id2, $max_entered_house, $mi
 	$qattrs = "mp_id1, mp_id2, nvotessame, nvotesdiffer, nvotesabsent, distance_a, distance_b";
 	$qvalues = "$mp_id1, $mp_id2, $nvotessame, $nvotesdiff, $nvotesabsent, $distancea, $distanceb";
     #print $qvalues."\n"; 
-    
+
 	$query  = "INSERT INTO pw_cache_realreal_distance ($qattrs) VALUES ($qvalues)";
 	$db->query($query);
 }
@@ -402,7 +398,7 @@ function update_realreal_distance($db, $mp_id1, $mp_id2, $max_entered_house, $mi
 function fill_mp_distances($db, $db2, $house) {
 	$some_done = 1;
 	while($some_done) {
-	    $some_done = fill_mpid_distances_internal($db, $db2, $house, 5000); 
+	    $some_done = fill_mpid_distances_internal($db, $db2, $house, 5000);
 		#print "done...";
 	}
 }

@@ -272,12 +272,12 @@ print "<h4 id=\"th4a\">The party candidate calculator</h4>\n";
 print "<h4 id=\"th4b\"><strike>Crewe and Nantwich</strike>$constituency</h4>\n";
 print "<h4 id=\"th4c\">by-election: 6 November 2008</h4>\n";
 
-$vdash = mysql_escape_string(db_scrub($_GET["dash"])); # used to tell if /by-election or /byelection was used
+$vdash = mysql_real_escape_string(db_scrub($_GET["dash"])); # used to tell if /by-election or /byelection was used
 $vpostcode = db_scrub($_POST["vpostcode"]);  # a string of letters (each a-e for strong favour to against) in order of the policies
-$vvote = mysql_escape_string(db_scrub($_POST["vvote"]));
-$vkey = mysql_escape_string(db_scrub($_POST["vkey"]));
-$vcomment = mysql_escape_string(db_scrub($_POST["vcomment"]));
-$vinitials = mysql_escape_string(db_scrub($_POST["vinitials"]));
+$vvote = mysql_real_escape_string(db_scrub($_POST["vvote"]));
+$vkey = mysql_real_escape_string(db_scrub($_POST["vkey"]));
+$vcomment = mysql_real_escape_string(db_scrub($_POST["vcomment"]));
+$vinitials = mysql_real_escape_string(db_scrub($_POST["vinitials"]));
 $vrand = $_POST["vrand"];
 if ($vrand)
     $vrand = (int)$vrand;
@@ -326,10 +326,6 @@ $querystring = $_SERVER["QUERY_STRING"];
 $ipnumber = $_SERVER["REMOTE_ADDR"];
 if (!$referrer)
     $referrer = $_SERVER["HTTP_USER_AGENT"];
-if (!isrobot() and !$vkey and !preg_match("/.*?house=z/", $querystring))
-    $db->query("INSERT INTO pw_logincoming
-            (referrer, ltime, ipnumber, page, subject, url, thing_id)
-            VALUES ('$referrer', NOW(), '$ipnumber', 'crewe_election', '$vkey', '$vdash', $vrand)");
 
 # we've had a posting
 if ($vkey)

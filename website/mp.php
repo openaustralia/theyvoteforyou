@@ -95,19 +95,9 @@
 	if ($thispagesettings != "")
 		$thispage .= "&$thispagesettings";
 
-	$referrer = $_SERVER["HTTP_REFERER"];
-    $querystring = $_SERVER["QUERY_STRING"];
-    $ipnumber = $_SERVER["REMOTE_ADDR"];
-    $showhits = preg_match("/.*?house=z/", $referrer);
-    if (!$referrer)
-        $referrer = $_SERVER["HTTP_USER_AGENT"];
     $mpid = $mpprop["mpid"];
     $page_logged = ($voter2type == "dreammp" ? "mppolicy" : "mp");
     $subject_logged = ($voter2type == "dreammp" ? $voter2 : "");
-    if (!isrobot() and !$showhits)
-        $db->query("INSERT INTO pw_logincoming
-                   (referrer, ltime, ipnumber, page, subject, url, thing_id)
-            VALUES ('$referrer', NOW(), '$ipnumber', '$page_logged', '$subject_logged', '$querystring', '$mpid')");
 
     
     # constants
@@ -245,9 +235,9 @@
         update_dreammp_person_distance($db, $voter2);
         $query   = "SELECT nvotessame+nvotessamestrong+nvotesdiffer+nvotesdifferstrong AS nvotes, distance_a
                             FROM pw_cache_dreamreal_distance
-                            WHERE dream_id = $voter2 AND person = ".$mpprop["person"];
-        $row = $db->query_onez_row_assoc($query);
-        $h1title = "<div class=\"h1mppolicy\">";
+                            WHERE dream_id = $voter2 AND person = ?";
+	$pwpdo->get_single_row($query,array($mpprop['person']));
+	$h1title = "<div class=\"h1mppolicy\">";
         $h1title .= "<p class=\"mp\"><a href=\"".$voter1link."\">".html_scrub($mpprop['fullname'])."</a></p>";
         $agreement_a = 1.0 - ($row["distance_a"]);
         $h1title .= "<p class=\"voteexpl\">";
@@ -301,10 +291,8 @@
 	// we apply a date range to the
     $second_type = "tabs";
     pw_header();
-?>
 
 
-<?
 	# extract the events in this mp's life
 	# the events that have happened in this MP's career
 	if ($dismode["eventsinfo"])
@@ -312,12 +300,8 @@
 		# generate ministerial events (maybe events for general elections?)
 	 	$query = "SELECT dept, position, responsibility, from_date, to_date
 	        	  FROM pw_moffice
-				  WHERE pw_moffice.person = '".$voter1attr["mpprop"]["person"]."'
-	        	  ORDER BY from_date DESC";
-		if ($bdebug == 1)
-			print "<h1>query for events: $query</h1>\n";
-	    $db->query($query);
-
+				  WHERE pw_moffice.person = ? ORDER BY from_date DESC";
+		$pwpdo->query($query,array($voter1attr["mpprop"]["person"]));
 		# we insert an events array into each mpprop, which we will allocate timewise
 		for ($i = 0; $i < count($voter1attr["mpprops"]); $i++)
 			$voter1attr["mpprops"][$i]["mpevents"] = array();
@@ -333,7 +317,7 @@
 
 		$currently_minister = array();
 		# it goes in reverse order
-	    while ($row = $db->fetch_row_assoc())
+	    while ($row = $pwpdo->fetch_row())
 	    {
 	        if ($row["to_date"] == "9999-12-31")
 	            $currently_minister[] = pretty_minister($row);
@@ -389,35 +373,6 @@
         print "<p><em>Note:</em> our records only go back to 1997 for the Commons and 2001 for the Lords (<a href=\"/faq.php#timeperiod\">more details</a>).";
 
 	    seat_summary_table($voter1attr['mpprops'], $voter1attr['bmultiperson'], ($all_same_cons ? false : true), true, $thispagesettings);
-
-        if ($showhits)
-        {
-            print "<h2>Backlinks</h2>\n";
-            $qorarr = array();
-            foreach ($voter1attr['mpprops'] as $p)
-	            $qorarr[] = "thing_id = ".$p["mpid"];
-            $qselect = "SELECT referrer, ltime, ipnumber, subject";
-            $qfrom = " FROM pw_logincoming"; 
-            $qwhere = " WHERE (page = 'mp' OR page = 'mppolicy') AND (".implode(" OR ", $qorarr).")";
-            $query = $qselect.$qfrom.$qwhere." ORDER BY ltime DESC LIMIT 1000";
-            $db->query($query);
-            print "<table id=\"backlinks\">\n";
-            while ($row = $db->fetch_row_assoc())
-            {
-                print "<tr><td width=\"20%\">".preg_replace("/ /", "&nbsp;", $row["ltime"])."</td>";
-                print "<td width=\"10%\">".guy_mangle_ip($row["ipnumber"])."</td>";
-                print "<td>".$row["subject"]."</td>";
-                print "<td width=\"70%\">";
-                if (preg_match("/http:\/\//", $row["referrer"]))
-                    print "<a href=\"".$row["referrer"]."\">".$row["referrer"]."</a></td>";
-                else
-                    print $row["referrer"]."</td>";
-
-                print "</tr>\n"; 
-            }
-            print "</table>";
-        }
-
 
         if ($voter2type == "party")
 	    {
@@ -514,7 +469,10 @@
 		else
 			$showwhichvotes = "both";
 
-
+if (true===function_exists('advertisement')) {
+    advertisement('mp');
+}?>
+<?php
 		# division table attributes used
 		$divtabattr = array(
 				"voter1type" 	=> $voter1type,
@@ -630,10 +588,6 @@
 		}
 	}
 
-?>
-
-
-<?php
 	if ($dismode["dreamcompare"])
 	{
 		print "<h2><a name=\"dreammotions\">Policy Comparisons</a>\n";
@@ -653,9 +607,7 @@
 		print_policy_table($db, $dreamtabattr);
 	    print "</table>\n";
 	}
-?>
 
-<?php
 	# the friends tables
 	if ($dismode["possfriends"])
 	{
@@ -693,7 +645,7 @@
 		    previously unsuspected.  Or it may be nonsense.";
 
         print "<table class=\"mps\">\n";
-        $same_voters = mp_table($db, $mptabattr);
+        $same_voters = mp_table( $mptabattr);
         print "</table>\n";
 
         if ($same_voters)
@@ -703,8 +655,5 @@
         # if ($dismode["possfriends"] == "all")
         #    break;
     }
-?>
-
-
-<?php pw_footer() ?>
+pw_footer();
 

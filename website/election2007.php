@@ -129,7 +129,7 @@ $constituency = "Kirkcaldy &amp; Cowdenbeath"; // XXX temp
             and ($date_clause)");
         if ($row)
             $mpid = $row['mp_id'];
-        $mpattr = get_mpid_attr($db, $db2, $mpid, false, 1, null);
+        $mpattr = get_mpid_attr($mpid, false, 1, null);
         if ($mpattr == null) {
             $errors[] = "Your MP wasn't found.  Please check you
                 entered the postcode correctly.";
@@ -164,7 +164,7 @@ header("Content-Type: text/html; charset=UTF-8");
 
 <script type="text/javascript" src="./quiz/slider.js"></script>
 
-<?    if ($_GET['submit'] /*and !$errors*/) {
+<?php    if ($_GET['submit'] /*and !$errors*/) {
 
         # See if MP is standing again
         $mpattr = $mpattr['mpprops'][0];
@@ -178,7 +178,7 @@ header("Content-Type: text/html; charset=UTF-8");
 $standing_again = true; # XXX remove me
 
         # Regional parties
-        $consid = normalise_constituency_name($db, strtolower($constituency), $house, "2001");
+        $consid = normalise_constituency_name(strtolower($constituency), $house, "2001");
         if (!$consid) {
             print "<div class=\"error\">Constituency '$constituency' not found, please <a href=\"team@publicwhip.org.uk\">let us know</a>.</div>";
 #            exit;
@@ -296,7 +296,7 @@ poswords = ["Extremely against","Strongly against","Moderately against","Slightl
                   "Indifferent about",
                   "Slightly for", "Moderately for", "Strongly for", "Extremely for"];
 
-var npolicies = <?=count($issues)?>;
+var npolicies = <?php echo count($issues)?>;
 
 weights = [ 0, 1, 3, 6, 10 ];  // from indifferent to extremely
 
@@ -322,7 +322,7 @@ partyvotes = [
 ]
 
 partyscores = [ 
-<? foreach ($unique_parties as $party) {
+<?php foreach ($unique_parties as $party) {
     print "0.0, ";
    }
 ?>
@@ -438,7 +438,7 @@ function selpol()
 
 //]]>
 </script>
-<? } ?>
+<?php } ?>
 
 </head>
 <?
@@ -468,14 +468,14 @@ function selpol()
         <h5>Your views</h5>
         <table>
   
-<?    
+<?php
      $c = -1;
      foreach ($issues as $issue) {
         $c++;
 ?>
-        <tr><td><input name="sliderpol<?=$c?>" id="slider-pol<?=$c?>" type="text" title="silly title" class="fd_range_-4_4 fd_classname_polslider fd_hide_input fd_callback_selpol" value="0" /></td>
-            <td id="spanpol<?=$c?>" class="sliderposword">XXX</td>
-            <td id="polname<?=$c?>"><?=$issue[1]?></td>
+        <tr><td><input name="sliderpol<?php echo $c?>" id="slider-pol<?php echo $c?>" type="text" title="silly title" class="fd_range_-4_4 fd_classname_polslider fd_hide_input fd_callback_selpol" value="0" /></td>
+            <td id="spanpol<?php echo $c?>" class="sliderposword">XXX</td>
+            <td id="polname<?php echo $c?>"><?php echo $issue[1]?></td>
         </tr>
 <?
     }
@@ -500,7 +500,7 @@ function selpol()
         </td>
         </tr>
 
-        <? 
+        <?php
             $c = -1;
             foreach ($unique_parties as $party) {
                 print "<tr>";
@@ -595,7 +595,7 @@ function selpol()
 <h4>Quick Election Quiz</h4>
 <form id="frmHowToVote" name="howtovote" method="get" action="election2007.php">
 
-Enter your UK <strong>postcode</strong>: <input type="text" size="10" name="mppc" value="<?=htmlspecialchars($_GET['mppc'])?>" id="Text1"> <br/>
+Enter your UK <strong>postcode</strong>: <input type="text" size="10" name="mppc" value="<?php echo htmlspecialchars($_GET['mppc'])?>" id="Text1"> <br/>
 (so we know who your last <abbr title="Member of Parliament">MP</abbr> was)
 
 <input id="submit" name="submit" type="hidden"  value="1">

@@ -21,7 +21,7 @@ package PublicWhip::Parliaments;
 use strict;
 
 our @list = ( # put newer Parliaments first
-    { id => '2010', from => '2010-05-18', to => '9999-12-31', name => '2010' },
+    { id => '2010', from => '2010-05-06', to => '9999-12-31', name => '2010' },
     { id => '2005', from => '2005-05-05', to => '2010-04-12', name => '2005' },
     { id => '2001', from => '2001-06-07', to => '2005-04-11', name => '2001' },
     { id => '1997', from => '1997-05-01', to => '2001-05-14', name => '1997' }

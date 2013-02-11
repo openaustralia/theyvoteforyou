@@ -8,12 +8,12 @@
 
     require_once "db.inc";
     $prettyquery = html_scrub(trim($_GET["query"]));
-    $query = strtolower(db_scrub(trim($_GET["query"])));
+    $query = strtolower(trim($_GET["query"]));
     if ($prettyquery == "word/postcode") {
         $prettyquery = "";
         $query = "";
     }
-    $title = "Search for '$prettyquery'"; 
+    $title = 'Search for '.preg_replace('/[^A-Za-z0-9 \.\,]/','',$prettyquery);
     if ($prettyquery == "") {
         $onload = "givefocus('query')";
         $title = "Search";
@@ -26,8 +26,6 @@
     require_once "tablemake.inc";
     require_once "tablepeop.inc";
 
-    $db = new DB(); 
-
     $postcode = is_postcode($query);
     $header = false;
 
@@ -38,7 +36,7 @@
         if( (!$postcode_matches) or $postcode_matches['ERROR'] ) {
             $title = "Postcode Error";
             pw_header();
-            print "<p>There was an error trying to look up the postcode \"$escaped_postcode\"";
+            print "<p>There was an error trying to look up the postcode";
             if ($postcode_matches)
                 print ": ".htmlentities($postcode_matches['ERROR'])."</p>";
             pw_footer();
@@ -76,20 +74,22 @@
                 }
                 $scrubbed_constituency = db_scrub($constituency);
                 # FIXME: should probably do this with mp_table instead:
-                $db->query("SELECT * FROM pw_mp WHERE
-                            house = '$house' AND
-                            constituency = '$scrubbed_constituency' AND
+                $rows=$pwpdo->fetch_all_rows('SELECT * FROM pw_mp WHERE
+                            house = ? AND
+                            constituency = ? AND
                             CURDATE() >= entered_house and CURDATE() <= left_house
-                            ORDER BY house, last_name");
-                while ($row = $db->fetch_row_assoc()) {
+                            ORDER BY house, last_name',array($house,$scrubbed_constituency));
+                foreach ($rows as $row) {
                     $mp_url = "mp.php?".link_to_mp($row);
-                    $constituency_url = "mp.php?mpc=".urlencode(str_replace(" ", "_", $constituency))."&"."house=".urlencode($row['house']);
+                    $constituency_url = "mp.php?mpc=".urlencode(str_replace(" ", "_", $row['constituency']))."&"."house=".urlencode($row['house']);
                     print "<tr class=\"".($odd?'odd':'even')."\">\n";
                     # Print out house, full name, constituency
-                    print "<td class=\"$house\">".$pretty_house[$house]."</td>\n";
-                    print "<td><a href=\"$mp_url\">".$row['first_name']." ".$row['last_name']."</a></td>\n";
+                    print '<td class="'.$row['house'].'">';
+                    print $pretty_house[$row['house']];
+                    print '</td>'."\n";
+                    print '<td><a href="'.$mp_url.'">'.$row['first_name'].' '.$row['last_name'].'</a></td>'."\n";
                     print "<td>".html_scrub($row['party'])."</td>";
-                    print "<td><a href=\"$constituency_url\">".$constituency."</a></td>\n";
+                    print '<td><a href="'.$constituency_url.'">'.$constituency.'</a></td>'."\n";
                     print "</tr>\n";
                     $odd = ! $odd;
                 }
@@ -134,7 +134,7 @@
                                "sortby"		=> "score",
                                "house"      => "both", 
                                "headings"	=> "yes");
-            mp_table($db, $mptabattr);
+            mp_table($mptabattr);
             # TODO: set $found correctly
             $found = true;
             print "</table>\n";
@@ -144,7 +144,7 @@
         if (!$found)
         {
 ?>
-<p>Nothing found matching <? if ($postcode) print "postcode "; ?> '<?=$prettyquery?>'.
+<p>Nothing found matching <?php if ($postcode) print "postcode "; ?> '<?php echo $prettyquery; ?>'.
 <?
         }
 
@@ -170,7 +170,7 @@ or <a href="divisions.php">all divisions</a>.
 <input maxLength=256 size=25 name="query" id="query" value=""> <input type="submit" value="Search" name="button">
 </form>
 
-<p class="search"><i>Example: "OX1 3DR", "<?=$random_mp?>"<?=$random_constituency?> or "<?=$random_topic?>"</i>
+<p class="search"><i>Example: "OX1 3DR", "<?php echo $random_mp?>"<?php echo $random_constituency?> or "<?php echo $random_topic?>"</i>
 
 <p class="search"><span class="ptitle">MPs:</span> You can enter a postcode
 to get a list of all MPs for that constituency, or else enter their name or

@@ -10,16 +10,6 @@ require_once "db.inc";
 $paddingforanchors = true; $title = "Help - Frequently Asked Questions"; pw_header();
 
 $db = new DB(); 
-$referrer = $_SERVER["HTTP_REFERER"];
-$querystring = $_SERVER["QUERY_STRING"];
-$ipnumber = $_SERVER["REMOTE_ADDR"];
-if (!$referrer)
-    $referrer = $_SERVER["HTTP_USER_AGENT"];
-if (!isrobot())
-    $db->query("INSERT INTO pw_logincoming
-            (referrer, ltime, ipnumber, page, subject, url, thing_id)
-    VALUES ('$referrer', NOW(), '$ipnumber', 'faq', '', '$querystring', '')");
-
 
 ?>
 
@@ -140,25 +130,27 @@ href="mailto:team@publicwhip.org.uk">Let us know</a> if you find any.
 <?php
     require_once "db.inc";
     require_once "parliaments.inc";
-    $db = new DB();
+    global $pwpdo;
 
-    $div_count = $db->query_one_value("select count(*) from pw_division");
-    $mp_count = $db->query_one_value("select count(distinct pw_mp.person) from pw_mp");
-    $vote_count = $db->query_one_value("select count(*) from pw_vote");
-    $vote_per_div = round($vote_count / $div_count, 1);
-    $db->query("select count(*) from pw_mp group by party"); $parties = $db->rows();
-    $rebellious_votes = $db->query_one_value("select sum(rebellions) from pw_cache_mpinfo");
-    $rebelocity = round(100 * $rebellious_votes / $vote_count, 2);
-    $attendance = round(100 * $vote_count / $div_count / ($mp_count / parliament_count()), 2);
+    $div_count=$pwpdo->get_single_row('SELECT COUNT(*) as div_count FROM pw_division',array());
+    $mp_count=$pwpdo->get_single_row('select count(distinct pw_mp.person) AS mp_count from pw_mp',array());
+    $vote_count=$pwpdo->get_single_row('select count(*) AS vote_count from pw_vote',array());
+    $vote_per_div = round($vote_count['vote_count'] / $div_count['div_count'], 1);
+    $parties=$pwpdo->fetch_all_rows('select count(*) from pw_mp group by party',array());
+    $parties=count($parties);
+    $rebellious_votes=$pwpdo->get_single_row('select sum(rebellions) AS rebellions from pw_cache_mpinfo',array());
+    $rebelocity = round(100 * $rebellious_votes['rebellions'] / $vote_count['vote_count'], 2);
+    $attendance = round(100 * $vote_count['vote_count'] / $div_count['div_count'] / ($mp_count['mp_count'] / parliament_count()), 2);
+
 ?>
 
-<p><b>Numerics:</b> The database contains <strong><?=number_format($mp_count)?></strong>
-distinct MPs and Lords from <strong><?=$parties?></strong> parties who have voted across
-<strong><?=number_format($div_count)?></strong> divisions.  
-In total <strong><?=number_format($vote_count)?></strong> votes were cast 
-giving an average of <strong><?=$vote_per_div?></strong> per division.  
-Of these <strong><?=number_format($rebellious_votes)?></strong> were against the majority vote for
-their party giving an average rebellion rate of <strong><?=$rebelocity?>%</strong>.
+<p><b>Numerics:</b> The database contains <strong><?php echo number_format($mp_count['mp_count'])?></strong>
+distinct MPs and Lords from <strong><?php echo $parties?></strong> parties who have voted across
+<strong><?php echo number_format($div_count['div_count'])?></strong> divisions.
+In total <strong><?php echo number_format($vote_count['vote_count'])?></strong> votes were cast
+giving an average of <strong><?php echo $vote_per_div?></strong> per division.
+Of these <strong><?php echo number_format($rebellious_votes['rebellions'])?></strong> were against the majority vote for
+their party giving an average rebellion rate of <strong><?php echo $rebelocity?>%</strong>.
 
 
 <h2 class="faq"><a name="clarify">What do the "rebellion" and "attendance" figures mean exactly?</a></h2>
@@ -403,93 +395,36 @@ would retain all the power but would have slightly better software
 
 
 <h2 class="faq"><a name="organisation">What organisation is behind the Public Whip?</a></h2>
-<p>None.  It was started by just two guys <a href="http://www.flourish.org">Francis</a> and <a
-href="http://www.goatchurch.org.uk">Julian</a> who had an idea and made it
-happen.  <a href="http://www.exploreandcreate.com">Giles</a> designed the
-original look of the website.  We're hosted by the ever helpful and encouraging
-<a href="http://www.mythic-beasts.com/">Mythic Beasts</a>.  These days lots
-of other people help out with bits of code, writing and design.
+<p>It was started by just two guys <a href="http://www.flourish.org">Francis</a> and <a
+href="http://www.goatchurch.org.uk">Julian</a> who had an idea and made it happen. In August 2011 it was handed over to <a href="http://www.bairwell.com/">Beebware Ltd</a> to further develop and expand the project. The site will remain true to its open source roots.</p>
 
 
 <h2 class="faq"><a name="theyworkforyou">What's your connection with TheyWorkForYou.com?</a></h2>
 
-<p>Both of us, Francis and Julian, are members of that project, but Public Whip
-is not.  These projects use the same underlying code to interpret the online
-Hansard pages, but they make different displays of it.  That code and
-data is in the separate <a href="http://ukparse.kforge.net/parlparse">Parliament
-Parser</a> project.  We are not part of a business and there is no reason for
-any project to have control over any other project, so they don't.  You could
-take our code and derive a new project from it should you wish.  In fact, if
-you have an idea and the time, we will encourage you and give you all the
-support we can.</p>
+<p>Both of Public Whip's founders, Francis and Julian, are members of that project, but Bairwell and Public Whip are not. Both projects currently use code and data in the separate <a href="http://ukparse.kforge.net/parlparse">Parliament
+Parser</a> project.</p>
 
 
 
 <h2 class="faq"><a name="interviews">Are you happy to give interviews about Public Whip?</a></h2>
 
-<p>Yes.  Both Francis and Julian have given interviews over the phone 
-(ring 07970 543358) in the past and had their pictures taken for newspapers.
-We would be happy to do more of this.  Francis has even featured on the radio
-in "Yesterday in Parliament".  Julian and Francis live in Liverpool. Both
-travel to London whenever there is something interesting happening there.
-Neither of us has any working experience inside Parliament or with a political
-party, so our observations are very much from outside the system and its
-assumed conventions.  We have not had much practice making them sound
-consistent with 'conventional wisdom'.</p>
+<p>Yes, though at the time of writing (September 2011) we are still getting to grips with the project. Email team@publicwhip.org.uk for press enquiries (we're always happy to hear from bloggers as well as major news organisations).</p>
 
 
 <h2 class="faq"><a name="money">Do you make any money out of Public Whip?</a></h2>
 
-<p>No.  The only direct financial contribution to Public Whip from someone who contributed 70 pounds
-towards our internet bill in 2004.  We have no moral objection to earning money from
-our work, it's just that we are not willing to compromise with the need for
-this information to be public and freely available at no cost.  </p>
-
-<p>Our main running costs were a few hundred pounds in train fares to 
-meet and program together, and the couple of thousand pounds Julian spent on a
-decent <a href="http://seagrass.goatchurch.org.uk">server</a> for hardware and
-bandwidth for the purpose of supporting a number of other projects as well as
-this.</p>
-
-<p>Francis has made money indirectly from Public Whip, because making it has
-been a good way of meeting lots of people.  For example, he gets paid by <a
-href="http://www.mysociety.org">mySociety</a> to build other socially useful
-websites.
+<p>Public Whip is run on a not-for-profit basis. We are preparing to offer a limited number of sponsorship and advertising packages to carefully selected organisations, the income from which will contribute to the redevelopment and expansion of the project. If you are interested in sponsoring, or advertising with, Public Whip please contact us via team@publicwhip.org.uk .</p>
 
 <h2 class="faq"><a name="living">How do you earn enough to make a living?</a></h2>
 
-<p>We don't have expensive lifestyles.  Francis does IT contract work
-for various clients including <a href="http://www.mysociety.org">mySociety</a>,
-and Julian is a self-employed programmer of <a href="http://www.freesteel.co.uk/">machine tool software</a>.  Francis and
-Julian first met and worked together in 1997 as employees of <a
-href="http://www.ncgraphics.co.uk">NC Graphics</a>, a machine tool software company in
-Cambridge, before they became enlightened enough to abandon such working
-practices and enjoy life without ever having to answer to a boss.  </p>
-
-<p>Many people have hobbies, like pigeon breeding or vintage car racing, that
-are far more costly and time consuming than running a webpage.  Just because
-the skills we have used can earn real money in the marketplace doesn't mean it
-has to be difficult and boring.  </p>
+<p>We're a small web development company that works on many commercial projects. We run Public Whip in our .spare. time, and fund it out of our own pocket, because we believe in it.</p>
 
 <h2 class="faq"><a name="millions">I've just got a job at a company that's been contracted
 by Parliament, or some other organisation, to process Parliamentary data.  I
 don't understand why you have written your software for free in your spare time
 when I'm paid to do the same thing.</a></h2>
 
-<p>Neither do we.  Often, systems for procuring software give, shall we say,
-somewhat suboptimal results.  We'd like less public money to be blown on
-software projects that don't work.  If you work for such a company, we'd be
-honoured if you approached us for technical advice on how to solve some of the
-problems we have encountered during the development of our software.
-
-<p>Sometimes programmers who work in corporations exist in a state of fear and
-feel that if they speak to anyone on the outside of the organization they will
-get sacked, then sued for releasing commercial secrets, and wind up homeless
-never able to get another job again.  If you are too afraid, you do not need to
-speak to us.  We have posted up everything we know on <a
-href="http://ukparse.kforge.net/parlparse">Parliament Parse</a>.  If there's
-anything we're missing which you'd like to see there, drop us a line or post
-onto the forum anonymously.</p>
+<p>Good for you! Feel free to approach us for any advice we can offer on solving the problems we have encountered during the development of the software. There's also quite a lot of information posted on <a href="http://ukparse.kforge.net/parlparse">Parliament Parse</a>.</p>
 
 
 <h2 class="faq"><a name="officials">Have you had any problems from MPs or other politicians with what you are doing?</a></h2>
@@ -569,126 +504,34 @@ they voted quiz</a>.  You can still take it and link to the results.
 
 
 <h2 class="faq"><a name="help">Can I help with the project?</a></h2>
-<p>Sure!  There's lots to be done.  Your first task is to get to know
-the structure of the project and think about how better to explain it to
-people who don't know much about it, like yourself.  Improvements
-in accessibility are the top priority.
-
-<p>The next thing to look at is editing the motion descriptions on some of
-the divisions.  We desperately need more people involved in this, and
-it is the quickest way to get tangible results.
-See the <a href="#motionedit">following question</a> for details.
-
-<p>If you are more technically minded, please glance at the
-<a href="http://ukparse.kforge.net/parlparse">Parliament Parser</a>
-project, to see if that is your cup of tea.  This is the core
-system which enables all our projects to function and where a
-difference can be made.
-
-<p>Finally, if that's not enough, there is a wider list of
-<a href="http://www.mysociety.org/volunteertasks.cgi">
-Volunteer Tasks</a> at mySociety.
-
-<p>Hopefully, between all that, you kind find something that
-fits your mood.  Email us <a href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a>
-if you need to know more.
+<p>Sure! We're looking for people who are interested in editing the motion descriptions on some of the divisions. See the following question for details. If you have particular skill-sets that you feel you could contribute, then do please email us at team@publicwhip.org.uk.</p>
 
 
 
 <h2 class="faq"><a name="motionedit">What do you mean by editing the motion description?</a></h2>
 
-<p>When there is a division in Parliament, it is not always easy to
-see what it means.  Quite often you have to scan through
-all of the debate in which the division took place (looking for the
-phrase "I beg to move"), and have a good knowledge of the the jargon
-to work it out.  Also, many votes are about making changes in other
-documents (eg "to leave out line 5 on page 13 of the Ordinary Persons Pensions Bill")
-which needs to be found and made available through a link.
+<p>When there is a division in Parliament, it is not always easy to see what it means. Quite often you have to scan through all of the debate in which the division took place (looking for the phrase "I beg to move"), and have a good knowledge of the the jargon to work it out. Also, many votes are about making changes in other documents (eg "to leave out line 5 on page 13 of the Ordinary Persons Pensions Bill") which needs to be found and made available through a link.</p>
+<p>The Public Whip software isn't currently sophisticated enough to do this automatically, and it requires help from a person like you. You can find out more about it on our <a href="/project/research.php">Research page</a>, where there is a page of ideas on how to do it.</p>
 
-<p>The Public Whip software is nowhere near sophisticated enough to do this
-automatically, and it requires help from a person like you.
-You can find out more about it on our <a href="project/research.php"> Research page</a>,
-where there is a page of ideas on how to do it.  Please
-feel free to discuss things in the
-<a href="forum/viewforum.php?f=2"> division forum</a>.
-
-<p>In the longer term, it would be better if Parliament told us the
-meanings of their votes in plain english from the beginning, rather than hiding
-what they were doing behind layers of unnecessary technicalities so
-that people didn't have to invent sites like Public Whip to make it
-possible to work out what was going on.  If enough of us got involved
-we would be able to tell MPs in exact detail everything we expect
-their record to be, and get something close to what we want.
+<p>In the longer term, it would be better if Parliament told us the meanings of their votes in plain english from the beginning, rather than hiding what they were doing behind layers of unnecessary technicalities so that people didn't have to invent sites like Public Whip to make it possible to work out what was going on. If enough of us got involved we would be able to tell MPs in exact detail everything we expect their record to be, and get something close to what we want.</p>
 
 
 <h2 class="faq"><a name="simproj">What other projects are similar to Public Whip?</a></h2>
 
-<p>We rely on the <a href="http://ukparse.kforge.net/parlparse">Parliament
-Parser project</a>
-and are closely associated with <a href="http://www.theyworkforyou.com/">theyworkforyou.com</a>,
-<a href="http://www.writetothem.com/">writetothem.com</a>,
-<a href="http://www.hearfromyourmp.com/">hearfromyourmp.com</a>,
-and <a href="http://downingstreetsays.com/">downingstreetsays.com</a>,
-partly on account of the fact that we have contributed code to them.
-We support anyone who is keen to keen to adapt our systems to
-other Parliaments. 
-
-<p>Outside of the Open Source community, some academics have worked in this
-area.  Usually, however, after going through the expense of gathering their
-data, and writing their academic books and papers and giving their
-interviews, they throw it all
-away and don't get round to building a live website.
-The most active person in this field at the moment is
-<a href="http://revolts.co.uk/">Philip Cowley</a> who
-makes much of his research available in PDF form, and has written
-two books which are relevant to our work.  Julian has
-reviewed both and has posted them into the forum at
-<a href="http://www.publicwhip.org.uk/forum/viewtopic.php?t=59"> Review of
-"Revolts and Rebellions" (Blair's Parliament 1997-2001)</a> and
-<a href="http://www.publicwhip.org.uk/forum/viewtopic.php?t=202"> Review of
-"The Rebels" (Blair's Parliament 2001-2005)</a>.
-You are free to make comments and start a discussion.
-
-<p>Many news organizations publish Parliamentary data, and so therefore
-must be doing some of the same work we are doing, without
-necessarily knowing that they can use everything we have done for free as a
-basis.  Examples include <a
-href="http://politics.guardian.co.uk/aristotle/">The Guardian</a> and <a
-href="http://news.bbc.co.uk/1/hi/uk_politics/2160988.stm"> The BBC</a>.
-
-<p>Beyond even this, we are aware that political parties and lobbying
-groups research and derive information such as this, but don't
-make any of it public.  It's worth people asking themselves why
-this is the case, and being prepared to make a distinction between
-the claim that "they have a right to do so", and whether
-it is "right".
-
-<p>You can read more about this subject in the 
-<a href="http://en.wikipedia.org/wiki/Parliamentary_informatics">Parliamentary
-Informatics</a> Wikipedia article.
+<p>We currently rely on the <a href="http://ukparse.kforge.net/parlparse">Parliament Parser</a> project.</p>
+<p>Outside of the Open Source community, some academics have worked in this area. Usually, however, after going through the expense of gathering their data, and writing their academic books and papers and giving their interviews, they throw it all away and don't get round to building a live website. The most active person in this field at the moment is <a href="http://revolts.co.uk/">Philip Cowley</a> who makes much of his research available in PDF form.</p>
+<p>Many news organizations publish Parliamentary data, and so therefore must be doing some of the same work we are doing, without necessarily knowing that they can use everything we have done for free as a basis.</p> 
+<p>You can read more about this subject in the <a href="http://en.wikipedia.org/wiki/Parliamentary_informatics">Parliamentary Informatics</a> Wikipedia article.</p>
 
 
 <h2 class="faq"><a name="keepup">How can I keep up with what you are doing?</a></h2>
-<p><a href="newsletters/signup.php">Subscribe to our newsletter!</a>  It's
-at most once a month, and has interesting news and articles
-relating to the project. You can <a href="/forum/">chat with other users</a> on
-our forum.
+<p>There's the <a href="http://blog.publicwhip.org.uk/">blog</a> and our <a href="http://www.facebook.com/pages/Public-Whip/199268083464697">Facebook page</a>, or you can ask us questions and get updates via and our <a href="http://twitter.com/publicwhip">Twitter account</a>.</p>
 
 
 <h2 class="faq"><a name="contact">There's something wrong with your webpage / I've found an error / Your wording is dreadfully unclear / Can I make a suggestion?</a></h2>
 
-<p>Please post your comments <a href="/forum/">in the forum</a>
-under <b>Bugs and Problems</b> or <b>Suggestions and Ideas</b> instead of
-emailing us.  This will give us an obvious place to post our replies which you
-can look up should you be interested.  </p>
-
-<p>Putting it there is likely to be more effective at getting things done
-because if the whole world is able to see just how flaky our system is becoming,
-we're more likely to be embarrassed enough to take action.</p>
-
-<p>Email us at <a
-href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a> only if it's
-something you think should be kept private. Or if the forum isn't working for you.</p>
+<p>You can contact us via email at team@publicwhip.org.uk, our <a href="http://www.facebook.com/pages/Public-Whip/199268083464697">Facebook page</a> and our <a href="http://twitter.com/publicwhip">Twitter account</a>. We are currently investigating the best option for error reporting, so please use one of the above methods in the meantime.</p>
 
 <?php pw_footer() ?>
+
 

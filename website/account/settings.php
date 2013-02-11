@@ -27,7 +27,7 @@ if (user_isloggedin()) # User logged in, show settings screen
         $newsletter = true;
     else
         $newsletter = false;
-    $submit=mysql_escape_string($_POST["submit"]);
+    $submit=mysql_real_escape_string($_POST["submit"]);
 
     $ok = false;
     if ($submit && (!$just_logged_in)) {
