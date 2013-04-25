@@ -53,7 +53,7 @@ my %membertoperson;
 printf "[%4d-%02d-%02d %02d:%02d:%02d] %s: %s\n",$year+1900,$mon+1,$mday,$hour,$min,$sec,"memxml2db","Setting up twig";
 my $twig = XML::Twig->new(
     twig_handlers => { 
-            'constituency' => \&loadcons, 
+            'division' => \&loadcons,
             'member' => \&loadmember, 
             'lord' => \&loadmember, 
             'member_sp' => \&loadmember,
@@ -63,10 +63,7 @@ my $twig = XML::Twig->new(
     output_filter => 'safe');
 ($sec,$min,$hour,$mday,$mon,$year)=localtime(time);
 printf "[%4d-%02d-%02d %02d:%02d:%02d] %s: %s\n",$year+1900,$mon+1,$mday,$hour,$min,$sec,"memxml2db","Parsing constituencies.xml";
-$twig->parsefile("$members_location/constituencies.xml");
-($sec,$min,$hour,$mday,$mon,$year)=localtime(time);
-printf "[%4d-%02d-%02d %02d:%02d:%02d] %s: %s\n",$year+1900,$mon+1,$mday,$hour,$min,$sec,"memxml2db","Parsing sp-constituencies.xml";
-$twig->parsefile("$members_location/sp-constituencies.xml");
+$twig->parsefile("$members_location/divisions.xml");
 ($sec,$min,$hour,$mday,$mon,$year)=localtime(time);
 printf "[%4d-%02d-%02d %02d:%02d:%02d] %s: %s\n",$year+1900,$mon+1,$mday,$hour,$min,$sec,"memxml2db","Parsing people.xml";
 $twig->parsefile("$members_location/people.xml");
