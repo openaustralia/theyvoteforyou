@@ -19,7 +19,7 @@
 --    Or you can load this file into a GUI client and inject it.
 -- 
 
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 -- Static tables
 --   those based on Hansard data, which get updated, but not altered by scripts
 
@@ -182,7 +182,7 @@ create table pw_candidate (
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 -- Dynamic tables
 --   those which people using the website can alter
 --   prefixed dyn_ for dynamic
@@ -200,7 +200,7 @@ CREATE TABLE pw_dyn_user (
   reg_date datetime default NULL,
   active_policy_id int,
   PRIMARY KEY  (user_id)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 -- subscriptions of email addresses to the newsletter
 create table pw_dyn_newsletter (
@@ -283,7 +283,7 @@ create table pw_dyn_wiki_motion (
     index(division_date, division_number, house)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 -- Cache tables
 --   Those written to by the website itself during PHP requests are here.
 --   There are also lots more cache tables made automatically by loader.pl,
@@ -386,4 +386,4 @@ create table pw_logincoming (
     index(thing_id)
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
