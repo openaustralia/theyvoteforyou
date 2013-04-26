@@ -180,7 +180,7 @@ function searchtip_random_topic($db)
     }
     $random_topic = random_big_word($row[0]);
     if ($random_topic == "")
-        $random_topic = "Trade";
+        $random_topic = "Medicare";
     return $random_topic;
 }
 
