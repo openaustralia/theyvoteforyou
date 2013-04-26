@@ -123,20 +123,8 @@
     $title = $rdismodes2[$rdisplay2]['description'] . " - " . $rdismodes[$rdisplay]['description'];
 	if ($rdisplay_house != "all")
     {
-<<<<<<< HEAD
-		if (($rdisplay2 == "every") || ($rdisplay2 == "rebels")) {
-            if ($rdisplay_house == "scotland")
-                $house_name = "Scottish Parliament";
-            else if ($rdisplay_house == "lords")
-                $house_name = "Lords";
-            else
-                $house_name = "Commons";
-            $title .= " - " . $house_name . " only";
-        }
-=======
 		if (($rdisplay2 == "every") || ($rdisplay2 == "rebels"))
             $title .= " - ".($rdisplay_house == "lords" ? "Senate" : "Representatives")." only";
->>>>>>> Changing a few mentions of Commons -> Representatives and Lords -> Senate
         $colour_scheme = $rdisplay_house;
     }
 	if ($sort != 'date')
