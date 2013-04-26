@@ -13,14 +13,14 @@ require_once "../website/config.php";
 require_once "../website/db.inc";
 require_once "../website/parliaments.inc";
 
-print '['.date('Y-m-d H:i:s').'] calc_caches: current rankings'.PHP_EOL;
-current_rankings();
-print '['.date('Y-m-d H:i:s').'] calc_caches: counting party stats'.PHP_EOL;
-count_party_stats();
 print '['.date('Y-m-d H:i:s').'] calc_caches: guessing whip for all'.PHP_EOL;
 guess_whip_for_all();
 print '['.date('Y-m-d H:i:s').'] calc_caches: counting mp info'.PHP_EOL;
 count_mp_info();
+print '['.date('Y-m-d H:i:s').'] calc_caches: current rankings'.PHP_EOL;
+current_rankings();
+print '['.date('Y-m-d H:i:s').'] calc_caches: counting party stats'.PHP_EOL;
+count_party_stats();
 print '['.date('Y-m-d H:i:s').'] calc_caches: counting division info'.PHP_EOL;
 count_div_info();
 
