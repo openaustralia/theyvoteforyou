@@ -163,7 +163,7 @@ function searchtip_random_constituency($db)
    global $pwpdo;
     $row = $pwpdo->get_single_row("select constituency from pw_mp
         order by rand() desc limit 1",array());
-    $random_constituency = random_big_word($row[0]);
+    $random_constituency = random_big_word($row['constituency']);
     if ($random_constituency == "")
         $random_constituency = "Marrickville";
     $random_constituency = ', "' . $random_constituency . '"';
