@@ -314,7 +314,6 @@
             print "<td>Majority (Aye)</td><td>Minority (No)</td>";
         if ($house != "lords")
             print "<td>Both</td>";
-	}
         print "<td>Turnout</td></tr>\n";
         $prettyrow = 0;
 
