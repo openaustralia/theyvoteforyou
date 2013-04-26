@@ -263,7 +263,6 @@ function current_rankings() {
         ,array());
 
     do_house_ranking( "commons");
-    do_house_ranking("scotland");
     do_house_ranking("lords");
 }
 
