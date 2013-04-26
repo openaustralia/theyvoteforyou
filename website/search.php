@@ -170,7 +170,7 @@ or <a href="divisions.php">all divisions</a>.
 <input maxLength=256 size=25 name="query" id="query" value=""> <input type="submit" value="Search" name="button">
 </form>
 
-<p class="search"><i>Example: "OX1 3DR", "<?php echo $random_mp?>"<?php echo $random_constituency?> or "<?php echo $random_topic?>"</i>
+<p class="search"><i>Example: "2042", "<?php echo $random_mp?>"<?php echo $random_constituency?> or "<?php echo $random_topic?>"</i>
 
 <p class="search"><span class="ptitle">MPs:</span> You can enter a postcode
 to get a list of all MPs for that constituency, or else enter their name or
