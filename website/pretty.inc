@@ -165,7 +165,7 @@ function searchtip_random_constituency($db)
         order by rand() desc limit 1",array());
     $random_constituency = random_big_word($row[0]);
     if ($random_constituency == "")
-        $random_constituency = "Liverpool";
+        $random_constituency = "Marrickville";
     $random_constituency = ', "' . $random_constituency . '"';
     return $random_constituency;
 }
