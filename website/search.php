@@ -126,7 +126,7 @@
 
             # Perform query on MPs
             # TODO: only show this if something was found
-            print "<p>Found these MPs and Lords whose names sound like '$prettyquery':";
+            print "<p>Found these Representatives and Senators whose names sound like '$prettyquery':";
             print "<table class=\"mps\">\n";
             $mptabattr = array("listtype" 	=> "search",
                                "search" => $query,
@@ -149,8 +149,8 @@
         }
 
 ?>
-<p>Also try browsing the list of <a href="mps.php">all MPs</a>,
-<a href="mps.php?house=lords">all Lords</a>
+<p>Also try browsing the list of <a href="mps.php">all Representatives</a>,
+<a href="mps.php?house=lords">all Senators</a>
 or <a href="divisions.php">all divisions</a>.
 <?php
 

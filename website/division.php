@@ -517,7 +517,7 @@ if (true===function_exists('advertisement')) {
 						from the majority vote of their party are marked in red.
 						Also shows which ".($house == "lords" ? "Senators" : "Representatives")."
 						were ministers at the time of this vote.
-						You can also see <a href=\"$thispage&display=allpossible$tpsort\">every eligible ".($house == "lords" ? "lord" : "MP")."</a>
+						You can also see <a href=\"$thispage&display=allpossible$tpsort\">every eligible ".($house == "lords" ? "Senator" : "Representative")."</a>
 						including those who did not vote in this division.</p>\n";
 			}
 			elseif ($display == "slab")

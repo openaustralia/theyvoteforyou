@@ -49,10 +49,10 @@
 
 	$rdismodes_house = array();
 	$rdismodes_house["all"] = array(
-							 "description" => "Show divisions from the Commons, Lords and Scottish Parliament",
+							 "description" => "Show divisions from the House of Representatives and Senate",
 							 "lkdescription" => "All houses");
 	$rdismodes_house["commons"] = array(
-							 "description" => "Show only Representatives divisions",
+							 "description" => "Show only House of Representatives divisions",
 							 "lkdescription" => "Representatives only");
 	$rdismodes_house["lords"] = array(
 							 "description" => "Show only Senate divisions",

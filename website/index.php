@@ -43,7 +43,7 @@ pw_header_notitle();
 
 <div class="homesearch">
 <h2>Search the Whip</h2>
-<p>Enter your <strong>postcode</strong>, an <strong>MP</strong> or <strong>Lord’s name</strong>, or a particular <strong>topic</strong> of interest</p>
+<p>Enter your <strong>postcode</strong>, a <strong>Representative</strong> or <strong>Senator’s name</strong>, or a particular <strong>topic</strong> of interest</p>
 <form class="searchtitlebarform" action="/search.php" name="pw" method="get">
 <input maxLength=256 size=12 name="query" id="query" onblur="fadeout(this)" onfocus="fadein(this)"> <button type="submit" value="Submit" name="button">Submit</button>
 </form>

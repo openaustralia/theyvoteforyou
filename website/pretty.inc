@@ -57,7 +57,7 @@ function pretty_party_raw($party)
 
 function pretty_party_long($party, $house)
 {
-    $tail = ($house == "commons" ? " MPs" : ($house == "lords" ? " Lords" : "")); 
+    $tail = ($house == "commons" ? " Representatives" : ($house == "lords" ? " Senators" : ""));
     if ($party == "Con")
         return "Conservative Party$tail"; 
     if ($party == "Lab")
