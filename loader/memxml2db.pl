@@ -100,13 +100,17 @@ sub loadmember
     my ($twig, $memb) = @_;
 
     my $house = $memb->att('house');
-    $house = 'scotland' if not $house;
-    # print "house: " . $house . "\n";
+    if ($house eq "representatives") {
+        $house = "commons";
+    }
+    elsif ($house eq "senate") {
+        $house = "lords";
+    }
     my $gid = $memb->att('id');
     if ($gid =~ m#uk.org.publicwhip/member/#) {
-        die if $house ne 'representatives';
+        die if $house ne 'commons';
     } elsif ($gid =~ m#uk.org.publicwhip/lord/#) {
-        die if $house ne 'senate';
+        die if $house ne 'lords';
     } else {
         die "unknown gid type $gid";
     }
@@ -141,12 +145,12 @@ sub loadmember
     }
     my $fromwhy = $memb->att('fromwhy');
     my $towhy = $memb->att('towhy');
-    if ($house eq 'lords') {
-		$firstname = $memb->att('forenames');
-        $lastname = $memb->att('lordname');
-		$constituency = $memb->att('lordofname');
-        $party = $memb->att('affiliation');
-    }
+    #if ($house eq 'lords') {
+	#	$firstname = $memb->att('forenames');
+    #    $lastname = $memb->att('lordname');
+	#	$constituency = $memb->att('lordofname');
+    #    $party = $memb->att('affiliation');
+    #}
     $party = 'Lab' if ($party eq 'Lab/Co-op');
 
     # We encode entities as e.g. &Ouml;, as otherwise non-ASCII characters
