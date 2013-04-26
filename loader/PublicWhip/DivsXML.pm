@@ -359,15 +359,15 @@ sub loaddivision {
     # Find votes of MPs
     my $votes;
     for (
-        my $mplist = $div->first_child($listeltname) ;
+        my $mplist = $div->first_child('memberlist') ;
         $mplist ;
-        $mplist = $mplist->next_sibling($listeltname)
+        $mplist = $mplist->next_sibling('memberlist')
       )
     {
         for (
-            my $mpname = $mplist->first_child($votereltname) ;
+            my $mpname = $mplist->first_child('member') ;
             $mpname ;
-            $mpname = $mpname->next_sibling($votereltname)
+            $mpname = $mpname->next_sibling('member')
           )
         {
             my $vote = $mpname->att('vote');
