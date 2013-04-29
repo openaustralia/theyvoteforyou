@@ -340,6 +340,9 @@ sub loaddivision {
     }
 
     $clock_time = "" if !$clock_time;
+    if ($clock_time =~ m/^\d\d:\d\d$/) {
+        $clock_time = $clock_time . ':00' # Add seconds if they're not present
+    }
     if ($clock_time =~ m/^\d\d:\d\d:\d\d$/) {
         $clock_time = "0" . $clock_time; # 3 digit hours due to >24 hour days that parliament sometimes has
     }
