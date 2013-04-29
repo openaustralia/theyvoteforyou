@@ -15,11 +15,9 @@ GEM
     net-ssh (2.6.7)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
-    railsless-deploy (1.1.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   capistrano
-  railsless-deploy
