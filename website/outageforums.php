@@ -48,10 +48,6 @@ pw_header_notitle();
 <input maxLength=256 size=12 name="query" id="query" onblur="fadeout(this)" onfocus="fadein(this)"> <button type="submit" value="Submit" name="button">Submit</button>
 </form>
 </div>
-<div class="homesponsor">
-<h3>Want to reach a politically engaged audience?</h3>
-<p>We have a limited number of sponsorship and advertising packages available. Email team@publicwhip.org.uk for details</p>
-</div>
 
 <div class="homerecents">
 <div class="narrowwidth">
