@@ -11,11 +11,15 @@
 --
 -- 1. Install MySQL.
 --
--- 2. Create a new database. Giving your user account permission to access
+-- 2. Create a new database.
+--    Use something like: CREATE DATABASE yourdb DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci;
+--    If you don't set the default collate you will run into trouble later.
+--
+-- 3. Giving your user account permission to access
 --    it from the host you will be running the client on.  Try using
 --    mysql_setpermission to do this with.
 -- 
--- 3. Type something like "mysql --database=yourdb -u username -p < create.sql"
+-- 4. Type something like "mysql --database=yourdb -u username -p < create.sql"
 --    Or you can load this file into a GUI client and inject it.
 -- 
 
