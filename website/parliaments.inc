@@ -13,7 +13,8 @@
 # give the scond an id with the month in as well.  The name can change
 # (as it is not in URLs), so can be any clarifying pretty description.
 $parliaments = array(
-    '2008' => array('from' => '2008-02-12', 'to' => '9999-12-31', 'name' => '2008 (current)'),
+    '2010' => array('from' => '2010-09-28', 'to' => '9999-12-31', 'name' => '2010 (current)'),
+    '2007' => array('from' => '2008-02-12', 'to' => '2010-07-19', 'name' => '2008-2010'),
     '2004' => array('from' => '2004-11-16', 'to' => '2007-10-17', 'name' => '2004-2007'),
 );
 
