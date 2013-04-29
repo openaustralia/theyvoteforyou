@@ -16,6 +16,18 @@ namespace :deploy do
   task :start do ; end
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+    # Do a graceful restart of Apache?
+    # For the time being doing nothing
   end
+
+  task :finalize_update, :except => { :no_release => true } do
+    escaped_release = latest_release.to_s.shellescape
+    commands = []
+
+    commands << "ln -s -- #{shared_path}/Config.pm #{escaped_release}/loader/PublicWhip/Config.pm"
+    commands << "ln -s -- #{shared_path}/config.php #{escaped_release}/website/config.php"
+
+    run commands.join(' && ') if commands.any?
+  end
+
 end
