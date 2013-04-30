@@ -1,5 +1,6 @@
 set :application, "publicwhip-test.openaustraliafoundation.org.au"
 set :scm, :git
+set :deploy_via, :remote_cache
 set :repository,  "https://github.com/openaustralia/publicwhip.git"
 set :branch, :test
 
