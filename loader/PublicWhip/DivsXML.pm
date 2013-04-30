@@ -237,11 +237,21 @@ sub storemotion {
 sub storespeech {
     my ( $twig, $speech ) = @_;
 
-    my $speakername = $speech->att('speakername');
     my $speechtext = $speech->xml_string;
-
     # Put newlines after each paragraph so that the website formatter doesn't do strange things
     $speechtext =~ s/<\/p>/<\/p>\n\n/g;
+
+    my $speakerid = $speech->att('speakerid');
+    my $speakername = "";
+    if ($speakerid eq 'unknown') {
+        $speakername = $speech->att('speakername');
+    } else {
+        my $query = PublicWhip::DB::query($dbh,
+                                          "select first_name, last_name from pw_mp
+                                           where gid = ?",
+                                          $speakerid);
+        $speakername = join(" ", $query->fetchrow_array);
+    }
 
     $lastdebatetext .= "<p class=\"speaker\">$speakername</p>\n\n$speechtext";
 }
