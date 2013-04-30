@@ -206,9 +206,6 @@ sub storemotion {
             $lastmotiontext .= $p->sprint(0);
             $lastmotiontext .= "\n\n";
         }
-    } else {
-        $lastdebatetext .= $p->sprint(0);
-        $lastdebatetext .= "\n\n";
     }
 
     if ( $house eq "scotland" ) {
