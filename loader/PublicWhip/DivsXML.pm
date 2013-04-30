@@ -80,6 +80,7 @@ sub read_xml_files {
             'major-heading' => \&storemajor,
             'minor-heading' => \&storeminor,
             'p'             => \&storemotion,
+            'speech'        => \&storespeech
         },
         output_filter => 'safe'
     );
@@ -231,6 +232,15 @@ sub storemotion {
 	}
 	push @speechesbefore, $ptext;
     }
+}
+
+sub storespeech {
+    my ( $twig, $speech ) = @_;
+
+    my $speakername = $speech->att('speakername');
+    my $speechtext = $speech->sprint(0);
+
+    $lastdebatetext .= "<b>$speakername</b>: $speechtext";
 }
 
 # Converts all capital parts of a heading to mixed case
