@@ -240,7 +240,10 @@ sub storespeech {
     my $speakername = $speech->att('speakername');
     my $speechtext = $speech->xml_string;
 
-    $lastdebatetext .= "<b>$speakername</b>: $speechtext";
+    # Put newlines after each paragraph so that the website formatter doesn't do strange things
+    $speechtext =~ s/<\/p>/<\/p>\n\n/g;
+
+    $lastdebatetext .= "<b>$speakername</b>:\n\n$speechtext";
 }
 
 # Converts all capital parts of a heading to mixed case
