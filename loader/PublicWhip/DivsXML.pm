@@ -238,7 +238,7 @@ sub storespeech {
     my ( $twig, $speech ) = @_;
 
     my $speakername = $speech->att('speakername');
-    my $speechtext = $speech->sprint(0);
+    my $speechtext = $speech->xml_string;
 
     $lastdebatetext .= "<b>$speakername</b>: $speechtext";
 }
