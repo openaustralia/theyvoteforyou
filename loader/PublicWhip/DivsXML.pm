@@ -28,6 +28,7 @@ our $dbh;
 our $lastmajor;
 our $lastminor;
 our $lastmotiontext;
+our $lastdebatetext;
 our $lastheadingurl;
 our $lastheadinggid;
 our @speechesbefore;
@@ -98,6 +99,7 @@ sub read_xml_files {
                 $lastmajor      = "";
                 $lastminor      = "";
                 $lastmotiontext = "";
+                $lastdebatetext = "";
                 @speechesbefore = ();
                 $lastheadingurl = "";
                 $lastheadinggid = "";
@@ -155,6 +157,7 @@ sub storeminor {
 
     $lastminor      = $t;
     $lastmotiontext = "";
+    $lastdebatetext = "";
     @speechesbefore = ();
     $lastheadingurl = $minor->att('url');
     $lastheadinggid = $minor->att('id');
@@ -185,6 +188,7 @@ sub storemajor {
     $lastmajor      = $t;
     $lastminor      = "";
     $lastmotiontext = "";
+    $lastdebatetext = "";
     @speechesbefore = ();
     $lastheadingurl = $major->att('url');
     $lastheadinggid = $major->att('id');
@@ -202,6 +206,9 @@ sub storemotion {
             $lastmotiontext .= $p->sprint(0);
             $lastmotiontext .= "\n\n";
         }
+    } else {
+        $lastdebatetext .= $p->sprint(0);
+        $lastdebatetext .= "\n\n";
     }
 
     if ( $house eq "scotland" ) {
@@ -335,9 +342,13 @@ sub loaddivision {
             }
         }
     }
-    if ($motion_text eq "") {
+    if ($motion_text eq "" && $lastdebatetext eq "") {
         $motion_text = "<p>No motion text available</p>";
+    } elsif ($motion_text eq "") {
+        PublicWhip::Error::warn("No pwmotiontext found, falling back to complete last debate text");
+        $motion_text = $lastdebatetext;
     }
+    $lastdebatetext = "";
 
     $clock_time = "" if !$clock_time;
     if ($clock_time =~ m/^\d\d:\d\d$/) {
