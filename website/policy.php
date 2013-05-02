@@ -153,8 +153,9 @@ if ($dismode["editdefinition"]) {
                     $new_private = 1;
                 else
                     $new_private = ($form_provisional ? 2 : 0);
-                $db = new DB(); 
-                list($prev_name, $prev_description) = $db->query_one_row("select name, description from pw_dyn_dreammp where dream_id = '$dreamid'");
+                $result = $pwpdo->get_single_row("select name, description from pw_dyn_dreammp where dream_id = ?", array($dreamid));
+                $prev_name = $result['name'];
+                $prev_description = $result['description'];
 
                 $name_diff = format_linediff($prev_name, stripslashes($name), false); # always have link
                 $description_diff = format_linediff($prev_description, $description, true);
