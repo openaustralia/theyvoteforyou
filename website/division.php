@@ -413,8 +413,7 @@ function no_division_found($plural)
             // $discuss_url = "division-forum.php?date=".$divattr["division_date"].
             //     "&number=".$divattr["division_number"]."&house=".$divattr["house"];
 
-            $db->query("SELECT * FROM pw_dyn_user WHERE user_id = " . $motion_data['user_id']);
-            $row = $db->fetch_row_assoc();
+            $row = $pwpdo->get_single_row("SELECT * FROM pw_dyn_user WHERE user_id = ?", array($motion_data['user_id']));
             $last_editor = html_scrub($row['user_name']);
 
 	        if (($divattr["house"] == "lords") and ($divattr["division_date"] >= "2009-01-21"))
