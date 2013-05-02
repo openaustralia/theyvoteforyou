@@ -43,7 +43,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     $debate_gid = str_replace("uk.org.publicwhip/lords/", "", $debate_gid);
 
     if ($type == "motion") {
-        $motion_data = get_wiki_current_value($db, "motion", array($params[0], $params[1], $params[2]));
+        $motion_data = get_wiki_current_value("motion", array($params[0], $params[1], $params[2]));
         $prev_name = extract_title_from_wiki_text($motion_data['text_body']);
         $prev_description = extract_motion_text_from_wiki_text($motion_data['text_body']);
         $prev_description_editable = extract_motion_text_from_wiki_text_for_edit($motion_data['text_body']);
@@ -83,7 +83,7 @@ if (user_isloggedin()) # User logged in, show settings screen
     {
         pw_header();
 
-        $values = get_wiki_current_value($db, $type, $params);
+        $values = get_wiki_current_value($type, $params);
 
         if ($type == 'motion') {
 ?>
