@@ -236,7 +236,7 @@
         $query   = "SELECT nvotessame+nvotessamestrong+nvotesdiffer+nvotesdifferstrong AS nvotes, distance_a
                             FROM pw_cache_dreamreal_distance
                             WHERE dream_id = $voter2 AND person = ?";
-	$pwpdo->get_single_row($query,array($mpprop['person']));
+	$row = $pwpdo->get_single_row($query,array($mpprop['person']));
 	$h1title = "<div class=\"h1mppolicy\">";
         $h1title .= "<p class=\"mp\"><a href=\"".$voter1link."\">".html_scrub($mpprop['fullname'])."</a></p>";
         $agreement_a = 1.0 - ($row["distance_a"]);
