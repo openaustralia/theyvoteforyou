@@ -510,12 +510,13 @@ function pretty_minister($row) {
 }
 
 function pretty_user_name($db, $name, $text = null) {
-    global $pwpdo;
-    if (!$text)
-        $text = $name;
-    $row = $pwpdo->get_single_row("select user_id from phpbb_users where username = ?",db_scrub($name));
-    if ($row)
-        return "<a href=\"/forum/profile.php?mode=viewprofile&u=".$row['user_id']."\">$text</a>";
+    # TODO: Disabled until we work out what to do with the forums
+    // global $pwpdo;
+    // if (!$text)
+    //     $text = $name;
+    // $row = $pwpdo->get_single_row("select user_id from phpbb_users where username = ?",db_scrub($name));
+    // if ($row)
+    //     return "<a href=\"/forum/profile.php?mode=viewprofile&u=".$row['user_id']."\">$text</a>";
 
     return $name;
 }
