@@ -124,14 +124,13 @@ if ($dismode["editdefinition"]) {
         $submiteditpolicy=db_scrub($_POST["submiteditpolicy"]);
         $form_provisional = $_POST["provisional"];
 
-        $query = "select name, description, user_id, private from pw_dyn_dreammp where dream_id = '$dreamid'";
-        $row = $db->query_one_row($query);
+        $row = $pwpdo->get_single_row("select name, description, user_id, private from pw_dyn_dreammp where dream_id = ?", array($dreamid));
         if (!$name)
-            $name = $row[0];
+            $name = $row['name'];
         if (!$description)
-            $description = $row[1];
-        $user_id = $row[2];
-        $private = $row[3];
+            $description = $row['description'];
+        $user_id = $row['user_id'];
+        $private = $row['private'];
         $provisional = ($private == 2) ? 1 : 0;
         $legacy_dream = ($private == 1);
 
