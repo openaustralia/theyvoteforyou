@@ -176,6 +176,8 @@ function user_change_password ($new_password1,$new_password2,$change_user_name,$
 
 function user_lost_password ($email,$user_name) {
 	global $feedback;
+  global $domain_name;
+
 	if ($email && $user_name) {
 		$user_name=strtolower($user_name);
 		$sql="SELECT * FROM pw_dyn_user WHERE user_name='$user_name' AND email='$email'";
@@ -240,6 +242,7 @@ function user_send_confirm_email($email,$hash, $user) {
 		Used in the initial registration function
 		as well as the change email address function
 	*/
+  global $domain_name;
 
 	$message = "Thank you for registering with the Public Whip!".
 		"\nSimply follow this link to confirm your registration: ".
