@@ -114,11 +114,6 @@ require_once "DifferenceEngine.inc";
 
 # edit definition needs to check login
 if ($dismode["editdefinition"]) {
-    pw_header();
-    print '<h1>Sorry, edit definitions are currently disabled</h1>';
-    pw_footer();
-    disabled('policy.php editdefinition');
-    die();
         $just_logged_in = do_login_screen();
         if (!user_isloggedin()) {
             login_screen();
@@ -335,11 +330,6 @@ if ($dismode["editdefinition"]) {
     }
 
 	if ($dismode["editdefinition"]) {
-        pw_header();
-        print '<h1>Sorry, edit definition currently disabled</h1>';
-        pw_footer();
-        disabled('policy.php editdefinition');
-        exit();
         if (!user_getid()) {
             print "Error, expected to be logged in.";
             exit;
