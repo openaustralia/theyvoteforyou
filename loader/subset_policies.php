@@ -28,7 +28,7 @@ function copy_vote_subset($db, $id_from, $id_to, $date_start, $date_end = "9999-
                        from pw_dyn_dreamvote where dream_id = $id_from
                        and division_date > \"$date_start\"
                        and division_date < \"$date_end\"");
-    notify_dream_mp_updated($db, $id_to);
+    notify_dream_mp_updated($id_to);
 }
 
 // Sets a policy as private so nobody can edit it except the creator.

@@ -102,8 +102,9 @@ function account_navbar() {
 # Mark database caches for update...
 
 # ... when anything about a Dream MP changes
-function notify_dream_mp_updated($db, $dreamid) {
-    $db->query("delete from pw_cache_dreaminfo where dream_id = '$dreamid'"); 
+function notify_dream_mp_updated($dreamid) {
+    global $pwpdo;
+    $pwpdo->query("delete from pw_cache_dreaminfo where dream_id = ?", array($dreamid));
 }
 # ... when piece of motion text is edited
 function notify_motion_updated($db, $division_date, $division_number, $house) {

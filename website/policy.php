@@ -171,7 +171,7 @@ if ($dismode["editdefinition"]) {
                     dream_post_forum_action($db, $dreamid, "Policy is now [b]".$new_private_name."[/b]");
                 }
                 $ret = $db->query_errcheck("update pw_dyn_dreammp set name='$name', description='".mysql_real_escape_string($description)."', private='".$new_private."' where dream_id='$dreamid'");
-                notify_dream_mp_updated($db, intval($dreamid));
+                notify_dream_mp_updated(intval($dreamid));
 
                 if ($ret)
                 {

@@ -58,7 +58,7 @@ function write_single_policy_vote($db, $divattr, $voter)
         if ($newbvote != $bvote)
         {
             # these are caching notifications
-            notify_dream_mp_updated($db, intval($voter));
+            notify_dream_mp_updated(intval($voter));
 
             global $domain_name;
             $forum_division_link = $divattr["house"] . " division " .
