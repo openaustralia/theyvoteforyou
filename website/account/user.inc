@@ -196,9 +196,9 @@ function user_lost_password ($email,$user_name) {
                         $message = 
                                 "Your password has been changed to: $new_pass".
                                 "\nYour username is $user_name, email address $email.".
-                                "\n\nLogin here: http://www.publicwhip.org.uk/account/settings.php".
+                                "\n\nLogin here: http://$domain_name/account/settings.php".
                                 "\n\nAfter login you can change your password to something memorable.";
-			mail ($email,'Public Whip Password Reset',$message,'From: auto@publicwhip.org.uk');
+			mail ($email,'Public Whip Password Reset',$message,"From: auto@$domain_name");
 			$feedback .= ' Your new password has been emailed to you. ';
             audit_log("Reset password, new one emailed to user " . $user_name);
 			return true;
@@ -243,12 +243,12 @@ function user_send_confirm_email($email,$hash, $user) {
 
 	$message = "Thank you for registering with the Public Whip!".
 		"\nSimply follow this link to confirm your registration: ".
-		"\n\nhttp://www.publicwhip.org.uk/account/confirm.php?hash=$hash&email=". urlencode($email).
+		"\n\nhttp://$domain_name/account/confirm.php?hash=$hash&email=". urlencode($email).
 		"\n\nOnce you have confirmed, you will be able".
                 "\nto access extra features on the website.".
                 "\n\nYour username is $user, email address $email.".
-                "\n\nFor more information on the project visit www.publicwhip.org.uk";
-	mail ($email,'Public Whip registration confirmation',$message,'From: auto@publicwhip.org.uk');
+                "\n\nFor more information on the project visit $domain_name";
+	mail ($email,'Public Whip registration confirmation',$message,"From: auto@$domain_name");
 }
 
 function user_register($user_name,$password1,$password2,$email,$real_name) {
