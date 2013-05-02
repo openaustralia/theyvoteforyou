@@ -333,7 +333,7 @@ if ($dismode["editdefinition"]) {
             print "Error, expected to be logged in.";
             exit;
         }
-        $db->query("update pw_dyn_user set active_policy_id = $dreamid where user_id = " . user_getid());
+        $pwpdo->query("update pw_dyn_user set active_policy_id = $dreamid where user_id = ?", array(user_getid()));
 
         print "<h2>How the policy votes</h2>";
         print "<p>This is currently your active policy; <b>to change its votes,
