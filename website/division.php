@@ -408,10 +408,10 @@ function no_division_found($plural)
             $edit_link = "account/wiki.php?type=motion&date=".$divattr["division_date"].
                 "&number=".$divattr["division_number"]."&house=".$divattr["house"].
                 "&rr=".urlencode($_SERVER["REQUEST_URI"]);
-            $history_link = "edits.php?type=motion&date=".$divattr["division_date"].
-                "&number=".$divattr["division_number"]."&house=".$divattr["house"];
-            $discuss_url = "division-forum.php?date=".$divattr["division_date"].
-                "&number=".$divattr["division_number"]."&house=".$divattr["house"];
+            // $history_link = "edits.php?type=motion&date=".$divattr["division_date"].
+            //     "&number=".$divattr["division_number"]."&house=".$divattr["house"];
+            // $discuss_url = "division-forum.php?date=".$divattr["division_date"].
+            //     "&number=".$divattr["division_number"]."&house=".$divattr["house"];
 
             $db->query("SELECT * FROM pw_dyn_user WHERE user_id = " . $motion_data['user_id']);
             $row = $db->fetch_row_assoc();
