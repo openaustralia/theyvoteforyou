@@ -35,9 +35,8 @@ if (user_isloggedin()) # User logged in, show settings screen
     $submit = db_scrub($_POST["submit"]);
     $rr = db_scrub($_GET["rr"]);
 
-    $db->query("select * from pw_division where division_date = '$params[0]' 
-        and division_number = '$params[1]' and house = '$params[2]'");
-    $division_details = $db->fetch_row_assoc();
+    $division_details = $pwpdo->get_single_row("select * from pw_division where division_date = ?
+        and division_number = ? and house = ?", array($params[0], $params[1], $params[2]));
     $prettydate = date("j M Y", strtotime($params[0]));
     $title = "Edit division description - " . $division_details['division_name'] . " - $prettydate - Division No. $params[1]";
     $debate_gid = str_replace("uk.org.publicwhip/debate/", "", $division_details['debate_gid']);
