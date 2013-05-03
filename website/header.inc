@@ -123,27 +123,30 @@ function ClickSup(nsup) {
 <script type="text/javascript" src="walterzorn/wz_tooltip.js"></script>
 
 <div id="header" class="widewidth">
-<div class="logo"><a href="/"><img src="/images/logo.jpg" alt="the Public Whip" /></a></div>
-<div class="search"><form class="searchtitlebarform" action="/search.php" name=pw>
-Search: <input maxLength=256 size=12 id="query_head" name="query" onblur="fadeout(this)" onfocus="fadein(this)" value="" /> <input type="submit" value="Go" name="button" />
-</form></div>
+    <div class="logo">
+        <a href="/"><img src="/images/logo.jpg" alt="the Public Whip" /></a>
+    </div>
 
+    <div class="search">
+        <form class="searchtitlebarform" action="/search.php" name=pw>
+            Search: <input maxLength=256 size=12 id="query_head" name="query" onblur="fadeout(this)" onfocus="fadein(this)" value="" /> <input type="submit" value="Go" name="button" />
+        </form>
+    </div>
 
-<!-- the main site navigation -->
-<div id="nav_main">
-<a title="Front page and site highlights" href="<?php echo $toppath?>index.php">Home</a>
-<a title="List of all votes in Parliament" href="<?php echo $toppath?>divisions.php">Divisions</a>
-<a title="List of all Representatives" href="<?php echo $toppath?>mps.php">Representatives</a>
-<a title="List of all Senators" href="<?php echo $toppath?>mps.php?house=lords">Senators</a>
-<a title="Help to analyze MP's votes" href="<?php echo $toppath?>policies.php">Policies</a>
-<!-- <a title="Chat with other users" href="/forum">Forum</a> -->
-<a title="Blog" href="http://blog.publicwhip.org.uk">Blog</a>
-<a title="Twitter" href="http://twitter.com/publicwhip">Twitter</a>
-<!-- <a title="Help run the Public Whip project" href="<?php echo $toppath?>project/index.php">Join Us</a> -->
-<a title="Frequently asked questions" href="<?php echo $toppath?>faq.php">Help / FAQ</a>
+    <!-- the main site navigation -->
+    <div id="nav_main">
+        <a title="Front page and site highlights" href="<?php echo $toppath?>index.php">Home</a>
+        <a title="List of all votes in Parliament" href="<?php echo $toppath?>divisions.php">Divisions</a>
+        <a title="List of all Representatives" href="<?php echo $toppath?>mps.php">Representatives</a>
+        <a title="List of all Senators" href="<?php echo $toppath?>mps.php?house=lords">Senators</a>
+        <a title="Help to analyze MP's votes" href="<?php echo $toppath?>policies.php">Policies</a>
+        <!-- <a title="Chat with other users" href="/forum">Forum</a> -->
+        <a title="Blog" href="http://blog.publicwhip.org.uk">Blog</a>
+        <a title="Twitter" href="http://twitter.com/publicwhip">Twitter</a>
+        <!-- <a title="Help run the Public Whip project" href="<?php echo $toppath?>project/index.php">Join Us</a> -->
+        <a title="Frequently asked questions" href="<?php echo $toppath?>faq.php">Help / FAQ</a>
+    </div>
 
-
-</div>
 </div><!-- end header-->
 <div id="main" class="widewidth"><!-- main content -->
 <?
