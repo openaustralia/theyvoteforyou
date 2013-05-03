@@ -179,7 +179,7 @@
     pw_header();
 
 	print "<p>A 'division' is parliamentary terminology for a 'vote' (<a href=\"/faq.php#jargon\">read more...</a>).
-         This page shows divisions in the UK parliament. Make sure you <a href=\"/faq.php#clarify\">read the
+         This page shows divisions in the Australian parliament. Make sure you <a href=\"/faq.php#clarify\">read the
          explanation</a> about rebellions, as they may not be what you expect.
 		 </p>";
 
