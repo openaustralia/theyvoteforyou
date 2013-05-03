@@ -25,9 +25,11 @@
     $title = "Policies";
     pw_header();
 ?>
-<p>Policies are stated positions on a particular issue. For example "Privatise
-the NHS", or "Join the Euro". Each policy has a definition and a way to
-vote in relevant divisions in Parliament.
+<p>
+    Policies are stated positions on a particular issue. For example "Process
+    asylum seekers offshore", or "Legalise same sex marriage". Each policy has
+    a definition and a way to vote in relevant divisions in Parliament.
+</p>
 
    <p>This table summarises all policies, including how many times they have
    "voted".  Click on their name to get a comparison of a policy to all MPs.
