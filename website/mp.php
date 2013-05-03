@@ -49,11 +49,11 @@
 	# Second is another mp (by person), a dream mp, or a/the party
 	$voter1attr = get_mpid_attr_decode($db, $db2, "", ($voter2type == "dreammp" ? $voter2attr : null));
 	if ($voter1attr == null) {
-        $title = "MP/Lord not found";
+        $title = "Representative or Senator not found";
         pw_header();
-		print "<p>No MP or Lord found. If you entered a postcode, please make
+		print "<p>No Representative or Senator found. If you entered a postcode, please make
         sure it is correct.  Or you can <a href=\"/mps.php\">browse
-        all MPs</a> or <a href=\"/mps.php?house=lords\">browse all Lords</a>.";
+        all Representatives</a> or <a href=\"/mps.php?house=lords\">browse all Senators</a>.";
         pw_footer();
         exit;
     }
