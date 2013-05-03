@@ -31,7 +31,7 @@ a {color:#8BAC35;text-decoration:none;}
 
 /* Colour Blocks */
 #whitebox {background:#fff;clear:both;padding-bottom:40px;}
-#bluebox {background:#CFE8EB url(images/bluebox_bg.jpg) top left repeat-x;border-top:1px solid #B7CCD5;clear:both;padding-top:61px;position:relative;padding-bottom:400px;}
+#bluebox {background:#CFE8EB url(images/bluebox_bg.jpg) top left repeat-x;border-top:1px solid #B7CCD5;clear:both;padding-top:61px;position:relative;padding-bottom:40px;}
 
 /* Structure */
 
