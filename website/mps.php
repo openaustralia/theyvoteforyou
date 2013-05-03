@@ -86,7 +86,8 @@
 	if ($sort == "rebellions") {
 		$title .= "Rebel ";
     }
-	$title .= $rdismodes[$rdisplay_parliament]["titdescription"];
+	$title .= $rdismodes_house[$rdisplay_house]["titdescription"];
+	$title .= " - ".$rdismodes[$rdisplay_parliament]["titdescription"];
 
     $colour_scheme = $rdisplay_house;
 
