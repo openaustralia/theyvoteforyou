@@ -68,9 +68,9 @@ require_once "DifferenceEngine.inc";
 								 "editdefinition" => "yes",
                                  "tooltip" => "Change title and definition of policy");
 
-	$dismodes["discussion"] = array("description" => "Discussion",
-								 "discussion" => "yes",
-                                 "tooltip" => "Change title and definition of policy");
+	//$dismodes["discussion"] = array("description" => "Discussion",
+	//							 "discussion" => "yes",
+    //                             "tooltip" => "Change title and definition of policy");
 
 
 
