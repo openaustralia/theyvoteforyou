@@ -49,10 +49,10 @@
 <a title="Public Whip is open source software" href="/project/code.php">Source code</a>
 <a title="Divisions in your news reader" href="/faq.php#rss">RSS</a>
 <a title="Details on the free license for this data" href="/faq.php#legal">Legal information</a>-->
-        <div class="legal">&copy; 2013 Bairwell Ltd. The Public Whip is a not-for-profit, open source, project. Get the
+        <div class="legal">
+            The Public Whip is a not-for-profit, open source, project. Get the
             <a href="https://bitbucket.org/publicwhip/publicwhip-v1/">source code on BitBucket</a>!
         </div>
-        <div class="poweredby"><a href="http://www.bairwell.com">Bairwell Ltd</a></div>
     </div>
     <div class="clear"></div>
 </div><!-- end footer-->
