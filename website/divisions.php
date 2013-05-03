@@ -80,15 +80,15 @@
 		$qjoin .= " LEFT JOIN pw_division
 						ON pw_division.division_id = pw_cache_whip.division_id";
 		$qwhere .= " WHERE house = :house";
+        $placeholders=array(':house'=>  $rdisplay_house);
 		if ($rdisplay != "all")
+        {
 			$qwhere .= " AND division_date >= :fromdate AND division_date < :todate";
+            $placeholders[':fromdate'] = $parliaments[$rdisplay]["from"];
+            $placeholders[':todate'] = $parliaments[$rdisplay]["to"];
+        }
 		$qgroup = " GROUP BY party";
 		$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
-        $placeholders=array(
-            ':house'=>  $rdisplay_house,
-            ':fromdate'=>$parliaments[$rdisplay]["from"],
-            ':todate'=>$parliaments[$rdisplay]["to"]
-        );
 		$pwpdo->query($query,$placeholders);
 		while ($row = $pwpdo->fetch_row())
 		{
