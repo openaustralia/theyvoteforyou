@@ -69,6 +69,8 @@ a {color:#8BAC35;text-decoration:none;}
 #nav_main {width:628px;text-align:right;position:absolute;top:60px; right:0px;font:normal 1.13em museo-700;height:2.3em;z-index:50;}
 #nav_main a {color:#797D7F;padding-bottom:17px;margin-left:0.44em;text-decoration:none;}
 #nav_main a:hover {background:url(images/nav_arrow.png) center 17px no-repeat;color:#F53181;}
+#account-navbar {padding-top: 0.6em;}
+#account-navbar a:hover {background: none;}
 
 /* Homepage */
 .homesearch {width:262px;height:173px;background: #35B4CA url(images/homesearch_bg.jpg) top left repeat-x;border:1px solid #2C93A3;color:#fff;padding:19px;margin-top:0px;}
