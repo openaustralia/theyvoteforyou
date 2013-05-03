@@ -14,8 +14,10 @@
 
             <p>
                 The Public Whip is a not-for-profit, open source website
-                created in 2003 by Francis Irving and Julian Todd for the UK.
-                It was brought to Australia by the OpenAustralia Foundation.
+                created in 2003 by Francis Irving and Julian Todd
+                <a href="http://www.publicwhip.org.uk/">for the UK</a>.
+                It was brought to Australia by the
+                <a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>.
             </p>
 
             <p>
