@@ -12,8 +12,11 @@
     <div class="widewidth">
         <div class="col1-2"><h3>About the Project</h3>
 
-            <p>The Public Whip is a not-for-profit, open source website created in 2003 by Francis Irving and Julian
-                Todd and now run by Bairwell Ltd.</p>
+            <p>
+                The Public Whip is a not-for-profit, open source website
+                created in 2003 by Francis Irving and Julian Todd for the UK.
+                It was brought to Australia by the OpenAustralia Foundation.
+            </p>
 
             <p>There are lots of plans afoot, including extensive redevelopment of the site and plans for new
                 functionality. To keep up with what's happening, please check out the <a
