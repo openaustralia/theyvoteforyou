@@ -18,11 +18,11 @@
                 It was brought to Australia by the OpenAustralia Foundation.
             </p>
 
-            <p>There are lots of plans afoot, including extensive redevelopment of the site and plans for new
-                functionality. To keep up with what's happening, please check out the <a
-                        href="http://blog.publicwhip.org.uk/">blog</a>. We're working on updating all the contact
-                details throughout the site, but if you'd like to talk to us about the project, please email
-                team@publicwhip.org.uk </p></div>
+            <p>
+                If you'd like to talk to us about the project, please
+                <a href="mailto:contact@openaustraliafoundation.org.au">email us</a>.
+            </p>
+        </div>
         <div class="col3"><h3>The Whip on the Web</h3>
             <ul class="social">
                 <li class="wp"><a href="http://blog.publicwhip.org.uk/">The Whip Blog</a></li>
