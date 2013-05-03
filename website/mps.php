@@ -136,7 +136,7 @@
     if ($rdisplay_house == 'commons')
         print 'Members of the House of Representatives are listed below.';
     elseif ($rdisplay_house == 'lords')
-        print 'Members of the Senate are listed below.';
+        print 'Senators are listed below.';
     else
         print 'Members of both Houses of the Federal Parliament are listed below.';
     print ' Refer to <a href="faq.php#clarify">this explanation</a> of the
