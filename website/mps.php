@@ -47,20 +47,20 @@
 	$rdismodes_house = array();
 
     $rdismodes['now'] = array(
-							 "description" => "Show only current members",
-							 "lkdescription" => "Current members",
+							 "description" => "Show only the current parliament",
+							 "lkdescription" => "Current",
 							 "parliament" => 'now',
-							 "titdescription" => "Current members");
-    if ($rdisplay_house == 'commons') {
-        foreach ($parliaments as $lrdisplay => $val)
-        {
-            $rdismodes[$lrdisplay] = array(
-                                     "description" => $val['name']."&nbsp;Parliament",
-                                     "lkdescription" => $val['name'],#." Parliament",
-                                     "parliament" => $ldisplay,
-                                     "titdescription" => $val['name']."&nbsp;Parliament");
-        }
+							 "titdescription" => "Current");
+
+    foreach ($parliaments as $lrdisplay => $val)
+    {
+        $rdismodes[$lrdisplay] = array(
+                                 "description" => $val['name']."&nbsp;Parliament",
+                                 "lkdescription" => $val['name'],#." Parliament",
+                                 "parliament" => $ldisplay,
+                                 "titdescription" => $val['name']."&nbsp;Parliament");
     }
+
 	$rdismodes["all"] = array(     # still the first selector
 							 "description" => "All members on record",
 							 "lkdescription" => "All Parliaments",
