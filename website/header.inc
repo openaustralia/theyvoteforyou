@@ -127,11 +127,13 @@ function ClickSup(nsup) {
         <a href="/"><img src="/images/logo.jpg" alt="the Public Whip" /></a>
     </div>
 
+<!-- This is hidden behind the logo currently so comment it out
     <div class="search">
         <form class="searchtitlebarform" action="/search.php" name=pw>
             Search: <input maxLength=256 size=12 id="query_head" name="query" onblur="fadeout(this)" onfocus="fadein(this)" value="" /> <input type="submit" value="Go" name="button" />
         </form>
     </div>
+ -->
 
     <!-- the main site navigation -->
     <div id="nav_main">
