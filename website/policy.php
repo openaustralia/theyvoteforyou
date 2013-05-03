@@ -280,7 +280,7 @@ if ($dismode["editdefinition"]) {
 
 	if ($dismode["definition"]) 
     {
-        print '<a href="policy.php?id=' . $dreamid . '&display=editdefinition">Edit name or description</a>.';
+        print '<a href="policy.php?id=' . $dreamid . '&display=editdefinition">Edit this policy</a>.';
         print "<p class=\"whatisflash\">This is the votes by vote definition of Public Whip ";
         print "policy #$dreamid: \"$policyname\".";
         
