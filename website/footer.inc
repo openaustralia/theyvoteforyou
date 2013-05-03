@@ -51,7 +51,7 @@
 <a title="Details on the free license for this data" href="/faq.php#legal">Legal information</a>-->
         <div class="legal">
             The Public Whip is a not-for-profit, open source, project. Get the
-            <a href="https://bitbucket.org/publicwhip/publicwhip-v1/">source code on BitBucket</a>!
+            <a href="https://github.com/openaustralia/publicwhip/">source code</a>.
         </div>
     </div>
     <div class="clear"></div>
