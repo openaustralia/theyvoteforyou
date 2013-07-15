@@ -13,9 +13,6 @@ $db = new DB();
 
 ?>
 
-<a href="http://www.newstatesman.com/newmedia">
-<img align="right" src="images/nmawinnerbutton.gif" border="0"></a>
-
 <p>
 <ul>
 <li><a href="#whatis">What is the Public Whip?</a> </li>
