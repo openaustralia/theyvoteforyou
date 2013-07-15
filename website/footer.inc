@@ -13,11 +13,8 @@
         <div class="col1-2"><h3>About the Project</h3>
 
             <p>
-                The Public Whip is a not-for-profit, open source website
-                created in 2003 by Francis Irving and Julian Todd
-                <a href="http://www.publicwhip.org.uk/">for the UK</a>.
-                It was brought to Australia by the
-                <a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>.
+                The Public Whip is brought to you by the not-for-profit <a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>. It is an adaption
+                of the <a href="http://www.publicwhip.org.uk/">UK site</a> original created in 2003 by Francis Irving and Julian Todd.
             </p>
 
             <p>
@@ -27,9 +24,9 @@
         </div>
         <div class="col3"><h3>The Whip on the Web</h3>
             <ul class="social">
-                <li class="wp"><a href="http://blog.publicwhip.org.uk/">The Whip Blog</a></li>
-                <li class="tw"><a href="http://twitter.com/publicwhip">Twitter</a></li>
-                <li class="fb"><a href="http://www.facebook.com/pages/Public-Whip/199268083464697">Facebook</a></li>
+                <li class="wp"><a href="https://www.openaustraliafoundation.org.au/blog/">OpenAustralia Foundation Blog</a></li>
+                <li class="tw"><a href="http://twitter.com/openaustralia">Twitter</a></li>
+                <!-- <li class="fb"><a href="http://www.facebook.com/pages/Public-Whip/199268083464697">Facebook</a></li> -->
             </ul>
         </div>
         <div class="clear"></div>
@@ -49,10 +46,17 @@
 <a title="Public Whip is open source software" href="/project/code.php">Source code</a>
 <a title="Divisions in your news reader" href="/faq.php#rss">RSS</a>
 <a title="Details on the free license for this data" href="/faq.php#legal">Legal information</a>-->
+        <div>
+            Other projects by us that you might find interesting:
+        </div>
+        <div>
+            <a href="http://www.openaustralia.org">OpenAustralia</a>, <a href="http://www.electionleaflets.org.au">Election Leaflets</a>, <a href="http://www.righttoknow.org.au">Right To Know</a> and <a href="http://www.planningalerts.org.au">Planning Alerts</a>.
+        </div>
         <div class="legal">
             The Public Whip is a not-for-profit, open source, project. Get the
             <a href="https://github.com/openaustralia/publicwhip/">source code</a>.
         </div>
+
     </div>
     <div class="clear"></div>
 </div><!-- end footer-->
