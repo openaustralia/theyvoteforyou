@@ -165,7 +165,7 @@
     if ($rdisplay_parliament == "all")
         makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Dates", "date", "Sort by Date"); 
     makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Rebellions", "rebellions", "Sort by rebels");
-    #makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Attendance", "attendance", "Sort by attendance");
+    makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Attendance", "attendance", "Sort by attendance");
 
     print "<table class=\"mps\">\n";
 

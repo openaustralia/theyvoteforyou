@@ -702,10 +702,6 @@ function mp_table( $mptabattr)
 	$columnforms["name"] = "yes";
 	$columnforms["place"] = "yes";
 
-    # Disabled 2008-10-01 by FAI, as people care about attendance when it is meaningless.
-    if ($mptabattr["sortby"] != "glenowen")
-        $columnforms["attendance"] = null;
-
 	if ($mptabattr["headings"])
 		print_mpcolumn_headings($columnforms, $house);
 
