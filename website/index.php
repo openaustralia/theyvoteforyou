@@ -10,10 +10,11 @@
 # For details see the file LICENSE.html in the top level of the source.
 
 $title = "Counting votes on your behalf";
-pw_header_notitle();
 
     require_once "db.inc";
     $db = new DB();
+
+pw_header_notitle();
 
 	require_once "decodeids.inc";
 	require_once "tablemake.inc";
