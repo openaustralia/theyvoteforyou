@@ -73,7 +73,7 @@ a {color:#8BAC35;text-decoration:none;}
 #account-navbar a:hover {background: none;}
 
 /* Homepage */
-.homesearch {width:262px;height:173px;background: #35B4CA url(images/homesearch_bg.jpg) top left repeat-x;border:1px solid #2C93A3;color:#fff;padding:19px;margin-top:0px;}
+.homesearch {width:262px;height:200px;background: #35B4CA url(images/homesearch_bg.jpg) top left repeat-x;border:1px solid #2C93A3;color:#fff;padding:19px;margin-top:0px;}
 .homesearch input {width:262px;margin-bottom:0px;}
 .homesearch button {float:right;margin-top:15px;}
 .homesponsor {width:910px;background: #C0DD7E url(images/homesponsor_bg.jpg) top left repeat-x;border:1px solid #8BAC35; color:#fff;padding:19px; margin-top:11px;clear:both;}
