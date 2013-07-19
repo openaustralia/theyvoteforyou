@@ -30,8 +30,8 @@
 	    foreach ($mpprops as $mpprop)
 	    {
             // suppress all the MPs that are too early
-            if ($mpprop['enteredhouse'] < '1997')
-                continue; 
+            //if ($mpprop['enteredhouse'] < '1997')
+            //    continue; 
 
             $prettyrow = pretty_row_start($prettyrow);
 			if ($bmultiperson)
