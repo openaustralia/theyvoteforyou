@@ -29,9 +29,11 @@
 
 	    foreach ($mpprops as $mpprop)
 	    {
-            // suppress all the MPs that are too early
-            //if ($mpprop['enteredhouse'] < '1997')
-            //    continue; 
+            // HACK: Rather than completely removing an MP who was here before our data started
+            // let's hack around it by saying they started when the data started so that it's clear
+            // that the voting summary is just for the period starting at the beginning of 2006.
+            if ($mpprop['enteredhouse'] < '2006')
+                $mpprop['enteredhouse'] = '2006-01-01';
 
             $prettyrow = pretty_row_start($prettyrow);
 			if ($bmultiperson)
