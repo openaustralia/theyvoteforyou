@@ -270,7 +270,7 @@
 	else if ($voter1attr["bmultiperson"])
 		$title = "Voting Record - ".$mpprop['housenounplural']." ".$contitlefor;
 	else
-		$title = "Voting Record - ".$mpprop['fullname']." (".$mpprop["person"].")";
+		$title = "Voting Record - ".$mpprop['fullname'];
 
 	// now build up the links
     # make list of links to other display modes
