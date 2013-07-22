@@ -41,7 +41,7 @@
 				if ($thispagesettings)
 					print "<td>
                     ".$mpprop['name']."
-                    <a href=\"mp.php?mpn=".$mpprop['name']."&$thispagesettings\">(show only their votes)</a>
+                    <a href=\"mp.php?mpn=".urlencode(str_replace(" ", "_", $mpprop['name']))."&$thispagesettings\">(show only their votes)</a>
                     </td>\n";
 				else
 					print "<td>".$mpprop['name']."</td>\n";
