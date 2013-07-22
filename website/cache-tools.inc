@@ -92,7 +92,7 @@ function account_navbar() {
         $ret .= "Sign Up";
         $ret .= '</a> ';
         $ret .= '<a title="Login to edit policies" href="/account/settings.php'.
-                "?r=".urlencode($this_place)."\">";
+                "?r=".($_GET['r']?urlencode($_GET['r']):urlencode($this_place))."\">";
         $ret .= "Login";
         $ret .= '</a> ';
     }
