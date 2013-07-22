@@ -508,9 +508,10 @@ if (true===function_exists('advertisement')) {
                 continue; 
 
             $divtabattr["voter1"] = $mppropt;
-			$events = $mppropt["mpevents"];  # a bit confused, but a complete list of events per mpid makes the code simple
-            if ($events && $divtabattr["sortby"] == 'datereversed')
-                $events = array_reverse($events); 
+            # Don't display 'events' as they can take up more space than the 'interesting' votes
+			#$events = $mppropt["mpevents"];  # a bit confused, but a complete list of events per mpid makes the code simple
+            #if ($events && $divtabattr["sortby"] == 'datereversed')
+            #    $events = array_reverse($events); 
 
             # slip in a title in the multiperson case
 			if ($voter1attr['bmultiperson'] && ($divtabattr["votedisplay"] != "fullmotion"))
@@ -524,7 +525,7 @@ if (true===function_exists('advertisement')) {
 			# apply a date range to the current MP in this list, and roll up the year range.  
 
 			# long asignment for return value because we're lacking foreach as &
-			$voter1attr['mpprops'][$lkey]["dismetric"] = division_table($db, $divtabattr, $db2, $events);
+			$voter1attr['mpprops'][$lkey]["dismetric"] = division_table($db, $divtabattr, $db2, array());
 
 			# remove repeated listing of headings
 			#if ($divtabattr["headings"] == 'columns')
