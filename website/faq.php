@@ -35,10 +35,6 @@ $db = new DB();
 <li><a href="#organisation">What organisation is behind the Public Whip?</a> </li>
 
 <br>
-<li><a href="#rss">Are there any RSS syndication feeds?</a> </li>
-<li><a href="#spreadsheet">Where is the data in spreadsheet file format or in XML?</a> </li>
-
-<br>
 <li><a href="#help">Can I help with the project?</a> </li>
 <li><a href="#motionedit">What do you mean by editing the motion description?</a> </li>
 <!-- <li><a href="#keepup">How can I keep up with what you are doing?</a> </li> -->
@@ -227,21 +223,6 @@ on this data, you must also share the result under a compatible open data licens
 <p>Public Whip in Australia was started and is run by the OpenAustralia Foundation, a charity. It is based on the UK site which was created by 
 <a href="http://www.flourish.org">Francis Irving</a> and <a
 href="http://www.goatchurch.org.uk">Julian Todd</a> in 2003.</p>
-
-
-<h2 class="faq"><a name="rss">Are there any RSS syndication feeds?</a></h2>
-
-<p> First an explanation.  RSS is a way to let you easily read news from lots
-of different sources.  You need a special program called a newsreader to do
-this.  We provide the following RSS feeds:
-
-<p>
-<a href="/feeds/interestingdivisions.xml">interestingdivisions.xml</a> &mdash; Find out every time there are more than 10 "rebellions" in a division.
-<br><a href="/feeds/alldivisions.xml">alldivisions.xml</a> &mdash; Keep on top of every division in Parliament, after it happens.
-
-<h2 class="faq"><a name="spreadsheet">Where is the data in spreadsheet file format or in XML?</a></h2>
-
-<p> Take a look at our <a href="project/data.php">Raw Data</a> page.
 
 <h2 class="faq"><a name="help">Can I help with the project?</a></h2>
 <p>Sure! We're looking for people who are interested in editing the motion descriptions on some of the divisions. See the following question for details. If you have particular skill-sets that you feel you could contribute, then do please email us at team@publicwhip.org.uk.</p>
