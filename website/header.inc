@@ -193,3 +193,39 @@ print $h1title;  # the actual heading
 <!-- the second tier navigation as dropdowns end-->
 <?php } ?>
 
+<? if ($second_links && $second_type == "tabs") { ?>
+<!-- the second tier navigation as tabs -->
+<!-- add hashes to $second_links array, keys are
+     'href' - URL of link
+     'text' - displayed text
+     'tooltip' - text to put in title
+     'current' - 'on' or 'off' for whether this item is currently selected -->
+<div class="secondnavtabs">
+
+<?
+    function print_links_tabs($links, $offset) {
+        foreach ($links as $this_link) {
+            print "<li class=\"".$this_link['current']."\">";
+            if ($this_link['current'] != 'on')
+                print "<a title=\"".$this_link['tooltip']."\" href=\"".$this_link['href']."\" class=\"".$this_link['current']."\">";
+            print $this_link['text'];
+            if ($this_link['current'] != 'on')
+                print "</a>";
+            print " ";
+            print "</li>";
+        }
+    }
+
+    print '<ul>';  # we could ad in secondary colours for the second row of table (in the same row)
+    print_links_tabs($second_links, "");
+    print '</ul>';
+    if ($second_links2)
+    {
+        print '<ul>';
+        print_links_tabs($second_links2, "");
+        print '</ul>';
+    }
+?>
+</div>
+<!-- the second tier navigation as dropdowns end-->
+<?php } ?>
