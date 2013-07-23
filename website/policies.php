@@ -31,6 +31,10 @@
     a definition and a way to vote in relevant divisions in Parliament.
 </p>
 
+   <ul>
+      <li><a href="account/addpolicy.php">Make a new policy</a></li>
+   </ul>
+
    <p>This table summarises all policies, including how many times they have
    "voted".  Click on their name to get a comparison of a policy to all MPs.
    <b>You can get a policy to the top by editing and
