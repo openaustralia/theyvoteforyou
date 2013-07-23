@@ -15,8 +15,7 @@ $title = "Parliamentary Research"; pw_header();
 and understand what Parliament is doing.  We want to make it possible for 
 everyone to share the workload of decoding the jargon and summarising 
 the documents.  Just being able to help one another to find necessary 
-information will be a major step forward.  
-Please look for <a href="/forum">discussions in the forum</a>.
+information will be a major step forward.
 
 <h2>Commenting on debates</h2>
 
@@ -256,8 +255,7 @@ self-serving Government press notice to track down the news.
 
 <li>Division description editors are independent of Parliament, which means we
 can be critical of its process in the way that anyone in the system is
-unwilling or unable to be.  But check up on each other's work whenever you can,
-and discuss it in the forum.  
+unwilling or unable to be.  But check up on each other's work whenever you can.
 
 <li>We have experienced little use and no actual signs of abuse.  Until we
 experience abuse, we cannot make provisions for it.  In practice, wikis

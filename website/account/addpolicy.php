@@ -116,9 +116,7 @@ if (user_isloggedin())
 
 		<li>Don't be shy.  These policies belong to everyone.  If you have a point of
 		view that a policy is wrongly voting, or it's ill-defined, or you can see how it should be broken
-		down, share it on the forum.  We hope to have a page of discussion for each
-		policy in the near future so you can communicate with the other people
-		doing the same thing as you.</li>
+		down, discuss it with others and fix it.</li>
 
 		</ul>
 <?
@@ -145,8 +143,6 @@ if (user_isloggedin())
 
         <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Make Policy">
         </FORM>
-
-        <p>If you like you can <a href="/forum/viewforum.php?f=1">discuss policies on our forum</a>.
 
     <?php
     }
