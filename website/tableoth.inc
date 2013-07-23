@@ -288,12 +288,12 @@
         '+1 tell' means that in addition one member of that party was a
         <a href=\"".$baseurl."faq.php#jargon\">teller</a> for that division lobby.</p>";
         }
-        if ($house != "lords" and $house != "scotland")
-            print "<p>
-            <span class=\"ptitle\">What are Boths?</span> An MP can vote both
-            aye and no in the same division. The <a href=\"".$baseurl."boths.php\">boths
-            page</a> explains this.
-            <p>";
+        #if ($house != "lords" and $house != "scotland")
+        #    print "<p>
+        #    <span class=\"ptitle\">What are Boths?</span> An MP can vote both
+        #    aye and no in the same division. The <a href=\"".$baseurl."boths.php\">boths
+        #    page</a> explains this.
+        #    <p>";
         print "<span class=\"ptitle\">What is Turnout?</span> This is measured against 
         the total membership of the party at the time of the vote.
         </p>
