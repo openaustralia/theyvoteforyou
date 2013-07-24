@@ -6,6 +6,7 @@
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
+require_once "../db.inc";
 $title = "Parliamentary Research"; pw_header();
 ?>
 
