@@ -42,15 +42,12 @@ by page and line number where it would better be served by a
 hyperlink.  This is particularly true for legislation.
 
 <p>Public Whip allows anyone to write a plain english version of the
-motion, with links to explanations and relevant document.  Julian has taken on
-the task of doing <a href="/policy.php?id=210">all the Iraq votes</a> and the
-<a href="/policy.php?id=258">counter-terrorism legislation</a>.  Have a
-look to them for examples.
+motion, with links to explanations and relevant document.
 
-<p>We are looking for people who are passionate about other issues in
+<p>We are looking for people who are passionate about issues in
 Parliament that have been subject to frequent, repeated votes by MPs.
-It could be immigration, education, the environment, transport, ID
-cards, international development, and so on.  Find these divisions, mark
+It could be immigration, education, the environment, transport, international development, and so on.
+Find these divisions, mark
 them with a Policy, and fix the division descriptions so that other people can
 see the precise meaning of what was voted upon.  Public Whip is about
 making an informed choice based on the definitive record,
