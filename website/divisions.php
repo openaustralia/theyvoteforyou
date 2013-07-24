@@ -51,10 +51,10 @@
 	$rdismodes_house["all"] = array(
 							 "description" => "Show divisions from the House of Representatives and Senate",
 							 "lkdescription" => "All houses");
-	$rdismodes_house["commons"] = array(
+	$rdismodes_house["representatives"] = array(
 							 "description" => "Show only House of Representatives divisions",
 							 "lkdescription" => "Representatives only");
-	$rdismodes_house["lords"] = array(
+	$rdismodes_house["senate"] = array(
 							 "description" => "Show only Senate divisions",
 							 "lkdescription" => "Senate only");
     $rdefaultdisplay_house = "all";
@@ -69,8 +69,17 @@
 			$rdisplay = $rdefaultdisplay;
 	}
 	$rdisplay_house = db_scrub($_GET["house"]);
-	if (!$rdisplay_house)
-		$rdisplay_house = $rdefaultdisplay_house;
+
+    if (!$rdisplay_house)
+        $rdisplay_house = $rdefaultdisplay_house;
+
+    # Convert Australian to UK house
+    $adisplay_house = $rdisplay_house;
+
+    if ($rdisplay_house == "senate")
+      $rdisplay_house = "lords";
+    else if ($rdisplay_house == "representatives")
+      $rdisplay_house = "commons";
 
 	# now try to construct all the parties present in a house that we could see the whip of
 	if ($rdisplay_house != "all")
@@ -153,7 +162,7 @@
     $second_links3 = array();
     foreach ($rdismodes2 as $lrdisplay => $lrdismode)
 	{
-		$dlink = makedivlink($rdisplay, $lrdisplay, $rdisplay_house, $sort);
+		$dlink = makedivlink($rdisplay, $lrdisplay, $adisplay_house, $sort);
         array_push($second_links3, array('href'=>$dlink,
             'current'=> ($lrdisplay == $rdisplay2 ? "on" : "off"),
             'text'=>$lrdismode["lkdescription"]));
@@ -161,7 +170,7 @@
     $second_links = array();
     foreach ($rdismodes as $lrdisplay => $lrdismode)
 	{
-		$dlink = makedivlink($lrdisplay, $rdisplay2, $rdisplay_house, $sort);
+		$dlink = makedivlink($lrdisplay, $rdisplay2, $adisplay_house, $sort);
         array_push($second_links, array('href'=>$dlink,
             'current'=> ($lrdisplay == $rdisplay ? "on" : "off"),
             'text'=>$lrdismode["lkdescription"]));
@@ -171,7 +180,7 @@
 	{
 		$dlink = makedivlink($rdisplay, $rdisplay2, $lrdisplay_house, $sort);
         array_push($second_links2, array('href'=>$dlink,
-            'current'=> ($lrdisplay_house == $rdisplay_house ? "on" : "off"),
+            'current'=> ($lrdisplay_house == $adisplay_house ? "on" : "off"),
             'text'=>$lrdismode["lkdescription"]));
 	}
 
@@ -199,10 +208,10 @@
 			print "<a href=\"$dlink\" alt=\"$hcellalt\">$hcelltitle</a>";
 	}
     print "<p style=\"font-size: 89%\" align=\"center\">Sort by: ";
-    makesortlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Date", "date", "Sort by date");
-    makesortlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Subject", "subject", "Sort by subject");
-    makesortlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Rebellions", "rebellions", "Sort by rebellions");
-    makesortlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, "Turnout", "turnout", "Sort by turnout");
+    makesortlink($rdisplay, $rdisplay2, $adisplay_house, $sort, "Date", "date", "Sort by date");
+    makesortlink($rdisplay, $rdisplay2, $adisplay_house, $sort, "Subject", "subject", "Sort by subject");
+    makesortlink($rdisplay, $rdisplay2, $adisplay_house, $sort, "Rebellions", "rebellions", "Sort by rebellions");
+    makesortlink($rdisplay, $rdisplay2, $adisplay_house, $sort, "Turnout", "turnout", "Sort by turnout");
 
 	# these head cells are tabbing type links (not any more)
     print "<table class=\"votes\">\n";
