@@ -77,7 +77,7 @@ advertisement('homepage');
 </div>
 
 <div class="col2"><h2>Representatives and Senators who attend parliament most often</h2>
-<p><a href="mps.php?sort=attendance&amp;house=both" title="Show all MPs ordered by attendance">Show all MPs ordered by attendance</a></p>
+<p><a href="mps.php?sort=attendance&amp;house=all" title="Show all MPs ordered by attendance">Show all MPs ordered by attendance</a></p>
 </div>
 <div class="col3"><h2>Test a Representative or Senator against policies you care about</h2>
 <p><a href="policies.php">Browse</a> existing policies </p>
