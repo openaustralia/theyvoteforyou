@@ -366,8 +366,9 @@ function no_division_found($plural)
 						AND pw_dyn_user.user_id = pw_dyn_dreammp.user_id
 						AND pw_dyn_dreamvote.division_date = ?
 						AND pw_dyn_dreamvote.division_number = ?
+                        AND pw_dyn_dreamvote.house = ?
             			AND private <> 1");
-        $allRows=$pwpdo->fetch_all_rows($query,array($divattr["division_date"],$divattr["division_number"]));
+        $allRows=$pwpdo->fetch_all_rows($query,array($divattr["division_date"],$divattr["division_number"],$divattr["house"]));
             $prettyrow = 0;
             print "<h2><a name=\"dreammp\">Policies</a></h2>";
             print "<p>The following policies have selected this division.  You can use this

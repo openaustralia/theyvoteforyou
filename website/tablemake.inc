@@ -79,7 +79,8 @@ function divdreammpconds(&$aquery, &$placeholders, $dreammpid, $bonlyvotes, $i)
     $aquery["qjoin"]   .= " LEFT JOIN pw_dyn_dreamvote as pwvote$i ON
                                 pwvote$i.dream_id = :pwh_ddmpc_".$i."_dreamid
                                  AND pwvote$i.division_date = pw_division.division_date
-                                 AND pwvote$i.division_number = pw_division.division_number";
+                                 AND pwvote$i.division_number = pw_division.division_number
+                                 AND pwvote$i.house = pw_division.house";
     $placeholders[':pwh_ddmpc_'.$i.'_dreamid']=$dreammpid;
     # limit down the time range if not a full-join
     if ($bonlyvotes)

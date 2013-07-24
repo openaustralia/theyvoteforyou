@@ -25,7 +25,8 @@ function write_single_policy_vote($db, $divattr, $voter)
     global $bdebug;
 
     $qdivmatch = "division_date = '".$divattr["division_date"]."'
-                  AND division_number = ".$divattr["division_number"];
+                  AND division_number = ".$divattr["division_number"]."
+                  AND house = '".$divattr["house"]."'";
 
     # get the value from the database
     $query = "SELECT vote FROM pw_dyn_dreamvote
