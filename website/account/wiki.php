@@ -146,10 +146,6 @@ if (user_isloggedin()) # User logged in, show settings screen
             "&number=".$division_details["division_number"]."&house=".$division_details["house"];
 ?>
 
-        <p><span class="ptitle">Questions, thoughts?</span>
-        <a href="<?php echo htmlspecialchars($discuss_url)?>">Discuss this division</a>
-		with other researchers on our forum. 
-
         <p><span class="ptitle">Useful links for you to research</span>
 		<ul>
 		<li><a href="http://www.publications.parliament.uk/pa/pabills.htm">Public Bills before Parliament</a>
