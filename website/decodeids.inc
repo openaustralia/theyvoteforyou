@@ -244,7 +244,7 @@ function get_mpid_attr_decode($db, $db2, $i, $voter2dream_overlap=null, $pc_parl
     else
     {
         $qwhere = "";
-        if ($mpconstituency != "" && $mpconstituency != "Lords")
+        if ($mpconstituency != "" && $mpconstituency != "Senate")
         {
             $constituency = strtolower(stripslashes(html_entity_decode($mpconstituency)));
             $constituency = str_replace("_", " ", $constituency);

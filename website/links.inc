@@ -21,11 +21,18 @@ function link_to_mp($row, $i = 1)
     $mpn = trim($mpn);
 
     if ($row['house'] == 'lords')
-        $mpc = "Lords";
+        $mpc = "Senate";
     else 
         $mpc = $row['constituency'];
 
-    return "mpn$i=".urlencode(str_replace(" ", "_", $mpn))."&"."mpc$i=".urlencode(str_replace(" ", "_", $mpc))."&"."house$i=".urlencode($row['house']);
+    $house = $row['house'];
+    # Convert between Australian and UK
+    if ($house == "commons")
+        $house = "representatives";
+    else if ($house == "lords")
+        $house = "senate";
+
+    return "mpn$i=".urlencode(str_replace(" ", "_", $mpn))."&"."mpc$i=".urlencode(str_replace(" ", "_", $mpc))."&"."house$i=".urlencode($house);
 }
 
 
