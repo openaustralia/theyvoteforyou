@@ -53,7 +53,7 @@
         pw_header();
 		print "<p>No Representative or Senator found. If you entered a postcode, please make
         sure it is correct.  Or you can <a href=\"/mps.php\">browse
-        all Representatives</a> or <a href=\"/mps.php?house=lords\">browse all Senators</a>.";
+        all Representatives</a> or <a href=\"/mps.php?house=senate\">browse all Senators</a>.";
         pw_footer();
         exit;
     }

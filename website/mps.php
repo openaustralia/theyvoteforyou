@@ -13,7 +13,7 @@
     require_once "tablepeop.inc";
     require_once "parliaments.inc";
 
-    $rdefaultdisplay_house = "commons";
+    $rdefaultdisplay_house = "representatives";
 	$rdefaultdisplay_parliament = 'now';
 
 	$rdisplay_parliament = db_scrub($_GET["parliament"]);
@@ -21,15 +21,23 @@
 		$rdisplay_parliament = $rdefaultdisplay_parliament;
 
 	$rdisplay_house = strtolower(trim($_GET["house"]));
-    if ($rdisplay_house!=='' && false===in_array($rdisplay_house,array('lords','commons','scotland','both','all'))) {
+    if ($rdisplay_house!=='' && false===in_array($rdisplay_house,array('senate','representatives','scotland','both','all'))) {
         pw_header();
         print '<h1>Invalid house entered</h1>';
         possiblexss('house = '.$rdisplay_house);
         pw_footer();
         exit();
     }
+
 	if (!$rdisplay_house)
 		$rdisplay_house = $rdefaultdisplay_house;
+
+    # Translate between Australia and UK
+    $adisplay_house = $rdisplay_house;
+    if ($rdisplay_house == 'senate')
+        $rdisplay_house = 'lords';
+    else if ($rdisplay_house == 'representatives')
+        $rdisplay_house = 'commons';
 
     $sort = strtolower(trim($_GET["sort"]));
     if (''===$sort) {
@@ -69,11 +77,11 @@
 
 
 	# the alternative modes
-	$rdismodes_house["commons"] = array(
+	$rdismodes_house["representatives"] = array(
 							 "description" => "Show only members of the House of Representatives",
 							 "lkdescription" => "Representatives",
 							 "titdescription" => "Representatives");
-	$rdismodes_house["lords"] = array(
+	$rdismodes_house["senate"] = array(
 							 "description" => "Show only Senators",
 							 "lkdescription" => "Senators",
 							 "titdescription" => "Senators");
@@ -86,7 +94,7 @@
 	if ($sort == "rebellions") {
 		$title .= "Rebel ";
     }
-	$title .= $rdismodes_house[$rdisplay_house]["titdescription"];
+	$title .= $rdismodes_house[$adisplay_house]["titdescription"];
 	$title .= " - ".$rdismodes[$rdisplay_parliament]["titdescription"];
 
     $colour_scheme = $rdisplay_house;
@@ -113,7 +121,7 @@
     $second_links = array();
     foreach ($rdismodes as $lrdisplay => $lrdismode)
 	{
-		$dlink = makempslink($lrdisplay, $rdisplay_house, $sort);
+		$dlink = makempslink($lrdisplay, $adisplay_house, $sort);
         array_push($second_links, array('href'=>$dlink,
             'current'=> ($lrdisplay == $rdisplay_parliament ? "on" : "off"),
             'text'=>$lrdismode["lkdescription"],
@@ -125,7 +133,7 @@
 	{
 		$dlink = makempslink($rdisplay_parliament, $lrdisplay_house, $sort);
         array_push($second_links2, array('href'=>$dlink,
-            'current'=> ($lrdisplay_house == $rdisplay_house ? "on" : "off"),
+            'current'=> ($lrdisplay_house == $adisplay_house ? "on" : "off"),
             'text'=>$lrdismode["lkdescription"],
             'tooltip'=>$lrdismode["description"]));
 	}
@@ -158,14 +166,14 @@
 			print "<a href=\"$dlink\" alt=\"$hcellalt\">$hcelltitle</a>";
 	}
     print "<p style=\"font-size: 89%\" align=\"center\">Sort by: ";
-    makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Name", "lastname", "Sort by surname");
+    makesortmpslink($rdisplay_parliament, $adisplay_house, $sort, "Name", "lastname", "Sort by surname");
     if ($rdisplay_house != 'lords')
-        makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Constituency", "constituency", "Sort by constituency");
-    makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Party", "party", "Sort by party");
+        makesortmpslink($rdisplay_parliament, $adisplay_house, $sort, "Constituency", "constituency", "Sort by constituency");
+    makesortmpslink($rdisplay_parliament, $adisplay_house, $sort, "Party", "party", "Sort by party");
     if ($rdisplay_parliament == "all")
-        makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Dates", "date", "Sort by Date"); 
-    makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Rebellions", "rebellions", "Sort by rebels");
-    makesortmpslink($rdisplay_parliament, $rdisplay_house, $sort, "Attendance", "attendance", "Sort by attendance");
+        makesortmpslink($rdisplay_parliament, $adisplay_house, $sort, "Dates", "date", "Sort by Date"); 
+    makesortmpslink($rdisplay_parliament, $adisplay_house, $sort, "Rebellions", "rebellions", "Sort by rebels");
+    makesortmpslink($rdisplay_parliament, $adisplay_house, $sort, "Attendance", "attendance", "Sort by attendance");
 
     print "<table class=\"mps\">\n";
 
