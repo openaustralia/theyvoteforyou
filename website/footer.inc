@@ -13,8 +13,8 @@
         <div class="col1-2"><h3>About the Project</h3>
 
             <p>
-                The Public Whip is brought to you by the not-for-profit <a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>. It is an adaption
-                of the <a href="http://www.publicwhip.org.uk/">UK site</a> original created in 2003 by Francis Irving and Julian Todd.
+                The Public Whip is brought to you by the not-for-profit <a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>. It is based
+                on the <a href="http://www.publicwhip.org.uk/">UK site</a> of the same name.
             </p>
 
             <p>
