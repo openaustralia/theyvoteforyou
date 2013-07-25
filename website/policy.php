@@ -96,9 +96,9 @@ require_once "DifferenceEngine.inc";
 		                                 "tooltip" => "Editable list of policies");
 	}
 
-	$dismodes["linktopolicy"] = array("description" => "Link to this",
-								 "policybox" => "yes",
-                                 "tooltip" => "Link to a policy");
+#	$dismodes["linktopolicy"] = array("description" => "Link to this",
+#								 "policybox" => "yes",
+#                                 "tooltip" => "Link to a policy");
 
 
 	# work out which display mode we are in (in case we arrive from a post)
