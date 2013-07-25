@@ -1083,6 +1083,8 @@ function division_table($db, $divtabattr, $db2="", $events = "")
 			$divhref .= $divtabattr["divhrefappend"];
 	        if ($row["divisionhouse"] == "lords")
 	            $divhref .= "&house=senate";
+            elseif ($row["divisionhouse"] == "commons")
+                $divhref .= "&house=representatives";
             elseif ($row["divisionhouse"] == "scotland")
 	            $divhref .= "&house=scotland";
 		}
