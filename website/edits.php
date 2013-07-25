@@ -27,10 +27,11 @@
         }
     }
 
-    if ($params[2] == "lords")
-        $ahouse = "senate";
-    else if ($params[2] == "commons")
-        $ahouse = "representatives";
+    $ahouse = $params[2];
+    if ($params[2] == "senate")
+        $params[2] = "lords";
+    else if ($params[2] == "representatives")
+        $params[2] = "commons";
 
     if ($params) {
         $db->query("select * from pw_division where division_date = '$params[0]' 

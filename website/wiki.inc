@@ -49,7 +49,7 @@ function get_wiki_table($type)
 # Returns link to history view of given wiki item
 function get_wiki_history_link($type, $params) {
     if ($type == 'motion') {
-        return "/edits.php?type=$type&date=$params[0]&number=$params[1]&house=$params[2]";
+        return "/edits.php?type=$type&date=$params[0]&number=$params[1]&house=".($params[2] == "commons" ? "representatives" : "senate");
     } else {
         trigger_error("Unknown wiki type '" . html_scrub($type). "'", E_USER_ERROR);
     }
