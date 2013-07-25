@@ -75,7 +75,7 @@ if (user_isloggedin())
         Some examples:
         <ul>
         <li>Equal laws for heterosexuals and homosexuals.
-        <li>Privatise the NHS.
+        <li>For offshore processing of arrivals by boat.
         <li>Pro-nuclear power.
         </ul>
 
@@ -98,21 +98,16 @@ if (user_isloggedin())
         <li>Usually a policy can't be broken down into other policies.  If it can be,
 		maybe you should split it into two sub-policies.  There are
 		exceptions, for example "Pro-vegetarianism" may agree with all the votes for
-		"Conserve North Sea fish stocks" although for quite different reasons.</li>
+		"Conserve coastal fish stocks" although for quite different reasons.</li>
 
 		<li>The opposite of a policy is not necessarily a policy, particularly
-        if it is not one of the extremes. For example, there were three major
-        parliamentary policies on the issue of fox hunting in the UK in
-        2003/2004.  The obvious two policies were, roughly, to allow it and to
-        ban it. The <a
-        href="http://en.wikipedia.org/wiki/Fox_hunting#The_Middle_Way_group">Middle Way group</a>,
-        which included both Labour and Conservative MPs, had a third policy
-        which was to restrict hunting with a license scheme.  </li>
+        if it is not one of the extremes. There could be, for instance, three
+        different approaches to solving a particular problem. </li>
+        <!-- TODO: Provide a specific Australian example -->
 
         <li>All policies must be convertable into votes.  So, for example,
-		"Return Falklands to Argentina" doesn't work because there haven't been any such
-		votes (recently).  But you may have success with a broader policy, such as
-		"Withdraw from overseas territories".</li>
+		"Make Australia a Republic" doesn't work because there haven't been any such
+		votes (recently).</li>
 
 		<li>Don't be shy.  These policies belong to everyone.  If you have a point of
 		view that a policy is wrongly voting, or it's ill-defined, or you can see how it should be broken
