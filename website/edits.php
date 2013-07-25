@@ -27,6 +27,11 @@
         }
     }
 
+    if ($params[2] == "lords")
+        $ahouse = "senate";
+    else if ($params[2] == "commons")
+        $ahouse = "representatives";
+
     if ($params) {
         $db->query("select * from pw_division where division_date = '$params[0]' 
             and division_number = '$params[1]' and house = '$params[2]'");
@@ -45,7 +50,7 @@
             "&number=".$params[1]."&house=".$params[2].
             "&rr=".urlencode($_SERVER["REQUEST_URI"]);
         $division_link = "division.php?date=".$params[0].
-            "&number=".$params[1]."&house=".$params[2];
+            "&number=".$params[1]."&house=".$ahouse;
         print "<p><a href=\"$division_link\">View division</a> | <a href=\"$edit_link\">Edit description</a>";
     }
     else
@@ -89,13 +94,14 @@
     $prettyrow = 0;
     foreach ($rows as $row)
     {
+        $ahouse = $row['house'] == 'commons' ? 'representatives' : 'senate';
         $prettyrow = pretty_row_start($prettyrow);
         print "<td valign=\"top\" width=\"16%\">";
         if ($type == 'motion') {
             print 
                 "<a href=\"division.php?date=" . $row['division_date'] . "&number=" . $row['division_number'] . 
-                "&house=" . $row['house'] . "\">" . 
-                $row['house'] . " vote ".
+                "&house=" . $ahouse . "\">" . 
+                $ahouse . " vote ".
                 $row['division_date'] . "#" . $row['division_number'] . 
                 "</a>";
         } else {

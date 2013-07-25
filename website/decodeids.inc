@@ -330,6 +330,13 @@ function get_division_attr_decode($i)
     $div_date = db_scrub($_GET["date$i"]);
     $div_no = db_scrub($_GET["number$i"]);
     $div_house = db_scrub($_GET["house$i"]);
+
+    # Convert Australian to UK house
+    if ($div_house == "senate")
+        $div_house = "lords";
+    else if ($div_house == "representatives")
+        $div_house = "commons";
+
 	if (!$div_house)
 		$div_house = "commons";
     if (!$div_date and $i != "")
@@ -353,7 +360,7 @@ function get_division_attr_decode($i)
 
     $house_paramter = "";
     if ($row['house'] == "lords") {
-        $house_parameter = "&house=lords";
+        $house_parameter = "&house=senate";
     } elseif ($row['house'] == "scotland") {
         $house_parameter = "&house=scotland";
     }
