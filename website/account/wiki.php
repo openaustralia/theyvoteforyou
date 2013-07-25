@@ -29,6 +29,12 @@ if (user_isloggedin()) # User logged in, show settings screen
     else
         trigger_error("Unknown wiki type " . htmlspecialchars($type), E_USER_ERROR);
 
+    # Convert from Australian to UK house
+    if ($params[2] == "representatives")
+        $params[2] = "commons";
+    else if ($params[2] == "senate")
+        $params[2] = "lords";
+
     $newtext = $_POST["newtext"];
     $newtitle = $_POST["newtitle"];
     $newdescription = $_POST["newdescription"];

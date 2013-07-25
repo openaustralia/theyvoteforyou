@@ -407,7 +407,7 @@ function no_division_found($plural)
 		{
 	    	# Show motion text
             $edit_link = "account/wiki.php?type=motion&date=".$divattr["division_date"].
-                "&number=".$divattr["division_number"]."&house=".$divattr["house"].
+                "&number=".$divattr["division_number"]."&house=".($divattr["house"] == "commons" ? "representatives" : "senate").
                 "&rr=".urlencode($_SERVER["REQUEST_URI"]);
             // $history_link = "edits.php?type=motion&date=".$divattr["division_date"].
             //     "&number=".$divattr["division_number"]."&house=".$divattr["house"];
