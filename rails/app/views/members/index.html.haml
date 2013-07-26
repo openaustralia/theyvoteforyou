@@ -29,10 +29,8 @@
         %br/
         (#{link_to "explain...", "/faq.php#clarify"})
     %tr.odd
-      %td
-        = link_to "Tony Abbott", "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives"
-      %td
-        = link_to "Warringah", "mp.php?mpc=Warringah"
-      %td Liberal Party
+      %td= link_to @member.name, member_path(@member)
+      %td= link_to @member.electorate, electorate_path(@member)
+      %td= @member.party
       %td.percent n/a
       %td.percent 0.0%

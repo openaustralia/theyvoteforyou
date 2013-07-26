@@ -41,6 +41,10 @@ describe "Comparing" do
     compare_html(text, response.body)
   end
 
+  before :each do
+    Member.create!(first_name: "Tony", last_name: "Abbott", party: "Liberal Party", gid: "uk.org.publicwhip/member/1", source_gid: "", title: "", constituency: "Warringah", house: "commons")
+  end
+  
   it "/" do
     compare("/")
   end
