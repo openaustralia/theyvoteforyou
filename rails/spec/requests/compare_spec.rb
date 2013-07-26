@@ -17,42 +17,35 @@ end
 # Convert into a form where html can be reliably diff'd
 def normalise_html(text)
   tidy(text)
-  #Nokogiri::XML::Document.parse(text, nil, "UTF-8", &:noblanks).to_xhtml(indent: 2)
+end
+
+def compare_html(old_html, new_html)
+  n = normalise_html(new_html)
+  o = normalise_html(old_html)
+
+  FileUtils.rm_f("old.html")
+  FileUtils.rm_f("new.html")
+  if n != o
+    # Write it out to a file
+    File.open("old.html", "w") {|f| f.write(o.to_s)}
+    File.open("new.html", "w") {|f| f.write(n.to_s)}
+    raise "Don't match. Writing to file old.html and new.html"
+  end
 end
 
 describe "Comparing" do
-  it "/" do
-    get "/"
-    text = Net::HTTP.get('localhost', '/')
+  def compare(path)
+    get path
+    text = Net::HTTP.get('localhost', path)
     text.force_encoding(Encoding::UTF_8)
-    n = normalise_html(response.body)
-    o = normalise_html(text)
-
-    FileUtils.rm("old.html")
-    FileUtils.rm("new.html")
-    if n != o
-      # Write it out to a file
-      File.open("old.html", "w") {|f| f.write(o.to_s)}
-      File.open("new.html", "w") {|f| f.write(n.to_s)}
-      raise "Don't match. Writing to file old.html and new.html"
-    end
+    compare_html(text, response.body)
   end
 
   it "/" do
-    get "/mps.php"
-    # Convert all tabs to spaces so that tidy gives more reliable results
-    text = Net::HTTP.get('localhost', '/mps.php').gsub("\t", "  ")
-    text.force_encoding(Encoding::UTF_8)
-    n = normalise_html(response.body)
-    o = normalise_html(text)
+    compare("/")
+  end
 
-    FileUtils.rm("old.html")
-    FileUtils.rm("new.html")
-    if n != o
-      # Write it out to a file
-      File.open("old.html", "w") {|f| f.write(o.to_s)}
-      File.open("new.html", "w") {|f| f.write(n.to_s)}
-      raise "Don't match. Writing to file old.html and new.html"
-    end
+  it "/" do
+    compare("/mps.php")
   end
 end
