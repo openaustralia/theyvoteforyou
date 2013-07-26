@@ -33,19 +33,19 @@
   .narrowwidth
     %h2 Recent controversial divisions
     %p
-      %a{:href => "divisions.php", :title => "Show all divisions ordered by most recent"} Show all divisions ordered by most recent
+      = link_to "Show all divisions ordered by most recent", "divisions.php", title: "Show all divisions ordered by most recent"
     %table.votes
   .col1
     %h2 Top rebel MPs
     %p
-      %a{:href => "mps.php?sort=rebellions", :title => "Show all MPs ordered by rebellions"} Show all MPs ordered by rebellions
+      = link_to "Show all MPs ordered by rebellions", "mps.php?sort=rebellions", title: "Show all MPs ordered by rebellions"
   .col2
     %h2 Representatives and Senators who attend parliament most often
     %p
-      %a{:href => "mps.php?sort=attendance&house=all", :title => "Show all MPs ordered by attendance"} Show all MPs ordered by attendance
+      = link_to "Show all MPs ordered by attendance", "mps.php?sort=attendance&house=all", title: "Show all MPs ordered by attendance"
   .col3
     %h2 Test a Representative or Senator against policies you care about
     %p
-      %a{:href => "policies.php"} Browse
+      = link_to "Browse", "policies.php"
       existing policies
   .clear

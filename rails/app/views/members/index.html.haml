@@ -1,21 +1,20 @@
 %h1 Representatives &#8212; Current
 %p
   Members of the House of Representatives are listed below. Refer to
-  %a{:href => "faq.php#clarify"} this explanation
-  of the
-  "rebellion" and "attendance" rates, as they may not mean what you
+  = link_to "this explanation", "faq.php#clarify"
+  of the "rebellion" and "attendance" rates, as they may not mean what you
   think they do.
 %p{:align => "center", :style => "font-size: 89%"}
   Sort by:
   %b Name
   |
-  %a{:alt => "Sort by constituency", :href => "mps.php?sort=constituency"} Constituency
+  = link_to "Constituency", "mps.php?sort=constituency", alt: "Sort by constituency"
   |
-  %a{:alt => "Sort by party", :href => "mps.php?sort=party"} Party
+  = link_to "Party", "mps.php?sort=party", alt: "Sort by party"
   |
-  %a{:alt => "Sort by rebels", :href => "mps.php?sort=rebellions"} Rebellions
+  = link_to "Rebellions", "mps.php?sort=rebellions", alt: "Sort by rebels"
   |
-  %a{:alt => "Sort by attendance", :href => "mps.php?sort=attendance"} Attendance
+  = link_to "Attendance", "mps.php?sort=attendance", alt: "Sort by attendance"
   %table.mps
     %tr.headings
       %td Name
@@ -24,20 +23,16 @@
       %td
         Rebellions
         %br/
-        (
-        %a{:href => "/faq.php#clarify"}> explain...
-        )
+        (#{link_to "explain...", "/faq.php#clarify"})
       %td
         Attendance
         %br/
-        (
-        %a{:href => "/faq.php#clarify"}> explain...
-        )
+        (#{link_to "explain...", "/faq.php#clarify"})
     %tr.odd
       %td
-        %a{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives"} Tony Abbott
+        = link_to "Tony Abbott", "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives"
       %td
-        %a{:href => "mp.php?mpc=Warringah"} Warringah
+        = link_to "Warringah", "mp.php?mpc=Warringah"
       %td Liberal Party
       %td.percent n/a
       %td.percent 0.0%
