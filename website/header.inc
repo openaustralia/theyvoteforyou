@@ -66,11 +66,11 @@ if (!$h1title)
 <script type="text/javascript">
 $(document).ready(function() {
     $('tr').mouseover(function() {
-		$(this).addClass('over');})
-		.mouseout(function() {
-		$(this).removeClass('over');
-	});
-	$('tr:even').addClass('alt');
+        $(this).addClass('over');})
+        .mouseout(function() {
+        $(this).removeClass('over');
+    });
+    $('tr:even').addClass('alt');
 });
 </script>
 <script type="text/javascript" src="/publicwhip.js"></script>
