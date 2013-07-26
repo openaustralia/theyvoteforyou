@@ -1,0 +1,26 @@
+/* $Id: publicwhip_print.css,v 1.1 2005/11/28 22:01:22 frabcus Exp $
+
+ * Print style sheet for Public Whip
+
+ * The Public Whip, Copyright (C) 2005 Francis Irving and Julian Todd
+ * This is free software, and you are welcome to redistribute it under
+ * certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
+ * For details see the file LICENSE.html in the top level of the source.
+ */
+
+.container
+{
+    BORDER-RIGHT: #003300 0px solid;
+    BORDER-TOP: #003300 0px solid;
+    BORDER-LEFT: #003300 0px solid;
+    BORDER-BOTTOM: #003300 0px solid
+}
+
+.headers, .secondheaders, .searchtitlebar {
+    display: none;
+}
+
+.noprint {
+    display: none;
+}
+
