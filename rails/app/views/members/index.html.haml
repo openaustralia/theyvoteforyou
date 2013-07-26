@@ -1,0 +1,43 @@
+%h1 Representatives &#8212; Current
+%p
+  Members of the House of Representatives are listed below. Refer to
+  %a{:href => "faq.php#clarify"} this explanation
+  of the
+  "rebellion" and "attendance" rates, as they may not mean what you
+  think they do.
+%p{:align => "center", :style => "font-size: 89%"}
+  Sort by:
+  %b Name
+  |
+  %a{:alt => "Sort by constituency", :href => "mps.php?sort=constituency"} Constituency
+  |
+  %a{:alt => "Sort by party", :href => "mps.php?sort=party"} Party
+  |
+  %a{:alt => "Sort by rebels", :href => "mps.php?sort=rebellions"} Rebellions
+  |
+  %a{:alt => "Sort by attendance", :href => "mps.php?sort=attendance"} Attendance
+  %table.mps
+    %tr.headings
+      %td Name
+      %td Electorate
+      %td Party
+      %td
+        Rebellions
+        %br/
+        (
+        %a{:href => "/faq.php#clarify"}> explain...
+        )
+      %td
+        Attendance
+        %br/
+        (
+        %a{:href => "/faq.php#clarify"}> explain...
+        )
+    %tr.odd
+      %td
+        %a{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives"} Tony Abbott
+      %td
+        %a{:href => "mp.php?mpc=Warringah"} Warringah
+      %td Liberal Party
+      %td.percent n/a
+      %td.percent 0.0%

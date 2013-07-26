@@ -28,6 +28,8 @@ describe "Comparing" do
     n = normalise_html(response.body)
     o = normalise_html(text)
 
+    FileUtils.rm("old.html")
+    FileUtils.rm("new.html")
     if n != o
       # Write it out to a file
       File.open("old.html", "w") {|f| f.write(o.to_s)}
@@ -44,6 +46,8 @@ describe "Comparing" do
     n = normalise_html(response.body)
     o = normalise_html(text)
 
+    FileUtils.rm("old.html")
+    FileUtils.rm("new.html")
     if n != o
       # Write it out to a file
       File.open("old.html", "w") {|f| f.write(o.to_s)}
