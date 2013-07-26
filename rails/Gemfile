@@ -27,6 +27,13 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
+gem "haml"
+
+group :development do
+  # Required for html2haml
+  gem "ruby_parser"
+end
+
 group :test, :development do
   gem "rspec-rails"
 end

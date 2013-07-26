@@ -1,0 +1,51 @@
+%h1
+.homeintro
+  %h1
+    Find out how
+    %span.emph your
+    MP votes on the issues
+    %span.emph you
+    care about.
+.homevideo
+  %p
+    Every week, a dozen or so times, your MP votes on changes to Australian law. This is their definitive exercise of
+    power on your behalf.
+  %p In order to know whether your MP is representing your views on the issues, you need to know how they’ve voted.
+  %p The Public Whip lets you see all their votes so you can hold them to account.
+.homesearch
+  %h2 Search the Whip
+  %p
+    Enter your
+    = succeed "," do
+      %strong postcode
+    a
+    %strong Representative
+    or
+    = succeed "," do
+      %strong Senator’s name
+    or a particular
+    %strong topic
+    of interest
+  %form.searchtitlebarform{:action => "/search.php", :method => "get", :name => "pw"}
+    %input#query{:maxlength => "256", :name => "query", :onblur => "fadeout(this)", :onfocus => "fadein(this)", :size => "12"}/
+    %button{:name => "button", :type => "submit", :value => "Submit"} Submit
+.homerecents
+  .narrowwidth
+    %h2 Recent controversial divisions
+    %p
+      %a{:href => "divisions.php", :title => "Show all divisions ordered by most recent"} Show all divisions ordered by most recent
+    %table.votes
+  .col1
+    %h2 Top rebel MPs
+    %p
+      %a{:href => "mps.php?sort=rebellions", :title => "Show all MPs ordered by rebellions"} Show all MPs ordered by rebellions
+  .col2
+    %h2 Representatives and Senators who attend parliament most often
+    %p
+      %a{:href => "mps.php?sort=attendance&house=all", :title => "Show all MPs ordered by attendance"} Show all MPs ordered by attendance
+  .col3
+    %h2 Test a Representative or Senator against policies you care about
+    %p
+      %a{:href => "policies.php"} Browse
+      existing policies
+  .clear
