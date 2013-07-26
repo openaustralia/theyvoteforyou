@@ -5,6 +5,7 @@ Publicwhip::Application.routes.draw do
   root 'home#index'
 
   get 'mps.php' => 'members#index'
+  get 'index.php' => 'home#index'
   
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
