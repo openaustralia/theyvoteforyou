@@ -5,6 +5,8 @@ require 'net/http'
 def tidy(text)
   File.open("temp.html", "w") {|f| f.write(text) }
   # Requires HTML Tidy (http://tidy.sourceforge.net/) version 14 June 2007 or later
+  # Can install on OS X with "brew install tidy"
+  # Note the version installed with OS X by default is a version that's too old
   system("/usr/local/bin/tidy --sort-attributes alpha -q -m temp.html")
   r = File.read("temp.html")
   # Make sure that comments of the form <!-- comment --> are followed by a new line
