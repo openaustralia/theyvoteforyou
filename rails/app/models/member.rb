@@ -1,5 +1,6 @@
 class Member < ActiveRecord::Base
   self.table_name = "pw_mp"
+  has_one :member_info, foreign_key: "mp_id"
 
   def name
     "#{first_name} #{last_name}"
