@@ -374,16 +374,8 @@ function mp_table( $mptabattr)
 	if ($mptabattr["sortby"] == "constituency") {
 	    $tailorder = " constituency, last_name, first_name";
 	# by name primarily
-    } elseif ($mptabattr["house"] == "lords") {
-	    $tailorder = " concat(first_name, substring(last_name, 4))";  # a hack to strip the of-s and make the names comparable
-    } elseif ($mptabattr["house"] == "commons") {
-	    $tailorder = " replace(last_name, '&Ouml;', 'O'), first_name, constituency";
-    } elseif ($mptabattr["house"] == "scotland") {
-        $tailorder = " last_name, first_name, constituency";
-
-	# we're stuffed for lords sorting, till we make it much more elaborate
     } else {
-	    $tailorder = " concat(substring(replace(last_name, '&Ouml;', 'O'), (house='commons')), first_name, substring(last_name, (house='lords')*4)), constituency"; 
+        $tailorder = " last_name, first_name, constituency";
     }
 	if ($mptabattr["sortby"] != "party" and $mptabattr["sortby"] != "party_slab" and 
         !(($mptabattr["sortby"] == "vote") and ($mptabattr["listtype"] != 'division') and ($mptabattr["listtype"] != 'division2')))
