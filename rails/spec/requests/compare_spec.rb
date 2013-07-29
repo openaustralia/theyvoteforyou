@@ -72,4 +72,12 @@ describe "Comparing" do
   it "/mps.php?sort=party" do
     compare("/mps.php?sort=party")
   end
+
+  it "/mps.php?sort=rebellions" do
+    compare("/mps.php?sort=rebellions")
+  end
+
+  it "/mps.php?sort=attendance" do
+    compare("/mps.php?sort=attendance")
+  end
 end
