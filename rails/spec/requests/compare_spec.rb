@@ -114,4 +114,24 @@ describe "Comparing" do
       compare("/mps.php?house=senate&sort=attendance")
     end
   end
+
+  describe "divisions" do
+    before :each do
+      d = Division.create!(division_date: Date.new(2013,3,14), division_number: 1, house: "commons",
+        division_name: "Bills &#8212; National Disability Insurance Scheme Bill 2012; Consideration in Detail",
+        source_url: "", debate_url: "", motion: "", notes: "", source_gid: "", debate_gid: "")
+      DivisionInfo.create!(division_id: d.id, rebellions: 0, tells: 0, turnout: 136,
+        possible_turnout: 150, aye_majority: 0)
+
+      d = Division.create!(division_date: Date.new(2013,3,14), division_number: 1, house: "lords",
+        division_name: "Motions &#8212; Renewable Energy Certificates",
+        source_url: "", debate_url: "", motion: "", notes: "", source_gid: "", debate_gid: "")
+      DivisionInfo.create!(division_id: d.id, rebellions: 0, tells: 0, turnout: 69,
+        possible_turnout: 88, aye_majority: -3)
+    end
+
+    it "/divisions.php" do
+      compare("/divisions.php")
+    end
+  end
 end
