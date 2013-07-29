@@ -1,8 +1,6 @@
 class MembersController < ApplicationController
   def index
     @title = "Representatives &#8212; Current &#8212; The Public Whip".html_safe
-    @register_url = "/account/register.php?r=#{CGI.escape(request.fullpath)}"
-    @login_url = "/account/settings.php?r=#{CGI.escape(request.fullpath)}"
     @sort = params[:sort]
     # By default sort by last name
     @sort = "lastname" if @sort.nil?

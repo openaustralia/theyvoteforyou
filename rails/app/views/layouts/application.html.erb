@@ -115,8 +115,8 @@ function ClickSup(nsup) {
           <!-- <a title="Help run the Public Whip project" href="project/index.php">Join Us</a> -->
           <a title="Frequently asked questions" href="faq.php">Help / FAQ</a>
           <div id="account-navbar">
-            <a title="Register to chat on the forum or make/edit policies" href="<%= @register_url %>">Sign Up</a>
-            <a title="Login to edit policies" href="<%= @login_url %>">Login</a>
+            <a title="Register to chat on the forum or make/edit policies" href="/account/register.php?r=<%= CGI.escape(request.fullpath) %>">Sign Up</a>
+            <a title="Login to edit policies" href="/account/settings.php?r=<%= CGI.escape(request.fullpath) %>">Login</a>
           </div>
         </div>
 
