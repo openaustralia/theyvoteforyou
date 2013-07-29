@@ -6,11 +6,20 @@
   think they do.
 %p{:align => "center", :style => "font-size: 89%"}
   Sort by:
-  %b Name
+  - if @sort == "lastname"
+    %b Name
+  - else
+    = link_to "Name", "mps.php?sort=lastname", alt: "Sort by surname"
   |
-  = link_to "Constituency", "mps.php?sort=constituency", alt: "Sort by constituency"
+  - if @sort == "constituency"
+    %b Constituency
+  - else
+    = link_to "Constituency", "mps.php?sort=constituency", alt: "Sort by constituency"
   |
-  = link_to "Party", "mps.php?sort=party", alt: "Sort by party"
+  - if @sort == "party"
+    %b Party
+  - else
+    = link_to "Party", "mps.php?sort=party", alt: "Sort by party"
   |
   = link_to "Rebellions", "mps.php?sort=rebellions", alt: "Sort by rebels"
   |

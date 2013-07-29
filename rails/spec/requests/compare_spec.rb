@@ -57,7 +57,19 @@ describe "Comparing" do
     compare("/")
   end
 
-  it "/" do
+  it "/mps.php" do
     compare("/mps.php")
+  end
+
+  it "/mps.php?sort=lastname" do
+    compare("/mps.php?sort=lastname")
+  end
+
+  it "/mps.php?sort=constituency" do
+    compare("/mps.php?sort=constituency")
+  end
+
+  it "/mps.php?sort=party" do
+    compare("/mps.php?sort=party")
   end
 end
