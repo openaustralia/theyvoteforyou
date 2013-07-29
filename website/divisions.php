@@ -143,7 +143,7 @@
 	function makedivlink($rdisplay, $rdisplay2, $rdisplay_house, $sort)
 	{
         global $rdefaultdisplay, $rdefaultdisplay2, $rdefaultdisplay_house;
-		$base = "divisions.php";
+		$base = "/divisions.php";
         $rest = "";
 		if ($rdisplay != $rdefaultdisplay)
 			$rest .= "&rdisplay=$rdisplay";
