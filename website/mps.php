@@ -103,7 +103,7 @@
 	function makempslink($rdisplay_parliament, $rdisplay_house, $sort)
 	{
         global $rdefaultdisplay_parliament, $rdefaultdisplay_house;
-		$base = "mps.php";
+		$base = "/mps.php";
         $rest = "";
 		if ($rdisplay_parliament != $rdefaultdisplay_parliament)
 			$rest .= "&parliament=$rdisplay_parliament";
