@@ -29,7 +29,7 @@
         %br/
         (#{link_to "explain...", "/faq.php#clarify"})
     - @members.each do |member|
-      %tr.odd
+      %tr{:class => cycle("odd", "even")}
         %td= link_to member.name, member_path(member)
         %td= link_to member.electorate, electorate_path(member)
         %td= member.party_long2
