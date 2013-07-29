@@ -26,6 +26,10 @@ class Member < ActiveRecord::Base
       "Speaker"
     when "CWM"
       "Deputy Speaker"
+    when "PRES"
+      "President"
+    when "DPRES"
+      "Deputy President"
     else
       party
     end
