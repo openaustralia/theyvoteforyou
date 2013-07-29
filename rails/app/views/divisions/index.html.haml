@@ -54,21 +54,15 @@
         (#{link_to "explain..", "/faq.php#clarify"})
       %td Turnout
       %td Majority
-    %tr.even
-      %td.commons Representatives
-      %td 14&nbsp;Mar&nbsp;2013
-      %td
-      %td
-        = link_to "Bills &#8212; National Disability Insurance Scheme Bill 2012; Consideration in Detail".html_safe, "division.php?date=2013-03-14&number=1&house=representatives"
-      %td 0
-      %td 136
-      %td 0
-    %tr.odd
-      %td.lords Senate
-      %td 14&nbsp;Mar&nbsp;2013
-      %td
-      %td
-        = link_to "Motions &#8212; Renewable Energy Certificates".html_safe, "division.php?date=2013-03-14&number=1&house=senate"
-      %td 0
-      %td 69
-      %td 3
+    - @divisions.each do |division|
+      %tr{:class => cycle("even", "odd")}
+        %td{:class => division.house}= division.australian_house_name
+        %td= division.date.strftime("%d&nbsp;%b&nbsp;%Y").html_safe
+        %td
+          - if division.clock_time
+            = division.clock_time.strftime("%H:%M")
+        %td
+          = link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
+        %td= division.rebellions
+        %td= division.turnout
+        %td= division.majority
