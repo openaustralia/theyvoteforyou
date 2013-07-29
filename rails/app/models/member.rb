@@ -1,9 +1,72 @@
 class Member < ActiveRecord::Base
   self.table_name = "pw_mp"
   has_one :member_info, foreign_key: "mp_id"
+  delegate :rebellions, :votes_attended, :votes_possible, to: :member_info
 
   def name
-    "#{first_name} #{last_name}"
+    "#{title} #{first_name} #{last_name}"
+  end
+
+  def last_name
+    # For some reason some characters are stored in the database using html entities
+    # rather than using unicode.
+    HTMLEntities.new.decode(read_attribute(:last_name))
+  end
+
+  def constituency
+    # For some reason some characters are stored in the database using html entities
+    # rather than using unicode.
+    HTMLEntities.new.decode(read_attribute(:constituency))
+  end
+
+  # Long version of party name
+  def party_long
+    case party
+    when "SPK"
+      "Speaker"
+    when "CWM"
+      "Deputy Speaker"
+    else
+      party
+    end
+  end
+
+  # Also say "whilst Independent" if they used to be in a different party
+  # TODO Move this to a view helper
+  def party_long2
+    if entered_reason == "changed_party" || left_reason == "changed_party"
+      "whilst #{party_long}"
+    else
+      party_long
+    end
+  end
+
+  # Returns a number between 0 and 1 or nil
+  def attendance_fraction
+    votes_attended.to_f / votes_possible if votes_possible > 0
+  end
+
+  # Returns a number between 0 and 1 or nil
+  def rebellions_fraction
+    rebellions.to_f / votes_attended if has_whip? && votes_attended > 0
+  end
+
+  # TODO This should be moved to a view helper
+  def rebellions_percentage
+    if rebellions_fraction
+      (rebellions_fraction * 100).to_s + "%"
+    else
+      "n/a"
+    end
+  end
+
+  # TODO This should be moved to a view helper
+  def attendance_percentage
+    if attendance_fraction
+      (attendance_fraction * 100).to_s + "%"
+    else
+      "n/a"
+    end
   end
 
   def url_name
@@ -23,5 +86,15 @@ class Member < ActiveRecord::Base
 
   def electorate
     constituency
+  end
+
+  def self.current
+    where(left_house: "9999-12-31")
+  end
+
+  # Are they a member of a party that has a whip?
+  def has_whip?
+    # TODO Should speaker and president be included here?
+    party != "Independent" && party != "CWM"
   end
 end

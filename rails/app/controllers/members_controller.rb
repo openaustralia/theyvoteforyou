@@ -4,7 +4,6 @@ class MembersController < ApplicationController
     @register_url = "/account/register.php?r=%2Fmps.php".html_safe
     @login_url = "/account/settings.php?r=%2Fmps.php".html_safe
 
-    # There will be several members
-    @member = Member.where(house: "commons").first
+    @members = Member.current.where(house: "commons").order("last_name", "first_name").all
   end
 end

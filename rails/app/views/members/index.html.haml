@@ -28,9 +28,10 @@
         Attendance
         %br/
         (#{link_to "explain...", "/faq.php#clarify"})
-    %tr.odd
-      %td= link_to @member.name, member_path(@member)
-      %td= link_to @member.electorate, electorate_path(@member)
-      %td= @member.party
-      %td.percent n/a
-      %td.percent 0.0%
+    - @members.each do |member|
+      %tr.odd
+        %td= link_to member.name, member_path(member)
+        %td= link_to member.electorate, electorate_path(member)
+        %td= member.party_long2
+        %td.percent= member.rebellions_percentage
+        %td.percent= member.attendance_percentage
