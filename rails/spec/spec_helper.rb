@@ -35,6 +35,9 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
+
+    FileUtils.rm_f("old.html")
+    FileUtils.rm_f("new.html")
   end
 
   config.before(:each) do

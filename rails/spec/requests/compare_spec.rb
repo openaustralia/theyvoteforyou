@@ -23,8 +23,6 @@ def compare_html(old_html, new_html)
   n = normalise_html(new_html)
   o = normalise_html(old_html)
 
-  #FileUtils.rm_f("old.html")
-  #FileUtils.rm_f("new.html")
   if n != o
     # Write it out to a file
     File.open("old.html", "w") {|f| f.write(o.to_s)}
