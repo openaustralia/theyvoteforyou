@@ -25,24 +25,23 @@
     %option.off{:onclick => "secondnav_goto3()", :title => "", :value => "divisions.php?rdisplay2=rebels"} Rebellions
   %input{:name => "submit", :type => "submit", :value => "Go"}/
 <!-- the second tier navigation as dropdowns end-->
+
 %p
-  A 'division' is parliamentary terminology for a 'vote' (
-  %a{:href => "/faq.php#jargon"}> read more...
-  ).
+  A 'division' is parliamentary terminology for a 'vote'
+  (#{link_to "read more...", "/faq.php#jargon"}).
   This page shows divisions in the Australian parliament. Make sure you
-  %a{:href => "/faq.php#clarify"}
-    read the
-    explanation
+  = link_to "read the explanation", "/faq.php#clarify"
   about rebellions, as they may not be what you expect.
+
 %p{:align => "center", :style => "font-size: 89%"}
   Sort by:
   %b Date
   |
-  %a{:alt => "Sort by subject", :href => "divisions.php?sort=subject"} Subject
+  = link_to "Subject", "divisions.php?sort=subject", alt: "Sort by subject"
   |
-  %a{:alt => "Sort by rebellions", :href => "divisions.php?sort=rebellions"} Rebellions
+  = link_to "Rebellions", "divisions.php?sort=rebellions", alt: "Sort by rebellions"
   |
-  %a{:alt => "Sort by turnout", :href => "divisions.php?sort=turnout"} Turnout
+  = link_to "Turnout", "divisions.php?sort=turnout", alt: "Sort by turnout"
   %table.votes
     %tr.headings
       %td House
@@ -52,9 +51,7 @@
       %td
         Rebels
         %br>/
-        (
-        %a{:href => "/faq.php#clarify"}> explain..
-        )
+        (#{link_to "explain..", "/faq.php#clarify"})
       %td Turnout
       %td Majority
     %tr.even
@@ -62,7 +59,7 @@
       %td 14&nbsp;Mar&nbsp;2013
       %td
       %td
-        %a{:href => "division.php?date=2013-03-14&number=1&house=representatives"} Bills &#8212; National Disability Insurance Scheme Bill 2012; Consideration in Detail
+        = link_to "Bills &#8212; National Disability Insurance Scheme Bill 2012; Consideration in Detail".html_safe, "division.php?date=2013-03-14&number=1&house=representatives"
       %td 0
       %td 136
       %td 0
@@ -71,7 +68,7 @@
       %td 14&nbsp;Mar&nbsp;2013
       %td
       %td
-        %a{:href => "division.php?date=2013-03-14&number=1&house=senate"} Motions &#8212; Renewable Energy Certificates
+        = link_to "Motions &#8212; Renewable Energy Certificates".html_safe, "division.php?date=2013-03-14&number=1&house=senate"
       %td 0
       %td 69
       %td 3
