@@ -4,7 +4,7 @@ class Member < ActiveRecord::Base
   delegate :rebellions, :votes_attended, :votes_possible, to: :member_info
 
   def name
-    "#{title} #{first_name} #{last_name}"
+    "#{title} #{first_name} #{last_name}".strip
   end
 
   def last_name

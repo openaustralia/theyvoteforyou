@@ -42,7 +42,9 @@ describe "Comparing" do
   end
 
   before :each do
-    Member.create!(first_name: "Tony", last_name: "Abbott", party: "Liberal Party", gid: "uk.org.publicwhip/member/1", source_gid: "", title: "", constituency: "Warringah", house: "commons")
+    m = Member.create!(first_name: "Tony", last_name: "Abbott", party: "Liberal Party", gid: "uk.org.publicwhip/member/1", source_gid: "", title: "", constituency: "Warringah", house: "commons")
+    # TODO don't know what aye_majority does yet
+    MemberInfo.create!(mp_id: m.id, rebellions: 0, tells: 0, votes_possible: 0, votes_attended: 0, aye_majority: 0)
   end
   
   it "/" do
