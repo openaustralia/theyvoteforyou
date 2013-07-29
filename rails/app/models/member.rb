@@ -41,6 +41,10 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def senator?
+    australian_house == "senate"
+  end
+
   # Returns a number between 0 and 1 or nil
   def attendance_fraction
     votes_attended.to_f / votes_possible if votes_possible > 0

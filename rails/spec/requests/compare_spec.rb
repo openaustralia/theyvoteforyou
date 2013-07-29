@@ -51,33 +51,67 @@ describe "Comparing" do
       gid: "", source_gid: "", title: "")
     # TODO don't know what aye_majority does yet
     MemberInfo.create!(mp_id: m.id, rebellions: 0, tells: 0, votes_possible: 1, votes_attended: 1, aye_majority: -1)
+
+    m = Member.create!(first_name: "Christine", last_name: "Milne", party: "Australian Greens",
+      constituency: "Tasmania", house: "lords",
+      gid: "", source_gid: "", title: "")
+    # TODO don't know what aye_majority does yet
+    MemberInfo.create!(mp_id: m.id, rebellions: 0, tells: 0, votes_possible: 1, votes_attended: 1, aye_majority: -1)
   end
   
   it "/" do
     compare("/")
   end
 
-  it "/mps.php" do
-    compare("/mps.php")
+  describe "representatives" do
+    it "/mps.php" do
+      compare("/mps.php")
+    end
+
+    it "/mps.php?sort=lastname" do
+      compare("/mps.php?sort=lastname")
+    end
+
+    it "/mps.php?sort=constituency" do
+      compare("/mps.php?sort=constituency")
+    end
+
+    it "/mps.php?sort=party" do
+      compare("/mps.php?sort=party")
+    end
+
+    it "/mps.php?sort=rebellions" do
+      compare("/mps.php?sort=rebellions")
+    end
+
+    it "/mps.php?sort=attendance" do
+      compare("/mps.php?sort=attendance")
+    end
   end
 
-  it "/mps.php?sort=lastname" do
-    compare("/mps.php?sort=lastname")
-  end
+  describe "senators" do
+    it "/mps.php?house=senate" do
+      compare("/mps.php?house=senate")
+    end
 
-  it "/mps.php?sort=constituency" do
-    compare("/mps.php?sort=constituency")
-  end
+    it "/mps.php?house=senate&sort=lastname" do
+      compare("/mps.php?house=senate&sort=lastname")
+    end
 
-  it "/mps.php?sort=party" do
-    compare("/mps.php?sort=party")
-  end
+    it "/mps.php?house=senate&sort=constituency" do
+      compare("/mps.php?house=senate&sort=constituency")
+    end
 
-  it "/mps.php?sort=rebellions" do
-    compare("/mps.php?sort=rebellions")
-  end
+    it "/mps.php?house=senate&sort=party" do
+      compare("/mps.php?house=senate&sort=party")
+    end
 
-  it "/mps.php?sort=attendance" do
-    compare("/mps.php?sort=attendance")
+    it "/mps.php?house=senate&sort=rebellions" do
+      compare("/mps.php?house=senate&sort=rebellions")
+    end
+
+    it "/mps.php?house=senate&sort=attendance" do
+      compare("/mps.php?house=senate&sort=attendance")
+    end
   end
 end

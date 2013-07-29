@@ -4,10 +4,40 @@ class MembersController < ApplicationController
     # By default sort by last name
     @sort = "lastname" if @sort.nil?
 
-    if @sort == "rebellions"
-      @short_title = "Rebel Representatives &#8212; Current".html_safe
+    @australian_house = params[:house]
+    @australian_house = "representatives" if @australian_house.nil?
+
+    house = case @australian_house
+    when "representatives"
+      "commons"
+    when "senate"
+      "lords"
     else
-      @short_title = "Representatives &#8212; Current".html_safe
+      raise "Unexpected value"
+    end
+
+    short_collective_name = case @australian_house
+    when "senate"
+      "Senators"
+    when "representatives"
+      "Representatives"
+    else
+      raise "Unexpected value"      
+    end
+
+    @long_collective_name = case @australian_house
+    when "senate"
+      "Senators"
+    when "representatives"
+      "Members of the House of Representatives"
+    else
+      raise "Unexpected value"      
+    end
+
+    if @sort == "rebellions"
+      @short_title = "Rebel #{short_collective_name} &#8212; Current".html_safe
+    else
+      @short_title = "#{short_collective_name} &#8212; Current".html_safe
     end
     @title = @short_title + " &#8212; The Public Whip".html_safe
 
@@ -26,6 +56,6 @@ class MembersController < ApplicationController
       raise "Unexpected value"
     end
 
-    @members = Member.current.where(house: "commons").joins(:member_info).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
+    @members = Member.current.where(house: house).joins(:member_info).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
   end
 end

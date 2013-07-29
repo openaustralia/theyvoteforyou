@@ -1,6 +1,6 @@
 %h1= @short_title
 %p
-  Members of the House of Representatives are listed below. Refer to
+  #{@long_collective_name} are listed below. Refer to
   = link_to "this explanation", "faq.php#clarify"
   of the "rebellion" and "attendance" rates, as they may not mean what you
   think they do.
@@ -8,8 +8,9 @@
   Sort by:
   = sort_link("lastname", "surname", "Name", @sort)
   |
-  = sort_link("constituency", "constituency", "Constituency", @sort)
-  |
+  - if @australian_house != "senate"
+    = sort_link("constituency", "constituency", "Constituency", @sort)
+    |
   = sort_link("party", "party", "Party", @sort)
   |
   = sort_link("rebellions", "rebels", "Rebellions", @sort)
@@ -18,7 +19,7 @@
 %table.mps
   %tr.headings
     %td Name
-    %td Electorate
+    %td= @australian_house == "senate" ? "State" : "Electorate"
     %td Party
     %td
       Rebellions
@@ -31,7 +32,7 @@
   - @members.each do |member|
     %tr{:class => cycle("odd", "even")}
       %td= link_to member.name, member_path(member)
-      %td= link_to member.electorate, electorate_path(member)
+      %td= link_to_unless @australian_house == "senate", member.electorate, electorate_path(member)
       %td= member.party_long2
       %td.percent= member.rebellions_percentage
       %td.percent= member.attendance_percentage
