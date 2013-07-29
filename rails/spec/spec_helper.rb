@@ -38,6 +38,22 @@ RSpec.configure do |config|
 
     FileUtils.rm_f("old.html")
     FileUtils.rm_f("new.html")
+
+    # Point the php app to the test database
+    db = ActiveRecord::Base.configurations["test"]["database"]
+    text = File.read("../website/config.php")
+    File.open("../website/config.php", "w") do |f|
+      f.puts text.gsub(/\$pw_database = (.*);/, "$pw_database = \"#{db}\";")
+    end
+  end
+
+  config.after(:suite) do
+    # Point the php app to the development database
+    db = ActiveRecord::Base.configurations["development"]["database"]
+    text = File.read("../website/config.php")
+    File.open("../website/config.php", "w") do |f|
+      f.puts text.gsub(/\$pw_database = (.*);/, "$pw_database = \"#{db}\";")
+    end
   end
 
   config.before(:each) do
