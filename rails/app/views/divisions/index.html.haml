@@ -1,4 +1,4 @@
-%h1 Divisions &#8212; 2010 (current)
+%h1= @short_title
 / the second tier navigation as dropdowns
 :plain
   <!-- add hashes to $second_links array, keys are
@@ -8,21 +8,21 @@
        'current' - 'on' or 'off' for whether this item is currently selected -->
 %form{:action => "/redir.php", :method => "post", :name => "secondnav", :style => "display: inline"}
   %select#r{:name => "r", :onchange => "secondnav_goto()"}
-    %option.on{:onclick => "secondnav_goto()", :selected => "", :title => "", :value => "/divisions.php"} 2010 (current)
-    %option.off{:onclick => "secondnav_goto()", :title => "", :value => "/divisions.php?rdisplay=2007"} 2008-2010
-    %option.off{:onclick => "secondnav_goto()", :title => "", :value => "/divisions.php?rdisplay=2004"} 2004-2007
-    %option.off{:onclick => "secondnav_goto()", :title => "", :value => "/divisions.php?rdisplay=all"} All Parliaments
+    %option.on{:onclick => "secondnav_goto()", :selected => "", :title => "", :value => url_for(params)} 2010 (current)
+    %option.off{:onclick => "secondnav_goto()", :title => "", :value => url_for(params.merge(rdisplay: "2007"))} 2008-2010
+    %option.off{:onclick => "secondnav_goto()", :title => "", :value => url_for(params.merge(rdisplay: "2004"))} 2004-2007
+    %option.off{:onclick => "secondnav_goto()", :title => "", :value => url_for(params.merge(rdisplay: "all"))} All Parliaments
   %input{:name => "submit", :type => "submit", :value => "Go"}/
 %form{:action => "/redir.php", :method => "post", :name => "secondnav", :style => "display: inline"}
   %select#r2{:name => "r2", :onchange => "secondnav_goto2()"}
-    %option.on{:onclick => "secondnav_goto2()", :selected => "", :title => "", :value => "/divisions.php"} All houses
-    %option.off{:onclick => "secondnav_goto2()", :title => "", :value => "/divisions.php?house=representatives"} Representatives only
-    %option.off{:onclick => "secondnav_goto2()", :title => "", :value => "/divisions.php?house=senate"} Senate only
+    %option.on{:onclick => "secondnav_goto2()", :selected => "", :title => "", :value => url_for(params)} All houses
+    %option.off{:onclick => "secondnav_goto2()", :title => "", :value => url_for(params.merge(house: "representatives"))} Representatives only
+    %option.off{:onclick => "secondnav_goto2()", :title => "", :value => url_for(params.merge(house: "senate"))} Senate only
   %input{:name => "submit", :type => "submit", :value => "Go"}/
 %form{:action => "/redir.php", :method => "post", :name => "secondnav", :style => "display: inline"}
   %select#r3{:name => "r3", :onchange => "secondnav_goto3()"}
-    %option.on{:onclick => "secondnav_goto3()", :selected => "", :title => "", :value => "/divisions.php"} All Divisions
-    %option.off{:onclick => "secondnav_goto3()", :title => "", :value => "/divisions.php?rdisplay2=rebels"} Rebellions
+    %option.on{:onclick => "secondnav_goto3()", :selected => "", :title => "", :value => url_for(params)} All Divisions
+    %option.off{:onclick => "secondnav_goto3()", :title => "", :value => url_for(params.merge(rdisplay2: "rebels"))} Rebellions
   %input{:name => "submit", :type => "submit", :value => "Go"}/
 <!-- the second tier navigation as dropdowns end-->
 

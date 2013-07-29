@@ -1,7 +1,19 @@
 class DivisionsController < ApplicationController
   def index
     @sort = params[:sort]
-    @title = "Divisions &#8212; 2010 (current) &#8212; The Public Whip".html_safe
+
+    @short_title = case @sort
+    when "subject"
+      "Divisions &#8212; 2010 (current) (sorted by subject)".html_safe
+    when "turnout"
+      "Divisions &#8212; 2010 (current) (sorted by turnout)".html_safe
+    when "rebellions"
+      "Divisions &#8212; 2010 (current) (sorted by rebellions)".html_safe
+    when nil
+      "Divisions &#8212; 2010 (current)".html_safe
+    end
+
+    @title = @short_title + " &#8212; The Public Whip".html_safe
 
     order = case @sort
     when nil

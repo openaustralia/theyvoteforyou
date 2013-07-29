@@ -133,5 +133,17 @@ describe "Comparing" do
     it "/divisions.php" do
       compare("/divisions.php")
     end
+
+    it "/divisions.php?sort=subject" do
+      compare("/divisions.php?sort=subject")
+    end
+
+    it "/divisions.php?sort=rebellions" do
+      compare("/divisions.php?sort=rebellions")
+    end
+
+    it "/divisions.php?sort=turnout" do
+      compare("/divisions.php?sort=turnout")
+    end
   end
 end
