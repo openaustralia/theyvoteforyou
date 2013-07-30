@@ -14,17 +14,6 @@ class Division < ActiveRecord::Base
   scope :with_rebellions, -> { where("rebellions > 10") }
   scope :in_parliament, ->(parliament) { where("division_date >= ? AND division_date < ?", parliament[:from], parliament[:to]) }
 
-  def self.australian_to_uk_house(australian_house)
-    case australian_house
-    when "representatives"
-      "commons"
-    when "senate"
-      "lords"
-    else
-      raise "unexpected value"
-    end
-  end
-
   def division_name
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
@@ -42,6 +31,14 @@ class Division < ActiveRecord::Base
   end
 
   def australian_house
+    Division.uk_to_australian_house(house)
+  end
+
+  def australian_house_name
+    australian_house.capitalize
+  end
+
+  def self.uk_to_australian_house(house)
     case house
     when "commons"
       "representatives"
@@ -52,14 +49,14 @@ class Division < ActiveRecord::Base
     end
   end
 
-  def australian_house_name
-    case house
-    when "commons"
-      "Representatives"
-    when "lords"
-      "Senate"
+  def self.australian_to_uk_house(australian_house)
+    case australian_house
+    when "representatives"
+      "commons"
+    when "senate"
+      "lords"
     else
-      raise "Unexpected value"
+      raise "unexpected value"
     end
   end
 end
