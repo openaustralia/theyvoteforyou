@@ -12,6 +12,16 @@ module DivisionsHelper
     r
   end
 
+  def division_path(q)
+    p = ""
+    p += "&date=#{q[:date]}" if q[:date]
+    p += "&number=#{q[:number]}" if q[:number]
+    p += "&display=#{q[:display]}" if q[:display]
+    r = "division.php"
+    r += "?" + p[1..-1] if p != ""
+    r
+  end
+
   def sort_link_divisions(sort, sort_name, name, current_sort)
     if current_sort == sort
       content_tag(:b, name)

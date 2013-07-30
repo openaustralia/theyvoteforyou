@@ -10,15 +10,15 @@
   %ul
     %li.on Summary
     %li.off
-      = link_to "All voters", "division.php?date=2013-03-14&number=1&display=allvotes", title: "Every MP who cast a vote in the division", class: "off"
+      = link_to "All voters", division_path(params.merge(display: "allvotes")), title: "Every MP who cast a vote in the division", class: "off"
     %li.off
-      = link_to "One view", "division.php?date=2013-03-14&number=1&display=slab", title: "Show all votes as one compressed table", class: "off"
+      = link_to "One view", division_path(params.merge(display: "slab")), title: "Show all votes as one compressed table", class: "off"
     %li.off
-      = link_to "All eligible voters", "division.php?date=2013-03-14&number=1&display=allpossible", title: "Show even MPs who did not vote but could have", class: "off"
+      = link_to "All eligible voters", division_path(params.merge(display: "allpossible")), title: "Show even MPs who did not vote but could have", class: "off"
     %li.off
-      = link_to "Similar Divisions", "division.php?date=2013-03-14&number=1&display=similardivisionsparl", title: "Show all divisions in order of similarity of vote in this Parliament", class: "off"
+      = link_to "Similar Divisions", division_path(params.merge(display: "similardivisionsparl")), title: "Show all divisions in order of similarity of vote in this Parliament", class: "off"
     %li.off
-      = link_to "Policies", "division.php?date=2013-03-14&number=1&display=policies", title: "Show or change the polices which vote on this division", class: "off"
+      = link_to "Policies", division_path(params.merge(display: "policies")), title: "Show or change the polices which vote on this division", class: "off"
 <!-- the second tier navigation as dropdowns end-->
 .motion
   %p
@@ -27,11 +27,9 @@
       please
       = link_to "edit it", "account/wiki.php?type=motion&date=2013-03-14&number=1&house=representatives&rr=%2Fdivision.php%3Fdate%3D2013-03-14%26number%3D1%26house%3Drepresentatives"
       to make it better.
-  %p.speaker Jenny Macklin
-  %p
-    I present a supplementary explanatory memorandum to the bill and
-    ask leave of the House to move government amendments (1) to (77),
-    as circulated, together.
+  -# The motion can include html.
+  -# TODO Need to check what happens when the user edits the motion. What can they add?
+  = raw @division.motion
   %p
     %b
       = link_to "Debate in Parliament", "http://www.openaustralia.org/debates/?id=2013-03-14.17.1", title: "Links to debate shown at www.openaustralia.org"
