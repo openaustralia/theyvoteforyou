@@ -49,6 +49,9 @@ class DivisionsController < ApplicationController
   end
 
   def show
-    @title = "Bills — National Disability Insurance Scheme Bill 2012; Consideration in Detail — 14 Mar 2013 at 10:56 — The Public Whip"
+    @division = Division.find_by(division_date: params[:date], division_number: params[:number],
+      house: Division.australian_to_uk_house(params[:house]))
+    @short_title = "#{@division.name} — #{@division.date.strftime('%d %b %Y')} at #{@division.clock_time.strftime('%H:%M')}"
+    @title = @short_title + " — The Public Whip"
   end
 end
