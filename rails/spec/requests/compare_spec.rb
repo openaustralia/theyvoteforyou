@@ -117,18 +117,34 @@ describe "Comparing" do
 
   describe "divisions" do
     before :each do
-      d = Division.create!(division_date: Date.new(2013,3,14), division_number: 1, house: "commons",
+      d = Division.create!(division_date: Date.new(2013,3,14), clock_time: "010:56:00", division_number: 1, house: "commons",
         division_name: "Bills &#8212; National Disability Insurance Scheme Bill 2012; Consideration in Detail",
-        source_url: "", debate_url: "", motion: "", notes: "", source_gid: "", debate_gid: "")
+        source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansardr,hansardr80%20Date%3A14%2F3%2F2013;rec=0;resCount=Default",
+        debate_url: "",
+        motion: '<p class="speaker">Jenny Macklin</p><p>I present a supplementary explanatory memorandum to the bill and ask leave of the House to move government amendments (1) to (77), as circulated, together.</p>',
+        notes: "",
+        source_gid: "",
+        debate_gid: "uk.org.publicwhip/debate/2013-03-14.17.1")
       DivisionInfo.create!(division_id: d.id, rebellions: 0, tells: 0, turnout: 136,
-        possible_turnout: 150, aye_majority: 0)
+        possible_turnout: 150, aye_majority: -1)
+      Whip.create!(division_id: d.id, party: "Australian Labor Party", aye_votes: 0, aye_tells: 0, no_votes: 1, no_tells: 0, both_votes: 0, abstention_votes: 0, possible_votes: 1, whip_guess: "no")
+      Whip.create!(division_id: d.id, party: "Liberal Party", aye_votes: 0, aye_tells: 0, no_votes: 0, no_tells: 0, both_votes: 0, abstention_votes: 0, possible_votes: 1, whip_guess: "unknown")
 
       d = Division.create!(division_date: Date.new(2013,3,14), division_number: 1, house: "lords",
         division_name: "Motions &#8212; Renewable Energy Certificates",
-        source_url: "", debate_url: "", motion: "", notes: "", source_gid: "", debate_gid: "")
+        source_url: "", debate_url: "",
+        motion: "",
+        notes: "",
+        source_gid: "",
+        debate_gid: "")
       DivisionInfo.create!(division_id: d.id, rebellions: 0, tells: 0, turnout: 69,
         possible_turnout: 88, aye_majority: -3)
+      Whip.create!(division_id: d.id, party: "Australian Greens", aye_votes: 0, aye_tells: 0, no_votes: 1, no_tells: 0, both_votes: 0, abstention_votes: 0, possible_votes: 1, whip_guess: "no")
     end
+
+    # it "division" do
+    #   compare("/division.php?date=2013-03-14&number=1&house=representatives")
+    # end
 
     it "divisions" do
       compare("/divisions.php")

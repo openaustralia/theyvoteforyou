@@ -23,6 +23,12 @@
   %select#r3{:name => "r3", :onchange => "secondnav_goto3()"}
     %option{:class => (@rdisplay2.nil? ? "on": "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2.nil?), :title => "", :value => divisions_path(params.merge(rdisplay2: nil))} All Divisions
     %option{:class => (@rdisplay2 == "rebels" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "rebels"), :title => "", :value => divisions_path(params.merge(rdisplay2: "rebels"))} Rebellions
+    -# TODO Do this properly
+    - if (@rdisplay == "2010" || @rdisplay == "all") && @house == "representatives"
+      %option{:class => "off", :onclick => "secondnav_goto3()", :title => "", :value => divisions_path(params.merge(rdisplay2: "Australian Labor Party_party"))} Australian Labor Party
+      %option{:class => "off", :onclick => "secondnav_goto3()", :title => "", :value => divisions_path(params.merge(rdisplay2: "Liberal Party_party"))} Liberal Party
+    - if (@rdisplay == "2010" || @rdisplay == "all") && @house == "senate"
+      %option{:class => "off", :onclick => "secondnav_goto3()", :title => "", :value => divisions_path(params.merge(rdisplay2: "Australian Greens_party"))} Australian Greens
   %input{:name => "submit", :type => "submit", :value => "Go"}/
 <!-- the second tier navigation as dropdowns end-->
 
