@@ -51,19 +51,12 @@ class DivisionsController < ApplicationController
     end
 
     @divisions = Division.joins(:division_info).order(order)
+    if @house
+      @divisions = @divisions.in_australian_house(@house)
+    end
 
     if @rdisplay != "all"
       @divisions = @divisions.where("division_date >= ? AND division_date < ?", parliament[:from], parliament[:to])
-    end
-    if @house
-      case @house
-      when "representatives"
-        @divisions = @divisions.where(house: "commons")
-      when "senate"
-        @divisions = @divisions.where(house: "lords")
-      else
-        raise "unexpected value"
-      end
     end
 
     if @rdisplay2 == "rebels"

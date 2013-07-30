@@ -8,6 +8,20 @@ class Division < ActiveRecord::Base
   alias_attribute :name, :division_name
   alias_attribute :number, :division_number
 
+  scope :in_house, ->(house) { where(house: house) }
+  scope :in_australian_house, ->(australian_house) { in_house(Division.australian_to_uk_house(australian_house)) }
+
+  def self.australian_to_uk_house(australian_house)
+    case australian_house
+    when "representatives"
+      "commons"
+    when "senate"
+      "lords"
+    else
+      raise "unexpected value"
+    end
+  end
+
   def division_name
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
