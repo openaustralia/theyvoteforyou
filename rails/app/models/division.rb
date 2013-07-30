@@ -20,6 +20,15 @@ class Division < ActiveRecord::Base
     HTMLEntities.new.decode(read_attribute(:division_name))
   end
 
+  def oa_debate_url
+    "http://www.openaustralia.org/debates/?id=#{oa_debate_id}"
+  end
+
+  def oa_debate_id
+    # This probably won't generalise to the senate
+    debate_gid.split("/")[2]
+  end
+
   # This is a bit of a guess
   def majority
     aye_majority.abs
