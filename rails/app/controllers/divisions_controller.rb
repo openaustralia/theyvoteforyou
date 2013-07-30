@@ -47,4 +47,8 @@ class DivisionsController < ApplicationController
     @divisions = @divisions.in_parliament(parliament) if @rdisplay != "all"    
     @divisions = @divisions.with_rebellions if @rdisplay2 == "rebels"
   end
+
+  def show
+    render layout: false
+  end
 end
