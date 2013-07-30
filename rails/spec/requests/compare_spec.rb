@@ -157,5 +157,13 @@ describe "Comparing" do
     it "/divisions.php?rdisplay=all" do
       compare("/divisions.php?rdisplay=all")
     end
+
+    it "/divisions.php?house=representatives" do
+      compare("/divisions.php?house=representatives")
+    end
+
+    it "/divisions.php?house=senate" do
+      compare("/divisions.php?house=senate")
+    end
   end
 end

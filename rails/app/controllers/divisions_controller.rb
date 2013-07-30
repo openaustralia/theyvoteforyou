@@ -10,6 +10,8 @@ class DivisionsController < ApplicationController
     @sort = params[:sort]
     @rdisplay = params[:rdisplay]
     @rdisplay = "2010" if @rdisplay.nil?
+    @house = params[:house]
+
     parliament = parliaments[@rdisplay]
     raise "Invalid rdisplay param" unless @rdisplay == "all" || parliaments.has_key?(@rdisplay)
 
@@ -18,6 +20,12 @@ class DivisionsController < ApplicationController
       @short_title += "All divisions on record".html_safe
     else
       @short_title += "#{parliament[:name]}".html_safe
+    end
+
+    if @house == "representatives"
+      @short_title += " &#8212; Representatives only".html_safe
+    elsif @house == "senate"
+      @short_title += " &#8212; Senate only".html_safe
     end
 
     @short_title += " (sorted by #{@sort})".html_safe if @sort
@@ -41,6 +49,16 @@ class DivisionsController < ApplicationController
 
     if @rdisplay != "all"
       @divisions = @divisions.where("division_date >= ? AND division_date < ?", parliament[:from], parliament[:to])
+    end
+    if @house
+      case @house
+      when "representatives"
+        @divisions = @divisions.where(house: "commons")
+      when "senate"
+        @divisions = @divisions.where(house: "lords")
+      else
+        raise "unexpected value"
+      end
     end
   end
 end

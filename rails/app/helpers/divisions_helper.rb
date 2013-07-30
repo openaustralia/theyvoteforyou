@@ -4,8 +4,8 @@ module DivisionsHelper
   def divisions_path(q)
     p = ""
     p += "&rdisplay=#{q[:rdisplay]}" if q[:rdisplay]
-    p += "&house=#{q[:house]}" if q[:house]
     p += "&rdisplay2=#{q[:rdisplay2]}" if q[:rdisplay2]
+    p += "&house=#{q[:house]}" if q[:house]
     p += "&sort=#{q[:sort]}" if q[:sort]
     r = "/divisions.php"
     r += "?" + p[1..-1] if p != ""
