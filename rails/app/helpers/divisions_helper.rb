@@ -17,6 +17,7 @@ module DivisionsHelper
     p += "&date=#{q[:date]}" if q[:date]
     p += "&number=#{q[:number]}" if q[:number]
     p += "&display=#{q[:display]}" if q[:display]
+    p += "&sort=#{q[:sort]}" if q[:sort]
     r = "division.php"
     r += "?" + p[1..-1] if p != ""
     r
