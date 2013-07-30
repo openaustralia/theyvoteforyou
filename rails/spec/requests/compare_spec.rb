@@ -142,9 +142,9 @@ describe "Comparing" do
       Whip.create!(division_id: d.id, party: "Australian Greens", aye_votes: 0, aye_tells: 0, no_votes: 1, no_tells: 0, both_votes: 0, abstention_votes: 0, possible_votes: 1, whip_guess: "no")
     end
 
-    # it "division" do
-    #   compare("/division.php?date=2013-03-14&number=1&house=representatives")
-    # end
+    it "division" do
+      compare("/division.php?date=2013-03-14&number=1&house=representatives")
+    end
 
     it "divisions" do
       compare("/divisions.php")
