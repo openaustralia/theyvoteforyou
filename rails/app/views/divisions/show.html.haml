@@ -43,19 +43,15 @@
 %h2
   %a{:name => "summary"} Party Summary
 %p
-  Votes by party, red entries are votes against the majority for
-  that party.
+  Votes by party, red entries are votes against the majority for that party.
 .tableexplain
   %p
     %span.ptitle What is Tell?
-    '+1 tell' means that
-    in addition one member of that party was a
+    '+1 tell' means that in addition one member of that party was a
     = link_to "teller", "faq.php#jargon"
     for that division lobby.
   %span.ptitle What is Turnout?
-  This is measured
-  against the total membership of the party at the time of the
-  vote.
+  This is measured against the total membership of the party at the time of the vote.
 %table
   %tr.headings
     %td Party
@@ -83,8 +79,7 @@
   = link_to "all votes", division_path(params.merge(display: "allvotes"))
   in this division, or
   = link_to "every eligible Representative", division_path(params.merge(display: "allpossible"))
-  who could have voted in this
-  division
+  who could have voted in this division
 %p{:align => "center", :style => "font-size: 89%"}
   Sort by:
   = link_to "Name", division_path(params.merge(sort: "name"))
