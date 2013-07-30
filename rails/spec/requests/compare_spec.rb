@@ -145,5 +145,17 @@ describe "Comparing" do
     it "/divisions.php?sort=turnout" do
       compare("/divisions.php?sort=turnout")
     end
+
+    it "/divisions.php?rdisplay=2007" do
+      compare("/divisions.php?rdisplay=2007")
+    end
+
+    it "/divisions.php?rdisplay=2004" do
+      compare("/divisions.php?rdisplay=2004")
+    end
+
+    it "/divisions.php?rdisplay=all" do
+      compare("/divisions.php?rdisplay=all")
+    end
   end
 end
