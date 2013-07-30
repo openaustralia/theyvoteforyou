@@ -130,43 +130,23 @@ describe "Comparing" do
         possible_turnout: 88, aye_majority: -3)
     end
 
-    it "/divisions.php" do
+    it "divisions" do
       compare("/divisions.php")
-    end
-
-    it "/divisions.php?sort=subject" do
       compare("/divisions.php?sort=subject")
-    end
-
-    it "/divisions.php?sort=rebellions" do
       compare("/divisions.php?sort=rebellions")
-    end
-
-    it "/divisions.php?sort=turnout" do
       compare("/divisions.php?sort=turnout")
-    end
 
-    it "/divisions.php?rdisplay=2007" do
       compare("/divisions.php?rdisplay=2007")
-    end
-
-    it "/divisions.php?rdisplay=2004" do
+      compare("/divisions.php?rdisplay=2007&house=representatives")
+      compare("/divisions.php?rdisplay=2007&house=senate")
       compare("/divisions.php?rdisplay=2004")
-    end
-
-    it "/divisions.php?rdisplay=all" do
+      compare("/divisions.php?rdisplay=2004&house=representatives")
+      compare("/divisions.php?rdisplay=2004&house=senate")
       compare("/divisions.php?rdisplay=all")
-    end
-
-    it "/divisions.php?house=representatives" do
+      compare("/divisions.php?rdisplay=all&house=representatives")
+      compare("/divisions.php?rdisplay=all&house=senate")
       compare("/divisions.php?house=representatives")
-    end
-
-    it "/divisions.php?house=senate" do
       compare("/divisions.php?house=senate")
-    end
-
-    it "/divisions.php?rdisplay2=rebels" do
       compare("/divisions.php?rdisplay2=rebels")
     end
   end

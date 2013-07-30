@@ -40,13 +40,13 @@
 
 %p{:align => "center", :style => "font-size: 89%"}
   Sort by:
-  = sort_link(nil, "date", "Date", @sort)
+  = sort_link_divisions(nil, "date", "Date", @sort)
   |
-  = sort_link("subject", "subject", "Subject", @sort)
+  = sort_link_divisions("subject", "subject", "Subject", @sort)
   |
-  = sort_link("rebellions", "rebellions", "Rebellions", @sort)
+  = sort_link_divisions("rebellions", "rebellions", "Rebellions", @sort)
   |
-  = sort_link("turnout", "turnout", "Turnout", @sort)
+  = sort_link_divisions("turnout", "turnout", "Turnout", @sort)
   %table.votes
     %tr.headings
       - if @house.nil?
@@ -62,7 +62,10 @@
       %td Majority
     - if @divisions.empty?
       %tr.odd
-        %td(colspan="9") no votes listed
+        - if @house.nil?
+          %td(colspan="9") no votes listed
+        - else
+          %td(colspan="8") no votes listed
     - else
       - @divisions.each do |division|
         %tr{:class => cycle("even", "odd")}

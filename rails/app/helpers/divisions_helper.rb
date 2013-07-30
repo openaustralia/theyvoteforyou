@@ -11,4 +11,12 @@ module DivisionsHelper
     r += "?" + p[1..-1] if p != ""
     r
   end
+
+  def sort_link_divisions(sort, sort_name, name, current_sort)
+    if current_sort == sort
+      content_tag(:b, name)
+    else
+      link_to name, divisions_path(params.merge(sort: sort)), alt: "Sort by #{sort_name}"
+    end
+  end
 end
