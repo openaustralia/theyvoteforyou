@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class DivisionsController < ApplicationController
   def index
     # List of parliaments (temporarily here)
@@ -16,26 +18,16 @@ class DivisionsController < ApplicationController
     parliament = parliaments[@rdisplay]
     raise "Invalid rdisplay param" unless @rdisplay == "all" || parliaments.has_key?(@rdisplay)
 
-    if @rdisplay2 == "rebels"
-      @short_title = "Rebellions &#8212; ".html_safe
-    else
-      @short_title = "Divisions &#8212; ".html_safe
-    end
-
-    if @rdisplay == "all"
-      @short_title += "All divisions on record".html_safe
-    else
-      @short_title += "#{parliament[:name]}".html_safe
-    end
-
+    @short_title = @rdisplay2 == "rebels" ? "Rebellions" : "Divisions"
+    @short_title += " — "
+    @short_title += @rdisplay == "all" ? "All divisions on record" : parliament[:name]
     if @house == "representatives"
-      @short_title += " &#8212; Representatives only".html_safe
+      @short_title += " — Representatives only"
     elsif @house == "senate"
-      @short_title += " &#8212; Senate only".html_safe
+      @short_title += " — Senate only"
     end
-
-    @short_title += " (sorted by #{@sort})".html_safe if @sort
-    @title = @short_title + " &#8212; The Public Whip".html_safe
+    @short_title += " (sorted by #{@sort})" if @sort
+    @title = @short_title + " — The Public Whip"
 
     order = case @sort
     when nil
