@@ -49,6 +49,6 @@ class DivisionsController < ApplicationController
   end
 
   def show
-    render layout: false
+    @title = "Bills — National Disability Insurance Scheme Bill 2012; Consideration in Detail — 14 Mar 2013 at 10:56 — The Public Whip"
   end
 end
