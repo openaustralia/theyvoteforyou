@@ -60,9 +60,7 @@ class DivisionsController < ApplicationController
     end
 
     if @rdisplay2 == "rebels"
-      # Only include divisions with more than 10 rebels
-      # TODO This doesn't exactly match the wording in the interface. Fix this.
-      @divisions = @divisions.where("rebellions > 10")
+      @divisions = @divisions.with_rebellions
     end
   end
 end
