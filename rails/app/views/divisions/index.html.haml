@@ -21,8 +21,8 @@
   %input{:name => "submit", :type => "submit", :value => "Go"}/
 %form{:action => "/redir.php", :method => "post", :name => "secondnav", :style => "display: inline"}
   %select#r3{:name => "r3", :onchange => "secondnav_goto3()"}
-    %option.on{:onclick => "secondnav_goto3()", :selected => "", :title => "", :value => divisions_path(params)} All Divisions
-    %option.off{:onclick => "secondnav_goto3()", :title => "", :value => divisions_path(params.merge(rdisplay2: "rebels"))} Rebellions
+    %option{:class => (@rdisplay2.nil? ? "on": "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2.nil?), :title => "", :value => divisions_path(params.merge(rdisplay2: nil))} All Divisions
+    %option{:class => (@rdisplay2 == "rebels" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "rebels"), :title => "", :value => divisions_path(params.merge(rdisplay2: "rebels"))} Rebellions
   %input{:name => "submit", :type => "submit", :value => "Go"}/
 <!-- the second tier navigation as dropdowns end-->
 
@@ -32,6 +32,11 @@
   This page shows divisions in the Australian parliament. Make sure you
   = link_to "read the explanation", "/faq.php#clarify"
   about rebellions, as they may not be what you expect.
+
+- if @rdisplay2 == "rebels"
+  %p
+    This is a table showing only the divisions where there were at
+    least ten #{link_to "rebels", "faq.php#clarify"}.
 
 %p{:align => "center", :style => "font-size: 89%"}
   Sort by:

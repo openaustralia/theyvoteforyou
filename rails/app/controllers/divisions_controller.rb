@@ -10,12 +10,18 @@ class DivisionsController < ApplicationController
     @sort = params[:sort]
     @rdisplay = params[:rdisplay]
     @rdisplay = "2010" if @rdisplay.nil?
+    @rdisplay2 = params[:rdisplay2]
     @house = params[:house]
 
     parliament = parliaments[@rdisplay]
     raise "Invalid rdisplay param" unless @rdisplay == "all" || parliaments.has_key?(@rdisplay)
 
-    @short_title = "Divisions &#8212; ".html_safe
+    if @rdisplay2 == "rebels"
+      @short_title = "Rebellions &#8212; ".html_safe
+    else
+      @short_title = "Divisions &#8212; ".html_safe
+    end
+
     if @rdisplay == "all"
       @short_title += "All divisions on record".html_safe
     else
@@ -44,7 +50,6 @@ class DivisionsController < ApplicationController
       raise "Unexpected value"
     end
 
-
     @divisions = Division.joins(:division_info).order(order)
 
     if @rdisplay != "all"
@@ -59,6 +64,12 @@ class DivisionsController < ApplicationController
       else
         raise "unexpected value"
       end
+    end
+
+    if @rdisplay2 == "rebels"
+      # Only include divisions with more than 10 rebels
+      # TODO This doesn't exactly match the wording in the interface. Fix this.
+      @divisions = @divisions.where("rebellions > 10")
     end
   end
 end

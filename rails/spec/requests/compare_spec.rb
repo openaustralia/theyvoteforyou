@@ -165,5 +165,9 @@ describe "Comparing" do
     it "/divisions.php?house=senate" do
       compare("/divisions.php?house=senate")
     end
+
+    it "/divisions.php?rdisplay2=rebels" do
+      compare("/divisions.php?rdisplay2=rebels")
+    end
   end
 end
