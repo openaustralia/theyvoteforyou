@@ -49,8 +49,9 @@ class DivisionsController < ApplicationController
   end
 
   def show
+    @house = params[:house]
     @division = Division.find_by(division_date: params[:date], division_number: params[:number],
-      house: Division.australian_to_uk_house(params[:house]))
+      house: Division.australian_to_uk_house(@house))
     @short_title = "#{@division.name} — #{@division.date.strftime('%d %b %Y')} at #{@division.clock_time.strftime('%H:%M')}"
     @title = @short_title + " — The Public Whip"
   end

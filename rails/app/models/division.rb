@@ -2,6 +2,7 @@ class Division < ActiveRecord::Base
   self.table_name = "pw_division"
 
   has_one :division_info
+  has_many :whips
 
   delegate :rebellions, :turnout, :aye_majority, to: :division_info
   alias_attribute :date, :division_date
@@ -13,6 +14,40 @@ class Division < ActiveRecord::Base
   # TODO This doesn't exactly match the wording in the interface. Fix this.
   scope :with_rebellions, -> { where("rebellions > 10") }
   scope :in_parliament, ->(parliament) { where("division_date >= ? AND division_date < ?", parliament[:from], parliament[:to]) }
+
+  # Using whips cache to calculate this. Is this the best way?
+  # No. should use values from division_info
+  def aye_votes
+    whips.sum(&:aye_votes)
+  end
+
+  def no_votes
+    whips.sum(&:no_votes)
+  end
+
+  def both_votes
+    whips.sum(&:both_votes)
+  end
+
+  def total_votes
+    whips.sum(&:total_votes)
+  end
+
+  # Only include in the total possible votes the parties that actually voted.
+  # Only doing this to match php implementation which in my opinion is not correct
+  # Should really just be whips.sum(&:possible_votes)
+  def possible_votes
+    whips.find_all{|w| w.total_votes > 0}.sum(&:possible_votes)
+  end
+
+  def attendance_fraction
+    total_votes.to_f / possible_votes
+  end
+
+  # TODO move this to a helper
+  def attendance_percentage
+    "%0.1f%" % (attendance_fraction * 100)
+  end
 
   def division_name
     # For some reason some characters are stored in the database using html entities

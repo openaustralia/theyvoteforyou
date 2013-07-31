@@ -52,25 +52,61 @@
     for that division lobby.
   %span.ptitle What is Turnout?
   This is measured against the total membership of the party at the time of the vote.
+- noes_first = (@division.aye_majority < 0)
 %table
   %tr.headings
     %td Party
-    %td Majority (No)
-    %td Minority (Aye)
-    %td Both
+    - if noes_first
+      %td Majority (No)
+      %td Minority (Aye)
+    - else
+      %td Majority (Aye)
+      %td Minority (No)
+    -# This is wrong. Keep for the time being until we fix in php app
+    - if @house == "representatives"
+      %td Both
     %td Turnout
-  %tr.odd
-    %td Australian Labor Party
-    %td.whip 1
-    %td.normal 0
-    %td.normal 0
-    %td.percent 100.0%
+  - @division.whips.order(:party).each do |whip|
+    -# Don't shown parties that haven't voted in this division
+    - if whip.total_votes > 0
+      %tr.odd
+        %td= whip.party_name
+        - if noes_first
+          - if whip.no_votes == 0
+            %td.normal= whip.no_votes
+          - elsif whip.whip_guess == "no"
+            %td.whip= whip.no_votes
+          - else
+            %td.rebel= whip.no_votes
+          - if whip.aye_votes == 0
+            %td.normal= whip.aye_votes
+          - elsif whip.whip_guess == "yes"
+            %td.whip= whip.aye_votes
+          - else
+            %td.rebel= whip.aye_votes
+        - else
+          %td.whip= whip.aye_votes
+          %td.normal= whip.no_votes
+        - if @house == "representatives"
+          %td.normal= whip.both_votes
+        %td.percent= whip.attendance_percentage
   %tr.even
     %td.whip Total:
-    %td.whip 1
-    %td.normal 0
-    %td.normal 0
-    %td.percent 100.0%
+    - if noes_first
+      - if @division.no_votes >= @division.aye_votes
+        %td.whip= @division.no_votes
+      - else
+        %td.normal= @division.no_votes
+      - if @division.aye_votes >= @division.no_votes
+        %td.whip= @division.aye_votes
+      - else
+        %td.normal= @division.aye_votes
+    - else
+      %td.whip= @division.aye_votes
+      %td.normal= @division.no_votes
+    - if @house == "representatives"
+      %td.normal= @division.both_votes
+    %td.percent= @division.attendance_percentage
 %h2
   %a{:name => "votes"} Rebel Voters - sorted by party
 %p
