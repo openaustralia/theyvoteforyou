@@ -72,38 +72,22 @@
       %tr.odd
         %td= whip.party_name
         - if noes_first
-          - if whip.no_votes == 0
-            %td.normal= whip.no_votes
-          - elsif whip.whip_guess == "no"
-            %td.whip= whip.no_votes
-          - else
-            %td.rebel= whip.no_votes
-          - if whip.aye_votes == 0
-            %td.normal= whip.aye_votes
-          - elsif whip.whip_guess == "yes"
-            %td.whip= whip.aye_votes
-          - else
-            %td.rebel= whip.aye_votes
+          %td{:class => no_vote_class(whip)}= whip.no_votes
+          %td{:class => aye_vote_class(whip)}= whip.aye_votes
         - else
-          %td.whip= whip.aye_votes
-          %td.normal= whip.no_votes
+          %td{:class => aye_vote_class(whip)}= whip.aye_votes
+          %td{:class => no_vote_class(whip)}= whip.no_votes
         - if @house == "representatives"
           %td.normal= whip.both_votes
         %td.percent= whip.attendance_percentage
   %tr.even
     %td.whip Total:
     - if noes_first
-      - if @division.no_votes >= @division.aye_votes
-        %td.whip= @division.no_votes
-      - else
-        %td.normal= @division.no_votes
-      - if @division.aye_votes >= @division.no_votes
-        %td.whip= @division.aye_votes
-      - else
-        %td.normal= @division.aye_votes
+      %td{:class => no_vote_total_class(@division)}= @division.no_votes
+      %td{:class => aye_vote_total_class(@division)}= @division.aye_votes
     - else
-      %td.whip= @division.aye_votes
-      %td.normal= @division.no_votes
+      %td{:class => aye_vote_total_class(@division)}= @division.aye_votes
+      %td{:class => no_vote_total_class(@division)}= @division.no_votes
     - if @house == "representatives"
       %td.normal= @division.both_votes
     %td.percent= @division.attendance_percentage

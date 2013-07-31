@@ -30,4 +30,32 @@ module DivisionsHelper
       link_to name, divisions_path(params.merge(sort: sort)), alt: "Sort by #{sort_name}"
     end
   end
+
+  def no_vote_class(whip)
+    if whip.no_votes == 0
+      "normal"
+    elsif whip.whip_guess == "no"
+      "whip"
+    else
+      "rebel"
+    end
+  end
+
+  def aye_vote_class(whip)
+    if whip.aye_votes == 0
+      "normal"
+    elsif whip.whip_guess == "yes"
+      "whip"
+    else
+      "rebel"
+    end
+  end
+
+  def no_vote_total_class(division)
+    division.no_votes >= division.aye_votes ? "whip" : "normal"
+  end
+
+  def aye_vote_total_class(division)
+    division.aye_votes >= division.no_votes ? "whip" : "normal"
+  end
 end
