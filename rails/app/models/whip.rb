@@ -2,6 +2,8 @@ class Whip < ActiveRecord::Base
   self.table_name = "pw_cache_whip"
   belongs_to :division
 
+  delegate :noes_in_majority?, to: :division
+
   def attendance_fraction
     # TODO What if possible_votes == 0?
     (total_votes).to_f / possible_votes
@@ -30,9 +32,5 @@ class Whip < ActiveRecord::Base
 
   def minority_votes
     noes_in_majority? ? aye_votes : no_votes
-  end
-
-  def noes_in_majority?
-    division.aye_majority < 0
   end
 end

@@ -82,6 +82,10 @@ class Division < ActiveRecord::Base
     australian_house.capitalize
   end
 
+  def noes_in_majority?
+    aye_majority < 0
+  end
+
   def self.uk_to_australian_house(house)
     case house
     when "commons"
