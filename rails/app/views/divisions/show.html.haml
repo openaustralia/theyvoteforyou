@@ -73,12 +73,8 @@
         %td.percent= whip.attendance_percentage
   %tr.even
     %td.whip Total:
-    - if @division.noes_in_majority?
-      %td{:class => no_vote_total_class(@division)}= @division.no_votes
-      %td{:class => aye_vote_total_class(@division)}= @division.aye_votes
-    - else
-      %td{:class => aye_vote_total_class(@division)}= @division.aye_votes
-      %td{:class => no_vote_total_class(@division)}= @division.no_votes
+    %td{:class => majority_vote_total_class(@division)}= @division.majority_votes
+    %td{:class => minority_vote_total_class(@division)}= @division.minority_votes
     - if @house == "representatives"
       %td.normal= @division.both_votes
     %td.percent= @division.attendance_percentage

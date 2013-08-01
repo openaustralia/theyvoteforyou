@@ -94,6 +94,14 @@ class Division < ActiveRecord::Base
     noes_in_majority? ? "aye" : "no"
   end
 
+  def majority_votes
+    noes_in_majority? ? no_votes : aye_votes
+  end
+
+  def minority_votes
+    noes_in_majority? ? aye_votes : no_votes
+  end
+
   def self.uk_to_australian_house(house)
     case house
     when "commons"
