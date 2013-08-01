@@ -71,12 +71,8 @@
     - if whip.total_votes > 0
       %tr.odd
         %td= whip.party_name
-        - if noes_first
-          %td{:class => no_vote_class(whip)}= whip.no_votes
-          %td{:class => aye_vote_class(whip)}= whip.aye_votes
-        - else
-          %td{:class => aye_vote_class(whip)}= whip.aye_votes
-          %td{:class => no_vote_class(whip)}= whip.no_votes
+        %td{:class => majority_vote_class(whip)}= whip.majority_votes
+        %td{:class => minority_vote_class(whip)}= whip.minority_votes
         - if @house == "representatives"
           %td.normal= whip.both_votes
         %td.percent= whip.attendance_percentage
