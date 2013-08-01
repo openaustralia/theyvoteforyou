@@ -52,16 +52,11 @@
     for that division lobby.
   %span.ptitle What is Turnout?
   This is measured against the total membership of the party at the time of the vote.
-- noes_first = (@division.aye_majority < 0)
 %table
   %tr.headings
     %td Party
-    - if noes_first
-      %td Majority (No)
-      %td Minority (Aye)
-    - else
-      %td Majority (Aye)
-      %td Minority (No)
+    %td Majority (#{@division.majority_type.capitalize})
+    %td Minority (#{@division.minority_type.capitalize})
     -# This is wrong. Keep for the time being until we fix in php app
     - if @house == "representatives"
       %td Both
@@ -78,7 +73,7 @@
         %td.percent= whip.attendance_percentage
   %tr.even
     %td.whip Total:
-    - if noes_first
+    - if @division.noes_in_majority?
       %td{:class => no_vote_total_class(@division)}= @division.no_votes
       %td{:class => aye_vote_total_class(@division)}= @division.aye_votes
     - else
