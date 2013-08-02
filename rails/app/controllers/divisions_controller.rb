@@ -67,15 +67,17 @@ class DivisionsController < ApplicationController
         raise "Unexpected value"
       end
     elsif @display == "allvotes"
-      if @sort.nil?
-        @votes = @division.votes.joins(:member).order("pw_mp.party", "pw_mp.last_name", "pw_mp.first_name")
-      elsif @sort == "name"
-        @votes = @division.votes.joins(:member).order("pw_mp.last_name", "pw_mp.first_name")
-      elsif @sort == "vote"
-        @votes = @division.votes.joins(:member).order(:vote, "pw_mp.last_name", "pw_mp.first_name")
+      order = case @sort
+      when nil
+        ["pw_mp.party", "pw_mp.last_name", "pw_mp.first_name"]
+      when "name"
+        ["pw_mp.last_name", "pw_mp.first_name"]
+      when "vote"
+        [:vote, "pw_mp.last_name", "pw_mp.first_name"]
       else
-        raise "unexpected value"
+        raise
       end
+      @votes = @division.votes.joins(:member).order(order)
     end
 
     if @division.clock_time
