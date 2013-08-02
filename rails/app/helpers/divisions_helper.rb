@@ -16,6 +16,7 @@ module DivisionsHelper
     p = ""
     p += "&date=#{q[:date]}" if q[:date]
     p += "&number=#{q[:number]}" if q[:number]
+    p += "&house=#{q[:house]}" if q[:house] != "representatives"
     p += "&display=#{q[:display]}" if q[:display]
     p += "&sort=#{q[:sort]}" if q[:sort]
     r = "division.php"

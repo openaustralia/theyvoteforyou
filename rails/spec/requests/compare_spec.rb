@@ -132,11 +132,11 @@ describe "Comparing" do
 
       d = Division.create!(division_date: Date.new(2013,3,14), division_number: 1, house: "lords",
         division_name: "Motions &#8212; Renewable Energy Certificates",
-        source_url: "", debate_url: "",
+        source_url: "http://aph.gov.au/somedebate", debate_url: "",
         motion: "",
         notes: "",
         source_gid: "",
-        debate_gid: "")
+        debate_gid: "uk.org.publicwhip/lords/2013-03-14.22.1")
       DivisionInfo.create!(division_id: d.id, rebellions: 0, tells: 0, turnout: 69,
         possible_turnout: 88, aye_majority: -3)
       Whip.create!(division_id: d.id, party: "Australian Greens", aye_votes: 0, aye_tells: 0, no_votes: 1, no_tells: 0, both_votes: 0, abstention_votes: 0, possible_votes: 1, whip_guess: "no")
@@ -144,6 +144,7 @@ describe "Comparing" do
 
     it "division" do
       compare("/division.php?date=2013-03-14&number=1&house=representatives")
+      compare("/division.php?date=2013-03-14&number=1&house=senate")
     end
 
     it "divisions" do
