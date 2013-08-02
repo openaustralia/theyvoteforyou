@@ -12,8 +12,6 @@
     %li.off
       = link_to "All voters", division_path(params.merge(display: "allvotes")), title: "Every MP who cast a vote in the division", class: "off"
     %li.off
-      = link_to "One view", division_path(params.merge(display: "slab")), title: "Show all votes as one compressed table", class: "off"
-    %li.off
       = link_to "All eligible voters", division_path(params.merge(display: "allpossible")), title: "Show even MPs who did not vote but could have", class: "off"
     %li.off
       = link_to "Similar Divisions", division_path(params.merge(display: "similardivisionsparl")), title: "Show all divisions in order of similarity of vote in this Parliament", class: "off"
