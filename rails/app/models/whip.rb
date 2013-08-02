@@ -21,6 +21,14 @@ class Whip < ActiveRecord::Base
     end
   end
 
+  def whip_guess_majority
+    if (whip_guess == "no" && noes_in_majority?) || whip_guess == "yes" && !noes_in_majority
+      "majority"
+    elsif (whip_guess == "no" && !noes_in_majority) || (whip_guess == "yes" && noes_in_majority)
+      "minority"
+    end
+  end
+
   # TODO Move this to a helper
   def attendance_percentage
     "%0.1f%" % (attendance_fraction * 100)

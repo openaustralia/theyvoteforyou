@@ -31,32 +31,24 @@ module DivisionsHelper
     end
   end
 
-  def no_vote_class(whip)
-    if whip.no_votes == 0
-      "normal"
-    elsif whip.whip_guess == "no"
-      "whip"
-    else
-      "rebel"
-    end
-  end
-
-  def aye_vote_class(whip)
-    if whip.aye_votes == 0
-      "normal"
-    elsif whip.whip_guess == "yes"
-      "whip"
-    else
-      "rebel"
-    end
-  end
-
   def majority_vote_class(whip)
-    whip.noes_in_majority? ? no_vote_class(whip) : aye_vote_class(whip)
+    if whip.majority_votes == 0
+      "normal"
+    elsif whip.whip_guess_majority == "majority"
+      "whip"
+    else
+      "rebel"
+    end
   end
 
   def minority_vote_class(whip)
-    whip.noes_in_majority? ? aye_vote_class(whip) : no_vote_class(whip)
+    if whip.minority_votes == 0
+      "normal"
+    elsif whip.whip_guess_majority == "minority"
+      "whip"
+    else
+      "rebel"
+    end
   end
 
   def no_vote_total_class(division)
