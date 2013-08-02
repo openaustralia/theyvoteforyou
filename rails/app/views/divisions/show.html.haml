@@ -23,7 +23,7 @@
     %strong
       Description automatically extracted from the debate,
       please
-      = link_to "edit it", "account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{params[:house]}&rr=#{CGI.escape(request.fullpath)}"
+      = link_to "edit it", "account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{@house}&rr=#{CGI.escape(request.fullpath)}"
       to make it better.
   -# The motion can include html.
   -# TODO Need to check what happens when the user edits the motion. What can they add?
@@ -36,7 +36,7 @@
       = link_to "Source", @division.source_url, title: "The original record of vote as reported by Hansard"
     |
     %b
-      = link_to "Edit", "account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{params[:house]}&rr=#{CGI.escape(request.fullpath)}", title: "Edit and improve this description"
+      = link_to "Edit", "account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{@house}&rr=#{CGI.escape(request.fullpath)}", title: "Edit and improve this description"
     (#{link_to "learn more", "faq.php#motionedit"})
 %h2
   %a{:name => "summary"} Party Summary

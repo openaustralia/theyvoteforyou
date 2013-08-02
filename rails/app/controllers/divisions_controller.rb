@@ -50,6 +50,7 @@ class DivisionsController < ApplicationController
 
   def show
     @house = params[:house]
+    @house = "representatives" if @house.nil?
     @sort = params[:sort]
     @division = Division.find_by(division_date: params[:date], division_number: params[:number],
       house: Division.australian_to_uk_house(@house))
