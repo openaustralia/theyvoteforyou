@@ -1,0 +1,31 @@
+%h2
+  %a{:name => "votes"} All Votes Cast - sorted by party
+%p
+  Representatives for which their vote in this division differed
+  from the majority vote of their party are marked in red. Also shows
+  which Representatives were ministers at the time of this vote. You
+  can also see
+  %a{:href => "division.php?date=2013-03-14&number=1&display=allpossible"}
+    every eligible Representative
+  including those who did not vote
+  in this division.
+%p{:align => "center", :style => "font-size: 89%"}
+  Sort by:
+  %a{:href => "division.php?date=2013-03-14&number=1&display=allvotes&sort=name"}
+    Name
+  |
+  %a{:href => "division.php?date=2013-03-14&number=1&display=allvotes&sort=constituency"}
+    Constituency
+  |
+  %b Party
+  |
+  %a{:href => "division.php?date=2013-03-14&number=1&display=allvotes&sort=vote"}
+    Vote
+%table#votetable.votes
+  %tr.headings
+    %td Name
+    %td Electorate
+    %td Party
+    %td Vote
+  %tr.even
+    %td{:colspan => "4"} No results found
