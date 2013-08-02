@@ -74,17 +74,33 @@
 %h2
   %a{:name => "votes"} Rebel Voters - sorted by party
 %p
-  Representatives for which their vote in this division differed
+  - if @house == "representatives"
+    Representatives
+  - elsif @house == "senate"
+    Senators
+  - else
+    - raise "A problem"
+  for which their vote in this division differed
   from the majority vote of their party. You can see
   = link_to "all votes", division_path(params.merge(display: "allvotes"))
   in this division, or
-  = link_to "every eligible Representative", division_path(params.merge(display: "allpossible"))
+  = link_to division_path(params.merge(display: "allpossible")) do
+    every eligible
+    - if @house == "representatives"
+      Representative
+    - elsif @house == "senate"
+      Senator
+    - else
+      - raise "A problem"
   who could have voted in this division
 %p{:align => "center", :style => "font-size: 89%"}
   Sort by:
   = link_to "Name", division_path(params.merge(sort: "name"))
-  |
-  = link_to "Constituency", division_path(params.merge(sort: "constituency"))
+  -# For senate hide this to match php app
+  -# This isn't actually desired so change this
+  - if @house == "representatives"
+    |
+    = link_to "Constituency", division_path(params.merge(sort: "constituency"))
   |
   %b Party
   |
