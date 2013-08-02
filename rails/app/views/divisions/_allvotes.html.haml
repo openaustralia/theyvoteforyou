@@ -5,7 +5,7 @@
   from the majority vote of their party are marked in red. Also shows
   which Representatives were ministers at the time of this vote. You
   can also see
-  = link_to "every eligible Representative", "division.php?date=2013-03-14&number=1&display=allpossible"
+  = link_to "every eligible Representative", division_path(params.merge(display: "allpossible"))
   including those who did not vote in this division.
 = render "sort_links"
 %table#votetable.votes
