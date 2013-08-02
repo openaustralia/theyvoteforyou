@@ -314,8 +314,8 @@
             print "<td>Majority (No)</td><td>Minority (Aye)</td>";
         else
             print "<td>Majority (Aye)</td><td>Minority (No)</td>";
-        if ($house != "lords")
-            print "<td>Both</td>";
+        #if ($house != "lords")
+        #    print "<td>Both</td>";
         print "<td>Turnout</td></tr>\n";
         $prettyrow = 0;
 
@@ -374,12 +374,12 @@
             
             if ($house == "lords" && $both > 0)
                 print "ERROR - both for lords";
-            if ($house != "lords") {
-	      if ($house == "scotland")
-		print "<td class=\"$classabstentions\">$abstentions</td>";
-	      else
-                print "<td class=\"$classboth\">$both</td>";
-	    }
+            #if ($house != "lords") {
+	      #if ($house == "scotland")
+		#print "<td class=\"$classabstentions\">$abstentions</td>";
+	      #else
+          #      print "<td class=\"$classboth\">$both</td>";
+	    #}
             print "<td class=\"percent\">".percentise_votes_short($total, $row['possible_votes'])."</td>"; 
             print "</tr>";
         }
@@ -394,15 +394,15 @@
         else
             print "<td class=\"$classayes\">$totalayes</td> <td class=\"$classnoes\">$totalnoes</td>";
         
-        if ($house != "lords") {
-	  if ($house == "scotland") {
-            print "<td class=\"$classabstentions\">$totalabstentions</td>";
-	  } else {
-            print "<td class=\"$classboth\">$totalboths</td>";
-	  }
-	}
-        else if ($totalboths > 0)
-            print "ERROR - both for lords";
+        #if ($house != "lords") {
+	  #if ($house == "scotland") {
+      #      print "<td class=\"$classabstentions\">$totalabstentions</td>";
+	  #} else {
+      #      print "<td class=\"$classboth\">$totalboths</td>";
+	  #}
+	#}
+        #else if ($totalboths > 0)
+        #    print "ERROR - both for lords";
         print "<td class=\"percent\">".percentise_votes_short($totalturnout, $totalpossible)."</td>"; 
         print "</tr>";
 
