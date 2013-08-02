@@ -57,9 +57,6 @@
     %td Party
     %td Majority (#{@division.majority_type.capitalize})
     %td Minority (#{@division.minority_type.capitalize})
-    -# This is wrong. Keep for the time being until we fix in php app
-    - if @house == "representatives"
-      %td Both
     %td Turnout
   - @division.whips.order(:party).each do |whip|
     -# Don't shown parties that haven't voted in this division
@@ -68,15 +65,11 @@
         %td= whip.party_name
         %td{:class => majority_vote_class(whip)}= whip.majority_votes_including_tells
         %td{:class => minority_vote_class(whip)}= whip.minority_votes_including_tells
-        - if @house == "representatives"
-          %td.normal= whip.both_votes
         %td.percent= whip.attendance_percentage
   %tr.even
     %td.whip Total:
     %td{:class => majority_vote_total_class(@division)}= @division.majority_votes_including_tells
     %td{:class => minority_vote_total_class(@division)}= @division.minority_votes_including_tells
-    - if @house == "representatives"
-      %td.normal= @division.both_votes
     %td.percent= @division.attendance_percentage
 %h2
   %a{:name => "votes"} Rebel Voters - sorted by party

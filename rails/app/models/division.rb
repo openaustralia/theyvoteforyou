@@ -33,10 +33,6 @@ class Division < ActiveRecord::Base
     whips.sum(&:no_tells)
   end
 
-  def both_votes
-    whips.sum(&:both_votes)
-  end
-
   def total_votes
     whips.sum(&:total_votes)
   end
