@@ -71,4 +71,14 @@ module DivisionsHelper
   def minority_vote_total_class(division)
     division.noes_in_majority? ? aye_vote_total_class(division) : no_vote_total_class(division)
   end
+
+  def display_link(display, name, title, current_display)
+    if current_display == display
+      content_tag(:li, name, class: "on")
+    else
+      content_tag(:li, class: "off") do
+        link_to name, division_path(params.merge(display: display)), title: title, class: "off"
+      end
+    end
+  end
 end
