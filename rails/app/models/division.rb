@@ -25,6 +25,10 @@ class Division < ActiveRecord::Base
     votes.joins(:member).order("pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
   end
 
+  def rebellions_order_vote
+    votes.joins(:member).order(:vote, "pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
+  end
+
   def no_rebellions
     division_info.rebellions
   end

@@ -57,6 +57,8 @@ class DivisionsController < ApplicationController
       @rebellions = @division.rebellions_order_party
     elsif @sort == "name"
       @rebellions = @division.rebellions_order_name
+    elsif @sort == "vote"
+      @rebellions = @division.rebellions_order_vote
     else
       raise "Unexpected value"
     end
