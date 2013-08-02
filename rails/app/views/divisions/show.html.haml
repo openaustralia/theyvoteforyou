@@ -120,7 +120,7 @@
   - else
     - @division.rebellions.each do |rebellion|
       %tr.even
-        %td= rebellion.name
+        %td= link_to rebellion.name, member_path(rebellion.member)
         %td= rebellion.electorate
         %td= rebellion.party
         %td= rebellion.vote
