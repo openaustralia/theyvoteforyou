@@ -60,7 +60,11 @@ module DivisionsHelper
   end
 
   def majority_vote_total_class(division)
-    division.noes_in_majority? ? no_vote_total_class(division) : aye_vote_total_class(division)
+    if division.noes_in_majority?
+      division.no_votes >= division.aye_votes ? "whip" : "normal"
+    else
+      division.aye_votes >= division.no_votes ? "whip" : "normal"
+    end
   end
 
   def minority_vote_total_class(division)

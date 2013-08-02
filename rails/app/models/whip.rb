@@ -10,7 +10,15 @@ class Whip < ActiveRecord::Base
   end
 
   def total_votes
-    aye_votes + aye_tells + no_votes + no_tells + both_votes + abstention_votes
+    aye_votes_including_tells + no_votes_including_tells + both_votes + abstention_votes
+  end
+
+  def aye_votes_including_tells
+    aye_votes + aye_tells
+  end
+
+  def no_votes_including_tells
+    no_votes + no_tells
   end
 
   def party_name
@@ -38,7 +46,15 @@ class Whip < ActiveRecord::Base
     noes_in_majority? ? no_votes : aye_votes
   end
 
+  def majority_votes_including_tells
+    noes_in_majority? ? no_votes_including_tells : aye_votes_including_tells
+  end
+
   def minority_votes
     noes_in_majority? ? aye_votes : no_votes
+  end
+
+  def minority_votes_including_tells
+    noes_in_majority? ? aye_votes_including_tells : no_votes_including_tells
   end
 end

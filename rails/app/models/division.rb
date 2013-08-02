@@ -21,8 +21,16 @@ class Division < ActiveRecord::Base
     whips.sum(&:aye_votes)
   end
 
+  def aye_tells
+    whips.sum(&:aye_tells)
+  end
+
   def no_votes
     whips.sum(&:no_votes)
+  end
+
+  def no_tells
+    whips.sum(&:no_tells)
   end
 
   def both_votes
@@ -31,6 +39,14 @@ class Division < ActiveRecord::Base
 
   def total_votes
     whips.sum(&:total_votes)
+  end
+
+  def aye_votes_including_tells
+    aye_votes + aye_tells
+  end
+
+  def no_votes_including_tells
+    no_votes + no_tells
   end
 
   # Only include in the total possible votes the parties that actually voted.
@@ -98,8 +114,16 @@ class Division < ActiveRecord::Base
     noes_in_majority? ? no_votes : aye_votes
   end
 
+  def majority_votes_including_tells
+    noes_in_majority? ? no_votes_including_tells : aye_votes_including_tells
+  end
+
   def minority_votes
     noes_in_majority? ? aye_votes : no_votes
+  end
+
+  def minority_votes_including_tells
+    noes_in_majority? ? aye_votes_including_tells : no_votes_including_tells
   end
 
   def self.uk_to_australian_house(house)
