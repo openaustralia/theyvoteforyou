@@ -8,9 +8,16 @@
        'current' - 'on' or 'off' for whether this item is currently selected -->
 .secondnavtabs
   %ul
-    %li.on Summary
-    %li.off
-      = link_to "All voters", division_path(params.merge(display: "allvotes")), title: "Every MP who cast a vote in the division", class: "off"
+    - if @display.nil?
+      %li.on Summary
+    - else
+      %li.off
+        = link_to "Summary", division_path(params.merge(display: nil)), title: "Overview of division", class: "off"
+    - if @display == "allvotes"
+      %li.on All voters
+    - else
+      %li.off
+        = link_to "All voters", division_path(params.merge(display: "allvotes")), title: "Every MP who cast a vote in the division", class: "off"
     %li.off
       = link_to "All eligible voters", division_path(params.merge(display: "allpossible")), title: "Show even MPs who did not vote but could have", class: "off"
     %li.off
@@ -39,4 +46,9 @@
       = link_to "Edit", "account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{@house}&rr=#{CGI.escape(request.fullpath)}", title: "Edit and improve this description"
     (#{link_to "learn more", "faq.php#motionedit"})
 
-= render "summary"
+- if @display.nil?
+  = render "summary"
+- elsif @display == "allvotes"
+  = render "allvotes"
+- else
+  - raise "unexpected value"

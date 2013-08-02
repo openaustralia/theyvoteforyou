@@ -52,6 +52,7 @@ class DivisionsController < ApplicationController
     @house = params[:house]
     @house = "representatives" if @house.nil?
     @sort = params[:sort]
+    @display = params[:display]
     @division = Division.find_by(division_date: params[:date], division_number: params[:number],
       house: Division.australian_to_uk_house(@house))
     if @sort.nil?
@@ -69,9 +70,5 @@ class DivisionsController < ApplicationController
       @short_title = "#{@division.name} — #{@division.date.strftime('%d %b %Y')}"
     end
     @title = @short_title + " — The Public Whip"
-
-    if params[:display] == "allvotes"
-      render "allvotes"
-    end
   end
 end
