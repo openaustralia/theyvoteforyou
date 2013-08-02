@@ -55,15 +55,29 @@ class DivisionsController < ApplicationController
     @display = params[:display]
     @division = Division.find_by(division_date: params[:date], division_number: params[:number],
       house: Division.australian_to_uk_house(@house))
-    if @sort.nil?
-      @votes = @division.rebellions_order_party
-    elsif @sort == "name"
-      @votes = @division.rebellions_order_name
-    elsif @sort == "vote"
-      @votes = @division.rebellions_order_vote
-    else
-      raise "Unexpected value"
+
+    if @display.nil?
+      if @sort.nil?
+        @votes = @division.rebellions_order_party
+      elsif @sort == "name"
+        @votes = @division.rebellions_order_name
+      elsif @sort == "vote"
+        @votes = @division.rebellions_order_vote
+      else
+        raise "Unexpected value"
+      end
+    elsif @display == "allvotes"
+      if @sort.nil?
+        @votes = @division.votes.joins(:member).order("pw_mp.party", "pw_mp.last_name", "pw_mp.first_name")
+      elsif @sort == "name"
+        @votes = @division.votes.joins(:member).order("pw_mp.last_name", "pw_mp.first_name")
+      elsif @sort == "vote"
+        @votes = @division.votes.joins(:member).order(:vote, "pw_mp.last_name", "pw_mp.first_name")
+      else
+        raise "unexpected value"
+      end
     end
+
     if @division.clock_time
       @short_title = "#{@division.name} — #{@division.date.strftime('%d %b %Y')} at #{@division.clock_time.strftime('%H:%M')}"
     else

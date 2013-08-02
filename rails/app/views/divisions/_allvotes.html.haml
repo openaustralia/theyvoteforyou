@@ -14,5 +14,13 @@
     %td Electorate
     %td Party
     %td Vote
-  %tr.even
-    %td{:colspan => "4"} No results found
+  - if @votes.empty?
+    %tr.even
+      %td{:colspan => "4"} No results found
+  - else
+    - @votes.each do |vote|
+      %tr.even
+        %td= link_to vote.name, member_path(vote.member)
+        %td= vote.electorate
+        %td= vote.party
+        %td= vote.vote
