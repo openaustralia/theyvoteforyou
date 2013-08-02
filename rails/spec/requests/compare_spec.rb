@@ -146,6 +146,7 @@ describe "Comparing" do
       compare("/division.php?date=2013-03-14&number=1&house=representatives")
       compare("/division.php?date=2013-03-14&number=1")
       compare("/division.php?date=2013-03-14&number=1&house=senate")
+      compare("/division.php?date=2013-03-14&number=1&display=allvotes")
     end
 
     it "divisions" do

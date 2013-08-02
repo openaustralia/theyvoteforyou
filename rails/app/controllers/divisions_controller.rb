@@ -69,5 +69,9 @@ class DivisionsController < ApplicationController
       @short_title = "#{@division.name} — #{@division.date.strftime('%d %b %Y')}"
     end
     @title = @short_title + " — The Public Whip"
+
+    if params[:display] == "allvotes"
+      render "allvotes", layout: false
+    end
   end
 end
