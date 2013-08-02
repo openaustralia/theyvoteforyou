@@ -5,22 +5,9 @@
   from the majority vote of their party are marked in red. Also shows
   which Representatives were ministers at the time of this vote. You
   can also see
-  %a{:href => "division.php?date=2013-03-14&number=1&display=allpossible"}
-    every eligible Representative
-  including those who did not vote
-  in this division.
-%p{:align => "center", :style => "font-size: 89%"}
-  Sort by:
-  %a{:href => "division.php?date=2013-03-14&number=1&display=allvotes&sort=name"}
-    Name
-  |
-  %a{:href => "division.php?date=2013-03-14&number=1&display=allvotes&sort=constituency"}
-    Constituency
-  |
-  %b Party
-  |
-  %a{:href => "division.php?date=2013-03-14&number=1&display=allvotes&sort=vote"}
-    Vote
+  = link_to "every eligible Representative", "division.php?date=2013-03-14&number=1&display=allpossible"
+  including those who did not vote in this division.
+= render "sort_links"
 %table#votetable.votes
   %tr.headings
     %td Name
