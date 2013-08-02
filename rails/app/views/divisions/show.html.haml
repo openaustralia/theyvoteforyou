@@ -92,8 +92,19 @@
 %table#votetable.votes
   %tr.headings
     %td Name
-    %td Electorate
+    - if @house == "senate"
+      %td State
+    - else
+      %td Electorate
     %td Party
     %td Vote
-  %tr.even
-    %td{:colspan => "4"} no rebellions
+  - if @division.rebellions.empty?
+    %tr.even
+      %td{:colspan => "4"} no rebellions
+  - else
+    - @division.rebellions.each do |rebellion|
+      %tr.even
+        %td= rebellion.name
+        %td= rebellion.electorate
+        %td= rebellion.party
+        %td= rebellion.vote

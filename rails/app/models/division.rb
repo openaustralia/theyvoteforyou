@@ -3,8 +3,9 @@ class Division < ActiveRecord::Base
 
   has_one :division_info
   has_many :whips
+  has_many :votes
 
-  delegate :rebellions, :turnout, :aye_majority, to: :division_info
+  delegate :turnout, :aye_majority, to: :division_info
   alias_attribute :date, :division_date
   alias_attribute :name, :division_name
   alias_attribute :number, :division_number
@@ -14,6 +15,14 @@ class Division < ActiveRecord::Base
   # TODO This doesn't exactly match the wording in the interface. Fix this.
   scope :with_rebellions, -> { where("rebellions > 10") }
   scope :in_parliament, ->(parliament) { where("division_date >= ? AND division_date < ?", parliament[:from], parliament[:to]) }
+
+  def rebellions
+    votes.joins(:member).order("pw_mp.party", "pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
+  end
+
+  def no_rebellions
+    division_info.rebellions
+  end
 
   # Using whips cache to calculate this. Is this the best way?
   # No. should use values from division_info

@@ -83,6 +83,6 @@
               = division.clock_time.strftime("%H:%M")
           %td
             = link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
-          %td= division.rebellions
+          %td= division.no_rebellions
           %td= division.turnout
           %td= division.majority
