@@ -56,11 +56,11 @@ class DivisionsController < ApplicationController
     @division = Division.find_by(division_date: params[:date], division_number: params[:number],
       house: Division.australian_to_uk_house(@house))
     if @sort.nil?
-      @rebellions = @division.rebellions_order_party
+      @votes = @division.rebellions_order_party
     elsif @sort == "name"
-      @rebellions = @division.rebellions_order_name
+      @votes = @division.rebellions_order_name
     elsif @sort == "vote"
-      @rebellions = @division.rebellions_order_vote
+      @votes = @division.rebellions_order_vote
     else
       raise "Unexpected value"
     end
