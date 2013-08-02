@@ -71,7 +71,7 @@ class DivisionsController < ApplicationController
     @title = @short_title + " — The Public Whip"
 
     if params[:display] == "allvotes"
-      render "allvotes", layout: false
+      render "allvotes"
     end
   end
 end
