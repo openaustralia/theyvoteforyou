@@ -131,11 +131,11 @@
       %td Electorate
     %td Party
     %td Vote
-  - if @division.rebellions.empty?
+  - if @rebellions.empty?
     %tr.even
       %td{:colspan => "4"} no rebellions
   - else
-    - @division.rebellions.each do |rebellion|
+    - @rebellions.each do |rebellion|
       %tr.even
         %td= link_to rebellion.name, member_path(rebellion.member)
         %td= rebellion.electorate

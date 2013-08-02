@@ -53,6 +53,13 @@ class DivisionsController < ApplicationController
     @sort = params[:sort]
     @division = Division.find_by(division_date: params[:date], division_number: params[:number],
       house: Division.australian_to_uk_house(@house))
+    if @sort.nil?
+      @rebellions = @division.rebellions_order_party
+    elsif @sort == "name"
+      @rebellions = @division.rebellions_order_name
+    else
+      raise "Unexpected value"
+    end
     if @division.clock_time
       @short_title = "#{@division.name} — #{@division.date.strftime('%d %b %Y')} at #{@division.clock_time.strftime('%H:%M')}"
     else

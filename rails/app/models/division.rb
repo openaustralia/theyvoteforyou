@@ -16,8 +16,13 @@ class Division < ActiveRecord::Base
   scope :with_rebellions, -> { where("rebellions > 10") }
   scope :in_parliament, ->(parliament) { where("division_date >= ? AND division_date < ?", parliament[:from], parliament[:to]) }
 
-  def rebellions
+  # TODO Fix this hacky nonsense by doing this query in the db
+  def rebellions_order_party
     votes.joins(:member).order("pw_mp.party", "pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
+  end
+
+  def rebellions_order_name
+    votes.joins(:member).order("pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
   end
 
   def no_rebellions
