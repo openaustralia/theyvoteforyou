@@ -159,13 +159,13 @@ function no_division_found($plural)
 								 "showwhich" 	=> "voters",
                                  "tooltip"      => "Every MP who cast a vote in the division");
 
-        $dismodes["slab"] = array("dtype"       => "slab",
-                                 "summarytext"  => "yes",
-                                 "description"  => "One view",
-                                 "motiontext"   => "",
-                                 "showwhich"    => "slab",
-                                 "ministerial"  => "yes",
-                                 "tooltip"      => "Show all votes as one compressed table" );
+        // $dismodes["slab"] = array("dtype"       => "slab",
+        //                          "summarytext"  => "yes",
+        //                          "description"  => "One view",
+        //                          "motiontext"   => "",
+        //                          "showwhich"    => "slab",
+        //                          "ministerial"  => "yes",
+        //                          "tooltip"      => "Show all votes as one compressed table" );
 		$dismodes["allpossible"] = array("dtype"	=> "allpossible",
 								 "description" 	=> "All eligible voters",
 								 "motiontext" 	=> "yes",
