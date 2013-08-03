@@ -93,8 +93,6 @@ class DivisionsController < ApplicationController
       end
       @members = Member.where(house: @uk_house).current_on(@date).joins("LEFT OUTER JOIN pw_vote ON pw_vote.mp_id = pw_mp.mp_id").where("pw_vote.division_id = ? OR pw_vote.division_id IS NULL", @division.id).joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order)
     elsif @display == "policies"
-      render "policies", layout: false
-      return
     else
       raise
     end
@@ -105,5 +103,9 @@ class DivisionsController < ApplicationController
       @short_title = "#{@division.name} — #{@division.date.strftime('%d %b %Y')}"
     end
     @title = @short_title + " — The Public Whip"
+
+    if @display == "policies"
+      render "policies"
+    end
   end
 end
