@@ -1,10 +1,8 @@
 %h2
   %a{:name => "dreammp"} Policies
 %p
-  The following policies have selected this division. You can use
-  this to help you work out the meaning of the vote. Or
-  = succeed "." do
-    %a{:href => "/policies.php"} list all policies
+  The following policies have selected this division. You can use this to help you work out
+  the meaning of the vote. Or #{link_to "list all policies", "/policies.php"}. 
 %table.divisions
   %tr.headings
     %td Policy
@@ -12,4 +10,4 @@
   %tr.odd
     %td{:colspan => "2"} No policies voted in this division
 %p
-  %a{:href => "account/addpolicy.php"} Make a new policy
+  = link_to "Make a new policy", "account/addpolicy.php"
