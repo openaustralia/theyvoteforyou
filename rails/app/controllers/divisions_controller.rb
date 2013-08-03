@@ -70,7 +70,7 @@ class DivisionsController < ApplicationController
       end
     elsif @display == "allvotes"
       order = case @sort
-      when nil
+      when nil, "party"
         ["pw_mp.party", "pw_mp.last_name", "pw_mp.first_name"]
       when "name"
         ["pw_mp.last_name", "pw_mp.first_name"]

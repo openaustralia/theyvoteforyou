@@ -16,7 +16,7 @@
   - if @sort.nil?
     %b Party
   - else
-    = link_to "Party", division_path(params.merge(sort: nil))
+    = link_to "Party", division_path(params.merge(sort: "party"))
   |
   - if @sort == "vote"
     %b Vote

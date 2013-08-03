@@ -1,5 +1,14 @@
 %h2
-  %a{:name => "votes"} All Votes Cast - sorted by party
+  %a{:name => "votes"}
+    All Votes Cast - sorted by
+    - if @sort.nil?
+      party
+    - elsif @sort == "name"
+      name
+    - elsif @sort == "vote"
+      vote
+    - else
+      raise
 %p
   Representatives for which their vote in this division differed
   from the majority vote of their party are marked in red. Also shows
