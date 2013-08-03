@@ -13,13 +13,18 @@
     = display_link("allpossible", "All eligible voters", "Show even MPs who did not vote but could have", @display)
     = display_link("policies", "Policies", "Show or change the polices which vote on this division", @display)
 <!-- the second tier navigation as dropdowns end-->
-= render "motion"
 
 - if @display.nil?
+  = render "motion"
   = render "summary"
 - elsif @display == "allvotes"
+  = render "motion"
   = render "allvotes"
 - elsif @display == "allpossible"
+  = render "motion"
   = render "summary"
+- elsif @display == "policies"
+  = render "policies"
+  = render "motion"
 - else
   - raise "unexpected value"

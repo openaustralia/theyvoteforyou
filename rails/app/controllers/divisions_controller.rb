@@ -103,9 +103,5 @@ class DivisionsController < ApplicationController
       @short_title = "#{@division.name} — #{@division.date.strftime('%d %b %Y')}"
     end
     @title = @short_title + " — The Public Whip"
-
-    if @display == "policies"
-      render "policies"
-    end
   end
 end
