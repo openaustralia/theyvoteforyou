@@ -70,9 +70,9 @@
     %tr.even
       %td{:colspan => "4"} no rebellions
   - else
-    - @votes.each do |rebellion|
+    - @votes.each do |vote|
       %tr.even
-        %td= link_to rebellion.name, member_path(rebellion.member)
-        %td= rebellion.electorate
-        %td= rebellion.party
-        %td= rebellion.vote
+        %td= link_to vote.name, member_path(vote.member)
+        %td= vote.electorate
+        %td= vote.party_long2
+        %td= vote.vote

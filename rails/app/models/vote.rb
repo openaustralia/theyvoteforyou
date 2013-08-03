@@ -3,7 +3,7 @@ class Vote < ActiveRecord::Base
   belongs_to :division
   belongs_to :member, foreign_key: "mp_id"
 
-  delegate :party, :name, :electorate, to: :member
+  delegate :party, :party_long2, :name, :electorate, to: :member
   delegate :whip_guess, to: :whip
   delegate :date, to: :division
 

@@ -23,7 +23,7 @@
         %td= link_to vote.name, member_path(vote.member)
         %td= vote.electorate
         %td
-          = vote.party
+          = vote.party_long2
           - if vote.member.on_front_bench?(vote.date)
             (front bench)
         %td= vote.vote
