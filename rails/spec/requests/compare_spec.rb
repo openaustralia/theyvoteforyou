@@ -147,7 +147,6 @@ describe "Comparing" do
       compare("/division.php?date=2013-03-14&number=1")
       compare("/division.php?date=2013-03-14&number=1&house=senate")
       compare("/division.php?date=2013-03-14&number=1&display=allvotes")
-      #compare("/division.php?date=2013-03-14&number=1&display=allvotes&sort=party")
       compare("/division.php?date=2013-03-14&number=1&display=allvotes&sort=name")
       compare("/division.php?date=2013-03-14&number=1&display=allvotes&sort=vote")
       compare("/division.php?date=2013-03-14&number=1&display=allpossible")
