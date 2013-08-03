@@ -175,12 +175,12 @@ function no_division_found($plural)
 								 "showwhich" 	=> "allpossible",
                                 "tooltip"      => "Show even MPs who did not vote but could have" );
 
-		$dismodes["similardivisionsparl"] = array("dtype"	=> "similardivisionsparl",
-								 "description" 	=> "Similar Divisions",
-								 "motiontext" 	=> "",
-								 "summarytext"	=> "",
-								 "listsimilardivisions" => "thisparliament",
-                                 "tooltip"      => "Show all divisions in order of similarity of vote in this Parliament" );
+		// $dismodes["similardivisionsparl"] = array("dtype"	=> "similardivisionsparl",
+		// 						 "description" 	=> "Similar Divisions",
+		// 						 "motiontext" 	=> "",
+		// 						 "summarytext"	=> "",
+		// 						 "listsimilardivisions" => "thisparliament",
+  //                                "tooltip"      => "Show all divisions in order of similarity of vote in this Parliament" );
 
 		#$dismodes["similardivisionsall"] = array("dtype"	=> "similardivisionsall",
 		#						 "description" 	=> "All Similar Divisions",
