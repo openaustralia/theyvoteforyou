@@ -1,0 +1,15 @@
+%h2
+  %a{:name => "dreammp"} Policies
+%p
+  The following policies have selected this division. You can use
+  this to help you work out the meaning of the vote. Or
+  = succeed "." do
+    %a{:href => "/policies.php"} list all policies
+%table.divisions
+  %tr.headings
+    %td Policy
+    %td Vote (in this division)
+  %tr.odd
+    %td{:colspan => "2"} No policies voted in this division
+%p
+  %a{:href => "account/addpolicy.php"} Make a new policy

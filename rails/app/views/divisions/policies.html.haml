@@ -13,19 +13,5 @@
     = display_link("allpossible", "All eligible voters", "Show even MPs who did not vote but could have", @display)
     = display_link("policies", "Policies", "Show or change the polices which vote on this division", @display)
 <!-- the second tier navigation as dropdowns end-->
-%h2
-  %a{:name => "dreammp"} Policies
-%p
-  The following policies have selected this division. You can use
-  this to help you work out the meaning of the vote. Or
-  = succeed "." do
-    %a{:href => "/policies.php"} list all policies
-%table.divisions
-  %tr.headings
-    %td Policy
-    %td Vote (in this division)
-  %tr.odd
-    %td{:colspan => "2"} No policies voted in this division
-%p
-  %a{:href => "account/addpolicy.php"} Make a new policy
+= render "policies"
 = render "motion"
