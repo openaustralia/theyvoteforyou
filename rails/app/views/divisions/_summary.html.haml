@@ -31,31 +31,43 @@
     %td.percent= @division.attendance_percentage
 %h2
   %a{:name => "votes"}
-    Rebel Voters - sorted by
+    - if @display.nil?
+      Rebel Voters
+    - elsif @display == "allpossible"
+      All Representatives Eligible to Vote
+    - else
+      - raise
+    \- sorted by
     - if @sort == "name"
       name
     - else
       party
-%p
-  - if @house == "representatives"
-    Representatives
-  - elsif @house == "senate"
-    Senators
-  - else
-    - raise "A problem"
-  for which their vote in this division differed
-  from the majority vote of their party. You can see
-  = link_to "all votes", division_path(params.merge(display: "allvotes"))
-  in this division, or
-  = link_to division_path(params.merge(display: "allpossible")) do
-    every eligible
+
+- if @display.nil?
+  %p
     - if @house == "representatives"
-      Representative
+      Representatives
     - elsif @house == "senate"
-      Senator
+      Senators
     - else
       - raise "A problem"
-  who could have voted in this division
+    for which their vote in this division differed
+    from the majority vote of their party. You can see
+    = link_to "all votes", division_path(params.merge(display: "allvotes"))
+    in this division, or
+    = link_to division_path(params.merge(display: "allpossible")) do
+      every eligible
+      - if @house == "representatives"
+        Representative
+      - elsif @house == "senate"
+        Senator
+      - else
+        - raise "A problem"
+    who could have voted in this division
+- elsif @display == "allpossible"
+  %p Includes Representatives who were absent (or abstained) from this vote.
+- else
+  - raise
 = render "sort_links"
 %table#votetable.votes
   %tr.headings
@@ -66,13 +78,27 @@
       %td Electorate
     %td Party
     %td Vote
-  - if @votes.empty?
-    %tr.even
-      %td{:colspan => "4"} no rebellions
-  - else
-    - @votes.each do |vote|
+  - if @display.nil?
+    - if @votes.empty?
       %tr.even
-        %td= link_to vote.name, member_path(vote.member)
-        %td= vote.electorate
-        %td= vote.party_long2
-        %td= vote.vote
+        %td{:colspan => "4"} no rebellions
+    - else
+      - @votes.each do |vote|
+        %tr.even
+          %td= link_to vote.name, member_path(vote.member)
+          %td= vote.electorate
+          %td= vote.party_long2
+          %td= vote.vote
+  - elsif @display == "allpossible"
+    - @members.each do |member|
+      %tr{:class => cycle("odd", "even")}
+        %td= link_to member.name, member_path(member)
+        %td= link_to_if @house == "representatives", member.electorate, electorate_path(member)
+        %td
+          = member.party_long2
+          - if member.on_front_bench?(@date)
+            (front bench)
+        %td= member.vote_on_division(@division)
+
+  - else
+    - raise

@@ -51,10 +51,12 @@ class DivisionsController < ApplicationController
   def show
     @house = params[:house]
     @house = "representatives" if @house.nil?
+    @uk_house = Division.australian_to_uk_house(@house)
+    @date = params[:date]
     @sort = params[:sort]
     @display = params[:display]
-    @division = Division.find_by(division_date: params[:date], division_number: params[:number],
-      house: Division.australian_to_uk_house(@house))
+    @division = Division.find_by(division_date: @date, division_number: params[:number],
+      house: @uk_house)
 
     if @display.nil?
       if @sort.nil?
@@ -78,6 +80,10 @@ class DivisionsController < ApplicationController
         raise
       end
       @votes = @division.votes.joins(:member).order(order)
+    elsif @display == "allpossible"
+      @members = Member.where(house: @uk_house).current_on(@date).order(:party, :last_name, :first_name)
+    else
+      raise
     end
 
     if @division.clock_time

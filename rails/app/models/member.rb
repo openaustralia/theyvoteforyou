@@ -3,6 +3,17 @@ class Member < ActiveRecord::Base
   has_one :member_info, foreign_key: "mp_id"
   delegate :rebellions, :votes_attended, :votes_possible, to: :member_info
   has_many :offices, foreign_key: "person", primary_key: "person"
+  has_many :votes, foreign_key: "mp_id"
+  scope :current_on, ->(date) { where("? >= entered_house AND ? < left_house", date, date) }
+
+  def vote_on_division(division)
+    vote = votes.where(division_id: division.id).first
+    if vote
+      vote.vote
+    else
+      "absent"
+    end
+  end
 
   def name
     "#{title} #{first_name} #{last_name}".strip
