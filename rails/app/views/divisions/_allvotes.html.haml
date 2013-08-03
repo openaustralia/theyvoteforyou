@@ -10,17 +10,43 @@
     - else
       raise
 %p
-  Representatives for which their vote in this division differed
+  - if @house == "representatives"
+    Representatives
+  - elsif @house == "senate"
+    Senators
+  - else
+    - raise
+  for which their vote in this division differed
   from the majority vote of their party are marked in red. Also shows
-  which Representatives were ministers at the time of this vote. You
+  which
+  - if @house == "representatives"
+    Representatives
+  - elsif @house == "senate"
+    Senators
+  - else
+    - raise
+  were ministers at the time of this vote. You
   can also see
-  = link_to "every eligible Representative", division_path(params.merge(display: "allpossible"))
+  = link_to division_path(params.merge(display: "allpossible")) do
+    every eligible
+    - if @house == "representatives"
+      Representative
+    - elsif @house == "senate"
+      Senator
+    - else
+      - raise
   including those who did not vote in this division.
 = render "sort_links"
 %table#votetable.votes
   %tr.headings
     %td Name
-    %td Electorate
+    %td
+      - if @house == "representatives"
+        Electorate
+      - elsif @house == "senate"
+        State
+      - else
+        - raise
     %td Party
     %td Vote
   - if @votes.empty?

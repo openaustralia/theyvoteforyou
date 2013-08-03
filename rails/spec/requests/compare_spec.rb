@@ -143,15 +143,33 @@ describe "Comparing" do
     end
 
     it "division" do
-      compare("/division.php?date=2013-03-14&number=1&house=representatives")
       compare("/division.php?date=2013-03-14&number=1")
+      compare("/division.php?date=2013-03-14&number=1&house=representatives")
       compare("/division.php?date=2013-03-14&number=1&house=senate")
       compare("/division.php?date=2013-03-14&number=1&display=allvotes")
-      compare("/division.php?date=2013-03-14&number=1&display=allvotes&sort=name")
-      compare("/division.php?date=2013-03-14&number=1&display=allvotes&sort=vote")
+      compare("/division.php?date=2013-03-14&number=1&house=representatives&display=allvotes")
+      compare("/division.php?date=2013-03-14&number=1&house=senate&display=allvotes")
       compare("/division.php?date=2013-03-14&number=1&display=allpossible")
+      compare("/division.php?date=2013-03-14&number=1&house=representatives&display=allpossible")
+      compare("/division.php?date=2013-03-14&number=1&house=senate&display=allpossible")
+      compare("/division.php?date=2013-03-14&number=1&sort=name")
+      compare("/division.php?date=2013-03-14&number=1&house=representatives&sort=name")
+      compare("/division.php?date=2013-03-14&number=1&house=senate&sort=name")
+      compare("/division.php?date=2013-03-14&number=1&display=allvotes&sort=name")
+      compare("/division.php?date=2013-03-14&number=1&house=representatives&display=allvotes&sort=name")
+      compare("/division.php?date=2013-03-14&number=1&house=senate&display=allvotes&sort=name")
       compare("/division.php?date=2013-03-14&number=1&display=allpossible&sort=name")
+      compare("/division.php?date=2013-03-14&number=1&house=representatives&display=allpossible&sort=name")
+      compare("/division.php?date=2013-03-14&number=1&house=senate&display=allpossible&sort=name")
+      compare("/division.php?date=2013-03-14&number=1&sort=vote")
+      compare("/division.php?date=2013-03-14&number=1&house=representatives&sort=vote")
+      compare("/division.php?date=2013-03-14&number=1&house=senate&sort=vote")
+      compare("/division.php?date=2013-03-14&number=1&display=allvotes&sort=vote")
+      compare("/division.php?date=2013-03-14&number=1&house=representatives&display=allvotes&sort=vote")
+      compare("/division.php?date=2013-03-14&number=1&house=senate&display=allvotes&sort=vote")
       compare("/division.php?date=2013-03-14&number=1&display=allpossible&sort=vote")
+      compare("/division.php?date=2013-03-14&number=1&house=representatives&display=allpossible&sort=vote")
+      compare("/division.php?date=2013-03-14&number=1&house=senate&display=allpossible&sort=vote")
     end
 
     it "divisions" do

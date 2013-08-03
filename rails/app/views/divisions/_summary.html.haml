@@ -34,7 +34,14 @@
     - if @display.nil?
       Rebel Voters
     - elsif @display == "allpossible"
-      All Representatives Eligible to Vote
+      All
+      - if @house == "representatives"
+        Representatives
+      - elsif @house == "senate"
+        Senators
+      - else
+        - raise
+      Eligible to Vote
     - else
       - raise
     \- sorted by
@@ -69,7 +76,15 @@
         - raise "A problem"
     who could have voted in this division
 - elsif @display == "allpossible"
-  %p Includes Representatives who were absent (or abstained) from this vote.
+  %p
+    Includes
+    - if @house == "representatives"
+      Representatives
+    - elsif @house == "senate"
+      Senators
+    - else
+      - raise
+    who were absent (or abstained) from this vote.
 - else
   - raise
 = render "sort_links"
