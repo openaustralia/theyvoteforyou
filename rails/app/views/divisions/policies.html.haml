@@ -1,6 +1,4 @@
-%h1
-  Bills — National Disability Insurance Scheme Bill 2012;
-  Consideration in Detail — 14 Mar 2013 at 10:56
+%h1= @short_title
 / the second tier navigation as tabs
 :plain
   <!-- add hashes to $second_links array, keys are
@@ -10,17 +8,10 @@
        'current' - 'on' or 'off' for whether this item is currently selected -->
 .secondnavtabs
   %ul
-    %li.off
-      %a.off{:href => "division.php?date=2013-03-14&number=1", :title => "Overview of division"} Summary
-    %li.off
-      %a.off{:href => "division.php?date=2013-03-14&number=1&display=allvotes", :title => "Every MP who cast a vote in the division"}
-        All
-        voters
-    %li.off
-      %a.off{:href => "division.php?date=2013-03-14&number=1&display=allpossible", :title => "Show even MPs who did not vote but could have"}
-        All eligible
-        voters
-    %li.on Policies
+    = display_link(nil, "Summary", "Overview of division", @display)
+    = display_link("allvotes", "All voters", "Every MP who cast a vote in the division", @display)
+    = display_link("allpossible", "All eligible voters", "Show even MPs who did not vote but could have", @display)
+    = display_link("policies", "Policies", "Show or change the polices which vote on this division", @display)
 <!-- the second tier navigation as dropdowns end-->
 %h2
   %a{:name => "dreammp"} Policies
@@ -37,30 +28,4 @@
     %td{:colspan => "2"} No policies voted in this division
 %p
   %a{:href => "account/addpolicy.php"} Make a new policy
-.motion
-  %p
-    %strong
-      Description automatically extracted from the debate,
-      please
-      %a{:href => "account/wiki.php?type=motion&date=2013-03-14&number=1&house=representatives&rr=%2Fdivision.php%3Fdate%3D2013-03-14%26number%3D1%26display%3Dpolicies"}
-        edit it
-      to make it better.
-  %p.speaker Jenny Macklin
-  %p
-    I present a supplementary explanatory memorandum to the bill and
-    ask leave of the House to move government amendments (1) to (77),
-    as circulated, together.
-  %p
-    %b
-      %a{:href => "http://www.openaustralia.org/debates/?id=2013-03-14.17.1", :title => "Links to debate shown at www.openaustralia.org"}
-        Debate in
-        Parliament
-    |
-    %b
-      %a{:href => "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansardr,hansardr80%20Date%3A14%2F3%2F2013;rec=0;resCount=Default", :title => "The original record of vote as reported by Hansard"} Source
-    |
-    %b
-      %a{:href => "account/wiki.php?type=motion&date=2013-03-14&number=1&house=representatives&rr=%2Fdivision.php%3Fdate%3D2013-03-14%26number%3D1%26display%3Dpolicies", :title => "Edit and improve this description"} Edit
-    (
-    %a{:href => "faq.php#motionedit"}> learn more
-    )
+= render "motion"
