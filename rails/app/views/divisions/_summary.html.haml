@@ -38,10 +38,14 @@
     - else
       - raise
     \- sorted by
-    - if @sort == "name"
-      name
-    - else
+    - if @sort.nil?
       party
+    - elsif @sort == "name"
+      name
+    - elsif @sort == "vote"
+      vote
+    - else
+      - raise
 
 - if @display.nil?
   %p

@@ -150,6 +150,8 @@ describe "Comparing" do
       compare("/division.php?date=2013-03-14&number=1&display=allvotes&sort=name")
       compare("/division.php?date=2013-03-14&number=1&display=allvotes&sort=vote")
       compare("/division.php?date=2013-03-14&number=1&display=allpossible")
+      compare("/division.php?date=2013-03-14&number=1&display=allpossible&sort=name")
+      compare("/division.php?date=2013-03-14&number=1&display=allpossible&sort=vote")
     end
 
     it "divisions" do

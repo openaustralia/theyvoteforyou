@@ -81,7 +81,17 @@ class DivisionsController < ApplicationController
       end
       @votes = @division.votes.joins(:member).order(order)
     elsif @display == "allpossible"
-      @members = Member.where(house: @uk_house).current_on(@date).order(:party, :last_name, :first_name)
+      order = case @sort
+      when nil, "party"
+        [:party, :last_name, :first_name]
+      when "name"
+        [:last_name, :first_name]
+      when "vote"
+        ["pw_vote_sortorder.position desc", :last_name, :first_name]
+      else
+        raise
+      end
+      @members = Member.where(house: @uk_house).current_on(@date).joins("LEFT OUTER JOIN pw_vote ON pw_vote.mp_id = pw_mp.mp_id").where("pw_vote.division_id = ? OR pw_vote.division_id IS NULL", @division.id).joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order)
     else
       raise
     end
