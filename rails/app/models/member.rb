@@ -2,9 +2,20 @@ class Member < ActiveRecord::Base
   self.table_name = "pw_mp"
   has_one :member_info, foreign_key: "mp_id"
   delegate :rebellions, :votes_attended, :votes_possible, to: :member_info
+  has_many :offices, foreign_key: "person", primary_key: "person"
 
   def name
     "#{title} #{first_name} #{last_name}".strip
+  end
+
+  def offices_on_date(date)
+    offices.where("? >= from_date AND ? <= to_date", date, date)
+  end
+
+  # TODO This is wrong as parliamentary secretaries will be considered to be on the
+  # front bench which as far as I understand is not the case
+  def on_front_bench?(date)
+    !offices_on_date(date).empty?
   end
 
   def last_name

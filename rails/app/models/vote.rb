@@ -5,6 +5,7 @@ class Vote < ActiveRecord::Base
 
   delegate :party, :name, :electorate, to: :member
   delegate :whip_guess, to: :whip
+  delegate :date, to: :division
 
   def whip
     division.whips.where(party: party).first

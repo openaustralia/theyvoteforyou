@@ -22,5 +22,8 @@
       %tr.even
         %td= link_to vote.name, member_path(vote.member)
         %td= vote.electorate
-        %td= vote.party
+        %td
+          = vote.party
+          - if vote.member.on_front_bench?(vote.date)
+            (front bench)
         %td= vote.vote
