@@ -8,6 +8,7 @@ Publicwhip::Application.routes.draw do
   get 'index.php' => 'home#index'
   get 'divisions.php' => 'divisions#index'
   get 'division.php' => 'divisions#show'
+  get 'faq.php' => 'home#faq'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

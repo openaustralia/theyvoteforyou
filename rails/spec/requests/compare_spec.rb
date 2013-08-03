@@ -142,6 +142,16 @@ describe "Comparing" do
       Whip.create!(division_id: d.id, party: "Australian Greens", aye_votes: 0, aye_tells: 0, no_votes: 1, no_tells: 0, both_votes: 0, abstention_votes: 0, possible_votes: 1, whip_guess: "no")
     end
 
+    # The faq actually needs some divisions, votes and members to be there otherwise the php app
+    # throws a divide by zero error
+    it "faq" do
+      Vote.create!(division_id: 1, mp_id: 1, vote: "aye")
+      Member.create!(first_name: "Foo", last_name: "Bar", party: "Australian Greens",
+        constituency: "Tasmania", house: "lords",
+        gid: "", source_gid: "", title: "", person: 1)
+      compare("/faq.php")
+    end
+
     it "division" do
       compare("/division.php?date=2013-03-14&number=1")
       compare("/division.php?date=2013-03-14&number=1&house=representatives")
