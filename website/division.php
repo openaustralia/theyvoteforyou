@@ -593,7 +593,7 @@ if (true===function_exists('advertisement')) {
 		    	print ($sort == "constituency" ? "<b>Constituency</b>" : "<a href=\"$thispage$tpdisplay&sort=constituency\">Constituency</a>");
     		}
 	    	print " | ";
-		    print ($sort == "party" ? "<b>Party</b>" : "<a href=\"$thispage$tpdisplay&sort=party\">Party</a>");
+		    print ($sort == "party" ? "<b>Party</b>" : "<a href=\"$thispage$tpdisplay\">Party</a>");
     		print " | ";
 	    	if ($singlemotionpage)
 		    	print ($sort == "vote" ? "<b>Vote</b>" : "<a href=\"$thispage$tpdisplay&sort=vote\">Vote</a>");
