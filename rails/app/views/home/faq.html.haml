@@ -65,20 +65,19 @@
 %p
   %b Numerics:
   The database contains
-  %strong 1
+  %strong= number_with_delimiter(Member.select(:person).distinct.count)
   distinct Representatives and Senators from
-  %strong 3
+  %strong= number_with_delimiter(Member.select(:party).distinct.count)
   parties who have voted across
-  %strong 2
+  %strong= number_with_delimiter(Division.count)
   divisions. In total
-  %strong 1
+  %strong= number_with_delimiter(Vote.count)
   votes were cast giving an average of
-  %strong 0.5
+  %strong= "%0.1f" % (Vote.count.to_f / Division.count)
   per division. Of these
-  %strong 0
+  %strong= number_with_delimiter(Member.joins(:member_info).sum(:rebellions).to_i)
   were against the majority vote for their party giving an average rebellion rate of
-  = succeed "." do
-    %strong 0%
+  <strong>#{Member.joins(:member_info).sum(:rebellions) == 0 ? "0%" : "%.2f%" % (Member.joins(:member_info).sum(:rebellions) / Vote.count * 100)}</strong>.
 %h2.faq
   %a{:name => "clarify"}
     What do the "rebellion" and "attendance" figures mean exactly?
