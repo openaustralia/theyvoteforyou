@@ -39,6 +39,9 @@ end
 group :development do
   # Required for html2haml
   gem "ruby_parser"
+
+  gem 'guard'
+  gem 'guard-rspec'
 end
 
 group :test, :development do
