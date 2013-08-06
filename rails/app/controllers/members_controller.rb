@@ -58,4 +58,8 @@ class MembersController < ApplicationController
 
     @members = Member.current.where(house: house).joins(:member_info).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
   end
+
+  def show
+    render layout: false
+  end
 end

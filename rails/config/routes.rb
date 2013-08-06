@@ -5,6 +5,7 @@ Publicwhip::Application.routes.draw do
   root 'home#index'
 
   get 'mps.php' => 'members#index'
+  get 'mp.php' => 'members#show'
   get 'index.php' => 'home#index'
   get 'divisions.php' => 'divisions#index'
   get 'division.php' => 'divisions#show'
