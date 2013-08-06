@@ -1,0 +1,129 @@
+%h1 Voting Record — Tony Abbott MP, Warringah
+/ the second tier navigation as tabs
+:plain
+  <!-- add hashes to $second_links array, keys are
+       'href' - URL of link
+       'text' - displayed text
+       'tooltip' - text to put in title
+       'current' - 'on' or 'off' for whether this item is currently selected -->
+.secondnavtabs
+  %ul
+    %li.off
+      %a.off{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&parliament=2010&display=summary", :title => ""} 2010 (current)&nbsp;Parliament
+    %li.off
+      %a.off{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&parliament=2007&display=summary", :title => ""} 2008-2010&nbsp;Parliament
+    %li.off
+      %a.off{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&parliament=2004&display=summary", :title => ""} 2004-2007&nbsp;Parliament
+    %li.on All Parliaments
+  %ul
+    %li.on Summary
+    %li.off
+      %a.off{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allvotes", :title => "Show every vote cast by this MP"} Votes attended
+    %li.off
+      %a.off{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=everyvote", :title => "Show even divisions where the MP was absent, but could have voted"}
+        All votes
+    %li.off
+      %a.off{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allfriends", :title => "Show all MPs in order of how similarly to this MP they voted"}
+        All
+        friends
+    %li.off
+      %a.off{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=alldreams", :title => "Show all Policies and how this MP voted on them"}
+        Policy
+        comparisons
+<!-- the second tier navigation as dropdowns end-->
+%p
+  %em Note:
+  our voting records currently only go back to the
+  beginning of 2006 for the House of Representatives and the Senate
+  (
+  %a{:href => "/faq.php#timeperiod"}> more details
+  ).
+%table
+  %tr.headings
+    %td From
+    %td To
+    %td Party
+    %td
+      Rebellions (
+      %a{:href => "faq.php#clarify"}> explain...
+      )
+    %td
+      Attendance (
+      %a{:href => "faq.php#clarify"}> explain...
+      )
+    %td Teller
+  %tr.odd
+    %td 1&nbsp;Jan&nbsp;2006
+    %td still in office
+    %td Liberal Party
+    %td.percent 0 votes out of 0
+    %td.percent
+      0 votes out of 1,
+      %b 0.0%
+    %td 0 times
+%h2
+  %a{:name => "exlinks"} External Links
+%ul
+  %li
+    See
+    = succeed "'s" do
+      %strong Tony Abbott
+    Parliamentary speeches at:
+    %a{:href => "http://www.openaustralia.org/mp/?m=1"} OpenAustralia.org
+%h2
+  %a{:name => "divisions"} Interesting Votes
+%p
+  Votes in parliament for which this Representative's vote
+  differed from the majority vote of their party (Rebel), or in which
+  this Representative was a teller (Teller), or both (Rebel
+  Teller).
+%p{:align => "center", :style => "font-size: 89%"}
+  See also all votes...
+  %a{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allvotes#divisions"}
+    attended
+  |
+  %a{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=everyvote#divisions"}
+    possible
+%table.votes
+  %tr.headings
+    %td House
+    %td Date
+    %td Subject
+    %td Tony Abbott
+    %td Liberal Party Vote
+    %td Rôle
+  %tr.odd
+    %td{:colspan => "7"} no rebellions, never teller
+%h2
+  %a{:name => "dreammotions"} Policy Comparisons
+%p
+  This chart shows the percentage agreement between this
+  Representative and each of the policies in the database, according
+  to their voting record.
+%table.mps
+  %tr.odd
+    %td{:colspan => "4"}
+      No policies match this person's votes. You can
+      %a{:href => "/policies.php"} edit or make a policy
+      that will appear
+      here.
+  %tr.headings
+    %td Agreement
+    %td Policy
+%h2
+  <a name="friends">Possible Friends (</a><a href="mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allfriends">more...</a>)
+%p
+  Shows which Representatives voted most similarly to this one in
+  the Parliament. This is measured from 0% agreement (never voted the
+  same) to 100% (always voted the same). Only votes that both
+  Representatives attended are counted. This may reveal relationships
+  between Representatives that were previously unsuspected. Or it may
+  be nonsense.
+%table.mps
+  %tr.headings
+    %td Agreement
+    %td Name
+    %td Electorate
+    %td Party
+  %tr.even
+    %td{:colspan => "4"} No results found
