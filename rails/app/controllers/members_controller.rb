@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class MembersController < ApplicationController
   def index
     @sort = params[:sort]
@@ -60,6 +62,6 @@ class MembersController < ApplicationController
   end
 
   def show
-    render layout: false
+    @title = "Voting Record — — The Public Whip"
   end
 end
