@@ -62,6 +62,6 @@ class MembersController < ApplicationController
   end
 
   def show
-    @title = "Voting Record — — The Public Whip"
+    @title = "Voting Record — Tony Abbott MP, Warringah — The Public Whip"
   end
 end

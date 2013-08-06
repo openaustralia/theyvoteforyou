@@ -7,7 +7,7 @@ describe MembersController do
   before :each do
     m = Member.create!(first_name: "Tony", last_name: "Abbott", party: "Liberal Party",
       constituency: "Warringah", house: "commons",
-      gid: "", source_gid: "", title: "")
+      gid: "", source_gid: "", title: "", person: 10001)
     # TODO don't know what aye_majority does yet
     MemberInfo.create!(mp_id: m.id, rebellions: 0, tells: 0, votes_possible: 1, votes_attended: 0, aye_majority: 0)
 
