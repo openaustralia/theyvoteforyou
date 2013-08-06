@@ -41,29 +41,24 @@
     %td
       Attendance (#{link_to "explain...", "faq.php#clarify"})
     %td Teller
-  -# Temporary HACK
-  - if @member.party == "Liberal Party"
-    %tr.odd
-      %td 1&nbsp;Jan&nbsp;2006
-      %td still in office
-      %td Liberal Party
-      %td.percent 0 votes out of 0
-      %td.percent
-        0 votes out of 1,
-        %b 0.0%
-      %td 0 times
-  - else
-    %tr.odd
-      %td 1&nbsp;Jan&nbsp;2006
-      %td still in office
-      %td Australian Labor Party
-      %td.percent
-        0 votes out of 1,
-        %b 0.0%
-      %td.percent
-        1 vote out of 1,
-        %b 100.0%
-      %td 0 times
+  %tr.odd
+    %td 1&nbsp;Jan&nbsp;2006
+    %td still in office
+    %td= @member.party
+    %td.percent
+      = pluralize(@member.rebellions, "vote")
+      out of
+      - if @member.votes_attended == 0
+        0
+      - else
+        #{@member.votes_attended},
+        %b= @member.rebellions_percentage
+    %td.percent
+      = pluralize(@member.votes_attended, "vote")
+      out of
+      #{@member.votes_possible},
+      %b= @member.attendance_percentage
+    %td 0 times
 %h2
   %a{:name => "exlinks"} External Links
 %ul
