@@ -9,48 +9,37 @@
 .secondnavtabs
   %ul
     %li.off
-      %a.off{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&parliament=2010&display=summary", :title => ""} 2010 (current)&nbsp;Parliament
+      = link_to "2010 (current)&nbsp;Parliament".html_safe, "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&parliament=2010&display=summary", class: "off", title: ""
     %li.off
-      %a.off{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&parliament=2007&display=summary", :title => ""} 2008-2010&nbsp;Parliament
+      = link_to "2008-2010&nbsp;Parliament".html_safe, "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&parliament=2007&display=summary", class: "off", title: ""
     %li.off
-      %a.off{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&parliament=2004&display=summary", :title => ""} 2004-2007&nbsp;Parliament
+      = link_to "2004-2007&nbsp;Parliament".html_safe, "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&parliament=2004&display=summary", class: "off", title: ""
     %li.on All Parliaments
   %ul
     %li.on Summary
     %li.off
-      %a.off{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allvotes", :title => "Show every vote cast by this MP"} Votes attended
+      = link_to "Votes attended", "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allvotes", class: "off", title: "Show every vote cast by this MP"
     %li.off
-      %a.off{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=everyvote", :title => "Show even divisions where the MP was absent, but could have voted"}
-        All votes
+      = link_to "All votes", "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=everyvote", class: "off", title: "Show even divisions where the MP was absent, but could have voted"
     %li.off
-      %a.off{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allfriends", :title => "Show all MPs in order of how similarly to this MP they voted"}
-        All
-        friends
+      = link_to "All friends", "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allfriends", class: "off", title: "Show all MPs in order of how similarly to this MP they voted"
     %li.off
-      %a.off{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=alldreams", :title => "Show all Policies and how this MP voted on them"}
-        Policy
-        comparisons
+      = link_to "Policy comparisons", "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=alldreams", class: "off", title: "Show all Policies and how this MP voted on them"
 <!-- the second tier navigation as dropdowns end-->
 %p
   %em Note:
   our voting records currently only go back to the
   beginning of 2006 for the House of Representatives and the Senate
-  (
-  %a{:href => "/faq.php#timeperiod"}> more details
-  ).
+  (#{link_to "more details", "/faq.php#timeperiod"}).
 %table
   %tr.headings
     %td From
     %td To
     %td Party
     %td
-      Rebellions (
-      %a{:href => "faq.php#clarify"}> explain...
-      )
+      Rebellions (#{link_to "explain...", "faq.php#clarify"})
     %td
-      Attendance (
-      %a{:href => "faq.php#clarify"}> explain...
-      )
+      Attendance (#{link_to "explain...", "faq.php#clarify"})
     %td Teller
   %tr.odd
     %td 1&nbsp;Jan&nbsp;2006
@@ -69,7 +58,7 @@
     = succeed "'s" do
       %strong Tony Abbott
     Parliamentary speeches at:
-    %a{:href => "http://www.openaustralia.org/mp/?m=1"} OpenAustralia.org
+    = link_to "OpenAustralia.org", "http://www.openaustralia.org/mp/?m=1"
 %h2
   %a{:name => "divisions"} Interesting Votes
 %p
@@ -79,11 +68,9 @@
   Teller).
 %p{:align => "center", :style => "font-size: 89%"}
   See also all votes...
-  %a{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allvotes#divisions"}
-    attended
+  = link_to "attended", "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allvotes#divisions"
   |
-  %a{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=everyvote#divisions"}
-    possible
+  = link_to "possible", "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=everyvote#divisions"
 %table.votes
   %tr.headings
     %td House
@@ -104,7 +91,7 @@
   %tr.odd
     %td{:colspan => "4"}
       No policies match this person's votes. You can
-      %a{:href => "/policies.php"} edit or make a policy
+      = link_to "edit or make a policy", "/policies.php"
       that will appear
       here.
   %tr.headings
