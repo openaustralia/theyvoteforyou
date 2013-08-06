@@ -62,6 +62,23 @@ class MembersController < ApplicationController
   end
 
   def show
-    @title = "Voting Record — Tony Abbott MP, Warringah — The Public Whip"
+    @first_name = params[:mpn].split("_")[0]
+    @last_name = params[:mpn].split("_")[1]
+    @electorate = params[:mpc]
+    @australian_house = params[:house]
+    @uk_house = case @australian_house
+    when "representatives"
+      "commons"
+    when "senate"
+      "lords"
+    else
+      raise
+    end
+
+    # TODO In reality there could be several members matching this and we should relate this back to being
+    # a single person
+    @member = Member.where(first_name: @first_name, last_name: @last_name, constituency: @electorate, house: @uk_house).first
+    @short_title = "Voting Record — #{@member.first_name} #{@member.last_name} MP, #{@member.constituency}"
+    @title = "#{@short_title} — The Public Whip"
   end
 end

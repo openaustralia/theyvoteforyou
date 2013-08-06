@@ -21,6 +21,7 @@ module HTMLCompareHelper
       # Write it out to a file
       File.open("old.html", "w") {|f| f.write(o.to_s)}
       File.open("new.html", "w") {|f| f.write(n.to_s)}
+      exec("opendiff old.html new.html")
       raise "Don't match. Writing to file old.html and new.html"
     end
   end

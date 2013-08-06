@@ -13,7 +13,7 @@ describe MembersController do
 
     m = Member.create!(first_name: "Kevin", last_name: "Rudd", party: "Australian Labor Party",
       constituency: "Griffith", house: "commons",
-      gid: "", source_gid: "", title: "")
+      gid: "", source_gid: "", title: "", person: 10552)
     # TODO don't know what aye_majority does yet
     MemberInfo.create!(mp_id: m.id, rebellions: 0, tells: 0, votes_possible: 1, votes_attended: 1, aye_majority: -1)
 
@@ -24,6 +24,8 @@ describe MembersController do
     MemberInfo.create!(mp_id: m.id, rebellions: 0, tells: 0, votes_possible: 1, votes_attended: 1, aye_majority: -1)
 
     Electorate.create!(cons_id: 1, name: "Warringah", main_name: true,
+      from_date: Date.new(1000,1,1), to_date: Date.new(9999,12,31), house: "commons")
+    Electorate.create!(cons_id:63, name: "Griffith", main_name:true,
       from_date: Date.new(1000,1,1), to_date: Date.new(9999,12,31), house: "commons")
   end
 
@@ -45,5 +47,6 @@ describe MembersController do
 
   it "#show" do
     compare("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives")
+    compare("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives")
   end
 end

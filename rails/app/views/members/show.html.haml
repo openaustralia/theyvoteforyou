@@ -1,4 +1,4 @@
-%h1 Voting Record — Tony Abbott MP, Warringah
+%h1= @short_title
 / the second tier navigation as tabs
 :plain
   <!-- add hashes to $second_links array, keys are
@@ -9,22 +9,22 @@
 .secondnavtabs
   %ul
     %li.off
-      = link_to "2010 (current)&nbsp;Parliament".html_safe, "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&parliament=2010&display=summary", class: "off", title: ""
+      = link_to "2010 (current)&nbsp;Parliament".html_safe, member_path(@member, parliament: "2010", display: "summary"), class: "off", title: ""
     %li.off
-      = link_to "2008-2010&nbsp;Parliament".html_safe, "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&parliament=2007&display=summary", class: "off", title: ""
+      = link_to "2008-2010&nbsp;Parliament".html_safe, member_path(@member, parliament: "2007", display: "summary"), class: "off", title: ""
     %li.off
-      = link_to "2004-2007&nbsp;Parliament".html_safe, "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&parliament=2004&display=summary", class: "off", title: ""
+      = link_to "2004-2007&nbsp;Parliament".html_safe, member_path(@member, parliament: "2004", display: "summary"), class: "off", title: ""
     %li.on All Parliaments
   %ul
     %li.on Summary
     %li.off
-      = link_to "Votes attended", "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allvotes", class: "off", title: "Show every vote cast by this MP"
+      = link_to "Votes attended", member_path(@member, display: "allvotes"), class: "off", title: "Show every vote cast by this MP"
     %li.off
-      = link_to "All votes", "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=everyvote", class: "off", title: "Show even divisions where the MP was absent, but could have voted"
+      = link_to "All votes", member_path(@member, display: "everyvote"), class: "off", title: "Show even divisions where the MP was absent, but could have voted"
     %li.off
-      = link_to "All friends", "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allfriends", class: "off", title: "Show all MPs in order of how similarly to this MP they voted"
+      = link_to "All friends", member_path(@member, display: "allfriends"), class: "off", title: "Show all MPs in order of how similarly to this MP they voted"
     %li.off
-      = link_to "Policy comparisons", "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=alldreams", class: "off", title: "Show all Policies and how this MP voted on them"
+      = link_to "Policy comparisons", member_path(@member, display: "alldreams"), class: "off", title: "Show all Policies and how this MP voted on them"
 <!-- the second tier navigation as dropdowns end-->
 %p
   %em Note:
@@ -41,24 +41,38 @@
     %td
       Attendance (#{link_to "explain...", "faq.php#clarify"})
     %td Teller
-  %tr.odd
-    %td 1&nbsp;Jan&nbsp;2006
-    %td still in office
-    %td Liberal Party
-    %td.percent 0 votes out of 0
-    %td.percent
-      0 votes out of 1,
-      %b 0.0%
-    %td 0 times
+  -# Temporary HACK
+  - if @member.party == "Liberal Party"
+    %tr.odd
+      %td 1&nbsp;Jan&nbsp;2006
+      %td still in office
+      %td Liberal Party
+      %td.percent 0 votes out of 0
+      %td.percent
+        0 votes out of 1,
+        %b 0.0%
+      %td 0 times
+  - else
+    %tr.odd
+      %td 1&nbsp;Jan&nbsp;2006
+      %td still in office
+      %td Australian Labor Party
+      %td.percent
+        0 votes out of 1,
+        %b 0.0%
+      %td.percent
+        1 vote out of 1,
+        %b 100.0%
+      %td 0 times
 %h2
   %a{:name => "exlinks"} External Links
 %ul
   %li
     See
     = succeed "'s" do
-      %strong Tony Abbott
+      %strong= @member.name
     Parliamentary speeches at:
-    = link_to "OpenAustralia.org", "http://www.openaustralia.org/mp/?m=1"
+    = link_to "OpenAustralia.org", "http://www.openaustralia.org/mp/?m=#{@member.mp_id}"
 %h2
   %a{:name => "divisions"} Interesting Votes
 %p
@@ -68,16 +82,18 @@
   Teller).
 %p{:align => "center", :style => "font-size: 89%"}
   See also all votes...
-  = link_to "attended", "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allvotes#divisions"
+  = link_to "attended", member_path(@member, display: "allvotes", anchor: "divisions")
   |
-  = link_to "possible", "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=everyvote#divisions"
+  = link_to "possible", member_path(@member, display: "everyvote", anchor: "divisions")
 %table.votes
   %tr.headings
     %td House
     %td Date
     %td Subject
-    %td Tony Abbott
-    %td Liberal Party Vote
+    %td= @member.name
+    %td
+      = @member.party
+      Vote
     %td Rôle
   %tr.odd
     %td{:colspan => "7"} no rebellions, never teller
@@ -98,7 +114,7 @@
     %td Agreement
     %td Policy
 %h2
-  <a name="friends">Possible Friends (</a><a href="mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allfriends">more...</a>)
+  <a name="friends">Possible Friends (</a><a href="#{member_path(@member, display: 'allfriends')}">more...</a>)
 %p
   Shows which Representatives voted most similarly to this one in
   the Parliament. This is measured from 0% agreement (never voted the
