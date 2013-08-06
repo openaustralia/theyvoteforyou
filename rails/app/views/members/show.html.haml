@@ -8,14 +8,6 @@
        'current' - 'on' or 'off' for whether this item is currently selected -->
 .secondnavtabs
   %ul
-    %li.off
-      = link_to "2010 (current)&nbsp;Parliament".html_safe, member_path(@member, parliament: "2010", display: "summary"), class: "off", title: ""
-    %li.off
-      = link_to "2008-2010&nbsp;Parliament".html_safe, member_path(@member, parliament: "2007", display: "summary"), class: "off", title: ""
-    %li.off
-      = link_to "2004-2007&nbsp;Parliament".html_safe, member_path(@member, parliament: "2004", display: "summary"), class: "off", title: ""
-    %li.on All Parliaments
-  %ul
     %li.on Summary
     %li.off
       = link_to "Votes attended", member_path(@member, display: "allvotes"), class: "off", title: "Show every vote cast by this MP"
