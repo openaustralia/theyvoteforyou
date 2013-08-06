@@ -77,8 +77,16 @@ class MembersController < ApplicationController
 
     # TODO In reality there could be several members matching this and we should relate this back to being
     # a single person
-    @member = Member.where(first_name: @first_name, last_name: @last_name, constituency: @electorate, house: @uk_house).first
-    @short_title = "Voting Record — #{@member.first_name} #{@member.last_name} MP, #{@member.constituency}"
+    if @electorate == "Senate"
+      @member = Member.where(first_name: @first_name, last_name: @last_name, house: @uk_house).first
+    else
+      @member = Member.where(first_name: @first_name, last_name: @last_name, constituency: @electorate, house: @uk_house).first
+    end
+    if @member.senator?
+      @short_title = "Voting Record — Senator #{@member.first_name} #{@member.last_name}"
+    else
+      @short_title = "Voting Record — #{@member.first_name} #{@member.last_name} MP, #{@member.constituency}"
+    end
     @title = "#{@short_title} — The Public Whip"
   end
 end

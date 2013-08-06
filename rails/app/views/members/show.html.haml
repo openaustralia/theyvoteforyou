@@ -71,9 +71,19 @@
 %h2
   %a{:name => "divisions"} Interesting Votes
 %p
-  Votes in parliament for which this Representative's vote
+  Votes in parliament for which this
+  - if @member.senator?
+    Senator's
+  - else
+    Representative's
+  vote
   differed from the majority vote of their party (Rebel), or in which
-  this Representative was a teller (Teller), or both (Rebel
+  this
+  - if @member.senator?
+    Senator
+  - else
+    Representative
+  was a teller (Teller), or both (Rebel
   Teller).
 %p{:align => "center", :style => "font-size: 89%"}
   See also all votes...
@@ -96,7 +106,11 @@
   %a{:name => "dreammotions"} Policy Comparisons
 %p
   This chart shows the percentage agreement between this
-  Representative and each of the policies in the database, according
+  - if @member.senator?
+    Senator
+  - else
+    Representative
+  and each of the policies in the database, according
   to their voting record.
 %table.mps
   %tr.odd
@@ -111,17 +125,37 @@
 %h2
   <a name="friends">Possible Friends (</a><a href="#{member_path(@member, display: 'allfriends')}">more...</a>)
 %p
-  Shows which Representatives voted most similarly to this one in
+  Shows which
+  - if @member.senator?
+    Senators
+  - else
+    Representatives
+  voted most similarly to this one in
   the Parliament. This is measured from 0% agreement (never voted the
   same) to 100% (always voted the same). Only votes that both
-  Representatives attended are counted. This may reveal relationships
-  between Representatives that were previously unsuspected. Or it may
+  - if @member.senator?
+    Senators
+  - else
+    Representatives
+  attended are counted. This may reveal relationships
+  between
+  - if @member.senator?
+    Senators
+  - else
+    Representatives
+  that were previously unsuspected. Or it may
   be nonsense.
 %table.mps
   %tr.headings
     %td Agreement
     %td Name
-    %td Electorate
+    %td
+      - if @australian_house == "representatives"
+        Electorate
+      - elsif @australian_house == "senate"
+        State
+      - else
+        - raise
     %td Party
   %tr.even
     %td{:colspan => "4"} No results found
