@@ -197,25 +197,25 @@
 	$dismode = $dismodes[$display];
 	$thispagesettings .= ($thispagesettings ? "&" : "")."display=$display";
 
-	if ($voter2type != "dreammp")
-	{
-		$rdismodes_parl = Array();
-		foreach ($parliaments as $lrdisplay => $val)
-		{
-			// limit by date ranges
-			$rdismodes_parl[$lrdisplay] = array(
-									 "description" => $val['name']."&nbsp;Parliament",
-									 "lkdescription" => $val['name']."&nbsp;Parliament",
-									 "parliament" => $ldisplay,
-									 "titdescription" => $val['name']."&nbsp;Parliament");
-		}
-		$rdismodes_parl["all"] = array(
-								 "description" => "All votes on record",
-								 "lkdescription" => "All Parliaments",
-								 "titdescription" => "All on record",
-								 "parliament" => "all");
-		$rdisplay_parliament = db_scrub($_GET["parliament"]);
-	}
+	// if ($voter2type != "dreammp")
+	// {
+	// 	$rdismodes_parl = Array();
+	// 	foreach ($parliaments as $lrdisplay => $val)
+	// 	{
+	// 		// limit by date ranges
+	// 		$rdismodes_parl[$lrdisplay] = array(
+	// 								 "description" => $val['name']."&nbsp;Parliament",
+	// 								 "lkdescription" => $val['name']."&nbsp;Parliament",
+	// 								 "parliament" => $ldisplay,
+	// 								 "titdescription" => $val['name']."&nbsp;Parliament");
+	// 	}
+	// 	$rdismodes_parl["all"] = array(
+	// 							 "description" => "All votes on record",
+	// 							 "lkdescription" => "All Parliaments",
+	// 							 "titdescription" => "All on record",
+	// 							 "parliament" => "all");
+	// 	$rdisplay_parliament = db_scrub($_GET["parliament"]);
+	// }
 	if (!$rdisplay_parliament)
 		$rdisplay_parliament = "all";
 
