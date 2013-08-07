@@ -14,40 +14,8 @@
     = display_link2(@member, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display)
     = display_link2(@member, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display)
 <!-- the second tier navigation as dropdowns end-->
-%p
-  %em Note:
-  our voting records currently only go back to the
-  beginning of 2006 for the House of Representatives and the Senate
-  (#{link_to "more details", "/faq.php#timeperiod"}).
-%table
-  %tr.headings
-    %td From
-    %td To
-    %td Party
-    %td
-      Rebellions (#{link_to "explain...", "faq.php#clarify"})
-    %td
-      Attendance (#{link_to "explain...", "faq.php#clarify"})
-    %td Teller
-  %tr.odd
-    %td 1&nbsp;Jan&nbsp;2006
-    %td still in office
-    %td= @member.party
-    %td.percent
-      = pluralize(@member.rebellions, "vote")
-      out of
-      - if @member.votes_attended == 0
-        0
-      - else
-        #{@member.votes_attended},
-        %b= @member.rebellions_percentage
-    %td.percent
-      = pluralize(@member.votes_attended, "vote")
-      out of
-      #{@member.votes_possible},
-      %b= @member.attendance_percentage
-    %td 0 times
 
+= render "summary"
 = render "external_links"
 
 - if @display.nil?
