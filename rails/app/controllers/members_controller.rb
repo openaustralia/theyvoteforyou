@@ -84,17 +84,11 @@ class MembersController < ApplicationController
       @member = Member.where(first_name: @first_name, last_name: @last_name, constituency: @electorate, house: @uk_house).first
     end
     if @display == "allfriends"
-      if @member.senator?
-        @short_title = "Friends of #{@member.name}"
-      else
-        @short_title = "Friends of #{@member.name} MP, #{@member.electorate}"
-      end
+      name = @member.senator? ? @member.name : "#{@member.name} MP, #{@member.electorate}"
+      @short_title = "Friends of #{name}"
     else
-      if @member.senator?
-        @short_title = "Voting Record — Senator #{@member.first_name} #{@member.last_name}"
-      else
-        @short_title = "Voting Record — #{@member.first_name} #{@member.last_name} MP, #{@member.constituency}"
-      end
+      name = @member.senator? ? "Senator #{@member.name}" : "#{@member.name} MP, #{@member.constituency}"
+      @short_title = "Voting Record — #{name}"
     end
     @title = "#{@short_title} — The Public Whip"
   end
