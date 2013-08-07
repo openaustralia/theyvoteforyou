@@ -89,9 +89,5 @@ class MembersController < ApplicationController
       @short_title = "Voting Record — #{@member.first_name} #{@member.last_name} MP, #{@member.constituency}"
     end
     @title = "#{@short_title} — The Public Whip"
-
-    if @display == "allvotes"
-      render "allvotes"
-    end
   end
 end
