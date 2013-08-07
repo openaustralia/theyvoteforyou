@@ -91,7 +91,7 @@ class MembersController < ApplicationController
     @title = "#{@short_title} — The Public Whip"
 
     if @display == "allvotes"
-      render "allvotes", layout: false
+      render "allvotes"
     end
   end
 end
