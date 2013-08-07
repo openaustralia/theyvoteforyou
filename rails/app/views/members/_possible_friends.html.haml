@@ -1,0 +1,37 @@
+%h2
+  <a name="friends">Possible Friends (</a><a href="#{member_path(@member, display: 'allfriends')}">more...</a>)
+%p
+  Shows which
+  - if @member.senator?
+    Senators
+  - else
+    Representatives
+  voted most similarly to this one in
+  the Parliament. This is measured from 0% agreement (never voted the
+  same) to 100% (always voted the same). Only votes that both
+  - if @member.senator?
+    Senators
+  - else
+    Representatives
+  attended are counted. This may reveal relationships
+  between
+  - if @member.senator?
+    Senators
+  - else
+    Representatives
+  that were previously unsuspected. Or it may
+  be nonsense.
+%table.mps
+  %tr.headings
+    %td Agreement
+    %td Name
+    %td
+      - if @australian_house == "representatives"
+        Electorate
+      - elsif @australian_house == "senate"
+        State
+      - else
+        - raise
+    %td Party
+  %tr.even
+    %td{:colspan => "4"} No results found

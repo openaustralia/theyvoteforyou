@@ -1,0 +1,34 @@
+%h2
+  %a{:name => "divisions"} Interesting Votes
+%p
+  Votes in parliament for which this
+  - if @member.senator?
+    Senator's
+  - else
+    Representative's
+  vote
+  differed from the majority vote of their party (Rebel), or in which
+  this
+  - if @member.senator?
+    Senator
+  - else
+    Representative
+  was a teller (Teller), or both (Rebel
+  Teller).
+%p{:align => "center", :style => "font-size: 89%"}
+  See also all votes...
+  = link_to "attended", member_path(@member, display: "allvotes", anchor: "divisions")
+  |
+  = link_to "possible", member_path(@member, display: "everyvote", anchor: "divisions")
+%table.votes
+  %tr.headings
+    %td House
+    %td Date
+    %td Subject
+    %td= @member.name
+    %td
+      = @member.party
+      Vote
+    %td Rôle
+  %tr.odd
+    %td{:colspan => "7"} no rebellions, never teller

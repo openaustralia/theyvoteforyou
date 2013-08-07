@@ -1,0 +1,20 @@
+%h2
+  %a{:name => "dreammotions"} Policy Comparisons
+%p
+  This chart shows the percentage agreement between this
+  - if @member.senator?
+    Senator
+  - else
+    Representative
+  and each of the policies in the database, according
+  to their voting record.
+%table.mps
+  %tr.odd
+    %td{:colspan => "4"}
+      No policies match this person's votes. You can
+      = link_to "edit or make a policy", "/policies.php"
+      that will appear
+      here.
+  %tr.headings
+    %td Agreement
+    %td Policy
