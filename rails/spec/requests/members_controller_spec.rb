@@ -53,5 +53,9 @@ describe MembersController do
     compare("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allvotes")
     compare("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&display=allvotes")
     compare("/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate&display=allvotes")
+
+    compare("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=everyvote")
+    compare("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&display=everyvote")
+    compare("/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate&display=everyvote")
   end
 end
