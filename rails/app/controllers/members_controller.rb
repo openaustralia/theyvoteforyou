@@ -74,6 +74,7 @@ class MembersController < ApplicationController
     else
       raise
     end
+    @display = params[:display]
 
     # TODO In reality there could be several members matching this and we should relate this back to being
     # a single person
@@ -88,5 +89,9 @@ class MembersController < ApplicationController
       @short_title = "Voting Record — #{@member.first_name} #{@member.last_name} MP, #{@member.constituency}"
     end
     @title = "#{@short_title} — The Public Whip"
+
+    if @display == "allvotes"
+      render "allvotes", layout: false
+    end
   end
 end
