@@ -1,0 +1,35 @@
+tony_abbott:
+  mp_id: 1
+  first_name: "Tony"
+  last_name: "Abbott"
+  party: "Liberal Party"
+  constituency: "Warringah"
+  house: "commons"
+  gid: ""
+  source_gid: ""
+  title: ""
+  person: 10001
+
+kevin_rudd:
+  mp_id: 450
+  first_name: "Kevin"
+  last_name: "Rudd"
+  party: "Australian Labor Party"
+  constituency: "Griffith"
+  house: "commons"
+  gid: ""
+  source_gid: ""
+  title: ""
+  person: 10552
+
+christine_milne:
+  mp_id: 100156
+  first_name: "Christine"
+  last_name: "Milne"
+  party: "Australian Greens"
+  constituency: "Tasmania"
+  house: "lords"
+  gid: ""
+  source_gid: ""
+  title: ""
+  person: 10458

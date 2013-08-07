@@ -1,0 +1,26 @@
+one:
+  division_id: 1
+  division_date: 2013-3-14
+  clock_time: "010:56:00"
+  division_number: 1
+  house: "commons"
+  division_name: "Bills &#8212; National Disability Insurance Scheme Bill 2012; Consideration in Detail"
+  source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansardr,hansardr80%20Date%3A14%2F3%2F2013;rec=0;resCount=Default"
+  debate_url: ""
+  motion: '<p class="speaker">Jenny Macklin</p><p>I present a supplementary explanatory memorandum to the bill and ask leave of the House to move government amendments (1) to (77), as circulated, together.</p>'
+  notes: ""
+  source_gid: ""
+  debate_gid: "uk.org.publicwhip/debate/2013-03-14.17.1"
+
+two:
+  division_id: 9
+  division_date: 2013-3-14
+  division_number: 1
+  house: "lords"
+  division_name: "Motions &#8212; Renewable Energy Certificates"
+  source_url: "http://aph.gov.au/somedebate"
+  debate_url: ""
+  motion: ""
+  notes: ""
+  source_gid: ""
+  debate_gid: "uk.org.publicwhip/lords/2013-03-14.22.1"

@@ -1,0 +1,36 @@
+one:
+  division_id: 1
+  party: "Australian Labor Party"
+  aye_votes: 0
+  aye_tells: 0
+  no_votes: 1
+  no_tells: 0
+  both_votes: 0
+  abstention_votes: 0
+  possible_votes: 1
+  whip_guess: "no"
+
+two:
+  division_id: 1
+  party: "Liberal Party"
+  aye_votes: 0
+  aye_tells: 0
+  no_votes: 0
+  no_tells: 0
+  both_votes: 0
+  abstention_votes: 0
+  possible_votes: 1
+  whip_guess: "unknown"
+
+three:
+  division_id: 9
+  party: "Australian Greens"
+  aye_votes: 0
+  aye_tells: 0
+  no_votes: 1
+  no_tells: 0
+  both_votes: 0
+  abstention_votes: 0
+  possible_votes: 1
+  whip_guess: "no"
+
