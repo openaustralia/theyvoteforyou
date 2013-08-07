@@ -5,11 +5,29 @@ class Member < ActiveRecord::Base
   has_many :offices, foreign_key: "person", primary_key: "person"
   has_many :votes, foreign_key: "mp_id"
   scope :current_on, ->(date) { where("? >= entered_house AND ? < left_house", date, date) }
+  # Divisions that have been attended
+  has_many :divisions, through: :votes
 
   def vote_on_division(division)
     vote = votes.where(division_id: division.id).first
     if vote
       vote.vote
+    else
+      "absent"
+    end
+  end
+
+  def majority_vote_on_division(division)
+    vote = votes.where(division_id: division.id).first
+    if vote
+      # TODO What happens when the same number of votes on each side? Or can this never happen by design?
+      if division.majority_vote == "none"
+        vote.vote
+      elsif vote.vote == division.majority_vote
+        "majority"
+      else
+        "minority"
+      end
     else
       "absent"
     end

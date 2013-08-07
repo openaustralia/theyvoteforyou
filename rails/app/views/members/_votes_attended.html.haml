@@ -13,5 +13,16 @@
       = @member.party
       Vote
     %td Rôle
-  %tr.odd
-    %td{:colspan => "7"} no votes listed
+  - if @divisions.empty?
+    %tr.odd
+      %td{:colspan => "7"} no votes listed
+  - else
+    - @divisions.each do |division|
+      %tr.odd
+        %td= division.australian_house.capitalize
+        %td= division.date.strftime("%d&nbsp;%b&nbsp;%Y").html_safe
+        %td= division.division_name
+        %td= division.majority_vote_for(@member).capitalize
+        %td= division.whip_guess_for(@member.party)
+        %td= division.role_for(@member).capitalize
+

@@ -14,4 +14,13 @@ class Vote < ActiveRecord::Base
   def rebellion?
     whip_guess != "none" && vote != whip_guess
   end
+
+  def role
+    # TODO Take into account free votes
+    if rebellion?
+      "rebel"
+    else
+      "loyal"
+    end
+  end
 end

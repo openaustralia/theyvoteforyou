@@ -91,5 +91,10 @@ class MembersController < ApplicationController
       @short_title = "Voting Record — #{name}"
     end
     @title = "#{@short_title} — The Public Whip"
+
+    if @display == "allvotes"
+      # divisions attended
+      @divisions = @member.divisions.order(division_date: :desc, clock_time: :desc)
+    end
   end
 end

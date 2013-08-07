@@ -16,6 +16,33 @@ class Division < ActiveRecord::Base
   scope :with_rebellions, -> { where("rebellions > 10") }
   scope :in_parliament, ->(parliament) { where("division_date >= ? AND division_date < ?", parliament[:from], parliament[:to]) }
 
+  def whip_guess_for(party)
+    whips.where(party: party).first.whip_guess
+  end
+
+  def role_for(member)
+    votes.where(mp_id: member.id).first.role
+  end
+
+  def vote_for(member)
+    member.vote_on_division(self)
+  end
+
+  def majority_vote_for(member)
+    member.majority_vote_on_division(self)
+  end
+
+  # The vote of the majority (either aye or no)
+  def majority_vote
+    if aye_majority == 0
+      "none"
+    elsif aye_majority > 0
+      "aye"
+    else
+      "no"
+    end
+  end
+
   # TODO Fix this hacky nonsense by doing this query in the db
   def rebellions_order_party
     votes.joins(:member).order("pw_mp.party", "pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
