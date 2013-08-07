@@ -18,11 +18,17 @@
       %td{:colspan => "7"} no votes listed
   - else
     - @divisions.each do |division|
-      %tr.odd
-        %td= division.australian_house.capitalize
+      %tr{:class => cycle("even", "odd")}
+        %td{:class => (division.australian_house == "representatives" ? "commons" : "lords")}
+          = division.australian_house.capitalize
         %td= division.date.strftime("%d&nbsp;%b&nbsp;%Y").html_safe
-        %td= division.division_name
+        -# house=representatives appears twice in the link which is clearly wrong
+        -# TODO Fix this
+        - if division.australian_house == "representatives"
+          %td= link_to division.division_name, "division.php?date=#{division.date}&number=#{division.number}&mpn=#{@member.name.gsub(" ", "_")}&mpc=#{@member.electorate}&house=#{division.australian_house}&house=#{division.australian_house}"
+        - else
+          %td= link_to division.division_name, "division.php?date=#{division.date}&number=#{division.number}&mpn=#{@member.name.gsub(" ", "_")}&mpc=Senate&house=#{division.australian_house}&house=#{division.australian_house}"
         %td= division.majority_vote_for(@member).capitalize
         %td= division.whip_guess_for(@member.party)
-        %td= division.role_for(@member).capitalize
+        %td{:class => ""}= division.role_for(@member).capitalize
 

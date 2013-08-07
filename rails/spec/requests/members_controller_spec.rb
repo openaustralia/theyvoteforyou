@@ -4,6 +4,7 @@ require 'spec_helper'
 describe MembersController do
   include HTMLCompareHelper
   fixtures :electorates, :offices, :members, :member_infos
+  #fixtures :electorates, :offices, :members, :member_infos, :divisions, :division_infos, :whips, :votes
 
   it "#index" do
     compare("/mps.php")
