@@ -1,3 +1,9 @@
+- unless @member.current_offices.empty?
+  %p
+    %b= @member.name
+    is currently
+    -# There is always a comma at the end. Not correct. Only doing this to emulate behaviour of php app
+    %b= @member.current_offices.map{|o| o.position + ","}.join
 %p
   %em Note:
   our voting records currently only go back to the

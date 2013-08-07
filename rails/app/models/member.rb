@@ -19,6 +19,10 @@ class Member < ActiveRecord::Base
     "#{title} #{first_name} #{last_name}".strip
   end
 
+  def current_offices
+    offices_on_date(Date.today)
+  end
+
   def offices_on_date(date)
     offices.where("? >= from_date AND ? <= to_date", date, date)
   end
