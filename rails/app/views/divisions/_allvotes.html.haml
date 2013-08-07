@@ -54,9 +54,13 @@
       %td{:colspan => "4"} No results found
   - else
     - @votes.each do |vote|
-      %tr.even
+      %tr{:class => cycle("odd", "even")}
         %td= link_to vote.name, member_path(vote.member)
-        %td= vote.electorate
+        %td
+          - if @house == "representatives"
+            = link_to vote.electorate, electorate_path(vote.member)
+          - else
+            = vote.electorate
         %td
           = vote.party_long2
           - if vote.member.on_front_bench?(vote.date)
