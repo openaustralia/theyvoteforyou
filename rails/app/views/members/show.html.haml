@@ -15,14 +15,20 @@
     = display_link2(@member, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display)
 <!-- the second tier navigation as dropdowns end-->
 
-= render "summary"
-= render "external_links"
 
 - if @display.nil?
+  = render "summary"
+  = render "external_links"
   = render "interesting_votes"
   = render "policy_comparisons"
   = render "possible_friends"
 - elsif @display == "allvotes"
+  = render "summary"
+  = render "external_links"
   = render "votes_attended"
 - elsif @display == "everyvote"
+  = render "summary"
+  = render "external_links"
   = render "all_votes"
+- elsif @display == "allfriends"
+  = render "all_possible_friends"
