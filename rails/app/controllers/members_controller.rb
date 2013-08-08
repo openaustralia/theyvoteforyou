@@ -95,6 +95,9 @@ class MembersController < ApplicationController
     if @display == "allvotes"
       # divisions attended
       @divisions = @member.divisions.order(division_date: :desc, clock_time: :desc)
+    elsif @display == "everyvote"
+      # All divisions MP could have attended
+      @divisions = @member.divisions_possible.order(division_date: :desc, clock_time: :desc)
     end
   end
 end

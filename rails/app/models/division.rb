@@ -21,7 +21,12 @@ class Division < ActiveRecord::Base
   end
 
   def role_for(member)
-    votes.where(mp_id: member.id).first.role
+    v = votes.where(mp_id: member.id).first
+    if v
+      v.role
+    else
+      "absent"
+    end
   end
 
   def vote_for(member)

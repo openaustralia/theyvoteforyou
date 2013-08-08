@@ -8,6 +8,11 @@ class Member < ActiveRecord::Base
   # Divisions that have been attended
   has_many :divisions, through: :votes
 
+  # All divisions that this member could have attended
+  def divisions_possible
+    Division.where(house: house).where("division_date >= ? AND division_date < ?", entered_house, left_house)
+  end
+
   def vote_on_division(division)
     vote = votes.where(division_id: division.id).first
     if vote
