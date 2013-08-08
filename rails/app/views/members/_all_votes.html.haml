@@ -26,6 +26,14 @@
           %td= link_to division.division_name, "division.php?date=#{division.date}&number=#{division.number}&mpn=#{@member.name.gsub(" ", "_")}&mpc=#{@member.electorate}&house=#{division.australian_house}&house=#{division.australian_house}"
         - else
           %td= link_to division.division_name, "division.php?date=#{division.date}&number=#{division.number}&mpn=#{@member.name.gsub(" ", "_")}&mpc=Senate&house=#{division.australian_house}&house=#{division.australian_house}"
-        %td= division.majority_vote_for(@member).capitalize
+        %td
+          - if division.majority_vote_for(@member) == "absent"
+            absent
+          - else
+            = division.majority_vote_for(@member).capitalize
         %td= division.whip_guess_for(@member.party)
-        %td{:class => ""}= division.role_for(@member).capitalize
+        %td{:class => ""}
+          - if division.role_for(@member) == "absent"
+            absent
+          - else
+            = division.role_for(@member).capitalize
