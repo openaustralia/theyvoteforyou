@@ -8,21 +8,28 @@ module HTMLCompareHelper
     get path
     text = Net::HTTP.get('localhost', path)
     text.force_encoding(Encoding::UTF_8)
-    compare_html(text, response.body)
+    compare_html(text, response.body, path)
   end
 
   private
 
-  def compare_html(old_html, new_html)
+  def compare_html(old_html, new_html, path)
     n = normalise_html(new_html)
     o = normalise_html(old_html)
 
     if n != o
       # Write it out to a file
-      File.open("old.html", "w") {|f| f.write(o.to_s)}
-      File.open("new.html", "w") {|f| f.write(n.to_s)}
+      output("old.html", o, path)
+      output("new.html", n, path)
       exec("opendiff old.html new.html")
       raise "Don't match. Writing to file old.html and new.html"
+    end
+  end
+
+  def output(file, text, comment)
+    File.open(file, "w") do |f|
+      f.write("<!-- " + comment + " -->\n")
+      f.write(text.to_s)
     end
   end
 
