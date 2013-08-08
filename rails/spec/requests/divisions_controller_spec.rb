@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe DivisionsController do
   include HTMLCompareHelper
-  fixtures :members, :member_infos, :divisions, :division_infos, :whips, :votes
+  fixtures :electorates, :offices, :members, :member_infos, :divisions, :division_infos, :whips, :votes
   
   it "#show" do
     compare("/division.php?date=2013-03-14&number=1")
