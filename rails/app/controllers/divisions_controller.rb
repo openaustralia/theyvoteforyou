@@ -41,7 +41,8 @@ class DivisionsController < ApplicationController
     @divisions = @divisions.with_rebellions if @rdisplay2 == "rebels"
 
     if @rdisplay2 && @rdisplay2 != "rebels"
-      @title = "Australian Labor Party — 2010 (current) — The Public Whip"
+      @short_title = "Australian Labor Party — 2010 (current)"
+      @title = "#{@short_title} — The Public Whip"
       render "single_party"
     end
   end

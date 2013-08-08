@@ -1,4 +1,4 @@
-%h1 Australian Labor Party — 2010 (current)
+%h1= @short_title
 / the second tier navigation as dropdowns
 :plain
   <!-- add hashes to $second_links array, keys are
@@ -8,56 +8,46 @@
        'current' - 'on' or 'off' for whether this item is currently selected -->
 %form{:action => "/redir.php", :method => "post", :name => "secondnav", :style => "display: inline"}
   %select#r{:name => "r", :onchange => "secondnav_goto()"}
-    %option.on{:onclick => "secondnav_goto()", :selected => "", :title => "", :value => "/divisions.php?rdisplay2=Australian Labor Party_party&house=representatives"}
-      2010 (current)
-    %option.off{:onclick => "secondnav_goto()", :title => "", :value => "/divisions.php?rdisplay=2007&rdisplay2=Australian Labor Party_party&house=representatives"}
-      2008-2010
-    %option.off{:onclick => "secondnav_goto()", :title => "", :value => "/divisions.php?rdisplay=2004&rdisplay2=Australian Labor Party_party&house=representatives"}
-      2004-2007
-    %option.off{:onclick => "secondnav_goto()", :title => "", :value => "/divisions.php?rdisplay=all&rdisplay2=Australian Labor Party_party&house=representatives"}
-      All Parliaments
+    %option{:class => (@rdisplay == "2010" ? "on" : "off"), :onclick => "secondnav_goto()", :selected => (@rdisplay == "2010"), :title => "", :value => divisions_path(params.merge(rdisplay: nil))} 2010 (current)
+    %option{:class => (@rdisplay == "2007" ? "on" : "off"), :onclick => "secondnav_goto()", :selected => (@rdisplay == "2007"), :title => "", :value => divisions_path(params.merge(rdisplay: "2007"))} 2008-2010
+    %option{:class => (@rdisplay == "2004" ? "on" : "off"), :onclick => "secondnav_goto()", :selected => (@rdisplay == "2004"), :title => "", :value => divisions_path(params.merge(rdisplay: "2004"))} 2004-2007
+    %option{:class => (@rdisplay == "all" ? "on" : "off"), :onclick => "secondnav_goto()", :selected => (@rdisplay == "all"), :title => "", :value => divisions_path(params.merge(rdisplay: "all"))} All Parliaments
   %input{:name => "submit", :type => "submit", :value => "Go"}/
 %form{:action => "/redir.php", :method => "post", :name => "secondnav", :style => "display: inline"}
   %select#r2{:name => "r2", :onchange => "secondnav_goto2()"}
-    %option.off{:onclick => "secondnav_goto2()", :title => "", :value => "/divisions.php?rdisplay2=Australian Labor Party_party"}
-      All
-      houses
-    %option.on{:onclick => "secondnav_goto2()", :selected => "", :title => "", :value => "/divisions.php?rdisplay2=Australian Labor Party_party&house=representatives"}
-      Representatives only
-    %option.off{:onclick => "secondnav_goto2()", :title => "", :value => "/divisions.php?rdisplay2=Australian Labor Party_party&house=senate"}
-      Senate only
+    %option{:class => (@house.nil? ? "on": "off"), :onclick => "secondnav_goto2()", :selected => @house.nil?, :title => "", :value => divisions_path(params.merge(house: nil))} All houses
+    %option{:class => (@house == "representatives" ? "on" : "off"), :onclick => "secondnav_goto2()", :selected => (@house == "representatives"), :title => "", :value => divisions_path(params.merge(house: "representatives"))} Representatives only
+    %option{:class => (@house == "senate" ? "on" : "off"), :onclick => "secondnav_goto2()", :selected => (@house == "senate"), :title => "", :value => divisions_path(params.merge(house: "senate"))} Senate only
   %input{:name => "submit", :type => "submit", :value => "Go"}/
 %form{:action => "/redir.php", :method => "post", :name => "secondnav", :style => "display: inline"}
   %select#r3{:name => "r3", :onchange => "secondnav_goto3()"}
-    %option.off{:onclick => "secondnav_goto3()", :title => "", :value => "/divisions.php?house=representatives"} All Divisions
-    %option.off{:onclick => "secondnav_goto3()", :title => "", :value => "/divisions.php?rdisplay2=rebels&house=representatives"}
-      Rebellions
-    %option.on{:onclick => "secondnav_goto3()", :selected => "", :title => "", :value => "/divisions.php?rdisplay2=Australian Labor Party_party&house=representatives"}
-      Australian Labor Party
-    %option.off{:onclick => "secondnav_goto3()", :title => "", :value => "/divisions.php?rdisplay2=Liberal Party_party&house=representatives"}
-      Liberal Party
+    %option{:class => (@rdisplay2.nil? ? "on": "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2.nil?), :title => "", :value => divisions_path(params.merge(rdisplay2: nil))} All Divisions
+    %option{:class => (@rdisplay2 == "rebels" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "rebels"), :title => "", :value => divisions_path(params.merge(rdisplay2: "rebels"))} Rebellions
+    -# TODO Do this properly
+    - if (@rdisplay == "2010" || @rdisplay == "all") && @house == "representatives"
+      %option{:class => (@rdisplay2 == "Australian Labor Party_party" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "Australian Labor Party_party"), :title => "", :value => divisions_path(params.merge(rdisplay2: "Australian Labor Party_party"))} Australian Labor Party
+      %option{:class => (@rdisplay2 == "Liberal Party_party" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "Liberal Party_party"), :title => "", :value => divisions_path(params.merge(rdisplay2: "Liberal Party_party"))} Liberal Party
+    - if (@rdisplay == "2010" || @rdisplay == "all") && @house == "senate"
+      %option{:class => (@rdisplay2 == "Australian Greens_party" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "Australian Greens_party"), :title => "", :value => divisions_path(params.merge(rdisplay2: "Australian Greens_party"))} Australian Greens
   %input{:name => "submit", :type => "submit", :value => "Go"}/
 <!-- the second tier navigation as dropdowns end-->
+
 %p
-  A 'division' is parliamentary terminology for a 'vote' (
-  %a{:href => "/faq.php#jargon"}> read more...
-  ). This page shows divisions in
-  the Australian parliament. Make sure you
-  %a{:href => "/faq.php#clarify"} read the explanation
-  about rebellions, as
-  they may not be what you expect.
+  A 'division' is parliamentary terminology for a 'vote'
+  (#{link_to "read more...", "/faq.php#jargon"}).
+  This page shows divisions in the Australian parliament. Make sure you
+  = link_to "read the explanation", "/faq.php#clarify"
+  about rebellions, as they may not be what you expect.
+
 %p{:align => "center", :style => "font-size: 89%"}
   Sort by:
-  %b Date
+  = sort_link_divisions(nil, "date", "Date", @sort)
   |
-  %a{:alt => "Sort by subject", :href => "/divisions.php?rdisplay2=Australian%20Labor%20Party_party&house=representatives&sort=subject"}
-    Subject
+  = sort_link_divisions("subject", "subject", "Subject", @sort)
   |
-  %a{:alt => "Sort by rebellions", :href => "/divisions.php?rdisplay2=Australian%20Labor%20Party_party&house=representatives&sort=rebellions"}
-    Rebellions
+  = sort_link_divisions("rebellions", "rebellions", "Rebellions", @sort)
   |
-  %a{:alt => "Sort by turnout", :href => "/divisions.php?rdisplay2=Australian%20Labor%20Party_party&house=representatives&sort=turnout"}
-    Turnout
+  = sort_link_divisions("turnout", "turnout", "Turnout", @sort)
 %table.votes
   %tr.headings
     %td Date
