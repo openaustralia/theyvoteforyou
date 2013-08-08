@@ -138,5 +138,7 @@ describe DivisionsController do
     compare("/divisions.php?rdisplay=2007&rdisplay2=rebels&house=senate&sort=turnout")
     compare("/divisions.php?rdisplay=2004&rdisplay2=rebels&house=senate&sort=turnout")
     compare("/divisions.php?rdisplay=all&rdisplay2=rebels&house=senate&sort=turnout")
+
+    compare("/divisions.php?rdisplay2=Australian%20Labor%20Party_party&house=representatives")
   end
 end

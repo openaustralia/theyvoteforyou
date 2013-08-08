@@ -39,6 +39,10 @@ class DivisionsController < ApplicationController
     @divisions = @divisions.in_australian_house(@house) if @house    
     @divisions = @divisions.in_parliament(parliament) if @rdisplay != "all"    
     @divisions = @divisions.with_rebellions if @rdisplay2 == "rebels"
+
+    if @rdisplay2 && @rdisplay2 != "rebels"
+      render "single_party", layout: false
+    end
   end
 
   def show
