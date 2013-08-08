@@ -53,36 +53,58 @@
   = sort_link_divisions("rebellions", "rebellions", "Rebellions", @sort)
   |
   = sort_link_divisions("turnout", "turnout", "Turnout", @sort)
-  %table.votes
-    %tr.headings
-      - if @house.nil?
-        %td House
-      %td Date
-      %td Time
-      %td Subject
-      %td
-        Rebels
-        %br>/
-        (#{link_to "explain..", "/faq.php#clarify"})
-      %td Turnout
-      %td Majority
-    - if @divisions.empty?
-      %tr.odd
+  - if @single_party
+    %table.votes
+      %tr.headings
+        %td Date
+        %td Time
+        %td Subject
+        %td Australian Labor Party Turnout
+        %td Loyal
+        %td Rebels
+        %td Boths
+      %tr.even
+        %td 14&nbsp;Mar&nbsp;2013
+        %td 10:56
+        %td
+          %a{:href => "division.php?date=2013-03-14&number=1&house=representatives"}
+            Bills — National Disability Insurance Scheme Bill 2012;
+            Consideration in Detail
+        %td 100.0%
+        %td 1
+        %td 0
+        %td 0
+  - else
+    %table.votes
+      %tr.headings
         - if @house.nil?
-          %td(colspan="9") no votes listed
-        - else
-          %td(colspan="8") no votes listed
-    - else
-      - @divisions.each do |division|
-        %tr{:class => cycle("even", "odd")}
+          %td House
+        %td Date
+        %td Time
+        %td Subject
+        %td
+          Rebels
+          %br>/
+          (#{link_to "explain..", "/faq.php#clarify"})
+        %td Turnout
+        %td Majority
+      - if @divisions.empty?
+        %tr.odd
           - if @house.nil?
-            %td{:class => division.house}= division.australian_house_name
-          %td= division.date.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
-          %td
-            - if division.clock_time
-              = division.clock_time.strftime("%H:%M")
-          %td
-            = link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
-          %td= division.no_rebellions
-          %td= division.turnout
-          %td= division.majority
+            %td(colspan="9") no votes listed
+          - else
+            %td(colspan="8") no votes listed
+      - else
+        - @divisions.each do |division|
+          %tr{:class => cycle("even", "odd")}
+            - if @house.nil?
+              %td{:class => division.house}= division.australian_house_name
+            %td= division.date.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
+            %td
+              - if division.clock_time
+                = division.clock_time.strftime("%H:%M")
+            %td
+              = link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
+            %td= division.no_rebellions
+            %td= division.turnout
+            %td= division.majority

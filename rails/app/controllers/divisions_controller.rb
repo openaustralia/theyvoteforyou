@@ -43,7 +43,7 @@ class DivisionsController < ApplicationController
     if @rdisplay2 && @rdisplay2 != "rebels"
       @short_title = "Australian Labor Party — 2010 (current)"
       @title = "#{@short_title} — The Public Whip"
-      render "single_party"
+      @single_party = true
     end
   end
 
