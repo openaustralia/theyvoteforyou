@@ -2,21 +2,14 @@
 
 class DivisionsController < ApplicationController
   def index
-    # List of parliaments (temporarily here)
-    parliaments = {
-      "2010" => {from: Date.new(2010,9,28),  to: Date.new(9999,12,31), name: "2010 (current)"},
-      "2007" => {from: Date.new(2008,2,12),  to: Date.new(2010,7,19),  name: "2008-2010"},
-      "2004" => {from: Date.new(2004,11,16), to: Date.new(2007,10,17), name: "2004-2007"},
-    }
-
     @sort = params[:sort]
     @rdisplay = params[:rdisplay]
     @rdisplay = "2010" if @rdisplay.nil?
     @rdisplay2 = params[:rdisplay2]
     @house = params[:house]
 
-    parliament = parliaments[@rdisplay]
-    raise "Invalid rdisplay param" unless @rdisplay == "all" || parliaments.has_key?(@rdisplay)
+    parliament = Member.parliaments[@rdisplay]
+    raise "Invalid rdisplay param" unless @rdisplay == "all" || Member.parliaments.has_key?(@rdisplay)
 
     @short_title = @rdisplay2 == "rebels" ? "Rebellions" : "Divisions"
     @short_title += " — "
