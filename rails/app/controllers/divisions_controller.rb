@@ -41,9 +41,10 @@ class DivisionsController < ApplicationController
     @divisions = @divisions.with_rebellions if @rdisplay2 == "rebels"
 
     if @rdisplay2 && @rdisplay2 != "rebels"
-      @short_title = "Australian Labor Party — 2010 (current)"
+      @party = @rdisplay2.match(/(.*)_party/)[1]
+      @short_title = "#{@party} — 2010 (current)"
       @title = "#{@short_title} — The Public Whip"
-      @single_party = true
+      @divisions = @divisions.joins(:whips).where(pw_cache_whip: {party: @party})
     end
   end
 

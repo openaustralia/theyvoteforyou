@@ -53,27 +53,37 @@
   = sort_link_divisions("rebellions", "rebellions", "Rebellions", @sort)
   |
   = sort_link_divisions("turnout", "turnout", "Turnout", @sort)
-  - if @single_party
+  - if @party
     %table.votes
       %tr.headings
         %td Date
         %td Time
         %td Subject
-        %td Australian Labor Party Turnout
+        %td
+          = @party
+          Turnout
         %td Loyal
         %td Rebels
+        -# TODO Need to remove Boths
         %td Boths
-      %tr.even
-        %td 14&nbsp;Mar&nbsp;2013
-        %td 10:56
-        %td
-          %a{:href => "division.php?date=2013-03-14&number=1&house=representatives"}
-            Bills — National Disability Insurance Scheme Bill 2012;
-            Consideration in Detail
-        %td 100.0%
-        %td 1
-        %td 0
-        %td 0
+      - if @divisions.empty?
+        %p TODO fill this in
+      - else
+        - @divisions.each do |division|
+          -# TODO temporary variable Eek!
+          - whip = division.whips.where(party: @party).first
+          %tr.even
+            %td= division.date.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
+            %td
+              - if division.clock_time
+                = division.clock_time.strftime("%H:%M")
+            %td
+              = link_to division.name, "division.php?date=2013-03-14&number=1&house=representatives"
+            -# TODO Here it's called Turnout. Elsewhere it's called Attendance. Bad!
+            %td= whip.attendance_percentage
+            %td= whip.no_loyal
+            %td= whip.no_rebels
+            %td 0
   - else
     %table.votes
       %tr.headings

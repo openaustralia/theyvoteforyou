@@ -4,6 +4,30 @@ class Whip < ActiveRecord::Base
 
   delegate :noes_in_majority?, to: :division
 
+  def no_loyal
+    if whip_guess == "no"
+      no_votes_including_tells
+    elsif whip_guess == "yes"
+      aye_votes_including_tells
+    else
+      # Otherwise we'll just call the majority loyal
+      # TODO Is that the right thing to do?
+      majority_votes_including_tells
+    end
+  end
+
+  def no_rebels
+    if whip_guess == "no"
+      aye_votes_including_tells
+    elsif whip_guess == "yes"
+      no_votes_including_tells
+    else
+      # Otherwise we'll just call the minority rebels
+      # TODO Is that the right thing to do?
+      minority_votes_including_tells
+    end
+  end
+
   def attendance_fraction
     # TODO What if possible_votes == 0?
     (total_votes).to_f / possible_votes
