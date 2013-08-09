@@ -8,15 +8,25 @@ class DivisionsController < ApplicationController
     @rdisplay2 = params[:rdisplay2]
     @house = params[:house]
 
+    if @rdisplay2 && @rdisplay2 != "rebels"
+      @party = @rdisplay2.match(/(.*)_party/)[1]
+    end
+
     parliament = Member.parliaments[@rdisplay]
     raise "Invalid rdisplay param" unless @rdisplay == "all" || Member.parliaments.has_key?(@rdisplay)
 
-    @short_title = @rdisplay2 == "rebels" ? "Rebellions" : "Divisions"
+    if @rdisplay2 == "rebels"
+      @short_title = "Rebellions"
+    elsif @party
+      @short_title = @party
+    else
+      @short_title = "Divisions"
+    end
     @short_title += " — "
     @short_title += @rdisplay == "all" ? "All divisions on record" : parliament[:name]
-    if @house == "representatives"
+    if @house == "representatives" && @party.nil?
       @short_title += " — Representatives only"
-    elsif @house == "senate"
+    elsif @house == "senate" && @party.nil?
       @short_title += " — Senate only"
     end
     @short_title += " (sorted by #{@sort})" if @sort
@@ -39,13 +49,7 @@ class DivisionsController < ApplicationController
     @divisions = @divisions.in_australian_house(@house) if @house    
     @divisions = @divisions.in_parliament(parliament) if @rdisplay != "all"    
     @divisions = @divisions.with_rebellions if @rdisplay2 == "rebels"
-
-    if @rdisplay2 && @rdisplay2 != "rebels"
-      @party = @rdisplay2.match(/(.*)_party/)[1]
-      @short_title = "#{@party} — 2010 (current)"
-      @title = "#{@short_title} — The Public Whip"
-      @divisions = @divisions.joins(:whips).where(pw_cache_whip: {party: @party})
-    end
+    @divisions = @divisions.joins(:whips).where(pw_cache_whip: {party: @party}) if @party
   end
 
   def show

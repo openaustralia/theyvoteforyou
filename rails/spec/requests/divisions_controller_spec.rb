@@ -142,5 +142,17 @@ describe DivisionsController do
     compare("/divisions.php?rdisplay2=Australian%20Labor%20Party_party&house=representatives")
     compare("/divisions.php?rdisplay2=Liberal%20Party_party&house=representatives")
     compare("/divisions.php?rdisplay2=Australian%20Greens_party&house=senate")
+
+    compare("/divisions.php?rdisplay2=Australian%20Labor%20Party_party&house=representatives&sort=subject")
+    compare("/divisions.php?rdisplay2=Liberal%20Party_party&house=representatives&sort=subject")
+    compare("/divisions.php?rdisplay2=Australian%20Greens_party&house=senate&sort=subject")
+
+    compare("/divisions.php?rdisplay2=Australian%20Labor%20Party_party&house=representatives&sort=rebellions")
+    compare("/divisions.php?rdisplay2=Liberal%20Party_party&house=representatives&sort=rebellions")
+    compare("/divisions.php?rdisplay2=Australian%20Greens_party&house=senate&sort=rebellions")
+
+    compare("/divisions.php?rdisplay2=Australian%20Labor%20Party_party&house=representatives&sort=turnout")
+    compare("/divisions.php?rdisplay2=Liberal%20Party_party&house=representatives&sort=turnout")
+    compare("/divisions.php?rdisplay2=Australian%20Greens_party&house=senate&sort=turnout")
   end
 end
