@@ -67,25 +67,22 @@
         -# TODO Need to remove Boths
         - if @house == "representatives"
           %td Boths
-      - if @divisions.empty?
-        %p TODO fill this in
-      - else
-        - @divisions.each do |division|
-          -# TODO temporary variable Eek!
-          - whip = division.whips.where(party: @party).first
-          %tr.even
-            %td= division.date.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
-            %td
-              - if division.clock_time
-                = division.clock_time.strftime("%H:%M")
-            %td
-              = link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
-            -# TODO Here it's called Turnout. Elsewhere it's called Attendance. Bad!
-            %td= whip.attendance_percentage
-            %td= whip.no_loyal
-            %td= whip.no_rebels
-            - if @house == "representatives"
-              %td 0
+      - @divisions.each do |division|
+        -# TODO temporary variable Eek!
+        - whip = division.whips.where(party: @party).first
+        %tr.even
+          %td= division.date.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
+          %td
+            - if division.clock_time
+              = division.clock_time.strftime("%H:%M")
+          %td
+            = link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
+          -# TODO Here it's called Turnout. Elsewhere it's called Attendance. Bad!
+          %td= whip.attendance_percentage
+          %td= whip.no_loyal
+          %td= whip.no_rebels
+          - if @house == "representatives"
+            %td 0
   - else
     %table.votes
       %tr.headings
