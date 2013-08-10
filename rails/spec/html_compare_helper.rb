@@ -6,7 +6,7 @@ require 'net/http'
 module HTMLCompareHelper
   def compare(path)
     get path
-    text = Net::HTTP.get('localhost', path)
+    text = Net::HTTP.get((ENV['PHP_SERVER'] || 'localhost'), path)
     text.force_encoding(Encoding::UTF_8)
     compare_html(text, response.body, path)
   end
