@@ -158,9 +158,14 @@ class Member < ActiveRecord::Base
     where(left_house: "9999-12-31")
   end
 
+  # TODO Move this to a "party" class
+  def self.party_has_whip?(party)
+    # TODO Should speaker and president be included here?
+    party != "Independent" && party != "CWM" && party != "SPK"
+  end
+
   # Are they a member of a party that has a whip?
   def has_whip?
-    # TODO Should speaker and president be included here?
-    party != "Independent" && party != "CWM"
+    Member.party_has_whip?(party)
   end
 end

@@ -29,9 +29,10 @@
         - parties = Division.in_parliament(Member.parliaments[@rdisplay])
       - else
         - parties = Division
-      - parties = parties.where(house: @uk_house).joins(:whips).select(:party).distinct.map{|d| d.party}
+      - parties = parties.where(house: @uk_house).joins(:whips).order("pw_cache_whip.party").select(:party).distinct.map{|d| d.party}
       - parties.each do |party|
-        %option{:class => (@rdisplay2 == "#{party}_party" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "#{party}_party"), :title => "", :value => divisions_path(params.merge(rdisplay2: "#{party}_party"))}= party
+        - if Member.party_has_whip?(party)
+          %option{:class => (@rdisplay2 == "#{party}_party" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "#{party}_party"), :title => "", :value => divisions_path(params.merge(rdisplay2: "#{party}_party"))}= party
   %input{:name => "submit", :type => "submit", :value => "Go"}/
 <!-- the second tier navigation as dropdowns end-->
 
