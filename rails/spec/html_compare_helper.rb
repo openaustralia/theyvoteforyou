@@ -44,7 +44,7 @@ module HTMLCompareHelper
     # Note the version installed with OS X by default is a version that's too old
     # Install on OS X with "brew install tidy" and replace your system "tidy" with
     # a symlink to the homebrew installed one
-    system("tidy --sort-attributes alpha -utf8 -q -m temp.html")
+    system("tidy --show-warnings no --sort-attributes alpha -utf8 -q -m temp.html")
     r = File.read("temp.html")
     # Make sure that comments of the form <!-- comment --> are followed by a new line
     File.delete("temp.html")
