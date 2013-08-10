@@ -21,7 +21,7 @@ module HTMLCompareHelper
       # Write it out to a file
       output("old.html", o, path)
       output("new.html", n, path)
-      exec("opendiff old.html new.html")
+      exec("diff old.html new.html")
       raise "Don't match. Writing to file old.html and new.html"
     end
   end
