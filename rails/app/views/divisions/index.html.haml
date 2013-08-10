@@ -23,15 +23,15 @@
   %select#r3{:name => "r3", :onchange => "secondnav_goto3()"}
     %option{:class => (@rdisplay2.nil? ? "on": "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2.nil?), :title => "", :value => divisions_path(params.merge(rdisplay2: nil))} All Divisions
     %option{:class => (@rdisplay2 == "rebels" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "rebels"), :title => "", :value => divisions_path(params.merge(rdisplay2: "rebels"))} Rebellions
-    -# TODO Do this properly
-    - if (@rdisplay == "2010" || @rdisplay == "all") && @house == "representatives"
-      - parties = ["Australian Labor Party", "Liberal Party"]
-    - elsif (@rdisplay == "2010" || @rdisplay == "all") && @house == "senate"
-      - parties = ["Australian Greens"]
-    - else
-      - parties = []
-    - parties.each do |party|
-      %option{:class => (@rdisplay2 == "#{party}_party" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "#{party}_party"), :title => "", :value => divisions_path(params.merge(rdisplay2: "#{party}_party"))}= party
+    -# Only currently showing this when we're only looking at a single house. Doesn't seem right
+    - if @house    
+      - if @rdisplay != "all"
+        - parties = Division.in_parliament(Member.parliaments[@rdisplay])
+      - else
+        - parties = Division
+      - parties = parties.where(house: @uk_house).joins(:whips).select(:party).distinct.map{|d| d.party}
+      - parties.each do |party|
+        %option{:class => (@rdisplay2 == "#{party}_party" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "#{party}_party"), :title => "", :value => divisions_path(params.merge(rdisplay2: "#{party}_party"))}= party
   %input{:name => "submit", :type => "submit", :value => "Go"}/
 <!-- the second tier navigation as dropdowns end-->
 

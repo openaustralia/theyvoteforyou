@@ -7,6 +7,7 @@ class DivisionsController < ApplicationController
     @rdisplay = "2010" if @rdisplay.nil?
     @rdisplay2 = params[:rdisplay2]
     @house = params[:house]
+    @uk_house = Division.australian_to_uk_house(@house) if @house
 
     if @rdisplay2 && @rdisplay2 != "rebels"
       @party = @rdisplay2.match(/(.*)_party/)[1]
