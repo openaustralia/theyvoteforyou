@@ -25,10 +25,13 @@
     %option{:class => (@rdisplay2 == "rebels" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "rebels"), :title => "", :value => divisions_path(params.merge(rdisplay2: "rebels"))} Rebellions
     -# TODO Do this properly
     - if (@rdisplay == "2010" || @rdisplay == "all") && @house == "representatives"
-      %option{:class => (@rdisplay2 == "Australian Labor Party_party" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "Australian Labor Party_party"), :title => "", :value => divisions_path(params.merge(rdisplay2: "Australian Labor Party_party"))} Australian Labor Party
-      %option{:class => (@rdisplay2 == "Liberal Party_party" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "Liberal Party_party"), :title => "", :value => divisions_path(params.merge(rdisplay2: "Liberal Party_party"))} Liberal Party
-    - if (@rdisplay == "2010" || @rdisplay == "all") && @house == "senate"
-      %option{:class => (@rdisplay2 == "Australian Greens_party" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "Australian Greens_party"), :title => "", :value => divisions_path(params.merge(rdisplay2: "Australian Greens_party"))} Australian Greens
+      - parties = ["Australian Labor Party", "Liberal Party"]
+    - elsif (@rdisplay == "2010" || @rdisplay == "all") && @house == "senate"
+      - parties = ["Australian Greens"]
+    - else
+      - parties = []
+    - parties.each do |party|
+      %option{:class => (@rdisplay2 == "#{party}_party" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "#{party}_party"), :title => "", :value => divisions_path(params.merge(rdisplay2: "#{party}_party"))}= party
   %input{:name => "submit", :type => "submit", :value => "Go"}/
 <!-- the second tier navigation as dropdowns end-->
 
