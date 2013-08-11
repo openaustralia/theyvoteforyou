@@ -11,16 +11,23 @@ class Vote < ActiveRecord::Base
     division.whips.where(party: party).first
   end
 
+  # Was this part of a free vote?
+  def free?
+    whip_guess == "none"
+  end
+
   def rebellion?
-    whip_guess != "none" && vote != whip_guess
+    !free? && vote != whip_guess
   end
 
   def role
     # TODO Take into account free votes
     if rebellion?
       "rebel"
-    else
+    elsif !free?
       "loyal"
+    else
+      "free"
     end
   end
 end

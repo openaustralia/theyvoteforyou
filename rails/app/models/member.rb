@@ -22,6 +22,13 @@ class Member < ActiveRecord::Base
     Division.where(house: house).where("division_date >= ? AND division_date < ?", entered_house, left_house)
   end
 
+  # Divisions that this member has voted on where either they were a teller, a rebel (or both) or voting
+  # on a free vote
+  def interesting_divisions
+    # free votes
+    divisions.joins(:whips).where(pw_cache_whip: {party: party, whip_guess: "none"})
+  end
+
   def vote_on_division(division)
     vote = votes.where(division_id: division.id).first
     if vote
