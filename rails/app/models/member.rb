@@ -86,6 +86,10 @@ class Member < ActiveRecord::Base
 
   # Long version of party name
   def party_long
+    Member.party_long(party)
+  end
+
+  def self.party_long(party)
     case party
     when "SPK"
       "Speaker"

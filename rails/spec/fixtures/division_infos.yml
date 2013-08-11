@@ -21,3 +21,11 @@ three:
   turnout: 129
   possible_turnout: 150
   aye_majority: -23
+
+four:
+  division_id: 2037
+  rebellions: 11
+  tells: 2
+  turnout: 65
+  possible_turnout: 76
+  aye_majority: -31

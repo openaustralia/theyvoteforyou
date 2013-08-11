@@ -31,8 +31,9 @@
         - parties = Division
       - parties = parties.where(house: @uk_house).joins(:whips).order("pw_cache_whip.party").select(:party).distinct.map{|d| d.party}
       - parties.each do |party|
+        - long_name = Member.party_long(party)
         - if Member.party_has_whip?(party)
-          %option{:class => (@rdisplay2 == "#{party}_party" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "#{party}_party"), :title => "", :value => divisions_path(params.merge(rdisplay2: "#{party}_party"))}= party
+          %option{:class => (@rdisplay2 == "#{party}_party" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "#{party}_party"), :title => "", :value => divisions_path(params.merge(rdisplay2: "#{party}_party"))}= long_name
   %input{:name => "submit", :type => "submit", :value => "Go"}/
 <!-- the second tier navigation as dropdowns end-->
 
@@ -74,7 +75,7 @@
       - @divisions.each do |division|
         -# TODO temporary variable Eek!
         - whip = division.whips.where(party: @party).first
-        %tr.even
+        %tr{:class => (@rdisplay2 != "rebels" && division.rebellious? ? "evenrebel" : "even")}
           %td= division.date.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
           %td
             - if division.clock_time
@@ -109,7 +110,7 @@
             %td(colspan="8") no votes listed
       - else
         - @divisions.each do |division|
-          %tr{:class => cycle("even", "odd")}
+          %tr{:class => cycle("even", "odd") + ((@rdisplay2 != "rebels" && @sort != "rebellions" && division.rebellious? ? "rebel" : ""))}
             - if @house.nil?
               %td{:class => division.house}= division.australian_house_name
             %td= division.date.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe

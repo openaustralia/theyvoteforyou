@@ -16,6 +16,10 @@ class Division < ActiveRecord::Base
   scope :with_rebellions, -> { joins(:division_info).where("rebellions > 10") }
   scope :in_parliament, ->(parliament) { where("division_date >= ? AND division_date < ?", parliament[:from], parliament[:to]) }
 
+  def rebellious?
+    no_rebellions > 10
+  end
+
   def whip_guess_for(party)
     whips.where(party: party).first.whip_guess
   end
