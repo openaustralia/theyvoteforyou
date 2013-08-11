@@ -36,6 +36,8 @@ describe DivisionsController do
     compare("/division.php?date=2013-03-14&number=1&display=allpossible&sort=vote")
     compare("/division.php?date=2013-03-14&number=1&house=representatives&display=allpossible&sort=vote")
     compare("/division.php?date=2013-03-14&number=1&house=senate&display=allpossible&sort=vote")
+
+    compare("/division.php?date=2006-12-06&number=3&house=representatives")
   end
 
   it "#index" do

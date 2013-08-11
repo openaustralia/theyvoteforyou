@@ -19,15 +19,24 @@
   - @division.whips.order(:party).each do |whip|
     -# Don't shown parties that haven't voted in this division
     - if whip.total_votes > 0
-      %tr.odd
+      %tr{:class => cycle("odd", "even")}
         %td= whip.party_name
-        %td{:class => majority_vote_class(whip)}= whip.majority_votes_including_tells
-        %td{:class => minority_vote_class(whip)}= whip.minority_votes_including_tells
+        %td{:class => majority_vote_class(whip)}
+          = whip.majority_votes
+          - if whip.majority_tells_votes > 0
+            (+#{pluralize(whip.majority_tells_votes, "tell")})
+        %td{:class => minority_vote_class(whip)}
+          = whip.minority_votes
+          - if whip.minority_tells_votes > 0
+            (+#{pluralize(whip.minority_tells_votes, "tell")})
         %td.percent= whip.attendance_percentage
-  %tr.even
+  %tr{:class => cycle("odd", "even")}
     %td.whip Total:
-    %td{:class => majority_vote_total_class(@division)}= @division.majority_votes_including_tells
-    %td{:class => minority_vote_total_class(@division)}= @division.minority_votes_including_tells
+    -# This is currently showing totals which don't include the tells. THIS IS clearly WRONG.
+    -# Doing this only because it matches the behaviour of the php app
+    -# TODO fix this to the do the sensible thing
+    %td{:class => majority_vote_total_class(@division)}= @division.majority_votes
+    %td{:class => minority_vote_total_class(@division)}= @division.minority_votes
     %td.percent= @division.attendance_percentage
 %h2
   %a{:name => "votes"}
@@ -109,6 +118,7 @@
           %td= vote.party_long2
           %td= vote.vote
   - elsif @display == "allpossible"
+    - reset_cycle
     - @members.each do |member|
       %tr{:class => cycle("odd", "even")}
         %td= link_to member.name, member_path(member)

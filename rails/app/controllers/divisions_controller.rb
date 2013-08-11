@@ -102,11 +102,8 @@ class DivisionsController < ApplicationController
       raise
     end
 
-    if @division.clock_time
-      @short_title = "#{@division.name} — #{@division.date.strftime('%d %b %Y')} at #{@division.clock_time.strftime('%H:%M')}"
-    else
-      @short_title = "#{@division.name} — #{@division.date.strftime('%d %b %Y')}"
-    end
+    @short_title = "#{@division.name} — #{@division.date.strftime('%-d %b %Y')}"
+    @short_title += " at #{@division.clock_time.strftime('%H:%M')}" if @division.clock_time
     @title = @short_title + " — The Public Whip"
   end
 end

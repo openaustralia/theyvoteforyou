@@ -35,7 +35,8 @@ module DivisionsHelper
   def majority_vote_class(whip)
     if whip.majority_votes == 0
       "normal"
-    elsif whip.whip_guess_majority == "majority"
+    # Special case for free votes
+    elsif whip.whip_guess_majority == "majority" || whip.free?
       "whip"
     else
       "rebel"
@@ -45,7 +46,7 @@ module DivisionsHelper
   def minority_vote_class(whip)
     if whip.minority_votes == 0
       "normal"
-    elsif whip.whip_guess_majority == "minority"
+    elsif whip.whip_guess_majority == "minority" || whip.free?
       "whip"
     else
       "rebel"

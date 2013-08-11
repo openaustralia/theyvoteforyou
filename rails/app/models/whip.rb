@@ -52,6 +52,8 @@ class Whip < ActiveRecord::Base
   def party_name
     if party == "PRES"
       "President"
+    elsif party == "CWM"
+      "Deputy Speaker"
     else
       party
     end
@@ -76,6 +78,14 @@ class Whip < ActiveRecord::Base
 
   def majority_votes_including_tells
     noes_in_majority? ? no_votes_including_tells : aye_votes_including_tells
+  end
+
+  def majority_tells_votes
+    noes_in_majority? ? no_tells : aye_tells
+  end
+
+  def minority_tells_votes
+    noes_in_majority? ? aye_tells : no_tells
   end
 
   def minority_votes
