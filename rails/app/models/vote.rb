@@ -4,16 +4,11 @@ class Vote < ActiveRecord::Base
   belongs_to :member, foreign_key: "mp_id"
 
   delegate :party, :party_long2, :name, :electorate, to: :member
-  delegate :whip_guess, to: :whip
+  delegate :whip_guess, :free?, to: :whip
   delegate :date, to: :division
 
   def whip
     division.whips.where(party: party).first
-  end
-
-  # Was this part of a free vote?
-  def free?
-    whip_guess == "none"
   end
 
   def rebellion?

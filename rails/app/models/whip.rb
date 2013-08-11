@@ -4,6 +4,10 @@ class Whip < ActiveRecord::Base
 
   delegate :noes_in_majority?, to: :division
 
+  def free?
+    whip_guess == "none"
+  end
+
   def no_loyal
     if whip_guess == "no"
       no_votes_including_tells
