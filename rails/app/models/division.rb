@@ -68,23 +68,23 @@ class Division < ActiveRecord::Base
   # Using whips cache to calculate this. Is this the best way?
   # No. should use values from division_info
   def aye_votes
-    whips.sum(&:aye_votes)
+    whips.to_a.sum(&:aye_votes)
   end
 
   def aye_tells
-    whips.sum(&:aye_tells)
+    whips.to_a.sum(&:aye_tells)
   end
 
   def no_votes
-    whips.sum(&:no_votes)
+    whips.to_a.sum(&:no_votes)
   end
 
   def no_tells
-    whips.sum(&:no_tells)
+    whips.to_a.sum(&:no_tells)
   end
 
   def total_votes
-    whips.sum(&:total_votes)
+    whips.to_a.sum(&:total_votes)
   end
 
   def aye_votes_including_tells
