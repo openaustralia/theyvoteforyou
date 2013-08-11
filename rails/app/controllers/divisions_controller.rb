@@ -63,6 +63,19 @@ class DivisionsController < ApplicationController
     @division = Division.find_by(division_date: @date, division_number: params[:number],
       house: @uk_house)
 
+    # If a member is included
+    if params[:mpn] && params[:mpc]
+      first_name = params[:mpn].split("_")[0]
+      last_name = params[:mpn].split("_")[1]
+      electorate = params[:mpc]
+      # TODO Also ensure that the member is current on the date of this division
+      if electorate == "Senate"
+        @member = Member.where(first_name: first_name, last_name: last_name, house: @uk_house).first
+      else
+        @member = Member.where(first_name: first_name, last_name: last_name, constituency: electorate, house: @uk_house).first
+      end
+    end
+
     if @display.nil?
       if @sort.nil?
         @votes = @division.rebellions_order_party

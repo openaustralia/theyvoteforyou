@@ -38,6 +38,10 @@ describe DivisionsController do
     compare("/division.php?date=2013-03-14&number=1&house=senate&display=allpossible&sort=vote")
 
     compare("/division.php?date=2006-12-06&number=3&house=representatives")
+    # house=representatives or house=senate appears twice. This is obviously wrong
+    compare("/division.php?date=2006-12-06&number=3&mpn=Tony_Abbott&mpc=Warringah&house=representatives&house=representatives")
+    compare("/division.php?date=2006-12-06&number=3&mpn=Kevin_Rudd&mpc=Griffith&house=representatives&house=representatives")
+    compare("/division.php?date=2013-03-14&number=1&mpn=Christine_Milne&mpc=Senate&house=senate&house=senate")
   end
 
   it "#index" do
