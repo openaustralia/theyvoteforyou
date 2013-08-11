@@ -10,43 +10,22 @@
     - else
       raise
 %p
-  - if @house == "representatives"
-    Representatives
-  - elsif @house == "senate"
-    Senators
-  - else
-    - raise
-  for which their vote in this division differed
-  from the majority vote of their party are marked in red. Also shows
-  which
-  - if @house == "representatives"
-    Representatives
-  - elsif @house == "senate"
-    Senators
-  - else
-    - raise
-  were ministers at the time of this vote. You
-  can also see
+  = members_type(@house)
+  -# TODO The wording below suggests that things can be marked in red. This is not the case.
+  -# TODO Either make it or so or change the wording
+  for which their vote in this division differed from the majority vote of their party are marked in red.
+  Also shows which
+  = members_type(@house)
+  were ministers at the time of this vote. You can also see
   = link_to division_path(params.merge(display: "allpossible")) do
     every eligible
-    - if @house == "representatives"
-      Representative
-    - elsif @house == "senate"
-      Senator
-    - else
-      - raise
+    = member_type(@house)
   including those who did not vote in this division.
 = render "sort_links"
 %table#votetable.votes
   %tr.headings
     %td Name
-    %td
-      - if @house == "representatives"
-        Electorate
-      - elsif @house == "senate"
-        State
-      - else
-        - raise
+    %td= electorate_label(@house)
     %td Party
     %td Vote
   - if @votes.empty?

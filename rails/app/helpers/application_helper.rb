@@ -23,4 +23,38 @@ module ApplicationHelper
       link_to name, params.merge(sort: sort), alt: "Sort by #{sort_name}"
     end
   end
+
+  # Returns Representatives or Senators
+  def members_type(house)
+    case house
+    when "representatives"
+      "Representatives"
+    when "senate"
+      "Senators"
+    else
+      raise
+    end
+  end
+
+  def member_type(house)
+    case house
+    when "representatives"
+      "Representative"
+    when "senate"
+      "Senator"
+    else
+      raise
+    end
+  end
+
+  def electorate_label(house)
+    case house
+    when "representatives"
+      "Electorate"
+    when "senate"
+      "State"
+    else
+      raise
+    end
+  end
 end
