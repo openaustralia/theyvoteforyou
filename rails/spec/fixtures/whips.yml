@@ -34,3 +34,87 @@ three:
   possible_votes: 1
   whip_guess: "no"
 
+four:
+  division_id: 347
+  party: "Australian Labor Party"
+  aye_votes: 6
+  aye_tells: 1
+  no_votes: 40
+  no_tells: 1
+  both_votes: 0
+  abstention_votes: 0
+  possible_votes: 59
+  whip_guess: "none"
+
+five:
+  division_id: 347
+  party: "Country Liberal Party"
+  aye_votes: 0
+  aye_tells: 0
+  no_votes: 0
+  no_tells: 0
+  both_votes: 0 
+  abstention_votes: 0
+  possible_votes: 1
+  whip_guess: "unknown"
+
+six:
+  division_id: 347
+  party: "CWM"
+  aye_votes: 0
+  aye_tells: 0
+  no_votes: 0
+  no_tells: 0
+  both_votes: 0
+  abstention_votes: 0
+  possible_votes: 1
+  whip_guess: "none"
+
+seven:
+  division_id: 347
+  party: "Independent"
+  aye_votes: 3
+  aye_tells: 0
+  no_votes: 0
+  no_tells: 0
+  both_votes: 0
+  abstention_votes: 0
+  possible_votes: 4
+  whip_guess: "none"
+
+eight:
+  division_id: 347
+  party: "Liberal Party"
+  aye_votes: 33
+  aye_tells: 0
+  no_votes: 33
+  no_tells: 1
+  both_votes: 0
+  abstention_votes: 0
+  possible_votes: 73
+  whip_guess: "none"
+
+nine:
+  division_id: 347
+  party: "National Party"
+  aye_votes: 9
+  aye_tells: 1
+  no_votes: 1
+  no_tells: 0
+  both_votes: 0 
+  abstention_votes: 0
+  possible_votes: 11
+  whip_guess: "none"
+
+ten:
+  division_id: 347
+  party: "SPK"
+  aye_votes: 0
+  aye_tells: 0
+  no_votes: 0
+  no_tells: 0
+  both_votes: 0 
+  abstention_votes: 0
+  possible_votes: 1
+  whip_guess: "unknown"
+

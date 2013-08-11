@@ -7,3 +7,13 @@ two:
   division_id: 9
   mp_id: 100156
   vote: 'no'
+
+three:
+  division_id: 347
+  mp_id: 1
+  vote: 'aye'
+
+four:
+  division_id: 347
+  mp_id: 450
+  vote: 'aye'
