@@ -13,7 +13,7 @@ class Division < ActiveRecord::Base
   scope :in_house, ->(house) { where(house: house) }
   scope :in_australian_house, ->(australian_house) { in_house(Division.australian_to_uk_house(australian_house)) }
   # TODO This doesn't exactly match the wording in the interface. Fix this.
-  scope :with_rebellions, -> { where("rebellions > 10") }
+  scope :with_rebellions, -> { joins(:division_info).where("rebellions > 10") }
   scope :in_parliament, ->(parliament) { where("division_date >= ? AND division_date < ?", parliament[:from], parliament[:to]) }
 
   def whip_guess_for(party)
