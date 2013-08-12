@@ -31,7 +31,6 @@ class DivisionsController < ApplicationController
       @short_title += " — Senate only"
     end
     @short_title += " (sorted by #{@sort})" if @sort
-    @title = @short_title + " — The Public Whip"
 
     order = case @sort
     when nil
@@ -117,6 +116,5 @@ class DivisionsController < ApplicationController
 
     @short_title = "#{@division.name} — #{@division.date.strftime('%-d %b %Y')}"
     @short_title += " at #{@division.clock_time.strftime('%H:%M')}" if @division.clock_time
-    @title = @short_title + " — The Public Whip"
   end
 end

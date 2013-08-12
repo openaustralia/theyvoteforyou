@@ -41,7 +41,6 @@ class MembersController < ApplicationController
     else
       @short_title = "#{short_collective_name} &#8212; Current".html_safe
     end
-    @title = @short_title + " &#8212; The Public Whip".html_safe
 
     order = case @sort
     when "lastname"
@@ -90,7 +89,6 @@ class MembersController < ApplicationController
       name = @member.senator? ? "Senator #{@member.name}" : "#{@member.name} MP, #{@member.constituency}"
       @short_title = "Voting Record — #{name}"
     end
-    @title = "#{@short_title} — The Public Whip"
 
     if @display == "allvotes"
       # divisions attended

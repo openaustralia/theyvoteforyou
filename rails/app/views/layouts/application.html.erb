@@ -50,7 +50,13 @@ $(document).ready(function() {
 });
     </script>
     <script type="text/javascript" src="/publicwhip.js"></script>
-    <title><%= @title %></title>
+    <title>
+      <% if @short_title %>
+        <%= @short_title %> — The Public Whip
+      <% else %>
+        The Public Whip —
+      <% end %>
+    </title>
     <script type="text/javascript">
 function givefocus(field) {
     if (!document || !document.getElementById)
