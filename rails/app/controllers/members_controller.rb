@@ -37,9 +37,9 @@ class MembersController < ApplicationController
     end
 
     if @sort == "rebellions"
-      @short_title = "Rebel #{short_collective_name} &#8212; Current".html_safe
+      @title = "Rebel #{short_collective_name} &#8212; Current".html_safe
     else
-      @short_title = "#{short_collective_name} &#8212; Current".html_safe
+      @title = "#{short_collective_name} &#8212; Current".html_safe
     end
 
     order = case @sort
@@ -84,10 +84,10 @@ class MembersController < ApplicationController
     end
     if @display == "allfriends"
       name = @member.senator? ? @member.name : "#{@member.name} MP, #{@member.electorate}"
-      @short_title = "Friends of #{name}"
+      @title = "Friends of #{name}"
     else
       name = @member.senator? ? "Senator #{@member.name}" : "#{@member.name} MP, #{@member.constituency}"
-      @short_title = "Voting Record — #{name}"
+      @title = "Voting Record — #{name}"
     end
 
     if @display == "allvotes"

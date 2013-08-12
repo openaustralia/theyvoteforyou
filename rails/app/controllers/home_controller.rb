@@ -6,6 +6,6 @@ class HomeController < ApplicationController
   end
 
   def faq
-    @short_title = "Help — Frequently Asked Questions"
+    @title = "Help — Frequently Asked Questions"
   end
 end

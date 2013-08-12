@@ -17,20 +17,20 @@ class DivisionsController < ApplicationController
     raise "Invalid rdisplay param" unless @rdisplay == "all" || Member.parliaments.has_key?(@rdisplay)
 
     if @rdisplay2 == "rebels"
-      @short_title = "Rebellions"
+      @title = "Rebellions"
     elsif @party
-      @short_title = @party
+      @title = @party
     else
-      @short_title = "Divisions"
+      @title = "Divisions"
     end
-    @short_title += " — "
-    @short_title += @rdisplay == "all" ? "All divisions on record" : parliament[:name]
+    @title += " — "
+    @title += @rdisplay == "all" ? "All divisions on record" : parliament[:name]
     if @house == "representatives" && @party.nil?
-      @short_title += " — Representatives only"
+      @title += " — Representatives only"
     elsif @house == "senate" && @party.nil?
-      @short_title += " — Senate only"
+      @title += " — Senate only"
     end
-    @short_title += " (sorted by #{@sort})" if @sort
+    @title += " (sorted by #{@sort})" if @sort
 
     order = case @sort
     when nil
@@ -114,7 +114,7 @@ class DivisionsController < ApplicationController
       raise
     end
 
-    @short_title = "#{@division.name} — #{@division.date.strftime('%-d %b %Y')}"
-    @short_title += " at #{@division.clock_time.strftime('%H:%M')}" if @division.clock_time
+    @title = "#{@division.name} — #{@division.date.strftime('%-d %b %Y')}"
+    @title += " at #{@division.clock_time.strftime('%H:%M')}" if @division.clock_time
   end
 end
