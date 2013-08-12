@@ -51,8 +51,8 @@ $(document).ready(function() {
     </script>
     <script type="text/javascript" src="/publicwhip.js"></script>
     <title>
-      <% if @title %>
-        <%= @title %> — The Public Whip
+      <% unless yield(:title).empty? %>
+        <%= yield :title %> — The Public Whip
       <% else %>
         The Public Whip —
       <% end %>

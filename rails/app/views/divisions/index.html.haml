@@ -1,4 +1,6 @@
-%h1= @title
+- content_for :title, @title
+
+%h1= yield :title
 / the second tier navigation as dropdowns
 :plain
   <!-- add hashes to $second_links array, keys are

@@ -1,4 +1,6 @@
-%h1= @title
+- content_for :title, @title
+
+%h1= yield :title
 %ul
   %li= link_to "What is the Public Whip?", "#whatis"
   %li= link_to 'First, can you explain "division" and other political jargon?', "#jargon"

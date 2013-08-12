@@ -1,4 +1,6 @@
-%h1= @title
+- content_for :title, @title
+
+%h1= yield :title
 %p
   #{@long_collective_name} are listed below. Refer to
   = link_to "this explanation", "faq.php#clarify"
