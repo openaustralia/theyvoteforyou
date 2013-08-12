@@ -7,7 +7,7 @@ class DivisionsController < ApplicationController
     @rdisplay = "2010" if @rdisplay.nil?
     @rdisplay2 = params[:rdisplay2]
     @house = params[:house]
-    @uk_house = Division.australian_to_uk_house(@house) if @house
+    @uk_house = House.australian_to_uk(@house) if @house
 
     if @rdisplay2 && @rdisplay2 != "rebels"
       @party = @rdisplay2.match(/(.*)_party/)[1]
@@ -38,7 +38,7 @@ class DivisionsController < ApplicationController
   def show
     @house = params[:house]
     @house = "representatives" if @house.nil?
-    @uk_house = Division.australian_to_uk_house(@house)
+    @uk_house = House.australian_to_uk(@house)
     @date = params[:date]
     @sort = params[:sort]
     @display = params[:display]

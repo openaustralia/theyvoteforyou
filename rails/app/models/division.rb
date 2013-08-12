@@ -11,7 +11,7 @@ class Division < ActiveRecord::Base
   alias_attribute :number, :division_number
 
   scope :in_house, ->(house) { where(house: house) }
-  scope :in_australian_house, ->(australian_house) { in_house(Division.australian_to_uk_house(australian_house)) }
+  scope :in_australian_house, ->(australian_house) { in_house(House.australian_to_uk(australian_house)) }
   # TODO This doesn't exactly match the wording in the interface. Fix this.
   scope :with_rebellions, -> { joins(:division_info).where("rebellions > 10") }
   scope :in_parliament, ->(parliament) { where("division_date >= ? AND division_date < ?", parliament[:from], parliament[:to]) }
@@ -148,7 +148,7 @@ class Division < ActiveRecord::Base
   end
 
   def australian_house
-    Division.uk_to_australian_house(house)
+    House.uk_to_australian(house)
   end
 
   def australian_house_name
@@ -181,27 +181,5 @@ class Division < ActiveRecord::Base
 
   def minority_votes_including_tells
     noes_in_majority? ? aye_votes_including_tells : no_votes_including_tells
-  end
-
-  def self.uk_to_australian_house(house)
-    case house
-    when "commons"
-      "representatives"
-    when "lords"
-      "senate"
-    else
-      raise "Unexpected value"
-    end
-  end
-
-  def self.australian_to_uk_house(australian_house)
-    case australian_house
-    when "representatives"
-      "commons"
-    when "senate"
-      "lords"
-    else
-      raise "unexpected value"
-    end
   end
 end
