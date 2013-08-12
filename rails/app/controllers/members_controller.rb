@@ -32,22 +32,14 @@ class MembersController < ApplicationController
     @last_name = params[:mpn].split("_")[1]
     @electorate = params[:mpc]
     @australian_house = params[:house]
-    @uk_house = case @australian_house
-    when "representatives"
-      "commons"
-    when "senate"
-      "lords"
-    else
-      raise
-    end
     @display = params[:display]
 
     # TODO In reality there could be several members matching this and we should relate this back to being
     # a single person
     if @electorate == "Senate"
-      @member = Member.where(first_name: @first_name, last_name: @last_name, house: @uk_house).first
+      @member = Member.in_australian_house(@australian_house).where(first_name: @first_name, last_name: @last_name).first
     else
-      @member = Member.where(first_name: @first_name, last_name: @last_name, constituency: @electorate, house: @uk_house).first
+      @member = Member.in_australian_house(@australian_house).where(first_name: @first_name, last_name: @last_name, constituency: @electorate).first
     end
 
     if @display == "allvotes"
