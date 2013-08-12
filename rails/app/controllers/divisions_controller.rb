@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class DivisionsController < ApplicationController
   def index
     @sort = params[:sort]
