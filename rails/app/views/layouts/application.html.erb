@@ -119,7 +119,7 @@ function ClickSup(nsup) {
           <a title="List of all Senators" href="mps.php?house=senate">Senators</a>
           <a title="Help to analyze MP's votes" href="policies.php">Policies</a>
           <!-- <a title="Help run the Public Whip project" href="project/index.php">Join Us</a> -->
-          <a title="Frequently asked questions" href="faq.php">Help / FAQ</a>
+          <%= link_to "Help / FAQ", help_path, title: "Frequently asked questions" %>
           <div id="account-navbar">
             <a title="Register to chat on the forum or make/edit policies" href="/account/register.php?r=<%= CGI.escape(request.fullpath) %>">Sign Up</a>
             <a title="Login to edit policies" href="/account/settings.php?r=<%= CGI.escape(request.fullpath) %>">Login</a>

@@ -8,7 +8,7 @@
 %p
   = members_type_long(@australian_house)
   are listed below. Refer to
-  = link_to "this explanation", "faq.php#clarify"
+  = link_to "this explanation", help_path(anchor: "clarify")
   of the "rebellion" and "attendance" rates, as they may not mean what you
   think they do.
 %p{:align => "center", :style => "font-size: 89%"}
@@ -31,11 +31,11 @@
     %td
       Rebellions
       %br/
-      (#{link_to "explain...", "/faq.php#clarify"})
+      (#{link_to "explain...", help_path(anchor: "clarify")})
     %td
       Attendance
       %br/
-      (#{link_to "explain...", "/faq.php#clarify"})
+      (#{link_to "explain...", help_path(anchor: "clarify")})
   - @members.each do |member|
     %tr{:class => cycle("odd", "even")}
       %td= link_to member.name, member_path(member)

@@ -58,15 +58,15 @@
 
 %p
   A 'division' is parliamentary terminology for a 'vote'
-  (#{link_to "read more...", "/faq.php#jargon"}).
+  (#{link_to "read more...", help_path(anchor: "jargon")}).
   This page shows divisions in the Australian parliament. Make sure you
-  = link_to "read the explanation", "/faq.php#clarify"
+  = link_to "read the explanation", help_path(anchor: "clarify")
   about rebellions, as they may not be what you expect.
 
 - if @rdisplay2 == "rebels"
   %p
     This is a table showing only the divisions where there were at
-    least ten #{link_to "rebels", "faq.php#clarify"}.
+    least ten #{link_to "rebels", help_path(anchor: "clarify")}.
 
 %p{:align => "center", :style => "font-size: 89%"}
   Sort by:
@@ -118,7 +118,7 @@
         %td
           Rebels
           %br>/
-          (#{link_to "explain..", "/faq.php#clarify"})
+          (#{link_to "explain..", help_path(anchor: "clarify")})
         %td Turnout
         %td Majority
       - if @divisions.empty?
