@@ -9,15 +9,6 @@ class MembersController < ApplicationController
     @australian_house = params[:house]
     @australian_house = "representatives" if @australian_house.nil?
 
-    house = case @australian_house
-    when "representatives"
-      "commons"
-    when "senate"
-      "lords"
-    else
-      raise "Unexpected value"
-    end
-
     order = case @sort
     when "lastname"
       ["last_name", "first_name"]
@@ -33,7 +24,7 @@ class MembersController < ApplicationController
       raise "Unexpected value"
     end
 
-    @members = Member.current.where(house: house).joins(:member_info).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
+    @members = Member.current.in_australian_house(@australian_house).joins(:member_info).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
   end
 
   def show
