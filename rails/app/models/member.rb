@@ -152,14 +152,7 @@ class Member < ActiveRecord::Base
   end
 
   def australian_house
-    case house
-    when "commons"
-      "representatives"
-    when "lords"
-      "senate"
-    else
-      raise "Unexpected house"
-    end
+    House.uk_to_australian(house)
   end
 
   def electorate
