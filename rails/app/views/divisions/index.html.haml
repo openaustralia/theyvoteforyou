@@ -48,7 +48,7 @@
         - parties = Division.in_parliament(Member.parliaments[@rdisplay])
       - else
         - parties = Division
-      - parties = parties.where(house: @uk_house).joins(:whips).order("pw_cache_whip.party").select(:party).distinct.map{|d| d.party}
+      - parties = parties.in_australian_house(@house).joins(:whips).order("pw_cache_whip.party").select(:party).distinct.map{|d| d.party}
       - parties.each do |party|
         - long_name = Member.party_long(party)
         - if Member.party_has_whip?(party)

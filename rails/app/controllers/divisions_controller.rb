@@ -7,7 +7,6 @@ class DivisionsController < ApplicationController
     @rdisplay = "2010" if @rdisplay.nil?
     @rdisplay2 = params[:rdisplay2]
     @house = params[:house]
-    @uk_house = House.australian_to_uk(@house) if @house
 
     if @rdisplay2 && @rdisplay2 != "rebels"
       @party = @rdisplay2.match(/(.*)_party/)[1]
@@ -38,12 +37,10 @@ class DivisionsController < ApplicationController
   def show
     @house = params[:house]
     @house = "representatives" if @house.nil?
-    @uk_house = House.australian_to_uk(@house)
     @date = params[:date]
     @sort = params[:sort]
     @display = params[:display]
-    @division = Division.find_by(division_date: @date, division_number: params[:number],
-      house: @uk_house)
+    @division = Division.in_australian_house(@house).find_by(division_date: @date, division_number: params[:number])
 
     # If a member is included
     if params[:mpn] && params[:mpc]
@@ -52,9 +49,9 @@ class DivisionsController < ApplicationController
       electorate = params[:mpc]
       # TODO Also ensure that the member is current on the date of this division
       if electorate == "Senate"
-        @member = Member.where(first_name: first_name, last_name: last_name, house: @uk_house).first
+        @member = Member.in_australian_house(@house).where(first_name: first_name, last_name: last_name).first
       else
-        @member = Member.where(first_name: first_name, last_name: last_name, constituency: electorate, house: @uk_house).first
+        @member = Member.in_australian_house(@house).where(first_name: first_name, last_name: last_name, constituency: electorate).first
       end
     end
 
@@ -91,7 +88,7 @@ class DivisionsController < ApplicationController
       else
         raise
       end
-      @members = Member.where(house: @uk_house).current_on(@date).joins("LEFT OUTER JOIN pw_vote ON pw_mp.mp_id = pw_vote.mp_id AND pw_vote.division_id = #{@division.id}").joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order)
+      @members = Member.in_australian_house(@house).current_on(@date).joins("LEFT OUTER JOIN pw_vote ON pw_mp.mp_id = pw_vote.mp_id AND pw_vote.division_id = #{@division.id}").joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order)
     elsif @display == "policies"
     else
       raise
