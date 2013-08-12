@@ -65,34 +65,19 @@
 
 - if @display.nil?
   %p
-    - if @house == "representatives"
-      Representatives
-    - elsif @house == "senate"
-      Senators
-    - else
-      - raise "A problem"
+    = members_type(@house)
     for which their vote in this division differed
     from the majority vote of their party. You can see
     = link_to "all votes", division_path(params.merge(display: "allvotes"))
     in this division, or
     = link_to division_path(params.merge(display: "allpossible")) do
       every eligible
-      - if @house == "representatives"
-        Representative
-      - elsif @house == "senate"
-        Senator
-      - else
-        - raise "A problem"
+      = member_type(@house)
     who could have voted in this division
 - elsif @display == "allpossible"
   %p
     Includes
-    - if @house == "representatives"
-      Representatives
-    - elsif @house == "senate"
-      Senators
-    - else
-      - raise
+    = members_type(@house)
     who were absent (or abstained) from this vote.
 - else
   - raise
