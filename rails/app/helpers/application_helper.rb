@@ -36,6 +36,17 @@ module ApplicationHelper
     end
   end
 
+  def members_type_long(house)
+    case house
+    when "representatives"
+      "Members of the House of Representatives"
+    when "senate"
+      "Senators"
+    else
+      raise
+    end
+  end
+
   def member_type(house)
     case house
     when "representatives"

@@ -18,15 +18,6 @@ class MembersController < ApplicationController
       raise "Unexpected value"
     end
 
-    @long_collective_name = case @australian_house
-    when "senate"
-      "Senators"
-    when "representatives"
-      "Members of the House of Representatives"
-    else
-      raise "Unexpected value"      
-    end
-
     order = case @sort
     when "lastname"
       ["last_name", "first_name"]
