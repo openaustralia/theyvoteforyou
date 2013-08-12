@@ -18,7 +18,7 @@ class MembersController < ApplicationController
       raise "Unexpected value"
     end
 
-    short_collective_name = case @australian_house
+    @short_collective_name = case @australian_house
     when "senate"
       "Senators"
     when "representatives"
@@ -34,12 +34,6 @@ class MembersController < ApplicationController
       "Members of the House of Representatives"
     else
       raise "Unexpected value"      
-    end
-
-    if @sort == "rebellions"
-      @title = "Rebel #{short_collective_name} &#8212; Current".html_safe
-    else
-      @title = "#{short_collective_name} &#8212; Current".html_safe
     end
 
     order = case @sort
@@ -81,13 +75,6 @@ class MembersController < ApplicationController
       @member = Member.where(first_name: @first_name, last_name: @last_name, house: @uk_house).first
     else
       @member = Member.where(first_name: @first_name, last_name: @last_name, constituency: @electorate, house: @uk_house).first
-    end
-    if @display == "allfriends"
-      name = @member.senator? ? @member.name : "#{@member.name} MP, #{@member.electorate}"
-      @title = "Friends of #{name}"
-    else
-      name = @member.senator? ? "Senator #{@member.name}" : "#{@member.name} MP, #{@member.constituency}"
-      @title = "Voting Record — #{name}"
     end
 
     if @display == "allvotes"

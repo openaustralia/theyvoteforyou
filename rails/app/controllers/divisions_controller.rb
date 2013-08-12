@@ -13,24 +13,7 @@ class DivisionsController < ApplicationController
       @party = @rdisplay2.match(/(.*)_party/)[1]
     end
 
-    parliament = Member.parliaments[@rdisplay]
     raise "Invalid rdisplay param" unless @rdisplay == "all" || Member.parliaments.has_key?(@rdisplay)
-
-    if @rdisplay2 == "rebels"
-      @title = "Rebellions"
-    elsif @party
-      @title = @party
-    else
-      @title = "Divisions"
-    end
-    @title += " — "
-    @title += @rdisplay == "all" ? "All divisions on record" : parliament[:name]
-    if @house == "representatives" && @party.nil?
-      @title += " — Representatives only"
-    elsif @house == "senate" && @party.nil?
-      @title += " — Senate only"
-    end
-    @title += " (sorted by #{@sort})" if @sort
 
     order = case @sort
     when nil
@@ -47,7 +30,7 @@ class DivisionsController < ApplicationController
 
     @divisions = Division.joins(:division_info).order(order)
     @divisions = @divisions.in_australian_house(@house) if @house    
-    @divisions = @divisions.in_parliament(parliament) if @rdisplay != "all"    
+    @divisions = @divisions.in_parliament(Member.parliaments[@rdisplay]) if @rdisplay != "all"    
     @divisions = @divisions.with_rebellions if @rdisplay2 == "rebels"
     @divisions = @divisions.joins(:whips).where(pw_cache_whip: {party: @party}) if @party
   end
@@ -113,8 +96,5 @@ class DivisionsController < ApplicationController
     else
       raise
     end
-
-    @title = "#{@division.name} — #{@division.date.strftime('%-d %b %Y')}"
-    @title += " at #{@division.clock_time.strftime('%H:%M')}" if @division.clock_time
   end
 end

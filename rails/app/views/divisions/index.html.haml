@@ -1,4 +1,21 @@
-- content_for :title, @title
+- content_for :title do
+  - if @rdisplay2 == "rebels"
+    Rebellions
+  - elsif @party
+    = @party
+  - else
+    Divisions
+  \—
+  - if @rdisplay == "all"
+    All divisions on record
+  - else
+    = Member.parliaments[@rdisplay][:name]
+  - if @house == "representatives" && @party.nil?
+    \— Representatives only
+  - elsif @house == "senate" && @party.nil?
+    \— Senate only
+  - if @sort
+    (sorted by #{@sort})
 
 %h1= yield :title
 / the second tier navigation as dropdowns

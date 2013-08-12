@@ -1,4 +1,8 @@
-- content_for :title, @title
+- content_for :title do
+  - if @sort == "rebellions"
+    Rebel
+  = @short_collective_name
+  \— Current
 
 %h1= yield :title
 %p
