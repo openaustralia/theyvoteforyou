@@ -18,15 +18,6 @@ class MembersController < ApplicationController
       raise "Unexpected value"
     end
 
-    @short_collective_name = case @australian_house
-    when "senate"
-      "Senators"
-    when "representatives"
-      "Representatives"
-    else
-      raise "Unexpected value"      
-    end
-
     @long_collective_name = case @australian_house
     when "senate"
       "Senators"
