@@ -26,9 +26,9 @@
     %td Agreement
     %td Name
     %td
-      - if @australian_house == "representatives"
+      - if @house == "representatives"
         Electorate
-      - elsif @australian_house == "senate"
+      - elsif @house == "senate"
         State
       - else
         - raise

@@ -1,12 +1,12 @@
 - content_for :title do
   - if @sort == "rebellions"
     Rebel
-  = members_type(@australian_house)
+  = members_type(@house)
   \— Current
 
 %h1= yield :title
 %p
-  = members_type_long(@australian_house)
+  = members_type_long(@house)
   are listed below. Refer to
   = link_to "this explanation", help_path(anchor: "clarify")
   of the "rebellion" and "attendance" rates, as they may not mean what you
@@ -15,7 +15,7 @@
   Sort by:
   = sort_link("lastname", "surname", "Name", @sort)
   |
-  - if @australian_house != "senate"
+  - if @house != "senate"
     = sort_link("constituency", "constituency", "Constituency", @sort)
     |
   = sort_link("party", "party", "Party", @sort)
@@ -26,7 +26,7 @@
 %table.mps
   %tr.headings
     %td Name
-    %td= @australian_house == "senate" ? "State" : "Electorate"
+    %td= @house == "senate" ? "State" : "Electorate"
     %td Party
     %td
       Rebellions
@@ -39,7 +39,7 @@
   - @members.each do |member|
     %tr{:class => cycle("odd", "even")}
       %td= link_to member.name, member_path(member)
-      %td= link_to_unless @australian_house == "senate", member.electorate, electorate_path(member)
+      %td= link_to_unless @house == "senate", member.electorate, electorate_path(member)
       %td= member.party_long2
       %td.percent= member.rebellions_percentage
       %td.percent= member.attendance_percentage
