@@ -148,7 +148,7 @@
         print 'Senators are listed below.';
     else
         print 'Members of both Houses of the Federal Parliament are listed below.';
-    print ' Refer to <a href="faq.php#clarify">this explanation</a> of the
+    print ' Refer to <a href="/faq.php#clarify">this explanation</a> of the
          "rebellion" and "attendance" rates, as they may not mean what you
          think they do. </p>
 			';

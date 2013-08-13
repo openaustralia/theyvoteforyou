@@ -343,7 +343,7 @@ if ($dismode["editdefinition"]) {
             You can use the <a href=\"search.php\">search facility</a> to find divisions.";
 
         print " If you haven't edited a policy before please 
-        <a href=\"faq.php#policies\">read about how policies work</a>.";
+        <a href=\"/faq.php#policies\">read about how policies work</a>.";
         print "</p>";
 
         print "<h2>Policy title and text</h2>";

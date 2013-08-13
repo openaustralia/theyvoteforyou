@@ -193,7 +193,7 @@
 		 </p>";
 
     if ($rdisplay2 == "rebels")
-        print "<p>This is a table showing only the divisions where there were at least ten <a href=\"faq.php#clarify\">rebels</a>.</p>";
+        print "<p>This is a table showing only the divisions where there were at least ten <a href=\"/faq.php#clarify\">rebels</a>.</p>";
 
 	function makesortlink($rdisplay, $rdisplay2, $rdisplay_house, $sort, $hcelltitle, $hcellsort, $hcellalt)
 	{

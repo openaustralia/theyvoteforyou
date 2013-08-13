@@ -143,7 +143,7 @@ function ClickSup(nsup) {
         <a title="List of all Senators" href="<?php echo $toppath?>mps.php?house=senate">Senators</a>
         <a title="Help to analyze MP's votes" href="<?php echo $toppath?>policies.php">Policies</a>
         <!-- <a title="Help run the Public Whip project" href="<?php echo $toppath?>project/index.php">Join Us</a> -->
-        <a title="Frequently asked questions" href="<?php echo $toppath?>faq.php">Help / FAQ</a>
+        <a title="Frequently asked questions" href="/faq.php">Help / FAQ</a>
         <div id="account-navbar">
             <?php echo account_navbar(); ?>
         </div>

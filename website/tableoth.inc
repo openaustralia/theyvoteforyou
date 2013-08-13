@@ -21,7 +21,7 @@
 	    print "<td>Party</td>";
 		if ($brebelrates)
 		{
-		    print "<td>Rebellions (<a href=\"faq.php#clarify\">explain...</a>)</td><td>Attendance (<a href=\"faq.php#clarify\">explain...</a>)</td>";
+		    print "<td>Rebellions (<a href=\"/faq.php#clarify\">explain...</a>)</td><td>Attendance (<a href=\"/faq.php#clarify\">explain...</a>)</td>";
 			if (!$bmultiperson)
 			    print "<td>Teller</td>";
 		}
@@ -286,7 +286,7 @@
         if ($house != "scotland") {
 	  print "<p><span class=\"ptitle\">What is Tell?</span>
         '+1 tell' means that in addition one member of that party was a
-        <a href=\"".$baseurl."faq.php#jargon\">teller</a> for that division lobby.</p>";
+        <a href=\"/faq.php#jargon\">teller</a> for that division lobby.</p>";
         }
         #if ($house != "lords" and $house != "scotland")
         #    print "<p>
