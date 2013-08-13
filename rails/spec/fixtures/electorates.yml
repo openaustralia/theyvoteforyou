@@ -13,3 +13,11 @@ griffith:
   from_date: 1000-1-1
   to_date: 9999-12-31
   house: "commons"
+
+bennelong:
+  cons_id: 138
+  name: "Bennelong"
+  main_name: true
+  from_date: 1000-1-1
+  to_date: 9999-12-31
+  house: "commons"
