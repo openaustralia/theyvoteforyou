@@ -458,7 +458,7 @@ function no_division_found($plural)
 	    		print "<b><a href=\"$source\" title=\"The original record of vote as reported by Hansard\">".($debate_gid ? "Source" : "Online Hansard")."</a></b> | ";
 		
            print "<b><a href=\"$edit_link\" title=\"Edit and improve this description\">Edit</a></b>";
-            print " (<a href=\"faq.php#motionedit\">learn more</a>)";
+            print " (<a href=\"/faq.php#motionedit\">learn more</a>)";
            // if ($discuss_url)
            //     print ' | <b><a href="'.htmlspecialchars($discuss_url).'" title="Forum page for this vote, including record of changes">Discussion</a></b>';
             #if ($history_link)  # commented out, as confusing and deprecated
