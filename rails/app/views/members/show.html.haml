@@ -1,5 +1,8 @@
 - content_for :title do
-  - if @display == "allfriends"
+  - if @members && @members.count > 1
+    Voting Record — Representatives for
+    = @electorate
+  - elsif @display == "allfriends"
     Friends of
     = @member.senator? ? @member.name : "#{@member.name} MP, #{@member.electorate}"
   - else

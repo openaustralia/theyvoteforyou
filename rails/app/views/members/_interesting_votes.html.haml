@@ -21,4 +21,26 @@
   |
   = link_to "possible", member_path(@member, display: "everyvote", anchor: "divisions")
 
-= render partial: "votes", locals: { empty_message: "no rebellions, never teller" }
+- if @members && @members.count > 1
+  %table.votes
+    - @members.each do |member|
+      %tr
+        %td(align="left" colspan="7")
+          %b
+            Votes by
+            -# TODO Handle Senator
+            = link_to "#{member.name} MP", "mp.php?mpn=#{member.first_name}_#{member.last_name}&mpc=#{member.electorate}&house=#{member.australian_house}"
+      %tr.headings
+        %td House
+        %td Date
+        %td Subject
+        %td= member.name
+        %td
+          = member.party
+          Vote
+        %td Rôle
+      -# TOOD Add actual votes here
+      %tr.odd
+        %td(colspan="7") no rebellions, never teller
+- else
+  = render partial: "votes", locals: { empty_message: "no rebellions, never teller" }

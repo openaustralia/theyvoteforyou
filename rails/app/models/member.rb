@@ -159,6 +159,7 @@ class Member < ActiveRecord::Base
     constituency
   end
 
+  # TODO Make this more resilient by using current_on(Date.today)
   def self.current
     where(left_house: "9999-12-31")
   end
