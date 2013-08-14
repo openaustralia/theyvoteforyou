@@ -22,8 +22,16 @@
       Votes
       %i (unedited)
     %td Policy
-  %tr{:class => cycle('odd', 'even')}
-    %td{:colspan => "4"}
-      No policies match this person's votes. You can
-      %a{:href => "/policies.php"} edit or make a policy that will appear here.
+  - if @policies
+    - @policies.each do |policy|
+      %tr{:class => cycle('odd', 'even')}
+        %td
+
+        %td
+          = link_to policy.name, policy
+  - else
+    %tr{:class => cycle('odd', 'even')}
+      %td{:colspan => "4"}
+        No policies match this person's votes. You can
+        %a{:href => "/policies.php"} edit or make a policy that will appear here.
 = "That makes #{@policies.size} policies which have voted in at least one division."
