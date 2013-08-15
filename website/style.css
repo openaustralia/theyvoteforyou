@@ -98,3 +98,7 @@ tr.over, tr.over td {background:#CFE8EB;}
 
 /* Divisions */
 .speaker {font-weight: bold}
+.motion-text {
+  max-height: 20em;
+  overflow: auto;
+}

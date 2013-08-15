@@ -435,7 +435,7 @@ function no_division_found($plural)
                    please <a href=\"$edit_link\">edit it</a> to make it better.</strong></p>";
 	        }
             $description = extract_motion_text_from_wiki_text($motion_data['text_body']);
-            print $description;
+            print "<div class=\"motion-text\">$description</div>";
 
             print "<p>";
 	        if ($debate_gid != "")
