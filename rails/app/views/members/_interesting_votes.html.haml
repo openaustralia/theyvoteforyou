@@ -17,9 +17,14 @@
   Teller).
 %p{:align => "center", :style => "font-size: 89%"}
   See also all votes...
-  = link_to "attended", member_path(@member, display: "allvotes", anchor: "divisions")
-  |
-  = link_to "possible", member_path(@member, display: "everyvote", anchor: "divisions")
+  - if @members && @members.count > 1
+    = link_to "attended", electorate_path2(@electorate, display: "allvotes", anchor: "divisions")
+    |
+    = link_to "possible", electorate_path2(@electorate, display: "everyvote", anchor: "divisions")
+  - else
+    = link_to "attended", member_path(@member, display: "allvotes", anchor: "divisions")
+    |
+    = link_to "possible", member_path(@member, display: "everyvote", anchor: "divisions")
 
 - if @members && @members.count > 1
   %table.votes

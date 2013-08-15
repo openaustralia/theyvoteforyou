@@ -43,6 +43,6 @@ describe MembersController do
     compare("/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate&display=alldreams")
 
     compare("/mp.php?mpc=Warringah")
-    #compare("/mp.php?mpc=Bennelong")
+    compare("/mp.php?mpc=Bennelong")
   end
 end

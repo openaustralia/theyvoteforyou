@@ -20,6 +20,8 @@ module ApplicationHelper
   def electorate_path2(electorate, params = {})
     r = "mp.php?mpc=#{electorate}&house=representatives"
     r += "&display=#{params[:display]}" if params[:display]
+    r += "##{params[:anchor]}" if params[:anchor]
+    r
   end
 
   def policy_path(policy)
