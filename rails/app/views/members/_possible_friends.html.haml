@@ -5,25 +5,13 @@
     <a name="friends">Possible Friends (</a><a href="#{member_path(@member, display: 'allfriends')}">more...</a>)
 %p
   Shows which
-  - if @member.senator?
-    Senators
-  - else
-    Representatives
-  voted most similarly to this one in
-  the Parliament. This is measured from 0% agreement (never voted the
+  = members_type(@member.australian_house)
+  voted most similarly to this one in the Parliament. This is measured from 0% agreement (never voted the
   same) to 100% (always voted the same). Only votes that both
-  - if @member.senator?
-    Senators
-  - else
-    Representatives
-  attended are counted. This may reveal relationships
-  between
-  - if @member.senator?
-    Senators
-  - else
-    Representatives
-  that were previously unsuspected. Or it may
-  be nonsense.
+  = members_type(@member.australian_house)
+  attended are counted. This may reveal relationships between
+  = members_type(@member.australian_house)
+  that were previously unsuspected. Or it may be nonsense.
 %table.mps
   %tr.headings
     %td Agreement

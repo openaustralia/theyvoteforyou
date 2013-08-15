@@ -4,10 +4,10 @@
     = @electorate
   - elsif @display == "allfriends"
     Friends of
-    = @member.senator? ? @member.name : "#{@member.name} MP, #{@member.electorate}"
+    = @member.full_name
   - else
     Voting Record —
-    = @member.senator? ? "Senator #{@member.name}" : "#{@member.name} MP, #{@member.constituency}"
+    = @member.full_name2
 
 %h1= yield :title
 / the second tier navigation as tabs

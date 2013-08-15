@@ -1,10 +1,7 @@
 - if @member
   %p.mpondivision
     = link_to "mp.php?mpn=#{params[:mpn]}&mpc=#{params[:mpc]}&house=#{@house}" do
-      = @member.name
-      - unless @member.senator?
-        MP,
-        =  @member.electorate
+      = @member.full_name
     voted
     %em
       -# TODO Should be using whip for this calculation. Only doing it this way to match php

@@ -59,6 +59,31 @@ class Member < ActiveRecord::Base
     "#{title} #{first_name} #{last_name}".strip
   end
 
+  # Include electorate in the name
+  def full_name
+    if senator?
+      name
+    else
+      "#{name} MP, #{electorate}"
+    end
+  end
+
+  def full_name_no_electorate
+    if senator?
+      name
+    else
+      "#{name} MP"
+    end
+  end
+
+  def full_name2
+    if senator?
+      "Senator #{name}"
+    else
+      "#{name} MP, #{electorate}"
+    end
+  end
+
   def current_offices
     offices_on_date(Date.today)
   end
