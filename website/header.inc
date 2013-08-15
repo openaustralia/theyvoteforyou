@@ -200,7 +200,7 @@ print $h1title;  # the actual heading
      'text' - displayed text
      'tooltip' - text to put in title
      'current' - 'on' or 'off' for whether this item is currently selected -->
-<div class="secondnavtabs">
+<div id="secondnavtabs">
 
 <?
     function print_links_tabs($links, $offset) {
