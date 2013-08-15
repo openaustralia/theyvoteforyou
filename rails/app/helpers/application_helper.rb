@@ -16,6 +16,10 @@ module ApplicationHelper
     "mp.php?mpc=#{member.electorate}"
   end
 
+  def policy_path(policy)
+    "policy.php?id=#{policy.id}"
+  end
+
   def sort_link(sort, sort_name, name, current_sort)
     if current_sort == sort
       content_tag(:b, name)
