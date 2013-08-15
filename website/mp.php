@@ -74,7 +74,7 @@
     $voter1link = "mp.php?";
     if ($voter1attr["bmultiperson"]) {
         $voter1link .= "mpc=".urlencode($mpprop['constituency']);
-        $voter1link .= "house=".urlencode($mpprop['house']);
+        $voter1link .= "&house=".urlencode($mpprop['house']);
     }
     else
 		$voter1link .= $mpprop['mpanchor'];
