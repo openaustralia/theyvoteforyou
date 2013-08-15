@@ -2,19 +2,10 @@
   %a{:name => "divisions"} Interesting Votes
 %p
   Votes in parliament for which this
-  - if @member.senator?
-    Senator's
-  - else
-    Representative's
-  vote
-  differed from the majority vote of their party (Rebel), or in which
-  this
-  - if @member.senator?
-    Senator
-  - else
-    Representative
-  was a teller (Teller), or both (Rebel
-  Teller).
+  = member_type(@member.australian_house) + "'s"
+  vote differed from the majority vote of their party (Rebel), or in which this
+  = member_type(@member.australian_house)
+  was a teller (Teller), or both (Rebel Teller).
 %p{:align => "center", :style => "font-size: 89%"}
   See also all votes...
   - if @electorate

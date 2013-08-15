@@ -44,12 +44,7 @@
       Rebel Voters
     - elsif @display == "allpossible"
       All
-      - if @house == "representatives"
-        Representatives
-      - elsif @house == "senate"
-        Senators
-      - else
-        - raise
+      = members_type(@house)
       Eligible to Vote
     - else
       - raise
