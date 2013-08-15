@@ -19,11 +19,11 @@
        'current' - 'on' or 'off' for whether this item is currently selected -->
 .secondnavtabs
   %ul
-    = display_link2(@member, nil, "Summary", "Overview of MP", @display)
-    = display_link2(@member, "allvotes", "Votes attended", "Show every vote cast by this MP", @display)
-    = display_link2(@member, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display)
-    = display_link2(@member, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display)
-    = display_link2(@member, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display)
+    = display_link2(@member, @members, @electorate, nil, "Summary", "Overview of MP", @display)
+    = display_link2(@member, @members, @electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @display)
+    = display_link2(@member, @members, @electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display)
+    = display_link2(@member, @members, @electorate, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display)
+    = display_link2(@member, @members, @electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display)
 <!-- the second tier navigation as dropdowns end-->
 
 - if @display.nil?

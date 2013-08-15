@@ -7,12 +7,17 @@ module MembersHelper
     end
   end
 
-  def display_link2(member, display, name, title, current_display)
+  def display_link2(member, members, electorate, display, name, title, current_display)
     if current_display == display
       content_tag(:li, name, class: "on")
     else
       content_tag(:li, class: "off") do
-        link_to name, member_path(member, display: display), title: title, class: "off"
+        path = if members && members.count > 1
+          electorate_path2(electorate, display: display)
+        else
+          member_path(member, display: display)
+        end
+        link_to name, path, title: title, class: "off"
       end
     end
   end

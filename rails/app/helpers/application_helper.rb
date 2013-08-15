@@ -16,6 +16,12 @@ module ApplicationHelper
     "mp.php?mpc=#{member.electorate}"
   end
 
+  # When there's a link to an electorate it's only for the house of reps
+  def electorate_path2(electorate, params = {})
+    r = "mp.php?mpc=#{electorate}&house=representatives"
+    r += "&display=#{params[:display]}" if params[:display]
+  end
+
   def policy_path(policy)
     "policy.php?id=#{policy.id}"
   end
