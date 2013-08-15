@@ -3,4 +3,4 @@
 %p All votes this MP could have attended.
 
 %table.votes
-  = render partial: "votes", locals: {empty_message: "no votes listed"}
+  = render partial: "votes", locals: {member: @member, divisions: @divisions, empty_message: "no votes listed"}

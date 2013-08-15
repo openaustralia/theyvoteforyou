@@ -35,18 +35,7 @@
             Votes by
             -# TODO Handle Senator
             = link_to "#{member.name} MP", "mp.php?mpn=#{member.first_name}_#{member.last_name}&mpc=#{member.electorate}&house=#{member.australian_house}"
-      %tr.headings
-        %td House
-        %td Date
-        %td Subject
-        %td= member.name
-        %td
-          = member.party
-          Vote
-        %td Rôle
-      -# TOOD Add actual votes here
-      %tr.odd
-        %td(colspan="7") no rebellions, never teller
+      = render partial: "votes", locals: { member: member, divisions: member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no rebellions, never teller" }
 - else
   %table.votes
-    = render partial: "votes", locals: { empty_message: "no rebellions, never teller" }
+    = render partial: "votes", locals: { member: @member, divisions: @divisions, empty_message: "no rebellions, never teller" }
