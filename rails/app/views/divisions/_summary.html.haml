@@ -80,10 +80,7 @@
 %table#votetable.votes
   %tr.headings
     %td Name
-    - if @house == "senate"
-      %td State
-    - else
-      %td Electorate
+    %td= electorate_label(@house)
     %td Party
     %td Vote
   - if @display.nil?

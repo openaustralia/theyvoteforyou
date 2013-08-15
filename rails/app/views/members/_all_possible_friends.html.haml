@@ -13,11 +13,7 @@
   %tr.headings
     %td Agreement
     %td Name
-    %td
-      - if @member.senator?
-        State
-      - else
-        Electorate
+    %td= electorate_label(@member.australian_house)
     %td Party
   %tr.even
     %td{:colspan => "4"} No results found

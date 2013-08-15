@@ -16,13 +16,7 @@
   %tr.headings
     %td Agreement
     %td Name
-    %td
-      - if @house == "representatives"
-        Electorate
-      - elsif @house == "senate"
-        State
-      - else
-        - raise
+    %td= electorate_label(@house)
     %td Party
   %tr.even
     %td{:colspan => "4"} No results found
