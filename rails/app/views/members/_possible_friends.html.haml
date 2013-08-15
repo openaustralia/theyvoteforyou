@@ -1,5 +1,5 @@
 %h2
-  - if @members && @members.count > 1
+  - if @electorate
     <a name="friends">Possible Friends (</a><a href="#{electorate_path2(@electorate, display: 'allfriends')}">more...</a>)
   - else
     <a name="friends">Possible Friends (</a><a href="#{member_path(@member, display: 'allfriends')}">more...</a>)

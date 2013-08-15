@@ -17,7 +17,7 @@
   Teller).
 %p{:align => "center", :style => "font-size: 89%"}
   See also all votes...
-  - if @members && @members.count > 1
+  - if @electorate
     = link_to "attended", electorate_path2(@electorate, display: "allvotes", anchor: "divisions")
     |
     = link_to "possible", electorate_path2(@electorate, display: "everyvote", anchor: "divisions")
@@ -26,7 +26,7 @@
     |
     = link_to "possible", member_path(@member, display: "everyvote", anchor: "divisions")
 
-- if @members && @members.count > 1
+- if @electorate
   %table.votes
     - @members.each do |member|
       %tr

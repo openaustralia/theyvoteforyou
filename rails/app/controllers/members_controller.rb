@@ -30,21 +30,24 @@ class MembersController < ApplicationController
       @first_name = params[:mpn].split("_")[0]
       @last_name = params[:mpn].split("_")[1]
     end
-    @electorate = params[:mpc]
+    electorate = params[:mpc]
     @house = params[:house] || "representatives"
     @display = params[:display]
 
     # TODO In reality there could be several members matching this and we should relate this back to being
     # a single person
-    if @electorate == "Senate"
+    if electorate == "Senate"
       @member = Member.in_australian_house(@house).where(first_name: @first_name, last_name: @last_name).first
     elsif @first_name && @last_name
-      @member = Member.in_australian_house(@house).where(first_name: @first_name, last_name: @last_name, constituency: @electorate).first
+      @member = Member.in_australian_house(@house).where(first_name: @first_name, last_name: @last_name, constituency: electorate).first
     else
       # TODO This is definitely wrong. Should return multiple members in this electorate
       # TEMP HACK hardcoded date 1 Jan 2006 (start of Hansard data)
-      @members = Member.in_australian_house(@house).where(constituency: @electorate).order(entered_house: :desc)
-      @member = Member.in_australian_house(@house).where(constituency: @electorate).order(entered_house: :desc).where("left_house >= ?", Date.new(2006,1,1)).first
+      @members = Member.in_australian_house(@house).where(constituency: electorate).order(entered_house: :desc)
+      @member = Member.in_australian_house(@house).where(constituency: electorate).order(entered_house: :desc).where("left_house >= ?", Date.new(2006,1,1)).first
+      if @members.count > 1
+        @electorate = electorate
+      end
     end
 
     if @display == "allvotes"
