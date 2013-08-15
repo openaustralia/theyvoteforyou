@@ -48,4 +48,5 @@
       %tr.odd
         %td(colspan="7") no rebellions, never teller
 - else
-  = render partial: "votes", locals: { empty_message: "no rebellions, never teller" }
+  %table.votes
+    = render partial: "votes", locals: { empty_message: "no rebellions, never teller" }

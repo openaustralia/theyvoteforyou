@@ -4,4 +4,5 @@
   See also
   = link_to "all votes possible", member_path(@member, display: "everyvote", anchor: "divisions")
 
-= render partial: "votes", locals: {empty_message: "no votes listed"}
+%table.votes
+  = render partial: "votes", locals: {empty_message: "no votes listed"}
