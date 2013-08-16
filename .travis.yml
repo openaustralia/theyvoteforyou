@@ -1,2 +1,2 @@
 # Builds the Rails version only
-script: cd ruby; rake
+before_install: cd rails
