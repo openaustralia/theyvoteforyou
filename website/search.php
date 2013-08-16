@@ -44,49 +44,30 @@
         }
         $number_of_matches = count($postcode_matches);
         if ($number_of_matches == 1) {
-            # If there's only one match for a postcode, that means
-            # there's just a Westminster constituency, so redirect
-            # straight to that page:
-            header("Location: mp.php?constituency=".urlencode($postcode_matches["WMC"])."&house=commons");
+            // If there's only one match for a postcode redirect straight to that page:
+            header("Location: mp.php?constituency=".urlencode(array_pop($postcode_matches))."&house=commons");
             exit;
         } else {
-            # There must be more than one match.  Produce a table with links
-            # to all possible representatives:
+            // There must be more than one match.  Produce a table with links
+            // to all possible representatives:
             $title = "Representatives for postcode $escaped_postcode";
             pw_header();
             print "<table class=\"mps\">\n";
-            $key_to_house = array( "WMC" => "commons",
-                                   "SPC" => "scotland",
-                                   "SPE" => "scotland" );
-            $pretty_house = array( "commons" => "Commons",
-                                   "scotland" => "Scotland");
             $odd = FALSE;
-            # Make sure that the results are listed in the order "WMC", "SPC", "SPE":
-            foreach( array("WMC", "SPC", "SPE") as $k ) {
-                $constituency = $postcode_matches[$k];
+            foreach ($postcode_matches as $constituency) {
                 if (!$constituency)
                     continue;
-                $house = $key_to_house[$k];
-                if (!$house) {
-                    print "<p>Error: An unknown key ".htmlentities($k)." was found.</p>";
-                    pw_footer();
-                    exit;
-                }
                 $scrubbed_constituency = db_scrub($constituency);
-                # FIXME: should probably do this with mp_table instead:
+                // FIXME: should probably do this with mp_table instead:
                 $rows=$pwpdo->fetch_all_rows('SELECT * FROM pw_mp WHERE
                             house = ? AND
                             constituency = ? AND
                             CURDATE() >= entered_house and CURDATE() <= left_house
-                            ORDER BY house, last_name',array($house,$scrubbed_constituency));
+                            ORDER BY house, last_name', array('commons', $scrubbed_constituency));
                 foreach ($rows as $row) {
                     $mp_url = "mp.php?".link_to_mp($row);
                     $constituency_url = "mp.php?mpc=".urlencode(str_replace(" ", "_", $row['constituency']))."&"."house=".urlencode($row['house']);
                     print "<tr class=\"".($odd?'odd':'even')."\">\n";
-                    # Print out house, full name, constituency
-                    print '<td class="'.$row['house'].'">';
-                    print $pretty_house[$row['house']];
-                    print '</td>'."\n";
                     print '<td><a href="'.$mp_url.'">'.$row['first_name'].' '.$row['last_name'].'</a></td>'."\n";
                     print "<td>".html_scrub($row['party'])."</td>";
                     print '<td><a href="'.$constituency_url.'">'.$constituency.'</a></td>'."\n";

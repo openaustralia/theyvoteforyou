@@ -55,9 +55,11 @@ function postcode_to_constituencies($db, $postcode) {
 	$postcode = trim($postcode);
     if (!is_postcode($postcode))
         return array('ERROR' => "The postcode was malformed.");
-    $useful_types = array("WMC", "SPC", "SPE");
 
-    $response = get_text_from_http( 'mapit.mysociety.org', 80, '/postcode/' . rawurlencode($postcode) );
+    $response = get_text_from_http('www.openaustralia.org',
+                                   80,
+                                   '/api/getDivisions?output=js&key=CcV3KBBX2Em7GQeV3RA8qzgS&postcode=' . rawurlencode($postcode));
+
     if (!$response)
         return array('ERROR' => "There was an error looking up that postcode.");
 
@@ -67,16 +69,12 @@ function postcode_to_constituencies($db, $postcode) {
     }
 
     $final_result = array();
-    foreach ($response['areas'] as $match) {
-        $type = $match['type'];
-        $name = $match['name'];
-        if (!in_array($type, $useful_types)) continue;
-        $house = ($type == 'WMC' ? 'commons' : 'scotland');
-        $constituency = normalise_constituency_name( strtolower($name), $house);
-        if (!$constituency)
-            $constituency = "[Unknown $house constituency: '$name']";
-        $final_result[$type] = $constituency;
+
+    foreach ($response as $match) {
+        $constituency = normalise_constituency_name( strtolower($match['name']), 'commons');
+        $final_result[] = $constituency;
     }
+
     if (!$final_result)
         return array ("ERROR" => "There was an unexpected response when looking up the postcode.");
     return $final_result;
