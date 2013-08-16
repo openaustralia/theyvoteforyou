@@ -1,0 +1,32 @@
+- if @member
+  %p.mpondivision
+    = link_to "mp.php?mpn=#{params[:mpn]}&mpc=#{params[:mpc]}&house=#{@house}" do
+      = @member.full_name
+    voted
+    %em
+      -# TODO Should be using whip for this calculation. Only doing it this way to match php
+      -# calculation
+      -# AND THIS IS WRONG FURTHER BECAUSE THE MAJORITY CALCULATION DOESN"T TAKE INTO ACCOUNT THE TELLS
+      - ayenodiff = (@division.votes.group(:vote).count["aye"] || 0) - (@division.votes.group(:vote).count["no"] || 0)
+      - if @member.vote_on_division(@division) == "aye" && ayenodiff >= 0 || @member.vote_on_division(@division) == "no" && ayenodiff < 0
+        with the majority
+      - else
+        in the minority
+    (#{@member.vote_on_division(@division).capitalize}).
+
+.motion
+  %p
+    %strong
+      Description automatically extracted from the debate, please
+      = link_to "edit it", "account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{@house}&rr=#{CGI.escape(request.fullpath)}"
+      to make it better.
+  -# The motion can include html.
+  -# TODO Need to check what happens when the user edits the motion. What can they add?
+  = simple_format(@division.motion)
+  %p
+    %b= link_to "Debate in Parliament", @division.oa_debate_url, title: "Links to debate shown at www.openaustralia.org"
+    |
+    %b= link_to "Source", @division.source_url, title: "The original record of vote as reported by Hansard"
+    |
+    %b= link_to "Edit", "account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{@house}&rr=#{CGI.escape(request.fullpath)}", title: "Edit and improve this description"
+    (#{link_to "learn more", help_path(anchor: "motionedit")})

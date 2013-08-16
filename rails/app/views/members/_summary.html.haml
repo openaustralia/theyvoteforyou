@@ -1,0 +1,72 @@
+- unless @member.current_offices.empty?
+  %p
+    %b= @member.name
+    is currently
+    -# There is always a comma at the end. Not correct. Only doing this to emulate behaviour of php app
+    %b= @member.current_offices.map{|o| o.position + ","}.join
+%p
+  %em Note:
+  our voting records currently only go back to the
+  beginning of 2006 for the House of Representatives and the Senate
+  (#{link_to "more details", help_path(anchor: "timeperiod")}).
+- if @electorate
+  %table
+    %tr.headings
+      %td Name
+      %td From
+      %td To
+      %td Party
+      %td Rebellions (#{link_to "explain...", help_path(anchor: "clarify")})
+      %td Attendance (#{link_to "explain...", help_path(anchor: "clarify")})
+    - @members.each do |member|
+      %tr{:class => cycle("odd", "even")}
+        %td
+          = member.name
+          = link_to "(show only their votes)", "mp.php?mpn=#{member.first_name}_#{member.last_name}&display=summary"
+        -# HACK WARNING
+        %td= [member.entered_house, Date.new(2006,1,1)].max.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
+        - if member.left_house > Date.today
+          %td still in office
+        - else
+          %td= member.left_house.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
+        %td= member.party
+        %td.percent
+          = pluralize(member.rebellions, "vote")
+          out of
+          - if member.votes_attended == 0
+            0
+          - else
+            #{member.votes_attended},
+            %b= member.rebellions_percentage
+        %td.percent
+          = pluralize(member.votes_attended, "vote")
+          out of
+          #{member.votes_possible},
+          %b= member.attendance_percentage
+- else
+  %table
+    %tr.headings
+      %td From
+      %td To
+      %td Party
+      %td Rebellions (#{link_to "explain...", help_path(anchor: "clarify")})
+      %td Attendance (#{link_to "explain...", help_path(anchor: "clarify")})
+      %td Teller
+    %tr.odd
+      %td 1&nbsp;Jan&nbsp;2006
+      %td still in office
+      %td= @member.party
+      %td.percent
+        = pluralize(@member.rebellions, "vote")
+        out of
+        - if @member.votes_attended == 0
+          0
+        - else
+          #{@member.votes_attended},
+          %b= @member.rebellions_percentage
+      %td.percent
+        = pluralize(@member.votes_attended, "vote")
+        out of
+        #{@member.votes_possible},
+        %b= @member.attendance_percentage
+      %td 0 times

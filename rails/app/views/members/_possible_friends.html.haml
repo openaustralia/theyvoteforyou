@@ -1,0 +1,22 @@
+%h2
+  - if @electorate
+    <a name="friends">Possible Friends (</a><a href="#{electorate_path2(@electorate, display: 'allfriends')}">more...</a>)
+  - else
+    <a name="friends">Possible Friends (</a><a href="#{member_path(@member, display: 'allfriends')}">more...</a>)
+%p
+  Shows which
+  = members_type(@member.australian_house)
+  voted most similarly to this one in the Parliament. This is measured from 0% agreement (never voted the
+  same) to 100% (always voted the same). Only votes that both
+  = members_type(@member.australian_house)
+  attended are counted. This may reveal relationships between
+  = members_type(@member.australian_house)
+  that were previously unsuspected. Or it may be nonsense.
+%table.mps
+  %tr.headings
+    %td Agreement
+    %td Name
+    %td= electorate_label(@house)
+    %td Party
+  %tr.even
+    %td{:colspan => "4"} No results found

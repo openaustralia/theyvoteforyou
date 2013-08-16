@@ -1,0 +1,48 @@
+# TODO don't know what aye_majority does yet
+tony_abbott:
+  mp_id: 1
+  rebellions: 0
+  tells: 0
+  votes_possible: 1
+  votes_attended: 0
+  aye_majority: 0
+
+kevin_rudd:
+  mp_id: 450
+  rebellions: 0
+  tells: 0
+  votes_possible: 1
+  votes_attended: 1
+  aye_majority: -1
+
+christine_milne:
+  mp_id: 100156
+  rebellions: 0
+  tells: 0
+  votes_possible: 1
+  votes_attended: 1
+  aye_majority: -1
+
+john_howard:
+  mp_id: 265
+  rebellions: 0
+  tells: 0
+  votes_attended: 41
+  votes_possible: 295
+  aye_majority: 3
+
+maxine_mckew:
+  mp_id: 367
+  rebellions: 0
+  tells: 0
+  votes_attended: 323
+  votes_possible: 341
+  aye_majority: 127
+
+john_alexander:
+  mp_id: 589
+  rebellions: 0
+  tells: 0
+  votes_attended: 431
+  votes_possible: 441
+  aye_majority: 11

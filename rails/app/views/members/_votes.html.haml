@@ -1,0 +1,37 @@
+%tr.headings
+  %td House
+  %td Date
+  %td Subject
+  %td= member.name
+  %td
+    = member.party
+    Vote
+  %td Rôle
+- if divisions.empty?
+  %tr.odd
+    %td{:colspan => "7"}= empty_message
+- else
+  - divisions.each do |division|
+    %tr{:class => cycle("even", "odd")}
+      %td{:class => division.house}
+        = division.australian_house.capitalize
+      %td= division.date.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
+      -# house=representatives appears twice in the link which is clearly wrong
+      -# TODO Fix this
+      - if division.australian_house == "representatives"
+        %td= link_to division.division_name, "division.php?date=#{division.date}&number=#{division.number}&mpn=#{member.name.gsub(" ", "_")}&mpc=#{member.electorate}&house=#{division.australian_house}&house=#{division.australian_house}"
+      - else
+        %td= link_to division.division_name, "division.php?date=#{division.date}&number=#{division.number}&mpn=#{member.name.gsub(" ", "_")}&mpc=Senate&house=#{division.australian_house}&house=#{division.australian_house}"
+      %td
+        - if division.majority_vote_for(member) == "absent"
+          absent
+        - elsif division.majority_vote_for(member) == "minority"
+          %i minority
+        - else
+          = division.majority_vote_for(member).capitalize
+      %td= division.whip_guess_for(member.party)
+      %td{:class => ""}
+        - if division.role_for(member) == "absent"
+          absent
+        - else
+          = division.role_for(member).capitalize

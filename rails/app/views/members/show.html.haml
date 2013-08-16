@@ -1,0 +1,46 @@
+- content_for :title do
+  - if @electorate
+    Voting Record — Representatives for
+    = @electorate
+  - elsif @display == "allfriends"
+    Friends of
+    = @member.full_name
+  - else
+    Voting Record —
+    = @member.full_name2
+
+%h1= yield :title
+/ the second tier navigation as tabs
+:plain
+  <!-- add hashes to $second_links array, keys are
+       'href' - URL of link
+       'text' - displayed text
+       'tooltip' - text to put in title
+       'current' - 'on' or 'off' for whether this item is currently selected -->
+.secondnavtabs
+  %ul
+    = display_link2(@member, @members, @electorate, nil, "Summary", "Overview of MP", @display)
+    = display_link2(@member, @members, @electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @display)
+    = display_link2(@member, @members, @electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display)
+    = display_link2(@member, @members, @electorate, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display)
+    = display_link2(@member, @members, @electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display)
+<!-- the second tier navigation as dropdowns end-->
+
+- if @display.nil?
+  = render "summary"
+  = render "external_links"
+  = render "interesting_votes"
+  = render "policy_comparisons"
+  = render "possible_friends"
+- elsif @display == "allvotes"
+  = render "summary"
+  = render "external_links"
+  = render "votes_attended"
+- elsif @display == "everyvote"
+  = render "summary"
+  = render "external_links"
+  = render "all_votes"
+- elsif @display == "allfriends"
+  = render "all_possible_friends"
+- elsif @display == "alldreams"
+  = render "policy_comparisons"

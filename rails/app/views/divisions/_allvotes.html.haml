@@ -1,0 +1,47 @@
+%h2
+  %a{:name => "votes"}
+    All Votes Cast - sorted by
+    - if @sort.nil?
+      party
+    - elsif @sort == "name"
+      name
+    - elsif @sort == "vote"
+      vote
+    - else
+      raise
+%p
+  = members_type(@house)
+  -# TODO The wording below suggests that things can be marked in red. This is not the case.
+  -# TODO Either make it or so or change the wording
+  for which their vote in this division differed from the majority vote of their party are marked in red.
+  Also shows which
+  = members_type(@house)
+  were ministers at the time of this vote. You can also see
+  = link_to division_path(params.merge(display: "allpossible")) do
+    every eligible
+    = member_type(@house)
+  including those who did not vote in this division.
+= render "sort_links"
+%table#votetable.votes
+  %tr.headings
+    %td Name
+    %td= electorate_label(@house)
+    %td Party
+    %td Vote
+  - if @votes.empty?
+    %tr.even
+      %td{:colspan => "4"} No results found
+  - else
+    - @votes.each do |vote|
+      %tr{:class => cycle("odd", "even")}
+        %td= link_to vote.name, member_path(vote.member)
+        %td
+          - if @house == "representatives"
+            = link_to vote.electorate, electorate_path(vote.member)
+          - else
+            = vote.electorate
+        %td
+          = vote.party_long2
+          - if vote.member.on_front_bench?(vote.date)
+            (front bench)
+        %td= vote.vote

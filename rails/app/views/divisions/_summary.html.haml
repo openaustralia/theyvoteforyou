@@ -1,0 +1,110 @@
+%h2
+  %a{:name => "summary"} Party Summary
+%p
+  Votes by party, red entries are votes against the majority for that party.
+.tableexplain
+  %p
+    %span.ptitle What is Tell?
+    '+1 tell' means that in addition one member of that party was a
+    = link_to "teller", help_path(anchor: "jargon")
+    for that division lobby.
+  %span.ptitle What is Turnout?
+  This is measured against the total membership of the party at the time of the vote.
+%table
+  %tr.headings
+    %td Party
+    %td Majority (#{@division.majority_type.capitalize})
+    %td Minority (#{@division.minority_type.capitalize})
+    %td Turnout
+  - @division.whips.order(:party).each do |whip|
+    -# Don't shown parties that haven't voted in this division
+    - if whip.total_votes > 0
+      %tr{:class => cycle("odd", "even")}
+        %td= whip.party_name
+        %td{:class => majority_vote_class(whip)}
+          = whip.majority_votes
+          - if whip.majority_tells_votes > 0
+            (+#{pluralize(whip.majority_tells_votes, "tell")})
+        %td{:class => minority_vote_class(whip)}
+          = whip.minority_votes
+          - if whip.minority_tells_votes > 0
+            (+#{pluralize(whip.minority_tells_votes, "tell")})
+        %td.percent= whip.attendance_percentage
+  %tr{:class => cycle("odd", "even")}
+    %td.whip Total:
+    -# This is currently showing totals which don't include the tells. THIS IS clearly WRONG.
+    -# Doing this only because it matches the behaviour of the php app
+    -# TODO fix this to the do the sensible thing
+    %td{:class => majority_vote_total_class(@division)}= @division.majority_votes
+    %td{:class => minority_vote_total_class(@division)}= @division.minority_votes
+    %td.percent= @division.attendance_percentage
+%h2
+  %a{:name => "votes"}
+    - if @display.nil?
+      Rebel Voters
+    - elsif @display == "allpossible"
+      All
+      = members_type(@house)
+      Eligible to Vote
+    - else
+      - raise
+    \- sorted by
+    - if @sort.nil?
+      party
+    - elsif @sort == "name"
+      name
+    - elsif @sort == "vote"
+      vote
+    - else
+      - raise
+
+- if @display.nil?
+  %p
+    = members_type(@house)
+    for which their vote in this division differed
+    from the majority vote of their party. You can see
+    = link_to "all votes", division_path(params.merge(display: "allvotes"))
+    in this division, or
+    = link_to division_path(params.merge(display: "allpossible")) do
+      every eligible
+      = member_type(@house)
+    who could have voted in this division
+- elsif @display == "allpossible"
+  %p
+    Includes
+    = members_type(@house)
+    who were absent (or abstained) from this vote.
+- else
+  - raise
+= render "sort_links"
+%table#votetable.votes
+  %tr.headings
+    %td Name
+    %td= electorate_label(@house)
+    %td Party
+    %td Vote
+  - if @display.nil?
+    - if @votes.empty?
+      %tr.even
+        %td{:colspan => "4"} no rebellions
+    - else
+      - @votes.each do |vote|
+        %tr.even
+          %td= link_to vote.name, member_path(vote.member)
+          %td= vote.electorate
+          %td= vote.party_long2
+          %td= vote.vote
+  - elsif @display == "allpossible"
+    - reset_cycle
+    - @members.each do |member|
+      %tr{:class => cycle("odd", "even")}
+        %td= link_to member.name, member_path(member)
+        %td= link_to_if @house == "representatives", member.electorate, electorate_path(member)
+        %td
+          = member.party_long2
+          - if member.on_front_bench?(@date)
+            (front bench)
+        %td= member.vote_on_division(@division)
+
+  - else
+    - raise

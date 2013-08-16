@@ -1,0 +1,143 @@
+- content_for :title do
+  - if @rdisplay2 == "rebels"
+    Rebellions
+  - elsif @party
+    = @party
+  - else
+    Divisions
+  \—
+  - if @rdisplay == "all"
+    All divisions on record
+  - else
+    = Member.parliaments[@rdisplay][:name]
+  - if @house == "representatives" && @party.nil?
+    \— Representatives only
+  - elsif @house == "senate" && @party.nil?
+    \— Senate only
+  - if @sort
+    (sorted by #{@sort})
+
+%h1= yield :title
+/ the second tier navigation as dropdowns
+:plain
+  <!-- add hashes to $second_links array, keys are
+       'href' - URL of link
+       'text' - displayed text
+       'tooltip' - text to put in title
+       'current' - 'on' or 'off' for whether this item is currently selected -->
+%form{:action => "/redir.php", :method => "post", :name => "secondnav", :style => "display: inline"}
+  %select#r{:name => "r", :onchange => "secondnav_goto()"}
+    %option{:class => (@rdisplay == "2010" ? "on" : "off"), :onclick => "secondnav_goto()", :selected => (@rdisplay == "2010"), :title => "", :value => divisions_path(params.merge(rdisplay: nil))} 2010 (current)
+    %option{:class => (@rdisplay == "2007" ? "on" : "off"), :onclick => "secondnav_goto()", :selected => (@rdisplay == "2007"), :title => "", :value => divisions_path(params.merge(rdisplay: "2007"))} 2008-2010
+    %option{:class => (@rdisplay == "2004" ? "on" : "off"), :onclick => "secondnav_goto()", :selected => (@rdisplay == "2004"), :title => "", :value => divisions_path(params.merge(rdisplay: "2004"))} 2004-2007
+    %option{:class => (@rdisplay == "all" ? "on" : "off"), :onclick => "secondnav_goto()", :selected => (@rdisplay == "all"), :title => "", :value => divisions_path(params.merge(rdisplay: "all"))} All Parliaments
+  %input{:name => "submit", :type => "submit", :value => "Go"}/
+%form{:action => "/redir.php", :method => "post", :name => "secondnav", :style => "display: inline"}
+  %select#r2{:name => "r2", :onchange => "secondnav_goto2()"}
+    %option{:class => (@house.nil? ? "on": "off"), :onclick => "secondnav_goto2()", :selected => @house.nil?, :title => "", :value => divisions_path(params.merge(house: nil))} All houses
+    %option{:class => (@house == "representatives" ? "on" : "off"), :onclick => "secondnav_goto2()", :selected => (@house == "representatives"), :title => "", :value => divisions_path(params.merge(house: "representatives"))} Representatives only
+    %option{:class => (@house == "senate" ? "on" : "off"), :onclick => "secondnav_goto2()", :selected => (@house == "senate"), :title => "", :value => divisions_path(params.merge(house: "senate"))} Senate only
+  %input{:name => "submit", :type => "submit", :value => "Go"}/
+%form{:action => "/redir.php", :method => "post", :name => "secondnav", :style => "display: inline"}
+  %select#r3{:name => "r3", :onchange => "secondnav_goto3()"}
+    %option{:class => (@rdisplay2.nil? ? "on": "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2.nil?), :title => "", :value => divisions_path(params.merge(rdisplay2: nil))} All Divisions
+    %option{:class => (@rdisplay2 == "rebels" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "rebels"), :title => "", :value => divisions_path(params.merge(rdisplay2: "rebels"))} Rebellions
+    -# Only currently showing this when we're only looking at a single house. Doesn't seem right
+    - if @house    
+      - if @rdisplay != "all"
+        - parties = Division.in_parliament(Member.parliaments[@rdisplay])
+      - else
+        - parties = Division
+      - parties = parties.in_australian_house(@house).joins(:whips).order("pw_cache_whip.party").select(:party).distinct.map{|d| d.party}
+      - parties.each do |party|
+        - long_name = Member.party_long(party)
+        - if Member.party_has_whip?(party)
+          %option{:class => (@rdisplay2 == "#{party}_party" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "#{party}_party"), :title => "", :value => divisions_path(params.merge(rdisplay2: "#{party}_party"))}= long_name
+  %input{:name => "submit", :type => "submit", :value => "Go"}/
+<!-- the second tier navigation as dropdowns end-->
+
+%p
+  A 'division' is parliamentary terminology for a 'vote'
+  (#{link_to "read more...", help_path(anchor: "jargon")}).
+  This page shows divisions in the Australian parliament. Make sure you
+  = link_to "read the explanation", help_path(anchor: "clarify")
+  about rebellions, as they may not be what you expect.
+
+- if @rdisplay2 == "rebels"
+  %p
+    This is a table showing only the divisions where there were at
+    least ten #{link_to "rebels", help_path(anchor: "clarify")}.
+
+%p{:align => "center", :style => "font-size: 89%"}
+  Sort by:
+  = sort_link_divisions(nil, "date", "Date", @sort)
+  |
+  = sort_link_divisions("subject", "subject", "Subject", @sort)
+  |
+  = sort_link_divisions("rebellions", "rebellions", "Rebellions", @sort)
+  |
+  = sort_link_divisions("turnout", "turnout", "Turnout", @sort)
+  - if @party
+    %table.votes
+      %tr.headings
+        %td Date
+        %td Time
+        %td Subject
+        %td
+          = @party
+          Turnout
+        %td Loyal
+        %td Rebels
+        -# TODO Need to remove Boths
+        - if @house == "representatives"
+          %td Boths
+      - @divisions.each do |division|
+        -# TODO temporary variable Eek!
+        - whip = division.whips.where(party: @party).first
+        %tr{:class => (@rdisplay2 != "rebels" && division.rebellious? ? "evenrebel" : "even")}
+          %td= division.date.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
+          %td
+            - if division.clock_time
+              = division.clock_time.strftime("%H:%M")
+          %td
+            = link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
+          -# TODO Here it's called Turnout. Elsewhere it's called Attendance. Bad!
+          %td= whip.attendance_percentage
+          %td= whip.no_loyal
+          %td= whip.no_rebels
+          - if @house == "representatives"
+            %td 0
+  - else
+    %table.votes
+      %tr.headings
+        - if @house.nil?
+          %td House
+        %td Date
+        %td Time
+        %td Subject
+        %td
+          Rebels
+          %br>/
+          (#{link_to "explain..", help_path(anchor: "clarify")})
+        %td Turnout
+        %td Majority
+      - if @divisions.empty?
+        %tr.odd
+          - if @house.nil?
+            %td(colspan="9") no votes listed
+          - else
+            %td(colspan="8") no votes listed
+      - else
+        - @divisions.each do |division|
+          %tr{:class => cycle("even", "odd") + ((@rdisplay2 != "rebels" && @sort != "rebellions" && division.rebellious? ? "rebel" : ""))}
+            - if @house.nil?
+              %td{:class => division.house}= division.australian_house_name
+            %td= division.date.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
+            %td
+              - if division.clock_time
+                = division.clock_time.strftime("%H:%M")
+            %td
+              = link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
+            %td= division.no_rebellions
+            %td= division.turnout
+            %td= division.majority

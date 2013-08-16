@@ -1,0 +1,8 @@
+%h2
+  %a{:name => "divisions"} Votes Attended
+%p{:style => "font-size: 89%"}
+  See also
+  = link_to "all votes possible", member_path(@member, display: "everyvote", anchor: "divisions")
+
+%table.votes
+  = render partial: "votes", locals: {member: @member, divisions: @divisions, empty_message: "no votes listed"}

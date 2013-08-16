@@ -1,0 +1,85 @@
+tony_abbott:
+  mp_id: 1
+  first_name: "Tony"
+  last_name: "Abbott"
+  party: "Liberal Party"
+  constituency: "Warringah"
+  house: "commons"
+  gid: ""
+  source_gid: ""
+  title: ""
+  person: 10001
+
+kevin_rudd:
+  mp_id: 450
+  first_name: "Kevin"
+  last_name: "Rudd"
+  party: "Australian Labor Party"
+  constituency: "Griffith"
+  house: "commons"
+  gid: ""
+  source_gid: ""
+  title: ""
+  person: 10552
+
+christine_milne:
+  mp_id: 100156
+  first_name: "Christine"
+  last_name: "Milne"
+  party: "Australian Greens"
+  constituency: "Tasmania"
+  house: "lords"
+  gid: ""
+  source_gid: ""
+  title: ""
+  person: 10458
+
+john_howard:
+  mp_id: 265
+  first_name: 'John'
+  last_name: 'Howard'
+  party: 'Liberal Party'
+  constituency: 'Bennelong'
+  house: 'commons'
+  gid: 'uk.org.publicwhip/member/265'
+  source_gid: ""
+  title: ""
+  entered_house: '1974-05-18'
+  left_house: '2007-11-24'
+  entered_reason: 'general_election'
+  left_reason: ''
+  person: 10313
+
+maxine_mckew:
+  mp_id: 367
+  first_name: 'Maxine'
+  last_name: 'McKew'
+  party: 'Australian Labor Party'
+  constituency: 'Bennelong'
+  house: 'commons'
+  gid: 'uk.org.publicwhip/member/367'
+  source_gid: ""
+  title: ""
+  entered_house: 2007-11-24
+  left_house: 2010-08-21
+  entered_reason: 'general_election'
+  left_reason: ''
+  person: 10439
+
+john_alexander:
+  mp_id: 589
+  first_name: 'John'
+  last_name: 'Alexander'
+  party: 'Liberal Party'
+  constituency: 'Bennelong'
+  house: 'commons'
+  gid: 'uk.org.publicwhip/member/589'
+  source_gid: ""
+  title: ""
+  entered_house: 2010-08-21
+  left_house: 9999-12-31
+  entered_reason: 'general_election'
+  left_reason: 'still_in_office'
+  person: 10725
+
+

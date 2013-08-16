@@ -1,0 +1,45 @@
+- content_for :title do
+  - if @sort == "rebellions"
+    Rebel
+  = members_type(@house)
+  \— Current
+
+%h1= yield :title
+%p
+  = members_type_long(@house)
+  are listed below. Refer to
+  = link_to "this explanation", help_path(anchor: "clarify")
+  of the "rebellion" and "attendance" rates, as they may not mean what you
+  think they do.
+%p{:align => "center", :style => "font-size: 89%"}
+  Sort by:
+  = sort_link("lastname", "surname", "Name", @sort)
+  |
+  - if @house != "senate"
+    = sort_link("constituency", "constituency", "Constituency", @sort)
+    |
+  = sort_link("party", "party", "Party", @sort)
+  |
+  = sort_link("rebellions", "rebels", "Rebellions", @sort)
+  |
+  = sort_link("attendance", "attendance", "Attendance", @sort)
+%table.mps
+  %tr.headings
+    %td Name
+    %td= electorate_label(@house)
+    %td Party
+    %td
+      Rebellions
+      %br/
+      (#{link_to "explain...", help_path(anchor: "clarify")})
+    %td
+      Attendance
+      %br/
+      (#{link_to "explain...", help_path(anchor: "clarify")})
+  - @members.each do |member|
+    %tr{:class => cycle("odd", "even")}
+      %td= link_to member.name, member_path(member)
+      %td= link_to_unless @house == "senate", member.electorate, electorate_path(member)
+      %td= member.party_long2
+      %td.percent= member.rebellions_percentage
+      %td.percent= member.attendance_percentage
