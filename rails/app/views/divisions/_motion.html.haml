@@ -22,7 +22,8 @@
       to make it better.
   -# The motion can include html.
   -# TODO Need to check what happens when the user edits the motion. What can they add?
-  = simple_format(@division.motion)
+  .motion-text
+    = simple_format(@division.motion)
   %p
     %b= link_to "Debate in Parliament", @division.oa_debate_url, title: "Links to debate shown at www.openaustralia.org"
     |
