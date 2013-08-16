@@ -1,2 +1,3 @@
 # Builds the Rails version only
-before_install: cd rails
+gemfile: rails/Gemfile
+script: cd rails && rake
