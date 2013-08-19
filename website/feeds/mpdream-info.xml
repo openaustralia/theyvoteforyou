@@ -21,17 +21,17 @@ $db = new DB();
 $dreamid = intval($_GET["id"]);
 update_dreammp_person_distance($db, $dreamid); # new method
 
-$query = "select person, distance_a, distance_b,
+$query = "select pw_cache_dreamreal_distance.person, distance_a, distance_b, pw_mp.mp_id as mp_id,
           (nvotessame + nvotessamestrong + nvotesdiffer + nvotesdifferstrong) as both_voted,
           (nvotesabsent + nvotesabsentstrong) as absent
-          from pw_cache_dreamreal_distance where dream_id = $dreamid";
+          from pw_cache_dreamreal_distance, pw_mp
+          where dream_id = $dreamid and
+          pw_mp.person = pw_cache_dreamreal_distance.person";
 $db->query($query);
 while ($row = $db->fetch_row_assoc())
 {
-    $personid = $row['person'];
-    
     print "\n";
-    print "<personinfo id=\"uk.org.publicwhip/person/" . $personid . "\" \n";
+    print "<memberinfo id=\"uk.org.publicwhip/member/" . $row['mp_id'] . "\" \n";
     print " public_whip_dreammp" . $dreamid . "_distance=\"". $row['distance_a'] ."\"\n";
     print " public_whip_dreammp" . $dreamid . "_both_voted=\"". $row['both_voted'] ."\"\n";
     print " public_whip_dreammp" . $dreamid . "_absent=\"". $row['absent'] ."\"\n";
