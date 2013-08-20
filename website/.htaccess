@@ -3,8 +3,7 @@
 <FilesMatch "^(mp-info.xml|dreamquery.xml|mpdream-info.xml)$">
     AddType application/x-httpd-php .xml
 </FilesMatch>
-# make things safe
-#php_flag register_globals off # doesn't work / not needed for PHP5
+
 <Files ~ "\.inc$">
     Order allow,deny
     Deny from all
@@ -17,9 +16,6 @@ RedirectPermanent /news.php /newsletters/archive.php
 RedirectPermanent /code.php /project/code.php
 RedirectPermanent /mp-info.xml /feeds/mp-info.xml
 RedirectPermanent /dreammp.php /policy.php
-
-# RewriteCond %{HTTP_HOST} !^(www\.publicwhip\.org\.uk|pw\.live|publicwhip-v1.localdomain)$
-# RewriteRule (.*) http://www.publicwhip.org.uk/$1 [R=301,L]
 
 Options +FollowSymLinks
 RewriteEngine On
@@ -34,15 +30,3 @@ RewriteRule ^by-election$ /election_glenrothes2008.php?dash=yes [PT]
 RewriteRule ^fortytwodays$ /fortytwodays.php [PT]
 
 RewriteRule ^forum.*$ /outageforums.php [R=302,L]
-
-# Net strike
-#RewriteCond %{REQUEST_URI} !^/patents/patents\.php
-#RewriteCond %{REQUEST_URI} !^/thepublicwhip\.gif
-#RewriteCond %{REQUEST_URI} !^/publicwhip\.css
-#RewriteCond %{REQUEST_URI} !^/mp-info.xml
-#RewriteRule .*          http://www.publicwhip.org.uk/patents/patents.php [R=302,L]
-
-# Alternative way of net striking:
-#RedirectMatch /[^p] http://www.publicwhip.org.uk/patents/patents.php
-
-
