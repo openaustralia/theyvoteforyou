@@ -3,7 +3,6 @@
 <FilesMatch "^(mp-info.xml|dreamquery.xml|mpdream-info.xml)$">
     AddType application/x-httpd-php .xml
 </FilesMatch>
-DirectoryIndex index.php
 # make things safe
 #php_flag register_globals off # doesn't work / not needed for PHP5
 <Files ~ "\.inc$">
