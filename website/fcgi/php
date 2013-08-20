@@ -1,2 +1,0 @@
-#!/bin/sh
-PHPRC=/home/francis/www.publicwhip.org.uk_html/fcgi exec /software/bin/php4 "$@"
