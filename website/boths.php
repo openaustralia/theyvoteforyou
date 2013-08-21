@@ -1,10 +1,14 @@
-<?php require_once "common.inc";
+<?php
     # $Id: boths.php,v 1.13 2006/03/07 14:17:45 frabcus Exp $
 
     # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
     # This is free software, and you are welcome to redistribute it under
     # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
     # For details see the file LICENSE.html in the top level of the source.
+
+    require_once "common.inc";
+    require_once "db.inc";
+    require_once "parliaments.inc";
 
     function head_cell($url, $current_sort, $heading, $heading_sort, $title)
     {
@@ -32,8 +36,6 @@
 
     $title = "Voted both aye and no"; 
     pw_header();
-    require_once "db.inc";
-    require_once "parliaments.inc";
     $sort = trim($_GET["sort"]);
     if ($sort == "")
     {
