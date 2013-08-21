@@ -16,8 +16,9 @@ if (!$headtitle)
     $headtitle = preg_replace("/<[^>]*>/", "", $title);
     $headtitle = preg_replace("/ - /", " &#8212; ", $headtitle." - The Public Whip");
     if (!$title || ($title == "Counting votes on your behalf"))
-        $headtitle = "The Public Whip &#8212; ".$title;
+        $headtitle = "The Public Whip &#8212; Counting votes on your behalf";
 }
+
 if (!$h1title && $title) {
     $h1title = "<h1> ".str_replace(" - ", " &#8212; ", $title)." </h1>";
 }else{
