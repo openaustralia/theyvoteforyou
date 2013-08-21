@@ -236,7 +236,7 @@ function print_mp_slab( $allRows,$listtype, $bnofavour, $numcolumns, $tooltips, 
 
             if ($row['house'] == "lords")
             {
-                $mpname = $row['title']." ".$row['first_name']." ".$row['last_name'];
+                $mpname = $row['first_name']." ".$row['last_name'];
                 $href = "mp.php?" . link_to_mp($row);
                 if (strlen($mpname) > 22)
                     $mpname = $row['title'][0]." ".$row['first_name']." ".$row['last_name'];
@@ -256,7 +256,7 @@ function print_mp_slab( $allRows,$listtype, $bnofavour, $numcolumns, $tooltips, 
             }
             else
             {
-                $mpname = $row['title']." ".$row['first_name']." ".$row['last_name'];
+                $mpname = $row['first_name']." ".$row['last_name'];
                 $href = "mp.php?" . link_to_mp($row);
                 if (strlen($mpname) > 22)
                     $mpname = $row['first_name'][0]." ".$row['last_name'];
@@ -292,7 +292,7 @@ function print_mp_slab( $allRows,$listtype, $bnofavour, $numcolumns, $tooltips, 
             print "<a href=\"$href$afriendlk\"";
 			if ($tooltips)  // alt make the zorn type
             {
-                $toolt = trim($row['title']." ".$row['first_name']." ".$row['last_name']);
+                $toolt = trim($row['first_name']." ".$row['last_name']);
                 $wztoolt = $toolt." (".$row['party'].")";
                 if ($row['constituency'])
                 {
@@ -722,7 +722,7 @@ function mp_table( $mptabattr)
 	    $nrows = 0;
 	    foreach ($allRows as $row)
 	    {
-	        $mpname = $row['title']." ".$row['first_name']." ".$row['last_name'];
+	        $mpname = $row['first_name']." ".$row['last_name'];
 	        $href = "mp.php?" . link_to_mp($row);
 	        $nrows += 1; # number from 1
 	        print_mp_row($nrows, $row, $mpname, $href, $colstyle, $showwhich, $friendlk, $columnforms);
