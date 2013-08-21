@@ -18,8 +18,11 @@ if (!$headtitle)
     if (!$title || ($title == "Counting votes on your behalf"))
         $headtitle = "The Public Whip &#8212; ".$title;
 }
-if (!$h1title)
+if (!$h1title && $title) {
     $h1title = "<h1> ".str_replace(" - ", " &#8212; ", $title)." </h1>";
+}else{
+    $h1title = '';
+}
 
 ?>
 
