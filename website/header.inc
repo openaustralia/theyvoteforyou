@@ -10,6 +10,8 @@
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
+global $domain_name;
+
 # title bar if not set
 if (!$headtitle)
 {
@@ -65,7 +67,7 @@ if (!$h1title && $title) {
 <link href="<?php echo $toppath?>publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
 <link rel="icon" href="/<?php echo $favicon?>" type="image/x-icon" />
 <link rel="shortcut icon" href="/<?php echo $favicon?>" type="image/x-icon" />
-<link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.publicwhip.org.uk/feeds/interestingdivisions.xml" />
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://<?= $domain_name ?>/feeds/interestingdivisions.xml" />
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
