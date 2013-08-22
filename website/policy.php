@@ -52,12 +52,14 @@ require_once "DifferenceEngine.inc";
                                  "definition" => "yes", 
 								 "divisionlist" => "selected", # those which are seen out of the total
                                  "tooltip" => "Overview of the policy");
-	
+
+/* Disable comparions mode for the moment as it doesn't work
     $dismodes["comparison"] = array("description" => "Compare with MPs",
 								 "comparisons" => "slab",
 								 "divisionlist" => "selected", # those which are seen out of the total
                                  "tooltip" => "Comparison to MPs");
-    
+*/
+
     if (!$bAggregate) {
         $dismodes["motions"] = array("dtype"     => "motions", 
                                      "description" => "Details of votes", 
