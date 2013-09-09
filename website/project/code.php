@@ -132,6 +132,10 @@ out its syntax.  Now do this:
 
 <p><tt>./load.pl divsxml check calc</tt>
 
+<p>&hellip;and&hellip;
+
+<p><tt>./calc_caches.php</tt>
+
 <p>While you're doing this all, you probably want to run a tool like the <a
 href="http://www.mysql.com/products/mysqlcc/">MySQL Control Center</a>
 to browse the database tables and see what data they are filling up
