@@ -426,8 +426,10 @@ function print_division_row($nrows, $pretrowclass, $rolecol, $roleclass, $vote1,
 
 	if ($columnforms["divisiontitle"])
 	{
-	    $divdesc_edited = extract_title_from_wiki_text($row['text_body']);
-	    $divdesc = ($divdesc_edited ? $divdesc_edited : $row['division_name']);
+        $motion_data = get_wiki_current_value("motion", array($row['divisiondate'],
+                                                              $row['divisionnumber'],
+                                                              $row['divisionhouse']));
+        $divdesc = extract_title_from_wiki_text($motion_data['text_body']);
 	    print "<td>";
 	    if ($divhref)
 			print "<a href=\"$divhref\">";
@@ -654,8 +656,10 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
     print "<tr class=\"motiontitle$pretrowclass\">";
 
     $divlink = "<a href=\"$divhref\">";
-    $divdesc_edited = extract_title_from_wiki_text($row['text_body']);
-    $divdesc = $divdesc_edited ? $divdesc_edited : $row['division_name'];
+    $motion_data = get_wiki_current_value("motion", array($row['divisiondate'],
+                                                          $row['divisionnumber'],
+                                                          $row['divisionhouse']));
+    $divdesc = extract_title_from_wiki_text($motion_data['text_body']);
     print "<td colspan=7 align=left>$divlink$divdesc - " .
 	    date("j M Y", strtotime($row["divisiondate"])) .
 	" - Division No. " . $row['divisionnumber'] . "</a> </td>";
