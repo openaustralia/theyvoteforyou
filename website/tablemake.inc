@@ -765,7 +765,8 @@ function writeevents(&$events, $date, $breversed)
 #
 function division_table($db, $divtabattr, $db2="", $events = "")
 {
-    # FIXME: I don't think this works so we're not getting any data from wiki tables
+    # BUG: This doesn't work so we're not getting any data from wiki tables.
+    #      See comment on the function for more details
     update_divisions_wiki_id($db);
 
     global $bdebug;
