@@ -220,6 +220,7 @@ function get_motion_default_values($db, $params)
         . " " . htmlspecialchars($params[2]), E_USER_ERROR);
 }
 
+# FIXME: I don't think this works
 # Makes sure the wiki_id value is up to date in pw_cache_divwiki for every
 # division.
 function update_divisions_wiki_id($db)
