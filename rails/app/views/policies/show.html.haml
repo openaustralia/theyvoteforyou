@@ -1,0 +1,48 @@
+- content_for :title, 'Policy #1: "Marriage equality"'
+
+%h1= yield :title
+/ the second tier navigation as tabs
+<!-- add hashes to $second_links array, keys are
+\     'href' - URL of link
+\     'text' - displayed text
+\     'tooltip' - text to put in title
+\     'current' - 'on' or 'off' for whether this item is currently selected -->
+#secondnavtabs
+  %ul
+    %li.on Selected votes
+    %li.off
+      %a.off{:href => "policy.php?id=1&display=motions", :title => "Also shows description of every vote"} Details of votes
+    %li.off
+      %a.off{:href => "policy.php?id=1&display=editdefinition", :title => "Change title and definition of policy"} Edit
+<!-- the second tier navigation as dropdowns end-->
+%p.whatisflash
+  This is the votes by vote definition of
+  Public Whip policy #1: "Marriage equality". You may want to
+  <a href="/faq.php#policies">read an introduction to policies</a>,
+  or
+  = succeed "." do
+    %a{:href => "/faq.php"} read more about Public Whip
+%p
+  Someone who believes that
+  %span.policytext
+    access to
+    marriage should be equal
+  would have voted like
+  this...
+  %br/
+%div{:align => "right"}
+%table.votes
+  %tr.headings
+    %td House
+    %td Date
+    %td Subject
+    %td.policyvotehead Policy vote
+  %tr.even
+    %td.commons Representatives
+    %td 14&nbsp;Mar&nbsp;2013
+    %td
+      %a{:href => "division.php?date=2013-03-14&number=1&dmp=1&house=representatives"}
+        Bills — National Disability Insurance Scheme Bill 2012;
+        Consideration in Detail
+    %td
+      %i minority
