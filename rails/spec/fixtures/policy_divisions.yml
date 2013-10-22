@@ -4,3 +4,9 @@ one:
   house: "commons"
   dream_id: 1
   vote: aye
+two:
+  division_date: 2013-3-14
+  division_number: 1
+  house: "lords"
+  dream_id: 2
+  vote: aye
