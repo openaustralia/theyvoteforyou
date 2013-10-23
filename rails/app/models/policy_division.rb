@@ -3,6 +3,10 @@ class PolicyDivision < ActiveRecord::Base
   belongs_to :policy
 
   def division
-    Division.where(division_date: division_date, division_number: division_number).first
+    divisions = Division.where(division_date: division_date,
+                               division_number: division_number,
+                               house: house)
+    raise 'Multiple divisions found' if divisions.size > 1
+    divisions.first
   end
 end
