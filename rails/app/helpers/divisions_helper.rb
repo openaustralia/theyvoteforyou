@@ -16,7 +16,7 @@ module DivisionsHelper
     p = ""
     p += "&date=#{q[:date]}" if q[:date]
     p += "&number=#{q[:number]}" if q[:number]
-    p += "&house=#{q[:house]}" if q[:house] && q[:house] != "representatives"
+    p += "&house=#{q[:house]}" if q[:house]
     p += "&display=#{q[:display]}" if q[:display]
     p += "&sort=#{q[:sort]}" if q[:sort]
     r = "division.php"
@@ -77,6 +77,7 @@ module DivisionsHelper
     if current_display == display
       content_tag(:li, name, class: "on")
     else
+      params.delete(:house) if params[:house] == 'representatives'
       content_tag(:li, class: "off") do
         link_to name, division_path(params.merge(display: display)), title: title, class: "off"
       end
