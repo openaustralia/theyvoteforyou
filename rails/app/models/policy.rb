@@ -6,6 +6,8 @@ class Policy < ActiveRecord::Base
 
   delegate :votes_count, :edited_motions_count, to: :policy_info
 
+  alias_attribute :id, :dream_id
+
   # HACK: Not using an association due to the fact that policy_divisions doesn't include a division_id!
   def divisions
     policy_divisions.collect { |pd| pd.division }
