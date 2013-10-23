@@ -16,6 +16,7 @@ module DivisionsHelper
     p = ""
     p += "&date=#{q[:date]}" if q[:date]
     p += "&number=#{q[:number]}" if q[:number]
+    p += "&dmp=#{q[:dmp]}" if q[:dmp]
     p += "&house=#{q[:house]}" if q[:house]
     p += "&display=#{q[:display]}" if q[:display]
     p += "&sort=#{q[:sort]}" if q[:sort]
