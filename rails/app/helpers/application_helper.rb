@@ -24,8 +24,10 @@ module ApplicationHelper
     r
   end
 
-  def policy_path(policy)
-    "policy.php?id=#{policy.id}"
+  def policy_path(policy, params = {})
+    r = "policy.php?id=#{policy.id}"
+    r += "&display=#{params[:display]}" if params[:display]
+    r
   end
 
   def sort_link(sort, sort_name, name, current_sort)
