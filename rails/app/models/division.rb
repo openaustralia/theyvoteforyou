@@ -189,8 +189,8 @@ class Division < ActiveRecord::Base
     noes_in_majority? ? aye_votes_including_tells : no_votes_including_tells
   end
 
-  def policy_vote(policy_id)
-    policy_division = policy_divisions.where(dream_id: policy_id)
+  def policy_vote(policy)
+    policy_division = policy_divisions.where(dream_id: policy.id)
     raise if policy_division.size > 1
     policy_division.first.vote
   end
