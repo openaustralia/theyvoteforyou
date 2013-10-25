@@ -4,3 +4,9 @@ one:
   votes_count: 1
   edited_motions_count: 0
   consistency_with_mps:
+two:
+  dream_id: 2
+  cache_uptodate: 1
+  votes_count: 1
+  edited_motions_count: 0
+  consistency_with_mps:

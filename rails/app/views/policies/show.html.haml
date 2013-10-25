@@ -1,0 +1,47 @@
+- content_for :title, "Policy ##{@policy.id}: \"#{@policy.name}\""
+
+%h1= yield :title
+/ the second tier navigation as tabs
+<!-- add hashes to $second_links array, keys are
+\     'href' - URL of link
+\     'text' - displayed text
+\     'tooltip' - text to put in title
+\     'current' - 'on' or 'off' for whether this item is currently selected -->
+#secondnavtabs
+  %ul
+    %li.on Selected votes
+    %li.off
+      = link_to 'Details of votes', policy_path(@policy, display: 'motions'), title: 'Also shows description of every vote', class: 'off'
+    %li.off
+      = link_to 'Edit', policy_path(@policy, display: 'editdefinition'), title: 'Change title and definition of policy', class: 'off'
+<!-- the second tier navigation as dropdowns end-->
+%p.whatisflash
+  This is the votes by vote definition of
+  = "Public Whip policy ##{@policy.id}: \"#{@policy.name}\". You may want to"
+  <a href="/faq.php#policies">read an introduction to policies</a>,
+  or
+  = succeed "." do
+    %a{:href => "/faq.php"} read more about Public Whip
+%p
+  Someone who believes that
+  %span.policytext= @policy.description
+  would have voted like
+  this...
+  %br/
+%div{:align => "right"}
+%table.votes
+  %tr.headings
+    %td House
+    %td Date
+    %td Subject
+    %td.policyvotehead Policy vote
+  - @policy.divisions.each do |division|
+    - row_class = cycle('even', 'odd')
+    - row_class += 'strong' if division.policy_vote(@policy).include? '3'
+    %tr{class: row_class}
+      %td{class: division.house}= division.australian_house_name
+      %td= division.date.strftime('%d&nbsp;%b&nbsp;%Y').html_safe
+      %td
+        = link_to division.name, division_path(date: division.date, number: division.number, house: division.australian_house, dmp: @policy.id)
+      %td
+        = vote_display_in_table(division.policy_vote(@policy), division.aye_majority)

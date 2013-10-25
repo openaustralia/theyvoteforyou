@@ -8,4 +8,14 @@ describe PoliciesController do
   it "#index" do
     compare("/policies.php")
   end
+
+  it "#show" do
+    compare("/policy.php?id=1")
+    # compare("/policy.php?id=1&display=motions")
+    # compare("/policy.php?id=1&display=editdefinition")
+
+    compare("/policy.php?id=2")
+    # compare("/policy.php?id=2&display=motions")
+    # compare("/policy.php?id=2&display=editdefinition")
+  end
 end

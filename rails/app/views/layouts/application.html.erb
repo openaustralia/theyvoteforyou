@@ -37,7 +37,6 @@
     <link href="publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
     <link rel="icon" href="/" type="image/x-icon" />
     <link rel="shortcut icon" href="/" type="image/x-icon" />
-    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.publicwhip.org.uk/feeds/interestingdivisions.xml" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script type="text/javascript">
 $(document).ready(function() {
@@ -54,7 +53,7 @@ $(document).ready(function() {
       <% unless yield(:title).empty? %>
         <%= yield :title %> — The Public Whip
       <% else %>
-        The Public Whip —
+        The Public Whip — Counting votes on your behalf
       <% end %>
     </title>
     <script type="text/javascript">

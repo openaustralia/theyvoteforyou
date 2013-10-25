@@ -11,6 +11,7 @@ Publicwhip::Application.routes.draw do
   get 'division.php' => 'divisions#show'
   get 'faq.php' => 'home#faq', as: :help
   get 'policies.php' => 'policies#index'
+  get 'policy.php' => 'policies#show'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
