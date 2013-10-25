@@ -5,9 +5,7 @@ class PolicyDivision < ActiveRecord::Base
   alias_attribute :date, :division_date
   alias_attribute :number, :division_number
 
-  delegate :name, to: :division
-  delegate :australian_house, to: :division
-  delegate :australian_house_name, to: :division
+  delegate :name, :australian_house, :australian_house_name, to: :division
 
   def division
     divisions = Division.where(division_date: division_date,
