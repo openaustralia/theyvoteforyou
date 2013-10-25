@@ -16,6 +16,12 @@ class Division < ActiveRecord::Base
   scope :with_rebellions, -> { joins(:division_info).where("rebellions > 10") }
   scope :in_parliament, ->(parliament) { where("division_date >= ? AND division_date < ?", parliament[:from], parliament[:to]) }
 
+  def policy_divisions
+    PolicyDivision.where(division_date: date,
+                         division_number: number,
+                         house: house)
+  end
+
   def rebellious?
     no_rebellions > 10
   end
@@ -181,5 +187,11 @@ class Division < ActiveRecord::Base
 
   def minority_votes_including_tells
     noes_in_majority? ? aye_votes_including_tells : no_votes_including_tells
+  end
+
+  def policy_vote(policy_id)
+    policy_division = policy_divisions.where(dream_id: policy_id)
+    raise if policy_division.size > 1
+    policy_division.first.vote
   end
 end
