@@ -2,6 +2,7 @@ class Policy < ActiveRecord::Base
   self.table_name = 'pw_dyn_dreammp'
 
   has_many :policy_divisions, foreign_key: :dream_id
+  has_many :divisions, through: :policy_divisions
   has_one :policy_info, foreign_key: :dream_id
 
   delegate :votes_count, :edited_motions_count, to: :policy_info
