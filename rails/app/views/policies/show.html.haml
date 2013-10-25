@@ -36,7 +36,9 @@
     %td Subject
     %td.policyvotehead Policy vote
   - @policy.divisions.each do |division|
-    %tr{class: cycle('even', 'odd')}
+    - row_class = cycle('even', 'odd')
+    - row_class += 'strong' if division.policy_vote(@policy).include? '3'
+    %tr{class: row_class}
       %td{class: division.house}= division.australian_house_name
       %td= division.date.strftime('%d&nbsp;%b&nbsp;%Y').html_safe
       %td
