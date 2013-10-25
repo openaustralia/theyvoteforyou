@@ -92,8 +92,6 @@ module DivisionsHelper
       display = content_tag(:i, 'minority')
     end
 
-    display += ' (strong)' if vote == 'aye3' || vote == 'no3'
-
-    display
+    vote == 'aye3' || vote == 'no3' ? "#{display} (strong)" : display
   end
 end
