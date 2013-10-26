@@ -273,8 +273,8 @@ function no_division_found($plural)
 	if ($dismode["summarytext"])
     {
 		// alternatively this could sum from pw_whip_cache
-        $query = "SELECT sum(vote = 'aye') AS ayes,
-						 sum(vote = 'no')  AS noes,
+        $query = "SELECT sum(vote = 'aye' OR vote = 'tellaye') AS ayes,
+                         sum(vote = 'no' OR vote = 'tellno')  AS noes,
 						 sum(vote = 'both') AS boths,
 						 sum(vote = 'tellaye' or vote = 'tellno') AS tellers
 				  FROM pw_vote WHERE division_id = ?";

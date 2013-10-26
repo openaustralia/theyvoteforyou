@@ -340,9 +340,9 @@
             if (($total == 0) && ($party != "Con" && $party != "Lab" && $party != "LDem"))
                 continue; 
 
-			$totalayes += $aye;
+			$totalayes += $aye + $tellaye;
 			$totaltellayes += $tellaye;
-			$totalnoes += $no;
+			$totalnoes += $no + $tellno;
 			$totaltellnoes += $tellno;
 			$totalboths += $both;
 			$totalabstentions += $abstentions;
