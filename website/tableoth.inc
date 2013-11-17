@@ -48,7 +48,7 @@
    			}
 			if ($conscolumn) {
                 if ($mpprop["house"] == "lords") 
-                    print "<td class=\"lords\">House of Lords</td>\n";
+                    print "<td class=\"lords\">Senator for ".$mpprop['constituency']."</td>\n";
                 else
                     print "<td class=\"commons\">".$mpprop['constituency']."</td>\n";
             }
