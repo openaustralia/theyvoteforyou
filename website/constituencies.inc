@@ -38,6 +38,7 @@ function normalise_constituency_name($name, $house = null, $parl = null)
     }
     $qwhere2 = " AND name LIKE :name";
     if ($house) {
+        if ($house == 'representatives') { $house = 'commons'; }
         $qwhere3 = " AND house = :house";
         $q3ph[':house'] = $house;
     }
