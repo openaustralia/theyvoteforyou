@@ -130,7 +130,7 @@ from the XML files into the database and does various cached
 calculations for use on the website.  Run it with no parameters to find
 out its syntax.  Now do this:
 
-<p><tt>./load.pl divsxml check calc</tt>
+<p><tt>./load.pl divsxml check</tt>
 
 <p>&hellip;and&hellip;
 
