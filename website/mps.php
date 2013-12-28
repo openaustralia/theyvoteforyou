@@ -119,24 +119,24 @@
 
 
     $second_links = array();
-#    foreach ($rdismodes as $lrdisplay => $lrdismode)
-#	{
-#		$dlink = makempslink($lrdisplay, $adisplay_house, $sort);
-#        array_push($second_links, array('href'=>$dlink,
-#            'current'=> ($lrdisplay == $rdisplay_parliament ? "on" : "off"),
-#            'text'=>$lrdismode["lkdescription"],
-#            'tooltip'=>$lrdismode["description"]));
-#	}
+    foreach ($rdismodes as $lrdisplay => $lrdismode)
+	{
+		$dlink = makempslink($lrdisplay, $adisplay_house, $sort);
+        array_push($second_links, array('href'=>$dlink,
+            'current'=> ($lrdisplay == $rdisplay_parliament ? "on" : "off"),
+            'text'=>$lrdismode["lkdescription"],
+            'tooltip'=>$lrdismode["description"]));
+	}
 
 	$second_links2 = array();
-#    foreach ($rdismodes_house as $lrdisplay_house => $lrdismode)
-#	{
-#		$dlink = makempslink($rdisplay_parliament, $lrdisplay_house, $sort);
-#        array_push($second_links2, array('href'=>$dlink,
-#            'current'=> ($lrdisplay_house == $adisplay_house ? "on" : "off"),
-#            'text'=>$lrdismode["lkdescription"],
-#            'tooltip'=>$lrdismode["description"]));
-#	}
+    foreach ($rdismodes_house as $lrdisplay_house => $lrdismode)
+	{
+		$dlink = makempslink($rdisplay_parliament, $lrdisplay_house, $sort);
+        array_push($second_links2, array('href'=>$dlink,
+            'current'=> ($lrdisplay_house == $adisplay_house ? "on" : "off"),
+            'text'=>$lrdismode["lkdescription"],
+            'tooltip'=>$lrdismode["description"]));
+	}
 
     $second_type = "tabs";
     pw_header();
