@@ -34,8 +34,6 @@
             pw_cache_mpinfo where
             pw_mp.mp_id = pw_cache_mpinfo.mp_id";
 
-    $title = "Voted both aye and no"; 
-    pw_header();
     $sort = trim($_GET["sort"]);
     if ($sort == "")
     {
@@ -60,20 +58,16 @@
         $order",array());
     $count = count($rows);
 
+    $title = $count . " both votes detected";
+    pw_header();
+
 ?>
-<p>Amazingly, on <?php print $count; ?> occasions in these parliaments,
-an MP has voted twice in the same division.  It's a little known fact that this is perfectly
-allowable, provided one vote is aye and the other is no.  For details see under the
-heading "abstention" in the <a href="http://www.parliament.uk/documents/upload/p09.pdf">division factsheet</a> from the House of Commons Information Office.  
-
-<p>An MP may have done this to cancel the effect of a mistaken vote in
-the wrong lobby.   However, it would seem reasonable to encourage the
-practice as a signal of active abstention from the vote.  You can see in
-the table below one clear case of this happening, where many Conservative
-members abstain on a fishing issue.
-
-<p>This table lists all instances of double voting.  You can select the column
-headings to sort it by MP name or by division date.
+<p>
+    This table lists all instances of double voting. In the UK this is allowed
+    but here in Australia that's not the case, so this will just show errors
+    in our data. You can select the column headings to sort it by MP name or by
+    division date.
+</p>
 
 <?php
     $url = "boths.php?";
