@@ -112,7 +112,7 @@ if (user_isloggedin()) # User logged in, show settings screen
                 $link_url = "http://www.openaustralia.org/senate/?id=$debate_gid";
             else
                 $link_url = "http://www.openaustralia.org/debates/?id=$debate_gid";
-            print "<b>Read the <a target=\"_blank\" href=\"$link_url\">debate leading up to the vote</a> (new window) on TheyWorkForYou.com</b>";
+            print "<b>Read the <a target=\"_blank\" href=\"$link_url\">debate leading up to the vote</a>.</b>";
         } else {
             print "Warning: old division; need to make hyperlink to old Parl data from division details.";
         }
