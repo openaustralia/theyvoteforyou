@@ -32,11 +32,8 @@
         %td.percent= whip.attendance_percentage
   %tr{:class => cycle("odd", "even")}
     %td.whip Total:
-    -# This is currently showing totals which don't include the tells. THIS IS clearly WRONG.
-    -# Doing this only because it matches the behaviour of the php app
-    -# TODO fix this to the do the sensible thing
-    %td{:class => majority_vote_total_class(@division)}= @division.majority_votes
-    %td{:class => minority_vote_total_class(@division)}= @division.minority_votes
+    %td{:class => majority_vote_total_class(@division)}= @division.majority_votes_including_tells
+    %td{:class => minority_vote_total_class(@division)}= @division.minority_votes_including_tells
     %td.percent= @division.attendance_percentage
 %h2
   %a{:name => "votes"}
