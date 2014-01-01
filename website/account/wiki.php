@@ -102,9 +102,8 @@ if (user_isloggedin()) # User logged in, show settings screen
         <p>Please, keep it accurate, authorative, and as jargon-free as
         possible so that new readers who don't know Parliamentary procedure can
         gain enlightenment. You are urged to include links to the
-        legislation, command papers, reports, and committee
-        proceedings that are referred to so that readers who want to follow the
-        story further will know where to look.</p>
+        legislation, reports, and committee proceedings that are referred to so
+        that readers who want to follow the story further will know where to look.</p>
 
         <p>
 <?
