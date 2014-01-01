@@ -109,9 +109,9 @@ if (user_isloggedin()) # User logged in, show settings screen
 <?
         if ($debate_gid != "") {
             if ($division_details['house'] == 'lords')
-                $link_url = "http://www.theyworkforyou.com/lords/?id=$debate_gid";
+                $link_url = "http://www.openaustralia.org/senate/?id=$debate_gid";
             else
-                $link_url = "http://www.theyworkforyou.com/debates/?id=$debate_gid";
+                $link_url = "http://www.openaustralia.org/debates/?id=$debate_gid";
             print "<b>Read the <a target=\"_blank\" href=\"$link_url\">debate leading up to the vote</a> (new window) on TheyWorkForYou.com</b>";
         } else {
             print "Warning: old division; need to make hyperlink to old Parl data from division details.";
