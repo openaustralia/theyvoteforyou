@@ -17,6 +17,8 @@ $db = new DB();
 <ul>
 <li><a href="#whatis">What is the Public Whip?</a> </li>
 <li><a href="#jargon">First, can you explain "division" and other political jargon?</a> </li>
+<li><a href="#division-occur">When does a division occur?</a> </li>
+<li><a href="#decisions">Why don’t all decisions made in Parliament appear on Public Whip?</a> </li>
 <li><a href="#how">How does the Public Whip work?</a> </li>
 <li><a href="#timeperiod">What time period does it cover?</a> </li>
 
@@ -52,20 +54,81 @@ project of the charity OpenAustralia Foundation.
 
 
 <h2 class="faq"><a name="jargon">First, can you explain "division" and other political jargon?</a></h2>
-<p>The houses of parliament <b>divide</b> several times each week into members 
-who vote <b>Aye</b> (yes, for the motion) and those who vote <b>No</b> (against the
-motion).</p>
+<p>
+    A <strong>division</strong> is a formal vote on a <strong>motion</strong> in
+    the House of Representatives or the Senate. A motion is a formal proposal
+    put to the House or Senate to take action of some kind.
+</p>
 
-<p>Each political party has <b>whips</b> who try to persuade their
-members to vote for the party line.
+<p>
+    When a division is called on a particular motion, the Members of Parliament
+    (MPs) or the Senators divide themselves into two groups: one that votes Aye
+    (yes) for the motion and one that votes No. A <strong>teller</strong> is
+    then appointed on both sides to record the names of the MPs or Senators. The
+    tellers' lists are then given to the Chair, who announces the number of
+    votes of each side and whether the motion is agreed to or not.
+</p>
 
-<p>An MP <b>rebels</b>, otherwise known as <b>crossing the floor</b>, by voting against the party whip.</b></p>
+<p>
+    Each political party has <strong>whips</strong> who try to persuade their
+    members to vote for the party line.
+</p>
 
-<p>A <b>teller</b> is an MP involved in the counting of the vote.</p>
+<p>
+    An MP or Senator <strong>rebels</strong> by voting against the party whip.
+    This is known as <strong>crossing the floor</strong>.
+</p>
 
-<p>For more information on all these terms, see the
-<a href="http://www.aph.gov.au/About_Parliament/House_of_Representatives/Powers_practice_and_procedure/00_-_Infosheets/Infosheet_14_-_Making_decisions_-_debate_and_division">
-Parliament infosheet on debates and divisions</a>.
+<p>
+    For more information on divisions in the House of Representatives, see the
+    <a href="http://www.aph.gov.au/About_Parliament/House_of_Representatives/Powers_practice_and_procedure/00_-_Infosheets/Infosheet_14_-_Making_decisions_-_debate_and_division">Parliament Infosheet on Debate and Division</a>.
+    For more information on divisions in the Senate, see
+    <a href="http://www.aph.gov.au/About_Parliament/Senate/Powers_practice_n_procedures/Brief_Guides_to_Senate_Procedure/No_3">Voting in the Senate</a>.
+</p>
+
+<h2 class="faq"><a name="division-occur">When does a division occur?</a></h2>
+
+<p>
+    Most decisions in Parliament are made ‘on the voices’ and not by division.
+    When a question is asked by the Chair, the Members of Parliament (MPs) and
+    Senators call out Aye (yes) or No and the Chair decides which are in the
+    majority without recording the names of who voted and how they voted.
+</p>
+
+<p>
+    A division is only called if two or more MPs or Senators call for one. If
+    only one MP or one Senator calls for a division then their name may be
+    recorded in the official record (the Hansard) but no division will occur.
+</p>
+
+<p>
+    In the House of Representatives, if there are four or less MPs on a side of
+    the division then the division does not proceed and the Speaker declares the
+    decision of the House immediately. However, the names of the MPs in the
+    minority are recorded.
+</p>
+
+<p>
+    In the Senate, if there is only one Senator on a side of the division then
+    the division does not proceed and the President declares the decision of the
+    Senate immediately. However, the names of the lone Senator may be recorded.
+</p>
+
+<h2 class="faq"><a name="decisions">Why don’t all decisions made in Parliament appear on Public Whip?</a></h2>
+
+<p>
+    Public Whip is concerned with the voting patterns of politicians, which
+    means it is limited to formal votes (known as
+    <a href="#jargon">divisions</a>). This is because
+    politicians' names and how they voted are only recorded in the official
+    record of Parliament (the Hansard) when a division occurs.
+</p>
+
+<p>
+    Unfortunately, most decisions in Parliament are
+    <a href="#division-occur">not made by division</a> and so do not
+    appear on this site.
+</p>
 
 <h2 class="faq"><a name="how">How does the Public Whip work?</a></h2>
 <p>Debate transcripts of the House of Representatives and the Senate are <a href="http://www.aph.gov.au/">published online</a>. We've written
