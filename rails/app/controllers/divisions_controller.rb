@@ -2,7 +2,7 @@ class DivisionsController < ApplicationController
   def index
     @sort = params[:sort]
     @rdisplay = params[:rdisplay]
-    @rdisplay = "2010" if @rdisplay.nil?
+    @rdisplay = "2013" if @rdisplay.nil?
     @rdisplay2 = params[:rdisplay2]
     @house = params[:house]
 
