@@ -6,8 +6,21 @@ class DivisionsController < ApplicationController
     @rdisplay2 = params[:rdisplay2]
     @house = params[:house]
 
+    if @house
+      if @rdisplay != "all"
+        @parties = Division.in_parliament(Member.parliaments[@rdisplay])
+      else
+        @parties = Division
+      end
+      @parties = @parties.in_australian_house(@house).joins(:whips).order("pw_cache_whip.party").select(:party).distinct.map{|d| d.party}
+    end
+
     if @rdisplay2 && @rdisplay2 != "rebels"
-      @party = @rdisplay2.match(/(.*)_party/)[1]
+      if @parties.include? @rdisplay2.gsub('_party', '')
+        @party = @rdisplay2.gsub('_party', '')
+      else
+        @rdisplay2 = nil
+      end
     end
 
     raise "Invalid rdisplay param" unless @rdisplay == "all" || Member.parliaments.has_key?(@rdisplay)

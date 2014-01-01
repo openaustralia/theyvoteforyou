@@ -160,5 +160,7 @@ describe DivisionsController do
     compare("/divisions.php?rdisplay2=Australian%20Labor%20Party_party&house=representatives&sort=turnout")
     compare("/divisions.php?rdisplay2=Liberal%20Party_party&house=representatives&sort=turnout")
     compare("/divisions.php?rdisplay2=Australian%20Greens_party&house=senate&sort=turnout")
+
+    compare("/divisions.php?rdisplay=2007&rdisplay2=Australian%20Labor%20Party_party&house=representatives")
   end
 end

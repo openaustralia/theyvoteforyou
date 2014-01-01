@@ -17,6 +17,9 @@
   - if @sort
     (sorted by #{@sort})
 
+-# Don't include this parameter when we generate URLs if it's been removed by the controller
+- params.delete :rdisplay2 if @rdisplay2.nil?
+
 %h1= yield :title
 / the second tier navigation as dropdowns
 :plain
@@ -42,13 +45,8 @@
     %option{:class => (@rdisplay2.nil? ? "on": "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2.nil?), :title => "", :value => divisions_path(params.merge(rdisplay2: nil))} All Divisions
     %option{:class => (@rdisplay2 == "rebels" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "rebels"), :title => "", :value => divisions_path(params.merge(rdisplay2: "rebels"))} Rebellions
     -# Only currently showing this when we're only looking at a single house. Doesn't seem right
-    - if @house    
-      - if @rdisplay != "all"
-        - parties = Division.in_parliament(Member.parliaments[@rdisplay])
-      - else
-        - parties = Division
-      - parties = parties.in_australian_house(@house).joins(:whips).order("pw_cache_whip.party").select(:party).distinct.map{|d| d.party}
-      - parties.each do |party|
+    - if @parties
+      - @parties.each do |party|
         - long_name = Member.party_long(party)
         - if Member.party_has_whip?(party)
           %option{:class => (@rdisplay2 == "#{party}_party" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "#{party}_party"), :title => "", :value => divisions_path(params.merge(rdisplay2: "#{party}_party"))}= long_name
