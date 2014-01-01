@@ -142,7 +142,8 @@ function guess_whip_for_all()
         # See http://www.abc.net.au/news/2011-12-03/labor-votes-for-conscience-vote-on-same-sex-marriage/3710828
         else if (($party == 'Australian Labor Party') &&
                 (($division_date == '2012-09-19' && $house == 'commons' && $division_number == 1) ||
-                ($division_date == '2012-09-20' && $house == 'lords' && $division_number == 5))) {
+                 ($division_date == '2012-09-20' && $house == 'lords' && $division_number == 5) ||
+                 ($division_date == '2013-06-20' && $house == 'lords' && $division_number == 2))) {
             $whip_guess = "none";
         }
 		# keep it very simple so it doesn't change and we can easily keep the set of exceptions constant.
