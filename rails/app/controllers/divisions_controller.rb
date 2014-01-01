@@ -38,7 +38,7 @@ class DivisionsController < ApplicationController
     @date = params[:date]
     @sort = params[:sort]
     @display = params[:display]
-    @division = Division.in_australian_house(@house).find_by(division_date: @date, division_number: params[:number])
+    @division = Division.in_australian_house(@house).find_by!(division_date: @date, division_number: params[:number])
 
     # If a member is included
     if params[:mpn] && params[:mpc]
