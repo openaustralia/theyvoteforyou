@@ -166,14 +166,14 @@ if (user_isloggedin()) # User logged in, show settings screen
         <p><span class="ptitle">Formatting codes</span>. You can use the following
         to mark paragraphs, lists and so on.
         <ul>
-        <li>&lt;p&gt; - begin paragraph
-        <li>&lt;/p&gt; - end paragraph
-        <li>&lt;blockquote&gt;, &lt;/blockquote&gt; - quoted paragraph
-        <li>&lt;i&gt; &lt;/i&gt; - italic
-        <li>&lt;b&gt; &lt;/b&gt; - bold
-        <li>&lt;a href="http://..."&gt; &lt;/a&gt; - link
-        <li>&lt;ul&gt; &lt;li&gt; item &lt;/li&gt; ... &lt;/ul&gt; - bulleted list
-        <li>&lt;ol&gt; &lt;li&gt; item &lt;/li&gt;  ...&lt;/ol&gt; - numbered list
+        <li><code>''italic''</code> - <em>italic</em>
+        <li><code>[http://example.com A link]</code> - <a href="http://example.com">link</a>
+        <li><code>* A point</code> - bulleted list item
+        <li><code>An idea[1]</code> - link to a footnote
+        <li><code>* [1] Ideas are good</code> - footnote
+        <li><code>@A comment</code> - comments aren't displayed
+        <li><code>@MP voted aye to say that little ponies are great</code> - puts this text on the motion page "[MP Name] voted to say that little ponies are great"
+        <li><code>@MP voted no</code> - does it for MPs that voted no
         </ul>
 
         </td>
