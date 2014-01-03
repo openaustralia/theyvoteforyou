@@ -100,6 +100,9 @@ function whipless_party($party) {
             $party == "Other" || 
             substr($party, 0, 3) == "Ind" || 
             $party == "None" ||
-            $party == "CWM" || 
-            $party == "DCWM";
+            $party == "SPK" ||
+            $party == "CWM" ||
+            $party == "DCWM" ||
+            $party == "PRES" ||
+            $party == "DPRES";
 }
