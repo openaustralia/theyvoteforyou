@@ -503,8 +503,10 @@ function pretty_minister($row) {
         $responsibility = "Team";
     if ($responsibility)
         return $position." (".$responsibility."), ".$row["dept"];
-    elseif ($position)
+    elseif ($position && $row['dept'])
         return $position.", ".$row["dept"];
+    elseif ($position)
+        return $position;
     else
         return "a member of the " . $row["dept"]; // committee membership uses this
 }
