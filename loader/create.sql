@@ -278,7 +278,7 @@ create table pw_dyn_wiki_motion (
     house enum('commons', 'lords', 'scotland') not null,
 
     -- the new text that has change
-    text_body text not null,
+    text_body mediumtext not null,
 
     -- who and when this changes was made
     user_id int not null, 
