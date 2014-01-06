@@ -59,6 +59,10 @@ if (user_isloggedin()) # User logged in, show settings screen
     {
         if ($submit == "Save") {
             if ($type == 'motion') {
+                if (trim($newtitle) == false) {
+                    # TODO: Fail gracefully
+                    trigger_error('Title cannot be blank', E_USER_ERROR);
+                }
                 $newtext = add_motion_missing_wrappers($newdescription, $newtitle);
             
                 $curr_name = extract_title_from_wiki_text($newtext);
