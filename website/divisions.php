@@ -101,13 +101,19 @@
 		$pwpdo->query($query,$placeholders);
 		while ($row = $pwpdo->fetch_row())
 		{
-			$party = $row["party"];
-            if ($party != "CWM" && $party != "DCWM" && substr($party, 0, 3) != "Ind" && $party != "Other" && $party != "None" && $party != "SPK")
-			    $rdismodes2["${party}_party"] = array(
-									 "description" => pretty_party_long($party, $rdisplay_house),
-									 "lkdescription" => pretty_party_long($party, ""),
-									 "showwhich" => "party",
-									 "party" => $party);
+      $party = $row["party"];
+      if ($party != "SPK" &&
+          $party != "CWM" &&
+          $party != "DCWM" &&
+          substr($party, 0, 3) != "Ind" &&
+          $party != "Other" &&
+          $party != "None") {
+            $rdismodes2["${party}_party"] = array(
+              "description" => pretty_party_long($party, $rdisplay_house),
+              "lkdescription" => pretty_party_long($party, ""),
+              "showwhich" => "party",
+              "party" => $party);
+          }
 		}
         #print_r($rdismodes2);
 	}
