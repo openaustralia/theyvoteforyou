@@ -105,6 +105,8 @@
       if ($party != "SPK" &&
           $party != "CWM" &&
           $party != "DCWM" &&
+          $party != "PRES" &&
+          $party != "DPRES" &&
           substr($party, 0, 3) != "Ind" &&
           $party != "Other" &&
           $party != "None") {
