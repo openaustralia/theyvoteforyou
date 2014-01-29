@@ -16,130 +16,51 @@ $db = new DB();
 <p>
 <ul>
 <li><a href="#whatis">What is the Public Whip?</a> </li>
-<li><a href="#jargon">First, can you explain "division" and other political jargon?</a> </li>
-<li><a href="#division-occur">When does a division occur?</a> </li>
-<li><a href="#decisions">Why don’t all decisions made in Parliament appear on Public Whip?</a> </li>
 <li><a href="#how">How does the Public Whip work?</a> </li>
 <li><a href="#timeperiod">What time period does it cover?</a> </li>
 
+
 <br>
-<li><a href="#clarify">What do the "rebellion" and "attendance" figures mean exactly?</a> </li>
-<li><a href="#freevotes">Why do you incorrectly say people are rebels in free votes?</a> </li>
-<li><a href="#ayemajority">Why do you refer to Majority and Minority instead of Aye and No?</a> </li>
+<li><a href="#division">What is a division? </a> </li>
+<li><a href="#division-occur">When does a division occur?</a> </li>
+<li><a href="#decisions">Why don’t all decisions made in Parliament appear on Public Whip?</a> </li>
+<li><a href="#summaries">Why don’t all the divisions have edited summaries? </a> </li>
+
+<br>
 <li><a href="#policies">What are Policies and how do they work?</a> </li>
+<li><a href="#rebelandfree">What are “Rebel Voters” and what is a “Free Vote”? </a> </li>
+<li><a href="#clarify">What do the "attendance" and "rebellion" figures mean?</a> </li>
 
 <br>
-<li><a href="#legal">Legal question, what can I use this information for?</a> </li>
+<li><a href="#legal">Legal question: what can I use this information for?</a> </li>
 <li><a href="#playwith">Can I play with the software?</a> </li>
-<li><a href="#datalicense">What license is the data under?</a> </li>
-
-<br>
+<li><a href="#datalicence">What licence is the data under?</a> </li>
 <li><a href="#organisation">What organisation is behind the Public Whip?</a> </li>
 
 <br>
 <li><a href="#help">Can I help with the project?</a> </li>
-<li><a href="#motionedit">What do you mean by editing the motion description?</a> </li>
-<!-- <li><a href="#keepup">How can I keep up with what you are doing?</a> </li> -->
-<li><a href="#contact">There's something wrong with your webpage / I've found an error / Your wording is dreadfully unclear / Can I make a suggestion?</a> </li>
+<li><a href="#contact">How can I contact you?</a> </li>
 </ul>
 </p>
 
 
 
 <h2 class="faq"><a name="whatis">What is the Public Whip?</a></h2>
-<p>Public Whip is a project to watch Members of the Australian
-Parliament, so that the public (people like us) can better understand and
-influence their voting patterns.  We're an independent, non-governmental
-project of the charity OpenAustralia Foundation.
-
-
-<h2 class="faq"><a name="jargon">First, can you explain "division" and other political jargon?</a></h2>
 <p>
-    A <strong>division</strong> is a formal vote on a <strong>motion</strong> in
-    the House of Representatives or the Senate. A motion is a formal proposal
-    put to the House or Senate to take action of some kind.
+    Public Whip is a project to track the voting patterns of Australian federal politicians. We're an independent, non-governmental project of the charity <a href="https://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>. 
 </p>
 
+
+<h2 class="faq"><a name="#how">How does the Public Whip work?</a></h2>
 <p>
-    When a division is called on a particular motion, the Members of Parliament
-    (MPs) or the Senators divide themselves into two groups: one that votes Aye
-    (yes) for the motion and one that votes No. A <strong>teller</strong> is
-    then appointed on both sides to record the names of the MPs or Senators. The
-    tellers' lists are then given to the Chair, who announces the number of
-    votes of each side and whether the motion is agreed to or not.
+Debate transcripts of the House of Representatives and the Senate are published online as <a href="http://www.aph.gov.au/Parliamentary_Business/Hansard">Hansard</a>. Public Whip takes these records and compiles lists of votes that you can access under <a href="http://publicwhip-test.openaustraliafoundation.org.au/divisions.php">Divisions</a>. You can search through these votes using our <a href="http://publicwhip-test.openaustraliafoundation.org.au/index.php">search function</a> on the home page or you can browse the votes that are relevant to the particular policy areas listed under <a href="http://publicwhip-test.openaustraliafoundation.org.au/policies.php">Policies</a> (for more on our policies, see <a href="#policies">What are Policies and how do they work?</a>).
 </p>
 
-<p>
-    Each political party has <strong>whips</strong> who try to persuade their
-    members to vote for the party line.
-</p>
+<h2 class="faq"><a name="#timeperiod">What time period does it cover?</a></h2>
 
 <p>
-    An MP or Senator <strong>rebels</strong> by voting against the party whip.
-    This is known as <strong>crossing the floor</strong>.
+The Public Whip’s voting and membership data extends back to 2006. New divisions are added as soon as possible after becoming available. We give no warranty for the data so <a href="# contact">let us know</a> if you find any factual inaccuracies.
 </p>
-
-<p>
-    For more information on divisions in the House of Representatives, see the
-    <a href="http://www.aph.gov.au/About_Parliament/House_of_Representatives/Powers_practice_and_procedure/00_-_Infosheets/Infosheet_14_-_Making_decisions_-_debate_and_division">Parliament Infosheet on Debate and Division</a>.
-    For more information on divisions in the Senate, see
-    <a href="http://www.aph.gov.au/About_Parliament/Senate/Powers_practice_n_procedures/Brief_Guides_to_Senate_Procedure/No_3">Voting in the Senate</a>.
-</p>
-
-<h2 class="faq"><a name="division-occur">When does a division occur?</a></h2>
-
-<p>
-    Most decisions in Parliament are made ‘on the voices’ and not by division.
-    When a question is asked by the Chair, the Members of Parliament (MPs) and
-    Senators call out Aye (yes) or No and the Chair decides which are in the
-    majority without recording the names of who voted and how they voted.
-</p>
-
-<p>
-    A division is only called if two or more MPs or Senators call for one. If
-    only one MP or one Senator calls for a division then their name may be
-    recorded in the official record (the Hansard) but no division will occur.
-</p>
-
-<p>
-    In the House of Representatives, if there are four or less MPs on a side of
-    the division then the division does not proceed and the Speaker declares the
-    decision of the House immediately. However, the names of the MPs in the
-    minority are recorded.
-</p>
-
-<p>
-    In the Senate, if there is only one Senator on a side of the division then
-    the division does not proceed and the President declares the decision of the
-    Senate immediately. However, the names of the lone Senator may be recorded.
-</p>
-
-<h2 class="faq"><a name="decisions">Why don’t all decisions made in Parliament appear on Public Whip?</a></h2>
-
-<p>
-    Public Whip is concerned with the voting patterns of politicians, which
-    means it is limited to formal votes (known as
-    <a href="#jargon">divisions</a>). This is because
-    politicians' names and how they voted are only recorded in the official
-    record of Parliament (the Hansard) when a division occurs.
-</p>
-
-<p>
-    Unfortunately, most decisions in Parliament are
-    <a href="#division-occur">not made by division</a> and so do not
-    appear on this site.
-</p>
-
-<h2 class="faq"><a name="how">How does the Public Whip work?</a></h2>
-<p>Debate transcripts of the House of Representatives and the Senate are <a href="http://www.aph.gov.au/">published online</a>. We've written
-a program to read them for you and separate out all the records of voting.  This
-information has been web-scraped into an online database which you can
-access.
-
-<h2 class="faq"><a name="timeperiod">What time period does it cover?</a></h2>
-<p>Voting and membership data for MPs extends back to 2006. New divisions usually appear in
-Public Whip the next morning, but sometimes take a day or two longer.  We give
-no warranty for the data; there may be factual inaccuracies.  Let us know if you find any.
 
 <?php
     require_once "db.inc";
@@ -167,143 +88,126 @@ Of these <strong><?php echo number_format($rebellious_votes['rebellions'])?></st
 their party giving an average rebellion rate of <strong><?php echo $rebelocity?>%</strong>.
 
 
-<h2 class="faq"><a name="clarify">What do the "rebellion" and "attendance" figures mean exactly?</a></h2>
+<h2 class="faq"><a name="#division">What is a division?</a></h2>
 
-<p>The apparent meaning of the data can be misleading, so do not to
-jump to conclusions until you have understood it.
-
-<p>"Attendance" is for voting or telling in divisions. An politician may have a
-low attendance because they have abstained, have ministerial or
-other duties or they are the speaker.  Perhaps they consider each division
-carefully, and only vote when they know about the subject. 
-
-Note also that the Public
-Whip does not currently record if a member spoke in the debate but did
-not vote.
-
-<p>"Rebellion" on this website means a vote against the majority vote by
-members of the MP's party.  Unfortunately this will indicate that many members
-have rebelled in a free vote.  Until precise data on when and how strongly each
-party has whipped is made available, there is no true way of identifying a
-"rebellion".  We know of no heuristics which can reliably detect free votes.
-See also the <a href="#freevotes">question about free votes</a>.
-
-<h2 class="faq"><a name="freevotes">Why do you incorrectly say people are rebels in free votes?</a></h2>
-
-<p>There is no official, public data about the party whip.  At the moment
-we guess based on the majority vote by Representatives or Senators for each party.  In order to
-correctly identify rebels, we need to know each party's whip in each division.
-There are two ways this could be officially recorded.
-
-<ol>
-<li>Hansard clerks could record the whip.  They could either be officially told
-the whip by each party's whips' office, or they could deduce it from the
-presence of offical whips.  The whip would then be written in Hansard next to
-the division listing.
-<li>Each whips' office could publish their official whip on their website after
-each vote.  If you are a member of a political party, and want to fix the Public
-Whip site, lobby them to do this, then let us know.
-</ol>
-
-<h2 class="faq"><a name="ayemajority">Why do you refer to Majority and Minority instead of Aye and No?</a> </h2>
-<p>Whether a vote is an Aye or a No is less informative than it seems, because it depends 
-exactly on the words of the question put (for example: "Motion that the amendment be made" 
-versus "Motion that the original words shall stand"), as well as the meaning of the amendment 
-which itself carries the possibility of a further negation by its use of words 
-("insert the clause" versus "delete the clause").</p>
-
-<p>In truth it would be less confusing if the votes were between "Option (a)" and "Option (b)"
-with their meanings clearly expressed.  Indeed, this form of words in the motion text 
-has been tried out, as in "Those voting No wanted this, and the Ayes wanted that", 
-but then you have to know which side won in order to determine what happened.</p>
-
-<p>But we don't need to express it like that, because all the votes are in the past and 
-we always know which side won, and it's the winning side that determines what happens, 
-as opposed to what could have happened.  (What could have happened does matter, because if 
-it was an alternative version of the law that turned out to be better in the long run 
-than what was chosen, then it ought to reflect on the quality of the judgment of the MPs
-who were in the minority.)</p>
-
-<p>Accordingly, in many of the explanations and lists we say Majority and Minority because it 
-gives a clearer picture of what happened, even 
-though the words are less easy to understand than the often misleading "Aye" and "No".</p>
-
-<h2 class="faq"><a name="policies">What are Policies and how do they work?</a></h2>
-
-<p>On Public Whip, a Policy is a set of votes that represent a view on a
-particular issue.  They can be used to automatically measure the voting
-characteristics of a particular Representative or Senator 
-without the need to examine and compare the votes individually.</p>
-
-<p>You do not have to agree with a Policy to have a valid opinion
-about the clarity of its description or choice of votes.
-This is why we've based their maintenance on a <a href="http://en.wikipedia.org/wiki/Wiki">Wiki</a>
-where everyone who is logged in can edit them.  This means that when a Policy
-gets out of date, for example new votes have appeared that it should be voting
-on, it's up to anyone who sees it to fix it.  It also means you can make
-a new policy yourself. </p>
-
-<p>Policies are intended be a tool for checking the voting behaviour of a
-Representative or Senator, on top of the ability to read their individual votes.  They
-provide nothing more than a flash summary of the data, a summary which you can
-drill down through to get to the raw evidence.</p>
-
-
-<h2 class="faq"><a name="legal">Legal question, what can I use this information for?</a></h2>
-
-<p>Anything, as long as you share it.  The software that runs this site is free open source. The data is licensed under an open data license.  
-See the next two questions for details. </p>
-
-<p>Amongst other things, this means that if you use it, you should
-double check the information.  It may be wrong.  If you are going to rely on it,
-at the very least do some random cross-checking to make sure it is valid.
-Whichever way, use it at your own risk.  Of course we'd rather you helped us fix the
-software and correct any contact.
-See the answer to <a href="#contact">I've found an error</a> for details.</p>
-
-<p>If you reproduce this information, or derive any interesting results from
-it, you must refer your readers to this site.  This way they
-can use and contribute themselves.</p>
-
-
-<h2 class="faq"><a name="playwith">Can I play with the software?</a></h2>
-
-<p> Sure.  All the software we've written is free (libre and gratuit), protected by the <a href="http://www.fsf.org/licensing/licenses/agpl-3.0.html">GNU Affero General Public License</a> (which means you can use it and change it, but you have to release any changes you make).  It's not complicated,
-anyone can have a go running them. It's available for <a href="https://github.com/openaustralia/publicwhip">download on Github</a>.</p>
-
-<h2 class="faq"><a name="datalicense">What license is the data under?</a></h2>
-
-<p> To the extent which we have rights to this database of MPs voting records 
-and related information, it is licensed under the 
-<a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.
-This is an attribution, share-alike license. That means that you must credit the Public
-Whip, for example via a link, if you use the data. It also means that if you build
-on this data, you must also share the result under a compatible open data license.
+<p>
+A division is a formal vote on a motion in the House of Representatives or the Senate. A motion is a formal proposal put to the House or Senate to take action of some kind.
+</p>
+<p>
+When a division is called on a particular motion, Members of Parliament (MPs) in the House of Representatives or Senators in the Senate divide themselves into two groups: one that votes Aye (yes) and one that votes No. Each political party has whips who try to persuade their members to vote along party lines. 
 </p>
 
-<h2 class="faq"><a name="organisation">What organisation is behind the Public Whip?</a></h2>
-<p>Public Whip in Australia was started and is run by the OpenAustralia Foundation, a charity. It is based on the UK site which was created by 
-<a href="http://www.flourish.org">Francis Irving</a> and <a
-href="http://www.goatchurch.org.uk">Julian Todd</a> in 2003.</p>
 
-<h2 class="faq"><a name="help">Can I help with the project?</a></h2>
-<p>Sure! We're looking for people who are interested in editing the motion descriptions on some of the divisions. See the following question for details. If you have particular skill-sets that you feel you could contribute, then do please email us at team@publicwhip.org.uk.</p>
+<h2 class="faq"><a name="#division-occur">When does a division occur?</a></h2>
+
+<p>
+Most decisions in Parliament are made <a href="http://www.peo.gov.au/students/fact_sheets/voting_chambers.html">‘on the voices’</a> and not by division. When a question is asked by the Chair, the Members of Parliament (MPs) or Senators call out Aye (yes) or No and the Chair decides which are in the majority without recording the names of who voted and how they voted.
+</p>
+<p>
+A division is only called if two or more MPs or Senators call for one. If only one MP or Senator calls for a division then their name may be recorded in the official record (the Hansard) but no division will occur.
+</p>
+<p>
+In the House of Representatives, if there are four or less MPs on a side of the division then the division does not proceed and the Speaker declares the decision of the House immediately. However, the names of the MPs in the minority are recorded.
+</p>
+<p>
+In the Senate, if there is only one Senator on a side of the division then the division does not proceed and the President declares the decision of the Senate immediately. However, the names of the lone Senator may be recorded.
+</p>
 
 
+<h2 class="faq"><a name="#decisions">Why don’t all decisions made in Parliament appear on Public Whip?</a></h2>
 
-<h2 class="faq"><a name="motionedit">What do you mean by editing the motion description?</a></h2>
+<p>
+Public Whip is concerned with the voting patterns of politicians, which means it is limited to formal votes (known as divisions, see <a href="#division">What is a division?</a>). This is because politicians’ names and how they voted are only recorded in the official record of Parliament (known as the Hansard) when a division occurs.
+</p>
+<p>
+Unfortunately, most decisions in Parliament are not made by division (see <a href="#division-occur">When does a division occur?</a>) and so do not appear on this site.
+</p>
 
-<p>When there is a division in Parliament, it is not always easy to see what it means. Quite often you have to scan through all of the debate in which the division took place (looking for the phrase "I move"), and have a good knowledge of the the jargon to work it out. Also, many votes are about making changes in other documents (eg "to leave out line 5 on page 13 of the Ordinary Persons Pensions Bill") which needs to be found and made available through a link.</p>
-<p>The Public Whip software isn't currently sophisticated enough to do this automatically, and it requires help from a person like you. You can find out more about it on our <a href="/project/research.php">Research page</a>, where there is a page of ideas on how to do it.</p>
 
-<!--
-<h2 class="faq"><a name="keepup">How can I keep up with what you are doing?</a></h2>
-<p>There's the <a href="http://blog.publicwhip.org.uk/">blog</a> and our <a href="http://www.facebook.com/pages/Public-Whip/199268083464697">Facebook page</a>, or you can ask us questions and get updates via and our <a href="http://twitter.com/publicwhip">Twitter account</a>.</p>
--->
+<h2 class="faq"><a name="#summaries">Why don’t all the divisions have edited summaries?</a></h2>
 
-<h2 class="faq"><a name="contact">There's something wrong with your webpage / I've found an error / Your wording is dreadfully unclear / Can I make a suggestion?</a></h2>
+<p>
+When you click on a link for a <a href="http://publicwhip-test.openaustraliafoundation.org.au/divisions.php">division</a>, you will be taken to a summary that will either contain an edited description of the division or text taken automatically from the official record of Parliament (known as Hansard). In some cases, the summary will contain no text.
+</p>
+<p>
+Currently, the divisions with edited summaries are those that are relevant to one of the <a href="http://publicwhip-test.openaustraliafoundation.org.au/policies.php">Policies</a>. See our <a href="publicwhip-test.openaustraliafoundation.org.au/project/research.php">Research</a> page to find out more about how the summaries are edited.
+</p>
 
-<p>You can contact us via email at team@publicwhip.org.uk or our <a href="http://twitter.com/openaustralia">Twitter account</a>.</p>
+
+<h2 class="faq"><a name="#policies">What are Policies and how do they work?</a></h2>
+
+<p>
+On Public Whip, the <a href="http://publicwhip-test.openaustraliafoundation.org.au/policies.php">Policies</a> are sets of votes on an issue.
+</p>
+<p>
+We choose and develop particular Policies for a number of reasons. For example, we prioritise issues where politicians have rebelled (e.g. the <a href="http://publicwhip-test.openaustraliafoundation.org.au/policy.php?id=10">local government recognition divisions</a>) or where parties have allowed their members to take a free vote (e.g. the <a href="http://publicwhip-test.openaustraliafoundation.org.au/policy.php?id=1">same sex marriage divisions</a>) because these divisions give a strong indication of an individual politician’s voting patterns (see <a href="#rebelandfree">What are “Rebel Voters” and what is a “Free Vote”?</a>). Other reasons for selecting a particular Policy include whether the matter was an election issue (e.g. the <a href="http://publicwhip-test.openaustraliafoundation.org.au/policy.php?id=3">carbon price</a>) and whether there was a high level of attendance (see <a href="#clarify">What do the “attendance” and “rebellion” figures mean?</a>).
+</p>
+<p>
+Unfortunately, Policies are restricted to issues that are voted on by division because those are the only decisions that appear on Public Whip (see <a href="#decisions">Why don’t all decisions made in Parliament appear on Public Whip?</a>)
+</p>
+
+
+<h2 class="faq"><a name="#rebelandfree">What are “Rebel Voters” and what is a “Free Vote”?</a></h2>
+
+<p>
+An MP or Senator rebels by voting against the <a href="http://www.peo.gov.au/students/fact_sheets/party_whip.html">party whip</a>. This is known as <a href="http://www.peo.gov.au/students/fact_sheets/crossing_floor.html">crossing the floor</a> and rarely occurs these days. 
+</p>
+<p>
+In contrast, a free vote (also known as a conscience vote) occurs when MPs or Senators are not obliged to vote with their party.
+</p>
+
+
+<h2 class="faq"><a name="#clarify">What do the "attendance" and "rebellion" figures mean?</a></h2>
+
+<p>
+"Attendance" figures record the politicians who vote or tell in any given division. A <a href="http://www.peo.gov.au/students/gloss_tuvwxyz.html">teller</a> is appointed by a chair to count (or ‘tell’) the Members of Parliament or Senators voting in a division.
+</p>
+<p>
+There are several reasons why a politician may have low attendance figures. For example, they may have abstained, have ministerial or other duties or they may be the speaker. Currently, the Public Whip does not record if a member spoke in the debate but did not vote.
+</p>
+<p>
+"Rebellion" figures record the number of rebel votes (see <a href="#rebelandfree">What are “Rebel Voters” and what is a “Free Vote”?</a>).
+</p>
+
+
+<h2 class="faq"><a name="#legal">Legal question: what can I use this information for?</a></h2>
+
+<p>
+You can use the information freely so long as you credit the Public Whip and share it (see <a href="#datalicence">What licence is the data under?</a>). However, you should double check the information to make sure it is correct. If you find an error, please <a href="#contact">contact us</a> and let us know.
+</p>
+
+<h2 class="faq"><a name="#playwith">Can I play with the software?</a></h2>
+
+<p>
+Yes. All the software we've written is free and protected by the <a href="http://www.fsf.org/licensing/licenses/agpl-3.0.html">GNU Affero General Public License</a> (which means you can use it and change it, but you have to release any changes you make). It's available for <a href="https://github.com/openaustralia/publicwhip">download on Github</a>.
+</p>
+
+<h2 class="faq"><a name="#datalicence">What licence is the data under?</a></h2>
+
+<p>
+To the extent which we have rights to this database of politicians’ voting records and related information, it is licensed under the <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>. This is an attribution, share-alike licence. That means that you must credit the Public Whip, for example via a link, if you use the data. It also means that if you build on this data, you must also share the result under a compatible open data licence. 
+</p>
+
+<h2 class="faq"><a name="#organisation">What organisation is behind the Public Whip?</a></h2>
+
+<p>
+Public Whip in Australia was started and is run by the <a href="https://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>, a charity. It is based on the <a href="http://www.publicwhip.org.uk/">UK Public Whip site</a> which was created by <a href="http://www.flourish.org/">Francis Irving</a> and <a href="http://www.goatchurch.org.uk/">Julian Todd</a> in 2003.
+</p>
+
+<h2 class="faq"><a name="#help">Can I help with the project?</a></h2>
+<p>
+Yes! We're looking for people who are interested in making the voting records more accessible as well as people with particular skill-sets that they feel they could contribute. If this sounds like you, please email us at <a href="mailto:contact@openaustralia.org">contact@openaustralia.org</a>.
+</p>
+
+<h2 class="faq"><a name="#contact">How can I contact you?</a></h2>
+<p>
+You can contact us via email at <a href="mailto:contact@openaustralia.org">contact@openaustralia.org</a> or our <a href="http://twitter.com/openaustralia">Twitter account</a>.
+</p>
+<p>
+Please contact us if you find an error, have a suggestion or have any questions.
+</p>
+
+
 
 <?php pw_footer() ?>
 
