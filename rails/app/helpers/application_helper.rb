@@ -32,6 +32,8 @@ module ApplicationHelper
       "Representatives"
     when "senate"
       "Senators"
+    when "all"
+      "Representatives and Senators"
     else
       raise
     end
@@ -43,6 +45,8 @@ module ApplicationHelper
       "Members of the House of Representatives"
     when "senate"
       "Senators"
+    when "all"
+      "Members of both Houses of the Federal Parliament"
     else
       raise
     end
@@ -65,6 +69,8 @@ module ApplicationHelper
       "Electorate"
     when "senate"
       "State"
+    when "all"
+      "Electorate / State"
     else
       raise
     end

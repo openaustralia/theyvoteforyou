@@ -19,6 +19,13 @@ describe MembersController do
     compare("/mps.php?house=senate&sort=party")
     compare("/mps.php?house=senate&sort=rebellions")
     compare("/mps.php?house=senate&sort=attendance")
+
+    compare("/mps.php?house=all")
+    compare("/mps.php?house=all&sort=lastname")
+    compare("/mps.php?house=all&sort=constituency")
+    compare("/mps.php?house=all&sort=party")
+    compare("/mps.php?house=all&sort=rebellions")
+    compare("/mps.php?house=all&sort=attendance")
   end
 
   it "#show" do

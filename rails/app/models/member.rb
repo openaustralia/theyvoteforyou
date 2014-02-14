@@ -5,7 +5,7 @@ class Member < ActiveRecord::Base
   has_many :offices, foreign_key: "person", primary_key: "person"
   has_many :votes, foreign_key: "mp_id"
   scope :current_on, ->(date) { where("? >= entered_house AND ? < left_house", date, date) }
-  scope :in_australian_house, ->(australian_house) { where(house: House.australian_to_uk(australian_house)) }
+  scope :in_australian_house, ->(australian_house) { where(house: House.australian_to_uk(australian_house)) unless australian_house == 'all' }
   # Divisions that have been attended
   has_many :divisions, through: :votes
 
