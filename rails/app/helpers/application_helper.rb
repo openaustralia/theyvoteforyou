@@ -75,4 +75,16 @@ module ApplicationHelper
       raise
     end
   end
+
+  def parliament_name(parliament)
+    if Member.parliaments[parliament]
+      "#{Member.parliaments[parliament][:name]}&nbsp;Parliament".html_safe
+    elsif parliament.nil?
+      "Current"
+    elsif parliament == "all"
+      "All on record"
+    else
+      raise
+    end
+  end
 end

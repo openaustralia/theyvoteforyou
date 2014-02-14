@@ -7,11 +7,13 @@ class MembersController < ApplicationController
     @house = params[:house]
     @house = "representatives" if @house.nil?
 
+    @parliament = params[:parliament]
+
     order = case @sort
     when "lastname"
       ["last_name", "first_name"]
     when "constituency"
-      ["constituency"]
+      ["constituency", "last_name"]
     when "party"      
       ["party", "last_name", "first_name"]
     when "rebellions"
@@ -22,7 +24,16 @@ class MembersController < ApplicationController
       raise "Unexpected value"
     end
 
-    @members = Member.current.in_australian_house(@house).joins(:member_info).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
+    # FIXME: Should be easy to refactor this, just doing the dumb thing right now
+    if @parliament.nil?
+      @members = Member.current.in_australian_house(@house).joins(:member_info).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
+    elsif @parliament == "all"
+      @members = Member.in_australian_house(@house).joins(:member_info).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
+    elsif Member.parliaments[@parliament]
+      @members = Member.where("? >= entered_house AND ? < left_house", Member.parliaments[@parliament][:to], Member.parliaments[@parliament][:from]).in_australian_house(@house).joins(:member_info).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
+    else
+      raise
+    end
   end
 
   def show
