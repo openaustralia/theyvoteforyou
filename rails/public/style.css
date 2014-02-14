@@ -71,6 +71,35 @@ a {color:#8BAC35;text-decoration:none;}
 #account-navbar {padding-top: 0.6em;}
 #account-navbar a:hover {background: none;}
 
+#secondnavtabs {
+  border-bottom: 1px solid #C6CED0;
+}
+
+#secondnavtabs ul {
+  padding-left: 0;
+  font:normal 1.13em museo-700;
+}
+
+#secondnavtabs li {
+  display: inline;
+  margin-right: 0.5em;
+  padding: 0.2em;
+}
+
+#secondnavtabs li.on {
+  color:#F53181;
+}
+
+#secondnavtabs a {
+  color:#797D7F;
+  border-bottom: none;
+}
+
+#secondnavtabs a:hover {
+  color: #F53181;
+  border-bottom: 1px dotted #F53181;
+}
+
 /* Homepage */
 .homesearch {width:262px;height:230px;background: #35B4CA url(images/homesearch_bg.jpg) top left repeat-x;border:1px solid #2C93A3;color:#fff;padding:19px;margin-top:0px;}
 .homesearch input {width:262px;margin-bottom:0px;}
@@ -98,3 +127,7 @@ tr.over, tr.over td {background:#CFE8EB;}
 
 /* Divisions */
 .speaker {font-weight: bold}
+.motion-text {
+  max-height: 20em;
+  overflow: auto;
+}
