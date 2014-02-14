@@ -192,8 +192,12 @@ class Member < ActiveRecord::Base
 
   # TODO Move this to a "party" class
   def self.party_has_whip?(party)
-    # TODO Should speaker and president be included here?
-    party != "Independent" && party != "CWM" && party != "SPK"
+    party != "SPK" &&
+    party != "CWM" &&
+    party != "DCWM" &&
+    party != "PRES" &&
+    party != "DPRES" &&
+    party != "Independent"
   end
 
   # Are they a member of a party that has a whip?
