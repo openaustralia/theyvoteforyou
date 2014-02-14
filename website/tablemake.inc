@@ -882,7 +882,7 @@ function division_table($db, $divtabattr, $db2="", $events = "")
     $columnforms["voter1type"] = $voter1type;
     $columnforms["voter2type"] = $voter2type;
 	if ($voter2type && ($voter2type != 'aggregate'))
-		$columnforms["role"] = "R&ocirc;le";
+		$columnforms["role"] = "Role";
     if ($voter1type == 'mp')
         $columnforms["voter1house"] = $voter1["house"];
     if ($voter2type == 'mp')
