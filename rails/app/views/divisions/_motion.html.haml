@@ -15,11 +15,12 @@
     (#{@member.vote_on_division(@division).capitalize}).
 
 .motion
-  %p
-    %strong
-      Description automatically extracted from the debate, please
-      = link_to "edit it", "account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{@house}&rr=#{CGI.escape(request.fullpath)}"
-      to make it better.
+  - if !@division.motion_edited?
+    %p
+      %strong
+        Description automatically extracted from the debate, please
+        = link_to "edit it", "account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{@house}&rr=#{CGI.escape(request.fullpath)}"
+        to make it better.
   -# The motion can include html.
   -# TODO Need to check what happens when the user edits the motion. What can they add?
   .motion-text
@@ -31,3 +32,5 @@
     |
     %b= link_to "Edit", "account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{@house}&rr=#{CGI.escape(request.fullpath)}", title: "Edit and improve this description"
     (#{link_to "learn more", help_path(anchor: "motionedit")})
+    - if @division.motion_edited?
+      (last edited 2 Oct 2013 by )

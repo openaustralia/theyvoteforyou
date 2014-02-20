@@ -144,6 +144,10 @@ class Division < ActiveRecord::Base
     wiki_motion ? wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1].strip : read_attribute(:motion)
   end
 
+  def motion_edited?
+    !wiki_motion.nil?
+  end
+
   def oa_debate_url
     case australian_house
     when "representatives"
