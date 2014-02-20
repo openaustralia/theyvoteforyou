@@ -3,6 +3,6 @@ one:
   division_date: 2013-3-14
   division_number: 1
   house: "commons"
-  text_body: "--- DIVISION TITLE ---\n\ntest\n\n--- MOTION EFFECT ---\n\n\n--- COMMENTS AND NOTES ---\n\n(put thoughts and notes for other researchers here)\n"
+  text_body: "--- DIVISION TITLE ---\n\ntest\n\n--- MOTION EFFECT ---\n\nThis is some test text.\n--- COMMENTS AND NOTES ---\n\n(put thoughts and notes for other researchers here)\n"
   user_id: 1
   edit_date: 2013-10-20 10:12:13

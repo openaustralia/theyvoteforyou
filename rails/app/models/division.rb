@@ -140,6 +140,10 @@ class Division < ActiveRecord::Base
     HTMLEntities.new.decode(wiki_text || read_attribute(:division_name))
   end
 
+  def motion
+    wiki_motion ? wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1].strip : read_attribute(:motion)
+  end
+
   def oa_debate_url
     case australian_house
     when "representatives"
