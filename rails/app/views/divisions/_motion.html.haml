@@ -33,4 +33,4 @@
     %b= link_to "Edit", "account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{@house}&rr=#{CGI.escape(request.fullpath)}", title: "Edit and improve this description"
     (#{link_to "learn more", help_path(anchor: "motionedit")})
     - if @division.motion_edited?
-      (last edited 2 Oct 2013 by )
+      (last edited #{@division.wiki_motion.edit_date.strftime("%-d %b %Y").html_safe} by )
