@@ -27,6 +27,10 @@ GEM
       tzinfo (~> 0.3.37)
     arel (4.0.0)
     atomic (1.1.10)
+    better_errors (1.1.0)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
+    binding_of_caller (0.6.8)
     builder (3.1.4)
     coderay (1.0.9)
     coffee-rails (4.0.0)
@@ -167,6 +171,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  better_errors
+  binding_of_caller
   coffee-rails (~> 4.0.0)
   database_cleaner
   guard
