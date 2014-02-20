@@ -22,6 +22,18 @@ class Division < ActiveRecord::Base
                          house: house)
   end
 
+  def division_wiki
+    DivisionWiki.where(division_date: date,
+                       division_number: number,
+                       house: house).first
+  end
+
+  def wiki_motion
+    if division_wiki && division_wiki.wiki_id != -1
+      WikiMotion.find_by_wiki_id(division_wiki.wiki_id)
+    end
+  end
+
   def rebellious?
     no_rebellions > 10
   end
@@ -122,9 +134,10 @@ class Division < ActiveRecord::Base
   end
 
   def division_name
+    wiki_text = wiki_motion.text_body[/--- DIVISION TITLE ---(.*)--- MOTION EFFECT/m, 1].strip if wiki_motion
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
-    HTMLEntities.new.decode(read_attribute(:division_name))
+    HTMLEntities.new.decode(wiki_text || read_attribute(:division_name))
   end
 
   def oa_debate_url
