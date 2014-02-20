@@ -71,6 +71,8 @@ class DivisionsController < ApplicationController
         @votes = @division.rebellions_order_party
       elsif @sort == "name"
         @votes = @division.rebellions_order_name
+      elsif @sort == "constituency"
+        @votes = @division.rebellions_order_constituency
       elsif @sort == "vote"
         @votes = @division.rebellions_order_vote
       else
@@ -82,6 +84,8 @@ class DivisionsController < ApplicationController
         ["pw_mp.party", "pw_mp.last_name", "pw_mp.first_name"]
       when "name"
         ["pw_mp.last_name", "pw_mp.first_name"]
+      when "constituency"
+        ["pw_mp.constituency", "pw_mp.last_name", "pw_mp.first_name"]
       when "vote"
         [:vote, "pw_mp.last_name", "pw_mp.first_name"]
       else
@@ -94,6 +98,8 @@ class DivisionsController < ApplicationController
         [:party, "pw_vote_sortorder.position desc", :last_name, :first_name]
       when "name"
         [:last_name, :first_name]
+      when "constituency"
+        [:constituency, :last_name, :first_name]
       when "vote"
         ["pw_vote_sortorder.position desc", :last_name, :first_name]
       else
