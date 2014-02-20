@@ -1,0 +1,12 @@
+one:
+  user_id: 1
+  user_name: henare
+  real_name: Henare Degan
+  email: henare@oaf.org.au
+  password: 5f4dcc3b5aa765d61d8327deb882cf99
+  remote_addr: 127.0.0.1
+  confirm_hash: 16bc9e902f9ed02426a774fe8f6d6e1e
+  confirm_return_url: /account/addpolicy.php
+  is_confirmed: 1
+  reg_date: 2013-10-20 10:09:53
+  active_policy_id: 2
