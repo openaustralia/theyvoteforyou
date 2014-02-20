@@ -25,6 +25,7 @@ class MembersController < ApplicationController
     end
 
     # FIXME: Should be easy to refactor this, just doing the dumb thing right now
+    # BUG: Doing a join on member_info returns less MPs in my test data than there are in the DB
     if @parliament.nil?
       @members = Member.current.in_australian_house(@house).joins(:member_info).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
     elsif @parliament == "all"
