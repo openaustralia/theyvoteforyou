@@ -53,7 +53,7 @@ $db = new DB();
 
 <h2 class="faq"><a name="#how">How does the Public Whip work?</a></h2>
 <p>
-Debate transcripts of the House of Representatives and the Senate are published online as <a href="http://www.aph.gov.au/Parliamentary_Business/Hansard">Hansard</a>. Public Whip takes these records and compiles lists of votes that you can access under <a href="http://publicwhip-test.openaustraliafoundation.org.au/divisions.php">Divisions</a>. You can search through these votes using our <a href="http://publicwhip-test.openaustraliafoundation.org.au/index.php">search function</a> on the home page or you can browse the votes that are relevant to the particular policy areas listed under <a href="http://publicwhip-test.openaustraliafoundation.org.au/policies.php">Policies</a> (for more on our policies, see <a href="#policies">What are Policies and how do they work?</a>).
+Debate transcripts of the House of Representatives and the Senate are published online as <a href="http://www.openaustralia.org/">Hansard</a>. Public Whip takes these records and compiles lists of votes that you can access under <a href="http://publicwhip-test.openaustraliafoundation.org.au/divisions.php">Divisions</a>. You can search through these votes using our <a href="http://publicwhip-test.openaustraliafoundation.org.au/index.php">search function</a> on the home page or you can browse the votes that are relevant to the particular policy areas listed under <a href="http://publicwhip-test.openaustraliafoundation.org.au/policies.php">Policies</a> (for more on our policies, see <a href="#policies">What are Policies and how do they work?</a>).
 </p>
 
 <h2 class="faq"><a name="#timeperiod">What time period does it cover?</a></h2>
