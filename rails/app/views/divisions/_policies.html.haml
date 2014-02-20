@@ -7,7 +7,13 @@
   %tr.headings
     %td Policy
     %td Vote (in this division)
-  %tr.odd
-    %td{:colspan => "2"} No policies voted in this division
+  - if @division.policies.empty?
+    %tr.odd
+      %td{:colspan => "2"} No policies voted in this division
+  - else
+    - @division.policies.each do |policy|
+      %tr{:class => cycle("odd", "even")}
+        %td= link_to policy.name, policy
+        %td= simple_vote_display @division.policy_vote(policy)
 %p
   = link_to "Make a new policy", "account/addpolicy.php"

@@ -95,4 +95,9 @@ module DivisionsHelper
 
     vote == 'aye3' || vote == 'no3' ? "#{display} (strong)" : display
   end
+
+  # TODO: Refactor this - it looks suspiciously like the above
+  def simple_vote_display(vote)
+    vote == 'aye3' || vote == 'no3' ? "#{vote[0...-1]} (strong)" : vote
+  end
 end

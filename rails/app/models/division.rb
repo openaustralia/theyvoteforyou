@@ -28,6 +28,10 @@ class Division < ActiveRecord::Base
                        house: house).first
   end
 
+  def policies
+    policy_divisions.collect { |pd| pd.policy } if policy_divisions
+  end
+
   def wiki_motion
     if division_wiki && division_wiki.wiki_id != -1
       WikiMotion.find_by_wiki_id(division_wiki.wiki_id)
