@@ -59,7 +59,7 @@ Debate transcripts of the House of Representatives and the Senate are published 
 <h2 class="faq"><a name="#timeperiod">What time period does it cover?</a></h2>
 
 <p>
-The Public Whip’s voting and membership data extends back to 2006. New divisions are added as soon as possible after becoming available. We give no warranty for the data so <a href="# contact">let us know</a> if you find any factual inaccuracies.
+The Public Whip’s voting and membership data extends back to 2006. New divisions are added as soon as possible after becoming available. We give no warranty for the data so <a href="#contact">let us know</a> if you find any factual inaccuracies.
 </p>
 
 <?php
