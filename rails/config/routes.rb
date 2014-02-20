@@ -10,7 +10,7 @@ Publicwhip::Application.routes.draw do
   get 'divisions.php' => 'divisions#index'
   get 'division.php' => 'divisions#show'
   get 'faq.php' => 'home#faq', as: :help
-  get 'policies.php' => 'policies#index'
+  get 'policies.php' => 'policies#index', as: :policies
   get 'policy.php' => 'policies#show'
 
   # Example of regular route:
