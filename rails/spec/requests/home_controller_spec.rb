@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe HomeController do
   include HTMLCompareHelper
-  fixtures :electorates, :offices, :members, :member_infos, :divisions, :division_infos, :whips, :votes
+  fixtures :all
 
   it "#index" do
     compare("/")
