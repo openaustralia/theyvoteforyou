@@ -466,8 +466,7 @@ function relative_time ($datetime) {
 	
 	if ($months > 0) {
 		// Over a month old, just show the actual date.
-		$date = substr($datetime, 0, 9);
-		return date("j M Y", strtotime($date));
+		return date("j M Y", strtotime($datetime));
 
 	} else {
 		$relative_date = '';
