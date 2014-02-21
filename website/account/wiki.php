@@ -157,14 +157,13 @@ if (user_isloggedin()) # User logged in, show settings screen
 
         <p><span class="ptitle">Useful links for you to research</span>
 		<ul>
-		<li><a href="http://www.publications.parliament.uk/pa/pabills.htm">Public Bills before Parliament</a>
-		(the link gets deleted from here once the next version is printed, though the page remains.)</li>
-		<li><a href="http://www.publications.parliament.uk/pa/cm/stand.htm">Standing Committees reviewing Bills</a></li>
-		<li><a href="http://www.publications.parliament.uk/pa/cm/cmdeleg.htm">Standing Committees on delegated legislation</a></li>
-		<li><a href="http://www.publications.parliament.uk/pa/cm/cmstords.htm">Standing Orders of Parliament</a> The rules which are often quoted for the running of the house.</li>
-		<li><a href="http://www.official-documents.co.uk/menu/browseDocuments.htm">Command Papers</a> Back to 2002, and in PDF</li>
-		<li><a href="http://www.publications.parliament.uk/pa/cm/cmvote/cmvote.htm">Votes and Proceedings</a> the official minutes</li>
-        <li><a href="http://www.publications.parliament.uk/pa/ld/ldminar.htm">Lords minutes and Orders/</a> minutes of Lords debates</li>
+            <li><a href="http://www.aph.gov.au/Parliamentary_Business/Bills_Legislation/Bills_before_Parliament">Bills before Parliament</a></li>
+            <li><a href="http://www.aph.gov.au/Parliamentary_Business/Committees/House_of_Representatives_Committees?url=info/curr_inq.htm">Current House Committee Inquiries</a></li>
+            <li><a href="http://www.aph.gov.au/Parliamentary_Business/Committees/Senate/Current_Inquiries">Current Senate Committee Inquiries</a></li>
+            <li><a href="http://www.aph.gov.au/About_Parliament/House_of_Representatives/Powers_practice_and_procedure">House Powers, Practice and Procedure</a></li>
+            <li><a href="http://www.aph.gov.au/About_Parliament/Senate/Powers_practice_n_procedures">Senate Powers, Practice and Procedure</a></li>
+            <li><a href="http://www.aph.gov.au/Parliamentary_Business/Hansard/Hansreps_2011">House Official Hansard</a></li>
+            <li><a href="http://www.aph.gov.au/Parliamentary_Business/Hansard/Hanssen261110">Senate Official Hansard</a></li>
         </ul>
 
         <p><span class="ptitle">Formatting codes</span>. You can use the following
