@@ -1,5 +1,8 @@
-- content_for :title, "Search"
-- content_for :on_load, "givefocus('query')"
+- if params[:query]
+  - content_for :title, "Search for #{params[:query]}"
+- else
+  - content_for :title, "Search"
+  - content_for :on_load, "givefocus('query')"
 
 %h1= yield :title
 %p.search
