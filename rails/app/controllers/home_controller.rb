@@ -5,4 +5,7 @@ class HomeController < ApplicationController
 
   def faq
   end
+
+  def search
+  end
 end

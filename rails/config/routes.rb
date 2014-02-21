@@ -6,6 +6,7 @@ Publicwhip::Application.routes.draw do
 
   get 'index.php' => 'home#index'
   get 'faq.php' => 'home#faq', as: :help
+  get 'search.php' => 'home#search'
 
   get 'mps.php' => 'members#index'
   get 'mp.php' => 'members#show'
