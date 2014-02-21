@@ -16,7 +16,12 @@ describe HomeController do
   it "#search" do
     compare("/search.php")
 
+    # Goes direct to MP page (only one MP covered by this postcode)
+    compare("/search.php?query=2088&button=Search")
+    # Two electorates cover this postcode
     compare("/search.php?query=2042&button=Search")
+    # Bad postcode
+    # compare("/search.php?query=0000&button=Search")
     compare("/search.php?query=Tony+Abbott&button=Search")
     compare("/search.php?query=supplementary+explanatory+memorandum&button=Search")
     compare("/search.php?query=This+is+some+test+text&button=Search")
