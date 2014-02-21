@@ -64,7 +64,7 @@
   non-governmental project of the
   charity #{link_to "OpenAustralia Foundation", "https://www.openaustraliafoundation.org.au/"}.
 %h2.faq
-  %a{:name => "#how"}
+  %a{:name => "how"}
     How does the Public Whip
     work?
 %p
@@ -77,7 +77,7 @@
   areas listed under #{link_to "Policies", policies_path} (for more on our
   policies, see #{link_to "What are Policies and how do they work?", "#policies"}).
 %h2.faq
-  %a{:name => "#timeperiod"}
+  %a{:name => "timeperiod"}
     What time period does it
     cover?
 %p
@@ -108,7 +108,7 @@
   were against the majority vote for their party giving an average rebellion rate of
   <strong>#{Member.joins(:member_info).sum(:rebellions) == 0 ? "0%" : "%.2f%" % (Member.joins(:member_info).sum(:rebellions) / Vote.count * 100)}</strong>.
 %h2.faq
-  %a{:name => "#division"} What is a division?
+  %a{:name => "division"} What is a division?
 %p
   A division is a formal vote on a motion in the House of
   Representatives or the Senate. A motion is a formal proposal put to
@@ -120,7 +120,7 @@
   and one that votes No. Each political party has whips who try to
   persuade their members to vote along party lines.
 %h2.faq
-  %a{:name => "#division-occur"}
+  %a{:name => "division-occur"}
     When does a division
     occur?
 %p
@@ -148,7 +148,7 @@
   declares the decision of the Senate immediately. However, the names
   of the lone Senator may be recorded.
 %h2.faq
-  %a{:name => "#decisions"}
+  %a{:name => "decisions"}
     Why don’t all decisions made
     in Parliament appear on Public Whip?
 %p
@@ -166,7 +166,7 @@
   division (see #{link_to "When does a division occur?", "#division-occur"})
   and so do not appear on this site.
 %h2.faq
-  %a{:name => "#summaries"}
+  %a{:name => "summaries"}
     Why don’t all the divisions
     have edited summaries?
 %p
@@ -181,7 +181,7 @@
   See our #{link_to "Research", "/project/research.php"}
   page to find out more about how the summaries are edited.
 %h2.faq
-  %a{:name => "#policies"}
+  %a{:name => "policies"}
     What are Policies and how do
     they work?
 %p
@@ -204,7 +204,7 @@
   on by division because those are the only decisions that appear on Public Whip
   (see #{link_to "Why don’t all decisions made in Parliament appear on Public Whip?", "#decisions"})
 %h2.faq
-  %a{:name => "#rebelandfree"}
+  %a{:name => "rebelandfree"}
     What are “Rebel Voters” and
     what is a “Free Vote”?
 %p
@@ -215,7 +215,7 @@
   occurs when MPs or Senators are not obliged to vote with their
   party.
 %h2.faq
-  %a{:name => "#clarify"}
+  %a{:name => "clarify"}
     What do the "attendance" and
     "rebellion" figures mean?
 %p
@@ -235,7 +235,7 @@
   "Rebellion" figures record the number of rebel votes
   (see #{link_to "What are “Rebel Voters” and what is a “Free Vote”?", "#rebelandfree"}).
 %h2.faq
-  %a{:name => "#legal"}
+  %a{:name => "legal"}
     Legal question: what can I use
     this information for?
 %p
@@ -247,7 +247,7 @@
   %a{:href => "#contact"} contact us
   and let us know.
 %h2.faq
-  %a{:name => "#playwith"}
+  %a{:name => "playwith"}
     Can I play with the
     software?
 %p
@@ -259,7 +259,7 @@
   change it, but you have to release any changes you make). It's
   available for #{link_to "download on Github", "https://github.com/openaustralia/publicwhip"}.
 %h2.faq
-  %a{:name => "#datalicence"}
+  %a{:name => "datalicence"}
     What licence is the data
     under?
 %p
@@ -272,7 +272,7 @@
   that if you build on this data, you must also share the result
   under a compatible open data licence.
 %h2.faq
-  %a{:name => "#organisation"}
+  %a{:name => "organisation"}
     What organisation is behind
     the Public Whip?
 %p
@@ -288,7 +288,7 @@
   in
   2003.
 %h2.faq
-  %a{:name => "#help"}
+  %a{:name => "help"}
     Can I help with the
     project?
 %p
@@ -299,7 +299,7 @@
   = succeed "." do
     %a{:href => "mailto:contact@openaustralia.org"} contact@openaustralia.org
 %h2.faq
-  %a{:name => "#contact"} How can I contact you?
+  %a{:name => "contact"} How can I contact you?
 %p
   You can contact us via email at
   %a{:href => "mailto:contact@openaustralia.org"} contact@openaustralia.org

@@ -51,12 +51,12 @@ $db = new DB();
 </p>
 
 
-<h2 class="faq"><a name="#how">How does the Public Whip work?</a></h2>
+<h2 class="faq"><a name="how">How does the Public Whip work?</a></h2>
 <p>
 Debate transcripts of the House of Representatives and the Senate are published online as <a href="http://www.openaustralia.org/">Hansard</a>. Public Whip takes these records and compiles lists of votes that you can access under <a href="/divisions.php">Divisions</a>. You can search through these votes using our <a href="/">search function</a> on the home page or you can browse the votes that are relevant to the particular policy areas listed under <a href="/policies.php">Policies</a> (for more on our policies, see <a href="#policies">What are Policies and how do they work?</a>).
 </p>
 
-<h2 class="faq"><a name="#timeperiod">What time period does it cover?</a></h2>
+<h2 class="faq"><a name="timeperiod">What time period does it cover?</a></h2>
 
 <p>
 The Public Whip’s voting and membership data extends back to 2006. New divisions are added as soon as possible after becoming available. We give no warranty for the data so <a href="#contact">let us know</a> if you find any factual inaccuracies.
@@ -88,7 +88,7 @@ Of these <strong><?php echo number_format($rebellious_votes['rebellions'])?></st
 their party giving an average rebellion rate of <strong><?php echo $rebelocity?>%</strong>.
 
 
-<h2 class="faq"><a name="#division">What is a division?</a></h2>
+<h2 class="faq"><a name="division">What is a division?</a></h2>
 
 <p>
 A division is a formal vote on a motion in the House of Representatives or the Senate. A motion is a formal proposal put to the House or Senate to take action of some kind.
@@ -98,7 +98,7 @@ When a division is called on a particular motion, Members of Parliament (MPs) in
 </p>
 
 
-<h2 class="faq"><a name="#division-occur">When does a division occur?</a></h2>
+<h2 class="faq"><a name="division-occur">When does a division occur?</a></h2>
 
 <p>
 Most decisions in Parliament are made <a href="http://www.peo.gov.au/students/fact_sheets/voting_chambers.html">‘on the voices’</a> and not by division. When a question is asked by the Chair, the Members of Parliament (MPs) or Senators call out Aye (yes) or No and the Chair decides which are in the majority without recording the names of who voted and how they voted.
@@ -114,7 +114,7 @@ In the Senate, if there is only one Senator on a side of the division then the d
 </p>
 
 
-<h2 class="faq"><a name="#decisions">Why don’t all decisions made in Parliament appear on Public Whip?</a></h2>
+<h2 class="faq"><a name="decisions">Why don’t all decisions made in Parliament appear on Public Whip?</a></h2>
 
 <p>
 Public Whip is concerned with the voting patterns of politicians, which means it is limited to formal votes (known as divisions, see <a href="#division">What is a division?</a>). This is because politicians’ names and how they voted are only recorded in the official record of Parliament (known as the Hansard) when a division occurs.
@@ -124,7 +124,7 @@ Unfortunately, most decisions in Parliament are not made by division (see <a hre
 </p>
 
 
-<h2 class="faq"><a name="#summaries">Why don’t all the divisions have edited summaries?</a></h2>
+<h2 class="faq"><a name="summaries">Why don’t all the divisions have edited summaries?</a></h2>
 
 <p>
 When you click on a link for a <a href="/divisions.php">division</a>, you will be taken to a summary that will either contain an edited description of the division or text taken automatically from the official record of Parliament (known as Hansard). In some cases, the summary will contain no text.
@@ -134,7 +134,7 @@ Currently, the divisions with edited summaries are those that are relevant to on
 </p>
 
 
-<h2 class="faq"><a name="#policies">What are Policies and how do they work?</a></h2>
+<h2 class="faq"><a name="policies">What are Policies and how do they work?</a></h2>
 
 <p>
 On Public Whip, the <a href="/policies.php">Policies</a> are sets of votes on an issue.
@@ -147,7 +147,7 @@ Unfortunately, Policies are restricted to issues that are voted on by division b
 </p>
 
 
-<h2 class="faq"><a name="#rebelandfree">What are “Rebel Voters” and what is a “Free Vote”?</a></h2>
+<h2 class="faq"><a name="rebelandfree">What are “Rebel Voters” and what is a “Free Vote”?</a></h2>
 
 <p>
 An MP or Senator rebels by voting against the <a href="http://www.peo.gov.au/students/fact_sheets/party_whip.html">party whip</a>. This is known as <a href="http://www.peo.gov.au/students/fact_sheets/crossing_floor.html">crossing the floor</a> and rarely occurs these days. 
@@ -157,7 +157,7 @@ In contrast, a free vote (also known as a conscience vote) occurs when MPs or Se
 </p>
 
 
-<h2 class="faq"><a name="#clarify">What do the "attendance" and "rebellion" figures mean?</a></h2>
+<h2 class="faq"><a name="clarify">What do the "attendance" and "rebellion" figures mean?</a></h2>
 
 <p>
 "Attendance" figures record the politicians who vote or tell in any given division. A <a href="http://www.peo.gov.au/students/gloss_tuvwxyz.html">teller</a> is appointed by a chair to count (or ‘tell’) the Members of Parliament or Senators voting in a division.
@@ -170,36 +170,36 @@ There are several reasons why a politician may have low attendance figures. For 
 </p>
 
 
-<h2 class="faq"><a name="#legal">Legal question: what can I use this information for?</a></h2>
+<h2 class="faq"><a name="legal">Legal question: what can I use this information for?</a></h2>
 
 <p>
 You can use the information freely so long as you credit the Public Whip and share it (see <a href="#datalicence">What licence is the data under?</a>). However, you should double check the information to make sure it is correct. If you find an error, please <a href="#contact">contact us</a> and let us know.
 </p>
 
-<h2 class="faq"><a name="#playwith">Can I play with the software?</a></h2>
+<h2 class="faq"><a name="playwith">Can I play with the software?</a></h2>
 
 <p>
 Yes. All the software we've written is free and protected by the <a href="http://www.fsf.org/licensing/licenses/agpl-3.0.html">GNU Affero General Public License</a> (which means you can use it and change it, but you have to release any changes you make). It's available for <a href="https://github.com/openaustralia/publicwhip">download on Github</a>.
 </p>
 
-<h2 class="faq"><a name="#datalicence">What licence is the data under?</a></h2>
+<h2 class="faq"><a name="datalicence">What licence is the data under?</a></h2>
 
 <p>
 To the extent which we have rights to this database of politicians’ voting records and related information, it is licensed under the <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>. This is an attribution, share-alike licence. That means that you must credit the Public Whip, for example via a link, if you use the data. It also means that if you build on this data, you must also share the result under a compatible open data licence. 
 </p>
 
-<h2 class="faq"><a name="#organisation">What organisation is behind the Public Whip?</a></h2>
+<h2 class="faq"><a name="organisation">What organisation is behind the Public Whip?</a></h2>
 
 <p>
 Public Whip in Australia was started and is run by the <a href="https://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>, a charity. It is based on the <a href="http://www.publicwhip.org.uk/">UK Public Whip site</a> which was created by <a href="http://www.flourish.org/">Francis Irving</a> and <a href="http://www.goatchurch.org.uk/">Julian Todd</a> in 2003.
 </p>
 
-<h2 class="faq"><a name="#help">Can I help with the project?</a></h2>
+<h2 class="faq"><a name="help">Can I help with the project?</a></h2>
 <p>
 Yes! We're looking for people who are interested in making the voting records more accessible as well as people with particular skill-sets that they feel they could contribute. If this sounds like you, please email us at <a href="mailto:contact@openaustralia.org">contact@openaustralia.org</a>.
 </p>
 
-<h2 class="faq"><a name="#contact">How can I contact you?</a></h2>
+<h2 class="faq"><a name="contact">How can I contact you?</a></h2>
 <p>
 You can contact us via email at <a href="mailto:contact@openaustralia.org">contact@openaustralia.org</a> or our <a href="http://twitter.com/openaustralia">Twitter account</a>.
 </p>
