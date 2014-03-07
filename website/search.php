@@ -45,7 +45,7 @@
         $number_of_matches = count($postcode_matches);
         if ($number_of_matches == 1) {
             // If there's only one match for a postcode redirect straight to that page:
-            header("Location: mp.php?constituency=".urlencode(array_pop($postcode_matches))."&house=commons");
+            header("Location: mp.php?constituency=".urlencode(array_pop($postcode_matches))."&house=representatives");
             exit;
         } else {
             // There must be more than one match.  Produce a table with links
@@ -66,7 +66,7 @@
                             ORDER BY house, last_name', array('commons', $scrubbed_constituency));
                 foreach ($rows as $row) {
                     $mp_url = "mp.php?".link_to_mp($row);
-                    $constituency_url = "mp.php?mpc=".urlencode(str_replace(" ", "_", $row['constituency']))."&"."house=commons";
+                    $constituency_url = "mp.php?mpc=".urlencode(str_replace(" ", "_", $row['constituency']))."&"."house=representatives";
                     print "<tr class=\"".($odd?'odd':'even')."\">\n";
                     print '<td><a href="'.$mp_url.'">'.$row['first_name'].' '.$row['last_name'].'</a></td>'."\n";
                     print "<td>".html_scrub($row['party'])."</td>";
