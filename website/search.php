@@ -66,7 +66,7 @@
                             ORDER BY house, last_name', array('commons', $scrubbed_constituency));
                 foreach ($rows as $row) {
                     $mp_url = "mp.php?".link_to_mp($row);
-                    $constituency_url = "mp.php?mpc=".urlencode(str_replace(" ", "_", $row['constituency']))."&"."house=".urlencode($row['house']);
+                    $constituency_url = "mp.php?mpc=".urlencode(str_replace(" ", "_", $row['constituency']))."&"."house=commons";
                     print "<tr class=\"".($odd?'odd':'even')."\">\n";
                     print '<td><a href="'.$mp_url.'">'.$row['first_name'].' '.$row['last_name'].'</a></td>'."\n";
                     print "<td>".html_scrub($row['party'])."</td>";
