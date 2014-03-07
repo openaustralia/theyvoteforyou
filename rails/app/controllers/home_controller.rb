@@ -12,9 +12,15 @@ class HomeController < ApplicationController
     if params[:query] =~ /^\d{4}$/
       @postcode = params[:query]
       electorates = JSON.parse(open("http://www.openaustralia.org/api/getDivisions?output=js&key=CcV3KBBX2Em7GQeV3RA8qzgS&postcode=#{@postcode}").read)
-      raise unless electorates.count == 1
-      # FIXME: We should redirect but this is how the PHP app does it currently
-      render nothing: true, location: view_context.electorate_path(Member.find_by_constituency(electorates.first['name']))
+
+      if electorates.count == 1
+        # FIXME: We should redirect but this is how the PHP app does it currently
+        render nothing: true, location: view_context.electorate_path(Member.find_by_constituency(electorates.first['name']))
+      elsif electorates.count > 1
+        @mps = electorates.map { |e| Member.find_by_constituency(e['name']) }
+      else
+        raise
+      end
     end
   end
 end

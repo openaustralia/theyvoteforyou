@@ -2,7 +2,12 @@
   - content_for :title, "Representatives for postcode #{@postcode}"
 
   %h1= yield :title
-  <table class="mps"></table>
+  %table.mps
+    - @mps.each do |mp|
+      %tr{:class => cycle("even", "odd")}
+        %td= link_to mp.name, member_path(mp)
+        %td= mp.party
+        %td= link_to mp.electorate, electorate_path2(mp.electorate)
 - elsif params[:query]
   - content_for :title, "Search for #{params[:query]}"
 
