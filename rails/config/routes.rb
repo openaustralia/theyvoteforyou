@@ -4,12 +4,16 @@ Publicwhip::Application.routes.draw do
 
   root 'home#index'
 
+  get 'index.php' => 'home#index'
+  get 'faq.php' => 'home#faq', as: :help
+  get 'search.php' => 'home#search'
+
   get 'mps.php' => 'members#index'
   get 'mp.php' => 'members#show'
-  get 'index.php' => 'home#index'
+
   get 'divisions.php' => 'divisions#index'
   get 'division.php' => 'divisions#show'
-  get 'faq.php' => 'home#faq', as: :help
+
   get 'policies.php' => 'policies#index', as: :policies
   get 'policy.php' => 'policies#show'
 

@@ -204,4 +204,47 @@ class Member < ActiveRecord::Base
   def has_whip?
     Member.party_has_whip?(party)
   end
+
+  def self.find_by_search_query(query_string)
+    # FIXME: This convoluted SQL crap was ported directly from the PHP app. Make it nice
+    sql_query = "SELECT first_name, last_name, title, constituency, pw_mp.party AS party, pw_mp.house as house,
+                        entered_house, left_house,
+                        entered_reason, left_reason,
+                        pw_mp.mp_id AS mpid,
+                        rebellions, votes_attended, votes_possible
+                 FROM pw_mp
+                 LEFT JOIN pw_cache_mpinfo ON pw_cache_mpinfo.mp_id = pw_mp.mp_id
+                 WHERE 1=1"
+
+    score_clause = "("
+    score_clause += "(lower(concat(first_name, ' ', last_name)) = '#{query_string}') * 10"
+    placeholders = {}
+    bitcount = 0
+    query_string.split.each do |querybit|
+      querybit = querybit.strip
+      placeholders["querybit_#{bitcount}".to_sym] = querybit
+      placeholders["querybit_wild_#{bitcount}".to_sym] = '%' + querybit + '%'
+
+      if !querybit.blank?
+        score_clause += '+ (lower(constituency) =:querybit_' + bitcount.to_s + ') * 10 +
+        (soundex(concat(first_name, \' \', last_name)) = soundex(:querybit_' + bitcount.to_s + ')) * 8 +
+        (soundex(constituency) = soundex(:querybit_' + bitcount.to_s + ')) * 8 +
+        (soundex(last_name) = soundex(:querybit_' + bitcount.to_s + ')) * 6 +
+        (lower(constituency) like :querybit_wild_' + bitcount.to_s + ') * 4 +';
+        score_clause += '(lower(last_name) like :querybit_wild_' + bitcount.to_s + ') * 4 +
+        (soundex(first_name) = soundex(:querybit_' + bitcount.to_s + ')) * 2 +
+        (lower(first_name) like :querybit_wild_' + bitcount.to_s + ') +';
+        score_clause += '(soundex(constituency) like concat(\'%\',soundex(:querybit_' + bitcount.to_s + '),\'%\'))'
+      end
+      bitcount += 1
+    end
+
+    score_clause += ")"
+
+    sql_query += " AND (#{score_clause} > 0)
+                   GROUP BY concat(first_name, ' ', last_name, ' ', constituency)
+                   ORDER BY #{score_clause} DESC"
+
+    Member.find_by_sql [sql_query, placeholders]
+  end
 end

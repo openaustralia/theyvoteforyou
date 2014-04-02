@@ -147,27 +147,31 @@ function random_big_word($phrase)
 
 function searchtip_random_mp($db, $house = "commons")
 {
-   global $pwpdo;
-    $row = $pwpdo->get_single_row("select title, first_name, last_name from pw_mp
-        where house = ?
-        order by rand() desc limit 1",array($house));
-    if (!$row) {
-    	return "*no members of $house*";
-    }
-    $random_mp = trim($row['title'] . " " . $row['first_name'] . " " . $row['last_name']);
-    return $random_mp;
+  // XXX: Removed to make testing the Rails port easier
+   // global $pwpdo;
+   //  $row = $pwpdo->get_single_row("select title, first_name, last_name from pw_mp
+   //      where house = ?
+   //      order by rand() desc limit 1",array($house));
+   //  if (!$row) {
+   //  	return "*no members of $house*";
+   //  }
+   //  $random_mp = trim($row['title'] . " " . $row['first_name'] . " " . $row['last_name']);
+   //  return $random_mp;
+  return 'Tony Abbott';
 }
 
 function searchtip_random_constituency($db)
 {
-   global $pwpdo;
-    $row = $pwpdo->get_single_row("select constituency from pw_mp
-        order by rand() desc limit 1",array());
-    $random_constituency = random_big_word($row['constituency']);
-    if ($random_constituency == "")
-        $random_constituency = "Marrickville";
-    $random_constituency = ', "' . $random_constituency . '"';
-    return $random_constituency;
+  // XXX: Removed to make testing the Rails port easier
+   // global $pwpdo;
+   //  $row = $pwpdo->get_single_row("select constituency from pw_mp
+   //      order by rand() desc limit 1",array());
+   //  $random_constituency = random_big_word($row['constituency']);
+   //  if ($random_constituency == "")
+   //      $random_constituency = "Marrickville";
+   //  $random_constituency = ', "' . $random_constituency . '"';
+   //  return $random_constituency;
+    return ', "Bennelong"';
 }
 
 function searchtip_random_topic($db)
