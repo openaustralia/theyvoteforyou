@@ -17,7 +17,11 @@ class HomeController < ApplicationController
         # FIXME: We should redirect but this is how the PHP app does it currently
         render nothing: true, location: view_context.electorate_path(Member.find_by_constituency(electorates.first['name']))
       elsif electorates.count > 1
-        @mps = electorates.map { |e| Member.find_by_constituency(e['name']) }
+        @mps = []
+        electorates.each do |e|
+          member = Member.find_by_constituency(e['name'])
+          @mps << member unless member.nil?
+        end
       else
         raise
       end
