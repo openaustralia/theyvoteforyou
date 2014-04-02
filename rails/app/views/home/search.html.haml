@@ -58,7 +58,7 @@
       - @mps.each do |mp|
         %tr{:class => cycle("odd", "even")}
           %td= link_to mp.name, member_path(mp)
-          %td= link_to mp.electorate, electorate_path(mp)
+          %td= link_to_unless mp.senator?, mp.electorate, electorate_path(mp)
           %td= mp.party
   %p
     - # TODO: Remove hardcoded URLs
