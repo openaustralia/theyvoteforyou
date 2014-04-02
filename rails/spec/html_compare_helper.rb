@@ -51,7 +51,7 @@ module HTMLCompareHelper
   end
 
   def php_server
-    ENV['PHP_SERVER'] || 'localhost'
+    ENV['PHP_SERVER'] || 'dev.publicwhip.org.au'
   end
 
   def tidy_path
