@@ -12,7 +12,7 @@
   - content_for :title, "Search for #{params[:query]}"
 
   %h1= yield :title
-  %p Found these divisions matching 'Tony Abbott':
+  %p Found these divisions matching '#{params[:query]}':
   %table.votes
     %tr.headings
       %td House
@@ -31,19 +31,17 @@
       %td{:colspan => "9"} no divisions found
   %p
     Found these Representatives and Senators whose names sound like
-    'Tony Abbott':
+    '#{params[:query]}':
   %table.mps
     %tr.headings
       %td Name
       %td Electorate / State
       %td Party
-    %tr.odd
-      %td
-        %a{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives"}
-          Tony Abbott
-      %td
-        %a{:href => "mp.php?mpc=Warringah"} Warringah
-      %td Liberal Party
+    - @mps.each do |mp|
+      %tr{:class => cycle("odd", "even")}
+        %td= link_to mp.name, member_path(mp)
+        %td= link_to mp.electorate, electorate_path(mp)
+        %td= mp.party
   %p
     - # TODO: Remove hardcoded URLs
     Also try browsing the list of #{link_to "all Representatives", 'mps.php'},

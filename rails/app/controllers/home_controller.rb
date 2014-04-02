@@ -25,6 +25,8 @@ class HomeController < ApplicationController
       else
         raise 'No electorates found'
       end
+    elsif !params[:query].blank?
+      @mps = Member.find_by_search_query params[:query]
     end
   end
 end
