@@ -9,7 +9,7 @@
         %td= mp.party
         %td= link_to mp.electorate, electorate_path2(mp.electorate)
 - elsif params[:query]
-  - content_for :title, "Search for #{params[:query]}"
+  - content_for :title, "Search for #{params[:query].gsub(/[^A-Za-z0-9 \.\,]/, '')}"
 
   %h1= yield :title
   %p Found these divisions matching '#{params[:query]}':
