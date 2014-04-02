@@ -23,7 +23,7 @@ class HomeController < ApplicationController
           @mps << member unless member.nil?
         end
       else
-        raise
+        raise 'No electorates found'
       end
     end
   end
