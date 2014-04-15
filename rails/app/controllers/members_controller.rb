@@ -39,8 +39,11 @@ class MembersController < ApplicationController
 
   def show
     if params[:mpn]
-      @first_name = params[:mpn].split("_")[0]
-      @last_name = params[:mpn].split("_")[1]
+      name = params[:mpn].split("_")
+      # Strip titles like "Ms"
+      name.slice!(0) if name.size == 3
+      @first_name = name[0]
+      @last_name = name[1]
     end
     electorate = params[:mpc]
     @house = params[:house] || "representatives"
