@@ -41,7 +41,7 @@ class MembersController < ApplicationController
     if params[:mpn]
       name = params[:mpn].split("_")
       # Strip titles like "Ms"
-      name.slice!(0) if name.size == 3
+      name.slice!(0) if name[0] == 'Ms' || name[0] == 'Mrs'
       @first_name = name[0]
       @last_name = name[1]
     end
