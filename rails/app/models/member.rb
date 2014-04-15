@@ -1,7 +1,7 @@
 class Member < ActiveRecord::Base
   self.table_name = "pw_mp"
   has_one :member_info, foreign_key: "mp_id"
-  delegate :rebellions, :votes_attended, :votes_possible, to: :member_info
+  delegate :rebellions, :votes_attended, :votes_possible, to: :member_info, allow_nil: true
   has_many :offices, foreign_key: "person", primary_key: "person"
   has_many :votes, foreign_key: "mp_id"
   scope :current_on, ->(date) { where("? >= entered_house AND ? < left_house", date, date) }
@@ -147,12 +147,12 @@ class Member < ActiveRecord::Base
 
   # Returns a number between 0 and 1 or nil
   def attendance_fraction
-    votes_attended.to_f / votes_possible if votes_possible > 0
+    votes_attended.to_f / votes_possible if member_info && votes_possible > 0
   end
 
   # Returns a number between 0 and 1 or nil
   def rebellions_fraction
-    rebellions.to_f / votes_attended if has_whip? && votes_attended > 0
+    rebellions.to_f / votes_attended if member_info && has_whip? && votes_attended > 0
   end
 
   # TODO This should be moved to a view helper
