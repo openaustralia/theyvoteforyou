@@ -51,7 +51,9 @@ class MembersController < ApplicationController
     if electorate == "Senate"
       @member = Member.in_australian_house(@house).where(first_name: @first_name, last_name: @last_name).first
     elsif @first_name && @last_name
-      @member = Member.in_australian_house(@house).where(first_name: @first_name, last_name: @last_name, constituency: electorate).first
+      conditions = {first_name: @first_name, last_name: @last_name}
+      conditions[:constituency] = electorate unless electorate.nil?
+      @member = Member.in_australian_house(@house).where(conditions).first
     else
       # TODO This is definitely wrong. Should return multiple members in this electorate
       # TEMP HACK hardcoded date 1 Jan 2006 (start of Hansard data)
