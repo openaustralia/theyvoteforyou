@@ -364,7 +364,7 @@
             for ($i = 0; $i < count($currently_minister); $i++)
             {
                 if ($i != 0)
-                    print ($i != count($currently_minister) - 1 ? ", " : " and "); 
+                    print ($i != count($currently_minister) - 1 ? ", " : ", and ");
                 print "<b>".$currently_minister[$i]."</b>"; 
             }
             print "</p>"; 
