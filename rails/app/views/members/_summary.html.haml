@@ -23,8 +23,7 @@
         %td
           = member.name
           = link_to "(show only their votes)", "mp.php?mpn=#{member.first_name}_#{member.last_name}&display=summary"
-        -# HACK WARNING
-        %td= [member.entered_house, Date.new(2006,1,1)].max.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
+        %td= vote_records_start_date(member)
         - if member.left_house > Date.today
           %td still in office
         - else

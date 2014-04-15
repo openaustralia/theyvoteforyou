@@ -44,4 +44,9 @@ module MembersHelper
       end
     end
   end
+
+  def vote_records_start_date(member)
+    # HACK WARNING
+    [member.entered_house, Date.new(2006,1,1)].max.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
+  end
 end
