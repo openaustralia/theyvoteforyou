@@ -1,4 +1,4 @@
-- unless @member.current_offices.empty?
+- unless @members || @member.current_offices.empty?
   %p
     %b= @member.name
     is currently
