@@ -70,7 +70,7 @@ class MembersController < ApplicationController
     elsif @display == "everyvote"
       # All divisions MP could have attended
       @divisions = @member.divisions_possible.order(division_date: :desc, clock_time: :desc, division_name: :asc)
-    elsif @display.nil?
+    elsif @display == "summary" || @display.nil?
       # Interesting divisions
       @divisions = @member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc)
     end
