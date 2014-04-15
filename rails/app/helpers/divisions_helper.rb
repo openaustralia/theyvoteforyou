@@ -93,7 +93,7 @@ module DivisionsHelper
       display = content_tag(:i, 'minority')
     end
 
-    vote == 'aye3' || vote == 'no3' ? "#{display} (strong)" : display
+    vote == 'aye3' || vote == 'no3' ? "#{display} (strong)".html_safe : display
   end
 
   # TODO: Refactor this - it looks suspiciously like the above
