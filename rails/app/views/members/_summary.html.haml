@@ -52,7 +52,7 @@
       %td Attendance (#{link_to "explain...", help_path(anchor: "clarify")})
       %td Teller
     %tr.odd
-      %td 1&nbsp;Jan&nbsp;2006
+      %td= vote_records_start_date(@member)
       %td still in office
       %td= @member.party
       %td.percent
