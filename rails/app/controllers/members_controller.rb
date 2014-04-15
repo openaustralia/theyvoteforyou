@@ -43,7 +43,7 @@ class MembersController < ApplicationController
       # Strip titles like "Ms"
       name.slice!(0) if name[0] == 'Ms' || name[0] == 'Mrs'
       @first_name = name[0]
-      @last_name = name[1]
+      @last_name = name[1..-1].join(' ')
     end
     electorate = params[:mpc]
     @house = params[:house] || "representatives"
