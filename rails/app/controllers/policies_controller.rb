@@ -1,6 +1,6 @@
 class PoliciesController < ApplicationController
   def index
-    @policies = Policy.all
+    @policies = Policy.joins(:policy_info)
   end
 
   def show
