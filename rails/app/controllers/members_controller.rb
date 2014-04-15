@@ -64,6 +64,9 @@ class MembersController < ApplicationController
       end
     end
 
+    # Does this belong here?
+    raise ActiveRecord::RecordNotFound if !@member
+
     if @display == "allvotes"
       # divisions attended
       @divisions = @member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc)
