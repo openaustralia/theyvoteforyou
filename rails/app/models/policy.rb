@@ -5,7 +5,7 @@ class Policy < ActiveRecord::Base
   has_many :divisions, through: :policy_divisions
   has_one :policy_info, foreign_key: :dream_id
 
-  delegate :votes_count, :edited_motions_count, to: :policy_info
+  delegate :votes_count, :edited_motions_count, to: :policy_info, allow_nil: true
 
   alias_attribute :id, :dream_id
 
@@ -15,6 +15,6 @@ class Policy < ActiveRecord::Base
   end
 
   def unedited_motions
-    votes_count - edited_motions_count
+    votes_count - edited_motions_count if policy_info
   end
 end
