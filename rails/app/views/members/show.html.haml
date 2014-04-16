@@ -31,7 +31,7 @@
   = render "external_links"
   = render "interesting_votes"
   = render "policy_comparisons"
-  = render "possible_friends"
+  = render partial: "possible_friends", locals: {all_friends: false}
 - elsif @display == "allvotes"
   = render "summary"
   = render "external_links"
@@ -41,6 +41,6 @@
   = render "external_links"
   = render "all_votes"
 - elsif @display == "allfriends"
-  = render "all_possible_friends"
+  = render partial: "possible_friends", locals: {all_friends: true}
 - elsif @display == "alldreams"
   = render "policy_comparisons"
