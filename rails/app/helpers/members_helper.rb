@@ -51,10 +51,6 @@ module MembersHelper
   end
 
   def member_until(member)
-    if member.left_house > Date.today
-      'still in office'
-    else
-      member.left_house.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
-    end
+    member.left_house > Date.today ? 'still in office' : member.left_house.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
   end
 end
