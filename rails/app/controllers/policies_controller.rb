@@ -1,6 +1,6 @@
 class PoliciesController < ApplicationController
   def index
-    @policies = Policy.joins(:policy_info).order(dream_id: :desc)
+    @policies = Policy.joins(:policy_info).order(:private, :name)
   end
 
   def show
