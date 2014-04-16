@@ -1,4 +1,5 @@
-- unless @members || @member.current_offices.empty?
+-# FIXME in the controller @member and @members should never both be populated
+- if (@members && @members.size == 1) || !@member.current_offices.empty?
   %p
     %b= @member.name
     is currently
