@@ -69,8 +69,8 @@ module ApplicationHelper
   end
 
   def parliament_name(parliament)
-    if Member.parliaments[parliament]
-      "#{Member.parliaments[parliament][:name]}&nbsp;Parliament".html_safe
+    if Parliament.all[parliament]
+      "#{Parliament.all[parliament][:name]}&nbsp;Parliament".html_safe
     elsif parliament.nil?
       "Current"
     elsif parliament == "all"

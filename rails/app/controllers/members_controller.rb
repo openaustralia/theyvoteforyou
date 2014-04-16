@@ -30,8 +30,8 @@ class MembersController < ApplicationController
       @members = Member.current.in_australian_house(@house).joins(:member_info).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
     elsif @parliament == "all"
       @members = Member.in_australian_house(@house).joins(:member_info).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
-    elsif Member.parliaments[@parliament]
-      @members = Member.where("? >= entered_house AND ? < left_house", Member.parliaments[@parliament][:to], Member.parliaments[@parliament][:from]).in_australian_house(@house).joins(:member_info).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
+    elsif Parliament.all[@parliament]
+      @members = Member.where("? >= entered_house AND ? < left_house", Parliament.all[@parliament][:to], Parliament.all[@parliament][:from]).in_australian_house(@house).joins(:member_info).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
     else
       raise
     end

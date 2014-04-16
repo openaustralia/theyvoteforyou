@@ -8,7 +8,7 @@ class DivisionsController < ApplicationController
 
     if @house
       if @rdisplay != "all"
-        @parties = Division.in_parliament(Member.parliaments[@rdisplay])
+        @parties = Division.in_parliament(Parliament.all[@rdisplay])
       else
         @parties = Division
       end
@@ -23,7 +23,7 @@ class DivisionsController < ApplicationController
       end
     end
 
-    raise "Invalid rdisplay param" unless @rdisplay == "all" || Member.parliaments.has_key?(@rdisplay)
+    raise "Invalid rdisplay param" unless @rdisplay == "all" || Parliament.all.has_key?(@rdisplay)
 
     order = case @sort
     when nil
@@ -40,7 +40,7 @@ class DivisionsController < ApplicationController
 
     @divisions = Division.joins(:division_info).order(order)
     @divisions = @divisions.in_australian_house(@house) if @house    
-    @divisions = @divisions.in_parliament(Member.parliaments[@rdisplay]) if @rdisplay != "all"    
+    @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
     @divisions = @divisions.with_rebellions if @rdisplay2 == "rebels"
     @divisions = @divisions.joins(:whips).where(pw_cache_whip: {party: @party}) if @party
   end
