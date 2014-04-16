@@ -6,7 +6,12 @@
 %p
   Shows which
   = members_type(@member.australian_house)
-  voted most similarly to this one in the Parliament. This is measured from 0% agreement (never voted the
+  -# HACK Match PHP's display of supposedly what this data shows. Surely the PHP app is
+  -# wrong and this actually shows data *since* they joined not just for the parliament
+  -# they joined in
+  - entered_parliament = Member.parliaments.select { |k,v| @member.entered_house > v[:from] && @member.entered_house < v[:to] }
+  - parliament_member_joined = entered_parliament.shift[1][:name] unless entered_parliament.empty?
+  voted most similarly to this one in the #{parliament_member_joined} Parliament. This is measured from 0% agreement (never voted the
   same) to 100% (always voted the same). Only votes that both
   = members_type(@member.australian_house)
   attended are counted. This may reveal relationships between
