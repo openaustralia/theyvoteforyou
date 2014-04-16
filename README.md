@@ -1,5 +1,12 @@
-The Public Whip Source Code
----------------------------
+Public Whip
+===========
+
+This is an Australian fork of the UK website [Public Whip](http://www.publicwhip.org.uk/).
+
+We're currently porting the codebase to Rails - see the `rails` directory.
+
+The Public Whip Source Code (UK README)
+---------------------------------------
 
 Hello!  Here's the source code behind the Public Whip website.  To see the end
 product go to http://www.publicwhip.org.uk.  If you don't know what this is all
