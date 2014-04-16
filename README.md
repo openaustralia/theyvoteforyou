@@ -1,5 +1,4 @@
-Public Whip
-===========
+# Public Whip [![Stories in Ready](https://badge.waffle.io/openaustralia/publicwhip.png?label=ready)](https://waffle.io/openaustralia/publicwhip)
 
 This is an Australian fork of the UK website [Public Whip](http://www.publicwhip.org.uk/).
 
