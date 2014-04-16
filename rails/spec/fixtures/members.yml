@@ -1,37 +1,49 @@
 tony_abbott:
   mp_id: 1
-  first_name: "Tony"
-  last_name: "Abbott"
-  party: "Liberal Party"
-  constituency: "Warringah"
-  house: "commons"
-  gid: ""
-  source_gid: ""
-  title: ""
+  gid: uk.org.publicwhip/member/1
+  source_gid: ''
+  first_name: Tony
+  last_name: Abbott
+  title: ''
+  constituency: Warringah
+  party: Liberal Party
+  house: commons
+  entered_house: 1994-03-26
+  left_house: 9999-12-31
+  entered_reason: by_election
+  left_reason: still_in_office
   person: 10001
 
 kevin_rudd:
   mp_id: 450
-  first_name: "Kevin"
-  last_name: "Rudd"
-  party: "Australian Labor Party"
-  constituency: "Griffith"
-  house: "commons"
-  gid: ""
-  source_gid: ""
-  title: ""
+  gid: uk.org.publicwhip/member/450
+  source_gid: ''
+  first_name: Kevin
+  last_name: Rudd
+  title: ''
+  constituency: Griffith
+  party: Australian Labor Party
+  house: commons
+  entered_house: 1998-10-03
+  left_house: 2013-11-22
+  entered_reason: general_election
+  left_reason: resigned
   person: 10552
 
 christine_milne:
   mp_id: 100156
-  first_name: "Christine"
-  last_name: "Milne"
-  party: "Australian Greens"
-  constituency: "Tasmania"
-  house: "lords"
-  gid: ""
-  source_gid: ""
-  title: ""
+  gid: uk.org.publicwhip/lord/100156
+  source_gid: ''
+  first_name: Christine
+  last_name: Milne
+  title: ''
+  constituency: Tasmania
+  party: Australian Greens
+  house: lords
+  entered_house: 2005-07-01
+  left_house: 9999-12-31
+  entered_reason: general_election
+  left_reason: still_in_office
   person: 10458
 
 john_howard:
