@@ -49,4 +49,12 @@ module MembersHelper
     # HACK WARNING
     [member.entered_house, Date.new(2006,1,1)].max.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
   end
+
+  def member_until(member)
+    if member.left_house > Date.today
+      'still in office'
+    else
+      member.left_house.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
+    end
+  end
 end

@@ -24,10 +24,7 @@
           = member.name
           = link_to "(show only their votes)", "mp.php?mpn=#{member.first_name}_#{member.last_name}&display=summary"
         %td= vote_records_start_date(member)
-        - if member.left_house > Date.today
-          %td still in office
-        - else
-          %td= member.left_house.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
+        %td= member_until(member)
         %td= member.party
         %td.percent
           = pluralize(member.rebellions, "vote")
