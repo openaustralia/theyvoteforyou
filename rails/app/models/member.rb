@@ -17,8 +17,7 @@ class Member < ActiveRecord::Base
   # Divisions that this member has voted on where either they were a teller, a rebel (or both) or voting
   # on a free vote
   def interesting_divisions
-    divisions.joins(:whips).where(free_vote.or(rebellious_vote))
-    # TODO: Votes where MP was a teller
+    divisions.joins(:whips).where(free_vote.or(rebellious_vote).or(teller_vote))
   end
 
   def vote_on_division(division)
@@ -249,5 +248,10 @@ class Member < ActiveRecord::Base
     whip = Whip.arel_table
     vote = Vote.arel_table
     whip[:party].eq(party).and(vote[:vote].not_eq(whip[:whip_guess]))
+  end
+
+  def teller_vote
+    vote = Vote.arel_table
+    vote[:vote].eq('tellno').or(vote[:vote].eq('tellyes'))
   end
 end
