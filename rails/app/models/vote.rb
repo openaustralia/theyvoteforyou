@@ -12,6 +12,7 @@ class Vote < ActiveRecord::Base
   end
 
   def rebellion?
+    # TODO How do we handle tellers?
     !free? && vote != whip_guess
   end
 
