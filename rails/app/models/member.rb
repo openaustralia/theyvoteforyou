@@ -19,6 +19,8 @@ class Member < ActiveRecord::Base
   def interesting_divisions
     # free votes
     divisions.joins(:whips).where(pw_cache_whip: {party: party, whip_guess: "none"})
+    # TODO: Votes where MP was rebellious
+    # TODO: Votes where MP was a teller
   end
 
   def vote_on_division(division)
