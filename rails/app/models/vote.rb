@@ -12,12 +12,15 @@ class Vote < ActiveRecord::Base
   end
 
   def rebellion?
-    # TODO How do we handle tellers?
-    !free? && vote != whip_guess
+    !free? && vote_without_tell != whip_guess
   end
 
   def teller?
     vote[0..3] == 'tell'
+  end
+
+  def vote_without_tell
+    vote.gsub('tell', '')
   end
 
   def role
