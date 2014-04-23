@@ -15,8 +15,14 @@ class Vote < ActiveRecord::Base
     !free? && vote != whip_guess
   end
 
+  def teller?
+    vote[0..3] == 'tell'
+  end
+
   def role
-    if rebellion?
+    if teller?
+      "teller"
+    elsif rebellion?
       "rebel"
     elsif !free?
       "loyal"
