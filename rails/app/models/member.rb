@@ -23,7 +23,7 @@ class Member < ActiveRecord::Base
   def vote_on_division(division)
     vote = votes.where(division_id: division.id).first
     if vote
-      vote.vote
+      vote.vote_without_tell
     else
       "absent"
     end
@@ -34,8 +34,8 @@ class Member < ActiveRecord::Base
     if vote
       # TODO What happens when the same number of votes on each side? Or can this never happen by design?
       if division.majority_vote == "none"
-        vote.vote
-      elsif vote.vote == division.majority_vote
+        vote.vote_without_tell
+      elsif vote.vote_without_tell == division.majority_vote
         "majority"
       else
         "minority"
