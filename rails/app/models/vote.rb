@@ -16,7 +16,6 @@ class Vote < ActiveRecord::Base
   end
 
   def role
-    # TODO Take into account free votes
     if rebellion?
       "rebel"
     elsif !free?
