@@ -18,12 +18,11 @@ scraper that made the data Public Whip uses.
 
 A description of the files and folders in this package follows.
 
-LICENSE.html - Details of open source licensing terms, under the Affero GNU GPL
-
-loader    - Load XML files from ukparse into the database
-website   - Code for www.publicwhip.org.uk, PHP extracts data from database/XML
-build     - Scripts I use for admin, such as to upload to www.publicwhip.org.uk
-custom    - Various one off scripts and graphics made for special purposes
-artwork   - High resolution graphics relating to Public Whip
+* LICENSE.html - Details of open source licensing terms, under the Affero GNU GPL
+* loader    - Load XML files from ukparse into the database
+* website   - Code for www.publicwhip.org.uk, PHP extracts data from database/XML
+* build     - Scripts I use for admin, such as to upload to www.publicwhip.org.uk
+* custom    - Various one off scripts and graphics made for special purposes
+* artwork   - High resolution graphics relating to Public Whip
 
 If you need any help, please email team@publicwhip.org.uk.
