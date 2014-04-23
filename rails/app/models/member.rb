@@ -18,7 +18,7 @@ class Member < ActiveRecord::Base
   # on a free vote
   def interesting_divisions
     # free votes
-    divisions.joins(:whips).where(pw_cache_whip: {party: party, whip_guess: "none"})
+    divisions.joins(:whips).where(free_vote)
     # TODO: Votes where MP was rebellious
     # TODO: Votes where MP was a teller
   end
@@ -238,5 +238,12 @@ class Member < ActiveRecord::Base
                    ORDER BY #{score_clause} DESC"
 
     Member.find_by_sql [sql_query, placeholders]
+  end
+
+  private
+
+  def free_vote
+    whip = Whip.arel_table
+    whip[:party].eq(party).and(whip[:whip_guess].eq("none"))
   end
 end
