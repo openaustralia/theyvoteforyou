@@ -106,7 +106,7 @@
   per division. Of these
   %strong= number_with_delimiter(Member.joins(:member_info).sum(:rebellions).to_i)
   were against the majority vote for their party giving an average rebellion rate of
-  <strong>#{Member.joins(:member_info).sum(:rebellions) == 0 ? "0%" : "%.2f%" % (Member.joins(:member_info).sum(:rebellions) / Vote.count * 100)}</strong>.
+  <strong>#{Member.joins(:member_info).sum(:rebellions) == 0 ? "0%" : "#{number_with_precision((Member.joins(:member_info).sum(:rebellions) / Vote.count * 100), precision: 2, strip_insignificant_zeros: true)}%"}</strong>.
 %h2.faq
   %a{:name => "division"} What is a division?
 %p
