@@ -46,3 +46,11 @@ john_alexander:
   votes_attended: 431
   votes_possible: 441
   aye_majority: 11
+
+christopher_back:
+  mp_id: 100279
+  rebellions: 3
+  tells: 0
+  votes_attended: 41
+  votes_possible: 54
+  aye_majority: -13

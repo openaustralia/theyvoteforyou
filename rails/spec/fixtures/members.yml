@@ -94,4 +94,18 @@ john_alexander:
   left_reason: 'still_in_office'
   person: 10725
 
-
+christopher_back:
+  mp_id: 100279
+  gid: uk.org.publicwhip/lord/100279
+  source_gid: ''
+  first_name: Christopher
+  last_name: Back
+  title: ''
+  constituency: WA
+  party: Liberal Party
+  house: lords
+  entered_house: 2009-03-11
+  left_house: 9999-12-31
+  entered_reason: general_election
+  left_reason: still_in_office
+  person: 10722

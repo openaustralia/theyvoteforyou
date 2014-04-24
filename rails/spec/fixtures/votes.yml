@@ -22,3 +22,8 @@ five:
   division_id: 2037
   mp_id: 100156
   vote: 'no'
+
+six:
+  division_id: 2037
+  mp_id: 100279
+  vote: 'aye'
