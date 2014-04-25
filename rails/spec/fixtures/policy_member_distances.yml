@@ -1,0 +1,33 @@
+one:
+  dream_id: 1
+  person: 10001
+  nvotessame: 0
+  nvotessamestrong: 0
+  nvotesdiffer: 0
+  nvotesdifferstrong: 0
+  nvotesabsent: 1
+  nvotesabsentstrong: 0
+  distance_a: 0.5
+  distance_b: -1.0
+two:
+  dream_id: 1
+  person: 10552
+  nvotessame: 0
+  nvotessamestrong: 0
+  nvotesdiffer: 1
+  nvotesdifferstrong: 0
+  nvotesabsent: 0
+  nvotesabsentstrong: 0
+  distance_a: 1.0
+  distance_b: 1.0
+three:
+  dream_id: 1
+  person: 10725
+  nvotessame: 0
+  nvotessamestrong: 0
+  nvotesdiffer: 0
+  nvotesdifferstrong: 0
+  nvotesabsent: 1
+  nvotesabsentstrong: 0
+  distance_a: 0.5
+  distance_b: -1.0
