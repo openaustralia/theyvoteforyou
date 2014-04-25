@@ -8,6 +8,7 @@ class Member < ActiveRecord::Base
   scope :in_australian_house, ->(australian_house) { where(house: House.australian_to_uk(australian_house)) unless australian_house == 'all' }
   # Divisions that have been attended
   has_many :divisions, through: :votes
+  has_many :policy_member_distances, foreign_key: :person, primary_key: :person
 
   # All divisions that this member could have attended
   def divisions_possible
