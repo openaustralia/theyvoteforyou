@@ -8,6 +8,7 @@ module MembersHelper
     end
     r += "&parliament=#{params[:parliament]}" if params[:parliament]
     r += "&display=#{params[:display]}" if params[:display]
+    r += "&dmp=#{params[:dmp]}" if params[:dmp]
     r += "##{params[:anchor]}" if params[:anchor]
     r
   end
