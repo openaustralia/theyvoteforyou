@@ -15,6 +15,8 @@
     %td Agreement
     %td Policy
   - @member.policy_member_distances.each do |policy_member_distance|
+    -# HACK: For some reason the below cycle wasn't starting reset so resetting it manually
+    - reset_cycle
     %tr{:class => cycle("odd", "even")}
       %td
         %b= link_to number_to_percentage((1 - policy_member_distance.distance_a) * 100, precision: 0), member_path(@member, dmp: policy_member_distance.policy.id)
