@@ -1,0 +1,120 @@
+one:
+  mp_id1: 1
+  mp_id2: 1
+  nvotessame: 1
+  nvotesdiffer: 0
+  nvotesabsent: 0
+  distance_a: 0.0
+  distance_b: 0.0
+two:
+  mp_id1: 1
+  mp_id2: 265
+  nvotessame: 0
+  nvotesdiffer: 0
+  nvotesabsent: 0
+  distance_a: -1.0
+  distance_b: -1.0
+three:
+  mp_id1: 1
+  mp_id2: 367
+  nvotessame: 0
+  nvotesdiffer: 0
+  nvotesabsent: 0
+  distance_a: -1.0
+  distance_b: -1.0
+four:
+  mp_id1: 1
+  mp_id2: 450
+  nvotessame: 1
+  nvotesdiffer: 0
+  nvotesabsent: 2
+  distance_a: 0.142857
+  distance_b: 0.0
+five:
+  mp_id1: 1
+  mp_id2: 589
+  nvotessame: 0
+  nvotesdiffer: 0
+  nvotesabsent: 0
+  distance_a: -1.0
+  distance_b: -1.0
+six:
+  mp_id1: 265
+  mp_id2: 265
+  nvotessame: 0
+  nvotesdiffer: 0
+  nvotesabsent: 0
+  distance_a: -1.0
+  distance_b: -1.0
+seven:
+  mp_id1: 265
+  mp_id2: 450
+  nvotessame: 0
+  nvotesdiffer: 0
+  nvotesabsent: 2
+  distance_a: 0.5
+  distance_b: -1.0
+eight:
+  mp_id1: 367
+  mp_id2: 367
+  nvotessame: 0
+  nvotesdiffer: 0
+  nvotesabsent: 0
+  distance_a: -1.0
+  distance_b: -1.0
+nine:
+  mp_id1: 367
+  mp_id2: 450
+  nvotessame: 0
+  nvotesdiffer: 0
+  nvotesabsent: 0
+  distance_a: -1.0
+  distance_b: -1.0
+ten:
+  mp_id1: 450
+  mp_id2: 450
+  nvotessame: 2
+  nvotesdiffer: 0
+  nvotesabsent: 0
+  distance_a: 0.0
+  distance_b: 0.0
+eleven:
+  mp_id1: 450
+  mp_id2: 589
+  nvotessame: 0
+  nvotesdiffer: 0
+  nvotesabsent: 0
+  distance_a: -1.0
+  distance_b: -1.0
+twelve:
+  mp_id1: 589
+  mp_id2: 589
+  nvotessame: 0
+  nvotesdiffer: 0
+  nvotesabsent: 0
+  distance_a: -1.0
+  distance_b: -1.0
+thirteen:
+  mp_id1: 100156
+  mp_id2: 100156
+  nvotessame: 2
+  nvotesdiffer: 0
+  nvotesabsent: 0
+  distance_a: 0.0
+  distance_b: 0.0
+fourteen:
+  mp_id1: 100156
+  mp_id2: 100279
+  nvotessame: 0
+  nvotesdiffer: 1
+  nvotesabsent: 0
+  distance_a: 1.0
+  distance_b: 1.0
+fifteen:
+  mp_id1: 100279
+  mp_id2: 100279
+  nvotessame: 1
+  nvotesdiffer: 0
+  nvotesabsent: 0
+  distance_a: 0.0
+  distance_b: 0.0
