@@ -1,0 +1,33 @@
+- content_for :title, 'Account settings'
+- content_for :on_load, "givefocus('user_name')"
+
+%h1= yield :title
+%p
+  %span.ptitle User name:
+  henare
+  %br/
+  %span.ptitle Real name:
+  Henare Degan
+  %br/
+  %span.ptitle Email:
+  henare@oaf.org.au (
+  %a{:href => "changeemail.php"}> change email
+  )
+  %br/
+  %span.ptitle Password:
+  (
+  %a{:href => "changepass.php"}> change password
+  )
+%h2 Forum profile
+%p henare
+%h2 Policies which you made
+%br/
+%a{:href => "../policy.php?id=1"} Marriage equality
+(public)
+%br/
+%a{:href => "../policy.php?id=2"} Offshore processing
+(public)
+%p
+  (
+  %a{:href => "addpolicy.php"}> make a new policy
+  )
