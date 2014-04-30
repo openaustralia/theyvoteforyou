@@ -9,6 +9,7 @@ class Member < ActiveRecord::Base
   # Divisions that have been attended
   has_many :divisions, through: :votes
   has_many :policy_member_distances, foreign_key: :person, primary_key: :person
+  has_many :member_distances, foreign_key: :mp_id1
 
   # All divisions that this member could have attended
   def divisions_possible
@@ -196,7 +197,7 @@ class Member < ActiveRecord::Base
   end
 
   def possible_friends
-    MemberDistance.where(mp_id1: id).where.not(mp_id2: id, distance_a: -1)
+    member_distances.where.not(mp_id2: id, distance_a: -1)
   end
 
   def self.find_by_search_query(query_string)
