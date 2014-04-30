@@ -79,12 +79,4 @@ module ApplicationHelper
       raise
     end
   end
-
-  def current_user
-    User.find_by_user_name session[:user_name]
-  end
-
-  def user_signed_in?
-    !!current_user
-  end
 end

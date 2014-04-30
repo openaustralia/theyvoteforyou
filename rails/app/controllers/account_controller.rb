@@ -4,13 +4,11 @@ class AccountController < ApplicationController
 
   def settings
     if params[:submit] == 'Login to Public Whip'
-      if (user = User.find_by_user_name params[:user_name]) && user.password == Digest::MD5.hexdigest(params[:password])
-        session[:user_name] = user.user_name
-      else
+      if !authenticate_user(params[:user_name], params[:password])
         @login_failed = true
         render :login
       end
-    else
+    elsif !@current_user
       render :login
     end
   end
