@@ -64,7 +64,7 @@ if (!$h1title && $title) {
 
 -->
 <link rel="stylesheet" type="text/css" href="/publicwhip.css">
-<link href="<?php echo $toppath?>publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
+<link href="/publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
 <link rel="icon" href="/<?php echo $favicon?>" type="image/x-icon" />
 <link rel="shortcut icon" href="/<?php echo $favicon?>" type="image/x-icon" />
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
@@ -142,12 +142,12 @@ function ClickSup(nsup) {
 
     <!-- the main site navigation -->
     <div id="nav_main">
-        <a title="Front page and site highlights" href="<?php echo $toppath?>index.php">Home</a>
-        <a title="List of all votes in Parliament" href="<?php echo $toppath?>divisions.php">Divisions</a>
-        <a title="List of all Representatives" href="<?php echo $toppath?>mps.php">Representatives</a>
-        <a title="List of all Senators" href="<?php echo $toppath?>mps.php?house=senate">Senators</a>
-        <a title="Help to analyze MP's votes" href="<?php echo $toppath?>policies.php">Policies</a>
-        <!-- <a title="Help run the Public Whip project" href="<?php echo $toppath?>project/index.php">Join Us</a> -->
+        <a title="Front page and site highlights" href="/index.php">Home</a>
+        <a title="List of all votes in Parliament" href="/divisions.php">Divisions</a>
+        <a title="List of all Representatives" href="/mps.php">Representatives</a>
+        <a title="List of all Senators" href="/mps.php?house=senate">Senators</a>
+        <a title="Help to analyze MP's votes" href="/policies.php">Policies</a>
+        <!-- <a title="Help run the Public Whip project" href="/project/index.php">Join Us</a> -->
         <a title="Frequently asked questions" href="/faq.php">Help / FAQ</a>
         <div id="account-navbar">
             <?php echo account_navbar(); ?>

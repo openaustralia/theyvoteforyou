@@ -40,7 +40,7 @@
 <div id="footer">
     <div class="widewidth">
         <!-- the footer section -->
-        <!-- old footer links <a title="Frequently asked questions" href="<?php echo $toppath?>faq.php#whatis">About us</a>
+        <!-- old footer links <a title="Frequently asked questions" href="/faq.php#whatis">About us</a>
 <a title="Send comments, problems or suggestions" href="/email.php">Contact us</a>
 <a title="Fodder for your spreadsheet" href="/project/data.php">Data feeds</a>
 <a title="Public Whip is open source software" href="/project/code.php">Source code</a>
