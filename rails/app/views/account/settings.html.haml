@@ -2,6 +2,10 @@
 - content_for :on_load, "givefocus('user_name')"
 
 %h1= yield :title
+- if @login_failed
+  .error
+    %h2 Login not correct, please try again
+    %p User not found or password incorrect.
 %p
   Enter your user name and password and we'll set a cookie so we
   know you're logged in.
