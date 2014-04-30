@@ -28,8 +28,9 @@
     %tr.even
       %td{:colspan => "4"} No results found
   - else
+    - possible_friends = all_friends ? @member.possible_friends.order(:distance_a) : @member.possible_friends.order(:distance_a).limit(5)
     - reset_cycle
-    - @member.possible_friends.each do |member_distance|
+    - possible_friends.each do |member_distance|
       %tr{:class => cycle("odd", "even")}
         %td= link_to content_tag(:b, number_to_percentage(member_distance.agreement_percentage, precision: 1)), member_path(member_distance.member2, {}, @member)
         %td= link_to member_distance.member2.name, member_path(member_distance.member2)
