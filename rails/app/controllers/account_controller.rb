@@ -10,7 +10,8 @@ class AccountController < ApplicationController
         @login_failed = true
         render :login
       end
+    else
+      render :login
     end
-    render :login
   end
 end
