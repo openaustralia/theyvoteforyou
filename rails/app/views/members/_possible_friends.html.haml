@@ -31,7 +31,7 @@
     - reset_cycle
     - @member.possible_friends.each do |member_distance|
       %tr{:class => cycle("odd", "even")}
-        %td= link_to content_tag(:b, number_to_percentage(member_distance.agreement_percentage, precision: 1)), member_path(Member.find(member_distance.mp_id2), {}, @member)
-        %td= link_to Member.find(member_distance.mp_id2).name, member_path(Member.find(member_distance.mp_id2))
-        %td= link_to_unless Member.find(member_distance.mp_id2).senator?, Member.find(member_distance.mp_id2).electorate, electorate_path(Member.find(member_distance.mp_id2))
-        %td= Member.find(member_distance.mp_id2).party_long
+        %td= link_to content_tag(:b, number_to_percentage(member_distance.agreement_percentage, precision: 1)), member_path(member_distance.member2, {}, @member)
+        %td= link_to member_distance.member2.name, member_path(member_distance.member2)
+        %td= link_to_unless member_distance.member2.senator?, member_distance.member2.electorate, electorate_path(member_distance.member2)
+        %td= member_distance.member2.party_long
