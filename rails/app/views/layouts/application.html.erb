@@ -122,7 +122,7 @@ function ClickSup(nsup) {
           <% if user_signed_in? %>
             <div id="account-navbar">
               <a href="/account/settings.php" title="Change account settings">You are: <%= current_user.user_name %></a>
-              <a href="/account/logout.php?r=%2Faccount%2Fsettings.php" title="Make your browser forget that you are logged into The Public Whip as <%= current_user.user_name %>">Logout</a>
+              <a href="/account/logout.php?r=<%= CGI.escape(request.fullpath) %>" title="Make your browser forget that you are logged into The Public Whip as <%= current_user.user_name %>">Logout</a>
             </div>
           <% else %>
             <div id="account-navbar">
