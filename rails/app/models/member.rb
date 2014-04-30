@@ -195,6 +195,10 @@ class Member < ActiveRecord::Base
     Member.party_has_whip?(party)
   end
 
+  def possible_friends
+    MemberDistance.where(mp_id1: id).where.not(mp_id2: id, distance_a: -1)
+  end
+
   def self.find_by_search_query(query_string)
     # FIXME: This convoluted SQL crap was ported directly from the PHP app. Make it nice
     sql_query = "SELECT first_name, last_name, title, constituency, pw_mp.party AS party, pw_mp.house as house,
