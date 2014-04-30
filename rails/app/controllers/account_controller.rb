@@ -8,6 +8,7 @@ class AccountController < ApplicationController
         # log in and render settings page
       else
         @login_failed = true
+        render :login
       end
     end
     render :login
