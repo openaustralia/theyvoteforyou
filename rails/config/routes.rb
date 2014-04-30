@@ -17,6 +17,8 @@ Publicwhip::Application.routes.draw do
   get 'policies.php' => 'policies#index', as: :policies
   get 'policy.php' => 'policies#show'
 
+  get 'account/settings.php' => 'account#settings'
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
