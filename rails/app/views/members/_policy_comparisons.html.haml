@@ -14,7 +14,7 @@
   %tr.headings
     %td Agreement
     %td Policy
-  - @member.policy_member_distances.each do |policy_member_distance|
+  - @member.policy_member_distances.joins(:policy).order("pw_dyn_dreammp.name").each do |policy_member_distance|
     -# HACK: For some reason the below cycle wasn't starting reset so resetting it manually
     - reset_cycle
     %tr{:class => cycle("odd", "even")}
