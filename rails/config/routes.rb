@@ -19,6 +19,7 @@ Publicwhip::Application.routes.draw do
 
   scope path: '/account' do
     get 'settings.php' => 'account#settings'
+    post 'settings.php' => 'account#settings'
   end
 
   # Example of regular route:

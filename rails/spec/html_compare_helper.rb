@@ -11,6 +11,13 @@ module HTMLCompareHelper
     compare_html(text, response.body, path)
   end
 
+  def compare_post(path, form_params)
+    post path, form_params
+    text = Net::HTTP.post_form(URI::HTTP.build(host: php_server, path: path), form_params).body
+    text.force_encoding(Encoding::UTF_8)
+    compare_html(text, response.body, path)
+  end
+
   private
 
   def compare_html(old_html, new_html, path)
