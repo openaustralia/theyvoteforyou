@@ -1,10 +1,12 @@
 module MembersHelper
-  def member_path(member, params = {})
+  def member_path(member, params = {}, member2 = nil)
     if member.senator?
       # TODO Seems odd to me the mpc=Senate would expect mpc=Tasmania
       r = "mp.php?mpn=#{member.url_name}&mpc=Senate&house=#{member.australian_house}"
+      r += "&mpn2=#{member2.url_name}&mpc2=Senate&house2=#{member2.australian_house}" if member2
     else
       r = "mp.php?mpn=#{member.url_name}&mpc=#{member.electorate}&house=#{member.australian_house}"
+      r += "&mpn2=#{member2.url_name}&mpc2=#{member2.electorate}&house2=#{member2.australian_house}" if member2
     end
     r += "&parliament=#{params[:parliament]}" if params[:parliament]
     r += "&display=#{params[:display]}" if params[:display]
