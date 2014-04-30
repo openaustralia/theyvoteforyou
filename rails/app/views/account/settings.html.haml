@@ -4,13 +4,12 @@
 %h1= yield :title
 %p
   %span.ptitle User name:
-  henare
+  = @current_user.user_name
   %br/
   %span.ptitle Real name:
-  Henare Degan
+  = @current_user.real_name
   %br/
-  %span.ptitle Email:
-  henare@oaf.org.au (
+  <span class="ptitle">Email:</span> #{@current_user.email} (
   %a{:href => "changeemail.php"}> change email
   )
   %br/
@@ -19,14 +18,12 @@
   %a{:href => "changepass.php"}> change password
   )
 %h2 Forum profile
-%p henare
+%p= @current_user.user_name
 %h2 Policies which you made
-%br/
-%a{:href => "../policy.php?id=1"} Marriage equality
-(public)
-%br/
-%a{:href => "../policy.php?id=2"} Offshore processing
-(public)
+- @current_user.policies.each do |policy|
+  %br/
+  = link_to policy.name, "../#{policy_path(policy)}"
+  = "(public)" if policy.public?
 %p
   (
   %a{:href => "addpolicy.php"}> make a new policy

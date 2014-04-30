@@ -19,4 +19,8 @@ class Policy < ActiveRecord::Base
   def unedited_motions
     votes_count - edited_motions_count if policy_info
   end
+
+  def public?
+    private == 0
+  end
 end
