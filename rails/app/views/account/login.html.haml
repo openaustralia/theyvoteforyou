@@ -11,7 +11,7 @@
   know you're logged in.
 %p
   Not got a login?
-  <a href="/account/register.php?r=%2Faccount%2Fsettings.php">Register a new account</a>.<br>
+  <a href="/account/register.php?r=#{params[:r] ? CGI.escape(params[:r]) : "%2Faccount%2Fsettings.php"}">Register a new account</a>.<br>
   Lost your password?
   <a href="lostpass.php">Reset your password here</a>.
 %form{:action => "", :method => "post", :name => "pw"}
@@ -23,4 +23,6 @@
     %br/
     %input{:maxlength => "15", :name => "password", :size => "15", :type => "password", :value => ""}/
   %p
+    - if params[:r]
+      %input{name: 'r', type: :hidden, value: params[:r]}>
     %input{:name => "submit", :type => "submit", :value => "Login to Public Whip"}/

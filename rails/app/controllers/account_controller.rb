@@ -8,6 +8,8 @@ class AccountController < ApplicationController
       if !authenticate_user(params[:user_name], params[:password])
         @login_failed = true
         render :login
+      else
+        redirect_to params[:r] if params[:r]
       end
     elsif !@current_user
       render :login
