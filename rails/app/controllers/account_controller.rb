@@ -21,5 +21,6 @@ class AccountController < ApplicationController
     params[:r] = "" if params[:r].nil?
 
     logout_user
+    redirect_to params[:r] unless params[:r].blank?
   end
 end
