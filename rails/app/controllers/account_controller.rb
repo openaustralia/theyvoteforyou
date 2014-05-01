@@ -19,5 +19,7 @@ class AccountController < ApplicationController
   def logout
     # TODO: Remove - this is just here to match the PHP app
     params[:r] = "" if params[:r].nil?
+
+    logout_user
   end
 end

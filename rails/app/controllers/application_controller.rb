@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def logout_user
+    session[:user_name], @current_user = nil, nil
+  end
+
   def current_user
     @current_user = User.find_by_user_name session[:user_name]
   end
