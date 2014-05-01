@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_filter :current_user
 
   def authenticate_user(user_name, password)
-    if (user = User.find_by_user_name params[:user_name]) && user.password == Digest::MD5.hexdigest(params[:password])
+    if (user = User.find_by_user_name params[:user_name]) && user.password == Digest::MD5.hexdigest(params[:password].downcase)
       session[:user_name] = user.user_name
       @current_user = user
     end
