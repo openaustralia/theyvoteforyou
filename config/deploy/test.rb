@@ -5,7 +5,7 @@ role :db,  %w{deploy@kedumba.openaustraliafoundation.org.au}
 set :branch, :test
 set :deploy_to, "/srv/www/publicwhip-test.openaustraliafoundation.org.au"
 
-set :linked_files, %w{loader/PublicWhip/Config.pm website/config.php rails/config/database.yml}
+set :linked_files, %w{loader/PublicWhip/Config.pm website/config.php rails/config/database.yml rails/config/secrets.yml}
 
 set :rvm_ruby_version, '2.0.0'
 
