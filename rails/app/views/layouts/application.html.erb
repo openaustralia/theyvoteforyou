@@ -126,8 +126,8 @@ function ClickSup(nsup) {
             </div>
           <% else %>
             <div id="account-navbar">
-              <a title="Register to chat on the forum or make/edit policies" href="/account/register.php?r=<%= CGI.escape(request.fullpath) %>">Sign Up</a>
-              <a title="Login to edit policies" href="/account/settings.php?r=<%= CGI.escape(request.fullpath) %>">Login</a>
+              <a title="Register to chat on the forum or make/edit policies" href="/account/register.php?r=<%= CGI.escape(params[:r] ? params[:r] : request.fullpath) %>">Sign Up</a>
+              <a title="Login to edit policies" href="/account/settings.php?r=<%= CGI.escape(params[:r] ? params[:r] : request.fullpath) %>">Login</a>
             </div>
           <% end %>
         </div>

@@ -15,4 +15,9 @@ class AccountController < ApplicationController
       render :login
     end
   end
+
+  def logout
+    # TODO: Remove - this is just here to match the PHP app
+    params[:r] = "" if params[:r].nil?
+  end
 end
