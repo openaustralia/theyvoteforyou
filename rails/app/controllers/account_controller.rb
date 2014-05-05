@@ -10,7 +10,7 @@ class AccountController < ApplicationController
       else
         redirect_to params[:r] if params[:r]
       end
-    elsif !@current_user
+    elsif !user_signed_in?
       render :login
     end
   end
