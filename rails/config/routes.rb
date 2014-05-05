@@ -18,8 +18,7 @@ Publicwhip::Application.routes.draw do
   get 'policy.php' => 'policies#show'
 
   scope path: '/account' do
-    get 'settings.php' => 'account#settings'
-    post 'settings.php' => 'account#settings'
+    match 'settings.php' => 'account#settings', via: [:get, :post]
     get 'logout.php' => 'account#logout'
     get 'changepass.php' => 'account#change_password'
   end
