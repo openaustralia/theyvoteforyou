@@ -22,4 +22,7 @@ class AccountController < ApplicationController
     logout_user
     redirect_to params[:r] unless params[:r].blank?
   end
+
+  def change_password
+  end
 end

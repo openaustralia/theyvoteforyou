@@ -21,6 +21,7 @@ Publicwhip::Application.routes.draw do
     get 'settings.php' => 'account#settings'
     post 'settings.php' => 'account#settings'
     get 'logout.php' => 'account#logout'
+    get 'changepass.php' => 'account#change_password'
   end
 
   # Example of regular route:
