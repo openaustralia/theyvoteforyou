@@ -20,8 +20,8 @@ describe AccountController do
     compare '/account/logout.php'
   end
 
-  it '#change_password', focus: true do
-    compare '/account/changepass.php'
-    compare '/account/changepass.php', true
+  describe '#change_password' do
+    it { compare '/account/changepass.php' }
+    it { compare '/account/changepass.php', true }
   end
 end
