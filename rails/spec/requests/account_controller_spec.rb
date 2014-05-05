@@ -21,6 +21,7 @@ describe AccountController do
   end
 
   it '#change_password', focus: true do
+    compare '/account/changepass.php'
     compare '/account/changepass.php', true
   end
 end
