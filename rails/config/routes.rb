@@ -20,7 +20,7 @@ Publicwhip::Application.routes.draw do
   scope path: '/account' do
     match 'settings.php' => 'account#settings', via: [:get, :post]
     get 'logout.php' => 'account#logout'
-    get 'changepass.php' => 'account#change_password'
+    match 'changepass.php' => 'account#change_password', via: [:get, :post]
   end
 
   # Example of regular route:
