@@ -21,7 +21,9 @@ describe AccountController do
   end
 
   describe '#change_password' do
-    it { compare '/account/changepass.php' }
-    it { compare '/account/changepass.php', true }
+    let(:url) { '/account/changepass.php' }
+
+    it { compare url }
+    it { compare url, true }
   end
 end
