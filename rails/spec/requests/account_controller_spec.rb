@@ -20,8 +20,7 @@ describe AccountController do
     compare '/account/logout.php'
   end
 
-  it '#change_password' do
-    AccountController.stub current_user: User.find(1)
+  it '#change_password', focus: true do
     compare '/account/changepass.php', true
   end
 end
