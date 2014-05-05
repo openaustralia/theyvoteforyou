@@ -4,9 +4,16 @@ require 'open-uri'
 require 'net/http'
 
 module HTMLCompareHelper
-  def compare(path)
+  def compare(path, signed_in = false)
     get path
-    text = Net::HTTP.get(php_server, path)
+
+    if signed_in
+      connection = Net::HTTP.new php_server
+      text = connection.get(path, {'Cookie' => 'user_name=henare; id_hash=0e53908d0c6a97f05b39c5dfb64a197a'}).body
+    else
+      text = Net::HTTP.get(php_server, path)
+    end
+
     text.force_encoding(Encoding::UTF_8)
     compare_html(text, response.body, path)
   end
