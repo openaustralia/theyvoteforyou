@@ -25,11 +25,11 @@ module HTMLCompareHelper
       ApplicationController.any_instance.stub current_user: User.find(1)
       headers['Cookie'] = 'user_name=henare; id_hash=0e53908d0c6a97f05b39c5dfb64a197a'
     end
+    post path, form_params
 
     text = agent.post("http://#{php_server}#{path}", form_params, headers).body
     text.force_encoding(Encoding::UTF_8)
 
-    post path, form_params
     compare_html(text, response.body, path)
   end
 

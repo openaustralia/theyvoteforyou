@@ -34,8 +34,9 @@ describe AccountController do
       it { compare_post url, true, submit: 'Change My Password', old_password: 'wrong_password', new_password1: 'foobar', new_password2: 'foobar' }
     end
 
-    context "details are correct" do
-      it { compare_post url, true, submit: 'Change My Password', change_user_name: 'henare', old_password: 'password', new_password1: 'new_password', new_password2: 'new_password' }
+    it "changes the password if the details are correct" do
+      User.any_instance.stub :change_password
+      compare_post url, true, submit: 'Change My Password', change_user_name: 'henare', old_password: 'password', new_password1: 'new_password', new_password2: 'new_password'
     end
   end
 end
