@@ -34,6 +34,7 @@ class AccountController < ApplicationController
         user.change_password params[:new_password1]
         user.save
         flash[:notice] = 'Password changed.'
+        @password_changed = true
       end
     end
   end
