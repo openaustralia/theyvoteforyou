@@ -128,7 +128,8 @@ function guess_whip_for_all()
         }
 		# Conscience / free votes from 2006 and onwards. This list from Appendix 3 of
 		# http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id%3A%22library%2Fprspub%2FCQOS6%22
-		else if (($party == 'Liberal Party' || $party == 'National Party' || $party == 'Australian Labor Party') &&
+        # TODO: Do we need to restrict this to only these parties? Are these votes free for all parties?
+		else if (($party == 'Liberal Party' || $party == 'National Party' || $party == 'Australian Labor Party' || $party == 'Australian Democrats') &&
 				 # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
 				 (($division_date == '2006-02-09' && $house == 'lords' && $division_number >= 3) ||
 				 ($division_date == '2006-02-16' && $house == 'commons') ||
