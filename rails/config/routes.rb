@@ -21,6 +21,7 @@ Publicwhip::Application.routes.draw do
     match 'settings.php' => 'account#settings', via: [:get, :post]
     get 'logout.php' => 'account#logout'
     match 'changepass.php' => 'account#change_password', via: [:get, :post]
+    get 'addpolicy.php' => 'account#add_policy'
   end
 
   # Example of regular route:

@@ -39,4 +39,11 @@ describe AccountController do
       compare_post url, true, submit: 'Change My Password', change_user_name: 'henare', old_password: 'password', new_password1: 'new_password', new_password2: 'new_password'
     end
   end
+
+  describe '#addpolicy' do
+    let(:url) { '/account/addpolicy.php' }
+
+    it { compare url }
+    it { compare url, true }
+  end
 end

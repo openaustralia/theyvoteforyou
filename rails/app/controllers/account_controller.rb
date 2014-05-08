@@ -38,4 +38,7 @@ class AccountController < ApplicationController
       end
     end
   end
+
+  def add_policy
+  end
 end
