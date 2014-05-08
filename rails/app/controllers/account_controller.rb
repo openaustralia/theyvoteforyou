@@ -24,5 +24,10 @@ class AccountController < ApplicationController
   end
 
   def change_password
+    if params[:submit] == 'Change My Password'
+      if params[:new_password1] != params[:new_password2]
+        flash[:error] = 'New passwords must match.'
+      end
+    end
   end
 end

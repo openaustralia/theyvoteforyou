@@ -25,5 +25,9 @@ describe AccountController do
 
     it { compare url }
     it { compare url, true }
+
+    context "new passwords don't match" do
+      it { compare_post url, true, submit: 'Change My Password', new_password1: 'foobar', new_password2: 'barfoo' }
+    end
   end
 end
