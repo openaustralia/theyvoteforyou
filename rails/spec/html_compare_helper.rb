@@ -19,13 +19,17 @@ module HTMLCompareHelper
   end
 
   def compare_post(path, signed_in, form_params)
+    agent = Mechanize.new
+    headers = {}
     if signed_in
       ApplicationController.any_instance.stub current_user: User.find(1)
-      form_params['Cookie'] = 'user_name=henare; id_hash=0e53908d0c6a97f05b39c5dfb64a197a'
+      headers['Cookie'] = 'user_name=henare; id_hash=0e53908d0c6a97f05b39c5dfb64a197a'
     end
-    post path, form_params
-    text = Net::HTTP.post_form(URI.parse("http://#{php_server}#{path}"), form_params).body
+
+    text = agent.post("http://#{php_server}#{path}", form_params, headers).body
     text.force_encoding(Encoding::UTF_8)
+
+    post path, form_params
     compare_html(text, response.body, path)
   end
 
