@@ -25,8 +25,11 @@ class AccountController < ApplicationController
 
   def change_password
     if params[:submit] == 'Change My Password'
+      user = User.find_by_user_name(params[:change_user_name])
       if params[:new_password1] != params[:new_password2]
         flash[:error] = 'New passwords must match.'
+      elsif user.nil? || user.password != Digest::MD5.hexdigest(params[:old_password].downcase)
+        flash[:error] = 'User not found or bad password.'
       end
     end
   end
