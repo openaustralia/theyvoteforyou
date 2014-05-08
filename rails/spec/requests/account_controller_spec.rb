@@ -4,16 +4,16 @@ describe AccountController do
   include HTMLCompareHelper
   fixtures :all
 
-  it '#settings' do
-    compare('/account/settings.php')
-  end
+  describe '#settings' do
+    it { compare('/account/settings.php') }
 
-  it 'logs in with valid credentials' do
-    compare_post '/account/settings.php', false, submit: 'Login to Public Whip', user_name: 'henare', password: 'password'
-  end
+    it 'logs in with valid credentials' do
+      compare_post '/account/settings.php', false, submit: 'Login to Public Whip', user_name: 'henare', password: 'password'
+    end
 
-  it "doesn't log in with invalid credentials" do
-    compare_post '/account/settings.php', false, submit: 'Login to Public Whip', user_name: 'new_user', password: 'letmein'
+    it "doesn't log in with invalid credentials" do
+      compare_post '/account/settings.php', false, submit: 'Login to Public Whip', user_name: 'new_user', password: 'letmein'
+    end
   end
 
   it '#logout' do
