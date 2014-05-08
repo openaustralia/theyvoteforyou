@@ -30,6 +30,10 @@ class AccountController < ApplicationController
         flash[:error] = 'New passwords must match.'
       elsif user.nil? || user.password != Digest::MD5.hexdigest(params[:old_password].downcase)
         flash[:error] = 'User not found or bad password.'
+      else
+        user.change_password params[:new_password1]
+        user.save
+        flash[:notice] = 'Password changed.'
       end
     end
   end
