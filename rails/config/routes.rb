@@ -15,7 +15,7 @@ Publicwhip::Application.routes.draw do
   get 'division.php' => 'divisions#show'
 
   get 'policies.php' => 'policies#index', as: :policies
-  get 'policy.php' => 'policies#show'
+  get 'policy.php' => 'policies#show', as: :policy
 
   scope path: '/account' do
     match 'settings.php' => 'account#settings', via: [:get, :post]
