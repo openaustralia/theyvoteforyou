@@ -382,7 +382,6 @@ if ($dismode["editdefinition"]) {
             </FORM>
         <?
         }
-        pw_footer();
     }
     // XXX this is not really used
     if ($dismode["aggregate"] == "fulltable")
