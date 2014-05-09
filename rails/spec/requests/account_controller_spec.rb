@@ -43,7 +43,12 @@ describe AccountController do
   describe '#addpolicy' do
     let(:url) { '/account/addpolicy.php' }
 
-    it { compare url }
+    # The PHP app does something really silly when we're not logged in,
+    # it turns this page into a login page. We're going to redirect to the
+    # login page instead (which redirects back here after login) so disabling
+    # this test
+    #it { compare url }
+
     it { compare url, true }
   end
 end

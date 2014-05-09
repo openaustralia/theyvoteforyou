@@ -40,5 +40,6 @@ class AccountController < ApplicationController
   end
 
   def add_policy
+    redirect_to action: 'settings', params: { r: '/account/addpolicy.php' } unless user_signed_in?
   end
 end
