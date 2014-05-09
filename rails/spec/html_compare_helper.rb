@@ -37,7 +37,7 @@ module HTMLCompareHelper
     ApplicationController.any_instance.stub current_user: User.find(1) if signed_in
 
     post path, form_params
-    text = File.open("spec/fixtures/static_pages/#{path}.html").read
+    text = File.read("spec/fixtures/static_pages/#{path}.html")
     compare_html(text, response.body, path)
   end
 
