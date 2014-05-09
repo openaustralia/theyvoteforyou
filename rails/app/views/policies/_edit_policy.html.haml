@@ -11,16 +11,16 @@
   to find divisions. If you haven't edited a policy
   before please <a href="/faq.php#policies">read about how policies work</a>.
 %h2 Policy title and text
-%form{:action => "policy.php?id=1&display=editdefinition", :method => "post"}
+%form{:action => policy_path(@policy, display: "editdefinition"), :method => "post"}
   %p
     %span.ptitle Title:
-    %input{:maxlength => "50", :name => "name", :size => "40", :type => "text", :value => "Marriage equality"}/
+    %input{:maxlength => "50", :name => "name", :size => "40", :type => "text", :value => @policy.name}/
   %p
     %span.ptitle Text:
     Someone who believes that
     %br/
     %textarea.policytext{:cols => "80", :name => "description", :rows => "2"}
-      access to marriage should be equal
+      = @policy.description
     %br/
     would vote according to this policy. (<em>From the text, everyone
     should be able to agree which way the policy votes in each
