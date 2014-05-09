@@ -43,7 +43,7 @@ class AccountController < ApplicationController
     redirect_to action: 'settings', params: { r: '/account/addpolicy.php' } unless user_signed_in?
 
     if params[:submit]
-      @policy = Policy.create name: params[:name], description: params[:description], user: current_user, private: true
+      @policy = Policy.create name: params[:name], description: params[:description], user: current_user, private: 2
     end
   end
 end
