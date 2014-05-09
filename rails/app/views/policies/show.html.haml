@@ -13,71 +13,8 @@
     = policy_nav_link 'motions', 'Details of votes', 'Also shows description of every vote', @display
     = policy_nav_link 'editdefinition', 'Edit', 'Change title and definition of policy', @display
 <!-- the second tier navigation as dropdowns end-->
+
 - if @display.nil?
-  %p.whatisflash
-    This is the votes by vote definition of
-    = "Public Whip policy ##{@policy.id}: \"#{@policy.name}\". You may want to"
-    <a href="/faq.php#policies">read an introduction to policies</a>,
-    or
-    = succeed "." do
-      %a{:href => "/faq.php"} read more about Public Whip
-  %p
-    Someone who believes that
-    %span.policytext= @policy.description
-    would have voted like
-    this...
-    %br/
-  %div{:align => "right"}
-  %table.votes
-    %tr.headings
-      %td House
-      %td Date
-      %td Subject
-      %td.policyvotehead Policy vote
-    - @policy.divisions.each do |division|
-      - row_class = cycle('even', 'odd')
-      - row_class += 'strong' if division.policy_vote(@policy).include? '3'
-      %tr{class: row_class}
-        %td{class: division.house}= division.australian_house_name
-        %td= division.date.strftime('%d&nbsp;%b&nbsp;%Y').html_safe
-        %td
-          = link_to division.name, division_path(date: division.date, number: division.number, house: division.australian_house, dmp: @policy.id)
-        %td
-          = vote_display_in_table(division.policy_vote(@policy), division.aye_majority)
-- else
-  %h2 How the policy votes
-  %p
-    This is currently your active policy;
-    <b>to change its votes, go to the
-    %a{:href => "/divisions.php"} division page
-    for the vote you want to change</b>.
-    You can use the
-    %a{:href => "search.php"}
-      search
-      facility
-    to find divisions. If you haven't edited a policy
-    before please <a href="/faq.php#policies">read about how policies work</a>.
-  %h2 Policy title and text
-  %form{:action => "policy.php?id=1&display=editdefinition", :method => "post"}
-    %p
-      %span.ptitle Title:
-      %input{:maxlength => "50", :name => "name", :size => "40", :type => "text", :value => "Marriage equality"}/
-    %p
-      %span.ptitle Text:
-      Someone who believes that
-      %br/
-      %textarea.policytext{:cols => "80", :name => "description", :rows => "2"}
-        access to marriage should be equal
-      %br/
-      would vote according to this policy. (<em>From the text, everyone
-      should be able to agree which way the policy votes in each
-      division</em>.)
-    %p
-      %input#provisional{:name => "provisional", :type => "checkbox", :value => "provisional"}/
-      %label.ptitle{:for => "provisional"} Provisional policy
-      ('provisional' means the
-      policy is not yet complete or consistent enough to display on MP
-      pages)
-    %p
-      %input{:name => "submiteditpolicy", :type => "hidden", :value => "Save"}/
-      %input{:accesskey => "S", :name => "submitbutton", :type => "submit", :value => "Save title and text"}/
+  = render 'votes'
+- elsif @display == 'editdefinition'
+  = render 'edit_policy'
