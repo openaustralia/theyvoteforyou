@@ -33,7 +33,7 @@ module MembersHelper
     end
   end
 
-  def display_link2(member, members, electorate, display, name, title, current_display)
+  def members_nav_link(member, members, electorate, display, name, title, current_display)
     if current_display == display
       content_tag(:li, name, class: "on")
     else

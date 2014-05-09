@@ -74,7 +74,7 @@ module DivisionsHelper
     division.noes_in_majority? ? aye_vote_total_class(division) : no_vote_total_class(division)
   end
 
-  def display_link(display, name, title, current_display)
+  def division_nav_link(display, name, title, current_display)
     if current_display == display
       content_tag(:li, name, class: "on")
     else
