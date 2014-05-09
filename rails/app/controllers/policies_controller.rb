@@ -5,5 +5,6 @@ class PoliciesController < ApplicationController
 
   def show
     @policy = Policy.find(params[:id])
+    @display = params[:display]
   end
 end

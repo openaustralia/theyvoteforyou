@@ -9,11 +9,9 @@
 \     'current' - 'on' or 'off' for whether this item is currently selected -->
 #secondnavtabs
   %ul
-    %li.on Selected votes
-    %li.off
-      = link_to 'Details of votes', policy_path(@policy, display: 'motions'), title: 'Also shows description of every vote', class: 'off'
-    %li.off
-      = link_to 'Edit', policy_path(@policy, display: 'editdefinition'), title: 'Change title and definition of policy', class: 'off'
+    = policy_nav_link nil, 'Selected votes', 'Overview of the policy', @display
+    = policy_nav_link 'motions', 'Details of votes', 'Also shows description of every vote', @display
+    = policy_nav_link 'editdefinition', 'Edit', 'Change title and definition of policy', @display
 <!-- the second tier navigation as dropdowns end-->
 %p.whatisflash
   This is the votes by vote definition of
