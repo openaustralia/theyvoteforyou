@@ -23,7 +23,7 @@
 - current_user.policies.each do |policy|
   %br/
   = link_to policy.name, "../#{policy_path(policy)}"
-  = "(public)" if policy.public?
+  (#{policy.status})
 %p
   (
   %a{:href => "addpolicy.php"}> make a new policy

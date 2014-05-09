@@ -20,7 +20,14 @@ class Policy < ActiveRecord::Base
     votes_count - edited_motions_count if policy_info
   end
 
-  def public?
-    private == 0
+  def status
+    case private
+    when 0
+      'public'
+    when 1
+      'legacy Dream MP'
+    when 2
+      'provisional'
+    end
   end
 end
