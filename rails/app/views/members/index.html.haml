@@ -79,4 +79,4 @@
         %td
           (#{member.entered_house.year.to_s}-#{member.left_house.year == 9999 ? "<i>present</i>".html_safe : member.left_house.year})
       %td.percent= fraction_to_percentage_display(member.rebellions_fraction, precision: 1)
-      %td.percent= member.attendance_percentage
+      %td.percent= fraction_to_percentage_display(member.attendance_fraction, precision: 1)

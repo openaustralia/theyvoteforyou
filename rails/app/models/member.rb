@@ -146,15 +146,6 @@ class Member < ActiveRecord::Base
     rebellions.to_f / votes_attended if member_info && has_whip? && votes_attended > 0
   end
 
-  # TODO This should be moved to a view helper
-  def attendance_percentage
-    if attendance_fraction
-      "%0.1f%" % (attendance_fraction * 100)
-    else
-      "n/a"
-    end
-  end
-
   def url_name
     name.gsub(" ", "_")
   end

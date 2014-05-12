@@ -29,12 +29,12 @@
           = whip.minority_votes
           - if whip.minority_tells_votes > 0
             (+#{pluralize(whip.minority_tells_votes, "tell")})
-        %td.percent= whip.attendance_percentage
+        %td.percent= fraction_to_percentage_display(whip.attendance_fraction, precision: 1)
   %tr{:class => cycle("odd", "even")}
     %td.whip Total:
     %td{:class => majority_vote_total_class(@division)}= @division.majority_votes_including_tells
     %td{:class => minority_vote_total_class(@division)}= @division.minority_votes_including_tells
-    %td.percent= @division.attendance_percentage
+    %td.percent= fraction_to_percentage_display(@division.attendance_fraction, precision: 1)
 %h2
   %a{:name => "votes"}
     - if @display.nil?

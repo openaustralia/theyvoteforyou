@@ -39,7 +39,7 @@
           = pluralize(member.votes_attended, "vote")
           out of
           #{member.votes_possible},
-          %b= member.attendance_percentage
+          %b= fraction_to_percentage_display(member.attendance_fraction, precision: 1)
 - else
   %table
     %tr.headings
@@ -65,5 +65,5 @@
         = pluralize(@member.votes_attended, "vote")
         out of
         #{@member.votes_possible},
-        %b= @member.attendance_percentage
+        %b= fraction_to_percentage_display(@member.attendance_fraction, precision: 1)
       %td 0 times

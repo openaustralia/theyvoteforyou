@@ -67,11 +67,6 @@ class Whip < ActiveRecord::Base
     end
   end
 
-  # TODO Move this to a helper
-  def attendance_percentage
-    "%0.1f%" % (attendance_fraction * 100)
-  end
-
   def majority_votes
     noes_in_majority? ? no_votes : aye_votes
   end

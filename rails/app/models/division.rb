@@ -140,11 +140,6 @@ class Division < ActiveRecord::Base
     total_votes.to_f / possible_votes
   end
 
-  # TODO move this to a helper
-  def attendance_percentage
-    "%0.1f%" % (attendance_fraction * 100)
-  end
-
   def division_name
     wiki_text = wiki_motion.text_body[/--- DIVISION TITLE ---(.*)--- MOTION EFFECT/m, 1].strip if wiki_motion
     # For some reason some characters are stored in the database using html entities
