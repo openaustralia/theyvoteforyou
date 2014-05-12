@@ -15,7 +15,7 @@ module HTMLCompareHelper
 
     get path
     text.force_encoding(Encoding::UTF_8)
-    compare_html(text, response.body, path)
+    compare_text(text, response.body, path)
   end
 
   def compare_post(path, signed_in, form_params)
@@ -30,7 +30,7 @@ module HTMLCompareHelper
     text = agent.post("http://#{php_server}#{path}", form_params, headers).body
     text.force_encoding(Encoding::UTF_8)
 
-    compare_html(text, response.body, path)
+    compare_text(text, response.body, path)
   end
 
   def compare_post_static(path, signed_in, form_params)
@@ -38,14 +38,19 @@ module HTMLCompareHelper
 
     post path, form_params
     text = File.read("spec/fixtures/static_pages/#{path}.html")
-    compare_html(text, response.body, path)
+    compare_text(text, response.body, path)
   end
 
   private
 
-  def compare_html(old_html, new_html, path)
-    n = normalise_html(new_html)
-    o = normalise_html(old_html)
+  def compare_text(old_text, new_text, path)
+    if path[-3..-1] == 'xml'
+      n = normalise_xml(new_text)
+      o = normalise_xml(old_text)
+    else
+      n = normalise_html(new_text)
+      o = normalise_html(old_text)
+    end
 
     if n != o
       # Write it out to a file
