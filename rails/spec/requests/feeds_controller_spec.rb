@@ -6,7 +6,7 @@ describe FeedsController do
 
   describe '#mp-info' do
     it { compare '/feeds/mp-info.xml' }
-    # it { compare '/feeds/mp-info.xml?house=lords' }
+    it { compare '/feeds/mp-info.xml?house=lords' }
   end
 
   describe '#mpdream-info' do
