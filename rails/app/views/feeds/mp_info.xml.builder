@@ -3,7 +3,7 @@ xml.publicwhip do
   @members.each do |member|
     xml.memberinfo(id: member.gid,
                    public_whip_data_date: (member.left_house >= @most_recent_division ? @most_recent_division : "complete"),
-                   public_whip_division_attendance: "13.90%",
-                   public_whip_rebellions: "0.00%")
+                   public_whip_division_attendance: fraction_to_percentage_display(member.attendance_fraction, precision: 2),
+                   public_whip_rebellions: fraction_to_percentage_display(member.rebellions_fraction, precision: 2))
   end
 end

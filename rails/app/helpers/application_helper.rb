@@ -79,4 +79,13 @@ module ApplicationHelper
       raise
     end
   end
+
+  def fraction_to_percentage_display(fraction, options = {})
+    if fraction
+      percentage = fraction * 100
+      number_to_percentage(percentage, options)
+    else
+      'n/a'
+    end
+  end
 end
