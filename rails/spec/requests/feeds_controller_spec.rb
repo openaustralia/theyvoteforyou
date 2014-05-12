@@ -10,7 +10,7 @@ describe FeedsController do
   end
 
   describe '#mpdream-info' do
-    # it { compare '/feeds/mpdream-info.xml?id=1' }
-    # it { compare '/feeds/mpdream-info.xml?id=2' }
+    it { compare '/feeds/mpdream-info.xml?id=1' }
+    it { compare '/feeds/mpdream-info.xml?id=2' }
   end
 end

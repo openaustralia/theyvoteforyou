@@ -26,6 +26,7 @@ Publicwhip::Application.routes.draw do
 
   scope path: '/feeds' do
     get 'mp-info' => 'feeds#mp_info'
+    get 'mpdream-info' => 'feeds#mpdream_info'
   end
 
   # Example of regular route:
