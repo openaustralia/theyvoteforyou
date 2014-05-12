@@ -6,5 +6,7 @@ class FeedsController < ApplicationController
     @most_recent_division = Division.most_recent_date
   end
 
-  def mpdream_info; end
+  def mpdream_info
+    @policy_member_distances = PolicyMemberDistance.where(dream_id: params[:id])
+  end
 end
