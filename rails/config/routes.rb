@@ -25,7 +25,7 @@ Publicwhip::Application.routes.draw do
   end
 
   scope path: '/feeds' do
-    get 'mp-info.xml' => 'feeds#mp_info'
+    get 'mp-info' => 'feeds#mp_info'
   end
 
   # Example of regular route:
