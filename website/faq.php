@@ -28,7 +28,7 @@ $db = new DB();
 
 <br>
 <li><a href="#policies">What are Policies and how do they work?</a> </li>
-<li><a href="#rebelandfree">What are “Rebel Voters” and what is a “Free Vote”? </a> </li>
+<li><a href="#rebelandfree">What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”? </a> </li>
 <li><a href="#clarify">What do the "attendance" and "rebellion" figures mean?</a> </li>
 
 <br>
@@ -140,20 +140,20 @@ Currently, the divisions with edited summaries are those that are relevant to on
 On Public Whip, the <a href="/policies.php">Policies</a> are sets of votes on an issue.
 </p>
 <p>
-We choose and develop particular Policies for a number of reasons. For example, we prioritise issues where politicians have rebelled (e.g. the <a href="/policy.php?id=10">local government recognition divisions</a>) or where parties have allowed their members to take a free vote (e.g. the <a href="/policy.php?id=1">same sex marriage divisions</a>) because these divisions give a strong indication of an individual politician’s voting patterns (see <a href="#rebelandfree">What are “Rebel Voters” and what is a “Free Vote”?</a>). Other reasons for selecting a particular Policy include whether the matter was an election issue (e.g. the <a href="/policy.php?id=3">carbon price</a>) and whether there was a high level of attendance (see <a href="#clarify">What do the “attendance” and “rebellion” figures mean?</a>).
+We choose and develop particular Policies for a number of reasons. For example, we prioritise issues where politicians have rebelled (e.g. the <a href="/policy.php?id=10">local government recognition divisions</a>) or where parties have allowed their members to take a conscience vote (e.g. the <a href="/policy.php?id=1">same sex marriage divisions</a>) because these divisions give a strong indication of an individual politician’s voting patterns (see <a href="#rebelandfree">What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?</a>). Other reasons for selecting a particular Policy include whether the matter was an election issue (e.g. the <a href="/policy.php?id=3">carbon price</a>) and whether there was a high level of attendance (see <a href="#clarify">What do the “attendance” and “rebellion” figures mean?</a>).
 </p>
 <p>
 Unfortunately, Policies are restricted to issues that are voted on by division because those are the only decisions that appear on Public Whip (see <a href="#decisions">Why don’t all decisions made in Parliament appear on Public Whip?</a>)
 </p>
 
 
-<h2 class="faq"><a name="rebelandfree">What are “Rebel Voters” and what is a “Free Vote”?</a></h2>
+<h2 class="faq"><a name="rebelandfree">What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?</a></h2>
 
 <p>
 An MP or Senator rebels by voting against the <a href="http://www.peo.gov.au/students/fact_sheets/party_whip.html">party whip</a>. This is known as <a href="http://www.peo.gov.au/students/fact_sheets/crossing_floor.html">crossing the floor</a> and rarely occurs these days. 
 </p>
 <p>
-In contrast, a <a href="http://en.wikipedia.org/wiki/Conscience_vote">free vote</a> (generally known as a conscience vote in Australia) occurs when MPs or Senators are not obliged to vote with their party. Free votes are rare. For example, between 1950 and 2007 <a href="http://www.aph.gov.au/About_Parliament/Parliamentary_Departments/Parliamentary_Library/pubs/rp/rp0809/09rp20#_Toc221347466">only 32 free votes</a> took place. More recently in 2012 and 2013, the legislation related to same sex marriage <a href="policy.php?id=1">was decided by free vote</a>.
+In contrast, a <a href="http://en.wikipedia.org/wiki/Conscience_vote">conscience vote</a> (also known as a free vote) occurs when MPs or Senators are not obliged to vote with their party. Conscience votes are rare. For example, between 1950 and 2007 <a href="http://www.aph.gov.au/About_Parliament/Parliamentary_Departments/Parliamentary_Library/pubs/rp/rp0809/09rp20#_Toc221347466">only 32 conscience votes</a> took place. More recently in 2012 and 2013, the legislation related to same sex marriage <a href="policy.php?id=1">was decided by conscience vote</a>.
 </p>
 
 
@@ -166,7 +166,7 @@ In contrast, a <a href="http://en.wikipedia.org/wiki/Conscience_vote">free vote<
 There are several reasons why a politician may have low attendance figures. For example, they may have abstained, have ministerial or other duties or they may be the speaker. Currently, the Public Whip does not record if a member spoke in the debate but did not vote.
 </p>
 <p>
-"Rebellion" figures record the number of rebel votes (see <a href="#rebelandfree">What are “Rebel Voters” and what is a “Free Vote”?</a>).
+"Rebellion" figures record the number of rebel votes (see <a href="#rebelandfree">What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?</a>).
 </p>
 
 
