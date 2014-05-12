@@ -153,7 +153,7 @@ Unfortunately, Policies are restricted to issues that are voted on by division b
 An MP or Senator rebels by voting against the <a href="http://www.peo.gov.au/students/fact_sheets/party_whip.html">party whip</a>. This is known as <a href="http://www.peo.gov.au/students/fact_sheets/crossing_floor.html">crossing the floor</a> and rarely occurs these days. 
 </p>
 <p>
-In contrast, a free vote (also known as a conscience vote) occurs when MPs or Senators are not obliged to vote with their party.
+In contrast, a <a href="http://en.wikipedia.org/wiki/Conscience_vote">free vote</a> (generally known as a conscience vote in Australia) occurs when MPs or Senators are not obliged to vote with their party. Free votes are rare. For example, between 1950 and 2007 only 32 free votes took place (see a table setting out those divisions <a href="http://www.aph.gov.au/About_Parliament/Parliamentary_Departments/Parliamentary_Library/pubs/rp/rp0809/09rp20#_Toc221347466">here</a>). More recently in 2012 and 2013, the legislation related to same sex marriage was decided by free vote (see those divisions <a href="http://publicwhip-test.openaustraliafoundation.org.au/policy.php?id=1">here</a>).
 </p>
 
 
