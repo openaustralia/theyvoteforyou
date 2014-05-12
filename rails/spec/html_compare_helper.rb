@@ -68,12 +68,16 @@ module HTMLCompareHelper
     tidy(text)
   end
 
-  def tidy(text)
+  def normalise_xml(text)
+    tidy(text, :xml)
+  end
+
+  def tidy(text, format = :html)
     File.open("temp.html", "w") {|f| f.write(text) }
     # Requires HTML Tidy (http://tidy.sourceforge.net/) version 14 June 2007 or later
     # Note the version installed with OS X by default is a version that's too old
     # Install on OS X with "brew install tidy"
-    system("#{tidy_path} --show-warnings no --sort-attributes alpha -utf8 -q -m temp.html")
+    system("#{tidy_path}#{' -xml' if format == :xml} --show-warnings no --sort-attributes alpha -utf8 -q -m temp.html")
     r = File.read("temp.html")
     # Make sure that comments of the form <!-- comment --> are followed by a new line
     File.delete("temp.html")
