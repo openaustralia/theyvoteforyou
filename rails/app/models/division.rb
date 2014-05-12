@@ -38,6 +38,10 @@ class Division < ActiveRecord::Base
     end
   end
 
+  def self.most_recent_date
+    order(division_date: :desc).first.division_date
+  end
+
   def rebellious?
     no_rebellions > 10
   end
