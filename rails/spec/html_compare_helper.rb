@@ -45,7 +45,8 @@ module HTMLCompareHelper
   private
 
   def compare_text(old_text, new_text, path)
-    format = URI.parse(path).path[-3..-1]
+    format = URI.parse(path).path[-3..-1] == 'xml' ? 'xml' : 'html'
+
     if format == 'xml'
       n = normalise_xml(new_text)
       o = normalise_xml(old_text)
@@ -56,10 +57,10 @@ module HTMLCompareHelper
 
     if n != o
       # Write it out to a file
-      output("old.html", o, path)
-      output("new.html", n, path)
-      exec("#{diff_path} old.html new.html")
-      raise "Don't match. Writing to file old.html and new.html"
+      output("old.#{format}", o, path)
+      output("new.#{format}", n, path)
+      exec("#{diff_path} old.#{format} new.#{format}")
+      raise "Don't match. Writing to file old.#{format} and new.#{format}"
     end
   end
 
