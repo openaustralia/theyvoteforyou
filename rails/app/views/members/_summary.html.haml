@@ -34,7 +34,7 @@
             0
           - else
             #{member.votes_attended},
-            %b= member.rebellions_percentage
+            %b= fraction_to_percentage_display(member.rebellions_fraction, precision: 1)
         %td.percent
           = pluralize(member.votes_attended, "vote")
           out of
@@ -60,7 +60,7 @@
           0
         - else
           #{@member.votes_attended},
-          %b= @member.rebellions_percentage
+          %b= fraction_to_percentage_display(@member.rebellions_fraction, precision: 1)
       %td.percent
         = pluralize(@member.votes_attended, "vote")
         out of

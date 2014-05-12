@@ -147,15 +147,6 @@ class Member < ActiveRecord::Base
   end
 
   # TODO This should be moved to a view helper
-  def rebellions_percentage
-    if rebellions_fraction
-      "%0.1f%" % (rebellions_fraction * 100)
-    else
-      "n/a"
-    end
-  end
-
-  # TODO This should be moved to a view helper
   def attendance_percentage
     if attendance_fraction
       "%0.1f%" % (attendance_fraction * 100)
