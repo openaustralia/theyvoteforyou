@@ -24,6 +24,10 @@ Publicwhip::Application.routes.draw do
     match 'addpolicy.php' => 'account#add_policy', via: [:get, :post]
   end
 
+  scope path: '/feeds' do
+    get 'mp-info.xml' => 'feeds#mp_info'
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
