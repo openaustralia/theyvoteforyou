@@ -2,6 +2,7 @@
 
 require 'open-uri'
 require 'net/http'
+require 'uri'
 
 module HTMLCompareHelper
   def compare(path, signed_in = false)
@@ -44,7 +45,8 @@ module HTMLCompareHelper
   private
 
   def compare_text(old_text, new_text, path)
-    if path[-3..-1] == 'xml'
+    format = URI.parse(path).path[-3..-1]
+    if format == 'xml'
       n = normalise_xml(new_text)
       o = normalise_xml(old_text)
     else
