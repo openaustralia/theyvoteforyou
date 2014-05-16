@@ -151,6 +151,8 @@ class Division < ActiveRecord::Base
     wiki_motion ? formatted_motion : read_attribute(:motion)
   end
 
+  # Format according to Public Whip's unique-enough-to-be-annoying markup language.
+  # It's *similar* to MediaWiki but not quite. It would be so nice to switch to Markdown.
   def formatted_motion
     # Extract text from the wiki database field
     text = wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1].strip
