@@ -131,6 +131,8 @@ module DivisionsHelper
 
     # Footnote links. The MediaWiki parser would mess these up so we do them after parsing
     text.gsub!(/(?<![<li>\s])(\[(\d+)\])/) { %(<sup class="sup-#{$2}"><a class="sup" href='#footnote-#{$2}' onclick="ClickSup(#{$2}); return false;">#{$1}</a></sup>) }
+    # Footnotes
+    text.gsub!(/<li>\[(\d+)\]/) { %(<li class="footnote" id="footnote-#{$1}">[#{$1}]) }
 
     text.html_safe
   end
