@@ -148,7 +148,12 @@ class Division < ActiveRecord::Base
   end
 
   def motion
-    wiki_motion ? wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1].strip : read_attribute(:motion)
+    wiki_motion ? formatted_motion : read_attribute(:motion)
+  end
+
+  def formatted_motion
+    # Extract text from the wiki database field
+    text = wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1].strip
   end
 
   def motion_edited?
