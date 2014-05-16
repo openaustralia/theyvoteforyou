@@ -126,9 +126,7 @@ module DivisionsHelper
     text = text.lines.reject { |l| l =~ /(^@.*)/ }.join
     # Italics
     text.gsub!(/''(.*?)''/) { "<em>#{$1}</em>" }
-    # Links
-    text.gsub!(/\[(https?:\S*)\s+(.*?)\]/) { "<a href=\"#{$1}\">#{$2}</a>" }
 
-    WikiCloth::Parser.new(data: text).to_html.html_safe
+    WikiParser.new(data: text).to_html.html_safe
   end
 end
