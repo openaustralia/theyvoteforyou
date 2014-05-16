@@ -116,4 +116,19 @@ module DivisionsHelper
 
     sentence += " (#{@member.vote_on_division(@division).capitalize})."
   end
+
+  # Format according to Public Whip's unique-enough-to-be-annoying markup language.
+  # It's *similar* to MediaWiki but not quite. It would be so nice to switch to Markdown.
+  def formatted_motion_text(division)
+    text = division.motion
+
+    # Remove comment lines (those starting with '@')
+    text = text.lines.reject { |l| l =~ /(^@.*)/ }.join
+    # Italics
+    text.gsub!(/''(.*?)''/) { "<em>#{$1}</em>" }
+    # Links
+    text.gsub!(/\[(https?:\S*)\s+(.*?)\]/) { "<a href=\"#{$1}\">#{$2}</a>" }
+
+    text
+  end
 end

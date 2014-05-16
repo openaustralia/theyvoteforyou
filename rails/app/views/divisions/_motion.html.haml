@@ -13,7 +13,7 @@
   -# TODO Need to check what happens when the user edits the motion. What can they add?
   .motion-text
     :wiki
-      #{@division.motion}
+      #{formatted_motion_text(@division)}
   %p
     %b= link_to "Debate in Parliament", @division.oa_debate_url, title: "Links to debate shown at www.openaustralia.org"
     |
