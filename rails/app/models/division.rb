@@ -154,6 +154,8 @@ class Division < ActiveRecord::Base
   def formatted_motion
     # Extract text from the wiki database field
     text = wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1].strip
+    # Remove comment lines (those starting with '@')
+    text = text.lines.reject { |l| l =~ /(^@.*)/ }.join
   end
 
   def motion_edited?
