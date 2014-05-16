@@ -158,6 +158,12 @@ class Division < ActiveRecord::Base
     text = wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1].strip
     # Remove comment lines (those starting with '@')
     text = text.lines.reject { |l| l =~ /(^@.*)/ }.join
+    # Italics
+    text.gsub!(/''(.*?)''/) { "<em>#{$1}</em>" }
+    # Links
+    text.gsub!(/\[(https?:\S*)\s+(.*?)\]/) { "<a href=\"#{$1}\">#{$2}</a>" }
+
+    text
   end
 
   def motion_edited?
