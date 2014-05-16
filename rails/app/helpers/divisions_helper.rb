@@ -129,6 +129,6 @@ module DivisionsHelper
     # Links
     text.gsub!(/\[(https?:\S*)\s+(.*?)\]/) { "<a href=\"#{$1}\">#{$2}</a>" }
 
-    text
+    WikiCloth::Parser.new(data: text).to_html.html_safe
   end
 end
