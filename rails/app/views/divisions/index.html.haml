@@ -92,7 +92,7 @@
         -# TODO temporary variable Eek!
         - whip = division.whips.where(party: @party).first
         %tr{:class => (@rdisplay2 != "rebels" && division.rebellious? ? "evenrebel" : "even")}
-          %td= division.date.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
+          %td= formatted_date(division.date, true)
           %td
             - if division.clock_time
               = division.clock_time.strftime("%H:%M")
@@ -129,7 +129,7 @@
           %tr{:class => cycle("even", "odd") + ((@rdisplay2 != "rebels" && @sort != "rebellions" && division.rebellious? ? "rebel" : ""))}
             - if @house.nil?
               %td{:class => division.house}= division.australian_house_name
-            %td= division.date.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
+            %td= formatted_date(division.date, true)
             %td
               - if division.clock_time
                 = division.clock_time.strftime("%H:%M")

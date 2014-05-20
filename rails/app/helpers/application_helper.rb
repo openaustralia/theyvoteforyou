@@ -89,7 +89,7 @@ module ApplicationHelper
     end
   end
 
-  def formatted_date(date)
-    date.strftime("%-d %b %Y")
+  def formatted_date(date, include_nbsp = false)
+    include_nbsp ? date.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe : date.strftime("%-d %b %Y")
   end
 end

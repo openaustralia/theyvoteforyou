@@ -50,10 +50,10 @@ module MembersHelper
 
   def vote_records_start_date(member)
     # HACK WARNING
-    [member.entered_house, Date.new(2006,1,1)].max.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
+    formatted_date([member.entered_house, Date.new(2006,1,1)].max, true)
   end
 
   def member_until(member)
-    member.left_house > Date.today ? 'still in office' : member.left_house.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
+    member.left_house > Date.today ? 'still in office' : formatted_date(member.left_house, true)
   end
 end

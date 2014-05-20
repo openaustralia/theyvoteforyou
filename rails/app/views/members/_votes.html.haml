@@ -15,7 +15,7 @@
     %tr{:class => cycle("even", "odd")}
       %td{:class => division.house}
         = division.australian_house.capitalize
-      %td= division.date.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe
+      %td= formatted_date(division.date, true)
       -# house=representatives appears twice in the link which is clearly wrong
       -# TODO Fix this
       - if division.australian_house == "representatives"
