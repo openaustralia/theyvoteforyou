@@ -222,4 +222,14 @@ class Division < ActiveRecord::Base
     raise if policy_division.size > 1
     policy_division.first.vote
   end
+
+  # Extracts specially formatted voting actions that the user enters as comments
+  # in the motion text. They're formatted like '@MP voted aye to say this vote was great'
+  # where the text will say "Tony Abbott voted to say this vote was great" if he votes aye
+  def action_text
+    # TODO: My brain's not working - surely this can be done on a single line?
+    action_texts = {}
+    motion.scan(/^@\s*MP voted (aye|no) (.*)/).each { |v,a| action_texts[v] = a }
+    action_texts
+  end
 end

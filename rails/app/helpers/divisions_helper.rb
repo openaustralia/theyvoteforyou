@@ -104,17 +104,22 @@ module DivisionsHelper
   def member_voted_with(member, division)
     sentence = link_to @member.full_name, "mp.php?mpn=#{params[:mpn]}&mpc=#{params[:mpc]}&house=#{@house}"
     sentence += " voted "
-    # TODO Should be using whip for this calculation. Only doing it this way to match php
-    # calculation
-    # AND THIS IS WRONG FURTHER BECAUSE THE MAJORITY CALCULATION DOESN"T TAKE INTO ACCOUNT THE TELLS
-    ayenodiff = (@division.votes.group(:vote).count["aye"] || 0) - (@division.votes.group(:vote).count["no"] || 0)
-    if @member.vote_on_division(@division) == "aye" && ayenodiff >= 0 || @member.vote_on_division(@division) == "no" && ayenodiff < 0
-      sentence += "<em>with the majority</em>".html_safe
-    else
-      sentence += "<em>in the minority</em>".html_safe
-    end
 
-    sentence += " (#{@member.vote_on_division(@division).capitalize})."
+    if !division.action_text.empty? && division.action_text[@member.vote_on_division(@division)]
+      sentence += content_tag(:em, division.action_text[@member.vote_on_division(@division)])
+    else
+      # TODO Should be using whip for this calculation. Only doing it this way to match php
+      # calculation
+      # AND THIS IS WRONG FURTHER BECAUSE THE MAJORITY CALCULATION DOESN"T TAKE INTO ACCOUNT THE TELLS
+      ayenodiff = (@division.votes.group(:vote).count["aye"] || 0) - (@division.votes.group(:vote).count["no"] || 0)
+      if @member.vote_on_division(@division) == "aye" && ayenodiff >= 0 || @member.vote_on_division(@division) == "no" && ayenodiff < 0
+        sentence += "<em>with the majority</em>".html_safe
+      else
+        sentence += "<em>in the minority</em>".html_safe
+      end
+
+      sentence += " (#{@member.vote_on_division(@division).capitalize})."
+    end
   end
 
   # Format according to Public Whip's unique-enough-to-be-annoying markup language.
