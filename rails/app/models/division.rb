@@ -178,7 +178,7 @@ class Division < ActiveRecord::Base
 
   def clock_time
     text = read_attribute(:clock_time)
-    Time.parse(text) if text && text != ""
+    Time.parse(text) unless text.blank?
   end
 
   def australian_house
