@@ -113,9 +113,9 @@ module DivisionsHelper
       # AND THIS IS WRONG FURTHER BECAUSE THE MAJORITY CALCULATION DOESN"T TAKE INTO ACCOUNT THE TELLS
       ayenodiff = (@division.votes.group(:vote).count["aye"] || 0) - (@division.votes.group(:vote).count["no"] || 0)
       if @member.vote_on_division(@division) == "aye" && ayenodiff >= 0 || @member.vote_on_division(@division) == "no" && ayenodiff < 0
-        sentence += "<em>with the majority</em>".html_safe
+        sentence += content_tag(:em, "with the majority")
       else
-        sentence += "<em>in the minority</em>".html_safe
+        sentence += content_tag(:em, "in the minority")
       end
 
       sentence += " (#{@member.vote_on_division(@division).capitalize})."
