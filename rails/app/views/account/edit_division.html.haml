@@ -1,0 +1,98 @@
+- content_for :title, "Edit division description — #{@division.name} — #{formatted_date(@division.date)} — Division No. #{@division.number}"
+
+%h1= yield :title
+%p
+  Describe the
+  %i result
+  of this division. This will require
+  you to check through the debate leading up to the vote. The raw,
+  and frequently wrong, motion text is there by default. Feel free to
+  remove it when you've replaced it with something better.
+%p
+  Please, keep it accurate, authorative, and as jargon-free as
+  possible so that new readers who don't know Parliamentary procedure
+  can gain enlightenment. You are urged to include links to the
+  legislation, reports, and committee proceedings that are referred
+  to so that readers who want to follow the story further will know
+  where to look.
+%p
+  %b
+    Read the
+    = succeed "." do
+      %a{:href => "http://www.openaustralia.org/senate/?id=2009-11-25.76.2", :target => "_blank"} debate leading up to the vote
+/ use tables here as textarea style width=64% behaves differently on IE vs. Firefox)
+%table{:border => "0", :width => "100%"}
+  %tr
+    %td{:valign => "top", :width => "64%"}
+      %form{:action => "", :method => "post"}
+        %b Division title:
+        %br/
+        %input{:maxlength => "250", :name => "newtitle", :size => "50", :style => "width: 100%", :type => "text", :value => "Carbon Pollution Reduction Scheme Legislation"}/
+        %p
+          %b Division description:
+          %textarea{:cols => "45", :name => "newdescription", :rows => "25", :style => "width: 100%"}
+            &#x000A;&lt;p pwmotiontext="moved"&gt;That the question for the third reading of the Carbon Pollution Reduction Scheme Bill 2009 [No. 2] and 10 related bills not be put until the third sitting day in February 2010.&lt;/p&gt;
+        %p
+          %input{:accesskey => "S", :name => "submit", :type => "submit", :value => "Save"}/
+          %input{:name => "submit", :type => "submit", :value => "Cancel"}/
+      %p
+        %a{:href => "/edits.php?type=motion&date=2009-11-25&number=8&house=senate"}
+          View change history
+    %td{:width => "3%"} &nbsp;
+    %td{:valign => "top", :width => "33%"}
+      %p
+        %span.ptitle Useful links for you to research
+      %ul
+        %li
+          %a{:href => "http://www.aph.gov.au/Parliamentary_Business/Bills_Legislation/Bills_before_Parliament"}
+            Bills before Parliament
+        %li
+          %a{:href => "http://www.aph.gov.au/Parliamentary_Business/Committees/House_of_Representatives_Committees?url=info/curr_inq.htm"}
+            Current House Committee Inquiries
+        %li
+          %a{:href => "http://www.aph.gov.au/Parliamentary_Business/Committees/Senate/Current_Inquiries"}
+            Current Senate Committee Inquiries
+        %li
+          %a{:href => "http://www.aph.gov.au/About_Parliament/House_of_Representatives/Powers_practice_and_procedure"}
+            House Powers, Practice and Procedure
+        %li
+          %a{:href => "http://www.aph.gov.au/About_Parliament/Senate/Powers_practice_n_procedures"}
+            Senate Powers, Practice and Procedure
+        %li
+          %a{:href => "http://www.aph.gov.au/Parliamentary_Business/Hansard/Hansreps_2011"}
+            House Official Hansard
+        %li
+          %a{:href => "http://www.aph.gov.au/Parliamentary_Business/Hansard/Hanssen261110"}
+            Senate Official Hansard
+      %p
+        %span.ptitle> Formatting codes
+        \. You can use the
+        following to mark paragraphs, lists and so on.
+      %ul
+        %li
+          %code ''italic''
+          \-
+          %em italic
+        %li
+          %code [http://example.com A link]
+          \-
+          %a{:href => "http://example.com"} link
+        %li
+          %code * A point
+          \- bulleted list item
+        %li
+          %code An idea[1]
+          \- link to a footnote
+        %li
+          %code * [1] Ideas are good
+          \- footnote
+        %li
+          %code @A comment
+          \- comments aren't displayed
+        %li
+          %code @MP voted aye to say that little ponies are great
+          \- puts this text on the motion page "[MP Name] voted to say that
+          little ponies are great"
+        %li
+          %code @MP voted no
+          \- does it for MPs that voted no
