@@ -24,7 +24,7 @@ Publicwhip::Application.routes.draw do
     get 'wiki.php' => 'account#edit_division'
 
     get 'addpolicy.php' => 'policies#new'
-    post 'addpolicy.php' => 'policies#add'
+    post 'addpolicy.php' => 'policies#create'
   end
 
   scope path: '/feeds' do

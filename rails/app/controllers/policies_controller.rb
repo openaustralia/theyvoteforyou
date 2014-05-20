@@ -21,8 +21,7 @@ class PoliciesController < ApplicationController
     redirect_to action: 'settings', params: { r: '/account/addpolicy.php' } unless user_signed_in?
   end
 
-  # FIXME: Make this more RESTful
-  def add
+  def create
     redirect_to action: 'settings', params: { r: '/account/addpolicy.php' } unless user_signed_in?
 
     @policy = Policy.new name: params[:name], description: params[:description], user: current_user, private: 2
