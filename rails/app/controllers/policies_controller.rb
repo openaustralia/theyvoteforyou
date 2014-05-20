@@ -1,4 +1,7 @@
 class PoliciesController < ApplicationController
+  # TODO: Reenable CSRF protection
+  skip_before_action :verify_authenticity_token
+
   def index
     @policies = Policy.joins(:policy_info).order(:private, :name)
   end
@@ -14,12 +17,15 @@ class PoliciesController < ApplicationController
     end
   end
 
+  def new
+    redirect_to action: 'settings', params: { r: '/account/addpolicy.php' } unless user_signed_in?
+  end
+
   # FIXME: Make this more RESTful
   def add
     redirect_to action: 'settings', params: { r: '/account/addpolicy.php' } unless user_signed_in?
 
-    if params[:submit]
-      @policy = Policy.create name: params[:name], description: params[:description], user: current_user, private: 2
-    end
+    @policy = Policy.new name: params[:name], description: params[:description], user: current_user, private: 2
+    render 'new' unless @policy.save!
   end
 end
