@@ -22,6 +22,7 @@ Publicwhip::Application.routes.draw do
     get 'logout.php' => 'account#logout'
     match 'changepass.php' => 'account#change_password', via: [:get, :post]
     match 'addpolicy.php' => 'account#add_policy', via: [:get, :post]
+    get 'wiki.php' => 'account#edit_division'
   end
 
   scope path: '/feeds' do

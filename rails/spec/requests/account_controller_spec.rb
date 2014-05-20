@@ -53,4 +53,10 @@ describe AccountController do
 
     it { compare_post_static url, true, submit: 'Make Policy', name: 'Pro-nuclear power', description: 'nuclear power is great.' }
   end
+
+  describe '#wiki' do
+    let(:url) { '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate&rr=%2Fdivision.php%3Fdate%3D2009-11-25%26number%3D8%26house%3Dsenate' }
+
+    it { compare url, true }
+  end
 end
