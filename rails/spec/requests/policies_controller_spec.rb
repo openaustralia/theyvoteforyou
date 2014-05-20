@@ -18,4 +18,18 @@ describe PoliciesController do
     # compare("/policy.php?id=2&display=motions")
     it { compare("/policy.php?id=2&display=editdefinition", true) }
   end
+
+  describe '#add' do
+    let(:url) { '/account/addpolicy.php' }
+
+    # The PHP app does something really silly when we're not logged in,
+    # it turns this page into a login page. We're going to redirect to the
+    # login page instead (which redirects back here after login) so disabling
+    # this test
+    #it { compare url }
+
+    it { compare url, true }
+
+    it { compare_post_static url, true, submit: 'Make Policy', name: 'Pro-nuclear power', description: 'nuclear power is great.' }
+  end
 end

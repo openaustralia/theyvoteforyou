@@ -40,20 +40,6 @@ describe AccountController do
     end
   end
 
-  describe '#addpolicy' do
-    let(:url) { '/account/addpolicy.php' }
-
-    # The PHP app does something really silly when we're not logged in,
-    # it turns this page into a login page. We're going to redirect to the
-    # login page instead (which redirects back here after login) so disabling
-    # this test
-    #it { compare url }
-
-    it { compare url, true }
-
-    it { compare_post_static url, true, submit: 'Make Policy', name: 'Pro-nuclear power', description: 'nuclear power is great.' }
-  end
-
   describe '#wiki' do
     let(:url) { '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate&rr=%2Fdivision.php%3Fdate%3D2009-11-25%26number%3D8%26house%3Dsenate' }
 
