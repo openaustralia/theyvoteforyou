@@ -1,4 +1,10 @@
-- content_for :title, "Edit division description — #{@division.name} — #{formatted_date(@division.date)} — Division No. #{@division.number}"
+- content_for :title do
+  Edit division description —
+  = @division.name
+  —
+  = formatted_date(@division.date)
+  — Division No.
+  = @division.number
 
 %h1= yield :title
 %p
