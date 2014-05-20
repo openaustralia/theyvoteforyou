@@ -111,4 +111,9 @@ class DivisionsController < ApplicationController
       raise
     end
   end
+
+  def edit
+    params[:house] ||= 'representatives'
+    @division = Division.in_australian_house(params[:house]).find_by!(division_date: params[:date], division_number: params[:number])
+  end
 end

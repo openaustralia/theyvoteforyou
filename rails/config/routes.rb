@@ -21,7 +21,8 @@ Publicwhip::Application.routes.draw do
     match 'settings.php' => 'account#settings', via: [:get, :post]
     get 'logout.php' => 'account#logout'
     match 'changepass.php' => 'account#change_password', via: [:get, :post]
-    get 'wiki.php' => 'account#edit_division'
+
+    get 'wiki.php' => 'divisions#edit'
 
     get 'addpolicy.php' => 'policies#new'
     post 'addpolicy.php' => 'policies#create'
