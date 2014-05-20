@@ -7,6 +7,9 @@ class Policy < ActiveRecord::Base
   has_one :policy_info, foreign_key: :dream_id
   belongs_to :user
 
+  validates :name, :description, :user_id, :private, presence: true
+  validates :name, uniqueness: true
+
   delegate :votes_count, :edited_motions_count, to: :policy_info, allow_nil: true
 
   alias_attribute :id, :dream_id
