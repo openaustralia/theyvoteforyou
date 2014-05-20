@@ -143,6 +143,6 @@ module DivisionsHelper
   end
 
   def relative_time(time)
-    time < 1.month.ago ? time.strftime("%-d %b %Y") : "#{time_ago_in_words(time)} ago"
+    time < 1.month.ago ? formatted_date(time) : "#{time_ago_in_words(time)} ago"
   end
 end

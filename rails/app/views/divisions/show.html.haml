@@ -1,7 +1,7 @@
 - content_for :title do
   = @division.name
   \—
-  = @division.date.strftime('%-d %b %Y')
+  = formatted_date(@division.date)
   - if @division.clock_time
     at
     = @division.clock_time.strftime('%H:%M')
