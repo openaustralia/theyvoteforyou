@@ -39,6 +39,7 @@ class AccountController < ApplicationController
     end
   end
 
+  # FIXME: Move this to the policy controller
   def add_policy
     redirect_to action: 'settings', params: { r: '/account/addpolicy.php' } unless user_signed_in?
 
