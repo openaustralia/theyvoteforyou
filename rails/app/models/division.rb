@@ -33,9 +33,7 @@ class Division < ActiveRecord::Base
   end
 
   def wiki_motion
-    if division_wiki && division_wiki.wiki_id != -1
-      WikiMotion.find_by_wiki_id(division_wiki.wiki_id)
-    end
+    WikiMotion.order(edit_date: :desc).find_by(division_date: date, division_number: number, house: house)
   end
 
   def self.most_recent_date
