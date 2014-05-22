@@ -113,6 +113,8 @@ class DivisionsController < ApplicationController
   end
 
   def edit
+    redirect_to controller: 'account', action: 'settings', params: { r: "/account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{params[:house]}" } unless user_signed_in?
+
     params[:house] ||= 'representatives'
     @division = Division.in_australian_house(params[:house]).find_by!(division_date: params[:date], division_number: params[:number])
   end
