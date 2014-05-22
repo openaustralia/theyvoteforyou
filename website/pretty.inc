@@ -544,55 +544,39 @@ function distance_of_time_in_words($from_time, $to_time = null, $include_seconds
   }
   else if ($distance_in_minutes >= 2 && $distance_in_minutes <= 44)
   {
-    $string = '%minutes% minutes';
-    $parameters['%minutes%'] = $distance_in_minutes;
+    return $distance_in_minutes . 'minutes';
   }
   else if ($distance_in_minutes >= 45 && $distance_in_minutes <= 89)
   {
-    $string = 'about 1 hour';
+    return 'about 1 hour';
   }
   else if ($distance_in_minutes >= 90 && $distance_in_minutes <= 1439)
   {
-    $string = 'about %hours% hours';
-    $parameters['%hours%'] = round($distance_in_minutes / 60);
+    return 'about ' . round($distance_in_minutes / 60) . ' hours';
   }
   else if ($distance_in_minutes >= 1440 && $distance_in_minutes <= 2879)
   {
-    $string = '1 day';
+    return '1 day';
   }
   else if ($distance_in_minutes >= 2880 && $distance_in_minutes <= 43199)
   {
-    $string = '%days% days';
-    $parameters['%days%'] = round($distance_in_minutes / 1440);
+    return round($distance_in_minutes / 1440) . ' days';
   }
   else if ($distance_in_minutes >= 43200 && $distance_in_minutes <= 86399)
   {
-    $string = 'about 1 month';
+    return 'about 1 month';
   }
   else if ($distance_in_minutes >= 86400 && $distance_in_minutes <= 525959)
   {
-    $string = '%months% months';
-    $parameters['%months%'] = round($distance_in_minutes / 43200);
+    return round($distance_in_minutes / 43200) . ' months';
   }
   else if ($distance_in_minutes >= 525960 && $distance_in_minutes <= 1051919)
   {
-    $string = 'about 1 year';
+    return 'about 1 year';
   }
   else
   {
-    $string = 'over %years% years';
-    $parameters['%years%'] = floor($distance_in_minutes / 525960);
-  }
-
-  if (sfConfig::get('sf_i18n'))
-  {
-    require_once dirname(__FILE__).'/I18NHelper.php';
-
-    return __($string, $parameters);
-  }
-  else
-  {
-    return strtr($string, $parameters);
+    return 'over ' . floor($distance_in_minutes / 525960) . ' years';
   }
 }
 
