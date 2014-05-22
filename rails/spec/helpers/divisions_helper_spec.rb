@@ -1,15 +1,11 @@
 require 'spec_helper'
 
-# Specs in this file have access to a helper object that includes
-# the DivisionsHelper. For example:
-#
-# describe DivisionsHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
 describe DivisionsHelper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  # TODO Enable this test
+  # describe '#formatted_motion_text' do
+  #   subject { formatted_motion_text division }
+
+  #   let(:division) { mock_model(Division, motion: "A bill [No. 2] and votes") }
+  #   it { should eq("\n<p>A bill [No. 2] and votes</p>") }
+  # end
 end
