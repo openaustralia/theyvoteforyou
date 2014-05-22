@@ -22,12 +22,6 @@ class Division < ActiveRecord::Base
                          house: house)
   end
 
-  def division_wiki
-    DivisionWiki.find_by(division_date: date,
-                         division_number: number,
-                         house: house)
-  end
-
   def policies
     policy_divisions.collect { |pd| pd.policy } if policy_divisions
   end
