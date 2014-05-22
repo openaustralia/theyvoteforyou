@@ -23,9 +23,7 @@
   where to look.
 %p
   %b
-    Read the
-    = succeed "." do
-      %a{:href => "http://www.openaustralia.org/senate/?id=2009-11-25.76.2", :target => "_blank"} debate leading up to the vote
+    Read the #{link_to "debate leading up to the vote", @division.oa_debate_url, target: '_blank'}.
 / use tables here as textarea style width=64% behaves differently on IE vs. Firefox)
 %table{:border => "0", :width => "100%"}
   %tr
@@ -33,16 +31,19 @@
       %form{:action => "", :method => "post"}
         %b Division title:
         %br/
-        %input{:maxlength => "250", :name => "newtitle", :size => "50", :style => "width: 100%", :type => "text", :value => "Carbon Pollution Reduction Scheme Legislation"}/
+        %input{:maxlength => "250", :name => "newtitle", :size => "50", :style => "width: 100%", :type => "text", :value => @division.name}/
         %p
           %b Division description:
           %textarea{:cols => "45", :name => "newdescription", :rows => "25", :style => "width: 100%"}
-            &#x000A;&lt;p pwmotiontext="moved"&gt;That the question for the third reading of the Carbon Pollution Reduction Scheme Bill 2009 [No. 2] and 10 related bills not be put until the third sitting day in February 2010.&lt;/p&gt;
+            -# TODO: Remove this weird new line thingo
+            &#x000A;
+            = @division.motion
         %p
           %input{:accesskey => "S", :name => "submit", :type => "submit", :value => "Save"}/
           %input{:name => "submit", :type => "submit", :value => "Cancel"}/
       %p
-        %a{:href => "/edits.php?type=motion&date=2009-11-25&number=8&house=senate"}
+        -# TODO: Use link helper
+        %a{:href => "/edits.php?type=motion&date=#{@division.date}&number=#{@division.number}&house=#{@division.australian_house}"}
           View change history
     %td{:width => "3%"} &nbsp;
     %td{:valign => "top", :width => "33%"}
