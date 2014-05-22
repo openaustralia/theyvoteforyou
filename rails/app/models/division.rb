@@ -151,7 +151,10 @@ class Division < ActiveRecord::Base
   end
 
   def motion
-    wiki_motion ? wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1].strip : read_attribute(:motion)
+    # For some reason some characters are stored in the database using html entities
+    # rather than using unicode.
+    text = wiki_motion ? wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1].strip : read_attribute(:motion)
+    HTMLEntities.new.decode(text)
   end
 
   def motion_edited?
