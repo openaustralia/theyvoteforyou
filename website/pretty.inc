@@ -442,59 +442,24 @@ function make_plural($number, $singular, $plural='') {
 }
 
 function relative_time ($datetime) {
-	// Pass it a 'YYYY-MM-DD HH:MM:SS' and it will return something
-	// like "Two hours ago", "Last week", etc.
-	
-	// http://maniacalrage.net/projects/relative/
-	
+	// Expect 'YYYY-MM-DD HH:MM:SS'
 	if (!preg_match("/\d\d\d\d-\d\d-\d\d \d\d\:\d\d\:\d\d/", $datetime)) {
 		return '';
 	}
 
 	$in_seconds = strtotime($datetime);
 	$now = time();
-
 	$diff 	=  $now - $in_seconds;
 	$months	=  floor($diff/2419200);
-	$diff 	-= $months * 2419200;
-	$weeks 	=  floor($diff/604800);
-	$diff	-= $weeks*604800;
-	$days 	=  floor($diff/86400);
-	$diff 	-= $days * 86400;
-	$hours 	=  floor($diff/3600);
-	$diff 	-= $hours * 3600;
-	$minutes = floor($diff/60);
-	$diff 	-= $minutes * 60;
-	$seconds = $diff;
-    
-	
 	if ($months > 0) {
 		// Over a month old, just show the actual date.
 		return date("j M Y", strtotime($datetime));
-
 	} else {
-		$relative_date = '';
-		if ($weeks > 0) {
-			// Weeks 
-			$relative_date .= ($relative_date?', ':'').$weeks.' week'.($weeks>1?'s':'');
-		} elseif ($days > 0) {
-			// days 
-			$relative_date .= ($relative_date?', ':'').$days.' day'.($days>1?'s':'');
-		} elseif ($hours > 0) {
-			// hours 
-			$relative_date .= ($relative_date?', ':'').$hours.' hour'.($hours>1?'s':'');
-		} elseif ($minutes > 0) {
-			// minutes only
-			$relative_date .= ($relative_date?', ':'').$minutes.' minute'.($minutes>1?'s':'');
-		} else {
-			// seconds only
-			$relative_date .= ($relative_date?', ':'').$seconds.' second'.($seconds>1?'s':'');
-		}
+		$relative_date = time_ago_in_words($in_seconds);
 	}
-	
+
 	// Return relative date and add proper verbiage
 	return $relative_date.' ago';
-	
 }
 
 // Copied from http://trac.symfony-project.org/browser/branches/1.4/lib/helper/DateHelper.php#L68
