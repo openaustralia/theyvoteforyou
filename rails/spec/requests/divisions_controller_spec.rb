@@ -172,4 +172,10 @@ describe DivisionsController do
 
     compare("/divisions.php?rdisplay=2007&rdisplay2=Australian%20Labor%20Party_party&house=representatives")
   end
+
+  describe '#edit' do
+    let(:url) { '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate&rr=%2Fdivision.php%3Fdate%3D2009-11-25%26number%3D8%26house%3Dsenate' }
+
+    it { compare url, true }
+  end
 end

@@ -39,10 +39,4 @@ describe AccountController do
       compare_post url, true, submit: 'Change My Password', change_user_name: 'henare', old_password: 'password', new_password1: 'new_password', new_password2: 'new_password'
     end
   end
-
-  describe '#wiki' do
-    let(:url) { '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate&rr=%2Fdivision.php%3Fdate%3D2009-11-25%26number%3D8%26house%3Dsenate' }
-
-    it { compare url, true }
-  end
 end
