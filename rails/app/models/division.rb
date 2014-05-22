@@ -141,10 +141,13 @@ class Division < ActiveRecord::Base
   end
 
   def division_name
-    wiki_text = wiki_motion.text_body[/--- DIVISION TITLE ---(.*)--- MOTION EFFECT/m, 1].strip if wiki_motion
+    wiki_motion ? wiki_motion.text_body[/--- DIVISION TITLE ---(.*)--- MOTION EFFECT/m, 1].strip.gsub('-', '—') : original_name
+  end
+
+  def original_name
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
-    HTMLEntities.new.decode(wiki_text || read_attribute(:division_name)).gsub('-', '—')
+    HTMLEntities.new.decode(read_attribute(:division_name).gsub('-', '—'))
   end
 
   def motion
