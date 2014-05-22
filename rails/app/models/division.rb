@@ -23,9 +23,9 @@ class Division < ActiveRecord::Base
   end
 
   def division_wiki
-    DivisionWiki.where(division_date: date,
-                       division_number: number,
-                       house: house).first
+    DivisionWiki.find_by(division_date: date,
+                         division_number: number,
+                         house: house)
   end
 
   def policies
