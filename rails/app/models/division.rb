@@ -143,12 +143,12 @@ class Division < ActiveRecord::Base
   end
 
   def motion
-    text = wiki_motion ? wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1].strip : read_attribute(:motion)
-    # For some reason some characters are stored in the database using html entities
-    # rather than using unicode.
-    text = HTMLEntities.new.decode(text)
-    # FIXME This is just to match the PHP app. Why the hell is it the opposite to the name??
-    text.gsub('—', '-')
+    if wiki_motion
+      # FIXME The PHP app bizarrely swaps emdash for endash here and only here. Huh?
+      HTMLEntities.new.decode(wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1].strip).gsub('—', '-')
+    else
+      HTMLEntities.new.decode(read_attribute(:motion))
+    end
   end
 
   def motion_edited?
