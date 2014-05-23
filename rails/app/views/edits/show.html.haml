@@ -18,3 +18,15 @@
   %tr.headings
     %td Change
     %td Division Description Changes
+  -@division.wiki_motions.each do |wiki_motion|
+    %tr{class: cycle("odd", "even")}
+      %td{:valign => "top", :width => "16%"}
+        = link_to "#{@division.australian_house} vote #{@division.date}##{@division.number}", division_path(params)
+        %p
+          Edited by
+          = wiki_motion.user.user_name
+        %p
+          on
+          = wiki_motion.edit_date.strftime('%F %T')
+      %td
+        -# TODO Show diff

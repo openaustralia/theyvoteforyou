@@ -26,6 +26,10 @@ class Division < ActiveRecord::Base
     policy_divisions.collect { |pd| pd.policy } if policy_divisions
   end
 
+  def wiki_motions
+    WikiMotion.order(edit_date: :desc).where(division_date: date, division_number: number, house: house)
+  end
+
   def wiki_motion
     WikiMotion.order(edit_date: :desc).find_by(division_date: date, division_number: number, house: house)
   end
