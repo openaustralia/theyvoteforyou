@@ -10,6 +10,16 @@ class WikiMotion < ActiveRecord::Base
 
   before_save :set_text_body, unless: :text_body
 
+  # Strip timezone as it's stored in the DB as local time
+  def edit_date
+    Time.parse(read_attribute(:edit_date).strftime('%F %T'))
+  end
+
+  # FIXME: Stop this nonsense of storing local times in the DB to match PHP
+  def edit_date=(date)
+    write_attribute(:edit_date, date.strftime('%F %T'))
+  end
+
   private
 
   def set_text_body
