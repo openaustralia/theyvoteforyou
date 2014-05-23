@@ -17,6 +17,8 @@ Publicwhip::Application.routes.draw do
   get 'policies.php' => 'policies#index', as: :policies
   get 'policy.php' => 'policies#show', as: :policy
 
+  post 'redir.php', to: redirect { |p, r| (r.params[:r] || r.params[:r2] || r.params[:r3]) }
+
   scope path: '/account' do
     match 'settings.php' => 'account#settings', via: [:get, :post]
     get 'logout.php' => 'account#logout'
