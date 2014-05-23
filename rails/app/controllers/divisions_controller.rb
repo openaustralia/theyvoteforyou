@@ -2,6 +2,8 @@ class DivisionsController < ApplicationController
   # TODO: Reenable CSRF protection
   skip_before_action :verify_authenticity_token
 
+  before_filter :check_user_signed_in, only: [:edit, :update]
+
   def index
     @sort = params[:sort]
     @rdisplay = params[:rdisplay]
@@ -116,14 +118,10 @@ class DivisionsController < ApplicationController
   end
 
   def edit
-    redirect_to controller: 'account', action: 'settings', params: { r: "/account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{params[:house]}" } unless user_signed_in?
-
     @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(division_date: params[:date], division_number: params[:number])
   end
 
   def update
-    redirect_to controller: 'account', action: 'settings', params: { r: "/account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{params[:house]}" } unless user_signed_in?
-
     @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(division_date: params[:date], division_number: params[:number])
 
     if @division.create_wiki_motion!(params[:newtitle], params[:newdescription], current_user)
@@ -131,5 +129,11 @@ class DivisionsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  private
+
+  def check_user_signed_in
+    redirect_to controller: 'account', action: 'settings', params: { r: "/account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{params[:house]}" } unless user_signed_in?
   end
 end
