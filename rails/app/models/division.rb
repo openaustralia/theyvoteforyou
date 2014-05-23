@@ -231,24 +231,11 @@ class Division < ActiveRecord::Base
   end
 
   def create_wiki_motion!(title, description, user)
-    text_body = <<-RECORD
---- DIVISION TITLE ---
-
-#{title}
-
---- MOTION EFFECT ---
-
-#{description}
-
---- COMMENTS AND NOTES ---
-
-(put thoughts and notes for other researchers here)
-    RECORD
-
     WikiMotion.create!(division_date: date,
                        division_number: number,
                        house: house,
-                       text_body: text_body,
+                       title: title,
+                       description: description,
                        user: user,
                        edit_date: Time.now)
   end
