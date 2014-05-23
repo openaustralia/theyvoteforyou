@@ -1,4 +1,7 @@
 class DivisionsController < ApplicationController
+  # TODO: Reenable CSRF protection
+  skip_before_action :verify_authenticity_token
+
   def index
     @sort = params[:sort]
     @rdisplay = params[:rdisplay]
@@ -117,5 +120,38 @@ class DivisionsController < ApplicationController
 
     params[:house] ||= 'representatives'
     @division = Division.in_australian_house(params[:house]).find_by!(division_date: params[:date], division_number: params[:number])
+  end
+
+  def update
+    redirect_to controller: 'account', action: 'settings', params: { r: "/account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{params[:house]}" } unless user_signed_in?
+
+    params[:house] ||= 'representatives'
+    @division = Division.in_australian_house(params[:house]).find_by!(division_date: params[:date], division_number: params[:number])
+
+    text_body = <<-RECORD
+--- DIVISION TITLE ---
+
+#{params[:newtitle]}
+
+--- MOTION EFFECT ---
+
+#{params[:newdescription]}
+
+--- COMMENTS AND NOTES ---
+
+(put thoughts and notes for other researchers here)
+    RECORD
+
+    wikimotion = WikiMotion.new(division_date: @division.date,
+                                division_number: @division.number,
+                                house: @division.house,
+                                text_body: text_body,
+                                user: current_user,
+                                edit_date: Time.now)
+    if wikimotion.save!
+      redirect_to params[:rr]
+    else
+      render :edit
+    end
   end
 end

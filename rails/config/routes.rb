@@ -23,6 +23,7 @@ Publicwhip::Application.routes.draw do
     match 'changepass.php' => 'account#change_password', via: [:get, :post]
 
     get 'wiki.php' => 'divisions#edit'
+    post 'wiki.php' => 'divisions#update'
 
     get 'addpolicy.php' => 'policies#new'
     post 'addpolicy.php' => 'policies#create'
