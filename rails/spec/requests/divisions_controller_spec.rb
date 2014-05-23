@@ -179,7 +179,7 @@ describe DivisionsController do
   end
 
   describe '#update' do
-    describe '#update', focus: true do
+    describe '#update' do
       it { compare_post '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate&rr=%2Fdivision.php%3Fdate%3D2009-11-25%26number%3D8%26house%3Dsenate', true, submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description' }
     end
   end
