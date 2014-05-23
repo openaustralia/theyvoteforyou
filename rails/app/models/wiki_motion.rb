@@ -4,6 +4,8 @@ class WikiMotion < ActiveRecord::Base
   belongs_to :division
   belongs_to :user
 
+  validates :title, presence: true
+
   attr_accessor :title, :description
 
   before_save :set_text_body, unless: :text_body
