@@ -82,19 +82,19 @@
     %td= electorate_label(@house)
     %td Party
     %td Vote
+  - reset_cycle
   - if @display.nil?
     - if @votes.empty?
       %tr.even
         %td{:colspan => "4"} no rebellions
     - else
       - @votes.each do |vote|
-        %tr.even
+        %tr{:class => cycle("odd", "even")}
           %td= link_to vote.name, member_path(vote.member)
           %td= vote.electorate
           %td= vote.party_long2
           %td= vote.vote
   - elsif @display == "allpossible"
-    - reset_cycle
     - @members.each do |member|
       %tr{:class => cycle("odd", "even")}
         %td= link_to member.name, member_path(member)
