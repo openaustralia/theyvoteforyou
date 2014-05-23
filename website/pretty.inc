@@ -509,7 +509,7 @@ function distance_of_time_in_words($from_time, $to_time = null, $include_seconds
   }
   else if ($distance_in_minutes >= 2 && $distance_in_minutes <= 44)
   {
-    return $distance_in_minutes . 'minutes';
+    return $distance_in_minutes . ' minutes';
   }
   else if ($distance_in_minutes >= 45 && $distance_in_minutes <= 89)
   {
