@@ -131,3 +131,16 @@ tr.over, tr.over td {background:#CFE8EB;}
   max-height: 20em;
   overflow: auto;
 }
+
+/* For diffs in wiki */
+.diffchange {
+  background: #cccccc;
+  color: #000000;
+}
+.diffold {
+  text-decoration: line-through;
+}
+.diffnew {
+  background: #77ee77;
+  color: #000000;
+}
