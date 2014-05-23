@@ -1,0 +1,20 @@
+- content_for :title do
+  Division Description Changes —
+  = @division.original_name
+  —
+  = formatted_date(@division.date)
+  — Division No.
+  = @division.number
+
+%h1= yield :title
+%p
+  All changes made to the description and title of this
+  division.
+%p
+  = link_to "View division", division_path(params)
+  |
+  = link_to "Edit description", edit_division_path(@division)
+%table.edits
+  %tr.headings
+    %td Change
+    %td Division Description Changes
