@@ -104,22 +104,7 @@ class Member < ActiveRecord::Base
 
   # Long version of party name
   def party_long
-    Member.party_long(party)
-  end
-
-  def self.party_long(party)
-    case party
-    when "SPK"
-      "Speaker"
-    when "CWM"
-      "Deputy Speaker"
-    when "PRES"
-      "President"
-    when "DPRES"
-      "Deputy President"
-    else
-      party
-    end
+    Party.long_name(party)
   end
 
   # Also say "whilst Independent" if they used to be in a different party

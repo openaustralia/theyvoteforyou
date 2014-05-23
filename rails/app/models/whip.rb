@@ -50,13 +50,7 @@ class Whip < ActiveRecord::Base
   end
 
   def party_name
-    if party == "PRES"
-      "President"
-    elsif party == "CWM"
-      "Deputy Speaker"
-    else
-      party
-    end
+    Party.long_name(party)
   end
 
   def whip_guess_majority
