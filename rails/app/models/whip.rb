@@ -54,7 +54,9 @@ class Whip < ActiveRecord::Base
   end
 
   def whip_guess_majority
-    if (whip_guess == "no" && noes_in_majority?) || (whip_guess == "aye" && !noes_in_majority?)
+    if whip_guess == "none"
+      nil
+    elsif (whip_guess == "no" && noes_in_majority?) || (whip_guess == "aye" && !noes_in_majority?)
       "majority"
     elsif (whip_guess == "no" && !noes_in_majority?) || (whip_guess == "aye" && noes_in_majority?)
       "minority"
