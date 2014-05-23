@@ -27,6 +27,8 @@ module HTMLCompareHelper
       headers['Cookie'] = 'user_name=henare; id_hash=0e53908d0c6a97f05b39c5dfb64a197a'
     end
     post path, form_params
+    # Follow redirect
+    get response.headers['Location'] if response.headers['Location']
 
     text = agent.post("http://#{php_server}#{path}", form_params, headers).body
     text.force_encoding(Encoding::UTF_8)
