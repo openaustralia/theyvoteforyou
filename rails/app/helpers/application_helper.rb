@@ -17,6 +17,10 @@ module ApplicationHelper
     r
   end
 
+  def edit_division_path(division)
+    "account/wiki.php?type=motion&date=#{division.date}&number=#{division.number}&house=#{division.australian_house}&rr=#{CGI.escape(request.fullpath)}"
+  end
+
   # Returns Representatives or Senators
   def members_type(house)
     case house

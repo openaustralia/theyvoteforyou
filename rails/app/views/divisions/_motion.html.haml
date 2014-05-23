@@ -7,7 +7,7 @@
     %p
       %strong
         Description automatically extracted from the debate, please
-        = link_to "edit it", "account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{@house}&rr=#{CGI.escape(request.fullpath)}"
+        = link_to "edit it", edit_division_path(@division)
         to make it better.
   -# The motion can include html.
   -# TODO Need to check what happens when the user edits the motion. What can they add?
@@ -18,7 +18,7 @@
     |
     %b= link_to "Source", @division.source_url, title: "The original record of vote as reported by Hansard"
     |
-    %b= link_to "Edit", "account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{@house}&rr=#{CGI.escape(request.fullpath)}", title: "Edit and improve this description"
+    %b= link_to "Edit", edit_division_path(@division), title: "Edit and improve this description"
     (#{link_to "learn more", help_path(anchor: "motionedit")})
     - if @division.motion_edited?
       (last edited #{relative_time @division.wiki_motion.edit_date} by #{@division.wiki_motion.user.user_name})
