@@ -3,7 +3,7 @@
   - if @sort == "name"
     %b Name
   - else
-    = link_to "Name", division_path(params.merge(sort: "name"))
+    = link_to "Name", division_path(params.merge(sort: "name"), false)
   -# For senate hide this to match php app
   -# This isn't actually desired so change this
   - if @house == "representatives"
@@ -11,14 +11,14 @@
     - if @sort == "constituency"
       %b Constituency
     - else
-      = link_to "Constituency", division_path(params.merge(sort: "constituency"))
+      = link_to "Constituency", division_path(params.merge(sort: "constituency"), false)
   |
   - if @sort.nil?
     %b Party
   - else
-    = link_to "Party", division_path(params.merge(sort: nil))
+    = link_to "Party", division_path(params.merge(sort: nil), false)
   |
   - if @sort == "vote"
     %b Vote
   - else
-    = link_to "Vote", division_path(params.merge(sort: "vote"))
+    = link_to "Vote", division_path(params.merge(sort: "vote"), false)

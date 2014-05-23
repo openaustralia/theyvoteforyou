@@ -12,7 +12,7 @@ module DivisionsHelper
     r
   end
 
-  def division_path(q)
+  def division_path(q, display_active_policy = true)
     p = ""
     p += "&date=#{q[:date]}" if q[:date]
     p += "&number=#{q[:number]}" if q[:number]
@@ -20,6 +20,7 @@ module DivisionsHelper
     p += "&house=#{q[:house]}" if q[:house]
     p += "&display=#{q[:display]}" if q[:display]
     p += "&sort=#{q[:sort]}" if q[:sort]
+    p += "&dmp=#{current_user.active_policy_id}" if display_active_policy && user_signed_in?
     r = "division.php"
     r += "?" + p[1..-1] if p != ""
     r
