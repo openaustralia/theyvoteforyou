@@ -543,6 +543,7 @@ function distance_of_time_in_words($from_time, $to_time = null, $include_seconds
   {
     return 'over ' . floor($distance_in_minutes / 525960) . ' years';
   }
+  return $string;
 }
 
 // Copied from http://trac.symfony-project.org/browser/branches/1.4/lib/helper/DateHelper.php#L166
