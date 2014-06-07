@@ -1,18 +1,5 @@
 include apt
 
-# Mysql
-# (would prefer mariadb but having some problems with that
-# and ubuntu at the moment).
-
-class { '::mysql::server':
-    root_password => 'abc123',
-    override_options => { 'mysqld' => { 'max_connections' => '1024' } }
-        
-#WARNING: obviously don't use the above passwords in production.
-}
-
-include '::mysql::server'
-
 # Packages
 
 package { 'apache2':
@@ -31,6 +18,10 @@ package { 'libunicode-string-perl':
   ensure => 'latest'
 }
 
+package { 'libxml-twig-perl':
+  ensure => 'latest'
+}
+
 package { 'ruby-bundler':
   ensure => 'latest'
 }
@@ -43,26 +34,44 @@ package { 'rake':
   ensure => 'latest',
 }
 
-# Databases
-
-mysql::db { 'publicwhip_dev':
-    ensure => 'present',
-    user => 'publicwhip_dev',
-    password => 'abc123',
-    host => 'localhost',
-    grant => ['ALL']
-    
-#WARNING: obviously don't use the above passwords in production.
+package { 'wget':
+  ensure => 'latest',
 }
 
-mysql::db { 'publicwhip_test':
+# Databases
+
+$db_root_password = "abc123"
+$db_dev = "publicwhip_dev"
+$db_dev_password = "abc123"
+$db_test = "publicwhip_test"
+$db_test_password = "abc123"
+#WARNING: obviously don't use the above passwords in production.
+
+# Install mysql
+# (Would prefer mariadb but having some problems with that
+# and ubuntu + puppet at the moment).
+
+class { '::mysql::server':
+    root_password => "$::db_root_password",
+    override_options => { 'mysqld' => { 'max_connections' => '1024' } }
+}
+
+include '::mysql::server'
+
+mysql::db { "$db_dev":
     ensure => 'present',
-    user => 'publicwhip_test',
-    password => 'abc123',
+    user => "$db_dev",
+    password => "$db_dev_password",
     host => 'localhost',
     grant => ['ALL']
-    
-#WARNING: obviously don't use the above passwords in production.
+}
+
+mysql::db { "$db_test":
+    ensure => 'present',
+    user => "$db_test",
+    password => "$db_test_password",
+    host => 'localhost',
+    grant => ['ALL']
 }
 
 # Required rubygems
@@ -81,7 +90,52 @@ exec { 'bundle install':
 }
 
 # Original PHP code configuration
-# todo
+
+file { '/vagrant/loader/PublicWhip/Config.pm':
+    ensure => 'present',
+    content => "package PublicWhip::Config;
+use vars qw(\$user \$pass \$pwdata \$debatepath \$fileprefix);
+
+\$user   = \"$db_dev\";
+\$pass   = \"$db_dev_password\";
+\$dbspec = \"DBI:mysql:$db_dev\";
+
+# this is where the XML files come from:
+\$pwdata = \"/vagrant/loader/data.openaustralia.org/\";
+\$debatepath = \$pwdata . \"scrapedxml/representatives_debates/\";
+\$fileprefix = \"\";
+\$lordsdebatepath = \$pwdata . \"scrapedxml/senate_debates/\";
+\$lordsfileprefix = \"\";
+\$scotlanddebatepath = \$pwdata . \"scrapedxml/sp/\";
+\$scotlandmotionspath = \$pwdata . \"scrapedxml/sp-motions/\";
+\$scotlandfileprefix = \"sp\";
+\$members_location = \$pwdata . \"members/\";
+
+1;
+"
+}
+
+exec { "mysql --database=$db_dev -u $db_dev --password=$db_dev_password < /vagrant/loader/create.sql":
+    refreshonly => true,
+    subscribe => Mysql::Db["$db_dev"],
+    path => ['/usr/bin', '/usr/sbin/', '/bin/']
+}
+
+# Still undecided if I should really be downloading data and populating the db
+# via vagrant/puppet.
+exec { '/vagrant/loader/load_openaustralia_xml.sh':
+    refreshonly => true,
+    subscribe => Exec["mysql --database=$db_dev -u $db_dev --password=$db_dev_password < /vagrant/loader/create.sql"],
+    require => [
+                    File['/vagrant/loader/PublicWhip/Config.pm'],
+                    Package['libtext-autoformat-perl'],
+                    Package['libunicode-string-perl'],
+                    Package['libxml-twig-perl']
+               ],
+    cwd => '/vagrant/loader',
+    timeout => 1200,
+    path => ['/usr/bin', '/usr/sbin/', '/bin/']
+}
 
 # Rails port configuration
 
@@ -90,21 +144,19 @@ file { '/vagrant/rails/config/database.yml':
     content => "
 development:
   adapter: mysql2
-  database: publicwhip_dev
-  username: publicwhip_dev
-  password: abc123
+  database: $db_dev
+  username: $db_dev
+  password: $db_dev_password
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
 # Do not set this db to the same as development or production.
 test:
   adapter: mysql2
-  database: publicwhip_test
-  username: publicwhip_test
-  password: abc123
+  database: $db_test
+  username: $db_test
+  password: $db_test_password
 "
-
-#WARNING: obviously don't use the above passwords in production.
 }
 
 file { '/vagrant/rails/config/secrets.yml':
