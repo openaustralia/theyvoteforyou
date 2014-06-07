@@ -9,14 +9,14 @@ $pass   = "";
 $dbspec = "DBI:mysql:hansard";
 
 # this is where the XML files come from:
-$pwdata = "/home/username/pwdata/";
-$debatepath = $pwdata . "scrapedxml/divisionsonly/";
-$fileprefix = "divisions";
-$lordsdebatepath = $pwdata . "scrapedxml/lordsdivisionsonly/";
-$lordsfileprefix = "lordsdivisions";
+$pwdata = "/home/username/data.openaustralia.org/";
+$debatepath = $pwdata . "scrapedxml/representatives_debates/";
+$fileprefix = "";
+$lordsdebatepath = $pwdata . "scrapedxml/senate_debates/";
+$lordsfileprefix = "";
 $scotlanddebatepath = $pwdata . "scrapedxml/sp/";
 $scotlandmotionspath = $pwdata . "scrapedxml/sp-motions/";
 $scotlandfileprefix = "sp";
-$members_location = "/home/username/parlparse/members/";
+$members_location = $pwdata . "members/";
 
 1;
