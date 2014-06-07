@@ -61,11 +61,14 @@ for (@ARGV) {
     else { help(); exit; }
 }
 
-if ($PublicWhip::DivsXML::divisions_changed) {
-    exit 1;
-} else {
-    exit;
-}
+# Commands should always return 0 unless a failure occurs
+# Divisions changing (i.e. first database load) is not a failure, right?
+exit;
+#if ($PublicWhip::DivsXML::divisions_changed) {
+#    exit 1;
+#} else {
+#    exit;
+#}
 
 sub help {
     print <<END;
