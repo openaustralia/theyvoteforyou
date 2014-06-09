@@ -1,14 +1,15 @@
+$ruby_version = 'ruby-2.0.0-p353'
+
+#WARNING: obviously don't use these passwords in production.
+$db_root_password = "abc123"
+$db_dev = "publicwhip_dev"
+$db_dev_password = "abc123"
+$db_test = "publicwhip_test"
+$db_test_password = "abc123"
+
+# General packages
+
 include apt
-
-# Packages
-
-package { 'apache2':
-  ensure => 'latest',
-}
- 
-package { 'libapache2-mod-php5':
-  ensure => 'latest'
-}
 
 package { 'libtext-autoformat-perl':
   ensure => 'latest'
@@ -22,38 +23,62 @@ package { 'libxml-twig-perl':
   ensure => 'latest'
 }
 
-package { 'ruby-bundler':
-  ensure => 'latest'
+package { 'wget':
+  ensure => 'latest',
 }
 
 package { 'libmysqlclient-dev':
     ensure  => 'latest',
 }
 
-package { 'rake':
-  ensure => 'latest',
+package { 'php5-mysql':
+    ensure  => 'latest',
 }
 
-package { 'wget':
-  ensure => 'latest',
+# Ruby
+
+include rvm
+
+rvm_system_ruby {"$ruby_version":
+    ensure => 'present',
+    default_use => true;
+}
+
+rvm::system_user { 'vagrant': }
+
+rvm_gem { "$ruby_version/bundler":
+    ensure  => 'latest',
+    require => Rvm_system_ruby["$ruby_version"];
+}
+
+rvm_gem {"$ruby_version/rake":
+    ensure  => 'latest',
+    require => Rvm_system_ruby["$ruby_version"];
+}
+
+exec { 'bundle install':
+    require => [
+                    Rvm_gem["$ruby_version/bundler"],
+                    Rvm_gem["$ruby_version/rake"],
+                    Package['libmysqlclient-dev'],
+                    Class['::mysql::server'],
+                    Class['::mysql::client'],
+               ],
+    user => 'vagrant',
+    cwd => '/vagrant/rails/',
+    path => ['/usr/local/rvm/wrappers/default', '/usr/bin', '/usr/sbin/', '/bin/'],
+    timeout => 1200
 }
 
 # Databases
-
-$db_root_password = "abc123"
-$db_dev = "publicwhip_dev"
-$db_dev_password = "abc123"
-$db_test = "publicwhip_test"
-$db_test_password = "abc123"
-#WARNING: obviously don't use the above passwords in production.
-
-# Install mysql
-# (Would prefer mariadb but having some problems with that
-# and ubuntu + puppet at the moment).
+# (I would like to switch to mariadb at some point)
 
 class { '::mysql::server':
     root_password => "$::db_root_password",
-    override_options => { 'mysqld' => { 'max_connections' => '1024' } }
+    restart => true,
+    override_options => {
+        'mysqld' => { 'default-storage-engine' => 'innodb' }
+    }
 }
 
 include '::mysql::server'
@@ -72,21 +97,6 @@ mysql::db { "$db_test":
     password => "$db_test_password",
     host => 'localhost',
     grant => ['ALL']
-}
-
-# Required rubygems
-
-exec { 'bundle install':
-    require => [
-                    Package['ruby-bundler'],
-                    Package['rake'],
-                    Package['libmysqlclient-dev'],
-                    Class['::mysql::server'],
-                    Class['::mysql::client'],
-               ],
-    cwd => '/vagrant/rails/',
-    path => ['/usr/bin', '/usr/sbin/', '/bin/'],
-    timeout => 600
 }
 
 # Original PHP code configuration
@@ -119,6 +129,49 @@ exec { "mysql --database=$db_dev -u $db_dev --password=$db_dev_password < /vagra
     refreshonly => true,
     subscribe => Mysql::Db["$db_dev"],
     path => ['/usr/bin', '/usr/sbin/', '/bin/']
+}
+
+class { 'apache':
+    mpm_module => 'prefork',
+    default_mods => ['php']
+}
+
+apache::vhost { 'publicwhip-php.openaustraliafoundation.org.au':
+    default_vhost => true,
+    port    => '80',
+    docroot => '/vagrant/website'
+}
+
+file { '/etc/php5/apache2/php.ini':
+    require => [
+                    Apache::Vhost['publicwhip-php.openaustraliafoundation.org.au'],
+                    Package['php5-mysql']
+               ],
+    source => '/vagrant/manifests/apache2php.ini'
+}
+
+file { '/vagrant/website/config.php':
+    ensure => 'present',
+    content => "<?php
+# Server domain
+\$domain_name = \"publicwhip-php.openaustraliafoundation.org.au\";
+
+# Public Whip database params, change these
+\$pw_host = \"localhost\";
+\$pw_user = \"$db_dev\";
+\$pw_password = \"$db_dev_password\";
+\$pw_database = \"$db_dev\";
+
+# Cache HTML files for speed up rendering
+\$pw_cache_enable = false;
+\$pw_cache_top = \"/blah/pwcache\";
+
+# Authentication value - only needed for publicwhip.org.uk itself
+\$hidden_hash_var='';
+
+define('HIDDEN_HASH_VAR', \$hidden_hash_var);
+
+?>"
 }
 
 # Still undecided if I should really be downloading data and populating the db
