@@ -35,6 +35,10 @@ package { 'php5-mysql':
     ensure  => 'latest',
 }
 
+package { 'php5-cli':
+    ensure  => 'latest',
+}
+
 # Ruby
 
 include rvm
@@ -88,6 +92,7 @@ mysql::db { "$db_dev":
     user => "$db_dev",
     password => "$db_dev_password",
     host => 'localhost',
+    collate => 'utf8_unicode_ci',
     grant => ['ALL']
 }
 
@@ -96,6 +101,7 @@ mysql::db { "$db_test":
     user => "$db_test",
     password => "$db_test_password",
     host => 'localhost',
+    collate => 'utf8_unicode_ci',
     grant => ['ALL']
 }
 
@@ -183,7 +189,8 @@ exec { '/vagrant/loader/load_openaustralia_xml.sh':
                     File['/vagrant/loader/PublicWhip/Config.pm'],
                     Package['libtext-autoformat-perl'],
                     Package['libunicode-string-perl'],
-                    Package['libxml-twig-perl']
+                    Package['libxml-twig-perl'],
+                    Package['php5-cli']
                ],
     cwd => '/vagrant/loader',
     timeout => 1200,

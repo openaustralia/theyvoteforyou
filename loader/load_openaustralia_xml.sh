@@ -6,6 +6,7 @@ set -e
 
 MEMXML2DB_PERL=memxml2db.pl
 LOAD_PERL=load.pl
+CALC_CACHES_PHP=calc_caches.php
 
 if [ ! -d data.openaustralia.org/members ] ; then
     # ~2MB download as of June 2014
@@ -30,4 +31,4 @@ if [ ! -f $LOAD_PERL ] ; then
 fi
 
 perl $LOAD_PERL divsxml check
-echo "SUCCESS DUDE DAN"
+php $CALC_CACHES_PHP
