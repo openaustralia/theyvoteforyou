@@ -13,6 +13,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   shell.inline = "mkdir -p /etc/puppet/modules;
      aptitude update
      aptitude upgrade -y
+
+     # Unfortunately I don't think we can use vagrant to reboot the machine.
+     # at this point. I should probably update it, rebox it and upload it
+     # if I can.
+
      aptitude install -y linux-headers-$(uname -r)
      aptitude install -y virtualbox-ose-dkms
 

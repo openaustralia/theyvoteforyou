@@ -1,11 +1,15 @@
 $ruby_version = 'ruby-2.0.0-p353'
 
-#WARNING: obviously don't use these passwords in production.
+# WARNING: obviously don't use these passwords in production.
 $db_root_password = "abc123"
 $db_dev = "publicwhip_dev"
 $db_dev_password = "abc123"
 $db_test = "publicwhip_test"
 $db_test_password = "abc123"
+
+# To avoid downloading 700MB from data.openaustralia.gov,
+# place "members" and "scrapedxml" directories in
+# "loader/data.openaustralia.org/".
 
 # General packages
 
@@ -197,6 +201,16 @@ exec { '/vagrant/loader/load_openaustralia_xml.sh':
     path => ['/usr/bin', '/usr/sbin/', '/bin/']
 }
 
+# Copy the dev database to the test database
+exec { "mysqldump -u $db_dev --password=$db_dev_password $db_dev | mysql -u $db_test --password=$db_test_password --database=$db_test":
+    refreshonly => true,
+    subscribe => Exec['/vagrant/loader/load_openaustralia_xml.sh'],
+    require => Mysql::Db["$db_test"],
+    path => ['/usr/bin', '/usr/sbin/', '/bin/']
+}
+
+# Grant permission on $db_test database to $db_dev user?
+
 # Rails port configuration
 
 file { '/vagrant/rails/config/database.yml':
@@ -207,6 +221,7 @@ development:
   database: $db_dev
   username: $db_dev
   password: $db_dev_password
+  strict: false
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
@@ -216,7 +231,10 @@ test:
   database: $db_test
   username: $db_test
   password: $db_test_password
+  strict: false
 "
+
+# todo Shouldn't really need `strict: false`. Investigate.
 }
 
 file { '/vagrant/rails/config/secrets.yml':
