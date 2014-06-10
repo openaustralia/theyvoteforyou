@@ -109,6 +109,10 @@ mysql::db { "$db_test":
     grant => ['ALL']
 }
 
+mysql_user { 'www-data@localhost':
+  ensure => 'present'
+}
+
 # Original PHP code configuration
 
 file { '/vagrant/loader/PublicWhip/Config.pm':
