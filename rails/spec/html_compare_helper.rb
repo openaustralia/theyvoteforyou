@@ -61,7 +61,7 @@ module HTMLCompareHelper
       # Write it out to a file
       output("old.#{format}", o, path)
       output("new.#{format}", n, path)
-      exec("#{diff_path} old.#{format} new.#{format}")
+      system("#{diff_path} old.#{format} new.#{format}")
       raise "Don't match. Writing to file old.#{format} and new.#{format}"
     end
   end
