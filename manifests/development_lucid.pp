@@ -157,7 +157,13 @@ class { 'apache':
 apache::vhost { 'publicwhip-php.openaustraliafoundation.org.au':
     default_vhost => true,
     port    => '80',
-    docroot => '/vagrant/website'
+    docroot => '/vagrant/website',
+    directories => [
+      { path => '^(mp-info.xml|dreamquery.xml|mpdream-info.xml)$',
+        provider => 'filesmatch',
+        addhandlers => [{ handler => 'application/x-httpd-php', extensions => ['.xml']}]
+      }
+    ]
 }
 
 file { '/etc/php5/apache2/php.ini':
