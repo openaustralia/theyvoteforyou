@@ -43,6 +43,10 @@ package { 'php5-cli':
     ensure  => 'latest',
 }
 
+package { 'tidy':
+    ensure  => 'latest',
+}
+
 # Ruby
 
 include rvm
