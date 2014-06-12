@@ -59,12 +59,12 @@ rvm_system_ruby {"$ruby_version":
 rvm::system_user { 'vagrant': }
 
 rvm_gem { "$ruby_version/bundler":
-    ensure  => 'latest',
+    ensure  => 'present',
     require => Rvm_system_ruby["$ruby_version"];
 }
 
 rvm_gem {"$ruby_version/rake":
-    ensure  => 'latest',
+    ensure  => 'present',
     require => Rvm_system_ruby["$ruby_version"];
 }
 
@@ -219,8 +219,6 @@ exec { "mysqldump -u $db_dev --password=$db_dev_password $db_dev | mysql -u $db_
     path => ['/usr/bin', '/usr/sbin/', '/bin/']
 }
 
-# Grant permission on $db_test database to $db_dev user?
-
 # Rails port configuration
 
 file { '/vagrant/rails/config/database.yml':
@@ -260,4 +258,11 @@ production:
 "
 
 #WARNING: obviously don't use the above keys in production, generate your own using 'bundle exec rake secret'.
+}
+
+# Set the PHP_SERVER environment variable that the rspec tests use
+file { '/etc/profile.d/publichwhip_rails_tests.sh':
+    ensure => 'present',
+    content => 'export PHP_SERVER=localhost',
+    mode => 755
 }
