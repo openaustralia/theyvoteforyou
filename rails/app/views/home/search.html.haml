@@ -2,7 +2,10 @@
   - content_for :title, "Representatives for postcode #{@postcode}"
 
   %h1= yield :title
-  %table.mps
+  - if !@postcode_error.nil?
+    %p #{@postcode_error}. No representatives found.
+  - else
+    %table.mps
     - @mps.each do |mp|
       %tr{:class => cycle("even", "odd")}
         %td= link_to mp.name, member_path(mp)
