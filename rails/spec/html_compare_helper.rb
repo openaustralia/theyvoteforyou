@@ -61,7 +61,7 @@ module HTMLCompareHelper
       # Write it out to a file
       output("old.#{format}", o, path)
       output("new.#{format}", n, path)
-      exec("#{diff_path} old.#{format} new.#{format}")
+      system("#{diff_path} old.#{format} new.#{format}")
       raise "Don't match. Writing to file old.#{format} and new.#{format}"
     end
   end
@@ -87,7 +87,11 @@ module HTMLCompareHelper
     # Requires HTML Tidy (http://tidy.sourceforge.net/) version 14 June 2007 or later
     # Note the version installed with OS X by default is a version that's too old
     # Install on OS X with "brew install tidy"
-    system("#{tidy_path}#{' -xml' if format == :xml} --show-warnings no --sort-attributes alpha -utf8 -q -m temp")
+    command = "#{tidy_path}#{' -xml' if format == :xml} --show-warnings no --sort-attributes alpha -utf8 -q -m temp"
+    if system(command).nil? || $?.exitstatus > 1 #tidy is stupid and returns 1 on warning, 2 on failure.
+      raise "tidy command failed '#{command}'"
+    end
+
     r = File.read("temp")
     # Make sure that comments of the form <!-- comment --> are followed by a new line
     File.delete("temp")
