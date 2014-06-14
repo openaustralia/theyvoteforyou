@@ -3,13 +3,21 @@
 require 'open-uri'
 require 'net/http'
 require 'uri'
+require 'digest/md5'
 
 module HTMLCompareHelper
+  def get_id_hash(user_name)
+    text = File.read("../website/config.php")
+    text = text[/\$hidden_hash_var[\s]*=[\s]*'.*'/][/'.*'/]
+    salt = text[1..text.length-2]
+    return Digest::MD5.hexdigest(user_name + salt)
+  end
+
   def compare(path, signed_in = false)
     if signed_in
       ApplicationController.any_instance.stub current_user: User.find(1)
       connection = Net::HTTP.new php_server
-      text = connection.get(path, {'Cookie' => 'user_name=henare; id_hash=0e53908d0c6a97f05b39c5dfb64a197a'}).body
+      text = connection.get(path, {'Cookie' => "user_name=henare; id_hash=#{get_id_hash('henare')}"}).body
     else
       text = Net::HTTP.get(php_server, path)
     end
@@ -24,7 +32,7 @@ module HTMLCompareHelper
     headers = {}
     if signed_in
       ApplicationController.any_instance.stub current_user: User.find(1)
-      headers['Cookie'] = 'user_name=henare; id_hash=0e53908d0c6a97f05b39c5dfb64a197a'
+      headers['Cookie'] = "user_name=henare; id_hash=#{get_id_hash('henare')}"
     end
     post path, form_params
     # Follow redirect
