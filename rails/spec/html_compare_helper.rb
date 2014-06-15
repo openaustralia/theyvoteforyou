@@ -10,7 +10,7 @@ module HTMLCompareHelper
     text = File.read("../website/config.php")
     text = text[/\$hidden_hash_var[\s]*=[\s]*'.*'/][/'.*'/]
     salt = text[1..text.length-2]
-    return Digest::MD5.hexdigest(user_name + salt)
+    Digest::MD5.hexdigest(user_name + salt)
   end
 
   def compare(path, signed_in = false)
