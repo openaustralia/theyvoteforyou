@@ -124,7 +124,7 @@ class DivisionsController < ApplicationController
   def update
     @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(division_date: params[:date], division_number: params[:number])
 
-    if @division.create_wiki_motion!(params[:newtitle], params[:newdescription], current_user)
+    if params[:submit] == 'Cancel' || (params[:submit] == 'Save' && @division.create_wiki_motion!(params[:newtitle], params[:newdescription], current_user))
       redirect_to params[:rr]
     else
       render :edit
