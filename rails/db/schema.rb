@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20140616050401) do
 
   create_table "pw_cache_attendrank_today", id: false, force: true do |t|
     t.integer "mp_id",        null: false
@@ -249,10 +249,21 @@ ActiveRecord::Schema.define(version: 0) do
     t.text     "remote_addr"
     t.text     "confirm_hash"
     t.text     "confirm_return_url"
-    t.integer  "is_confirmed",       default: 0, null: false
+    t.integer  "is_confirmed",           default: 0,  null: false
     t.datetime "reg_date"
     t.integer  "active_policy_id"
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
   end
+
+  add_index "pw_dyn_user", ["reset_password_token"], name: "index_pw_dyn_user_on_reset_password_token", unique: true, using: :btree
 
   create_table "pw_dyn_wiki_motion", primary_key: "wiki_id", force: true do |t|
     t.date     "division_date",             null: false
@@ -266,13 +277,13 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "pw_dyn_wiki_motion", ["division_date", "division_number", "house"], name: "division_date", using: :btree
 
   create_table "pw_logincoming", id: false, force: true do |t|
-    t.string    "referrer", limit: 120
-    t.timestamp "ltime",                null: false
-    t.string    "ipnumber", limit: 20
-    t.string    "page",     limit: 20
-    t.string    "subject",  limit: 60
-    t.string    "url",      limit: 120
-    t.integer   "thing_id"
+    t.string   "referrer", limit: 120
+    t.datetime "ltime",                null: false
+    t.string   "ipnumber", limit: 20
+    t.string   "page",     limit: 20
+    t.string   "subject",  limit: 60
+    t.string   "url",      limit: 120
+    t.integer  "thing_id"
   end
 
   add_index "pw_logincoming", ["ltime"], name: "ltime", using: :btree
