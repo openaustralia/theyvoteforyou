@@ -5,8 +5,6 @@ describe AccountController do
   fixtures :all
 
   describe '#settings' do
-    it { compare('/account/settings.php') }
-
     it 'logs in with valid credentials' do
       compare_post '/account/settings.php', false, submit: 'Login to Public Whip', user_name: 'henare', password: 'password'
     end
