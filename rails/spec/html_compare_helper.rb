@@ -9,7 +9,7 @@ module HTMLCompareHelper
   def get_id_hash(user_name)
     text = File.read("../website/config.php")
     text = text[/\$hidden_hash_var[\s]*=[\s]*'.*'/][/'.*'/]
-    salt = text[1..text.length-2]
+    salt = text[1..-2]
     Digest::MD5.hexdigest(user_name + salt)
   end
 
