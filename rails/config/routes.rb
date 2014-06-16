@@ -1,4 +1,5 @@
 Publicwhip::Application.routes.draw do
+  devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -23,14 +24,17 @@ Publicwhip::Application.routes.draw do
 
   scope path: '/account' do
     match 'settings.php' => 'account#settings', via: [:get, :post]
-    get 'logout.php' => 'account#logout'
-    match 'changepass.php' => 'account#change_password', via: [:get, :post]
 
     get 'wiki.php' => 'divisions#edit'
     post 'wiki.php' => 'divisions#update'
 
     get 'addpolicy.php' => 'policies#new'
     post 'addpolicy.php' => 'policies#create'
+  end
+
+  devise_scope :user do
+    get '/account/logout.php' => 'devise/sessions#destroy'
+    match '/account/changepass.php' => 'devise/registrations#edit', via: [:get, :post]
   end
 
   scope path: '/feeds' do

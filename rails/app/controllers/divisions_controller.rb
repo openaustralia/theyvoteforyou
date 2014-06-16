@@ -2,7 +2,7 @@ class DivisionsController < ApplicationController
   # TODO: Reenable CSRF protection
   skip_before_action :verify_authenticity_token
 
-  before_filter :check_user_signed_in, only: [:edit, :update]
+  before_action :authenticate_user!, only: [:edit, :update]
 
   def index
     @sort = params[:sort]
@@ -131,11 +131,5 @@ class DivisionsController < ApplicationController
     end
 
     params[:rr] ? redirect_to(params[:rr]) : render(:edit)
-  end
-
-  private
-
-  def check_user_signed_in
-    redirect_to controller: 'account', action: 'settings', params: { r: "/account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{params[:house]}" } unless user_signed_in?
   end
 end
