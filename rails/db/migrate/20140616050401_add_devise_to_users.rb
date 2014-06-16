@@ -35,7 +35,7 @@ class AddDeviseToUsers < ActiveRecord::Migration
       # t.timestamps
     end
 
-    add_index :pw_dyn_user, :email,                unique: true
+    # add_index :pw_dyn_user, :email,                unique: true
     add_index :pw_dyn_user, :reset_password_token, unique: true
     # add_index :users, :confirmation_token,   unique: true
     # add_index :users, :unlock_token,         unique: true
