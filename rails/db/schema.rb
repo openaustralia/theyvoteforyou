@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140616050401) do
+ActiveRecord::Schema.define(version: 20140616062909) do
 
   create_table "pw_cache_attendrank_today", id: false, force: true do |t|
     t.integer "mp_id",        null: false
@@ -245,7 +245,7 @@ ActiveRecord::Schema.define(version: 20140616050401) do
     t.text     "user_name"
     t.text     "real_name"
     t.text     "email"
-    t.text     "password"
+    t.text     "legacy_password"
     t.text     "remote_addr"
     t.text     "confirm_hash"
     t.text     "confirm_return_url"
