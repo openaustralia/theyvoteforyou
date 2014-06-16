@@ -28,6 +28,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
+    bcrypt (3.1.7)
     better_errors (1.1.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -44,6 +45,12 @@ GEM
     coffee-script-source (1.6.3)
     database_cleaner (1.0.1)
     debug_inspector (0.0.2)
+    devise (3.2.4)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
     diff-lcs (1.2.5)
     domain_name (0.5.13)
       unf (>= 0.0.5, < 1.0.0)
@@ -106,6 +113,7 @@ GEM
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     ntlm-http (0.1.1)
+    orm_adapter (0.5.0)
     polyglot (0.3.4)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
@@ -197,6 +205,8 @@ GEM
     unf (0.1.2)
       unf_ext
     unf_ext (0.0.6)
+    warden (1.2.3)
+      rack (>= 1.0)
     webrobots (0.1.1)
     wikicloth (0.8.1)
       builder
@@ -211,6 +221,7 @@ DEPENDENCIES
   binding_of_caller
   coffee-rails (~> 4.0.0)
   database_cleaner
+  devise
   guard
   guard-rspec
   haml
