@@ -25,7 +25,7 @@ class PoliciesController < ApplicationController
 
   def create
     @policy = Policy.new name: params[:name], description: params[:description], user: current_user, private: 2
-    render 'new' unless @policy.save
+    render 'new' unless @policy.save!
   end
 
   private

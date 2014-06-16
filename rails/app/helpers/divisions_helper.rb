@@ -128,8 +128,8 @@ module DivisionsHelper
   def formatted_motion_text(division)
     text = division.motion
 
-    # Remove any preceeding spaces so wikiparser doesn't format with monospaced font
-    text.gsub! /^ */, ''
+    # Remove any indentation so wikiparser doesn't format with monospaced font
+    text = text.lines.each { |l| l.lstrip! }.join
     # Remove comment lines (those starting with '@')
     text = text.lines.reject { |l| l =~ /(^@.*)/ }.join
     # Italics
