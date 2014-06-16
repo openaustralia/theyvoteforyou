@@ -31,5 +31,7 @@ describe PoliciesController do
     it { compare url, true }
 
     it { compare_post_static url, true, submit: 'Make Policy', name: 'Pro-nuclear power', description: 'nuclear power is great.' }
+
+    it { compare_post url, true, submit: 'Make Policy', name: '', description: 'nuclear power is great.' }
   end
 end
