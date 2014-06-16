@@ -24,7 +24,6 @@ Publicwhip::Application.routes.draw do
 
   scope path: '/account' do
     match 'settings.php' => 'account#settings', via: [:get, :post]
-    get 'logout.php' => 'account#logout'
     match 'changepass.php' => 'account#change_password', via: [:get, :post]
 
     get 'wiki.php' => 'divisions#edit'
@@ -32,6 +31,10 @@ Publicwhip::Application.routes.draw do
 
     get 'addpolicy.php' => 'policies#new'
     post 'addpolicy.php' => 'policies#create'
+  end
+
+  devise_scope :user do
+    get '/account/logout.php' => 'devise/sessions#destroy'
   end
 
   scope path: '/feeds' do

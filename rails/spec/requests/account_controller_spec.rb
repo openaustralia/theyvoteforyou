@@ -16,10 +16,6 @@ describe AccountController do
     end
   end
 
-  it '#logout' do
-    compare '/account/logout.php'
-  end
-
   describe '#change_password' do
     let(:url) { '/account/changepass.php' }
 
