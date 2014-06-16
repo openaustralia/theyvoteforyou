@@ -24,7 +24,6 @@ Publicwhip::Application.routes.draw do
 
   scope path: '/account' do
     match 'settings.php' => 'account#settings', via: [:get, :post]
-    match 'changepass.php' => 'account#change_password', via: [:get, :post]
 
     get 'wiki.php' => 'divisions#edit'
     post 'wiki.php' => 'divisions#update'
@@ -35,6 +34,7 @@ Publicwhip::Application.routes.draw do
 
   devise_scope :user do
     get '/account/logout.php' => 'devise/sessions#destroy'
+    match '/account/changepass.php' => 'devise/registrations#edit', via: [:get, :post]
   end
 
   scope path: '/feeds' do
