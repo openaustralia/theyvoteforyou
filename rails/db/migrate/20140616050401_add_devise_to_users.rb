@@ -2,7 +2,7 @@ class AddDeviseToUsers < ActiveRecord::Migration
   def self.up
     change_table(:pw_dyn_user) do |t|
       ## Database authenticatable
-      t.string :email,              null: false, default: ""
+      # t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
 
       ## Recoverable
