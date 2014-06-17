@@ -18,11 +18,13 @@ def set_php_database(database_config)
   db = ActiveRecord::Base.configurations[database_config]["database"]
   db_user = ActiveRecord::Base.configurations[database_config]["username"]
   db_pass = ActiveRecord::Base.configurations[database_config]["password"]
+  salt = Rails.application.secrets.php_id_hash_salt
   text = File.read("../website/config.php")
   File.open("../website/config.php", "w") do |f|
     text.gsub!(/\$pw_database = (.*);/, "$pw_database = \"#{db}\";")
     text.gsub!(/\$pw_user = (.*);/, "$pw_user = \"#{db_user}\";")
     text.gsub!(/\$pw_password = (.*);/, "$pw_password = \"#{db_pass}\";")
+    text.gsub!(/\$hidden_hash_var=(.*);/, "$hidden_hash_var='#{salt}';")
     f.puts text
   end
 end
