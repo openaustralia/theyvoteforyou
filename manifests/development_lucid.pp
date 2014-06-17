@@ -227,7 +227,6 @@ development:
   database: $db_dev
   username: $db_dev
   password: $db_dev_password
-  strict: false
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
@@ -237,7 +236,6 @@ test:
   database: $db_test
   username: $db_test
   password: $db_test_password
-  strict: false
 "
 
 # todo Shouldn't really need `strict: false`. Investigate.
