@@ -1,4 +1,6 @@
-<?php require_once "../common.inc";
+<?php
+require_once "../common.inc";
+require_once "../db.inc";
 # $Id: code.php,v 1.23 2011/05/10 14:26:12 publicwhip Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd

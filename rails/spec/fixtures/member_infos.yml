@@ -54,3 +54,11 @@ christopher_back:
   votes_attended: 41
   votes_possible: 54
   aye_majority: -13
+
+judith_adams:
+  mp_id: 100002
+  rebellions: 3
+  tells: 0
+  votes_attended: 9
+  votes_possible: 11
+  aye_majority: 1

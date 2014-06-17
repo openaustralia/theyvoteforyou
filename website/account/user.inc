@@ -54,7 +54,7 @@ function user_login($user_name,$password) {
 	} else {
 		$user_name=strtolower($user_name);
 		$password=strtolower($password);
-		$sql="SELECT * FROM pw_dyn_user WHERE user_name='$user_name' AND password='". md5($password) ."'";
+		$sql="SELECT * FROM pw_dyn_user WHERE user_name='$user_name' AND legacy_password='". md5($password) ."'";
 		$result=db_query($sql);
 		if (!$result || db_numrows($result) < 1){
 			$feedback .=  ' User not found or password incorrect. ';
@@ -142,14 +142,14 @@ function user_change_password ($new_password1,$new_password2,$change_user_name,$
 				$change_user_name=strtolower($change_user_name);
 				$old_password=strtolower($old_password);
 				$new_password1=strtolower($new_password1);
-				$sql="SELECT * FROM pw_dyn_user WHERE user_name='$change_user_name' AND password='". md5($old_password) ."'";
+				$sql="SELECT * FROM pw_dyn_user WHERE user_name='$change_user_name' AND legacy_password='". md5($old_password) ."'";
 				$result=db_query($sql);
 				if (!$result || db_numrows($result) < 1) {
 					$feedback .= ' User not found or bad password. '.db_error();
 					return false;
 				} else {
-					$sql="UPDATE pw_dyn_user SET password='". md5($new_password1). "' ".
-						"WHERE user_name='$change_user_name' AND password='". md5($old_password). "'";
+					$sql="UPDATE pw_dyn_user SET legacy_password='". md5($new_password1). "' ".
+						"WHERE user_name='$change_user_name' AND legacy_password='". md5($old_password). "'";
 					$result=db_query($sql);
 					if (!$result || db_affected_rows($result) < 1) {
 						$feedback .= ' Nothing changed! '.db_error();
@@ -191,7 +191,7 @@ function user_lost_password ($email,$user_name) {
 			$new_pass=strtolower(substr(md5(time().$user_name.HIDDEN_HASH_VAR),1,14));
 
 			//update the database to include the new password
-			$sql="UPDATE pw_dyn_user SET password='". md5($new_pass) ."' WHERE user_name='$user_name'";
+			$sql="UPDATE pw_dyn_user SET legacy_password='". md5($new_pass) ."' WHERE user_name='$user_name'";
 			$result=db_query($sql);
 
 			//send a simple email with the new password
@@ -220,7 +220,7 @@ function user_change_email ($password1,$new_email,$user_name) {
 		$user_name=strtolower($user_name);
 		$password1=strtolower($password1);
 #                print "user $user_name pw $password1 em $new_email";
-		$sql="UPDATE pw_dyn_user SET confirm_hash='$hash' WHERE user_name='$user_name' AND password='". md5($password1) ."'";
+		$sql="UPDATE pw_dyn_user SET confirm_hash='$hash' WHERE user_name='$user_name' AND legacy_password='". md5($password1) ."'";
 		$result=db_query($sql);
 		if (!$result || db_affected_rows($result) < 1) {
 			$feedback .= ' Incorrect user name or password.  ' . db_error();
@@ -298,7 +298,7 @@ function user_register($user_name,$password1,$password2,$email,$real_name) {
 				//create a new hash to insert into the db and the confirmation email
 				$hash=md5($email.HIDDEN_HASH_VAR);
 				$sql="INSERT INTO pw_dyn_user
-                                (user_name,real_name,password,email,remote_addr,confirm_hash,is_confirmed, reg_date, confirm_return_url) ".
+                                (user_name,real_name,legacy_password,email,remote_addr,confirm_hash,is_confirmed, reg_date, confirm_return_url) ".
 					"VALUES ('$user_name','$real_name','".  md5($password1) ."','$email','" . getenv('REMOTE_ADDR') . "','$hash','0',NOW(),'".mysql_real_escape_string($_POST['r'])."')";
 				$result=db_query($sql);
 				if (!$result) {

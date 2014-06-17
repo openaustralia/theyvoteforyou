@@ -1,4 +1,6 @@
-<?php require_once "../common.inc";
+<?php
+require_once "../common.inc";
+require_once "../db.inc";
 # $Id: liaison.php,v 1.8 2005/11/01 01:23:17 frabcus Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd

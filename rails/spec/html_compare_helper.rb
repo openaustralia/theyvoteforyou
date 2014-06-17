@@ -6,6 +6,9 @@ require 'uri'
 require 'digest/md5'
 
 module HTMLCompareHelper
+  include Warden::Test::Helpers
+  Warden.test_mode!
+
   def get_id_hash(user_name)
     text = File.read("../website/config.php")
     text = text[/\$hidden_hash_var[\s]*=[\s]*'.*'/][/'.*'/]
@@ -15,7 +18,8 @@ module HTMLCompareHelper
 
   def compare(path, signed_in = false)
     if signed_in
-      ApplicationController.any_instance.stub current_user: User.find(1)
+      login_as(users(:one), :scope => :user)
+
       connection = Net::HTTP.new php_server
       text = connection.get(path, {'Cookie' => "user_name=henare; id_hash=#{get_id_hash('henare')}"}).body
     else
@@ -31,7 +35,7 @@ module HTMLCompareHelper
     agent = Mechanize.new
     headers = {}
     if signed_in
-      ApplicationController.any_instance.stub current_user: User.find(1)
+      login_as(users(:one), :scope => :user)
       headers['Cookie'] = "user_name=henare; id_hash=#{get_id_hash('henare')}"
     end
     post path, form_params
@@ -45,7 +49,7 @@ module HTMLCompareHelper
   end
 
   def compare_post_static(path, signed_in, form_params)
-    ApplicationController.any_instance.stub current_user: User.find(1) if signed_in
+    login_as(users(:one), :scope => :user) if signed_in
 
     post path, form_params
     text = File.read("spec/fixtures/static_pages/#{path}.html")

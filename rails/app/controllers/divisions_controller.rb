@@ -2,7 +2,7 @@ class DivisionsController < ApplicationController
   # TODO: Reenable CSRF protection
   skip_before_action :verify_authenticity_token
 
-  before_filter :check_user_signed_in, only: [:edit, :update]
+  before_action :authenticate_user!, only: [:edit, :update]
 
   def index
     @sort = params[:sort]
@@ -124,16 +124,12 @@ class DivisionsController < ApplicationController
   def update
     @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(division_date: params[:date], division_number: params[:number])
 
-    if @division.create_wiki_motion!(params[:newtitle], params[:newdescription], current_user)
-      redirect_to params[:rr]
-    else
-      render :edit
+    # TODO: Provide some feedback to the user about how their save went
+    # This is just matching the PHP app right now :(
+    if params[:submit] == 'Save'
+      @division.create_wiki_motion! params[:newtitle], params[:newdescription], current_user
     end
-  end
 
-  private
-
-  def check_user_signed_in
-    redirect_to controller: 'account', action: 'settings', params: { r: "/account/wiki.php?type=motion&date=#{params[:date]}&number=#{params[:number]}&house=#{params[:house]}" } unless user_signed_in?
+    params[:rr] ? redirect_to(params[:rr]) : render(:edit)
   end
 end

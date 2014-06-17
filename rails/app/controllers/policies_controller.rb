@@ -2,7 +2,7 @@ class PoliciesController < ApplicationController
   # TODO: Reenable CSRF protection
   skip_before_action :verify_authenticity_token
 
-  before_filter :check_user_signed_in, only: [:new, :create]
+  before_action :authenticate_user!, only: [:new, :create]
 
   def index
     @policies = Policy.joins(:policy_info).order(:private, :name)
@@ -25,12 +25,6 @@ class PoliciesController < ApplicationController
 
   def create
     @policy = Policy.new name: params[:name], description: params[:description], user: current_user, private: 2
-    render 'new' unless @policy.save!
-  end
-
-  private
-
-  def check_user_signed_in
-    redirect_to controller: 'account', action: 'settings', params: { r: '/account/addpolicy.php' } unless user_signed_in?
+    render 'new' unless @policy.save
   end
 end

@@ -27,3 +27,8 @@ six:
   division_id: 2037
   mp_id: 100279
   vote: 'aye'
+
+seven:
+  division_id: 2037
+  mp_id: 100002
+  vote: 'tellaye'

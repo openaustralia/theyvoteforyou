@@ -13,17 +13,17 @@ class HomeController < ApplicationController
       @postcode = params[:query]
       electorates = JSON.parse(open("http://www.openaustralia.org/api/getDivisions?output=js&key=CcV3KBBX2Em7GQeV3RA8qzgS&postcode=#{@postcode}").read)
 
-      if electorates.count == 1 && member = Member.find_by_constituency(electorates.first['name'])
+      if electorates.count == 1
+        member = Member.find_by_constituency(electorates.first['name'])
+        electorate = member ? member.electorate : ''
         # FIXME: We should redirect but this is how the PHP app does it currently
-        render nothing: true, status: :found, location: view_context.electorate_path2(member.electorate)
+        render nothing: true, status: :found, location: view_context.electorate_path2(electorate)
       elsif electorates.count > 1
         @mps = []
         electorates.each do |e|
           member = Member.find_by_constituency(e['name'])
           @mps << member unless member.nil?
         end
-      else
-        raise 'No electorates found'
       end
     elsif !params[:query].blank?
       @mps = Member.find_by_search_query params[:query]
