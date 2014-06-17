@@ -124,11 +124,13 @@ class DivisionsController < ApplicationController
   def update
     @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(division_date: params[:date], division_number: params[:number])
 
-    if @division.create_wiki_motion!(params[:newtitle], params[:newdescription], current_user)
-      redirect_to params[:rr]
-    else
-      render :edit
+    # TODO: Provide some feedback to the user about how their save went
+    # This is just matching the PHP app right now :(
+    if params[:submit] == 'Save'
+      @division.create_wiki_motion! params[:newtitle], params[:newdescription], current_user
     end
+
+    params[:rr] ? redirect_to(params[:rr]) : render(:edit)
   end
 
   private

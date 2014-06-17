@@ -125,7 +125,7 @@ function ClickSup(nsup) {
 
 <body onLoad="<?php echo $onload?>">
 <div id="whitebox">
-<script type="text/javascript" src="walterzorn/wz_tooltip.js"></script>
+<script type="text/javascript" src="/walterzorn/wz_tooltip.js"></script>
 
 <div id="header" class="widewidth">
     <div class="logo">

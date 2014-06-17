@@ -1,4 +1,6 @@
-<?php require_once "../common.inc";
+<?php
+require_once "../common.inc";
+require_once "../db.inc";
 # $Id: research.php,v 1.9 2005/12/09 13:59:13 goatchurch Exp $
 
 # The Public Whip, Copyright (C) 2003 Francis Irving and Julian Todd
@@ -6,7 +8,6 @@
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
-require_once "../db.inc";
 $title = "Parliamentary Research"; pw_header();
 ?>
 

@@ -65,18 +65,20 @@ class MembersController < ApplicationController
       end
     end
 
-    # Does this belong here?
-    raise ActiveRecord::RecordNotFound if !@member
-
-    if @display == "allvotes"
-      # divisions attended
-      @divisions = @member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc)
-    elsif @display == "everyvote"
-      # All divisions MP could have attended
-      @divisions = @member.divisions_possible.order(division_date: :desc, clock_time: :desc, division_name: :asc)
-    elsif @display == "summary" || @display.nil?
-      # Interesting divisions
-      @divisions = @member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc)
+    if !@member
+      # TODO: This should 404 but doesn't to match the PHP app
+      render 'member_not_found'
+    else
+      if @display == "allvotes"
+        # divisions attended
+        @divisions = @member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc)
+      elsif @display == "everyvote"
+        # All divisions MP could have attended
+        @divisions = @member.divisions_possible.order(division_date: :desc, clock_time: :desc, division_name: :asc)
+      elsif @display == "summary" || @display.nil?
+        # Interesting divisions
+        @divisions = @member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc)
+      end
     end
   end
 end
