@@ -13,12 +13,22 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
-# Set the PHP app's database, typically to "test" or "development"
-def set_php_database(database_config)
-  db = ActiveRecord::Base.configurations[database_config]["database"]
-  db_user = ActiveRecord::Base.configurations[database_config]["username"]
-  db_pass = ActiveRecord::Base.configurations[database_config]["password"]
-  salt = Rails.application.secrets.php_id_hash_salt
+def get_salt(rails_env)
+  # If you know a nicer way of pulling the secrets from another env out, please
+  # let me know.
+  raw_secrets = File.read("#{::Rails.root.to_s}/config/secrets.yml")
+  erb_secrets = ERB.new(raw_secrets).result
+  secrets = YAML.load(erb_secrets)[rails_env]
+  secrets["php_id_hash_salt"]
+end
+
+# Set the PHP app's configration to match a ruby environment
+def set_php_config(rails_env)
+  db = ActiveRecord::Base.configurations[rails_env]["database"]
+  db_user = ActiveRecord::Base.configurations[rails_env]["username"]
+  db_pass = ActiveRecord::Base.configurations[rails_env]["password"]
+  salt = get_salt(rails_env)
+
   text = File.read("../website/config.php")
   File.open("../website/config.php", "w") do |f|
     text.gsub!(/\$pw_database = (.*);/, "$pw_database = \"#{db}\";")
@@ -57,12 +67,12 @@ RSpec.configure do |config|
     FileUtils.rm_f("new.html")
 
     # Point the php app to the test database
-    set_php_database "test"
+    set_php_config "test"
  end
 
   config.after(:suite) do
     # Point the php app to the development database
-    set_php_database "development"
+    set_php_config "development"
   end
 
   config.before(:each) do
