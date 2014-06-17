@@ -74,7 +74,6 @@ exec { 'bundle install':
                     Rvm_gem["$ruby_version/rake"],
                     Package['libmysqlclient-dev'],
                     Class['::mysql::server'],
-                    Class['::mysql::client'],
                ],
     user => 'vagrant',
     cwd => '/vagrant/rails/',
@@ -83,7 +82,6 @@ exec { 'bundle install':
 }
 
 # Databases
-# (I would like to switch to mariadb at some point)
 
 class { '::mysql::server':
     root_password => "$::db_root_password",
@@ -194,8 +192,8 @@ define('HIDDEN_HASH_VAR', \$hidden_hash_var);
 ?>"
 }
 
-# Still undecided if I should really be downloading data and populating the db
-# via vagrant/puppet.
+# Downloads a small sample of debate data from data.openaustralia.org and uses
+# it to populate the database.
 exec { '/vagrant/loader/load_openaustralia_xml.sh':
     refreshonly => true,
     subscribe => Exec["mysql --database=$db_dev -u $db_dev --password=$db_dev_password < /vagrant/loader/create.sql"],
@@ -265,4 +263,27 @@ file { '/etc/profile.d/publichwhip_rails_tests.sh':
     ensure => 'present',
     content => 'export PHP_SERVER=localhost',
     mode => 755
+}
+
+# Migrate both the databases
+exec { 'bundle exec rake db:migrate RAILS_ENV=development':
+    require => [
+                  Exec['bundle install'],
+                  Mysql::Db["$db_dev"],
+               ],
+    user => 'vagrant',
+    cwd => '/vagrant/rails/',
+    path => ['/usr/local/rvm/wrappers/default', '/usr/bin', '/usr/sbin/', '/bin/'],
+    environment => ['HOME=/home/vagrant'] # Fixme: it is very, very weird that
+                                          # it fails without this. Investigate.
+}
+
+exec { 'bundle exec rake db:migrate RAILS_ENV=test':
+    require => [
+                  Exec['bundle install'],
+                  Mysql::Db["$db_test"],
+               ],
+    user => 'vagrant',
+    cwd => '/vagrant/rails/',
+    path => ['/usr/local/rvm/wrappers/default', '/usr/bin', '/usr/sbin/', '/bin/']
 }
