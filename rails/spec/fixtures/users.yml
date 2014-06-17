@@ -3,7 +3,7 @@ one:
   user_name: henare
   real_name: Henare Degan
   email: henare@oaf.org.au
-  password: 5f4dcc3b5aa765d61d8327deb882cf99
+  legacy_password: 5f4dcc3b5aa765d61d8327deb882cf99
   remote_addr: 127.0.0.1
   confirm_hash: 16bc9e902f9ed02426a774fe8f6d6e1e
   confirm_return_url: /account/addpolicy.php
