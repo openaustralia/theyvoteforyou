@@ -21,7 +21,7 @@ describe HomeController do
     # Two electorates cover this postcode
     compare("/search.php?query=2042&button=Search")
     # Bad postcode
-    # compare("/search.php?query=0000&button=Search")
+    compare("/search.php?query=0000&button=Search")
     # No MPs in our fixutres
     compare("/search.php?query=2037&button=Search")
 
@@ -33,7 +33,7 @@ describe HomeController do
 
     compare("/search.php?query=2088&button=Search")
     compare("/search.php?query=2042&button=Submit")
-    # compare("/search.php?query=0000&button=Search")
+    compare("/search.php?query=0000&button=Search")
     compare("/search.php?query=Tony+Abbott&button=Submit")
     compare("/search.php?query=Kevin&button=Search")
     compare("/search.php?query=supplementary+explanatory+memorandum&button=Submit")
