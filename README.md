@@ -3,6 +3,35 @@
 This is an Australian fork of the UK website [Public Whip](http://www.publicwhip.org.uk/).
 
 We're currently porting the codebase to Rails - see the `rails` directory.
+During development both the original PHP code and the Rails port need to be run
+side by side to in order to compare them.
+
+The easiest way to get a development environment set up is to use [vagrant][1]
+and [virtualbox][2] to bring up a virtual machine. Once you've got them
+installed and have the publicwhip source code, `cd` into the source code
+directory and run `vagrant up`. This will download the base virtualbox image
+and set up the development environment, be prepared for a bit of a wait.
+
+Once that's done, you'll find the original PHP app available at localhost:8080
+(vagrant will automatically forward the port from the VM to the host). Run the
+rspec tests from inside the VM like this:
+
+* `vagrant ssh`
+* `cd /vagrant/rails`
+* `bundle exec rake PHP_SERVER=localhost`
+
+Assuming they pass, you can start the rails server:
+
+* `bundle exec rails server`
+
+Once it is up you can browse to localhost:3000 on the host.
+
+If vagrant reports that it can't mount the `/vagrant` virtualbox shared folder,
+it's becuase the VM has had it's kernel updated. Run
+`vagrant provision && vagrant reload` and you should be back in business.
+
+[1]: http://www.vagrantup.com/
+[2]: https://www.virtualbox.org/
 
 The Public Whip Source Code (UK README)
 ---------------------------------------

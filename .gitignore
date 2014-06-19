@@ -1,4 +1,6 @@
 loader/PublicWhip/Config.pm
+loader/data.openaustralia.org
 website/config.php
 website/google*
 .bundle
+.vagrant
