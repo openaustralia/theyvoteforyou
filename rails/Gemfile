@@ -33,6 +33,8 @@ gem 'safe_attributes'
 
 gem 'newrelic_rpm'
 
+gem 'devise'
+
 group :test do
   # We can't use transactional fixtures as the php app and the rails app need to see
   # the same database. So, using database_cleaner instead
@@ -49,6 +51,8 @@ group :development do
 
   gem 'better_errors'
   gem 'binding_of_caller'
+
+  gem 'mailcatcher'
 end
 
 group :test, :development do

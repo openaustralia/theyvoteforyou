@@ -37,7 +37,7 @@
           %textarea{:cols => "45", :name => "newdescription", :rows => "25", :style => "width: 100%"}
             -# TODO: Remove this weird new line thingo
             &#x000A;
-            = @division.motion
+            = preserve(h(@division.motion))
         %p
           %input{:accesskey => "S", :name => "submit", :type => "submit", :value => "Save"}/
           %input{:name => "submit", :type => "submit", :value => "Cancel"}/

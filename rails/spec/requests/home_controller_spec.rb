@@ -22,6 +22,9 @@ describe HomeController do
     compare("/search.php?query=2042&button=Search")
     # Bad postcode
     # compare("/search.php?query=0000&button=Search")
+    # No MPs in our fixutres
+    compare("/search.php?query=2037&button=Search")
+
     compare("/search.php?query=Tony+Abbott&button=Search")
     compare("/search.php?query=Kevin&button=Search")
     compare("/search.php?query=supplementary+explanatory+memorandum&button=Search")

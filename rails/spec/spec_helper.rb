@@ -13,6 +13,20 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
+# Set the PHP app's database, typically to "test" or "development"
+def set_php_database(database_config)
+  db = ActiveRecord::Base.configurations[database_config]["database"]
+  db_user = ActiveRecord::Base.configurations[database_config]["username"]
+  db_pass = ActiveRecord::Base.configurations[database_config]["password"]
+  text = File.read("../website/config.php")
+  File.open("../website/config.php", "w") do |f|
+    text.gsub!(/\$pw_database = (.*);/, "$pw_database = \"#{db}\";")
+    text.gsub!(/\$pw_user = (.*);/, "$pw_user = \"#{db_user}\";")
+    text.gsub!(/\$pw_password = (.*);/, "$pw_password = \"#{db_pass}\";")
+    f.puts text
+  end
+end
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
@@ -41,20 +55,12 @@ RSpec.configure do |config|
     FileUtils.rm_f("new.html")
 
     # Point the php app to the test database
-    db = ActiveRecord::Base.configurations["test"]["database"]
-    text = File.read("../website/config.php")
-    File.open("../website/config.php", "w") do |f|
-      f.puts text.gsub(/\$pw_database = (.*);/, "$pw_database = \"#{db}\";")
-    end
-  end
+    set_php_database "test"
+ end
 
   config.after(:suite) do
     # Point the php app to the development database
-    db = ActiveRecord::Base.configurations["development"]["database"]
-    text = File.read("../website/config.php")
-    File.open("../website/config.php", "w") do |f|
-      f.puts text.gsub(/\$pw_database = (.*);/, "$pw_database = \"#{db}\";")
-    end
+    set_php_database "development"
   end
 
   config.before(:each) do

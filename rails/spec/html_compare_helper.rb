@@ -5,9 +5,13 @@ require 'net/http'
 require 'uri'
 
 module HTMLCompareHelper
+  include Warden::Test::Helpers
+  Warden.test_mode!
+
   def compare(path, signed_in = false)
     if signed_in
-      ApplicationController.any_instance.stub current_user: User.find(1)
+      login_as(users(:one), :scope => :user)
+
       connection = Net::HTTP.new php_server
       text = connection.get(path, {'Cookie' => 'user_name=henare; id_hash=0e53908d0c6a97f05b39c5dfb64a197a'}).body
     else
@@ -23,7 +27,7 @@ module HTMLCompareHelper
     agent = Mechanize.new
     headers = {}
     if signed_in
-      ApplicationController.any_instance.stub current_user: User.find(1)
+      login_as(users(:one), :scope => :user)
       headers['Cookie'] = 'user_name=henare; id_hash=0e53908d0c6a97f05b39c5dfb64a197a'
     end
     post path, form_params
@@ -37,7 +41,7 @@ module HTMLCompareHelper
   end
 
   def compare_post_static(path, signed_in, form_params)
-    ApplicationController.any_instance.stub current_user: User.find(1) if signed_in
+    login_as(users(:one), :scope => :user) if signed_in
 
     post path, form_params
     text = File.read("spec/fixtures/static_pages/#{path}.html")
@@ -61,7 +65,7 @@ module HTMLCompareHelper
       # Write it out to a file
       output("old.#{format}", o, path)
       output("new.#{format}", n, path)
-      exec("#{diff_path} old.#{format} new.#{format}")
+      system("#{diff_path} old.#{format} new.#{format}")
       raise "Don't match. Writing to file old.#{format} and new.#{format}"
     end
   end
@@ -87,7 +91,11 @@ module HTMLCompareHelper
     # Requires HTML Tidy (http://tidy.sourceforge.net/) version 14 June 2007 or later
     # Note the version installed with OS X by default is a version that's too old
     # Install on OS X with "brew install tidy"
-    system("#{tidy_path}#{' -xml' if format == :xml} --show-warnings no --sort-attributes alpha -utf8 -q -m temp")
+    command = "#{tidy_path}#{' -xml' if format == :xml} --show-warnings no --sort-attributes alpha -utf8 -q -m temp"
+    if system(command).nil? || $?.exitstatus > 1 #tidy is stupid and returns 1 on warning, 2 on failure.
+      raise "tidy command failed '#{command}'"
+    end
+
     r = File.read("temp")
     # Make sure that comments of the form <!-- comment --> are followed by a new line
     File.delete("temp")

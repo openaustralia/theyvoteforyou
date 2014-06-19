@@ -109,3 +109,19 @@ christopher_back:
   entered_reason: general_election
   left_reason: still_in_office
   person: 10722
+
+judith_adams:
+  mp_id: 100002
+  gid: uk.org.publicwhip/lord/100002
+  source_gid: ''
+  first_name: Judith
+  last_name: Adams
+  title: ''
+  constituency: WA
+  party: Liberal Party
+  house: lords
+  entered_house: 2005-07-01
+  left_house: 2012-03-31
+  entered_reason: general_election
+  left_reason: died
+  person: 10005
