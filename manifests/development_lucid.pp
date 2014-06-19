@@ -245,15 +245,19 @@ file { '/vagrant/rails/config/secrets.yml':
     ensure => 'present',
     content => "development:
   secret_key_base: bbe2a5f54b941a3bbf00b1d88615a7b2be7f3947aa76d423ebcb55c67f9c88b0b40d450aa34bf31abe3958a825db2d4a396f33ad12d2156811bdff9e73c9b169
+  php_id_hash_salt: soysauce
 
 test:
   secret_key_base: a34be84480b617fd7878f8d808f6ce66751b081ac394de8e47f64d6dda0d8e316af34b3e619465af628b8d286e9e868ddfc3c4d200d997ee485ff78726f865fc
+  php_id_hash_salt: chips
 
 production:
   secret_key_base: 16eba5b7795160905f7781790f6eaff0d715d21904284eeb81747917a44a52314b9896fa4876ca5159c29b734c70c30bdadc78683f4d8e8b2dea45e47040a15b
+  php_id_hash_salt: seaweed
 "
 
-#WARNING: obviously don't use the above keys in production, generate your own using 'bundle exec rake secret'.
+# FIXME: don't hard code these, use "bundle exec rake secret" to generate new
+# random ones as part of the provisioning.
 }
 
 # Set the PHP_SERVER environment variable that the rspec tests use
