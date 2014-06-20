@@ -63,6 +63,11 @@ function postcode_to_constituencies($db, $postcode) {
     if (!$response)
         return array('ERROR' => "There was an error looking up that postcode.");
 
+    # Temporary work around for https://github.com/openaustralia/openaustralia/issues/502
+    $malformed_error = '{"error":"Unknown postcode"}{}';
+    if (substr($response, -strlen($malformed_error)) === $malformed_error)
+        $response = '{"error":"Unknown postcode"}';
+
     $response = json_decode($response, true);
     if ($response['error']) {
         return array ("ERROR" => "The postcode server returned an error.");
