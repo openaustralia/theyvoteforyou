@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140616062909) do
+ActiveRecord::Schema.define(version: 20140617063310) do
 
   create_table "pw_cache_attendrank_today", id: false, force: true do |t|
     t.integer "mp_id",        null: false
