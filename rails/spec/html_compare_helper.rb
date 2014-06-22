@@ -3,17 +3,23 @@
 require 'open-uri'
 require 'net/http'
 require 'uri'
+require 'digest/md5'
 
 module HTMLCompareHelper
   include Warden::Test::Helpers
   Warden.test_mode!
+
+  def get_id_hash(user_name)
+    salt = Rails.application.secrets.php_id_hash_salt
+    Digest::MD5.hexdigest(user_name + salt)
+  end
 
   def compare(path, signed_in = false)
     if signed_in
       login_as(users(:one), :scope => :user)
 
       connection = Net::HTTP.new php_server
-      text = connection.get(path, {'Cookie' => 'user_name=henare; id_hash=0e53908d0c6a97f05b39c5dfb64a197a'}).body
+      text = connection.get(path, {'Cookie' => "user_name=henare; id_hash=#{get_id_hash('henare')}"}).body
     else
       text = Net::HTTP.get(php_server, path)
     end
@@ -28,7 +34,7 @@ module HTMLCompareHelper
     headers = {}
     if signed_in
       login_as(users(:one), :scope => :user)
-      headers['Cookie'] = 'user_name=henare; id_hash=0e53908d0c6a97f05b39c5dfb64a197a'
+      headers['Cookie'] = "user_name=henare; id_hash=#{get_id_hash('henare')}"
     end
     post path, form_params
     # Follow redirect
