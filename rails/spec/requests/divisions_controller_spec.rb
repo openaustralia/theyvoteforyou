@@ -53,7 +53,6 @@ describe DivisionsController do
     compare("/division.php?date=2013-03-14&number=1&mpn=Christine_Milne&mpc=Senate&house=senate&house=senate")
 
     compare("/division.php?date=2013-03-14&number=1&display=policies", true)
-    compare("/division.php?date=2013-03-14&number=1&display=policies", true)
     compare("/division.php?date=2013-03-14&number=1&house=representatives&display=policies", true)
     compare("/division.php?date=2013-03-14&number=1&house=senate&display=policies", true)
   end
