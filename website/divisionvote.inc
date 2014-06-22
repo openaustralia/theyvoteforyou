@@ -14,7 +14,7 @@ function vote_value($value, $curr)
     $ret = "value=\"" . html_scrub($value) . "\" ";
     if ($value == $curr)
     {
-        $ret .= "selected ";
+        $ret .= "selected=\"selected\" ";
     }
     return $ret;
 }
@@ -132,7 +132,7 @@ function write_single_policy_vote($db, $divattr, $voter)
         print " voted \n";
 
     if ($votechangeable)
-        print " <select name=\"vote$voter\" size=\"1\">
+        print " <select id=\"vote$voter\" name=\"vote$voter\" size=\"1\">
                     <option " . vote_value("--", $bvote) . ">Non-voter</option>
                     <option " . vote_value("aye3", $bvote) . ">Aye (strong)</option>
                     <option " . vote_value("aye", $bvote) . ">Aye</option>
