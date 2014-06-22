@@ -13,7 +13,7 @@ module HTMLCompareHelper
       login_as(users(:one), :scope => :user)
 
       connection = Net::HTTP.new php_server
-      text = connection.get(path, {'Cookie' => 'user_name=henare; id_hash=0e53908d0c6a97f05b39c5dfb64a197a'}).body
+      text = connection.get(path, {'Cookie' => 'user_name=henare; id_hash=eafc72bcea49e39de90363fcde8f749f'}).body
     else
       text = Net::HTTP.get(php_server, path)
     end
@@ -28,7 +28,7 @@ module HTMLCompareHelper
     headers = {}
     if signed_in
       login_as(users(:one), :scope => :user)
-      headers['Cookie'] = 'user_name=henare; id_hash=0e53908d0c6a97f05b39c5dfb64a197a'
+      headers['Cookie'] = 'user_name=henare; id_hash=eafc72bcea49e39de90363fcde8f749f'
     end
     post path, form_params
     # Follow redirect

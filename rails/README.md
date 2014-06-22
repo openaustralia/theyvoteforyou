@@ -6,6 +6,8 @@ Copy `config/database.yml.example` to `config/database.yml` and fill in the appr
 
 Copy `config/secrets.yml.example` to `config/secrets.yml` and run `bundle exec rake secret` to generate a secret_key_base for your environments.
 
+Ensure `$hidden_hash_var` in your `config.php` is set to an empty string so that logged in page tests work.
+
     # Install bundle
     bundle install
 
