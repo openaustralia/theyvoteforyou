@@ -11,4 +11,9 @@ class User < ActiveRecord::Base
   def change_password(new_password)
     self.password = Digest::MD5.hexdigest(new_password.downcase)
   end
+
+  # FIXME This should be an association
+  def active_policy
+    Policy.find active_policy_id
+  end
 end
