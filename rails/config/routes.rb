@@ -14,6 +14,7 @@ Publicwhip::Application.routes.draw do
 
   get 'divisions.php' => 'divisions#index'
   get 'division.php' => 'divisions#show'
+  post 'division.php' => 'divisions#add_policy_vote'
 
   get 'edits.php' => 'edits#show'
 
