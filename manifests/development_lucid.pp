@@ -47,6 +47,11 @@ package { 'tidy':
     ensure  => 'latest',
 }
 
+# Timezone for server must be sydney for now because php app relies on it.
+class { 'timezone':
+    timezone => 'Australia/Sydney',
+}
+
 # Ruby
 
 include rvm

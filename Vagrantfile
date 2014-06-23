@@ -44,6 +44,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
      if [ ! -d /etc/puppet/modules/rvm ] ; then
         puppet module install maestrodev/rvm
+     fi
+
+     if [ ! -d /etc/puppet/modules/timezone ] ; then
+        puppet module install saz-timezone
      fi"
   end
 
