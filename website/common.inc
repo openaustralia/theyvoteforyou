@@ -39,6 +39,8 @@ ini_set('log_errors_max_len', '0');
 ini_set('error_log', null);
 ini_set('ignore_repeated_errors', 'Off');
 ini_set('html_errors', 'Off');
+if (version_compare(PHP_VERSION, "5.0", ">="))
+    date_default_timezone_set("Australia/Sydney");
 
 if (get_magic_quotes_gpc()) {
     trigger_error("Public Whip only works with magic_quotes_gpc off in php.ini", E_USER_ERROR);
