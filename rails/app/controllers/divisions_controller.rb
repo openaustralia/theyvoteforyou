@@ -154,11 +154,14 @@ class DivisionsController < ApplicationController
       @changed_from = old_policy_division.vote unless old_policy_division.vote == params[:vote2]
       # FIXME: Because this table has no primary key we can't update or destroy old_policy_division directly
       PolicyDivision.delete_all house: House.australian_to_uk(@house), division_date: @date, division_number: params[:number], policy: @active_policy
-    else
+    elsif params[:vote2] != '--'
       @changed_from = 'non-voter'
     end
-    active_policy_division = PolicyDivision.create! house: House.australian_to_uk(@house), division_date: @date, division_number: params[:number], policy: @active_policy, vote: params[:vote2]
-    @active_policy_vote = active_policy_division.vote
+
+    if params[:vote2] != '--'
+      active_policy_division = PolicyDivision.create! house: House.australian_to_uk(@house), division_date: @date, division_number: params[:number], policy: @active_policy, vote: params[:vote2]
+      @active_policy_vote = active_policy_division.vote
+    end
 
     render 'show'
   end

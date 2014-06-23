@@ -194,6 +194,7 @@ describe DivisionsController do
   describe '#add_policy_vote' do
     it 'makes no changes' do
       compare_post '/division.php?date=2006-12-06&number=3&display=policies&dmp=2', true, submit: 'Update', vote2: 'no'
+      compare_post '/division.php?date=2009-11-25&number=8&house=senate&display=policies&dmp=2', true, submit: 'Update', vote2: '--'
     end
 
     it 'updates an existing policy division' do
