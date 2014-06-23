@@ -17,6 +17,9 @@
     - if @changed_from
       - # FIXME Adding a preceeding space to match PHP
       \ <span class="error">Changed from #{@changed_from}</span>
+    - elsif params[:submit] == 'Update'
+      - # FIXME Adding a preceeding space to match PHP
+      \ <span class="error">No change made</span>
 
 %h2
   %a{:name => "dreammp"} Policies

@@ -191,8 +191,17 @@ describe DivisionsController do
     it { compare_post '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate', true, submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description' }
   end
 
-  describe '#add_policy_vote', focus: true do
-    # it { compare_post '/division.php?date=2013-03-14&number=1&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3' }
-    it { compare_post_static '/division.php?date=2013-03-14&number=1&house=senate&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3' }
+  describe '#add_policy_vote' do
+    it 'makes no changes' do
+      compare_post '/division.php?date=2006-12-06&number=3&display=policies&dmp=2', true, submit: 'Update', vote2: 'no'
+    end
+
+    it 'updates an existing policy division' do
+      compare_post_static '/division.php?date=2013-03-14&number=1&house=senate&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'
+    end
+
+    it 'creates a new policy division' do
+      compare_post_static '/division.php?date=2013-03-14&number=1&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'
+    end
   end
 end
