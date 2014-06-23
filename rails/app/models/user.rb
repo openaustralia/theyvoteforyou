@@ -14,6 +14,6 @@ class User < ActiveRecord::Base
 
   # FIXME This should be an association
   def active_policy
-    Policy.find active_policy_id
+    Policy.find active_policy_id if active_policy_id
   end
 end
