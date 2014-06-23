@@ -149,6 +149,7 @@ class DivisionsController < ApplicationController
     @display = params[:display]
     @division = Division.in_australian_house(@house).find_by!(division_date: @date, division_number: params[:number])
 
+    # FIXME This logic is all over the place and too complex. Simplify
     @active_policy = current_user.active_policy
     if old_policy_division = @division.policy_divisions.find_by(policy: @active_policy)
       @changed_from = old_policy_division.vote unless old_policy_division.vote == params[:vote2]
