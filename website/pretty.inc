@@ -462,88 +462,71 @@ function relative_time ($datetime) {
 	return $relative_date.' ago';
 }
 
-// Copied from http://trac.symfony-project.org/browser/branches/1.4/lib/helper/DateHelper.php#L68
+# Implementation of similar ruby on rails method.
+# From file actionpack/lib/action_view/helpers/date_helper.rb, line 67 (MIT license)
 function distance_of_time_in_words($from_time, $to_time = null, $include_seconds = false)
 {
-  $to_time = $to_time? $to_time: time();
+  $to_time = $to_time? $to_time : time();
+  if($from_time > $to_time)
+  {
+    $temp = $from_time;
+    $from_time = $to_time;
+    $to_time = $from_time;
+  }
 
-  $distance_in_minutes = floor(abs($to_time - $from_time) / 60);
-  $distance_in_seconds = floor(abs($to_time - $from_time));
+  $distance_in_minutes = round(($to_time - $from_time)/60.0);
+  $distance_in_seconds = round($to_time - $from_time);
 
-  $string = '';
-  $parameters = array();
+  if($distance_in_minutes <= 1 && $include_seconds)
+  {
+    if($distance_in_seconds < 4)
+      return "less than 5 seconds";
 
-  if ($distance_in_minutes <= 1)
-  {
-    if (!$include_seconds)
-    {
-      $string = $distance_in_minutes == 0 ? 'less than a minute' : '1 minute';
-    }
-    else
-    {
-      if ($distance_in_seconds <= 5)
-      {
-        $string = 'less than 5 seconds';
-      }
-      else if ($distance_in_seconds >= 6 && $distance_in_seconds <= 10)
-      {
-        $string = 'less than 10 seconds';
-      }
-      else if ($distance_in_seconds >= 11 && $distance_in_seconds <= 20)
-      {
-        $string = 'less than 20 seconds';
-      }
-      else if ($distance_in_seconds >= 21 && $distance_in_seconds <= 40)
-      {
-        $string = 'half a minute';
-      }
-      else if ($distance_in_seconds >= 41 && $distance_in_seconds <= 59)
-      {
-        $string = 'less than a minute';
-      }
-      else
-      {
-        $string = '1 minute';
-      }
-    }
+    if($distance_in_seconds < 10)
+      return "less than 10 seconds";
+
+    if($distance_in_seconds < 20)
+      return "less than 20 seconds";
+
+    if($distance_in_seconds < 40)
+      return "half a minute";
+
+    if($distance_in_seconds < 60)
+      return "less than a minute";
+
+    return "1 minute";
   }
-  else if ($distance_in_minutes >= 2 && $distance_in_minutes <= 44)
-  {
-    return $distance_in_minutes . ' minutes';
-  }
-  else if ($distance_in_minutes >= 45 && $distance_in_minutes <= 89)
-  {
-    return 'about 1 hour';
-  }
-  else if ($distance_in_minutes >= 90 && $distance_in_minutes <= 1439)
-  {
-    return 'about ' . round($distance_in_minutes / 60) . ' hours';
-  }
-  else if ($distance_in_minutes >= 1440 && $distance_in_minutes <= 2879)
-  {
-    return '1 day';
-  }
-  else if ($distance_in_minutes >= 2880 && $distance_in_minutes <= 43199)
-  {
-    return round($distance_in_minutes / 1440) . ' days';
-  }
-  else if ($distance_in_minutes >= 43200 && $distance_in_minutes <= 86399)
-  {
-    return 'about 1 month';
-  }
-  else if ($distance_in_minutes >= 86400 && $distance_in_minutes <= 525959)
-  {
-    return round($distance_in_minutes / 43200) . ' months';
-  }
-  else if ($distance_in_minutes >= 525960 && $distance_in_minutes <= 1051919)
-  {
-    return 'about 1 year';
-  }
-  else
-  {
-    return 'over ' . floor($distance_in_minutes / 525960) . ' years';
-  }
-  return $string;
+
+  if($distance_in_minutes == 0)
+    return "less than a minute";
+
+  if($distance_in_minutes == 1)
+    return "1 minute";
+
+  if($distance_in_minutes <= 45)
+    return $distance_in_minutes . " minutes";
+
+  if($distance_in_minutes <= 90)
+    return "about 1 hour";
+
+  if($distance_in_minutes <= 1440)
+    return "about " . round(((float)$distance_in_minutes) / 60.0) . " hours";
+
+  if($distance_in_minutes <= 2520)
+    return "1 day";
+
+  if($distance_in_minutes <= 43200)
+    return round(((float)$distance_in_minutes) / 1440.0) . " days";
+
+  if($distance_in_minutes <= 86400)
+    return "about " . round(((float)$distance_in_minutes) / 43200.0) . " months";
+
+  if($distance_in_minutes <= 525600)
+    return round(((float)$distance_in_minutes) / 43200.0) . " months";
+
+  # Don't bother implementing further for now as relative_time function
+  # doesn't care about time spans older than a month.
+  throw new Exception("Haven't implemented distance_in_words function for time spans over 365 days");
 }
 
 // Copied from http://trac.symfony-project.org/browser/branches/1.4/lib/helper/DateHelper.php#L166
