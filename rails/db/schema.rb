@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140617063310) do
+ActiveRecord::Schema.define(version: 20140623022321) do
 
   create_table "pw_cache_attendrank_today", id: false, force: true do |t|
     t.integer "mp_id",        null: false
@@ -261,8 +261,13 @@ ActiveRecord::Schema.define(version: 20140617063310) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
   end
 
+  add_index "pw_dyn_user", ["confirmation_token"], name: "index_pw_dyn_user_on_confirmation_token", unique: true, using: :btree
   add_index "pw_dyn_user", ["reset_password_token"], name: "index_pw_dyn_user_on_reset_password_token", unique: true, using: :btree
 
   create_table "pw_dyn_wiki_motion", primary_key: "wiki_id", force: true do |t|
