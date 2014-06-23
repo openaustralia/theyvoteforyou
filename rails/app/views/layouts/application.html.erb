@@ -121,7 +121,7 @@ function ClickSup(nsup) {
           <%= link_to "Help / FAQ", help_path, title: "Frequently asked questions" %>
           <% if user_signed_in? %>
             <div id="account-navbar">
-              <a href="/account/settings.php" title="Change account settings">You are: <%= current_user.user_name %></a>
+              <a href="/account/settings.php" title="Change account settings">You are: <%= current_user.user_name || current_user.email %></a>
               <a href="/account/logout.php?r=<%= CGI.escape(params[:r] ? params[:r] : request.fullpath) %>" title="Make your browser forget that you are logged into The Public Whip as <%= current_user.user_name %>">Logout</a>
             </div>
           <% else %>
