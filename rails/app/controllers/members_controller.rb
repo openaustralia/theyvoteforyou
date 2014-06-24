@@ -25,13 +25,13 @@ class MembersController < ApplicationController
     end
 
     # FIXME: Should be easy to refactor this, just doing the dumb thing right now
-    # BUG: Doing a join on member_info returns less MPs in my test data than there are in the DB
+    member_info_join = 'LEFT OUTER JOIN `pw_cache_mpinfo` ON `pw_cache_mpinfo`.`mp_id` = `pw_mp`.`mp_id`'
     if @parliament.nil?
-      @members = Member.current.in_australian_house(@house).joins(:member_info).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
+      @members = Member.current.in_australian_house(@house).joins(member_info_join).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
     elsif @parliament == "all"
-      @members = Member.in_australian_house(@house).joins(:member_info).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
+      @members = Member.in_australian_house(@house).joins(member_info_join).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
     elsif Parliament.all[@parliament]
-      @members = Member.where("? >= entered_house AND ? < left_house", Parliament.all[@parliament][:to], Parliament.all[@parliament][:from]).in_australian_house(@house).joins(:member_info).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
+      @members = Member.where("? >= entered_house AND ? < left_house", Parliament.all[@parliament][:to], Parliament.all[@parliament][:from]).in_australian_house(@house).joins(member_info_join).select("*, votes_attended/votes_possible as attendance_fraction, rebellions/votes_attended as rebellions_fraction").order(order)
     else
       raise
     end
