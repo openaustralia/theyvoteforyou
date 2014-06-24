@@ -125,3 +125,19 @@ judith_adams:
   entered_reason: general_election
   left_reason: died
   person: 10005
+
+paul_zammit:
+  mp_id: 562
+  gid: uk.org.publicwhip/member/562
+  source_gid: ''
+  first_name: Paul
+  last_name: Zammit
+  title: ''
+  constituency: Lowe
+  party: Independent
+  house: commons
+  entered_house: 1996-03-02
+  left_house: 1998-10-03
+  entered_reason: general_election
+  left_reason: ''
+  person: 10694
