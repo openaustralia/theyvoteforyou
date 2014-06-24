@@ -138,6 +138,10 @@ out its syntax.  Now do this:
 
 <p><tt>./calc_caches.php</tt>
 
+<p>Next run this to calculate the Possible Friends section for MPs:
+
+<p><tt>./mp_distance.php</tt>
+
 <p>While you're doing this all, you probably want to run a tool like the <a
 href="http://www.mysql.com/products/mysqlcc/">MySQL Control Center</a>
 to browse the database tables and see what data they are filling up
