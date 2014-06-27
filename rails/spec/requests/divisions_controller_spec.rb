@@ -204,5 +204,12 @@ describe DivisionsController do
     it 'creates a new policy division' do
       compare_static '/division.php?date=2013-03-14&number=1&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'
     end
+
+    it 'recalculates MP agreement percentages' do
+      # Just post to Rails
+      compare_static '/division.php?date=2013-03-14&number=1&house=senate&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'
+      # Compare Rails what the PHP app would generate (because it would rebuild it's cache)
+      compare_static '/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate', true
+    end
   end
 end
