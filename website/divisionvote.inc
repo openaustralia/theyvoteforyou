@@ -111,6 +111,9 @@ function write_single_policy_vote($db, $divattr, $voter)
 
             $voteannouce = "<span class=\"error\">Changed from ".($bvote == "--" ? "non-voter" : $bvote)."</span>";
             $bvote = $newbvote;
+
+            # Rebuild caches
+            update_dreammp_person_distance($db, $voter);
         } else {
             $voteannouce = "<span class=\"error\">No change made</span>";
         }
