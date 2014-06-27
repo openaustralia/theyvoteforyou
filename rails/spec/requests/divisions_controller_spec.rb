@@ -198,11 +198,11 @@ describe DivisionsController do
     end
 
     it 'updates an existing policy division' do
-      compare_post_static '/division.php?date=2013-03-14&number=1&house=senate&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'
+      compare_static '/division.php?date=2013-03-14&number=1&house=senate&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'
     end
 
     it 'creates a new policy division' do
-      compare_post_static '/division.php?date=2013-03-14&number=1&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'
+      compare_static '/division.php?date=2013-03-14&number=1&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'
     end
   end
 end

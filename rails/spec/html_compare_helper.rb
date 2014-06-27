@@ -40,10 +40,11 @@ module HTMLCompareHelper
     compare_text(text, response.body, path)
   end
 
-  def compare_post_static(path, signed_in, form_params)
+  def compare_static(path, signed_in, form_params = false)
     login_as(users(:one), :scope => :user) if signed_in
 
-    post path, form_params
+    form_params ? post(path, form_params) : get(path)
+
     text = File.read("spec/fixtures/static_pages/#{path}.html")
     compare_text(text, response.body, path)
   end
