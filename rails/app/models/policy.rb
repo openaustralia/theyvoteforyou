@@ -10,8 +10,6 @@ class Policy < ActiveRecord::Base
   validates :name, :description, :user_id, :private, presence: true
   validates :name, uniqueness: true
 
-  delegate :votes_count, :edited_motions_count, to: :policy_info, allow_nil: true
-
   alias_attribute :id, :dream_id
 
   # HACK: Not using an association due to the fact that policy_divisions doesn't include a division_id!
@@ -19,8 +17,16 @@ class Policy < ActiveRecord::Base
     policy_divisions.collect { |pd| pd.division }
   end
 
+  def votes_count
+    policy_divisions.count
+  end
+
+  def edited_motions_count
+    divisions.select { |d| d.motion_edited? }.size
+  end
+
   def unedited_motions
-    votes_count - edited_motions_count if policy_info
+    votes_count - edited_motions_count
   end
 
   def status
