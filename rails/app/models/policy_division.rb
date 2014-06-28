@@ -8,10 +8,6 @@ class PolicyDivision < ActiveRecord::Base
   delegate :name, :australian_house, :australian_house_name, to: :division
 
   def division
-    divisions = Division.where(division_date: division_date,
-                               division_number: division_number,
-                               house: house)
-    raise 'Multiple divisions found' if divisions.size > 1
-    divisions.first
+    Division.find_by!(division_date: division_date, division_number: division_number, house: house)
   end
 end
