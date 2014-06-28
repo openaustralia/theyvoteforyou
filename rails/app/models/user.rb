@@ -7,13 +7,9 @@ class User < ActiveRecord::Base
 
   has_many :wiki_motions
   has_many :policies
+  has_one :active_policy, class_name: "Policy", foreign_key: :dream_id, primary_key: :active_policy_id
 
   def change_password(new_password)
     self.password = Digest::MD5.hexdigest(new_password.downcase)
-  end
-
-  # FIXME This should be an association
-  def active_policy
-    Policy.find active_policy_id if active_policy_id
   end
 end
