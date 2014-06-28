@@ -61,6 +61,31 @@ class Policy < ActiveRecord::Base
       end
     end
 
-    # TODO: Calculate member distances based on the above
+    policy_member_distances.reload.each do |pmd|
+      pmd.update! distance_a: calculate_distance(pmd), distance_b: calculate_distance(pmd, false)
+    end
+  end
+
+  private
+
+  # This is coped from the PHP app, I don't really understand the how and why so far
+  def calculate_distance(pmd, include_abstentions = true)
+    nvotessame, nvotessamestrong, nvotesdiffer, nvotesdifferstrong = pmd.nvotessame, pmd.nvotessamestrong, pmd.nvotesdiffer, pmd.nvotesdifferstrong
+    if include_abstentions
+      nvotesabsent, nvotesabsentstrong = pmd.nvotesabsent, pmd.nvotesabsentstrong
+    else
+      nvotesabsent, nvotesabsentstrong = 0, 0
+    end
+
+    tlw = 5.0
+
+    weight = nvotessame + tlw * nvotessamestrong +
+             nvotesdiffer + tlw * nvotesdifferstrong + 0.2 *
+             nvotesabsent + tlw * nvotesabsentstrong
+
+    score = nvotesdiffer + tlw * nvotesdifferstrong + 0.1 *
+            nvotesabsent + (tlw / 2) * nvotesabsentstrong
+
+    weight == 0.0 ? -1.0 : score / weight
   end
 end
