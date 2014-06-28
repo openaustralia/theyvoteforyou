@@ -1,6 +1,15 @@
 class PolicyMemberDistance < ActiveRecord::Base
   self.table_name = "pw_cache_dreamreal_distance"
 
+  attr_defaults nvotessame: 0.0,
+                nvotessamestrong: 0.0,
+                nvotesdiffer: 0.0,
+                nvotesdifferstrong: 0.0,
+                nvotesabsent: 0.0,
+                nvotesabsentstrong: 0.0,
+                distance_a: 0.0,
+                distance_b: 0.0
+
   belongs_to :policy, foreign_key: :dream_id
   belongs_to :member, foreign_key: :person, primary_key: :person
 
