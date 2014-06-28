@@ -10,4 +10,8 @@ class PolicyDivision < ActiveRecord::Base
   def division
     Division.find_by!(division_date: division_date, division_number: division_number, house: house)
   end
+
+  def strong_vote?
+    vote == 'aye3' || vote == 'no3'
+  end
 end

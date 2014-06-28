@@ -2,7 +2,8 @@ class Policy < ActiveRecord::Base
   self.table_name = 'pw_dyn_dreammp'
 
   has_many :policy_divisions, foreign_key: :dream_id
-  has_many :policy_member_distances, foreign_key: :dream_id
+  has_many :policy_member_distances, foreign_key: :dream_id, dependent: :destroy
+  has_many :divisions, through: :policy_divisions
   has_one :policy_info, foreign_key: :dream_id
   belongs_to :user
 
@@ -31,5 +32,62 @@ class Policy < ActiveRecord::Base
     when 2
       'provisional'
     end
+  end
+
+  def calculate_member_agreement_percentages!
+    policy_member_distances.delete_all
+
+    policy_divisions.each do |policy_division|
+      policy_division_vote = policy_division.vote
+      policy_division_vote_strong = policy_division.strong_vote?
+
+      Member.current_on(policy_division.date).in_australian_house(House.uk_to_australian(policy_division.house)).each do |member|
+        member_vote = member.vote_on_division(policy_division.division)
+
+        # FIXME: Can't simply use find_or_create_by here thanks to the missing primary key fartarsery
+        policy_member_distance = PolicyMemberDistance.find_by(person: member.person, dream_id: id) || policy_member_distances.create!(member: member)
+
+        if member_vote == 'absent' && policy_division_vote_strong
+          policy_member_distance.increment! :nvotesabsentstrong
+        elsif member_vote == 'absent'
+          policy_member_distance.increment! :nvotesabsent
+        elsif member_vote == policy_division_vote && policy_division_vote_strong
+          policy_member_distance.increment! :nvotessamestrong
+        elsif member_vote == policy_division_vote
+          policy_member_distance.increment! :nvotesame
+        elsif member_vote != policy_division_vote && policy_division_vote_strong
+          policy_member_distance.increment! :nvotesdifferstrong
+        elsif member_vote != policy_division_vote
+          policy_member_distance.increment! :nvotesdiffer
+        end
+      end
+    end
+
+    policy_member_distances.reload.each do |pmd|
+      pmd.update! distance_a: calculate_distance(pmd), distance_b: calculate_distance(pmd, false)
+    end
+  end
+
+  private
+
+  # This is coped from the PHP app, I don't really understand the how and why so far
+  def calculate_distance(pmd, include_abstentions = true)
+    nvotessame, nvotessamestrong, nvotesdiffer, nvotesdifferstrong = pmd.nvotessame, pmd.nvotessamestrong, pmd.nvotesdiffer, pmd.nvotesdifferstrong
+    if include_abstentions
+      nvotesabsent, nvotesabsentstrong = pmd.nvotesabsent, pmd.nvotesabsentstrong
+    else
+      nvotesabsent, nvotesabsentstrong = 0, 0
+    end
+
+    tlw = 5.0
+
+    weight = nvotessame + tlw * nvotessamestrong +
+             nvotesdiffer + tlw * nvotesdifferstrong + 0.2 *
+             nvotesabsent + tlw * nvotesabsentstrong
+
+    score = nvotesdiffer + tlw * nvotesdifferstrong + 0.1 *
+            nvotesabsent + (tlw / 2) * nvotesabsentstrong
+
+    weight == 0.0 ? -1.0 : score / weight
   end
 end

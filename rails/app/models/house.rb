@@ -6,7 +6,7 @@ class House
     when "lords"
       "senate"
     else
-      raise "Unexpected value"
+      raise "Unexpected value: #{house}"
     end
   end
 
@@ -17,7 +17,7 @@ class House
     when "senate"
       "lords"
     else
-      raise "unexpected value"
+      raise "unexpected value: #{australian_house}"
     end
   end
 end

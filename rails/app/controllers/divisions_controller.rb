@@ -164,6 +164,9 @@ class DivisionsController < ApplicationController
       @active_policy_vote = active_policy_division.vote
     end
 
+    # Refresh the calculated percentages for this policy
+    @active_policy.calculate_member_agreement_percentages!
+
     render 'show'
   end
 end
