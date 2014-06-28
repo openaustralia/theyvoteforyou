@@ -14,4 +14,8 @@ class PolicyDivision < ActiveRecord::Base
     raise 'Multiple divisions found' if divisions.size > 1
     divisions.first
   end
+
+  def strong_vote?
+    vote == 'aye3' || vote == 'no3'
+  end
 end
