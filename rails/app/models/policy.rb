@@ -3,7 +3,6 @@ class Policy < ActiveRecord::Base
 
   has_many :policy_divisions, foreign_key: :dream_id
   has_many :policy_member_distances, foreign_key: :dream_id
-  has_many :divisions, through: :policy_divisions
   has_one :policy_info, foreign_key: :dream_id
   belongs_to :user
 
