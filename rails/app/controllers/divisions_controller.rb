@@ -149,23 +149,10 @@ class DivisionsController < ApplicationController
     @display = params[:display]
     @division = Division.in_australian_house(@house).find_by!(division_date: @date, division_number: params[:number])
 
-    # FIXME This logic is all over the place and too complex. Simplify
     @active_policy = current_user.active_policy
-    if old_policy_division = @division.policy_divisions.find_by(policy: @active_policy)
-      @changed_from = old_policy_division.vote unless old_policy_division.vote == params[:vote2]
-      # FIXME: Because this table has no primary key we can't update or destroy old_policy_division directly
-      PolicyDivision.delete_all house: House.australian_to_uk(@house), division_date: @date, division_number: params[:number], policy: @active_policy
-    elsif params[:vote2] != '--'
-      @changed_from = 'non-voter'
-    end
+    @changed_from = @active_policy.add_division(@division, params[:vote2])
 
-    if params[:vote2] != '--'
-      active_policy_division = PolicyDivision.create! house: House.australian_to_uk(@house), division_date: @date, division_number: params[:number], policy: @active_policy, vote: params[:vote2]
-      @active_policy_vote = active_policy_division.vote
-    end
-
-    # Refresh the calculated percentages for this policy
-    @active_policy.calculate_member_agreement_percentages!
+    @active_policy_vote = params[:vote2]
 
     render 'show'
   end
