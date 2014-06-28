@@ -13,6 +13,11 @@ class PolicyMemberDistance < ActiveRecord::Base
   belongs_to :policy, foreign_key: :dream_id
   belongs_to :member, foreign_key: :person, primary_key: :person
 
+  # TODO: Rename these attributes.
+  # These are disabled because we can't use these yet thanks to the missing primary key ass hattery below
+  # alias_attribute :distance_a, :distance
+  # alias_attribute :distance_b, :distance_without_abstentions
+
   # Use update_all because we don't yet have a primary key on this model
   # TODO: Add a primary key and get rid of this function
   def increment!(attribute, by = 1)
