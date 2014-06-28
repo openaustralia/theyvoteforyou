@@ -43,7 +43,9 @@ class Policy < ActiveRecord::Base
 
       Member.current_on(policy_division.date).in_australian_house(House.uk_to_australian(policy_division.house)).each do |member|
         member_vote = member.vote_on_division(policy_division.division)
-        policy_member_distance = policy_member_distances.find_or_create_by!(member: member)
+
+        # FIXME: Can't simply use find_or_create_by here thanks to the missing primary key fartarsery
+        policy_member_distance = PolicyMemberDistance.find_by(person: member.person, dream_id: id) || policy_member_distances.create!(member: member)
 
         if member_vote == 'absent' && policy_division_vote_strong
           policy_member_distance.increment! :nvotesabsentstrong
