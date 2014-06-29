@@ -21,10 +21,10 @@ class Policy < ActiveRecord::Base
   end
 
   def edited_motions_count
-    divisions.select { |d| d.motion_edited? }.size
+    divisions.select { |d| d.motion_edited? }.count
   end
 
-  def unedited_motions
+  def unedited_motions_count
     votes_count - edited_motions_count
   end
 

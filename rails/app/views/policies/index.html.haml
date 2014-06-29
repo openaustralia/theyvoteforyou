@@ -27,8 +27,8 @@
       %tr{:class => cycle('odd', 'even')}
         %td
           = "#{policy.votes_count} "
-          - if policy.unedited_motions != 0
-            %i= "(#{policy.unedited_motions})"
+          - if policy.unedited_motions_count != 0
+            %i= "(#{policy.unedited_motions_count})"
         %td
           = link_to policy.name, policy
   - else
