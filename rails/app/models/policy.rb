@@ -4,13 +4,10 @@ class Policy < ActiveRecord::Base
   has_many :policy_divisions, foreign_key: :dream_id
   has_many :policy_member_distances, foreign_key: :dream_id, dependent: :destroy
   has_many :divisions, through: :policy_divisions
-  has_one :policy_info, foreign_key: :dream_id
   belongs_to :user
 
   validates :name, :description, :user_id, :private, presence: true
   validates :name, uniqueness: true
-
-  delegate :votes_count, :edited_motions_count, to: :policy_info, allow_nil: true
 
   alias_attribute :id, :dream_id
 
@@ -19,8 +16,16 @@ class Policy < ActiveRecord::Base
     policy_divisions.collect { |pd| pd.division }
   end
 
-  def unedited_motions
-    votes_count - edited_motions_count if policy_info
+  def votes_count
+    policy_divisions.count
+  end
+
+  def edited_motions_count
+    divisions.select { |d| d.motion_edited? }.count
+  end
+
+  def unedited_motions_count
+    votes_count - edited_motions_count
   end
 
   def status

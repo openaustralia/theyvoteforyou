@@ -120,6 +120,7 @@ function update_dreammp_votemeasures($db, $dreamid, $cache_uptodate_default)
 		$placeheld[]=$dreamid;
 	}
 	$qwhere .= " AND pw_cache_divwiki.division_date = pw_dyn_dreamvote.division_date
+          AND pw_cache_divwiki.house = pw_dyn_dreamvote.house
 					AND pw_cache_divwiki.division_number = pw_dyn_dreamvote.division_number";
 
 	$qgroup = " GROUP BY pw_dyn_dreamvote.dream_id";
