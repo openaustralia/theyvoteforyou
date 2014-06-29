@@ -581,6 +581,9 @@ if (true===function_exists('advertisement')) {
 
 	if ($dismode["dreamcompare"])
 	{
+    # Ensure pw_cache_dreaminfo is populated
+    update_dreammp_votemeasures($db, null, 1);
+
 		print "<h2><a name=\"dreammotions\">Policy Comparisons</a>\n";
         print "</h2>\n";
 
