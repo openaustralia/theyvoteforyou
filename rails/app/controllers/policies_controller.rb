@@ -5,7 +5,7 @@ class PoliciesController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
 
   def index
-    @policies = Policy.joins(:policy_info).order(:private, :name)
+    @policies = Policy.order(:private, :name)
   end
 
   def show
