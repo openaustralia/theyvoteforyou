@@ -55,6 +55,7 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
+    diffy (3.0.4)
     domain_name (0.5.13)
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
@@ -253,6 +254,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   database_cleaner
   devise
+  diffy
   guard
   guard-rspec
   haml

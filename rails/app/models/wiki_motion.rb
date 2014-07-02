@@ -23,6 +23,18 @@ class WikiMotion < ActiveRecord::Base
     write_attribute(:edit_date, date.strftime('%F %T'))
   end
 
+  def previous_edit
+    division.wiki_motions.find_by('edit_date < ?', edit_date)
+  end
+
+  def previous_description
+    if previous_edit
+      previous_edit.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1]
+    else
+      division.original_motion
+    end
+  end
+
   private
 
   def set_text_body

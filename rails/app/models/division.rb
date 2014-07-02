@@ -155,6 +155,10 @@ class Division < ActiveRecord::Base
     text.gsub('—', '-')
   end
 
+  def original_motion
+    read_attribute(:motion)
+  end
+
   def motion_edited?
     !wiki_motion.nil?
   end

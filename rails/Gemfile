@@ -37,6 +37,8 @@ gem 'devise'
 
 gem 'attribute-defaults'
 
+gem 'diffy'
+
 group :test do
   # We can't use transactional fixtures as the php app and the rails app need to see
   # the same database. So, using database_cleaner instead
