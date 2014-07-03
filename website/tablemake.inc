@@ -679,7 +679,7 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
 
     # make the table of party in the left hand side
     print "<table class=\"votetab\">";
-    //print "<tr class=\"headings\"><td></td><td>Aye</td><td>No</td></tr>\n";
+    print "<tr class=\"headings\"><td></td><td>Aye</td><td>No</td></tr>\n";
 
     $lnrows = 0;
 
