@@ -226,9 +226,7 @@ class Division < ActiveRecord::Base
   end
 
   def policy_vote(policy)
-    policy_division = policy_divisions.where(dream_id: policy.id)
-    raise if policy_division.size > 1
-    policy_division.first.vote
+    policy_divisions.find_by!(dream_id: policy.id).vote
   end
 
   # Extracts specially formatted voting actions that the user enters as comments
