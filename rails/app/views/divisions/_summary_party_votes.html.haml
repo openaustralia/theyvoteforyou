@@ -4,6 +4,7 @@
     %td Majority (#{division.majority_type.capitalize})
     %td Minority (#{division.minority_type.capitalize})
     %td Turnout
+  - reset_cycle
   - division.whips.order(:party).each do |whip|
     -# Don't shown parties that haven't voted in this division
     - if whip.total_votes > 0
