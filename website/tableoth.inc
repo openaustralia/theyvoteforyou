@@ -269,10 +269,6 @@
             die;
         }
 
-        $pwpdo->query("SELECT aye_majority FROM pw_cache_divinfo WHERE division_id=?",array($div_id));
-        $row = $pwpdo->fetch_row();
-        $aye_majority = $row["aye_majority"];
-
         # Table of votes by party
         print "<h2><a name=\"summary\">Party Summary</a></h2>";
         print "<p>Votes by party, red entries are votes against the majority for that party.</p>";
@@ -293,11 +289,9 @@
         </p>
         </div>";
 
-		$query = "SELECT party, aye_votes, aye_tells, no_votes, no_tells, both_votes, abstention_votes, possible_votes, whip_guess
-					FROM pw_cache_whip
-					WHERE division_id = ?
-					ORDER BY party";
-		$pwpdo->query($query,array($div_id));
+        $pwpdo->query("SELECT aye_majority FROM pw_cache_divinfo WHERE division_id=?",array($div_id));
+        $row = $pwpdo->fetch_row();
+        $aye_majority = $row["aye_majority"];
 
         $noesfirst = ($aye_majority < 0); 
         # Make table
@@ -319,7 +313,13 @@
 		$totalturnout = 0;
 		$totalpossible = 0;
 		$totalabstentions = 0;
-	    
+
+        $query = "SELECT party, aye_votes, aye_tells, no_votes, no_tells, both_votes, abstention_votes, possible_votes, whip_guess
+                  FROM pw_cache_whip
+                  WHERE division_id = ?
+                  ORDER BY party";
+        $pwpdo->query($query,array($div_id));
+
         while ($row = $pwpdo->fetch_row())
 		{
             $party = $row["party"];
