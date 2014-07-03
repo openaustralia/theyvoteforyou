@@ -14,7 +14,10 @@
     = policy_nav_link 'editdefinition', 'Edit', 'Change title and definition of policy', @display
 <!-- the second tier navigation as dropdowns end-->
 
-- if @display.nil?
+- case @display
+- when nil
   = render 'votes'
-- elsif @display == 'editdefinition'
+- when 'motions'
+  = render 'detailed_votes'
+- when 'editdefinition'
   = render 'edit_policy'
