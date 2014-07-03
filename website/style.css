@@ -125,6 +125,9 @@ tr.alt td {background:#E7F4F5;}
 td {padding:4px 7px;}
 tr.over, tr.over td {background:#CFE8EB;}
 
+table.votetab { width: 100%; }
+table.policyvotehead { width: 100%; }
+
 /* Divisions */
 .speaker {font-weight: bold}
 .motion-text {
