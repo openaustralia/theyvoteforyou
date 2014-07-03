@@ -264,7 +264,6 @@
 
     function print_party_summary_division( $div_id, $baseurl, $house)
     {
-        global $pwpdo;
         if ($house != "commons" && $house != "lords" && $house != "scotland") {
             die;
         }
@@ -289,6 +288,12 @@
         </p>
         </div>";
 
+        print_party_summary_division_table($div_id, $house);
+	}
+
+    function print_party_summary_division_table($div_id, $house) {
+        global $pwpdo;
+
         $pwpdo->query("SELECT aye_majority FROM pw_cache_divinfo WHERE division_id=?",array($div_id));
         $row = $pwpdo->fetch_row();
         $aye_majority = $row["aye_majority"];
@@ -307,12 +312,12 @@
         print "<td>Turnout</td></tr>\n";
         $prettyrow = 0;
 
-		$totalayes = 0;
-		$totalnoes = 0;
-		$totalboths = 0;
-		$totalturnout = 0;
-		$totalpossible = 0;
-		$totalabstentions = 0;
+        $totalayes = 0;
+        $totalnoes = 0;
+        $totalboths = 0;
+        $totalturnout = 0;
+        $totalpossible = 0;
+        $totalabstentions = 0;
 
         $query = "SELECT party, aye_votes, aye_tells, no_votes, no_tells, both_votes, abstention_votes, possible_votes, whip_guess
                   FROM pw_cache_whip
@@ -321,37 +326,37 @@
         $pwpdo->query($query,array($div_id));
 
         while ($row = $pwpdo->fetch_row())
-		{
+        {
             $party = $row["party"];
-			$aye = $row["aye_votes"];
-			$tellaye = $row["aye_tells"];
-			$no = $row["no_votes"];
-			$tellno = $row["no_tells"];
-			$both = $row["both_votes"];
-			$abstentions = $row["abstention_votes"];
+            $aye = $row["aye_votes"];
+            $tellaye = $row["aye_tells"];
+            $no = $row["no_votes"];
+            $tellno = $row["no_tells"];
+            $both = $row["both_votes"];
+            $abstentions = $row["abstention_votes"];
 
             $total = $aye + $no + $both + $abstentions + $tellaye + $tellno;
             if (($total == 0) && ($party != "Con" && $party != "Lab" && $party != "LDem"))
                 continue; 
 
-			$totalayes += $aye + $tellaye;
-			$totaltellayes += $tellaye;
-			$totalnoes += $no + $tellno;
-			$totaltellnoes += $tellno;
-			$totalboths += $both;
-			$totalabstentions += $abstentions;
-			$totalturnout += $total;
-			$totalpossible += $row["possible_votes"];
+            $totalayes += $aye + $tellaye;
+            $totaltellayes += $tellaye;
+            $totalnoes += $no + $tellno;
+            $totaltellnoes += $tellno;
+            $totalboths += $both;
+            $totalabstentions += $abstentions;
+            $totalturnout += $total;
+            $totalpossible += $row["possible_votes"];
 
             $whip = $row["whip_guess"];
             $classaye = ($aye + $tellaye > 0 ? ($whip == "no" ? "rebel" : "whip") : "normal");
             $classno = ($no + $tellno > 0 ? ($whip == "aye" ? "rebel" : "whip") : "normal");
             $classboth = ($both > 0 ? "important" : "normal");
-	    if( $house == "scotland" ) {
-	      $classaye = (($aye > 0) ? (($whip == "no" || $whip == "abstention") ? "rebel" : "whip") : "normal");
-	      $classno = (($no > 0) ? (($whip == "aye" || $whip == "abstention") ? "rebel" : "whip") : "normal");
-	      $classabstentions = (($abstentions > 0) ? (($whip == "aye" || $whip == "no") ? "rebel" : "whip") : "normal");
-	    }
+            if( $house == "scotland" ) {
+                $classaye = (($aye > 0) ? (($whip == "no" || $whip == "abstention") ? "rebel" : "whip") : "normal");
+                $classno = (($no > 0) ? (($whip == "aye" || $whip == "abstention") ? "rebel" : "whip") : "normal");
+                $classabstentions = (($abstentions > 0) ? (($whip == "aye" || $whip == "no") ? "rebel" : "whip") : "normal");
+            }
 
             if ($tellaye > 0)
                 $aye .= " (+" . $tellaye . " tell)";
@@ -360,45 +365,45 @@
 
             $prettyrow = pretty_row_start($prettyrow);
             print "<td>" . pretty_party($party) . "</td>";
-            
+
             if ($noesfirst)
                 print "<td class=\"$classno\">$no</td> <td class=\"$classaye\">$aye</td>";
             else
                 print "<td class=\"$classaye\">$aye</td> <td class=\"$classno\">$no</td>";
-            
+
             if ($house == "lords" && $both > 0)
                 print "ERROR - both for lords";
             #if ($house != "lords") {
-	      #if ($house == "scotland")
-		#print "<td class=\"$classabstentions\">$abstentions</td>";
-	      #else
-          #      print "<td class=\"$classboth\">$both</td>";
-	    #}
-            print "<td class=\"percent\">".percentise_votes_short($total, $row['possible_votes'])."</td>"; 
+                #if ($house == "scotland")
+                    #print "<td class=\"$classabstentions\">$abstentions</td>";
+                #else
+                    #print "<td class=\"$classboth\">$both</td>";
+            #}
+            print "<td class=\"percent\">".percentise_votes_short($total, $row['possible_votes'])."</td>";
             print "</tr>";
         }
 
-		// the setting for the final line of totals
+        // the setting for the final line of totals
         $prettyrow = pretty_row_start($prettyrow);
-        $classayes = ($totalayes >= $totalnoes ? "whip" : "normal"); 
+        $classayes = ($totalayes >= $totalnoes ? "whip" : "normal");
         $classnoes = ($totalayes <= $totalnoes ? "whip" : "normal");
         print "<td class=\"whip\">" . "Total:" . "</td>";
         if ($noesfirst)
             print "<td class=\"$classnoes\">$totalnoes</td> <td class=\"$classayes\">$totalayes</td>";
         else
             print "<td class=\"$classayes\">$totalayes</td> <td class=\"$classnoes\">$totalnoes</td>";
-        
+
         #if ($house != "lords") {
-	  #if ($house == "scotland") {
-      #      print "<td class=\"$classabstentions\">$totalabstentions</td>";
-	  #} else {
-      #      print "<td class=\"$classboth\">$totalboths</td>";
-	  #}
-	#}
+            #if ($house == "scotland") {
+                #print "<td class=\"$classabstentions\">$totalabstentions</td>";
+            #} else {
+                #print "<td class=\"$classboth\">$totalboths</td>";
+            #}
+        #}
         #else if ($totalboths > 0)
         #    print "ERROR - both for lords";
-        print "<td class=\"percent\">".percentise_votes_short($totalturnout, $totalpossible)."</td>"; 
+        print "<td class=\"percent\">".percentise_votes_short($totalturnout, $totalpossible)."</td>";
         print "</tr>";
 
-		print "</table>";
-	}
+    print "</table>";
+  }
