@@ -652,6 +652,7 @@ function writenumbervote(&$lnrows, $gname, $sayes, $snoes, $ayecla, $nocla)
 }
 function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol, $roleclass, $votedesc, $votedesclong, $voter1, $vote1, $voter2attr, $vote2, $row, $divhref, $hrefsource)
 {
+    global $pwpdo;
     # title part of the expanded motion text
     print "<tr class=\"motiontitle$pretrowclass\">";
 
@@ -668,50 +669,117 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
     print "<tr valign=\"top\">";
     print "<td>";
 
-    print "<p>Policy vote: " . vote_display_in_table($vote1, $row["aye_majority"]) . "</p>";
+    $aye_majority = $row["aye_majority"];
+
+    print "<p>Policy vote: " . vote_display_in_table($vote1, $aye_majority) . "</p>";
     # make the table of party in the left hand side
-    print "<table class=\"votetab\">";
-    print "<tr class=\"headings\"><td>Party Votes</td><td>Aye</td><td>No</td></tr>\n";
 
-    $lnrows = 0;
+        $query = "SELECT party, aye_votes, aye_tells, no_votes, no_tells, both_votes, abstention_votes, possible_votes, whip_guess
+                    FROM pw_cache_whip
+                    WHERE division_id = ?
+                    ORDER BY party";
+        $pwpdo->query($query,array($divisionid));
 
-    # get the summary of the rest of the voting from the database
-    $partysummary = GetPartyVoteSummaryH($db, $divisionid);
+        $noesfirst = ($aye_majority < 0);
+        # Make table
+        print "<table><tr class=\"headings\"><td>Party</td>";
+        if ($aye_majority == 0)
+            print "<td>Ayes</td><td>Noes</td>";
+        else if ($noesfirst)
+            print "<td>Majority (No)</td><td>Minority (Aye)</td>";
+        else
+            print "<td>Majority (Aye)</td><td>Minority (No)</td>";
+        #if ($house != "lords")
+        #    print "<td>Both</td>";
+        print "<td>Turnout</td></tr>\n";
+        $prettyrow = 0;
 
-    # total up votes
-    $totalayes = array_sum(array_values($partysummary['ayes'])) + array_sum(array_values($partysummary['tellayes']));
-    $totalnoes = array_sum(array_values($partysummary['noes'])) + array_sum(array_values($partysummary['tellnoes']));
+        $totalayes = 0;
+        $totalnoes = 0;
+        $totalboths = 0;
+        $totalturnout = 0;
+        $totalpossible = 0;
+        $totalabstentions = 0;
 
-    # MP's vote
-    $ayecla = ($totalayes > $totalnoes ? " class=\"majority\"" : "");
-    $nocla = ($totalnoes > $totalayes ? " class=\"majority\"" : "");
-    if ($voter2attr) {
-        writepersonvote(0, $roleclass, $voter1['name'], $vote1, $ayecla, $nocla);
-    }
-    //writepersonvote($lnrows, "strong", $voter1['name'], $vote1, $ayecla, $nocla);
+        while ($row = $pwpdo->fetch_row())
+        {
+            $party = $row["party"];
+            $aye = $row["aye_votes"];
+            $tellaye = $row["aye_tells"];
+            $no = $row["no_votes"];
+            $tellno = $row["no_tells"];
+            $both = $row["both_votes"];
+            $abstentions = $row["abstention_votes"];
 
-    if (false===isset($voter1['party'])) {
-        $party='';
-    } else {
-    # votes of rest of parties (a rather poor way to put it together)
-    $party = $voter1['party'];
-    }
-    $partys = array();
-    if ($voter2attr) {
-        array_push($partys, $party);
-    }
-    if ($party != "Lab") {
-        array_push($partys, "Lab");
-    }
-    if ($party != "Con") {
-        array_push($partys, "Con");
-    }
-    if ($party != "LDem") {
-        array_push($partys, "LDem");
-    }
-    foreach ($partys as $lparty)
-        writenumbervote($lnrows, $lparty, $partysummary['ayes'][$lparty], $partysummary['noes'][$lparty], $ayecla, $nocla);
-    writenumbervote($lnrows, "Total", $totalayes, $totalnoes, $ayecla, $nocla);
+            $total = $aye + $no + $both + $abstentions + $tellaye + $tellno;
+            if (($total == 0) && ($party != "Con" && $party != "Lab" && $party != "LDem"))
+                continue;
+
+            $totalayes += $aye + $tellaye;
+            $totaltellayes += $tellaye;
+            $totalnoes += $no + $tellno;
+            $totaltellnoes += $tellno;
+            $totalboths += $both;
+            $totalabstentions += $abstentions;
+            $totalturnout += $total;
+            $totalpossible += $row["possible_votes"];
+
+            $whip = $row["whip_guess"];
+            $classaye = ($aye + $tellaye > 0 ? ($whip == "no" ? "rebel" : "whip") : "normal");
+            $classno = ($no + $tellno > 0 ? ($whip == "aye" ? "rebel" : "whip") : "normal");
+            $classboth = ($both > 0 ? "important" : "normal");
+        if( $house == "scotland" ) {
+          $classaye = (($aye > 0) ? (($whip == "no" || $whip == "abstention") ? "rebel" : "whip") : "normal");
+          $classno = (($no > 0) ? (($whip == "aye" || $whip == "abstention") ? "rebel" : "whip") : "normal");
+          $classabstentions = (($abstentions > 0) ? (($whip == "aye" || $whip == "no") ? "rebel" : "whip") : "normal");
+        }
+
+            if ($tellaye > 0)
+                $aye .= " (+" . $tellaye . " tell)";
+            if ($tellno > 0)
+                $no .= " (+" . $tellno . " tell)";
+
+            $prettyrow = pretty_row_start($prettyrow);
+            print "<td>" . pretty_party($party) . "</td>";
+
+            if ($noesfirst)
+                print "<td class=\"$classno\">$no</td> <td class=\"$classaye\">$aye</td>";
+            else
+                print "<td class=\"$classaye\">$aye</td> <td class=\"$classno\">$no</td>";
+
+            if ($house == "lords" && $both > 0)
+                print "ERROR - both for lords";
+            #if ($house != "lords") {
+          #if ($house == "scotland")
+        #print "<td class=\"$classabstentions\">$abstentions</td>";
+          #else
+          #      print "<td class=\"$classboth\">$both</td>";
+        #}
+            print "<td class=\"percent\">".percentise_votes_short($total, $row['possible_votes'])."</td>";
+            print "</tr>";
+        }
+
+        // the setting for the final line of totals
+        $prettyrow = pretty_row_start($prettyrow);
+        $classayes = ($totalayes >= $totalnoes ? "whip" : "normal");
+        $classnoes = ($totalayes <= $totalnoes ? "whip" : "normal");
+        print "<td class=\"whip\">" . "Total:" . "</td>";
+        if ($noesfirst)
+            print "<td class=\"$classnoes\">$totalnoes</td> <td class=\"$classayes\">$totalayes</td>";
+        else
+            print "<td class=\"$classayes\">$totalayes</td> <td class=\"$classnoes\">$totalnoes</td>";
+
+        #if ($house != "lords") {
+      #if ($house == "scotland") {
+      #      print "<td class=\"$classabstentions\">$totalabstentions</td>";
+      #} else {
+      #      print "<td class=\"$classboth\">$totalboths</td>";
+      #}
+    #}
+        #else if ($totalboths > 0)
+        #    print "ERROR - both for lords";
+        print "<td class=\"percent\">".percentise_votes_short($totalturnout, $totalpossible)."</td>";
+        print "</tr>";
 
     print "</table></td>";
 
