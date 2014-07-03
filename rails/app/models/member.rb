@@ -76,6 +76,14 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def in_parliament_on_date(date)
+    date >= entered_house && date < left_house
+  end
+
+  def currently_in_parliament?
+    in_parliament_on_date(Date.today)
+  end
+
   def current_offices
     offices_on_date(Date.today)
   end
