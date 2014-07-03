@@ -268,12 +268,6 @@
         if ($house != "commons" && $house != "lords" && $house != "scotland") {
             die;
         }
-        $pwpdo->query("SELECT party, total_votes FROM pw_cache_partyinfo where house = ?",array($house));
-        $alldivs = array();
-        while ($row = $pwpdo->fetch_row()) {
-            $alldivs[$row[0]] = $row['total_votes'];
-        }
-        $alldivs_total = array_sum(array_values($alldivs));
 
         $pwpdo->query("SELECT aye_majority FROM pw_cache_divinfo WHERE division_id=?",array($div_id));
         $row = $pwpdo->fetch_row();
