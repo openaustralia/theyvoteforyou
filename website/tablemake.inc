@@ -668,15 +668,7 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
     print "<tr valign=\"top\">";
     print "<td>";
 
-    # Coloured box saying whether MP and Dream MP agree/disgagree/miss
-    # null means we are dealing with a dreammp
-    print "<table class=\"policyvotehead\" style=\"background-color:#eeeeee\">";
-    if ($voter2attr)
-        writepersonvote(-1, "", "Policy '" . html_scrub($voter2attr['name']) . "'", $vote2, "", "");
-    else
-        writepersonvote(-1, "", "Policy '" . html_scrub($voter1) . "'", $vote1, "", ""); 
-    print "</table>";
-
+    print "<p>Policy vote: " . vote_display_in_table($vote1, $row["aye_majority"]) . "</p>";
     # make the table of party in the left hand side
     print "<table class=\"votetab\">";
     print "<tr class=\"headings\"><td>Party Votes</td><td>Aye</td><td>No</td></tr>\n";
