@@ -1,33 +1,14 @@
-- @policy.divisions.each do |division|
-  %table
-    %tr.motiontitle
+%table
+  - @policy.divisions.each do |division|
+    %tr{class: (division.policy_vote(@policy).include?('3') ? 'motiontitlestrong' : 'motiontitle')}
       %td{:align => "left", :colspan => "7"}
-        %a{:href => "division.php?date=2013-03-14&number=1&dmp=1&house=representatives"}
-          test - 14 Mar 2013 - Division No. 1
+        = link_to division_path(date: division.date, number: division.number, house: division.australian_house, dmp: @policy.id) do
+          #{division.name} - #{formatted_date(division.date)} - Division No. #{division.number}
     %tr{:valign => "top"}
       %td
         %p
           Policy vote:
-          %i minority
-        %table
-          %tr.headings
-            %td Party
-            %td Majority (No)
-            %td Minority (Aye)
-            %td Turnout
-          %tr.odd
-            %td Australian Labor Party
-            %td.whip 1
-            %td.normal 0
-            %td.percent 100.0%
-          %tr.even
-            %td.whip Total:
-            %td.whip 1
-            %td.normal 0
-            %td.percent 100.0%
+          = vote_display_in_table(division.policy_vote(@policy), division.aye_majority)
+        = render 'divisions/summary_party_votes', division: division
       %td{:colspan => "4"}
-        %p This is some test text.
-        %p
-          It might relate to bills containing HTML characters like the
-          Carbon Pollution Reduction Scheme Bill&nbsp;2009 and Bills -
-          National Disability Insurance Scheme Bill
+        = formatted_motion_text(division)
