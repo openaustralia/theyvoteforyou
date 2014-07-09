@@ -11,7 +11,7 @@ xml.publicwhip do
       if member.rebellions_fraction
         # This is wrong because you can have equal ranking, i.e. Standard Competition Ranking
         memberinfo[:public_whip_rebelrank] = @current_members_by_rebellions.select { |r| r.rankables.include? member }.first.rank
-        memberinfo[:public_whip_rebelrank_outof] = @current_members_with_party_whip_count
+        memberinfo[:public_whip_rebelrank_outof] = @members_with_rebellions_and_party_whip_count
       end
     end
     xml.memberinfo(memberinfo)
