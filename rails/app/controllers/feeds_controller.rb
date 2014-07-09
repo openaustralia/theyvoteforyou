@@ -14,6 +14,14 @@ class FeedsController < ApplicationController
   end
 
   def mpdream_info
-    @policy_member_distances = PolicyMemberDistance.joins(:member).where(dream_id: params[:id])
+    @policy = Policy.find(params[:id])
+    # FIXME: Using SQL to match PHP, see #211 for detailed description
+    sql = "select pw_cache_dreamreal_distance.person, distance_a, distance_b, pw_mp.mp_id as mp_id,
+           (nvotessame + nvotessamestrong + nvotesdiffer + nvotesdifferstrong) as both_voted,
+           (nvotesabsent + nvotesabsentstrong) as absent
+           from pw_cache_dreamreal_distance, pw_mp
+           where dream_id = '#{@policy.id}' and
+           pw_mp.person = pw_cache_dreamreal_distance.person"
+    @policy_member_distances = PolicyMemberDistance.connection.select_all(sql)
   end
 end
