@@ -21,4 +21,15 @@ namespace :deploy do
   end
 
   after :publishing, :restart
+
+  desc 'Run pending Rails migrations'
+  task :migrate do
+    on roles(:db) do
+      within current_path.join('rails') do
+        with rails_env: :production do
+          execute :rake, 'db:migrate'
+        end
+      end
+    end
+  end
 end
