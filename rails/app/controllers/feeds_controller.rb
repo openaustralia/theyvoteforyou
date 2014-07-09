@@ -15,6 +15,6 @@ class FeedsController < ApplicationController
   end
 
   def mpdream_info
-    @policy_member_distances = PolicyMemberDistance.where(dream_id: params[:id])
+    @policy_member_distances = PolicyMemberDistance.joins(:member).where(dream_id: params[:id])
   end
 end
