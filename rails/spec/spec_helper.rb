@@ -51,8 +51,7 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
 
-    FileUtils.rm_f("old.html")
-    FileUtils.rm_f("new.html")
+    FileUtils.rm_f %w(old.html old.xml new.html new.xml)
 
     # Point the php app to the test database
     set_php_database "test"
