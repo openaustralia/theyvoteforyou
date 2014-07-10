@@ -147,3 +147,23 @@ table.policyvotehead { width: 100%; }
   background: #77ee77;
   color: #000000;
 }
+
+/* MP Policy Agreement Calculation Display */
+.fraction {
+  float: left;
+  text-align: center;
+}
+.numerator { display: inline; }
+.denominator { display: inline; }
+.equals {
+  padding-top: .5em;
+  float:left;
+}
+.equation .break {clear: both}
+.divider {
+  width: 100%;
+  padding: 0;
+  margin: 2px 0;
+  border: none;
+  border-bottom: 1px solid black;
+}
