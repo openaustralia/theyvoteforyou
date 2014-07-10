@@ -65,6 +65,13 @@ Publicwhip::Application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default_url_options = { host: 'publicwhip-rails.openaustraliafoundation.org.au' }
+  config.action_mailer.smtp_settings = {
+     address: "localhost",
+     port: 2525,
+     user_name: Rails.application.secrets.cuttlefish_user_name,
+     password: Rails.application.secrets.cuttlefish_password,
+     authentication: :plain
+  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found).
