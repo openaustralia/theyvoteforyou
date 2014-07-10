@@ -9,6 +9,7 @@
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
+$toppath = "../website/";
 require_once "../website/config.php";
 require_once "../website/db.inc";
 require_once "../website/distances.inc";
