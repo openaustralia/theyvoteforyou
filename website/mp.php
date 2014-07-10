@@ -231,38 +231,7 @@
     $colour_scheme = $mpprop['house'];
 
     if ($voter2type == "dreammp")
-	{
-        update_dreammp_person_distance($db, $voter2);
-        $query   = "SELECT nvotessame+nvotessamestrong+nvotesdiffer+nvotesdifferstrong AS nvotes, distance_a
-                            FROM pw_cache_dreamreal_distance
-                            WHERE dream_id = $voter2 AND person = ?";
-	$row = $pwpdo->get_single_row($query,array($mpprop['person']));
-	$h1title = "<div class=\"h1mppolicy\">";
-        $h1title .= "<p class=\"mp\"><a href=\"".$voter1link."\">".html_scrub($mpprop['fullname'])."</a></p>";
-        $agreement_a = 1.0 - ($row["distance_a"]);
-        $h1title .= "<p class=\"voteexpl\">";
-        if ($row["nvotes"] == 0)
-            $h1title .= "has <em>never voted</em> on";
-        else if ($agreement_a >= 0.80)
-            $h1title .= "voted <em>strongly for</em>";
-        else if ($agreement_a >= 0.60)
-            $h1title .= "voted <em>moderately for</em>";
-        else if ($agreement_a <= 0.20)
-            $h1title .= "voted <em>strongly against</em>";
-        else if ($agreement_a <= 0.40)
-            $h1title .= "voted <em>moderately against</em>";
-        else 
-            $h1title .= "voted <em>ambiguously</em> on";
-        $h1title .= " the policy</p>";
-        $h1title .= "<p class=\"policy\"><a href=\"$voter2link\"><i><b>".html_scrub($voter2attr['name'])."</b></i></a></p> ";
-        $h1title .= "<p>by <a href=\"#ratioexpl\">scoring</a> ";
-        $h1title .= "<em class=\"percent\">".pretty_distance_to_agreement($row['distance_a'])."</em> ";
-        $h1title .= "compared to the votes below</p>";
-        $h1title .= "</div>";
-
-        $headtitle = $mpprop["name"]." compared to '".$voter2attr['name']."'";
-	}
-	
+        $title = $mpprop["name"]." compared to '".$voter2attr['name']."'";
     else if ($voter2type == "person")
 		$title = "Voting Comparison - ".$mpprop['fullname']."<br> to ".$voter2attr["mpprop"]['fullname'];
 	else if ($dismode["possfriends"] == "all")
@@ -291,6 +260,38 @@
 	// we apply a date range to the
     $second_type = "tabs";
     pw_header();
+
+    if ($voter2type == "dreammp")
+    {
+        update_dreammp_person_distance($db, $voter2);
+        $query = "SELECT nvotessame+nvotessamestrong+nvotesdiffer+nvotesdifferstrong AS nvotes, distance_a
+                  FROM pw_cache_dreamreal_distance
+                  WHERE dream_id = $voter2 AND person = ?";
+        $row = $pwpdo->get_single_row($query,array($mpprop['person']));
+        print "<div class=\"h1mppolicy\">";
+        print "<p class=\"mp\"><a href=\"".$voter1link."\">".html_scrub($mpprop['fullname'])."</a></p>";
+        $agreement_a = 1.0 - ($row["distance_a"]);
+        print "<p class=\"voteexpl\">";
+        if ($row["nvotes"] == 0)
+            print "has <em>never voted</em> on";
+        else if ($agreement_a >= 0.80)
+            print "voted <em>strongly for</em>";
+        else if ($agreement_a >= 0.60)
+            print "voted <em>moderately for</em>";
+        else if ($agreement_a <= 0.20)
+            print "voted <em>strongly against</em>";
+        else if ($agreement_a <= 0.40)
+            print "voted <em>moderately against</em>";
+        else
+            print "voted <em>ambiguously</em> on";
+        print " the policy</p>";
+        print "<p class=\"policy\"><a href=\"$voter2link\"><i><b>".html_scrub($voter2attr['name'])."</b></i></a></p> ";
+        print "<p>by <a href=\"#ratioexpl\">scoring</a> ";
+        print "<em class=\"percent\">".pretty_distance_to_agreement($row['distance_a'])."</em> ";
+        print "compared to the votes below</p>";
+        print "</div>";
+    }
+
 
 
 	# extract the events in this mp's life
