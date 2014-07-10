@@ -1,21 +1,18 @@
 .h1mppolicy
-  %p.mp
-    %a{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives"}
-      Tony Abbott MP, Warringah
+  %p.mp= link_to @member.full_name, member_path(@member)
   %p.voteexpl
     has
     %em never voted
     on the policy
   %p.policy
-    %a{:href => "policy.php?id=1"}
+    = link_to policy_path(@policy) do
       %i
         %b
-          Marriage
-          equality
+          = @policy.name
   %p
     by
-    %a{:href => "#ratioexpl"} scoring
-    %em.percent 50.0%
+    = link_to 'scoring', anchor: 'ratioexpl'
+    %em.percent= fraction_to_percentage_display(@member.agreement_fraction_with_policy(@policy), precision: 1)
     compared to the votes below
 = render 'policies/vote_summary_table', locals: [@policy, @member]
 %h2
