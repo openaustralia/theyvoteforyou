@@ -5,6 +5,9 @@
   - elsif @display == "allfriends"
     Friends of
     = @member.full_name
+  - elsif @policy
+    = @member.name
+    compared to '#{@policy.name}'
   - else
     Voting Record —
     = @member.full_name2
