@@ -551,7 +551,6 @@ if (true===function_exists('advertisement')) {
                           no points for voting against the policy, and 25 points for not voting.
                           In less important votes, the MP gets 10 points for voting with the policy, 
                           no points for voting against, and 1 (out of 2) if absent.</p>\n";
-                print "<p>Questions about this formula can be discussed on <a href=\"http://www.publicwhip.org.uk/forum/viewtopic.php?t=150\">the forum</a>.</p>\n"; 
 
                 # sum up the arrays
                 foreach ($voter1attr['mpprops'] as $mppropt)
