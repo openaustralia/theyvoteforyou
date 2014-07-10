@@ -17,7 +17,7 @@
       - if @member
         %td
           - # FIXME: Two houses just to be reeeeally sure
-          = link_to division.name, division_path(mpn: @member.url_name, mpc: @member.electorate, date: division.date, number: division.number, house: division.australian_house) + "&house=#{division.australian_house}"
+          = link_to division.name, division_path({date: division.date, number: division.number, house: division.australian_house}, false, @member) + "&house=#{division.australian_house}"
         - # FIXME: Rebelteller whut?
         %td.rebelteller= @member.vote_on_division(division)
       - else
