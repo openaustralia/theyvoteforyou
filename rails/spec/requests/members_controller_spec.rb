@@ -144,6 +144,14 @@ describe MembersController do
     compare("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&display=alldreams")
     compare("/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate&display=alldreams")
 
+    compare("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&dmp=1")
+    compare("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&dmp=1")
+    compare("/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate&dmp=1")
+
+    compare("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&dmp=1&display=motions")
+    compare("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&dmp=1&display=motions")
+    compare("/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate&dmp=1&display=motions")
+
     compare("/mp.php?mpc=Warringah")
     compare("/mp.php?mpc=Bennelong")
   end
