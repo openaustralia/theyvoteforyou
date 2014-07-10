@@ -63,7 +63,7 @@ function print_dreammp_person_distance($nvotessame, $nvotessamestrong,
     print "<tr class=\"jobevent\"><td colspan=\"2\">Total:</td><td>$values_total</td><td>$points_total</td></tr>";
 
     print "<tr><td colspan=\"4\"><p style=\"width: 35em;\"><small>*Pressure of
-    other work means MPs or Lords are not always available to vote &ndash; it does not
+    other work means MPs or Senators are not always available to vote &ndash; it does not
     always indicate they have abstained. Therefore, being absent on a less important vote
     makes a disproportionatly small difference.</small></td></tr>";
 
