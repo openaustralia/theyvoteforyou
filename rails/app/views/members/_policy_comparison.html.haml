@@ -1,0 +1,20 @@
+.h1mppolicy
+  %p.mp
+    %a{:href => "mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives"}
+      Tony Abbott MP, Warringah
+  %p.voteexpl
+    has
+    %em never voted
+    on the policy
+  %p.policy
+    %a{:href => "policy.php?id=1"}
+      %i
+        %b
+          Marriage
+          equality
+  %p
+    by
+    %a{:href => "#ratioexpl"} scoring
+    %em.percent 50.0%
+    compared to the votes below
+= render 'policies/vote_summary_table', locals: [@policy, @member]

@@ -32,7 +32,7 @@
     = members_nav_link(@member, @members, @electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display)
 <!-- the second tier navigation as dropdowns end-->
 
-- if @display == "summary" || @display.nil?
+- if @display == "summary" || (!@policy && @display.nil?)
   = render "summary"
   = render "external_links"
   = render "interesting_votes"
@@ -50,3 +50,5 @@
   = render partial: "possible_friends", locals: {all_friends: true}
 - elsif @display == "alldreams"
   = render "policy_comparisons"
+- elsif @policy
+  = render "policy_comparison"
