@@ -493,7 +493,7 @@ if (true===function_exists('advertisement')) {
                 $divtabattr["sortby"] = 'datereversed';
 		    print "<table class=\"votes\">\n";
             if ($voter2type == "dreammp")
-                print '<caption><a href="http://www.publicwhip.org.uk/faq.php#ayemajority">Why Majority/minority instead of Aye/No?</a></caption>';
+                print '<caption><a href="/faq.php#ayemajority">Why Majority/minority instead of Aye/No?</a></caption>';
         }
 
         if ($divtabattr["sortby"] == 'datereversed')
