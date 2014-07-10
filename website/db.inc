@@ -111,6 +111,27 @@ class PWPDO
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function fetch_all_rows_bind($query, $placeholders, $intbinds)
+    {
+		try {
+			$statement = $this->prepare($query);
+
+			#Cannot simply use placeholders for non-string values
+			# see http://php.net/manual/en/pdostatement.execute.php and
+			# http://www.php.net/manual/en/pdostatement.execute.php#76966.
+			foreach(array_keys($intbinds) as $key)
+				$statement->bindParam($key, $intbinds[$key], PDO::PARAM_INT);
+
+			foreach(array_keys($placeholders) as $key)
+				$statement->bindParam($key, $placeholders[$key], PDO::PARAM_STR);
+
+            $statement->execute();
+        } catch (Exception $e) {
+            $this->logfail($e,'fetch_all_rows',$query,$placeholders);
+        }
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function query($query, $placeholders)
     {
         try {

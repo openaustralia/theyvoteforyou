@@ -270,9 +270,11 @@ function delete_mpid_outofdate_distances($db, $lastupdatedate, $house)
 }
 
 # then we loop through the missing entries and fill them in
-function fill_mpid_distances_internal($db, $db2, $house, $batchnumber)
+function fill_mpid_distances_internal($pwpdo, $pwpdo2, $house, $batchnumber)
 {
 	global $bdebug;
+	$placeholders = array();
+	$intbinds = array();
 
 	# find missing entries in the table
 	$qselect = "SELECT pw_mp1.mp_id AS mp_id1, pw_mp2.mp_id AS mp_id2,
@@ -300,23 +302,29 @@ function fill_mpid_distances_internal($db, $db2, $house, $batchnumber)
 	$qwhere .= " AND pw_mp1.left_house > date '1997-05-01'";
 	$qwhere .= " AND pw_mp2.left_house > date '1997-05-01'";
 	if ($house)
-		$qwhere .= " AND pw_mp1.house = '$house'";
+	{
+		$qwhere .= " AND pw_mp1.house = :house";
+		$placeholders[':house'] = $house;
+	}
 # $qwhere .= " AND pw_mp1.mp_id > 1200"; 
 
 #	$qorder = " ORDER BY pw_mp1.mp_id, pw_mp2.mp_id DESC";
 	$qorder = "";
 	if ($batchnumber)
-		$qlimit = " LIMIT $batchnumber"; # to stop the calculation running on forever on one run
+	{
+		$qlimit = " LIMIT :batchnumber"; # to stop the calculation running on forever on one run
+		$intbinds[':batchnumber'] = $batchnumber;
+	}
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qorder.$qlimit;
 	if ($bdebug == 1)
 		print $query;
-	$db->query($query);
+	$results = $pwpdo->fetch_all_rows_bind($query, $placeholders, $intbinds);
 	$some_done = 0;
-    while ($row = $db->fetch_row_assoc())
+    foreach($results as $row)
 	{
 		$some_done = 1;
-        update_realreal_distance($db2, $row['mp_id1'], $row['mp_id2'], $row['max_entered_house'], $row['min_left_house'], $house);
+        update_realreal_distance($pwpdo2, $row['mp_id1'], $row['mp_id2'], $row['max_entered_house'], $row['min_left_house'], $house);
 	}
 	return $some_done;
 }
@@ -324,8 +332,10 @@ function fill_mpid_distances_internal($db, $db2, $house, $batchnumber)
 
 
 # then we loop through the missing entries and fill them in
-function update_realreal_distance($db, $mp_id1, $mp_id2, $max_entered_house, $min_left_house, $house)
+function update_realreal_distance($pwpdo, $mp_id1, $mp_id2, $max_entered_house, $min_left_house, $house)
 {
+	$placeholders = array();
+
 	# make the set of voting MPs in the first division
 	$qselect = "SELECT 1 AS ssss, sum(1) AS nvotestotal, ";
 
@@ -353,25 +363,31 @@ function update_realreal_distance($db, $mp_id1, $mp_id2, $max_entered_house, $mi
 					 AS nvotesabsentsecond ";
 
 	$qfrom =  " FROM pw_division";
-	$qwhere = " WHERE pw_division.division_date >= '$max_entered_house'
-				   AND pw_division.division_date < '$min_left_house'
-				   AND pw_division.house = '$house'";
+	$qwhere = " WHERE pw_division.division_date >= :max_entered_house
+				   AND pw_division.division_date < :min_left_house
+				   AND pw_division.house = :house";
+	$placeholders[':max_entered_house'] = $max_entered_house;
+	$placeholders[':min_left_house'] = $min_left_house;
+	$placeholders[':house'] = $house;
 
 	# now line up the votes (including the missing ones)
 	$qjoin =  " LEFT JOIN pw_vote AS pw_vote1
 					ON pw_vote1.division_id = pw_division.division_id
-					AND pw_vote1.mp_id = $mp_id1";
+					AND pw_vote1.mp_id = :mp_id1";
+	$placeholders[':mp_id1'] = $mp_id1;
 
 	# now line up the mps who could have voted on the second division
 	$qjoin .= " LEFT JOIN pw_vote AS pw_vote2
 					ON pw_vote2.division_id = pw_division.division_id
-					AND pw_vote2.mp_id = $mp_id2";
+					AND pw_vote2.mp_id = :mp_id2";
+	$placeholders[':mp_id2'] = $mp_id2;
 
 	$qgroup = " GROUP BY ssss"; # sum all rows
 
 	$query = $qselect.$qfrom.$qjoin.$qwhere.$qgroup;
 
-	$row = $db->query_onez_row_assoc($query); # can get zero if no divisions in overlap
+	$row = $pwpdo->get_single_row($query, $placeholders); # can get zero if no divisions in overlap
+	$placeholders = array();
 
 	$nvotessame = ($row['nvotessame'] ? $row['nvotessame'] : 0);
 	$nvotesdiff = ($row['nvotesdiffer'] ? $row['nvotesdiffer'] : 0);
@@ -390,18 +406,25 @@ function update_realreal_distance($db, $mp_id1, $mp_id2, $max_entered_house, $mi
 
 
 	$qattrs = "mp_id1, mp_id2, nvotessame, nvotesdiffer, nvotesabsent, distance_a, distance_b";
-	$qvalues = "$mp_id1, $mp_id2, $nvotessame, $nvotesdiff, $nvotesabsent, $distancea, $distanceb";
+	$qvalues = ":mp_id1, :mp_id2, :nvotessame, :nvotesdiffer, :nvotesabsent, :distance_a, :distance_b";
+	$placeholders = array( ':mp_id1' => $mp_id1,
+							':mp_id2' => $mp_id2,
+							':nvotessame' => $nvotessame,
+							':nvotesdiffer' => $nvotesdiff,
+							':nvotesabsent' => $nvotesabsent,
+							':distance_a' => $distancea,
+							':distance_b' => $distanceb);
     #print $qvalues."\n"; 
 
 	$query  = "INSERT INTO pw_cache_realreal_distance ($qattrs) VALUES ($qvalues)";
-	$db->query($query);
+	$pwpdo->query($query, $placeholders);
 }
 
 
-function fill_mp_distances($db, $db2, $house) {
+function fill_mp_distances($pwpdo, $pwpdo2, $house) {
 	$some_done = 1;
 	while($some_done) {
-	    $some_done = fill_mpid_distances_internal($db, $db2, $house, 5000);
+	    $some_done = fill_mpid_distances_internal($pwpdo, $pwpdo2, $house, 5000);
 		#print "done...";
 	}
 }
