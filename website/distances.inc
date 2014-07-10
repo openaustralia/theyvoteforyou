@@ -272,6 +272,8 @@ function delete_mpid_outofdate_distances($db, $lastupdatedate, $house)
 # then we loop through the missing entries and fill them in
 function fill_mpid_distances_internal($db, $db2, $house, $batchnumber)
 {
+	global $bdebug;
+
 	# find missing entries in the table
 	$qselect = "SELECT pw_mp1.mp_id AS mp_id1, pw_mp2.mp_id AS mp_id2,
 					   GREATEST(pw_mp1.entered_house, pw_mp2.entered_house) AS max_entered_house, 
