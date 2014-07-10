@@ -9,15 +9,15 @@
 # certain conditions.  However, it comes with ABSOLUTELY NO WARRANTY.
 # For details see the file LICENSE.html in the top level of the source.
 
+$toppath = "../website/";
 require_once "../website/config.php";
 require_once "../website/db.inc";
 require_once "../website/distances.inc";
 require_once "../website/dream.inc"; 
 
-$db = new DB();
-$db2 = new DB();
+global $pwpdo;
+global $pwpdo2;
 
-fill_mp_distances($db, $db2, 'commons');
-fill_mp_distances($db, $db2, 'lords');
-fill_mp_distances($db, $db2, 'scotland');
-
+fill_mp_distances($pwpdo, $pwpdo2, 'commons');
+fill_mp_distances($pwpdo, $pwpdo2, 'lords');
+fill_mp_distances($pwpdo, $pwpdo2, 'scotland');
