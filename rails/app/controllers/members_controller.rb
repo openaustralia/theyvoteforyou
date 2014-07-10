@@ -48,6 +48,7 @@ class MembersController < ApplicationController
     electorate = params[:mpc]
     @house = params[:house] || "representatives"
     @display = params[:display]
+    @policy = Policy.find(params[:dmp]) if params[:dmp]
 
     # TODO In reality there could be several members matching this and we should relate this back to being
     # a single person
