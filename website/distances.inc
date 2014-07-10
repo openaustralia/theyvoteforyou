@@ -304,6 +304,7 @@ function fill_mpid_distances_internal($db, $db2, $house, $batchnumber)
 # $qwhere .= " AND pw_mp1.mp_id > 1200"; 
 
 #	$qorder = " ORDER BY pw_mp1.mp_id, pw_mp2.mp_id DESC";
+	$qorder = "";
 	if ($batchnumber)
 		$qlimit = " LIMIT $batchnumber"; # to stop the calculation running on forever on one run
 
