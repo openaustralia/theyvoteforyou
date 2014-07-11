@@ -35,4 +35,9 @@ describe PoliciesController do
     it { compare_post url, true, submit: 'Make Policy', name: '', description: 'nuclear power is great.' }
     it { compare_post url, true, submit: 'Make Policy', name: 'Pro-nuclear power', description: '' }
   end
+
+  describe '#update' do
+    it { compare_post '/policy.php?id=1&display=editdefinition', true, submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: 'Marriage inequality', description: 'access to marriage should be inequal', provisional: 'provisional' }
+    it { compare_post '/policy.php?id=2&display=editdefinition', true, submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: 'Onshore processing', description: 'refugees arrving by boat should be processed onshore' }
+  end
 end

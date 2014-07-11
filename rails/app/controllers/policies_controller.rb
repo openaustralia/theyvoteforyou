@@ -30,4 +30,11 @@ class PoliciesController < ApplicationController
     @policy = Policy.new name: params[:name], description: params[:description], user: current_user, private: 2
     render 'new' unless @policy.save
   end
+
+  def edit
+    @policy = Policy.find(params[:id])
+    if @policy.update_attributes name: params[:name], description: params[:description], private: (params[:provisional] ? 2 : 0)
+      redirect_to action: 'show', id: @policy
+    end
+  end
 end

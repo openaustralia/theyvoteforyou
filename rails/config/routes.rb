@@ -20,6 +20,7 @@ Publicwhip::Application.routes.draw do
 
   get 'policies.php' => 'policies#index', as: :policies
   get 'policy.php' => 'policies#show', as: :policy
+  post 'policy.php' => 'policies#edit'
 
   post 'redir.php', to: redirect { |p, r| (r.params[:r] || r.params[:r2] || r.params[:r3]) }
 
