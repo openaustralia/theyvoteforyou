@@ -78,7 +78,7 @@ class Policy < ActiveRecord::Base
         elsif member_vote == policy_division_vote && policy_division_vote_strong
           policy_member_distance.increment! :nvotessamestrong
         elsif member_vote == policy_division_vote
-          policy_member_distance.increment! :nvotesame
+          policy_member_distance.increment! :nvotessame
         elsif member_vote != policy_division_vote && policy_division_vote_strong
           policy_member_distance.increment! :nvotesdifferstrong
         elsif member_vote != policy_division_vote
