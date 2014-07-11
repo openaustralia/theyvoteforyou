@@ -39,5 +39,8 @@ describe PoliciesController do
   describe '#update' do
     it { compare_post '/policy.php?id=1&display=editdefinition', true, submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: 'Marriage inequality', description: 'access to marriage should be inequal', provisional: 'provisional' }
     it { compare_post '/policy.php?id=2&display=editdefinition', true, submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: 'Onshore processing', description: 'refugees arrving by boat should be processed onshore' }
+
+    it { compare_post '/policy.php?id=2&display=editdefinition', true, submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: '', description: 'a useful description' }
+    it { compare_post '/policy.php?id=2&display=editdefinition', true, submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: 'A useful title', description: '' }
   end
 end
