@@ -36,6 +36,7 @@ gem 'attribute-defaults'
 gem 'diffy'
 gem 'ranker'
 gem 'honeybadger'
+gem 'delayed_job_active_record'
 
 group :test do
   # We can't use transactional fixtures as the php app and the rails app need to see
