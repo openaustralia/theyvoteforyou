@@ -33,3 +33,35 @@ namespace :deploy do
     end
   end
 end
+
+namespace :foreman do
+  desc "Export the Procfile to Ubuntu's upstart scripts"
+  task :export do
+    on roles(:app) do
+      within current_path.join('rails') do
+        execute :sudo, :foreman, :export, :upstart, "/etc/init -u deploy -a publicwhip -f Procfile.production -l #{shared_path}/log --root #{current_path.join('rails')}"
+      end
+    end
+  end
+
+  desc "Start the application services"
+  task :start do
+    on roles(:app) do
+      execute :sudo, :service, :publicwhip, :start
+    end
+  end
+
+  desc "Stop the application services"
+  task :stop do
+    on roles(:app) do
+      execute :sudo, :service, :publicwhip, :stop
+    end
+  end
+
+  desc "Restart the application services"
+  task :restart do
+    on roles(:app) do
+      execute :sudo, :service, :publicwhip, :restart
+    end
+  end
+end
