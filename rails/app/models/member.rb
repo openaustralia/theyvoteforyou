@@ -143,6 +143,11 @@ class Member < ActiveRecord::Base
     1 - policy_member_distances.find_by!(policy: policy).distance_a
   end
 
+  def number_of_votes_on_policy(policy)
+    pmd = policy_member_distances.find_by!(policy: policy)
+    pmd.nvotessame + pmd.nvotessamestrong + pmd.nvotesdiffer + pmd.nvotesdifferstrong
+  end
+
   def url_name
     name.gsub(" ", "_")
   end

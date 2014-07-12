@@ -1,9 +1,27 @@
 .h1mppolicy
   %p.mp= link_to @member.full_name, member_path(@member)
   %p.voteexpl
-    has
-    %em never voted
-    on the policy
+    - if @number_of_votes_on_policy == 0
+      has
+      %em never voted
+      on
+    - elsif @agreement_fraction_with_policy >= 0.80
+      voted
+      %em strongly for
+    - elsif @agreement_fraction_with_policy >= 0.60
+      voted
+      %em moderately for
+    - elsif @agreement_fraction_with_policy <= 0.20
+      voted
+      %em strongly against
+    - elsif @agreement_fraction_with_policy <= 0.40
+      voted
+      %em moderately against
+    - else
+      voted
+      %em ambigously
+      on
+    the policy
   %p.policy
     = link_to policy_path(@policy) do
       %i
@@ -12,7 +30,7 @@
   %p
     by
     %a{href: '#ratioexpl'} scoring
-    %em.percent= fraction_to_percentage_display(@member.agreement_fraction_with_policy(@policy), precision: 1)
+    %em.percent= fraction_to_percentage_display(@agreement_fraction_with_policy, precision: 1)
     compared to the votes below
 = render 'policies/vote_summary_table', locals: [@policy, @member]
 %h2

@@ -48,7 +48,6 @@ class MembersController < ApplicationController
     electorate = params[:mpc]
     @house = params[:house] || "representatives"
     @display = params[:display]
-    @policy = Policy.find(params[:dmp]) if params[:dmp]
 
     # TODO In reality there could be several members matching this and we should relate this back to being
     # a single person
@@ -70,6 +69,12 @@ class MembersController < ApplicationController
       # TODO: This should 404 but doesn't to match the PHP app
       render 'member_not_found'
     else
+      if params[:dmp]
+        @policy = Policy.find(params[:dmp])
+        @agreement_fraction_with_policy = @member.agreement_fraction_with_policy(@policy)
+        @number_of_votes_on_policy = @member.number_of_votes_on_policy(@policy)
+      end
+
       if @display == "allvotes"
         # divisions attended
         @divisions = @member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc)
