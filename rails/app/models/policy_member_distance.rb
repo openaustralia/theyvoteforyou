@@ -36,7 +36,7 @@ class PolicyMemberDistance < ActiveRecord::Base
   end
 
   def possible_same_strong_points
-    policy.policy_divisions.select { |pd| pd.australian_house == member.australian_house && pd.strong_vote? && member.vote_on_division(pd.division) != 'absent' }.count * 50
+    policy ? policy.policy_divisions.select { |pd| pd.australian_house == member.australian_house && pd.strong_vote? && member.vote_on_division(pd.division) != 'absent' }.count * 50 : 0
   end
 
   def votes_absent_stong_points
@@ -44,7 +44,7 @@ class PolicyMemberDistance < ActiveRecord::Base
   end
 
   def possible_absent_stong_points
-    policy.policy_divisions.select { |pd| pd.australian_house == member.australian_house && pd.strong_vote? && member.vote_on_division(pd.division) == 'absent' }.count * 25
+    policy ? policy.policy_divisions.select { |pd| pd.australian_house == member.australian_house && pd.strong_vote? && member.vote_on_division(pd.division) == 'absent' }.count * 25 : 0
   end
 
   def votes_same_points
@@ -52,7 +52,7 @@ class PolicyMemberDistance < ActiveRecord::Base
   end
 
   def possible_same_points
-    policy.policy_divisions.select { |pd| pd.australian_house == member.australian_house && !pd.strong_vote? && member.vote_on_division(pd.division) != 'absent' }.count * 10
+    policy ? policy.policy_divisions.select { |pd| pd.australian_house == member.australian_house && !pd.strong_vote? && member.vote_on_division(pd.division) != 'absent' }.count * 10 : 0
   end
 
   def votes_absent_points
@@ -60,7 +60,7 @@ class PolicyMemberDistance < ActiveRecord::Base
   end
 
   def possible_absent_points
-    policy.policy_divisions.select { |pd| pd.australian_house == member.australian_house && !pd.strong_vote? && member.vote_on_division(pd.division) == 'absent' }.count * 2
+    policy ? policy.policy_divisions.select { |pd| pd.australian_house == member.australian_house && !pd.strong_vote? && member.vote_on_division(pd.division) == 'absent' }.count * 2 : 0
   end
 
   def total_points

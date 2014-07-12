@@ -140,12 +140,13 @@ class Member < ActiveRecord::Base
   end
 
   def agreement_fraction_with_policy(policy)
-    1 - policy_member_distances.find_by!(policy: policy).distance_a
+    pmd = policy_member_distances.find_by(policy: policy)
+    pmd ? 1 - pmd.distance_a : 0
   end
 
   def number_of_votes_on_policy(policy)
-    pmd = policy_member_distances.find_by!(policy: policy)
-    pmd.nvotessame + pmd.nvotessamestrong + pmd.nvotesdiffer + pmd.nvotesdifferstrong
+    pmd = policy_member_distances.find_by(policy: policy)
+    pmd ? pmd.nvotessame + pmd.nvotessamestrong + pmd.nvotesdiffer + pmd.nvotesdifferstrong : 0
   end
 
   def url_name

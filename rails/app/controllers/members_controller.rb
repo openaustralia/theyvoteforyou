@@ -72,7 +72,9 @@ class MembersController < ApplicationController
       if params[:dmp]
         @policy = Policy.find(params[:dmp])
         # Not using PolicyMemberDistance.find_by because of the messed up association with the Member model
-        @policy_member_distance = @member.policy_member_distances.find_by(policy: @policy)
+        unless @policy_member_distance = @member.policy_member_distances.find_by(policy: @policy)
+          @policy_member_distance = PolicyMemberDistance.new
+        end
         @agreement_fraction_with_policy = @member.agreement_fraction_with_policy(@policy)
         @number_of_votes_on_policy = @member.number_of_votes_on_policy(@policy)
       end
