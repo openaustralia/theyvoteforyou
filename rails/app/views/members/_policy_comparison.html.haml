@@ -57,19 +57,19 @@
     %td &nbsp;
   %tr.evenstrong
     %td MP voted with policy
-    %td.teller 0
-    %td 0
-    %td 0
+    %td.teller= @policy_member_distance.nvotessamestrong
+    %td= @policy_member_distance.votes_same_strong_points
+    %td= @policy_member_distance.possible_same_strong_points
   %tr.evenstrong
     %td MP voted against policy
-    %td.rebel 0
+    %td.rebel= @policy_member_distance.nvotesdifferstrong
     %td 0
-    %td 0
+    %td= @policy_member_distance.nvotesdifferstrong * 50
   %tr.evenstrong
     %td MP absent
-    %td.rebelteller 0
-    %td 0
-    %td 0
+    %td.rebelteller= @policy_member_distance.nvotesabsentstrong
+    %td= @policy_member_distance.votes_absent_stong_points
+    %td= @policy_member_distance.possible_absent_stong_points
   %tr.jobevent
     %td Less important votes (10 points)
     %td &nbsp;
@@ -77,14 +77,14 @@
     %td &nbsp;
   %tr.odd
     %td MP voted with policy
-    %td.teller 0
-    %td 0
-    %td 0
+    %td.teller= @policy_member_distance.nvotessame
+    %td= @policy_member_distance.votes_same_points
+    %td= @policy_member_distance.possible_same_points - (@policy_member_distance.nvotesdiffer * 10)
   %tr.odd
     %td MP voted against policy
-    %td.rebel 0
+    %td.rebel= @policy_member_distance.nvotesdiffer
     %td 0
-    %td 0
+    %td= @policy_member_distance.nvotesdiffer * 10
   %tr.jobevent
     %td Less important absentees (2 points)
     %td &nbsp;
@@ -92,13 +92,13 @@
     %td &nbsp;
   %tr.odd
     %td MP absent*
-    %td.rebelteller 1
-    %td 1
-    %td 2
+    %td.rebelteller= @policy_member_distance.nvotesabsent
+    %td= @policy_member_distance.votes_absent_points
+    %td= @policy_member_distance.possible_absent_points
   %tr.jobevent
     %td{:colspan => "2"} Total:
-    %td 1
-    %td 2
+    %td= @policy_member_distance.total_points
+    %td= @policy_member_distance.possible_total_points
   %tr
     %td{:colspan => "4"}
       %p{:style => "width: 35em;"}
@@ -117,11 +117,11 @@
   %span.denominator total points
 .equals.break &nbsp;=&nbsp;
 .fraction
-  %span.numerator 1
+  %span.numerator= @policy_member_distance.total_points
   %hr.divider/
-  %span.denominator 2
+  %span.denominator= @policy_member_distance.possible_total_points
 .equals.break
   \&nbsp;=
   = succeed "." do
-    %b 50.0 %
+    %b= fraction_to_percentage_display(@agreement_fraction_with_policy, precision: 1, format: "%n %")
 %br{:clear => "all"}/

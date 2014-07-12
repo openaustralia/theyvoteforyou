@@ -89,11 +89,13 @@ module DivisionsHelper
   end
 
   def vote_display_in_table(vote, aye_majority)
-    if (aye_majority >= 0 && (vote == 'aye' || vote == 'aye3')) ||
+    display = if (aye_majority >= 0 && (vote == 'aye' || vote == 'aye3')) ||
        (aye_majority <= 0 && (vote == 'no' || vote == 'no3'))
-      display = 'Majority'
+      'Majority'
+    elsif vote == 'absent'
+      vote
     else
-      display = content_tag(:i, 'minority')
+      content_tag(:i, 'minority')
     end
 
     vote == 'aye3' || vote == 'no3' ? "#{display} (strong)".html_safe : display
