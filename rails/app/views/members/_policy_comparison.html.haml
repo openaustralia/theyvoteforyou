@@ -11,7 +11,7 @@
           = @policy.name
   %p
     by
-    = link_to 'scoring', anchor: 'ratioexpl'
+    %a{href: '#ratioexpl'} scoring
     %em.percent= fraction_to_percentage_display(@member.agreement_fraction_with_policy(@policy), precision: 1)
     compared to the votes below
 = render 'policies/vote_summary_table', locals: [@policy, @member]
