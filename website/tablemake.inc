@@ -1044,12 +1044,14 @@ function division_table($db, $divtabattr, $db2="", $events = "")
         if ($divhref)
 		{
 			$divhref .= $divtabattr["divhrefappend"];
-	        if ($row["divisionhouse"] == "lords")
-	            $divhref .= "&house=senate";
-            elseif ($row["divisionhouse"] == "commons")
-                $divhref .= "&house=representatives";
-            elseif ($row["divisionhouse"] == "scotland")
-	            $divhref .= "&house=scotland";
+            if (!stristr($divhref, '&house=')) {
+                if ($row["divisionhouse"] == "lords")
+                    $divhref .= "&house=senate";
+                elseif ($row["divisionhouse"] == "commons")
+                    $divhref .= "&house=representatives";
+                elseif ($row["divisionhouse"] == "scotland")
+                    $divhref .= "&house=scotland";
+            }
 		}
 
         # write out the events

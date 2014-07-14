@@ -21,8 +21,7 @@
         %td= formatted_date(division.date, true)
         - if @member
           %td
-            - # FIXME: Two houses just to be reeeeally sure
-            = link_to division.name, division_path({date: division.date, number: division.number, house: division.australian_house}, false, @member) + "&house=#{division.australian_house}"
+            = link_to division.name, division_path({date: division.date, number: division.number, house: division.australian_house}, false, @member)
           %td= vote_display_in_table(@member.vote_on_division(division), division.aye_majority)
         - else
           %td
