@@ -22,10 +22,12 @@
        'current' - 'on' or 'off' for whether this item is currently selected -->
 #secondnavtabs
   %ul
-    = members_nav_link(@member, @members, @electorate, nil, "Summary", "Overview of MP", @display)
     - if @policy
+      - # FIXME This summary link is obviously wrong ("allvotes"?)
+      = members_nav_link(@member, @members, @electorate, "allvotes", "Summary", "Show every vote cast by this MP", (@display == nil ? "allvotes" : @display), @policy)
       = members_nav_link(@member, @members, @electorate, "motions", "Full description", "Also show descriptions of every vote", @display, @policy)
     - else
+      = members_nav_link(@member, @members, @electorate, nil, "Summary", "Overview of MP", @display)
       = members_nav_link(@member, @members, @electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @display)
       = members_nav_link(@member, @members, @electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display)
       = members_nav_link(@member, @members, @electorate, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display)
