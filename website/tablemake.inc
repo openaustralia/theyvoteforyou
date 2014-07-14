@@ -675,7 +675,7 @@ function print_motion_row($motiontext, $db, $divisionid, $pretrowclass, $rolecol
 
     $aye_majority = $row["aye_majority"];
 
-    print "<p>Policy vote: " . vote_display_in_table($vote1, $aye_majority) . "</p>";
+    print "<p>Policy vote: " . vote_display_in_table(($vote2 ? $vote2 : $vote1), $aye_majority) . "</p>";
     # make the table of party in the left hand side
     print_party_summary_division_table($divisionid, $row['divisionhouse']);
     print "</td>";
