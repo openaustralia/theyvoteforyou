@@ -32,7 +32,14 @@
     %a{href: '#ratioexpl'} scoring
     %em.percent= fraction_to_percentage_display(@agreement_fraction_with_policy, precision: 1)
     compared to the votes below
-= render 'policies/vote_summary_table', locals: [@policy, @member]
+- if @display == 'motions'
+  %p
+    Someone who believes that
+    %span.policytext= @policy.description
+    would cast votes described by the policy.
+  = render 'policies/detailed_votes'
+- else
+  = render 'policies/vote_summary_table', locals: [@policy, @member]
 %h2
   %a{:name => "ratioexpl"} How the number is calculated
 %p
