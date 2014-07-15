@@ -208,6 +208,8 @@ describe DivisionsController do
     it 'recalculates MP agreement percentages' do
       # Just post to Rails
       compare_static '/division.php?date=2013-03-14&number=1&house=senate&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'
+      # Rails does the recalculation in a background job so make sure that's done
+      Delayed::Worker.new.work_off
       # Compare Rails what the PHP app would generate (because it would rebuild it's cache)
       compare_static '/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate', true
     end
