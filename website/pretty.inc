@@ -382,6 +382,8 @@ function guy_attrcheck($arr) {
 		$nosp = 'level';
 	} elseif ($element == 'ol') {
 		$nosp = 'type';
+  } elseif ($element == 'p') {
+    $nosp = 'pwmotiontext';
 	} else {
 		$nosp = "lang";
 	}
