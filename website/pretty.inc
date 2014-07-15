@@ -566,7 +566,11 @@ function pretty_user_name($db, $name, $text = null) {
 }
 
 function pretty_distance_to_agreement($distance) {
-    $agreement = (1.0 - (float)($distance)) * 100.0;
+    if($distance) {
+      $agreement = (1.0 - (float)($distance)) * 100.0;
+    }else{
+      $agreement = 0;
+    }
     return number_format($agreement, 1)."%";
 }
 

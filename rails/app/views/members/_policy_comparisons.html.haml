@@ -19,5 +19,5 @@
     - reset_cycle
     %tr{:class => cycle("odd", "even")}
       %td
-        %b= link_to number_to_percentage((1 - policy_member_distance.distance_a) * 100, precision: 0), member_path(@member, dmp: policy_member_distance.policy.id)
+        %b= link_to fraction_to_percentage_display(@member.agreement_fraction_with_policy(policy_member_distance.policy), precision: 0), member_path(@member, dmp: policy_member_distance.policy.id)
       %td= link_to policy_member_distance.policy.name, policy_path(policy_member_distance.policy)

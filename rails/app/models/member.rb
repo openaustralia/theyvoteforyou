@@ -139,6 +139,16 @@ class Member < ActiveRecord::Base
     rebellions.to_f / votes_attended if member_info && has_whip? && votes_attended > 0
   end
 
+  def agreement_fraction_with_policy(policy)
+    pmd = policy_member_distances.find_by(policy: policy)
+    pmd ? 1 - pmd.distance_a : 0
+  end
+
+  def number_of_votes_on_policy(policy)
+    pmd = policy_member_distances.find_by(policy: policy)
+    pmd ? pmd.nvotessame + pmd.nvotessamestrong + pmd.nvotesdiffer + pmd.nvotesdifferstrong : 0
+  end
+
   def url_name
     name.gsub(" ", "_")
   end

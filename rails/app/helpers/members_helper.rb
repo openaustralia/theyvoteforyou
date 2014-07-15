@@ -9,8 +9,8 @@ module MembersHelper
       r += "&mpn2=#{member2.url_name}&mpc2=#{member2.electorate}&house2=#{member2.australian_house}" if member2
     end
     r += "&parliament=#{params[:parliament]}" if params[:parliament]
-    r += "&display=#{params[:display]}" if params[:display]
     r += "&dmp=#{params[:dmp]}" if params[:dmp]
+    r += "&display=#{params[:display]}" if params[:display]
     r += "##{params[:anchor]}" if params[:anchor]
     r
   end
@@ -33,15 +33,16 @@ module MembersHelper
     end
   end
 
-  def members_nav_link(member, members, electorate, display, name, title, current_display)
+  def members_nav_link(member, members, electorate, display, name, title, current_display, policy = nil)
+    params = policy ? {display: display, dmp: policy.id} : {display: display}
     if current_display == display
       content_tag(:li, name, class: "on")
     else
       content_tag(:li, class: "off") do
         path = if members && members.count > 1
-          electorate_path2(electorate, display: display)
+          electorate_path2(electorate, params)
         else
-          member_path(member, display: display)
+          member_path(member, params)
         end
         link_to name, path, title: title, class: "off"
       end

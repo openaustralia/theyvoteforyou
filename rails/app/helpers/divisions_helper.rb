@@ -12,10 +12,12 @@ module DivisionsHelper
     r
   end
 
-  def division_path(q, display_active_policy = true)
+  def division_path(q, display_active_policy = true, member = false)
     p = ""
     p += "&date=#{q[:date]}" if q[:date]
     p += "&number=#{q[:number]}" if q[:number]
+    p += "&mpn=#{member.url_name}" if member
+    p += "&mpc=#{member.electorate}" if member
     p += "&dmp=#{q[:dmp]}" if q[:dmp] && !(display_active_policy && user_signed_in?)
     p += "&house=#{q[:house]}" if q[:house]
     p += "&display=#{q[:display]}" if q[:display]
@@ -87,11 +89,13 @@ module DivisionsHelper
   end
 
   def vote_display_in_table(vote, aye_majority)
-    if (aye_majority >= 0 && (vote == 'aye' || vote == 'aye3')) ||
+    display = if (aye_majority >= 0 && (vote == 'aye' || vote == 'aye3')) ||
        (aye_majority <= 0 && (vote == 'no' || vote == 'no3'))
-      display = 'Majority'
+      'Majority'
+    elsif vote == 'absent'
+      vote
     else
-      display = content_tag(:i, 'minority')
+      content_tag(:i, 'minority')
     end
 
     vote == 'aye3' || vote == 'no3' ? "#{display} (strong)".html_safe : display

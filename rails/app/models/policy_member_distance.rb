@@ -30,4 +30,50 @@ class PolicyMemberDistance < ActiveRecord::Base
   def update!(attributes)
     PolicyMemberDistance.where(dream_id: policy.id, person: member.person).update_all(attributes)
   end
+
+  def votes_same_strong_points
+    nvotessamestrong * 50
+  end
+
+  def possible_same_strong_points
+    policy ? policy.policy_divisions.select { |pd| pd.australian_house == member.australian_house && pd.strong_vote? && member.vote_on_division(pd.division) != 'absent' }.count * 50 : 0
+  end
+
+  def votes_absent_stong_points
+    nvotesabsentstrong * 25
+  end
+
+  def possible_absent_stong_points
+    policy ? policy.policy_divisions.select { |pd| pd.australian_house == member.australian_house && pd.strong_vote? && member.vote_on_division(pd.division) == 'absent' }.count * 25 : 0
+  end
+
+  def votes_same_points
+    nvotessame * 10
+  end
+
+  def possible_same_points
+    policy ? policy.policy_divisions.select { |pd| pd.australian_house == member.australian_house && !pd.strong_vote? && member.vote_on_division(pd.division) != 'absent' }.count * 10 : 0
+  end
+
+  def votes_absent_points
+    nvotesabsent
+  end
+
+  def possible_absent_points
+    policy ? policy.policy_divisions.select { |pd| pd.australian_house == member.australian_house && !pd.strong_vote? && member.vote_on_division(pd.division) == 'absent' }.count * 2 : 0
+  end
+
+  def total_points
+    votes_same_strong_points +
+    votes_absent_stong_points +
+    votes_same_points +
+    votes_absent_points
+  end
+
+  def possible_total_points
+    possible_same_strong_points +
+    possible_absent_stong_points +
+    possible_same_points +
+    possible_absent_points
+  end
 end

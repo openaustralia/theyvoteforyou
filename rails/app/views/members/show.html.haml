@@ -5,6 +5,9 @@
   - elsif @display == "allfriends"
     Friends of
     = @member.full_name
+  - elsif @policy
+    = @member.name
+    compared to '#{@policy.name}'
   - else
     Voting Record —
     = @member.full_name2
@@ -19,14 +22,19 @@
        'current' - 'on' or 'off' for whether this item is currently selected -->
 #secondnavtabs
   %ul
-    = members_nav_link(@member, @members, @electorate, nil, "Summary", "Overview of MP", @display)
-    = members_nav_link(@member, @members, @electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @display)
-    = members_nav_link(@member, @members, @electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display)
-    = members_nav_link(@member, @members, @electorate, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display)
+    - if @policy
+      - # FIXME This summary link is obviously wrong ("allvotes"?)
+      = members_nav_link(@member, @members, @electorate, "allvotes", "Summary", "Show every vote cast by this MP", (@display == nil ? "allvotes" : @display), @policy)
+      = members_nav_link(@member, @members, @electorate, "motions", "Full description", "Also show descriptions of every vote", @display, @policy)
+    - else
+      = members_nav_link(@member, @members, @electorate, nil, "Summary", "Overview of MP", @display)
+      = members_nav_link(@member, @members, @electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @display)
+      = members_nav_link(@member, @members, @electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display)
+      = members_nav_link(@member, @members, @electorate, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display)
     = members_nav_link(@member, @members, @electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display)
 <!-- the second tier navigation as dropdowns end-->
 
-- if @display == "summary" || @display.nil?
+- if @display == "summary" || (!@policy && @display.nil?)
   = render "summary"
   = render "external_links"
   = render "interesting_votes"
@@ -44,3 +52,5 @@
   = render partial: "possible_friends", locals: {all_friends: true}
 - elsif @display == "alldreams"
   = render "policy_comparisons"
+- elsif @policy
+  = render "policy_comparison"

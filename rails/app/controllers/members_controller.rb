@@ -69,6 +69,16 @@ class MembersController < ApplicationController
       # TODO: This should 404 but doesn't to match the PHP app
       render 'member_not_found'
     else
+      if params[:dmp]
+        @policy = Policy.find(params[:dmp])
+        # Not using PolicyMemberDistance.find_by because of the messed up association with the Member model
+        unless @policy_member_distance = @member.policy_member_distances.find_by(policy: @policy)
+          @policy_member_distance = PolicyMemberDistance.new
+        end
+        @agreement_fraction_with_policy = @member.agreement_fraction_with_policy(@policy)
+        @number_of_votes_on_policy = @member.number_of_votes_on_policy(@policy)
+      end
+
       if @display == "allvotes"
         # divisions attended
         @divisions = @member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc)

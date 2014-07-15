@@ -16,12 +16,10 @@
       %td{:class => division.house}
         = division.australian_house.capitalize
       %td= formatted_date(division.date, true)
-      -# house=representatives appears twice in the link which is clearly wrong
-      -# TODO Fix this
       - if division.australian_house == "representatives"
-        %td= link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&mpn=#{member.name.gsub(" ", "_")}&mpc=#{member.electorate}&house=#{division.australian_house}&house=#{division.australian_house}"
+        %td= link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&mpn=#{member.name.gsub(" ", "_")}&mpc=#{member.electorate}&house=#{division.australian_house}"
       - else
-        %td= link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&mpn=#{member.name.gsub(" ", "_")}&mpc=Senate&house=#{division.australian_house}&house=#{division.australian_house}"
+        %td= link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&mpn=#{member.name.gsub(" ", "_")}&mpc=Senate&house=#{division.australian_house}"
       %td
         - if division.majority_vote_for(member) == "absent"
           absent

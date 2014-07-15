@@ -1,0 +1,30 @@
+%table.votes
+  - if @member
+    %caption= link_to 'Why Majority/minority instead of Aye/No?', help_path(anchor: 'ayemajority')
+  %tr.headings
+    %td House
+    %td Date
+    %td Subject
+    - if @member
+      %td= @member.name
+    %td.policyvotehead Policy vote
+  - divisions = @member ? @policy.divisions.select { |d| d.house == @member.house } : @policy.divisions
+  - if divisions.empty?
+    %tr.odd
+      %td{colspan: 7} no votes listed
+  - else
+    - divisions.each do |division|
+      - row_class = cycle('even', 'odd')
+      - row_class += 'strong' if division.policy_vote(@policy).include? '3'
+      %tr{class: row_class}
+        %td{class: division.house}= division.australian_house_name
+        %td= formatted_date(division.date, true)
+        - if @member
+          %td
+            = link_to division.name, division_path({date: division.date, number: division.number, house: division.australian_house}, false, @member)
+          %td= vote_display_in_table(@member.vote_on_division(division), division.aye_majority)
+        - else
+          %td
+            = link_to division.name, division_path({date: division.date, number: division.number, house: division.australian_house, dmp: @policy.id}, false)
+        %td
+          = vote_display_in_table(division.policy_vote(@policy), division.aye_majority)
