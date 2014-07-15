@@ -7,6 +7,7 @@ set -e
 MEMXML2DB_PERL=memxml2db.pl
 LOAD_PERL=load.pl
 CALC_CACHES_PHP=calc_caches.php
+MP_DISTANCE_PHP=mp_distance.php
 SCRAPED_XML_DOWNLOAD_PATTERN="2009-11-*.xml"
 
 while getopts ":eh" option; do
@@ -55,3 +56,4 @@ fi
 
 perl $LOAD_PERL divsxml check
 php $CALC_CACHES_PHP
+php $MP_DISTANCE_PHP
