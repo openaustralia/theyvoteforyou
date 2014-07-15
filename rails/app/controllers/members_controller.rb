@@ -51,7 +51,11 @@ class MembersController < ApplicationController
 
     # TODO In reality there could be several members matching this and we should relate this back to being
     # a single person
-    if electorate == "Senate" || electorate.nil?
+    if params[:mpid]
+      @member = Member.find_by!(mp_id: params[:mpid])
+    elsif params[:id]
+      @member = Member.find_by!(gid: params[:id])
+    elsif electorate == "Senate" || electorate.nil?
       @member = Member.in_australian_house(@house).where(first_name: @first_name, last_name: @last_name).first
     elsif @first_name && @last_name
       @member = Member.in_australian_house(@house).where(first_name: @first_name, last_name: @last_name, constituency: electorate).order(entered_house: :desc).first
