@@ -17,8 +17,6 @@
   (
   %a{:href => "changepass.php"}> change password
   )
-%h2 Forum profile
-%p= current_user.user_name
 %h2 Policies which you made
 - current_user.policies.each do |policy|
   %br/
