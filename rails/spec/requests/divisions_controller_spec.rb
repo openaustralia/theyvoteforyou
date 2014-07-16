@@ -203,7 +203,7 @@ describe DivisionsController do
 
     it 'creates a new policy division' do
       compare_static '/division.php?date=2013-03-14&number=1&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'
-      compare_static '/division.php?date=2013-03-14&number=1&house=senate&display=policies&dmp=1', true, submit: 'Update', vote2: 'aye3'
+      compare_static '/division.php?date=2013-03-14&number=1&house=senate&display=policies&dmp=1', true, submit: 'Update', vote1: 'aye3'
     end
 
     it 'recalculates MP agreement percentages' do
