@@ -153,7 +153,7 @@ class DivisionsController < ApplicationController
     @display = params[:display]
     @division = Division.in_australian_house(@house).find_by!(division_date: @date, division_number: params[:number])
 
-    @active_policy = current_user.active_policy
+    @active_policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
     @changed_from = @active_policy.add_division(@division, params[:vote2])
 
     @active_policy_vote = params[:vote2]
