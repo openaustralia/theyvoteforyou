@@ -47,6 +47,10 @@ package { 'tidy':
     ensure  => 'latest',
 }
 
+package { 'git-core':
+    ensure => 'latest';
+}
+
 # Timezone for server must be sydney for now because php app relies on it.
 class { 'timezone':
     timezone => 'Australia/Sydney',
@@ -78,6 +82,7 @@ exec { 'bundle install':
                     Rvm_gem["$ruby_version/bundler"],
                     Rvm_gem["$ruby_version/rake"],
                     Package['libmysqlclient-dev'],
+                    Package['git-core'],
                     Class['::mysql::server'],
                ],
     user => 'vagrant',
