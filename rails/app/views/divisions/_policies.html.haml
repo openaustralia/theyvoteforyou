@@ -12,7 +12,7 @@
                         'Abstain' => 'both',
                         'No' => 'no',
                         'No (strong)' => 'no3'}
-    = select_tag "vote2", options_for_select(select_options, (@active_policy_vote || '--')), size: 1
+    = select_tag "vote#{@active_policy.id}", options_for_select(select_options, (@active_policy_vote || '--')), size: 1
     %input{:name => "submit", :type => "submit", :value => "Update"}>/
     - if @changed_from
       - # FIXME Adding a preceeding space to match PHP
