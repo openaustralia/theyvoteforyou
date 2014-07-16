@@ -46,7 +46,7 @@ module HTMLCompareHelper
 
     form_params ? post(path, form_params) : get(path)
 
-    text = File.read("spec/fixtures/static_pages/#{path}.html")
+    text = File.read("spec/fixtures/static_pages#{path}.html")
     compare_text(text, response.body, path)
   end
 
