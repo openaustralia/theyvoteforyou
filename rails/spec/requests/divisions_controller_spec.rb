@@ -55,9 +55,9 @@ describe DivisionsController do
     compare("/division.php?date=2013-03-14&number=1&display=policies", true)
     compare("/division.php?date=2013-03-14&number=1&house=representatives&display=policies", true)
     compare("/division.php?date=2013-03-14&number=1&house=senate&display=policies", true)
-    # Disabled due to https://github.com/openaustralia/publicwhip/issues/195
-    # compare("/division.php?date=2009-11-25&number=8&house=senate&display=policies", true)
-    # compare("/division.php?date=2009-11-25&number=8&house=senate&display=policies&dmp=2", true)
+    compare("/division.php?date=2009-11-25&number=8&house=senate&display=policies", true)
+    compare("/division.php?date=2009-11-25&number=8&house=senate&display=policies&dmp=2", true)
+    compare("/division.php?date=2009-11-25&number=8&house=senate&display=policies&dmp=1", true)
     compare("/division.php?date=2006-12-06&number=3&display=policies", true)
   end
 
@@ -203,6 +203,11 @@ describe DivisionsController do
 
     it 'creates a new policy division' do
       compare_static '/division.php?date=2013-03-14&number=1&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'
+      compare_static '/division.php?date=2013-03-14&number=1&house=senate&display=policies&dmp=1', true, submit: 'Update', vote1: 'aye3'
+    end
+
+    it 'removes a policy division' do
+      compare_static('/division.php?date=2013-03-14&number=1&dmp=1&display=policies', true, submit: 'Update', vote1: '--')
     end
 
     it 'recalculates MP agreement percentages' do
