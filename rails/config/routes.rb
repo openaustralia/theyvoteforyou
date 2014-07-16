@@ -38,6 +38,7 @@ Publicwhip::Application.routes.draw do
     get '/account/logout.php' => 'devise/sessions#destroy'
     match '/account/changepass.php' => 'devise/registrations#edit', via: [:get, :post]
     get '/account/changeemail.php' => 'devise/registrations#edit'
+    get '/account/register.php' => 'devise/registrations#new'
   end
 
   scope path: '/feeds' do
