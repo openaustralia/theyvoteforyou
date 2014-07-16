@@ -88,7 +88,7 @@ function account_navbar() {
         $ret .= "Logout";
         $ret .= '</a> ';
     } else {
-        $ret .= '<a title="Register to chat on the forum or make/edit policies" href="/account/register.php?r='.  ($_GET['r']?urlencode($_GET['r']):urlencode($this_place)).'">';
+        $ret .= '<a title="Register to make or edit policies" href="/account/register.php?r='.  ($_GET['r']?urlencode($_GET['r']):urlencode($this_place)).'">';
         $ret .= "Sign Up";
         $ret .= '</a> ';
         $ret .= '<a title="Login to edit policies" href="/account/settings.php'.

@@ -60,10 +60,6 @@ if (user_isloggedin()) # User logged in, show settings screen
 	<br><span class="ptitle">Email:</span> ' . user_getemail() . ' (<a href="changeemail.php">change email</a>)
     <br><span class="ptitle">Password:</span> (<a href="changepass.php">change password</a>)';
 
-    print '<h2>Forum profile</h2>';
-    print '<p>';
-    print pretty_user_name($db, $user_name, 'View your forum profile, including posts you\'ve made');
-
     print "<h2>Policies which you made</h2>";
     $query = "select dream_id, name, description, private from pw_dyn_dreammp where user_id = '" . user_getid() . "' order by private, name";
     $db->query($query);
