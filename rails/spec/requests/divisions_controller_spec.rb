@@ -206,6 +206,10 @@ describe DivisionsController do
       compare_static '/division.php?date=2013-03-14&number=1&house=senate&display=policies&dmp=1', true, submit: 'Update', vote1: 'aye3'
     end
 
+    it 'removes a policy division' do
+      compare_static('/division.php?date=2013-03-14&number=1&dmp=1&display=policies', true, submit: 'Update', vote1: '--')
+    end
+
     it 'recalculates MP agreement percentages' do
       # Just post to Rails
       compare_static '/division.php?date=2013-03-14&number=1&house=senate&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'
