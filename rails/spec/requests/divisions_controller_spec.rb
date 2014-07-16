@@ -55,9 +55,8 @@ describe DivisionsController do
     compare("/division.php?date=2013-03-14&number=1&display=policies", true)
     compare("/division.php?date=2013-03-14&number=1&house=representatives&display=policies", true)
     compare("/division.php?date=2013-03-14&number=1&house=senate&display=policies", true)
-    # Disabled due to https://github.com/openaustralia/publicwhip/issues/195
-    # compare("/division.php?date=2009-11-25&number=8&house=senate&display=policies", true)
-    # compare("/division.php?date=2009-11-25&number=8&house=senate&display=policies&dmp=2", true)
+    compare("/division.php?date=2009-11-25&number=8&house=senate&display=policies", true)
+    compare("/division.php?date=2009-11-25&number=8&house=senate&display=policies&dmp=2", true)
     compare("/division.php?date=2006-12-06&number=3&display=policies", true)
   end
 
