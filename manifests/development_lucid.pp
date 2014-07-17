@@ -77,8 +77,6 @@ rvm_gem {"$ruby_version/rake":
     require => Rvm_system_ruby["$ruby_version"];
 }
 
-
-
 exec { 'bundle install':
     require => [
                     Rvm_gem["$ruby_version/bundler"],
