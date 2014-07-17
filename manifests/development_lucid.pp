@@ -77,6 +77,8 @@ rvm_gem {"$ruby_version/rake":
     require => Rvm_system_ruby["$ruby_version"];
 }
 
+
+
 exec { 'bundle install':
     require => [
                     Rvm_gem["$ruby_version/bundler"],
@@ -89,6 +91,38 @@ exec { 'bundle install':
     cwd => '/vagrant/rails/',
     path => ['/usr/local/rvm/wrappers/default', '/usr/bin', '/usr/sbin/', '/bin/'],
     timeout => 1200
+}
+
+# mailcatcher
+rvm_gemset {"$ruby_version@mailcatcher":
+    ensure  => present,
+    require => Rvm_system_ruby["$ruby_version"];
+}
+
+rvm_gem {"$ruby_version@mailcatcher/mailcatcher":
+    ensure  => 'present',
+    require => Rvm_gemset["$ruby_version@mailcatcher"];
+}
+
+rvm_wrapper {'mailcatcher':
+    target_ruby => "$ruby_version@mailcatcher",
+    ensure => present,
+    require => Rvm_gem["$ruby_version@mailcatcher/mailcatcher"];
+}
+
+file { '/etc/init.d/mailcatcher':
+    require => [ Rvm_wrapper['mailcatcher'] ],
+    source => '/vagrant/manifests/mailcatcher'
+}
+
+exec {'update-rc.d mailcatcher defaults':
+    subscribe => File['/etc/init.d/mailcatcher'],
+    path => ['/usr/bin', '/usr/sbin/', '/bin/']
+}
+
+exec {'service mailcatcher start':
+    subscribe => Exec['update-rc.d mailcatcher defaults'],
+    path => ['/usr/bin', '/usr/sbin/', '/bin/']
 }
 
 # Databases
