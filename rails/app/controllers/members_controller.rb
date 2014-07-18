@@ -39,35 +39,25 @@ class MembersController < ApplicationController
 
   def show
     if params[:mpn]
-      name = params[:mpn].split("_")
-      # Strip titles like "Ms"
-      name.slice!(0) if name[0] == 'Ms' || name[0] == 'Mrs'
-      @first_name = name[0]
-      @last_name = name[1..-1].join(' ')
+      name = Member.first_last_name params[:mpn]
+      @first_name = name[:first_name]
+      @last_name = name[:last_name]
+    end
+    if params[:mpn2]
+      name = Member.first_last_name params[:mpn2]
+      @first_name2 = name[:first_name]
+      @last_name2 = name[:last_name]
     end
     electorate = params[:mpc]
+    electorate2 = params[:mpc2]
     @house = params[:house] || "representatives"
+    @house2 = params[:house2] || "representatives"
     @display = params[:display]
 
     # TODO In reality there could be several members matching this and we should relate this back to being
     # a single person
-    if params[:mpid]
-      @member = Member.find_by!(mp_id: params[:mpid])
-    elsif params[:id]
-      @member = Member.find_by!(gid: params[:id])
-    elsif electorate == "Senate" || electorate.nil?
-      @member = Member.in_australian_house(@house).where(first_name: @first_name, last_name: @last_name).first
-    elsif @first_name && @last_name
-      @member = Member.in_australian_house(@house).where(first_name: @first_name, last_name: @last_name, constituency: electorate).order(entered_house: :desc).first
-    else
-      # TODO This is definitely wrong. Should return multiple members in this electorate
-      # TEMP HACK hardcoded date 1 Jan 2006 (start of Hansard data)
-      @members = Member.in_australian_house(@house).where(constituency: electorate).order(entered_house: :desc)
-      @member = Member.in_australian_house(@house).where(constituency: electorate).order(entered_house: :desc).where("left_house >= ?", Date.new(2006,1,1)).first
-      if @members.count > 1
-        @electorate = electorate
-      end
-    end
+    @member = Member.find_by_params params[:mpid], params[:id], electorate, @house, @first_name, @last_name
+    @member2 = Member.find_by_params params[:mpid2], params[:id2], electorate2, @house2, @first_name2, @last_name2
 
     if !@member
       # TODO: This should 404 but doesn't to match the PHP app

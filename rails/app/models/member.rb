@@ -228,6 +228,31 @@ class Member < ActiveRecord::Base
     Member.find_by_sql [sql_query, placeholders]
   end
 
+  def self.find_by_params(mpid, id, electorate, house, first_name, last_name)
+    if mpid
+      Member.find_by!(mp_id: mpid)
+    elsif id
+      Member.find_by!(gid: id)
+    elsif electorate == "Senate" || electorate.nil?
+      Member.in_australian_house(house).where(first_name: first_name, last_name: last_name).first
+    elsif first_name && last_name
+      Member.in_australian_house(house).where(first_name: first_name, last_name: last_name, constituency: electorate).order(entered_house: :desc).first
+    else
+      # TODO This is definitely wrong. Should return multiple members in this electorate
+      # TEMP HACK hardcoded date 1 Jan 2006 (start of Hansard data)
+      Member.in_australian_house(house).where(constituency: electorate).order(entered_house: :desc).where("left_house >= ?", Date.new(2006,1,1)).first
+    end
+  end
+
+  def self.first_last_name(snake_case_name)
+    name = snake_case_name.split("_")
+    # Strip titles like "Ms"
+    name.slice!(0) if name[0] == 'Ms' || name[0] == 'Mrs'
+    first_name = name[0]
+    last_name = name[1..-1].join(' ')
+    {:first_name=>first_name, :last_name=>last_name}
+  end
+
   private
 
   def free_vote
