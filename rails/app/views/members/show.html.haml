@@ -24,14 +24,14 @@
   %ul
     - if @policy
       - # FIXME This summary link is obviously wrong ("allvotes"?)
-      = members_nav_link(@member, @members, @electorate, "allvotes", "Summary", "Show every vote cast by this MP", (@display == nil ? "allvotes" : @display), @policy)
-      = members_nav_link(@member, @members, @electorate, "motions", "Full description", "Also show descriptions of every vote", @display, @policy)
+      = members_nav_link(@member, @members, @electorate, "allvotes", "Summary", "Show every vote cast by this MP", @display.nil? || @display == "allvotes", @policy)
+      = members_nav_link(@member, @members, @electorate, "motions", "Full description", "Also show descriptions of every vote", @display == "motions", @policy)
     - else
-      = members_nav_link(@member, @members, @electorate, nil, "Summary", "Overview of MP", @display)
-      = members_nav_link(@member, @members, @electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @display)
-      = members_nav_link(@member, @members, @electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display)
-      = members_nav_link(@member, @members, @electorate, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display)
-    = members_nav_link(@member, @members, @electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display)
+      = members_nav_link(@member, @members, @electorate, nil, "Summary", "Overview of MP", @display.nil?)
+      = members_nav_link(@member, @members, @electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @display == "allvotes")
+      = members_nav_link(@member, @members, @electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
+      = members_nav_link(@member, @members, @electorate, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
+    = members_nav_link(@member, @members, @electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
 <!-- the second tier navigation as dropdowns end-->
 
 - if @display == "summary" || (!@policy && @display.nil?)

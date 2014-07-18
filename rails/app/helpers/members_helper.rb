@@ -33,9 +33,9 @@ module MembersHelper
     end
   end
 
-  def members_nav_link(member, members, electorate, display, name, title, current_display, policy = nil)
+  def members_nav_link(member, members, electorate, display, name, title, active, policy = nil)
     params = policy ? {display: display, dmp: policy.id} : {display: display}
-    if current_display == display
+    if active
       content_tag(:li, name, class: "on")
     else
       content_tag(:li, class: "off") do
