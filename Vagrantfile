@@ -7,8 +7,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # OAF server runs lucid, best to match that environment.
   config.vm.box = "chef/ubuntu-10.04-i386"
 
-  config.vm.network "forwarded_port", guest: 80, host: 8080
-  config.vm.network "forwarded_port", guest: 3000, host: 3000
+  config.vm.network "forwarded_port", guest: 80, host: 8080 #php
+  config.vm.network "forwarded_port", guest: 3000, host: 3000 #rails
+  config.vm.network "forwarded_port", guest: 1080, host: 1080 #mailcatcher
 
   config.vm.provision "shell" do |shell|
   shell.inline = "mkdir -p /etc/puppet/modules;

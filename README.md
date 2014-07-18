@@ -26,12 +26,17 @@ Assuming they pass, you can start the rails server:
 
 Once it is up you can browse to localhost:3000 on the host.
 
+When manually testing the site, the "sign up" confirmation emails will
+automatically go to a dummy smtp server called [mailcatcher][3]. To check the
+emails, browse to localhost:1080 on the host.
+
 If vagrant reports that it can't mount the `/vagrant` virtualbox shared folder,
 it's becuase the VM has had it's kernel updated. Run
 `vagrant provision && vagrant reload` and you should be back in business.
 
 [1]: http://www.vagrantup.com/
 [2]: https://www.virtualbox.org/
+[3]: http://mailcatcher.me/
 
 The Public Whip Source Code (UK README)
 ---------------------------------------
