@@ -32,3 +32,13 @@ seven:
   division_id: 2037
   mp_id: 100002
   vote: 'tellaye'
+
+eight:
+  division_id: 59
+  mp_id: 100156
+  vote: 'no'
+
+nine:
+  division_id: 59
+  mp_id: 100279
+  vote: 'no'

@@ -226,3 +226,27 @@ nineteen:
   abstention_votes: 0
   possible_votes: 1
   whip_guess: 'no'
+
+twenty:
+  division_id: 59
+  party: 'Australian Greens'
+  aye_votes: 0
+  aye_tells: 0
+  no_votes: 5
+  no_tells: 0
+  both_votes: 0
+  abstention_votes: 0
+  possible_votes: 5
+  whip_guess: 'no'
+
+twentyone:
+  division_id: 59
+  party: 'Liberal Party'
+  aye_votes: 1
+  aye_tells: 0
+  no_votes: 27
+  no_tells: 1
+  both_votes: 0
+  abstention_votes: 0
+  possible_votes: 30
+  whip_guess: 'no'
