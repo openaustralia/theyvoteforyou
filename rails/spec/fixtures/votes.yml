@@ -42,3 +42,13 @@ nine:
   division_id: 59
   mp_id: 100279
   vote: 'no'
+
+ten:
+  division_id: 2037
+  mp_id: 222222
+  vote: 'no'
+
+eleven:
+  division_id: 2037
+  mp_id: 333333
+  vote: 'aye'

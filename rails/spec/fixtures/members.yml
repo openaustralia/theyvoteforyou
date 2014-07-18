@@ -141,3 +141,35 @@ paul_zammit:
   entered_reason: general_election
   left_reason: ''
   person: 10694
+
+disagreeable_curmudgeon:
+  mp_id: 222222
+  gid: uk.org.publicwhip/member/222222
+  source_gid: ''
+  first_name: Disagreeable
+  last_name: Curmudgeon
+  title: ''
+  constituency: WA
+  party: Independent
+  house: lords
+  entered_house: 1996-03-02
+  left_house: 2010-10-03
+  entered_reason: general_election
+  left_reason: ''
+  person: 22221
+
+surly_nihilist:
+  mp_id: 333333
+  gid: uk.org.publicwhip/member/333333
+  source_gid: ''
+  first_name: Surly
+  last_name: Nihilist
+  title: ''
+  constituency: WA
+  party: Independent
+  house: lords
+  entered_house: 1996-03-02
+  left_house: 2010-10-03
+  entered_reason: general_election
+  left_reason: ''
+  person: 33331
