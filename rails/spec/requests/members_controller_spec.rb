@@ -152,6 +152,10 @@ describe MembersController do
     compare("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&dmp=1&display=motions")
     compare("/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate&dmp=1&display=motions")
 
+    # vote comparison pages
+    # 100% agreement
+    compare("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&mpn2=Tony_Abbott&mpc2=Warringah&house2=representatives");
+
     compare("/mp.php?mpc=Warringah")
     compare("/mp.php?mpc=Bennelong")
 
