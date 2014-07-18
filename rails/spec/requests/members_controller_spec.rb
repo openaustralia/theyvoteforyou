@@ -154,11 +154,11 @@ describe MembersController do
 
     # vote comparison pages
     # 100% agreement
-    compare("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&mpn2=Tony_Abbott&mpc2=Warringah&house2=representatives");
+    compare("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&mpn2=Tony_Abbott&mpc2=Warringah&house2=representatives")
     # 0%<agreement<100%
-    compare("/mp.php?mpn=Christopher_Back&mpc=Senate&house=senate&mpn2=Christine_Milne&mpc2=Senate&house2=senate");
+    compare("/mp.php?mpn=Christopher_Back&mpc=Senate&house=senate&mpn2=Christine_Milne&mpc2=Senate&house2=senate")
     # when one mp has no votes whatsoever
-    compare("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&mpn2=Paul_Zammit&mpc2=Lowe&house2=representatives");
+    compare("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&mpn2=Paul_Zammit&mpc2=Lowe&house2=representatives")
 
     compare("/mp.php?mpc=Warringah")
     compare("/mp.php?mpc=Bennelong")
