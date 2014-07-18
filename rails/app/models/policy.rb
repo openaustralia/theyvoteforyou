@@ -28,6 +28,10 @@ class Policy < ActiveRecord::Base
     votes_count - edited_motions_count
   end
 
+  def provisional?
+    status == "provisional"
+  end
+
   def status
     case private
     when 0

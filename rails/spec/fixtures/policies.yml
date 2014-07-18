@@ -10,3 +10,9 @@ two:
   user_id: 1
   description: refugees arrving by boat should be processed offshore
   private: 0
+three:
+  dream_id: 3
+  name: provisional
+  user_id: 1
+  description: A provisional policy
+  private: 2
