@@ -20,9 +20,10 @@ rspec tests from inside the VM like this:
 * `cd /vagrant/rails`
 * `bundle exec rake PHP_SERVER=localhost`
 
-Assuming they pass, you can start the rails server:
+Assuming they pass, you can start the rails web server and background job
+processing:
 
-* `bundle exec rails server`
+* `./server.sh`
 
 Once it is up you can browse to localhost:3000 on the host.
 
