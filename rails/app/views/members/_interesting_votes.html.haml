@@ -25,7 +25,7 @@
           %b
             Votes by
             = link_to member.full_name_no_electorate, "mp.php?mpn=#{member.first_name}_#{member.last_name}&mpc=#{member.electorate}&house=#{member.australian_house}"
-      = render partial: "votes", locals: { member: member, divisions: member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no rebellions, never teller" }
+      = render partial: "votes", locals: { member: member, member2: nil, divisions: member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no rebellions, never teller" }
 - else
   %table.votes
-    = render partial: "votes", locals: { member: @member, divisions: @divisions, empty_message: "no rebellions, never teller" }
+    = render partial: "votes", locals: { member: @member, member2: nil, divisions: @divisions, empty_message: "no rebellions, never teller" }
