@@ -1,5 +1,6 @@
 -# FIXME in the controller @member and @members should never both be populated
-- if (@members && @members.size == 1) || !@member.current_offices.empty?
+-# Don't show office if we are doing a vote comparison
+- if ((@members && @members.size == 1) || !@member.current_offices.empty?) && @member2.nil?
   %p
     %b= @member.name
     is currently
