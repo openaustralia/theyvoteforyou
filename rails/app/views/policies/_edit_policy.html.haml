@@ -26,7 +26,7 @@
     should be able to agree which way the policy votes in each
     division</em>.)
   %p
-    %input#provisional{:name => "provisional", :type => "checkbox", :value => "provisional"}/
+    %input#provisional{:name => "provisional", :type => "checkbox", :value => "provisional", :checked => @policy.provisional?}/
     %label.ptitle{:for => "provisional"} Provisional policy
     ('provisional' means the
     policy is not yet complete or consistent enough to display on MP
