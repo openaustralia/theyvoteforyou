@@ -41,7 +41,7 @@
       = members_nav_link(@member, nil, @members, @electorate, "motions", "Full description", "Also show descriptions of every vote", @display, @policy)
       = members_nav_link(@member, nil, @members, @electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display)
     - elsif @member2
-      = members_nav_link(@member, @member2, @members, @electorate, "difference", "Differences", "Votes where the two MPs votes differed", @display)
+      = members_nav_link(@member, @member2, @members, @electorate, "difference", "Differences", "Votes where the two MPs votes differed", (@display.nil? ? "difference" : @display))
       = members_nav_link(@member, @member2, @members, @electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @display)
       = members_nav_link(@member, @member2, @members, @electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display)
     - else
