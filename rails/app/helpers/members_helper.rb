@@ -33,7 +33,7 @@ module MembersHelper
     end
   end
 
-  def members_nav_link(member, members, electorate, display, name, title, current_display, policy = nil)
+  def members_nav_link(member, member2, members, electorate, display, name, title, current_display, policy = nil)
     params = policy ? {display: display, dmp: policy.id} : {display: display}
     if current_display == display
       content_tag(:li, name, class: "on")
@@ -42,7 +42,7 @@ module MembersHelper
         path = if members && members.count > 1
           electorate_path2(electorate, params)
         else
-          member_path(member, params)
+          member_path(member, params, member2)
         end
         link_to name, path, title: title, class: "off"
       end
