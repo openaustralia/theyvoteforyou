@@ -31,6 +31,8 @@
             %i= "(#{policy.unedited_motions_count})"
         %td
           = link_to policy.name, policy
+          - if policy.provisional?
+            %i (provisional)
   - else
     %tr{:class => cycle('odd', 'even')}
       %td{:colspan => "4"}

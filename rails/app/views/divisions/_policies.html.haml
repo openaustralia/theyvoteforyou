@@ -36,7 +36,10 @@
   - else
     - @division.policies.each do |policy|
       %tr{:class => cycle("odd", "even")}
-        %td= link_to policy.name, policy
+        %td
+          = link_to policy.name, policy
+          - if policy.provisional?
+            %i (provisional)
         %td= simple_vote_display @division.policy_vote(policy)
 %p
   = link_to "Make a new policy", "account/addpolicy.php"
