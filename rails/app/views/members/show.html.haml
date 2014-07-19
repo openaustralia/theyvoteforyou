@@ -1,5 +1,10 @@
 - content_for :title do
-  - if @electorate
+  - if @member2
+    Voting Comparison —
+    = @member.full_name2
+    to
+    = @member2.full_name2
+  - elsif @electorate
     Voting Record — Representatives for
     = @electorate
   - elsif @display == "allfriends"
@@ -12,7 +17,15 @@
     Voting Record —
     = @member.full_name2
 
-%h1= yield :title
+- if @member2
+  %h1
+    Voting Comparison —
+    = @member.full_name2
+    %br
+    to
+    = @member2.full_name2
+-else
+  %h1= yield :title
 / the second tier navigation as tabs
 :plain
   <!-- add hashes to $second_links array, keys are
