@@ -73,7 +73,10 @@ class MembersController < ApplicationController
         @number_of_votes_on_policy = @member.number_of_votes_on_policy(@policy)
       end
 
-      if @display == "allvotes"
+      if @member2
+        #temp hack
+        @divisions = []
+      elsif @display == "allvotes"
         # divisions attended
         @divisions = @member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc)
       elsif @display == "everyvote"

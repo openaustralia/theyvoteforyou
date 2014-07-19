@@ -52,7 +52,11 @@
       = members_nav_link(@member, nil, @members, @electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display)
 <!-- the second tier navigation as dropdowns end-->
 
-- if @display == "summary" || (!@policy && @display.nil?)
+- if @member2
+  - if @display.nil? || @display == "difference"
+    = render "summary"
+    = render "difference"
+- elsif @display == "summary" || (!@policy && @display.nil?)
   = render "summary"
   = render "external_links"
   = render "interesting_votes"
