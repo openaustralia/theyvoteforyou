@@ -31,8 +31,12 @@
         - else
           = division.majority_vote_for(member).capitalize
       %td= division.whip_guess_for(member.party)
-      %td{:class => ""}
-        - if division.role_for(member) == "absent"
-          absent
-        - else
-          = division.role_for(member).capitalize
+      - if member2
+        %td{:class => "rebel"}
+          disagrees with policy
+      - else
+        %td{:class => ""}
+          - if division.role_for(member) == "absent"
+            absent
+          - else
+            = division.role_for(member).capitalize
