@@ -22,6 +22,19 @@ class Member < ActiveRecord::Base
     divisions.joins(:whips).where(free_vote.or(rebellious_vote).or(teller_vote))
   end
 
+  # Divisions where member2 voted in opposition to this member
+  def conflicting_divisions(member2)
+    # If you can figure out how to make this more ActiveRecordy, be my guest.
+    Division.where('division_id in
+                    (
+                      select v1.division_id from
+                      pw_vote v1 join pw_vote v2
+                      on v1.division_id = v2.division_id
+                      where v1.mp_id = ? and v2.mp_id = ?
+                        and v1.vote != v2.vote
+                    )', mp_id, member2.mp_id)
+  end
+
   def vote_on_division(division)
     vote = votes.where(division_id: division.id).first
     if vote

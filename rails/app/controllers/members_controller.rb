@@ -75,7 +75,7 @@ class MembersController < ApplicationController
 
       if @member2
         #temp hack
-        @divisions = []
+        @divisions = @member.conflicting_divisions(@member2)
       elsif @display == "allvotes"
         # divisions attended
         @divisions = @member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc)
