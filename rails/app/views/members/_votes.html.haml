@@ -32,7 +32,10 @@
           = division.majority_vote_for(member).capitalize
       - if member2
         %td= division.vote_for(member2)
-        - if division.vote_for(member) == division.vote_for(member2)
+        - if division.role_for(member) == "absent"
+          %td{:class => "rebelteller"}
+            absent
+        - elsif division.vote_for(member) == division.vote_for(member2)
           %td{:class => "teller"}
             agrees with policy
         - else
