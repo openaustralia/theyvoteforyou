@@ -8,4 +8,8 @@ describe StaticController do
   it "#code" do
     compare("/project/code.php")
   end
+
+  it "#data" do
+    compare("/project/data.php")
+  end
 end
