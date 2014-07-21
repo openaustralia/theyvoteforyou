@@ -84,8 +84,11 @@ class MembersController < ApplicationController
       end
 
       if @member2
-        #temp hack
-        @divisions = @member.conflicting_divisions(@member2)
+        if @display.nil? || @display == "difference"
+          @divisions = @member.conflicting_divisions(@member2)
+        elsif @display == "allvotes"
+          @divisions = @member.attended_divisions_with(@member2)
+        end
       elsif @display == "allvotes"
         # divisions attended
         @divisions = @member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc)
