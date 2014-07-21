@@ -12,4 +12,8 @@ describe StaticController do
   it "#data" do
     compare("/project/data.php")
   end
-end
+
+  it "#research" do
+    compare("/project/research.php")
+  end
+ end

@@ -49,6 +49,7 @@ Publicwhip::Application.routes.draw do
   scope path: '/project' do
     get 'code.php' => 'static#code'
     get 'data.php' => 'static#data'
+    get 'research.php' => 'static#research'
   end
 
   # Example of regular route:
