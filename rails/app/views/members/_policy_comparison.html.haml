@@ -70,13 +70,13 @@
   %tr.evenstrong
     %td MP voted against policy
     %td.rebel= @policy_member_distance.nvotesdifferstrong
-    %td 0
-    %td= @policy_member_distance.nvotesdifferstrong * 50
+    %td= @policy_member_distance.votes_differ_strong_points
+    %td= @policy_member_distance.possible_differ_strong_points
   %tr.evenstrong
     %td MP absent
     %td.rebelteller= @policy_member_distance.nvotesabsentstrong
-    %td= @policy_member_distance.votes_absent_stong_points
-    %td= @policy_member_distance.possible_absent_stong_points
+    %td= @policy_member_distance.votes_absent_strong_points
+    %td= @policy_member_distance.possible_absent_strong_points
   %tr.jobevent
     %td Less important votes (10 points)
     %td &nbsp;
@@ -86,12 +86,12 @@
     %td MP voted with policy
     %td.teller= @policy_member_distance.nvotessame
     %td= @policy_member_distance.votes_same_points
-    %td= @policy_member_distance.possible_same_points - (@policy_member_distance.nvotesdiffer * 10)
+    %td= @policy_member_distance.possible_same_points
   %tr.odd
     %td MP voted against policy
     %td.rebel= @policy_member_distance.nvotesdiffer
-    %td 0
-    %td= @policy_member_distance.nvotesdiffer * 10
+    %td= @policy_member_distance.votes_differ_points
+    %td= @policy_member_distance.possible_differ_points
   %tr.jobevent
     %td Less important absentees (2 points)
     %td &nbsp;
