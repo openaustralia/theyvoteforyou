@@ -57,7 +57,7 @@
   - if @display.nil? || @display == "difference"
     = render "difference"
   - elsif @display == "allvotes"
-    = render "difference_all_votes"
+    = render "difference_votes_attended"
 - elsif @display == "summary" || (!@policy && @display.nil?)
   = render "summary"
   = render "external_links"
