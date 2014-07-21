@@ -88,6 +88,8 @@ class MembersController < ApplicationController
           @divisions = @member.conflicting_divisions(@member2)
         elsif @display == "allvotes"
           @divisions = @member.attended_divisions_with(@member2)
+        elsif @display == "everyvote"
+          @divisions = @member.attended_divisions_with(@member2)
         end
       elsif @display == "allvotes"
         # divisions attended

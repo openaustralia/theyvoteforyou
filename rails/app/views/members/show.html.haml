@@ -58,6 +58,8 @@
     = render "difference"
   - elsif @display == "allvotes"
     = render "difference_votes_attended"
+  - elsif @display == "everyvote"
+    = render "difference_all_votes"
 - elsif @display == "summary" || (!@policy && @display.nil?)
   = render "summary"
   = render "external_links"
