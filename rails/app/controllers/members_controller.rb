@@ -87,9 +87,11 @@ class MembersController < ApplicationController
         if @display.nil? || @display == "difference"
           @divisions = @member.conflicting_divisions(@member2)
         elsif @display == "allvotes"
-          @divisions = @member.attended_divisions_with(@member2)
+          @divisions = @member.divisions_with(@member2)
         elsif @display == "everyvote"
-          @divisions = @member.attended_divisions_with(@member2)
+          # Very fishy how "votes attended" and "all votes" are apparently the
+          # same.
+          @divisions = @member.divisions_with(@member2)
         end
       elsif @display == "allvotes"
         # divisions attended

@@ -35,15 +35,18 @@ class Member < ActiveRecord::Base
                     )', mp_id, member2.mp_id)
   end
 
-  def attended_divisions_with(member2)
+  def divisions_with(member2)
     # If you can figure out how to make this more ActiveRecordy, be my guest.
     Division.where('division_id in
                     (
                       select v1.division_id from
                       pw_vote v1 join pw_vote v2
                       on v1.division_id = v2.division_id
-                      where v1.mp_id = ? and v2.mp_id = ?
-                    )', mp_id, member2.mp_id)
+                      where v2.mp_id = ?
+                    )', member2.mp_id)
+    # FIXME: it is very stupid how these results only depend on mp2. It should
+    # depend on both, but that's not the way the php seems to do it. Either fix
+    # the php, or fix this after we ditch the php.
   end
 
   def vote_on_division(division)
