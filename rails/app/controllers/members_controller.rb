@@ -48,6 +48,7 @@ class MembersController < ApplicationController
     electorate = params[:mpc]
     @house = params[:house] || "representatives"
     @display = params[:display]
+    @showall = params[:showall] == "yes"
 
     # TODO In reality there could be several members matching this and we should relate this back to being
     # a single person
@@ -83,7 +84,7 @@ class MembersController < ApplicationController
         @number_of_votes_on_policy = @member.number_of_votes_on_policy(@policy)
       end
 
-      if @display == "allvotes"
+      if @display == "allvotes" || @showall
         # divisions attended
         @divisions = @member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc)
       elsif @display == "everyvote"
