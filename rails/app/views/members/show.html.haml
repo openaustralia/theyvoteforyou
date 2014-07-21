@@ -53,9 +53,11 @@
 <!-- the second tier navigation as dropdowns end-->
 
 - if @member2
+  = render "summary"
   - if @display.nil? || @display == "difference"
-    = render "summary"
     = render "difference"
+  - elsif @display == "allvotes"
+    = render "difference_all_votes"
 - elsif @display == "summary" || (!@policy && @display.nil?)
   = render "summary"
   = render "external_links"
