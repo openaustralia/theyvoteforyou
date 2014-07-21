@@ -134,6 +134,10 @@ function ClickSup(nsup) {
 
       </div><!-- end header-->
 
+      <% if flash["notice"] %>
+        <div class="notice"><%= flash[:notice] %></div>
+      <% end %>
+
       <div id="main" class="widewidth"><!-- main content -->
         <%= yield %>
       </div><!-- end main content -->
