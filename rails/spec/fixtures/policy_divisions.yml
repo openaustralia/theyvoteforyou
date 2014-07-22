@@ -16,3 +16,9 @@ three:
   house: "commons"
   dream_id: 2
   vote: "no"
+four:
+  division_date: 2013-3-14
+  division_number: 1
+  house: "lords"
+  dream_id: 3
+  vote: "no3"

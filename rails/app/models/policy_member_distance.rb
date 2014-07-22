@@ -36,15 +36,23 @@ class PolicyMemberDistance < ActiveRecord::Base
   end
 
   def possible_same_strong_points
-    policy ? policy.policy_divisions.select { |pd| pd.australian_house == member.australian_house && pd.strong_vote? && member.vote_on_division(pd.division) != 'absent' }.count * 50 : 0
+    nvotessamestrong * 50
   end
 
-  def votes_absent_stong_points
+  def votes_differ_strong_points
+    0
+  end
+
+  def possible_differ_strong_points
+    nvotesdifferstrong * 50
+  end
+
+  def votes_absent_strong_points
     nvotesabsentstrong * 25
   end
 
-  def possible_absent_stong_points
-    policy ? policy.policy_divisions.select { |pd| pd.australian_house == member.australian_house && pd.strong_vote? && member.vote_on_division(pd.division) == 'absent' }.count * 25 : 0
+  def possible_absent_strong_points
+    nvotesabsentstrong * 50
   end
 
   def votes_same_points
@@ -52,28 +60,34 @@ class PolicyMemberDistance < ActiveRecord::Base
   end
 
   def possible_same_points
-    policy ? policy.policy_divisions.select { |pd| pd.australian_house == member.australian_house && !pd.strong_vote? && member.vote_on_division(pd.division) != 'absent' }.count * 10 : 0
+    nvotessame * 10
+  end
+
+  def votes_differ_points
+    0
+  end
+
+  def possible_differ_points
+    nvotesdiffer * 10
   end
 
   def votes_absent_points
-    nvotesabsent
+    nvotesabsent * 1
   end
 
   def possible_absent_points
-    policy ? policy.policy_divisions.select { |pd| pd.australian_house == member.australian_house && !pd.strong_vote? && member.vote_on_division(pd.division) == 'absent' }.count * 2 : 0
+    nvotesabsent * 2
   end
 
   def total_points
-    votes_same_strong_points +
-    votes_absent_stong_points +
-    votes_same_points +
-    votes_absent_points
+    votes_same_points + votes_same_strong_points +
+      votes_differ_points + votes_differ_strong_points +
+      votes_absent_points + votes_absent_strong_points
   end
 
   def possible_total_points
-    possible_same_strong_points +
-    possible_absent_stong_points +
-    possible_same_points +
-    possible_absent_points
+    possible_same_points + possible_same_strong_points +
+      possible_differ_points + possible_differ_strong_points +
+      possible_absent_points + possible_absent_strong_points
   end
 end

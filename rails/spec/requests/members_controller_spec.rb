@@ -179,7 +179,6 @@ describe MembersController do
 
     compare("/mp.php?mpid=1&dmp=1")
     compare("/mp.php?id=uk.org.publicwhip/member/1")
-    # TODO: Add showall mode
-    # compare("/mp.php?id=uk.org.publicwhip/member/1&showall=yes")
+    compare("/mp.php?id=uk.org.publicwhip/member/1&showall=yes")
   end
 end
