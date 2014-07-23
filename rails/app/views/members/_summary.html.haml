@@ -10,60 +10,46 @@
   our voting records currently only go back to the
   beginning of 2006 for the House of Representatives and the Senate
   (#{link_to "more details", help_path(anchor: "timeperiod")}).
-- if @electorate
-  %table
-    %tr.headings
+
+%table
+  %tr.headings
+    - if @electorate
       %td Name
-      %td From
-      %td To
-      %td Party
-      %td Rebellions (#{link_to "explain...", help_path(anchor: "clarify")})
-      %td Attendance (#{link_to "explain...", help_path(anchor: "clarify")})
-    - @members.each do |member|
-      %tr{:class => cycle("odd", "even")}
+    %td From
+    %td To
+    %td Party
+    %td Rebellions (#{link_to "explain...", help_path(anchor: "clarify")})
+    %td Attendance (#{link_to "explain...", help_path(anchor: "clarify")})
+    - if @electorate.nil?
+      %td Teller
+
+  -# TODO: Move this to the controller
+  - if @electorate.nil?
+    - @members = [@member]
+
+  - @members.each do |member|
+    %tr{:class => cycle("odd", "even")}
+      - if @electorate
         %td
           = member.name
           = link_to "(show only their votes)", "mp.php?mpn=#{member.first_name}_#{member.last_name}&display=summary"
-        %td= vote_records_start_date(member)
-        %td= member_until(member)
-        %td= member.party
-        %td.percent
-          = pluralize(member.rebellions, "vote")
-          out of
-          - if member.votes_attended == 0
-            0
-          - else
-            #{member.votes_attended},
-            %b= fraction_to_percentage_display(member.rebellions_fraction, precision: 1)
-        %td.percent
-          = pluralize(member.votes_attended, "vote")
-          out of
-          #{member.votes_possible},
-          %b= fraction_to_percentage_display(member.attendance_fraction, precision: 1)
-- else
-  %table
-    %tr.headings
-      %td From
-      %td To
-      %td Party
-      %td Rebellions (#{link_to "explain...", help_path(anchor: "clarify")})
-      %td Attendance (#{link_to "explain...", help_path(anchor: "clarify")})
-      %td Teller
-    %tr.odd
-      %td= vote_records_start_date(@member)
-      %td= member_until(@member)
-      %td= @member.party
+
+      %td= vote_records_start_date(member)
+      %td= member_until(member)
+      %td= member.party
       %td.percent
-        = pluralize(@member.rebellions, "vote")
+        = pluralize(member.rebellions, "vote")
         out of
-        - if @member.votes_attended == 0
+        - if member.votes_attended == 0
           0
         - else
-          #{@member.votes_attended},
-          %b= fraction_to_percentage_display(@member.rebellions_fraction, precision: 1)
+          #{member.votes_attended},
+          %b= fraction_to_percentage_display(member.rebellions_fraction, precision: 1)
       %td.percent
-        = pluralize(@member.votes_attended, "vote")
+        = pluralize(member.votes_attended, "vote")
         out of
-        #{@member.votes_possible},
-        %b= fraction_to_percentage_display(@member.attendance_fraction, precision: 1)
-      %td 0 times
+        #{member.votes_possible},
+        %b= fraction_to_percentage_display(member.attendance_fraction, precision: 1)
+
+      - if @electorate.nil?
+        %td 0 times
