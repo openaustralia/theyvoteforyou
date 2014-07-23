@@ -1,5 +1,5 @@
 -# FIXME in the controller @member and @members should never both be populated
-- if (@members && @members.size == 1) || !@member.current_offices.empty?
+- if (@electorate && @members && @members.size == 1) || !@member.current_offices.empty?
   %p
     %b= @member.name
     is currently
@@ -22,10 +22,6 @@
     %td Attendance (#{link_to "explain...", help_path(anchor: "clarify")})
     - if @electorate.nil?
       %td Teller
-
-  -# TODO: Move this to the controller
-  - if @electorate.nil?
-    - @members = [@member]
 
   - @members.each do |member|
     %tr{:class => cycle("odd", "even")}
