@@ -22,13 +22,16 @@ class Member < ActiveRecord::Base
     divisions.joins(:whips).where(free_vote.or(rebellious_vote).or(teller_vote)).group("pw_division.division_id")
   end
 
+  def division_vote(division)
+    votes.find_by(division: division)
+  end
+
   def vote_on_division(division)
-    vote = votes.where(division_id: division.id).first
-    if vote
-      vote.vote_without_tell
-    else
-      "absent"
-    end
+    division_vote(division) ? division_vote(division).vote_without_tell : "absent"
+  end
+
+  def teller_on_division?(division)
+    division_vote(division).teller? if division_vote(division)
   end
 
   def majority_vote_on_division(division)

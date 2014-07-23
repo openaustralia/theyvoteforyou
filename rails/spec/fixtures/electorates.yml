@@ -21,3 +21,11 @@ bennelong:
   from_date: 1000-1-1
   to_date: 9999-12-31
   house: "commons"
+
+chifley:
+  cons_id: 14
+  name: Chifley
+  main_name: true
+  from_date: 1000-01-01
+  to_date: 9999-12-31
+  house: commons

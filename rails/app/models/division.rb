@@ -47,12 +47,7 @@ class Division < ActiveRecord::Base
   end
 
   def role_for(member)
-    v = votes.where(mp_id: member.id).first
-    if v
-      v.role
-    else
-      "absent"
-    end
+    (v = votes.find_by(mp_id: member.id)) ? v.role : "absent"
   end
 
   def vote_for(member)
