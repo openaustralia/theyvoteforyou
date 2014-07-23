@@ -50,6 +50,8 @@ class MembersController < ApplicationController
     end
     electorate = params[:mpc]
     electorate2 = params[:mpc2]
+    electorate = electorate.gsub("_", " ") if electorate
+    electorate2 = electorate2.gsub("_", " ") if electorate2
     @house = params[:house] || "representatives"
     @house2 = params[:house2] || "representatives"
     @display = params[:display]

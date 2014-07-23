@@ -46,6 +46,12 @@ Publicwhip::Application.routes.draw do
     get 'mpdream-info' => 'feeds#mpdream_info'
   end
 
+  scope path: '/project' do
+    get 'code.php' => 'static#code'
+    get 'data.php' => 'static#data'
+    get 'research.php' => 'static#research'
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

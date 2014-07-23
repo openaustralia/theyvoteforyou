@@ -5,8 +5,8 @@ module MembersHelper
       r = "mp.php?mpn=#{member.url_name}&mpc=Senate&house=#{member.australian_house}"
       r += "&mpn2=#{member2.url_name}&mpc2=Senate&house2=#{member2.australian_house}" if member2
     else
-      r = "mp.php?mpn=#{member.url_name}&mpc=#{member.electorate}&house=#{member.australian_house}"
-      r += "&mpn2=#{member2.url_name}&mpc2=#{member2.electorate}&house2=#{member2.australian_house}" if member2
+      r = "mp.php?mpn=#{member.url_name}&mpc=#{member.url_electorate}&house=#{member.australian_house}"
+      r += "&mpn2=#{member2.url_name}&mpc2=#{member2.url_electorate}&house2=#{member2.australian_house}" if member2
     end
     r += "&parliament=#{params[:parliament]}" if params[:parliament]
     r += "&dmp=#{params[:dmp]}" if params[:dmp]
