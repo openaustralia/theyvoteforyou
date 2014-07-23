@@ -158,5 +158,8 @@ describe MembersController do
     compare("/mp.php?mpid=1&dmp=1")
     compare("/mp.php?id=uk.org.publicwhip/member/1")
     compare("/mp.php?id=uk.org.publicwhip/member/1&showall=yes")
+
+    # Test free teller under Interesting Votes
+    compare("/mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives")
   end
 end

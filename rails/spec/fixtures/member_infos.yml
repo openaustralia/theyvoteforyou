@@ -62,3 +62,11 @@ judith_adams:
   votes_attended: 9
   votes_possible: 11
   aye_majority: 1
+
+roger_price:
+  mp_id: 424
+  rebellions: 0
+  tells: 56
+  votes_attended: 612
+  votes_possible: 636
+  aye_majority: 26
