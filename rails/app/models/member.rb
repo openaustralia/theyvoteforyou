@@ -1,7 +1,7 @@
 class Member < ActiveRecord::Base
   self.table_name = "pw_mp"
   has_one :member_info, foreign_key: "mp_id"
-  delegate :rebellions, :votes_attended, :votes_possible, to: :member_info, allow_nil: true
+  delegate :rebellions, :votes_attended, :votes_possible, :tells, to: :member_info, allow_nil: true
   has_many :offices, foreign_key: "person", primary_key: "person"
   has_many :votes, foreign_key: "mp_id"
   scope :current_on, ->(date) { where("? >= entered_house AND ? < left_house", date, date) }
@@ -19,7 +19,11 @@ class Member < ActiveRecord::Base
   # Divisions that this member has voted on where either they were a teller, a rebel (or both) or voting
   # on a free vote
   def interesting_divisions
-    divisions.joins(:whips).where(free_vote.or(rebellious_vote).or(teller_vote))
+    divisions.joins(:whips).where(free_vote.or(rebellious_vote).or(teller_vote)).group("pw_division.division_id")
+  end
+
+  def division_vote(division)
+    votes.find_by(division: division)
   end
 
   # Divisions where member2 voted in opposition to this member
@@ -50,12 +54,11 @@ class Member < ActiveRecord::Base
   end
 
   def vote_on_division(division)
-    vote = votes.where(division_id: division.id).first
-    if vote
-      vote.vote_without_tell
-    else
-      "absent"
-    end
+    division_vote(division) ? division_vote(division).vote_without_tell : "absent"
+  end
+
+  def teller_on_division?(division)
+    division_vote(division).teller? if division_vote(division)
   end
 
   def majority_vote_on_division(division)

@@ -173,3 +173,19 @@ surly_nihilist:
   entered_reason: general_election
   left_reason: ''
   person: 33331
+
+roger_price:
+  mp_id: 424
+  gid: uk.org.publicwhip/member/424
+  source_gid: ''
+  first_name: Roger
+  last_name: Price
+  title: ''
+  constituency: Chifley
+  party: Australian Labor Party
+  house: commons
+  entered_house: 1984-12-01
+  left_house: 2010-08-21
+  entered_reason: general_election
+  left_reason: ''
+  person: 10519

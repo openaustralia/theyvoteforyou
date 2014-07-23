@@ -62,3 +62,8 @@ thirteen:
   division_id: 4444
   mp_id: 100279
   vote: 'no'
+
+fourteen:
+  division_id: 347
+  mp_id: 424
+  vote: tellaye

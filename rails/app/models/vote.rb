@@ -24,14 +24,18 @@ class Vote < ActiveRecord::Base
   end
 
   def role
-    if teller?
+    if teller? && free?
+      "free teller"
+    elsif teller? && rebellion?
+      "rebel teller"
+    elsif teller?
       "teller"
     elsif rebellion?
       "rebel"
-    elsif !free?
-      "loyal"
-    else
+    elsif free?
       "free"
+    else
+      "loyal"
     end
   end
 end

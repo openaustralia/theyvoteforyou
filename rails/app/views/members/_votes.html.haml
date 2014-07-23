@@ -24,7 +24,9 @@
       - else
         %td= link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&mpn=#{member.name.gsub(" ", "_")}&mpc=Senate&house=#{division.australian_house}"
       %td
-        - if division.majority_vote_for(member) == "absent"
+        - if member.teller_on_division?(division)
+          = member.division_vote(division).vote
+        - elsif division.majority_vote_for(member) == "absent"
           absent
         - elsif division.majority_vote_for(member) == "minority"
           %i minority
@@ -43,8 +45,8 @@
             disagrees with policy
       - else
         %td= division.whip_guess_for(member.party)
-        %td{:class => ""}
+        %td{:class => (member.teller_on_division?(division) ? "teller" : "")}
           - if division.role_for(member) == "absent"
             absent
           - else
-            = division.role_for(member).capitalize
+            = division.role_for(member).titlecase

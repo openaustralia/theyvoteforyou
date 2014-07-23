@@ -59,14 +59,19 @@ class MembersController < ApplicationController
 
     # TODO In reality there could be several members matching this and we should relate this back to being
     # a single person
+
     @member = Member.find_by_params params[:mpid], params[:id], electorate, @house, @first_name, @last_name
     @member2 = Member.find_by_params params[:mpid2], params[:id2], electorate2, @house2, @first_name2, @last_name2
-
-    if @member.nil?
+    
+    if @member
+      # TODO order @members
+      @members = Member.where(person: @member.person)
+      @person = true
+    else
       # TODO This is definitely wrong. Should return multiple members in this electorate
       # TEMP HACK hardcoded date 1 Jan 2006 (start of Hansard data)
       @members = Member.in_australian_house(@house).where(constituency: electorate).order(entered_house: :desc)
-      @member = Member.in_australian_house(@house).where(constituency: electorate).order(entered_house: :desc).where("left_house >= ?", Date.new(2006,1,1)).first
+      @member = @members.where("left_house >= ?", Date.new(2006,1,1)).first
       if @members.count > 1
         @electorate = electorate
       end
@@ -96,15 +101,6 @@ class MembersController < ApplicationController
           # same.
           @divisions = @member.divisions_with(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
         end
-      elsif @display == "allvotes" || @showall
-        # divisions attended
-        @divisions = @member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc)
-      elsif @display == "everyvote"
-        # All divisions MP could have attended
-        @divisions = @member.divisions_possible.order(division_date: :desc, clock_time: :desc, division_name: :asc)
-      elsif @display == "summary" || @display.nil?
-        # Interesting divisions
-        @divisions = @member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc)
       end
     end
   end
