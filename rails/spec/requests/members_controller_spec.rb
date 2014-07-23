@@ -192,7 +192,9 @@ describe MembersController do
       end
 
       it { compare("/mp.php?mpid=664") }
-      #it { compare("/mp.php?mpn=Barnaby_Joyce&mpc=New_England&house=representatives") }
+      it { compare("/mp.php?id=uk.org.publicwhip/member/664") }
+      it { compare("/mp.php?mpn=Barnaby_Joyce") }
+      it { compare("/mp.php?mpn=Barnaby_Joyce&mpc=New_England&house=representatives") }
     end
   end
 end
