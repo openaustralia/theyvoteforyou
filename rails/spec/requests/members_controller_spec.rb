@@ -191,7 +191,7 @@ describe MembersController do
         #to_date: "9999-12-31", house: "commons">
       end
 
-      #it { compare("/mp.php?mpid=664") }
+      it { compare("/mp.php?mpid=664") }
       #it { compare("/mp.php?mpn=Barnaby_Joyce&mpc=New_England&house=representatives") }
     end
   end

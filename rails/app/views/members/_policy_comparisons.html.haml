@@ -2,7 +2,10 @@
   %a{:name => "dreammotions"} Policy Comparisons
 %p
   This chart shows the percentage agreement between this
-  = member_type(@member.australian_house)
+  - if @electorate.nil? && @members.count > 1
+    person
+  - else
+    = member_type(@member.australian_house)
   and each of the policies in the database, according to their voting record.
 %table.mps
   - if @member.policy_member_distances.empty?

@@ -28,4 +28,5 @@
       = render partial: "votes", locals: { member: member, divisions: member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no rebellions, never teller" }
 - else
   %table.votes
-    = render partial: "votes", locals: { member: @member, divisions: @member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no rebellions, never teller" }
+    - @members.each do |member|
+      = render partial: "votes", locals: { member: @member, divisions: member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no rebellions, never teller" }

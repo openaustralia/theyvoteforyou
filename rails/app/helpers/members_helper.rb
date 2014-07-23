@@ -39,7 +39,7 @@ module MembersHelper
       content_tag(:li, name, class: "on")
     else
       content_tag(:li, class: "off") do
-        path = if members && members.count > 1
+        path = if electorate && members && members.count > 1
           electorate_path2(electorate, params)
         else
           member_path(member, params)
