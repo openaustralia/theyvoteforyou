@@ -31,6 +31,10 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def teller_on_division?(division)
+    division_vote(division).teller? if division_vote(division)
+  end
+
   # TODO: Refactor with vote_on_division
   def division_vote(division)
     votes.find_by(division: division)
