@@ -153,6 +153,10 @@ class Member < ActiveRecord::Base
     name.gsub(" ", "_")
   end
 
+  def url_electorate
+    electorate.gsub(" ", "_")
+  end
+
   def australian_house
     House.uk_to_australian(house)
   end

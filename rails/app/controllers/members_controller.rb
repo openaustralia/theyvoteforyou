@@ -46,6 +46,7 @@ class MembersController < ApplicationController
       @last_name = name[1..-1].join(' ')
     end
     electorate = params[:mpc]
+    electorate = electorate.gsub("_", " ") if electorate
     @house = params[:house] || "representatives"
     @display = params[:display]
     @showall = params[:showall] == "yes"
