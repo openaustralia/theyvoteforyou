@@ -91,17 +91,6 @@ class MembersController < ApplicationController
         @agreement_fraction_with_policy = @member.agreement_fraction_with_policy(@policy)
         @number_of_votes_on_policy = @member.number_of_votes_on_policy(@policy)
       end
-
-      if @display == "allvotes" || @showall
-        # divisions attended
-        @divisions = @member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc)
-      elsif @display == "everyvote"
-        # All divisions MP could have attended
-        @divisions = @member.divisions_possible.order(division_date: :desc, clock_time: :desc, division_name: :asc)
-      elsif @display == "summary" || @display.nil?
-        # Interesting divisions
-        @divisions = @member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc)
-      end
     end
   end
 end
