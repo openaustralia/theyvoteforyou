@@ -65,7 +65,7 @@ class MembersController < ApplicationController
       # TODO This is definitely wrong. Should return multiple members in this electorate
       # TEMP HACK hardcoded date 1 Jan 2006 (start of Hansard data)
       @members = Member.in_australian_house(@house).where(constituency: electorate).order(entered_house: :desc)
-      @member = Member.in_australian_house(@house).where(constituency: electorate).order(entered_house: :desc).where("left_house >= ?", Date.new(2006,1,1)).first
+      @member = @members.where("left_house >= ?", Date.new(2006,1,1)).first
       if @members.count > 1
         @electorate = electorate
       end
