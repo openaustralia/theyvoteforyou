@@ -47,7 +47,7 @@ class Division < ActiveRecord::Base
   end
 
   def role_for(member)
-    v = votes.where(mp_id: member.id).first
+    v = votes.find_by(mp_id: member.id)
     if v
       v.role
     else
