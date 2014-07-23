@@ -31,6 +31,11 @@ class Member < ActiveRecord::Base
     end
   end
 
+  # TODO: Refactor with vote_on_division
+  def division_vote(division)
+    votes.find_by(division: division)
+  end
+
   def majority_vote_on_division(division)
     vote = votes.where(division_id: division.id).first
     if vote

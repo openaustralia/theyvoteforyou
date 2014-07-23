@@ -21,15 +21,18 @@
       - else
         %td= link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&mpn=#{member.name.gsub(" ", "_")}&mpc=Senate&house=#{division.australian_house}"
       %td
-        - if division.majority_vote_for(member) == "absent"
+        - if member.division_vote(division) && member.division_vote(division).teller?
+          = member.division_vote(division).vote
+        - elsif division.majority_vote_for(member) == "absent"
           absent
         - elsif division.majority_vote_for(member) == "minority"
           %i minority
         - else
           = division.majority_vote_for(member).capitalize
       %td= division.whip_guess_for(member.party)
-      %td{:class => ""}
+      - # TODO: Get this logic out of the view
+      %td{:class => (division.role_for(member).include?("teller") ? "teller" : "")}
         - if division.role_for(member) == "absent"
           absent
         - else
-          = division.role_for(member).capitalize
+          = division.role_for(member).titlecase
