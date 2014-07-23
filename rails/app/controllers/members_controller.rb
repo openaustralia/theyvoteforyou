@@ -55,7 +55,10 @@ class MembersController < ApplicationController
     # a single person
     if params[:mpid]
       @member = Member.find_by!(mp_id: params[:mpid])
-      @members = [@member]
+      # TODO order @members
+      @members = Member.where(person: @member.person)
+      # We're displaying the members for a single person
+      @person = true
     elsif params[:id]
       @member = Member.find_by!(gid: params[:id])
       @members = [@member]

@@ -13,6 +13,8 @@
 
 %table
   %tr.headings
+    - if @person
+      %td Constituency
     - if @electorate
       %td Name
     %td From
@@ -25,6 +27,11 @@
 
   - @members.each do |member|
     %tr{:class => cycle("odd", "even")}
+      - if @person
+        %td{class: member.house}
+          - if member.senator?
+            Senator for
+          = member.electorate
       - if @electorate
         %td
           = member.name
@@ -34,18 +41,29 @@
       %td= member_until(member)
       %td= member.party
       %td.percent
-        = pluralize(member.rebellions, "vote")
+        - if member.rebellions.nil?
+          votes
+        - else
+          = pluralize(member.rebellions, "vote")
         out of
         - if member.votes_attended == 0
           0
-        - else
+        - elsif member.votes_attended
           #{member.votes_attended},
           %b= fraction_to_percentage_display(member.rebellions_fraction, precision: 1)
       %td.percent
-        = pluralize(member.votes_attended, "vote")
+        - if member.votes_attended.nil?
+          votes
+        - else
+          = pluralize(member.votes_attended, "vote")
         out of
-        #{member.votes_possible},
-        %b= fraction_to_percentage_display(member.attendance_fraction, precision: 1)
+        - if member.votes_possible
+          #{member.votes_possible},
+          %b= fraction_to_percentage_display(member.attendance_fraction, precision: 1)
 
       - if @electorate.nil?
-        %td 0 times
+        %td
+          - if member.tells.nil?
+            times
+          - else
+            = pluralize(member.tells, "time")

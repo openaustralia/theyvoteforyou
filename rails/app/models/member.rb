@@ -1,7 +1,7 @@
 class Member < ActiveRecord::Base
   self.table_name = "pw_mp"
   has_one :member_info, foreign_key: "mp_id"
-  delegate :rebellions, :votes_attended, :votes_possible, to: :member_info, allow_nil: true
+  delegate :rebellions, :votes_attended, :votes_possible, :tells, to: :member_info, allow_nil: true
   has_many :offices, foreign_key: "person", primary_key: "person"
   has_many :votes, foreign_key: "mp_id"
   scope :current_on, ->(date) { where("? >= entered_house AND ? < left_house", date, date) }
