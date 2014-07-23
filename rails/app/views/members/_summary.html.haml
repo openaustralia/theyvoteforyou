@@ -66,4 +66,6 @@
         out of
         #{@member.votes_possible},
         %b= fraction_to_percentage_display(@member.attendance_fraction, precision: 1)
-      %td 0 times
+      %td
+        = @member.tells
+        times
