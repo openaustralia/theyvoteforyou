@@ -88,13 +88,13 @@ class MembersController < ApplicationController
 
       if @member2
         if @display.nil? || @display == "difference"
-          @divisions = @member.conflicting_divisions(@member2)
+          @divisions = @member.conflicting_divisions(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
         elsif @display == "allvotes"
-          @divisions = @member.divisions_with(@member2)
+          @divisions = @member.divisions_with(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
         elsif @display == "everyvote"
           # Very fishy how "votes attended" and "all votes" are apparently the
           # same.
-          @divisions = @member.divisions_with(@member2)
+          @divisions = @member.divisions_with(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
         end
       elsif @display == "allvotes" || @showall
         # divisions attended
