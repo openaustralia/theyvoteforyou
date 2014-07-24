@@ -131,7 +131,13 @@ module DivisionsHelper
       end
 
       if @member.vote_on_division_without_tell(@division) != "absent"
-        sentence += " (#{@member.vote_on_division_without_tell(@division).capitalize})."
+        if @member.vote_on_division_with_tell(@division) == "tellaye"
+          sentence += " (Teller for the Ayes)."
+        elsif @member.vote_on_division_with_tell(@divsion) == "tellno"
+          sentence += " (Teller for the Noes)."
+        else
+          sentence += " (#{@member.vote_on_division_with_tell(@division).capitalize})."
+        end
       end
       sentence
     end
