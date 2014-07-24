@@ -53,7 +53,7 @@ class Member < ActiveRecord::Base
     # the php, or fix this after we ditch the php.
   end
 
-  def vote_on_division(division)
+  def vote_on_division_without_tell(division)
     division_vote(division) ? division_vote(division).vote_without_tell : "absent"
   end
 
@@ -61,7 +61,7 @@ class Member < ActiveRecord::Base
     division_vote(division).teller? if division_vote(division)
   end
 
-  def majority_vote_on_division(division)
+  def majority_vote_on_division_without_tell(division)
     vote = votes.where(division_id: division.id).first
     if vote
       # TODO What happens when the same number of votes on each side? Or can this never happen by design?

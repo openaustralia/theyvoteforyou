@@ -80,7 +80,7 @@
           = member.party_long2
           - if member.on_front_bench?(@date)
             (front bench)
-        %td= member.vote_on_division(@division)
+        %td= member.vote_on_division_without_tell(@division)
 
   - else
     - raise

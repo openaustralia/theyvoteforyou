@@ -51,11 +51,11 @@ class Division < ActiveRecord::Base
   end
 
   def vote_for(member)
-    member.vote_on_division(self)
+    member.vote_on_division_without_tell(self)
   end
 
   def majority_vote_for(member)
-    member.majority_vote_on_division(self)
+    member.majority_vote_on_division_without_tell(self)
   end
 
   # The vote of the majority (either aye or no)
