@@ -174,6 +174,11 @@ describe MembersController do
       compare("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&mpn2=Paul_Zammit&mpc2=Lowe&house2=representatives&display=difference")
       compare("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&mpn2=Paul_Zammit&mpc2=Lowe&house2=representatives&display=allvotes")
       compare("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&mpn2=Paul_Zammit&mpc2=Lowe&house2=representatives&display=everyvote")
+      # when one mp is a teller
+      compare("/mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives&mpn2=Tony_Abbott&mpc2=Warringah&house2=representatives")
+      compare("/mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives&mpn2=Tony_Abbott&mpc2=Warringah&house2=representatives&display=difference")
+      compare("/mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives&mpn2=Tony_Abbott&mpc2=Warringah&house2=representatives&display=allvotes")
+      compare("/mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives&mpn2=Tony_Abbott&mpc2=Warringah&house2=representatives&display=everyvote")
 
       compare("/mp.php?mpc=Warringah")
       compare("/mp.php?mpc=Bennelong")
