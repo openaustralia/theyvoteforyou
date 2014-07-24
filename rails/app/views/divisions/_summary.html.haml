@@ -8,8 +8,9 @@
     '+1 tell' means that in addition one member of that party was a
     = link_to "teller", help_path(anchor: "jargon")
     for that division lobby.
-  %span.ptitle What is Turnout?
-  This is measured against the total membership of the party at the time of the vote.
+  %p
+    %span.ptitle What is Turnout?
+    This is measured against the total membership of the party at the time of the vote.
 = render 'summary_party_votes', division: @division
 %h2
   %a{:name => "votes"}

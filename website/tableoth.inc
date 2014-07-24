@@ -283,7 +283,7 @@
         #    aye and no in the same division. The <a href=\"".$baseurl."boths.php\">boths
         #    page</a> explains this.
         #    <p>";
-        print "<span class=\"ptitle\">What is Turnout?</span> This is measured against 
+        print "<p><span class=\"ptitle\">What is Turnout?</span> This is measured against 
         the total membership of the party at the time of the vote.
         </p>
         </div>";
