@@ -152,10 +152,14 @@ class Member < ActiveRecord::Base
     HTMLEntities.new.decode(original_last_name)
   end
 
+  def original_constituency
+    read_attribute(:constituency)
+  end
+
   def constituency
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
-    HTMLEntities.new.decode(read_attribute(:constituency))
+    HTMLEntities.new.decode(original_constituency)
   end
 
   # Long version of party name
@@ -202,7 +206,7 @@ class Member < ActiveRecord::Base
   end
 
   def url_electorate
-    electorate.gsub(" ", "_")
+    CGI::escape(original_constituency.gsub(" ", "_"))
   end
 
   def australian_house
