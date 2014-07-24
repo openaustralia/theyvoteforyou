@@ -89,6 +89,10 @@ class Member < ActiveRecord::Base
     "#{first_name} #{last_name}".strip
   end
 
+  def original_name_without_title
+    "#{first_name} #{original_last_name}".strip
+  end
+
   # Include electorate in the name
   def full_name
     if senator?
@@ -136,10 +140,16 @@ class Member < ActiveRecord::Base
     !offices_on_date(date).empty?
   end
 
+  # Last name as it's stored in the database including horrible html entities
+  # which for some reason are in there
+  def original_last_name
+    read_attribute(:last_name)
+  end
+
   def last_name
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
-    HTMLEntities.new.decode(read_attribute(:last_name))
+    HTMLEntities.new.decode(original_last_name)
   end
 
   def constituency
@@ -188,7 +198,7 @@ class Member < ActiveRecord::Base
   end
 
   def url_name
-    name.gsub(" ", "_")
+    CGI::escape(original_name_without_title.gsub(" ", "_"))
   end
 
   def url_electorate
