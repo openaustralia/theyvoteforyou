@@ -43,16 +43,19 @@
       %td= member_until(member)
       %td= member.party
       %td.percent
-        - if member.rebellions.nil?
-          votes
+        - if member.party == "Independent"
+          no whip
         - else
-          = pluralize(member.rebellions, "vote")
-        out of
-        - if member.votes_attended == 0
-          0
-        - elsif member.votes_attended
-          #{member.votes_attended},
-          %b= fraction_to_percentage_display(member.rebellions_fraction, precision: 1)
+          - if member.rebellions.nil?
+            votes
+          - else
+            = pluralize(member.rebellions, "vote")
+          out of
+          - if member.votes_attended == 0
+            0
+          - elsif member.votes_attended
+            #{member.votes_attended},
+            %b= fraction_to_percentage_display(member.rebellions_fraction, precision: 1)
       %td.percent
         - if member.votes_attended.nil?
           votes
