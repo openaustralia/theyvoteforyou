@@ -39,38 +39,31 @@ class MembersController < ApplicationController
 
   def show
     if params[:mpn]
-      name = params[:mpn].split("_")
-      # Strip titles like "Ms"
-      name.slice!(0) if name[0] == 'Ms' || name[0] == 'Mrs'
-      @first_name = name[0]
-      @last_name = name[1..-1].join(' ')
+      name = MembersController.first_last_name params[:mpn]
+      @first_name = name[:first_name]
+      @last_name = name[:last_name]
+    end
+    if params[:mpn2]
+      name = MembersController.first_last_name params[:mpn2]
+      @first_name2 = name[:first_name]
+      @last_name2 = name[:last_name]
     end
     electorate = params[:mpc]
+    electorate2 = params[:mpc2]
     electorate = electorate.gsub("_", " ") if electorate
+    electorate2 = electorate2.gsub("_", " ") if electorate2
     @house = params[:house] || "representatives"
+    @house2 = params[:house2] || "representatives"
     @display = params[:display]
     @showall = params[:showall] == "yes"
 
     # TODO In reality there could be several members matching this and we should relate this back to being
     # a single person
-    if params[:mpid]
-      @member = Member.find_by!(mp_id: params[:mpid])
-      # TODO order @members
-      @members = Member.where(person: @member.person)
-      # We're displaying the members for a single person
-      @person = true
-    elsif params[:id]
-      @member = Member.find_by!(gid: params[:id])
-      # TODO order @members
-      @members = Member.where(person: @member.person)
-      @person = true
-    elsif electorate == "Senate" || electorate.nil?
-      @member = Member.in_australian_house(@house).where(first_name: @first_name, last_name: @last_name).first
-      # TODO order @members
-      @members = Member.where(person: @member.person)
-      @person = true
-    elsif @first_name && @last_name
-      @member = Member.in_australian_house(@house).where(first_name: @first_name, last_name: @last_name, constituency: electorate).order(entered_house: :desc).first
+
+    @member = MembersController.find_by_params params[:mpid], params[:id], electorate, @house, @first_name, @last_name
+    @member2 = MembersController.find_by_params params[:mpid2], params[:id2], electorate2, @house2, @first_name2, @last_name2
+    
+    if @member
       # TODO order @members
       @members = Member.where(person: @member.person)
       @person = true
@@ -97,6 +90,41 @@ class MembersController < ApplicationController
         @agreement_fraction_with_policy = @member.agreement_fraction_with_policy(@policy)
         @number_of_votes_on_policy = @member.number_of_votes_on_policy(@policy)
       end
+
+      if @member2
+        if @display.nil? || @display == "difference"
+          @divisions = @member.conflicting_divisions(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
+        elsif @display == "allvotes"
+          @divisions = @member.divisions_with(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
+        elsif @display == "everyvote"
+          # Very fishy how "votes attended" and "all votes" are apparently the
+          # same.
+          @divisions = @member.divisions_with(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
+        end
+      end
     end
+  end
+
+  private
+
+  def self.find_by_params(mpid, id, electorate, house, first_name, last_name)
+    if mpid
+      Member.find_by!(mp_id: mpid)
+    elsif id
+      Member.find_by!(gid: id)
+    elsif electorate == "Senate" || electorate.nil?
+      Member.in_australian_house(house).where(first_name: first_name, last_name: last_name).first
+    elsif first_name && last_name
+      Member.in_australian_house(house).where(first_name: first_name, last_name: last_name, constituency: electorate).order(entered_house: :desc).first
+    end
+  end
+
+  def self.first_last_name(snake_case_name)
+    name = snake_case_name.split("_")
+    # Strip titles like "Ms"
+    name.slice!(0) if name[0] == 'Ms' || name[0] == 'Mrs'
+    first_name = name[0]
+    last_name = name[1..-1].join(' ')
+    {:first_name=>first_name, :last_name=>last_name}
   end
 end

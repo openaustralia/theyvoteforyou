@@ -1,5 +1,7 @@
 -# FIXME in the controller @member and @members should never both be populated
-- if (@electorate && @members && @members.size == 1) || !@member.current_offices.empty?
+-# Don't show office if we are in a vote comparison displaying the difference
+-# (purely because that is what the php code does).
+- if ((@electorate && @members && @members.size == 1) || !@member.current_offices.empty?) && !((@member2 && @display.nil?) || @display == "difference")
   %p
     %b= @member.name
     is currently

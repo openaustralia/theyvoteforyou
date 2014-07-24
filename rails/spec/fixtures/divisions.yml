@@ -52,3 +52,37 @@ four:
   notes: ""
   source_gid: "uk.org.publicwhip/lords/2009-11-25.77.1"
   debate_gid: "uk.org.publicwhip/lords/2009-11-25.76.2"
+
+five:
+  division_id: 59
+  division_date: 2009-11-30
+  clock_time: "012:00:00"
+  division_number: 8
+  house: 'lords'
+  division_name: 'Carbon Pollution Reduction Scheme (Cprs Fuel Credits) Bill 2009 [No. 2]; Carbon Pollution Reduction Scheme Amendment (Household Assistance) Bill 2009 [No. 2] &#8212; Third Reading'
+  source_url: http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-30/0000
+  debate_url: http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-30/0000
+  motion: '<p pwmotiontext="moved">That these bills be now read a third time.</p>'
+  notes: ""
+  source_gid: "uk.org.publicwhip/lords/2009-11-30.560.1"
+  debate_gid: "uk.org.publicwhip/lords/2009-11-30.559.1"
+
+# This one used for checking the ordering of divisions by date.
+# Chronologically it is later than division_id 59, but the sql returns it
+# before that division when no orderby clause is used.
+# Unfortunately that behaviour is arbitrary, and changing the test fixtures or
+# the environment will likely change that order. One Solution would be to
+# mock out the sql calls.
+six:
+  division_id: 4444
+  division_date: 2009-12-30
+  clock_time: "012:00:00"
+  division_number: 8
+  house: 'lords'
+  division_name: 'Proceedural ban of flatulence during divisions'
+  source_url: https://www.youtube.com/watch?v=yUGw_l3G-JE
+  debate_url: https://www.youtube.com/watch?v=yUGw_l3G-JE
+  motion: '<p pwmotiontext="moved">That the member for Grayndler stop using biological means to influence the outcome of divisions.</p>'
+  notes: ""
+  source_gid: "uk.org.publicwhip/lords/2009-11-10.560.1"
+  debate_gid: "uk.org.publicwhip/lords/2009-11-10.559.1"

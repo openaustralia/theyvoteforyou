@@ -22,6 +22,14 @@ bennelong:
   to_date: 9999-12-31
   house: "commons"
 
+lowe:
+  cons_id: 101
+  name: Lowe
+  main_name: true
+  from_date: 1000-01-01
+  to_date: 9999-12-31
+  house: "commons"
+
 chifley:
   cons_id: 14
   name: Chifley

@@ -29,3 +29,19 @@ four:
   turnout: 65
   possible_turnout: 76
   aye_majority: -31
+
+five:
+  division_id: 59
+  rebellions: 1
+  tells: 2
+  turnout: 73
+  possible_turnout: 76
+  aye_majority: -9
+
+six:
+  division_id: 4444
+  rebellions: 0
+  tells: 2
+  turnout: 73
+  possible_turnout: 76
+  aye_majority: -9

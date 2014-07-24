@@ -1,5 +1,10 @@
 - content_for :title do
-  - if @electorate
+  - if @member2
+    Voting Comparison —
+    = @member.full_name2
+    to
+    = @member2.full_name2
+  - elsif @electorate
     Voting Record — Representatives for
     = @electorate
   - elsif @display == "allfriends"
@@ -12,7 +17,15 @@
     Voting Record —
     = @member.full_name2
 
-%h1= yield :title
+- if @member2
+  %h1
+    Voting Comparison —
+    = @member.full_name2
+    %br
+    to
+    = @member2.full_name2
+-else
+  %h1= yield :title
 / the second tier navigation as tabs
 :plain
   <!-- add hashes to $second_links array, keys are
@@ -24,17 +37,30 @@
   %ul
     - if @policy
       - # FIXME This summary link is obviously wrong ("allvotes"?)
-      = members_nav_link(@member, @members, @electorate, "allvotes", "Summary", "Show every vote cast by this MP", @display.nil? || @display == "allvotes", @policy)
-      = members_nav_link(@member, @members, @electorate, "motions", "Full description", "Also show descriptions of every vote", @display == "motions", @policy)
+      = members_nav_link(@member, nil, @members, @electorate, "allvotes", "Summary", "Show every vote cast by this MP",  @display.nil? || @display == "allvotes", @policy)
+      = members_nav_link(@member, nil, @members, @electorate, "motions", "Full description", "Also show descriptions of every vote", @display == "motions", @policy)
+      = members_nav_link(@member, nil, @members, @electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
+    - elsif @member2
+      = members_nav_link(@member, @member2, @members, @electorate, "difference", "Differences", "Votes where the two MPs votes differed", @display.nil? || @display == "difference")
+      = members_nav_link(@member, @member2, @members, @electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @display == "allvotes")
+      = members_nav_link(@member, @member2, @members, @electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
     - else
-      = members_nav_link(@member, @members, @electorate, nil, "Summary", "Overview of MP", !@showall && @display.nil?)
-      = members_nav_link(@member, @members, @electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @showall || @display == "allvotes")
-      = members_nav_link(@member, @members, @electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
-      = members_nav_link(@member, @members, @electorate, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
-    = members_nav_link(@member, @members, @electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
+      = members_nav_link(@member, nil, @members, @electorate, nil, "Summary", "Overview of MP", !@showall && @display.nil?)
+      = members_nav_link(@member, nil, @members, @electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @showall || @display == "allvotes")
+      = members_nav_link(@member, nil, @members, @electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
+      = members_nav_link(@member, nil, @members, @electorate, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
+      = members_nav_link(@member, nil, @members, @electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
 <!-- the second tier navigation as dropdowns end-->
 
-- if @display == "summary" || (!@showall && !@policy && @display.nil?)
+- if @member2
+  = render "summary"
+  - if @display.nil? || @display == "difference"
+    = render "difference"
+  - elsif @display == "allvotes"
+    = render "difference_votes_attended"
+  - elsif @display == "everyvote"
+    = render "difference_all_votes"
+- elsif @display == "summary" || (!@showall && !@policy && @display.nil?)
   = render "summary"
   = render "external_links"
   = render "interesting_votes"
