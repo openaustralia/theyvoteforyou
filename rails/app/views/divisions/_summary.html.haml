@@ -74,13 +74,13 @@
   - elsif @display == "allpossible"
     - @members.each do |member|
       %tr{:class => cycle("odd", "even")}
-        %td= link_to member.name, member_path(member)
+        %td= link_to member.name_without_title, member_path(member)
         %td= link_to_if @house == "representatives", member.electorate, electorate_path(member)
         %td
           = member.party_long2
           - if member.on_front_bench?(@date)
             (front bench)
-        %td= member.vote_on_division_without_tell(@division)
+        %td= member.vote_on_division_with_tell(@division)
 
   - else
     - raise

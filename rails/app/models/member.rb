@@ -57,6 +57,10 @@ class Member < ActiveRecord::Base
     division_vote(division) ? division_vote(division).vote_without_tell : "absent"
   end
 
+  def vote_on_division_with_tell(division)
+    division_vote(division) ? division_vote(division).vote : "absent"
+  end
+
   def teller_on_division?(division)
     division_vote(division).teller? if division_vote(division)
   end
@@ -78,7 +82,11 @@ class Member < ActiveRecord::Base
   end
 
   def name
-    "#{title} #{first_name} #{last_name}".strip
+    "#{title} #{name_without_title}".strip
+  end
+
+  def name_without_title
+    "#{first_name} #{last_name}".strip
   end
 
   # Include electorate in the name
