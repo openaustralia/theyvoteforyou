@@ -44,7 +44,7 @@ class DivisionsController < ApplicationController
     end
 
     @divisions = Division.joins(:division_info).order(order)
-    @divisions = @divisions.in_australian_house(@house) if @house    
+    @divisions = @divisions.in_australian_house(@house) if @house
     @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
     @divisions = @divisions.with_rebellions if @rdisplay2 == "rebels"
     @divisions = @divisions.joins(:whips).where(pw_cache_whip: {party: @party}) if @party
@@ -69,6 +69,9 @@ class DivisionsController < ApplicationController
       else
         @member = Member.in_australian_house(@house).where(first_name: first_name, last_name: last_name, constituency: electorate).first
       end
+      # What we have now in @member is a member related to the person that voted in @division but @member wasn't necessarily
+      # current when @division took place. So, let's fix this
+      @member = Member.where(person: @member.person).current_on(@division.date).first
     end
 
     if @display.nil?
