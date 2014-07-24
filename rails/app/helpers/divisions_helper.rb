@@ -106,9 +106,16 @@ module DivisionsHelper
     vote == 'aye3' || vote == 'no3' ? "#{vote[0...-1]} (strong)" : vote
   end
 
+  # Accessing @member inside this helper. Eek!
+  # TODO: Fix this!
   def member_voted_with(member, division)
     sentence = link_to @member.full_name, "mp.php?mpn=#{params[:mpn]}&mpc=#{params[:mpc]}&house=#{@house}"
-    sentence += " voted "
+    sentence += " "
+    if @member.vote_on_division_without_tell(@division) == "absent"
+      sentence += "did not vote."
+    else
+      sentence += "voted "
+    end
 
     if !division.action_text.empty? && division.action_text[@member.vote_on_division_without_tell(@division)]
       sentence += content_tag(:em, division.action_text[@member.vote_on_division_without_tell(@division)])
@@ -119,11 +126,14 @@ module DivisionsHelper
       ayenodiff = (@division.votes.group(:vote).count["aye"] || 0) - (@division.votes.group(:vote).count["no"] || 0)
       if @member.vote_on_division_without_tell(@division) == "aye" && ayenodiff >= 0 || @member.vote_on_division_without_tell(@division) == "no" && ayenodiff < 0
         sentence += content_tag(:em, "with the majority")
-      else
+      elsif @member.vote_on_division_without_tell(@division) != "absent"
         sentence += content_tag(:em, "in the minority")
       end
 
-      sentence += " (#{@member.vote_on_division_without_tell(@division).capitalize})."
+      if @member.vote_on_division_without_tell(@division) != "absent"
+        sentence += " (#{@member.vote_on_division_without_tell(@division).capitalize})."
+      end
+      sentence
     end
   end
 
