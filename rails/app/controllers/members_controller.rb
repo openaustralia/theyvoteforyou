@@ -39,12 +39,12 @@ class MembersController < ApplicationController
 
   def show
     if params[:mpn]
-      name = Member.first_last_name params[:mpn]
+      name = MembersController.first_last_name params[:mpn]
       @first_name = name[:first_name]
       @last_name = name[:last_name]
     end
     if params[:mpn2]
-      name = Member.first_last_name params[:mpn2]
+      name = MembersController.first_last_name params[:mpn2]
       @first_name2 = name[:first_name]
       @last_name2 = name[:last_name]
     end
@@ -60,8 +60,8 @@ class MembersController < ApplicationController
     # TODO In reality there could be several members matching this and we should relate this back to being
     # a single person
 
-    @member = Member.find_by_params params[:mpid], params[:id], electorate, @house, @first_name, @last_name
-    @member2 = Member.find_by_params params[:mpid2], params[:id2], electorate2, @house2, @first_name2, @last_name2
+    @member = MembersController.find_by_params params[:mpid], params[:id], electorate, @house, @first_name, @last_name
+    @member2 = MembersController.find_by_params params[:mpid2], params[:id2], electorate2, @house2, @first_name2, @last_name2
     
     if @member
       # TODO order @members
@@ -103,5 +103,28 @@ class MembersController < ApplicationController
         end
       end
     end
+  end
+
+  private
+
+  def self.find_by_params(mpid, id, electorate, house, first_name, last_name)
+    if mpid
+      Member.find_by!(mp_id: mpid)
+    elsif id
+      Member.find_by!(gid: id)
+    elsif electorate == "Senate" || electorate.nil?
+      Member.in_australian_house(house).where(first_name: first_name, last_name: last_name).first
+    elsif first_name && last_name
+      Member.in_australian_house(house).where(first_name: first_name, last_name: last_name, constituency: electorate).order(entered_house: :desc).first
+    end
+  end
+
+  def self.first_last_name(snake_case_name)
+    name = snake_case_name.split("_")
+    # Strip titles like "Ms"
+    name.slice!(0) if name[0] == 'Ms' || name[0] == 'Mrs'
+    first_name = name[0]
+    last_name = name[1..-1].join(' ')
+    {:first_name=>first_name, :last_name=>last_name}
   end
 end

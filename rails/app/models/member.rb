@@ -262,27 +262,6 @@ class Member < ActiveRecord::Base
     Member.find_by_sql [sql_query, placeholders]
   end
 
-  def self.find_by_params(mpid, id, electorate, house, first_name, last_name)
-    if mpid
-      Member.find_by!(mp_id: mpid)
-    elsif id
-      Member.find_by!(gid: id)
-    elsif electorate == "Senate" || electorate.nil?
-      Member.in_australian_house(house).where(first_name: first_name, last_name: last_name).first
-    elsif first_name && last_name
-      Member.in_australian_house(house).where(first_name: first_name, last_name: last_name, constituency: electorate).order(entered_house: :desc).first
-    end
-  end
-
-  def self.first_last_name(snake_case_name)
-    name = snake_case_name.split("_")
-    # Strip titles like "Ms"
-    name.slice!(0) if name[0] == 'Ms' || name[0] == 'Mrs'
-    first_name = name[0]
-    last_name = name[1..-1].join(' ')
-    {:first_name=>first_name, :last_name=>last_name}
-  end
-
   private
 
   def free_vote
