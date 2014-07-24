@@ -13,11 +13,15 @@
         %td{:class => majority_vote_class(whip)}
           = whip.majority_votes
           - if whip.majority_tells_votes > 0
-            (+#{pluralize(whip.majority_tells_votes, "tell")})
+            -# TODO The following line should be: (+#{pluralize(whip.majority_tells_votes, "tell")})
+            -# Doing this for compatibility with php version
+            (+#{whip.majority_tells_votes} tell)
         %td{:class => minority_vote_class(whip)}
           = whip.minority_votes
           - if whip.minority_tells_votes > 0
-            (+#{pluralize(whip.minority_tells_votes, "tell")})
+            -# TODO The following line should be: (+#{pluralize(whip.minority_tells_votes, "tell")})
+            -# Doing this for compatibility with php version
+            (+#{whip.minority_tells_votes} tell)
         %td.percent= fraction_to_percentage_display(whip.attendance_fraction, precision: 1)
   %tr{:class => cycle("odd", "even")}
     %td.whip Total:
