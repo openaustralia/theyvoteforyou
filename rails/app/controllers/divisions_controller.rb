@@ -92,11 +92,11 @@ class DivisionsController < ApplicationController
       when "constituency"
         ["pw_mp.constituency", "pw_mp.last_name", "pw_mp.first_name"]
       when "vote"
-        [:vote, "pw_mp.last_name", "pw_mp.first_name"]
+        ["pw_vote_sortorder.position desc", "pw_mp.last_name", "pw_mp.first_name"]
       else
         raise
       end
-      @votes = @division.votes.joins(:member).order(order)
+      @votes = @division.votes.joins(:member).joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order)
     elsif @display == "allpossible"
       order = case @sort
       when nil, "party"
