@@ -36,7 +36,7 @@
   - else
     - @votes.each do |vote|
       %tr{:class => cycle("odd", "even")}
-        %td= link_to vote.name, member_path(vote.member)
+        %td= link_to vote.name_without_title, member_path(vote.member)
         %td
           - if @house == "representatives"
             = link_to vote.electorate, electorate_path(vote.member)
