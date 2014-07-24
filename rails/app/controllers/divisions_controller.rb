@@ -62,7 +62,7 @@ class DivisionsController < ApplicationController
     if params[:mpn] && params[:mpc]
       first_name = params[:mpn].split("_")[0]
       last_name = params[:mpn].split("_")[1]
-      electorate = params[:mpc]
+      electorate = params[:mpc].gsub("_", " ")
       # TODO Also ensure that the member is current on the date of this division
       if electorate == "Senate"
         @member = Member.in_australian_house(@house).where(first_name: first_name, last_name: last_name).first
