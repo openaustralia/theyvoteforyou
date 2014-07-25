@@ -146,7 +146,7 @@ module DivisionsHelper
           sentence += "was a Teller for the Ayes."
         elsif @member.vote_on_division_with_tell(@division) == "tellno"
           sentence += "was a Teller for the Noes."
-        else
+        elsif @member.vote_on_division_with_tell(@division) != "absent"
           sentence += "voted #{@member.vote_on_division_with_tell(@division).capitalize}."
         end
       elsif @member.vote_on_division_without_tell(@division) == "aye" && ayenodiff >= 0 || @member.vote_on_division_without_tell(@division) == "no" && ayenodiff < 0
