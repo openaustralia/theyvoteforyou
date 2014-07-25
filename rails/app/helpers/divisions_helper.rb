@@ -143,13 +143,15 @@ module DivisionsHelper
       # calculation
       # AND THIS IS WRONG FURTHER BECAUSE THE MAJORITY CALCULATION DOESN"T TAKE INTO ACCOUNT THE TELLS
       ayenodiff = (@division.votes.group(:vote).count["aye"] || 0) - (@division.votes.group(:vote).count["no"] || 0)
-      if @member.vote_on_division_without_tell(@division) == "aye" && ayenodiff >= 0 || @member.vote_on_division_without_tell(@division) == "no" && ayenodiff < 0
+      if ayenodiff == 0
+        sentence += "#{@member.vote_on_division_with_tell(@division).capitalize}."
+      elsif @member.vote_on_division_without_tell(@division) == "aye" && ayenodiff >= 0 || @member.vote_on_division_without_tell(@division) == "no" && ayenodiff < 0
         sentence += content_tag(:em, "with the majority")
       elsif @member.vote_on_division_without_tell(@division) != "absent"
         sentence += content_tag(:em, "in the minority")
       end
 
-      if @member.vote_on_division_without_tell(@division) != "absent"
+      if @member.vote_on_division_without_tell(@division) != "absent" && ayenodiff != 0
         if @member.vote_on_division_with_tell(@division) == "tellaye"
           sentence += " (Teller for the Ayes)."
         elsif @member.vote_on_division_with_tell(@division) == "tellno"
