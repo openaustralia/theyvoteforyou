@@ -35,7 +35,7 @@
       %td{:colspan => "4"} No results found
   - else
     - @votes.each do |vote|
-      %tr{:class => cycle("odd", "even")}
+      %tr{:class => cycle("odd", "even") + (vote.rebellion? ? "rebel" : "")}
         %td= link_to vote.name_without_title, member_path(vote.member)
         %td
           - if @house == "representatives"
