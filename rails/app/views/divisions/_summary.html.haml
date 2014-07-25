@@ -69,7 +69,10 @@
         %tr{:class => cycle("odd", "even")}
           %td= link_to vote.name, member_path(vote.member)
           %td= vote.electorate
-          %td= vote.party_long2
+          %td
+            = vote.party_long2
+            - if vote.member.on_front_bench?(@date)
+              (front bench)
           %td= vote.vote
   - elsif @display == "allpossible"
     - @members.each do |member|
