@@ -128,7 +128,10 @@ module DivisionsHelper
   # Accessing @member inside this helper. Eek!
   # TODO: Fix this!
   def member_voted_with(member, division)
-    sentence = link_to @member.full_name, member_path(@member)
+    # We're using a different member for the link to try to make things the same as the php
+    # TODO get rid of this silliness as soon as we can
+    member2 = Member.where(person: @member.person).first
+    sentence = link_to @member.full_name, member_path(member2)
     sentence += " "
     if @member.vote_on_division_without_tell(@division) == "absent"
       sentence += "did not vote."

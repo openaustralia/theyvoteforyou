@@ -1,7 +1,5 @@
 module MembersHelper
   def member_path(member, params = {}, member2 = nil)
-    # The latest member that is the same person
-    member = Member.where(person: member.person).order(entered_house: :desc).first
     if member.senator?
       # TODO Seems odd to me the mpc=Senate would expect mpc=Tasmania
       r = "mp.php?mpn=#{member.url_name}&mpc=Senate&house=#{member.australian_house}"
