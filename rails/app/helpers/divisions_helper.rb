@@ -132,23 +132,27 @@ module DivisionsHelper
     sentence += " "
     if @member.vote_on_division_without_tell(@division) == "absent"
       sentence += "did not vote."
-    else
-      sentence += "voted "
     end
 
     if !division.action_text.empty? && division.action_text[@member.vote_on_division_without_tell(@division)]
-      sentence += content_tag(:em, division.action_text[@member.vote_on_division_without_tell(@division)])
+      sentence += "voted ".html_safe + content_tag(:em, division.action_text[@member.vote_on_division_without_tell(@division)])
     else
       # TODO Should be using whip for this calculation. Only doing it this way to match php
       # calculation
       # AND THIS IS WRONG FURTHER BECAUSE THE MAJORITY CALCULATION DOESN"T TAKE INTO ACCOUNT THE TELLS
       ayenodiff = (@division.votes.group(:vote).count["aye"] || 0) - (@division.votes.group(:vote).count["no"] || 0)
       if ayenodiff == 0
-        sentence += "#{@member.vote_on_division_with_tell(@division).capitalize}."
+        if @member.vote_on_division_with_tell(@division) == "tellaye"
+          sentence += "was a Teller for the Ayes."
+        elsif @member.vote_on_division_with_tell(@division) == "tellno"
+          sentence += "was a Teller for the Noes."
+        else
+          sentence += "voted #{@member.vote_on_division_with_tell(@division).capitalize}."
+        end
       elsif @member.vote_on_division_without_tell(@division) == "aye" && ayenodiff >= 0 || @member.vote_on_division_without_tell(@division) == "no" && ayenodiff < 0
-        sentence += content_tag(:em, "with the majority")
+        sentence += "voted ".html_safe + content_tag(:em, "with the majority")
       elsif @member.vote_on_division_without_tell(@division) != "absent"
-        sentence += content_tag(:em, "in the minority")
+        sentence += "voted ".html_safe + content_tag(:em, "in the minority")
       end
 
       if @member.vote_on_division_without_tell(@division) != "absent" && ayenodiff != 0
