@@ -76,7 +76,7 @@
           %td= vote.vote
   - elsif @display == "allpossible"
     - @members.each do |member|
-      %tr{:class => cycle("odd", "even")}
+      %tr{:class => cycle("odd", "even") + (member.rebel_on_division?(@division) ? "rebel" : "")}
         %td= link_to member.name_without_title, member_path(member)
         %td= link_to_if @house == "representatives", member.electorate, electorate_path(member)
         %td

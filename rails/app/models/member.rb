@@ -65,6 +65,10 @@ class Member < ActiveRecord::Base
     division_vote(division).teller? if division_vote(division)
   end
 
+  def rebel_on_division?(division)
+    division_vote(division).rebellion? if division_vote(division)
+  end
+
   def majority_vote_on_division_without_tell(division)
     vote = votes.where(division_id: division.id).first
     if vote
