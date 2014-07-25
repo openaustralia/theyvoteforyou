@@ -128,7 +128,7 @@ module DivisionsHelper
   # Accessing @member inside this helper. Eek!
   # TODO: Fix this!
   def member_voted_with(member, division)
-    sentence = link_to @member.full_name, "mp.php?mpn=#{CGI::escape(params[:mpn])}&mpc=#{CGI::escape(params[:mpc])}&house=#{@house}"
+    sentence = link_to @member.full_name, member_path(@member)
     sentence += " "
     if @member.vote_on_division_without_tell(@division) == "absent"
       sentence += "did not vote."
