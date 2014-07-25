@@ -58,6 +58,11 @@ class Division < ActiveRecord::Base
     member.majority_vote_on_division_without_tell(self)
   end
 
+  # Equal number of votes for the ayes and noes
+  def tied?
+    aye_majority == 0
+  end
+
   # The vote of the majority (either aye or no)
   def majority_vote
     if aye_majority == 0

@@ -1,8 +1,12 @@
 %table
   %tr.headings
     %td Party
-    %td Majority (#{division.majority_type.capitalize})
-    %td Minority (#{division.minority_type.capitalize})
+    - if division.tied?
+      %td Ayes
+      %td Noes
+    - else
+      %td Majority (#{division.majority_type.capitalize})
+      %td Minority (#{division.minority_type.capitalize})
     %td Turnout
   - reset_cycle
   - division.whips.order(:party).each do |whip|
@@ -10,6 +14,7 @@
     - if whip.total_votes > 0
       %tr{:class => cycle("odd", "even")}
         %td= whip.party_name
+        -# When votes are tied the majority vote is aye. So, this will still come out in the correct order
         %td{:class => majority_vote_class(whip)}
           = whip.majority_votes
           - if whip.majority_tells_votes > 0
