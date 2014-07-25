@@ -132,8 +132,11 @@ class Division < ActiveRecord::Base
     whips.find_all{|w| w.total_votes > 0}.sum(&:possible_votes)
   end
 
+  # Returns nil if otherwise we would get divide by zero
   def attendance_fraction
-    total_votes.to_f / possible_votes
+    if possible_votes > 0
+      total_votes.to_f / possible_votes
+    end
   end
 
   def division_name
