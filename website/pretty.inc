@@ -317,7 +317,7 @@ $guy_c['quot']),array('&lt;','&gt;','&quot;'),$str);
 /* Used upon submission; only keeps allowed HTML (see array below) */
 function guy_strip_bad($str, $mode='') {
     global $guy_c;
-    $html_allowed = array('a', 'b', 'i', 'p', 'ol', 'ul', 'li', 'blockquote', 'br', 'em', 'sup', 'sub');
+    $html_allowed = array('a', 'b', 'i', 'p', 'ol', 'ul', 'li', 'blockquote', 'br', 'em', 'sup', 'sub', 'dl', 'dt', 'dd');
 	$html_allowed_regexp = join('|',$html_allowed);
 	$html_allowed_striptags = '<'.join('><',$html_allowed).'>';
 	$str = strip_tags($str,$html_allowed_striptags);
