@@ -176,6 +176,7 @@ module DivisionsHelper
   def formatted_motion_text(division)
     text = division.motion
 
+    text.gsub!(/<p class="italic">(.*)<\/p>/) { "<p><i>#{$1}</i></p>" }
     # Remove any preceeding spaces so wikiparser doesn't format with monospaced font
     text.gsub! /^ */, ''
     # Remove comment lines (those starting with '@')
