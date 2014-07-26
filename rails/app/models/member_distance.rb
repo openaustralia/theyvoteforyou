@@ -1,11 +1,12 @@
 class MemberDistance < ActiveRecord::Base
   self.table_name = "pw_cache_realreal_distance"
   belongs_to :member, foreign_key: :mp_id1
+  belongs_to :member2, foreign_key: :mp_id2, class_name: "Member"
 
-  # TODO: Can we do this as an association?
-  def member2
-    Member.find mp_id2
-  end
+  # # TODO: Can we do this as an association?
+  # def member2
+  #   Member.find mp_id2
+  # end
 
   def agreement_percentage
     (1 - distance_a) * 100
