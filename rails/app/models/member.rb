@@ -245,6 +245,11 @@ class Member < ActiveRecord::Base
     member_distances.where.not(mp_id2: id, distance_a: -1)
   end
 
+  # Friends who have voted exactly the same
+  def best_friends
+    possible_friends.where(distance_a: 0)
+  end
+
   def self.find_by_search_query(query_string)
     # FIXME: This convoluted SQL crap was ported directly from the PHP app. Make it nice
     sql_query = "SELECT person, first_name, last_name, title, constituency, pw_mp.party AS party, pw_mp.house as house,
