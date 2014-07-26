@@ -4,12 +4,12 @@
     = @member.full_name2
     to
     = @member2.full_name2
-  - elsif @electorate
-    Voting Record — Representatives for
-    = @electorate
   - elsif @display == "allfriends"
     Friends of
     = @member.full_name
+  - elsif @electorate
+    Voting Record — Representatives for
+    = @electorate
   - elsif @policy
     = @member.name
     compared to '#{@policy.name}'
