@@ -28,7 +28,8 @@
     %tr.even
       %td{:colspan => "4"} No results found
   - else
-    - possible_friends = all_friends ? @member.possible_friends.order(:distance_a) : @member.possible_friends.joins(:member2).order(:distance_a, "pw_mp.last_name", "pw_mp.first_name").limit(5)
+    - possible_friends = @member.possible_friends.joins(:member2).order(:distance_a, "pw_mp.last_name", "pw_mp.first_name")
+    - possible_friends = possible_friends.limit(5) if !all_friends
     - reset_cycle
     - possible_friends.each do |member_distance|
       %tr{:class => cycle("odd", "even")}
