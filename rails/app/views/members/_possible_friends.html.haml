@@ -37,5 +37,5 @@
         %td= link_to member_distance.member2.name_without_title, member_path(member_distance.member2)
         %td= link_to_unless member_distance.member2.senator?, member_distance.member2.electorate, electorate_path(member_distance.member2)
         %td= member_distance.member2.party_long2
-- if @member.best_friends.count > 0 && !all_friends
+- if @member.best_friends.count >= 5 && !all_friends
   (#{pluralize(@member.best_friends.count, "MP")} voted exactly the same as this one)
