@@ -30,6 +30,10 @@
           absent
         - elsif division.majority_vote_for(member) == "minority"
           %i minority
+        - elsif division.majority_vote_for(member) == "no"
+          no
+        - elsif division.majority_vote_for(member) == "aye"
+          aye
         - else
           = division.majority_vote_for(member).capitalize
       - if member2
