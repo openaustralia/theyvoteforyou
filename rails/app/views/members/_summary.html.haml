@@ -44,10 +44,12 @@
       %td
         - if member.party == "SPK"
           Speaker
+        - elsif member.party == "CWM"
+          Deputy Speaker
         - else
           = member.party
       %td.percent
-        - if member.party == "Independent" || member.party == "SPK"
+        - if member.party == "Independent" || member.party == "SPK" || member.party == "CWM"
           no whip
         - else
           - if member.rebellions.nil?
