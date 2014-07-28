@@ -9,7 +9,7 @@
     = @member.full_name
   - elsif @electorate
     Voting Record — Representatives for
-    = @electorate
+    = @member.electorate
   - elsif @policy
     = @member.name
     compared to '#{@policy.name}'
