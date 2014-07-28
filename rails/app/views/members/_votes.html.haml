@@ -45,7 +45,7 @@
             disagrees with policy
       - else
         %td= division.whip_guess_for(member.party)
-        %td{:class => (member.teller_on_division?(division) ? "teller" : "")}
+        %td{:class => vote_class(member.division_vote(division))}
           - if division.role_for(member) == "absent"
             absent
           - else

@@ -57,4 +57,16 @@ module MembersHelper
   def member_until(member)
     member.left_house > Date.today ? 'still in office' : formatted_date(member.left_house, true)
   end
+
+  def vote_class(vote)
+    if vote.nil?
+      ""
+    elsif vote.teller?
+      "teller"
+    elsif vote.rebellion?
+      "rebel"
+    else
+      ""
+    end
+  end
 end
