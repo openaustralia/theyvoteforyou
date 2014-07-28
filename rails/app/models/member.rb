@@ -11,6 +11,11 @@ class Member < ActiveRecord::Base
   has_many :policy_member_distances, foreign_key: :person, primary_key: :person
   has_many :member_distances, foreign_key: :mp_id1
 
+  # Has the person been a member of multiple parties?
+  def multiple_parties?
+    Member.where(person: person).map{|m| m.party}.uniq.count > 1
+  end
+
   # All divisions that this member could have attended
   def divisions_possible
     Division.where(house: house).where("division_date >= ? AND division_date < ?", entered_house, left_house)

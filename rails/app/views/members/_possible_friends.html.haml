@@ -5,19 +5,30 @@
     <a name="friends">Possible Friends (</a><a href="#{electorate_path2(@electorate, display: 'allfriends')}">more...</a>)
   - else
     <a name="friends">Possible Friends (</a><a href="#{member_path(@member, display: 'allfriends')}">more...</a>)
+
 %p
   Shows which
   = members_type(@member.australian_house)
   voted most similarly to this one in the
-  -# TODO This displays the parliament when the MP entered the house, which
-  -# matches PHP. But that doesn't seem right, sure it displays data *since* they entered
-  = Parliament.at_date(@member.entered_house)[1][:name] if Parliament.at_date(@member.entered_house)
-  Parliament. This is measured from 0% agreement (never voted the
+
+  - if @member.multiple_parties?
+    = Parliament.at_date(@member.entered_house)[1][:name]
+    Parliament
+    <span title="At some point, this MP changed party. They are listed separately for each party they were a member of. This entry contains details only for whilst they were in the party shown.">
+    (whilst #{@member.party})</span>.
+  - else
+    -# TODO This displays the parliament when the MP entered the house, which
+    -# matches PHP. But that doesn't seem right, sure it displays data *since* they entered
+    = Parliament.at_date(@member.entered_house)[1][:name] if Parliament.at_date(@member.entered_house)
+    Parliament.
+
+  This is measured from 0% agreement (never voted the
   same) to 100% (always voted the same). Only votes that both
   = members_type(@member.australian_house)
   attended are counted. This may reveal relationships between
   = members_type(@member.australian_house)
   that were previously unsuspected. Or it may be nonsense.
+
 %table.mps
   %tr.headings
     %td Agreement

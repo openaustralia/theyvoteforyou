@@ -10,7 +10,8 @@ class Parliament
     end
 
     def at_date(date)
-      all.select { |k,v| date > v[:from] && date < v[:to] }.shift
+      # TODO This range calculation isn't quite right. Fix it
+      all.select { |k,v| date >= v[:from] && date <= v[:to] }.shift
     end
   end
 end
