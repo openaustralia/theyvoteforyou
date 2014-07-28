@@ -176,13 +176,13 @@ module DivisionsHelper
   def formatted_motion_text(division)
     text = division.motion
 
-    text.gsub!(/<p class="italic">(.*)<\/p>/) { "<p><i>#{$1}</i></p>" }
+    text.gsub!(/<p class="italic">(.*)<\/p>/) { "<p><i>#{$~[1]}</i></p>" }
     # Remove any preceeding spaces so wikiparser doesn't format with monospaced font
     text.gsub! /^ */, ''
     # Remove comment lines (those starting with '@')
     text = text.lines.reject { |l| l =~ /(^@.*)/ }.join
     # Italics
-    text.gsub!(/''(.*?)''/) { "<em>#{$1}</em>" }
+    text.gsub!(/''(.*?)''/) { "<em>#{$~[1]}</em>" }
     # Parse as MediaWiki
     text = Marker.parse(text).to_html(nofootnotes: true)
     # Strip unwanted tags and attributes
@@ -192,9 +192,9 @@ module DivisionsHelper
     text = String.new(text)
 
     # Footnote links. The MediaWiki parser would mess these up so we do them after parsing
-    text.gsub!(/(?<![<li>\s])(\[(\d+)\])/) { %(<sup class="sup-#{$2}"><a class="sup" href='#footnote-#{$2}' onclick="ClickSup(#{$2}); return false;">#{$1}</a></sup>) }
+    text.gsub!(/(?<![<li>\s])(\[(\d+)\])/) { %(<sup class="sup-#{$~[2]}"><a class="sup" href='#footnote-#{$~[2]}' onclick="ClickSup(#{$~[2]}); return false;">#{$~[1]}</a></sup>) }
     # Footnotes
-    text.gsub!(/<li>\[(\d+)\]/) { %(<li class="footnote" id="footnote-#{$1}">[#{$1}]) }
+    text.gsub!(/<li>\[(\d+)\]/) { %(<li class="footnote" id="footnote-#{$~[1]}">[#{$~[1]}]) }
 
     text.html_safe
   end
