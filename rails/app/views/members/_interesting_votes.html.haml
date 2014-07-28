@@ -29,4 +29,4 @@
 - else
   %table.votes
     - @members.each do |member|
-      = render partial: "votes", locals: { member: @member, member2: nil, divisions: member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no rebellions, never teller" }
+      = render partial: "votes", locals: { member: member, member2: nil, divisions: member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no rebellions, never teller" }
