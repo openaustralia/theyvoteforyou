@@ -41,9 +41,13 @@
 
       %td= vote_records_start_date(member)
       %td= member_until(member)
-      %td= member.party
+      %td
+        - if member.party == "SPK"
+          Speaker
+        - else
+          = member.party
       %td.percent
-        - if member.party == "Independent"
+        - if member.party == "Independent" || member.party == "SPK"
           no whip
         - else
           - if member.rebellions.nil?
