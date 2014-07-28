@@ -140,7 +140,8 @@ class Member < ActiveRecord::Base
   end
 
   def current_offices
-    offices_on_date(Date.today)
+    # Checking for the to_date after the sql query to get the same result as php
+    offices.order(from_date: :desc).select{|o| o.to_date == Date.new(9999,12,31)}
   end
 
   def offices_on_date(date)

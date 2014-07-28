@@ -6,7 +6,7 @@
     %b= @member.name
     is currently
     -# TODO: The UK uses extra Offices data like department so this will need to be expanded
-    = @member.current_offices.order(from_date: :desc).map{|o| "<b>#{o.position}</b>" }.to_sentence(two_words_connector: ", and ").html_safe
+    = @member.current_offices.map{|o| "<b>#{o.position}</b>" }.to_sentence(two_words_connector: ", and ").html_safe
 %p
   %em Note:
   our voting records currently only go back to the
