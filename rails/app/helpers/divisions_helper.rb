@@ -185,6 +185,8 @@ module DivisionsHelper
     text.gsub!(/''(.*?)''/) { "<em>#{$1}</em>" }
     # Parse as MediaWiki
     text = Marker.parse(text).to_html(nofootnotes: true)
+    # Strip unwanted tags and attributes
+    text = sanitize(text, tags: %w(p em i a ul li))
 
     # Footnote links. The MediaWiki parser would mess these up so we do them after parsing
     text.gsub!(/(?<![<li>\s])(\[(\d+)\])/) { %(<sup class="sup-#{$2}"><a class="sup" href='#footnote-#{$2}' onclick="ClickSup(#{$2}); return false;">#{$1}</a></sup>) }
