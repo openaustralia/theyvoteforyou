@@ -186,7 +186,7 @@ module DivisionsHelper
     # Parse as MediaWiki
     text = Marker.parse(text).to_html(nofootnotes: true)
     # Strip unwanted tags and attributes
-    text = sanitize(text, tags: %w(p em i a ul li), attributes: %w(href pwmotiontext))
+    text = sanitize(text, tags: %w(a b i p ol ul li blockquote br em sup sub dl dt dd), attributes: %w(href pwmotiontext))
 
     # BUG: Force object back to String from ActiveSupport::SafeBuffer so the below regexs work properly
     text = String.new(text)
