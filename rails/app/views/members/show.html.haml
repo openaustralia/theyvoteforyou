@@ -45,11 +45,11 @@
       = members_nav_link(@member, @member2, @members, @electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @display == "allvotes")
       = members_nav_link(@member, @member2, @members, @electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
     - else
-      = members_nav_link(@member, nil, @members, @electorate, nil, "Summary", "Overview of MP", !@showall && @display.nil?)
-      = members_nav_link(@member, nil, @members, @electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @showall || @display == "allvotes")
-      = members_nav_link(@member, nil, @members, @electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
-      = members_nav_link(@member, nil, @members, @electorate, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
-      = members_nav_link(@member, nil, @members, @electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
+      = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, nil, "Summary", "Overview of MP", !@showall && @display.nil?)
+      = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "allvotes", "Votes attended", "Show every vote cast by this MP", @showall || @display == "allvotes")
+      = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
+      = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
+      = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
 <!-- the second tier navigation as dropdowns end-->
 
 - if @member2
