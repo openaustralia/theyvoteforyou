@@ -188,6 +188,9 @@ module DivisionsHelper
     # Strip unwanted tags and attributes
     text = sanitize(text, tags: %w(p em i a ul li))
 
+    # BUG: Force object back to String from ActiveSupport::SafeBuffer so the below regexs work properly
+    text = String.new(text)
+
     # Footnote links. The MediaWiki parser would mess these up so we do them after parsing
     text.gsub!(/(?<![<li>\s])(\[(\d+)\])/) { %(<sup class="sup-#{$2}"><a class="sup" href='#footnote-#{$2}' onclick="ClickSup(#{$2}); return false;">#{$1}</a></sup>) }
     # Footnotes
