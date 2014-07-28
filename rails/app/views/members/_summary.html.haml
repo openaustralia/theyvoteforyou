@@ -37,7 +37,7 @@
       - if @electorate
         %td
           = member.name
-          = link_to "(show only their votes)", "mp.php?mpn=#{member.first_name}_#{member.last_name}&display=#{@display || 'summary'}"
+          = link_to "(show only their votes)", "mp.php?mpn=#{member.url_name_with_title}&display=#{@display || 'summary'}"
 
       %td= vote_records_start_date(member)
       %td= member_until(member)

@@ -89,6 +89,10 @@ class Member < ActiveRecord::Base
     "#{title} #{name_without_title}".strip
   end
 
+  def original_name
+    "#{title} #{original_name_without_title}".strip
+  end
+
   def name_without_title
     "#{first_name} #{last_name}".strip
   end
@@ -207,6 +211,10 @@ class Member < ActiveRecord::Base
 
   def url_name
     CGI::escape(original_name_without_title.gsub(" ", "_"))
+  end
+
+  def url_name_with_title
+    CGI::escape(original_name.gsub(" ", "_"))
   end
 
   def url_electorate
