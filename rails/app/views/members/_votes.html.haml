@@ -20,7 +20,7 @@
         = division.australian_house.capitalize
       %td= formatted_date(division.date, true)
       - if division.australian_house == "representatives"
-        %td= link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&mpn=#{member.url_name}&mpc=#{member.electorate}&house=#{division.australian_house}"
+        %td= link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&mpn=#{member.url_name}&mpc=#{member.url_electorate}&house=#{division.australian_house}"
       - else
         %td= link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&mpn=#{member.url_name}&mpc=Senate&house=#{division.australian_house}"
       %td

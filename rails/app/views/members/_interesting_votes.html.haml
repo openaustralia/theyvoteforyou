@@ -24,7 +24,7 @@
         %td(align="left" colspan="7")
           %b
             Votes by
-            = link_to member.full_name_no_electorate, "mp.php?mpn=#{member.url_name}&mpc=#{member.electorate}&house=#{member.australian_house}"
+            = link_to member.full_name_no_electorate, "mp.php?mpn=#{member.url_name}&mpc=#{member.url_electorate}&house=#{member.australian_house}"
       = render partial: "votes", locals: { member: member, member2: nil, divisions: member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no rebellions, never teller" }
 - else
   %table.votes

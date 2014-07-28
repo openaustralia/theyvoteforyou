@@ -5,7 +5,7 @@ module ApplicationHelper
 
   # When there's a link to an electorate it's only for the house of reps
   def electorate_path2(electorate, params = {})
-    r = "mp.php?mpc=#{electorate}&house=representatives"
+    r = "mp.php?mpc=#{electorate.gsub(' ', '+')}&house=representatives"
     r += "&display=#{params[:display]}" if params[:display]
     r += "##{params[:anchor]}" if params[:anchor]
     r
