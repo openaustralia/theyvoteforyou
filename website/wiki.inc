@@ -191,8 +191,10 @@ function extract_motion_text_from_wiki_text_for_edit($text)
 # Call this to get title from wiki text for display
 function extract_title_from_wiki_text($text)
 {
-    if (preg_match("/--- DIVISION TITLE ---(.*)--- MOTION EFFECT/s", $text, $matches)) {
-        $title = $matches[1];
+    $pos1 = strpos($text, "--- DIVISION TITLE ---");
+    $pos2 = strpos($text, "--- MOTION EFFECT");
+    if ($pos1 !== FALSE && $pos2 !== FALSE) {
+      $title = substr($text, $pos1 + 22, $pos2 - $pos1 - 22);
     }
     $title = trim(strip_tags($title));
     $title = str_replace(" - ", " &#8212; ", $title);
