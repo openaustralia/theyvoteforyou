@@ -41,15 +41,9 @@
 
       %td= vote_records_start_date(member)
       %td= member_until(member)
-      %td
-        - if member.party == "SPK"
-          Speaker
-        - elsif member.party == "CWM"
-          Deputy Speaker
-        - else
-          = member.party
+      %td= member.party_long
       %td.percent
-        - if member.party == "Independent" || member.party == "SPK" || member.party == "CWM"
+        - if !member.has_whip?
           no whip
         - else
           - if member.rebellions.nil?
