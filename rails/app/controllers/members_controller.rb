@@ -65,8 +65,8 @@ class MembersController < ApplicationController
     @member2 = MembersController.find_by_params params[:mpid2], params[:id2], electorate2, @house2, @first_name2, @last_name2
     
     if @member
-      # TODO order @members
-      @members = Member.where(person: @member.person)
+      @members = Member.where(person: @member.person).order(entered_house: :desc)
+      @member = @members.first
       @person = true
     else
       # TODO This is definitely wrong. Should return multiple members in this electorate
