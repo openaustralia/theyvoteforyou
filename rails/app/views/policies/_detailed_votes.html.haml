@@ -5,10 +5,10 @@
       %tr{class: (division.policy_vote(@policy).include?('3') ? 'motiontitlestrong' : 'motiontitle')}
         %td{:align => "left", :colspan => "7"}
           - if @member
-            = link_to division_path({date: division.date, number: division.number, house: division.australian_house}, false, @member) do
+            = link_to division_path3({date: division.date, number: division.number, house: division.australian_house, mpc: @mpc}, false, @member) do
               #{division.name} - #{formatted_date(division.date)} - Division No. #{division.number}
           - else
-            = link_to division_path(date: division.date, number: division.number, house: division.australian_house, dmp: @policy.id) do
+            = link_to division_path3(date: division.date, number: division.number, house: division.australian_house, dmp: @policy.id) do
               #{division.name} - #{formatted_date(division.date)} - Division No. #{division.number}
       %tr{:valign => "top"}
         %td

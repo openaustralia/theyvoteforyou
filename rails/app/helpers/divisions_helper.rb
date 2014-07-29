@@ -47,6 +47,26 @@ module DivisionsHelper
     r
   end
 
+  def division_path3(q, display_active_policy = true, member = false)
+    p = ""
+    p += "&date=#{q[:date]}" if q[:date]
+    p += "&number=#{q[:number]}" if q[:number]
+    p += "&mpn=#{member.url_name}" if member
+    if q[:mpc]
+      p += "&mpc=#{q[:mpc]}"
+    elsif member
+      p += "&mpc=#{member.electorate}"
+    end
+    p += "&dmp=#{q[:dmp]}" if q[:dmp] && !(display_active_policy && user_signed_in?)
+    p += "&house=#{q[:house]}" if q[:house]
+    p += "&display=#{q[:display]}" if q[:display]
+    p += "&sort=#{q[:sort]}" if q[:sort]
+    p += "&dmp=#{q[:dmp] || current_user.active_policy_id}" if display_active_policy && user_signed_in?
+    r = "division.php"
+    r += "?" + p[1..-1] if p != ""
+    r
+  end
+
   def sort_link_divisions(sort, sort_name, name, current_sort)
     if current_sort == sort
       content_tag(:b, name)
