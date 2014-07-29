@@ -103,7 +103,7 @@ create table pw_division (
     division_name text not null,
     source_url blob not null, -- exact source of division
     debate_url blob not null, -- start of subsection
-    motion mediumblob not null,
+    motion blob not null,
     notes blob not null,
     clock_time text,
 
