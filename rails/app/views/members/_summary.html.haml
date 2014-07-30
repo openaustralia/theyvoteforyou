@@ -15,7 +15,7 @@
 
 %table
   %tr.headings
-    - if @person && @members.count > 1 && @house == "representatives"
+    - if @person && @members.count > 1 && @house == "representatives" && @members.map{|m| m.constituency}.uniq.count > 1
       %td Constituency
     - if @electorate
       %td Name
@@ -29,7 +29,7 @@
 
   - @members.each do |member|
     %tr{:class => cycle("odd", "even")}
-      - if @person && @members.count > 1 && @house == "representatives"
+      - if @person && @members.count > 1 && @house == "representatives" && @members.map{|m| m.constituency}.uniq.count > 1
         %td{class: member.house}
           - if member.senator?
             Senator for
