@@ -20,11 +20,11 @@
         %td{class: division.house}= division.australian_house_name
         %td= formatted_date(division.date, true)
         - if @member
+          -# Find the member current at the time of this division
+          - member = Member.where(person: @member.person).current_on(division.date).first
           %td
-            = link_to division.name, division_path3({date: division.date, number: division.number, house: division.australian_house, mpc: @mpc}, false, @member)
+            = link_to division.name, division_path3({date: division.date, number: division.number, house: division.australian_house, mpc: @mpc}, false, member)
           %td
-            -# Find the member current at the time of this division
-            - member = Member.where(person: @member.person).current_on(division.date).first
             = vote_display_in_table(member.vote_on_division_without_tell(division), division.aye_majority)
         - else
           %td

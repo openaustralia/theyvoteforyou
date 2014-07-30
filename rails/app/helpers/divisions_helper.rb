@@ -52,10 +52,12 @@ module DivisionsHelper
     p += "&date=#{q[:date]}" if q[:date]
     p += "&number=#{q[:number]}" if q[:number]
     p += "&mpn=#{member.url_name}" if member
-    if q[:mpc]
-      p += "&mpc=#{q[:mpc]}"
-    elsif member
-      p += "&mpc=#{member.electorate}"
+    if member
+      if member.australian_house == "senate"
+        p += "&mpc=Senate"
+      else
+        p += "&mpc=#{member.electorate}"
+      end
     end
     p += "&dmp=#{q[:dmp]}" if q[:dmp] && !(display_active_policy && user_signed_in?)
     p += "&house=#{q[:house]}" if q[:house]
