@@ -14,4 +14,15 @@ class PolicyDivision < ActiveRecord::Base
   def strong_vote?
     vote == 'aye3' || vote == 'no3'
   end
+
+  def vote_without_strong
+    case vote
+    when 'aye3'
+      'aye'
+    when 'no3'
+      'no'
+    else
+      vote
+    end
+  end
 end

@@ -76,13 +76,13 @@ class Policy < ActiveRecord::Base
           policy_member_distance.increment! :nvotesabsentstrong
         elsif member_vote == 'absent'
           policy_member_distance.increment! :nvotesabsent
-        elsif member_vote == policy_division.vote && policy_division.strong_vote?
+        elsif member_vote == policy_division.vote_without_strong && policy_division.strong_vote?
           policy_member_distance.increment! :nvotessamestrong
-        elsif member_vote == policy_division.vote
+        elsif member_vote == policy_division.vote_without_strong
           policy_member_distance.increment! :nvotessame
-        elsif member_vote != policy_division.vote && policy_division.strong_vote?
+        elsif member_vote != policy_division.vote_without_strong && policy_division.strong_vote?
           policy_member_distance.increment! :nvotesdifferstrong
-        elsif member_vote != policy_division.vote
+        elsif member_vote != policy_division.vote_without_strong
           policy_member_distance.increment! :nvotesdiffer
         end
       end
