@@ -15,7 +15,7 @@
   - else
     - divisions.each do |division|
       - row_class = cycle('even', 'odd')
-      - row_class += 'strong' if division.policy_vote(@policy).include? '3'
+      - row_class += 'strong' if division.policy_vote_strong?(@policy)
       %tr{class: row_class}
         %td{class: division.house}= division.australian_house_name
         %td= formatted_date(division.date, true)

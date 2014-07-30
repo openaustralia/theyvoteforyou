@@ -228,8 +228,16 @@ class Division < ActiveRecord::Base
     noes_in_majority? ? aye_votes_including_tells : no_votes_including_tells
   end
 
+  def policy_division(policy)
+    policy_divisions.find_by!(dream_id: policy.id)
+  end
+
+  def policy_vote_strong?(policy)
+    policy_division(policy).strong_vote?
+  end
+
   def policy_vote(policy)
-    policy_divisions.find_by!(dream_id: policy.id).vote
+    policy_division(policy).vote
   end
 
   # Extracts specially formatted voting actions that the user enters as comments

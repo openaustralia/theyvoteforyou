@@ -2,7 +2,7 @@
 - if divisions
   %table
     - divisions.each do |division|
-      %tr{class: (division.policy_vote(@policy).include?('3') ? 'motiontitlestrong' : 'motiontitle')}
+      %tr{class: (division.policy_vote_strong?(@policy) ? 'motiontitlestrong' : 'motiontitle')}
         %td{:align => "left", :colspan => "7"}
           - if @member
             = link_to division_path3({date: division.date, number: division.number, house: division.australian_house, mpc: @mpc}, false, @member) do
