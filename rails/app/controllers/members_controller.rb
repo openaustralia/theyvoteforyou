@@ -76,13 +76,19 @@ class MembersController < ApplicationController
       end
     end
 
+    # Trying this hack. Seems mighty weird
+    if @member.senator?
+      @member = @members.first
+    end
+
     if !@member
       # TODO: This should 404 but doesn't to match the PHP app
       render 'member_not_found'
     else
       if params[:dmp]
         @policy = Policy.find(params[:dmp])
-        @member = @members.first
+        # Pick the member where the votes took place
+        @member = @member.member_for_policy(@policy)
         # Not using PolicyMemberDistance.find_by because of the messed up association with the Member model
         unless @policy_member_distance = @member.policy_member_distances.find_by(policy: @policy)
           @policy_member_distance = PolicyMemberDistance.new

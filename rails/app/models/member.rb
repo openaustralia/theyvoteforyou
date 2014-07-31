@@ -11,6 +11,13 @@ class Member < ActiveRecord::Base
   has_many :policy_member_distances, foreign_key: :person, primary_key: :person
   has_many :member_distances, foreign_key: :mp_id1
 
+  # Find the member (that is the same person as this member) that relates to a given policy
+  # Let's just take the first vote of the policy and find the matching member
+  # TODO When we have a person class move the method there
+  def member_for_policy(policy)
+    Member.where(person: person).current_on(policy.divisions.first.date).first
+  end
+
   # Has the person been a member of multiple parties?
   def multiple_parties?
     Member.where(person: person).map{|m| m.party}.uniq.count > 1
