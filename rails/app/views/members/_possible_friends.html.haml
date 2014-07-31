@@ -10,16 +10,15 @@
   Shows which
   = members_type(@member.australian_house)
   voted most similarly to this one in the
+  -# TODO This displays the parliament when the MP entered the house, which
+  -# matches PHP. But that doesn't seem right, sure it displays data *since* they entered
+  = Parliament.at_date(@member.entered_house)[1][:name] if Parliament.at_date(@member.entered_house)
 
-  - if @member.multiple_parties?
-    = Parliament.at_date(@member.entered_house)[1][:name]
+  - if @member.multiple_parties? && Parliament.at_date(@member.entered_house)
     Parliament
     <span title="At some point, this MP changed party. They are listed separately for each party they were a member of. This entry contains details only for whilst they were in the party shown.">
     (whilst #{@member.party_long})</span>.
   - else
-    -# TODO This displays the parliament when the MP entered the house, which
-    -# matches PHP. But that doesn't seem right, sure it displays data *since* they entered
-    = Parliament.at_date(@member.entered_house)[1][:name] if Parliament.at_date(@member.entered_house)
     Parliament.
 
   This is measured from 0% agreement (never voted the
