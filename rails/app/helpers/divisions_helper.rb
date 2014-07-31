@@ -56,7 +56,7 @@ module DivisionsHelper
       if member.australian_house == "senate"
         p += "&mpc=Senate"
       else
-        p += "&mpc=#{member.electorate}"
+        p += "&mpc=#{member.url_electorate}"
       end
     end
     p += "&dmp=#{q[:dmp]}" if q[:dmp] && !(display_active_policy && user_signed_in?)
