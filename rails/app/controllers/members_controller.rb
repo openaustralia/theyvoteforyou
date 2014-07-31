@@ -113,7 +113,7 @@ class MembersController < ApplicationController
     elsif id
       Member.find_by!(gid: id)
     elsif electorate == "Senate" || electorate.nil?
-      Member.in_australian_house(house).where(first_name: first_name, last_name: last_name).first
+      Member.in_australian_house(house).where(first_name: first_name, last_name: last_name).order(entered_house: :desc).first
     elsif first_name && last_name
       Member.in_australian_house(house).where(first_name: first_name, last_name: last_name, constituency: electorate).order(entered_house: :desc).first
     end
