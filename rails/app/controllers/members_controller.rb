@@ -66,7 +66,6 @@ class MembersController < ApplicationController
     
     if @member
       @members = Member.where(person: @member.person).order(entered_house: :desc)
-      @member = @members.first
       @person = true
     else
       # TODO This is definitely wrong. Should return multiple members in this electorate
@@ -83,6 +82,7 @@ class MembersController < ApplicationController
     else
       if params[:dmp]
         @policy = Policy.find(params[:dmp])
+        @member = @members.first
         # Not using PolicyMemberDistance.find_by because of the messed up association with the Member model
         unless @policy_member_distance = @member.policy_member_distances.find_by(policy: @policy)
           @policy_member_distance = PolicyMemberDistance.new
