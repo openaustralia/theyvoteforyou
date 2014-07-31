@@ -53,8 +53,8 @@ class MembersController < ApplicationController
     electorate2 = params[:mpc2]
     electorate = electorate.gsub("_", " ") if electorate
     electorate2 = electorate2.gsub("_", " ") if electorate2
-    @house = params[:house] || "representatives"
-    @house2 = params[:house2] || "representatives"
+    @house = params[:house]
+    @house2 = params[:house2]
     @display = params[:display]
     @showall = params[:showall] == "yes"
 
@@ -69,7 +69,11 @@ class MembersController < ApplicationController
       @person = true
     else
       # TODO This is definitely wrong. Should return multiple members in this electorate
-      @members = Member.in_australian_house(@house).where(constituency: electorate).order(entered_house: :desc)
+      if @house
+        @members = Member.in_australian_house(@house).where(constituency: electorate).order(entered_house: :desc)
+      else
+        @members = Member.where(constituency: electorate).order(entered_house: :desc)
+      end
       @member = @members.first
       if @members.count > 1 && @members.map{|m| m.person}.uniq.count > 1
         @electorate = electorate
@@ -119,7 +123,11 @@ class MembersController < ApplicationController
     elsif id
       Member.find_by!(gid: id)
     elsif electorate == "Senate" || electorate.nil?
-      Member.in_australian_house(house).where(first_name: first_name, last_name: last_name).order(entered_house: :desc).first
+      if house
+        Member.in_australian_house(house).where(first_name: first_name, last_name: last_name).order(entered_house: :desc).first
+      else
+        Member.where(first_name: first_name, last_name: last_name).order(entered_house: :desc).first
+      end
     elsif first_name && last_name
       Member.in_australian_house(house).where(first_name: first_name, last_name: last_name, constituency: electorate).order(entered_house: :desc).first
     end
