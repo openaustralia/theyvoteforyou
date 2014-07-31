@@ -18,9 +18,8 @@ class Member < ActiveRecord::Base
     Member.where(person: person).current_on(policy.divisions.first.date).first
   end
 
-  # Has the person been a member of multiple parties?
-  def multiple_parties?
-    Member.where(person: person).map{|m| m.party}.uniq.count > 1
+  def changed_party?
+    entered_reason == "changed_party" || left_reason == "changed_party"
   end
 
   # All divisions that this member could have attended
