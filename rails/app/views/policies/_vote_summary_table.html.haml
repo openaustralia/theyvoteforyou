@@ -23,7 +23,7 @@
           -# Find the member current at the time of this division
           - member = Member.where(person: @member.person).current_on(division.date).first
           %td
-            = link_to division.name, division_path3({date: division.date, number: division.number, house: division.australian_house, mpc: @mpc}, false, member)
+            = link_to division.name, division_path3({date: division.date, number: division.number, house: division.australian_house}, false, member)
           %td
             -# Only showing tellaye because that's what the php app does which isn't quite right
             -# TODO Fix this

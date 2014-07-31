@@ -49,7 +49,6 @@ class MembersController < ApplicationController
       @last_name2 = name[:last_name]
     end
     electorate = params[:mpc]
-    @mpc = params[:mpc]
     electorate2 = params[:mpc2]
     electorate = electorate.gsub("_", " ") if electorate
     electorate2 = electorate2.gsub("_", " ") if electorate2
