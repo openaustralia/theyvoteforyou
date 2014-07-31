@@ -14,7 +14,7 @@
   -# matches PHP. But that doesn't seem right, sure it displays data *since* they entered
   = Parliament.at_date(@member.entered_house)[1][:name] if Parliament.at_date(@member.entered_house)
 
-  - if @member.changed_party? && Parliament.at_date(@member.entered_house)
+  - if @member.changed_party?
     Parliament
     <span title="At some point, this MP changed party. They are listed separately for each party they were a member of. This entry contains details only for whilst they were in the party shown.">
     (whilst #{@member.party_long})</span>.
