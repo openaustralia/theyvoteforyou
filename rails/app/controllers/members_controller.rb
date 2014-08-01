@@ -20,6 +20,8 @@ class MembersController < ApplicationController
       ["rebellions_fraction DESC", "last_name", "first_name", "constituency", "party", "entered_house DESC"]
     when "attendance"
       ["attendance_fraction DESC", "last_name", "first_name", "constituency", "party", "entered_house DESC"]
+    when "date"
+      ["left_house", "last_name", "first_name", "constituency", "party", "entered_house DESC"]
     else
       raise "Unexpected value"
     end
