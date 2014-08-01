@@ -11,15 +11,15 @@ class MembersController < ApplicationController
 
     order = case @sort
     when "lastname"
-      ["last_name", "first_name", "constituency", "party"]
+      ["last_name", "first_name", "constituency", "party", "entered_house DESC"]
     when "constituency"
-      ["constituency", "last_name", "first_name", "party"]
+      ["constituency", "last_name", "first_name", "party", "entered_house DESC"]
     when "party"
-      ["party", "last_name", "first_name", "constituency"]
+      ["party", "last_name", "first_name", "constituency", "entered_house DESC"]
     when "rebellions"
-      ["rebellions_fraction DESC", "last_name", "first_name", "constituency", "party"]
+      ["rebellions_fraction DESC", "last_name", "first_name", "constituency", "party", "entered_house DESC"]
     when "attendance"
-      ["attendance_fraction DESC", "last_name", "first_name", "constituency", "party"]
+      ["attendance_fraction DESC", "last_name", "first_name", "constituency", "party", "entered_house DESC"]
     else
       raise "Unexpected value"
     end
