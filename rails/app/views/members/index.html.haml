@@ -72,7 +72,7 @@
       (#{link_to "explain...", help_path(anchor: "clarify")})
   - @members.each do |member|
     %tr{:class => cycle("odd", "even")}
-      %td= link_to member.name, member_path(member)
+      %td= link_to member.name_without_title, member_path(member)
       %td= link_to_unless member.senator?, member.electorate, electorate_path(member)
       %td= member.party_long2
       -if @parliament == "all"
