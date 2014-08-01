@@ -200,7 +200,7 @@ module DivisionsHelper
     # It's probably not edited and formatted in wiki markup anyway. Maximum
     # field size is 65,535 characters. 15,000 characters is more than 12 pages,
     # i.e. more than enough.
-    text = text.size > 15000 ? sanitize_motion(text) : wikimarkup_parse(text)
+    text = text.size > 15000 ? wikimarkup_parse_basic(text) : wikimarkup_parse(text)
 
     text.html_safe
   end
@@ -233,6 +233,14 @@ module DivisionsHelper
     text.gsub!(/(?<![<li>\s])(\[(\d+)\])/) { %(<sup class="sup-#{$~[2]}"><a class="sup" href='#footnote-#{$~[2]}' onclick="ClickSup(#{$~[2]}); return false;">#{$~[1]}</a></sup>) }
     # Footnotes
     text.gsub(/<li>\[(\d+)\]/) { %(<li class="footnote" id="footnote-#{$~[1]}">[#{$~[1]}]) }
+  end
+
+  # Use this in situations where the text is huge and all we want is it to output something
+  # similar to what the php is outputting. So, we do a stripped down version of wikimarkup_parse
+  # without the stuff that blows up when the text is huge
+  def wikimarkup_parse_basic(text)
+    text.gsub!(/<p class="italic">(.*)<\/p>/) { "<p><i>#{$~[1]}</i></p>" }
+    sanitize_motion(text)
   end
 
   def sanitize_motion(text)
