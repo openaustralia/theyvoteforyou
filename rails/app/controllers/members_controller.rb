@@ -135,7 +135,7 @@ class MembersController < ApplicationController
   def self.first_last_name(snake_case_name)
     name = snake_case_name.split("_")
     # Strip titles like "Ms"
-    name.slice!(0) if name[0] == 'Ms' || name[0] == 'Mrs'
+    name.slice!(0) if name[0] == 'Ms' || name[0] == 'Mrs' || name[0] == "Mr"
     first_name = name[0]
     last_name = name[1..-1].join(' ')
     {:first_name=>first_name, :last_name=>last_name}
