@@ -379,7 +379,7 @@ function mp_table( $mptabattr)
     }
 	if ($mptabattr["sortby"] != "party" and $mptabattr["sortby"] != "party_slab" and 
         !(($mptabattr["sortby"] == "vote") and ($mptabattr["listtype"] != 'division') and ($mptabattr["listtype"] != 'division2')))
-	    $tailorder .= ", party";
+	    $tailorder .= ", party, entered_house DESC";
 
 
 	# main ordering functionality
