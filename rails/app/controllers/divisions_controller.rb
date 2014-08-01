@@ -65,13 +65,19 @@ class DivisionsController < ApplicationController
       electorate = params[:mpc].gsub("_", " ")
       # TODO Also ensure that the member is current on the date of this division
       if electorate == "Senate"
-        @member = Member.in_australian_house(@house).where(first_name: first_name, last_name: last_name).first
+        member = Member.in_australian_house(@house).where(first_name: first_name, last_name: last_name).first
       else
-        @member = Member.in_australian_house(@house).where(first_name: first_name, last_name: last_name, constituency: electorate).first
+        member = Member.in_australian_house(@house).where(first_name: first_name, last_name: last_name, constituency: electorate).first
       end
+      latest_member = Member.where(person: member.person).order(entered_house: :desc).first
       # What we have now in @member is a member related to the person that voted in @division but @member wasn't necessarily
       # current when @division took place. So, let's fix this
-      @member = Member.where(person: @member.person).current_on(@division.date).first
+      # We're doing this the same way as the php which doesn't seem necessarily the best way
+      # TODO Figure what is the best way
+      new_member = Member.where(person: member.person).find do |member|
+        member.vote_on_division_with_tell(@division) != "absent"
+      end
+      @member = new_member || latest_member
     end
 
     if @display.nil?
