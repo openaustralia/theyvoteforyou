@@ -43,7 +43,7 @@
     if (''===$sort) {
         $sort = 'lastname';
     }
-    if (false===in_array($sort,array('lastname','rebellions','party','constituency','attendance'))) {
+    if (false===in_array($sort,array('lastname','rebellions','party','constituency','attendance', 'date'))) {
         pw_header();
         print '<h1>Invalid sort entered</h1>';
         possiblexss('sort = '.$sort);
