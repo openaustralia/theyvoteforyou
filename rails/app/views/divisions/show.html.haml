@@ -22,17 +22,14 @@
     = division_nav_link("policies", "Policies", "Show or change the polices which vote on this division", @display)
 <!-- the second tier navigation as dropdowns end-->
 
+- if @display == "policies"
+  = render "policies"
+
+= render "motion"
+
 - if @display.nil?
-  = render "motion"
   = render "summary"
 - elsif @display == "allvotes"
-  = render "motion"
   = render "allvotes"
 - elsif @display == "allpossible"
-  = render "motion"
   = render "summary"
-- elsif @display == "policies"
-  = render "policies"
-  = render "motion"
-- else
-  - raise "unexpected value"
