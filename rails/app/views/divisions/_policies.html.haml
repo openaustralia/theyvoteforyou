@@ -1,4 +1,4 @@
-- if @active_policy
+- if active_policy
   - if user_signed_in?
     %form.policyvote{:action => division_path(params), :method => "post"}
       %strong
@@ -6,46 +6,46 @@
         definition and division description before altering
         vote
       %br/
-      And policy #{link_to @active_policy.name, policy_path(@active_policy)} (#{link_to "change", policies_path}) voted
+      And policy #{link_to active_policy.name, policy_path(active_policy)} (#{link_to "change", policies_path}) voted
       - select_options = {'Non-voter' => '--',
                           'Aye (strong)' => 'aye3',
                           'Aye' => 'aye',
                           'Abstain' => 'both',
                           'No' => 'no',
                           'No (strong)' => 'no3'}
-      = select_tag "vote#{@active_policy.id}", options_for_select(select_options, (@active_policy_vote || '--')), size: 1
+      = select_tag "vote#{active_policy.id}", options_for_select(select_options, (active_policy_vote || '--')), size: 1
       %input{:name => "submit", :type => "submit", :value => "Update"}>/
-      - if @changed_from
+      - if changed_from
         - # FIXME Adding a preceeding space to match PHP
-        \ <span class="error">Changed from #{@changed_from}</span>
+        \ <span class="error">Changed from #{changed_from}</span>
       - elsif params[:submit] == 'Update'
         - # FIXME Adding a preceeding space to match PHP
         \ <span class="error">No change made</span>
   - else
     %p
       And policy
-      = link_to @active_policy.name, policy_path(@active_policy)
-      voted '#{@active_policy_vote}'
+      = link_to active_policy.name, policy_path(active_policy)
+      voted '#{active_policy_vote}'
 
 %h2
   %a{:name => "dreammp"} Policies
 %p
   The following policies have selected this division. You can use this to help you work out
-  the meaning of the vote. Or #{link_to "list all policies", "/policies.php"}. 
+  the meaning of the vote. Or #{link_to "list all policies", "/policies.php"}.
 %table.divisions
   %tr.headings
     %td Policy
     %td Vote (in this division)
-  - if @division.policies.empty?
+  - if division.policies.empty?
     %tr.odd
       %td{:colspan => "2"} No policies voted in this division
   - else
-    - @division.policies.each do |policy|
+    - division.policies.each do |policy|
       %tr{:class => cycle("odd", "even")}
         %td
           = link_to policy.name, policy
           - if policy.provisional?
             %i (provisional)
-        %td= simple_vote_display @division.policy_vote(policy)
+        %td= simple_vote_display division.policy_vote(policy)
 %p
   = link_to "Make a new policy", "account/addpolicy.php"
