@@ -52,7 +52,7 @@
     who were absent (or abstained) from this vote.
 - else
   - raise
-= render "sort_links"
+= render partial: "sort_links", locals: {sort: @sort, house: @house}
 %table#votetable.votes
   %tr.headings
     %td Name
