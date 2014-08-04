@@ -28,6 +28,6 @@
 = render "motion"
 
 - if @display.nil? || @display == "allpossible"
-  = render "summary"
+  = render "summary", division: @division, display: @display, sort: @sort, house: @house, votes: @votes, date: @date, members: @members
 - elsif @display == "allvotes"
   = render "allvotes"

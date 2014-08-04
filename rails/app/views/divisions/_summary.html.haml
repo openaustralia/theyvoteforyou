@@ -11,79 +11,79 @@
   %p
     %span.ptitle What is Turnout?
     This is measured against the total membership of the party at the time of the vote.
-= render 'summary_party_votes', division: @division
+= render 'summary_party_votes', division: division
 %h2
   %a{:name => "votes"}
-    - if @display.nil?
+    - if display.nil?
       Rebel Voters
-    - elsif @display == "allpossible"
+    - elsif display == "allpossible"
       All
-      = members_type(@house)
+      = members_type(house)
       Eligible to Vote
     - else
       - raise
     \- sorted by
-    - if @sort.nil?
+    - if sort.nil?
       party
-    - elsif @sort == "name"
+    - elsif sort == "name"
       name
-    - elsif @sort == "constituency"
+    - elsif sort == "constituency"
       constituency
-    - elsif @sort == "vote"
+    - elsif sort == "vote"
       vote
     - else
       - raise
 
-- if @display.nil?
+- if display.nil?
   %p
-    = members_type(@house)
+    = members_type(house)
     for which their vote in this division differed
     from the majority vote of their party. You can see
     = link_to "all votes", division_path2(params.merge(display: "allvotes"))
     in this division, or
     = link_to division_path2(params.merge(display: "allpossible")) do
       every eligible
-      = member_type(@house)
+      = member_type(house)
     who could have voted in this division
-- elsif @display == "allpossible"
+- elsif display == "allpossible"
   %p
     Includes
-    = members_type(@house)
+    = members_type(house)
     who were absent (or abstained) from this vote.
 - else
   - raise
-= render "sort_links", sort: @sort, house: @house
+= render "sort_links", sort: sort, house: house
 %table#votetable.votes
   %tr.headings
     %td Name
-    %td= electorate_label(@house)
+    %td= electorate_label(house)
     %td Party
     %td Vote
   - reset_cycle
-  - if @display.nil?
-    - if @votes.empty?
+  - if display.nil?
+    - if votes.empty?
       %tr.even
         %td{:colspan => "4"} no rebellions
     - else
-      - @votes.each do |vote|
+      - votes.each do |vote|
         %tr{:class => cycle("odd", "even")}
           %td= link_to vote.name, member_path(vote.member)
           %td= vote.electorate
           %td
             = vote.party_long2
-            - if vote.member.on_front_bench?(@date)
+            - if vote.member.on_front_bench?(date)
               (front bench)
           %td= vote.vote
-  - elsif @display == "allpossible"
-    - @members.each do |member|
-      %tr{:class => cycle("odd", "even") + (member.rebel_on_division?(@division) ? "rebel" : "")}
+  - elsif display == "allpossible"
+    - members.each do |member|
+      %tr{:class => cycle("odd", "even") + (member.rebel_on_division?(division) ? "rebel" : "")}
         %td= link_to member.name_without_title, member_path(member)
-        %td= link_to_if @house == "representatives", member.electorate, electorate_path(member)
+        %td= link_to_if house == "representatives", member.electorate, electorate_path(member)
         %td
           = member.party_long2
-          - if member.on_front_bench?(@date)
+          - if member.on_front_bench?(date)
             (front bench)
-        %td= member.vote_on_division_with_tell(@division)
+        %td= member.vote_on_division_with_tell(division)
 
   - else
     - raise
