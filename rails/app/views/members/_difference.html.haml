@@ -2,4 +2,4 @@
   %a{:name => "divisions"} Voting Differences
 
 %table.votes
-  = render partial: "votes", locals: {member: @member, member2: @member2, divisions: @divisions, empty_message: "no votes listed"}
+  = render "votes", member: @member, member2: @member2, divisions: @divisions, empty_message: "no votes listed"

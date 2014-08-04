@@ -71,10 +71,10 @@
     Also try browsing the list of #{link_to "all Representatives", 'mps.php'},
     %a{:href => "mps.php?house=lords"} all Senators
     or #{link_to "all divisions", 'divisions.php'}.
-  = render partial: 'search_form'
+  = render 'search_form'
 - else
   - content_for :title, "Search"
   - content_for :on_load, "givefocus('query')"
 
   %h1= yield :title
-  = render partial: 'search_form'
+  = render 'search_form'

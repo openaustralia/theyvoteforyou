@@ -23,7 +23,7 @@
     every eligible
     = member_type(@house)
   including those who did not vote in this division.
-= render partial: "sort_links", locals: {sort: @sort, house: @house}
+= render "sort_links", sort: @sort, house: @house
 %table#votetable.votes
   %tr.headings
     %td Name
