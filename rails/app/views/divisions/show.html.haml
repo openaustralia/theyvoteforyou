@@ -27,9 +27,7 @@
 
 = render "motion"
 
-- if @display.nil?
+- if @display.nil? || @display == "allpossible"
   = render "summary"
 - elsif @display == "allvotes"
   = render "allvotes"
-- elsif @display == "allpossible"
-  = render "summary"
