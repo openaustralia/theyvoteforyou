@@ -87,14 +87,14 @@ function print_mp_row($nrows, $row, $name, $href, $colstyle, $showwhich, $friend
     #distance voting table
     if ($columnforms["distancetoagreement"])
     {
-        $distance = $row['distance']; 
-        print "<td>"; 
-        if ($friendlk)
-            print "<a href=\"$href&$friendlk\"><b>"; 
-        print pretty_distance_to_agreement($distance); 
-        if ($friendlk)
-            print "</b></a>"; 
-        print "</td>"; 
+        $distance = $row['distance'];
+        print "<td>";
+        #if ($friendlk)
+        #    print "<a href=\"$href&$friendlk\"><b>";
+        print pretty_distance_to_agreement($distance);
+        #if ($friendlk)
+        #    print "</b></a>"; 
+        print "</td>";
     }
 
 
