@@ -40,4 +40,4 @@
     = render "policy_comparisons", member: @member, members: @members, electorate: @electorate
     = render "possible_friends", all_friends: false, member: @member, electorate: @electorate
   - elsif @display == "everyvote"
-    = render "all_votes"
+    = render "all_votes", members: @members, electorate: @electorate
