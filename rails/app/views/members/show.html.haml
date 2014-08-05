@@ -36,7 +36,7 @@
   - if @display == "allvotes"
     = render "votes_attended", electorate: @electorate, members: @members, member: @member, house: @house
   - elsif @display == "summary" || @display.nil?
-    = render "interesting_votes"
+    = render "interesting_votes", members: @members, member: @member, electorate: @electorate
     = render "policy_comparisons", member: @member, members: @members, electorate: @electorate
     = render "possible_friends", all_friends: false, member: @member, electorate: @electorate
   - elsif @display == "everyvote"
