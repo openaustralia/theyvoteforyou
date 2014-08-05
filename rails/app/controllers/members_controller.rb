@@ -117,6 +117,8 @@ class MembersController < ApplicationController
 
     if @policy
       render "show_policy"
+    elsif @member2
+      render "show_member2"
     else
       render "show"
     end

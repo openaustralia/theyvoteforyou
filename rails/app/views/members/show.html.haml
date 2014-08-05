@@ -1,10 +1,5 @@
 - content_for :title do
-  - if @member2
-    Voting Comparison —
-    = @member.full_name2
-    to
-    = @member2.full_name2
-  - elsif @display == "allfriends"
+  - if @display == "allfriends"
     Friends of
     = @member.full_name
   - elsif @electorate
@@ -14,15 +9,7 @@
     Voting Record —
     = @member.full_name2
 
-- if @member2
-  %h1
-    Voting Comparison —
-    = @member.full_name2
-    %br
-    to
-    = @member2.full_name2
--else
-  %h1= yield :title
+%h1= yield :title
 / the second tier navigation as tabs
 :plain
   <!-- add hashes to $second_links array, keys are
@@ -32,27 +19,14 @@
        'current' - 'on' or 'off' for whether this item is currently selected -->
 #secondnavtabs
   %ul
-    - if @member2
-      = members_nav_link(@member, @member2, @members, @electorate, "difference", "Differences", "Votes where the two MPs votes differed", @display.nil? || @display == "difference")
-      = members_nav_link(@member, @member2, @members, @electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @display == "allvotes")
-      = members_nav_link(@member, @member2, @members, @electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
-    - else
-      = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, nil, "Summary", "Overview of MP", !@showall && (@display.nil? || @display == "summary"))
-      = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "allvotes", "Votes attended", "Show every vote cast by this MP", @showall || @display == "allvotes")
-      = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
-      = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
-      = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
+    = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, nil, "Summary", "Overview of MP", !@showall && (@display.nil? || @display == "summary"))
+    = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "allvotes", "Votes attended", "Show every vote cast by this MP", @showall || @display == "allvotes")
+    = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
+    = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
+    = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
 <!-- the second tier navigation as dropdowns end-->
 
-- if @member2
-  = render "summary"
-  - if @display.nil? || @display == "difference"
-    = render "difference"
-  - elsif @display == "allvotes"
-    = render "difference_votes_attended"
-  - elsif @display == "everyvote"
-    = render "difference_all_votes"
-- elsif @showall
+- if @showall
   = render "summary"
   = render "external_links"
   = render "votes_attended"
