@@ -52,7 +52,9 @@
       = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
 <!-- the second tier navigation as dropdowns end-->
 
-- if @member2
+- if @policy
+  = render "policy_comparison"
+- elsif @member2
   = render "summary"
   - if @display.nil? || @display == "difference"
     = render "difference"
@@ -60,13 +62,13 @@
     = render "difference_votes_attended"
   - elsif @display == "everyvote"
     = render "difference_all_votes"
-- elsif @display == "summary" || (!@showall && !@policy && @display.nil?)
+- elsif @display == "summary" || (!@showall && @display.nil?)
   = render "summary"
   = render "external_links"
   = render "interesting_votes"
   = render "policy_comparisons"
   = render "possible_friends", all_friends: false
-- elsif (@display == "allvotes" && !@policy) || @showall
+- elsif @display == "allvotes" || @showall
   = render "summary"
   = render "external_links"
   = render "votes_attended"
@@ -78,5 +80,3 @@
   = render "possible_friends", all_friends: true
 - elsif @display == "alldreams"
   = render "policy_comparisons"
-- elsif @policy
-  = render "policy_comparison"
