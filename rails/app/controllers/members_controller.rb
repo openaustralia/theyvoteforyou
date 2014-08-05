@@ -56,8 +56,7 @@ class MembersController < ApplicationController
     electorate2 = electorate2.gsub("_", " ") if electorate2
     @house = params[:house]
     @house2 = params[:house2]
-    @display = params[:display]
-    @showall = params[:showall] == "yes"
+    @display = params[:showall] == "yes" ? "allvotes" : params[:display]
 
     # TODO In reality there could be several members matching this and we should relate this back to being
     # a single person

@@ -19,14 +19,14 @@
        'current' - 'on' or 'off' for whether this item is currently selected -->
 #secondnavtabs
   %ul
-    = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, nil, "Summary", "Overview of MP", !@showall && (@display.nil? || @display == "summary"))
-    = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "allvotes", "Votes attended", "Show every vote cast by this MP", @showall || @display == "allvotes")
+    = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, nil, "Summary", "Overview of MP", @display.nil? || @display == "summary")
+    = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "allvotes", "Votes attended", "Show every vote cast by this MP", @display == "allvotes")
     = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
     = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
     = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
 <!-- the second tier navigation as dropdowns end-->
 
-- if @showall
+- if @display == "allvotes"
   = render "summary"
   = render "external_links"
   = render "votes_attended"
@@ -36,10 +36,6 @@
   = render "interesting_votes"
   = render "policy_comparisons"
   = render "possible_friends", all_friends: false
-- elsif @display == "allvotes"
-  = render "summary"
-  = render "external_links"
-  = render "votes_attended"
 - elsif @display == "everyvote"
   = render "summary"
   = render "external_links"
