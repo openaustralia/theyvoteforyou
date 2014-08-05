@@ -29,7 +29,7 @@
 - if @display == "allfriends"
   = render "possible_friends", all_friends: true, member: @member, electorate: @electorate
 - elsif @display == "alldreams"
-  = render "policy_comparisons"
+  = render "policy_comparisons", member: @member, members: @members, electorate: @electorate
 - else
   = render "summary"
   = render "external_links"
@@ -37,7 +37,7 @@
     = render "votes_attended"
   - elsif @display == "summary" || @display.nil?
     = render "interesting_votes"
-    = render "policy_comparisons"
+    = render "policy_comparisons", member: @member, members: @members, electorate: @electorate
     = render "possible_friends", all_friends: false, member: @member, electorate: @electorate
   - elsif @display == "everyvote"
     = render "all_votes"
