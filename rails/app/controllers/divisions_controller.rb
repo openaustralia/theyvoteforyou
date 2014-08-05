@@ -51,12 +51,10 @@ class DivisionsController < ApplicationController
   end
 
   def show
-    house = params[:house]
-    house = "representatives" if house.nil?
-    date = params[:date]
+    house = params[:house] || "representatives"
     @sort = params[:sort]
     @display = params[:display]
-    @division = Division.in_australian_house(house).find_by!(division_date: date, division_number: params[:number])
+    @division = Division.in_australian_house(house).find_by!(division_date: params[:date], division_number: params[:number])
 
     # If a member is included
     if params[:mpn] && params[:mpc]
@@ -99,7 +97,7 @@ class DivisionsController < ApplicationController
     elsif @display == "allvotes"
       @votes = @division.votes.joins(:member).joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order)
     elsif @display == "allpossible"
-      @members = Member.in_australian_house(house).current_on(date).joins("LEFT OUTER JOIN pw_vote ON pw_mp.mp_id = pw_vote.mp_id AND pw_vote.division_id = #{@division.id}").joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order)
+      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN pw_vote ON pw_mp.mp_id = pw_vote.mp_id AND pw_vote.division_id = #{@division.id}").joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order)
     elsif @display == "policies"
       if params[:dmp] || user_signed_in?
         @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
