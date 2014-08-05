@@ -12,22 +12,22 @@
     - else
       - raise
 %p
-  = members_type(house)
+  = members_type(division.australian_house)
   -# TODO The wording below suggests that things can be marked in red. This is not the case.
   -# TODO Either make it or so or change the wording
   for which their vote in this division differed from the majority vote of their party are marked in red.
   Also shows which
-  = members_type(house)
+  = members_type(division.australian_house)
   were ministers at the time of this vote. You can also see
   = link_to division_path2(params.merge(display: "allpossible")) do
     every eligible
-    = member_type(house)
+    = member_type(division.australian_house)
   including those who did not vote in this division.
-= render "sort_links", sort: sort, house: house
+= render "sort_links", sort: sort, house: division.australian_house
 %table#votetable.votes
   %tr.headings
     %td Name
-    %td= electorate_label(house)
+    %td= electorate_label(division.australian_house)
     %td Party
     %td Vote
   - if votes.empty?
@@ -38,7 +38,7 @@
       %tr{:class => cycle("odd", "even") + (vote.rebellion? ? "rebel" : "")}
         %td= link_to vote.name_without_title, member_path(vote.member)
         %td
-          - if house == "representatives"
+          - if division.australian_house == "representatives"
             = link_to vote.electorate, electorate_path(vote.member)
           - else
             = vote.electorate
