@@ -39,7 +39,7 @@
     would cast votes described by the policy.
   = render 'policies/detailed_votes', member: @member, policy: @policy
 - else
-  = render 'policies/vote_summary_table'
+  = render 'policies/vote_summary_table', member: @member, policy: @policy
 %h2
   %a{:name => "ratioexpl"} How the number is calculated
 %p
