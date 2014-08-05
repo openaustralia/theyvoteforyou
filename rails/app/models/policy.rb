@@ -11,6 +11,11 @@ class Policy < ActiveRecord::Base
 
   alias_attribute :id, :dream_id
 
+  def vote_for_division(division)
+    policy_division = division.policy_divisions.find_by(policy: self)
+    policy_division.vote if policy_division
+  end
+
   # HACK: Not using an association due to the fact that policy_divisions doesn't include a division_id!
   def divisions
     policy_divisions.collect { |pd| pd.division }

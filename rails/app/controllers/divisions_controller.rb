@@ -123,9 +123,7 @@ class DivisionsController < ApplicationController
     elsif @display == "policies"
       if params[:dmp] || user_signed_in?
         @active_policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
-        if active_policy_division = @division.policy_divisions.find_by(policy: @active_policy)
-          @active_policy_vote = active_policy_division.vote
-        end
+        @active_policy_vote = @active_policy.vote_for_division(@division)
       end
     else
       raise
