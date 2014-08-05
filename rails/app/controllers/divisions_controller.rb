@@ -81,18 +81,20 @@ class DivisionsController < ApplicationController
     end
 
     if @display.nil?
-      if @sort.nil?
-        # TODO Fix this hacky nonsense by doing this query in the db
-        @votes = @division.votes.joins(:member).order("pw_mp.party", "pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
-      elsif @sort == "name"
-        @votes = @division.votes.joins(:member).order("pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
-      elsif @sort == "constituency"
-        @votes = @division.votes.joins(:member).order("pw_mp.constituency", "pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
-      elsif @sort == "vote"
-        @votes = @division.votes.joins(:member).order(:vote, "pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
+      order = case @sort
+      when nil
+        ["pw_mp.party", "pw_mp.last_name", "pw_mp.first_name"]
+      when "name"
+        ["pw_mp.last_name", "pw_mp.first_name"]
+      when "constituency"
+        ["pw_mp.constituency", "pw_mp.last_name", "pw_mp.first_name"]
+      when "vote"
+        [:vote, "pw_mp.last_name", "pw_mp.first_name"]
       else
         raise "Unexpected value"
       end
+      # TODO Fix this hacky nonsense by doing this query in the db
+      @votes = @division.votes.joins(:member).order(order).find_all{|v| v.rebellion?}
     elsif @display == "allvotes"
       order = case @sort
       when nil, "party"
