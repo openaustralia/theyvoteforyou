@@ -25,9 +25,15 @@
 <!-- the second tier navigation as dropdowns end-->
 
 = render "summary", electorate: @electorate, members: @members, member: @member, member2: @member2, display: @display, person: @person
-- if @display.nil? || @display == "difference"
-  = render "difference"
-- elsif @display == "allvotes"
-  = render "difference_votes_attended"
-- elsif @display == "everyvote"
-  = render "difference_all_votes"
+
+%h2
+  %a{:name => "divisions"}
+    - if @display.nil? || @display == "difference"
+      Voting Differences
+    - elsif @display == "allvotes"
+      Votes Attended
+    - elsif @display == "everyvote"
+      All Votes
+
+%table.votes
+  = render "votes", member: @member, member2: @member2, divisions: @divisions, empty_message: "no votes listed"
