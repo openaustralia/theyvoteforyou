@@ -18,4 +18,4 @@
     = members_nav_link(@member, nil, @members, @electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
 <!-- the second tier navigation as dropdowns end-->
 
-= render "policy_comparison"
+= render "policy_comparison", member: @member, agreement_fraction_with_policy: @agreement_fraction_with_policy, policy: @policy, display: @display, number_of_votes_on_policy: @number_of_votes_on_policy, policy_member_distance: @policy_member_distance
