@@ -62,13 +62,17 @@
     = render "difference_votes_attended"
   - elsif @display == "everyvote"
     = render "difference_all_votes"
-- elsif @display == "summary" || (!@showall && @display.nil?)
+- elsif @showall
+  = render "summary"
+  = render "external_links"
+  = render "votes_attended"
+- elsif @display == "summary" || @display.nil?
   = render "summary"
   = render "external_links"
   = render "interesting_votes"
   = render "policy_comparisons"
   = render "possible_friends", all_friends: false
-- elsif @display == "allvotes" || @showall
+- elsif @display == "allvotes"
   = render "summary"
   = render "external_links"
   = render "votes_attended"
