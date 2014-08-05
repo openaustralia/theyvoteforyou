@@ -34,7 +34,7 @@
   = render "summary", electorate: @electorate, members: @members, member: @member, member2: @member2, display: @display, person: @person
   = render "external_links", member: @member
   - if @display == "allvotes"
-    = render "votes_attended"
+    = render "votes_attended", electorate: @electorate, members: @members, member: @member, house: @house
   - elsif @display == "summary" || @display.nil?
     = render "interesting_votes"
     = render "policy_comparisons", member: @member, members: @members, electorate: @electorate

@@ -2,14 +2,14 @@
   %a{:name => "divisions"} Votes Attended
 %p{:style => "font-size: 89%"}
   See also
-  - if @electorate
-    = link_to "all votes possible", "mp.php?mpc=#{@member.url_electorate.gsub('_', '+')}&house=#{@house}&display=everyvote#divisions"
+  - if electorate
+    = link_to "all votes possible", "mp.php?mpc=#{member.url_electorate.gsub('_', '+')}&house=#{house}&display=everyvote#divisions"
   - else
-    = link_to "all votes possible", member_path(@member, display: "everyvote", anchor: "divisions")
+    = link_to "all votes possible", member_path(member, display: "everyvote", anchor: "divisions")
 
 %table.votes
-  - if @electorate
-    - @members.each do |member|
+  - if electorate
+    - members.each do |member|
       %tr
         %td(align="left" colspan="7")
           %b
@@ -18,5 +18,5 @@
       = render "votes", member: member, member2: nil, divisions: member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no votes listed"
 
   - else
-    - @members.each do |member|
+    - members.each do |member|
       = render "votes", member: member, member2: nil, divisions: member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no votes listed"
