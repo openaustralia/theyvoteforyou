@@ -65,15 +65,7 @@ class DivisionsController < ApplicationController
       member = Member.in_australian_house(house).where(first_name: first_name, last_name: last_name)
       member = member.where(constituency: electorate) if electorate != "Senate"
       member = member.first
-      latest_member = Member.where(person: member.person).order(entered_house: :desc).first
-      # What we have now in @member is a member related to the person that voted in @division but @member wasn't necessarily
-      # current when @division took place. So, let's fix this
-      # We're doing this the same way as the php which doesn't seem necessarily the best way
-      # TODO Figure what is the best way
-      new_member = Member.where(person: member.person).find do |member|
-        member.vote_on_division_with_tell(@division) != "absent"
-      end
-      @member = new_member || latest_member
+      @member = member.member_who_voted_on_division(@division)
     end
 
     order = case @sort
