@@ -82,13 +82,14 @@ class DivisionsController < ApplicationController
 
     if @display.nil?
       if @sort.nil?
-        @votes = @division.rebellions_order_party
+        # TODO Fix this hacky nonsense by doing this query in the db
+        @votes = @division.votes.joins(:member).order("pw_mp.party", "pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
       elsif @sort == "name"
-        @votes = @division.rebellions_order_name
+        @votes = @division.votes.joins(:member).order("pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
       elsif @sort == "constituency"
-        @votes = @division.rebellions_order_constituency
+        @votes = @division.votes.joins(:member).order("pw_mp.constituency", "pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
       elsif @sort == "vote"
-        @votes = @division.rebellions_order_vote
+        @votes = @division.votes.joins(:member).order(:vote, "pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
       else
         raise "Unexpected value"
       end

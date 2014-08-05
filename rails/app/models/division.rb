@@ -74,23 +74,6 @@ class Division < ActiveRecord::Base
     end
   end
 
-  # TODO Fix this hacky nonsense by doing this query in the db
-  def rebellions_order_party
-    votes.joins(:member).order("pw_mp.party", "pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
-  end
-
-  def rebellions_order_name
-    votes.joins(:member).order("pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
-  end
-
-  def rebellions_order_constituency
-    votes.joins(:member).order("pw_mp.constituency", "pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
-  end
-
-  def rebellions_order_vote
-    votes.joins(:member).order(:vote, "pw_mp.last_name", "pw_mp.first_name").find_all{|v| v.rebellion?}
-  end
-
   def no_rebellions
     division_info.rebellions
   end
