@@ -147,46 +147,44 @@ module DivisionsHelper
     vote == 'aye3' || vote == 'no3' ? "#{vote[0...-1]} (strong)" : vote
   end
 
-  # Accessing @member inside this helper. Eek!
-  # TODO: Fix this!
   def member_voted_with(member, division)
     # We're using a different member for the link to try to make things the same as the php
     # TODO get rid of this silliness as soon as we can
-    member2 = Member.where(person: @member.person, house: division.house).current_on(division.date).first
+    member2 = Member.where(person: member.person, house: division.house).current_on(division.date).first
     sentence = link_to member2.full_name, member_path(member2)
     sentence += " "
-    if @member.vote_on_division_without_tell(@division) == "absent"
+    if member.vote_on_division_without_tell(division) == "absent"
       sentence += "did not vote."
     end
 
-    if !division.action_text.empty? && division.action_text[@member.vote_on_division_without_tell(@division)]
-      sentence += "voted ".html_safe + content_tag(:em, division.action_text[@member.vote_on_division_without_tell(@division)])
+    if !division.action_text.empty? && division.action_text[member.vote_on_division_without_tell(division)]
+      sentence += "voted ".html_safe + content_tag(:em, division.action_text[member.vote_on_division_without_tell(division)])
     else
       # TODO Should be using whip for this calculation. Only doing it this way to match php
       # calculation
       # AND THIS IS WRONG FURTHER BECAUSE THE MAJORITY CALCULATION DOESN"T TAKE INTO ACCOUNT THE TELLS
-      ayenodiff = (@division.votes.group(:vote).count["aye"] || 0) - (@division.votes.group(:vote).count["no"] || 0)
+      ayenodiff = (division.votes.group(:vote).count["aye"] || 0) - (division.votes.group(:vote).count["no"] || 0)
       if ayenodiff == 0
-        if @member.vote_on_division_with_tell(@division) == "tellaye"
+        if member.vote_on_division_with_tell(division) == "tellaye"
           sentence += "was a Teller for the Ayes."
-        elsif @member.vote_on_division_with_tell(@division) == "tellno"
+        elsif member.vote_on_division_with_tell(division) == "tellno"
           sentence += "was a Teller for the Noes."
-        elsif @member.vote_on_division_with_tell(@division) != "absent"
-          sentence += "voted #{@member.vote_on_division_with_tell(@division).capitalize}."
+        elsif member.vote_on_division_with_tell(division) != "absent"
+          sentence += "voted #{member.vote_on_division_with_tell(division).capitalize}."
         end
-      elsif @member.vote_on_division_without_tell(@division) == "aye" && ayenodiff >= 0 || @member.vote_on_division_without_tell(@division) == "no" && ayenodiff < 0
+      elsif member.vote_on_division_without_tell(division) == "aye" && ayenodiff >= 0 || member.vote_on_division_without_tell(division) == "no" && ayenodiff < 0
         sentence += "voted ".html_safe + content_tag(:em, "with the majority")
-      elsif @member.vote_on_division_without_tell(@division) != "absent"
+      elsif member.vote_on_division_without_tell(division) != "absent"
         sentence += "voted ".html_safe + content_tag(:em, "in the minority")
       end
 
-      if @member.vote_on_division_without_tell(@division) != "absent" && ayenodiff != 0
-        if @member.vote_on_division_with_tell(@division) == "tellaye"
+      if member.vote_on_division_without_tell(division) != "absent" && ayenodiff != 0
+        if member.vote_on_division_with_tell(division) == "tellaye"
           sentence += " (Teller for the Ayes)."
-        elsif @member.vote_on_division_with_tell(@division) == "tellno"
+        elsif member.vote_on_division_with_tell(division) == "tellno"
           sentence += " (Teller for the Noes)."
         else
-          sentence += " (#{@member.vote_on_division_with_tell(@division).capitalize})."
+          sentence += " (#{member.vote_on_division_with_tell(division).capitalize})."
         end
       end
       sentence
