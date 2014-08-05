@@ -1,4 +1,4 @@
-- if active_policy
+- if policy
   - if user_signed_in?
     %form.policyvote{:action => division_path(params), :method => "post"}
       %strong
@@ -6,14 +6,14 @@
         definition and division description before altering
         vote
       %br/
-      And policy #{link_to active_policy.name, policy_path(active_policy)} (#{link_to "change", policies_path}) voted
+      And policy #{link_to policy.name, policy_path(policy)} (#{link_to "change", policies_path}) voted
       - select_options = {'Non-voter' => '--',
                           'Aye (strong)' => 'aye3',
                           'Aye' => 'aye',
                           'Abstain' => 'both',
                           'No' => 'no',
                           'No (strong)' => 'no3'}
-      = select_tag "vote#{active_policy.id}", options_for_select(select_options, (active_policy.vote_for_division(division) || '--')), size: 1
+      = select_tag "vote#{policy.id}", options_for_select(select_options, (policy.vote_for_division(division) || '--')), size: 1
       %input{:name => "submit", :type => "submit", :value => "Update"}>/
       - if changed_from
         - # FIXME Adding a preceeding space to match PHP
@@ -24,8 +24,8 @@
   - else
     %p
       And policy
-      = link_to active_policy.name, policy_path(active_policy)
-      voted '#{active_policy.vote_for_division(division)}'
+      = link_to policy.name, policy_path(policy)
+      voted '#{policy.vote_for_division(division)}'
 
 %h2
   %a{:name => "dreammp"} Policies
