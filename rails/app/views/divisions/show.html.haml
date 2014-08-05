@@ -23,7 +23,7 @@
 <!-- the second tier navigation as dropdowns end-->
 
 - if @display == "policies"
-  = render "policies", active_policy: @active_policy, active_policy_vote: (@active_policy.vote_for_division(@division) if @active_policy), changed_from: @changed_from, division: @division
+  = render "policies", active_policy: @active_policy, changed_from: @changed_from, division: @division
 
 = render "motion", member: @member, division: @division
 
