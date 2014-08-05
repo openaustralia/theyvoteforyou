@@ -28,6 +28,6 @@
 = render "motion", member: @member, division: @division
 
 - if @display.nil? || @display == "allpossible"
-  = render "summary", division: @division, display: @display, sort: @sort, house: @division.australian_house, votes: @votes, date: @division.date, members: @members
+  = render "summary", division: @division, display: @display, sort: @sort, votes: @votes, members: @members
 - elsif @display == "allvotes"
   = render "allvotes", sort: @sort, house: @division.australian_house, votes: @votes

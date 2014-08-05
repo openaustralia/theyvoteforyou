@@ -18,7 +18,7 @@
       Rebel Voters
     - elsif display == "allpossible"
       All
-      = members_type(house)
+      = members_type(division.australian_house)
       Eligible to Vote
     - else
       - raise
@@ -36,27 +36,27 @@
 
 - if display.nil?
   %p
-    = members_type(house)
+    = members_type(division.australian_house)
     for which their vote in this division differed
     from the majority vote of their party. You can see
     = link_to "all votes", division_path2(params.merge(display: "allvotes"))
     in this division, or
     = link_to division_path2(params.merge(display: "allpossible")) do
       every eligible
-      = member_type(house)
+      = member_type(division.australian_house)
     who could have voted in this division
 - elsif display == "allpossible"
   %p
     Includes
-    = members_type(house)
+    = members_type(division.australian_house)
     who were absent (or abstained) from this vote.
 - else
   - raise
-= render "sort_links", sort: sort, house: house
+= render "sort_links", sort: sort, house: division.australian_house
 %table#votetable.votes
   %tr.headings
     %td Name
-    %td= electorate_label(house)
+    %td= electorate_label(division.australian_house)
     %td Party
     %td Vote
   - reset_cycle
@@ -71,17 +71,17 @@
           %td= vote.electorate
           %td
             = vote.party_long2
-            - if vote.member.on_front_bench?(date)
+            - if vote.member.on_front_bench?(division.date)
               (front bench)
           %td= vote.vote
   - elsif display == "allpossible"
     - members.each do |member|
       %tr{:class => cycle("odd", "even") + (member.rebel_on_division?(division) ? "rebel" : "")}
         %td= link_to member.name_without_title, member_path(member)
-        %td= link_to_if house == "representatives", member.electorate, electorate_path(member)
+        %td= link_to_if division.australian_house == "representatives", member.electorate, electorate_path(member)
         %td
           = member.party_long2
-          - if member.on_front_bench?(date)
+          - if member.on_front_bench?(division.date)
             (front bench)
         %td= member.vote_on_division_with_tell(division)
 
