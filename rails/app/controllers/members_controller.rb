@@ -64,7 +64,7 @@ class MembersController < ApplicationController
 
     @member = MembersController.find_by_params params[:mpid], params[:id], electorate, @house, @first_name, @last_name
     @member2 = MembersController.find_by_params params[:mpid2], params[:id2], electorate2, @house2, @first_name2, @last_name2
-    
+
     if @member
       @members = Member.where(person: @member.person).order(entered_house: :desc)
       @person = true
