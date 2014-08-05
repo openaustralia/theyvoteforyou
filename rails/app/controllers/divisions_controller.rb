@@ -118,18 +118,12 @@ class DivisionsController < ApplicationController
   end
 
   def add_policy_vote
-    # Find the division
-    # TODO Refactor - this is copied wholesale from #show
-    house = params[:house]
-    house = "representatives" if house.nil?
-    date = params[:date]
     @sort = params[:sort]
     @display = params[:display]
-    @division = Division.in_australian_house(house).find_by!(division_date: date, division_number: params[:number])
+    @division = Division.in_australian_house(params[:house] || "representatives").find_by!(division_date: params[:date], division_number: params[:number])
 
     @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
-    active_policy_vote = params["vote#{@policy.id}".to_sym]
-    @changed_from = @policy.add_division(@division, active_policy_vote)
+    @changed_from = @policy.add_division(@division, params["vote#{@policy.id}".to_sym])
 
     render 'show'
   end
