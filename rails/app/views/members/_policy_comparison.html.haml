@@ -37,7 +37,7 @@
     Someone who believes that
     %span.policytext= @policy.description
     would cast votes described by the policy.
-  = render 'policies/detailed_votes'
+  = render 'policies/detailed_votes', member: @member, policy: @policy
 - else
   = render 'policies/vote_summary_table'
 %h2

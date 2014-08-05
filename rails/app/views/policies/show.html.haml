@@ -18,6 +18,6 @@
 - when nil
   = render 'votes'
 - when 'motions'
-  = render 'detailed_votes'
+  = render 'detailed_votes', member: @member, policy: @policy
 - when 'editdefinition'
   = render 'edit_policy'
