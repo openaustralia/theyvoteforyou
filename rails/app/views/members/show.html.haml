@@ -27,7 +27,7 @@
 <!-- the second tier navigation as dropdowns end-->
 
 - if @display == "allfriends"
-  = render "possible_friends", all_friends: true
+  = render "possible_friends", all_friends: true, member: @member, electorate: @electorate
 - elsif @display == "alldreams"
   = render "policy_comparisons"
 - else
@@ -38,6 +38,6 @@
   - elsif @display == "summary" || @display.nil?
     = render "interesting_votes"
     = render "policy_comparisons"
-    = render "possible_friends", all_friends: false
+    = render "possible_friends", all_friends: false, member: @member, electorate: @electorate
   - elsif @display == "everyvote"
     = render "all_votes"
