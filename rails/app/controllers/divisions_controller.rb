@@ -123,7 +123,6 @@ class DivisionsController < ApplicationController
     elsif @display == "policies"
       if params[:dmp] || user_signed_in?
         @active_policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
-        @active_policy_vote = @active_policy.vote_for_division(@division)
       end
     else
       raise
@@ -161,8 +160,8 @@ class DivisionsController < ApplicationController
     @division = Division.in_australian_house(@house).find_by!(division_date: @date, division_number: params[:number])
 
     @active_policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
-    @active_policy_vote = params["vote#{@active_policy.id}".to_sym]
-    @changed_from = @active_policy.add_division(@division, @active_policy_vote)
+    active_policy_vote = params["vote#{@active_policy.id}".to_sym]
+    @changed_from = @active_policy.add_division(@division, active_policy_vote)
 
     render 'show'
   end
