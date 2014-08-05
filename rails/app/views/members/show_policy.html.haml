@@ -1,0 +1,21 @@
+- content_for :title do
+  = @member.name
+  compared to '#{@policy.name}'
+
+%h1= yield :title
+/ the second tier navigation as tabs
+:plain
+  <!-- add hashes to $second_links array, keys are
+       'href' - URL of link
+       'text' - displayed text
+       'tooltip' - text to put in title
+       'current' - 'on' or 'off' for whether this item is currently selected -->
+#secondnavtabs
+  %ul
+    - # FIXME This summary link is obviously wrong ("allvotes"?)
+    = members_nav_link(@member, nil, @members, @electorate, "allvotes", "Summary", "Show every vote cast by this MP",  @display.nil? || @display == "allvotes", @policy)
+    = members_nav_link(@member, nil, @members, @electorate, "motions", "Full description", "Also show descriptions of every vote", @display == "motions", @policy)
+    = members_nav_link(@member, nil, @members, @electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
+<!-- the second tier navigation as dropdowns end-->
+
+= render "policy_comparison"

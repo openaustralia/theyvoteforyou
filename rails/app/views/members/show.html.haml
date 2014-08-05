@@ -10,9 +10,6 @@
   - elsif @electorate
     Voting Record — Representatives for
     = @member.electorate
-  - elsif @policy
-    = @member.name
-    compared to '#{@policy.name}'
   - else
     Voting Record —
     = @member.full_name2
@@ -35,12 +32,7 @@
        'current' - 'on' or 'off' for whether this item is currently selected -->
 #secondnavtabs
   %ul
-    - if @policy
-      - # FIXME This summary link is obviously wrong ("allvotes"?)
-      = members_nav_link(@member, nil, @members, @electorate, "allvotes", "Summary", "Show every vote cast by this MP",  @display.nil? || @display == "allvotes", @policy)
-      = members_nav_link(@member, nil, @members, @electorate, "motions", "Full description", "Also show descriptions of every vote", @display == "motions", @policy)
-      = members_nav_link(@member, nil, @members, @electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
-    - elsif @member2
+    - if @member2
       = members_nav_link(@member, @member2, @members, @electorate, "difference", "Differences", "Votes where the two MPs votes differed", @display.nil? || @display == "difference")
       = members_nav_link(@member, @member2, @members, @electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @display == "allvotes")
       = members_nav_link(@member, @member2, @members, @electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
@@ -52,9 +44,7 @@
       = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
 <!-- the second tier navigation as dropdowns end-->
 
-- if @policy
-  = render "policy_comparison"
-- elsif @member2
+- if @member2
   = render "summary"
   - if @display.nil? || @display == "difference"
     = render "difference"

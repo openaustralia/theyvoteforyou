@@ -114,6 +114,12 @@ class MembersController < ApplicationController
         end
       end
     end
+
+    if @policy
+      render "show_policy"
+    else
+      render "show"
+    end
   end
 
   private
