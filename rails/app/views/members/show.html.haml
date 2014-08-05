@@ -32,7 +32,7 @@
   = render "policy_comparisons", member: @member, members: @members, electorate: @electorate
 - else
   = render "summary", electorate: @electorate, members: @members, member: @member, member2: @member2, display: @display, person: @person
-  = render "external_links"
+  = render "external_links", member: @member
   - if @display == "allvotes"
     = render "votes_attended"
   - elsif @display == "summary" || @display.nil?
