@@ -51,12 +51,12 @@ class DivisionsController < ApplicationController
   end
 
   def show
-    @house = params[:house]
-    @house = "representatives" if @house.nil?
+    house = params[:house]
+    house = "representatives" if house.nil?
     @date = params[:date]
     @sort = params[:sort]
     @display = params[:display]
-    @division = Division.in_australian_house(@house).find_by!(division_date: @date, division_number: params[:number])
+    @division = Division.in_australian_house(house).find_by!(division_date: @date, division_number: params[:number])
 
     # If a member is included
     if params[:mpn] && params[:mpc]
@@ -65,9 +65,9 @@ class DivisionsController < ApplicationController
       electorate = params[:mpc].gsub("_", " ")
       # TODO Also ensure that the member is current on the date of this division
       if electorate == "Senate"
-        member = Member.in_australian_house(@house).where(first_name: first_name, last_name: last_name).first
+        member = Member.in_australian_house(house).where(first_name: first_name, last_name: last_name).first
       else
-        member = Member.in_australian_house(@house).where(first_name: first_name, last_name: last_name, constituency: electorate).first
+        member = Member.in_australian_house(house).where(first_name: first_name, last_name: last_name, constituency: electorate).first
       end
       latest_member = Member.where(person: member.person).order(entered_house: :desc).first
       # What we have now in @member is a member related to the person that voted in @division but @member wasn't necessarily
@@ -119,7 +119,7 @@ class DivisionsController < ApplicationController
       else
         raise
       end
-      @members = Member.in_australian_house(@house).current_on(@date).joins("LEFT OUTER JOIN pw_vote ON pw_mp.mp_id = pw_vote.mp_id AND pw_vote.division_id = #{@division.id}").joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order)
+      @members = Member.in_australian_house(house).current_on(@date).joins("LEFT OUTER JOIN pw_vote ON pw_mp.mp_id = pw_vote.mp_id AND pw_vote.division_id = #{@division.id}").joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order)
     elsif @display == "policies"
       if params[:dmp] || user_signed_in?
         @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
