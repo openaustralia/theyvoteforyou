@@ -1,10 +1,7 @@
 - content_for :title do
   = @division.name
   \—
-  = formatted_date(@division.date)
-  - if @division.clock_time
-    at
-    = @division.clock_time.strftime('%H:%M')
+  = division_date_and_time(@division)
 
 %h1= yield :title
 / the second tier navigation as tabs

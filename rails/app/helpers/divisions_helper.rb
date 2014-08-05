@@ -1,4 +1,10 @@
 module DivisionsHelper
+  def division_date_and_time(division)
+    text = formatted_date(division.date)
+    text += " at " + division.clock_time.strftime('%H:%M') if division.clock_time
+    text
+  end
+
   # Rather than using url_for which would be the sensible thing, we're constructing the paths
   # by hand to match the order in the php app
   def divisions_path(q = {})
