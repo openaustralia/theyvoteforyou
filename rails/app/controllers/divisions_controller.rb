@@ -62,11 +62,9 @@ class DivisionsController < ApplicationController
       last_name = params[:mpn].split("_")[1]
       electorate = params[:mpc].gsub("_", " ")
       # TODO Also ensure that the member is current on the date of this division
-      if electorate == "Senate"
-        member = Member.in_australian_house(house).where(first_name: first_name, last_name: last_name).first
-      else
-        member = Member.in_australian_house(house).where(first_name: first_name, last_name: last_name, constituency: electorate).first
-      end
+      member = Member.in_australian_house(house).where(first_name: first_name, last_name: last_name)
+      member = member.where(constituency: electorate) if electorate != "Senate"
+      member = member.first
       latest_member = Member.where(person: member.person).order(entered_house: :desc).first
       # What we have now in @member is a member related to the person that voted in @division but @member wasn't necessarily
       # current when @division took place. So, let's fix this
