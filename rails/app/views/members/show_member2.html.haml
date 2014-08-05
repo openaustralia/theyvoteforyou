@@ -24,7 +24,7 @@
     = members_nav_link(@member, @member2, @members, @electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
 <!-- the second tier navigation as dropdowns end-->
 
-= render "summary"
+= render "summary", electorate: @electorate, members: @members, member: @member, member2: @member2, display: @display, person: @person
 - if @display.nil? || @display == "difference"
   = render "difference"
 - elsif @display == "allvotes"

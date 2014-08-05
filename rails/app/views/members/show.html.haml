@@ -31,7 +31,7 @@
 - elsif @display == "alldreams"
   = render "policy_comparisons", member: @member, members: @members, electorate: @electorate
 - else
-  = render "summary"
+  = render "summary", electorate: @electorate, members: @members, member: @member, member2: @member2, display: @display, person: @person
   = render "external_links"
   - if @display == "allvotes"
     = render "votes_attended"
