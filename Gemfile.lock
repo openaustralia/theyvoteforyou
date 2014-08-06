@@ -15,7 +15,7 @@ GEM
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (2.8.0)
-    rake (10.3.2)
+    rake (10.1.1)
     rvm1-capistrano3 (1.2.2)
       capistrano (~> 3.0)
       sshkit (>= 1.2)
