@@ -3,74 +3,73 @@
     Rebel
   #{members_type(@house)} — #{parliament_name(@parliament)}
 
-.container
-  %h1= yield :title
+%h1= yield :title
 
-  %p
-    %ul.nav.nav-pills
-      %li{class: ("active" if @parliament.nil?)}
-        = link_to "Current", members_path(params.merge(sort: @sort, parliament: nil)) , title: "Show only the current parliament"
-      - Parliament.all.each do |id, details|
-        %li{class: ("active" if @parliament == id)}
-          = link_to details[:name], members_path(params.merge(parliament: id, sort: @sort)), title: "#{details[:name]}&nbsp;Parliament".html_safe
-      %li{class: ("active" if @parliament == "all")}
-        = link_to "All Parliaments", members_path(params.merge(parliament: 'all', sort: @sort)), title: "All members on record"
+%p
+  %ul.nav.nav-pills
+    %li{class: ("active" if @parliament.nil?)}
+      = link_to "Current", members_path(params.merge(sort: @sort, parliament: nil)) , title: "Show only the current parliament"
+    - Parliament.all.each do |id, details|
+      %li{class: ("active" if @parliament == id)}
+        = link_to details[:name], members_path(params.merge(parliament: id, sort: @sort)), title: "#{details[:name]}&nbsp;Parliament".html_safe
+    %li{class: ("active" if @parliament == "all")}
+      = link_to "All Parliaments", members_path(params.merge(parliament: 'all', sort: @sort)), title: "All members on record"
 
-    %ul.nav.nav-pills
-      %li{:class => ("active" if @house == "representatives")}
-        = link_to "Representatives", members_path(params.merge(house: 'representatives', sort: @sort)), title: "Show only members of the House of Representatives"
-      %li{:class => ("active" if @house == "senate")}
-        = link_to "Senators", members_path(params.merge(house: 'senate', sort: @sort)), title: "Show only Senators"
-      %li{:class => ("active" if @house == "all")}
-        = link_to "Both houses", members_path(params.merge(house: 'all', sort: @sort)), title: "Show all people in Parliament"
+  %ul.nav.nav-pills
+    %li{:class => ("active" if @house == "representatives")}
+      = link_to "Representatives", members_path(params.merge(house: 'representatives', sort: @sort)), title: "Show only members of the House of Representatives"
+    %li{:class => ("active" if @house == "senate")}
+      = link_to "Senators", members_path(params.merge(house: 'senate', sort: @sort)), title: "Show only Senators"
+    %li{:class => ("active" if @house == "all")}
+      = link_to "Both houses", members_path(params.merge(house: 'all', sort: @sort)), title: "Show all people in Parliament"
 
-  %p
-    = members_type_long(@house)
-    are listed below. Refer to
-    = link_to "this explanation", help_path(anchor: "clarify")
-    of the "rebellion" and "attendance" rates, as they may not mean what you
-    think they do.
+%p
+  = members_type_long(@house)
+  are listed below. Refer to
+  = link_to "this explanation", help_path(anchor: "clarify")
+  of the "rebellion" and "attendance" rates, as they may not mean what you
+  think they do.
 
-  %p
-    Sort by:
-    = sort_link("lastname", "surname", "Name", @sort)
+%p
+  Sort by:
+  = sort_link("lastname", "surname", "Name", @sort)
+  |
+  - if @house != "senate"
+    = sort_link("constituency", "constituency", "Constituency", @sort)
     |
-    - if @house != "senate"
-      = sort_link("constituency", "constituency", "Constituency", @sort)
-      |
-    = sort_link("party", "party", "Party", @sort)
+  = sort_link("party", "party", "Party", @sort)
+  |
+  -if @parliament == "all"
+    = sort_link("date", "Date", "Dates", @sort)
     |
-    -if @parliament == "all"
-      = sort_link("date", "Date", "Dates", @sort)
-      |
-    = sort_link("rebellions", "rebels", "Rebellions", @sort)
-    |
-    = sort_link("attendance", "attendance", "Attendance", @sort)
+  = sort_link("rebellions", "rebels", "Rebellions", @sort)
+  |
+  = sort_link("attendance", "attendance", "Attendance", @sort)
 
-  %table.table.table-striped
-    %thead
-      %tr.headings
-        %td Name
-        %td= electorate_label(@house)
-        %td Party
+%table.table.table-striped
+  %thead
+    %tr.headings
+      %td Name
+      %td= electorate_label(@house)
+      %td Party
+      -if @parliament == "all"
+        %td Dates
+      %td
+        Rebellions
+        %br/
+        (#{link_to "explain...", help_path(anchor: "clarify")})
+      %td
+        Attendance
+        %br/
+        (#{link_to "explain...", help_path(anchor: "clarify")})
+  %tbody
+    - @members.each do |member|
+      %tr
+        %td= link_to member.name_without_title, member_path(member)
+        %td= link_to_unless member.senator?, member.electorate, electorate_path(member)
+        %td= member.party_long2
         -if @parliament == "all"
-          %td Dates
-        %td
-          Rebellions
-          %br/
-          (#{link_to "explain...", help_path(anchor: "clarify")})
-        %td
-          Attendance
-          %br/
-          (#{link_to "explain...", help_path(anchor: "clarify")})
-    %tbody
-      - @members.each do |member|
-        %tr
-          %td= link_to member.name_without_title, member_path(member)
-          %td= link_to_unless member.senator?, member.electorate, electorate_path(member)
-          %td= member.party_long2
-          -if @parliament == "all"
-            %td
-              (#{member.entered_house.year.to_s}-#{member.left_house.year == 9999 ? "<i>present</i>".html_safe : member.left_house.year})
-          %td.percent= fraction_to_percentage_display(member.rebellions_fraction, precision: 1)
-          %td.percent= fraction_to_percentage_display(member.attendance_fraction, precision: 1)
+          %td
+            (#{member.entered_house.year.to_s}-#{member.left_house.year == 9999 ? "<i>present</i>".html_safe : member.left_house.year})
+        %td.percent= fraction_to_percentage_display(member.rebellions_fraction, precision: 1)
+        %td.percent= fraction_to_percentage_display(member.attendance_fraction, precision: 1)

@@ -4,7 +4,12 @@
     %meta(charset="utf-8")
     %meta(http-equiv="X-UA-Compatible" content="IE=edge")
     %meta(name="viewport" content="width=device-width, initial-scale=1")
-    %title= yield :title
+    %title
+      - unless yield(:title).empty?
+        = yield :title
+        \— The Public Whip
+      - else
+        The Public Whip — Counting votes on your behalf
 
     = stylesheet_link_tag "application"
 
@@ -13,5 +18,5 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   %body
-    = yield
+    .container= yield
     = javascript_include_tag "application"
