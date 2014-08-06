@@ -37,6 +37,12 @@ class MembersController < ApplicationController
     else
       raise
     end
+
+    if params[:bs]
+      render "index_bs", layout: "bootstrap"
+    else
+      render "index"
+    end
   end
 
   def show
