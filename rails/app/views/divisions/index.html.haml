@@ -17,12 +17,9 @@
   - if @sort
     (sorted by #{@sort})
 
--# Don't include this parameter when we generate URLs if it's been removed by the controller
-- params.delete :rdisplay2 if @rdisplay2.nil?
-
 %h1= yield :title
-  
-= render "divisions_chooser"
+
+= render "divisions_chooser", rdisplay: @rdisplay, rdisplay2: @rdisplay2, house: @house, parties: @parties
 
 %p
   A 'division' is parliamentary terminology for a 'vote'
