@@ -39,8 +39,6 @@ gem 'honeybadger'
 gem 'delayed_job_active_record'
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
-# We're locking to rake 10.1.1 for the benefit of cap deploy
-gem "rake", "10.1.1"
 
 group :test do
   # We can't use transactional fixtures as the php app and the rails app need to see
