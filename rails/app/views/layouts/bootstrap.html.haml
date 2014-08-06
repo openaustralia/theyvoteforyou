@@ -18,5 +18,38 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   %body
+    %nav.navbar.navbar-default(role="navigation")
+      .container
+        // Brand and toggle get grouped for better mobile display
+        .navbar-header
+          %button.navbar-toggle(type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1")
+            %span.sr-only Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          = link_to "#", class: "navbar-brand" do
+            the public whip
+
+        // Collect the nav links, forms, and other content for toggling
+        .collapse.navbar-collapse#bs-example-navbar-collapse-1
+          %ul.nav.navbar-nav
+            %li= link_to "Home", "/index.php", title: "Front page and site highlights"
+            %li= link_to "Divisions", "/divisions.php", title: "List of all votes in Parliament"
+            %li= link_to "Representatives", "/mps.php", title: "List of all Representatives"
+            %li= link_to "Senators", "/mps.php?house=senate", title: "List of all Senators"
+            %li= link_to "Policies", "/policies.php", title: "Help to analyze MP's votes"
+            %li= link_to "Help / FAQ", help_path, title: "Frequently asked questions"
+          %ul.nav.navbar-nav.navbar-right
+            - if user_signed_in?
+              %li
+                = link_to "/account/settings.php", title: "Change account settings" do
+                  You are:
+                  = current_user.user_name || current_user.email
+              %li
+                = link_to "Logout", "/account/logout.php?r=#{CGI.escape(params[:r] ? params[:r] : request.fullpath)}", title: "Make your browser forget that you are logged into The Public Whip as #{current_user.user_name}"
+            - else
+              %li= link_to "Sign Up", "/account/register.php?r=#{CGI.escape(params[:r] ? params[:r] : request.fullpath)}", title: "Register to make or edit policies"
+              %li= link_to "Login", "/account/settings.php?r=#{CGI.escape(params[:r] ? params[:r] : request.fullpath)}", title: "Login to edit policies"
+
     .container= yield
     = javascript_include_tag "application"
