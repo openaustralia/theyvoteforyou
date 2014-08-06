@@ -18,9 +18,7 @@
       -if @parliament.nil?
         Current
       -else
-        - params_copy = params.clone
-        - params_copy.delete(:parliament)
-        = link_to "Current", members_path(params_copy.merge(sort: @sort)) , class: 'off', title: "Show only the current parliament"
+        = link_to "Current", members_path(params.merge(sort: @sort, parliament: nil)) , class: 'off', title: "Show only the current parliament"
     - Parliament.all.each do |id, details|
       %li{:class => (@parliament == id ? "on" : "off")}
         = link_to_unless @parliament == id, details[:name], members_path(params.merge(parliament: id, sort: @sort)), class: 'off', title: "#{details[:name]}&nbsp;Parliament".html_safe
