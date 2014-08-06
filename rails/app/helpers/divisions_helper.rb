@@ -83,6 +83,14 @@ module DivisionsHelper
     end
   end
 
+  def sort_link_division(sort, name, current_sort)
+    if current_sort == sort
+      content_tag(:b, name)
+    else
+      link_to name, division_path(params.merge(sort: sort, dmp: nil), false)
+    end
+  end
+
   def majority_vote_class(whip)
     if whip.majority_votes == 0
       "normal"
