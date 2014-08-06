@@ -61,7 +61,8 @@ group :development do
 end
 
 group :test, :development do
-  gem "rspec-rails"
+  # We're not quite ready to move to rspec 3 just yet
+  gem "rspec-rails", "< 3.0.0"
 end
 
 group :doc do
