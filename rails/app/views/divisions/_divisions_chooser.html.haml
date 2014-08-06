@@ -1,0 +1,31 @@
+/ the second tier navigation as dropdowns
+:plain
+  <!-- add hashes to $second_links array, keys are
+       'href' - URL of link
+       'text' - displayed text
+       'tooltip' - text to put in title
+       'current' - 'on' or 'off' for whether this item is currently selected -->
+%form{:action => "/redir.php", :method => "post", :name => "secondnav", :style => "display: inline"}
+  %select#r{:name => "r", :onchange => "secondnav_goto()"}
+    - Parliament.all.each do |id, details|
+      %option{:class => (@rdisplay == id ? "on" : "off"), :onclick => "secondnav_goto()", :selected => (@rdisplay == id), :title => "", :value => divisions_path(params.merge(rdisplay: (id == "2013" ? nil : id)))}= details[:name]
+    %option{:class => (@rdisplay == "all" ? "on" : "off"), :onclick => "secondnav_goto()", :selected => (@rdisplay == "all"), :title => "", :value => divisions_path(params.merge(rdisplay: "all"))} All Parliaments
+  %input{:name => "submit", :type => "submit", :value => "Go"}/
+%form{:action => "/redir.php", :method => "post", :name => "secondnav", :style => "display: inline"}
+  %select#r2{:name => "r2", :onchange => "secondnav_goto2()"}
+    %option{:class => (@house.nil? ? "on": "off"), :onclick => "secondnav_goto2()", :selected => @house.nil?, :title => "", :value => divisions_path(params.merge(house: nil))} All houses
+    %option{:class => (@house == "representatives" ? "on" : "off"), :onclick => "secondnav_goto2()", :selected => (@house == "representatives"), :title => "", :value => divisions_path(params.merge(house: "representatives"))} Representatives only
+    %option{:class => (@house == "senate" ? "on" : "off"), :onclick => "secondnav_goto2()", :selected => (@house == "senate"), :title => "", :value => divisions_path(params.merge(house: "senate"))} Senate only
+  %input{:name => "submit", :type => "submit", :value => "Go"}/
+%form{:action => "/redir.php", :method => "post", :name => "secondnav", :style => "display: inline"}
+  %select#r3{:name => "r3", :onchange => "secondnav_goto3()"}
+    %option{:class => (@rdisplay2.nil? ? "on": "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2.nil?), :title => "", :value => divisions_path(params.merge(rdisplay2: nil))} All Divisions
+    %option{:class => (@rdisplay2 == "rebels" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "rebels"), :title => "", :value => divisions_path(params.merge(rdisplay2: "rebels"))} Rebellions
+    -# Only currently showing this when we're only looking at a single house. Doesn't seem right
+    - if @parties
+      - @parties.each do |party|
+        - long_name = Party.long_name(party)
+        - if Member.party_has_whip?(party)
+          %option{:class => (@rdisplay2 == "#{party}_party" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (@rdisplay2 == "#{party}_party"), :title => "", :value => divisions_path(params.merge(rdisplay2: "#{party}_party"))}= long_name
+  %input{:name => "submit", :type => "submit", :value => "Go"}/
+<!-- the second tier navigation as dropdowns end-->
