@@ -1,6 +1,6 @@
-loader/PublicWhip/Config.pm
-loader/data.openaustralia.org
-website/config.php
-website/google*
+rails/php/loader/PublicWhip/Config.pm
+rails/php/loader/data.openaustralia.org
+rails/php/website/config.php
+rails/php/website/google*
 .bundle
 .vagrant
