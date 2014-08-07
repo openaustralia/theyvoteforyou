@@ -75,11 +75,6 @@ class MembersController < ApplicationController
       # TODO If this relates to a single person redirect
     end
 
-    # If there is more than one person in the list then set @multiple_people
-    if @members.map{|m| m.person}.uniq.count > 1
-      @multiple_people = true
-    end
-
     if @member.nil?
       # TODO: This should 404 but doesn't to match the PHP app
       render 'member_not_found'

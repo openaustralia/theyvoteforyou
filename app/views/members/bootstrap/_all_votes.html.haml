@@ -4,7 +4,7 @@
 
 %table.table.table-striped
   - members.each do |member|
-    - if multiple_people
+    - if multiple_people?(members)
       %tr
         %td(align="left" colspan="7")
           %b

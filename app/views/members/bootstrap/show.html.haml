@@ -2,7 +2,7 @@
   - if @display == "allfriends"
     Friends of
     = @member.full_name
-  - elsif @multiple_people
+  - elsif multiple_people?(@members)
     Voting Record — Representatives for
     = @member.electorate
   - else
@@ -14,24 +14,25 @@
 
 %p
   %ul.nav.nav-tabs
-    = members_nav_link_bs(@member, nil, @members, @multipe_people ? @member.url_electorate : nil, nil, "Summary", "Overview of MP", @display.nil? || @display == "summary")
-    = members_nav_link_bs(@member, nil, @members, @multiple_people ? @member.url_electorate : nil, "allvotes", "Votes attended", "Show every vote cast by this MP", @display == "allvotes")
-    = members_nav_link_bs(@member, nil, @members, @multiple_people ? @member.url_electorate : nil, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
-    = members_nav_link_bs(@member, nil, @members, @multiple_people ? @member.url_electorate : nil, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
-    = members_nav_link_bs(@member, nil, @members, @multiple_people ? @member.url_electorate : nil, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
+    - url_electorate = multipe_people?(@members) ? @member.url_electorate : nil
+    = members_nav_link_bs(@member, nil, @members, url_electorate, nil, "Summary", "Overview of MP", @display.nil? || @display == "summary")
+    = members_nav_link_bs(@member, nil, @members, url_electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @display == "allvotes")
+    = members_nav_link_bs(@member, nil, @members, url_electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
+    = members_nav_link_bs(@member, nil, @members, url_electorate, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
+    = members_nav_link_bs(@member, nil, @members, url_electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
 
 - if @display == "allfriends"
-  = render "members/bootstrap/possible_friends", all_friends: true, member: @member, multiple_people: @multiple_people
+  = render "members/bootstrap/possible_friends", all_friends: true, member: @member, members: @members
 - elsif @display == "alldreams"
-  = render "members/bootstrap/policy_comparisons", member: @member, members: @members, multiple_people: @multipe_people
+  = render "members/bootstrap/policy_comparisons", member: @member, members: @members
 - else
-  = render "members/bootstrap/summary", multiple_people: @multiple_people, members: @members, member: @member, member2: @member2, display: @display
+  = render "members/bootstrap/summary", members: @members, member: @member, member2: @member2, display: @display
   = render "members/bootstrap/external_links", member: @member
   - if @display == "allvotes"
-    = render "members/bootstrap/votes_attended", multiple_people: @multiple_people, members: @members, member: @member
+    = render "members/bootstrap/votes_attended", members: @members, member: @member
   - elsif @display == "summary" || @display.nil?
-    = render "members/bootstrap/interesting_votes", members: @members, member: @member, multiple_people: @multiple_people
-    = render "members/bootstrap/policy_comparisons", member: @member, members: @members, multiple_people: @multiple_people
-    = render "members/bootstrap/possible_friends", all_friends: false, member: @member, multiple_people: @multiple_people
+    = render "members/bootstrap/interesting_votes", members: @members, member: @member
+    = render "members/bootstrap/policy_comparisons", member: @member, members: @members
+    = render "members/bootstrap/possible_friends", all_friends: false, member: @member, members: @members
   - elsif @display == "everyvote"
-    = render "members/bootstrap/all_votes", members: @members, multiple_people: @multiple_people
+    = render "members/bootstrap/all_votes", members: @members
