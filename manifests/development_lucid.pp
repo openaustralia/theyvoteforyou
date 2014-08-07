@@ -279,8 +279,6 @@ test:
   username: $db_test
   password: $db_test_password
 "
-
-# todo Shouldn't really need `strict: false`. Investigate.
 }
 
 file { '/vagrant/config/secrets.yml':
