@@ -78,9 +78,11 @@ class MembersController < ApplicationController
       @members = @members.in_australian_house(@house) if @house
       @member = @members.first
       # TODO If this relates to a single person redirect
-      if @members.map{|m| m.person}.uniq.count > 1
-        @electorate = electorate
-      end
+    end
+
+    # If there is more than one person in the list then set @electorate
+    if @members.map{|m| m.person}.uniq.count > 1
+      @electorate = electorate
     end
 
     if @member.nil?
