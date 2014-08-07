@@ -39,7 +39,7 @@ class MembersController < ApplicationController
     end
 
     if params[:bs]
-      render "index_bs", layout: "bootstrap"
+      render "members/bootstrap/index", layout: "bootstrap"
     else
       render "index"
     end
@@ -126,7 +126,7 @@ class MembersController < ApplicationController
       render "show_member2"
     else
       if params[:bs]
-        render "show_bs", layout: "bootstrap"
+        render "members/bootstrap/show", layout: "bootstrap"
       else
         render "show"
       end

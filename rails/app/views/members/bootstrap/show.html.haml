@@ -21,17 +21,17 @@
     = members_nav_link_bs(@member, nil, @members, @electorate ? @member.url_electorate : nil, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
 
 - if @display == "allfriends"
-  = render "possible_friends_bs", all_friends: true, member: @member, electorate: @electorate
+  = render "members/bootstrap/possible_friends", all_friends: true, member: @member, electorate: @electorate
 - elsif @display == "alldreams"
-  = render "policy_comparisons_bs", member: @member, members: @members, electorate: @electorate
+  = render "members/bootstrap/policy_comparisons", member: @member, members: @members, electorate: @electorate
 - else
-  = render "summary_bs", electorate: @electorate, members: @members, member: @member, member2: @member2, display: @display, person: @person
-  = render "external_links_bs", member: @member
+  = render "members/bootstrap/summary", electorate: @electorate, members: @members, member: @member, member2: @member2, display: @display, person: @person
+  = render "members/bootstrap/external_links", member: @member
   - if @display == "allvotes"
-    = render "votes_attended_bs", electorate: @electorate, members: @members, member: @member, house: @house
+    = render "members/bootstrap/votes_attended", electorate: @electorate, members: @members, member: @member, house: @house
   - elsif @display == "summary" || @display.nil?
-    = render "interesting_votes_bs", members: @members, member: @member, electorate: @electorate
-    = render "policy_comparisons_bs", member: @member, members: @members, electorate: @electorate
-    = render "possible_friends_bs", all_friends: false, member: @member, electorate: @electorate
+    = render "members/bootstrap/interesting_votes", members: @members, member: @member, electorate: @electorate
+    = render "members/bootstrap/policy_comparisons", member: @member, members: @members, electorate: @electorate
+    = render "members/bootstrap/possible_friends", all_friends: false, member: @member, electorate: @electorate
   - elsif @display == "everyvote"
-    = render "all_votes_bs", members: @members, electorate: @electorate
+    = render "members/bootstrap/all_votes", members: @members, electorate: @electorate
