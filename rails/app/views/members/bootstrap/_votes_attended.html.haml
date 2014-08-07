@@ -3,14 +3,14 @@
 
 %p
   See also
-  - if electorate
+  - if multiple_people
     = link_to "all votes possible", "mp.php?mpc=#{member.url_electorate.gsub('_', '+')}&house=#{house}&display=everyvote#divisions"
   - else
     = link_to "all votes possible", member_path(member, display: "everyvote", anchor: "divisions")
 
 %table.table.table-striped
   - members.each do |member|
-    - if electorate
+    - if multiple_people
       %tr
         %td(align="left" colspan="7")
           %b

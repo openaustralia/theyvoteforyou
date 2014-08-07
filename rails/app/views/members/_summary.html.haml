@@ -1,7 +1,7 @@
 -# FIXME in the controller member and members should never both be populated
 -# Don't show office if we are in a vote comparison displaying the difference
 -# (purely because that is what the php code does).
-- if electorate.nil? && (!member.current_offices.empty?) && !((member2 && display.nil?) || display == "difference")
+- if !multiple_people && (!member.current_offices.empty?) && !((member2 && display.nil?) || display == "difference")
   %p
     %b= member.name
     is currently
@@ -17,14 +17,14 @@
   %tr.headings
     - if person && members.count > 1 && members.map{|m| m.constituency}.uniq.count > 1
       %td Constituency
-    - if electorate
+    - if multiple_people
       %td Name
     %td From
     %td To
     %td Party
     %td Rebellions (#{link_to "explain...", help_path(anchor: "clarify")})
     %td Attendance (#{link_to "explain...", help_path(anchor: "clarify")})
-    - if electorate.nil?
+    - if !multiple_people
       %td Teller
 
   - members.each do |member|
@@ -34,7 +34,7 @@
           - if member.senator?
             Senator for
           = member.electorate
-      - if electorate
+      - if multiple_people
         %td
           = member.name
           = link_to "(show only their votes)", "mp.php?mpn=#{member.url_name_with_title}&display=#{display || 'summary'}"
@@ -66,7 +66,7 @@
           #{member.votes_possible},
           %b= fraction_to_percentage_display(member.attendance_fraction, precision: 1)
 
-      - if electorate.nil?
+      - if !multiple_people
         %td
           - if member.tells.nil?
             times

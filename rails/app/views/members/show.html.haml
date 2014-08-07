@@ -19,25 +19,25 @@
        'current' - 'on' or 'off' for whether this item is currently selected -->
 #secondnavtabs
   %ul
-    = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, nil, "Summary", "Overview of MP", @display.nil? || @display == "summary")
-    = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "allvotes", "Votes attended", "Show every vote cast by this MP", @display == "allvotes")
-    = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
-    = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
-    = members_nav_link(@member, nil, @members, @electorate ? @member.url_electorate : nil, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
+    = members_nav_link(@member, nil, @members, @multiple_people ? @member.url_electorate : nil, nil, "Summary", "Overview of MP", @display.nil? || @display == "summary")
+    = members_nav_link(@member, nil, @members, @multiple_people ? @member.url_electorate : nil, "allvotes", "Votes attended", "Show every vote cast by this MP", @display == "allvotes")
+    = members_nav_link(@member, nil, @members, @multiple_people ? @member.url_electorate : nil, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
+    = members_nav_link(@member, nil, @members, @multiple_people ? @member.url_electorate : nil, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
+    = members_nav_link(@member, nil, @members, @multiple_people ? @member.url_electorate : nil, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
 <!-- the second tier navigation as dropdowns end-->
 
 - if @display == "allfriends"
-  = render "possible_friends", all_friends: true, member: @member, electorate: @electorate
+  = render "possible_friends", all_friends: true, member: @member, multiple_people: @multiple_people
 - elsif @display == "alldreams"
-  = render "policy_comparisons", member: @member, members: @members, electorate: @electorate
+  = render "policy_comparisons", member: @member, members: @members, multiple_people: @multiple_people
 - else
-  = render "summary", electorate: @electorate, members: @members, member: @member, member2: @member2, display: @display, person: @person
+  = render "summary", multiple_people: @multiple_people, members: @members, member: @member, member2: @member2, display: @display, person: @person
   = render "external_links", member: @member
   - if @display == "allvotes"
-    = render "votes_attended", electorate: @electorate, members: @members, member: @member, house: @house
+    = render "votes_attended", multiple_people: @multiple_people, members: @members, member: @member, house: @house
   - elsif @display == "summary" || @display.nil?
-    = render "interesting_votes", members: @members, member: @member, electorate: @electorate
-    = render "policy_comparisons", member: @member, members: @members, electorate: @electorate
-    = render "possible_friends", all_friends: false, member: @member, electorate: @electorate
+    = render "interesting_votes", members: @members, member: @member, multiple_people: @multiple_people
+    = render "policy_comparisons", member: @member, members: @members, multiple_people: @multiple_people
+    = render "possible_friends", all_friends: false, member: @member, multiple_people: @multiple_people
   - elsif @display == "everyvote"
-    = render "all_votes", members: @members, electorate: @electorate
+    = render "all_votes", members: @members, multiple_people: @multiple_people
