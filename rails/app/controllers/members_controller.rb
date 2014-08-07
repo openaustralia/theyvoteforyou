@@ -74,12 +74,8 @@ class MembersController < ApplicationController
       @members = Member.where(person: @member.person).order(entered_house: :desc)
       @person = true
     else
-      # TODO This is definitely wrong. Should return multiple members in this electorate
-      if @house
-        @members = Member.in_australian_house(@house).where(constituency: electorate).order(entered_house: :desc)
-      else
-        @members = Member.where(constituency: electorate).order(entered_house: :desc)
-      end
+      @members = Member.where(constituency: electorate).order(entered_house: :desc)
+      @members = @members.in_australian_house(@house) if @house
       @member = @members.first
       if @members.count > 1 && @members.map{|m| m.person}.uniq.count > 1
         @electorate = electorate
