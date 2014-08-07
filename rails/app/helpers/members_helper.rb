@@ -39,11 +39,7 @@ module MembersHelper
       content_tag(:li, name, class: "on")
     else
       content_tag(:li, class: "off") do
-        path = if electorate && members && members.count > 1
-          electorate_path2(electorate, params)
-        else
-          member_path(member, params, member2)
-        end
+        path = electorate ? electorate_path2(electorate, params) : member_path(member, params, member2)
         link_to name, path, title: title, class: "off"
       end
     end
@@ -52,11 +48,7 @@ module MembersHelper
   def members_nav_link_bs(member, member2, members, electorate, display, name, title, active, policy = nil)
     params = policy ? {display: display, dmp: policy.id} : {display: display}
     content_tag(:li, class: ("active" if active)) do
-      path = if electorate && members && members.count > 1
-        electorate_path2(electorate, params)
-      else
-        member_path(member, params, member2)
-      end
+      path = electorate ? electorate_path2(electorate, params) : member_path(member, params, member2)
       link_to name, path, title: title
     end
   end

@@ -82,6 +82,7 @@ class MembersController < ApplicationController
 
     # If there is more than one person in the list then set @electorate
     if @members.map{|m| m.person}.uniq.count > 1
+      @multiple_people = true
       @electorate = electorate
     end
 
