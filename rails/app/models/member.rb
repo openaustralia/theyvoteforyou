@@ -11,16 +11,12 @@ class Member < ActiveRecord::Base
   has_many :policy_member_distances, foreign_key: :person, primary_key: :person
   has_many :member_distances, foreign_key: :mp_id1
 
+  def person_object
+    Person.new(id: person)
+  end
+
   def member_who_voted_on_division(division)
-    latest_member = Member.where(person: person).order(entered_house: :desc).first
-    # What we have now in @member is a member related to the person that voted in division but @member wasn't necessarily
-    # current when @division took place. So, let's fix this
-    # We're doing this the same way as the php which doesn't seem necessarily the best way
-    # TODO Figure what is the best way
-    new_member = Member.where(person: person).find do |member|
-      member.vote_on_division_with_tell(division) != "absent"
-    end
-    new_member || latest_member
+    person_object.member_who_voted_on_division(division)
   end
 
   # Find the member (that is the same person as this member) that relates to a given policy
