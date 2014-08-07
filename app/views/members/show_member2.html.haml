@@ -19,12 +19,12 @@
        'current' - 'on' or 'off' for whether this item is currently selected -->
 #secondnavtabs
   %ul
-    = members_nav_link(@member, @member2, @members, @electorate, "difference", "Differences", "Votes where the two MPs votes differed", @display.nil? || @display == "difference")
-    = members_nav_link(@member, @member2, @members, @electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @display == "allvotes")
-    = members_nav_link(@member, @member2, @members, @electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
+    = members_nav_link(@member, @member2, @members, @multiple_people ? @member.url_electorate : nil, "difference", "Differences", "Votes where the two MPs votes differed", @display.nil? || @display == "difference")
+    = members_nav_link(@member, @member2, @members, @multiple_people ? @member.url_electorate : nil, "allvotes", "Votes attended", "Show every vote cast by this MP", @display == "allvotes")
+    = members_nav_link(@member, @member2, @members, @multiple_people ? @member.url_electorate : nil, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
 <!-- the second tier navigation as dropdowns end-->
 
-= render "summary", electorate: @electorate, members: @members, member: @member, member2: @member2, display: @display, person: @person
+= render "summary", multiple_people: @multiple_people, members: @members, member: @member, member2: @member2, display: @display
 
 %h2
   %a{:name => "divisions"}

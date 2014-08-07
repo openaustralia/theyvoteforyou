@@ -39,7 +39,7 @@ class MembersController < ApplicationController
     end
 
     if params[:bs]
-      render "index_bs", layout: "bootstrap"
+      render "members/bootstrap/index", layout: "bootstrap"
     else
       render "index"
     end
@@ -72,18 +72,22 @@ class MembersController < ApplicationController
 
     if @member
       @members = Member.where(person: @member.person).order(entered_house: :desc)
-      @person = true
     else
-      # TODO This is definitely wrong. Should return multiple members in this electorate
-      if @house
-        @members = Member.in_australian_house(@house).where(constituency: electorate).order(entered_house: :desc)
-      else
-        @members = Member.where(constituency: electorate).order(entered_house: :desc)
-      end
+      @members = Member.where(constituency: electorate).order(entered_house: :desc)
+      @members = @members.in_australian_house(@house) if @house
       @member = @members.first
-      if @members.count > 1 && @members.map{|m| m.person}.uniq.count > 1
-        @electorate = electorate
-      end
+      # TODO If this relates to a single person redirect
+    end
+
+    # If there is more than one person in the list then set @electorate
+    if @members.map{|m| m.person}.uniq.count > 1
+      @multiple_people = true
+    end
+
+    if @member.nil?
+      # TODO: This should 404 but doesn't to match the PHP app
+      render 'member_not_found'
+      return
     end
 
     # Trying this hack. Seems mighty weird
@@ -91,32 +95,27 @@ class MembersController < ApplicationController
       @member = @members.first
     end
 
-    if !@member
-      # TODO: This should 404 but doesn't to match the PHP app
-      render 'member_not_found'
-    else
-      if params[:dmp]
-        @policy = Policy.find(params[:dmp])
-        # Pick the member where the votes took place
-        @member = @member.member_for_policy(@policy)
-        # Not using PolicyMemberDistance.find_by because of the messed up association with the Member model
-        unless @policy_member_distance = @member.policy_member_distances.find_by(policy: @policy)
-          @policy_member_distance = PolicyMemberDistance.new
-        end
-        @agreement_fraction_with_policy = @member.agreement_fraction_with_policy(@policy)
-        @number_of_votes_on_policy = @member.number_of_votes_on_policy(@policy)
+    if params[:dmp]
+      @policy = Policy.find(params[:dmp])
+      # Pick the member where the votes took place
+      @member = @member.person_object.member_for_policy(@policy)
+      # Not using PolicyMemberDistance.find_by because of the messed up association with the Member model
+      unless @policy_member_distance = @member.policy_member_distances.find_by(policy: @policy)
+        @policy_member_distance = PolicyMemberDistance.new
       end
+      @agreement_fraction_with_policy = @member.agreement_fraction_with_policy(@policy)
+      @number_of_votes_on_policy = @member.number_of_votes_on_policy(@policy)
+    end
 
-      if @member2
-        if @display.nil? || @display == "difference"
-          @divisions = @member.conflicting_divisions(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
-        elsif @display == "allvotes"
-          @divisions = @member.divisions_with(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
-        elsif @display == "everyvote"
-          # Very fishy how "votes attended" and "all votes" are apparently the
-          # same.
-          @divisions = @member.divisions_with(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
-        end
+    if @member2
+      if @display.nil? || @display == "difference"
+        @divisions = @member.conflicting_divisions(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
+      elsif @display == "allvotes"
+        @divisions = @member.divisions_with(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
+      elsif @display == "everyvote"
+        # Very fishy how "votes attended" and "all votes" are apparently the
+        # same.
+        @divisions = @member.divisions_with(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
       end
     end
 
@@ -125,7 +124,11 @@ class MembersController < ApplicationController
     elsif @member2
       render "show_member2"
     else
-      render "show"
+      if params[:bs]
+        render "members/bootstrap/show", layout: "bootstrap"
+      else
+        render "show"
+      end
     end
   end
 

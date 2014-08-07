@@ -1,0 +1,37 @@
+- content_for :title do
+  - if @display == "allfriends"
+    Friends of
+    = @member.full_name
+  - elsif @multiple_people
+    Voting Record — Representatives for
+    = @member.electorate
+  - else
+    Voting Record —
+    = @member.full_name2
+
+.page-header
+  %h1= yield :title
+
+%p
+  %ul.nav.nav-tabs
+    = members_nav_link_bs(@member, nil, @members, @multipe_people ? @member.url_electorate : nil, nil, "Summary", "Overview of MP", @display.nil? || @display == "summary")
+    = members_nav_link_bs(@member, nil, @members, @multiple_people ? @member.url_electorate : nil, "allvotes", "Votes attended", "Show every vote cast by this MP", @display == "allvotes")
+    = members_nav_link_bs(@member, nil, @members, @multiple_people ? @member.url_electorate : nil, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
+    = members_nav_link_bs(@member, nil, @members, @multiple_people ? @member.url_electorate : nil, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
+    = members_nav_link_bs(@member, nil, @members, @multiple_people ? @member.url_electorate : nil, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
+
+- if @display == "allfriends"
+  = render "members/bootstrap/possible_friends", all_friends: true, member: @member, multiple_people: @multiple_people
+- elsif @display == "alldreams"
+  = render "members/bootstrap/policy_comparisons", member: @member, members: @members, multiple_people: @multipe_people
+- else
+  = render "members/bootstrap/summary", multiple_people: @multiple_people, members: @members, member: @member, member2: @member2, display: @display
+  = render "members/bootstrap/external_links", member: @member
+  - if @display == "allvotes"
+    = render "members/bootstrap/votes_attended", multiple_people: @multiple_people, members: @members, member: @member, house: @house
+  - elsif @display == "summary" || @display.nil?
+    = render "members/bootstrap/interesting_votes", members: @members, member: @member, multiple_people: @multiple_people
+    = render "members/bootstrap/policy_comparisons", member: @member, members: @members, multiple_people: @multiple_people
+    = render "members/bootstrap/possible_friends", all_friends: false, member: @member, multiple_people: @multiple_people
+  - elsif @display == "everyvote"
+    = render "members/bootstrap/all_votes", members: @members, multiple_people: @multiple_people

@@ -1,13 +1,14 @@
 %h2
   %a{:name => "divisions"} Votes Attended
-%p{:style => "font-size: 89%"}
+
+%p
   See also
   - if multiple_people
     = link_to "all votes possible", "mp.php?mpc=#{member.url_electorate.gsub('_', '+')}&house=#{house}&display=everyvote#divisions"
   - else
     = link_to "all votes possible", member_path(member, display: "everyvote", anchor: "divisions")
 
-%table.votes
+%table.table.table-striped
   - members.each do |member|
     - if multiple_people
       %tr
@@ -15,4 +16,4 @@
           %b
             Votes by
             = link_to member.full_name_no_electorate, member_path(member)
-    = render "votes", member: member, member2: nil, divisions: member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no votes listed"
+    = render "members/bootstrap/votes", member: member, member2: nil, divisions: member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no votes listed"
