@@ -46,12 +46,6 @@ class MembersController < ApplicationController
   end
 
   def show
-    if params[:mpn]
-      first_name, last_name = MembersController.first_last_name params[:mpn]
-    end
-    if params[:mpn2]
-      first_name2, last_name2 = MembersController.first_last_name params[:mpn2]
-    end
     electorate = params[:mpc].gsub("_", " ") if params[:mpc]
     electorate2 = params[:mpc2].gsub("_", " ") if params[:mpc2]
     @display = params[:showall] == "yes" ? "allvotes" : params[:display]
@@ -59,8 +53,8 @@ class MembersController < ApplicationController
     # TODO In reality there could be several members matching this and we should relate this back to being
     # a single person
 
-    @member = MembersController.find_by_params params[:mpid], params[:id], electorate, params[:house], first_name, last_name
-    @member2 = MembersController.find_by_params params[:mpid2], params[:id2], electorate2, params[:house2], first_name2, last_name2
+    @member = MembersController.find_by_params params[:mpid], params[:id], electorate, params[:house], params[:mpn]
+    @member2 = MembersController.find_by_params params[:mpid2], params[:id2], electorate2, params[:house2], params[:mpn2]
 
     if @member
       @members = Member.where(person: @member.person).order(entered_house: :desc)
@@ -121,7 +115,10 @@ class MembersController < ApplicationController
 
   private
 
-  def self.find_by_params(mpid, id, electorate, house, first_name, last_name)
+  def self.find_by_params(mpid, id, electorate, house, name)
+    if name
+      first_name, last_name = first_last_name name
+    end
     if mpid
       Member.find_by!(mp_id: mpid)
     elsif id
