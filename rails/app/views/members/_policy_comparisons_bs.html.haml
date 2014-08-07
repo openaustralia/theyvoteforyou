@@ -1,0 +1,29 @@
+%h2
+  %a{:name => "dreammotions"} Policy Comparisons
+%p
+  This chart shows the percentage agreement between this
+  - if electorate.nil? && members.count > 1 && members.map{|m| m.house}.uniq.count > 1
+    person
+  - else
+    = member_type(member.australian_house)
+  and each of the policies in the database, according to their voting record.
+%table.table.table-striped
+  - if member.policy_member_distances.empty?
+    %tbody
+      %tr.odd
+        %td{:colspan => "4"}
+          No policies match this person's votes. You can
+          = link_to "edit or make a policy", "/policies.php"
+          that will appear here.
+  %thead
+    %tr.headings
+      %th Agreement
+      %th Policy
+  %tbody
+    - member.policy_member_distances.joins(:policy).order("pw_dyn_dreammp.name").each do |policy_member_distance|
+      -# HACK: For some reason the below cycle wasn't starting reset so resetting it manually
+      - reset_cycle
+      %tr{:class => cycle("odd", "even")}
+        %td
+          %b= link_to fraction_to_percentage_display(member.agreement_fraction_with_policy(policy_member_distance.policy), precision: 0), member_path(member, dmp: policy_member_distance.policy.id)
+        %td= link_to policy_member_distance.policy.name, policy_path(policy_member_distance.policy)

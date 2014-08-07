@@ -1,0 +1,32 @@
+%h2
+  %a{:name => "divisions"} Interesting Votes
+%p
+  Votes in parliament for which this
+  = member_type(member.australian_house) + "'s"
+  vote differed from the majority vote of their party (Rebel), or in which this
+  = member_type(member.australian_house)
+  was a teller (Teller), or both (Rebel Teller).
+%p
+  See also all votes...
+  - if electorate
+    = link_to "attended", electorate_path2(member.url_electorate, display: "allvotes", anchor: "divisions")
+    |
+    = link_to "possible", electorate_path2(member.url_electorate, display: "everyvote", anchor: "divisions")
+  - else
+    = link_to "attended", member_path(member, display: "allvotes", anchor: "divisions")
+    |
+    = link_to "possible", member_path(member, display: "everyvote", anchor: "divisions")
+
+- if electorate
+  %table.table.table-striped
+    - members.each do |member|
+      %tr
+        %td(align="left" colspan="7")
+          %b
+            Votes by
+            = link_to member.full_name_no_electorate, "mp.php?mpn=#{member.url_name}&mpc=#{member.url_electorate}&house=#{member.australian_house}"
+      = render "votes_bs", member: member, member2: nil, divisions: member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no rebellions, never teller"
+- else
+  %table.table.table-striped
+    - members.each do |member|
+      = render "votes_bs", member: member, member2: nil, divisions: member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no rebellions, never teller"

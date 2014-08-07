@@ -125,7 +125,11 @@ class MembersController < ApplicationController
     elsif @member2
       render "show_member2"
     else
-      render "show"
+      if params[:bs]
+        render "show_bs", layout: "bootstrap"
+      else
+        render "show"
+      end
     end
   end
 

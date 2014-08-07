@@ -49,6 +49,18 @@ module MembersHelper
     end
   end
 
+  def members_nav_link_bs(member, member2, members, electorate, display, name, title, active, policy = nil)
+    params = policy ? {display: display, dmp: policy.id} : {display: display}
+    content_tag(:li, class: ("active" if active)) do
+      path = if electorate && members && members.count > 1
+        electorate_path2(electorate, params)
+      else
+        member_path(member, params, member2)
+      end
+      link_to name, path, title: title
+    end
+  end
+
   def vote_records_start_date(member)
     # HACK WARNING
     formatted_date([member.entered_house, Date.new(2006,1,1)].max, true)
