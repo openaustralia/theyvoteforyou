@@ -86,38 +86,38 @@ class MembersController < ApplicationController
       end
     end
 
-    # Trying this hack. Seems mighty weird
-    if @member && @member.senator?
-      @member = @members.first
-    end
-
-    if !@member
+    if @member.nil?
       # TODO: This should 404 but doesn't to match the PHP app
       render 'member_not_found'
       return
-    else
-      if params[:dmp]
-        @policy = Policy.find(params[:dmp])
-        # Pick the member where the votes took place
-        @member = @member.person_object.member_for_policy(@policy)
-        # Not using PolicyMemberDistance.find_by because of the messed up association with the Member model
-        unless @policy_member_distance = @member.policy_member_distances.find_by(policy: @policy)
-          @policy_member_distance = PolicyMemberDistance.new
-        end
-        @agreement_fraction_with_policy = @member.agreement_fraction_with_policy(@policy)
-        @number_of_votes_on_policy = @member.number_of_votes_on_policy(@policy)
-      end
+    end
 
-      if @member2
-        if @display.nil? || @display == "difference"
-          @divisions = @member.conflicting_divisions(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
-        elsif @display == "allvotes"
-          @divisions = @member.divisions_with(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
-        elsif @display == "everyvote"
-          # Very fishy how "votes attended" and "all votes" are apparently the
-          # same.
-          @divisions = @member.divisions_with(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
-        end
+    # Trying this hack. Seems mighty weird
+    if @member.senator?
+      @member = @members.first
+    end
+
+    if params[:dmp]
+      @policy = Policy.find(params[:dmp])
+      # Pick the member where the votes took place
+      @member = @member.person_object.member_for_policy(@policy)
+      # Not using PolicyMemberDistance.find_by because of the messed up association with the Member model
+      unless @policy_member_distance = @member.policy_member_distances.find_by(policy: @policy)
+        @policy_member_distance = PolicyMemberDistance.new
+      end
+      @agreement_fraction_with_policy = @member.agreement_fraction_with_policy(@policy)
+      @number_of_votes_on_policy = @member.number_of_votes_on_policy(@policy)
+    end
+
+    if @member2
+      if @display.nil? || @display == "difference"
+        @divisions = @member.conflicting_divisions(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
+      elsif @display == "allvotes"
+        @divisions = @member.divisions_with(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
+      elsif @display == "everyvote"
+        # Very fishy how "votes attended" and "all votes" are apparently the
+        # same.
+        @divisions = @member.divisions_with(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
       end
     end
 
