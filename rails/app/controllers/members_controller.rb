@@ -72,7 +72,6 @@ class MembersController < ApplicationController
 
     if @member
       @members = Member.where(person: @member.person).order(entered_house: :desc)
-      @person = true
     else
       @members = Member.where(constituency: electorate).order(entered_house: :desc)
       @members = @members.in_australian_house(@house) if @house
@@ -83,7 +82,6 @@ class MembersController < ApplicationController
     # If there is more than one person in the list then set @electorate
     if @members.map{|m| m.person}.uniq.count > 1
       @multiple_people = true
-      @electorate = electorate
     end
 
     if @member.nil?

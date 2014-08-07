@@ -24,7 +24,7 @@
     = members_nav_link(@member, @member2, @members, @multiple_people ? @member.url_electorate : nil, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
 <!-- the second tier navigation as dropdowns end-->
 
-= render "summary", multiple_people: @multiple_people, members: @members, member: @member, member2: @member2, display: @display, person: @person
+= render "summary", multiple_people: @multiple_people, members: @members, member: @member, member2: @member2, display: @display
 
 %h2
   %a{:name => "divisions"}

@@ -25,7 +25,7 @@
 - elsif @display == "alldreams"
   = render "members/bootstrap/policy_comparisons", member: @member, members: @members, multiple_people: @multipe_people
 - else
-  = render "members/bootstrap/summary", multiple_people: @multiple_people, members: @members, member: @member, member2: @member2, display: @display, person: @person
+  = render "members/bootstrap/summary", multiple_people: @multiple_people, members: @members, member: @member, member2: @member2, display: @display
   = render "members/bootstrap/external_links", member: @member
   - if @display == "allvotes"
     = render "members/bootstrap/votes_attended", multiple_people: @multiple_people, members: @members, member: @member, house: @house

@@ -16,7 +16,7 @@
 %table.table.table-striped
   %thead
     %tr
-      - if person && members.count > 1 && members.map{|m| m.constituency}.uniq.count > 1
+      - if !multiple_people && members.map{|m| m.constituency}.uniq.count > 1
         %th Constituency
       - if multiple_people
         %th Name
@@ -31,7 +31,7 @@
   %tbody
     - members.each do |member|
       %tr
-        - if person && members.count > 1 && members.map{|m| m.constituency}.uniq.count > 1
+        - if !multiple_people && members.map{|m| m.constituency}.uniq.count > 1
           %td{class: member.house}
             - if member.senator?
               Senator for
