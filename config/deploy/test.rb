@@ -4,6 +4,7 @@ role :db,  %w{deploy@kedumba.openaustraliafoundation.org.au}
 
 set :branch, :test
 set :deploy_to, "/srv/www/publicwhip-test.openaustraliafoundation.org.au"
+set :rails_env, 'production'
 
 set :linked_files, %w{php/loader/PublicWhip/Config.pm php/website/config.php config/database.yml config/secrets.yml config/newrelic.yml}
 
