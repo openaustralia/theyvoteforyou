@@ -15,14 +15,6 @@ class Member < ActiveRecord::Base
     Person.new(id: person)
   end
 
-  def member_who_voted_on_division(division)
-    person_object.member_who_voted_on_division(division)
-  end
-
-  def member_for_policy(policy)
-    person_object.member_for_policy(policy)
-  end
-
   def changed_party?
     entered_reason == "changed_party" || left_reason == "changed_party"
   end
