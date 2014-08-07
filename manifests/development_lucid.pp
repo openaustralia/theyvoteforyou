@@ -86,7 +86,7 @@ exec { 'bundle install':
                     Class['::mysql::server'],
                ],
     user => 'vagrant',
-    cwd => '/vagrant/rails/',
+    cwd => '/vagrant',
     path => ['/usr/local/rvm/wrappers/default', '/usr/bin', '/usr/sbin/', '/bin/'],
     timeout => 1200
 }
@@ -155,7 +155,7 @@ mysql::db { "$db_test":
 
 # Original PHP code configuration
 
-file { '/vagrant/loader/PublicWhip/Config.pm':
+file { '/vagrant/php/loader/PublicWhip/Config.pm':
     ensure => 'present',
     content => "package PublicWhip::Config;
 use vars qw(\$user \$pass \$pwdata \$debatepath \$fileprefix);
@@ -165,7 +165,7 @@ use vars qw(\$user \$pass \$pwdata \$debatepath \$fileprefix);
 \$dbspec = \"DBI:mysql:$db_dev\";
 
 # this is where the XML files come from:
-\$pwdata = \"/vagrant/loader/data.openaustralia.org/\";
+\$pwdata = \"/vagrant/php/loader/data.openaustralia.org/\";
 \$debatepath = \$pwdata . \"scrapedxml/representatives_debates/\";
 \$fileprefix = \"\";
 \$lordsdebatepath = \$pwdata . \"scrapedxml/senate_debates/\";
@@ -179,7 +179,7 @@ use vars qw(\$user \$pass \$pwdata \$debatepath \$fileprefix);
 "
 }
 
-exec { "mysql --database=$db_dev -u $db_dev --password=$db_dev_password < /vagrant/loader/create.sql":
+exec { "mysql --database=$db_dev -u $db_dev --password=$db_dev_password < /vagrant/php/loader/create.sql":
     refreshonly => true,
     subscribe => Mysql::Db["$db_dev"],
     path => ['/usr/bin', '/usr/sbin/', '/bin/']
@@ -193,7 +193,7 @@ class { 'apache':
 apache::vhost { 'publicwhip-php.openaustraliafoundation.org.au':
     default_vhost => true,
     port    => '80',
-    docroot => '/vagrant/website',
+    docroot => '/vagrant/php/website',
     directories => [
       { path => '^(mp-info.xml|dreamquery.xml|mpdream-info.xml)$',
         provider => 'filesmatch',
@@ -210,7 +210,7 @@ file { '/etc/php5/apache2/php.ini':
     source => '/vagrant/manifests/apache2php.ini'
 }
 
-file { '/vagrant/website/config.php':
+file { '/vagrant/php/website/config.php':
     ensure => 'present',
     content => "<?php
 # Server domain
@@ -236,17 +236,17 @@ define('HIDDEN_HASH_VAR', \$hidden_hash_var);
 
 # Downloads a small sample of debate data from data.openaustralia.org and uses
 # it to populate the database.
-exec { '/vagrant/loader/load_openaustralia_xml.sh':
+exec { '/vagrant/php/loader/load_openaustralia_xml.sh':
     refreshonly => true,
-    subscribe => Exec["mysql --database=$db_dev -u $db_dev --password=$db_dev_password < /vagrant/loader/create.sql"],
+    subscribe => Exec["mysql --database=$db_dev -u $db_dev --password=$db_dev_password < /vagrant/php/loader/create.sql"],
     require => [
-                    File['/vagrant/loader/PublicWhip/Config.pm'],
+                    File['/vagrant/php/loader/PublicWhip/Config.pm'],
                     Package['libtext-autoformat-perl'],
                     Package['libunicode-string-perl'],
                     Package['libxml-twig-perl'],
                     Package['php5-cli']
                ],
-    cwd => '/vagrant/loader',
+    cwd => '/vagrant/php/loader',
     timeout => 1200,
     path => ['/usr/bin', '/usr/sbin/', '/bin/']
 }
@@ -254,14 +254,14 @@ exec { '/vagrant/loader/load_openaustralia_xml.sh':
 # Copy the dev database to the test database
 exec { "mysqldump -u $db_dev --password=$db_dev_password $db_dev | mysql -u $db_test --password=$db_test_password --database=$db_test":
     refreshonly => true,
-    subscribe => Exec['/vagrant/loader/load_openaustralia_xml.sh'],
+    subscribe => Exec['/vagrant/php/loader/load_openaustralia_xml.sh'],
     require => Mysql::Db["$db_test"],
     path => ['/usr/bin', '/usr/sbin/', '/bin/']
 }
 
 # Rails port configuration
 
-file { '/vagrant/rails/config/database.yml':
+file { '/vagrant/config/database.yml':
     ensure => 'present',
     content => "
 development:
@@ -283,7 +283,7 @@ test:
 # todo Shouldn't really need `strict: false`. Investigate.
 }
 
-file { '/vagrant/rails/config/secrets.yml':
+file { '/vagrant/config/secrets.yml':
     ensure => 'present',
     content => "development:
   secret_key_base: bbe2a5f54b941a3bbf00b1d88615a7b2be7f3947aa76d423ebcb55c67f9c88b0b40d450aa34bf31abe3958a825db2d4a396f33ad12d2156811bdff9e73c9b169
@@ -312,7 +312,7 @@ exec { 'bundle exec rake db:migrate RAILS_ENV=development':
                   Mysql::Db["$db_dev"],
                ],
     user => 'vagrant',
-    cwd => '/vagrant/rails/',
+    cwd => '/vagrant/',
     path => ['/usr/local/rvm/wrappers/default', '/usr/bin', '/usr/sbin/', '/bin/'],
     environment => ['HOME=/home/vagrant'] # Fixme: it is very, very weird that
                                           # it fails without this. Investigate.
@@ -324,6 +324,6 @@ exec { 'bundle exec rake db:migrate RAILS_ENV=test':
                   Mysql::Db["$db_test"],
                ],
     user => 'vagrant',
-    cwd => '/vagrant/rails/',
+    cwd => '/vagrant/',
     path => ['/usr/local/rvm/wrappers/default', '/usr/bin', '/usr/sbin/', '/bin/']
 }
