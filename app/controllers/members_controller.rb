@@ -48,13 +48,13 @@ class MembersController < ApplicationController
   def show
     if params[:mpn]
       name = MembersController.first_last_name params[:mpn]
-      @first_name = name[:first_name]
-      @last_name = name[:last_name]
+      first_name = name[:first_name]
+      last_name = name[:last_name]
     end
     if params[:mpn2]
       name = MembersController.first_last_name params[:mpn2]
-      @first_name2 = name[:first_name]
-      @last_name2 = name[:last_name]
+      first_name2 = name[:first_name]
+      last_name2 = name[:last_name]
     end
     electorate = params[:mpc].gsub("_", " ") if params[:mpc]
     electorate2 = params[:mpc2].gsub("_", " ") if params[:mpc2]
@@ -63,8 +63,8 @@ class MembersController < ApplicationController
     # TODO In reality there could be several members matching this and we should relate this back to being
     # a single person
 
-    @member = MembersController.find_by_params params[:mpid], params[:id], electorate, params[:house], @first_name, @last_name
-    @member2 = MembersController.find_by_params params[:mpid2], params[:id2], electorate2, params[:house2], @first_name2, @last_name2
+    @member = MembersController.find_by_params params[:mpid], params[:id], electorate, params[:house], first_name, last_name
+    @member2 = MembersController.find_by_params params[:mpid2], params[:id2], electorate2, params[:house2], first_name2, last_name2
 
     if @member
       @members = Member.where(person: @member.person).order(entered_house: :desc)
