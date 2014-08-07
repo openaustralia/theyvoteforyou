@@ -134,8 +134,8 @@ function ClickSup(nsup) {
 
       </div><!-- end header-->
 
-      <% if flash["notice"] %>
-        <div class="notice"><%= flash[:notice] %></div>
+      <% flash.each do |key, value| %>
+        <div class="<%= key %>"><%= value %></div>
       <% end %>
 
       <div id="main" class="widewidth"><!-- main content -->
