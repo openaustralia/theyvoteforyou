@@ -18,8 +18,8 @@ def set_php_database(database_config)
   db = ActiveRecord::Base.configurations[database_config]["database"]
   db_user = ActiveRecord::Base.configurations[database_config]["username"]
   db_pass = ActiveRecord::Base.configurations[database_config]["password"]
-  text = File.read("../website/config.php")
-  File.open("../website/config.php", "w") do |f|
+  text = File.read("php/website/config.php")
+  File.open("php/website/config.php", "w") do |f|
     text.gsub!(/\$pw_database = (.*);/, "$pw_database = \"#{db}\";")
     text.gsub!(/\$pw_user = (.*);/, "$pw_user = \"#{db_user}\";")
     text.gsub!(/\$pw_password = (.*);/, "$pw_password = \"#{db_pass}\";")
