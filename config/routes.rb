@@ -25,7 +25,7 @@ Publicwhip::Application.routes.draw do
   post 'redir.php', to: redirect { |p, r| (r.params[:r] || r.params[:r2] || r.params[:r3]) }
 
   scope path: '/account' do
-    match 'settings.php' => 'account#settings', via: [:get, :post]
+    match 'settings.php' => 'account#settings', via: [:get, :post], as: :account_settings
 
     get 'wiki.php' => 'divisions#edit'
     post 'wiki.php' => 'divisions#update'
