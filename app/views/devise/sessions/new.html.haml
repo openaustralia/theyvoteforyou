@@ -1,13 +1,21 @@
-%h2 Sign in
+- content_for :title, 'Login to Public Whip'
+
+%h1= yield :title
+
+%p Enter your user name and password and we'll set a cookie so we know you're logged in.
+%p
+  Not got a login? #{link_to 'Register a new account', new_registration_path(resource_name) }.
+  %br
+  Lost your password? #{link_to 'Reset your password here', new_password_path(resource_name)}
 
 = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   %div
-    = f.label :email
+    %b= f.label :email
     %br
     = f.email_field :email, autofocus: true
 
   %div
-    = f.label :password
+    %b= f.label :password
     %br
     = f.password_field :password, autocomplete: "off"
 
@@ -16,6 +24,4 @@
       = f.check_box :remember_me
       = f.label :remember_me
 
-  %div= f.submit "Sign in"
-
-= render "devise/shared/links"
+  %div= f.submit "Login to Public Whip"
