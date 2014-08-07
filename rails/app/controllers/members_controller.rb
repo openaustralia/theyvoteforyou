@@ -77,7 +77,8 @@ class MembersController < ApplicationController
       @members = Member.where(constituency: electorate).order(entered_house: :desc)
       @members = @members.in_australian_house(@house) if @house
       @member = @members.first
-      if @members.count > 1 && @members.map{|m| m.person}.uniq.count > 1
+      # TODO If this relates to a single person redirect
+      if @members.map{|m| m.person}.uniq.count > 1
         @electorate = electorate
       end
     end
