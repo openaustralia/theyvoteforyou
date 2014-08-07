@@ -8,15 +8,11 @@
     = link_to "all votes possible", member_path(member, display: "everyvote", anchor: "divisions")
 
 %table.votes
-  - if electorate
-    - members.each do |member|
+  - members.each do |member|
+    - if electorate
       %tr
         %td(align="left" colspan="7")
           %b
             Votes by
             = link_to member.full_name_no_electorate, member_path(member)
-      = render "votes", member: member, member2: nil, divisions: member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no votes listed"
-
-  - else
-    - members.each do |member|
-      = render "votes", member: member, member2: nil, divisions: member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no votes listed"
+    = render "votes", member: member, member2: nil, divisions: member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no votes listed"

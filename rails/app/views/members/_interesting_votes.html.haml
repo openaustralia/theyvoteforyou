@@ -17,16 +17,12 @@
     |
     = link_to "possible", member_path(member, display: "everyvote", anchor: "divisions")
 
-- if electorate
-  %table.votes
-    - members.each do |member|
+%table.votes
+  - members.each do |member|
+    - if electorate
       %tr
         %td(align="left" colspan="7")
           %b
             Votes by
             = link_to member.full_name_no_electorate, "mp.php?mpn=#{member.url_name}&mpc=#{member.url_electorate}&house=#{member.australian_house}"
-      = render "votes", member: member, member2: nil, divisions: member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no rebellions, never teller"
-- else
-  %table.votes
-    - members.each do |member|
-      = render "votes", member: member, member2: nil, divisions: member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no rebellions, never teller"
+    = render "votes", member: member, member2: nil, divisions: member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no rebellions, never teller"
