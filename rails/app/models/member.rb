@@ -19,16 +19,8 @@ class Member < ActiveRecord::Base
     person_object.member_who_voted_on_division(division)
   end
 
-  # Find the member (that is the same person as this member) that relates to a given policy
-  # Let's just step through the votes of the policy and find the first matching member
-  # TODO When we have a person class move the method there
   def member_for_policy(policy)
-    policy.divisions.each do |division|
-      member = Member.where(person: person).current_on(division.date).first
-      return member if member
-    end
-    # If we can't find a member just return the original
-    self
+    person_object.member_for_policy(policy)
   end
 
   def changed_party?

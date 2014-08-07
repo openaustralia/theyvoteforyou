@@ -20,4 +20,15 @@ class Person
     end
     new_member || latest_member
   end
+
+  # Find the member that relates to a given policy
+  # Let's just step through the votes of the policy and find the first matching member
+  def member_for_policy(policy)
+    policy.divisions.each do |division|
+      member = members.current_on(division.date).first
+      return member if member
+    end
+    # If we can't find a member just return the original
+    self
+  end
 end
