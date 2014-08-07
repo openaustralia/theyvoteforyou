@@ -56,30 +56,26 @@ class MembersController < ApplicationController
       @first_name2 = name[:first_name]
       @last_name2 = name[:last_name]
     end
-    electorate = params[:mpc]
-    electorate2 = params[:mpc2]
-    electorate = electorate.gsub("_", " ") if electorate
-    electorate2 = electorate2.gsub("_", " ") if electorate2
-    @house = params[:house]
-    @house2 = params[:house2]
+    electorate = params[:mpc].gsub("_", " ") if params[:mpc]
+    electorate2 = params[:mpc2].gsub("_", " ") if params[:mpc2]
     @display = params[:showall] == "yes" ? "allvotes" : params[:display]
 
     # TODO In reality there could be several members matching this and we should relate this back to being
     # a single person
 
-    @member = MembersController.find_by_params params[:mpid], params[:id], electorate, @house, @first_name, @last_name
-    @member2 = MembersController.find_by_params params[:mpid2], params[:id2], electorate2, @house2, @first_name2, @last_name2
+    @member = MembersController.find_by_params params[:mpid], params[:id], electorate, params[:house], @first_name, @last_name
+    @member2 = MembersController.find_by_params params[:mpid2], params[:id2], electorate2, params[:house2], @first_name2, @last_name2
 
     if @member
       @members = Member.where(person: @member.person).order(entered_house: :desc)
     else
       @members = Member.where(constituency: electorate).order(entered_house: :desc)
-      @members = @members.in_australian_house(@house) if @house
+      @members = @members.in_australian_house(params[:house]) if params[:house]
       @member = @members.first
       # TODO If this relates to a single person redirect
     end
 
-    # If there is more than one person in the list then set @electorate
+    # If there is more than one person in the list then set @multiple_people
     if @members.map{|m| m.person}.uniq.count > 1
       @multiple_people = true
     end

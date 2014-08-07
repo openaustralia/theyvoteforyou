@@ -3,7 +3,7 @@
 %p{:style => "font-size: 89%"}
   See also
   - if multiple_people
-    = link_to "all votes possible", "mp.php?mpc=#{member.url_electorate.gsub('_', '+')}&house=#{house}&display=everyvote#divisions"
+    = link_to "all votes possible", "mp.php?mpc=#{member.url_electorate.gsub('_', '+')}&house=#{member.australian_house}&display=everyvote#divisions"
   - else
     = link_to "all votes possible", member_path(member, display: "everyvote", anchor: "divisions")
 
