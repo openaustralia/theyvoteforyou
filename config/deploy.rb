@@ -1,11 +1,11 @@
 # config valid only for Capistrano 3.1
-lock '3.1.0'
+lock '3.2.1'
 
 set :application, 'publicwhip-test.openaustraliafoundation.org.au'
 set :repo_url, 'https://github.com/openaustralia/publicwhip.git'
 
 # Default branch is :master
-# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
+# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
 # Default deploy_to directory is /var/www/my_app
 # set :deploy_to, '/var/www/my_app'
@@ -33,3 +33,14 @@ set :repo_url, 'https://github.com/openaustralia/publicwhip.git'
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
+
+namespace :deploy do
+  desc 'Restart application'
+  task :restart do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute :touch, release_path.join('tmp/restart.txt')
+    end
+  end
+
+  after :publishing, :restart
+end

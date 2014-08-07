@@ -2,10 +2,6 @@
 
 This is an Australian fork of the UK website [Public Whip](http://www.publicwhip.org.uk/).
 
-We're currently porting the codebase to Rails - see the `rails` directory.
-During development both the original PHP code and the Rails port need to be run
-side by side to in order to compare them.
-
 The easiest way to get a development environment set up is to use [vagrant][1]
 and [virtualbox][2] to bring up a virtual machine. Once you've got them
 installed and have the publicwhip source code, `cd` into the source code
@@ -17,7 +13,7 @@ Once that's done, you'll find the original PHP app available at localhost:8080
 rspec tests from inside the VM like this:
 
 * `vagrant ssh`
-* `cd /vagrant/rails`
+* `cd /vagrant`
 * `bundle exec rake PHP_SERVER=localhost`
 
 Assuming they pass, you can start the rails server:
@@ -38,25 +34,21 @@ it's becuase the VM has had it's kernel updated. Run
 [2]: https://www.virtualbox.org/
 [3]: http://mailcatcher.me/
 
-The Public Whip Source Code (UK README)
----------------------------------------
+## Development setup
 
-Hello!  Here's the source code behind the Public Whip website.  To see the end
-product go to http://www.publicwhip.org.uk.  If you don't know what this is all
-about, have a look at the FAQ there.
+If you're not using Vagrant, this is what you need to do to set up the Rails applicaiton.
 
-To learn how to use the code look at http://www.publicwhip.org.uk/project/code.php
-or locally in `webpage/project/code.php`.  You should also check out the
-Parliament Parse project at http://ukparse.kforge.net/parlparse, which is the
-scraper that made the data Public Whip uses.
+Copy `config/database.yml.example` to `config/database.yml` and fill in the appropriate details. Your username and password for the test and development database must match for tests to work.
 
-A description of the files and folders in this package follows.
+Copy `config/secrets.yml.example` to `config/secrets.yml` and run `bundle exec rake secret` to generate a secret_key_base for your environments.
 
-* LICENSE.html - Details of open source licensing terms, under the Affero GNU GPL
-* loader    - Load XML files from ukparse into the database
-* website   - Code for www.publicwhip.org.uk, PHP extracts data from database/XML
-* build     - Scripts I use for admin, such as to upload to www.publicwhip.org.uk
-* custom    - Various one off scripts and graphics made for special purposes
-* artwork   - High resolution graphics relating to Public Whip
+Ensure `$hidden_hash_var` in your `config.php` is set to an empty string so that logged in page tests work.
 
-If you need any help, please email team@publicwhip.org.uk.
+    # Install bundle
+    bundle install
+
+    # Run tests (PHP_SERVER is the address of the local PHP version of the app)
+    bundle exec rake PHP_SERVER=localhost
+
+    # Start the server
+    bundle exec rails server

@@ -1,6 +1,0 @@
-
-DirectoryIndex index.html
-
-RedirectPermanent /patents/patents.html http://www.publicwhip.org.uk/patents/index.html
-RedirectPermanent /patents/patents.php http://www.publicwhip.org.uk/patents/index.html
-
