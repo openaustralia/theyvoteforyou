@@ -47,14 +47,10 @@ class MembersController < ApplicationController
 
   def show
     if params[:mpn]
-      name = MembersController.first_last_name params[:mpn]
-      first_name = name[:first_name]
-      last_name = name[:last_name]
+      first_name, last_name = MembersController.first_last_name params[:mpn]
     end
     if params[:mpn2]
-      name = MembersController.first_last_name params[:mpn2]
-      first_name2 = name[:first_name]
-      last_name2 = name[:last_name]
+      first_name2, last_name2 = MembersController.first_last_name params[:mpn2]
     end
     electorate = params[:mpc].gsub("_", " ") if params[:mpc]
     electorate2 = params[:mpc2].gsub("_", " ") if params[:mpc2]
@@ -147,6 +143,6 @@ class MembersController < ApplicationController
     name.slice!(0) if name[0] == 'Ms' || name[0] == 'Mrs' || name[0] == "Mr"
     first_name = name[0]
     last_name = name[1..-1].join(' ')
-    {:first_name=>first_name, :last_name=>last_name}
+    [first_name, last_name]
   end
 end
