@@ -87,13 +87,14 @@ class MembersController < ApplicationController
     end
 
     # Trying this hack. Seems mighty weird
-    if @member.senator?
+    if @member && @member.senator?
       @member = @members.first
     end
 
     if !@member
       # TODO: This should 404 but doesn't to match the PHP app
       render 'member_not_found'
+      return
     else
       if params[:dmp]
         @policy = Policy.find(params[:dmp])
