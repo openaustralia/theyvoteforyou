@@ -28,9 +28,9 @@ describe PoliciesController, :type => :request do
     # this test
     #it { compare url }
 
-    it { compare url, true }
+    it { compare_static url, true, false, "_2" }
 
-    it { compare_static url, true, submit: 'Make Policy', name: 'Pro-nuclear power', description: 'nuclear power is great.' }
+    it { compare_static url, true, {submit: 'Make Policy', name: 'Pro-nuclear power', description: 'nuclear power is great.'} }
 
     it { compare_post url, true, submit: 'Make Policy', name: '', description: 'nuclear power is great.' }
     it { compare_post url, true, submit: 'Make Policy', name: 'Pro-nuclear power', description: '' }

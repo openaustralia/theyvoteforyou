@@ -127,7 +127,7 @@ describe MembersController, :type => :request do
     it do
       compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives")
       compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives")
-      compare("/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate")
+      compare_static("/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate", false, false, "_2")
 
       compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allvotes")
       compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&display=allvotes")
