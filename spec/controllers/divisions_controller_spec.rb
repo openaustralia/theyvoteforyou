@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe DivisionsController do
+describe DivisionsController, :type => :controller do
 
 end

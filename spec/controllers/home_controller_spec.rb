@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe HomeController do
+describe HomeController, :type => :controller do
 
 end

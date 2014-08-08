@@ -45,6 +45,7 @@ group :test do
   # the same database. So, using database_cleaner instead
   gem "database_cleaner"
   gem 'mechanize' # Used in HTMLCompareHelper
+  gem 'rspec-activemodel-mocks'
 end
 
 group :development do
@@ -66,8 +67,7 @@ group :development do
 end
 
 group :test, :development do
-  # We're not quite ready to move to rspec 3 just yet
-  gem "rspec-rails", "< 3.0.0"
+  gem 'rspec-rails'
 end
 
 group :doc do

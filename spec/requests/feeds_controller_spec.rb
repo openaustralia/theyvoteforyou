@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe FeedsController do
+describe FeedsController, :type => :request do
   include HTMLCompareHelper
   fixtures :all
 
