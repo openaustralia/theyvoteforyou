@@ -116,21 +116,16 @@ class MembersController < ApplicationController
   private
 
   def self.find_by_params(mpid, id, electorate, house, name)
-    if name
-      first_name, last_name = first_last_name name
-    end
     if mpid
       Member.find_by!(mp_id: mpid)
     elsif id
       Member.find_by!(gid: id)
-    elsif electorate == "Senate" || electorate.nil?
-      if house
-        Member.in_australian_house(house).where(first_name: first_name, last_name: last_name).order(entered_house: :desc).first
-      else
-        Member.where(first_name: first_name, last_name: last_name).order(entered_house: :desc).first
-      end
-    elsif first_name && last_name
-      Member.in_australian_house(house).where(first_name: first_name, last_name: last_name, constituency: electorate).order(entered_house: :desc).first
+    elsif name
+      first_name, last_name = first_last_name name
+      member = Member.where(first_name: first_name, last_name: last_name)
+      member = member.in_australian_house(house) if house
+      member = member.where(constituency: electorate) if electorate && electorate != "Senate"
+      member.order(entered_house: :desc).first
     end
   end
 
