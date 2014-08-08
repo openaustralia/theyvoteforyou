@@ -47,14 +47,12 @@ class MembersController < ApplicationController
 
   def show
     electorate = params[:mpc].gsub("_", " ") if params[:mpc]
-    electorate2 = params[:mpc2].gsub("_", " ") if params[:mpc2]
     @display = params[:showall] == "yes" ? "allvotes" : params[:display]
 
     # TODO In reality there could be several members matching this and we should relate this back to being
     # a single person
 
     @member = MembersController.find_by_params params[:mpid], params[:id], electorate, params[:house], params[:mpn]
-    @member2 = MembersController.find_by_params params[:mpid2], params[:id2], electorate2, params[:house2], params[:mpn2]
 
     if @member
       @members = Member.where(person: @member.person).order(entered_house: :desc)
@@ -87,6 +85,9 @@ class MembersController < ApplicationController
       @agreement_fraction_with_policy = @member.agreement_fraction_with_policy(@policy)
       @number_of_votes_on_policy = @member.number_of_votes_on_policy(@policy)
     end
+
+    electorate2 = params[:mpc2].gsub("_", " ") if params[:mpc2]
+    @member2 = MembersController.find_by_params params[:mpid2], params[:id2], electorate2, params[:house2],   params[:mpn2]
 
     if @member2
       if @display.nil? || @display == "difference"
