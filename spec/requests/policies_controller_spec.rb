@@ -6,17 +6,17 @@ describe PoliciesController do
   fixtures :all
 
   it "#index" do
-    compare("/policies.php")
+    compare_static("/policies.php")
   end
 
   describe "#show" do
-    it { compare("/policy.php?id=1") }
-    it { compare("/policy.php?id=1&display=motions") }
-    it { compare("/policy.php?id=1&display=editdefinition", true) }
+    it { compare_static("/policy.php?id=1") }
+    it { compare_static("/policy.php?id=1&display=motions") }
+    it { compare_static("/policy.php?id=1&display=editdefinition", true) }
 
-    it { compare("/policy.php?id=2") }
-    it { compare("/policy.php?id=2&display=motions") }
-    it { compare("/policy.php?id=2&display=editdefinition", true) }
+    it { compare_static("/policy.php?id=2") }
+    it { compare_static("/policy.php?id=2&display=motions") }
+    it { compare_static("/policy.php?id=2&display=editdefinition", true) }
   end
 
   describe '#add' do

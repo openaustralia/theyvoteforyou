@@ -6,14 +6,14 @@ describe StaticController do
   fixtures :all
 
   it "#code" do
-    compare("/project/code.php")
+    compare_static("/project/code.php")
   end
 
   it "#data" do
-    compare("/project/data.php")
+    compare_static("/project/data.php")
   end
 
   it "#research" do
-    compare("/project/research.php")
+    compare_static("/project/research.php")
   end
  end

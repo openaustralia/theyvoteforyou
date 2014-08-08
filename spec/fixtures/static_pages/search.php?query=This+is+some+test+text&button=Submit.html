@@ -1,0 +1,219 @@
+<!DOCTYPE HTML>
+<html>
+
+
+
+<head>
+<meta charset="UTF-8">
+
+<link href="/style.css" type="text/css" rel="stylesheet" media="all">
+<!--[if IE 7]>
+<link href="/ie7.css" type="text/css" rel="stylesheet" media="all">
+
+<![endif]-->
+<!--
+/*
+ * @license
+ * MyFonts Webfont Build ID 981839, 2011-08-21T11:30:45-0400
+ * 
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are 
+ * explicitly restricted from using the Licensed Webfonts(s).
+ * 
+ * You may obtain a valid license at the URLs below.
+ * 
+ * Webfont: Museo 700 by exljbris
+ * URL: http://new.myfonts.com/fonts/exljbris/museo/700/
+ * 
+ * Webfont: Museo 300 by exljbris
+ * URL: http://new.myfonts.com/fonts/exljbris/museo/300/
+ * 
+ * 
+ * License: http://www.myfonts.com/viewlicense?1056
+ * Licensed pageviews: unlimited
+ * Webfonts copyright: Copyright (c) 2008 by Jos Buivenga/exljbris. All rights reserved.
+ * 
+ * © 2011 Bitstream Inc
+*/
+
+-->
+<link rel="stylesheet" type="text/css" href="/publicwhip.css">
+<link href="/publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
+<link rel="icon" href="/" type="image/x-icon" />
+<link rel="shortcut icon" href="/" type="image/x-icon" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('tr').mouseover(function() {
+        $(this).addClass('over');})
+        .mouseout(function() {
+        $(this).removeClass('over');
+    });
+    $('tr:even').addClass('alt');
+});
+</script>
+<script type="text/javascript" src="/publicwhip.js"></script>
+<title>Search for This is some test text &#8212; The Public Whip</title>
+<script type="text/javascript">
+function givefocus(field) {
+    if (!document || !document.getElementById)
+        return
+    f = document.getElementById(field)
+    if (f)
+        f.focus()
+}
+function secondnav_goto() {
+    if (!document) return
+    if (!document.getElementById) return
+    var el = document.getElementById('r')
+    window.location=el.options[el.selectedIndex].value
+}
+function secondnav_goto2() {
+    if (!document) return
+    if (!document.getElementById) return
+    var el = document.getElementById('r2')
+    window.location=el.options[el.selectedIndex].value
+}
+function secondnav_goto3() {
+    if (!document) return
+    if (!document.getElementById) return
+    var el = document.getElementById('r3')
+    window.location=el.options[el.selectedIndex].value
+}
+function ClickSup(nsup) {
+    var el = document.getElementById('footnote-' + nsup);
+    el.style.backgroundColor = (el.style.backgroundColor ? "" : "#ffff77");
+    var sups = document.getElementsByTagName("sup");
+    for (var i = 0; i < sups.length; i++)
+        if (sups[i].className == "sup-" + nsup)
+            sups[i].style.backgroundColor = el.style.backgroundColor;
+}
+</script>
+    </head>
+
+<body onLoad="">
+<div id="whitebox">
+<script type="text/javascript" src="/walterzorn/wz_tooltip.js"></script>
+
+<div id="header" class="widewidth">
+    <div class="logo">
+        <a href="/"><img src="/images/logo.jpg" alt="the Public Whip" /></a>
+    </div>
+
+<!-- This is hidden behind the logo currently so comment it out
+    <div class="search">
+        <form class="searchtitlebarform" action="/search.php" name=pw>
+            Search: <input maxLength=256 size=12 id="query_head" name="query" onblur="fadeout(this)" onfocus="fadein(this)" value="" /> <input type="submit" value="Go" name="button" />
+        </form>
+    </div>
+ -->
+
+    <!-- the main site navigation -->
+    <div id="nav_main">
+        <a title="Front page and site highlights" href="/index.php">Home</a>
+        <a title="List of all votes in Parliament" href="/divisions.php">Divisions</a>
+        <a title="List of all Representatives" href="/mps.php">Representatives</a>
+        <a title="List of all Senators" href="/mps.php?house=senate">Senators</a>
+        <a title="Help to analyze MP's votes" href="/policies.php">Policies</a>
+        <!-- <a title="Help run the Public Whip project" href="/project/index.php">Join Us</a> -->
+        <a title="Frequently asked questions" href="/faq.php">Help / FAQ</a>
+        <div id="account-navbar">
+            <a title="Register to make or edit policies" href="/account/register.php?r=%2Fsearch.php%3Fquery%3DThis%2Bis%2Bsome%2Btest%2Btext%26button%3DSubmit">Sign Up</a> <a title="Login to edit policies" href="/account/settings.php?r=%2Fsearch.php%3Fquery%3DThis%2Bis%2Bsome%2Btest%2Btext%26button%3DSubmit">Login</a>         </div>
+    </div>
+
+</div><!-- end header-->
+<div id="main" class="widewidth"><!-- main content -->
+<h1> Search for This is some test text </h1>
+
+<p>Found these  divisions matching 'This is some test text':<table class="votes">
+<tr class="headings"><td>House</td><td>Date</td><td>Time</td><td>Subject</td><td>Rebels<br>(<a href="/faq.php#clarify">explain..</a>)</td><td>Turnout</td>
+<td>Majority</td></tr>
+<tr class="even"><td class="commons">Representatives</td><td>14&nbsp;Mar&nbsp;2013</td><td>10:56</td><td><a href="division.php?date=2013-03-14&number=1&house=representatives">test</a></td>
+<td>0</td><td>136</td>
+<td>1</td></tr>
+<tr class="odd"><td class="commons">Representatives</td><td>6&nbsp;Dec&nbsp;2006</td><td>19:29</td><td><a href="division.php?date=2006-12-06&number=3&house=representatives">Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006 &#8212; Consideration in Detail</a></td>
+<td>0</td><td>129</td>
+<td>23</td></tr>
+</table>
+<p>Found these Representatives and Senators whose names sound like 'This is some test text':<table class="mps">
+<tr class="headings"><td>Name</td><td>Electorate / State</td><td>Party</td></tr><tr class="odd"><td><a href="mp.php?mpn=Surly_Nihilist&mpc=Senate&house=senate">Surly Nihilist</a></td><td>WA</td><td>Independent</td></tr>
+<tr class="even"><td><a href="mp.php?mpn=Christine_Milne&mpc=Senate&house=senate">Christine Milne</a></td><td>Tasmania</td><td>Australian Greens</td></tr>
+<tr class="odd"><td><a href="mp.php?mpn=Christopher_Back&mpc=Senate&house=senate">Christopher Back</a></td><td>WA</td><td>Liberal Party</td></tr>
+<tr class="even"><td><a href="mp.php?mpn=Disagreeable_Curmudgeon&mpc=Senate&house=senate">Disagreeable Curmudgeon</a></td><td>WA</td><td>Independent</td></tr>
+</table>
+<p>Also try browsing the list of <a href="mps.php">all Representatives</a>,
+<a href="mps.php?house=lords">all Senators</a>
+or <a href="divisions.php">all divisions</a>.
+
+<p class="search">Enter your postcode, MP name, constituency or debate topic:</p>
+<form class="search" action="search.php" name=pw>
+<input maxLength=256 size=25 name="query" id="query" value=""> <input type="submit" value="Search" name="button">
+</form>
+
+<p class="search"><i>Example: "2042", "Tony Abbott", "Bennelong" or "Medicare"</i>
+
+<p class="search"><span class="ptitle">MPs:</span> You can enter a postcode
+to get a list of all MPs for that constituency, or else enter their name or
+part of their name.  If you don't know exactly how to spell the name,
+write it as best you can like it sounds.
+
+<p class="search"><span class="ptitle">Divisions:</span> 
+To find divisions you are interested in, enter the
+name of a subject, such as "Pensions" or "Hunting".  The Public Whip
+will search the titles of the divisions and the text of the motion being
+debated.  If you enter multiple words, it will only find entries where they 
+appear next to each other as you enter them.  You can enter part of a word.
+
+
+</div><!-- end main content -->
+</div><!-- end whitebox-->
+<div id="bluebox">
+    <div class="widewidth">
+        <div class="col1-2"><h3>About the Project</h3>
+
+            <p>
+                The Public Whip is brought to you by the not-for-profit <a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>. It is based
+                on the <a href="http://www.publicwhip.org.uk/">UK site</a> of the same name.
+            </p>
+
+            <p>
+                If you'd like to talk to us about the project, please
+                <a href="mailto:contact@openaustraliafoundation.org.au">email us</a>.
+            </p>
+        </div>
+        <div class="col3"><h3>The Whip on the Web</h3>
+            <ul class="social">
+                <li class="wp"><a href="https://www.openaustraliafoundation.org.au/blog/">OpenAustralia Foundation Blog</a></li>
+                <li class="tw"><a href="http://twitter.com/openaustralia">Twitter</a></li>
+                <!-- <li class="fb"><a href="http://www.facebook.com/pages/Public-Whip/199268083464697">Facebook</a></li> -->
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+    </div><!--end bluebox-->
+<div id="footer">
+    <div class="widewidth">
+        <!-- the footer section -->
+        <!-- old footer links <a title="Frequently asked questions" href="/faq.php#whatis">About us</a>
+<a title="Send comments, problems or suggestions" href="/email.php">Contact us</a>
+<a title="Fodder for your spreadsheet" href="/project/data.php">Data feeds</a>
+<a title="Public Whip is open source software" href="/project/code.php">Source code</a>
+<a title="Divisions in your news reader" href="/faq.php#rss">RSS</a>
+<a title="Details on the free license for this data" href="/faq.php#legal">Legal information</a>-->
+        <div>
+            Other projects by us that you might find interesting:
+        </div>
+        <div>
+            <a href="http://www.openaustralia.org">OpenAustralia</a>, <a href="http://www.electionleaflets.org.au">Election Leaflets</a>, <a href="http://www.righttoknow.org.au">Right To Know</a> and <a href="http://www.planningalerts.org.au">Planning Alerts</a>.
+        </div>
+        <div class="legal">
+            The Public Whip is a not-for-profit, open source, project. Get the
+            <a href="https://github.com/openaustralia/publicwhip/">source code</a>.
+        </div>
+
+    </div>
+    <div class="clear"></div>
+</div><!-- end footer-->
+</body>
+</html>
+

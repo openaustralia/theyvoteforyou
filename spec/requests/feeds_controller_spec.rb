@@ -12,8 +12,8 @@ describe FeedsController do
   end
 
   describe '#mp-info' do
-    it { compare '/feeds/mp-info.xml' }
-    it { compare '/feeds/mp-info.xml?house=lords' }
+    it { compare_static '/feeds/mp-info.xml' }
+    it { compare_static '/feeds/mp-info.xml?house=lords' }
   end
 
   describe '#mpdream-info' do

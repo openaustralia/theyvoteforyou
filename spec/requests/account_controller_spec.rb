@@ -6,7 +6,7 @@ describe AccountController do
 
   describe '#settings' do
     it 'shows the settings page when logged in', focus: true do
-      compare '/account/settings.php', true
+      compare_static '/account/settings.php', true
     end
   end
 end

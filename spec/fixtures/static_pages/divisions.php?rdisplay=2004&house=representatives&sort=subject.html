@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html>
+
+
+
+<head>
+<meta charset="UTF-8">
+
+<link href="/style.css" type="text/css" rel="stylesheet" media="all">
+<!--[if IE 7]>
+<link href="/ie7.css" type="text/css" rel="stylesheet" media="all">
+
+<![endif]-->
+<!--
+/*
+ * @license
+ * MyFonts Webfont Build ID 981839, 2011-08-21T11:30:45-0400
+ * 
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are 
+ * explicitly restricted from using the Licensed Webfonts(s).
+ * 
+ * You may obtain a valid license at the URLs below.
+ * 
+ * Webfont: Museo 700 by exljbris
+ * URL: http://new.myfonts.com/fonts/exljbris/museo/700/
+ * 
+ * Webfont: Museo 300 by exljbris
+ * URL: http://new.myfonts.com/fonts/exljbris/museo/300/
+ * 
+ * 
+ * License: http://www.myfonts.com/viewlicense?1056
+ * Licensed pageviews: unlimited
+ * Webfonts copyright: Copyright (c) 2008 by Jos Buivenga/exljbris. All rights reserved.
+ * 
+ * © 2011 Bitstream Inc
+*/
+
+-->
+<link rel="stylesheet" type="text/css" href="/publicwhip.css">
+<link href="/publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
+<link rel="icon" href="/" type="image/x-icon" />
+<link rel="shortcut icon" href="/" type="image/x-icon" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('tr').mouseover(function() {
+        $(this).addClass('over');})
+        .mouseout(function() {
+        $(this).removeClass('over');
+    });
+    $('tr:even').addClass('alt');
+});
+</script>
+<script type="text/javascript" src="/publicwhip.js"></script>
+<title>Divisions &#8212; 2004-2007 &#8212; Representatives only (sorted by subject) &#8212; The Public Whip</title>
+<script type="text/javascript">
+function givefocus(field) {
+    if (!document || !document.getElementById)
+        return
+    f = document.getElementById(field)
+    if (f)
+        f.focus()
+}
+function secondnav_goto() {
+    if (!document) return
+    if (!document.getElementById) return
+    var el = document.getElementById('r')
+    window.location=el.options[el.selectedIndex].value
+}
+function secondnav_goto2() {
+    if (!document) return
+    if (!document.getElementById) return
+    var el = document.getElementById('r2')
+    window.location=el.options[el.selectedIndex].value
+}
+function secondnav_goto3() {
+    if (!document) return
+    if (!document.getElementById) return
+    var el = document.getElementById('r3')
+    window.location=el.options[el.selectedIndex].value
+}
+function ClickSup(nsup) {
+    var el = document.getElementById('footnote-' + nsup);
+    el.style.backgroundColor = (el.style.backgroundColor ? "" : "#ffff77");
+    var sups = document.getElementsByTagName("sup");
+    for (var i = 0; i < sups.length; i++)
+        if (sups[i].className == "sup-" + nsup)
+            sups[i].style.backgroundColor = el.style.backgroundColor;
+}
+</script>
+    </head>
+
+<body onLoad="">
+<div id="whitebox">
+<script type="text/javascript" src="/walterzorn/wz_tooltip.js"></script>
+
+<div id="header" class="widewidth">
+    <div class="logo">
+        <a href="/"><img src="/images/logo.jpg" alt="the Public Whip" /></a>
+    </div>
+
+<!-- This is hidden behind the logo currently so comment it out
+    <div class="search">
+        <form class="searchtitlebarform" action="/search.php" name=pw>
+            Search: <input maxLength=256 size=12 id="query_head" name="query" onblur="fadeout(this)" onfocus="fadein(this)" value="" /> <input type="submit" value="Go" name="button" />
+        </form>
+    </div>
+ -->
+
+    <!-- the main site navigation -->
+    <div id="nav_main">
+        <a title="Front page and site highlights" href="/index.php">Home</a>
+        <a title="List of all votes in Parliament" href="/divisions.php">Divisions</a>
+        <a title="List of all Representatives" href="/mps.php">Representatives</a>
+        <a title="List of all Senators" href="/mps.php?house=senate">Senators</a>
+        <a title="Help to analyze MP's votes" href="/policies.php">Policies</a>
+        <!-- <a title="Help run the Public Whip project" href="/project/index.php">Join Us</a> -->
+        <a title="Frequently asked questions" href="/faq.php">Help / FAQ</a>
+        <div id="account-navbar">
+            <a title="Register to make or edit policies" href="/account/register.php?r=%2Fdivisions.php%3Frdisplay%3D2004%26house%3Drepresentatives%26sort%3Dsubject">Sign Up</a> <a title="Login to edit policies" href="/account/settings.php?r=%2Fdivisions.php%3Frdisplay%3D2004%26house%3Drepresentatives%26sort%3Dsubject">Login</a>         </div>
+    </div>
+
+</div><!-- end header-->
+<div id="main" class="widewidth"><!-- main content -->
+<h1> Divisions &#8212; 2004-2007 &#8212; Representatives only (sorted by subject) </h1>
+<!-- the second tier navigation as dropdowns -->
+<!-- add hashes to $second_links array, keys are
+     'href' - URL of link
+     'text' - displayed text
+     'tooltip' - text to put in title
+     'current' - 'on' or 'off' for whether this item is currently selected -->
+
+<form name="secondnav" action="/redir.php" method="post" style="display: inline"><select id="r" name="r" onchange="secondnav_goto()"><option title="" value="/divisions.php?house=representatives&sort=subject" onclick="secondnav_goto()" class="off">2013 (current)</option> <option title="" value="/divisions.php?rdisplay=2010&house=representatives&sort=subject" onclick="secondnav_goto()" class="off">2010-2013</option> <option title="" value="/divisions.php?rdisplay=2007&house=representatives&sort=subject" onclick="secondnav_goto()" class="off">2008-2010</option> <option title="" value="/divisions.php?rdisplay=2004&house=representatives&sort=subject" selected onclick="secondnav_goto()" class="on">2004-2007</option> <option title="" value="/divisions.php?rdisplay=all&house=representatives&sort=subject" onclick="secondnav_goto()" class="off">All Parliaments</option> </select>  <input type="submit" name="submit" value="Go"></form> <form name="secondnav" action="/redir.php" method="post" style="display: inline"><select id="r2" name="r2" onchange="secondnav_goto2()"><option title="" value="/divisions.php?rdisplay=2004&sort=subject" onclick="secondnav_goto2()" class="off">All houses</option> <option title="" value="/divisions.php?rdisplay=2004&house=representatives&sort=subject" selected onclick="secondnav_goto2()" class="on">Representatives only</option> <option title="" value="/divisions.php?rdisplay=2004&house=senate&sort=subject" onclick="secondnav_goto2()" class="off">Senate only</option> </select>  <input type="submit" name="submit" value="Go"></form> <form name="secondnav" action="/redir.php" method="post" style="display: inline"><select id="r3" name="r3" onchange="secondnav_goto3()"><option title="" value="/divisions.php?rdisplay=2004&house=representatives&sort=subject" selected onclick="secondnav_goto3()" class="on">All Divisions</option> <option title="" value="/divisions.php?rdisplay=2004&rdisplay2=rebels&house=representatives&sort=subject" onclick="secondnav_goto3()" class="off">Rebellions</option> <option title="" value="/divisions.php?rdisplay=2004&rdisplay2=Australian Labor Party_party&house=representatives&sort=subject" onclick="secondnav_goto3()" class="off">Australian Labor Party</option> <option title="" value="/divisions.php?rdisplay=2004&rdisplay2=Country Liberal Party_party&house=representatives&sort=subject" onclick="secondnav_goto3()" class="off">Country Liberal Party</option> <option title="" value="/divisions.php?rdisplay=2004&rdisplay2=Liberal Party_party&house=representatives&sort=subject" onclick="secondnav_goto3()" class="off">Liberal Party</option> <option title="" value="/divisions.php?rdisplay=2004&rdisplay2=National Party_party&house=representatives&sort=subject" onclick="secondnav_goto3()" class="off">National Party</option> </select>  <input type="submit" name="submit" value="Go"></form> <!-- the second tier navigation as dropdowns end-->
+
+<p>A 'division' is parliamentary terminology for a 'vote' (<a href="/faq.php#jargon">read more...</a>).
+         This page shows divisions in the Australian parliament. Make sure you <a href="/faq.php#clarify">read the
+         explanation</a> about rebellions, as they may not be what you expect.
+		 </p><p style="font-size: 89%" align="center">Sort by: <a href="/divisions.php?rdisplay=2004&house=representatives" alt="Sort by date">Date</a> | <b>Subject</b> | <a href="/divisions.php?rdisplay=2004&house=representatives&sort=rebellions" alt="Sort by rebellions">Rebellions</a> | <a href="/divisions.php?rdisplay=2004&house=representatives&sort=turnout" alt="Sort by turnout">Turnout</a><table class="votes">
+<tr class="headings"><td>Date</td><td>Time</td><td>Subject</td><td>Rebels<br>(<a href="/faq.php#clarify">explain..</a>)</td><td>Turnout</td>
+<td>Majority</td></tr>
+<tr class="even"><td>6&nbsp;Dec&nbsp;2006</td><td>19:29</td><td><a href="division.php?date=2006-12-06&number=3&house=representatives">Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006 &#8212; Consideration in Detail</a></td>
+<td>0</td><td>129</td>
+<td>23</td></tr>
+</table>
+
+</div><!-- end main content -->
+</div><!-- end whitebox-->
+<div id="bluebox">
+    <div class="widewidth">
+        <div class="col1-2"><h3>About the Project</h3>
+
+            <p>
+                The Public Whip is brought to you by the not-for-profit <a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>. It is based
+                on the <a href="http://www.publicwhip.org.uk/">UK site</a> of the same name.
+            </p>
+
+            <p>
+                If you'd like to talk to us about the project, please
+                <a href="mailto:contact@openaustraliafoundation.org.au">email us</a>.
+            </p>
+        </div>
+        <div class="col3"><h3>The Whip on the Web</h3>
+            <ul class="social">
+                <li class="wp"><a href="https://www.openaustraliafoundation.org.au/blog/">OpenAustralia Foundation Blog</a></li>
+                <li class="tw"><a href="http://twitter.com/openaustralia">Twitter</a></li>
+                <!-- <li class="fb"><a href="http://www.facebook.com/pages/Public-Whip/199268083464697">Facebook</a></li> -->
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+    </div><!--end bluebox-->
+<div id="footer">
+    <div class="widewidth">
+        <!-- the footer section -->
+        <!-- old footer links <a title="Frequently asked questions" href="/faq.php#whatis">About us</a>
+<a title="Send comments, problems or suggestions" href="/email.php">Contact us</a>
+<a title="Fodder for your spreadsheet" href="/project/data.php">Data feeds</a>
+<a title="Public Whip is open source software" href="/project/code.php">Source code</a>
+<a title="Divisions in your news reader" href="/faq.php#rss">RSS</a>
+<a title="Details on the free license for this data" href="/faq.php#legal">Legal information</a>-->
+        <div>
+            Other projects by us that you might find interesting:
+        </div>
+        <div>
+            <a href="http://www.openaustralia.org">OpenAustralia</a>, <a href="http://www.electionleaflets.org.au">Election Leaflets</a>, <a href="http://www.righttoknow.org.au">Right To Know</a> and <a href="http://www.planningalerts.org.au">Planning Alerts</a>.
+        </div>
+        <div class="legal">
+            The Public Whip is a not-for-profit, open source, project. Get the
+            <a href="https://github.com/openaustralia/publicwhip/">source code</a>.
+        </div>
+
+    </div>
+    <div class="clear"></div>
+</div><!-- end footer-->
+</body>
+</html>

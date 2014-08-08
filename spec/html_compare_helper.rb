@@ -41,7 +41,7 @@ module HTMLCompareHelper
     compare_text(text, response.body, path)
   end
 
-  def compare_static(path, signed_in, form_params = false)
+  def compare_static(path, signed_in = false, form_params = false)
     login_as(users(:one), :scope => :user) if signed_in
 
     form_params ? post(path, form_params) : get(path)
