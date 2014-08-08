@@ -32,15 +32,15 @@ describe PoliciesController, :type => :request do
 
     it { compare_static url, true, {submit: 'Make Policy', name: 'Pro-nuclear power', description: 'nuclear power is great.'} }
 
-    it { compare_post url, true, submit: 'Make Policy', name: '', description: 'nuclear power is great.' }
-    it { compare_post url, true, submit: 'Make Policy', name: 'Pro-nuclear power', description: '' }
+    it { compare_static url, true, {submit: 'Make Policy', name: '', description: 'nuclear power is great.'}, "_3" }
+    it { compare_static url, true, {submit: 'Make Policy', name: 'Pro-nuclear power', description: ''}, "_4" }
   end
 
   describe '#update' do
-    it { compare_post '/policy.php?id=1&display=editdefinition', true, submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: 'Marriage inequality', description: 'access to marriage should be inequal', provisional: 'provisional' }
-    it { compare_post '/policy.php?id=2&display=editdefinition', true, submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: 'Onshore processing', description: 'refugees arrving by boat should be processed onshore' }
+    it { compare_static '/policy.php?id=1&display=editdefinition', true, {submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: 'Marriage inequality', description: 'access to marriage should be inequal', provisional: 'provisional'}, "_2" }
+    it { compare_static '/policy.php?id=2&display=editdefinition', true, {submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: 'Onshore processing', description: 'refugees arrving by boat should be processed onshore'}, "_2" }
 
-    it { compare_post '/policy.php?id=2&display=editdefinition', true, submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: '', description: 'a useful description' }
-    it { compare_post '/policy.php?id=2&display=editdefinition', true, submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: 'A useful title', description: '' }
+    it { compare_static '/policy.php?id=2&display=editdefinition', true, {submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: '', description: 'a useful description'}, "_3" }
+    it { compare_static '/policy.php?id=2&display=editdefinition', true, {submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: 'A useful title', description: ''}, "_4" }
   end
 end

@@ -44,7 +44,13 @@ module HTMLCompareHelper
   def compare_static(path, signed_in = false, form_params = false, suffix = "")
     login_as(users(:one), :scope => :user) if signed_in
 
-    form_params ? post(path, form_params) : get(path)
+    if form_params
+      post(path, form_params)
+      # Follow redirect
+      get response.headers['Location'] if response.headers['Location']
+    else
+      get(path)
+    end
 
     text = File.read("spec/fixtures/static_pages#{path}#{suffix}.html")
 

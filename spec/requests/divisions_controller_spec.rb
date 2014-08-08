@@ -183,18 +183,18 @@ describe DivisionsController, :type => :request do
 
   describe '#edit' do
     it { compare_static '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate&rr=%2Fdivision.php%3Fdate%3D2009-11-25%26number%3D8%26house%3Dsenate', true }
-    it { compare_static '/account/wiki.php?type=motion&date=2013-03-14&number=1&house=representatives&rr=%2Fdivision.php%3Fdate%3D2013-03-14%26number%3D1%26house%3Drepresentatives', true}
+    it { compare_static '/account/wiki.php?type=motion&date=2013-03-14&number=1&house=representatives&rr=%2Fdivision.php%3Fdate%3D2013-03-14%26number%3D1%26house%3Drepresentatives', true }
   end
 
   describe '#update' do
-    it { compare_post '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate&rr=%2Fdivision.php%3Fdate%3D2009-11-25%26number%3D8%26house%3Dsenate', true, submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description' }
-    it { compare_post '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate', true, submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description' }
+    it { compare_static '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate&rr=%2Fdivision.php%3Fdate%3D2009-11-25%26number%3D8%26house%3Dsenate', true, {submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description'}, "_2" }
+    it { compare_static '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate', true, submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description' }
   end
 
   describe '#add_policy_vote' do
     it 'makes no changes' do
-      compare_post '/division.php?date=2006-12-06&number=3&display=policies&dmp=2', true, submit: 'Update', vote2: 'no'
-      compare_post '/division.php?date=2009-11-25&number=8&house=senate&display=policies&dmp=2', true, submit: 'Update', vote2: '--'
+      compare_static '/division.php?date=2006-12-06&number=3&display=policies&dmp=2', true, submit: 'Update', vote2: 'no'
+      compare_static '/division.php?date=2009-11-25&number=8&house=senate&display=policies&dmp=2', true, {submit: 'Update', vote2: '--'}, "_2"
     end
 
     it 'updates an existing policy division' do
