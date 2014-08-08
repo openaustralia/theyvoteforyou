@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe Electorate do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Electorate, :type => :model do
+  skip "add some examples to (or delete) #{__FILE__}"
 end

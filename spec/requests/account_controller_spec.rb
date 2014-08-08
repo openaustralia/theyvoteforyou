@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AccountController do
+describe AccountController, :type => :request do
   include HTMLCompareHelper
   fixtures :all
 

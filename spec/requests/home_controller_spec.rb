@@ -1,7 +1,7 @@
 require 'spec_helper'
 # Compare results of rendering pages via rails and via the old php app
 
-describe HomeController do
+describe HomeController, :type => :request do
   include HTMLCompareHelper
   fixtures :all
 

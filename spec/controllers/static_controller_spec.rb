@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe StaticController do
+describe StaticController, :type => :controller do
 
 end
