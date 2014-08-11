@@ -85,25 +85,8 @@ class MembersController < ApplicationController
       @number_of_votes_on_policy = @member.number_of_votes_on_policy(@policy)
     end
 
-    electorate2 = params[:mpc2].gsub("_", " ") if params[:mpc2]
-    @member2 = MembersController.find_by_params params[:mpid2], params[:id2], electorate2, params[:house2],   params[:mpn2]
-
-    if @member2
-      if @display.nil? || @display == "difference"
-        @divisions = @member.conflicting_divisions(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
-      elsif @display == "allvotes"
-        @divisions = @member.divisions_with(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
-      elsif @display == "everyvote"
-        # Very fishy how "votes attended" and "all votes" are apparently the
-        # same.
-        @divisions = @member.divisions_with(@member2).order(division_date: :desc, clock_time: :desc, division_name: :asc)
-      end
-    end
-
     if @policy
       render "show_policy"
-    elsif @member2
-      render "show_member2"
     else
       if params[:bs]
         render "members/bootstrap/show", layout: "bootstrap"

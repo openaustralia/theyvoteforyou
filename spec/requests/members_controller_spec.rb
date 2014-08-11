@@ -153,33 +153,6 @@ describe MembersController, :type => :request do
       compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&dmp=1&display=motions")
       compare_static("/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate&dmp=1&display=motions")
 
-      # vote comparison pages
-      # 100% agreement
-      compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&mpn2=Tony_Abbott&mpc2=Warringah&house2=representatives")
-      compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&mpn2=Tony_Abbott&mpc2=Warringah&house2=representatives&display=difference")
-      compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&mpn2=Tony_Abbott&mpc2=Warringah&house2=representatives&display=allvotes")
-      compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&mpn2=Tony_Abbott&mpc2=Warringah&house2=representatives&display=everyvote")
-      # 0%<agreement<100%
-      compare_static("/mp.php?mpn=Christopher_Back&mpc=Senate&house=senate&mpn2=Christine_Milne&mpc2=Senate&house2=senate")
-      compare_static("/mp.php?mpn=Christopher_Back&mpc=Senate&house=senate&mpn2=Christine_Milne&mpc2=Senate&house2=senate&display=difference")
-      compare_static("/mp.php?mpn=Christopher_Back&mpc=Senate&house=senate&mpn2=Christine_Milne&mpc2=Senate&house2=senate&display=allvotes")
-      compare_static("/mp.php?mpn=Christopher_Back&mpc=Senate&house=senate&mpn2=Christine_Milne&mpc2=Senate&house2=senate&display=everyvote")
-      # 0% agreement (temporarily disabled until https://github.com/openaustralia/publicwhip/issues/150 is fixed)
-      compare_static("/mp.php?mpn=Disagreeable_Curmudgeon&mpc=Senate&house=senate&mpn2=Surly_Nihilist&mpc2=Senate&house2=senate")
-      compare_static("/mp.php?mpn=Disagreeable_Curmudgeon&mpc=Senate&house=senate&mpn2=Surly_Nihilist&mpc2=Senate&house2=senate&display=difference")
-      compare_static("/mp.php?mpn=Disagreeable_Curmudgeon&mpc=Senate&house=senate&mpn2=Surly_Nihilist&mpc2=Senate&house2=senate&display=allvotes")
-      compare_static("/mp.php?mpn=Disagreeable_Curmudgeon&mpc=Senate&house=senate&mpn2=Surly_Nihilist&mpc2=Senate&house2=senate&display=everyvote")
-      # when one mp has no votes whatsoever
-      compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&mpn2=Paul_Zammit&mpc2=Lowe&house2=representatives")
-      compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&mpn2=Paul_Zammit&mpc2=Lowe&house2=representatives&display=difference")
-      compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&mpn2=Paul_Zammit&mpc2=Lowe&house2=representatives&display=allvotes")
-      compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&mpn2=Paul_Zammit&mpc2=Lowe&house2=representatives&display=everyvote")
-      # when one mp is a teller
-      compare_static("/mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives&mpn2=Tony_Abbott&mpc2=Warringah&house2=representatives")
-      compare_static("/mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives&mpn2=Tony_Abbott&mpc2=Warringah&house2=representatives&display=difference")
-      compare_static("/mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives&mpn2=Tony_Abbott&mpc2=Warringah&house2=representatives&display=allvotes")
-      compare_static("/mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives&mpn2=Tony_Abbott&mpc2=Warringah&house2=representatives&display=everyvote")
-
       compare_static("/mp.php?mpc=Warringah")
       compare_static("/mp.php?mpc=Bennelong")
 
