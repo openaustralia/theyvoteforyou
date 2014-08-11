@@ -104,20 +104,11 @@ class MembersController < ApplicationController
     elsif id
       Member.find_by!(gid: id)
     elsif name
-      first_name, last_name = first_last_name name
+      first_name, last_name = Member.parse_first_last_name(name.gsub("_", " "))
       member = Member.where(first_name: first_name, last_name: last_name)
       member = member.in_australian_house(house) if house
       member = member.where(constituency: electorate) if electorate && electorate != "Senate"
       member.order(entered_house: :desc).first
     end
-  end
-
-  def self.first_last_name(snake_case_name)
-    name = snake_case_name.split("_")
-    # Strip titles like "Ms"
-    name.slice!(0) if name[0] == 'Ms' || name[0] == 'Mrs' || name[0] == "Mr"
-    first_name = name[0]
-    last_name = name[1..-1].join(' ')
-    [first_name, last_name]
   end
 end

@@ -11,6 +11,16 @@ class Member < ActiveRecord::Base
   has_many :policy_member_distances, foreign_key: :person, primary_key: :person
   has_many :member_distances, foreign_key: :mp_id1
 
+  # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
+  def self.parse_first_last_name(name)
+    name = name.split(" ")
+    # Strip titles like "Ms"
+    name.slice!(0) if name[0] == 'Ms' || name[0] == 'Mrs' || name[0] == "Mr"
+    first_name = name[0]
+    last_name = name[1..-1].join(' ')
+    [first_name, last_name]
+  end
+
   def person_object
     Person.new(id: person)
   end
