@@ -36,6 +36,23 @@ class HomeController < ApplicationController
       end
     elsif !params[:query].blank?
       @mps = Member.find_by_search_query params[:query]
+
+      # FIXME: Cargo cult SQL update from PHP's update_divisions_wiki_id() function
+      ActiveRecord::Base.connection.execute("INSERT INTO pw_cache_divwiki
+                                             (division_date, division_number, house, wiki_id)
+                                             SELECT pw_division.division_date AS division_date,
+                                                    pw_division.division_number AS division_number,
+                                                    pw_division.house AS house,
+                                                    IFNULL(MAX(pw_dyn_wiki_motion.wiki_id), -1) AS value
+                                             FROM pw_division
+                                             LEFT JOIN pw_cache_divwiki ON pw_division.division_date = pw_cache_divwiki.division_date AND
+                                                 pw_division.division_number = pw_cache_divwiki.division_number
+                                             LEFT JOIN pw_dyn_wiki_motion ON pw_dyn_wiki_motion.division_date = pw_division.division_date
+                                                 AND pw_dyn_wiki_motion.division_number = pw_division.division_number
+                                                 AND pw_dyn_wiki_motion.house = pw_division.house
+                                             WHERE pw_cache_divwiki.wiki_id IS NULL
+                                             GROUP BY pw_division.division_id")
+
       # FIXME: Remove nasty SQL below that was ported from PHP direct
       @divisions = Division.joins('LEFT JOIN pw_cache_divwiki ON pw_cache_divwiki.division_date = pw_division.division_date
                                    AND pw_cache_divwiki.division_number = pw_division.division_number AND pw_cache_divwiki.house = pw_division.house
