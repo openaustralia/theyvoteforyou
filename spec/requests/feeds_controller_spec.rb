@@ -18,6 +18,6 @@ describe FeedsController, :type => :request do
 
   describe '#mpdream-info' do
     it { compare_static '/feeds/mpdream-info.xml?id=1' }
-    it { compare '/feeds/mpdream-info.xml?id=2' }
+    it { compare_static '/feeds/mpdream-info.xml?id=2' }
   end
 end

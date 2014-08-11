@@ -28,7 +28,7 @@ describe HomeController, :type => :request do
     compare_static("/search.php?query=Tony+Abbott&button=Search")
     compare_static("/search.php?query=Kevin&button=Search")
     compare_static("/search.php?query=supplementary+explanatory+memorandum&button=Search")
-    compare("/search.php?query=This+is+some+test+text&button=Search")
+    compare_static("/search.php?query=This+is+some+test+text&button=Search")
     compare_static("/search.php?query=Wa-pa-pa-pa-pa-pow&button=Search")
 
     compare_static("/search.php?query=2088&button=Search")

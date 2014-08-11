@@ -36,13 +36,7 @@ class HomeController < ApplicationController
       end
     elsif !params[:query].blank?
       @mps = Member.find_by_search_query params[:query]
-      # FIXME: Remove nasty SQL below that was ported from PHP direct
-      @divisions = Division.joins('LEFT JOIN pw_cache_divwiki ON pw_cache_divwiki.division_date = pw_division.division_date
-                                   AND pw_cache_divwiki.division_number = pw_division.division_number AND pw_cache_divwiki.house = pw_division.house
-                                   LEFT JOIN pw_dyn_wiki_motion ON pw_dyn_wiki_motion.wiki_id = pw_cache_divwiki.wiki_id')
-                            .where('LOWER(convert(division_name using utf8)) LIKE :query
-                                   OR LOWER(convert(motion using utf8)) LIKE :query
-                                   OR LOWER(convert(text_body using utf8)) LIKE :query', query: "%#{params[:query]}%")
+      @divisions = Division.find_by_search_query params[:query]
     end
   end
 end
