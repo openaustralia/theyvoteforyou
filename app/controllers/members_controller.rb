@@ -50,10 +50,16 @@ class MembersController < ApplicationController
     name = params[:mpn].gsub("_", " ") if params[:mpn]
     @display = params[:showall] == "yes" ? "allvotes" : params[:display]
 
-    # TODO In reality there could be several members matching this and we should relate this back to being
-    # a single person
-
-    @member = MembersController.find_by_params params[:mpid], params[:id], electorate, params[:house], name
+    if params[:mpid]
+      @member = Member.find_by!(mp_id: params[:mpid])
+    elsif params[:id]
+      @member = Member.find_by!(gid: params[:id])
+    elsif name
+      @member = Member.with_name(name)
+      @member = @member.in_australian_house(params[:house]) if params[:house]
+      @member = @member.where(constituency: electorate) if electorate && electorate != "Senate"
+      @member = @member.order(entered_house: :desc).first
+    end
 
     if @member
       @members = Member.where(person: @member.person).order(entered_house: :desc)
@@ -94,21 +100,6 @@ class MembersController < ApplicationController
       else
         render "show"
       end
-    end
-  end
-
-  private
-
-  def self.find_by_params(mpid, id, electorate, house, name)
-    if mpid
-      Member.find_by!(mp_id: mpid)
-    elsif id
-      Member.find_by!(gid: id)
-    elsif name
-      member = Member.with_name(name)
-      member = member.in_australian_house(house) if house
-      member = member.where(constituency: electorate) if electorate && electorate != "Senate"
-      member.order(entered_house: :desc).first
     end
   end
 end
