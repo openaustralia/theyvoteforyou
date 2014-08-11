@@ -1,0 +1,4 @@
+test:
+  adapter: mysql2
+  database: publicwhip_test
+  username: root
