@@ -2,3 +2,10 @@ test:
   adapter: mysql2
   database: publicwhip_test
   username: root
+
+# We only need this as set_php_database() in spec_helper sets it back to development after a run
+# FIXME: Remove this when we get rid of set_php_database()
+development:
+  adapter: mysql2
+  database: publicwhip_test
+  username: root
