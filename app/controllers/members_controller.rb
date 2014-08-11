@@ -56,6 +56,10 @@ class MembersController < ApplicationController
 
     if @member
       @members = Member.where(person: @member.person).order(entered_house: :desc)
+
+      # Trying this hack. Seems mighty weird
+      # TODO Get rid of this
+      @member = @members.first if @member.senator?
     else
       @members = Member.where(constituency: electorate).order(entered_house: :desc)
       @members = @members.in_australian_house(params[:house]) if params[:house]
@@ -67,11 +71,6 @@ class MembersController < ApplicationController
       # TODO: This should 404 but doesn't to match the PHP app
       render 'member_not_found'
       return
-    end
-
-    # Trying this hack. Seems mighty weird
-    if @member.senator?
-      @member = @members.first
     end
 
     if params[:dmp]
