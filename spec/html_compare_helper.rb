@@ -9,6 +9,7 @@ module HTMLCompareHelper
   Warden.test_mode!
 
   def compare(path, signed_in = false)
+    raise 'Function deprecated. All comparisons should use compare_static now.'
     if signed_in
       login_as(users(:one), :scope => :user)
 
@@ -24,6 +25,7 @@ module HTMLCompareHelper
   end
 
   def compare_post(path, signed_in, form_params)
+    raise 'Function deprecated. All comparisons should use compare_static now.'
     agent = Mechanize.new
     headers = {}
     if signed_in
