@@ -5,9 +5,7 @@ describe FeedsController, :type => :request do
   fixtures :all
 
   before :each do
-    # The PHP app uses cache tables for rankings that aren't part of our fixtures
-    # whereas the Rails app dynamically generates these rankings so we need to update
-    # those caches before we run these tests
+    # FIXME: PHP cache calculation is still needed for the below tests
     `cd #{::Rails.root}/php/loader && ./calc_caches.php`
   end
 
