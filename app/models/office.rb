@@ -1,5 +1,8 @@
 class Office < ActiveRecord::Base
   self.table_name = "pw_moffice"
 
-  belongs_to :member, foreign_key: :person, primary_key: :person
+  # TODO make this an association when we can
+  def person_object
+    Person.new(id: person)
+  end
 end
