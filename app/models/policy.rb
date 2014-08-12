@@ -75,7 +75,7 @@ class Policy < ActiveRecord::Base
         member_vote = member.vote_on_division_without_tell(policy_division.division)
 
         # FIXME: Can't simply use find_or_create_by here thanks to the missing primary key fartarsery
-        policy_member_distance = PolicyMemberDistance.find_by(person: member.person, dream_id: id) || policy_member_distances.create!(member: member)
+        policy_member_distance = PolicyMemberDistance.find_by(person: member.person, dream_id: id) || policy_member_distances.create!(person: member.person)
 
         if member_vote == 'absent' && policy_division.strong_vote?
           policy_member_distance.increment! :nvotesabsentstrong
