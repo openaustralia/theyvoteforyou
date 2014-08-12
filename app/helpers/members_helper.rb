@@ -1,12 +1,10 @@
 module MembersHelper
-  def member_path(member, params = {}, member2 = nil)
+  def member_path(member, params = {})
     if member.senator?
       # TODO Seems odd to me the mpc=Senate would expect mpc=Tasmania
       r = "mp.php?mpn=#{member.url_name}&mpc=Senate&house=#{member.australian_house}"
-      r += "&mpn2=#{member2.url_name}&mpc2=Senate&house2=#{member2.australian_house}" if member2
     else
       r = "mp.php?mpn=#{member.url_name}&mpc=#{member.url_electorate}&house=#{member.australian_house}"
-      r += "&mpn2=#{member2.url_name}&mpc2=#{member2.url_electorate}&house2=#{member2.australian_house}" if member2
     end
     r += "&parliament=#{params[:parliament]}" if params[:parliament]
     r += "&dmp=#{params[:dmp]}" if params[:dmp]
@@ -39,7 +37,7 @@ module MembersHelper
       content_tag(:li, name, class: "on")
     else
       content_tag(:li, class: "off") do
-        path = electorate ? electorate_path2(electorate, params) : member_path(member, params, member2)
+        path = electorate ? electorate_path2(electorate, params) : member_path(member, params)
         link_to name, path, title: title, class: "off"
       end
     end
