@@ -2,7 +2,6 @@ class Member < ActiveRecord::Base
   self.table_name = "pw_mp"
   has_one :member_info, foreign_key: "mp_id"
   delegate :rebellions, :votes_attended, :votes_possible, :tells, to: :member_info, allow_nil: true
-  has_many :offices, foreign_key: "person", primary_key: "person"
   has_many :votes, foreign_key: "mp_id"
   scope :current_on, ->(date) { where("? >= entered_house AND ? < left_house", date, date) }
   scope :in_australian_house, ->(australian_house) { where(house: House.australian_to_uk(australian_house)) unless australian_house == 'all' }
@@ -157,11 +156,11 @@ class Member < ActiveRecord::Base
 
   def current_offices
     # Checking for the to_date after the sql query to get the same result as php
-    offices.order(from_date: :desc).select{|o| o.to_date == Date.new(9999,12,31)}
+    person_object.offices.order(from_date: :desc).select{|o| o.to_date == Date.new(9999,12,31)}
   end
 
   def offices_on_date(date)
-    offices.where("? >= from_date AND ? <= to_date", date, date)
+    person_object.offices.where("? >= from_date AND ? <= to_date", date, date)
   end
 
   # TODO This is wrong as parliamentary secretaries will be considered to be on the

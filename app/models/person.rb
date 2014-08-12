@@ -15,6 +15,11 @@ class Person
     PolicyMemberDistance.where(person: id)
   end
 
+  # TODO When Person becomes a table in the db make this an association
+  def offices
+    Office.where(person: id)
+  end
+
   def member_who_voted_on_division(division)
     latest_member = members.order(entered_house: :desc).first
     # What we have now in @member is a member related to the person that voted in division but @member wasn't necessarily
