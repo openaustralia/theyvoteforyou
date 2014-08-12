@@ -37,4 +37,14 @@ class Person
     # If we can't find a member just return the original
     self
   end
+
+  def agreement_fraction_with_policy(policy)
+    pmd = policy_distances.find_by(policy: policy)
+    pmd ? 1 - pmd.distance_a : 0
+  end
+
+  def number_of_votes_on_policy(policy)
+    pmd = policy_distances.find_by(policy: policy)
+    pmd ? pmd.nvotessame + pmd.nvotessamestrong + pmd.nvotesdiffer + pmd.nvotesdifferstrong : 0
+  end
 end

@@ -88,8 +88,8 @@ class MembersController < ApplicationController
       unless @policy_member_distance = @member.person_object.policy_distances.find_by(policy: @policy)
         @policy_member_distance = PolicyMemberDistance.new
       end
-      @agreement_fraction_with_policy = @member.agreement_fraction_with_policy(@policy)
-      @number_of_votes_on_policy = @member.number_of_votes_on_policy(@policy)
+      @agreement_fraction_with_policy = @member.person_object.agreement_fraction_with_policy(@policy)
+      @number_of_votes_on_policy = @member.person_object.number_of_votes_on_policy(@policy)
     end
 
     if @policy
