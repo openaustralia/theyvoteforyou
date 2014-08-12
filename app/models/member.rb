@@ -12,7 +12,6 @@ class Member < ActiveRecord::Base
   }
   # Divisions that have been attended
   has_many :divisions, through: :votes
-  has_many :policy_member_distances, foreign_key: :person, primary_key: :person
   has_many :member_distances, foreign_key: :mp_id1
 
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
@@ -223,12 +222,12 @@ class Member < ActiveRecord::Base
   end
 
   def agreement_fraction_with_policy(policy)
-    pmd = policy_member_distances.find_by(policy: policy)
+    pmd = person_object.policy_distances.find_by(policy: policy)
     pmd ? 1 - pmd.distance_a : 0
   end
 
   def number_of_votes_on_policy(policy)
-    pmd = policy_member_distances.find_by(policy: policy)
+    pmd = person_object.policy_distances.find_by(policy: policy)
     pmd ? pmd.nvotessame + pmd.nvotessamestrong + pmd.nvotesdiffer + pmd.nvotesdifferstrong : 0
   end
 

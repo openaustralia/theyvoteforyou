@@ -8,7 +8,7 @@
     = member_type(member.australian_house)
   and each of the policies in the database, according to their voting record.
 %table.mps
-  - if member.policy_member_distances.empty?
+  - if member.person_object.policy_distances.empty?
     %tr.odd
       %td{:colspan => "4"}
         No policies match this person's votes. You can
@@ -17,7 +17,7 @@
   %tr.headings
     %td Agreement
     %td Policy
-  - member.policy_member_distances.joins(:policy).order("pw_dyn_dreammp.name").each do |policy_member_distance|
+  - member.person_object.policy_distances.joins(:policy).order("pw_dyn_dreammp.name").each do |policy_member_distance|
     -# HACK: For some reason the below cycle wasn't starting reset so resetting it manually
     - reset_cycle
     %tr{:class => cycle("odd", "even")}

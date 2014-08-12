@@ -5,8 +5,14 @@ class Person
     @id = params[:id]
   end
 
+  # TODO When Person becomes a table in the db make this an association
   def members
     Member.where(person: id)
+  end
+
+  # TODO When Person becomes a table in the db make this an association
+  def policy_distances
+    PolicyMemberDistance.where(person: id)
   end
 
   def member_who_voted_on_division(division)
