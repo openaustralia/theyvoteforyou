@@ -44,6 +44,6 @@
             = vote.electorate
         %td
           = vote.party_long2
-          - if vote.member.on_front_bench?(vote.date)
+          - if vote.member.person_object.on_front_bench?(vote.date)
             (front bench)
         %td= vote.vote

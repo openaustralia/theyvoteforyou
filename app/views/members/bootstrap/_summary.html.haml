@@ -1,12 +1,12 @@
 -# FIXME in the controller member and members should never both be populated
 -# Don't show office if we are in a vote comparison displaying the difference
 -# (purely because that is what the php code does).
-- if !multiple_people?(members) && (!member.current_offices.empty?) && !((member2 && display.nil?) || display == "difference")
+- if !multiple_people?(members) && (!member.person_object.current_offices.empty?) && !((member2 && display.nil?) || display == "difference")
   %p
     %b= member.name
     is currently
     -# TODO: The UK uses extra Offices data like department so this will need to be expanded
-    = member.current_offices.map{|o| "<b>#{o.position}</b>" }.to_sentence(two_words_connector: ", and ").html_safe
+    = member.person_object.current_offices.map{|o| "<b>#{o.position}</b>" }.to_sentence(two_words_connector: ", and ").html_safe
 %p
   %em Note:
   our voting records currently only go back to the

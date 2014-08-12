@@ -52,4 +52,19 @@ class Person
     pmd = policy_distances.find_by(policy: policy)
     pmd ? pmd.nvotessame + pmd.nvotessamestrong + pmd.nvotesdiffer + pmd.nvotesdifferstrong : 0
   end
+
+  def current_offices
+    # Checking for the to_date after the sql query to get the same result as php
+    offices.order(from_date: :desc).select{|o| o.to_date == Date.new(9999,12,31)}
+  end
+
+  def offices_on_date(date)
+    offices.where("? >= from_date AND ? <= to_date", date, date)
+  end
+
+  # TODO This is wrong as parliamentary secretaries will be considered to be on the
+  # front bench which as far as I understand is not the case
+  def on_front_bench?(date)
+    !offices_on_date(date).empty?
+  end
 end

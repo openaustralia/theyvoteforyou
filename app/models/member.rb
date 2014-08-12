@@ -154,21 +154,6 @@ class Member < ActiveRecord::Base
     in_parliament_on_date(Date.today)
   end
 
-  def current_offices
-    # Checking for the to_date after the sql query to get the same result as php
-    person_object.offices.order(from_date: :desc).select{|o| o.to_date == Date.new(9999,12,31)}
-  end
-
-  def offices_on_date(date)
-    person_object.offices.where("? >= from_date AND ? <= to_date", date, date)
-  end
-
-  # TODO This is wrong as parliamentary secretaries will be considered to be on the
-  # front bench which as far as I understand is not the case
-  def on_front_bench?(date)
-    !offices_on_date(date).empty?
-  end
-
   # Last name as it's stored in the database including horrible html entities
   # which for some reason are in there
   def original_last_name
