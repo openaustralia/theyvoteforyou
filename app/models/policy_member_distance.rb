@@ -94,4 +94,12 @@ class PolicyMemberDistance < ActiveRecord::Base
       possible_differ_points + possible_differ_strong_points +
       possible_absent_points + possible_absent_strong_points
   end
+
+  def agreement_fraction
+    1 - distance_a
+  end
+
+  def number_of_votes
+    nvotessame + nvotessamestrong + nvotesdiffer + nvotesdifferstrong
+  end
 end

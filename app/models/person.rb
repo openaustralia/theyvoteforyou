@@ -45,12 +45,12 @@ class Person
 
   def agreement_fraction_with_policy(policy)
     pmd = policy_member_distances.find_by(policy: policy)
-    pmd ? 1 - pmd.distance_a : 0
+    pmd ? pmd.agreement_fraction : 0
   end
 
   def number_of_votes_on_policy(policy)
     pmd = policy_member_distances.find_by(policy: policy)
-    pmd ? pmd.nvotessame + pmd.nvotessamestrong + pmd.nvotesdiffer + pmd.nvotesdifferstrong : 0
+    pmd ? pmd.number_of_votes : 0
   end
 
   def current_offices
