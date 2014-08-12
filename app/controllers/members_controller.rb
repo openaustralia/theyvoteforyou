@@ -85,7 +85,7 @@ class MembersController < ApplicationController
       # Pick the member where the votes took place
       @member = @member.person_object.member_for_policy(@policy)
       # Not using PolicyMemberDistance.find_by because of the messed up association with the Member model
-      unless @policy_member_distance = @member.person_object.policy_distances.find_by(policy: @policy)
+      unless @policy_member_distance = @member.person_object.policy_member_distances.find_by(policy: @policy)
         @policy_member_distance = PolicyMemberDistance.new
       end
       @agreement_fraction_with_policy = @member.person_object.agreement_fraction_with_policy(@policy)
