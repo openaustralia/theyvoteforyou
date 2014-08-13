@@ -6,6 +6,7 @@ class PoliciesController < ApplicationController
 
   def index
     @policies = Policy.order(:private, :name)
+    render layout: "bootstrap"
   end
 
   def show
