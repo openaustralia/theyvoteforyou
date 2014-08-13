@@ -14,7 +14,7 @@
       %td{:colspan => "7"}= empty_message
   - else
     - divisions.each do |division|
-      %tr{:class => cycle("even", "odd")}
+      %tr
         %td{:class => division.house}
           = division.australian_house.capitalize
         %td= formatted_date(division.date, true)

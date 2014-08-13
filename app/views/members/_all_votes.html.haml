@@ -6,7 +6,7 @@
   - members.each do |member|
     - if multiple_people?(members)
       %tr
-        %td(align="left" colspan="7")
+        %td(colspan="7")
           %b
             Votes by
             = link_to member.full_name_no_electorate, member_path(member)
