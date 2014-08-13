@@ -2,7 +2,14 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-# TODO Do progressive enhancement
+$ ->
+  $('select#r').change(window.secondnav_goto)
+  $('select#r option').click(window.secondnav_goto)
+  $('select#r2').change(window.secondnav_goto2)
+  $('select#r2 option').click(window.secondnav_goto2)
+  $('select#r3').change(window.secondnav_goto3)
+  $('select#r3 option').click(window.secondnav_goto3)
+
 window.secondnav_goto = ->
   return  unless document
   return  unless document.getElementById
