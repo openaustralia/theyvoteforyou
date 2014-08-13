@@ -1,6 +1,4 @@
--# Don't show office if we are in a vote comparison displaying the difference
--# (purely because that is what the php code does).
-- if !multiple_people?(members) && !member.person_object.current_offices.empty? && display != "difference"
+- if !multiple_people?(members) && !member.person_object.current_offices.empty?
   %p
     %b= member.name
     is currently
