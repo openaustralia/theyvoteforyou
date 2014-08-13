@@ -1,5 +1,5 @@
-%h2
-  %a{:name => "summary"} Party Summary
+%h2#summary Party Summary
+
 %p
   Votes by party, red entries are votes against the majority for that party.
 .tableexplain
@@ -11,28 +11,28 @@
   %p
     %span.ptitle What is Turnout?
     This is measured against the total membership of the party at the time of the vote.
-= render 'summary_party_votes', division: division
-%h2
-  %a{:name => "votes"}
-    - if display.nil?
-      Rebel Voters
-    - elsif display == "allpossible"
-      All
-      = members_type(division.australian_house)
-      Eligible to Vote
-    - else
-      - raise
-    \- sorted by
-    - if sort.nil?
-      party
-    - elsif sort == "name"
-      name
-    - elsif sort == "constituency"
-      constituency
-    - elsif sort == "vote"
-      vote
-    - else
-      - raise
+= render 'summary_party_votes_bs', division: division
+
+%h2#votes
+  - if display.nil?
+    Rebel Voters
+  - elsif display == "allpossible"
+    All
+    = members_type(division.australian_house)
+    Eligible to Vote
+  - else
+    - raise
+  \- sorted by
+  - if sort.nil?
+    party
+  - elsif sort == "name"
+    name
+  - elsif sort == "constituency"
+    constituency
+  - elsif sort == "vote"
+    vote
+  - else
+    - raise
 
 - if display.nil?
   %p
@@ -52,38 +52,39 @@
     who were absent (or abstained) from this vote.
 - else
   - raise
-= render "sort_links", sort: sort, house: division.australian_house
-%table#votetable.votes
-  %tr.headings
-    %td Name
-    %td= electorate_label(division.australian_house)
-    %td Party
-    %td Vote
-  - reset_cycle
-  - if display.nil?
-    - if votes.empty?
-      %tr.even
-        %td{:colspan => "4"} no rebellions
-    - else
-      - votes.each do |vote|
-        %tr{:class => cycle("odd", "even")}
-          %td= link_to vote.name, member_path(vote.member)
-          %td= vote.electorate
-          %td
-            = vote.party_long2
-            - if vote.member.person_object.on_front_bench?(division.date)
-              (front bench)
-          %td= vote.vote
-  - elsif display == "allpossible"
-    - members.each do |member|
-      %tr{:class => cycle("odd", "even") + (member.rebel_on_division?(division) ? "rebel" : "")}
-        %td= link_to member.name_without_title, member_path(member)
-        %td= link_to_if division.australian_house == "representatives", member.electorate, electorate_path(member)
-        %td
-          = member.party_long2
-          - if member.person_object.on_front_bench?(division.date)
-            (front bench)
-        %td= member.vote_on_division_with_tell(division)
 
-  - else
-    - raise
+= render "sort_links", sort: sort, house: division.australian_house
+%table.table.table-striped
+  %thead
+    %tr
+      %th Name
+      %th= electorate_label(division.australian_house)
+      %th Party
+      %th Vote
+  %tbody
+    - if display.nil?
+      - if votes.empty?
+        %tr
+          %td{:colspan => "4"} no rebellions
+      - else
+        - votes.each do |vote|
+          %tr
+            %td= link_to vote.name, member_path(vote.member)
+            %td= vote.electorate
+            %td
+              = vote.party_long2
+              - if vote.member.person_object.on_front_bench?(division.date)
+                (front bench)
+            %td= vote.vote
+    - elsif display == "allpossible"
+      - members.each do |member|
+        %tr{:class => ("rebel" if member.rebel_on_division?(division))}
+          %td= link_to member.name_without_title, member_path(member)
+          %td= link_to_if division.australian_house == "representatives", member.electorate, electorate_path(member)
+          %td
+            = member.party_long2
+            - if member.person_object.on_front_bench?(division.date)
+              (front bench)
+          %td= member.vote_on_division_with_tell(division)
+    - else
+      - raise

@@ -133,13 +133,9 @@ module DivisionsHelper
   end
 
   def division_nav_link(display, name, title, current_display)
-    if current_display == display
-      content_tag(:li, name, class: "on")
-    else
-      params.delete(:house) if params[:house] == 'representatives'
-      content_tag(:li, class: "off") do
-        link_to name, division_path2(params.merge(display: display)), title: title, class: "off"
-      end
+    params.delete(:house) if params[:house] == 'representatives'
+    content_tag(:li, name, class: ("active" if current_display == display)) do
+      link_to name, division_path2(params.merge(display: display)), title: title
     end
   end
 

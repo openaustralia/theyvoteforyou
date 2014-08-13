@@ -132,21 +132,14 @@ function ClickSup(nsup) {
 —
 25 Nov 2009 at 16:13
 </h1>
-<!-- the second tier navigation as tabs -->
-<!-- add hashes to $second_links array, keys are
-     'href' - URL of link
-     'text' - displayed text
-     'tooltip' - text to put in title
-     'current' - 'on' or 'off' for whether this item is currently selected -->
 <div id="secondnavtabs">
-<ul>
-<li class="off"><a class="off" href="division.php?date=2009-11-25&amp;number=8&amp;house=senate&amp;dmp=2" title="Overview of division">Summary</a></li>
-<li class="off"><a class="off" href="division.php?date=2009-11-25&amp;number=8&amp;house=senate&amp;display=allvotes&amp;dmp=2" title="Every MP who cast a vote in the division">All voters</a></li>
-<li class="off"><a class="off" href="division.php?date=2009-11-25&amp;number=8&amp;house=senate&amp;display=allpossible&amp;dmp=2" title="Show even MPs who did not vote but could have">All eligible voters</a></li>
-<li class="on">Policies</li>
+<ul class="nav nav-tabs">
+<li><a href="division.php?date=2009-11-25&amp;number=8&amp;house=senate&amp;dmp=2" title="Overview of division">Summary</a></li>
+<li><a href="division.php?date=2009-11-25&amp;number=8&amp;house=senate&amp;display=allvotes&amp;dmp=2" title="Every MP who cast a vote in the division">All voters</a></li>
+<li><a href="division.php?date=2009-11-25&amp;number=8&amp;house=senate&amp;display=allpossible&amp;dmp=2" title="Show even MPs who did not vote but could have">All eligible voters</a></li>
+<li class="active"><a href="division.php?date=2009-11-25&amp;number=8&amp;house=senate&amp;display=policies&amp;dmp=2" title="Show or change the polices which vote on this division">Policies</a></li>
 </ul>
 </div>
-<!-- the second tier navigation as dropdowns end-->
 <form action="division.php?date=2009-11-25&amp;number=8&amp;house=senate&amp;display=policies&amp;dmp=2" class="policyvote" method="post">
 <strong>
 Please read policy
@@ -162,21 +155,23 @@ And policy <a href="policy.php?id=2">Offshore processing</a> (<a href="/policies
 <option value="no">No</option>
 <option value="no3">No (strong)</option></select><input name="submit" type="submit" value="Update" /> <span class="error">No change made</span>
 </form>
-<h2>
-<a name="dreammp">Policies</a>
-</h2>
+<h2 id="dreammp">Policies</h2>
 <p>
 The following policies have selected this division. You can use this to help you work out
 the meaning of the vote. Or <a href="/policies.php">list all policies</a>.
 </p>
-<table class="divisions">
-<tr class="headings">
-<td>Policy</td>
-<td>Vote (in this division)</td>
+<table class="table table-striped">
+<thead>
+<tr>
+<th>Policy</th>
+<th>Vote (in this division)</th>
 </tr>
-<tr class="odd">
+</thead>
+<tbody>
+<tr>
 <td colspan="2">No policies voted in this division</td>
 </tr>
+</tbody>
 </table>
 <p>
 <a href="account/addpolicy.php">Make a new policy</a>

@@ -27,25 +27,28 @@
       = link_to policy.name, policy_path(policy)
       voted '#{policy.vote_for_division(division)}'
 
-%h2
-  %a{:name => "dreammp"} Policies
+%h2#dreammp Policies
+
 %p
   The following policies have selected this division. You can use this to help you work out
   the meaning of the vote. Or #{link_to "list all policies", "/policies.php"}.
-%table.divisions
-  %tr.headings
-    %td Policy
-    %td Vote (in this division)
-  - if division.policies.empty?
-    %tr.odd
-      %td{:colspan => "2"} No policies voted in this division
-  - else
-    - division.policies.each do |policy|
-      %tr{:class => cycle("odd", "even")}
-        %td
-          = link_to policy.name, policy
-          - if policy.provisional?
-            %i (provisional)
-        %td= simple_vote_display division.policy_vote(policy)
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Policy
+      %th Vote (in this division)
+  %tbody
+    - if division.policies.empty?
+      %tr
+        %td{:colspan => "2"} No policies voted in this division
+    - else
+      - division.policies.each do |policy|
+        %tr
+          %td
+            = link_to policy.name, policy
+            - if policy.provisional?
+              %i (provisional)
+          %td= simple_vote_display division.policy_vote(policy)
 %p
   = link_to "Make a new policy", "account/addpolicy.php"

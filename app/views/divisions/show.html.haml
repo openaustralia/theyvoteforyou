@@ -4,20 +4,13 @@
   = division_date_and_time(@division)
 
 %h1= yield :title
-/ the second tier navigation as tabs
-:plain
-  <!-- add hashes to $second_links array, keys are
-       'href' - URL of link
-       'text' - displayed text
-       'tooltip' - text to put in title
-       'current' - 'on' or 'off' for whether this item is currently selected -->
+
 #secondnavtabs
-  %ul
+  %ul.nav.nav-tabs
     = division_nav_link(nil, "Summary", "Overview of division", @display)
     = division_nav_link("allvotes", "All voters", "Every MP who cast a vote in the division", @display)
     = division_nav_link("allpossible", "All eligible voters", "Show even MPs who did not vote but could have", @display)
     = division_nav_link("policies", "Policies", "Show or change the polices which vote on this division", @display)
-<!-- the second tier navigation as dropdowns end-->
 
 - if @display == "policies"
   = render "policies", policy: @policy, changed_from: @changed_from, division: @division

@@ -97,6 +97,8 @@ class DivisionsController < ApplicationController
     else
       raise
     end
+
+    render layout: "bootstrap"
   end
 
   def edit
