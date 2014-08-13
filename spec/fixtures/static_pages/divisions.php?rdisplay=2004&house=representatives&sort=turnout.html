@@ -55,26 +55,22 @@ Divisions
 — Representatives only
 (sorted by turnout)
 </h1>
-<form action="/redir.php" method="post" name="secondnav" style="display: inline">
-<select id="r" name="r" onchange="secondnav_goto()">
+<form action="/redir.php" class="form-inline" method="post" name="secondnav">
+<select class="form-control" id="r" name="r" onchange="secondnav_goto()">
 <option class="off" onclick="secondnav_goto()" title="" value="/divisions.php?house=representatives&amp;sort=turnout">2013 (current)</option>
 <option class="off" onclick="secondnav_goto()" title="" value="/divisions.php?rdisplay=2010&amp;house=representatives&amp;sort=turnout">2010-2013</option>
 <option class="off" onclick="secondnav_goto()" title="" value="/divisions.php?rdisplay=2007&amp;house=representatives&amp;sort=turnout">2008-2010</option>
 <option class="on" onclick="secondnav_goto()" selected="selected" title="" value="/divisions.php?rdisplay=2004&amp;house=representatives&amp;sort=turnout">2004-2007</option>
 <option class="off" onclick="secondnav_goto()" title="" value="/divisions.php?rdisplay=all&amp;house=representatives&amp;sort=turnout">All Parliaments</option>
 </select>
-<input name="submit" type="submit" value="Go" />
-</form>
-<form action="/redir.php" method="post" name="secondnav" style="display: inline">
-<select id="r2" name="r2" onchange="secondnav_goto2()">
+<input class="btn btn-default" name="submit" type="submit" value="Go" />
+<select class="form-control" id="r2" name="r2" onchange="secondnav_goto2()">
 <option class="off" onclick="secondnav_goto2()" title="" value="/divisions.php?rdisplay=2004&amp;sort=turnout">All houses</option>
 <option class="on" onclick="secondnav_goto2()" selected="selected" title="" value="/divisions.php?rdisplay=2004&amp;house=representatives&amp;sort=turnout">Representatives only</option>
 <option class="off" onclick="secondnav_goto2()" title="" value="/divisions.php?rdisplay=2004&amp;house=senate&amp;sort=turnout">Senate only</option>
 </select>
-<input name="submit" type="submit" value="Go" />
-</form>
-<form action="/redir.php" method="post" name="secondnav" style="display: inline">
-<select id="r3" name="r3" onchange="secondnav_goto3()">
+<input class="btn btn-default" name="submit" type="submit" value="Go" />
+<select class="form-control" id="r3" name="r3" onchange="secondnav_goto3()">
 <option class="on" onclick="secondnav_goto3()" selected="selected" title="" value="/divisions.php?rdisplay=2004&amp;house=representatives&amp;sort=turnout">All Divisions</option>
 <option class="off" onclick="secondnav_goto3()" title="" value="/divisions.php?rdisplay=2004&amp;rdisplay2=rebels&amp;house=representatives&amp;sort=turnout">Rebellions</option>
 <option class="off" onclick="secondnav_goto3()" title="" value="/divisions.php?rdisplay=2004&amp;rdisplay2=Australian Labor Party_party&amp;house=representatives&amp;sort=turnout">Australian Labor Party</option>
@@ -82,9 +78,8 @@ Divisions
 <option class="off" onclick="secondnav_goto3()" title="" value="/divisions.php?rdisplay=2004&amp;rdisplay2=Liberal Party_party&amp;house=representatives&amp;sort=turnout">Liberal Party</option>
 <option class="off" onclick="secondnav_goto3()" title="" value="/divisions.php?rdisplay=2004&amp;rdisplay2=National Party_party&amp;house=representatives&amp;sort=turnout">National Party</option>
 </select>
-<input name="submit" type="submit" value="Go" />
+<input class="btn btn-default" name="submit" type="submit" value="Go" />
 </form>
-<!-- the second tier navigation as dropdowns end-->
 
 <p>
 A 'division' is parliamentary terminology for a 'vote'
