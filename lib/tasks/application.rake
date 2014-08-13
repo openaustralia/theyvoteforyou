@@ -7,7 +7,7 @@ namespace :application do
     task reload: [:reload_electorates]
 
     task reload_electorates: :environment do
-      puts "Loading electorates..."
+      puts "Reloading electorates..."
       DataLoader.reload_electorates("#{XML_DATA_DIRECTORY}/divisions.xml")
     end
 
