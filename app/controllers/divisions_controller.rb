@@ -48,6 +48,8 @@ class DivisionsController < ApplicationController
     @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
     @divisions = @divisions.with_rebellions if @rdisplay2 == "rebels"
     @divisions = @divisions.joins(:whips).where(pw_cache_whip: {party: @party}) if @party
+
+    render layout: "bootstrap"
   end
 
   def show
