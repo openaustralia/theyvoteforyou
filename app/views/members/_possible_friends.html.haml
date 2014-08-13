@@ -37,7 +37,7 @@
       %th Party
   %tbody
     - if member.possible_friends.empty?
-      %tr.even
+      %tr
         %td{:colspan => "4"} No results found
     - else
       - possible_friends = member.possible_friends.joins(:member2).order(:distance_a, "pw_mp.last_name", "pw_mp.first_name")

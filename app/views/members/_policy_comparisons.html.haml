@@ -10,7 +10,7 @@
 %table.table.table-striped
   - if member.person_object.policy_member_distances.empty?
     %tbody
-      %tr.odd
+      %tr
         %td{:colspan => "4"}
           No policies match this person's votes. You can
           = link_to "edit or make a policy", "/policies.php"
