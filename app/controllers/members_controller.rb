@@ -41,7 +41,7 @@ class MembersController < ApplicationController
     if params[:bs]
       render "members/bootstrap/index", layout: "bootstrap"
     else
-      render "index"
+      render "index", layout: "bootstrap"
     end
   end
 
