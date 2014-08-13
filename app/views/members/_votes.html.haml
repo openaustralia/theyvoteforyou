@@ -30,7 +30,4 @@
             = division.majority_vote_for(member)
         %td= division.whip_guess_for(member.party)
         %td{:class => vote_class(member.division_vote(division))}
-          - if division.role_for(member) == "absent"
-            absent
-          - else
-            = division.role_for(member).titlecase
+          = division.role_for(member)
