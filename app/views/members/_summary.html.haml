@@ -13,8 +13,8 @@
 %table.table.table-striped
   %thead
     %tr
-      - if !multiple_people?(members) && members.map{|m| m.constituency}.uniq.count > 1
-        %th Constituency
+      - if !multiple_people?(members) && members.map{|m| m.electorate}.uniq.count > 1
+        %th Electorate
       - if multiple_people?(members)
         %th Name
       %th From
@@ -28,7 +28,7 @@
   %tbody
     - members.each do |member|
       %tr
-        - if !multiple_people?(members) && members.map{|m| m.constituency}.uniq.count > 1
+        - if !multiple_people?(members) && members.map{|m| m.electorate}.uniq.count > 1
           %td{class: member.house}
             - if member.senator?
               Senator for
