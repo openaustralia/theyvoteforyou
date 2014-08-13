@@ -46,33 +46,6 @@ class Member < ActiveRecord::Base
     votes.find_by(division: division)
   end
 
-  # Divisions where member2 voted in opposition to this member
-  def conflicting_divisions(member2)
-    # If you can figure out how to make this more ActiveRecordy, be my guest.
-    Division.where('division_id in
-                    (
-                      select v1.division_id from
-                      pw_vote v1 join pw_vote v2
-                      on v1.division_id = v2.division_id
-                      where v1.mp_id = ? and v2.mp_id = ?
-                        and v1.vote != v2.vote
-                    )', mp_id, member2.mp_id)
-  end
-
-  def divisions_with(member2)
-    # If you can figure out how to make this more ActiveRecordy, be my guest.
-    Division.where('division_id in
-                    (
-                      select v1.division_id from
-                      pw_vote v1 join pw_vote v2
-                      on v1.division_id = v2.division_id
-                      where v2.mp_id = ?
-                    )', member2.mp_id)
-    # FIXME: it is very stupid how these results only depend on mp2. It should
-    # depend on both, but that's not the way the php seems to do it. Either fix
-    # the php, or fix this after we ditch the php.
-  end
-
   def vote_on_division_without_tell(division)
     division_vote(division) ? division_vote(division).vote_without_tell : "absent"
   end
