@@ -120,7 +120,7 @@ class DivisionsController < ApplicationController
       @division.create_wiki_motion! params[:newtitle], params[:newdescription], current_user
     end
 
-    params[:rr] ? redirect_to(params[:rr]) : render(:edit)
+    params[:rr] ? redirect_to(params[:rr]) : render(:edit, layout: "bootstrap")
   end
 
   def add_policy_vote
@@ -131,6 +131,6 @@ class DivisionsController < ApplicationController
     @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
     @changed_from = @policy.add_division(@division, params["vote#{@policy.id}".to_sym])
 
-    render 'show'
+    render 'show', layout: "bootstrap"
   end
 end
