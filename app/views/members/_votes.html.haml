@@ -3,12 +3,9 @@
   %td Date
   %td Subject
   %td= member.name
-  - if member2
-    %td= member2.name
-  - else
-    %td
-      = member.party
-      Vote
+  %td
+    = member.party
+    Vote
   %td Role
 - if divisions.empty?
   %tr.odd
@@ -36,21 +33,9 @@
           aye
         - else
           = division.majority_vote_for(member).capitalize
-      - if member2
-        %td= division.vote_for(member2)
+      %td= division.whip_guess_for(member.party)
+      %td{:class => vote_class(member.division_vote(division))}
         - if division.role_for(member) == "absent"
-          %td{:class => "rebelteller"}
-            absent
-        - elsif division.vote_for(member) == division.vote_for(member2)
-          %td{:class => "teller"}
-            agrees with policy
+          absent
         - else
-          %td{:class => "rebel"}
-            disagrees with policy
-      - else
-        %td= division.whip_guess_for(member.party)
-        %td{:class => vote_class(member.division_vote(division))}
-          - if division.role_for(member) == "absent"
-            absent
-          - else
-            = division.role_for(member).titlecase
+          = division.role_for(member).titlecase
