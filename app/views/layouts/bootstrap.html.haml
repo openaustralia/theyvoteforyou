@@ -52,39 +52,41 @@
               %li= link_to "Login", "/account/settings.php?r=#{CGI.escape(params[:r] ? params[:r] : request.fullpath)}", title: "Login to edit policies"
 
     .container= yield
-    .container
-      .row
-        .col-md-8
-          %h3 About the Project
+    #footer1
+      .container
+        .row
+          .col-md-8
+            %h3 About the Project
 
-          %p
-            The Public Whip is brought to you by the not-for-profit
-            #{link_to "OpenAustralia Foundation", "http://www.openaustraliafoundation.org.au/"}.
-            It is based on the
-            = link_to "UK site", "http://www.publicwhip.org.uk/"
-            of the same name.
+            %p
+              The Public Whip is brought to you by the not-for-profit
+              #{link_to "OpenAustralia Foundation", "http://www.openaustraliafoundation.org.au/"}.
+              It is based on the
+              = link_to "UK site", "http://www.publicwhip.org.uk/"
+              of the same name.
 
-          %p
-            If you'd like to talk to us about the project, please
-            #{mail_to "contact@openaustraliafoundation.org.au", "email us"}.
+            %p
+              If you'd like to talk to us about the project, please
+              #{mail_to "contact@openaustraliafoundation.org.au", "email us"}.
 
-        .col-md-4
-          %h3 The Whip on the Web
-          %ul.social
-            %li.wp= link_to "OpenAustralia Foundation Blog", "https://www.openaustraliafoundation.org.au/blog/"
-            %li.tw= link_to "Twitter", "http://twitter.com/openaustralia"
+          .col-md-4
+            %h3 The Whip on the Web
+            %ul.social
+              %li.wp= link_to "OpenAustralia Foundation Blog", "https://www.openaustraliafoundation.org.au/blog/"
+              %li.tw= link_to "Twitter", "http://twitter.com/openaustralia"
 
-    .container
-      %div
-        Other projects by us that you might find interesting:
-      %div
-        #{link_to "OpenAustralia", "http://www.openaustralia.org"},
-        #{link_to "Election Leaflets", "http://www.electionleaflets.org.au"},
-        = link_to "Right To Know", "http://www.righttoknow.org.au"
-        and
-        #{link_to "Planning Alerts", "http://www.planningalerts.org.au"}.
-      %div.legal
-        The Public Whip is a not-for-profit, open source, project. Get the
-        #{link_to "source code", "https://github.com/openaustralia/publicwhip/"}.
+    #footer2
+      .container
+        %div
+          Other projects by us that you might find interesting:
+        %div
+          #{link_to "OpenAustralia", "http://www.openaustralia.org"},
+          #{link_to "Election Leaflets", "http://www.electionleaflets.org.au"},
+          = link_to "Right To Know", "http://www.righttoknow.org.au"
+          and
+          #{link_to "Planning Alerts", "http://www.planningalerts.org.au"}.
+        %div.legal
+          The Public Whip is a not-for-profit, open source, project. Get the
+          #{link_to "source code", "https://github.com/openaustralia/publicwhip/"}.
 
     = javascript_include_tag "application"
