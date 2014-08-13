@@ -56,12 +56,12 @@ module HTMLCompareHelper
 
     text = File.read("spec/fixtures/static_pages#{path}#{suffix}.html")
 
-    compare_text(text, response.body, path)
+    compare_text(text, response.body, path, suffix)
   end
 
   private
 
-  def compare_text(old_text, new_text, path)
+  def compare_text(old_text, new_text, path, suffix = "")
     format = URI.parse(path).path[-3..-1] == 'xml' ? 'xml' : 'html'
 
     if format == 'xml'
@@ -74,6 +74,9 @@ module HTMLCompareHelper
 
     if n != o
       # Write it out to a file
+      File.open("spec/fixtures/static_pages#{path}#{suffix}.html", "w") do |f|
+        f.write new_text
+      end
       output("old.#{format}", o, path)
       output("new.#{format}", n, path)
       system("#{diff_path} old.#{format} new.#{format}")
