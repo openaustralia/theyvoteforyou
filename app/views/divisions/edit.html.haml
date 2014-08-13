@@ -24,26 +24,20 @@
 %p
   %b
     Read the #{link_to "debate leading up to the vote", @division.oa_debate_url, target: '_blank'}.
-/ use tables here as textarea style width=64% behaves differently on IE vs. Firefox)
-%table{:border => "0", :width => "100%"}
-  %tr
-    %td{:valign => "top", :width => "64%"}
-      %form{:action => "", :method => "post"}
-        %b Division title:
-        %br/
-        %input{:maxlength => "250", :name => "newtitle", :size => "50", :style => "width: 100%", :type => "text", :value => @division.name}/
-        %p
-          %b Division description:
-          %textarea{:cols => "45", :name => "newdescription", :rows => "25", :style => "width: 100%"}
-            -# TODO: Remove this weird new line thingo
-            &#x000A;
-            = preserve(h(@division.motion))
-        %p
-          %input{:accesskey => "S", :name => "submit", :type => "submit", :value => "Save"}/
-          %input{:name => "submit", :type => "submit", :value => "Cancel"}/
-      %p
-        -# TODO: Use link helper
-        %a{:href => "/edits.php?type=motion&date=#{@division.date}&number=#{@division.number}&house=#{@division.australian_house}"}
-          View change history
-    %td{:width => "3%"} &nbsp;
-    %td{:valign => "top", :width => "33%"}= render "edit_help"
+.row
+  .col-md-8
+    %form{:action => "", :method => "post"}
+      .form-group
+        -# TODO Add for to labels
+        %label Division title:
+        %input.form-control{:maxlength => "250", :name => "newtitle", :size => "50", :type => "text", :value => @division.name}/
+      .form-group
+        %label Division description:
+        %textarea.form-control{:cols => "45", :name => "newdescription", :rows => "25"}= preserve(h(@division.motion))
+      %input.btn.btn-primary{:accesskey => "S", :name => "submit", :type => "submit", :value => "Save"}/
+      %input.btn.btn-default{:name => "submit", :type => "submit", :value => "Cancel"}/
+    %p
+      -# TODO: Use path helper
+      = link_to "View change history", "/edits.php?type=motion&date=#{@division.date}&number=#{@division.number}&house=#{@division.australian_house}"
+  .col-md-4
+    = render "edit_help"

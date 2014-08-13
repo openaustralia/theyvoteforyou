@@ -159,31 +159,26 @@ where to look.
 Read the <a href="http://www.openaustralia.org/senate/?id=2009-11-25.76.2" target="_blank">debate leading up to the vote</a>.
 </b>
 </p>
-<!-- use tables here as textarea style width=64% behaves differently on IE vs. Firefox) -->
-<table border="0" width="100%">
-<tr>
-<td valign="top" width="64%">
+<div class="row">
+<div class="col-md-8">
 <form action="" method="post">
-<b>Division title:</b>
-<br />
-<input maxlength="250" name="newtitle" size="50" style="width: 100%" type="text" value="A lovely new title" />
-<p>
-<b>Division description:</b>
-<textarea cols="45" name="newdescription" rows="25" style="width: 100%">&#x000A;And a great new description</textarea>
-</p>
-<p>
-<input accesskey="S" name="submit" type="submit" value="Save" />
-<input name="submit" type="submit" value="Cancel" />
-</p>
+<div class="form-group">
+<label>Division title:</label>
+<input class="form-control" maxlength="250" name="newtitle" size="50" type="text" value="A lovely new title" />
+</div>
+<div class="form-group">
+<label>Division description:</label>
+<textarea class="form-control" cols="45" name="newdescription" rows="25">And a great new description</textarea>
+</div>
+<input accesskey="S" class="btn btn-primary" name="submit" type="submit" value="Save" />
+<input class="btn btn-default" name="submit" type="submit" value="Cancel" />
 </form>
 <p>
-<a href="/edits.php?type=motion&amp;date=2009-11-25&amp;number=8&amp;house=senate">
-View change history
-</a>
+<a href="/edits.php?type=motion&amp;date=2009-11-25&amp;number=8&amp;house=senate">View change history</a>
 </p>
-</td>
-<td width="3%">&nbsp;</td>
-<td valign="top" width="33%"><p>
+</div>
+<div class="col-md-4">
+<p>
 <span class="ptitle">Useful links for you to research</span>
 </p>
 <ul>
@@ -235,9 +230,9 @@ little ponies are great"
 - does it for MPs that voted no
 </li>
 </ul>
-</td>
-</tr>
-</table>
+
+</div>
+</div>
 
       </div><!-- end main content -->
     </div><!-- end whitebox-->
