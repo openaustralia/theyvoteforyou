@@ -64,13 +64,8 @@ module HTMLCompareHelper
   def compare_text(old_text, new_text, path, suffix = "")
     format = URI.parse(path).path[-3..-1] == 'xml' ? 'xml' : 'html'
 
-    if format == 'xml'
-      n = normalise_xml(new_text)
-      o = normalise_xml(old_text)
-    else
-      n = normalise_html(new_text)
-      o = normalise_html(old_text)
-    end
+    n = normalise(new_text, format)
+    o = normalise(old_text, format)
 
     if n != o
       # Write it out to a file
@@ -89,6 +84,10 @@ module HTMLCompareHelper
       f.write("<!-- " + comment + " -->\n")
       f.write(text.to_s)
     end
+  end
+
+  def normalise(text, format)
+    format == 'xml' ? normalise_xml(text) : normalise_html(text)
   end
 
   # Convert into a form where html can be reliably diff'd
