@@ -1,6 +1,6 @@
 - if policy
   - if user_signed_in?
-    %form.policyvote{:action => division_path(params), :method => "post"}
+    %form.form-inline.policyvote{:action => division_path(params), :method => "post"}
       %strong
         Please read policy
         definition and division description before altering
@@ -13,14 +13,12 @@
                           'Abstain' => 'both',
                           'No' => 'no',
                           'No (strong)' => 'no3'}
-      = select_tag "vote#{policy.id}", options_for_select(select_options, (policy.vote_for_division(division) || '--')), size: 1
-      %input{:name => "submit", :type => "submit", :value => "Update"}>/
+      = select_tag "vote#{policy.id}", options_for_select(select_options, (policy.vote_for_division(division) || '--')), size: 1, class: "form-control"
+      %input.btn.btn-primary{:name => "submit", :type => "submit", :value => "Update"}>/
       - if changed_from
-        - # FIXME Adding a preceeding space to match PHP
-        \ <span class="error">Changed from #{changed_from}</span>
+        %span.error Changed from #{changed_from}
       - elsif params[:submit] == 'Update'
-        - # FIXME Adding a preceeding space to match PHP
-        \ <span class="error">No change made</span>
+        %span.error No change made
   - else
     %p
       And policy

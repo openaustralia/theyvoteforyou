@@ -64,7 +64,7 @@ henare
 <li class="active"><a href="division.php?date=2006-12-06&amp;number=3&amp;display=policies&amp;dmp=2" title="Show or change the polices which vote on this division">Policies</a></li>
 </ul>
 </div>
-<form action="division.php?date=2006-12-06&amp;number=3&amp;display=policies&amp;dmp=2" class="policyvote" method="post">
+<form action="division.php?date=2006-12-06&amp;number=3&amp;display=policies&amp;dmp=2" class="form-inline policyvote" method="post">
 <strong>
 Please read policy
 definition and division description before altering
@@ -72,12 +72,12 @@ vote
 </strong>
 <br />
 And policy <a href="policy.php?id=2">Offshore processing</a> (<a href="/policies.php">change</a>) voted
-<select id="vote2" name="vote2" size="1"><option value="--">Non-voter</option>
+<select class="form-control" id="vote2" name="vote2" size="1"><option value="--">Non-voter</option>
 <option value="aye3">Aye (strong)</option>
 <option value="aye">Aye</option>
 <option value="both">Abstain</option>
 <option selected="selected" value="no">No</option>
-<option value="no3">No (strong)</option></select><input name="submit" type="submit" value="Update" /></form>
+<option value="no3">No (strong)</option></select><input class="btn btn-primary" name="submit" type="submit" value="Update" /></form>
 <h2 id="dreammp">Policies</h2>
 <p>
 The following policies have selected this division. You can use this to help you work out
