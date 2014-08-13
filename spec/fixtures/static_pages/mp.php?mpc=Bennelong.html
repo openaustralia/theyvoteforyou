@@ -46,41 +46,39 @@ Bennelong
 </div>
 </div>
 </nav>
-<div class="container"><h1>Voting Record — Representatives for
+<div class="container"><div class="page-header">
+<h1>Voting Record — Representatives for
 Bennelong
 </h1>
-<!-- the second tier navigation as tabs -->
-<!-- add hashes to $second_links array, keys are
-     'href' - URL of link
-     'text' - displayed text
-     'tooltip' - text to put in title
-     'current' - 'on' or 'off' for whether this item is currently selected -->
-<div id="secondnavtabs">
-<ul>
-<li class="on">Summary</li>
-<li class="off"><a class="off" href="mp.php?mpc=Bennelong&amp;house=representatives&amp;display=allvotes" title="Show every vote cast by this MP">Votes attended</a></li>
-<li class="off"><a class="off" href="mp.php?mpc=Bennelong&amp;house=representatives&amp;display=everyvote" title="Show even divisions where the MP was absent, but could have voted">All votes</a></li>
-<li class="off"><a class="off" href="mp.php?mpc=Bennelong&amp;house=representatives&amp;display=allfriends" title="Show all MPs in order of how similarly to this MP they voted">All friends</a></li>
-<li class="off"><a class="off" href="mp.php?mpc=Bennelong&amp;house=representatives&amp;display=alldreams" title="Show all Policies and how this MP voted on them">Policy comparisons</a></li>
-</ul>
 </div>
-<!-- the second tier navigation as dropdowns end-->
+<p>
+<ul class="nav nav-tabs">
+<li class="active"><a href="mp.php?mpc=Bennelong&amp;house=representatives" title="Overview of MP">Summary</a></li>
+<li><a href="mp.php?mpc=Bennelong&amp;house=representatives&amp;display=allvotes" title="Show every vote cast by this MP">Votes attended</a></li>
+<li><a href="mp.php?mpc=Bennelong&amp;house=representatives&amp;display=everyvote" title="Show even divisions where the MP was absent, but could have voted">All votes</a></li>
+<li><a href="mp.php?mpc=Bennelong&amp;house=representatives&amp;display=allfriends" title="Show all MPs in order of how similarly to this MP they voted">All friends</a></li>
+<li><a href="mp.php?mpc=Bennelong&amp;house=representatives&amp;display=alldreams" title="Show all Policies and how this MP voted on them">Policy comparisons</a></li>
+</ul>
+</p>
 <p>
 <em>Note:</em>
 our voting records currently only go back to the
 beginning of 2006 for the House of Representatives and the Senate
 (<a href="/faq.php#timeperiod">more details</a>).
 </p>
-<table>
-<tr class="headings">
-<td>Name</td>
-<td>From</td>
-<td>To</td>
-<td>Party</td>
-<td>Rebellions (<a href="/faq.php#clarify">explain...</a>)</td>
-<td>Attendance (<a href="/faq.php#clarify">explain...</a>)</td>
+<table class="table table-striped">
+<thead>
+<tr>
+<th>Name</th>
+<th>From</th>
+<th>To</th>
+<th>Party</th>
+<th>Rebellions (<a href="/faq.php#clarify">explain...</a>)</th>
+<th>Attendance (<a href="/faq.php#clarify">explain...</a>)</th>
 </tr>
-<tr class="odd">
+</thead>
+<tbody>
+<tr>
 <td>
 John Alexander
 <a href="mp.php?mpn=John_Alexander&amp;display=summary">(show only their votes)</a>
@@ -100,7 +98,7 @@ out of
 <b>0.0%</b>
 </td>
 </tr>
-<tr class="even">
+<tr>
 <td>
 Maxine McKew
 <a href="mp.php?mpn=Maxine_McKew&amp;display=summary">(show only their votes)</a>
@@ -117,7 +115,7 @@ votes
 out of
 </td>
 </tr>
-<tr class="odd">
+<tr>
 <td>
 John Howard
 <a href="mp.php?mpn=John_Howard&amp;display=summary">(show only their votes)</a>
@@ -137,6 +135,7 @@ out of
 <b>0.0%</b>
 </td>
 </tr>
+</tbody>
 </table>
 
 <h2>
@@ -161,13 +160,13 @@ vote differed from the majority vote of their party (Rebel), or in which this
 Representative
 was a teller (Teller), or both (Rebel Teller).
 </p>
-<p align="center" style="font-size: 89%">
+<p>
 See also all votes...
 <a href="mp.php?mpc=Bennelong&amp;house=representatives&amp;display=allvotes#divisions">attended</a>
 |
 <a href="mp.php?mpc=Bennelong&amp;house=representatives&amp;display=everyvote#divisions">possible</a>
 </p>
-<table class="votes">
+<table class="table table-striped">
 <tr>
 <td align="left" colspan="7">
 <b>
@@ -176,20 +175,24 @@ Votes by
 </b>
 </td>
 </tr>
+<thead>
 <tr class="headings">
-<td>House</td>
-<td>Date</td>
-<td>Subject</td>
-<td>John Alexander</td>
-<td>
+<th>House</th>
+<th>Date</th>
+<th>Subject</th>
+<th>John Alexander</th>
+<th>
 Liberal Party
 Vote
-</td>
-<td>Role</td>
+</th>
+<th>Role</th>
 </tr>
+</thead>
+<tbody>
 <tr class="odd">
 <td colspan="7">no rebellions, never teller</td>
 </tr>
+</tbody>
 
 <tr>
 <td align="left" colspan="7">
@@ -199,20 +202,24 @@ Votes by
 </b>
 </td>
 </tr>
+<thead>
 <tr class="headings">
-<td>House</td>
-<td>Date</td>
-<td>Subject</td>
-<td>Maxine McKew</td>
-<td>
+<th>House</th>
+<th>Date</th>
+<th>Subject</th>
+<th>Maxine McKew</th>
+<th>
 Australian Labor Party
 Vote
-</td>
-<td>Role</td>
+</th>
+<th>Role</th>
 </tr>
+</thead>
+<tbody>
 <tr class="odd">
 <td colspan="7">no rebellions, never teller</td>
 </tr>
+</tbody>
 
 <tr>
 <td align="left" colspan="7">
@@ -222,20 +229,24 @@ Votes by
 </b>
 </td>
 </tr>
+<thead>
 <tr class="headings">
-<td>House</td>
-<td>Date</td>
-<td>Subject</td>
-<td>John Howard</td>
-<td>
+<th>House</th>
+<th>Date</th>
+<th>Subject</th>
+<th>John Howard</th>
+<th>
 Liberal Party
 Vote
-</td>
-<td>Role</td>
+</th>
+<th>Role</th>
 </tr>
+</thead>
+<tbody>
 <tr class="odd">
 <td colspan="7">no rebellions, never teller</td>
 </tr>
+</tbody>
 
 </table>
 
@@ -247,17 +258,21 @@ This chart shows the percentage agreement between this
 Representative
 and each of the policies in the database, according to their voting record.
 </p>
-<table class="mps">
+<table class="table table-striped">
+<thead>
 <tr class="headings">
-<td>Agreement</td>
-<td>Policy</td>
+<th>Agreement</th>
+<th>Policy</th>
 </tr>
+</thead>
+<tbody>
 <tr class="odd">
 <td>
 <b><a href="mp.php?mpn=John_Alexander&amp;mpc=Bennelong&amp;house=representatives&amp;dmp=1">50%</a></b>
 </td>
 <td><a href="policy.php?id=1">Marriage equality</a></td>
 </tr>
+</tbody>
 </table>
 
 <h2>
@@ -276,16 +291,20 @@ attended are counted. This may reveal relationships between
 Representatives
 that were previously unsuspected. Or it may be nonsense.
 </p>
-<table class="mps">
+<table class="table table-striped">
+<thead>
 <tr class="headings">
-<td>Agreement</td>
-<td>Name</td>
-<td>Electorate</td>
-<td>Party</td>
+<th>Agreement</th>
+<th>Name</th>
+<th>Electorate</th>
+<th>Party</th>
 </tr>
+</thead>
+<tbody>
 <tr class="even">
 <td colspan="4">No results found</td>
 </tr>
+</tbody>
 </table>
 
 </div>

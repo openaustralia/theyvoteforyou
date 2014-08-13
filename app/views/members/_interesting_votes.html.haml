@@ -6,7 +6,7 @@
   vote differed from the majority vote of their party (Rebel), or in which this
   = member_type(member.australian_house)
   was a teller (Teller), or both (Rebel Teller).
-%p{:align => "center", :style => "font-size: 89%"}
+%p
   See also all votes...
   - if multiple_people?(members)
     = link_to "attended", electorate_path2(member.url_electorate, display: "allvotes", anchor: "divisions")
@@ -17,7 +17,7 @@
     |
     = link_to "possible", member_path(member, display: "everyvote", anchor: "divisions")
 
-%table.votes
+%table.table.table-striped
   - members.each do |member|
     - if multiple_people?(members)
       %tr

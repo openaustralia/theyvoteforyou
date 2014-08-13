@@ -46,25 +46,20 @@ Senator Christine Milne
 </div>
 </div>
 </nav>
-<div class="container"><h1>Voting Record —
+<div class="container"><div class="page-header">
+<h1>Voting Record —
 Senator Christine Milne
 </h1>
-<!-- the second tier navigation as tabs -->
-<!-- add hashes to $second_links array, keys are
-     'href' - URL of link
-     'text' - displayed text
-     'tooltip' - text to put in title
-     'current' - 'on' or 'off' for whether this item is currently selected -->
-<div id="secondnavtabs">
-<ul>
-<li class="off"><a class="off" href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate" title="Overview of MP">Summary</a></li>
-<li class="off"><a class="off" href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate&amp;display=allvotes" title="Show every vote cast by this MP">Votes attended</a></li>
-<li class="off"><a class="off" href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate&amp;display=everyvote" title="Show even divisions where the MP was absent, but could have voted">All votes</a></li>
-<li class="off"><a class="off" href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate&amp;display=allfriends" title="Show all MPs in order of how similarly to this MP they voted">All friends</a></li>
-<li class="on">Policy comparisons</li>
-</ul>
 </div>
-<!-- the second tier navigation as dropdowns end-->
+<p>
+<ul class="nav nav-tabs">
+<li><a href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate" title="Overview of MP">Summary</a></li>
+<li><a href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate&amp;display=allvotes" title="Show every vote cast by this MP">Votes attended</a></li>
+<li><a href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate&amp;display=everyvote" title="Show even divisions where the MP was absent, but could have voted">All votes</a></li>
+<li><a href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate&amp;display=allfriends" title="Show all MPs in order of how similarly to this MP they voted">All friends</a></li>
+<li class="active"><a href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate&amp;display=alldreams" title="Show all Policies and how this MP voted on them">Policy comparisons</a></li>
+</ul>
+</p>
 <h2>
 <a name="dreammotions">Policy Comparisons</a>
 </h2>
@@ -73,7 +68,8 @@ This chart shows the percentage agreement between this
 Senator
 and each of the policies in the database, according to their voting record.
 </p>
-<table class="mps">
+<table class="table table-striped">
+<tbody>
 <tr class="odd">
 <td colspan="4">
 No policies match this person's votes. You can
@@ -81,10 +77,15 @@ No policies match this person's votes. You can
 that will appear here.
 </td>
 </tr>
+</tbody>
+<thead>
 <tr class="headings">
-<td>Agreement</td>
-<td>Policy</td>
+<th>Agreement</th>
+<th>Policy</th>
 </tr>
+</thead>
+<tbody>
+</tbody>
 </table>
 
 </div>

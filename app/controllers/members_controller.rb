@@ -38,11 +38,7 @@ class MembersController < ApplicationController
       raise
     end
 
-    if params[:bs]
-      render "members/bootstrap/index", layout: "bootstrap"
-    else
-      render "index", layout: "bootstrap"
-    end
+    render layout: "bootstrap"
   end
 
   def show
@@ -95,11 +91,7 @@ class MembersController < ApplicationController
     if @policy
       render "show_policy"
     else
-      if params[:bs]
-        render "members/bootstrap/show", layout: "bootstrap"
-      else
-        render "show", layout: "bootstrap"
-      end
+      render "show", layout: "bootstrap"
     end
   end
 end

@@ -46,41 +46,39 @@ Senator Christine Milne
 </div>
 </div>
 </nav>
-<div class="container"><h1>Voting Record —
+<div class="container"><div class="page-header">
+<h1>Voting Record —
 Senator Christine Milne
 </h1>
-<!-- the second tier navigation as tabs -->
-<!-- add hashes to $second_links array, keys are
-     'href' - URL of link
-     'text' - displayed text
-     'tooltip' - text to put in title
-     'current' - 'on' or 'off' for whether this item is currently selected -->
-<div id="secondnavtabs">
-<ul>
-<li class="on">Summary</li>
-<li class="off"><a class="off" href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate&amp;display=allvotes" title="Show every vote cast by this MP">Votes attended</a></li>
-<li class="off"><a class="off" href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate&amp;display=everyvote" title="Show even divisions where the MP was absent, but could have voted">All votes</a></li>
-<li class="off"><a class="off" href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate&amp;display=allfriends" title="Show all MPs in order of how similarly to this MP they voted">All friends</a></li>
-<li class="off"><a class="off" href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate&amp;display=alldreams" title="Show all Policies and how this MP voted on them">Policy comparisons</a></li>
-</ul>
 </div>
-<!-- the second tier navigation as dropdowns end-->
+<p>
+<ul class="nav nav-tabs">
+<li class="active"><a href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate" title="Overview of MP">Summary</a></li>
+<li><a href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate&amp;display=allvotes" title="Show every vote cast by this MP">Votes attended</a></li>
+<li><a href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate&amp;display=everyvote" title="Show even divisions where the MP was absent, but could have voted">All votes</a></li>
+<li><a href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate&amp;display=allfriends" title="Show all MPs in order of how similarly to this MP they voted">All friends</a></li>
+<li><a href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate&amp;display=alldreams" title="Show all Policies and how this MP voted on them">Policy comparisons</a></li>
+</ul>
+</p>
 <p>
 <em>Note:</em>
 our voting records currently only go back to the
 beginning of 2006 for the House of Representatives and the Senate
 (<a href="/faq.php#timeperiod">more details</a>).
 </p>
-<table>
-<tr class="headings">
-<td>From</td>
-<td>To</td>
-<td>Party</td>
-<td>Rebellions (<a href="/faq.php#clarify">explain...</a>)</td>
-<td>Attendance (<a href="/faq.php#clarify">explain...</a>)</td>
-<td>Teller</td>
+<table class="table table-striped">
+<thead>
+<tr>
+<th>From</th>
+<th>To</th>
+<th>Party</th>
+<th>Rebellions (<a href="/faq.php#clarify">explain...</a>)</th>
+<th>Attendance (<a href="/faq.php#clarify">explain...</a>)</th>
+<th>Teller</th>
 </tr>
-<tr class="odd">
+</thead>
+<tbody>
+<tr>
 <td>1&nbsp;Jan&nbsp;2006</td>
 <td>still in office</td>
 <td>Australian Greens</td>
@@ -100,6 +98,7 @@ out of
 0 times
 </td>
 </tr>
+</tbody>
 </table>
 
 <h2>
@@ -124,27 +123,31 @@ vote differed from the majority vote of their party (Rebel), or in which this
 Senator
 was a teller (Teller), or both (Rebel Teller).
 </p>
-<p align="center" style="font-size: 89%">
+<p>
 See also all votes...
 <a href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate&amp;display=allvotes#divisions">attended</a>
 |
 <a href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate&amp;display=everyvote#divisions">possible</a>
 </p>
-<table class="votes">
+<table class="table table-striped">
+<thead>
 <tr class="headings">
-<td>House</td>
-<td>Date</td>
-<td>Subject</td>
-<td>Christine Milne</td>
-<td>
+<th>House</th>
+<th>Date</th>
+<th>Subject</th>
+<th>Christine Milne</th>
+<th>
 Australian Greens
 Vote
-</td>
-<td>Role</td>
+</th>
+<th>Role</th>
 </tr>
+</thead>
+<tbody>
 <tr class="odd">
 <td colspan="7">no rebellions, never teller</td>
 </tr>
+</tbody>
 
 </table>
 
@@ -156,7 +159,8 @@ This chart shows the percentage agreement between this
 Senator
 and each of the policies in the database, according to their voting record.
 </p>
-<table class="mps">
+<table class="table table-striped">
+<tbody>
 <tr class="odd">
 <td colspan="4">
 No policies match this person's votes. You can
@@ -164,10 +168,15 @@ No policies match this person's votes. You can
 that will appear here.
 </td>
 </tr>
+</tbody>
+<thead>
 <tr class="headings">
-<td>Agreement</td>
-<td>Policy</td>
+<th>Agreement</th>
+<th>Policy</th>
 </tr>
+</thead>
+<tbody>
+</tbody>
 </table>
 
 <h2>
@@ -186,19 +195,23 @@ attended are counted. This may reveal relationships between
 Senators
 that were previously unsuspected. Or it may be nonsense.
 </p>
-<table class="mps">
+<table class="table table-striped">
+<thead>
 <tr class="headings">
-<td>Agreement</td>
-<td>Name</td>
-<td>State</td>
-<td>Party</td>
+<th>Agreement</th>
+<th>Name</th>
+<th>State</th>
+<th>Party</th>
 </tr>
+</thead>
+<tbody>
 <tr class="odd">
 <td>0.0%</td>
 <td><a href="mp.php?mpn=Christopher_Back&amp;mpc=Senate&amp;house=senate">Christopher Back</a></td>
 <td>WA</td>
 <td>Liberal Party</td>
 </tr>
+</tbody>
 </table>
 
 </div>

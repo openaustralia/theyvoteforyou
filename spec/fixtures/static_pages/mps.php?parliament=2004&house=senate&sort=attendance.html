@@ -45,48 +45,43 @@ Senators — 2004-2007&nbsp;Parliament
 </div>
 </div>
 </nav>
-<div class="container"><h1>Senators — 2004-2007&nbsp;Parliament
+<div class="container"><div class="page-header">
+<h1>Senators — 2004-2007&nbsp;Parliament
 </h1>
-<!-- the second tier navigation as tabs -->
-<!-- add hashes to $second_links array, keys are
-     'href' - URL of link
-     'text' - displayed text
-     'tooltip' - text to put in title
-     'current' - 'on' or 'off' for whether this item is currently selected -->
-<div id="secondnavtabs">
-<ul>
-<li class="off">
-<a class="off" href="/mps.php?house=senate&amp;sort=attendance" title="Show only the current parliament">Current</a>
-</li>
-<li class="off">
-<a class="off" href="/mps.php?parliament=2013&amp;house=senate&amp;sort=attendance" title="2013 (current)&nbsp;Parliament">2013 (current)</a>
-</li>
-<li class="off">
-<a class="off" href="/mps.php?parliament=2010&amp;house=senate&amp;sort=attendance" title="2010-2013&nbsp;Parliament">2010-2013</a>
-</li>
-<li class="off">
-<a class="off" href="/mps.php?parliament=2007&amp;house=senate&amp;sort=attendance" title="2008-2010&nbsp;Parliament">2008-2010</a>
-</li>
-<li class="on">
-2004-2007
-</li>
-<li class="off">
-<a class="off" href="/mps.php?parliament=all&amp;house=senate&amp;sort=attendance" title="All members on record">All Parliaments</a>
-</li>
-</ul>
-<ul>
-<li class="off">
-<a class="off" href="/mps.php?parliament=2004&amp;sort=attendance" title="Show only members of the House of Representatives">Representatives</a>
-</li>
-<li class="on">
-Senators
-</li>
-<li class="off">
-<a class="off" href="/mps.php?parliament=2004&amp;house=all&amp;sort=attendance" title="Show all people in Parliament">Both houses</a>
-</li>
-</ul>
 </div>
-<!-- the second tier navigation as dropdowns end-->
+<p>
+<ul class="nav nav-pills">
+<li>
+<a href="/mps.php?house=senate&amp;sort=attendance" title="Show only the current parliament">Current</a>
+</li>
+<li>
+<a href="/mps.php?parliament=2013&amp;house=senate&amp;sort=attendance" title="2013 (current)&nbsp;Parliament">2013 (current)</a>
+</li>
+<li>
+<a href="/mps.php?parliament=2010&amp;house=senate&amp;sort=attendance" title="2010-2013&nbsp;Parliament">2010-2013</a>
+</li>
+<li>
+<a href="/mps.php?parliament=2007&amp;house=senate&amp;sort=attendance" title="2008-2010&nbsp;Parliament">2008-2010</a>
+</li>
+<li class="active">
+<a href="/mps.php?parliament=2004&amp;house=senate&amp;sort=attendance" title="2004-2007&nbsp;Parliament">2004-2007</a>
+</li>
+<li>
+<a href="/mps.php?parliament=all&amp;house=senate&amp;sort=attendance" title="All members on record">All Parliaments</a>
+</li>
+</ul>
+<ul class="nav nav-pills">
+<li>
+<a href="/mps.php?parliament=2004&amp;sort=attendance" title="Show only members of the House of Representatives">Representatives</a>
+</li>
+<li class="active">
+<a href="/mps.php?parliament=2004&amp;house=senate&amp;sort=attendance" title="Show only Senators">Senators</a>
+</li>
+<li>
+<a href="/mps.php?parliament=2004&amp;house=all&amp;sort=attendance" title="Show all people in Parliament">Both houses</a>
+</li>
+</ul>
+</p>
 <p>
 Senators
 are listed below. Refer to
@@ -94,7 +89,7 @@ are listed below. Refer to
 of the "rebellion" and "attendance" rates, as they may not mean what you
 think they do.
 </p>
-<p align="center" style="font-size: 89%">
+<p>
 Sort by:
 <a alt="Sort by surname" href="/mps.php?parliament=2004&amp;house=senate&amp;sort=lastname">Name</a>
 |
@@ -104,7 +99,8 @@ Sort by:
 |
 <b>Attendance</b>
 </p>
-<table class="mps">
+<table class="table table-striped">
+<thead>
 <tr class="headings">
 <td>Name</td>
 <td>State</td>
@@ -120,34 +116,37 @@ Attendance
 (<a href="/faq.php#clarify">explain...</a>)
 </td>
 </tr>
-<tr class="odd">
+</thead>
+<tbody>
+<tr>
 <td><a href="mp.php?mpn=Christine_Milne&amp;mpc=Senate&amp;house=senate">Christine Milne</a></td>
 <td>Tasmania</td>
 <td>Australian Greens</td>
 <td class="percent">0.0%</td>
 <td class="percent">100.0%</td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="mp.php?mpn=Judith_Adams&amp;mpc=Senate&amp;house=senate">Judith Adams</a></td>
 <td>WA</td>
 <td>Liberal Party</td>
 <td class="percent">0.0%</td>
 <td class="percent">33.3%</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><a href="mp.php?mpn=Disagreeable_Curmudgeon&amp;mpc=Senate&amp;house=senate">Disagreeable Curmudgeon</a></td>
 <td>WA</td>
 <td>Independent</td>
 <td class="percent">n/a</td>
 <td class="percent">33.3%</td>
 </tr>
-<tr class="even">
+<tr>
 <td><a href="mp.php?mpn=Surly_Nihilist&amp;mpc=Senate&amp;house=senate">Surly Nihilist</a></td>
 <td>WA</td>
 <td>Independent</td>
 <td class="percent">n/a</td>
 <td class="percent">33.3%</td>
 </tr>
+</tbody>
 </table>
 </div>
 <div class="container">
