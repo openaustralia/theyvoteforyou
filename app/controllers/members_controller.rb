@@ -98,7 +98,7 @@ class MembersController < ApplicationController
       if params[:bs]
         render "members/bootstrap/show", layout: "bootstrap"
       else
-        render "show"
+        render "show", layout: "bootstrap"
       end
     end
   end
