@@ -10,5 +10,11 @@ namespace :application do
       puts "Loading electorates..."
       DataLoader.reload_electorates("#{XML_DATA_DIRECTORY}/divisions.xml")
     end
+
+    # TODO: Load people.xml
+    # TODO: Load ministers.xml
+    # TODO: Load representatives.xml
+    # TODO: Load senators.xml
+    # TODO: Remove Members not found in XML
   end
 end
