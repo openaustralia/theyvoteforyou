@@ -1,48 +1,44 @@
 <!DOCTYPE HTML>
 <html>
-
-
-
-<head>
-<meta charset="UTF-8">
-
-<link href="/style.css" type="text/css" rel="stylesheet" media="all">
+  <head>
+    <meta charset="UTF-8" />
+    <link href="/style.css" type="text/css" rel="stylesheet" media="all" />
 <!--[if IE 7]>
-<link href="/ie7.css" type="text/css" rel="stylesheet" media="all">
+<link href="/ie7.css" type="text/css" rel="stylesheet" media="all" />
 
 <![endif]-->
 <!--
 /*
  * @license
  * MyFonts Webfont Build ID 981839, 2011-08-21T11:30:45-0400
- * 
+ *
  * The fonts listed in this notice are subject to the End User License
- * Agreement(s) entered into by the website owner. All other parties are 
+ * Agreement(s) entered into by the website owner. All other parties are
  * explicitly restricted from using the Licensed Webfonts(s).
- * 
+ *
  * You may obtain a valid license at the URLs below.
- * 
+ *
  * Webfont: Museo 700 by exljbris
  * URL: http://new.myfonts.com/fonts/exljbris/museo/700/
- * 
+ *
  * Webfont: Museo 300 by exljbris
  * URL: http://new.myfonts.com/fonts/exljbris/museo/300/
- * 
- * 
+ *
+ *
  * License: http://www.myfonts.com/viewlicense?1056
  * Licensed pageviews: unlimited
  * Webfonts copyright: Copyright (c) 2008 by Jos Buivenga/exljbris. All rights reserved.
- * 
+ *
  * © 2011 Bitstream Inc
 */
 
 -->
-<link rel="stylesheet" type="text/css" href="/publicwhip.css">
-<link href="/publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
-<link rel="icon" href="/" type="image/x-icon" />
-<link rel="shortcut icon" href="/" type="image/x-icon" />
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-<script type="text/javascript">
+    <link rel="stylesheet" type="text/css" href="/publicwhip.css" />
+    <link href="/publicwhip_print.css" type="text/css" rel="stylesheet" media="print" />
+    <link rel="icon" href="/" type="image/x-icon" />
+    <link rel="shortcut icon" href="/" type="image/x-icon" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script type="text/javascript">
 $(document).ready(function() {
     $('tr').mouseover(function() {
         $(this).addClass('over');})
@@ -51,10 +47,12 @@ $(document).ready(function() {
     });
     $('tr:even').addClass('alt');
 });
-</script>
-<script type="text/javascript" src="/publicwhip.js"></script>
-<title>Make a new policy &#8212; The Public Whip</title>
-<script type="text/javascript">
+    </script>
+    <script type="text/javascript" src="/publicwhip.js"></script>
+    <title>
+        Make a new policy — The Public Whip
+    </title>
+    <script type="text/javascript">
 function givefocus(field) {
     if (!document || !document.getElementById)
         return
@@ -88,17 +86,17 @@ function ClickSup(nsup) {
         if (sups[i].className == "sup-" + nsup)
             sups[i].style.backgroundColor = el.style.backgroundColor;
 }
-</script>
-    </head>
+    </script>
+  </head>
 
-<body onLoad="">
-<div id="whitebox">
-<script type="text/javascript" src="/walterzorn/wz_tooltip.js"></script>
+  <body onLoad="">
+    <div id="whitebox">
+      <script type="text/javascript" src="/walterzorn/wz_tooltip.js"></script>
 
-<div id="header" class="widewidth">
-    <div class="logo">
-        <a href="/"><img src="/images/logo.jpg" alt="the Public Whip" /></a>
-    </div>
+      <div id="header" class="widewidth">
+        <div class="logo">
+          <a href="/"><img src="/images/logo.jpg" alt="the Public Whip" /></a>
+        </div>
 
 <!-- This is hidden behind the logo currently so comment it out
     <div class="search">
@@ -108,112 +106,134 @@ function ClickSup(nsup) {
     </div>
  -->
 
-    <!-- the main site navigation -->
-    <div id="nav_main">
-        <a title="Front page and site highlights" href="/index.php">Home</a>
-        <a title="List of all votes in Parliament" href="/divisions.php">Divisions</a>
-        <a title="List of all Representatives" href="/mps.php">Representatives</a>
-        <a title="List of all Senators" href="/mps.php?house=senate">Senators</a>
-        <a title="Help to analyze MP's votes" href="/policies.php">Policies</a>
-        <!-- <a title="Help run the Public Whip project" href="/project/index.php">Join Us</a> -->
-        <a title="Frequently asked questions" href="/faq.php">Help / FAQ</a>
-        <div id="account-navbar">
-            <a title="Change account settings" href="/account/settings.php">You are: henare</a> <a title="Make your browser forget that you are logged into The Public Whip as henare" href="/account/logout.php?r=%2Faccount%2Faddpolicy.php">Logout</a>         </div>
-    </div>
-
-</div><!-- end header-->
-<div id="main" class="widewidth"><!-- main content -->
-<h1> Make a new policy </h1>
-
-<p>Here you have to name and describe
-        the policy.  Afterwards, you will be able to select which votes
-        support the policy.  The new policy can represent anything you like.
-        Some examples:
-        <ul>
-        <li>Equal laws for heterosexuals and homosexuals.
-        <li>For offshore processing of arrivals by boat.
-        <li>Pro-nuclear power.
-        </ul>
-
-        <p>All policies are public. Just because you made a policy does not
-        mean you own it. Anybody can edit it. Although everyone will by no
-        means agree with every policy, they should agree that its votes in divisions
-        are logical consequences of its definition.
-
-        <p> Some other things to note about policies:
-        <ul>
-
-		<li>Policies should be open to as little interpretation as possible.  For example,
-        "Evangelical Christian" and "Fiscal Responsibility" are not policies
-		since there are differing opinions about what would be implemented.
-		Instead, things like "Ban research using embryos" and
-		"Buy more nuclear weapons"
-        are policies because, even if you don't agree with them, you can still
-		agree on which way they would vote.</li>
-
-        <li>Usually a policy can't be broken down into other policies.  If it can be,
-		maybe you should split it into two sub-policies.  There are
-		exceptions, for example "Pro-vegetarianism" may agree with all the votes for
-		"Conserve coastal fish stocks" although for quite different reasons.</li>
-
-		<li>The opposite of a policy is not necessarily a policy, particularly
-        if it is not one of the extremes. There could be, for instance, three
-        different approaches to solving a particular problem. </li>
-        <!-- TODO: Provide a specific Australian example -->
-
-        <li>All policies must be convertable into votes.  So, for example,
-		"Make Australia a Republic" doesn't work because there haven't been any such
-		votes (recently).</li>
-
-		<li>Don't be shy.  These policies belong to everyone.  If you have a point of
-		view that a policy is wrongly voting, or it's ill-defined, or you can see how it should be broken
-		down, discuss it with others and fix it.</li>
-
-		</ul>
-        <P>
-        <FORM ACTION="" METHOD="POST">
-        <B>Title of policy</B><BR>
-        <INPUT TYPE="TEXT" NAME="name" VALUE="" SIZE="40" MAXLENGTH="50">
-        <P>
-        <B>Someone who believes that...</B><BR>
-        <textarea name="description" rows="6" cols="80"></textarea></p>
-
-        <p><span class="ptitle">Privacy notes:</span>
-        By creating a policy you are making your user name
-        <b>henare</b> and the policy's voting record public.
-
-        <p><INPUT TYPE="SUBMIT" NAME="submit" VALUE="Make Policy">
-        </FORM>
-
-    
-</div><!-- end main content -->
-</div><!-- end whitebox-->
-<div id="bluebox">
-    <div class="widewidth">
-        <div class="col1-2"><h3>About the Project</h3>
-
-            <p>
-                The Public Whip is brought to you by the not-for-profit <a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>. It is based
-                on the <a href="http://www.publicwhip.org.uk/">UK site</a> of the same name.
-            </p>
-
-            <p>
-                If you'd like to talk to us about the project, please
-                <a href="mailto:contact@openaustraliafoundation.org.au">email us</a>.
-            </p>
+        <!-- the main site navigation -->
+        <div id="nav_main">
+          <a title="Front page and site highlights" href="/index.php">Home</a>
+          <a title="List of all votes in Parliament" href="/divisions.php">Divisions</a>
+          <a title="List of all Representatives" href="/mps.php">Representatives</a>
+          <a title="List of all Senators" href="/mps.php?house=senate">Senators</a>
+          <a title="Help to analyze MP's votes" href="/policies.php">Policies</a>
+          <!-- <a title="Help run the Public Whip project" href="/project/index.php">Join Us</a> -->
+          <a href="/faq.php" title="Frequently asked questions">Help / FAQ</a>
+            <div id="account-navbar">
+              <a href="/account/settings.php" title="Change account settings">You are: henare</a>
+              <a href="/account/logout.php?r=%2Faccount%2Faddpolicy.php" title="Make your browser forget that you are logged into The Public Whip as henare">Logout</a>
+            </div>
         </div>
-        <div class="col3"><h3>The Whip on the Web</h3>
-            <ul class="social">
-                <li class="wp"><a href="https://www.openaustraliafoundation.org.au/blog/">OpenAustralia Foundation Blog</a></li>
-                <li class="tw"><a href="http://twitter.com/openaustralia">Twitter</a></li>
-                <!-- <li class="fb"><a href="http://www.facebook.com/pages/Public-Whip/199268083464697">Facebook</a></li> -->
-            </ul>
+
+      </div><!-- end header-->
+
+
+      <div id="main" class="widewidth"><!-- main content -->
+        <h1>Make a new policy</h1>
+<p>
+Here you have to name and describe the policy. Afterwards, you
+will be able to select which votes support the policy. The new
+policy can represent anything you like. Some examples:
+</p>
+<ul>
+<li>Equal laws for heterosexuals and homosexuals.</li>
+<li>For offshore processing of arrivals by boat.</li>
+<li>Pro-nuclear power.</li>
+</ul>
+<p>
+All policies are public. Just because you made a policy does not
+mean you own it. Anybody can edit it. Although everyone will by no
+means agree with every policy, they should agree that its votes in
+divisions are logical consequences of its definition.
+</p>
+<p>Some other things to note about policies:</p>
+<ul>
+<li>
+Policies should be open to as little interpretation as
+possible. For example, "Evangelical Christian" and "Fiscal
+Responsibility" are not policies since there are differing opinions
+about what would be implemented. Instead, things like "Ban research
+using embryos" and "Buy more nuclear weapons" are policies because,
+even if you don't agree with them, you can still agree on which way
+they would vote.
+</li>
+<li>
+Usually a policy can't be broken down into other policies. If
+it can be, maybe you should split it into two sub-policies. There
+are exceptions, for example "Pro-vegetarianism" may agree with all
+the votes for "Conserve coastal fish stocks" although for quite
+different reasons.
+</li>
+<li>
+The opposite of a policy is not necessarily a policy,
+particularly if it is not one of the extremes. There could be, for
+instance, three different approaches to solving a particular
+problem.
+</li>
+<!-- TODO: Provide a specific Australian example -->
+<li>
+All policies must be convertable into votes. So, for example,
+"Make Australia a Republic" doesn't work because there haven't been
+any such votes (recently).
+</li>
+<li>
+Don't be shy. These policies belong to everyone. If you have a
+point of view that a policy is wrongly voting, or it's ill-defined,
+or you can see how it should be broken down, discuss it with others
+and fix it.
+</li>
+</ul>
+<form action="" method="post">
+<b>Title of policy</b>
+<br />
+<input maxlength="50" name="name" size="40" type="text" value="" />
+<p>
+<b>Someone who believes that...</b>
+<br />
+<textarea cols="80" name="description" rows="6"></textarea>
+</p>
+<p>
+<span class="ptitle">Privacy notes:</span>
+By creating a policy
+you are making your user name
+<b>henare</b>
+and the policy's voting
+record public.
+</p>
+<p>
+<input name="submit" type="submit" value="Make Policy" />
+</p>
+</form>
+
+      </div><!-- end main content -->
+    </div><!-- end whitebox-->
+
+    <div id="bluebox">
+      <div class="widewidth">
+        <div class="col1-2">
+          <h3>About the Project</h3>
+
+          <p>
+            The Public Whip is brought to you by the not-for-profit
+            <a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>. It is based
+            on the <a href="http://www.publicwhip.org.uk/">UK site</a> of the same name.
+          </p>
+
+          <p>
+              If you'd like to talk to us about the project, please
+              <a href="mailto:contact@openaustraliafoundation.org.au">email us</a>.
+          </p>
+        </div>
+        <div class="col3">
+          <h3>The Whip on the Web</h3>
+          <ul class="social">
+            <li class="wp"><a href="https://www.openaustraliafoundation.org.au/blog/">OpenAustralia Foundation Blog</a></li>
+            <li class="tw"><a href="http://twitter.com/openaustralia">Twitter</a></li>
+            <!-- <li class="fb"><a href="http://www.facebook.com/pages/Public-Whip/199268083464697">Facebook</a></li> -->
+          </ul>
         </div>
         <div class="clear"></div>
-    </div>
+      </div>
     </div><!--end bluebox-->
-<div id="footer">
-    <div class="widewidth">
+
+    <div id="footer">
+      <div class="widewidth">
         <!-- the footer section -->
         <!-- old footer links <a title="Frequently asked questions" href="/faq.php#whatis">About us</a>
 <a title="Send comments, problems or suggestions" href="/email.php">Contact us</a>
@@ -225,16 +245,17 @@ function ClickSup(nsup) {
             Other projects by us that you might find interesting:
         </div>
         <div>
-            <a href="http://www.openaustralia.org">OpenAustralia</a>, <a href="http://www.electionleaflets.org.au">Election Leaflets</a>, <a href="http://www.righttoknow.org.au">Right To Know</a> and <a href="http://www.planningalerts.org.au">Planning Alerts</a>.
+            <a href="http://www.openaustralia.org">OpenAustralia</a>,
+            <a href="http://www.electionleaflets.org.au">Election Leaflets</a>,
+            <a href="http://www.righttoknow.org.au">Right To Know</a> and
+            <a href="http://www.planningalerts.org.au">Planning Alerts</a>.
         </div>
         <div class="legal">
             The Public Whip is a not-for-profit, open source, project. Get the
             <a href="https://github.com/openaustralia/publicwhip/">source code</a>.
         </div>
-
-    </div>
-    <div class="clear"></div>
-</div><!-- end footer-->
-</body>
+      </div>
+      <div class="clear"></div>
+    </div><!-- end footer-->
+  </body>
 </html>
-

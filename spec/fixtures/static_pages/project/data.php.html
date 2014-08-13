@@ -1,48 +1,44 @@
 <!DOCTYPE HTML>
 <html>
-
-
-
-<head>
-<meta charset="UTF-8">
-
-<link href="/style.css" type="text/css" rel="stylesheet" media="all">
+  <head>
+    <meta charset="UTF-8" />
+    <link href="/style.css" type="text/css" rel="stylesheet" media="all" />
 <!--[if IE 7]>
-<link href="/ie7.css" type="text/css" rel="stylesheet" media="all">
+<link href="/ie7.css" type="text/css" rel="stylesheet" media="all" />
 
 <![endif]-->
 <!--
 /*
  * @license
  * MyFonts Webfont Build ID 981839, 2011-08-21T11:30:45-0400
- * 
+ *
  * The fonts listed in this notice are subject to the End User License
- * Agreement(s) entered into by the website owner. All other parties are 
+ * Agreement(s) entered into by the website owner. All other parties are
  * explicitly restricted from using the Licensed Webfonts(s).
- * 
+ *
  * You may obtain a valid license at the URLs below.
- * 
+ *
  * Webfont: Museo 700 by exljbris
  * URL: http://new.myfonts.com/fonts/exljbris/museo/700/
- * 
+ *
  * Webfont: Museo 300 by exljbris
  * URL: http://new.myfonts.com/fonts/exljbris/museo/300/
- * 
- * 
+ *
+ *
  * License: http://www.myfonts.com/viewlicense?1056
  * Licensed pageviews: unlimited
  * Webfonts copyright: Copyright (c) 2008 by Jos Buivenga/exljbris. All rights reserved.
- * 
+ *
  * © 2011 Bitstream Inc
 */
 
 -->
-<link rel="stylesheet" type="text/css" href="/publicwhip.css">
-<link href="/publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
-<link rel="icon" href="/" type="image/x-icon" />
-<link rel="shortcut icon" href="/" type="image/x-icon" />
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-<script type="text/javascript">
+    <link rel="stylesheet" type="text/css" href="/publicwhip.css" />
+    <link href="/publicwhip_print.css" type="text/css" rel="stylesheet" media="print" />
+    <link rel="icon" href="/" type="image/x-icon" />
+    <link rel="shortcut icon" href="/" type="image/x-icon" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script type="text/javascript">
 $(document).ready(function() {
     $('tr').mouseover(function() {
         $(this).addClass('over');})
@@ -51,10 +47,12 @@ $(document).ready(function() {
     });
     $('tr:even').addClass('alt');
 });
-</script>
-<script type="text/javascript" src="/publicwhip.js"></script>
-<title>Raw Data &#8212; The Public Whip</title>
-<script type="text/javascript">
+    </script>
+    <script type="text/javascript" src="/publicwhip.js"></script>
+    <title>
+        Raw Data — The Public Whip
+    </title>
+    <script type="text/javascript">
 function givefocus(field) {
     if (!document || !document.getElementById)
         return
@@ -88,17 +86,17 @@ function ClickSup(nsup) {
         if (sups[i].className == "sup-" + nsup)
             sups[i].style.backgroundColor = el.style.backgroundColor;
 }
-</script>
-    </head>
+    </script>
+  </head>
 
-<body onLoad="">
-<div id="whitebox">
-<script type="text/javascript" src="/walterzorn/wz_tooltip.js"></script>
+  <body onLoad="">
+    <div id="whitebox">
+      <script type="text/javascript" src="/walterzorn/wz_tooltip.js"></script>
 
-<div id="header" class="widewidth">
-    <div class="logo">
-        <a href="/"><img src="/images/logo.jpg" alt="the Public Whip" /></a>
-    </div>
+      <div id="header" class="widewidth">
+        <div class="logo">
+          <a href="/"><img src="/images/logo.jpg" alt="the Public Whip" /></a>
+        </div>
 
 <!-- This is hidden behind the logo currently so comment it out
     <div class="search">
@@ -108,122 +106,141 @@ function ClickSup(nsup) {
     </div>
  -->
 
-    <!-- the main site navigation -->
-    <div id="nav_main">
-        <a title="Front page and site highlights" href="/index.php">Home</a>
-        <a title="List of all votes in Parliament" href="/divisions.php">Divisions</a>
-        <a title="List of all Representatives" href="/mps.php">Representatives</a>
-        <a title="List of all Senators" href="/mps.php?house=senate">Senators</a>
-        <a title="Help to analyze MP's votes" href="/policies.php">Policies</a>
-        <!-- <a title="Help run the Public Whip project" href="/project/index.php">Join Us</a> -->
-        <a title="Frequently asked questions" href="/faq.php">Help / FAQ</a>
-        <div id="account-navbar">
-            <a title="Register to make or edit policies" href="/account/register.php?r=%2Fproject%2Fdata.php">Sign Up</a> <a title="Login to edit policies" href="/account/settings.php?r=%2Fproject%2Fdata.php">Login</a>         </div>
-    </div>
+        <!-- the main site navigation -->
+        <div id="nav_main">
+          <a title="Front page and site highlights" href="/index.php">Home</a>
+          <a title="List of all votes in Parliament" href="/divisions.php">Divisions</a>
+          <a title="List of all Representatives" href="/mps.php">Representatives</a>
+          <a title="List of all Senators" href="/mps.php?house=senate">Senators</a>
+          <a title="Help to analyze MP's votes" href="/policies.php">Policies</a>
+          <!-- <a title="Help run the Public Whip project" href="/project/index.php">Join Us</a> -->
+          <a href="/faq.php" title="Frequently asked questions">Help / FAQ</a>
+            <div id="account-navbar">
+              <a title="Register to make or edit policies" href="/account/register.php?r=%2Fproject%2Fdata.php">Sign Up</a>
+              <a title="Login to edit policies" href="/account/settings.php?r=%2Fproject%2Fdata.php">Login</a>
+            </div>
+        </div>
 
-</div><!-- end header-->
-<div id="main" class="widewidth"><!-- main content -->
-<h1> Raw Data </h1>
+      </div><!-- end header-->
 
 
-<p>Here you can find raw data compiled by the Public Whip project.
-For example, if you want to load a voting record into a spreadsheet.  
-
-<p>For legal
-and copyright information, see <a href="../faq.php#legal">our FAQ</a>. However,
-we ask that if you do anything fun or important with this data, you let us
-know!  Any problems using the data, or requests for a different format?  Email
+      <div id="main" class="widewidth"><!-- main content -->
+        <h1>Raw Data</h1>
+<p>
+Here you can find raw data compiled by the Public Whip project.
+For example, if you want to load a voting record into a
+spreadsheet.
+</p>
+<p>
+For legal and copyright information, see
+<a href="../faq.php#legal">our FAQ</a>. However, we ask that if you do
+anything fun or important with this data, you let us know! Any
+problems using the data, or requests for a different format? Email
 <a href="mailto:team@publicwhip.org.uk">team@publicwhip.org.uk</a>.
-
-<p>You can <a href="../data/">browse all the data</a>. The data all goes back
-to parliaments from 1997.  It is generated by Public Whip from the division
-listings in the <a href="http://ukparse.kforge.net/parlparse/">debates files
-made by the Parliament Parser project</a>.  You can find lots of other parliament
-data there.
-
+</p>
+<p>
+You can
+<a href="../data/">browse all the data</a>. The data all
+goes back to parliaments from 1997. It is generated by Public Whip
+from the division listings in the
+<a href="http://ukparse.kforge.net/parlparse/">debates files made by the Parliament Parser project</a>.
+You can find lots of other parliament data there.
+</p>
 <h2>MP votes for each division</h2>
-
-<p>The .dat files are tab-separated text files for loading into a spreadsheet.
-They contain a matrix of every vote of each MP/Lord in each division.  The columns
-are headed by the identifiers of the MPs/Lords, and the rows begin with the date,
-number and title of the division.  Each .txt file explains what number
-represents aye, no, abstain and so on, and gives a key to the MP/Lord
+<p>
+The .dat files are tab-separated text files for loading into a
+spreadsheet. They contain a matrix of every vote of each MP/Lord in
+each division. The columns are headed by the identifiers of the
+MPs/Lords, and the rows begin with the date, number and title of
+the division. Each .txt file explains what number represents aye,
+no, abstain and so on, and gives a key to the MP/Lord
 identifiers.
-
+</p>
 <p>
 <a href="../data/votematrix-1997.dat">votematrix-1997.dat</a>
-<a href="../data/votematrix-1997.txt">votematrix-1997.txt</a>
-<br><a href="../data/votematrix-2001.dat">votematrix-2001.dat</a>
-<a href="../data/votematrix-2001.txt">votematrix-2001.txt</a>
-<br><a href="../data/votematrix-2005.dat">votematrix-2005.dat</a>
-<a href="../data/votematrix-2005.txt">votematrix-2005.txt</a>
-<br><a href="../data/votematrix-2010.dat">votematrix-2010.dat</a>
-<a href="../data/votematrix-2010.txt">votematrix-2010.txt</a>
-<br><a href="../data/votematrix-lords.dat">votematrix-lords.dat</a>
+<a href="../data/votematrix-1997.txt">votematrix-1997.txt</a><br/>
+<a href="../data/votematrix-2001.dat">votematrix-2001.dat</a>
+<a href="../data/votematrix-2001.txt">votematrix-2001.txt</a><br/>
+<a href="../data/votematrix-2005.dat">votematrix-2005.dat</a>
+<a href="../data/votematrix-2005.txt">votematrix-2005.txt</a><br/>
+<a href="../data/votematrix-2010.dat">votematrix-2010.dat</a>
+<a href="../data/votematrix-2010.txt">votematrix-2010.txt</a><br/>
+<a href="../data/votematrix-lords.dat">votematrix-lords.dat</a>
 <a href="../data/votematrix-lords.txt">votematrix-lords.txt</a>
-
-<p>You may have problems using these files because they have more than 256
-columns, and some spreadsheets don't go beyond column IV.  See if your
-spreadsheet can import "from column x" so you can load the files in chunks.
-OpenOffice (or StarOffice) has a "Column type" drop down on the import dialog. 
-You can select multiple columns and choose "Hide", then more of the other
-columns will be loaded.  Try to find a copy of Quattro Pro, it works fine with
-more columns.  If you are really stuck, email me and I'll export the data in
-multiple files.
-
+</p>
+<p>
+You may have problems using these files because they have more
+than 256 columns, and some spreadsheets don't go beyond column IV.
+See if your spreadsheet can import "from column x" so you can load
+the files in chunks. OpenOffice (or StarOffice) has a "Column type"
+drop down on the import dialog. You can select multiple columns and
+choose "Hide", then more of the other columns will be loaded. Try
+to find a copy of Quattro Pro, it works fine with more columns. If
+you are really stuck, email me and I'll export the data in multiple
+files.
+</p>
 <h2>MP attendance and rebelliousness rates</h2>
-
-<p>You can open XML files in any text editor, XML viewer or some spreadsheets.
-In the files there are comments with more information.  
-
-<p><a href="../mp-info.xml">mp-info.xml</a> - list of division attendance rate
-and rebelliousness for MPs in the all-members.xml file.  This is a live file,
-correct to the latest division in the Public Whip database.  The field data_date
-shows the date it applies up to.  For members who have left the house it says
-"complete".
-
-<p><a href="../mp-info.xml?house=lords">mp-info.xml?house=lords</a> - 
-likewise for the House of Lords.
-
-
+<p>
+You can open XML files in any text editor, XML viewer or some
+spreadsheets. In the files there are comments with more
+information.
+</p>
+<p>
+<a href="../mp-info.xml">mp-info.xml</a>
+- list of division
+attendance rate and rebelliousness for MPs in the all-members.xml
+file. This is a live file, correct to the latest division in the
+Public Whip database. The field data_date shows the date it applies
+up to. For members who have left the house it says "complete".
+</p>
+<p>
+<a href="../mp-info.xml?house=lords">mp-info.xml?house=lords</a>
+- likewise for the House of Lords.
+</p>
 <h2>Database dumps</h2>
+<p>
+<a href="../data/pw_static_tables.sql.bz2">pw_static_tables.sql.bz2</a>
+- Text dump of MySQL tables containing raw voting and MP data.<br/>
+<a href="../data/pw_dynamic_tables.sql.bz2">pw_dynamic_tables.sql.bz2</a>
+- Text dump of MySQL tables containing policy (Dream MP) votes and
+edited motion text.<br/>
+<a href="../data/pw_cache_tables.sql.bz2">pw_cache_tables.sql.bz2</a>
+- Text dump of MySQL tables containing cached calculations.
+</p>
 
-<p><a href="../data/pw_static_tables.sql.bz2">pw_static_tables.sql.bz2</a> -
-Text dump of MySQL tables containing raw voting and MP data.
-<br><a href="../data/pw_dynamic_tables.sql.bz2">pw_dynamic_tables.sql.bz2</a> -
-Text dump of MySQL tables containing policy (Dream MP) votes and edited motion text.
-<br><a href="../data/pw_cache_tables.sql.bz2">pw_cache_tables.sql.bz2</a> -
-Text dump of MySQL tables containing cached calculations.
+      </div><!-- end main content -->
+    </div><!-- end whitebox-->
 
+    <div id="bluebox">
+      <div class="widewidth">
+        <div class="col1-2">
+          <h3>About the Project</h3>
 
-</div><!-- end main content -->
-</div><!-- end whitebox-->
-<div id="bluebox">
-    <div class="widewidth">
-        <div class="col1-2"><h3>About the Project</h3>
+          <p>
+            The Public Whip is brought to you by the not-for-profit
+            <a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>. It is based
+            on the <a href="http://www.publicwhip.org.uk/">UK site</a> of the same name.
+          </p>
 
-            <p>
-                The Public Whip is brought to you by the not-for-profit <a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>. It is based
-                on the <a href="http://www.publicwhip.org.uk/">UK site</a> of the same name.
-            </p>
-
-            <p>
-                If you'd like to talk to us about the project, please
-                <a href="mailto:contact@openaustraliafoundation.org.au">email us</a>.
-            </p>
+          <p>
+              If you'd like to talk to us about the project, please
+              <a href="mailto:contact@openaustraliafoundation.org.au">email us</a>.
+          </p>
         </div>
-        <div class="col3"><h3>The Whip on the Web</h3>
-            <ul class="social">
-                <li class="wp"><a href="https://www.openaustraliafoundation.org.au/blog/">OpenAustralia Foundation Blog</a></li>
-                <li class="tw"><a href="http://twitter.com/openaustralia">Twitter</a></li>
-                <!-- <li class="fb"><a href="http://www.facebook.com/pages/Public-Whip/199268083464697">Facebook</a></li> -->
-            </ul>
+        <div class="col3">
+          <h3>The Whip on the Web</h3>
+          <ul class="social">
+            <li class="wp"><a href="https://www.openaustraliafoundation.org.au/blog/">OpenAustralia Foundation Blog</a></li>
+            <li class="tw"><a href="http://twitter.com/openaustralia">Twitter</a></li>
+            <!-- <li class="fb"><a href="http://www.facebook.com/pages/Public-Whip/199268083464697">Facebook</a></li> -->
+          </ul>
         </div>
         <div class="clear"></div>
-    </div>
+      </div>
     </div><!--end bluebox-->
-<div id="footer">
-    <div class="widewidth">
+
+    <div id="footer">
+      <div class="widewidth">
         <!-- the footer section -->
         <!-- old footer links <a title="Frequently asked questions" href="/faq.php#whatis">About us</a>
 <a title="Send comments, problems or suggestions" href="/email.php">Contact us</a>
@@ -235,15 +252,17 @@ Text dump of MySQL tables containing cached calculations.
             Other projects by us that you might find interesting:
         </div>
         <div>
-            <a href="http://www.openaustralia.org">OpenAustralia</a>, <a href="http://www.electionleaflets.org.au">Election Leaflets</a>, <a href="http://www.righttoknow.org.au">Right To Know</a> and <a href="http://www.planningalerts.org.au">Planning Alerts</a>.
+            <a href="http://www.openaustralia.org">OpenAustralia</a>,
+            <a href="http://www.electionleaflets.org.au">Election Leaflets</a>,
+            <a href="http://www.righttoknow.org.au">Right To Know</a> and
+            <a href="http://www.planningalerts.org.au">Planning Alerts</a>.
         </div>
         <div class="legal">
             The Public Whip is a not-for-profit, open source, project. Get the
             <a href="https://github.com/openaustralia/publicwhip/">source code</a>.
         </div>
-
-    </div>
-    <div class="clear"></div>
-</div><!-- end footer-->
-</body>
+      </div>
+      <div class="clear"></div>
+    </div><!-- end footer-->
+  </body>
 </html>

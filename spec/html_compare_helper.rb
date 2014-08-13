@@ -62,7 +62,7 @@ module HTMLCompareHelper
   private
 
   def compare_text(old_text, new_text, path, suffix = "")
-    format = URI.parse(path).path[-3..-1] == 'xml' ? 'xml' : 'html'
+    format = 'xml'
 
     n = normalise(new_text, format)
     o = normalise(old_text, format)

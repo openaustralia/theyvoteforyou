@@ -1,48 +1,44 @@
 <!DOCTYPE HTML>
 <html>
-
-
-
-<head>
-<meta charset="UTF-8">
-
-<link href="/style.css" type="text/css" rel="stylesheet" media="all">
+  <head>
+    <meta charset="UTF-8" />
+    <link href="/style.css" type="text/css" rel="stylesheet" media="all" />
 <!--[if IE 7]>
-<link href="/ie7.css" type="text/css" rel="stylesheet" media="all">
+<link href="/ie7.css" type="text/css" rel="stylesheet" media="all" />
 
 <![endif]-->
 <!--
 /*
  * @license
  * MyFonts Webfont Build ID 981839, 2011-08-21T11:30:45-0400
- * 
+ *
  * The fonts listed in this notice are subject to the End User License
- * Agreement(s) entered into by the website owner. All other parties are 
+ * Agreement(s) entered into by the website owner. All other parties are
  * explicitly restricted from using the Licensed Webfonts(s).
- * 
+ *
  * You may obtain a valid license at the URLs below.
- * 
+ *
  * Webfont: Museo 700 by exljbris
  * URL: http://new.myfonts.com/fonts/exljbris/museo/700/
- * 
+ *
  * Webfont: Museo 300 by exljbris
  * URL: http://new.myfonts.com/fonts/exljbris/museo/300/
- * 
- * 
+ *
+ *
  * License: http://www.myfonts.com/viewlicense?1056
  * Licensed pageviews: unlimited
  * Webfonts copyright: Copyright (c) 2008 by Jos Buivenga/exljbris. All rights reserved.
- * 
+ *
  * © 2011 Bitstream Inc
 */
 
 -->
-<link rel="stylesheet" type="text/css" href="/publicwhip.css">
-<link href="/publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
-<link rel="icon" href="/" type="image/x-icon" />
-<link rel="shortcut icon" href="/" type="image/x-icon" />
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-<script type="text/javascript">
+    <link rel="stylesheet" type="text/css" href="/publicwhip.css" />
+    <link href="/publicwhip_print.css" type="text/css" rel="stylesheet" media="print" />
+    <link rel="icon" href="/" type="image/x-icon" />
+    <link rel="shortcut icon" href="/" type="image/x-icon" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script type="text/javascript">
 $(document).ready(function() {
     $('tr').mouseover(function() {
         $(this).addClass('over');})
@@ -51,10 +47,12 @@ $(document).ready(function() {
     });
     $('tr:even').addClass('alt');
 });
-</script>
-<script type="text/javascript" src="/publicwhip.js"></script>
-<title>Source Code &#8212; The Public Whip</title>
-<script type="text/javascript">
+    </script>
+    <script type="text/javascript" src="/publicwhip.js"></script>
+    <title>
+        Source Code — The Public Whip
+    </title>
+    <script type="text/javascript">
 function givefocus(field) {
     if (!document || !document.getElementById)
         return
@@ -88,17 +86,17 @@ function ClickSup(nsup) {
         if (sups[i].className == "sup-" + nsup)
             sups[i].style.backgroundColor = el.style.backgroundColor;
 }
-</script>
-    </head>
+    </script>
+  </head>
 
-<body onLoad="">
-<div id="whitebox">
-<script type="text/javascript" src="/walterzorn/wz_tooltip.js"></script>
+  <body onLoad="">
+    <div id="whitebox">
+      <script type="text/javascript" src="/walterzorn/wz_tooltip.js"></script>
 
-<div id="header" class="widewidth">
-    <div class="logo">
-        <a href="/"><img src="/images/logo.jpg" alt="the Public Whip" /></a>
-    </div>
+      <div id="header" class="widewidth">
+        <div class="logo">
+          <a href="/"><img src="/images/logo.jpg" alt="the Public Whip" /></a>
+        </div>
 
 <!-- This is hidden behind the logo currently so comment it out
     <div class="search">
@@ -108,260 +106,306 @@ function ClickSup(nsup) {
     </div>
  -->
 
-    <!-- the main site navigation -->
-    <div id="nav_main">
-        <a title="Front page and site highlights" href="/index.php">Home</a>
-        <a title="List of all votes in Parliament" href="/divisions.php">Divisions</a>
-        <a title="List of all Representatives" href="/mps.php">Representatives</a>
-        <a title="List of all Senators" href="/mps.php?house=senate">Senators</a>
-        <a title="Help to analyze MP's votes" href="/policies.php">Policies</a>
-        <!-- <a title="Help run the Public Whip project" href="/project/index.php">Join Us</a> -->
-        <a title="Frequently asked questions" href="/faq.php">Help / FAQ</a>
-        <div id="account-navbar">
-            <a title="Register to make or edit policies" href="/account/register.php?r=%2Fproject%2Fcode.php">Sign Up</a> <a title="Login to edit policies" href="/account/settings.php?r=%2Fproject%2Fcode.php">Login</a>         </div>
-    </div>
-
-</div><!-- end header-->
-<div id="main" class="widewidth"><!-- main content -->
-<h1> Source Code </h1>
-
-
-<h2>Introduction</h2>
-
-<p>Hello!  This is the area to come to if you want to find out how the
-Public Whip website works.  All the "source code" which makes the
-website is freely available.  You can download it, run it on your own
-computer, and try out your own anlayses and algorithms.  The code is
-licensed under the <a href="http://www.fsf.org/licensing/licenses/agpl-3.0.html">GNU Affero GPL</a>, 
-a standard open source software license.  
-
-<p>At the moment I've only run this on Linux. It will certainly work on
-other Unixes, and it should run on Windows.  You need to install MySQL, Perl
-and a web server with PHP also.  Since so few people have used this code, there
-are bound to be problems.  Don't hesitate to <a
-href="mailto:team@publicwhip.org.uk">email us</a> for help.
-
-<p>If all this sounds like gobbledygook, then email me and ask for help.
-I can tell you where to go and what to read to learn how to get it up
-and running.  Or if there is a particular good idea that you want to try
-out, I might help more directly by implementing it.
-
-<h2>Ideas and things to do</h2>
-
-<p>You'll find these interesting.
-
-<p><a href="/data/todo.txt">todo.txt</a> - Things we're working on now
-<br><a href="/data/ideas.txt">ideas.txt</a> - Good ideas, that we'd like to do
-<br><a href="/data/ideas-marginal.txt">ideas-marginal.txt</a> - Ideas we think aren't worthwhile
-
-<h2>Roughly how it all works</h2>
-<p>The separate <a href="http://ukparse.kforge.net/parlparse">Parliament Parser</a>
-project supplies XML files of debates in parliament.  These are downloaded
-to Public Whip by HTTP or using rsync.  A Perl script loads the divisions
-from the XML files into a MySQL database.  A combination of Perl and Octave (an
-open source mathematics package, compatible with Matlab) code perform various
-calculations on the data to form other database tables.  The website is written
-in PHP and makes pages by querying the MySQL database.
-
-<p>You can skip a whole stage by grabbing the database dumps from the bottom of
-the <a href="data.php">raw data</a> page, and loading these into MySQL.  Then
-go straight to "Running the website locally" below.
-
-<h2>Getting the source code</h2>
-
-<p><span class="ptitle">Browse</span> - If you're just curious, you can
-<a href="https://bitbucket.org/publicwhip/publicwhip-v1/">browse
-the code online</a>.  Look at README.txt in the top level for more information.</p>
-
-<p><span class="ptitle">File download</span> - To use the code,
-download a snapshot.  Go to our <a
-href="https://bitbucket.org/publicwhip/publicwhip-v1/">BitBucket project page</a>,
-and click the Downloads link.</p>
-
-<p><span class="ptitle">From CVS</span> - For the live code-as-we-change-it,
-you can use the version control system Git.  Go to our <a
-href="https://bitbucket.org/publicwhip/publicwhip-v1/">BitBucket project page</a> where you
-will find the appropriate links to clone the repository.</p>
-
-<p>There is README.txt file with the source code, explaining what is in each
-directory, and what the various todo and idea list files are.</p>
-
-<h2>Setting up Unix-utils, Perl and MySQL</h2>
-
-<p><span class="ptitle">Perl</span> - Under Windows download <a
-href="http://www.activestate.com/ActivePerl/">ActivePerl</a>.
-Unix-based operating systems will probably have Perl already installed.
-
-<p> You will need to install some extra Perl modules.  To install them follow the <a
-href="http://www.cpan.org/misc/cpan-faq.html#How_install_Perl_modules">CPAN
-instructions</a> (Comprehensive Perl Archive Network) under Unix or <a
-href="http://aspn.activestate.com/ASPN/docs/ActivePerl-5.6/faq/ActivePerl-faq2.html">PPM
-instructions</a> (Perl Package Manager) under Windows.    When using
-PPM, if you get errors about Text::Reform then see 
-<a href="http://www.mail-archive.com/dbi-users%40perl.org/msg20734.html">this message</a>.
-
-<p>The modules you need to make sure you have installed are:  
-Text::ExtractWords,
-Text::Autoformat,
-Date::Parse,
-Getopt::Long,
-XML::Twig.
-DBI,
-DBD-mysql,
-encode.
-Tell me if this list is wrong.
-
-<p>
-
-    <p>You will also need the "ttf-bitstream-vera" package for producting graphs.</p>
-    
-<p><span class="ptitle">MySQL</span> - Get this database server from <a
-href="http://www.mysql.com">MySQL.com</a>.  You need version 4.0 or above.  After
-installing it you need to set up the instructions to create a database and a
-user with privileges to access that database. The database can have any name.
-You need to set up the database tables, which all begin with <i>pw_</i>.  To do
-this read the instructions at the top of the file
-create.sql.  It contains the SQL commands which create the tables.
-
-<h2>Getting the XML files</h2>
-
-<p>Download these from the separate <a
-href="http://ukparse.kforge.net/parlparse">Parliament Parse</a> project.  The
-division listings are in the main debate files, but are also available in
-smaller division only files.  To get them do something like this:
-
-<p><tt>rsync --recursive ukparse.kforge.net::parldata/scrapedxml/divisionsonly /home/francis/pwdata/scrapedxml</tt>
-
-<h2>Loading data into the database</h2>
-
-<p>Change to the <i>loader</i> directory.    You need
-<i>memxml2db.pl</i>, which will load the information about MPs into
-database tables.  First you have to tell Perl your MySQL username and
-password.  Copy the file PublicWhip/Config.pm.incvs to PublicWhip/Config.pm and edit it.  Now
-run:
-
-<p><tt>./memxml2db.pl</tt>
-
-<p>Next you need the script called <i>load.pl</i>. It loads the divisons
-from the XML files into the database and does various cached
-calculations for use on the website.  Run it with no parameters to find
-out its syntax.  Now do this:
-
-<p><tt>./load.pl divsxml check</tt>
-
-<p>&hellip;and&hellip;
-
-<p><tt>./calc_caches.php</tt>
-
-<p>Next run this to calculate the Possible Friends section for MPs:
-
-<p><tt>./mp_distance.php</tt>
-
-<p>While you're doing this all, you probably want to run a tool like the <a
-href="http://www.mysql.com/products/mysqlcc/">MySQL Control Center</a>
-to browse the database tables and see what data they are filling up
-with.
-
-<h2>Running the website locally</h2>
-
-<p>You need to install a web server with PHP if you would like to run
-the website locally as a way of viewing your local database.  Which web
-server you use isn't important. I'm using Apache, but you can use PHP
-with IIS.  Download Apache from <a href="http://httpd.apache.org/">The
-Apache Software Foundation</a> and get PHP from <a
-href="http://www.php.net/downloads.php">php.net</a>.
-
-<p>Configure the web server to serve the files in the website folder
-from the Public Whip distribution.  For Apache, add lines like this to
-httpd.conf.  (This installs Public Whip as the top level site for a
-domain on your web server, it only runs properly in that configuration,
-as some URLs are referred to as, for example, /publicwhip.css).
-
-<pre>
-DocumentRoot /home/francis/devel/publicwhip/website/
-
-&lt;Directory /home/francis/devel/publicwhip/website&gt;
-    Options Indexes Includes FollowSymLinks MultiViews
-    AllowOverride All
-
-    Order allow,deny
-    Allow from all
-&lt;/Directory&gt;
-</pre>
-
-<p>You also need a .htaccess file to say how to handle .php files.  Two
-example ones htaccess-francis and htaccess-pworg are in the website
-folder.  Rename htaccess-francis to .htaccess as a first go - exactly
-what you need to do depends on the rest of your Apache configuration.  
-When you're done make sure you restart the webserver so it reloads its
-config files. 
-
-<p>Finally you need to tell the PHP scripts about the database.  Copy
-the file config.php.incvs to config.php and edit it with your MySQL 
-settings.  
-
-<p>Now browse to <a href="http://localhost/">http://localhost/</a>.
-
-<h2>Vote map (Clustering, Multi-dimensional scaling)</h2>
-
-<p>Octave is a mathematics package which we use to perform linear
-algebra for the MP clustering.  Download it from the <a
-href="http://www.octave.org">Octave website</a>.  You also need Java to
-compile and view the clustering applet.  
-Download the latest stable J2SE 1.4 from <a
-href="http://java.sun.com">Sun's Java website</a>.
-
-<p>Now go into the cluster folder.  There is a Makefile here which lets
-you build the clustering data.  If you do <tt>make test</tt> it will
-export the data from your database as a distance matrix DN.m, then use
-Octave to perform MDS on this, and create mpcoords.txt containing the
-coordinates.  It will then run the Java applet as an application for you
-to see the results.
-
-<p>To play with the distance metric which is fed into the clustering,
-have a look in octavein.pl.  To see the formula we use for the
-calculation, look at mds.m.  To alter the set of MPs used for
-clustering, edit mpquery.pm.  You may want to add a "limit 20" to the
-end of the query to reduce the number of MPs so you can try out
-different algorithms quicker.
-
-<h2>Ask me to make it easier</h2>
-
-<p>This stuff isn't in the easiest form for you to use at the moment.
-Do <a href="mailto:team@publicwhip.org.uk">email us</a> for help, and make
-suggestions as to how it could be better.  I'd love to hear from you if
-you've got the thing working at all, and what you're using it for if you
-have.
-
-
-</div><!-- end main content -->
-</div><!-- end whitebox-->
-<div id="bluebox">
-    <div class="widewidth">
-        <div class="col1-2"><h3>About the Project</h3>
-
-            <p>
-                The Public Whip is brought to you by the not-for-profit <a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>. It is based
-                on the <a href="http://www.publicwhip.org.uk/">UK site</a> of the same name.
-            </p>
-
-            <p>
-                If you'd like to talk to us about the project, please
-                <a href="mailto:contact@openaustraliafoundation.org.au">email us</a>.
-            </p>
+        <!-- the main site navigation -->
+        <div id="nav_main">
+          <a title="Front page and site highlights" href="/index.php">Home</a>
+          <a title="List of all votes in Parliament" href="/divisions.php">Divisions</a>
+          <a title="List of all Representatives" href="/mps.php">Representatives</a>
+          <a title="List of all Senators" href="/mps.php?house=senate">Senators</a>
+          <a title="Help to analyze MP's votes" href="/policies.php">Policies</a>
+          <!-- <a title="Help run the Public Whip project" href="/project/index.php">Join Us</a> -->
+          <a href="/faq.php" title="Frequently asked questions">Help / FAQ</a>
+            <div id="account-navbar">
+              <a title="Register to make or edit policies" href="/account/register.php?r=%2Fproject%2Fcode.php">Sign Up</a>
+              <a title="Login to edit policies" href="/account/settings.php?r=%2Fproject%2Fcode.php">Login</a>
+            </div>
         </div>
-        <div class="col3"><h3>The Whip on the Web</h3>
-            <ul class="social">
-                <li class="wp"><a href="https://www.openaustraliafoundation.org.au/blog/">OpenAustralia Foundation Blog</a></li>
-                <li class="tw"><a href="http://twitter.com/openaustralia">Twitter</a></li>
-                <!-- <li class="fb"><a href="http://www.facebook.com/pages/Public-Whip/199268083464697">Facebook</a></li> -->
-            </ul>
+
+      </div><!-- end header-->
+
+
+      <div id="main" class="widewidth"><!-- main content -->
+        <h1>Source Code</h1>
+<h2>Introduction</h2>
+<p>
+Hello! This is the area to come to if you want to find out how
+the Public Whip website works. All the "source code" which makes
+the website is freely available. You can download it, run it on
+your own computer, and try out your own anlayses and algorithms.
+The code is licensed under the
+<a href="http://www.fsf.org/licensing/licenses/agpl-3.0.html">GNU Affero GPL</a>,
+a standard open source software license.
+</p>
+<p>
+At the moment I've only run this on Linux. It will certainly
+work on other Unixes, and it should run on Windows. You need to
+install MySQL, Perl and a web server with PHP also. Since so few
+people have used this code, there are bound to be problems. Don't
+hesitate to
+<a href="mailto:team@publicwhip.org.uk">email us</a>
+for help.
+</p>
+<p>
+If all this sounds like gobbledygook, then email me and ask for
+help. I can tell you where to go and what to read to learn how to
+get it up and running. Or if there is a particular good idea that
+you want to try out, I might help more directly by implementing
+it.
+</p>
+<h2>Ideas and things to do</h2>
+<p>You'll find these interesting.</p>
+<p>
+<a href="/data/todo.txt">todo.txt</a>
+- Things we're working on now<br/>
+<a href="/data/ideas.txt">ideas.txt</a>
+- Good ideas, that we'd like to do<br/>
+<a href="/data/ideas-marginal.txt">ideas-marginal.txt</a>
+- Ideas we think aren't worthwhile
+</p>
+<h2>Roughly how it all works</h2>
+<p>
+The separate
+<a href="http://ukparse.kforge.net/parlparse">Parliament Parser</a>
+project
+supplies XML files of debates in parliament. These are downloaded
+to Public Whip by HTTP or using rsync. A Perl script loads the
+divisions from the XML files into a MySQL database. A combination
+of Perl and Octave (an open source mathematics package, compatible
+with Matlab) code perform various calculations on the data to form
+other database tables. The website is written in PHP and makes
+pages by querying the MySQL database.
+</p>
+<p>
+You can skip a whole stage by grabbing the database dumps from
+the bottom of the
+<a href="data.php">raw data</a>
+page, and loading
+these into MySQL. Then go straight to "Running the website locally"
+below.
+</p>
+<h2>Getting the source code</h2>
+<p>
+<span class="ptitle">Browse</span>
+- If you're just curious, you can
+<a href="https://bitbucket.org/publicwhip/publicwhip-v1/">browse the code online</a>.
+Look at README.txt in the top level for more information.
+</p>
+<p>
+<span class="ptitle">File download</span>
+- To use the code, download a snapshot. Go to our
+<a href="https://bitbucket.org/publicwhip/publicwhip-v1/">BitBucket project page</a>,
+and click the Downloads link.
+</p>
+<p>
+<span class="ptitle">From CVS</span>
+- For the live code-as-we-change-it, you can use the version control system Git.
+Go to our
+<a href="https://bitbucket.org/publicwhip/publicwhip-v1/">BitBucket project page</a>
+where you will find the appropriate links to clone the repository.
+</p>
+<p>
+There is README.txt file with the source code, explaining what
+is in each directory, and what the various todo and idea list files
+are.
+</p>
+<h2>Setting up Unix-utils, Perl and MySQL</h2>
+<p>
+<span class="ptitle">Perl</span>
+- Under Windows download
+<a href="http://www.activestate.com/ActivePerl/">ActivePerl</a>.
+Unix-based operating systems will probably have Perl already
+installed.
+</p>
+<p>
+You will need to install some extra Perl modules. To install
+them follow the
+<a href="http://www.cpan.org/misc/cpan-faq.html#How_install_Perl_modules">CPAN instructions</a>
+(Comprehensive Perl Archive Network) under Unix or
+<a href="http://aspn.activestate.com/ASPN/docs/ActivePerl-5.6/faq/ActivePerl-faq2.html">PPM instructions</a>
+(Perl Package Manager) under Windows. When
+using PPM, if you get errors about Text::Reform then see
+<a href="http://www.mail-archive.com/dbi-users%40perl.org/msg20734.html">this message</a>.
+</p>
+<p>
+The modules you need to make sure you have installed are:
+Text::ExtractWords, Text::Autoformat, Date::Parse, Getopt::Long,
+XML::Twig. DBI, DBD-mysql, encode. Tell me if this list is
+wrong.
+</p>
+<p>
+You will also need the "ttf-bitstream-vera" package for
+producting graphs.
+</p>
+<p>
+<span class="ptitle">MySQL</span>
+- Get this database server
+from
+<a href="http://www.mysql.com">MySQL.com</a>. You need version
+4.0 or above. After installing it you need to set up the
+instructions to create a database and a user with privileges to
+access that database. The database can have any name. You need to
+set up the database tables, which all begin with <i>pw_</i>. To do
+this read the instructions at the top of the file create.sql. It
+contains the SQL commands which create the tables.
+</p>
+<h2>Getting the XML files</h2>
+<p>
+Download these from the separate
+<a href="http://ukparse.kforge.net/parlparse">Parliament Parse</a>
+project.
+The division listings are in the main debate files, but are also
+available in smaller division only files. To get them do something
+like this:
+</p>
+<p>
+<tt>
+rsync --recursive ukparse.kforge.net::parldata/scrapedxml/divisionsonly
+/home/francis/pwdata/scrapedxml
+</tt>
+</p>
+<h2>Loading data into the database</h2>
+<p>
+Change to the <i>loader</i> directory. You need
+<i>memxml2db.pl</i>, which will load the information about MPs into
+database tables. First you have to tell Perl your MySQL username
+and password. Copy the file PublicWhip/Config.pm.incvs to
+PublicWhip/Config.pm and edit it. Now run:
+</p>
+<p>
+<tt>./memxml2db.pl</tt>
+</p>
+<p>
+Next you need the script called <i>load.pl</i>. It loads the
+divisons from the XML files into the database and does various
+cached calculations for use on the website. Run it with no
+parameters to find out its syntax. Now do this:
+</p>
+<p>
+<tt>./load.pl divsxml check</tt>
+</p>
+<p>
+…and…
+</p>
+<p>
+<tt>./calc_caches.php</tt>
+</p>
+<p>
+Next run this to calculate the Possible Friends section for
+MPs:
+</p>
+<p>
+<tt>./mp_distance.php</tt>
+</p>
+<p>
+While you're doing this all, you probably want to run a tool like the
+<a href="http://www.mysql.com/products/mysqlcc/">MySQL Control Center</a>
+to browse the database tables and see what data they are filling up with.
+</p>
+<h2>Running the website locally</h2>
+<p>
+You need to install a web server with PHP if you would like to
+run the website locally as a way of viewing your local database.
+Which web server you use isn't important. I'm using Apache, but you
+can use PHP with IIS. Download Apache from
+<a href="http://httpd.apache.org/">The Apache Software Foundation</a>
+and get PHP from
+<a href="http://www.php.net/downloads.php">php.net</a>.
+</p>
+<p>
+Configure the web server to serve the files in the website
+folder from the Public Whip distribution. For Apache, add lines
+like this to httpd.conf. (This installs Public Whip as the top
+level site for a domain on your web server, it only runs properly
+in that configuration, as some URLs are referred to as, for
+example, /publicwhip.css).
+</p>
+<pre>DocumentRoot /home/francis/devel/publicwhip/website/&#x000A;&#x000A;&lt;Directory /home/francis/devel/publicwhip/website&gt;&#x000A;    Options Indexes Includes FollowSymLinks MultiViews&#x000A;    AllowOverride All&#x000A;&#x000A;    Order allow,deny&#x000A;    Allow from all&#x000A;&lt;/Directory&gt;&#x000A;</pre>&#x000A;
+<p>
+You also need a .htaccess file to say how to handle .php files.
+Two example ones htaccess-francis and htaccess-pworg are in the
+website folder. Rename htaccess-francis to .htaccess as a first go
+- exactly what you need to do depends on the rest of your Apache
+configuration. When you're done make sure you restart the webserver
+so it reloads its config files.
+</p>
+<p>
+Finally you need to tell the PHP scripts about the database.
+Copy the file config.php.incvs to config.php and edit it with your
+MySQL settings.
+</p>
+<p>
+Now browse to
+<a href="http://localhost/">http://localhost/</a>.
+</p>
+<h2>Vote map (Clustering, Multi-dimensional scaling)</h2>
+<p>
+Octave is a mathematics package which we use to perform linear
+algebra for the MP clustering. Download it from the
+<a href="http://www.octave.org">Octave website</a>. You also need Java to
+compile and view the clustering applet. Download the latest stable
+J2SE 1.4 from
+<a href="http://java.sun.com">Sun&#39;s Java website</a>.
+</p>
+<p>
+Now go into the cluster folder. There is a Makefile here which
+lets you build the clustering data. If you do <tt>make test</tt> it
+will export the data from your database as a distance matrix DN.m,
+then use Octave to perform MDS on this, and create mpcoords.txt
+containing the coordinates. It will then run the Java applet as an
+application for you to see the results.
+</p>
+<p>
+To play with the distance metric which is fed into the
+clustering, have a look in octavein.pl. To see the formula we use
+for the calculation, look at mds.m. To alter the set of MPs used
+for clustering, edit mpquery.pm. You may want to add a "limit 20"
+to the end of the query to reduce the number of MPs so you can try
+out different algorithms quicker.
+</p>
+<h2>Ask me to make it easier</h2>
+<p>
+This stuff isn't in the easiest form for you to use at the
+moment. Do
+<a href="mailto:team@publicwhip.org.uk">email us</a>
+for
+help, and make suggestions as to how it could be better. I'd love
+to hear from you if you've got the thing working at all, and what
+you're using it for if you have.
+</p>
+
+      </div><!-- end main content -->
+    </div><!-- end whitebox-->
+
+    <div id="bluebox">
+      <div class="widewidth">
+        <div class="col1-2">
+          <h3>About the Project</h3>
+
+          <p>
+            The Public Whip is brought to you by the not-for-profit
+            <a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>. It is based
+            on the <a href="http://www.publicwhip.org.uk/">UK site</a> of the same name.
+          </p>
+
+          <p>
+              If you'd like to talk to us about the project, please
+              <a href="mailto:contact@openaustraliafoundation.org.au">email us</a>.
+          </p>
+        </div>
+        <div class="col3">
+          <h3>The Whip on the Web</h3>
+          <ul class="social">
+            <li class="wp"><a href="https://www.openaustraliafoundation.org.au/blog/">OpenAustralia Foundation Blog</a></li>
+            <li class="tw"><a href="http://twitter.com/openaustralia">Twitter</a></li>
+            <!-- <li class="fb"><a href="http://www.facebook.com/pages/Public-Whip/199268083464697">Facebook</a></li> -->
+          </ul>
         </div>
         <div class="clear"></div>
-    </div>
+      </div>
     </div><!--end bluebox-->
-<div id="footer">
-    <div class="widewidth">
+
+    <div id="footer">
+      <div class="widewidth">
         <!-- the footer section -->
         <!-- old footer links <a title="Frequently asked questions" href="/faq.php#whatis">About us</a>
 <a title="Send comments, problems or suggestions" href="/email.php">Contact us</a>
@@ -373,16 +417,17 @@ have.
             Other projects by us that you might find interesting:
         </div>
         <div>
-            <a href="http://www.openaustralia.org">OpenAustralia</a>, <a href="http://www.electionleaflets.org.au">Election Leaflets</a>, <a href="http://www.righttoknow.org.au">Right To Know</a> and <a href="http://www.planningalerts.org.au">Planning Alerts</a>.
+            <a href="http://www.openaustralia.org">OpenAustralia</a>,
+            <a href="http://www.electionleaflets.org.au">Election Leaflets</a>,
+            <a href="http://www.righttoknow.org.au">Right To Know</a> and
+            <a href="http://www.planningalerts.org.au">Planning Alerts</a>.
         </div>
         <div class="legal">
             The Public Whip is a not-for-profit, open source, project. Get the
             <a href="https://github.com/openaustralia/publicwhip/">source code</a>.
         </div>
-
-    </div>
-    <div class="clear"></div>
-</div><!-- end footer-->
-</body>
+      </div>
+      <div class="clear"></div>
+    </div><!-- end footer-->
+  </body>
 </html>
-
