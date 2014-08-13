@@ -108,6 +108,7 @@ class DivisionsController < ApplicationController
 
   def show_edits
     @division = Division.in_australian_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
+    render layout: "bootstrap"
   end
 
   def update
