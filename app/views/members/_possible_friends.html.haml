@@ -1,10 +1,10 @@
-%h2
+%h2#friends
   - if all_friends
-    %a{:name => "friends"} All Possible Friends
+    All Possible Friends
   - elsif multiple_people?(members)
-    <a name="friends">Possible Friends (</a><a href="#{electorate_path2(member.url_electorate, display: 'allfriends')}">more...</a>)
+    Possible Friends (<a href="#{electorate_path2(member.url_electorate, display: 'allfriends')}">more...</a>)
   - else
-    <a name="friends">Possible Friends (</a><a href="#{member_path(member, display: 'allfriends')}">more...</a>)
+    Possible Friends (<a href="#{member_path(member, display: 'allfriends')}">more...</a>)
 
 %p
   Shows which
