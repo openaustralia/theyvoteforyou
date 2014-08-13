@@ -14,9 +14,9 @@
   %ul
     - url_electorate = multiple_people?(@members) ? @member.url_electorate : nil
     - # FIXME This summary link is obviously wrong ("allvotes"?)
-    = members_nav_link(@member, nil, @members, url_electorate, "allvotes", "Summary", "Show every vote cast by this MP",  @display.nil? || @display == "allvotes", @policy)
-    = members_nav_link(@member, nil, @members, url_electorate, "motions", "Full description", "Also show descriptions of every vote", @display == "motions", @policy)
-    = members_nav_link(@member, nil, @members, url_electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
+    = members_nav_link(@member, @members, url_electorate, "allvotes", "Summary", "Show every vote cast by this MP",  @display.nil? || @display == "allvotes", @policy)
+    = members_nav_link(@member, @members, url_electorate, "motions", "Full description", "Also show descriptions of every vote", @display == "motions", @policy)
+    = members_nav_link(@member, @members, url_electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
 <!-- the second tier navigation as dropdowns end-->
 
 = render "policy_comparison", member: @member, agreement_fraction_with_policy: @agreement_fraction_with_policy, policy: @policy, display: @display, number_of_votes_on_policy: @number_of_votes_on_policy, policy_member_distance: @policy_member_distance
