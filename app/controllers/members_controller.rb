@@ -92,7 +92,7 @@ class MembersController < ApplicationController
 
     if @policy
       render "show_policy"
-    elsif view_context.multiple_people?(@members)
+    elsif @members.map{|m| m.person}.uniq.count > 1
       render "show_electorate"
     else
       render "show"

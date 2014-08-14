@@ -59,9 +59,4 @@ module MembersHelper
       ""
     end
   end
-
-  # Returns true if there is more than one person in the list of members
-  def multiple_people?(members)
-    members.map{|m| m.person}.uniq.count > 1
-  end
 end
