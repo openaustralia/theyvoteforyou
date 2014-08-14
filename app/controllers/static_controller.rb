@@ -8,5 +8,6 @@ class StaticController < ApplicationController
   end
 
   def research
+    render layout: "bootstrap"
   end
 end
