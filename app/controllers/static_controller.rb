@@ -4,6 +4,7 @@ class StaticController < ApplicationController
   end
 
   def data
+    render layout: "bootstrap"
   end
 
   def research
