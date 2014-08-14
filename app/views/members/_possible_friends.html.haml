@@ -1,8 +1,6 @@
 %h2#friends
   - if all_friends
     All Possible Friends
-  - elsif multiple_people?(members)
-    Possible Friends (<a href="#{electorate_path2(member.url_electorate, display: 'allfriends')}">more...</a>)
   - else
     Possible Friends (<a href="#{member_path(member, display: 'allfriends')}">more...</a>)
 

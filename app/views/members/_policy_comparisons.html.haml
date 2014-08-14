@@ -2,7 +2,7 @@
 
 %p
   This chart shows the percentage agreement between this
-  - if !multiple_people?(members) && members.count > 1 && members.map{|m| m.house}.uniq.count > 1
+  - if members.count > 1 && members.map{|m| m.house}.uniq.count > 1
     person
   - else
     = member_type(member.australian_house)

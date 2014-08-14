@@ -4,10 +4,4 @@
 
 %table.table.table-striped
   - members.each do |member|
-    - if multiple_people?(members)
-      %tr
-        %td(colspan="7")
-          %b
-            Votes by
-            = link_to member.full_name_no_electorate, member_path(member)
     = render "votes", member: member, divisions: member.divisions_possible.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no votes listed"
