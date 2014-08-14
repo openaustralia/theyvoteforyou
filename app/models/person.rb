@@ -39,8 +39,8 @@ class Person
       member = members.current_on(division.date).first
       return member if member
     end
-    # If we can't find a member just return the original
-    self
+    # If we can't find a member just return the first one
+    members.order(entered_house: :desc).first
   end
 
   def agreement_fraction_with_policy(policy)
