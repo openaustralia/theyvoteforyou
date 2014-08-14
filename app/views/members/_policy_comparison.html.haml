@@ -52,84 +52,75 @@
   policy, and 25 points for not voting. In less important votes, the
   MP gets 10 points for voting with the policy, no points for voting
   against, and 1 (out of 2) if absent.
-%table
-  %tr.headings
-    %th
-    %th No of votes
-    %th Points
-    %th Out of
-  %tr.jobevent
-    %td Most important votes (50 points)
-    %td &nbsp;
-    %td &nbsp;
-    %td &nbsp;
-  %tr.evenstrong
-    %td MP voted with policy
-    %td.teller= policy_member_distance.nvotessamestrong
-    %td= policy_member_distance.votes_same_strong_points
-    %td= policy_member_distance.possible_same_strong_points
-  %tr.evenstrong
-    %td MP voted against policy
-    %td.rebel= policy_member_distance.nvotesdifferstrong
-    %td= policy_member_distance.votes_differ_strong_points
-    %td= policy_member_distance.possible_differ_strong_points
-  %tr.evenstrong
-    %td MP absent
-    %td.rebelteller= policy_member_distance.nvotesabsentstrong
-    %td= policy_member_distance.votes_absent_strong_points
-    %td= policy_member_distance.possible_absent_strong_points
-  %tr.jobevent
-    %td Less important votes (10 points)
-    %td &nbsp;
-    %td &nbsp;
-    %td &nbsp;
-  %tr
-    %td MP voted with policy
-    %td.teller= policy_member_distance.nvotessame
-    %td= policy_member_distance.votes_same_points
-    %td= policy_member_distance.possible_same_points
-  %tr
-    %td MP voted against policy
-    %td.rebel= policy_member_distance.nvotesdiffer
-    %td= policy_member_distance.votes_differ_points
-    %td= policy_member_distance.possible_differ_points
-  %tr.jobevent
-    %td Less important absentees (2 points)
-    %td &nbsp;
-    %td &nbsp;
-    %td &nbsp;
-  %tr
-    %td MP absent*
-    %td.rebelteller= policy_member_distance.nvotesabsent
-    %td= policy_member_distance.votes_absent_points
-    %td= policy_member_distance.possible_absent_points
-  %tr.jobevent
-    %td{:colspan => "2"} Total:
-    %td= policy_member_distance.total_points
-    %td= policy_member_distance.possible_total_points
-  %tr
-    %td{:colspan => "4"}
-      %p{:style => "width: 35em;"}
-        %small
+
+%table.table
+  %thead
+    %tr.headings
+      %th
+      %th No of votes
+      %th Points
+      %th Out of
+  %tbody
+    %tr.jobevent
+      %th Most important votes (50 points)
+      %td &nbsp;
+      %td &nbsp;
+      %td &nbsp;
+    %tr.evenstrong
+      %td MP voted with policy
+      %td.teller= policy_member_distance.nvotessamestrong
+      %td= policy_member_distance.votes_same_strong_points
+      %td= policy_member_distance.possible_same_strong_points
+    %tr.evenstrong
+      %td MP voted against policy
+      %td.rebel= policy_member_distance.nvotesdifferstrong
+      %td= policy_member_distance.votes_differ_strong_points
+      %td= policy_member_distance.possible_differ_strong_points
+    %tr.evenstrong
+      %td MP absent
+      %td.rebelteller= policy_member_distance.nvotesabsentstrong
+      %td= policy_member_distance.votes_absent_strong_points
+      %td= policy_member_distance.possible_absent_strong_points
+    %tr.jobevent
+      %th Less important votes (10 points)
+      %td &nbsp;
+      %td &nbsp;
+      %td &nbsp;
+    %tr
+      %td MP voted with policy
+      %td.teller= policy_member_distance.nvotessame
+      %td= policy_member_distance.votes_same_points
+      %td= policy_member_distance.possible_same_points
+    %tr
+      %td MP voted against policy
+      %td.rebel= policy_member_distance.nvotesdiffer
+      %td= policy_member_distance.votes_differ_points
+      %td= policy_member_distance.possible_differ_points
+    %tr.jobevent
+      %th Less important absentees (2 points)
+      %td &nbsp;
+      %td &nbsp;
+      %td &nbsp;
+    %tr
+      %td MP absent*
+      %td.rebelteller= policy_member_distance.nvotesabsent
+      %td= policy_member_distance.votes_absent_points
+      %td= policy_member_distance.possible_absent_points
+    %tr.jobevent
+      %th{:colspan => "2"} Total:
+      %td= policy_member_distance.total_points
+      %td= policy_member_distance.possible_total_points
+    %tr
+      %td{:colspan => "4"}
+        %p
           *Pressure of other work means MPs or
           Senators are not always available to vote – it does not always
           indicate they have abstained. Therefore, being absent on a less
           important vote makes a disproportionatly small
           difference.
-.equals.break
-  %b agreement score
-  \=&nbsp;
-.fraction
-  %span.numerator MP's points
-  %hr.divider/
-  %span.denominator total points
-.equals.break &nbsp;=&nbsp;
-.fraction
-  %span.numerator= policy_member_distance.total_points
-  %hr.divider/
-  %span.denominator= policy_member_distance.possible_total_points
-.equals.break
-  \&nbsp;=
+%p
+  agreement score = MP's points / total points
+  \= #{policy_member_distance.total_points} / #{policy_member_distance.possible_total_points}
+  \=
   = succeed "." do
     %b= fraction_to_percentage_display(agreement_fraction_with_policy, precision: 1, format: "%n %")
-%br{:clear => "all"}/

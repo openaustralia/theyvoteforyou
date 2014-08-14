@@ -89,7 +89,7 @@ class MembersController < ApplicationController
     end
 
     if @policy
-      render "show_policy"
+      render "show_policy", layout: "bootstrap"
     else
       render "show", layout: "bootstrap"
     end
