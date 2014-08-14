@@ -1,13 +1,10 @@
 %p.search
   Enter your postcode, MP name, constituency or
   debate topic:
-%form.search{:action => "search.php", :name => "pw"}
-  %input#query{:maxlength => "256", :name => "query", :size => "25", :value => ""}/
-  %input{:name => "button", :type => "submit", :value => "Search"}/
-%p.search
-  %i
-    Example: "2042", "Tony Abbott", "Bennelong" or
-    "Medicare"
+%form.form-inline.search{:action => "search.php", :name => "pw"}
+  %input.form-control#query{:maxlength => "256", :name => "query", :size => "25", :value => ""}/
+  %input.btn.btn-default{:name => "button", :type => "submit", :value => "Search"}/
+  %p.help-block Example: "2042", "Tony Abbott", "Bennelong" or "Medicare"
 %p.search
   %span.ptitle MPs:
   You can enter a

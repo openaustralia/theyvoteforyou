@@ -21,6 +21,7 @@ class HomeController < ApplicationController
 
       if electorates.respond_to?("has_key?") && electorates.has_key?("error")
         @postcode_error = electorates["error"]
+        render layout: "bootstrap"
         return
       end
 
@@ -29,6 +30,7 @@ class HomeController < ApplicationController
         electorate = member ? member.electorate : ''
         # FIXME: We should redirect but this is how the PHP app does it currently
         render nothing: true, status: :found, location: view_context.electorate_path2(electorate)
+        return
       elsif electorates.count > 1
         @mps = []
         electorates.each do |e|
@@ -40,5 +42,6 @@ class HomeController < ApplicationController
       @mps = Member.find_by_search_query params[:query]
       @divisions = Division.find_by_search_query params[:query]
     end
+    render layout: "bootstrap"
   end
 end
