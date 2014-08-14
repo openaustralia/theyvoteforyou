@@ -6,6 +6,7 @@ class HomeController < ApplicationController
   end
 
   def faq
+    render layout: "bootstrap"
   end
 
   def search
