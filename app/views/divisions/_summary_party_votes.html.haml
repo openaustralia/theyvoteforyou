@@ -1,35 +1,36 @@
-%table
-  %tr.headings
-    %td Party
-    - if division.tied?
-      %td Ayes
-      %td Noes
-    - else
-      %td Majority (#{division.majority_type.capitalize})
-      %td Minority (#{division.minority_type.capitalize})
-    %td Turnout
-  - reset_cycle
-  - division.whips.order(:party).each do |whip|
-    -# Don't shown parties that haven't voted in this division
-    - if whip.total_votes > 0
-      %tr{:class => cycle("odd", "even")}
-        %td= whip.party_name
-        -# When votes are tied the majority vote is aye. So, this will still come out in the correct order
-        %td{:class => majority_vote_class(whip)}
-          = whip.majority_votes
-          - if whip.majority_tells_votes > 0
-            -# TODO The following line should be: (+#{pluralize(whip.majority_tells_votes, "tell")})
-            -# Doing this for compatibility with php version
-            (+#{whip.majority_tells_votes} tell)
-        %td{:class => minority_vote_class(whip)}
-          = whip.minority_votes
-          - if whip.minority_tells_votes > 0
-            -# TODO The following line should be: (+#{pluralize(whip.minority_tells_votes, "tell")})
-            -# Doing this for compatibility with php version
-            (+#{whip.minority_tells_votes} tell)
-        %td.percent= fraction_to_percentage_display(whip.attendance_fraction, precision: 1)
-  %tr{:class => cycle("odd", "even")}
-    %td.whip Total:
-    %td{:class => majority_vote_total_class(division)}= division.majority_votes_including_tells
-    %td{:class => minority_vote_total_class(division)}= division.minority_votes_including_tells
-    %td.percent= fraction_to_percentage_display(division.attendance_fraction, precision: 1)
+%table.table.table-striped
+  %thead
+    %tr
+      %th Party
+      - if division.tied?
+        %th Ayes
+        %th Noes
+      - else
+        %th Majority (#{division.majority_type.capitalize})
+        %th Minority (#{division.minority_type.capitalize})
+      %th Turnout
+  %tbody
+    - division.whips.order(:party).each do |whip|
+      -# Don't shown parties that haven't voted in this division
+      - if whip.total_votes > 0
+        %tr
+          %td= whip.party_name
+          -# When votes are tied the majority vote is aye. So, this will still come out in the correct order
+          %td{:class => majority_vote_class(whip)}
+            = whip.majority_votes
+            - if whip.majority_tells_votes > 0
+              -# TODO The following line should be: (+#{pluralize(whip.majority_tells_votes, "tell")})
+              -# Doing this for compatibility with php version
+              (+#{whip.majority_tells_votes} tell)
+          %td{:class => minority_vote_class(whip)}
+            = whip.minority_votes
+            - if whip.minority_tells_votes > 0
+              -# TODO The following line should be: (+#{pluralize(whip.minority_tells_votes, "tell")})
+              -# Doing this for compatibility with php version
+              (+#{whip.minority_tells_votes} tell)
+          %td.percent= fraction_to_percentage_display(whip.attendance_fraction, precision: 1)
+    %tr
+      %td.whip Total:
+      %td{:class => majority_vote_total_class(division)}= division.majority_votes_including_tells
+      %td{:class => minority_vote_total_class(division)}= division.minority_votes_including_tells
+      %td.percent= fraction_to_percentage_display(division.attendance_fraction, precision: 1)
