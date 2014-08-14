@@ -66,6 +66,10 @@ class MembersController < ApplicationController
       @members = @members.in_australian_house(params[:house]) if params[:house]
       @member = @members.first
       # TODO If this relates to a single person redirect
+      if @display
+        redirect_to view_context.electorate_path2(electorate)
+        return
+      end
     end
 
     if @member.nil?
