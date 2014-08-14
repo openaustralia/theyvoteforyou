@@ -31,7 +31,11 @@ class PoliciesController < ApplicationController
 
   def create
     @policy = Policy.new name: params[:name], description: params[:description], user: current_user, private: 2
-    render 'new' unless @policy.save
+    if @policy.save
+      render layout: "bootstrap"
+    else
+      render 'new', layout: "bootstrap"
+    end
   end
 
   def edit
