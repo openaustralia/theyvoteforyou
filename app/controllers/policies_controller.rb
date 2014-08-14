@@ -22,6 +22,7 @@ class PoliciesController < ApplicationController
       # FIXME This is how the user sets their active policy in PHP which is silly for many reasons
       current_user.update_attribute :active_policy_id, @policy.id
     end
+    render layout: "bootstrap"
   end
 
   def new
