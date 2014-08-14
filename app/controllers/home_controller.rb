@@ -3,11 +3,9 @@ require 'open-uri'
 class HomeController < ApplicationController
   def index
     @divisions = Division.with_rebellions.order("division_date DESC", "clock_time DESC", "division_name", "division_number DESC").limit(5)
-    render layout: "bootstrap"
   end
 
   def faq
-    render layout: "bootstrap"
   end
 
   def search
@@ -21,7 +19,6 @@ class HomeController < ApplicationController
 
       if electorates.respond_to?("has_key?") && electorates.has_key?("error")
         @postcode_error = electorates["error"]
-        render layout: "bootstrap"
         return
       end
 
@@ -42,6 +39,5 @@ class HomeController < ApplicationController
       @mps = Member.find_by_search_query params[:query]
       @divisions = Division.find_by_search_query params[:query]
     end
-    render layout: "bootstrap"
   end
 end

@@ -37,8 +37,6 @@ class MembersController < ApplicationController
     else
       raise
     end
-
-    render layout: "bootstrap"
   end
 
   def show
@@ -72,7 +70,7 @@ class MembersController < ApplicationController
 
     if @member.nil?
       # TODO: This should 404 but doesn't to match the PHP app
-      render 'member_not_found', layout: "bootstrap"
+      render 'member_not_found'
       return
     end
 
@@ -89,9 +87,9 @@ class MembersController < ApplicationController
     end
 
     if @policy
-      render "show_policy", layout: "bootstrap"
+      render "show_policy"
     else
-      render "show", layout: "bootstrap"
+      render "show"
     end
   end
 end

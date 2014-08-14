@@ -48,8 +48,6 @@ class DivisionsController < ApplicationController
     @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
     @divisions = @divisions.with_rebellions if @rdisplay2 == "rebels"
     @divisions = @divisions.joins(:whips).where(pw_cache_whip: {party: @party}) if @party
-
-    render layout: "bootstrap"
   end
 
   def show
@@ -97,18 +95,14 @@ class DivisionsController < ApplicationController
     else
       raise
     end
-
-    render layout: "bootstrap"
   end
 
   def edit
     @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(division_date: params[:date], division_number: params[:number])
-    render layout: "bootstrap"
   end
 
   def show_edits
     @division = Division.in_australian_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
-    render layout: "bootstrap"
   end
 
   def update
@@ -120,7 +114,7 @@ class DivisionsController < ApplicationController
       @division.create_wiki_motion! params[:newtitle], params[:newdescription], current_user
     end
 
-    params[:rr] ? redirect_to(params[:rr]) : render(:edit, layout: "bootstrap")
+    params[:rr] ? redirect_to(params[:rr]) : render(:edit)
   end
 
   def add_policy_vote
@@ -131,6 +125,6 @@ class DivisionsController < ApplicationController
     @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
     @changed_from = @policy.add_division(@division, params["vote#{@policy.id}".to_sym])
 
-    render 'show', layout: "bootstrap"
+    render 'show'
   end
 end

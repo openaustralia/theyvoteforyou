@@ -6,7 +6,6 @@ class PoliciesController < ApplicationController
 
   def index
     @policies = Policy.order(:private, :name)
-    render layout: "bootstrap"
   end
 
   def show
@@ -22,20 +21,14 @@ class PoliciesController < ApplicationController
       # FIXME This is how the user sets their active policy in PHP which is silly for many reasons
       current_user.update_attribute :active_policy_id, @policy.id
     end
-    render layout: "bootstrap"
   end
 
   def new
-    render layout: "bootstrap"
   end
 
   def create
     @policy = Policy.new name: params[:name], description: params[:description], user: current_user, private: 2
-    if @policy.save
-      render layout: "bootstrap"
-    else
-      render 'new', layout: "bootstrap"
-    end
+    render 'new' unless @policy.save
   end
 
   def edit
