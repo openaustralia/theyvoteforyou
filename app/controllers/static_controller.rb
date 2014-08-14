@@ -1,5 +1,6 @@
 class StaticController < ApplicationController
   def code
+    render layout: "bootstrap"
   end
 
   def data
