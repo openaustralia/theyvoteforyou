@@ -92,6 +92,8 @@ class MembersController < ApplicationController
 
     if @policy
       render "show_policy"
+    elsif view_context.multiple_people?(@members)
+      render "show_electorate"
     else
       render "show"
     end
