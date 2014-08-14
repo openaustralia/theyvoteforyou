@@ -26,6 +26,7 @@ class PoliciesController < ApplicationController
   end
 
   def new
+    render layout: "bootstrap"
   end
 
   def create

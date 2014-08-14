@@ -131,14 +131,14 @@ function ClickSup(nsup) {
 <p>Please name your policy, and give a definition.</p>
 </div>
 <form action="" method="post">
-<b>Title of policy</b>
-<br />
-<input maxlength="50" name="name" size="40" type="text" value="Pro-nuclear power" />
-<p>
-<b>Someone who believes that...</b>
-<br />
-<textarea cols="80" name="description" rows="6"></textarea>
-</p>
+<div class="form-group">
+<label>Title of policy</label>
+<input class="form-control" maxlength="50" name="name" size="40" type="text" value="Pro-nuclear power" />
+</div>
+<div class="form-group">
+<label>Someone who believes that...</label>
+<textarea class="form-control" cols="80" name="description" rows="6"></textarea>
+</div>
 <p>
 <span class="ptitle">Privacy notes:</span>
 By creating a policy
@@ -147,9 +147,7 @@ you are making your user name
 and the policy's voting
 record public.
 </p>
-<p>
-<input name="submit" type="submit" value="Make Policy" />
-</p>
+<input class="btn btn-primary" name="submit" type="submit" value="Make Policy" />
 </form>
 
       </div><!-- end main content -->
