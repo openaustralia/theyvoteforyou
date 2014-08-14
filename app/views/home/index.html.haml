@@ -1,56 +1,59 @@
 %h1= yield :title
-.homeintro
-  %h1
-    Find out how
-    %span.emph your
-    MP votes on the issues
-    %span.emph you
-    care about.
-.homevideo
-  %p
-    Every week, a dozen or so times, your MP votes on changes to Australian law. This is their definitive exercise of
-    power on your behalf.
-  %p In order to know whether your MP is representing your views on the issues, you need to know how they’ve voted.
-  %p The Public Whip lets you see all their votes so you can hold them to account.
-.homesearch
-  %h2 Search the Whip
-  %p
-    Enter your
-    = succeed "," do
-      %strong postcode
-    a
-    %strong Representative
-    or
-    = succeed "," do
-      %strong Senator’s name
-    or a particular
-    %strong topic
-    of interest
-  %form.searchtitlebarform{:action => "/search.php", :method => "get", :name => "pw"}
-    %input#query{:maxlength => "256", :name => "query", :onblur => "fadeout(this)", :onfocus => "fadein(this)", :size => "12"}/
-    %button{:name => "button", :type => "submit", :value => "Submit"} Submit
-.homerecents
-  .narrowwidth
-    %h2 Recent controversial divisions
+
+.row
+  .col-md-8.col-md-push-4
+    %h1
+      Find out how
+      %span.emph your
+      MP votes on the issues
+      %span.emph you
+      care about.
     %p
-      = link_to "Show all divisions ordered by most recent", "divisions.php", title: "Show all divisions ordered by most recent"
-    %table.votes
-      - unless @divisions.empty?
-        - @divisions.each do |division|
-          %tr{:class => cycle("even", "odd")}
-            %td{:class => division.house}= division.australian_house_name
-            %td= formatted_date(division.date, true)
-            %td
-              = link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
-  .col1
+      Every week, a dozen or so times, your MP votes on changes to Australian law. This is their definitive exercise of
+      power on your behalf.
+    %p In order to know whether your MP is representing your views on the issues, you need to know how they’ve voted.
+    %p The Public Whip lets you see all their votes so you can hold them to account.
+  .col-md-4.col-md-pull-8
+    %h2 Search the Whip
+    %p
+      Enter your
+      = succeed "," do
+        %strong postcode
+      a
+      %strong Representative
+      or
+      = succeed "," do
+        %strong Senator’s name
+      or a particular
+      %strong topic
+      of interest
+    %form.form-inline.searchtitlebarform{:action => "/search.php", :method => "get", :name => "pw"}
+      %input.form-control#query{:maxlength => "256", :name => "query", :onblur => "fadeout(this)", :onfocus => "fadein(this)", :size => "12"}/
+      %button.btn.btn-default{:name => "button", :type => "submit", :value => "Submit"} Submit
+
+%h2 Recent controversial divisions
+%p
+  = link_to "Show all divisions ordered by most recent", "divisions.php", title: "Show all divisions ordered by most recent"
+
+%table.table.table-striped
+  - unless @divisions.empty?
+    - @divisions.each do |division|
+      %tr
+        %td{:class => division.house}= division.australian_house_name
+        %td= formatted_date(division.date, true)
+        %td
+          = link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
+
+.row
+  .col-md-4
     %h2 Top rebel MPs
     %p
       = link_to "Show all MPs ordered by rebellions", "mps.php?sort=rebellions", title: "Show all MPs ordered by rebellions"
-  .col2
+  .col-md-4
     %h2 Representatives and Senators who attend votes most often
     %p
       = link_to "Show all MPs ordered by attendance", "mps.php?sort=attendance&house=all", title: "Show all MPs ordered by attendance"
-  .col3
+  .col-md-4
     %h2 Test a Representative or Senator against policies you care about
     %p
       = link_to "Browse", "policies.php"
