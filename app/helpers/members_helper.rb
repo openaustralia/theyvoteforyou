@@ -33,18 +33,6 @@ module MembersHelper
 
   def members_nav_link(member, members, electorate, display, name, title, active, policy = nil)
     params = policy ? {display: display, dmp: policy.id} : {display: display}
-    if active
-      content_tag(:li, name, class: "on")
-    else
-      content_tag(:li, class: "off") do
-        path = electorate ? electorate_path2(electorate, params) : member_path(member, params)
-        link_to name, path, title: title, class: "off"
-      end
-    end
-  end
-
-  def members_nav_link_bs(member, members, electorate, display, name, title, active, policy = nil)
-    params = policy ? {display: display, dmp: policy.id} : {display: display}
     content_tag(:li, class: ("active" if active)) do
       path = electorate ? electorate_path2(electorate, params) : member_path(member, params)
       link_to name, path, title: title
