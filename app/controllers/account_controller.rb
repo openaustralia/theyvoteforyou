@@ -5,6 +5,10 @@ class AccountController < ApplicationController
   before_action :authenticate_user!, only: [:settings]
 
   def settings
-    redirect_to params[:r] if params[:r]
+    if params[:r]
+      redirect_to params[:r]
+    else
+      render layout: "bootstrap"
+    end
   end
 end

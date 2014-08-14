@@ -9,19 +9,24 @@
   %span.ptitle Real name:
   = current_user.real_name
   %br/
-  <span class="ptitle">Email:</span> #{current_user.email} (
-  %a{:href => "changeemail.php"}> change email
+  %span.ptitle Email:
+  = current_user.email
+  (
+  -# TODO Use path helper
+  = link_to "change email", "changeemail.php"
   )
   %br/
   %span.ptitle Password:
   (
-  %a{:href => "changepass.php"}> change password
+  = link_to "change password", "changepass.php"
   )
+
 %h2 Policies which you made
+%ul
 - current_user.policies.each do |policy|
-  %br/
-  = link_to policy.name, "../#{policy_path(policy)}"
-  (#{policy.status})
+  %li
+    = link_to policy.name, "../#{policy_path(policy)}"
+    (#{policy.status})
 %p
   (
   %a{:href => "addpolicy.php"}> make a new policy
