@@ -12,14 +12,15 @@
 .page-header
   %h1= yield :title
 
-%p
-  %ul.nav.nav-tabs
-    - url_electorate = multiple_people?(@members) ? @member.url_electorate : nil
-    = members_nav_link(@member, @members, url_electorate, nil, "Summary", "Overview of MP", @display.nil? || @display == "summary")
-    = members_nav_link(@member, @members, url_electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @display == "allvotes")
-    = members_nav_link(@member, @members, url_electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
-    = members_nav_link(@member, @members, url_electorate, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
-    = members_nav_link(@member, @members, url_electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
+- unless multiple_people?(@members)
+  %p
+    %ul.nav.nav-tabs
+      - url_electorate = multiple_people?(@members) ? @member.url_electorate : nil
+      = members_nav_link(@member, @members, url_electorate, nil, "Summary", "Overview of MP", @display.nil? || @display == "summary")
+      = members_nav_link(@member, @members, url_electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @display == "allvotes")
+      = members_nav_link(@member, @members, url_electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
+      = members_nav_link(@member, @members, url_electorate, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
+      = members_nav_link(@member, @members, url_electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
 
 - if @display == "allfriends"
   = render "possible_friends", all_friends: true, member: @member, members: @members
@@ -27,12 +28,14 @@
   = render "policy_comparisons", member: @member, members: @members
 - else
   = render "summary", members: @members, member: @member, display: @display
-  = render "external_links", member: @member
+  - unless multiple_people?(@members)
+    = render "external_links", member: @member
   - if @display == "allvotes"
     = render "votes_attended", members: @members, member: @member
   - elsif @display == "summary" || @display.nil?
-    = render "interesting_votes", members: @members, member: @member
-    = render "policy_comparisons", member: @member, members: @members
-    = render "possible_friends", all_friends: false, member: @member, members: @members
+    - unless multiple_people?(@members)
+      = render "interesting_votes", members: @members, member: @member
+      = render "policy_comparisons", member: @member, members: @members
+      = render "possible_friends", all_friends: false, member: @member, members: @members
   - elsif @display == "everyvote"
     = render "all_votes", members: @members
