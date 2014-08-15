@@ -12,44 +12,46 @@ describe MemberDistance, :type => :model do
 
     it { expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 0 }
     it { expect(MemberDistance.calculate_nvotesdiffer(membera, memberb)).to eq 0}
+    it { expect(MemberDistance.calculate_nvotesabsent(membera, memberb)).to eq 0}
 
     context "with votes in one division" do
       let(:division) { Division.create(division_name: "1", division_date: Date.new(2000,1,1),
       division_number: 1, house: "House", source_url: "", debate_url: "", motion: "", notes: "",
       source_gid: "", debate_gid: "") }
 
-      def check_vote_combination(vote1, vote2, nvotessame, nvotesdiffer)
+      def check_vote_combination(vote1, vote2, same, differ, absent)
         membera.votes.create(division: division, vote: vote1) unless vote1 == "absent"
         memberb.votes.create(division: division, vote: vote2) unless vote2 == "absent"
-        expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq nvotessame
-        expect(MemberDistance.calculate_nvotesdiffer(membera, memberb)).to eq nvotesdiffer
+        expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq same
+        expect(MemberDistance.calculate_nvotesdiffer(membera, memberb)).to eq differ
+        expect(MemberDistance.calculate_nvotesabsent(membera, memberb)).to eq absent
       end
 
-      it { check_vote_combination("absent",     "absent", 0, 0) }
-      it { check_vote_combination("absent",     "aye",    0, 0) }
-      it { check_vote_combination("absent",     "no",     0, 0) }
-      it { check_vote_combination("absent",     "tellaye",0, 0) }
-      it { check_vote_combination("absent",     "tellno", 0, 0) }
-      it { check_vote_combination("aye",        "absent", 0, 0) }
-      it { check_vote_combination("aye",        "aye",    1, 0) }
-      it { check_vote_combination("aye",        "no",     0, 1) }
-      it { check_vote_combination("aye",        "tellaye",1, 0) }
-      it { check_vote_combination("aye",        "tellno", 0, 1) }
-      it { check_vote_combination("no",         "absent", 0, 0) }
-      it { check_vote_combination("no",         "aye",    0, 1) }
-      it { check_vote_combination("no",         "no",     1, 0) }
-      it { check_vote_combination("no",         "tellaye",0, 1) }
-      it { check_vote_combination("no",         "tellno", 1, 0) }
-      it { check_vote_combination("tellaye",    "absent", 0, 0) }
-      it { check_vote_combination("tellaye",    "aye",    1, 0) }
-      it { check_vote_combination("tellaye",    "no",     0, 1) }
-      it { check_vote_combination("tellaye",    "tellaye",1, 0) }
-      it { check_vote_combination("tellaye",    "tellno", 0, 1) }
-      it { check_vote_combination("tellno",     "absent", 0, 0) }
-      it { check_vote_combination("tellno",     "aye",    0, 1) }
-      it { check_vote_combination("tellno",     "no",     1, 0) }
-      it { check_vote_combination("tellno",     "tellaye",0, 1) }
-      it { check_vote_combination("tellno",     "tellno", 1, 0) }
+      it { check_vote_combination("absent",     "absent", 0, 0, 0) }
+      it { check_vote_combination("absent",     "aye",    0, 0, 1) }
+      it { check_vote_combination("absent",     "no",     0, 0, 1) }
+      it { check_vote_combination("absent",     "tellaye",0, 0, 1) }
+      it { check_vote_combination("absent",     "tellno", 0, 0, 1) }
+      it { check_vote_combination("aye",        "absent", 0, 0, 1) }
+      it { check_vote_combination("aye",        "aye",    1, 0, 0) }
+      it { check_vote_combination("aye",        "no",     0, 1, 0) }
+      it { check_vote_combination("aye",        "tellaye",1, 0, 0) }
+      it { check_vote_combination("aye",        "tellno", 0, 1, 0) }
+      it { check_vote_combination("no",         "absent", 0, 0, 1) }
+      it { check_vote_combination("no",         "aye",    0, 1, 0) }
+      it { check_vote_combination("no",         "no",     1, 0, 0) }
+      it { check_vote_combination("no",         "tellaye",0, 1, 0) }
+      it { check_vote_combination("no",         "tellno", 1, 0, 0) }
+      it { check_vote_combination("tellaye",    "absent", 0, 0, 1) }
+      it { check_vote_combination("tellaye",    "aye",    1, 0, 0) }
+      it { check_vote_combination("tellaye",    "no",     0, 1, 0) }
+      it { check_vote_combination("tellaye",    "tellaye",1, 0, 0) }
+      it { check_vote_combination("tellaye",    "tellno", 0, 1, 0) }
+      it { check_vote_combination("tellno",     "absent", 0, 0, 1) }
+      it { check_vote_combination("tellno",     "aye",    0, 1, 0) }
+      it { check_vote_combination("tellno",     "no",     1, 0, 0) }
+      it { check_vote_combination("tellno",     "tellaye",0, 1, 0) }
+      it { check_vote_combination("tellno",     "tellno", 1, 0, 0) }
 
     end
 
