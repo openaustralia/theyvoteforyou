@@ -42,12 +42,6 @@ class Distance
     absentstrong * STRONG_WEIGHT / 2
   end
 
-  def score
-    votes_same_points + votes_same_strong_points +
-      votes_differ_points + votes_differ_strong_points +
-      votes_absent_points + votes_absent_strong_points
-  end
-
   ####
 
   def possible_same_points
@@ -78,7 +72,13 @@ class Distance
 
   ####
 
-  def weight
+  def total_points
+    votes_same_points + votes_same_strong_points +
+      votes_differ_points + votes_differ_strong_points +
+      votes_absent_points + votes_absent_strong_points
+  end
+
+  def possible_total_points
     possible_same_points + possible_same_strong_points +
       possible_differ_points + possible_differ_strong_points +
       possible_absent_points + possible_absent_strong_points
@@ -86,8 +86,8 @@ class Distance
 
   # TODO: Need to make this formula more clear
   def agreement
-    if weight > 0
-      score.to_f / weight
+    if possible_total_points > 0
+      total_points.to_f / possible_total_points
     else
       2.0
     end
