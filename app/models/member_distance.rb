@@ -4,12 +4,22 @@ class MemberDistance < ActiveRecord::Base
   belongs_to :member1, foreign_key: :mp_id1, class_name: "Member"
   belongs_to :member2, foreign_key: :mp_id2, class_name: "Member"
 
+  before_save :update_cache_values!
+
   def agreement_percentage
     (1 - distance_a) * 100
   end
 
   def agreement_percentage_without_abstentions
     (1 - distance_b) * 100
+  end
+
+  def update_cache_values!
+    self.nvotessame = MemberDistance.calculate_nvotessame(member1, member2)
+    self.nvotesdiffer = MemberDistance.calculate_nvotesdiffer(member1, member2)
+    self.nvotesabsent = MemberDistance.calculate_nvotesabsent(member1, member2)
+    self.distance_a = Distance.distance_a(nvotessame, nvotesdiffer, nvotesabsent)
+    self.distance_b = Distance.distance_b(nvotessame, nvotesdiffer)
   end
 
   def self.calculate_nvotessame(member1, member2)
@@ -41,13 +51,5 @@ class MemberDistance < ActiveRecord::Base
       .joins("LEFT JOIN pw_vote AS pw_vote2 on pw_vote2.division_id = pw_division.division_id AND pw_vote2.mp_id = #{member2.id}")
       .where("(pw_vote1.vote IS NULL AND pw_vote2.vote IS NOT NULL) OR (pw_vote1.vote IS NOT NULL AND pw_vote2.vote IS NULL)")
       .count
-  end
-
-  def self.calculate_distance_a(same, diff, absent)
-    Distance.distance_a(same, diff, absent)
-  end
-
-  def self.calculate_distance_b(same, diff)
-    Distance.distance_b(same, diff)
   end
 end

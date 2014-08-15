@@ -87,6 +87,19 @@ describe MemberDistance, :type => :model do
       it { expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 2 }
       it { expect(MemberDistance.calculate_nvotesdiffer(membera, memberb)).to eq 1 }
       it { expect(MemberDistance.calculate_nvotesabsent(membera, memberb)).to eq 2 }
+
+      it "should calculate the cache on creating" do
+        expect(Distance).to receive(:distance_a).with(2, 1, 2).and_return(0.1)
+        expect(Distance).to receive(:distance_b).with(2, 1).and_return(0.2)
+        m = MemberDistance.create(member1: membera, member2: memberb)
+        # We can't call m.reload because we don't have a primary key. So, do this instead
+        m = MemberDistance.first
+        expect(m.nvotessame).to eq 2
+        expect(m.nvotesdiffer).to eq 1
+        expect(m.nvotesabsent).to eq 2
+        expect(m.distance_a).to eq 0.1
+        expect(m.distance_b).to eq 0.2
+      end
     end
   end
 end
