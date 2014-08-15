@@ -57,8 +57,8 @@ describe MemberDistance, :type => :model do
 
     context "with votes on five divisions" do
       before :each do
-        # Member A: 1 aye,    2 aye, 3 aye, 4 no, 5 absent
-        # Member B: 1 absent, 2 aye, 3 no,  4 no, 5 no
+        # Member A: 1 aye,    2 aye,     3 aye, 4 tellno, 5 absent
+        # Member B: 1 absent, 2 tellaye, 3 no,  4 no,     5 no
         division1 = Division.create(division_name: "1", division_date: Date.new(2000,1,1),
         division_number: 1, house: "House", source_url: "", debate_url: "", motion: "", notes: "",
         source_gid: "", debate_gid: "")
@@ -77,14 +77,16 @@ describe MemberDistance, :type => :model do
         membera.votes.create(division: division1, vote: "aye")
         membera.votes.create(division: division2, vote: "aye")
         membera.votes.create(division: division3, vote: "aye")
-        membera.votes.create(division: division4, vote: "no")
-        memberb.votes.create(division: division2, vote: "aye")
+        membera.votes.create(division: division4, vote: "tellno")
+        memberb.votes.create(division: division2, vote: "tellaye")
         memberb.votes.create(division: division3, vote: "no")
         memberb.votes.create(division: division4, vote: "no")
         memberb.votes.create(division: division5, vote: "no")
       end
 
       it { expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 2 }
+      it { expect(MemberDistance.calculate_nvotesdiffer(membera, memberb)).to eq 1 }
+      it { expect(MemberDistance.calculate_nvotesabsent(membera, memberb)).to eq 2 }
     end
   end
 end
