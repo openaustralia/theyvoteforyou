@@ -8,7 +8,14 @@ namespace :application do
 
     task reload_electorates: :environment do
       puts "Reloading electorates..."
-      DataLoader.reload_electorates("#{XML_DATA_DIRECTORY}/divisions.xml")
+      puts "Deleted #{Electorate.delete_all} electorates"
+
+      divisions = XMLMappings::Divisions.parse(File.read("#{XML_DATA_DIRECTORY}/divisions.xml"))
+      divisions.each do |division|
+        Electorate.create!(division.to_h)
+      end
+
+      puts "Loaded #{Electorate.count} electorates"
     end
 
     # TODO: Load people.xml

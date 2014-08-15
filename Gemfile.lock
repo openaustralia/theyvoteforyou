@@ -161,6 +161,8 @@ GEM
     newrelic_rpm (3.9.1.236)
     nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
+    nokogiri-happymapper (0.5.9)
+      nokogiri (~> 1.5)
     ntlm-http (0.1.1)
     orm_adapter (0.5.0)
     polyglot (0.3.5)
@@ -318,6 +320,7 @@ DEPENDENCIES
   mechanize
   mysql2
   newrelic_rpm
+  nokogiri-happymapper
   rails (= 4.1.4)
   ranker
   rspec-activemodel-mocks
