@@ -56,7 +56,52 @@ namespace :application do
     end
     puts "Loaded #{Office.count} offices"
 
-    # TODO: Load representatives.xml
+    # representatives.xml
+    puts "Before loading, database contains #{Member.count} members"
+    puts "Loading representatives..."
+    representatives_xml = Nokogiri.parse(File.read("#{XML_DATA_DIRECTORY}/representatives.xml"))
+    representatives_xml.search(:member).each do |member|
+      house = member[:house]
+      house = case house
+              when 'representatives'
+                'commons'
+              when 'senate'
+                'lords'
+              end
+
+      gid = member[:id]
+      if gid.include?('uk.org.publicwhip/member/')
+        raise 'House mismatch' unless house == 'commons'
+        id = gid[/uk.org.publicwhip\/member\/(\d*)/, 1]
+      elsif gid.include?('uk.org.publicwhip/lord/')
+        raise 'House mismatch' unless house == 'lords'
+        id = gid[/uk.org.publicwhip\/lord\/(\d*)/, 1]
+      else
+        raise "Unknown gid type #{gid}"
+      end
+
+      person = member_to_person[member[:id]]
+      raise "MP #{member[:id]} has no person" unless person
+      person = person[/uk.org.publicwhip\/person\/(\d*)/, 1]
+
+      Member.where(gid: gid).destroy_all
+      Member.create!(first_name: member[:firstname],
+                     last_name: member[:lastname],
+                     title: member[:title],
+                     constituency: member[:division],
+                     party: member[:party],
+                     house: house,
+                     entered_house: member[:fromdate],
+                     left_house: member[:todate],
+                     entered_reason: member[:fromwhy],
+                     left_reason: member[:towhy],
+                     mp_id: id,
+                     person: person,
+                     gid: gid,
+                     source_gid: '')
+    end
+    puts "After loading, database contains #{Member.count} members"
+
     # TODO: Load senators.xml
     # TODO: Remove Members not found in XML
   end
