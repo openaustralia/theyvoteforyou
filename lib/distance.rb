@@ -1,6 +1,13 @@
 class Distance
+  attr_reader :same, :samestrong, :differ, :differstrong, :absent, :absentstrong
+
+  def initialize(same, samestrong, differ, differstrong, absent, absentstrong)
+    @same, @samestrong, @differ, @differstrong, @absent, @absentstrong =
+      same, samestrong, differ, differstrong, absent, absentstrong
+  end
+
   # TODO: Need to make this formula more clear
-  def self.calculate(same, samestrong, differ, differstrong, absent, absentstrong)
+  def calculate
     # absents have low weighting, except where it is a strong vote
     strong_weight = 5.0
     absent_weight = 0.2
@@ -14,5 +21,9 @@ class Distance
     else
       -1.0
     end
+  end
+
+  def self.calculate(same, samestrong, differ, differstrong, absent, absentstrong)
+    Distance.new(same, samestrong, differ, differstrong, absent, absentstrong).calculate
   end
 end
