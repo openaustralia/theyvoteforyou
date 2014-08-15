@@ -48,16 +48,16 @@ class MemberDistance < ActiveRecord::Base
       .count
   end
 
-  # This is copied straight from the php. Need to make this formula a little more clear
+  # TODO: Need to make this formula more clear
   def self.calc_dreammp_person_distance(nvotessame, nvotessamestrong, nvotesdiffer, nvotesdifferstrong,
     nvotesabsent, nvotesabsentstrong)
-    # absents have low weighting, except where it was 3-line
-    # 3-line has higher than 3 to make it rise above the noise.
-    tlw = 5.0
-    weight = nvotessame + tlw * nvotessamestrong + nvotesdiffer + tlw * nvotesdifferstrong +
-          0.2 * nvotesabsent + tlw * nvotesabsentstrong
+    # absents have low weighting, except where it is a strong vote
+    strong_weight = 5.0
+    absent_weight = 0.2
+    weight = nvotessame + strong_weight * nvotessamestrong + nvotesdiffer + strong_weight * nvotesdifferstrong +
+          absent_weight * nvotesabsent + strong_weight * nvotesabsentstrong
 
-    score = nvotesdiffer + tlw * nvotesdifferstrong + 0.1 * nvotesabsent + tlw / 2 * nvotesabsentstrong
+    score = nvotesdiffer + strong_weight * nvotesdifferstrong + absent_weight / 2 * nvotesabsent + strong_weight / 2 * nvotesabsentstrong
     if weight > 0
       score / weight
     else
@@ -65,7 +65,11 @@ class MemberDistance < ActiveRecord::Base
     end
   end
 
+  def self.calculate_distance_a(same, diff, absent)
+    calc_dreammp_person_distance(same, 0, diff, 0, absent, 0)
+  end
+
   def self.calculate_distance_b(same, diff)
-    calc_dreammp_person_distance(same, 0, diff, 0, 0, 0)
+    calculate_distance_a(same, diff, 0)
   end
 end

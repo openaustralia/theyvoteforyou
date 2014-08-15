@@ -27,6 +27,24 @@ describe MemberDistance, :type => :model do
     it { expect(MemberDistance.calculate_distance_b(3, 1)).to eq 0.25 }
   end
 
+  describe ".calculate_distance_a" do
+    context "no absent votes" do
+      it { expect(MemberDistance.calculate_distance_a(3, 1, 0)).to eq MemberDistance.calculate_distance_b(3, 1)}
+    end
+
+    context "only absent votes" do
+      it "should see them as neither agreeing or disagreeing" do
+        expect(MemberDistance.calculate_distance_a(0, 0, 3)).to eq 0.5
+      end
+    end
+
+    # With 5 absent votes versus 1 agree vote we are half way between agreeing completely (0)
+    # and what we would get by both parties being absent all the time (0.5)
+    it { expect(MemberDistance.calculate_distance_a(1, 0, 5)).to eq 0.25}
+    # Similarly here for disagreeing
+    it { expect(MemberDistance.calculate_distance_a(0, 1, 5)).to eq 0.75}
+  end
+
   describe "calculating cache values" do
     let(:membera) { Member.create(first_name: "Member", last_name: "A", gid: "A", source_gid: "A",
       title: "", constituency: "foo", party: "Party", house: "House") }
