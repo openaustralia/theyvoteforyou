@@ -41,4 +41,26 @@ describe Distance do
     # Similarly here for disagreeing
     it { expect(Distance.distance_a(0, 1, 5)).to eq 0.75}
   end
+
+  describe "#votes_points" do
+    # TODO Not yet testing strong votes
+    let(:distance) { Distance.new(1, 0, 2, 0, 3, 0) }
+    it { expect(distance.votes_points(:same)).to eq 10}
+    it { expect(distance.votes_points(:differ)).to eq 0}
+    it { expect(distance.votes_points(:absent)).to eq 3}
+    it { expect(distance.votes_points(:samestrong)).to eq 0}
+    it { expect(distance.votes_points(:differstrong)).to eq 0}
+    it { expect(distance.votes_points(:absentstrong)).to eq 0}
+  end
+
+  describe "#possible_votes_points" do
+    # TODO Not yet testing strong votes
+    let(:distance) { Distance.new(1, 0, 2, 0, 3, 0) }
+    it { expect(distance.possible_votes_points(:same)).to eq 10}
+    it { expect(distance.possible_votes_points(:differ)).to eq 20}
+    it { expect(distance.possible_votes_points(:absent)).to eq 6}
+    it { expect(distance.possible_votes_points(:samestrong)).to eq 0}
+    it { expect(distance.possible_votes_points(:differstrong)).to eq 0}
+    it { expect(distance.possible_votes_points(:absentstrong)).to eq 0}
+  end
 end
