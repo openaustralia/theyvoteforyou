@@ -43,7 +43,7 @@ namespace :application do
       position = moffice[:position]
       if position.size > 100
         puts "WARNING: Truncating position \"#{position}\""
-        position.slice! 0..99
+        position.slice! 100..-1
       end
 
       Office.create!(moffice_id: moffice[:id][/uk.org.publicwhip\/moffice\/(\d*)/, 1],
