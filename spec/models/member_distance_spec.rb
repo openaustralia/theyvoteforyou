@@ -46,10 +46,10 @@ describe MemberDistance, :type => :model do
   end
 
   describe "calculating cache values" do
-    let(:membera) { Member.create(first_name: "Member", last_name: "A", gid: "A", source_gid: "A",
-      title: "", constituency: "foo", party: "Party", house: "House") }
-    let(:memberb) { Member.create(first_name: "Member", last_name: "B", gid: "B", source_gid: "B",
-      title: "", constituency: "bar", party: "Party", house: "House") }
+    let(:membera) { Member.create(mp_id: 1, first_name: "Member", last_name: "A", gid: "A", source_gid: "A",
+      title: "", constituency: "foo", party: "Party", house: "commons") }
+    let(:memberb) { Member.create(mp_id: 2, first_name: "Member", last_name: "B", gid: "B", source_gid: "B",
+      title: "", constituency: "bar", party: "Party", house: "commons") }
 
     it { expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 0 }
     it { expect(MemberDistance.calculate_nvotesdiffer(membera, memberb)).to eq 0}
@@ -57,7 +57,7 @@ describe MemberDistance, :type => :model do
 
     context "with votes in one division" do
       let(:division) { Division.create(division_name: "1", division_date: Date.new(2000,1,1),
-      division_number: 1, house: "House", source_url: "", debate_url: "", motion: "", notes: "",
+      division_number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
       source_gid: "", debate_gid: "") }
 
       def check_vote_combination(vote1, vote2, same, differ, absent)
@@ -101,19 +101,19 @@ describe MemberDistance, :type => :model do
         # Member A: 1 aye,    2 aye,     3 aye, 4 tellno, 5 absent
         # Member B: 1 absent, 2 tellaye, 3 no,  4 no,     5 no
         division1 = Division.create(division_name: "1", division_date: Date.new(2000,1,1),
-        division_number: 1, house: "House", source_url: "", debate_url: "", motion: "", notes: "",
+        division_number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
         source_gid: "", debate_gid: "")
         division2 = Division.create(division_name: "2", division_date: Date.new(2000,1,1),
-        division_number: 2, house: "House", source_url: "", debate_url: "", motion: "", notes: "",
+        division_number: 2, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
         source_gid: "", debate_gid: "")
         division3 = Division.create(division_name: "3", division_date: Date.new(2000,1,1),
-        division_number: 3, house: "House", source_url: "", debate_url: "", motion: "", notes: "",
+        division_number: 3, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
         source_gid: "", debate_gid: "")
         division4 = Division.create(division_name: "4", division_date: Date.new(2000,1,1),
-        division_number: 4, house: "House", source_url: "", debate_url: "", motion: "", notes: "",
+        division_number: 4, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
         source_gid: "", debate_gid: "")
         division5 = Division.create(division_name: "5", division_date: Date.new(2000,1,1),
-        division_number: 5, house: "House", source_url: "", debate_url: "", motion: "", notes: "",
+        division_number: 5, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
         source_gid: "", debate_gid: "")
         membera.votes.create(division: division1, vote: "aye")
         membera.votes.create(division: division2, vote: "aye")
