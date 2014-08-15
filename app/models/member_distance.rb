@@ -47,4 +47,25 @@ class MemberDistance < ActiveRecord::Base
       .where("(pw_vote1.vote IS NULL AND pw_vote2.vote IS NOT NULL) OR (pw_vote1.vote IS NOT NULL AND pw_vote2.vote IS NULL)")
       .count
   end
+
+  # This is copied straight from the php. Need to make this formula a little more clear
+  def self.calc_dreammp_person_distance(nvotessame, nvotessamestrong, nvotesdiffer, nvotesdifferstrong,
+    nvotesabsent, nvotesabsentstrong)
+    # absents have low weighting, except where it was 3-line
+    # 3-line has higher than 3 to make it rise above the noise.
+    tlw = 5.0
+    weight = nvotessame + tlw * nvotessamestrong + nvotesdiffer + tlw * nvotesdifferstrong +
+          0.2 * nvotesabsent + tlw * nvotesabsentstrong
+
+    score = nvotesdiffer + tlw * nvotesdifferstrong + 0.1 * nvotesabsent + tlw / 2 * nvotesabsentstrong
+    if weight > 0
+      score / weight
+    else
+      -1.0
+    end
+  end
+
+  def self.calculate_distance_b(same, diff)
+    calc_dreammp_person_distance(same, 0, diff, 0, 0, 0)
+  end
 end

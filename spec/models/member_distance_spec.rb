@@ -4,6 +4,29 @@ describe MemberDistance, :type => :model do
   # Just making sure we're not loading any fixtures
   it { expect(Member.all).to be_empty }
 
+  describe ".calculate_distance_b" do
+    context "two members that have never voted on the same thing" do
+      it { expect(MemberDistance.calculate_distance_b(0, 0)).to eq -1 }
+    end
+
+    context "two members always agreeing" do
+      it { expect(MemberDistance.calculate_distance_b(3, 0)).to eq 0 }
+      it { expect(MemberDistance.calculate_distance_b(10, 0)).to eq 0 }
+    end
+
+    context "two members always disagreeing" do
+      it { expect(MemberDistance.calculate_distance_b(0, 3)).to eq 1 }
+      it { expect(MemberDistance.calculate_distance_b(0, 10)).to eq 1 }
+    end
+
+    context "two members agreeing half the time" do
+      it { expect(MemberDistance.calculate_distance_b(3, 3)).to eq 0.5 }
+      it { expect(MemberDistance.calculate_distance_b(10, 10)).to eq 0.5 }
+    end
+
+    it { expect(MemberDistance.calculate_distance_b(3, 1)).to eq 0.25 }
+  end
+
   describe "calculating cache values" do
     let(:membera) { Member.create(first_name: "Member", last_name: "A", gid: "A", source_gid: "A",
       title: "", constituency: "foo", party: "Party", house: "House") }
