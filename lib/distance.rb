@@ -1,7 +1,7 @@
 class Distance
   # absents have low weighting, except where it is a strong vote
-  STRONG_WEIGHT = 50.0
-  ABSENT_WEIGHT = 2.0
+  STRONG_WEIGHT = 50
+  ABSENT_WEIGHT = 2
 
   attr_reader :same, :samestrong, :differ, :differstrong, :absent, :absentstrong
 
@@ -84,9 +84,9 @@ class Distance
   # TODO: Need to make this formula more clear
   def agreement
     if weight > 0
-      score / weight
+      score.to_f / weight
     else
-      2
+      2.0
     end
   end
 
