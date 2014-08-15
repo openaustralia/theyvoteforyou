@@ -43,7 +43,9 @@ class Distance
   end
 
   def score
-    votes_same_points + votes_same_strong_points + votes_absent_points + votes_absent_strong_points
+    votes_same_points + votes_same_strong_points +
+      votes_differ_points + votes_differ_strong_points +
+      votes_absent_points + votes_absent_strong_points
   end
 
   ####
@@ -77,8 +79,9 @@ class Distance
   ####
 
   def weight
-    possible_same_points + possible_same_strong_points + possible_differ_points + possible_differ_strong_points +
-          possible_absent_points + possible_absent_strong_points
+    possible_same_points + possible_same_strong_points +
+      possible_differ_points + possible_differ_strong_points +
+      possible_absent_points + possible_absent_strong_points
   end
 
   # TODO: Need to make this formula more clear
