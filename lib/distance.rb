@@ -16,58 +16,74 @@ class Distance
 
   #####
 
+  def points
+    {
+      same:         10,
+      differ:       0,
+      absent:       ABSENT_WEIGHT / 2,
+      samestrong:   STRONG_WEIGHT,
+      differstrong: 0,
+      absentstrong: STRONG_WEIGHT / 2
+    }
+  end
+
+  def possible_points
+    {
+      same:         10,
+      differ:       10,
+      absent:       ABSENT_WEIGHT,
+      samestrong:   STRONG_WEIGHT,
+      differstrong: STRONG_WEIGHT,
+      absentstrong: STRONG_WEIGHT
+    }
+  end
+
   def votes_same_points
-    same * 10
+    same * points[:same]
   end
 
   def votes_differ_points
-    0
+    differ * points[:differ]
   end
 
   def votes_absent_points
-    absent * ABSENT_WEIGHT / 2
+    absent * points[:absent]
   end
 
-  ###
-
   def votes_same_strong_points
-    samestrong * STRONG_WEIGHT
+    samestrong * points[:samestrong]
   end
 
   def votes_differ_strong_points
-    0
+    differstrong * points[:differstrong]
   end
 
   def votes_absent_strong_points
-    absentstrong * STRONG_WEIGHT / 2
+    absentstrong * points[:absentstrong]
   end
 
-  ####
-
   def possible_same_points
-    same * 10
+    same * possible_points[:same]
   end
 
   def possible_differ_points
-    differ * 10
+    differ * possible_points[:differ]
   end
 
   def possible_absent_points
-    absent * ABSENT_WEIGHT
+    absent * possible_points[:absent]
   end
 
-  ####
-
   def possible_same_strong_points
-    samestrong * STRONG_WEIGHT
+    samestrong * possible_points[:samestrong]
   end
 
   def possible_differ_strong_points
-    differstrong * STRONG_WEIGHT
+    differstrong * possible_points[:differstrong]
   end
 
   def possible_absent_strong_points
-    absentstrong * STRONG_WEIGHT
+    absentstrong * possible_points[:absentstrong]
   end
 
   ####
