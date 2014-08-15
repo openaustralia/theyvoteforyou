@@ -23,7 +23,15 @@ namespace :application do
     end
     puts "Loaded #{Electorate.count} electorates"
 
-    # TODO: Load people.xml
+    # people.xml
+    people_xml = Nokogiri.parse(File.read("#{XML_DATA_DIRECTORY}/people.xml"))
+    member_to_person = {}
+    people_xml.search(:person).each do |person|
+      person.search(:office).each do |office|
+        member_to_person[office[:id]] = person[:id]
+      end
+    end
+
     # TODO: Load ministers.xml
     # TODO: Load representatives.xml
     # TODO: Load senators.xml
