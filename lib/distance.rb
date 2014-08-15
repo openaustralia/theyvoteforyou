@@ -1,7 +1,8 @@
 class Distance
-  # absents have low weighting, except where it is a strong vote
-  STRONG_WEIGHT = 50
-  ABSENT_WEIGHT = 2
+  # What this means is that 5 absent votes is as important as one aye or no vote
+  ABSENT_FACTOR = 5
+
+  STRONG_FACTOR = 5
 
   attr_reader :same, :samestrong, :differ, :differstrong, :absent, :absentstrong
 
@@ -14,27 +15,27 @@ class Distance
     1 - agreement
   end
 
-  #####
-
+  # Points system is picked to ensure it has the properties we want and that the points
+  # are the smallest they can be while still all being integers
   def points
     {
-      same:         10,
+      same:         2 * ABSENT_FACTOR,
       differ:       0,
-      absent:       ABSENT_WEIGHT / 2,
-      samestrong:   STRONG_WEIGHT,
+      absent:       1,
+      samestrong:   2 * STRONG_FACTOR * ABSENT_FACTOR,
       differstrong: 0,
-      absentstrong: STRONG_WEIGHT / 2
+      absentstrong: 1 * STRONG_FACTOR * ABSENT_FACTOR
     }
   end
 
   def possible_points
     {
-      same:         10,
-      differ:       10,
-      absent:       ABSENT_WEIGHT,
-      samestrong:   STRONG_WEIGHT,
-      differstrong: STRONG_WEIGHT,
-      absentstrong: STRONG_WEIGHT
+      same:         2 * ABSENT_FACTOR,
+      differ:       2 * ABSENT_FACTOR,
+      absent:       2,
+      samestrong:   2 * STRONG_FACTOR * ABSENT_FACTOR,
+      differstrong: 2 * STRONG_FACTOR * ABSENT_FACTOR,
+      absentstrong: 2 * STRONG_FACTOR * ABSENT_FACTOR
     }
   end
 
