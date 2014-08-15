@@ -10,16 +10,20 @@ class Distance
       same, samestrong, differ, differstrong, absent, absentstrong
   end
 
-  # TODO: Need to make this formula more clear
   def distance
-    score = differ + STRONG_WEIGHT * differstrong + ABSENT_WEIGHT / 2 * absent + STRONG_WEIGHT / 2 * absentstrong
+    1 - agreement
+  end
+
+  # TODO: Need to make this formula more clear
+  def agreement
+    score = same + STRONG_WEIGHT * samestrong + ABSENT_WEIGHT / 2 * absent + STRONG_WEIGHT / 2 * absentstrong
     weight = same + STRONG_WEIGHT * samestrong + differ + STRONG_WEIGHT * differstrong +
           ABSENT_WEIGHT * absent + STRONG_WEIGHT * absentstrong
 
     if weight > 0
       score / weight
     else
-      -1.0
+      2
     end
   end
 
