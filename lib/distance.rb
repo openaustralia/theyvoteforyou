@@ -39,44 +39,37 @@ class Distance
     }
   end
 
-  def no_votes(attr)
-    case attr
-    when :same
-      same
-    when :differ
-      differ
-    when :absent
-      absent
-    when :samestrong
-      samestrong
-    when :differstrong
-      differstrong
-    when :absentstrong
-      absentstrong
-    end
+  def no_votes
+    {
+      same: same,
+      differ: differ,
+      absent: absent,
+      samestrong: samestrong,
+      differstrong: differstrong,
+      absentstrong: absentstrong
+    }
+  end
+
+  def attributes
+    no_votes.keys
   end
 
   def votes_points(a)
-    no_votes(a) * points[a]
+    no_votes[a] * points[a]
   end
 
   def possible_votes_points(a)
-    no_votes(a) * possible_points[a]
+    no_votes[a] * possible_points[a]
   end
 
   def total_points
-    votes_points(:same) + votes_points(:samestrong) +
-      votes_points(:differ) + votes_points(:differstrong) +
-      votes_points(:absent) + votes_points(:absentstrong)
+    attributes.sum {|a| votes_points(a) }
   end
 
   def possible_total_points
-    possible_votes_points(:same) + possible_votes_points(:samestrong) +
-      possible_votes_points(:differ) + possible_votes_points(:differstrong) +
-      possible_votes_points(:absent) + possible_votes_points(:absentstrong)
+    attributes.sum {|a| possible_votes_points(a) }
   end
 
-  # TODO: Need to make this formula more clear
   def agreement
     if possible_total_points > 0
       total_points.to_f / possible_total_points
