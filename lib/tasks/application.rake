@@ -9,7 +9,6 @@ namespace :application do
     # divisions.xml
     puts "Reloading electorates..."
     puts "Deleted #{Electorate.delete_all} electorates"
-
     electorates_xml = Nokogiri.parse(File.read("#{XML_DATA_DIRECTORY}/divisions.xml"))
     electorates_xml.search(:division).each do |division|
       Electorate.create!(cons_id: division[:id][/uk.org.publicwhip\/cons\/(\d*)/, 1],
