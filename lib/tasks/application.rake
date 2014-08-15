@@ -2,7 +2,7 @@ require 'nokogiri'
 require 'cgi'
 
 namespace :application do
-  desc 'memxml2db.pl'
+  desc 'Reloads members, offices and electorates from XML files'
   task :reload_member_data, [:xml_data_directory] => :environment do |t, args|
     # divisions.xml
     puts "Reloading electorates..."
