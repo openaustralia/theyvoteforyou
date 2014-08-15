@@ -49,7 +49,7 @@ class MemberDistance < ActiveRecord::Base
   end
 
   def self.calculate_distance_a(same, diff, absent)
-    Distance.calculate(same, 0, diff, 0, absent, 0)
+    Distance.new(same, 0, diff, 0, absent, 0).distance
   end
 
   def self.calculate_distance_b(same, diff)

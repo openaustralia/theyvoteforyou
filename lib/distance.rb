@@ -11,7 +11,7 @@ class Distance
   end
 
   # TODO: Need to make this formula more clear
-  def calculate
+  def distance
     score = differ + STRONG_WEIGHT * differstrong + ABSENT_WEIGHT / 2 * absent + STRONG_WEIGHT / 2 * absentstrong
     weight = same + STRONG_WEIGHT * samestrong + differ + STRONG_WEIGHT * differstrong +
           ABSENT_WEIGHT * absent + STRONG_WEIGHT * absentstrong
@@ -24,6 +24,6 @@ class Distance
   end
 
   def self.calculate(same, samestrong, differ, differstrong, absent, absentstrong)
-    Distance.new(same, samestrong, differ, differstrong, absent, absentstrong).calculate
+    Distance.new(same, samestrong, differ, differstrong, absent, absentstrong).distance
   end
 end
