@@ -47,10 +47,12 @@ namespace :application do
         position.slice! 100..-1
       end
 
+      responsibility = moffice[:responsibility] || ''
+
       Office.create!(moffice_id: moffice[:id][/uk.org.publicwhip\/moffice\/(\d*)/, 1],
                      dept: CGI::escape_html(moffice[:dept]),
                      position: CGI::escape_html(position),
-                     responsibility: (CGI::escape_html(moffice[:responsibility]) || ''),
+                     responsibility: CGI::escape_html(responsibility),
                      from_date: moffice[:fromdate],
                      to_date: moffice[:todate],
                      person: person[/uk.org.publicwhip\/person\/(\d*)/, 1])
