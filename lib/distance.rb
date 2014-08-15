@@ -110,6 +110,14 @@ class Distance
     end
   end
 
+  def self.distance_a(same, diff, absent)
+    Distance.new(same, 0, diff, 0, absent, 0).distance
+  end
+
+  def self.distance_b(same, diff)
+    distance_a(same, diff, 0)
+  end
+
   def self.calculate(same, samestrong, differ, differstrong, absent, absentstrong)
     Distance.new(same, samestrong, differ, differstrong, absent, absentstrong).distance
   end
