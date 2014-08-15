@@ -32,7 +32,31 @@ namespace :application do
       end
     end
 
-    # TODO: Load ministers.xml
+    # ministers.xml
+    puts "Reloading offices..."
+    puts "Deleted #{Office.delete_all} offices"
+    ministers_xml = Nokogiri.parse(File.read("#{XML_DATA_DIRECTORY}/ministers.xml"))
+    ministers_xml.search(:moffice).each do |moffice|
+      person = member_to_person[moffice[:matchid]]
+      raise "MP #{moffice[:name]} has no person" unless person
+
+      # FIXME: Don't truncate position https://github.com/openaustralia/publicwhip/issues/278
+      position = moffice[:position]
+      if position.size > 100
+        puts "WARNING: Truncating position \"#{position}\""
+        position.slice! 0..99
+      end
+
+      Office.create!(moffice_id: moffice[:id][/uk.org.publicwhip\/moffice\/(\d*)/, 1],
+                     dept: moffice[:dept],
+                     position: position,
+                     responsibility: (moffice[:responsibility] || ''),
+                     from_date: moffice[:fromdate],
+                     to_date: moffice[:todate],
+                     person: person[/uk.org.publicwhip\/person\/(\d*)/, 1])
+    end
+    puts "Loaded #{Office.count} offices"
+
     # TODO: Load representatives.xml
     # TODO: Load senators.xml
     # TODO: Remove Members not found in XML
