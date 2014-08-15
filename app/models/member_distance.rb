@@ -28,4 +28,14 @@ class MemberDistance < ActiveRecord::Base
       .where("((pw_vote1.vote = 'aye' OR pw_vote1.vote = 'tellaye') AND (pw_vote2.vote = 'aye' OR pw_vote2.vote = 'tellaye')) OR ((pw_vote1.vote = 'no' OR pw_vote1.vote = 'tellno') AND (pw_vote2.vote = 'no' OR pw_vote2.vote = 'tellno'))")
       .count
   end
+
+  def self.calculate_nvotesdiffer(member1, member2)
+    Division
+      .joins("LEFT JOIN pw_vote AS pw_vote1 on pw_vote1.division_id = pw_division.division_id")
+      .joins("LEFT JOIN pw_vote AS pw_vote2 on pw_vote2.division_id = pw_division.division_id")
+      .where("pw_vote1.mp_id = ?", member1.id)
+      .where("pw_vote2.mp_id = ?", member2.id)
+      .where("((pw_vote1.vote = 'aye' OR pw_vote1.vote = 'tellaye') AND (pw_vote2.vote = 'no' OR pw_vote2.vote = 'tellno')) OR ((pw_vote1.vote = 'no' OR pw_vote1.vote = 'tellno') AND (pw_vote2.vote = 'aye' OR pw_vote2.vote = 'tellaye'))")
+      .count
+  end
 end
