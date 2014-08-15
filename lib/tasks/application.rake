@@ -1,4 +1,5 @@
 require 'nokogiri'
+require 'cgi'
 
 # TODO: Put this in configuration
 XML_DATA_DIRECTORY='/home/henare/tmp/openaustralia/pwdata/members'
@@ -13,7 +14,7 @@ namespace :application do
     electorates_xml.search(:division).each do |division|
       Electorate.create!(cons_id: division[:id][/uk.org.publicwhip\/cons\/(\d*)/, 1],
                          # TODO: Support multiple electorate names
-                         name: division.at(:name)[:text],
+                         name: CGI::escape_html(division.at(:name)[:text]),
                          main_name: true,
                          from_date: division[:fromdate],
                          to_date: division[:todate],
@@ -47,9 +48,9 @@ namespace :application do
       end
 
       Office.create!(moffice_id: moffice[:id][/uk.org.publicwhip\/moffice\/(\d*)/, 1],
-                     dept: moffice[:dept],
-                     position: position,
-                     responsibility: (moffice[:responsibility] || ''),
+                     dept: CGI::escape_html(moffice[:dept]),
+                     position: CGI::escape_html(position),
+                     responsibility: (CGI::escape_html(moffice[:responsibility]) || ''),
                      from_date: moffice[:fromdate],
                      to_date: moffice[:todate],
                      person: person[/uk.org.publicwhip\/person\/(\d*)/, 1])
@@ -86,10 +87,10 @@ namespace :application do
         person = person[/uk.org.publicwhip\/person\/(\d*)/, 1]
 
         Member.where(gid: gid).destroy_all
-        Member.create!(first_name: member[:firstname],
-                       last_name: member[:lastname],
+        Member.create!(first_name: CGI::escape_html(member[:firstname]),
+                       last_name: CGI::escape_html(member[:lastname]),
                        title: member[:title],
-                       constituency: member[:division],
+                       constituency: CGI::escape_html(member[:division]),
                        party: member[:party],
                        house: house,
                        entered_house: member[:fromdate],
