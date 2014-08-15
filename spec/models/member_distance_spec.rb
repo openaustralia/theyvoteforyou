@@ -34,6 +34,24 @@ describe MemberDistance, :type => :model do
           memberb.votes.create(division: division, vote: "no")
           expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 0
         end
+
+        it "votes aye tellaye" do
+          membera.votes.create(division: division, vote: "aye")
+          memberb.votes.create(division: division, vote: "tellaye")
+          expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 1
+        end
+
+        it "votes aye tellno" do
+          membera.votes.create(division: division, vote: "aye")
+          memberb.votes.create(division: division, vote: "tellno")
+          expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 0
+        end
+
+        it "votes no tellno" do
+          membera.votes.create(division: division, vote: "no")
+          memberb.votes.create(division: division, vote: "tellno")
+          expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 1
+        end
       end
 
       context "with votes on five divisions" do

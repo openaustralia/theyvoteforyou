@@ -18,13 +18,14 @@ class MemberDistance < ActiveRecord::Base
   end
 
   def self.calculate_nvotessame(member1, member2)
-    # TODO This doesn't take into account tellers yet
+    # TODO Move knowledge of tells out of here. Shouldn't have to know about this to do this
+    # kind of query
     Division
       .joins("LEFT JOIN pw_vote AS pw_vote1 on pw_vote1.division_id = pw_division.division_id")
       .joins("LEFT JOIN pw_vote AS pw_vote2 on pw_vote2.division_id = pw_division.division_id")
       .where("pw_vote1.mp_id = ?", member1.id)
       .where("pw_vote2.mp_id = ?", member2.id)
-      .where("pw_vote1.vote = pw_vote2.vote")
+      .where("((pw_vote1.vote = 'aye' OR pw_vote1.vote = 'tellaye') AND (pw_vote2.vote = 'aye' OR pw_vote2.vote = 'tellaye')) OR ((pw_vote1.vote = 'no' OR pw_vote1.vote = 'tellno') AND (pw_vote2.vote = 'no' OR pw_vote2.vote = 'tellno'))")
       .count
   end
 end
