@@ -1,16 +1,13 @@
 require 'nokogiri'
 require 'cgi'
 
-# TODO: Put this in configuration
-XML_DATA_DIRECTORY='/home/henare/tmp/openaustralia/pwdata/members'
-
 namespace :application do
   desc 'memxml2db.pl'
-  task reload_member_data: :environment do
+  task :reload_member_data, [:xml_data_directory] => :environment do |t, args|
     # divisions.xml
     puts "Reloading electorates..."
     puts "Deleted #{Electorate.delete_all} electorates"
-    electorates_xml = Nokogiri.parse(File.read("#{XML_DATA_DIRECTORY}/divisions.xml"))
+    electorates_xml = Nokogiri.parse(File.read("#{args[:xml_data_directory]}/divisions.xml"))
     electorates_xml.search(:division).each do |division|
       Electorate.create!(cons_id: division[:id][/uk.org.publicwhip\/cons\/(\d*)/, 1],
                          # TODO: Support multiple electorate names
@@ -24,7 +21,7 @@ namespace :application do
     puts "Loaded #{Electorate.count} electorates"
 
     # people.xml
-    people_xml = Nokogiri.parse(File.read("#{XML_DATA_DIRECTORY}/people.xml"))
+    people_xml = Nokogiri.parse(File.read("#{args[:xml_data_directory]}/people.xml"))
     member_to_person = {}
     people_xml.search(:person).each do |person|
       person.search(:office).each do |office|
@@ -35,7 +32,7 @@ namespace :application do
     # ministers.xml
     puts "Reloading offices..."
     puts "Deleted #{Office.delete_all} offices"
-    ministers_xml = Nokogiri.parse(File.read("#{XML_DATA_DIRECTORY}/ministers.xml"))
+    ministers_xml = Nokogiri.parse(File.read("#{args[:xml_data_directory]}/ministers.xml"))
     ministers_xml.search(:moffice).each do |moffice|
       person = member_to_person[moffice[:matchid]]
       raise "MP #{moffice[:name]} has no person" unless person
@@ -64,7 +61,7 @@ namespace :application do
     puts "Deleted #{Member.delete_all} members"
     %w(representatives senators).each do |file|
       puts "Loading #{file}..."
-      xml = Nokogiri.parse(File.read("#{XML_DATA_DIRECTORY}/#{file}.xml"))
+      xml = Nokogiri.parse(File.read("#{args[:xml_data_directory]}/#{file}.xml"))
       xml.search(:member).each do |member|
         # Ignores entries older than the 1997 UK General Election
         next if member[:todate] <= '1997-04-08'
