@@ -17,40 +17,18 @@ describe MemberDistance, :type => :model do
       division_number: 1, house: "House", source_url: "", debate_url: "", motion: "", notes: "",
       source_gid: "", debate_gid: "") }
 
-      it "votes absent aye" do
-        memberb.votes.create(division: division, vote: "aye")
-        expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 0
+      def check_vote_combination(vote1, vote2, nvotessame)
+        membera.votes.create(division: division, vote: vote1) unless vote1 == "absent"
+        memberb.votes.create(division: division, vote: vote2) unless vote2 == "absent"
+        expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq nvotessame
       end
 
-      it "votes aye aye" do
-        membera.votes.create(division: division, vote: "aye")
-        memberb.votes.create(division: division, vote: "aye")
-        expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 1
-      end
-
-      it "votes aye no" do
-        membera.votes.create(division: division, vote: "aye")
-        memberb.votes.create(division: division, vote: "no")
-        expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 0
-      end
-
-      it "votes aye tellaye" do
-        membera.votes.create(division: division, vote: "aye")
-        memberb.votes.create(division: division, vote: "tellaye")
-        expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 1
-      end
-
-      it "votes aye tellno" do
-        membera.votes.create(division: division, vote: "aye")
-        memberb.votes.create(division: division, vote: "tellno")
-        expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 0
-      end
-
-      it "votes no tellno" do
-        membera.votes.create(division: division, vote: "no")
-        memberb.votes.create(division: division, vote: "tellno")
-        expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 1
-      end
+      it { check_vote_combination("absent", "aye",     0) }
+      it { check_vote_combination("aye",    "aye",     1) }
+      it { check_vote_combination("aye",    "no",      0) }
+      it { check_vote_combination("aye",    "tellaye", 1) }
+      it { check_vote_combination("aye",    "tellno",  0) }
+      it { check_vote_combination("no",     "tellno",  1) }
     end
 
     context "with votes on five divisions" do
