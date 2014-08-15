@@ -6,26 +6,40 @@ describe MemberDistance, :type => :model do
 
   describe "calculating cache values" do
     let(:membera) { Member.create(mp_id: 1, first_name: "Member", last_name: "A", gid: "A", source_gid: "A",
-      title: "", constituency: "foo", party: "Party", house: "commons") }
+      title: "", constituency: "foo", party: "Party", house: "commons",
+      entered_house: Date.new(1990,1,1), left_house: Date.new(2001,1,1)) }
     let(:memberb) { Member.create(mp_id: 2, first_name: "Member", last_name: "B", gid: "B", source_gid: "B",
-      title: "", constituency: "bar", party: "Party", house: "commons") }
+      title: "", constituency: "bar", party: "Party", house: "commons",
+      entered_house: Date.new(1999,1,1), left_house: Date.new(2010,1,1)) }
 
     it { expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 0 }
     it { expect(MemberDistance.calculate_nvotesdiffer(membera, memberb)).to eq 0}
     it { expect(MemberDistance.calculate_nvotesabsent(membera, memberb)).to eq 0}
 
-    context "with votes in one division" do
-      let(:division) { Division.create(division_name: "1", division_date: Date.new(2000,1,1),
+    def check_vote_combination(vote1, vote2, same, differ, absent)
+      membera.votes.create(division: division, vote: vote1) unless vote1 == "absent"
+      memberb.votes.create(division: division, vote: vote2) unless vote2 == "absent"
+      expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq same
+      expect(MemberDistance.calculate_nvotesdiffer(membera, memberb)).to eq differ
+      expect(MemberDistance.calculate_nvotesabsent(membera, memberb)).to eq absent
+    end
+
+    context "with votes in one division that only member A could vote on" do
+      let(:division) { Division.create(division_name: "1", division_date: Date.new(1995,1,1),
       division_number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
       source_gid: "", debate_gid: "") }
 
-      def check_vote_combination(vote1, vote2, same, differ, absent)
-        membera.votes.create(division: division, vote: vote1) unless vote1 == "absent"
-        memberb.votes.create(division: division, vote: vote2) unless vote2 == "absent"
-        expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq same
-        expect(MemberDistance.calculate_nvotesdiffer(membera, memberb)).to eq differ
-        expect(MemberDistance.calculate_nvotesabsent(membera, memberb)).to eq absent
-      end
+      it { check_vote_combination("absent",     "absent", 0, 0, 0) }
+      it { check_vote_combination("aye",        "absent", 0, 0, 0) }
+      it { check_vote_combination("no",         "absent", 0, 0, 0) }
+      it { check_vote_combination("tellaye",    "absent", 0, 0, 0) }
+      it { check_vote_combination("tellno",     "absent", 0, 0, 0) }
+    end
+
+    context "with votes in one division that both members could vote on" do
+      let(:division) { Division.create(division_name: "1", division_date: Date.new(2000,1,1),
+      division_number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
+      source_gid: "", debate_gid: "") }
 
       it { check_vote_combination("absent",     "absent", 0, 0, 0) }
       it { check_vote_combination("absent",     "aye",    0, 0, 1) }

@@ -59,8 +59,13 @@ class MemberDistance < ActiveRecord::Base
   end
 
   # Count the number of times one of the two members is absent (but not both)
+  # someone is absent only if they could vote on a division but didn't
   def self.calculate_nvotesabsent(member1, member2)
     Division
+      .where("pw_division.division_date >= ?", member1.entered_house)
+      .where("pw_division.division_date <= ?", member1.left_house)
+      .where("pw_division.division_date >= ?", member2.entered_house)
+      .where("pw_division.division_date <= ?", member2.left_house)
       .joins("LEFT JOIN pw_vote AS pw_vote1 on pw_vote1.division_id = pw_division.division_id AND pw_vote1.mp_id = #{member1.id}")
       .joins("LEFT JOIN pw_vote AS pw_vote2 on pw_vote2.division_id = pw_division.division_id AND pw_vote2.mp_id = #{member2.id}")
       .where("(pw_vote1.vote IS NULL AND pw_vote2.vote IS NOT NULL) OR (pw_vote1.vote IS NOT NULL AND pw_vote2.vote IS NULL)")
