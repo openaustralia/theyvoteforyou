@@ -76,6 +76,24 @@ describe Distance do
     end
   end
 
+  describe ".points" do
+    it do
+      expect(Distance.points).to eq ({
+          same: 10, differ: 0, absent: 1,
+          samestrong: 50, differstrong: 0, absentstrong: 25
+        })
+    end
+  end
+
+  describe ".possible_points" do
+    it do
+      expect(Distance.possible_points).to eq ({
+          same: 10, differ: 10, absent: 2,
+          samestrong: 50, differstrong: 50, absentstrong: 50
+        })
+    end
+  end
+
   describe "#votes_points" do
     # TODO Not yet testing strong votes
     let(:distance) { Distance.new(1, 0, 2, 0, 3, 0) }
@@ -97,4 +115,5 @@ describe Distance do
     it { expect(distance.possible_votes_points(:differstrong)).to eq 0}
     it { expect(distance.possible_votes_points(:absentstrong)).to eq 0}
   end
+
 end

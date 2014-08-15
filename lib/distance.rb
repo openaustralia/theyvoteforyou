@@ -17,7 +17,7 @@ class Distance
 
   # Points system is picked to ensure it has the properties we want and that the points
   # are the smallest they can be while still all being integers
-  def points
+  def self.points
     {
       same:         2 * ABSENT_FACTOR,
       differ:       0,
@@ -28,7 +28,7 @@ class Distance
     }
   end
 
-  def possible_points
+  def self.possible_points
     {
       same:         2 * ABSENT_FACTOR,
       differ:       2 * ABSENT_FACTOR,
@@ -55,11 +55,11 @@ class Distance
   end
 
   def votes_points(a)
-    no_votes[a] * points[a]
+    no_votes[a] * Distance.points[a]
   end
 
   def possible_votes_points(a)
-    no_votes[a] * possible_points[a]
+    no_votes[a] * Distance.possible_points[a]
   end
 
   def total_points
