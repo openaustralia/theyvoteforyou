@@ -60,7 +60,8 @@ namespace :application do
     puts "Loaded #{Office.count} offices"
 
     # representatives.xml & senators.xml
-    puts "Before loading, database contains #{Member.count} members"
+    puts "Reloading representatives and senators..."
+    puts "Deleted #{Member.delete_all} members"
     %w(representatives senators).each do |file|
       puts "Loading #{file}..."
       xml = Nokogiri.parse(File.read("#{XML_DATA_DIRECTORY}/#{file}.xml"))
@@ -108,7 +109,7 @@ namespace :application do
                        source_gid: '')
       end
     end
-    puts "After loading, database contains #{Member.count} members"
+    puts "Loaded #{Member.count} members"
 
     # TODO: Remove Members not found in XML
   end
