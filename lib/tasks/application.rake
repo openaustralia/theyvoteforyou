@@ -65,6 +65,9 @@ namespace :application do
       puts "Loading #{file}..."
       xml = Nokogiri.parse(File.read("#{XML_DATA_DIRECTORY}/#{file}.xml"))
       xml.search(:member).each do |member|
+        # Ignores entries older than the 1997 UK General Election
+        next if member[:todate] <= '1997-04-08'
+
         house = member[:house]
         house = case house
                 when 'representatives'
