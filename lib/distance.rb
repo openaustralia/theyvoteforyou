@@ -1,7 +1,7 @@
 class Distance
   # absents have low weighting, except where it is a strong vote
-  STRONG_WEIGHT = 5.0
-  ABSENT_WEIGHT = 0.2
+  STRONG_WEIGHT = 50.0
+  ABSENT_WEIGHT = 2.0
 
   attr_reader :same, :samestrong, :differ, :differstrong, :absent, :absentstrong
 
@@ -15,11 +15,11 @@ class Distance
   end
 
   def score
-    same + STRONG_WEIGHT * samestrong + ABSENT_WEIGHT / 2 * absent + STRONG_WEIGHT / 2 * absentstrong
+    same * 10 + STRONG_WEIGHT * samestrong + ABSENT_WEIGHT / 2 * absent + STRONG_WEIGHT / 2 * absentstrong
   end
 
   def weight
-    same + STRONG_WEIGHT * samestrong + differ + STRONG_WEIGHT * differstrong +
+    same * 10 + STRONG_WEIGHT * samestrong + differ * 10 + STRONG_WEIGHT * differstrong +
           ABSENT_WEIGHT * absent + STRONG_WEIGHT * absentstrong
   end
 
