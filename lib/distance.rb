@@ -14,12 +14,17 @@ class Distance
     1 - agreement
   end
 
+  def score
+    same + STRONG_WEIGHT * samestrong + ABSENT_WEIGHT / 2 * absent + STRONG_WEIGHT / 2 * absentstrong
+  end
+
+  def weight
+    same + STRONG_WEIGHT * samestrong + differ + STRONG_WEIGHT * differstrong +
+          ABSENT_WEIGHT * absent + STRONG_WEIGHT * absentstrong
+  end
+
   # TODO: Need to make this formula more clear
   def agreement
-    score = same + STRONG_WEIGHT * samestrong + ABSENT_WEIGHT / 2 * absent + STRONG_WEIGHT / 2 * absentstrong
-    weight = same + STRONG_WEIGHT * samestrong + differ + STRONG_WEIGHT * differstrong +
-          ABSENT_WEIGHT * absent + STRONG_WEIGHT * absentstrong
-
     if weight > 0
       score / weight
     else
