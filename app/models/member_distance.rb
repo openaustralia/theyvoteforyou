@@ -14,6 +14,20 @@ class MemberDistance < ActiveRecord::Base
     (1 - distance_b) * 100
   end
 
+  def self.update_all!
+    MemberDistance.delete_all
+    Member.all.find_each do |member1|
+      puts "Updating distances for #{member1.name}..."
+      # Find all members who overlap with this member
+      members = Member.where(house: member1.house).where("left_house >= ?", member1.entered_house).
+        where("entered_house <= ?", member1.left_house)
+      # We're only populating half of the matrix
+      members.where("mp_id >= ?", member1.mp_id).each do |member2|
+        MemberDistance.create(member1: member1, member2: member2)
+      end
+    end
+  end
+
   def update_cache_values!
     self.nvotessame = MemberDistance.calculate_nvotessame(member1, member2)
     self.nvotesdiffer = MemberDistance.calculate_nvotesdiffer(member1, member2)
