@@ -39,52 +39,77 @@ class Distance
     }
   end
 
+  def no_votes(attr)
+    case attr
+    when :same
+      same
+    when :differ
+      differ
+    when :absent
+      absent
+    when :samestrong
+      samestrong
+    when :differstrong
+      differstrong
+    when :absentstrong
+      absentstrong
+    end
+  end
+
+  def votes_points(a)
+    no_votes(a) * points[a]
+  end
+
+  def possible_votes_points(a)
+    no_votes(a) * possible_points[a]
+  end
+
   def votes_same_points
-    same * points[:same]
+    votes_points(:same)
   end
 
   def votes_differ_points
-    differ * points[:differ]
+    votes_points(:differ)
   end
 
   def votes_absent_points
-    absent * points[:absent]
+    votes_points(:absent)
   end
 
   def votes_same_strong_points
-    samestrong * points[:samestrong]
+    votes_points(:samestrong)
   end
 
   def votes_differ_strong_points
-    differstrong * points[:differstrong]
+    votes_points(:differstrong)
   end
 
   def votes_absent_strong_points
-    absentstrong * points[:absentstrong]
+    votes_points(:absentstrong)
   end
 
   def possible_same_points
-    same * possible_points[:same]
+    possible_votes_points(:same)
   end
 
   def possible_differ_points
-    differ * possible_points[:differ]
+    possible_votes_points(:differ)
   end
 
   def possible_absent_points
-    absent * possible_points[:absent]
+    possible_votes_points(:absent)
   end
 
   def possible_same_strong_points
-    samestrong * possible_points[:samestrong]
+    possible_votes_points(:samestrong)
   end
 
   def possible_differ_strong_points
-    differstrong * possible_points[:differstrong]
+    possible_votes_points(:differstrong)
   end
 
   def possible_absent_strong_points
-    absentstrong * possible_points[:absentstrong]
+    possible_votes_points(:absentstrong)
   end
 
   ####
