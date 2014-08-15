@@ -42,6 +42,40 @@ describe Distance do
     it { expect(Distance.distance_a(0, 1, 5)).to eq 0.75}
   end
 
+  describe ".agreement" do
+    context "only strongly agreeing" do
+      it { expect(Distance.new(0, 3, 0, 0, 0, 0).agreement).to eq 1.0}
+      it { expect(Distance.new(0, 10, 0, 0, 0, 0).agreement).to eq 1.0}
+    end
+
+    context "only strongly disagreeing" do
+      it { expect(Distance.new(0, 0, 0, 3, 0, 0).agreement).to eq 0.0}
+      it { expect(Distance.new(0, 0, 0, 10, 0, 0).agreement).to eq 0.0}
+    end
+
+    context "only strongly absent" do
+      it { expect(Distance.new(0, 0, 0, 0, 0, 3).agreement).to eq 0.5}
+      it { expect(Distance.new(0, 0, 0, 0, 0, 10).agreement).to eq 0.5}
+    end
+
+    context "equal number of strong agreements and strong disagreements" do
+      it { expect(Distance.new(0, 3, 0, 3, 0, 0).agreement).to eq 0.5}
+      it { expect(Distance.new(0, 10, 0, 10, 0, 0).agreement).to eq 0.5}
+    end
+
+    context "1 strong agreement and 5 regular disagreements" do
+      it { expect(Distance.new(0, 1, 5, 0, 0, 0).agreement).to eq 0.5}
+    end
+
+    context "5 agreements and 1 strong disagreement" do
+      it { expect(Distance.new(5, 0, 0, 1, 0, 0).agreement).to eq 0.5}
+    end
+
+    context "5 agreements and 1 strong absent" do
+      it { expect(Distance.new(5, 0, 0, 0, 0, 1).agreement).to eq 0.75}
+    end
+  end
+
   describe "#votes_points" do
     # TODO Not yet testing strong votes
     let(:distance) { Distance.new(1, 0, 2, 0, 3, 0) }
