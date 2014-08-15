@@ -40,51 +40,51 @@ class PolicyMemberDistance < ActiveRecord::Base
   end
 
   def votes_same_strong_points
-    distance_object.votes_same_strong_points
+    distance_object.votes_points(:samestrong)
   end
 
   def possible_same_strong_points
-    distance_object.possible_same_strong_points
+    distance_object.possible_votes_points(:samestrong)
   end
 
   def votes_differ_strong_points
-    distance_object.votes_differ_strong_points
+    distance_object.votes_points(:differstrong)
   end
 
   def possible_differ_strong_points
-    distance_object.possible_differ_strong_points
+    distance_object.possible_votes_points(:differstrong)
   end
 
   def votes_absent_strong_points
-    distance_object.votes_absent_strong_points
+    distance_object.votes_points(:absentstrong)
   end
 
   def possible_absent_strong_points
-    distance_object.possible_absent_strong_points
+    distance_object.possible_votes_points(:absentstrong)
   end
 
   def votes_same_points
-    distance_object.votes_same_points
+    distance_object.votes_points(:same)
   end
 
   def possible_same_points
-    distance_object.possible_same_points
+    distance_object.possible_votes_points(:same)
   end
 
   def votes_differ_points
-    distance_object.votes_differ_points
+    distance_object.votes_points(:differ)
   end
 
   def possible_differ_points
-    distance_object.possible_differ_points
+    distance_object.possible_votes_points(:differ)
   end
 
   def votes_absent_points
-    distance_object.votes_absent_points
+    distance_object.votes_points(:absent)
   end
 
   def possible_absent_points
-    distance_object.possible_absent_points
+    distance_object.possible_votes_points(:absent)
   end
 
   def total_points

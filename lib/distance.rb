@@ -64,66 +64,16 @@ class Distance
     no_votes(a) * possible_points[a]
   end
 
-  def votes_same_points
-    votes_points(:same)
-  end
-
-  def votes_differ_points
-    votes_points(:differ)
-  end
-
-  def votes_absent_points
-    votes_points(:absent)
-  end
-
-  def votes_same_strong_points
-    votes_points(:samestrong)
-  end
-
-  def votes_differ_strong_points
-    votes_points(:differstrong)
-  end
-
-  def votes_absent_strong_points
-    votes_points(:absentstrong)
-  end
-
-  def possible_same_points
-    possible_votes_points(:same)
-  end
-
-  def possible_differ_points
-    possible_votes_points(:differ)
-  end
-
-  def possible_absent_points
-    possible_votes_points(:absent)
-  end
-
-  def possible_same_strong_points
-    possible_votes_points(:samestrong)
-  end
-
-  def possible_differ_strong_points
-    possible_votes_points(:differstrong)
-  end
-
-  def possible_absent_strong_points
-    possible_votes_points(:absentstrong)
-  end
-
-  ####
-
   def total_points
-    votes_same_points + votes_same_strong_points +
-      votes_differ_points + votes_differ_strong_points +
-      votes_absent_points + votes_absent_strong_points
+    votes_points(:same) + votes_points(:samestrong) +
+      votes_points(:differ) + votes_points(:differstrong) +
+      votes_points(:absent) + votes_points(:absentstrong)
   end
 
   def possible_total_points
-    possible_same_points + possible_same_strong_points +
-      possible_differ_points + possible_differ_strong_points +
-      possible_absent_points + possible_absent_strong_points
+    possible_votes_points(:same) + possible_votes_points(:samestrong) +
+      possible_votes_points(:differ) + possible_votes_points(:differstrong) +
+      possible_votes_points(:absent) + possible_votes_points(:absentstrong)
   end
 
   # TODO: Need to make this formula more clear
