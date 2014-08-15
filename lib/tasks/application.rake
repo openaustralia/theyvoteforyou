@@ -1,0 +1,32 @@
+require 'nokogiri'
+
+# TODO: Put this in configuration
+XML_DATA_DIRECTORY='/home/henare/tmp/openaustralia/pwdata/members'
+
+namespace :application do
+  desc 'memxml2db.pl'
+  task reload_member_data: :environment do
+    # divisions.xml
+    puts "Reloading electorates..."
+    puts "Deleted #{Electorate.delete_all} electorates"
+
+    electorates_xml = Nokogiri.parse(File.read("#{XML_DATA_DIRECTORY}/divisions.xml"))
+    electorates_xml.search(:division).each do |division|
+      Electorate.create!(cons_id: division[:id][/uk.org.publicwhip\/cons\/(\d*)/, 1],
+                         # TODO: Support multiple electorate names
+                         name: division.at(:name)[:text],
+                         main_name: true,
+                         from_date: division[:fromdate],
+                         to_date: division[:todate],
+                         # TODO: Support Scottish parliament
+                         house: 'commons')
+    end
+    puts "Loaded #{Electorate.count} electorates"
+
+    # TODO: Load people.xml
+    # TODO: Load ministers.xml
+    # TODO: Load representatives.xml
+    # TODO: Load senators.xml
+    # TODO: Remove Members not found in XML
+  end
+end
