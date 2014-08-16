@@ -35,64 +35,64 @@ class PolicyMemberDistance < ActiveRecord::Base
     PolicyMemberDistance.where(dream_id: policy.id, person: person).update_all(attributes)
   end
 
+  def distance_object
+    Distance.new(nvotessame, nvotessamestrong, nvotesdiffer, nvotesdifferstrong, nvotesabsent, nvotesabsentstrong)
+  end
+
   def votes_same_strong_points
-    nvotessamestrong * 50
+    distance_object.votes_points(:samestrong)
   end
 
   def possible_same_strong_points
-    nvotessamestrong * 50
+    distance_object.possible_votes_points(:samestrong)
   end
 
   def votes_differ_strong_points
-    0
+    distance_object.votes_points(:differstrong)
   end
 
   def possible_differ_strong_points
-    nvotesdifferstrong * 50
+    distance_object.possible_votes_points(:differstrong)
   end
 
   def votes_absent_strong_points
-    nvotesabsentstrong * 25
+    distance_object.votes_points(:absentstrong)
   end
 
   def possible_absent_strong_points
-    nvotesabsentstrong * 50
+    distance_object.possible_votes_points(:absentstrong)
   end
 
   def votes_same_points
-    nvotessame * 10
+    distance_object.votes_points(:same)
   end
 
   def possible_same_points
-    nvotessame * 10
+    distance_object.possible_votes_points(:same)
   end
 
   def votes_differ_points
-    0
+    distance_object.votes_points(:differ)
   end
 
   def possible_differ_points
-    nvotesdiffer * 10
+    distance_object.possible_votes_points(:differ)
   end
 
   def votes_absent_points
-    nvotesabsent * 1
+    distance_object.votes_points(:absent)
   end
 
   def possible_absent_points
-    nvotesabsent * 2
+    distance_object.possible_votes_points(:absent)
   end
 
   def total_points
-    votes_same_points + votes_same_strong_points +
-      votes_differ_points + votes_differ_strong_points +
-      votes_absent_points + votes_absent_strong_points
+    distance_object.total_points
   end
 
   def possible_total_points
-    possible_same_points + possible_same_strong_points +
-      possible_differ_points + possible_differ_strong_points +
-      possible_absent_points + possible_absent_strong_points
+    distance_object.possible_total_points
   end
 
   def agreement_fraction
