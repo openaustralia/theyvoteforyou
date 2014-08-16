@@ -44,14 +44,26 @@
 %h2#ratioexpl How the number is calculated
 
 %p
-  The MP's votes count towards a weighted average where the most
-  important votes get 50 points, less important votes get 10 points,
-  and less important votes for which the MP was absent get 2 points.
-  In important votes the MP gets awarded the full 50 points for
-  voting the same as the policy, no points for voting against the
-  policy, and 25 points for not voting. In less important votes, the
-  MP gets 10 points for voting with the policy, no points for voting
-  against, and 1 (out of 2) if absent.
+  The MP's votes count towards a weighted average where the most important votes get
+  #{pluralize(Distance.possible_points[:samestrong], "point")},
+  less important votes get
+  #{pluralize(Distance.possible_points[:same], "point")},
+  and less important votes for which the MP was absent get
+  #{pluralize(Distance.possible_points[:absent], "point")}.
+  In important votes the MP gets awarded the full
+  = pluralize(Distance.points[:samestrong], "point")
+  for voting the same as the policy,
+  = pluralize(Distance.points[:differstrong], "point")
+  for voting against the policy, and
+  = pluralize(Distance.points[:absentstrong], "point")
+  for not voting. In less important votes, the MP gets
+  = pluralize(Distance.points[:same], "point")
+  for voting with the policy,
+  = pluralize(Distance.points[:differ], "point")
+  for voting against, and
+  = Distance.points[:absent]
+  (out of #{Distance.possible_points[:absent]})
+  if absent.
 
 %table.table
   %thead
@@ -62,7 +74,7 @@
       %th Out of
   %tbody
     %tr.jobevent
-      %th Most important votes (50 points)
+      %th Most important votes (#{pluralize(Distance.possible_points[:samestrong], "point")})
       %td &nbsp;
       %td &nbsp;
       %td &nbsp;
@@ -82,7 +94,7 @@
       %td= policy_member_distance.votes_absent_strong_points
       %td= policy_member_distance.possible_absent_strong_points
     %tr.jobevent
-      %th Less important votes (10 points)
+      %th Less important votes (#{pluralize(Distance.possible_points[:same], "point")})
       %td &nbsp;
       %td &nbsp;
       %td &nbsp;
@@ -97,7 +109,7 @@
       %td= policy_member_distance.votes_differ_points
       %td= policy_member_distance.possible_differ_points
     %tr.jobevent
-      %th Less important absentees (2 points)
+      %th Less important absentees (#{pluralize(Distance.possible_points[:absent], "point")})
       %td &nbsp;
       %td &nbsp;
       %td &nbsp;
