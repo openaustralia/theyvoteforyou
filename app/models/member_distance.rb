@@ -15,7 +15,6 @@ class MemberDistance < ActiveRecord::Base
   end
 
   def self.update_all!
-    MemberDistance.delete_all
     Member.all.find_each do |member1|
       puts "Updating distances for #{member1.name}..."
       # Find all members who overlap with this member
@@ -23,6 +22,7 @@ class MemberDistance < ActiveRecord::Base
         where("entered_house <= ?", member1.left_house)
       # We're only populating half of the matrix
       members.where("mp_id >= ?", member1.mp_id).each do |member2|
+        MemberDistance.where(member1: member1, member2: member2).delete_all
         MemberDistance.create(member1: member1, member2: member2)
       end
     end
