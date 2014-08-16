@@ -31,7 +31,6 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
 
     FileUtils.rm_f %w(old.html old.xml new.html new.xml)
