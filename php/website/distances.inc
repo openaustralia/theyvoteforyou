@@ -393,7 +393,7 @@ function update_realreal_distance($pwpdo, $mp_id1, $mp_id2, $max_entered_house, 
 	$nvotesdiff = ($row['nvotesdiffer'] ? $row['nvotesdiffer'] : 0);
 	$nabsentboth = ($row['nvotesabsentboth'] ? $row['nvotesabsentboth'] : 0);
 	$nabsentfirst = ($row['nvotesabsentfirst'] ? $row['nvotesabsentfirst'] : 0);
-	$nabsentsecond = ($row['nvotesabsentfirst'] ? $row['nvotesabsentfirst'] : 0);
+	$nabsentsecond = ($row['nvotesabsentsecond'] ? $row['nvotesabsentsecond'] : 0);
 
 	$nvotesabsent = $nabsentfirst + $nabsentsecond;
 	$distancea = calc_dreammp_person_distance($nvotessame, 0,
