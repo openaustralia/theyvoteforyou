@@ -112,8 +112,6 @@ namespace :application do
       end
     end
     puts "Loaded #{Member.count} members"
-
-    # TODO: Remove Members not found in XML
   end
 end
 
