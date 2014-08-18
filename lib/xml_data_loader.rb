@@ -11,8 +11,8 @@ class XMLDataLoader
 
   # divisions.xml
   def load_electorates
-    puts "Reloading electorates..."
-    puts "Deleted #{Electorate.delete_all} electorates"
+    Rails.logger.info "Reloading electorates..."
+    Rails.logger.info "Deleted #{Electorate.delete_all} electorates"
     electorates_xml = Nokogiri.parse(File.read("#{@xml_data_directory}/divisions.xml"))
     electorates_xml.search(:division).each do |division|
       Electorate.create!(cons_id: division[:id][/uk.org.publicwhip\/cons\/(\d*)/, 1],
@@ -24,13 +24,13 @@ class XMLDataLoader
                          # TODO: Support Scottish parliament
                          house: 'commons')
     end
-    puts "Loaded #{Electorate.count} electorates"
+    Rails.logger.info "Loaded #{Electorate.count} electorates"
   end
 
   # ministers.xml
   def load_offices
-    puts "Reloading offices..."
-    puts "Deleted #{Office.delete_all} offices"
+    Rails.logger.info "Reloading offices..."
+    Rails.logger.info "Deleted #{Office.delete_all} offices"
     ministers_xml = Nokogiri.parse(File.read("#{@xml_data_directory}/ministers.xml"))
     ministers_xml.search(:moffice).each do |moffice|
       person = member_to_person[moffice[:matchid]]
@@ -39,7 +39,7 @@ class XMLDataLoader
       # FIXME: Don't truncate position https://github.com/openaustralia/publicwhip/issues/278
       position = moffice[:position]
       if position.size > 100
-        puts "WARNING: Truncating position \"#{position}\""
+        Rails.logger.warn "Truncating position \"#{position}\""
         position.slice! 100..-1
       end
 
@@ -53,15 +53,15 @@ class XMLDataLoader
                      to_date: moffice[:todate],
                      person: person[/uk.org.publicwhip\/person\/(\d*)/, 1])
     end
-    puts "Loaded #{Office.count} offices"
+    Rails.logger.info "Loaded #{Office.count} offices"
   end
 
   # representatives.xml & senators.xml
   def load_representatives_and_senators
-    puts "Reloading representatives and senators..."
-    puts "Deleted #{Member.delete_all} members"
+    Rails.logger.info "Reloading representatives and senators..."
+    Rails.logger.info "Deleted #{Member.delete_all} members"
     %w(representatives senators).each do |file|
-      puts "Loading #{file}..."
+      Rails.logger.info "Loading #{file}..."
       xml = Nokogiri.parse(File.read("#{@xml_data_directory}/#{file}.xml"))
       xml.search(:member).each do |member|
         # Ignores entries older than the 1997 UK General Election
@@ -107,7 +107,7 @@ class XMLDataLoader
                        source_gid: '')
       end
     end
-    puts "Loaded #{Member.count} members"
+    Rails.logger.info "Loaded #{Member.count} members"
   end
 
   private

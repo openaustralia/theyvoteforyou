@@ -9,6 +9,7 @@ namespace :application do
 
   desc 'Reloads members, offices and electorates from XML files'
   task :reload_member_data, [:xml_data_directory] => :environment do |t, args|
+    Rails.logger = ActiveSupport::Logger.new(STDOUT)
     loader = XMLDataLoader.new(args[:xml_data_directory])
     loader.load_all
   end
