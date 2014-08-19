@@ -34,6 +34,18 @@ describe Whip, :type => :model do
 
       it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye"] => 1)}
       it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {"aye" => 1})}
+      it do
+        Whip.update_all!
+        expect(Whip.all.count).to eq 1
+        w = Whip.find_by(division: division, party: "A")
+        expect(w.aye_votes).to eq 1
+        expect(w.aye_tells).to eq 0
+        expect(w.no_votes).to eq 0
+        expect(w.no_tells).to eq 0
+
+        expect(w.both_votes).to eq 0
+        expect(w.abstention_votes).to eq 0
+      end
 
       context "and 2 aye votes in party B" do
         before :each do

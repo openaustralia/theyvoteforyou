@@ -4,6 +4,17 @@ class Whip < ActiveRecord::Base
 
   delegate :noes_in_majority?, to: :division
 
+  def self.update_all!
+    calc_all_votes_per_party2.each do |k, votes|
+      whip = Whip.find_or_initialize_by(division_id: k[0], party: k[1])
+      # TODO possible_votes needs to be filled out with something sensible
+      whip.update_attributes(aye_votes: votes["aye"] || 0, aye_tells: votes["tellaye"] || 0,
+        no_votes: votes["no"] || 0, no_tells: votes["tellno"] || 0,
+        both_votes: votes["both"] || 0, abstention_votes: votes["abstention"] || 0,
+        possible_votes: 0)
+    end
+  end
+
   def self.calc_all_votes_per_party
     Division.joins(:votes => :member).group("pw_division.division_id", :party, :vote).count
   end
