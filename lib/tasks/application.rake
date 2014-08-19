@@ -11,4 +11,9 @@ namespace :application do
     loader = XMLDataLoader.new(args[:xml_data_directory])
     loader.load_all
   end
+
+  desc 'Update cache of guessed whips'
+  task :update_whip_cache => :environment do
+    Whip.update_all!
+  end
 end
