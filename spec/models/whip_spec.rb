@@ -84,6 +84,7 @@ describe Whip, :type => :model do
         expect(w.both_votes).to eq 0
         expect(w.abstention_votes).to eq 0
         expect(w.possible_votes).to eq 1
+        expect(w.whip_guess).to eq "aye"
       end
 
       context "and 2 aye votes in party B" do
@@ -105,6 +106,7 @@ describe Whip, :type => :model do
           expect(w.both_votes).to eq 0
           expect(w.abstention_votes).to eq 0
           expect(w.possible_votes).to eq 1
+          expect(w.whip_guess).to eq "aye"
           w = Whip.find_by(division: division, party: "B")
           expect(w.aye_votes).to eq 2
           expect(w.aye_tells).to eq 0
@@ -113,6 +115,7 @@ describe Whip, :type => :model do
           expect(w.both_votes).to eq 0
           expect(w.abstention_votes).to eq 0
           expect(w.possible_votes).to eq 3
+          expect(w.whip_guess).to eq "aye"
         end
       end
 
@@ -135,6 +138,7 @@ describe Whip, :type => :model do
           expect(w.both_votes).to eq 0
           expect(w.abstention_votes).to eq 0
           expect(w.possible_votes).to eq 1
+          expect(w.whip_guess).to eq "aye"
           w = Whip.find_by(division: division, party: "B")
           expect(w.aye_votes).to eq 1
           expect(w.aye_tells).to eq 0
@@ -143,6 +147,7 @@ describe Whip, :type => :model do
           expect(w.both_votes).to eq 0
           expect(w.abstention_votes).to eq 0
           expect(w.possible_votes).to eq 3
+          expect(w.whip_guess).to eq "unknown"
         end
       end
     end
