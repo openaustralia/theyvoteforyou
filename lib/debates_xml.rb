@@ -55,7 +55,7 @@ module DebatesXML
     end
 
     def motion
-      # TODO
+      pwmotiontexts.map { |p| p.to_s + "\n\n" }.join
     end
 
     def clock_time
@@ -87,6 +87,16 @@ module DebatesXML
         previous_element = previous_element.previous_element
       end
       previous_element
+    end
+
+    def pwmotiontexts
+      previous_element = @division_xml.previous_element
+      pwmotiontexts = []
+      while previous_element && !previous_element.name.include?('heading')
+        pwmotiontexts << previous_element.xpath('p[@pwmotiontext]') unless previous_element.xpath('p[@pwmotiontext]').empty?
+        previous_element = previous_element.previous_element
+      end
+      pwmotiontexts.reverse
     end
 
     def title_case(title)
