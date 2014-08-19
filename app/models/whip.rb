@@ -9,7 +9,11 @@ class Whip < ActiveRecord::Base
 
     calc_all_votes_per_party2.each do |k, votes|
       division_id, party = k
-      whip = Whip.find_or_initialize_by(division_id: division_id, party: party)
+      # TODO Use find_or_initialize_by when the table has a primary id rather than this tortuous deleting
+      # and recreating nonsense
+      Whip.where(division_id: division_id, party: party).delete_all
+      whip = Whip.new(division_id: division_id, party: party)
+
       whip.aye_votes = votes["aye"] || 0
       whip.aye_tells = votes["tellaye"] || 0
       whip.no_votes = votes["no"] || 0
