@@ -24,6 +24,18 @@ describe Whip, :type => :model do
       it { expect(Whip.calc_whip_guess(5, 10, 0)).to eq "no" }
       it { expect(Whip.calc_whip_guess(5, 5, 0)).to eq "unknown" }
     end
+
+    context "10 abstentions" do
+      it { expect(Whip.calc_whip_guess(5, 5, 10)).to eq "abstention" }
+      it { expect(Whip.calc_whip_guess(5, 10, 10)).to eq "unknown" }
+      it { expect(Whip.calc_whip_guess(5, 15, 10)).to eq "no" }
+      it { expect(Whip.calc_whip_guess(10, 5, 10)).to eq "unknown"}
+      it { expect(Whip.calc_whip_guess(10, 10, 10)).to eq "unknown" }
+      it { expect(Whip.calc_whip_guess(10, 15, 10)).to eq "no" }
+      it { expect(Whip.calc_whip_guess(15, 5, 10)).to eq "aye" }
+      it { expect(Whip.calc_whip_guess(15, 10, 10)).to eq "aye" }
+      it { expect(Whip.calc_whip_guess(15, 15, 10)).to eq "unknown" }
+    end
   end
 
   describe ".calc_all_votes_per_party" do
