@@ -33,6 +33,7 @@ describe Whip, :type => :model do
       end
 
       it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye"] => 1)}
+      it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {"aye" => 1})}
 
       context "and 2 aye votes in party B" do
         before :each do
@@ -41,6 +42,7 @@ describe Whip, :type => :model do
         end
 
         it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye"] => 1, [1, "B", "aye"] => 2)}
+        it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {"aye" => 1}, [1, "B"] => {"aye" => 2})}
       end
 
       context "and 1 aye vote and 1 no vote in party B" do
@@ -50,6 +52,7 @@ describe Whip, :type => :model do
         end
 
         it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye"] => 1, [1, "B", "aye"] => 1, [1, "B", "no"] => 1) }
+        it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {"aye" => 1}, [1, "B"] => {"aye" => 1, "no" => 1}) }
       end
     end
   end
