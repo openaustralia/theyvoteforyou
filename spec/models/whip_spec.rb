@@ -45,6 +45,7 @@ describe Whip, :type => :model do
 
         expect(w.both_votes).to eq 0
         expect(w.abstention_votes).to eq 0
+        expect(w.possible_votes).to eq 1
       end
 
       context "and 2 aye votes in party B" do
