@@ -2,6 +2,7 @@ require 'nokogiri'
 require 'cgi'
 
 class XMLDataLoader
+  # +xml_data_directory+ is the contents of http://data.openaustralia.org/members
   def initialize(xml_data_directory)
     @xml_data_directory = xml_data_directory
     @logger = Rails.logger
