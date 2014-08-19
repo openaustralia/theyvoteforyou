@@ -22,6 +22,10 @@ describe Whip, :type => :model do
     let(:division) { Division.create(division_id: 1, division_date: Date.new(2000,1,1), division_number: 1, house: "commons", division_name: "Foo", source_url: "", debate_url: "", motion: "", notes: "", source_gid: "", debate_gid: "") }
     let(:member1) { Member.create(mp_id: 1, title: "", first_name: "Member", last_name: "1", party: "A",
       house: "commons", gid: "", source_gid: "",  constituency: "A") }
+    let(:member2) { Member.create(mp_id: 2, title: "", first_name: "Member", last_name: "2", party: "B",
+      house: "commons", gid: "", source_gid: "",  constituency: "B") }
+    let(:member3) { Member.create(mp_id: 3, title: "", first_name: "Member", last_name: "3", party: "B",
+      house: "commons", gid: "", source_gid: "",  constituency: "C") }
 
     context "one aye vote in party A" do
       before :each do
@@ -29,6 +33,24 @@ describe Whip, :type => :model do
       end
 
       it { expect(Whip.calc_all_aye_votes_per_party).to eq([1, "A"] => 1) }
+
+      context "and 2 aye votes in party B" do
+        before :each do
+          division.votes.create(member: member2, vote: "aye")
+          division.votes.create(member: member3, vote: "aye")
+        end
+
+        it { expect(Whip.calc_all_aye_votes_per_party).to eq([1, "A"] => 1, [1, "B"] => 2) }
+      end
+
+      context "and 1 aye vote and 1 no vote in party B" do
+        before :each do
+          division.votes.create(member: member2, vote: "aye")
+          division.votes.create(member: member3, vote: "no")
+        end
+
+        it { expect(Whip.calc_all_aye_votes_per_party).to eq([1, "A"] => 1, [1, "B"] => 1) }
+      end
     end
   end
 end
