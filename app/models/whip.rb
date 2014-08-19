@@ -5,7 +5,16 @@ class Whip < ActiveRecord::Base
   delegate :noes_in_majority?, to: :division
 
   def self.calc_all_votes_per_party(vote)
-    Division.joins(:votes => :member).where("pw_vote.vote" => vote).group("pw_division.division_id", :party).count
+    r = {}
+    calc_all_votes_per_party2.select{|k,count| k[2] == vote }.each do |k,count|
+      r[[k[0], k[1]]] = count
+    end
+    r
+    #Division.joins(:votes => :member).where("pw_vote.vote" => vote).group("pw_division.division_id", :party).count
+  end
+
+  def self.calc_all_votes_per_party2
+    Division.joins(:votes => :member).group("pw_division.division_id", :party, :vote).count
   end
 
   def self.calc_all_aye_votes_per_party
