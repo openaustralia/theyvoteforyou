@@ -47,7 +47,7 @@ module DebatesXML
     end
 
     def source_gid
-      # TODO
+      @division_xml.attr(:id)
     end
 
     def debate_gid
