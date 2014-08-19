@@ -5,6 +5,7 @@ class Whip < ActiveRecord::Base
   delegate :noes_in_majority?, to: :division
 
   def self.update_all!
+    # TODO Refactor this into an association
     possible_votes = Division.joins("LEFT JOIN pw_mp ON pw_division.house = pw_mp.house AND pw_mp.entered_house <= pw_division.division_date AND pw_division.division_date < pw_mp.left_house").group("pw_division.division_id", :party).count
 
     calc_all_votes_per_party2.each do |k, votes|
