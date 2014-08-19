@@ -24,10 +24,12 @@ class Whip < ActiveRecord::Base
   end
 
   def self.calc_whip_guess(ayes, noes, abstentions)
-    if ayes > noes
+    if ayes > noes && ayes > abstentions
       "aye"
-    elsif noes > ayes
+    elsif noes > ayes && noes > abstentions
       "no"
+    elsif abstentions > ayes && abstentions > noes
+      "abstention"
     else
       "unknown"
     end
