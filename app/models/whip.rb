@@ -23,6 +23,16 @@ class Whip < ActiveRecord::Base
     end
   end
 
+  def self.calc_whip_guess(ayes, noes, abstentions)
+    if ayes > noes
+      "aye"
+    elsif noes > ayes
+      "no"
+    else
+      "unknown"
+    end
+  end
+
   def self.calc_all_votes_per_party
     Division.joins(:votes => :member).group("pw_division.division_id", :party, :vote).count
   end
