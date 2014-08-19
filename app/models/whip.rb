@@ -17,6 +17,8 @@ class Whip < ActiveRecord::Base
       whip.both_votes = votes["both"] || 0
       whip.abstention_votes = votes["abstention"] || 0
       whip.possible_votes = possible_votes[[k[0], k[1]]]
+      # TODO Fill it in with a real value
+      whip.whip_guess = "unknown"
       whip.save!
     end
   end
