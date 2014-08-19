@@ -17,5 +17,17 @@ describe DebatesXML do
     it { expect(division.debate_gid).to eq('uk.org.publicwhip/debate/2009-11-25.101.1') }
     it { expect(division.motion).to eq('<p pwmotiontext=\"moved\">That this bill be now read a second time.</p>\n\n<p pwmotiontext=\"moved\">That all words after “That” be omitted with a view to substituting the following words:“the House:<dl><dt>(1)</dt><dd>registers its dismay that this legislation cuts out the ‘gap year’ pathway to Independent Youth Allowance for students who must leave home to attend University, requiring that students instead find 30 hours employment per week for 18 months in order to gain Independent Youth Allowance;</dd><dt>(2)</dt><dd>registers its concern that this legislation will lead to the retrospective removal of access to Youth Allowance for a number of students who undertook a ‘gap year’ in 2009 on the basis of advice from Government officials, including teachers, careers advisers and Centrelink officials; and</dd><dt>(3)</dt><dd>urges the Government to:<dl><dt>(a)</dt><dd>offer further amendments that will remove all of the negative retrospective effects of this legislation; and</dd><dt>(b)</dt><dd>provide a reasonable pathway to gaining Independent Youth Allowance for those students who must leave home in order to participate in Higher Education.</dd></dl></dd></dl></p>\n\n<p pwmotiontext=\"moved\">That the words proposed to be omitted (<b>Mr Pyne’s</b> amendment) stand part of the question.</p>\n\n') }
     it { expect(division.clock_time).to eq('019:26:00') }
+
+    describe '#clock_time' do
+      it 'adds preceeding zero and trailing seconds' do
+        division_xml = double("Division XML", attr: '12:34')
+        expect(DebatesXML::Division.new(division_xml, 'commons').clock_time).to eq('012:34:00')
+      end
+
+      it 'is blank when time is malformed' do
+        division_xml = double("Division XML", attr: 'foobar')
+        expect(DebatesXML::Division.new(division_xml, 'commons').clock_time).to eq('')
+      end
+    end
   end
 end

@@ -59,7 +59,16 @@ module DebatesXML
     end
 
     def clock_time
-      # TODO
+      time = @division_xml.attr(:time)
+      time = "#{time}:00" if time =~ /^\d\d:\d\d$/
+      time = "0#{time}" if time =~ /^\d\d:\d\d:\d\d$/
+
+      if time !~ /^\d\d\d:\d\d:\d\d$/
+        Rails.logger.warn "Clock time '#{time}' not in right format"
+        ''
+      else
+        time
+      end
     end
 
     private
