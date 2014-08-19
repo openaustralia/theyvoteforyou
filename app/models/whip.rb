@@ -5,6 +5,8 @@ class Whip < ActiveRecord::Base
   delegate :noes_in_majority?, to: :division
 
   def self.update_all!
+    possible_votes = Division.joins("LEFT JOIN pw_mp ON pw_division.house = pw_mp.house AND pw_mp.entered_house <= pw_division.division_date AND pw_division.division_date < pw_mp.left_house").group("pw_division.division_id", :party).count
+
     calc_all_votes_per_party2.each do |k, votes|
       whip = Whip.find_or_initialize_by(division_id: k[0], party: k[1])
       whip.aye_votes = votes["aye"] || 0
@@ -13,8 +15,7 @@ class Whip < ActiveRecord::Base
       whip.no_tells = votes["tellno"] || 0
       whip.both_votes = votes["both"] || 0
       whip.abstention_votes = votes["abstention"] || 0
-      whip.possible_votes = whip.aye_votes + whip.aye_tells + whip.no_votes + whip.no_tells +
-        whip.both_votes + whip.abstention_votes
+      whip.possible_votes = possible_votes[[k[0], k[1]]]
       whip.save!
     end
   end

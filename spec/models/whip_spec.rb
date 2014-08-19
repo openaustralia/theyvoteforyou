@@ -19,13 +19,32 @@ describe Whip, :type => :model do
   end
 
   describe ".calc_all_votes_per_party" do
+    before :each do
+      member1
+      member2
+      member3
+      member4
+      member5
+    end
+
     let(:division) { Division.create(division_id: 1, division_date: Date.new(2000,1,1), division_number: 1, house: "commons", division_name: "Foo", source_url: "", debate_url: "", motion: "", notes: "", source_gid: "", debate_gid: "") }
     let(:member1) { Member.create(mp_id: 1, title: "", first_name: "Member", last_name: "1", party: "A",
-      house: "commons", gid: "", source_gid: "",  constituency: "A") }
+      house: "commons", gid: "", source_gid: "",  constituency: "A",
+      entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1)) }
     let(:member2) { Member.create(mp_id: 2, title: "", first_name: "Member", last_name: "2", party: "B",
-      house: "commons", gid: "", source_gid: "",  constituency: "B") }
+      house: "commons", gid: "", source_gid: "",  constituency: "B",
+      entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1)) }
     let(:member3) { Member.create(mp_id: 3, title: "", first_name: "Member", last_name: "3", party: "B",
-      house: "commons", gid: "", source_gid: "",  constituency: "C") }
+      house: "commons", gid: "", source_gid: "",  constituency: "C",
+      entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1)) }
+    # This member doesn't vote but could
+    let(:member4) { Member.create(mp_id: 4, title: "", first_name: "Member", last_name: "4", party: "B",
+      house: "commons", gid: "", source_gid: "",  constituency: "D",
+      entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1)) }
+    # This member couldn't vote in the division
+    let(:member5) { Member.create(mp_id: 5, title: "", first_name: "Member", last_name: "5", party: "B",
+      house: "commons", gid: "", source_gid: "",  constituency: "E",
+      entered_house: Date.new(1998,1,1), left_house: Date.new(1999,1,1)) }
 
     context "one aye vote in party A" do
       before :each do
@@ -73,7 +92,7 @@ describe Whip, :type => :model do
           expect(w.no_tells).to eq 0
           expect(w.both_votes).to eq 0
           expect(w.abstention_votes).to eq 0
-          expect(w.possible_votes).to eq 2
+          expect(w.possible_votes).to eq 3
         end
       end
 
@@ -103,7 +122,7 @@ describe Whip, :type => :model do
           expect(w.no_tells).to eq 0
           expect(w.both_votes).to eq 0
           expect(w.abstention_votes).to eq 0
-          expect(w.possible_votes).to eq 2
+          expect(w.possible_votes).to eq 3
         end
       end
     end
