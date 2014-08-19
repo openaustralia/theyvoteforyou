@@ -10,6 +10,19 @@ describe Whip, :type => :model do
     Whip.delete_all
   end
 
+  describe "#free_vote?" do
+    it do
+      division = Division.new(australian_house: 'senate', division_date: '2006-02-09', division_number: 3)
+      expect(Whip.new(division: division, party: 'Liberal Party').free_vote?).to be_truthy
+    end
+
+    it do
+      division = Division.new(australian_house: 'senate', division_date: '2001-01-01', division_number: 1)
+      whip = Whip.new(division: division, party: 'Liberal Party')
+      expect(whip.free_vote?).to be_falsy
+    end
+  end
+
   describe '#whip_guess_majority' do
     it 'whip guess is aye and noes are in the majority' do
       allow(subject).to receive(:whip_guess).and_return("aye")

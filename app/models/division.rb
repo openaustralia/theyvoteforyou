@@ -179,6 +179,10 @@ class Division < ActiveRecord::Base
     House.uk_to_australian(house)
   end
 
+  def australian_house=(h)
+    self.house = House.australian_to_uk(h)
+  end
+
   def australian_house_name
     australian_house.capitalize
   end
