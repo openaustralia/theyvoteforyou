@@ -7,11 +7,15 @@ class Whip < ActiveRecord::Base
   def self.update_all!
     calc_all_votes_per_party2.each do |k, votes|
       whip = Whip.find_or_initialize_by(division_id: k[0], party: k[1])
-      # TODO possible_votes needs to be filled out with something sensible
-      whip.update_attributes(aye_votes: votes["aye"] || 0, aye_tells: votes["tellaye"] || 0,
-        no_votes: votes["no"] || 0, no_tells: votes["tellno"] || 0,
-        both_votes: votes["both"] || 0, abstention_votes: votes["abstention"] || 0,
-        possible_votes: 0)
+      whip.aye_votes = votes["aye"] || 0
+      whip.aye_tells = votes["tellaye"] || 0
+      whip.no_votes = votes["no"] || 0
+      whip.no_tells = votes["tellno"] || 0
+      whip.both_votes = votes["both"] || 0
+      whip.abstention_votes = votes["abstention"] || 0
+      whip.possible_votes = whip.aye_votes + whip.aye_tells + whip.no_votes + whip.no_tells +
+        whip.both_votes + whip.abstention_votes
+      whip.save!
     end
   end
 
