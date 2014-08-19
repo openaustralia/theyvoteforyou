@@ -51,7 +51,7 @@ module DebatesXML
     end
 
     def debate_gid
-      # TODO
+      preceeding_minor_heading_element.attr(:id)
     end
 
     def motion
