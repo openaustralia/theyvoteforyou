@@ -74,15 +74,15 @@ module DebatesXML
     private
 
     def preceeding_major_heading_element
-      find_previous_element(@division_xml, 'major-heading')
+      find_previous('major-heading')
     end
 
     def preceeding_minor_heading_element
-      find_previous_element(@division_xml, 'minor-heading')
+      find_previous('minor-heading')
     end
 
-    def find_previous_element(element, name)
-      previous_element = element.previous_element
+    def find_previous(name)
+      previous_element = @division_xml.previous_element
       while previous_element.name != name
         previous_element = previous_element.previous_element
       end
