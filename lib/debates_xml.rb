@@ -73,12 +73,12 @@ module DebatesXML
 
     private
 
-    def major_heading
-      find_previous_element(@division_xml, 'major-heading').inner_text.strip
+    def preceeding_major_heading_element
+      find_previous_element(@division_xml, 'major-heading')
     end
 
-    def minor_heading
-      find_previous_element(@division_xml, 'minor-heading').inner_text.strip
+    def preceeding_minor_heading_element
+      find_previous_element(@division_xml, 'minor-heading')
     end
 
     def find_previous_element(element, name)
