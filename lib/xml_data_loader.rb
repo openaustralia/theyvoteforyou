@@ -1,3 +1,6 @@
+require 'nokogiri'
+require 'cgi'
+
 class XMLDataLoader
   def initialize(xml_data_directory)
     @xml_data_directory = xml_data_directory
