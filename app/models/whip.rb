@@ -8,6 +8,16 @@ class Whip < ActiveRecord::Base
     Division.joins(:votes => :member).group("pw_division.division_id", :party, :vote).count
   end
 
+  def self.calc_all_votes_per_party2
+    r = {}
+    calc_all_votes_per_party.each do |k, count|
+      votes = r[[k[0], k[1]]] || {}
+      votes[k[2]] = count
+      r[[k[0], k[1]]] = votes
+    end
+    r
+  end
+
   def free?
     whip_guess == "none"
   end
