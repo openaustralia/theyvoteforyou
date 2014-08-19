@@ -18,6 +18,14 @@ describe Whip, :type => :model do
     end
   end
 
+  describe ".calc_whip_guess" do
+    context "no abstentions" do
+      it { expect(Whip.calc_whip_guess(10, 5, 0)).to eq "aye" }
+      it { expect(Whip.calc_whip_guess(5, 10, 0)).to eq "no" }
+      it { expect(Whip.calc_whip_guess(5, 5, 0)).to eq "unknown" }
+    end
+  end
+
   describe ".calc_all_votes_per_party" do
     before :each do
       member1
