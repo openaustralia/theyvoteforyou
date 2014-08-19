@@ -39,11 +39,11 @@ module DebatesXML
     end
 
     def source_url
-      # TODO
+      @division_xml.attr(:url)
     end
 
     def debate_url
-      # TODO
+      preceeding_minor_heading_element.attr(:url)
     end
 
     def source_gid
