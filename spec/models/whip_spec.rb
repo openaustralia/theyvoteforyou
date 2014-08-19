@@ -42,7 +42,6 @@ describe Whip, :type => :model do
         expect(w.aye_tells).to eq 0
         expect(w.no_votes).to eq 0
         expect(w.no_tells).to eq 0
-
         expect(w.both_votes).to eq 0
         expect(w.abstention_votes).to eq 0
         expect(w.possible_votes).to eq 1
@@ -56,6 +55,26 @@ describe Whip, :type => :model do
 
         it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye"] => 1, [1, "B", "aye"] => 2)}
         it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {"aye" => 1}, [1, "B"] => {"aye" => 2})}
+        it do
+          Whip.update_all!
+          expect(Whip.all.count).to eq 2
+          w = Whip.find_by(division: division, party: "A")
+          expect(w.aye_votes).to eq 1
+          expect(w.aye_tells).to eq 0
+          expect(w.no_votes).to eq 0
+          expect(w.no_tells).to eq 0
+          expect(w.both_votes).to eq 0
+          expect(w.abstention_votes).to eq 0
+          expect(w.possible_votes).to eq 1
+          w = Whip.find_by(division: division, party: "B")
+          expect(w.aye_votes).to eq 2
+          expect(w.aye_tells).to eq 0
+          expect(w.no_votes).to eq 0
+          expect(w.no_tells).to eq 0
+          expect(w.both_votes).to eq 0
+          expect(w.abstention_votes).to eq 0
+          expect(w.possible_votes).to eq 2
+        end
       end
 
       context "and 1 aye vote and 1 no vote in party B" do
@@ -66,6 +85,26 @@ describe Whip, :type => :model do
 
         it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye"] => 1, [1, "B", "aye"] => 1, [1, "B", "no"] => 1) }
         it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {"aye" => 1}, [1, "B"] => {"aye" => 1, "no" => 1}) }
+        it do
+          Whip.update_all!
+          expect(Whip.all.count).to eq 2
+          w = Whip.find_by(division: division, party: "A")
+          expect(w.aye_votes).to eq 1
+          expect(w.aye_tells).to eq 0
+          expect(w.no_votes).to eq 0
+          expect(w.no_tells).to eq 0
+          expect(w.both_votes).to eq 0
+          expect(w.abstention_votes).to eq 0
+          expect(w.possible_votes).to eq 1
+          w = Whip.find_by(division: division, party: "B")
+          expect(w.aye_votes).to eq 1
+          expect(w.aye_tells).to eq 0
+          expect(w.no_votes).to eq 1
+          expect(w.no_tells).to eq 0
+          expect(w.both_votes).to eq 0
+          expect(w.abstention_votes).to eq 0
+          expect(w.possible_votes).to eq 2
+        end
       end
     end
   end
