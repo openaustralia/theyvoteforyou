@@ -35,7 +35,7 @@ module DebatesXML
     end
 
     def name
-      # TODO: Called $heading in perl
+      title_case(preceeding_major_heading_element.inner_text.strip + ' &#8212; ' + preceeding_minor_heading_element.inner_text.strip)
     end
 
     def source_url
@@ -87,6 +87,23 @@ module DebatesXML
         previous_element = previous_element.previous_element
       end
       previous_element
+    end
+
+    def title_case(title)
+      title = title.titlecase
+      # Un-titlecase words in the skip list from Perl's Text::Autoformat
+      skip_words = %w(a an at as and are
+                      but by
+                      ere
+                      for from
+                      in into is
+                      of on onto or over
+                      per
+                      the to that than
+                      until unto upon
+                      via
+                      with while whilst within without)
+      title.split.map { |w| skip_words.include?(w.downcase) ? w.downcase : w }.join(' ')
     end
   end
 end
