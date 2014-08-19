@@ -20,7 +20,7 @@ class XMLDataLoader
     electorates_xml.search(:division).each do |division|
       Electorate.create!(cons_id: division[:id][/uk.org.publicwhip\/cons\/(\d*)/, 1],
                          # TODO: Support multiple electorate names
-                         name: PHPEscaping.escape_html(division.at(:name)[:text]),
+                         name: escape_html(division.at(:name)[:text]),
                          main_name: true,
                          from_date: division[:fromdate],
                          to_date: division[:todate],
@@ -49,9 +49,9 @@ class XMLDataLoader
       responsibility = moffice[:responsibility] || ''
 
       Office.create!(moffice_id: moffice[:id][/uk.org.publicwhip\/moffice\/(\d*)/, 1],
-                     dept: PHPEscaping.escape_html(moffice[:dept]),
-                     position: PHPEscaping.escape_html(position),
-                     responsibility: PHPEscaping.escape_html(responsibility),
+                     dept: escape_html(moffice[:dept]),
+                     position: escape_html(position),
+                     responsibility: escape_html(responsibility),
                      from_date: moffice[:fromdate],
                      to_date: moffice[:todate],
                      person: person[/uk.org.publicwhip\/person\/(\d*)/, 1])
@@ -94,10 +94,10 @@ class XMLDataLoader
         person = person[/uk.org.publicwhip\/person\/(\d*)/, 1]
 
         Member.where(gid: gid).destroy_all
-        Member.create!(first_name: PHPEscaping.escape_html(member[:firstname]),
-                       last_name: PHPEscaping.escape_html(member[:lastname]),
+        Member.create!(first_name: escape_html(member[:firstname]),
+                       last_name: escape_html(member[:lastname]),
                        title: member[:title],
-                       constituency: PHPEscaping.escape_html(member[:division]),
+                       constituency: escape_html(member[:division]),
                        party: member[:party],
                        house: house,
                        entered_house: member[:fromdate],
@@ -130,5 +130,12 @@ class XMLDataLoader
     end
 
     @member_to_person = member_to_person
+  end
+
+  # Urgh, add extra HTML escaping that's done in PHP but not Ruby
+  def escape_html(text)
+    text = CGI::escape_html(text)
+    text.gsub!('’', '&rsquo;')
+    text.gsub('‘', '&lsquo;')
   end
 end
