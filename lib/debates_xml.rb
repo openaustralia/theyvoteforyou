@@ -35,8 +35,13 @@ module DebatesXML
     end
 
     def name
-      # TODO: PHP supports missing headings, etc.
-      title_case(major_heading + ' &#8212; ' + minor_heading)
+      if !major_heading.blank? && !minor_heading.blank?
+        title_case(major_heading + ' &#8212; ' + minor_heading)
+      elsif !major_heading.blank?
+        title_case(major_heading)
+      elsif !minor_heading.blank?
+        title_case(minor_heading)
+      end
     end
 
     def source_url

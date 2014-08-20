@@ -46,6 +46,18 @@ describe DebatesXML do
         allow(division).to receive(:minor_heading).and_return('BAR')
         expect(division.name).to eq('Foo &#8212; Bar')
       end
+
+      it 'should show major heading only' do
+        allow(division).to receive(:major_heading).and_return('FOO')
+        allow(division).to receive(:minor_heading).and_return('')
+        expect(division.name).to eq('Foo')
+      end
+
+      it 'should show major heading only' do
+        allow(division).to receive(:major_heading).and_return('')
+        allow(division).to receive(:minor_heading).and_return('BAR')
+        expect(division.name).to eq('Bar')
+      end
     end
   end
 end
