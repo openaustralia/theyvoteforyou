@@ -93,6 +93,7 @@ class Whip < ActiveRecord::Base
     end
   end
 
+  # TODO combine methods free? and free_votes? into one. They do pretty much the same thing.
   def free?
     whip_guess == "none"
   end
