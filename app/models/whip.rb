@@ -57,24 +57,37 @@ class Whip < ActiveRecord::Base
 
   # TODO Move the info about which votes are free to the database
   def free_vote?
-    if ((party == 'Liberal Party' || party == 'National Party' || party == 'Australian Labor Party' || party == 'Australian Democrats') &&
-      # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
-      ((division.division_date == Date.new(2006,2,9) && division.house == 'lords' && division.division_number >= 3) ||
-      (division.division_date == Date.new(2006,2,16) && division.house == 'commons') ||
-      # Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006
-      (division.division_date == Date.new(2006,11,7) && division.house == 'lords' && division.division_number == 1) ||
-      (division.division_date == Date.new(2006,11,7) && division.house == 'lords' && division.division_number >= 4) ||
-      (division.division_date == Date.new(2006,12,6) && division.house == 'commons')))
-        true
-    # The ALP decided at national conference to have a conscience vote on gay marriage
-    # See http://www.abc.net.au/news/2011-12-03/labor-votes-for-conscience-vote-on-same-sex-marriage/3710828
-    elsif ((party == 'Australian Labor Party') &&
-      ((division.division_date == Date.new(2012,9,19) && division.house == 'commons' && division.division_number == 1) ||
-      (division.division_date == Date.new(2012,9,20) && division.house == 'lords' && division.division_number == 5) ||
-      (division.division_date == Date.new(2013,6,20) && division.house == 'lords' && division.division_number == 2)))
-        true
-    else
-      false
+    if division.house == "commons"
+      if ((party == 'Liberal Party' || party == 'National Party' || party == 'Australian Labor Party' || party == 'Australian Democrats') &&
+        # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
+        (division.division_date == Date.new(2006,2,16) ||
+        # Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006
+        (division.division_date == Date.new(2006,12,6))))
+          true
+      # The ALP decided at national conference to have a conscience vote on gay marriage
+      # See http://www.abc.net.au/news/2011-12-03/labor-votes-for-conscience-vote-on-same-sex-marriage/3710828
+      elsif ((party == 'Australian Labor Party') &&
+        ((division.division_date == Date.new(2012,9,19) && division.division_number == 1)))
+          true
+      else
+        false
+      end
+    elsif division.house == "lords"
+      if ((party == 'Liberal Party' || party == 'National Party' || party == 'Australian Labor Party' || party == 'Australian Democrats') &&
+        # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
+        ((division.division_date == Date.new(2006,2,9) && division.division_number >= 3) ||
+        # Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006
+        (division.division_date == Date.new(2006,11,7) && division.division_number == 1) ||
+        (division.division_date == Date.new(2006,11,7) && division.division_number >= 4)))
+          true
+      # The ALP decided at national conference to have a conscience vote on gay marriage
+      # See http://www.abc.net.au/news/2011-12-03/labor-votes-for-conscience-vote-on-same-sex-marriage/3710828
+      elsif ((party == 'Australian Labor Party') &&
+        ((division.division_date == Date.new(2012,9,20) && division.division_number == 5) || (division.division_date == Date.new(2013,6,20) && division.division_number == 2)))
+          true
+      else
+        false
+      end
     end
   end
 
