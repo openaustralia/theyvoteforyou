@@ -17,6 +17,10 @@ class Vote < ActiveRecord::Base
       where("(pw_cache_whip.whip_guess = 'aye' AND (pw_vote.vote = 'no' OR pw_vote.vote = 'tellno' OR pw_vote.vote = 'abstention')) OR (pw_cache_whip.whip_guess = 'no' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye' OR pw_vote.vote = 'abstention')) OR (pw_cache_whip.whip_guess = 'abstention' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye' OR pw_vote.vote = 'no' OR pw_vote.vote = 'tellno'))")
   end
 
+  def self.tells
+    where("pw_vote.vote = 'tellaye' OR pw_vote.vote = 'tellno'")
+  end
+
   def rebellion?
     !free? && vote_without_tell != whip_guess
   end

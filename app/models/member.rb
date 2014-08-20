@@ -18,7 +18,7 @@ class Member < ActiveRecord::Base
   end
 
   def self.all_tells_counts
-    Vote.where("pw_vote.vote = 'tellaye' OR pw_vote.vote = 'tellno'").group("pw_vote.mp_id").count
+    Vote.tells.group("pw_vote.mp_id").count
   end
 
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
