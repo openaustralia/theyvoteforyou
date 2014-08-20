@@ -95,12 +95,20 @@ module DebatesXML
 
     private
 
+    def preceeding_major_heading_element
+      find_previous('major-heading')
+    end
+
     def major_heading
-      find_previous('major-heading').inner_text.strip
+      preceeding_major_heading_element.inner_text.strip
+    end
+
+    def preceeding_minor_heading_element
+      find_previous('minor-heading')
     end
 
     def minor_heading
-      find_previous('minor-heading').inner_text.strip
+      preceeding_minor_heading_element.inner_text.strip
     end
 
     def find_previous(name)
