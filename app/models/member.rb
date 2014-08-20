@@ -17,6 +17,10 @@ class Member < ActiveRecord::Base
     Vote.rebellious.group("pw_mp.mp_id").count
   end
 
+  def self.all_tells_counts
+    Vote.where("pw_vote.vote = 'tellaye' OR pw_vote.vote = 'tellno'").group("pw_vote.mp_id").count
+  end
+
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
   def self.parse_first_last_name(name)
     name = name.split(" ")

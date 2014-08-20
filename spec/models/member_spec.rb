@@ -23,12 +23,14 @@ describe Member, :type => :model do
       Vote.create(division: division, member: membera, vote: "no")
       Vote.create(division: division, member: memberb, vote: "tellno")
       expect(Member.all_rebellion_counts).to eq ({})
+      expect(Member.all_tells_counts).to eq({2 => 1})
     end
 
     it do
-      Vote.create(division: division, member: membera, vote: "aye")
-      Vote.create(division: division, member: memberb, vote: "tellaye")
+      Vote.create(division: division, member: membera, vote: "tellaye")
+      Vote.create(division: division, member: memberb, vote: "aye")
       expect(Member.all_rebellion_counts).to eq ({1 => 1, 2 => 1})
+      expect(Member.all_tells_counts).to eq({1 => 1})
     end
   end
 end
