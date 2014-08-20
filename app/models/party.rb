@@ -39,7 +39,7 @@ class Party
   end
 
   # TODO Inline
-  def self.whipless?(party)
+  def self.whipless?(name)
     Party.new(name: name).whipless?
   end
 end
