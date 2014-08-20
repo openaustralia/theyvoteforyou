@@ -57,36 +57,38 @@ class Whip < ActiveRecord::Base
 
   # TODO Move the info about which votes are free to the database
   def free_vote?
-    if division.house == "commons"
-      if ((party == 'Liberal Party' || party == 'National Party' || party == 'Australian Labor Party' || party == 'Australian Democrats') &&
-        # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
-        (division.division_date == Date.new(2006,2,16) ||
-        # Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006
-        (division.division_date == Date.new(2006,12,6))))
-          true
-      # The ALP decided at national conference to have a conscience vote on gay marriage
-      # See http://www.abc.net.au/news/2011-12-03/labor-votes-for-conscience-vote-on-same-sex-marriage/3710828
-      elsif ((party == 'Australian Labor Party') &&
-        ((division.division_date == Date.new(2012,9,19) && division.division_number == 1)))
-          true
-      else
-        false
+    # Conscience / free votes from 2006 and onwards. This list from Appendix 3 of
+    # http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id%3A%22library%2Fprspub%2FCQOS6%22
+    # TODO: Do we need to restrict this to only these parties? Are these votes free for all parties?
+
+    # The ALP decided at national conference to have a conscience vote on gay marriage
+    # See http://www.abc.net.au/news/2011-12-03/labor-votes-for-conscience-vote-on-same-sex-marriage/3710828
+
+    if division.australian_house == "representatives"
+      # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
+      if division.division_date == Date.new(2006,2,16)
+        ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)
+      # Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill
+      elsif division.division_date == Date.new(2006,12,6)
+        ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)
+      # Same sex marriage
+      elsif division.division_date == Date.new(2012,9,19) && division.division_number == 1
+        party == 'Australian Labor Party'
       end
-    elsif division.house == "lords"
-      if ((party == 'Liberal Party' || party == 'National Party' || party == 'Australian Labor Party' || party == 'Australian Democrats') &&
-        # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
-        ((division.division_date == Date.new(2006,2,9) && division.division_number >= 3) ||
-        # Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006
-        (division.division_date == Date.new(2006,11,7) && division.division_number == 1) ||
-        (division.division_date == Date.new(2006,11,7) && division.division_number >= 4)))
-          true
-      # The ALP decided at national conference to have a conscience vote on gay marriage
-      # See http://www.abc.net.au/news/2011-12-03/labor-votes-for-conscience-vote-on-same-sex-marriage/3710828
-      elsif ((party == 'Australian Labor Party') &&
-        ((division.division_date == Date.new(2012,9,20) && division.division_number == 5) || (division.division_date == Date.new(2013,6,20) && division.division_number == 2)))
-          true
-      else
-        false
+    elsif division.australian_house == "senate"
+      # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
+      if division.division_date == Date.new(2006,2,9) && division.division_number >= 3
+        ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)
+      # Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006
+    elsif division.division_date == Date.new(2006,11,7) &&
+      (division.division_number == 1 || division.division_number >= 4)
+        ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)
+      # Same sex marriage
+      elsif division.division_date == Date.new(2012,9,20) && division.division_number == 5
+        party == 'Australian Labor Party'
+      # Same sex marriage
+      elsif division.division_date == Date.new(2013,6,20) && division.division_number == 2
+        party == 'Australian Labor Party'
       end
     end
   end
