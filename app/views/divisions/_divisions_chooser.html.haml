@@ -28,7 +28,7 @@
     - if parties
       - parties.each do |party|
         - long_name = Party.long_name(party)
-        - if Member.party_has_whip?(party)
+        - if !Party.whipless?(party)
           %option{:class => (rdisplay2 == "#{party}_party" ? "on" : "off"), :onclick => "secondnav_goto3()", :selected => (rdisplay2 == "#{party}_party"), :title => "", :value => divisions_path(params.merge(rdisplay2: "#{party}_party"))}= long_name
   %input{:name => "submit", :type => "submit", :value => "Go"}/
 <!-- the second tier navigation as dropdowns end-->
