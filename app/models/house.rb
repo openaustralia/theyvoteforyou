@@ -20,4 +20,8 @@ class House
       raise "unexpected value: #{australian_house}"
     end
   end
+
+  def self.australian
+    %w(representatives senate)
+  end
 end
