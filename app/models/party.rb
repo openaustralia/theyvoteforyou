@@ -13,4 +13,17 @@ class Party
       party
     end
   end
+
+  # Does this party not have a whip?
+  def self.whipless?(party)
+    party == "XB" ||
+    party == "Other" ||
+    party[0..2] == "Ind" ||
+    party == "None" ||
+    party == "SPK" ||
+    party == "CWM" ||
+    party == "DCWM" ||
+    party == "PRES" ||
+    party == "DPRES"
+  end
 end
