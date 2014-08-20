@@ -13,6 +13,15 @@ class Member < ActiveRecord::Base
   has_many :divisions, through: :votes
   has_many :member_distances, foreign_key: :mp_id1
 
+  def self.all_rebellion_counts
+    Division.joins("INNER JOIN pw_mp ON pw_division.house = pw_mp.house AND pw_mp.entered_house <= pw_division.division_date AND pw_division.division_date < pw_mp.left_house").
+      joins(:votes).where("pw_vote.mp_id = pw_mp.mp_id").
+      joins(:whips).where("pw_cache_whip.party = pw_mp.party").
+      where("(pw_cache_whip.whip_guess = 'aye' AND (pw_vote.vote = 'no' OR pw_vote.vote = 'tellno' OR pw_vote.vote = 'abstention')) OR (pw_cache_whip.whip_guess = 'no' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye' OR pw_vote.vote = 'abstention')) OR (pw_cache_whip.whip_guess = 'abstention' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye' OR pw_vote.vote = 'no' OR pw_vote.vote = 'tellno'))").
+      group("pw_mp.mp_id").count
+    #{1 => 0}
+  end
+
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
   def self.parse_first_last_name(name)
     name = name.split(" ")

@@ -1,5 +1,28 @@
 require 'spec_helper'
 
 describe Member, :type => :model do
+  describe ".all_rebellion_counts" do
+    let(:membera) { Member.create(mp_id: 1, first_name: "Member", last_name: "A", gid: "A", source_gid: "A",
+      title: "", constituency: "foo", party: "A", house: "commons",
+      entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1)) }
+    let(:division) { Division.create(division_name: "1", division_date: Date.new(2000,1,1),
+    division_number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
+    source_gid: "", debate_gid: "") }
 
+    before :each do
+      # vote counts shouldn't be used for anything. So, setting to 0
+      Whip.create(division: division, party: "A", whip_guess: "no", aye_votes: 0, aye_tells: 0,
+        no_votes: 0, no_tells: 0, both_votes: 0, abstention_votes: 0, possible_votes: 0)
+    end
+
+    it do
+      Vote.create(division: division, member: membera, vote: "no")
+      expect(Member.all_rebellion_counts).to eq ({})
+    end
+
+    it do
+      Vote.create(division: division, member: membera, vote: "aye")
+      expect(Member.all_rebellion_counts).to eq ({1 => 1})
+    end
+  end
 end
