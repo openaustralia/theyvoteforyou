@@ -21,10 +21,13 @@ class Whip < ActiveRecord::Base
       whip.both_votes = votes["both"] || 0
       whip.abstention_votes = votes["abstention"] || 0
       whip.possible_votes = possible_votes[[division_id, party]]
-      # TODO Handle free votes correctly
       # TODO Handle whipless parties
-      whip.whip_guess = calc_whip_guess(whip.aye_votes_including_tells, whip.no_votes_including_tells,
-        whip.abstention_votes)
+      if whip.free_vote?
+        whip.whip_guess = "none"
+      else
+        whip.whip_guess = calc_whip_guess(whip.aye_votes_including_tells, whip.no_votes_including_tells,
+          whip.abstention_votes)
+      end
       whip.save!
     end
   end

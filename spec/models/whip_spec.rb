@@ -100,6 +100,16 @@ describe Whip, :type => :model do
         expect(w.whip_guess).to eq "aye"
       end
 
+      context "free vote" do
+        it do
+          # TODO get rid of use of any_instance. It's a code smell.
+          expect_any_instance_of(Whip).to receive(:free_vote?).and_return(true)
+          Whip.update_all!
+          w = Whip.find_by(division: division, party: "A")
+          expect(w.whip_guess).to eq "none"
+        end
+      end
+
       context "and 2 aye votes in party B" do
         before :each do
           division.votes.create(member: member2, vote: "aye")
