@@ -37,5 +37,15 @@ describe DebatesXML do
         expect(DebatesXML::Division.new(division_xml, 'commons').clock_time).to eq('')
       end
     end
+
+    describe '#name' do
+      subject(:division) { DebatesXML::Division.new(double, 'lords') }
+
+      it 'should join major and minor headings' do
+        allow(division).to receive(:major_heading).and_return('Foo')
+        allow(division).to receive(:minor_heading).and_return('Bar')
+        expect(division.name).to eq('Foo &#8212; Bar')
+      end
+    end
   end
 end
