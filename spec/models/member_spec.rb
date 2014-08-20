@@ -2,9 +2,13 @@ require 'spec_helper'
 
 describe Member, :type => :model do
   describe ".all_rebellion_counts" do
-    let(:membera) { Member.create(mp_id: 1, first_name: "Member", last_name: "A", gid: "A", source_gid: "A",
-      title: "", constituency: "foo", party: "A", house: "commons",
+    let(:membera) { Member.create(mp_id: 1, first_name: "Member", last_name: "A", gid: "", source_gid: "",
+      title: "", constituency: "", party: "A", house: "commons",
       entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1)) }
+    let(:memberb) { Member.create(mp_id: 2, first_name: "Member", last_name: "B", gid: "", source_gid: "",
+      title: "", constituency: "", party: "A", house: "commons",
+      entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1)) }
+
     let(:division) { Division.create(division_name: "1", division_date: Date.new(2000,1,1),
     division_number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
     source_gid: "", debate_gid: "") }
@@ -17,12 +21,14 @@ describe Member, :type => :model do
 
     it do
       Vote.create(division: division, member: membera, vote: "no")
+      Vote.create(division: division, member: memberb, vote: "tellno")
       expect(Member.all_rebellion_counts).to eq ({})
     end
 
     it do
       Vote.create(division: division, member: membera, vote: "aye")
-      expect(Member.all_rebellion_counts).to eq ({1 => 1})
+      Vote.create(division: division, member: memberb, vote: "tellaye")
+      expect(Member.all_rebellion_counts).to eq ({1 => 1, 2 => 1})
     end
   end
 end
