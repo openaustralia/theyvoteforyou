@@ -35,6 +35,7 @@ module DebatesXML
     end
 
     def name
+      # TODO: PHP supports missing headings, etc.
       title_case(preceeding_major_heading_element.inner_text.strip + ' &#8212; ' + preceeding_minor_heading_element.inner_text.strip)
     end
 
@@ -43,6 +44,7 @@ module DebatesXML
     end
 
     def debate_url
+      # TODO: PHP always gets the previous heading, major or minor. Is this to support missing headings?
       preceeding_minor_heading_element.attr(:url)
     end
 
@@ -51,10 +53,12 @@ module DebatesXML
     end
 
     def debate_gid
+      # TODO: PHP always gets the previous heading, major or minor. Is this to support missing headings?
       preceeding_minor_heading_element.attr(:id)
     end
 
     def motion
+      # TODO: Support missing pwmotiontext
       pwmotiontexts.map { |p| p.to_s + "\n\n" }.join
     end
 
