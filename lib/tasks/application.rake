@@ -12,18 +12,26 @@ namespace :application do
     loader.load_all
   end
 
+  desc 'Update all the caches'
+  task :update_caches => [:update_member_distances_cache, :update_whip_cache,
+    :update_member_cache, :update_division_cache] do
+  end
+
   desc 'Update cache of guessed whips'
   task :update_whip_cache => :environment do
+    puts "Updating cache of guessed whips..."
     Whip.update_all!
   end
 
   desc "Update cache of member attendance, rebellions, etc"
-  task :update_member_cache => :environment do
+  task :update_member_cache => :update_whip_cache do
+    puts "Updating member cache..."
     MemberInfo.update_all!
   end
 
   desc "Update cache of division attendance, rebellions, etc"
-  task :update_division_cache => :environment do
+  task :update_division_cache => :update_whip_cache do
+    puts "Updating division cache..."
     DivisionInfo.update_all!
   end
 end
