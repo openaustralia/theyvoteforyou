@@ -71,6 +71,12 @@ describe DebatesXML do
         allow(division).to receive(:minor_heading).and_return('BAR')
         expect(division.name).to eq('Bar')
       end
+
+      it 'should correctly capitalise hyphenated titles' do
+        allow(division).to receive(:major_heading).and_return('ASIA-PACIFIC ECONOMIC COOPERATION')
+        allow(division).to receive(:minor_heading).and_return('')
+        expect(division.name).to eq('Asia-Pacific Economic Cooperation')
+      end
     end
   end
 end
