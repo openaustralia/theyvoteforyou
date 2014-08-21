@@ -153,6 +153,8 @@ module DebatesXML
       text.gsub!('—', '&#8212;') # em dash
       text.gsub!('‘', '&#8216;')
       text.gsub!('’', '&#8217;')
+      text.gsub!('“', '&#8220;')
+      text.gsub!('”', '&#8221;')
       text.gsub(' ', '&#160;') # nbsp
     end
 
