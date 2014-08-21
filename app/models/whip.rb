@@ -11,23 +11,25 @@ class Whip < ActiveRecord::Base
       division_id, party = k
       # TODO Use find_or_initialize_by when the table has a primary id rather than this tortuous deleting
       # and recreating nonsense
-      Whip.where(division_id: division_id, party: party).delete_all
-      whip = Whip.new(division_id: division_id, party: party)
+      Whip.transaction do
+        Whip.where(division_id: division_id, party: party).delete_all
+        whip = Whip.new(division_id: division_id, party: party)
 
-      whip.aye_votes = votes["aye"] || 0
-      whip.aye_tells = votes["tellaye"] || 0
-      whip.no_votes = votes["no"] || 0
-      whip.no_tells = votes["tellno"] || 0
-      whip.both_votes = votes["both"] || 0
-      whip.abstention_votes = votes["abstention"] || 0
-      whip.possible_votes = possible_votes[[division_id, party]]
-      if Party.whipless?(whip.party) || whip.free_vote?
-        whip.whip_guess = "none"
-      else
-        whip.whip_guess = calc_whip_guess(whip.aye_votes_including_tells, whip.no_votes_including_tells,
-          whip.abstention_votes)
+        whip.aye_votes = votes["aye"] || 0
+        whip.aye_tells = votes["tellaye"] || 0
+        whip.no_votes = votes["no"] || 0
+        whip.no_tells = votes["tellno"] || 0
+        whip.both_votes = votes["both"] || 0
+        whip.abstention_votes = votes["abstention"] || 0
+        whip.possible_votes = possible_votes[[division_id, party]]
+        if Party.whipless?(whip.party) || whip.free_vote?
+          whip.whip_guess = "none"
+        else
+          whip.whip_guess = calc_whip_guess(whip.aye_votes_including_tells, whip.no_votes_including_tells,
+            whip.abstention_votes)
+        end
+        whip.save!
       end
-      whip.save!
     end
   end
 
