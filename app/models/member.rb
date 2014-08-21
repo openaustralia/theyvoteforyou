@@ -25,6 +25,14 @@ class Member < ActiveRecord::Base
     Vote.all.group("pw_vote.mp_id").count
   end
 
+  def self.all_ayes_counts
+    Vote.ayes.group("pw_vote.mp_id").count
+  end
+
+  def self.all_noes_counts
+    Vote.noes.group("pw_vote.mp_id").count
+  end
+
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
   def self.parse_first_last_name(name)
     name = name.split(" ")

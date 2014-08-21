@@ -21,6 +21,14 @@ class Vote < ActiveRecord::Base
     where("pw_vote.vote = 'tellaye' OR pw_vote.vote = 'tellno'")
   end
 
+  def self.ayes
+    where("pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye'")
+  end
+
+  def self.noes
+    where("pw_vote.vote = 'no' OR pw_vote.vote = 'tellno'")
+  end
+
   def rebellion?
     !free? && vote_without_tell != whip_guess
   end
