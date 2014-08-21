@@ -148,7 +148,8 @@ module DebatesXML
       speech = speech.children.to_html # to_html oddly gets us closest to PHP's output
       speech.gsub!("\n", '') # Except that Nokogir is adding newlines :(
       speech.gsub!('</p>', "</p>\n\n") # PHP loader does this "so that the website formatter doesn't do strange things"
-      speech.gsub!('—', '-') # Looks like PHP loader didn't support em dashes
+      speech.gsub!('—', '&#8212;') # Looks like PHP loader didn't support em dashes
+      speech.gsub!(' ', '&#160;') # nbsp
       "<p class=\"speaker\">#{speaker}</p>\n\n#{speech}"
     end
 
