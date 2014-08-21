@@ -16,4 +16,9 @@ namespace :application do
   task :update_whip_cache => :environment do
     Whip.update_all!
   end
+
+  desc "Update cache of member attendance, rebellions, etc"
+  task :update_member_cache => :environment do
+    MemberInfo.update_all!
+  end
 end
