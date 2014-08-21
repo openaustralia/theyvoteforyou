@@ -33,6 +33,17 @@ class Member < ActiveRecord::Base
     Vote.noes.group("pw_vote.mp_id").count
   end
 
+  def self.all_aye_majority_counts
+    ayes = all_ayes_counts
+    noes = all_noes_counts
+    keys = (ayes.keys + noes.keys).uniq
+    r = {}
+    keys.each do |key|
+      r[key] = (ayes[key] || 0) - (noes[key] || 0)
+    end
+    r
+  end
+
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
   def self.parse_first_last_name(name)
     name = name.split(" ")

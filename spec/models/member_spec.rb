@@ -27,6 +27,7 @@ describe Member, :type => :model do
       expect(Member.all_votes_attended_counts).to eq({1 => 1, 2 => 1})
       expect(Member.all_ayes_counts).to eq({})
       expect(Member.all_noes_counts).to eq({1 => 1, 2 => 1})
+      expect(Member.all_aye_majority_counts).to eq({1 => -1, 2 => -1})
     end
 
     it do
@@ -37,6 +38,7 @@ describe Member, :type => :model do
       expect(Member.all_votes_attended_counts).to eq({1 => 1, 2 => 1})
       expect(Member.all_ayes_counts).to eq({1 => 1, 2 => 1})
       expect(Member.all_noes_counts).to eq({})
+      expect(Member.all_aye_majority_counts).to eq({1 => 1, 2 => 1})
     end
   end
 end
