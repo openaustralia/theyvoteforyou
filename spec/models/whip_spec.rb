@@ -10,6 +10,19 @@ describe Whip, :type => :model do
     Whip.delete_all
   end
 
+  describe "#free_vote?" do
+    it do
+      division = Division.new(australian_house: 'senate', division_date: '2006-02-09', division_number: 3)
+      expect(Whip.new(division: division, party: 'Liberal Party').free_vote?).to be_truthy
+    end
+
+    it do
+      division = Division.new(australian_house: 'senate', division_date: '2001-01-01', division_number: 1)
+      whip = Whip.new(division: division, party: 'Liberal Party')
+      expect(whip.free_vote?).to be_falsy
+    end
+  end
+
   describe '#whip_guess_majority' do
     it 'whip guess is aye and noes are in the majority' do
       allow(subject).to receive(:whip_guess).and_return("aye")
@@ -85,6 +98,25 @@ describe Whip, :type => :model do
         expect(w.abstention_votes).to eq 0
         expect(w.possible_votes).to eq 1
         expect(w.whip_guess).to eq "aye"
+      end
+
+      context "free vote" do
+        it do
+          # TODO get rid of use of any_instance. It's a code smell.
+          expect_any_instance_of(Whip).to receive(:free_vote?).and_return(true)
+          Whip.update_all!
+          w = Whip.find_by(division: division, party: "A")
+          expect(w.whip_guess).to eq "none"
+        end
+      end
+
+      context "whipless party vote" do
+        it do
+          expect(Party).to receive(:whipless?).with("A").and_return(true)
+          Whip.update_all!
+          w = Whip.find_by(division: division, party: "A")
+          expect(w.whip_guess).to eq "none"
+        end
       end
 
       context "and 2 aye votes in party B" do

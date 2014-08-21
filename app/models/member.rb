@@ -203,19 +203,9 @@ class Member < ActiveRecord::Base
     where(left_house: "9999-12-31")
   end
 
-  # TODO Move this to a "party" class
-  def self.party_has_whip?(party)
-    party != "SPK" &&
-    party != "CWM" &&
-    party != "DCWM" &&
-    party != "PRES" &&
-    party != "DPRES" &&
-    party != "Independent"
-  end
-
   # Are they a member of a party that has a whip?
   def has_whip?
-    Member.party_has_whip?(party)
+    !Party.whipless?(party)
   end
 
   def possible_friends

@@ -68,6 +68,7 @@ end
 
 group :test, :development do
   gem 'rspec-rails'
+  gem 'fuubar'
 end
 
 group :doc do

@@ -9,17 +9,27 @@ class Whip < ActiveRecord::Base
 
     calc_all_votes_per_party2.each do |k, votes|
       division_id, party = k
-      whip = Whip.find_or_initialize_by(division_id: division_id, party: party)
-      whip.aye_votes = votes["aye"] || 0
-      whip.aye_tells = votes["tellaye"] || 0
-      whip.no_votes = votes["no"] || 0
-      whip.no_tells = votes["tellno"] || 0
-      whip.both_votes = votes["both"] || 0
-      whip.abstention_votes = votes["abstention"] || 0
-      whip.possible_votes = possible_votes[[division_id, party]]
-      whip.whip_guess = calc_whip_guess(whip.aye_votes_including_tells, whip.no_votes_including_tells,
-        whip.abstention_votes)
-      whip.save!
+      # TODO Use find_or_initialize_by when the table has a primary id rather than this tortuous deleting
+      # and recreating nonsense
+      Whip.transaction do
+        Whip.where(division_id: division_id, party: party).delete_all
+        whip = Whip.new(division_id: division_id, party: party)
+
+        whip.aye_votes = votes["aye"] || 0
+        whip.aye_tells = votes["tellaye"] || 0
+        whip.no_votes = votes["no"] || 0
+        whip.no_tells = votes["tellno"] || 0
+        whip.both_votes = votes["both"] || 0
+        whip.abstention_votes = votes["abstention"] || 0
+        whip.possible_votes = possible_votes[[division_id, party]]
+        if Party.whipless?(whip.party) || whip.free_vote?
+          whip.whip_guess = "none"
+        else
+          whip.whip_guess = calc_whip_guess(whip.aye_votes_including_tells, whip.no_votes_including_tells,
+            whip.abstention_votes)
+        end
+        whip.save!
+      end
     end
   end
 
@@ -49,6 +59,45 @@ class Whip < ActiveRecord::Base
     r
   end
 
+  # TODO Move the info about which votes are free to the database
+  def free_vote?
+    # Conscience / free votes from 2006 and onwards. This list from Appendix 3 of
+    # http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id%3A%22library%2Fprspub%2FCQOS6%22
+    # TODO: Do we need to restrict this to only these parties? Are these votes free for all parties?
+
+    # The ALP decided at national conference to have a conscience vote on gay marriage
+    # See http://www.abc.net.au/news/2011-12-03/labor-votes-for-conscience-vote-on-same-sex-marriage/3710828
+
+    if division.australian_house == "representatives"
+      # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
+      if division.division_date == Date.new(2006,2,16)
+        ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)
+      # Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill
+      elsif division.division_date == Date.new(2006,12,6)
+        ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)
+      # Same sex marriage
+      elsif division.division_date == Date.new(2012,9,19) && division.division_number == 1
+        party == 'Australian Labor Party'
+      end
+    elsif division.australian_house == "senate"
+      # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
+      if division.division_date == Date.new(2006,2,9) && division.division_number >= 3
+        ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)
+      # Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006
+    elsif division.division_date == Date.new(2006,11,7) &&
+      (division.division_number == 1 || division.division_number >= 4)
+        ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)
+      # Same sex marriage
+      elsif division.division_date == Date.new(2012,9,20) && division.division_number == 5
+        party == 'Australian Labor Party'
+      # Same sex marriage
+      elsif division.division_date == Date.new(2013,6,20) && division.division_number == 2
+        party == 'Australian Labor Party'
+      end
+    end
+  end
+
+  # TODO combine methods free? and free_votes? into one. They do pretty much the same thing.
   def free?
     whip_guess == "none"
   end

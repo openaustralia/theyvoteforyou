@@ -94,6 +94,9 @@ GEM
     execjs (2.2.1)
     ffi (1.9.3)
     formatador (0.2.5)
+    fuubar (2.0.0)
+      rspec (~> 3.0)
+      ruby-progressbar (~> 1.4)
     guard (2.6.1)
       formatador (>= 0.2.4)
       listen (~> 2.7)
@@ -220,6 +223,7 @@ GEM
       rspec-mocks (~> 3.0.0)
       rspec-support (~> 3.0.0)
     rspec-support (3.0.3)
+    ruby-progressbar (1.5.1)
     ruby_parser (3.6.2)
       sexp_processor (~> 4.1)
     rvm1-capistrano3 (1.2.5)
@@ -306,6 +310,7 @@ DEPENDENCIES
   delayed_job_active_record
   devise
   diffy
+  fuubar
   guard
   guard-rspec
   haml
