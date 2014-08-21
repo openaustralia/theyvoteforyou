@@ -12,6 +12,7 @@ class Vote < ActiveRecord::Base
   end
 
   # All rebellious votes
+  # TODO Rename to rebellions
   def self.rebellious
     joins(:member, {:division => :whips}).where("pw_cache_whip.party = pw_mp.party").
       where("(pw_cache_whip.whip_guess = 'aye' AND (pw_vote.vote = 'no' OR pw_vote.vote = 'tellno' OR pw_vote.vote = 'abstention')) OR (pw_cache_whip.whip_guess = 'no' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye' OR pw_vote.vote = 'abstention')) OR (pw_cache_whip.whip_guess = 'abstention' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye' OR pw_vote.vote = 'no' OR pw_vote.vote = 'tellno'))")
