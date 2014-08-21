@@ -9,30 +9,36 @@ describe Member, :type => :model do
       title: "", constituency: "", party: "A", house: "commons",
       entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1)) }
 
-    let(:division) { Division.create(division_name: "1", division_date: Date.new(2000,1,1),
+    let(:division1) { Division.create(division_name: "1", division_date: Date.new(2000,1,1),
     division_number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
+    source_gid: "", debate_gid: "") }
+    let(:division2) { Division.create(division_name: "2", division_date: Date.new(2000,1,1),
+    division_number: 2, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
     source_gid: "", debate_gid: "") }
 
     before :each do
       # vote counts shouldn't be used for anything. So, setting to 0
-      Whip.create(division: division, party: "A", whip_guess: "no", aye_votes: 0, aye_tells: 0,
+      Whip.create(division: division1, party: "A", whip_guess: "no", aye_votes: 0, aye_tells: 0,
+        no_votes: 0, no_tells: 0, both_votes: 0, abstention_votes: 0, possible_votes: 0)
+      Whip.create(division: division2, party: "A", whip_guess: "aye", aye_votes: 0, aye_tells: 0,
         no_votes: 0, no_tells: 0, both_votes: 0, abstention_votes: 0, possible_votes: 0)
     end
 
     it do
-      Vote.create(division: division, member: membera, vote: "no")
-      Vote.create(division: division, member: memberb, vote: "tellno")
+      Vote.create(division: division1, member: membera, vote: "no")
+      Vote.create(division: division1, member: memberb, vote: "tellno")
+      Vote.create(division: division2, member: membera, vote: "aye")
       expect(Member.all_rebellion_counts).to eq ({})
       expect(Member.all_tells_counts).to eq({2 => 1})
-      expect(Member.all_votes_attended_counts).to eq({1 => 1, 2 => 1})
-      expect(Member.all_ayes_counts).to eq({})
+      expect(Member.all_votes_attended_counts).to eq({1 => 2, 2 => 1})
+      expect(Member.all_ayes_counts).to eq({1 => 1})
       expect(Member.all_noes_counts).to eq({1 => 1, 2 => 1})
-      expect(Member.all_aye_majority_counts).to eq({1 => -1, 2 => -1})
+      expect(Member.all_aye_majority_counts).to eq({1 => 0, 2 => -1})
     end
 
     it do
-      Vote.create(division: division, member: membera, vote: "tellaye")
-      Vote.create(division: division, member: memberb, vote: "aye")
+      Vote.create(division: division1, member: membera, vote: "tellaye")
+      Vote.create(division: division1, member: memberb, vote: "aye")
       expect(Member.all_rebellion_counts).to eq ({1 => 1, 2 => 1})
       expect(Member.all_tells_counts).to eq({1 => 1})
       expect(Member.all_votes_attended_counts).to eq({1 => 1, 2 => 1})
