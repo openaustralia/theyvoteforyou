@@ -64,11 +64,8 @@ module DebatesXML
 
     def motion
       pwmotiontext = pwmotiontexts.map { |p| p.to_s + "\n\n" }.join
-      if !pwmotiontext.empty?
-        pwmotiontext
-      else
-        previous_speeches.map { |s| speech_text s }.join
-      end
+      text = pwmotiontext.empty? ? previous_speeches.map { |s| speech_text s }.join : pwmotiontext
+      encode_html_entities(text)
     end
 
     def clock_time
@@ -148,10 +145,10 @@ module DebatesXML
       speech = speech.children.to_html # to_html oddly gets us closest to PHP's output
       speech.gsub!("\n", '') # Except that Nokogir is adding newlines :(
       speech.gsub!('</p>', "</p>\n\n") # PHP loader does this "so that the website formatter doesn't do strange things"
-      speech = encode_html_entities(speech) # Only encode certain HTML entities
       "<p class=\"speaker\">#{speaker}</p>\n\n#{speech}"
     end
 
+    # Encode certain HTML entities as found in PHP loader
     def encode_html_entities(text)
       text.gsub!('—', '&#8212;') # em dash
       text.gsub!('‘', '&#8216;')
