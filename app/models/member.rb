@@ -44,6 +44,10 @@ class Member < ActiveRecord::Base
     r
   end
 
+  def self.all_votes_possible_counts
+    Division.joins("INNER JOIN pw_mp ON pw_division.house = pw_mp.house AND pw_mp.entered_house <= pw_division.division_date AND pw_division.division_date < pw_mp.left_house").group("pw_mp.mp_id").count
+  end
+
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
   def self.parse_first_last_name(name)
     name = name.split(" ")

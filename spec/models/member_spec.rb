@@ -15,12 +15,18 @@ describe Member, :type => :model do
     let(:division2) { Division.create(division_name: "2", division_date: Date.new(2000,1,1),
     division_number: 2, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
     source_gid: "", debate_gid: "") }
+    # This division neither of the members could have voted on
+    let(:division3) { Division.create(division_name: "3", division_date: Date.new(2002,1,1),
+    division_number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
+    source_gid: "", debate_gid: "") }
 
     before :each do
       # vote counts shouldn't be used for anything. So, setting to 0
       Whip.create(division: division1, party: "A", whip_guess: "no", aye_votes: 0, aye_tells: 0,
         no_votes: 0, no_tells: 0, both_votes: 0, abstention_votes: 0, possible_votes: 0)
       Whip.create(division: division2, party: "A", whip_guess: "aye", aye_votes: 0, aye_tells: 0,
+        no_votes: 0, no_tells: 0, both_votes: 0, abstention_votes: 0, possible_votes: 0)
+      Whip.create(division: division3, party: "A", whip_guess: "aye", aye_votes: 0, aye_tells: 0,
         no_votes: 0, no_tells: 0, both_votes: 0, abstention_votes: 0, possible_votes: 0)
     end
 
@@ -34,6 +40,7 @@ describe Member, :type => :model do
       expect(Member.all_ayes_counts).to eq({1 => 1})
       expect(Member.all_noes_counts).to eq({1 => 1, 2 => 1})
       expect(Member.all_aye_majority_counts).to eq({1 => 0, 2 => -1})
+      expect(Member.all_votes_possible_counts).to eq({1 => 2, 2 => 2})
     end
 
     it do
@@ -45,6 +52,7 @@ describe Member, :type => :model do
       expect(Member.all_ayes_counts).to eq({1 => 1, 2 => 1})
       expect(Member.all_noes_counts).to eq({})
       expect(Member.all_aye_majority_counts).to eq({1 => 1, 2 => 1})
+      expect(Member.all_votes_possible_counts).to eq({1 => 2, 2 => 2})
     end
   end
 end
