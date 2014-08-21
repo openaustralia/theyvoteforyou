@@ -36,11 +36,11 @@ describe DivisionInfo, :type => :model do
       Vote.create(division: division2, member: membera, vote: "aye")
       expect(DivisionInfo.all_rebellion_counts).to eq ({})
       expect(DivisionInfo.all_tells_counts).to eq({1 => 1})
-      expect(DivisionInfo.all_votes_attended_counts).to eq({1 => 2, 2 => 1})
+      expect(DivisionInfo.all_turnout_counts).to eq({1 => 2, 2 => 1})
       expect(DivisionInfo.all_ayes_counts).to eq({2 => 1})
       expect(DivisionInfo.all_noes_counts).to eq({1 => 2})
       expect(DivisionInfo.all_aye_majority_counts).to eq({1 => -2, 2 => 1})
-      expect(DivisionInfo.all_votes_possible_counts).to eq({1 => 2, 2 => 2})
+      expect(DivisionInfo.all_possible_turnout_counts).to eq({1 => 2, 2 => 2})
     end
 
     it do
@@ -48,11 +48,11 @@ describe DivisionInfo, :type => :model do
       Vote.create(division: division1, member: memberb, vote: "aye")
       expect(DivisionInfo.all_rebellion_counts).to eq ({1 => 2})
       expect(DivisionInfo.all_tells_counts).to eq({1 => 1})
-      expect(DivisionInfo.all_votes_attended_counts).to eq({1 => 2})
+      expect(DivisionInfo.all_turnout_counts).to eq({1 => 2})
       expect(DivisionInfo.all_ayes_counts).to eq({1 => 2})
       expect(DivisionInfo.all_noes_counts).to eq({})
       expect(DivisionInfo.all_aye_majority_counts).to eq({1 => 2})
-      expect(DivisionInfo.all_votes_possible_counts).to eq({1 => 2, 2 => 2})
+      expect(DivisionInfo.all_possible_turnout_counts).to eq({1 => 2, 2 => 2})
     end
   end
 end

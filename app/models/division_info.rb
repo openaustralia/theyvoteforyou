@@ -8,8 +8,8 @@ class DivisionInfo < ActiveRecord::Base
   def self.update_all!
     rebellions = all_rebellion_counts
     tells = all_tells_counts
-    votes_attended = all_votes_attended_counts
-    votes_possible = all_votes_possible_counts
+    turnout = all_turnout_counts
+    possible_turnout = all_possible_turnout_counts
     aye_majority = all_aye_majority_counts
 
     Division.all.ids.each do |id|
@@ -18,7 +18,7 @@ class DivisionInfo < ActiveRecord::Base
         DivisionInfo.where(division_id: id).delete_all
         DivisionInfo.create(division_id: id,
           rebellions: rebellions[id] || 0, tells: tells[id] || 0,
-          turnout: votes_attended[id] || 0, possible_turnout: votes_possible[id] || 0,
+          turnout: turnout[id] || 0, possible_turnout: possible_turnout[id] || 0,
           aye_majority: aye_majority[id] || 0)
       end
     end
@@ -32,7 +32,7 @@ class DivisionInfo < ActiveRecord::Base
     Vote.tells.group("pw_vote.division_id").count
   end
 
-  def self.all_votes_attended_counts
+  def self.all_turnout_counts
     Vote.all.group("pw_vote.division_id").count
   end
 
@@ -55,7 +55,7 @@ class DivisionInfo < ActiveRecord::Base
     r
   end
 
-  def self.all_votes_possible_counts
+  def self.all_possible_turnout_counts
     Division.joins("INNER JOIN pw_mp ON pw_division.house = pw_mp.house AND pw_mp.entered_house <= pw_division.division_date AND pw_division.division_date < pw_mp.left_house").group("pw_division.division_id").count
   end
 end
