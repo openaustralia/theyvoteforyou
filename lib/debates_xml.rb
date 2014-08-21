@@ -86,7 +86,7 @@ module DebatesXML
 
     def save!
       division = ::Division.find_or_initialize_by(date: date, number: number, house: house)
-      division.update!(valid: false,
+      division.update!(valid: true,
                        name: name,
                        source_url: source_url,
                        debate_url: debate_url,
