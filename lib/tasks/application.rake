@@ -21,4 +21,9 @@ namespace :application do
   task :update_member_cache => :environment do
     MemberInfo.update_all!
   end
+
+  desc "Update cache of division attendance, rebellions, etc"
+  task :update_division_cache => :environment do
+    DivisionInfo.update_all!
+  end
 end
