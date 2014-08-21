@@ -123,7 +123,7 @@ module DebatesXML
     def pwmotiontexts
       previous_element = @division_xml.previous_element
       pwmotiontexts = []
-      while previous_element && !previous_element.name.include?('heading')
+      while previous_element && !previous_element.name.include?('heading') && !previous_element.name.include?('division')
         pwmotiontexts << previous_element.xpath('p[@pwmotiontext]') unless previous_element.xpath('p[@pwmotiontext]').empty?
         previous_element = previous_element.previous_element
       end
@@ -133,7 +133,7 @@ module DebatesXML
     def previous_speeches
       previous_element = @division_xml.previous_element
       speeches = []
-      while previous_element && !previous_element.name.include?('heading')
+      while previous_element && !previous_element.name.include?('heading') && !previous_element.name.include?('division')
         speeches << previous_element if previous_element.name == 'speech'
         previous_element = previous_element.previous_element
       end
