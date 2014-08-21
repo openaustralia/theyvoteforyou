@@ -26,6 +26,19 @@ describe DebatesXML do
       end
     end
 
+    context 'real data from 2007-09-11' do
+      subject(:division) do
+        file_path = File.expand_path('../../fixtures/2007-09-11.xml', __FILE__)
+        DebatesXML::Parser.new(file_path, 'lords').divisions.first
+      end
+
+      it '#motion should support missing pwmotiontext' do
+        # FIXME: Create this with a factory
+        Member.create!(gid: 'uk.org.publicwhip/lord/100003', first_name: "Lyn", last_name: "Allison", source_gid: '', title: '', constituency: '', party: '', house: '')
+        expect(division.motion).to eq("<p class=\"speaker\">Lyn Allison</p>\n\n<p>I move:</p>\n\n<dl><dt></dt><dd>That the Senate-<dl><dt>(a)</dt><dd>notes that the Medical University of South Carolina has conducted a sophisticated meta-analysis of 17 research papers covering 136 nuclear sites throughout the Western World with the following findings:<dl><dt>(i)</dt><dd>death rates from leukaemia for children up to 9 years of age were between 5 per cent and 24 per cent higher depending on their proximity to nuclear facilities,</dd><dt>(ii)</dt><dd>death rates from leukaemia for those up to 25 years of age were 2 per cent to 18 per cent higher, and</dd><dt>(iii)</dt><dd>incidence rates of leukaemia were increased by 14 per cent to 21 per cent in zero to 9 year olds and 7 to 10 per cent in zero to 25 year olds;</dd></dl></dd><dt>(b)</dt><dd>considers that research such as this shows the health impact of nuclear activity; and</dd><dt>(c)</dt><dd>urges the Government not to proceed with uranium enrichment or nuclear power reactors in Australia in the light of this research.</dd></dl></dd></dl><p>Question put.</p>\n\n ")
+      end
+    end
+
     describe '#clock_time' do
       it 'adds preceeding zero and trailing seconds' do
         division_xml = double("Division XML", attr: '12:34')

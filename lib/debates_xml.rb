@@ -63,8 +63,12 @@ module DebatesXML
     end
 
     def motion
-      # TODO: Support missing pwmotiontext
-      pwmotiontexts.map { |p| p.to_s + "\n\n" }.join
+      pwmotiontext = pwmotiontexts.map { |p| p.to_s + "\n\n" }.join
+      if !pwmotiontext.empty?
+        pwmotiontext
+      else
+        previous_speeches.map { |s| speech_text s }.join
+      end
     end
 
     def clock_time
@@ -127,6 +131,30 @@ module DebatesXML
         previous_element = previous_element.previous_element
       end
       pwmotiontexts.reverse
+    end
+
+    def previous_speeches
+      previous_element = @division_xml.previous_element
+      speeches = []
+      while previous_element && !previous_element.name.include?('heading')
+        speeches << previous_element if previous_element.name == 'speech'
+        previous_element = previous_element.previous_element
+      end
+      speeches.reverse
+    end
+
+    def speech_text(speech)
+      speaker = speech_speaker(speech)
+      speech = speech.children.to_html # to_html oddly gets us closest to PHP's output
+      speech.gsub!("\n", '') # Except that Nokogir is adding newlines :(
+      speech.gsub!('</p>', "</p>\n\n") # PHP loader does this "so that the website formatter doesn't do strange things"
+      speech.gsub!('—', '-') # Looks like PHP loader didn't support em dashes
+      "<p class=\"speaker\">#{speaker}</p>\n\n#{speech}"
+    end
+
+    def speech_speaker(speech)
+      member = Member.find_by(gid: speech.attr(:speakerid))
+      member ? member.name_without_title : speech.attr(:speakername)
     end
 
     def title_case(title)
