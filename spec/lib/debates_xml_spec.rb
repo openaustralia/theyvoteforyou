@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe DebatesXML do
   describe Division do
-    context 'real data from 2009-11-25' do
+    context 'actual division 1 from representatives on 2009-11-25' do
       subject(:division) do
         file_path = File.expand_path('../../fixtures/2009-11-25.xml', __FILE__)
         DebatesXML::Parser.new(file_path, 'commons').divisions.first
@@ -26,7 +26,7 @@ describe DebatesXML do
       end
     end
 
-    context 'real data from 2007-09-11' do
+    context 'actual division 1 from senate on 2007-09-11' do
       subject(:division) do
         file_path = File.expand_path('../../fixtures/2007-09-11.xml', __FILE__)
         DebatesXML::Parser.new(file_path, 'lords').divisions.first
