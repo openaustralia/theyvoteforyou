@@ -1,6 +1,15 @@
 require 'spec_helper'
 
 describe MemberInfo, :type => :model do
+  # TODO Figure out why we need to do this horrible hack to remove the fixtures
+  # we shouldn't have them loaded
+  before :each do
+    Member.delete_all
+    Division.delete_all
+    Whip.delete_all
+    Vote.delete_all
+  end
+
   describe "counts" do
     let(:membera) { Member.create(mp_id: 1, first_name: "Member", last_name: "A", gid: "", source_gid: "",
       title: "", constituency: "", party: "A", house: "commons",
