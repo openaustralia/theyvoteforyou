@@ -35,13 +35,14 @@ module DebatesXML
     end
 
     def name
-      if !major_heading.blank? && !minor_heading.blank?
-        title_case(major_heading + ' &#8212; ' + minor_heading)
+      text = if !major_heading.blank? && !minor_heading.blank?
+        major_heading + ' &#8212; ' + minor_heading
       elsif !major_heading.blank?
-        title_case(major_heading)
+        major_heading
       elsif !minor_heading.blank?
-        title_case(minor_heading)
+        minor_heading
       end
+      title_case(text).gsub('—', ' &#8212; ')
     end
 
     def source_url

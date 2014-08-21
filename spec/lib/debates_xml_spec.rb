@@ -77,6 +77,12 @@ describe DebatesXML do
         allow(division).to receive(:minor_heading).and_return('')
         expect(division.name).to eq('Asia-Pacific Economic Cooperation')
       end
+
+      it 'should html encode and pad em dashes' do
+        allow(division).to receive(:major_heading).and_return('CARBON POLLUTION REDUCTION SCHEME (CHARGES—GENERAL) BILL 2009 [NO. 2]')
+        allow(division).to receive(:minor_heading).and_return('')
+        expect(division.name).to eq('Carbon Pollution Reduction Scheme (Charges &#8212; General) Bill 2009 [No. 2]')
+      end
     end
   end
 end
