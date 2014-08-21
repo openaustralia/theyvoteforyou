@@ -164,6 +164,7 @@ module DebatesXML
     end
 
     def title_case(title)
+      # FIXME: We can't use .titlecase as it removes '-' and the PHP loader doesn't
       title = title.titlecase
       # Un-titlecase words in the skip list from Perl's Text::Autoformat
       skip_words = %w(a an at as and are
