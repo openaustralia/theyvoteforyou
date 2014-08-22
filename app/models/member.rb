@@ -224,7 +224,7 @@ class Member < ActiveRecord::Base
                         members.mp_id AS mpid,
                         rebellions, votes_attended, votes_possible
                  FROM members
-                 LEFT JOIN pw_cache_mpinfo ON pw_cache_mpinfo.mp_id = members.mp_id
+                 LEFT JOIN member_infos ON member_infos.mp_id = members.mp_id
                  WHERE 1=1"
 
     score_clause = "("

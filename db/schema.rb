@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822005440) do
+ActiveRecord::Schema.define(version: 20140822010234) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -42,6 +42,17 @@ ActiveRecord::Schema.define(version: 20140822005440) do
   add_index "member_distances", ["mp_id1", "mp_id2"], name: "mp_id1_2", unique: true, using: :btree
   add_index "member_distances", ["mp_id1"], name: "mp_id1", using: :btree
   add_index "member_distances", ["mp_id2"], name: "mp_id2", using: :btree
+
+  create_table "member_infos", force: true do |t|
+    t.integer "mp_id",          null: false
+    t.integer "rebellions",     null: false
+    t.integer "tells",          null: false
+    t.integer "votes_attended", null: false
+    t.integer "votes_possible", null: false
+    t.integer "aye_majority",   null: false
+  end
+
+  add_index "member_infos", ["mp_id"], name: "mp_id", using: :btree
 
   create_table "members", primary_key: "mp_id", force: true do |t|
     t.string  "gid",            limit: 100,                        null: false
@@ -103,17 +114,6 @@ ActiveRecord::Schema.define(version: 20140822005440) do
   add_index "pw_cache_dreamreal_distance", ["dream_id", "person"], name: "dream_id_2", unique: true, using: :btree
   add_index "pw_cache_dreamreal_distance", ["dream_id"], name: "dream_id", using: :btree
   add_index "pw_cache_dreamreal_distance", ["person"], name: "person", using: :btree
-
-  create_table "pw_cache_mpinfo", force: true do |t|
-    t.integer "mp_id",          null: false
-    t.integer "rebellions",     null: false
-    t.integer "tells",          null: false
-    t.integer "votes_attended", null: false
-    t.integer "votes_possible", null: false
-    t.integer "aye_majority",   null: false
-  end
-
-  add_index "pw_cache_mpinfo", ["mp_id"], name: "mp_id", using: :btree
 
   create_table "pw_cache_whip", force: true do |t|
     t.integer "division_id",                  null: false
