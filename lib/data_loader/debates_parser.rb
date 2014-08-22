@@ -17,6 +17,7 @@ module DataLoader
                end
 
       houses.each do |house|
+        # TODO: Check for the file first rather than catching the exception
         begin
           xml_document = Nokogiri.parse(File.read("#{xml_directory}/#{house}_debates/#{options[:date]}.xml"))
         rescue Errno::ENOENT
