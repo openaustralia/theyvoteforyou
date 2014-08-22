@@ -5,7 +5,7 @@ namespace :application do
   end
 
   desc 'Reloads members, offices and electorates from XML files'
-  task :reload_member_data => [:environment, :set_logger_to_stdout] do |t, args|
+  task :reload_member_data => [:environment, :set_logger_to_stdout]
     DataLoader::MembersXML.load_all
   end
 
@@ -26,10 +26,9 @@ namespace :application do
     MemberInfo.update_all!
   end
 
-  desc "Update cache of division attendance, rebellions, etc"
-  task :update_division_cache => :update_whip_cache do
-    puts "Updating division cache..."
-    DivisionInfo.update_all!
+  desc 'Reloads members, offices and electorates from XML files'
+  task :reload_member_data => [:environment, :set_logger_to_stdout] do
+    DataLoader::MembersXML.load_all
   end
 
   desc 'Load divisions from XML for a specified date'
