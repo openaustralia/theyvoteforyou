@@ -1,5 +1,4 @@
 class PolicyDivision < ActiveRecord::Base
-  self.table_name = 'pw_dyn_dreamvote'
   belongs_to :policy, foreign_key: :dream_id
 
   alias_attribute :date, :division_date

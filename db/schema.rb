@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822010234) do
+ActiveRecord::Schema.define(version: 20140822011111) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -77,6 +77,19 @@ ActiveRecord::Schema.define(version: 20140822010234) do
   add_index "members", ["party"], name: "party", using: :btree
   add_index "members", ["person"], name: "person", using: :btree
   add_index "members", ["title", "first_name", "last_name", "constituency", "entered_house", "left_house", "house"], name: "title", unique: true, using: :btree
+
+  create_table "policy_divisions", force: true do |t|
+    t.date    "division_date",              null: false
+    t.integer "division_number",            null: false
+    t.string  "house",           limit: 8,  null: false
+    t.integer "dream_id",                   null: false
+    t.string  "vote",            limit: 10, null: false
+  end
+
+  add_index "policy_divisions", ["division_date", "division_number", "house", "dream_id"], name: "division_date_2", unique: true, using: :btree
+  add_index "policy_divisions", ["division_date"], name: "division_date", using: :btree
+  add_index "policy_divisions", ["division_number"], name: "division_number", using: :btree
+  add_index "policy_divisions", ["dream_id"], name: "dream_id", using: :btree
 
   create_table "pw_cache_divinfo", force: true do |t|
     t.integer "division_id",      null: false
@@ -173,19 +186,6 @@ ActiveRecord::Schema.define(version: 20140822010234) do
 
   add_index "pw_dyn_dreammp", ["dream_id", "name", "user_id"], name: "dream_id", unique: true, using: :btree
   add_index "pw_dyn_dreammp", ["user_id"], name: "user_id", using: :btree
-
-  create_table "pw_dyn_dreamvote", force: true do |t|
-    t.date    "division_date",              null: false
-    t.integer "division_number",            null: false
-    t.string  "house",           limit: 8,  null: false
-    t.integer "dream_id",                   null: false
-    t.string  "vote",            limit: 10, null: false
-  end
-
-  add_index "pw_dyn_dreamvote", ["division_date", "division_number", "house", "dream_id"], name: "division_date_2", unique: true, using: :btree
-  add_index "pw_dyn_dreamvote", ["division_date"], name: "division_date", using: :btree
-  add_index "pw_dyn_dreamvote", ["division_number"], name: "division_number", using: :btree
-  add_index "pw_dyn_dreamvote", ["dream_id"], name: "dream_id", using: :btree
 
   create_table "pw_dyn_user", primary_key: "user_id", force: true do |t|
     t.text     "user_name"
