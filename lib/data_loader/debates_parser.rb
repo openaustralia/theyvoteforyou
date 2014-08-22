@@ -26,6 +26,7 @@ module DataLoader
         end
 
         debates = DebatesXML.new(xml_document, house)
+        Rails.logger.info "No debates found in XML for #{house} on #{options[:date]}" if debates.divisions.empty?
         debates.divisions.each do |division|
           Rails.logger.info "Saving division: #{division.house} #{division.date} #{division.number}"
           division.save!
