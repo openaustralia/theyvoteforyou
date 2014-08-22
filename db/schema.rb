@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822032917) do
+ActiveRecord::Schema.define(version: 20140822034125) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -138,21 +138,6 @@ ActiveRecord::Schema.define(version: 20140822032917) do
 
   add_index "pw_cache_divwiki", ["division_date", "division_number", "house"], name: "division_date", unique: true, using: :btree
 
-  create_table "pw_cache_whip", force: true do |t|
-    t.integer "division_id",                  null: false
-    t.string  "party",            limit: 200, null: false
-    t.integer "aye_votes",                    null: false
-    t.integer "aye_tells",                    null: false
-    t.integer "no_votes",                     null: false
-    t.integer "no_tells",                     null: false
-    t.integer "both_votes",                   null: false
-    t.integer "abstention_votes",             null: false
-    t.integer "possible_votes",               null: false
-    t.string  "whip_guess",       limit: 10,  null: false
-  end
-
-  add_index "pw_cache_whip", ["division_id", "party"], name: "division_id", unique: true, using: :btree
-
   create_table "pw_constituency", force: true do |t|
     t.integer "cons_id",                                      null: false
     t.string  "name",      limit: 100,                        null: false
@@ -253,5 +238,20 @@ ActiveRecord::Schema.define(version: 20140822032917) do
   add_index "votes", ["division_id"], name: "division_id", using: :btree
   add_index "votes", ["mp_id"], name: "mp_id", using: :btree
   add_index "votes", ["vote"], name: "vote", using: :btree
+
+  create_table "whips", force: true do |t|
+    t.integer "division_id",                  null: false
+    t.string  "party",            limit: 200, null: false
+    t.integer "aye_votes",                    null: false
+    t.integer "aye_tells",                    null: false
+    t.integer "no_votes",                     null: false
+    t.integer "no_tells",                     null: false
+    t.integer "both_votes",                   null: false
+    t.integer "abstention_votes",             null: false
+    t.integer "possible_votes",               null: false
+    t.string  "whip_guess",       limit: 10,  null: false
+  end
+
+  add_index "whips", ["division_id", "party"], name: "division_id", unique: true, using: :btree
 
 end

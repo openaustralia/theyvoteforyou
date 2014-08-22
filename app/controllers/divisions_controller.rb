@@ -17,7 +17,7 @@ class DivisionsController < ApplicationController
       else
         @parties = Division
       end
-      @parties = @parties.in_australian_house(@house).joins(:whips).order("pw_cache_whip.party").select(:party).distinct.map{|d| d.party}
+      @parties = @parties.in_australian_house(@house).joins(:whips).order("whips.party").select(:party).distinct.map{|d| d.party}
     end
 
     if @rdisplay2 && @rdisplay2 != "rebels"
@@ -47,7 +47,7 @@ class DivisionsController < ApplicationController
     @divisions = @divisions.in_australian_house(@house) if @house
     @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
     @divisions = @divisions.with_rebellions if @rdisplay2 == "rebels"
-    @divisions = @divisions.joins(:whips).where(pw_cache_whip: {party: @party}) if @party
+    @divisions = @divisions.joins(:whips).where(whips: {party: @party}) if @party
   end
 
   def show

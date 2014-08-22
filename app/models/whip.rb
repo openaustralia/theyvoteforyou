@@ -1,5 +1,4 @@
 class Whip < ActiveRecord::Base
-  self.table_name = "pw_cache_whip"
   belongs_to :division
 
   delegate :noes_in_majority?, to: :division
