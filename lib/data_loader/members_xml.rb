@@ -5,7 +5,7 @@ module DataLoader
   class MembersXML
     # +xml_data_directory+ is the contents of http://data.openaustralia.org/members
     def initialize(xml_data_directory)
-      @xml_data_directory = xml_data_directory
+      @xml_data_directory = "#{Settings.xml_data_directory}/members"
       @logger = Rails.logger
     end
 

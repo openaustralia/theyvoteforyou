@@ -1,0 +1,2 @@
+# The directory containing OpenAustralia.org XML, i.e. this data and structure: http://data.openaustralia.org/
+xml_data_directory: /srv/www/www.openaustralia.org/shared/pwdata/

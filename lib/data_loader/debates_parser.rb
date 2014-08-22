@@ -18,7 +18,7 @@ module DataLoader
       houses.each do |house|
         # TODO: Check for the file first rather than catching the exception
         begin
-          xml_data = File.read("#{xml_directory}/#{house}_debates/#{options[:date]}.xml")
+          xml_data = File.read("#{Settings.xml_data_directory}/scrapedxml/#{house}_debates/#{options[:date]}.xml")
         rescue Errno::ENOENT
           Rails.logger.info "No XML file found for #{house} on #{options[:date]}"
           next
