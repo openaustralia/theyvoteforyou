@@ -20,13 +20,13 @@ module DataLoader
         begin
           xml_document = Nokogiri.parse(File.read("#{xml_directory}/#{house}_debates/#{options[:date]}.xml"))
         rescue Errno::ENOENT
-          puts "No XML file found for #{house} on #{options[:date]}"
+          Rails.logger.info "No XML file found for #{house} on #{options[:date]}"
           next
         end
 
         debates = DebatesXML.new(xml_document, house)
         debates.divisions.each do |division|
-          puts "Saving division: #{division.house} #{division.date} #{division.number}"
+          Rails.logger.info "Saving division: #{division.house} #{division.date} #{division.number}"
           division.save!
         end
       end
