@@ -18,13 +18,7 @@ namespace :application do
   end
 
   desc 'Load divisions from XML for a specified date'
-  task :load_divisions_xml, [:xml_data_directory, :date] => :environment do |t, args|
-    House.australian.each do |house|
-      parser = DebatesXML::Parser.new("#{args[:xml_data_directory]}/#{house}_debates/#{args[:date]}.xml", House.australian_to_uk(house))
-      parser.divisions.each do |division|
-        puts "Saving division: #{division.house} #{division.date} #{division.number}"
-        division.save!
-      end
-    end
+  task :load_divisions_xml, [:xml_directory, :date, :house] => :environment do |t, args|
+    DebatesXML::Parser.run!(args[:xml_directory], date: args[:date], house: args[:house])
   end
 end
