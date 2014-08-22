@@ -19,6 +19,6 @@ namespace :application do
 
   desc 'Load divisions from XML for a specified date'
   task :load_divisions_xml, [:xml_directory, :date, :house] => :environment do |t, args|
-    DebatesXML::Parser.run!(args[:xml_directory], date: args[:date], house: args[:house])
+    DataLoader::DebatesParser.run!(args[:xml_directory], date: args[:date], house: args[:house])
   end
 end
