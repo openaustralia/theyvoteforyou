@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822040612) do
+ActiveRecord::Schema.define(version: 20140822041229) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -59,6 +59,20 @@ ActiveRecord::Schema.define(version: 20140822040612) do
   add_index "divisions", ["division_date"], name: "division_date", using: :btree
   add_index "divisions", ["division_number"], name: "division_number", using: :btree
   add_index "divisions", ["house"], name: "house", using: :btree
+
+  create_table "electorates", force: true do |t|
+    t.integer "cons_id",                                      null: false
+    t.string  "name",      limit: 100,                        null: false
+    t.boolean "main_name",                                    null: false
+    t.date    "from_date",             default: '1000-01-01', null: false
+    t.date    "to_date",               default: '9999-12-31', null: false
+    t.string  "house",     limit: 8,   default: "commons",    null: false
+  end
+
+  add_index "electorates", ["cons_id", "name"], name: "cons_id", using: :btree
+  add_index "electorates", ["from_date"], name: "from_date", using: :btree
+  add_index "electorates", ["name"], name: "name", using: :btree
+  add_index "electorates", ["to_date"], name: "to_date", using: :btree
 
   create_table "member_distances", force: true do |t|
     t.integer "mp_id1",                  null: false
@@ -157,20 +171,6 @@ ActiveRecord::Schema.define(version: 20140822040612) do
   end
 
   add_index "pw_cache_divwiki", ["division_date", "division_number", "house"], name: "division_date", unique: true, using: :btree
-
-  create_table "pw_constituency", force: true do |t|
-    t.integer "cons_id",                                      null: false
-    t.string  "name",      limit: 100,                        null: false
-    t.boolean "main_name",                                    null: false
-    t.date    "from_date",             default: '1000-01-01', null: false
-    t.date    "to_date",               default: '9999-12-31', null: false
-    t.string  "house",     limit: 8,   default: "commons",    null: false
-  end
-
-  add_index "pw_constituency", ["cons_id", "name"], name: "cons_id", using: :btree
-  add_index "pw_constituency", ["from_date"], name: "from_date", using: :btree
-  add_index "pw_constituency", ["name"], name: "name", using: :btree
-  add_index "pw_constituency", ["to_date"], name: "to_date", using: :btree
 
   create_table "pw_moffice", primary_key: "moffice_id", force: true do |t|
     t.string  "dept",           limit: 100,                        null: false
