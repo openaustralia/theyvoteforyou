@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822041229) do
+ActiveRecord::Schema.define(version: 20140822041718) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -123,6 +123,17 @@ ActiveRecord::Schema.define(version: 20140822041229) do
   add_index "members", ["person"], name: "person", using: :btree
   add_index "members", ["title", "first_name", "last_name", "constituency", "entered_house", "left_house", "house"], name: "title", unique: true, using: :btree
 
+  create_table "offices", primary_key: "moffice_id", force: true do |t|
+    t.string  "dept",           limit: 100,                        null: false
+    t.string  "position",       limit: 100,                        null: false
+    t.string  "responsibility", limit: 100,                        null: false
+    t.date    "from_date",                  default: '1000-01-01', null: false
+    t.date    "to_date",                    default: '9999-12-31', null: false
+    t.integer "person"
+  end
+
+  add_index "offices", ["person"], name: "person", using: :btree
+
   create_table "policies", primary_key: "dream_id", force: true do |t|
     t.string  "name",        limit: 100, null: false
     t.integer "user_id",                 null: false
@@ -171,17 +182,6 @@ ActiveRecord::Schema.define(version: 20140822041229) do
   end
 
   add_index "pw_cache_divwiki", ["division_date", "division_number", "house"], name: "division_date", unique: true, using: :btree
-
-  create_table "pw_moffice", primary_key: "moffice_id", force: true do |t|
-    t.string  "dept",           limit: 100,                        null: false
-    t.string  "position",       limit: 100,                        null: false
-    t.string  "responsibility", limit: 100,                        null: false
-    t.date    "from_date",                  default: '1000-01-01', null: false
-    t.date    "to_date",                    default: '9999-12-31', null: false
-    t.integer "person"
-  end
-
-  add_index "pw_moffice", ["person"], name: "person", using: :btree
 
   create_table "pw_vote_sortorder", force: true do |t|
     t.string  "vote",     limit: 10, null: false
