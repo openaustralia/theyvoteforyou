@@ -5,9 +5,8 @@ namespace :application do
   end
 
   desc 'Reloads members, offices and electorates from XML files'
-  task :reload_member_data, [:xml_data_directory] => [:environment, :set_logger_to_stdout] do |t, args|
-    loader = DataLoader::MembersXML.new(args[:xml_data_directory])
-    loader.load_all
+  task :reload_member_data => [:environment, :set_logger_to_stdout] do |t, args|
+    DataLoader::MembersXML.load_all
   end
 
   desc 'Update all the caches'
