@@ -70,24 +70,24 @@ class DivisionsController < ApplicationController
 
     order = case @sort
     when nil, "party"
-      ["members.party", "pw_vote_sortorder.position desc", "members.last_name", "members.first_name"]
+      ["members.party", "vote_sortorders.position desc", "members.last_name", "members.first_name"]
     when "name"
       ["members.last_name", "members.first_name"]
     when "constituency"
       ["members.constituency", "members.last_name", "members.first_name"]
     when "vote"
-      ["pw_vote_sortorder.position desc", "members.last_name", "members.first_name"]
+      ["vote_sortorders.position desc", "members.last_name", "members.first_name"]
     else
       raise "Unexpected value"
     end
 
     if @display.nil?
       # TODO Fix this hacky nonsense by doing this query in the db
-      @votes = @division.votes.joins(:member).joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = votes.vote").order(order).find_all{|v| v.rebellion?}
+      @votes = @division.votes.joins(:member).joins("LEFT JOIN vote_sortorders ON vote_sortorders.vote = votes.vote").order(order).find_all{|v| v.rebellion?}
     elsif @display == "allvotes"
-      @votes = @division.votes.joins(:member).joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = votes.vote").order(order)
+      @votes = @division.votes.joins(:member).joins("LEFT JOIN vote_sortorders ON vote_sortorders.vote = votes.vote").order(order)
     elsif @display == "allpossible"
-      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.mp_id = votes.mp_id AND votes.division_id = #{@division.id}").joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = votes.vote").order(order)
+      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.mp_id = votes.mp_id AND votes.division_id = #{@division.id}").joins("LEFT JOIN vote_sortorders ON vote_sortorders.vote = votes.vote").order(order)
     elsif @display == "policies"
       if params[:dmp] || user_signed_in?
         @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)

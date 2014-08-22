@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822041718) do
+ActiveRecord::Schema.define(version: 20140822055520) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -183,11 +183,6 @@ ActiveRecord::Schema.define(version: 20140822041718) do
 
   add_index "pw_cache_divwiki", ["division_date", "division_number", "house"], name: "division_date", unique: true, using: :btree
 
-  create_table "pw_vote_sortorder", force: true do |t|
-    t.string  "vote",     limit: 10, null: false
-    t.integer "position",            null: false
-  end
-
   create_table "users", primary_key: "user_id", force: true do |t|
     t.text     "user_name"
     t.text     "real_name"
@@ -216,6 +211,11 @@ ActiveRecord::Schema.define(version: 20140822041718) do
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "vote_sortorders", force: true do |t|
+    t.string  "vote",     limit: 10, null: false
+    t.integer "position",            null: false
+  end
 
   create_table "votes", force: true do |t|
     t.integer "division_id",            null: false
