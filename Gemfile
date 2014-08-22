@@ -39,6 +39,7 @@ gem 'honeybadger'
 gem 'delayed_job_active_record'
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
+gem 'rails_config'
 
 group :test do
   # We can't use transactional fixtures as the php app and the rails app need to see
