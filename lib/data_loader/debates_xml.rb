@@ -6,9 +6,7 @@ module DataLoader
     end
 
     def divisions
-      @debates_xml.search(:division).map do |division|
-        DivisionXML.new(division, @house)
-      end
+      @debates_xml.search(:division).map { |division| DivisionXML.new(division, @house) }
     end
   end
 end
