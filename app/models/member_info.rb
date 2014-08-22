@@ -1,5 +1,7 @@
 class MemberInfo < ActiveRecord::Base
-  belongs_to :member, foreign_key: "mp_id"
+  belongs_to :member
+  # TODO Get rid of this as soon as we can
+  alias_attribute :mp_id, :member_id
 
   def self.update_all!
     rebellions = all_rebellion_counts
@@ -11,8 +13,8 @@ class MemberInfo < ActiveRecord::Base
     Member.all.ids.each do |id|
       # TODO Give MemberInfo a primary key so that we can do this more sensibly
       MemberInfo.transaction do
-        MemberInfo.where(mp_id: id).delete_all
-        MemberInfo.create(mp_id: id,
+        MemberInfo.where(member_id: id).delete_all
+        MemberInfo.create(member_id: id,
           rebellions: rebellions[id] || 0, tells: tells[id] || 0,
           votes_attended: votes_attended[id] || 0, votes_possible: votes_possible[id] || 0,
           aye_majority: aye_majority[id] || 0)

@@ -27,7 +27,7 @@ class MembersController < ApplicationController
     end
 
     # FIXME: Should be easy to refactor this, just doing the dumb thing right now
-    member_info_join = 'LEFT OUTER JOIN `member_infos` ON `member_infos`.`mp_id` = `members`.`id`'
+    member_info_join = 'LEFT OUTER JOIN `member_infos` ON `member_infos`.`member_id` = `members`.`id`'
     if @parliament.nil?
       @members = Member.current.in_australian_house(@house).joins(member_info_join).select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
     elsif @parliament == "all"

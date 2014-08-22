@@ -1,5 +1,5 @@
 class Member < ActiveRecord::Base
-  has_one :member_info, foreign_key: "mp_id"
+  has_one :member_info
   delegate :rebellions, :votes_attended, :votes_possible, :tells, to: :member_info, allow_nil: true
   has_many :votes, foreign_key: "mp_id"
   scope :current_on, ->(date) { where("? >= entered_house AND ? < left_house", date, date) }
@@ -226,7 +226,7 @@ class Member < ActiveRecord::Base
                         members.id AS mpid,
                         rebellions, votes_attended, votes_possible
                  FROM members
-                 LEFT JOIN member_infos ON member_infos.mp_id = members.id
+                 LEFT JOIN member_infos ON member_infos.member_id = members.id
                  WHERE 1=1"
 
     score_clause = "("
