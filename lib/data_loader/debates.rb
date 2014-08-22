@@ -1,11 +1,9 @@
 module DataLoader
-  # TODO: Rename this class - it's a lover^Wloader not a fighter^Wparser
-  class DebatesParser
-    # +xml_directory+ scrapedxml directory, e.g. files from http://data.openaustralia.org/scrapedxml/
+  class Debates
     # The options hash takes:
-    # +:house+ specify representatives or senate, omit for both
-    # +:date+ A single date
-    def self.run!(xml_directory, options = {})
+    # :house - specify representatives or senate, omit for both
+    # :date - A single date
+    def self.load!(options = {})
       houses = case
                when options[:house].nil?
                  House.australian
