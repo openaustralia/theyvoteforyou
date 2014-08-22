@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822034125) do
+ActiveRecord::Schema.define(version: 20140822034625) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -172,17 +172,6 @@ ActiveRecord::Schema.define(version: 20140822034125) do
   add_index "pw_division", ["division_number"], name: "division_number", using: :btree
   add_index "pw_division", ["house"], name: "house", using: :btree
 
-  create_table "pw_dyn_wiki_motion", primary_key: "wiki_id", force: true do |t|
-    t.date     "division_date",             null: false
-    t.integer  "division_number",           null: false
-    t.string   "house",           limit: 8, null: false
-    t.text     "text_body",                 null: false
-    t.integer  "user_id",                   null: false
-    t.datetime "edit_date"
-  end
-
-  add_index "pw_dyn_wiki_motion", ["division_date", "division_number", "house"], name: "division_date", using: :btree
-
   create_table "pw_moffice", primary_key: "moffice_id", force: true do |t|
     t.string  "dept",           limit: 100,                        null: false
     t.string  "position",       limit: 100,                        null: false
@@ -253,5 +242,16 @@ ActiveRecord::Schema.define(version: 20140822034125) do
   end
 
   add_index "whips", ["division_id", "party"], name: "division_id", unique: true, using: :btree
+
+  create_table "wiki_motions", primary_key: "wiki_id", force: true do |t|
+    t.date     "division_date",             null: false
+    t.integer  "division_number",           null: false
+    t.string   "house",           limit: 8, null: false
+    t.text     "text_body",                 null: false
+    t.integer  "user_id",                   null: false
+    t.datetime "edit_date"
+  end
+
+  add_index "wiki_motions", ["division_date", "division_number", "house"], name: "division_date", using: :btree
 
 end
