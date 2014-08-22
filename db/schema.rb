@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140821075351) do
+ActiveRecord::Schema.define(version: 20140822002749) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -28,6 +28,20 @@ ActiveRecord::Schema.define(version: 20140821075351) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "member_distances", id: false, force: true do |t|
+    t.integer "mp_id1",                  null: false
+    t.integer "mp_id2",                  null: false
+    t.integer "nvotessame"
+    t.integer "nvotesdiffer"
+    t.integer "nvotesabsent"
+    t.float   "distance_a",   limit: 24
+    t.float   "distance_b",   limit: 24
+  end
+
+  add_index "member_distances", ["mp_id1", "mp_id2"], name: "mp_id1_2", unique: true, using: :btree
+  add_index "member_distances", ["mp_id1"], name: "mp_id1", using: :btree
+  add_index "member_distances", ["mp_id2"], name: "mp_id2", using: :btree
 
   create_table "pw_cache_divinfo", id: false, force: true do |t|
     t.integer "division_id",      null: false
@@ -76,20 +90,6 @@ ActiveRecord::Schema.define(version: 20140821075351) do
   end
 
   add_index "pw_cache_mpinfo", ["mp_id"], name: "mp_id", using: :btree
-
-  create_table "pw_cache_realreal_distance", id: false, force: true do |t|
-    t.integer "mp_id1",                  null: false
-    t.integer "mp_id2",                  null: false
-    t.integer "nvotessame"
-    t.integer "nvotesdiffer"
-    t.integer "nvotesabsent"
-    t.float   "distance_a",   limit: 24
-    t.float   "distance_b",   limit: 24
-  end
-
-  add_index "pw_cache_realreal_distance", ["mp_id1", "mp_id2"], name: "mp_id1_2", unique: true, using: :btree
-  add_index "pw_cache_realreal_distance", ["mp_id1"], name: "mp_id1", using: :btree
-  add_index "pw_cache_realreal_distance", ["mp_id2"], name: "mp_id2", using: :btree
 
   create_table "pw_cache_whip", id: false, force: true do |t|
     t.integer "division_id",                  null: false
