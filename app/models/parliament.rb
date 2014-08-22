@@ -1,3 +1,4 @@
+# TODO Store this in the database
 class Parliament
   class << self
     def all
