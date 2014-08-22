@@ -1,5 +1,4 @@
 class Member < ActiveRecord::Base
-  self.table_name = "pw_mp"
   has_one :member_info, foreign_key: "mp_id"
   delegate :rebellions, :votes_attended, :votes_possible, :tells, to: :member_info, allow_nil: true
   has_many :votes, foreign_key: "mp_id"
@@ -219,13 +218,13 @@ class Member < ActiveRecord::Base
 
   def self.find_by_search_query(query_string)
     # FIXME: This convoluted SQL crap was ported directly from the PHP app. Make it nice
-    sql_query = "SELECT person, first_name, last_name, title, constituency, pw_mp.party AS party, pw_mp.house as house,
+    sql_query = "SELECT person, first_name, last_name, title, constituency, members.party AS party, members.house as house,
                         entered_house, left_house,
                         entered_reason, left_reason,
-                        pw_mp.mp_id AS mpid,
+                        members.mp_id AS mpid,
                         rebellions, votes_attended, votes_possible
-                 FROM pw_mp
-                 LEFT JOIN pw_cache_mpinfo ON pw_cache_mpinfo.mp_id = pw_mp.mp_id
+                 FROM members
+                 LEFT JOIN pw_cache_mpinfo ON pw_cache_mpinfo.mp_id = members.mp_id
                  WHERE 1=1"
 
     score_clause = "("

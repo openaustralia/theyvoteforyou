@@ -70,13 +70,13 @@ class DivisionsController < ApplicationController
 
     order = case @sort
     when nil, "party"
-      ["pw_mp.party", "pw_vote_sortorder.position desc", "pw_mp.last_name", "pw_mp.first_name"]
+      ["members.party", "pw_vote_sortorder.position desc", "members.last_name", "members.first_name"]
     when "name"
-      ["pw_mp.last_name", "pw_mp.first_name"]
+      ["members.last_name", "members.first_name"]
     when "constituency"
-      ["pw_mp.constituency", "pw_mp.last_name", "pw_mp.first_name"]
+      ["members.constituency", "members.last_name", "members.first_name"]
     when "vote"
-      ["pw_vote_sortorder.position desc", "pw_mp.last_name", "pw_mp.first_name"]
+      ["pw_vote_sortorder.position desc", "members.last_name", "members.first_name"]
     else
       raise "Unexpected value"
     end
@@ -87,7 +87,7 @@ class DivisionsController < ApplicationController
     elsif @display == "allvotes"
       @votes = @division.votes.joins(:member).joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order)
     elsif @display == "allpossible"
-      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN pw_vote ON pw_mp.mp_id = pw_vote.mp_id AND pw_vote.division_id = #{@division.id}").joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order)
+      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN pw_vote ON members.mp_id = pw_vote.mp_id AND pw_vote.division_id = #{@division.id}").joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order)
     elsif @display == "policies"
       if params[:dmp] || user_signed_in?
         @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822004101) do
+ActiveRecord::Schema.define(version: 20140822005440) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -42,6 +42,30 @@ ActiveRecord::Schema.define(version: 20140822004101) do
   add_index "member_distances", ["mp_id1", "mp_id2"], name: "mp_id1_2", unique: true, using: :btree
   add_index "member_distances", ["mp_id1"], name: "mp_id1", using: :btree
   add_index "member_distances", ["mp_id2"], name: "mp_id2", using: :btree
+
+  create_table "members", primary_key: "mp_id", force: true do |t|
+    t.string  "gid",            limit: 100,                        null: false
+    t.text    "source_gid",                                        null: false
+    t.string  "first_name",     limit: 100,                        null: false
+    t.string  "last_name",      limit: 100,                        null: false
+    t.string  "title",          limit: 50,                         null: false
+    t.string  "constituency",   limit: 100,                        null: false
+    t.string  "party",          limit: 100,                        null: false
+    t.string  "house",          limit: 8,                          null: false
+    t.date    "entered_house",              default: '1000-01-01', null: false
+    t.date    "left_house",                 default: '9999-12-31', null: false
+    t.string  "entered_reason", limit: 16,  default: "unknown",    null: false
+    t.string  "left_reason",    limit: 28,  default: "unknown",    null: false
+    t.integer "person"
+  end
+
+  add_index "members", ["entered_house"], name: "entered_house", using: :btree
+  add_index "members", ["gid"], name: "gid", using: :btree
+  add_index "members", ["house"], name: "house", using: :btree
+  add_index "members", ["left_house"], name: "left_house", using: :btree
+  add_index "members", ["party"], name: "party", using: :btree
+  add_index "members", ["person"], name: "person", using: :btree
+  add_index "members", ["title", "first_name", "last_name", "constituency", "entered_house", "left_house", "house"], name: "title", unique: true, using: :btree
 
   create_table "pw_cache_divinfo", force: true do |t|
     t.integer "division_id",      null: false
@@ -213,30 +237,6 @@ ActiveRecord::Schema.define(version: 20140822004101) do
   end
 
   add_index "pw_moffice", ["person"], name: "person", using: :btree
-
-  create_table "pw_mp", primary_key: "mp_id", force: true do |t|
-    t.string  "gid",            limit: 100,                        null: false
-    t.text    "source_gid",                                        null: false
-    t.string  "first_name",     limit: 100,                        null: false
-    t.string  "last_name",      limit: 100,                        null: false
-    t.string  "title",          limit: 50,                         null: false
-    t.string  "constituency",   limit: 100,                        null: false
-    t.string  "party",          limit: 100,                        null: false
-    t.string  "house",          limit: 8,                          null: false
-    t.date    "entered_house",              default: '1000-01-01', null: false
-    t.date    "left_house",                 default: '9999-12-31', null: false
-    t.string  "entered_reason", limit: 16,  default: "unknown",    null: false
-    t.string  "left_reason",    limit: 28,  default: "unknown",    null: false
-    t.integer "person"
-  end
-
-  add_index "pw_mp", ["entered_house"], name: "entered_house", using: :btree
-  add_index "pw_mp", ["gid"], name: "gid", using: :btree
-  add_index "pw_mp", ["house"], name: "house", using: :btree
-  add_index "pw_mp", ["left_house"], name: "left_house", using: :btree
-  add_index "pw_mp", ["party"], name: "party", using: :btree
-  add_index "pw_mp", ["person"], name: "person", using: :btree
-  add_index "pw_mp", ["title", "first_name", "last_name", "constituency", "entered_house", "left_house", "house"], name: "title", unique: true, using: :btree
 
   create_table "pw_vote", force: true do |t|
     t.integer "division_id",            null: false
