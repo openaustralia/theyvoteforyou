@@ -41,7 +41,7 @@
       %tr
         %td{:colspan => "2"} No policies voted in this division
     - else
-      - division.policies.each do |policy|
+      - division.policies.sort{|p1,p2| p1.name <=> p2.name }.each do |policy|
         %tr
           %td
             = link_to policy.name, policy
