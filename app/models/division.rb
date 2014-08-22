@@ -7,6 +7,8 @@ class Division < ActiveRecord::Base
   alias_attribute :date, :division_date
   alias_attribute :name, :division_name
   alias_attribute :number, :division_number
+  # TODO Remove the following line when we can
+  alias_attribute :division_id, :id
 
   scope :in_house, ->(house) { where(house: house) }
   scope :in_australian_house, ->(australian_house) { in_house(House.australian_to_uk(australian_house)) }
@@ -272,6 +274,6 @@ class Division < ActiveRecord::Base
                                                AND wiki_motions.division_number = divisions.division_number
                                                AND wiki_motions.house = divisions.house
                                            WHERE pw_cache_divwiki.wiki_id IS NULL
-                                           GROUP BY divisions.division_id")
+                                           GROUP BY divisions.id")
   end
 end

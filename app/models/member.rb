@@ -38,7 +38,7 @@ class Member < ActiveRecord::Base
   # Divisions that this member has voted on where either they were a teller, a rebel (or both) or voting
   # on a free vote
   def interesting_divisions
-    divisions.joins(:whips).where(free_vote.or(rebellious_vote).or(teller_vote)).group("divisions.division_id")
+    divisions.joins(:whips).where(free_vote.or(rebellious_vote).or(teller_vote)).group("divisions.id")
   end
 
   def division_vote(division)

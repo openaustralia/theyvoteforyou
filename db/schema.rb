@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822055520) do
+ActiveRecord::Schema.define(version: 20140822064958) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20140822055520) do
 
   add_index "division_infos", ["division_id"], name: "division_id", using: :btree
 
-  create_table "divisions", primary_key: "division_id", force: true do |t|
+  create_table "divisions", force: true do |t|
     t.boolean "valid"
     t.date    "division_date",             null: false
     t.integer "division_number",           null: false

@@ -54,6 +54,6 @@ class DivisionInfo < ActiveRecord::Base
   end
 
   def self.all_possible_turnout_counts
-    Division.joins("INNER JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.division_date AND divisions.division_date < members.left_house").group("divisions.division_id").count
+    Division.joins("INNER JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.division_date AND divisions.division_date < members.left_house").group("divisions.id").count
   end
 end
