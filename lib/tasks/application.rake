@@ -5,10 +5,8 @@ namespace :application do
   end
 
   desc 'Reloads members, offices and electorates from XML files'
-  task :reload_member_data, [:xml_data_directory] => :environment do |t, args|
-    Rails.logger = ActiveSupport::Logger.new(STDOUT)
-    Rails.logger.level = 1
-    loader = XMLDataLoader.new(args[:xml_data_directory])
+  task :reload_member_data, [:xml_data_directory] => [:environment, :set_logger_to_stdout] do |t, args|
+    loader = DataLoader::MembersXML.new(args[:xml_data_directory])
     loader.load_all
   end
 
@@ -33,5 +31,15 @@ namespace :application do
   task :update_division_cache => :update_whip_cache do
     puts "Updating division cache..."
     DivisionInfo.update_all!
+  end
+
+  desc 'Load divisions from XML for a specified date'
+  task :load_divisions_xml, [:xml_directory, :date, :house] => [:environment, :set_logger_to_stdout] do |t, args|
+    DataLoader::DebatesParser.run!(args[:xml_directory], date: args[:date], house: args[:house])
+  end
+
+  task :set_logger_to_stdout do
+    Rails.logger = ActiveSupport::Logger.new(STDOUT)
+    Rails.logger.level = 1
   end
 end
