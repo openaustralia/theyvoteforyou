@@ -20,7 +20,7 @@ class MemberDistance < ActiveRecord::Base
       members = Member.where(house: member1.house).where("left_house >= ?", member1.entered_house).
         where("entered_house <= ?", member1.left_house)
       # We're only populating half of the matrix
-      members.where("mp_id >= ?", member1.id).each do |member2|
+      members.where("id >= ?", member1.id).each do |member2|
         # Do something less icky when MemberDistance has a primary key
         MemberDistance.transaction do
           MemberDistance.where(member1: member1, member2: member2).delete_all

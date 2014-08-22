@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822064958) do
+ActiveRecord::Schema.define(version: 20140822070958) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(version: 20140822064958) do
 
   add_index "member_infos", ["mp_id"], name: "mp_id", using: :btree
 
-  create_table "members", primary_key: "mp_id", force: true do |t|
+  create_table "members", force: true do |t|
     t.string  "gid",            limit: 100,                        null: false
     t.text    "source_gid",                                        null: false
     t.string  "first_name",     limit: 100,                        null: false

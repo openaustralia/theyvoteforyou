@@ -11,6 +11,8 @@ class Member < ActiveRecord::Base
   # Divisions that have been attended
   has_many :divisions, through: :votes
   has_many :member_distances, foreign_key: :mp_id1
+  # TODO Get rid of the following line when we can
+  alias_attribute :mp_id, :id
 
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
   def self.parse_first_last_name(name)
@@ -221,10 +223,10 @@ class Member < ActiveRecord::Base
     sql_query = "SELECT person, first_name, last_name, title, constituency, members.party AS party, members.house as house,
                         entered_house, left_house,
                         entered_reason, left_reason,
-                        members.mp_id AS mpid,
+                        members.id AS mpid,
                         rebellions, votes_attended, votes_possible
                  FROM members
-                 LEFT JOIN member_infos ON member_infos.mp_id = members.mp_id
+                 LEFT JOIN member_infos ON member_infos.mp_id = members.id
                  WHERE 1=1"
 
     score_clause = "("

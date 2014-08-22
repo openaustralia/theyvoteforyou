@@ -21,7 +21,7 @@ class MemberInfo < ActiveRecord::Base
   end
 
   def self.all_rebellion_counts
-    Vote.rebellious.group("members.mp_id").count
+    Vote.rebellious.group("members.id").count
   end
 
   def self.all_tells_counts
@@ -52,6 +52,6 @@ class MemberInfo < ActiveRecord::Base
   end
 
   def self.all_votes_possible_counts
-    Division.joins("INNER JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.division_date AND divisions.division_date < members.left_house").group("members.mp_id").count
+    Division.joins("INNER JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.division_date AND divisions.division_date < members.left_house").group("members.id").count
   end
 end

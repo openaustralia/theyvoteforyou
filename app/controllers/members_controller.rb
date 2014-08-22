@@ -27,13 +27,13 @@ class MembersController < ApplicationController
     end
 
     # FIXME: Should be easy to refactor this, just doing the dumb thing right now
-    member_info_join = 'LEFT OUTER JOIN `member_infos` ON `member_infos`.`mp_id` = `members`.`mp_id`'
+    member_info_join = 'LEFT OUTER JOIN `member_infos` ON `member_infos`.`mp_id` = `members`.`id`'
     if @parliament.nil?
-      @members = Member.current.in_australian_house(@house).joins(member_info_join).select("*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
+      @members = Member.current.in_australian_house(@house).joins(member_info_join).select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
     elsif @parliament == "all"
-      @members = Member.in_australian_house(@house).joins(member_info_join).select("*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
+      @members = Member.in_australian_house(@house).joins(member_info_join).select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
     elsif Parliament.all[@parliament]
-      @members = Member.where("? >= entered_house AND ? < left_house", Parliament.all[@parliament][:to], Parliament.all[@parliament][:from]).in_australian_house(@house).joins(member_info_join).select("*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
+      @members = Member.where("? >= entered_house AND ? < left_house", Parliament.all[@parliament][:to], Parliament.all[@parliament][:from]).in_australian_house(@house).joins(member_info_join).select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
     else
       raise
     end
@@ -45,7 +45,7 @@ class MembersController < ApplicationController
     @display = params[:showall] == "yes" ? "allvotes" : params[:display]
 
     if params[:mpid]
-      @member = Member.find_by!(mp_id: params[:mpid])
+      @member = Member.find_by!(id: params[:mpid])
     elsif params[:id]
       @member = Member.find_by!(gid: params[:id])
     elsif name
