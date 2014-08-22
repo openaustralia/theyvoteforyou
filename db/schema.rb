@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822002749) do
+ActiveRecord::Schema.define(version: 20140822004101) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20140822002749) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
-  create_table "member_distances", id: false, force: true do |t|
+  create_table "member_distances", force: true do |t|
     t.integer "mp_id1",                  null: false
     t.integer "mp_id2",                  null: false
     t.integer "nvotessame"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20140822002749) do
   add_index "member_distances", ["mp_id1"], name: "mp_id1", using: :btree
   add_index "member_distances", ["mp_id2"], name: "mp_id2", using: :btree
 
-  create_table "pw_cache_divinfo", id: false, force: true do |t|
+  create_table "pw_cache_divinfo", force: true do |t|
     t.integer "division_id",      null: false
     t.integer "rebellions",       null: false
     t.integer "tells",            null: false
@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 20140822002749) do
 
   add_index "pw_cache_divinfo", ["division_id"], name: "division_id", using: :btree
 
-  create_table "pw_cache_divwiki", id: false, force: true do |t|
+  create_table "pw_cache_divwiki", force: true do |t|
     t.date    "division_date",             null: false
     t.integer "division_number",           null: false
     t.string  "house",           limit: 8, null: false
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 20140822002749) do
 
   add_index "pw_cache_divwiki", ["division_date", "division_number", "house"], name: "division_date", unique: true, using: :btree
 
-  create_table "pw_cache_dreamreal_distance", id: false, force: true do |t|
+  create_table "pw_cache_dreamreal_distance", force: true do |t|
     t.integer "dream_id",                      null: false
     t.integer "person",                        null: false
     t.integer "nvotessame"
@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 20140822002749) do
   add_index "pw_cache_dreamreal_distance", ["dream_id"], name: "dream_id", using: :btree
   add_index "pw_cache_dreamreal_distance", ["person"], name: "person", using: :btree
 
-  create_table "pw_cache_mpinfo", id: false, force: true do |t|
+  create_table "pw_cache_mpinfo", force: true do |t|
     t.integer "mp_id",          null: false
     t.integer "rebellions",     null: false
     t.integer "tells",          null: false
@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(version: 20140822002749) do
 
   add_index "pw_cache_mpinfo", ["mp_id"], name: "mp_id", using: :btree
 
-  create_table "pw_cache_whip", id: false, force: true do |t|
+  create_table "pw_cache_whip", force: true do |t|
     t.integer "division_id",                  null: false
     t.string  "party",            limit: 200, null: false
     t.integer "aye_votes",                    null: false
@@ -106,7 +106,7 @@ ActiveRecord::Schema.define(version: 20140822002749) do
 
   add_index "pw_cache_whip", ["division_id", "party"], name: "division_id", unique: true, using: :btree
 
-  create_table "pw_constituency", id: false, force: true do |t|
+  create_table "pw_constituency", force: true do |t|
     t.integer "cons_id",                                      null: false
     t.string  "name",      limit: 100,                        null: false
     t.boolean "main_name",                                    null: false
@@ -150,7 +150,7 @@ ActiveRecord::Schema.define(version: 20140822002749) do
   add_index "pw_dyn_dreammp", ["dream_id", "name", "user_id"], name: "dream_id", unique: true, using: :btree
   add_index "pw_dyn_dreammp", ["user_id"], name: "user_id", using: :btree
 
-  create_table "pw_dyn_dreamvote", id: false, force: true do |t|
+  create_table "pw_dyn_dreamvote", force: true do |t|
     t.date    "division_date",              null: false
     t.integer "division_number",            null: false
     t.string  "house",           limit: 8,  null: false
@@ -238,7 +238,7 @@ ActiveRecord::Schema.define(version: 20140822002749) do
   add_index "pw_mp", ["person"], name: "person", using: :btree
   add_index "pw_mp", ["title", "first_name", "last_name", "constituency", "entered_house", "left_house", "house"], name: "title", unique: true, using: :btree
 
-  create_table "pw_vote", id: false, force: true do |t|
+  create_table "pw_vote", force: true do |t|
     t.integer "division_id",            null: false
     t.integer "mp_id",                  null: false
     t.string  "vote",        limit: 10, null: false
@@ -249,7 +249,7 @@ ActiveRecord::Schema.define(version: 20140822002749) do
   add_index "pw_vote", ["mp_id"], name: "mp_id", using: :btree
   add_index "pw_vote", ["vote"], name: "vote", using: :btree
 
-  create_table "pw_vote_sortorder", id: false, force: true do |t|
+  create_table "pw_vote_sortorder", force: true do |t|
     t.string  "vote",     limit: 10, null: false
     t.integer "position",            null: false
   end
