@@ -1,29 +1,32 @@
 namespace :application do
-  desc 'Rebuilds the whole cache of agreement between members'
-  task :update_member_distances_cache => :environment do
-    MemberDistance.update_all!
-  end
+  namespace :cache do
+    desc 'Update all the caches'
+    task :update_all => [:update_member_distances, :update_whip,
+      :update_member, :update_division] do
+    end
 
-  desc 'Reloads members, offices and electorates from XML files'
-  task :reload_member_data => [:environment, :set_logger_to_stdout]
-    DataLoader::MembersXML.load_all
-  end
+    desc 'Rebuilds the whole cache of agreement between members'
+    task :update_member_distances => :environment do
+      MemberDistance.update_all!
+    end
 
-  desc 'Update all the caches'
-  task :update_caches => [:update_member_distances_cache, :update_whip_cache,
-    :update_member_cache, :update_division_cache] do
-  end
+    desc 'Update cache of guessed whips'
+    task :update_whip => :environment do
+      puts "Updating cache of guessed whips..."
+      Whip.update_all!
+    end
 
-  desc 'Update cache of guessed whips'
-  task :update_whip_cache => :environment do
-    puts "Updating cache of guessed whips..."
-    Whip.update_all!
-  end
+    desc "Update cache of member attendance, rebellions, etc"
+    task :update_member => :update_whip do
+      puts "Updating member cache..."
+      MemberInfo.update_all!
+    end
 
-  desc "Update cache of member attendance, rebellions, etc"
-  task :update_member_cache => :update_whip_cache do
-    puts "Updating member cache..."
-    MemberInfo.update_all!
+    desc "Update cache of division attendance, rebellions, etc"
+    task :update_division => :update_whip do
+      puts "Updating division cache..."
+      DivisionInfo.update_all!
+    end
   end
 
   desc 'Reloads members, offices and electorates from XML files'
