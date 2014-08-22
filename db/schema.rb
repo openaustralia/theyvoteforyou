@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822035700) do
+ActiveRecord::Schema.define(version: 20140822040612) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -39,6 +39,26 @@ ActiveRecord::Schema.define(version: 20140822035700) do
   end
 
   add_index "division_infos", ["division_id"], name: "division_id", using: :btree
+
+  create_table "divisions", primary_key: "division_id", force: true do |t|
+    t.boolean "valid"
+    t.date    "division_date",             null: false
+    t.integer "division_number",           null: false
+    t.string  "house",           limit: 8, null: false
+    t.text    "division_name",             null: false
+    t.binary  "source_url",                null: false
+    t.binary  "debate_url",                null: false
+    t.binary  "motion",                    null: false
+    t.binary  "notes",                     null: false
+    t.text    "clock_time"
+    t.text    "source_gid",                null: false
+    t.text    "debate_gid",                null: false
+  end
+
+  add_index "divisions", ["division_date", "division_number", "house"], name: "division_date_2", unique: true, using: :btree
+  add_index "divisions", ["division_date"], name: "division_date", using: :btree
+  add_index "divisions", ["division_number"], name: "division_number", using: :btree
+  add_index "divisions", ["house"], name: "house", using: :btree
 
   create_table "member_distances", force: true do |t|
     t.integer "mp_id1",                  null: false
@@ -151,26 +171,6 @@ ActiveRecord::Schema.define(version: 20140822035700) do
   add_index "pw_constituency", ["from_date"], name: "from_date", using: :btree
   add_index "pw_constituency", ["name"], name: "name", using: :btree
   add_index "pw_constituency", ["to_date"], name: "to_date", using: :btree
-
-  create_table "pw_division", primary_key: "division_id", force: true do |t|
-    t.boolean "valid"
-    t.date    "division_date",             null: false
-    t.integer "division_number",           null: false
-    t.string  "house",           limit: 8, null: false
-    t.text    "division_name",             null: false
-    t.binary  "source_url",                null: false
-    t.binary  "debate_url",                null: false
-    t.binary  "motion",                    null: false
-    t.binary  "notes",                     null: false
-    t.text    "clock_time"
-    t.text    "source_gid",                null: false
-    t.text    "debate_gid",                null: false
-  end
-
-  add_index "pw_division", ["division_date", "division_number", "house"], name: "division_date_2", unique: true, using: :btree
-  add_index "pw_division", ["division_date"], name: "division_date", using: :btree
-  add_index "pw_division", ["division_number"], name: "division_number", using: :btree
-  add_index "pw_division", ["house"], name: "house", using: :btree
 
   create_table "pw_moffice", primary_key: "moffice_id", force: true do |t|
     t.string  "dept",           limit: 100,                        null: false

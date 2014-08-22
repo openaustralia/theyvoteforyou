@@ -4,7 +4,7 @@ class Whip < ActiveRecord::Base
   delegate :noes_in_majority?, to: :division
 
   def self.update_all!
-    possible_votes = Division.joins("LEFT JOIN members ON pw_division.house = members.house AND members.entered_house <= pw_division.division_date AND pw_division.division_date < members.left_house").group("pw_division.division_id", :party).count
+    possible_votes = Division.joins("LEFT JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.division_date AND divisions.division_date < members.left_house").group("divisions.division_id", :party).count
 
     calc_all_votes_per_party2.each do |k, votes|
       division_id, party = k
@@ -45,7 +45,7 @@ class Whip < ActiveRecord::Base
   end
 
   def self.calc_all_votes_per_party
-    Division.joins(:votes => :member).group("pw_division.division_id", :party, :vote).count
+    Division.joins(:votes => :member).group("divisions.division_id", :party, :vote).count
   end
 
   def self.calc_all_votes_per_party2
