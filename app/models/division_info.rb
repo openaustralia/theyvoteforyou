@@ -25,23 +25,23 @@ class DivisionInfo < ActiveRecord::Base
   end
 
   def self.all_rebellion_counts
-    Vote.rebellious.group("pw_vote.division_id").count
+    Vote.rebellious.group("votes.division_id").count
   end
 
   def self.all_tells_counts
-    Vote.tells.group("pw_vote.division_id").count
+    Vote.tells.group("votes.division_id").count
   end
 
   def self.all_turnout_counts
-    Vote.all.group("pw_vote.division_id").count
+    Vote.all.group("votes.division_id").count
   end
 
   def self.all_ayes_counts
-    Vote.ayes.group("pw_vote.division_id").count
+    Vote.ayes.group("votes.division_id").count
   end
 
   def self.all_noes_counts
-    Vote.noes.group("pw_vote.division_id").count
+    Vote.noes.group("votes.division_id").count
   end
 
   def self.all_aye_majority_counts

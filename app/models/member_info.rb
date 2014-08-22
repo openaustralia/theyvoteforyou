@@ -25,19 +25,19 @@ class MemberInfo < ActiveRecord::Base
   end
 
   def self.all_tells_counts
-    Vote.tells.group("pw_vote.mp_id").count
+    Vote.tells.group("votes.mp_id").count
   end
 
   def self.all_votes_attended_counts
-    Vote.all.group("pw_vote.mp_id").count
+    Vote.all.group("votes.mp_id").count
   end
 
   def self.all_ayes_counts
-    Vote.ayes.group("pw_vote.mp_id").count
+    Vote.ayes.group("votes.mp_id").count
   end
 
   def self.all_noes_counts
-    Vote.noes.group("pw_vote.mp_id").count
+    Vote.noes.group("votes.mp_id").count
   end
 
   def self.all_aye_majority_counts

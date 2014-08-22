@@ -42,21 +42,21 @@ class MemberDistance < ActiveRecord::Base
     # TODO Move knowledge of tells out of here. Shouldn't have to know about this to do this
     # kind of query
     Division
-      .joins("LEFT JOIN pw_vote AS pw_vote1 on pw_vote1.division_id = pw_division.division_id")
-      .joins("LEFT JOIN pw_vote AS pw_vote2 on pw_vote2.division_id = pw_division.division_id")
-      .where("pw_vote1.mp_id = ?", member1.id)
-      .where("pw_vote2.mp_id = ?", member2.id)
-      .where("((pw_vote1.vote = 'aye' OR pw_vote1.vote = 'tellaye') AND (pw_vote2.vote = 'aye' OR pw_vote2.vote = 'tellaye')) OR ((pw_vote1.vote = 'no' OR pw_vote1.vote = 'tellno') AND (pw_vote2.vote = 'no' OR pw_vote2.vote = 'tellno'))")
+      .joins("LEFT JOIN votes AS votes1 on votes1.division_id = pw_division.division_id")
+      .joins("LEFT JOIN votes AS votes2 on votes2.division_id = pw_division.division_id")
+      .where("votes1.mp_id = ?", member1.id)
+      .where("votes2.mp_id = ?", member2.id)
+      .where("((votes1.vote = 'aye' OR votes1.vote = 'tellaye') AND (votes2.vote = 'aye' OR votes2.vote = 'tellaye')) OR ((votes1.vote = 'no' OR votes1.vote = 'tellno') AND (votes2.vote = 'no' OR votes2.vote = 'tellno'))")
       .count
   end
 
   def self.calculate_nvotesdiffer(member1, member2)
     Division
-      .joins("LEFT JOIN pw_vote AS pw_vote1 on pw_vote1.division_id = pw_division.division_id")
-      .joins("LEFT JOIN pw_vote AS pw_vote2 on pw_vote2.division_id = pw_division.division_id")
-      .where("pw_vote1.mp_id = ?", member1.id)
-      .where("pw_vote2.mp_id = ?", member2.id)
-      .where("((pw_vote1.vote = 'aye' OR pw_vote1.vote = 'tellaye') AND (pw_vote2.vote = 'no' OR pw_vote2.vote = 'tellno')) OR ((pw_vote1.vote = 'no' OR pw_vote1.vote = 'tellno') AND (pw_vote2.vote = 'aye' OR pw_vote2.vote = 'tellaye'))")
+      .joins("LEFT JOIN votes AS votes1 on votes1.division_id = pw_division.division_id")
+      .joins("LEFT JOIN votes AS votes2 on votes2.division_id = pw_division.division_id")
+      .where("votes1.mp_id = ?", member1.id)
+      .where("votes2.mp_id = ?", member2.id)
+      .where("((votes1.vote = 'aye' OR votes1.vote = 'tellaye') AND (votes2.vote = 'no' OR votes2.vote = 'tellno')) OR ((votes1.vote = 'no' OR votes1.vote = 'tellno') AND (votes2.vote = 'aye' OR votes2.vote = 'tellaye'))")
       .count
   end
 
@@ -68,9 +68,9 @@ class MemberDistance < ActiveRecord::Base
       .where("pw_division.division_date <= ?", member1.left_house)
       .where("pw_division.division_date >= ?", member2.entered_house)
       .where("pw_division.division_date <= ?", member2.left_house)
-      .joins("LEFT JOIN pw_vote AS pw_vote1 on pw_vote1.division_id = pw_division.division_id AND pw_vote1.mp_id = #{member1.id}")
-      .joins("LEFT JOIN pw_vote AS pw_vote2 on pw_vote2.division_id = pw_division.division_id AND pw_vote2.mp_id = #{member2.id}")
-      .where("(pw_vote1.vote IS NULL AND pw_vote2.vote IS NOT NULL) OR (pw_vote1.vote IS NOT NULL AND pw_vote2.vote IS NULL)")
+      .joins("LEFT JOIN votes AS votes1 on votes1.division_id = pw_division.division_id AND votes1.mp_id = #{member1.id}")
+      .joins("LEFT JOIN votes AS votes2 on votes2.division_id = pw_division.division_id AND votes2.mp_id = #{member2.id}")
+      .where("(votes1.vote IS NULL AND votes2.vote IS NOT NULL) OR (votes1.vote IS NOT NULL AND votes2.vote IS NULL)")
       .count
   end
 end

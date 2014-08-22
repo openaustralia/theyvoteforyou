@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822032540) do
+ActiveRecord::Schema.define(version: 20140822032917) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -209,17 +209,6 @@ ActiveRecord::Schema.define(version: 20140822032540) do
 
   add_index "pw_moffice", ["person"], name: "person", using: :btree
 
-  create_table "pw_vote", force: true do |t|
-    t.integer "division_id",            null: false
-    t.integer "mp_id",                  null: false
-    t.string  "vote",        limit: 10, null: false
-  end
-
-  add_index "pw_vote", ["division_id", "mp_id", "vote"], name: "division_id_2", unique: true, using: :btree
-  add_index "pw_vote", ["division_id"], name: "division_id", using: :btree
-  add_index "pw_vote", ["mp_id"], name: "mp_id", using: :btree
-  add_index "pw_vote", ["vote"], name: "vote", using: :btree
-
   create_table "pw_vote_sortorder", force: true do |t|
     t.string  "vote",     limit: 10, null: false
     t.integer "position",            null: false
@@ -253,5 +242,16 @@ ActiveRecord::Schema.define(version: 20140822032540) do
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "votes", force: true do |t|
+    t.integer "division_id",            null: false
+    t.integer "mp_id",                  null: false
+    t.string  "vote",        limit: 10, null: false
+  end
+
+  add_index "votes", ["division_id", "mp_id", "vote"], name: "division_id_2", unique: true, using: :btree
+  add_index "votes", ["division_id"], name: "division_id", using: :btree
+  add_index "votes", ["mp_id"], name: "mp_id", using: :btree
+  add_index "votes", ["vote"], name: "vote", using: :btree
 
 end
