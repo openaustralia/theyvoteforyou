@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822034625) do
+ActiveRecord::Schema.define(version: 20140822035700) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -28,6 +28,17 @@ ActiveRecord::Schema.define(version: 20140822034625) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "division_infos", force: true do |t|
+    t.integer "division_id",      null: false
+    t.integer "rebellions",       null: false
+    t.integer "tells",            null: false
+    t.integer "turnout",          null: false
+    t.integer "possible_turnout", null: false
+    t.integer "aye_majority",     null: false
+  end
+
+  add_index "division_infos", ["division_id"], name: "division_id", using: :btree
 
   create_table "member_distances", force: true do |t|
     t.integer "mp_id1",                  null: false
@@ -117,17 +128,6 @@ ActiveRecord::Schema.define(version: 20140822034625) do
   add_index "policy_member_distances", ["dream_id", "person"], name: "dream_id_2", unique: true, using: :btree
   add_index "policy_member_distances", ["dream_id"], name: "dream_id", using: :btree
   add_index "policy_member_distances", ["person"], name: "person", using: :btree
-
-  create_table "pw_cache_divinfo", force: true do |t|
-    t.integer "division_id",      null: false
-    t.integer "rebellions",       null: false
-    t.integer "tells",            null: false
-    t.integer "turnout",          null: false
-    t.integer "possible_turnout", null: false
-    t.integer "aye_majority",     null: false
-  end
-
-  add_index "pw_cache_divinfo", ["division_id"], name: "division_id", using: :btree
 
   create_table "pw_cache_divwiki", force: true do |t|
     t.date    "division_date",             null: false

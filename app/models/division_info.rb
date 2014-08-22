@@ -1,6 +1,4 @@
 class DivisionInfo < ActiveRecord::Base
-  self.table_name = "pw_cache_divinfo"
-
   belongs_to :division
 
   # TODO Fix duplication between this class and MemberInfo
