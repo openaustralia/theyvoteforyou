@@ -1,12 +1,15 @@
+require 'nokogiri'
+
 module DataLoader
   class DebatesXML
-    def initialize(xml_document, house)
-      raise 'Debate data missing' unless xml_document.at(:debates)
-      @debates_xml, @house = xml_document, house
+    def initialize(xml_data, house)
+      @xml_document = Nokogiri.parse(xml_data)
+      raise 'Debate data missing' unless @xml_document.at(:debates)
+      @house = house
     end
 
     def divisions
-      @debates_xml.search(:division).map { |division| DivisionXML.new(division, @house) }
+      @xml_document.search(:division).map { |division| DivisionXML.new(division, @house) }
     end
   end
 end
