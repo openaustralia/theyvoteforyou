@@ -16,12 +16,15 @@ class Division < ActiveRecord::Base
   scope :with_rebellions, -> { joins(:division_info).where("rebellions > 10") }
   scope :in_parliament, ->(parliament) { where("division_date >= ? AND division_date < ?", parliament[:from], parliament[:to]) }
 
+  # TODO Convert this to an association when we refer to division by id. Need to make sure that
+  # division loading code doesn't change id's
   def policy_divisions
     PolicyDivision.where(division_date: date,
                          division_number: number,
                          house: house)
   end
 
+  # TODO Convert to an association. See above
   def policies
     policy_divisions.collect { |pd| pd.policy } if policy_divisions
   end
