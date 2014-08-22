@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822011111) do
+ActiveRecord::Schema.define(version: 20140822012134) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -91,6 +91,23 @@ ActiveRecord::Schema.define(version: 20140822011111) do
   add_index "policy_divisions", ["division_number"], name: "division_number", using: :btree
   add_index "policy_divisions", ["dream_id"], name: "dream_id", using: :btree
 
+  create_table "policy_member_distances", force: true do |t|
+    t.integer "dream_id",                      null: false
+    t.integer "person",                        null: false
+    t.integer "nvotessame"
+    t.integer "nvotessamestrong"
+    t.integer "nvotesdiffer"
+    t.integer "nvotesdifferstrong"
+    t.integer "nvotesabsent"
+    t.integer "nvotesabsentstrong"
+    t.float   "distance_a",         limit: 24
+    t.float   "distance_b",         limit: 24
+  end
+
+  add_index "policy_member_distances", ["dream_id", "person"], name: "dream_id_2", unique: true, using: :btree
+  add_index "policy_member_distances", ["dream_id"], name: "dream_id", using: :btree
+  add_index "policy_member_distances", ["person"], name: "person", using: :btree
+
   create_table "pw_cache_divinfo", force: true do |t|
     t.integer "division_id",      null: false
     t.integer "rebellions",       null: false
@@ -110,23 +127,6 @@ ActiveRecord::Schema.define(version: 20140822011111) do
   end
 
   add_index "pw_cache_divwiki", ["division_date", "division_number", "house"], name: "division_date", unique: true, using: :btree
-
-  create_table "pw_cache_dreamreal_distance", force: true do |t|
-    t.integer "dream_id",                      null: false
-    t.integer "person",                        null: false
-    t.integer "nvotessame"
-    t.integer "nvotessamestrong"
-    t.integer "nvotesdiffer"
-    t.integer "nvotesdifferstrong"
-    t.integer "nvotesabsent"
-    t.integer "nvotesabsentstrong"
-    t.float   "distance_a",         limit: 24
-    t.float   "distance_b",         limit: 24
-  end
-
-  add_index "pw_cache_dreamreal_distance", ["dream_id", "person"], name: "dream_id_2", unique: true, using: :btree
-  add_index "pw_cache_dreamreal_distance", ["dream_id"], name: "dream_id", using: :btree
-  add_index "pw_cache_dreamreal_distance", ["person"], name: "person", using: :btree
 
   create_table "pw_cache_whip", force: true do |t|
     t.integer "division_id",                  null: false
