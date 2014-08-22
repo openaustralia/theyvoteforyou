@@ -1,6 +1,4 @@
 class Policy < ActiveRecord::Base
-  self.table_name = 'pw_dyn_dreammp'
-
   has_many :policy_divisions, foreign_key: :dream_id
   has_many :policy_member_distances, foreign_key: :dream_id, dependent: :destroy
   has_many :divisions, through: :policy_divisions

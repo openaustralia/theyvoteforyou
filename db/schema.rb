@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822012134) do
+ActiveRecord::Schema.define(version: 20140822012602) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -77,6 +77,16 @@ ActiveRecord::Schema.define(version: 20140822012134) do
   add_index "members", ["party"], name: "party", using: :btree
   add_index "members", ["person"], name: "person", using: :btree
   add_index "members", ["title", "first_name", "last_name", "constituency", "entered_house", "left_house", "house"], name: "title", unique: true, using: :btree
+
+  create_table "policies", primary_key: "dream_id", force: true do |t|
+    t.string  "name",        limit: 100, null: false
+    t.integer "user_id",                 null: false
+    t.binary  "description",             null: false
+    t.integer "private",     limit: 1,   null: false
+  end
+
+  add_index "policies", ["dream_id", "name", "user_id"], name: "dream_id", unique: true, using: :btree
+  add_index "policies", ["user_id"], name: "user_id", using: :btree
 
   create_table "policy_divisions", force: true do |t|
     t.date    "division_date",              null: false
@@ -176,16 +186,6 @@ ActiveRecord::Schema.define(version: 20140822012134) do
   add_index "pw_division", ["division_date"], name: "division_date", using: :btree
   add_index "pw_division", ["division_number"], name: "division_number", using: :btree
   add_index "pw_division", ["house"], name: "house", using: :btree
-
-  create_table "pw_dyn_dreammp", primary_key: "dream_id", force: true do |t|
-    t.string  "name",        limit: 100, null: false
-    t.integer "user_id",                 null: false
-    t.binary  "description",             null: false
-    t.integer "private",     limit: 1,   null: false
-  end
-
-  add_index "pw_dyn_dreammp", ["dream_id", "name", "user_id"], name: "dream_id", unique: true, using: :btree
-  add_index "pw_dyn_dreammp", ["user_id"], name: "user_id", using: :btree
 
   create_table "pw_dyn_user", primary_key: "user_id", force: true do |t|
     t.text     "user_name"
