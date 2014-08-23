@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140823224359) do
+ActiveRecord::Schema.define(version: 20140823225659) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -61,7 +61,6 @@ ActiveRecord::Schema.define(version: 20140823224359) do
   add_index "divisions", ["house"], name: "house", using: :btree
 
   create_table "electorates", force: true do |t|
-    t.integer "cons_id",                                      null: false
     t.string  "name",      limit: 100,                        null: false
     t.boolean "main_name",                                    null: false
     t.date    "from_date",             default: '1000-01-01', null: false
@@ -69,8 +68,8 @@ ActiveRecord::Schema.define(version: 20140823224359) do
     t.string  "house",     limit: 8,   default: "commons",    null: false
   end
 
-  add_index "electorates", ["cons_id", "name"], name: "cons_id", using: :btree
   add_index "electorates", ["from_date"], name: "from_date", using: :btree
+  add_index "electorates", ["id", "name"], name: "cons_id", using: :btree
   add_index "electorates", ["name"], name: "name", using: :btree
   add_index "electorates", ["to_date"], name: "to_date", using: :btree
 
