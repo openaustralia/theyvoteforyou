@@ -1,7 +1,11 @@
 # This provides a cache for several distance measures between members
 class MemberDistance < ActiveRecord::Base
-  belongs_to :member1, foreign_key: :mp_id1, class_name: "Member"
-  belongs_to :member2, foreign_key: :mp_id2, class_name: "Member"
+  belongs_to :member1, class_name: "Member"
+  belongs_to :member2, class_name: "Member"
+
+  # TODO Remove these as soon as we can
+  alias_attribute :mp_id1, :member1_id
+  alias_attribute :mp_id2, :member2_id
 
   before_save :update_cache_values!
 

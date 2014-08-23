@@ -10,7 +10,7 @@ class Member < ActiveRecord::Base
   }
   # Divisions that have been attended
   has_many :divisions, through: :votes
-  has_many :member_distances, foreign_key: :mp_id1
+  has_many :member_distances, foreign_key: :member1_id
   # TODO Get rid of the following line when we can
   alias_attribute :mp_id, :id
 
@@ -210,7 +210,7 @@ class Member < ActiveRecord::Base
   end
 
   def possible_friends
-    member_distances.where.not(mp_id2: id, distance_a: -1)
+    member_distances.where.not(member2_id: id, distance_a: -1)
   end
 
   # Friends who have voted exactly the same

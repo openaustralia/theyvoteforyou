@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140823223520) do
+ActiveRecord::Schema.define(version: 20140823224359) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -75,8 +75,8 @@ ActiveRecord::Schema.define(version: 20140823223520) do
   add_index "electorates", ["to_date"], name: "to_date", using: :btree
 
   create_table "member_distances", force: true do |t|
-    t.integer "mp_id1",                  null: false
-    t.integer "mp_id2",                  null: false
+    t.integer "member1_id",              null: false
+    t.integer "member2_id",              null: false
     t.integer "nvotessame"
     t.integer "nvotesdiffer"
     t.integer "nvotesabsent"
@@ -84,9 +84,9 @@ ActiveRecord::Schema.define(version: 20140823223520) do
     t.float   "distance_b",   limit: 24
   end
 
-  add_index "member_distances", ["mp_id1", "mp_id2"], name: "mp_id1_2", unique: true, using: :btree
-  add_index "member_distances", ["mp_id1"], name: "mp_id1", using: :btree
-  add_index "member_distances", ["mp_id2"], name: "mp_id2", using: :btree
+  add_index "member_distances", ["member1_id", "member2_id"], name: "mp_id1_2", unique: true, using: :btree
+  add_index "member_distances", ["member1_id"], name: "mp_id1", using: :btree
+  add_index "member_distances", ["member2_id"], name: "mp_id2", using: :btree
 
   create_table "member_infos", force: true do |t|
     t.integer "member_id",      null: false
