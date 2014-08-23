@@ -7,7 +7,7 @@ class Policy < ActiveRecord::Base
   validates :name, :description, :user_id, :private, presence: true
   validates :name, uniqueness: true
 
-  alias_attribute :id, :dream_id
+  alias_attribute :dream_id, :id
 
   def vote_for_division(division)
     policy_division = division.policy_divisions.find_by(policy: self)

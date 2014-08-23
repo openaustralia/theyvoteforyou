@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140823230610) do
+ActiveRecord::Schema.define(version: 20140823231135) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -133,14 +133,14 @@ ActiveRecord::Schema.define(version: 20140823230610) do
 
   add_index "offices", ["person"], name: "person", using: :btree
 
-  create_table "policies", primary_key: "dream_id", force: true do |t|
+  create_table "policies", force: true do |t|
     t.string  "name",        limit: 100, null: false
     t.integer "user_id",                 null: false
     t.binary  "description",             null: false
     t.integer "private",     limit: 1,   null: false
   end
 
-  add_index "policies", ["dream_id", "name", "user_id"], name: "dream_id", unique: true, using: :btree
+  add_index "policies", ["id", "name", "user_id"], name: "dream_id", unique: true, using: :btree
   add_index "policies", ["user_id"], name: "user_id", using: :btree
 
   create_table "policy_divisions", force: true do |t|
