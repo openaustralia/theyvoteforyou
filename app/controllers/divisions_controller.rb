@@ -87,7 +87,7 @@ class DivisionsController < ApplicationController
     elsif @display == "allvotes"
       @votes = @division.votes.joins(:member).joins("LEFT JOIN vote_sortorders ON vote_sortorders.vote = votes.vote").order(order)
     elsif @display == "allpossible"
-      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.mp_id AND votes.division_id = #{@division.id}").joins("LEFT JOIN vote_sortorders ON vote_sortorders.vote = votes.vote").order(order)
+      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").joins("LEFT JOIN vote_sortorders ON vote_sortorders.vote = votes.vote").order(order)
     elsif @display == "policies"
       if params[:dmp] || user_signed_in?
         @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)

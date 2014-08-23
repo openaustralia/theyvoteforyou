@@ -50,7 +50,7 @@ class Division < ActiveRecord::Base
   end
 
   def role_for(member)
-    (v = votes.find_by(mp_id: member.id)) ? v.role : "absent"
+    (v = votes.find_by(member_id: member.id)) ? v.role : "absent"
   end
 
   def vote_for(member)

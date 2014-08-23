@@ -1,7 +1,7 @@
 class Member < ActiveRecord::Base
   has_one :member_info
   delegate :rebellions, :votes_attended, :votes_possible, :tells, to: :member_info, allow_nil: true
-  has_many :votes, foreign_key: "mp_id"
+  has_many :votes
   scope :current_on, ->(date) { where("? >= entered_house AND ? < left_house", date, date) }
   scope :in_australian_house, ->(australian_house) { where(house: House.australian_to_uk(australian_house)) unless australian_house == 'all' }
   scope :with_name, ->(name) {

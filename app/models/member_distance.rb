@@ -44,8 +44,8 @@ class MemberDistance < ActiveRecord::Base
     Division
       .joins("LEFT JOIN votes AS votes1 on votes1.division_id = divisions.id")
       .joins("LEFT JOIN votes AS votes2 on votes2.division_id = divisions.id")
-      .where("votes1.mp_id = ?", member1.id)
-      .where("votes2.mp_id = ?", member2.id)
+      .where("votes1.member_id = ?", member1.id)
+      .where("votes2.member_id = ?", member2.id)
       .where("((votes1.vote = 'aye' OR votes1.vote = 'tellaye') AND (votes2.vote = 'aye' OR votes2.vote = 'tellaye')) OR ((votes1.vote = 'no' OR votes1.vote = 'tellno') AND (votes2.vote = 'no' OR votes2.vote = 'tellno'))")
       .count
   end
@@ -54,8 +54,8 @@ class MemberDistance < ActiveRecord::Base
     Division
       .joins("LEFT JOIN votes AS votes1 on votes1.division_id = divisions.id")
       .joins("LEFT JOIN votes AS votes2 on votes2.division_id = divisions.id")
-      .where("votes1.mp_id = ?", member1.id)
-      .where("votes2.mp_id = ?", member2.id)
+      .where("votes1.member_id = ?", member1.id)
+      .where("votes2.member_id = ?", member2.id)
       .where("((votes1.vote = 'aye' OR votes1.vote = 'tellaye') AND (votes2.vote = 'no' OR votes2.vote = 'tellno')) OR ((votes1.vote = 'no' OR votes1.vote = 'tellno') AND (votes2.vote = 'aye' OR votes2.vote = 'tellaye'))")
       .count
   end
@@ -68,8 +68,8 @@ class MemberDistance < ActiveRecord::Base
       .where("divisions.division_date <= ?", member1.left_house)
       .where("divisions.division_date >= ?", member2.entered_house)
       .where("divisions.division_date <= ?", member2.left_house)
-      .joins("LEFT JOIN votes AS votes1 on votes1.division_id = divisions.id AND votes1.mp_id = #{member1.id}")
-      .joins("LEFT JOIN votes AS votes2 on votes2.division_id = divisions.id AND votes2.mp_id = #{member2.id}")
+      .joins("LEFT JOIN votes AS votes1 on votes1.division_id = divisions.id AND votes1.member_id = #{member1.id}")
+      .joins("LEFT JOIN votes AS votes2 on votes2.division_id = divisions.id AND votes2.member_id = #{member2.id}")
       .where("(votes1.vote IS NULL AND votes2.vote IS NOT NULL) OR (votes1.vote IS NOT NULL AND votes2.vote IS NULL)")
       .count
   end

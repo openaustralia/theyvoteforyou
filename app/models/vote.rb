@@ -1,10 +1,13 @@
 class Vote < ActiveRecord::Base
   belongs_to :division
-  belongs_to :member, foreign_key: "mp_id"
+  belongs_to :member
 
   delegate :party, :party_long2, :name, :name_without_title, :electorate, to: :member
   delegate :whip_guess, :free?, to: :whip
   delegate :date, to: :division
+
+  # TODO Remove this as soon as we can
+  alias_attribute :mp_id, :member_id
 
   def whip
     division.whips.where(party: party).first
