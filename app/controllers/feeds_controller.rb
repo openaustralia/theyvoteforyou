@@ -21,7 +21,7 @@ class FeedsController < ApplicationController
     @policy.calculate_member_agreement_percentages!
 
     # FIXME: Using SQL to match PHP, see #211 for detailed description
-    sql = "select policy_member_distances.person, distance_a, distance_b, members.id as mp_id,
+    sql = "select policy_member_distances.person, distance_a, distance_b, members.id as member_id,
            (nvotessame + nvotessamestrong + nvotesdiffer + nvotesdifferstrong) as both_voted,
            (nvotesabsent + nvotesabsentstrong) as absent
            from policy_member_distances, members
