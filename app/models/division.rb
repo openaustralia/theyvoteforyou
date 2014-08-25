@@ -219,7 +219,7 @@ class Division < ActiveRecord::Base
   end
 
   def policy_division(policy)
-    policy_divisions.find_by!(dream_id: policy.id)
+    policy_divisions.find_by!(policy_id: policy.id)
   end
 
   def policy_vote_strong?(policy)

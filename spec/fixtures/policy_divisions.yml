@@ -2,23 +2,23 @@ one:
   division_date: 2013-3-14
   division_number: 1
   house: "commons"
-  dream_id: 1
+  policy_id: 1
   vote: aye
 two:
   division_date: 2013-3-14
   division_number: 1
   house: "lords"
-  dream_id: 2
+  policy_id: 2
   vote: "no3"
 three:
   division_date: 2006-12-06
   division_number: 3
   house: "commons"
-  dream_id: 2
+  policy_id: 2
   vote: "no"
 four:
   division_date: 2013-3-14
   division_number: 1
   house: "lords"
-  dream_id: 3
+  policy_id: 3
   vote: "no3"
