@@ -27,7 +27,7 @@ class Person
     # We're doing this the same way as the php which doesn't seem necessarily the best way
     # TODO Figure what is the best way
     new_member = members.find do |member|
-      member.vote_on_division_with_tell(division) != "absent"
+      member.vote_on_division_without_tell(division) != "absent"
     end
     new_member || latest_member
   end
