@@ -12,7 +12,7 @@ tony_abbott:
   left_house: 9999-12-31
   entered_reason: by_election
   left_reason: still_in_office
-  person: 10001
+  person_id: 10001
 
 kevin_rudd:
   id: 450
@@ -28,7 +28,7 @@ kevin_rudd:
   left_house: 2013-11-22
   entered_reason: general_election
   left_reason: resigned
-  person: 10552
+  person_id: 10552
 
 christine_milne:
   id: 100156
@@ -44,7 +44,7 @@ christine_milne:
   left_house: 9999-12-31
   entered_reason: general_election
   left_reason: still_in_office
-  person: 10458
+  person_id: 10458
 
 john_howard:
   id: 265
@@ -60,7 +60,7 @@ john_howard:
   left_house: '2007-11-24'
   entered_reason: 'general_election'
   left_reason: ''
-  person: 10313
+  person_id: 10313
 
 maxine_mckew:
   id: 367
@@ -76,7 +76,7 @@ maxine_mckew:
   left_house: 2010-08-21
   entered_reason: 'general_election'
   left_reason: ''
-  person: 10439
+  person_id: 10439
 
 john_alexander:
   id: 589
@@ -92,7 +92,7 @@ john_alexander:
   left_house: 9999-12-31
   entered_reason: 'general_election'
   left_reason: 'still_in_office'
-  person: 10725
+  person_id: 10725
 
 christopher_back:
   id: 100279
@@ -108,7 +108,7 @@ christopher_back:
   left_house: 9999-12-31
   entered_reason: general_election
   left_reason: still_in_office
-  person: 10722
+  person_id: 10722
 
 judith_adams:
   id: 100002
@@ -124,7 +124,7 @@ judith_adams:
   left_house: 2012-03-31
   entered_reason: general_election
   left_reason: died
-  person: 10005
+  person_id: 10005
 
 paul_zammit:
   id: 562
@@ -140,7 +140,7 @@ paul_zammit:
   left_house: 1998-10-03
   entered_reason: general_election
   left_reason: ''
-  person: 10694
+  person_id: 10694
 
 disagreeable_curmudgeon:
   id: 222222
@@ -156,7 +156,7 @@ disagreeable_curmudgeon:
   left_house: 2010-10-03
   entered_reason: general_election
   left_reason: ''
-  person: 22221
+  person_id: 22221
 
 surly_nihilist:
   id: 333333
@@ -172,7 +172,7 @@ surly_nihilist:
   left_house: 2010-10-03
   entered_reason: general_election
   left_reason: ''
-  person: 33331
+  person_id: 33331
 
 roger_price:
   id: 424
@@ -188,4 +188,4 @@ roger_price:
   left_house: 2010-08-21
   entered_reason: general_election
   left_reason: ''
-  person: 10519
+  person_id: 10519

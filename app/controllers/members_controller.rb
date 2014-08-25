@@ -56,7 +56,7 @@ class MembersController < ApplicationController
     end
 
     if @member
-      @members = Member.where(person: @member.person).order(entered_house: :desc)
+      @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
 
       # Trying this hack. Seems mighty weird
       # TODO Get rid of this
@@ -92,7 +92,7 @@ class MembersController < ApplicationController
 
     if @policy
       render "show_policy"
-    elsif @members.map{|m| m.person}.uniq.count > 1
+    elsif @members.map{|m| m.person_id}.uniq.count > 1
       render "show_electorate"
     else
       render "show"

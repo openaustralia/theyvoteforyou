@@ -11,8 +11,10 @@ class Member < ActiveRecord::Base
   # Divisions that have been attended
   has_many :divisions, through: :votes
   has_many :member_distances, foreign_key: :member1_id
-  # TODO Get rid of the following line when we can
+
+  # TODO Get rid of the following lines when we can
   alias_attribute :mp_id, :id
+  alias_attribute :person, :person_id
 
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
   def self.parse_first_last_name(name)
@@ -25,7 +27,7 @@ class Member < ActiveRecord::Base
   end
 
   def person_object
-    Person.new(id: person)
+    Person.new(id: person_id)
   end
 
   def changed_party?
@@ -220,7 +222,7 @@ class Member < ActiveRecord::Base
 
   def self.find_by_search_query(query_string)
     # FIXME: This convoluted SQL crap was ported directly from the PHP app. Make it nice
-    sql_query = "SELECT person, first_name, last_name, title, constituency, members.party AS party, members.house as house,
+    sql_query = "SELECT person_id, first_name, last_name, title, constituency, members.party AS party, members.house as house,
                         entered_house, left_house,
                         entered_reason, left_reason,
                         members.id AS mpid,

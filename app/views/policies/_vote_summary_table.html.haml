@@ -21,7 +21,7 @@
           %td= formatted_date(division.date, true)
           - if member
             -# Find the member current at the time of this division
-            - current_member = Member.where(person: member.person).current_on(division.date).first
+            - current_member = Member.where(person_id: member.person_id).current_on(division.date).first
             - member = current_member || member
             %td
               = link_to division.name, division_path3({date: division.date, number: division.number, house: division.australian_house}, false, member)

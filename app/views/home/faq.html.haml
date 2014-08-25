@@ -90,7 +90,7 @@
 %p
   %b Numerics:
   The database contains
-  %strong= number_with_delimiter(Member.select(:person).distinct.count)
+  %strong= number_with_delimiter(Member.select(:person_id).distinct.count)
   distinct Representatives and Senators from
   %strong= number_with_delimiter(Member.select(:party).distinct.count)
   parties who have voted across

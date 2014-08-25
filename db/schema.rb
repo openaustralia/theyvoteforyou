@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140825022036) do
+ActiveRecord::Schema.define(version: 20140825022650) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -111,7 +111,7 @@ ActiveRecord::Schema.define(version: 20140825022036) do
     t.date    "left_house",                 default: '9999-12-31', null: false
     t.string  "entered_reason", limit: 16,  default: "unknown",    null: false
     t.string  "left_reason",    limit: 28,  default: "unknown",    null: false
-    t.integer "person"
+    t.integer "person_id"
   end
 
   add_index "members", ["entered_house"], name: "entered_house", using: :btree
@@ -119,7 +119,7 @@ ActiveRecord::Schema.define(version: 20140825022036) do
   add_index "members", ["house"], name: "house", using: :btree
   add_index "members", ["left_house"], name: "left_house", using: :btree
   add_index "members", ["party"], name: "party", using: :btree
-  add_index "members", ["person"], name: "person", using: :btree
+  add_index "members", ["person_id"], name: "person", using: :btree
   add_index "members", ["title", "first_name", "last_name", "constituency", "entered_house", "left_house", "house"], name: "title", unique: true, using: :btree
 
   create_table "offices", force: true do |t|
