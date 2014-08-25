@@ -11,14 +11,10 @@ class DivisionInfo < ActiveRecord::Base
     aye_majority = all_aye_majority_counts
 
     Division.all.ids.each do |id|
-      # TODO Give DivisionInfo a primary key so that we can do this more sensibly
-      DivisionInfo.transaction do
-        DivisionInfo.where(division_id: id).delete_all
-        DivisionInfo.create(division_id: id,
-          rebellions: rebellions[id] || 0, tells: tells[id] || 0,
-          turnout: turnout[id] || 0, possible_turnout: possible_turnout[id] || 0,
-          aye_majority: aye_majority[id] || 0)
-      end
+      info = DivisionInfo.find_or_initialize_by(division_id: id)
+      info.update_attributes(rebellions: rebellions[id] || 0, tells: tells[id] || 0,
+      turnout: turnout[id] || 0, possible_turnout: possible_turnout[id] || 0,
+      aye_majority: aye_majority[id] || 0)
     end
   end
 

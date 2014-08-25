@@ -11,14 +11,13 @@ class MemberInfo < ActiveRecord::Base
     aye_majority = all_aye_majority_counts
 
     Member.all.ids.each do |id|
-      # TODO Give MemberInfo a primary key so that we can do this more sensibly
-      MemberInfo.transaction do
-        MemberInfo.where(member_id: id).delete_all
-        MemberInfo.create(member_id: id,
-          rebellions: rebellions[id] || 0, tells: tells[id] || 0,
-          votes_attended: votes_attended[id] || 0, votes_possible: votes_possible[id] || 0,
-          aye_majority: aye_majority[id] || 0)
-      end
+      info = MemberInfo.find_or_initialize_by(member_id: id)
+      info.update_attributes(
+        rebellions: rebellions[id] || 0,
+        tells: tells[id] || 0,
+        votes_attended: votes_attended[id] || 0,
+        votes_possible: votes_possible[id] || 0,
+        aye_majority: aye_majority[id] || 0)
     end
   end
 

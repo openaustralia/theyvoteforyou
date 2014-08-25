@@ -25,11 +25,9 @@ class MemberDistance < ActiveRecord::Base
         where("entered_house <= ?", member1.left_house)
       # We're only populating half of the matrix
       members.where("id >= ?", member1.id).each do |member2|
-        # Do something less icky when MemberDistance has a primary key
-        MemberDistance.transaction do
-          MemberDistance.where(member1: member1, member2: member2).delete_all
-          MemberDistance.create(member1: member1, member2: member2)
-        end
+        m = MemberDistance.find_or_initialize_by(member1: member1, member2: member2)
+        # TODO Double check that before_save callbacks are still called when existing record is found
+        m.save!
       end
     end
   end
