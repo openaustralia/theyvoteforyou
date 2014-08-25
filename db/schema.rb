@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140825023720) do
+ActiveRecord::Schema.define(version: 20140825024918) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(version: 20140825023720) do
 
   create_table "policy_member_distances", force: true do |t|
     t.integer "policy_id",                     null: false
-    t.integer "person",                        null: false
+    t.integer "person_id",                     null: false
     t.integer "nvotessame"
     t.integer "nvotessamestrong"
     t.integer "nvotesdiffer"
@@ -169,8 +169,8 @@ ActiveRecord::Schema.define(version: 20140825023720) do
     t.float   "distance_b",         limit: 24
   end
 
-  add_index "policy_member_distances", ["person"], name: "person", using: :btree
-  add_index "policy_member_distances", ["policy_id", "person"], name: "dream_id_2", unique: true, using: :btree
+  add_index "policy_member_distances", ["person_id"], name: "person", using: :btree
+  add_index "policy_member_distances", ["policy_id", "person_id"], name: "dream_id_2", unique: true, using: :btree
   add_index "policy_member_distances", ["policy_id"], name: "dream_id", using: :btree
 
   create_table "pw_cache_divwiki", force: true do |t|

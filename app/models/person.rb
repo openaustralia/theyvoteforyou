@@ -12,7 +12,7 @@ class Person
 
   # TODO When Person becomes a table in the db make this an association
   def policy_member_distances
-    PolicyMemberDistance.where(person: id)
+    PolicyMemberDistance.where(person_id: id)
   end
 
   # TODO When Person becomes a table in the db make this an association
