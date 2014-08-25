@@ -3,9 +3,7 @@
 %p
   Votes in parliament for which this
   = member_type(member.australian_house) + "'s"
-  vote differed from the majority vote of their party (Rebel), or in which this
-  = member_type(member.australian_house)
-  was a teller (Teller), or both (Rebel Teller).
+  vote differed from the majority vote of their party (Rebel).
 %p
   See also all votes...
   = link_to "attended", member_path(member, display: "allvotes", anchor: "divisions")
@@ -14,4 +12,4 @@
 
 %table.table.table-striped
   - members.each do |member|
-    = render "votes", member: member, divisions: member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no rebellions, never teller"
+    = render "votes", member: member, divisions: member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no rebellions"

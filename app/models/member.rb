@@ -36,10 +36,10 @@ class Member < ActiveRecord::Base
     Division.where(house: house).where("division_date >= ? AND division_date < ?", entered_house, left_house)
   end
 
-  # Divisions that this member has voted on where either they were a teller, a rebel (or both) or voting
+  # Divisions that this member has voted on where either they were a rebel or voting
   # on a free vote
   def interesting_divisions
-    divisions.joins(:whips).where(free_vote.or(rebellious_vote).or(teller_vote)).group("pw_division.division_id")
+    divisions.joins(:whips).where(free_vote.or(rebellious_vote)).group("pw_division.division_id")
   end
 
   def division_vote(division)
@@ -270,11 +270,10 @@ class Member < ActiveRecord::Base
   def rebellious_vote
     whip = Whip.arel_table
     vote = Vote.arel_table
-    whip[:party].eq(party).and(vote[:vote].not_eq(whip[:whip_guess]))
-  end
-
-  def teller_vote
-    vote = Vote.arel_table
-    vote[:vote].eq('tellno').or(vote[:vote].eq('tellyes'))
+    aye = (vote[:vote].eq("aye")).or(vote[:vote].eq("tellaye"))
+    no = (vote[:vote].eq("no")).or(vote[:vote].eq("tellno"))
+    rebel_aye = aye.and(whip[:whip_guess].eq("no"))
+    rebel_no = no.and(whip[:whip_guess].eq("aye"))
+    whip[:party].eq(party).and(rebel_aye.or(rebel_no))
   end
 end
