@@ -25,7 +25,7 @@ class FeedsController < ApplicationController
            (nvotessame + nvotessamestrong + nvotesdiffer + nvotesdifferstrong) as both_voted,
            (nvotesabsent + nvotesabsentstrong) as absent
            from policy_member_distances, members
-           where dream_id = '#{@policy.id}' and
+           where policy_id = '#{@policy.id}' and
            members.person = policy_member_distances.person"
     @policy_member_distances = PolicyMemberDistance.connection.select_all(sql)
   end

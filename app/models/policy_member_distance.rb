@@ -8,7 +8,10 @@ class PolicyMemberDistance < ActiveRecord::Base
                 distance_a: 0.0,
                 distance_b: 0.0
 
-  belongs_to :policy, foreign_key: :dream_id
+  belongs_to :policy
+
+  # TODO Remove this as soon as we can
+  alias_attribute :dream_id, :policy_id
 
   # TODO replace with association when we can
   def person_object
@@ -24,13 +27,13 @@ class PolicyMemberDistance < ActiveRecord::Base
   # TODO: Add a primary key and get rid of this function
   def increment!(attribute, by = 1)
     increment(attribute, by)
-    PolicyMemberDistance.where(dream_id: policy.id, person: person).update_all(attribute => read_attribute(attribute))
+    PolicyMemberDistance.where(policy_id: policy.id, person: person).update_all(attribute => read_attribute(attribute))
   end
 
   # Use update_all because we don't yet have a primary key on this model
   # TODO: Add a primary key and get rid of this function
   def update!(attributes)
-    PolicyMemberDistance.where(dream_id: policy.id, person: person).update_all(attributes)
+    PolicyMemberDistance.where(policy_id: policy.id, person: person).update_all(attributes)
   end
 
   def distance_object

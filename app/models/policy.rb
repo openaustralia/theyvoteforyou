@@ -1,6 +1,6 @@
 class Policy < ActiveRecord::Base
   has_many :policy_divisions
-  has_many :policy_member_distances, foreign_key: :dream_id, dependent: :destroy
+  has_many :policy_member_distances, dependent: :destroy
   has_many :divisions, through: :policy_divisions
   belongs_to :user
 
@@ -73,7 +73,7 @@ class Policy < ActiveRecord::Base
         member_vote = member.vote_on_division_without_tell(policy_division.division)
 
         # FIXME: Can't simply use find_or_create_by here thanks to the missing primary key fartarsery
-        policy_member_distance = PolicyMemberDistance.find_by(person: member.person, dream_id: id) || policy_member_distances.create!(person: member.person)
+        policy_member_distance = PolicyMemberDistance.find_by(person: member.person, policy_id: id) || policy_member_distances.create!(person: member.person)
 
         if member_vote == 'absent' && policy_division.strong_vote?
           policy_member_distance.increment! :nvotesabsentstrong
