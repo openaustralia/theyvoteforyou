@@ -17,7 +17,7 @@ class Person
 
   # TODO When Person becomes a table in the db make this an association
   def offices
-    Office.where(person: id)
+    Office.where(person_id: id)
   end
 
   def member_who_voted_on_division(division)
