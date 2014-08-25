@@ -42,17 +42,12 @@ class Vote < ActiveRecord::Base
     vote.gsub('tell', '')
   end
 
+  # TODO What if the vote is tied?
   def role
-    if teller? && free?
-      "free teller"
-    elsif teller? && rebellion?
-      "rebel teller"
-    elsif teller?
-      "teller"
+    if free?
+      "free"
     elsif rebellion?
       "rebel"
-    elsif free?
-      "free"
     else
       "loyal"
     end
