@@ -91,6 +91,28 @@ module DivisionsHelper
     end
   end
 
+  def aye_vote_class(whip)
+    if whip.aye_votes == 0
+      "normal"
+    # Special case for free votes
+    elsif whip.whip_guess == "aye" || whip.free?
+      "whip"
+    else
+      "rebel"
+    end
+  end
+
+  def no_vote_class(whip)
+    if whip.no_votes == 0
+      "normal"
+    # Special case for free votes
+    elsif whip.whip_guess == "no" || whip.free?
+      "whip"
+    else
+      "rebel"
+    end
+  end
+
   def majority_vote_class(whip)
     if whip.majority_votes == 0
       "normal"

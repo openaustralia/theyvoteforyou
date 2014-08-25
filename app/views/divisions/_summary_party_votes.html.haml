@@ -2,12 +2,8 @@
   %thead
     %tr
       %th Party
-      - if division.tied?
-        %th Ayes
-        %th Noes
-      - else
-        %th Majority (#{division.majority_type.capitalize})
-        %th Minority (#{division.minority_type.capitalize})
+      %th Ayes
+      %th Noes
       %th Turnout
   %tbody
     - division.whips.order(:party).each do |whip|
@@ -15,12 +11,11 @@
       - if whip.total_votes > 0
         %tr
           %td= whip.party_name
-          -# When votes are tied the majority vote is aye. So, this will still come out in the correct order
-          %td{:class => majority_vote_class(whip)}= whip.majority_votes_including_tells
-          %td{:class => minority_vote_class(whip)}= whip.minority_votes_including_tells
+          %td{:class => aye_vote_class(whip)}= whip.aye_votes_including_tells
+          %td{:class => no_vote_class(whip)}= whip.no_votes_including_tells
           %td.percent= fraction_to_percentage_display(whip.attendance_fraction, precision: 1)
     %tr
       %td.whip Total:
-      %td{:class => majority_vote_total_class(division)}= division.majority_votes_including_tells
-      %td{:class => minority_vote_total_class(division)}= division.minority_votes_including_tells
+      %td{:class => aye_vote_total_class(division)}= division.aye_votes_including_tells
+      %td{:class => no_vote_total_class(division)}= division.no_votes_including_tells
       %td.percent= fraction_to_percentage_display(division.attendance_fraction, precision: 1)
