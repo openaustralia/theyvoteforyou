@@ -253,7 +253,7 @@ class Division < ActiveRecord::Base
     # FIXME: Remove nasty SQL below that was ported from PHP direct
     joins('LEFT JOIN pw_cache_divwiki ON pw_cache_divwiki.division_date = divisions.division_date
            AND pw_cache_divwiki.division_number = divisions.division_number AND pw_cache_divwiki.house = divisions.house
-           LEFT JOIN wiki_motions ON wiki_motions.wiki_id = pw_cache_divwiki.wiki_id')
+           LEFT JOIN wiki_motions ON wiki_motions.id = pw_cache_divwiki.wiki_id')
           .where('LOWER(convert(division_name using utf8)) LIKE :query
                   OR LOWER(convert(motion using utf8)) LIKE :query
                   OR LOWER(convert(text_body using utf8)) LIKE :query', query: "%#{query}%")
@@ -266,7 +266,7 @@ class Division < ActiveRecord::Base
                                            SELECT divisions.division_date AS division_date,
                                                   divisions.division_number AS division_number,
                                                   divisions.house AS house,
-                                                  IFNULL(MAX(wiki_motions.wiki_id), -1) AS value
+                                                  IFNULL(MAX(wiki_motions.id), -1) AS value
                                            FROM divisions
                                            LEFT JOIN pw_cache_divwiki ON divisions.division_date = pw_cache_divwiki.division_date AND
                                                divisions.division_number = pw_cache_divwiki.division_number

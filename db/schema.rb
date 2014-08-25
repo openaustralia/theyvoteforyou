@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140825021413) do
+ActiveRecord::Schema.define(version: 20140825022036) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -242,7 +242,7 @@ ActiveRecord::Schema.define(version: 20140825021413) do
 
   add_index "whips", ["division_id", "party"], name: "division_id", unique: true, using: :btree
 
-  create_table "wiki_motions", primary_key: "wiki_id", force: true do |t|
+  create_table "wiki_motions", force: true do |t|
     t.date     "division_date",             null: false
     t.integer  "division_number",           null: false
     t.string   "house",           limit: 8, null: false
