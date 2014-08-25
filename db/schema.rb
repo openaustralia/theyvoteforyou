@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140825020429) do
+ActiveRecord::Schema.define(version: 20140825021413) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -182,7 +182,7 @@ ActiveRecord::Schema.define(version: 20140825020429) do
 
   add_index "pw_cache_divwiki", ["division_date", "division_number", "house"], name: "division_date", unique: true, using: :btree
 
-  create_table "users", primary_key: "user_id", force: true do |t|
+  create_table "users", force: true do |t|
     t.text     "user_name"
     t.text     "real_name"
     t.text     "email"
