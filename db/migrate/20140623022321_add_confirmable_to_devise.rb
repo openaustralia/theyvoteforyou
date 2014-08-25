@@ -6,6 +6,7 @@ class AddConfirmableToDevise < ActiveRecord::Migration
     add_column :pw_dyn_user, :unconfirmed_email, :string
     add_index :pw_dyn_user, :confirmation_token, :unique => true
 
+    User.table_name = "pw_dyn_user"
     User.update_all(:confirmed_at => Time.now)
   end
 
