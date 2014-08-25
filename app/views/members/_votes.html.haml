@@ -20,7 +20,7 @@
           %td= link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&mpn=#{member.url_name}&mpc=#{member.url_electorate}&house=#{division.australian_house}"
         - else
           %td= link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&mpn=#{member.url_name}&mpc=Senate&house=#{division.australian_house}"
-        %td= division.majority_vote_for(member)
+        %td= division.vote_for(member)
         %td= division.whip_guess_for(member.party)
         %td{:class => vote_class(member.division_vote(division))}
           = division.role_for(member)
