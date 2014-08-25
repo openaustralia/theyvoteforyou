@@ -175,12 +175,8 @@ module DivisionsHelper
       # AND THIS IS WRONG FURTHER BECAUSE THE MAJORITY CALCULATION DOESN"T TAKE INTO ACCOUNT THE TELLS
       ayenodiff = (division.votes.group(:vote).count["aye"] || 0) - (division.votes.group(:vote).count["no"] || 0)
       if ayenodiff == 0
-        if member.vote_on_division_with_tell(division) == "tellaye"
-          sentence += "was a Teller for the Ayes."
-        elsif member.vote_on_division_with_tell(division) == "tellno"
-          sentence += "was a Teller for the Noes."
-        elsif member.vote_on_division_with_tell(division) != "absent"
-          sentence += "voted #{member.vote_on_division_with_tell(division).capitalize}."
+        if member.vote_on_division_without_tell(division) != "absent"
+          sentence += "voted #{member.vote_on_division_without_tell(division).capitalize}."
         end
       elsif member.vote_on_division_without_tell(division) == "aye" && ayenodiff >= 0 || member.vote_on_division_without_tell(division) == "no" && ayenodiff < 0
         sentence += "voted ".html_safe + content_tag(:em, "with the majority")
@@ -189,13 +185,7 @@ module DivisionsHelper
       end
 
       if member.vote_on_division_without_tell(division) != "absent" && ayenodiff != 0
-        if member.vote_on_division_with_tell(division) == "tellaye"
-          sentence += " (Teller for the Ayes)."
-        elsif member.vote_on_division_with_tell(division) == "tellno"
-          sentence += " (Teller for the Noes)."
-        else
-          sentence += " (#{member.vote_on_division_with_tell(division).capitalize})."
-        end
+        sentence += " (#{member.vote_on_division_without_tell(division).capitalize})."
       end
       sentence
     end
