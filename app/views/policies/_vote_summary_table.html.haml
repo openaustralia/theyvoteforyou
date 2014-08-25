@@ -26,14 +26,7 @@
             %td
               = link_to division.name, division_path3({date: division.date, number: division.number, house: division.australian_house}, false, member)
             %td
-              -# Only showing tellaye because that's what the php app does which isn't quite right
-              -# TODO Fix this
-              - if member.vote_on_division_with_tell(division) == "tellaye"
-                tellaye
-              - elsif member.vote_on_division_with_tell(division) == "tellno"
-                tellno
-              - else
-                = vote_display_in_table(member.vote_on_division_without_tell(division), division.aye_majority)
+              = vote_display_in_table(member.vote_on_division_without_tell(division), division.aye_majority)
           - else
             %td
               = link_to division.name, division_path3({date: division.date, number: division.number, house: division.australian_house, dmp: policy.id}, false)
