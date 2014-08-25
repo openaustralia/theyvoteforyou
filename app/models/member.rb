@@ -50,14 +50,6 @@ class Member < ActiveRecord::Base
     division_vote(division) ? division_vote(division).vote_without_tell : "absent"
   end
 
-  def vote_on_division_with_tell(division)
-    division_vote(division) ? division_vote(division).vote : "absent"
-  end
-
-  def teller_on_division?(division)
-    division_vote(division).teller? if division_vote(division)
-  end
-
   def rebel_on_division?(division)
     division_vote(division).rebellion? if division_vote(division)
   end
