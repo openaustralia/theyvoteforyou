@@ -80,6 +80,6 @@
             = member.party_long2
             - if member.person_object.on_front_bench?(division.date)
               (front bench)
-          %td= member.vote_on_division_with_tell(division)
+          %td= member.vote_on_division_without_tell(division)
     - else
       - raise
