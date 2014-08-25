@@ -11,8 +11,8 @@ class Person
   end
 
   # TODO When Person becomes a table in the db make this an association
-  def policy_member_distances
-    PolicyMemberDistance.where(person_id: id)
+  def policy_person_distances
+    PolicyPersonDistance.where(person_id: id)
   end
 
   # TODO When Person becomes a table in the db make this an association
@@ -44,12 +44,12 @@ class Person
   end
 
   def agreement_fraction_with_policy(policy)
-    pmd = policy_member_distances.find_by(policy: policy)
+    pmd = policy_person_distances.find_by(policy: policy)
     pmd ? pmd.agreement_fraction : 0
   end
 
   def number_of_votes_on_policy(policy)
-    pmd = policy_member_distances.find_by(policy: policy)
+    pmd = policy_person_distances.find_by(policy: policy)
     pmd ? pmd.number_of_votes : 0
   end
 

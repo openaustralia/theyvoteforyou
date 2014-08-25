@@ -1,4 +1,4 @@
-class PolicyMemberDistance < ActiveRecord::Base
+class PolicyPersonDistance < ActiveRecord::Base
   attr_defaults nvotessame: 0.0,
                 nvotessamestrong: 0.0,
                 nvotesdiffer: 0.0,
@@ -28,13 +28,13 @@ class PolicyMemberDistance < ActiveRecord::Base
   # TODO: Add a primary key and get rid of this function
   def increment!(attribute, by = 1)
     increment(attribute, by)
-    PolicyMemberDistance.where(policy_id: policy.id, person_id: person_id).update_all(attribute => read_attribute(attribute))
+    PolicyPersonDistance.where(policy_id: policy.id, person_id: person_id).update_all(attribute => read_attribute(attribute))
   end
 
   # Use update_all because we don't yet have a primary key on this model
   # TODO: Add a primary key and get rid of this function
   def update!(attributes)
-    PolicyMemberDistance.where(policy_id: policy.id, person_id: person_id).update_all(attributes)
+    PolicyPersonDistance.where(policy_id: policy.id, person_id: person_id).update_all(attributes)
   end
 
   def distance_object
