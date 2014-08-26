@@ -19,6 +19,7 @@ describe DataLoader::DebatesXML do
     it { expect(division.clock_time).to eq('019:26:00') }
 
     it 'should create a division on save!' do
+      allow(division).to receive(:save_votes)
       expect(Division.where(date: '2009-11-25', number: 1, house: 'commons').count).to be_zero
       division.save!
       expect(Division.where(date: '2009-11-25', number: 1, house: 'commons').count).to eq(1)

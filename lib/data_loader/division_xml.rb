@@ -78,9 +78,19 @@ module DataLoader
                        motion: motion,
                        clock_time: clock_time,
                        notes: '')
+      save_votes(division)
     end
 
     private
+
+    def save_votes(division)
+      # TODO: Check for existing votes in the database
+      @division_xml.search(:member).each do |vote_xml|
+        member = Member.find_by!(gid: vote_xml.attr(:id))
+        vote = vote_xml.attr(:teller) == 'yes' ? "tell#{vote_xml.attr(:vote)}" : vote_xml.attr(:vote)
+        Vote.create!(division: division, member: member, vote: vote)
+      end
+    end
 
     def preceeding_major_heading_element
       find_previous('major-heading')
