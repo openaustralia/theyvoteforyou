@@ -9,19 +9,18 @@
   Lost your password? #{link_to 'Reset your password here', new_password_path(resource_name)}
 
 = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  %div
-    %b= f.label :email
-    %br
-    = f.email_field :email, autofocus: true
+  .form-group
+    = f.label :email
+    = f.email_field :email, autofocus: true, class: "form-control"
 
-  %div
-    %b= f.label :password
-    %br
-    = f.password_field :password, autocomplete: "off"
+  .form-group
+    = f.label :password
+    = f.password_field :password, autocomplete: "off", class: "form-control"
 
   - if devise_mapping.rememberable?
-    %div
-      = f.check_box :remember_me
-      = f.label :remember_me
+    .checkbox
+      %label
+        = f.check_box :remember_me
+        Remember me
 
-  %div= f.submit "Login to Public Whip"
+  = f.submit "Login to Public Whip", class: "btn btn-default"
