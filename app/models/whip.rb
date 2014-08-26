@@ -143,13 +143,4 @@ class Whip < ActiveRecord::Base
   def party_name
     Party.long_name(party)
   end
-
-  def majority_tells_votes
-    noes_in_majority? ? no_tells : aye_tells
-  end
-
-  def minority_tells_votes
-    noes_in_majority? ? aye_tells : no_tells
-  end
-
 end
