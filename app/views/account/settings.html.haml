@@ -12,13 +12,12 @@
   %span.ptitle Email:
   = current_user.email
   (
-  -# TODO Use path helper
-  = link_to "change email", "changeemail.php"
+  = link_to "change email", edit_user_registration_path
   )
   %br/
   %span.ptitle Password:
   (
-  = link_to "change password", "changepass.php"
+  = link_to "change password", edit_user_registration_path
   )
 
 %h2 Policies which you made
