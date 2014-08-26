@@ -107,9 +107,8 @@ class Whip < ActiveRecord::Base
     elsif whip_guess == "yes"
       aye_votes_including_tells
     else
-      # Otherwise we'll just call the majority loyal
       # TODO Is that the right thing to do?
-      majority_votes_including_tells
+      noes_in_majority? ? no_votes_including_tells : aye_votes_including_tells
     end
   end
 
@@ -119,9 +118,8 @@ class Whip < ActiveRecord::Base
     elsif whip_guess == "yes"
       no_votes_including_tells
     else
-      # Otherwise we'll just call the minority rebels
       # TODO Is that the right thing to do?
-      minority_votes_including_tells
+      noes_in_majority? ? aye_votes_including_tells : no_votes_including_tells
     end
   end
 
@@ -146,10 +144,6 @@ class Whip < ActiveRecord::Base
     Party.long_name(party)
   end
 
-  def majority_votes_including_tells
-    noes_in_majority? ? no_votes_including_tells : aye_votes_including_tells
-  end
-
   def majority_tells_votes
     noes_in_majority? ? no_tells : aye_tells
   end
@@ -158,7 +152,4 @@ class Whip < ActiveRecord::Base
     noes_in_majority? ? aye_tells : no_tells
   end
 
-  def minority_votes_including_tells
-    noes_in_majority? ? aye_votes_including_tells : no_votes_including_tells
-  end
 end
