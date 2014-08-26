@@ -68,17 +68,19 @@ module DataLoader
     end
 
     def save!
-      division = Division.find_or_initialize_by(date: date, number: number, house: house)
-      division.update!(valid: true,
-                       name: name,
-                       source_url: source_url,
-                       debate_url: debate_url,
-                       source_gid: source_gid,
-                       debate_gid: debate_gid,
-                       motion: motion,
-                       clock_time: clock_time,
-                       notes: '')
-      save_votes(division)
+      ActiveRecord::Base.transaction do
+        division = Division.find_or_initialize_by(date: date, number: number, house: house)
+        division.update!(valid: true,
+                         name: name,
+                         source_url: source_url,
+                         debate_url: debate_url,
+                         source_gid: source_gid,
+                         debate_gid: debate_gid,
+                         motion: motion,
+                         clock_time: clock_time,
+                         notes: '')
+        save_votes(division)
+      end
     end
 
     private
