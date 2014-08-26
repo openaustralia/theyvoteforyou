@@ -1,8 +1,6 @@
 class Whip < ActiveRecord::Base
   belongs_to :division
 
-  delegate :noes_in_majority?, to: :division
-
   def self.update_all!
     possible_votes = Division.joins("LEFT JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.division_date AND divisions.division_date < members.left_house").group("divisions.id", :party).count
 
@@ -108,7 +106,7 @@ class Whip < ActiveRecord::Base
       aye_votes_including_tells
     else
       # TODO Is that the right thing to do?
-      noes_in_majority? ? no_votes_including_tells : aye_votes_including_tells
+      division.aye_majority < 0 ? no_votes_including_tells : aye_votes_including_tells
     end
   end
 
@@ -119,7 +117,7 @@ class Whip < ActiveRecord::Base
       no_votes_including_tells
     else
       # TODO Is that the right thing to do?
-      noes_in_majority? ? aye_votes_including_tells : no_votes_including_tells
+      division.aye_majority < 0 ? aye_votes_including_tells : no_votes_including_tells
     end
   end
 

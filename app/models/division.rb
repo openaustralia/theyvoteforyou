@@ -186,10 +186,6 @@ class Division < ActiveRecord::Base
     australian_house.capitalize
   end
 
-  def noes_in_majority?
-    aye_majority < 0
-  end
-
   def policy_division(policy)
     policy_divisions.find_by!(policy_id: policy.id)
   end
