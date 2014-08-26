@@ -1,19 +1,9 @@
 module DataLoader
   class Debates
     # The options hash takes:
-    # :house - specify representatives or senate, omit for both
     # :date - A single date
     def self.load!(options = {})
-      houses = case
-               when options[:house].nil?
-                 House.australian
-               when House.australian.include?(options[:house])
-                 [options[:house]]
-               else
-                 raise "Invalid house: #{options[:house]}"
-               end
-
-      houses.each do |house|
+      House.australian.each do |house|
         # TODO: Check for the file first rather than catching the exception
         begin
           xml_data = File.read("#{Settings.xml_data_directory}/scrapedxml/#{house}_debates/#{options[:date]}.xml")
