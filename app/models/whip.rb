@@ -146,22 +146,6 @@ class Whip < ActiveRecord::Base
     Party.long_name(party)
   end
 
-  def whip_guess_majority
-    if whip_guess == "none"
-      nil
-    elsif (whip_guess == "no" && noes_in_majority?) || (whip_guess == "aye" && !noes_in_majority?)
-      "majority"
-    elsif (whip_guess == "no" && !noes_in_majority?) || (whip_guess == "aye" && noes_in_majority?)
-      "minority"
-    else
-      raise
-    end
-  end
-
-  def majority_votes
-    noes_in_majority? ? no_votes : aye_votes
-  end
-
   def majority_votes_including_tells
     noes_in_majority? ? no_votes_including_tells : aye_votes_including_tells
   end
@@ -172,10 +156,6 @@ class Whip < ActiveRecord::Base
 
   def minority_tells_votes
     noes_in_majority? ? aye_tells : no_tells
-  end
-
-  def minority_votes
-    noes_in_majority? ? aye_votes : no_votes
   end
 
   def minority_votes_including_tells

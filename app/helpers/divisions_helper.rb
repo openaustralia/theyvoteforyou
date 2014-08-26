@@ -113,45 +113,12 @@ module DivisionsHelper
     end
   end
 
-  def majority_vote_class(whip)
-    if whip.majority_votes == 0
-      "normal"
-    # Special case for free votes
-    elsif whip.whip_guess_majority == "majority" || whip.free?
-      "whip"
-    else
-      "rebel"
-    end
-  end
-
-  def minority_vote_class(whip)
-    if whip.minority_votes == 0
-      "normal"
-    elsif whip.whip_guess_majority == "minority" || whip.free?
-      "whip"
-    else
-      "rebel"
-    end
-  end
-
   def no_vote_total_class(division)
     division.no_votes >= division.aye_votes ? "whip" : "normal"
   end
 
   def aye_vote_total_class(division)
     division.aye_votes >= division.no_votes ? "whip" : "normal"
-  end
-
-  def majority_vote_total_class(division)
-    if division.noes_in_majority?
-      division.no_votes >= division.aye_votes ? "whip" : "normal"
-    else
-      division.aye_votes >= division.no_votes ? "whip" : "normal"
-    end
-  end
-
-  def minority_vote_total_class(division)
-    division.noes_in_majority? ? aye_vote_total_class(division) : no_vote_total_class(division)
   end
 
   def division_nav_link(display, name, title, current_display)

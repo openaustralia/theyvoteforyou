@@ -23,14 +23,6 @@ describe Whip, :type => :model do
     end
   end
 
-  describe '#whip_guess_majority' do
-    it 'whip guess is aye and noes are in the majority' do
-      allow(subject).to receive(:whip_guess).and_return("aye")
-      allow(subject).to receive(:noes_in_majority?).and_return(true)
-      expect(subject.whip_guess_majority).to eq('minority')
-    end
-  end
-
   describe ".calc_whip_guess" do
     context "no abstentions" do
       it { expect(Whip.calc_whip_guess(10, 5, 0)).to eq "aye" }

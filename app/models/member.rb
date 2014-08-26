@@ -57,22 +57,6 @@ class Member < ActiveRecord::Base
     division_vote(division).rebellion? if division_vote(division)
   end
 
-  def majority_vote_on_division_without_tell(division)
-    vote = votes.where(division_id: division.id).first
-    if vote
-      # TODO What happens when the same number of votes on each side? Or can this never happen by design?
-      if division.majority_vote == "none"
-        vote.vote_without_tell
-      elsif vote.vote_without_tell == division.majority_vote
-        "majority"
-      else
-        "minority"
-      end
-    else
-      "absent"
-    end
-  end
-
   def name
     "#{title} #{name_without_title}".strip
   end

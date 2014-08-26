@@ -57,10 +57,6 @@ class Division < ActiveRecord::Base
     member.vote_on_division_without_tell(self)
   end
 
-  def majority_vote_for(member)
-    member.majority_vote_on_division_without_tell(self)
-  end
-
   # Equal number of votes for the ayes and noes
   def tied?
     aye_majority == 0
@@ -200,22 +196,6 @@ class Division < ActiveRecord::Base
 
   def minority_type
     noes_in_majority? ? "aye" : "no"
-  end
-
-  def majority_votes
-    noes_in_majority? ? no_votes : aye_votes
-  end
-
-  def majority_votes_including_tells
-    noes_in_majority? ? no_votes_including_tells : aye_votes_including_tells
-  end
-
-  def minority_votes
-    noes_in_majority? ? aye_votes : no_votes
-  end
-
-  def minority_votes_including_tells
-    noes_in_majority? ? aye_votes_including_tells : no_votes_including_tells
   end
 
   def policy_division(policy)
