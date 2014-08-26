@@ -129,16 +129,16 @@ module DivisionsHelper
   end
 
   def vote_display_in_table(vote, aye_majority)
-    display = if (aye_majority >= 0 && (vote == 'aye' || vote == 'aye3')) ||
-       (aye_majority <= 0 && (vote == 'no' || vote == 'no3'))
-      'Majority'
-    elsif vote == 'absent'
-      vote
+    case vote
+    when "aye3"
+      "Aye (strong)"
+    when "no3"
+      "No (strong)"
+    when "absent"
+      "absent"
     else
-      content_tag(:i, 'minority')
+      vote.capitalize
     end
-
-    vote == 'aye3' || vote == 'no3' ? "#{display} (strong)".html_safe : display
   end
 
   # TODO: Refactor this - it looks suspiciously like the above
