@@ -88,7 +88,7 @@ module DataLoader
       @division_xml.search(:member).each do |vote_xml|
         member = Member.find_by!(gid: vote_xml.attr(:id))
         vote = vote_xml.attr(:teller) == 'yes' ? "tell#{vote_xml.attr(:vote)}" : vote_xml.attr(:vote)
-        Vote.create!(division: division, member: member, vote: vote)
+        Vote.find_or_create_by!(division: division, member: member, vote: vote)
       end
     end
 
