@@ -8,6 +8,9 @@
   %br/
   %span.ptitle Real name:
   = current_user.real_name
+  (
+  = link_to "change real name", edit_user_registration_path
+  )
   %br/
   %span.ptitle Email:
   = current_user.email
