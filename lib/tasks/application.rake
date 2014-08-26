@@ -35,8 +35,8 @@ namespace :application do
   end
 
   desc 'Load divisions from XML for a specified date'
-  task :load_divisions_xml, [:date, :house] => [:environment, :set_logger_to_stdout] do |t, args|
-    DataLoader::Debates.load!(date: args[:date], house: args[:house])
+  task :load_divisions_xml, [:from_date, :to_date] => [:environment, :set_logger_to_stdout] do |t, args|
+    DataLoader::Debates.load!(from_date: args[:from_date], to_date: args[:to_date])
   end
 
   task :set_logger_to_stdout do
