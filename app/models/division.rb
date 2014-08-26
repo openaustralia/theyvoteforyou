@@ -190,14 +190,6 @@ class Division < ActiveRecord::Base
     aye_majority < 0
   end
 
-  def majority_type
-    noes_in_majority? ? "no" : "aye"
-  end
-
-  def minority_type
-    noes_in_majority? ? "aye" : "no"
-  end
-
   def policy_division(policy)
     policy_divisions.find_by!(policy_id: policy.id)
   end
