@@ -62,17 +62,6 @@ class Division < ActiveRecord::Base
     aye_majority == 0
   end
 
-  # The vote of the majority (either aye or no)
-  def majority_vote
-    if aye_majority == 0
-      "none"
-    elsif aye_majority > 0
-      "aye"
-    else
-      "no"
-    end
-  end
-
   def no_rebellions
     division_info.rebellions
   end
