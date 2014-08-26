@@ -14,7 +14,7 @@
         %td
           %p
             Policy vote:
-            = vote_display_in_table(division.policy_vote(policy), division.aye_majority)
+            = vote_display_in_table(division.policy_vote(policy))
           = render 'divisions/summary_party_votes', division: division
         %td{:colspan => "4"}
           = formatted_motion_text(division)

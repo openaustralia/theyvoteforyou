@@ -128,7 +128,7 @@ module DivisionsHelper
     end
   end
 
-  def vote_display_in_table(vote, aye_majority)
+  def vote_display_in_table(vote)
     case vote
     when "aye3"
       "Aye (strong)"
