@@ -51,7 +51,7 @@ module DataLoader
       text = pwmotiontext.empty? ? previous_speeches.map { |s| speech_text s }.join : pwmotiontext
       # Truncate really long motion text at the same size as formatted_motion_text
       Rails.logger.warn "Truncating very long motion text for division: #{house} #{date} #{number}" if text.size > 15000
-      encode_html_entities(ActionController::Base.helpers.truncate(text, length: 15000))
+      encode_html_entities(text.truncate 15000)
     end
 
     def clock_time
