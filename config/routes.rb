@@ -36,8 +36,8 @@ Publicwhip::Application.routes.draw do
 
   devise_scope :user do
     get '/account/logout.php' => 'devise/sessions#destroy'
-    match '/account/changepass.php' => 'devise/registrations#edit', via: [:get, :post]
-    get '/account/changeemail.php' => 'devise/registrations#edit'
+    get '/account/changepass.php' => redirect('/users/edit')
+    get '/account/changeemail.php' => redirect('/users/edit')
     get '/account/register.php' => 'devise/registrations#new'
   end
 
