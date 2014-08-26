@@ -1,6 +1,4 @@
 class DivisionInfo < ActiveRecord::Base
-  self.table_name = "pw_cache_divinfo"
-
   belongs_to :division
 
   # TODO Fix duplication between this class and MemberInfo
@@ -25,23 +23,23 @@ class DivisionInfo < ActiveRecord::Base
   end
 
   def self.all_rebellion_counts
-    Vote.rebellious.group("pw_vote.division_id").count
+    Vote.rebellious.group("votes.division_id").count
   end
 
   def self.all_tells_counts
-    Vote.tells.group("pw_vote.division_id").count
+    Vote.tells.group("votes.division_id").count
   end
 
   def self.all_turnout_counts
-    Vote.all.group("pw_vote.division_id").count
+    Vote.all.group("votes.division_id").count
   end
 
   def self.all_ayes_counts
-    Vote.ayes.group("pw_vote.division_id").count
+    Vote.ayes.group("votes.division_id").count
   end
 
   def self.all_noes_counts
-    Vote.noes.group("pw_vote.division_id").count
+    Vote.noes.group("votes.division_id").count
   end
 
   def self.all_aye_majority_counts
@@ -56,6 +54,6 @@ class DivisionInfo < ActiveRecord::Base
   end
 
   def self.all_possible_turnout_counts
-    Division.joins("INNER JOIN pw_mp ON pw_division.house = pw_mp.house AND pw_mp.entered_house <= pw_division.division_date AND pw_division.division_date < pw_mp.left_house").group("pw_division.division_id").count
+    Division.joins("INNER JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.division_date AND divisions.division_date < members.left_house").group("divisions.id").count
   end
 end

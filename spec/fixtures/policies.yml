@@ -1,17 +1,17 @@
 one:
-  dream_id: 1
+  id: 1
   name: Marriage equality
   user_id: 1
   description: access to marriage should be equal
   private: 0
 two:
-  dream_id: 2
+  id: 2
   name: Offshore processing
   user_id: 1
   description: refugees arrving by boat should be processed offshore
   private: 0
 three:
-  dream_id: 3
+  id: 3
   name: provisional
   user_id: 1
   description: A provisional policy

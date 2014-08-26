@@ -1,5 +1,5 @@
 one:
-  wiki_id: 1
+  id: 1
   division_date: 2013-3-14
   division_number: 1
   house: "commons"
@@ -7,7 +7,7 @@ one:
   user_id: 1
   edit_date: 2013-10-20 10:12:13
 two:
-  wiki_id: 2
+  id: 2
   division_date: 2006-12-06
   division_number: 3
   house: commons

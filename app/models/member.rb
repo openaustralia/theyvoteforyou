@@ -1,8 +1,7 @@
 class Member < ActiveRecord::Base
-  self.table_name = "pw_mp"
-  has_one :member_info, foreign_key: "mp_id"
+  has_one :member_info
   delegate :rebellions, :votes_attended, :votes_possible, :tells, to: :member_info, allow_nil: true
-  has_many :votes, foreign_key: "mp_id"
+  has_many :votes
   scope :current_on, ->(date) { where("? >= entered_house AND ? < left_house", date, date) }
   scope :in_australian_house, ->(australian_house) { where(house: House.australian_to_uk(australian_house)) unless australian_house == 'all' }
   scope :with_name, ->(name) {
@@ -11,7 +10,11 @@ class Member < ActiveRecord::Base
   }
   # Divisions that have been attended
   has_many :divisions, through: :votes
-  has_many :member_distances, foreign_key: :mp_id1
+  has_many :member_distances, foreign_key: :member1_id
+
+  # TODO Get rid of the following lines when we can
+  alias_attribute :mp_id, :id
+  alias_attribute :person, :person_id
 
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
   def self.parse_first_last_name(name)
@@ -24,7 +27,7 @@ class Member < ActiveRecord::Base
   end
 
   def person_object
-    Person.new(id: person)
+    Person.new(id: person_id)
   end
 
   def changed_party?
@@ -39,7 +42,7 @@ class Member < ActiveRecord::Base
   # Divisions that this member has voted on where either they were a rebel or voting
   # on a free vote
   def interesting_divisions
-    divisions.joins(:whips).where(free_vote.or(rebellious_vote)).group("pw_division.division_id")
+    divisions.joins(:whips).where(free_vote.or(rebellious_vote)).group("divisions.id")
   end
 
   def division_vote(division)
@@ -201,7 +204,7 @@ class Member < ActiveRecord::Base
   end
 
   def possible_friends
-    member_distances.where.not(mp_id2: id, distance_a: -1)
+    member_distances.where.not(member2_id: id, distance_a: -1)
   end
 
   # Friends who have voted exactly the same
@@ -211,13 +214,13 @@ class Member < ActiveRecord::Base
 
   def self.find_by_search_query(query_string)
     # FIXME: This convoluted SQL crap was ported directly from the PHP app. Make it nice
-    sql_query = "SELECT person, first_name, last_name, title, constituency, pw_mp.party AS party, pw_mp.house as house,
+    sql_query = "SELECT person_id, first_name, last_name, title, constituency, members.party AS party, members.house as house,
                         entered_house, left_house,
                         entered_reason, left_reason,
-                        pw_mp.mp_id AS mpid,
+                        members.id AS mpid,
                         rebellions, votes_attended, votes_possible
-                 FROM pw_mp
-                 LEFT JOIN pw_cache_mpinfo ON pw_cache_mpinfo.mp_id = pw_mp.mp_id
+                 FROM members
+                 LEFT JOIN member_infos ON member_infos.member_id = members.id
                  WHERE 1=1"
 
     score_clause = "("

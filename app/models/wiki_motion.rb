@@ -1,6 +1,4 @@
 class WikiMotion < ActiveRecord::Base
-  self.table_name = "pw_dyn_wiki_motion"
-
   belongs_to :user
 
   validates :title, presence: true
@@ -8,6 +6,9 @@ class WikiMotion < ActiveRecord::Base
   attr_accessor :title, :description
 
   before_save :set_text_body, unless: :text_body
+
+  # TODO Remove this as soon as is possible
+  alias_attribute :wiki_id, :id
 
   def division
     Division.find_by(division_date: division_date, division_number: division_number, house: house)

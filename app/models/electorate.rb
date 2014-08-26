@@ -1,3 +1,4 @@
 class Electorate < ActiveRecord::Base
-  self.table_name = "pw_constituency"
+  # TODO Remove this as soon as we can
+  alias_attribute :cons_id, :id
 end

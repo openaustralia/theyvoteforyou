@@ -8,7 +8,7 @@
     = member_type(member.australian_house)
   and each of the policies in the database, according to their voting record.
 %table.table.table-striped
-  - if member.person_object.policy_member_distances.empty?
+  - if member.person_object.policy_person_distances.empty?
     %tbody
       %tr
         %td{:colspan => "4"}
@@ -20,7 +20,7 @@
       %th Agreement
       %th Policy
   %tbody
-    - member.person_object.policy_member_distances.joins(:policy).order("pw_dyn_dreammp.name").each do |policy_member_distance|
+    - member.person_object.policy_person_distances.joins(:policy).order("policies.name").each do |policy_member_distance|
       %tr
         %td
           %b= link_to fraction_to_percentage_display(member.person_object.agreement_fraction_with_policy(policy_member_distance.policy), precision: 0), member_path(member, dmp: policy_member_distance.policy.id)

@@ -1,11 +1,13 @@
 class Vote < ActiveRecord::Base
-  self.table_name = "pw_vote"
   belongs_to :division
-  belongs_to :member, foreign_key: "mp_id"
+  belongs_to :member
 
   delegate :party, :party_long2, :name, :name_without_title, :electorate, to: :member
   delegate :whip_guess, :free?, to: :whip
   delegate :date, to: :division
+
+  # TODO Remove this as soon as we can
+  alias_attribute :mp_id, :member_id
 
   def whip
     division.whips.where(party: party).first
@@ -14,20 +16,20 @@ class Vote < ActiveRecord::Base
   # All rebellious votes
   # TODO Rename to rebellions
   def self.rebellious
-    joins(:member, {:division => :whips}).where("pw_cache_whip.party = pw_mp.party").
-      where("(pw_cache_whip.whip_guess = 'aye' AND (pw_vote.vote = 'no' OR pw_vote.vote = 'tellno' OR pw_vote.vote = 'abstention')) OR (pw_cache_whip.whip_guess = 'no' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye' OR pw_vote.vote = 'abstention')) OR (pw_cache_whip.whip_guess = 'abstention' AND (pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye' OR pw_vote.vote = 'no' OR pw_vote.vote = 'tellno'))")
+    joins(:member, {:division => :whips}).where("whips.party = members.party").
+      where("(whips.whip_guess = 'aye' AND (votes.vote = 'no' OR votes.vote = 'tellno' OR votes.vote = 'abstention')) OR (whips.whip_guess = 'no' AND (votes.vote = 'aye' OR votes.vote = 'tellaye' OR votes.vote = 'abstention')) OR (whips.whip_guess = 'abstention' AND (votes.vote = 'aye' OR votes.vote = 'tellaye' OR votes.vote = 'no' OR votes.vote = 'tellno'))")
   end
 
   def self.tells
-    where("pw_vote.vote = 'tellaye' OR pw_vote.vote = 'tellno'")
+    where("votes.vote = 'tellaye' OR votes.vote = 'tellno'")
   end
 
   def self.ayes
-    where("pw_vote.vote = 'aye' OR pw_vote.vote = 'tellaye'")
+    where("votes.vote = 'aye' OR votes.vote = 'tellaye'")
   end
 
   def self.noes
-    where("pw_vote.vote = 'no' OR pw_vote.vote = 'tellno'")
+    where("votes.vote = 'no' OR votes.vote = 'tellno'")
   end
 
   def rebellion?

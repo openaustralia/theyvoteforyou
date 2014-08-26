@@ -1,5 +1,5 @@
 warringah:
-  cons_id: 1
+  id: 1
   name: "Warringah"
   main_name: true
   from_date: 1000-1-1
@@ -7,7 +7,7 @@ warringah:
   house: "commons"
 
 griffith:
-  cons_id: 63
+  id: 63
   name: "Griffith"
   main_name: true
   from_date: 1000-1-1
@@ -15,7 +15,7 @@ griffith:
   house: "commons"
 
 bennelong:
-  cons_id: 138
+  id: 138
   name: "Bennelong"
   main_name: true
   from_date: 1000-1-1
@@ -23,7 +23,7 @@ bennelong:
   house: "commons"
 
 lowe:
-  cons_id: 101
+  id: 101
   name: Lowe
   main_name: true
   from_date: 1000-01-01
@@ -31,7 +31,7 @@ lowe:
   house: "commons"
 
 chifley:
-  cons_id: 14
+  id: 14
   name: Chifley
   main_name: true
   from_date: 1000-01-01

@@ -1,6 +1,6 @@
 # TODO don't know what aye_majority does yet
 tony_abbott:
-  mp_id: 1
+  member_id: 1
   rebellions: 0
   tells: 0
   votes_attended: 1
@@ -8,7 +8,7 @@ tony_abbott:
   aye_majority: 1
 
 kevin_rudd:
-  mp_id: 450
+  member_id: 450
   rebellions: 0
   tells: 0
   votes_attended: 2
@@ -16,7 +16,7 @@ kevin_rudd:
   aye_majority: 0
 
 christine_milne:
-  mp_id: 100156
+  member_id: 100156
   rebellions: 0
   tells: 0
   votes_attended: 4
@@ -24,7 +24,7 @@ christine_milne:
   aye_majority: -2
 
 john_howard:
-  mp_id: 265
+  member_id: 265
   rebellions: 0
   tells: 0
   votes_attended: 0
@@ -32,7 +32,7 @@ john_howard:
   aye_majority: 0
 
 john_alexander:
-  mp_id: 589
+  member_id: 589
   rebellions: 0
   tells: 0
   votes_attended: 0
@@ -40,7 +40,7 @@ john_alexander:
   aye_majority: 0
 
 christopher_back:
-  mp_id: 100279
+  member_id: 100279
   rebellions: 0
   tells: 0
   votes_attended: 3
@@ -48,7 +48,7 @@ christopher_back:
   aye_majority: -1
 
 judith_adams:
-  mp_id: 100002
+  member_id: 100002
   rebellions: 0
   tells: 1
   votes_attended: 1
@@ -56,7 +56,7 @@ judith_adams:
   aye_majority: 1
 
 roger_price:
-  mp_id: 424
+  member_id: 424
   rebellions: 0
   tells: 1
   votes_attended: 1
@@ -64,7 +64,7 @@ roger_price:
   aye_majority: 1
 
 disagreeable_curmudgeon:
-  mp_id: 222222
+  member_id: 222222
   rebellions: 0
   tells: 0
   votes_attended: 1
@@ -72,7 +72,7 @@ disagreeable_curmudgeon:
   aye_majority: -1
 
 surly_nihilist:
-  mp_id: 333333
+  member_id: 333333
   rebellions: 0
   tells: 0
   votes_attended: 1

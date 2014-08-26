@@ -1,9 +1,10 @@
 class PolicyDivision < ActiveRecord::Base
-  self.table_name = 'pw_dyn_dreamvote'
-  belongs_to :policy, foreign_key: :dream_id
+  belongs_to :policy
 
   alias_attribute :date, :division_date
   alias_attribute :number, :division_number
+  # TODO Remove this as soon as possible
+  alias_attribute :dream_id, :policy_id
 
   delegate :name, :australian_house, :australian_house_name, to: :division
 

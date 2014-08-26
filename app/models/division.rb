@@ -1,6 +1,4 @@
 class Division < ActiveRecord::Base
-  self.table_name = "pw_division"
-
   has_one :division_info
   has_many :whips
   has_many :votes
@@ -9,6 +7,8 @@ class Division < ActiveRecord::Base
   alias_attribute :date, :division_date
   alias_attribute :name, :division_name
   alias_attribute :number, :division_number
+  # TODO Remove the following line when we can
+  alias_attribute :division_id, :id
 
   scope :in_house, ->(house) { where(house: house) }
   scope :in_australian_house, ->(australian_house) { in_house(House.australian_to_uk(australian_house)) }
@@ -16,12 +16,15 @@ class Division < ActiveRecord::Base
   scope :with_rebellions, -> { joins(:division_info).where("rebellions > 10") }
   scope :in_parliament, ->(parliament) { where("division_date >= ? AND division_date < ?", parliament[:from], parliament[:to]) }
 
+  # TODO Convert this to an association when we refer to division by id. Need to make sure that
+  # division loading code doesn't change id's
   def policy_divisions
     PolicyDivision.where(division_date: date,
                          division_number: number,
                          house: house)
   end
 
+  # TODO Convert to an association. See above
   def policies
     policy_divisions.collect { |pd| pd.policy } if policy_divisions
   end
@@ -47,7 +50,7 @@ class Division < ActiveRecord::Base
   end
 
   def role_for(member)
-    (v = votes.find_by(mp_id: member.id)) ? v.role : "absent"
+    (v = votes.find_by(member_id: member.id)) ? v.role : "absent"
   end
 
   def vote_for(member)
@@ -216,7 +219,7 @@ class Division < ActiveRecord::Base
   end
 
   def policy_division(policy)
-    policy_divisions.find_by!(dream_id: policy.id)
+    policy_divisions.find_by!(policy_id: policy.id)
   end
 
   def policy_vote_strong?(policy)
@@ -248,9 +251,9 @@ class Division < ActiveRecord::Base
     update_divisions_wiki_id!
 
     # FIXME: Remove nasty SQL below that was ported from PHP direct
-    joins('LEFT JOIN pw_cache_divwiki ON pw_cache_divwiki.division_date = pw_division.division_date
-           AND pw_cache_divwiki.division_number = pw_division.division_number AND pw_cache_divwiki.house = pw_division.house
-           LEFT JOIN pw_dyn_wiki_motion ON pw_dyn_wiki_motion.wiki_id = pw_cache_divwiki.wiki_id')
+    joins('LEFT JOIN pw_cache_divwiki ON pw_cache_divwiki.division_date = divisions.division_date
+           AND pw_cache_divwiki.division_number = divisions.division_number AND pw_cache_divwiki.house = divisions.house
+           LEFT JOIN wiki_motions ON wiki_motions.id = pw_cache_divwiki.wiki_id')
           .where('LOWER(convert(division_name using utf8)) LIKE :query
                   OR LOWER(convert(motion using utf8)) LIKE :query
                   OR LOWER(convert(text_body using utf8)) LIKE :query', query: "%#{query}%")
@@ -260,17 +263,17 @@ class Division < ActiveRecord::Base
   def self.update_divisions_wiki_id!
     ActiveRecord::Base.connection.execute("INSERT INTO pw_cache_divwiki
                                            (division_date, division_number, house, wiki_id)
-                                           SELECT pw_division.division_date AS division_date,
-                                                  pw_division.division_number AS division_number,
-                                                  pw_division.house AS house,
-                                                  IFNULL(MAX(pw_dyn_wiki_motion.wiki_id), -1) AS value
-                                           FROM pw_division
-                                           LEFT JOIN pw_cache_divwiki ON pw_division.division_date = pw_cache_divwiki.division_date AND
-                                               pw_division.division_number = pw_cache_divwiki.division_number
-                                           LEFT JOIN pw_dyn_wiki_motion ON pw_dyn_wiki_motion.division_date = pw_division.division_date
-                                               AND pw_dyn_wiki_motion.division_number = pw_division.division_number
-                                               AND pw_dyn_wiki_motion.house = pw_division.house
+                                           SELECT divisions.division_date AS division_date,
+                                                  divisions.division_number AS division_number,
+                                                  divisions.house AS house,
+                                                  IFNULL(MAX(wiki_motions.id), -1) AS value
+                                           FROM divisions
+                                           LEFT JOIN pw_cache_divwiki ON divisions.division_date = pw_cache_divwiki.division_date AND
+                                               divisions.division_number = pw_cache_divwiki.division_number
+                                           LEFT JOIN wiki_motions ON wiki_motions.division_date = divisions.division_date
+                                               AND wiki_motions.division_number = divisions.division_number
+                                               AND wiki_motions.house = divisions.house
                                            WHERE pw_cache_divwiki.wiki_id IS NULL
-                                           GROUP BY pw_division.division_id")
+                                           GROUP BY divisions.id")
   end
 end

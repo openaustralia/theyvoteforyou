@@ -1,8 +1,11 @@
 # This provides a cache for several distance measures between members
 class MemberDistance < ActiveRecord::Base
-  self.table_name = "pw_cache_realreal_distance"
-  belongs_to :member1, foreign_key: :mp_id1, class_name: "Member"
-  belongs_to :member2, foreign_key: :mp_id2, class_name: "Member"
+  belongs_to :member1, class_name: "Member"
+  belongs_to :member2, class_name: "Member"
+
+  # TODO Remove these as soon as we can
+  alias_attribute :mp_id1, :member1_id
+  alias_attribute :mp_id2, :member2_id
 
   before_save :update_cache_values!
 
@@ -21,7 +24,7 @@ class MemberDistance < ActiveRecord::Base
       members = Member.where(house: member1.house).where("left_house >= ?", member1.entered_house).
         where("entered_house <= ?", member1.left_house)
       # We're only populating half of the matrix
-      members.where("mp_id >= ?", member1.mp_id).each do |member2|
+      members.where("id >= ?", member1.id).each do |member2|
         # Do something less icky when MemberDistance has a primary key
         MemberDistance.transaction do
           MemberDistance.where(member1: member1, member2: member2).delete_all
@@ -43,21 +46,21 @@ class MemberDistance < ActiveRecord::Base
     # TODO Move knowledge of tells out of here. Shouldn't have to know about this to do this
     # kind of query
     Division
-      .joins("LEFT JOIN pw_vote AS pw_vote1 on pw_vote1.division_id = pw_division.division_id")
-      .joins("LEFT JOIN pw_vote AS pw_vote2 on pw_vote2.division_id = pw_division.division_id")
-      .where("pw_vote1.mp_id = ?", member1.id)
-      .where("pw_vote2.mp_id = ?", member2.id)
-      .where("((pw_vote1.vote = 'aye' OR pw_vote1.vote = 'tellaye') AND (pw_vote2.vote = 'aye' OR pw_vote2.vote = 'tellaye')) OR ((pw_vote1.vote = 'no' OR pw_vote1.vote = 'tellno') AND (pw_vote2.vote = 'no' OR pw_vote2.vote = 'tellno'))")
+      .joins("LEFT JOIN votes AS votes1 on votes1.division_id = divisions.id")
+      .joins("LEFT JOIN votes AS votes2 on votes2.division_id = divisions.id")
+      .where("votes1.member_id = ?", member1.id)
+      .where("votes2.member_id = ?", member2.id)
+      .where("((votes1.vote = 'aye' OR votes1.vote = 'tellaye') AND (votes2.vote = 'aye' OR votes2.vote = 'tellaye')) OR ((votes1.vote = 'no' OR votes1.vote = 'tellno') AND (votes2.vote = 'no' OR votes2.vote = 'tellno'))")
       .count
   end
 
   def self.calculate_nvotesdiffer(member1, member2)
     Division
-      .joins("LEFT JOIN pw_vote AS pw_vote1 on pw_vote1.division_id = pw_division.division_id")
-      .joins("LEFT JOIN pw_vote AS pw_vote2 on pw_vote2.division_id = pw_division.division_id")
-      .where("pw_vote1.mp_id = ?", member1.id)
-      .where("pw_vote2.mp_id = ?", member2.id)
-      .where("((pw_vote1.vote = 'aye' OR pw_vote1.vote = 'tellaye') AND (pw_vote2.vote = 'no' OR pw_vote2.vote = 'tellno')) OR ((pw_vote1.vote = 'no' OR pw_vote1.vote = 'tellno') AND (pw_vote2.vote = 'aye' OR pw_vote2.vote = 'tellaye'))")
+      .joins("LEFT JOIN votes AS votes1 on votes1.division_id = divisions.id")
+      .joins("LEFT JOIN votes AS votes2 on votes2.division_id = divisions.id")
+      .where("votes1.member_id = ?", member1.id)
+      .where("votes2.member_id = ?", member2.id)
+      .where("((votes1.vote = 'aye' OR votes1.vote = 'tellaye') AND (votes2.vote = 'no' OR votes2.vote = 'tellno')) OR ((votes1.vote = 'no' OR votes1.vote = 'tellno') AND (votes2.vote = 'aye' OR votes2.vote = 'tellaye'))")
       .count
   end
 
@@ -65,13 +68,13 @@ class MemberDistance < ActiveRecord::Base
   # someone is absent only if they could vote on a division but didn't
   def self.calculate_nvotesabsent(member1, member2)
     Division
-      .where("pw_division.division_date >= ?", member1.entered_house)
-      .where("pw_division.division_date <= ?", member1.left_house)
-      .where("pw_division.division_date >= ?", member2.entered_house)
-      .where("pw_division.division_date <= ?", member2.left_house)
-      .joins("LEFT JOIN pw_vote AS pw_vote1 on pw_vote1.division_id = pw_division.division_id AND pw_vote1.mp_id = #{member1.id}")
-      .joins("LEFT JOIN pw_vote AS pw_vote2 on pw_vote2.division_id = pw_division.division_id AND pw_vote2.mp_id = #{member2.id}")
-      .where("(pw_vote1.vote IS NULL AND pw_vote2.vote IS NOT NULL) OR (pw_vote1.vote IS NOT NULL AND pw_vote2.vote IS NULL)")
+      .where("divisions.division_date >= ?", member1.entered_house)
+      .where("divisions.division_date <= ?", member1.left_house)
+      .where("divisions.division_date >= ?", member2.entered_house)
+      .where("divisions.division_date <= ?", member2.left_house)
+      .joins("LEFT JOIN votes AS votes1 on votes1.division_id = divisions.id AND votes1.member_id = #{member1.id}")
+      .joins("LEFT JOIN votes AS votes2 on votes2.division_id = divisions.id AND votes2.member_id = #{member2.id}")
+      .where("(votes1.vote IS NULL AND votes2.vote IS NOT NULL) OR (votes1.vote IS NOT NULL AND votes2.vote IS NULL)")
       .count
   end
 end

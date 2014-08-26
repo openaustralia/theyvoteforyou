@@ -160,7 +160,7 @@ module DivisionsHelper
   def member_voted_with(member, division)
     # We're using a different member for the link to try to make things the same as the php
     # TODO get rid of this silliness as soon as we can
-    member2 = Member.where(person: member.person, house: division.house).current_on(division.date).first
+    member2 = Member.where(person_id: member.person_id, house: division.house).current_on(division.date).first
     sentence = link_to member2.full_name, member_path(member2)
     sentence += " "
     if member.vote_on_division_without_tell(division) == "absent"

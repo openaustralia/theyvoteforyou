@@ -60,7 +60,7 @@ describe Whip, :type => :model do
       member5
     end
 
-    let(:division) { Division.create(division_id: 1, division_date: Date.new(2000,1,1), division_number: 1, house: "commons", division_name: "Foo", source_url: "", debate_url: "", motion: "", notes: "", source_gid: "", debate_gid: "") }
+    let(:division) { Division.create(id: 1, division_date: Date.new(2000,1,1), division_number: 1, house: "commons", division_name: "Foo", source_url: "", debate_url: "", motion: "", notes: "", source_gid: "", debate_gid: "") }
     let(:member1) { Member.create(mp_id: 1, title: "", first_name: "Member", last_name: "1", party: "A",
       house: "commons", gid: "", source_gid: "",  constituency: "A",
       entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1)) }

@@ -27,13 +27,13 @@ class MembersController < ApplicationController
     end
 
     # FIXME: Should be easy to refactor this, just doing the dumb thing right now
-    member_info_join = 'LEFT OUTER JOIN `pw_cache_mpinfo` ON `pw_cache_mpinfo`.`mp_id` = `pw_mp`.`mp_id`'
+    member_info_join = 'LEFT OUTER JOIN `member_infos` ON `member_infos`.`member_id` = `members`.`id`'
     if @parliament.nil?
-      @members = Member.current.in_australian_house(@house).joins(member_info_join).select("*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
+      @members = Member.current.in_australian_house(@house).joins(member_info_join).select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
     elsif @parliament == "all"
-      @members = Member.in_australian_house(@house).joins(member_info_join).select("*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
+      @members = Member.in_australian_house(@house).joins(member_info_join).select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
     elsif Parliament.all[@parliament]
-      @members = Member.where("? >= entered_house AND ? < left_house", Parliament.all[@parliament][:to], Parliament.all[@parliament][:from]).in_australian_house(@house).joins(member_info_join).select("*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
+      @members = Member.where("? >= entered_house AND ? < left_house", Parliament.all[@parliament][:to], Parliament.all[@parliament][:from]).in_australian_house(@house).joins(member_info_join).select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
     else
       raise
     end
@@ -45,7 +45,7 @@ class MembersController < ApplicationController
     @display = params[:showall] == "yes" ? "allvotes" : params[:display]
 
     if params[:mpid]
-      @member = Member.find_by!(mp_id: params[:mpid])
+      @member = Member.find_by!(id: params[:mpid])
     elsif params[:id]
       @member = Member.find_by!(gid: params[:id])
     elsif name
@@ -56,7 +56,7 @@ class MembersController < ApplicationController
     end
 
     if @member
-      @members = Member.where(person: @member.person).order(entered_house: :desc)
+      @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
 
       # Trying this hack. Seems mighty weird
       # TODO Get rid of this
@@ -82,9 +82,9 @@ class MembersController < ApplicationController
       @policy = Policy.find(params[:dmp])
       # Pick the member where the votes took place
       @member = @member.person_object.member_for_policy(@policy)
-      # Not using PolicyMemberDistance.find_by because of the messed up association with the Member model
-      unless @policy_member_distance = @member.person_object.policy_member_distances.find_by(policy: @policy)
-        @policy_member_distance = PolicyMemberDistance.new
+      # Not using PolicyPersonDistance.find_by because of the messed up association with the Member model
+      unless @policy_member_distance = @member.person_object.policy_person_distances.find_by(policy: @policy)
+        @policy_member_distance = PolicyPersonDistance.new
       end
       @agreement_fraction_with_policy = @member.person_object.agreement_fraction_with_policy(@policy)
       @number_of_votes_on_policy = @member.person_object.number_of_votes_on_policy(@policy)
@@ -92,7 +92,7 @@ class MembersController < ApplicationController
 
     if @policy
       render "show_policy"
-    elsif @members.map{|m| m.person}.uniq.count > 1
+    elsif @members.map{|m| m.person_id}.uniq.count > 1
       render "show_electorate"
     else
       render "show"

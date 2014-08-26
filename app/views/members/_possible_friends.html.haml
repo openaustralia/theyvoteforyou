@@ -38,7 +38,7 @@
       %tr
         %td{:colspan => "4"} No results found
     - else
-      - possible_friends = member.possible_friends.joins(:member2).order(:distance_a, "pw_mp.last_name", "pw_mp.first_name")
+      - possible_friends = member.possible_friends.joins(:member2).order(:distance_a, "members.last_name", "members.first_name")
       - possible_friends = possible_friends.limit(5) if !all_friends
       - possible_friends.each do |member_distance|
         %tr

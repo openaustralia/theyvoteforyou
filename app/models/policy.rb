@@ -1,15 +1,14 @@
 class Policy < ActiveRecord::Base
-  self.table_name = 'pw_dyn_dreammp'
-
-  has_many :policy_divisions, foreign_key: :dream_id
-  has_many :policy_member_distances, foreign_key: :dream_id, dependent: :destroy
+  has_many :policy_divisions
+  has_many :policy_person_distances, dependent: :destroy
   has_many :divisions, through: :policy_divisions
   belongs_to :user
 
   validates :name, :description, :user_id, :private, presence: true
   validates :name, uniqueness: true
 
-  alias_attribute :id, :dream_id
+  # TODO Remove this as soon as we can
+  alias_attribute :dream_id, :id
 
   def vote_for_division(division)
     policy_division = division.policy_divisions.find_by(policy: self)
@@ -68,14 +67,14 @@ class Policy < ActiveRecord::Base
   end
 
   def calculate_member_agreement_percentages!
-    policy_member_distances.delete_all
+    policy_person_distances.delete_all
 
     policy_divisions.each do |policy_division|
       Member.current_on(policy_division.date).where(house: policy_division.house).each do |member|
         member_vote = member.vote_on_division_without_tell(policy_division.division)
 
         # FIXME: Can't simply use find_or_create_by here thanks to the missing primary key fartarsery
-        policy_member_distance = PolicyMemberDistance.find_by(person: member.person, dream_id: id) || policy_member_distances.create!(person: member.person)
+        policy_member_distance = PolicyPersonDistance.find_by(person_id: member.person_id, policy_id: id) || policy_person_distances.create!(person_id: member.person_id)
 
         if member_vote == 'absent' && policy_division.strong_vote?
           policy_member_distance.increment! :nvotesabsentstrong
@@ -93,7 +92,7 @@ class Policy < ActiveRecord::Base
       end
     end
 
-    policy_member_distances.reload.each do |pmd|
+    policy_person_distances.reload.each do |pmd|
       pmd.update! distance_a: calculate_distance(pmd), distance_b: calculate_distance(pmd, false)
     end
   end

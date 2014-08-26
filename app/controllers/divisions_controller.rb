@@ -17,7 +17,7 @@ class DivisionsController < ApplicationController
       else
         @parties = Division
       end
-      @parties = @parties.in_australian_house(@house).joins(:whips).order("pw_cache_whip.party").select(:party).distinct.map{|d| d.party}
+      @parties = @parties.in_australian_house(@house).joins(:whips).order("whips.party").select(:party).distinct.map{|d| d.party}
     end
 
     if @rdisplay2 && @rdisplay2 != "rebels"
@@ -47,7 +47,7 @@ class DivisionsController < ApplicationController
     @divisions = @divisions.in_australian_house(@house) if @house
     @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
     @divisions = @divisions.with_rebellions if @rdisplay2 == "rebels"
-    @divisions = @divisions.joins(:whips).where(pw_cache_whip: {party: @party}) if @party
+    @divisions = @divisions.joins(:whips).where(whips: {party: @party}) if @party
   end
 
   def show
@@ -70,27 +70,29 @@ class DivisionsController < ApplicationController
 
     order = case @sort
     when nil, "party"
-      ["pw_mp.party", "pw_vote_sortorder.position desc", "pw_mp.last_name", "pw_mp.first_name"]
+      ["members.party", "vote_sortorders.position desc", "members.last_name", "members.first_name"]
     when "name"
-      ["pw_mp.last_name", "pw_mp.first_name"]
+      ["members.last_name", "members.first_name"]
     when "constituency"
-      ["pw_mp.constituency", "pw_mp.last_name", "pw_mp.first_name"]
+      ["members.constituency", "members.last_name", "members.first_name"]
     when "vote"
-      ["pw_vote_sortorder.position desc", "pw_mp.last_name", "pw_mp.first_name"]
+      ["vote_sortorders.position desc", "members.last_name", "members.first_name"]
     else
       raise "Unexpected value"
     end
 
     if @display.nil?
       # TODO Fix this hacky nonsense by doing this query in the db
-      @votes = @division.votes.joins(:member).joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order).find_all{|v| v.rebellion?}
+      @votes = @division.votes.joins(:member).joins("LEFT JOIN vote_sortorders ON vote_sortorders.vote = votes.vote").order(order).find_all{|v| v.rebellion?}
     elsif @display == "allvotes"
-      @votes = @division.votes.joins(:member).joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order)
+      @votes = @division.votes.joins(:member).joins("LEFT JOIN vote_sortorders ON vote_sortorders.vote = votes.vote").order(order)
     elsif @display == "allpossible"
-      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN pw_vote ON pw_mp.mp_id = pw_vote.mp_id AND pw_vote.division_id = #{@division.id}").joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order)
+      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").joins("LEFT JOIN vote_sortorders ON vote_sortorders.vote = votes.vote").order(order)
     elsif @display == "policies"
-      if params[:dmp] || user_signed_in?
-        @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
+      if params[:dmp]
+        @policy = Policy.find(params[:dmp])
+      elsif user_signed_in?
+        @policy = current_user.active_policy
       end
     else
       raise
