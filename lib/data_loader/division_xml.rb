@@ -154,7 +154,6 @@ module DataLoader
       text.gsub!('’', '&#8217;')
       text.gsub!('“', '&#8220;')
       text.gsub!('”', '&#8221;')
-      text.gsub!("'", '&#39;')
       text.gsub!('½', '&#189;')
       text.gsub(' ', '&#160;') # nbsp
     end
