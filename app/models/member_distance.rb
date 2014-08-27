@@ -33,11 +33,23 @@ class MemberDistance < ActiveRecord::Base
   end
 
   def update_cache_values!
-    self.nvotessame = MemberDistance.calculate_nvotessame(member1, member2)
-    self.nvotesdiffer = MemberDistance.calculate_nvotesdiffer(member1, member2)
-    self.nvotesabsent = MemberDistance.calculate_nvotesabsent(member1, member2)
-    self.distance_a = Distance.distance_a(nvotessame, nvotesdiffer, nvotesabsent)
-    self.distance_b = Distance.distance_b(nvotessame, nvotesdiffer)
+    distances = MemberDistance.calculate_distances(member1, member2)
+    self.nvotessame = distances[:nvotessame]
+    self.nvotesdiffer = distances[:nvotesdiffer]
+    self.nvotesabsent = distances[:nvotesabsent]
+    self.distance_a = distances[:distance_a]
+    self.distance_b = distances[:distance_b]
+  end
+
+  def self.calculate_distances(member1, member2)
+    result = {
+      nvotessame: MemberDistance.calculate_nvotessame(member1, member2),
+      nvotesdiffer: MemberDistance.calculate_nvotesdiffer(member1, member2),
+      nvotesabsent: MemberDistance.calculate_nvotesabsent(member1, member2)
+    }
+    result[:distance_a] = Distance.distance_a(result[:nvotessame], result[:nvotesdiffer], result[:nvotesabsent])
+    result[:distance_b] = Distance.distance_b(result[:nvotessame], result[:nvotesdiffer])
+    result
   end
 
   def self.calculate_nvotessame(member1, member2)
