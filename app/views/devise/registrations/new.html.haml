@@ -12,25 +12,21 @@
 = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
   = devise_error_messages!
 
-  %div
-    %b= f.label :email
-    %br
-    = f.email_field :email, autofocus: true
+  .form-group
+    = f.label :email
+    = f.email_field :email, autofocus: true, class: "form-control"
 
-  %div
-    %b= f.label 'Your name (first and last)'
-    %br
-    = f.text_field :real_name
+  .form-group
+    = f.label 'Your name (first and last)'
+    = f.text_field :real_name, class: "form-control"
 
-  %div
-    %b= f.label :password
-    %br
-    = f.password_field :password, autocomplete: "off"
+  .form-group
+    = f.label :password
+    = f.password_field :password, autocomplete: "off", class: "form-control"
 
-  %div
-    %b= f.label :password_confirmation
-    %br
-    = f.password_field :password_confirmation, autocomplete: "off"
+  .form-group
+    = f.label :password_confirmation
+    = f.password_field :password_confirmation, autocomplete: "off", class: "form-control"
 
   %p
     Privacy policy: Your email address and info will never be given to or sold
@@ -38,4 +34,4 @@
     descriptions and will display your name on division editing histories.
     Any changes to this policy will require your explicit agreement.
 
-  %div= f.submit "Sign up"
+  = f.submit "Sign up", class: "btn btn-default"
