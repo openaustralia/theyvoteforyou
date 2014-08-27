@@ -83,5 +83,11 @@ describe DataLoader::DebatesXML do
       allow(division).to receive(:minor_heading).and_return('')
       expect(division.name).to eq('Carbon Pollution Reduction Scheme (Charges &#8212; General) Bill 2009 [No. 2]')
     end
+
+    it 'should not lower case first words of minor headings' do
+      allow(division).to receive(:major_heading).and_return('FUTURE FUND BILL 2005 ')
+      allow(division).to receive(:minor_heading).and_return('In Committee ')
+      expect(division.name).to eq('Future Fund Bill 2005 &#8212; In Committee')
+    end
   end
 end

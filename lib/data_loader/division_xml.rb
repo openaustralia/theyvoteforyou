@@ -19,14 +19,14 @@ module DataLoader
 
     def name
       text = if !major_heading.blank? && !minor_heading.blank?
-               major_heading + ' &#8212; ' + minor_heading
+               title_case(major_heading) + ' &#8212; ' + title_case(minor_heading)
              elsif !major_heading.blank?
-               major_heading
+               title_case(major_heading)
              elsif !minor_heading.blank?
-               minor_heading
+               title_case(minor_heading)
              end
 
-      title_case(text).gsub('—', ' &#8212; ')
+      text.gsub('—', ' &#8212; ')
     end
 
     def source_url
@@ -176,7 +176,10 @@ module DataLoader
                       until unto upon
                       via
                       with while whilst within without)
-      title.split.map { |w| skip_words.include?(w.downcase) ? w.downcase : w }.join(' ')
+      title.split.map.with_index do |w, i|
+        # Never lower case the first word
+        i != 0 && skip_words.include?(w.downcase) ? w.downcase : w
+      end.join(' ')
     end
   end
 end
