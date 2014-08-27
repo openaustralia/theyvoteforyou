@@ -94,12 +94,10 @@ class Policy < ActiveRecord::Base
 
     policy_person_distances.reload.each do |pmd|
       pmd.update!({
-        distance_a: Distance.new(pmd.nvotessame, pmd.nvotessamestrong,
-          pmd.nvotesdiffer, pmd.nvotesdifferstrong,
-          pmd.nvotesabsent, pmd.nvotesabsentstrong).distance,
-        distance_b: Distance.new(pmd.nvotessame, pmd.nvotessamestrong,
-          pmd.nvotesdiffer, pmd.nvotesdifferstrong,
-          0, 0).distance
+        distance_a: Distance.distance_a(pmd.nvotessame, pmd.nvotesdiffer, pmd.nvotesabsent,
+          pmd.nvotessamestrong, pmd.nvotesdifferstrong, pmd.nvotesabsentstrong),
+        distance_b: Distance.distance_b(pmd.nvotessame, pmd.nvotesdiffer,
+          pmd.nvotessamestrong, pmd.nvotesdifferstrong)
       })
     end
   end

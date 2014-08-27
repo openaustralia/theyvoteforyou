@@ -78,11 +78,11 @@ class Distance
     end
   end
 
-  def self.distance_a(same, diff, absent)
-    Distance.new(same, 0, diff, 0, absent, 0).distance
+  def self.distance_a(same, diff, absent, same_strong = 0, diff_strong = 0, absent_strong = 0)
+    Distance.new(same, same_strong, diff, diff_strong, absent, absent_strong).distance
   end
 
-  def self.distance_b(same, diff)
-    distance_a(same, diff, 0)
+  def self.distance_b(same, diff, same_strong = 0, diff_strong = 0)
+    distance_a(same, diff, 0, same_strong, diff_strong, 0)
   end
 end
