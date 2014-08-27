@@ -7,8 +7,6 @@ class MemberDistance < ActiveRecord::Base
   alias_attribute :mp_id1, :member1_id
   alias_attribute :mp_id2, :member2_id
 
-  before_save :update_cache_values!
-
   def agreement_percentage
     (1 - distance_a) * 100
   end
@@ -26,19 +24,9 @@ class MemberDistance < ActiveRecord::Base
       # We're only populating half of the matrix
       members.where("id >= ?", member1.id).each do |member2|
         m = MemberDistance.find_or_initialize_by(member1: member1, member2: member2)
-        # TODO Double check that before_save callbacks are still called when existing record is found
-        m.save!
+        m.update_attributes(calculate_distances(member1, member2))
       end
     end
-  end
-
-  def update_cache_values!
-    distances = MemberDistance.calculate_distances(member1, member2)
-    self.nvotessame = distances[:nvotessame]
-    self.nvotesdiffer = distances[:nvotesdiffer]
-    self.nvotesabsent = distances[:nvotesabsent]
-    self.distance_a = distances[:distance_a]
-    self.distance_b = distances[:distance_b]
   end
 
   def self.calculate_distances(member1, member2)
