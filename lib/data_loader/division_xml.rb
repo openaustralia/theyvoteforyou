@@ -157,6 +157,7 @@ module DataLoader
       text.gsub!('”', '&#8221;')
       text.gsub!('½', '&#189;')
       text.gsub!('…', '&#8230;')
+      text.gsub!('£', '&#163;')
       text.gsub(' ', '&#160;') # nbsp
     end
 
