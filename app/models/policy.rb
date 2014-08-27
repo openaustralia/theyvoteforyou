@@ -74,18 +74,22 @@ class Policy < ActiveRecord::Base
         member_vote = member.vote_on_division_without_tell(policy_division.division)
         pmd = PolicyPersonDistance.find_or_create_by(person_id: member.person_id, policy_id: id)
 
-        if member_vote == 'absent' && policy_division.strong_vote?
-          pmd.increment! :nvotesabsentstrong
-        elsif member_vote == 'absent'
-          pmd.increment! :nvotesabsent
-        elsif member_vote == policy_division.vote_without_strong && policy_division.strong_vote?
-          pmd.increment! :nvotessamestrong
-        elsif member_vote == policy_division.vote_without_strong
-          pmd.increment! :nvotessame
-        elsif member_vote != policy_division.vote_without_strong && policy_division.strong_vote?
-          pmd.increment! :nvotesdifferstrong
-        elsif member_vote != policy_division.vote_without_strong
-          pmd.increment! :nvotesdiffer
+        if policy_division.strong_vote?
+          if member_vote == 'absent'
+            pmd.increment! :nvotesabsentstrong
+          elsif member_vote == policy_division.vote_without_strong
+            pmd.increment! :nvotessamestrong
+          else
+            pmd.increment! :nvotesdifferstrong
+          end
+        else
+          if member_vote == 'absent'
+            pmd.increment! :nvotesabsent
+          elsif member_vote == policy_division.vote_without_strong
+            pmd.increment! :nvotessame
+          else
+            pmd.increment! :nvotesdiffer
+          end
         end
       end
     end
