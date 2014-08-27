@@ -93,19 +93,14 @@ class Policy < ActiveRecord::Base
     end
 
     policy_person_distances.reload.each do |pmd|
-      pmd.update! distance_a: calculate_distance(pmd), distance_b: calculate_distance(pmd, false)
-    end
-  end
-
-  private
-
-  def calculate_distance(pmd, include_abstentions = true)
-    if include_abstentions
-      Distance.new(pmd.nvotessame, pmd.nvotessamestrong, pmd.nvotesdiffer, pmd.nvotesdifferstrong,
-        pmd.nvotesabsent, pmd.nvotesabsentstrong).distance
-    else
-      Distance.new(pmd.nvotessame, pmd.nvotessamestrong, pmd.nvotesdiffer, pmd.nvotesdifferstrong,
-        0, 0).distance
+      pmd.update!({
+        distance_a: Distance.new(pmd.nvotessame, pmd.nvotessamestrong,
+          pmd.nvotesdiffer, pmd.nvotesdifferstrong,
+          pmd.nvotesabsent, pmd.nvotesabsentstrong).distance,
+        distance_b: Distance.new(pmd.nvotessame, pmd.nvotessamestrong,
+          pmd.nvotesdiffer, pmd.nvotesdifferstrong,
+          0, 0).distance
+      })
     end
   end
 end
