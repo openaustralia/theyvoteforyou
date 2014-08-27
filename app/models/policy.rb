@@ -72,22 +72,20 @@ class Policy < ActiveRecord::Base
     policy_divisions.each do |policy_division|
       Member.current_on(policy_division.date).where(house: policy_division.house).each do |member|
         member_vote = member.vote_on_division_without_tell(policy_division.division)
-
-        # FIXME: Can't simply use find_or_create_by here thanks to the missing primary key fartarsery
-        policy_member_distance = PolicyPersonDistance.find_by(person_id: member.person_id, policy_id: id) || policy_person_distances.create!(person_id: member.person_id)
+        pmd = PolicyPersonDistance.find_or_create_by(person_id: member.person_id, policy_id: id)
 
         if member_vote == 'absent' && policy_division.strong_vote?
-          policy_member_distance.increment! :nvotesabsentstrong
+          pmd.increment! :nvotesabsentstrong
         elsif member_vote == 'absent'
-          policy_member_distance.increment! :nvotesabsent
+          pmd.increment! :nvotesabsent
         elsif member_vote == policy_division.vote_without_strong && policy_division.strong_vote?
-          policy_member_distance.increment! :nvotessamestrong
+          pmd.increment! :nvotessamestrong
         elsif member_vote == policy_division.vote_without_strong
-          policy_member_distance.increment! :nvotessame
+          pmd.increment! :nvotessame
         elsif member_vote != policy_division.vote_without_strong && policy_division.strong_vote?
-          policy_member_distance.increment! :nvotesdifferstrong
+          pmd.increment! :nvotesdifferstrong
         elsif member_vote != policy_division.vote_without_strong
-          policy_member_distance.increment! :nvotesdiffer
+          pmd.increment! :nvotesdiffer
         end
       end
     end
