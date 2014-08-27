@@ -205,32 +205,10 @@ class Division < ActiveRecord::Base
   end
 
   def self.find_by_search_query(query)
-    update_divisions_wiki_id!
-
     # FIXME: Remove nasty SQL below that was ported from PHP direct
-    joins('LEFT JOIN pw_cache_divwiki ON pw_cache_divwiki.division_date = divisions.division_date
-           AND pw_cache_divwiki.division_number = divisions.division_number AND pw_cache_divwiki.house = divisions.house
-           LEFT JOIN wiki_motions ON wiki_motions.id = pw_cache_divwiki.wiki_id')
+    joins('LEFT JOIN wiki_motions ON wiki_motions.id = (SELECT IFNULL(MAX(wiki_motions.id), -1) FROM wiki_motions  WHERE wiki_motions.division_date = divisions.division_date AND wiki_motions.division_number = divisions.division_number AND wiki_motions.house = divisions.house)')
           .where('LOWER(convert(division_name using utf8)) LIKE :query
                   OR LOWER(convert(motion using utf8)) LIKE :query
                   OR LOWER(convert(text_body using utf8)) LIKE :query', query: "%#{query}%")
-  end
-
-  # FIXME: Cargo cult SQL update from PHP's update_divisions_wiki_id() function
-  def self.update_divisions_wiki_id!
-    ActiveRecord::Base.connection.execute("INSERT INTO pw_cache_divwiki
-                                           (division_date, division_number, house, wiki_id)
-                                           SELECT divisions.division_date AS division_date,
-                                                  divisions.division_number AS division_number,
-                                                  divisions.house AS house,
-                                                  IFNULL(MAX(wiki_motions.id), -1) AS value
-                                           FROM divisions
-                                           LEFT JOIN pw_cache_divwiki ON divisions.division_date = pw_cache_divwiki.division_date AND
-                                               divisions.division_number = pw_cache_divwiki.division_number
-                                           LEFT JOIN wiki_motions ON wiki_motions.division_date = divisions.division_date
-                                               AND wiki_motions.division_number = divisions.division_number
-                                               AND wiki_motions.house = divisions.house
-                                           WHERE pw_cache_divwiki.wiki_id IS NULL
-                                           GROUP BY divisions.id")
   end
 end
