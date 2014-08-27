@@ -88,7 +88,7 @@ module DataLoader
 
     def save_votes(division)
       # TODO: Check for existing votes in the database
-      @division_xml.search(:member).each do |vote_xml|
+      @division_xml.xpath('memberlist/member').each do |vote_xml|
         member = Member.find_by!(gid: vote_xml.attr(:id))
         vote = vote_xml.attr(:teller) == 'yes' ? "tell#{vote_xml.attr(:vote)}" : vote_xml.attr(:vote)
         Vote.find_or_create_by!(division: division, member: member, vote: vote)
