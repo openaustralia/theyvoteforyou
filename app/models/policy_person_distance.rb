@@ -24,19 +24,6 @@ class PolicyPersonDistance < ActiveRecord::Base
   # alias_attribute :distance_a, :distance
   # alias_attribute :distance_b, :distance_without_abstentions
 
-  # Use update_all because we don't yet have a primary key on this model
-  # TODO: Add a primary key and get rid of this function
-  def increment!(attribute, by = 1)
-    increment(attribute, by)
-    PolicyPersonDistance.where(policy_id: policy.id, person_id: person_id).update_all(attribute => read_attribute(attribute))
-  end
-
-  # Use update_all because we don't yet have a primary key on this model
-  # TODO: Add a primary key and get rid of this function
-  def update!(attributes)
-    PolicyPersonDistance.where(policy_id: policy.id, person_id: person_id).update_all(attributes)
-  end
-
   def distance_object
     Distance.new(nvotessame, nvotessamestrong, nvotesdiffer, nvotesdifferstrong, nvotesabsent, nvotesabsentstrong)
   end
