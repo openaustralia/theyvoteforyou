@@ -142,7 +142,19 @@ module DataLoader
     end
 
     def previous_speeches_motion_text
-      previous_speeches.map { |s| speech_text s }.join
+      truncation_text = "<p>Long debate text truncated.</p>"
+      output_text = ''
+
+      previous_speeches.map { |s| speech_text s }.each do |speech|
+        if (output_text + speech).size > (15000 - truncation_text.size)
+          output_text += truncation_text
+          break
+        else
+          output_text += speech
+        end
+      end
+
+      output_text
     end
 
     # Encode certain HTML entities as found in PHP loader
