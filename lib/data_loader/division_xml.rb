@@ -49,7 +49,7 @@ module DataLoader
 
     def motion
       pwmotiontext = pwmotiontexts.map { |p| p.to_s + "\n\n" }.join
-      text = pwmotiontext.empty? ? previous_speeches.map { |s| speech_text s }.join : pwmotiontext
+      text = pwmotiontext.empty? ? previous_speeches_motion_text : pwmotiontext
       # Truncate really long motion text at the same size as formatted_motion_text
       Rails.logger.warn "Truncating very long motion text for division: #{house} #{date} #{number}" if text.size > 15000
       text.blank? ? '<p>No motion text available</p>' : encode_html_entities(text).truncate(15000)
@@ -139,6 +139,10 @@ module DataLoader
       else
         "\n\n#{speech}"
       end
+    end
+
+    def previous_speeches_motion_text
+      previous_speeches.map { |s| speech_text s }.join
     end
 
     # Encode certain HTML entities as found in PHP loader
