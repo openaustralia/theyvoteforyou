@@ -19,12 +19,13 @@ module DataLoader
 
     def name
       text = if !major_heading.blank? && !minor_heading.blank?
-        major_heading + ' &#8212; ' + minor_heading
-      elsif !major_heading.blank?
-        major_heading
-      elsif !minor_heading.blank?
-        minor_heading
-      end
+               major_heading + ' &#8212; ' + minor_heading
+             elsif !major_heading.blank?
+               major_heading
+             elsif !minor_heading.blank?
+               minor_heading
+             end
+
       title_case(text).gsub('—', ' &#8212; ')
     end
 
