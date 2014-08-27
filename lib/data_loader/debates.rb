@@ -13,10 +13,11 @@ module DataLoader
       House.australian.each do |house|
         dates.each do |date|
           # TODO: Check for the file first rather than catching the exception
+          filename = "#{Settings.xml_data_directory}/scrapedxml/#{house}_debates/#{date}.xml"
           begin
-            xml_data = File.read("#{Settings.xml_data_directory}/scrapedxml/#{house}_debates/#{date}.xml")
+            xml_data = File.read(filename)
           rescue Errno::ENOENT
-            Rails.logger.info "No XML file found for #{house} on #{date}"
+            Rails.logger.info "No XML file found for #{house} on #{date} at #{filename}"
             next
           end
 
