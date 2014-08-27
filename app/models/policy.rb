@@ -99,24 +99,13 @@ class Policy < ActiveRecord::Base
 
   private
 
-  # This is coped from the PHP app, I don't really understand the how and why so far
   def calculate_distance(pmd, include_abstentions = true)
-    nvotessame, nvotessamestrong, nvotesdiffer, nvotesdifferstrong = pmd.nvotessame, pmd.nvotessamestrong, pmd.nvotesdiffer, pmd.nvotesdifferstrong
     if include_abstentions
-      nvotesabsent, nvotesabsentstrong = pmd.nvotesabsent, pmd.nvotesabsentstrong
+      Distance.new(pmd.nvotessame, pmd.nvotessamestrong, pmd.nvotesdiffer, pmd.nvotesdifferstrong,
+        pmd.nvotesabsent, pmd.nvotesabsentstrong).distance
     else
-      nvotesabsent, nvotesabsentstrong = 0, 0
+      Distance.new(pmd.nvotessame, pmd.nvotessamestrong, pmd.nvotesdiffer, pmd.nvotesdifferstrong,
+        0, 0).distance
     end
-
-    tlw = 5.0
-
-    weight = nvotessame + tlw * nvotessamestrong +
-             nvotesdiffer + tlw * nvotesdifferstrong + 0.2 *
-             nvotesabsent + tlw * nvotesabsentstrong
-
-    score = nvotesdiffer + tlw * nvotesdifferstrong + 0.1 *
-            nvotesabsent + (tlw / 2) * nvotesabsentstrong
-
-    weight == 0.0 ? -1.0 : score / weight
   end
 end
