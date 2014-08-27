@@ -370,6 +370,12 @@ sub loaddivision {
     }
     $lastdebatetext = "";
 
+    # Truncate motion text to match Ruby
+    if (length($motion_text) > 15000) {
+        PublicWhip::Error::warn("Truncating very long motion text");
+        $motion_text = (substr($motion_text, 0, 15000-3)) . '...';
+    }
+
     $clock_time = "" if !$clock_time;
     if ($clock_time =~ m/^\d\d:\d\d$/) {
         $clock_time = $clock_time . ':00' # Add seconds if they're not present
