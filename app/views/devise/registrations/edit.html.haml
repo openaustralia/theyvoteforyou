@@ -5,44 +5,39 @@
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
   = devise_error_messages!
 
-  %div
+  .form-group
     = f.label :email
-    %br
-    = f.email_field :email, autofocus: true
+    = f.email_field :email, autofocus: true, class: "form-control"
 
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?
     %div
       Currently waiting confirmation for:
       = resource.unconfirmed_email
 
-  %div
+  .form-group
     = f.label :real_name
-    %br
-    = f.text_field :real_name
+    = f.text_field :real_name, class: "form-control"
 
-  %div
+  .form-group
     = f.label :password
-    %i (leave blank if you don't want to change it)
-    %br
-    = f.password_field :password, autocomplete: "off"
+    = f.password_field :password, autocomplete: "off", class: "form-control"
+    %span.help-block leave blank if you don't want to change it
 
-  %div
+  .form-group
     = f.label :password_confirmation
-    %br
-    = f.password_field :password_confirmation, autocomplete: "off"
+    = f.password_field :password_confirmation, autocomplete: "off", class: "form-control"
 
-  %div
+  .form-group
     = f.label :current_password
-    %i (we need your current password to confirm your changes)
-    %br
-    = f.password_field :current_password, autocomplete: "off"
+    = f.password_field :current_password, autocomplete: "off", class: "form-control"
+    %span.help-block we need your current password to confirm your changes
 
-  %div= f.submit "Update"
+  %div= f.submit "Update", class: "btn btn-primary"
 
 %h3 Cancel my account
 
 %p
   Unhappy?
-  = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete
+  = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger"
 
 = link_to "Back", :back
