@@ -62,8 +62,8 @@
   %p
     %span.ptitle Privacy notes:
     By creating a policy
-    you are making your user name
-    %b= current_user.user_name
+    you are making your name
+    %b= current_user.real_name
     and the policy's voting
     record public.
   %input.btn.btn-primary{:name => "submit", :type => "submit", :value => "Make Policy"}/

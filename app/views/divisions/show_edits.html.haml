@@ -30,7 +30,7 @@
           = link_to "#{@division.australian_house} vote #{@division.date}##{@division.number}", division_path(params)
           %p
             Edited by
-            = wiki_motion.user.user_name
+            = wiki_motion.user.real_name
           %p
             on
             = wiki_motion.edit_date.strftime('%F %T')
