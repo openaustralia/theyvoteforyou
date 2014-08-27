@@ -10,8 +10,8 @@ module DataLoader
                 [Date.parse(options[:from_date])]
               end
 
-      dates.each do |date|
-        House.australian.each do |house|
+      House.australian.each do |house|
+        dates.each do |date|
           # TODO: Check for the file first rather than catching the exception
           begin
             xml_data = File.read("#{Settings.xml_data_directory}/scrapedxml/#{house}_debates/#{date}.xml")
