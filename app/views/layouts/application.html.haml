@@ -44,9 +44,9 @@
               %li
                 = link_to "/account/settings.php", title: "Change account settings" do
                   You are:
-                  = current_user.user_name || current_user.email
+                  = current_user.real_name || current_user.email
               %li
-                = link_to "Logout", "/account/logout.php?r=#{CGI.escape(params[:r] ? params[:r] : request.fullpath)}", title: "Make your browser forget that you are logged into The Public Whip as #{current_user.user_name}"
+                = link_to "Logout", "/account/logout.php?r=#{CGI.escape(params[:r] ? params[:r] : request.fullpath)}", title: "Make your browser forget that you are logged into The Public Whip as #{current_user.real_name || current_user.email}"
             - else
               %li= link_to "Sign Up", "/account/register.php?r=#{CGI.escape(params[:r] ? params[:r] : request.fullpath)}", title: "Register to make or edit policies"
               %li= link_to "Login", "/account/settings.php?r=#{CGI.escape(params[:r] ? params[:r] : request.fullpath)}", title: "Login to edit policies"

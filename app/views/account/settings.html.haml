@@ -1,21 +1,17 @@
 - content_for :title, 'Account settings'
-- content_for :on_load, "givefocus('user_name')"
 
 %h1= yield :title
 %p
-  %span.ptitle User name:
-  = current_user.user_name
+  %span.ptitle Email:
+  = current_user.email
+  (
+  = link_to "change email", edit_user_registration_path
+  )
   %br/
   %span.ptitle Real name:
   = current_user.real_name
   (
   = link_to "change real name", edit_user_registration_path
-  )
-  %br/
-  %span.ptitle Email:
-  = current_user.email
-  (
-  = link_to "change email", edit_user_registration_path
   )
   %br/
   %span.ptitle Password:
