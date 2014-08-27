@@ -1,5 +1,7 @@
 module DataLoader
   class DivisionXML
+    MAXIMUM_MOTION_TEXT_SIZE = 15000
+
     def initialize(division_xml, house)
       @division_xml = division_xml
       @house = House.australian_to_uk(house)
@@ -52,7 +54,7 @@ module DataLoader
       text = pwmotiontext.empty? ? previous_speeches_motion_text : pwmotiontext
       # Truncate really long motion text at the same size as formatted_motion_text
       Rails.logger.warn "Truncating very long motion text for division: #{house} #{date} #{number}" if text.size > 15000
-      text.blank? ? '<p>No motion text available</p>' : encode_html_entities(text).truncate(15000)
+      text.blank? ? '<p>No motion text available</p>' : encode_html_entities(text).truncate(MAXIMUM_MOTION_TEXT_SIZE)
     end
 
     def clock_time
@@ -146,7 +148,7 @@ module DataLoader
       output_text = ''
 
       previous_speeches.map { |s| speech_text s }.each do |speech|
-        if (output_text + speech).size > (15000 - truncation_text.size)
+        if (output_text + speech).size > (MAXIMUM_MOTION_TEXT_SIZE - truncation_text.size)
           output_text += truncation_text
           break
         else
