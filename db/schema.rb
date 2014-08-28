@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140828074700) do
+ActiveRecord::Schema.define(version: 20140828080040) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -230,16 +230,12 @@ ActiveRecord::Schema.define(version: 20140828074700) do
   add_index "whips", ["division_id", "party"], name: "division_id", unique: true, using: :btree
 
   create_table "wiki_motions", force: true do |t|
-    t.date     "division_date",             null: false
-    t.integer  "division_number",           null: false
-    t.string   "house",           limit: 8, null: false
-    t.text     "text_body",                 null: false
-    t.integer  "user_id",                   null: false
+    t.text     "text_body",   null: false
+    t.integer  "user_id",     null: false
     t.datetime "edit_date"
     t.integer  "division_id"
   end
 
-  add_index "wiki_motions", ["division_date", "division_number", "house"], name: "division_date", using: :btree
   add_index "wiki_motions", ["division_id"], name: "index_wiki_motions_on_division_id", using: :btree
 
 end

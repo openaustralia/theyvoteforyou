@@ -1,16 +1,12 @@
 one:
   id: 1
-  division_date: 2013-3-14
-  division_number: 1
-  house: "commons"
+  division_id: 1
   text_body: "--- DIVISION TITLE ---\n\ntest\n\n--- MOTION EFFECT ---\n\nThis is some test text.\n\nIt might relate to bills containing HTML characters like the Carbon Pollution Reduction Scheme Bill&#160;2009 and Bills &#8212; National Disability Insurance Scheme Bill\n--- COMMENTS AND NOTES ---\n\n(put thoughts and notes for other researchers here)\n"
   user_id: 1
   edit_date: 2013-10-20 10:12:13
 two:
   id: 2
-  division_date: 2006-12-06
-  division_number: 3
-  house: commons
+  division_id: 347
   text_body: "--- DIVISION TITLE ---\n\nProhibition of Human Cloning for Reproduction
     and the Regulation of Human Embryo Research Amendment Bill 2006 - Consideration
     in Detail\n\n--- MOTION EFFECT ---\n\n@MP voted aye to make this vote pass\r\n@MP

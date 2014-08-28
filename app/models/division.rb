@@ -14,11 +14,11 @@ class Division < ActiveRecord::Base
   scope :in_parliament, ->(parliament) { where("date >= ? AND date < ?", parliament[:from], parliament[:to]) }
 
   def wiki_motions
-    WikiMotion.order(edit_date: :desc).where(division_date: date, division_number: number, house: house)
+    WikiMotion.order(edit_date: :desc).where(division_id: id)
   end
 
   def wiki_motion
-    WikiMotion.order(edit_date: :desc).find_by(division_date: date, division_number: number, house: house)
+    WikiMotion.order(edit_date: :desc).find_by(division_id: id)
   end
 
   def self.most_recent_date
@@ -181,9 +181,6 @@ class Division < ActiveRecord::Base
   def create_wiki_motion!(title, description, user)
     division = Division.find_by!(date: date, number: number, house: house)
     WikiMotion.create!(division_id: division.id,
-      division_date: date,
-      division_number: number,
-      house: house,
       title: title,
       description: description,
       user: user,
@@ -192,7 +189,7 @@ class Division < ActiveRecord::Base
 
   def self.find_by_search_query(query)
     # FIXME: Remove nasty SQL below that was ported from PHP direct
-    joins('LEFT JOIN wiki_motions ON wiki_motions.id = (SELECT IFNULL(MAX(wiki_motions.id), -1) FROM wiki_motions  WHERE wiki_motions.division_date = divisions.date AND wiki_motions.division_number = divisions.number AND wiki_motions.house = divisions.house)')
+    joins('LEFT JOIN wiki_motions ON wiki_motions.id = (SELECT IFNULL(MAX(wiki_motions.id), -1) FROM wiki_motions  WHERE wiki_motions.division_id = divisions.id)')
           .where('LOWER(convert(name using utf8)) LIKE :query
                   OR LOWER(convert(motion using utf8)) LIKE :query
                   OR LOWER(convert(text_body using utf8)) LIKE :query', query: "%#{query}%")
