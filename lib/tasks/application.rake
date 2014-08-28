@@ -31,7 +31,9 @@ namespace :application do
 
   desc 'Reloads members, offices and electorates from XML files'
   task :reload_member_data => [:environment, :set_logger_to_stdout] do
-    DataLoader::MembersXML.load_all
+    DataLoader::Electorates.load!
+    DataLoader::Offices.load!
+    DataLoader::MembersXML.load_representatives_and_senators
   end
 
   desc 'Load divisions from XML for a specified date'

@@ -4,12 +4,6 @@ require 'cgi'
 module DataLoader
   class MembersXML
     class << self
-      def load_all
-        Electorates.load!
-        Offices.load!
-        load_representatives_and_senators
-      end
-
       # representatives.xml & senators.xml
       def load_representatives_and_senators
         Rails.logger.info "Reloading representatives and senators..."
