@@ -44,9 +44,10 @@ class Whip < ActiveRecord::Base
   def self.calc_all_votes_per_party2
     r = {}
     calc_all_votes_per_party.each do |k, count|
-      votes = r[[k[0], k[1]]] || {}
-      votes[k[2]] = count
-      r[[k[0], k[1]]] = votes
+      division_id, party, vote = k
+      votes = r[[division_id, party]] || {}
+      votes[vote] = count
+      r[[division_id, party]] = votes
     end
     r
   end
