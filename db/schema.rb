@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140828062935) do
+ActiveRecord::Schema.define(version: 20140828071906) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -144,17 +144,13 @@ ActiveRecord::Schema.define(version: 20140828062935) do
   add_index "policies", ["user_id"], name: "user_id", using: :btree
 
   create_table "policy_divisions", force: true do |t|
-    t.date    "division_date",              null: false
-    t.integer "division_number",            null: false
-    t.string  "house",           limit: 8,  null: false
-    t.integer "policy_id",                  null: false
-    t.string  "vote",            limit: 10, null: false
+    t.integer "policy_id",              null: false
+    t.string  "vote",        limit: 10, null: false
     t.integer "division_id"
   end
 
-  add_index "policy_divisions", ["division_date", "division_number", "house", "policy_id"], name: "division_date_2", unique: true, using: :btree
-  add_index "policy_divisions", ["division_date"], name: "division_date", using: :btree
-  add_index "policy_divisions", ["division_number"], name: "division_number", using: :btree
+  add_index "policy_divisions", ["division_id", "policy_id"], name: "index_policy_divisions_on_division_id_and_policy_id", unique: true, using: :btree
+  add_index "policy_divisions", ["division_id"], name: "index_policy_divisions_on_division_id", using: :btree
   add_index "policy_divisions", ["policy_id"], name: "dream_id", using: :btree
 
   create_table "policy_person_distances", force: true do |t|

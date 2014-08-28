@@ -1,10 +1,7 @@
 class PolicyDivision < ActiveRecord::Base
   belongs_to :policy
 
-  alias_attribute :date, :division_date
-  alias_attribute :number, :division_number
-
-  delegate :name, :australian_house, :australian_house_name, to: :division
+  delegate :name, :australian_house, :australian_house_name, :date, :number, :house, to: :division
 
   # TODO Make this an association
   def division

@@ -55,7 +55,7 @@ class Policy < ActiveRecord::Base
     end
 
     if vote != '--'
-      PolicyDivision.create! division_id: division.id, house: division.house, division_date: division.date, division_number: division.number, policy: self, vote: vote
+      PolicyDivision.create! division_id: division.id, policy: self, vote: vote
     end
 
     delay.calculate_member_agreement_percentages!
