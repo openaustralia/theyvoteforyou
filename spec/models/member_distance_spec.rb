@@ -14,10 +14,10 @@ describe MemberDistance, :type => :model do
   it { expect(Member.all).to be_empty }
 
   describe "calculating cache values" do
-    let(:membera) { Member.create(mp_id: 1, first_name: "Member", last_name: "A", gid: "A", source_gid: "A",
+    let(:membera) { Member.create(id: 1, first_name: "Member", last_name: "A", gid: "A", source_gid: "A",
       title: "", constituency: "foo", party: "Party", house: "commons",
       entered_house: Date.new(1990,1,1), left_house: Date.new(2001,1,1)) }
-    let(:memberb) { Member.create(mp_id: 2, first_name: "Member", last_name: "B", gid: "B", source_gid: "B",
+    let(:memberb) { Member.create(id: 2, first_name: "Member", last_name: "B", gid: "B", source_gid: "B",
       title: "", constituency: "bar", party: "Party", house: "commons",
       entered_house: Date.new(1999,1,1), left_house: Date.new(2010,1,1)) }
 

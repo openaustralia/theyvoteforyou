@@ -10,19 +10,10 @@ class PolicyPersonDistance < ActiveRecord::Base
 
   belongs_to :policy
 
-  # TODO Remove these as soon as we can
-  alias_attribute :dream_id, :policy_id
-  alias_attribute :person, :person_id
-
   # TODO replace with association when we can
   def person_object
     Person.new(id: person_id)
   end
-
-  # TODO: Rename these attributes.
-  # These are disabled because we can't use these yet thanks to the missing primary key ass hattery below
-  # alias_attribute :distance_a, :distance
-  # alias_attribute :distance_b, :distance_without_abstentions
 
   def distance_object
     Distance.new(nvotessame, nvotessamestrong, nvotesdiffer, nvotesdifferstrong, nvotesabsent, nvotesabsentstrong)

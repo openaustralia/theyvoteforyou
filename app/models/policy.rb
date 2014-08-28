@@ -7,9 +7,6 @@ class Policy < ActiveRecord::Base
   validates :name, :description, :user_id, :private, presence: true
   validates :name, uniqueness: true
 
-  # TODO Remove this as soon as we can
-  alias_attribute :dream_id, :id
-
   def vote_for_division(division)
     policy_division = division.policy_divisions.find_by(policy: self)
     policy_division.vote if policy_division

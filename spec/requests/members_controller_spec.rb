@@ -164,32 +164,18 @@ describe MembersController, :type => :request do
 
     context "Barnaby Joyce" do
       before :each do
-        Member.create(mp_id: 664, gid: "uk.org.publicwhip/member/664", source_gid: "",
-          first_name: "Barnaby", last_name: "Joyce", title: "", person: 10350,
+        Member.create(id: 664, gid: "uk.org.publicwhip/member/664", source_gid: "",
+          first_name: "Barnaby", last_name: "Joyce", title: "", person_id: 10350,
           party: "National Party",
           house: "commons", constituency: "New England",
           entered_house: "2013-09-07", left_house: "9999-12-31")
-        Member.create(mp_id: 100114, gid: "uk.org.publicwhip/lord/100114", source_gid: "",
-          first_name: "Barnaby", last_name: "Joyce", title: "", person: 10350,
+        Member.create(id: 100114, gid: "uk.org.publicwhip/lord/100114", source_gid: "",
+          first_name: "Barnaby", last_name: "Joyce", title: "", person_id: 10350,
           party: "National Party",
           house: "lords", constituency: "Queensland",
           entered_house: "2005-07-01", left_house: "2013-08-08")
 
-        #<Member mp_id: 664, gid: "uk.org.publicwhip/member/664", source_gid: "",
-        #first_name: "Barnaby", last_name: "Joyce", title: "", constituency: "New England",
-        #party: "National Party", house: "commons", entered_house: "2013-09-07",
-        #left_house: "9999-12-31", entered_reason: "general_election",
-        #left_reason: "still_in_office", person: 10350>
-
-        #<Member mp_id: 100114, gid: "uk.org.publicwhip/lord/100114", source_gid: "",
-        #first_name: "Barnaby", last_name: "Joyce", title: "", constituency: "Queensland",
-        #party: "National Party", house: "lords", entered_house: "2005-07-01",
-        #left_house: "2013-08-08", entered_reason: "general_election",
-        #left_reason: "resigned", person: 10350>
-
-        Electorate.create(cons_id: 143, name: "New England", main_name: true)
-        #<Electorate cons_id: 143, name: "New England", main_name: true, from_date: "1000-01-01",
-        #to_date: "9999-12-31", house: "commons">
+        Electorate.create(id: 143, name: "New England", main_name: true)
       end
 
       it { compare_static("/mp.php?mpid=664") }

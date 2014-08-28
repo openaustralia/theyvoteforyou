@@ -1,7 +1,5 @@
 class MemberInfo < ActiveRecord::Base
   belongs_to :member
-  # TODO Get rid of this as soon as we can
-  alias_attribute :mp_id, :member_id
 
   def self.update_all!
     rebellions = all_rebellion_counts

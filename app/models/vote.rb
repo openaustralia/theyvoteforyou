@@ -6,9 +6,6 @@ class Vote < ActiveRecord::Base
   delegate :whip_guess, :free?, to: :whip
   delegate :date, to: :division
 
-  # TODO Remove this as soon as we can
-  alias_attribute :mp_id, :member_id
-
   def whip
     division.whips.where(party: party).first
   end

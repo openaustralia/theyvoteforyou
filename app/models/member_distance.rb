@@ -3,10 +3,6 @@ class MemberDistance < ActiveRecord::Base
   belongs_to :member1, class_name: "Member"
   belongs_to :member2, class_name: "Member"
 
-  # TODO Remove these as soon as we can
-  alias_attribute :mp_id1, :member1_id
-  alias_attribute :mp_id2, :member2_id
-
   def agreement_percentage
     (1 - distance_a) * 100
   end

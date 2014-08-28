@@ -12,10 +12,6 @@ class Member < ActiveRecord::Base
   has_many :divisions, through: :votes
   has_many :member_distances, foreign_key: :member1_id
 
-  # TODO Get rid of the following lines when we can
-  alias_attribute :mp_id, :id
-  alias_attribute :person, :person_id
-
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
   def self.parse_first_last_name(name)
     name = name.split(" ")

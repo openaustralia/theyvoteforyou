@@ -7,9 +7,6 @@ class WikiMotion < ActiveRecord::Base
 
   before_save :set_text_body, unless: :text_body
 
-  # TODO Remove this as soon as is possible
-  alias_attribute :wiki_id, :id
-
   def division
     Division.find_by(division_date: division_date, division_number: division_number, house: house)
   end
