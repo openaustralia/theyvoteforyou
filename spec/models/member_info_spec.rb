@@ -40,9 +40,9 @@ describe MemberInfo, :type => :model do
     end
 
     it do
-      Vote.create(division: division1, member: membera, vote: "no")
-      Vote.create(division: division1, member: memberb, vote: "tellno")
-      Vote.create(division: division2, member: membera, vote: "aye")
+      Vote.create(division: division1, member: membera, vote: "no", vote_without_tell: "no")
+      Vote.create(division: division1, member: memberb, vote: "tellno", vote_without_tell: "no", teller: true)
+      Vote.create(division: division2, member: membera, vote: "aye", vote_without_tell: "aye")
       expect(MemberInfo.all_rebellion_counts).to eq ({})
       expect(MemberInfo.all_tells_counts).to eq({2 => 1})
       expect(MemberInfo.all_votes_attended_counts).to eq({1 => 2, 2 => 1})
@@ -53,8 +53,8 @@ describe MemberInfo, :type => :model do
     end
 
     it do
-      Vote.create(division: division1, member: membera, vote: "tellaye")
-      Vote.create(division: division1, member: memberb, vote: "aye")
+      Vote.create(division: division1, member: membera, vote: "tellaye", vote_without_tell: "aye", teller: true)
+      Vote.create(division: division1, member: memberb, vote: "aye", vote_without_tell: "aye")
       expect(MemberInfo.all_rebellion_counts).to eq ({1 => 1, 2 => 1})
       expect(MemberInfo.all_tells_counts).to eq({1 => 1})
       expect(MemberInfo.all_votes_attended_counts).to eq({1 => 1, 2 => 1})

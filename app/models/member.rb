@@ -245,10 +245,8 @@ class Member < ActiveRecord::Base
   def rebellious_vote
     whip = Whip.arel_table
     vote = Vote.arel_table
-    aye = (vote[:vote].eq("aye")).or(vote[:vote].eq("tellaye"))
-    no = (vote[:vote].eq("no")).or(vote[:vote].eq("tellno"))
-    rebel_aye = aye.and(whip[:whip_guess].eq("no"))
-    rebel_no = no.and(whip[:whip_guess].eq("aye"))
+    rebel_aye = vote[:vote_without_tell].eq("aye").and(whip[:whip_guess].eq("no"))
+    rebel_no = vote[:vote_without_tell].eq("no").and(whip[:whip_guess].eq("aye"))
     whip[:party].eq(party).and(rebel_aye.or(rebel_no))
   end
 end

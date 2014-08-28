@@ -14,19 +14,19 @@ class Vote < ActiveRecord::Base
   # TODO Rename to rebellions
   def self.rebellious
     joins(:member, {:division => :whips}).where("whips.party = members.party").
-      where("(whips.whip_guess = 'aye' AND (votes.vote = 'no' OR votes.vote = 'tellno' OR votes.vote = 'abstention')) OR (whips.whip_guess = 'no' AND (votes.vote = 'aye' OR votes.vote = 'tellaye' OR votes.vote = 'abstention')) OR (whips.whip_guess = 'abstention' AND (votes.vote = 'aye' OR votes.vote = 'tellaye' OR votes.vote = 'no' OR votes.vote = 'tellno'))")
+      where("(whips.whip_guess = 'aye' AND (votes.vote_without_tell = 'no' OR votes.vote_without_tell = 'abstention')) OR (whips.whip_guess = 'no' AND (votes.vote_without_tell = 'aye' OR votes.vote_without_tell = 'abstention')) OR (whips.whip_guess = 'abstention' AND (votes.vote_without_tell = 'aye' OR votes.vote_without_tell = 'no'))")
   end
 
   def self.tells
-    where("votes.vote = 'tellaye' OR votes.vote = 'tellno'")
+    where(teller: true)
   end
 
   def self.ayes
-    where("votes.vote = 'aye' OR votes.vote = 'tellaye'")
+    where("votes.vote_without_tell = 'aye'")
   end
 
   def self.noes
-    where("votes.vote = 'no' OR votes.vote = 'tellno'")
+    where("votes.vote_without_tell = 'no'")
   end
 
   def rebellion?

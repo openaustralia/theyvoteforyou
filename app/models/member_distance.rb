@@ -46,7 +46,7 @@ class MemberDistance < ActiveRecord::Base
       .joins("LEFT JOIN votes AS votes2 on votes2.division_id = divisions.id")
       .where("votes1.member_id = ?", member1.id)
       .where("votes2.member_id = ?", member2.id)
-      .where("((votes1.vote = 'aye' OR votes1.vote = 'tellaye') AND (votes2.vote = 'aye' OR votes2.vote = 'tellaye')) OR ((votes1.vote = 'no' OR votes1.vote = 'tellno') AND (votes2.vote = 'no' OR votes2.vote = 'tellno'))")
+      .where("(votes1.vote_without_tell = 'aye' AND votes2.vote_without_tell = 'aye') OR (votes1.vote_without_tell = 'no' AND votes2.vote_without_tell = 'no')")
       .count
   end
 
@@ -56,7 +56,7 @@ class MemberDistance < ActiveRecord::Base
       .joins("LEFT JOIN votes AS votes2 on votes2.division_id = divisions.id")
       .where("votes1.member_id = ?", member1.id)
       .where("votes2.member_id = ?", member2.id)
-      .where("((votes1.vote = 'aye' OR votes1.vote = 'tellaye') AND (votes2.vote = 'no' OR votes2.vote = 'tellno')) OR ((votes1.vote = 'no' OR votes1.vote = 'tellno') AND (votes2.vote = 'aye' OR votes2.vote = 'tellaye'))")
+      .where("(votes1.vote_without_tell = 'aye' AND votes2.vote_without_tell = 'no') OR (votes1.vote_without_tell = 'no' AND votes2.vote_without_tell = 'aye')")
       .count
   end
 
