@@ -4,9 +4,9 @@ module DataLoader
     # to_date - A single date
     def self.load!(from_date, to_date = nil)
       dates = if to_date
-                Date.parse(from_date)..Date.parse(to_date)
+                from_date..to_date
               else
-                [Date.parse(from_date])]
+                [from_date]
               end
 
       House.australian.each do |house|
