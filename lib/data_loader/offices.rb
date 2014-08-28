@@ -6,7 +6,7 @@ module DataLoader
       Rails.logger.info "Deleted #{Office.delete_all} offices"
       ministers_xml = Nokogiri.parse(File.read("#{Settings.xml_data_directory}/members/ministers.xml"))
       ministers_xml.search(:moffice).each do |moffice|
-        person = Members.member_to_person[moffice[:matchid]]
+        person = People.member_to_person[moffice[:matchid]]
         raise "MP #{moffice[:name]} has no person" unless person
 
         # FIXME: Don't truncate position https://github.com/openaustralia/publicwhip/issues/278

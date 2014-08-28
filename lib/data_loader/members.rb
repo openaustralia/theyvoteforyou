@@ -34,7 +34,7 @@ module DataLoader
               raise "Unknown gid type #{gid}"
             end
 
-            person = member_to_person[member[:id]]
+            person = People.member_to_person[member[:id]]
             raise "MP #{member[:id]} has no person" unless person
             person = person[/uk.org.publicwhip\/person\/(\d*)/, 1]
 
@@ -56,24 +56,6 @@ module DataLoader
           end
         end
         Rails.logger.info "Loaded #{Member.count} members"
-      end
-
-      def member_to_person
-        @member_to_person ||= load_people
-      end
-
-      private
-
-      # people.xml
-      def load_people
-        people_xml = Nokogiri.parse(File.read("#{Settings.xml_data_directory}/members/people.xml"))
-        member_to_person = {}
-        people_xml.search(:person).each do |person|
-          person.search(:office).each do |office|
-            member_to_person[office[:id]] = person[:id]
-          end
-        end
-        member_to_person
       end
     end
   end
