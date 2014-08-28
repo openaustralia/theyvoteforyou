@@ -5,7 +5,7 @@ module DataLoader
   class Members
     class << self
       # representatives.xml & senators.xml
-      def load_representatives_and_senators
+      def load!
         Rails.logger.info "Reloading representatives and senators..."
         Rails.logger.info "Deleted #{Member.delete_all} members"
         %w(representatives senators).each do |file|

@@ -33,7 +33,7 @@ namespace :application do
   task :reload_member_data => [:environment, :set_logger_to_stdout] do
     DataLoader::Electorates.load!
     DataLoader::Offices.load!
-    DataLoader::Members.load_representatives_and_senators
+    DataLoader::Members.load!
   end
 
   desc 'Load divisions from XML for a specified date'
