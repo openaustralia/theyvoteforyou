@@ -68,25 +68,6 @@ module DataLoader
       end
     end
 
-    def save!
-      ActiveRecord::Base.transaction do
-        division = Division.find_or_initialize_by(date: date, number: number, house: house)
-        division.update!(valid: true,
-                         name: name,
-                         source_url: source_url,
-                         debate_url: debate_url,
-                         source_gid: source_gid,
-                         debate_gid: debate_gid,
-                         motion: motion,
-                         clock_time: clock_time,
-                         notes: '')
-        # TODO: Check for existing votes in the database
-        votes.each do |gid, vote|
-          Vote.find_or_create_by!(division: division, member: Member.find_by!(gid: gid), vote: vote)
-        end
-      end
-    end
-
     # Returns a hash of votes in the form of member gid => vote
     def votes
       votes = @division_xml.xpath('memberlist/member').map do |vote_xml|
