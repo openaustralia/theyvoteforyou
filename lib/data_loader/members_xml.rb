@@ -5,27 +5,9 @@ module DataLoader
   class MembersXML
     class << self
       def load_all
-        load_electorates
+        Electorates.load!
         load_offices
         load_representatives_and_senators
-      end
-
-      # divisions.xml
-      def load_electorates
-        Rails.logger.info "Reloading electorates..."
-        Rails.logger.info "Deleted #{Electorate.delete_all} electorates"
-        electorates_xml = Nokogiri.parse(File.read("#{Settings.xml_data_directory}/members/divisions.xml"))
-        electorates_xml.search(:division).each do |division|
-          Electorate.create!(cons_id: division[:id][/uk.org.publicwhip\/cons\/(\d*)/, 1],
-                             # TODO: Support multiple electorate names
-                             name: MembersXML.escape_html(division.at(:name)[:text]),
-                             main_name: true,
-                             from_date: division[:fromdate],
-                             to_date: division[:todate],
-                             # TODO: Support Scottish parliament
-                             house: 'commons')
-        end
-        Rails.logger.info "Loaded #{Electorate.count} electorates"
       end
 
       # ministers.xml
@@ -111,6 +93,13 @@ module DataLoader
         Rails.logger.info "Loaded #{Member.count} members"
       end
 
+      # Urgh, add extra HTML escaping that's done in PHP but not Ruby
+      def self.escape_html(text)
+        text = CGI::escape_html(text)
+        text.gsub!('’', '&rsquo;')
+        text.gsub('‘', '&lsquo;')
+      end
+
       private
 
       def member_to_person
@@ -128,13 +117,6 @@ module DataLoader
         end
 
         @member_to_person = member_to_person
-      end
-
-      # Urgh, add extra HTML escaping that's done in PHP but not Ruby
-      def self.escape_html(text)
-        text = CGI::escape_html(text)
-        text.gsub!('’', '&rsquo;')
-        text.gsub('‘', '&lsquo;')
       end
     end
   end
