@@ -80,7 +80,10 @@ module DataLoader
                          motion: motion,
                          clock_time: clock_time,
                          notes: '')
-        save_votes(division)
+        # TODO: Check for existing votes in the database
+        votes.each do |gid, vote|
+          Vote.find_or_create_by!(division: division, member: Member.find_by!(gid: gid), vote: vote)
+        end
       end
     end
 
@@ -95,13 +98,6 @@ module DataLoader
     end
 
     private
-
-    def save_votes(division)
-      # TODO: Check for existing votes in the database
-      votes.each do |gid, vote|
-        Vote.find_or_create_by!(division: division, member: Member.find_by!(gid: gid), vote: vote)
-      end
-    end
 
     def preceeding_major_heading_element
       find_previous('major-heading')
