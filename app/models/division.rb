@@ -179,13 +179,15 @@ class Division < ActiveRecord::Base
   end
 
   def create_wiki_motion!(title, description, user)
-    WikiMotion.create!(division_date: date,
-                       division_number: number,
-                       house: house,
-                       title: title,
-                       description: description,
-                       user: user,
-                       edit_date: Time.now)
+    division = Division.find_by!(date: date, number: number, house: house)
+    WikiMotion.create!(division_id: division.id,
+      division_date: date,
+      division_number: number,
+      house: house,
+      title: title,
+      description: description,
+      user: user,
+      edit_date: Time.now)
   end
 
   def self.find_by_search_query(query)
