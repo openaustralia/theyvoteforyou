@@ -18,7 +18,7 @@ module DataLoader
         electorates_xml.search(:division).each do |division|
           Electorate.create!(cons_id: division[:id][/uk.org.publicwhip\/cons\/(\d*)/, 1],
                              # TODO: Support multiple electorate names
-                             name: escape_html(division.at(:name)[:text]),
+                             name: MembersXML.escape_html(division.at(:name)[:text]),
                              main_name: true,
                              from_date: division[:fromdate],
                              to_date: division[:todate],
@@ -47,9 +47,9 @@ module DataLoader
           responsibility = moffice[:responsibility] || ''
 
           Office.create!(moffice_id: moffice[:id][/uk.org.publicwhip\/moffice\/(\d*)/, 1],
-                         dept: escape_html(moffice[:dept]),
-                         position: escape_html(position),
-                         responsibility: escape_html(responsibility),
+                         dept: MembersXML.escape_html(moffice[:dept]),
+                         position: MembersXML.escape_html(position),
+                         responsibility: MembersXML.escape_html(responsibility),
                          from_date: moffice[:fromdate],
                          to_date: moffice[:todate],
                          person: person[/uk.org.publicwhip\/person\/(\d*)/, 1])
@@ -92,10 +92,10 @@ module DataLoader
             person = person[/uk.org.publicwhip\/person\/(\d*)/, 1]
 
             Member.where(gid: gid).destroy_all
-            Member.create!(first_name: escape_html(member[:firstname]),
-                           last_name: escape_html(member[:lastname]),
+            Member.create!(first_name: MembersXML.escape_html(member[:firstname]),
+                           last_name: MembersXML.escape_html(member[:lastname]),
                            title: member[:title],
-                           constituency: escape_html(member[:division]),
+                           constituency: MembersXML.escape_html(member[:division]),
                            party: member[:party],
                            house: house,
                            entered_house: member[:fromdate],
@@ -131,7 +131,7 @@ module DataLoader
       end
 
       # Urgh, add extra HTML escaping that's done in PHP but not Ruby
-      def escape_html(text)
+      def self.escape_html(text)
         text = CGI::escape_html(text)
         text.gsub!('’', '&rsquo;')
         text.gsub('‘', '&lsquo;')
