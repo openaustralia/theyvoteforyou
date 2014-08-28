@@ -1,12 +1,8 @@
 class PolicyDivision < ActiveRecord::Base
   belongs_to :policy
+  belongs_to :division
 
   delegate :name, :australian_house, :australian_house_name, :date, :number, :house, to: :division
-
-  # TODO Make this an association
-  def division
-    Division.find(division_id)
-  end
 
   def strong_vote?
     vote == 'aye3' || vote == 'no3'

@@ -1,5 +1,6 @@
 class Policy < ActiveRecord::Base
   has_many :policy_divisions
+  has_many :divisions, through: :policy_divisions
   has_many :policy_person_distances, dependent: :destroy
   has_many :divisions, through: :policy_divisions
   belongs_to :user
@@ -10,11 +11,6 @@ class Policy < ActiveRecord::Base
   def vote_for_division(division)
     policy_division = division.policy_divisions.find_by(policy: self)
     policy_division.vote if policy_division
-  end
-
-  # HACK: Not using an association due to the fact that policy_divisions doesn't include a division_id!
-  def divisions
-    policy_divisions.collect { |pd| pd.division }
   end
 
   def votes_count

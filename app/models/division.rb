@@ -2,6 +2,8 @@ class Division < ActiveRecord::Base
   has_one :division_info
   has_many :whips
   has_many :votes
+  has_many :policy_divisions
+  has_many :policies, through: :policy_divisions
 
   delegate :turnout, :aye_majority, to: :division_info
 
@@ -10,17 +12,6 @@ class Division < ActiveRecord::Base
   # TODO This doesn't exactly match the wording in the interface. Fix this.
   scope :with_rebellions, -> { joins(:division_info).where("rebellions > 10") }
   scope :in_parliament, ->(parliament) { where("date >= ? AND date < ?", parliament[:from], parliament[:to]) }
-
-  # TODO Convert this to an association when we refer to division by id. Need to make sure that
-  # division loading code doesn't change id's
-  def policy_divisions
-    PolicyDivision.where(division_id: id)
-  end
-
-  # TODO Convert to an association. See above
-  def policies
-    policy_divisions.collect { |pd| pd.policy } if policy_divisions
-  end
 
   def wiki_motions
     WikiMotion.order(edit_date: :desc).where(division_date: date, division_number: number, house: house)
