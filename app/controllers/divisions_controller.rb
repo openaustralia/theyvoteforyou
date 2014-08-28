@@ -65,7 +65,7 @@ class DivisionsController < ApplicationController
       member = Member.in_australian_house(house).where(first_name: first_name, last_name: last_name)
       member = member.where(constituency: electorate) if electorate != "Senate"
       member = member.first
-      @member = member.person_object.member_who_voted_on_division(@division)
+      @member = member.person.member_who_voted_on_division(@division)
     end
 
     order = case @sort

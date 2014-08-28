@@ -68,7 +68,7 @@
             %td= vote.electorate
             %td
               = vote.party_long2
-              - if vote.member.person_object.on_front_bench?(division.date)
+              - if vote.member.person.on_front_bench?(division.date)
                 (front bench)
             %td= vote.vote
     - elsif display == "allpossible"
@@ -78,7 +78,7 @@
           %td= link_to_if division.australian_house == "representatives", member.electorate, electorate_path(member)
           %td
             = member.party_long2
-            - if member.person_object.on_front_bench?(division.date)
+            - if member.person.on_front_bench?(division.date)
               (front bench)
           %td= member.vote_on_division_without_tell(division)
     - else

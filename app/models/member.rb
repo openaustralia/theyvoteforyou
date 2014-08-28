@@ -22,7 +22,7 @@ class Member < ActiveRecord::Base
     [first_name, last_name]
   end
 
-  def person_object
+  def person
     Person.new(id: person_id)
   end
 

@@ -81,13 +81,13 @@ class MembersController < ApplicationController
     if params[:dmp]
       @policy = Policy.find(params[:dmp])
       # Pick the member where the votes took place
-      @member = @member.person_object.member_for_policy(@policy)
+      @member = @member.person.member_for_policy(@policy)
       # Not using PolicyPersonDistance.find_by because of the messed up association with the Member model
-      unless @policy_member_distance = @member.person_object.policy_person_distances.find_by(policy: @policy)
+      unless @policy_member_distance = @member.person.policy_person_distances.find_by(policy: @policy)
         @policy_member_distance = PolicyPersonDistance.new
       end
-      @agreement_fraction_with_policy = @member.person_object.agreement_fraction_with_policy(@policy)
-      @number_of_votes_on_policy = @member.person_object.number_of_votes_on_policy(@policy)
+      @agreement_fraction_with_policy = @member.person.agreement_fraction_with_policy(@policy)
+      @number_of_votes_on_policy = @member.person.number_of_votes_on_policy(@policy)
     end
 
     if @policy
