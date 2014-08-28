@@ -84,14 +84,22 @@ module DataLoader
       end
     end
 
+    # Returns a hash of votes in the form of member gid => vote
+    def votes
+      votes = @division_xml.xpath('memberlist/member').map do |vote_xml|
+        gid = vote_xml.attr(:id)
+        vote = vote_xml.attr(:teller) == 'yes' ? "tell#{vote_xml.attr(:vote)}" : vote_xml.attr(:vote)
+        [gid, vote]
+      end
+      Hash[votes]
+    end
+
     private
 
     def save_votes(division)
       # TODO: Check for existing votes in the database
-      @division_xml.xpath('memberlist/member').each do |vote_xml|
-        member = Member.find_by!(gid: vote_xml.attr(:id))
-        vote = vote_xml.attr(:teller) == 'yes' ? "tell#{vote_xml.attr(:vote)}" : vote_xml.attr(:vote)
-        Vote.find_or_create_by!(division: division, member: member, vote: vote)
+      votes.each do |gid, vote|
+        Vote.find_or_create_by!(division: division, member: Member.find_by!(gid: gid), vote: vote)
       end
     end
 
