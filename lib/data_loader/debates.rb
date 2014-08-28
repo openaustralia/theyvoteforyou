@@ -3,14 +3,8 @@ module DataLoader
     # from_date - Date to parse from (just specify this date if you only want one )
     # to_date - A single date
     def self.load!(from_date, to_date = nil)
-      dates = if to_date
-                from_date..to_date
-              else
-                [from_date]
-              end
-
-      House.australian.each do |house|
-        dates.each do |date|
+      (from_date..(to_date || from_date)).each do |date|
+        House.australian.each do |house|
           # TODO: Check for the file first rather than catching the exception
           filename = "#{Settings.xml_data_directory}/scrapedxml/#{house}_debates/#{date}.xml"
           begin
