@@ -33,14 +33,6 @@ class Vote < ActiveRecord::Base
     !free? && vote_without_tell != whip_guess
   end
 
-  def teller?
-    vote[0..3] == 'tell'
-  end
-
-  def vote_without_tell
-    vote.gsub('tell', '')
-  end
-
   # TODO What if the vote is tied?
   def role
     if free?

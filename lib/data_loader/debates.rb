@@ -31,7 +31,14 @@ module DataLoader
                                notes: '')
               d.votes.each do |gid, vote|
                 member = Member.find_by!(gid: gid)
-                Vote.find_or_initialize_by(division: division, member: member).update!(vote: vote)
+                v = Vote.find_or_initialize_by(division: division, member: member)
+                if vote == "tellaye"
+                  v.update!(vote: vote, vote_without_tell: "aye", teller: true)
+                elsif vote == "tellno"
+                  v.update!(vote: vote, vote_without_tell: "no", teller: true)
+                else
+                  v.update!(vote: vote, vote_without_tell: vote)
+                end
               end
             end
           end
