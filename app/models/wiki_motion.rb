@@ -1,16 +1,12 @@
 class WikiMotion < ActiveRecord::Base
   belongs_to :user
+  belongs_to :division
 
   validates :title, presence: true
 
   attr_accessor :title, :description
 
   before_save :set_text_body, unless: :text_body
-
-  # TODO Make this an association
-  def division
-    Division.find(division_id)
-  end
 
   # Strip timezone as it's stored in the DB as local time
   def edit_date

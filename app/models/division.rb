@@ -4,6 +4,7 @@ class Division < ActiveRecord::Base
   has_many :votes
   has_many :policy_divisions
   has_many :policies, through: :policy_divisions
+  has_many :wiki_motions, -> {order(edit_date: :desc)}
 
   delegate :turnout, :aye_majority, to: :division_info
 
@@ -13,12 +14,8 @@ class Division < ActiveRecord::Base
   scope :with_rebellions, -> { joins(:division_info).where("rebellions > 10") }
   scope :in_parliament, ->(parliament) { where("date >= ? AND date < ?", parliament[:from], parliament[:to]) }
 
-  def wiki_motions
-    WikiMotion.order(edit_date: :desc).where(division_id: id)
-  end
-
   def wiki_motion
-    WikiMotion.order(edit_date: :desc).find_by(division_id: id)
+    wiki_motions.first
   end
 
   def self.most_recent_date
@@ -179,11 +176,10 @@ class Division < ActiveRecord::Base
   end
 
   def create_wiki_motion!(title, description, user)
-    division = Division.find_by!(date: date, number: number, house: house)
-    WikiMotion.create!(division_id: division.id,
-      title: title,
+    wiki_motions.create!(title: title,
       description: description,
       user: user,
+      # TODO Use default rails created_at instead
       edit_date: Time.now)
   end
 
