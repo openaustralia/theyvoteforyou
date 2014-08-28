@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140828053926) do
+ActiveRecord::Schema.define(version: 20140828062935) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(version: 20140828053926) do
     t.string  "house",           limit: 8,  null: false
     t.integer "policy_id",                  null: false
     t.string  "vote",            limit: 10, null: false
+    t.integer "division_id"
   end
 
   add_index "policy_divisions", ["division_date", "division_number", "house", "policy_id"], name: "division_date_2", unique: true, using: :btree

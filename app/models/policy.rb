@@ -49,13 +49,13 @@ class Policy < ActiveRecord::Base
     if old_policy_division = division.policy_divisions.find_by(policy: self)
       changed_from = old_policy_division.vote unless old_policy_division.vote == vote
       # FIXME: Because PolicyDivision has no primary key we can't update or destroy old_policy_division directly
-      PolicyDivision.delete_all house: division.house, division_date: division.date, division_number: division.number, policy: self
+      PolicyDivision.delete_all division_id: division.id, house: division.house, division_date: division.date, division_number: division.number, policy: self
     elsif vote != '--'
       changed_from = 'non-voter'
     end
 
     if vote != '--'
-      PolicyDivision.create! house: division.house, division_date: division.date, division_number: division.number, policy: self, vote: vote
+      PolicyDivision.create! division_id: division.id, house: division.house, division_date: division.date, division_number: division.number, policy: self, vote: vote
     end
 
     delay.calculate_member_agreement_percentages!
