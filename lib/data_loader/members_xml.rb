@@ -39,10 +39,10 @@ module DataLoader
             person = person[/uk.org.publicwhip\/person\/(\d*)/, 1]
 
             Member.where(gid: gid).destroy_all
-            Member.create!(first_name: MembersXML.escape_html(member[:firstname]),
-                           last_name: MembersXML.escape_html(member[:lastname]),
+            Member.create!(first_name: XML.escape_html(member[:firstname]),
+                           last_name: XML.escape_html(member[:lastname]),
                            title: member[:title],
-                           constituency: MembersXML.escape_html(member[:division]),
+                           constituency: XML.escape_html(member[:division]),
                            party: member[:party],
                            house: house,
                            entered_house: member[:fromdate],

@@ -19,9 +19,9 @@ module DataLoader
         responsibility = moffice[:responsibility] || ''
 
         Office.create!(moffice_id: moffice[:id][/uk.org.publicwhip\/moffice\/(\d*)/, 1],
-                       dept: MembersXML.escape_html(moffice[:dept]),
-                       position: MembersXML.escape_html(position),
-                       responsibility: MembersXML.escape_html(responsibility),
+                       dept: XML.escape_html(moffice[:dept]),
+                       position: XML.escape_html(position),
+                       responsibility: XML.escape_html(responsibility),
                        from_date: moffice[:fromdate],
                        to_date: moffice[:todate],
                        person: person[/uk.org.publicwhip\/person\/(\d*)/, 1])
