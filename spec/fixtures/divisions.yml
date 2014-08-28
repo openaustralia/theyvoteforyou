@@ -1,10 +1,10 @@
 one:
   id: 1
-  division_date: 2013-3-14
+  date: 2013-3-14
   clock_time: "010:56:00"
-  division_number: 1
+  number: 1
   house: "commons"
-  division_name: "Bills &#8212; National Disability Insurance Scheme Bill 2012; Consideration in Detail"
+  name: "Bills &#8212; National Disability Insurance Scheme Bill 2012; Consideration in Detail"
   source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansardr,hansardr80%20Date%3A14%2F3%2F2013;rec=0;resCount=Default"
   debate_url: ""
   motion: '<p class="speaker">Jenny Macklin</p><p>I present a supplementary explanatory memorandum to the bill and ask leave of the House to move government amendments (1) to (77), as circulated, together.</p>'
@@ -14,10 +14,10 @@ one:
 
 two:
   id: 9
-  division_date: 2013-3-14
-  division_number: 1
+  date: 2013-3-14
+  number: 1
   house: "lords"
-  division_name: "Motions &#8212; Renewable Energy Certificates"
+  name: "Motions &#8212; Renewable Energy Certificates"
   source_url: "http://aph.gov.au/somedebate"
   debate_url: ""
   motion: ""
@@ -27,11 +27,11 @@ two:
 
 three:
   id: 347
-  division_date: 2006-12-06
+  date: 2006-12-06
   clock_time: "019:29:00"
-  division_number: 3
+  number: 3
   house: "commons"
-  division_name: 'Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006 &#8212; Consideration in Detail'
+  name: 'Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006 &#8212; Consideration in Detail'
   source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansardr/2006-12-06/0000"
   debate_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansardr/2006-12-06/0000"
   motion: '<p pwmotiontext="moved">That the amendments (<b>Mr Michael Ferguson&#8217;s</b>) be agreed to.</p>'
@@ -41,11 +41,11 @@ three:
 
 four:
   id: 2037
-  division_date: 2009-11-25
+  date: 2009-11-25
   clock_time: "016:13:00"
-  division_number: 8
+  number: 8
   house: 'lords'
-  division_name: 'Carbon Pollution Reduction Scheme Legislation'
+  name: 'Carbon Pollution Reduction Scheme Legislation'
   source_url: http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-25/0000
   debate_url: http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-25/0000
   motion: '<p pwmotiontext="moved">That the question for the third reading of the Carbon Pollution Reduction Scheme Bill&#160;2009&#160;[No. 2] and 10 related bills not be put until the third sitting day in February 2010.</p>'
@@ -55,11 +55,11 @@ four:
 
 five:
   id: 59
-  division_date: 2009-11-30
+  date: 2009-11-30
   clock_time: "012:00:00"
-  division_number: 8
+  number: 8
   house: 'lords'
-  division_name: 'Carbon Pollution Reduction Scheme (Cprs Fuel Credits) Bill 2009 [No. 2]; Carbon Pollution Reduction Scheme Amendment (Household Assistance) Bill 2009 [No. 2] &#8212; Third Reading'
+  name: 'Carbon Pollution Reduction Scheme (Cprs Fuel Credits) Bill 2009 [No. 2]; Carbon Pollution Reduction Scheme Amendment (Household Assistance) Bill 2009 [No. 2] &#8212; Third Reading'
   source_url: http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-30/0000
   debate_url: http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-30/0000
   motion: '<p pwmotiontext="moved">That these bills be now read a third time.</p>'
@@ -75,11 +75,11 @@ five:
 # mock out the sql calls.
 six:
   id: 4444
-  division_date: 2009-12-30
+  date: 2009-12-30
   clock_time: "012:00:00"
-  division_number: 8
+  number: 8
   house: 'lords'
-  division_name: 'Proceedural ban of flatulence during divisions'
+  name: 'Proceedural ban of flatulence during divisions'
   source_url: https://www.youtube.com/watch?v=yUGw_l3G-JE
   debate_url: https://www.youtube.com/watch?v=yUGw_l3G-JE
   motion: '<p pwmotiontext="moved">That the member for Grayndler stop using biological means to influence the outcome of divisions.</p>'

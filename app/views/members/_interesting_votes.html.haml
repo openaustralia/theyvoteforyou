@@ -12,4 +12,4 @@
 
 %table.table.table-striped
   - members.each do |member|
-    = render "votes", member: member, divisions: member.interesting_divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no rebellions"
+    = render "votes", member: member, divisions: member.interesting_divisions.order(date: :desc, clock_time: :desc, name: :asc), empty_message: "no rebellions"

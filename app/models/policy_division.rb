@@ -7,7 +7,7 @@ class PolicyDivision < ActiveRecord::Base
   delegate :name, :australian_house, :australian_house_name, to: :division
 
   def division
-    Division.find_by!(division_date: division_date, division_number: division_number, house: house)
+    Division.find_by!(date: division_date, number: division_number, house: house)
   end
 
   def strong_vote?

@@ -51,6 +51,6 @@ class MemberInfo < ActiveRecord::Base
   end
 
   def self.all_votes_possible_counts
-    Division.joins("INNER JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.division_date AND divisions.division_date < members.left_house").group("members.id").count
+    Division.joins("INNER JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.date AND divisions.date < members.left_house").group("members.id").count
   end
 end

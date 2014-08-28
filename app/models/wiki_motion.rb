@@ -8,7 +8,7 @@ class WikiMotion < ActiveRecord::Base
   before_save :set_text_body, unless: :text_body
 
   def division
-    Division.find_by(division_date: division_date, division_number: division_number, house: house)
+    Division.find_by(date: division_date, number: division_number, house: house)
   end
 
   # Strip timezone as it's stored in the DB as local time

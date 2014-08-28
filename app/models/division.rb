@@ -4,15 +4,12 @@ class Division < ActiveRecord::Base
   has_many :votes
 
   delegate :turnout, :aye_majority, to: :division_info
-  alias_attribute :date, :division_date
-  alias_attribute :name, :division_name
-  alias_attribute :number, :division_number
 
   scope :in_house, ->(house) { where(house: house) }
   scope :in_australian_house, ->(australian_house) { in_house(House.australian_to_uk(australian_house)) }
   # TODO This doesn't exactly match the wording in the interface. Fix this.
   scope :with_rebellions, -> { joins(:division_info).where("rebellions > 10") }
-  scope :in_parliament, ->(parliament) { where("division_date >= ? AND division_date < ?", parliament[:from], parliament[:to]) }
+  scope :in_parliament, ->(parliament) { where("date >= ? AND date < ?", parliament[:from], parliament[:to]) }
 
   # TODO Convert this to an association when we refer to division by id. Need to make sure that
   # division loading code doesn't change id's
@@ -36,7 +33,7 @@ class Division < ActiveRecord::Base
   end
 
   def self.most_recent_date
-    order(division_date: :desc).first.division_date
+    order(date: :desc).first.date
   end
 
   def rebellious?
@@ -108,14 +105,14 @@ class Division < ActiveRecord::Base
     end
   end
 
-  def division_name
+  def name
     wiki_motion ? wiki_motion.text_body[/--- DIVISION TITLE ---(.*)--- MOTION EFFECT/m, 1].strip.gsub('-', '—') : original_name
   end
 
   def original_name
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
-    HTMLEntities.new.decode(read_attribute(:division_name).gsub('-', '—'))
+    HTMLEntities.new.decode(read_attribute(:name).gsub('-', '—'))
   end
 
   def motion
@@ -204,8 +201,8 @@ class Division < ActiveRecord::Base
 
   def self.find_by_search_query(query)
     # FIXME: Remove nasty SQL below that was ported from PHP direct
-    joins('LEFT JOIN wiki_motions ON wiki_motions.id = (SELECT IFNULL(MAX(wiki_motions.id), -1) FROM wiki_motions  WHERE wiki_motions.division_date = divisions.division_date AND wiki_motions.division_number = divisions.division_number AND wiki_motions.house = divisions.house)')
-          .where('LOWER(convert(division_name using utf8)) LIKE :query
+    joins('LEFT JOIN wiki_motions ON wiki_motions.id = (SELECT IFNULL(MAX(wiki_motions.id), -1) FROM wiki_motions  WHERE wiki_motions.division_date = divisions.date AND wiki_motions.division_number = divisions.number AND wiki_motions.house = divisions.house)')
+          .where('LOWER(convert(name using utf8)) LIKE :query
                   OR LOWER(convert(motion using utf8)) LIKE :query
                   OR LOWER(convert(text_body using utf8)) LIKE :query', query: "%#{query}%")
   end

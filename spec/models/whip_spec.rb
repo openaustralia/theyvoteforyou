@@ -12,12 +12,12 @@ describe Whip, :type => :model do
 
   describe "#free_vote?" do
     it do
-      division = Division.new(australian_house: 'senate', division_date: '2006-02-09', division_number: 3)
+      division = Division.new(australian_house: 'senate', date: '2006-02-09', number: 3)
       expect(Whip.new(division: division, party: 'Liberal Party').free_vote?).to be_truthy
     end
 
     it do
-      division = Division.new(australian_house: 'senate', division_date: '2001-01-01', division_number: 1)
+      division = Division.new(australian_house: 'senate', date: '2001-01-01', number: 1)
       whip = Whip.new(division: division, party: 'Liberal Party')
       expect(whip.free_vote?).to be_falsy
     end
@@ -52,7 +52,7 @@ describe Whip, :type => :model do
       member5
     end
 
-    let(:division) { Division.create(id: 1, division_date: Date.new(2000,1,1), division_number: 1, house: "commons", division_name: "Foo", source_url: "", debate_url: "", motion: "", notes: "", source_gid: "", debate_gid: "") }
+    let(:division) { Division.create(id: 1, date: Date.new(2000,1,1), number: 1, house: "commons", name: "Foo", source_url: "", debate_url: "", motion: "", notes: "", source_gid: "", debate_gid: "") }
     let(:member1) { Member.create(id: 1, title: "", first_name: "Member", last_name: "1", party: "A",
       house: "commons", gid: "", source_gid: "",  constituency: "A",
       entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1)) }

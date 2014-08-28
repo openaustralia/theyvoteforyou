@@ -18,15 +18,15 @@ describe MemberInfo, :type => :model do
       title: "", constituency: "", party: "A", house: "commons",
       entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1)) }
 
-    let(:division1) { Division.create(division_name: "1", division_date: Date.new(2000,1,1),
-    division_number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
+    let(:division1) { Division.create(name: "1", date: Date.new(2000,1,1),
+    number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
     source_gid: "", debate_gid: "") }
-    let(:division2) { Division.create(division_name: "2", division_date: Date.new(2000,1,1),
-    division_number: 2, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
+    let(:division2) { Division.create(name: "2", date: Date.new(2000,1,1),
+    number: 2, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
     source_gid: "", debate_gid: "") }
     # This division neither of the members could have voted on
-    let(:division3) { Division.create(division_name: "3", division_date: Date.new(2002,1,1),
-    division_number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
+    let(:division3) { Division.create(name: "3", date: Date.new(2002,1,1),
+    number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
     source_gid: "", debate_gid: "") }
 
     before :each do

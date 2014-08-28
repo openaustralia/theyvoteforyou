@@ -2,7 +2,7 @@ class Whip < ActiveRecord::Base
   belongs_to :division
 
   def self.update_all!
-    possible_votes = Division.joins("LEFT JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.division_date AND divisions.division_date < members.left_house").group("divisions.id", :party).count
+    possible_votes = Division.joins("LEFT JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.date AND divisions.date < members.left_house").group("divisions.id", :party).count
 
     calc_all_votes_per_party2.each do |k, votes|
       division_id, party = k
@@ -62,28 +62,27 @@ class Whip < ActiveRecord::Base
 
     if division.australian_house == "representatives"
       # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
-      if division.division_date == Date.new(2006,2,16)
+      if division.date == Date.new(2006,2,16)
         ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)
       # Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill
-      elsif division.division_date == Date.new(2006,12,6)
+      elsif division.date == Date.new(2006,12,6)
         ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)
       # Same sex marriage
-      elsif division.division_date == Date.new(2012,9,19) && division.division_number == 1
+      elsif division.date == Date.new(2012,9,19) && division.number == 1
         party == 'Australian Labor Party'
       end
     elsif division.australian_house == "senate"
       # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
-      if division.division_date == Date.new(2006,2,9) && division.division_number >= 3
+      if division.date == Date.new(2006,2,9) && division.number >= 3
         ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)
       # Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006
-    elsif division.division_date == Date.new(2006,11,7) &&
-      (division.division_number == 1 || division.division_number >= 4)
+    elsif division.date == Date.new(2006,11,7) && (division.number == 1 || division.number >= 4)
         ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)
       # Same sex marriage
-      elsif division.division_date == Date.new(2012,9,20) && division.division_number == 5
+      elsif division.date == Date.new(2012,9,20) && division.number == 5
         party == 'Australian Labor Party'
       # Same sex marriage
-      elsif division.division_date == Date.new(2013,6,20) && division.division_number == 2
+      elsif division.date == Date.new(2013,6,20) && division.number == 2
         party == 'Australian Labor Party'
       end
     end

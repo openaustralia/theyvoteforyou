@@ -32,13 +32,13 @@ class DivisionsController < ApplicationController
 
     order = case @sort
     when nil
-      ["division_date DESC", "clock_time DESC", "division_name", "division_number DESC"]
+      ["date DESC", "clock_time DESC", "name", "number DESC"]
     when "subject"
-      ["division_name", "division_date DESC", "clock_time DESC", "division_number DESC"]
+      ["name", "date DESC", "clock_time DESC", "number DESC"]
     when "rebellions"
-      ["rebellions DESC", "division_date DESC", "clock_time DESC", "division_name", "division_number DESC"]
+      ["rebellions DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
     when "turnout"
-      ["turnout DESC", "division_date DESC", "clock_time DESC", "division_name", "division_number DESC"]
+      ["turnout DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
     else
       raise "Unexpected value"
     end
@@ -54,7 +54,7 @@ class DivisionsController < ApplicationController
     house = params[:house] || "representatives"
     @sort = params[:sort]
     @display = params[:display]
-    @division = Division.in_australian_house(house).find_by!(division_date: params[:date], division_number: params[:number])
+    @division = Division.in_australian_house(house).find_by!(date: params[:date], number: params[:number])
 
     # If a member is included
     if params[:mpn] && params[:mpc]
@@ -100,7 +100,7 @@ class DivisionsController < ApplicationController
   end
 
   def edit
-    @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(division_date: params[:date], division_number: params[:number])
+    @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(date: params[:date], number: params[:number])
   end
 
   def show_edits
@@ -108,7 +108,7 @@ class DivisionsController < ApplicationController
   end
 
   def update
-    @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(division_date: params[:date], division_number: params[:number])
+    @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(date: params[:date], number: params[:number])
 
     # TODO: Provide some feedback to the user about how their save went
     # This is just matching the PHP app right now :(
@@ -122,7 +122,7 @@ class DivisionsController < ApplicationController
   def add_policy_vote
     @sort = params[:sort]
     @display = params[:display]
-    @division = Division.in_australian_house(params[:house] || "representatives").find_by!(division_date: params[:date], division_number: params[:number])
+    @division = Division.in_australian_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
 
     @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
     @changed_from = @policy.add_division(@division, params["vote#{@policy.id}".to_sym])
