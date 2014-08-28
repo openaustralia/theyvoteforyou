@@ -14,9 +14,7 @@ class Division < ActiveRecord::Base
   # TODO Convert this to an association when we refer to division by id. Need to make sure that
   # division loading code doesn't change id's
   def policy_divisions
-    PolicyDivision.where(division_date: date,
-                         division_number: number,
-                         house: house)
+    PolicyDivision.where(division_id: id)
   end
 
   # TODO Convert to an association. See above
