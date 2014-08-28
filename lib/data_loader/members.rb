@@ -7,7 +7,6 @@ module DataLoader
       # representatives.xml & senators.xml
       def load!
         Rails.logger.info "Reloading representatives and senators..."
-        Rails.logger.info "Deleted #{Member.delete_all} members"
         %w(representatives senators).each do |file|
           Rails.logger.info "Loading #{file}..."
           xml = Nokogiri.parse(File.read("#{Settings.xml_data_directory}/members/#{file}.xml"))
@@ -38,8 +37,8 @@ module DataLoader
             raise "MP #{member[:id]} has no person" unless person
             person = person[/uk.org.publicwhip\/person\/(\d*)/, 1]
 
-            Member.where(gid: gid).destroy_all
-            Member.create!(first_name: XML.escape_html(member[:firstname]),
+            m = Member.find_or_initialize_by(gid: gid)
+            m.update!(first_name: XML.escape_html(member[:firstname]),
                            last_name: XML.escape_html(member[:lastname]),
                            title: member[:title],
                            constituency: XML.escape_html(member[:division]),
@@ -51,7 +50,6 @@ module DataLoader
                            left_reason: member[:towhy],
                            mp_id: id,
                            person: person,
-                           gid: gid,
                            source_gid: '')
           end
         end
