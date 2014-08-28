@@ -1,13 +1,12 @@
 module DataLoader
   class Debates
-    # The options hash takes:
-    # :from_date - Date to parse from (just specify this date if you only want one )
-    # :to_date - A single date
-    def self.load!(options = {})
-      dates = if options[:to_date]
-                Date.parse(options[:from_date])..Date.parse(options[:to_date])
+    # from_date - Date to parse from (just specify this date if you only want one )
+    # to_date - A single date
+    def self.load!(from_date, to_date = nil)
+      dates = if to_date
+                Date.parse(from_date)..Date.parse(to_date)
               else
-                [Date.parse(options[:from_date])]
+                [Date.parse(from_date])]
               end
 
       House.australian.each do |house|
