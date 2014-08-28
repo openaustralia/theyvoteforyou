@@ -2,7 +2,7 @@ require 'nokogiri'
 require 'cgi'
 
 module DataLoader
-  class MembersXML
+  class Members
     class << self
       # representatives.xml & senators.xml
       def load_representatives_and_senators
