@@ -68,7 +68,7 @@ module DataLoader
       private
 
       def member_to_person
-        @member_to_person || load_people
+        @member_to_person ||= load_people
       end
 
       # people.xml
@@ -80,8 +80,7 @@ module DataLoader
             member_to_person[office[:id]] = person[:id]
           end
         end
-
-        @member_to_person = member_to_person
+        member_to_person
       end
     end
   end
