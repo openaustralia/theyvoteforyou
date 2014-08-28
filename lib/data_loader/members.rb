@@ -58,11 +58,11 @@ module DataLoader
         Rails.logger.info "Loaded #{Member.count} members"
       end
 
-      private
-
       def member_to_person
         @member_to_person ||= load_people
       end
+
+      private
 
       # people.xml
       def load_people

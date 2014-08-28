@@ -1,3 +1,5 @@
+require 'nokogiri'
+
 module DataLoader
   class Electorates
     # divisions.xml
