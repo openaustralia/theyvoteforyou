@@ -36,9 +36,9 @@ module DataLoader
                                motion: d.motion,
                                clock_time: d.clock_time,
                                notes: '')
-              # TODO: Check for existing votes in the database
               d.votes.each do |gid, vote|
-                Vote.find_or_create_by!(division: division, member: Member.find_by!(gid: gid), vote: vote)
+                member = Member.find_by!(gid: gid)
+                Vote.find_or_initialize_by(division: division, member: member).update!(vote: vote)
               end
             end
           end
