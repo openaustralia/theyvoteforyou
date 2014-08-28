@@ -141,11 +141,16 @@ module DataLoader
 
     def speech_text(speech)
       speaker = speech_speaker(speech)
-      speaker.gsub!("'", '&#39;')
       speech = speech.children.to_html # to_html oddly gets us closest to PHP's output
       speech.gsub!("\n", '') # Except that Nokogiri is adding newlines :(
       speech.gsub!('</p>', "</p>\n\n") # PHP loader does this "so that the website formatter doesn't do strange things"
-      "<p class=\"speaker\">#{speaker}</p>\n\n#{speech}"
+
+      if speaker
+        speaker.gsub!("'", '&#39;')
+        "<p class=\"speaker\">#{speaker}</p>\n\n#{speech}"
+      else
+        "\n\n#{speech}"
+      end
     end
 
     # Encode certain HTML entities as found in PHP loader
