@@ -58,13 +58,6 @@ module DataLoader
         Rails.logger.info "Loaded #{Member.count} members"
       end
 
-      # Urgh, add extra HTML escaping that's done in PHP but not Ruby
-      def self.escape_html(text)
-        text = CGI::escape_html(text)
-        text.gsub!('’', '&rsquo;')
-        text.gsub('‘', '&lsquo;')
-      end
-
       private
 
       def member_to_person
