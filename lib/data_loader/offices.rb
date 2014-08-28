@@ -3,7 +3,6 @@ module DataLoader
     # ministers.xml
     def self.load!
       Rails.logger.info "Reloading offices..."
-      Rails.logger.info "Deleted #{Office.delete_all} offices"
       ministers_xml = Nokogiri.parse(File.read("#{Settings.xml_data_directory}/members/ministers.xml"))
       ministers_xml.search(:moffice).each do |moffice|
         person = People.member_to_person[moffice[:matchid]]
@@ -18,13 +17,13 @@ module DataLoader
 
         responsibility = moffice[:responsibility] || ''
 
-        Office.create!(moffice_id: moffice[:id][/uk.org.publicwhip\/moffice\/(\d*)/, 1],
-                       dept: XML.escape_html(moffice[:dept]),
-                       position: XML.escape_html(position),
-                       responsibility: XML.escape_html(responsibility),
-                       from_date: moffice[:fromdate],
-                       to_date: moffice[:todate],
-                       person: person[/uk.org.publicwhip\/person\/(\d*)/, 1])
+        o = Office.find_or_initialize_by(moffice_id: moffice[:id][/uk.org.publicwhip\/moffice\/(\d*)/, 1],
+          person: person[/uk.org.publicwhip\/person\/(\d*)/, 1])
+        o.update!(dept: XML.escape_html(moffice[:dept]),
+          position: XML.escape_html(position),
+          responsibility: XML.escape_html(responsibility),
+          from_date: moffice[:fromdate],
+          to_date: moffice[:todate])
       end
       Rails.logger.info "Loaded #{Office.count} offices"
     end
