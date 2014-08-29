@@ -67,7 +67,7 @@
               - if division.clock_time
                 = division.clock_time.strftime("%H:%M")
             %td
-              = link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
+              = link_to truncate(division.name, length: 180), "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
             -# TODO Here it's called Turnout. Elsewhere it's called Attendance. Bad!
             %td= fraction_to_percentage_display(whip.attendance_fraction, precision: 1)
             %td= whip.no_loyal
@@ -106,7 +106,7 @@
                 - if division.clock_time
                   = division.clock_time.strftime("%H:%M")
               %td
-                = link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
+                = link_to truncate(division.name, length: 180), "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
               %td= division.no_rebellions
               %td= division.turnout
               %td= division.majority
