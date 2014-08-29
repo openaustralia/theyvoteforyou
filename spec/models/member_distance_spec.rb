@@ -25,13 +25,9 @@ describe MemberDistance, :type => :model do
     it { expect(MemberDistance.calculate_nvotesdiffer(membera, memberb)).to eq 0}
     it { expect(MemberDistance.calculate_nvotesabsent(membera, memberb)).to eq 0}
 
-    def check_vote_combination(vote1, vote2, same, differ, absent)
-      vote_without_tell1 = vote1.gsub('tell', '')
-      vote_without_tell2 = vote2.gsub('tell', '')
-      teller1 = vote1[0..3] == "tell"
-      teller2 = vote2[0..3] == "tell"
-      membera.votes.create(division: division, vote: vote_without_tell1, teller: teller1) unless vote1 == "absent"
-      memberb.votes.create(division: division, vote: vote_without_tell2, teller: teller2) unless vote2 == "absent"
+    def check_vote_combination(vote1, teller1, vote2, teller2, same, differ, absent)
+      membera.votes.create(division: division, vote: vote1, teller: teller1) unless vote1 == "absent"
+      memberb.votes.create(division: division, vote: vote2, teller: teller2) unless vote2 == "absent"
       expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq same
       expect(MemberDistance.calculate_nvotesdiffer(membera, memberb)).to eq differ
       expect(MemberDistance.calculate_nvotesabsent(membera, memberb)).to eq absent
@@ -42,11 +38,11 @@ describe MemberDistance, :type => :model do
       number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
       source_gid: "", debate_gid: "") }
 
-      it { check_vote_combination("absent",     "absent", 0, 0, 0) }
-      it { check_vote_combination("aye",        "absent", 0, 0, 0) }
-      it { check_vote_combination("no",         "absent", 0, 0, 0) }
-      it { check_vote_combination("tellaye",    "absent", 0, 0, 0) }
-      it { check_vote_combination("tellno",     "absent", 0, 0, 0) }
+      it { check_vote_combination("absent", false, "absent", false, 0, 0, 0) }
+      it { check_vote_combination("aye",    false, "absent", false, 0, 0, 0) }
+      it { check_vote_combination("no",     false, "absent", false, 0, 0, 0) }
+      it { check_vote_combination("aye",    true,  "absent", false, 0, 0, 0) }
+      it { check_vote_combination("no",     true,  "absent", false, 0, 0, 0) }
     end
 
     context "with votes in one division that both members could vote on" do
@@ -54,31 +50,31 @@ describe MemberDistance, :type => :model do
       number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
       source_gid: "", debate_gid: "") }
 
-      it { check_vote_combination("absent",     "absent", 0, 0, 0) }
-      it { check_vote_combination("absent",     "aye",    0, 0, 1) }
-      it { check_vote_combination("absent",     "no",     0, 0, 1) }
-      it { check_vote_combination("absent",     "tellaye",0, 0, 1) }
-      it { check_vote_combination("absent",     "tellno", 0, 0, 1) }
-      it { check_vote_combination("aye",        "absent", 0, 0, 1) }
-      it { check_vote_combination("aye",        "aye",    1, 0, 0) }
-      it { check_vote_combination("aye",        "no",     0, 1, 0) }
-      it { check_vote_combination("aye",        "tellaye",1, 0, 0) }
-      it { check_vote_combination("aye",        "tellno", 0, 1, 0) }
-      it { check_vote_combination("no",         "absent", 0, 0, 1) }
-      it { check_vote_combination("no",         "aye",    0, 1, 0) }
-      it { check_vote_combination("no",         "no",     1, 0, 0) }
-      it { check_vote_combination("no",         "tellaye",0, 1, 0) }
-      it { check_vote_combination("no",         "tellno", 1, 0, 0) }
-      it { check_vote_combination("tellaye",    "absent", 0, 0, 1) }
-      it { check_vote_combination("tellaye",    "aye",    1, 0, 0) }
-      it { check_vote_combination("tellaye",    "no",     0, 1, 0) }
-      it { check_vote_combination("tellaye",    "tellaye",1, 0, 0) }
-      it { check_vote_combination("tellaye",    "tellno", 0, 1, 0) }
-      it { check_vote_combination("tellno",     "absent", 0, 0, 1) }
-      it { check_vote_combination("tellno",     "aye",    0, 1, 0) }
-      it { check_vote_combination("tellno",     "no",     1, 0, 0) }
-      it { check_vote_combination("tellno",     "tellaye",0, 1, 0) }
-      it { check_vote_combination("tellno",     "tellno", 1, 0, 0) }
+      it { check_vote_combination("absent", false, "absent", false, 0, 0, 0) }
+      it { check_vote_combination("absent", false, "aye",    false, 0, 0, 1) }
+      it { check_vote_combination("absent", false, "no",     false, 0, 0, 1) }
+      it { check_vote_combination("absent", false, "aye",    true,  0, 0, 1) }
+      it { check_vote_combination("absent", false, "no",     true,  0, 0, 1) }
+      it { check_vote_combination("aye",    false, "absent", false, 0, 0, 1) }
+      it { check_vote_combination("aye",    false, "aye",    false, 1, 0, 0) }
+      it { check_vote_combination("aye",    false, "no",     false, 0, 1, 0) }
+      it { check_vote_combination("aye",    false, "aye",    true,  1, 0, 0) }
+      it { check_vote_combination("aye",    false, "no",     true,  0, 1, 0) }
+      it { check_vote_combination("no",     false, "absent", false, 0, 0, 1) }
+      it { check_vote_combination("no",     false, "aye",    false, 0, 1, 0) }
+      it { check_vote_combination("no",     false, "no",     false, 1, 0, 0) }
+      it { check_vote_combination("no",     false, "aye",    true,  0, 1, 0) }
+      it { check_vote_combination("no",     false, "no",     true,  1, 0, 0) }
+      it { check_vote_combination("aye",    true,  "absent", false, 0, 0, 1) }
+      it { check_vote_combination("aye",    true,  "aye",    false, 1, 0, 0) }
+      it { check_vote_combination("aye",    true,  "no",     false, 0, 1, 0) }
+      it { check_vote_combination("aye",    true,  "aye",    true,  1, 0, 0) }
+      it { check_vote_combination("aye",    true,  "no",     true,  0, 1, 0) }
+      it { check_vote_combination("no",     true,  "absent", false, 0, 0, 1) }
+      it { check_vote_combination("no",     true,  "aye",    false, 0, 1, 0) }
+      it { check_vote_combination("no",     true,  "no",     false, 1, 0, 0) }
+      it { check_vote_combination("no",     true,  "aye",    true,  0, 1, 0) }
+      it { check_vote_combination("no",     true,  "no",     true,  1, 0, 0) }
 
     end
 
