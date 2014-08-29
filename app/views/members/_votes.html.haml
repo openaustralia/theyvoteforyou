@@ -9,7 +9,7 @@
 %tbody
   - if divisions.empty?
     %tr
-      %td{:colspan => "7"}= empty_message
+      %td{colspan: 6}= empty_message
   - else
     - divisions.each do |division|
       %tr
