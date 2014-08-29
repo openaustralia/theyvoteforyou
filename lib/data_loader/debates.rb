@@ -32,13 +32,7 @@ module DataLoader
               d.votes.each do |gid, vote|
                 member = Member.find_by!(gid: gid)
                 v = Vote.find_or_initialize_by(division: division, member: member)
-                if vote == "tellaye"
-                  v.update!(vote: "aye", teller: true)
-                elsif vote == "tellno"
-                  v.update!(vote: "no", teller: true)
-                else
-                  v.update!(vote: vote)
-                end
+                v.update!(vote: vote[0], teller: vote[1])
               end
             end
           end
