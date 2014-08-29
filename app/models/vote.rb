@@ -14,7 +14,7 @@ class Vote < ActiveRecord::Base
   # TODO Rename to rebellions
   def self.rebellious
     joins(:member, {:division => :whips}).where("whips.party = members.party").
-      where("(whips.whip_guess = 'aye' AND (votes.vote_without_tell = 'no' OR votes.vote_without_tell = 'abstention')) OR (whips.whip_guess = 'no' AND (votes.vote_without_tell = 'aye' OR votes.vote_without_tell = 'abstention')) OR (whips.whip_guess = 'abstention' AND (votes.vote_without_tell = 'aye' OR votes.vote_without_tell = 'no'))")
+      where("(whips.whip_guess = 'aye' AND (votes.vote = 'no' OR votes.vote = 'abstention')) OR (whips.whip_guess = 'no' AND (votes.vote = 'aye' OR votes.vote = 'abstention')) OR (whips.whip_guess = 'abstention' AND (votes.vote = 'aye' OR votes.vote = 'no'))")
   end
 
   def self.tells
@@ -22,15 +22,15 @@ class Vote < ActiveRecord::Base
   end
 
   def self.ayes
-    where("votes.vote_without_tell = 'aye'")
+    where("votes.vote = 'aye'")
   end
 
   def self.noes
-    where("votes.vote_without_tell = 'no'")
+    where("votes.vote = 'no'")
   end
 
   def rebellion?
-    !free? && vote_without_tell != whip_guess
+    !free? && vote != whip_guess
   end
 
   # TODO What if the vote is tied?

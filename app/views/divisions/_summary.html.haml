@@ -70,7 +70,7 @@
               = vote.party_long2
               - if vote.member.person.on_front_bench?(division.date)
                 (front bench)
-            %td= vote.vote_without_tell
+            %td= vote.vote
     - elsif display == "allpossible"
       - members.each do |member|
         %tr{:class => ("rebel" if member.rebel_on_division?(division))}

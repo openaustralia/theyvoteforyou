@@ -70,13 +70,13 @@ class DivisionsController < ApplicationController
 
     order = case @sort
     when nil, "party"
-      ["members.party", "vote_without_tell", "members.last_name", "members.first_name"]
+      ["members.party", "vote", "members.last_name", "members.first_name"]
     when "name"
       ["members.last_name", "members.first_name"]
     when "constituency"
       ["members.constituency", "members.last_name", "members.first_name"]
     when "vote"
-      ["vote_without_tell", "members.last_name", "members.first_name"]
+      ["vote", "members.last_name", "members.first_name"]
     else
       raise "Unexpected value"
     end

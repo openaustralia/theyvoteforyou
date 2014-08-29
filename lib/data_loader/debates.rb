@@ -33,11 +33,11 @@ module DataLoader
                 member = Member.find_by!(gid: gid)
                 v = Vote.find_or_initialize_by(division: division, member: member)
                 if vote == "tellaye"
-                  v.update!(vote_without_tell: "aye", teller: true)
+                  v.update!(vote: "aye", teller: true)
                 elsif vote == "tellno"
-                  v.update!(vote_without_tell: "no", teller: true)
+                  v.update!(vote: "no", teller: true)
                 else
-                  v.update!(vote_without_tell: vote)
+                  v.update!(vote: vote)
                 end
               end
             end

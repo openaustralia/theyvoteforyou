@@ -73,7 +73,7 @@ describe Whip, :type => :model do
 
     context "one aye vote in party A" do
       before :each do
-        division.votes.create(member: member1, vote_without_tell: "aye")
+        division.votes.create(member: member1, vote: "aye")
       end
 
       it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1)}
@@ -113,8 +113,8 @@ describe Whip, :type => :model do
 
       context "and 2 aye votes in party B" do
         before :each do
-          division.votes.create(member: member2, vote_without_tell: "aye")
-          division.votes.create(member: member3, vote_without_tell: "aye")
+          division.votes.create(member: member2, vote: "aye")
+          division.votes.create(member: member3, vote: "aye")
         end
 
         it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1, [1, "B", "aye", 0] => 2)}
@@ -145,8 +145,8 @@ describe Whip, :type => :model do
 
       context "and 1 aye vote and 1 no vote in party B" do
         before :each do
-          division.votes.create(member: member2, vote_without_tell: "aye")
-          division.votes.create(member: member3, vote_without_tell: "no")
+          division.votes.create(member: member2, vote: "aye")
+          division.votes.create(member: member3, vote: "no")
         end
 
         it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1, [1, "B", "aye", 0] => 1, [1, "B", "no", 0] => 1) }

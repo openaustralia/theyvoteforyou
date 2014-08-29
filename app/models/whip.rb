@@ -38,15 +38,15 @@ class Whip < ActiveRecord::Base
   end
 
   def self.calc_all_votes_per_party
-    Division.joins(:votes => :member).group("divisions.id", :party, :vote_without_tell, :teller).count
+    Division.joins(:votes => :member).group("divisions.id", :party, :vote, :teller).count
   end
 
   def self.calc_all_votes_per_party2
     r = {}
     calc_all_votes_per_party.each do |k, count|
-      division_id, party, vote_without_tell, teller = k
+      division_id, party, vote, teller = k
       votes = r[[division_id, party]] || {}
-      votes[[vote_without_tell, teller]] = count
+      votes[[vote, teller]] = count
       r[[division_id, party]] = votes
     end
     r

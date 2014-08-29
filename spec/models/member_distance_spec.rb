@@ -30,8 +30,8 @@ describe MemberDistance, :type => :model do
       vote_without_tell2 = vote2.gsub('tell', '')
       teller1 = vote1[0..3] == "tell"
       teller2 = vote2[0..3] == "tell"
-      membera.votes.create(division: division, vote_without_tell: vote_without_tell1, teller: teller1) unless vote1 == "absent"
-      memberb.votes.create(division: division, vote_without_tell: vote_without_tell2, teller: teller2) unless vote2 == "absent"
+      membera.votes.create(division: division, vote: vote_without_tell1, teller: teller1) unless vote1 == "absent"
+      memberb.votes.create(division: division, vote: vote_without_tell2, teller: teller2) unless vote2 == "absent"
       expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq same
       expect(MemberDistance.calculate_nvotesdiffer(membera, memberb)).to eq differ
       expect(MemberDistance.calculate_nvotesabsent(membera, memberb)).to eq absent
@@ -101,14 +101,14 @@ describe MemberDistance, :type => :model do
         division5 = Division.create(name: "5", date: Date.new(2000,1,1),
         number: 5, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
         source_gid: "", debate_gid: "")
-        membera.votes.create(division: division1, vote_without_tell: "aye")
-        membera.votes.create(division: division2, vote_without_tell: "aye")
-        membera.votes.create(division: division3, vote_without_tell: "aye")
-        membera.votes.create(division: division4, vote_without_tell: "no", teller: true)
-        memberb.votes.create(division: division2, vote_without_tell: "aye", teller: true)
-        memberb.votes.create(division: division3, vote_without_tell: "no")
-        memberb.votes.create(division: division4, vote_without_tell: "no")
-        memberb.votes.create(division: division5, vote_without_tell: "no")
+        membera.votes.create(division: division1, vote: "aye")
+        membera.votes.create(division: division2, vote: "aye")
+        membera.votes.create(division: division3, vote: "aye")
+        membera.votes.create(division: division4, vote: "no", teller: true)
+        memberb.votes.create(division: division2, vote: "aye", teller: true)
+        memberb.votes.create(division: division3, vote: "no")
+        memberb.votes.create(division: division4, vote: "no")
+        memberb.votes.create(division: division5, vote: "no")
       end
 
       it { expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 2 }

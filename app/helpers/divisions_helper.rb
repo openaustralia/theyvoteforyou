@@ -161,7 +161,7 @@ module DivisionsHelper
     else
       # TODO Should be using whip for this calculation. Only doing it this way to match php
       # calculation
-      ayenodiff = (division.votes.group(:vote_without_tell).count["aye"] || 0) - (division.votes.group(:vote_without_tell).count["no"] || 0)
+      ayenodiff = (division.votes.group(:vote).count["aye"] || 0) - (division.votes.group(:vote).count["no"] || 0)
       if ayenodiff == 0
         if member.vote_on_division_without_tell(division) != "absent"
           sentence += "voted #{member.vote_on_division_without_tell(division).capitalize}."

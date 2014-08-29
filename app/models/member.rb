@@ -46,7 +46,7 @@ class Member < ActiveRecord::Base
   end
 
   def vote_on_division_without_tell(division)
-    division_vote(division) ? division_vote(division).vote_without_tell : "absent"
+    division_vote(division) ? division_vote(division).vote : "absent"
   end
 
   def rebel_on_division?(division)
@@ -245,8 +245,8 @@ class Member < ActiveRecord::Base
   def rebellious_vote
     whip = Whip.arel_table
     vote = Vote.arel_table
-    rebel_aye = vote[:vote_without_tell].eq("aye").and(whip[:whip_guess].eq("no"))
-    rebel_no = vote[:vote_without_tell].eq("no").and(whip[:whip_guess].eq("aye"))
+    rebel_aye = vote[:vote].eq("aye").and(whip[:whip_guess].eq("no"))
+    rebel_no = vote[:vote].eq("no").and(whip[:whip_guess].eq("aye"))
     whip[:party].eq(party).and(rebel_aye.or(rebel_no))
   end
 end
