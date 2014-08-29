@@ -27,7 +27,7 @@ module MembersHelper
     if current_sort == sort
       content_tag(:b, name)
     else
-      link_to name, members_path(params.merge(sort: sort)), alt: "Sort by #{sort_name}"
+      link_to name, members_path(params.merge(sort: sort)), title: "Sort by #{sort_name}"
     end
   end
 
