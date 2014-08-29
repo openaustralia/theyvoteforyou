@@ -42,7 +42,7 @@
         %td{:class => division.house}= division.australian_house_name
         %td= formatted_date(division.date, true)
         %td
-          = link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
+          = link_to truncate(division.name, length: 180), "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
 
 .row
   .col-md-4
