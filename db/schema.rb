@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140829023041) do
+ActiveRecord::Schema.define(version: 20140829025542) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -197,11 +197,6 @@ ActiveRecord::Schema.define(version: 20140829023041) do
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-
-  create_table "vote_sortorders", force: true do |t|
-    t.string  "vote",     limit: 10, null: false
-    t.integer "position",            null: false
-  end
 
   create_table "votes", force: true do |t|
     t.integer "division_id",                            null: false
