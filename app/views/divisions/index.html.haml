@@ -42,71 +42,72 @@
   = sort_link_divisions("rebellions", "rebellions", "Rebellions", @sort)
   |
   = sort_link_divisions("turnout", "turnout", "Turnout", @sort)
-  - if @party
-    %table.table.table-striped
-      %thead
-        %tr
-          %th Date
-          %th Time
-          %th Subject
-          %th
-            = @party
-            Turnout
-          %th Loyal
-          %th Rebels
-          -# TODO Need to remove Boths
+  
+- if @party
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Date
+        %th Time
+        %th Subject
+        %th
+          = @party
+          Turnout
+        %th Loyal
+        %th Rebels
+        -# TODO Need to remove Boths
+        - if @house == "representatives"
+          %th Boths
+    %tbody
+      - @divisions.each do |division|
+        -# TODO temporary variable Eek!
+        - whip = division.whips.where(party: @party).first
+        %tr{:class => (@rdisplay2 != "rebels" && division.rebellious? ? "evenrebel" : "even")}
+          %td= formatted_date(division.date, true)
+          %td
+            - if division.clock_time
+              = division.clock_time.strftime("%H:%M")
+          %td
+            = link_to truncate(division.name, length: 180), "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
+          -# TODO Here it's called Turnout. Elsewhere it's called Attendance. Bad!
+          %td= fraction_to_percentage_display(whip.attendance_fraction, precision: 1)
+          %td= whip.no_loyal
+          %td= whip.no_rebels
           - if @house == "representatives"
-            %th Boths
-      %tbody
+            %td 0
+- else
+  %table.table.table-striped
+    %thead
+      %tr
+        - if @house.nil?
+          %th House
+        %th Date
+        %th Time
+        %th Subject
+        %th
+          Rebels
+          %br>/
+          (#{link_to "explain..", help_path(anchor: "clarify")})
+        %th Turnout
+        %th Majority
+    %tbody
+      - if @divisions.empty?
+        %tr.odd
+          - if @house.nil?
+            %td(colspan="9") no votes listed
+          - else
+            %td(colspan="8") no votes listed
+      - else
         - @divisions.each do |division|
-          -# TODO temporary variable Eek!
-          - whip = division.whips.where(party: @party).first
-          %tr{:class => (@rdisplay2 != "rebels" && division.rebellious? ? "evenrebel" : "even")}
+          %tr{:class => cycle("even", "odd") + ((@rdisplay2 != "rebels" && @sort != "rebellions" && division.rebellious? ? "rebel" : ""))}
+            - if @house.nil?
+              %td{:class => division.house}= division.australian_house_name
             %td= formatted_date(division.date, true)
             %td
               - if division.clock_time
                 = division.clock_time.strftime("%H:%M")
             %td
               = link_to truncate(division.name, length: 180), "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
-            -# TODO Here it's called Turnout. Elsewhere it's called Attendance. Bad!
-            %td= fraction_to_percentage_display(whip.attendance_fraction, precision: 1)
-            %td= whip.no_loyal
-            %td= whip.no_rebels
-            - if @house == "representatives"
-              %td 0
-  - else
-    %table.table.table-striped
-      %thead
-        %tr
-          - if @house.nil?
-            %th House
-          %th Date
-          %th Time
-          %th Subject
-          %th
-            Rebels
-            %br>/
-            (#{link_to "explain..", help_path(anchor: "clarify")})
-          %th Turnout
-          %th Majority
-      %tbody
-        - if @divisions.empty?
-          %tr.odd
-            - if @house.nil?
-              %td(colspan="9") no votes listed
-            - else
-              %td(colspan="8") no votes listed
-        - else
-          - @divisions.each do |division|
-            %tr{:class => cycle("even", "odd") + ((@rdisplay2 != "rebels" && @sort != "rebellions" && division.rebellious? ? "rebel" : ""))}
-              - if @house.nil?
-                %td{:class => division.house}= division.australian_house_name
-              %td= formatted_date(division.date, true)
-              %td
-                - if division.clock_time
-                  = division.clock_time.strftime("%H:%M")
-              %td
-                = link_to truncate(division.name, length: 180), "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
-              %td= division.no_rebellions
-              %td= division.turnout
-              %td= division.majority
+            %td= division.no_rebellions
+            %td= division.turnout
+            %td= division.majority
