@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140828083134) do
+ActiveRecord::Schema.define(version: 20140829021006) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -206,16 +206,14 @@ ActiveRecord::Schema.define(version: 20140828083134) do
   create_table "votes", force: true do |t|
     t.integer "division_id",                                  null: false
     t.integer "member_id",                                    null: false
-    t.string  "vote",              limit: 10,                 null: false
     t.string  "vote_without_tell", limit: 10
     t.boolean "teller",                       default: false, null: false
   end
 
-  add_index "votes", ["division_id", "member_id", "vote"], name: "division_id_2", unique: true, using: :btree
+  add_index "votes", ["division_id", "member_id"], name: "division_id_2", unique: true, using: :btree
   add_index "votes", ["division_id"], name: "division_id", using: :btree
   add_index "votes", ["member_id"], name: "mp_id", using: :btree
   add_index "votes", ["teller"], name: "index_votes_on_teller", using: :btree
-  add_index "votes", ["vote"], name: "vote", using: :btree
   add_index "votes", ["vote_without_tell"], name: "index_votes_on_vote_without_tell", using: :btree
 
   create_table "whips", force: true do |t|

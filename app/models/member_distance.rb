@@ -70,7 +70,7 @@ class MemberDistance < ActiveRecord::Base
       .where("divisions.date <= ?", member2.left_house)
       .joins("LEFT JOIN votes AS votes1 on votes1.division_id = divisions.id AND votes1.member_id = #{member1.id}")
       .joins("LEFT JOIN votes AS votes2 on votes2.division_id = divisions.id AND votes2.member_id = #{member2.id}")
-      .where("(votes1.vote IS NULL AND votes2.vote IS NOT NULL) OR (votes1.vote IS NOT NULL AND votes2.vote IS NULL)")
+      .where("(votes1.vote_without_tell IS NULL AND votes2.vote_without_tell IS NOT NULL) OR (votes1.vote_without_tell IS NOT NULL AND votes2.vote_without_tell IS NULL)")
       .count
   end
 end

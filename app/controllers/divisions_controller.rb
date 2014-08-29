@@ -70,24 +70,24 @@ class DivisionsController < ApplicationController
 
     order = case @sort
     when nil, "party"
-      ["members.party", "vote_sortorders.position desc", "members.last_name", "members.first_name"]
+      ["members.party", "vote_without_tell", "members.last_name", "members.first_name"]
     when "name"
       ["members.last_name", "members.first_name"]
     when "constituency"
       ["members.constituency", "members.last_name", "members.first_name"]
     when "vote"
-      ["vote_sortorders.position desc", "members.last_name", "members.first_name"]
+      ["vote_without_tell", "members.last_name", "members.first_name"]
     else
       raise "Unexpected value"
     end
 
     if @display.nil?
       # TODO Fix this hacky nonsense by doing this query in the db
-      @votes = @division.votes.joins(:member).joins("LEFT JOIN vote_sortorders ON vote_sortorders.vote = votes.vote").order(order).find_all{|v| v.rebellion?}
+      @votes = @division.votes.joins(:member).order(order).find_all{|v| v.rebellion?}
     elsif @display == "allvotes"
-      @votes = @division.votes.joins(:member).joins("LEFT JOIN vote_sortorders ON vote_sortorders.vote = votes.vote").order(order)
+      @votes = @division.votes.joins(:member).order(order)
     elsif @display == "allpossible"
-      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").joins("LEFT JOIN vote_sortorders ON vote_sortorders.vote = votes.vote").order(order)
+      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").order(order)
     elsif @display == "policies"
       if params[:dmp]
         @policy = Policy.find(params[:dmp])
