@@ -8,12 +8,12 @@ class Whip < ActiveRecord::Base
       division_id, party = k
       whip = Whip.find_or_initialize_by(division_id: division_id, party: party)
 
-      whip.aye_votes = votes["aye"] || 0
-      whip.aye_tells = votes["tellaye"] || 0
-      whip.no_votes = votes["no"] || 0
-      whip.no_tells = votes["tellno"] || 0
-      whip.both_votes = votes["both"] || 0
-      whip.abstention_votes = votes["abstention"] || 0
+      whip.aye_votes = votes[["aye", 0]] || 0
+      whip.aye_tells = votes[["aye", 1]] || 0
+      whip.no_votes = votes[["no", 0]] || 0
+      whip.no_tells = votes[["no", 1]] || 0
+      whip.both_votes = votes[["both", 0]] || 0
+      whip.abstention_votes = votes[["abstention", 0]] || 0
       whip.possible_votes = possible_votes[[division_id, party]]
       if Party.whipless?(whip.party) || whip.free_vote?
         whip.whip_guess = "none"
@@ -38,15 +38,15 @@ class Whip < ActiveRecord::Base
   end
 
   def self.calc_all_votes_per_party
-    Division.joins(:votes => :member).group("divisions.id", :party, :vote).count
+    Division.joins(:votes => :member).group("divisions.id", :party, :vote_without_tell, :teller).count
   end
 
   def self.calc_all_votes_per_party2
     r = {}
     calc_all_votes_per_party.each do |k, count|
-      division_id, party, vote = k
+      division_id, party, vote_without_tell, teller = k
       votes = r[[division_id, party]] || {}
-      votes[vote] = count
+      votes[[vote_without_tell, teller]] = count
       r[[division_id, party]] = votes
     end
     r

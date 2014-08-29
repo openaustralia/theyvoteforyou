@@ -73,11 +73,11 @@ describe Whip, :type => :model do
 
     context "one aye vote in party A" do
       before :each do
-        division.votes.create(member: member1, vote: "aye")
+        division.votes.create(member: member1, vote: "aye", vote_without_tell: "aye")
       end
 
-      it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye"] => 1)}
-      it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {"aye" => 1})}
+      it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1)}
+      it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {["aye", 0] => 1})}
       it do
         Whip.update_all!
         expect(Whip.all.count).to eq 1
@@ -113,12 +113,12 @@ describe Whip, :type => :model do
 
       context "and 2 aye votes in party B" do
         before :each do
-          division.votes.create(member: member2, vote: "aye")
-          division.votes.create(member: member3, vote: "aye")
+          division.votes.create(member: member2, vote: "aye", vote_without_tell: "aye")
+          division.votes.create(member: member3, vote: "aye", vote_without_tell: "aye")
         end
 
-        it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye"] => 1, [1, "B", "aye"] => 2)}
-        it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {"aye" => 1}, [1, "B"] => {"aye" => 2})}
+        it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1, [1, "B", "aye", 0] => 2)}
+        it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {["aye", 0] => 1}, [1, "B"] => {["aye", 0] => 2})}
         it do
           Whip.update_all!
           expect(Whip.all.count).to eq 2
@@ -145,12 +145,12 @@ describe Whip, :type => :model do
 
       context "and 1 aye vote and 1 no vote in party B" do
         before :each do
-          division.votes.create(member: member2, vote: "aye")
-          division.votes.create(member: member3, vote: "no")
+          division.votes.create(member: member2, vote: "aye", vote_without_tell: "aye")
+          division.votes.create(member: member3, vote: "no", vote_without_tell: "no")
         end
 
-        it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye"] => 1, [1, "B", "aye"] => 1, [1, "B", "no"] => 1) }
-        it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {"aye" => 1}, [1, "B"] => {"aye" => 1, "no" => 1}) }
+        it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1, [1, "B", "aye", 0] => 1, [1, "B", "no", 0] => 1) }
+        it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {["aye", 0] => 1}, [1, "B"] => {["aye", 0] => 1, ["no", 0] => 1}) }
         it do
           Whip.update_all!
           expect(Whip.all.count).to eq 2
