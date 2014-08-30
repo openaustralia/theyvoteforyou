@@ -20,6 +20,14 @@ class Person
     Office.where(person_id: id)
   end
 
+  def small_image_url
+    "http://www.openaustralia.org/images/mps/#{id}.jpg"
+  end
+
+  def large_image_url
+    "http://www.openaustralia.org/images/mpsL/#{id}.jpg"
+  end
+
   def member_who_voted_on_division(division)
     latest_member = members.order(entered_house: :desc).first
     # What we have now in @member is a member related to the person that voted in division but @member wasn't necessarily
