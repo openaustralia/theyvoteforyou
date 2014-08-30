@@ -12,6 +12,8 @@ class Member < ActiveRecord::Base
   has_many :divisions, through: :votes
   has_many :member_distances, foreign_key: :member1_id
 
+  delegate :small_image_url, :large_image_url, to: :person
+
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
   def self.parse_first_last_name(name)
     name = name.split(" ")

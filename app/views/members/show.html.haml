@@ -7,7 +7,9 @@
     = @member.full_name2
 
 .page-header
-  %h1= yield :title
+  %h1
+    = image_tag(@member.large_image_url)
+    = yield :title
 
 %ul.nav.nav-tabs
   = members_nav_link(@member, @members, nil, nil, "Summary", "Overview of MP", @display.nil? || @display == "summary")
