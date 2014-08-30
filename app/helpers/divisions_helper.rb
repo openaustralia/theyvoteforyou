@@ -218,11 +218,12 @@ module DivisionsHelper
     # Footnote links. The MediaWiki parser would mess these up so we do them after parsing
     text.gsub!(/(?<![<li>\s])(\[(\d+)\])/) { %(<sup class="sup-#{$~[2]}"><a class="sup" href='#footnote-#{$~[2]}' onclick="ClickSup(#{$~[2]}); return false;">#{$~[1]}</a></sup>) }
     # Footnotes
-    text.gsub(/<li>\[(\d+)\]/) { %(<li class="footnote" id="footnote-#{$~[1]}">[#{$~[1]}]) }
+    text.gsub!(/<li>\[(\d+)\]/) { %(<li class="footnote" id="footnote-#{$~[1]}">[#{$~[1]}]) }
 
     # This is a small hack to make links to an old site point to the new site
-    text.gsub("<a href=\"http://publicwhip-test.openaustraliafoundation.org.au",
+    text.gsub!("<a href=\"http://publicwhip-test.openaustraliafoundation.org.au",
       "<a href=\"http://publicwhip-rails.openaustraliafoundation.org.au")
+    text
   end
 
   # Use this in situations where the text is huge and all we want is it to output something
