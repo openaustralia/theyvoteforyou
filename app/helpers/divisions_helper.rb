@@ -76,19 +76,11 @@ module DivisionsHelper
   end
 
   def sort_link_divisions(sort, sort_name, name, current_sort)
-    if current_sort == sort
-      content_tag(:b, name)
-    else
-      link_to name, divisions_path(params.merge(sort: sort)), title: "Sort by #{sort_name}"
-    end
+    link_to_unless current_sort == sort, name, divisions_path(params.merge(sort: sort)), title: "Sort by #{sort_name}"
   end
 
   def sort_link_division(sort, name, current_sort)
-    if current_sort == sort
-      content_tag(:b, name)
-    else
-      link_to name, division_path(params.merge(sort: sort, dmp: nil), false)
-    end
+    link_to_unless current_sort == sort, name, division_path(params.merge(sort: sort, dmp: nil), false)
   end
 
   def aye_vote_class(whip)
