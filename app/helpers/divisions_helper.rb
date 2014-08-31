@@ -11,7 +11,7 @@ module DivisionsHelper
       vote1: nil,
       vote2: nil,
       mpn: (member.url_name if  member),
-      mpc: (member.electorate if member)
+      mpc: (member.url_electorate if member)
     }
     if q[:dmp]
       q2[:dmp] = q[:dmp]
