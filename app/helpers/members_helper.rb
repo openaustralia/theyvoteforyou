@@ -23,10 +23,6 @@ module MembersHelper
     r
   end
 
-  def sort_link(sort, sort_name, name, current_sort)
-    link_to_unless current_sort == sort, name, members_path(params.merge(sort: sort)), title: "Sort by #{sort_name}"
-  end
-
   def members_nav_link(member, members, electorate, display, name, title, active, policy = nil)
     params = policy ? {display: display, dmp: policy.id} : {display: display}
     content_tag(:li, class: ("active" if active)) do

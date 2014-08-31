@@ -32,19 +32,19 @@
 
 %p
   Sort by:
-  = sort_link("lastname", "surname", "Name", @sort)
+  = link_to_unless @sort == "lastname", "Name", members_path(params.merge(sort: "lastname")), title: "Sort by surname"
   |
   - if @house != "senate"
-    = sort_link("constituency", "constituency", "Electorate", @sort)
+    = link_to_unless @sort == "constituency", "Electorate", members_path(params.merge(sort: "constituency")), title: "Sort by constituency"
     |
-  = sort_link("party", "party", "Party", @sort)
+  = link_to_unless @sort == "party", "Party", members_path(params.merge(sort: "party")), title: "Sort by party"
   |
   -if @parliament == "all"
-    = sort_link("date", "Date", "Dates", @sort)
+    = link_to_unless @sort == "date", "Dates", members_path(params.merge(sort: "date")), title: "Sort by Date"
     |
-  = sort_link("rebellions", "rebels", "Rebellions", @sort)
+  = link_to_unless @sort == "rebellions", "Rebellions", members_path(params.merge(sort: "rebellions")), title: "Sort by rebels"
   |
-  = sort_link("attendance", "attendance", "Attendance", @sort)
+  = link_to_unless @sort == "attendance", "Attendance", members_path(params.merge(sort: "attendance")), title: "Sort by attendance"
 
 %table.table.table-striped
   %thead

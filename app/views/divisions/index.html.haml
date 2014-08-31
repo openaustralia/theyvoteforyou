@@ -35,14 +35,14 @@
 
 %p
   Sort by:
-  = sort_link_divisions(nil, "date", "Date", @sort)
+  = link_to_unless @sort.nil?, "Date", divisions_path(params.merge(sort: nil)), title: "Sort by date"
   |
-  = sort_link_divisions("subject", "subject", "Subject", @sort)
+  = link_to_unless @sort == "subject", "Subject", divisions_path(params.merge(sort: "subject")), title: "Sort by subject"
   |
-  = sort_link_divisions("rebellions", "rebellions", "Rebellions", @sort)
+  = link_to_unless @sort == "rebellions", "Rebellions", divisions_path(params.merge(sort: "rebellions")), title: "Sort by rebellions"
   |
-  = sort_link_divisions("turnout", "turnout", "Turnout", @sort)
-  
+  = link_to_unless @sort == "turnout", "Turnout", divisions_path(params.merge(sort: "turnout")), title: "Sort by turnout"
+
 - if @party
   %table.table.table-striped
     %thead

@@ -75,14 +75,6 @@ module DivisionsHelper
     r
   end
 
-  def sort_link_divisions(sort, sort_name, name, current_sort)
-    link_to_unless current_sort == sort, name, divisions_path(params.merge(sort: sort)), title: "Sort by #{sort_name}"
-  end
-
-  def sort_link_division(sort, name, current_sort)
-    link_to_unless current_sort == sort, name, division_path(params.merge(sort: sort, dmp: nil), false)
-  end
-
   def aye_vote_class(whip)
     if whip.aye_votes == 0
       "normal"
