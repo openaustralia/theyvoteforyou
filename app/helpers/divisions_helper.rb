@@ -20,17 +20,10 @@ module DivisionsHelper
   end
 
   def division_path3(q, display_active_policy = true, member = false)
-    q2 = q.clone
-    if member
-      q2[:mpn] = member.url_name
-    else
-      q2[:mpn] = nil
-    end
-    if member
-      q2[:mpc] = member.australian_house == "senate" ? "Senate" : member.url_electorate
-    else
-      q2[:mpc] = nil
-    end
+    q2 = {
+      mpn: (member.url_name if member),
+      mpc: ((member.australian_house == "senate" ? "Senate" : member.url_electorate) if member)
+    }
     if q[:dmp]
       q2[:dmp] = q[:dmp]
     elsif display_active_policy && user_signed_in?
@@ -38,7 +31,7 @@ module DivisionsHelper
     else
       q2[:dmp] = nil
     end
-    division_path(q2)
+    division_path(q.merge(q2))
   end
 
   def aye_vote_class(whip)
