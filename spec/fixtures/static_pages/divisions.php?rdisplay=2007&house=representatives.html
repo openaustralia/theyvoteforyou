@@ -56,21 +56,21 @@ Divisions
 <form action="/redir.php" class="form-inline" method="post" name="secondnav">
 <select class="form-control" id="r" name="r">
 <option class="off" title="" value="/divisions.php?house=representatives">2013 (current)</option>
-<option class="off" title="" value="/divisions.php?rdisplay=2010&amp;house=representatives">2010-2013</option>
-<option class="on" selected="selected" title="" value="/divisions.php?rdisplay=2007&amp;house=representatives">2008-2010</option>
-<option class="off" title="" value="/divisions.php?rdisplay=2004&amp;house=representatives">2004-2007</option>
-<option class="off" title="" value="/divisions.php?rdisplay=all&amp;house=representatives">All Parliaments</option>
+<option class="off" title="" value="/divisions.php?house=representatives&amp;rdisplay=2010">2010-2013</option>
+<option class="on" selected="selected" title="" value="/divisions.php?house=representatives&amp;rdisplay=2007">2008-2010</option>
+<option class="off" title="" value="/divisions.php?house=representatives&amp;rdisplay=2004">2004-2007</option>
+<option class="off" title="" value="/divisions.php?house=representatives&amp;rdisplay=all">All Parliaments</option>
 </select>
 <input class="btn btn-default" name="submit" type="submit" value="Go" />
 <select class="form-control" id="r2" name="r2">
 <option class="off" title="" value="/divisions.php?rdisplay=2007">All houses</option>
-<option class="on" selected="selected" title="" value="/divisions.php?rdisplay=2007&amp;house=representatives">Representatives only</option>
-<option class="off" title="" value="/divisions.php?rdisplay=2007&amp;house=senate">Senate only</option>
+<option class="on" selected="selected" title="" value="/divisions.php?house=representatives&amp;rdisplay=2007">Representatives only</option>
+<option class="off" title="" value="/divisions.php?house=senate&amp;rdisplay=2007">Senate only</option>
 </select>
 <input class="btn btn-default" name="submit" type="submit" value="Go" />
 <select class="form-control" id="r3" name="r3">
-<option class="on" selected="selected" title="" value="/divisions.php?rdisplay=2007&amp;house=representatives">All Divisions</option>
-<option class="off" title="" value="/divisions.php?rdisplay=2007&amp;rdisplay2=rebels&amp;house=representatives">Rebellions</option>
+<option class="on" selected="selected" title="" value="/divisions.php?house=representatives&amp;rdisplay=2007">All Divisions</option>
+<option class="off" title="" value="/divisions.php?house=representatives&amp;rdisplay2=rebels&amp;rdisplay=2007">Rebellions</option>
 </select>
 <input class="btn btn-default" name="submit" type="submit" value="Go" />
 </form>
@@ -86,11 +86,11 @@ about rebellions, as they may not be what you expect.
 Sort by:
 Date
 |
-<a href="/divisions.php?rdisplay=2007&amp;house=representatives&amp;sort=subject" title="Sort by subject">Subject</a>
+<a href="/divisions.php?house=representatives&amp;rdisplay=2007&amp;sort=subject" title="Sort by subject">Subject</a>
 |
-<a href="/divisions.php?rdisplay=2007&amp;house=representatives&amp;sort=rebellions" title="Sort by rebellions">Rebellions</a>
+<a href="/divisions.php?house=representatives&amp;rdisplay=2007&amp;sort=rebellions" title="Sort by rebellions">Rebellions</a>
 |
-<a href="/divisions.php?rdisplay=2007&amp;house=representatives&amp;sort=turnout" title="Sort by turnout">Turnout</a>
+<a href="/divisions.php?house=representatives&amp;rdisplay=2007&amp;sort=turnout" title="Sort by turnout">Turnout</a>
 </p>
 <table class="table table-striped">
 <thead>
