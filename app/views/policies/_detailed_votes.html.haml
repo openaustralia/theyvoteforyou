@@ -1,4 +1,5 @@
-- divisions = member ? policy.divisions.select { |d| d.house == member.house } : policy.divisions
+- divisions = policy.divisions.order(date: :desc, clock_time: :desc, name: :asc, number: :desc)
+- divisions = divisions.select { |d| d.house == member.house } if member
 - if divisions
   - divisions.each do |division|
     - if member
