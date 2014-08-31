@@ -13,7 +13,7 @@ Publicwhip::Application.routes.draw do
   get 'mp.php' => 'members#show'
 
   get 'divisions.php' => 'divisions#index', as: :divisions
-  get 'division.php' => 'divisions#show'
+  get 'division.php' => 'divisions#show', as: :division
   post 'division.php' => 'divisions#add_policy_vote'
 
   get 'edits.php' => 'divisions#show_edits'

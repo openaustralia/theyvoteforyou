@@ -6,22 +6,21 @@ module DivisionsHelper
   end
 
   def division_path2(q, display_active_policy = true, member = false)
-    p = ""
-    p += "&date=#{q[:date]}" if q[:date]
-    p += "&number=#{q[:number]}" if q[:number]
-    p += "&mpn=#{member.url_name}" if member
-    p += "&mpc=#{member.electorate}" if member
-    p += "&house=#{q[:house]}" if q[:house]
-    p += "&display=#{q[:display]}" if q[:display]
-    p += "&sort=#{q[:sort]}" if q[:sort]
-    if q[:dmp]
-      p += "&dmp=#{q[:dmp]}"
-    elsif display_active_policy && user_signed_in?
-      p += "&dmp=#{current_user.active_policy_id}"
+    q2 = q.clone
+    q2[:submit] = nil
+    q2[:vote1] = nil
+    q2[:vote2] = nil
+    if member
+      q2[:mpn] = member.url_name
+      q2[:mpc] = member.electorate
+    else
+      q2[:mpn] = nil
+      q2[:mpc] = nil
     end
-    r = "division.php"
-    r += "?" + p[1..-1] if p != ""
-    r
+    if q[:dmp].nil? && display_active_policy && user_signed_in?
+      q2[:dmp] = current_user.active_policy_id
+    end
+    division_path(q2)
   end
 
   def division_path3(q, display_active_policy = true, member = false)
