@@ -6,21 +6,17 @@ module DivisionsHelper
   end
 
   def division_path2(q, display_active_policy = true, member = false)
-    q2 = q.clone
-    q2[:submit] = nil
-    q2[:vote1] = nil
-    q2[:vote2] = nil
-    if member
-      q2[:mpn] = member.url_name
-      q2[:mpc] = member.electorate
-    else
-      q2[:mpn] = nil
-      q2[:mpc] = nil
-    end
+    q2 = {
+      submit: nil,
+      vote1: nil,
+      vote2: nil,
+      mpn: (member.url_name if  member),
+      mpc: (member.electorate if member)
+    }
     if q[:dmp].nil? && display_active_policy && user_signed_in?
       q2[:dmp] = current_user.active_policy_id
     end
-    division_path(q2)
+    division_path(q.merge(q2))
   end
 
   def division_path3(q, display_active_policy = true, member = false)
