@@ -5,7 +5,7 @@
   -# This isn't actually desired so change this
   - if house == "representatives"
     |
-    = link_to_unless sort == "constituency", "Constituency", division_path(params.merge(sort: "constituency", dmp: nil), false)
+    = link_to_unless sort == "constituency", "Electorate", division_path(params.merge(sort: "constituency", dmp: nil), false)
   |
   = link_to_unless sort.nil?, "Party", division_path(params.merge(sort: nil, dmp: nil), false)
   |

@@ -35,7 +35,7 @@
   = link_to_unless @sort == "lastname", "Name", members_path(params.merge(sort: "lastname")), title: "Sort by surname"
   |
   - if @house != "senate"
-    = link_to_unless @sort == "constituency", "Electorate", members_path(params.merge(sort: "constituency")), title: "Sort by constituency"
+    = link_to_unless @sort == "constituency", "Electorate", members_path(params.merge(sort: "constituency")), title: "Sort by electorate"
     |
   = link_to_unless @sort == "party", "Party", members_path(params.merge(sort: "party")), title: "Sort by party"
   |
