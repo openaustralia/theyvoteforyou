@@ -23,10 +23,6 @@ module DivisionsHelper
     division_path(q.merge(q2))
   end
 
-  def division_path3(q, display_active_policy = true, member = false)
-    division_path2(q, display_active_policy, member)
-  end
-
   def aye_vote_class(whip)
     if whip.aye_votes == 0
       "normal"

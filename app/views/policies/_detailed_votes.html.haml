@@ -4,11 +4,11 @@
   - divisions.each do |division|
     - if member
       %h4
-        = link_to division_path3({date: division.date, number: division.number, house: division.australian_house}, false, member) do
+        = link_to division_path2({date: division.date, number: division.number, house: division.australian_house}, false, member) do
           #{division.name} - #{formatted_date(division.date)} - Division No. #{division.number}
     - else
       %h4
-        = link_to division_path3(date: division.date, number: division.number, house: division.australian_house, dmp: policy.id) do
+        = link_to division_path2(date: division.date, number: division.number, house: division.australian_house, dmp: policy.id) do
           #{division.name} - #{formatted_date(division.date)} - Division No. #{division.number}
     .row
       .col-md-6
