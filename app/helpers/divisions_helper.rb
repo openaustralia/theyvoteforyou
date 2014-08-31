@@ -13,8 +13,12 @@ module DivisionsHelper
       mpn: (member.url_name if  member),
       mpc: (member.electorate if member)
     }
-    if q[:dmp].nil? && display_active_policy && user_signed_in?
+    if q[:dmp]
+      q2[:dmp] = q[:dmp]
+    elsif display_active_policy && user_signed_in?
       q2[:dmp] = current_user.active_policy_id
+    else
+      q2[:dmp] = nil
     end
     division_path(q.merge(q2))
   end
