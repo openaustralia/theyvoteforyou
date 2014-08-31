@@ -5,10 +5,6 @@ module DivisionsHelper
     text
   end
 
-  def division_path(q, display_active_policy = true, member = false)
-    division_path2(q, display_active_policy, member)
-  end
-
   def division_path2(q, display_active_policy = true, member = false)
     p = ""
     p += "&date=#{q[:date]}" if q[:date]

@@ -1,12 +1,12 @@
 %p
   Sort by:
-  = link_to_unless sort == "name", "Name", division_path(params.merge(sort: "name", dmp: nil), false)
+  = link_to_unless sort == "name", "Name", division_path2(params.merge(sort: "name", dmp: nil), false)
   -# For senate hide this to match php app
   -# This isn't actually desired so change this
   - if house == "representatives"
     |
-    = link_to_unless sort == "constituency", "Electorate", division_path(params.merge(sort: "constituency", dmp: nil), false)
+    = link_to_unless sort == "constituency", "Electorate", division_path2(params.merge(sort: "constituency", dmp: nil), false)
   |
-  = link_to_unless sort.nil?, "Party", division_path(params.merge(sort: nil, dmp: nil), false)
+  = link_to_unless sort.nil?, "Party", division_path2(params.merge(sort: nil, dmp: nil), false)
   |
-  = link_to_unless sort == "vote", "Vote", division_path(params.merge(sort: "vote", dmp: nil), false)
+  = link_to_unless sort == "vote", "Vote", division_path2(params.merge(sort: "vote", dmp: nil), false)
