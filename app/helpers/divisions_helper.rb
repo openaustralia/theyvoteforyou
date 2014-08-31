@@ -31,6 +31,13 @@ module DivisionsHelper
     else
       q2[:mpc] = nil
     end
+    if q[:dmp]
+      q2[:dmp] = q[:dmp]
+    elsif display_active_policy && user_signed_in?
+      q2[:dmp] = current_user.active_policy_id
+    else
+      q2[:dmp] = nil
+    end
 
     p = ""
     p += "&date=#{q2[:date]}" if q2[:date]
@@ -40,8 +47,7 @@ module DivisionsHelper
     p += "&house=#{q2[:house]}" if q2[:house]
     p += "&display=#{q2[:display]}" if q2[:display]
     p += "&sort=#{q2[:sort]}" if q2[:sort]
-    p += "&dmp=#{q[:dmp]}" if q[:dmp] && !(display_active_policy && user_signed_in?)
-    p += "&dmp=#{q[:dmp] || current_user.active_policy_id}" if display_active_policy && user_signed_in?
+    p += "&dmp=#{q2[:dmp]}" if q2[:dmp]
     r = "division.php"
     r += "?" + p[1..-1] if p != ""
     r
