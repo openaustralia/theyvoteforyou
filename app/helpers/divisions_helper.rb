@@ -20,21 +20,27 @@ module DivisionsHelper
   end
 
   def division_path3(q, display_active_policy = true, member = false)
-    p = ""
-    p += "&date=#{q[:date]}" if q[:date]
-    p += "&number=#{q[:number]}" if q[:number]
-    p += "&mpn=#{member.url_name}" if member
+    q2 = q.clone
     if member
-      if member.australian_house == "senate"
-        p += "&mpc=Senate"
-      else
-        p += "&mpc=#{member.url_electorate}"
-      end
+      q2[:mpn] = member.url_name
+    else
+      q2[:mpn] = nil
     end
+    if member
+      q2[:mpc] = member.australian_house == "senate" ? "Senate" : member.url_electorate
+    else
+      q2[:mpc] = nil
+    end
+
+    p = ""
+    p += "&date=#{q2[:date]}" if q2[:date]
+    p += "&number=#{q2[:number]}" if q2[:number]
+    p += "&mpn=#{q2[:mpn]}" if q2[:mpn]
+    p += "&mpc=#{q2[:mpc]}" if q2[:mpc]
     p += "&dmp=#{q[:dmp]}" if q[:dmp] && !(display_active_policy && user_signed_in?)
-    p += "&house=#{q[:house]}" if q[:house]
-    p += "&display=#{q[:display]}" if q[:display]
-    p += "&sort=#{q[:sort]}" if q[:sort]
+    p += "&house=#{q2[:house]}" if q2[:house]
+    p += "&display=#{q2[:display]}" if q2[:display]
+    p += "&sort=#{q2[:sort]}" if q2[:sort]
     p += "&dmp=#{q[:dmp] || current_user.active_policy_id}" if display_active_policy && user_signed_in?
     r = "division.php"
     r += "?" + p[1..-1] if p != ""
