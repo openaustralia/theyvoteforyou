@@ -24,18 +24,7 @@ module DivisionsHelper
   end
 
   def division_path3(q, display_active_policy = true, member = false)
-    q2 = {
-      mpn: (member.url_name if member),
-      mpc: (member.url_electorate if member)
-    }
-    if q[:dmp]
-      q2[:dmp] = q[:dmp]
-    elsif display_active_policy && user_signed_in?
-      q2[:dmp] = current_user.active_policy_id
-    else
-      q2[:dmp] = nil
-    end
-    division_path(q.merge(q2))
+    division_path2(q, display_active_policy, member)
   end
 
   def aye_vote_class(whip)
