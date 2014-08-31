@@ -37,10 +37,10 @@ module DivisionsHelper
     p += "&number=#{q2[:number]}" if q2[:number]
     p += "&mpn=#{q2[:mpn]}" if q2[:mpn]
     p += "&mpc=#{q2[:mpc]}" if q2[:mpc]
-    p += "&dmp=#{q[:dmp]}" if q[:dmp] && !(display_active_policy && user_signed_in?)
     p += "&house=#{q2[:house]}" if q2[:house]
     p += "&display=#{q2[:display]}" if q2[:display]
     p += "&sort=#{q2[:sort]}" if q2[:sort]
+    p += "&dmp=#{q[:dmp]}" if q[:dmp] && !(display_active_policy && user_signed_in?)
     p += "&dmp=#{q[:dmp] || current_user.active_policy_id}" if display_active_policy && user_signed_in?
     r = "division.php"
     r += "?" + p[1..-1] if p != ""
