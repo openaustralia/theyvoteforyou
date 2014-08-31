@@ -38,19 +38,7 @@ module DivisionsHelper
     else
       q2[:dmp] = nil
     end
-
-    p = ""
-    p += "&date=#{q2[:date]}" if q2[:date]
-    p += "&number=#{q2[:number]}" if q2[:number]
-    p += "&mpn=#{q2[:mpn]}" if q2[:mpn]
-    p += "&mpc=#{q2[:mpc]}" if q2[:mpc]
-    p += "&house=#{q2[:house]}" if q2[:house]
-    p += "&display=#{q2[:display]}" if q2[:display]
-    p += "&sort=#{q2[:sort]}" if q2[:sort]
-    p += "&dmp=#{q2[:dmp]}" if q2[:dmp]
-    r = "division.php"
-    r += "?" + p[1..-1] if p != ""
-    r
+    division_path(q2)
   end
 
   def aye_vote_class(whip)
