@@ -26,7 +26,7 @@ module DivisionsHelper
   def division_path3(q, display_active_policy = true, member = false)
     q2 = {
       mpn: (member.url_name if member),
-      mpc: ((member.australian_house == "senate" ? "Senate" : member.url_electorate) if member)
+      mpc: (member.url_electorate if member)
     }
     if q[:dmp]
       q2[:dmp] = q[:dmp]
