@@ -23,11 +23,10 @@ module MembersHelper
     r
   end
 
-  def members_nav_link(member, members, electorate, display, name, title, active, policy = nil)
+  def members_nav_link(member, members, display, name, title, active, policy = nil)
     params = policy ? {display: display, dmp: policy.id} : {display: display}
     content_tag(:li, class: ("active" if active)) do
-      path = electorate ? electorate_path2(electorate, params) : member_path(member, params)
-      link_to name, path, title: title
+      link_to name, member_path(member, params), title: title
     end
   end
 
