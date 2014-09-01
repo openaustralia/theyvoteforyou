@@ -4,14 +4,10 @@ module ApplicationHelper
   end
 
   def electorate_path2(member, params = {})
-    params2 = params.merge({
+    member_path(params.merge({
         mpc: (member.url_electorate if member),
         house: (member.australian_house if member)
-      })
-    r = "mp.php?mpc=#{params2[:mpc]}&house=#{params2[:house]}"
-    r += "&display=#{params2[:display]}" if params2[:display]
-    r += "##{params2[:anchor]}" if params2[:anchor]
-    r
+      }))
   end
 
   def policy_path(policy, params = {})
