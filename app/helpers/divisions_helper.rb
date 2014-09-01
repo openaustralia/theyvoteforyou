@@ -6,12 +6,18 @@ module DivisionsHelper
   end
 
   def division_path2(q, display_active_policy = true, member = false)
+    q3 = {
+      mpn: (member.url_name if  member),
+      mpc: (member.url_electorate if member)
+    }
+    division_no_member_path(q.merge(q3), display_active_policy)
+  end
+
+  def division_no_member_path(q, display_active_policy = true)
     q2 = {
       submit: nil,
       vote1: nil,
-      vote2: nil,
-      mpn: (member.url_name if  member),
-      mpc: (member.url_electorate if member)
+      vote2: nil
     }
     if q[:dmp]
       q2[:dmp] = q[:dmp]
