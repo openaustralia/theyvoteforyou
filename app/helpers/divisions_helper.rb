@@ -5,14 +5,14 @@ module DivisionsHelper
     text
   end
 
-  def division_with_member_path2(division, q, member)
-    division_path3(q.merge({
+  def division_with_member_path(division, member)
+    division_path3({
         date: division.date,
         number: division.number,
         house: division.australian_house,
         mpn: member.url_name,
         mpc: member.url_electorate
-      }), false)
+      }, false)
   end
 
   def division_no_member_path(q, display_active_policy = true)

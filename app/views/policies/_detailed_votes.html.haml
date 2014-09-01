@@ -4,7 +4,7 @@
   - divisions.each do |division|
     - if member
       %h4
-        = link_to division_with_member_path2(division, {}, member) do
+        = link_to division_with_member_path(division, member) do
           #{division.name} - #{formatted_date(division.date)} - Division No. #{division.number}
     - else
       %h4
