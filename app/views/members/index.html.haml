@@ -8,20 +8,20 @@
 
 %ul.nav.nav-pills
   %li{class: ("active" if @parliament.nil?)}
-    = link_to "Current", members_path(params.merge(sort: @sort, parliament: nil)) , title: "Show only the current parliament"
+    = link_to "Current", members_path2(params.merge(sort: @sort, parliament: nil)) , title: "Show only the current parliament"
   - Parliament.all.each do |id, details|
     %li{class: ("active" if @parliament == id)}
-      = link_to details[:name], members_path(params.merge(parliament: id, sort: @sort)), title: "#{details[:name]}&nbsp;Parliament".html_safe
+      = link_to details[:name], members_path2(params.merge(parliament: id, sort: @sort)), title: "#{details[:name]}&nbsp;Parliament".html_safe
   %li{class: ("active" if @parliament == "all")}
-    = link_to "All Parliaments", members_path(params.merge(parliament: 'all', sort: @sort)), title: "All members on record"
+    = link_to "All Parliaments", members_path2(params.merge(parliament: 'all', sort: @sort)), title: "All members on record"
 
 %ul.nav.nav-pills
   %li{:class => ("active" if @house == "representatives")}
-    = link_to "Representatives", members_path(params.merge(house: 'representatives', sort: @sort)), title: "Show only members of the House of Representatives"
+    = link_to "Representatives", members_path2(params.merge(house: 'representatives', sort: @sort)), title: "Show only members of the House of Representatives"
   %li{:class => ("active" if @house == "senate")}
-    = link_to "Senators", members_path(params.merge(house: 'senate', sort: @sort)), title: "Show only Senators"
+    = link_to "Senators", members_path2(params.merge(house: 'senate', sort: @sort)), title: "Show only Senators"
   %li{:class => ("active" if @house == "all")}
-    = link_to "Both houses", members_path(params.merge(house: 'all', sort: @sort)), title: "Show all people in Parliament"
+    = link_to "Both houses", members_path2(params.merge(house: 'all', sort: @sort)), title: "Show all people in Parliament"
 
 %p
   = members_type_long(@house)
@@ -32,19 +32,19 @@
 
 %p
   Sort by:
-  = link_to_unless @sort == "lastname", "Name", members_path(params.merge(sort: "lastname")), title: "Sort by surname"
+  = link_to_unless @sort == "lastname", "Name", members_path2(params.merge(sort: "lastname")), title: "Sort by surname"
   |
   - if @house != "senate"
-    = link_to_unless @sort == "constituency", "Electorate", members_path(params.merge(sort: "constituency")), title: "Sort by electorate"
+    = link_to_unless @sort == "constituency", "Electorate", members_path2(params.merge(sort: "constituency")), title: "Sort by electorate"
     |
-  = link_to_unless @sort == "party", "Party", members_path(params.merge(sort: "party")), title: "Sort by party"
+  = link_to_unless @sort == "party", "Party", members_path2(params.merge(sort: "party")), title: "Sort by party"
   |
   -if @parliament == "all"
-    = link_to_unless @sort == "date", "Dates", members_path(params.merge(sort: "date")), title: "Sort by Date"
+    = link_to_unless @sort == "date", "Dates", members_path2(params.merge(sort: "date")), title: "Sort by Date"
     |
-  = link_to_unless @sort == "rebellions", "Rebellions", members_path(params.merge(sort: "rebellions")), title: "Sort by rebels"
+  = link_to_unless @sort == "rebellions", "Rebellions", members_path2(params.merge(sort: "rebellions")), title: "Sort by rebels"
   |
-  = link_to_unless @sort == "attendance", "Attendance", members_path(params.merge(sort: "attendance")), title: "Sort by attendance"
+  = link_to_unless @sort == "attendance", "Attendance", members_path2(params.merge(sort: "attendance")), title: "Sort by attendance"
 
 %table.table.table-striped
   %thead

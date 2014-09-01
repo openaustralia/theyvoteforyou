@@ -7,7 +7,7 @@ module MembersHelper
       }))
   end
 
-  def members_path(params)
+  def members_path2(params)
     p = ""
     p += "&parliament=#{params[:parliament]}" if params[:parliament]
     p += "&house=#{params[:house]}" if params[:house] && params[:house] != "representatives"
