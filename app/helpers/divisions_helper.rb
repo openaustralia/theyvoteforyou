@@ -10,31 +10,20 @@ module DivisionsHelper
   end
 
   def division_path2_true(division, q = {})
-    display_active_policy = true
-    q3 = q.merge({
-        date: division.date,
-        number: division.number,
-        house: division.australian_house
-      })
-    if q3[:dmp].nil? && display_active_policy && user_signed_in?
-      q3[:dmp] = current_user.active_policy_id
+    e = {}
+    if q[:dmp].nil? && user_signed_in?
+      e[:dmp] = current_user.active_policy_id
     end
-
-    division_path(q3)
+    q2 = q.merge(e)
+    division_path2_false(division, q2)
   end
 
   def division_path2_false(division, q = {})
-    display_active_policy = false
-    q3 = q.merge({
+    division_path(q.merge({
         date: division.date,
         number: division.number,
         house: division.australian_house
-      })
-    if q3[:dmp].nil? && display_active_policy && user_signed_in?
-      q3[:dmp] = current_user.active_policy_id
-    end
-
-    division_path(q3)
+      }))
   end
 
   def aye_vote_class(whip)
