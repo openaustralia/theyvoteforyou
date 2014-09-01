@@ -10,17 +10,14 @@ module DivisionsHelper
   end
 
   def division_no_member_path(division, q = {}, display_active_policy = true)
-    division_path3(division, q.merge(mpn: nil, mpc: nil), display_active_policy)
+    division_path3(division, q, display_active_policy)
   end
 
   def division_path3(division, q, display_active_policy = true)
     q3 = q.merge({
         date: division.date,
         number: division.number,
-        house: division.australian_house,
-        submit: nil,
-        vote1: nil,
-        vote2: nil
+        house: division.australian_house
       })
     if q3[:dmp].nil? && display_active_policy && user_signed_in?
       q3[:dmp] = current_user.active_policy_id
