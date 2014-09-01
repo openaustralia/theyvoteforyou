@@ -57,7 +57,6 @@ module DivisionsHelper
 
   def division_nav_link(division, display, name, title, current_display)
     # TODO Don't refer to params in a helper
-    params.delete(:house) if params[:house] == 'representatives'
     content_tag(:li, name, class: ("active" if current_display == display)) do
       link_to name, division_with_policy_path(division, display: display, sort: params[:sort], dmp: params[:dmp]), title: title
     end
