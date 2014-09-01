@@ -1,6 +1,6 @@
 module ApplicationHelper
   def electorate_path(member)
-    "mp.php?mpc=#{member.url_electorate}"
+    member_path(mpc: member.url_electorate)
   end
 
   # When there's a link to an electorate it's only for the house of reps
