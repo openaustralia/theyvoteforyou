@@ -1,15 +1,17 @@
 module MembersHelper
   def member_path2(member, params = {})
-    if member.senator?
-      # TODO Seems odd to me the mpc=Senate would expect mpc=Tasmania
-      r = "mp.php?mpn=#{member.url_name}&mpc=Senate&house=#{member.australian_house}"
-    else
-      r = "mp.php?mpn=#{member.url_name}&mpc=#{member.url_electorate}&house=#{member.australian_house}"
-    end
-    r += "&parliament=#{params[:parliament]}" if params[:parliament]
-    r += "&dmp=#{params[:dmp]}" if params[:dmp]
-    r += "&display=#{params[:display]}" if params[:display]
-    r += "##{params[:anchor]}" if params[:anchor]
+    params2 = params.merge({
+        mpn: member.url_name,
+        # TODO Seems odd to me the mpc=Senate would expect mpc=Tasmania
+        mpc: member.senator? ? "Senate" : member.url_electorate,
+        house: member.australian_house
+      })
+
+    r = "mp.php?mpn=#{params2[:mpn]}&mpc=#{params2[:mpc]}&house=#{params2[:house]}"
+    r += "&parliament=#{params2[:parliament]}" if params2[:parliament]
+    r += "&dmp=#{params2[:dmp]}" if params2[:dmp]
+    r += "&display=#{params2[:display]}" if params2[:display]
+    r += "##{params2[:anchor]}" if params2[:anchor]
     r
   end
 
