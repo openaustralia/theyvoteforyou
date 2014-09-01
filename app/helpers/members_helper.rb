@@ -7,10 +7,6 @@ module MembersHelper
       }))
   end
 
-  def members_path2(params)
-    members_path(params)
-  end
-
   def members_nav_link(member, members, display, name, title, active, policy = nil)
     params = {display: display}
     params = params.merge(dmp: policy.id) if policy
