@@ -2,8 +2,7 @@ module MembersHelper
   def member_path2(member, params = {})
     member_path(params.merge({
         mpn: member.url_name,
-        # TODO Seems odd to me the mpc=Senate would expect mpc=Tasmania
-        mpc: member.senator? ? "Senate" : member.url_electorate,
+        mpc: member.url_electorate,
         house: member.australian_house
       }))
   end
