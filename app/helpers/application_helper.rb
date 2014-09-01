@@ -6,7 +6,7 @@ module ApplicationHelper
       }))
   end
 
-  def policy_path(policy, params = {})
+  def policy_path2(policy, params = {})
     r = "policy.php?id=#{policy.id}"
     r += "&display=#{params[:display]}" if params[:display]
     r

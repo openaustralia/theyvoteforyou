@@ -16,7 +16,7 @@ class PoliciesController < ApplicationController
     if @display == 'editdefinition' && !user_signed_in?
       redirect_to controller: 'account',
                   action: 'settings',
-                  params: { r: policy_path(id: @policy.id, display: 'editdefinition') }
+                  params: { r: policy_path2(id: @policy.id, display: 'editdefinition') }
     elsif @display == 'editdefinition' && user_signed_in?
       # FIXME This is how the user sets their active policy in PHP which is silly for many reasons
       current_user.update_attribute :active_policy_id, @policy.id
