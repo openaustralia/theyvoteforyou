@@ -18,7 +18,8 @@ module MembersHelper
   end
 
   def members_nav_link(member, members, display, name, title, active, policy = nil)
-    params = policy ? {display: display, dmp: policy.id} : {display: display}
+    params = {display: display}
+    params = params.merge(dmp: policy.id) if policy
     content_tag(:li, class: ("active" if active)) do
       link_to name, member_path2(member, params), title: title
     end
