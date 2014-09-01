@@ -7,9 +7,9 @@ module ApplicationHelper
   end
 
   def policy_path2(policy, params = {})
-    r = "policy.php?id=#{policy.id}"
-    r += "&display=#{params[:display]}" if params[:display]
-    r
+    policy_path(params.merge({
+        id: policy.id
+      }))
   end
 
   def edit_division_path(division)

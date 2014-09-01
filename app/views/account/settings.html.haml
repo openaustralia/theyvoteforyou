@@ -23,7 +23,7 @@
 %ul
 - current_user.policies.each do |policy|
   %li
-    = link_to policy.name, "../#{policy_path2(policy)}"
+    = link_to policy.name, policy_path2(policy)
     (#{policy.status})
 %p
   (
