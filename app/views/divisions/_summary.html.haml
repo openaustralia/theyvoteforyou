@@ -64,7 +64,7 @@
       - else
         - votes.each do |vote|
           %tr
-            %td= link_to vote.name, member_path(vote.member)
+            %td= link_to vote.name, member_path2(vote.member)
             %td= vote.electorate
             %td
               = vote.party_long2
@@ -74,7 +74,7 @@
     - elsif display == "allpossible"
       - members.each do |member|
         %tr{:class => ("rebel" if member.rebel_on_division?(division))}
-          %td= link_to member.name_without_title, member_path(member)
+          %td= link_to member.name_without_title, member_path2(member)
           %td= link_to_if division.australian_house == "representatives", member.electorate, electorate_path(member)
           %td
             = member.party_long2

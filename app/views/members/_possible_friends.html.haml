@@ -2,7 +2,7 @@
   - if all_friends
     All Possible Friends
   - else
-    Possible Friends (<a href="#{member_path(member, display: 'allfriends')}">more...</a>)
+    Possible Friends (<a href="#{member_path2(member, display: 'allfriends')}">more...</a>)
 
 %p
   Shows which
@@ -43,7 +43,7 @@
       - possible_friends.each do |member_distance|
         %tr
           %td= number_to_percentage(member_distance.agreement_percentage, precision: 1)
-          %td= link_to member_distance.member2.name_without_title, member_path(member_distance.member2)
+          %td= link_to member_distance.member2.name_without_title, member_path2(member_distance.member2)
           %td= link_to_unless member_distance.member2.senator?, member_distance.member2.electorate, electorate_path(member_distance.member2)
           %td= member_distance.member2.party_long2
 - if member.best_friends.count >= 5 && !all_friends

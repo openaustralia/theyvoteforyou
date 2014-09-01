@@ -1,5 +1,5 @@
 module MembersHelper
-  def member_path(member, params = {})
+  def member_path2(member, params = {})
     if member.senator?
       # TODO Seems odd to me the mpc=Senate would expect mpc=Tasmania
       r = "mp.php?mpn=#{member.url_name}&mpc=Senate&house=#{member.australian_house}"
@@ -26,7 +26,7 @@ module MembersHelper
   def members_nav_link(member, members, display, name, title, active, policy = nil)
     params = policy ? {display: display, dmp: policy.id} : {display: display}
     content_tag(:li, class: ("active" if active)) do
-      link_to name, member_path(member, params), title: title
+      link_to name, member_path2(member, params), title: title
     end
   end
 
