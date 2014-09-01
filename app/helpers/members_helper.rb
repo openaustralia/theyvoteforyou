@@ -7,14 +7,6 @@ module MembersHelper
       }))
   end
 
-  def members_nav_link(member, members, display, name, title, active, policy = nil)
-    if policy
-      nav_link(name, member_path2(member, display: display, dmp: policy.id), title, active)
-    else
-      nav_link(name, member_path2(member, display: display), title, active)
-    end
-  end
-
   def vote_records_start_date(member)
     # HACK WARNING
     formatted_date([member.entered_house, Date.new(2006,1,1)].max, true)

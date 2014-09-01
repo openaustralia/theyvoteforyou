@@ -55,10 +55,6 @@ module DivisionsHelper
     division.aye_votes >= division.no_votes ? "whip" : "normal"
   end
 
-  def division_nav_link(division, display, name, title, current_display)
-    nav_link(name, division_with_policy_path(division, display: display, sort: params[:sort], dmp: params[:dmp]), title, current_display == display)
-  end
-
   def vote_display_in_table(vote)
     case vote
     when "aye3"

@@ -12,11 +12,11 @@
     = yield :title
 
 %ul.nav.nav-tabs
-  = members_nav_link(@member, @members, nil, "Summary", "Overview of MP", @display.nil? || @display == "summary")
-  = members_nav_link(@member, @members, "allvotes", "Votes attended", "Show every vote cast by this MP", @display == "allvotes")
-  = members_nav_link(@member, @members, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
-  = members_nav_link(@member, @members, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
-  = members_nav_link(@member, @members, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
+  = nav_link("Summary", member_path2(@member, display: nil), "Overview of MP", @display.nil? || @display == "summary")
+  = nav_link("Votes attended", member_path2(@member, display: "allvotes"), "Show every vote cast by this MP", @display == "allvotes")
+  = nav_link("All votes", member_path2(@member, display: "everyvote"), "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
+  = nav_link("All friends", member_path2(@member, display: "allfriends"), "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
+  = nav_link("Policy comparisons", member_path2(@member, display: "alldreams"), "Show all Policies and how this MP voted on them", @display == "alldreams")
 
 - if @display == "allfriends"
   = render "possible_friends", all_friends: true, member: @member

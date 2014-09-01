@@ -7,8 +7,13 @@
 #secondnavtabs
   %ul.nav.nav-tabs
     - # FIXME This summary link is obviously wrong ("allvotes"?)
-    = members_nav_link(@member, @members, "allvotes", "Summary", "Show every vote cast by this MP",  @display.nil? || @display == "allvotes", @policy)
-    = members_nav_link(@member, @members, "motions", "Full description", "Also show descriptions of every vote", @display == "motions", @policy)
-    = members_nav_link(@member, @members, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
+    - if @policy
+      = nav_link("Summary", member_path2(@member, display: "allvotes", dmp: @policy.id), "Show every vote cast by this MP", @display.nil? || @display == "allvotes")
+      = nav_link("Full description", member_path2(@member, display: "motions", dmp: @policy.id), "Also show descriptions of every vote", @display == "motions")
+    - else
+      = nav_link("Summary", member_path2(@member, display: "allvotes"), "Show every vote cast by this MP", @display.nil? || @display == "allvotes")
+      = nav_link("Full description", member_path2(@member, display: "motions"), "Also show descriptions of every vote", @display == "motions")
+
+    = nav_link("Policy comparisons", member_path2(@member, display: "alldreams"), "Show all Policies and how this MP voted on them", @display == "alldreams")
 
 = render "policy_comparison", member: @member, agreement_fraction_with_policy: @agreement_fraction_with_policy, policy: @policy, display: @display, number_of_votes_on_policy: @number_of_votes_on_policy, policy_member_distance: @policy_member_distance
