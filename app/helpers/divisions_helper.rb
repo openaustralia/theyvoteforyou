@@ -5,12 +5,8 @@ module DivisionsHelper
     text
   end
 
-  def division_path2(q, display_active_policy = true, member = false)
-    q3 = {
-      mpn: (member.url_name if  member),
-      mpc: (member.url_electorate if member)
-    }
-    division_path3(q.merge(q3), display_active_policy)
+  def division_with_member_path(q, member)
+    division_path3(q.merge(mpn: member.url_name, mpc: member.url_electorate), false)
   end
 
   def division_no_member_path(q, display_active_policy = true)

@@ -4,7 +4,7 @@
   - divisions.each do |division|
     - if member
       %h4
-        = link_to division_path2({date: division.date, number: division.number, house: division.australian_house}, false, member) do
+        = link_to division_with_member_path({date: division.date, number: division.number, house: division.australian_house}, member) do
           #{division.name} - #{formatted_date(division.date)} - Division No. #{division.number}
     - else
       %h4
