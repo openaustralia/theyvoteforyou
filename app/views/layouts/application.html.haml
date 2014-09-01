@@ -27,29 +27,29 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          = link_to "/index.php", class: "navbar-brand" do
+          = link_to root_path, class: "navbar-brand" do
             the public whip
 
         // Collect the nav links, forms, and other content for toggling
         .collapse.navbar-collapse#bs-example-navbar-collapse-1
           %ul.nav.navbar-nav
-            %li= link_to "Home", "/index.php", title: "Front page and site highlights"
-            %li= link_to "Divisions", "/divisions.php", title: "List of all votes in Parliament"
-            %li= link_to "Representatives", "/mps.php", title: "List of all Representatives"
-            %li= link_to "Senators", "/mps.php?house=senate", title: "List of all Senators"
-            %li= link_to "Policies", "/policies.php", title: "Help to analyze MP's votes"
+            %li= link_to "Home", root_path, title: "Front page and site highlights"
+            %li= link_to "Divisions", divisions_path, title: "List of all votes in Parliament"
+            %li= link_to "Representatives", members_path, title: "List of all Representatives"
+            %li= link_to "Senators", members_path(house: "senate"), title: "List of all Senators"
+            %li= link_to "Policies", policies_path, title: "Help to analyze MP's votes"
             %li= link_to "Help / FAQ", help_path, title: "Frequently asked questions"
           %ul.nav.navbar-nav.navbar-right
             - if user_signed_in?
               %li
-                = link_to "/account/settings.php", title: "Change account settings" do
+                = link_to account_settings_path, title: "Change account settings" do
                   You are:
                   = current_user.real_name || current_user.email
               %li
-                = link_to "Logout", "/account/logout.php?r=#{CGI.escape(params[:r] ? params[:r] : request.fullpath)}", title: "Make your browser forget that you are logged into The Public Whip as #{current_user.real_name || current_user.email}"
+                = link_to "Logout", logout_path(r: (params[:r] || request.fullpath)), title: "Make your browser forget that you are logged into The Public Whip as #{current_user.real_name || current_user.email}"
             - else
-              %li= link_to "Sign Up", "/account/register.php?r=#{CGI.escape(params[:r] ? params[:r] : request.fullpath)}", title: "Register to make or edit policies"
-              %li= link_to "Login", "/account/settings.php?r=#{CGI.escape(params[:r] ? params[:r] : request.fullpath)}", title: "Login to edit policies"
+              %li= link_to "Sign Up", sign_up_path(r: (params[:r] || request.fullpath)), title: "Register to make or edit policies"
+              %li= link_to "Login", account_settings_path(r: (params[:r] || request.fullpath)), title: "Login to edit policies"
 
     .container= yield
     #footer1

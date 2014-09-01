@@ -2,14 +2,12 @@
 %p
   This is currently your active policy;
   <b>to change its votes, go to the
-  %a{:href => "/divisions.php"} division page
+  = link_to "division page", divisions_path
   for the vote you want to change</b>.
   You can use the
-  %a{:href => "search.php"}
-    search
-    facility
+  = link_to "search facility", search_path
   to find divisions. If you haven't edited a policy
-  before please <a href="/faq.php#policies">read about how policies work</a>.
+  before please #{link_to "read about how policies work", help_path(anchor: "policies")}.
 
 %h2 Policy title and text
 

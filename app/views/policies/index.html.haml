@@ -7,8 +7,7 @@
   Each policy has a definition and a way to vote in relevant
   divisions in Parliament.
 %ul
-  %li
-    %a{:href => "account/addpolicy.php"} Make a new policy
+  %li= link_to "Make a new policy", new_policy_path
 %p
   This table summarises all policies, including how many times
   they have "voted". Click on their name to get a comparison of a
@@ -41,6 +40,6 @@
         %td{:colspan => "4"}
           No policies match this person's votes. You can
           -# TODO Use path helper
-          = link_to "edit or make a policy that will appear here.", "/policies.php"
+          = link_to "edit or make a policy that will appear here.", policies_path
 
 %p= "That makes #{@policies.size} policies which have voted in at least one division."

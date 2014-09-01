@@ -17,7 +17,7 @@
       %tr
         %td{colspan: 2}
           No policies match this person's votes. You can
-          = link_to "edit or make a policy", "/policies.php"
+          = link_to "edit or make a policy", policies_path
           that will appear here.
     - else
       - member.person.policy_person_distances.joins(:policy).order("policies.name").each do |policy_member_distance|
