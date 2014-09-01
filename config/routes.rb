@@ -10,7 +10,7 @@ Publicwhip::Application.routes.draw do
   get 'search.php' => 'home#search'
 
   get 'mps.php' => 'members#index'
-  get 'mp.php' => 'members#show'
+  get 'mp.php' => 'members#show', as: :member
 
   get 'divisions.php' => 'divisions#index', as: :divisions
   get 'division.php' => 'divisions#show', as: :division

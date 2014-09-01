@@ -1,18 +1,11 @@
 module MembersHelper
   def member_path2(member, params = {})
-    params2 = params.merge({
+    member_path(params.merge({
         mpn: member.url_name,
         # TODO Seems odd to me the mpc=Senate would expect mpc=Tasmania
         mpc: member.senator? ? "Senate" : member.url_electorate,
         house: member.australian_house
-      })
-
-    r = "mp.php?mpn=#{params2[:mpn]}&mpc=#{params2[:mpc]}&house=#{params2[:house]}"
-    r += "&parliament=#{params2[:parliament]}" if params2[:parliament]
-    r += "&dmp=#{params2[:dmp]}" if params2[:dmp]
-    r += "&display=#{params2[:display]}" if params2[:display]
-    r += "##{params2[:anchor]}" if params2[:anchor]
-    r
+      }))
   end
 
   def members_path(params)
