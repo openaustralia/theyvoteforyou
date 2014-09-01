@@ -56,10 +56,7 @@ module DivisionsHelper
   end
 
   def division_nav_link(division, display, name, title, current_display)
-    # TODO Don't refer to params in a helper
-    content_tag(:li, class: ("active" if current_display == display)) do
-      link_to name, division_with_policy_path(division, display: display, sort: params[:sort], dmp: params[:dmp]), title: title
-    end
+    nav_link(name, division_with_policy_path(division, display: display, sort: params[:sort], dmp: params[:dmp]), title, current_display == display)
   end
 
   def vote_display_in_table(vote)

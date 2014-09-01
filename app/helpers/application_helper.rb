@@ -1,4 +1,10 @@
 module ApplicationHelper
+  def nav_link(name, path, title, current)
+    content_tag(:li, class: ("active" if current)) do
+      link_to name, path, title: title
+    end
+  end
+
   def electorate_path(member, params = {})
     member_path(params.merge({
         mpc: (member.url_electorate if member),
