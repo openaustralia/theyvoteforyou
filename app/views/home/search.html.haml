@@ -14,7 +14,7 @@
       %tr
         %td= link_to mp.name, member_path2(mp)
         %td= mp.party
-        %td= link_to mp.electorate, electorate_path2(mp.electorate)
+        %td= link_to mp.electorate, electorate_path2(mp)
 
 - elsif params[:query]
   - content_for :title, "Search for #{params[:query].gsub(/[^A-Za-z0-9 \.\,]/, '')}"

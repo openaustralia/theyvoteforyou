@@ -67,7 +67,7 @@ class MembersController < ApplicationController
       @member = @members.first
       # TODO If this relates to a single person redirect
       if @display || params[:dmp]
-        redirect_to view_context.electorate_path2(electorate)
+        redirect_to view_context.electorate_path2(@member)
         return
       end
     end

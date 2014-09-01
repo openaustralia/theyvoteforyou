@@ -24,9 +24,8 @@ class HomeController < ApplicationController
 
       if electorates.count == 1
         member = Member.find_by_constituency(electorates.first['name'])
-        electorate = member ? member.electorate : ''
         # FIXME: We should redirect but this is how the PHP app does it currently
-        render nothing: true, status: :found, location: view_context.electorate_path2(electorate)
+        render nothing: true, status: :found, location: view_context.electorate_path2(member)
         return
       elsif electorates.count > 1
         @mps = []
