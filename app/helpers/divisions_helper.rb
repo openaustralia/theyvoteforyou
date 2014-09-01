@@ -9,7 +9,7 @@ module DivisionsHelper
     division_path3(division, {mpn: member.url_name, mpc: member.url_electorate}, false)
   end
 
-  def division_no_member_path(division, q, display_active_policy = true)
+  def division_no_member_path(division, q = {}, display_active_policy = true)
     division_path3(division, q.merge(mpn: nil, mpc: nil), display_active_policy)
   end
 
@@ -60,9 +60,10 @@ module DivisionsHelper
   end
 
   def division_nav_link(division, display, name, title, current_display)
+    # TODO Don't refer to params in a helper
     params.delete(:house) if params[:house] == 'representatives'
     content_tag(:li, name, class: ("active" if current_display == display)) do
-      link_to name, division_no_member_path(division, params.merge(display: display)), title: title
+      link_to name, division_no_member_path(division, display: display, sort: params[:sort], dmp: params[:dmp]), title: title
     end
   end
 
