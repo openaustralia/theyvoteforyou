@@ -27,7 +27,7 @@ Publicwhip::Application.routes.draw do
   scope path: '/account' do
     match 'settings.php' => 'account#settings', via: [:get, :post], as: :account_settings
 
-    get 'wiki.php' => 'divisions#edit'
+    get 'wiki.php' => 'divisions#edit', as: :edit_division
     post 'wiki.php' => 'divisions#update'
 
     get 'addpolicy.php' => 'policies#new'
