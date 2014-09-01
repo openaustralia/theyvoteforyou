@@ -1,6 +1,6 @@
 module ApplicationHelper
   def electorate_path(member)
-    member_path(mpc: member.url_electorate)
+    electorate_path2(member)
   end
 
   def electorate_path2(member, params = {})
