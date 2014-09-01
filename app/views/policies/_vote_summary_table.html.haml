@@ -28,6 +28,6 @@
               = vote_display_in_table(member.vote_on_division_without_tell(division))
           - else
             %td
-              = link_to division.name, division_path2_false(division, {dmp: policy.id})
+              = link_to division.name, division_path2(division, {dmp: policy.id})
           %td
             = vote_display_in_table(division.policy_vote(policy))

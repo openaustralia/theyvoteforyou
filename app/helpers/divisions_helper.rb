@@ -6,19 +6,18 @@ module DivisionsHelper
   end
 
   def division_with_member_path(division, member)
-    division_path2_false(division, {mpn: member.url_name, mpc: member.url_electorate})
+    division_path2(division, {mpn: member.url_name, mpc: member.url_electorate})
   end
 
-  def division_path2_true(division, q = {})
-    e = {}
-    if q[:dmp].nil? && user_signed_in?
-      e[:dmp] = current_user.active_policy_id
+  def division_with_policy_path(division, q = {})
+    if q[:dmp].nil? && current_user
+      division_path2(division, q.merge(dmp: current_user.active_policy_id))
+    else
+      division_path2(division, q)
     end
-    q2 = q.merge(e)
-    division_path2_false(division, q2)
   end
 
-  def division_path2_false(division, q = {})
+  def division_path2(division, q = {})
     division_path(q.merge({
         date: division.date,
         number: division.number,
@@ -60,7 +59,7 @@ module DivisionsHelper
     # TODO Don't refer to params in a helper
     params.delete(:house) if params[:house] == 'representatives'
     content_tag(:li, name, class: ("active" if current_display == display)) do
-      link_to name, division_path2_true(division, display: display, sort: params[:sort], dmp: params[:dmp]), title: title
+      link_to name, division_with_policy_path(division, display: display, sort: params[:sort], dmp: params[:dmp]), title: title
     end
   end
 
