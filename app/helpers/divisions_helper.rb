@@ -6,39 +6,27 @@ module DivisionsHelper
   end
 
   def division_with_member_path(division, member)
-    division_path3({
-        date: division.date,
-        number: division.number,
-        house: division.australian_house,
-        mpn: member.url_name,
-        mpc: member.url_electorate
-      }, false)
+    division_path3(division, {mpn: member.url_name, mpc: member.url_electorate}, false)
   end
 
   def division_no_member_path(division, q, display_active_policy = true)
-    division_path3(q.merge({
+    division_path3(division, q.merge(mpn: nil, mpc: nil), display_active_policy)
+  end
+
+  def division_path3(division, q, display_active_policy = true)
+    q3 = q.merge({
         date: division.date,
         number: division.number,
         house: division.australian_house,
-        mpn: nil,
-        mpc: nil
-      }), display_active_policy)
-  end
-
-  def division_path3(q, display_active_policy = true)
-    q2 = {
-      submit: nil,
-      vote1: nil,
-      vote2: nil
-    }
-    if q[:dmp]
-      q2[:dmp] = q[:dmp]
-    elsif display_active_policy && user_signed_in?
-      q2[:dmp] = current_user.active_policy_id
-    else
-      q2[:dmp] = nil
+        submit: nil,
+        vote1: nil,
+        vote2: nil
+      })
+    if q3[:dmp].nil? && display_active_policy && user_signed_in?
+      q3[:dmp] = current_user.active_policy_id
     end
-    division_path(q.merge(q2))
+
+    division_path(q3)
   end
 
   def aye_vote_class(whip)
