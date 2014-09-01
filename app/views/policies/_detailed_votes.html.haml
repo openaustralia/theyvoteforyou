@@ -8,7 +8,7 @@
           #{division.name} - #{formatted_date(division.date)} - Division No. #{division.number}
     - else
       %h4
-        = link_to division_no_member_path2(division, dmp: policy.id) do
+        = link_to division_no_member_path(division, dmp: policy.id) do
           #{division.name} - #{formatted_date(division.date)} - Division No. #{division.number}
     .row
       .col-md-6

@@ -15,11 +15,7 @@ module DivisionsHelper
       }, false)
   end
 
-  def division_no_member_path(q, display_active_policy = true)
-    division_path3(q.merge(mpn: nil, mpc: nil), display_active_policy)
-  end
-
-  def division_no_member_path2(division, q, display_active_policy = true)
+  def division_no_member_path(division, q, display_active_policy = true)
     division_path3(q.merge({
         date: division.date,
         number: division.number,
@@ -75,10 +71,10 @@ module DivisionsHelper
     division.aye_votes >= division.no_votes ? "whip" : "normal"
   end
 
-  def division_nav_link(display, name, title, current_display)
+  def division_nav_link(division, display, name, title, current_display)
     params.delete(:house) if params[:house] == 'representatives'
     content_tag(:li, name, class: ("active" if current_display == display)) do
-      link_to name, division_no_member_path(params.merge(display: display)), title: title
+      link_to name, division_no_member_path(division, params.merge(display: display)), title: title
     end
   end
 

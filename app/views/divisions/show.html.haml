@@ -7,10 +7,10 @@
 
 #secondnavtabs
   %ul.nav.nav-tabs
-    = division_nav_link(nil, "Summary", "Overview of division", @display)
-    = division_nav_link("allvotes", "All voters", "Every MP who cast a vote in the division", @display)
-    = division_nav_link("allpossible", "All eligible voters", "Show even MPs who did not vote but could have", @display)
-    = division_nav_link("policies", "Policies", "Show or change the polices which vote on this division", @display)
+    = division_nav_link(@division, nil, "Summary", "Overview of division", @display)
+    = division_nav_link(@division, "allvotes", "All voters", "Every MP who cast a vote in the division", @display)
+    = division_nav_link(@division, "allpossible", "All eligible voters", "Show even MPs who did not vote but could have", @display)
+    = division_nav_link(@division, "policies", "Policies", "Show or change the polices which vote on this division", @display)
 
 - if @display == "policies"
   = render "policies", policy: @policy, changed_from: @changed_from, division: @division
