@@ -9,7 +9,7 @@ Publicwhip::Application.routes.draw do
   get 'faq.php' => 'home#faq', as: :help
   get 'search.php' => 'home#search'
 
-  get 'mps.php' => 'members#index'
+  get 'mps.php' => 'members#index', as: :members
   get 'mp.php' => 'members#show', as: :member
 
   get 'divisions.php' => 'divisions#index', as: :divisions

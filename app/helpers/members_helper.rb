@@ -8,13 +8,7 @@ module MembersHelper
   end
 
   def members_path2(params)
-    p = ""
-    p += "&parliament=#{params[:parliament]}" if params[:parliament]
-    p += "&house=#{params[:house]}" if params[:house]
-    p += "&sort=#{params[:sort]}"
-    r = "/mps.php"
-    r += "?" + p[1..-1] if p != ""
-    r
+    members_path(params)
   end
 
   def members_nav_link(member, members, display, name, title, active, policy = nil)
