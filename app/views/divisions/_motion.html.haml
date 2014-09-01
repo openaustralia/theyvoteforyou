@@ -12,7 +12,7 @@
   -# The motion can include html.
   -# TODO Need to check what happens when the user edits the motion. What can they add?
   .motion-text
-    = formatted_motion_text(division)
+    = division.formatted_motion_text
   %p
     %b= link_to "Debate in Parliament", division.oa_debate_url, title: "Links to debate shown at www.openaustralia.org"
     |

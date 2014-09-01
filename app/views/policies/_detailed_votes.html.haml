@@ -17,4 +17,4 @@
           = vote_display_in_table(division.policy_vote(policy))
         = render 'divisions/summary_party_votes', division: division
       .col-md-6
-        = formatted_motion_text(division)
+        = division.formatted_motion_text
