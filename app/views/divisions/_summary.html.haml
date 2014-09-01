@@ -34,9 +34,9 @@
     = members_type(division.australian_house)
     for which their vote in this division differed
     from the majority vote of their party. You can see
-    = link_to "all votes", division_path2(params.merge(display: "allvotes"))
+    = link_to "all votes", division_no_member_path(params.merge(display: "allvotes"))
     in this division, or
-    = link_to division_path2(params.merge(display: "allpossible")) do
+    = link_to division_no_member_path(params.merge(display: "allpossible")) do
       every eligible
       = member_type(division.australian_house)
     who could have voted in this division
