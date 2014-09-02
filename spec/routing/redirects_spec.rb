@@ -10,4 +10,9 @@ describe "routing redirects", :type => :request do
     get "/account/changeemail.php"
     expect(response).to redirect_to("/users/edit")
   end
+
+  it "/policies.php -> /policies" do
+    get "/policies.php"
+    expect(response).to redirect_to("/policies")
+  end
 end

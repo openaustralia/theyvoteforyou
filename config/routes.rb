@@ -18,7 +18,8 @@ Publicwhip::Application.routes.draw do
 
   get 'edits.php' => 'divisions#show_edits', as: :show_edits_division
 
-  get 'policies.php' => 'policies#index', as: :policies
+  get 'policies.php' => redirect('/policies'), as: :policies
+  get 'policies' => 'policies#index'
   get 'policy.php' => 'policies#show', as: :policy
   post 'policy.php' => 'policies#edit'
 
