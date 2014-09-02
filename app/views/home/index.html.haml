@@ -25,7 +25,7 @@
       or a particular
       %strong topic
       of interest
-    %form.form-inline.searchtitlebarform{:action => "/search.php", :method => "get", :name => "pw"}
+    %form.form-inline.searchtitlebarform{:action => search_path, :method => "get", :name => "pw"}
       %input.form-control#query{:maxlength => "256", :name => "query", :onblur => "fadeout(this)", :onfocus => "fadein(this)", :size => "12"}/
       %button.btn.btn-default{:name => "button", :type => "submit", :value => "Submit"} Submit
 

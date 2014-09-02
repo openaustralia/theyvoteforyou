@@ -22,7 +22,7 @@ Publicwhip::Application.routes.draw do
   get 'policy.php' => 'policies#show', as: :policy
   post 'policy.php' => 'policies#edit'
 
-  post 'redir.php', to: redirect { |p, r| (r.params[:r] || r.params[:r2] || r.params[:r3]) }
+  post 'redir.php', to: redirect { |p, r| (r.params[:r] || r.params[:r2] || r.params[:r3]) }, as: :redirect
 
   scope path: '/account' do
     match 'settings.php' => 'account#settings', via: [:get, :post], as: :account_settings

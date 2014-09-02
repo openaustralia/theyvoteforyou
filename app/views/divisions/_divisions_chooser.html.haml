@@ -2,7 +2,7 @@
 - params.delete :rdisplay2 if rdisplay2.nil?
 
 
-%form.form-inline{:action => "/redir.php", :method => "post", :name => "secondnav"}
+%form.form-inline{:action => redirect_path, :method => "post", :name => "secondnav"}
   %select.form-control#r{:name => "r"}
     - Parliament.all.each do |id, details|
       %option{:class => (rdisplay == id ? "on" : "off"), :selected => (rdisplay == id), :title => "", :value => divisions_path(params.merge(rdisplay: (id == "2013" ? nil : id)))}= details[:name]
