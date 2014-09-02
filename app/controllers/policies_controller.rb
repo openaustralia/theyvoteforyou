@@ -2,7 +2,7 @@ class PoliciesController < ApplicationController
   # TODO: Reenable CSRF protection
   skip_before_action :verify_authenticity_token
 
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show, :detail]
 
   def index
     @policies = Policy.order(:private, :name)
@@ -10,12 +10,14 @@ class PoliciesController < ApplicationController
 
   def show
     @policy = Policy.find(params[:id])
-    @display = params[:display]
+  end
+
+  def detail
+    @policy = Policy.find(params[:id])
   end
 
   def edit
     @policy = Policy.find(params[:id])
-    @display = "editdefinition"
 
     # FIXME This is how the user sets their active policy in PHP which is silly for many reasons
     current_user.update_attribute :active_policy_id, @policy.id

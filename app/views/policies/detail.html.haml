@@ -1,0 +1,7 @@
+- content_for :title, "Policy ##{@policy.id}: \"#{@policy.name}\""
+
+%h1= yield :title
+
+= render "nav", policy: @policy, display: "motions"
+
+= render 'detailed_votes', member: @member, policy: @policy

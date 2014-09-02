@@ -2,10 +2,6 @@
 
 %h1= yield :title
 
-= render "nav", policy: @policy, display: @display
+= render "nav", policy: @policy, display: nil
 
-- case @display
-- when nil
-  = render 'votes', member: @member, policy: @policy
-- when 'motions'
-  = render 'detailed_votes', member: @member, policy: @policy
+= render 'votes', member: @member, policy: @policy

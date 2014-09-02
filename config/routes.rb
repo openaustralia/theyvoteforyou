@@ -22,6 +22,9 @@ Publicwhip::Application.routes.draw do
   get 'policies' => 'policies#index'
   get 'policy.php' => 'policies#edit',
     constraints: lambda { |request| request.query_parameters["display"] == "editdefinition"}
+  get 'policy.php' => 'policies#detail',
+    constraints: lambda { |request| request.query_parameters["display"] == "motions"}
+
   get 'policy.php' => 'policies#show', as: :policy
   post 'policy.php' => 'policies#update'
 
