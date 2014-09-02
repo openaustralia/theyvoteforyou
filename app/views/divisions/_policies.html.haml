@@ -1,6 +1,6 @@
 - if policy
   - if user_signed_in?
-    %form.form-inline.policyvote{:action => division_with_policy_path(division), :method => "post"}
+    %form.form-inline.policyvote{:action => division_with_policy_path(division, display: params[:display]), :method => "post"}
       %strong
         Please read policy
         definition and division description before altering
