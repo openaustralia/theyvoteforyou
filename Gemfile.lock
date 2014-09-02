@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/capistrano/maintenance.git
+  revision: ab52adf89de1cda02118754e9a2952d19d8f214e
+  specs:
+    capistrano-maintenance (0.0.1)
+      capistrano (>= 3.0)
+
+GIT
   remote: git://github.com/openaustralia/marker.git
   revision: aa7ce8589f3e2a26a0b78282fe82fce9fb85dfcb
   ref: aa7ce85
@@ -306,6 +313,7 @@ DEPENDENCIES
   bootstrap-sass
   capistrano (~> 3.0)
   capistrano-bundler (~> 1.1)
+  capistrano-maintenance!
   capistrano-rails (~> 1.1)
   coffee-rails (~> 4.0.0)
   database_cleaner
