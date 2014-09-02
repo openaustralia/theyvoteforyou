@@ -2,7 +2,7 @@ class PoliciesController < ApplicationController
   # TODO: Reenable CSRF protection
   skip_before_action :verify_authenticity_token
 
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!, except: [:index, :show]
 
   def index
     @policies = Policy.order(:private, :name)
@@ -17,15 +17,8 @@ class PoliciesController < ApplicationController
     @policy = Policy.find(params[:id])
     @display = "editdefinition"
 
-    # TODO: Extract into check_user_signed_in method
-    if user_signed_in?
-      # FIXME This is how the user sets their active policy in PHP which is silly for many reasons
-      current_user.update_attribute :active_policy_id, @policy.id
-    else
-      redirect_to controller: 'account',
-                  action: 'settings',
-                  params: { r: policy_path2(id: @policy.id, display: 'editdefinition') }
-    end
+    # FIXME This is how the user sets their active policy in PHP which is silly for many reasons
+    current_user.update_attribute :active_policy_id, @policy.id
     render "show"
   end
 
