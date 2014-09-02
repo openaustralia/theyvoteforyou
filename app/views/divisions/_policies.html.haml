@@ -6,7 +6,7 @@
         definition and division description before altering
         vote
       %br/
-      And policy #{link_to policy.name, policy_path2(policy)} (#{link_to "change", policies_path}) voted
+      And policy #{link_to policy.name, policy_path(policy)} (#{link_to "change", policies_path}) voted
       - select_options = {'Non-voter' => '--',
                           'Aye (strong)' => 'aye3',
                           'Aye' => 'aye',
@@ -22,7 +22,7 @@
   - else
     %p
       And policy
-      = link_to policy.name, policy_path2(policy)
+      = link_to policy.name, policy_path(policy)
       voted '#{policy.vote_for_division(division)}'
 
 %h2#dreammp Policies
@@ -44,7 +44,7 @@
       - division.policies.sort{|p1,p2| p1.name <=> p2.name }.each do |policy|
         %tr
           %td
-            = link_to policy.name, policy_path2(policy)
+            = link_to policy.name, policy_path(policy)
             - if policy.provisional?
               %i (provisional)
           %td= simple_vote_display division.policy_vote(policy)

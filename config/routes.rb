@@ -18,21 +18,21 @@ Publicwhip::Application.routes.draw do
 
   get 'edits.php' => 'divisions#show_edits', as: :show_edits_division
 
-  get 'policies.php' => redirect('/policies'), as: :policies
+  get 'policies.php' => redirect('/policies')
   get 'policy.php' => redirect {|p,r| "/policies/#{r.query_parameters['id']}/edit"},
     constraints: lambda { |request| request.query_parameters["display"] == "editdefinition"}
   get 'policy.php' => redirect {|p,r| "/policies/#{r.query_parameters['id']}/detail"},
     constraints: lambda { |request| request.query_parameters["display"] == "motions"}
-  get "policy.php" => redirect {|p,r| "/policies/#{r.query_parameters['id']}"}, as: :policy
-  post 'policy.php' => 'policies#update'
-  get '/account/addpolicy.php' => redirect("/policies/new"), as: :new_policy
-  post '/account/addpolicy.php' => 'policies#create'
+  get "policy.php" => redirect {|p,r| "/policies/#{r.query_parameters['id']}"}
+  get '/account/addpolicy.php' => redirect("/policies/new")
 
-  get 'policies' => 'policies#index'
-  get 'policies/new' => 'policies#new'
-  get 'policies/:id' => 'policies#show'
-  get 'policies/:id/detail' => 'policies#detail'
-  get 'policies/:id/edit' => 'policies#edit'
+  get 'policies' => 'policies#index', as: :policies
+  post 'policies' => 'policies#create'
+  get 'policies/new' => 'policies#new', as: :new_policy
+  get 'policies/:id' => 'policies#show', as: :policy
+  post 'policies/:id' => 'policies#update'
+  get 'policies/:id/detail' => 'policies#detail', as: :detail_policy
+  get 'policies/:id/edit' => 'policies#edit', as: :edit_policy
 
   post 'redir.php', to: redirect { |p, r| (r.params[:r] || r.params[:r2] || r.params[:r3]) }, as: :redirect
 
