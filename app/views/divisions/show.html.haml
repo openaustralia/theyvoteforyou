@@ -20,10 +20,10 @@
         = "position".pluralize(@division.policies.size)
         = policies_list_sentence(@division.policies) + "."
 
+  = render "motion", member: @member, division: @division
+
 - if @display == "policies"
   = render "policies", policy: @policy, changed_from: @changed_from, division: @division
-
-= render "motion", member: @member, division: @division
 
 - if @display.nil? || @display == "allpossible"
   = render "summary", division: @division, display: @display, sort: @sort, votes: @votes, members: @members
