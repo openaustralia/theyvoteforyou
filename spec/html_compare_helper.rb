@@ -48,11 +48,11 @@ module HTMLCompareHelper
 
     if form_params
       post(path, form_params)
-      # Follow redirect
-      get response.headers['Location'] if response.headers['Location']
     else
       get(path)
     end
+    # Follow redirect
+    get response.headers['Location'] if response.headers['Location']
 
     text = File.read("spec/fixtures/static_pages#{path}#{suffix}.html")
 
