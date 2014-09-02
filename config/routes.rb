@@ -3,6 +3,16 @@ Publicwhip::Application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
+  # Redirects
+  get 'policies.php' => redirect('/policies')
+  get 'policy.php' => redirect {|p,r| "/policies/#{r.query_parameters['id']}/edit"},
+    constraints: lambda { |request| request.query_parameters["display"] == "editdefinition"}
+  get 'policy.php' => redirect {|p,r| "/policies/#{r.query_parameters['id']}/detail"},
+    constraints: lambda { |request| request.query_parameters["display"] == "motions"}
+  get "policy.php" => redirect {|p,r| "/policies/#{r.query_parameters['id']}"}
+  get '/account/addpolicy.php' => redirect("/policies/new")
+
+  # Main routes
   root 'home#index'
 
   get 'index.php' => 'home#index'
@@ -18,21 +28,9 @@ Publicwhip::Application.routes.draw do
 
   get 'edits.php' => 'divisions#show_edits', as: :show_edits_division
 
-  get 'policies.php' => redirect('/policies')
-  get 'policy.php' => redirect {|p,r| "/policies/#{r.query_parameters['id']}/edit"},
-    constraints: lambda { |request| request.query_parameters["display"] == "editdefinition"}
-  get 'policy.php' => redirect {|p,r| "/policies/#{r.query_parameters['id']}/detail"},
-    constraints: lambda { |request| request.query_parameters["display"] == "motions"}
-  get "policy.php" => redirect {|p,r| "/policies/#{r.query_parameters['id']}"}
-  get '/account/addpolicy.php' => redirect("/policies/new")
-
-  get 'policies' => 'policies#index', as: :policies
-  post 'policies' => 'policies#create'
-  get 'policies/new' => 'policies#new', as: :new_policy
-  get 'policies/:id' => 'policies#show', as: :policy
-  post 'policies/:id' => 'policies#update'
-  get 'policies/:id/detail' => 'policies#detail', as: :detail_policy
-  get 'policies/:id/edit' => 'policies#edit', as: :edit_policy
+  resources :policies, except: :destroy do
+    get 'detail', on: :member
+  end
 
   post 'redir.php', to: redirect { |p, r| (r.params[:r] || r.params[:r2] || r.params[:r3]) }, as: :redirect
 
