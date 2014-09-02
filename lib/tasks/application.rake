@@ -44,6 +44,13 @@ namespace :application do
         DataLoader::Debates.load!(Date.parse(args[:from_date]))
       end
     end
+
+    desc "Reload members, offices and electorates - load yesterday's divisions - update caches"
+    task daily: :environment do
+      task('application:load:members').invoke
+      task('application:load:divisions').invoke(Date.yesterday.to_s)
+      task('application:cache:all').invoke
+    end
   end
 
   task :set_logger_to_stdout do
