@@ -25,6 +25,12 @@ module DivisionsHelper
       }))
   end
 
+  def show_edits_division_path2(division)
+    # TODO Get rid of type=motion
+    show_edits_division_path(type: "motion",
+      date: division.date, number: division.number, house: division.australian_house)
+  end
+
   def aye_vote_class(whip)
     if whip.aye_votes == 0
       "normal"

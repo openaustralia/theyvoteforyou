@@ -16,10 +16,7 @@
         %td{:class => division.house}
           = division.australian_house.capitalize
         %td= formatted_date(division.date, true)
-        - if division.australian_house == "representatives"
-          %td= link_to truncate(division.name, length: 180), "division.php?date=#{division.date}&number=#{division.number}&mpn=#{member.url_name}&mpc=#{member.url_electorate}&house=#{division.australian_house}"
-        - else
-          %td= link_to truncate(division.name, length: 180), "division.php?date=#{division.date}&number=#{division.number}&mpn=#{member.url_name}&mpc=Senate&house=#{division.australian_house}"
+        %td= link_to truncate(division.name, length: 180), division_with_member_path(division, member)
         %td= division.vote_for(member)
         %td= division.whip_guess_for(member.party)
         %td{:class => vote_class(member.division_vote(division))}

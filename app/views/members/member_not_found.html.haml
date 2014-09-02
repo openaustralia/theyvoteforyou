@@ -2,5 +2,6 @@
 %h1= yield :title
 
 No Representative or Senator found. If you entered a postcode, please make
-sure it is correct.  Or you can <a href="/mps.php">browse
-all Representatives</a> or <a href="/mps.php?house=senate">browse all Senators</a>.
+sure it is correct.  Or you can
+= link_to "browse All Representatives", members_path
+or #{link_to "browse all Senators", members_path(house: "senate")}.
