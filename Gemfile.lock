@@ -333,6 +333,7 @@ DEPENDENCIES
   mechanize
   mysql2
   newrelic_rpm
+  nokogiri
   rails (= 4.1.4)
   rails_config
   ranker
