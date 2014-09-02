@@ -20,10 +20,10 @@ Publicwhip::Application.routes.draw do
 
   get 'policies.php' => redirect('/policies'), as: :policies
   get 'policies' => 'policies#index'
-  get 'policy.php' => 'policies#edit2',
+  get 'policy.php' => 'policies#edit',
     constraints: lambda { |request| request.query_parameters["display"] == "editdefinition"}
   get 'policy.php' => 'policies#show', as: :policy
-  post 'policy.php' => 'policies#edit'
+  post 'policy.php' => 'policies#update'
 
   post 'redir.php', to: redirect { |p, r| (r.params[:r] || r.params[:r2] || r.params[:r3]) }, as: :redirect
 

@@ -13,7 +13,7 @@ class PoliciesController < ApplicationController
     @display = params[:display]
   end
 
-  def edit2
+  def edit
     @policy = Policy.find(params[:id])
     @display = "editdefinition"
 
@@ -37,7 +37,7 @@ class PoliciesController < ApplicationController
     render 'new' unless @policy.save
   end
 
-  def edit
+  def update
     @policy = Policy.find(params[:id])
     # FIXME: In PHP it silently ignores empty attributes, we should show an error
     @policy.update_attributes!({name: params[:name], description: params[:description], private: (params[:provisional] ? 2 : 0)}.reject { |k,v| v.blank? })
