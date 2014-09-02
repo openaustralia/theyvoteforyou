@@ -12,14 +12,6 @@
     = nav_link("All eligible voters", division_with_policy_path(@division, display: "allpossible", sort: params[:sort], dmp: params[:dmp]), "Show even MPs who did not vote but could have", @display == "allpossible")
     = nav_link("Policies", division_with_policy_path(@division, display: "policies", sort: params[:sort], dmp: params[:dmp]), "Show or change the polices which vote on this division", @display == "policies")
 
-- if @display.nil?
-  %section.division-summary
-    - if @division.policies
-      %p
-        This division relates to the policy
-        = "position".pluralize(@division.policies.size)
-        = policies_list_sentence(@division.policies) + "."
-
 - if @display == "policies"
   = render "policies", policy: @policy, changed_from: @changed_from, division: @division
 
