@@ -7,8 +7,7 @@
   Each policy has a definition and a way to vote in relevant
   divisions in Parliament.
 %ul
-  %li
-    %a{:href => "account/addpolicy.php"} Make a new policy
+  %li= link_to "Make a new policy", new_policy_path
 %p
   This table summarises all policies, including how many times
   they have "voted". Click on their name to get a comparison of a
@@ -16,26 +15,31 @@
   %b
     You can get a policy to the top by editing
     and correcting motion text for its divisions.
-%table.mps
-  %tr.headings
-    %td
-      Votes
-      %i (unedited)
-    %td Policy
-  - if @policies
-    - @policies.each do |policy|
-      %tr{:class => cycle('odd', 'even')}
-        %td
-          = "#{policy.votes_count} "
-          - if policy.unedited_motions_count != 0
-            %i= "(#{policy.unedited_motions_count})"
-        %td
-          = link_to policy.name, policy
-          - if policy.provisional?
-            %i (provisional)
-  - else
-    %tr{:class => cycle('odd', 'even')}
-      %td{:colspan => "4"}
-        No policies match this person's votes. You can
-        %a{:href => "/policies.php"} edit or make a policy that will appear here.
-= "That makes #{@policies.size} policies which have voted in at least one division."
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th
+        Votes
+        %i (unedited)
+      %th Policy
+  %tbody
+    - if @policies
+      - @policies.each do |policy|
+        %tr
+          %td
+            = "#{policy.votes_count} "
+            - if policy.unedited_motions_count != 0
+              %i= "(#{policy.unedited_motions_count})"
+          %td
+            = link_to policy.name, policy_path2(policy)
+            - if policy.provisional?
+              %i (provisional)
+    - else
+      %tr
+        %td{:colspan => "4"}
+          No policies match this person's votes. You can
+          -# TODO Use path helper
+          = link_to "edit or make a policy that will appear here.", policies_path
+
+%p= "That makes #{@policies.size} policies which have voted in at least one division."

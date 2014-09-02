@@ -1,28 +1,31 @@
 - content_for :title, 'Account settings'
-- content_for :on_load, "givefocus('user_name')"
 
 %h1= yield :title
 %p
-  %span.ptitle User name:
-  = current_user.user_name
+  %span.ptitle Email:
+  = current_user.email
+  (
+  = link_to "change email", edit_user_registration_path
+  )
   %br/
   %span.ptitle Real name:
   = current_user.real_name
-  %br/
-  <span class="ptitle">Email:</span> #{current_user.email} (
-  %a{:href => "changeemail.php"}> change email
+  (
+  = link_to "change real name", edit_user_registration_path
   )
   %br/
   %span.ptitle Password:
   (
-  %a{:href => "changepass.php"}> change password
+  = link_to "change password", edit_user_registration_path
   )
+
 %h2 Policies which you made
+%ul
 - current_user.policies.each do |policy|
-  %br/
-  = link_to policy.name, "../#{policy_path(policy)}"
-  (#{policy.status})
+  %li
+    = link_to policy.name, policy_path2(policy)
+    (#{policy.status})
 %p
   (
-  %a{:href => "addpolicy.php"}> make a new policy
+  = link_to "make a new policy", new_policy_path
   )

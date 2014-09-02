@@ -1,8 +1,7 @@
 class Member < ActiveRecord::Base
-  self.table_name = "pw_mp"
-  has_one :member_info, foreign_key: "mp_id"
+  has_one :member_info
   delegate :rebellions, :votes_attended, :votes_possible, :tells, to: :member_info, allow_nil: true
-  has_many :votes, foreign_key: "mp_id"
+  has_many :votes
   scope :current_on, ->(date) { where("? >= entered_house AND ? < left_house", date, date) }
   scope :in_australian_house, ->(australian_house) { where(house: House.australian_to_uk(australian_house)) unless australian_house == 'all' }
   scope :with_name, ->(name) {
@@ -11,7 +10,9 @@ class Member < ActiveRecord::Base
   }
   # Divisions that have been attended
   has_many :divisions, through: :votes
-  has_many :member_distances, foreign_key: :mp_id1
+  has_many :member_distances, foreign_key: :member1_id
+
+  delegate :small_image_url, :large_image_url, to: :person
 
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
   def self.parse_first_last_name(name)
@@ -23,8 +24,8 @@ class Member < ActiveRecord::Base
     [first_name, last_name]
   end
 
-  def person_object
-    Person.new(id: person)
+  def person
+    Person.new(id: person_id)
   end
 
   def changed_party?
@@ -33,13 +34,13 @@ class Member < ActiveRecord::Base
 
   # All divisions that this member could have attended
   def divisions_possible
-    Division.where(house: house).where("division_date >= ? AND division_date < ?", entered_house, left_house)
+    Division.where(house: house).where("date >= ? AND date < ?", entered_house, left_house)
   end
 
-  # Divisions that this member has voted on where either they were a teller, a rebel (or both) or voting
+  # Divisions that this member has voted on where either they were a rebel or voting
   # on a free vote
   def interesting_divisions
-    divisions.joins(:whips).where(free_vote.or(rebellious_vote).or(teller_vote)).group("pw_division.division_id")
+    divisions.joins(:whips).where(free_vote.or(rebellious_vote)).group("divisions.id")
   end
 
   def division_vote(division)
@@ -47,35 +48,11 @@ class Member < ActiveRecord::Base
   end
 
   def vote_on_division_without_tell(division)
-    division_vote(division) ? division_vote(division).vote_without_tell : "absent"
-  end
-
-  def vote_on_division_with_tell(division)
     division_vote(division) ? division_vote(division).vote : "absent"
-  end
-
-  def teller_on_division?(division)
-    division_vote(division).teller? if division_vote(division)
   end
 
   def rebel_on_division?(division)
     division_vote(division).rebellion? if division_vote(division)
-  end
-
-  def majority_vote_on_division_without_tell(division)
-    vote = votes.where(division_id: division.id).first
-    if vote
-      # TODO What happens when the same number of votes on each side? Or can this never happen by design?
-      if division.majority_vote == "none"
-        vote.vote_without_tell
-      elsif vote.vote_without_tell == division.majority_vote
-        "majority"
-      else
-        "minority"
-      end
-    else
-      "absent"
-    end
   end
 
   def name
@@ -209,7 +186,7 @@ class Member < ActiveRecord::Base
   end
 
   def possible_friends
-    member_distances.where.not(mp_id2: id, distance_a: -1)
+    member_distances.where.not(member2_id: id, distance_a: -1)
   end
 
   # Friends who have voted exactly the same
@@ -219,13 +196,13 @@ class Member < ActiveRecord::Base
 
   def self.find_by_search_query(query_string)
     # FIXME: This convoluted SQL crap was ported directly from the PHP app. Make it nice
-    sql_query = "SELECT person, first_name, last_name, title, constituency, pw_mp.party AS party, pw_mp.house as house,
+    sql_query = "SELECT person_id, first_name, last_name, title, constituency, members.party AS party, members.house as house,
                         entered_house, left_house,
                         entered_reason, left_reason,
-                        pw_mp.mp_id AS mpid,
+                        members.id AS mpid,
                         rebellions, votes_attended, votes_possible
-                 FROM pw_mp
-                 LEFT JOIN pw_cache_mpinfo ON pw_cache_mpinfo.mp_id = pw_mp.mp_id
+                 FROM members
+                 LEFT JOIN member_infos ON member_infos.member_id = members.id
                  WHERE 1=1"
 
     score_clause = "("
@@ -270,11 +247,8 @@ class Member < ActiveRecord::Base
   def rebellious_vote
     whip = Whip.arel_table
     vote = Vote.arel_table
-    whip[:party].eq(party).and(vote[:vote].not_eq(whip[:whip_guess]))
-  end
-
-  def teller_vote
-    vote = Vote.arel_table
-    vote[:vote].eq('tellno').or(vote[:vote].eq('tellyes'))
+    rebel_aye = vote[:vote].eq("aye").and(whip[:whip_guess].eq("no"))
+    rebel_no = vote[:vote].eq("no").and(whip[:whip_guess].eq("aye"))
+    whip[:party].eq(party).and(rebel_aye.or(rebel_no))
   end
 end

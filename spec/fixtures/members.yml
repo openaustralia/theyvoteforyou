@@ -1,5 +1,5 @@
 tony_abbott:
-  mp_id: 1
+  id: 1
   gid: uk.org.publicwhip/member/1
   source_gid: ''
   first_name: Tony
@@ -12,10 +12,10 @@ tony_abbott:
   left_house: 9999-12-31
   entered_reason: by_election
   left_reason: still_in_office
-  person: 10001
+  person_id: 10001
 
 kevin_rudd:
-  mp_id: 450
+  id: 450
   gid: uk.org.publicwhip/member/450
   source_gid: ''
   first_name: Kevin
@@ -28,10 +28,10 @@ kevin_rudd:
   left_house: 2013-11-22
   entered_reason: general_election
   left_reason: resigned
-  person: 10552
+  person_id: 10552
 
 christine_milne:
-  mp_id: 100156
+  id: 100156
   gid: uk.org.publicwhip/lord/100156
   source_gid: ''
   first_name: Christine
@@ -44,10 +44,10 @@ christine_milne:
   left_house: 9999-12-31
   entered_reason: general_election
   left_reason: still_in_office
-  person: 10458
+  person_id: 10458
 
 john_howard:
-  mp_id: 265
+  id: 265
   first_name: 'John'
   last_name: 'Howard'
   party: 'Liberal Party'
@@ -60,10 +60,10 @@ john_howard:
   left_house: '2007-11-24'
   entered_reason: 'general_election'
   left_reason: ''
-  person: 10313
+  person_id: 10313
 
 maxine_mckew:
-  mp_id: 367
+  id: 367
   first_name: 'Maxine'
   last_name: 'McKew'
   party: 'Australian Labor Party'
@@ -76,10 +76,10 @@ maxine_mckew:
   left_house: 2010-08-21
   entered_reason: 'general_election'
   left_reason: ''
-  person: 10439
+  person_id: 10439
 
 john_alexander:
-  mp_id: 589
+  id: 589
   first_name: 'John'
   last_name: 'Alexander'
   party: 'Liberal Party'
@@ -92,10 +92,10 @@ john_alexander:
   left_house: 9999-12-31
   entered_reason: 'general_election'
   left_reason: 'still_in_office'
-  person: 10725
+  person_id: 10725
 
 christopher_back:
-  mp_id: 100279
+  id: 100279
   gid: uk.org.publicwhip/lord/100279
   source_gid: ''
   first_name: Christopher
@@ -108,10 +108,10 @@ christopher_back:
   left_house: 9999-12-31
   entered_reason: general_election
   left_reason: still_in_office
-  person: 10722
+  person_id: 10722
 
 judith_adams:
-  mp_id: 100002
+  id: 100002
   gid: uk.org.publicwhip/lord/100002
   source_gid: ''
   first_name: Judith
@@ -124,10 +124,10 @@ judith_adams:
   left_house: 2012-03-31
   entered_reason: general_election
   left_reason: died
-  person: 10005
+  person_id: 10005
 
 paul_zammit:
-  mp_id: 562
+  id: 562
   gid: uk.org.publicwhip/member/562
   source_gid: ''
   first_name: Paul
@@ -140,10 +140,10 @@ paul_zammit:
   left_house: 1998-10-03
   entered_reason: general_election
   left_reason: ''
-  person: 10694
+  person_id: 10694
 
 disagreeable_curmudgeon:
-  mp_id: 222222
+  id: 222222
   gid: uk.org.publicwhip/member/222222
   source_gid: ''
   first_name: Disagreeable
@@ -156,10 +156,10 @@ disagreeable_curmudgeon:
   left_house: 2010-10-03
   entered_reason: general_election
   left_reason: ''
-  person: 22221
+  person_id: 22221
 
 surly_nihilist:
-  mp_id: 333333
+  id: 333333
   gid: uk.org.publicwhip/member/333333
   source_gid: ''
   first_name: Surly
@@ -172,10 +172,10 @@ surly_nihilist:
   left_house: 2010-10-03
   entered_reason: general_election
   left_reason: ''
-  person: 33331
+  person_id: 33331
 
 roger_price:
-  mp_id: 424
+  id: 424
   gid: uk.org.publicwhip/member/424
   source_gid: ''
   first_name: Roger
@@ -188,4 +188,4 @@ roger_price:
   left_house: 2010-08-21
   entered_reason: general_election
   left_reason: ''
-  person: 10519
+  person_id: 10519

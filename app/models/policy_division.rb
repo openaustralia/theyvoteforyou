@@ -1,15 +1,8 @@
 class PolicyDivision < ActiveRecord::Base
-  self.table_name = 'pw_dyn_dreamvote'
-  belongs_to :policy, foreign_key: :dream_id
+  belongs_to :policy
+  belongs_to :division
 
-  alias_attribute :date, :division_date
-  alias_attribute :number, :division_number
-
-  delegate :name, :australian_house, :australian_house_name, to: :division
-
-  def division
-    Division.find_by!(division_date: division_date, division_number: division_number, house: house)
-  end
+  delegate :name, :australian_house, :australian_house_name, :date, :number, :house, to: :division
 
   def strong_vote?
     vote == 'aye3' || vote == 'no3'

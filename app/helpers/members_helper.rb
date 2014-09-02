@@ -1,54 +1,10 @@
 module MembersHelper
-  def member_path(member, params = {})
-    if member.senator?
-      # TODO Seems odd to me the mpc=Senate would expect mpc=Tasmania
-      r = "mp.php?mpn=#{member.url_name}&mpc=Senate&house=#{member.australian_house}"
-    else
-      r = "mp.php?mpn=#{member.url_name}&mpc=#{member.url_electorate}&house=#{member.australian_house}"
-    end
-    r += "&parliament=#{params[:parliament]}" if params[:parliament]
-    r += "&dmp=#{params[:dmp]}" if params[:dmp]
-    r += "&display=#{params[:display]}" if params[:display]
-    r += "##{params[:anchor]}" if params[:anchor]
-    r
-  end
-
-  def members_path(params)
-    p = ""
-    p += "&parliament=#{params[:parliament]}" if params[:parliament]
-    p += "&house=#{params[:house]}" if params[:house] && params[:house] != "representatives"
-    p += "&sort=#{params[:sort]}"
-    r = "/mps.php"
-    r += "?" + p[1..-1] if p != ""
-    r
-  end
-
-  def sort_link(sort, sort_name, name, current_sort)
-    if current_sort == sort
-      content_tag(:b, name)
-    else
-      link_to name, members_path(params.merge(sort: sort)), alt: "Sort by #{sort_name}"
-    end
-  end
-
-  def members_nav_link(member, members, electorate, display, name, title, active, policy = nil)
-    params = policy ? {display: display, dmp: policy.id} : {display: display}
-    if active
-      content_tag(:li, name, class: "on")
-    else
-      content_tag(:li, class: "off") do
-        path = electorate ? electorate_path2(electorate, params) : member_path(member, params)
-        link_to name, path, title: title, class: "off"
-      end
-    end
-  end
-
-  def members_nav_link_bs(member, members, electorate, display, name, title, active, policy = nil)
-    params = policy ? {display: display, dmp: policy.id} : {display: display}
-    content_tag(:li, class: ("active" if active)) do
-      path = electorate ? electorate_path2(electorate, params) : member_path(member, params)
-      link_to name, path, title: title
-    end
+  def member_path2(member, params = {})
+    member_path(params.merge({
+        mpn: member.url_name,
+        mpc: member.url_electorate,
+        house: member.australian_house
+      }))
   end
 
   def vote_records_start_date(member)
@@ -63,17 +19,10 @@ module MembersHelper
   def vote_class(vote)
     if vote.nil?
       ""
-    elsif vote.teller?
-      "teller"
     elsif vote.rebellion?
       "rebel"
     else
       ""
     end
-  end
-
-  # Returns true if there is more than one person in the list of members
-  def multiple_people?(members)
-    members.map{|m| m.person}.uniq.count > 1
   end
 end

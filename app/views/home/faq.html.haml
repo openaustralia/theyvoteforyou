@@ -90,7 +90,7 @@
 %p
   %b Numerics:
   The database contains
-  %strong= number_with_delimiter(Member.select(:person).distinct.count)
+  %strong= number_with_delimiter(Member.select(:person_id).distinct.count)
   distinct Representatives and Senators from
   %strong= number_with_delimiter(Member.select(:party).distinct.count)
   parties who have voted across
@@ -178,7 +178,7 @@
 %p
   Currently, the divisions with edited summaries are those that
   are relevant to one of the #{link_to "Policies", policies_path}.
-  See our #{link_to "Research", "/project/research.php"}
+  See our #{link_to "Research", research_help_path}
   page to find out more about how the summaries are edited.
 %h2.faq
   %a{:name => "policies"}
@@ -190,13 +190,13 @@
 %p
   We choose and develop particular Policies for a number of
   reasons. For example, we prioritise issues where politicians have
-  rebelled (e.g. the #{link_to "local government recognition divisions", "/policy.php?id=10"})
+  rebelled (e.g. the #{link_to "local government recognition divisions", policy_path(id: 10)})
   or where parties have allowed their members to take a conscience vote
-  (e.g. the #{link_to "same sex marriage divisions", "/policy.php?id=1"})
+  (e.g. the #{link_to "same sex marriage divisions", policy_path(id: 1)})
   because these divisions give a strong indication of an individual politician’s voting patterns
   (see #{link_to "What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?", "#rebelandfree"}).
   Other reasons for selecting a particular Policy include whether the matter was an
-  election issue (e.g. the #{link_to "carbon price", "/policy.php?id=3"}) and whether
+  election issue (e.g. the #{link_to "carbon price", policy_path(id: 3)}) and whether
   there was a high level of attendance
   (see #{link_to "What do the “attendance” and “rebellion” figures mean?", "#clarify"}).
 %p
@@ -218,18 +218,14 @@
   are rare. For example, between 1950 and 2007
   = link_to 'only 32 conscience votes', 'http://www.aph.gov.au/About_Parliament/Parliamentary_Departments/Parliamentary_Library/pubs/rp/rp0809/09rp20#_Toc221347466'
   took place. More recently in 2012 and 2013, the legislation related
-  to same sex marriage #{link_to 'was decided by conscience vote', policy_path(Policy.find(1))}.
+  to same sex marriage #{link_to 'was decided by conscience vote', policy_path2(Policy.find(1))}.
 %h2.faq
   %a{:name => "clarify"}
     What do the "attendance" and
     "rebellion" figures mean?
 %p
-  "Attendance" figures record the politicians who vote or tell in
-  any given division. A
-  %a{:href => "http://www.peo.gov.au/students/gloss_tuvwxyz.html"} teller
-  is
-  appointed by a chair to count (or ‘tell’) the Members of Parliament
-  or Senators voting in a division.
+  "Attendance" figures record the politicians who vote in
+  any given division.
 %p
   There are several reasons why a politician may have low
   attendance figures. For example, they may have abstained, have

@@ -1,24 +1,16 @@
 class Policy < ActiveRecord::Base
-  self.table_name = 'pw_dyn_dreammp'
-
-  has_many :policy_divisions, foreign_key: :dream_id
-  has_many :policy_member_distances, foreign_key: :dream_id, dependent: :destroy
+  has_many :policy_divisions
+  has_many :divisions, through: :policy_divisions
+  has_many :policy_person_distances, dependent: :destroy
   has_many :divisions, through: :policy_divisions
   belongs_to :user
 
   validates :name, :description, :user_id, :private, presence: true
   validates :name, uniqueness: true
 
-  alias_attribute :id, :dream_id
-
   def vote_for_division(division)
     policy_division = division.policy_divisions.find_by(policy: self)
     policy_division.vote if policy_division
-  end
-
-  # HACK: Not using an association due to the fact that policy_divisions doesn't include a division_id!
-  def divisions
-    policy_divisions.collect { |pd| pd.division }
   end
 
   def votes_count
@@ -53,13 +45,13 @@ class Policy < ActiveRecord::Base
     if old_policy_division = division.policy_divisions.find_by(policy: self)
       changed_from = old_policy_division.vote unless old_policy_division.vote == vote
       # FIXME: Because PolicyDivision has no primary key we can't update or destroy old_policy_division directly
-      PolicyDivision.delete_all house: division.house, division_date: division.date, division_number: division.number, policy: self
+      PolicyDivision.delete_all division_id: division.id, policy: self
     elsif vote != '--'
       changed_from = 'non-voter'
     end
 
     if vote != '--'
-      PolicyDivision.create! house: division.house, division_date: division.date, division_number: division.number, policy: self, vote: vote
+      PolicyDivision.create! division_id: division.id, policy: self, vote: vote
     end
 
     delay.calculate_member_agreement_percentages!
@@ -68,56 +60,41 @@ class Policy < ActiveRecord::Base
   end
 
   def calculate_member_agreement_percentages!
-    policy_member_distances.delete_all
+    policy_person_distances.delete_all
 
     policy_divisions.each do |policy_division|
       Member.current_on(policy_division.date).where(house: policy_division.house).each do |member|
         member_vote = member.vote_on_division_without_tell(policy_division.division)
 
-        # FIXME: Can't simply use find_or_create_by here thanks to the missing primary key fartarsery
-        policy_member_distance = PolicyMemberDistance.find_by(person: member.person, dream_id: id) || policy_member_distances.create!(person: member.person)
-
-        if member_vote == 'absent' && policy_division.strong_vote?
-          policy_member_distance.increment! :nvotesabsentstrong
-        elsif member_vote == 'absent'
-          policy_member_distance.increment! :nvotesabsent
-        elsif member_vote == policy_division.vote_without_strong && policy_division.strong_vote?
-          policy_member_distance.increment! :nvotessamestrong
-        elsif member_vote == policy_division.vote_without_strong
-          policy_member_distance.increment! :nvotessame
-        elsif member_vote != policy_division.vote_without_strong && policy_division.strong_vote?
-          policy_member_distance.increment! :nvotesdifferstrong
-        elsif member_vote != policy_division.vote_without_strong
-          policy_member_distance.increment! :nvotesdiffer
+        attribute = if policy_division.strong_vote?
+          if member_vote == 'absent'
+            :nvotesabsentstrong
+          elsif member_vote == policy_division.vote_without_strong
+            :nvotessamestrong
+          else
+            :nvotesdifferstrong
+          end
+        else
+          if member_vote == 'absent'
+            :nvotesabsent
+          elsif member_vote == policy_division.vote_without_strong
+            :nvotessame
+          else
+            :nvotesdiffer
+          end
         end
+
+        PolicyPersonDistance.find_or_create_by(person_id: member.person_id, policy_id: id).increment!(attribute)
       end
     end
 
-    policy_member_distances.reload.each do |pmd|
-      pmd.update! distance_a: calculate_distance(pmd), distance_b: calculate_distance(pmd, false)
+    policy_person_distances.reload.each do |pmd|
+      pmd.update!({
+        distance_a: Distance.distance_a(pmd.nvotessame, pmd.nvotesdiffer, pmd.nvotesabsent,
+          pmd.nvotessamestrong, pmd.nvotesdifferstrong, pmd.nvotesabsentstrong),
+        distance_b: Distance.distance_b(pmd.nvotessame, pmd.nvotesdiffer,
+          pmd.nvotessamestrong, pmd.nvotesdifferstrong)
+      })
     end
-  end
-
-  private
-
-  # This is coped from the PHP app, I don't really understand the how and why so far
-  def calculate_distance(pmd, include_abstentions = true)
-    nvotessame, nvotessamestrong, nvotesdiffer, nvotesdifferstrong = pmd.nvotessame, pmd.nvotessamestrong, pmd.nvotesdiffer, pmd.nvotesdifferstrong
-    if include_abstentions
-      nvotesabsent, nvotesabsentstrong = pmd.nvotesabsent, pmd.nvotesabsentstrong
-    else
-      nvotesabsent, nvotesabsentstrong = 0, 0
-    end
-
-    tlw = 5.0
-
-    weight = nvotessame + tlw * nvotessamestrong +
-             nvotesdiffer + tlw * nvotesdifferstrong + 0.2 *
-             nvotesabsent + tlw * nvotesabsentstrong
-
-    score = nvotesdiffer + tlw * nvotesdifferstrong + 0.1 *
-            nvotesabsent + (tlw / 2) * nvotesabsentstrong
-
-    weight == 0.0 ? -1.0 : score / weight
   end
 end

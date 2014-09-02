@@ -3,12 +3,12 @@
 %h1= yield :title
 
 %p
-  Successfully made new policy #{link_to @policy.name, root_path + policy_path(@policy)}.
+  Successfully made new policy #{link_to @policy.name, policy_path2(@policy)}.
   To select votes for your
   new policy,
-  %a{:href => "../search.php"} search
+  = link_to "search", search_path
   or
-  %a{:href => "../divisions.php"} browse
+  = link_to "browse", divisions_path
   for divisions. On the page for each
   division you can choose how somebody supporting your policy would
   have voted.

@@ -1,24 +1,27 @@
 module ApplicationHelper
-  def electorate_path(member)
-    "mp.php?mpc=#{member.url_electorate}"
+  def nav_link(name, path, title, current)
+    content_tag(:li, class: ("active" if current)) do
+      link_to name, path, title: title
+    end
   end
 
-  # When there's a link to an electorate it's only for the house of reps
-  def electorate_path2(electorate, params = {})
-    r = "mp.php?mpc=#{electorate.gsub('_', '+')}&house=representatives"
-    r += "&display=#{params[:display]}" if params[:display]
-    r += "##{params[:anchor]}" if params[:anchor]
-    r
+  def electorate_path(member, params = {})
+    member_path(params.merge({
+        mpc: (member.url_electorate if member),
+        house: (member.australian_house if member)
+      }))
   end
 
-  def policy_path(policy, params = {})
-    r = "policy.php?id=#{policy.id}"
-    r += "&display=#{params[:display]}" if params[:display]
-    r
+  def policy_path2(policy, params = {})
+    policy_path(params.merge({
+        id: policy.id
+      }))
   end
 
-  def edit_division_path(division)
-    "account/wiki.php?type=motion&date=#{division.date}&number=#{division.number}&house=#{division.australian_house}&rr=#{CGI.escape(request.fullpath)}"
+  def edit_division_path2(division)
+    # TODO Remove type from url
+    edit_division_path(type: "motion", rr: request.fullpath,
+      date: division.date, number: division.number, house: division.australian_house)
   end
 
   # Returns Representatives or Senators

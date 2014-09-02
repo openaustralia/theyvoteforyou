@@ -12,3 +12,19 @@
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+.pre-title,
+.post-title {
+  display: block;
+}
+
+#footer1 {
+  background-color: #ddd;
+  padding-bottom: 1em;
+}
+
+#footer2 {
+  background-color: #eee;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}

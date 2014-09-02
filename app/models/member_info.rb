@@ -1,7 +1,5 @@
 class MemberInfo < ActiveRecord::Base
-  self.table_name = "pw_cache_mpinfo"
-
-  belongs_to :member, foreign_key: "mp_id"
+  belongs_to :member
 
   def self.update_all!
     rebellions = all_rebellion_counts
@@ -11,35 +9,34 @@ class MemberInfo < ActiveRecord::Base
     aye_majority = all_aye_majority_counts
 
     Member.all.ids.each do |id|
-      # TODO Give MemberInfo a primary key so that we can do this more sensibly
-      MemberInfo.transaction do
-        MemberInfo.where(mp_id: id).delete_all
-        MemberInfo.create(mp_id: id,
-          rebellions: rebellions[id] || 0, tells: tells[id] || 0,
-          votes_attended: votes_attended[id] || 0, votes_possible: votes_possible[id] || 0,
-          aye_majority: aye_majority[id] || 0)
-      end
+      info = MemberInfo.find_or_initialize_by(member_id: id)
+      info.update_attributes(
+        rebellions: rebellions[id] || 0,
+        tells: tells[id] || 0,
+        votes_attended: votes_attended[id] || 0,
+        votes_possible: votes_possible[id] || 0,
+        aye_majority: aye_majority[id] || 0)
     end
   end
 
   def self.all_rebellion_counts
-    Vote.rebellious.group("pw_mp.mp_id").count
+    Vote.rebellious.group("members.id").count
   end
 
   def self.all_tells_counts
-    Vote.tells.group("pw_vote.mp_id").count
+    Vote.tells.group("votes.member_id").count
   end
 
   def self.all_votes_attended_counts
-    Vote.all.group("pw_vote.mp_id").count
+    Vote.all.group("votes.member_id").count
   end
 
   def self.all_ayes_counts
-    Vote.ayes.group("pw_vote.mp_id").count
+    Vote.ayes.group("votes.member_id").count
   end
 
   def self.all_noes_counts
-    Vote.noes.group("pw_vote.mp_id").count
+    Vote.noes.group("votes.member_id").count
   end
 
   def self.all_aye_majority_counts
@@ -54,6 +51,6 @@ class MemberInfo < ActiveRecord::Base
   end
 
   def self.all_votes_possible_counts
-    Division.joins("INNER JOIN pw_mp ON pw_division.house = pw_mp.house AND pw_mp.entered_house <= pw_division.division_date AND pw_division.division_date < pw_mp.left_house").group("pw_mp.mp_id").count
+    Division.joins("INNER JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.date AND divisions.date < members.left_house").group("members.id").count
   end
 end

@@ -1,11 +1,15 @@
 module PoliciesHelper
   def policy_nav_link(display, name, title, current_display)
-    if current_display == display
-      content_tag(:li, name, class: "on")
-    else
-      content_tag(:li, class: "off") do
-        link_to name, policy_path(Policy.find(params[:id]), display: display), title: title, class: "off"
-      end
+    content_tag(:li, class: ("active" if current_display == display)) do
+      link_to name, policy_path(Policy.find(params[:id]), display: display), title: title
     end
+  end
+
+  def policies_list_sentence(policies)
+    policies.map do |policy|
+      text = link_to h(policy.name), policy
+      text += " ".html_safe + content_tag(:i, "(provisional)") if policy.provisional?
+      text
+    end.to_sentence.html_safe
   end
 end

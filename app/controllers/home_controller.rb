@@ -2,7 +2,7 @@ require 'open-uri'
 
 class HomeController < ApplicationController
   def index
-    @divisions = Division.with_rebellions.order("division_date DESC", "clock_time DESC", "division_name", "division_number DESC").limit(5)
+    @divisions = Division.with_rebellions.order("date DESC", "clock_time DESC", "name", "number DESC").limit(5)
   end
 
   def faq
@@ -24,9 +24,9 @@ class HomeController < ApplicationController
 
       if electorates.count == 1
         member = Member.find_by_constituency(electorates.first['name'])
-        electorate = member ? member.electorate : ''
         # FIXME: We should redirect but this is how the PHP app does it currently
-        render nothing: true, status: :found, location: view_context.electorate_path2(electorate)
+        render nothing: true, status: :found, location: view_context.electorate_path(member)
+        return
       elsif electorates.count > 1
         @mps = []
         electorates.each do |e|

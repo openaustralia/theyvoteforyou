@@ -1,18 +1,9 @@
-%h2
-  %a{:name => "divisions"} Votes Attended
-%p{:style => "font-size: 89%"}
-  See also
-  - if multiple_people?(members)
-    = link_to "all votes possible", "mp.php?mpc=#{member.url_electorate.gsub('_', '+')}&house=#{member.australian_house}&display=everyvote#divisions"
-  - else
-    = link_to "all votes possible", member_path(member, display: "everyvote", anchor: "divisions")
+%h2#divisions Votes Attended
 
-%table.votes
+%p
+  See also
+  = link_to "all votes possible", member_path2(member, display: "everyvote", anchor: "divisions")
+
+%table.table.table-striped
   - members.each do |member|
-    - if multiple_people?(members)
-      %tr
-        %td(align="left" colspan="7")
-          %b
-            Votes by
-            = link_to member.full_name_no_electorate, member_path(member)
-    = render "votes", member: member, divisions: member.divisions.order(division_date: :desc, clock_time: :desc, division_name: :asc), empty_message: "no votes listed"
+    = render "votes", member: member, divisions: member.divisions.order(date: :desc, clock_time: :desc, name: :asc), empty_message: "no votes listed"

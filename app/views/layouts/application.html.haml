@@ -1,0 +1,92 @@
+!!! 5
+%html(lang="en")
+  %head
+    %meta(charset="utf-8")
+    %meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    %meta(name="viewport" content="width=device-width, initial-scale=1")
+    %title
+      - unless yield(:title).empty?
+        = yield :title
+        \— The Public Whip
+      - else
+        The Public Whip — Counting votes on your behalf
+
+    = stylesheet_link_tag "application"
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  %body
+    %nav.navbar.navbar-default(role="navigation")
+      .container
+        // Brand and toggle get grouped for better mobile display
+        .navbar-header
+          %button.navbar-toggle(type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1")
+            %span.sr-only Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          = link_to root_path, class: "navbar-brand" do
+            the public whip
+
+        // Collect the nav links, forms, and other content for toggling
+        .collapse.navbar-collapse#bs-example-navbar-collapse-1
+          %ul.nav.navbar-nav
+            %li= link_to "Home", root_path, title: "Front page and site highlights"
+            %li= link_to "Divisions", divisions_path, title: "List of all votes in Parliament"
+            %li= link_to "Representatives", members_path, title: "List of all Representatives"
+            %li= link_to "Senators", members_path(house: "senate"), title: "List of all Senators"
+            %li= link_to "Policies", policies_path, title: "Help to analyze MP's votes"
+            %li= link_to "Help / FAQ", help_path, title: "Frequently asked questions"
+          %ul.nav.navbar-nav.navbar-right
+            - if user_signed_in?
+              %li
+                = link_to account_settings_path, title: "Change account settings" do
+                  You are:
+                  = current_user.real_name || current_user.email
+              %li
+                = link_to "Logout", logout_path(r: (params[:r] || request.fullpath)), title: "Make your browser forget that you are logged into The Public Whip as #{current_user.real_name || current_user.email}"
+            - else
+              %li= link_to "Sign Up", sign_up_path(r: (params[:r] || request.fullpath)), title: "Register to make or edit policies"
+              %li= link_to "Login", account_settings_path(r: (params[:r] || request.fullpath)), title: "Login to edit policies"
+
+    .container= yield
+    #footer1
+      .container
+        .row
+          .col-md-8
+            %h3 About the Project
+
+            %p
+              The Public Whip is brought to you by the not-for-profit
+              #{link_to "OpenAustralia Foundation", "http://www.openaustraliafoundation.org.au/"}.
+              It is based on the
+              = link_to "UK site", "http://www.publicwhip.org.uk/"
+              of the same name.
+
+            %p
+              If you'd like to talk to us about the project, please
+              #{mail_to "contact@openaustraliafoundation.org.au", "email us"}.
+
+          .col-md-4
+            %h3 The Whip on the Web
+            %ul.social
+              %li.wp= link_to "OpenAustralia Foundation Blog", "https://www.openaustraliafoundation.org.au/blog/"
+              %li.tw= link_to "Twitter", "http://twitter.com/openaustralia"
+
+    #footer2
+      .container
+        %div
+          Other projects by us that you might find interesting:
+        %div
+          #{link_to "OpenAustralia", "http://www.openaustralia.org"},
+          #{link_to "Election Leaflets", "http://www.electionleaflets.org.au"},
+          = link_to "Right To Know", "http://www.righttoknow.org.au"
+          and
+          #{link_to "Planning Alerts", "http://www.planningalerts.org.au"}.
+        %div.legal
+          The Public Whip is a not-for-profit, open source, project. Get the
+          #{link_to "source code", "https://github.com/openaustralia/publicwhip/"}.
+
+    = javascript_include_tag "application"

@@ -48,32 +48,30 @@ module HTMLCompareHelper
 
     if form_params
       post(path, form_params)
-      # Follow redirect
-      get response.headers['Location'] if response.headers['Location']
     else
       get(path)
     end
+    # Follow redirect
+    get response.headers['Location'] if response.headers['Location']
 
     text = File.read("spec/fixtures/static_pages#{path}#{suffix}.html")
 
-    compare_text(text, response.body, path)
+    compare_text(text, response.body, path, suffix)
   end
 
   private
 
-  def compare_text(old_text, new_text, path)
-    format = URI.parse(path).path[-3..-1] == 'xml' ? 'xml' : 'html'
+  def compare_text(old_text, new_text, path, suffix = "")
+    format = 'xml'
 
-    if format == 'xml'
-      n = normalise_xml(new_text)
-      o = normalise_xml(old_text)
-    else
-      n = normalise_html(new_text)
-      o = normalise_html(old_text)
-    end
+    n = normalise(new_text, format)
+    o = normalise(old_text, format)
 
     if n != o
       # Write it out to a file
+      File.open("spec/fixtures/static_pages#{path}#{suffix}.html", "w") do |f|
+        f.write new_text
+      end
       output("old.#{format}", o, path)
       output("new.#{format}", n, path)
       system("#{diff_path} old.#{format} new.#{format}")
@@ -86,6 +84,10 @@ module HTMLCompareHelper
       f.write("<!-- " + comment + " -->\n")
       f.write(text.to_s)
     end
+  end
+
+  def normalise(text, format)
+    format == 'xml' ? normalise_xml(text) : normalise_html(text)
   end
 
   # Convert into a form where html can be reliably diff'd
@@ -103,9 +105,10 @@ module HTMLCompareHelper
     # Note the version installed with OS X by default is a version that's too old
     # Install on OS X with "brew install tidy"
     command = "#{tidy_path}#{' -xml' if format == :xml} --show-warnings no --sort-attributes alpha -utf8 -q -m temp"
-    if system(command).nil? || $?.exitstatus > 1 #tidy is stupid and returns 1 on warning, 2 on failure.
-      raise "tidy command failed '#{command}'"
-    end
+    r = system(command)
+    #if r.nil? || $?.exitstatus > 1 #tidy is stupid and returns 1 on warning, 2 on failure.
+    #  raise "tidy command failed '#{command}'"
+    #end
 
     r = File.read("temp")
     # Make sure that comments of the form <!-- comment --> are followed by a new line

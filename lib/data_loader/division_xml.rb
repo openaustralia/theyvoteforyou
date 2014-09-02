@@ -68,12 +68,15 @@ module DataLoader
       end
     end
 
-    # Returns a hash of votes in the form of member gid => vote
+    # Returns a hash of votes in the form of member gid => [vote, teller]
+    # TODO Make it an array of hashes like {gid: ..., vote: ..., teller: ...}
     def votes
       votes = @division_xml.xpath('memberlist/member').map do |vote_xml|
         gid = vote_xml.attr(:id)
-        vote = vote_xml.attr(:teller) == 'yes' ? "tell#{vote_xml.attr(:vote)}" : vote_xml.attr(:vote)
-        [gid, vote]
+        teller = vote_xml.attr(:teller) == 'yes'
+        vote = vote_xml.attr(:vote)
+        vote_without_tell =
+        [gid, [vote, teller]]
       end
       Hash[votes]
     end

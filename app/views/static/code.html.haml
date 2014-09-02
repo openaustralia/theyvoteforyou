@@ -34,9 +34,9 @@
 
 %p
   = link_to "todo.txt", "/data/todo.txt"
-  \- Things we're working on now<br>
+  \- Things we're working on now<br/>
   = link_to "ideas.txt", "/data/ideas.txt"
-  \- Good ideas, that we'd like to do<br>
+  \- Good ideas, that we'd like to do<br/>
   = link_to "ideas-marginal.txt", "/data/ideas-marginal.txt"
   \- Ideas we think aren't worthwhile
 
@@ -57,7 +57,7 @@
 %p
   You can skip a whole stage by grabbing the database dumps from
   the bottom of the
-  = link_to "raw data", "data.php"
+  = link_to "raw data", data_help_path
   page, and loading
   these into MySQL. Then go straight to "Running the website locally"
   below.
@@ -129,10 +129,8 @@
   The division listings are in the main debate files, but are also
   available in smaller division only files. To get them do something
   like this:
-%p
-  %tt
-    rsync --recursive ukparse.kforge.net::parldata/scrapedxml/divisionsonly
-    \/home/francis/pwdata/scrapedxml
+  
+%pre rsync --recursive ukparse.kforge.net::parldata/scrapedxml/divisionsonly /home/francis/pwdata/scrapedxml
 
 %h2 Loading data into the database
 %p
@@ -142,8 +140,7 @@
   and password. Copy the file PublicWhip/Config.pm.incvs to
   PublicWhip/Config.pm and edit it. Now run:
 
-%p
-  %tt ./memxml2db.pl
+%pre ./memxml2db.pl
 
 %p
   Next you need the script called <i>load.pl</i>. It loads the
@@ -151,21 +148,18 @@
   cached calculations for use on the website. Run it with no
   parameters to find out its syntax. Now do this:
 
-%p
-  %tt ./load.pl divsxml check
+%pre ./load.pl divsxml check
 
 %p
   …and…
 
-%p
-  %tt ./calc_caches.php
+%pre ./calc_caches.php
 
 %p
   Next run this to calculate the Possible Friends section for
   MPs:
 
-%p
-  %tt ./mp_distance.php
+%pre ./mp_distance.php
 
 %p
   While you're doing this all, you probably want to run a tool like the

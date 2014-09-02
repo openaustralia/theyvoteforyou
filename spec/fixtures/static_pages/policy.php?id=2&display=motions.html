@@ -1,246 +1,205 @@
-<!DOCTYPE HTML>
-<html>
-
-
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-
-<link href="/style.css" type="text/css" rel="stylesheet" media="all">
-<!--[if IE 7]>
-<link href="/ie7.css" type="text/css" rel="stylesheet" media="all">
-
+<meta charset="utf-8" />
+<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+<title>
+Policy #2: &quot;Offshore processing&quot;
+— The Public Whip
+</title>
+<link href="/assets/application.css" media="screen" rel="stylesheet" />
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-<!--
-/*
- * @license
- * MyFonts Webfont Build ID 981839, 2011-08-21T11:30:45-0400
- * 
- * The fonts listed in this notice are subject to the End User License
- * Agreement(s) entered into by the website owner. All other parties are 
- * explicitly restricted from using the Licensed Webfonts(s).
- * 
- * You may obtain a valid license at the URLs below.
- * 
- * Webfont: Museo 700 by exljbris
- * URL: http://new.myfonts.com/fonts/exljbris/museo/700/
- * 
- * Webfont: Museo 300 by exljbris
- * URL: http://new.myfonts.com/fonts/exljbris/museo/300/
- * 
- * 
- * License: http://www.myfonts.com/viewlicense?1056
- * Licensed pageviews: unlimited
- * Webfonts copyright: Copyright (c) 2008 by Jos Buivenga/exljbris. All rights reserved.
- * 
- * © 2011 Bitstream Inc
-*/
-
--->
-<link rel="stylesheet" type="text/css" href="/publicwhip.css">
-<link href="/publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
-<link rel="icon" href="/" type="image/x-icon" />
-<link rel="shortcut icon" href="/" type="image/x-icon" />
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-    $('tr').mouseover(function() {
-        $(this).addClass('over');})
-        .mouseout(function() {
-        $(this).removeClass('over');
-    });
-    $('tr:even').addClass('alt');
-});
-</script>
-<script type="text/javascript" src="/publicwhip.js"></script>
-<title>Policy #2: "Offshore processing" &#8212; The Public Whip</title>
-<script type="text/javascript">
-function givefocus(field) {
-    if (!document || !document.getElementById)
-        return
-    f = document.getElementById(field)
-    if (f)
-        f.focus()
-}
-function secondnav_goto() {
-    if (!document) return
-    if (!document.getElementById) return
-    var el = document.getElementById('r')
-    window.location=el.options[el.selectedIndex].value
-}
-function secondnav_goto2() {
-    if (!document) return
-    if (!document.getElementById) return
-    var el = document.getElementById('r2')
-    window.location=el.options[el.selectedIndex].value
-}
-function secondnav_goto3() {
-    if (!document) return
-    if (!document.getElementById) return
-    var el = document.getElementById('r3')
-    window.location=el.options[el.selectedIndex].value
-}
-function ClickSup(nsup) {
-    var el = document.getElementById('footnote-' + nsup);
-    el.style.backgroundColor = (el.style.backgroundColor ? "" : "#ffff77");
-    var sups = document.getElementsByTagName("sup");
-    for (var i = 0; i < sups.length; i++)
-        if (sups[i].className == "sup-" + nsup)
-            sups[i].style.backgroundColor = el.style.backgroundColor;
-}
-</script>
-    </head>
-
-<body onLoad="">
-<div id="whitebox">
-<script type="text/javascript" src="/walterzorn/wz_tooltip.js"></script>
-
-<div id="header" class="widewidth">
-    <div class="logo">
-        <a href="/"><img src="/images/logo.jpg" alt="the Public Whip" /></a>
-    </div>
-
-<!-- This is hidden behind the logo currently so comment it out
-    <div class="search">
-        <form class="searchtitlebarform" action="/search.php" name=pw>
-            Search: <input maxLength=256 size=12 id="query_head" name="query" onblur="fadeout(this)" onfocus="fadein(this)" value="" /> <input type="submit" value="Go" name="button" />
-        </form>
-    </div>
- -->
-
-    <!-- the main site navigation -->
-    <div id="nav_main">
-        <a title="Front page and site highlights" href="/index.php">Home</a>
-        <a title="List of all votes in Parliament" href="/divisions.php">Divisions</a>
-        <a title="List of all Representatives" href="/mps.php">Representatives</a>
-        <a title="List of all Senators" href="/mps.php?house=senate">Senators</a>
-        <a title="Help to analyze MP's votes" href="/policies.php">Policies</a>
-        <!-- <a title="Help run the Public Whip project" href="/project/index.php">Join Us</a> -->
-        <a title="Frequently asked questions" href="/faq.php">Help / FAQ</a>
-        <div id="account-navbar">
-            <a title="Register to make or edit policies" href="/account/register.php?r=%2Fpolicy.php%3Fid%3D2%26display%3Dmotions">Sign Up</a> <a title="Login to edit policies" href="/account/settings.php?r=%2Fpolicy.php%3Fid%3D2%26display%3Dmotions">Login</a>         </div>
-    </div>
-
-</div><!-- end header-->
-<div id="main" class="widewidth"><!-- main content -->
-<h1> Policy #2: "Offshore processing" </h1>
-
-<!-- the second tier navigation as tabs -->
-<!-- add hashes to $second_links array, keys are
-     'href' - URL of link
-     'text' - displayed text
-     'tooltip' - text to put in title
-     'current' - 'on' or 'off' for whether this item is currently selected -->
+</head>
+<body>
+<nav class="navbar navbar-default" role="navigation">
+<div class="container">
+<!-- / Brand and toggle get grouped for better mobile display -->
+<div class="navbar-header">
+<button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="/">the public whip
+</a></div>
+<!-- / Collect the nav links, forms, and other content for toggling -->
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+<ul class="nav navbar-nav">
+<li><a href="/" title="Front page and site highlights">Home</a></li>
+<li><a href="/divisions.php" title="List of all votes in Parliament">Divisions</a></li>
+<li><a href="/mps.php" title="List of all Representatives">Representatives</a></li>
+<li><a href="/mps.php?house=senate" title="List of all Senators">Senators</a></li>
+<li><a href="/policies.php" title="Help to analyze MP&#39;s votes">Policies</a></li>
+<li><a href="/faq.php" title="Frequently asked questions">Help / FAQ</a></li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li><a href="/account/register.php?r=%2Fpolicy.php%3Fid%3D2%26display%3Dmotions" title="Register to make or edit policies">Sign Up</a></li>
+<li><a href="/account/settings.php?r=%2Fpolicy.php%3Fid%3D2%26display%3Dmotions" title="Login to edit policies">Login</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<div class="container"><h1>Policy #2: &quot;Offshore processing&quot;</h1>
 <div id="secondnavtabs">
-
-<ul><li class="off"><a title="Overview of the policy" href="policy.php?id=2" class="off">Selected votes</a> </li><li class="on">Details of votes </li><li class="off"><a title="Change title and definition of policy" href="policy.php?id=2&display=editdefinition" class="off">Edit</a> </li></ul></div>
-<!-- the second tier navigation as dropdowns end-->
-<table><tr class="motiontitle"><td colspan=7 align=left><a href="division.php?date=2006-12-06&number=3&dmp=2&house=representatives">Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006 &#8212; Consideration in Detail - 6 Dec 2006 - Division No. 3</a> </td></tr>
-<tr valign="top"><td><p>Policy vote: Majority</p><table><tr class="headings"><td>Party</td><td>Majority (No)</td><td>Minority (Aye)</td><td>Turnout</td></tr>
-<tr class="odd"><td>Australian Labor Party</td><td class="whip">40 (+1 tell)</td> <td class="whip">6 (+1 tell)</td><td class="percent">81.4%</td></tr><tr class="even"><td>Independent</td><td class="normal">0</td> <td class="whip">3</td><td class="percent">75.0%</td></tr><tr class="odd"><td>Liberal Party</td><td class="whip">33 (+1 tell)</td> <td class="whip">33</td><td class="percent">91.8%</td></tr><tr class="even"><td>National Party</td><td class="whip">1</td> <td class="whip">9 (+1 tell)</td><td class="percent">100.0%</td></tr><tr class="odd"><td class="whip">Total:</td><td class="whip">76</td> <td class="normal">53</td><td class="percent">87.8%</td></tr></table></td><td colspan=4><p>
-
-</p>
-<p>
-
-</p>
-<p>
-This is some test text. I'd like to illustrate formatting like <em>italics</em> and the following points:
-</p>
-<ul>
-<li>
-My first point is simple
-</li>
-<li>
-But I do have other points to
-</li>
-<li>
-And sometimes I do go on
-</li>
+<ul class="nav nav-tabs">
+<li><a href="/policy.php?id=2" title="Overview of the policy">Selected votes</a></li>
+<li class="active"><a href="/policy.php?display=motions&amp;id=2" title="Also shows description of every vote">Details of votes</a></li>
+<li><a href="/policy.php?display=editdefinition&amp;id=2" title="Change title and definition of policy">Edit</a></li>
 </ul>
+</div>
+<h4>
+<a href="/division.php?date=2013-03-14&amp;dmp=2&amp;house=senate&amp;number=1">Motions — Renewable Energy Certificates - 14 Mar 2013 - Division No. 1
+</a></h4>
+<div class="row">
+<div class="col-md-6">
 <p>
-To back up my arguments I ensure that I link to official sources like the <a href="http://aph.gov.au">APH Official website</a>.
+Policy vote:
+No (strong)
 </p>
-<p>
-There are other points where footnotes<sup class="sup-1"><a href='#footnote-1' class="sup" onclick="ClickSup(1); return false;">[1]</a></sup> are more useful for saying<sup class="sup-2"><a href='#footnote-2' class="sup" onclick="ClickSup(2); return false;">[2]</a></sup> more about my point.
-</p>
-<ul>
-<li class="footnote" id="footnote-1">
-[1] This was a good point.
-</li>
-<li class="footnote" id="footnote-2">
-[2] Saying as in describing.
-</li>
-</ul>
-<p>
-
-</p></td>
+<table class="table table-striped">
+<thead>
+<tr>
+<th>Party</th>
+<th>Ayes</th>
+<th>Noes</th>
+<th>Turnout</th>
 </tr>
-<tr class="motiontitlestrong"><td colspan=7 align=left><a href="division.php?date=2013-03-14&number=1&dmp=2&house=senate">Motions &#8212; Renewable Energy Certificates - 14 Mar 2013 - Division No. 1</a> </td></tr>
-<tr valign="top"><td><p>Policy vote: Majority (strong)</p><table><tr class="headings"><td>Party</td><td>Majority (No)</td><td>Minority (Aye)</td><td>Turnout</td></tr>
-<tr class="odd"><td>Australian Greens</td><td class="whip">1</td> <td class="normal">0</td><td class="percent">100.0%</td></tr><tr class="even"><td class="whip">Total:</td><td class="whip">1</td> <td class="normal">0</td><td class="percent">100.0%</td></tr></table></td><td colspan=4><p>
-
-</p>
-<p>
-
-</p>
-<p>
-
-</p>
-<p>
-
-</p></td>
+</thead>
+<tbody>
+<tr>
+<td>Australian Greens</td>
+<td class="normal">0</td>
+<td class="whip">1</td>
+<td class="percent">100.0%</td>
 </tr>
+<tr>
+<td class="whip">Total:</td>
+<td class="normal">0</td>
+<td class="whip">1</td>
+<td class="percent">100.0%</td>
+</tr>
+</tbody>
 </table>
 
-</div><!-- end main content -->
-</div><!-- end whitebox-->
-<div id="bluebox">
-    <div class="widewidth">
-        <div class="col1-2"><h3>About the Project</h3>
+</div>
+<div class="col-md-6">
 
-            <p>
-                The Public Whip is brought to you by the not-for-profit <a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>. It is based
-                on the <a href="http://www.publicwhip.org.uk/">UK site</a> of the same name.
-            </p>
+</div>
+</div>
+<h4>
+<a href="/division.php?date=2006-12-06&amp;dmp=2&amp;house=representatives&amp;number=3">Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006 — Consideration in Detail - 6 Dec 2006 - Division No. 3
+</a></h4>
+<div class="row">
+<div class="col-md-6">
+<p>
+Policy vote:
+No
+</p>
+<table class="table table-striped">
+<thead>
+<tr>
+<th>Party</th>
+<th>Ayes</th>
+<th>Noes</th>
+<th>Turnout</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Australian Labor Party</td>
+<td class="whip">7</td>
+<td class="whip">41</td>
+<td class="percent">81.4%</td>
+</tr>
+<tr>
+<td>Independent</td>
+<td class="whip">3</td>
+<td class="normal">0</td>
+<td class="percent">75.0%</td>
+</tr>
+<tr>
+<td>Liberal Party</td>
+<td class="whip">33</td>
+<td class="whip">34</td>
+<td class="percent">91.8%</td>
+</tr>
+<tr>
+<td>National Party</td>
+<td class="whip">10</td>
+<td class="whip">1</td>
+<td class="percent">100.0%</td>
+</tr>
+<tr>
+<td class="whip">Total:</td>
+<td class="normal">53</td>
+<td class="whip">76</td>
+<td class="percent">87.8%</td>
+</tr>
+</tbody>
+</table>
 
-            <p>
-                If you'd like to talk to us about the project, please
-                <a href="mailto:contact@openaustraliafoundation.org.au">email us</a>.
-            </p>
-        </div>
-        <div class="col3"><h3>The Whip on the Web</h3>
-            <ul class="social">
-                <li class="wp"><a href="https://www.openaustraliafoundation.org.au/blog/">OpenAustralia Foundation Blog</a></li>
-                <li class="tw"><a href="http://twitter.com/openaustralia">Twitter</a></li>
-                <!-- <li class="fb"><a href="http://www.facebook.com/pages/Public-Whip/199268083464697">Facebook</a></li> -->
-            </ul>
-        </div>
-        <div class="clear"></div>
-    </div>
-    </div><!--end bluebox-->
-<div id="footer">
-    <div class="widewidth">
-        <!-- the footer section -->
-        <!-- old footer links <a title="Frequently asked questions" href="/faq.php#whatis">About us</a>
-<a title="Send comments, problems or suggestions" href="/email.php">Contact us</a>
-<a title="Fodder for your spreadsheet" href="/project/data.php">Data feeds</a>
-<a title="Public Whip is open source software" href="/project/code.php">Source code</a>
-<a title="Divisions in your news reader" href="/faq.php#rss">RSS</a>
-<a title="Details on the free license for this data" href="/faq.php#legal">Legal information</a>-->
-        <div>
-            Other projects by us that you might find interesting:
-        </div>
-        <div>
-            <a href="http://www.openaustralia.org">OpenAustralia</a>, <a href="http://www.electionleaflets.org.au">Election Leaflets</a>, <a href="http://www.righttoknow.org.au">Right To Know</a> and <a href="http://www.planningalerts.org.au">Planning Alerts</a>.
-        </div>
-        <div class="legal">
-            The Public Whip is a not-for-profit, open source, project. Get the
-            <a href="https://github.com/openaustralia/publicwhip/">source code</a>.
-        </div>
+</div>
+<div class="col-md-6">
+<p>This is some test text. I'd like to illustrate formatting like <em>italics</em> and the following points:</p>
+<ul><li>My first point is simple</li><li>But I do have other points to</li><li>And sometimes I do go on</li></ul>
+<p>To back up my arguments I ensure that I link to official sources like the <a href="http://aph.gov.au">APH Official website</a>.</p>
+<p>There are other points where footnotes<sup class="sup-1"><a class="sup" href='#footnote-1' onclick="ClickSup(1); return false;">[1]</a></sup> are more useful for saying<sup class="sup-2"><a class="sup" href='#footnote-2' onclick="ClickSup(2); return false;">[2]</a></sup> more about my point.</p>
+<ul><li class="footnote" id="footnote-1">[1] This was a good point.</li><li class="footnote" id="footnote-2">[2] Saying as in describing.</li></ul>
 
-    </div>
-    <div class="clear"></div>
-</div><!-- end footer-->
+</div>
+</div>
+
+</div>
+<div id="footer1">
+<div class="container">
+<div class="row">
+<div class="col-md-8">
+<h3>About the Project</h3>
+<p>
+The Public Whip is brought to you by the not-for-profit
+<a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>.
+It is based on the
+<a href="http://www.publicwhip.org.uk/">UK site</a>
+of the same name.
+</p>
+<p>
+If you'd like to talk to us about the project, please
+<a href="mailto:contact@openaustraliafoundation.org.au">email us</a>.
+</p>
+</div>
+<div class="col-md-4">
+<h3>The Whip on the Web</h3>
+<ul class="social">
+<li class="wp"><a href="https://www.openaustraliafoundation.org.au/blog/">OpenAustralia Foundation Blog</a></li>
+<li class="tw"><a href="http://twitter.com/openaustralia">Twitter</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="footer2">
+<div class="container">
+<div>
+Other projects by us that you might find interesting:
+</div>
+<div>
+<a href="http://www.openaustralia.org">OpenAustralia</a>,
+<a href="http://www.electionleaflets.org.au">Election Leaflets</a>,
+<a href="http://www.righttoknow.org.au">Right To Know</a>
+and
+<a href="http://www.planningalerts.org.au">Planning Alerts</a>.
+</div>
+<div class="legal">
+The Public Whip is a not-for-profit, open source, project. Get the
+<a href="https://github.com/openaustralia/publicwhip/">source code</a>.
+</div>
+</div>
+</div>
+<script src="/assets/application.js"></script>
 </body>
 </html>
-

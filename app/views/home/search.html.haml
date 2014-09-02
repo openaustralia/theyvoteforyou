@@ -5,72 +5,78 @@
     - content_for :title, "Representatives for postcode #{@postcode}"
 
   %h1= yield :title
+
   - if @postcode_error
     %p There was an error trying to look up the postcode: The postcode server returned an error.
   - else
-    %table.mps
+    %table.table.table-striped
     - @mps.each do |mp|
-      %tr{:class => cycle("even", "odd")}
-        %td= link_to mp.name, member_path(mp)
+      %tr
+        %td= link_to mp.name, member_path2(mp)
         %td= mp.party
-        %td= link_to mp.electorate, electorate_path2(mp.electorate)
+        %td= link_to mp.electorate, electorate_path(mp)
+
 - elsif params[:query]
   - content_for :title, "Search for #{params[:query].gsub(/[^A-Za-z0-9 \.\,]/, '')}"
 
   %h1= yield :title
   %p Found these divisions matching '#{params[:query]}':
-  %table.votes
-    %tr.headings
-      %td House
-      %td Date
-      %td Time
-      %td Subject
-      %td
-        Rebels
-        %br/
-        (
-        %a{:href => "/faq.php#clarify"}> explain..
-        )
-      %td Turnout
-      %td Majority
-    - if @divisions.empty?
-      %tr.odd
-        %td{:colspan => "9"} no divisions found
-    - else
-      - @divisions.each do |division|
-        %tr{class: cycle("even", "odd")}
-          %td{:class => division.house}= division.australian_house_name
-          %td= formatted_date(division.date, true)
-          %td
-            - if division.clock_time
-              = division.clock_time.strftime("%H:%M")
-          %td
-            = link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
-          %td= division.no_rebellions
-          %td= division.turnout
-          %td= division.majority
+  %table.table.table-striped
+    %thead
+      %tr
+        %th House
+        %th Date
+        %th Time
+        %th Subject
+        %th
+          Rebels
+          %br/
+          (
+          = link_to "explain..", help_path(anchor: "clarify")
+          )
+        %th Turnout
+        %th Majority
+    %tbody
+      - if @divisions.empty?
+        %tr.odd
+          %td{:colspan => "9"} no divisions found
+      - else
+        - @divisions.each do |division|
+          %tr{class: cycle("even", "odd")}
+            %td{:class => division.house}= division.australian_house_name
+            %td= formatted_date(division.date, true)
+            %td
+              - if division.clock_time
+                = division.clock_time.strftime("%H:%M")
+            %td= link_to division.name, division_path2(division)
+            %td= division.no_rebellions
+            %td= division.turnout
+            %td= division.majority
+
   %p
     Found these Representatives and Senators whose names sound like
     '#{params[:query]}':
-  %table.mps
-    %tr.headings
-      %td Name
-      %td Electorate / State
-      %td Party
-    - if @mps.empty?
-      %tr.even
-        %td{colspan: 3} no members found
-    - else
-      - @mps.each do |mp|
-        %tr{:class => cycle("odd", "even")}
-          %td= link_to mp.name, member_path(mp)
-          %td= link_to_unless mp.senator?, mp.electorate, electorate_path(mp)
-          %td= mp.party
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Name
+        %th Electorate / State
+        %th Party
+    %tbody
+      - if @mps.empty?
+        %tr.even
+          %td{colspan: 3} no members found
+      - else
+        - @mps.each do |mp|
+          %tr{:class => cycle("odd", "even")}
+            %td= link_to mp.name, member_path2(mp)
+            %td= link_to_unless mp.senator?, mp.electorate, electorate_path(mp)
+            %td= mp.party
   %p
-    - # TODO: Remove hardcoded URLs
-    Also try browsing the list of #{link_to "all Representatives", 'mps.php'},
-    %a{:href => "mps.php?house=lords"} all Senators
-    or #{link_to "all divisions", 'divisions.php'}.
+    Also try browsing the list of #{link_to "all Representatives", members_path},
+    -# TODO Shouldn't point to "lords" - that's wrong
+    = link_to "all Senators", members_path(house: "lords")
+    or #{link_to "all divisions", divisions_path}.
   = render 'search_form'
 - else
   - content_for :title, "Search"

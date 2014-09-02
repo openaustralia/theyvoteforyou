@@ -7,17 +7,25 @@ class Person
 
   # TODO When Person becomes a table in the db make this an association
   def members
-    Member.where(person: id)
+    Member.where(person_id: id)
   end
 
   # TODO When Person becomes a table in the db make this an association
-  def policy_member_distances
-    PolicyMemberDistance.where(person: id)
+  def policy_person_distances
+    PolicyPersonDistance.where(person_id: id)
   end
 
   # TODO When Person becomes a table in the db make this an association
   def offices
-    Office.where(person: id)
+    Office.where(person_id: id)
+  end
+
+  def small_image_url
+    "http://www.openaustralia.org/images/mps/#{id}.jpg"
+  end
+
+  def large_image_url
+    "http://www.openaustralia.org/images/mpsL/#{id}.jpg"
   end
 
   def member_who_voted_on_division(division)
@@ -27,7 +35,7 @@ class Person
     # We're doing this the same way as the php which doesn't seem necessarily the best way
     # TODO Figure what is the best way
     new_member = members.find do |member|
-      member.vote_on_division_with_tell(division) != "absent"
+      member.vote_on_division_without_tell(division) != "absent"
     end
     new_member || latest_member
   end
@@ -39,17 +47,17 @@ class Person
       member = members.current_on(division.date).first
       return member if member
     end
-    # If we can't find a member just return the original
-    self
+    # If we can't find a member just return the first one
+    members.order(entered_house: :desc).first
   end
 
   def agreement_fraction_with_policy(policy)
-    pmd = policy_member_distances.find_by(policy: policy)
+    pmd = policy_person_distances.find_by(policy: policy)
     pmd ? pmd.agreement_fraction : 0
   end
 
   def number_of_votes_on_policy(policy)
-    pmd = policy_member_distances.find_by(policy: policy)
+    pmd = policy_person_distances.find_by(policy: policy)
     pmd ? pmd.number_of_votes : 0
   end
 

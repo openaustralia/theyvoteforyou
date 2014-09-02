@@ -1,362 +1,485 @@
-<!DOCTYPE HTML>
-<html>
-
-
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-
-<link href="/style.css" type="text/css" rel="stylesheet" media="all">
-<!--[if IE 7]>
-<link href="/ie7.css" type="text/css" rel="stylesheet" media="all">
-
+<meta charset="utf-8" />
+<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+<title>
+Help — Frequently Asked Questions
+— The Public Whip
+</title>
+<link href="/assets/application.css" media="screen" rel="stylesheet" />
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-<!--
-/*
- * @license
- * MyFonts Webfont Build ID 981839, 2011-08-21T11:30:45-0400
- * 
- * The fonts listed in this notice are subject to the End User License
- * Agreement(s) entered into by the website owner. All other parties are 
- * explicitly restricted from using the Licensed Webfonts(s).
- * 
- * You may obtain a valid license at the URLs below.
- * 
- * Webfont: Museo 700 by exljbris
- * URL: http://new.myfonts.com/fonts/exljbris/museo/700/
- * 
- * Webfont: Museo 300 by exljbris
- * URL: http://new.myfonts.com/fonts/exljbris/museo/300/
- * 
- * 
- * License: http://www.myfonts.com/viewlicense?1056
- * Licensed pageviews: unlimited
- * Webfonts copyright: Copyright (c) 2008 by Jos Buivenga/exljbris. All rights reserved.
- * 
- * © 2011 Bitstream Inc
-*/
-
--->
-<link rel="stylesheet" type="text/css" href="/publicwhip.css">
-<link href="/publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
-<link rel="icon" href="/" type="image/x-icon" />
-<link rel="shortcut icon" href="/" type="image/x-icon" />
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-    $('tr').mouseover(function() {
-        $(this).addClass('over');})
-        .mouseout(function() {
-        $(this).removeClass('over');
-    });
-    $('tr:even').addClass('alt');
-});
-</script>
-<script type="text/javascript" src="/publicwhip.js"></script>
-<title>Help &#8212; Frequently Asked Questions &#8212; The Public Whip</title>
-<script type="text/javascript">
-function givefocus(field) {
-    if (!document || !document.getElementById)
-        return
-    f = document.getElementById(field)
-    if (f)
-        f.focus()
-}
-function secondnav_goto() {
-    if (!document) return
-    if (!document.getElementById) return
-    var el = document.getElementById('r')
-    window.location=el.options[el.selectedIndex].value
-}
-function secondnav_goto2() {
-    if (!document) return
-    if (!document.getElementById) return
-    var el = document.getElementById('r2')
-    window.location=el.options[el.selectedIndex].value
-}
-function secondnav_goto3() {
-    if (!document) return
-    if (!document.getElementById) return
-    var el = document.getElementById('r3')
-    window.location=el.options[el.selectedIndex].value
-}
-function ClickSup(nsup) {
-    var el = document.getElementById('footnote-' + nsup);
-    el.style.backgroundColor = (el.style.backgroundColor ? "" : "#ffff77");
-    var sups = document.getElementsByTagName("sup");
-    for (var i = 0; i < sups.length; i++)
-        if (sups[i].className == "sup-" + nsup)
-            sups[i].style.backgroundColor = el.style.backgroundColor;
-}
-</script>
-    </head>
-
-<body onLoad="">
-<div id="whitebox">
-<script type="text/javascript" src="/walterzorn/wz_tooltip.js"></script>
-
-<div id="header" class="widewidth">
-    <div class="logo">
-        <a href="/"><img src="/images/logo.jpg" alt="the Public Whip" /></a>
-    </div>
-
-<!-- This is hidden behind the logo currently so comment it out
-    <div class="search">
-        <form class="searchtitlebarform" action="/search.php" name=pw>
-            Search: <input maxLength=256 size=12 id="query_head" name="query" onblur="fadeout(this)" onfocus="fadein(this)" value="" /> <input type="submit" value="Go" name="button" />
-        </form>
-    </div>
- -->
-
-    <!-- the main site navigation -->
-    <div id="nav_main">
-        <a title="Front page and site highlights" href="/index.php">Home</a>
-        <a title="List of all votes in Parliament" href="/divisions.php">Divisions</a>
-        <a title="List of all Representatives" href="/mps.php">Representatives</a>
-        <a title="List of all Senators" href="/mps.php?house=senate">Senators</a>
-        <a title="Help to analyze MP's votes" href="/policies.php">Policies</a>
-        <!-- <a title="Help run the Public Whip project" href="/project/index.php">Join Us</a> -->
-        <a title="Frequently asked questions" href="/faq.php">Help / FAQ</a>
-        <div id="account-navbar">
-            <a title="Register to make or edit policies" href="/account/register.php?r=%2Ffaq.php">Sign Up</a> <a title="Login to edit policies" href="/account/settings.php?r=%2Ffaq.php">Login</a>         </div>
-    </div>
-
-</div><!-- end header-->
-<div id="main" class="widewidth"><!-- main content -->
-<h1> Help &#8212; Frequently Asked Questions </h1>
-
-
-<p>
-<ul>
-<li><a href="#whatis">What is the Public Whip?</a> </li>
-<li><a href="#how">How does the Public Whip work?</a> </li>
-<li><a href="#timeperiod">What time period does it cover?</a> </li>
-
-
-<br>
-<li><a href="#division">What is a division? </a> </li>
-<li><a href="#division-occur">When does a division occur?</a> </li>
-<li><a href="#decisions">Why don’t all decisions made in Parliament appear on Public Whip?</a> </li>
-<li><a href="#summaries">Why don’t all the divisions have edited summaries? </a> </li>
-
-<br>
-<li><a href="#policies">What are Policies and how do they work?</a> </li>
-<li><a href="#rebelandfree">What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”? </a> </li>
-<li><a href="#clarify">What do the "attendance" and "rebellion" figures mean?</a> </li>
-
-<br>
-<li><a href="#legal">Legal question: what can I use this information for?</a> </li>
-<li><a href="#playwith">Can I play with the software?</a> </li>
-<li><a href="#datalicence">What licence is the data under?</a> </li>
-<li><a href="#organisation">What organisation is behind the Public Whip?</a> </li>
-
-<br>
-<li><a href="#help">Can I help with the project?</a> </li>
-<li><a href="#contact">How can I contact you?</a> </li>
+</head>
+<body>
+<nav class="navbar navbar-default" role="navigation">
+<div class="container">
+<!-- / Brand and toggle get grouped for better mobile display -->
+<div class="navbar-header">
+<button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="/">the public whip
+</a></div>
+<!-- / Collect the nav links, forms, and other content for toggling -->
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+<ul class="nav navbar-nav">
+<li><a href="/" title="Front page and site highlights">Home</a></li>
+<li><a href="/divisions.php" title="List of all votes in Parliament">Divisions</a></li>
+<li><a href="/mps.php" title="List of all Representatives">Representatives</a></li>
+<li><a href="/mps.php?house=senate" title="List of all Senators">Senators</a></li>
+<li><a href="/policies.php" title="Help to analyze MP&#39;s votes">Policies</a></li>
+<li><a href="/faq.php" title="Frequently asked questions">Help / FAQ</a></li>
 </ul>
-</p>
-
-
-
-<h2 class="faq"><a name="whatis">What is the Public Whip?</a></h2>
+<ul class="nav navbar-nav navbar-right">
+<li><a href="/account/register.php?r=%2Ffaq.php" title="Register to make or edit policies">Sign Up</a></li>
+<li><a href="/account/settings.php?r=%2Ffaq.php" title="Login to edit policies">Login</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<div class="container"><h1>Help — Frequently Asked Questions</h1>
+<ul>
+<li>
+<a href="#whatis">What is the Public Whip?</a>
+</li>
+<li>
+<a href="#how">How does the Public Whip work?</a>
+</li>
+<li>
+<a href="#timeperiod">What time period does it cover?</a>
+</li>
+<li style="list-style: none">
+<br />
+</li>
+<li>
+<a href="#division">What is a division?</a>
+</li>
+<li>
+<a href="#division-occur">When does a division occur?</a>
+</li>
+<li>
+<a href="#decisions">
+Why don’t all decisions made in Parliament
+appear on Public Whip?
+</a>
+</li>
+<li>
+<a href="#summaries">
+Why don’t all the divisions have edited
+summaries?
+</a>
+</li>
+<li style="list-style: none">
+<br />
+</li>
+<li>
+<a href="#policies">
+What are Policies and how do they
+work?
+</a>
+</li>
+<li>
+<a href="#rebelandfree">
+What are “Rebel Voters” and what is a
+“Conscience Vote” or “Free Vote”?
+</a>
+</li>
+<li>
+<a href="#clarify">
+What do the "attendance" and "rebellion"
+figures mean?
+</a>
+</li>
+<li style="list-style: none">
+<br />
+</li>
+<li>
+<a href="#legal">
+Legal question: what can I use this
+information for?
+</a>
+</li>
+<li>
+<a href="#playwith">Can I play with the software?</a>
+</li>
+<li>
+<a href="#datalicence">What licence is the data under?</a>
+</li>
+<li>
+<a href="#organisation">
+What organisation is behind the Public
+Whip?
+</a>
+</li>
+<li style="list-style: none">
+<br />
+</li>
+<li>
+<a href="#help">Can I help with the project?</a>
+</li>
+<li>
+<a href="#contact">How can I contact you?</a>
+</li>
+</ul>
+<h2 class="faq">
+<a name="whatis">What is the Public Whip?</a>
+</h2>
 <p>
-    Public Whip is a project to track the voting patterns of Australian federal politicians. We're an independent, non-governmental project of the charity <a href="https://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>. 
+Public Whip is a project to track the voting patterns of
+Australian federal politicians. We're an independent,
+non-governmental project of the
+charity <a href="https://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>.
 </p>
-
-
-<h2 class="faq"><a name="how">How does the Public Whip work?</a></h2>
+<h2 class="faq">
+<a name="how">
+How does the Public Whip
+work?
+</a>
+</h2>
 <p>
-Debate transcripts of the House of Representatives and the Senate are published online as <a href="http://www.openaustralia.org/">Hansard</a>. Public Whip takes these records and compiles lists of votes that you can access under <a href="/divisions.php">Divisions</a>. You can search through these votes using our <a href="/">search function</a> on the home page or you can browse the votes that are relevant to the particular policy areas listed under <a href="/policies.php">Policies</a> (for more on our policies, see <a href="#policies">What are Policies and how do they work?</a>).
+Debate transcripts of the House of Representatives and the
+Senate are published online as <a href="http://www.openaustralia.org/">Hansard</a>.
+Public Whip takes these records and compiles lists of votes that you can
+access under <a href="/divisions.php">Divisions</a>. You can search through
+these votes using our <a href="/">search function</a> on the home
+page or you can browse the votes that are relevant to the particular policy
+areas listed under <a href="/policies.php">Policies</a> (for more on our
+policies, see <a href="#policies">What are Policies and how do they work?</a>).
 </p>
-
-<h2 class="faq"><a name="timeperiod">What time period does it cover?</a></h2>
-
+<h2 class="faq">
+<a name="timeperiod">
+What time period does it
+cover?
+</a>
+</h2>
 <p>
-The Public Whip’s voting and membership data extends back to 2006. New divisions are added as soon as possible after becoming available. We give no warranty for the data so <a href="#contact">let us know</a> if you find any factual inaccuracies.
-</p>
-
-
-<p><b>Numerics:</b> The database contains <strong>12</strong>
-distinct Representatives and Senators from <strong>4</strong> parties who have voted across
-<strong>6</strong> divisions.
-In total <strong>14</strong> votes were cast
-giving an average of <strong>2.3</strong> per division.
-Of these <strong>0</strong> were against the majority vote for
-their party giving an average rebellion rate of <strong>0%</strong>.
-
-
-<h2 class="faq"><a name="division">What is a division?</a></h2>
-
-<p>
-A division is a formal vote on a motion in the House of Representatives or the Senate. A motion is a formal proposal put to the House or Senate to take action of some kind.
-</p>
-<p>
-When a division is called on a particular motion, Members of Parliament (MPs) in the House of Representatives or Senators in the Senate divide themselves into two groups: one that votes Aye (yes) and one that votes No. Each political party has whips who try to persuade their members to vote along party lines. 
-</p>
-
-
-<h2 class="faq"><a name="division-occur">When does a division occur?</a></h2>
-
-<p>
-Most decisions in Parliament are made <a href="http://www.peo.gov.au/students/fact_sheets/voting_chambers.html">‘on the voices’</a> and not by division. When a question is asked by the Chair, the Members of Parliament (MPs) or Senators call out Aye (yes) or No and the Chair decides which are in the majority without recording the names of who voted and how they voted.
-</p>
-<p>
-A division is only called if two or more MPs or Senators call for one. If only one MP or Senator calls for a division then their name may be recorded in the official record (the Hansard) but no division will occur.
-</p>
-<p>
-In the House of Representatives, if there are four or less MPs on a side of the division then the division does not proceed and the Speaker declares the decision of the House immediately. However, the names of the MPs in the minority are recorded.
-</p>
-<p>
-In the Senate, if there is only one Senator on a side of the division then the division does not proceed and the President declares the decision of the Senate immediately. However, the names of the lone Senator may be recorded.
-</p>
-
-
-<h2 class="faq"><a name="decisions">Why don’t all decisions made in Parliament appear on Public Whip?</a></h2>
-
-<p>
-Public Whip is concerned with the voting patterns of politicians, which means it is limited to formal votes (known as divisions, see <a href="#division">What is a division?</a>). This is because politicians’ names and how they voted are only recorded in the official record of Parliament (known as the Hansard) when a division occurs.
-</p>
-<p>
-Unfortunately, most decisions in Parliament are not made by division (see <a href="#division-occur">When does a division occur?</a>) and so do not appear on this site.
-</p>
-
-
-<h2 class="faq"><a name="summaries">Why don’t all the divisions have edited summaries?</a></h2>
-
-<p>
-When you click on a link for a <a href="/divisions.php">division</a>, you will be taken to a summary that will either contain an edited description of the division or text taken automatically from the official record of Parliament (known as Hansard). In some cases, the summary will contain no text.
-</p>
-<p>
-Currently, the divisions with edited summaries are those that are relevant to one of the <a href="/policies.php">Policies</a>. See our <a href="/project/research.php">Research</a> page to find out more about how the summaries are edited.
-</p>
-
-
-<h2 class="faq"><a name="policies">What are Policies and how do they work?</a></h2>
-
-<p>
-On Public Whip, the <a href="/policies.php">Policies</a> are sets of votes on an issue.
-</p>
-<p>
-We choose and develop particular Policies for a number of reasons. For example, we prioritise issues where politicians have rebelled (e.g. the <a href="/policy.php?id=10">local government recognition divisions</a>) or where parties have allowed their members to take a conscience vote (e.g. the <a href="/policy.php?id=1">same sex marriage divisions</a>) because these divisions give a strong indication of an individual politician’s voting patterns (see <a href="#rebelandfree">What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?</a>). Other reasons for selecting a particular Policy include whether the matter was an election issue (e.g. the <a href="/policy.php?id=3">carbon price</a>) and whether there was a high level of attendance (see <a href="#clarify">What do the “attendance” and “rebellion” figures mean?</a>).
-</p>
-<p>
-Unfortunately, Policies are restricted to issues that are voted on by division because those are the only decisions that appear on Public Whip (see <a href="#decisions">Why don’t all decisions made in Parliament appear on Public Whip?</a>)
-</p>
-
-
-<h2 class="faq"><a name="rebelandfree">What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?</a></h2>
-
-<p>
-An MP or Senator rebels by voting against the <a href="http://www.peo.gov.au/students/fact_sheets/party_whip.html">party whip</a>. This is known as <a href="http://www.peo.gov.au/students/fact_sheets/crossing_floor.html">crossing the floor</a> and rarely occurs these days. 
-</p>
-<p>
-In contrast, a <a href="http://en.wikipedia.org/wiki/Conscience_vote">conscience vote</a> (also known as a free vote) occurs when MPs or Senators are not obliged to vote with their party. Conscience votes are rare. For example, between 1950 and 2007 <a href="http://www.aph.gov.au/About_Parliament/Parliamentary_Departments/Parliamentary_Library/pubs/rp/rp0809/09rp20#_Toc221347466">only 32 conscience votes</a> took place. More recently in 2012 and 2013, the legislation related to same sex marriage <a href="policy.php?id=1">was decided by conscience vote</a>.
-</p>
-
-
-<h2 class="faq"><a name="clarify">What do the "attendance" and "rebellion" figures mean?</a></h2>
-
-<p>
-"Attendance" figures record the politicians who vote or tell in any given division. A <a href="http://www.peo.gov.au/students/gloss_tuvwxyz.html">teller</a> is appointed by a chair to count (or ‘tell’) the Members of Parliament or Senators voting in a division.
-</p>
-<p>
-There are several reasons why a politician may have low attendance figures. For example, they may have abstained, have ministerial or other duties or they may be the speaker. Currently, the Public Whip does not record if a member spoke in the debate but did not vote.
-</p>
-<p>
-"Rebellion" figures record the number of rebel votes (see <a href="#rebelandfree">What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?</a>).
-</p>
-
-
-<h2 class="faq"><a name="legal">Legal question: what can I use this information for?</a></h2>
-
-<p>
-You can use the information freely so long as you credit the Public Whip and share it (see <a href="#datalicence">What licence is the data under?</a>). However, you should double check the information to make sure it is correct. If you find an error, please <a href="#contact">contact us</a> and let us know.
-</p>
-
-<h2 class="faq"><a name="playwith">Can I play with the software?</a></h2>
-
-<p>
-Yes. All the software we've written is free and protected by the <a href="http://www.fsf.org/licensing/licenses/agpl-3.0.html">GNU Affero General Public License</a> (which means you can use it and change it, but you have to release any changes you make). It's available for <a href="https://github.com/openaustralia/publicwhip">download on Github</a>.
-</p>
-
-<h2 class="faq"><a name="datalicence">What licence is the data under?</a></h2>
-
-<p>
-To the extent which we have rights to this database of politicians’ voting records and related information, it is licensed under the <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>. This is an attribution, share-alike licence. That means that you must credit the Public Whip, for example via a link, if you use the data. It also means that if you build on this data, you must also share the result under a compatible open data licence. 
-</p>
-
-<h2 class="faq"><a name="organisation">What organisation is behind the Public Whip?</a></h2>
-
-<p>
-Public Whip in Australia was started and is run by the <a href="https://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>, a charity. It is based on the <a href="http://www.publicwhip.org.uk/">UK Public Whip site</a> which was created by <a href="http://www.flourish.org/">Francis Irving</a> and <a href="http://www.goatchurch.org.uk/">Julian Todd</a> in 2003.
-</p>
-
-<h2 class="faq"><a name="help">Can I help with the project?</a></h2>
-<p>
-Yes! We're looking for people who are interested in making the voting records more accessible as well as people with particular skill-sets that they feel they could contribute. If this sounds like you, please email us at <a href="mailto:contact@openaustralia.org">contact@openaustralia.org</a>.
-</p>
-
-<h2 class="faq"><a name="contact">How can I contact you?</a></h2>
-<p>
-You can contact us via email at <a href="mailto:contact@openaustralia.org">contact@openaustralia.org</a> or our <a href="http://twitter.com/openaustralia">Twitter account</a>.
+The Public Whip’s voting and membership data extends back to
+2006. New divisions are added as soon as possible after becoming
+available. We give no warranty for the data so
+<a href="#contact">let us know</a>
+if you find any factual
+inaccuracies.
 </p>
 <p>
-Please contact us if you find an error, have a suggestion or have any questions.
+<b>Numerics:</b>
+The database contains
+<strong>12</strong>
+distinct Representatives and Senators from
+<strong>4</strong>
+parties who have voted across
+<strong>6</strong>
+divisions. In total
+<strong>14</strong>
+votes were cast giving an average of
+<strong>2.3</strong>
+per division. Of these
+<strong>0</strong>
+were against the majority vote for their party giving an average rebellion rate of
+<strong>0%</strong>.
 </p>
-
-
-
-
-</div><!-- end main content -->
-</div><!-- end whitebox-->
-<div id="bluebox">
-    <div class="widewidth">
-        <div class="col1-2"><h3>About the Project</h3>
-
-            <p>
-                The Public Whip is brought to you by the not-for-profit <a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>. It is based
-                on the <a href="http://www.publicwhip.org.uk/">UK site</a> of the same name.
-            </p>
-
-            <p>
-                If you'd like to talk to us about the project, please
-                <a href="mailto:contact@openaustraliafoundation.org.au">email us</a>.
-            </p>
-        </div>
-        <div class="col3"><h3>The Whip on the Web</h3>
-            <ul class="social">
-                <li class="wp"><a href="https://www.openaustraliafoundation.org.au/blog/">OpenAustralia Foundation Blog</a></li>
-                <li class="tw"><a href="http://twitter.com/openaustralia">Twitter</a></li>
-                <!-- <li class="fb"><a href="http://www.facebook.com/pages/Public-Whip/199268083464697">Facebook</a></li> -->
-            </ul>
-        </div>
-        <div class="clear"></div>
-    </div>
-    </div><!--end bluebox-->
-<div id="footer">
-    <div class="widewidth">
-        <!-- the footer section -->
-        <!-- old footer links <a title="Frequently asked questions" href="/faq.php#whatis">About us</a>
-<a title="Send comments, problems or suggestions" href="/email.php">Contact us</a>
-<a title="Fodder for your spreadsheet" href="/project/data.php">Data feeds</a>
-<a title="Public Whip is open source software" href="/project/code.php">Source code</a>
-<a title="Divisions in your news reader" href="/faq.php#rss">RSS</a>
-<a title="Details on the free license for this data" href="/faq.php#legal">Legal information</a>-->
-        <div>
-            Other projects by us that you might find interesting:
-        </div>
-        <div>
-            <a href="http://www.openaustralia.org">OpenAustralia</a>, <a href="http://www.electionleaflets.org.au">Election Leaflets</a>, <a href="http://www.righttoknow.org.au">Right To Know</a> and <a href="http://www.planningalerts.org.au">Planning Alerts</a>.
-        </div>
-        <div class="legal">
-            The Public Whip is a not-for-profit, open source, project. Get the
-            <a href="https://github.com/openaustralia/publicwhip/">source code</a>.
-        </div>
-
-    </div>
-    <div class="clear"></div>
-</div><!-- end footer-->
+<h2 class="faq">
+<a name="division">What is a division?</a>
+</h2>
+<p>
+A division is a formal vote on a motion in the House of
+Representatives or the Senate. A motion is a formal proposal put to
+the House or Senate to take action of some kind.
+</p>
+<p>
+When a division is called on a particular motion, Members of
+Parliament (MPs) in the House of Representatives or Senators in the
+Senate divide themselves into two groups: one that votes Aye (yes)
+and one that votes No. Each political party has whips who try to
+persuade their members to vote along party lines.
+</p>
+<h2 class="faq">
+<a name="division-occur">
+When does a division
+occur?
+</a>
+</h2>
+<p>
+Most decisions in Parliament are made
+<a href="http://www.peo.gov.au/students/fact_sheets/voting_chambers.html">
+‘on
+the voices’
+</a>
+and not by division. When a question is asked by
+the Chair, the Members of Parliament (MPs) or Senators call out Aye
+(yes) or No and the Chair decides which are in the majority without
+recording the names of who voted and how they voted.
+</p>
+<p>
+A division is only called if two or more MPs or Senators call
+for one. If only one MP or Senator calls for a division then their
+name may be recorded in the official record (the Hansard) but no
+division will occur.
+</p>
+<p>
+In the House of Representatives, if there are four or less MPs
+on a side of the division then the division does not proceed and
+the Speaker declares the decision of the House immediately.
+However, the names of the MPs in the minority are recorded.
+</p>
+<p>
+In the Senate, if there is only one Senator on a side of the
+division then the division does not proceed and the President
+declares the decision of the Senate immediately. However, the names
+of the lone Senator may be recorded.
+</p>
+<h2 class="faq">
+<a name="decisions">
+Why don’t all decisions made
+in Parliament appear on Public Whip?
+</a>
+</h2>
+<p>
+Public Whip is concerned with the voting patterns of
+politicians, which means it is limited to formal votes (known as
+divisions, see
+<a href="#division">What is a division?</a>).
+This
+is because politicians’ names and how they voted are only recorded
+in the official record of Parliament (known as the Hansard) when a
+division occurs.
+</p>
+<p>
+Unfortunately, most decisions in Parliament are not made by
+division (see <a href="#division-occur">When does a division occur?</a>)
+and so do not appear on this site.
+</p>
+<h2 class="faq">
+<a name="summaries">
+Why don’t all the divisions
+have edited summaries?
+</a>
+</h2>
+<p>
+When you click on a link for a <a href="/divisions.php">division</a>,
+you will be taken to a summary that
+will either contain an edited description of the division or text
+taken automatically from the official record of Parliament (known
+as Hansard). In some cases, the summary will contain no text.
+</p>
+<p>
+Currently, the divisions with edited summaries are those that
+are relevant to one of the <a href="/policies.php">Policies</a>.
+See our <a href="/project/research.php">Research</a>
+page to find out more about how the summaries are edited.
+</p>
+<h2 class="faq">
+<a name="policies">
+What are Policies and how do
+they work?
+</a>
+</h2>
+<p>
+On Public Whip, the <a href="/policies.php">Policies</a> are
+sets of votes on an issue.
+</p>
+<p>
+We choose and develop particular Policies for a number of
+reasons. For example, we prioritise issues where politicians have
+rebelled (e.g. the <a href="/policy.php?id=10">local government recognition divisions</a>)
+or where parties have allowed their members to take a conscience vote
+(e.g. the <a href="/policy.php?id=1">same sex marriage divisions</a>)
+because these divisions give a strong indication of an individual politician’s voting patterns
+(see <a href="#rebelandfree">What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?</a>).
+Other reasons for selecting a particular Policy include whether the matter was an
+election issue (e.g. the <a href="/policy.php?id=3">carbon price</a>) and whether
+there was a high level of attendance
+(see <a href="#clarify">What do the “attendance” and “rebellion” figures mean?</a>).
+</p>
+<p>
+Unfortunately, Policies are restricted to issues that are voted
+on by division because those are the only decisions that appear on Public Whip
+(see <a href="#decisions">Why don’t all decisions made in Parliament appear on Public Whip?</a>)
+</p>
+<h2 class="faq">
+<a name="rebelandfree">
+What are “Rebel Voters” and
+what is a “Conscience Vote” or “Free Vote”?
+</a>
+</h2>
+<p>
+An MP or Senator rebels by voting against the <a href="http://www.peo.gov.au/students/fact_sheets/party_whip.html">party whip</a>.
+This is known as <a href="http://www.peo.gov.au/students/fact_sheets/crossing_floor.html">crossing the floor</a>   and rarely occurs these days.
+</p>
+<p>
+In contrast, a
+<a href="http://en.wikipedia.org/wiki/Conscience_vote">conscience vote</a>
+(also known as a free vote) occurs when MPs
+or Senators are not obliged to vote with their party. Conscience votes
+are rare. For example, between 1950 and 2007
+<a href="http://www.aph.gov.au/About_Parliament/Parliamentary_Departments/Parliamentary_Library/pubs/rp/rp0809/09rp20#_Toc221347466">only 32 conscience votes</a>
+took place. More recently in 2012 and 2013, the legislation related
+to same sex marriage <a href="/policy.php?id=1">was decided by conscience vote</a>.
+</p>
+<h2 class="faq">
+<a name="clarify">
+What do the "attendance" and
+"rebellion" figures mean?
+</a>
+</h2>
+<p>
+"Attendance" figures record the politicians who vote in
+any given division.
+</p>
+<p>
+There are several reasons why a politician may have low
+attendance figures. For example, they may have abstained, have
+ministerial or other duties or they may be the speaker. Currently,
+the Public Whip does not record if a member spoke in the debate but
+did not vote.
+</p>
+<p>
+"Rebellion" figures record the number of rebel votes
+(see <a href="#rebelandfree">What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?</a>).
+</p>
+<h2 class="faq">
+<a name="legal">
+Legal question: what can I use
+this information for?
+</a>
+</h2>
+<p>
+You can use the information freely so long as you credit the
+Public Whip and share it (see <a href="#datalicence">What licence is the data under?</a>).
+However, you should double check the
+information to make sure it is correct. If you find an error,
+please
+<a href="#contact">contact us</a>
+and let us know.
+</p>
+<h2 class="faq">
+<a name="playwith">
+Can I play with the
+software?
+</a>
+</h2>
+<p>
+Yes. All the software we've written is free and protected by the
+<a href="http://www.fsf.org/licensing/licenses/agpl-3.0.html">
+GNU
+Affero General Public License
+</a>
+(which means you can use it and
+change it, but you have to release any changes you make). It's
+available for <a href="https://github.com/openaustralia/publicwhip">download on Github</a>.
+</p>
+<h2 class="faq">
+<a name="datalicence">
+What licence is the data
+under?
+</a>
+</h2>
+<p>
+To the extent which we have rights to this database of
+politicians’ voting records and related information, it is licensed
+under the <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.
+This is an attribution,
+share-alike licence. That means that you must credit the Public
+Whip, for example via a link, if you use the data. It also means
+that if you build on this data, you must also share the result
+under a compatible open data licence.
+</p>
+<h2 class="faq">
+<a name="organisation">
+What organisation is behind
+the Public Whip?
+</a>
+</h2>
+<p>
+Public Whip in Australia was started and is run by the
+<a href="https://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>,
+a charity. It is based on the
+<a href="http://www.publicwhip.org.uk/">UK Public Whip site</a>
+which was
+created by
+<a href="http://www.flourish.org/">Francis Irving</a>
+and
+<a href="http://www.goatchurch.org.uk/">Julian Todd</a>
+in
+2003.
+</p>
+<h2 class="faq">
+<a name="help">
+Can I help with the
+project?
+</a>
+</h2>
+<p>
+Yes! We're looking for people who are interested in making the
+voting records more accessible as well as people with particular
+skill-sets that they feel they could contribute. If this sounds
+like you, please email us at
+<a href="mailto:contact@openaustralia.org">contact@openaustralia.org</a>.
+</p>
+<h2 class="faq">
+<a name="contact">How can I contact you?</a>
+</h2>
+<p>
+You can contact us via email at
+<a href="mailto:contact@openaustralia.org">contact@openaustralia.org</a>
+or our <a href="http://twitter.com/openaustralia">Twitter account</a>.
+</p>
+<p>
+Please contact us if you find an error, have a suggestion or
+have any questions.
+</p>
+</div>
+<div id="footer1">
+<div class="container">
+<div class="row">
+<div class="col-md-8">
+<h3>About the Project</h3>
+<p>
+The Public Whip is brought to you by the not-for-profit
+<a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>.
+It is based on the
+<a href="http://www.publicwhip.org.uk/">UK site</a>
+of the same name.
+</p>
+<p>
+If you'd like to talk to us about the project, please
+<a href="mailto:contact@openaustraliafoundation.org.au">email us</a>.
+</p>
+</div>
+<div class="col-md-4">
+<h3>The Whip on the Web</h3>
+<ul class="social">
+<li class="wp"><a href="https://www.openaustraliafoundation.org.au/blog/">OpenAustralia Foundation Blog</a></li>
+<li class="tw"><a href="http://twitter.com/openaustralia">Twitter</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="footer2">
+<div class="container">
+<div>
+Other projects by us that you might find interesting:
+</div>
+<div>
+<a href="http://www.openaustralia.org">OpenAustralia</a>,
+<a href="http://www.electionleaflets.org.au">Election Leaflets</a>,
+<a href="http://www.righttoknow.org.au">Right To Know</a>
+and
+<a href="http://www.planningalerts.org.au">Planning Alerts</a>.
+</div>
+<div class="legal">
+The Public Whip is a not-for-profit, open source, project. Get the
+<a href="https://github.com/openaustralia/publicwhip/">source code</a>.
+</div>
+</div>
+</div>
+<script src="/assets/application.js"></script>
 </body>
 </html>
-
-

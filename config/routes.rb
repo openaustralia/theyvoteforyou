@@ -7,38 +7,39 @@ Publicwhip::Application.routes.draw do
 
   get 'index.php' => 'home#index'
   get 'faq.php' => 'home#faq', as: :help
-  get 'search.php' => 'home#search'
+  get 'search.php' => 'home#search', as: :search
 
-  get 'mps.php' => 'members#index'
-  get 'mp.php' => 'members#show'
+  get 'mps.php' => 'members#index', as: :members
+  get 'mp.php' => 'members#show', as: :member
 
-  get 'divisions.php' => 'divisions#index'
-  get 'division.php' => 'divisions#show'
+  get 'divisions.php' => 'divisions#index', as: :divisions
+  get 'division.php' => 'divisions#show', as: :division
   post 'division.php' => 'divisions#add_policy_vote'
 
-  get 'edits.php' => 'divisions#show_edits'
+  get 'edits.php' => 'divisions#show_edits', as: :show_edits_division
 
-  get 'policies.php' => 'policies#index', as: :policies
+  get 'policies.php' => redirect('/policies'), as: :policies
+  get 'policies' => 'policies#index'
   get 'policy.php' => 'policies#show', as: :policy
   post 'policy.php' => 'policies#edit'
 
-  post 'redir.php', to: redirect { |p, r| (r.params[:r] || r.params[:r2] || r.params[:r3]) }
+  post 'redir.php', to: redirect { |p, r| (r.params[:r] || r.params[:r2] || r.params[:r3]) }, as: :redirect
 
   scope path: '/account' do
     match 'settings.php' => 'account#settings', via: [:get, :post], as: :account_settings
 
-    get 'wiki.php' => 'divisions#edit'
+    get 'wiki.php' => 'divisions#edit', as: :edit_division
     post 'wiki.php' => 'divisions#update'
 
-    get 'addpolicy.php' => 'policies#new'
+    get 'addpolicy.php' => 'policies#new', as: :new_policy
     post 'addpolicy.php' => 'policies#create'
   end
 
   devise_scope :user do
-    get '/account/logout.php' => 'devise/sessions#destroy'
-    match '/account/changepass.php' => 'devise/registrations#edit', via: [:get, :post]
-    get '/account/changeemail.php' => 'devise/registrations#edit'
-    get '/account/register.php' => 'devise/registrations#new'
+    get '/account/logout.php' => 'devise/sessions#destroy', as: :logout
+    get '/account/changepass.php' => redirect('/users/edit')
+    get '/account/changeemail.php' => redirect('/users/edit')
+    get '/account/register.php' => 'devise/registrations#new', as: :sign_up
   end
 
   scope path: '/feeds' do
@@ -48,8 +49,8 @@ Publicwhip::Application.routes.draw do
 
   scope path: '/project' do
     get 'code.php' => 'static#code'
-    get 'data.php' => 'static#data'
-    get 'research.php' => 'static#research'
+    get 'data.php' => 'static#data', as: :data_help
+    get 'research.php' => 'static#research', as: :research_help
   end
 
   # Example of regular route:
@@ -86,7 +87,7 @@ Publicwhip::Application.routes.draw do
   #       get 'recent', on: :collection
   #     end
   #   end
-  
+
   # Example resource route with concerns:
   #   concern :toggleable do
   #     post 'toggle'

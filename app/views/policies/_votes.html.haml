@@ -1,15 +1,15 @@
 %p.whatisflash
   This is the votes by vote definition of
   = "Public Whip policy ##{policy.id}: \"#{policy.name}\". You may want to"
-  <a href="/faq.php#policies">read an introduction to policies</a>,
+  #{link_to "read an introduction to policies", help_path(anchor: "policies")},
   or
   = succeed "." do
-    %a{:href => "/faq.php"} read more about Public Whip
+    = link_to "read more about Public Whip", help_path
 %p
   Someone who believes that
   %span.policytext= policy.description
   would have voted like
   this...
   %br/
-%div{:align => "right"}
+
 = render 'vote_summary_table', member: member, policy: policy

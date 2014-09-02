@@ -1,41 +1,25 @@
 class Division < ActiveRecord::Base
-  self.table_name = "pw_division"
-
   has_one :division_info
   has_many :whips
   has_many :votes
+  has_many :policy_divisions
+  has_many :policies, through: :policy_divisions
+  has_many :wiki_motions, -> {order(edit_date: :desc)}
 
   delegate :turnout, :aye_majority, to: :division_info
-  alias_attribute :date, :division_date
-  alias_attribute :name, :division_name
-  alias_attribute :number, :division_number
 
   scope :in_house, ->(house) { where(house: house) }
   scope :in_australian_house, ->(australian_house) { in_house(House.australian_to_uk(australian_house)) }
   # TODO This doesn't exactly match the wording in the interface. Fix this.
   scope :with_rebellions, -> { joins(:division_info).where("rebellions > 10") }
-  scope :in_parliament, ->(parliament) { where("division_date >= ? AND division_date < ?", parliament[:from], parliament[:to]) }
-
-  def policy_divisions
-    PolicyDivision.where(division_date: date,
-                         division_number: number,
-                         house: house)
-  end
-
-  def policies
-    policy_divisions.collect { |pd| pd.policy } if policy_divisions
-  end
-
-  def wiki_motions
-    WikiMotion.order(edit_date: :desc).where(division_date: date, division_number: number, house: house)
-  end
+  scope :in_parliament, ->(parliament) { where("date >= ? AND date < ?", parliament[:from], parliament[:to]) }
 
   def wiki_motion
-    WikiMotion.order(edit_date: :desc).find_by(division_date: date, division_number: number, house: house)
+    wiki_motions.first
   end
 
   def self.most_recent_date
-    order(division_date: :desc).first.division_date
+    order(date: :desc).first.date
   end
 
   def rebellious?
@@ -47,31 +31,16 @@ class Division < ActiveRecord::Base
   end
 
   def role_for(member)
-    (v = votes.find_by(mp_id: member.id)) ? v.role : "absent"
+    (v = votes.find_by(member_id: member.id)) ? v.role : "absent"
   end
 
   def vote_for(member)
     member.vote_on_division_without_tell(self)
   end
 
-  def majority_vote_for(member)
-    member.majority_vote_on_division_without_tell(self)
-  end
-
   # Equal number of votes for the ayes and noes
   def tied?
     aye_majority == 0
-  end
-
-  # The vote of the majority (either aye or no)
-  def majority_vote
-    if aye_majority == 0
-      "none"
-    elsif aye_majority > 0
-      "aye"
-    else
-      "no"
-    end
   end
 
   def no_rebellions
@@ -122,14 +91,14 @@ class Division < ActiveRecord::Base
     end
   end
 
-  def division_name
+  def name
     wiki_motion ? wiki_motion.text_body[/--- DIVISION TITLE ---(.*)--- MOTION EFFECT/m, 1].strip.gsub('-', '—') : original_name
   end
 
   def original_name
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
-    HTMLEntities.new.decode(read_attribute(:division_name).gsub('-', '—'))
+    HTMLEntities.new.decode(read_attribute(:name).gsub('-', '—'))
   end
 
   def motion
@@ -187,36 +156,8 @@ class Division < ActiveRecord::Base
     australian_house.capitalize
   end
 
-  def noes_in_majority?
-    aye_majority < 0
-  end
-
-  def majority_type
-    noes_in_majority? ? "no" : "aye"
-  end
-
-  def minority_type
-    noes_in_majority? ? "aye" : "no"
-  end
-
-  def majority_votes
-    noes_in_majority? ? no_votes : aye_votes
-  end
-
-  def majority_votes_including_tells
-    noes_in_majority? ? no_votes_including_tells : aye_votes_including_tells
-  end
-
-  def minority_votes
-    noes_in_majority? ? aye_votes : no_votes
-  end
-
-  def minority_votes_including_tells
-    noes_in_majority? ? aye_votes_including_tells : no_votes_including_tells
-  end
-
   def policy_division(policy)
-    policy_divisions.find_by!(dream_id: policy.id)
+    policy_divisions.find_by!(policy_id: policy.id)
   end
 
   def policy_vote_strong?(policy)
@@ -235,42 +176,73 @@ class Division < ActiveRecord::Base
   end
 
   def create_wiki_motion!(title, description, user)
-    WikiMotion.create!(division_date: date,
-                       division_number: number,
-                       house: house,
-                       title: title,
-                       description: description,
-                       user: user,
-                       edit_date: Time.now)
+    wiki_motions.create!(title: title,
+      description: description,
+      user: user,
+      # TODO Use default rails created_at instead
+      edit_date: Time.now)
   end
 
   def self.find_by_search_query(query)
-    update_divisions_wiki_id!
-
     # FIXME: Remove nasty SQL below that was ported from PHP direct
-    joins('LEFT JOIN pw_cache_divwiki ON pw_cache_divwiki.division_date = pw_division.division_date
-           AND pw_cache_divwiki.division_number = pw_division.division_number AND pw_cache_divwiki.house = pw_division.house
-           LEFT JOIN pw_dyn_wiki_motion ON pw_dyn_wiki_motion.wiki_id = pw_cache_divwiki.wiki_id')
-          .where('LOWER(convert(division_name using utf8)) LIKE :query
+    joins('LEFT JOIN wiki_motions ON wiki_motions.id = (SELECT IFNULL(MAX(wiki_motions.id), -1) FROM wiki_motions  WHERE wiki_motions.division_id = divisions.id)')
+          .where('LOWER(convert(name using utf8)) LIKE :query
                   OR LOWER(convert(motion using utf8)) LIKE :query
                   OR LOWER(convert(text_body using utf8)) LIKE :query', query: "%#{query}%")
   end
 
-  # FIXME: Cargo cult SQL update from PHP's update_divisions_wiki_id() function
-  def self.update_divisions_wiki_id!
-    ActiveRecord::Base.connection.execute("INSERT INTO pw_cache_divwiki
-                                           (division_date, division_number, house, wiki_id)
-                                           SELECT pw_division.division_date AS division_date,
-                                                  pw_division.division_number AS division_number,
-                                                  pw_division.house AS house,
-                                                  IFNULL(MAX(pw_dyn_wiki_motion.wiki_id), -1) AS value
-                                           FROM pw_division
-                                           LEFT JOIN pw_cache_divwiki ON pw_division.division_date = pw_cache_divwiki.division_date AND
-                                               pw_division.division_number = pw_cache_divwiki.division_number
-                                           LEFT JOIN pw_dyn_wiki_motion ON pw_dyn_wiki_motion.division_date = pw_division.division_date
-                                               AND pw_dyn_wiki_motion.division_number = pw_division.division_number
-                                               AND pw_dyn_wiki_motion.house = pw_division.house
-                                           WHERE pw_cache_divwiki.wiki_id IS NULL
-                                           GROUP BY pw_division.division_id")
+  def formatted_motion_text
+    text = self.motion
+
+    # Don't wiki-parse large amounts of text as it can blow out CPU/memory.
+    # It's probably not edited and formatted in wiki markup anyway. Maximum
+    # field size is 65,535 characters. 15,000 characters is more than 12 pages,
+    # i.e. more than enough.
+    text = text.size > 15000 ? wikimarkup_parse_basic(text) : wikimarkup_parse(text)
+
+    text.html_safe
+  end
+
+  private
+
+  # Format according to Public Whip's unique-enough-to-be-annoying markup language.
+  # It's *similar* to MediaWiki but not quite. It would be so nice to switch to Markdown.
+  def wikimarkup_parse(text)
+    text.gsub!(/<p class="italic">(.*)<\/p>/) { "<p><i>#{$~[1]}</i></p>" }
+    # Remove any preceeding spaces so wikiparser doesn't format with monospaced font
+    text.gsub! /^ */, ''
+    # Remove comment lines (those starting with '@')
+    text = text.lines.reject { |l| l =~ /(^@.*)/ }.join
+    # Italics
+    text.gsub!(/''(.*?)''/) { "<em>#{$~[1]}</em>" }
+    # Parse as MediaWiki
+    text = Marker.parse(text).to_html(nofootnotes: true)
+    # Strip unwanted tags and attributes
+    text = sanitize_motion(text)
+
+    # BUG: Force object back to String from ActiveSupport::SafeBuffer so the below regexs work properly
+    text = String.new(text)
+
+    # Footnote links. The MediaWiki parser would mess these up so we do them after parsing
+    text.gsub!(/(?<![<li>\s])(\[(\d+)\])/) { %(<sup class="sup-#{$~[2]}"><a class="sup" href='#footnote-#{$~[2]}' onclick="ClickSup(#{$~[2]}); return false;">#{$~[1]}</a></sup>) }
+    # Footnotes
+    text.gsub!(/<li>\[(\d+)\]/) { %(<li class="footnote" id="footnote-#{$~[1]}">[#{$~[1]}]) }
+
+    # This is a small hack to make links to an old site point to the new site
+    text.gsub!("<a href=\"http://publicwhip-test.openaustraliafoundation.org.au",
+      "<a href=\"http://publicwhip-rails.openaustraliafoundation.org.au")
+    text
+  end
+
+  # Use this in situations where the text is huge and all we want is it to output something
+  # similar to what the php is outputting. So, we do a stripped down version of wikimarkup_parse
+  # without the stuff that blows up when the text is huge
+  def wikimarkup_parse_basic(text)
+    text.gsub!(/<p class="italic">(.*)<\/p>/) { "<p><i>#{$~[1]}</i></p>" }
+    sanitize_motion(text)
+  end
+
+  def sanitize_motion(text)
+    ActionController::Base.helpers.sanitize(text, tags: %w(a b i p ol ul li blockquote br em sup sub dl dt dd), attributes: %w(href class pwmotiontext))
   end
 end

@@ -1,10 +1,8 @@
-%h2
+%h2#friends
   - if all_friends
-    %a{:name => "friends"} All Possible Friends
-  - elsif multiple_people?(members)
-    <a name="friends">Possible Friends (</a><a href="#{electorate_path2(member.url_electorate, display: 'allfriends')}">more...</a>)
+    All Possible Friends
   - else
-    <a name="friends">Possible Friends (</a><a href="#{member_path(member, display: 'allfriends')}">more...</a>)
+    Possible Friends (<a href="#{member_path2(member, display: 'allfriends')}">more...</a>)
 
 %p
   Shows which
@@ -28,24 +26,25 @@
   = members_type(member.australian_house)
   that were previously unsuspected. Or it may be nonsense.
 
-%table.mps
-  %tr.headings
-    %td Agreement
-    %td Name
-    %td= electorate_label(member.australian_house)
-    %td Party
-  - if member.possible_friends.empty?
-    %tr.even
-      %td{:colspan => "4"} No results found
-  - else
-    - possible_friends = member.possible_friends.joins(:member2).order(:distance_a, "pw_mp.last_name", "pw_mp.first_name")
-    - possible_friends = possible_friends.limit(5) if !all_friends
-    - reset_cycle
-    - possible_friends.each do |member_distance|
-      %tr{:class => cycle("odd", "even")}
-        %td= number_to_percentage(member_distance.agreement_percentage, precision: 1)
-        %td= link_to member_distance.member2.name_without_title, member_path(member_distance.member2)
-        %td= link_to_unless member_distance.member2.senator?, member_distance.member2.electorate, electorate_path(member_distance.member2)
-        %td= member_distance.member2.party_long2
+%table.table.table-striped
+  %thead
+    %tr.headings
+      %th Agreement
+      %th Name
+      %th= electorate_label(member.australian_house)
+      %th Party
+  %tbody
+    - if member.possible_friends.empty?
+      %tr
+        %td{:colspan => "4"} No results found
+    - else
+      - possible_friends = member.possible_friends.joins(:member2).order(:distance_a, "members.last_name", "members.first_name")
+      - possible_friends = possible_friends.limit(5) if !all_friends
+      - possible_friends.each do |member_distance|
+        %tr
+          %td= number_to_percentage(member_distance.agreement_percentage, precision: 1)
+          %td= link_to member_distance.member2.name_without_title, member_path2(member_distance.member2)
+          %td= link_to_unless member_distance.member2.senator?, member_distance.member2.electorate, electorate_path(member_distance.member2)
+          %td= member_distance.member2.party_long2
 - if member.best_friends.count >= 5 && !all_friends
   (#{pluralize(member.best_friends.count, "MP")} voted exactly the same as this one)

@@ -1,6 +1,4 @@
-class PolicyMemberDistance < ActiveRecord::Base
-  self.table_name = "pw_cache_dreamreal_distance"
-
+class PolicyPersonDistance < ActiveRecord::Base
   attr_defaults nvotessame: 0.0,
                 nvotessamestrong: 0.0,
                 nvotesdiffer: 0.0,
@@ -10,29 +8,11 @@ class PolicyMemberDistance < ActiveRecord::Base
                 distance_a: 0.0,
                 distance_b: 0.0
 
-  belongs_to :policy, foreign_key: :dream_id
+  belongs_to :policy
 
   # TODO replace with association when we can
-  def person_object
-    Person.new(id: person)
-  end
-
-  # TODO: Rename these attributes.
-  # These are disabled because we can't use these yet thanks to the missing primary key ass hattery below
-  # alias_attribute :distance_a, :distance
-  # alias_attribute :distance_b, :distance_without_abstentions
-
-  # Use update_all because we don't yet have a primary key on this model
-  # TODO: Add a primary key and get rid of this function
-  def increment!(attribute, by = 1)
-    increment(attribute, by)
-    PolicyMemberDistance.where(dream_id: policy.id, person: person).update_all(attribute => read_attribute(attribute))
-  end
-
-  # Use update_all because we don't yet have a primary key on this model
-  # TODO: Add a primary key and get rid of this function
-  def update!(attributes)
-    PolicyMemberDistance.where(dream_id: policy.id, person: person).update_all(attributes)
+  def person
+    Person.new(id: person_id)
   end
 
   def distance_object

@@ -1,227 +1,259 @@
-<!DOCTYPE HTML>
-<html>
-
-
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8" />
+<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+<title>
+Voting Record —
+Roger Price MP, Chifley
 
-<link href="/style.css" type="text/css" rel="stylesheet" media="all">
-<!--[if IE 7]>
-<link href="/ie7.css" type="text/css" rel="stylesheet" media="all">
-
+— The Public Whip
+</title>
+<link href="/assets/application.css" media="screen" rel="stylesheet" />
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-<!--
-/*
- * @license
- * MyFonts Webfont Build ID 981839, 2011-08-21T11:30:45-0400
- * 
- * The fonts listed in this notice are subject to the End User License
- * Agreement(s) entered into by the website owner. All other parties are 
- * explicitly restricted from using the Licensed Webfonts(s).
- * 
- * You may obtain a valid license at the URLs below.
- * 
- * Webfont: Museo 700 by exljbris
- * URL: http://new.myfonts.com/fonts/exljbris/museo/700/
- * 
- * Webfont: Museo 300 by exljbris
- * URL: http://new.myfonts.com/fonts/exljbris/museo/300/
- * 
- * 
- * License: http://www.myfonts.com/viewlicense?1056
- * Licensed pageviews: unlimited
- * Webfonts copyright: Copyright (c) 2008 by Jos Buivenga/exljbris. All rights reserved.
- * 
- * © 2011 Bitstream Inc
-*/
+</head>
+<body>
+<nav class="navbar navbar-default" role="navigation">
+<div class="container">
+<!-- / Brand and toggle get grouped for better mobile display -->
+<div class="navbar-header">
+<button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="/">the public whip
+</a></div>
+<!-- / Collect the nav links, forms, and other content for toggling -->
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+<ul class="nav navbar-nav">
+<li><a href="/" title="Front page and site highlights">Home</a></li>
+<li><a href="/divisions.php" title="List of all votes in Parliament">Divisions</a></li>
+<li><a href="/mps.php" title="List of all Representatives">Representatives</a></li>
+<li><a href="/mps.php?house=senate" title="List of all Senators">Senators</a></li>
+<li><a href="/policies.php" title="Help to analyze MP&#39;s votes">Policies</a></li>
+<li><a href="/faq.php" title="Frequently asked questions">Help / FAQ</a></li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li><a href="/account/register.php?r=%2Fmp.php%3Fmpn%3DRoger_Price%26mpc%3DChifley%26house%3Drepresentatives" title="Register to make or edit policies">Sign Up</a></li>
+<li><a href="/account/settings.php?r=%2Fmp.php%3Fmpn%3DRoger_Price%26mpc%3DChifley%26house%3Drepresentatives" title="Login to edit policies">Login</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<div class="container"><div class="page-header">
+<h1>
+<img alt="10519" src="http://www.openaustralia.org/images/mpsL/10519.jpg" />
+Voting Record —
+Roger Price MP, Chifley
 
--->
-<link rel="stylesheet" type="text/css" href="/publicwhip.css">
-<link href="/publicwhip_print.css" type="text/css" rel="stylesheet" media="print">
-<link rel="icon" href="/" type="image/x-icon" />
-<link rel="shortcut icon" href="/" type="image/x-icon" />
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-    $('tr').mouseover(function() {
-        $(this).addClass('over');})
-        .mouseout(function() {
-        $(this).removeClass('over');
-    });
-    $('tr:even').addClass('alt');
-});
-</script>
-<script type="text/javascript" src="/publicwhip.js"></script>
-<title>Voting Record &#8212; Roger Price MP, Chifley &#8212; The Public Whip</title>
-<script type="text/javascript">
-function givefocus(field) {
-    if (!document || !document.getElementById)
-        return
-    f = document.getElementById(field)
-    if (f)
-        f.focus()
-}
-function secondnav_goto() {
-    if (!document) return
-    if (!document.getElementById) return
-    var el = document.getElementById('r')
-    window.location=el.options[el.selectedIndex].value
-}
-function secondnav_goto2() {
-    if (!document) return
-    if (!document.getElementById) return
-    var el = document.getElementById('r2')
-    window.location=el.options[el.selectedIndex].value
-}
-function secondnav_goto3() {
-    if (!document) return
-    if (!document.getElementById) return
-    var el = document.getElementById('r3')
-    window.location=el.options[el.selectedIndex].value
-}
-function ClickSup(nsup) {
-    var el = document.getElementById('footnote-' + nsup);
-    el.style.backgroundColor = (el.style.backgroundColor ? "" : "#ffff77");
-    var sups = document.getElementsByTagName("sup");
-    for (var i = 0; i < sups.length; i++)
-        if (sups[i].className == "sup-" + nsup)
-            sups[i].style.backgroundColor = el.style.backgroundColor;
-}
-</script>
-    </head>
-
-<body onLoad="">
-<div id="whitebox">
-<script type="text/javascript" src="/walterzorn/wz_tooltip.js"></script>
-
-<div id="header" class="widewidth">
-    <div class="logo">
-        <a href="/"><img src="/images/logo.jpg" alt="the Public Whip" /></a>
-    </div>
-
-<!-- This is hidden behind the logo currently so comment it out
-    <div class="search">
-        <form class="searchtitlebarform" action="/search.php" name=pw>
-            Search: <input maxLength=256 size=12 id="query_head" name="query" onblur="fadeout(this)" onfocus="fadein(this)" value="" /> <input type="submit" value="Go" name="button" />
-        </form>
-    </div>
- -->
-
-    <!-- the main site navigation -->
-    <div id="nav_main">
-        <a title="Front page and site highlights" href="/index.php">Home</a>
-        <a title="List of all votes in Parliament" href="/divisions.php">Divisions</a>
-        <a title="List of all Representatives" href="/mps.php">Representatives</a>
-        <a title="List of all Senators" href="/mps.php?house=senate">Senators</a>
-        <a title="Help to analyze MP's votes" href="/policies.php">Policies</a>
-        <!-- <a title="Help run the Public Whip project" href="/project/index.php">Join Us</a> -->
-        <a title="Frequently asked questions" href="/faq.php">Help / FAQ</a>
-        <div id="account-navbar">
-            <a title="Register to make or edit policies" href="/account/register.php?r=%2Fmp.php%3Fmpn%3DRoger_Price%26mpc%3DChifley%26house%3Drepresentatives">Sign Up</a> <a title="Login to edit policies" href="/account/settings.php?r=%2Fmp.php%3Fmpn%3DRoger_Price%26mpc%3DChifley%26house%3Drepresentatives">Login</a>         </div>
-    </div>
-
-</div><!-- end header-->
-<div id="main" class="widewidth"><!-- main content -->
-<h1> Voting Record &#8212; Roger Price MP, Chifley </h1>
-
-<!-- the second tier navigation as tabs -->
-<!-- add hashes to $second_links array, keys are
-     'href' - URL of link
-     'text' - displayed text
-     'tooltip' - text to put in title
-     'current' - 'on' or 'off' for whether this item is currently selected -->
-<div id="secondnavtabs">
-
-<ul><li class="on">Summary </li><li class="off"><a title="Show every vote cast by this MP" href="mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives&display=allvotes" class="off">Votes attended</a> </li><li class="off"><a title="Show even divisions where the MP was absent, but could have voted" href="mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives&display=everyvote" class="off">All votes</a> </li><li class="off"><a title="Show all MPs in order of how similarly to this MP they voted" href="mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives&display=allfriends" class="off">All friends</a> </li><li class="off"><a title="Show all Policies and how this MP voted on them" href="mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives&display=alldreams" class="off">Policy comparisons</a> </li></ul></div>
-<!-- the second tier navigation as dropdowns end-->
-<p><em>Note:</em> our voting records currently only go back to the beginning of 2006 for the House of Representatives and the Senate (<a href="/faq.php#timeperiod">more details</a>).<table>
-<tr class="headings"><td>From</td><td>To</td><td>Party</td><td>Rebellions (<a href="/faq.php#clarify">explain...</a>)</td><td>Attendance (<a href="/faq.php#clarify">explain...</a>)</td><td>Teller</td></tr>
-<tr class="odd"><td>1&nbsp;Jan&nbsp;2006</td>
+</h1>
+</div>
+<ul class="nav nav-tabs">
+<li class="active"><a href="/mp.php?house=representatives&amp;mpc=Chifley&amp;mpn=Roger_Price" title="Overview of MP">Summary</a></li>
+<li><a href="/mp.php?display=allvotes&amp;house=representatives&amp;mpc=Chifley&amp;mpn=Roger_Price" title="Show every vote cast by this MP">Votes attended</a></li>
+<li><a href="/mp.php?display=everyvote&amp;house=representatives&amp;mpc=Chifley&amp;mpn=Roger_Price" title="Show even divisions where the MP was absent, but could have voted">All votes</a></li>
+<li><a href="/mp.php?display=allfriends&amp;house=representatives&amp;mpc=Chifley&amp;mpn=Roger_Price" title="Show all MPs in order of how similarly to this MP they voted">All friends</a></li>
+<li><a href="/mp.php?display=alldreams&amp;house=representatives&amp;mpc=Chifley&amp;mpn=Roger_Price" title="Show all Policies and how this MP voted on them">Policy comparisons</a></li>
+</ul>
+<p>
+<em>Note:</em>
+our voting records currently only go back to the
+beginning of 2006 for the House of Representatives and the Senate
+(<a href="/faq.php#timeperiod">more details</a>).
+</p>
+<table class="table table-striped">
+<thead>
+<tr>
+<th>From</th>
+<th>To</th>
+<th>Party</th>
+<th>Rebellions (<a href="/faq.php#clarify">explain...</a>)</th>
+<th>Attendance (<a href="/faq.php#clarify">explain...</a>)</th>
+<th>Teller</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1&nbsp;Jan&nbsp;2006</td>
 <td>21&nbsp;Aug&nbsp;2010</td>
 <td>Australian Labor Party</td>
-<td class="percent">0 votes out of 1, <b>0.0%</b></td>
-<td class="percent">1 vote out of 1, <b>100.0%</b></td>
-<td> 1 time</td>
+<td class="percent">
+0 votes
+out of
+1,
+<b>0.0%</b>
+</td>
+<td class="percent">
+1 vote
+out of
+1,
+<b>100.0%</b>
+</td>
+<td>
+1 time
+</td>
 </tr>
-</table><h2><a name="exlinks">External Links</a></h2>
+</tbody>
+</table>
+
+<h2 id="exlinks">External Links</h2>
 <ul>
-<li>See <strong>Roger Price</strong>'s Parliamentary speeches at: <a href="http://www.openaustralia.org/mp/?m=424">OpenAustralia.org</a></li>
+<li>
+See
+<strong>Roger Price</strong>'s
+Parliamentary speeches at:
+<a href="http://www.openaustralia.org/mp/?m=424">OpenAustralia.org</a>
+</li>
 </ul>
-<h2><a name="divisions">Interesting Votes</a></h2>
-<p>Votes in parliament for which this Representative's vote differed from the
-	        	majority vote of their party (Rebel), or in which this Representative was
-	        	a teller (Teller), or both (Rebel Teller).</p>  
-<p style="font-size: 89%" align="center">See also all votes... <a href="mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives&display=allvotes#divisions">attended</a> | <a href="mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives&display=everyvote#divisions">possible</a></p>
-<table class="votes">
-<tr class="headings"><td>House</td><td>Date</td><td>Subject</td><td>Roger Price</td><td>Australian Labor Party Vote</td><td>Role</td></tr>
-<tr class="even"><td class="commons">Representatives</td><td>6&nbsp;Dec&nbsp;2006</td><td><a href="division.php?date=2006-12-06&number=3&mpn=Roger_Price&mpc=Chifley&house=representatives">Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006 &#8212; Consideration in Detail</a></td>
-<td>tellaye</td><td>none</td>
-<td class="teller">Free Teller</td></tr>
+
+<h2 id="divisions">Interesting Votes</h2>
+<p>
+Votes in parliament for which this
+Representative's
+vote differed from the majority vote of their party (Rebel).
+</p>
+<p>
+See also all votes...
+<a href="/mp.php?display=allvotes&amp;house=representatives&amp;mpc=Chifley&amp;mpn=Roger_Price#divisions">attended</a>
+|
+<a href="/mp.php?display=everyvote&amp;house=representatives&amp;mpc=Chifley&amp;mpn=Roger_Price#divisions">possible</a>
+</p>
+<table class="table table-striped">
+<thead>
+<tr class="headings">
+<th>House</th>
+<th>Date</th>
+<th>Subject</th>
+<th>Roger Price</th>
+<th>Australian Labor Party Vote</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="commons">
+Representatives
+</td>
+<td>6&nbsp;Dec&nbsp;2006</td>
+<td><a href="/division.php?date=2006-12-06&amp;house=representatives&amp;mpc=Chifley&amp;mpn=Roger_Price&amp;number=3">Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006 — Consideration in Detail</a></td>
+<td>aye</td>
+<td>none</td>
+<td class="">
+free
+</td>
+</tr>
+</tbody>
+
 </table>
-<h2><a name="dreammotions">Policy Comparisons</a>
+
+<h2 id="dreammotions">Policy Comparisons</h2>
+<p>
+This chart shows the percentage agreement between this
+Representative
+and each of the policies in the database, according to their voting record.
+</p>
+<table class="table table-striped">
+<thead>
+<tr class="headings">
+<th>Agreement</th>
+<th>Policy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="2">
+No policies match this person's votes. You can
+<a href="/policies.php">edit or make a policy</a>
+that will appear here.
+</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="friends">
+Possible Friends (<a href="/mp.php?display=allfriends&amp;house=representatives&amp;mpc=Chifley&amp;mpn=Roger_Price">more...</a>)
 </h2>
-<p>This chart shows the percentage agreement between this Representative and each of the policies in the database, according to their
-        voting record.  </p>
-<table class="mps">
-<tr class="odd"><td colspan="4">No policies match this person's votes.
-                You can <a href="/policies.php">edit or make a policy</a> that will appear here.</td></tr><tr class="headings"><td>Agreement</td><td>Policy</td></tr>
+<p>
+Shows which
+Representatives
+voted most similarly to this one in the
+
+Parliament.
+This is measured from 0% agreement (never voted the
+same) to 100% (always voted the same). Only votes that both
+Representatives
+attended are counted. This may reveal relationships between
+Representatives
+that were previously unsuspected. Or it may be nonsense.
+</p>
+<table class="table table-striped">
+<thead>
+<tr class="headings">
+<th>Agreement</th>
+<th>Name</th>
+<th>Electorate</th>
+<th>Party</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="4">No results found</td>
+</tr>
+</tbody>
 </table>
-<h2><a name="friends">Possible Friends (<a href="mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives&display=allfriends">more...</a>)</a></h2><p>Shows which Representatives voted most similarly to this one in the  Parliament. This is measured from 0% agreement (never voted the same) to 100% (always
-		    voted the same).  Only votes that both Representatives attended are
-		    counted.  This may reveal relationships between Representatives that were
-		    previously unsuspected.  Or it may be nonsense.<table class="mps">
-<tr class="headings"><td>Agreement</td><td>Name</td><td>Electorate</td><td>Party</td></tr><tr class="even"><td colspan="4">No results found</td></tr>
-</table>
 
-</div><!-- end main content -->
-</div><!-- end whitebox-->
-<div id="bluebox">
-    <div class="widewidth">
-        <div class="col1-2"><h3>About the Project</h3>
-
-            <p>
-                The Public Whip is brought to you by the not-for-profit <a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>. It is based
-                on the <a href="http://www.publicwhip.org.uk/">UK site</a> of the same name.
-            </p>
-
-            <p>
-                If you'd like to talk to us about the project, please
-                <a href="mailto:contact@openaustraliafoundation.org.au">email us</a>.
-            </p>
-        </div>
-        <div class="col3"><h3>The Whip on the Web</h3>
-            <ul class="social">
-                <li class="wp"><a href="https://www.openaustraliafoundation.org.au/blog/">OpenAustralia Foundation Blog</a></li>
-                <li class="tw"><a href="http://twitter.com/openaustralia">Twitter</a></li>
-                <!-- <li class="fb"><a href="http://www.facebook.com/pages/Public-Whip/199268083464697">Facebook</a></li> -->
-            </ul>
-        </div>
-        <div class="clear"></div>
-    </div>
-    </div><!--end bluebox-->
-<div id="footer">
-    <div class="widewidth">
-        <!-- the footer section -->
-        <!-- old footer links <a title="Frequently asked questions" href="/faq.php#whatis">About us</a>
-<a title="Send comments, problems or suggestions" href="/email.php">Contact us</a>
-<a title="Fodder for your spreadsheet" href="/project/data.php">Data feeds</a>
-<a title="Public Whip is open source software" href="/project/code.php">Source code</a>
-<a title="Divisions in your news reader" href="/faq.php#rss">RSS</a>
-<a title="Details on the free license for this data" href="/faq.php#legal">Legal information</a>-->
-        <div>
-            Other projects by us that you might find interesting:
-        </div>
-        <div>
-            <a href="http://www.openaustralia.org">OpenAustralia</a>, <a href="http://www.electionleaflets.org.au">Election Leaflets</a>, <a href="http://www.righttoknow.org.au">Right To Know</a> and <a href="http://www.planningalerts.org.au">Planning Alerts</a>.
-        </div>
-        <div class="legal">
-            The Public Whip is a not-for-profit, open source, project. Get the
-            <a href="https://github.com/openaustralia/publicwhip/">source code</a>.
-        </div>
-
-    </div>
-    <div class="clear"></div>
-</div><!-- end footer-->
+</div>
+<div id="footer1">
+<div class="container">
+<div class="row">
+<div class="col-md-8">
+<h3>About the Project</h3>
+<p>
+The Public Whip is brought to you by the not-for-profit
+<a href="http://www.openaustraliafoundation.org.au/">OpenAustralia Foundation</a>.
+It is based on the
+<a href="http://www.publicwhip.org.uk/">UK site</a>
+of the same name.
+</p>
+<p>
+If you'd like to talk to us about the project, please
+<a href="mailto:contact@openaustraliafoundation.org.au">email us</a>.
+</p>
+</div>
+<div class="col-md-4">
+<h3>The Whip on the Web</h3>
+<ul class="social">
+<li class="wp"><a href="https://www.openaustraliafoundation.org.au/blog/">OpenAustralia Foundation Blog</a></li>
+<li class="tw"><a href="http://twitter.com/openaustralia">Twitter</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="footer2">
+<div class="container">
+<div>
+Other projects by us that you might find interesting:
+</div>
+<div>
+<a href="http://www.openaustralia.org">OpenAustralia</a>,
+<a href="http://www.electionleaflets.org.au">Election Leaflets</a>,
+<a href="http://www.righttoknow.org.au">Right To Know</a>
+and
+<a href="http://www.planningalerts.org.au">Planning Alerts</a>.
+</div>
+<div class="legal">
+The Public Whip is a not-for-profit, open source, project. Get the
+<a href="https://github.com/openaustralia/publicwhip/">source code</a>.
+</div>
+</div>
+</div>
+<script src="/assets/application.js"></script>
 </body>
 </html>

@@ -2,33 +2,24 @@
   - if @display == "allfriends"
     Friends of
     = @member.full_name
-  - elsif multiple_people?(@members)
-    Voting Record — Representatives for
-    = @member.electorate
   - else
     Voting Record —
     = @member.full_name2
 
-%h1= yield :title
-/ the second tier navigation as tabs
-:plain
-  <!-- add hashes to $second_links array, keys are
-       'href' - URL of link
-       'text' - displayed text
-       'tooltip' - text to put in title
-       'current' - 'on' or 'off' for whether this item is currently selected -->
-#secondnavtabs
-  %ul
-    - url_electorate = multiple_people?(@members) ? @member.url_electorate : nil
-    = members_nav_link(@member, @members, url_electorate, nil, "Summary", "Overview of MP", @display.nil? || @display == "summary")
-    = members_nav_link(@member, @members, url_electorate, "allvotes", "Votes attended", "Show every vote cast by this MP", @display == "allvotes")
-    = members_nav_link(@member, @members, url_electorate, "everyvote", "All votes", "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
-    = members_nav_link(@member, @members, url_electorate, "allfriends", "All friends", "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
-    = members_nav_link(@member, @members, url_electorate, "alldreams", "Policy comparisons", "Show all Policies and how this MP voted on them", @display == "alldreams")
-<!-- the second tier navigation as dropdowns end-->
+.page-header
+  %h1
+    = image_tag(@member.large_image_url)
+    = yield :title
+
+%ul.nav.nav-tabs
+  = nav_link("Summary", member_path2(@member, display: nil), "Overview of MP", @display.nil? || @display == "summary")
+  = nav_link("Votes attended", member_path2(@member, display: "allvotes"), "Show every vote cast by this MP", @display == "allvotes")
+  = nav_link("All votes", member_path2(@member, display: "everyvote"), "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
+  = nav_link("All friends", member_path2(@member, display: "allfriends"), "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
+  = nav_link("Policy comparisons", member_path2(@member, display: "alldreams"), "Show all Policies and how this MP voted on them", @display == "alldreams")
 
 - if @display == "allfriends"
-  = render "possible_friends", all_friends: true, member: @member, members: @members
+  = render "possible_friends", all_friends: true, member: @member
 - elsif @display == "alldreams"
   = render "policy_comparisons", member: @member, members: @members
 - else
@@ -39,6 +30,6 @@
   - elsif @display == "summary" || @display.nil?
     = render "interesting_votes", members: @members, member: @member
     = render "policy_comparisons", member: @member, members: @members
-    = render "possible_friends", all_friends: false, member: @member, members: @members
+    = render "possible_friends", all_friends: false, member: @member
   - elsif @display == "everyvote"
     = render "all_votes", members: @members

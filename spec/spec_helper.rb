@@ -12,20 +12,6 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
-# Set the PHP app's database, typically to "test" or "development"
-def set_php_database(database_config)
-  db = ActiveRecord::Base.configurations[database_config]["database"]
-  db_user = ActiveRecord::Base.configurations[database_config]["username"]
-  db_pass = ActiveRecord::Base.configurations[database_config]["password"]
-  text = File.read("php/website/config.php")
-  File.open("php/website/config.php", "w") do |f|
-    text.gsub!(/\$pw_database = (.*);/, "$pw_database = \"#{db}\";")
-    text.gsub!(/\$pw_user = (.*);/, "$pw_user = \"#{db_user}\";")
-    text.gsub!(/\$pw_password = (.*);/, "$pw_password = \"#{db_pass}\";")
-    f.puts text
-  end
-end
-
 RSpec.configure do |config|
   # ## Mock Framework
   #
@@ -42,31 +28,12 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
 
-  # We can't use transactional fixtures as the php app and the rails app need to see
-  # the same database. So, using database_cleaner instead
-  config.use_transactional_fixtures = false
+  config.use_transactional_fixtures = true
 
   config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with(:truncation)
 
     FileUtils.rm_f %w(old.html old.xml new.html new.xml)
-
-    # Point the php app to the test database
-    set_php_database "test"
- end
-
-  config.after(:suite) do
-    # Point the php app to the development database
-    set_php_database "development"
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
-
-  config.after(:each) do
-    DatabaseCleaner.clean
   end
 
   # If true, the base class of anonymous controllers will be inferred

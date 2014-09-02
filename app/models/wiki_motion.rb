@@ -1,17 +1,12 @@
 class WikiMotion < ActiveRecord::Base
-  self.table_name = "pw_dyn_wiki_motion"
-
   belongs_to :user
+  belongs_to :division
 
   validates :title, presence: true
 
   attr_accessor :title, :description
 
   before_save :set_text_body, unless: :text_body
-
-  def division
-    Division.find_by(division_date: division_date, division_number: division_number, house: house)
-  end
 
   # Strip timezone as it's stored in the DB as local time
   def edit_date

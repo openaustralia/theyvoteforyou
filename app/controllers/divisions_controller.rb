@@ -17,7 +17,7 @@ class DivisionsController < ApplicationController
       else
         @parties = Division
       end
-      @parties = @parties.in_australian_house(@house).joins(:whips).order("pw_cache_whip.party").select(:party).distinct.map{|d| d.party}
+      @parties = @parties.in_australian_house(@house).joins(:whips).order("whips.party").select(:party).distinct.map{|d| d.party}
     end
 
     if @rdisplay2 && @rdisplay2 != "rebels"
@@ -32,13 +32,13 @@ class DivisionsController < ApplicationController
 
     order = case @sort
     when nil
-      ["division_date DESC", "clock_time DESC", "division_name", "division_number DESC"]
+      ["date DESC", "clock_time DESC", "name", "number DESC"]
     when "subject"
-      ["division_name", "division_date DESC", "clock_time DESC", "division_number DESC"]
+      ["name", "date DESC", "clock_time DESC", "number DESC"]
     when "rebellions"
-      ["rebellions DESC", "division_date DESC", "clock_time DESC", "division_name", "division_number DESC"]
+      ["rebellions DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
     when "turnout"
-      ["turnout DESC", "division_date DESC", "clock_time DESC", "division_name", "division_number DESC"]
+      ["turnout DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
     else
       raise "Unexpected value"
     end
@@ -47,14 +47,14 @@ class DivisionsController < ApplicationController
     @divisions = @divisions.in_australian_house(@house) if @house
     @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
     @divisions = @divisions.with_rebellions if @rdisplay2 == "rebels"
-    @divisions = @divisions.joins(:whips).where(pw_cache_whip: {party: @party}) if @party
+    @divisions = @divisions.joins(:whips).where(whips: {party: @party}) if @party
   end
 
   def show
     house = params[:house] || "representatives"
     @sort = params[:sort]
     @display = params[:display]
-    @division = Division.in_australian_house(house).find_by!(division_date: params[:date], division_number: params[:number])
+    @division = Division.in_australian_house(house).find_by!(date: params[:date], number: params[:number])
 
     # If a member is included
     if params[:mpn] && params[:mpc]
@@ -65,32 +65,34 @@ class DivisionsController < ApplicationController
       member = Member.in_australian_house(house).where(first_name: first_name, last_name: last_name)
       member = member.where(constituency: electorate) if electorate != "Senate"
       member = member.first
-      @member = member.person_object.member_who_voted_on_division(@division)
+      @member = member.person.member_who_voted_on_division(@division)
     end
 
     order = case @sort
     when nil, "party"
-      ["pw_mp.party", "pw_vote_sortorder.position desc", "pw_mp.last_name", "pw_mp.first_name"]
+      ["members.party", "vote", "members.last_name", "members.first_name"]
     when "name"
-      ["pw_mp.last_name", "pw_mp.first_name"]
+      ["members.last_name", "members.first_name"]
     when "constituency"
-      ["pw_mp.constituency", "pw_mp.last_name", "pw_mp.first_name"]
+      ["members.constituency", "members.last_name", "members.first_name"]
     when "vote"
-      ["pw_vote_sortorder.position desc", "pw_mp.last_name", "pw_mp.first_name"]
+      ["vote", "members.last_name", "members.first_name"]
     else
       raise "Unexpected value"
     end
 
     if @display.nil?
       # TODO Fix this hacky nonsense by doing this query in the db
-      @votes = @division.votes.joins(:member).joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order).find_all{|v| v.rebellion?}
+      @votes = @division.votes.joins(:member).order(order).find_all{|v| v.rebellion?}
     elsif @display == "allvotes"
-      @votes = @division.votes.joins(:member).joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order)
+      @votes = @division.votes.joins(:member).order(order)
     elsif @display == "allpossible"
-      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN pw_vote ON pw_mp.mp_id = pw_vote.mp_id AND pw_vote.division_id = #{@division.id}").joins("LEFT JOIN pw_vote_sortorder ON pw_vote_sortorder.vote = pw_vote.vote").order(order)
+      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").order(order)
     elsif @display == "policies"
-      if params[:dmp] || user_signed_in?
-        @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
+      if params[:dmp]
+        @policy = Policy.find(params[:dmp])
+      elsif user_signed_in?
+        @policy = current_user.active_policy
       end
     else
       raise
@@ -98,15 +100,16 @@ class DivisionsController < ApplicationController
   end
 
   def edit
-    @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(division_date: params[:date], division_number: params[:number])
+    @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(date: params[:date], number: params[:number])
   end
 
+  # TODO Rename to history
   def show_edits
     @division = Division.in_australian_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
   end
 
   def update
-    @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(division_date: params[:date], division_number: params[:number])
+    @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(date: params[:date], number: params[:number])
 
     # TODO: Provide some feedback to the user about how their save went
     # This is just matching the PHP app right now :(
@@ -120,7 +123,7 @@ class DivisionsController < ApplicationController
   def add_policy_vote
     @sort = params[:sort]
     @display = params[:display]
-    @division = Division.in_australian_house(params[:house] || "representatives").find_by!(division_date: params[:date], division_number: params[:number])
+    @division = Division.in_australian_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
 
     @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
     @changed_from = @policy.add_division(@division, params["vote#{@policy.id}".to_sym])

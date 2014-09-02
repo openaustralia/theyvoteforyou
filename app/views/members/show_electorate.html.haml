@@ -1,9 +1,10 @@
-- if !multiple_people?(members) && !member.person_object.current_offices.empty?
-  %p
-    %b= member.name
-    is currently
-    -# TODO: The UK uses extra Offices data like department so this will need to be expanded
-    = member.person_object.current_offices.map{|o| "<b>#{o.position}</b>" }.to_sentence(two_words_connector: ", and ").html_safe
+- content_for :title do
+  Voting Record — Representatives for
+  = @member.electorate
+
+.page-header
+  %h1= yield :title
+
 %p
   %em Note:
   our voting records currently only go back to the
@@ -13,31 +14,18 @@
 %table.table.table-striped
   %thead
     %tr
-      - if !multiple_people?(members) && members.map{|m| m.constituency}.uniq.count > 1
-        %th Constituency
-      - if multiple_people?(members)
-        %th Name
+      %th Name
       %th From
       %th To
       %th Party
       %th Rebellions (#{link_to "explain...", help_path(anchor: "clarify")})
       %th Attendance (#{link_to "explain...", help_path(anchor: "clarify")})
-      - if !multiple_people?(members)
-        %th Teller
-
   %tbody
-    - members.each do |member|
+    - @members.each do |member|
       %tr
-        - if !multiple_people?(members) && members.map{|m| m.constituency}.uniq.count > 1
-          %td{class: member.house}
-            - if member.senator?
-              Senator for
-            = member.electorate
-        - if multiple_people?(members)
-          %td
-            = member.name
-            = link_to "(show only their votes)", "mp.php?mpn=#{member.url_name_with_title}&display=#{display || 'summary'}"
-
+        %td
+          = member.name
+          = link_to "(show only their votes)", member_path2(member, display: (@display || 'summary'))
         %td= vote_records_start_date(member)
         %td= member_until(member)
         %td= member.party_long
@@ -64,10 +52,3 @@
           - if member.votes_possible
             #{member.votes_possible},
             %b= fraction_to_percentage_display(member.attendance_fraction, precision: 1)
-
-        - if !multiple_people?(members)
-          %td
-            - if member.tells.nil?
-              times
-            - else
-              = pluralize(member.tells, "time")

@@ -12,22 +12,14 @@ describe Whip, :type => :model do
 
   describe "#free_vote?" do
     it do
-      division = Division.new(australian_house: 'senate', division_date: '2006-02-09', division_number: 3)
+      division = Division.new(australian_house: 'senate', date: '2006-02-09', number: 3)
       expect(Whip.new(division: division, party: 'Liberal Party').free_vote?).to be_truthy
     end
 
     it do
-      division = Division.new(australian_house: 'senate', division_date: '2001-01-01', division_number: 1)
+      division = Division.new(australian_house: 'senate', date: '2001-01-01', number: 1)
       whip = Whip.new(division: division, party: 'Liberal Party')
       expect(whip.free_vote?).to be_falsy
-    end
-  end
-
-  describe '#whip_guess_majority' do
-    it 'whip guess is aye and noes are in the majority' do
-      allow(subject).to receive(:whip_guess).and_return("aye")
-      allow(subject).to receive(:noes_in_majority?).and_return(true)
-      expect(subject.whip_guess_majority).to eq('minority')
     end
   end
 
@@ -60,22 +52,22 @@ describe Whip, :type => :model do
       member5
     end
 
-    let(:division) { Division.create(division_id: 1, division_date: Date.new(2000,1,1), division_number: 1, house: "commons", division_name: "Foo", source_url: "", debate_url: "", motion: "", notes: "", source_gid: "", debate_gid: "") }
-    let(:member1) { Member.create(mp_id: 1, title: "", first_name: "Member", last_name: "1", party: "A",
+    let(:division) { Division.create(id: 1, date: Date.new(2000,1,1), number: 1, house: "commons", name: "Foo", source_url: "", debate_url: "", motion: "", notes: "", source_gid: "", debate_gid: "") }
+    let(:member1) { Member.create(id: 1, title: "", first_name: "Member", last_name: "1", party: "A",
       house: "commons", gid: "", source_gid: "",  constituency: "A",
       entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1)) }
-    let(:member2) { Member.create(mp_id: 2, title: "", first_name: "Member", last_name: "2", party: "B",
+    let(:member2) { Member.create(id: 2, title: "", first_name: "Member", last_name: "2", party: "B",
       house: "commons", gid: "", source_gid: "",  constituency: "B",
       entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1)) }
-    let(:member3) { Member.create(mp_id: 3, title: "", first_name: "Member", last_name: "3", party: "B",
+    let(:member3) { Member.create(id: 3, title: "", first_name: "Member", last_name: "3", party: "B",
       house: "commons", gid: "", source_gid: "",  constituency: "C",
       entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1)) }
     # This member doesn't vote but could
-    let(:member4) { Member.create(mp_id: 4, title: "", first_name: "Member", last_name: "4", party: "B",
+    let(:member4) { Member.create(id: 4, title: "", first_name: "Member", last_name: "4", party: "B",
       house: "commons", gid: "", source_gid: "",  constituency: "D",
       entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1)) }
     # This member couldn't vote in the division
-    let(:member5) { Member.create(mp_id: 5, title: "", first_name: "Member", last_name: "5", party: "B",
+    let(:member5) { Member.create(id: 5, title: "", first_name: "Member", last_name: "5", party: "B",
       house: "commons", gid: "", source_gid: "",  constituency: "E",
       entered_house: Date.new(1998,1,1), left_house: Date.new(1999,1,1)) }
 
@@ -84,8 +76,8 @@ describe Whip, :type => :model do
         division.votes.create(member: member1, vote: "aye")
       end
 
-      it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye"] => 1)}
-      it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {"aye" => 1})}
+      it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1)}
+      it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {["aye", 0] => 1})}
       it do
         Whip.update_all!
         expect(Whip.all.count).to eq 1
@@ -125,8 +117,8 @@ describe Whip, :type => :model do
           division.votes.create(member: member3, vote: "aye")
         end
 
-        it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye"] => 1, [1, "B", "aye"] => 2)}
-        it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {"aye" => 1}, [1, "B"] => {"aye" => 2})}
+        it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1, [1, "B", "aye", 0] => 2)}
+        it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {["aye", 0] => 1}, [1, "B"] => {["aye", 0] => 2})}
         it do
           Whip.update_all!
           expect(Whip.all.count).to eq 2
@@ -157,8 +149,8 @@ describe Whip, :type => :model do
           division.votes.create(member: member3, vote: "no")
         end
 
-        it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye"] => 1, [1, "B", "aye"] => 1, [1, "B", "no"] => 1) }
-        it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {"aye" => 1}, [1, "B"] => {"aye" => 1, "no" => 1}) }
+        it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1, [1, "B", "aye", 0] => 1, [1, "B", "no", 0] => 1) }
+        it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {["aye", 0] => 1}, [1, "B"] => {["aye", 0] => 1, ["no", 0] => 1}) }
         it do
           Whip.update_all!
           expect(Whip.all.count).to eq 2

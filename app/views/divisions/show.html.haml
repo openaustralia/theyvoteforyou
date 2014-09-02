@@ -1,28 +1,29 @@
 - content_for :title do
-  = @division.name
-  \—
-  = division_date_and_time(@division)
+  = truncate(@division.name, length: 180)
 
-%h1= yield :title
-/ the second tier navigation as tabs
-:plain
-  <!-- add hashes to $second_links array, keys are
-       'href' - URL of link
-       'text' - displayed text
-       'tooltip' - text to put in title
-       'current' - 'on' or 'off' for whether this item is currently selected -->
+%h1
+  %small.pre-title= division_date_and_time(@division) + ", " + @division.australian_house_name
+  = yield :title
+
 #secondnavtabs
-  %ul
-    = division_nav_link(nil, "Summary", "Overview of division", @display)
-    = division_nav_link("allvotes", "All voters", "Every MP who cast a vote in the division", @display)
-    = division_nav_link("allpossible", "All eligible voters", "Show even MPs who did not vote but could have", @display)
-    = division_nav_link("policies", "Policies", "Show or change the polices which vote on this division", @display)
-<!-- the second tier navigation as dropdowns end-->
+  %ul.nav.nav-tabs
+    = nav_link("Summary", division_with_policy_path(@division, display: nil, sort: params[:sort], dmp: params[:dmp]), "Overview of division", @display.nil?)
+    = nav_link("All voters", division_with_policy_path(@division, display: "allvotes", sort: params[:sort], dmp: params[:dmp]), "Every MP who cast a vote in the division", @display == "allvotes")
+    = nav_link("All eligible voters", division_with_policy_path(@division, display: "allpossible", sort: params[:sort], dmp: params[:dmp]), "Show even MPs who did not vote but could have", @display == "allpossible")
+    = nav_link("Policies", division_with_policy_path(@division, display: "policies", sort: params[:sort], dmp: params[:dmp]), "Show or change the polices which vote on this division", @display == "policies")
+
+- if @display.nil?
+  - if @division.policies.any?
+    %section.division-summary
+      %p
+        This division relates to the policy
+        = "position".pluralize(@division.policies.size)
+        = policies_list_sentence(@division.policies) + "."
+
+  = render "motion", member: @member, division: @division
 
 - if @display == "policies"
   = render "policies", policy: @policy, changed_from: @changed_from, division: @division
-
-= render "motion", member: @member, division: @division
 
 - if @display.nil? || @display == "allpossible"
   = render "summary", division: @division, display: @display, sort: @sort, votes: @votes, members: @members

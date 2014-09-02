@@ -2,23 +2,23 @@
   %p.mpondivision
     = member_voted_with(member, division).html_safe
 
-.motion
+%section.motion{class: division.motion_edited? ? "motion-edited" : "motion-raw"}
   - if !division.motion_edited?
     %p
       %strong
         Description automatically extracted from the debate, please
-        = link_to "edit it", edit_division_path(division)
+        = link_to "edit it", edit_division_path2(division)
         to make it better.
   -# The motion can include html.
   -# TODO Need to check what happens when the user edits the motion. What can they add?
   .motion-text
-    = formatted_motion_text(division)
+    = division.formatted_motion_text
   %p
     %b= link_to "Debate in Parliament", division.oa_debate_url, title: "Links to debate shown at www.openaustralia.org"
     |
     %b= link_to "Source", division.source_url, title: "The original record of vote as reported by Hansard"
     |
-    %b= link_to "Edit", edit_division_path(division), title: "Edit and improve this description"
+    %b= link_to "Edit", edit_division_path2(division), title: "Edit and improve this description"
     (#{link_to "learn more", help_path(anchor: "motionedit")})
     - if division.motion_edited?
-      (last edited #{relative_time division.wiki_motion.edit_date} by #{division.wiki_motion.user.user_name})
+      (last edited #{relative_time division.wiki_motion.edit_date} by #{division.wiki_motion.user.real_name})

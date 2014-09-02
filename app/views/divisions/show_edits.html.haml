@@ -14,22 +14,25 @@
   All changes made to the description and title of this
   division.
 %p
-  = link_to "View division", division_path(params)
+  = link_to "View division", division_with_policy_path(@division)
   |
-  = link_to "Edit description", edit_division_path(@division)
-%table.edits
-  %tr.headings
-    %td Change
-    %td Division Description Changes
-  - @division.wiki_motions.each_with_index do |wiki_motion, index|
-    %tr{class: cycle("odd", "even")}
-      %td{:valign => "top", :width => "16%"}
-        = link_to "#{@division.australian_house} vote #{@division.date}##{@division.number}", division_path(params)
-        %p
-          Edited by
-          = wiki_motion.user.user_name
-        %p
-          on
-          = wiki_motion.edit_date.strftime('%F %T')
-      %td
-        = Diffy::Diff.new(wiki_motion.previous_description, wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1]).to_s(:html).html_safe
+  = link_to "Edit description", edit_division_path2(@division)
+
+%table.table
+  %thead
+    %tr
+      %th Change
+      %th Division Description Changes
+  %tbody
+    - @division.wiki_motions.each_with_index do |wiki_motion, index|
+      %tr
+        %td{:width => "16%"}
+          = link_to "#{@division.australian_house} vote #{@division.date}##{@division.number}", division_with_policy_path(@division)
+          %p
+            Edited by
+            = wiki_motion.user.real_name
+          %p
+            on
+            = wiki_motion.edit_date.strftime('%F %T')
+        %td
+          = Diffy::Diff.new(wiki_motion.previous_description, wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1]).to_s(:html).html_safe

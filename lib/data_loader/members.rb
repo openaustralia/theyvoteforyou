@@ -33,11 +33,11 @@ module DataLoader
               raise "Unknown gid type #{gid}"
             end
 
-            person = People.member_to_person[member[:id]]
-            raise "MP #{member[:id]} has no person" unless person
-            person = person[/uk.org.publicwhip\/person\/(\d*)/, 1]
+            person_id = People.member_to_person[member[:id]]
+            raise "MP #{member[:id]} has no person" unless person_id
+            person_id = person_id[/uk.org.publicwhip\/person\/(\d*)/, 1]
 
-            m = Member.find_or_initialize_by(gid: gid)
+            m = Member.find_or_initialize_by(gid: gid, id: id)
             m.update!(first_name: XML.escape_html(member[:firstname]),
                            last_name: XML.escape_html(member[:lastname]),
                            title: member[:title],
@@ -48,8 +48,7 @@ module DataLoader
                            left_house: member[:todate],
                            entered_reason: member[:fromwhy],
                            left_reason: member[:towhy],
-                           mp_id: id,
-                           person: person,
+                           person_id: person_id,
                            source_gid: '')
           end
         end

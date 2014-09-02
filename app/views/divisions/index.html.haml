@@ -33,29 +33,32 @@
     This is a table showing only the divisions where there were at
     least ten #{link_to "rebels", help_path(anchor: "clarify")}.
 
-%p{:align => "center", :style => "font-size: 89%"}
+%p
   Sort by:
-  = sort_link_divisions(nil, "date", "Date", @sort)
+  = link_to_unless @sort.nil?, "Date", divisions_path(params.merge(sort: nil)), title: "Sort by date"
   |
-  = sort_link_divisions("subject", "subject", "Subject", @sort)
+  = link_to_unless @sort == "subject", "Subject", divisions_path(params.merge(sort: "subject")), title: "Sort by subject"
   |
-  = sort_link_divisions("rebellions", "rebellions", "Rebellions", @sort)
+  = link_to_unless @sort == "rebellions", "Rebellions", divisions_path(params.merge(sort: "rebellions")), title: "Sort by rebellions"
   |
-  = sort_link_divisions("turnout", "turnout", "Turnout", @sort)
-  - if @party
-    %table.votes
-      %tr.headings
-        %td Date
-        %td Time
-        %td Subject
-        %td
+  = link_to_unless @sort == "turnout", "Turnout", divisions_path(params.merge(sort: "turnout")), title: "Sort by turnout"
+
+- if @party
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Date
+        %th Time
+        %th Subject
+        %th
           = @party
           Turnout
-        %td Loyal
-        %td Rebels
+        %th Loyal
+        %th Rebels
         -# TODO Need to remove Boths
         - if @house == "representatives"
-          %td Boths
+          %th Boths
+    %tbody
       - @divisions.each do |division|
         -# TODO temporary variable Eek!
         - whip = division.whips.where(party: @party).first
@@ -65,27 +68,29 @@
             - if division.clock_time
               = division.clock_time.strftime("%H:%M")
           %td
-            = link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
+            = link_to truncate(division.name, length: 180), division_path2(division)
           -# TODO Here it's called Turnout. Elsewhere it's called Attendance. Bad!
           %td= fraction_to_percentage_display(whip.attendance_fraction, precision: 1)
           %td= whip.no_loyal
           %td= whip.no_rebels
           - if @house == "representatives"
             %td 0
-  - else
-    %table.votes
-      %tr.headings
+- else
+  %table.table.table-striped
+    %thead
+      %tr
         - if @house.nil?
-          %td House
-        %td Date
-        %td Time
-        %td Subject
-        %td
+          %th House
+        %th Date
+        %th Time
+        %th Subject
+        %th
           Rebels
           %br>/
           (#{link_to "explain..", help_path(anchor: "clarify")})
-        %td Turnout
-        %td Majority
+        %th Turnout
+        %th Majority
+    %tbody
       - if @divisions.empty?
         %tr.odd
           - if @house.nil?
@@ -102,7 +107,7 @@
               - if division.clock_time
                 = division.clock_time.strftime("%H:%M")
             %td
-              = link_to division.name, "division.php?date=#{division.date}&number=#{division.number}&house=#{division.australian_house}"
+              = link_to truncate(division.name, length: 180), division_path2(division)
             %td= division.no_rebellions
             %td= division.turnout
             %td= division.majority
