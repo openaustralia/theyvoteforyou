@@ -21,7 +21,7 @@ class Whip < ActiveRecord::Base
         whip.no_tells = votes["tellno"] || 0
         whip.both_votes = votes["both"] || 0
         whip.abstention_votes = votes["abstention"] || 0
-        whip.possible_votes = possible_votes[[division_id, party]]
+        whip.possible_votes = possible_votes[[division_id, party]] || 0
         if Party.whipless?(whip.party) || whip.free_vote?
           whip.whip_guess = "none"
         else
