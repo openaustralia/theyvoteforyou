@@ -4,4 +4,18 @@
 
 = render "nav", policy: @policy, display: nil
 
-= render 'votes', member: @member, policy: @policy
+%p.whatisflash
+  This is the votes by vote definition of
+  = "Public Whip policy ##{@policy.id}: \"#{@policy.name}\". You may want to"
+  #{link_to "read an introduction to policies", help_path(anchor: "policies")},
+  or
+  = succeed "." do
+    = link_to "read more about Public Whip", help_path
+%p
+  Someone who believes that
+  %span.policytext= @policy.description
+  would have voted like
+  this...
+  %br/
+
+= render 'vote_summary_table', member: @member, policy: @policy
