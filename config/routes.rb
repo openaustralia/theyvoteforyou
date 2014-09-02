@@ -19,17 +19,20 @@ Publicwhip::Application.routes.draw do
   get 'edits.php' => 'divisions#show_edits', as: :show_edits_division
 
   get 'policies.php' => redirect('/policies'), as: :policies
-  get 'policies' => 'policies#index'
   get 'policy.php' => redirect {|p,r| "/policies/#{r.query_parameters['id']}/edit"},
     constraints: lambda { |request| request.query_parameters["display"] == "editdefinition"}
   get 'policy.php' => redirect {|p,r| "/policies/#{r.query_parameters['id']}/detail"},
     constraints: lambda { |request| request.query_parameters["display"] == "motions"}
   get "policy.php" => redirect {|p,r| "/policies/#{r.query_parameters['id']}"}, as: :policy
+  post 'policy.php' => 'policies#update'
+  get '/account/addpolicy.php' => redirect("/policies/new"), as: :new_policy
+  post '/account/addpolicy.php' => 'policies#create'
 
+  get 'policies' => 'policies#index'
+  get 'policies/new' => 'policies#new'
   get 'policies/:id' => 'policies#show'
   get 'policies/:id/detail' => 'policies#detail'
   get 'policies/:id/edit' => 'policies#edit'
-  post 'policy.php' => 'policies#update'
 
   post 'redir.php', to: redirect { |p, r| (r.params[:r] || r.params[:r2] || r.params[:r3]) }, as: :redirect
 
@@ -38,9 +41,6 @@ Publicwhip::Application.routes.draw do
 
     get 'wiki.php' => 'divisions#edit', as: :edit_division
     post 'wiki.php' => 'divisions#update'
-
-    get 'addpolicy.php' => 'policies#new', as: :new_policy
-    post 'addpolicy.php' => 'policies#create'
   end
 
   devise_scope :user do

@@ -30,4 +30,9 @@ describe "routing redirects", :type => :request do
     get "/policy.php?display=editdefinition&id=1"
     expect(response).to redirect_to("/policies/1/edit")
   end
+
+  it "/account/addpolicy.php -> /policies/new" do
+    get "/account/addpolicy.php"
+    expect(response).to redirect_to("/policies/new")
+  end
 end
