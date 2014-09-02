@@ -4,4 +4,36 @@
 
 = render "nav", policy: @policy, display: "editdefinition"
 
-= render 'edit_policy', policy: @policy
+%h2 How the policy votes
+%p
+  This is currently your active policy;
+  <b>to change its votes, go to the
+  = link_to "division page", divisions_path
+  for the vote you want to change</b>.
+  You can use the
+  = link_to "search facility", search_path
+  to find divisions. If you haven't edited a policy
+  before please #{link_to "read about how policies work", help_path(anchor: "policies")}.
+
+%h2 Policy title and text
+
+%form{:action => policy_path2(@policy, display: "editdefinition"), :method => "post"}
+  .form-group
+    -# TODO Use for here for the label
+    %label Title:
+    %input.form-control{:maxlength => "50", :name => "name", :size => "40", :type => "text", :value => @policy.name}/
+  .form-group
+    %label Text: Someone who believes that
+    %textarea.form-control.policytext{:cols => "80", :name => "description", :rows => "2"}
+      = @policy.description
+    %p.help-block
+      would vote according to this policy. (<em>From the text, everyone should be able to agree
+      which way the policy votes in each division</em>.)
+  .checkbox
+    %label
+      %input#provisional{:name => "provisional", :type => "checkbox", :value => "provisional", :checked => @policy.provisional?}
+      Provisional policy
+    %p.help-block
+      ('provisional' means the policy is not yet complete or consistent enough to display on MP pages)
+  %input.btn.btn-default{:name => "submiteditpolicy", :type => "hidden", :value => "Save"}/
+  %input.btn.btn-primary{:accesskey => "S", :name => "submitbutton", :type => "submit", :value => "Save title and text"}/
