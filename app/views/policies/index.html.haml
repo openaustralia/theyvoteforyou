@@ -32,7 +32,7 @@
             - if policy.unedited_motions_count != 0
               %i= "(#{policy.unedited_motions_count})"
           %td
-            = link_to policy.name, policy_path(policy)
+            = link_to policy.name, policy
             - if policy.provisional?
               %i (provisional)
     - else
