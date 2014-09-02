@@ -1,7 +1,7 @@
 namespace :application do
   namespace :cache do
     desc 'Update all the caches'
-    task :all => [:member_distances, :whip, :member, :division] do
+    task :all => [:whip, :member, :division, :member_distances] do
     end
 
     desc 'Rebuilds the whole cache of agreement between members'
