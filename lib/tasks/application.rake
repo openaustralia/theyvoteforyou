@@ -60,7 +60,11 @@ namespace :application do
         Member.in_australian_house("representatives").current_on(Date.today).limit(2)
       Member.find_each {|member| member.destroy unless members.include?(member)}
       Rake::Task["application:cache:all"].invoke
-      # TODO This doesn't yet create a user or any policy information nor edited motion text
+      # TODO This doesn't yet create policy information nor edited motion text
+      File.open("db/seeds.rb", "w") do |f|
+        f.write("User.create!(email:'matthew@oaf.org.au', real_name: 'Matthew Landauer', password: 'foofoofoo', confirmed_at: Time.now)\n")
+      end
+      ENV['APPEND'] = 'true'
       Rake::Task["db:seed:dump"].invoke
     end
   end
