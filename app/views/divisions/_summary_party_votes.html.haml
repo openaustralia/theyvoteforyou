@@ -4,18 +4,19 @@
       %th Party
       %th Ayes
       %th Noes
-      %th Turnout
   %tbody
     - division.whips.order(:party).each do |whip|
       -# Don't shown parties that haven't voted in this division
       - if whip.total_votes > 0
         %tr
-          %td= whip.party_name
+          %th
+            =whip.party_name
+            %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction, precision: 1) + ' turnout)'
           %td{:class => aye_vote_class(whip)}= whip.aye_votes_including_tells
           %td{:class => no_vote_class(whip)}= whip.no_votes_including_tells
-          %td.percent= fraction_to_percentage_display(whip.attendance_fraction, precision: 1)
     %tr
-      %td.whip Total:
+      %th.whip
+        Totals
+        %small.post-title.text-muted= '(' + fraction_to_percentage_display(division.attendance_fraction, precision: 1) + ' turnout)'
       %td{:class => aye_vote_total_class(division)}= division.aye_votes_including_tells
       %td{:class => no_vote_total_class(division)}= division.no_votes_including_tells
-      %td.percent= fraction_to_percentage_display(division.attendance_fraction, precision: 1)
