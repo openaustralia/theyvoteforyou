@@ -2,7 +2,9 @@
   = @member.name
   compared to '#{@policy.name}'
 
-%h1= yield :title
+%h1
+  = image_tag(@member.large_image_url, alt: "Photo of #{@member.name_without_title}")
+  = yield :title
 
 #secondnavtabs
   %ul.nav.nav-tabs
