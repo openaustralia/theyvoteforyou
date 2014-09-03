@@ -8,7 +8,6 @@
 
 #secondnavtabs
   %ul.nav.nav-tabs
-    - # FIXME This summary link is obviously wrong ("allvotes"?)
     - if @policy
       = nav_link("Summary", member_path2(@member, dmp: @policy.id), "Show every vote cast by this MP", @display.nil?)
       = nav_link("Full description", member_path2(@member, display: "motions", dmp: @policy.id), "Also show descriptions of every vote", @display == "motions")
