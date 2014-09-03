@@ -124,9 +124,11 @@ class DivisionsController < ApplicationController
     @sort = params[:sort]
     @display = params[:display]
     @division = Division.in_australian_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
-
     @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
-    @changed_from = @policy.add_division(@division, params["vote#{@policy.id}".to_sym])
+
+    old_vote = @policy.vote_for_division(@division)
+    new_vote = params["vote#{@policy.id}".to_sym]
+    @changed_from = @policy.update_division_vote!(@division, old_vote, new_vote)
 
     render 'show'
   end
