@@ -12,6 +12,9 @@ Publicwhip::Application.routes.draw do
   get "policy.php" => redirect {|p,r| "/policies/#{r.query_parameters['id']}"}
   get '/account/addpolicy.php' => redirect("/policies/new")
 
+  get '/account/changepass.php' => redirect('/users/edit')
+  get '/account/changeemail.php' => redirect('/users/edit')
+
   # Main routes
   root 'home#index'
 
@@ -25,39 +28,29 @@ Publicwhip::Application.routes.draw do
   get 'divisions.php' => 'divisions#index', as: :divisions
   get 'division.php' => 'divisions#show', as: :division
   post 'division.php' => 'divisions#add_policy_vote'
-
   get 'edits.php' => 'divisions#show_edits', as: :show_edits_division
+  get 'account/wiki.php' => 'divisions#edit', as: :edit_division
+  post 'account/wiki.php' => 'divisions#update'
+
+  post 'redir.php', to: redirect { |p, r| (r.params[:r] || r.params[:r2] || r.params[:r3]) }, as: :redirect
 
   resources :policies, except: :destroy do
     get 'detail', on: :member
   end
 
-  post 'redir.php', to: redirect { |p, r| (r.params[:r] || r.params[:r2] || r.params[:r3]) }, as: :redirect
-
-  scope path: '/account' do
-    match 'settings.php' => 'account#settings', via: [:get, :post], as: :account_settings
-
-    get 'wiki.php' => 'divisions#edit', as: :edit_division
-    post 'wiki.php' => 'divisions#update'
-  end
+  match 'account/settings.php' => 'account#settings', via: [:get, :post], as: :account_settings
 
   devise_scope :user do
     get '/account/logout.php' => 'devise/sessions#destroy', as: :logout
-    get '/account/changepass.php' => redirect('/users/edit')
-    get '/account/changeemail.php' => redirect('/users/edit')
     get '/account/register.php' => 'devise/registrations#new', as: :sign_up
   end
 
-  scope path: '/feeds' do
-    get 'mp-info' => 'feeds#mp_info'
-    get 'mpdream-info' => 'feeds#mpdream_info'
-  end
+  get 'feeds/mp-info' => 'feeds#mp_info'
+  get 'feeds/mpdream-info' => 'feeds#mpdream_info'
 
-  scope path: '/project' do
-    get 'code.php' => 'static#code'
-    get 'data.php' => 'static#data', as: :data_help
-    get 'research.php' => 'static#research', as: :research_help
-  end
+  get 'project/code.php' => 'static#code'
+  get 'project/data.php' => 'static#data', as: :data_help
+  get 'project/research.php' => 'static#research', as: :research_help
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
