@@ -12,12 +12,6 @@ module ApplicationHelper
       }))
   end
 
-  def policy_path2(policy, params = {})
-    policy_path(params.merge({
-        id: policy.id
-      }))
-  end
-
   def edit_division_path2(division)
     # TODO Remove type from url
     edit_division_path(type: "motion", rr: request.fullpath,

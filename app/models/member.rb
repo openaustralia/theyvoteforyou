@@ -1,7 +1,7 @@
 class Member < ActiveRecord::Base
-  has_one :member_info
+  has_one :member_info, dependent: :destroy
   delegate :rebellions, :votes_attended, :votes_possible, :tells, to: :member_info, allow_nil: true
-  has_many :votes
+  has_many :votes, dependent: :destroy
   scope :current_on, ->(date) { where("? >= entered_house AND ? < left_house", date, date) }
   scope :in_australian_house, ->(australian_house) { where(house: House.australian_to_uk(australian_house)) unless australian_house == 'all' }
   scope :with_name, ->(name) {
@@ -232,7 +232,7 @@ class Member < ActiveRecord::Base
 
     sql_query += " AND (#{score_clause} > 0)
                    GROUP BY concat(first_name, ' ', last_name, ' ', constituency)
-                   ORDER BY #{score_clause} DESC"
+                   ORDER BY #{score_clause} DESC, last_name"
 
     Member.find_by_sql [sql_query, placeholders]
   end

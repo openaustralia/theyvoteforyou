@@ -88,8 +88,8 @@
           Rebels
           %br>/
           (#{link_to "explain..", help_path(anchor: "clarify")})
-        %th Turnout
         %th Majority
+        %th Turnout
     %tbody
       - if @divisions.empty?
         %tr.odd
@@ -109,5 +109,5 @@
             %td
               = link_to truncate(division.name, length: 180), division_path2(division)
             %td= division.no_rebellions
-            %td= division.turnout
             %td= division.majority
+            %td= fraction_to_percentage_display(division.attendance_fraction, precision: 1)

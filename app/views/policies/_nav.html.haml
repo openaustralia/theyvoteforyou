@@ -1,0 +1,5 @@
+#secondnavtabs
+  %ul.nav.nav-tabs
+    = nav_link("Selected votes", policy_path(policy), "Overview of the policy", current_page?(policy_path(policy)))
+    = nav_link("Details of votes", detail_policy_path(policy), "Also shows description of every vote", current_page?(detail_policy_path(policy)))
+    = nav_link("Edit", edit_policy_path(policy), "Change title and definition of policy", current_page?(edit_policy_path(policy)))

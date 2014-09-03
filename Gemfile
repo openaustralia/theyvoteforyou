@@ -41,6 +41,7 @@ gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 gem 'rails_config'
 gem 'nokogiri'
+gem 'seed_dump'
 
 group :test do
   # We can't use transactional fixtures as the php app and the rails app need to see

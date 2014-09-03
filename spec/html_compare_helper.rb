@@ -43,11 +43,17 @@ module HTMLCompareHelper
     compare_text(text, response.body, path)
   end
 
-  def compare_static(path, signed_in = false, form_params = false, suffix = "")
+  def compare_static(path, signed_in = false, form_params = false, suffix = "", method = :post)
     login_as(users(:one), :scope => :user) if signed_in
 
     if form_params
-      post(path, form_params)
+      if method == :post
+        post(path, form_params)
+      elsif method == :put
+        put(path, form_params)
+      else
+        raise "Unexpected value for method"
+      end
     else
       get(path)
     end

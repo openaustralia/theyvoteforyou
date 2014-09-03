@@ -3,6 +3,16 @@ Publicwhip::Application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
+  # Redirects
+  get 'policies.php' => redirect('/policies')
+  get 'policy.php' => redirect {|p,r| "/policies/#{r.query_parameters['id']}/edit"},
+    constraints: lambda { |request| request.query_parameters["display"] == "editdefinition"}
+  get 'policy.php' => redirect {|p,r| "/policies/#{r.query_parameters['id']}/detail"},
+    constraints: lambda { |request| request.query_parameters["display"] == "motions"}
+  get "policy.php" => redirect {|p,r| "/policies/#{r.query_parameters['id']}"}
+  get '/account/addpolicy.php' => redirect("/policies/new")
+
+  # Main routes
   root 'home#index'
 
   get 'index.php' => 'home#index'
@@ -18,10 +28,9 @@ Publicwhip::Application.routes.draw do
 
   get 'edits.php' => 'divisions#show_edits', as: :show_edits_division
 
-  get 'policies.php' => redirect('/policies'), as: :policies
-  get 'policies' => 'policies#index'
-  get 'policy.php' => 'policies#show', as: :policy
-  post 'policy.php' => 'policies#edit'
+  resources :policies, except: :destroy do
+    get 'detail', on: :member
+  end
 
   post 'redir.php', to: redirect { |p, r| (r.params[:r] || r.params[:r2] || r.params[:r3]) }, as: :redirect
 
@@ -30,9 +39,6 @@ Publicwhip::Application.routes.draw do
 
     get 'wiki.php' => 'divisions#edit', as: :edit_division
     post 'wiki.php' => 'divisions#update'
-
-    get 'addpolicy.php' => 'policies#new', as: :new_policy
-    post 'addpolicy.php' => 'policies#create'
   end
 
   devise_scope :user do

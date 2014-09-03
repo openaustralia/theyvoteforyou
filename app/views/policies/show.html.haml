@@ -2,16 +2,20 @@
 
 %h1= yield :title
 
-#secondnavtabs
-  %ul.nav.nav-tabs
-    = nav_link("Selected votes", policy_path2(@policy, display: nil), "Overview of the policy", @display.nil?)
-    = nav_link("Details of votes", policy_path2(@policy, display: "motions"), "Also shows description of every vote", @display == "motions")
-    = nav_link("Edit", policy_path2(@policy, display: "editdefinition"), "Change title and definition of policy", @display == "editdefinition")
+= render "nav", policy: @policy, display: nil
 
-- case @display
-- when nil
-  = render 'votes', member: @member, policy: @policy
-- when 'motions'
-  = render 'detailed_votes', member: @member, policy: @policy
-- when 'editdefinition'
-  = render 'edit_policy', policy: @policy
+%p.whatisflash
+  This is the votes by vote definition of
+  = "Public Whip policy ##{@policy.id}: \"#{@policy.name}\". You may want to"
+  #{link_to "read an introduction to policies", help_path(anchor: "policies")},
+  or
+  = succeed "." do
+    = link_to "read more about Public Whip", help_path
+%p
+  Someone who believes that
+  %span.policytext= @policy.description
+  would have voted like
+  this...
+  %br/
+
+= render 'vote_summary_table', member: @member, policy: @policy
