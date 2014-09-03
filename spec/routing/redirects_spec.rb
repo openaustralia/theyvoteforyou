@@ -35,4 +35,9 @@ describe "routing redirects", :type => :request do
     get "/account/addpolicy.php"
     expect(response).to redirect_to("/policies/new")
   end
+
+  it "/mp.php?display=allvotes&dmp=1&house=senate&mpc=Tasmania&mpn=Eric_Abetz -> /mp.php?dmp=1&house=senate&mpc=Tasmania&mpn=Eric_Abetz" do
+    get "/mp.php?display=allvotes&dmp=1&house=senate&mpc=Tasmania&mpn=Eric_Abetz"
+    expect(response).to redirect_to("/mp.php?dmp=1&house=senate&mpc=Tasmania&mpn=Eric_Abetz")
+  end
 end

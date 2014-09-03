@@ -44,6 +44,11 @@ class MembersController < ApplicationController
     name = params[:mpn].gsub("_", " ") if params[:mpn]
     @display = params[:showall] == "yes" ? "allvotes" : params[:display]
 
+    if params[:dmp] && params[:display] == "allvotes"
+      redirect_to params.merge(display: nil)
+      return
+    end
+
     if params[:mpid]
       @member = Member.find_by!(id: params[:mpid])
     elsif params[:id]
