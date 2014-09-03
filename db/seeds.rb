@@ -1,4 +1,12 @@
 User.create!(email:'matthew@oaf.org.au', real_name: 'Matthew Landauer', password: 'foofoofoo', confirmed_at: Time.now)
+Division.create!([
+  {valid: true, date: "2014-02-13", number: 1, house: "lords", name: "Motions &#8212; Statements by the Queensland Premier", source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A13%2F2%2F2014;rec=0;resCount=Default", debate_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A13%2F2%2F2014;rec=0;resCount=Default", motion: "<p class=\"speaker\">Penny Wright</p>\n\n<p>I move:</p>\n\n<p class=\"italic\">That the Senate&#8212;</p>\n\n<p class=\"italic\">(a) notes the Queensland Premier (Mr Newman) has made recent public statements that:</p>\n\n<p class=\"italic\">(i) any lawyer acting for a member of a motorcycling gang is part of what he described as a criminal gang machine, and will say and do anything to defend their clients,</p>\n\n<p class=\"italic\">(ii) members of the legal community, including the judiciary, are living out of touch with society and do not understand what the community wants from the law, and</p>\n\n<p class=\"italic\">(iii) the doctrine of separation of powers between the legislature, the executive and the judiciary is less applicable to Australia than other places;</p>\n\n<p class=\"italic\">(b) affirms that these comments do not acknowledge lawyers' professional obligations, including their duty to the court, the integrity of the judiciary or the application of the separation of powers in Australia's parliamentary democracy, and so are incorrect; and</p>\n\n<p class=\"italic\">(c) calls on the Commonwealth Attorney-General (Senator Brandis) to acknowledge and uphold the integrity of the legal profession and the judiciary across Australia.</p>\n\n <p class=\"speaker\">Alan Ferguson</p>\n\n<p>The question is that the motion moved by Senator Wright be agreed to.</p>\n\n ", notes: "", clock_time: "012:04:00", source_gid: "uk.org.publicwhip/lords/2014-02-13.25.1", debate_gid: "uk.org.publicwhip/lords/2014-02-13.24.2"},
+  {valid: true, date: "2014-02-13", number: 2, house: "lords", name: "Motions &#8212; Coal Seam Gas", source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A13%2F2%2F2014;rec=0;resCount=Default", debate_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A13%2F2%2F2014;rec=0;resCount=Default", motion: "<p class=\"speaker\">Larissa Waters</p>\n\n<p>I, and also on behalf of Senators Wright, Hanson-Young and Ludlam, move:</p>\n\n<p class=\"italic\">That the Senate&#8212;</p>\n\n<p class=\"italic\">(a) notes:</p>\n\n<p class=\"italic\">(i) the concern of communities in South Australia and Western Australia about their land and water being threatened by shale and other unconventional gas mining,</p>\n\n<p class=\"italic\">(ii) that landholders lack the legal right to refuse shale and other unconventional gas mining on their land, and</p>\n\n<p class=\"italic\">(iii) the scientific uncertainty surrounding the environmental and health implications of hydraulic fracturing ('fracking') for shale and other unconventional gas mining; and</p>\n\n<p class=\"italic\">(b) calls on the Federal Government to:</p>\n\n<p class=\"italic\">(i) ban the use of fracking by the unconventional gas industry across Australia, and</p>\n\n<p class=\"italic\">(ii) support the Australian Greens' bill to give landholders the legal right to refuse shale and other unconventional gas mining on their land.</p>\n\n <p class=\"speaker\">Stephen Parry</p>\n\n<p>The question is that the motion moved by Senator Waters be agreed to.</p>\n\n ", notes: "", clock_time: "012:23:00", source_gid: "uk.org.publicwhip/lords/2014-02-13.47.1", debate_gid: "uk.org.publicwhip/lords/2014-02-13.46.2"}
+])
+DivisionInfo.create!([
+  {division_id: 1, rebellions: 0, tells: 0, turnout: 1, possible_turnout: 2, aye_majority: -1},
+  {division_id: 2, rebellions: 0, tells: 0, turnout: 0, possible_turnout: 2, aye_majority: 0}
+])
 Electorate.create!([
   {name: "Warringah", main_name: true, from_date: "1000-01-01", to_date: "9999-12-31", house: "commons"},
   {name: "Lyons", main_name: true, from_date: "1000-01-01", to_date: "9999-12-31", house: "commons"},
@@ -172,6 +180,28 @@ Electorate.create!([
   {name: "Flynn", main_name: true, from_date: "1000-01-01", to_date: "9999-12-31", house: "commons"},
   {name: "O&#39;Connor", main_name: true, from_date: "1000-01-01", to_date: "9999-12-31", house: "commons"},
   {name: "Wright", main_name: true, from_date: "1000-01-01", to_date: "9999-12-31", house: "commons"}
+])
+Member.create!([
+  {gid: "uk.org.publicwhip/member/1", source_gid: "", first_name: "Tony", last_name: "Abbott", title: "", constituency: "Warringah", party: "Liberal Party", house: "commons", entered_house: "1994-03-26", left_house: "9999-12-31", entered_reason: "by_election", left_reason: "still_in_office", person_id: 10001},
+  {gid: "uk.org.publicwhip/member/6", source_gid: "", first_name: "Anthony", last_name: "Albanese", title: "", constituency: "Grayndler", party: "Australian Labor Party", house: "commons", entered_house: "1996-03-02", left_house: "9999-12-31", entered_reason: "general_election", left_reason: "still_in_office", person_id: 10007},
+  {gid: "uk.org.publicwhip/lord/100001", source_gid: "", first_name: "Eric", last_name: "Abetz", title: "", constituency: "Tasmania", party: "Liberal Party", house: "lords", entered_house: "1994-02-22", left_house: "9999-12-31", entered_reason: "section_15", left_reason: "still_in_office", person_id: 10003},
+  {gid: "uk.org.publicwhip/lord/100013", source_gid: "", first_name: "Cory", last_name: "Bernardi", title: "", constituency: "SA", party: "Liberal Party", house: "lords", entered_house: "2006-05-04", left_house: "9999-12-31", entered_reason: "section_15", left_reason: "still_in_office", person_id: 10038}
+])
+MemberDistance.create!([
+  {member1_id: 1, member2_id: 1, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0, distance_b: -1.0},
+  {member1_id: 1, member2_id: 6, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0, distance_b: -1.0},
+  {member1_id: 6, member2_id: 1, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0, distance_b: -1.0},
+  {member1_id: 6, member2_id: 6, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0, distance_b: -1.0},
+  {member1_id: 100001, member2_id: 100001, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0, distance_b: -1.0},
+  {member1_id: 100001, member2_id: 100013, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 1, distance_a: 0.5, distance_b: -1.0},
+  {member1_id: 100013, member2_id: 100001, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 1, distance_a: 0.5, distance_b: -1.0},
+  {member1_id: 100013, member2_id: 100013, nvotessame: 1, nvotesdiffer: 0, nvotesabsent: 0, distance_a: 0.0, distance_b: 0.0}
+])
+MemberInfo.create!([
+  {member_id: 100001, rebellions: 0, tells: 0, votes_attended: 0, votes_possible: 2, aye_majority: 0},
+  {member_id: 1, rebellions: 0, tells: 0, votes_attended: 0, votes_possible: 0, aye_majority: 0},
+  {member_id: 6, rebellions: 0, tells: 0, votes_attended: 0, votes_possible: 0, aye_majority: 0},
+  {member_id: 100013, rebellions: 0, tells: 0, votes_attended: 1, votes_possible: 2, aye_majority: -1}
 ])
 Office.create!([
   {dept: "", position: "Minister for Employment, Education, Training and Youth Affairs", responsibility: "", from_date: "1996-03-11", to_date: "1997-10-09", person_id: 10650},
@@ -1531,39 +1561,20 @@ Office.create!([
   {dept: "", position: "Shadow Parliamentary Secretary for Families and Payments", responsibility: "", from_date: "2013-10-18", to_date: "9999-12-31", person_id: 10071},
   {dept: "", position: "Shadow Parliamentary Secretary for Aged Care", responsibility: "", from_date: "2013-10-18", to_date: "9999-12-31", person_id: 10515}
 ])
-Member.create!([
-  {gid: "uk.org.publicwhip/member/1", source_gid: "", first_name: "Tony", last_name: "Abbott", title: "", constituency: "Warringah", party: "Liberal Party", house: "commons", entered_house: "1994-03-26", left_house: "9999-12-31", entered_reason: "by_election", left_reason: "still_in_office", person_id: 10001},
-  {gid: "uk.org.publicwhip/member/6", source_gid: "", first_name: "Anthony", last_name: "Albanese", title: "", constituency: "Grayndler", party: "Australian Labor Party", house: "commons", entered_house: "1996-03-02", left_house: "9999-12-31", entered_reason: "general_election", left_reason: "still_in_office", person_id: 10007},
-  {gid: "uk.org.publicwhip/lord/100001", source_gid: "", first_name: "Eric", last_name: "Abetz", title: "", constituency: "Tasmania", party: "Liberal Party", house: "lords", entered_house: "1994-02-22", left_house: "9999-12-31", entered_reason: "section_15", left_reason: "still_in_office", person_id: 10003},
-  {gid: "uk.org.publicwhip/lord/100013", source_gid: "", first_name: "Cory", last_name: "Bernardi", title: "", constituency: "SA", party: "Liberal Party", house: "lords", entered_house: "2006-05-04", left_house: "9999-12-31", entered_reason: "section_15", left_reason: "still_in_office", person_id: 10038}
+Policy.create!([
+  {name: "Dusty ponies are covered in pony dust", user_id: 1, description: "Pony dust is magical and dusty ponies are dusty", private: 2}
 ])
-Division.create!([
-  {valid: true, date: "2014-02-13", number: 1, house: "lords", name: "Motions &#8212; Statements by the Queensland Premier", source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A13%2F2%2F2014;rec=0;resCount=Default", debate_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A13%2F2%2F2014;rec=0;resCount=Default", motion: "<p class=\"speaker\">Penny Wright</p>\n\n<p>I move:</p>\n\n<p class=\"italic\">That the Senate&#8212;</p>\n\n<p class=\"italic\">(a) notes the Queensland Premier (Mr Newman) has made recent public statements that:</p>\n\n<p class=\"italic\">(i) any lawyer acting for a member of a motorcycling gang is part of what he described as a criminal gang machine, and will say and do anything to defend their clients,</p>\n\n<p class=\"italic\">(ii) members of the legal community, including the judiciary, are living out of touch with society and do not understand what the community wants from the law, and</p>\n\n<p class=\"italic\">(iii) the doctrine of separation of powers between the legislature, the executive and the judiciary is less applicable to Australia than other places;</p>\n\n<p class=\"italic\">(b) affirms that these comments do not acknowledge lawyers' professional obligations, including their duty to the court, the integrity of the judiciary or the application of the separation of powers in Australia's parliamentary democracy, and so are incorrect; and</p>\n\n<p class=\"italic\">(c) calls on the Commonwealth Attorney-General (Senator Brandis) to acknowledge and uphold the integrity of the legal profession and the judiciary across Australia.</p>\n\n <p class=\"speaker\">Alan Ferguson</p>\n\n<p>The question is that the motion moved by Senator Wright be agreed to.</p>\n\n ", notes: "", clock_time: "012:04:00", source_gid: "uk.org.publicwhip/lords/2014-02-13.25.1", debate_gid: "uk.org.publicwhip/lords/2014-02-13.24.2"},
-  {valid: true, date: "2014-02-13", number: 2, house: "lords", name: "Motions &#8212; Coal Seam Gas", source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A13%2F2%2F2014;rec=0;resCount=Default", debate_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansards,hansards80%20Date%3A13%2F2%2F2014;rec=0;resCount=Default", motion: "<p class=\"speaker\">Larissa Waters</p>\n\n<p>I, and also on behalf of Senators Wright, Hanson-Young and Ludlam, move:</p>\n\n<p class=\"italic\">That the Senate&#8212;</p>\n\n<p class=\"italic\">(a) notes:</p>\n\n<p class=\"italic\">(i) the concern of communities in South Australia and Western Australia about their land and water being threatened by shale and other unconventional gas mining,</p>\n\n<p class=\"italic\">(ii) that landholders lack the legal right to refuse shale and other unconventional gas mining on their land, and</p>\n\n<p class=\"italic\">(iii) the scientific uncertainty surrounding the environmental and health implications of hydraulic fracturing ('fracking') for shale and other unconventional gas mining; and</p>\n\n<p class=\"italic\">(b) calls on the Federal Government to:</p>\n\n<p class=\"italic\">(i) ban the use of fracking by the unconventional gas industry across Australia, and</p>\n\n<p class=\"italic\">(ii) support the Australian Greens' bill to give landholders the legal right to refuse shale and other unconventional gas mining on their land.</p>\n\n <p class=\"speaker\">Stephen Parry</p>\n\n<p>The question is that the motion moved by Senator Waters be agreed to.</p>\n\n ", notes: "", clock_time: "012:23:00", source_gid: "uk.org.publicwhip/lords/2014-02-13.47.1", debate_gid: "uk.org.publicwhip/lords/2014-02-13.46.2"}
+PolicyDivision.create!([
+  {policy_id: 1, vote: "aye3", division_id: 2},
+  {policy_id: 1, vote: "no", division_id: 1}
+])
+PolicyPersonDistance.create!([
+  {policy_id: 1, person_id: 10003, nvotessame: 0, nvotessamestrong: 0, nvotesdiffer: 0, nvotesdifferstrong: 0, nvotesabsent: 1, nvotesabsentstrong: 1, distance_a: 0.5, distance_b: -1.0},
+  {policy_id: 1, person_id: 10038, nvotessame: 0, nvotessamestrong: 0, nvotesdiffer: 0, nvotesdifferstrong: 0, nvotesabsent: 1, nvotesabsentstrong: 1, distance_a: 0.5, distance_b: -1.0}
 ])
 Vote.create!([
   {division_id: 1, member_id: 100013, vote: "no", teller: false}
 ])
-MemberInfo.create!([
-  {member_id: 100001, rebellions: 0, tells: 0, votes_attended: 0, votes_possible: 2, aye_majority: 0},
-  {member_id: 1, rebellions: 0, tells: 0, votes_attended: 0, votes_possible: 0, aye_majority: 0},
-  {member_id: 6, rebellions: 0, tells: 0, votes_attended: 0, votes_possible: 0, aye_majority: 0},
-  {member_id: 100013, rebellions: 0, tells: 0, votes_attended: 1, votes_possible: 2, aye_majority: -1}
-])
-MemberDistance.create!([
-  {member1_id: 1, member2_id: 1, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0, distance_b: -1.0},
-  {member1_id: 1, member2_id: 6, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0, distance_b: -1.0},
-  {member1_id: 6, member2_id: 1, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0, distance_b: -1.0},
-  {member1_id: 6, member2_id: 6, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0, distance_b: -1.0},
-  {member1_id: 100001, member2_id: 100001, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0, distance_b: -1.0},
-  {member1_id: 100001, member2_id: 100013, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 1, distance_a: 0.5, distance_b: -1.0},
-  {member1_id: 100013, member2_id: 100001, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 1, distance_a: 0.5, distance_b: -1.0},
-  {member1_id: 100013, member2_id: 100013, nvotessame: 1, nvotesdiffer: 0, nvotesabsent: 0, distance_a: 0.0, distance_b: 0.0}
-])
 Whip.create!([
   {division_id: 1, party: "Liberal Party", aye_votes: 0, aye_tells: 0, no_votes: 1, no_tells: 0, both_votes: 0, abstention_votes: 0, possible_votes: 2, whip_guess: "no"}
-])
-DivisionInfo.create!([
-  {division_id: 1, rebellions: 0, tells: 0, turnout: 1, possible_turnout: 2, aye_majority: -1},
-  {division_id: 2, rebellions: 0, tells: 0, turnout: 0, possible_turnout: 2, aye_majority: 0}
 ])
