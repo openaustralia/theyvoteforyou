@@ -80,7 +80,7 @@ module HTMLCompareHelper
       end
       output("old.#{format}", o, path)
       output("new.#{format}", n, path)
-      system("#{diff_path} old.#{format} new.#{format}")
+      system("diff old.#{format} new.#{format}")
       raise "Don't match. Writing to file old.#{format} and new.#{format}"
     end
   end
@@ -133,16 +133,6 @@ module HTMLCompareHelper
       "/usr/local/bin/tidy"
     else
       "tidy"
-    end
-  end
-
-  def diff_path
-    # On OS X use opendiff in preference to any other diff. Fallback to regular diff somewhere
-    # in the path so that this works on Linux as well.
-    if File.exists? "/usr/bin/opendiff"
-      "/usr/bin/opendiff"
-    else
-      "diff"
     end
   end
 end
