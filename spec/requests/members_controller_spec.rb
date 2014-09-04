@@ -61,7 +61,6 @@ describe MembersController, :type => :request do
     it {compare_static("/mp.php?mpc=Bennelong")}
 
     it {compare_static("/mp.php?id=uk.org.publicwhip/member/1")}
-    it {compare_static("/mp.php?id=uk.org.publicwhip/member/1&showall=yes")}
 
     # Test free teller under Interesting Votes
     it {compare_static("/mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives")}

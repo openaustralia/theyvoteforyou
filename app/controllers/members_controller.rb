@@ -36,6 +36,11 @@ class MembersController < ApplicationController
     name = params[:mpn].gsub("_", " ") if params[:mpn]
     @display = params[:showall] == "yes" ? "allvotes" : params[:display]
 
+    if params[:showall] == "yes"
+      redirect_to params.merge(showall: nil, display: "allvotes")
+      return
+    end
+
     if params[:dmp] && params[:display] == "allvotes"
       redirect_to params.merge(display: nil)
       return
