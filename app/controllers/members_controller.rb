@@ -22,14 +22,14 @@ class MembersController < ApplicationController
       raise "Unexpected value"
     end
 
-    # FIXME: Should be easy to refactor this, just doing the dumb thing right now
-    member_info_join = 'LEFT OUTER JOIN `member_infos` ON `member_infos`.`member_id` = `members`.`id`'
+    @members = Member.in_australian_house(@house).joins('LEFT OUTER JOIN `member_infos` ON `member_infos`.`member_id` = `members`.`id`').select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
     if @parliament.nil?
-      @members = Member.current.in_australian_house(@house).joins(member_info_join).select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
+      @members = @members.current
     elsif @parliament == "all"
-      @members = Member.in_australian_house(@house).joins(member_info_join).select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
+      @members = @members
     elsif Parliament.all[@parliament]
-      @members = Member.where("? >= entered_house AND ? < left_house", Parliament.all[@parliament][:to], Parliament.all[@parliament][:from]).in_australian_house(@house).joins(member_info_join).select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
+      # TODO Extract this into a method
+      @members = @members.where("? >= entered_house AND ? < left_house", Parliament.all[@parliament][:to], Parliament.all[@parliament][:from])
     else
       raise
     end
