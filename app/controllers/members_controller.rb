@@ -54,21 +54,8 @@ class MembersController < ApplicationController
       redirect_to view_context.member_path2(@member, dmp: params[:dmp], display: params[:display])
       return
     end
-
-    if name
-      @member = Member.with_name(name)
-      @member = @member.in_australian_house(params[:house]) if params[:house]
-      @member = @member.where(constituency: electorate) if electorate && electorate != "Senate"
-      @member = @member.order(entered_house: :desc).first
-    end
-
-    if @member
-      @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
-
-      # Trying this hack. Seems mighty weird
-      # TODO Get rid of this
-      @member = @members.first if @member.senator?
-    else
+    # Check if this is an electorate
+    if name.nil?
       @members = Member.where(constituency: electorate).order(entered_house: :desc)
       @members = @members.in_australian_house(params[:house]) if params[:house]
       @member = @members.first
@@ -76,6 +63,28 @@ class MembersController < ApplicationController
       if @display || params[:dmp]
         redirect_to view_context.electorate_path(@member)
         return
+      end
+    else
+      @member = Member.with_name(name)
+      @member = @member.in_australian_house(params[:house]) if params[:house]
+      @member = @member.where(constituency: electorate) if electorate && electorate != "Senate"
+      @member = @member.order(entered_house: :desc).first
+
+      if @member
+        @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
+
+        # Trying this hack. Seems mighty weird
+        # TODO Get rid of this
+        @member = @members.first if @member.senator?
+      else
+        @members = Member.where(constituency: electorate).order(entered_house: :desc)
+        @members = @members.in_australian_house(params[:house]) if params[:house]
+        @member = @members.first
+        # TODO If this relates to a single person redirect
+        if @display || params[:dmp]
+          redirect_to view_context.electorate_path(@member)
+          return
+        end
       end
     end
 
