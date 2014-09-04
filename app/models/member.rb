@@ -156,15 +156,11 @@ class Member < ActiveRecord::Base
   end
 
   def url_name
-    CGI::escape(original_name_without_title.gsub(" ", "_"))
-  end
-
-  def url_name_with_title
-    CGI::escape(original_name.gsub(" ", "_"))
+    original_name_without_title.gsub(" ", "_")
   end
 
   def url_electorate
-    CGI::escape(original_constituency.gsub(" ", "_"))
+    original_constituency.gsub(" ", "_")
   end
 
   def australian_house
