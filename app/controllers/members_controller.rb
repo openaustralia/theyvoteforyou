@@ -58,6 +58,10 @@ class MembersController < ApplicationController
       redirect_to params.merge(display: nil, dmp: nil)
       return
     end
+    if params[:display] == "summary"
+      redirect_to params.merge(display: nil)
+      return
+    end
 
     # Check if this is an electorate
     if name.nil?
