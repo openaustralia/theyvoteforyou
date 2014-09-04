@@ -42,17 +42,6 @@ set :linked_dirs, fetch(:linked_dirs, []) + %w{bin log tmp/pids tmp/cache tmp/so
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
-namespace :deploy do
-  desc 'Restart application'
-  task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
-      execute :touch, release_path.join('tmp/restart.txt')
-    end
-  end
-
-  after :publishing, :restart
-end
-
 namespace :foreman do
   desc "Export the Procfile to Ubuntu's upstart scripts"
   task :export do
@@ -83,4 +72,16 @@ namespace :foreman do
       execute :sudo, :service, :publicwhip, :restart
     end
   end
+end
+
+namespace :deploy do
+  desc 'Restart application'
+  task :restart do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute :touch, release_path.join('tmp/restart.txt')
+    end
+  end
+
+  after :publishing, :restart
+  after :restart, 'foreman:restart'
 end
