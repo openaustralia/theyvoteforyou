@@ -6,7 +6,7 @@
 .page-header
   %h1= yield :title
 
-%ul.nav.nav-pills
+%ul.nav.nav-tabs
   %li{class: ("active" if @parliament.nil?)}
     = link_to "Current", members_path(params.merge(sort: @sort, parliament: nil)) , title: "Show only the current parliament"
   - Parliament.all.each do |id, details|
