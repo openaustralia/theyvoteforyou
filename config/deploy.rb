@@ -31,7 +31,7 @@ set :rvm_ruby_version, '2.0.0'
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, %w{php/loader/PublicWhip/Config.pm php/website/config.php config/database.yml config/settings.yml config/secrets.yml config/newrelic.yml}
+set :linked_files, %w{config/database.yml config/settings.yml config/secrets.yml config/newrelic.yml}
 
 # Default value for linked_dirs is []
 set :linked_dirs, fetch(:linked_dirs, []) + %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
