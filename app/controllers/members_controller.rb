@@ -5,9 +5,11 @@ class MembersController < ApplicationController
     @house = params[:house] || "representatives"
     @parliament = params[:parliament]
 
-    # We're getting rid of the house=all display. So, redirect to the house of reps
-    if @house == "all"
-      redirect_to members_path(house: "representatives", sort: @sort, parliament: @parliament)
+    # Redirect if necessary
+    if @house == "all" || params[:sort] == "lastname"
+      @house = "representatives" if @house == "all"
+      @sort = nil if @sort == "lastname"
+      redirect_to members_path(house: @house, sort: @sort, parliament: @parliament)
       return
     end
 
