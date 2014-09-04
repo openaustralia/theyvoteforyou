@@ -207,6 +207,7 @@ GEM
       ffi (>= 0.5.0)
     rdoc (4.1.1)
       json (~> 1.4)
+    redcarpet (3.1.2)
     ref (1.0.5)
     rspec (3.0.0)
       rspec-core (~> 3.0.0)
@@ -340,6 +341,7 @@ DEPENDENCIES
   rails (= 4.1.4)
   rails_config
   ranker
+  redcarpet
   rspec-activemodel-mocks
   rspec-rails
   ruby_parser
