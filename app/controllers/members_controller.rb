@@ -22,7 +22,8 @@ class MembersController < ApplicationController
       raise "Unexpected value"
     end
 
-    @members = Member.in_australian_house(@house).joins('LEFT OUTER JOIN `member_infos` ON `member_infos`.`member_id` = `members`.`id`').select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
+    @members = Member.joins('LEFT OUTER JOIN `member_infos` ON `member_infos`.`member_id` = `members`.`id`').select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
+    @members = @members.in_australian_house(@house) if @house != "all"
     if @parliament.nil?
       @members = @members.current
     elsif @parliament == "all"
