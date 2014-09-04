@@ -4,7 +4,7 @@
 
 In our democracy the definitive exercise of the power we give our politicians
 when we vote them into office is how they vote in our parliaments on our behalf.
-Yet you probably don't how your MP votes. This isn't your fault.
+Yet you probably don't know how your MP votes. This isn't your fault.
 
 Parliamentary voting information is notoriously difficult to find and analyse.
 This project changes that by making it understandable and easy to use.
