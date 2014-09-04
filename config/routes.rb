@@ -45,8 +45,8 @@ Publicwhip::Application.routes.draw do
     get '/account/register.php' => 'devise/registrations#new', as: :sign_up
   end
 
-  get 'feeds/mp-info' => 'feeds#mp_info'
-  get 'feeds/mpdream-info' => 'feeds#mpdream_info'
+  get 'feeds/mp-info' => 'feeds#mp_info', as: :mp_info_feed
+  get 'feeds/mpdream-info' => 'feeds#mpdream_info', as: :mpdream_info_feed
 
   get 'project/code.php', to: redirect('https://github.com/openaustralia/publicwhip/')
   get 'project/data.php' => 'static#data', as: :data_help
