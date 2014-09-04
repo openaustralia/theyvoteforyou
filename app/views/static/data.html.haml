@@ -1,30 +1,26 @@
 - content_for :title, "Data Feeds and API"
 
-%h1 Data Feeds and API
+:markdown
+  # Data Feeds and API
 
-%h2 MP attendance and rebelliousness rates
-%p
+  ## MP attendance and rebelliousness rates
+
   You can open XML files in any text editor, XML viewer or some
   spreadsheets. In the files there are comments with more
   information.
-%p
-  = link_to "mp-info.xml", mp_info_feed_path(format: :xml)
-  \- list of division
+
+  [mp-info.xml](#{mp_info_feed_path(format: :xml)}) - list of division
   attendance rate and rebelliousness for MPs in the all-members.xml
   file. This is a live file, correct to the latest division in the
   Public Whip database. The field data_date shows the date it applies
   up to. For members who have left the house it says "complete".
-%p
-  = link_to "mp-info.xml?house=lords", mp_info_feed_path(format: :xml, house: :lords)
-  \- likewise for the House of Lords.
 
-%h2 MP Policy Agreement
-%p
+  [mp-info.xml?house=lords](#{mp_info_feed_path(format: :xml, house: :lords)}) -
+  likewise for the House of Lords.
+
+  ## MP Policy Agreement
+
   Each #{link_to 'policy', policies_path} has an XML representation of how much
-  each MP agrees with it, e.g.
-  = succeed '.' do
-    =link_to "mpdream-info.xml?id=1", mpdream_info_feed_path(id: 1, format: :xml)
-%p
-  Hey, you should
-  = succeed '!' do
-    = link_to 'help document this better', 'https://github.com/openaustralia/publicwhip/blob/test/app/views/static/data.html.haml'
+  each MP agrees with it, e.g. [mpdream-info.xml?id=1](#{mpdream_info_feed_path(id: 1, format: :xml)}).
+
+  Hey, you should [help document this better](https://github.com/openaustralia/publicwhip/blob/test/app/views/static/data.html.haml)!
