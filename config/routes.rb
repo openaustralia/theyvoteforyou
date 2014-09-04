@@ -48,7 +48,7 @@ Publicwhip::Application.routes.draw do
   get 'feeds/mp-info' => 'feeds#mp_info'
   get 'feeds/mpdream-info' => 'feeds#mpdream_info'
 
-  get 'project/code.php' => 'static#code'
+  get 'project/code.php', to: redirect('https://github.com/openaustralia/publicwhip/')
   get 'project/data.php' => 'static#data', as: :data_help
   get 'project/research.php' => 'static#research', as: :research_help
 

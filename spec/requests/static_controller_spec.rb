@@ -5,10 +5,6 @@ describe StaticController, :type => :request do
   include HTMLCompareHelper
   fixtures :all
 
-  it "#code" do
-    compare_static("/project/code.php")
-  end
-
   it "#data" do
     compare_static("/project/data.php")
   end
