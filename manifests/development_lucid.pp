@@ -175,11 +175,12 @@ use vars qw(\$user \$pass \$pwdata \$debatepath \$fileprefix);
 "
 }
 
-exec { "mysql --database=$db_dev -u $db_dev --password=$db_dev_password < /vagrant/php/loader/create.sql":
-    refreshonly => true,
-    subscribe => Mysql::Db["$db_dev"],
-    path => ['/usr/bin', '/usr/sbin/', '/bin/']
-}
+## The database is created by Rails now
+# exec { "mysql --database=$db_dev -u $db_dev --password=$db_dev_password < /vagrant/php/loader/create.sql":
+#     refreshonly => true,
+#     subscribe => Mysql::Db["$db_dev"],
+#     path => ['/usr/bin', '/usr/sbin/', '/bin/']
+# }
 
 class { 'apache':
     mpm_module => 'prefork',
@@ -230,32 +231,40 @@ define('HIDDEN_HASH_VAR', \$hidden_hash_var);
 ?>"
 }
 
-# Downloads a small sample of debate data from data.openaustralia.org and uses
-# it to populate the database.
-exec { '/vagrant/php/loader/load_openaustralia_xml.sh':
-    refreshonly => true,
-    subscribe => Exec["mysql --database=$db_dev -u $db_dev --password=$db_dev_password < /vagrant/php/loader/create.sql"],
-    require => [
-                    File['/vagrant/php/loader/PublicWhip/Config.pm'],
-                    Package['libtext-autoformat-perl'],
-                    Package['libunicode-string-perl'],
-                    Package['libxml-twig-perl'],
-                    Package['php5-cli']
-               ],
-    cwd => '/vagrant/php/loader',
-    timeout => 1200,
-    path => ['/usr/bin', '/usr/sbin/', '/bin/']
+# Set the PHP_SERVER environment variable that the rspec tests use when testing against PHP
+file { '/etc/profile.d/publichwhip_rails_tests.sh':
+    ensure => 'present',
+    content => 'export PHP_SERVER=localhost',
+    mode => 755
 }
 
-# Copy the dev database to the test database
-exec { "mysqldump -u $db_dev --password=$db_dev_password $db_dev | mysql -u $db_test --password=$db_test_password --database=$db_test":
-    refreshonly => true,
-    subscribe => Exec['/vagrant/php/loader/load_openaustralia_xml.sh'],
-    require => Mysql::Db["$db_test"],
-    path => ['/usr/bin', '/usr/sbin/', '/bin/']
-}
+## Disable data loading since Rails has database seeds for us
+# # Downloads a small sample of debate data from data.openaustralia.org and uses
+# # it to populate the database.
+# exec { '/vagrant/php/loader/load_openaustralia_xml.sh':
+#     refreshonly => true,
+#     subscribe => Exec["mysql --database=$db_dev -u $db_dev --password=$db_dev_password < /vagrant/php/loader/create.sql"],
+#     require => [
+#                     File['/vagrant/php/loader/PublicWhip/Config.pm'],
+#                     Package['libtext-autoformat-perl'],
+#                     Package['libunicode-string-perl'],
+#                     Package['libxml-twig-perl'],
+#                     Package['php5-cli']
+#                ],
+#     cwd => '/vagrant/php/loader',
+#     timeout => 1200,
+#     path => ['/usr/bin', '/usr/sbin/', '/bin/']
+# }
 
-# Rails port configuration
+# # Copy the dev database to the test database
+# exec { "mysqldump -u $db_dev --password=$db_dev_password $db_dev | mysql -u $db_test --password=$db_test_password --database=$db_test":
+#     refreshonly => true,
+#     subscribe => Exec['/vagrant/php/loader/load_openaustralia_xml.sh'],
+#     require => Mysql::Db["$db_test"],
+#     path => ['/usr/bin', '/usr/sbin/', '/bin/']
+# }
+
+# Rails configuration
 
 file { '/vagrant/config/database.yml':
     ensure => 'present',
@@ -292,15 +301,8 @@ production:
 #WARNING: obviously don't use the above keys in production, generate your own using 'bundle exec rake secret'.
 }
 
-# Set the PHP_SERVER environment variable that the rspec tests use
-file { '/etc/profile.d/publichwhip_rails_tests.sh':
-    ensure => 'present',
-    content => 'export PHP_SERVER=localhost',
-    mode => 755
-}
-
-# Migrate both the databases
-exec { 'bundle exec rake db:migrate RAILS_ENV=development':
+# Set up development database
+exec { 'bundle exec rake db:setup':
     require => [
                   Exec['bundle install'],
                   Mysql::Db["$db_dev"],
@@ -312,6 +314,7 @@ exec { 'bundle exec rake db:migrate RAILS_ENV=development':
                                           # it fails without this. Investigate.
 }
 
+# Migrate test database
 exec { 'bundle exec rake db:migrate RAILS_ENV=test':
     require => [
                   Exec['bundle install'],
