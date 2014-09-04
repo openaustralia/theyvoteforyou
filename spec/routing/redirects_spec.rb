@@ -56,4 +56,9 @@ describe "routing redirects", :type => :request do
     get "/mps.php?house=all&sort=lastname"
     expect(response).to redirect_to("/mps.php?house=representatives")
   end
+
+  it "/mps.php?sort=rebellions -> /mps.php?house=representatives&sort=rebellions" do
+    get "/mps.php?sort=rebellions"
+    expect(response).to redirect_to("/mps.php?house=representatives&sort=rebellions")
+  end
 end

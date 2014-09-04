@@ -6,8 +6,8 @@ class MembersController < ApplicationController
     @parliament = params[:parliament]
 
     # Redirect if necessary
-    if @house == "all" || params[:sort] == "lastname"
-      @house = "representatives" if @house == "all"
+    if params[:house] == "all" || params[:house].nil? || params[:sort] == "lastname"
+      @house = "representatives" if params[:house] == "all" || params[:house].nil?
       @sort = nil if @sort == "lastname"
       redirect_to members_path(house: @house, sort: @sort, parliament: @parliament)
       return
