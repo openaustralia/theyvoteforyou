@@ -61,21 +61,31 @@ it's becuase the VM has had it's kernel updated. Run
 
 ### Without Vagrant
 
-If you're not using Vagrant, this is what you need to do to set up the Rails applicaiton.
+If you're not using Vagrant you'll need Ruby and MySQL set up and then this to
+set up the Rails application:
 
-Copy `config/database.yml.example` to `config/database.yml` and fill in the appropriate details. Your username and password for the test and development database must match for tests to work.
+```
+# Copy database config and fill in your username, password and database settings
+cp config/database.yml.example config/database.yml
 
-Copy `config/secrets.yml.example` to `config/secrets.yml` and run `bundle exec rake secret` to generate a secret_key_base for your environments.
+# Copy secrets config
+cp config/secrets.yml.example config/secrets.yml
 
-Copy `config/settings.yml.example` to `config/settings.yml` and fill in the appropriate details.
+# Generate a secret_key_base (copy this to config/secrets.yml)
+bundle exec rake secret
 
-Ensure `$hidden_hash_var` in your `config.php` is set to an empty string so that logged in page tests work.
+# Copy settings config
+cp config/settings.yml.example config/settings.yml
 
-    # Install bundle
-    bundle install
+# Install bundle
+bundle install
 
-    # Run tests (PHP_SERVER is the address of the local PHP version of the app)
-    bundle exec rake PHP_SERVER=localhost
+# Set up your database (including seed data)
+# bundle exec rake db:setup
 
-    # Start the server
-    bundle exec rails server
+# Run tests
+bundle exec rake
+
+# Start the server
+bundle exec rails server
+```
