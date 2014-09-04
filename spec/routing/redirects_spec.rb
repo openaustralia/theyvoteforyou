@@ -41,14 +41,14 @@ describe "routing redirects", :type => :request do
     expect(response).to redirect_to("/mp.php?dmp=1&house=senate&mpc=Tasmania&mpn=Eric_Abetz")
   end
 
-  it "/mps.php?house=all&parliament=2007&sort=rebellions -> /mps.php?house=representatives&parliament=2007&sort=rebellions" do
-    get "/mps.php?house=all&parliament=2007&sort=rebellions"
-    expect(response).to redirect_to("/mps.php?house=representatives&parliament=2007&sort=rebellions")
+  it "/mps.php?house=all&sort=rebellions -> /mps.php?house=representatives&sort=rebellions" do
+    get "/mps.php?house=all&sort=rebellions"
+    expect(response).to redirect_to("/mps.php?house=representatives&sort=rebellions")
   end
 
-  it "/mps.php?house=representatives&parliament=2010&sort=lastname -> /mps.php?house=representatives&parliament=2010" do
-    get "/mps.php?house=representatives&parliament=2010&sort=lastname"
-    expect(response).to redirect_to("/mps.php?house=representatives&parliament=2010")
+  it "/mps.php?house=representatives&sort=lastname -> /mps.php?house=representatives" do
+    get "/mps.php?house=representatives&sort=lastname"
+    expect(response).to redirect_to("/mps.php?house=representatives")
   end
 
   # Test that we don't need to get redirected twice

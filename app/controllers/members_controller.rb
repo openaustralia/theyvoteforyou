@@ -5,10 +5,10 @@ class MembersController < ApplicationController
     @parliament = params[:parliament]
 
     # Redirect if necessary
-    if @house == "all" || @house.nil? || @sort == "lastname"
+    if @house == "all" || @house.nil? || @sort == "lastname" || @parliament
       @house = "representatives" if @house == "all" || @house.nil?
       @sort = nil if @sort == "lastname"
-      redirect_to members_path(house: @house, sort: @sort, parliament: @parliament)
+      redirect_to members_path(house: @house, sort: @sort)
       return
     end
 
