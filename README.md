@@ -1,6 +1,20 @@
 # Public Whip [![Stories in Ready](https://badge.waffle.io/openaustralia/publicwhip.png?label=ready)](https://waffle.io/openaustralia/publicwhip) [![Build Status](https://travis-ci.org/openaustralia/publicwhip.svg?branch=test)](https://travis-ci.org/openaustralia/publicwhip) [![Code Climate](https://codeclimate.com/github/openaustralia/publicwhip.png)](https://codeclimate.com/github/openaustralia/publicwhip)
 
-This is an Australian fork of the UK website [Public Whip](http://www.publicwhip.org.uk/).
+## Introduction
+
+In our democracy the definitive exercise of the power we give our politicians
+when we vote them into office is how they vote in our parliaments on our behalf.
+Yet you probably don't how your MP votes. This isn't your fault.
+
+Parliamentary voting information is notoriously difficult to find and analyse.
+This project changes that by making it understandable and easy to use.
+
+We stand on the shoulders of giants: this project is an Australian fork of the
+UK [Public Whip](http://www.publicwhip.org.uk/) project.
+
+## Development
+
+### Vagrant
 
 The easiest way to get a development environment set up is to use [vagrant][1]
 and [virtualbox][2] to bring up a virtual machine. Once you've got them
@@ -34,7 +48,7 @@ it's becuase the VM has had it's kernel updated. Run
 [2]: https://www.virtualbox.org/
 [3]: http://mailcatcher.me/
 
-## Development setup
+### Without Vagrant
 
 If you're not using Vagrant, this is what you need to do to set up the Rails applicaiton.
 
