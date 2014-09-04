@@ -1,12 +1,8 @@
 class MembersController < ApplicationController
   def index
-    @sort = params[:sort]
     # By default sort by last name
-    @sort = "lastname" if @sort.nil?
-
-    @house = params[:house]
-    @house = "representatives" if @house.nil?
-
+    @sort = params[:sort] || "lastname"
+    @house = params[:house] || "representatives"
     @parliament = params[:parliament]
 
     order = case @sort
