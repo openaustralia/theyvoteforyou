@@ -50,8 +50,11 @@ namespace :application do
 
     desc "Reload members, offices and electorates - load yesterday's divisions - update caches"
     task daily: :environment do
+      # Get yesterday's system date to avoid Rails UTC timezone
+      yesterday = Time.now.yesterday.to_date.to_s
+
       task('application:load:members').invoke
-      task('application:load:divisions').invoke(Date.yesterday.to_s)
+      task('application:load:divisions').invoke(yesterday)
       task('application:cache:all').invoke
     end
   end
