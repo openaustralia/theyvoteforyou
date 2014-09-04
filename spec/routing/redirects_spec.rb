@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe "routing redirects", :type => :request do
+  fixtures :all
+
   it "/account/changepass.php -> /account/edit" do
     get "/account/changepass.php"
     expect(response).to redirect_to("/users/edit")
@@ -60,5 +62,10 @@ describe "routing redirects", :type => :request do
   it "/mps.php?sort=rebellions -> /mps.php?house=representatives&sort=rebellions" do
     get "/mps.php?sort=rebellions"
     expect(response).to redirect_to("/mps.php?house=representatives&sort=rebellions")
+  end
+
+  it "/mp.php?mpid=1&dmp=1 -> /mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&dmp=1" do
+    get "/mp.php?mpid=1&dmp=1"
+    expect(response).to redirect_to("/mp.php?dmp=1&house=representatives&mpc=Warringah&mpn=Tony_Abbott")
   end
 end
