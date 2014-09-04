@@ -1,5 +1,0 @@
-#! /bin/bash
-
-rm -f *.class
-javac -d . src/*.java
-java mpframe 

@@ -1,8 +1,0 @@
-#!/bin/bash
-
-for X in $@
-do
-    echo \"$X\"
-    ./wordfreq.pl $X
-done
-

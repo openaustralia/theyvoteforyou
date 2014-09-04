@@ -1,2 +1,0 @@
-java -cp . radialtree.radframe
-
