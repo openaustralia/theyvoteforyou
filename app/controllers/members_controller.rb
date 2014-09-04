@@ -40,21 +40,22 @@ class MembersController < ApplicationController
       redirect_to params.merge(showall: nil, display: "allvotes")
       return
     end
-
     if params[:dmp] && params[:display] == "allvotes"
       redirect_to params.merge(display: nil)
       return
     end
-
     if params[:mpid]
       @member = Member.find_by!(id: params[:mpid])
       redirect_to view_context.member_path2(@member, dmp: params[:dmp], display: params[:display])
       return
-    elsif params[:id]
+    end
+    if params[:id]
       @member = Member.find_by!(gid: params[:id])
       redirect_to view_context.member_path2(@member, dmp: params[:dmp], display: params[:display])
       return
-    elsif name
+    end
+
+    if name
       @member = Member.with_name(name)
       @member = @member.in_australian_house(params[:house]) if params[:house]
       @member = @member.where(constituency: electorate) if electorate && electorate != "Senate"
