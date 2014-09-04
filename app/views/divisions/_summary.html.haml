@@ -25,17 +25,34 @@
 %table.table.table-striped
   %thead
     %tr
-      %th Name
-      %th= electorate_label(division.australian_house)
       %th Party
-      %th Vote
+      %th Ayes
+      %th Noes
   %tbody
-    - members.each do |member|
-      %tr{:class => ("rebel" if member.rebel_on_division?(division))}
-        %td= link_to member.name_without_title, member_path2(member)
-        %td= link_to_if division.australian_house == "representatives", member.electorate, electorate_path(member)
-        %td
-          = member.party_long2
-          - if member.person.on_front_bench?(division.date)
-            (front bench)
-        %td= member.vote_on_division_without_tell(division)
+    - division.whips.order(:party).each do |whip|
+      - # Don't shown parties that haven't voted in this division
+      - if whip.total_votes > 0
+        %tr.party-row
+          %th
+            = whip.party_name
+            %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction, precision: 1) + ' turnout)'
+          %td{:class => aye_vote_class(whip)}= whip.aye_votes_including_tells
+          %td{:class => no_vote_class(whip)}= whip.no_votes_including_tells
+
+        - # TODO: Order by minority within party (e.g. rebels first) then majority, then absent
+        - members.where(party: whip.party).each do |member|
+          %tr.member-row{:class => ('rebel' if member.rebel_on_division?(division))}
+            %td
+              = link_to member.name_without_title, member_path2(member)
+              - if member.person.on_front_bench?(division.date)
+                %span.text-muted (front bench)
+              = link_to_if division.australian_house == 'representatives', member.electorate, electorate_path(member), :class => 'text-muted'
+
+            %td{:colspan => '2'}= member.vote_on_division_without_tell(division)
+
+    %tr
+      %th.whip
+        Totals
+        %small.post-title.text-muted= '(' + fraction_to_percentage_display(division.attendance_fraction, precision: 1) + ' turnout)'
+      %td{:class => aye_vote_total_class(division)}= division.aye_votes_including_tells
+      %td{:class => no_vote_total_class(division)}= division.no_votes_including_tells
