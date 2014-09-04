@@ -81,7 +81,7 @@ cp config/settings.yml.example config/settings.yml
 bundle install
 
 # Set up your database (including seed data)
-# bundle exec rake db:setup
+bundle exec rake db:setup
 
 # Run tests
 bundle exec rake
