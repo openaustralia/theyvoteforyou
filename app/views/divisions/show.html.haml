@@ -20,10 +20,7 @@
 
   = render "motion", member: @member, division: @division
 
-- if @display == "policies"
-  = render "policies", policy: @policy, changed_from: @changed_from, division: @division
-
-- if @display.nil? || @display == "allpossible"
   = render "summary", division: @division, display: @display, sort: @sort, votes: @votes, members: @members
-- elsif @display == "allvotes"
-  = render "allvotes", division: @division, sort: @sort, votes: @votes
+
+- elsif @display == "policies"
+  = render "policies", policy: @policy, changed_from: @changed_from, division: @division
