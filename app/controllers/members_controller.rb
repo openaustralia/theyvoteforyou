@@ -59,11 +59,16 @@ class MembersController < ApplicationController
       @members = Member.where(constituency: electorate).order(entered_house: :desc)
       @members = @members.in_australian_house(params[:house]) if params[:house]
       @member = @members.first
-      # TODO If this relates to a single person redirect
       if @display || params[:dmp]
         redirect_to view_context.electorate_path(@member)
         return
       end
+      if @member
+        render "show_electorate"
+      else
+        render "member_not_found", status: 404
+      end
+      return
     else
       @member = Member.with_name(name)
       @member = @member.in_australian_house(params[:house]) if params[:house]
@@ -98,8 +103,6 @@ class MembersController < ApplicationController
 
     if @policy
       render "show_policy"
-    elsif @members.map{|m| m.person_id}.uniq.count > 1
-      render "show_electorate"
     else
       render "show"
     end
