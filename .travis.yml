@@ -6,6 +6,5 @@ before_install:
   - sudo apt-get install -y tidy
 before_script:
   - cp config/secrets.yml.example config/secrets.yml
-  - cp php/website/config.php.incvs php/website/config.php
   - cp config/database.travis.yml config/database.yml
   - bundle exec rake db:setup
