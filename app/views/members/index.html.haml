@@ -6,15 +6,6 @@
 .page-header
   %h1= yield :title
 
-%ul.nav.nav-tabs
-  %li{class: ("active" if @parliament.nil?)}
-    = link_to "Current", members_path(params.merge(sort: @sort, parliament: nil)) , title: "Show only the current parliament"
-  - Parliament.all.each do |id, details|
-    %li{class: ("active" if @parliament == id)}
-      = link_to details[:name], members_path(params.merge(parliament: id, sort: @sort)), title: "#{details[:name]}&nbsp;Parliament".html_safe
-  %li{class: ("active" if @parliament == "all")}
-    = link_to "All Parliaments", members_path(params.merge(parliament: 'all', sort: @sort)), title: "All members on record"
-
 %p
   = members_type_long(@house)
   are listed below. Refer to
