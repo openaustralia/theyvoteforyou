@@ -2,13 +2,13 @@ class MembersController < ApplicationController
   def index
     # By default sort by last name
     @sort = params[:sort] || "lastname"
-    @house = params[:house] || "representatives"
+    @house = params[:house]
     @parliament = params[:parliament]
 
     # Redirect if necessary
     if params[:house] == "all" || params[:house].nil? || params[:sort] == "lastname"
       @house = "representatives" if params[:house] == "all" || params[:house].nil?
-      @sort = nil if @sort == "lastname"
+      @sort = nil if (params[:sort].nil? || params[:sort] == "lastname")
       redirect_to members_path(house: @house, sort: @sort, parliament: @parliament)
       return
     end
