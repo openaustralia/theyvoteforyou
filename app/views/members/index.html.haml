@@ -1,12 +1,13 @@
 - content_for :title do
   - if @sort == "rebellions"
     Rebel
-  #{members_type(@house)} — Current
+  #{members_type(@house)}
 
 .page-header
   %h1= yield :title
 
 %p
+  Current
   = members_type_long(@house)
   are listed below. Refer to
   = link_to "this explanation", help_path(anchor: "clarify")
