@@ -24,7 +24,7 @@
 
 %p
   Sort by:
-  = link_to_unless @sort == "lastname", "Name", members_path(params.merge(sort: "lastname")), title: "Sort by surname"
+  = link_to_unless @sort == "lastname", "Name", members_path(params.merge(sort: nil)), title: "Sort by surname"
   |
   - if @house != "senate"
     = link_to_unless @sort == "constituency", "Electorate", members_path(params.merge(sort: "constituency")), title: "Sort by electorate"
