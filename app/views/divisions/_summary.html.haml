@@ -1,24 +1,4 @@
-%h2#votes
-  All
-  = members_type(division.australian_house)
-  Eligible to Vote
-
-  \- sorted by
-  - if sort.nil?
-    party
-  - elsif sort == "name"
-    name
-  - elsif sort == "constituency"
-    electorate
-  - elsif sort == "vote"
-    vote
-  - else
-    - raise
-
-%p
-  Includes
-  = members_type(division.australian_house)
-  who were absent (or abstained) from this vote.
+%h2#votes Votes
 
 = render "sort_links", sort: sort, division: division
 
