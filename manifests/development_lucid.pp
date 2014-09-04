@@ -7,10 +7,6 @@ $db_dev_password = "abc123"
 $db_test = "publicwhip_test"
 $db_test_password = "abc123"
 
-# To avoid downloading 700MB from data.openaustralia.gov,
-# place "members" and "scrapedxml" directories in
-# "loader/data.openaustralia.org/".
-
 # General packages
 
 include apt
