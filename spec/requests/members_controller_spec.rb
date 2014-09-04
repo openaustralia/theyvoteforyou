@@ -87,5 +87,10 @@ describe MembersController, :type => :request do
       get "/mp.php?mpn=Foo_Bar"
       expect(response.status).to eq 404
     end
+
+    it "should 404 when the wrong name is given for a correct electorate" do
+      get "/mp.php?house=representatives&mpc=Warringah&mpn=foo_bar"
+      expect(response.status).to eq(404) 
+    end
   end
 end
