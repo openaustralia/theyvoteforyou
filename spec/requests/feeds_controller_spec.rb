@@ -6,7 +6,7 @@ describe FeedsController, :type => :request do
 
   describe '#mp-info' do
     it { compare_static '/feeds/mp-info.xml' }
-    it { compare_static '/feeds/mp-info.xml?house=lords' }
+    it { compare_static '/feeds/mp-info.xml?house=senate' }
   end
 
   describe '#mpdream-info' do

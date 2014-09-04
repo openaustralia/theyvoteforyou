@@ -1,8 +1,6 @@
 class FeedsController < ApplicationController
   def mp_info
-    # FIXME: We should change the accepted value to senate instead of lords
-    house = params[:house] == 'lords' ? 'senate' : 'representatives'
-    @members = Member.in_australian_house(house).joins(:member_info).order(:entered_house, :last_name, :first_name, :constituency)
+    @members = Member.in_australian_house(params[:house] || 'representatives').joins(:member_info).order(:entered_house, :last_name, :first_name, :constituency)
     @most_recent_division = Division.most_recent_date
 
     @current_members_by_attendance = Ranker.rank(@members.current, by: :attendance_fraction)
