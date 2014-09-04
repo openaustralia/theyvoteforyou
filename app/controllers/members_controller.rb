@@ -48,10 +48,12 @@ class MembersController < ApplicationController
 
     if params[:mpid]
       @member = Member.find_by!(id: params[:mpid])
-      redirect_to view_context.member_path2(@member, dmp: params[:dmp])
+      redirect_to view_context.member_path2(@member, dmp: params[:dmp], display: params[:display])
       return
     elsif params[:id]
       @member = Member.find_by!(gid: params[:id])
+      redirect_to view_context.member_path2(@member, dmp: params[:dmp], display: params[:display])
+      return
     elsif name
       @member = Member.with_name(name)
       @member = @member.in_australian_house(params[:house]) if params[:house]

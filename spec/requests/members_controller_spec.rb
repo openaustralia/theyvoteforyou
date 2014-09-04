@@ -60,8 +60,6 @@ describe MembersController, :type => :request do
     it {compare_static("/mp.php?mpc=Warringah")}
     it {compare_static("/mp.php?mpc=Bennelong")}
 
-    it {compare_static("/mp.php?id=uk.org.publicwhip/member/1")}
-
     # Test free teller under Interesting Votes
     it {compare_static("/mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives")}
 
@@ -81,7 +79,6 @@ describe MembersController, :type => :request do
         Electorate.create(id: 143, name: "New England", main_name: true)
       end
 
-      it { compare_static("/mp.php?id=uk.org.publicwhip/member/664") }
       it { compare_static("/mp.php?mpn=Barnaby_Joyce") }
       it { compare_static("/mp.php?mpn=Barnaby_Joyce&mpc=New_England&house=representatives") }
     end
