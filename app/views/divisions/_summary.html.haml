@@ -30,7 +30,7 @@
       %th Noes
   %tbody
     - division.whips.order(:party).each do |whip|
-      - # Don't shown parties that haven't voted in this division
+      - # TODO: Change this test to include parties that had voter's elligble but absent
       - if whip.total_votes > 0
         %tr.party-row
           %th
