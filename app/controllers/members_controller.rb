@@ -12,10 +12,8 @@ class MembersController < ApplicationController
       return
     end
 
-    @sort = @sort || "lastname"
-
     order = case @sort
-    when "lastname"
+    when nil
       ["last_name", "first_name", "constituency", "party", "entered_house DESC"]
     when "constituency"
       ["constituency", "last_name", "first_name", "party", "entered_house DESC"]
