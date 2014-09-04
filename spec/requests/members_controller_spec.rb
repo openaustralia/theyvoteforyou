@@ -82,5 +82,10 @@ describe MembersController, :type => :request do
       it { compare_static("/mp.php?mpn=Barnaby_Joyce") }
       it { compare_static("/mp.php?mpn=Barnaby_Joyce&mpc=New_England&house=representatives") }
     end
+
+    it "should 404 with an unknown person" do
+      get "/mp.php?mpn=Foo_Bar"
+      expect(response.status).to eq 404
+    end
   end
 end

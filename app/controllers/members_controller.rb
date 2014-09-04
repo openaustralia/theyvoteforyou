@@ -89,8 +89,7 @@ class MembersController < ApplicationController
     end
 
     if @member.nil?
-      # TODO: This should 404 but doesn't to match the PHP app
-      render 'member_not_found'
+      render 'member_not_found', status: 404
       return
     end
 
