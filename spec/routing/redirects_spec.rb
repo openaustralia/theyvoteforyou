@@ -40,4 +40,9 @@ describe "routing redirects", :type => :request do
     get "/mp.php?display=allvotes&dmp=1&house=senate&mpc=Tasmania&mpn=Eric_Abetz"
     expect(response).to redirect_to("/mp.php?dmp=1&house=senate&mpc=Tasmania&mpn=Eric_Abetz")
   end
+
+  it "/mps.php?house=all&parliament=2007&sort=rebellions -> /mps.php?house=representatives&parliament=2007&sort=rebellions" do
+    get "/mps.php?house=all&parliament=2007&sort=rebellions"
+    expect(response).to redirect_to("/mps.php?house=representatives&parliament=2007&sort=rebellions")
+  end
 end

@@ -5,6 +5,12 @@ class MembersController < ApplicationController
     @house = params[:house] || "representatives"
     @parliament = params[:parliament]
 
+    # We're getting rid of the house=all display. So, redirect to the house of reps
+    if @house == "all"
+      redirect_to members_path(house: "representatives", sort: @sort, parliament: @parliament)
+      return
+    end
+
     order = case @sort
     when "lastname"
       ["last_name", "first_name", "constituency", "party", "entered_house DESC"]
