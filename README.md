@@ -25,44 +25,12 @@ and we load this into a Rails application.
 
 ## Development
 
-### Vagrant
+If your machine is already set up to develop Rails applications with MySQL just
+carry out the following steps and you should be good to go. Developing with
+[Vagrant](https://www.vagrantup.com/) is also possible (see below) but was
+mainly useful with the retired PHP application.
 
-The easiest way to get a development environment set up is to use [vagrant][1]
-and [virtualbox][2] to bring up a virtual machine. Once you've got them
-installed and have the publicwhip source code, `cd` into the source code
-directory and run `vagrant up`. This will download the base virtualbox image
-and set up the development environment, be prepared for a bit of a wait.
-
-Once that's done, you'll find the original PHP app available at localhost:8080
-(vagrant will automatically forward the port from the VM to the host). Run the
-rspec tests from inside the VM like this:
-
-* `vagrant ssh`
-* `cd /vagrant`
-* `bundle exec rake PHP_SERVER=localhost`
-
-Assuming they pass, you can start the rails server:
-
-* `bundle exec rails server`
-
-Once it is up you can browse to localhost:3000 on the host.
-
-When manually testing the site, the "sign up" confirmation emails will
-automatically go to a dummy smtp server called [mailcatcher][3]. To check the
-emails, browse to localhost:1080 on the host.
-
-If vagrant reports that it can't mount the `/vagrant` virtualbox shared folder,
-it's becuase the VM has had it's kernel updated. Run
-`vagrant provision && vagrant reload` and you should be back in business.
-
-[1]: http://www.vagrantup.com/
-[2]: https://www.virtualbox.org/
-[3]: http://mailcatcher.me/
-
-### Without Vagrant
-
-If you're not using Vagrant you'll need Ruby and MySQL set up and then this to
-set up the Rails application:
+Steps required to configure, install and start the Rails application:
 
 ```
 # Copy database config and fill in your username, password and database settings
@@ -89,6 +57,39 @@ bundle exec rake
 # Start the server
 bundle exec rails server
 ```
+
+### With Vagrant
+
+Once you have [vagrant][1] and [virtualbox][2] installed and have cloned this
+repository run `vagrant up`. This will download the base virtualbox image
+and set up the development environment, be prepared for a bit of a wait.
+
+Run the tests from inside the VM like this:
+
+* `vagrant ssh`
+* `cd /vagrant`
+* `bundle exec rake`
+
+Assuming they pass, you can start the rails server:
+
+* `bundle exec rails server`
+
+Once it is up you can browse to http://localhost:3000
+
+When manually testing the site, the "sign up" confirmation emails will
+automatically go to a dummy smtp server called [mailcatcher][3]. To check the
+emails, browse to http://localhost:1080
+
+If vagrant reports that it can't mount the `/vagrant` virtualbox shared folder,
+it's becuase the VM has had it's kernel updated. Run
+`vagrant provision && vagrant reload` and you should be back in business.
+
+The original PHP app is also available at http://localhost:8080 but only if
+you're running an older branch (out of scope for this guide).
+
+[1]: http://www.vagrantup.com/
+[2]: https://www.virtualbox.org/
+[3]: http://mailcatcher.me/
 
 ## Production
 
