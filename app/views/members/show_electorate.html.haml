@@ -1,5 +1,5 @@
 - content_for :title do
-  Voting Record — Representatives for
+  Representatives for
   = @member.electorate
 
 .page-header
@@ -23,9 +23,7 @@
   %tbody
     - @members.each do |member|
       %tr
-        %td
-          = member.name
-          = link_to "(show only their votes)", member_path2(member, display: (@display || 'summary'))
+        %td= link_to member.name, member_path2(member, display: 'summary')
         %td= vote_records_start_date(member)
         %td= member_until(member)
         %td= member.party_long
