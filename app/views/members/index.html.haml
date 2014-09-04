@@ -1,7 +1,7 @@
 - content_for :title do
   - if @sort == "rebellions"
     Rebel
-  #{members_type(@house)} — #{parliament_name(@parliament)}
+  #{members_type(@house)} — Current
 
 .page-header
   %h1= yield :title
@@ -22,9 +22,6 @@
     |
   = link_to_unless @sort == "party", "Party", members_path(params.merge(sort: "party")), title: "Sort by party"
   |
-  -if @parliament == "all"
-    = link_to_unless @sort == "date", "Dates", members_path(params.merge(sort: "date")), title: "Sort by Date"
-    |
   = link_to_unless @sort == "rebellions", "Rebellions", members_path(params.merge(sort: "rebellions")), title: "Sort by rebels"
   |
   = link_to_unless @sort == "attendance", "Attendance", members_path(params.merge(sort: "attendance")), title: "Sort by attendance"
@@ -36,8 +33,6 @@
       %td Name
       %td= electorate_label(@house)
       %td Party
-      -if @parliament == "all"
-        %td Dates
       %td
         Rebellions
         %br/
@@ -53,8 +48,5 @@
         %td= link_to member.name_without_title, member_path2(member)
         %td= link_to_unless member.senator?, member.electorate, electorate_path(member)
         %td= member.party_long2
-        -if @parliament == "all"
-          %td
-            (#{member.entered_house.year.to_s}-#{member.left_house.year == 9999 ? "<i>present</i>".html_safe : member.left_house.year})
         %td.percent= fraction_to_percentage_display(member.rebellions_fraction, precision: 1)
         %td.percent= fraction_to_percentage_display(member.attendance_fraction, precision: 1)

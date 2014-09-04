@@ -69,18 +69,6 @@ module ApplicationHelper
     end
   end
 
-  def parliament_name(parliament)
-    if Parliament.all[parliament]
-      "#{Parliament.all[parliament][:name]}&nbsp;Parliament".html_safe
-    elsif parliament.nil?
-      "Current"
-    elsif parliament == "all"
-      "All on record"
-    else
-      raise
-    end
-  end
-
   def fraction_to_percentage_display(fraction, options = {})
     if fraction
       percentage = fraction * 100

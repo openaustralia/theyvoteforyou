@@ -2,10 +2,9 @@ class MembersController < ApplicationController
   def index
     @sort = params[:sort]
     @house = params[:house]
-    @parliament = params[:parliament]
 
     # Redirect if necessary
-    if @house == "all" || @house.nil? || @sort == "lastname" || @parliament
+    if @house == "all" || @house.nil? || @sort == "lastname" || params[:parliament]
       @house = "representatives" if @house == "all" || @house.nil?
       @sort = nil if @sort == "lastname"
       redirect_to members_path(house: @house, sort: @sort)
@@ -29,18 +28,7 @@ class MembersController < ApplicationController
       raise "Unexpected value"
     end
 
-    @members = Member.joins('LEFT OUTER JOIN `member_infos` ON `member_infos`.`member_id` = `members`.`id`').select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").order(order)
-    @members = @members.in_australian_house(@house)
-    if @parliament.nil?
-      @members = @members.current
-    elsif @parliament == "all"
-      @members = @members
-    elsif Parliament.all[@parliament]
-      # TODO Extract this into a method
-      @members = @members.where("? >= entered_house AND ? < left_house", Parliament.all[@parliament][:to], Parliament.all[@parliament][:from])
-    else
-      raise
-    end
+    @members = Member.joins('LEFT OUTER JOIN `member_infos` ON `member_infos`.`member_id` = `members`.`id`').select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").in_australian_house(@house).current.order(order)
   end
 
   def show
