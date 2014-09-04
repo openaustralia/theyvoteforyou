@@ -48,8 +48,6 @@
           %tr.member-row.collapse{:class => ('rebel' if member.rebel_on_division?(division)), :class => ('member-row-' + whip.party.parameterize)}
             %td
               = link_to member.name_without_title, member_path2(member)
-              - if member.person.on_front_bench?(division.date)
-                %span.text-muted (front bench)
               = link_to_if division.australian_house == 'representatives', member.electorate, electorate_path(member), :class => 'text-muted'
 
             %td{:colspan => '3'}= member.vote_on_division_without_tell(division)
