@@ -1,12 +1,12 @@
-- content_for :title, "Policy ##{@policy.id}: \"#{@policy.name}\""
+- content_for :title, "Policy: \"#{@policy.name}\""
 
 %h1= yield :title
 
 = render "nav", policy: @policy, display: nil
 
 %p.whatisflash
-  This is the votes by vote definition of
-  = "Public Whip policy ##{@policy.id}: \"#{@policy.name}\". You may want to"
+  These are the votes that define the
+  = "policy: \"#{@policy.name}\". You may want to"
   #{link_to "read an introduction to policies", help_path(anchor: "policies")},
   or
   = succeed "." do
