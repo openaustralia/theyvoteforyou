@@ -44,12 +44,22 @@
 .row
   .col-md-4
     %h2 Top rebel MPs
-    %p
-      = link_to "Show all MPs ordered by rebellions", members_path(sort: "rebellions"), title: "Show all MPs ordered by rebellions"
+    - ["representatives", "senate"].each do |house|
+      %p
+        = link_to members_path(house: house, sort: "rebellions") do
+          Show all
+          = members_type(house)
+          ordered by rebellions
+
   .col-md-4
     %h2 Representatives and Senators who attend votes most often
-    %p
-      = link_to "Show all MPs ordered by attendance", members_path(sort: "attendance", house: "all"), title: "Show all MPs ordered by attendance"
+    - ["representatives", "senate"].each do |house|
+      %p
+        = link_to members_path(house: house, sort: "attendance") do
+          Show all
+          = members_type(house)
+          ordered by attendance
+
   .col-md-4
     %h2 Test a Representative or Senator against policies you care about
     %p
