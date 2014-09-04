@@ -1,39 +1,40 @@
-%h2#votes Votes
+%figure.voter-table
+  %h2#votes Votes
 
-%table.table
-  %thead
-    %tr
-      %th Party
-      %th Ayes
-      %th Noes
-      %th
-  %tbody
-    - division.whips.order(:party).each do |whip|
-      - # TODO: Change this test to include parties that had voter's elligble but absent
-      - if whip.total_votes > 0
-        %tr.party-row
-          %th
-            = whip.party_name
-            %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction, precision: 1) + ' turnout)'
-          %td{:class => aye_vote_class(whip)}= whip.aye_votes_including_tells
-          %td{:class => no_vote_class(whip)}= whip.no_votes_including_tells
-          %td
-            %button.btn.glyphicon.glyphicon-chevron-down{:data => {:toggle => 'collapse', :target => '.member-row-' + whip.party.parameterize}}
-              %span.sr-only show members
-
-        - # TODO: Order by minority within party (e.g. rebels first) then majority, then absent
-        - members.where(party: whip.party).each do |member|
-          %tr.member-row.collapse{:class => ('rebel' if member.rebel_on_division?(division)), :class => ('member-row-' + whip.party.parameterize)}
+  %table.table
+    %thead
+      %tr
+        %th Party
+        %th Ayes
+        %th Noes
+        %th
+    %tbody
+      - division.whips.order(:party).each do |whip|
+        - # TODO: Change this test to include parties that had voter's elligble but absent
+        - if whip.total_votes > 0
+          %tr.party-row
+            %th
+              = whip.party_name
+              %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction, precision: 1) + ' turnout)'
+            %td{:class => aye_vote_class(whip)}= whip.aye_votes_including_tells
+            %td{:class => no_vote_class(whip)}= whip.no_votes_including_tells
             %td
-              = link_to member.name_without_title, member_path2(member)
-              = link_to_if division.australian_house == 'representatives', member.electorate, electorate_path(member), :class => 'text-muted'
+              %button.btn.glyphicon.glyphicon-chevron-down{:data => {:toggle => 'collapse', :target => '.member-row-' + whip.party.parameterize}}
+                %span.sr-only show members
 
-            %td{:colspan => '3'}= member.vote_on_division_without_tell(division)
+          - # TODO: Order by minority within party (e.g. rebels first) then majority, then absent
+          - members.where(party: whip.party).each do |member|
+            %tr.member-row.collapse{:class => ('rebel' if member.rebel_on_division?(division)), :class => ('member-row-' + whip.party.parameterize)}
+              %td
+                = link_to member.name_without_title, member_path2(member)
+                = link_to_if division.australian_house == 'representatives', member.electorate, electorate_path(member), :class => 'text-muted'
 
-    %tr
-      %th.whip
-        Totals
-        %small.post-title.text-muted= '(' + fraction_to_percentage_display(division.attendance_fraction, precision: 1) + ' turnout)'
-      %td{:class => aye_vote_total_class(division)}= division.aye_votes_including_tells
-      %td{:class => no_vote_total_class(division)}= division.no_votes_including_tells
-      %td
+              %td{:colspan => '3'}= member.vote_on_division_without_tell(division)
+
+      %tr
+        %th.whip
+          Totals
+          %small.post-title.text-muted= '(' + fraction_to_percentage_display(division.attendance_fraction, precision: 1) + ' turnout)'
+        %td{:class => aye_vote_total_class(division)}= division.aye_votes_including_tells
+        %td{:class => no_vote_total_class(division)}= division.no_votes_including_tells
+        %td
