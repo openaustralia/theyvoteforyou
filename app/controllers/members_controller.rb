@@ -34,7 +34,7 @@ class MembersController < ApplicationController
   def show
     electorate = params[:mpc].gsub("_", " ") if params[:mpc]
     name = params[:mpn].gsub("_", " ") if params[:mpn]
-    @display = params[:showall] == "yes" ? "allvotes" : params[:display]
+    @display = params[:display]
 
     if params[:showall] == "yes"
       redirect_to params.merge(showall: nil, display: "allvotes")
