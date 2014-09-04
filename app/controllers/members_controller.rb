@@ -54,15 +54,16 @@ class MembersController < ApplicationController
       redirect_to view_context.member_path2(@member, dmp: params[:dmp], display: params[:display])
       return
     end
+    if params[:mpn].nil? && (params[:display] || params[:dmp])
+      redirect_to params.merge(display: nil, dmp: nil)
+      return
+    end
+
     # Check if this is an electorate
     if name.nil?
       @members = Member.where(constituency: electorate).order(entered_house: :desc)
       @members = @members.in_australian_house(params[:house]) if params[:house]
       @member = @members.first
-      if @display || params[:dmp]
-        redirect_to view_context.electorate_path(@member)
-        return
-      end
       if @member
         render "show_electorate"
       else
