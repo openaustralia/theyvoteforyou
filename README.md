@@ -20,8 +20,8 @@ Federal Hansard into [ParlParse](http://parser.theyworkforyou.com/) format (this
 due to it's history of being a fork of the UK
 [TheyWorkForYou](http://www.theyworkforyou.com/) project - more shoulders,
 giants). The debates XML files the parser creates, also available on
-[data.openaustralia.org](http://data.openaustralia.org/), contains voting
-data and we load this into a Rails application.
+[data.openaustralia.org](http://data.openaustralia.org/), contain voting data
+and we load this into a Rails application.
 
 ## Development
 
