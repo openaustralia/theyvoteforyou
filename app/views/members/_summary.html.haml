@@ -20,7 +20,6 @@
       %th Party
       %th Rebellions (#{link_to "explain...", help_path(anchor: "clarify")})
       %th Attendance (#{link_to "explain...", help_path(anchor: "clarify")})
-      %th Teller
 
   %tbody
     - members.each do |member|
@@ -56,8 +55,3 @@
           - if member.votes_possible
             #{member.votes_possible},
             %b= fraction_to_percentage_display(member.attendance_fraction, precision: 1)
-        %td
-          - if member.tells.nil?
-            times
-          - else
-            = pluralize(member.tells, "time")
