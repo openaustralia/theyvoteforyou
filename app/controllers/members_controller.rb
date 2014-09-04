@@ -70,22 +70,19 @@ class MembersController < ApplicationController
         render "member_not_found", status: 404
       end
       return
-    else
-      @member = Member.with_name(name)
-      @member = @member.in_australian_house(params[:house]) if params[:house]
-      @member = @member.where(constituency: electorate) if electorate && electorate != "Senate"
-      @member = @member.order(entered_house: :desc).first
-
-      if @member
-        @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
-
-        # Trying this hack. Seems mighty weird
-        # TODO Get rid of this
-        @member = @members.first if @member.senator?
-      end
     end
 
-    if @member.nil?
+    @member = Member.with_name(name)
+    @member = @member.in_australian_house(params[:house]) if params[:house]
+    @member = @member.where(constituency: electorate) if electorate && electorate != "Senate"
+    @member = @member.order(entered_house: :desc).first
+
+    if @member
+      @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
+      # Trying this hack. Seems mighty weird
+      # TODO Get rid of this
+      @member = @members.first if @member.senator?
+    else
       render 'member_not_found', status: 404
       return
     end
