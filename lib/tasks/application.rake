@@ -77,8 +77,9 @@ namespace :application do
       File.open("db/seeds.rb", "w") do |f|
         f.write("User.create!(email:'matthew@oaf.org.au', real_name: 'Matthew Landauer', password: 'foofoofoo', confirmed_at: Time.now)\n")
       end
-      ENV['APPEND'] = 'true'
-      Rake::Task["db:seed:dump"].invoke
+      [Division, DivisionInfo, Electorate, Member, MemberDistance, MemberInfo, Office, Policy, PolicyDivision, PolicyPersonDistance, Vote, Whip].each do |records|
+        SeedDump.dump(records.all, file: 'db/seeds.rb', append: true, exclude: [])
+      end
     end
   end
 
