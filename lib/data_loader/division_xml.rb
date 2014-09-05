@@ -50,7 +50,9 @@ module DataLoader
     end
 
     def motion
-      text = pwmotiontexts_for_motion.empty? ? previous_speeches_motion_text : pwmotiontexts_for_motion
+      truncated_speeches = truncate_for_motion(previous_speeches.map { |s| speech_text s })
+
+      text = pwmotiontexts_for_motion.empty? ? truncated_speeches : pwmotiontexts_for_motion
       # Truncate really long motion text at the same size as formatted_motion_text
       Rails.logger.warn "Truncating very long motion text for division: #{house} #{date} #{number}" if text.size > 15000
       text.blank? ? '<p>No motion text available</p>' : encode_html_entities(text).truncate(MAXIMUM_MOTION_TEXT_SIZE)
@@ -146,17 +148,17 @@ module DataLoader
       end
     end
 
-    def previous_speeches_motion_text
+    def truncate_for_motion(elements)
       truncation_text = "<p>Long debate text truncated.</p>"
       output_text = ''
 
-      previous_speeches.map { |s| speech_text s }.each do |speech|
-        if (output_text + speech).size > (MAXIMUM_MOTION_TEXT_SIZE - truncation_text.size)
+      elements.each do |element|
+        if (output_text + element).size > (MAXIMUM_MOTION_TEXT_SIZE - truncation_text.size)
           Rails.logger.warn "Truncating very long motion text for division: #{house} #{date} #{number}"
           output_text += truncation_text
           break
         else
-          output_text += speech
+          output_text += element
         end
       end
 
