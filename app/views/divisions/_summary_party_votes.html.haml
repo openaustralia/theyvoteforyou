@@ -22,8 +22,7 @@
         %td{:class => aye_vote_total_class(division)}= division.aye_votes_including_tells
         %td{:class => no_vote_total_class(division)}= division.no_votes_including_tells
   %figcaption.panel-footer
-    %p
-      Votes by party, red entries are votes against the majority for that party.
-    %p
-      %em What is Turnout?
-      This is measured against the total membership of the party at the time of the vote.
+    - if division.no_rebellions > 0
+      %p <span class="rebel">Red entries</span> are rebel votes against the majority of a party.
+    %p Turnout is the percentage of members eligible to vote that did vote.
+
