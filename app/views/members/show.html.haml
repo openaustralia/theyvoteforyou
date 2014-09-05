@@ -8,7 +8,7 @@
 
 .page-header
   %h1
-    = image_tag(@member.large_image_url, alt: "Photo of #{@member.name_without_title}")
+    = image_tag(@member.large_image_url, alt: "Photo of #{@member.name_without_title}", size: "88x115")
     = yield :title
 
 %ul.nav.nav-tabs
