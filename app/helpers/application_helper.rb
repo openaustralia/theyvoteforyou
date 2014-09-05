@@ -5,11 +5,11 @@ module ApplicationHelper
     end
   end
 
-  def electorate_path(member, params = {})
-    member_path(params.merge({
+  def electorate_path2(member)
+    member_path({
         mpc: (member.url_electorate if member),
         house: (member.australian_house if member)
-      }))
+      })
   end
 
   def edit_division_path2(division)

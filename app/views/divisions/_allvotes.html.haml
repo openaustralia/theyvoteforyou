@@ -41,7 +41,7 @@
           %td= link_to vote.name_without_title, member_path2(vote.member)
           %td
             - if division.australian_house == "representatives"
-              = link_to vote.electorate, electorate_path(vote.member)
+              = link_to vote.electorate, electorate_path2(vote.member)
             - else
               = vote.electorate
           %td
