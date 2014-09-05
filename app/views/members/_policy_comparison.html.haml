@@ -1,26 +1,7 @@
 .h1mppolicy
   %p.mp= link_to member.full_name2, member_path2(member)
   %p.voteexpl
-    - if number_of_votes_on_policy == 0
-      has
-      %em never voted
-      on
-    - elsif agreement_fraction_with_policy >= 0.80
-      voted
-      %em strongly for
-    - elsif agreement_fraction_with_policy >= 0.60
-      voted
-      %em moderately for
-    - elsif agreement_fraction_with_policy <= 0.20
-      voted
-      %em strongly against
-    - elsif agreement_fraction_with_policy <= 0.40
-      voted
-      %em moderately against
-    - else
-      voted
-      %em ambiguously
-      on
+    = policy_agreement_summary(number_of_votes_on_policy, agreement_fraction_with_policy)
     the policy
   %p.policy
     = link_to policy do
