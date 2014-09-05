@@ -10,10 +10,6 @@ class ElectoratesController < ApplicationController
     @members = Member.where(constituency: electorate).order(entered_house: :desc)
     @members = @members.in_australian_house(house) if house
     @member = @members.first
-    if @member
-      render "members/show_electorate"
-    else
-      render "members/member_not_found", status: 404
-    end
+    raise ActiveRecord::RecordNotFound if @member.nil?
   end
 end

@@ -22,8 +22,6 @@ describe HomeController, :type => :request do
     it {compare_static("/search.php?query=2042&button=Search")}
     # Bad postcode
     it {compare_static("/search.php?query=0000&button=Search")}
-    # No MPs in our fixutres
-    it {compare_static("/search.php?query=2037&button=Search")}
 
     it {compare_static("/search.php?query=Tony+Abbott&button=Search")}
     it {compare_static("/search.php?query=Kevin&button=Search")}
