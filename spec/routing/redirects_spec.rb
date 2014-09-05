@@ -84,4 +84,16 @@ describe "routing redirects", :type => :request do
     get "/mp.php?display=summary&house=representatives&mpc=Warringah&mpn=Tony_Abbott"
     expect(response).to redirect_to("/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott")
   end
+
+  describe "constituency redirect to base url" do
+    it do
+      get "/mp.php?display=allvotes&house=representatives&mpc=Bennelong"
+      expect(response).to redirect_to "/mp.php?house=representatives&mpc=Bennelong"
+    end
+
+    it do
+      get "/mp.php?dmp=1&house=representatives&mpc=Bennelong"
+      expect(response).to redirect_to "/mp.php?house=representatives&mpc=Bennelong"
+    end
+  end
 end
