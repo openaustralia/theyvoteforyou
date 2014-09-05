@@ -8,8 +8,6 @@
 #secondnavtabs
   %ul.nav.nav-tabs
     = nav_link("Summary", division_with_policy_path(@division, display: nil, sort: params[:sort], dmp: params[:dmp]), "Overview of division", @display.nil?)
-    = nav_link("All voters", division_with_policy_path(@division, display: "allvotes", sort: params[:sort], dmp: params[:dmp]), "Every MP who cast a vote in the division", @display == "allvotes")
-    = nav_link("All eligible voters", division_with_policy_path(@division, display: "allpossible", sort: params[:sort], dmp: params[:dmp]), "Show even MPs who did not vote but could have", @display == "allpossible")
     = nav_link("Policies", division_with_policy_path(@division, display: "policies", sort: params[:sort], dmp: params[:dmp]), "Show or change the polices which vote on this division", @display == "policies")
 
 - if @display.nil?
@@ -22,10 +20,7 @@
 
   = render "motion", member: @member, division: @division
 
-- if @display == "policies"
-  = render "policies", policy: @policy, changed_from: @changed_from, division: @division
-
-- if @display.nil? || @display == "allpossible"
   = render "summary", division: @division, display: @display, sort: @sort, votes: @votes, members: @members
-- elsif @display == "allvotes"
-  = render "allvotes", division: @division, sort: @sort, votes: @votes
+
+- elsif @display == "policies"
+  = render "policies", policy: @policy, changed_from: @changed_from, division: @division

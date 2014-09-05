@@ -56,6 +56,10 @@ class DivisionsController < ApplicationController
     @display = params[:display]
     @division = Division.in_australian_house(house).find_by!(date: params[:date], number: params[:number])
 
+    if @display == "allvotes" || @display == "allpossible"
+      redirect_to params.merge(display: nil)
+    end
+
     # If a member is included
     if params[:mpn] && params[:mpc]
       first_name = params[:mpn].split("_")[0]
@@ -84,6 +88,7 @@ class DivisionsController < ApplicationController
     if @display.nil?
       # TODO Fix this hacky nonsense by doing this query in the db
       @votes = @division.votes.joins(:member).order(order).find_all{|v| v.rebellion?}
+      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").order(order)
     elsif @display == "allvotes"
       @votes = @division.votes.joins(:member).order(order)
     elsif @display == "allpossible"

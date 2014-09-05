@@ -53,8 +53,6 @@ Motions — Renewable Energy Certificates
 <div id="secondnavtabs">
 <ul class="nav nav-tabs">
 <li class="active"><a href="/division.php?date=2013-03-14&amp;house=senate&amp;number=1&amp;sort=vote" title="Overview of division">Summary</a></li>
-<li><a href="/division.php?date=2013-03-14&amp;display=allvotes&amp;house=senate&amp;number=1&amp;sort=vote" title="Every MP who cast a vote in the division">All voters</a></li>
-<li><a href="/division.php?date=2013-03-14&amp;display=allpossible&amp;house=senate&amp;number=1&amp;sort=vote" title="Show even MPs who did not vote but could have">All eligible voters</a></li>
 <li><a href="/division.php?date=2013-03-14&amp;display=policies&amp;house=senate&amp;number=1&amp;sort=vote" title="Show or change the polices which vote on this division">Policies</a></li>
 </ul>
 </div>
@@ -86,32 +84,37 @@ to make it better.
 </p>
 </section>
 
-<h2 id="summary">Party Summary</h2>
-<p>
-Votes by party, red entries are votes against the majority for that party.
-</p>
-<div class="tableexplain">
-<p>
-<span class="ptitle">What is Turnout?</span>
-This is measured against the total membership of the party at the time of the vote.
-</p>
-</div>
+<figure class="voter-table">
+<h2 id="votes">Votes</h2>
 <table class="table">
 <thead>
 <tr>
 <th>Party</th>
 <th>Ayes</th>
 <th>Noes</th>
+<th></th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="party-row">
 <th>
 Australian Greens
 <small class="post-title text-muted">(100.0% turnout)</small>
 </th>
 <td class="normal">0</td>
 <td class="whip">1</td>
+<td>
+<button class="btn glyphicon glyphicon-chevron-down" data-target=".member-row-australian-greens" data-toggle="collapse">
+<span class="sr-only">show members</span>
+</button>
+</td>
+</tr>
+<tr class="collapse member-row member-row-australian-greens">
+<td>
+<a href="/mp.php?house=senate&amp;mpc=Tasmania&amp;mpn=Christine_Milne">Christine Milne</a>
+Tasmania
+</td>
+<td colspan="3">no</td>
 </tr>
 <tr>
 <th class="whip">
@@ -120,49 +123,14 @@ Totals
 </th>
 <td class="normal">0</td>
 <td class="whip">1</td>
+<td></td>
 </tr>
 </tbody>
 </table>
-
-<h2 id="votes">
-Rebel Voters
-- sorted by
-vote
-</h2>
-<p>
-Senators
-for which their vote in this division differed
-from the majority vote of their party. You can see
-<a href="/division.php?date=2013-03-14&amp;display=allvotes&amp;house=senate&amp;number=1&amp;sort=vote">all votes</a>
-in this division, or
-<a href="/division.php?date=2013-03-14&amp;display=allpossible&amp;house=senate&amp;number=1&amp;sort=vote">every eligible
-Senator
-</a>who could have voted in this division
-</p>
-<p>
-Sort by:
-<a href="/division.php?date=2013-03-14&amp;house=senate&amp;number=1&amp;sort=name">Name</a>
-|
-<a href="/division.php?date=2013-03-14&amp;house=senate&amp;number=1">Party</a>
-|
-Vote
-</p>
-
-<table class="table table-striped">
-<thead>
-<tr>
-<th>Name</th>
-<th>State</th>
-<th>Party</th>
-<th>Vote</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td colspan="4">no rebellions</td>
-</tr>
-</tbody>
-</table>
+<figcaption class="panel-footer">
+<p>Turnout is the percentage of members eligible to vote that did vote.</p>
+</figcaption>
+</figure>
 
 </div>
 <div id="footer1">

@@ -58,8 +58,6 @@ A lovely new title
 <div id="secondnavtabs">
 <ul class="nav nav-tabs">
 <li class="active"><a href="/division.php?date=2009-11-25&amp;dmp=2&amp;house=senate&amp;number=8" title="Overview of division">Summary</a></li>
-<li><a href="/division.php?date=2009-11-25&amp;display=allvotes&amp;dmp=2&amp;house=senate&amp;number=8" title="Every MP who cast a vote in the division">All voters</a></li>
-<li><a href="/division.php?date=2009-11-25&amp;display=allpossible&amp;dmp=2&amp;house=senate&amp;number=8" title="Show even MPs who did not vote but could have">All eligible voters</a></li>
 <li><a href="/division.php?date=2009-11-25&amp;display=policies&amp;dmp=2&amp;house=senate&amp;number=8" title="Show or change the polices which vote on this division">Policies</a></li>
 </ul>
 </div>
@@ -79,88 +77,156 @@ A lovely new title
 </p>
 </section>
 
-<h2 id="summary">Party Summary</h2>
-<p>
-Votes by party, red entries are votes against the majority for that party.
-</p>
-<div class="tableexplain">
-<p>
-<span class="ptitle">What is Turnout?</span>
-This is measured against the total membership of the party at the time of the vote.
-</p>
-</div>
+<figure class="voter-table">
+<h2 id="votes">Votes</h2>
 <table class="table">
 <thead>
 <tr>
 <th>Party</th>
 <th>Ayes</th>
 <th>Noes</th>
+<th></th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="party-row">
 <th>
 Australian Greens
 <small class="post-title text-muted">(100.0% turnout)</small>
 </th>
 <td class="normal">0</td>
 <td class="whip">5</td>
+<td>
+<button class="btn glyphicon glyphicon-chevron-down" data-target=".member-row-australian-greens" data-toggle="collapse">
+<span class="sr-only">show members</span>
+</button>
+</td>
 </tr>
-<tr>
+<tr class="collapse member-row member-row-australian-greens">
+<td>
+<a href="/mp.php?house=senate&amp;mpc=Tasmania&amp;mpn=Christine_Milne">Christine Milne</a>
+Tasmania
+</td>
+<td colspan="3">no</td>
+</tr>
+<tr class="party-row">
 <th>
 Australian Labor Party
 <small class="post-title text-muted">(93.5% turnout)</small>
 </th>
 <td class="normal">0</td>
 <td class="whip">29</td>
+<td>
+<button class="btn glyphicon glyphicon-chevron-down" data-target=".member-row-australian-labor-party" data-toggle="collapse">
+<span class="sr-only">show members</span>
+</button>
+</td>
 </tr>
-<tr>
+<tr class="party-row">
 <th>
 Deputy President
 <small class="post-title text-muted">(100.0% turnout)</small>
 </th>
 <td class="whip">1</td>
 <td class="normal">0</td>
+<td>
+<button class="btn glyphicon glyphicon-chevron-down" data-target=".member-row-dpres" data-toggle="collapse">
+<span class="sr-only">show members</span>
+</button>
+</td>
 </tr>
-<tr>
+<tr class="party-row">
 <th>
 Family First Party
 <small class="post-title text-muted">(100.0% turnout)</small>
 </th>
 <td class="whip">1</td>
 <td class="normal">0</td>
+<td>
+<button class="btn glyphicon glyphicon-chevron-down" data-target=".member-row-family-first-party" data-toggle="collapse">
+<span class="sr-only">show members</span>
+</button>
+</td>
 </tr>
-<tr>
+<tr class="party-row">
 <th>
 Independent
 <small class="post-title text-muted">(100.0% turnout)</small>
 </th>
 <td class="normal">0</td>
 <td class="whip">1</td>
+<td>
+<button class="btn glyphicon glyphicon-chevron-down" data-target=".member-row-independent" data-toggle="collapse">
+<span class="sr-only">show members</span>
+</button>
+</td>
 </tr>
-<tr>
+<tr class="collapse member-row member-row-independent">
+<td>
+<a href="/mp.php?house=senate&amp;mpc=WA&amp;mpn=Surly_Nihilist">Surly Nihilist</a>
+WA
+</td>
+<td colspan="3">aye</td>
+</tr>
+<tr class="collapse member-row member-row-independent">
+<td>
+<a href="/mp.php?house=senate&amp;mpc=WA&amp;mpn=Disagreeable_Curmudgeon">Disagreeable Curmudgeon</a>
+WA
+</td>
+<td colspan="3">no</td>
+</tr>
+<tr class="party-row">
 <th>
 Liberal Party
 <small class="post-title text-muted">(76.7% turnout)</small>
 </th>
 <td class="rebel">11</td>
 <td class="whip">12</td>
+<td>
+<button class="btn glyphicon glyphicon-chevron-down" data-target=".member-row-liberal-party" data-toggle="collapse">
+<span class="sr-only">show members</span>
+</button>
+</td>
 </tr>
-<tr>
+<tr class="collapse member-row member-row-liberal-party">
+<td>
+<a href="/mp.php?house=senate&amp;mpc=WA&amp;mpn=Judith_Adams">Judith Adams</a>
+WA
+</td>
+<td colspan="3">aye</td>
+</tr>
+<tr class="collapse member-row member-row-liberal-party">
+<td>
+<a href="/mp.php?house=senate&amp;mpc=WA&amp;mpn=Christopher_Back">Christopher Back</a>
+WA
+</td>
+<td colspan="3">aye</td>
+</tr>
+<tr class="party-row">
 <th>
 National Party
 <small class="post-title text-muted">(80.0% turnout)</small>
 </th>
 <td class="whip">4</td>
 <td class="normal">0</td>
+<td>
+<button class="btn glyphicon glyphicon-chevron-down" data-target=".member-row-national-party" data-toggle="collapse">
+<span class="sr-only">show members</span>
+</button>
+</td>
 </tr>
-<tr>
+<tr class="party-row">
 <th>
 President
 <small class="post-title text-muted">(100.0% turnout)</small>
 </th>
 <td class="normal">0</td>
 <td class="whip">1</td>
+<td>
+<button class="btn glyphicon glyphicon-chevron-down" data-target=".member-row-pres" data-toggle="collapse">
+<span class="sr-only">show members</span>
+</button>
+</td>
 </tr>
 <tr>
 <th class="whip">
@@ -169,62 +235,15 @@ Totals
 </th>
 <td class="normal">17</td>
 <td class="whip">48</td>
+<td></td>
 </tr>
 </tbody>
 </table>
-
-<h2 id="votes">
-Rebel Voters
-- sorted by
-party
-</h2>
-<p>
-Senators
-for which their vote in this division differed
-from the majority vote of their party. You can see
-<a href="/division.php?date=2009-11-25&amp;display=allvotes&amp;dmp=2&amp;house=senate&amp;number=8">all votes</a>
-in this division, or
-<a href="/division.php?date=2009-11-25&amp;display=allpossible&amp;dmp=2&amp;house=senate&amp;number=8">every eligible
-Senator
-</a>who could have voted in this division
-</p>
-<p>
-Sort by:
-<a href="/division.php?date=2009-11-25&amp;house=senate&amp;number=8&amp;sort=name">Name</a>
-|
-Party
-|
-<a href="/division.php?date=2009-11-25&amp;house=senate&amp;number=8&amp;sort=vote">Vote</a>
-</p>
-
-<table class="table table-striped">
-<thead>
-<tr>
-<th>Name</th>
-<th>State</th>
-<th>Party</th>
-<th>Vote</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="/mp.php?house=senate&amp;mpc=WA&amp;mpn=Judith_Adams">Judith Adams</a></td>
-<td>WA</td>
-<td>
-Liberal Party
-</td>
-<td>aye</td>
-</tr>
-<tr>
-<td><a href="/mp.php?house=senate&amp;mpc=WA&amp;mpn=Christopher_Back">Christopher Back</a></td>
-<td>WA</td>
-<td>
-Liberal Party
-</td>
-<td>aye</td>
-</tr>
-</tbody>
-</table>
+<figcaption class="panel-footer">
+<p><span class="rebel">Red entries</span> are rebel votes against the majority of a party.</p>
+<p>Turnout is the percentage of members eligible to vote that did vote.</p>
+</figcaption>
+</figure>
 
 </div>
 <div id="footer1">

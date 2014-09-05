@@ -1,85 +1,46 @@
-%h2#summary Party Summary
+%figure.voter-table
+  %h2#votes Votes
 
-%p
-  Votes by party, red entries are votes against the majority for that party.
-.tableexplain
-  %p
-    %span.ptitle What is Turnout?
-    This is measured against the total membership of the party at the time of the vote.
-= render 'summary_party_votes', division: division
-
-%h2#votes
-  - if display.nil?
-    Rebel Voters
-  - elsif display == "allpossible"
-    All
-    = members_type(division.australian_house)
-    Eligible to Vote
-  - else
-    - raise
-  \- sorted by
-  - if sort.nil?
-    party
-  - elsif sort == "name"
-    name
-  - elsif sort == "constituency"
-    electorate
-  - elsif sort == "vote"
-    vote
-  - else
-    - raise
-
-- if display.nil?
-  %p
-    = members_type(division.australian_house)
-    for which their vote in this division differed
-    from the majority vote of their party. You can see
-    = link_to "all votes", division_with_policy_path(division, display: "allvotes", sort: params[:sort])
-    in this division, or
-    = link_to division_with_policy_path(division, display: "allpossible", sort: params[:sort]) do
-      every eligible
-      = member_type(division.australian_house)
-    who could have voted in this division
-- elsif display == "allpossible"
-  %p
-    Includes
-    = members_type(division.australian_house)
-    who were absent (or abstained) from this vote.
-- else
-  - raise
-
-= render "sort_links", sort: sort, division: division
-%table.table.table-striped
-  %thead
-    %tr
-      %th Name
-      %th= electorate_label(division.australian_house)
-      %th Party
-      %th Vote
-  %tbody
-    - if display.nil?
-      - if votes.empty?
-        %tr
-          %td{:colspan => "4"} no rebellions
-      - else
-        - votes.each do |vote|
-          %tr
-            %td= link_to vote.name, member_path2(vote.member)
-            %td= vote.electorate
+  %table.table
+    %thead
+      %tr
+        %th Party
+        %th Ayes
+        %th Noes
+        %th
+    %tbody
+      - division.whips.order(:party).each do |whip|
+        - # TODO: Change this test to include parties that had voter's elligble but absent
+        - if whip.total_votes > 0
+          %tr.party-row
+            %th
+              = whip.party_name
+              %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction, precision: 1) + ' turnout)'
+            %td{:class => aye_vote_class(whip)}= whip.aye_votes_including_tells
+            %td{:class => no_vote_class(whip)}= whip.no_votes_including_tells
             %td
-              = vote.party_long2
-              - if vote.member.person.on_front_bench?(division.date)
-                (front bench)
-            %td= vote.vote
-    - elsif display == "allpossible"
-      - members.each do |member|
-        %tr{:class => ("rebel" if member.rebel_on_division?(division))}
-          %td= link_to member.name_without_title, member_path2(member)
-          %td= link_to_if division.australian_house == "representatives", member.electorate, electorate_path(member)
-          %td
-            = member.party_long2
-            - if member.person.on_front_bench?(division.date)
-              (front bench)
-          %td= member.vote_on_division_without_tell(division)
-    - else
-      - raise
+              %button.btn.glyphicon.glyphicon-chevron-down{:data => {:toggle => 'collapse', :target => '.member-row-' + whip.party.parameterize}}
+                %span.sr-only show members
+
+          - # TODO: Order by minority within party (e.g. rebels first) then majority, then absent
+          - members.where(party: whip.party).each do |member|
+            %tr.member-row.collapse{:class => ('rebel' if member.rebel_on_division?(division)), :class => ('member-row-' + whip.party.parameterize)}
+              %td
+                = link_to member.name_without_title, member_path2(member)
+                = link_to_if division.australian_house == 'representatives', member.electorate, electorate_path(member), :class => 'text-muted'
+
+              %td{:colspan => '3'}= member.vote_on_division_without_tell(division)
+
+      %tr
+        %th.whip
+          Totals
+          %small.post-title.text-muted= '(' + fraction_to_percentage_display(division.attendance_fraction, precision: 1) + ' turnout)'
+        %td{:class => aye_vote_total_class(division)}= division.aye_votes_including_tells
+        %td{:class => no_vote_total_class(division)}= division.no_votes_including_tells
+        %td
+
+  %figcaption.panel-footer
+    - if division.no_rebellions > 0
+      %p <span class="rebel">Red entries</span> are rebel votes against the majority of a party.
+    %p Turnout is the percentage of members eligible to vote that did vote.
+
