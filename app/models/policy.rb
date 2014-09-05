@@ -40,23 +40,22 @@ class Policy < ActiveRecord::Base
     end
   end
 
-  def add_division(division, vote)
-    # FIXME This logic is all over the place and too complex. Simplify
-    if old_policy_division = division.policy_divisions.find_by(policy: self)
-      changed_from = old_policy_division.vote unless old_policy_division.vote == vote
-      # FIXME: Because PolicyDivision has no primary key we can't update or destroy old_policy_division directly
-      PolicyDivision.delete_all division_id: division.id, policy: self
-    elsif vote != '--'
-      changed_from = 'non-voter'
-    end
+  def update_division_vote!(division, new_vote)
+    old_vote = vote_for_division(division)
 
-    if vote != '--'
-      PolicyDivision.create! division_id: division.id, policy: self, vote: vote
+    policy_division = policy_divisions.find_or_initialize_by(division: division)
+
+    if old_vote && new_vote.nil?
+      policy_division.destroy!
+    elsif old_vote.nil? && new_vote
+      policy_division.update! vote: new_vote
+    elsif old_vote != new_vote
+      policy_division.update! vote: new_vote
     end
 
     delay.calculate_member_agreement_percentages!
 
-    changed_from
+    old_vote
   end
 
   def calculate_member_agreement_percentages!
