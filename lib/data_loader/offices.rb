@@ -8,19 +8,12 @@ module DataLoader
         person_id = People.member_to_person[moffice[:matchid]]
         raise "MP #{moffice[:name]} has no person" unless person_id
 
-        # FIXME: Don't truncate position https://github.com/openaustralia/publicwhip/issues/278
-        position = moffice[:position]
-        if position.size > 100
-          Rails.logger.warn "Truncating position \"#{position}\""
-          position.slice! 100..-1
-        end
-
         responsibility = moffice[:responsibility] || ''
 
         o = Office.find_or_initialize_by(id: moffice[:id][/uk.org.publicwhip\/moffice\/(\d*)/, 1],
           person_id: person_id[/uk.org.publicwhip\/person\/(\d*)/, 1])
         o.update!(dept: XML.escape_html(moffice[:dept]),
-          position: XML.escape_html(position),
+          position: XML.escape_html(moffice[:position]),
           responsibility: XML.escape_html(responsibility),
           from_date: moffice[:fromdate],
           to_date: moffice[:todate])
