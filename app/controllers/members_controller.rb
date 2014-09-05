@@ -33,12 +33,11 @@ class MembersController < ApplicationController
 
   def show_redirect
     if params[:mpid]
-      @member = Member.find_by!(id: params[:mpid])
-      redirect_to view_context.member_path2(@member, dmp: params[:dmp], display: params[:display])
+      member = Member.find_by!(id: params[:mpid])
     elsif params[:id]
-      @member = Member.find_by!(gid: params[:id])
-      redirect_to view_context.member_path2(@member, dmp: params[:dmp], display: params[:display])
+      member = Member.find_by!(gid: params[:id])
     end
+    redirect_to view_context.member_path2(member, dmp: params[:dmp], display: params[:display])
   end
 
   def show
