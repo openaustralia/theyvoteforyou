@@ -53,7 +53,7 @@ module DataLoader
       truncated_pwmotiontexts = truncate_for_motion(pwmotiontexts.map { |p| p.to_s + "\n\n" })
 
       text = truncated_pwmotiontexts.empty? ? truncate_for_motion(previous_speeches.map { |s| speech_text s }) : truncated_pwmotiontexts
-      text.blank? ? '<p>No motion text available</p>' : encode_html_entities(text)
+      text.blank? ? '<p class="motion-notice motion-notice-notext">No motion text available</p>' : encode_html_entities(text)
     end
 
     def clock_time
