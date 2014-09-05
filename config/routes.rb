@@ -15,6 +15,9 @@ Publicwhip::Application.routes.draw do
   get '/account/changepass.php' => redirect('/users/edit')
   get '/account/changeemail.php' => redirect('/users/edit')
 
+  get 'mp.php' => 'members#show_redirect',
+    constraints: lambda {|r| r.query_parameters["mpid"] || r.query_parameters["id"]}
+
   # Main routes
   root 'home#index'
 
@@ -23,8 +26,8 @@ Publicwhip::Application.routes.draw do
   get 'search.php' => 'home#search', as: :search
 
   get 'mps.php' => 'members#index', as: :members
-  get 'mp.php' => 'members#show_redirect',
-    constraints: lambda {|r| r.query_parameters["mpid"] || r.query_parameters["id"]}
+  get 'mp.php' => 'electorates#show_redirect',
+    constraints: lambda {|r| r.query_parameters["mpn"].nil? && (r.query_parameters["display"] || r.query_parameters["dmp"])}
   get 'mp.php' => 'electorates#show',
     constraints: lambda {|r| r.query_parameters["mpn"].nil?}
   get 'mp.php' => 'members#show', as: :member
