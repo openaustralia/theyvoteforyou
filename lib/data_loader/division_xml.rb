@@ -50,8 +50,7 @@ module DataLoader
     end
 
     def motion
-      pwmotiontext = pwmotiontexts.map { |p| p.to_s + "\n\n" }.join
-      text = pwmotiontext.empty? ? previous_speeches_motion_text : pwmotiontext
+      text = pwmotiontexts_for_motion.empty? ? previous_speeches_motion_text : pwmotiontexts_for_motion
       # Truncate really long motion text at the same size as formatted_motion_text
       Rails.logger.warn "Truncating very long motion text for division: #{house} #{date} #{number}" if text.size > 15000
       text.blank? ? '<p>No motion text available</p>' : encode_html_entities(text).truncate(MAXIMUM_MOTION_TEXT_SIZE)
@@ -117,6 +116,10 @@ module DataLoader
         previous_element = previous_element.previous_element
       end
       pwmotiontexts.reverse
+    end
+
+    def pwmotiontexts_for_motion
+      pwmotiontexts.map { |p| p.to_s + "\n\n" }.join
     end
 
     def previous_speeches
