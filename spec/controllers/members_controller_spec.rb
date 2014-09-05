@@ -9,12 +9,12 @@ describe MembersController, :type => :controller do
       end
 
       it do
-        get :show, mpc: "Bennelong", house: "representatives", display: "allvotes"
+        get :show_electorate, mpc: "Bennelong", house: "representatives", display: "allvotes"
         expect(response).to redirect_to "/mp.php?house=representatives&mpc=Bennelong"
       end
 
       it do
-        get :show, mpc: "Bennelong", house: "representatives", dmp: 1
+        get :show_electorate, mpc: "Bennelong", house: "representatives", dmp: 1
         expect(response).to redirect_to "/mp.php?house=representatives&mpc=Bennelong"
       end
     end
