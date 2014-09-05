@@ -57,9 +57,6 @@ describe MembersController, :type => :request do
     it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&dmp=1&display=motions")}
     it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate&dmp=1&display=motions")}
 
-    it {compare_static("/mp.php?mpc=Warringah")}
-    it {compare_static("/mp.php?mpc=Bennelong")}
-
     # Test free teller under Interesting Votes
     it {compare_static("/mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives")}
 
@@ -90,7 +87,7 @@ describe MembersController, :type => :request do
 
     it "should 404 when the wrong name is given for a correct electorate" do
       get "/mp.php?house=representatives&mpc=Warringah&mpn=foo_bar"
-      expect(response.status).to eq(404) 
+      expect(response.status).to eq(404)
     end
   end
 end
