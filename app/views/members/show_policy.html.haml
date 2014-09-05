@@ -13,4 +13,4 @@
     = nav_link("Full description", member_path2(@member, display: "motions", dmp: @policy.id), "Also show descriptions of every vote", @display == "motions")
     = nav_link("Policy comparisons", member_path2(@member, display: "alldreams"), "Show all Policies and how this MP voted on them", @display == "alldreams")
 
-= render "policy_comparison", member: @member, agreement_fraction_with_policy: @member.person.agreement_fraction_with_policy(@policy), policy: @policy, display: @display, number_of_votes_on_policy: @member.person.number_of_votes_on_policy(@policy), policy_member_distance: @policy_member_distance
+= render "policy_comparison", member: @member, policy: @policy, display: @display, policy_member_distance: @policy_member_distance

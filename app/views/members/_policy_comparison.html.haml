@@ -1,7 +1,7 @@
 .h1mppolicy
   %p.mp= link_to member.full_name2, member_path2(member)
   %p.voteexpl
-    = policy_agreement_summary(number_of_votes_on_policy, agreement_fraction_with_policy)
+    = policy_agreement_summary(member.person.number_of_votes_on_policy(policy), member.person.agreement_fraction_with_policy(policy))
     the policy
   %p.policy
     = link_to policy do
@@ -11,7 +11,7 @@
   %p
     by
     %a{href: '#ratioexpl'} scoring
-    %em.percent= fraction_to_percentage_display(agreement_fraction_with_policy, precision: 1)
+    %em.percent= fraction_to_percentage_display(member.person.agreement_fraction_with_policy(policy), precision: 1)
     compared to the votes below
 - if display == 'motions'
   %p
@@ -116,4 +116,4 @@
   \= #{policy_member_distance.total_points} / #{policy_member_distance.possible_total_points}
   \=
   = succeed "." do
-    %b= fraction_to_percentage_display(agreement_fraction_with_policy, precision: 1, format: "%n %")
+    %b= fraction_to_percentage_display(member.person.agreement_fraction_with_policy(policy), precision: 1, format: "%n %")
