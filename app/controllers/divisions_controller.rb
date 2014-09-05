@@ -126,10 +126,13 @@ class DivisionsController < ApplicationController
     @division = Division.in_australian_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
     @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
 
-    old_vote = @policy.vote_for_division(@division)
     new_vote = params["vote#{@policy.id}".to_sym]
     new_vote = nil if new_vote == "--"
-    @changed_from = @policy.update_division_vote!(@division, old_vote, new_vote)
+    old_vote = @policy.update_division_vote!(@division, new_vote)
+    # Return the "changed from" value
+    if old_vote != new_vote
+      @changed_from = old_vote.nil? ? 'non-voter' : old_vote
+    end
 
     render 'show'
   end

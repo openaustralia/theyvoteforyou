@@ -40,7 +40,9 @@ class Policy < ActiveRecord::Base
     end
   end
 
-  def update_division_vote!(division, old_vote, new_vote)
+  def update_division_vote!(division, new_vote)
+    old_vote = vote_for_division(division)
+
     policy_division = policy_divisions.find_or_initialize_by(division: division)
 
     if old_vote && new_vote.nil?
@@ -53,10 +55,7 @@ class Policy < ActiveRecord::Base
 
     delay.calculate_member_agreement_percentages!
 
-    # Return the "changed from" value
-    if old_vote != new_vote
-      old_vote.nil? ? 'non-voter' : old_vote
-    end
+    old_vote
   end
 
   def calculate_member_agreement_percentages!
