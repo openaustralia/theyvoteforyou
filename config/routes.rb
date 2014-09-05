@@ -27,7 +27,7 @@ Publicwhip::Application.routes.draw do
 
   get 'mps.php' => 'members#index', as: :members
   get 'mp.php' => 'electorates#show_redirect',
-    constraints: lambda {|r| r.query_parameters["mpn"].nil? && (r.query_parameters["display"] || r.query_parameters["dmp"])}
+    constraints: lambda {|r| r.query_parameters["mpn"].nil? && (r.query_parameters["display"] || r.query_parameters["dmp"] || r.query_parameters["house"].nil?)}
   get 'mp.php' => 'electorates#show',
     constraints: lambda {|r| r.query_parameters["mpn"].nil?}
   get 'mp.php' => 'members#show', as: :member
