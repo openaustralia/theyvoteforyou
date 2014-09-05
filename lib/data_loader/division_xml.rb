@@ -149,6 +149,7 @@ module DataLoader
 
       previous_speeches.map { |s| speech_text s }.each do |speech|
         if (output_text + speech).size > (MAXIMUM_MOTION_TEXT_SIZE - truncation_text.size)
+          Rails.logger.warn "Truncating very long motion text for division: #{house} #{date} #{number}"
           output_text += truncation_text
           break
         else
