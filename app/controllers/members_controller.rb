@@ -81,12 +81,7 @@ class MembersController < ApplicationController
     @member = @member.where(constituency: electorate) if electorate && electorate != "Senate"
     @member = @member.order(entered_house: :desc).first
 
-    if @member
-      @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
-      # Trying this hack. Seems mighty weird
-      # TODO Get rid of this
-      @member = @members.first if @member.senator?
-    else
+    if @member.nil?
       render 'member_not_found', status: 404
       return
     end
@@ -95,12 +90,14 @@ class MembersController < ApplicationController
       @policy = Policy.find(params[:dmp])
       # Pick the member where the votes took place
       @member = @member.person.member_for_policy(@policy)
+      render "show_policy"
+      return
     end
 
-    if @policy
-      render "show_policy"
-    else
-      render "show"
-    end
+    @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
+    # Trying this hack. Seems mighty weird
+    # TODO Get rid of this
+    @member = @members.first if @member.senator?
+    render "show"
   end
 end
