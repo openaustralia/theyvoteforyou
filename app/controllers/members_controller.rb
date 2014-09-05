@@ -95,9 +95,6 @@ class MembersController < ApplicationController
       @policy = Policy.find(params[:dmp])
       # Pick the member where the votes took place
       @member = @member.person.member_for_policy(@policy)
-      # Not using PolicyPersonDistance.find_by because of the messed up association with the Member model
-      @policy_member_distance =
-        @member.person.policy_person_distances.find_or_initialize_by(policy: @policy)
     end
 
     if @policy
