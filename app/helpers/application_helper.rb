@@ -6,8 +6,8 @@ module ApplicationHelper
   end
 
   def electorate_path2(member)
-    member_path({
-        mpc: (member.url_electorate if member),
+    electorate_path({
+        mpc: (member.url_electorate.downcase if member),
         house: (member.australian_house if member)
       })
   end
