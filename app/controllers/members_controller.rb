@@ -41,24 +41,6 @@ class MembersController < ApplicationController
     end
   end
 
-  def show_electorate
-    electorate = params[:mpc].gsub("_", " ") if params[:mpc]
-    house = params[:house]
-
-    if params[:display] || params[:dmp]
-      redirect_to params.merge(display: nil, dmp: nil)
-      return
-    end
-    @members = Member.where(constituency: electorate).order(entered_house: :desc)
-    @members = @members.in_australian_house(house) if house
-    @member = @members.first
-    if @member
-      render "show_electorate"
-    else
-      render "member_not_found", status: 404
-    end
-  end
-
   def show
     electorate = params[:mpc].gsub("_", " ") if params[:mpc]
     name = params[:mpn].gsub("_", " ") if params[:mpn]
