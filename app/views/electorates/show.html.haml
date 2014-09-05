@@ -1,5 +1,6 @@
 - content_for :title do
-  Representatives for
+  = members_type(@member.australian_house)
+  for
   = @member.electorate
 
 .page-header
