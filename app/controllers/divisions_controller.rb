@@ -128,6 +128,7 @@ class DivisionsController < ApplicationController
 
     old_vote = @policy.vote_for_division(@division)
     new_vote = params["vote#{@policy.id}".to_sym]
+    new_vote = nil if new_vote == "--"
     @changed_from = @policy.update_division_vote!(@division, old_vote, new_vote)
 
     render 'show'
