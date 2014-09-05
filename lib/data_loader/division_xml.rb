@@ -143,7 +143,7 @@ module DataLoader
     end
 
     def truncate_for_motion(elements)
-      truncation_text = "<p>Long debate text truncated.</p>"
+      truncation_text = "<p class='motion-notice motion-notice-truncated'>Long debate text truncated.</p>"
       output_text = ''
 
       elements.each do |element|
