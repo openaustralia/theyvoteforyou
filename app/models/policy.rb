@@ -43,20 +43,15 @@ class Policy < ActiveRecord::Base
   def update_division_vote!(division, old_vote, new_vote)
     policy_division = policy_divisions.find_or_initialize_by(division: division)
 
-    # There's an existing vote and we want to change it to non-voter
+    if old_vote != new_vote
+      changed_from = old_vote.nil? ? 'non-voter' : old_vote
+    end
+
     if old_vote && new_vote.nil?
-      changed_from = old_vote
       policy_division.destroy!
-    # No existing vote and we're not trying to change it to non-voter
-    elsif !old_vote && new_vote
-      changed_from = 'non-voter'
+    elsif old_vote.nil? && new_vote
       policy_division.update! vote: new_vote
-    # There's no old vote and we are trying to change it to non-voter (noop)
-    elsif !old_vote && new_vote.nil?
-      changed_from = nil
-    # There's an old vote and it's different to the new vote
     elsif old_vote != new_vote
-      changed_from = old_vote
       policy_division.update! vote: new_vote
     end
 
