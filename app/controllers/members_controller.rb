@@ -31,6 +31,16 @@ class MembersController < ApplicationController
     @members = Member.joins('LEFT OUTER JOIN `member_infos` ON `member_infos`.`member_id` = `members`.`id`').select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").in_australian_house(@house).current.order(order)
   end
 
+  def show_redirect
+    if params[:mpid]
+      @member = Member.find_by!(id: params[:mpid])
+      redirect_to view_context.member_path2(@member, dmp: params[:dmp], display: params[:display])
+    elsif params[:id]
+      @member = Member.find_by!(gid: params[:id])
+      redirect_to view_context.member_path2(@member, dmp: params[:dmp], display: params[:display])
+    end
+  end
+
   def show
     electorate = params[:mpc].gsub("_", " ") if params[:mpc]
     name = params[:mpn].gsub("_", " ") if params[:mpn]
@@ -42,16 +52,6 @@ class MembersController < ApplicationController
     end
     if params[:dmp] && params[:display] == "allvotes"
       redirect_to params.merge(display: nil)
-      return
-    end
-    if params[:mpid]
-      @member = Member.find_by!(id: params[:mpid])
-      redirect_to view_context.member_path2(@member, dmp: params[:dmp], display: params[:display])
-      return
-    end
-    if params[:id]
-      @member = Member.find_by!(gid: params[:id])
-      redirect_to view_context.member_path2(@member, dmp: params[:dmp], display: params[:display])
       return
     end
     if params[:mpn].nil? && (params[:display] || params[:dmp])
