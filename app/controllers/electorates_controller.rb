@@ -1,0 +1,2 @@
+class ElectoratesController < ApplicationController
+end
