@@ -16,7 +16,6 @@
 /tmp
 
 config/database.yml
-config/secrets.yml
 config/settings.yml
 
 php/loader/PublicWhip/Config.pm
