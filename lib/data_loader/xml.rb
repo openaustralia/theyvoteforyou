@@ -1,4 +1,3 @@
-require 'nokogiri'
 require 'cgi'
 
 module DataLoader
