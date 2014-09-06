@@ -1,5 +1,4 @@
-require 'nokogiri'
-require 'cgi'
+require 'mechanize'
 
 module DataLoader
   class Members
@@ -7,9 +6,10 @@ module DataLoader
       # representatives.xml & senators.xml
       def load!
         Rails.logger.info "Reloading representatives and senators..."
+        agent = Mechanize.new
         %w(representatives senators).each do |file|
           Rails.logger.info "Loading #{file}..."
-          xml = Nokogiri.parse(File.read("#{Settings.xml_data_directory}/members/#{file}.xml"))
+          xml = agent.get "#{Settings.xml_data_base_url}members/#{file}.xml"
           xml.search(:member).each do |member|
             # Ignores entries older than the 1997 UK General Election
             next if member[:todate] <= '1997-04-08'

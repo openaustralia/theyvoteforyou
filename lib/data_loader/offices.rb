@@ -1,9 +1,12 @@
+require 'mechanize'
+
 module DataLoader
   class Offices
     # ministers.xml
     def self.load!
       Rails.logger.info "Reloading offices..."
-      ministers_xml = Nokogiri.parse(File.read("#{Settings.xml_data_directory}/members/ministers.xml"))
+      agent = Mechanize.new
+      ministers_xml = agent.get "#{Settings.xml_data_base_url}members/ministers.xml"
       ministers_xml.search(:moffice).each do |moffice|
         person_id = People.member_to_person[moffice[:matchid]]
         raise "MP #{moffice[:name]} has no person" unless person_id

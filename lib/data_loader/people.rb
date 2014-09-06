@@ -1,3 +1,5 @@
+require 'mechanize'
+
 module DataLoader
   class People
 
@@ -9,7 +11,8 @@ module DataLoader
 
     # people.xml
     def self.load_people
-      people_xml = Nokogiri.parse(File.read("#{Settings.xml_data_directory}/members/people.xml"))
+      agent = Mechanize.new
+      people_xml = agent.get "#{Settings.xml_data_base_url}members/people.xml"
       member_to_person = {}
       people_xml.search(:person).each do |person|
         person.search(:office).each do |office|
