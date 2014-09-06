@@ -1,10 +1,11 @@
 require 'spec_helper'
+require 'nokogiri'
 
 describe DataLoader::DebatesXML do
   context 'actual division 1 from representatives on 2009-11-25' do
     subject(:division) do
-      xml_data = File.read(File.expand_path('../../../fixtures/2009-11-25.xml', __FILE__))
-      DataLoader::DebatesXML.new(xml_data, 'representatives').divisions.first
+      xml_document = Nokogiri.parse(File.read(File.expand_path('../../../fixtures/2009-11-25.xml', __FILE__)))
+      DataLoader::DebatesXML.new(xml_document, 'representatives').divisions.first
     end
 
     it { expect(division.date).to eq('2009-11-25') }
@@ -21,8 +22,8 @@ describe DataLoader::DebatesXML do
 
   context 'actual division 1 from senate on 2007-09-11' do
     subject(:division) do
-      xml_data = File.read(File.expand_path('../../../fixtures/2007-09-11.xml', __FILE__))
-      DataLoader::DebatesXML.new(xml_data, 'senate').divisions.first
+      xml_document = Nokogiri.parse(File.read(File.expand_path('../../../fixtures/2007-09-11.xml', __FILE__)))
+      DataLoader::DebatesXML.new(xml_document, 'senate').divisions.first
     end
 
     it '#motion should support missing pwmotiontext' do

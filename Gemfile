@@ -40,7 +40,8 @@ gem 'delayed_job_active_record'
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 gem 'rails_config'
-gem 'nokogiri'
+gem 'mechanize' # Used to download debates
+gem 'nokogiri' # Explicitly included as it's used directly when testing division loader
 gem 'seed_dump'
 gem "redcarpet"
 
@@ -48,7 +49,6 @@ group :test do
   # We can't use transactional fixtures as the php app and the rails app need to see
   # the same database. So, using database_cleaner instead
   gem "database_cleaner"
-  gem 'mechanize' # Used in HTMLCompareHelper
   gem 'rspec-activemodel-mocks'
 end
 

@@ -1,4 +1,4 @@
-# The directory containing OpenAustralia.org XML, i.e. this data and structure: http://data.openaustralia.org/
-xml_data_directory: /srv/www/www.openaustralia.org/shared/pwdata/
+# URL where Public Whip XML data files can be found
+xml_data_base_url: http://data.openaustralia.org/
 
 google_analytics_tracking_id: UA-xxxxxxx-xx
