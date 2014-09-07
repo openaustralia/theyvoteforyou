@@ -104,6 +104,6 @@
             %td= formatted_date(division.date, true)
             %td= division.tidied_clock_time
             %td= link_to truncate(division.name, length: 180), division_path2(division)
-            %td= division.no_rebellions
+            %td= division.rebellions
             %td= division.majority
             %td= fraction_to_percentage_display(division.attendance_fraction, precision: 1)

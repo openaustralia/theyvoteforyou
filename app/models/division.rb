@@ -28,7 +28,7 @@ class Division < ActiveRecord::Base
   end
 
   def rebellious?
-    no_rebellions > 10
+    rebellions > 10
   end
 
   def whip_guess_for(party)
@@ -48,7 +48,7 @@ class Division < ActiveRecord::Base
     aye_majority == 0
   end
 
-  def no_rebellions
+  def rebellions
     division_info.rebellions
   end
 
