@@ -79,7 +79,7 @@ class Division < ActiveRecord::Base
 
   # Only include in the total possible votes the parties that actually voted.
   # Only doing this to match php implementation which in my opinion is not correct
-  # Should really just be whips.sum(&:possible_votes)
+  # TODO Should really just be whips.sum(&:possible_votes)
   def possible_votes
     whips.find_all{|w| w.total_votes > 0}.sum(&:possible_votes)
   end
