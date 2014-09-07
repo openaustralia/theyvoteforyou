@@ -97,7 +97,7 @@ class Whip < ActiveRecord::Base
   def no_loyal
     if whip_guess == "no"
       no_votes_including_tells
-    elsif whip_guess == "yes"
+    elsif whip_guess == "aye"
       aye_votes_including_tells
     else
       # TODO Is that the right thing to do?
@@ -108,7 +108,7 @@ class Whip < ActiveRecord::Base
   def no_rebels
     if whip_guess == "no"
       aye_votes_including_tells
-    elsif whip_guess == "yes"
+    elsif whip_guess == "aye"
       no_votes_including_tells
     else
       # TODO Is that the right thing to do?
