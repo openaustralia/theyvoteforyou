@@ -5,7 +5,7 @@ class PoliciesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show, :detail]
 
   def index
-    @policies = Policy.order(:private, :name)
+    @policies = Policy.order(:private, :name).includes(:divisions => :wiki_motions)
   end
 
   def show
