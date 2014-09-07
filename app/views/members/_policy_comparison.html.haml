@@ -55,27 +55,27 @@
       %th Points
       %th Out of
   %tbody
-    %tr.jobevent
+    %tr
       %th Most important votes (#{pluralize(Distance.possible_points[:samestrong], "point")})
       %td &nbsp;
       %td &nbsp;
       %td &nbsp;
-    %tr.evenstrong
+    %tr
       %td MP voted with policy
       %td.teller= policy_member_distance.nvotessamestrong
       %td= policy_member_distance.votes_same_strong_points
       %td= policy_member_distance.possible_same_strong_points
-    %tr.evenstrong
+    %tr
       %td MP voted against policy
       %td.rebel= policy_member_distance.nvotesdifferstrong
       %td= policy_member_distance.votes_differ_strong_points
       %td= policy_member_distance.possible_differ_strong_points
-    %tr.evenstrong
+    %tr
       %td MP absent
       %td.rebelteller= policy_member_distance.nvotesabsentstrong
       %td= policy_member_distance.votes_absent_strong_points
       %td= policy_member_distance.possible_absent_strong_points
-    %tr.jobevent
+    %tr
       %th Less important votes (#{pluralize(Distance.possible_points[:same], "point")})
       %td &nbsp;
       %td &nbsp;
@@ -90,7 +90,7 @@
       %td.rebel= policy_member_distance.nvotesdiffer
       %td= policy_member_distance.votes_differ_points
       %td= policy_member_distance.possible_differ_points
-    %tr.jobevent
+    %tr
       %th Less important absentees (#{pluralize(Distance.possible_points[:absent], "point")})
       %td &nbsp;
       %td &nbsp;
@@ -100,7 +100,7 @@
       %td.rebelteller= policy_member_distance.nvotesabsent
       %td= policy_member_distance.votes_absent_points
       %td= policy_member_distance.possible_absent_points
-    %tr.jobevent
+    %tr
       %th{:colspan => "2"} Total:
       %td= policy_member_distance.total_points
       %td= policy_member_distance.possible_total_points
