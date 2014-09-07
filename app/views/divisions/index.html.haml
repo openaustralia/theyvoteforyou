@@ -64,9 +64,7 @@
         - whip = division.whips.where(party: @party).first
         %tr{:class => ("rebel" if @rdisplay2 != "rebels" && division.rebellious?)}
           %td= formatted_date(division.date, true)
-          %td
-            - if division.clock_time
-              = division.clock_time.strftime("%H:%M")
+          %td= division.tidied_clock_time
           %td
             = link_to truncate(division.name, length: 180), division_path2(division)
           -# TODO Here it's called Turnout. Elsewhere it's called Attendance. Bad!
@@ -104,11 +102,8 @@
             - if @house.nil?
               %td{:class => division.house}= division.australian_house_name
             %td= formatted_date(division.date, true)
-            %td
-              - if division.clock_time
-                = division.clock_time.strftime("%H:%M")
-            %td
-              = link_to truncate(division.name, length: 180), division_path2(division)
+            %td= division.tidied_clock_time
+            %td= link_to truncate(division.name, length: 180), division_path2(division)
             %td= division.no_rebellions
             %td= division.majority
             %td= fraction_to_percentage_display(division.attendance_fraction, precision: 1)

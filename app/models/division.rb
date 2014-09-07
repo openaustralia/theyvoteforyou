@@ -14,6 +14,11 @@ class Division < ActiveRecord::Base
   scope :with_rebellions, -> { joins(:division_info).where("rebellions > 10") }
   scope :in_parliament, ->(parliament) { where("date >= ? AND date < ?", parliament[:from], parliament[:to]) }
 
+  # TODO We should really be doing any tidying up of the clock time in the loader
+  def tidied_clock_time
+    clock_time.strftime("%H:%M") if clock_time
+  end
+
   def wiki_motion
     wiki_motions.first
   end

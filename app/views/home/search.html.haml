@@ -45,9 +45,7 @@
           %tr
             %td{:class => division.house}= division.australian_house_name
             %td= formatted_date(division.date, true)
-            %td
-              - if division.clock_time
-                = division.clock_time.strftime("%H:%M")
+            %td= division.tidied_clock_time
             %td= link_to division.name, division_path2(division)
             %td= division.no_rebellions
             %td= division.turnout
