@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140905062045) do
+ActiveRecord::Schema.define(version: 20140907063906) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 20140905062045) do
     t.binary  "debate_url",           null: false
     t.binary  "motion",               null: false
     t.binary  "notes",                null: false
-    t.text    "clock_time"
+    t.string  "clock_time"
     t.text    "source_gid",           null: false
     t.text    "debate_gid",           null: false
   end
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20140905062045) do
   add_index "divisions", ["date", "number", "house"], name: "division_date_2", unique: true, using: :btree
   add_index "divisions", ["date"], name: "division_date", using: :btree
   add_index "divisions", ["house"], name: "house", using: :btree
+  add_index "divisions", ["id", "date", "clock_time"], name: "index_divisions_on_id_and_date_and_clock_time", using: :btree
   add_index "divisions", ["number"], name: "division_number", using: :btree
 
   create_table "electorates", force: true do |t|
