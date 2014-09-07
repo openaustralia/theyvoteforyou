@@ -43,7 +43,8 @@ class DivisionsController < ApplicationController
       raise "Unexpected value"
     end
 
-    @divisions = Division.joins(:division_info).order(order)
+    @divisions = Division.order(order)
+    @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
     @divisions = @divisions.in_australian_house(@house) if @house
     @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
     @divisions = @divisions.with_rebellions if @rdisplay2 == "rebels"
