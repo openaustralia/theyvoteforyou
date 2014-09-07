@@ -62,7 +62,7 @@ class Division < ActiveRecord::Base
   end
 
   def total_votes
-    whips.to_a.sum(&:total_votes)
+    division_info.turnout
   end
 
   def aye_votes_including_tells
@@ -73,11 +73,8 @@ class Division < ActiveRecord::Base
     no_votes + no_tells
   end
 
-  # Only include in the total possible votes the parties that actually voted.
-  # Only doing this to match php implementation which in my opinion is not correct
-  # TODO Should really just be whips.sum(&:possible_votes)
   def possible_votes
-    whips.find_all{|w| w.total_votes > 0}.sum(&:possible_votes)
+    division_info.possible_turnout
   end
 
   add_method_tracer :possible_votes, 'Custom/Division/possible_votes'
