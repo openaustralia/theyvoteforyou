@@ -63,6 +63,7 @@ group :development do
   gem 'binding_of_caller'
 
   gem 'mailcatcher'
+  gem 'rack-mini-profiler'
 
   gem 'capistrano', '~> 3.0', require: false
   gem 'capistrano-rails',   '~> 1.1', require: false
