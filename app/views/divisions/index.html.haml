@@ -62,7 +62,7 @@
       - @divisions.each do |division|
         -# TODO temporary variable Eek!
         - whip = division.whips.where(party: @party).first
-        %tr{:class => (@rdisplay2 != "rebels" && division.rebellious? ? "evenrebel" : "even")}
+        %tr{:class => ("rebel" if @rdisplay2 != "rebels" && division.rebellious?)}
           %td= formatted_date(division.date, true)
           %td
             - if division.clock_time
@@ -93,14 +93,14 @@
     %tbody
       -# Avoid calling out to SQL again
       - if @divisions.to_a.empty?
-        %tr.odd
+        %tr
           - if @house.nil?
             %td(colspan="9") no votes listed
           - else
             %td(colspan="8") no votes listed
       - else
         - @divisions.each do |division|
-          %tr{:class => cycle("even", "odd") + ((@rdisplay2 != "rebels" && @sort != "rebellions" && division.rebellious? ? "rebel" : ""))}
+          %tr{:class => ("rebel" if @rdisplay2 != "rebels" && @sort != "rebellions" && division.rebellious?)}
             - if @house.nil?
               %td{:class => division.house}= division.australian_house_name
             %td= formatted_date(division.date, true)

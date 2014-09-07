@@ -38,11 +38,11 @@
         %th Majority
     %tbody
       - if @divisions.empty?
-        %tr.odd
+        %tr
           %td{:colspan => "9"} no divisions found
       - else
         - @divisions.each do |division|
-          %tr{class: cycle("even", "odd")}
+          %tr
             %td{:class => division.house}= division.australian_house_name
             %td= formatted_date(division.date, true)
             %td
@@ -64,11 +64,11 @@
         %th Party
     %tbody
       - if @mps.empty?
-        %tr.even
+        %tr
           %td{colspan: 3} no members found
       - else
         - @mps.each do |mp|
-          %tr{:class => cycle("odd", "even")}
+          %tr
             %td= link_to mp.name, member_path2(mp)
             %td= link_to_unless mp.senator?, mp.electorate, electorate_path2(mp)
             %td= mp.party
