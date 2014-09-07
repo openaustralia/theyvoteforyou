@@ -95,6 +95,8 @@ class Division < ActiveRecord::Base
     wiki_motion ? wiki_motion.text_body[/--- DIVISION TITLE ---(.*)--- MOTION EFFECT/m, 1].strip.gsub('-', '—') : original_name
   end
 
+  add_method_tracer :name, 'Custom/Division/name'
+
   def original_name
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
