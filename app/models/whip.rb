@@ -1,6 +1,7 @@
 class Whip < ActiveRecord::Base
   belongs_to :division
 
+  # TODO We should also add a Whip record for a party that could have voted on a division but didn't
   def self.update_all!
     possible_votes = Division.joins("LEFT JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.date AND divisions.date < members.left_house").group("divisions.id", :party).count
 
