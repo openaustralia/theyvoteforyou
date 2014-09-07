@@ -6,7 +6,7 @@ class Division < ActiveRecord::Base
   has_many :policies, through: :policy_divisions
   has_many :wiki_motions, -> {order(edit_date: :desc)}
 
-  delegate :turnout, :aye_majority, to: :division_info
+  delegate :turnout, :aye_majority, :rebellions, to: :division_info
 
   scope :in_house, ->(house) { where(house: house) }
   scope :in_australian_house, ->(australian_house) { in_house(House.australian_to_uk(australian_house)) }
@@ -46,10 +46,6 @@ class Division < ActiveRecord::Base
   # Equal number of votes for the ayes and noes
   def tied?
     aye_majority == 0
-  end
-
-  def rebellions
-    division_info.rebellions
   end
 
   # Using whips cache to calculate this. Is this the best way?
