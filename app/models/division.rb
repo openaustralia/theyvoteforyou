@@ -84,6 +84,8 @@ class Division < ActiveRecord::Base
     whips.find_all{|w| w.total_votes > 0}.sum(&:possible_votes)
   end
 
+  add_method_tracer :possible_votes, 'Custom/Division/possible_votes'
+
   # Returns nil if otherwise we would get divide by zero
   def attendance_fraction
     if possible_votes > 0
@@ -102,6 +104,8 @@ class Division < ActiveRecord::Base
     # rather than using unicode.
     HTMLEntities.new.decode(read_attribute(:name).gsub('-', '—'))
   end
+
+  add_method_tracer :original_name, 'Custom/Division/original_name'
 
   def motion
     text = wiki_motion ? wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1].strip : read_attribute(:motion)
