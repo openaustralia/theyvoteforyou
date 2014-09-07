@@ -91,7 +91,8 @@
         %th Majority
         %th Turnout
     %tbody
-      - if @divisions.empty?
+      -# Avoid calling out to SQL again
+      - if @divisions.to_a.empty?
         %tr.odd
           - if @house.nil?
             %td(colspan="9") no votes listed

@@ -48,6 +48,7 @@ class DivisionsController < ApplicationController
     @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
     @divisions = @divisions.with_rebellions if @rdisplay2 == "rebels"
     @divisions = @divisions.joins(:whips).where(whips: {party: @party}) if @party
+    @divisions = @divisions.includes(:whips, :division_info, :wiki_motions)
   end
 
   def show
