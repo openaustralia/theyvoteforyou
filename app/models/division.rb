@@ -53,7 +53,7 @@ class Division < ActiveRecord::Base
   end
 
   # Using whips cache to calculate this. Is this the best way?
-  # No. should use values from division_info
+  # TODO No. should use values from division_info
   def aye_votes
     whips.to_a.sum(&:aye_votes)
   end
