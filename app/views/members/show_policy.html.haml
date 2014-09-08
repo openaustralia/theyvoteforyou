@@ -11,6 +11,5 @@
   %ul.nav.nav-tabs
     = nav_link("Summary", member_path2(@member, dmp: @policy.id), "Show every vote cast by this MP", @display.nil?)
     = nav_link("Full description", member_path2(@member, display: "motions", dmp: @policy.id), "Also show descriptions of every vote", @display == "motions")
-    = nav_link("Policy comparisons", member_path2(@member, display: "alldreams"), "Show all Policies and how this MP voted on them", @display == "alldreams")
 
 = render "policy_comparison", member: @member, policy: @policy, display: @display
