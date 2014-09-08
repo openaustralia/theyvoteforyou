@@ -51,8 +51,14 @@ class MembersController < ApplicationController
       redirect_to params.merge(display: nil)
       return
     end
-    if params[:mpc] == "Senate"
-      member = Member.in_australian_house("senate").with_name(params[:mpn].gsub("_", " ")).order(entered_house: :desc).first
+    if params[:mpc] == "Senate" || params[:mpc].nil? || params[:house].nil?
+      member = Member.with_name(params[:mpn].gsub("_", " "))
+      member = member.in_australian_house(params[:house]) if params[:house]
+      member = member.order(entered_house: :desc).first
+      if member.nil?
+        render 'member_not_found', status: 404
+        return
+      end
       redirect_to view_context.member_path2(member, dmp: params[:dmp], display: params[:display])
       return
     end

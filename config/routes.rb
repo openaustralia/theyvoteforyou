@@ -47,7 +47,7 @@ Publicwhip::Application.routes.draw do
   get 'mp.php' => 'members#show_redirect',
     constraints: lambda {|r| r.query_parameters["display"] == "summary" || r.query_parameters["display"] == "alldreams"}
   get 'mp.php' => 'members#show_redirect',
-    constraints: lambda {|r| r.query_parameters["mpc"] == "Senate"}
+    constraints: lambda {|r| r.query_parameters["mpc"] == "Senate" || r.query_parameters["mpc"].nil? || r.query_parameters["house"].nil?}
   get 'mp.php' => 'members#show', as: :member
 
   get 'divisions.php' => 'divisions#index', as: :divisions

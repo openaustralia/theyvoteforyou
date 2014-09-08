@@ -121,4 +121,14 @@ describe "routing redirects", :type => :request do
     get "/mp.php?house=senate&mpc=Senate&mpn=Judith_Adams"
     expect(response).to redirect_to "/mp.php?house=senate&mpc=WA&mpn=Judith_Adams"
   end
+
+  it do
+    get "/mp.php?house=representatives&mpn=Tony_Abbott"
+    expect(response).to redirect_to "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott"
+  end
+
+  it do
+    get "/mp.php?mpn=Tony_Abbott"
+    expect(response).to redirect_to "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott"
+  end
 end
