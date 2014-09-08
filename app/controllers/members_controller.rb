@@ -30,12 +30,19 @@ class MembersController < ApplicationController
   end
 
   def show_redirect
-    if params[:mpid]
-      member = Member.find_by!(id: params[:mpid])
-    elsif params[:id]
-      member = Member.find_by!(gid: params[:id])
+    if params[:mpid] || params[:id]
+      if params[:mpid]
+        member = Member.find_by!(id: params[:mpid])
+      elsif params[:id]
+        member = Member.find_by!(gid: params[:id])
+      end
+      redirect_to view_context.member_path2(member, dmp: params[:dmp], display: params[:display])
+      return
     end
-    redirect_to view_context.member_path2(member, dmp: params[:dmp], display: params[:display])
+    if params[:showall] == "yes"
+      redirect_to params.merge(showall: nil, display: "allvotes")
+      return
+    end
   end
 
   def show
@@ -43,10 +50,6 @@ class MembersController < ApplicationController
     name = params[:mpn].gsub("_", " ") if params[:mpn]
     @display = params[:display]
 
-    if params[:showall] == "yes"
-      redirect_to params.merge(showall: nil, display: "allvotes")
-      return
-    end
     if params[:dmp] && params[:display] == "allvotes"
       redirect_to params.merge(display: nil)
       return
