@@ -1,5 +1,7 @@
 module DataLoader
   class DivisionXML
+    MAXIMUM_MOTION_TEXT_SIZE = 15000
+
     def initialize(division_xml, house)
       @division_xml = division_xml
       @house = House.australian_to_uk(house)
@@ -48,11 +50,10 @@ module DataLoader
     end
 
     def motion
-      pwmotiontext = pwmotiontexts.map { |p| p.to_s + "\n\n" }.join
-      text = pwmotiontext.empty? ? previous_speeches.map { |s| speech_text s }.join : pwmotiontext
-      # Truncate really long motion text at the same size as formatted_motion_text
-      Rails.logger.warn "Truncating very long motion text for division: #{house} #{date} #{number}" if text.size > 15000
-      text.blank? ? '<p>No motion text available</p>' : encode_html_entities(text).truncate(15000)
+      truncated_pwmotiontexts = truncate_for_motion(pwmotiontexts.map { |p| p.to_s + "\n\n" })
+
+      text = truncated_pwmotiontexts.empty? ? truncate_for_motion(previous_speeches.map { |s| speech_text s }) : truncated_pwmotiontexts
+      text.blank? ? '<p class="motion-notice motion-notice-notext">No motion text available</p>' : encode_html_entities(text)
     end
 
     def clock_time
@@ -139,6 +140,23 @@ module DataLoader
       else
         "\n\n#{speech}"
       end
+    end
+
+    def truncate_for_motion(elements)
+      truncation_text = "<p class='motion-notice motion-notice-truncated'>Long debate text truncated.</p>"
+      output_text = ''
+
+      elements.each do |element|
+        if (output_text + element).size > (MAXIMUM_MOTION_TEXT_SIZE - truncation_text.size)
+          Rails.logger.warn "Truncating very long motion text for division: #{house} #{date} #{number}"
+          output_text += truncation_text
+          break
+        else
+          output_text += element
+        end
+      end
+
+      output_text
     end
 
     # Encode certain HTML entities as found in PHP loader
