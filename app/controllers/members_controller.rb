@@ -1,11 +1,8 @@
 class MembersController < ApplicationController
   def index_redirect
-    sort = params[:sort]
-    house = params[:house]
-
-    house = "representatives" if house == "all" || house.nil?
-    sort = nil if sort == "lastname"
-    redirect_to members_path(house: house, sort: sort)
+    redirect_to members_path(
+      house: (params[:house] && params[:house] != "all" ? params[:house] : "representatives"),
+      sort: (params[:sort] if params[:sort] != "lastname"))
   end
 
   def index
