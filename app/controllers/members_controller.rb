@@ -51,6 +51,11 @@ class MembersController < ApplicationController
       redirect_to params.merge(display: nil)
       return
     end
+    if params[:mpc] == "Senate"
+      member = Member.in_australian_house("senate").with_name(params[:mpn].gsub("_", " ")).order(entered_house: :desc).first
+      redirect_to view_context.member_path2(member, dmp: params[:dmp], display: params[:display])
+      return
+    end
   end
 
   def show
