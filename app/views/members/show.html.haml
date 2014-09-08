@@ -12,21 +12,19 @@
     = yield :title
 
 %ul.nav.nav-tabs
-  = nav_link("Summary", member_path2(@member, display: nil), "Overview of MP", @display.nil? || @display == "summary")
+  = nav_link("Summary", member_path2(@member, display: nil), "Overview of MP", @display.nil?)
   = nav_link("Votes attended", member_path2(@member, display: "allvotes"), "Show every vote cast by this MP", @display == "allvotes")
   = nav_link("All votes", member_path2(@member, display: "everyvote"), "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
   = nav_link("All friends", member_path2(@member, display: "allfriends"), "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
 
 - if @display == "allfriends"
   = render "possible_friends", all_friends: true, member: @member
-- elsif @display == "alldreams"
-  = render "policy_comparisons", member: @member, members: @members
 - else
   = render "summary", members: @members, member: @member, display: @display
   = render "external_links", member: @member
   - if @display == "allvotes"
     = render "votes_attended", members: @members, member: @member
-  - elsif @display == "summary" || @display.nil?
+  - elsif @display.nil?
     = render "interesting_votes", members: @members, member: @member
     = render "policy_comparisons", member: @member, members: @members
     = render "possible_friends", all_friends: false, member: @member
