@@ -101,4 +101,14 @@ describe "routing redirects", :type => :request do
     get "/mp.php?house=representatives&mpc=Warringah"
     expect(response).to redirect_to "/electorates/representatives/warringah"
   end
+
+  it do
+    get "/mps.php?house=representatives&sort=party"
+    expect(response).to redirect_to "/members/representatives?sort=party"
+  end
+
+  it do
+    get "/mps.php?house=senate"
+    expect(response).to redirect_to "/members/senate"
+  end
 end

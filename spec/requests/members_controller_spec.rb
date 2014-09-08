@@ -6,26 +6,17 @@ describe MembersController, :type => :request do
   fixtures :all
 
   describe "#index" do
-    it {compare_static("/mps.php")}
-    it {compare_static("/mps.php?sort=lastname")}
-    it {compare_static("/mps.php?sort=constituency")}
-    it {compare_static("/mps.php?sort=party")}
-    it {compare_static("/mps.php?sort=rebellions")}
-    it {compare_static("/mps.php?sort=attendance")}
+    it {compare_static("/mps.php?house=representatives")}
+    it {compare_static("/mps.php?house=representatives&sort=constituency")}
+    it {compare_static("/mps.php?house=representatives&sort=party")}
+    it {compare_static("/mps.php?house=representatives&sort=rebellions")}
+    it {compare_static("/mps.php?house=representatives&sort=attendance")}
 
     it {compare_static("/mps.php?house=senate")}
-    it {compare_static("/mps.php?house=senate&sort=lastname")}
     it {compare_static("/mps.php?house=senate&sort=constituency")}
     it {compare_static("/mps.php?house=senate&sort=party")}
     it {compare_static("/mps.php?house=senate&sort=rebellions")}
     it {compare_static("/mps.php?house=senate&sort=attendance")}
-
-    it {compare_static("/mps.php?house=all")}
-    it {compare_static("/mps.php?house=all&sort=lastname")}
-    it {compare_static("/mps.php?house=all&sort=constituency")}
-    it {compare_static("/mps.php?house=all&sort=party")}
-    it {compare_static("/mps.php?house=all&sort=rebellions")}
-    it {compare_static("/mps.php?house=all&sort=attendance")}
   end
 
   describe "#show" do
