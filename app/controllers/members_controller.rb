@@ -43,13 +43,6 @@ class MembersController < ApplicationController
       redirect_to params.merge(showall: nil, display: "allvotes")
       return
     end
-  end
-
-  def show
-    electorate = params[:mpc].gsub("_", " ") if params[:mpc]
-    name = params[:mpn].gsub("_", " ") if params[:mpn]
-    @display = params[:display]
-
     if params[:dmp] && params[:display] == "allvotes"
       redirect_to params.merge(display: nil)
       return
@@ -58,6 +51,12 @@ class MembersController < ApplicationController
       redirect_to params.merge(display: nil)
       return
     end
+  end
+
+  def show
+    electorate = params[:mpc].gsub("_", " ") if params[:mpc]
+    name = params[:mpn].gsub("_", " ") if params[:mpn]
+    @display = params[:display]
 
     @member = Member.with_name(name)
     @member = @member.in_australian_house(params[:house]) if params[:house]

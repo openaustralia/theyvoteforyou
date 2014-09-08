@@ -42,6 +42,10 @@ Publicwhip::Application.routes.draw do
   get '/members/:house/:mpc' => 'electorates#show', as: :electorate
   get 'mp.php' => 'members#show_redirect',
     constraints: lambda {|r| r.query_parameters["showall"] == "yes"}
+  get 'mp.php' => 'members#show_redirect',
+    constraints: lambda {|r| r.query_parameters["dmp"] && r.query_parameters["display"] == "allvotes"}
+  get 'mp.php' => 'members#show_redirect',
+    constraints: lambda {|r| r.query_parameters["display"] == "summary" || r.query_parameters["display"] == "alldreams"}
   get 'mp.php' => 'members#show', as: :member
 
   get 'divisions.php' => 'divisions#index', as: :divisions
