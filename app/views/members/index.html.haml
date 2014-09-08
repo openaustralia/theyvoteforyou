@@ -16,16 +16,16 @@
 
 %p
   Sort by:
-  = link_to_unless @sort.nil?, "Name", members_path(params.merge(sort: nil)), title: "Sort by surname"
+  = link_to_unless @sort.nil?, "Name", members_path(house: params[:house], sort: nil), title: "Sort by surname"
   |
   - if @house != "senate"
-    = link_to_unless @sort == "constituency", "Electorate", members_path(params.merge(sort: "constituency")), title: "Sort by electorate"
+    = link_to_unless @sort == "constituency", "Electorate", members_path(house: params[:house], sort: "constituency"), title: "Sort by electorate"
     |
-  = link_to_unless @sort == "party", "Party", members_path(params.merge(sort: "party")), title: "Sort by party"
+  = link_to_unless @sort == "party", "Party", members_path(house: params[:house], sort: "party"), title: "Sort by party"
   |
-  = link_to_unless @sort == "rebellions", "Rebellions", members_path(params.merge(sort: "rebellions")), title: "Sort by rebels"
+  = link_to_unless @sort == "rebellions", "Rebellions", members_path(house: params[:house], sort: "rebellions"), title: "Sort by rebels"
   |
-  = link_to_unless @sort == "attendance", "Attendance", members_path(params.merge(sort: "attendance")), title: "Sort by attendance"
+  = link_to_unless @sort == "attendance", "Attendance", members_path(house: params[:house], sort: "attendance"), title: "Sort by attendance"
 
 %table.table.table-striped
   %thead
