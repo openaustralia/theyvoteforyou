@@ -43,25 +43,25 @@ describe "routing redirects", :type => :request do
     expect(response).to redirect_to("/mp.php?dmp=1&house=senate&mpc=Tasmania&mpn=Eric_Abetz")
   end
 
-  it "/mps.php?house=all&sort=rebellions -> /mps.php?house=representatives&sort=rebellions" do
+  it do
     get "/mps.php?house=all&sort=rebellions"
-    expect(response).to redirect_to("/mps.php?house=representatives&sort=rebellions")
+    expect(response).to redirect_to("/members/representatives?sort=rebellions")
   end
 
-  it "/mps.php?house=representatives&sort=lastname -> /mps.php?house=representatives" do
+  it do
     get "/mps.php?house=representatives&sort=lastname"
-    expect(response).to redirect_to("/mps.php?house=representatives")
+    expect(response).to redirect_to("/members/representatives")
   end
 
   # Test that we don't need to get redirected twice
-  it "/mps.php?house=all&sort=lastname -> /mps.php?house=representatives" do
+  it do
     get "/mps.php?house=all&sort=lastname"
-    expect(response).to redirect_to("/mps.php?house=representatives")
+    expect(response).to redirect_to("/members/representatives")
   end
 
-  it "/mps.php?sort=rebellions -> /mps.php?house=representatives&sort=rebellions" do
+  it do
     get "/mps.php?sort=rebellions"
-    expect(response).to redirect_to("/mps.php?house=representatives&sort=rebellions")
+    expect(response).to redirect_to("/members/representatives?sort=rebellions")
   end
 
   it "/mp.php?mpid=1&dmp=1 -> /mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&dmp=1" do

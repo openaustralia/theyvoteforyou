@@ -17,6 +17,13 @@ Publicwhip::Application.routes.draw do
 
   get 'mps.php' => 'members#index_redirect',
     constraints: lambda {|r| r.query_parameters["house"] == "all" || r.query_parameters["house"].nil? || r.query_parameters["sort"] == "lastname" || r.query_parameters["parliament"]}
+  get 'mps.php' => redirect {|p,r|
+    if r.query_parameters["sort"]
+      "/members/#{r.query_parameters['house']}?sort=#{r.query_parameters['sort']}"
+    else
+      "/members/#{r.query_parameters['house']}"
+    end
+  }
   get 'mp.php' => 'members#show_redirect',
     constraints: lambda {|r| r.query_parameters["mpid"] || r.query_parameters["id"]}
 
@@ -27,14 +34,7 @@ Publicwhip::Application.routes.draw do
   get 'faq.php' => 'home#faq', as: :help
   get 'search.php' => 'home#search', as: :search
 
-  get 'mps.php' => redirect {|p,r|
-    if r.query_parameters["sort"]
-      "/members/#{r.query_parameters['house']}?sort=#{r.query_parameters['sort']}"
-    else
-      "/members/#{r.query_parameters['house']}"
-    end
-  }, as: :members
-  get '/members/:house' => 'members#index'
+  get '/members/:house' => 'members#index', as: :members
   get 'mp.php' => 'electorates#show_redirect',
     constraints: lambda {|r| r.query_parameters["mpn"].nil? && (r.query_parameters["display"] || r.query_parameters["dmp"] || r.query_parameters["house"].nil?)}
   get 'mp.php' => redirect{|p,r| "/electorates/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase}"},
