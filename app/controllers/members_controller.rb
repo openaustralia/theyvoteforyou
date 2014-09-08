@@ -84,13 +84,12 @@ class MembersController < ApplicationController
       # Pick the member where the votes took place
       @member = @member.person.member_for_policy(@policy)
       render "show_policy"
-      return
+    else      
+      @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
+      # Trying this hack. Seems mighty weird
+      # TODO Get rid of this
+      @member = @members.first if @member.senator?
+      render "show"
     end
-
-    @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
-    # Trying this hack. Seems mighty weird
-    # TODO Get rid of this
-    @member = @members.first if @member.senator?
-    render "show"
   end
 end
