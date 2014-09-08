@@ -99,7 +99,7 @@ describe "routing redirects", :type => :request do
 
   it do
     get "/mp.php?house=representatives&mpc=Warringah"
-    expect(response).to redirect_to "/electorates/representatives/warringah"
+    expect(response).to redirect_to "/members/representatives/warringah"
   end
 
   it do
