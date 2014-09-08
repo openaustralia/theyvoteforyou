@@ -65,13 +65,13 @@ class MembersController < ApplicationController
   end
 
   def show
-    electorate = params[:mpc].gsub("_", " ") if params[:mpc]
-    name = params[:mpn].gsub("_", " ") if params[:mpn]
+    electorate = params[:mpc].gsub("_", " ")
+    name = params[:mpn].gsub("_", " ")
     @display = params[:display]
 
     @member = Member.with_name(name)
-    @member = @member.in_australian_house(params[:house]) if params[:house]
-    @member = @member.where(constituency: electorate) if electorate
+    @member = @member.in_australian_house(params[:house])
+    @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
     if @member.nil?
