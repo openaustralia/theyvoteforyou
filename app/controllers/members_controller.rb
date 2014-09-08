@@ -65,7 +65,7 @@ class MembersController < ApplicationController
 
     @member = Member.with_name(name)
     @member = @member.in_australian_house(params[:house]) if params[:house]
-    @member = @member.where(constituency: electorate) if electorate && electorate != "Senate"
+    @member = @member.where(constituency: electorate) if electorate
     @member = @member.order(entered_house: :desc).first
 
     if @member.nil?
