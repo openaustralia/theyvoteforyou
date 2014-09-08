@@ -51,7 +51,7 @@ class MembersController < ApplicationController
       redirect_to params.merge(display: nil)
       return
     end
-    if params[:display] == "summary"
+    if params[:display] == "summary" || params[:display] == "alldreams"
       redirect_to params.merge(display: nil)
       return
     end
