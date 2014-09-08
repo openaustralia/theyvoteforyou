@@ -80,7 +80,7 @@ describe Whip, :type => :model do
       it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {["aye", 0] => 1})}
       it do
         Whip.update_all!
-        expect(Whip.all.count).to eq 1
+        expect(Whip.all.count).to eq 2
         w = Whip.find_by(division: division, party: "A")
         expect(w.aye_votes).to eq 1
         expect(w.aye_tells).to eq 0
@@ -90,12 +90,21 @@ describe Whip, :type => :model do
         expect(w.abstention_votes).to eq 0
         expect(w.possible_votes).to eq 1
         expect(w.whip_guess).to eq "aye"
+        w = Whip.find_by(division: division, party: "B")
+        expect(w.aye_votes).to eq 0
+        expect(w.aye_tells).to eq 0
+        expect(w.no_votes).to eq 0
+        expect(w.no_tells).to eq 0
+        expect(w.both_votes).to eq 0
+        expect(w.abstention_votes).to eq 0
+        expect(w.possible_votes).to eq 3
+        expect(w.whip_guess).to eq "unknown"
       end
 
       context "free vote" do
         it do
           # TODO get rid of use of any_instance. It's a code smell.
-          expect_any_instance_of(Whip).to receive(:free_vote?).and_return(true)
+          allow_any_instance_of(Whip).to receive(:free_vote?).and_return(true)
           Whip.update_all!
           w = Whip.find_by(division: division, party: "A")
           expect(w.whip_guess).to eq "none"
@@ -105,6 +114,7 @@ describe Whip, :type => :model do
       context "whipless party vote" do
         it do
           expect(Party).to receive(:whipless?).with("A").and_return(true)
+          expect(Party).to receive(:whipless?).with("B").and_return(false)
           Whip.update_all!
           w = Whip.find_by(division: division, party: "A")
           expect(w.whip_guess).to eq "none"

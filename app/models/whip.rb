@@ -1,23 +1,32 @@
 class Whip < ActiveRecord::Base
   belongs_to :division
 
-  # TODO We should also add a Whip record for a party that could have voted on a division but didn't
   def self.update_all!
     all_possible_votes = Division.joins("LEFT JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.date AND divisions.date < members.left_house").group("divisions.id", :party).count
     all_votes = calc_all_votes_per_party2
 
-    all_votes.keys.each do |division_id, party|
+    all_possible_votes.keys.each do |division_id, party|
       votes = all_votes[[division_id, party]]
       possible_votes = all_possible_votes[[division_id, party]]
 
       whip = Whip.find_or_initialize_by(division_id: division_id, party: party)
 
-      whip.aye_votes = votes[["aye", 0]] || 0
-      whip.aye_tells = votes[["aye", 1]] || 0
-      whip.no_votes = votes[["no", 0]] || 0
-      whip.no_tells = votes[["no", 1]] || 0
-      whip.both_votes = votes[["both", 0]] || 0
-      whip.abstention_votes = votes[["abstention", 0]] || 0
+      if votes
+        whip.aye_votes = votes[["aye", 0]] || 0
+        whip.aye_tells = votes[["aye", 1]] || 0
+        whip.no_votes = votes[["no", 0]] || 0
+        whip.no_tells = votes[["no", 1]] || 0
+        whip.both_votes = votes[["both", 0]] || 0
+        whip.abstention_votes = votes[["abstention", 0]] || 0
+      else
+        whip.aye_votes = 0
+        whip.aye_tells = 0
+        whip.no_votes = 0
+        whip.no_tells = 0
+        whip.both_votes = 0
+        whip.abstention_votes = 0
+      end
+      
       whip.possible_votes = possible_votes || 0
       if Party.whipless?(whip.party) || whip.free_vote?
         whip.whip_guess = "none"
