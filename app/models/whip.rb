@@ -3,10 +3,13 @@ class Whip < ActiveRecord::Base
 
   # TODO We should also add a Whip record for a party that could have voted on a division but didn't
   def self.update_all!
-    possible_votes = Division.joins("LEFT JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.date AND divisions.date < members.left_house").group("divisions.id", :party).count
+    all_possible_votes = Division.joins("LEFT JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.date AND divisions.date < members.left_house").group("divisions.id", :party).count
+    all_votes = calc_all_votes_per_party2
 
-    calc_all_votes_per_party2.each do |k, votes|
-      division_id, party = k
+    all_votes.keys.each do |division_id, party|
+      votes = all_votes[[division_id, party]]
+      possible_votes = all_possible_votes[[division_id, party]]
+
       whip = Whip.find_or_initialize_by(division_id: division_id, party: party)
 
       whip.aye_votes = votes[["aye", 0]] || 0
@@ -15,7 +18,7 @@ class Whip < ActiveRecord::Base
       whip.no_tells = votes[["no", 1]] || 0
       whip.both_votes = votes[["both", 0]] || 0
       whip.abstention_votes = votes[["abstention", 0]] || 0
-      whip.possible_votes = possible_votes[[division_id, party]] || 0
+      whip.possible_votes = possible_votes || 0
       if Party.whipless?(whip.party) || whip.free_vote?
         whip.whip_guess = "none"
       else
