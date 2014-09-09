@@ -1,9 +1,7 @@
-%h2#exlinks External Links
+%h2#exlinks.h4 External Links
 
-%ul
-  %li
-    See
-    = succeed "'s" do
-      %strong= member.name
-    Parliamentary speeches at:
-    = link_to "OpenAustralia.org", "http://www.openaustralia.org/mp/?m=#{member.id}"
+= link_to "http://www.openaustralia.org/mp/?m=#{member.id}", :class => "btn btn-default" do
+  See
+  = succeed "’s" do
+    = member.name
+  Parliamentary speeches at OpenAustralia.org
