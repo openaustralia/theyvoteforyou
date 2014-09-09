@@ -14,8 +14,8 @@
 - if @display.nil?
   = render "summary", members: @members, member: @member, display: @display
   = render "external_links", member: @member
-  = render "interesting_votes", members: @members, member: @member
   = render "policy_comparisons", member: @member, members: @members
+  = render "interesting_votes", members: @members, member: @member
   = render "possible_friends", all_friends: false, member: @member
 - elsif @display == "allfriends"
   = render "possible_friends", all_friends: true, member: @member
