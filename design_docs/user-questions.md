@@ -24,8 +24,11 @@ What are the initial questions that come to mind when first presented with a "vi
     * What/where is their electorate?
         * What kind of a place is that?
     * What party are they from?
-* What is there position on the issues I care about?
-* How often are they absent?
+* What is interesting about this member?
+    - is their attendence unusual?
+    - do they ever rebel?
+* What is their position on the issues I care about?
+* Which other members are they similar to?
 
 
 ## Policy
