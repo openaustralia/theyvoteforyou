@@ -82,7 +82,7 @@ class Member < ActiveRecord::Base
 
   def full_name_no_electorate
     if senator?
-      name
+      "Senator #{name}"
     else
       "#{name} MP"
     end
