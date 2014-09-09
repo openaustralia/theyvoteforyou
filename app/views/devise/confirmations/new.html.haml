@@ -1,9 +1,12 @@
-%h2 Resend confirmation instructions
+- content_for :title, 'Resend confirmation instructions'
+
+%h2= yield :title
+
 = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
   = devise_error_messages!
-  %div
+  .form-group
     = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true
-  %div= f.submit "Resend confirmation instructions"
+    = f.email_field :email, autofocus: true, class: "form-control"
+
+  = f.submit "Resend confirmation instructions", class: "btn btn-default"
 = render "devise/shared/links"
