@@ -6,14 +6,12 @@
       %span.electorate= member.electorate
       #{' in the Senate' if member.senator?},
       %span.member-period>
-        - # TODO: change '1 Jul 2014' to month year format: 'July 2014'
-        #{formatted_date(vote_records_start_date(member), true)} &ndash; #{member_until(member)}
+        #{vote_records_start_date(member)} &ndash; #{member_until(member)}
   - else
     %p
       Previously represented <span class="electorate">#{member.electorate}</span>#{" in the Senate" if member.senator?},
       %span.member-period
-        - # TODO: change '1 Jul 2014' to month year format: 'July 2014'
-        #{formatted_date(vote_records_start_date(member), true)} &ndash; #{member_until(member)}
+        #{vote_records_start_date(member)} &ndash; #{member_until(member)}
 
 
 - if !member.person.current_offices.empty?

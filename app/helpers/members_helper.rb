@@ -9,11 +9,11 @@ module MembersHelper
 
   def vote_records_start_date(member)
     # HACK WARNING
-    [member.entered_house, Date.new(2006,1,1)].max
+    [member.entered_house, Date.new(2006,1,1)].max.strftime('%B %Y')
   end
 
   def member_until(member)
-    member.left_house > Date.today ? 'still in office' : formatted_date(member.left_house, true)
+    member.left_house > Date.today ? 'still in office' : member.left_house.strftime('%B %Y')
   end
 
   def vote_class(vote)
