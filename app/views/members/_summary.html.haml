@@ -1,59 +1,43 @@
-%h2#summary Summary
+- members.each do |member|
+  - if member.currently_in_parliament?
+    %p.lead
+      - # TODO: if not a senator, add the state after the electorate. e.g. Goldstein, Vic
+      Represents
+      %span.electorate= member.electorate
+      #{' in the Senate' if member.senator?},
+      %span.member-period>
+        #{vote_records_start_date(member)} &ndash; #{member_until(member)}
+  - else
+    %p
+      Previously represented <span class="electorate">#{member.electorate}</span>#{" in the Senate" if member.senator?},
+      %span.member-period
+        #{vote_records_start_date(member)} &ndash; #{member_until(member)}
 
 - if !member.person.current_offices.empty?
   %p
-    %b= member.name
-    is currently
     -# TODO: The UK uses extra Offices data like department so this will need to be expanded
-    = member.person.current_offices.map{|o| "<b>#{o.position}</b>" }.to_sentence(two_words_connector: ", and ").html_safe
+    = member.person.current_offices.map{|o| "<strong>#{o.position}</strong>" }.to_sentence(two_words_connector: ", and ").html_safe
+
+- if member.has_whip?
+  %p
+    = member.party_long + " member, "
+    %strong
+      - if member.rebellions == 0
+        never rebels.
+      - else
+        rebels on #{fraction_to_percentage_display(member.rebellions_fraction, precision: 1)} of votes.
+    %small= link_to "explain rebellions", help_path(anchor: "clarify")
+- else
+  %p= member.party_long
+
+%p
+  Attended #{fraction_to_percentage_display(member.attendance_fraction, precision: 1)} of votes (#{member.votes_attended} of #{member.votes_possible}).
+  %small= link_to "explain attendance", help_path(anchor: "clarify")
+
+- # TODO: add back in the rebellion and attendance rate for previous membership.
+
 %p
   %em Note:
   our voting records currently only go back to the
   beginning of 2006 for the House of Representatives and the Senate
   (#{link_to "more details", help_path(anchor: "timeperiod")}).
-
-%table.table.table-striped
-  %thead
-    %tr
-      - if members.map{|m| m.electorate}.uniq.count > 1
-        %th Electorate
-      %th From
-      %th To
-      %th Party
-      %th Rebellions (#{link_to "explain...", help_path(anchor: "clarify")})
-      %th Attendance (#{link_to "explain...", help_path(anchor: "clarify")})
-
-  %tbody
-    - members.each do |member|
-      %tr
-        - if members.map{|m| m.electorate}.uniq.count > 1
-          %td{class: member.house}
-            - if member.senator?
-              Senator for
-            = member.electorate
-        %td= vote_records_start_date(member)
-        %td= member_until(member)
-        %td= member.party_long
-        %td.percent
-          - if !member.has_whip?
-            no whip
-          - else
-            - if member.rebellions.nil?
-              votes
-            - else
-              = pluralize(member.rebellions, "vote")
-            out of
-            - if member.votes_attended == 0
-              0
-            - elsif member.votes_attended
-              #{member.votes_attended},
-              %b= fraction_to_percentage_display(member.rebellions_fraction, precision: 1)
-        %td.percent
-          - if member.votes_attended.nil?
-            votes
-          - else
-            = pluralize(member.votes_attended, "vote")
-          out of
-          - if member.votes_possible
-            #{member.votes_possible},
-            %b= fraction_to_percentage_display(member.attendance_fraction, precision: 1)
