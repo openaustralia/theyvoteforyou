@@ -9,7 +9,7 @@ module MembersHelper
 
   def vote_records_start_date(member)
     # HACK WARNING
-    formatted_date([member.entered_house, Date.new(2006,1,1)].max, true)
+    [member.entered_house, Date.new(2006,1,1)].max
   end
 
   def member_until(member)
