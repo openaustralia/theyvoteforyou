@@ -18,7 +18,7 @@ What are the initial questions that come to mind when first presented with a "vi
 ## Person
 
 * Who is this person?
-    * What is there name?
+    * What is their name?
     * Do they have a special role? (e.g. Minister/Front bench)
     * What do they look like?
     * What/where is their electorate?
