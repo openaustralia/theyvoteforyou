@@ -5,10 +5,7 @@
   = member_type(member.australian_house) + "'s"
   vote differed from the majority vote of their party (Rebel).
 %p
-  See also all votes...
-  = link_to "attended", member_path2(member, display: "allvotes", anchor: "divisions")
-  |
-  = link_to "possible", member_path2(member, display: "everyvote", anchor: "divisions")
+  See also #{link_to "all votes", member_path2(member, display: "everyvote")}.
 
 %table.table.table-striped
   - members.each do |member|
