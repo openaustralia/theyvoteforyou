@@ -1,4 +1,15 @@
 # URL where Public Whip XML data files can be found
 xml_data_base_url: http://data.openaustralia.org/
 
+# Google Analytics (omit to disable)
 google_analytics_tracking_id: UA-xxxxxxx-xx
+
+# Only required in production, generate with `bundle exec rake secret`
+secret_key_base: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# http://cuttlefish.io/ username and password to send emails
+cuttlefish_user_name: some_user
+cuttlefish_password: some_password
+
+# Honeybadger error reporting API key
+honeybadger_api_key: xxxxxxxx

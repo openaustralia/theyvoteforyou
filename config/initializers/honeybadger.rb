@@ -1,3 +1,3 @@
 Honeybadger.configure do |config|
-  config.api_key = Rails.application.secrets.honeybadger_api_key
+  config.api_key = Settings.honeybadger_api_key
 end
