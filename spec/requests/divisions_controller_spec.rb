@@ -216,7 +216,7 @@ describe DivisionsController, :type => :request do
       # Rails does the recalculation in a background job so make sure that's done
       Delayed::Worker.new.work_off
       # Compare Rails what the PHP app would generate (because it would rebuild it's cache)
-      compare_static '/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate', true
+      compare_static '/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate', true, false, "_2"
     end
   end
 end

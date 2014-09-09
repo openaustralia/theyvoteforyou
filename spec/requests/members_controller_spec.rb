@@ -22,27 +22,27 @@ describe MembersController, :type => :request do
   describe "#show" do
     it {compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives")}
     it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives")}
-    it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate", false, false, "_2")}
+    it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate")}
 
     it {compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allvotes")}
     it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&display=allvotes")}
-    it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate&display=allvotes")}
+    it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate&display=allvotes")}
 
     it {compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=everyvote")}
     it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&display=everyvote")}
-    it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate&display=everyvote")}
+    it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate&display=everyvote")}
 
     it {compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allfriends")}
     it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&display=allfriends")}
-    it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate&display=allfriends")}
+    it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate&display=allfriends")}
 
     it {compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&dmp=1")}
     it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&dmp=1")}
-    it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate&dmp=1")}
+    it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate&dmp=1")}
 
     it {compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&dmp=1&display=motions")}
     it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&dmp=1&display=motions")}
-    it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Senate&house=senate&dmp=1&display=motions")}
+    it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate&dmp=1&display=motions")}
 
     # Test free teller under Interesting Votes
     it {compare_static("/mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives")}
@@ -63,7 +63,6 @@ describe MembersController, :type => :request do
         Electorate.create(id: 143, name: "New England", main_name: true)
       end
 
-      it { compare_static("/mp.php?mpn=Barnaby_Joyce") }
       it { compare_static("/mp.php?mpn=Barnaby_Joyce&mpc=New_England&house=representatives") }
     end
 
@@ -73,7 +72,7 @@ describe MembersController, :type => :request do
     end
 
     it "should 404 when the wrong name is given for a correct electorate" do
-      get "/mp.php?house=representatives&mpc=Warringah&mpn=foo_bar"
+      get "/members/representatives/warringah/foo_bar"
       expect(response.status).to eq(404)
     end
   end

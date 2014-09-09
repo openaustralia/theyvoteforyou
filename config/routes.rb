@@ -48,7 +48,15 @@ Publicwhip::Application.routes.draw do
 
   get '/members/:house' => 'members#index', as: :members
   get '/members/:house/:mpc' => 'electorates#show', as: :electorate
-  get 'mp.php' => 'members#show', as: :member
+  get 'mp.php' => redirect{|p,r|
+    result = "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase}/#{r.query_parameters['mpn'].downcase}"
+    queries = []
+    queries << "display=#{r.query_parameters['display']}" if r.query_parameters["display"]
+    queries << "dmp=#{r.query_parameters['dmp']}" if r.query_parameters['dmp']
+    result += "?" + queries.join("&") unless queries.empty?
+    result
+  }, as: :member
+  get '/members/:house/:mpc/:mpn' => 'members#show'
 
   get 'divisions.php' => 'divisions#index', as: :divisions
   get 'division.php' => 'divisions#show', as: :division
