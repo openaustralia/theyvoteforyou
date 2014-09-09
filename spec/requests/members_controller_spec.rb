@@ -24,10 +24,6 @@ describe MembersController, :type => :request do
     it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives")}
     it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate")}
 
-    it {compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allvotes")}
-    it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&display=allvotes")}
-    it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate&display=allvotes")}
-
     it {compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=everyvote")}
     it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&display=everyvote")}
     it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate&display=everyvote")}

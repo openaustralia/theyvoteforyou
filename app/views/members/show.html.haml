@@ -11,12 +11,6 @@
     = image_tag(@member.large_image_url, alt: "Photo of #{@member.name_without_title}", size: "88x115")
     = yield :title
 
-%ul.nav.nav-tabs
-  = nav_link("Summary", member_path2(@member, display: nil), "Overview of MP", @display.nil?)
-  = nav_link("Votes attended", member_path2(@member, display: "allvotes"), "Show every vote cast by this MP", @display == "allvotes")
-  = nav_link("All votes", member_path2(@member, display: "everyvote"), "Show even divisions where the MP was absent, but could have voted", @display == "everyvote")
-  = nav_link("All friends", member_path2(@member, display: "allfriends"), "Show all MPs in order of how similarly to this MP they voted", @display == "allfriends")
-
 - if @display.nil?
   = render "summary", members: @members, member: @member, display: @display
   = render "external_links", member: @member

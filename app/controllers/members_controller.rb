@@ -62,6 +62,9 @@ class MembersController < ApplicationController
       redirect_to view_context.member_path2(member, dmp: params[:dmp], display: params[:display])
       return
     end
+    if params[:display] == "allvotes"
+      redirect_to params.merge(display: "everyvote")
+    end
   end
 
   def show
@@ -84,7 +87,7 @@ class MembersController < ApplicationController
       # Pick the member where the votes took place
       @member = @member.person.member_for_policy(@policy)
       render "show_policy"
-    else      
+    else
       @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
       # Trying this hack. Seems mighty weird
       # TODO Get rid of this

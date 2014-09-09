@@ -1,6 +1,6 @@
-%h2#divisions All Votes
+%h2#divisions #{link_to @member.full_name_no_electorate, member_path2(@member, display: nil), title: "Overview of #{@member.full_name}"} : All Votes
 
-%p All votes this MP could have attended.
+%p All votes #{@member.full_name_no_electorate} could have attended.
 
 %table.table.table-striped
   - members.each do |member|
