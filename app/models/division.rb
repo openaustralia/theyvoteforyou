@@ -138,6 +138,10 @@ class Division < ActiveRecord::Base
     aye_majority.abs
   end
 
+  def passed?
+    aye_majority >= 1
+  end
+
   # TODO We should really be doing any tidying up of the clock time in the loader and
   # we should make the field an actual time rather than a free text field
   def clock_time
