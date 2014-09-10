@@ -79,6 +79,18 @@ module DivisionsHelper
     vote == 'aye3' || vote == 'no3' ? "#{vote[0...-1]} (strong)" : vote
   end
 
+  def division_outcome(division)
+    if division.tied?
+      "Draw"
+    else
+      if division.passed?
+        "Passed"
+      else
+        "Not passed"
+      end
+    end
+  end
+
   def member_voted_with(member, division)
     # We're using a different member for the link to try to make things the same as the php
     # TODO get rid of this silliness as soon as we can
