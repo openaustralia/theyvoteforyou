@@ -5,6 +5,10 @@ module ApplicationHelper
     end
   end
 
+  def nav_link_unless_current(name, path, title)
+    nav_link(name, path, title, current_page?(path))
+  end
+
   def electorate_path2(member)
     electorate_path({
         mpc: (member.url_electorate.downcase if member),
