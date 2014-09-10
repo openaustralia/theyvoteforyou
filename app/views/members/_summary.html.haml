@@ -1,25 +1,14 @@
 - members.each_with_index do |member, i|
-  %p{class: (:lead if i == 0)}
-    = member_type_place_date_sentence(member)
-
-- if !member.person.current_offices.empty?
-  %p
-    -# TODO: The UK uses extra Offices data like department so this will need to be expanded
-    = member.person.current_offices.map{|o| "<strong>#{o.position}</strong>" }.to_sentence(two_words_connector: ", and ").html_safe
+  %p= member_type_place_date_sentence(member)
 
 - if member.person.has_whip?
   %p
-    -# TODO This wording isn't quite correct because here we are calculating the rebellion fraction for the
-    -# person rather than the member but we are saying which party they are part of (which is a member thing)
-    = member.party_long + " member, "
     %strong
       - if member.person.rebellions == 0
-        never rebels.
+        Never rebels.
       - else
-        rebels on #{fraction_to_percentage_display(member.person.rebellions_fraction, precision: 1)} of votes.
+        Rebels on #{fraction_to_percentage_display(member.person.rebellions_fraction, precision: 1)} of votes.
     %small= link_to "explain rebellions", help_path(anchor: "clarify")
-- else
-  %p= member.party_long
 
 %p
   Attended #{fraction_to_percentage_display(member.person.attendance_fraction, precision: 1)} of votes (#{member.person.votes_attended} of #{member.person.votes_possible}).
