@@ -19,7 +19,5 @@
   = render "possible_friends", all_friends: false, member: @member
 - elsif @display == "allfriends"
   = render "possible_friends", all_friends: true, member: @member
-- elsif @display == "allvotes"
-  = render "votes_attended", members: @members, member: @member
 - elsif @display == "everyvote"
   = render "all_votes", members: @members
