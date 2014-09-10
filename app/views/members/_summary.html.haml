@@ -3,10 +3,7 @@
     - unless member.currently_in_parliament?
       Former
     - # TODO: if not a senator, add the state after the electorate. e.g. Goldstein, Vic
-    - if member.senator?
-      Senator
-    -else
-      Representative
+    = member_type(member.australian_house)
     for
     = succeed ',' do
       %span.electorate= member.electorate
