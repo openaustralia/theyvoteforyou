@@ -69,7 +69,6 @@ class MembersController < ApplicationController
   def friends
     electorate = params[:mpc].gsub("_", " ")
     name = params[:mpn].gsub("_", " ")
-    @display = "allfriends"
 
     @member = Member.with_name(name)
     @member = @member.in_australian_house(params[:house])
@@ -84,7 +83,6 @@ class MembersController < ApplicationController
     # Trying this hack. Seems mighty weird
     # TODO Get rid of this
     @member = @members.first if @member.senator?
-    render "show"
   end
 
   def votes
@@ -105,7 +103,6 @@ class MembersController < ApplicationController
     # Trying this hack. Seems mighty weird
     # TODO Get rid of this
     @member = @members.first if @member.senator?
-    render "show"
   end
 
   def full

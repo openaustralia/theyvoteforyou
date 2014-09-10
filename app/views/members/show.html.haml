@@ -1,10 +1,6 @@
 - content_for :title do
-  - if @display == "allfriends"
-    Friends of
-    = @member.full_name
-  - else
-    Voting Record —
-    = @member.full_name2
+  Voting Record —
+  = @member.full_name2
 
 .page-header
   = image_tag(@member.large_image_url, alt: "Photo of #{@member.name_without_title}", size: "88x115")
@@ -15,14 +11,8 @@
       -# TODO: The UK uses extra Offices data like department so this will need to be expanded
       = @member.person.current_offices.map{|o| "<strong>#{o.position}</strong>" }.to_sentence(two_words_connector: ", and ").html_safe
 
-
-- if @display.nil?
-  = render "summary", members: @members, member: @member, display: @display
-  = render "external_links", member: @member
-  = render "policy_comparisons", member: @member, members: @members
-  = render "interesting_votes", members: @members, member: @member
-  = render "possible_friends", all_friends: false, member: @member
-- elsif @display == "allfriends"
-  = render "possible_friends", all_friends: true, member: @member
-- elsif @display == "everyvote"
-  = render "all_votes", members: @members
+= render "summary", members: @members, member: @member, display: @display
+= render "external_links", member: @member
+= render "policy_comparisons", member: @member, members: @members
+= render "interesting_votes", members: @members, member: @member
+= render "possible_friends", all_friends: false, member: @member
