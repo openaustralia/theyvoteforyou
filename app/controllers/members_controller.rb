@@ -129,6 +129,26 @@ class MembersController < ApplicationController
     render "show_policy"
   end
 
+  def policy
+    electorate = params[:mpc].gsub("_", " ")
+    name = params[:mpn].gsub("_", " ")
+
+    @member = Member.with_name(name)
+    @member = @member.in_australian_house(params[:house])
+    @member = @member.where(constituency: electorate)
+    @member = @member.order(entered_house: :desc).first
+
+    if @member.nil?
+      render 'member_not_found', status: 404
+      return
+    end
+
+    @policy = Policy.find(params[:dmp])
+    # Pick the member where the votes took place
+    @member = @member.person.member_for_policy(@policy)
+    render "show_policy"
+  end
+
   def show
     electorate = params[:mpc].gsub("_", " ")
     name = params[:mpn].gsub("_", " ")
@@ -143,17 +163,10 @@ class MembersController < ApplicationController
       return
     end
 
-    if params[:dmp]
-      @policy = Policy.find(params[:dmp])
-      # Pick the member where the votes took place
-      @member = @member.person.member_for_policy(@policy)
-      render "show_policy"
-    else
-      @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
-      # Trying this hack. Seems mighty weird
-      # TODO Get rid of this
-      @member = @members.first if @member.senator?
-      render "show"
-    end
+    @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
+    # Trying this hack. Seems mighty weird
+    # TODO Get rid of this
+    @member = @members.first if @member.senator?
+    render "show"
   end
 end

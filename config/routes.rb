@@ -64,7 +64,7 @@ Publicwhip::Application.routes.draw do
     result
   }, as: :member
   get '/members/:house/:mpc/:mpn' => 'members#show'
-  get '/members/:house/:mpc/:mpn/policies/:dmp' => 'members#show'
+  get '/members/:house/:mpc/:mpn/policies/:dmp' => 'members#policy'
   get '/members/:house/:mpc/:mpn/policies/:dmp/full' => 'members#full'
   get '/members/:house/:mpc/:mpn/friends' => 'members#friends'
   get '/members/:house/:mpc/:mpn/votes' => 'members#votes'
