@@ -25,4 +25,20 @@ module MembersHelper
       ""
     end
   end
+
+  def member_type_place_date_sentence(member)
+    if member.currently_in_parliament?
+      # TODO: if not a senator, add the state after the electorate. e.g. Goldstein, Vic
+      type_part = member_type(member.australian_house)
+      place_part = content_tag(:span, member.electorate, class: 'electorate')
+      date_part = content_tag(:span, "since #{vote_records_start_date(member)}", class: 'member-period')
+    else
+      # TODO: if not a senator, add the state after the electorate. e.g. Goldstein, Vic
+      type_part = "Former #{member_type(member.australian_house)}"
+      place_part = content_tag(:span, member.electorate, class: 'electorate') + ','
+      date_part = content_tag(:span, "#{vote_records_start_date(member)} – #{member_until(member)}", class: 'member-period')
+    end
+
+    "#{type_part} for #{place_part} #{date_part}".html_safe
+  end
 end
