@@ -8,21 +8,19 @@ module MembersHelper
   end
 
   def member_policy_path2(member, policy)
-    member_policy_path(
-      mpn: member.url_name.downcase,
-      mpc: member.url_electorate.downcase,
-      house: member.australian_house,
-      dmp: policy.id
-    )
+    member_policy_path(member_params(member).merge(dmp: policy.id))
   end
 
   def full_member_policy_path2(member, policy)
-    full_member_policy_path(
+    full_member_policy_path(member_params(member).merge(dmp: policy.id))
+  end
+
+  def member_params(member)
+    {
       mpn: member.url_name.downcase,
       mpc: member.url_electorate.downcase,
-      house: member.australian_house,
-      dmp: policy.id
-    )
+      house: member.australian_house
+    }
   end
 
   def vote_records_start_date(member)
