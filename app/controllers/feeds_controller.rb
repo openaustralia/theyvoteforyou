@@ -3,7 +3,7 @@ class FeedsController < ApplicationController
     @members = Member.in_australian_house(params[:house] || 'representatives').joins(:member_info).order(:entered_house, :last_name, :first_name, :constituency)
     @most_recent_division = Division.most_recent_date
 
-    @current_members_by_attendance = Ranker.rank(@members.current, by: :attendance_fraction)
+    @current_members_by_attendance = Ranker.rank(@members.current, by: lambda{|m| m.person.attendance_fraction})
     @current_members_count = @members.current.count
 
     members_with_rebellions = @members.current.to_a.delete_if { |m| !m.person.rebellions_fraction }

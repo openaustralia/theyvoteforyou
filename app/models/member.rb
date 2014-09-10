@@ -145,11 +145,6 @@ class Member < ActiveRecord::Base
     australian_house == "senate"
   end
 
-  # Returns a number between 0 and 1 or nil
-  def attendance_fraction
-    votes_attended.to_f / votes_possible if member_info && votes_possible > 0
-  end
-
   def url_name
     original_name_without_title.gsub(" ", "_")
   end

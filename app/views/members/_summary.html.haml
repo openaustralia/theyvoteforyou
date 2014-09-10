@@ -33,7 +33,7 @@
   %p= member.party_long
 
 %p
-  Attended #{fraction_to_percentage_display(member.attendance_fraction, precision: 1)} of votes (#{member.votes_attended} of #{member.votes_possible}).
+  Attended #{fraction_to_percentage_display(member.person.attendance_fraction, precision: 1)} of votes (#{member.person.votes_attended} of #{member.person.votes_possible}).
   %small= link_to "explain attendance", help_path(anchor: "clarify")
 
 - # TODO: add back in the rebellion and attendance rate for previous membership.

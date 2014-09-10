@@ -26,6 +26,9 @@ class MembersController < ApplicationController
       raise "Unexpected value"
     end
 
+    # We're sorting to different values for attendance_fraction and rebellions_fraction in the database
+    # and in the rest of the app for display
+    # TODO: Fix this bug
     @members = Member.joins('LEFT OUTER JOIN `member_infos` ON `member_infos`.`member_id` = `members`.`id`').select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").in_australian_house(@house).current.order(order).includes(:member_info)
   end
 

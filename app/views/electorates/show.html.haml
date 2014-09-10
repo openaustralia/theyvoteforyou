@@ -43,11 +43,11 @@
               #{member.person.votes_attended_with_whip},
               %b= fraction_to_percentage_display(member.person.rebellions_fraction, precision: 1)
         %td.percent
-          - if member.votes_attended.nil?
+          - if member.person.votes_attended.nil?
             votes
           - else
-            = pluralize(member.votes_attended, "vote")
+            = pluralize(member.person.votes_attended, "vote")
           out of
-          - if member.votes_possible
-            #{member.votes_possible},
-            %b= fraction_to_percentage_display(member.attendance_fraction, precision: 1)
+          - if member.person.votes_possible
+            #{member.person.votes_possible},
+            %b= fraction_to_percentage_display(member.person.attendance_fraction, precision: 1)

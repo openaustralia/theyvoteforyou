@@ -3,7 +3,7 @@ xml.publicwhip do
   @members.each do |member|
     memberinfo = {id: "uk.org.publicwhip/member/#{member.id}",
                   public_whip_data_date: (member.left_house >= @most_recent_division ? @most_recent_division : "complete"),
-                  public_whip_division_attendance: fraction_to_percentage_display(member.attendance_fraction, precision: 2),
+                  public_whip_division_attendance: fraction_to_percentage_display(member.person.attendance_fraction, precision: 2),
                   public_whip_rebellions: fraction_to_percentage_display(member.person.rebellions_fraction, precision: 2)}
     if member.currently_in_parliament?
       memberinfo[:public_whip_attendrank] = @current_members_by_attendance.select { |r| r.rankables.include? member }.first.rank
