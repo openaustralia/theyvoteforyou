@@ -9,7 +9,7 @@
 .page-header
   %h1
     = image_tag(@member.large_image_url, alt: "Photo of #{@member.name_without_title}", size: "88x115")
-    = @member.full_name_no_electorate
+    = @member.name_without_title
 
 - if @display.nil?
   = render "summary", members: @members, member: @member, display: @display
