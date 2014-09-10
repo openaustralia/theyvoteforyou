@@ -1,16 +1,18 @@
 - members.each_with_index do |member, i|
   %p{class: (:lead if i == 0)}
-    - unless member.currently_in_parliament?
-      Former
-    - # TODO: if not a senator, add the state after the electorate. e.g. Goldstein, Vic
-    = member_type(member.australian_house)
-    for
     - if member.currently_in_parliament?
+      - # TODO: if not a senator, add the state after the electorate. e.g. Goldstein, Vic
+      = member_type(member.australian_house)
+      for
       %span.electorate= member.electorate
       %span.member-period
         since
         = vote_records_start_date(member)
     - else
+      Former
+      - # TODO: if not a senator, add the state after the electorate. e.g. Goldstein, Vic
+      = member_type(member.australian_house)
+      for
       = succeed ',' do
         %span.electorate= member.electorate
       %span.member-period
