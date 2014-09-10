@@ -35,7 +35,7 @@
     least ten #{link_to "rebels", help_path(anchor: "clarify")}.
 
 - if @party
-  %table.table.table-striped
+  %table.table
     %thead
       %tr
         %th= link_to_unless @sort.nil?, "Date", divisions_path(params.merge(sort: nil)), title: "Sort by date"
@@ -64,7 +64,7 @@
           - if @house == "representatives"
             %td 0
 - else
-  %table.table.table-striped
+  %table.table
     %thead
       %tr
         - if @house.nil?
