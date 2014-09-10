@@ -1,5 +1,7 @@
 - members.each do |member|
   - if member.currently_in_parliament?
+    - # TODO: this `p.lead` else `p` should be in a separete condition
+    - #       asking if the member is the first in the loop.
     %p.lead
       - # TODO: if not a senator, add the state after the electorate. e.g. Goldstein, Vic
       - if member.senator?
