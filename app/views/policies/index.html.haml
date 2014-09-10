@@ -3,13 +3,13 @@
 .page-header
   %h1= yield :title
 
+  =link_to "Make a new policy", new_policy_path, :class => "btn btn-link"
+
 %p
   Policies are stated positions on a particular issue. For example
   "Process asylum seekers offshore", or "Legalise same sex marriage".
   Each policy has a definition and a way to vote in relevant
   divisions in Parliament.
-%ul
-  %li= link_to "Make a new policy", new_policy_path
 
 %table.table
   %thead

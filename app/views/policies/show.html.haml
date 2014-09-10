@@ -3,6 +3,8 @@
 .page-header
   %h1= yield :title
 
+  =link_to "Make a new policy", new_policy_path, :class => "btn btn-link"
+
 = render "nav", policy: @policy, display: nil
 
 %p.whatisflash
