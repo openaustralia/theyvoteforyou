@@ -69,7 +69,11 @@ class MembersController < ApplicationController
   def show
     electorate = params[:mpc].gsub("_", " ")
     name = params[:mpn].gsub("_", " ")
-    @display = params[:display]
+    if params[:display2] == "friends"
+      @display = "allfriends"
+    else
+      @display = params[:display]
+    end
 
     @member = Member.with_name(name)
     @member = @member.in_australian_house(params[:house])
