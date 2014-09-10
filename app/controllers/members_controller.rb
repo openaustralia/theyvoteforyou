@@ -66,18 +66,72 @@ class MembersController < ApplicationController
     end
   end
 
+  def friends
+    electorate = params[:mpc].gsub("_", " ")
+    name = params[:mpn].gsub("_", " ")
+    @display = "allfriends"
+
+    @member = Member.with_name(name)
+    @member = @member.in_australian_house(params[:house])
+    @member = @member.where(constituency: electorate)
+    @member = @member.order(entered_house: :desc).first
+
+    if @member.nil?
+      render 'member_not_found', status: 404
+      return
+    end
+    @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
+    # Trying this hack. Seems mighty weird
+    # TODO Get rid of this
+    @member = @members.first if @member.senator?
+    render "show"
+  end
+
+  def votes
+    electorate = params[:mpc].gsub("_", " ")
+    name = params[:mpn].gsub("_", " ")
+    @display = "everyvote"
+
+    @member = Member.with_name(name)
+    @member = @member.in_australian_house(params[:house])
+    @member = @member.where(constituency: electorate)
+    @member = @member.order(entered_house: :desc).first
+
+    if @member.nil?
+      render 'member_not_found', status: 404
+      return
+    end
+    @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
+    # Trying this hack. Seems mighty weird
+    # TODO Get rid of this
+    @member = @members.first if @member.senator?
+    render "show"
+  end
+
+  def full
+    electorate = params[:mpc].gsub("_", " ")
+    name = params[:mpn].gsub("_", " ")
+    @display = "motions"
+
+    @member = Member.with_name(name)
+    @member = @member.in_australian_house(params[:house])
+    @member = @member.where(constituency: electorate)
+    @member = @member.order(entered_house: :desc).first
+
+    if @member.nil?
+      render 'member_not_found', status: 404
+      return
+    end
+
+    @policy = Policy.find(params[:dmp])
+    # Pick the member where the votes took place
+    @member = @member.person.member_for_policy(@policy)
+    render "show_policy"
+  end
+
   def show
     electorate = params[:mpc].gsub("_", " ")
     name = params[:mpn].gsub("_", " ")
-    if params[:display2] == "friends"
-      @display = "allfriends"
-    elsif params[:display2] == "votes"
-      @display = "everyvote"
-    elsif params[:display2] == "full"
-      @display = "motions"
-    else
-      @display = params[:display]
-    end
 
     @member = Member.with_name(name)
     @member = @member.in_australian_house(params[:house])
