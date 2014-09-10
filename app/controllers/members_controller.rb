@@ -39,10 +39,6 @@ class MembersController < ApplicationController
       redirect_to view_context.member_path2(member, dmp: params[:dmp], display: params[:display])
       return
     end
-    if params[:showall] == "yes"
-      redirect_to params.merge(showall: nil, display: "allvotes")
-      return
-    end
     if params[:dmp] && params[:display] == "allvotes"
       redirect_to params.merge(display: nil)
       return
@@ -62,8 +58,8 @@ class MembersController < ApplicationController
       redirect_to view_context.member_path2(member, dmp: params[:dmp], display: params[:display])
       return
     end
-    if params[:display] == "allvotes"
-      redirect_to params.merge(display: "everyvote")
+    if params[:display] == "allvotes" || params[:showall] == "yes"
+      redirect_to params.merge(showall: nil, display: "everyvote")
     end
   end
 

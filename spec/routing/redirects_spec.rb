@@ -69,10 +69,10 @@ describe "routing redirects", :type => :request do
     expect(response).to redirect_to("/mp.php?dmp=1&house=representatives&mpc=Warringah&mpn=Tony_Abbott")
   end
 
-  # showall=yes means the same thing as display=allvotes
-  it "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&showall=yes -> /mp.php?display=allvotes&house=representatives&mpc=Warringah&mpn=Tony_Abbott" do
+  # showall=yes means the same thing as display=allvotes. allvotes has been removed in favour of everyvote
+  it "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&showall=yes -> /mp.php?display=everyvote&house=representatives&mpc=Warringah&mpn=Tony_Abbott" do
     get "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&showall=yes"
-    expect(response).to redirect_to("/mp.php?display=allvotes&house=representatives&mpc=Warringah&mpn=Tony_Abbott")
+    expect(response).to redirect_to("/mp.php?display=everyvote&house=representatives&mpc=Warringah&mpn=Tony_Abbott")
   end
 
   it "/mp.php?display=allvotes&id=uk.org.publicwhip/member/1 -> /mp.php?display=allvotes&house=representatives&mpc=Warringah&mpn=Tony_Abbott" do
