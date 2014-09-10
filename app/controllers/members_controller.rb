@@ -10,8 +10,6 @@ class MembersController < ApplicationController
     @house = params[:house]
 
     order = case @sort
-    when nil
-      ["last_name", "first_name", "constituency", "party", "entered_house DESC"]
     when "constituency"
       ["constituency", "last_name", "first_name", "party", "entered_house DESC"]
     when "party"
@@ -23,7 +21,7 @@ class MembersController < ApplicationController
     when "date"
       ["left_house", "last_name", "first_name", "constituency", "party", "entered_house DESC"]
     else
-      raise "Unexpected value"
+      ["last_name", "first_name", "constituency", "party", "entered_house DESC"]
     end
 
     # We're sorting to different values for attendance_fraction and rebellions_fraction in the database
