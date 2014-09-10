@@ -9,7 +9,7 @@
   - if @postcode_error
     %p There was an error trying to look up the postcode: The postcode server returned an error.
   - else
-    %table.table.table-striped
+    %table.table
     - @mps.each do |mp|
       %tr
         %td= link_to mp.name, member_path2(mp)
@@ -21,7 +21,7 @@
 
   %h1= yield :title
   %p Found these divisions matching '#{params[:query]}':
-  %table.table.table-striped
+  %table.table
     %thead
       %tr
         %th House
@@ -54,7 +54,7 @@
   %p
     Found these Representatives and Senators whose names sound like
     '#{params[:query]}':
-  %table.table.table-striped
+  %table.table
     %thead
       %tr
         %th Name

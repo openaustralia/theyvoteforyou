@@ -33,7 +33,7 @@
 %p
   = link_to "Show all divisions ordered by most recent", divisions_path, title: "Show all divisions ordered by most recent"
 
-%table.table.table-striped
+%table.table
   - unless @divisions.empty?
     - @divisions.each do |division|
       %tr

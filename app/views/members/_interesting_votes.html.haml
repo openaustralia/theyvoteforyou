@@ -7,6 +7,6 @@
 %p
   See also #{link_to "all votes", member_path2(member, display: "everyvote")}.
 
-%table.table.table-striped
+%table.table
   - members.each do |member|
     = render "votes", member: member, divisions: member.interesting_divisions.order(date: :desc, clock_time: :desc, name: :asc), empty_message: "no rebellions"
