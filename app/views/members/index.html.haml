@@ -14,32 +14,23 @@
   of the "rebellion" and "attendance" rates, as they may not mean what you
   think they do.
 
-%p
-  Sort by:
-  = link_to_unless @sort.nil?, "Name", members_path(house: params[:house], sort: nil), title: "Sort by surname"
-  |
-  - if @house != "senate"
-    = link_to_unless @sort == "constituency", "Electorate", members_path(house: params[:house], sort: "constituency"), title: "Sort by electorate"
-    |
-  = link_to_unless @sort == "party", "Party", members_path(house: params[:house], sort: "party"), title: "Sort by party"
-  |
-  = link_to_unless @sort == "rebellions", "Rebellions", members_path(house: params[:house], sort: "rebellions"), title: "Sort by rebels"
-  |
-  = link_to_unless @sort == "attendance", "Attendance", members_path(house: params[:house], sort: "attendance"), title: "Sort by attendance"
-
 %table.table.table-striped
   %thead
     %tr.headings
       %td
-      %td Name
-      %td= electorate_label(@house)
-      %td Party
+      %td= link_to_unless @sort.nil?, "Name", members_path(house: params[:house], sort: nil), title: "Sort by surname"
       %td
-        Rebellions
+        - if @house != "senate"
+          = link_to_unless @sort == "constituency", electorate_label(@house), members_path(house: params[:house], sort: "constituency"), title: "Sort by electorate"
+        - else
+          = electorate_label(@house)
+      %td= link_to_unless @sort == "party", "Party", members_path(house: params[:house], sort: "party"), title: "Sort by party"
+      %td
+        = link_to_unless @sort == "rebellions", "Rebellions", members_path(house: params[:house], sort: "rebellions"), title: "Sort by rebels"
         %br/
         (#{link_to "explain...", help_path(anchor: "clarify")})
       %td
-        Attendance
+        = link_to_unless @sort == "attendance", "Attendance", members_path(house: params[:house], sort: "attendance"), title: "Sort by attendance"
         %br/
         (#{link_to "explain...", help_path(anchor: "clarify")})
   %tbody
