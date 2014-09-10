@@ -1,27 +1,17 @@
 - members.each_with_index do |member, i|
   %p{class: (:lead if i == 0)}
-    - if member.currently_in_parliament?
-      - # TODO: if not a senator, add the state after the electorate. e.g. Goldstein, Vic
-      - if member.senator?
-        Senator
-      -else
-        Representative
-      for
-      = succeed ',' do
-        %span.electorate= member.electorate
-      %span.member-period
-        #{vote_records_start_date(member)} &ndash; #{member_until(member)}
-    - else
+    - unless member.currently_in_parliament?
       Former
-      - if member.senator?
-        Senator
-      -else
-        Representative
-      for
-      %span.electorate
-        =member.electorate
-      %span.member-period
-        #{vote_records_start_date(member)} &ndash; #{member_until(member)}
+    - # TODO: if not a senator, add the state after the electorate. e.g. Goldstein, Vic
+    - if member.senator?
+      Senator
+    -else
+      Representative
+    for
+    = succeed ',' do
+      %span.electorate= member.electorate
+    %span.member-period
+      #{vote_records_start_date(member)} &ndash; #{member_until(member)}
 
 - if !member.person.current_offices.empty?
   %p
