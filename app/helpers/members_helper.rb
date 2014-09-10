@@ -13,7 +13,7 @@ module MembersHelper
   end
 
   def member_until(member)
-    member.left_house > Date.today ? 'still in office' : member.left_house.strftime('%B %Y')
+    member.left_house > Date.today ? 'today' : member.left_house.strftime('%B %Y')
   end
 
   def vote_class(vote)
