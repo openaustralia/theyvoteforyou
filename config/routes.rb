@@ -64,10 +64,10 @@ Publicwhip::Application.routes.draw do
   get '/members/:house' => 'members#index', as: :members
   get '/members/:house/:mpc' => 'electorates#show', as: :electorate
   get '/members/:house/:mpc/:mpn' => 'members#show'
-  get '/members/:house/:mpc/:mpn/policies/:dmp' => 'members#policy'
-  get '/members/:house/:mpc/:mpn/policies/:dmp/full' => 'members#full'
-  get '/members/:house/:mpc/:mpn/friends' => 'members#friends'
-  get '/members/:house/:mpc/:mpn/votes' => 'members#votes'
+  get '/members/:house/:mpc/:mpn/policies/:dmp' => 'members#policy', as: :member_policy
+  get '/members/:house/:mpc/:mpn/policies/:dmp/full' => 'members#full', as: :full_member_policy
+  get '/members/:house/:mpc/:mpn/friends' => 'members#friends', as: :friends_member
+  get '/members/:house/:mpc/:mpn/votes' => 'members#votes', as: :votes_member
 
   get 'divisions.php' => 'divisions#index', as: :divisions
   get 'division.php' => 'divisions#show', as: :division
