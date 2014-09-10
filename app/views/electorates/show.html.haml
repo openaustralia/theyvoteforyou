@@ -29,19 +29,19 @@
         %td= member_until(member)
         %td= member.party_long
         %td.percent
-          - if !member.has_whip?
+          - if !member.person.has_whip?
             no whip
           - else
-            - if member.rebellions.nil?
+            - if member.person.rebellions.nil?
               votes
             - else
-              = pluralize(member.rebellions, "vote")
+              = pluralize(member.person.rebellions, "vote")
             out of
-            - if member.votes_attended == 0
+            - if member.person.votes_attended_with_whip == 0
               0
-            - elsif member.votes_attended
-              #{member.votes_attended},
-              %b= fraction_to_percentage_display(member.rebellions_fraction, precision: 1)
+            - elsif member.person.votes_attended_with_whip
+              #{member.person.votes_attended_with_whip},
+              %b= fraction_to_percentage_display(member.person.rebellions_fraction, precision: 1)
         %td.percent
           - if member.votes_attended.nil?
             votes

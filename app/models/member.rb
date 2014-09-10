@@ -150,11 +150,6 @@ class Member < ActiveRecord::Base
     votes_attended.to_f / votes_possible if member_info && votes_possible > 0
   end
 
-  # Returns a number between 0 and 1 or nil
-  def rebellions_fraction
-    rebellions.to_f / votes_attended if member_info && has_whip? && votes_attended > 0
-  end
-
   def url_name
     original_name_without_title.gsub(" ", "_")
   end

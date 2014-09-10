@@ -20,6 +20,32 @@ class Person
     Office.where(person_id: id)
   end
 
+  # Total number of rebellions across all members for this person
+  def rebellions
+    members.to_a.sum{|m| m.rebellions.to_i}
+  end
+
+  # Total number of votes across all members for this person
+  def votes_attended
+    members.to_a.sum{|m| m.votes_attended.to_i}
+  end
+
+  # The total number of votes that this person attended while they were a member of
+  # a party with a whip
+  def votes_attended_with_whip
+    members.to_a.sum{|m| m.has_whip? ? m.votes_attended.to_i : 0}
+  end
+
+  # True if this person has been a member of a party with a whip
+  def has_whip?
+    members.any?{|m| m.has_whip?}
+  end
+
+  # Returns a number between 0 and 1 or nil
+  def rebellions_fraction
+    rebellions.to_f / votes_attended if votes_attended_with_whip > 0
+  end
+
   def small_image_url
     "http://www.openaustralia.org/images/mps/#{id}.jpg"
   end

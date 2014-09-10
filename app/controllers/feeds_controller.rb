@@ -6,8 +6,8 @@ class FeedsController < ApplicationController
     @current_members_by_attendance = Ranker.rank(@members.current, by: :attendance_fraction)
     @current_members_count = @members.current.count
 
-    members_with_rebellions = @members.current.to_a.delete_if { |m| !m.rebellions_fraction }
-    @current_members_by_rebellions = Ranker.rank(members_with_rebellions, by: :rebellions_fraction)
+    members_with_rebellions = @members.current.to_a.delete_if { |m| !m.person.rebellions_fraction }
+    @current_members_by_rebellions = Ranker.rank(members_with_rebellions, by: lambda {|m| m.person.rebellions_fraction})
     @members_with_rebellions_and_party_whip_count = members_with_rebellions.select { |m| m.has_whip? }.count
   end
 

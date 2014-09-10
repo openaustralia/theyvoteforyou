@@ -18,14 +18,16 @@
     -# TODO: The UK uses extra Offices data like department so this will need to be expanded
     = member.person.current_offices.map{|o| "<strong>#{o.position}</strong>" }.to_sentence(two_words_connector: ", and ").html_safe
 
-- if member.has_whip?
+- if member.person.has_whip?
   %p
+    -# TODO This wording isn't quite correct because here we are calculating the rebellion fraction for the
+    -# person rather than the member but we are saying which party they are part of (which is a member thing)
     = member.party_long + " member, "
     %strong
-      - if member.rebellions == 0
+      - if member.person.rebellions == 0
         never rebels.
       - else
-        rebels on #{fraction_to_percentage_display(member.rebellions_fraction, precision: 1)} of votes.
+        rebels on #{fraction_to_percentage_display(member.person.rebellions_fraction, precision: 1)} of votes.
     %small= link_to "explain rebellions", help_path(anchor: "clarify")
 - else
   %p= member.party_long
