@@ -5,10 +5,16 @@
     - # TODO: if not a senator, add the state after the electorate. e.g. Goldstein, Vic
     = member_type(member.australian_house)
     for
-    = succeed ',' do
+    - if member.currently_in_parliament?
       %span.electorate= member.electorate
-    %span.member-period
-      #{vote_records_start_date(member)} &ndash; #{member_until(member)}
+      %span.member-period
+        since
+        = vote_records_start_date(member)
+    - else
+      = succeed ',' do
+        %span.electorate= member.electorate
+      %span.member-period
+        #{vote_records_start_date(member)} &ndash; #{member_until(member)}
 
 - if !member.person.current_offices.empty?
   %p
