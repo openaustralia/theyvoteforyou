@@ -53,6 +53,9 @@ Publicwhip::Application.routes.draw do
     "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase}/#{r.query_parameters['mpn'].downcase}/votes"
   }, constraints: lambda {|r| r.query_parameters["display"] == "everyvote" && r.query_parameters[:dmp].nil?}
   get 'mp.php' => redirect{|p,r|
+    "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase}/#{r.query_parameters['mpn'].downcase}/policies/#{r.query_parameters['dmp']}/full"
+  }, constraints: lambda {|r| r.query_parameters["display"] == "motions" && r.query_parameters[:dmp]}
+  get 'mp.php' => redirect{|p,r|
     result = "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase}/#{r.query_parameters['mpn'].downcase}"
     result += "/policies/#{r.query_parameters['dmp']}" if r.query_parameters['dmp']
     queries = []
@@ -62,6 +65,7 @@ Publicwhip::Application.routes.draw do
   }, as: :member
   get '/members/:house/:mpc/:mpn' => 'members#show'
   get '/members/:house/:mpc/:mpn/policies/:dmp' => 'members#show'
+  get '/members/:house/:mpc/:mpn/policies/:dmp/:display2' => 'members#show'
   get '/members/:house/:mpc/:mpn/:display2' => 'members#show'
 
   get 'divisions.php' => 'divisions#index', as: :divisions

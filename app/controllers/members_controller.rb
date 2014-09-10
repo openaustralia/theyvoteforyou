@@ -73,6 +73,8 @@ class MembersController < ApplicationController
       @display = "allfriends"
     elsif params[:display2] == "votes"
       @display = "everyvote"
+    elsif params[:display2] == "full"
+      @display = "motions"
     else
       @display = params[:display]
     end
