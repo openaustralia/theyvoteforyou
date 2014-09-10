@@ -9,25 +9,21 @@ class MembersController < ApplicationController
     @sort = params[:sort]
     @house = params[:house]
 
-    order = case @sort
+    members = Member.in_australian_house(@house).current.includes(:member_info)
+
+    @members = case @sort
     when "constituency"
-      ["constituency", "last_name", "first_name", "party", "entered_house DESC"]
+      members.order ["constituency", "last_name", "first_name", "party", "entered_house DESC"]
     when "party"
-      ["party", "last_name", "first_name", "constituency", "entered_house DESC"]
+      members.order ["party", "last_name", "first_name", "constituency", "entered_house DESC"]
     when "date"
-      ["left_house", "last_name", "first_name", "constituency", "party", "entered_house DESC"]
+      members.order ["left_house", "last_name", "first_name", "constituency", "party", "entered_house DESC"]
+    when "rebellions"
+      members.to_a.sort_by { |m| m.person.rebellions_fraction || -1 }.reverse
+    when "attendance"
+      members.to_a.sort_by { |m| m.person.attendance_fraction || -1 }.reverse
     else
-      ["last_name", "first_name", "constituency", "party", "entered_house DESC"]
-    end
-
-    @members = Member.in_australian_house(@house).current.order(order).includes(:member_info)
-
-    # Sort by rebellion or attendance on the person, grouping 'n/a' values at the bottom
-    # FIXME: This loses secondary sorting, e.g. last name, etc.
-    if @sort == "rebellions"
-      @members.to_a.sort_by! { |m| m.person.rebellions_fraction || -1 }.reverse!
-    elsif @sort == "attendance"
-      @members.to_a.sort_by! { |m| m.person.attendance_fraction || -1 }.reverse!
+      members.order ["last_name", "first_name", "constituency", "party", "entered_house DESC"]
     end
   end
 
