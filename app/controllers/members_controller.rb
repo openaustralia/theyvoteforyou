@@ -9,21 +9,21 @@ class MembersController < ApplicationController
     @sort = params[:sort]
     @house = params[:house]
 
-    members = Member.in_australian_house(@house).current.includes(:member_info)
+    members = Member.in_australian_house(@house).current.includes(:member_info).to_a
 
     @members = case @sort
     when "constituency"
-      members.order ["constituency", "last_name", "first_name", "party", "entered_house DESC"]
+      members.sort_by { |m| [m.constituency, m.last_name, m.first_name, m.party, m.entered_house] }
     when "party"
-      members.order ["party", "last_name", "first_name", "constituency", "entered_house DESC"]
+      members.sort_by { |m| [m.party, m.last_name, m.first_name, m.constituency, m.entered_house] }
     when "date"
-      members.order ["left_house", "last_name", "first_name", "constituency", "party", "entered_house DESC"]
+      members.sort_by { |m| [m.left_house, m.last_name, m.first_name, m.constituency, m.party, m.entered_house] }
     when "rebellions"
-      members.to_a.sort_by { |m| m.person.rebellions_fraction || -1 }.reverse
+      members.sort_by { |m| m.person.rebellions_fraction || -1 }.reverse
     when "attendance"
-      members.to_a.sort_by { |m| m.person.attendance_fraction || -1 }.reverse
+      members.sort_by { |m| m.person.attendance_fraction || -1 }.reverse
     else
-      members.order ["last_name", "first_name", "constituency", "party", "entered_house DESC"]
+      members.sort_by { |m| [m.last_name, m.first_name, m.constituency, m.party, m.entered_house] }
     end
   end
 
