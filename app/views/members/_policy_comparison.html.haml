@@ -13,7 +13,7 @@
     %a{href: '#ratioexpl'} scoring
     %em.percent= fraction_to_percentage_display(member.person.agreement_fraction_with_policy(policy), precision: 1)
     compared to the votes below
-- if display == 'motions'
+- if full
   %p
     Someone who believes that
     %span.policytext= policy.description
