@@ -36,16 +36,6 @@ Publicwhip::Application.routes.draw do
     constraints: lambda {|r| r.query_parameters["display"] == "summary" || r.query_parameters["display"] == "alldreams" || r.query_parameters["display"] == "allvotes" || r.query_parameters["showall"] == "yes"}
   get 'mp.php' => 'members#show_redirect',
     constraints: lambda {|r| r.query_parameters["mpc"] == "Senate" || r.query_parameters["mpc"].nil? || r.query_parameters["house"].nil?}
-
-  # Main routes
-  root 'home#index'
-
-  get 'index.php' => 'home#index'
-  get 'faq.php' => 'home#faq', as: :help
-  get 'search.php' => 'home#search', as: :search
-
-  get '/members/:house' => 'members#index', as: :members
-  get '/members/:house/:mpc' => 'electorates#show', as: :electorate
   get 'mp.php' => redirect{|p,r|
     "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase}/#{r.query_parameters['mpn'].downcase}/friends"
   }, constraints: lambda {|r| r.query_parameters["display"] == "allfriends" && r.query_parameters[:dmp].nil?}
@@ -63,6 +53,16 @@ Publicwhip::Application.routes.draw do
     result += "?" + queries.join("&") unless queries.empty?
     result
   }, as: :member
+
+  # Main routes
+  root 'home#index'
+
+  get 'index.php' => 'home#index'
+  get 'faq.php' => 'home#faq', as: :help
+  get 'search.php' => 'home#search', as: :search
+
+  get '/members/:house' => 'members#index', as: :members
+  get '/members/:house/:mpc' => 'electorates#show', as: :electorate
   get '/members/:house/:mpc/:mpn' => 'members#show'
   get '/members/:house/:mpc/:mpn/policies/:dmp' => 'members#policy'
   get '/members/:house/:mpc/:mpn/policies/:dmp/full' => 'members#full'
