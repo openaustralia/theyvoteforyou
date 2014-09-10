@@ -15,6 +15,10 @@ module MembersHelper
     full_member_policy_path(member_params(member).merge(dmp: policy.id))
   end
 
+  def votes_member_path2(member)
+    votes_member_path(member_params(member))
+  end
+
   def member_params(member)
     {
       mpn: member.url_name.downcase,
