@@ -1,0 +1,6 @@
+- content_for :title do
+  Friends of
+  = @member.full_name
+
+= render "member_page_header", member: @member
+= render "possible_friends", all_friends: true, member: @member
