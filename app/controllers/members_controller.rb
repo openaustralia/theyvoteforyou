@@ -71,6 +71,8 @@ class MembersController < ApplicationController
     name = params[:mpn].gsub("_", " ")
     if params[:display2] == "friends"
       @display = "allfriends"
+    elsif params[:display2] == "votes"
+      @display = "everyvote"
     else
       @display = params[:display]
     end

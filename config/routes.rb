@@ -50,6 +50,9 @@ Publicwhip::Application.routes.draw do
     "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase}/#{r.query_parameters['mpn'].downcase}/friends"
   }, constraints: lambda {|r| r.query_parameters["display"] == "allfriends" && r.query_parameters[:dmp].nil?}
   get 'mp.php' => redirect{|p,r|
+    "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase}/#{r.query_parameters['mpn'].downcase}/votes"
+  }, constraints: lambda {|r| r.query_parameters["display"] == "everyvote" && r.query_parameters[:dmp].nil?}
+  get 'mp.php' => redirect{|p,r|
     result = "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase}/#{r.query_parameters['mpn'].downcase}"
     result += "/policies/#{r.query_parameters['dmp']}" if r.query_parameters['dmp']
     queries = []
