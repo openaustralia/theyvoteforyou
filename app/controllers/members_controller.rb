@@ -19,9 +19,9 @@ class MembersController < ApplicationController
     when "date"
       members.sort_by { |m| [m.left_house, m.last_name, m.first_name, m.constituency, m.party, m.entered_house] }
     when "rebellions"
-      members.sort_by { |m| m.person.rebellions_fraction || -1 }.reverse
+      members.sort_by { |m| [-(m.person.rebellions_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, m.entered_house] }
     when "attendance"
-      members.sort_by { |m| m.person.attendance_fraction || -1 }.reverse
+      members.sort_by { |m| [-(m.person.attendance_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, m.entered_house] }
     else
       members.sort_by { |m| [m.last_name, m.first_name, m.constituency, m.party, m.entered_house] }
     end
