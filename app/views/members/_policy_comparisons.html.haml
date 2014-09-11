@@ -2,10 +2,7 @@
 
 %p
   This chart shows the percentage agreement between this
-  - if member.person.members.order(entered_house: :desc).count > 1 && member.person.members.order(entered_house: :desc).map{|m| m.house}.uniq.count > 1
-    person
-  - else
-    = member_type(member.australian_house)
+  = person_type(member.person)
   and each of the policies in the database, according to their voting record.
 %table.table
   %thead
