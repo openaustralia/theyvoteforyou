@@ -21,7 +21,7 @@
 
   = render "motion", member: @member, division: @division
 
-  = render "summary", division: @division, display: @display, sort: @sort, votes: @votes, members: @members
+  = render "summary", division: @division, members: @members
 
 - elsif @display == "policies"
   = render "policies", policy: @policy, changed_from: @changed_from, division: @division
