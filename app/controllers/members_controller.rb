@@ -13,15 +13,15 @@ class MembersController < ApplicationController
 
     @members = case @sort
     when "constituency"
-      members.sort_by { |m| [m.constituency, m.last_name, m.first_name, m.party, m.entered_house] }
+      members.sort_by { |m| [m.constituency, m.last_name, m.first_name, m.party, -m.entered_house.to_time.to_i] }
     when "party"
-      members.sort_by { |m| [m.party, m.last_name, m.first_name, m.constituency, m.entered_house] }
+      members.sort_by { |m| [m.party, m.last_name, m.first_name, m.constituency, -m.entered_house.to_time.to_i] }
     when "rebellions"
-      members.sort_by { |m| [-(m.person.rebellions_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, m.entered_house] }
+      members.sort_by { |m| [-(m.person.rebellions_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
     when "attendance"
-      members.sort_by { |m| [-(m.person.attendance_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, m.entered_house] }
+      members.sort_by { |m| [-(m.person.attendance_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
     else
-      members.sort_by { |m| [m.last_name, m.first_name, m.constituency, m.party, m.entered_house] }
+      members.sort_by { |m| [m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
     end
   end
 
