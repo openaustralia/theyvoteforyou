@@ -75,16 +75,15 @@ class MembersController < ApplicationController
       render 'member_not_found', status: 404
       return
     end
-    @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
+    members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
     # Trying this hack. Seems mighty weird
     # TODO Get rid of this
-    @member = @members.first if @member.senator?
+    @member = members.first if @member.senator?
   end
 
   def votes
     electorate = params[:mpc].gsub("_", " ")
     name = params[:mpn].gsub("_", " ")
-    @display = "everyvote"
 
     @member = Member.with_name(name)
     @member = @member.in_australian_house(params[:house])
