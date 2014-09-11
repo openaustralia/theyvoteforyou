@@ -70,6 +70,8 @@ Publicwhip::Application.routes.draw do
   get '/members/:house/:mpc/:mpn/divisions' => 'members#votes', as: :votes_member
 
   get 'divisions.php' => 'divisions#index', as: :divisions
+  get 'division.php' => 'divisions#show_redirect',
+    constraints: lambda {|r| r.query_parameters["sort"]}
   get 'division.php' => 'divisions#show', as: :division
   post 'division.php' => 'divisions#add_policy_vote'
   get 'edits.php' => 'divisions#show_edits', as: :show_edits_division

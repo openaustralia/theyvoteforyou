@@ -18,33 +18,6 @@ describe DivisionsController, :type => :request do
     it {compare_static("/division.php?date=2013-03-14&number=1&display=policies", false, false, "_2")}
     it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=policies", false, false, "_2")}
     it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=policies", false, false, "_2")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&sort=name")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&sort=name")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&sort=name")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&display=allvotes&sort=name")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=allvotes&sort=name")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=allvotes&sort=name")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&display=allpossible&sort=name")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=allpossible&sort=name")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=allpossible&sort=name")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&sort=vote")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&sort=vote")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&sort=vote")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&display=allvotes&sort=vote")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=allvotes&sort=vote")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=allvotes&sort=vote")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&display=allpossible&sort=vote")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=allpossible&sort=vote")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=allpossible&sort=vote")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&sort=constituency")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&sort=constituency")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&sort=constituency")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&display=allvotes&sort=constituency")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=allvotes&sort=constituency")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=allvotes&sort=constituency")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&display=allpossible&sort=constituency")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=allpossible&sort=constituency")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=allpossible&sort=constituency")}
 
     it {compare_static("/division.php?date=2006-12-06&number=3&house=representatives")}
     # house=representatives or house=senate appears twice. This is obviously wrong

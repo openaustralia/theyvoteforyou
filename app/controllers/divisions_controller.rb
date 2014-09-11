@@ -52,6 +52,10 @@ class DivisionsController < ApplicationController
     @divisions = @divisions.includes(:whips, :division_info, :wiki_motions)
   end
 
+  def show_redirect
+    redirect_to params.merge(sort: nil)
+  end
+
   def show
     house = params[:house] || "representatives"
     @sort = params[:sort]
