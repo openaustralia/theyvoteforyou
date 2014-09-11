@@ -9,6 +9,10 @@ module ApplicationHelper
     nav_link(name, path, title, current_page?(path))
   end
 
+  def nav_button_link(name, path, title, current)
+    link_to name, path, title: title, class: "btn btn-sm #{current ? "btn-primary" : "btn-default"}"
+  end
+
   def electorate_path2(member)
     electorate_path({
         mpc: (member.url_electorate.downcase if member),
