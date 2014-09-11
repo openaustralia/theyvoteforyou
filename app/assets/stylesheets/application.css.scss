@@ -48,3 +48,48 @@ tbody {
 .division-outcome-score {
   display: inline-block;
 }
+
+.divisions-table {
+  thead {
+    @media (max-width: $screen-xs-max) {
+      // Only display content to screen readers
+      //
+      // See: http://a11yproject.com/posts/how-to-hide-content/
+
+      position: absolute;
+      clip: rect(0,0,0,0);
+      border: 0;
+    }
+  }
+
+  tr,
+  td {
+    @media (max-width: $screen-xs-max) {
+      display: block;
+      border: 0 !important;
+      padding: 0 !important;
+    }
+  }
+
+  tr {
+    @media (max-width: $screen-xs-max) {
+      margin-bottom: 3em;
+    }
+  }
+
+  .policy-vote {
+    &:before {
+      @media (max-width: $screen-xs-max) {
+        content: "Support would have voted "
+      }
+    }
+  }
+
+  .division-outcome {
+    &:before {
+      @media (max-width: $screen-xs-max) {
+        content: "Division outcome "
+      }
+    }
+  }
+}
