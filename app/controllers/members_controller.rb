@@ -118,7 +118,7 @@ class MembersController < ApplicationController
     @policy = Policy.find(params[:dmp])
     # Pick the member where the votes took place
     @member = @member.person.member_for_policy(@policy)
-    render "show_policy"
+    render "policy"
   end
 
   def policy
@@ -138,7 +138,6 @@ class MembersController < ApplicationController
     @policy = Policy.find(params[:dmp])
     # Pick the member where the votes took place
     @member = @member.person.member_for_policy(@policy)
-    render "show_policy"
   end
 
   def show
