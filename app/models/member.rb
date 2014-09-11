@@ -104,6 +104,14 @@ class Member < ActiveRecord::Base
     in_parliament_on_date(Date.today)
   end
 
+  def since
+    entered_house.strftime('%B %Y')
+  end
+
+  def until
+    left_house > Date.today ? 'today' : left_house.strftime('%B %Y')
+  end
+
   # Last name as it's stored in the database including horrible html entities
   # which for some reason are in there
   def original_last_name

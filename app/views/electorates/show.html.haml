@@ -25,8 +25,8 @@
     - @members.each do |member|
       %tr
         %td= link_to member.name, member_path2(member)
-        %td= member_since(member)
-        %td= member_until(member)
+        %td= member.since
+        %td= member.until
         %td= member.party_long
         %td.percent
           - if !member.person.has_whip?
