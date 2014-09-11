@@ -40,6 +40,10 @@ module MembersHelper
     member.left_house > Date.today ? 'today' : member.left_house.strftime('%B %Y')
   end
 
+  def member_since(member)
+    member.entered_house.strftime('%B %Y')
+  end
+
   def vote_class(vote)
     if vote.nil?
       ""
@@ -78,10 +82,10 @@ module MembersHelper
     text = member_type_place_sentence(member)
     if member.currently_in_parliament?
       text += (" " +
-        content_tag(:span, "since #{vote_records_start_date(member)}", class: 'member-period')).html_safe
+        content_tag(:span, "since #{member_since(member)}", class: 'member-period')).html_safe
     else
       text += (", " +
-        content_tag(:span, "#{vote_records_start_date(member)} – #{member_until(member)}", class: 'member-period')).html_safe
+        content_tag(:span, "#{member_since(member)} – #{member_until(member)}", class: 'member-period')).html_safe
     end
     text
   end
