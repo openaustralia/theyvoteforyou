@@ -76,7 +76,7 @@
           = link_to_unless @sort == "rebellions", "Rebels", divisions_path(params.merge(sort: "rebellions")), title: "Sort by rebellions"
           %br>/
           (#{link_to "explain..", help_path(anchor: "clarify")})
-        %th Majority
+        %th Outcome
         %th= link_to_unless @sort == "turnout", "Turnout", divisions_path(params.merge(sort: "turnout")), title: "Sort by turnout"
     %tbody
       -# Avoid calling out to SQL again
@@ -92,5 +92,5 @@
             %td= division.clock_time
             %td= link_to truncate(division.name, length: 180), division_path2(division)
             %td= division.rebellions
-            %td= division.majority
+            %td= division_outcome_with_score(division)
             %td= fraction_to_percentage_display(division.attendance_fraction, precision: 1)
