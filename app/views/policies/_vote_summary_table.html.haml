@@ -7,6 +7,7 @@
       - if member
         %th= member.name
       %th.policyvotehead Policy vote
+      %th Division outcome
   %tbody
     - divisions = policy.divisions.order(date: :desc, clock_time: :desc, name: :asc, number: :desc)
     - divisions = divisions.select { |d| d.house == member.house } if member
@@ -31,3 +32,5 @@
               = link_to division.name, division_path2(division, {dmp: policy.id})
           %td
             = vote_display_in_table(division.policy_vote(policy))
+          %th
+            = division_outcome_with_score(division)
