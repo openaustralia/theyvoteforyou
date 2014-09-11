@@ -5,6 +5,6 @@
 = render "member_page_header", member: @member
 = render "summary", member: @member
 = render "external_links", member: @member
-= render "policy_comparisons", member: @member, members: @member.person.members.order(entered_house: :desc)
+= render "policy_comparisons", member: @member
 = render "interesting_votes", member: @member, members: @member.person.members.order(entered_house: :desc)
 = render "possible_friends", all_friends: false, member: @member
