@@ -71,11 +71,11 @@ class MembersController < ApplicationController
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
-    if @member.nil?
+    if @member
+      members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
+    else
       render 'member_not_found', status: 404
-      return
     end
-    members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
   end
 
   def votes
@@ -87,11 +87,11 @@ class MembersController < ApplicationController
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
-    if @member.nil?
+    if @member
+      @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
+    else
       render 'member_not_found', status: 404
-      return
     end
-    @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
   end
 
   def full
@@ -104,15 +104,14 @@ class MembersController < ApplicationController
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
-    if @member.nil?
+    if @member
+      @policy = Policy.find(params[:dmp])
+      # Pick the member where the votes took place
+      @member = @member.person.member_for_policy(@policy)
+      render "policy"
+    else
       render 'member_not_found', status: 404
-      return
     end
-
-    @policy = Policy.find(params[:dmp])
-    # Pick the member where the votes took place
-    @member = @member.person.member_for_policy(@policy)
-    render "policy"
   end
 
   def policy
@@ -124,14 +123,13 @@ class MembersController < ApplicationController
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
-    if @member.nil?
+    if @member
+      @policy = Policy.find(params[:dmp])
+      # Pick the member where the votes took place
+      @member = @member.person.member_for_policy(@policy)
+    else
       render 'member_not_found', status: 404
-      return
     end
-
-    @policy = Policy.find(params[:dmp])
-    # Pick the member where the votes took place
-    @member = @member.person.member_for_policy(@policy)
   end
 
   def show
@@ -143,12 +141,10 @@ class MembersController < ApplicationController
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
-    if @member.nil?
+    if @member
+      @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
+    else
       render 'member_not_found', status: 404
-      return
     end
-
-    @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
-    render "show"
   end
 end
