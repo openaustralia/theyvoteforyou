@@ -76,9 +76,6 @@ class MembersController < ApplicationController
       return
     end
     members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
-    # Trying this hack. Seems mighty weird
-    # TODO Get rid of this
-    @member = members.first if @member.senator?
   end
 
   def votes
@@ -95,9 +92,6 @@ class MembersController < ApplicationController
       return
     end
     @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
-    # Trying this hack. Seems mighty weird
-    # TODO Get rid of this
-    @member = @members.first if @member.senator?
   end
 
   def full
@@ -155,9 +149,6 @@ class MembersController < ApplicationController
     end
 
     @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
-    # Trying this hack. Seems mighty weird
-    # TODO Get rid of this
-    @member = @members.first if @member.senator?
     render "show"
   end
 end
