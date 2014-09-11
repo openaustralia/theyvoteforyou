@@ -3,7 +3,7 @@
   = @member.full_name2
 
 = render "member_page_header", member: @member
-= render "summary", member: @member, members: @member.person.members.order(entered_house: :desc)
+= render "summary", member: @member
 = render "external_links", member: @member
 = render "policy_comparisons", member: @member, members: @member.person.members.order(entered_house: :desc)
 = render "interesting_votes", member: @member, members: @member.person.members.order(entered_house: :desc)
