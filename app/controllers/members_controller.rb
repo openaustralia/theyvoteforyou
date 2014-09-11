@@ -40,7 +40,13 @@ class MembersController < ApplicationController
           return
         end
       end
-      redirect_to view_context.member_path2(member, dmp: params[:dmp], display: params[:display])
+      redirect_to member_path(
+          mpn: member.url_name,
+          mpc: member.url_electorate,
+          house: member.australian_house,
+          dmp: params[:dmp],
+          display: params[:display]
+        )
       return
     end
     if params[:dmp] && params[:display] == "allvotes"
