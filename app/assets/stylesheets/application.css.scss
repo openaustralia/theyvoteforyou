@@ -77,10 +77,10 @@ tbody {
     }
   }
 
-  .policy-vote {
+  .division-policy-vote {
     &:before {
       @media (max-width: $screen-xs-max) {
-        content: "Support would have voted "
+        content: "Supporter would have voted "
       }
     }
   }
@@ -88,7 +88,7 @@ tbody {
   .division-outcome {
     &:before {
       @media (max-width: $screen-xs-max) {
-        content: "Division outcome "
+        content: "Division outcome: "
       }
     }
   }
