@@ -58,7 +58,6 @@ class DivisionsController < ApplicationController
 
   def show
     house = params[:house] || "representatives"
-    @sort = params[:sort]
     @display = params[:display]
     @division = Division.in_australian_house(house).find_by!(date: params[:date], number: params[:number])
 
@@ -79,21 +78,8 @@ class DivisionsController < ApplicationController
       @member = member.person.member_who_voted_on_division(@division)
     end
 
-    order = case @sort
-    when nil, "party"
-      ["members.party", "vote", "members.last_name", "members.first_name"]
-    when "name"
-      ["members.last_name", "members.first_name"]
-    when "constituency"
-      ["members.constituency", "members.last_name", "members.first_name"]
-    when "vote"
-      ["vote", "members.last_name", "members.first_name"]
-    else
-      raise "Unexpected value"
-    end
-
     if @display.nil?
-      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").order(order)
+      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").order("members.party", "vote", "members.last_name", "members.first_name")
     elsif @display == "policies"
       if params[:dmp]
         @policy = Policy.find(params[:dmp])
