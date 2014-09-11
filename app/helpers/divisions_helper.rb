@@ -91,6 +91,18 @@ module DivisionsHelper
     end
   end
 
+  def division_outcome_with_score(division)
+    result = division_outcome(division) + " "
+    result += content_tag(:span, :class => "division-outcome-score") do
+      if division.passed?
+        text = division.aye_votes_including_tells.to_s + " – " + division.no_votes_including_tells.to_s
+      else
+        text = division.no_votes_including_tells.to_s + " – " + division.aye_votes_including_tells.to_s
+      end
+    end
+    result.html_safe
+  end
+
   def member_voted_with(member, division)
     # We're using a different member for the link to try to make things the same as the php
     # TODO get rid of this silliness as soon as we can
