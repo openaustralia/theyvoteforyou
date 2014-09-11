@@ -71,9 +71,7 @@ class MembersController < ApplicationController
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
-    if @member
-      members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
-    else
+    if @member.nil?
       render 'member_not_found', status: 404
     end
   end
@@ -88,7 +86,7 @@ class MembersController < ApplicationController
     @member = @member.order(entered_house: :desc).first
 
     if @member
-      @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
+      @members = @member.person.members.order(entered_house: :desc)
     else
       render 'member_not_found', status: 404
     end
@@ -142,7 +140,7 @@ class MembersController < ApplicationController
     @member = @member.order(entered_house: :desc).first
 
     if @member
-      @members = Member.where(person_id: @member.person_id).order(entered_house: :desc)
+      @members = @member.person.members.order(entered_house: :desc)
     else
       render 'member_not_found', status: 404
     end
