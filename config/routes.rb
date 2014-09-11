@@ -74,6 +74,8 @@ Publicwhip::Application.routes.draw do
     constraints: lambda {|r| r.query_parameters["sort"]}
   get 'division.php' => 'divisions#show_redirect',
     constraints: lambda {|r| r.query_parameters["display"] == "allvotes" || r.query_parameters["display"] == "allpossible"}
+  get 'division.php' => 'divisions#show_redirect',
+    constraints: lambda {|r| r.query_parameters["house"].nil? }
   get 'division.php' => 'divisions#show', as: :division
   post 'division.php' => 'divisions#add_policy_vote'
   get 'edits.php' => 'divisions#show_edits', as: :show_edits_division

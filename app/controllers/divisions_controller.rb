@@ -61,10 +61,14 @@ class DivisionsController < ApplicationController
       redirect_to params.merge(display: nil)
       return
     end
+    if params[:house].nil?
+      redirect_to params.merge(house: "representatives")
+      return
+    end
   end
 
   def show
-    house = params[:house] || "representatives"
+    house = params[:house]
     @display = params[:display]
     @division = Division.in_australian_house(house).find_by!(date: params[:date], number: params[:number])
 
